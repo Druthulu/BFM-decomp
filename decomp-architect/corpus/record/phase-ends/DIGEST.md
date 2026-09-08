@@ -19,8 +19,9 @@ database regenerable from `config/ghidra/`). The whole history was rewritten wit
 no license asserted over `src/`, NOTICE, THIRD_PARTY, badges, ROM-free CI), the releases (gcc-2.7.2 map, xsig, the permuter driver —
 offered upstream and declined, the drafter write-up, the decomp.me preset proven through decomp.me's own toolchain), the outreach notes,
 story, retrospective, wiki (13 pages) + how-to (13 chapters), and the **Gen3 charter** (`docs/gen3-handoff.md`, `docs/gen3-standards.md`)
-are written. **The repository is still PRIVATE:** GitHub Support must purge the old objects first (ticket #4736982; the Activity view
-publishes every pre-force-push tip, so a clean tree is not enough). **Phase 33.5 CLOSED 2026-09-08 (v1.32.1; `PhaseEnd_Phase33.5.md`):** the docs sub-phase before the flip — the wiki is the single
+are written. **The repository went PUBLIC on 2026-09-08 (Phase 34 task 1, Drew)** after the purge probe passed twice — 2026-09-07 and
+again immediately before the flip (33 of 33 sampled old hashes gone; Support ticket #4736982 had done its work) — with the `protect-main`
+ruleset (no force-push, no deletion) guarding the published history. **Phase 33.5 CLOSED 2026-09-08 (v1.32.1; `PhaseEnd_Phase33.5.md`):** the docs sub-phase before the flip — the wiki is the single
 source of truth (six new pages incl. the Reference index and the Archive index; 59 documents and 34 tools retired into indexed sunset
 folders; `doc_links` with six checks), the tracked `.run/` is flip-ready (1,086 → 868 + the phase's own evidence; the two ROM listings
 untracked under an audit-only rule + a content check), the memory store reconciled (80 == 80; an 18-file seed), and **the day-one decomp
@@ -30,8 +31,9 @@ kit-corpus`, asserted equal in tools-health), `tools/kit_coverage.py` (every rul
 its first run found 26 + 21 uncited, three genuine gaps), and the worklog mining pass (777 candidates / 634 banked / 143 new → DK-69–80).
 R74–R83 ratified at its gate 1; candidates (i)–(xii) proposed for Phase 34 gate 1. **Phase 34's gate is OPEN: the purge probe PASSED
 2026-09-07.** **Phase 34 = the flip + the outward actions + C11 + the v2.0.0 PhaseEnd = Gen2 EXIT** (`docs/phase34-seed.md`).
-**Phase 34 OPENED 2026-09-08 (S93; gate 1 in plan mode at Max; R84–R95 ratified; the plan and the live state are in
-`phase-ends/CURRENT_PHASE.md`).** **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (R95, the canonical
+**Phase 34 IN PROGRESS (opened 2026-09-08, S93; gate 1 in plan mode at Max; R84–R95 ratified; the plan and the live state are in
+`phase-ends/CURRENT_PHASE.md`): the flip done, decomp.dev live, the wiki live (32 pages), the decomp.me preset requested, the
+Archipelago note sent, the tools announced; `docs/outreach/` and `docs/sunset/` left the tree on the owner's decision.** **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (R95, the canonical
 type layer).
 
 ## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
@@ -42,7 +44,7 @@ type layer).
   backups → today: **one commit per completed task after CURRENT_PHASE.md is updated; a bank commits the moment it
   exists (R42)**. Claude commits; **Drew pushes** (R6); the PhaseEnd + archived log are left uncommitted for Drew's
   milestone-close commit; no `Co-Authored-By` (R5).
-- **H1** was relaxed while private (R1, 2026-06-10 → 2026-09-06) and is **IN FORCE again since Phase 33 C3 (2026-09-06)**: the ROM-derived and proprietary paths left the index and were purged from the whole history before the public flip (`docs/public-flip-runbook.md`); R1 is historical. **R20's backup home** is now the text export `config/ghidra/` (+ `tools/ghidra_rebuild.sh --proof`), `dumps/CHECKSUMS.sha1`, `tools/psyq_CHECKSUMS.sha256`, and the private archive repo `Druthulu/BFM-decomp-archive` (the pre-rewrite history); **never `git clean -x`** (CLAUDE.md fail-safe).
+- **H1** was relaxed while private (R1, 2026-06-10 → 2026-09-06) and is **IN FORCE again since Phase 33 C3 (2026-09-06)**: the ROM-derived and proprietary paths left the index and were purged from the whole history before the public flip (`docs/public-flip-runbook.md`); R1 is historical. **The flip itself happened on 2026-09-08 (Phase 34 task 1).** **R20's backup home** is now the text export `config/ghidra/` (+ `tools/ghidra_rebuild.sh --proof`), `dumps/CHECKSUMS.sha1`, `tools/psyq_CHECKSUMS.sha256`, and the private archive repo `Druthulu/BFM-decomp-archive` (the pre-rewrite history); **never `git clean -x`** (CLAUDE.md fail-safe).
 - **Environment:** all-in-WSL (R2); Ghidra runs **headless** (MCP server via `tools/ghidra_mcp_start.sh` / the
   SessionStart hook; symbols persist only via `tools/ghidra_apply_symbols.sh`, MCP renames do not); PCSX-Redux is
   Windows-native bridged over the web API (R11); no `/tmp`, scratch under `.run/` (R12).
@@ -355,8 +357,8 @@ the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1
 ## 4. Where things live (the doc map a session needs)
 **The wiki is the source of truth for documentation (Phase 33.5):** `docs/wiki/Reference-index.md` lists every live reference and
 generated file with how to read it — start there; `docs/wiki/Docs-and-scratch-conventions.md` says where each kind of knowledge goes;
-`docs/wiki/The-ROM-firewall.md` is the no-ROM policy; `docs/wiki/Archive-index.md` records every document retired to `docs/sunset/`
-(kept for the owner's review; nothing links into it). The files a session touches most: `docs/SETUP.md` (environment, every tool's
+`docs/wiki/The-ROM-firewall.md` is the no-ROM policy; `docs/wiki/Archive-index.md` records every document retired at Phase 33.5
+(the archive folder itself left the tree at Phase 34, 2026-09-08 — the rows are the record; nothing ever linked into it). The files a session touches most: `docs/SETUP.md` (environment, every tool's
 row, commands) · `docs/matching-cookbook.md` §1–§500 (idioms; 3.5 MB — grep by §, never read whole) + `docs/cookbook-index.md`
 (symptom-keyed, derived, 566 KB — grep) · `docs/gcc-2.7.2-map/` (the compiler map) · `docs/wave-playbook.md` (THE wave procedure;
 the OpenRouter-era `automation-runbook.md` is archived) · `docs/effort-map.md` · `docs/phase34-seed.md` (the next phase's seed;

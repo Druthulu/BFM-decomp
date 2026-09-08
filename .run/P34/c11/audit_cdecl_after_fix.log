@@ -1,0 +1,26 @@
+.venv/bin/python tools/cdecl.py --audit --gcc --limit 60
+[coverage] 60 TUs (cpp-derived) + 600 drafts (raw)
+[coverage] depth-0 statements: 175222   declarators parsed: 166814
+[coverage] unparsed: 4  ->  PARSER DEFECTS (gcc accepts, cdecl does not): 0   NOT-C (gcc rejects it too — corrupt input): 4
+    NOT-C in 1 dir(s) (all scratch, none in src/): ['.run/drafts-T6-recanon']
+      e.g. 'extern if ((func_80029178(0x119) & 0xFF) != 0);' -> expected ')', got '!=' in 'extern if ((func_800
+
+[differential] expanded 5147 DEFINE_ macros through cpp -> 7430 names
+[differential] engine_core.h — D_ symbols (raw-text scan vs cpp-expanded file scope)
+    incumbent                             theirs   cdecl  cdecl-only  MY DEFECT  their block-scope error
+    gen_harvest_targets.DATA_DECL_RE        2238    2319         601          0                      520
+        they count BLOCK-scope externs as file-scope canonicals: ['D_800636C8', 'D_80078EAF', 'D_800A5E8C', 'D_800A5E90']
+    sig_unify.DATA_DECL_RE                  2238    2319         601          0                      520
+        they count BLOCK-scope externs as file-scope canonicals: ['D_800636C8', 'D_80078EAF', 'D_800A5E8C', 'D_800A5E90']
+    the audit's named blind symbols (engine_core.h), now resolved WITH THEIR KIND:
+      D_80127530     kind=array        (expected array)  [ok]  s32 [4]
+      D_80127088     kind=fnptr        (expected fnptr)  [ok]  void (*)(void)
+      D_8011DB28     kind=fnptr        (expected fnptr)  [ok]  void (*)(s32)
+      D_801274D0     kind=fnptr        (expected fnptr)  [ok]  s32 (*)(s32)
+      D_8018E858     kind=fnptr_array  (expected fnptr_array)  [ok]  void (*[])(void)
+
+[gcc] 4777 distinct declarations -> the real cross-compiler
+[gcc] adjudicated: 4777   env-skipped (gcc cannot compile the original out of its TU): 0
+[gcc] accepted: 4777   REJECTED (my reconstruction is a DIFFERENT TYPE): 0
+
+cdecl: ALL ORACLES GREEN

@@ -1004,15 +1004,19 @@ def audit_coverage(limit=None, verbose=False):
     defects, notc = [], []
     for p, e in bad:
         stmt = e.split(' -> ')[0].strip("'\"")
+        # The scratch dir is created here (P34 S93): it lived under .run/audit/, which a scratch prune removed, and the
+        # write raised — the bare `except` below then counted every unparsed line as a parser DEFECT (the last close had
+        # read the same four lines as NOT-C). An adjudication that cannot run is a REFUSAL, never a verdict (R43/R57).
+        src = os.path.join(REPO, '.run/audit/cdecl/adj.c')
+        os.makedirs(os.path.dirname(src), exist_ok=True)
         try:
-            src = os.path.join(REPO, '.run/audit/cdecl/adj.c')
             open(src, 'w').write(_PROBE_HDR + stmt.encode().decode('unicode_escape') + '\n')
             r = subprocess.run([CC, '-fsyntax-only', '-w', '-I' + os.path.join(REPO, 'include'),
                                 '-I' + os.path.join(REPO, 'src'), src],
                                capture_output=True, text=True, cwd=REPO)
-            (notc if r.returncode else defects).append((p, e))
-        except Exception:
-            defects.append((p, e))
+        except Exception as ex:
+            sys.exit(f'cdecl --audit: cannot adjudicate an unparsed statement with gcc ({ex}); refusing to grade it either way (R43)')
+        (notc if r.returncode else defects).append((p, e))
 
     print(f'[coverage] {len(tus)} TUs (cpp-derived) + {len(drafts)} drafts (raw)')
     print(f'[coverage] depth-0 statements: {stmts}   declarators parsed: {decls}')

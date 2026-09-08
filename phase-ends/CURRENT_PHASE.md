@@ -242,7 +242,22 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   `master` = `be8a6cc`, the live Archive-index page (200) carries "removed from the tree at Phase 34" (`.run/P34/outward/wiki_push_c11.log`).
   `gh auth logout` stays Drew's last command after the close push. **Task 7 CLOSED.**
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–7 ✓; task 8 IN PROGRESS (Tier 1, Max confirmed by Drew "ready for task 8"): the close tools-health ran and FAILED at audit-cdecl — under diagnosis (R40: the instrument first); then the P7 walk, gate 2, the PhaseEnd v2.0.0
+### 2026-09-08 — Task 8 (part 1) — the close health chain: one instrument defect, exposed by the prune and fixed (Max; S93)
+- The first `make tools-health` of the close (`.run/P34/tools_health_close.log`, 3,416 lines) went **red at `audit-cdecl`**: "PARSER
+  DEFECTS (gcc accepts, cdecl does not): 4", all four the same non-C line `extern if (...)` in `.run/drafts-T6-recanon/` drafts. At the
+  33.5 close the SAME four lines were "NOT-C (gcc rejects it too): 4 → ALL ORACLES GREEN" on an unchanged sample (the sorted glob of
+  `.run/drafts*/*.c`; no draft dir was pruned). **Root cause (R40 → the instrument, R57 → its write path):** the gcc adjudication writes
+  its probe to `.run/audit/cdecl/adj.c`; task 7's prune removed `.run/audit/`; the write raised; the bare `except Exception` counted every
+  unparsed line as a DEFECT. A refusal reported as a verdict.
+- **Fix (`tools/cdecl.py`):** `os.makedirs` for the scratch dir (the other two `.run/audit/cdecl` users already had it); an adjudication
+  that cannot run now `sys.exit`s with a refusal (R43) instead of grading either way. `make audit-cdecl` alone → **unparsed 4 → DEFECTS 0,
+  NOT-C 4 (`.run/drafts-T6-recanon`), gcc accepted 4,777 / REJECTED 0, "cdecl: ALL ORACLES GREEN"** (`.run/P34/c11/audit_cdecl_after_fix.log`).
+  `make kit-corpus` regenerated (cdecl.py is in the corpus); `tool_census --check` OK. The full chain relaunched detached (its log
+  overwrites the red one; the red run's verdict is quoted here).
+- Lesson for the ledger: a scratch prune is an instrument change — every tool that writes under a pruned tree must be re-run before the
+  prune is called done (a candidate rule for the PhaseEnd).
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–7 ✓; task 8 IN PROGRESS (Tier 1, Max): the cdecl instrument fixed, the full tools-health re-running detached (`.run/P34/tools_health_close.log`); then the P7 walk, gate 2, the PhaseEnd v2.0.0
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything
