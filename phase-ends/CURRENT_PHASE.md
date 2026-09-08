@@ -40,7 +40,7 @@ bundle and dictionary are deleted at C11) and a public fresh-clone re-proof (B3'
 
 ## Tasks (strict order; one commit per task after this file is updated; harness task list = the same rows, R28 — 10 at gate 1)
 - [x] **0a** Open the phase: this file, R84–R95 into DIGEST §3 (+ one §0 line), the `.run/P34/` evidence allowlist, TaskCreate ×10, `doc_links --strict` 0/0, commit — xHigh (Claude)
-- [ ] **0** The probe once more: `tools/public_rewrite/probe_github.sh | tee .run/P34/probe/pre_flip.log` → PASS, control OK, no WARNING — Low (Claude)
+- [x] **0** The probe once more: `tools/public_rewrite/probe_github.sh | tee .run/P34/probe/pre_flip.log` → PASS, control OK, no WARNING — Low (Claude)
 - [ ] **1** C10 — the flip (Drew, Max) + post-flip checks, metadata, ruleset, Actions green on the public repo (Claude, Low)
 - [ ] **2** E1 — decomp.me: scratch → 100% → preset-request issue → manual search (Drew, xHigh); recorded in SETUP §6.5 + ledger row 14 (Claude)
 - [ ] **3** E2 — the Archipelago issue (Drew, xHigh); URL recorded; §5 reply handling pending unless a reply arrives (Claude)
@@ -73,7 +73,15 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   `:409` (the R84 by-contents form works). `git status --short` before the commit: `M .gitignore`, `M phase-ends/DIGEST.md`,
   `?? phase-ends/CURRENT_PHASE.md` — nothing else (H1 review). Committed as this task's commit.
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): task 0a ✓; NEXT = task 0 (the probe, Claude), then task 1 (the flip — Drew)
+### 2026-09-08 — Task 0 — The probe once more (Low; S93)
+- `tools/public_rewrite/probe_github.sh 2>&1 | tee .run/P34/probe/pre_flip.log` → **`probe: PASS — every sampled old hash is gone from
+  Druthulu/BFM-decomp`**, 33 `gone` lines of 33 sampled (every 134th of 4,031 + the pruned commit + the old tag tip), `control: current
+  main eb342dc9fe0935b8c9743f9245b08dd16f875b67 resolves (OK)` (the PUSHED tip — local `main` is two commits ahead, unpushed: task 0a
+  `c9dffdcfd` + this one), exit 0, **no** "WARNING — the WORKING repo" line, the throwaway `probe_scratch.git` deleted on exit (R81).
+  Same 33 hashes as the S91 run (`.run/P33.5/probe_github_s91.log`). **The gate is open at the moment of the flip.** Log committed
+  (allowlisted `.run/P34/probe/*.log`).
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0 ✓; NEXT = task 1 (the flip — DREW's action, then Claude's checks)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything
