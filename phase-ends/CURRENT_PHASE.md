@@ -47,7 +47,7 @@ in-tree links to `docs/wiki/<Page>.md`. 8. `.run/`: only what git tracks; no sca
 - [x] **6** Sunset moves (59 files — `family-hseq.md` stays, see the log) with the referrer census by command; `docs/sunset/README.md`; `Archive-index.md` rows (backticked paths + `v1.32.1`); DIGEST §4 + `docs/history/README.md` refreshed; coverage: 0 `docs/` files outside wiki/how-to/sunset uncovered — xHigh — see Log 2026-09-07 Task 6
 - [x] **7** Checkers: `doc_links.py` (sunset refusal, index-derived allowlist, wiki-first warnings, TRACKED/UNTRACKED citation classifier + `--disk`, coverage ⊆); reachability in `wiki_render --selftest`; `timeline.py` regen in `report BINARY=main` + `--check` in `audit-digest`; the 13 dangling cookbook cites; the gitignore-template diff; tools-health wiring; SETUP rows — xHigh — see Log 2026-09-07 Task 7
 - [x] **8** Tracked `.run/` prune (218 paths untracked: the 172 inertia files + 44 finished logs + the 2 firewall listings; `untracked_after_rewrite.txt`; `audit_public` check 4 with both controls; runbook §11; the four tool notes) — xHigh — see Log 2026-09-07 Task 8 — **P6 rules check done after it**
-- [ ] **9** Memory reconciliation (move the off-project file; the 7 stale updated; `bfm-decomp-context-system` refreshed; the seed set under `decomp-architect/memory-seed/` with `upstream: PA` tags) — xHigh
+- [x] **9** Memory reconciliation (the off-project file parked; the 7 stale updated in place; `bfm-decomp-context-system` refreshed; the seed set — 16 files — under `decomp-architect/memory-seed/` with `upstream: PA` tags) — xHigh — see Log 2026-09-07 Task 9
 - [ ] **10** Kit part 1: `README.md`, `intake.decomp.md`, `decomp-architect.md`, `templates/registry-E.decomp.md`, `corpus/decomp-kernels.md`, `templates/PLACEHOLDERS.md` — Max
 - [ ] **11** Kit part 2: the firewall pack, docs/run READMEs, ops-setup, bootstrap, CLAUDE overlay, `pa-overlays.md`, LICENSE/NOTICE/README/CONTRIBUTING skeletons, `.clang-format` + format snippet, `tools/MANIFEST.md`; `tools/kit_lint.py` in tools-health — xHigh
 - [ ] **12** Kit part 3: `SETUP.md` (§0–§10, `--answers`, the PA-2.0 version pin, the honesty section, Path A only) — Max — **then P6 rules check**
@@ -418,53 +418,86 @@ overwrite blind (the `.gitignore` edits are additive re-excludes under dated com
 splat yaml or overlays.mk was touched); never commit ROM-derived content (the pair is out of the index; check 4 now guards the class);
 never `git clean -x`; `purge_set.txt` never edited in this phase. Continuing with task 9.
 
-## 🛑 SESSION CHECKPOINT — Tasks 0–8 ✓ (P6 check done); NEXT = task 9 (memory reconciliation + the kit's memory seed; xHigh)
+### 2026-09-07 — Task 9 — Memory reconciliation + the kit's memory seed (xHigh)
+**The project store** (`~/.claude/projects/-home-musashi-bfm-decomp/memory/`, outside git by Drew's decision): the off-project
+`vantage-edge-never-leaks.md` was MOVED to `~/.claude/memory-parked/` (no Vantage project store exists under `~/.claude/projects/` —
+only this project's and `-mnt-c-Users-user`, which has no memory directory; never deleted) and its index row removed. The seven
+stale memories got a dated **"Updated 2026-09-07 (Phase 33.5)"** block APPENDED (the originals stay as records): the cheap-tier A/B
+(→ the record; routing superseded twice), the effort doctrine (CLAUDE.md now agrees), the private-repo backup policy (HISTORICAL;
+R78 is the backup), the endgame deliverables (all three shipped), roadmap-to-100 (archived; plan from phase34-seed + gen3-handoff),
+the ROM-content policy (INVERTED — H1 in force, R74, the relaxation's bill), the context-system status block (P33.5 open / P34 next /
+Gen3 at 35, the R64 load order). Their `MEMORY.md` hooks rewritten; two more index defects fixed while there — `continuous-gater-
+lane-plan.md` had NO index row (added) and the model-ladder hook still described the dead Haiku→Sonnet→Opus ladder (now the
+2026-09-01 two-tier rule). Index rows == files: 80 == 80. **The kit seed** `decomp-architect/memory-seed/`: 16 files + `MEMORY.md`
+(PA 2.0's own sixteen seeds cited by name, not copied) — the three decomp seeds (`the-byte-gate-is-the-only-claim`,
+`the-matching-flywheel`, `mcp-reconnect-after-restart`), the nine portable working agreements (`offline-tooling-first`,
+`one-runbook-is-the-procedure`, `keep-an-accelerator-ledger`, `checkpoint-means-everything-is-already-in-a-file`,
+`phaseend-carries-the-narrative-axis`, `tool-change-ships-with-its-consumers-and-docs`, `no-sleep-polling-background-tasks`,
+`long-checks-run-in-the-foreground`, `resume-means-resume-the-run`, `answer-before-grinding-in-live-coop`) and the riders folded
+into three more (`a-slow-gate-is-a-bug`, `breadth-is-isolated-agents`, `route-by-measured-difficulty` — the measured cliff, escalate
+sooner, the frontier-agent briefing recipe, what the frontier tier is NOT for). Five carry `upstream: PA` (the harness-generic ones:
+the four planned + the live co-op one). Every body de-BFM'd: no project name, owner name, paths, sessions, addresses, rule numbers
+or section numbers (the kit_lint pattern + `Drew` → 0 hits); numbers appear only as "measured on the source project". **Verify:**
+16 files == 16 index rows; frontmatter parses (name == stem, type ∈ the four, optional `upstream: PA`); every seed has **Why** and
+**How to apply**; every index link resolves.
+
+## 🛑 SESSION CHECKPOINT — Tasks 0–9 ✓; NEXT = task 10 (kit part 1: README, intake, methodology, registry-E, corpus, PLACEHOLDERS; **Max** — prompt Drew, R27)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase31/32/33.md` and this file, and
 nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest (R1–R83), then
-WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–8 completed and task 9 in progress.
+WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–9 completed and task 10 in progress.
 
 ### 1. Where we are
 **Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; effort follows the plan's
-column (Max for tasks 10, 12, 15 — prompt at each transition, R27; xHigh now). Baseline HEAD `80d45b29b`; task 0 = `39d524991`;
-task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 = `6ec4786bd`;
-task 7 = `21c98ed5a`; task 8 = the commit after it (the prune). No build input changed; the fleet is 218/218 at the Phase-33 close.
-Tracked `.run/` = 868 files; `audit_public` OK with its four checks; `gate_scan --all --worktree` PASS; `doc_links --strict` green;
-the pending list empty. The doc-side half of the phase (tasks 1–8) is DONE; what remains is the memory reconciliation (9), the kit
-(10–13) and the closing pages (14–15).
+column (Max for tasks 10, 12, 15 — prompt at each transition, R27). Baseline HEAD `80d45b29b`; task 0 = `39d524991`; task 1 =
+`a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 = `6ec4786bd`; task 7 =
+`21c98ed5a`; task 8 = `ae71efe56`; task 9 = the commit after it (the seed). No build input changed; the fleet is 218/218 at the
+Phase-33 close. Tracked `.run/` = 868; `audit_public` OK; `gate_scan` PASS; `doc_links --strict` green; pending list empty. The kit
+directory so far holds ONLY `decomp-architect/memory-seed/` (16 seeds + MEMORY.md). Tasks 10–13 build the rest of the kit; 14–15 close.
 
-### 2. What NEXT does (task 9, xHigh) — exact steps
-The memory store is `~/.claude/projects/-home-musashi-bfm-decomp/memory/` (81 files + `MEMORY.md`; NOT in the repo, by Drew's decision
-2026-09-07 — kit seed only). Ledger L3 in this file classifies every file.
-1. **Move the off-project memory:** `ls ~/.claude/projects/` → find the Vantage project's directory (a `-mnt-…` or `-home-…` slug whose
-   MEMORY.md mentions Vantage); `mv` `vantage-edge-never-leaks.md` there (append its index line to that MEMORY.md); delete its line from
-   this project's `MEMORY.md`. If no Vantage store exists, move it to `~/.claude/memory-parked/` and say so in the log — never delete.
-2. **Update the 7 stale memories IN PLACE** (Edit; keep frontmatter; add a dated "Updated 2026-09-07 (P33.5)" line): `cheap-tier-ab-validated`
-   (→ the ladder in `subagent-model-ladder`; the ≤50 band was later measured as ≤~30; keep as the A/B record); `effort-doctrine-xhigh-default`
-   (CLAUDE.md now agrees — the contradiction is resolved); `private-repo-backup-policy` (→ R78: text export + checksums + the archive repo;
-   never `git clean -x`); `project-endgame-deliverables` (all three shipped in P33 — story/timeline, retrospective, wiki+how-to; keep the
-   sequencing lesson + "capture live, transcripts die"); `roadmap-to-100` (→ archived at P33.5; the live seeds are `docs/phase34-seed.md` +
-   `docs/gen3-handoff.md`); `rom-content-git-policy` (INVERTED: H1 in force since P33 C3, no private exemption ever again — R74; the
-   relaxation cost the rewrite); `bfm-decomp-context-system` (status block → P33.5 open, Phase 34 next, Gen3 at 35; the load order per R64).
-   Also refresh `MEMORY.md`'s hook lines for those seven.
-3. **Write the kit seed set** under `decomp-architect/memory-seed/` (the directory does not exist yet — create it; task 10 adds the rest of
-   the package around it). Frontmatter per PA 2.0 (`name`, `description`, `metadata.type`), bodies de-BFM'd (no paths, sessions, function
-   addresses; "the project" not "BFM"), each with **Why** and **How to apply** lines: the NINE new — `no-sleep-polling-background-tasks`,
-   `live-coop-answer-before-grinding`, `tools-health-foreground-not-background` (generalise: "long verification tools run in the foreground
-   with a timeout"), `resume-means-resume-the-run`, `tool-change-ships-with-its-consumers-and-docs` (+ "no end-of-session audits"),
-   `checkpoint-means-everything-is-already-in-a-file` (the commit-message trap), `phaseend-carries-the-narrative-axis`,
-   `offline-tooling-first` (computable vs search), `one-runbook-is-the-procedure` (+ banner superseded runbooks); the FIVE riders folded
-   into whichever seed fits (the quadratic main-loop-context arithmetic → a `breadth-is-isolated-agents` seed; the accelerator ledger
-   as a habit → `keep-an-accelerator-ledger`; the per-stuck-lane briefing recipe + "what the frontier model is NOT for" → `route-by-
-   measured-difficulty`; "a slow gate is a bug" → `a-slow-gate-is-a-bug`); the THREE decomp seeds — `the-byte-gate-is-the-only-claim`,
-   `the-matching-flywheel` (R16), `mcp-reconnect-after-restart` (R29). Tag the four harness-generic ones with `upstream: PA` in
-   metadata (no-sleep-polling, tools-health-foreground, resume-means, tool-change-ships-with-consumers). `memory-seed/MEMORY.md` in PA's
-   row format (`- [title](file.md) — hook`), listing these AND citing PA 2.0's seven already-seeded ones by name (not copied).
-4. Verify: `ls memory-seed/*.md | grep -vc MEMORY.md` == the number of `- [` rows in `memory-seed/MEMORY.md`; every file's frontmatter
-   parses (`name`/`description`/`metadata.type`); `grep -rlE 'SLUS|Musashi|BFM|Druthulu|func_80|ov_SC|/home/musashi|/mnt/z' memory-seed/`
-   is empty; this project's `MEMORY.md` rows == its files. Log + checkpoint; commit by explicit path (the kit dir + this file). Task 10 is
-   **Max** — prompt Drew (R27).
+### 2. What NEXT does (task 10, **Max**) — exact steps (plan D5)
+Read first: `/mnt/z/Storage/git/ProjectArchitect/README.md` (the install ritual, "What gets installed"), `…/project-architect-2.0/SETUP.md`
+(§0–§9 — the shape to mirror; §8 fills `PROJECT_CONTEXT.md` from the Mode-1 intake and §9 hard-stops, so the kit NEVER writes the
+constitution), `…/project-architect-2.0/project-architect-2.0.md` (Mode 1's 12 intake items — the kit's `intake.decomp.md` pre-answers
+them), `…/templates/RULES_REGISTRY.seed.md` (§E's provenance-tag convention), `…/corpus/README.md` (the corpus's "growing it" rule),
+`docs/how-to-ai-decomp/03-bootstrap-order.md` (the order + the 12-item checklist), `docs/accelerators.md`, `docs/retrospective.md` §4,
+`docs/gen3-standards.md` §2–§3, `docs/generic-decomp-package.md`, `docs/wiki/The-ROM-firewall.md`, `docs/wiki/Docs-and-scratch-conventions.md`.
+Write (all under `decomp-architect/`; de-BFM'd — BFM numbers only inside ```` ```calibration ```` fences; the kit_lint pattern is
+`SLUS|Musashi|BFM|Druthulu|func_80|ov_SC|/home/musashi|/mnt/z|172\.17\.|\bR[0-9]{1,2}\b|§[0-9]+` outside those fences and `provenance:` lines):
+1. `README.md` — for humans: what the kit is; **step 1 install ProjectArchitect 2.0** (copy its folder, "Read SETUP.md and do it") **handing
+   its interview `intake.decomp.md`**; step 2 copy `decomp-architect/`; step 3 "Read decomp-architect/SETUP.md and do it" (Phase 0.5); what it
+   installs and what it does NOT (no tools — the MANIFEST is Phase-1 work until the split); platform scope (generic in structure, PS1-complete
+   in content, `TODO(platform)` elsewhere); the version pin (PA 2.0).
+2. `intake.decomp.md` — PA Mode-1's intake items pre-answered for a decomp (the developer fills the game-specific ones: title, platform,
+   region/serial, the dump, community work, goals) + **the canonical phase ladder**: per phase — the machine-checkable milestone, the tools
+   built, the rules ratified, and the accelerator/retrospective item that earned its position. The order: extraction with a committed manifest
+   → the all-assembly byte-identical baseline → the compiler pinned by evidence (the candidate ladder) → the honest corpus census with
+   self-asserting tools + the differential-oracle harness at 0% → propagation/twin band/families/the reconcile ladder + carve chain + the
+   draw filter → the codegen map + the permuter → crack leverage-first with the widening review at every close → publish (the firewall was
+   day one) → the readability generation (pins recorded at draft time, shared bodies as C, types canonical at bank time, names with evidence,
+   formatting from install).
+3. `decomp-architect.md` — the methodology: the ladder narrative; the byte gate; lanes/waves/cards; the flywheel laws (harvest only from
+   proven results; the inert-rider law; vocabulary decides findability; the one-wave lag); models/effort as METHOD (measure the cliff;
+   escalate sooner); the AI-use conduct (the five rules); Gen3-at-day-one (the six inversions); what stays hard; the economics' SHAPE.
+4. `templates/registry-E.decomp.md` — the §E seed: G-rules (the disassembler + emulator as the oracles, the byte gate, no unmatched C in a
+   default build, address provenance, never rename blind, duplicates first, compiler honesty) + the distilled R-rules as G-numbered entries
+   with `provenance: <source project> <short reason>` lines (coverage assertion; derive don't re-derive; a second disagreeing oracle; fix the
+   instrument first; probe before costing; read the recorded verdicts; negative-control every refusal; exonerate the instrument; quote the
+   denominator; commit banked work immediately; refuse unsupported input; draw-time bankability; a budget is part of the harness; consume
+   every verdict layer; never key by bare name; a soft error is an error; periodic fleet verification; derived config goes stale; verify a
+   build by its exit code; a guard downstream is not a guard; unattended lanes leave evidence; a wall verdict names the pass; "banked" from
+   the printed line; agents write deliverables early; a producer census before a spelling sweep; port the sibling's spelling first; a
+   similarity score is not a shape oracle; reproducers before probes; no ROM bytes in any artifact; numbers generated never typed; rehearse
+   irreversible ops; a probe never writes into what it guards; a rewritten history is not private until the host purged it; outward text
+   by a person) + the AI-conduct rules.
+5. `corpus/decomp-kernels.md` — the accelerators (A1–A9, #12–#20, the harness wounds, the late rows) + the failure museum's rows + the
+   retrospective's ten "sooner" items, each de-BFM'd into a kernel: takeaway · when it applies · the cost it saved/cost; the corpus README's
+   "growing it" rule at the top.
+6. `templates/PLACEHOLDERS.md` — every `{{…}}` the kit uses, tagged copy-time (filled at §2–§5) or generation-time (filled at §7–§9).
+Verify: `git grep -nE '<the kit_lint pattern>' decomp-architect/ | grep -v calibration | grep -v 'provenance:'` empty (the lint tool lands in
+task 11 — run the grep by hand now); every ladder phase names its citation; `doc_links` still OK (the kit is not in its set — add
+`decomp-architect/README.md` to DEFAULT in task 11). Log + checkpoint; commit by explicit path. Task 11 is xHigh — prompt Drew to drop back.
 
 ### 3. Standing facts for every task of this phase
 - One commit per task, after this file's log line (R8/R42 form); commit by explicit path; no trailers (R5); Drew pushes (R6).
