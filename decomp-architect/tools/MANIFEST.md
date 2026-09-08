@@ -336,7 +336,7 @@
 | `uniquify_type.py` | give each conflicting camp of a same-named type its own name | Gives each conflicting camp of a same-named type its own name so every camp becomes liftable | repo src layout |
 | `verbatim_check.py` | guard that every inline-assembly body still reproduces its target bytes | Regression guard that every inline-assembly body still reproduces its target bytes | repo src layout |
 | `ghidra_apply_symbols.sh` | mirror the curated symbol file into the analysis database with a real save | Mirrors the curated symbol file into the analysis program headlessly, with a real save | repo symbol path, project name |
-| `verbatim_target_s.py` | regenerate a splitter-format target disassembly for a function no longer stubbed | Regenerates a splitter-format target disassembly for a function that is no longer a stub | repo build/asm layout |
+| `verbatim_target_s.py` | regenerate a splitter-format target disassembly for a function no longer stubbed | Regenerates a splitter-format target disassembly for a function that is no longer a stub; --gas emits the assemblable gas-syntax form ($-registers, .L labels, noreorder) that a web diff service accepts as a pasted target | repo build/asm layout |
 | `verbatim_to_stub.py` | turn an inline-assembly body back into a stub the toolchain can reach | Turns an inline-assembly body back into an include-assembly stub | repo src/asm layout |
 
 ## PROJECT-ONLY — project-only in code (the shape is a task; the code does not transfer)

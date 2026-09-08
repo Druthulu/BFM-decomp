@@ -100,7 +100,28 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   **`no-rom` run 34257901983 completed success** and **`progress` run 34257901996 completed success**, both on `df055e36c`, event push
   (`.run/P34/flip/runs_after_push.txt`). Milestone item 1's Actions line is MET. Task 1 CLOSED.
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1 ✓ (public; Actions green); NEXT = task 2 (E1 decomp.me — DREW) — or task 5 (the wiki) first if Drew says so, the two are independent
+### 2026-09-08 — Task 2 (part 1) — E1: the paste form fixed and proven before Drew's browser session (xHigh; S93)
+- **Measured (R14):** Drew's first scratch attempt failed — `Target assembly could not be assembled … invalid operands 'li a2,2'` on
+  every operand line. Cause: `docs/decompme-preset.md` §5 step 2 told him to paste the splat-format listing from
+  `verbatim_target_s.py`, which is the WORD ORACLE (the replica reads the `/* off va word */` comments; nothing assembles it): bare
+  register names that resolve only through `macro.inc`, branch targets as absolute addresses. decomp.me's PS1 prelude defines `glabel`
+  (line 7 drew no error) but not the register aliases. The compiler choice was right (`gcc 2.7.2-psx + maspsx`). The seed's "regenerate
+  the bundle with `decompme_replica.sh`" was also false — nothing wrote the bundle.
+- **Fix (R16 — the flywheel, tool + doc in the same change):** `tools/verbatim_target_s.py --gas` → `<fn>.gas.s` ($-registers,
+  `.L<addr>` labels for in-function targets, symbol names for external `j`/`jal`, `.set noat`/`noreorder`, no `.include`, the comment
+  column kept); `tools/decompme_replica.sh` **step D** (the paste through decomp.me's own `as` wrapper — fed on STDIN, a file argument
+  blocks it — linked at the address, compared word for word; PASS now needs A AND D, exit 4 = compile matches but the paste does not) and
+  **step E** (writes `.run/decompme/drew_bundle/` 1–4 from the proven run); doc §5 step 2 rewritten; SETUP rows (a new
+  `verbatim_target_s.py` row — it had none — and the replica row extended); `config/tool_dictionary.tsv` `what` extended; `make
+  kit-corpus` regenerated (359 copies / 28 pointers, `tool_census --check` 0 gaps; it also materialised the missing record copy of
+  `PhaseEnd_Phase33.5.md`).
+- **Proof (`.run/P34/outward/e1_replica_after_fix.log`, the S93 standalone proofs under `e1_gas_proof/`, untracked):** our `as` 26/26
+  words; decomp.me's `as` wrapper 26/26 (+2 trailing zero words, gas padding); the replica: **A BYTE-IDENTICAL 26/26 · B (control) 26/26 ·
+  C1/C2 identical text · D the pasted target BYTE-IDENTICAL 26/26 · E bundle written → PASS, rc 0.** `doc_links --strict` OK.
+- The bundle's `1_target_asm.s` is now the gas form (42 lines); 2–4 unchanged in content; `5_issue_body.md` untouched (Drew's text).
+- Drew retries the scratch with the new file → 100% / score 0 expected → the issue → the search → part 2 records the URLs.
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1 ✓; task 2 part 1 ✓ (the paste form proven); NEXT = Drew's decomp.me retry, then task 2 part 2 (record the URLs)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything

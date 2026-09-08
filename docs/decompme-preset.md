@@ -105,13 +105,19 @@ decomp.me but matches locally is a toolchain question first: run the replica wit
 ## 5. The browser session (Drew, after the flip)
 
 1. **Log in** to decomp.me (GitHub account), so the proving scratch is owned and can be cited.
-2. **New scratch** (`/new`): platform **PlayStation**, compiler **`gcc2.7.2-psx`**, preset **Custom**. Paste as the target
-   assembly the regenerated `.s` of the probe (`.venv/bin/python tools/verbatim_target_s.py --binary main --fn func_80018F20
-   --out .run/decompme/target` → `.run/decompme/target/main/func_80018F20.s`), **without its first line** `.include
-   "macro.inc"` — decomp.me supplies its own PS1 prelude, and the `/* offset vaddr word */` comments are harmless. Context =
-   the three typedefs the function needs (`u8`, `u32`, `s32`, as in `include/common.h`). Source = the function's body from
-   `src/800.c`. Set the compiler flags to the §1 string. Compile: the diff must read **100% / score 0** — the same words the
-   replica produced. If it does not, stop and run `tools/decompme_replica.sh --upstream` (a moved pin) before anything else.
+2. **New scratch** (`/new`): platform **PlayStation**, compiler **`gcc 2.7.2-psx + maspsx`** (the dropdown's name for
+   `gcc2.7.2-psx`), preset **Custom**. Paste as the target assembly the WHOLE of `.run/decompme/drew_bundle/1_target_asm.s`
+   — the **assemblable form** written by `tools/verbatim_target_s.py --gas` and proven by `tools/decompme_replica.sh` step D:
+   `$`-prefixed registers, `.L<addr>` labels for the in-function branches, `.set noat` / `.set noreorder`, no `.include`
+   (decomp.me's PS1 prelude defines `glabel`; the `/* offset vaddr word */` comments are harmless). **Measured 2026-09-08
+   (P34 task 2, R14):** the splat-format listing this step used to name failed on decomp.me with `Target assembly could not
+   be assembled — invalid operands 'li a2,2'`: that listing is the word ORACLE (nothing here assembles it — its bare register
+   names resolve only through `macro.inc` and its branch targets are absolute addresses), so the replica now proves the
+   pasted form itself through decomp.me's own `as` wrapper (26/26 words) and writes the bundle from that run (step E).
+   Context = `2_context.c` (the three typedefs the function needs — `u8`, `u32`, `s32`, as in `include/common.h`). Source =
+   `3_source.c` (the function's body from `src/800.c`). Compiler flags = `4_compiler_flags.txt` (the §1 string). Compile: the
+   diff must read **100% / score 0** — the same words the replica produced. If it does not, stop and run
+   `tools/decompme_replica.sh --upstream` (a moved pin) before anything else.
 3. **Request the preset** — open an issue on `decompme/decomp.me` with their "Create or update a compiler preset" template
    (their bullet format is theirs; keep it). Written the way a developer writes, no AI acknowledgement (Drew's rule, S89):
 

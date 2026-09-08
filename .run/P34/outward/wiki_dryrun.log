@@ -1,0 +1,36 @@
+wiki_render: 32 pages rendered into /home/musashi/bfm-decomp/.run/wiki/render (386 relative links rewritten)
+wiki_sync: https://github.com/Druthulu/BFM-decomp.wiki.git is not clonable yet — the wiki exists only after the flip (free plan: wikis need a public repo), Wikis enabled in Settings, AND the first page is created
+           in the GitHub UI (Wiki → Create the first page). Rendered 32 pages into /home/musashi/bfm-decomp/.run/wiki/render:
+             Archive-index.md
+             Build-from-your-own-disc.md
+             Contributing-and-the-no-ROM-policy.md
+             Docs-and-scratch-conventions.md
+             Ghidra-rebuild-from-text.md
+             Home.md
+             How-to-AI-decomp-00-README.md
+             How-to-AI-decomp-01-governance.md
+             How-to-AI-decomp-02-byte-gate.md
+             How-to-AI-decomp-03-bootstrap-order.md
+             How-to-AI-decomp-04-oracles-and-instruments.md
+             How-to-AI-decomp-05-cards-lanes-waves.md
+             How-to-AI-decomp-06-knowledge-base.md
+             How-to-AI-decomp-07-compiler-source.md
+             How-to-AI-decomp-08-models-and-budgets.md
+             How-to-AI-decomp-09-economics.md
+             How-to-AI-decomp-10-integration-and-propagation.md
+             How-to-AI-decomp-11-publishing.md
+             How-to-AI-decomp-12-failure-museum.md
+             How-to-AI-decomp.md
+             Overlays-and-modules.md
+             Reference-index.md
+             Repository-layout.md
+             Start-a-new-decomp-project.md
+             The-ROM-firewall.md
+             The-dedup-engine.md
+             The-matching-workflow.md
+             Toolchain-setup.md
+             Tools-from-this-project.md
+             Verification-and-progress.md
+             Where-the-project-goes-next.md
+             _Sidebar.md
+wiki_sync: dry run OK (nothing to diff against)

@@ -23,7 +23,11 @@
 #   tools/decompme_replica.sh --src probe.c --fn NAME [--binary main] [--flags "<preset flags>"]
 #   tools/decompme_replica.sh --upstream            # print decomp.me's CURRENT pins (Dockerfile/values.yaml) vs the constants here
 # The --src TU must be self-contained (typedefs + the function), exactly what a decomp.me scratch's context + source is.
-# Exit 0 only when the decomp.me replica is byte-identical to the target on the function's words.
+# Exit 0 only when the decomp.me replica is byte-identical to the target on the function's words (A) AND the target
+# in the form Drew PASTES round-trips through decomp.me's `as` (D) — P34 task 2 (2026-09-08): the splat-format listing
+# is the word oracle and is never assembled; pasted into decomp.me it failed ("invalid operands `li a2,2'" — bare
+# register names resolve only through macro.inc, branch targets are absolute addresses). The paste is
+# `verbatim_target_s.py --gas`; step E writes Drew's bundle (.run/decompme/drew_bundle/) from the proven files.
 set -u
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO" || exit 2
@@ -151,7 +155,34 @@ if diff -q "$WORK/cc1_dm.s" "$WORK/cc1_ours.s" >/dev/null; then echo "C1. cc1 $O
 python3 "$DM/maspsx/maspsx.py" --aspsx-version=2.56 --expand-div < "$WORK/cc1_ours.s" > "$WORK/mas_dm.s" 2>/dev/null
 if diff -q "$WORK/mas_dm.s" "$WORK/mas_ours.s" >/dev/null; then echo "C2. maspsx ${MASPSX_HASH:0:8} vs $(git -C tools/maspsx rev-parse --short HEAD) on the same cc1 output: identical text"; else echo "C2. maspsx ${MASPSX_HASH:0:8} vs ours: TEXT DIFFERS (diff below, ours = '>')"; diff "$WORK/mas_dm.s" "$WORK/mas_ours.s" | head -20; fi
 
+# ---- 7. D: the PASTED target itself (P34 task 2) — decomp.me's PS1 prelude supplies glabel; its `as` is the maspsx
+#      --run-assembler wrapper and reads the source on STDIN (a file argument is ignored and the wrapper blocks) ----
+RES_D=1
+.venv/bin/python tools/verbatim_target_s.py --gas --binary "$BINARY" --fn "$FN" --out "$WORK/target" >/dev/null 2>"$WORK/target_gas.err" \
+  || { echo "D. verbatim_target_s --gas FAILED:"; cat "$WORK/target_gas.err"; }
+TG="$WORK/target/$BINARY/$FN.gas.s"
+if [ -f "$TG" ]; then
+  { printf '.macro glabel label\n.global \\label\n.type \\label, @function\n\\label:\n.endm\n'; cat "$TG"; } > "$WORK/paste_in.s"
+  ( export COMPILER_DIR="$DM"; timeout 120 "$DM/as" -o "$WORK/paste.o" < "$WORK/paste_in.s" ) > "$WORK/paste_as.log" 2>&1
+  if [ $? -ne 0 ] || [ ! -f "$WORK/paste.o" ]; then echo "D. the pasted target: ASSEMBLE FAILED through decomp.me's as wrapper"; head -8 "$WORK/paste_as.log"
+  else echo "D. the pasted target ($BINARY/$FN.gas.s — what the browser session pastes) through decomp.me's as, linked at $VADDR:"; compare "$WORK/paste.o" "the pasted target"; RES_D=$?; fi
+fi
+
+# ---- 8. E: Drew's bundle — the files docs/decompme-preset.md §5 pastes, from the PROVEN run ----
+BUNDLE="$SCRATCH/drew_bundle"; mkdir -p "$BUNDLE"
+if [ "$RES_D" -eq 0 ]; then
+  cp "$TG" "$BUNDLE/1_target_asm.s"
+  awk -v fn="$FN" '$0 ~ ("^[A-Za-z_].*[ *]" fn "\\(") {exit} {print}' "$WORK/probe.c" | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' > "$BUNDLE/2_context.c"
+  awk -v fn="$FN" 'f{print} $0 ~ ("^[A-Za-z_].*[ *]" fn "\\(") {f=1; print}' "$WORK/probe.c" > "$BUNDLE/3_source.c"
+  printf '%s\n' "$FLAGS" > "$BUNDLE/4_compiler_flags.txt"
+  [ -f "$BUNDLE/5_issue_body.md" ] || echo "E. note: $BUNDLE/5_issue_body.md is not written here — the issue text is docs/decompme-preset.md §5, in Drew's words"
+  echo "E. bundle written: $BUNDLE (1_target_asm.s = the proven paste, 2_context.c, 3_source.c, 4_compiler_flags.txt)"
+else
+  echo "E. bundle NOT written — the paste did not round-trip (D)"
+fi
+
 echo "scratch: $WORK"
 if [ "$RES_B" -ne 0 ]; then echo "decompme_replica: the CONTROL failed — the probe TU does not reproduce the function in our own pipeline; fix the TU before reading A (R56)"; exit 3; fi
-[ "$RES_A" -eq 0 ] && { echo "decompme_replica: PASS — the preset reproduces $FN byte-identically through decomp.me's toolchain"; exit 0; }
+if [ "$RES_A" -eq 0 ] && [ "$RES_D" -eq 0 ]; then echo "decompme_replica: PASS — the preset reproduces $FN byte-identically through decomp.me's toolchain (A) and the paste round-trips through its assembler (D)"; exit 0; fi
+[ "$RES_A" -eq 0 ] && { echo "decompme_replica: FAIL — the compile matches (A) but the PASTED TARGET does not round-trip through decomp.me's as (D): fix verbatim_target_s --gas before the browser session"; exit 4; }
 echo "decompme_replica: FAIL — decomp.me's toolchain does not reproduce $FN with these flags; see C1/C2 for the producer"; exit 1

@@ -1,0 +1,12 @@
+target: main:func_80018F20 — 26 words at 0x80018F20 (tools/verbatim_target_s.py, from the image)
+A. decomp.me replica — old-gcc 0.13 driver + maspsx 86ccd7d8 as-wrapper; flags: -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div
+  decomp.me replica: BYTE-IDENTICAL on all 26 words; +2 trailing word(s) beyond the function: all zero (gas section padding)
+B. our pipeline — old-gcc 0.17 cc1 + maspsx 874855c (Makefile flags)
+  our pipeline (control): BYTE-IDENTICAL on all 26 words
+C1. cc1 0.13 vs 0.17 on the same input: identical assembly text
+C2. maspsx 86ccd7d8 vs 874855c on the same cc1 output: identical text
+D. the pasted target (main/func_80018F20.gas.s — what the browser session pastes) through decomp.me's as, linked at 0x80018F20:
+  the pasted target: BYTE-IDENTICAL on all 26 words; +2 trailing word(s) beyond the function: all zero (gas section padding)
+E. bundle written: /home/musashi/bfm-decomp/.run/decompme/drew_bundle (1_target_asm.s = the proven paste, 2_context.c, 3_source.c, 4_compiler_flags.txt)
+scratch: /home/musashi/bfm-decomp/.run/decompme/probe_func_80018F20
+decompme_replica: PASS — the preset reproduces func_80018F20 byte-identically through decomp.me's toolchain (A) and the paste round-trips through its assembler (D)

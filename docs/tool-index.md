@@ -5,7 +5,7 @@ freshness). The derived columns come from the tree on every run; the authored on
 dictionary, whose coverage is asserted both ways. Read it by NEED: find the phrase that matches what you are trying to do, then the tool,
 then what proved it. The same data generates the day-one kit's manifest and its verbatim tool corpus.*
 
-**Coverage:** 294 tool files in scope (submodules, vendored and downloaded code excluded; `find` and `git ls-files` agree) + 34 retired under `tools/sunset/`. Classes: LIVE 233 (a runtime consumer), REFERENCED 30 (a SETUP row only), ORPHAN 31 (neither) — of 294. Portability: PORTABLE 22, ADAPT 256, PROJECT-ONLY 16.
+**Coverage:** 294 tool files in scope (submodules, vendored and downloaded code excluded; `find` and `git ls-files` agree) + 34 retired under `tools/sunset/`. Classes: LIVE 234 (a runtime consumer), REFERENCED 29 (a SETUP row only), ORPHAN 31 (neither) — of 294. Portability: PORTABLE 22, ADAPT 256, PROJECT-ONLY 16.
 
 ## P1 — extraction + manifest
 
@@ -76,7 +76,7 @@ then what proved it. The same data generates the day-one kit's manifest and its 
 | dump every compiler pass file for a self-contained draft | `cc1_dumps.sh` | Dumps every compiler pass file for a self-contained draft into a private directory | cc1_dumps_tu.sh, ghost_census.py | compiler triple, repo scratch paths | LIVE |
 | dump every compiler pass file for the spliced real translation unit | `cc1_dumps_tu.sh` | Same pass dumps for the spliced real translation unit, the faithful compile | alloc_table.py | absolute repo path, compiler triple | LIVE |
 | re-judge standalone compile failures against their real translation unit before dropping | `rtu_second_chance.py` | Re-judges standalone compile-failures against their real translation unit before dropping them | maintenance.sh | repo scratch paths | LIVE |
-| reproduce an external reference toolchain locally and compare its words to target | `decompme_replica.sh` | Runs a function through an external reference toolchain build and compares words against the target | — | pinned toolchain versions, network fetch | REFERENCED |
+| reproduce an external reference toolchain locally and compare its words to target | `decompme_replica.sh` | Runs a function through an external reference toolchain build and compares words against the target | verbatim_target_s.py | pinned toolchain versions, network fetch | LIVE |
 | skip a draft doomed to fail before any compile is spent | `draft_prechecks.py` | Static pre-checks that skip a draft doomed to fail before any compile is spent | api_agent.py, aprop_autodraft.py, blocker_probe.py, gate_main.py (+3) | repo symbol/config sources | LIVE |
 | splice a candidate into a copy of its real translation unit and compare bytes | `rtu_match.py` | Splices a candidate into a copy of the real translation unit and checks the same bytes | blocker_probe.py, decl_from_use.py, integration_resolver.py, rtu_second_chance.py (+1) | repo src layout, compiler triple | LIVE |
 | turn one function's disassembly into a C scaffold to start a match | `decompile.py` | Wrapper locating a function's disassembly and running the C-scaffold generator on it | — | repo asm paths, decompiler target name | REFERENCED |
@@ -332,7 +332,7 @@ then what proved it. The same data generates the day-one kit's manifest and its 
 | give each conflicting camp of a same-named type its own name | `uniquify_type.py` | Gives each conflicting camp of a same-named type its own name so every camp becomes liftable | — | repo src layout | REFERENCED |
 | guard that every inline-assembly body still reproduces its target bytes | `verbatim_check.py` | Regression guard that every inline-assembly body still reproduces its target bytes | .github/workflows/no-rom.yml, verbatim_target_s.py, verbatim_to_stub.py | repo src layout | LIVE |
 | mirror the curated symbol file into the analysis database with a real save | `ghidra_apply_symbols.sh` | Mirrors the curated symbol file into the analysis program headlessly, with a real save | — | repo symbol path, project name | REFERENCED |
-| regenerate a splitter-format target disassembly for a function no longer stubbed | `verbatim_target_s.py` | Regenerates a splitter-format target disassembly for a function that is no longer a stub | decompme_replica.sh | repo build/asm layout | LIVE |
+| regenerate a splitter-format target disassembly for a function no longer stubbed | `verbatim_target_s.py` | Regenerates a splitter-format target disassembly for a function that is no longer a stub; --gas emits the assemblable gas-syntax form ($-registers, .L labels, noreorder) that a web diff service accepts as a pasted target | decompme_replica.sh | repo build/asm layout | LIVE |
 | turn an inline-assembly body back into a stub the toolchain can reach | `verbatim_to_stub.py` | Turns an inline-assembly body back into an include-assembly stub | — | repo src/asm layout | REFERENCED |
 
 ## PROJECT-ONLY — project-only in code (the shape is a task; the code does not transfer)
