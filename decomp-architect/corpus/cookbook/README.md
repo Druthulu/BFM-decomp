@@ -26,8 +26,11 @@ re-deriving it. Read this page first; it says what transfers.
 - **In both cases** the compiler-agnostic parts apply unchanged and are also distilled elsewhere in the kit: the integration
   classes (a byte-correct body that will not bank because of its file), the instrument findings (a tool that reports a true
   number about a narrower world), the harvest laws (one credited lever in three is inert — strip and recompile before it enters
-  the base), the verbatim class (pasted assembly is not C), and the segmentation law (translation-unit boundaries at the build's
-  forced boundaries).
+  the base), the verbatim class (pasted assembly is not C), the segmentation law (translation-unit boundaries at the build's
+  forced boundaries), and the type verdict: a type NAME never moves a byte, but a WIDTH or SIGNEDNESS is the one place a type
+  does — a halfword load's sign, a pointer arithmetic scale, a narrower accumulator that stops a value being re-read — and the
+  permuter cannot change a type, so a width near-miss is fixed at the declaration (proven by the bytes at bank time), never by a
+  dial.
 
 ## The vocabulary you will meet
 

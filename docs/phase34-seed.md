@@ -12,7 +12,7 @@
 
 | # | Task | Actor | Effort | The document that carries it |
 |---|---|---|---|---|
-| 0 | **Daily probe** until PASS: `tools/public_rewrite/probe_github.sh` (S89 baseline 31 of 33 old hashes still ALIVE). Fallback if Support stalls past ~a week: delete and recreate the repository under the same name and push the same rewritten history (a new object network and a fresh Activity log; nothing else exists to lose). | Claude runs; Drew decides the fallback | Low | `docs/public-flip-runbook.md` §11 (the Activity-view leak, the ticket route, the fallback) |
+| 0 | **Daily probe** until PASS: `tools/public_rewrite/probe_github.sh` (S89 baseline 31 of 33 old hashes still ALIVE). **PASSED 2026-09-07 during Phase 33.5** (`.run/P33.5/probe_github_s91.log`: every sampled old hash gone, the live control resolves) — the gate is open; run it once more immediately before task 1. Fallback if Support stalls past ~a week: delete and recreate the repository under the same name and push the same rewritten history (a new object network and a fresh Activity log; nothing else exists to lose). | Claude runs; Drew decides the fallback | Low | `docs/public-flip-runbook.md` §11 (the Activity-view leak, the ticket route, the fallback) |
 | 1 | **C10 the flip:** Settings → General → Danger Zone → Change visibility → Public; then `gh api repos/Druthulu/BFM-decomp --jq .private` → `false`; `probe_github.sh --after-flip`; the Actions tab green; enable Settings → Features → Wikis (free plan: wikis need a public repo). | Drew | Max (decision) | runbook §11; checkpoint §0b |
 | 2 | **E1 outward — the decomp.me preset:** the six steps (log in; scratch from `.run/decompme/drew_bundle/` → 100%; the preset-request issue on `decompme/decomp.me` in Drew's words; the manual search closing SETUP ledger row 14; report URLs). Regenerate the bundle with `tools/decompme_replica.sh` if `.run/` was pruned. | Drew | xHigh | `docs/decompme-preset.md` §5 |
 | 3 | **E2 outward — the Archipelago note:** the GitHub issue on `AegeusEvander/Brave-Fencer-Musashi-AP-World` (or the Discord short form), in Drew's words; on reply, memory-map rows per its §5. | Drew | xHigh | `docs/outreach/archipelago.md` §4–§5 |
@@ -24,7 +24,9 @@
 
 > **Phase 33.5 runs before this phase** (opened 2026-09-07; `phase-ends/CURRENT_PHASE.md`): docs consolidation into the wiki, the
 > tracked-`.run/` prune, the memory reconciliation and the day-one decomp kit — v1.32.1. It changes no build input and no flip step;
-> task 0's daily probe continues in parallel. Phase 34 opens from this file once 33.5 closes.
+> task 0's probe PASSED during it (2026-09-07). Phase 34 opens from this file once 33.5 closes. **The kit `decomp-architect/` is carried
+> WHOLE through the flip** (its two corpora are generated in-tree by `make kit-corpus` and asserted equal in tools-health; nothing in it
+> refers to this repository's paths) and split into its own repository afterwards, as xsig was — that split is a Phase-35+ task, not this phase's.
 
 Every outward action is done by Drew or **explicitly recorded as pending** in the PhaseEnd (P9 — never claimed). Every outward
 text is written by Drew the way a developer writes it (rule candidate (j); `docs/gen3-standards.md` §3).

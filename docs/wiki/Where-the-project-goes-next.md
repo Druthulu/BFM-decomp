@@ -9,8 +9,9 @@ third generation: making code that *matches* into code a maintainer would call *
 The repository's history was rewritten before publication to remove every game-derived byte and force-pushed in
 place. The flip itself waits on one thing outside the project's control: GitHub Support purging the old objects, which
 the host's Activity view still serves for every pre-force-push tip ([The ROM firewall](The-ROM-firewall.md)). A probe
-of the old hashes runs daily; the flip is gated on it printing PASS (or, if the purge stalls, on recreating the
-repository under the same name).
+of the old hashes runs daily and the flip is gated on it printing PASS (or, if the purge stalls, on recreating the
+repository under the same name). **It printed PASS on 2026-09-07** — every sampled old hash gone, the live control still
+resolving — so the gate is open and Phase 34 can proceed; the probe is run once more immediately before the flip.
 
 After that, in order: the visibility change and the checks that follow it (the probe after the flip, the Actions tab
 green, the wiki enabled — GitHub offers wikis only on public repositories on the free plan); the outward actions the
@@ -93,5 +94,4 @@ wait on a licensing decision), the Japanese release and the prototypes as extra 
 ## What a new project takes from this
 
 The order this project would use if it started again — and the firewall, the conventions and the conduct rules above —
-are packaged as a day-one kit for the next decompilation, described on the wiki page *Start a new decomp project* once
-Phase 33.5 ships it.
+are packaged as a day-one kit for the next decompilation: [Start a new decomp project](Start-a-new-decomp-project.md).

@@ -411,8 +411,11 @@ provenance: BFM gen3-standards conduct rule 1
 A symbol is renamed only on a recorded basis (a string it prints, a cross-reference chain, a debug menu, a live-memory
 datapoint, a community label with provenance). No evidence, no name — an address-named placeholder is honest and greppable.
 A model may propose a name; it may never assert one. Types come from access patterns locked into the bytes; structure is
-unified before any field is named.
-provenance: BFM gen3-standards rule 1 + the sotn-decomp style guide ("better to leave it unnamed than name it wrongly")
+unified before any field is named. **At bank time:** a canonical type file exists from the first bank and grows one proven
+field at a time; a draft may not bank a duplicate definition of a shape the file already has, nor a raw address cast (every
+absolute address it touches is a declared, typed symbol); a width or signedness is proven by the bytes, never guessed — the one
+place a type moves bytes, and the one the permuter cannot reach.
+provenance: BFM gen3-standards rule 1 + the sotn-decomp style guide ("better to leave it unnamed than name it wrongly"); the bank-time clause from BFM decision-log "P33.5 S91-b" (types as a banking and width lever — 1,232 drafter-invented definitions at 100%)
 
 ### G63 — Outward text is written by a person
 Issues, pull requests, forum posts and outreach are written by the maintainer the way a developer writes — short, plain, few

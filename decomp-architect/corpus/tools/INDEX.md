@@ -9,7 +9,7 @@
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
 > **Coverage:** 293 tool files in scope (submodules, vendored and downloaded code excluded), of which 293 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 52 · P7 20 · P8 86 · P9 26 · P10 12 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 321 (the installer checks its copy against this figure).
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 54 · P7 20 · P8 86 · P9 26 · P10 10 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 321 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -125,15 +125,15 @@
 | `weave_sweep.py` | apply one proven codegen lever everywhere the bytes say it belongs | Applies one known prologue-scheduling lever everywhere the bytes say it belongs | repo src layout, compiler behaviour |
 | `interleave_check.py` | assert a read-only-data carve's interleave order equals the segment sequence | Asserts the carve interleave order equals the segment sequence, position by position | repo config layout |
 | `jtbl_family_bank.py` | bank a matched jump-table exemplar across its siblings, reverting on failure | Banks a matched jump-table exemplar across its structural siblings, revert-on-fail | repo config/src layout |
-| `sync_tu_decls.py` | bank a refused draft by copying the destination unit's own declarations into it | Banks a refused draft by copying the destination unit's own declarations into it | repo src layout |
+| `sync_tu_decls.py` | bank a refused draft by copying the destination unit's own declarations into it — the declaration-conflict class a canonical type layer prevents (Phase 6) | Banks a refused draft by copying the destination unit's own declarations into it | repo src layout |
 | `twin_sweep.py` | bank every open stub that already has a banked structural twin | Banks every open stub that has an already-banked structural twin, for near-zero tokens | repo signature files |
 | `fix_decl_mirror.py` | bind a void definition to a symbol the destination declares as returning a value | Binds a void definition to its symbol when the destination declares a value return | repo src layout |
 | `family_align.py` | classify drifted structural siblings by aligned words and expand their constants | Length-tolerant aligned classifier plus the mechanical constant-expansion engine for drifted members | repo scratch paths |
 | `exclude_audit.py` | classify every exclude-list entry by its current blocker and regenerate the list | Classifies every exclude-list entry by its current blocker and regenerates the list | repo config path |
 | `family_cousins.py` | cluster the open frontier one tier looser than exact skeleton hashing | Similarity clustering one tier looser than exact skeleton hashing over the open frontier | repo signature files |
-| `decl_prior.py` | compute the fleet's consensus declaration for every symbol, as card fuel | Computes the fleet's consensus declaration for every symbol, as card fuel | repo src layout |
+| `decl_prior.py` | compute the fleet's consensus declaration for every symbol, as card fuel — the seed of a canonical type layer (Phase 6) | Computes the fleet's consensus declaration for every symbol, as card fuel | repo src layout |
 | `reconcile_tu.py` | conform a draft's data declarations to what its destination unit can see | Conforms a draft's data declarations to what the destination translation unit can actually see | repo src layout |
-| `conform_decls.py` | conform every declaration of a function fleet-wide to its byte-true definition | Conforms every declaration of a function fleet-wide to its byte-true definition | repo src/shared-header layout |
+| `conform_decls.py` | conform every declaration of a function fleet-wide to its byte-true definition — width and signedness proven by the bytes at bank time (Phase 6) | Conforms every declaration of a function fleet-wide to its byte-true definition | repo src/shared-header layout |
 | `scope_demote_drafts.py` | demote declaration scope as one rung of the recovery ladder | The scope-demote step, wired as a rung of the recovery ladder | repo src layout |
 | `pads_audit.py` | derive an object's inter-table padding spec from the bytes instead of searching | Derives each object's padding spec from the bytes instead of searching for it | repo build/config layout |
 | `aprop_autodraft.py` | draft a family member mechanically from a seed body and symbol rebase | Mechanically drafts a family member from the seed body plus a positional symbol rebase | repo scratch paths |
@@ -145,6 +145,7 @@
 | `jr_isolate_all.py` | isolate every switch function in a binary in one multi-cut resegment | One-shot multi-cut resegment isolating every switch function in a binary | repo config/src layout |
 | `match_protos.py` | join two related builds' signature dumps into a function correspondence | Joins per-function signature dumps of two related builds into a function correspondence | repo signature files |
 | `cast_self_callers.py` | let a unit keep calling, through per-site casts, the function it now defines | Lets a unit keep calling, through a per-site cast, the function it is about to define | repo src layout |
+| `lift_types.py` | lift a named list of types fleet-wide into the shared type header — the canonical type layer from the first bank (Phase 6, the multiplier); again at readability (Phase 10) | Lifts a named list of types fleet-wide into the shared type header | repo shared-header path |
 | `dedup_propagate.py` | lift one matched body into a shared macro and instantiate it everywhere | Lifts one matched body into a shared macro and instantiates it at every duplicate site | repo shared-header/src layout |
 | `macro_draft.py` | materialize a shared macro body back into a compilable standalone draft | Materializes a shared macro body back into a compilable standalone draft | repo shared-header layout |
 | `scope_tu_externs.py` | move a unit's file-scope data externs down into their consumers | Moves a unit's own file-scope data externs down into their consumers to legalize a block-scope type | repo src layout |
@@ -156,6 +157,7 @@
 | `xsig/tests/test_xsig.py` | property-test the signature tool on committed fixtures, needing no compiler | Property tests for the signature tool on committed fixtures, needing no compiler | fixture paths |
 | `family_hseq.py` | rank clusters of the unmatched frontier by mnemonic-skeleton hash | Ranked clustering of the unmatched frontier by mnemonic-skeleton hash | repo signature files |
 | `aprop_symfix.py` | rebase a remapped draft's stale seed symbols onto the target's own | Rebases stale seed symbols in a mechanically adapted draft onto the target's own symbols | repo symbol/config sources |
+| `canon_sig_reconcile.py` | reconcile a definition's typed signature with what its destination unit declares — part of banking against a canonical type layer from Phase 6; again at readability (Phase 10) | Reconciles a definition's typed signature with what its destination unit already declares | repo src layout |
 | `xsig/tests/make_fixtures.sh` | regenerate the signature tool's fixtures with the pinned toolchain | Regenerates the signature-tool fixtures with the pinned toolchain | compiler triple, repo tool paths |
 | `family_remap.py` | remap a matched exemplar's source onto a structural sibling by positional symbol pairing | Mechanically remaps a matched exemplar's C onto a structural sibling by positional symbol pairing | repo src layout |
 | `fix_arity_callers.py` | repair a shared caller's argument-count conflict for the no-prototype failure class | Repairs the shared-caller argument-count conflict for the no-prototype failure class | repo shared-header layout |
@@ -332,9 +334,7 @@
 | `lint_symbol_refs.py` | flag address-named references whose address now has a curated name | Flags address-named references in committed sources whose address now has a curated name | repo symbol/src paths |
 | `uniquify_type.py` | give each conflicting camp of a same-named type its own name | Gives each conflicting camp of a same-named type its own name so every camp becomes liftable | repo src layout |
 | `verbatim_check.py` | guard that every inline-assembly body still reproduces its target bytes | Regression guard that every inline-assembly body still reproduces its target bytes | repo src layout |
-| `lift_types.py` | lift a named list of types fleet-wide into the shared type header | Lifts a named list of types fleet-wide into the shared type header | repo shared-header path |
 | `ghidra_apply_symbols.sh` | mirror the curated symbol file into the analysis database with a real save | Mirrors the curated symbol file into the analysis program headlessly, with a real save | repo symbol path, project name |
-| `canon_sig_reconcile.py` | reconcile a definition's typed signature with what its destination unit declares | Reconciles a definition's typed signature with what its destination unit already declares | repo src layout |
 | `verbatim_target_s.py` | regenerate a splitter-format target disassembly for a function no longer stubbed | Regenerates a splitter-format target disassembly for a function that is no longer a stub | repo build/asm layout |
 | `verbatim_to_stub.py` | turn an inline-assembly body back into a stub the toolchain can reach | Turns an inline-assembly body back into an include-assembly stub | repo src/asm layout |
 

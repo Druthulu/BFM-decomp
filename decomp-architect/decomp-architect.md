@@ -214,10 +214,21 @@ pass-throughs as remaps with an edit. A gate verifies one binary and propagation
 follows every propagating gate; carve state belongs to its binary (G43); a newly discovered binary is not real until every
 consumer knows it (G7).
 
+**Types — the two-sided verdict.** As a codegen lever, types are inert: the source project measured rich structure context
+against a structural-miss sample early and got identical bytes, and every wall after that was a compiler pass — so a type is
+never the reason a body will not match. As a banking lever they are the largest one it underweighted: agents drafting in
+isolation invent their types, so gate failures arrive as declaration conflicts and the tree fills with variants of one shape;
+and width and signedness are the one place a type *does* move bytes, which the permuter cannot reach. Hence the canonical type
+file from the first bank, growing one proven field at a time — one definition per shape, widths fixed by the bytes at bank
+time, a draft refused for a duplicate definition or a raw address cast (DK-65, G62). It removes most of the declaration-conflict
+class before the ladder is needed and leaves nothing to unify after 100%; it shortens no crack.
+
 ```calibration
 source project: ≈92% of drafts byte-correct and ≈27% banked at one measurement; with the map, 11 of 12 first-pass
 drafts matched and every failure was plumbing; one 299-instruction head became 4,485 instructions across 15 siblings
-for ≈0 tokens; the exact-hash twin join found 22 of 352 reachable stubs, the band 75.
+for ≈0 tokens; the exact-hash twin join found 22 of 352 reachable stubs, the band 75. Types: rich decompiler context
+scored 0 better / 10 same / 2 worse on a 12-function structural-miss sample, identical bytes (phase 17); 1,232 struct
+definitions and 143 raw address casts in the tree at 100%.
 ```
 
 ## 7. The compiler's source — "unsteerable" means "not yet read"
@@ -344,5 +355,5 @@ harness defects wearing model-failure costumes.
 
 ## Coverage
 Thirteen sections; every claim outside a calibration fence is stated to transfer. The rules are the registry seed
-(`templates/registry-E.decomp.md`, G1–G67); the kernels with their costs are `corpus/decomp-kernels.md` (DK-1 … DK-64 and
+(`templates/registry-E.decomp.md`, G1–G67); the kernels with their costs are `corpus/decomp-kernels.md` (DK-1 … DK-65 and
 the failure museum); the ladder with its milestones is `intake.decomp.md` Part B; the day-one inversions are its Part C.

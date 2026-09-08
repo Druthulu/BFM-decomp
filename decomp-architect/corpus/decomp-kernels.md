@@ -800,6 +800,35 @@ data symbols; 3,558 of 4,287 C files carve splits; no formatter configuration; a
 ```
 provenance: BFM gen3-standards (2026-09-07) + gen3-handoff §2.2; the sotn-decomp style guide read as data
 
+### DK-65 — Types are a banking lever and a width lever, not a byte lever
+- **Kernel:** a type name never moves a byte — the compiler does not care what a field is called — and the source
+  project measured exactly that early, correctly, and then drew the wrong second conclusion: that types could wait until
+  after 100%. Read the other way, its record says types are the largest *banking* lever it underweighted. Banking, not
+  cracking, was the bottleneck, and a large share of gate failures were declaration conflicts — a signed halfword against
+  an unsigned one, one arity against another, a structure a drafting agent invented in isolation because there was no
+  registry to draft against — so the tree filled with variants of a few shapes and a whole reconcile ladder was built to
+  repair what a canonical type file would have prevented. And the one place a type *does* touch bytes is width and
+  signedness: a halfword load's sign, a pointer arithmetic scale, a narrower accumulator that stops a value being re-read;
+  the permuter cannot change a type, so every width near-miss was dial work until the declaration was right. The
+  achievable early form is a discipline, not a census: **a canonical type file from the first bank that grows one proven
+  field at a time, the width and signedness fixed by the bytes at bank time, with no draft allowed to bank a duplicate
+  definition of an existing shape or a raw address cast, and names only with evidence.** It costs one duplicate-definition
+  and raw-cast check per bank; it removes most of the declaration-conflict class before a ladder is needed, lowers the
+  width class of near-misses on the first pass, and leaves nothing to unify after 100%. It would not have shortened one
+  compiler-pass crack — do not expect it to.
+- **When it applies:** from the first bank (Phase 6, the multipliers) — the type layer is part of what makes drafts bank;
+  Phase 10 is short when it held.
+- **Cost:** a reconcile ladder built reactively; a generation's struct unification and raw-cast removal after 100%.
+```calibration
+source project: rich decompiler context (the recovered actor structure + the jump tables) scored 0 better / 10 same /
+2 worse on a 12-function structural-miss sample, identical bytes (phase 17) — right for cracking; ≈92% of drafts
+byte-correct and ≈27% banked at one measurement, declaration conflicts a large share of the gap; 1,232 struct
+definitions in the tree at 100%, most of them variants of a few shapes; 143 raw address casts; the width class
+(a u16 accumulator as a CSE firewall, an object-table symbol declared u8, the scaffold's ×4 pointer arithmetic) in
+the last hand cracks (phase 32).
+```
+provenance: BFM decision-log "P33.5 S91-b" (the hindsight on types, 2026-09-07); struct-core-pivot.md (2026-06-19); cookbook §501-N/§501-R
+
 ---
 
 ## 8. The failure museum, condensed — what looked right at the time
@@ -862,7 +891,8 @@ reading, the denominator on every number, and a decision log that records each o
 - **Compiler walls:** DK-44 … DK-52 — 9 kernels.
 - **The repository and publishing:** DK-53 … DK-58 — 6 kernels.
 - **Governance and sessions:** DK-59 … DK-63 — 5 kernels.
-- **Readability at day one:** DK-64 — 1 kernel.
+- **Readability at day one:** DK-64 … DK-65 — 2 kernels.
+- **In all:** DK-1 … DK-65 — 65 kernels (the installer's check compares `grep -c '^### DK-'` against this figure).
 - **The failure museum:** 37 exhibits, condensed.
 - Conduct rules are not duplicated here; they are the registry seed's E.7 group. The generic engineering kernels of
   ProjectArchitect's own corpus apply unchanged and are not repeated.

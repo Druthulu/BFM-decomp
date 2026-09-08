@@ -71,7 +71,8 @@ session and say `Begin Phase 1`.
 | **The firewall pack** (`templates/gitignore.decomp`, the audit template and its config, a planted fixture, the CI workflow) | no game-derived bytes in git from commit one; an audit that derives its forbidden set, asserts its coverage and fails on the fixture before it is trusted; CI on every push |
 | **The layout and its READMEs** (`docs/`, `.run/`, the ops-setup overlay) | where each kind of knowledge goes; scratch under the repository with dated tracked exceptions; the ops reference a fresh machine rebuilds from |
 | **The overlays** (`templates/pa-overlays.md`, `templates/CLAUDE.decomp-overlay.md`) | marked-section appends to `CLAUDE.md` (the decomp fail-safes and session-start extras), the effort map (Max on the plan, the PhaseEnd, the compiler pin, the segmentation decision, any wall verdict), the cookbook (the idiom entry shape, the triage table), ops-setup; the digest, the replayable checkpoint block and the PhaseEnd narrative axis |
-| **The corpus** (`corpus/decomp-kernels.md`) | DK-1 … DK-64 — what the source project learned late, each with when it applies and what it cost, and the failure museum |
+| **The corpus** (`corpus/decomp-kernels.md`) | DK-1 … DK-65 — what the source project learned late, each with when it applies and what it cost, and the failure museum |
+| **The two dictionaries** (`corpus/tools/`, `corpus/cookbook/`) | the source project's tools, verbatim, by ladder phase, behind an index keyed by the NEED each answers (what it does, what proved it, what to adapt); and its knowledge base — the cookbook, its symptom index and the codegen map — verbatim, behind a front page that says what transfers to another compiler. Both are regenerated from the source project and asserted equal to it; a new project installs the index and the front page and keeps the folder as its reference shelf |
 | **The memory seed** (`memory-seed/`) | working agreements and harness facts learned on the source project, appended to the memory ProjectArchitect configured |
 | **The skeletons** | LICENSE, `src/NOTICE.md`, README, CONTRIBUTING (with the AI-conduct section), `.clang-format` and a `make format` snippet |
 | **The tools manifest** (`tools/MANIFEST.md`) | the portable tools of the source project by phase — what each does and what it hard-codes — as Phase-1 tasks (see below) |
@@ -124,8 +125,11 @@ decomp-architect/
   decomp-architect.md        the methodology reference (copied to docs/)
   templates/                 the firewall pack, the READMEs, the overlays, the registry seed, the skeletons, PLACEHOLDERS.md
   corpus/decomp-kernels.md   the kernels and the failure museum
+  corpus/tools/<phase>/      the source project's tools, verbatim, with INDEX.md (the need-keyed dictionary)
+  corpus/cookbook/           the source project's cookbook, symptom index and codegen map, verbatim, with a front page
   memory-seed/               the memory files and their index rows
-  tools/MANIFEST.md          the portable tools by phase, as tasks
+  templates/layout-contract.md  a draft of the layout assumptions the portable tools share (for the split)
+  tools/MANIFEST.md          the portable tools by phase, as tasks and as a dictionary
 ```
 
 ## License

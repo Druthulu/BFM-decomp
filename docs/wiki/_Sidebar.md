@@ -11,6 +11,7 @@
 - [Verification and progress](Verification-and-progress.md)
 - [Contributing and the no-ROM policy](Contributing-and-the-no-ROM-policy.md)
 - [Tools from this project](Tools-from-this-project.md)
+- [Start a new decomp project](Start-a-new-decomp-project.md)
 
 **Working conventions**
 - [Docs and scratch conventions](Docs-and-scratch-conventions.md)

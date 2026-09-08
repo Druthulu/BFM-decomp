@@ -167,7 +167,7 @@ FAILS (the README is trackable).
    record for this project.
 
 ✓ *Verify:* the files exist; `grep -c '^| [0-9]' docs/wave-playbook.md` ≥ 11 (the step table); `grep -c '^### DK-'
-docs/decomp-kernels.md` = 64; the manifest's row count equals the total its own header states (`grep -c '^| \`'
+docs/decomp-kernels.md` equals the "In all" figure of that file's own Coverage section (both derived, never typed here); the manifest's row count equals the total its own header states (`grep -c '^| \`'
 docs/tools-manifest.md` == the "Table rows in all: N" figure in its Coverage line — the live rows plus the superseded pointer
 rows, both derived, never typed here); `docs/knowledge-corpus.md` exists.
 
