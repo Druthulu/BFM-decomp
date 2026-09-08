@@ -29,8 +29,10 @@ with the 11-phase ladder, G1–G67, DK-1–DK-80, **three verbatim dictionaries*
 kit-corpus`, asserted equal in tools-health), `tools/kit_coverage.py` (every rule and every accelerator entry cited or dispositioned —
 its first run found 26 + 21 uncited, three genuine gaps), and the worklog mining pass (777 candidates / 634 banked / 143 new → DK-69–80).
 R74–R83 ratified at its gate 1; candidates (i)–(xii) proposed for Phase 34 gate 1. **Phase 34's gate is OPEN: the purge probe PASSED
-2026-09-07.** **Phase 34 = the flip + the outward actions + C11 + the v2.0.0 PhaseEnd = Gen2 EXIT** (`docs/phase34-seed.md`; plan it
-fresh in plan mode at Max). **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (the canonical type layer).
+2026-09-07.** **Phase 34 = the flip + the outward actions + C11 + the v2.0.0 PhaseEnd = Gen2 EXIT** (`docs/phase34-seed.md`).
+**Phase 34 OPENED 2026-09-08 (S93; gate 1 in plan mode at Max; R84–R95 ratified; the plan and the live state are in
+`phase-ends/CURRENT_PHASE.md`).** **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (R95, the canonical
+type layer).
 
 ## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
 - **Session start** reads this digest + the last three PhaseEnds, not every PhaseEnd (R64 candidate, Drew 2026-09-05).
@@ -322,10 +324,33 @@ the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1
   bullet walls, no evidence scaffolding — rewritten from the facts, never a model draft with the tells removed; **no AI
   acknowledgement**; the target project's AI-contribution policy is read first. The permuter maintainer closed #213/#214 and named
   the LLM-looking text as the reason he minded; sotn-decomp forbids autonomous-tool PRs outright.
-**Phase 33.5 proposed candidates (i)–(xii) for Phase 34 gate 1** (the table in `PhaseEnd_Phase33.5.md` §Rules: the ignore-form wall;
-two derived figures per check; the judge as an instrument; a tool ships with its dictionary row; `doc_links --strict` after any untrack;
-the manifest as a derivable set; the firewall's class-7 line; a foreign path in prose; a distillation ships with a coverage check; the
-worklogs' final read; never `.strip()` a porcelain listing; the S91-b types doctrine).
+**R84–R95 — RATIFIED at Phase 34 gate 1 (Drew, 2026-09-08; the PhaseEnd_Phase33.5 candidates (i)–(xii), operated through P33.5):**
+- **R84 — An ignore file's directory-form rule is a wall no later block can climb — write the by-contents form first.**
+  ProjectArchitect's `.run/` defeated every re-include beneath it; dry-run 1 stopped on it (DK-67, accelerators S91 (1)).
+- **R85 — A check compares two DERIVED figures; a typed figure in a verify line is wrong the day the derived side moves.** Run 4
+  stopped on `321 != 293`; the kernel count was typed `= 64` the day it became 65.
+- **R86 — A dry-run judge is an instrument — negative-control it against a known-PASS run before believing a FAIL.** Four of its
+  flags across five runs were its own (scope, count vs set, a stripped porcelain line, an empty value).
+- **R87 — A tool ships with its dictionary row, or the health check fails.** 91 of 326 tools had no consumer and no way to be found
+  by need; the census + the dictionary made the index and the corpus (G66).
+- **R88 — Re-run `doc_links --strict` after ANY untrack or archive move, not only after a docs edit.** Task 10 found tools-health red
+  on the docs side since task 8's untrack; the claim had been carried from task 7.
+- **R89 — An unattended installer's manifest is specified as a derivable SET.** Two honest agents produced 57 and 46 entries from the
+  same words (run 3).
+- **R90 — A governance system that keeps transcripts in the repository needs the firewall's class-7 line.** A decomp's transcripts
+  quote the target's disassembly; the source project purged ~260,000 lines of `.s` from its own archive.
+- **R91 — A foreign project's path is named in prose, never as a backticked `docs/…` citation.** The checker reads every such
+  citation as this repository's (tasks 7 and 14 both hit it).
+- **R92 — A distillation ships with a coverage check against the populations it claims to distil.** `kit_coverage`'s first run: 26
+  uncited rules, 21 uncited entries, three genuine gaps → DK-66/67/68.
+- **R93 — The worklogs get one final read at the end of the project, with an "already banked?" grep per candidate.** 777
+  candidates, 143 banked nowhere; the missing fifth was fixed-but-never-generalised.
+- **R94 — A snapshot instrument never `.strip()`s a porcelain listing.** The run-5 false flag: the first line's status space eaten,
+  a deletion under the dry-run's own directory read as foreign.
+- **R95 — Types are a banking lever and a width lever, not a codegen lever: a canonical type file from the first bank, widths
+  proven by the bytes at bank time, no duplicate definition or raw address cast banked** (the S91-b doctrine; the binding Gen3 type
+  rule). Phase 17 measured the codegen half (0/10/2, identical bytes) and the project underweighted the other: 1,232 definitions,
+  143 raw casts, a reconcile ladder built to repair what the discipline prevents.
 
 ## 4. Where things live (the doc map a session needs)
 **The wiki is the source of truth for documentation (Phase 33.5):** `docs/wiki/Reference-index.md` lists every live reference and

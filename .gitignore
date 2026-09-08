@@ -399,3 +399,26 @@ unsloth_compiled_cache/
 !/.run/P33.5/tools_audit/*.txt
 !/.run/P33.5/tools_audit/*.tsv
 !/.run/P33.5/tools_audit/*.json
+
+# P34 (S93, 2026-09-08): the flip phase's evidence — the probe logs (before/after the flip), the GitHub API and curl outputs of
+# the post-flip checks, the outward-action records, the C11 prune listing, the close tools-health log. Text only, nothing ROM-derived.
+!/.run/P34/
+/.run/P34/*
+!/.run/P34/*.log
+!/.run/P34/probe/
+/.run/P34/probe/*
+!/.run/P34/probe/*.log
+!/.run/P34/flip/
+/.run/P34/flip/*
+!/.run/P34/flip/*.log
+!/.run/P34/flip/*.json
+!/.run/P34/flip/*.txt
+!/.run/P34/outward/
+/.run/P34/outward/*
+!/.run/P34/outward/*.log
+!/.run/P34/outward/*.txt
+!/.run/P34/outward/*.md
+!/.run/P34/c11/
+/.run/P34/c11/*
+!/.run/P34/c11/*.log
+!/.run/P34/c11/*.txt
