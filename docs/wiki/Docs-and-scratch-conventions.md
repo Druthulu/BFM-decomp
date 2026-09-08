@@ -79,7 +79,7 @@ last populated copies are kept in the archive and the generators are not re-run.
 A document leaves `docs/` when its purpose is fulfilled and its information lives elsewhere: a closed-phase plan whose
 outcome is in the PhaseEnd, a design note whose tool shipped and whose findings are cookbook sections, a snapshot of a
 frontier that is now empty. At the Phase-33.5 consolidation such files were moved with `git mv` into an archive folder
-(`docs/sunset/`, history intact) for the owner's review; at Phase 34 (2026-09-08) the owner removed that folder from the
+(history intact) for the owner's review; at Phase 34 (2026-09-08) the owner removed that folder from the
 tree — the last tracked versions are in the history at v1.32.1. From here on a retired document gets its row in the
 [Archive index](Archive-index.md) — what it was, what came of it, and where its information lives now (a wiki page, a
 PhaseEnd, a cookbook section) — and is deleted from the tree in the same commit; history keeps it. Before any retirement,
