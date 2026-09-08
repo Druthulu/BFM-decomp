@@ -529,6 +529,11 @@ Modern cpp preprocesses → **vintage cc1** compiles to asm → **maspsx** emula
 - **Do NOT use the SOTN preset** (`Castlevania: Symphony of the Night` / `gcc 2.6.3-psx` / `psyq_263_221`) — wrong era, guaranteed near-miss diffs.
 - decomp.me's API is Cloudflare-challenged (403 to scripts) — scratch searches/uploads needing the API must be done manually in a browser
   (the one-time manual BFM search is ledger row 14, closed by the E1 browser session).
+- **Outcome (P34 task 2, 2026-09-08 — Drew's browser session):** the proving scratch <https://decomp.me/scratch/mIu4d> (`func_80018F20`,
+  target = the `--gas` paste, **100% / score 0** on the first compile after the flags were entered); the preset request
+  **<https://github.com/decompme/decomp.me/issues/2106>** ("[PRESET] Create Compiler Preset - Brave Fencer Musashi (SLUS-00726)", opened
+  2026-09-08 18:05Z, state open); the manual search (row 14) found no other BFM scratch. **Pending on decomp.me's maintainers:** the
+  preset's creation — record its id / URL here when it appears (`https://decomp.me/api/preset`).
 
 ### §6.6 Matching a function (INCLUDE_ASM → C; the NON_MATCHING guard) — As-built Phase 6
 
@@ -1003,7 +1008,7 @@ A Track-1 match proves the dump is the canonical redump dump, which transitively
 | 11 | Canonical git remote URL (off-box push/pull backup) | **CLOSED (P33 C9, 2026-09-07):** `https://github.com/Druthulu/BFM-decomp.git`, public from C10; the pre-rewrite history in the private archive `Druthulu/BFM-decomp-archive` (§4.3) |
 | 12 | Per-libnum stamp detail (raw-track scan reported 16 hits vs 12 genuine in extracted EXE — extracted-EXE scan is ground truth, see §5.1) | **RESOLVED 2026-06-13** — DetectPsyQ at headless import recorded `PsyQ Version = 4.0.0` (§2.5 step 3) |
 | 13 | Overlay load addresses (resident 0x800CDF58 / location 0x80128508, EXE ptr table ~0x62620) | **JP-only — re-derive for US** (owned by docs/memory-map.md) |
-| 14 | Greenfield claim: decomp.me scratch search is script-blocked (Cloudflare) | **Open until the E1 browser session (Drew, after the flip; `docs/decompme-preset.md` §5 step 4):** the one-time manual search for BFM scratches — record the result here. The preset itself is already PROVEN locally (2026-09-07, `tools/decompme_replica.sh` PASS through decomp.me's 0.13 + `86ccd7d8` toolchain). |
+| 14 | Greenfield claim: decomp.me scratch search is script-blocked (Cloudflare) | **CLOSED 2026-09-08 (P34 task 2, Drew's E1 browser session):** manual search on decomp.me for `Musashi` → no results; `Brave Fencer` → no results; `SLUS-00726` → no results; `SLUS_007` → many scratches, all other titles sharing the SLUS_007xx prefix under other compilers — none is this game. The only BFM scratch is our own probe, <https://decomp.me/scratch/mIu4d> (100% / score 0). The greenfield claim's last check is done. The preset was proven locally first (2026-09-07, `tools/decompme_replica.sh` PASS through decomp.me's 0.13 + `86ccd7d8` toolchain; 2026-09-08 step D: the paste itself round-trips). |
 
 ### `tools/gap_triage.py` — harvest pre-filter (added P31 S55)
 
@@ -1200,8 +1205,10 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   an empty-body TU → the CONTROL fails first (rc 3, R56). `--upstream` 2026-09-07: `pins UNCHANGED`. Instrument lesson (R40):
   the first comparison read the padded `.text` and called the identical object DIFFERS.
 - `.gitignore`: `.run/P33/e1/` allowlisted for the verdict log only (the regenerated target `.s` is game disassembly — H1).
-- Pending (Drew, after the flip — `docs/decompme-preset.md` §5): create the scratch, see 100%, file the preset-request issue
-  (text in §5), run the manual search, record the issue/preset URL + search result here and in ledger row 14.
+- **Done 2026-09-08 (P34 task 2, Drew):** scratch <https://decomp.me/scratch/mIu4d> at 100% / score 0; the preset-request issue
+  <https://github.com/decompme/decomp.me/issues/2106>; the manual search recorded in ledger row 14 (closed). The first attempt failed on
+  the target's form — the §5 doc and the tools were fixed and proven before the retry (`verbatim_target_s.py --gas`, replica step D).
+  **Still pending:** the maintainers creating the preset (its id goes into §6.5 when it exists).
 
 ### P33 G1 (S88, 2026-09-07) — `docs/gen3-handoff.md`
 - The census was DERIVED from the tree at writing (R33/R41; the commands are in the doc): 143 raw address casts, 61,898

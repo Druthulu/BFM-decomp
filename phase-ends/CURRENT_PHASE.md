@@ -42,7 +42,7 @@ bundle and dictionary are deleted at C11) and a public fresh-clone re-proof (B3'
 - [x] **0a** Open the phase: this file, R84–R95 into DIGEST §3 (+ one §0 line), the `.run/P34/` evidence allowlist, TaskCreate ×10, `doc_links --strict` 0/0, commit — xHigh (Claude)
 - [x] **0** The probe once more: `tools/public_rewrite/probe_github.sh | tee .run/P34/probe/pre_flip.log` → PASS, control OK, no WARNING — Low (Claude)
 - [x] **1** C10 — the flip (Drew, Max) + post-flip checks, metadata, ruleset, Actions green on the public repo (Claude, Low)
-- [ ] **2** E1 — decomp.me: scratch → 100% → preset-request issue → manual search (Drew, xHigh); recorded in SETUP §6.5 + ledger row 14 (Claude)
+- [x] **2** E1 — decomp.me: scratch → 100% → preset-request issue → manual search (Drew, xHigh); recorded in SETUP §6.5 + ledger row 14 (Claude)
 - [ ] **3** E2 — the Archipelago issue (Drew, xHigh); URL recorded; §5 reply handling pending unless a reply arrives (Claude)
 - [ ] **4** D3 — decomp.dev registration + frogress slug/key/push (Drew, xHigh); verified by curl (Claude) → **P6 rules check after this task**
 - [ ] **5** F3 — the wiki: dry run (Claude), first page + `wiki_sync.sh --push` (Drew), pages verified — Low
@@ -121,7 +121,18 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
 - The bundle's `1_target_asm.s` is now the gas form (42 lines); 2–4 unchanged in content; `5_issue_body.md` untouched (Drew's text).
 - Drew retries the scratch with the new file → 100% / score 0 expected → the issue → the search → part 2 records the URLs.
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1 ✓; task 2 part 1 ✓ (the paste form proven); NEXT = Drew's decomp.me retry, then task 2 part 2 (record the URLs)
+### 2026-09-08 — Task 2 (part 2) — E1: the browser session done, recorded (xHigh; S93)
+- **Drew (browser):** the retry with the `--gas` paste compiled to **100% / score 0** — scratch **<https://decomp.me/scratch/mIu4d>**
+  (the page answers 403 to scripts, the Cloudflare block SETUP §6.5 records; Drew's report is the observation). The preset-request issue
+  **<https://github.com/decompme/decomp.me/issues/2106>** — `gh api` (`.run/P34/outward/e1_issue_2106.txt`): title "[PRESET] Create
+  Compiler Preset - Brave Fencer Musashi (SLUS-00726)", opened 2026-09-08T18:05:08Z by Druthulu, state open, no labels; decomp.me's
+  template `create-or-update-a-compiler-preset.md` fetched and compared — our body carries every field it asks for
+  (`e1_preset_issue_template.txt`). The manual search: `Musashi` / `Brave Fencer` / `SLUS-00726` → nothing; `SLUS_007` → many scratches
+  of other SLUS_007xx titles under other compilers, none this game → **ledger row 14 CLOSED** (the greenfield claim's last check).
+- Recorded in `docs/SETUP.md`: row 14 closed; §6.5 outcome bullet; the P33 E1 bullet → done. **Pending by name (P9):** the preset's
+  creation by decomp.me's maintainers (its id → §6.5 when it appears).
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1, 2 ✓; NEXT = task 3 (E2 the Archipelago issue — DREW), then 4 (D3 boards — DREW) → P6 rules check
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything
