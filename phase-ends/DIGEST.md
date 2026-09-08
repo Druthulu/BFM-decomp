@@ -26,7 +26,7 @@ source of truth (six new pages incl. the Reference index and the Archive index; 
 folders; `doc_links` with six checks), the tracked `.run/` is flip-ready (1,086 → 868 + the phase's own evidence; the two ROM listings
 untracked under an audit-only rule + a content check), the memory store reconciled (80 == 80; an 18-file seed), and **the day-one decomp
 kit `decomp-architect/`** (a Phase-0.5 overlay on ProjectArchitect 2.0; 436 files) built and dry-run installed five times: the intake
-with the 11-phase ladder, G1–G67, DK-1–DK-80, **three verbatim dictionaries** (the tools by need, the cookbook, the record — `make
+with the 11-phase ladder, G1–G67, DK-1–DK-81, **three verbatim dictionaries** (the tools by need, the cookbook, the record — `make
 kit-corpus`, asserted equal in tools-health), `tools/kit_coverage.py` (every rule and every accelerator entry cited or dispositioned —
 its first run found 26 + 21 uncited, three genuine gaps), and the worklog mining pass (777 candidates / 634 banked / 143 new → DK-69–80).
 R74–R83 ratified at its gate 1; candidates (i)–(xii) proposed for Phase 34 gate 1. **Phase 34's gate is OPEN: the purge probe PASSED
@@ -158,7 +158,7 @@ the direction page, Start-a-new-decomp-project, the Archive index); six document
 by `git mv` with review tables; `doc_links` rewritten (links + pending, the archive refusal, wiki-first, coverage ⊆, TRACKED/UNTRACKED
 citations) + render reachability + `timeline` wired + `gitignore_template_check` + `audit_public` check 4 (disassembly-shaped runs ≥ 64) +
 the audit-only `untracked_after_rewrite.txt`; tracked `.run/` 1,086 → 868; the memory store reconciled. **The kit:** intake (11-phase
-ladder, the six inversions), SETUP (Step 0–10, derived verify lines), the methodology, 19 templates, G1–G67, DK-1–DK-80, the three
+ladder, the six inversions), SETUP (Step 0–10, derived verify lines), the methodology, 19 templates, G1–G67, DK-1–DK-81, the three
 dictionaries (`tool_census` + `config/tool_dictionary.tsv` → `docs/tool-index.md`, the kit's MANIFEST, `corpus/tools` 302+28, `corpus/cookbook`,
 `corpus/record` 57 files incl. the health chain), `kit_lint`, `kit_coverage` (+ `config/kit_coverage_map.tsv`), 18 memory seeds; five
 dry-runs in a throwaway judged by script (run 5 PASS 20/20). Findings: the kit had been distilled from summaries only (57/83 rules,
@@ -366,6 +366,6 @@ the OpenRouter-era `automation-runbook.md` is archived) · `docs/effort-map.md` 
 `docs/accelerators.md` · `docs/memory-map.md` (addresses, provenance) · `docs/formats.md` · `docs/disc-completeness.md` +
 `docs/disc-ledger.md` · `docs/backlog.md` (near-miss ledger) · `docs/gen3-handoff.md` + `docs/gen3-standards.md` (Gen3) ·
 `docs/tool-index.md` (every tool keyed by
-the need it answers; generated) · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–80, G1–67; its wiki page
+the need it answers; generated) · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–81, G1–67; its wiki page
 `docs/wiki/Start-a-new-decomp-project.md`; `make kit-corpus` regenerates, tools-health asserts) · `config/wave_exclude.txt` (pinned walls) · `config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/`
 (scratch; allowlisted subtrees are tracked — e.g. `.run/P32/t3/` drafts/ledger; the rules are on the conventions page).

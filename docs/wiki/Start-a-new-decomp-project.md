@@ -40,7 +40,7 @@ the installer, it never defaults. Every git call is by explicit path; the instal
 | The registry seed (`templates/registry-E.decomp.md`) | rules G1–G67 in seven groups — the oracles and the gate, the ROM firewall, the instruments, the campaign, compiler walls, publishing and the record, the use of AI — each with a `provenance:` line naming the failure that earned it |
 | The firewall pack | a copyable `.gitignore` (the same block as [The ROM firewall](The-ROM-firewall.md), asserted identical in this project's health check), an audit that derives its forbidden set from a config and fails on a planted fixture before it is trusted, and a CI workflow — no game-derived bytes in git from commit one |
 | The layout, the overlays, the skeletons | the `docs/` and `.run/` conventions from [Docs and scratch conventions](Docs-and-scratch-conventions.md); marked-section appends to `CLAUDE.md`, the effort map, the cookbook, the ops reference; the session-start digest, the replayable checkpoint block and the PhaseEnd narrative axis; LICENSE, NOTICE, README and CONTRIBUTING skeletons, a `.clang-format` and a `make format` snippet |
-| The kernels (`corpus/decomp-kernels.md`) | DK-1 … DK-80: what this project learned late, each with when it applies and what it cost, plus the failure museum |
+| The kernels (`corpus/decomp-kernels.md`) | DK-1 … DK-81: what this project learned late, each with when it applies and what it cost, plus the failure museum |
 | The memory seed (`memory-seed/`) | eighteen working agreements and harness facts, de-specialised, appended to the memory ProjectArchitect configured |
 
 **It installs no tools.** A byte gate, a splitter config, a permuter harness, a decompiler context, a differential

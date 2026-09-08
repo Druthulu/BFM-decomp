@@ -1118,6 +1118,22 @@ provenance: BFM phase-log mining pass (P33.5 task 14.5, S92; the accelerators en
 - **Cost:** an hour each, and one flip-gate misread.
 provenance: BFM phase-log mining pass (P33.5 task 14.5, S92; the accelerators entry "P33.5 S92"): phase-ends/logs/Phase33.md:236 (Phase33 C3); phase-ends/logs/Phase33.md:205 (Phase33 C9); phase-ends/logs/Phase33.md:295 (Phase33 C10); phase-ends/logs/Phase33.md:635 (Phase33 C11); phase-ends/logs/Phase33.md:692 (Phase33 C12); phase-ends/logs/Phase33.md:645 (Phase33 C13); phase-ends/logs/Phase33.md:186 (Phase33 C1); phase-ends/logs/Phase33.md:185 (Phase33 C2); phase-ends/logs/Phase25.md:337 (Phase25 C3)
 
+### DK-81 — The flip day: a third-party step is proven through the third party's toolchain, and the public tree is decided before the flip
+- **Kernel:** four small facts from the day a private decomp went public. (1) A step that hands a file to a third party — a
+  scratch on a public diff service, a preset request — is proven through that party's OWN toolchain, on the file itself, before
+  the owner's browser session, and the proving tool writes the paste: a listing that exists only as a comparison oracle (bare
+  register names resolved by a local include, absolute branch targets) will not assemble anywhere else. (2) Decide what a
+  public tree carries before the flip: sent outreach drafts and a reviewed document archive were always going to leave, and
+  deciding after cost two untrack commits on a public history; an archive index that names files as paths, never links, is what
+  made the removal harmless. (3) A calendar gate — a host's purge ticket — is read the morning after it is filed, not "daily for
+  a week"; it passed in one day. (4) A scratch prune is an instrument change: every tool that writes under a pruned tree is re-run
+  before the prune is called done — one audit's probe directory went with the prune and its bare `except` turned a refusal into a
+  verdict, which read as four parser defects.
+- **When it applies:** the flip and the outward actions around it; any prune of scratch a health check writes under.
+- **Cost:** one failed browser step, two extra commits on a public history, one red health chain diagnosed twice.
+provenance: BFM Phase 34 (S93, 2026-09-08; the accelerators entry "P34 S93"): docs/decision-log.md "P34 S93 — the flip";
+the Phase-34 worklog (phase-ends/logs/Phase34.md after the close: task 2 part 1, task 7 parts 1–2, task 8 part 1).
+
 ---
 
 ## 9. The failure museum, condensed — what looked right at the time
