@@ -37,7 +37,11 @@ options:
   compiler: PSYQ
 
   asm_path: asm/ov_SC04_019
+  # Phase 35 T3: a TWIN of ov_SC04_018 — the source lives ONCE in src/ov_SC04_018/ (config/overlays.mk `ov_SC04_019_TWIN_OF`); this yaml IS
+  # ov_SC04_018's carve with the alias substituted (the twin's own extra jump-table splits were retired with its source dir);
+  # src_path stays the twin's own name (the .ld's object paths), and splat must never recreate stub .c files.
   src_path: src/ov_SC04_019
+  create_c_files: False
   # asset_path scoped per-alias so a `bin` subseg (the trailing-partial-word carve, below) lands at
   # assets/ov_SC04_019/*.bin and never collides with another overlay's same-named asset. The Makefile's
   # build/assets/%.o rule incbin's it into a linkable object.
@@ -120,7 +124,6 @@ segments:
       - [0x50be8, c, ov_SC04_019_jr_80178D40]
       - [0x52354, c, ov_SC04_019_jr_8017A4AC]
       - [0x52cd4, c, ov_SC04_019_jr_8017AE2C]
-      - [0x596ac, c, ov_SC04_019_jr_80181804]
       - [0x5bd14, c, ov_SC04_019_jr_80183E6C]
       - [0x5dc18, c, ov_SC04_019_jr_80185D70]
       - [0x5e418, c, ov_SC04_019_jr_80186570]
@@ -168,7 +171,6 @@ segments:
       - [0xbd378, .rodata, ov_SC04_019_jr_8017A4AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xbd404, data, tail17]
       - [0xbd408, .rodata, ov_SC04_019_jr_8017AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xbd450, .rodata, ov_SC04_019_jr_80181804]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xbd47c, .rodata, ov_SC04_019_jr_80183E6C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xbd4a8, .rodata, ov_SC04_019_jr_80185D70]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xbd4c4, data, tail18]
