@@ -20,12 +20,17 @@ no license asserted over `src/`, NOTICE, THIRD_PARTY, badges, ROM-free CI), the 
 offered upstream and declined, the drafter write-up, the decomp.me preset proven through decomp.me's own toolchain), the outreach notes,
 story, retrospective, wiki (13 pages) + how-to (13 chapters), and the **Gen3 charter** (`docs/gen3-handoff.md`, `docs/gen3-standards.md`)
 are written. **The repository is still PRIVATE:** GitHub Support must purge the old objects first (ticket #4736982; the Activity view
-publishes every pre-force-push tip, so a clean tree is not enough). **Phase 33.5 is OPEN (gate 1 2026-09-07, v1.32.0 → v1.32.1;
-`phase-ends/CURRENT_PHASE.md`):** a docs sub-phase before the flip — the wiki becomes the single source of truth (five new pages, six
-documents folded in, ~61 files sunset into `docs/sunset/` with an archive index), the tracked `.run/` is pruned to flip-ready, the
-memory store is reconciled, and the day-one decomp kit `decomp-architect/` (a Phase-0.5 overlay on ProjectArchitect 2.0) is built and
-dry-run installed; R74–R83 ratified at its gate 1. **Then Phase 34 = the flip + the outward actions + C11 + the v2.0.0 PhaseEnd = Gen2
-EXIT** (`docs/phase34-seed.md`; plan it fresh in plan mode at Max). **Gen3 opens at Phase 35.**
+publishes every pre-force-push tip, so a clean tree is not enough). **Phase 33.5 CLOSED 2026-09-08 (v1.32.1; `PhaseEnd_Phase33.5.md`):** the docs sub-phase before the flip — the wiki is the single
+source of truth (six new pages incl. the Reference index and the Archive index; 59 documents and 34 tools retired into indexed sunset
+folders; `doc_links` with six checks), the tracked `.run/` is flip-ready (1,086 → 868 + the phase's own evidence; the two ROM listings
+untracked under an audit-only rule + a content check), the memory store reconciled (80 == 80; an 18-file seed), and **the day-one decomp
+kit `decomp-architect/`** (a Phase-0.5 overlay on ProjectArchitect 2.0; 436 files) built and dry-run installed five times: the intake
+with the 11-phase ladder, G1–G67, DK-1–DK-80, **three verbatim dictionaries** (the tools by need, the cookbook, the record — `make
+kit-corpus`, asserted equal in tools-health), `tools/kit_coverage.py` (every rule and every accelerator entry cited or dispositioned —
+its first run found 26 + 21 uncited, three genuine gaps), and the worklog mining pass (777 candidates / 634 banked / 143 new → DK-69–80).
+R74–R83 ratified at its gate 1; candidates (i)–(xii) proposed for Phase 34 gate 1. **Phase 34's gate is OPEN: the purge probe PASSED
+2026-09-07.** **Phase 34 = the flip + the outward actions + C11 + the v2.0.0 PhaseEnd = Gen2 EXIT** (`docs/phase34-seed.md`; plan it
+fresh in plan mode at Max). **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (the canonical type layer).
 
 ## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
 - **Session start** reads this digest + the last three PhaseEnds, not every PhaseEnd (R64 candidate, Drew 2026-09-05).
@@ -143,6 +148,19 @@ write-up, `decompme-preset.md` + `tools/decompme_replica.sh` (decomp.me = old-gc
 story, `mine_hindsight.py` + retrospective, the wiki + how-to + `wiki_render`/`wiki_sync`. Block G: `gen3-handoff.md`, `gen3-standards.md`,
 `phase34-seed.md`. Findings: GitHub's Activity view publishes every pre-force-push tip (the flip must wait for the purge); the probe was
 a writer (R57). Rules: R65–R73 ratified at gate 1; candidates (a)–(j) proposed for P34 gate 1.
+**P33.5 (2026-09-08, v1.32.1) THE WIKI AS SOURCE OF TRUTH + THE DAY-ONE DECOMP KIT (sub-phase).** 3 sessions (S90–S92) / 26 commits.
+Six wiki pages (conventions, the ROM firewall with the copyable `.gitignore` fence, the Reference index — the only wiki→`docs/` link site —,
+the direction page, Start-a-new-decomp-project, the Archive index); six documents folded into the wiki/how-to; 59 docs + 34 tools sunset
+by `git mv` with review tables; `doc_links` rewritten (links + pending, the archive refusal, wiki-first, coverage ⊆, TRACKED/UNTRACKED
+citations) + render reachability + `timeline` wired + `gitignore_template_check` + `audit_public` check 4 (disassembly-shaped runs ≥ 64) +
+the audit-only `untracked_after_rewrite.txt`; tracked `.run/` 1,086 → 868; the memory store reconciled. **The kit:** intake (11-phase
+ladder, the six inversions), SETUP (Step 0–10, derived verify lines), the methodology, 19 templates, G1–G67, DK-1–DK-80, the three
+dictionaries (`tool_census` + `config/tool_dictionary.tsv` → `docs/tool-index.md`, the kit's MANIFEST, `corpus/tools` 302+28, `corpus/cookbook`,
+`corpus/record` 57 files incl. the health chain), `kit_lint`, `kit_coverage` (+ `config/kit_coverage_map.tsv`), 18 memory seeds; five
+dry-runs in a throwaway judged by script (run 5 PASS 20/20). Findings: the kit had been distilled from summaries only (57/83 rules,
+40/53 accelerators, 0 PhaseEnds/logs cited) → the coverage check + the record + the worklog pass (143 of 777 candidates banked nowhere);
+the S91-b types hindsight (a banking + width lever → the canonical type layer at Phase 6, DK-65/G62); a typed verify figure wrong twice;
+four false judge flags in five runs, all the instrument's. Rules: R74–R83 ratified at gate 1; candidates (i)–(xii) proposed.
 
 ## 3. Every rule, in full (transcribe these at session start; P/G/H/X are in PROJECT_CONTEXT.md)
 - **R1 — H1 relaxed while private.** ROM-derived content (`asm/`, `assets/`, `extracted/`, decompressed `.CD`) MAY be
@@ -304,6 +322,10 @@ the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1
   bullet walls, no evidence scaffolding — rewritten from the facts, never a model draft with the tells removed; **no AI
   acknowledgement**; the target project's AI-contribution policy is read first. The permuter maintainer closed #213/#214 and named
   the LLM-looking text as the reason he minded; sotn-decomp forbids autonomous-tool PRs outright.
+**Phase 33.5 proposed candidates (i)–(xii) for Phase 34 gate 1** (the table in `PhaseEnd_Phase33.5.md` §Rules: the ignore-form wall;
+two derived figures per check; the judge as an instrument; a tool ships with its dictionary row; `doc_links --strict` after any untrack;
+the manifest as a derivable set; the firewall's class-7 line; a foreign path in prose; a distillation ships with a coverage check; the
+worklogs' final read; never `.strip()` a porcelain listing; the S91-b types doctrine).
 
 ## 4. Where things live (the doc map a session needs)
 **The wiki is the source of truth for documentation (Phase 33.5):** `docs/wiki/Reference-index.md` lists every live reference and
@@ -316,5 +338,7 @@ the OpenRouter-era `automation-runbook.md` is archived) · `docs/effort-map.md` 
 `roadmap-to-100.md` v2 and `frontier-p32.md` are archived — their outcomes are in the PhaseEnds) · `docs/decision-log.md` (R31) ·
 `docs/accelerators.md` · `docs/memory-map.md` (addresses, provenance) · `docs/formats.md` · `docs/disc-completeness.md` +
 `docs/disc-ledger.md` · `docs/backlog.md` (near-miss ledger) · `docs/gen3-handoff.md` + `docs/gen3-standards.md` (Gen3) ·
-`config/wave_exclude.txt` (pinned walls) · `config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/`
+`docs/tool-index.md` (every tool keyed by
+the need it answers; generated) · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–80, G1–67; its wiki page
+`docs/wiki/Start-a-new-decomp-project.md`; `make kit-corpus` regenerates, tools-health asserts) · `config/wave_exclude.txt` (pinned walls) · `config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/`
 (scratch; allowlisted subtrees are tracked — e.g. `.run/P32/t3/` drafts/ledger; the rules are on the conventions page).
