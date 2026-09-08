@@ -83,7 +83,10 @@ copies are identical). Adjust the path names to your layout; do not delete a cla
 /tools/psyq/
 
 # 7. Session transcripts — they quote the target's disassembly; keep them out of any public tree
+#    (a governance system that keeps the agent's transcripts inside the repository writes them under
+#    .claude-state/transcripts/ — ignored here; the memory files beside them stay tracked)
 /session-archive/
+/.claude-state/transcripts/
 
 # 8. Training data and weights derived from the target
 /datasets/
@@ -102,6 +105,7 @@ copies are identical). Adjust the path names to your layout; do not delete a cla
 # ---- irreplaceable work. Rule of thumb: commit what a rerun CANNOT reproduce (hand analysis,      ----
 # ---- harnesses, ledgers, the recorded contract run); leave what a script regenerates ignored.    ----
 /.run/*
+!/.run/README.md
 # One dated block per exception — re-include the directory, re-exclude its contents, re-include
 # the wanted files — under a comment naming the phase, the session and the rule. For example:
 #   # P<N> <task> (<session>, <date>): the recorded contract run's per-step logs. Evidence, tracked.

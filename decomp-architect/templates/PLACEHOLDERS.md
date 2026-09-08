@@ -7,10 +7,10 @@
 > the kit's Step 10) must find none of these anywhere in the project outside the kit's own package folder and the
 > reference copy of the methodology.
 >
-> **Two classes**, following ProjectArchitect: **copy-time** placeholders are filled while the templates are copied in
-> (the kit's SETUP Steps 2–5, from the game interview and from values ProjectArchitect already stamped); **generation-time**
-> placeholders are filled when the overlays are generated (Steps 7–9), and some legitimately stay a `TODO` until the phase
-> that produces their value — those say so.
+> **Two classes**, following ProjectArchitect: **copy-time** placeholders are answered at the game interview (the kit's
+> SETUP Step 2, plus three values read back from what ProjectArchitect already stamped) and filled wherever a template is copied
+> in (Steps 3–9); **generation-time** placeholders have no value at Phase 0.5 — the installer writes each as a literal
+> `TODO(phase-N)` line at Step 8, and the phase that produces the value replaces the line.
 
 ## Shared with ProjectArchitect (read back from the files it already stamped; never re-asked)
 
@@ -21,7 +21,7 @@
 | `{{COOKBOOK_NAME}}` | the cookbook file ProjectArchitect created under `docs/` | the CLAUDE overlay's flywheel line, the cookbook overlay |
 | `{{DOMAIN_FAILSAFES}}` | **referenced only, never filled by the kit** — ProjectArchitect's own CLAUDE.md placeholder, which its generation step fills from the intake's Part D | `intake.decomp.md` Part D names it so the generation step knows which four fail-safes to write |
 
-## Copy-time (the game interview — SETUP Step 2)
+## Copy-time (answered at SETUP Step 2; filled at Steps 3–9)
 
 | Placeholder | What it is | Used in |
 |---|---|---|
@@ -39,15 +39,15 @@
 | `{{AI_DISCLOSURE}}` | the project-level sentence disclosing how AI is used | the README skeleton, CONTRIBUTING |
 | `{{PUBLIC_OR_PRIVATE}}` | the day-one visibility decision (the firewall applies either way) | the README skeleton, the ops-setup git posture |
 
-## Generation-time (the overlays — SETUP Steps 7–9)
+## Generation-time (written as `TODO(phase-N)` at SETUP Step 8; replaced by the phase that produces the value)
 
 | Placeholder | What it is | Filled when | Used in |
 |---|---|---|---|
-| `{{TOOLCHAIN_TRIPLE}}` | the pinned compiler → assembler shim → binutils triple with flags | **Phase 4** — installed as a literal `TODO(phase-4)` line that the pin task replaces | the ops-setup version pins, the cookbook overlay's pinned context |
-| `{{EXTRACT_CMD}}` | the one command that extracts the medium and verifies the manifest | Step 9 (as `TODO(phase-1)` until the extractor exists) | the ops-setup build/run/test block |
-| `{{FLEET_CHECK_CMD}}` | the clean fleet verification (`clean → extract → build` over every binary, exit code read) | Step 9 (`TODO(phase-3)` until the baseline exists) | the ops-setup gate line, the CLAUDE overlay's fail-safe wording |
-| `{{DISASSEMBLER_MCP}}` | the disassembler server's endpoint and the command that starts it | Step 9 (`TODO(phase-2)`) | the ops-setup MCP/hooks row |
-| `{{EMULATOR_BRIDGE}}` | the runtime oracle's scripting interface or bridge endpoint | Step 9 (`TODO(phase-2)`) | the ops-setup MCP/hooks row |
+| `{{TOOLCHAIN_TRIPLE}}` | the pinned compiler → assembler shim → binutils triple with flags | Step 8 as `TODO(phase-4)`; Phase 4's pin task replaces it | the ops-setup version pins, the cookbook overlay's pinned context |
+| `{{EXTRACT_CMD}}` | the one command that extracts the medium and verifies the manifest | Step 8 as `TODO(phase-1)` | the ops-setup build/run/test block |
+| `{{FLEET_CHECK_CMD}}` | the clean fleet verification (`clean → extract → build` over every binary, exit code read) | Step 8 as `TODO(phase-3)` | the ops-setup gate line, the CLAUDE overlay's fail-safe wording |
+| `{{DISASSEMBLER_MCP}}` | the disassembler server's endpoint and the command that starts it | Step 8 as `TODO(phase-2)` | the ops-setup MCP/hooks row, `config/mcp.json.template` |
+| `{{EMULATOR_BRIDGE}}` | the runtime oracle's scripting interface or bridge endpoint | Step 8 as `TODO(phase-2)` | the ops-setup MCP/hooks row |
 
 ## Not placeholders (by design)
 

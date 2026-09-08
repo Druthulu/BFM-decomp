@@ -198,11 +198,13 @@ the reconcile ladder without a redraft; the gate number is not the close rate un
 
 ---
 
-## Block 7 — `.claude/settings.json` (MERGE at Step 8; add only absent keys) and `.mcp.json` (CREATE at Step 8)
+## Block 7 — `config/decomp-hooks.snippet.json` and `config/mcp.json.template` (CREATE at Step 8; activated at Phase 2)
 
-*ProjectArchitect already wrote the `SessionEnd` backup hook; the kit adds a `SessionStart` slot for the disassembler
-server (filled at Phase 2) and the MCP client entry. Merge rule: add a key only if absent; never overwrite; validate
-the JSON afterwards.*
+*ProjectArchitect already wrote the `SessionEnd` backup hook into `.claude/settings.json`. The kit does NOT merge a hook or an
+MCP entry at Phase 0.5 — a hook that runs a stub every session and an MCP client entry pointing at nothing would only add
+noise and prompts. It installs the two snippets below as config templates; Phase 2 (the oracles) writes the server-start
+script, merges the hook (add only absent keys, validate the JSON afterwards) and copies the MCP template to `.mcp.json` with
+the real loopback endpoint. Generation-time values are written as `TODO(phase-2)` at install.*
 
 ````json
 {
@@ -212,8 +214,7 @@ the JSON afterwards.*
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/tools/disassembler_mcp_start.sh",
-            "_comment": "TODO(phase-2): the script that starts the disassembler's headless server and prints 'serving'; until it exists this hook is a no-op stub the kit installs"
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/tools/disassembler_mcp_start.sh"
           }
         ]
       }
@@ -227,8 +228,7 @@ the JSON afterwards.*
   "mcpServers": {
     "disassembler": {
       "type": "sse",
-      "url": "{{DISASSEMBLER_MCP}}",
-      "_comment": "TODO(phase-2): the loopback SSE endpoint of the disassembler's MCP server; after any restart, the developer reconnects the client"
+      "url": "{{DISASSEMBLER_MCP}}"
     }
   }
 }
