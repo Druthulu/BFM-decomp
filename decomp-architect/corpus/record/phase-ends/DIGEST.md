@@ -41,6 +41,14 @@ instrument findings fixed (cdecl's scratch dir, two wiki citations, kit_coverage
 **Pending by name:** the preset's creation by decomp.me's maintainers, a reply from Archipelago, frogress. Candidates (a)–(d) proposed. **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (R95, the canonical
 type layer).
 
+**Phase 35 OPEN (2026-09-08, S94; gate 1 in plan mode at Max) — Gen3's first phase, the DEDUP phase: "one source per unique function."**
+Drew set the Gen3 order dedup → pins → structs → names (one phase each, planned one at a time). The phase converts the 3,516 distinct
+`DEFINE_func_` macro bodies (5,147 define lines) into per-function plain-C headers under `src/shared/<space>/` included at each member's
+site (sotn's shape, verified from its tree), collapses the five identical-payload twin overlays onto one source directory each, shares
+the same-address duplicate backlog (~11,289 copies; ~70% in the twins), censuses and DEFERS the 3,697 cross-address classes to the
+names phase, freezes the macro-era tools with a loud refusal, and wires the S1 invariant into `make tools-health`. R96–R99 ratified at
+gate 1. The live state is `phase-ends/CURRENT_PHASE.md`; closes at v2.1.0.
+
 ## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
 - **Session start** reads this digest + the last three PhaseEnds, not every PhaseEnd (R64 candidate, Drew 2026-09-05).
 - **P8 "absorb and delete CURRENT_PHASE.md"** → **R19**: `git mv` it to `phase-ends/logs/Phase<N>.md`, out of the load
@@ -377,6 +385,18 @@ instrument change — re-run every tool that writes under it; "green" is read fr
 never from its last line; a step that hands a file to a third party is proven through that party's own toolchain on the file itself
 before the owner's browser session, and the proving tool writes the paste; what a public tree carries is decided before the flip, and a
 retired document gets its Archive-index row and is deleted in the same commit).
+
+**R96–R99 — RATIFIED at Phase 35 gate 1 (Drew, 2026-09-08; the PhaseEnd_Phase34 candidates (a)–(d), operated through P34):**
+- **R96 — A scratch prune is an instrument change:** every tool that writes under a pruned tree is re-run before the prune is called
+  done. `cdecl --audit` wrote its probe under the pruned `.run/audit/`; the refusal read as four parser defects (P34 run 1 of the close chain).
+- **R97 — "Green" is read from a check's EXIT CODE, never from its last line; every chain sets `pipefail`.** Commit `81ec81945` claimed
+  "kit_coverage green" while three rows were refused — a `tail` masked the status.
+- **R98 — A step that hands a file to a third party is proven through that party's own toolchain, on the file itself, before the
+  owner's browser session — and the proving tool writes the paste.** The decomp.me listing failed to assemble on the first try; the
+  replica had proven the compile, not the paste (DK-81).
+- **R99 — What a public tree carries is decided before the flip, and a retired document gets its Archive-index row and is deleted in
+  the same commit — history keeps it.** Two folders left the tree within hours of going public; the paths-never-links rule made it
+  harmless, the timing cost two commits on a public history.
 
 ## 4. Where things live (the doc map a session needs)
 **The wiki is the source of truth for documentation (Phase 33.5):** `docs/wiki/Reference-index.md` lists every live reference and

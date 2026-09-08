@@ -1,0 +1,3 @@
+tool_census: 294 tool files (find == git ls-files) + 34 retired; classes {'LIVE': 234, 'ORPHAN': 31, 'REFERENCED': 29, 'RETIRED': 34}; dictionary rows 328
+tool_census --check: corpus 360 copies + 28 pointers checked; 0 gap(s)
+tool_census --check: OK

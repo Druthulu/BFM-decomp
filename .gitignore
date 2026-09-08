@@ -423,6 +423,33 @@ unsloth_compiled_cache/
 !/.run/P34/c11/*.log
 !/.run/P34/c11/*.txt
 
+# P35 (S94, 2026-09-08): the dedup phase's evidence — the R22 baseline and close logs, the probe's object A/B ledger and
+# measurements, the census JSON/tables, the share runs' logs and ledgers. Text only, nothing ROM-derived (no .o, no .s, no images).
+!/.run/P35/
+/.run/P35/*
+!/.run/P35/*.log
+!/.run/P35/*.md
+!/.run/P35/baseline/
+/.run/P35/baseline/*
+!/.run/P35/baseline/*.log
+!/.run/P35/baseline/*.txt
+!/.run/P35/probe/
+/.run/P35/probe/*
+!/.run/P35/probe/*.log
+!/.run/P35/probe/*.txt
+!/.run/P35/probe/*.md
+!/.run/P35/probe/*.py
+!/.run/P35/census/
+/.run/P35/census/*
+!/.run/P35/census/*.json
+!/.run/P35/census/*.txt
+!/.run/P35/census/*.md
+!/.run/P35/share/
+/.run/P35/share/*
+!/.run/P35/share/*.log
+!/.run/P35/share/*.json
+!/.run/P35/share/*.txt
+
 # Outreach drafts (P34 task 6, Drew's decision 2026-09-08): the notes to neighbouring projects were SENT (the Archipelago issue,
 # the decomp.me preset request, the tools post, the #ai reply); the drafts stay on the maintainer's machine and leave the tree
 # from here (no rewrite — they are in the published history). Contents form, R84.

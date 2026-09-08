@@ -1,0 +1,101 @@
+# Phase 35 T0 probe — ov_SC06_033 macro form -> include-at-site form, L0 object A/B (S94, 2026-09-08T21:44:07Z)
+objA files: 34
+.d bytes (macro form, 34 TUs): 11632	total
+       sha1 1e91d46e9098a5d6ee8a969bb75055b5f0aee852 == config/check.ov_SC06_033.sha  (BYTE-IDENTICAL)
+A rebuild (macro form, 34 TUs, -j16): wall=1.12 s user=12.61 s
+engine_core.h: 5147 define lines, 3516 distinct, 1631 defined twice
+ov_SC06_033: 34 TUs, 1813 sites, 1813 distinct shared bodies
+applied: 1813 headers under src/shared/ov, prelude written, 34 TUs rewritten
+src/ov_SC06_033/ov_SC06_033_jr_80135888.c:576: warning: conflicting types for built-in function `memcpy'
+src/ov_SC06_033/ov_SC06_033_jr_80135888.c:678: warning: passing arg 1 of `func_80135EB0' makes pointer from integer without a cast
+src/ov_SC06_033/ov_SC06_033_jr_80135888.c:685: warning: passing arg 1 of `func_80135EB0' makes pointer from integer without a cast
+src/ov_SC06_033/ov_SC06_033_jr_801836FC.c:1516: warning: conflicting types for built-in function `memcpy'
+src/ov_SC06_033/ov_SC06_033_jr_80178D40.c:1530: warning: conflicting types for built-in function `memcpy'
+src/ov_SC06_033/ov_SC06_033_jr_8013FFD8.c:1052: warning: type mismatch with previous external decl
+src/ov_SC06_033/ov_SC06_033_jr_8013FFD8.c:916: warning: previous external decl of `D_801928E8'
+src/ov_SC06_033/ov_SC06_033_jr_8013FFD8.c:1076: warning: type mismatch with previous external decl
+.d bytes (include form, 34 TUs): 182252	total
+obj A/B: 34/34 byte-identical, 0 differing
+headers written under src/shared/ov: 1813
+    /* func_80128EA8 — shared engine body (overlay slot 0x80128158). ONE source: instantiated by #include at each
+     * member's site in address order; the members are recorded in config/dedup.us.yaml. Phase 35 probe form. */
+    void func_80128EA8(s32 a0, s32 a1, s32 a2) {
+        *(s32 *)(a1 + 0x0) = a2;                       /* sw a2, 0x0(a1) */
+        *(s16 *)(a1 + 0x4) = 0;                         /* sh zero, 0x4(a1) */
+        *(s16 *)(a1 + 0x6) = (*(s32 *)(a2 + 0x4)) & 0x3F; /* lw; andi 0x3F; sh 0x6(a1) */
+        *(s16 *)(a0 + 0x28) = *(u16 *)(a2 + 0x0);      /* lhu 0x0(a2); sh 0x28(a0) */
+        *(s16 *)(a0 + 0       sha1 1e91d46e9098a5d6ee8a969bb75055b5f0aee852 == config/check.ov_SC06_033.sha  (BYTE-IDENTICAL)
+ M .gitignore
+ M decomp-architect/corpus/record/phase-ends/DIGEST.md
+ M decomp-architect/corpus/record/phase-ends/PhaseEnd_Phase34.md
+ M docs/story-timeline.md
+ M docs/story-timeline.svg
+ M phase-ends/DIGEST.md
+?? .run/P35/
+?? phase-ends/CURRENT_PHASE.md
+# re-measure: build time + warning counts, both forms (touch all 34 TUs each time)
+A rebuild (macro form): wall=1.12 s user=12.72 s
+A warnings: 801 (redefined: 137)
+       sha1 1e91d46e9098a5d6ee8a969bb75055b5f0aee852 == config/check.ov_SC06_033.sha  (BYTE-IDENTICAL)
+B build (include form): wall=0.52 s user=5.70 s
+B warnings: 663 (redefined: 5)
+warning kinds that DIFFER between A and B:
+1,4d0
+<      33 warning: "DEFINE_func_" redefined
+<      33 warning: "DEFINE_func_C" redefined
+<      33 warning: "DEFINE_func_F" redefined
+<      33 warning: "DEFINE_func_FFD" redefined
+7a4,5
+>       1 warning: In file includedpassing arg  of `func_A' makes integer from pointer without a cast from src/ov_SC_/ov_SC__jr_CC.c:
+>       1 warning: In function `func_':
+18c16
+<       4 warning: assignment makes pointer from integer without a cast
+---
+>       3 warning: assignment makes pointer from integer without a cast
+20,21c18,20
+<      17 warning: conflicting types for built-in function `memcpy'
+<       6 warning: initialization makes integer from pointer without a cast
+---
+>      15 warning: conflicting types for built-in function `memcpy'
+>       5 warning: initialization makes integer from pointer without a cast
+>       1 warning: initialization makes integer from pointer without a castsrc/ov_SC_/../shared/ov/func_D.h: 
+25c24
+<      17 warning: passing arg  makes integer from pointer without a cast
+---
+>      16 warning: passing arg  makes integer from pointer without a cast
+27c26
+<       4 warning: passing arg  of `ApplyMatrixSV' makes pointer from integer without a cast
+---
+>       1 warning: passing arg  of `ApplyMatrixSV' makes pointer from integer without a cast
+34c33
+<      16 warning: passing arg  of `func_A' makes integer from pointer without a cast
+---
+>      15 warning: passing arg  of `func_A' makes integer from pointer without a cast
+58d56
+<       1 warning: passing arg  of `func_CF' makes integer from pointer without a cast
+82c80,81
+<       4 warning: passing arg  of `func_FC' makes integer from pointer without a cast
+---
+>       2 warning: passing arg  of `func_FC' makes integer from pointer without a cast
+>       1 warning: passing arg  of `func_FC' makes integer from pointer without a castsrc/ov_SC_/ov_SC__jr_DC.c:: 
+101c100
+<      22 warning: previous external decl of `D_DC'
+---
+>      21 warning: previous external decl of `D_DC'
+110c109
+<      14 warning: previous external decl of `func_'
+---
+>      13 warning: previous external decl of `func_'
+146,147c145,147
+<     135 warning: type mismatch with previous external decl
+<       1 warning: type mismatch with previous external declsrc/ov_SC_/../shared/engine_core.h:: note: this is the location of the previous definition
+---
+>       1 warning: src/ov_SC_/../shared/ov/func_E.h:: conflicting types for built-in function `warning: memcpypassing arg  of `func_FC' makes integer from pointer without a cast'
+>       1 warning: src/ov_SC_/ov_SC__jr_ACE.c:: passing arg  of `ApplyMatrixSV' makes pointer from integer without a castwarning: 
+>     134 warning: type mismatch with previous external decl
+148a149,152
+>       1 warning: warning: passing arg  of `ApplyMatrixSV' makes pointer from integer without a cast
+>       1 warning: warning: passing arg  of `func_CF' makes integer from pointer without a castpassing arg  makes integer from pointer without a cast
+>       1 warning: warning: previous external decl of `conflicting types for built-in function `func_memcpy''
+>       1 warning: warning: type mismatch with previous external declpassing arg  of `ApplyMatrixSV' makes pointer from integer without a cast
+       sha1 1e91d46e9098a5d6ee8a969bb75055b5f0aee852 == config/check.ov_SC06_033.sha  (BYTE-IDENTICAL)

@@ -52,3 +52,7 @@ rule	R92	DK-69	a distillation ships with a coverage check against the population
 rule	R93	KIT:corpus/record/README.md	the worklogs get one final read with an "already banked?" grep — the record's front page tells the next project so
 rule	R94	DK-66	a snapshot instrument never .strip()s a porcelain listing — one of the judge's own false flags, DK-66
 rule	R95	DK-65	types are a banking lever and a width lever — DK-65 (and G62's bank-time clause)
+rule	R96	DK-81	a scratch prune is an instrument change: every tool that writes under a pruned tree is re-run — DK-81 fact (4) IS this rule
+rule	R97	G29	green is read from a check's EXIT CODE with pipefail, never its last line — G29 (a soft error inside a success envelope is that error; provenance R49 + R53) carries it; the P34 masked-tail commit is its instance
+rule	R98	DK-81	a third-party hand-off file is proven through that party's own toolchain and the proving tool writes the paste — DK-81 fact (1) IS this rule
+rule	R99	DK-81	the public tree's contents decided before the flip; a retired document gets its Archive-index row and is deleted in the same commit — DK-81 fact (2) IS this rule

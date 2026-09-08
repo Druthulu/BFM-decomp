@@ -206,7 +206,7 @@ commits not yet pushed). The headless Ghidra MCP was stopped via the sentinel (R
 order, from the repository root:**
 
 ```
-git add phase-ends/PhaseEnd_Phase34.md phase-ends/logs/Phase34.md phase-ends/DIGEST.md decomp-architect/corpus/record
+git add phase-ends/PhaseEnd_Phase34.md phase-ends/logs/Phase34.md phase-ends/DIGEST.md decomp-architect/corpus/record .run/P34/outward/wiki_push_close.log
 git commit -m "chore(phase-34): CLOSE — Gen2 EXIT: the repository public, protect-main, decomp.dev + the wiki live, the decomp.me preset requested at 100%, the outreach sent, the aftercare done (v2.0.0)"
 git tag -a v2.0.0 -m "v2.0.0 — Gen2 exit: 218 binaries rebuild byte-identical from C; the repository public"
 git push origin main --tags
