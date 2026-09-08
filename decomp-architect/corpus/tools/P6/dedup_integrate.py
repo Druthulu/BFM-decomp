@@ -55,6 +55,7 @@ TIERS = ("h_exact", "h_norm")
 # OVER-APPROXIMATING by design (R32): any C identifier, not just func_<hex> — a curated symbol
 # (e.g. listCdBuffer) is a stub too, and a `func_`-only pattern silently misses it.
 INCLUDE_ASM_RE = re.compile(r'INCLUDE_ASM\([^)]*,\s*([A-Za-z_]\w*)\s*\)')
+MACRO_FUNC_RE = re.compile(r'^(DEFINE_func_[0-9A-Fa-f]+|SETTER|RETCONST|CLEAR_TBL40)$')   # the macro-form `func` tokens
 SYMBOL_LINE_RE = re.compile(r'^\s*([A-Za-z_]\w*)\s*=\s*(0x[0-9A-Fa-f]+)\s*;')
 
 
@@ -79,10 +80,11 @@ def group_members(g):
 
 
 def _src_paths(binary):
-    """The .c files that make up a binary's source (main is the top-level src/*.c)."""
-    if binary == "main":
-        return sorted((ROOT / "src").glob("*.c"))
-    return sorted((ROOT / "src" / binary).glob("*.c"))
+    """The .c files that make up a binary's source — through the Makefile oracle (corpus.src_files: a twin's files are its
+    primary's, Phase 35 T2/T3), never a hand-built src/<binary> path (R33)."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import corpus
+    return [pathlib.Path(p) for p in corpus.src_files(binary)]
 
 
 def _curated_syms(binary):
@@ -190,6 +192,17 @@ def check(groups, binary_filter=None, allow_unsigned=False):
             print(f"[FAIL] {gid}: `func: {fn}` does NOT occur in {src} — the group claims a shared "
                   f"body that was never written (the share was registered but never propagated)")
             failures += 1; continue
+        # ---- C2a′ (Phase 35 T2): a PLAIN-C header source must DEFINE `func` (a token occurrence is not a body) --------
+        # The macro forms (DEFINE_func_*, SETTER/RETCONST/CLEAR_TBL40) define through cpp and keep the token check above;
+        # the include form is read by share_census.header_defs — the one reader of that form (R33).
+        if not MACRO_FUNC_RE.match(fn):
+            sys.path.insert(0, str(ROOT / "tools"))
+            import share_census
+            defined = {n for n, _ in share_census.header_defs(ROOT / src)}
+            if fn not in defined:
+                print(f"[FAIL] {gid}: `func: {fn}` occurs in {src} but that header does not DEFINE it "
+                      f"(defines: {sorted(defined)[:4]}) — a declaration is not a shared body")
+                failures += 1; continue
 
         tier, want = g["tier"], g.get("hash")
         if not want:

@@ -1197,7 +1197,7 @@ def _macro_unit(addr):
     NOTE for callers: the returned path is a HEADER, not a TU. family_sweep must keep using the
     SIBLING's src_rel for its reconcile/scope_data step."""
     head = f"#define DEFINE_func_{addr:08X}() \\"
-    for hp in sorted(glob.glob("src/shared/*.h")):
+    for hp in sorted(glob.glob("src/shared/**/*.h", recursive=True)):
         lines = open(hp).read().split("\n")
         for i, ln in enumerate(lines):
             if ln.rstrip() != head:
@@ -1228,7 +1228,7 @@ def _macro_unit(addr):
     # it. The whale's direct definition (`void func_80144B9C(void) {`) is at column 0, as any real
     # file-scope definition must be.
     pat = re.compile(rf'^[A-Za-z_][\w \*]*\bfunc_{addr:08X}\s*\(', re.I)
-    for hp in sorted(glob.glob("src/shared/*.h")):
+    for hp in sorted(glob.glob("src/shared/**/*.h", recursive=True)):
         lines = open(hp).read().split("\n")
         for i, ln in enumerate(lines):
             code = re.sub(r'\s*\\$', '', ln)                       # drop a macro line-continuation FIRST

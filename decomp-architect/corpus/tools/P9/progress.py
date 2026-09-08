@@ -471,7 +471,13 @@ def set_binary(binary):
         sys.exit(f"progress.py: unknown --binary '{binary}' (known: {', '.join(BINARIES)})")
     BINARY = binary
     _cfg = BINARIES[binary]
-    SRCS = sorted((ROOT / _cfg["src"]).glob("*.c"))   # every c-segment (src/boot.c, src/800.c, ...)
+    # Phase 35 T2: the source dir comes from the Makefile oracle (corpus.src_dir — a twin's is its primary's), the table's
+    # `src` is only a cross-check against it (R33).
+    import corpus as _corpus
+    _src = _corpus.src_dir(binary)
+    if _src != _cfg["src"] and _corpus.twin_of(binary) is None:
+        sys.exit(f"progress.py: {binary}: the Makefile says src dir {_src!r}, this table says {_cfg['src']!r} (R32)")
+    SRCS = sorted((ROOT / _src).glob("*.c"))          # every c-segment (src/boot.c, src/800.c, ...)
     ASM_ROOT = ROOT / _cfg["asm"]                      # per-segment subdirs (boot/, 800/, ...)
     OUT, BUILD, CHECK = ROOT / _cfg["out"], ROOT / _cfg["build"], ROOT / _cfg["check"]
     LINKED_SEGS = linked_subsegs()
@@ -603,13 +609,52 @@ SIG = re.compile(r'^\s*[A-Za-z_][\w \t\*]*\b([A-Za-z_]\w*)\s*\(')
 # continuation line of a wrapped ANSI prototype, which always carries the closing `)`.
 KR_PARAM = re.compile(r'^\s*[A-Za-z_][\w \t\*]*\s+\**\w+\s*(?:\[[^\]]*\])?\s*;\s*$')
 
+_INCLUDED = set()          # names defined through a shared-header include site (Phase 35 form), for the dedup fold
+_SHARED_INC = re.compile(r'#\s*include\s+"((?:\.\./)*shared/[^"]+\.h)"')
+_SHARED_FN_DEF = re.compile(r'#\s*define\s+SHARED_FN\s+(\w+)')
+_HDR_DEFS = {}
+
+
+def _shared_header_defs(path):
+    """[(name, empty)] a shared header defines — through share_census.header_defs, the one reader of the include form (R33)."""
+    key = str(path)
+    if key not in _HDR_DEFS:
+        sys.path.insert(0, str(ROOT / "tools"))
+        import share_census
+        _HDR_DEFS[key] = share_census.header_defs(path)
+    return _HDR_DEFS[key]
+
+
 def classify():
     real, empty, nonmatching, stubs, blobs, linked, verbatim = [], [], [], [], [], [], []
+    _INCLUDED.clear()
     for src in SRCS:
         lines = src.read_text().split('\n')
         n = len(lines); i = 0
+        shared_fn = None                      # the active `#define SHARED_FN <name>` (the parameterized include form)
         while i < n:
             s = lines[i].strip()
+            # Phase 35 T2 — a shared body INCLUDED at its site is that function's definition in this TU (sotn's shape):
+            #     #include "../shared/ov/func_80128EA8.h"          -> defines func_80128EA8 (REAL, or EMPTY if the body is empty)
+            #     #define SHARED_FN func_80037334 / #include ... / #undef SHARED_FN   -> defines the SHARED_FN name
+            # The header's definitions are read by share_census.header_defs (masked: a macro-only header defines nothing).
+            fd = _SHARED_FN_DEF.match(s)
+            if fd:
+                shared_fn = fd.group(1); i += 1; continue
+            if s.startswith('#') and 'undef' in s and 'SHARED_FN' in s:
+                shared_fn = None; i += 1; continue
+            im = _SHARED_INC.match(s)
+            if im:
+                hp = (src.parent / im.group(1)).resolve()
+                for nm, is_empty in _shared_header_defs(hp):
+                    if nm == 'SHARED_FN':
+                        if not shared_fn:
+                            sys.exit(f"progress.py: {src.relative_to(ROOT)}:{i+1}: a SHARED_FN header included with no "
+                                     f"`#define SHARED_FN <name>` above it (R43)")
+                        nm = shared_fn
+                    (empty if is_empty else real).append(nm)
+                    _INCLUDED.add(nm)
+                i += 1; continue
             if s.startswith('#ifdef NON_MATCHING'):
                 # THE `#else` HALF IS LIVE CODE, AND SWALLOWING IT UNDERCOUNTS REAL (P31 S73).
                 # The old form consumed from `#ifdef NON_MATCHING` all the way to `#endif`, so a
@@ -770,7 +815,11 @@ def report(binary, audit=False, write=True):
     # double-counts it into `matchable` AND inflates `byteident`. Measured: 532 phantom instances
     # (Phase 26 session 8 scanner audit). Subtracting `stubs` makes the registry advisory, and the
     # source tree authoritative — which is the right precedence (P9: only what is in the build counts).
-    shared = sorted(dedup_members(BINARY) - set(real) - set(stubs))
+    # Phase 35 T2: a member instantiated through an INCLUDE site is parsed by classify() itself (it is in `real`/`empty` and in
+    # _INCLUDED); it is still a shared body, so it counts in `shared`. A member parsed as a PRIVATE definition is not shared
+    # (a demacroized copy) — the registry is advisory, the source authoritative, as before.
+    members = dedup_members(BINARY)
+    shared = sorted((members - set(real) - set(stubs)) | (_INCLUDED & members))
     real = sorted(set(real) | set(shared))
 
     # ---- COVERAGE ASSERTION (the rule ratified 2026-07-14: a scanner over the corpus must assert its

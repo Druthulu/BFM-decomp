@@ -47,12 +47,13 @@ def mk_var(text, name):
 
 
 def src_dirs():
-    """alias -> source dir, from `<alias>_SRC_DIR := …` in the Makefile and every config/*.mk it includes."""
-    texts = [MK.read_text()] + [p.read_text() for p in sorted((REPO / "config").glob("*.mk"))]
-    out = {}
-    for t in texts:
-        for m in re.finditer(r"^(\w+)_SRC_DIR\s*:?=\s*(\S+)\s*$", t, re.M):
-            out[m.group(1)] = m.group(2)
+    """alias -> source dir, from `<alias>_SRC_DIR := …` in the Makefile and every config/*.mk it includes.
+    Phase 35 T2: delegated to corpus.src_dirs() — ONE oracle for every tool (R33); a twin's dir is its primary's."""
+    import corpus
+    try:
+        out = dict(corpus.src_dirs())
+    except Exception as e:
+        sys.exit(f"compile_only: {e} (R32)")
     if "main" not in out or "resident" not in out:
         sys.exit("compile_only: main/resident _SRC_DIR not found (R32)")
     return out

@@ -33,7 +33,7 @@ import dup_report
 import corpus
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SHARED_INCLUDE = "shared/engine_core.h"
+SHARED_INCLUDES = ("shared/engine_core.h", "shared/engine_prelude.h")   # the macro-era header, then the Phase-35 prelude
 
 
 def onboarded():
@@ -100,13 +100,46 @@ def main():
     for b in sorted(onb):
         if not b.startswith("ov_"):
             continue
-        c = os.path.join(REPO, f"src/{b}/{b}.c")
+        # Phase 35 T2: the binary's source dir comes from the Makefile oracle (a twin's is its primary's), never src/<b>.
+        d = corpus.src_dir(b)
+        c = os.path.join(REPO, d, os.path.basename(d.rstrip("/")) + ".c")
         if not os.path.exists(c):
-            fails.append(f"{b}: no src file at src/{b}/{b}.c")
+            fails.append(f"{b}: no src file at {os.path.relpath(c, REPO)}")
             continue
-        if SHARED_INCLUDE not in open(c).read():
-            fails.append(f"{b}: src/{b}/{b}.c does NOT include ../{SHARED_INCLUDE} — shared engine "
-                         f"bodies cannot reach it (the SC07 propagation-blindness; run tools/dedup_extend.py)")
+        text = open(c).read()
+        if not any(inc in text for inc in SHARED_INCLUDES):
+            fails.append(f"{b}: {os.path.relpath(c, REPO)} includes neither ../{SHARED_INCLUDES[0]} nor ../{SHARED_INCLUDES[1]} — "
+                         f"shared engine bodies cannot reach it (the SC07 propagation-blindness)")
+
+    # --- CHECK 3b (Phase 35 T3): a TWIN binary is a full citizen only if it builds from its primary's source (R36).
+    for b in sorted(onb):
+        prim = corpus.twin_of(b)
+        if prim is None:
+            continue
+        if prim not in onb:
+            fails.append(f"{b}: TWIN_OF {prim}, which is not onboarded"); continue
+        if corpus.twin_of(prim) is not None:
+            fails.append(f"{b}: TWIN_OF {prim}, which is itself a twin (chains are forbidden)")
+        if corpus.src_dir(b) != corpus.src_dir(prim):
+            fails.append(f"{b}: TWIN_OF {prim} but src dirs differ ({corpus.src_dir(b)} vs {corpus.src_dir(prim)})")
+        if os.path.isdir(os.path.join(REPO, "src", b)):
+            fails.append(f"{b}: is a twin of {prim} yet src/{b}/ still exists — one source per payload")
+        try:
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import share_census
+            con = share_census.contracts()
+            sha_b = open(os.path.join(REPO, con[b])).read().split()[0]
+            sha_p = open(os.path.join(REPO, con[prim])).read().split()[0]
+            if sha_b != sha_p:
+                fails.append(f"{b}: TWIN_OF {prim} but the contracts differ ({sha_b[:12]} vs {sha_p[:12]}) — not one payload")
+        except Exception as e:  # noqa: BLE001 — a missing contract is itself the failure
+            fails.append(f"{b}: twin contract check could not run: {e}")
+        yb, yp = os.path.join(REPO, f"config/splat.{b}.yaml"), os.path.join(REPO, f"config/splat.{prim}.yaml")
+        if os.path.exists(yb) and os.path.exists(yp):
+            segs = lambda p, a: sorted(re.findall(r"^\s*-\s*\[(0x[0-9A-Fa-f]+),\s*(c|\.rodata|data|bin|asm),\s*([^\]]+)\]",
+                                                  open(p).read().replace(a, "ALIAS"), re.M))
+            if segs(yb, b) != segs(yp, prim):
+                fails.append(f"{b}: TWIN_OF {prim} but the carves differ (config/splat.{b}.yaml vs {prim}'s) — align the twin's carve")
 
     # --- CHECK 4: every onboarded overlay is represented in the family map (the templating frontier).
     # A missing overlay there means every member it holds is invisible to the family engine.

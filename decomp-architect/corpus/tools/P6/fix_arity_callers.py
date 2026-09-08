@@ -177,7 +177,7 @@ def main():
         sys.exit('no funcs given')
 
     # target files: engine_core.h always; + the overlay's own src (inline callers) when --binary given.
-    files = [EC]
+    files = sorted(set(([EC] if os.path.exists(EC) else []) + glob.glob(os.path.join(REPO, 'src/shared/**/*.h'), recursive=True)))  # Phase 35: every shared header carries externs
     if a.binary:
         # MAIN'S SOURCES DO NOT LIVE IN src/main/ (P31 S69). They are src/*.c — src/800.c, … — so the
         # overlay-shaped glob matched NOTHING for --binary main and the tool reported success over an

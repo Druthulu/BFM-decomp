@@ -44,6 +44,51 @@ INCLUDE_ASM = re.compile(r'^\s*INCLUDE_ASM\("[^"]*",\s*(\w+)\)')
 DEFINE_FUNC = re.compile(r'^DEFINE_func_([0-9A-Fa-f]{8})\s*\(')
 # a dedup macro whose address is its FIRST arg: SETTER(func_X, ..), RETCONST(func_X, ..)
 MACRO_ARG_ANCHOR = re.compile(r'^[A-Za-z_]\w*\(\s*(func_[0-9A-Fa-f]{8})\b')
+# Phase 35: a shared body INCLUDED at its site (the header defines the function; a `#define SHARED_FN <name>` in the
+# preamble names it for the parameterized form, and a trailing `#undef SHARED_FN` belongs to the same item)
+SHARED_INCLUDE = re.compile(r'^#include\s+"((?:\.\./)*shared/[^"]+\.h)"')
+SHARED_FN_DEF = re.compile(r'^#define\s+SHARED_FN\s+(\w+)')
+SHARED_FN_UNDEF = re.compile(r'^#undef\s+SHARED_FN\b')
+
+
+def _shared_header_rel(inc):
+    """'../shared/ov/x.h' (an overlay TU) or 'shared/x.h' (a main TU) -> 'src/shared/ov/x.h'."""
+    return "src/" + re.sub(r'^(\.\./)+', '', inc)
+
+
+_BODY_INC = {}
+
+
+def _is_body_include(line):
+    """Does this `#include` line pull in a shared header that DEFINES a function (an include-at-site body)?"""
+    m = SHARED_INCLUDE.match(line.strip())
+    if not m:
+        return False
+    inc = m.group(1)
+    if inc not in _BODY_INC:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import share_census
+        _BODY_INC[inc] = bool(share_census.header_defs(os.path.join(REPO, _shared_header_rel(inc))))
+    return _BODY_INC[inc]
+
+
+def shared_include_names(inc, preamble_text):
+    """The function name(s) an include site defines: the header's definitions, with SHARED_FN resolved from the preamble."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import share_census
+    names = []
+    for nm, _empty in share_census.header_defs(os.path.join(REPO, _shared_header_rel(inc))):
+        if nm == "SHARED_FN":
+            m = None
+            for ln in preamble_text.split("\n"):
+                mm = SHARED_FN_DEF.match(ln.strip())
+                if mm:
+                    m = mm
+            if not m:
+                sys.exit(f"overlay_src_split: include of {inc} defines SHARED_FN but no `#define SHARED_FN <name>` precedes it (R43)")
+            nm = m.group(1)
+        names.append(nm)
+    return names
 NONMATCH = re.compile(r'^#if(?:def)?\s+.*NON_MATCHING')
 
 
@@ -312,6 +357,8 @@ def split_header(lines):
     n = len(lines)
     i = 0
     while i < n and (lines[i].startswith("#include") or lines[i].strip() == ""):
+        if _is_body_include(lines[i]):
+            break                       # Phase 35: an include that DEFINES a function is that function's site, not header
         i += 1
     if i < n and CANON_OPEN.search(lines[i]):
         while i < n and not CANON_CLOSE.search(lines[i]):
@@ -427,6 +474,22 @@ def parse_overlay_c(src, syms):
             while i < n and "*/" not in lines[i]:
                 i += 1
             i = min(i + 1, n)
+            continue
+        m = SHARED_INCLUDE.match(raw)
+        if m:                            # Phase 35: an include-at-site shared body is an ADDRESSED anchor (kind 'include')
+            names = shared_include_names(m.group(1), "\n".join(lines[pre_start:i]))
+            if len(names) != 1:
+                sys.exit(f"overlay_src_split: {m.group(1)} defines {len(names)} functions; an include site must define exactly one (R43)")
+            j = i + 1
+            while j < n and not lines[j].strip():
+                j += 1
+            if j < n and SHARED_FN_UNDEF.match(lines[j].strip()):
+                i = j                    # the `#undef SHARED_FN` travels with the item
+            name = names[0]
+            items.append((addr_of(name, syms, aliases), name, "include",
+                          "\n".join(lines[pre_start:i + 1])))
+            i += 1
+            pre_start = i
             continue
         if s.startswith("#") and not NONMATCH.match(raw):   # #define/#undef/#include...
             while i < n and lines[i].rstrip().endswith("\\"):
@@ -719,17 +782,56 @@ def _expand(text, params, args):
     return text
 
 
+_MACRO_NAMES = re.compile(r'^(DEFINE_func_[0-9A-Fa-f]+|SETTER|RETCONST|CLEAR_TBL40)$')
+
+
+def _table_or_refuse(name):
+    """R43 (Phase 35): a macro invocation whose body header is gone or whose name the table lacks is a REFUSAL, never an
+    empty expansion — before this, a missing header made macro_table() silently empty and every split wrong."""
+    tbl = macro_table()
+    if name and _MACRO_NAMES.match(name) and name not in tbl:
+        sys.exit(f"overlay_src_split: {name} is invoked but no shared macro header defines it "
+                 f"(headers checked: {', '.join(_MACRO_HEADERS)}) — the macro form is gone (Phase 35 T4)? (R43)")
+    return tbl.get(name, ([], [], []))
+
+
+def _include_site(item_text):
+    """The shared header an include-kind item includes, else None."""
+    for line in reversed(item_text.split("\n")):
+        s = line.strip()
+        if not s or SHARED_FN_UNDEF.match(s):
+            continue
+        m = SHARED_INCLUDE.match(s)
+        return m.group(1) if m else None
+    return None
+
+
+def _header_text_parts(inc):
+    """(leading extern lines, definition lines) of an include-site header — the body form's analogue of a macro's parts."""
+    path = os.path.join(REPO, _shared_header_rel(inc))
+    lines = open(path, errors="replace").read().split("\n")
+    return _split_macro_body(lines)
+
+
 def macro_externs(item_text):
-    """The file-scope extern lines a `define`-kind item's macro injects ([] if none)."""
+    """The file-scope extern lines a `define`/`include`-kind item injects ([] if none)."""
+    inc = _include_site(item_text)
+    if inc:
+        externs, _ = _header_text_parts(inc)
+        return list(externs)
     name, args = _invocation(item_text)
-    params, externs, _ = macro_table().get(name, ([], [], []))
+    params, externs, _ = _table_or_refuse(name)
     return [_expand(e, params, args) for e in externs]
 
 
 def macro_proto(item_text):
-    """The prototype implied by a `define`-kind item's macro DEFINITION (None if none)."""
+    """The prototype implied by a `define`/`include`-kind item's DEFINITION (None if none)."""
+    inc = _include_site(item_text)
+    if inc:
+        _, def_lines = _header_text_parts(inc)
+        return _proto_from_lines(def_lines) if def_lines else None
     name, args = _invocation(item_text)
-    params, _, def_lines = macro_table().get(name, ([], [], []))
+    params, _, def_lines = _table_or_refuse(name)
     if not def_lines:
         return None
     return _proto_from_lines([_expand(l, params, args) for l in def_lines])
@@ -830,7 +932,7 @@ def load_ov_syms(ov):
     return syms
 
 
-REAL_KINDS = ("def", "define", "nonmatch")     # items splat will NOT regenerate
+REAL_KINDS = ("def", "define", "include", "nonmatch")     # items splat will NOT regenerate (include = the Phase-35 site form)
 
 
 def rewrite_asm_subseg(text, old_sub, new_sub):
@@ -897,7 +999,7 @@ def hidden_definitions(src, items):
         c, in_block = _strip(line, in_block)
         stripped.append(c)
     code = "\n".join(stripped)
-    anchored = {it[0] for it in items if it[2] in ("def", "define", "asm", "nonmatch")}
+    anchored = {it[0] for it in items if it[2] in ("def", "define", "include", "asm", "nonmatch")}
     missed = []
     for m in _DEF_HDR_RE.finditer(code):
         k = m.end() - 1                          # index of the header (

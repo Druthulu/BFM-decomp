@@ -1300,6 +1300,12 @@ def audit_differential():
     import sig_unify as su
 
     ec = os.path.join(REPO, 'src/shared/engine_core.h')
+    if not os.path.exists(ec):
+        # Phase 35: the macro header is gone (per-function headers under src/shared/<space>/ hold plain C that tu_scope reads
+        # like any TU). The fifteen-incumbent differential was a comparison OVER MACRO TEXT; without that text it has nothing
+        # to compare against, and saying so is the honest result (R43 — never fabricate a synthetic TU from the new form).
+        print('[differential] src/shared/engine_core.h is absent (Phase 35): the macro-era differential no longer applies — OK')
+        return True
     text = open(ec).read()
 
     # The incumbents scan engine_core.h's RAW TEXT — i.e. the bodies of 1,801 #define macros. A

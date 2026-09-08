@@ -4,7 +4,8 @@
 Stage 1 of docs/concurrency-design.md.
 
 WHAT IT PROTECTS
-    src/shared/engine_core.h, src/shared/engine_types.h, config/overlays.mk,
+    src/shared/** (the shared bodies — engine_core.h until Phase 35 T4, the per-function headers after — and
+    engine_types.h), config/overlays.mk,
     config/dedup.us.yaml, and the per-overlay .c files that propagation rewrites.
     These are the only files whose writers span binaries; every per-binary resource
     (build/<bin>/**, src/<bin>/*.c, asm/<bin>/**) is already isolated and is guarded by

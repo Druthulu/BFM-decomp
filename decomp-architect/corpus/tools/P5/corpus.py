@@ -106,15 +106,59 @@ def splat_config(binary):
                         "splat.us.exe.yaml" if binary == "main" else f"splat.{binary}.yaml")
 
 
+_SRC_DIRS = None
+_TWIN_OF = None
+
+
+def src_dirs():
+    """alias -> its source directory, from `<alias>_SRC_DIR :=` in the Makefile and config/*.mk — THE oracle for where a
+    binary's C lives (Phase 35 T2, R33). A twin binary (Phase 35 T3, `<alias>_TWIN_OF :=`) points at its PRIMARY's directory,
+    so every consumer that asks here sees a twin's functions where they are written once."""
+    global _SRC_DIRS
+    if _SRC_DIRS is None:
+        out = {}
+        texts = [open(os.path.join(REPO, "Makefile")).read()]
+        texts += [open(p).read() for p in sorted(_glob.glob(os.path.join(REPO, "config", "*.mk")))]
+        for t in texts:
+            for m in re.finditer(r"^(\w+)_SRC_DIR\s*:?=\s*(\S+)\s*$", t, re.M):
+                out[m.group(1)] = m.group(2)
+        if "main" not in out or "resident" not in out:
+            raise CorpusError("the Makefile/config/*.mk declare no main/resident _SRC_DIR — the source-dir oracle is broken (R32)")
+        _SRC_DIRS = out
+    return _SRC_DIRS
+
+
+def src_dir(binary):
+    """The repo-relative source directory of one binary (R43: an unknown alias is refused, never guessed as src/<alias>)."""
+    d = src_dirs().get(binary)
+    if d is None:
+        raise CorpusError(f"no <alias>_SRC_DIR for {binary!r} in the Makefile/config/*.mk — not an onboarded binary (R43)")
+    return d
+
+
+def twin_of(binary):
+    """The primary alias a twin binary builds from (`<alias>_TWIN_OF :=`, Phase 35 T3), else None."""
+    global _TWIN_OF
+    if _TWIN_OF is None:
+        out = {}
+        for p in sorted(_glob.glob(os.path.join(REPO, "config", "*.mk"))):
+            for m in re.finditer(r"^(\w+)_TWIN_OF\s*:?=\s*(\w+)\s*$", open(p).read(), re.M):
+                out[m.group(1)] = m.group(2)
+        _TWIN_OF = out
+    return _TWIN_OF.get(binary)
+
+
 def src_files(binary):
-    """The .c files that make up a binary. A GLOB — never an allowlist.
+    """The .c files that make up a binary. A GLOB over the binary's source dir — never an allowlist.
 
     An allowlist is a second, decaying model of a tree that already answers the question; every
     split since Phase 19 widened the hole in the last one. If a new split kind appears tomorrow,
-    this function is already correct."""
+    this function is already correct. The directory comes from src_dir() (a twin's is its primary's)."""
+    d = src_dir(binary)
     if binary == "main":
-        return sorted(_glob.glob(os.path.join(REPO, "src", "*.c")))
-    return sorted(_glob.glob(os.path.join(REPO, "src", binary, f"{binary}*.c")))
+        return sorted(_glob.glob(os.path.join(REPO, d, "*.c")))
+    base = os.path.basename(d.rstrip("/"))
+    return sorted(_glob.glob(os.path.join(REPO, d, f"{base}*.c")))
 
 
 def region_of(path, binary):
@@ -309,7 +353,7 @@ def o0_subseg(binary, subseg):
 
     The subseg name is the .c basename by construction (splat writes `src/<bin>/<subseg>.c`, and
     main's subsegs live at the tree root as `src/<subseg>.c`)."""
-    rel = f"src/{subseg}.c" if binary == "main" else f"src/{binary}/{subseg}.c"
+    rel = os.path.join(src_dir(binary), f"{subseg}.c")       # a twin's subseg lives in its primary's dir (Phase 35)
     return is_o0(rel)
 
 

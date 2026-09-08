@@ -86,7 +86,7 @@ def main():
     # Blind spot #1: src/shared/*.h (engine_core.h — 10k+ func_/D_ tokens across every overlay) was
     # never scanned, yet one dangling ref there breaks EVERY clean build at once.
     files = sorted(glob.glob(os.path.join(REPO, "src/**/*.c"), recursive=True) +
-                   glob.glob(os.path.join(REPO, "src/shared/*.h")))
+                   glob.glob(os.path.join(REPO, "src/shared/**/*.h"), recursive=True))
     asm_labeled = asm_labeled_addrs(files)      # blind spot #3: __asm__("label") resolves the ref
     stale = []
     for cf in files:

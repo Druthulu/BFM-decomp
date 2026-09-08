@@ -48,7 +48,10 @@ ENGINE_CORE = 'src/shared/engine_core.h'
 
 
 def macro_bodies(header=ENGINE_CORE):
-    """{macro: body_text} for every DEFINE_func_* in the shared header (continuations joined)."""
+    """{macro: body_text} for every DEFINE_func_* in the shared header (continuations joined).
+    Phase 35: an absent macro header means there is nothing to de-macroize — {} (the include form has no macro to expand)."""
+    if not os.path.exists(os.path.join(REPO, header)):
+        return {}
     text = open(os.path.join(REPO, header), errors='replace').read()
     out = {}
     for m in re.finditer(r'^#define\s+(DEFINE_func_[0-9A-Fa-f]+)\s*\(\s*\)', text, re.M):

@@ -36,9 +36,11 @@
   (`.run/P35/probe/probe_ledger.txt`).
 - ☑ **T1** (S94) — `tools/share_census.py` + `config/dedup_exceptions.tsv`: `selftest: 7/7 verdicts correct`; `362,389 sig instances ·
   362,389 classified · 0 UNACCOUNTED · 10,180 h_exact classes`; the four controls as measured (see the log); SETUP + dictionary rows.
-- ☐ **T2** — the health chain learns the header + twin forms while the old tree is still green (the source-dir oracle; corpus/cdecl/
-  overlay_src_split/progress/dedup_integrate/audit_binaries/lint_symbol_refs/shared_lock/fix_arity_callers/family_remap/blocker_probe/
-  demacroize/export_pairs/harvest_verify); negative control: `make tools-health` OK on the UNCHANGED tree.
+- ☑ **T2** (S94) — the health chain learns the header + twin forms while the macro form still builds (16 tools; the source-dir
+  oracle; `share_census.header_defs` the one reader). Negative control on the unchanged tree: the chain's substantive rungs
+  green (audit-binaries OK · dedup-check 2220/0 · cdecl · report + `progress.py --check` fresh · doc_links · wiki_render · kit_lint ·
+  cookbook-index · gccmap_cites · ghidra_roster), one red rung — the kit's verbatim copies of the edited tools — fixed by
+  `make kit-corpus` (17 copies) with the rungs after it re-run individually by exit code. The +7 count correction published.
 - ☐ **T3** — twin binaries → one source directory: SC01_005/006 (probe), SC03_118/119, SC02_000/003, SC04_018/019, SC03_014/015 (carve
   alignment, R60); one commit per pair; the clean fleet run after the last.
 - ☐ **T4** — `tools/macro_to_header.py`: the fleet converted in L0-gated batches; `engine_core.h`/`ov_setters.h`/`clearTbl40.h` deleted (clearTbl40
@@ -430,7 +432,7 @@ same commit — history keeps it.
 Candidate for the PhaseEnd: "a shared body has exactly one source; a duplicate copy is a defect the health chain asserts, and a
 count of them is published with its rule" (this phase's invariant).
 
-## 🛑 SESSION CHECKPOINT — S94 (2026-09-08): Phase 35 OPEN at gate 1; T0 ☑, T1 ☑ (the census: 362,389/362,389 covered, 10,180 classes, self-test 7/7); NEXT = T2 (the health chain learns the header + twin forms)
+## 🛑 SESSION CHECKPOINT — S94 (2026-09-08): Phase 35 OPEN at gate 1; T0 ☑, T1 ☑ (the census), T2 ☑ (the health chain knows the include + twin forms; the +7 correction published); NEXT = T3 twin binaries → one source directory (probe pair SC01_005/006)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task in §Tasks above.
