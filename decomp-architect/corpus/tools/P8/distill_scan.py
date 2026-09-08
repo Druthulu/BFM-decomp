@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+"""distill_scan.py — one pass of the distill lane: which harvested waves still need mining?
+
+STATE IS {tag: novel-count AT THE TIME IT WAS MINED}, never a bare done-list. A wave that is
+RE-GATED rewrites its candidate file with new rows under the SAME tag, so "have I seen this tag"
+answers the wrong question: wave `at` was re-gated hours after its first harvest and an mtime-keyed
+seed mis-classified it, and a hand-edited done-list nearly buried `ax`+`bm` — 82 candidates that had
+been gated minutes earlier — because "queued for review" was folded into "reviewed". Compare COUNTS,
+and a tag re-opens the moment its file grows.
+
+Writes a READY marker when the pending rows are worth a reviewer's turn. Writes nothing else.
+
+The reviewer is an **Opus or Sonnet** subagent, never Fable (Drew, 2026-08-24): distilling is
+judgement over an existing corpus, not a new wall class.
+
+  distill_scan.py <state.json> <ready_dir> <min_novel> <min_waves>
+"""
+import glob
+import json
+import os
+import re
+import sys
+import time
+
+NOVEL = re.compile(r"\*\*(\d+) novel-idiom candidates\*\*")
+
+
+def main():
+    state_p, ready_dir, min_novel, min_waves = sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4])
+    try:
+        st = json.load(open(state_p))
+    except Exception:
+        st = {"mined": {}}
+    mined = st.setdefault("mined", {})
+
+    pend = []
+    for p in sorted(glob.glob(".run/idiom_candidates.*.md")):
+        tag = os.path.basename(p).split(".")[1]
+        if tag == "ALL":
+            continue
+        m = NOVEL.search(open(p, errors="replace").read(4000))
+        n = int(m.group(1)) if m else 0
+        if n > mined.get(tag, -1):
+            if n:
+                pend.append((tag, n, p))
+            else:
+                mined[tag] = 0                     # nothing to mine; close it out at zero
+
+    # ONE PENDING MARKER AT A TIME. Each pass re-offers everything not yet mined, so without this
+    # the lane wrote a fresh, overlapping marker every five minutes — eight batches queued
+    # (`bobq`, `bebobq`, `bebjbobq`, …), each a superset of the last, and a reviewer cannot tell
+    # which one is the work. The next pass will re-offer whatever is still unmined anyway.
+    # A MARKER IS A CLAIM ON WORK, NOT A RECORD OF IT (P31 S60). A reviewer who distils a batch and
+    # forgets to remove its marker blocks the lane forever: `axbm.json` sat for 10.5 h AFTER its
+    # waves were mined into cookbook §269, while 18 waves / 315 candidates piled up behind it. The
+    # marker's own waves are checkable against `mined`, so check them — a stale claim clears itself.
+    for mk in sorted(glob.glob(os.path.join(ready_dir, "*.json"))):
+        try:
+            waves = json.load(open(mk)).get("waves", [])
+        except Exception:
+            continue
+        if waves and all(t in mined for t in waves) and not any(t == p_t for p_t, _n, _p in pend for t in waves):
+            os.remove(mk)
+            print("  cleared a stale marker (%s): every wave in it is mined"
+                  % os.path.basename(mk))
+
+    already = glob.glob(os.path.join(ready_dir, "*.json"))
+    if already:
+        print("  a batch is already pending review (%s) — not raising another"
+              % ", ".join(os.path.basename(x) for x in already[:3]))
+        json.dump(st, open(state_p, "w"), indent=1)
+        return
+
+    tot = sum(n for _t, n, _p in pend)
+    if pend and (tot >= min_novel or len(pend) >= min_waves):
+        batch = "".join(t for t, _n, _p in pend)[:24]
+        out = os.path.join(ready_dir, batch + ".json")
+        json.dump({"waves": [t for t, _n, _p in pend],
+                   "novel": tot,
+                   "counts": {t: n for t, n, _p in pend},
+                   "files": [p for _t, _n, p in pend],
+                   "t": time.time()}, open(out, "w"), indent=1)
+        print("  BATCH READY: %d wave(s) / %d novel candidates -> %s" % (len(pend), tot, out))
+    elif pend:
+        print("  accumulating: %d wave(s) / %d novel candidates (need %d or %d waves)"
+              % (len(pend), tot, min_novel, min_waves))
+    json.dump(st, open(state_p, "w"), indent=1)
+
+
+if __name__ == "__main__":
+    main()

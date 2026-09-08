@@ -1,0 +1,433 @@
+#!/usr/bin/env python3
+"""Phase-26 §8 ×134: bank a matched jr-function exemplar across its h_seq family siblings.
+
+Per sibling (idempotent, revert-on-fail — the whole-binary byte-gate G3/P9 is the sole arbiter):
+  1. jtbl_carve  — carve the sibling's jtbl into a dotted .rodata subseg + set <ov>_JTBL_INTERLEAVE
+  2. make extract — regenerate asm + run ld_interleave (the data->rodata->data sandwich)
+  3. remap_hseq + canon_sig_reconcile — template the exemplar body onto the sibling's TU
+  4. make build  — whole-binary gate; keep iff byte-identical, else revert (config + src)
+
+Usage:  jtbl_family_bank.py <func> <from_ov> <from_addr_hex> <members.json> [--raw crack.c]
+        members.json = [[to_ov, to_addr_hex], ...]
+
+--raw <crack.c>: template from the RAW crack body via remap_hseq_body instead of the exemplar's
+banked source unit. REQUIRED when the exemplar banked at the `reconciled` stage: a reconciled body
+is ov077-TU-SPECIFIC (§41c — uniquified type names, TU-targeted casts), so extract_unit hands the
+sweep a polluted template and every sibling gate-fails. The raw crack + the per-sibling stage
+ladder (raw → scoped → recovered → reconciled) is the correct composition — the same law behind
+family_sweep's --reconcile-raw. (func_8015AE2C banked raw, so its unit WAS the raw crack and the
+sweep worked; func_80178D40 banked reconciled and its sweep failed 0/4 until this mode.)
+"""
+import glob
+import json
+import shutil
+import os
+import re
+import subprocess
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from family_remap import remap_hseq, remap_hseq_body   # noqa: E402
+from canon_sig_reconcile import reconcile     # noqa: E402
+from scope_data_externs import fix as scope_data_fix   # noqa: E402
+from scope_tu_externs import contested, scope as scope_tu, ScopeRefused   # noqa: E402
+
+
+SPAN_REL = []          # --span-rel: span table offsets relative to the first NEW table (§132b)
+
+
+def sh(cmd):
+    return subprocess.run(cmd, shell=True, capture_output=True, text=True)
+
+
+def stub_file(ov, func):
+    """The ONE .c holding this func's INCLUDE_ASM stub. Fail-loud on duplicates (Phase-29 §8e):
+    the first-sorted-glob behavior once returned a STALE duplicate stub in a different TU
+    (func_80131340 spliced into ov_SC01_077_a.c instead of ..._jr_8012ACE0.c), producing a
+    misattributed `conflicting types` cascade — a wrong-TU splice, not a draft defect."""
+    hits = [cf for cf in sorted(glob.glob(f"src/{ov}/{ov}*.c"))
+            if re.search(rf'INCLUDE_ASM\("[^"]*",\s*{func}\);', open(cf).read())]
+    if len(hits) > 1:
+        sys.exit(f"jtbl_family_bank: {func} has {len(hits)} INCLUDE_ASM stubs in {ov}: {hits} — "
+                 f"duplicate/stale stub; fix the source before banking (a first-match splice "
+                 f"would hit the wrong TU's decl environment)")
+    return hits[0] if hits else None
+
+
+def region_files(ov):
+    """The §8b isolation region files currently on disk for this overlay."""
+    return set(glob.glob(f"src/{ov}/{ov}_jr_*.c"))
+
+
+def like_arg(from_ov, to_ov, to_func):
+    """`--like <exemplar>` transfers the exemplar span's table STRUCTURE to a sibling — for a sibling
+    that has NO record of its own. When the sibling DOES carry a committed `tables=`, the transfer is
+    not just redundant, it is WRONG whenever the two spans no longer host the same set of matched
+    owners: the exemplar's rebased offsets are unioned with the sibling's real ones and the spec comes
+    out too LONG. Byte-witnessed (P30 S29, §132a): ov_SC07_010's `-O0` region shares ov_SC01_077's
+    role name `_o0` (only these two overlays use it; the other 136 are `_o0c`, whose role never
+    matched, which is the only reason the sweep worked at all) — the exemplar had just banked 2 more
+    owners than the sibling has, so the transfer derived SIX starts for THREE emitted tables and
+    `jtbl_rodata_pads` refused. Suppressing the transfer where a record already exists is inert for
+    every sibling the sweep currently banks and fixes exactly the broken one."""
+    try:
+        from jtbl_carve import func_subseg          # the SAME derivation the carve uses (R33)
+        sub = func_subseg(to_ov, to_func)
+        mk = open(os.path.join(REPO, "config/overlays.mk")).read()
+    except Exception:                                # noqa: BLE001 — never block a bank on the guard
+        return f" --like {from_ov}"
+    if sub and re.search(rf"^build/src/{to_ov}/{re.escape(sub)}\.o: JTBL_PADS := .*tables=",
+                         mk, re.M):
+        return ""
+    return f" --like {from_ov}"
+
+
+def span_tables_arg(to_ov, to_func):
+    """`--span-tables` for a span whose ALREADY-MATCHED owner is itself multi-switch (P30 S1, §132b).
+
+    `spec_from_starts` recovers a missing interior table start from the payload zero-word rule, but
+    only where the boundary carries a pad. A matched owner's SECOND table can abut its first with NO
+    pad (8 entries = 32 B ≡ 0 mod 8 ⇒ `.align 3` emits nothing), and its `.s` is pruned, so neither
+    oracle sees it: the spec comes out one table SHORT and the filter refuses at build time.
+
+    SPAN_REL closes it with the one thing that IS family-invariant: the span's table offsets relative
+    to the FIRST NEW table, which `func_jtbls` reads from the sibling's own `.s`. Byte-verified
+    constant across siblings before use (the exemplar's layout is the family's layout — same code,
+    same entry counts, only the base moves). Empty ⇒ no override, so every other family is untouched.
+    """
+    if not SPAN_REL:
+        return ""
+    from jtbl_carve import func_jtbls
+    sub, tbls = func_jtbls(to_ov, to_func)
+    if not tbls:
+        return ""
+    first = min(int(t, 16) for t in tbls)
+    return " --span-tables %s=%s" % (sub, ",".join("0x%x" % (first + d) for d in SPAN_REL))
+
+
+def _restore_yaml_keeping(ov, keep_subs):
+    """Restore `config/splat.<ov>.yaml` to HEAD, but KEEP the code pieces that pre-date this attempt.
+
+    P31 S74. This used to be a blunt `git checkout --` on the whole config. A lazy isolation
+    rewrites the CODE-subseg lines and `jtbl_carve --revert` deliberately does not touch them (it
+    splices only its own carve region), so something had to restore them — but the blunt form also
+    destroys an UNCOMMITTED §431 TU split, whose pieces are named `<ov>_jr_<addr>`, i.e. exactly
+    like an isolation's. No name test can tell the two apart, so the tool must use the same signal
+    it already trusts for `src/`: `keep_regions` records what existed BEFORE this attempt, and what
+    pre-dates the attempt is not this attempt's to remove.
+
+    A kept piece is re-inserted in ADDRESS order (the piece list is address-ordered and splat
+    refuses "segments out of order"). Anything dropped is NAMED on stdout — a silent restore of a
+    config is indistinguishable from a correct one until the next extract fails (R32/R55).
+    """
+    cfg = f"config/splat.{ov}.yaml"
+    cur = open(cfg).read().splitlines()
+    head = subprocess.run(f"git -C . show HEAD:{cfg}", shell=True, capture_output=True, text=True)
+    if head.returncode != 0:
+        return
+    hl = head.stdout.splitlines()
+    C = re.compile(r'^(\s*)- \[(0x[0-9A-Fa-f]+),\s*c,\s*(\w+)\]')
+    head_names = {C.match(l).group(3) for l in hl if C.match(l)}
+    extra = [(int(C.match(l).group(2), 16), l) for l in cur
+             if C.match(l) and C.match(l).group(3) not in head_names]
+    kept = [(off, l) for off, l in extra if C.match(l).group(3) in keep_subs]
+    dropped = [C.match(l).group(3) for off, l in extra if C.match(l).group(3) not in keep_subs]
+    out = list(hl)
+    for off, line in sorted(kept):
+        idx = None
+        for i, l in enumerate(out):
+            m = C.match(l)
+            if m and int(m.group(2), 16) < off:
+                idx = i + 1
+        if idx is None:
+            print(f"jtbl_family_bank: cannot place kept piece {C.match(line).group(3)} in {cfg} — "
+                  f"leaving the config as it is rather than writing a broken one")
+            return
+        out.insert(idx, line)
+    open(cfg, "w").write("\n".join(out) + "\n")
+    if kept:
+        print(f"jtbl_family_bank {ov}: restored {cfg} from HEAD, KEPT "
+              f"{[C.match(l).group(3) for _, l in kept]} (pre-dated this attempt)")
+    if dropped:
+        print(f"jtbl_family_bank {ov}: restored {cfg} from HEAD, DROPPED uncommitted code piece(s) "
+              f"{dropped} — this attempt created them. If one of those was YOUR §431 split, commit "
+              f"it before running this tool (a split is source configuration, not carve state).")
+
+
+def revert(ov, cf=None, keep_regions=None, extract=True):
+    """Restore the overlay to its committed state. `keep_regions` = the region files that existed
+    BEFORE this bank attempt (a previously-banked core's, possibly still uncommitted) — only the
+    files THIS attempt created are removed.
+
+    `extract` (default True) RE-EXTRACTS afterwards. This is not optional for correctness: restoring
+    config/ from git does NOT rewind asm/, so a reverted overlay is left GIT-CLEAN BUT UNBUILDABLE —
+    and `git status` is structurally blind to it (the R22 corollary, here inside a tool's own undo).
+    Byte-witnessed 2026-07-22 on the 0x8013C414 probe: after 3 gate-fails `git status` was EMPTY and
+    ov_SC01_004 failed to link (`undefined reference to jtbl_8018DAC8`). Within a sweep each sibling
+    is a DIFFERENT overlay, so the next sibling's own extract never repairs the previous one — the
+    damage persists to whatever runs next. Pass extract=False only where the caller extracts
+    immediately afterwards anyway (the clean-slate call at the top of bank_one)."""
+    if cf:
+        # Only `git checkout` a TRACKED path: an isolation creates region .c files that were never
+        # added, and checkout on those emits `error: pathspec ... did not match any file(s) known to
+        # git` while doing nothing. Those are removed by the keep_regions cleanup below instead.
+        if subprocess.run(f"git ls-files --error-unmatch {cf}", shell=True,
+                          capture_output=True).returncode == 0:
+            subprocess.run(f"git checkout -- {cf}", shell=True)
+    sh(f"python3 tools/jtbl_carve.py {ov} --revert")
+    # The splat config too: a lazy isolation rewrites the CODE-subseg lines, which jtbl_carve
+    # --revert does NOT touch — without this, a failed attempt leaves the isolation's config in
+    # place, and the NEXT isolation walks an obj list containing the object twice (duplicate/
+    # reversed subseg lines → splat "segments out of order"; byte-proven: the committed
+    # ov_SC01_000 duplicate that broke the func_80178D40 sweep).
+    _restore_yaml_keeping(ov, {os.path.basename(f)[:-2] for f in (keep_regions or set())})
+    subprocess.run(f"git checkout -- src/{ov}/ 2>/dev/null", shell=True)
+    if keep_regions is not None:
+        for f in region_files(ov) - keep_regions:
+            os.remove(f)
+    if extract:
+        sh(f"make --no-print-directory -j16 extract BINARY={ov}")
+
+
+def recover(body, to_ov, cf, func):
+    """The §20/§24 recovery pass, run against THIS sibling's TU: `cast_call_sites` (rewrite a callee decl
+    that conflicts with its real engine_core.h definition to the canonical type, and cast at the call
+    site — codegen-neutral) then `reconcile_tu` (the DATA-symbol analog).
+
+    Phase 26-A: `reconcile_decls` -> `reconcile_tu` here TOO, and this is the path that mattered most.
+    This is the ×134 family sweep — the project's economic engine — and it was running every sibling
+    through the FLEET-MAJORITY oracle, which is measurably wrong for the TU **16% of the time**
+    (across ov_SC01_077's 12 TUs: 2,883 answers agree, **548 CONFLICT** — cc1 rejects the result —
+    and 357 are absent). A poisoned declaration means that sibling silently does not bank, and the
+    loss is invisible: the sweep just reports a smaller number. The irony is exact — the docstring
+    below already knew the symbols are PER-OVERLAY, which is precisely why a FLEET-wide oracle could
+    never have been right.
+
+    It must be redone PER SIBLING: the conflicting symbols are largely PER-OVERLAY (`D_801812A4` in
+    ov_SC01_000 vs `D_800D4F8C` in ov_SC01_077), so the exemplar's recovered decls do not transfer —
+    the remapped body reintroduces the same conflict class against a different symbol set. Returns None
+    if the tools produce nothing (caller falls back to the raw body)."""
+    d_in, d_mid, d_out = (f".run/_fb_{k}_{to_ov}" for k in ("in", "mid", "out"))
+    for d in (d_in, d_mid, d_out):
+        shutil.rmtree(os.path.join(REPO, d), ignore_errors=True)
+        os.makedirs(os.path.join(REPO, d), exist_ok=True)
+    open(os.path.join(REPO, d_in, f"{func}.c"), "w").write(body)
+    sh(f"python3 tools/cast_call_sites.py --overlay {to_ov} --src-file {cf} --in {d_in} --out {d_mid}")
+    stage2 = d_mid if os.path.exists(os.path.join(REPO, d_mid, f"{func}.c")) else d_in
+    sh(f"python3 tools/reconcile_tu.py --overlay {to_ov} --src-file {cf} --in {stage2} --out {d_out}")
+    for d in (d_out, d_mid):
+        p = os.path.join(REPO, d, f"{func}.c")
+        if os.path.exists(p):
+            return open(p).read()
+    return None
+
+
+def isolate(ov, func):
+    """§8b LAZY isolation: give `func` its own code subseg so its jtbl carves without a same-subseg
+    collision. Only invoked when jtbl_carve reports a NON-CONTIGUOUS collision — i.e. `func` shares a
+    code object with an already-banked jr whose jtbl is not adjacent to it. Isolating every jr in all
+    134 overlays upfront is byte-proven (R22 136/136) but would add ~7,200 region files, so we pay
+    only for the cores we actually bank."""
+    return sh(f"python3 tools/jr_isolate_all.py {ov} --only {func}")
+
+
+RAW_BODY = None      # set by main() from --raw; templates via remap_hseq_body instead of extract_unit
+
+
+def bank(func, from_ov, from_addr, to_ov, to_addr):
+    """Revert-guaranteed wrapper around `_bank`. EVERY exit path must leave the overlay at its
+    committed state — including an EXCEPTION.
+
+    Found during T53's own testing (Phase 29): a bad exemplar/address made `remap_hseq` raise, the
+    exception propagated straight out of `_bank`, and the revert never ran — stranding a `jr_isolate`
+    region file (untracked, so `git checkout -- src/` does not remove it) plus a rewritten carve
+    config. In a 132-member sweep that residue silently rides into the next member's build. The
+    stage loop already handles a stage that *raises*; nothing handled the stages never being reached.
+    Same class as §97 (the gate's own tree hygiene)."""
+    keep = region_files(to_ov)
+    try:
+        return _bank(func, from_ov, from_addr, to_ov, to_addr)
+    except Exception as e:                                   # noqa: BLE001 — deliberate catch-all
+        revert(to_ov, keep_regions=keep)
+        return "exception", repr(e)[:140]
+
+
+def _bank(func, from_ov, from_addr, to_ov, to_addr):
+    # CROSS-ADDRESS families: the sibling hosts the same function at a DIFFERENT vram, so its symbol
+    # is func_<to_addr>, not the exemplar's name. Everything on the sibling side (carve, isolation,
+    # stub lookup, reconcile) must use the sibling's name; `remap_hseq` already self-renames the body
+    # (T2b). The first two banked jr families were same-address, so this never surfaced until
+    # func_80182268 (ov_SC01_077 @0x80182268 -> ov_SC02_000/003 @0x8017FCB0).
+    to_func = "func_%08X" % to_addr
+    # clean slate (idempotent): restore this overlay's config AND src to the committed state
+    keep = region_files(to_ov)
+    revert(to_ov, extract=False)      # the explicit extract below covers it (no double-extract)
+    subprocess.run(f"git checkout -- src/{to_ov}/ 2>/dev/null", shell=True)
+    # Extract FIRST so the on-disk asm matches the reverted committed config (the carve reads the
+    # new fn's raw jtbl from asm/<ov>/data — a stale/absent asm from a prior config would miss it).
+    if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
+        revert(to_ov, keep_regions=keep); return "extract0-fail", ""
+    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}{like_arg(from_ov, to_ov, to_func)}{span_tables_arg(to_ov, to_func)}")
+    _carve_out = r.stdout + r.stderr
+    # Auto-isolate on EITHER §8b same-subseg wall: the NON-CONTIGUOUS collision, OR the span-fit wall
+    # ("do not fit the span" — the --like structure transfer's merged span doesn't match this sibling's
+    # actual jtbl layout because another matched fn's tables share the subseg). Phase-29 finding: jr_isolate
+    # unblocks the span-fit case too (byte-proven on func_8017AE2C's exemplar), same as non-contiguous —
+    # splitting the fn into its own subseg shrinks the carve span to just its tables, which then fit.
+    # NOTE: the DISTINCT "more rodata .align than pad specs" table-count-drift error is NOT isolate-fixable
+    # and is deliberately excluded here (it falls through to carve-fail).
+    if r.returncode and ("NON-CONTIGUOUS" in _carve_out or "do not fit the span" in _carve_out):
+        if isolate(to_ov, to_func).returncode:
+            revert(to_ov, keep_regions=keep); return "isolate-fail", ""
+        if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
+            revert(to_ov, keep_regions=keep); return "extract-iso-fail", ""
+        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}{like_arg(from_ov, to_ov, to_func)}{span_tables_arg(to_ov, to_func)}")
+    if r.returncode:
+        revert(to_ov, keep_regions=keep)
+        return "carve-fail", ((r.stdout + r.stderr).strip().splitlines()[-1:] or [""])
+    if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
+        revert(to_ov, keep_regions=keep); return "extract-fail", ""
+    if RAW_BODY is not None:
+        body, info = remap_hseq_body(from_addr, from_ov, to_ov, to_addr, RAW_BODY)
+    else:
+        body, info = remap_hseq(from_addr, from_ov, to_ov, to_addr)
+    if body is None:
+        revert(to_ov, keep_regions=keep); return "remap-refuse", info
+    cf = stub_file(to_ov, to_func)
+    if not cf:
+        revert(to_ov, keep_regions=keep); return "no-stub", ""
+
+    # TWO-STAGE GATE — the recovery pass is a FALLBACK, never unconditional (the §19 lesson, now
+    # byte-proven for canon_sig_reconcile too): reconcile rewrites the def to the canonical sig, and
+    # its `void`->`s32` return promotion is NOT byte-neutral for a void body with no `return` — it
+    # costs one instruction (proven on func_80182268: raw = MATCH 31 ins, reconciled = 32 ins, and the
+    # extra word shifted the whole image +4). So gate the RAW remapped body first and only reconcile
+    # if it fails (which is what the §41 def-side wall actually needs).
+    orig = open(cf).read()
+    m = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', orig)
+    if not m:
+        revert(to_ov, keep_regions=keep); return "no-stub", ""
+    # SCOPED — the §8d fix (tools/scope_data_externs.py). `gather_externs` prepends the exemplar's data
+    # decls at FILE scope; for a per-location symbol the sibling declares only at BLOCK scope inside its
+    # OWN later functions (loosely typed), that carried decl establishes a global the TU never had, and
+    # every later block-scope `extern` of it must now agree — they don't, so gcc rejects the TU
+    # (`conflicting types for D_801812A4`). Demoting those decls into the function body declares no
+    # global, preserves the TU's decl environment exactly, and is byte-neutral (an extern emits no code).
+    # Strictly never worse than raw, so it also becomes the base the later recovery stages build on.
+    scoped, moved = scope_data_fix(body, orig, m.start(), to_func)
+    base = scoped if moved else body
+    stages = [("raw", orig, lambda: body)]
+    if moved:
+        stages.append(("scoped", orig, lambda: scoped))
+
+    # TU-SCOPED — the OTHER half of the §8d lever (Phase 29 T51/T53, cookbook §103). scope_data_fix
+    # above fixes the incoming DRAFT, and it has a give-up branch: when the TU ALREADY declares a
+    # symbol at file scope it DROPS the draft's own decl and lets the TU's type govern. Right when
+    # the two agree; fatal when the byte-true draft needs a different one — a file-scope extern is a
+    # GLOBAL constraint on every later function in the TU. That is not a codegen wall even though it
+    # gate-fails like one: it cost func_80135260 133 of 137 siblings until the TU's decl was moved
+    # (then 132/132 banked, T52). So try moving the TU's decl into its consumers and re-running the
+    # draft-side fix against the scoped TU — composition-correct, because the contested symbols no
+    # longer have a file-scope decl to be dropped against while every OTHER symbol is still handled.
+    #
+    # Declaration-only ⇒ byte-neutral (proven fleet-wide at T51: 132 TUs, R22 140/140), and it is
+    # ordered AFTER the two non-invasive stages because it edits the TU outside the spliced body.
+    # It is ordered BEFORE recovered/reconciled deliberately: those bend the DRAFT, and T48 measured
+    # both of them at +3 instructions for exactly this class — they cannot succeed here.
+    try:
+        tu_syms = contested(body, orig, m.start())
+        if tu_syms:
+            tu_base, tu_report = scope_tu(orig, tu_syms, m.start())
+            if tu_report["moved"]:
+                mm = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', tu_base)
+                if mm:
+                    tu_body, _ = scope_data_fix(body, tu_base, mm.start(), to_func)
+                    stages.append(("tu-scoped", tu_base, lambda: tu_body))
+    except ScopeRefused as e:
+        # Loud, never fatal: an un-scopable TU simply does not get the stage. Printed rather than
+        # swallowed, because a refusal is exactly the diagnostic the next person needs (R32).
+        print(f"    [tu-scope] {to_ov} {to_func}: {e}", flush=True)
+
+    stages += [("recovered", orig, lambda: recover(base, to_ov, cf, to_func) or base),
+               ("reconciled", orig, lambda: reconcile(to_func, base, tu_path=cf))]
+    last_err = ""
+    for name, file_base, make in stages:
+        try:
+            cand = make()
+        except Exception as e:
+            # A stage that cannot even PRODUCE a candidate is not a failure of the sibling — skip to the
+            # next one. (canon_sig_reconcile raises on a K&R definition: it expects an ANSI signature.
+            # A K&R def is mandatory whenever a zero-arg engine_core.h thunk calls the function, so this
+            # must not abort the bank.)
+            last_err = f"{name}: {repr(e)[:90]}"
+            continue
+        # The stub span is re-found per stage: tu-scoped's base is a REWRITTEN TU, so `m` (an offset
+        # into `orig`) does not index it. Using the stale offset would splice at the wrong place.
+        mm = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', file_base)
+        if not mm:
+            last_err = f"{name}: stub vanished from the stage base"
+            continue
+        open(cf, "w").write(file_base[:mm.start()] + cand + file_base[mm.end():])
+        b = sh(f"make --no-print-directory -j16 build BINARY={to_ov}")
+        if b.returncode == 0 and "[ OK ]" in b.stdout:
+            return "BANKED", f"{cf} [{name}]"
+        # CAPTURE WHY THE GATE REFUSED (P30 S38). `last_err` was only ever set when a stage failed to
+        # PRODUCE a candidate; a candidate that built to the wrong bytes — the actual gate rejection —
+        # recorded NOTHING, so every caller saw a bare "gate-fail" with no payload and the failure was
+        # unroutable. (Measured: wave 6's 13 sibling failures could not be classified at all.) A tool
+        # that reports an outcome without the evidence that routes it is the defect class this session
+        # fixed in harvest_verify.classify_fail and .run/s6f_gate.py (untracked since P33.5); this is the third instance.
+        _out = (b.stdout or "") + (b.stderr or "")
+        _hard = [l.strip() for l in _out.splitlines()
+                 if ("undefined reference" in l or "multiple definition" in l
+                     or re.search(r"\.[ch]:\d+.*(error|conflicting types|parse error|redefinition)", l))
+                 and "warning" not in l.lower()]
+        if _hard:                                    # keep BOTH ends: the path identifies the file,
+            _l = _hard[0]                            # the tail names the symbol (never left-truncate)
+            last_err = f"{name}: " + (_l if len(_l) <= 150 else _l[:52].rstrip() + " … " + _l[-95:].lstrip())
+        else:
+            last_err = f"{name}: built, bytes differ (genuine DIFF)"
+        open(cf, "w").write(orig)          # restore the ORIGINAL TU (undoing any tu-scope edit too)
+    revert(to_ov, cf, keep_regions=keep)
+    return "gate-fail", last_err
+
+
+def main():
+    global RAW_BODY, SPAN_REL
+    args = sys.argv[1:]
+    if "--span-rel" in args:
+        i = args.index("--span-rel")
+        SPAN_REL[:] = [int(x, 0) for x in args[i + 1].split(",")]
+        del args[i:i + 2]
+    if "--raw" in args:
+        i = args.index("--raw")
+        RAW_BODY = open(args[i + 1]).read()
+        del args[i:i + 2]
+    func, from_ov, from_addr_hex, members_path = args[:4]
+    from_addr = int(from_addr_hex, 16)
+    members = json.load(open(members_path))
+    # The per-sibling revert restores config/ and src/ from HEAD, so an UNCOMMITTED prior family
+    # bank would be silently reverted mid-sweep. Stop loudly instead (P9).
+    dirty = subprocess.run("git status --porcelain -- config/ src/", shell=True,
+                           capture_output=True, text=True).stdout.strip()
+    if dirty:
+        sys.exit("jtbl_family_bank: config/ or src/ has uncommitted changes — the per-sibling revert "
+                 "restores from HEAD, so a prior uncommitted bank would be lost.\nCommit (or stash) "
+                 "the previous family before sweeping the next.\n" + dirty[:400])
+    tally = {}
+    banked = []
+    for i, (to_ov, to_addr_hex) in enumerate(members, 1):
+        status, detail = bank(func, from_ov, from_addr, to_ov, int(to_addr_hex, 16))
+        tally[status] = tally.get(status, 0) + 1
+        if status == "BANKED":
+            banked.append(to_ov)
+        print(f"[{i:3}/{len(members)}] {to_ov:16} {status}"
+              + (f"  {detail}" if status not in ("BANKED",) else ""), flush=True)
+    print(f"\n=== {func}: {tally} ===")
+    print(f"banked {len(banked)} siblings")
+    json.dump(banked, open(f".run/banked_{func}.json", "w"))
+
+
+if __name__ == "__main__":
+    main()

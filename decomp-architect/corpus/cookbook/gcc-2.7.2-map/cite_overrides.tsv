@@ -1,0 +1,24 @@
+# docs/gcc-2.7.2-map/cite_overrides.tsv — human verdicts for the cites tools/gccmap_cites.py cannot decide from the trees
+# (no identifier or quoted source near the cite). Format: <file:line[-line]><TAB><2.7.2 | 2.8.1 pm | repo><TAB><reason —
+# the construct, its line in the OTHER tree>. Written S88 (2026-09-07) from `gccmap_cites.py --explain` + grep of both trees.
+# `--check` refuses an entry whose cite no longer exists in the map (stale override = a lie, R51). Keep this file small.
+cse.c:6340-6355	2.8.1 pm	the `else if (GET_CODE (y) == CLOBBER)` arm of cse_insn is 6340 in pm; 2.7.2 6340 is a declaration line
+cse.c:1756	2.8.1 pm	1756 is the `invalidate_for_call ()` definition header in pm; 2.7.2 1756 is inside the body
+expr.c:5891	2.8.1 pm	`MEM_IN_STRUCT_P (op0) = 1` (the COMPONENT_REF/ARRAY_REF/BIT_FIELD_REF bundle of expand_expr) is 5891 in pm; 2.7.2 5891 is cleanup bookkeeping
+expr.c:4292	2.8.1 pm	`MEM_IN_STRUCT_P (to_rtx) = 1` (the store side) is expr.c:4292 in pm (3470 in 2.7.2)
+expr.c:465	2.8.1 pm	`MEM_IN_STRUCT_P (new) = MEM_IN_STRUCT_P (x)` (derived MEMs copy the flag) is expr.c:465 in pm (443 in 2.7.2)
+cse.c:7433	2.8.1 pm	"we have just done an invalidate_memory that covers even those" is cse.c:7433 in pm (7265 in 2.7.2)
+stmt.c:3646	2.8.1 pm	the tail of that assign_stack_temp call (the array's home) is 3646 in pm; 2.7.2 3646 is a comment in bc_expand_decl_init
+global.c:397	2.7.2	`reg_allocno[i] = max_allocno++;` is global.c:397 in 2.7.2 (398 in pm)
+global.c:1105-1160	2.8.1 pm	find_reg's eviction block opens with `best_reg < 0 && !retrying` at 1105 in pm (1102 in 2.7.2)
+reload1.c:779	2.8.1 pm	the spill-slot loop `for (i = LAST_VIRTUAL_REGISTER + 1; …) alter_reg (i, -1);` is reload1.c:779-780 in pm (658 in 2.7.2)
+global.c:616	2.8.1 pm	allocno_compare's tie-break `return v1 - v2;` is global.c:616 in pm; 2.7.2 has `return *v1 - *v2;` at 609 (the map's own arrow says so at its first occurrence)
+mips.c:3983	2.8.1 pm	print_operand's `case '*':` (the `%*` delay-slot wrapper) is config/mips/mips.c:3983 in pm; 2.7.2 3983 is make_temp_file
+sched.c:3218-3244	2.8.1 pm	the bb0 head-skip comment "before reload has run, don't delay getting parameters…" is sched.c:3218 in pm (3189 in 2.7.2)
+sched.c:4926	2.8.1 pm	"Nops get in the way while scheduling, so delete them now" is sched.c:4926 in pm (4809 in 2.7.2)
+expr.c:4568	2.7.2	"If address was computed by addition, mark this as an element of an aggregate" (case INDIRECT_REF of expand_expr) is expr.c:4568 in 2.7.2 (5533 in pm); pm 4568 is force_operand
+loop.c:3803	2.7.2	`benefit -= add_cost * bl->biv_count;` (the giv-elimination benefit) is loop.c:3804 in 2.7.2 (3881 in pm); pm 3803 is a comment about final values
+local-alloc.c:1593-1625	2.8.1 pm	block_alloc's suggested-qty first pass `if (qty_sugg_compare (0, 1) > 0)` is local-alloc.c:1593 in pm (1444 in 2.7.2); 2.7.2 1593 is qty_compare's return
+reorg.c:4224	2.8.1 pm	relax_delay_slots' `! INSN_ANNULLED_BRANCH_P (delay_insn) && next && GET_CODE (next) == JUMP_INSN` test is reorg.c:4224 in pm; 2.7.2 4224 is inside dbr_schedule
+combine.c:10829	2.7.2	distribute_notes: the block closing at 10829 precedes "If we haven't found an insn for the death note and it is still a REG_DEAD note, but we have hit a CODE_LABEL" (10831-10832) in 2.7.2 — the parked-REG_DEAD mechanism the note describes; pm 10829 is mark_used_regs_combine's SET-dest strip
+sched.c:820-865	2.7.2	true_dependence's body opens at 820 in 2.7.2 (header 817-819, cited as `sched.c:817 true_dependence` in the same file); pm 820 is read_dependence's header (true_dependence is 830 in pm)

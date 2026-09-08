@@ -1,0 +1,326 @@
+tools/ab_score.py	re-score both arms of an experiment with the standalone matcher as ground truth
+tools/agent_drafts_restore.py	rebuild an agent's final draft by replaying its transcript writes
+tools/agent_reports.py	save each subagent's full final report to one file per target
+tools/agent_verdicts.py	pull the final structured verdict out of each subagent transcript
+tools/alloc_table.py	list each pseudo-register's refs, live length and allocation priority from compiler dumps
+tools/api_agent.py	give an external chat model the same multi-turn tool harness an agent gets
+tools/api_draft.py	draft one function against any chat-completions endpoint, provider-agnostic
+tools/api_rate.py	measure a drafting provider's real request rate and rate-limit attribution
+tools/aprop_autodraft.py	draft a family member mechanically from a seed body and symbol rebase
+tools/aprop_symfix.py	rebase a remapped draft's stale seed symbols onto the target's own
+tools/asm_verbatim.py	emit a function's target assembly as an inline-assembly body
+tools/atlas.py	partition every open function into exactly one lever-labelled work group
+tools/atlas_features.py	extract one deterministic feature record per function across every registered binary
+tools/audit_binaries.py	assert every consumer knows about each newly onboarded binary
+tools/audit_digest.py	recompute headline metrics and fail if the committed digest disagrees
+tools/audit_frontier.py	check that the independent what-remains views agree with the corpus oracle
+tools/audit_header_sigs.py	find shared-header declarations that contradict a function's banked definition
+tools/audit_public.py	gate a first push: prove no derived bytes among tracked files
+tools/audit_text_sources.py	assert every tracked source is plain text so text searches never skip it
+tools/auto_driver.py	loop a stub worklist through scaffold, draft and gate without any model
+tools/auto_status.sh	print an unattended run's heartbeats and recent progress for a remote check-in
+tools/auto_stop.sh	request a safe exit of an unattended run through a stop sentinel
+tools/auto_supervisor.sh	keep an unattended driver alive across crashes until a clean exit
+tools/autopsy.py	recompile every open draft and classify its failure into a residual corpus
+tools/backlog.py	keep a ranked ledger of every close-but-not-matching attempt
+tools/bank_exemplar.py	bank one cracked exemplar through the carve, splice and staged-recovery ladder
+tools/bfm_extract/__init__.py	expose a disc extraction pipeline's stages as one package
+tools/bfm_extract/cd_archive.py	read a bespoke container's table of contents to locate its files
+tools/bfm_extract/crosscheck.py	cross-validate an extraction against an independent third-party tool
+tools/bfm_extract/extract.py	walk the whole medium and extract every file deterministically
+tools/bfm_extract/extract_exe.py	extract the console executable and hard-validate its name, size and header
+tools/bfm_extract/extract_proto_exe.py	extract a prototype build's executable, allowing for its known deviations
+tools/bfm_extract/iso9660.py	walk a raw data track's filesystem and extract files by name
+tools/bfm_extract/lzss.py	decode a bespoke compression format, cross-checked against its own length field
+tools/bfm_extract/manifest.py	build and verify a deterministic sorted checksum manifest of an extraction tree
+tools/bfm_extract/pac.py	parse a bespoke archive-chain header format
+tools/bfm_extract/test_lzss.py	unit-test a bespoke compression decoder against known cases
+tools/bisect_slate.py	isolate the byte-wrong drafts in a batch, with a null control first
+tools/blast_radius.py	measure a change's write set and name the verification it actually requires
+tools/blocker_probe.py	explain with two oracles why a byte-correct draft fails the whole-binary gate
+tools/bootstrap.sh	set up a fresh clone idempotently: packages, environments, pinned tools
+tools/build_engine_types.py	extract inline-defined types and typedefs from a source file into a shared header
+tools/build_fuel_manifest.py	unify live stubs into one ranked, class-tagged, cache-annotated target pool
+tools/build_wave.py	build the next drafting wave from a card pool by fleet leverage
+tools/build_wave_args.py	emit drafting-workflow arguments for a wave from a target manifest
+tools/build_wave_atlas.py	build a wave from the frontier atlas, optimized for gate throughput
+tools/bulk_harvest.py	mass-draft small stubs with a served model and gate them in parallel
+tools/burndown.py	track per-session yield and velocity so a diminishing-returns close is visible
+tools/campaign_status.py	report every concurrent lane with its own metrics, not only the loud one
+tools/canon_draft_decls.py	canonicalize a draft's extern and data declarations to the banked-consistent set
+tools/canon_resident_calls.py	rewrite address-named calls in a draft to their curated symbol names
+tools/canon_sig_reconcile.py	reconcile a definition's typed signature with what its destination unit declares
+tools/cast_call_sites.py	add per-site function-pointer casts so a draft can call a differently typed callee
+tools/cast_self_callers.py	let a unit keep calling, through per-site casts, the function it now defines
+tools/cc1_dumps.sh	dump every compiler pass file for a self-contained draft
+tools/cc1_dumps_tu.sh	dump every compiler pass file for the spliced real translation unit
+tools/cdecl.py	parse C declarators once, for every declaration tool to share
+tools/cdtrace.py	observe a live loader's requests to learn which payload loads where
+tools/claude_wave_packs.py	build the per-function prompt packs a drafting agent wave works from
+tools/compile_only.py	compile every eligible translation unit with the pinned toolchain, using no derived bytes
+tools/conform_decls.py	conform every declaration of a function fleet-wide to its byte-true definition
+tools/cookbook_index.py	generate a symptom-keyed index of a large technique document
+tools/corpus.py	answer from one derived model whether each function is open, matched or shared
+tools/decl_from_use.py	infer a minimal extern for a data symbol the destination unit does not declare
+tools/decl_prior.py	compute the fleet's consensus declaration for every symbol, as card fuel
+tools/decompile.py	turn one function's disassembly into a C scaffold to start a match
+tools/decompme_replica.sh	reproduce an external reference toolchain locally and compare its words to target
+tools/dedup_extend.py	extend an existing code-share registry to newly onboarded binaries
+tools/dedup_integrate.py	validate a code-share registry byte-honestly, failing closed on signature drift
+tools/dedup_propagate.py	lift one matched body into a shared macro and instantiate it everywhere
+tools/demacroize.py	escape a shared-header declaration conflict locally by unmacroizing one body
+tools/diff_autopsy.sh	find which words diverge when the whole-binary gate says different but not where
+tools/diff_regions.py	classify where a remapped sibling's compiled bytes diverge from its target
+tools/difficulty.py	rank unmatched functions easiest-first by size, control flow and call count
+tools/disc_audit.py	account for every byte of the medium, leaving zero unexplained residue
+tools/distill_scan.py	decide which harvested waves still need mining into the technique document
+tools/doc_links.py	check that every relative link in the public docs resolves
+tools/draft_prechecks.py	skip a draft doomed to fail before any compile is spent
+tools/draw_waves.py	draw several drafting waves off the open frontier, cheapest-first
+tools/dup_report.py	report byte-identical and structurally identical function groups within and across binaries
+tools/eval_lora.py	evaluate a fine-tuned matching model gate-truthfully on held-out banked functions
+tools/exclude_audit.py	classify every exclude-list entry by its current blocker and regenerate the list
+tools/exemplar_miner.py	route every residual stub to its lever and rank the highest-reach work
+tools/export_pairs.py	mine gate-verified assembly-to-source pairs into a fine-tuning corpus
+tools/family_align.py	classify drifted structural siblings by aligned words and expand their constants
+tools/family_cousins.py	cluster the open frontier one tier looser than exact skeleton hashing
+tools/family_hseq.py	rank clusters of the unmatched frontier by mnemonic-skeleton hash
+tools/family_manifest.py	name the one exemplar to draft per structural family, ranked
+tools/family_remap.py	remap a matched exemplar's source onto a structural sibling by positional symbol pairing
+tools/family_sweep.py	sweep a matched exemplar across every same-structure sibling, gate-arbitrated
+tools/fetch_psyq.sh	acquire and checksum-verify vendor SDK pieces for a linked build
+tools/find_addr_refs.py	find code that materializes an absolute address, tracking registers rather than pairing windows
+tools/fix_arity_callers.py	repair a shared caller's argument-count conflict for the no-prototype failure class
+tools/fix_decl_mirror.py	bind a void definition to a symbol the destination declares as returning a value
+tools/fix_header_decl.py	rewrite a shared-header caller declaration to a draft's byte-true signature
+tools/fix_tu_ret_decls.py	retype a unit's stale forward declarations to a draft's byte-true return, reverting on failure
+tools/format_finetune.py	turn mined pairs into a chat-template instruction dataset
+tools/fragment_check.py	refuse a draft that swallows a neighbouring symbol inside one function's range
+tools/frogress_upload.py	publish progress metrics to a hosted progress service
+tools/frontier_classify.py	name the true blocker of every remaining open function, deterministically
+tools/gap_triage.py	pre-filter agents' knowledge-gap reports against the existing technique document
+tools/gate_lane.py	drive a wave's gate accepting either result shape and an explicit draft path
+tools/gate_main.py	gate the executable's drafts the only trustworthy way: a clean rebuild with bisect
+tools/gate_main_parallel.py	discover an executable slate's bankable drafts concurrently, then bank once serially
+tools/gate_stage.py	run the one shared recovery, byte-gate and log ladder every producer calls
+tools/gate_triage.py	route a gate result set to the repair tool its own verdict names
+tools/gate_wave.py	gate a whole wave by splitting table-bearing drafts off and running lanes concurrently
+tools/gater_lane.py	drain finished drafts into the gate continuously while drafting still streams
+tools/gccmap_cites.py	tag every compiler-source citation with the source tree it refers to
+tools/gen_engine_decls.py	declare every shared function and data symbol once, canonically, in a generated header
+tools/gen_harvest_targets.py	generate a callee-signature-aware target manifest with per-function fleet reach
+tools/gen_lib_subsegs.py	generate segment lines and a stub list for a multi-block vendor library region
+tools/ghidra_annotations_delta.py	derive the hand-authored annotations by subtracting a fresh analysis baseline
+tools/ghidra_apply_symbols.sh	mirror the curated symbol file into the analysis database with a real save
+tools/ghidra_export_annotations.sh	export a program's annotations to byte-stable line-delimited records, read-only
+tools/ghidra_import.sh	import and auto-analyze a console executable headlessly with the platform loader
+tools/ghidra_import_raw.sh	import a flat headerless blob at a given base with the right processor spec
+tools/ghidra_mcp_start.sh	start the disassembler's automation server detached on a fixed local port
+tools/ghidra_mcp_stop.sh	close the analysis program cleanly so its edits actually persist
+tools/ghidra_mcp_verify.sh	re-open read-only to confirm a symbol edit survived the save
+tools/ghidra_rebuild.sh	rebuild an analysis program from committed text plus extracted bytes, proving equality
+tools/ghidra_roster.py	generate and check a roster of committed analysis programs from the registry
+tools/ghidra_scripts/ApplySymbols.java	apply curated names and signatures inside the analysis tool and save
+tools/ghidra_scripts/BfmMcpServer.java	serve the analysis tool over an automation protocol, saving on a sentinel stop
+tools/ghidra_scripts/DecompileAt.java	decompile one function at a given address straight from the analysis database
+tools/ghidra_scripts/DecompileFunctions.java	batch-decompile an address list into one source file per function
+tools/ghidra_scripts/DefineFunctions.java	create functions at externally validated entry points listed in a file
+tools/ghidra_scripts/DumpFunctionSignatures.java	dump per-function fingerprints in three hash tiers for cross-binary correspondence
+tools/ghidra_scripts/DumpProgramInfo.java	print a program's language, compiler spec, image base and function count
+tools/ghidra_scripts/ExportAnnotations.java	serialize types, signatures, data, comments and labels to stable records
+tools/ghidra_scripts/ExportSymbols.java	export the analysis database's hand-authored symbols to a committable text file
+tools/ghidra_scripts/GetSymbolAt.java	print the symbol name at one address for scripted persistence checks
+tools/ghidra_scripts/ImportAnnotations.java	import annotations back into a program, comparing before writing
+tools/ghidra_scripts/ImportPsyqGdt.java	resolve a vendor SDK type archive into the program's type manager
+tools/ghost_census.py	find pseudo-registers with references but no remaining occurrences, and their frame slots
+tools/gitignore_template_check.py	assert a documented ignore-file template equals the shipped template byte for byte
+tools/glm_parallel.sh	split a target list into slices and run concurrent drafting workers
+tools/glm_reconcile.py	aim a reasoning model at the declaration wall and capture its reasoning
+tools/grinder.py	grind the closest near-misses with the permuter and bank through the gate
+tools/harvest_verify.py	substitute, build, keep only if byte-identical, else revert
+tools/idiom_harvest.py	pull newly learned idioms out of a wave's logs into candidate notes
+tools/idiom_hunt.py	discover new compiler idioms from grouped near-misses with a reasoning model
+tools/idiom_loop.py	drain the easy fuel, learn the next idiom, hand off, repeat
+tools/idiom_serial.py	learn idioms serially so each target inherits what the previous one taught
+tools/idxtab_map.py	decode an on-disc index table into a payload-to-binary naming map
+tools/inject_capped_externs.py	free duplicate matches a share propagation skips as not self-contained
+tools/integration_resolver.py	re-judge already byte-correct drafts and bank them for zero model tokens
+tools/interleave_check.py	assert a read-only-data carve's interleave order equals the segment sequence
+tools/journal_notes.py	mine each function's own past-attempt history out of agent journals
+tools/jr_isolate.py	isolate one switch function into its own segment for an independent table carve
+tools/jr_isolate_all.py	isolate every switch function in a binary in one multi-cut resegment
+tools/jtbl_carve.py	set up the read-only-data carve for a binary's matched jump-table functions
+tools/jtbl_family_bank.py	bank a matched jump-table exemplar across its siblings, reverting on failure
+tools/jtbl_lane.py	carve, draft and bank jump-table functions as their own lane
+tools/jtbl_pads_fix.py	repair a stale padding spec by search plus byte proof, never by guessing
+tools/jtbl_rodata_pads.py	reproduce the original inter-table padding in a multi-table carve
+tools/kit_lint.py	keep a portable starter kit free of one project's names, paths and numbers
+tools/lane_inflight.py	know authoritatively which drafting agents are currently live
+tools/lanes/bounce_drafter_on_queue.sh	restart a drafting worker at a queue boundary so new arguments apply
+tools/lanes/campaign.sh	run two drafting pools against one serial gate
+tools/lanes/distill.sh	run distillation beside drafting so learned idioms reach the next wave
+tools/lanes/drafter.sh	keep drafting running continuously, touching only scratch state
+tools/lanes/elastic.sh	spend spare provider capacity on other work when the gate is the constraint
+tools/lanes/forever.sh	keep an unattended campaign loop alive across run caps and crashes
+tools/lanes/gater.sh	run a restartable gating lane that is safe to kill at any time
+tools/lanes/grinder_lane.sh	run the token-free permuter grinder beside a saturated gate
+tools/lanes/launch_ox.sh	launch a sharded unattended campaign run with a tag and shard count
+tools/lanes/main.sh	run the executable's own lane loop on its clean-rebuild cadence
+tools/lanes/maintenance.sh	run the free recovery and re-judgement passes whenever the gate is idle
+tools/lanes/relaunch_drafter_shell.sh	restart the drafting lane's shell at a queue boundary so new arguments apply
+tools/lanes/resolver_lane.sh	re-judge, verify twice, stage and gate correct drafts for zero tokens
+tools/lanes/restart_gater_when_idle.sh	restart the gating lane's shell between gates so a jobs change lands
+tools/lanes/restart_main_lane_when_idle.sh	restart the executable lane's shell at its one safe boundary
+tools/lanes/sibling_lane.sh	drive structural sibling sweeps with synthesized declarations, free of model tokens
+tools/lanes/stallguard.sh	detect and repair lane stalls automatically on measured conditions
+tools/lanes/toolwork.sh	run tooling-design briefs against an external model with the build config
+tools/lanes/wait_distill.sh	block until a background lane raises its next batch, without polling
+tools/launch_check.py	refuse to launch an agent at a target that is already banked
+tools/ld_interleave.py	reorder a generated linker script to reproduce the original section interleaving
+tools/len_tells.py	classify a length-drift near-miss against its own target and build its routing card
+tools/lenmiss_route.py	route a length-drift near-miss pile through the documented lenses, re-verified
+tools/lift_types.py	lift a named list of types fleet-wide into the shared type header
+tools/lint_symbol_refs.py	flag address-named references whose address now has a curated name
+tools/lora_grind.py	rotate binaries drafting small stubs with a served model, gating and propagating
+tools/macro_draft.py	materialize a shared macro body back into a compilable standalone draft
+tools/main_diff_locate.py	turn a red whole-binary result into a named list of divergent symbols
+tools/main_lane.py	run the executable's own draft, gate and commit cadence beside other lanes
+tools/main_queue_rebuild.py	rebuild the executable lane's queue from the tree, never from a stale list
+tools/main_seed_ends.py	emit function start and length seeds for the executable's own code objects
+tools/make_apicard_used.py	list the interface library's objects and address window the executable actually links
+tools/make_libgs.sh	assemble a vendor graphics library's object list and address blocks for linking
+tools/make_snd_used.py	list a sound library's address window and per-address exclusions
+tools/masked_diff.py	compare instructions with relocations masked, shared by matcher and scorer
+tools/masked_scorer.py	score permuter candidates on true masked code closeness, not mnemonic diff
+tools/match_one.py	compile one function standalone and compare its masked bytes to the target
+tools/match_protos.py	join two related builds' signature dumps into a function correspondence
+tools/mine_hindsight.py	gather every recorded hindsight into one document with file and line anchors
+tools/mk_write.py	write the generated binary-registry makefile safely, validating before replacing
+tools/neighbor_ref.py	rank already-matched functions worth reading as worked examples for an open stub
+tools/new_binary.sh	onboard any flat blob in one command: config, registry entry, first build
+tools/new_overlay.sh	onboard one payload by its container and file-index naming
+tools/normalize_self_decls.py	normalize a function's own declaration when a templated definition lands in a new unit
+tools/o0_boundary.py	find and bank unoptimized functions stranded at an optimized region's boundary
+tools/o0_detect.py	answer from a prologue whether a function was built unoptimized
+tools/o0_subsplit.py	route an unoptimized address range sitting inside an otherwise optimized object
+tools/objdiff_report.py	convert progress metrics into an external progress-report schema
+tools/oracle/reg_renumber_swap.sh	decide whether a residual reorder is scheduling or a register-grant consequence
+tools/oracle_reorder.py	decide whether a near-miss residual is a source defect or an assembler artifact
+tools/orchestrator.py	pick the pool, emit the batch and record the cycle, deterministically
+tools/overlay_src_split.py	partition a source file at object boundaries, aware of comment state
+tools/ox_campaign.py	loop draw, draft, pre-filter, gate, commit and ledger unattended
+tools/p16_improve.py	revert known answers to stubs and categorize every harness failure it exposes
+tools/p16_known_answer.py	validate a scaffold pipeline against known answers across difficulty bands
+tools/p16_permute.py	drive the permuter per function, building base, target and settings
+tools/pads_audit.py	derive an object's inter-table padding spec from the bytes instead of searching
+tools/parallel_gate.py	gate many binaries concurrently in isolated worktrees and merge only passers
+tools/payload_base_evidence.py	rank candidate load addresses for a payload that was never onboarded
+tools/permuter/compile.sh	compile a permuter candidate exactly as the build rule does
+tools/permuter/compile_o0.sh	compile a permuter candidate unoptimized, exactly as the build rule does
+tools/permuter/run_masked.py	run the permuter with a masked scorer rebound, without patching it
+tools/permuter_ils.py	warm-restart the permuter from its best waypoint each cycle
+tools/permuter_sweep.py	hand a batch's near-misses to the permuter, only the ones worth CPU
+tools/permuter_weights.py	steer permuter mutation toward the lever family the residual class implies
+tools/plumbing_groups.py	group recorded declaration-conflict failures into sweepable work groups
+tools/prefetch_fleet.py	batch-decompile one representative per distinct open class into a cache
+tools/pregate_check.py	validate a batch's declaration compatibility in seconds without building it
+tools/progress.py	compute and publish progress metrics as report, machine data and per-binary breakdowns
+tools/psyq_bss_probe.py	ask whether an object's scattered zero-init section can be placed byte-exactly
+tools/psyq_bss_split.py	split one zero-init section of an object into per-base no-bits pieces
+tools/psyq_build_libs.sh	convert vendor library members to the linker's format and archive them
+tools/psyq_identify.py	locate where vendor library objects are linked in a target image
+tools/psyq_integrate.py	wire real library objects into the split build, replacing stub subsegments
+tools/psyq_lib_split.py	split a vendor library archive into its member objects
+tools/psyq_libs_from_disc.py	extract vendor SDK library files from the vendor's runtime-library disc
+tools/psyq_link.py	link one vendor object at a fixed address so its code is byte-identical
+tools/psyq_link_lib.py	link every used object of a vendor library and byte-verify each
+tools/psyq_link_region.py	link a whole library's objects in place of stubs, placing data no-load
+tools/public_rewrite/absent_scan.py	assert nothing purged remains in any object, message or ref
+tools/public_rewrite/build_commit_map.py	emit the public ordinal-to-hash map and the private old-to-new map
+tools/public_rewrite/common.py	share the purge rules and derived hash sets across the rewrite package
+tools/public_rewrite/gate_scan.py	prove no derived blob is reachable from the refs about to be pushed
+tools/public_rewrite/hash_dict.py	map every old commit hash to an inert token, privately
+tools/public_rewrite/probe_github.sh	probe whether old commit hashes still resolve on the hosting service
+tools/public_rewrite/resolve_tokens.py	turn ordinal tokens back into shortest-unique hashes at the rewritten tip
+tools/public_rewrite/run_filter.py	run a history rewrite inside a bare clone, refusing to run elsewhere
+tools/public_rewrite/scrub.py	scrub one text with the rewrite's rules, with a sample and self-test
+tools/public_rewrite/verify_rewrite.py	prove pairwise that a rewrite changed only what it was told to
+tools/r22_verify.sh	verify the whole fleet exclusively on a clean tree and clear deferred debt
+tools/ram_probe.py	capture and diff live console memory across scenarios to type struct fields
+tools/reconcile_slate.py	drive a whole batch to declaration-compatible before any rebuild is spent
+tools/reconcile_tu.py	conform a draft's data declarations to what its destination unit can see
+tools/recover_drafts.py	recover deleted agent draft files from a run's transcripts
+tools/recover_giant.py	recover a large draft rejected only on declaration plumbing, with canonical externs
+tools/recover_integration.py	drive batch integration recovery over a directory of correct-but-rejected drafts
+tools/recover_rejects.py	turn pre-gate rejects back into bankable drafts for zero model tokens
+tools/recover_route.py	name the one recovery tool that actually applies to a drop verdict
+tools/reloc_identity.py	check the symbol identity the masked comparison deliberately hides
+tools/reloc_verify.py	resolve every relocation in a draft and compare the resolved words to target
+tools/reorder_passthrough.py	restore the assembler-reorder build path for objects originally assembled that way
+tools/residual_class.py	map a residual to a named codegen class by decoding its words
+tools/residual_rules.py	turn a measured residual into the specific documented lever that addresses it
+tools/residual_rules_b.py	classify a residual's shape to its documented lever, as an independent implementation
+tools/restage_matching.py	re-stage only drafts that match in their real unit so one failure is isolated
+tools/restore_dropped_decls.py	restore file-scope declarations a share propagation deleted with the body
+tools/rollout_o0.py	roll an unoptimized definition atomically across every binary carrying it
+tools/rtu_match.py	splice a candidate into a copy of its real translation unit and compare bytes
+tools/rtu_second_chance.py	re-judge standalone compile failures against their real translation unit before dropping
+tools/rtu_shadow.py	measure gate inversion by running the real-unit check in shadow beside the gate
+tools/scan_leftovers.py	re-verify every draft already on disk and bank the free wins
+tools/scope_data_externs.py	place a templated body's data externs at a scope the destination accepts
+tools/scope_demote_drafts.py	demote declaration scope as one rung of the recovery ladder
+tools/scope_tu_externs.py	move a unit's file-scope data externs down into their consumers
+tools/seed_ref.py	find an already-banked body that matches an open stub, near and contained tiers
+tools/serve_local.py	serve a fine-tuned model locally behind a chat-completions endpoint
+tools/shared_lock.py	hold one reader/writer lock over the shared source state for concurrent lanes
+tools/sig_image.py	sign every function of a flat image at a known base, without a disassembler
+tools/sig_unify.py	unify a draft's callee externs and its own signature to the banked-canonical set
+tools/split_indicator.py	name the code segments that must be split before their switch functions carve
+tools/split_src_region.py	split a source file at object boundaries, preserving matched code and stubs
+tools/strand_census.py	check whether an open target already has a draft on disk
+tools/stub_invariant_audit.py	negative-control the comparer: every stub's built object must equal its target
+tools/sweep_citations.py	localize every compiler-source citation in a document against the pinned sources
+tools/sweep_parallel.py	gate pre-staged draft directories across distinct binaries in parallel
+tools/symcheck.py	diff the symbol set a draft references against the target's, before gating
+tools/sync_tu_decls.py	bank a refused draft by copying the destination unit's own declarations into it
+tools/t5_bank.sh	judge each arm of a wave and bank the union, refusing if unsafe
+tools/t5_cards.py	build the card fuel for one wave's own targets, keyed per binary
+tools/t5_distill_args.py	build the post-wave distillation slate from a wave's directories
+tools/t5_targets.py	draw one routed slate from the classified frontier
+tools/t7_bank.py	bank a batch, reconciling declarations at bank time before the whole-binary gate
+tools/test_jtbl_parse_config.py	regression-test the table-carve configuration parser with a negative control
+tools/test_o0_detect.py	negative-control the detector that decides a function's optimization level
+tools/test_reconcile_ledger.py	exercise a guarded repair path the full negative control never reaches
+tools/test_residual_class.py	unit-test a residual classifier on hand-encoded words, not its own decoder
+tools/timeline.py	build a progress timeline from the repository's own committed digests
+tools/train_lora.py	fine-tune a code model into a matching specialist on a mined corpus
+tools/transcript_dump.py	condense a session transcript into readable text for a successor session
+tools/treelock.sh	hold one mutex over tree-writing campaigns, with status and stale detection
+tools/triage_ladder.py	decide before and after drafting whether a target needs an agent at all
+tools/twin_rescan.py	report which open stubs became mechanical remaps the moment one was banked
+tools/twin_sweep.py	bank every open stub that already has a banked structural twin
+tools/uniquify_type.py	give each conflicting camp of a same-named type its own name
+tools/validate_targets.py	gate every target list for validity before agents are spawned
+tools/verbatim_check.py	guard that every inline-assembly body still reproduces its target bytes
+tools/verbatim_target_s.py	regenerate a splitter-format target disassembly for a function no longer stubbed
+tools/verbatim_to_stub.py	turn an inline-assembly body back into a stub the toolchain can reach
+tools/verify_binary.py	byte-verify one binary by hand the only correct way, re-extract included
+tools/verify_contract.sh	prove the whole byte-identity contract end to end, step by step
+tools/verify_map_findings.py	machine-check an audit's findings against the actual compiler sources
+tools/verify_worktree.py	check a commit out into its own worktree and verify it there
+tools/wall_sweep.py	enumerate fleet-wide every instance of one known assembler-level blocker class
+tools/wall_taxonomy.py	size each avenue by classifying every unmatched residual by blocker class
+tools/warmstart.py	feed the permuter warm-start drafts built from banked exemplars and routed fuel
+tools/wave_args.py	emit the exact drafting-workflow arguments, asserting every target is still open
+tools/wave_card_fuel.py	compute in one library the per-target card fuel a prompt pack carries
+tools/wave_judge.py	gate each arm on the whole binary with a tree reset between arms
+tools/wave_snapshot.py	give a wave its own immutable copy of the disassembly its agents read
+tools/wave_targets.py	select a worker wave's target batch from the manifest with cache filters
+tools/weave_sweep.py	apply one proven codegen lever everywhere the bytes say it belongs
+tools/wiki_render.py	render doc trees into wiki page names, rewriting every relative link
+tools/wiki_sync.sh	render and publish the docs to a hosted wiki, replacing its pages
+tools/work_evidence.py	assert that a tool actually did the work it reports
+tools/worklist.py	join the target pool and near-miss ledger into one byte-weighted queue
+tools/xsig/tests/make_fixtures.sh	regenerate the signature tool's fixtures with the pinned toolchain
+tools/xsig/tests/test_xsig.py	property-test the signature tool on committed fixtures, needing no compiler
+tools/xsig/xsig.py	sign functions with relocations masked for cross-project code identification

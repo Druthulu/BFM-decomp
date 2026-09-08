@@ -40,9 +40,9 @@ nf = [p for p in neg if sh(f"git -C '{R}' check-ignore -q '{p}'").returncode == 
 check(f"check-ignore positive {len(pos)-len(pf)}/{len(pos)}", not pf, str(pf)); check(f"check-ignore negative {len(neg)-len(nf)}/{len(neg)}", not nf, str(nf))
 # 4. registry, memory, commits, audit
 g = len(re.findall(r'^### G\d+ ', (R/'RULES_REGISTRY.md').read_text(), re.M)) if (R/'RULES_REGISTRY.md').exists() else -1
-check("registry G rules == 65", g == 65, f"got {g}")
+check("registry G rules == 67", g == 67, f"got {g}")
 mem = [p for p in (R/'.claude-state/memory').glob('*.md') if p.name != 'MEMORY.md'] if (R/'.claude-state/memory').exists() else []
-check("memory seeds == 32", len(mem) == 32, f"got {len(mem)}")
+check("memory seeds == 34", len(mem) == 34, f"got {len(mem)}")
 idx = (R/'.claude-state/memory/MEMORY.md').read_text() if (R/'.claude-state/memory/MEMORY.md').exists() else ''
 links = re.findall(r'\]\(([^)]+\.md)\)', idx); dangling = [l for l in links if not (R/'.claude-state/memory'/l).exists()]
 check(f"MEMORY.md links resolve {len(links)-len(dangling)}/{len(links)}", not dangling, str(dangling[:5]))

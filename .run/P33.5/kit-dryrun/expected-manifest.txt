@@ -14,6 +14,7 @@ CREATED .claude-state/memory/a-slow-gate-is-a-bug.md
 CREATED .claude-state/memory/answer-before-grinding-in-live-coop.md
 CREATED .claude-state/memory/breadth-is-isolated-agents.md
 CREATED .claude-state/memory/checkpoint-means-everything-is-already-in-a-file.md
+CREATED .claude-state/memory/consult-the-tool-dictionary-first.md
 CREATED .claude-state/memory/keep-an-accelerator-ledger.md
 CREATED .claude-state/memory/long-checks-run-in-the-foreground.md
 CREATED .claude-state/memory/mcp-reconnect-after-restart.md
@@ -26,6 +27,7 @@ CREATED .claude-state/memory/route-by-measured-difficulty.md
 CREATED .claude-state/memory/the-byte-gate-is-the-only-claim.md
 CREATED .claude-state/memory/the-matching-flywheel.md
 CREATED .claude-state/memory/tool-change-ships-with-its-consumers-and-docs.md
+CREATED .claude-state/memory/translate-the-source-idiom-through-the-pass.md
 CREATED .github/workflows/no-rom.yml
 CREATED .run/README.md
 CREATED .run/decomp-architect-install-manifest.txt
@@ -40,6 +42,7 @@ CREATED config/mcp.json.template
 CREATED docs/README.md
 CREATED docs/decomp-architect.md
 CREATED docs/decomp-kernels.md
+CREATED docs/knowledge-corpus.md
 CREATED docs/tools-manifest.md
 CREATED docs/wave-playbook.md
 CREATED phase-ends/DIGEST.md

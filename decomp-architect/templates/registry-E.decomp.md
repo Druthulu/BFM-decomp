@@ -1,6 +1,6 @@
 <!-- decomp-architect: the registry §E seed for a matching decompilation.
      The kit's installer (SETUP.md, Step 7) appends this file's body VERBATIM under the project's RULES_REGISTRY.md §E,
-     inside a marked section, numbered G1…G65 by construction: the intake document asks ProjectArchitect's generation
+     inside a marked section, numbered G1…G67 by construction: the intake document asks ProjectArchitect's generation
      step to leave §E empty except a one-line pointer, and Step 7 asserts that before appending (if §E already holds
      rules, Step 7's fallback renumbers this block by the offset and records the offset in the section header).
      Every rule below is distilled from a finished, byte-identical decompilation; the `provenance:` line names the
@@ -383,7 +383,24 @@ globals and types. After each match: the generalisable lesson into BOTH the cook
 distillation is done by hand because its vocabulary decides whether anyone finds it later; the index is keyed by symptom.
 provenance: BFM R16 + how-to chapter 06
 
-### E.7 — The use of AI (conduct)
+### E.7 — The dictionaries (the tool corpus and the inherited cookbook)
+
+### G66 — Consult the tool dictionary before designing or debugging a tool
+Before writing a new tool or diagnosing a misbehaving one, look the NEED up in the tool index (the kit's `corpus/tools/INDEX.md`
+and the project's own `docs/tool-index.md` once it exists): the proven implementation is the jumping-off point — its design, its
+verdict layers, its refusals — its incident row is the failure mode to avoid, and its Adapt column is the list of what differs
+here. A tool built without the lookup re-learns an incident that was already paid for.
+provenance: BFM P33.5 task 13.5 (Drew, 2026-09-07) — 326 proven tools, 224 with a recorded incident; the day-one kit's reason to exist
+
+### G67 — Translate an inherited idiom through its pass; never copy the lever
+An inherited cookbook idiom is a symptom, a NAMED compiler pass, a lever and a byte proof. On the same compiler family it is used
+directly — and still re-proven on this project's own bytes before it enters this project's cookbook. On another compiler the
+symptom is looked up, the same pass is read in THAT compiler's source (the idiom says exactly what to read), the symptom is
+reproduced with a five-line reproducer, and this project's own lever is found. A lever copied across compilers without its pass
+is a guess wearing a citation.
+provenance: BFM P33.5 task 13.5 (Drew, 2026-09-07); the codegen map's pass → residual → lever structure; how-to chapter 07 "when there is no source"
+
+### E.8 — The use of AI (conduct)
 
 ### G61 — The byte gate is the only claim of success
 The agent never reports a match the gate has not proven; "the compiler ran" and "looks equivalent" are not results. The

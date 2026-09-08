@@ -54,7 +54,7 @@
 - `TODO(platform)`, `TODO(phase-N)` markers are for the developer, in prose or config; they are not filled by the
   installer and are not in the placeholder set. The kit's lint counts them separately so the README can say how many
   remain.
-- The registry seed's G-numbers are literal (G1–G65 by construction, see `registry-E.decomp.md`'s header); there is no numbering placeholder.
+- The registry seed's G-numbers are literal (G1–G67 by construction, see `registry-E.decomp.md`'s header); there is no numbering placeholder.
 - The firewall config's hash sources are literal paths tagged `required:` or `pending:`, not placeholders; a `pending:`
   source becomes `required:` at the phase that creates it (the audit fails on a missing required source and warns loudly
   on a missing pending one).

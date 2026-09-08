@@ -1,5 +1,7 @@
 # 05 — Cards, lanes, waves
 
+> *The source project's tools for this chapter's steps, keyed by the need each answers: [the tool index](../tool-index.md).*
+
 ## The card: fuel, not a ticket
 
 The unit of work handed to a model is not "function X, go". It is a **card**: everything the project already knows that

@@ -57,3 +57,11 @@
 | `tools/audit_public.py` | `tools/` | the ROM audit (purge paths, the derived hash set, the size cap, the pasted-disassembly check); the first-push gate and the CI job; its sources are `config/firewall.txt` |
 | `make format` | `Makefile` | clang-format over `src/` with the tracked `.clang-format` (the community style) |
 | TODO(phase-1): the extractor, the manifest | `tools/` | — |
+
+### The two dictionaries (the kit master copy — consulted, never copied into this repository)
+
+| Corpus | Where | How to use it |
+|---|---|---|
+| The tool dictionary — the source project's tools, verbatim, by ladder phase, keyed by the need each answers | `<kit master copy>/decomp-architect/corpus/tools/INDEX.md` (installed summary: `docs/tools-manifest.md`) | before designing or debugging a tool, grep the index by the need; the matching file is the jumping-off point, its Adapt column the list of what differs here |
+| The inherited knowledge base — the cookbook, its symptom index and the codegen map, verbatim | `<kit master copy>/decomp-architect/corpus/cookbook/` (installed front page: `docs/knowledge-corpus.md`) | same compiler family: look the symptom up, apply, re-prove on your bytes; another compiler: read the same pass in your compiler's source and find your own lever |
+| Kit master copy location | TODO(phase-0.5): the absolute path where `decomp-architect/` is kept after the package folder is deleted from this repository | — |

@@ -1,0 +1,233 @@
+[
+ [
+  "tools/corpus.py",
+  {
+   "config/ files": [
+    "config/symbols.us.txt"
+   ],
+   "build/ tree": [
+    "build/src/"
+   ],
+   "src/ tree": [
+    "src/",
+    "src/<bin>/<subseg>",
+    "src/<subseg>",
+    "src/boot",
+    "src/{binary}/{subseg}",
+    "src/{subseg}"
+   ],
+   ".run/ scratch": [
+    ".run/fuel_manifest",
+    ".run/sig"
+   ],
+   "make targets": [
+    "make every",
+    "make sig-main-oracle",
+    "make sig-overlays",
+    "make sig-resident",
+    "make the",
+    "make this"
+   ],
+   "BINARY alias": [
+    "BINARY"
+   ],
+   "alias prefixes": [
+    "main",
+    "md_",
+    "ov_",
+    "resident"
+   ],
+   "docs/ files": [
+    "docs/second-oracle.md"
+   ],
+   "compiler/asm flags": [
+    "-O0",
+    "-O2"
+   ]
+  }
+ ],
+ [
+  "tools/match_one.py",
+  {
+   "asm/ tree": [
+    "asm/<bin>/nonmatchings/<sub>",
+    "asm/nonmatchings/<sub>",
+    "asm/resident/nonmatchings/resident"
+   ],
+   ".run/ scratch": [
+    ".run/drafts",
+    ".run/drafts2",
+    ".run/drafts3",
+    ".run/match",
+    ".run/match/<fn>"
+   ],
+   "BINARY alias": [
+    "BINARY"
+   ],
+   "alias prefixes": [
+    "main",
+    "resident"
+   ],
+   "compiler/asm flags": [
+    "--aspsx-version",
+    "-G0",
+    "-O0",
+    "-O1",
+    "-O2",
+    "cc1"
+   ]
+  }
+ ],
+ [
+  "tools/rtu_match.py",
+  {
+   "asm/ tree": [
+    "asm/"
+   ],
+   "src/ tree": [
+    "src/",
+    "src/800",
+    "src/<binary>/",
+    "src/<binary>/<split>"
+   ],
+   ".run/ scratch": [
+    ".run/crack3/rtu"
+   ],
+   "make targets": [
+    "make build"
+   ],
+   "alias prefixes": [
+    "main"
+   ],
+   "compiler/asm flags": [
+    "--aspsx-version",
+    "-G0",
+    "-O0",
+    "-O1",
+    "-O2",
+    "cc1"
+   ]
+  }
+ ],
+ [
+  "tools/harvest_verify.py",
+  {
+   "config/ files": [
+    "config/check.<bin>.sha",
+    "config/check.{",
+    "config/overlays.mk",
+    "config/splat."
+   ],
+   "asm/ tree": [
+    "asm/",
+    "asm/<bin>/nonmatchings/<subseg>"
+   ],
+   "build/ tree": [
+    "build/resident/resident",
+    "build/src/<ov>/<tu>",
+    "build/us/SLUS_007",
+    "build/{a"
+   ],
+   "src/ tree": [
+    "src/",
+    "src/800",
+    "src/<ov>/<nm>",
+    "src/<ov>/<ov>",
+    "src/<ov>/<tu>",
+    "src/ov_SC03_001/ov_SC03_001_jr_8017AE2C"
+   ],
+   ".run/ scratch": [
+    ".run/drafts",
+    ".run/drafts/<fn>",
+    ".run/harvest_failed",
+    ".run/harvest_verified"
+   ],
+   "make targets": [
+    "make -j",
+    "make build",
+    "make extract",
+    "make it",
+    "make prints",
+    "make the"
+   ],
+   "BINARY alias": [
+    "--binary",
+    "BINARY"
+   ],
+   "alias prefixes": [
+    "main",
+    "md_",
+    "resident"
+   ],
+   "docs/ files": [
+    "docs/SETUP.md"
+   ],
+   "compiler/asm flags": [
+    "cc1",
+    "maspsx"
+   ],
+   "shared header": [
+    "engine_core.h",
+    "engine_types.h"
+   ]
+  }
+ ],
+ [
+  "tools/dedup_propagate.py",
+  {
+   "config/ files": [
+    "config/dedup.us.yaml",
+    "config/modules.mk",
+    "config/overlays.mk"
+   ],
+   "asm/ tree": [
+    "asm/{ov}/nonmatchings/{ov}",
+    "asm/{re"
+   ],
+   "build/ tree": [
+    "build/<bin>/",
+    "build/<bin>/**"
+   ],
+   "src/ tree": [
+    "src/",
+    "src/shared",
+    "src/shared/<header>",
+    "src/shared/engine_core",
+    "src/shared/engine_types",
+    "src/{ov}/{ov}"
+   ],
+   ".run/ scratch": [
+    ".run/audit/a1_harvest_fuel",
+    ".run/dpcc",
+    ".run/sig"
+   ],
+   "make targets": [
+    "make all",
+    "make build",
+    "make check"
+   ],
+   "BINARY alias": [
+    "BINARY"
+   ],
+   "alias prefixes": [
+    "main",
+    "ov_",
+    "resident"
+   ],
+   "docs/ files": [
+    "docs/concurrency-design.md"
+   ],
+   "compiler/asm flags": [
+    "-G0",
+    "-O0",
+    "-O2",
+    "cc1"
+   ],
+   "shared header": [
+    "engine_core.h",
+    "engine_types.h",
+    "src/shared"
+   ]
+  }
+ ]
+]

@@ -157,14 +157,19 @@ FAILS (the README is trackable).
 1. `docs/wave-playbook.md` — CREATE from `pa-overlays.md` **Block 6** (the fenced body under that heading, copied verbatim);
    fill `{{INSTALL_DATE}}`. SKIP if the file exists.
 2. `docs/tools-manifest.md` — `cp "$KIT/tools/MANIFEST.md"` and prepend one line: *"Installed by decomp-architect on
-   {{INSTALL_DATE}}; every row is a Phase-N task until the tools are ported."*
+   {{INSTALL_DATE}}; every row is a task for its phase; the verbatim reference implementation of each is in the kit's
+   `corpus/tools/<phase>/` (the kit master copy — see the ops reference's corpus row)."*
+2b. `docs/knowledge-corpus.md` — `cp "$KIT/corpus/cookbook/README.md"` (the front page that says what transfers from the inherited
+   cookbook, its symptom index and its codegen map — the files themselves stay in the kit master copy beside it).
 3. `docs/decomp-kernels.md` — `cp "$KIT/corpus/decomp-kernels.md"` (the constitution's ladder cites kernels by id; they must
    survive the package's deletion).
 4. If Step 1.3 chose "proceed": `docs/decomp-ladder.md` — `cp "$KIT/intake.decomp.md"` with a banner naming it the roadmap of
    record for this project.
 
 ✓ *Verify:* the files exist; `grep -c '^| [0-9]' docs/wave-playbook.md` ≥ 11 (the step table); `grep -c '^### DK-'
-docs/decomp-kernels.md` = 64; `grep -c '^| \`' docs/tools-manifest.md` = 325.
+docs/decomp-kernels.md` = 64; the manifest's row count equals the total its own header states (`grep -c '^| \`'
+docs/tools-manifest.md` == the "Table rows in all: N" figure in its Coverage line — the live rows plus the superseded pointer
+rows, both derived, never typed here); `docs/knowledge-corpus.md` exists.
 
 ## Step 7 — The registry: the decomp rules into §E
 
@@ -174,12 +179,12 @@ docs/decomp-kernels.md` = 64; `grep -c '^| \`' docs/tools-manifest.md` = 325.
 3. Take the seed body: from the line of `$KIT/templates/registry-E.decomp.md` that starts `## §E —` to its end (the leading
    HTML comment is dropped). **Insert it immediately BEFORE the `## §E′` heading line** (ProjectArchitect's own `## §E`
    heading, its italic paragraph and the pointer line stay above; the registry then reads: the §E heading, the pointer, the
-   installed block G1–G65, then §E′ and §F).
+   installed block G1–G67, then §E′ and §F).
 4. **Fallback** (only if Step 1.4 found rules G1…Gk in §E): renumber the seed body — every `G<number>` token inside the body,
    headings and cross-references alike — by `+k` with one scripted pass, change its heading to end `— installed as
-   G<k+1>–G<k+65>`, then insert as in 3. Record the offset in the log and the PhaseEnd.
+   G<k+1>–G<k+67>`, then insert as in 3. Record the offset in the log and the PhaseEnd.
 
-✓ *Verify:* `grep -c '^### G' RULES_REGISTRY.md` = 65 (or 65 + k); the marker appears exactly once; `## §E′` still follows the
+✓ *Verify:* `grep -c '^### G' RULES_REGISTRY.md` = 67 (or 67 + k); the marker appears exactly once; `## §E′` still follows the
 block; the session-start recitation in `CLAUDE.md` already covers "every §E project rule" — nothing to change there.
 
 ## Step 8 — The overlays and the skeletons
@@ -230,7 +235,7 @@ JSON files parse; `docs/decomp-architect.md` exists.
    present), then every `- [` line of `$KIT/memory-seed/MEMORY.md` in order.
 4. State plainly: **seeded memories activate from the NEXT session.**
 
-✓ *Verify:* `ls .claude-state/memory/*.md | grep -vc MEMORY.md` = 32 (ProjectArchitect's 16 + the kit's 16); every link in
+✓ *Verify:* `ls .claude-state/memory/*.md | grep -vc MEMORY.md` = 34 (ProjectArchitect's 16 + the kit's 18); every link in
 the appended rows resolves to a file; the marker appears once.
 
 ## Step 10 — Verify, the manifest, gitignore the package, close Phase 0.5, hard stop
@@ -248,7 +253,7 @@ the appended rows resolves to a file; the marker appears once.
 2. `python3 tools/audit_public.py` → exit 0. `bash -n tools/bootstrap.sh`. Syntax-check the audit WITHOUT writing bytecode:
    `python3 -c "compile(open('tools/audit_public.py').read(), 'tools/audit_public.py', 'exec')"` (the `py_compile` module always
    writes a `__pycache__`, whatever the environment says; a `__pycache__` left in a fresh install is untracked litter).
-3. `grep -c '^### G' RULES_REGISTRY.md` = 65 (+ the offset, if any).
+3. `grep -c '^### G' RULES_REGISTRY.md` = 67 (+ the offset, if any).
 4. **Gitignore the package:** append to `.gitignore` under the comment `# decomp-architect (the day-one kit's package folder —
    safe to delete after install)` the line `decomp-architect/` (SKIP if present).
 5. **The install manifest:** write `.run/decomp-architect-install-manifest.txt`, sorted, one line per FILE, and print it.
@@ -262,7 +267,7 @@ the appended rows resolves to a file; the marker appears once.
    an expected one, so the set of lines must be derivable from this rule alone.)
 6. **Close the phase.** Tick Steps 6–10. Write `phase-ends/PhaseEnd_Phase0.5.md` from `phase-ends/PhaseEnd.template.md` (which
    now carries the narrative axis): the Build Log = the manifest; Deviations (an existing README/LICENSE left beside a
-   skeleton, a registry offset, the Step-1.3 choice); Rules Added = *"G1–G65 installed into §E — the kit's seed; the origin
+   skeleton, a registry offset, the Step-1.3 choice); Rules Added = *"G1–G67 installed into §E — the kit's seed; the origin
    of each is its provenance line"*; the narrative axis filled honestly (what the install assumed, what it found); the
    Plain-English Recap last. Append the Phase-0.5 synopsis (one paragraph) to `phase-ends/DIGEST.md` part 2 — the digest's own
    maintenance rule. Run `bash tools/backup-claude-state.sh` (ProjectArchitect's state sweep; the transcripts it
@@ -289,7 +294,7 @@ present and trailer-free; `git -C "$ROOT" status --porcelain` is empty apart fro
 .gitignore (+ the firewall block, + decomp-architect/)     config/firewall.txt         config/firewall-fixture.sha1
 tools/audit_public.py       .github/workflows/no-rom.yml    tools/bootstrap.sh          docs/README.md      .run/README.md
 docs/wave-playbook.md       docs/tools-manifest.md          docs/decomp-kernels.md      docs/decomp-architect.md
-RULES_REGISTRY.md (+ §E G1–G65)                              CLAUDE.md (+ Decomp fail-safes, Session-start extras)
+RULES_REGISTRY.md (+ §E G1–G67)                              CLAUDE.md (+ Decomp fail-safes, Session-start extras)
 phase-ends/DIGEST.md        phase-ends/CURRENT_PHASE.template.md (+ the checkpoint block)
 phase-ends/PhaseEnd.template.md (+ the narrative axis)      docs/effort-map.md (+ the decomp rows)
 docs/<cookbook> (+ the entry shape and the triage table)   docs/ops-setup.md (+ Decomp environment)

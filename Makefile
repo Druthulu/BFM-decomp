@@ -144,7 +144,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help bootstrap check-env disc-extract extract build check expected clean report sig-refresh sig-overlays sig-resident sig-main sdk-dual build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health
+.PHONY: help bootstrap check-env disc-extract extract build check expected clean report sig-refresh sig-overlays sig-resident sig-main sdk-dual build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health kit-corpus
 
 # -----------------------------------------------------------------------------
 help:
@@ -159,6 +159,7 @@ help:
 	echo "  make sdk-dual         main byte-identical WITH and WITHOUT the (optional, user-supplied) PsyQ objects"
 	echo "  make report           regenerate docs/ progress + difficulty + duplicate digests (BINARY=main also the fleet roll-up)"
 	echo "  make tools-health     the pre-work ritual: fresh sigs, both boundary oracles, every audit, report, digest assertion"
+	echo "  make kit-corpus       regenerate the tool index, the kit manifest and the verbatim corpora from config/tool_dictionary.tsv"
 	echo "  make sig-main | sig-main-oracle | sig-overlays | sig-resident | sig-modules   the byte-derived function sigs (.run/sig.*.jsonl)"
 	echo "  make audit-corpus | audit-binaries | audit-text-sources | audit-digest | audit-disc | audit-frontier   the oracles"
 	echo "  make clean            remove build/, expected/, asm/, assets/ (fleet-wide; then: make extract-all && make check-all)"
@@ -248,6 +249,11 @@ audit-frontier:
 # byte-gate is structurally blind to it (R34: correct bytes, nothing to say). Found when a
 # `grep -rn func_8013C08C src/` came back empty for a function defined right there; a templated body
 # had then carried the NUL into 137 overlays in this same session. Its own oracle, fail-closed.
+# P33.5 task 13.5: regenerate everything derived from config/tool_dictionary.tsv — docs/tool-index.md, the kit's
+# tools/MANIFEST.md and the verbatim corpora (decomp-architect/corpus/tools + corpus/cookbook). tools-health asserts them fresh.
+kit-corpus:
+	$(VENV_PY) tools/tool_census.py --all
+
 audit-text-sources:
 	$(VENV_PY) tools/audit_text_sources.py
 
@@ -314,6 +320,10 @@ tools-health:
 	# honours its placeholder contract, and its scripts parse; the selftest is the R39 control (a planted leak MUST fail).
 	$(VENV_PY) tools/kit_lint.py --selftest
 	$(VENV_PY) tools/kit_lint.py
+	# P33.5 task 13.5: the tool census — the two enumerations agree (find == git ls-files), every tool has a dictionary row and
+	# every row a file, the need-keyed docs/tool-index.md and the kit's MANIFEST are fresh, the two verbatim corpora under
+	# decomp-architect/corpus/ are byte-equal to their sources (regenerate with `make kit-corpus`).
+	$(VENV_PY) tools/tool_census.py --check
 	$(VENV_PY) tools/xsig/tests/test_xsig.py 2>&1 | tail -1 | grep -q '^OK' && echo 'xsig tests: OK (8)' || { echo 'xsig tests: FAIL'; exit 1; }
 	# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
 	# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).

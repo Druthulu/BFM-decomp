@@ -1,5 +1,7 @@
 # 04 — Oracles and instruments: a true number about a narrower world
 
+> *The source project's tools for this chapter's steps, keyed by the need each answers: [the tool index](../tool-index.md).*
+
 The most damaging defect class in an automated decomp is not a crash. It is **a tool that exits zero reporting a TRUE
 number about a scope narrower than the reader believes** — a step that quietly skips, or quietly accepts, work it
 cannot handle, so the failure looks ordinary and gets attributed to the worker or the compiler. In one late session of

@@ -1,5 +1,7 @@
 # Toolchain setup
 
+> **Every tool, by need:** the [tool index](../tool-index.md) (generated; its authored half is `config/tool_dictionary.tsv`).
+
 Everything runs inside one Linux environment (the project uses WSL2 Ubuntu 24.04 on a single ext4 clone; builds never
 run on a Windows-mounted path — the 9P bridge is slow and breaks file watching). The authoritative, evolvable reference
 for every version, path and command is [`docs/SETUP.md`](../SETUP.md); this page is the map of it.

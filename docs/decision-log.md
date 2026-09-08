@@ -3547,3 +3547,39 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
   existed from the first wiki commit: a link policy the checker enforces (wiki-first, no links into an archive) and a content check
   in the ROM audit — both were one-day builds. And run the referrer census and the pending-list mechanism as a habit for every
   document move; the one-shot audits found nothing the checks would not have found continuously.
+
+## P33.5 S91 (2026-09-07) — the kit ships the toolset and the knowledge base as DICTIONARIES; the tools folder gets its audit; the flip's gate opens
+
+- **Context and belief.** The kit (tasks 10–13) was built on the plan's honesty line: it installs documents, configuration and the ROM
+  audit, and NO tools — the source project's tools hard-code its layout, its compiler triple and its platform SDK, and a tool shipped
+  untested on a second target would be the fake-success class the project fights. The dry-run (task 13, three runs) proved the
+  installer end to end on that basis. The belief was that a manifest of tool NAMES by phase was the honest maximum before the split.
+- **What the day measured.** Asked whether `tools/` had been audited like `docs/` had, the answer was no: 326 tool files, 224 with a
+  SETUP row, 91 with no runtime consumer, the kit's manifest an agent-transcribed table that would go stale. Drew's first amendment
+  (task 13.5) added the audit with a retirement criterion — a tool that was required to finish the decomp is judged on its value to a
+  FUTURE decomp: still needed, superseded by a named successor, or a one-off with a named product. His second, after the dry-run,
+  reframed the tools question: ship them, and the cookbook, **as dictionaries** — complete, verbatim, with in-depth why/how/when — because
+  the list of what worked is the best forecast of what the next project will need, the proven implementation beside each entry is
+  worth more than a description, and for a same-compiler target the cookbook and codegen map apply directly while for another
+  compiler each idiom names exactly which pass to read in that compiler's source. Confirmed in-tree, now.
+- **The pivot.** `tools/tool_census.py` — derived facts from the tree (two agreeing enumerations, docstring, SETUP row, consumers,
+  class) + authored facts in `config/tool_dictionary.tsv` (phase, portability, the NEED each tool answers, the verdict) with coverage
+  asserted both ways — generates `docs/tool-index.md` (need-keyed), the kit's manifest and two verbatim corpora (`corpus/tools/<phase>/`
+  302 copies + 28 superseded pointers; `corpus/cookbook/` the cookbook, its index, the codegen map behind a front page stating what
+  transfers), byte-equal to their sources in tools-health; `kit_lint` exempts the corpus directories as evidence and syntax-checks
+  them; two memory seeds and two rules (G66 consult the tool dictionary first; G67 translate an inherited idiom through its pass,
+  never copy the lever); the new project installs only the index and the front pages and records where the corpus lives — 9 MB
+  in the kit, none copied into a new repository. 34 tools retired to `tools/sunset/` with history (28 superseded, 6 one-offs; four of
+  the agent's one-off verdicts overturned under the criterion because every future project needs them: the hindsight miner, the
+  decomp.me replica, the two rewrite executables). A five-tool layout-contract probe measured what a same-compiler project would need
+  to adopt for the tools to run near-unchanged (`templates/layout-contract.md`, a draft for the split).
+- **The measured why.** The dry-run's own findings were the argument: run 1 fell to ProjectArchitect's directory-form `.run/` ignore
+  line defeating every re-include beneath it (the source project's conventions page documents exactly that trap — the knowledge
+  existed and the kit had not carried it); run 4 fell to a check I typed against a figure a tool derived (321 rows vs "293 live") —
+  fixed by making both sides derived. A kit whose value is "what we learned" must carry the learning in the form an agent can grep
+  when the need arises, not as prose about it. And the purge probe PASSED the same day (every sampled old hash gone from the host;
+  the live-commit control resolves) — Phase 34's gate is open.
+- **Hindsight path.** Build the tool census and the need-keyed index at the FIRST phase that has ten tools, and keep the dictionary
+  row as part of adding a tool (a tool without a row fails the health check); the source project wrote 224 SETUP rows over thirty
+  phases and still had 91 unreachable tools at the end. And decide "install vs corpus" on day one of a kit: the honest line is not
+  "no tools" but "the proven tools as verbatim evidence with an index, and none installed as if they ran".

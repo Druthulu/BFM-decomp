@@ -1,0 +1,53 @@
+APPENDED .claude-state/memory/MEMORY.md (## decomp-architect seed)
+APPENDED .gitignore (# ROM firewall — in force from the FIRST commit; # decomp-architect (the day-one kit's package folder — safe to delete after install))
+APPENDED CLAUDE.md (## Decomp fail-safes)
+APPENDED RULES_REGISTRY.md (## §E — Project-specific rules (a matching decompilation))
+APPENDED docs/decomp-cookbook.md (## The decomp entry shape)
+APPENDED docs/effort-map.md (## Per-phase effort map (decomp ladder)
+APPENDED docs/ops-setup.md (## Decomp environment)
+APPENDED phase-ends/CURRENT_PHASE.template.md (## 🛑 SESSION CHECKPOINT)
+APPENDED phase-ends/PhaseEnd.template.md (## What we believed, what failed and why it looked right, what it cost, and what we would do sooner)
+CREATED .clang-format
+CREATED .claude-state/memory/a-slow-gate-is-a-bug.md
+CREATED .claude-state/memory/answer-before-grinding-in-live-coop.md
+CREATED .claude-state/memory/breadth-is-isolated-agents.md
+CREATED .claude-state/memory/checkpoint-means-everything-is-already-in-a-file.md
+CREATED .claude-state/memory/keep-an-accelerator-ledger.md
+CREATED .claude-state/memory/long-checks-run-in-the-foreground.md
+CREATED .claude-state/memory/mcp-reconnect-after-restart.md
+CREATED .claude-state/memory/no-sleep-polling-background-tasks.md
+CREATED .claude-state/memory/offline-tooling-first.md
+CREATED .claude-state/memory/one-runbook-is-the-procedure.md
+CREATED .claude-state/memory/phaseend-carries-the-narrative-axis.md
+CREATED .claude-state/memory/resume-means-resume-the-run.md
+CREATED .claude-state/memory/route-by-measured-difficulty.md
+CREATED .claude-state/memory/the-byte-gate-is-the-only-claim.md
+CREATED .claude-state/memory/the-matching-flywheel.md
+CREATED .claude-state/memory/tool-change-ships-with-its-consumers-and-docs.md
+CREATED .github/workflows/no-rom.yml
+CREATED .run/README.md
+CREATED .run/decomp-architect-install-manifest.txt
+CREATED CONTRIBUTING.md
+CREATED LICENSE
+CREATED Makefile
+CREATED README.md
+CREATED config/decomp-hooks.snippet.json
+CREATED config/firewall-fixture.sha1
+CREATED config/firewall.txt
+CREATED config/mcp.json.template
+CREATED docs/README.md
+CREATED docs/decomp-architect.md
+CREATED docs/decomp-kernels.md
+CREATED docs/tools-manifest.md
+CREATED docs/wave-playbook.md
+CREATED phase-ends/DIGEST.md
+CREATED phase-ends/PhaseEnd_Phase0.5.md
+CREATED phase-ends/logs/PhaseLog_0.5.md
+CREATED src/NOTICE.md
+CREATED tools/audit_public.py
+CREATED tools/bootstrap.sh
+SKIPPED .claude/settings.json (never touched at Phase 0.5 — Phase 2 merges the SessionStart hook when the oracle server exists)
+SKIPPED .mcp.json (never touched at Phase 0.5 — Phase 2 copies config/mcp.json.template with the real endpoint)
+SKIPPED CONTRIBUTING.decomp-skeleton.md (not written — no pre-existing CONTRIBUTING.md, so the filled skeleton became CONTRIBUTING.md itself)
+SKIPPED README.decomp-skeleton.md (not written — no pre-existing README.md, so the filled skeleton became README.md itself)
+SKIPPED docs/decomp-ladder.md (not written — Step 1.3 passed: the intake's ladder is already in PROJECT_CONTEXT.md)

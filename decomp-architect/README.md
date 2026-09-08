@@ -67,7 +67,7 @@ session and say `Begin Phase 1`.
 |---|---|
 | **The intake** (`intake.decomp.md`) | ProjectArchitect's twelve items pre-answered; the canonical phase ladder with a machine-checkable milestone, the tools built, the rules in force and the kernel that earned each phase's position; the six readability inversions; what to tell the generation step about the registry |
 | **The methodology** (`decomp-architect.md` → `docs/decomp-architect.md`) | the ladder and why, the byte gate, cards/lanes/waves, the flywheel laws, the instruments, integration, the compiler's source, models and effort, conduct, readability at day one, what stays hard, publishing, the economics' shape |
-| **The registry seed** (`templates/registry-E.decomp.md` → `RULES_REGISTRY.md` §E) | G1–G65: the oracles and the gate, the ROM firewall, the instruments, the campaign, compiler walls, publishing, the use of AI — each with a `provenance:` line naming the failure that earned it |
+| **The registry seed** (`templates/registry-E.decomp.md` → `RULES_REGISTRY.md` §E) | G1–G67: the oracles and the gate, the ROM firewall, the instruments, the campaign, compiler walls, publishing, the use of AI — each with a `provenance:` line naming the failure that earned it |
 | **The firewall pack** (`templates/gitignore.decomp`, the audit template and its config, a planted fixture, the CI workflow) | no game-derived bytes in git from commit one; an audit that derives its forbidden set, asserts its coverage and fails on the fixture before it is trusted; CI on every push |
 | **The layout and its READMEs** (`docs/`, `.run/`, the ops-setup overlay) | where each kind of knowledge goes; scratch under the repository with dated tracked exceptions; the ops reference a fresh machine rebuilds from |
 | **The overlays** (`templates/pa-overlays.md`, `templates/CLAUDE.decomp-overlay.md`) | marked-section appends to `CLAUDE.md` (the decomp fail-safes and session-start extras), the effort map (Max on the plan, the PhaseEnd, the compiler pin, the segmentation decision, any wall verdict), the cookbook (the idiom entry shape, the triage table), ops-setup; the digest, the replayable checkpoint block and the PhaseEnd narrative axis |
@@ -109,6 +109,10 @@ session and say `Begin Phase 1`.
   `.gitignore`-aware `grep` wrapper hides that; the kit's Step 10.1 scopes the audit and says to use a plain grep.
 - On a host whose global git ignore hides `.claude/settings.local.json`, ProjectArchitect's checkpoint commit silently leaves it
   out; neither installer names it as intentionally uncommitted.
+
+- ProjectArchitect's close step runs `git mv` on the phase file before the last checkbox edits are staged, so the close commit
+  leaves the tree dirty unless the agent notices; its step could say "tick the remaining tasks before the move" (the kit's own
+  Step 10 ticks first).
 
 ## Package contents
 

@@ -1,5 +1,7 @@
 # 10 — Integration and propagation: matching is solved; banking is the bottleneck
 
+> *The source project's tools for this chapter's steps, keyed by the need each answers: [the tool index](../tool-index.md).*
+
 The efficiency audit that became BFM's thesis for the rest of the project (decision log, 2026-07-24): **the bottleneck
 is integration, not idioms.** At one measurement about 92% of drafts were byte-correct and about 27% banked; with the
 codegen map in hand, 11 of 12 first-pass drafts from ordinary agents matched — and every bank failure was

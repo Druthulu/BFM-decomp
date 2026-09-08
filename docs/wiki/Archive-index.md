@@ -82,3 +82,45 @@ documents (0 open stubs), so the last populated snapshot is kept instead of bein
 |---|---|---|
 | `Fable5-ultracode-Full research findings-w42n9cp9t.output` | 216 KB of raw multi-agent research JSON from the first day (the sotn workflow, the Ghidra/PSX stack, WSL) | Everything actionable went into `docs/SETUP.md` and `docs/formats.md` in June 2026 |
 | `debug menu link.txt`, `ghidra psx plugin link.txt`, `sotn-decomp wiki link.txt` | The original three reference URLs | `docs/SETUP.md` §2 and the memory map's source index |
+
+## Tools retired at Phase 33.5 (`tools/sunset/`, v1.32.1)
+
+Retired by the tools audit (task 13.5) under the owner's criterion; the census proved no live consumer; `tools/sunset/README.md` is the review
+table and `config/tool_dictionary.tsv` the record. Paths are cited, never linked.
+
+| File | Verdict | Successor or product |
+|---|---|---|
+| `tools/sunset/audit_header_sigs.py` (was `tools/audit_header_sigs.py`) | SUPERSEDED | tools/conform_decls.py |
+| `tools/sunset/bank_exemplar.py` (was `tools/bank_exemplar.py`) | SUPERSEDED | tools/gate_stage.py |
+| `tools/sunset/bisect_slate.py` (was `tools/bisect_slate.py`) | SUPERSEDED | tools/gate_main_parallel.py |
+| `tools/sunset/build_wave.py` (was `tools/build_wave.py`) | SUPERSEDED | tools/draw_waves.py |
+| `tools/sunset/build_wave_args.py` (was `tools/build_wave_args.py`) | SUPERSEDED | tools/wave_args.py |
+| `tools/sunset/canon_draft_decls.py` (was `tools/canon_draft_decls.py`) | SUPERSEDED | tools/sig_unify.py |
+| `tools/sunset/exemplar_miner.py` (was `tools/exemplar_miner.py`) | SUPERSEDED | tools/atlas.py |
+| `tools/sunset/fix_header_decl.py` (was `tools/fix_header_decl.py`) | SUPERSEDED | tools/conform_decls.py |
+| `tools/sunset/gen_engine_decls.py` (was `tools/gen_engine_decls.py`) | SUPERSEDED | tools/conform_decls.py |
+| `tools/sunset/glm_parallel.sh` (was `tools/glm_parallel.sh`) | SUPERSEDED | tools/ox_campaign.py |
+| `tools/sunset/glm_reconcile.py` (was `tools/glm_reconcile.py`) | ONE-OFF | the measured verdict that the declaration wall is a reconciliation problem, plus the captured reasoning distilled into the cookbook (Phase 23 T10.7 A/B) |
+| `tools/sunset/idiom_loop.py` (was `tools/idiom_loop.py`) | SUPERSEDED | tools/idiom_serial.py |
+| `tools/sunset/jr_isolate.py` (was `tools/jr_isolate.py`) | SUPERSEDED | tools/jr_isolate_all.py |
+| `tools/sunset/bounce_drafter_on_queue.sh` (was `tools/lanes/bounce_drafter_on_queue.sh`) | SUPERSEDED | tools/lanes/relaunch_drafter_shell.sh |
+| `tools/sunset/launch_ox.sh` (was `tools/lanes/launch_ox.sh`) | ONE-OFF | the sharded overnight campaign run it launched (its key file, endpoint and model are that campaign's) |
+| `tools/sunset/toolwork.sh` (was `tools/lanes/toolwork.sh`) | ONE-OFF | the tooling-design briefs it ran against an external model (its key, endpoint and model are that era's) |
+| `tools/sunset/lenmiss_route.py` (was `tools/lenmiss_route.py`) | ONE-OFF | the routed outcome of one length-drift near-miss pile (it consumes that audit's classified ledger) |
+| `tools/sunset/p16_known_answer.py` (was `tools/p16_known_answer.py`) | SUPERSEDED | tools/p16_improve.py |
+| `tools/sunset/plumbing_groups.py` (was `tools/plumbing_groups.py`) | SUPERSEDED | tools/gate_triage.py |
+| `tools/sunset/reconcile_slate.py` (was `tools/reconcile_slate.py`) | SUPERSEDED | tools/pregate_check.py |
+| `tools/sunset/recover_drafts.py` (was `tools/recover_drafts.py`) | SUPERSEDED | tools/agent_drafts_restore.py |
+| `tools/sunset/residual_rules.py` (was `tools/residual_rules.py`) | SUPERSEDED | tools/residual_rules_b.py |
+| `tools/sunset/rtu_shadow.py` (was `tools/rtu_shadow.py`) | ONE-OFF | the measured gate-inversion decision (whether the cheap real-unit check should become the gate's stage 0) |
+| `tools/sunset/scan_leftovers.py` (was `tools/scan_leftovers.py`) | SUPERSEDED | tools/integration_resolver.py |
+| `tools/sunset/sweep_citations.py` (was `tools/sweep_citations.py`) | SUPERSEDED | tools/gccmap_cites.py |
+| `tools/sunset/symcheck.py` (was `tools/symcheck.py`) | SUPERSEDED | tools/reloc_verify.py |
+| `tools/sunset/t5_bank.sh` (was `tools/t5_bank.sh`) | SUPERSEDED | tools/gate_wave.py |
+| `tools/sunset/t5_distill_args.py` (was `tools/t5_distill_args.py`) | SUPERSEDED | tools/distill_scan.py |
+| `tools/sunset/t5_targets.py` (was `tools/t5_targets.py`) | SUPERSEDED | tools/draw_waves.py |
+| `tools/sunset/t7_bank.py` (was `tools/t7_bank.py`) | SUPERSEDED | tools/gate_stage.py |
+| `tools/sunset/treelock.sh` (was `tools/treelock.sh`) | SUPERSEDED | tools/shared_lock.py |
+| `tools/sunset/verify_map_findings.py` (was `tools/verify_map_findings.py`) | ONE-OFF | the machine-checked verdicts of one codegen-map audit (docs/gcc-2.7.2-map/regalloc.md) |
+| `tools/sunset/wall_taxonomy.py` (was `tools/wall_taxonomy.py`) | SUPERSEDED | tools/frontier_classify.py |
+| `tools/sunset/warmstart.py` (was `tools/warmstart.py`) | SUPERSEDED | tools/permuter_sweep.py |

@@ -31,7 +31,7 @@ This kit runs **inside** a ProjectArchitect 2.0 project, as its Phase 0.5. The c
 frozen when the kit runs — from the intake this kit ships (`intake.decomp.md`), which carries the phase ladder — so the
 kit never writes it; the kit appends marked sections to the entry-point file, the registry (§E), the effort map, the
 cookbook and the ops reference, stamps the firewall and the layout READMEs, and seeds the memory. The operative rules
-after install are the project's own `RULES_REGISTRY.md` (ProjectArchitect's groups plus the kit's G1–G65); this
+after install are the project's own `RULES_REGISTRY.md` (ProjectArchitect's groups plus the kit's G1–G67); this
 document is the reference they point back to, not a second rulebook.
 
 ---
@@ -162,7 +162,10 @@ The loop: the gate accepts a function → harvest the worker's note, only for by
 7. **Harvest is a pipeline step, not hygiene** — and periodic, not per bank: the highest-value entry of one session was
    visible only because four independent instances appeared in one wave.
 8. **Seed it before the first match** — from the compiler's own source and from sibling projects on the same compiler
-   family; carry a cookbook across and adapt it rather than rebuild it (DK-14).
+   family; carry a cookbook across and adapt it rather than rebuild it (DK-14). The kit ships two dictionaries for exactly
+   this: the source project's tools verbatim, keyed by the need each answers (consult it before designing or debugging a tool —
+   G66), and its cookbook, symptom index and codegen map behind a front page that says what transfers (translate an inherited
+   idiom through its named pass, never copy the lever — G67).
 9. **Capture while it is fresh** (ProjectArchitect X5): the *why* evaporates at a context boundary.
 
 ```calibration
@@ -341,5 +344,5 @@ harness defects wearing model-failure costumes.
 
 ## Coverage
 Thirteen sections; every claim outside a calibration fence is stated to transfer. The rules are the registry seed
-(`templates/registry-E.decomp.md`, G1–G65); the kernels with their costs are `corpus/decomp-kernels.md` (DK-1 … DK-64 and
+(`templates/registry-E.decomp.md`, G1–G67); the kernels with their costs are `corpus/decomp-kernels.md` (DK-1 … DK-64 and
 the failure museum); the ladder with its milestones is `intake.decomp.md` Part B; the day-one inversions are its Part C.

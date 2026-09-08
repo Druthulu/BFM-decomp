@@ -1,0 +1,7 @@
+settings_sha1 ec258bbf232e4c52e8c999f0676f866f5c01e8f9
+statusline_sha1 186d26f6a513cdaf21e2081bf56ce37f13f294a6
+memory_files 81
+dirty_paths .gitignore,decomp-architect/README.md,decomp-architect/SETUP.md,decomp-architect/templates/docs-README.md
+ghidra_entries 4
+dumps_bin 28
+home_claude_entries 25

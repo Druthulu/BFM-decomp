@@ -384,3 +384,11 @@ unsloth_compiled_cache/
 !/.run/P33.5/kit-dryrun/*.log
 !/.run/P33.5/kit-dryrun/*.json
 !/.run/P33.5/kit-dryrun/*.py
+
+# P33.5 task 13.5 (S91, 2026-09-07): the tools-audit evidence — the survey inputs, the review verdicts, the need-keys, the layout
+# probe and the run-4 judgment. Evidence, tracked.
+!/.run/P33.5/tools_audit/
+/.run/P33.5/tools_audit/*
+!/.run/P33.5/tools_audit/*.txt
+!/.run/P33.5/tools_audit/*.tsv
+!/.run/P33.5/tools_audit/*.json

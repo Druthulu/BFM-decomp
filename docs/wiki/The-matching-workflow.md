@@ -1,5 +1,7 @@
 # The matching workflow — draft → gate → bank
 
+> **Which tool answers which need:** the [tool index](../tool-index.md) lists every tool by the need it answers, with what proved it and what it hard-codes.
+
 ## The definition
 
 A function is **matched** when its compiled output is instruction-identical to the original, register allocation
