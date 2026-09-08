@@ -160,9 +160,10 @@ The rewrite procedure is `docs/public-flip-runbook.md` and the transferable vers
 
 ## The one recorded residue
 
-Two notes files from a Phase-25 crack, `.run/giants/fable_cd4/mine_full.txt` and `target_full.txt`, held the
-disassembly of one matched function (`func_80133CD4`, 398 and 399 lines) — class 3, re-included by a `*.txt` allow-list
-line and invisible to a path-and-hash audit. They were found at the Phase-33.5 audit, after the rewrite had been
+Two notes files from a Phase-25 crack — the giant-crack reconnaissance directory's `mine_full.txt` and
+`target_full.txt`, both named in `tools/public_rewrite/untracked_after_rewrite.txt` — held the disassembly of one
+matched function (`func_80133CD4`, 398 and 399 lines) — class 3, re-included by a `*.txt` allow-list line and invisible
+to a path-and-hash audit. They were found at the Phase-33.5 audit, after the rewrite had been
 force-pushed. The owner's decision (2026-09-07): untrack them and list them in `untracked_after_rewrite.txt`; add the
 content check so the class is caught from now on; do **not** rewrite history a second time for eight kilobytes that the
 tracked C and the pinned compiler already reproduce, at the cost of another set of old tips for the host to purge. The

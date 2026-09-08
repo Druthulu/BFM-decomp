@@ -48,7 +48,7 @@ in-tree links to `docs/wiki/<Page>.md`. 8. `.run/`: only what git tracks; no sca
 - [x] **7** Checkers: `doc_links.py` (sunset refusal, index-derived allowlist, wiki-first warnings, TRACKED/UNTRACKED citation classifier + `--disk`, coverage ⊆); reachability in `wiki_render --selftest`; `timeline.py` regen in `report BINARY=main` + `--check` in `audit-digest`; the 13 dangling cookbook cites; the gitignore-template diff; tools-health wiring; SETUP rows — xHigh — see Log 2026-09-07 Task 7
 - [x] **8** Tracked `.run/` prune (218 paths untracked: the 172 inertia files + 44 finished logs + the 2 firewall listings; `untracked_after_rewrite.txt`; `audit_public` check 4 with both controls; runbook §11; the four tool notes) — xHigh — see Log 2026-09-07 Task 8 — **P6 rules check done after it**
 - [x] **9** Memory reconciliation (the off-project file parked; the 7 stale updated in place; `bfm-decomp-context-system` refreshed; the seed set — 16 files — under `decomp-architect/memory-seed/` with `upstream: PA` tags) — xHigh — see Log 2026-09-07 Task 9
-- [ ] **10** Kit part 1: `README.md`, `intake.decomp.md`, `decomp-architect.md`, `templates/registry-E.decomp.md`, `corpus/decomp-kernels.md`, `templates/PLACEHOLDERS.md` — Max
+- [x] **10** Kit part 1: `README.md`, `intake.decomp.md`, `decomp-architect.md`, `templates/registry-E.decomp.md`, `corpus/decomp-kernels.md`, `templates/PLACEHOLDERS.md` — Max — see Log 2026-09-07 Task 10
 - [ ] **11** Kit part 2: the firewall pack, docs/run READMEs, ops-setup, bootstrap, CLAUDE overlay, `pa-overlays.md`, LICENSE/NOTICE/README/CONTRIBUTING skeletons, `.clang-format` + format snippet, `tools/MANIFEST.md`; `tools/kit_lint.py` in tools-health — xHigh
 - [ ] **12** Kit part 3: `SETUP.md` (§0–§10, `--answers`, the PA-2.0 version pin, the honesty section, Path A only) — Max — **then P6 rules check**
 - [ ] **13** Dry-run install under D6's guardrails; fix; re-run to green; fixture + expected manifest + logs tracked under `.run/P33.5/kit-dryrun/` — xHigh
@@ -441,79 +441,154 @@ or section numbers (the kit_lint pattern + `Drew` → 0 hits); numbers appear on
 16 files == 16 index rows; frontmatter parses (name == stem, type ∈ the four, optional `upstream: PA`); every seed has **Why** and
 **How to apply**; every index link resolves.
 
-## 🛑 SESSION CHECKPOINT — Tasks 0–9 ✓; NEXT = task 10 (kit part 1: README, intake, methodology, registry-E, corpus, PLACEHOLDERS; **Max** — prompt Drew, R27)
+### 2026-09-07 — Task 10 — Kit part 1: README, intake, methodology, registry-E, corpus, PLACEHOLDERS (Max; S91)
+Six files under `decomp-architect/` (sizes at commit): `README.md` 8.7 KB (the three install steps — PA 2.0 first, handing it
+`intake.decomp.md`; copy the folder; "Read decomp-architect/SETUP.md and do it" — what it installs, what it does NOT (no tools;
+the MANIFEST is Phase-1 work until the split), the PS1/PsyQ-complete + `TODO(platform)` scope, the PA-2.0 pin, new-projects-only,
+the package tree); `intake.decomp.md` 20 KB (Part A: PA Mode-1's twelve items pre-answered with FILL markers; Part B: the
+canonical phase ladder, 11 rows (0 governance+firewall → 1 extraction+manifest → 2 oracles+load map+segmentation evidence → 3
+the all-assembly baseline → 4 the compiler pinned → 5 the census + the differential harness at 0% → 6 the multipliers → 7 the
+codegen map + the permuter → 8 first cracks, the manual wave, the campaign → 9 publish → 10 readability), each with a
+machine-checkable milestone, the tools built, the G-rules in force and the DK-kernels that earned its position; Part C: the six
+readability inversions; Part D: what to tell PA's generation step about §E and the fail-safes); `decomp-architect.md` 27 KB (the
+methodology, 13 sections, copied to `docs/` at install); `templates/registry-E.decomp.md` 31 KB (**G1–G65** in seven groups — the
+oracles and the gate, the ROM firewall, instruments, the campaign, compiler walls, publishing and the record, the use of AI —
+each with a `provenance:` line); `corpus/decomp-kernels.md` 62 KB (**DK-1…DK-64** in seven groups + the failure museum's 37
+exhibits condensed and de-numbered, PA's "growing it" rule at the top, one `calibration` fence per kernel that carries a number);
+`templates/PLACEHOLDERS.md` 6 KB (the contract: **22** placeholders — 4 shared with PA incl. `DOMAIN_FAILSAFES` as
+referenced-only, 13 copy-time from the game interview, 5 generation-time — plus what is deliberately NOT a placeholder).
+**Design decisions that bind tasks 11–13 (X1):** (a) the lint vocabulary — `§`+digit and `R`+digits are banned outside
+fences/provenance, so the kit refers to PA's sections as "step N" and **the kit's own SETUP.md (task 12) uses `Step 0 … Step 10`
+headings, not the plan's literal `§0–§10`** (same content, a heading form the lint allows); (b) **registry numbering by
+construction** — the intake's Part D asks PA's generation step to leave §E empty except a one-line pointer, SETUP Step 7 asserts
+that before appending G1–G65 and documents a renumber-by-offset fallback (no `{{N}}` placeholder); (c) **the placeholder
+contract** — tasks 11/12 may add a placeholder only by editing `PLACEHOLDERS.md` in the same change; `kit_lint` diffs the set found
+by `\{\{[A-Z_0-9]+\}\}` over the package against the backticked set in that file; (d) **the firewall config** carries literal hash
+sources tagged `required:`/`pending:` (a missing required source fails; a missing pending one warns loudly; zero resolvable sources
+refuse — R32/R43) so the audit runs at Phase 0.5 before a manifest exists; (e) **`kit_lint` must be fence-aware** — the
+checkpoint's hand grep `grep -v calibration` only drops lines containing that word, not the fence CONTENTS; the honest check
+(used here; the spec for task 11) strips ```` ```calibration ```` blocks and `provenance:` lines, then greps. **Verify:** lint 0 hits
+over 23 files (the 6 + the 17 seed files); placeholders used 22 == listed 22; G ids 65 (1..65), DK ids 64, 0 dangling cites of
+either anywhere in the kit; ladder rows 11/11 each cite ≥1 resolving DK (row 10 first cited only Part C → DK-64 "readability at
+draft and bank time" added, the museum renumbered to part 8); `doc_links --strict` rc 0; `wiki_render --selftest` 12/12,
+reachability 31 pages / 0 unlisted; `TODO(platform)` 5, `TODO(phase-N)` 7.
+**Finding, fixed here (R58/R56 class):** at HEAD `e1463d430` `tools/doc_links.py` exited **1 in BOTH modes** — one BROKEN:
+`docs/wiki/The-ROM-firewall.md` line 163 cited `.run/giants/fable_cd4/mine_full.txt`, UNTRACKED since task 8's `git rm --cached`
+(the classifier is git-based by design, so the untrack flipped the verdict) — i.e. `make tools-health` was red on the docs side and
+the S90 checkpoint's "`doc_links --strict` green" was stale (task 8's verify list did not include a doc_links run; the claim was
+carried from task 7). Fix: the residue paragraph now names the two basenames and cites the tracked
+`tools/public_rewrite/untracked_after_rewrite.txt`; strict rc 0. Lesson for task 15's checklist: re-run `doc_links --strict` after
+ANY untrack, not only after a docs edit.
+**Deviation from the plan's verify column (R41):** the hand grep prescribed in the checkpoint is not fence-aware; the fence-aware
+script above was used instead and is what `kit_lint.py` implements. The kit's `docs/` cross-references are by chapter title and
+kernel/rule id, never by this repository's paths, so the split can lift the folder unchanged.
+
+## 🛑 SESSION CHECKPOINT — Tasks 0–10 ✓; NEXT = task 11 (kit part 2: the firewall pack, READMEs, overlays, skeletons, MANIFEST, `kit_lint`; **xHigh** — prompt Drew, R27)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase31/32/33.md` and this file, and
 nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest (R1–R83), then
-WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–9 completed and task 10 in progress.
+WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–10 completed and task 11 in progress.
 
 ### 1. Where we are
 **Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; effort follows the plan's
-column (Max for tasks 10, 12, 15 — prompt at each transition, R27). Baseline HEAD `80d45b29b`; task 0 = `39d524991`; task 1 =
-`a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 = `6ec4786bd`; task 7 =
-`21c98ed5a`; task 8 = `ae71efe56`; task 9 = `caefe9872`; the S90 checkpoint commit follows it (this file + the decision-log entry).
-No build input changed; the fleet is 218/218 at the Phase-33 close. Tracked `.run/` = 868; `audit_public` OK; `gate_scan` PASS;
-`doc_links --strict` green; pending list empty; tree clean. The kit directory so far holds ONLY `decomp-architect/memory-seed/`
-(16 seeds + MEMORY.md). Tasks 10–13 build the rest of the kit; 14–15 close. **Already banked for task 14 (R31, done at the S90
-checkpoint):** the `docs/decision-log.md` entry "P33.5 S90" — task 14 must NOT write a second one; it still owes the wiki page, the
-README/Tools rows, the SETUP rows for the kit and any accelerators entry. **Session S90 (2026-09-07) ended here at 85% context**;
-the next session is S91. Drew's effort at the end of S90 was xHigh (toggled to Max for task 3 and back); task 10 is Max — prompt.
-Nothing is running in the background; the SessionEnd hook stops the headless Ghidra MCP (no RE work happened; nothing under
-`ghidra/` is tracked). The plan file `~/.claude/plans/max-effort-set-plan-encapsulated-muffin.md` is a copy of the "Approved plan"
-section at the end of this file — this file is the one that counts.
+column (Max for tasks 12 and 15 — prompt at each transition, R27; task 11 is xHigh). Baseline HEAD `80d45b29b`; task 0 =
+`39d524991`; task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 =
+`6ec4786bd`; task 7 = `21c98ed5a`; task 8 = `ae71efe56`; task 9 = `caefe9872`; S90 checkpoint = `e1463d430`; task 10 = the commit
+after this block (session S91, 2026-09-07). No build input changed; the fleet is 218/218 at the Phase-33 close. Tracked `.run/` =
+868; `audit_public` OK; `gate_scan` PASS; **`doc_links --strict` rc 0 again** (it was rc 1 at `e1463d430` — see the task-10 log:
+the firewall page's residue citation went UNTRACKED at task 8; fixed in task 10); pending list empty. **The kit directory now
+holds:** `README.md`, `intake.decomp.md`, `decomp-architect.md`, `templates/registry-E.decomp.md` (G1–G65),
+`templates/PLACEHOLDERS.md` (22 placeholders), `corpus/decomp-kernels.md` (DK-1…DK-64 + the museum), `memory-seed/` (16 seeds +
+MEMORY.md, task 9). Tasks 11–13 build the rest; 14–15 close. **Already banked for task 14 (R31):** the `docs/decision-log.md`
+entry "P33.5 S90" — task 14 must NOT write a second one; it still owes the wiki page `Start-a-new-decomp-project.md`, the
+README/`Tools-from-this-project.md` rows, the SETUP rows for the kit and the checkers, and an accelerators entry if the dry-run
+earns one. Nothing runs in the background; the SessionStart hook's headless Ghidra MCP was never used (no RE work; nothing under
+`ghidra/` is tracked). The plan file `~/.claude/plans/max-effort-set-plan-encapsulated-muffin.md` is a copy of the "Approved
+plan" section at the end of this file — this file is the one that counts.
 
-### 2. What NEXT does (task 10, **Max**) — exact steps (plan D5)
-Read first: `/mnt/z/Storage/git/ProjectArchitect/README.md` (the install ritual, "What gets installed"), `…/project-architect-2.0/SETUP.md`
-(§0–§9 — the shape to mirror; §8 fills `PROJECT_CONTEXT.md` from the Mode-1 intake and §9 hard-stops, so the kit NEVER writes the
-constitution), `…/project-architect-2.0/project-architect-2.0.md` (Mode 1's 12 intake items — the kit's `intake.decomp.md` pre-answers
-them), `…/templates/RULES_REGISTRY.seed.md` (§E's provenance-tag convention), `…/corpus/README.md` (the corpus's "growing it" rule),
-`docs/how-to-ai-decomp/03-bootstrap-order.md` (the order + the 12-item checklist), `docs/accelerators.md`, `docs/retrospective.md` §4,
-`docs/gen3-standards.md` §2–§3, `docs/generic-decomp-package.md`, `docs/wiki/The-ROM-firewall.md`, `docs/wiki/Docs-and-scratch-conventions.md`.
-Write (all under `decomp-architect/`; de-BFM'd — BFM numbers only inside ```` ```calibration ```` fences; the kit_lint pattern is
-`SLUS|Musashi|BFM|Druthulu|func_80|ov_SC|/home/musashi|/mnt/z|172\.17\.|\bR[0-9]{1,2}\b|§[0-9]+` outside those fences and `provenance:` lines):
-1. `README.md` — for humans: what the kit is; **step 1 install ProjectArchitect 2.0** (copy its folder, "Read SETUP.md and do it") **handing
-   its interview `intake.decomp.md`**; step 2 copy `decomp-architect/`; step 3 "Read decomp-architect/SETUP.md and do it" (Phase 0.5); what it
-   installs and what it does NOT (no tools — the MANIFEST is Phase-1 work until the split); platform scope (generic in structure, PS1-complete
-   in content, `TODO(platform)` elsewhere); the version pin (PA 2.0).
-2. `intake.decomp.md` — PA Mode-1's intake items pre-answered for a decomp (the developer fills the game-specific ones: title, platform,
-   region/serial, the dump, community work, goals) + **the canonical phase ladder**: per phase — the machine-checkable milestone, the tools
-   built, the rules ratified, and the accelerator/retrospective item that earned its position. The order: extraction with a committed manifest
-   → the all-assembly byte-identical baseline → the compiler pinned by evidence (the candidate ladder) → the honest corpus census with
-   self-asserting tools + the differential-oracle harness at 0% → propagation/twin band/families/the reconcile ladder + carve chain + the
-   draw filter → the codegen map + the permuter → crack leverage-first with the widening review at every close → publish (the firewall was
-   day one) → the readability generation (pins recorded at draft time, shared bodies as C, types canonical at bank time, names with evidence,
-   formatting from install).
-3. `decomp-architect.md` — the methodology: the ladder narrative; the byte gate; lanes/waves/cards; the flywheel laws (harvest only from
-   proven results; the inert-rider law; vocabulary decides findability; the one-wave lag); models/effort as METHOD (measure the cliff;
-   escalate sooner); the AI-use conduct (the five rules); Gen3-at-day-one (the six inversions); what stays hard; the economics' SHAPE.
-4. `templates/registry-E.decomp.md` — the §E seed: G-rules (the disassembler + emulator as the oracles, the byte gate, no unmatched C in a
-   default build, address provenance, never rename blind, duplicates first, compiler honesty) + the distilled R-rules as G-numbered entries
-   with `provenance: <source project> <short reason>` lines (coverage assertion; derive don't re-derive; a second disagreeing oracle; fix the
-   instrument first; probe before costing; read the recorded verdicts; negative-control every refusal; exonerate the instrument; quote the
-   denominator; commit banked work immediately; refuse unsupported input; draw-time bankability; a budget is part of the harness; consume
-   every verdict layer; never key by bare name; a soft error is an error; periodic fleet verification; derived config goes stale; verify a
-   build by its exit code; a guard downstream is not a guard; unattended lanes leave evidence; a wall verdict names the pass; "banked" from
-   the printed line; agents write deliverables early; a producer census before a spelling sweep; port the sibling's spelling first; a
-   similarity score is not a shape oracle; reproducers before probes; no ROM bytes in any artifact; numbers generated never typed; rehearse
-   irreversible ops; a probe never writes into what it guards; a rewritten history is not private until the host purged it; outward text
-   by a person) + the AI-conduct rules.
-5. `corpus/decomp-kernels.md` — the accelerators (A1–A9, #12–#20, the harness wounds, the late rows) + the failure museum's rows + the
-   retrospective's ten "sooner" items, each de-BFM'd into a kernel: takeaway · when it applies · the cost it saved/cost; the corpus README's
-   "growing it" rule at the top.
-6. `templates/PLACEHOLDERS.md` — every `{{…}}` the kit uses, tagged copy-time (filled at §2–§5) or generation-time (filled at §7–§9).
-Verify: `git grep -nE '<the kit_lint pattern>' decomp-architect/ | grep -v calibration | grep -v 'provenance:'` empty (the lint tool lands in
-task 11 — run the grep by hand now); every ladder phase names its citation; `doc_links` still OK (the kit is not in its set — add
-`decomp-architect/README.md` to DEFAULT in task 11). Log + checkpoint; commit by explicit path. Task 11 is xHigh — prompt Drew to drop back.
+### 2. What NEXT does (task 11, **xHigh**) — exact steps (plan D5, "Kit part 2")
+**Read first:** `decomp-architect/templates/PLACEHOLDERS.md` (THE CONTRACT — every template below uses only the 22 placeholders
+listed there, and every "Used in" cell must come true or be amended in the same change), `decomp-architect/README.md` ("What it
+installs" is the file list), `decomp-architect/intake.decomp.md` Part D (the four fail-safes the CLAUDE overlay states) and Part C,
+`docs/wiki/The-ROM-firewall.md` (the ```gitignore fence = `templates/gitignore.decomp` BYTE FOR BYTE — `tools/gitignore_template_check.py`
+from task 7 already exists and currently SKIPS LOUDLY in tools-health until the template lands; rc 1 = drift, rc 2 = no template),
+`docs/wiki/Docs-and-scratch-conventions.md` (the docs/scratch READMEs' content), `/mnt/z/Storage/git/ProjectArchitect/project-architect-2.0/templates/`
+(`CURRENT_PHASE.template.md`, `PhaseEnd.template.md`, `effort-map.template.md`, `cookbook.template.md`, `ops-setup.template.md`,
+`CLAUDE.template.md` — the overlays APPEND marked sections to what PA stamped from these; PA's §5.1 marked-section precedent is
+`## Pre-existing instructions (merged at PA 2.0 install)`), `tools/audit_public.py` (the template is a de-BFM'd generalisation of
+it: sources from `config/firewall.txt`, checks 1–4, the planted-fixture control), `.github/workflows/no-rom.yml`,
+`tools/bootstrap.sh`, `docs/gen3-standards.md` §2 (the formatter settings: 4 spaces, 80 columns, braces on the same line, pointer on
+the type — author `.clang-format` from these; cite the style guide as provenance, do not fetch it), `LICENSE`, `src/NOTICE.md`,
+`THIRD_PARTY.md`, `CONTRIBUTING`-equivalent wiki page (`docs/wiki/Contributing.md` "AI use — conduct"), and `phase-ends/DIGEST.md`'s
+shape (for the digest template) + this file's 🛑 block (for the checkpoint template) + `PhaseEnd_Phase33.md`'s "What we believed"
+section (for the PhaseEnd narrative axis).
+**Write (all under `decomp-architect/`, de-BFM'd; the lint pattern is
+`SLUS|Musashi|BFM|Druthulu|func_80|ov_SC|/home/musashi|/mnt/z|172\.17\.|\bR[0-9]{1,2}\b|§[0-9]+` outside ```` ```calibration ```` fences and
+`provenance:` lines — remember `§`+digit is banned, so no `§8`-style references to PA's sections; write "step 8"):
+1. `templates/gitignore.decomp` — the wiki fence, byte for byte (extract it with a script, do not retype; then run
+   `tools/gitignore_template_check.py` — it must exit 0).
+2. `templates/audit_public.template.py` — the audit: hash sources from `config/firewall.txt` (lines `required: <path>` /
+   `pending: <path>` / `fixture: <path-to-.sha1>`; refuse if zero sources resolve; fail on a missing required; warn loudly on a
+   missing pending), the four checks (purged paths, hash set, size threshold, the disassembly-shaped-content run ≥ 64 lines with the
+   asm-differ / objdump / splat-comment / label-block shapes from task 8), counts with denominators, `--paths` for the control;
+   `templates/firewall.txt` (the config with the fixture line and `pending:` manifest/contract lines tagged `TODO(phase-1)`/
+   `TODO(phase-3)`); `templates/firewall-fixture/` (a 16-byte SYNTHETIC blob + its `.sha1`; the SETUP's control plants a copy in the
+   tree, asserts the audit FAILS, removes it, asserts PASS).
+3. `templates/no-rom.template.yml` — the CI: the audit on push/PR/weekly; a compile-only job left as `TODO(phase-3)`.
+4. `templates/docs-README.md`, `templates/run-README.md` — the conventions page's two tables (kind of knowledge → home; the
+   `.run/` rules: ignored by contents, the dated three-line `!` idiom, the R20 test "commit what a rerun cannot reproduce", the
+   per-session layout, never `git clean -x`, a tracked scratch file is published).
+5. `templates/ops-setup.decomp.md` — the rows appended to PA's ops-setup: version pins (`{{TOOLCHAIN_TRIPLE}}` as `TODO(phase-4)`,
+   `{{COMPILER_FAMILY}}`), the extract/fleet-check commands (`{{EXTRACT_CMD}}`, `{{FLEET_CHECK_CMD}}`), the oracles
+   (`{{DISASSEMBLER_MCP}}`, `{{EMULATOR_BRIDGE}}`), the machine-local dump path (`{{DUMP_PATH}}`), the git posture
+   (`{{PUBLIC_OR_PRIVATE}}`), the tooling-inventory rows for the audit and the format target.
+6. `templates/bootstrap.template.sh` — the fresh-clone bootstrap skeleton (toolchain fetch + verify by checksum, venv, submodules,
+   the fingerprint ladder as a Phase-4 task); `bash -n` clean.
+7. `templates/CLAUDE.decomp-overlay.md` — the marked section appended to CLAUDE.md: the four fail-safes (never commit game-derived
+   bytes; a match is byte-for-byte AND the whole-binary hash; never `git clean -x` here; the byte gate is the only claim), the
+   session-start extras (the oracle ping only when the next task is RE; the cookbook by symptom; the checkpoint replayed
+   verbatim), the flywheel line naming `{{COOKBOOK_NAME}}`.
+8. `templates/pa-overlays.md` — ONE file of fenced blocks, each headed by the target file and the marker text: the digest
+   (synopses-only) template; the 🛑 SESSION CHECKPOINT block for CURRENT_PHASE (sections 0–3 as in this file, de-BFM'd); the
+   PhaseEnd narrative axis ("What we believed, what failed and why it looked right, what it cost, what we would do sooner");
+   the effort-map rows (Max on the plan, the PhaseEnd, the compiler pin, the segmentation decision, any wall verdict; breadth for
+   audits/bulk drafting); the cookbook entry shape (residual · mechanism · lever · byte proof) + the triage-table skeleton keyed by
+   symptom; the wave-playbook skeleton (the ten-step spine from `decomp-architect.md` part 3 with an empty "measurement" column per
+   guard); `settings.json` (the SessionEnd hook PA already set + a SessionStart hook slot for the disassembler server) and
+   `mcp.json` (a loopback SSE server entry with `{{DISASSEMBLER_MCP}}`).
+9. The skeletons: `templates/LICENSE.skeleton.md` (`{{LICENSE_CHOICE}}` + the no-license-over-src statement), `templates/NOTICE.src.md`
+   (no license asserted over the decompiled source; "clean-room" appears nowhere), `templates/README.skeleton.md`
+   (`{{PROJECT_NAME}}`, `{{GAME_TITLE}}`, `{{PLATFORM}}`, `{{GAME_SERIAL}}`, `{{PROJECT_GOALS}}`, `{{COMMUNITY_WORK}}`, `{{AI_DISCLOSURE}}`,
+   `{{PUBLIC_OR_PRIVATE}}`, a generated-numbers block marked `TODO(phase-5)`), `templates/CONTRIBUTING.skeleton.md` (bring your own
+   dump; the AI-conduct section = G61–G65; the target's own AI policy line).
+10. `templates/.clang-format` + `templates/make-format.snippet.mk` (a `format` target over `src/`).
+11. `tools/MANIFEST.md` — the portable tools of the source project BY LADDER PHASE (extract/manifest; oracles/load map; baseline;
+    pin/probe; census/harness/reports; signatures/twin band/dedup/families/reconcile/carves/draw filter; map/dumps/permuter/
+    reproducers; cards/lanes/wave/gates/recovery/harvest; contract/bootstrap/progress/audit; the readability levers) — one row per
+    tool: what it does, what it hard-codes (paths, the compiler, the platform), "copy after the split"; written as Phase-1 TASKS.
+    Breadth-shaped: survey `tools/` with ONE read-only Explore agent (the SETUP rows in `docs/SETUP.md` are the index) — the
+    manifest names tools by their file name (allowed) but never cites this repo's paths.
+12. `tools/kit_lint.py` (in the REPO's `tools/`, wired into `make tools-health`): fence-aware leak grep (strip ```` ```calibration ````
+    blocks and `provenance:` lines, then the pattern) with `--paths`; the placeholder set-diff against `PLACEHOLDERS.md`; `bash -n`
+    on every `.sh`; `py_compile` on every `.py`; the gitignore template diff (delegate to `gitignore_template_check.py`); the
+    `TODO(platform)`/`TODO(phase-N)` counts printed with denominators; an R39 control: a planted leak line must FAIL it. Add
+    `decomp-architect/README.md` to `doc_links.py`'s DEFAULT set. SETUP rows for `kit_lint` (R21).
+**Verify:** `kit_lint` clean; `gitignore_template_check` rc 0; `bash -n`/`py_compile` clean; the planted-leak control fails;
+`doc_links --strict` rc 0; `make tools-health` (foreground, ~15-min timeout — the FIRST full run since task 7's wiring; read it).
+Log + checkpoint; commit by explicit path. Task 12 is Max — prompt Drew to raise (R27).
 
 ### 3. Standing facts for every task of this phase
 - One commit per task, after this file's log line (R8/R42 form); commit by explicit path; no trailers (R5); Drew pushes (R6).
 - Forward links from any new wiki page go into `docs/doc_links_pending.txt` as `<path>\t<task N>` in the SAME commit; the render
-  refuses dead relative links (exit 1); `tools/doc_links.py` non-strict is in tools-health; `--strict` only at task 15.
+  refuses dead relative links (exit 1); `tools/doc_links.py` non-strict is in tools-health; `--strict` at task 15 — **and after
+  any untrack or archive move** (task 10's finding).
 - Nothing moves while a wiki page / how-to chapter / `doc_links` DEFAULT document / tool docstring cites it — the referrer census
   command in the plan's D3 runs before every `git mv`.
 - `purge_set.txt` is never edited in this phase. Never `git clean -x`. The untracked 29 GB of `.run/` is out of scope.
-- Effort transitions are prompted and waited for (R27): Max for tasks 3, 10, 12, 15; xHigh otherwise.
+- Effort transitions are prompted and waited for (R27): Max for tasks 12 and 15; xHigh otherwise.
+- The kit's vocabulary (task 10): rules by G-id, kernels by DK-id, PA's sections as "step N", the kit's SETUP as "Step N"; source
+  numbers only in ```` ```calibration ```` fences; the placeholder set is `PLACEHOLDERS.md`'s 22 and nothing else.
 
 ---
 
