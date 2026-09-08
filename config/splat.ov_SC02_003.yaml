@@ -37,7 +37,10 @@ options:
   compiler: PSYQ
 
   asm_path: asm/ov_SC02_003
+  # Phase 35 T3: a TWIN of ov_SC02_000 — the source lives ONCE in src/ov_SC02_000/ (config/overlays.mk `ov_SC02_003_TWIN_OF`);
+  # src_path stays the twin's own name (the .ld's object paths), and splat must never recreate stub .c files for the deleted dir.
   src_path: src/ov_SC02_003
+  create_c_files: False
   # asset_path scoped per-alias so a `bin` subseg (the trailing-partial-word carve, below) lands at
   # assets/ov_SC02_003/*.bin and never collides with another overlay's same-named asset. The Makefile's
   # build/assets/%.o rule incbin's it into a linkable object.

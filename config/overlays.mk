@@ -316,7 +316,9 @@ ov_SC02_003_VRAM_BASE  := 0x80128158
 ov_SC02_003_TEXT_LO    := 0x80128158
 ov_SC02_003_TEXT_HI    := 0x801E8867
 ov_SC02_003_ASM_DIR     := asm/ov_SC02_003
-ov_SC02_003_SRC_DIR     := src/ov_SC02_003
+# Phase 35 T3: ov_SC02_003 is a TWIN of ov_SC02_000 (identical payload): one source directory per payload (see ov_SC01_006).
+ov_SC02_003_TWIN_OF     := ov_SC02_000
+ov_SC02_003_SRC_DIR     := src/ov_SC02_000
 ov_SC02_003_UNDEF_SYMS  := build/ov_SC02_003/undefined_syms_auto.txt
 ov_SC02_003_UNDEF_FUNCS := build/ov_SC02_003/undefined_funcs_auto.txt
 
@@ -2882,7 +2884,9 @@ ov_SC03_119_VRAM_BASE  := 0x80128158
 ov_SC03_119_TEXT_LO    := 0x80128158
 ov_SC03_119_TEXT_HI    := 0x801D484F
 ov_SC03_119_ASM_DIR     := asm/ov_SC03_119
-ov_SC03_119_SRC_DIR     := src/ov_SC03_119
+# Phase 35 T3: ov_SC03_119 is a TWIN of ov_SC03_118 (identical payload): one source directory per payload (see ov_SC01_006).
+ov_SC03_119_TWIN_OF     := ov_SC03_118
+ov_SC03_119_SRC_DIR     := src/ov_SC03_118
 ov_SC03_119_UNDEF_SYMS  := build/ov_SC03_119/undefined_syms_auto.txt
 ov_SC03_119_UNDEF_FUNCS := build/ov_SC03_119/undefined_funcs_auto.txt
 
