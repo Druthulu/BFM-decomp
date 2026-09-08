@@ -1,0 +1,15 @@
+== wiki clone HEAD
+75c17d0 2026-09-08 12:37:59 -0600 wiki: sync from BFM-decomp a601c74cb
+== remote master
+75c17d06928d41e87c3635360bf5594fbf9574fd	refs/heads/master
+== unauthenticated page checks
+https://github.com/Druthulu/BFM-decomp/wiki -> 200
+https://github.com/Druthulu/BFM-decomp/wiki/Home -> 301
+https://github.com/Druthulu/BFM-decomp/wiki/Reference-index -> 200
+https://github.com/Druthulu/BFM-decomp/wiki/How-to-AI-decomp-02-byte-gate -> 200
+https://github.com/Druthulu/BFM-decomp/wiki/Start-a-new-decomp-project -> 200
+== rendered link forms present on Reference-index (wiki page links + blob links)
+wiki-page links: 30
+blob/main links: 48
+sidebar present: 2
+dead relative .md links left: 0

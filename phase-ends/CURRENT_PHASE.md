@@ -45,7 +45,7 @@ bundle and dictionary are deleted at C11) and a public fresh-clone re-proof (B3'
 - [x] **2** E1 — decomp.me: scratch → 100% → preset-request issue → manual search (Drew, xHigh); recorded in SETUP §6.5 + ledger row 14 (Claude)
 - [x] **3** E2 — the Archipelago issue (Drew, xHigh); URL recorded; §5 reply handling pending unless a reply arrives (Claude)
 - [x] **4** D3 — decomp.dev registration + frogress slug/key/push (Drew, xHigh); verified by curl (Claude) → **P6 rules check after this task**
-- [ ] **5** F3 — the wiki: dry run (Claude), first page + `wiki_sync.sh --push` (Drew), pages verified — Low
+- [x] **5** F3 — the wiki: dry run (Claude), first page + `wiki_sync.sh --push` (Drew), pages verified — Low
 - [ ] **6** Tool discoverability: xsig topics + homepage (Claude on Drew's word); fork deletion already done; tools post (Drew) — Low
 - [ ] **7** C11 — aftercare: scratch prune (keep `old-to-new.tsv` + `old_tag_tip.txt`), docs, checks — xHigh (Claude)
 - [ ] **8** G2 — tools-health, P7 walk, gate 2, `PhaseEnd_Phase34.md` v2.0.0 + DIGEST + log archive; Drew commits/tags/pushes/releases, then `gh auth logout` — **Max, Tier 1**
@@ -154,7 +154,24 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   list row only. Recorded in `docs/SETUP.md` P33 D1–D3 with the request + push recipe for later.
 - **P6 rules check due now** (tasks 0, 1, 2, 3, 4 complete after the opening step).
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1, 2, 3, 4 ✓; P6 rules check next; then NEXT = task 5 (the wiki — DREW creates the first page, runs `tools/wiki_sync.sh --push`; Claude verifies)
+### 2026-09-08 — P6 mid-phase rules check (after tasks 0–4)
+- CLAUDE.md "Mandatory Behavior" (8 rules) and PROJECT_CONTEXT.md "AI Collaboration Rules" (25 P/G/H/X rules) re-read from disk;
+  stated in chat: "Rules check — re-read complete. Continuing with task 5."
+
+### 2026-09-08 — Task 5 — F3: the wiki is live (Low; S93)
+- Claude's dry run (earlier, `.run/P34/outward/wiki_dryrun.log`): 32 pages rendered, 386 relative links rewritten, clone refused until the
+  first page existed (exit 0). Drew created the first page in the GitHub UI, then said **"you sync it"** — an explicit, one-off **R6 waiver
+  for the wiki repository** (the P33 precedent: the xsig and permuter-fork pushes); Claude ran `tools/wiki_sync.sh --push`
+  (`wiki_push.log`): Home modified (Drew's placeholder replaced), 31 pages added, **`fec3777..75c17d0 master -> master`**, "wiki: sync from
+  BFM-decomp a601c74cb". R6 stays in force for `Druthulu/BFM-decomp` itself.
+- Verified from outside (`wiki_verify.txt`): remote `master` = `75c17d06…` = the clone's HEAD; unauthenticated `…/wiki` 200,
+  `/wiki/Home` 301 (GitHub redirects Home to the root), `/wiki/Reference-index` 200, `/wiki/How-to-AI-decomp-02-byte-gate` 200,
+  `/wiki/Start-a-new-decomp-project` 200; the Reference index page carries 30 wiki-page links + 48 rewritten `blob/main` links, the
+  custom sidebar is present, **0 relative `.md` links left**. Milestone item 1's "wiki live" line is MET. Drew's sidebar eyeball: pending
+  his word (not a gate).
+- Note for C11: any wiki-page edit in task 7 needs one more `tools/wiki_sync.sh --push` (Drew, or on his word).
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–5 ✓ (public, boards, wiki live); NEXT = task 6 (xsig topics + homepage by Claude — gate-1 decision 2 is the word; the tools post — DREW), then 7 (C11), 8 (G2)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything

@@ -1,0 +1,37 @@
+wiki_render: 32 pages rendered into /home/musashi/bfm-decomp/.run/wiki/render (386 relative links rewritten)
+wiki_sync: changes staged in /home/musashi/bfm-decomp/.run/wiki/BFM-decomp.wiki (32 pages rendered):
+   A  Archive-index.md
+   A  Build-from-your-own-disc.md
+   A  Contributing-and-the-no-ROM-policy.md
+   A  Docs-and-scratch-conventions.md
+   A  Ghidra-rebuild-from-text.md
+   M  Home.md
+   A  How-to-AI-decomp-00-README.md
+   A  How-to-AI-decomp-01-governance.md
+   A  How-to-AI-decomp-02-byte-gate.md
+   A  How-to-AI-decomp-03-bootstrap-order.md
+   A  How-to-AI-decomp-04-oracles-and-instruments.md
+   A  How-to-AI-decomp-05-cards-lanes-waves.md
+   A  How-to-AI-decomp-06-knowledge-base.md
+   A  How-to-AI-decomp-07-compiler-source.md
+   A  How-to-AI-decomp-08-models-and-budgets.md
+   A  How-to-AI-decomp-09-economics.md
+   A  How-to-AI-decomp-10-integration-and-propagation.md
+   A  How-to-AI-decomp-11-publishing.md
+   A  How-to-AI-decomp-12-failure-museum.md
+   A  How-to-AI-decomp.md
+   A  Overlays-and-modules.md
+   A  Reference-index.md
+   A  Repository-layout.md
+   A  Start-a-new-decomp-project.md
+   A  The-ROM-firewall.md
+   A  The-dedup-engine.md
+   A  The-matching-workflow.md
+   A  Toolchain-setup.md
+   A  Tools-from-this-project.md
+   A  Verification-and-progress.md
+   A  Where-the-project-goes-next.md
+   A  _Sidebar.md
+To https://github.com/Druthulu/BFM-decomp.wiki.git
+   fec3777..75c17d0  master -> master
+wiki_sync: pushed — wiki: sync from BFM-decomp a601c74cb
