@@ -111,6 +111,10 @@
   member the sigs do not show); a 2-instruction empty-body class (`jr ra; nop`) has 11,852 instances across every space (E,F → deferred
   with the cross-address set; the names phase decides how an empty function is written). Outputs `.run/P35/census/{share_census.json,
   share_census.txt, coverage_notes.txt}` (tracked), `classes.jsonl` + `cache/` (ignored). SETUP + dictionary rows (R21/R87). **T1 ☑.**
+- **S94 — T1 slip, named (R97/R66):** commit `1dbffee87` says "kit corpus regenerated" while `make kit-corpus` had exited 2 and
+  `tool_census --check` had refused the new row (`phase=P35` — the column is the KIT LADDER phase, P1–P10, not the project phase);
+  the chain had `&&` on an echo, not on the checks. Fixed in `72a77e7d3` (row → P10, the readability tools' rung; corpus 361 copies;
+  `tool_census --check: OK`; `kit_coverage: OK`), chained on the checks' own exit codes; `docs/tool-index.md` (generated) committed after.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
