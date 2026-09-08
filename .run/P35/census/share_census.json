@@ -26,46 +26,51 @@
  ],
  "cross_address_deferred": {
   "classes": 3801,
-  "copies": 12938,
+  "copies": 11600,
   "instances": 30347
  },
- "duplicate_text_classes": 6845,
- "duplicate_text_sites": 23269,
- "elapsed_s": 41.1,
+ "duplicate_text_classes": 6874,
+ "duplicate_text_sites": 23325,
+ "elapsed_s": 27.6,
  "flags": {
   "ALIAS": 44,
   "E": 3826,
   "F": 54,
-  "PINS": 687,
-  "TWIN-PENDING": 3748,
+  "PINS": 686,
+  "TWIN-COVERED": 575,
+  "TWIN-PENDING": 3173,
   "TYPEDEF": 96
  },
  "ins_by_verdict": {
   "A": 6048041,
   "B": 1175147,
-  "C": 663203,
-  "D": 165250,
+  "C": 667561,
+  "D": 160892,
   "M": 28564
  },
  "instances_by_verdict": {
   "A": 214478,
   "B": 45226,
-  "C": 14839,
-  "D": 5796,
+  "C": 14895,
+  "D": 5740,
   "M": 462
  },
  "macro_sites": 255947,
  "multi_form": 0,
  "same_vram_unregistered": {
-  "classes": 4667,
-  "collapsible": 31309,
-  "copies": 11767,
-  "ins": 1710469,
-  "instances": 35976,
-  "twin_pending": 3568,
-  "twin_pending_instances": 7136
+  "classes": 4105,
+  "collapsible": 6529,
+  "copies": 10632,
+  "ins": 1632227,
+  "instances": 34852,
+  "twin_pending": 3006,
+  "twin_pending_instances": 6012
  },
  "sig_instances": 362389,
+ "twin_covered": {
+  "classes": 565,
+  "instances": 1136
+ },
  "twin_sets": [
   [
    "ov_SC01_005",
@@ -93,9 +98,9 @@
  "verdicts": {
   "A": 1712,
   "B": 282,
-  "C": 6107,
-  "D": 1861,
+  "C": 6135,
+  "D": 1833,
   "M": 218
  },
- "violations": 4667
+ "violations": 4105
 }

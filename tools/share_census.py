@@ -534,7 +534,9 @@ def classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verbatim, except
         excepted = exceptions.get(h)
         deferred = ("E" in flags or "F" in flags) and scope != "all"
         violation = (verdict != "A") and ("TWIN-COVERED" not in flags) and not deferred and not excepted
-        out.append(dict(h=h, verdict=verdict, flags=flags, nins=nins, band=band, instances=len(insts), copies=forms_seen.get("def", 0),
+        # copies = DISTINCT private-definition sites (a twin's instance resolves to its primary's TU — one source, not two)
+        copies = len({i["tu"] for i in insts if i["form"] == "def" and i["tu"]})
+        out.append(dict(h=h, verdict=verdict, flags=flags, nins=nins, band=band, instances=len(insts), copies=copies,
                         aliases=aliases, addrs=[f"0x{x:08X}" for x in addrs], forms=dict(forms_seen), detail=detail,
                         excepted=(excepted or {}).get("reason"), deferred=deferred, violation=violation,
                         names=sorted({i["name"] for i in insts})[:4]))
@@ -550,18 +552,23 @@ def summarize(classes, cov, notes, aliases):
     for c in classes:
         inst_by_v[c["verdict"]] += c["instances"]
         ins_by_v[c["verdict"]] += c["instances"] * c["nins"]
-    same_vram_unreg = [c for c in classes if c["verdict"] in ("B", "C", "D", "M") and "E" not in c["flags"] and "F" not in c["flags"]]
+    same_vram_unreg = [c for c in classes if c["verdict"] in ("B", "C", "D", "M") and "E" not in c["flags"] and "F" not in c["flags"]
+                       and "TWIN-COVERED" not in c["flags"]]
+    twin_covered = [c for c in classes if "TWIN-COVERED" in c["flags"] and c["verdict"] != "A"]
     cross = [c for c in classes if ("E" in c["flags"] or "F" in c["flags"]) and c["verdict"] != "A"]
     return dict(
         binaries=len(aliases), sig_instances=cov["instances"], classified=cov["classified"], unaccounted=len(cov["unaccounted"]),
         classes_ge2=len(classes), verdicts=dict(by_v), instances_by_verdict=dict(inst_by_v), ins_by_verdict=dict(ins_by_v),
         flags=dict(by_f),
+        # the backlog = same-vram classes NOT yet one source: `copies` counts distinct private sites, `collapsible` the sites
+        # that will disappear when each class has one source (copies − 1), never instances (a twin's instance is no site)
         same_vram_unregistered=dict(classes=len(same_vram_unreg), instances=sum(c["instances"] for c in same_vram_unreg),
                                     copies=sum(c["copies"] for c in same_vram_unreg),
-                                    collapsible=sum(c["instances"] - 1 for c in same_vram_unreg),
+                                    collapsible=sum(max(c["copies"] - 1, 0) for c in same_vram_unreg),
                                     ins=sum(c["instances"] * c["nins"] for c in same_vram_unreg),
                                     twin_pending=sum(1 for c in same_vram_unreg if "TWIN-PENDING" in c["flags"]),
                                     twin_pending_instances=sum(c["instances"] for c in same_vram_unreg if "TWIN-PENDING" in c["flags"])),
+        twin_covered=dict(classes=len(twin_covered), instances=sum(c["instances"] for c in twin_covered)),
         cross_address_deferred=dict(classes=len(cross), instances=sum(c["instances"] for c in cross),
                                     copies=sum(c["copies"] for c in cross)),
         violations=sum(1 for c in classes if c["violation"]),
@@ -608,6 +615,9 @@ def render_table(classes, summary, cov_notes, ctrl):
     L.append(f"  SAME-VRAM UNREGISTERED (the phase's backlog): {u['classes']:,} classes · {u['instances']:,} instances · {u['copies']:,} private "
              f"copies · {u['collapsible']:,} collapsible · {u['ins']:,} ins; of which twin-pending {u['twin_pending']:,} classes / "
              f"{u['twin_pending_instances']:,} instances")
+    t = s.get("twin_covered", {})
+    if t:
+        L.append(f"  TWIN-COVERED (one source directory per payload, T3): {t.get('classes', 0):,} classes · {t.get('instances', 0):,} instances")
     d = s["cross_address_deferred"]
     L.append(f"  CROSS-ADDRESS / CROSS-SPACE (deferred to the names phase): {d['classes']:,} classes · {d['instances']:,} instances · "
              f"{d['copies']:,} private copies")

@@ -853,6 +853,34 @@ OBJS     := $(ASM_SRCS:%.s=build/%.o) $(C_SRCS:%.c=build/%.o)
 C_DEPS   := $(C_SRCS:%.c=build/%.d)
 -include $(C_DEPS)
 
+# ---- Phase 35 T3: a TWIN binary builds its PRIMARY's sources into its OWN objects -------------------------------------
+# Five overlay pairs are byte-identical payloads (equal config/check.*.sha). "One source per unique function" makes a twin
+# a binary with NO source directory of its own: config/overlays.mk declares `<twin>_TWIN_OF := <primary>` and points
+# `<twin>_SRC_DIR` at the primary's directory (so every tool that asks corpus.src_dir sees the one source). The twin keeps
+# its OWN splat yaml (create_c_files: False — splat must never recreate stub files for the deleted directory), asm/, linker
+# script and object names (build/src/<twin>/<twin>_<suffix>.o), so a parallel `check-all` never races the primary's objects;
+# the static pattern rules below compile them from src/<primary>/<primary>_<suffix>.c with the very same recipe as
+# build/src/%.o. The -O0 objects (the whale's _o0b/_o0c, the cluster's _o0) keep their flags under the twin's names.
+TWIN_OF := $($(BINARY)_TWIN_OF)
+ifneq ($(TWIN_OF),)
+TWIN_SRCDIR := $($(TWIN_OF)_SRC_DIR)
+TWIN_C_SRCS  := $(shell find $(TWIN_SRCDIR) -name '$(TWIN_OF)*.c' -not -name '.*' 2>/dev/null)
+TWIN_OBJS    := $(patsubst $(TWIN_SRCDIR)/$(TWIN_OF)%.c,build/src/$(BINARY)/$(BINARY)%.o,$(TWIN_C_SRCS))
+OBJS   := $(ASM_SRCS:%.s=build/%.o) $(TWIN_OBJS)
+C_DEPS := $(TWIN_OBJS:%.o=%.d)
+-include $(C_DEPS)
+$(filter-out build/src/$(BINARY)/$(BINARY).o,$(TWIN_OBJS)): build/src/$(BINARY)/$(BINARY)%.o: $(TWIN_SRCDIR)/$(TWIN_OF)%.c
+	@mkdir -p $(dir $@)
+	@echo "  CC      $@  (twin of $(TWIN_OF): $<)"
+	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(if $(filter $*,$(REORDER_TUS)),$(VENV_PY) tools/reorder_passthrough.py | $(AS) $(ASFLAGS_REORDER) -o $@,$(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS),$(if $(filter md_% main,$(BINARY)),| $(VENV_PY) tools/jtbl_rodata_pads.py --derive $(BINARY) --tu $(notdir $*))) | $(AS) $(ASFLAGS) -o $@)
+build/src/$(BINARY)/$(BINARY).o: $(TWIN_SRCDIR)/$(TWIN_OF).c
+	@mkdir -p $(dir $@)
+	@echo "  CC      $@  (twin of $(TWIN_OF): $<)"
+	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS),) | $(AS) $(ASFLAGS) -o $@
+TWIN_O0_OBJS := $(patsubst $(TWIN_SRCDIR)/$(TWIN_OF)%.c,build/src/$(BINARY)/$(BINARY)%.o,$(wildcard $(TWIN_SRCDIR)/$(TWIN_OF)_o0.c $(TWIN_SRCDIR)/$(TWIN_OF)_o0?.c))
+$(TWIN_O0_OBJS): CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
+endif
+
 # splat `bin` subsegs (raw byte regions — e.g. an overlay's trailing non-word-aligned bytes that
 # spimdisasm's data path drops, since it won't emit a <4-byte partial word). splat extracts them to
 # assets/<alias>/*.bin and references build/assets/<alias>/*.o in the .ld; wrap each raw .bin into a

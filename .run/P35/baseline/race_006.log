@@ -1,0 +1,1674 @@
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8015444C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8015444C.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8013FFD8.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_80171B4C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8013F350.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8013F350.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8016AB6C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_80135D20.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_80135D20.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8015C32C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8017C340.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8017C340.c)
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8015444C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_80135D20.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:1527: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016B448':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2145: warning: passing arg 1 of `func_8014C050' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2145: warning: passing arg 1 of `func_8016B984' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2145: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1548: warning: "NULL" redefined
+ 1548 | #define NULL 0
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1:
+include/common.h:41: note: this is the location of the previous definition
+   41 | #define NULL ((void *)0)   /* m2c emits NULL for null pointers; byte-neutral (== 0) */
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015C6AC':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1334: warning: passing arg 1 of `func_8015C788' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016BA68':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2397: warning: passing arg 1 of `func_8014C050' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2397: warning: passing arg 1 makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2397: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:1534: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016BCC0':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2468: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2418: warning: previous external decl of `func_8016BF50'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2475: warning: passing arg 1 of `func_8016BFA8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2475: warning: passing arg 2 of `func_8016BFA8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2475: warning: passing arg 3 of `func_8016BFA8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2475: warning: passing arg 4 of `func_8016BFA8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016BD78':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2493: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2418: warning: previous external decl of `func_8016BF50'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2493: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2468: warning: previous implicit declaration of `func_8016BF50'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3303: warning: "SHB" redefined
+ 3303 | #define SHB(x) __asm__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3302: note: this is the location of the previous definition
+ 3302 | #define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016BEA0':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2534: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2418: warning: previous external decl of `func_8016BF50'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2534: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2468: warning: previous implicit declaration of `func_8016BF50'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015CD20':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1555: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1247: warning: previous external decl of `D_80184A4C'
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_80171CC4':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2269: warning: passing arg 1 of `func_80171D78' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2269: warning: passing arg 2 of `func_80171D78' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2559: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2418: warning: previous external decl of `func_8016BF50'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2708: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2654: warning: previous external decl of `D_801CCC7C'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2709: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2657: warning: previous external decl of `D_801CCC84'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015D1B8':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1780: warning: passing arg 1 of `func_801725F4' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c:1055: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c:919: warning: previous external decl of `D_80183464'
+src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c: In function `func_8014032C':
+src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c:1074: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c:920: warning: previous external decl of `D_80183470'
+src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c:1079: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c:933: warning: previous external decl of `D_801CC67C'
+src/ov_SC01_005/ov_SC01_005_jr_8013FFD8.c:1161: warning: return makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015D480':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1835: warning: passing arg 1 of `func_8015D57C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015D57C':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1852: warning: passing arg 1 of `func_801553A8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1852: warning: passing arg 1 of `func_80155440' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:1852: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_8017248C':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2299: warning: passing arg 1 makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2299: warning: passing arg 2 makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_8017250C':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2303: warning: passing arg 1 of `func_80172560' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2303: warning: passing arg 2 of `func_80172560' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2832: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2751: warning: previous external decl of `func_8016CF04'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016C998':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2847: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2753: warning: previous external decl of `D_801CCD50'
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_801726D0':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2349: warning: assignment from incompatible pointer type
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_801734BC.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_801734BC.c)
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016CBC0':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2905: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2753: warning: previous external decl of `D_801CCD50'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015DA90':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2010: warning: passing arg 1 of `func_8015DB6C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015DDF0':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2088: warning: passing arg 1 of `func_8015DECC' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016CF04':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3051: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:2753: warning: previous external decl of `D_801CCD50'
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_80172D14':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2440: warning: passing arg 1 of `func_80171AB0' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2440: warning: passing arg 1 of `func_80174650' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_80172E20':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2457: warning: passing arg 1 of `func_80171AB0' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2457: warning: passing arg 1 of `func_80174650' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:1534: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015E150':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2166: warning: passing arg 1 of `func_8015E22C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_8017303C':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2475: warning: assignment makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_801730FC':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2488: warning: passing arg 1 of `func_80147060' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2488: warning: passing arg 1 of `func_80154150' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: In function `func_80173220':
+src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:2520: warning: passing arg 1 of `func_80174650' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c: In function `func_8013FAF8':
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:1304: warning: passing arg 1 of `func_80024054' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:1320: warning: passing arg 1 of `func_80024054' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:1345: warning: passing arg 1 of `func_80137D08' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:1345: warning: passing arg 2 of `func_80137D08' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:1345: warning: assignment makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:1348: warning: passing arg 1 of `func_8013AB54' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:1348: warning: passing arg 2 of `func_8013AB54' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013F350.c:1348: warning: assignment makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80135D20.c:579: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015E84C':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2290: warning: passing arg 1 of `func_8015E95C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015E95C':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2307: warning: passing arg 1 of `func_8015E9B8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015EA3C':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2416: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016D848':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3262: warning: passing arg 1 of `func_800D20C0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3262: warning: passing arg 2 of `func_800D20C0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015EDA0':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2424: warning: passing arg 1 of `func_8015EE7C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016DC20':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3399: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015EFA4':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2496: warning: passing arg 1 of `func_8015F080' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016DEE0':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3416: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3517: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3441: warning: previous external decl of `func_8016E3CC'
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_801380E0.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_801380E0.c)
+src/ov_SC01_005/ov_SC01_005_jr_80135D20.c: In function `func_80136A94':
+src/ov_SC01_005/ov_SC01_005_jr_80135D20.c:1209: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80135D20.c:775: warning: previous external decl of `D_80126722'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8015F89C':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:2715: warning: passing arg 2 of `func_801466F0' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3665: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:1903: warning: previous external decl of `func_80024054'
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c: In function `func_8017D9A0':
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3448: warning: passing arg 5 of `func_8001ABBC' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c: In function `func_8017D9F4':
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3475: warning: passing arg 5 of `func_8001ABBC' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c: In function `func_8017DB00':
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3510: warning: cast from pointer to integer of different size
+src/ov_SC01_005/ov_SC01_005_jr_80135D20.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_80135D20.c:1289: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80135D20.c:1207: warning: previous external decl of `ApplyMatrixSV'
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3568: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3544: warning: previous external decl of `func_8017DC48'
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3568: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3544: warning: previous implicit declaration of `func_8017DC48'
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3568: warning: `func_8017DC48' was previously implicitly declared to return `int'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016EDEC':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3829: warning: assignment from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3829: warning: passing arg 1 from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3829: warning: passing arg 1 from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016EE40':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3831: warning: passing arg 1 from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3831: warning: passing arg 1 from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c: In function `func_8017DEFC':
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3731: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3576: warning: previous external decl of `D_8011514A'
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3732: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3577: warning: previous external decl of `D_8011514C'
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c: In function `func_8017E0EC':
+src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:3814: warning: assignment from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016F4FC':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3957: warning: passing arg 1 of `func_800D1724' makes integer from pointer without a cast
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8017A4AC.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8017A4AC.c)
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016F71C':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:3983: warning: passing arg 1 of `func_8016F764' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80160B70':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3194: warning: passing arg 1 of `func_80160BB4' makes pointer from integer without a cast
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_801588CC.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_801588CC.c)
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80160F70':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3255: warning: passing arg 1 of `func_8013767C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `aF80161208':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3290: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80161278':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3296: warning: passing arg 1 of `func_80161374' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_801612B8':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3298: warning: assignment makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8016FE2C':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4087: warning: passing arg 1 of `func_80172658' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80161418':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3361: warning: passing arg 1 of `func_8016163C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80161450':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3363: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80161488':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3365: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_801614E4':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3367: warning: passing arg 1 of `func_80161888' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80161554':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3371: warning: passing arg 1 of `func_8016163C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8016158C':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3373: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_801615C4':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3375: warning: passing arg 1 of `func_80146D90' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3375: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3375: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_80170374':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4155: warning: passing arg 1 of `func_8014C168' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_8017044C':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4167: warning: passing arg 1 of `func_80171AB0' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_801705C0':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4191: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_80170B48':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4265: warning: passing arg 1 of `func_8014706C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4267: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4265: warning: previous external decl of `func_80170B90'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4267: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4265: warning: previous implicit declaration of `func_80170B90'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4267: warning: `func_80170B90' was previously implicitly declared to return `int'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_80170CF0':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4292: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_80170DE0':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4305: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_80170EAC':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4317: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3753: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3683: warning: previous external decl of `D_801CC720'
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c: In function `func_801710DC':
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4353: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:4353: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3775: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3668: warning: previous external decl of `D_80078EB0'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_801622C4':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3844: warning: assignment from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4141: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4131: warning: previous external decl of `func_8016345C'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_8016345C':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4141: warning: passing arg 6 of `func_80163534' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4147: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4132: warning: previous external decl of `D_801CBA6C'
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8017EB44.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8017EB44.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_80159C84.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_80159C84.c)
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4615: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4593: warning: previous external decl of `D_801CC818'
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_801651B8':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4623: warning: assignment makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80165CA0':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4871: warning: assignment from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80165FA4':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4884: warning: passing arg 2 of `ApplyMatrixSV' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4884: warning: passing arg 3 of `ApplyMatrixSV' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4884: warning: passing arg 2 of `ApplyMatrixSV' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4884: warning: passing arg 3 of `ApplyMatrixSV' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_801665B4':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:4918: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_801789AC.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_801789AC.c)
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5702: warning: prototype for `func_80166994' follows
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5076: warning: non-prototype definition here
+In file included from src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80168A14':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5842: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80169E44':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:6020: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c: In function `func_80169FE0':
+src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:6064: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8017A4AC.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_80159C84.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8017EB44.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8017ED5C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c)
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:1535: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2346: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2323: warning: previous external decl of `func_80173544'
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_80173A60':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2417: warning: passing arg 2 of `__builtin_memcpy' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_80173BC0':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2430: warning: passing arg 1 of `func_80171A34' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_801743F0':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2480: warning: passing arg 1 of `func_80172658' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_80175218':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2680: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2681: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8017A4AC.c:1532: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_801758FC':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2793: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2790: warning: previous external decl of `D_800AE7BC'
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2793: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2790: warning: previous external decl of `D_800AF634'
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_801759D8':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2800: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2790: warning: previous external decl of `D_800AE7BC'
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2800: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2790: warning: previous external decl of `D_800AF634'
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_80175AB8':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2808: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2790: warning: previous external decl of `D_800AF634'
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_80175DA8':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2906: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:2790: warning: previous external decl of `D_800AF634'
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c: In function `func_80158AE4':
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:1161: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:1161: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:1161: warning: passing arg 1 of `func_80165A20' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:1161: warning: passing arg 1 of `func_80165A78' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:1161: warning: passing arg 1 of `func_8014B160' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c: In function `func_80158BB0':
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:1180: warning: passing arg 2 of `func_80154274' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:1181: warning: passing arg 1 of `func_80154A74' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_80176218':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:3254: warning: passing arg 1 of `func_80177DA8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: In function `func_801387B8':
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1021: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:720: warning: previous external decl of `func_80139220'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1021: warning: passing arg 1 of `func_80138DE0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c: In function `func_80159B08':
+src/ov_SC01_005/ov_SC01_005_jr_801588CC.c:1586: warning: passing arg 1 of `func_80159BE4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1027: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:715: warning: previous external decl of `func_80138AB4'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: In function `func_80138AB4':
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1027: warning: passing arg 1 of `func_80138DE0' makes pointer from integer without a cast
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1051: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:716: warning: previous external decl of `func_80138C60'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1091: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:717: warning: previous external decl of `func_80138D58'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1101: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:720: warning: previous external decl of `func_80139220'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1103: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:719: warning: previous external decl of `func_801391F0'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: In function `func_80139680':
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1115: warning: passing arg 2 of `func_80052460' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: In function `func_80178004':
+src/ov_SC01_005/ov_SC01_005_jr_801734BC.c:3847: warning: return makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1117: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:710: warning: previous external decl of `func_8001931C'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1117: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:721: warning: previous external decl of `func_80139788'
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+  CC      build/src/ov_SC01_006/ov_SC01_006_o0b.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_o0b.c)
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: In function `func_80139914':
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1188: warning: passing arg 1 of `func_8013A8B0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1256: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1086: warning: previous external decl of `func_80139C7C'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1256: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1086: warning: previous implicit declaration of `func_80139C7C'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1256: warning: `func_80139C7C' was previously implicitly declared to return `int'
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1272: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:712: warning: previous external decl of `func_8001B22C'
+src/ov_SC01_005/ov_SC01_005_jr_80159C84.c: In function `func_8015A1FC':
+src/ov_SC01_005/ov_SC01_005_jr_80159C84.c:1349: warning: passing arg 1 of `func_8015A2D8' makes integer from pointer without a cast
+  CC      build/src/ov_SC01_006/ov_SC01_006_o0c.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_o0c.c)
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c: In function `func_8013B204':
+src/ov_SC01_005/ov_SC01_005_jr_801380E0.c:1375: warning: assignment makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8017EB44.c:1526: warning: conflicting types for built-in function `memcpy'
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_80140608.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_80140608.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8012ACE0.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8013C98C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_80135888.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_80135888.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005.c)
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:1533: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c: In function `func_80178B70':
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:2687: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:2668: warning: previous external decl of `D_80185CEC'
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:2692: warning: passing arg 2 of `func_80178CBC' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c: In function `func_80178BB8':
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:2697: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:2666: warning: previous external decl of `func_80178BF8'
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:2705: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:2666: warning: previous external decl of `func_80178BF8'
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_80178D40.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_80178D40.c)
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_o0c.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_80135888.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:1526: warning: conflicting types for built-in function `memcpy'
+In file included from src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:3210: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:2792: warning: previous external decl of `func_8017F730'
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:3446: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:2905: warning: previous external decl of `D_800AE7BC'
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c: In function `func_80180908':
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:3959: warning: passing arg 2 of `func_80178B18' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c: In function `func_80180E9C':
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:4237: warning: assignment makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:4587: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:4557: warning: previous external decl of `func_80181B00'
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:4587: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:4557: warning: previous implicit declaration of `func_80181B00'
+src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:4587: warning: `func_80181B00' was previously implicitly declared to return `int'
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/ov_SC01_005_o0c.c: In function `func_8013B6A0':
+src/ov_SC01_005/ov_SC01_005_o0c.c:802: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_o0c.c:788: warning: previous external decl of `D_801CDF08'
+src/ov_SC01_005/ov_SC01_005_o0c.c: In function `func_8013B7AC':
+src/ov_SC01_005/ov_SC01_005_o0c.c:814: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_o0c.c:788: warning: previous external decl of `D_801CDF08'
+src/ov_SC01_005/ov_SC01_005_o0c.c: At top level:
+src/ov_SC01_005/ov_SC01_005_o0c.c:830: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_o0c.c:823: warning: previous external decl of `func_8013B83C'
+src/ov_SC01_005/ov_SC01_005_o0c.c:830: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_o0c.c:823: warning: previous implicit declaration of `func_8013B83C'
+src/ov_SC01_005/ov_SC01_005_o0c.c:830: warning: `func_8013B83C' was previously implicitly declared to return `int'
+src/ov_SC01_005/ov_SC01_005_o0c.c:962: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_o0c.c:863: warning: previous external decl of `func_8013BD74'
+src/ov_SC01_005/ov_SC01_005_o0c.c:962: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_o0c.c:952: warning: previous implicit declaration of `func_8013BD74'
+src/ov_SC01_005/ov_SC01_005_o0c.c:962: warning: `func_8013BD74' was previously implicitly declared to return `int'
+src/ov_SC01_005/ov_SC01_005_o0c.c:1021: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_o0c.c:841: warning: previous external decl of `func_8013C08C'
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_80135A4C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_80135A4C.c)
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_80154C24.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_80154C24.c)
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_80140D68':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:1254: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:1115: warning: previous external decl of `D_800AE7BC'
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `aF801412A8':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:1435: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:1115: warning: previous external decl of `D_800AE7BC'
+src/ov_SC01_005/ov_SC01_005_jr_80135888.c:579: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_80135888.c: In function `func_80135888':
+src/ov_SC01_005/ov_SC01_005_jr_80135888.c:681: warning: passing arg 1 of `func_80135EB0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80135888.c:688: warning: passing arg 1 of `func_80135EB0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c: In function `func_8013C9C4':
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:805: warning: assignment makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012D098':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:543: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012D38C':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:545: warning: passing arg 1 of `func_8012D098' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:549: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:541: warning: previous external decl of `RotTransPers'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012D3B4':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:549: warning: passing arg 2 of `RotTransPers' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:549: warning: passing arg 2 of `RotTransPers' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012D4B4':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:551: warning: passing arg 2 of `RotTransPers' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:551: warning: passing arg 2 of `RotTransPers' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005.c: In function `func_8012A418':
+src/ov_SC01_005/ov_SC01_005.c:725: warning: assignment from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005.c: In function `func_8012A6D0':
+src/ov_SC01_005/ov_SC01_005.c:746: warning: initialization makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005.c:746: warning: initialization makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:590: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:565: warning: previous external decl of `func_8012F568'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012DB84':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:598: warning: passing arg 5 of `func_8012F568' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:598: warning: passing arg 6 of `func_8012F568' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:1532: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005.c: In function `func_8012A828':
+src/ov_SC01_005/ov_SC01_005.c:754: warning: assignment makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_80142838':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:1769: warning: passing arg 1 of `func_8012C0EC' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012DDA4':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:622: warning: return makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c: In function `func_80178D40':
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2735: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012DE2C':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:637: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:612: warning: previous external decl of `D_801CC554'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:638: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:613: warning: previous external decl of `D_801CC550'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:653: warning: return makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3142: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c: In function `func_8013E4B4':
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:1789: warning: passing arg 1 of `func_8012C750' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012E138':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:675: warning: passing arg 2 of `func_8012F038' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:675: warning: passing arg 3 of `func_8012F038' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:675: warning: passing arg 2 of `func_8012F14C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:675: warning: passing arg 3 of `func_8012F14C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:675: warning: passing arg 3 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:675: warning: passing arg 4 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_80142F68':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:1982: warning: passing arg 1 of `func_8012C0EC' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:1987: warning: prototype for `func_8013E958' follows
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:1951: warning: non-prototype definition here
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:1987: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:1893: warning: previous external decl of `D_80115130'
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:2011: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:1891: warning: previous external decl of `D_80115128'
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_801430F4':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2025: warning: passing arg 1 of `func_8012C0EC' makes integer from pointer without a cast
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8017AE2C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c)
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_801432FC':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2080: warning: passing arg 1 of `func_8012C044' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:2152: In function `func_801433F0':
+warning: type mismatch with previous external declsrc/ov_SC01_005/ov_SC01_005_jr_80140608.c:2084: 
+warning: src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c:1953: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a castprevious external decl of `
+func_800D0488'src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2084: 
+warning: passing arg 2 of `func_80128ED8' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_8014350C':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2123: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3374: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2646: warning: previous external decl of `func_80179D30'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3376: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2647: warning: previous external decl of `func_80179D78'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3378: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2649: warning: previous external decl of `func_80179DCC'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3382: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2651: warning: previous external decl of `func_80179E1C'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3384: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2652: warning: previous external decl of `func_80179E48'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3386: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2653: warning: previous external decl of `func_80179E74'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3388: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2648: warning: previous external decl of `func_80179EA0'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3390: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2654: warning: previous external decl of `func_80179EE8'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3392: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2655: warning: previous external decl of `func_80179F14'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3396: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2657: warning: previous external decl of `func_80179F6C'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3398: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2658: warning: previous external decl of `func_80179F98'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3400: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2659: warning: previous external decl of `func_80179FEC'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3402: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2660: warning: previous external decl of `func_8017A040'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3477: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2680: warning: previous external decl of `func_8017A3B0'
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:3501: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80178D40.c:2681: warning: previous external decl of `func_8017A3D8'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_8012F568':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1094: warning: passing arg 2 of `memcpy' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1094: warning: passing arg 2 of `memcpy' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_801442F8':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2305: warning: passing arg 1 of `func_8012C218' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_80144458':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2370: warning: passing arg 1 of `func_8012AD80' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2376: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c: In function `func_8014462C':
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2385: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80140608.c:2385: warning: passing arg 2 of `func_80128ED8' from incompatible pointer type
+{standard input}: Assembler messages:
+{standard input}:546: Warning: used $at without ".set noat"
+{standard input}:547: Warning: used $at without ".set noat"
+{standard input}:653: Warning: used $at without ".set noat"
+{standard input}:654: Warning: used $at without ".set noat"
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80130D48':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1427: warning: assignment makes pointer from integer without a cast
+  CC      build/src/ov_SC01_006/ov_SC01_006_after.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_after.c)
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80131340':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1614: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1497: warning: previous external decl of `D_80182868'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1660: warning: passing arg 1 of `func_80131E00' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1714: warning: passing arg 1 of `func_80131E00' makes pointer from integer without a cast
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8015A3C8.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8015A3C8.c)
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1758: warning: passing arg 1 of `func_80131E00' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1789: warning: passing arg 1 of `func_80131E00' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1794: warning: passing arg 1 of `func_80131E00' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1811: warning: passing arg 1 of `func_80131E00' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1821: warning: passing arg 1 of `func_80131E00' makes pointer from integer without a cast
+  CC      build/src/ov_SC01_006/ov_SC01_006_jr_8015AE2C.o  (twin of ov_SC01_005: src/ov_SC01_005/ov_SC01_005_jr_8015AE2C.c)
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_801325B8':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2183: warning: passing arg 1 of `memcpy' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2183: warning: passing arg 2 of `memcpy' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2183: warning: passing arg 1 of `memcpy' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2183: warning: passing arg 2 of `memcpy' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80132EF4':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2195: warning: initialization makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80132F40':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2276: warning: passing arg 2 of `func_8012F038' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2276: warning: passing arg 3 of `func_8012F038' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2276: warning: passing arg 2 of `func_8012F14C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2276: warning: passing arg 3 of `func_8012F14C' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80133AB0':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2527: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2528: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80133CD4':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2611: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2612: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2613: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2529: warning: previous external decl of `D_8018294C'
+In file included from src/ov_SC01_005/ov_SC01_005_jr_80135A4C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_801343C4':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2787: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2788: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2790: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2417: warning: previous external decl of `D_801CC5AC'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80134510':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2843: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2844: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2845: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2614: warning: previous external decl of `D_80182948'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_801345F8':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2892: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2951: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2891: warning: previous external decl of `func_801347A0'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_801347A0':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2953: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2954: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2955: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2614: warning: previous external decl of `D_80182948'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80134C20':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3075: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3076: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3077: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2614: warning: previous external decl of `D_80182948'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3078: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2529: warning: previous external decl of `D_8018294C'
+In file included from src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80135004':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3170: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3171: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80135168':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3239: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3240: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80135260':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3314: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3315: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3316: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2529: warning: previous external decl of `D_8018294C'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: In function `func_80135480':
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3434: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2415: warning: previous external decl of `D_80182940'
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:3435: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:2416: warning: previous external decl of `D_80182944'
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_after.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8015AE2C.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8015A3C8.c:2:
+src/ov_SC01_005/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_80135A4C.c:579: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC01_005/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1266: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1212: warning: previous external decl of `func_801565C0'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: In function `func_80156600':
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1302: warning: return makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1302: warning: return makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1307: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1208: warning: previous external decl of `func_80156670'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1312: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1210: warning: previous external decl of `func_80156848'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1336: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1334: warning: previous external decl of `func_80156ECC'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: In function `func_80156ECC':
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1336: warning: passing arg 1 of `func_80156FA8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1336: warning: passing arg 2 of `func_80156FA8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1336: warning: passing arg 3 of `func_80156FA8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1344: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1341: warning: previous external decl of `func_801571C4'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1344: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1341: warning: previous implicit declaration of `func_801571C4'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1344: warning: `func_801571C4' was previously implicitly declared to return `int'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: In function `func_801571C4':
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1344: warning: passing arg 3 of `func_80135260' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1344: warning: passing arg 4 of `func_80135260' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: In function `func_8015773C':
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1366: warning: passing arg 1 of `func_801553A8' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: In function `func_801577C8':
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1389: warning: passing arg 1 of `func_80147078' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1404: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1390: warning: previous external decl of `func_80157808'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1404: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1390: warning: previous implicit declaration of `func_80157808'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1404: warning: `func_80157808' was previously implicitly declared to return `int'
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c: In function `func_80158038':
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1617: warning: passing arg 1 of `func_80154A74' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_80154C24.c:1620: warning: passing arg 2 of `func_80146994' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:1532: warning: conflicting types for built-in function `memcpy'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c: In function `func_8017B368':
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:2819: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:2770: warning: previous external decl of `D_80185CF0'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c: In function `func_8017B490':
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:2855: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:2770: warning: previous external decl of `D_80185CF0'
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80145B24':
+src/ov_SC01_005/ov_SC01_005_after.c:112: warning: assignment from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c: At top level:
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3129: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:2815: warning: previous external decl of `D_801CD7EC'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3130: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:2816: warning: previous external decl of `D_801CD7F4'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3313: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:2769: warning: previous external decl of `func_8017BE60'
+src/ov_SC01_005/ov_SC01_005_after.c: At top level:
+src/ov_SC01_005/ov_SC01_005_after.c:236: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:137: warning: previous external decl of `func_80145EE8'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3348: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3344: warning: previous external decl of `func_8017BF70'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3348: warning: type mismatch with previous implicit declaration
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3344: warning: previous implicit declaration of `func_8017BF70'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3348: warning: `func_8017BF70' was previously implicitly declared to return `int'
+src/ov_SC01_005/ov_SC01_005_after.c:323: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:147: warning: previous external decl of `D_80126B78'
+src/ov_SC01_005/ov_SC01_005_after.c:323: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:128: warning: previous external decl of `func_80147098'
+src/ov_SC01_005/ov_SC01_005_after.c:374: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:136: warning: previous external decl of `func_801468C8'
+src/ov_SC01_005/ov_SC01_005_after.c:481: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:124: warning: previous external decl of `func_80016714'
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80146D90':
+src/ov_SC01_005/ov_SC01_005_after.c:495: warning: passing arg 1 of `func_80146DE8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80147060':
+src/ov_SC01_005/ov_SC01_005_after.c:517: warning: `return' with a value, in function returning void
+src/ov_SC01_005/ov_SC01_005_after.c: At top level:
+src/ov_SC01_005/ov_SC01_005_after.c:523: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:127: warning: previous external decl of `func_80147084'
+src/ov_SC01_005/ov_SC01_005_after.c:531: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:129: warning: previous external decl of `func_801470AC'
+src/ov_SC01_005/ov_SC01_005_after.c:547: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:164: warning: previous external decl of `D_8012707C'
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80147324':
+src/ov_SC01_005/ov_SC01_005_after.c:553: warning: comparison between pointer and integer
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80147AD4':
+src/ov_SC01_005/ov_SC01_005_after.c:605: warning: passing arg 2 of `func_80147B5C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015AE2C.c: In function `func_8015BF48':
+src/ov_SC01_005/ov_SC01_005_jr_8015AE2C.c:1796: warning: passing arg 1 of `func_8015C0C4' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80147D38':
+src/ov_SC01_005/ov_SC01_005_after.c:615: warning: passing arg 2 of `func_80147DC0' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015A3C8.c: In function `func_8015ADB0':
+src/ov_SC01_005/ov_SC01_005_jr_8015A3C8.c:1472: warning: passing arg 1 of `func_80161124' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_jr_8015AE2C.c: In function `func_8015C128':
+src/ov_SC01_005/ov_SC01_005_jr_8015AE2C.c:1833: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_jr_8015AE2C.c:1248: warning: previous external decl of `D_80184A4C'
+src/ov_SC01_005/ov_SC01_005_after.c: At top level:
+src/ov_SC01_005/ov_SC01_005_after.c:883: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:130: warning: previous external decl of `func_80149210'
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80149F2C':
+src/ov_SC01_005/ov_SC01_005_after.c:976: warning: initialization makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: At top level:
+src/ov_SC01_005/ov_SC01_005_after.c:1116: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:1112: warning: previous external decl of `D_80078E90'
+src/ov_SC01_005/ov_SC01_005_after.c:1194: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:131: warning: previous external decl of `func_8014BE9C'
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014C168':
+src/ov_SC01_005/ov_SC01_005_after.c:1224: warning: return makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:1224: warning: return makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014C3D0':
+src/ov_SC01_005/ov_SC01_005_after.c:1246: warning: passing arg 2 of `func_8014C59C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014C43C':
+src/ov_SC01_005/ov_SC01_005_after.c:1248: warning: passing arg 4 of `func_8014C4AC' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: At top level:
+src/ov_SC01_005/ov_SC01_005_after.c:1280: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:139: warning: previous external decl of `func_8014C6D0'
+src/ov_SC01_005/ov_SC01_005_after.c:1322: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:138: warning: previous external decl of `func_8014C968'
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014CD0C':
+src/ov_SC01_005/ov_SC01_005_after.c:1396: warning: passing arg 2 of `func_8014CF04' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014D438':
+src/ov_SC01_005/ov_SC01_005_after.c:1473: warning: passing arg 2 of `func_8014D610' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014E48C':
+src/ov_SC01_005/ov_SC01_005_after.c:1901: warning: passing arg 1 of `func_8014E514' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:1901: warning: passing arg 2 of `func_8014E514' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:1901: warning: passing arg 3 of `func_8014E514' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014E790':
+src/ov_SC01_005/ov_SC01_005_after.c:1979: warning: passing arg 3 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:1979: warning: passing arg 4 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014E83C':
+src/ov_SC01_005/ov_SC01_005_after.c:1981: warning: passing arg 3 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:1981: warning: passing arg 4 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8014EE14':
+src/ov_SC01_005/ov_SC01_005_after.c:2057: warning: assignment makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: At top level:
+src/ov_SC01_005/ov_SC01_005_after.c:2382: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:2345: warning: previous external decl of `func_80150820'
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80151204':
+src/ov_SC01_005/ov_SC01_005_after.c:2604: warning: passing arg 1 of `func_8014ACE8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8015126C':
+src/ov_SC01_005/ov_SC01_005_after.c:2608: warning: passing arg 1 of `func_8015173C' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80151AE4':
+src/ov_SC01_005/ov_SC01_005_after.c:2681: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2681: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2681: warning: passing arg 1 of `func_8015BDD0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_801520DC':
+src/ov_SC01_005/ov_SC01_005_after.c:2736: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2737: warning: passing arg 1 of `func_801472C8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2739: warning: passing arg 1 of `func_80146DB8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2740: warning: passing arg 1 of `func_801477E8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2741: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2742: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2743: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2745: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80152254':
+src/ov_SC01_005/ov_SC01_005_after.c:2753: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_801528B0':
+src/ov_SC01_005/ov_SC01_005_after.c:2867: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2868: warning: passing arg 1 of `func_80154274' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2868: warning: passing arg 2 of `func_80154274' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2871: warning: passing arg 1 of `func_80146DB8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2872: warning: passing arg 1 of `func_801477E8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2873: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2874: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2875: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_8015294C':
+src/ov_SC01_005/ov_SC01_005_after.c:2879: warning: passing arg 1 of `func_801472C8' from incompatible pointer type
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80152A50':
+src/ov_SC01_005/ov_SC01_005_after.c:2883: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80152BF0':
+src/ov_SC01_005/ov_SC01_005_after.c:2897: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80152C80':
+src/ov_SC01_005/ov_SC01_005_after.c:2901: warning: initialization makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80152DA8':
+src/ov_SC01_005/ov_SC01_005_after.c:2932: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2933: warning: passing arg 1 of `func_80154274' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2933: warning: passing arg 2 of `func_80154274' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2937: warning: passing arg 1 of `func_80146DB8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2938: warning: passing arg 1 of `func_801477E8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2939: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2940: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2941: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80152E4C':
+src/ov_SC01_005/ov_SC01_005_after.c:2945: warning: passing arg 1 of `func_801472C8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80152F44':
+src/ov_SC01_005/ov_SC01_005_after.c:2949: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_801530E4':
+src/ov_SC01_005/ov_SC01_005_after.c:2963: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2963: warning: passing arg 1 of `func_801472C8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2963: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2963: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2963: warning: passing arg 1 of `func_80155440' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2963: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80153204':
+src/ov_SC01_005/ov_SC01_005_after.c:2969: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_801533A4':
+src/ov_SC01_005/ov_SC01_005_after.c:2983: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2983: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2983: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2983: warning: passing arg 1 of `func_80155440' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:2983: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_801534D8':
+src/ov_SC01_005/ov_SC01_005_after.c:2989: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_801539F8':
+src/ov_SC01_005/ov_SC01_005_after.c:3005: warning: passing arg 3 of `func_80133784' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:3005: warning: passing arg 3 of `func_80133784' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c:3005: warning: passing arg 3 of `func_80133784' makes integer from pointer without a cast
+src/ov_SC01_005/ov_SC01_005_after.c: At top level:
+src/ov_SC01_005/ov_SC01_005_after.c:3021: warning: type mismatch with previous external decl
+src/ov_SC01_005/ov_SC01_005_after.c:141: warning: previous external decl of `func_80153C8C'
+src/ov_SC01_005/ov_SC01_005_after.c: In function `func_80154150':
+src/ov_SC01_005/ov_SC01_005_after.c:3079: warning: passing arg 1 of `func_80154190' makes pointer from integer without a cast
+{standard input}: Assembler messages:
+{standard input}:673: Warning: used $at without ".set noat"
+{standard input}:674: Warning: used $at without ".set noat"
+{standard input}:12330: Warning: used $at without ".set noat"
+{standard input}:12331: Warning: used $at without ".set noat"
+{standard input}:12655: Warning: used $at without ".set noat"
+{standard input}:12656: Warning: used $at without ".set noat"
+{standard input}:12973: Warning: used $at without ".set noat"
+{standard input}:12974: Warning: used $at without ".set noat"
+{standard input}:13274: Warning: used $at without ".set noat"
+{standard input}:13275: Warning: used $at without ".set noat"
+{standard input}:13974: Warning: used $at without ".set noat"
+{standard input}:13975: Warning: used $at without ".set noat"
+{standard input}:14413: Warning: used $at without ".set noat"
+{standard input}:14414: Warning: used $at without ".set noat"
+{standard input}:14645: Warning: used $at without ".set noat"
+{standard input}:14646: Warning: used $at without ".set noat"
+{standard input}:14887: Warning: used $at without ".set noat"
+{standard input}:14888: Warning: used $at without ".set noat"
+{standard input}:15234: Warning: used $at without ".set noat"
+{standard input}:15235: Warning: used $at without ".set noat"
+{standard input}:15637: Warning: used $at without ".set noat"
+{standard input}:15638: Warning: used $at without ".set noat"
+{standard input}:15869: Warning: used $at without ".set noat"
+{standard input}:15870: Warning: used $at without ".set noat"
+{standard input}:16085: Warning: used $at without ".set noat"
+{standard input}:16086: Warning: used $at without ".set noat"
+{standard input}:16352: Warning: used $at without ".set noat"
+{standard input}:16353: Warning: used $at without ".set noat"
+{standard input}:16502: Warning: used $at without ".set noat"
+{standard input}:16503: Warning: used $at without ".set noat"
+{standard input}:16617: Warning: used $at without ".set noat"
+{standard input}:16618: Warning: used $at without ".set noat"
+{standard input}:17318: Warning: used $at without ".set noat"
+{standard input}:17319: Warning: used $at without ".set noat"
+{standard input}:17958: Warning: used $at without ".set noat"
+{standard input}:17959: Warning: used $at without ".set noat"
+  LD      build/ov_SC01_006/ov_SC01_006.elf
+  OBJCOPY build/ov_SC01_006/ov_SC01_006
+  TRIM    build/ov_SC01_006/ov_SC01_006 (-3 B linker end-align pad)
+[ OK ] build/ov_SC01_006/ov_SC01_006
+       sha1 56760dbec7757f12d18d7e40242a0b05280ff444 == config/check.ov_SC01_006.sha  (BYTE-IDENTICAL)

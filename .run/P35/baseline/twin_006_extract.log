@@ -1,0 +1,109 @@
+splat 0.41.0 (powered by spimdisasm 1.41.0)
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 213385.19it/s]
+  0%|          | 0/25 [00:00<?, ?it/s]Loading symbols (symbols.resident):   0%|          | 0/25 [00:00<?, ?it/s]Loading symbols (symbols.resident): 100%|██████████| 25/25 [00:00<00:00, 281875.27it/s]
+  0%|          | 0/5 [00:00<?, ?it/s]Loading symbols (symbols.ov_SC01_006):   0%|          | 0/5 [00:00<?, ?it/s]Loading symbols (symbols.ov_SC01_006): 100%|██████████| 5/5 [00:00<00:00, 56073.58it/s]
+  0%|          | 0/1 [00:00<?, ?it/s]Scanning ov_SC01_006:   0%|          | 0/1 [00:00<?, ?it/s]
+Rodata segment 'ov_SC01_006' may belong to the text segment 'ov_SC01_006'
+    Based on the usage from the function func_801299C8 to the symbol jtbl_801CAE58
+
+The rodata segment 'ov_SC01_006' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0xA2D14, .rodata]
+
+
+Rodata segment 'ov_SC01_006_jr_8012ACE0' may belong to the text segment 'ov_SC01_006_jr_8012ACE0'
+    Based on the usage from the function func_8012ACE0 to the symbol jtbl_801CAF34
+
+The rodata segment 'ov_SC01_006_jr_8012ACE0' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0xA2EA8, .rodata]
+      - [0xA2EBC, .rodata]
+
+
+Rodata segment 'ov_SC01_006_jr_80135888' may belong to the text segment 'ov_SC01_006_jr_80135888'
+    Based on the usage from the function func_80135888 to the symbol jtbl_801CB02C
+
+Rodata segment 'ov_SC01_006_jr_80135A4C' may belong to the text segment 'ov_SC01_006_jr_80135A4C'
+    Based on the usage from the function func_80135A4C to the symbol jtbl_801CB044
+
+Rodata segment 'ov_SC01_006_jr_80135D20' may belong to the text segment 'ov_SC01_006_jr_80135D20'
+    Based on the usage from the function func_80135D20 to the symbol jtbl_801CB05C
+
+Rodata segment 'ov_SC01_006_jr_801380E0' may belong to the text segment 'ov_SC01_006_jr_801380E0'
+    Based on the usage from the function func_801380E0 to the symbol jtbl_801CB0AC
+
+Rodata segment 'ov_SC01_006_o0c' may belong to the text segment 'ov_SC01_006_o0c'
+    Based on the usage from the function func_8013B83C to the symbol jtbl_801CB110
+
+Rodata segment 'ov_SC01_006_jr_8013F350' may belong to the text segment 'ov_SC01_006_jr_8013F350'
+    Based on the usage from the function func_8013F350 to the symbol jtbl_801CB71C
+
+Rodata segment 'ov_SC01_006_jr_8013FFD8' may belong to the text segment 'ov_SC01_006_jr_8013FFD8'
+    Based on the usage from the function func_8013FFD8 to the symbol jtbl_801CB754
+
+Rodata segment 'ov_SC01_006_jr_80140608' may belong to the text segment 'ov_SC01_006_jr_80140608'
+    Based on the usage from the function func_80140608 to the symbol jtbl_801CB7C4
+
+Rodata segment 'ov_SC01_006_jr_8015444C' may belong to the text segment 'ov_SC01_006_jr_8015444C'
+    Based on the usage from the function func_8015444C to the symbol jtbl_801CB7F0
+
+Rodata segment 'ov_SC01_006_jr_80154C24' may belong to the text segment 'ov_SC01_006_jr_80154C24'
+    Based on the usage from the function func_80154C24 to the symbol jtbl_801CB8CC
+
+The rodata segment 'ov_SC01_006_jr_80154C24' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0xA3798, .rodata]
+
+
+Rodata segment 'ov_SC01_006_jr_801588CC' may belong to the text segment 'ov_SC01_006_jr_801588CC'
+    Based on the usage from the function func_801588CC to the symbol jtbl_801CB910
+
+Rodata segment 'ov_SC01_006_jr_80159C84' may belong to the text segment 'ov_SC01_006_jr_80159C84'
+    Based on the usage from the function func_80159C84 to the symbol jtbl_801CB9B8
+
+Rodata segment 'ov_SC01_006_jr_8015A3C8' may belong to the text segment 'ov_SC01_006_jr_8015A3C8'
+    Based on the usage from the function func_8015A3C8 to the symbol jtbl_801CB9F0
+
+Rodata segment 'ov_SC01_006_jr_8015AE2C' may belong to the text segment 'ov_SC01_006_jr_8015AE2C'
+    Based on the usage from the function func_8015AE2C to the symbol jtbl_801CBA10
+
+Rodata segment 'ov_SC01_006_jr_8015C32C' may belong to the text segment 'ov_SC01_006_jr_8015C32C'
+    Based on the usage from the function func_8015C32C to the symbol jtbl_801CBA50
+
+Rodata segment 'ov_SC01_006_jr_8016AB6C' may belong to the text segment 'ov_SC01_006_jr_8016AB6C'
+    Based on the usage from the function func_8016AB6C to the symbol jtbl_801CBA84
+
+Rodata segment 'ov_SC01_006_jr_80171B4C' may belong to the text segment 'ov_SC01_006_jr_80171B4C'
+    Based on the usage from the function func_80171B4C to the symbol jtbl_801CBB04
+
+Rodata segment 'ov_SC01_006_jr_801734BC' may belong to the text segment 'ov_SC01_006_jr_801734BC'
+    Based on the usage from the function func_801734BC to the symbol jtbl_801CBB24
+
+Rodata segment 'ov_SC01_006_jr_801789AC' may belong to the text segment 'ov_SC01_006_jr_801789AC'
+    Based on the usage from the function func_801789AC to the symbol jtbl_801CBCC8
+
+Rodata segment 'ov_SC01_006_jr_80178D40' may belong to the text segment 'ov_SC01_006_jr_80178D40'
+    Based on the usage from the function func_80178D40 to the symbol jtbl_801CBCE0
+
+Rodata segment 'ov_SC01_006_jr_8017A4AC' may belong to the text segment 'ov_SC01_006_jr_8017A4AC'
+    Based on the usage from the function func_8017A4AC to the symbol jtbl_801CBEE8
+
+Rodata segment 'ov_SC01_006_jr_8017AE2C' may belong to the text segment 'ov_SC01_006_jr_8017AE2C'
+    Based on the usage from the function func_8017AE2C to the symbol jtbl_801CBF78
+
+Rodata segment 'ov_SC01_006_jr_8017C340' may belong to the text segment 'ov_SC01_006_jr_8017C340'
+    Based on the usage from the function func_8017C340 to the symbol jtbl_801CBF8C
+
+Rodata segment 'ov_SC01_006_jr_8017EB44' may belong to the text segment 'ov_SC01_006_jr_8017EB44'
+    Based on the usage from the function func_8017EB44 to the symbol jtbl_801CC4B4
+
+Rodata segment 'ov_SC01_006_jr_8017ED5C' may belong to the text segment 'ov_SC01_006_jr_8017ED5C'
+    Based on the usage from the function func_8017ED5C to the symbol jtbl_801CC4DC
+Scanning ov_SC01_006: 100%|██████████| 1/1 [00:02<00:00,  2.80s/it]Scanning ov_SC01_006: 100%|██████████| 1/1 [00:02<00:00,  2.80s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]Splitting ov_SC01_006:   0%|          | 0/1 [00:00<?, ?it/s]Splitting ov_SC01_006: 100%|██████████| 1/1 [00:01<00:00,  1.91s/it]Splitting ov_SC01_006: 100%|██████████| 1/1 [00:01<00:00,  1.91s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]Linker script ov_SC01_006:   0%|          | 0/1 [00:00<?, ?it/s]Linker script ov_SC01_006: 100%|██████████| 1/1 [00:00<00:00, 58.68it/s]
+Split 369 KB (54.31%) in defined segments
+                   c:   369 KB (54.31%) 30 split, 0 cached
+                 bin:      1 B (0.00%) 1 split, 0 cached
+             unknown:      0 B (0.00%) from unknown bin files
+ld_interleave --order: .ov_SC01_006 island = 47 pieces [tail.data.o, ov_SC01_006.o, ov_SC01_006_jr_8012ACE0.o, tail2.data.o, ov_SC01_006_jr_80135888.o, tail3.data.o, ov_SC01_006_jr_80135A4C.o, tail4.data.o, ov_SC01_006_jr_80135D20.o, tail5.data.o, ov_SC01_006_jr_801380E0.o, ov_SC01_006_o0c.o, tail6.data.o, ov_SC01_006_jr_8013F350.o, tail7.data.o, ov_SC01_006_jr_8013FFD8.o, tail8.data.o, ov_SC01_006_jr_80140608.o, tail9.data.o, ov_SC01_006_jr_8015444C.o, ov_SC01_006_jr_80154C24.o, ov_SC01_006_jr_801588CC.o, ov_SC01_006_jr_80159C84.o, tail10.data.o, ov_SC01_006_jr_8015A3C8.o, tail11.data.o, ov_SC01_006_jr_8015AE2C.o, tail12.data.o, ov_SC01_006_jr_8015C32C.o, tail13.data.o, ov_SC01_006_jr_8016AB6C.o, tail14.data.o, ov_SC01_006_jr_80171B4C.o, ov_SC01_006_jr_801734BC.o, tail15.data.o, ov_SC01_006_jr_801789AC.o, ov_SC01_006_jr_80178D40.o, tail16.data.o, ov_SC01_006_jr_8017A4AC.o, tail17.data.o, ov_SC01_006_jr_8017AE2C.o, ov_SC01_006_jr_8017C340.o, tail18.data.o, ov_SC01_006_jr_8017EB44.o, ov_SC01_006_jr_8017ED5C.o, tail19.data.o, trailing.o]; pre=0 text=30 empties=33 bss=30

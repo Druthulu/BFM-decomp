@@ -121,7 +121,11 @@ ov_SC01_006_VRAM_BASE  := 0x80128158
 ov_SC01_006_TEXT_LO    := 0x80128158
 ov_SC01_006_TEXT_HI    := 0x801CE061
 ov_SC01_006_ASM_DIR     := asm/ov_SC01_006
-ov_SC01_006_SRC_DIR     := src/ov_SC01_006
+# Phase 35 T3: ov_SC01_006 is a TWIN of ov_SC01_005 (identical payload, 56760dbe…): one source directory per payload.
+# Its objects build under build/src/ov_SC01_006/ from src/ov_SC01_005/ (the Makefile's twin rules); its yaml, asm/, .ld,
+# contract and sig stay its own.
+ov_SC01_006_TWIN_OF     := ov_SC01_005
+ov_SC01_006_SRC_DIR     := src/ov_SC01_005
 ov_SC01_006_UNDEF_SYMS  := build/ov_SC01_006/undefined_syms_auto.txt
 ov_SC01_006_UNDEF_FUNCS := build/ov_SC01_006/undefined_funcs_auto.txt
 
