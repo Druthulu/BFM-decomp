@@ -4,22 +4,22 @@ The matching is finished: 218 binaries rebuild byte for byte and the frontier is
 The first is short and mostly administrative — the public flip and the close of the second generation. The second is the
 third generation: making code that *matches* into code a maintainer would call *finished*.
 
-## Phase 34 — the flip and the Gen2 exit
+## Phase 34 — the flip and the Gen2 exit (2026-09-08)
 
-The repository's history was rewritten before publication to remove every game-derived byte and force-pushed in
-place. The flip itself waits on one thing outside the project's control: GitHub Support purging the old objects, which
-the host's Activity view still serves for every pre-force-push tip ([The ROM firewall](The-ROM-firewall.md)). A probe
-of the old hashes runs daily and the flip is gated on it printing PASS (or, if the purge stalls, on recreating the
-repository under the same name). **It printed PASS on 2026-09-07** — every sampled old hash gone, the live control still
-resolving — so the gate is open and Phase 34 can proceed; the probe is run once more immediately before the flip.
+The repository's history was rewritten before publication to remove every game-derived byte and force-pushed in place;
+the flip waited on GitHub Support purging the old objects, because the host's Activity view still served every
+pre-force-push tip ([The ROM firewall](The-ROM-firewall.md)). The probe of the old hashes printed PASS on 2026-09-07 and
+again immediately before the flip, and **the repository went public on 2026-09-08**, with a ruleset that forbids
+force-pushing or deleting `main` from then on.
 
-After that, in order: the visibility change and the checks that follow it (the probe after the flip, the Actions tab
-green, the wiki enabled — GitHub offers wikis only on public repositories on the free plan); the outward actions the
-maintainer does in his own words — the decomp.me preset request, a note to the neighbouring Archipelago project whose
-RAM map cited this one, the progress boards (decomp.dev, frogress), the wiki push, the tool announcement and the
-topics on the released tool repositories; the aftercare (other clones reset to the rewritten history, the rewrite
-scratch deleted); and the Phase-34 close at **v2.0.0**, which is the Gen2 exit. The seed for that phase, with every
-task, actor and effort level, is [`docs/phase34-seed.md`](../phase34-seed.md).
+The same day, in order: the after-flip probe and the Actions runs on the public repository; the progress card on
+decomp.dev, read from the workflow's report artifact; this wiki, published from `docs/wiki/` and the how-to; the
+decomp.me preset request with a scratch that matches at 100%; the note to the neighbouring Archipelago project; the
+tool announcement and the Decompedia rows; and the maintainer's own decisions on what a public tree carries (the sent
+outreach drafts and the document archive left it — the Archive index is the record). The phase closes at **v2.0.0**,
+the Gen2 exit, with a PhaseEnd that lists by name what is still pending on third parties (the preset's creation, a
+reply from Archipelago, frogress). Its seed, with every task, actor and effort level, is
+[`docs/phase34-seed.md`](../phase34-seed.md).
 
 ## Gen3 — readability, on a byte-exact floor
 

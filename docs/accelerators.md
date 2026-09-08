@@ -892,3 +892,17 @@ lessons that were fixed but never generalised; on this project one in five candi
 ~4.3M tokens, ~13 min wall each in two batches; the coordinator's cost was the brief, the harvest script, the clustering and the
 provenance generation.
 
+## P34 S93 (2026-09-08) — the flip day: a third-party step proven through the third party's toolchain, and the public-tree decisions
+
+The one failure of the flip day was a browser step nobody could have exercised while the repository was private: `docs/decompme-preset.md`
+told the owner to paste the regenerated target listing into decomp.me, and decomp.me's assembler refused it (`invalid operands 'li a2,2'`).
+The listing is the project's word oracle — nothing on our side assembles it; its bare register names resolve only through `macro.inc` and
+its branch targets are absolute addresses — and the replica that had "proven the preset" compared words from the listing's comments,
+never the listing itself. **Accelerator: a step that hands a file to a third party is proven through that party's own toolchain, on the
+file itself, before the owner's browser session — and the tool that proves it writes the paste** (`verbatim_target_s.py --gas`;
+`decompme_replica.sh` steps D and E; the retry matched 100% first time). Two smaller ones from the same day. **A calendar gate is read
+the morning after the ticket, not "daily for a week":** the Support purge took one day; the probe passed during the previous sub-phase and
+the flip could have opened a day earlier. **Decide what a public tree carries before the flip:** the sent outreach drafts and the
+document archive were always going to leave (the owner removed both within hours of going public), and deciding at the consolidation
+sub-phase would have spared two untrack commits on a public history; the Archive-index rule that made the removal harmless — name
+archived files as paths, never links — held.

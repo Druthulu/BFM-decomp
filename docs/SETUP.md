@@ -945,10 +945,14 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 
 ---
 
-## Backup & repository posture (rules R20/R21) — PUBLIC since Phase 33
+## Backup & repository posture (rules R20/R21) — PUBLIC since 2026-09-08 (Phase 34)
 
 The repository is **public** (`https://github.com/Druthulu/BFM-decomp`, AGPL-3.0 for `tools/`+`docs/`, `src/NOTICE.md`
-for the game sources, `THIRD_PARTY.md`). **H1 is in force:** no ROM-derived or proprietary bytes are in git or in its
+for the game sources, `THIRD_PARTY.md`) — **flipped 2026-09-08** (Phase 34 task 1) after `tools/public_rewrite/probe_github.sh`
+passed immediately before (33/33 sampled old hashes gone) and again after (`--after-flip`, incl. the unauthenticated commit pages);
+the **`protect-main` ruleset** (id 22564862: no deletion, no force-push of `main`, no bypass actors — edit the ruleset first if a
+rewrite is ever needed) guards the published history; the wiki (`docs/wiki/` + the how-to, 32 pages) is live and synced by
+`tools/wiki_sync.sh`; the progress card is `https://decomp.dev/Druthulu/BFM-decomp`. **H1 is in force:** no ROM-derived or proprietary bytes are in git or in its
 history — the retail EXE, the RAM dumps, the Ghidra project, the Sony SDK, the session archive, the extension zips and
 `brave.exe` were purged from every commit before the flip (`docs/public-flip-runbook.md`), and `tools/audit_public.py` +
 CI (`.github/workflows/no-rom.yml`) keep it that way. The disc dump (`disks/`), `extracted/`, `build/`, `asm/`, `expected/`

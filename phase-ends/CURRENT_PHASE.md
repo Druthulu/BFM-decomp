@@ -221,7 +221,26 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   `audit_public` OK over 6,914 tracked paths · `kit_lint` OK · `make kit-corpus` regenerated (359 copies / 28 pointers).
 - The wiki pages changed (Reference-index, Archive-index, conventions, layout) → the C11 wiki re-sync (Drew's word).
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–6 ✓; task 7 part 1 ✓ (outreach + docs/sunset out of the tree); NEXT = task 7 part 2 (the .run prune, DIGEST/decision-log/SETUP/wiki updates, checks, the wiki re-sync), then 8 (G2 — Tier 1, Max)
+### 2026-09-08 — Task 7 (part 2) — C11: the prune, the record, the README timeline (xHigh; S93)
+- **Other clones:** none — the relic Windows clone deleted by Drew during planning (verified twice: `ls` → No such file); the C4 archive
+  mirror's remote re-read = `Druthulu/BFM-decomp-archive.git` (private, the surviving copy). `git worktree list` → one (R77). Runbook §12's
+  reset recipe: not applicable, with this evidence.
+- **The prune (`.run/P34/c11/prune.txt`, `inventory_before.txt`):** the untracked campaign scratch, each tree sampled before deletion
+  (per-function draft dirs with `.c`/`.o`, permuter work dirs, wave shards, resolver/rtu shadow trees, the P29/P32 crack scratch; newest
+  2026-09-05; all superseded by the banked source): `.run/match` 4.1G, `permuter` 592M, `wave4` 357M, 15 × `wave_e*/f*` ≈1.8G,
+  `rtu_shadow` 321M, `resolver` 222M, `crack3` 220M, `audit` 220M, `c954` 196M, `objdiff` 6.7M; `.run/public_rewrite/` 1.1G → 352K
+  (only `old-to-new.tsv` + `old_tag_tip.txt` kept, so the probe stays runnable). **Disk 46G → 37G used (33G free).** Keep-set intact:
+  `obj40`, `decompme`, `wiki`, `verbatim_targets`, `ghidra_export`, 223 sig files; **tracked `.run` files 952, missing 0.**
+- **The record:** `phase-ends/DIGEST.md` §0 (PUBLIC 2026-09-08; Phase 34 in progress), §1 (the flip date on the H1 bullet), §4 (the
+  archive rows are the record); `docs/decision-log.md` "P34 S93 — the flip" (R31); `docs/accelerators.md` P34 S93 (three); `docs/SETUP.md`
+  posture section (the flip date, the probe, the ruleset id, the wiki, decomp.dev); `docs/wiki/Where-the-project-goes-next.md` §Phase 34
+  in the past tense. **README (Drew's ask):** the generated timeline SVG now sits right under the progress block with its provenance line;
+  `tools/timeline.py` regenerated (its rows were stale against the digests since the 33.5 close) → `timeline --check` fresh.
+- Checks: `make audit-digest` OK · `doc_links --strict` OK · `wiki_render --selftest` 12/12, 32 pages (this and part 1's outputs).
+- **Open for the wiki:** five wiki pages changed in task 7 (Reference-index, Archive-index, conventions, layout, direction) → a re-sync
+  push needs Drew's word (R6; the task-5 waiver was one-off). `gh auth logout` stays Drew's last command after the close push.
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–7 ✓ (task 7's wiki re-sync awaits Drew's word); NEXT = task 8 (G2 — Tier 1, Max: tools-health detached, the P7 walk, gate 2, the PhaseEnd v2.0.0)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything

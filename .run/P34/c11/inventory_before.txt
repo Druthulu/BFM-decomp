@@ -1,0 +1,30 @@
+== .run top-level sizes (largest 30)
+/bin/bash: line 1: /usr/bin/du: Argument list too long
+== untracked top-level dirs under .run (no tracked file inside)
+118M	.run/wave_ei/
+118M	.run/wave_ek/
+119M	.run/wave_fa/
+119M	.run/wave_fd/
+121M	.run/wave_en/
+121M	.run/wave_ep/
+121M	.run/wave_es/
+122M	.run/wave_eh/
+123M	.run/wave_eo/
+123M	.run/wave_ex/
+123M	.run/wave_ez/
+124M	.run/wave_et/
+129M	.run/wave_eu/
+129M	.run/wave_ev/
+131M	.run/wave_eq/
+139M	.run/ghidra_export/
+196M	.run/c954/
+220M	.run/audit/
+220M	.run/crack3/
+222M	.run/resolver/
+321M	.run/rtu_shadow/
+357M	.run/wave4/
+592M	.run/permuter/
+1.1G	.run/public_rewrite/
+4.1G	.run/match/
+== disk
+/dev/sdd         73G   46G   24G  67% /

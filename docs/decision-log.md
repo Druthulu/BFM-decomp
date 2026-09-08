@@ -3645,3 +3645,41 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
   above any mid-campaign harvest's. Both are now the kit's own rules: the coverage check is in the kit's health target, and the record's
   front page tells the next project that its logs deserve one final read.
 
+## P34 S93 (2026-09-08) — the flip: a calendar gate that opened early, and what a public tree carries
+
+- **Context and belief.** Phase 33 closed re-chartered because the flip waited on GitHub Support purging the old objects (the Activity
+  view served every pre-force-push tip). The seed planned a daily probe "until PASS, ~a week", with a delete-and-recreate fallback. The
+  probe passed on 2026-09-07, during Phase 33.5 — the purge took a day, not a week — so Phase 34 opened with its gate already open and the
+  fallback never needed. Gate 1 (plan mode, Max) ratified the twelve Phase-33.5 candidates as R84–R95 and added three things the seed did
+  not have: repository metadata and a `protect-main` ruleset (no force-push, no deletion, no bypass actors) set by Claude on the owner's
+  word, a GitHub Release for v2.0.0, and the finding that a Phase-1 relic clone of the OLD history still existed on the Windows
+  filesystem — deleted by Drew during planning, so C11's clone-reset step became "not applicable, with evidence".
+- **What failed, once.** The decomp.me browser step failed on its first try: the doc told Drew to paste the regenerated target listing,
+  which is the project's WORD ORACLE (nothing on our side assembles it — bare register names that resolve only through `macro.inc`,
+  branch targets as absolute addresses). decomp.me's assembler refused it (`invalid operands 'li a2,2'`). The step had been written for a
+  private repo and never exercised (R14). The fix went into the tools, not the doc alone: `verbatim_target_s.py --gas` (the assemblable
+  form), the replica's step D (the paste itself through decomp.me's own `as` wrapper, 26/26 words) and step E (the bundle written from
+  the proven run); the retry matched 100% first time. Lesson, the same as P33's: a step that talks to a third party is proven through
+  that party's own toolchain before the owner sits down in the browser.
+- **The outward day.** Public at 11:2x MDT; the after-flip probe 33/33 gone; both workflows green on the public repo; decomp.dev
+  registered (100.00% / 100.00%, hero image); the wiki pushed (32 pages; Claude ran the push on Drew's explicit one-off R6 waiver, the
+  P33 xsig precedent); the preset request (decompme/decomp.me#2106); the Archipelago note (AegeusEvander/…#1); xsig topics + homepage;
+  the tools post and Drew's own `#ai` reply in the decomp.me Discord; two Decompedia rows. frogress skipped on measurement: alive, 38
+  projects, admin-created, and at 100% with generated badges and decomp.dev live it would add a list row only — pending by name.
+- **Two owner decisions about the public tree (the pivot in this entry).** After the notes were sent, Drew took `docs/outreach/` out of
+  the tree ("just gitignore"), and then the document archive `docs/sunset/` ("remove sunset from the pushed repo … keep the old tools in
+  the sunset folder for the index, but not the other stuff"). The 33.5 design had anticipated exactly this: nothing ever linked into the
+  archive, the Archive index names each file as a path, so the removal broke no link — but the folder was still cited as PRESENT in four
+  wiki pages, and a trial "untrack both" pass measured that the tool census `--check` needs the retired files (a fresh clone would have
+  gone red), which is why the tools half stayed. Convention going forward (on the conventions page): a retired document gets its
+  Archive-index row and is deleted in the same commit; history keeps it. No rewrite for either — the drafts and the archive are in the
+  published history and contain nothing ROM-derived.
+- **Scratch.** The untracked `.run/` campaign scratch that the frontier's emptying made worthless — per-function draft trees, permuter
+  work dirs, wave shards, resolver and rtu shadow trees, the P29/P32 crack scratch — was pruned after sampling each tree (≈9 GB; disk
+  46 → 37 GB used); `.run/public_rewrite/` kept only the probe's two inputs (1.1 GB → 352 KB) so the probe stays runnable; every
+  tracked `.run` file (952) and the keep-set (`obj40`, the sigs, `decompme`, `wiki`, `verbatim_targets`, `ghidra_export`) untouched.
+- **Hindsight — the better path.** (1) Exercise every third-party step through that party's own toolchain before the owner's browser
+  session, and let the tool write the paste (done now for decomp.me; the same rule would have caught it in P33). (2) Decide what a
+  public tree carries BEFORE the flip, not after: the outreach drafts and the archive were always going to leave; deciding at 33.5 would
+  have spared two untrack commits on a public history. (3) A "daily probe for a week" should start the day the ticket is filed and be
+  read the next morning — it passed in one day and the phase could have opened a day earlier.
