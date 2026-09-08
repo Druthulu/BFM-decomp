@@ -1,0 +1,14 @@
+== gate-2 live re-check 2026-09-08T20:18:08Z
+{"forks_count":0,"has_wiki":true,"homepage":"https://github.com/Druthulu/BFM-decomp/wiki","private":false,"stargazers_count":1,"topics":7,"visibility":"public"}
+{"enforcement":"active","id":22564862,"name":"protect-main"}
+{"private":true}
+{"homepage":"https://github.com/Druthulu/BFM-decomp","topics":7}
+https://github.com/Druthulu/BFM-decomp -> 200
+https://raw.githubusercontent.com/Druthulu/BFM-decomp/main/docs/badges/fleet_instr.json -> 200
+https://github.com/Druthulu/BFM-decomp/wiki/Reference-index -> 200
+https://decomp.dev/Druthulu/BFM-decomp -> 200
+https://github.com/decompme/decomp.me/issues/2106 -> 200
+https://github.com/AegeusEvander/Brave-Fencer-Musashi-AP-World/issues/1 -> 200
+== latest public runs
+no-rom	success	a13d1cd9a
+progress	success	a13d1cd9a
