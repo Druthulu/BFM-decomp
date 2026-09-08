@@ -1,0 +1,3619 @@
+# Decision & Pivot Log — the "why" behind BFM's strategic turns
+
+**Purpose.** An append-only record of the project's STRATEGIC pivots, dead-ends, and reversals — the
+*judgment* behind major direction changes, captured WHILE FRESH (R31). This is the perishable layer the
+other records don't hold:
+
+| Record | Holds |
+|---|---|
+| `phase-ends/PhaseEnd_*.md` | per-phase build history + terse **Deviations** tables (WHAT changed, briefly) |
+| `docs/matching-cookbook.md` | TECHNICAL idioms (asm↔C compiler quirks, tool recipes) |
+| **this file** | STRATEGIC why: what we believed → what we tried that failed → why we turned → the hindsight "better path" |
+
+**Why it exists.** It is the substrate for two future deliverables (see the Phase-25 discussion, 2026-07-08):
+1. the project **retrospective** — "with hindsight, the best way to have done this"; and
+2. the public **"how to AI-decomp a brand-new project"** wiki at the public flip.
+
+The quantitative curve (fleet % over time) is safe in git + the PhaseEnds forever; the *reasoning* —
+"we tried X, it was a dead end because Y, so we turned to Z" — is what evaporates between sessions. So it
+is logged here as it happens.
+
+**Discipline (R31 — confirmed by Drew 2026-07-08, Phase 25).** **Forward-only.** Do NOT backfill historical pivots from
+compressed summaries — that reproduces exactly the low-quality reconstruction R30 exists to prevent (the
+PhaseEnds/cookbook already hold what was captured fresh at the time). Log each NEW strategic pivot during
+the session that produced it. Route TECHNICAL idioms to the cookbook; this file is for direction/judgment.
+
+**Entry format:**
+```
+## [date] · Phase N — <pivot title>
+- Context / belief: what we were doing and assumed.
+- Dead-end (if any): what we tried that didn't work + the byte/measurement evidence.
+- Pivot: what we changed to.
+- Why: the grounded reason (bytes, measurement, constraint).
+- Hindsight / for the wiki: the transferable lesson — what a from-scratch project should do.
+```
+
+---
+
+## 2026-07-08 · Phase 25 — a fresh session nearly closed an OPEN phase (handoff-misread)
+- **Context / belief:** resuming Phase 25, the `CURRENT_PHASE.md` handoff header read *"finish T7 → Close;
+  do NOT start T4 yet."* I concluded the remaining tasks (T4/T5/T6 + the exemplar-cracking that is the
+  phase's actual goal) were being **deferred to Phase 26**, and drove toward writing the PhaseEnd.
+- **Dead-end:** I reframed the plan's core work as a "Phase-26 backlog" and presented a milestone-close for
+  confirmation.
+- **Pivot:** Drew corrected — T7 had been *pulled ahead* opportunistically (only its free/cheap MECHANICAL
+  wins); *"not yet"* meant **finish those first**, not **defer to next phase**. The 127-draftable-family
+  curriculum (T4→T5→T6→T7-cracking, the 6.7 MB byte-weight prize) remains this phase's substance. No PhaseEnd.
+- **Why:** I anchored on the literal *"→ Close"* in a handoff header — a phrase written for one moment
+  ("don't start T4 in THIS session") that I read as a permanent scope decision. The approved **plan of
+  record** (`plan-mode-…-galaxy.md`) plainly lists T4–T7 as this-phase work with an *open-ended* milestone;
+  reconciling the handoff against it first would have prevented the error.
+- **Hindsight / for the wiki:** **the #1 failure mode of a long multi-session AI project is a fresh session
+  misreading a compressed handoff.** What saved it: (a) an approved plan-of-record that outlives any single
+  handoff, and (b) a human who caught it in one message. What to bake in: handoff headers must distinguish
+  *"not this session"* from *"not this phase"* in unambiguous words; and **a resuming session must reconcile
+  the handoff against the plan-of-record before ever concluding a phase is done** — never close on a handoff
+  phrase alone. (This is why the plan-of-record and the two-gate model earn their keep.)
+
+## 2026-07-08 · Phase 25 — the "mechanical" family sweep has a hard ceiling at TU-local type collisions
+- **Context / belief (T7.2):** the h_norm structural-family remap is *mechanical* — crack one exemplar,
+  lift the local types it references into the shared header, and every sibling overlay compiles + banks.
+- **Dead-end:** lifting ALL overlay-split-file types into the fleet-wide `engine_types.h` broke the build —
+  `typedef Buf` has a DIFFERENT layout in `_a.c` vs `_after.c` (they never clashed as separate `.o` TUs),
+  and `_a.c` locally redefines PsyQ SDK names (`MATRIX`/`VECTOR`) that a fleet-wide lift would shadow.
+- **Pivot:** lift only the collision-free subset (base + `_after` minus `Buf`); defer the conflicting
+  families to per-type reconciliation (Phase 26). Banked 1,729 of the ~3,857 targeted — the rest is genuine
+  work, not mechanical.
+- **Why:** the overlay split files are independent translation units with independent local type
+  namespaces; "share everything" is unsound across that boundary. (Technical detail → cookbook §40a.)
+- **Hindsight / for the wiki:** **know the mechanical ceiling before launching a mass pass.** A cheap
+  detect-collisions-first probe would have scoped the safe subset up front instead of discovering it via a
+  failed build. General lesson: an automated bulk transform needs an explicit *soundness boundary*, and the
+  byte-gate (not optimism) is what stops a partial success from masquerading as a full one.
+
+## 2026-07-08 · Phase 25 — the local-7B tier is capacity-bound and off the endgame critical path (T4)
+- **Context / belief:** the fine-tuned local drafter (`bfm-match-7b-v3`) was a core cheap tier; retraining **v4**
+  on the much larger post-giant-campaign corpus (2,891→3,574 pairs, +994 medium + 597 large functions v3 never
+  saw) should extend its band upward and make it a stronger drafter for the T5 wave.
+- **Dead-end:** v4 **did not beat v3** — it was marginally WORSE. Gate-true head-to-head on identical held-out
+  functions: easy 6-14 ins both 5/5; **medium 18-40 ins** v3's near-misses closer (one at `near-1`, permuter fuel)
+  with 1 compile-fail vs v4's 4 — v3 closer on 9/12; **hard 45-85 ins** both 0/10. Crucially v4 scored 0/5 even on
+  the 76-83 ins functions it TRAINED on (verified ~1.4-1.7k tok, well inside maxlen 2048 → NOT truncation → genuine
+  capacity). (Note: a real corpus-prep flaw exists — functions >85 ins WERE truncated at maxlen 2048 → training on
+  cut-off completions, likely the source of v4's slight medium regression — but it doesn't touch the decisive band.)
+- **Pivot:** discard v4, **keep v3 (the frozen ceiling)**, and stop investing in the local-7B tier. Not retired
+  (still a $0 mop-up for the ≤~15-ins setter/leaf tail), just no longer load-bearing and no more retrains.
+- **Why:** the byte-gate A/B settled it directly (G3/P9). "**Corpus quality > size**" landed empirically: v2→v3
+  gained from *better* data (the extern-capture fix); v3→v4 was just *more/harder* data and it didn't lift a
+  capacity ceiling. Byte-matching's hard part is compiler-codegen REASONING (scales UP with model size), not
+  language breadth (which a smaller model could shed) — so neither "more data" nor "a smaller RE-specialist" is the
+  lever; the reasoning has to come from a large pretrained base or a frontier model, and the RE-smartness that IS
+  small+deterministic already exists as **m2c** (rules, not weights).
+- **Hindsight / for the wiki:** **the endgame engine is `frontier-crack → deterministic-propagate → byte-gate`,
+  with the permuter softening near-misses — the local small model is a convenience on the small tail, not a
+  load-bearing part.** For a *matching* decomp you already own the ground-truth compiler + a perfect verifier, so
+  the ML task is candidate-PROPOSAL + search (proposal quality scales with reasoning/size; the check is free). A
+  bespoke small "RE model" founders on data scarcity (the asm↔C-under-a-specific-compiler corpus only exists, tiny,
+  in decomp git histories). The honest tiering: **m2c** for structure, a **frontier reasoner** for the byte-exact
+  precision on the hard/byte-weighty band, the **permuter** for regalloc/schedule search, a **frozen small LoRA**
+  only for the cheap ≤15-ins tail. Don't spend GPU-hours chasing band-extension on a 7B; rent a bigger GPU or use
+  the frontier tier when the hard band is the target.
+
+## 2026-07-09 · Phase 25 — the GIANT def-side wall is mechanically crackable → build the lever, don't just measure (T5b batch-2)
+- **Context / belief:** T5b batch-2 (the 29 giants) was scoped as a pure *measure* wave — draft, `match_one`, map the
+  frontier; the plan filed the def-side loose-typing wall as a T7 (post-curriculum) problem, expecting ~0 giant banks.
+  Belief going in: giants would mostly near-miss and feed Fable5/permuter; any that isolation-MATCHed would bank via
+  the gate's existing `sig_unify`/`cast` transforms.
+- **What was tried that failed:** all **16** R14-verified isolation-MATCH giants banked **0/16** through `gate_stage`
+  AND through raw `harvest_verify`. Root cause (dug out by placing one and reading the cc1 error, not trusting the
+  gate's summary): `conflicting types for func_X` — the drafters wrote Ghidra-*typed* sigs (`void f(u32*, s16*)`) that
+  clash with the TU's **canonical** sig, which lives *inside a `DEFINE_func_*` macro* in `engine_core.h` where
+  `sig_unify` (a file-scope-extern rewriter) can't see it. First reconcile attempt ALSO failed twice: an `s32/s32-args`
+  form conflicted with the engine_core.h `void/void*` canonical; then intermediate cast-locals (`u32 *a0 = (u32*)arg0`)
+  *compiled* but produced the WRONG bytes (`70ff4748`) — a fresh pseudo shifted regalloc.
+- **Pivot:** stop treating the def-side wall as a future-T7 abstraction and **build the lever now**
+  (`tools/canon_sig_reconcile.py`): strip ambient-dup typedefs/externs, rewrite the def to the engine_core.h canonical,
+  and **cast each changed param AT ITS USES, never via a local**. That banked `func_8013B274` byte-identical, then
+  **5/16** giants total; 3 swept ×134. Batch-2 turned from "measure + backlog" into "prove + partly-automate the
+  phase's #1 lever," pulling a chunk of T7 forward on real data.
+- **Why (byte/measurement-grounded):** the cast-local vs at-use difference is a *measured* byte fact (`70ff4748` wrong
+  vs `d19c9580` right), not a style call — an intermediate local is a new pseudo gcc-2.7.2 may color differently; an
+  at-use cast is free. The whole-binary byte-gate stayed the sole arbiter throughout (G3/P9): every one of the 5 banks
+  is byte-identical, and R22 clean-fleet is the backstop — it caught my *own* buggy R22 harness (an unexpanded
+  `$(OVERLAY_BINARIES)` that only extracted 2 of 136 binaries) before any false "136/136" could be reported.
+- **Hindsight / for the wiki:** when a whole *class* of candidates fails the gate identically, **read the raw compiler
+  error on ONE placed candidate before concluding "hard / defer"** — the summary ("0 banked") hid a *mechanical*
+  declaration conflict behind what looked like an intractable matching wall. The giant tier was never a matching
+  problem; it was a **plumbing** problem (the body was already right in isolation). General lesson for
+  frontier-crack→propagate→byte-gate: distinguish *codegen* residuals (permuter/Fable5) from *TU-integration* residuals
+  (a deterministic reconcile) early — they look identical at the gate ("0 banked") but have completely different levers,
+  and the integration ones are cheap ×134 wins hiding as "hard giants." Residual: non-identical ambient types and
+  macro-local data symbols are the genuinely-hard remainder (real `reconcile_decls`/rename work), and a reconciled body
+  doesn't `family_sweep` cleanly to siblings (per-sibling re-reconcile needed) — both logged for T7.
+
+## 2026-07-09 · Phase 25 — T6: the def-side wall was ~71% tool-shaped; the endgame's frontier shrank from 95 to 33 (Fable5 curriculum session)
+
+- **Context + belief going in (the T5 handoff):** the 95 still-stub family exemplars decomposed as
+  "~19 clean-canonical mechanical via canon_sig_reconcile; ~32 harder implicit-int fallback; 31 genuine
+  near-misses; 11 hard walls (non-identical types / macro-local data); the 3 `_o0` giants need a special
+  -O0 reconcile; the frontier 'match' statuses carry un-verified agent claims (spot-check 3/5); reconciled
+  bodies don't sweep (func_8016DC20 = 133 sibling failures)." T6's job was to author the crack curriculum
+  from that map, with the expectation that most of the 95 needed per-fn Fable5/permuter work.
+- **What was tried that failed / surprised:** (1) R14 re-verification of ALL 95 (not 5) flipped the
+  caution — 62/95 genuinely isolation-MATCH; the spot-check pessimism didn't generalize. (2) Probing all
+  62 through the REAL TU (splice + full pipeline + masked in-TU byte-compare) showed v1
+  canon_sig_reconcile itself was the wall for most: six probe iterations (v1→v3.1) flipped 10→20→37→44
+  fns to BANKABLE as five tool defects fell (scalar-typedef strip; preprocessed-TU canonical; block-scope-
+  move-not-strip; collision RENAME; decl-line cast protection). (3) Two of my own v2/v2.1 policies
+  (ambient-type rewrite of data externs; canonical-text re-emission + blanket casts) BYTE-DRIFTED or
+  parse-broke dozens — caught only because every iteration re-probed all 62 (the probe program, not the
+  first diagnosis, was the method). (4) A byte-perfect gate run reported MISMATCH because I hand-typed
+  `--good-sha` from memory — the check file is the only source of a hash.
+- **The pivot:** T7 is now mostly DETERMINISTIC EXECUTION, not discovery: tiers M1 (44 reconcile-banks,
+  4,254 ins, 13 giants) → M2 (sweep ×134 via remap + PER-SIBLING re-reconcile — proven 6/6, dissolving
+  §41's "sweep fragility") → M3 (6 fns: no-proto rewrite of engine_core.h macro externs — arity conflicts
+  with a visible typed prototype are the one thing no draft transform can fix) → M4 (8 fns: §33 TU
+  stale-decl retypes) ≈ **+2.2% fleet for ~0 agent tokens**; the true Fable5/permuter frontier is 33 fns
+  (31 verified nears + 4 perturbs, minus overlaps) + 2 trivial drafts. The "-O0-specific reconcile" need
+  was refuted outright. Deliverables: `docs/phase25-t6-curriculum.md`, `.run/t6_worklist.json`,
+  cookbook §41a, canon_sig_reconcile v3.1.
+- **Hindsight / better path:** a "wall" verdict is only as good as the TOOL REVISION it was measured
+  against — re-derive wall taxonomies after every tool change (three iterations moved 34 fns from
+  "wall" to "mechanical"). And validate the gate-proxy against the real gate before trusting either
+  direction (the probe caught real walls the drafts hid; the gate caught my SHA typo). The general
+  law: when a residual class's members share an error SHAPE (`conflicting types`, `undeclared`,
+  parse-at-decl), suspect the pipeline before the compiler.
+
+## 2026-07-10 · Phase 25 — T7 executed the curriculum; the "mechanical tier" was ⅓ probe-over-counted (Opus-Max)
+
+- **Context + belief going in:** the T6 Fable5 curriculum projected 58 fns / ~2.5 MB as MECHANICAL (M1 44
+  reconcile-banks, M3 6 no-proto, M4 8 reconcile_decls-retypes), sized from an in-TU OBJECT probe (compile the
+  fn in the real TU, mask jal/%hi/%lo, byte-compare). Drew: "run T7."
+- **What was tried / surprised:** executing against the WHOLE-BINARY gate (`harvest_verify`) revealed the object
+  probe systematically OVER-counts, because it is blind to three things it cannot see: (1) **rodata** — 4 "M1"
+  jump-table fns have byte-perfect `.text` but a switch table in rodata diverges (this also REFUTED the T6 "Q3
+  -O0 REFUTED" claim — the `_o0` giants are jump-table fns); (2) **link** — 3 "M1" fns are the only asm referencer
+  of a scratch data symbol, so C-ifying them drops splat's auto-symbol → `ld undefined`; (3) **in-TU codegen
+  perturbation** — all 8 "M4" fns are byte-correct in ISOLATION but drift 8–69 in the real TU (scheduling order,
+  `volatile`-loss), and `reconcile_decls` banks 0/8 (4 have no data-decl conflict at all). Plus 4 M3 residue
+  (arity/loose-typing). Net: 19 of the 58 "mechanical" were per-fn F-band work.
+- **The pivot:** bank the TRULY-mechanical core and re-tier the rest honestly. M1 37 + M3-clean 2 = 39 exemplars,
+  reconciled (`canon_sig_reconcile` v3.2 — a type-name-uniquify fix unblocked the struct-collision giants) and
+  swept ×134 via `family_sweep --reconcile` (the Q5 per-sibling re-reconcile law: plain remap banks 0, per-sibling
+  reconcile banks 94%). **~4,694 fleet fns, fleet 72.29 → 73.66% (+1.37%), R22 136/136, ~0 agent tokens.** The 19
+  over-counts → F-band (permuter/§31/Fable5) or specialist workflows (jump-table-in-rodata, manual undefined-syms).
+- **Hindsight / better path:** an in-TU OBJECT probe is a necessary FILTER but must never SIZE a "mechanical"
+  tier — gate a full sample on the whole binary first, and budget ~⅓ of any object-probe "drift/fail" bucket as
+  genuine per-fn work. The mechanical ×134 sweep is the real economic engine (4,655 members from 39 cracks); the
+  curriculum's value was concentrating the crack effort onto the 39 exemplars, not the tier-size projection.
+  Reinforces R14 (verify vs bytes) at the tier-classification level and cookbook §41b/§41b-addendum.
+
+## 2026-07-10c — Propagation-recovery (task b) is NOT a simple --edit-remap gap; it's a family_remap LIMITATION on lever-heavy F-band cracks
+
+**Context+belief:** After waves 3/4 banked exemplars but dropped ~1,200 siblings, I projected task (b) as a cheap
+`family_sweep --edit-remap` enhancement (carry the exemplar's //@EDIT file-scope edits per sibling) — a ~0-token bulk win.
+
+**What failed / the diagnosis:** Probing the 7 dropper families showed the drops are HETEROGENEOUS and dominated by
+**`family_remap` symbol-pairing FAILURE ("133 remap-fail")**, NOT the decl/byte layer an --edit-remap would fix.
+`family_remap` was built for MECHANICAL (reloc-only, T3) families; the F-band cracks carry heavy levers (register
+`__asm__` pins, density dead-reads, phantom-frame `frame_pad`, pointer casts, //@EDIT flips), whose disassembly
+doesn't positionally pair to the sibling image cleanly → remap aborts. func_8014FE60 (engine_core void→s32) also
+remap-fails even after the correct global flip. The families that DID sweep (func_80166690/8017B238/80131B14/
+8016CF04/8014FBC0) have remap-clean bodies; the droppers don't.
+
+**The pivot:** recovering the ~1,200 dropped siblings needs EITHER (a) a `family_remap` upgrade that pairs
+lever-heavy bodies (structure-aware, not positional-reloc-only), OR (b) a per-sibling re-crack (m2c+reconcile+rtu_match
+fan-out ×133/family — expensive). Both are a focused follow-up, not a quick enhancement. Backlogged.
+
+**Hindsight better-path:** the ×134 economics assumed family_remap propagates any crack; it only propagates
+remap-clean ones. Future crack-then-sweep waves should CHECK remap-ability of the exemplar body BEFORE counting the
+×134 (a cheap `family_remap --dry` per exemplar), so the frontier map's leverage estimate reflects propagate-able
+families, not all same-address families.
+
+## 2026-07-10c (CORRECTION, same day) — the "family_remap limitation" was a MISDIAGNOSIS; the real bug was canon_sig_reconcile's def-finder (R14)
+
+**Correcting the entry above.** I concluded the propagation drops were a `family_remap` limitation because `family_sweep`
+reported "133 remap-fail". **That label was misleading.** Running `family_remap` directly on all 7 droppers SUCCEEDED
+(it paired 4–6 symbols each). The None that `reconcile_remap` returns — which `family_sweep` counts as "remap-fail" —
+actually came from **`canon_sig_reconcile.reconcile` raising "no definition of func_X found in draft"**: its def-finder
+regex required a leading `\n` (`r'\n(<type> fn(...)){'`), but stripping the `//@EDIT` lines left the fn definition on
+LINE 1 of the raw draft (no leading newline) → not found. The swept-clean families happened to have a leading `// @class`
+comment, so their def had a `\n` before it.
+
+**FIX (1 char, low-risk):** def-finder regex `\n` → `(?:^|\n)` (also match a def at the draft start; only ADDS matches).
+**Result:** func_8014FE60 fully recovered — 133/133 siblings banked (fix + its engine_core.h void→s32 global flip).
+
+**Residual (the GENUINE --edit-remap work):** 4 families (func_8016DF5C/80136334/8013D9B0/80156044) now RECONCILE but
+BYTE-DRIFT per sibling — their crack levers (s32↔void return flip, array-decay pointer `//@EDIT`, no-proto `//@EDIT`)
+aren't carried/re-derived per sibling. Recovery = carry the exemplar's `//@EDIT` per sibling (symbol-remapped) + apply
+the return-type flip to the shared engine_core.h decl once. Still a focused follow-up, but SMALL and well-understood
+now — NOT a family_remap rewrite.
+
+**LESSON (R14):** a tool's failure LABEL can misattribute the failing STAGE. "remap-fail" was actually a
+reconcile-def-finder throw. Trace the real exception (`reconcile_remap` swallows it) before concluding a limitation.
+
+## 2026-07-11 · Phase 25 — task B: `--edit-remap` BUILT, but 4/6 byte-drift families are cc1-crash-walled (~266, not ~800)
+
+**Context + belief (from the 2026-07-10c handoff):** the 6 byte-drift `//@EDIT` families were framed as "SMALL and
+well-understood — recover ~800 fns by carrying the exemplar's `//@EDIT` per sibling + a once-global engine_core.h
+flip." Drew locked B first on that basis (scoped, mechanical). I built `family_sweep --edit-remap MANIFEST` to do
+exactly that.
+
+**What the byte-gate revealed (probe-before-invest, R14):** the families are NOT one bucket. Only the **2 array-decay
+pointer-flip** families (`extern s32 D_x[];`→`extern s16 *D_x;`) recover — `func_80136824` + `func_80136334` banked
+**266/266 siblings byte-identical (0 failed), full ×134**. The other **4 are register-pin-heavy** (`func_80133AB0`'s
+exotic `register int zr __asm__("$0")`; `func_8016DF5C`/`func_8013D9B0`'s GTE 20-pin bodies; `func_80156044`'s
+inline-asm trampoline) and **cc1-2.7.2 SIGABRTs (`make` Error 134) compiling the SIBLING TU** — the identical body
+compiles fine in ov077. Universal (func_80133AB0 crashed 3/3 siblings tested). The hand pins are ov077-TU-context-
+specific: cc1's fixed-table 1996 register allocator aborts on the pin pattern in a different overlay's surrounding
+function set. func_80156044's engine_core.h `int`→`void` flip IS byte-neutral (verified) — the wall is its body, not
+the edit.
+
+**The pivot:** ship the 2 tractable families (266 ×134, R22 136/136 green, fleet 74.40→74.48%), backlog the 4 crashers
+as exemplar-only (×1) / per-sibling permuter-Fable5 fuel, and move to A (the 7 giants — all remap-clean 133/133, ~938
+fns high-byte-weight, the real ROI). The `--edit-remap` tool is reusable for future array-decay-class cracks; its yield
+must be sized by that subset, never by "family has an //@EDIT."
+
+**Better path (hindsight):** the "~800" estimate counted `sibs × families` without asking "does the CRACK compile in a
+sibling TU?". A hand crack that banked in ov077 by exotic register pins does not generalize — a 30-second single-sibling
+`make build` probe per family would have sized B honestly up front. **LESSON (R14):** an exemplar match proves the crack
+in ITS TU only; the ×134 claim needs a sibling-TU compile probe, because pins are TU-context-specific and cc1 *crashes*
+(not just drifts) on the ones that don't transfer. Corollary: rtu_match/match_one are blind here — their neutralized/
+isolation compiles crash too (harness artifact); only the real `make build` is the arbiter.
+
+## 2026-07-11 · Phase 26 — the "reach-1 tail" is largely a reloc-tracker blind spot, not unique code (Task 1)
+
+**Context + belief (from the Phase-25 close):** the h_seq reframe had already shown the "36k unique tail" collapses
+~90% into per-location families. The open question entering Phase 26 was HOW the families differ — the megaplan framed
+immediate-substitution as the central new problem (families "differ in immediates, so are NOT free dedup").
+
+**What the design pressure-test found (byte-verified before any scaling — R14):** the dominant difference is NOT
+immediates — it is a **tracker blind spot**. `norm_stream`/`reloc_targets` dropped the lui-hi on every R-type write,
+but gcc-2.7.2's indexed-global idiom `lui;addu $idx;lw %lo($at)` preserves it. So `D[i]`-indexing functions were
+*mis-normalized per overlay* → they inflated the "h_norm reach-1 tail," and `family_remap` silently dropped their
+indexed `D_` symbols → those families couldn't bank even though they are pure per-location templates. On the
+substantial tail the classification is **PURE-same-addr 62 fams / 1.55M ins · PURE-cross-addr 103 / 0.10M · genuine
+IMM only 8 / 0.10M** — i.e. ~95% of the byte-weight is reloc-only, fixable by a ≤15-LOC tracker change, and the
+immediate engine shrinks to an escalation tier for ~8 families. A second latent bug surfaced alongside: `remap`'s
+sequential substitution corrupts chained/permuted maps (harmless on h_norm, breaks the imm engine).
+
+**The pivot:** front-load the tracker fix (Task 1) as the load-bearing change, demote the immediate engine to a
+diff-driven 3-tier escalation (Task 3), and add a **free validation corpus** — 63 families / 0.31M ins already have a
+MATCHED exemplar and only failed earlier sweeps from this bug → they bank with zero cracking the moment the fix lands
+(Task 5 V2), simultaneously measuring the real template success rate before any Fable5 spend.
+
+**Better path (hindsight):** the tracker's own design note already said "conservative: can miss a match, never forge
+one" — but a *missed* reloc in a REMAP tool isn't harmless the way a missed h_norm match is; it silently produces a
+wrong-but-compiling sibling body that only the byte-gate catches. When a normalization/remap tool is REUSED for code
+generation (not just clustering), its conservative-miss becomes a correctness bug. **LESSON (R14):** before treating a
+"unique/unmatchable" population as intrinsic, re-run the *grouping and the remap* under a corrected fingerprint —
+here the "reach-1 tail" and the "unremappable family" were the SAME artifact of one dropped register-tracking case.
+
+## 2026-07-11 · Phase 26 — Task 5 GO/NO-GO: the h_seq engine is 100% correct on clean families; the substantial matched band is type-dominated (a reconcile follow-on, not a machinery gap)
+
+**Context + belief:** Task 5 was the validate-before-scaling gate — run the whole-binary byte-gate on the
+matched-exemplar families and MEASURE the real template success rate before any Fable5 spend. Expectation:
+a high mechanical bank rate on the "free-win" tracker-miss corpus.
+
+**What the byte-gate revealed (R14):** the substantial matched-exemplar band banked **532/1507 non-pinned
+members (~35%)** — but that aggregate is misleading, and the per-family breakdown is the real signal:
+- **3 families banked 100% ×133** = 399 byte-perfect members — exactly the 3 tracker-miss PURE families
+  (`0x8015d5e8`/`0x8015f118`/`0x801407f4`) the design pass named. The addu-hi tracker fix + the extern-carry
+  fix (below) make these template flawlessly. **The machinery is 100% correct on clean families.**
+- **9 of 13 clean families ZERO-banked** — all reference overlay-local custom struct types (`Work8016`,
+  `Work8017`, `SV4_8017B368`, `Prim`, `E4`) → the templated body is `undeclared-type` in the sibling TU =
+  the §41 def-side / type-lift RECONCILE class, which the existing `family_sweep --reconcile` /
+  `build_engine_types` path already handles. NOT a machinery failure — a known follow-on (Task 8).
+- 16 of 29 substantial matched families were pinned-exemplar (×1-only hard-reg cracks) → skipped by the
+  new static pin guard → Task-7 pin-free re-crack.
+
+**The load-bearing tooling fix (Task-5's "measure then fix", R16):** the first gate run banked only ~34%
+because `extract_unit` grabs only *immediately-preceding* externs — a per-location body that indexes a
+global (`(*D_x[i])()`) references symbols declared once at file scope elsewhere in the exemplar TU; templated
+into a sibling TU that never declared them, they are `undeclared` at the gate. Added `remap_hseq.gather_externs`
+(carry the file-scope externs for every body-referenced symbol, remapped). `func_8015F118` went from gate-fail
+to BYTE-IDENTICAL; the 3 clean families then banked 133/133 each.
+
+**The pivot / verdict: GO.** The zero-crack h_seq machinery (tracker + imm + cross-address + extern-carry) is
+byte-proven correct. Scale it (Task 8: the mid/tiny bands + the reconcile pass for the type families). The
+Fable5 window (Task 6/7) goes to the big PURE cores that have NO matched exemplar (890/562/536… — they need a
+crack before they can template).
+
+**Better path (hindsight):** the raw aggregate rate (35%) nearly read as "the engine is weak"; the per-FAMILY
+breakdown showed it is "the engine is perfect on the families it targets; the rest are a different, already-
+solved problem." **LESSON:** when measuring a mechanical harvest, stratify by family/class before judging the
+rate — an aggregate mixes 100%-clean, 0%-type-blocked, and skipped-pinned populations that demand different
+follow-ons.
+
+## 2026-07-11 · Phase 26 — Task-8 pipeline-validation slice (pre-Fable5-window de-risk): reconcile→bank works; templating reconcile-class cracks needs per-sibling re-reconcile in --hseq
+
+**Context + decision (Drew):** before spending the closing Fable5 window (Task 7), validate that the
+reconcile→gate→template pipeline actually banks an isolation-crack end-to-end — else the window's output
+(same isolation-crack format) could pile up un-bankable. Ran optimal-order step 1 only ("bank the wins,
+pause before Task 8").
+
+**What the byte-gate revealed (R14), in two halves:**
+1. **Reconcile→bank WORKS.** The 23 triage closeness-0 cracks gate **0/23 raw** (they carry standalone
+   `struct Obj`/scalar typedefs + Ghidra sigs → §41 def-side wall). Run through `canon_sig_reconcile` v3.2
+   (strip ambient dups, canonicalize the sig, cast callees at use) they bank **4/15** into ov077
+   (`func_801506A4`/`func_8016A73C`/`func_80167540`/`func_80155800`, byte-identical). The 11 residual fails
+   are a data-extern-typing gap (e.g. `conflicting types for D_801891B8`, a fn-ptr array the seed types
+   differently than the TU) the reconcile's pt-9 data-extern handling doesn't fully cover for these seeds.
+2. **Templating a RECONCILED body ×133 FAILS (0/4).** The reconciled ov077 body is TU-SPECIFIC — its
+   canonical-sig casts + `Name_<addr>` collision-renames fit ov077, not the sibling TUs (each has its own
+   ambient types/sigs). Plain `remap_hseq` copies the ov077-reconciled body → re-hits the def-side wall in
+   every sibling. This is the decision-log 2026-07-11 lesson again: an exemplar match proves the crack in
+   ITS TU only; ×134 needs per-sibling work.
+
+**The implication (the point of validating first):** the PURE tracker-miss families template cleanly via
+plain `--hseq` (Task 5: 399 banked). But the **type-using families — the triage cracks AND the 61 Fable5
+cores — are reconcile-class**: their cracks bank as ov077 exemplars but need **per-sibling re-reconcile**
+to template ×134. That machinery EXISTS for h_norm (`family_sweep --reconcile` / `reconcile_remap`, the
+Phase-25 M2 4,389-bank path) — it just needs porting into the `--hseq` path (over `remap_hseq`, i.e. with
+cross-address + imm). **So the Task-8 prerequisite before the Fable5 window is productive: wire per-sibling
+reconcile into `hseq_sweep`.** Otherwise Fable5 output stalls at ×1 (ov077-only).
+
+**Outcome:** kept the 4 real ov077 exemplar banks (byte-verified). Paused before building the per-sibling
+reconcile wiring (that IS Task 8, per Drew). **LESSON:** the validation slice paid for itself — it converted
+"the pipeline works, go spend the window" into "reconcile→bank works, but templating reconcile-class needs
+one more wiring step first," a decision that would have been very expensive to learn after the window closed.
+
+## 2026-07-12 · Phase 26 — the crack-harvest has TWO tooling gaps + the rtu_match-vs-whole-binary lesson (Fable5 batch-1 processing)
+
+**Context:** processing the Fable5 batch-1 cracks + the 23 triage isolation-cracks through the whole-binary
+gate revealed the "closeness-0 / rtu_match-MATCH" counts were optimistic. Whole-binary reality (G3/P9):
+
+**1. The rtu_match blind spot on jump-table functions.** Both Fable5 cracks (`func_80159C84`, `func_8015444C`)
+rtu_match-MATCH but FAIL the whole-binary gate. rtu_match neutralizes `INCLUDE_ASM` (excluding the §8
+jump-table rodata `.s`) and compares only the masked INSTRUCTION stream — it never verifies the jtbl rodata
+data bytes. The code is right; the jtbl rodata isn't confirmed. **rtu_match is NOT a sufficient sole arbiter
+for jr-functions** — the whole-binary gate is (as always, G3). Pattern is clean: all 6 whole-binary-banked
+cracks are no-jtbl; every jtbl crack (2 Fable5 + the 2 jtbl triage cracks) fails.
+
+**2. Two distinct harvest gaps, both fixable Task-8 tooling:**
+   - **§8 jtbl-rodata gap:** replacing an `INCLUDE_ASM` jr-function with C needs the compiler-generated jtbl to
+     byte-match + land in the right rodata slot (the §8 dotted-`.rodata`-subseg + ld_interleave). The overlay
+     splits don't have this per-cracked-jr-function setup → every jtbl crack fails the binary. **This blocks the
+     jtbl-heavy Fable5 window** (most top cores are jr giants).
+   - **reconcile data-extern gap:** ~15 of the 21 no-jtbl triage cracks fail canon_sig_reconcile on a
+     `conflicting types for D_x` (fn-ptr-array / typed-global the seed declares differently than the TU) — pt-9
+     data-extern handling is incomplete for these. Only 6 no-jtbl reconcile-clean cracks bank (729 members:
+     463 committed + 266).
+
+**The implication for the Fable5 window:** cracking a jtbl giant with an rtu_match-only agent produces an
+UNVERIFIED result — the §8 rodata must be handled + the whole-binary gate must be the arbiter. So the window
+is only productive on jtbl cores AFTER the §8-overlay-jtbl tooling exists (or with serial whole-binary
+verification). **Better path (hindsight):** the Fable5 crack prompt should have required the whole-binary gate
+(or an rtu_match variant that includes the jtbl rodata) as the bar, not plain rtu_match — for jr-functions the
+two diverge. LESSON: an indicator that MASKS a byte-region (rtu_match masks relocs + excludes neutralized
+INCLUDE_ASM rodata) cannot arbitrate a match whose difference lives in that region.
+
+## 2026-07-12 · Phase 26 — §8 unblocked the HEAVIEST byte-weight lever (switch functions), reframing the endgame priority
+- **Context / belief:** built the §8 overlay jtbl-rodata tooling + the ×134 automation (jr-functions can
+  now bank as C, proven func_8012ACE0 ×133), then recommended continuing with "the 45 small jr families"
+  as the next mechanical lever.
+- **Dead-end (the off-plan recommendation, Drew caught it):** that rec optimized for *mechanically easy*
+  (small families template cleanly) instead of the endgame's actual objective — **heaviest byte-weight
+  first**. Measured: the 45 small jr families = **129,028 templatable ins** (trivial).
+- **Pivot:** re-target the heavy tier. The frontier byte-weight (the instr-weighted metric lever):
+  **jr (switch) substantial families = 191 fams / 5,534,884 ins**; non-jr substantial = 1,168 / 7,328,348;
+  all substantial = 12.86M. And decisively — **9 of the 10 heaviest unmatched family cores are switch
+  (jr) functions** (func_80178D40 890×134 = 477K ins alone; func_8017BEBC 952×113; func_8015AE2C 562×134…).
+- **Why:** switch functions were UNBANKABLE before §8 (the jtbl-rodata duplicate). §8 didn't just enable a
+  small mop-up — it **unlocked the single heaviest chunk of the remaining game** (the byte-weight is
+  dominated by big switch cores). The endgame plan (heaviest-byte-weight-first via crack-core → template
+  ×134) is intact; §8 was its key enabler, and the correct follow-through is the HEAVY jr cores, not the
+  light tail. This needs Task 7 (Fable5) un-paused: Fable5 cracks the giant switch core → §8 + the ×134
+  automation bank it fleet-wide → the now-10×-faster R22 verifies.
+- **Hindsight / for the wiki:** when a build-mechanism unblocks a whole *class*, re-rank the endgame by
+  the class's byte-weight, not by which member is easiest to bank next. "Easy and on-metric" ≠ "easy";
+  the plan's objective (heaviest byte-weight) must gate the next-target choice, or you grind the light tail
+  of a newly-opened heavy vein. (Drew's steer: "the endgame plan is 1st smartest play to unlock the
+  heaviest byte-weighted remainder — does your recommendation follow it?" — it did not; this corrects it.)
+- **Sequencing refinement (Drew, same day):** do the 45 SMALL jr families first as a **de-risk
+  preamble** (NOT for byte-weight — ~+1% instr), THEN the heavy 191. The decisive reason isn't
+  size: `jtbl_carve` only built the single-jtbl carve, but func_8012ACE0 is now matched in all 133
+  siblings, so family #2 forces the **multi-jtbl address-ordered carve** — build & prove THAT on
+  cheap 30-ins targets before a Fable5-cracked 890-ins core depends on it. Also needs no Fable5
+  (progress without burning its limits). **Guardrail:** the small tier is a MEANS (harden the
+  pipeline), not the objective — pivot to the heavy 191 once multi-jtbl is proven; don't grind the
+  light tail because it "feels productive." Wiki lesson: when a newly-built mechanism has an
+  un-built sub-case that the expensive targets will hit, force that sub-case out on the cheap
+  targets first — de-risking and building-the-missing-piece are the same move.
+
+### 2026-07-13 — the jr-core ISOLATION wall: mechanical TU-splitting breaks gcc-2.7.2's lenient scoping
+
+- **Context + belief:** Stage 2 of the multi-jtbl campaign (heavy jr cores → template ×134) needs each
+  matched jr-function ALONE in its own code subseg so its jtbl carves without a same-subseg collision.
+  Drew's steer: build the **scalable "isolate-ALL-jr-per-sibling" upfront resegment** (one-shot multi-cut
+  per overlay) so every Stage-2 core bank is a trivial fill during the closing Fable5 window. Belief going
+  in: this is mechanical source-splitting — partition the overlay `.c` at jr boundaries, repoint config +
+  carves, rebuild byte-identical.
+- **What was built + PROVEN:** `tools/overlay_src_split.py` — an overlay-`.c`-aware partition (header =
+  includes + Phase-17 canonical-sig layer; each addressed item = its preamble + body; robust
+  definition/declaration/K&R/`DEFINE_func`/`SETTER`/`RETCONST` classification). **Fleet-validated 404/404
+  overlay `.c`, 341,902 items, round-trip exact / 0 unresolved / 0 non-monotonic.** `tools/jr_isolate_all.py`
+  — multi-cut resegment (config split at jr boundaries, source repartition + INCLUDE_ASM path repoint,
+  banked-jr carve repoint, -O0-object skip). **SINGLE-cut isolation byte-identical** (isolate func_8013FFD8
+  in the simple `main` object → clean `make build` = `d19c9580`, R22).
+- **What FAILED (byte-verified):** the FULL 54-jr isolation on ov_SC01_077 hits a **long tail of C-scoping
+  edge cases**, culminating in the decisive one: **`func_801734BC` uses `D_80126B3E` with no local decl;
+  `D_80126B3E` is declared `extern s16` ONLY inside `DEFINE_func` macros in `engine_core.h`.** The original
+  `_after.c` compiles because **gcc-2.7.2 lets a block-scope `extern` (from an earlier `DEFINE_func` macro
+  expansion) persist to file scope for the rest of the TU** — splitting `_after` separates the core from the
+  earlier macro that declares the symbol → `undeclared`. Earlier tail members (all fixed incrementally, in
+  order): block-scope externs must not be hoisted (per-fn type shadows — `D_80115118` is `unsigned short`
+  in most funcs but the struct `S115118` in one); file-scope decl ORDERING across a cut (`D_80115110` used
+  above its in-region decl); **ambient decl context** (a region needs the file-scope decls that lived in
+  earlier regions of the object — solved: prepend, original order, shadow-safe because a file-scope-declared
+  symbol can't carry a *different*-typed block shadow or the original wouldn't compile); file-local-typed
+  externs (`extern Vec8 D_…;`) can't hoist above their typedef.
+- **The why (root):** these overlay TUs are hand-matched against a compiler that treats a block-scope
+  `extern` as declaring the symbol for the WHOLE TU. Mechanical splitting into per-jr TUs breaks that
+  invisible cross-function dependency, and the dependency is carried through **`DEFINE_func`/`SETTER` macro
+  expansions in `engine_core.h`**, not just visible col-0 decls — so no amount of *col-0* ambient-carry
+  fixes it.
+- **The candidate fix (not yet built):** **declaration-completion** — build a global symbol→type map from
+  `engine_core.h`'s macro `extern`s + all overlay col-0 decls, and for each region emit a file-scope
+  `extern <type> <sym>;` for every `D_`/`func_` symbol the region USES, EXCLUDING type-inconsistent symbols
+  (the `D_80115118` shadow set, kept block-scope in bodies). This makes every region self-contained
+  regardless of where the original declared the symbol. Est. ~40–60 LOC on top of the proven parser; the
+  whole-binary byte-gate arbitrates. **Owner decision pending (Drew): invest in declaration-completion vs
+  a different Stage-2 approach** — surfaced this session before sinking more time (P5a: repeated failures,
+  distinct root cause each).
+- **Hindsight / for the wiki:** "mechanical source split" of matching-decomp overlay code is NOT mechanical
+  — the C is written against a specific compiler's lenient scoping (block-scope-extern TU persistence,
+  macro-injected decls, per-function type shadows). Splitting a TU means REBUILDING each fragment's full
+  declaration environment from a global symbol map, not relocating text. The parser (structure) was the
+  easy 20%; the declaration environment (semantics) is the 80%. Prove the mechanism on the SIMPLE object
+  first (it passed) but budget for the dense object's scoping tail before committing to upfront-×134.
+
+---
+
+## 2026-07-13 (session 6) — the §8b scoping wall RESOLVED: rebuild the decl environment, don't map symbols
+
+**Context + belief going in.** Session 5 hit a wall isolating jr cores: the full 54-jr split of `ov_SC01_077`
+failed with `D_80126B3E undeclared`, and I logged the cause as **"gcc-2.7.2 block-scope-extern TU-persistence"**
+— i.e. a non-conformant compiler quirk where an `extern` inside one function body leaks to file scope for the
+rest of the TU. The proposed fix (Drew-approved) was **declaration-completion**: build a global symbol→type map
+and emit a file-scope `extern` for every symbol a region *uses*, minus a heuristic "type-shadowed set".
+
+**What was actually wrong (R14 — the hypothesis was incorrect).** There is no gcc quirk. `DEFINE_func_80173460()`
+expands **at file scope** to `extern void func_801734BC(...); extern struct S80126B38 D_80126B38; extern s16
+D_80126B3E; void func_80173460(...) { … }`. Those externs are *genuinely file-scope* — they are merely
+**textually invisible in the `.c`**, because they live in `engine_core.h`. Any col-0 scan of the source can
+never see them. The wall was a blind spot in our own tooling, not a compiler eccentricity.
+
+**The pivot — and why the approved design was the wrong one.** Chasing "declare every used symbol from a global
+type map" would have been actively harmful. The engine is loosely typed: `func_80173544` is *defined* at file
+scope as `s32 f(void *)` while `func_801734BC`'s body declares `extern void f(void);` — contradictory, and legal
+only because the block-scope decl never meets the definition. Hoisting "every used symbol" lifts that shadow to
+file scope, **creating** a conflict that then needs the heuristic shadow-set to dodge. Instead I **reconstructed
+the original TU's file-scope declaration environment and carried it strictly forward**. That is conflict-free
+*by construction*: every carried decl already coexisted with every definition in the one original TU, and decl
+compatibility is order-symmetric. Shadows stay inside bodies and travel with them. No heuristic, no shadow set.
+
+**What the bytes taught (found by gating, not by reasoning).** Three decl sources were lost, not one — and I only
+found #2 and #3 because the byte-gate kept failing with a *new* error class each time:
+1. `DEFINE_func_*` macro leading externs (3,929 lines / 1,462 symbols) → `D_80126B3E undeclared`.
+2. **A definition is itself a declaration** for everything below it in its TU → `func_8012B2CC undeclared`.
+3. File-local typedefs used by a carried prototype → `parse error before '*'` (`Vec3s`).
+
+**Result.** Full 54-jr isolate-all on `ov_SC01_077` → `d19c9580` byte-identical, **R22 clean-fleet 136/136**.
+Two latent bugs fell out and were fixed: `func_subseg` derived the owning subseg from the *asm tree*, which
+`make extract` never prunes — so after an isolation it returned the STALE owner and silently re-created the
+collision the isolation had just removed (now derived from the config); and the sweep's revert **deleted** the
+shared `overlays.mk` carve var unconditionally, which would have destroyed a *committed* carve (all 134 overlays
+have one) on any failed sibling (now restored to its committed value).
+
+**Upfront vs lazy (new information for the owner).** Drew chose lazy isolation when isolate-all was *failing*,
+to avoid ~7,200 region files. Isolate-all is now byte-proven at 136/136, so upfront is available — but lazy is
+strictly cheaper (pay only for cores we bank) and is what shipped: `jtbl_family_bank` catches `jtbl_carve`'s
+`NON-CONTIGUOUS` fail-loud → isolate that one core → re-carve. Proven on `func_80178D40` (890×134, the heaviest
+core): blocked → isolated (byte-neutral) → carve lands in its own subseg. **The heavy-jr harvest is unblocked.**
+
+**Hindsight / for the wiki.** Two lessons. (1) *A wall's stated root cause is a hypothesis until the bytes
+confirm it* — I recorded a compiler quirk that did not exist, and the "fix" it implied would have introduced
+real conflicts. Re-derive the mechanism before building on it. (2) *Splitting a translation unit is a semantic
+operation, not a textual one.* The parser (structure) was the easy 20%; the declaration environment (semantics)
+was the 80% — and the correct move is to **reproduce the environment the original had**, never to invent a new
+one from a global map. Faithful-forward-carry needs no heuristics; "declare everything used" needs a growing
+pile of them.
+
+## 2026-07-13 (session 8) — the ×133 sweep blocker was OUR tool, not the compiler: the R17 triage rule, applied
+
+**Context / prior belief.** Session 7 banked `func_8015AE2C` (562 ins, reach 134) ×1 but its ×133 sibling sweep
+failed on `conflicting types for D_801812A4`, and the checkpoint diagnosed it as `reconcile_decls` resolving
+against a *fleet-majority* canonical oracle instead of the type the TU can actually see. Drew had just asked the
+routing question and we had committed the rule: **"wrong BYTES" → read the gcc source (R17); "won't COMPILE" →
+read our Python.** This was the first real test of that rule, and it held — but the diagnosis underneath it was
+only half right, and the half that was wrong is the interesting part.
+
+**What the bytes taught.** Reproducing one sibling by hand (rather than trusting the handoff — R14) produced a
+much sharper picture than the checkpoint's:
+
+1. The **isolated region compiles and builds `[ OK ]` *without* the body.** So §8b isolation was never implicated.
+   The conflict is introduced *entirely* by the templated body.
+2. `D_801812A4` was the **only** hard error in the whole build. All 27 carried *function* externs were fine raw —
+   `cast_call_sites` was not needed at all. (The checkpoint's "cast_call_sites already fixes the function half"
+   was true but irrelevant; it also implied ~4 data symbols needed reconciling. Eight were demoted; none needed
+   a type reconcile.)
+3. The real mechanism is an **ordering asymmetry**, both halves byte-proven:
+   `BLOCK(int) → BLOCK(struct*) → FILE(void*)` builds; `FILE(void*) → BLOCK(int)` is a hard error.
+   `family_remap.gather_externs` prepends carried decls at **file scope**. For a per-location symbol the sibling
+   declares only at *block* scope inside its own later functions, that carried decl **establishes a global
+   declaration the TU never had** — and every later block-scope `extern` of it must now agree. In loosely-typed
+   engine code they never do. `D_801812A4` is one fn-ptr dispatch table declared **four incompatible ways** in a
+   single region and the TU is perfectly happy — until we add a fifth decl *at the top*.
+4. `reconcile_decls` was the wrong instrument **twice**: its oracle answers "what does the fleet call this
+   symbol" when the question is "what can *this TU* see" — and its `DATA_DECL_LINE_RE` **cannot parse the
+   fn-ptr-array form** `extern void (*D_x[])(void *);` at all, so it silently skipped precisely the symbols that
+   were failing. (This is the same "reconcile fn-ptr-extern gap" logged on 2026-07-12; it had been filed as a
+   *separate, smaller* lever and was in fact the blocker itself.)
+
+**The pivot.** Don't teach `reconcile_decls` a TU-visible oracle (the checkpoint's plan, and a much bigger,
+riskier change to a proven path). Instead **don't change the TU's decl environment in the first place**:
+`tools/scope_data_externs.py` demotes a carried `D_` extern to **block scope inside the function body** whenever
+the TU has no file-scope decl of it above the insertion point. It then declares no global, nothing below can
+conflict, and the environment is preserved exactly. Byte-neutral (an `extern` emits no code; the declared type
+and every access opcode are unchanged), and *strictly never worse than raw*, so it needs no type comparator, no
+fn-ptr parser, and no oracle. It also **restores fidelity** — the original source declares these symbols at
+block scope in exactly this way. Wired as the `scoped` stage (raw → scoped → recovered → reconciled).
+
+**Result.** First sibling byte-identical on the first try; the 133-sibling sweep run to completion.
+
+**Hindsight / for the wiki.** Three lessons. (1) **The R17 triage rule paid for itself immediately.** The
+temptation with a `conflicting types` failure on a 1997 compiler is to assume the compiler is being exotic. It
+was not — gcc was correctly rejecting plain C89, and every minute spent in `cse.c` would have been wasted. *Ask
+which half of the compiler is complaining: the front end (our C is invalid → our bug) or the back end (our C is
+valid but the bytes differ → read the source).* (2) **A tool that no-ops on the failing input looks exactly like
+a tool that has nothing to fix.** `reconcile_decls` reported success while skipping the only symbol that
+mattered, because its regex couldn't see fn-ptr arrays — a silent-skip class we have now been bitten by three
+times (`find_site` braces, `overlay_files` splits, this). Prefer transforms that *fail loud on unparsed input*.
+(3) **The cheapest fix was to do less, not more.** The instinct was to make our reconciler smarter (a TU-visible
+oracle, a fn-ptr type comparator, a cast-at-use taxonomy). The correct move was to stop perturbing something we
+had no business perturbing. When a transform breaks a TU, first ask what it is *changing* that it needn't.
+
+## 2026-07-13 (session 8, Fable5 Max) — func_8017BEBC closed: the allocno-tie class is a DIAL, not a wall
+
+**Context / prior belief.** The 952-ins jr core (reach ×113, the largest unmatched function in the game) sat at
+close=2 — two transposed preheader `addiu`s. The session-7 Fable5 agent had localized it to `global.c`'s
+allocno-priority tie and prescribed a §45-B gdb-on-cc1 read of `allocno_live_length`; the permuter had run 25
+minutes without closing it. The residual class: allocation order and emission order are COUPLED (both follow
+creation order), but the target needs them to DIFFER — the shipped draft could have either correct, never both.
+
+**What the bytes taught.** The dumps alone settled it — gdb was never needed. `.lreg` gave the two pseudos'
+ground truth: refs 13/13, live lengths 783/782 → `pri = int(390000/L)` = 498/498, an EXACT int-truncation tie
+(the agent's remembered "270000/L" had the wrong refs count — reading beats recalling, R14). The quantization
+boundary sat one insn away: +1 on both lengths → 497 vs 498. And the split direction is FORCED: the later-created
+pseudo always has the shorter live range, so a split always hands it the earlier allocation — precisely the
+"allocation ≠ creation" the target requires.
+
+**The pivot.** Rather than hunting an L-shifter that survives cse (the agent's proposed hunt), the map's own
+zero-byte-asm toolkit already contained the dial: `__asm__ volatile ("")` placed BETWEEN two existing GTE
+volatile asms adds no new cse/sched barrier (one is already there) — it is purely +1 static insn at
+global-alloc time, zero bytes emitted. Natural operand order restored (emission correct), one slider inserted →
+MATCH 952/952 first try. Whole-binary gate BYTE-IDENTICAL (jr function — the §8a trap respected); one TU-visible
+decl reconcile en route (`D_800B9A02`, §8d sub-class b). Banked ×1; the ×113 sweep is IMM-class Task-8 work.
+
+**Hindsight / for the wiki.** (1) *An "irreducible" tie is often a measurable quantization accident* — the
+formula is public, the dumps print its inputs, and the fix is one insn of live-range arithmetic. Before
+declaring a register-order residual intrinsic, READ THE PRIORITY NUMBERS. (2) *The dumps-first discipline
+scales:* .lreg/.greg gave everything gdb would have, at a fraction of the setup. gdb remains the tool for
+DYNAMIC questions (which reg find_reg actually grants when hand-modeling stalls), not for static quantities the
+dumps already print. (3) *The zero-byte toolkit compounds:* the slider now joins the density dial and the
+lifetime-extender as the third allocation dial that emits nothing — and the "adjacent to an existing volatile
+asm" placement rule makes it safe in GTE-heavy renderers, which is exactly where the remaining jr cores live.
+
+## 2026-07-14 (session 8) — the silent-skip class: promote the lesson from a rule to a MECHANISM (Drew approved)
+
+**Context / prior belief.** Six silent-skip bugs surfaced in one session (`scope_data_externs`' file-scope
+placement; `extract_unit` decl-vs-def; `_body_open_brace`'s own-line brace; `SIG_IN_BODY_RE`'s 10% oracle hole;
+`revert()`'s config residue; `jr_isolate_all`'s empty region 0) — and THREE were the same brace-placement class,
+the same class as the Phase-15 `find_site` bug and the Phase-24 `overlay_files` bug. Each was written off at the
+time as a one-off parser slip.
+
+**What the bytes taught.** They are not one-offs; they are a *structural* blind spot in how this project is
+built. Every instance has the identical shape: **a scanner extracts N items from a corpus, the true count is
+M > N, and nobody ever compared N to M.** The whole-binary byte-gate (G3/P9) is a perfect guard on
+*correctness* — it never once accepted a wrong match — but it is **blind by construction to work that was never
+attempted**. A tool that silently no-ops on input it cannot parse is indistinguishable from a tool that had
+nothing to do. That is why these survived 26 phases: nothing in the system was looking.
+
+The cost is not hypothetical. `SIG_IN_BODY_RE` hid **186 of 1801 (10%)** of the shared-callee signatures, which
+is why nine byte-exact cores from the crack wave would not bank — the draft kept its guessed signature, hit
+`conflicting types`, and the recovery pass truthfully reported nothing to fix. It read exactly like an intrinsic
+wall. One character class turned it into a zero-hand-edit bank.
+
+**The pivot (Drew, "agreed").** Promote the lesson from a *rule* to a *mechanism*, and do NOT audit by reading
+regexes — that is precisely the failure mode that wrote them. Instead **measure coverage**: for each scanner,
+build a deliberately OVER-APPROXIMATING candidate detector, run both over the corpus, and report
+found-vs-candidates; every gap must be classified as a real skip or a justified exclusion. Going forward, a new
+text scanner ships with a coverage assertion or it does not ship. (Rule candidate for PhaseEnd, P10.)
+
+**The bigger prize (the uncomfortable part).** Several verdicts we have treated as settled physics were reached
+*on top of* the broken oracle: the **def-side loose-typing wall** (§20/§41, "triple-confirmed" in Phase 23), the
+**159 arity/narrow-param conflicts** (Phase-15 "documented dead-end"), the **3,098 type-heavy tail**, the 9
+zero-bank type-using families. Each was diagnosed as "no C declaration exists satisfying both the definition and
+the call site" — but the tool computing the call site's canonical signature was blind to 10% of them. Phase 16
+byte-proved that genuinely contradictory typings DO exist, so the wall is real in part; but **"some of it was our
+tooling" is now the prior, not the long shot.** Re-test the cheap ones against the repaired tools.
+
+**Hindsight / for the wiki.** The deepest lesson of the phase, and it generalizes far past decomp: *an
+incorruptible correctness gate creates a false sense of completeness.* It tells you everything you banked is
+right. It tells you nothing about what you never tried. Pair every correctness oracle with a **coverage** oracle,
+or you will spend phases mistaking your own parser's blind spots for properties of the problem.
+
+## 2026-07-14 (session 8) — the coverage audit's biggest finding was REAL, and my reading of it was WRONG. The correction is the lesson.
+
+**Context / prior belief.** Six silent-skip bugs in one session led to the coverage-oracle rule (Drew: "agreed").
+The audit's headline came back alarming: *progress.py under-counts by ~243k instructions because classify()
+reads a K&R definition as a forward declaration.* I verified the MECHANISM against the bytes (it is real:
+`s32 f(arg0)` / `s32 arg0;` / `{` — the `;` precedes the brace, so the scan calls it a declaration and drops the
+function into NO bucket), measured 400 banked instances / ~190k instructions in that shape, and told Drew our
+headline numbers had been under-reporting our own progress.
+
+**What the bytes taught — I was wrong, and the null result caught me.** After fixing it, old-vs-new on the same
+tree moved the headline numbers by **+376 instructions**, not +190,000. A null result where a large effect was
+predicted is not noise; it is a refutation. Reading the code: **`weighted_metrics()` never calls `classify()`.**
+It determines "matched" as `func not in src_stubs(binary)` — and because the fleet is 136/136 byte-identical,
+anything NOT wrapped in `INCLUDE_ASM` is necessarily compiled C emitting the exact original bytes. It never
+parses a definition, so it is **structurally immune** to the bug. The published **instr-weighted (65.6%) and
+distinct-code (44.9%) were CORRECT ALL ALONG**; only the secondary REAL count and fn-count % were wrong.
+
+I had done the R14 thing (verify the mechanism against the bytes) and still got the conclusion wrong, because I
+verified the DEFECT and not its BLAST RADIUS. The auditor conflated "classify() is blind" with "the metrics are
+wrong", and I propagated it — to the owner, as fact, in the same breath as lecturing about unverified oracles.
+
+**The pivot.** Both bugs are still worth fixing (they corrupt the REAL/fn-count report, and the phantom-dedup
+over-count double-counts 532 stubs) and a coverage assertion now guards classify(). But the strategic conclusion
+inverts:
+
+> **A metric DERIVED FROM A PROVEN INVARIANT beats a metric that RE-PARSES THE WORLD.**
+> `weighted_metrics()` leans on the byte-gate — "not a stub ⇒ byte-exact, because the build is byte-identical" —
+> and *inherits its correctness for free*. `classify()` re-derives the same fact by parsing C, and inherited a
+> bug instead. Two tools, one question, and the one that refused to re-derive is the one that was right.
+
+**Hindsight / for the wiki.** Three lessons, and the third is the real one.
+(1) *Verify the blast radius, not just the defect.* "This tool is broken" and "this number is wrong" are
+different claims needing different evidence. A confirmed mechanism proves nothing about consequence.
+(2) *A null result where you predicted a large effect is a refutation — chase it.* The +376 delta was the whole
+story, and it would have been trivially easy to wave off as noise or as "the fix worked, the numbers moved".
+(3) **The coverage-oracle rule is right but incomplete.** Auditing parsers is treating the symptom. The cure is
+to STOP PARSING where an invariant already answers the question. Our byte-gate proves a strong property
+(byte-identical build); every fact derivable from it should be *derived*, not re-computed by regex. Before adding
+a coverage assertion to a scanner, ask the better question first: **why is this scanner re-deriving something the
+build already guarantees?**
+
+## 2026-07-14 (session 8 close) — Drew: the TOOLING-INTEGRITY AUDIT gates further matching work, and gets its own phase
+
+**Context / prior belief.** Session 8 was the most productive of the project: 13 cores cracked (incl. the four
+heaviest functions in the game), a 12-agent wave at 11/12 first-pass MATCH, fleet 63.0→65.6% instr-weighted /
+39.1→44.9% distinct-code, 136/136 byte-identical throughout. The natural next move was obvious: bank the six
+blocked cores (~1.2 MB, all plumbing), then run the next wave.
+
+**Drew's call:** *"I feel like we should do T14 now, before the rest of the work. but not in this phase."*
+The tooling-integrity audit **gates** the remaining matching work, and it is substantial enough to deserve its own
+phase rather than being squeezed into Phase 26.
+
+**Why this is right (and why I would not have prioritised it as hard).** The session found **seven silent-skip
+tool bugs**, and the instinct is to treat them as a tax — annoying, fixable, keep moving. That instinct is wrong,
+for a reason that only became clear at the end:
+
+> The byte-gate is a perfect CORRECTNESS oracle and a **null COVERAGE oracle**. It never once accepted a wrong
+> match — and it is blind *by construction* to work never attempted. It has been green since Phase 5, when 0% was
+> decompiled, because `INCLUDE_ASM` pastes the ORIGINAL assembly: **a green byte-gate is compatible with any
+> decomp percentage.** So every silent skip is invisible to the one instrument we trust absolutely.
+
+The cost is not wrong answers. It is **invisible work, and walls that aren't there.** A single 10% hole in the
+callee-signature oracle (`SIG_IN_BODY_RE`, a `\s` that could not match a line-continuation backslash) made **nine
+byte-exact functions look like an intrinsic compiler wall** — and we would have written them up as such. How many
+of the walls we have already "byte-proven" across 26 phases were lookup misses wearing a wall's clothes? The
+def-side loose-typing wall, the 159 arity conflicts, the type-heavy tail — all were diagnosed on top of that hole.
+**That is the question the audit answers, and it is worth more than the next 1.2 MB.**
+
+Auditing after more matching would compound the problem: every wave run on broken selection tooling produces more
+"walls" we would then have to re-litigate.
+
+**Scope discipline (do NOT audit all 82 tools).** 19 were audited (23%), chosen by risk. The filter for the rest
+is: **does it PARSE something, and does it GATE or SELECT work?** (~15 tools.) Priority order:
+`dedup_integrate.py` (a fail-closed validator that can print a FALSE GREEN — *"1813 validated, 0 failed"*) →
+`jtbl_family_bank.py` (3 bugs found by hand this session, never audited) → the SELECTION tools (`family_hseq`,
+`wave_targets`, `exemplar_miner` — a hole here makes work invisible to *planning*, the worst kind) →
+`masked_diff`/`match_one` (the closeness oracle every agent trusts).
+
+**And apply R33 to each, first:** *why is this tool re-deriving something the build already guarantees?*
+`harvest_verify` is the model — it derives from `make build` + SHA1, so a parse hole makes it **conservative, not
+wrong**. Tools that lean on the invariant inherit its correctness for free; tools that re-parse inherit bugs.
+The best audit outcome is not a fixed regex — it is a **deleted scanner**.
+
+**Hindsight / for the wiki.** The owner saw this faster than I did. I had just spent the session proving that
+every wall was our own tooling, had written the coverage-oracle rule, had *corrected myself* about a metric — and
+my instinct was still "bank the 1.2 MB first". The lesson: **when your measurement layer is suspect, more
+measurements are not progress.** Fix the instrument before taking more readings.
+
+---
+
+## 2026-07-14 (session 9) — The audit runs as an INSERTED HALF-PHASE, not as Phase 27
+
+**Context.** Session 8 closed by gating the tooling-integrity audit ahead of all further matching work (entry
+above) and left the phase-boundary shape as an explicit Tier-1 question for the owner: **(a)** close Phase 26
+early with a PhaseEnd and open the audit as Phase 27, or **(b)** run it as an inserted half-phase (the Phase-3.5
+precedent) and return to Phase 26 afterwards.
+
+**Drew's call:** *"audit as an inserted half-phase in the current phase and then resume phase 26."* (Effort: Max.)
+
+**Why (b) is right.** Option (a) reads as the tidier choice — a clean PhaseEnd, a fresh phase, a fresh context
+window. But it would have closed Phase 26 on an **unmet milestone**. Phase 26's milestone is *structural
+completion*, and the audit is not a **successor** to that goal — it is a **prerequisite** to reaching it: the
+family engine's own numbers are what the audit found broken (93 of 218 "matched" exemplars are phantom; 1,834
+clean member templates never attempted; 407 of 811 overlay files invisible to propagation). Closing the phase
+would have forced a PhaseEnd that reported the milestone as abandoned, when in fact the tooling that *measures*
+the milestone was the thing at fault. The half-phase keeps the goal live and fixes the instrument under it.
+
+The Phase-3.5 precedent is exact: a spike inserted mid-arc, on the owner's directive, to answer a question that
+gates the work either side of it. It closed with a go/no-go, not a PhaseEnd, and the roadmap resumed.
+
+**The structural insight this rests on (worth repeating, because it is the whole reason the audit exists).**
+A scanner extracts N items from a corpus; the true count is M > N; **nobody ever compared N to M.** The seven
+silent-skip bugs were not typos — they are that one blind spot, seven times. And the byte-gate cannot see it:
+it is a perfect correctness oracle and a **null coverage oracle** (green since Phase 5 at 0% decompiled, because
+`INCLUDE_ASM` pastes the original asm). So the audit's ordering rule is **R33 before R32** — before adding a
+coverage assertion to a scanner, ask whether the scanner should exist at all. **The best outcome is a deleted
+scanner, not a fixed regex.**
+
+**First finding, immediately (A1).** `dedup_integrate.py` — the fail-closed byte-honesty validator, and the
+audit's #1 priority precisely because a silent skip there prints *a false green from a gate* — has **three**
+false-green paths, all confirmed within minutes of opening it: the 7 stale registry groups name a `DEFINE_func_*`
+macro with **zero hits in `src/`** and still print `[ OK ]`; an **absent** `.run/sig.*.jsonl` yields
+*"0 validated, 0 failed"* and **exit 0** (on a fresh clone the gate validates nothing and passes); and it never
+checks that a member is **actually banked** rather than still `INCLUDE_ASM` — which is exactly the invariant the
+build already proves. The tool that guards byte-honesty was the one least able to prove its own.
+
+**Hindsight / for the wiki.** The owner's framing — *fix it inside the phase, don't ceremonially close the phase
+around it* — avoided a subtle honesty trap. Writing a PhaseEnd that says "milestone: not met, closing anyway"
+when the real story is "our measuring tape was short" would have been technically true and substantively
+misleading. **Phase boundaries should follow the work, not the paperwork.**
+
+---
+
+## 2026-07-14 (session 9, A2) — The audit found the endgame plan was majority-fiction
+
+**What we ran.** 6 auditor agents over the 18 unaudited PARSE+GATE/SELECT tools, each finding handed to an
+independent skeptic told to REFUTE it. 38 agents, 2.24M tokens. 32 findings raised → **28 survived**, 4 refuted,
+16 downgraded, and **40 scanners measured clean**. The skeptic pass earned its keep: it killed four claims and
+corrected magnitudes in both directions.
+
+**The root cause is singular, and it is not a regex.** Almost every finding is the same defect:
+
+> a hand-maintained model of the corpus layout — a file allowlist, a single-`.c` assumption, a `func_`-only
+> symbol regex, a `REGION_SUB` dict — sitting on top of a **filesystem that already answers the question**.
+
+An overlay's source is spread over up to 14 `.c` files (`<ov>.c`, `_a`, `_o0`, `_o0b`, `_after`, and the Phase-26
+`_jr_<ADDR>` carves). Tools written when there was one file still believe there is one file. **The decay is
+measurable:** `.run/fuel_manifest.json` from Jul 8 recorded 130 live stubs; the same tool run today returns **30**.
+The Phase-26 splits moved ~100 stubs out from under a dict literal last edited in Phase 22. **Nobody noticed,
+because a target that is never nominated produces silence, not an error.**
+
+**Why this is worse than a wrong answer.** 91.6% of all remaining project gain is invisible to the target-selection
+layer (994,633 instructions of real work; the manifest sees 83,305). 117 of the 127 reach-134 functions — the
+entire high-ROI band — are never nominated by anything. We were about to run Task 7's crack waves against that.
+
+**Three results overturn things we had written down as settled:**
+
+1. **"The permuter's fuel is exhausted" (Phase 22) is unsafe.** The grinder banks through `harvest_verify`, which
+   can only see one translation unit — and **1,290 of the grinder's own 1,298 queued functions live in a different
+   one**. 99% of its queue could never have banked, however good the permuter's output was. "7 all-time banks, 0
+   since Phase 21" is *equally consistent* with "the tool could not bank" as with "there was nothing to bank."
+   We concluded the latter and moved on. **Re-test before repeating it.**
+
+2. **The Phase-25/26 endgame plan is majority-fiction.** `docs/family-manifest.md` — the document the whole
+   structural-family endgame is planned from — advertises 2,758 multi-member families holding 11.0 MB of hidden
+   leverage. **1,071 of them (6.80 MB, 62% of the advertised byte-weight) are already fully matched.** The
+   matched-set oracle scans a single overlay. So the byte-weight *ranking*, which is the entire purpose of the
+   file, is sorted mostly on dead work, and the real targets are buried under phantoms.
+
+3. **A corpus defect the byte-gate cannot see, and never could.** `config/symbols.us.txt:981` declares
+   `listCdBuffer = 0x80180000` — a main-EXE **data** symbol — and every overlay's splat config loads that file. In
+   overlay space, 0x80180000 is **code**. splat therefore cuts 97 real functions in half and invents 96 phantom
+   ones: **193 slices that cannot be matched by anyone**, across 97 of 134 overlays. You cannot write C for a
+   function that ends on a `lui` with no return, nor for one that begins by reading the assembler temp `$at`. They
+   sit in the harvest queue as ordinary work items, so agents burn on them indefinitely and the failure reads as an
+   intrinsic compiler wall. **And the full-binary byte-gate stays green the entire time**, because the `.s` halves
+   are pasted back verbatim in original order.
+
+   This is the purest instance of the thesis that motivated the audit: *the byte-gate is a perfect correctness
+   oracle and a null coverage oracle.* And note precisely what rescued us — **`sig_image` was right.** Its
+   independently-computed function boundaries agree with spimdisasm on 58,524 of 58,621 functions, and on all 97
+   disagreements sig_image is demonstrably correct. **A second, independent oracle is the only reason the defect
+   was visible at all.** That is a design lesson worth more than the fix: when one oracle is structurally blind to
+   a class of error, the answer is not a better assertion inside it — it is a second oracle that can disagree with it.
+
+**The fix follows the root cause: ONE derived corpus oracle, and ~10 deleted scanners.** Not ten fixed regexes.
+`tools/corpus.py` answers — from the filesystem and the proven invariant, with coverage assertions baked in —
+*which files make up a binary*, *which stubs are live*, *which functions are matched* (sig − stubs, derived, never
+re-parsed), and *where a function's asm lives* (globbed, because splat already wrote the truth). Then the allowlists,
+the `REGION_SUB` dict, the single-TU regexes, and `census_conflict_callees` in its entirety all get deleted. This is
+the "best outcome is a deleted scanner" rule (R33) applied at scale.
+
+**Hindsight / for the wiki.** The strategic error was not writing any one of these tools badly. It was **letting the
+corpus layout become a fact that lived in ten places**. Each split was a correct, well-gated change to the *build*;
+none of them updated the ten private models of the tree, and nothing existed to notice. **A derived fact has no
+maintenance cost and cannot rot; a hand-maintained copy of it is a liability that grows with every structural
+change.** And the reason it stayed invisible for four phases is the deepest lesson of the audit: *we had no
+instrument that could report absence.* Every gate we owned answered "is this right?" — none answered "is this all?"
+
+---
+
+## 2026-07-14 (session 9, A4) — A corpus defect the byte-gate could never have caught
+
+**The defect.** `config/symbols.us.txt:981` declared `listCdBuffer = 0x80180000`. That is a correct,
+Phase-3-derived name for a main-EXE RAM buffer (the LIST.CD cache). But 0x80180000 lies **outside main's
+image** (0x80010000–0x80074800) and **inside the overlay slot** (0x80128158–~0x801DAB30) — and every
+overlay's splat config stacks `symbols.us.txt`. High RAM is *reused*: an address that is a buffer to
+main is live **code** to an overlay.
+
+So splat saw a symbol boundary in the middle of overlay code and, across 97 of the 134 overlays:
+
+* **cut 97 real functions in half** — leaving a head that ends on a `lui` with no return, and
+* **invented 96 phantom functions** — a tail that begins by reading the assembler temp `$at`.
+
+**193 slices that nobody can ever match.** Not "hard". Not "a compiler wall". *Unmatchable by
+construction* — there is no C you can write for either half. And they sat in the harvest queue as
+ordinary work items, so agents would burn on them indefinitely and the failures would be filed as
+intrinsic compiler residuals.
+
+**Why no gate caught it, and why that is the important part.** `INCLUDE_ASM` pastes the two `.s` halves
+back **verbatim, in original order**, so the image is byte-identical either way. The full-binary
+byte-gate — the instrument this project trusts absolutely, and rightly, because it has never once
+accepted a wrong match — **was green the entire time and always would have been.** It is a perfect
+*correctness* oracle and a **null coverage oracle**. No assertion added *inside* it could ever have
+found this.
+
+What found it was a **second, independent oracle**: `tools/sig_image.py` derives function boundaries
+from the ORIGINAL bytes without splat, and it *disagreed with the corpus*. It agrees with spimdisasm on
+58,524 of 58,621 functions and is demonstrably correct on all 97 disagreements. That is the whole
+lesson, and it generalises well past this bug:
+
+> **When one oracle is structurally blind to a class of error, the answer is not a better assertion
+> inside it. It is a second oracle that can disagree with it.**
+
+`make audit-corpus` now *is* that second oracle, standing.
+
+**The evidence that makes it concrete.** The phantom `listCdBuffer.s` in ov_SC01_005 begins:
+`lw $ra, 0x10($sp)` / `addiu $sp, $sp, 0x18` / `jr $ra`. splat cut a function immediately before its
+**epilogue** and called the epilogue a function. You cannot write C for a routine that restores a return
+address it never saved.
+
+**And it had already contaminated real work.** In `ov_SC03_031` the cut happened to land where the
+epilogue was exactly `jr $ra; nop`, so the Phase-26 ×134 sweep innocently "matched" it as
+`void listCdBuffer(void) {}` — byte-correct, gate-green, and completely fictitious — while leaving
+`func_8017FFC4` permanently unmatchable. A phantom got *banked*.
+
+**The rule, which nobody had written down.** R13/R15 say overlay-derived symbols are overlay-region only
+and must never be merged into `symbols.us.txt`. The mirror is equally true and was never stated:
+
+> **A symbol whose address falls inside ANOTHER binary's vram window must never enter that binary's
+> symbol stack.**
+
+Fix: `config/symbols.us.ram.txt` — main-scoped symbols that live outside main's image — stacked **only**
+by `config/splat.us.exe.yaml`. Main keeps the name (its asm carries 10 `%hi` / 11 `%lo` references and
+rebuilds `143dbb89` byte-identical); the overlays never see it. Exactly one symbol was in scope
+fleet-wide, and the resident window was clean.
+
+**Hindsight / for the wiki.** We had *two* oracles all along and never made them argue. The byte-gate and
+`sig_image` were both trusted, both correct, and silently disagreeing about the shape of 193 functions
+for four phases. The cheapest possible check — *do our two independent views of "where does this function
+start and end" agree?* — was never run, because each oracle was individually green and nobody thought to
+ask them the same question. **Redundancy is only worth what you spend comparing it.**
+
+---
+
+## 2026-07-14 — `cdecl`: parse the grammar, do not enumerate the shapes
+
+**Context & belief.** The audit's own prescription for the fifteen broken declaration scanners was a
+*shape-aware alternation* per tool: add an `(fn-ptr|sized-array|scalar)` branch to `DATA_DECL_RE`, mirror
+it in `DATA_DECL_LINE_RE`, add a `fnptr` kind to `parse_data_decl`, add a fn-ptr arm to
+`_uniquify_draft_types`, and so on — roughly fifteen coordinated regex edits, each with its own
+suggested coverage assertion.
+
+**Why I did not do that.** The audit had *already proved* that fifteen independent hand-maintained models
+diverge: two tools in ONE pipeline disagree today about whether `extern s32 D_a, D_b;` is a declaration.
+Patching fifteen regexes is fifteen fresh chances to diverge again, and an alternation only ever covers
+the shapes somebody remembered — it is the same hand-maintained model, one shape wider. The real problem
+was never the character class. It was that **the thing being scanned has a grammar, and nobody was
+parsing it.**
+
+C's declarator grammar is small, closed, and **total**. It describes fn-ptr arrays, sized and 2-D arrays,
+multi-declarators, fn-ptr parameters, and K&R identifier-lists *without being told they exist*. A
+250-line recursive-descent parser is **less** code than the fifteen regexes it deletes, and it is
+exhaustive by construction rather than by anyone's memory. That is R33 in its strongest form: the best
+outcome is not a fixed regex — it is a deleted model.
+
+**The measurement (not a belief).** Three oracles, whole corpus: coverage (**2,952,246 depth-0 statements
+→ 2,731,521 declarators, 0 parser defects**), the real cross-gcc (**50,405 distinct declarations
+round-tripped, 0 rejected**), and a differential against the incumbents (0 symbols they see at file scope
+that `cdecl` misses; 26 in `engine_core.h` they cannot see; 6 they wrongly promote from *block* scope).
+
+**Two design decisions worth keeping.**
+1. **The candidate set is derived, not hand-written.** At file scope C admits nothing but declarations, so
+   the over-approximating detector R32 demands is *every depth-0 statement* — supplied by the grammar,
+   with no second model to rot. (LAW 4.)
+2. **gcc adjudicates my own coverage gap.** When 40 statements would not parse, deciding for myself which
+   "don't count" is grading my own homework — the precise habit that wrote the fifteen bugs. gcc decides
+   instead: a statement it *also* rejects is not C (my rejection is correct, the input is corrupt); one it
+   *accepts* and I do not is my defect. All 33 residual came back NOT-C, all in dead scratch. (LAW 5.)
+
+**Hindsight / for the wiki.** The near-miss is the lesson. Those 33 corrupt drafts were written by a
+*recovery tool* that prepended `extern` to an `if` statement, and I was one step from reporting a live
+tool bug. Checking the blast radius instead (R14) showed the source defect was fixed back in Phase 19 —
+today's oracle emits **0 garbage over 300 signatures**. *Mechanism confirmed, consequence nil.* But note
+what it cost while it was live: a draft that cannot compile fails the byte-gate, and the failure reads
+downstream as **an intrinsic compiler wall.** That is the audit's whole thesis in one artifact — and the
+new parser is what finally makes the guarding assertion expressible: *every canonical signature the
+callee oracle emits must PARSE as a C declaration.* Before `cdecl`, nothing in the repo could tell a
+signature from garbage.
+
+**Scope discipline (deliberate).** This commit lands the parser and its proof and changes **no consumer**
+— so it cannot move a byte, and `check-all` is 136/136 by construction. That is not timidity: the audit
+explicitly warns that *making the parser see more ARMS dormant downstream transforms* — the moment
+`reconcile_decls` can parse a fn-ptr decl, its `data_access_subs` would happily mangle `D_1[i]()` into
+`((u8 *)D_1)[i]()`. Consumer migration is therefore one tool at a time, each byte-gated.
+
+---
+
+## 2026-07-14 — Probe the compiler; and the adjudicator must BE the compiler
+
+**Context.** Building `cdecl.compatible()` — *"will cc1 accept these two declarations of one name?"*, the
+question every recovery pass in this repo actually asks and four of them half-implement. I wrote the rules
+from the C standard, then validated them against a compiler.
+
+**What happened.** The compiler contradicted me — and then the *right* compiler contradicted the first one.
+Validating against modern `mipsel-linux-gnu-gcc` and against the real gcc-2.7.2 `cc1` gives **three
+different answers** (with the standard as a third): typedef redefinition is an error in C89, accepted by
+C11 gcc, and rejected by cc1; a qualifier mismatch is an error to modern gcc and **accepted** by cc1; the
+no-prototype/narrow-param rule is an error to both — and **accepted by cc1 in one direction.**
+
+**The decision.** `--compat` adjudicates with `tools/bin/gcc-2.7.2-psx/cc1`, the front end that actually
+arbitrates the build. Now 1,485/1,485 live corpus pairs agree. **Validating a compiler rule against a
+compiler that is not the one compiling your code is not a shortcut — it is the same class of error as the
+five phases we spent reading `gcc-papermario` believing it was 2.7.2. It was 2.8.1.**
+
+**The prize (→ A10).** Phase 15 closed the "159 arity/narrow-param conflicts" as *"no clean deterministic
+fix — it is simply C's default-promotion rule."* **cc1 disagrees.** The rule is order-dependent:
+`void X(s16); void X();` compiles; only `void X(); void X(s16);` fails. The wall's stated cause does not
+hold. Four three-line probes, 90 seconds, zero tokens.
+
+**Hindsight / for the wiki.** *Probe the compiler for FACTS; read its source only for LEVERS; byte-validate
+both.* Reading source is inference and can be wrong (it was, for five phases). Probing is ground truth,
+because it IS the compiler — and it is orders of magnitude cheaper. We have the exact binary sitting in the
+tree and spent 26 phases reasoning about it instead of asking it.
+
+**And the discipline that saved this from being an over-claim.** Fixing the wrong-TU bug (95.1% of drafts
+canonicalized against a TU that would never compile them) took the callee-conflict repair from 8 to 58 of
+196 drafts — 7× reach — and banked **exactly zero** functions, because the historical tail fails on codegen,
+not plumbing. The real gain is narrower and still worth having: **52 drafts moved from "won't compile" to
+"compiles, N instructions off"** — from an invisible failure that reads as a compiler wall into a scored
+near-miss the permuter can act on. Three times in one session a confirmed mechanism produced a null
+consequence. *"This tool is broken" and "this number will move" are different claims, needing different
+evidence.*
+
+## 2026-07-15 (session 13, A10) — the wall re-test verdict: the broken tools WERE the walls, and the payoff was banked by the FIXES
+
+**Context + belief.** The audit set out to answer one question (its own thesis): *how many of the walls we
+byte-proved across 26 phases were lookup misses wearing a wall's clothes?* Going in, the honest prior — set by
+the `SIG_IN_BODY_RE` finding, where one 10% oracle hole made nine byte-exact functions look like an intrinsic
+compiler wall — was *"some of it was our tooling."* A10 was gated ahead of all matching to test that at scale.
+
+**What we found.** The payoff did not come from A10's own re-gating — it came from the **fixes**, and it was
+already banked by the time A10 ran: retiring the fleet-majority oracle (A3d → `reconcile_tu`), the all-TU gate
+(A3e), the h_seq callee oracle (`SIG_IN_BODY_RE`), the fn-ptr blindness (A9a), and the `build_engine_types`
+blocker (A7) collectively moved the fleet **66.5 → 68.6% instr**, with the flagship proof being A9b —
+`func_8017A4AC` (536 ins × 134), a "blocked on plumbing" wall since session 8, banking ×134 the moment the
+oracle it tripped was fixed. **The walls named in this audit's thesis were, in the parts that moved, our tooling.**
+
+**The pivot inside A10 (measure, then adapt — R14).** The obvious A10 move — brute re-gate the 958
+`closeness==0` backlog drafts through the fixed gate — was tested first on one overlay (0/14 bank) and then
+settled at fleet scale: **0 of 958 bank across 135 binaries.** `match_one closeness==0` (isolated,
+reloc-masked) systematically overstates whole-binary bankability; the fixed gate recovers **none** of them.
+So rather than a Workflow fan-out that would have burned agents confirming a null, A10 ran it as a
+deterministic parallel job and reported the number. **The closeness-0 residual is genuine codegen — a
+re-confirmed wall (P9), which is as valuable as a dissolved one: it tells the endgame where NOT to look.**
+
+**The better path, in hindsight.** The single most load-bearing lesson is upstream of any specific fix:
+**a green byte-gate is compatible with any decomp %, so it can never tell you what you failed to attempt.**
+Every wall this audit dissolved was invisible to the one instrument we trusted absolutely — not because the
+gate was wrong, but because it is a correctness oracle with a null coverage dimension (R34). Had a coverage
+oracle (R32) and a *second, disagreeing* oracle (R34) existed from Phase 6, most of these walls would never
+have been written down as walls. The audit's real deliverable is not the ~15 fixes — it is the three rules
+(R32/R33/R34) and the derived-oracle pattern (`corpus.py`/`cdecl.py`) that make the *next* 26 phases unable
+to manufacture a wall out of a lookup miss.
+
+**Handed forward:** #4 the type-heavy harvest (~1,200 members; `build_engine_types` unblocked but not yet
+wired into the family path — Phase-26 Task-8 integration, not a re-test). Substrate for the retrospective + the
+public "how to AI-decomp" wiki (R31): *audit your instruments before you trust their silence.*
+
+### 2026-07-15 — Phase 26 Task 7 resume: re-baseline corrections + the flagship regalloc wall (single Fable5, likely intrinsic)
+
+**Re-baseline before cracking (R14).** Task 7 resumed at xHigh after the audit. Regenerating the target
+frontier from the FIXED tools corrected the handoff twice, both byte-grounded: (1) the "~1,200-member
+type-heavy harvest" from the audit ledger was **already banked** by A3h's post-fix h_seq re-run (+2,675) — the
+current STRUCT-excluded tail is ~6 substantial members, not 1,200. (2) The real remaining deterministic lever is
+bigger and different: **128 matched-sibling families ≈ 2.64M templatable ins**, and **register pins are NOT a
+banking blocker** (`func_8017A4AC` banked ×134 with 4 pins/sibling) — so most of that is *un-run ×N sweeps*, not
+a wall. Also: all 97 reach-134 tractable cores are already walled, and re-gating the close 1-5 seeds through the
+fixed pipeline banked **0/13** — Task 7 is a near-miss CLOSING campaign, not fresh cracking.
+
+**The single-Fable5 test ("can we crack not on Max?" — Drew).** One Fable5 (xHigh orchestration, 477k tokens,
+93 min) on `func_80178004` (165 ins ×134, the regalloc-order class exemplar shared by 12 siblings). Result: an
+**honest wall** (P9). A pin-free draft driven to structure-exact (163/165); residual = pure register identity,
+reduced by a gdb-on-cc1 oracle to **three compiler-internal integers**, each ruled unreachable under every legal
+C construct with file:line evidence. Byte-verified: `match_one` 126/165, the 126 dominated by one `$s0`↔`$s2`
+swap. **R14 ledger correction:** the historic "pinned MATCH / close=0" was a myth — the seed was never a match
+(best historic permuter score 5, pinned). Likely intrinsic to gcc-2.7.2; ONE untested lever remains
+(`qty_n_refs` tie-shape, local-alloc.c:1869). The parallel permuter could not crack `func_801325B8` either (best 25).
+
+**Payoff despite the wall (R16 flywheel).** The pass produced 6 byte-proven "walker-family" levers + the
+skeleton idiom (cookbook §52) that transfer to the 11 regalloc-order siblings: **Fable5 DISCOVERS the skeleton,
+cheap-Opus APPLIES it.** So a walled exemplar still fed the flywheel.
+
+**Pivot (pending Drew's Max call, R27).** Per Drew's instruction the failed single-Fable5 → prompt for Max.
+Recommendation to be logged on decision: Max-grinding `func_80178004` itself is low-EV (Fable5 already went to
+depth; one untested lever); the higher-ROI use of the perishable window is the §52 sibling-idiom wave
+(cheap-Opus) + the deterministic matched-sib harvest (2.6M-ins ceiling, pins OK) — both higher-certainty than
+grinding an intrinsic wall.
+
+### 2026-07-15 — Phase 26 close: the mechanical-harvest thesis is byte-proven exhausted → close + Phase-27 fresh scans
+
+**The §52 flywheel worked — and then the byte-gate closed the phase.** The single-Fable5 failure on `func_80178004`
+still distilled the walker-family idiom (§52), and two cheap-Opus waves applied it to bank **5 pin-free regalloc
+cores ×134 = 670 instances** (68.6→68.9% instr), confirming *Fable5 DISCOVERS, cheap-Opus APPLIES* and the
+crack-then-template loop for CLEAN families.
+
+**The correction (P9/R14 — walking back my own prior entry).** The entry above recommended "the deterministic
+matched-sib harvest (2.6M-ins ceiling, pins OK)" as *higher-certainty*. **That was wrong.** Three byte-gate
+probes returned 0% — tiny-IMM 0/241, PURE reach-134 0/134, and pinned-PURE-templated-WITH-pins 0/133 (so the
+`func_8017A4AC` pinned-×134 precedent does NOT generalize). The manifest's ~13,075 "templatable" member-slots
+are an h_seq *prediction* the whole-binary gate refuses (collision / register-drift / pin-crash). A3h + the wave
+propagations already banked everything cleanly templatable. The mechanical/templating thesis is spent at
+68.9% instr / 49.2% distinct.
+
+**The pivot (Drew, 2026-07-15).** Close Phase 26; open Phase 27 with a byte-gate-honest re-scan. Why it matters:
+the 26-A audit fixed the TOOLS, but the megaplan's frontier was scoped by the PRE-audit (buggy) scans, and even
+the post-audit manifests over-predict templatability (h_seq ≠ bankable). The remaining work is a different shape
+— hard-wall cracks + hand-decomp of the genuine unique residue — and deserves a plan built on a gate-validated
+frontier, not a manifest that over-promises phantom members.
+
+**Hindsight better-path — the phase's most transferable lesson:** *a scan is a hypothesis; the byte-gate is the
+truth. Validate a "templatable"/"matchable" count against the gate with one small probe BEFORE scoping a whole
+phase around it.* The megaplan's "986 families / 2.6M ins" set an expectation the gate then had to walk back
+twice this session; a probe up front would have sized the real yield. This is R14 applied at planning scale, and
+it is exactly why Phase 27 opens with a gate-validated re-scan.
+
+### 2026-07-15 — The Road-to-100 roadmap adopted (Phase 27+); the megaplan superseded
+
+**Context.** Phase 26 closed on the honest pivot (mechanical harvest byte-proven exhausted; instruments made
+trustworthy by the 26-A audit). Drew directed a plan-mode session (Fable5, Max): not a Phase-27 plan but a
+**full roadmap from 68.9% instr / 49.2% distinct to game-code 100%**, grounded in the audit. Method: all 26
+PhaseEnds + 3 scout distillations (audit / frontier / strategy) + a 16-defect red-team pass. Deliverable:
+**`docs/roadmap-to-100.md`** (P27 farewell-sprint+honest-frontier → P28 engine → P29 families → P30 mass+main
+→ P31 behemoths+walls → P32 verify+flip+Gen2-exit).
+
+**Drew's four contract decisions (the values calls, 2026-07-15):** (1) **game-code TRUE 100%** — no completion
+declaration while any game-code stub remains; walls re-attacked each phase boundary / model generation until
+they fall (the §45/§52 model-relativity history). (2) **PsyQ LINKED = complete**; libs-from-source (sotn
+precedent) recorded as a far-future side note only. (3) **Public flip AT 100%** — over the 2026-07-01 strategy
+review's near-term recommendation ("community labor is how every peer crossed the hard middle"). The tension is
+resolved by a **standing velocity checkpoint**: every phase close reports instr-%/session; if the trajectory
+stretches beyond what solo+agents can credibly finish, the flip-timing question is re-surfaced with the numbers
+— the decision stays falsifiable, not assumed. (4) **Fable5 window ~7/19**: the discovery sprint is P27's FIRST
+task (recon-done seeds, 1–2 fresh top cores, the qty_n_refs lever, the pin-crash SIGABRT characterization).
+
+**What the red-team caught (the why behind the roadmap's shape).** My own draft carried numbers past their
+invalidation events — reconcile_tu "needs wiring" (already wired, PhaseEnd26), a "~300k free plumbing win"
+(really ≈123k across 3 cores; func_8017A4AC already banked; func_8013F350 is a real class), "top-20 = 52%"
+(34% post-audit), worklist "needs regen" (already regenerated) — exactly the R14-at-planning-scale failure the
+Phase-26 close named. Fixes: every number in the roadmap traces to a committed post-audit artifact; §0 mandates
+that every PhaseEnd re-baseline the roadmap via a standing **"Roadmap delta"** line; and P27 re-derives whatever
+it consumes. The red-team also surfaced two real finds the plan now owns: **the `0x8017BEBC` family (952×~112,
+~106k ins, exemplar MATCHED) was never covered by the exhaustion probes** — the IMM-scattered class gets a P27
+gate-probe as possibly the largest cheap win left — and **the R34 second oracle covers only the overlays**, so
+main/resident (exactly where the 100% flags plant) get the oracle extension before any 100% claim.
+
+**Supersession.** `docs/family-endgame-megaplan.md` is superseded by `docs/roadmap-to-100.md` (banner added,
+content preserved). Its h_seq reframe survives — it produced Phase 26 — but its scan-derived numbers and the
+"crack ~986 exemplars → template ×120" thesis are byte-proven spent.
+
+**Hindsight better-path.** A roadmap "grounded in the audit" nearly shipped with pre-audit numbers in it. The
+transferable rule: when authoring any forward plan, red-team it against the committed artifacts *of the same
+day*, and make the plan self-expiring (the Roadmap-delta line) rather than self-perpetuating.
+
+## 2026-07-15 (Phase 27) — three strategic findings: the disc is bigger, a "wall" was our tool (again), and a "cheap win" is dead
+
+**Context + belief.** Phase 27 opened to build the endgame on measured reality (the roadmap adopted the day before, red-teamed against same-day artifacts). Three beliefs going in, all now revised by the byte-gate:
+
+**(1) The binary count is 136 — REVISED to 140 + a 39-module backlog.** The disc-completeness audit (T7) found 4 code-bearing SC07 overlays invisible for a month (code at PAC entry 1, not 0; `new_overlay.sh` hardcoded `0.4.dec`), onboarded byte-clean → 140. Then the type-sweep found **39 more un-onboarded type-1 code modules** (resident-class, in MAIN.CD), byte-confirmed code (jr $ra density ~3%, vs 0% for the data types that decode as valid-looking noise). They load at unknown addresses, so they are NOT mechanically onboardable — game-code TRUE 100% now spans 140 binaries PLUS ~39 modules pending runtime load-address RE. **Why it matters:** the completion contract's denominator was wrong, and the honest re-baselining LOWERED the headline (68.9→67.0% instr) because the SC07 overlays added mostly-unmatched code. The prior number was measured over an incomplete disc. Hindsight better-path: a disc-completeness sweep belongs at Gen2 *start*, not Phase 27 — the byte-gate is blind to un-onboarded code (R34), so "what did nobody onboard" must be asked explicitly and early.
+
+**(2) The §42e "pin-crash wall" is intrinsic — REFUTED; it was `extract_unit` dropping macros.** For phases the project recorded that register-pin-heavy families "SIGABRT the sibling TU… ov077-TU-context-specific… fixed-size allocator tables… NOT ×134-recoverable." The wave-2 Fable5 characterization (`.run/giants/pin_crash_sigabrt.md`) located the abort exactly (`sched.c:2725 create_reg_dead_note`, a sched1 REG_DEAD-note conservation bug) and proved the trigger is `family_remap.extract_unit` dropping the body's file-scope `#define` macros (the T5 bug): the dropped gte_* macros became implicit-declaration CALLS, pushing caller-saved pins into the one fatal shape. Only 1 of 4 families genuinely crashed; the other 3 were exit-33 plumbing folded into one crash bucket by a shared gate-TU (R14, recursed). **Fixed (T5 `_carry_macros`), all four stage 133/133 clean.** Why it matters: **P31's pin-propagation route is OPEN** — a whole class of high-reach pinned cracks the roadmap wrote off as ×1 can now propagate ×133. This is the 26-A audit thesis a third time: the instrument, not the compiler, was the wall. Hindsight: every "intrinsic" verdict tied to a *tool's* behavior (a crash, a compile fail) deserves the R34 second look before it's recorded as a compiler limit.
+
+**(3) The `0x8017BEBC` family is "possibly the largest cheap win left" (roadmap B2) — REFUTED, and the refutation is only trustworthy because the tool was fixed first.** Pre-T5, the probe would have read a fake 0% (112/112 CC1-FAIL on dropped macros) — a fourth phantom exhaustion proof. Post-fix: 106/112 stage, and the byte-gate says 0/8 (all genuine DIFF). The family is genuinely not byte-templatable; the h_seq structural match is necessary, not sufficient. **Why it matters:** it confirms Phase-26's mechanical-harvest-exhausted thesis extends to the families the roadmap hoped were cheap — and it is the cleanest demonstration of the phase's meta-lesson: **fix the measuring tool before you trust a measurement; a 0% from a broken tool and a 0% from a working one are the same number and opposite facts.**
+
+**The through-line (the phase's transferable rule).** Every one of these was a case where an instrument — a scanner (`make report` swallowing gates, T2), a strip regex (six of them, T4), a boundary oracle blind to main/resident (T10), a staging step dropping macros (T5), an onboarding glob (T7) — silently mis-reported reality, and the fix changed the answer. The roadmap's own numbers were red-teamed; the *tools under them* were not, until this phase. R32/R33/R34 exist for exactly this, and Phase 27 is their first full application to the frontier the endgame plans against.
+
+## 2026-07-15 (Phase 28 T0/T1) — the "families don't template" doctrine was a missing build step; B2 lives
+
+**Context + belief.** P28 exists to measure the member-adapt close-rate — the roadmap's §6 "THE swing
+number", with all P28/P29 yield projections deliberately withheld until it existed. Going in, the settled
+belief (PhaseEnd_Phase26 + PhaseEnd_Phase27 + `calibration.md`'s "decisive P28/P29 input") was: **the
+mechanical templating harvest is dead** — h_seq/h_norm structural families bank at **≈0%**, so P29's
+arithmetic is "(cores cracked) × (reach)", not "(families) × 120", and B2 (`0x8017BEBC`, "possibly the
+largest cheap win left") is byte-refuted.
+
+**What failed.** All of it, and the failures compound:
+
+1. **The ≈0% was measured with the wrong tool for the class.** `0x8017BEBC` is a **jr/switch** core. §47
+   banked its exemplar as *"lazy isolation → carve (9-piece interleave) → splice → BYTE-IDENTICAL"* and
+   called the fix *"×N template-safe."* The P27 T5 probe swept it with `family_sweep`, which stages C and
+   gates and **has no carve step** — so gcc's jump table was never placed. The whole residual is **two
+   words** (`classify_member` → **PURE, ndiff=2**, idx 343/345 = `lui/lw %hi/%lo(jtbl_801EC44C)`);
+   `overlays.mk:112` carves the table for the exemplar, `:134` does not for the member. **Re-run through
+   `jtbl_family_bank.py --raw` (which carves per sibling): 8 of 8 BANKED**, 4 same-address + 4
+   cross-address, `make clean` + extract-all + `check-all` → **140/140**.
+2. **n=1, on the least representative family in the population.** `has_mid_jr` is **3 of 163**
+   matched-exemplar families (120 of 13,232 members). The rarest class was generalized to the whole frontier.
+3. **Its corroborating evidence was pre-fix.** The three Phase-26 exhaustion probes (tiny-IMM 0/241,
+   PURE 0/134, pinned 0/133) all predate `_carry_macros` (P27 T5, `ee4b3a02e`). P27's decision-log calls its
+   own re-probe *"a **fourth** phantom exhaustion proof"* — it named the mechanism that would have faked the
+   first three and never re-ran them. **The ≈0% doctrine now has no surviving post-fix evidence.**
+4. **A second instrument was lying underneath.** `family_remap.img_path` hardcoded `0.4.dec`, so the 4 SC07
+   overlays P27 onboarded returned `None` → `stream_words` → `None` → `classify_member` → `("LEN", [])` —
+   **silently** classified "not templatable" AND poisoning their family's `diff_class` to MIXED. Fixed by
+   deriving from `config/splat.<bin>.yaml`'s `target_path` (R33 — what the BUILD reads) + raising (R32).
+   Negative control: `ov_SC07_006` **None → `1.4.dec`**; all **233** shared substantial fns between
+   ov_SC07_006 and ov_SC01_001 classify **PURE**, every one of which the old tool called LEN.
+
+**The pivot.** The mechanical-templating thesis is **un-refuted, not vindicated** — and re-opened as the
+phase's central question rather than its retired premise. P28 T3 now measures the rate over the population
+that actually exists (from the fixed map): **1,418 matched-exemplar families / 21,889 unmatched members**,
+PURE 17,024 (78%) · IMM 4,473 (20%) · **STRUCT 392 (1.8%)**. Note the roadmap sizes its swing number on
+*register-drift* = **STRUCT = 1.8%** of the input; the mass is PURE+IMM.
+
+**Why it matters (the number).** Regenerating the map exposed a **doubly-hidden** pool: **1,255 families /
+6,268 members / 230,612 ins whose ONLY unmatched members are the 4 new SC07 overlays** (0 elsewhere), each
+behind an already-matched, byte-proven exemplar — hidden once because P27 never regenerated the map after
+onboarding them, and again because `img_path` would have called them all LEN. Total addressable behind a
+matched exemplar: **937,248 ins = 21.7% of all remaining weight = 7.16pp of fleet instr**. `0x8017BEBC`
+alone is 115 members × 952 ins ≈ **109,480 ins**. All of this is a **prediction** until T3's gate — h_seq
+predicts, the whole-binary gate decides (G3/P9).
+
+**The better path, in hindsight.** Three of the four failures above are one habit: **a probe inherits the
+authority of the tool that ran it, and nobody re-runs a probe after fixing the tool under it.** P27 coined
+R35 for exactly this and then, in the same phase, generalized a 0% from a carve-less sweeper on the rarest
+family class in the population. The transferable rule is sharper than R35 as written:
+
+> **Before a 0% retires a lever:** (a) did the probe run every build step the *exemplar's own bank*
+> required? (b) is the probe family *representative* of the class being generalized to? (c) was the
+> corroborating evidence taken through the same tool you just fixed? A negative result is a claim about a
+> tool until each is answered.
+
+Two further R14 corrections this session, both mine: the approved plan's own population figures (163
+families / 13,232 members) came from the **stale** map; and "add `jtbl_` to `symbol_map`" was a **wrong fix
+derived from a true diagnosis** — a compiler-generated switch table is never named in C, so there is no
+token to substitute; the fix is placement, not substitution. Recorded in cookbook **§53**.
+
+**Handed forward:** the remaining 107 members of `0x8017BEBC`; T3's stratified probe (SC07-only pool first —
+its exemplars are already byte-proven, so a failure isolates the templating mechanism with no drafting
+variable); and the roadmap's B1/B2/§2 numbers + the "(cores) × (reach)" arithmetic all need re-deriving at
+the P28 close (Roadmap delta).
+
+## 2026-07-16 (Phase 28 T3b) — the legacy h_seq swing number: ~3% as-tooled, but the failure mode is the tooling-vs-wall ambiguity that keeps resolving to tooling
+
+**Context + belief.** T3-A measured the SC07 pool (h_exact + unwired, banked 95.6% via dedup_extend) but
+that answered a *different* question than the roadmap's swing number, which is the LEGACY h_seq
+templatability rate. Going in, the roadmap's belief (from Phase 26 + the pre-T1 calibration) was that
+structural families bank at ≈0% — a belief this phase already refuted for B2 (jr+carve, 88.7%) by proving
+the 0/8 was a missing build step.
+
+**What T3b measured.** `family_sweep --hseq --chunk 1` over 6 legacy PURE non-jr families: **9 BANKED /
+37 PLUMBING / 274 DIFF** = ~3% as-tooled. **Classified, unlike Phase 26's 0%.**
+
+**The load-bearing nuance (R14/R35 on my own probe).** The 274 DIFF is NOT proof the families don't
+template. The members are byte-level PURE (`classify_member` = reloc-only, 20/20 sampled), genuine h_seq
+(all DIFF_BYTES vs the exemplar, so `family_sweep` is the correct tool, not `dedup_extend`), at the same
+vram. A PURE family should reproduce once its relocs are remapped — so 274 non-reproducing members means
+the **remapped exemplar body fails to recompile to the member's bytes**, which is one of: (a) an
+incomplete `symbol_map` (the recurring jtbl/prefix bug — B2's 0/8 and T4's 12 DIFFs BOTH resolved to
+tooling THIS phase), or (b) genuine TU-context regalloc divergence (a real wall).
+
+**Why I did not resolve it.** Distinguishing (a) from (b) needs a region-by-region byte-diff of one PURE
+DIFF member's staged output against the target — a Max-effort diagnostic, and I was at ~40% context after
+a very long session. Rushing it is exactly how Phase 26 manufactured a wrong ≈0%. So the honest deliverable
+is the CLASSIFIED measurement + the named next probe, not a verdict.
+
+**The better path / handoff.** P29 opens by running the disambiguating probe BEFORE scaling its
+"(cores)×(reach)" arithmetic on 3%: diff one PURE DIFF member's `family_sweep`-staged bytes vs the target
+— mismatch AT a reloc position ⇒ (a) incomplete remap, fixable, and the legacy h_seq ceiling is far above
+3%; mismatch in regalloc/schedule AWAY from relocs ⇒ (b) a TU-context wall and 3% is real. Given this
+phase's scoreboard — every "structural wall" probed (B2, SC07, the pin-crash wall in P27) has resolved to
+tooling — the prior should lean toward (a), but that is a prior, not a measurement. **The swing number is
+~3% as-tooled, ceiling unknown; do not treat 3% as the ceiling until the probe runs.**
+
+## 2026-07-16 (Phase 29 Task 1) — the swing number RESOLVED: the "~3%" was an -O0 compile-flag artifact, not a wall (the third structural wall to resolve to tooling)
+
+**Context + belief.** P29 opened, as the Phase-28 handoff mandated, by running the disambiguating probe on
+the legacy-PURE-non-jr "~3% as-tooled" swing number BEFORE scaling any "(cores)×(reach)" arithmetic on it.
+The prior (from the phase scoreboard — B2, SC07, pin-crash all resolved to tooling) leaned (a) incomplete
+remap; but that was a prior, not a measurement, and the honest state was "ceiling unknown."
+
+**What the probe found (byte-proven).** Built `tools/diff_regions.py` (the deferred roadmap tool): it
+remaps the exemplar EXACTLY as `family_sweep --hseq` stages it and compiles at the EXEMPLAR's real
+optimization level. The two families supplying **~272 of the 274 DIFF** (`0x8013c964`, `0x8013c938`) are
+**-O0 functions** (their exemplar is in `ov_SC01_077_o0.c`, the Phase-19 -O0 cluster), and `family_sweep
+--hseq` stages the draft into the member's -O2 stub file — so it compiled an -O0 target at -O2, which can
+NEVER match. Compiled at -O0 the remapped C masked-MATCHes (`func_8013C964`→MATCH(10),
+`func_8013C938`→MATCH(11)). A 106-member sample across all size bands (nins 2..133): **O0-FLAG 45 ·
+already-banked 29 · TEMPLATES 17 · type-lift-plumbing 15 · REGALLOC 0**. Zero codegen walls.
+
+**Why the T3b measurement was neither wrong nor a lie — it was a measurement of a broken build step.** The
+Phase-28 T3b probe honestly classified the 274 as "genuine gate-DIFF" and honestly refused to call 3% a
+ceiling. What it could not see (at ~40% context, end of a long session) was that its own tool
+(`family_sweep --hseq`) had no per-member opt-level awareness — the SAME shape as the §53 carve-law finding
+(a family swept with the wrong build step reads exactly like an intrinsic wall). R35 again: a 0/near-0 from
+a tool missing a build step, and a real wall, are the same number and opposite facts. The `has_mid_jr`
+carve gap (§53) and this -O0 opt-level gap are two instances of one class: **`family_sweep` must reproduce
+every build step the exemplar's own bank required — the carve AND the optimization level.**
+
+**The pivot.** The swing is (a) tooling. P29's member track is NOT a low-ceiling per-member grind and does
+NOT need `member_adapt.py` (the (b)-wall delta engine) for this pool. It is the mechanical **-O0 split
+rollout** (the deferred "-O0 ×134", the whale `_o0b` precedent) + the type-lift sweep — Task 2a. The
+~478k-ins legacy-PURE pool is back on the table.
+
+**Honest caveat (not yet a bank).** The verdict is masked-MATCH — a candidate (§52b). The -O0-split
+mechanism is independently byte-proven (the whale banks ×134; `ov_SC01_077_o0.c` banks byte-identical), so
+confidence is high, but Task 2a whole-binary-gates it (and byte-gates EACH cluster member — `func_8013B7AC`
+in this cluster was called "overlay-local" in Phase 20, so no blanket assumption).
+
+**Better path, in hindsight.** The generalizable lever `family_sweep` is still missing: it should DERIVE
+each member's required build steps (carve for `has_mid_jr`, -O0 for an -O0-cluster exemplar) from the
+exemplar's own bank, and refuse to gate at the wrong build step rather than book a phantom DIFF. Task 2a
+builds the -O0 arm of that; the carve arm (§53/`jtbl_family_bank`) already exists — they should converge
+into one build-step-faithful sweep. That would have made both the Phase-26 "≈0%" and the Phase-28 "~3%"
+impossible to manufacture.
+
+### 2026-07-16 — P29 Task 2 Arm A: the swing verdict is now a BANKED FACT, but the fleet-scale -O0 carve hits a splat-integration wall (deferred, not a compiler wall)
+
+**Context + belief.** Task 1 proved the swing pool is -O0-flag tooling (masked-MATCH at -O0), a *candidate*
+(§52b). Arm A was to build the -O0-cluster split rollout (`tools/rollout_o0_cluster.py`, adapting the whale
+`rollout_whale_o0.py`) and **whole-binary-gate one overlay to convert the candidate to a fact**, then roll
+the ~478k-ins -O0 pool out fleet-wide.
+
+**What was proven (byte-gated).** The tool carves the -O0 cluster (16 fns, vram 0x8013B568..0x8013C98C,
+file 0x13410..0x14834) into a per-overlay `<ov>_o0.c` compiled -O0 (new Makefile `O0_CLUSTER_OBJS`
+wildcard). On **`ov_SC07_010` the carve is byte-neutral and `family_sweep --hseq` banked 9/9 of the -O0
+exemplar families' members whole-binary** (`func_8013B568/B7AC/B7F4/BC7C/BCDC/BD34/C360/C938/C964`), R22
+clean-fleet 140/140. **So the swing verdict is confirmed as a FACT — these -O0 cluster members DO bank when
+compiled at -O0, not just masked-MATCH.** (Phase 20's "`func_8013B7AC` is overlay-local" blanket claim is
+also refuted at the member level — it banks in 010.)
+
+**The wall (byte-proven, and it is TOOLING not the compiler).** Carving the SAME cluster in the other 3
+sampled tail overlays (006/007/011) **byte-shifts the whole image** — a +0x20 data-symbol-address shift
+(`lw v0,%lo(D_..3b6c)` → `..3b8c`), 34% of bytes differ — from a genuinely-clean `make clean &&
+extract-all`. The boundary offsets are verified real fn-starts in every overlay's sig (identical 14-fn
+layout), so this is **not** a wrong-boundary bug: it is a splat *re-disassembly* sensitivity — 3-way
+splitting a code subseg makes splat resolve some `%lo` data references to a different auto-symbol. The
+whale carve avoids it (single fn, a shared-header `_o0b` body, no INCLUDE_ASM in the split); the multi-stub
+cluster carve triggers it on most overlays. This is the same "-O0 cluster split infra" that **Phase 20
+built + reverted** — now characterized precisely (splat data-symbol resolution, not the compiler).
+
+**The pivot (ROI-gated, honest).** The full -O0 fleet rollout (~1,233 members / ~0.6pp) is **deferred**: (1)
+the splat-data-shift wall blocks 3/4 sampled overlays and debugging splat's `%lo` resolution is deep
+splat-internals work; (2) the 134 whale-swept overlays have the cluster embedded INSIDE the
+`jr_801380E0` carve (a carve-within-a-carve, even harder); (3) the remaining P29 levers are bigger and
+cleaner — Task 6's tiny-IMM mega-pools (`0x80131eec` 2887×15 + `0x80130d0c` 2679×15 ≈ 5,566 members via
+`imm_map`) and Task 3's core-cracks. The swing verdict's *strategic* claim (the ~478k-ins pool is real
+matchable work, ceiling ≫ 3%) stands, banked-confirmed; only its *mechanical fleet harvest* is blocked on
+the splat-carve integration, logged for a future session. The tool + the byte-neutral 010 carve are kept.
+
+**Better path, in hindsight.** The whale's `_o0b` shape (a thin split whose body is a shared header
+`#include`, no INCLUDE_ASM in the -O0 object) is splat-safe; the cluster rollout should likely mirror it —
+route each overlay's -O0 members through a shared-per-member header rather than leaving INCLUDE_ASM stubs
+in the split that splat re-disassembles. Testing that hypothesis is the cheap first move if/when the -O0
+pool is revisited; it may dissolve the +0x20 shift the same way the whale never hit it.
+
+### 2026-07-16 — P29 Task 6: the tiny-IMM mega-pools CRACKED (+4,801) — a def-signature conflict, after THREE byte-gate-corrected mis-diagnoses (R14/R35)
+
+**Context.** The two tiny-IMM mega-pools (`0x80131eec` 2887 + `0x80130d0c` 2679 members, ~15-ins jump-table
+dispatchers repeated per location) were the biggest unbanked pool (~5,116). `family_sweep --hseq` banked
+**1/4966 (0.0%)** — a total block.
+
+**Three wrong diagnoses, each refuted by the byte-gate/build (the R35 lesson, live, three times).** (1) I
+first read `diff_regions`'s `O2:MATCH(0)` as "just a symbol-definition gap" and committed that finding
+(`53ee97494`) — WRONG: masked_diff masks `%hi/%lo`, so a masked-MATCH cannot prove the reloc target resolves.
+(2) I traced it to a "splat-local undefined symbol" — WRONG: the symbol (`D_801815EC`) is a defined `dlabel`
+in the data tail. (3) The failure is a **compile** error, not a link/symbol issue: substituting one member
+draft gave `conflicting types for func_8015FAAC` (cc1 exit 33), and the `family_sweep --reconcile`
+(canon_sig_reconcile) path also banked **0/2470**. Only reading the *actual cc1 error* (not the masked
+metric) got the truth.
+
+**The byte-proven root cause + fix.** `src/shared/engine_core.h` forward-declares the member
+(`extern void func_8015FAAC(s32 *a0);` — a shared engine fn CALLS it), while `family_remap` copies the
+EXEMPLAR's signature (`void *a0`) onto the member's def → `conflicting types` → the member TU never
+compiles. (The exemplar `func_80131EEC` has NO engine_core.h decl, so it banks cleanly — that asymmetry is
+why the family templates in ov_SC01_077 but not its members.) Fix = **reconcile the member draft's DEF
+signature to the shared-header canonical** (`s32 *a0` not `void *a0`) — byte-NEUTRAL (a pointer-type param
+diff doesn't change codegen; `(s32)a0` is identical), and the whole-binary gate arbitrates anything else
+(G3/P9). Implemented as `family_sweep --fix-def-sig` (`header_sig_map` + `reconcile_def_sig`, 1005 mapped
+fns). Result: pool 1 **2331/2470 (94%)**, pool 2 **2470/2496 (99%)** = **4,801 members banked**, one member
+hand-verified byte-identical first.
+
+**The generalizable lesson (this is the FOURTH instance of one class).** `family_sweep` must reproduce every
+build step the member's own bank requires — the §53 carve, the -O0 flag (Task 1), AND now the member's
+CANONICAL DECLARATION when a shared header forward-declares it. The plain sweep's premise ("remapped drafts
+are self-contained") is false whenever `engine_core.h` already declares the member with a caller-derived
+signature. ~~`--fix-def-sig` should likely be default-on for the h_seq path.~~ And the meta-lesson, hammered
+three times in one task: **a masked/intermediate MATCH is a candidate, never a diagnosis — reproduce the
+real build and read the real error before naming the cause (R35).**
+
+> **⛔ SUPERSEDED (P30 T4 audit, 2026-07-31) — do NOT act on the struck sentence.** Making
+> `--fix-def-sig` default-on was byte-refuted by **T84 / §119**: the flag is a **REPAIR, not a default**.
+> It rewrites a member draft's def signature to the shared-header canonical, which is right when the
+> draft contradicts a *correct* header and **destructive when the draft is right and the header is
+> wrong** — on `0x80161c98` it imposed a signedness-wrong `s32 a1` over the true `u32`, turned a
+> byte-correct draft into a 1-instruction DIFF (`slti` vs `sltiu`), and **held 137 members at 0 until
+> the flag was DROPPED**. Verified this session: the flag defaults OFF (`action="store_true"`, single
+> consumer via `getattr(a,"fix_def_sig",False)`) and **no caller anywhere passes it**. The posture is
+> correct; only this recommendation was stale. Left struck-through rather than deleted so the original
+> reasoning stays legible (R31) — but a forward-looking "should be default-on" in a doc a fresh session
+> reads for direction is a live hazard, not a historical note.
+
+### 2026-07-18 — P29 jtbl 8-align wall: the half-pin was INVERTED (vacuous probes), the fix is a pad-spec filter (§8e)
+
+**Context.** The 4 jtbl giants (`func_80131340`/`80159C84`/`8013C414`/`8013F350`, all match_one MATCH,
+~2.6M agent-tokens of preserved drafts) were blocked on ONE tooling gap: banking `func_80131340` into the
+shared `_jr_8012ACE0` TU produced a +4 pad at rodata 0xCC → image-wide %lo shift → SHA1 fail. The session-2
+checkpoint recorded a half-pin — "cc1 AND maspsx both emit the jtbl `.align 2`; the +4 is a downstream
+`as`/`ld_interleave` artifact" — and told the next session to start from there.
+
+**What the evidence actually said (R35, again).** Both preserved probes were VACUOUS: an empty `j $31`
+function with NO jump table — the `.align 2` they "showed" was the function-entry `.text` align. The honest
+stage-walk (real draft spliced into the real TU, `.run/probe_jtbl/`) inverted every clause: cc1 emits
+**`.align 3` before every table**; **maspsx passes it through verbatim** (the famous `maspsx.py:435` "drops
+`.align`" is an inventory-only pass — the §8a-pad cookbook claim was false too); `as` bakes the pad
+section-relative; and the LINK side was never guilty (`SUBALIGN(2)` + `ALIGN(.,4)` place even 4-mod-8 carve
+starts tight — the banked `0xb07dc` carve proves it). Two Explore subagents produced OPPOSITE readings of
+maspsx (one read the inventory pass as the output path); the tie was broken by reading the code path myself
+plus one byte observable — the clean object's `.rodata` sh_addralign=8, which only a surviving `.align 3`
+explains (R34: make oracles argue; R14: settle on bytes).
+
+**The design fork and why the filter won.** The obvious fixes all fail a generality test: blanket align-demote
+breaks the main EXE's island (its intra-TU pads are load-bearing); pure isolation fails multi-table functions
+whose first table sits at vram ≡4 mod 8 (`.align` is section-relative, so the section-start parity flips every
+internal pad); sed/as/ld have no per-occurrence mechanism. The winning shape: **replace each rodata `.align 3`
+with the ORIGINAL's exact pad bytes** — derived per span by interval arithmetic from the carve config
+(`pad[K] = start[K] − end[K−1]` ∈ {0,4}), emitted as a per-object `JTBL_PADS` make var, applied by a ~50-line
+post-maspsx filter with fail-loud drift guards. Parity-independent, per-sibling self-adapting (each overlay's
+own addresses), and structurally fleet-neutral (every pre-existing carve is single-table → no var → pipeline
+byte-identical). A red-team subagent pre-verified the transform empirically (verbatim 0xE4/pad-at-0xCC vs
+filtered 0xE0/tight) and surfaced 7 hardening items, including the LATENT bug that produced the original
+failure (tight abutment silently merged into a bytes-impossible span) and a byte-witnessed wrong-TU splice
+(`stub_file` first-match returned a stale duplicate stub — the "conflicting types" cascade was never the
+draft's fault).
+
+**Hindsight better-path.** The checkpoint's half-pin cost nothing this time because R35 forced re-derivation —
+but only because the vacuous probes were LOOKED AT. The transferable rule: **a probe whose output contains no
+instance of the probed thing pins nothing** — check that first, before trusting any recorded verdict. And when
+a wall involves a multi-stage pipeline, walk it stage-by-stage with one byte observable per stage before
+designing anything; the whole design fell out of five observables in under an hour.
+
+---
+
+## 2026-07-21 — Phase 29 Task-13A: the permuter's problem was TARGETING, not a missing transform
+
+**Context + belief going in.** `docs/hindsight-study.md` §7 framed the offline endgame as *mine the
+permuter's failures*: capture structured residuals, batch-diagnose them with an LLM, and route each plateau
+to **missing-transform** (extend `permuter_weights` — "the highest-value bucket and the whole point"),
+**seed-structural** (one LLM seed), or **genuine-wall** (file with an expiry). The implicit premise was that
+the permuter is pointed at reachable work and is losing for want of the right mutation. Task 12 had plumbed
+the telemetry; Task 13 was to build the classifier and the LLM autopsy on top.
+
+**What the measurement said instead.** Before writing the LLM tier I materialised the corpus the classifier
+was supposed to read — and it did not exist: 1 of 6,169 backlog records carried a `residual`, 0 carried
+`passes_tried`, because Task-12's telemetry only fills records written after it landed. But 1,752 open
+near-misses had their draft and their target .s on disk, so the residual was ~1 s of CPU away per function.
+Recomputing all of them (21 s at -j12, through the existing `match_one` path) and classifying deterministically
+gave the real distribution: **699 `redraft` · 578 `structural` · 306 `integration` · 75 `permuter` · 2 unknown.**
+
+Of the 972 records the grinder's OWN filter admits, **75 (7.7%) are permuter-shaped.** The daemon has been
+spending ~92% of its CPU on residuals a search-closer provably cannot close — 547 structural (a different
+load width, an extra instruction, a flipped branch) and 348 drafts that are not the function at all. That is
+the byte-grounded explanation of the Phase-22 audit's "7 banks all-time, all in Phase 21, and 0 since," and it
+is a *targeting* defect, not a missing transform. Fixed for free: `grinder.candidates()` filters on the
+measured bucket (1,303 → 78) and takes its directed profile from the measured class rather than the logged
+label — 91% of records have no label, so the directed search had been silently running on gcc defaults.
+
+**The pivot.** §7's ordering is now inverted for the rest of the phase: **do not run an LLM batch autopsy over
+the backlog.** The deterministic classifier resolves 96% of it into three non-LLM routes, and the remaining 75
+have not yet been permuted *under correct targeting* — so calling any of them a "plateau" today would be
+diagnosing a search that never properly ran (the R35 failure mode: a probe from a mis-aimed instrument is not
+evidence). Correct order: run the directed permuter over the 75 → collect genuine plateaus with real
+`passes_tried` → only then spend the LLM, on what survives.
+
+**Two findings that change other numbers.** (1) `closeness` conflates "one instruction off" with "this draft
+is a different function"; 699 records rank as near-misses at closeness up to 278 purely from a length
+artefact. They are un-attempted work misfiled as a backlog of hard functions — fresh crack fuel, and a reason
+`docs/backlog.md`'s closeness ranking overstates how nearly-done the frontier is. (2) A 12-draft gate probe of
+the `integration` bucket banked **1 of 12** (11 PLUMBING), so the 306 prices Task 14's reconcile ladder rather
+than promising 306 free banks — stated as a measured conversion, not a projection, precisely because this
+phase already over-projected once from a staged count (§57a).
+
+**Hindsight better-path.** The corpus was one command away for months; the reason nobody ran it is that the
+backlog's scalar `closeness` *looked* like a diagnosis. The transferable rule: **when a queue is ranked by a
+scalar, check what the scalar is measuring on a sample before building anything that consumes the ranking** —
+here, 40 % of the queue's "closeness" was a length artefact, and the tool built to consume it (the grinder)
+had been quietly wasting 92 % of its work for two phases. Also: fixing the instrument surfaced a genuine
+concurrency defect (`masked_diff`'s shared probe file) that had been silently dropping 0.8 % of drafts in
+every parallel wave — a crashed self-check is indistinguishable from a failed draft, so it never got reported.
+
+## 2026-07-22 (Phase 29, §61c) — the "clean-invalid jtbl bank" blocker does not exist: two reads of one polluted tree are not a replication
+
+**Context + belief.** Phase 29's session-7 checkpoint named a single blocking finding and gated the entire
+jtbl track behind it (cookbook §61c): the carve+isolation path produces a bank that is *incrementally valid
+and clean-invalid*. `func_80135A4C` gated BYTE-IDENTICAL through `harvest_verify` every time, and
+`make clean && extract-all && check-all` came back **139/140, `[FAIL] ov_SC06_018`, twice, identically.**
+The stated implication was that the whole-binary byte-gate — the project's sole arbiter since Phase 12 —
+cannot see this class of defect, *because the gate IS the incremental build* (§42b in its worst form). On
+that reading, no jtbl core could be banked by anyone, and the 9 preserved cracks were frozen. It was written
+up as the single next task with a precise diagnostic recipe: diff the incremental vs clean object set.
+
+**What happened when the diagnosis ran.** It never reached the object diff, because the failure does not
+reproduce. Re-applying the bank through the single-function automated path and then measuring:
+per-binary clean rebuild BYTE-IDENTICAL; `make clean && extract-all && check-all` **140/140**; an
+independent second full-fleet run **140/140**. The path is reproducible from committed config + source.
+There is no extraction-order effect and no mid-flow asm.
+
+**Why the original measurement said otherwise.** The failing R22 runs were taken on the tree left by the
+*batch* `_jtbl_prep` — the run that ended `6 table-bearing → 1 carved, 4 isolate-FAILED, 1 stale-asm carve
+fail`, i.e. a tree carrying the residue of five failed preps (stranded carves, half-applied isolations).
+The per-function snapshot-restore that removes exactly that residue landed **after** those runs, in the very
+commit that named the blocker (`41d65af73`). The measurement was real; the attribution was to the mechanism
+rather than to the tree it ran on. The failing tree is gone, so that stays the best-supported explanation
+rather than a byte-proof — but the load-bearing claim (the path is clean-invalid) is byte-refuted twice.
+
+**The pivot.** §61c is retired; jtbl cores bank again, one draft per `harvest_verify` invocation (fault 2 —
+isolation repartitions shared source, so a per-function undo is unsound in a batch — is real and stands).
+`func_80135A4C` (181 ins) is banked and clean-fleet-verified; its family is 138 members / 24,978 ins ≈ 0.19pp
+and the 9 remaining preserved cracks are unfrozen.
+
+**Hindsight better-path.** "Twice, identically" felt like replication and was not: it was two reads of the
+*same* contaminated state, which is one observation. A replication has to re-create the state, not re-run the
+check — especially when the session that took the reading had, in the same hour, documented the tree as
+polluted and then shipped the fix for the pollution. This is R35 turned on ourselves: we are disciplined
+about not trusting a *tool* until it is verified, and much less disciplined about not trusting a *tree*.
+The cheap guard is procedural and costs one command: **before writing a fault down as a property of a
+mechanism, re-apply it from a known-clean tree.** Had that run before the checkpoint was written, the phase
+would not have spent its single named next task on a blocker that was already fixed. That makes six
+"structural walls" in this project that resolved to our own state or tooling (B2, SC07, pin-crash, the ~3%
+-O0 artifact, the grinder targeting, and now this) — the base rate is now high enough that *the first
+hypothesis for any new wall should be our own tree or instrument*, not the 1997 compiler.
+
+## 2026-07-22 (Phase 29) — the shared byte-gate compared one binary against another binary's hash, for a month, because a default was truthy
+
+**Context + belief.** `gate_stage` is the project's shared banking spine — the ladder every wave, the grinder,
+and every manual harvest run through. Phase 29 had spent two sessions treating its verdicts as measurements:
+"the ladder converts 0/10" was used to price Task 14 stages 2-3, and the Task-5 wave's "11/12 match_one MATCH,
+the gate banked ZERO" was written up as three named integration walls (§61a).
+
+**What the bytes said.** `main()` did `good_sha=a.good_sha or DEF_SHA`, where `DEF_SHA` is **ov_SC01_077's**
+locked hash. Being truthy it beat `run_gate`'s per-binary `good_sha or _check_sha(binary)`, making that lookup
+dead code on every CLI invocation. So the gate BUILT `ov_SC06_018` and compared it to `ov_SC01_077`'s SHA.
+It cannot match. Every draft came back `"near"` — built, wrong bytes — which is *exactly* what a genuine
+codegen residual looks like. **Nothing could ever bank outside ov_SC01_077 from the CLI, since 2026-06-21.**
+
+**Why it survived a month.** The programmatic callers take a different path and were all correct:
+grinder/idiom_hunt pass `None` (per-binary lookup); lora_grind/bulk_harvest pass an explicit per-binary sha;
+orchestrator only ever gates 077, where DEF_SHA happens to be right. So the tool banked fine for daemons and
+never for a human — and the two paths were never compared. This is R34 experienced from the inside: we had
+two oracles all along (the CLI verdict and the direct `harvest_verify` verdict) and never made them argue.
+The tell was visible and ignored: Task 13B's grinder banked `func_80181F78` in **ov_SC03_014** in the same
+week my CLI ladder banked **0/10** on the same tree.
+
+**Blast radius, measured not assumed.** 0 of 6,708 backlog records come from the affected path (worker 2724 /
+bulk-harvest 2275 / lora-grind 766 / grinder 522 — all correct). The backlog needs no re-run. The void
+verdicts are exactly the manually CLI-gated non-077 functions: the 12 preserved t5wave cracks. Re-run after
+the fix, **7 of 12 now bank**, including two giants (478, 673 ins) and `func_801299C8`, which had been filed
+as "PLUMBING: prototype declaration".
+
+**The pivot.** Three "findings" are withdrawn: §61a's three integration walls, the 0/10 ladder pricing, and
+the "9 compile / 0 bank ⇒ image-level effect" reading. Task 14 stages 2-3 remain unpriced — but now against
+a gate that can actually bank.
+
+**Hindsight better-path.** The defect is one truthy default, and the fix is one line — but the *detectable*
+signal was a **disagreement between two paths to the same answer**, which existed for weeks. The transferable
+rule: **when a tool has both a library entry point and a CLI, gate them against each other, because a
+divergence there is invisible to every downstream check** — the byte-gate is a perfect correctness oracle and
+a null oracle for "was the right question asked". Concretely: a gate must ASSERT that the SHA it is comparing
+against belongs to the binary it just built (R32-style — assert the premise, not just the result). That
+assertion would have failed loudly on the first non-077 CLI run in June. This is the fourth wall in one
+session, and the fifth this phase, to resolve to our own tooling rather than gcc-2.7.2.
+
+---
+
+## 2026-07-22 (Phase 29, SESSION-11) — the fresh-exemplar sweep is FAMILY-SPECIFIC, not a blanket mechanical ×137
+
+**Context + belief.** SESSION-10 closed on a strong claim: "sweeps only pay when they RIDE a fresh ×1 crack;
+the discriminator is the exemplar's PROVENANCE — every success templated from a core freshly banked ×1 today,
+every refusal from an ov_SC01_077 exemplar." The plan was to crack ov_SC06_018 exemplars fresh and sweep their
+h_seq families (Task-5 measured ~1.59pp of fresh families for this one overlay).
+
+**The experiment.** Two families SESSION-10 had swept 0/137 from an ov077 exemplar — `func_801365B8` (0/133)
+and `func_80133AB0` (0/137) — were cracked FRESH in ov_SC06_018 (agent drafts, whole-binary byte-gated ×1),
+then swept via `family_sweep --hseq --source ov_SC06_018 --allow-pins` from the fresh exemplar.
+
+**The result (byte-gated, R22 140/140).** SPLIT: `func_801365B8` → **132/132 siblings banked** (thesis
+confirmed — a fresh non-ov077 exemplar unlocked the whole family ov077 could not). `func_80133AB0` → **0/136,
+reverted clean** (thesis refuted for this family — the members diverge in more than reloc symbols; no fresh
+exemplar remaps into them).
+
+**The refined finding.** A fresh ×1 crack is **necessary but not sufficient**. The fresh-exemplar sweep is
+**family-specific** — the whole-binary byte-gate arbitrates each family, and on this 2-family thesis sample
+the sweep rate was ~50%. The SESSION-10 provenance claim holds DIRECTIONALLY (func_801365B8 swept where ov077
+refused) but overstated it as a mechanical ×137. **Consequence:** the ~1.5pp "fresh families" campaign
+estimate must be discounted — cracking generates sweep fuel for SOME families, not all, and only the gate
+says which. The honest yield model is (families that crack) × (per-family sweep probability), not
+(families) × (reach).
+
+**Why the difference (hypothesis, not yet exhaustively byte-proven).** func_801365B8's members differ only in
+per-overlay reloc symbols over a uniform pinned regalloc → the fresh pinned exemplar templates cleanly.
+func_80133AB0's members carry per-location immediate/codegen divergence the single exemplar does not share.
+
+**Tooling caught in the act (R33 — fix the instrument).** The `family_sweep --source` override only searched
+`members`, but a freshly-banked source member moves to `matched_members` after a sig-regen, so the override
+silently missed it and would have templated from ov077 (a false refutation). Fixed to search both lists —
+without it the thesis test would have "confirmed" SESSION-10's refusal for the wrong reason. Second fix:
+`cdecl._depth0_spans` now consumes `\`-continuations, so a raw-draft `#define` macro no longer trips
+audit-cdecl (the committed, cpp-expanded source was never affected — the gate was reading scratch).
+
+**Hindsight better-path.** Test the sweep-from-fresh mechanism on ONE family before scoping a 95-target
+campaign around it. The calibration cost ~1 wave and delivered a load-bearing correction to the yield model —
+exactly the probe-before-scaling discipline (Phase-15/R35). Carry it forward: every fresh core crack this
+phase must be followed by a gate-arbitrated sweep attempt, and the sweep's 0/N is data (per-member wall),
+not a tooling artifact — provided the tools (`--source`, cdecl) are themselves verified first.
+
+**Addendum (same session, 3rd data point).** `func_8017D648` — a MODAL/cross-address family (reach 82, a
+structurally different case than the two per-location families) — cracked fresh in ov_SC06_018 and swept
+**70/82 (85%)** (+3 gate-fail, +8 remap-refused "unresolved immediates"). So across three thesis families the
+fresh-exemplar sweep rate is **100% · 0% · 85%** — 2 of 3 sweep, and the two that sweep do so at high rates.
+The refined model: the fresh-exemplar sweep works for the MAJORITY of families at high per-family rates, with
+a genuine per-member-wall minority (func_80133AB0). So the ~1.5pp campaign estimate should be discounted by
+the wall-family fraction (~1/3 here) and the per-family remap-refusals, not treated as a flat 50% haircut —
+and the only way to know a given family's rate is to crack it fresh and let the gate sweep it. Cracking
+remains the generator; the sweep is high-yield but not universal.
+
+---
+
+## 2026-07-22 (Phase 29, SESSION-11) — the jtbl families are near-misses/walls, not plumbing wins; the post-carve reconcile makes the gate honest
+
+**Context + belief.** SESSION-11's calibration wave drafted 4 jtbl families to match_one MATCH; the plan
+(SESSION-11 checkpoint) billed the 3 reach-138 ones (`func_80135EB0`/`func_80135260`/`func_8012AAAC`) as
+"≈+0.58pp, drafts done, just bank via the §8e carve." Banking them all failed with `conflicting types` —
+looked like a jtbl tooling wall. Drew set /effort max to "fix the tooling once."
+
+**Root cause (diagnosed, not assumed).** The jtbl carve's §8b carried-decl layer (jr_isolate_all's ambient
+file-scope decls) conflicts with each draft's own externs. The reconcile chain that fixes this
+(`cast_call_sites` + `reconcile_tu`, both `--src-file`-aware) already exists but runs PRE-carve against the
+wrong TU — a jtbl fn's real TU is the split file, which doesn't exist until harvest_verify carves. gate_stage
+had even deleted its batch jtbl stage noting "harvest_verify owns the splice." So the fix is one hook:
+`harvest_verify._jtbl_reconcile` runs the same chain POST-carve against the carved TU (cookbook §62).
+
+**The fix works — and that is exactly how it delivered a NEGATIVE result.** Validated on two functions
+(`func_80135260` callee, `func_80191C50` data): both went `conflicting types` → a genuine codegen DIFF. The
+plumbing was real and is now dissolved. But dissolving it revealed that all four jtbl drafts have a DEEPER
+issue the plumbing hid: `func_80135260`/`func_80191C50` a real `%hi`-sharing regalloc residual (the agents'
+reloc-masked match_one MATCH over-claimed it — R14); `func_8012AAAC` a def-side-arity conflict that is ALSO
+fleet-shared (engine_core.h) and ALSO still DIFFs after the arity fix (a def-side register-threading wall);
+`func_80135EB0` a carve `isolate FAILED`. **So the "+0.58pp from 3 reach-138 jtbl families" is REFUTED** —
+they are genuine near-misses/walls needing per-function matching (re-draft/permuter), not cheap plumbing wins.
+
+**Why this is a good outcome, not a wasted phase.** (1) The post-carve reconcile is the durable fix Drew
+approved — it BANKS any jtbl family that is plumbing-only-blocked with a true MATCH, and it makes the jtbl
+gate HONEST: it now attributes the blocker (plumbing vs codegen) instead of reporting every loose-typed jtbl
+fn as an unbankable wall (the §26/§53-class error that manufactured two phases of wrong doctrine). (2) It
+corrected an optimistic read: a reloc-masked match_one MATCH is NOT a whole-binary MATCH for a jtbl fn that
+references shared symbols — the mask hides both the reloc-resolved codegen AND the carried-decl plumbing
+(§58, extended).
+
+**Hindsight better-path.** The calibration wave's jtbl drafts should have been whole-binary-gated (not just
+match_one) before the checkpoint billed them as "drafts done, +0.58pp." A match_one MATCH on a jtbl fn is the
+weakest MATCH signal we have (two masked layers). For the remaining ov_SC06_018 harvest: gate jtbl drafts
+whole-binary early, and expect the reach-138 shared-region jtbl families to be walls (they are the most
+loose-typed code in the engine). The cheaper yield is the ~83 non-jtbl targets (no carve, no §8b layer).
+
+**Two §61-class traps re-confirmed** (both in cookbook §62): gate jtbl functions ONE AT A TIME (a mid-batch
+isolate-FAIL corrupts the whole batch, `final SHA None`); and `fix_arity` on a fn in engine_core.h edits
+fleet-shared state — a `git checkout src/<ov>/` restore misses `src/shared/`, and the per-overlay build stays
+byte-identical so nothing flags the leak (caught here by a full `git status` + R22 clean-fleet).
+
+## 2026-07-23 (Phase 29, SESSION-13) — the reach-138 wave on a P27-onboarded overlay is LOW-ROI; the true lever is LIVE-siblings, and the fresh families are per-member walls / def-side plumbing (R14/R35)
+
+**Context + belief.** The SESSION-12 checkpoint's option (b): a fresh-exemplar crack-wave on a *higher-reach*
+overlay (Task-5 greedy cover, ov_SC03_015/ov_SC07_006 "each ~+0.3–0.6pp of FRESH families"), billed as a
+cleaner path than the drained ov_SC06_018 non-jtbl tail. Belief: ov_SC07_006's **122 draft-now reach-138 WAVE
+families** (all cached, zero prefetch) are untouched fresh fuel — one crack + sweep banks ×138 (the SESSION-11
+`func_801365B8 ×138` precedent).
+
+**What happened.** `tools/build_wave_args.py` (new) emitted the top-24 reach-138 families **ranked by the fuel
+manifest's `nins*reach` leverage**. Wave (`wave_binary.js`, 24 xHigh): 16 self-assessed MATCH, 8 killed by the
+Anthropic session usage limit. Byte-gate: **2 via plain harvest_verify + 4 via `gate_stage` reconcile = 6 ×1
+banked**; 17 failed as PLUMBING (`conflicting types for func_XXXX/D_XXXX`), 2 CC1-FAIL, 2 DIFF. Propagation:
+`dedup_propagate --addr` banked **func_801325B8 → +3 onboarded-tail siblings**; func_8014A048/func_801678F0
+**byte-diverge** in the SC07 cluster (kept ×1); func_8014FE60/func_80167540 **local-type-blocked** (§20 cap);
+**func_80165CA0 consolidated its h_exact subgroup (+0 new)** and then **swept 0/135** via `family_sweep --hseq`
+— a per-member wall like func_80133AB0 (0/136). **Net batch-1 yield ≈ 9 newly-matched functions**; ov_SC07_006
+84.6% → 84.8%; fleet +0.1pp instr, ~0 distinct. R22 clean-fleet 140/140 twice (the engine_core.h arity edit
+was fleet-safe); tools-health green.
+
+**The finding (R14/R35 — verify the leverage assumption against the bytes BEFORE scaling).** The fuel
+manifest's `nins*reach` leverage **badly over-counts**: a reach-138 family already matched in ~135 overlays
+yields **+(live siblings)** on a fresh crack, not +138. Re-scoping the 122-fn pool by **actual live-sibling
+count** (grep INCLUDE_ASM): **76 "fresh" (≥100 live) vs 44 onboarded-tail (<5 live)**. And the two classes have
+OPPOSITE difficulty: the **onboarded-tail** families bank *easily* (they have a matched sibling in ~135
+overlays to port verbatim — 5 of the 6 banks) but yield only +few; the **genuine fresh** families are the HARD
+tail — batch-1's fresh-138 attempts FAILED as **def-side plumbing** (`conflicting types for func_XXXX`, needs
+§54 `--fix-def-sig`, which `gate_stage`'s caller-arity pre-pass does NOT clear), **genuine DIFF** (permuter
+fuel), or **per-member walls** (func_80165CA0). A fresh crack does **not** reliably unlock its family.
+
+**Why this is a good outcome, not a wasted batch.** (1) The corrected lever is durable: `build_wave_args.py`
+now ranks by `--rank live` and reports the fresh/tail split, so future scoping targets the true fuel and never
+again mistakes an onboarded-tail family's inflated `nins*reach` for leverage. (2) It confirms — from a fresh
+overlay ov077/ov_SC06_018 never sourced from — that the reach-138 *family well is largely SPENT via wave+gate*
+(the Phase-26 "h_seq templatable-families thesis is byte-proven SPENT" finding, now re-confirmed on the SC07
+cluster). The remaining reach-138 residual is per-function (permuter + §54), not breadth.
+
+**Hindsight better-path.** (a) Rank by live-count AND *require a matched-sibling-to-adapt* — that combination
+is what banks (the tail wins had siblings; the sibling-less fresh families didn't). (b) The onboarded SC07
+overlays (006/007/010/011) are a **distinct less-shared ~84% cluster** (1549 vs 1702 distinct-code base), not
+merely un-integrated — so a "sweep every matched family into them" pass will hit the same per-member
+divergence batch-1 saw (func_8014A048/func_801678F0 diverge; two more local-type-blocked). (c) The genuinely
+higher-ROI next move is NOT more ov_SC07_006 wave batches — it is either the per-function grind (permuter on
+the DIFFs, §54 `--fix-def-sig` on the def-side-plumbing failures) or a different lever entirely (Task 7's
+ROI-gated close arithmetic now has a third low-yield data point: ov_SC06_018 non-jtbl tail ≈0.1pp, this ≈9
+functions). **Do NOT close P29 on ROI — the burn-down floor is still undetermined (needs 3 session-close
+deltas).**
+
+**UPDATE (same session, R35 — the probe REVERSED this verdict).** Rather than defer the header-decl reconcile
+as future work, I ran the bounded probe on `func_8014CD80` (138 live, 0 matched, NO DEFINE macro; a clean MATCH
+draft with a **universal body** — only universal callees + param offsets, zero overlay-local `D_*` refs). The
+def-side blocker was engine_core.h `DEFINE_func_8014CD0C()` forward-declaring it `void func_8014CD80(s32,void*,
+void*)` while the byte-true def is `int func_8014CD80(s32,u16*,u16*)`. **One byte-neutral header edit**
+(`void`→`int`, `void*`→`u16*`; the call site passes `u16[3]` arrays and ignores the return, so codegen is
+unchanged) → `harvest_verify` banked ×1 BYTE-IDENTICAL → **`dedup_propagate --addr` propagated 138/138 overlays
+byte-identical (live 138→0)** → R22 clean-fleet **140/140**. **So the fresh-138 families ARE recoverable ×138 —
+the blocker was purely the def-side header decl, NOT a wall.** (func_80165CA0's 0/135 was a non-universal
+*body*, a different failure mode; h_exact=1 does not distinguish them — the BODY's universality does.)
+**Quantified market:** of the 75 fresh (≥100-live) families, **46 carry an engine_core.h caller forward-decl,
+38 SIMPLIFIED (`void`/`void*`) = the func_8014CD80 pattern** — each a candidate ×138 (≈+1.5–2.8pp instr if
+half-to-most bank, gated by whether each draft's body is universal + byte-correct). **DECISION: build a
+`fix_header_decl` tool** — parse the byte-true def sig (from the banked def or a MATCH draft), rewrite every
+engine_core.h forward-decl of that fn to match, then hand off to the existing bank→dedup_propagate→R22 chain.
+It edits fleet-shared engine_core.h → INHERITS the §61 snapshot-undo constraint (undo = restore, never an
+inverse; validate FLEET-WIDE via R22). Pair it with a fresh-family wave (`--rank live --min-live 100`): the tool
+is the INTEGRATION half, the wave supplies the byte-true draft. **This reopens option (b) as the campaign's best
+lever — the "low-ROI, spent" read above was measured on the WRONG 24 (leverage-ranked → onboarded-tail) and is
+superseded for the FRESH pool. The onboarded-tail read stands.**
+
+## 2026-07-23 (Phase 29, SESSION-13) — the full remaining-work re-derivation + two roadmap-bucket corrections (R31, roadmap delta)
+
+**Context.** While a crack wave ran, re-derived the ENTIRE remaining-work map from `family_hseq.json` +
+`asm/nonmatchings/` (main) to answer "largest families, largest unique fns, what's MCP-automatable." This is
+the re-derivation the roadmap §0 mandates (numbers rot; consume §2 only through one). It does NOT supersede the
+roadmap's PHASE SEQUENCE (families P29 → main+tail P30 → behemoths P31 → flip P32 — CONFIRMED), but it
+re-baselines the numbers and corrects two buckets.
+
+**The re-derived baseline (2026-07-23).** Fleet 78.8% instr · 67.6% distinct · 88.26% fn-count. Remaining:
+**overlays 40,395 stubs / 2,738,677 ins / 6,472 families** (159 reach-138 · 2,510 reach-2..133 · 3,803
+singletons) **+ main EXE 2,002 fns / ~84k ins (~1,048 game-code, 0.7% done).** **CONCENTRATION: top-20
+families = 23% of remaining instr, top-100 = 53%** — half the entire remaining project is 100 shared cores,
+each ×N. Largest cores: `0x80176734` 371×138=51k · `0x80176218` 327×138 · `0x8013c414` 329×137 (jr) ·
+`0x8014d820` 304×138 · `0x80135eb0` 289×138 (jr); ~half the top-20 are jr (jtbl-carve path).
+
+**CORRECTION 1 — B1 pessimism partially REVERSED (cross-ref the SESSION-13 fix_header_decl entry).** B1 =
+"substantial h_seq families, mechanical templating byte-proven dead, per-member cracking only." FALSE for the
+def-side-blocked slice: `fix_header_decl` recovers them ×138 (func_8014CD80 proved; ~38+ candidates). The
+templating-dead verdict holds for the h_seq-adapt path; it does NOT hold once the shared-header decl is fixed.
+
+**CORRECTION 2 — B7 behemoth list is STALE/INCOMPLETE.** B7 lists 5 behemoths topping at `0x8017bf14` (4,763).
+It MISSES **`0x80183814` (5,122 ins, ov_SC07_006) — now the largest single function in the game** — and
+`0x8017dc1c` (1,518, ov_SC07_006). Cause: the 4 SC07 overlays were P27-onboarded AFTER the roadmap's
+2026-07-15 baseline, so their singletons never entered B7's count. **P31 must rebuild B7 from
+`family_hseq.json` singletons, not the roadmap's list.** (R14 caveat: verify `0x80183814` is one function, not
+a mis-split, before scoping it.)
+
+**MCP-automation finding — the prefetch gap is in the TAIL, not the top.** reach-138 families are **146/159
+already cached** (draft-now, no MCP); the 6,027 tail families + main (0/2,002) are uncached. So the roadmap's
+P28 "fleet Ghidra-C prefetch" is a **P30 fuel-generator for the tail+main**, NOT a P29 blocker — the top-100
+(half the project) is already fuel-ready. The only MCP-dependent link left in the pipeline
+(prefetch → wave → fix_header_decl → dedup_propagate) is that tail prefetch.
+
+**Path forward (abiding by the roadmap, refined by concentration).** Stay in P29; order by ×138 byte-weight
+top-down; **STOP capping the wave at 150 ins — the GIANT fresh families (150–371 ins) are the biggest single
+wins and were being skipped.** Non-jr via wave→fix_header_decl→dedup_propagate; jr-half via the carve path.
+Defer main+tail to P30 (the MCP prefetch pays off there); behemoths (incl. 0x80183814) to P31.
+
+## 2026-07-23 (Phase 29, SESSION-13) — CORRECTION: fix_header_decl is fragile for SHARED multi-caller decls; gate_stage's call-site-cast is the right tool (R14/R31)
+
+**The over-claim.** The earlier SESSION-13 entry billed ~38 fresh-138 families as a `fix_header_decl` ×138
+market. On the actual crack wave (24 fresh families, 20 MATCH drafts), bulk-applying `fix_header_decl`
+(v1 self-def AND v2 --reconcile-externs) **BROKE the build** (`SHA None`, CC1-FAIL across the batch).
+
+**Root cause (byte-proven).** `fix_header_decl` rewrites a decl in `src/shared/engine_core.h`. But that decl
+is SHARED by MANY caller macros, each using the fn differently. Changing the return (e.g. `s32`→`void`) breaks
+a caller that USES the return (`void value not ignored`); changing a callee's params to match one draft's
+loose extern is an ABI change the tool correctly REFUSES — but a bulk pass still corrupts the header.
+`func_8014CD80` (the ×138 proof) worked only because it was a LUCKY single-caller / ignored-return case. The
+header-rewrite lever is therefore NARROW: it is byte-neutral only when the decl change is compatible with
+EVERY caller — a minority of the 38, not all. **Also:** most of these fresh families' def-side conflict is a
+PER-OVERLAY-LOCAL forward-decl in the split `.c` (emitted by a matched sibling), which `fix_header_decl`
+(src/shared only) never touches.
+
+**The right tool — `gate_stage`'s reconcile ladder.** It casts the CALL SITES in the draft's OWN TU
+(`cast_call_sites`) instead of rewriting the shared decl, so it never breaks other callers. On the same wave
+it banked **5** (func_80175308/8012E138/80130C08/8012A1BC/80137178) where `fix_header_decl` broke the build;
+plain harvest_verify banked 2 self-contained (func_8012B4B8 §52b-wall + func_80169228). **7 of 20 MATCH banked
+cleanly; R22 140/140.** The other ~13 are near / deeper-plumbing, staged for a member-adapt/gate_stage pass.
+
+**Doctrine (supersedes the "build fix_header_decl v3" next-step).** Keep `fix_header_decl` for the narrow
+single-caller/ignored-return self-def case (it's cheap + proven there). For the fresh-138 integration in
+general, the SPINE is `gate_stage` (call-site casts + arity pre-pass, byte-gated), NOT header-decl rewriting.
+"Matching is solved; integration is the bottleneck" holds hard here — the 20 bodies matched; the plumbing is
+the wall, and the call-site-cast ladder is the way through it, per-family, not a bulk header edit.
+
+## 2026-07-23 (Phase 29, SESSION-13) — the §20 type-lift is a FLEET-WIDE collision-resolution op, not a tool-run (R32/R35; do NOT improvise it)
+
+**Goal.** Unblock the 4 §20-capped fresh-138 cores (func_8012B4B8/80175308/8012E138/8012A1BC — "not
+self-contained (local types)") via `build_engine_types` so they propagate ×138 (+552 stubs; roadmap B4).
+
+**Diagnosis (correctly measured, after fixing a broken instrument twice — R35).** The cores reference
+fleet-local struct types (`Vec8`, `Mat32`, `Buf`, `MATRIX`) that live at overlay file scope, NOT in
+`src/shared/engine_types.h`. `dedup_propagate` conservatively skips any body referencing a non-shared type.
+`build_engine_types` lifts such types to the shared header (byte-neutral: `--strip` removes the defs, type
+decls emit no code) — the proven §19 Phase-20 lever.
+
+**The blocker — MULTI-DEF COLLISION across the fleet.** Robust scan (`}[ ]*<T>[ ]*;`, NOT the `[^;]*` regex
+that silently under-counts multi-field structs — that bug read "Mat32 = 1 copy/SAFE" when it is 138+1, and I
+nearly trusted it: R35, twice): **`Mat32`/`Vec8`/`Buf` each have 2 distinct defs across 138 overlays, `MATRIX`
+has 3.** The extra defs are drafter-invented simplified variants (`Mat32 = {int w[8]}` from THIS session's
+wave vs the canonical `{s32 w0,w4,w8,wC; s16 h10,hpad; s32 t0,t1,t2}`). So a naive `build_engine_types
+--source ov_SC07_006 --strip` would push a NON-CANONICAL def into the fleet-shared header and break the 138
+overlays holding the canonical local copy. The safe scoped lift (ov07-UNIQUE types only, e.g. the named
+`Cam8012E138`) unblocks ~1 core — not worth an R22.
+
+**Why this is not a tail-of-session improvisation (the responsible call).** It is a genuine fleet-wide op: (1)
+pick the canonical def PER type (resolve the 2–3-way collisions); (2) reconcile every non-canonical draft
+(this session's simplified Mat32/Vec8/Buf + historical variants) to the canonical — byte-checking each (a
+32-byte struct COPY is byte-neutral across layouts, but any FIELD access is not); (3) lift canonical →
+engine_types.h; (4) `--strip` FLEET-WIDE (138 overlays, no make target exists — Phase-20 did it manually); (5)
+R22. Rushing a fleet-shared header edit with colliding type defs is exactly the SESSION-12 corruption class.
+
+**Bounded payoff (cookbook §20).** The lift only helps type-blocked-BUT-otherwise-clean bodies. The DOMINANT
+§20 fraction is the DEF-conflict loose-typing wall — byte-proven unrecoverable by text transform, only path is
+RE-DRAFTING under the caller-canonical sig. So the type-lift is real but not a fleet-% silver bullet.
+
+**RECOMMENDATION.** Do the type-lift as a DEDICATED operation with: a correct multi-field type-scanner (the
+`[^;]*` one is retired), a per-type canonical-def picker + a draft-reconcile pass, fleet-wide strip
+orchestration (build the missing `make lift-types` that loops all overlays + `--exclude` the irreconcilable),
+and R22. It is high-value (roadmap B4) but must be planned, not improvised. The 4 cores stay ×1 until then.
+
+## 2026-07-23 (Phase 29, SESSION-13) — UPDATE: the §20 type-lift IS safely executable when SCOPED to clean types (lift_types.py works)
+
+Refines the "do NOT improvise it" entry above. The fleet type-lift is NOT all-or-nothing: `tools/lift_types.py`
+(built this session — reuses build_engine_types' brace-aware parser, picks each type's CANONICAL/majority def
+fleet-wide, strips all local copies, R22 arbitrates) lets you lift the CLEAN subset safely while deferring the
+variant-heavy types. Applied to Mat32 (138 canonical + 1 copy-only variant) + Cam8012E138 (unique): R22
+**140/140**, unblocked **func_8012B4B8 + func_8012E138** for ×138 propagation. **The doctrine:** classify each
+type first (`lift_types --types … ` dry-run reports distinct-def counts + variant overlays); lift the 1-def and
+copy-only-variant types NOW (byte-neutral, R22-verified); DEFER the genuinely fleet-split types (MATRIX 3-def,
+Vec8 180/139, Buf 3-def, M8 2-def) to a per-camp reconcile pass — they need field-access reconciliation, not a
+blind strip. So: not a monolith, an incremental clean-first lift. The variant reconcile is the remaining hard
+part of roadmap B4.
+
+## 2026-07-23 (Phase 29, SESSION-13) — the BROAD 100+-type lift needs collision-vetting + precise strip; the CLEAN 2-type lift stands
+
+Attempted #2 (broaden the clean §20 lift): discovered 102 single-def fleet-local types + added a topological
+sort to `lift_types.py` (dependency ordering — a type with a value member of another lifted type must follow
+it). Two edge cases blocked the broad lift, both caught by R22 (as designed — nothing committed):
+1. **Name collisions.** `actor4c` (struct) vs `Actor4C` (typedef) are the SAME logical type declared under
+   case-variant names across overlays — lifting both → `redefinition`/`redeclared as different kind`. A
+   case-insensitive name-collision exclude dropped it (100/102), taking R22 138-fail → 1-fail.
+2. **-O0 strip precision.** The last straggler (ov_SC01_077's `_o0.c`) hit a link `multiple definition of
+   D_801DAA08` — stripping a type def indirectly perturbed a nearby declaration in the -O0 file format (the
+   diff showed nothing removed AT D_801DAA08, so it is an indirect/format edge case in the strip span logic).
+
+**Verdict:** the broad lift is 139/140-close but needs (a) full name-collision vetting (case-variant + struct-
+tag/typedef aliasing), and (b) a strip that is exact against the -O0 file format. Both are real tool work, not
+a tail-of-session push. **The CLEAN 2-type lift (Mat32+Cam8012E138, +276) stands committed** and proved the
+lever; the broad lift is a follow-up with the harder strip/vet. `lift_types.py`'s topo-sort is kept (correct +
+needed for any future multi-type lift). Doctrine unchanged: classify-first, lift the truly-conflict-free
+types, and let R22 arbitrate — it did.
+
+## 2026-07-23 (Phase 29, SESSION-14) — the broad §20 lift LANDS (154 types, R22 140/140); all three carried "blockers" were misdiagnosed
+
+**Context + belief.** SESSION-13 closed the broad lift at "139/140-close, needs (a) full name-collision
+vetting (case-variant + struct-tag/typedef aliasing) and (b) a strip that is exact against the -O0 file
+format — both real tool work." I opened by treating that as the spec.
+
+**What actually failed.** Fixing the instrument before trusting its readings (R35) changed all three answers:
+1. **(a) is not a naming problem.** `actor4c`/`Actor4C` is a single TAGGED TYPEDEF counted twice with
+   OVERLAPPING spans — 13 such pairs / 6,142 occurrences fleet-wide, 0 with a standalone tag. The
+   case-insensitive exclude that appeared to fix it was a heuristic over a structural fact, and would have
+   wrongly dropped the legitimate `Obj`/`obj` and `Vec`/`vec` pairs. `build_engine_types` had solved this
+   correctly since Phase 26-A; `lift_types` simply carried its own copy of the model (the R33 failure mode).
+2. **(b) is not strip precision.** `ov_SC01_077_o0.c` is the 1 TU of 3,226 that deliberately omits
+   `engine_core.h`. Stripping its types deleted them; `multiple definition of D_801DAA08` was three steps
+   downstream (undeclared type → parse error → implicit int → tentative definition → link collision). The
+   link error named a data symbol that no diff ever touched, which is why the strip-span theory survived.
+3. **A third blocker, introduced by me this session.** `--candidates` classifies per ENTITY but emits per
+   NAME; passing `Prim` dragged in the deferred VARIANT `typedef Prim`, repointing 103 overlays at the
+   header's different layout. Compiled clean; per-binary pre-filter green; **R22 37/140**, and the 103
+   failures were exactly the 103 Prim-stripped overlays (set equality).
+
+**The pivot.** Three guards, each at the point of mutation rather than in the selector: one shared
+containment model (R33), a pairwise-disjointness assertion (R32), a header-visibility check, and the strip
+invariant *"remove a local def only if what becomes visible is textually identical to it."* A selector bug
+can no longer reach the source. Byte-grounded: R22 **140/140**, `engine_types.h` +510 lines, 2,958 files.
+
+**Hindsight — the better path.** Two of my own measurements lied before the tools did: an `__attribute__`
+regex artifact invented a "defs that also declare an object" class (zero real instances — I nearly built a
+`cdecl` vetter for it), and a `while read` loop counted the literal string `check-all:` as an overlay. R14
+applies to the three-line script I just wrote, not only to sub-agents. And the pre-filter lesson generalises
+§61 one level down: **a pre-filter is evidence only about what it filtered** — `ov_SC01_077` passed the
+Prim-broken run too. Pre-filter on a binary that FAILED.
+
+**Deferred, named, not dropped:** 8 VARIANT entities (MATRIX 3-def, Buf 3-def, Vec8, Prim, Handler, Blk8,
+V8, Prim_8016E7C8) for the per-camp field-access reconcile — still the remaining hard part of roadmap B4;
+14 carried tags; 5 types kept local in the -O0 TU.
+
+## 2026-07-23 (Phase 29, SESSION-14) — "should a fresh decomp do types FIRST?" — no for matching; yes for one cheap naming convention
+
+**Context.** Drew asked whether doing the type work up front would help a lot — e.g. for Vagrant Story or a
+fresh game decomp. Worth recording because the intuitive answer ("of course, types make code readable and
+matchable") is **byte-refuted by this project three separate times**.
+
+**(a) Types are byte-NEUTRAL for matching.** Phases 16, 17 and 18 each re-confirmed it: gcc's output is
+determined by access WIDTH and OFFSET, which we read directly off the MIPS opcode; a struct definition is a
+spelling convenience for `*(s16*)(p+0x24)`. Phase 16 spent an entire phase on "recover the actor struct →
+matching gets easier" and the byte-gate refused it. SESSION-14 closes the loop from the other direction:
+lifting 154 types fleet-wide banked **zero** new matched functions.
+
+**(b) What types gate is SHARING, and that is architecture-specific.** BFM's economics are "match once →
+stamp ×138 overlays"; a matched body naming a file-local type cannot enter the shared header, so it cannot
+be stamped (§20 cap). That lever exists because 138 overlays run the same engine. A decomp without that
+duplication gets far less from types-first. **For VS specifically: unmeasured.** Same compiler and CC0, so
+the gcc idioms transfer; whether its structure supports propagation is an open question, not a claim.
+
+**(c) The cheap exception is a NAMING convention, not type recovery.** Seed documented SDK types on day one
+(we found THREE contradictory `MATRIX` layouts, and the 578-file majority — `{s32 m[3][3]; s32 t[3]}`, 48B —
+is almost certainly WRONG versus the documented PsyQ `{short m[3][3]; long t[3]}`, 32B, which sits in only 71
+files; it spread precisely because it never mattered for bytes). Then forbid bare generic type names at
+DRAFT time: measured, **7 of the 8 collided names are bare** (MATRIX, Buf, Vec8, Handler, Blk8, V8, Prim),
+and the one address-suffixed collision (`Prim_8016E7C8`) differs only in a member's type spelling.
+
+**The transferable lesson** (→ the public "how to AI-decomp" wiki): the type camps were **self-inflicted by
+parallel agents** each inventing a local name and layout for the same memory. Enforcing an address-suffixed
+naming convention at draft time costs nothing; cleaning it up afterwards cost a session. **Types-first would
+not have made one function match sooner; a naming convention would have saved most of SESSION-14.**
+
+## 2026-07-23 (Phase 29, SESSION-14 close) — the §20 propagation cap was gating DE-DUPLICATION, not coverage
+
+**Belief going in** (carried from Phase 19/20 and restated in the SESSION-13 checkpoint): the §20
+local-type cap is "the single biggest propagation unlock" — free the capped cores and the fleet %
+follows. This session tested it end to end and the bytes say otherwise.
+
+**Measured.** The broad type-lift freed 17 propagatable cores (13 banked ×138) = **−831 stubs**. Then the
+uniquify campaign (Buf → MATRIX → Vec8; 3 camps, 223 files renamed, ~1,559 local copies stripped, 5
+propagations, 4 full R22 cycles) freed 6 more cores and moved the fleet by: **+6 functions, +558
+instructions, −6 stubs, 0.00pp on all three headline metrics.**
+
+**Why.** A core capped by a local type was still MATCHED in every overlay that has it — each overlay's copy
+had been banked individually. Propagation replaces those N individual definitions with one shared
+`DEFINE_func_*()` macro. That is a source-DRY win (and it shrinks the registry/gate surface), but it banks
+no new bytes, because nothing was unmatched. **"Unblocked" and "unmatched" were being conflated.**
+
+**Consequence for the roadmap.** Roadmap B4 ("close the propagation cap") should be re-labelled as a
+maintainability item, not a coverage lever. The remaining camps (Handler, Blk8, V8, Prim, Prim_8016E7C8)
+are small AND now known low-yield — do them opportunistically, never as the session's main bet. **The only
+lever that moved distinct-code today was nothing: it sat at exactly 3,811,442/5,634,875 = 67.6% at open and
+at close.** Fresh cracks are the sole mover of the distinct-RE number, and that is where the next session
+should point.
+
+**What the campaign IS worth keeping for:** the uniquify recipe + `tools/uniquify_type.py` (the correct
+operation for same-name-different-type camps, §64a), the blocked-queue drop 13 → 7, and the R32 fix that
+makes `dedup_propagate` name what it skips. Cheap to re-apply later; just not a yield play.
+
+## 2026-07-24 (Phase 29, SESSION-15) — crack-wave efficiency audit: the bottleneck is INTEGRATION, not idioms
+
+**Question (Drew):** waves cost millions of tokens each — how many succeed, and are we missing a new idiom?
+
+**Measured (2 LLM waves, byte-verified):**
+- s14: 24 drafted / 20 match_one MATCH / **6 whole-binary banked** / 2.52M tok.
+- s15: 24 drafted / 22 match_one MATCH / **6 whole-binary banked** / 2.77M tok.
+- Draft success ~**92%**; bank success ~**27%**.
+
+**Are we missing an idiom? NO — verified against the bytes.** Re-ran match_one on 6 s15 NON-banks:
+all 6 are MATCH (byte-correct bodies). The drafters find the right idioms (92% byte-correct C). The
+functions that don't bank are **byte-correct-but-unintegrated** — the whole-binary build rejects a
+declaration/type conflict (def-side sig, data-extern type, unshared struct), NOT a wrong instruction.
+The only recurring genuine codegen residual is the phantom-frame schedule class (~2/wave) — minor.
+
+**The waste:** each wave produces ~22 byte-correct functions and banks 6, **stranding ~16 paid-for
+correct functions**. 461K tok/bank now; if integration recovered all 22, ~126K tok/bank — a **3.7×
+efficiency gain for ZERO additional drafting tokens.** We already bought the correct code; we throw
+away 73% of it at the gate.
+
+**Conclusion / next investment:** the bottleneck is INTEGRATION AUTOMATION, not drafting and not idioms.
+Pointing more tokens at drafting strands more correct functions. Build a **fleet-safe integration-recovery
+pass** (def-side sig reconcile + data-extern reconcile + auto struct-def lift, R22-validated) that runs
+after the gate — NOT fix_header_decl (fleet-blind, §63). It ~3.7×'s the yield of every wave, past and
+future. Stop waves; invest in integration tooling first, then resume at ~3× efficiency. (Drew stopped the
+waves on this instinct — the data confirms it.)
+
+## 2026-07-24 (Phase 29, SESSION-16) — the integration-recovery pass: measured, and the §20 DEF-conflict wall refuted per-overlay
+
+**Belief going in (SESSION-15 audit).** Waves bank ~27% of drafts; the ~73% stranded are "byte-correct
+bodies stranded by plumbing", so a fleet-safe integration-recovery pass would **~3.7×** every wave's
+yield for zero new drafting tokens. Drew stopped the waves on that finding and this session was
+chartered to build the pass.
+
+**What measuring first changed (before any recovery tooling existed).**
+1. **The premise was ~2/3 true, not true.** Among the 36 STRANDED drafts, `match_one` says **24 MATCH,
+   11 near, 1 ERR**. The "~92% byte-correct" was a whole-wave figure; the residue is **67%**. The 11
+   `near` are unfinished drafts — and they are precisely the ones that compile in their real TU and
+   DIFF. So the recoverable fuel was ~24, not ~36, and the 3.7× was over-stated at the source.
+2. **The blocker was not the class the existing ladder targets.** Running `cast_call_sites` +
+   `reconcile_tu` over all 36 clears `callee_decl` 19→3 and `data_decl` 16→**0**, and converts **1 of
+   36** to compiling — which then DIFFs. §61d verbatim. The dominant blocker is the **shared-header
+   self-decl (21 of 36)**, which no draft-side transform can reach.
+
+**The move that worked, and why it was available.** `fix_header_decl` is off-limits (fleet-blind: 3/3
+per-binary then R22 139/140). §20 had concluded the DEF-conflict class is "byte-proven unrecoverable by
+text transform" because the shared macro's `extern` is the only declaration in the 137 stub overlays and
+"can't be edited per-overlay — it's in the shared header". **The missed move: you do not have to edit
+the header to change what ONE overlay sees — you expand the macro there.** The conflicting `extern`
+lives INSIDE the `DEFINE_func_*` body, so it exists only at instantiation sites; replacing those in the
+overlay's own TU with the expansion, correcting only the conflicting decl to the draft's byte-true sig,
+is a **T1 (binary-local)** edit that cannot reach another binary. `tools/demacroize.py`.
+
+**Measured result.** 13/14 clean candidates MATCH in their real TU; **14 banked whole-binary
+BYTE-IDENTICAL**, R22 clean-fleet **140/140** (three times). Distinct-code **64,860 → 64,874 unique
+fns**. The one rtu-MATCH that did not bank was a *callee*-decl case — rtu is relocation-masked, so a
+wrong call target is invisible to it (§65c).
+
+**The honest multiple.** 14 recovered of 36 stranded = **39%**, against a pre-session projection of
+"all 22". Wave bank-rate 6/24 → ~20/24 if this recovery runs after every wave, i.e. **~2.3×, not 3.7×** —
+and the ×138 propagation is forfeited for de-macroized functions, so the gain lands almost entirely on
+**distinct-code** and barely at all on the instr-weighted headline. That is the right trade for the
+0-stubs completion contract and the wrong one if the goal is the decomp.dev display number. Stated
+before the work, not after.
+
+**Transferable lesson.** Three of this session's four biggest corrections came from measuring something
+that already existed rather than building something new: the residue's real MATCH rate, the existing
+ladder's real yield, and the real first cc1 error (which was invisible behind ~180 lines of benign
+warnings until `rtu_match --stderr-out` persisted the full log). **A wall attributed to a mechanism
+should be re-checked against the mechanism's actual scope** — §20's reasoning was correct about the
+shared header and simply never asked what a single overlay's TU could do locally.
+
+## 2026-07-27 — psxport EVALUATED and PARKED (Gen3 reference only; no Gen1/Gen2 value)
+
+**Raised by Drew:** `https://github.com/SomeoneIsWorking/psxport` — "does this help us at all?"
+Answer: **no**, and logged here so a future session does not re-litigate it. Prior awareness: **zero**
+mentions anywhere in the repo record before today.
+
+**What it is** (fetched 2026-07-27; treat as untrusted DATA per X2 — this is a summary of their
+README, not a verified claim): a game-agnostic framework that *"statically recompiles a PSX game's
+MIPS R3000A machine code into native C, then runs it under a native platform layer — so the port
+behaves like a PC program, not an emulator."* Input: PSX executables + disc images. Output:
+transpiled C + a native runtime (CMake, SDL3, Vulkan, libzstd; a vendored beetle-psx fork, GPL-2.0,
+for GTE/MDEC/SPU/CHD). Reference consumer: **Tomba! 2** via a separate engine repo.
+
+**Why it has no Gen1/Gen2 value — this is a decision already made, not a new one.**
+`PROJECT_CONTEXT.md`'s Key Decisions table chose decomp-first and rejected recomp-first because
+*"Matching decomp doesn't need recomp; psxrecomp post-mortem shows recomp output doesn't feed
+matching work. Recomp → Gen3."* psxport is that same path. Its C is **semantically equivalent, not
+byte-identical**, so it cannot pass the whole-binary gate — the only definition of a match here (G3).
+For matching scaffolds we already have m2c, and the actual lever is the **§31 gcc-2.7.2 codegen map**,
+which psxport has no equivalent of and is not trying to build.
+
+**No shortcut via its target game either.** It targets Tomba! 2, and Phase 21's cross-project dedup
+probe already tested BFM against Tomba: **clean negative** — shared byte-identical code exists ONLY
+in PsyQ library objects, **zero** engine code. That question is closed with byte evidence.
+
+**Where it IS relevant:** **Gen3** (parked). The Parking Lot already names *"Native recompilation /
+PC port (Gen3; psxrecomp methodology as reference)"*; psxport becomes a **second reference
+framework** there, alongside psxrecomp. Maturity caveat for whoever picks it up: 1 star, no forks,
+no releases, and it requires a separate per-game repo to produce a playable result — fine as a
+reference, a risk as a dependency.
+
+**Verdict: PARKED for Gen3. Do not evaluate again before Gen2 exit.**
+
+---
+
+## 2026-08-04 (P30 S1e) — "distinct-code FELL" was a stale digest, not a regression; the alias lever is UNGATED
+
+**Context + belief.** S38 closed with the def-side asm-label alias cracking a 208-conflict class
+138/138 — the phase's best-performing lever. Its checkpoint then gated it in bold: *"distinct-code
+FELL 89.3 → 89.2 — UNEXPLAINED. Do NOT scale the alias lever until it is resolved. The BYTES are
+proven (R22); the ACCOUNTING is not."* The recorded lead was `progress.py:423`'s `SIG` regex booking
+`void aF80146A6C(…)` under the alias name — with the honest caveat, written at the time, that a pure
+naming artifact would move fn-count and distinct-code *together*, and these had diverged.
+
+**What failed.** Two mechanisms, both mine, both asserted before being derived (R14):
+1. *The recorded lead.* Real blindness — but it feeds `classify()`, which computes **fn-count only**.
+   Neither weighted metric ever sees a C identifier; they derive from `matched = sig − corpus.stubs`.
+2. *"The harvest reverted functions to INCLUDE_ASM."* Attractive because that is **byte-neutral**
+   (INCLUDE_ASM pastes the original asm), so R22 would stay 140/140 across genuine coverage loss —
+   the R34 blind spot. Refuted by one grep: **483 stub lines removed, 0 added.**
+
+**The pivot.** Stop hypothesizing; prove the arithmetic. Identical sigs (both denominators unchanged)
++ unchanged `tools/` + zero `INCLUDE_ASM` additions ⇒ HEAD's stub set is a strict subset of the
+prior commit's ⇒ HEAD's matched set is a superset ⇒ **both numerators are forbidden to fall.** A
+reported fall is therefore a statement about the *digest*, not the tree.
+
+**The byte/measurement-grounded why.** Reconstructing each commit's stub set from its own committed
+tree (0 unresolved symbols):
+
+| | instr | distinct | unique fns |
+|---|---|---|---|
+| `10f954627` **true** | 12,394,533 | 5,022,306 | 77,895 |
+| `10f954627` *as committed* | 12,402,412 | 5,029,324 | **78,025** |
+| `HEAD` true **= committed** | 12,405,402 | 5,025,082 | 77,952 |
+
+True delta: **instr +10,869, distinct +2,776 ins / +57 unique fns — everything rose.** The
+`10f954627` digest was **committed stale** (generated from a working tree still holding work that was
+reverted before the commit landed; overstated +7,879 ins / +130 unique fns, never regenerated). The
+next honest digest was lower than the stale one, so the metric *appeared* to fall.
+
+**Consequences (what changed).**
+- **The alias lever is UNGATED** — the blocker was a phantom. It is the phase's cheapest large lever
+  and should be scaled (S4 onward), subject only to the §61 small-batch discipline the two real R22
+  failures taught.
+- `progress.py stub_addrs` no longer swallows `corpus.stubs`' refusal. The old bare `except` turned a
+  fail-closed oracle into a guess: byte-witnessed reporting **instr 100.00% / distinct 100.00%** in a
+  tree with no `asm/`.
+- **`make audit-digest` is new** (in `tools-health`, after `report`): recomputes the three headline
+  metrics from the current tree and fails if the committed digest disagrees. Compares **integers, not
+  percentages** — the +7,879-instruction staleness printed as "94.4%" both before and after.
+- The same swallow was found twice more in the **integration spine** (`cast_call_sites.tu_for`,
+  `reconcile_tu.tu_for`), where it silently reconciled drafts against the default `<ov>.c` instead of
+  the jr/-O0 split TU — the exact bug `cast_call_sites`' own docstring says it exists to fix. Both now
+  propagate. Given the phase's ~24k PLUMBING vs 4,917 DIFF base rate, that class presents as a
+  codegen wall.
+
+**Hindsight — the better path.** The three greps (denominators / `tools/` diff / `+INCLUDE_ASM`
+count) cost under a minute and settle the question *before* any hypothesis is formed. The general
+form, now cookbook §140: **a committed number is a claim about a tree; if it cannot be recomputed
+from that tree it is not evidence, and it must never gate a lever.** The deeper repeat is that this
+is the *fourth* consecutive phase where a "wall" resolved to our own instruments — and this time the
+instrument was the scoreboard itself, which is the one nobody thought to audit because the byte-gate
+is green over it by construction (R34).
+
+---
+
+## 2026-08-04 (P30 S39) — Drew's MASTER_REMAINING_FUNCS proposal: adopt the goal, reject the mechanism
+
+**Context.** Drew, mid-session: *"should we build a full list of all funcs in the entire game… scan
+every single file and use ghidra to verify all funcs, a total list. search for missing overlays,
+missing mains… then check all of our banked funcs and create a third list MASTER_REMAINING_FUNCS =
+total − banked. Each new func we bank, we must remove from the second list."* Explicitly flagged as
+thinking-ahead, not a work order.
+
+**Assessment (recorded so it is not re-litigated from scratch).**
+
+**Lists 1–3 already exist, DERIVED, and are recomputed on every read:**
+- **total** = `.run/sig.*.jsonl` (`sig_image`/rabbitizer over the ORIGINAL bytes, independent of
+  splat): 87,459 distinct fns / 13,141,652 instructions across 140 binaries.
+- **banked** = never stored — derived from the proven invariant (`INCLUDE_ASM` pastes the original
+  asm ⇒ a function not wrapped in it is byte-exact): `matched = sig − stubs`.
+- **remaining** = `corpus.stubs(binary)` — 13,493 open stubs, derived from the filesystem.
+- **"remove it when we bank it" already happens**: banking IS deleting the `INCLUDE_ASM` line, which
+  is the same act as leaving the remaining set. There is no second bookkeeping step to forget.
+
+**Why the MAINTAINED form is the one thing to avoid.** A hand-updated master list is precisely the
+shape the Phase-26 audit deleted ~10 of (file allowlists, `REGION_SUB`, `func_`-only regexes). The
+canonical failure: `.run/fuel_manifest.json` recorded **130 live stubs when the truth was 30**, hiding
+**91.6%** of remaining gain — and nobody noticed, *because a target that is never nominated produces
+silence, not an error*. R33 exists for this ("the best outcome is a DELETED SCANNER"). A
+MASTER_REMAINING file would drift silently, and always in the flattering direction.
+
+**Where the instinct is RIGHT, and the work is genuinely open — the DENOMINATOR:**
+- Phase 27 found **4 hidden SC07 overlays** invisible for a month (code at PAC entry 1); onboarding
+  them moved the honest headline 68.9% → 67.0%. We had been grading against an incomplete game.
+- **39 type-1 code modules remain un-onboarded** (load-address RE pending; roadmap bucket **T**,
+  owned by P31). Until they resolve, **no 100% claim is meaningful** (R34/`disc-completeness.md`).
+- **`main` has NO independent boundary oracle**: `sig_image` cannot sign a PS-X EXE, so main's
+  function list rests solely on a Ghidra sig 7 weeks stale and missing 757 of 2,002 stubs.
+
+**Caveat on the Ghidra half:** for overlays it is **partly circular** — those programs' boundaries were
+seeded FROM splat by `DefineFunctions.java`, so Ghidra would largely confirm splat to itself. The
+independent oracle is `sig_image`, and `make audit-corpus` already makes the two argue (that is how the
+193 `listCdBuffer` phantom slices became visible). **main is the exception** where Ghidra is all we have.
+
+**VERDICT: adopt the goal, reject the mechanism.** Do NOT build a maintained list. Build a **derived,
+coverage-asserted RECONCILIATION** — one command computing total/banked/remaining from the oracles that
+**fails when the independent views disagree**. That is the actual gap: "what's left" is answered today by
+`corpus.stubs`, `worklist.md`, `backlog.md`, `family_hseq.json`, `fuel_manifest.json` and
+`frontier-p30.md` — each individually derived, **never cross-asserted**. P30's T0 had to hand-reconcile
+exactly that (family_hseq 29,961 vs progress.py 28,296, an unexplained R32 gap). A gate that refuses to
+be green while they disagree catches the next one for free. Same shape as `audit-digest` (S39) and
+`audit-binaries` (R36). **Sequencing: P31's opener (it is already the T-bucket phase), or a P30 close
+item if the honest denominator is wanted before the next re-baseline.**
+
+---
+
+## 2026-08-05 (P30 S6/S41) — the definitive disc audit: assert a PARTITION, don't extend a list
+
+**Context.** Drew: *"im getting tired of learning there was more code all along, we really need a full
+audit that definitively lists ALL code that we need to decomp to complete this game."* Justified —
+three separate discoveries in three phases, each a real expansion of the denominator:
+
+| when | what was found | how it had hidden |
+|---|---|---|
+| P27 | 4 SC07 overlays (136→140) | the extractor globbed `0.4.dec`; their code sits at PAC entry **1** |
+| P28 | type-4 row was vacuous for 138 known binaries | `disc_code_sweep` decoded only RAW bytes — **blind to compressed code** |
+| P27 | **39 un-onboarded type-1 code modules** | resident-class; each loads at its OWN address, so not mechanically onboardable |
+
+**The diagnosis (this is the part worth keeping).** Not one of these was a wrong answer. Each tool was
+**correct about the subset it examined and silent about the rest** — a glob, a decode layer, a
+4,096-word window. Extending any single list would have produced the same class of surprise again.
+Measured while writing this: the current sweep windows at 4,096 words, so **782 of 1,328 PAC payloads
+are only partially classified (~55.5M words never examined)**. Almost certainly data — but *nothing has
+checked*, which is exactly the shape of all three findings above.
+
+**The decision: assert a PARTITION over the disc, not a list of code.**
+
+> Every byte on the disc belongs to exactly ONE bucket — onboarded-code / classified-data /
+> audio-video / filesystem-metadata / unused — the buckets sum to the disc, and **residue is a
+> DEFECT** (R32).
+
+Once a gate enforces that, "more code all along" becomes structurally impossible: a further discovery
+would have to come from outside the disc image. This is the same move as `audit-digest` (S1e) and
+`audit-binaries` (R36) — the two gates that ended the metric and citizenship surprises — applied to the
+denominator itself. **A partition with an asserted residue of zero is a completeness proof; a longer
+list is only a longer list.**
+
+**Three layers (tasks #10, #11).**
+- **L1 static partition** — walk from the DISC IMAGE, not our configs; every ISO file → `.CD` sub-file
+  → PAC entry → **both** raw and decompressed layers; classify WHOLE payloads (no window); emit
+  `docs/disc-ledger.md` with per-payload `claimed-by <binary> | UNCLAIMED`; assert the sum.
+- **L2 second oracle (R34)** — today's code test is a heuristic (`valid ≥ 0.90` AND `jr $ra ≥ 0.01`);
+  a small code payload can fall below 1% `jr` density. Cross-check with `sig_image` boundary carving;
+  disagreements become the review queue.
+- **L3 runtime census** — static analysis says "looks like code"; only the emulator says "was loaded to
+  X and executed". A scripted PCSX-Redux tour logging every load (payload → RAM addr → len) and every
+  executed PC range.
+
+**Why L3 is sequenced with the type-1 onboarding rather than after it:** it is the *same run*. The 39
+modules are blocked on load addresses that only runtime RE can give (P9 — a build binary needs its
+address to byte-verify), and the census needs the same instrumentation. Instrumenting it to log EVERY
+load rather than only those modules makes one pass deliver the onboarding data **and** the completeness
+proof. Doing them separately would pay for the tour twice.
+
+**Expected direction of the number, stated in advance so it is not read as a regression:** onboarding
+the 39 RAISES the denominator and LOWERS the headline %, exactly as the main sig regen did today
+(94.5→94.4) and the P27 overlay find did (68.9→67.0). **"100%" is not claimable until the 39 are
+onboarded-and-matched or explicitly excluded with a stated reason** — already in the completion
+contract, and this makes it enforceable rather than remembered.
+
+**Sequencing (Drew's call):** finish the serial crack queue → L1+L2 (cheap, deterministic, and they
+sharpen L3's target list) → L3 + type-1 onboarding. Fold into **P31**, which already owns bucket T.
+
+## 2026-08-06 (P30 S44) — the 78-payload campaign: static addresses dissolve the emulator dependency; "modules" mostly dissolve into overlays
+
+**Context + belief.** `make audit-disc` (S43) enumerated 78 unclaimed code payloads (~3.4 MB). Standing
+doctrine (`disc-completeness.md`, from P27): these are "type-1 modules" whose load addresses are "only
+knowable by runtime RE" — so onboarding was gated on an emulator session (L3), and the completion
+contract carried them as a 39-module backlog.
+
+**What the measurement said (3 read-only agents, byte-verified).** (1) The load addresses are STATIC
+for 46 of 78: the EXE's `loadDestPtrTable` + boot literals + two index tables inside the resident +
+`resident.c:641` + the SC07 pair's own headers give every MAIN payload and the SC07 pair a derived
+address, corroborated by two independent corpus-side voting methods at ~500:1 margins
+(`memory-map.md` §S44). (2) The three biggest "modules" are ORDINARY OVERLAYS stored uncompressed
+(type 1 = raw overlay, type 4 = LZSS) for the standard 0x80128158 slot — ~75–77% of their functions
+h_exact-identical to the onboarded corpus, 802 genuinely novel across all three. (3) The remainder
+tiers honestly: 35 small actor modules at two statically-known ping-pong slots; SC07/3+4 at their own
+slot; 28 script modules (7 × 4 per-disc builds) + 4 stragglers genuinely runtime-determined.
+
+**The pivot.** L3 shrinks from "the onboarding prerequisite" to a small runtime-confirm pass (28+4
+payloads + R34 verification of the static addresses). The campaign inverts: tooling updates → onboard
+the big 3 through the EXISTING overlay machinery → dedup-bank the h_exact majority → batch the small
+modules — all emulator-free. The "new binary class" tooling burden collapses to: `config/modules.mk`,
+a de-ov_'d R36 gate, a vram-derived `family_remap`, glob widenings, and a parameterized
+`new_binary.sh`. Full per-tool table: `tooling-audit.md` §S44.
+
+**Why this was missable for 30 phases.** Each prior tool was correct about its subset and silent about
+the rest (the audit's founding observation) — and the doctrine layer had the same shape: the P27
+"only knowable by runtime RE" sentence was true of the tools that existed then, and nobody re-derived
+it after the loader cluster was matched (the tables were sitting in matched C + the resident's own
+bytes). A confident negative doctrine is a claim like any other — date it, cite its evidence,
+re-measure before letting it gate a campaign (the §146/§147 lesson at doctrine scale).
+
+**Hindsight better path.** When Phase 3 T5 wrote "entries [1]+ are runtime-indexed (no static xref)",
+the honest follow-up was a named open question ("WHERE do the indices live?") rather than a doctrine.
+The answer was one grep away once the resident was matched in Phase 12.
+
+## 2026-08-06 (P30 S45) — Part II lands: the module fleet onboards emulator-free; the denominator is now partition-complete minus a 34-row parked ledger
+
+**Context/belief.** S44's Part I proved the campaign shape on the big 3; Part II was checkpointed as
+"mechanical" — onboard the 35 small MAIN modules + the SC07 pair, dedup, verify, retire the
+superseded tools, re-baseline.
+
+**What happened (byte-verified).** All 40 modules (38 MAIN + SC07 pair) built **byte-identical on
+their FIRST build** at the §S44 static addresses — zero parked, byte-corroborating the loader table
+across all four slots (A/B/boot/SC07). The dedup measure came in exactly as predicted (LOW): 69/1,113
+module fns h_exact-match matched corpus code; the scoped `family_sweep --hseq` banked **408 members**
+(182 into modules, 226 into the big 3 — families Part I's `--only` scoping missed). R22 183/183;
+`audit-disc` UNCLAIMED 75→34 at residue 0.
+
+**What the checkpoint's "mechanical" hid (the session's real work — five instrument findings).**
+(1) A module header can carry a function's JUMP TABLE → the hdr carve must be a dot-typed `.rodata`
+PAIRED with the c segment (standalone rodata emits cross-object `.L` refs; `bin` links in the data
+block). (2) The A4 symbol-window law bit again: `symbols.resident.txt` in the boot trio's stacks
+minted a phantom `DsMix` function inside md_MAIN_011. (3) `family_sweep --hseq`'s stub map globbed
+`sig.ov_*` only — every module member silently "not-stub" (the I.1d widening class; the tool sat on
+the audit's "auto-OK" list). (4) `--bootstrap` sig boundaries GLUE adjacent functions around
+jtbl-dispatch code — 24 false TRUNCATED slices; `sig-modules` now seeds from the built ELF's
+`func_*` symbols. (5) `corpus.audit` counted jtbl `.word` lines as instructions and `progress.py`
+left `INCLUDE_RODATA` symbols unbucketed — both R32 holes the new module layout exposed. Every fix
+carries a negative control.
+
+**The pivot/state.** The completion contract's denominator is now **183 onboarded binaries + a
+34-row parked-for-L3 ledger** (28 script modules + SC02/9 + MAIN/7/9 + **SC03/53/54/56** — three
+rows the S44 exploration never tiered, found by the audit's arithmetic refusing to close). Honest
+baseline: **94.0% instr / 95.96% fn-count / 87.6% distinct** on the grown denominator (was 94.4%
+instr over 143 binaries — the headline fell because the game grew, the honest direction). The ~931
+module stubs + ~1,700 big-3 novel stubs are ordinary crack-wave frontier; L3 shrinks to a bounded
+runtime-confirm pass (P31 bucket T).
+
+**Hindsight.** "Mechanical" batches over a NEW binary layout are where instrument blind spots
+surface — the five findings above were all invisible until 40 same-shaped binaries went through the
+pipeline in one afternoon. The S44 plan's per-tool audit was right to exist and still under-reached
+(family_sweep was "auto-OK"; the plan's "zero build refs" for the retirees was wrong for 3 of 7).
+The discipline that worked: R37 probe-first (one module before 29), negative controls per fix, and
+the R22/audit ladder after every batch.
+
+## 2026-08-07 (P30 S45, part 2) — the L3 tour: a live emulator session run as a measurement campaign
+
+**Context.** The S45 module campaign left a 34-row parked-for-L3 ledger. Drew was available; we
+ran the emulator session same-day instead of deferring to P31 — emulator-first was the right
+sequencing call because his availability was the scarce input and the ledger was the last
+denominator unknown.
+
+**The instrument.** The retail debug menu, summoned by forcing `gameMode=7` in per-frame writes
+over the Redux web API (two instrument lessons the hard way: hex `offset` params are silently
+parsed as 0 — my first 150 "writes" landed in kernel space and a no-op 200 had "verified" the
+write path (R35: a no-op is not a control); and a single write never latches — the game rewrites
+the mode every frame, which is WHY the original GameShark code is a constant-write). Drew
+transcribed the full AREA/SCENE list by hand (docs/debug-menu-list.txt) — flying blind ended and
+10 targeted loads replaced ~150.
+
+**The arc.** One accidental pre-crash capture (SC03/76 during an INN load) was the only positive
+for an hour of scene/dialogue/flag probes — until the INN replication cracked the law: city
+INTERIORS stream script modules, member k ↔ interior k, AREA selects the chapter. After that, 27
+modules fell in ~20 minutes of menu-hopping at four byte-verified slots. MAIN/3 was discovered
+FIRST — the very first snapshot showed id 0x39 at the resident slot during the main menu — the
+audit's classified-data bucket had hidden a 121 KB module both oracles missed; the id-word census
+then proved it was the only such miss.
+
+**What refused to appear.** MAIN/7/9, SC02/9, SC03/53/54/56 — parked with per-state negative
+evidence. A crash mid-tour (dynarec at the kernel vector — wild copy from a state-mismatched
+scene load) cost nothing: the frozen RAM still held its capture, and the savestate-hub pattern
+made later crashes ~20-second events.
+
+**Banked same-session (R30):** 29 onboardings byte-identical on first build; fleet 212; R22
+212/212 (after THREE catches on md_MAIN_003 — the A4 resident-symbol leak again, then an
+extract-order-sensitive splat boundary that the bytes resolved as a data-sentinel-in-text +
+function at +4, now pinned in the curated symbol file); audit-disc UNCLAIMED 34 → 6 at residue 0.
+
+**Hindsight.** (1) A human with a transcribed menu beats an agent guessing scene semantics — the
+DEBUG-MENU-LIST was the session's force multiplier. (2) Negative results with evidence are the
+product: six payloads now carry "never loads in X/Y/Z" instead of "unknown". (3) The write-API
+no-op control was a real R35 miss — verify instruments with a VISIBLE effect. (4) R22 catching
+md_MAIN_003 three times in one evening is the rule working exactly as designed.
+
+## 2026-08-13 (P30 S50) — the A-prop conversion gap: the experiment the artifacts had already run
+
+**Context and belief.** S49's closing checkpoint made one thing the session's first job, on the
+grounds that it "prices everything else": re-gate the 42 (truly 35) unbanked A-prop drafts ONE PER
+TU, to test §170's hypothesis that family-batched cards concentrate members into a single
+destination TU and die of the §169 collision. 320 further batched members — roughly 15M tokens of
+wave — were explicitly held behind that measurement. The belief was that A-prop's 91%-agent /
+57%-gate conversion was an integration-topology problem.
+
+**What failed.** The hypothesis, and the framing that made it look like it needed an experiment.
+Three artifacts already in `.run/` answered it: `gate_aprop1.json` records **5-draft single-TU
+groups banking 5/5** (batch size is not the discriminator); **11 of the 35** unbanked drafts were
+already single-draft groups, i.e. the proposed test had already been run on them; and
+`harvest_failed.ov_SC03_107.classified.txt` names the actual failure verbatim — `PLUMBING:
+undefined reference to 'D_80181900'`, eleven times. §169's own law ("read the classified file
+before theorising about any sweep failure") was written for exactly this and was not applied to the
+sibling lane.
+
+**The pivot.** Diagnose from the recorded verdicts first; run the experiment only for what they do
+not answer. A 40-line static audit — compare each draft's vram-suffixed symbols against the symbols
+the target's own `.s` relocates — classified all 35 in under a second: **24 stale-seed-symbol, 11
+genuine DIFF**, zero ambiguity. One probe banked, then 22 of the remaining 23.
+
+**Why (byte-grounded).** A per-location data symbol is the seed's ENVIRONMENT, not its logic.
+`match_one` compares instruction encodings and is blind to a relocation's target NAME, so a carried
+symbol scores MATCH standalone and fails at link inside the host TU. A-prop's real conversion is
+**87% (79/91)**, not 57% — the lane was never the problem, and the 320 held-back members are worth
+substantially more than they were priced at.
+
+**Hindsight — the better path.** The cheap deterministic audit should have been part of the wave's
+verification step from the start: it needs no build, it is the second oracle (R34) for the one class
+`match_one` structurally cannot see, and it would have converted these 24 in S49 instead of leaving
+them to be re-measured a session later. Generalized rule: **before designing an experiment to
+explain a failure rate, grep the failure verdicts the tools already wrote** — and when a checkpoint
+declares a test the top priority, that is a hypothesis with a plan attached, not a finding (R14/R35
+applied to my own handoff notes).
+
+## 2026-08-14 (P30 S50-Max) — the ordered finish of func_8017C294: how a Max-effort failure gets banked
+
+**Context.** Drew set Max and ordered: read the gcc source, finish cracking `func_8017C294`
+(NEAR 2/246, ×16 reach, ~90 prior refutations), and document the idioms from the three families
+worked. The residual: the target frame carries 32 bytes of never-referenced spill slots the draft
+lacks — invisible dead compiler state, not code.
+
+**What the source reading changed.** Five files deep (combine/cse/reload1/caller-save/mips.md +
+toplev/function), the session replaced inference with mechanism: the complete list of
+never-referenced-slot producers (combine USE-orphans; eager caller-save areas — a discovery, with
+`-fcaller-saves` on at -O2; per-hard-reg spill slots), the exact alignment arithmetic, the orphan
+rule with its `(set (reg:HI) (subreg (reg:SI)))` rewrite, and two proofs by construction: opacity
+that defeats cse equally blinds combine (`num_sign_bit_copies`), and cross-jump cannot delete
+slot-bearing code. R35 was applied to my OWN S50 verdict: the universally-quantified
+"impossible" claim was re-tested from scratch — including the one test nobody had ever run, the
+actual whole-binary gate on the NEAR drafts (verdicts held), a 200-variant randomized structural
+sweep (one new vars-moving dimension found: swapped-arm recomputes, cost ~1:1 in real code), the
+inline-function axis (collapses the chain — proving the source is textual macros), and the cc1
+flag axis (invariant).
+
+**The honest outcome.** Not cracked. The wall is real and now sharply bounded: the missing 32
+bytes require structurally different source with coincidentally identical bytes — a haystack
+outside systematic derivation. Floor stays NEAR 2. Parked for P32 with a complete siege kit.
+
+**The transferable lesson.** A Max-effort "finish it" on a hard wall should end in one of exactly
+two states: the crack, or a mechanism-complete refutation that future work can stand on. The
+difference between this wall-verdict and the cheap kind: every claim in it is either a source
+citation or a byte-measured probe, the instruments (cc1_dumps.sh, sweep_gen.py) outlive the
+attempt, and two NEW reusable decompilation tells (§172a: lhu/lh typing; macro-vs-inline
+redundancy) came out of the failure. Failures bank too, if you make them pay rent.
+
+## 2026-08-14 (P31 open) — the re-charter: organize the frontier before grinding it
+
+**Context and belief.** Phase 30 closed the overlays at their measured ceiling (95.3% instr,
+213/213 byte-identical, 12,059 stubs left). Roadmap-v2's P31 chartered "Scope-Complete + Main &
+Resident" — in practice a per-function agent grind over main (~79.5k weighted ins priced at
+~490 tok/ins) plus queue-consumption. The standing belief was that the remaining mass was
+organized as well as it could be (h_seq families + the S49 cousin tier) and only grinding remained.
+
+**The pivot (Drew, at the Phase-Start gate).** Do not grind blind. Read the cookbook, the gcc
+source, and the PsyQ material deeply; characterize every remaining function by the compiler
+behavior that dominates it; group the thousands of "unique" functions into CRACK GROUPS so one
+exemplar (or a near-2..6..20) carries a whole group; widen the mechanical tooling to accept more
+near-misses, more permutations, more structural/length differences; token efficiency is a
+first-class constraint — deterministic zero-token lanes first, agents only for exemplars and
+genuinely novel classes. Milestone shape: campaign to ceiling (the P30 pattern). Main fully
+included from day one.
+
+**Why (measurement-grounded, from the plan-mode exploration).** (a) The cold tail — 3,238
+units / 215k ins, 37% of the non-main remainder — has NO grouping at all below cousins@0.85,
+and the only sub-exact similarity metric in the repo is one SequenceMatcher tier; no CFG/frame/
+tell features exist anywhere. (b) The LEN wall that refuses every length-drifted member is ONE
+LINE (`classify_member` → LEN), and the measured dominant drift class (li-expansion, 25/86
+near-pairs) is mechanically resolvable. (c) The biggest classified failure class is PLUMBING
+(1,217 distinct fns, ~204 symbols) — declarations, not codegen — plus 75 byte-correct
+integration-blocked MATCH drafts: cheap banked wins sitting idle. (d) Main's fuel gap was
+already closed (2,001/2,002 Ghidra-C cached) and 33 main stubs have exact-h_seq matched seeds
+in the fleet — main is not as barren as the 0.85-tier verdict suggested; nobody had ever
+clustered main against itself. (e) The §172b detectors (EXTPAIR/SELECT) were declared but never
+implemented, and the 892-record near-miss audit with per-draft opcode-transition histograms was
+never joined to anything. Organizing first converts N independent cracks into one crack + N
+mechanical/cheap transfers — the same economics that carried every prior tier (h_exact dedup,
+h_seq remap, A-prop autodraft).
+
+**Ratifications.** Plan approval (gate 1, 2026-08-14) formally ratified R37 (probe before
+costing), R38 (read the recorded failure verdicts before designing an experiment), and R39
+(negative-control every new refusal-check against the already-succeeded population) — all three
+operated as binding through P30 and are now rules.
+
+**Hindsight — the better path.** This is accelerator A6 ("regroup the residue by structure
+before calling it unique") applied one level up: build the ATLAS — features + tiers + evidence
+joins + lever labels — the moment a frontier stops being family-shaped, not two phases later.
+The next project should build the feature/similarity layer right after its first propagation
+engine exists.
+
+## 2026-08-14 (P31 T7) — the LEN-LI mechanical cousin lane: killed by its own probe, correctly
+
+**Context and belief.** The phase plan's Leg B promised a fully-mechanical lane for the LI-ONLY
+adapt cards: align a cousin member against its matched seed, recognize the li-cluster length
+drift, swap the constant, bank for $0. The alignment engine (`tools/family_align.py`) was built
+and negative-controlled (NC-1 verdict-equivalence with `classify_member` 157/157 banked pairs —
+after two real classifier fixes the NC itself caught: R-type non-shift sa diffs are STRUCT, and
+registers are tested BEFORE the reloc skip; NC-2 imm-engine parity 21/21).
+
+**What the probe said (R37, before any driver was built).** Classifying all 26 live LI-ONLY
+cards: **0 mechanical** — STRUCT-ALIGNED 16 (regfields drift ×19) + LEN-STRUCT 10.
+
+**Why (the premise error, named).** A cousin seed is a 0.85-similar DIFFERENT function, not an
+h_seq sibling — its register allocation naturally differs everywhere, so a word-level positional
+remap between cousins was never viable. §168 law 1 says exactly this ("a cousin is a SEEDED
+CRACK, never a family_sweep remap") — the plan's mechanical lane contradicted the measured
+cousin law, and the probe re-derived the law for ~$0 instead of ~30 wasted builds.
+
+**What survives.** `family_align` itself — the aligned classifier + the aligned/cluster imm
+engine — whose correct consumer is the LEN+N NEAR-MISS pile (T8): a draft vs its OWN target is
+the SAME function, where registers agree outside the drift regions and the §172b tells route the
+indels. The 26 LI-ONLY cards stay agent cards (correct all along). Also parked for T8: lui-bearing
+clusters need a reloc-vs-constant range discriminator (`reloc_indices` conservatively flags every
+lui+consumer as an address anchor).
+
+**Hindsight.** The probe order in the plan (build NCs → probe ONE card → then the pile) was
+right; what it should ALSO have said is "probe the CLASSIFIER against the pile before building
+any driver" — that reordering is what saved the effort here.
+
+---
+
+## 2026-08-24 (P31 S59) — the A-prop 0-bank decomposition: consume the verdicts you already compute
+
+**Decision.** When the free A-prop lane banked 0/117 three passes running, the response was to
+decompose the failure population INDIVIDUALLY (four probes, four DIFFERENT causes) rather than
+treat "the lane is broken" as one defect — and then to fix each class in the LANE, not as one-off
+rescues.
+
+**What the decomposition bought.** 117 staged = 82 already-refuted-by-match_one (staged anyway:
+the filter read `status==AGREE` and ignored `shape`) + 19 judged by the WRONG oracle (standalone
+compile for a TU-destined draft; 7/27 were byte-perfect in their real TU) + 16 byte-correct
+bodies stranded on TU decl walls the pipeline had a tool for but no wiring to. Even the "gate
+never saw it" probe artifact decomposed: a triage harness racing itself on an fn-keyed scratch
+dir — the third fn-keyed-collision defect found in one session (staging filter, reloc --fix
+rowmap, triage dir), which is now a named anti-pattern: **key nothing by bare fn name; overlays
+share function names.**
+
+**The general law (cookbook §270).** A mechanical remap is judged four times — instructions,
+symbols, TU coexistence, whole-binary bytes — and a lane that stages on fewer than all four burns
+a build per missing layer per pass, forever. Result of wiring all four + the decl-layer fixes:
+the same population banked 64+ in one session, zero model tokens, and the mechanisms are in the
+unattended lane.
+
+**Ceiling honesty (R41).** The lane's own number ("117") was a stage count with a
+three-quarters-hopeless numerator. The real denominator is 973 open members; the mechanically
+reachable slice is ~120/pass banking at ~50–60%; the remaining ~850 are named residuals (169
+STRUCT cracks, 121 type-inference, ~73 IMM tier-2, wrong-family cards) — work for different
+tools, not this lane. Saying so beats reporting a flattering fraction of the wrong denominator.
+
+## 2026-08-25 (P31 S61) — the wall is an integration wall: stop re-drafting solved functions, re-judge them
+
+**Context and belief.** Through S58–S60 the campaign optimised the wide wave: band, mix, card
+count, sibling-inclusive draws, straggler handling, gate parallelism. Each lever moved yield by
+single digits while first-gate conversion slid from 51% (dd) to 1–6% (en/eo/ex/ey/ez), and the
+going explanation was population exhaustion of a *codegen* frontier — the gen6+ "wall".
+
+**What the measurement said instead** (`docs/tool-designs/frontier-analysis-s60.md`, a read-only
+Fable audit at session end): of the 292 functions refused six or more times, 178 had ALREADY
+produced a closeness-0 draft — byte-equal at the object level, refused by the whole-binary gate —
+and across the open pool ~571 functions had finished drafting. The fleet kept re-drafting them
+(10,049 reject rows over 574 distinct functions), and the gate spent ~3 whole-binary builds per
+failing draft confirming failures that were never about the draft's text.
+
+**The pivot.** Build the deterministic lane the analysis asked for instead of touching the wave
+again: `tools/integration_resolver.py` treats the ledgers as an INDEX (not a promise — a July
+closeness-0 draft can CC1-fail today because the fleet's declarations moved), re-judges every
+candidate at the REAL split TU with `rtu_match`, requires `reloc_identity` to agree on symbols
+(rtu masks relocation fields, so a wrong symbol name still reads MATCH — R34's disagreeing
+oracle), rebases with `aprop_symfix` where only names are wrong, stages, gates on the whole-binary
+SHA, commits at once (R42). Refuses main by name, `//@EDIT` drafts, dirty trees, collapsed
+registries; a negative control over recently-banked functions must pass N/N before a verdict is
+read (its first form picked carve moves as banks and failed 9/12 — fixed before any stock verdict
+existed, R35).
+
+**Why, in numbers (denominators, R41).** First pass, 2026-08-25 23:38–23:48: 1,352 nominated
+(binary, fn) pairs → 901 already banked, 27 main → **424 judged in 41 s → 245 staged (57.8%) →
+63 banked** (net INCLUDE_ASM delta; the commit subject's "72" counted 9 carve moves), zero model
+tokens, ~10 minutes wall. The wave lane's best recent gate banked 13 of 222 in a ~30-minute gate.
+The falsifier (<5% survive intake) was not close.
+
+**What the refusals then taught, byte by byte.** 182 doubly-verified drafts were still refused.
+Probe 1 (`md_SC03_076/func_801EFBB4`, 407 ins): the spliced binary builds and 66 bytes differ at
+file offsets 324–2440 — the `.rodata` jump tables the stub's `.s` carried (`jtbl_801EF5AC`,
+`jtbl_801EF5E4`) move by one word when the compiler emits them itself: the §8e/§260 table-placement
+class, not codegen. Only 43 of the 182 carry rodata at all; 139 (in 16 binaries) were refused with
+no rodata coupling — that residual is the next thing to characterise (cookbook §293 records what the
+probes find).
+
+**Hindsight — the better path.** The ledgers held the evidence for weeks: `closeness: 0` rows with
+"whole-binary gate rejected — CAUSE NOT DETERMINED" as their verdict. A verdict that names no cause
+is a measurement nobody can act on; the cheap move — re-judge the stored body at the real TU and
+diff the BYTES of the built image against the good one — costs ~90 s per function and should have
+been the gate's own failure report from the day the ladder was built. Generalisable: when a
+correctness oracle says "no" without saying where, build the second instrument that says where
+before tuning anything upstream of it.
+
+## 2026-08-26 (P31 S61, small hours) — the RED fleet: the wave collapse had a third cause nobody was billing
+
+**Context.** After the resolver banked 63 zero-token functions, 182 of its doubly-verified drafts
+(rtu-MATCH at the real TU, reloc-AGREE on symbols) were still refused by the whole-binary gate, and
+the per-binary refusal counts were all-or-nothing: 23/23, 23/23, 18/18, 13/13 in single binaries.
+
+**What the probes said.** All-or-nothing per binary is not a property of drafts. A clean-tree build
+of the fully-refusing binaries: 15 of 214 fleet binaries were baseline-RED at HEAD — seven not even
+building (stale JTBL_PADS after S60's evening banks/reverts), the rest byte-shifted (a missing
+interleave entry; a wave-committed half carve). They had been red for 4–12 hours because the fleet
+R22 sweep was guard-skipped whenever any gate was in flight — i.e., always. Every wave gate and
+every resolver gate against them since was a measurement of the BINARY billed to the DRAFTS —
+part of the "1–6% conversion" story S58–S60 attributed to population exhaustion.
+
+**The pivot.** Stop diagnosing drafts; audit and repair baselines: per-binary clean audit → the
+byte-proven repairs (jtbl_pads_fix for pad drift — itself first un-broken three ways, R40;
+insertions-only interleave regeneration from the splat yaml for layout shifts) → a gate-side
+BASELINE-RED refusal so a red binary's drafts are never judged (negative-controlled both ways) →
+re-open the mislabeled refusals in the resolver ledger for automatic re-judging.
+
+**Casualties of the night, recorded because they are the pattern.** The repair tool's own writer
+poisoned the registry into a make parse error that failed every build of every binary for ~9
+minutes, voided one wave's re-gate and its own candidate search, and was adopted by a blanket
+pre-gate commit (R52 instance #2). Two gater-restart helpers killed themselves via unanchored
+pgrep self-match (the S60 hazard, from the other side). Every one of these is the same lesson:
+the instrument — including its write path, its restart path, and the baseline it measures against
+— is part of the experiment.
+
+**Hindsight.** The S60 close declared "tree clean, all lanes stopped" and was true, while 15
+binaries were silently red — "clean" and "green" are different invariants, and only one of them
+was checked. A session-close ritual (and any wave post-mortem) should quote the fleet's GREEN
+count next to the tree's cleanliness; tonight that number was 197/214 pretending to be 214/214.
+
+---
+
+## 2026-08-31 (P31 S67) — The frontier's largest single class is CARVE PLUMBING, not codegen; and an optimistic probe is how it stayed invisible
+
+**Context.** S66 closed with 530 open functions and a free-wins audit naming four "zero-drafting"
+lanes. S67 opened by measuring what is actually on disk: `tools/strand_census.py` finds **193 of the
+530 open functions already have a draft**, classified in their real TUs as 37 MATCH · 67 NEAR ·
+89 CC1-FAIL (219 draft files; 1,885 wave targets seen, 1,521 already banked, 166 open functions
+never drawn at all).
+
+**What the probes said.** Gating the 37 MATCH drafts banked **0 of 13** before I stopped the run —
+and the reason was not codegen. Probing the whole jtbl class with the REAL planner instead of the
+cheap probe: **159 of the 530 open functions (30%) reference a jump table, and 96 of them cannot be
+carved at all** — `build_carve` refuses a plan whose same-subseg `.rodata` carves would be
+non-contiguous (one object cannot leave a hole for an uncarved neighbour's table). 75 of those are
+non-main, across 38 subsegs. Not a compiler wall, not a declaration wall: carve plumbing.
+
+**Why it was invisible.** `jtbl_carve --probe` called only `island_probe`, which answers *where does
+this table live* — necessary, not sufficient. Every one of the 96 probes "carveable". The S66 audit
+priced 32 of them as free on exactly that reading, and `ov_SC02_000:func_8017F950` — named on that
+free list — refuses. The planner is a PURE function, so the probe can just call it; it now does
+(cookbook §322). The generalisable rule: when a cheap probe and an expensive applier disagree about
+feasibility, check whether the applier's DECISION half is separable from its MUTATION half — if it
+is, the probe must call it, because an optimistic probe does not merely lose opportunities, it
+manufactures work plans.
+
+**The pivot.** Stop treating the stranded-draft pool as a gating backlog. Two lanes, in this order:
+(1) the **89 CC1-FAIL drafts**, where two of the five levers their errors call for
+(`scope_data_externs` §8d and `normalize_self_decls`) exist but are wired ONLY into the family
+lanes — a draft written by a wave agent has never seen either, and 43 of the 89 sit on exactly
+those two; (2) the **jtbl unblock**, which is the bigger prize but is gated on `jr_isolate_all`
+round-tripping, which it currently does not.
+
+**What the attempt at (2) proved, and cost.** ov_SC02_000 took three defects to reach the byte gate
+and still fails it: the carried-decl layer emitted `struct sprite8` four times (dedupe added), then
+re-emitted a type `engine_types.h` already defines (header-skip added), then compiled and linked
+and diverged (`#if` guards do not travel with a carried block — open, cookbook §323). 20 of 35
+blocked overlays dry-run clean, and that number means nothing until one round-trips.
+
+**Casualty, recorded because it is the pattern.** I diagnosed the 13 `near` verdicts as my own
+mis-invocation and killed a running gate loop on it. Wrong: `--src` is never defaulted,
+`harvest_verify` derives each draft's TU, and `match_one_closeness` re-derives the asm subdir per
+function — all three documented in comments I had not read. Cost: the last five binaries of that
+pass, main's nine included. The correct reading was available in the code before the pkill.
+
+**Hindsight.** Two of this session's three real findings came from distrusting a green-looking
+signal: R53 caught a failed build whose stale binary still hashed to the locked SHA (twice), and
+§322 caught a probe that had never been asked the blocking question. The one thing I did NOT
+distrust in time — my own first diagnosis — is the one that cost work.
+
+## 2026-09-01 (S70) — The postgame reframe: tools must work over the CRACKED corpus, not just the frontier
+
+**Context + belief.** Phase 31's whole apparatus — waves, cards, gates, the residual classifier — was
+built to consume the *remaining* work. Every tool's population is "open stubs". The frontier is now
+355 real functions (67 main game-code + 288 non-main; main's other 960 open stubs are PsyQ library
+code that is not a matching target at all), so tools scoped to the frontier are scoped to a shrinking
+and unrepresentative slice.
+
+**What prompted the pivot.** Drew, mid-probe: *"this tool should work for all previously cracked funcs,
+not just the remaining work. we are focusing on the postgame now, this project being used for all
+future decomps, the tools/cookbook, everything."*
+
+**The measurement underneath it.** The S70 coverage probe found `residual_rules_b` returns UNKNOWN on
+**52.8% of real near residuals, and 57% of the cleanest (<=8-diff) band** — the band where a rule is
+worth writing. Hand-labeling 4 of 4 sampled UNKNOWNs mapped them to existing cookbook buckets; one
+(`WIDTH/lhu!=lh`, a one-word `u16`->`s16` fix) already has its discriminating signature COMPUTED by
+`residual_class` and still returns `top=None`. The asymmetry is 1,062 cookbook sections vs ~13 coded
+rules, concentrated in the buckets with the most prose (regalloc 127, types/width 93, structs 86,
+scheduling 85). So the rules are worth building — but hand-authoring 100 rules from prose is exactly
+the slow path this project keeps learning to avoid.
+
+**The pivot.** The ~850 MATCHED functions are a **labeled ground-truth corpus** and were never used as
+one. For any banked function we hold both the earlier failed drafts (on disk under `.run/`) and the
+known-good final C (in `src/`): the residual is recomputable and the correct label — *the fix that
+actually worked* — is derivable from the draft->final diff rather than guessed. That converts rule
+authoring from prose-reading into mining known answers, supplies a real precision/recall validation
+set, and makes R39 negative control free (a candidate rule must not misfire anywhere in the banked
+corpus).
+
+**Why it matters beyond BFM.** A classifier that learns from *a project's own matched corpus* is
+portable: any decomp with a byte-gate and a growing `src/` can bootstrap it. That is the postgame
+deliverable — the reusable method (tools + cookbook), not this one binary. It also inverts the
+economics recorded all phase: the matched corpus GROWS while the frontier shrinks, so a
+corpus-trained tool gets stronger exactly as the frontier gets harder.
+
+**Hindsight / better path.** The signal was available much earlier. The byte-gate has been a perfect
+correctness oracle and a null coverage oracle since Phase 5 (R34), and every banked function since
+has carried its own answer. We measured tools against the frontier for ~20 phases because that is
+where the *work* was, never noticing that the *answers* were accumulating on the other side. The
+generalizable lesson: **when a project accumulates verified outcomes, that archive is training data
+for its own tooling — scope a tool to the answers, not only to the open questions.**
+
+---
+
+## 2026-09-02 (P31 S71) — The §406 sweep was priced by SHAPE and refuted by RESIDUAL; the frontier's real lane is integration
+
+**Context and belief.** S70 closed with a fresh-session checkpoint whose first instruction was
+unambiguous: "**START HERE — THE §406 PROLOGUE-WEAVE SWEEP. This is the single biggest measured lever
+on the board and it needs no agents.** 134 of 1,237 open stubs (11%) carry the shape; the residual is
+ALWAYS the `sw $ra` slot; twelve alternative variants are already measured inert." The mechanism was
+real and hard-won — traced in cc1's own `.i.sched2` dump, byte-proven on the banked exemplar
+`ov_SC02_005/func_8017F898`. The belief was that one scripted edit over a known class would bank
+dozens of functions for zero agent tokens, which is the project thesis in its purest form.
+
+**What failed.** Both halves of "134 of 1,237" were wrong, and the error was in the counting, not the
+compiler work.
+
+* `corpus.stubs` counts main's **960 PsyQ LINKED library stubs** as open. The real frontier is **210**
+  (main 64 + non-main 146) — the checkpoint even records that partition three paragraphs later, and
+  the census still did not apply it. Class census 134 -> 77 after the filter.
+* The census predicate matched a **shape in the target** (`sw $s0` / `move $s0,$a0` / `sw $ra` within
+  24 lines) which is symmetric: it cannot tell a target that keeps `sw $ra` early from one that has
+  already sunk it. `main/func_8002EED8` is the second kind, where this lever pushes backwards.
+
+Re-derived from the mine-vs-target disagreement (the direction is two fields of a residual we already
+emit), the lever's addressable set is **15 of 210**, and applying it there produced **0 MATCH / 14
+applied**. The one member close enough for the lever to be decisive (closeness 8) got **worse, 8 ->
+91**: the clobber re-schedules the whole block, it is not a free nudge.
+
+**The pivot.** The same baseline pass — score every real-frontier stub's best stored draft, once —
+found **64 of 210 (30.5%) already at standalone `match_one` closeness 0**, across 33 binaries, and
+**all 210 have at least one draft on disk**. So the frontier's largest lane is not codegen at all: it
+is §376 integration (the TU rejecting a signature the body already gets right). The session redirected
+from scripting the lever to gating those 64 and running the `fix_arity_callers` / `cast_self_callers`
+/ `--sync-decls` chain on whatever the gate refuses. This is the `matching-is-solved-integration-is-
+the-bottleneck` memory arriving as a measurement instead of an impression.
+
+**The grounded why.** A shape census answers *how many functions look like this*; only a residual
+answers *how many are broken like this*, and a sweep's yield is bounded by the second number. The 15
+WEAVE-SUNK drafts have baseline closeness 8, 85, 103, 104, 112, 146, 158, 158, 158, 200, 231, 302,
+362, 400, 502 — the `sw $ra` slot is a symptom inside bodies that are wrong for a dozen other reasons,
+and a scheduling lever can only ever close the LAST diff.
+
+**Hindsight / better path.** R37 (probe before costing) was followed and it worked — five members were
+probed before anything was built, and the probe is what exposed the two counting errors. What R37 did
+NOT force is the step before it: **the checkpoint priced the class when it discovered the mechanism,
+in the same breath as the exemplar's win, and that price was never re-derived against the frontier it
+would be spent on.** The generalizable rule for the endgame: *a class discovered by cracking one
+member must be priced by the residuals of the others before it is written down as a lever* — one
+`--json` field on scores we were already running would have said "15, not 134" on the night it was
+claimed. Cost of learning it here: about one hour of deterministic compute and no agent tokens, which
+is exactly what a probe-first rule is supposed to buy.
+
+---
+
+## 2026-09-02 (P31 S71) — I gated `main` with a tool documented as unable to gate it, and only R22 caught it
+
+**Context and belief.** The session's integration lane was running well: `parallel_gate` in isolated
+worktrees had banked cleanly across 30-odd overlays all night. When 15 of the 64 standalone-match
+bodies turned out to be `main`'s, I put them through the same tool. It reported **11 banked**, the
+merge committed them, and every signal I was watching — worker exit codes, the bank oracle (a stub
+disappeared), the summary line — agreed.
+
+**What failed.** The R22 clean-fleet verify returned **212/213**. `main` did not compile from clean
+(two `conflicting types` errors). Reconciling both declarations made it build — and it was **still not
+byte-identical**. Re-gated one function at a time against a clean tree: **11 of 11 REJECTED.** The
+commit was reverted and `main` was verified byte-identical again before anything else proceeded.
+
+**The rule already existed, three files away.** `ox_campaign.gate_main_batch`'s docstring:
+*"main is gated by ONE CLEAN REBUILD of the whole EXE, never incrementally … main's extract rewrites
+the linker script, so an incremental main gate returns a FALSE DIFF. Measured P31 S58: wave `ab` drew
+105 main cards and banked 0 of them."* `parallel_gate`'s worker **is** `gate_stage`, so it inherits
+that constraint exactly. I had read that docstring earlier the same session, while looking at
+something else.
+
+**Why the failure direction was worse than the one on record.** S58 recorded the false-DIFF direction:
+competent drafts thrown away, loud and wasteful. This was the false-PASS direction: wrong bytes
+committed, reading green until the next clean fleet check. R53 names the mechanism — *a failed build
+leaves the previous object on disk, so a SHA1 check downstream of it reads green* — and R53 was
+written for a different tool and never applied here.
+
+**The pivot.** Fixed as a **refusal in the wrapper**, not a note in the callee: `parallel_gate` now
+returns REFUSED for `binary == 'main'` and names `tools/gate_main.py`. The main lane was then reopened
+properly the next morning and banked 5 (4 after the source-truth correction below), with a bisect
+isolating the one bad draft in 7 rebuilds.
+
+**Hindsight / better path.** Three things would each have caught it earlier, in increasing order of
+generality: (a) run R22 **before** committing a gate against a binary the lane has not gated before,
+not at session close; (b) `gate_main`'s own bank count was also derived rather than measured — it
+printed "BANKED 5 of 6" when 4 had applied, because `len(good)` is *what we decided to keep*, not
+*what was substituted* — so **count from the source in every gating tool**; (c) the general rule this
+session kept re-teaching: **a tool that wraps another tool inherits its refusals**, and the place to
+encode that is a refusal in the wrapper. Every constraint documented on `gate_stage` binds
+`parallel_gate`, `harvest_verify`, and anything else that shells it.
+
+**Cost of learning it here:** one bad commit, ~40 minutes of revert-and-bisect, and an inflated bank
+count I had already reported to Drew and had to correct. Cheap only because R22 exists and was run.
+
+---
+
+## 2026-09-02 (P31 S71) — the drafting pool ran dry, and the lever was an exclude list nobody re-probed
+
+**Context and belief.** With ~40 agents landing at near-100% MATCH, the working assumption was that
+drafting capacity was the constraint and the campaign would continue as draw → draft → gate until the
+frontier was gone.
+
+**What failed.** Wave 3 drew **1 target** and reported *"0 left in pool"*. Measured at that moment:
+174 open, of which `main` 64, and of the 110 non-main — **41 drafted this session, 68 on the exclude
+list, 2 proven walls, ZERO genuinely undrawn**. More agents would have had nothing to work on.
+
+**The pivot.** The 68 excluded functions were excluded because the TOOLING could not carve them —
+`jtbl_carve` refused their plans with *"subseg would host NON-CONTIGUOUS `.rodata` carves"*. But
+tooling had changed **that same session**: `jr_isolate_all` had been fixed twice (file-local `static`
+placement, and §323's `__attribute__`-blind regex). Re-probing all 68 found **17 now reporting `tail`
+— a standard §8a carve**. Every one already had drafts on disk; scoring them put **10 at closeness 0
+for zero drafting**, and the gate banked 9 — four of them in **57 seconds**.
+
+**The grounded why.** An exclude list is a snapshot of *what the tooling could not do at the moment it
+was written*. It is treated thereafter as a property of the FUNCTIONS. Nothing in the pipeline
+re-examines it, so every tool improvement leaves behind a population that is now tractable and still
+marked impossible — invisible, because the draw filters it out before anything measures it.
+
+**Hindsight / better path.** **Re-probe the exclude list after every tool fix, as part of the fix.**
+The probe is deterministic, costs no agents, and here it was worth more than the entire drafting lane
+at that moment. Generalised: *any list that records a tool's limitation must be regenerated when the
+tool changes, or it silently becomes a list of work you have decided not to do.* The same reasoning
+applies to `.run/S71_walls_found.txt` — a wall proven against today's compiler knowledge is not a wall
+forever, and each entry should carry the refutation list that would have to be beaten.
+
+---
+
+## S72 (2026-09-02) — "11 PROVEN gate-rejects" were one missing carve, and the gate could not have told us
+
+**Context + belief.** S71 closed with `main` as the centre of gravity (59 frontier functions but ~45%
+of all remaining instructions) and a hard note in the checkpoint: *"11 main functions score
+`match_one` closeness 0 and are PROVEN gate-rejects (re-gated one at a time) … §376 in its purest
+form — do not re-slate without a TU-level fix."* The belief was that main's remaining difficulty was
+declaration plumbing on top of a hard codegen tail, and the next session's job was the §376 chain.
+
+**What failed.** The verdict was produced by an **ad-hoc script** (`.run/S71_main_bisect.py`), not by
+`gate_main.py`. It lifted each body plus a heuristic preamble into the green `src/800.c` and rebuilt.
+It never ran the project's own pre-check — which, run afterwards on the same 11 drafts, names **6 of
+them** as declaration conflicts against declarations the TU already carries. Four of those never
+compiled at all (`conflicting types`), and one of the six (`func_80031988`) is a **false** conflict in
+`gate_main`'s type comparison (`struct Ent30D80 *` vs its own typedef `Ent30D80 *`). And of the 11,
+**all 11 are switch functions** — a fact nobody had measured, because the gate's entire output is two
+SHA1s.
+
+**The pivot.** Build the missing instrument first (`tools/main_diff_locate.py`: attribute a red image
+to symbols via the linker map), then let it speak. Every one of the four drafts that compiled came
+back with the SAME shape: **1–4 bytes differing inside the drafted function, ~5,200 bytes across ~332
+symbols outside it, one uniform positive delta (+28/+52/+76/+84), first moved symbol always
+`jtbl_80072A4C`.** That is not codegen. That is a duplicated jump table growing the image.
+
+**The grounded why.** `config/splat.us.exe.yaml` has carried exactly ONE `.rodata` carve since **Phase
+7** — LZSS's `jtbl_80072A38`. Every other main jump table stayed raw in the tail data, so a drafted
+switch double-emits its table. Extending the carve to the contiguous game-jtbl span
+`0x80072A38–0x80072C70` is byte-neutral with no draft substituted (probed first, R37), and with
+`jtbl_rodata_pads --derive` taught main's file-offset base, three of the eleven banked
+**byte-identical in 14 seconds**.
+
+**Hindsight / better path.** Two rules, both cheap and both skipped:
+
+1. **A gate that can only say "different" will eventually be believed to have said "wrong".** The
+   diagnostic was not missing by accident — `gate_main`'s R40 baseline control *rebuilds the tree
+   green immediately after a failure*, destroying the red image and its map every single time. The
+   control was right and its ORDER was wrong, and that ordering bug is the whole reason 11 functions
+   sat parked. Any oracle whose verdict routes work must preserve the artifact the routing needs.
+2. **A verdict produced by a bespoke harness is a verdict about that harness.** The project already
+   had `gate_main.py` with a decl pre-check, a bisect, an R40 control and a no-op-substitution guard;
+   the one-off script had none of them and its output was written into the checkpoint as ground truth
+   for the next session. When the real tool exists, a "quick" reimplementation is not quicker.
+
+Generalised (and it is the same shape as S71's exclude-list finding): *a recorded impossibility should
+name the instrument that produced it, so the next session knows what to re-probe when the instrument
+changes.*
+
+### S72 addendum — the decision to split `src/800.c`, and the estimate I got wrong
+
+**The question Drew asked** was whether the split was worth doing and at what effort, framed as
+*"if the devs did it in 1998 let's do it also."*
+
+**The premise needed correcting before it could be leaned on.** The jtbl spans prove there were **at
+least** three TU boundaries in that address range — tables pack tight within a compilation unit and
+are separated by other data across units. They do **not** prove the devs' files were exactly these
+three: a TU containing no `switch` emits no jump table and is completely invisible to this signal.
+What we recover is a LOWER BOUND on the original structure, not a reconstruction of it. Happily this
+changed nothing about the plan — we need exactly enough objects to give each span its own contiguous
+`.rodata` run, three is the minimum that works, and splitting anywhere else would have been
+speculation. Evidence-driven and engineering-optimal coincided.
+
+**The estimate I got wrong, and how.** I told Drew the split would be expensive and quoted it as
+*measured, not guessed*: "26,543 lines with 2,318 scattered `extern` lines and 175 typedefs — the
+exact shape `split_src_region.py` was blocked on for overlays." The measurement was real and it
+measured **the wrong quantity**. 2,318 is the TOTAL number of externs; what the split actually costs
+is how many declarations are used OUTSIDE the region that declares them, and that is **57 of 1,247
+(4.6%)** — 19 typedefs, one definition each, zero shape conflicts, zero file-local statics. The split
+took one afternoon and was byte-identical on the first clean build after the typedefs moved.
+
+**The grounded why.** This is the denominator discipline (R41) applied to an *effort* estimate rather
+than a cost or yield figure. A number with no denominator attached — "2,318 externs" — reads as
+authority because it is precise and true. The question was never "how many declarations are there",
+it was "how many are shared", and nothing in the first measurement was pointed at that. **Quoting a
+real measurement of the wrong quantity is more dangerous than admitting you have not measured**,
+because it forecloses the cheap probe: had Drew accepted the estimate, the 39% of main behind this
+would have been deferred to a later phase on the strength of a number I never should have quoted.
+
+**Hindsight / better path.** Before quoting an effort estimate, state the quantity the estimate is a
+function of and check that you measured THAT. Here one grep — declarations used outside their region
+— was 20 minutes and would have replaced "expensive, needs a shared header, not a naive partition"
+with "57 crossing names, mostly typedefs, one afternoon."
+
+## S75 (2026-09-02) — Seven walls, seven instruments; and the decision NOT to tidy 12,000 functions
+
+### Context and belief going in
+
+The S74 checkpoint handed forward a frontier of ~73 functions and a named list of blockers, chief
+among them "`reconcile_tu` manufactures declaration conflicts — the one unfixed defect that is
+actively costing banks". The working belief, inherited across several phases, was that the remaining
+work was a **hard tail of genuine gcc-2.7.2 codegen walls** with some tooling friction around it.
+`SaveLoadRoutine` (1,165 ins) had been carried as §434, an unbreakable wall, since the phase opened.
+
+### What actually happened
+
+Seven separate "walls" were run to ground. **All seven were instrument defects.** Not one was the
+compiler. The list is in the S75 checkpoint (§442–§447); the shape that matters is that four of them
+were *tools reporting something TRUE about a world that was not the one they were asked about*:
+
+* `reconcile_tu` rewrote legal C into illegal C on a **false premise about cc1 written in its own
+  docstring** ("a decl BELOW still conflicts" — true at file scope, false at block scope).
+* `jtbl_carve` reserved one word too many whenever a function had **more than one `sltiu`**, because
+  `sltiu` is also how gcc emits an unsigned range check — so its guard disabled itself on exactly
+  the functions that needed it, quietly, across the whole corpus.
+* `harvest_verify`'s `overlays.mk` snapshot matched **the first of two blocks** and silently
+  half-restored, leaving a binary unbuildable while `git status src/` showed nothing wrong.
+* `main_diff_locate.classify()`'s `TABLE REJECT` verdict was **unreachable by construction on main**
+  (it keyed on the string `(.rodata)`; main's tables live in `.data` objects) — so a carve failure
+  was labelled a declaration failure and the §376 chain was run at it twice, addressing 5% of the
+  evidence.
+
+### The grounded why
+
+**A class that cannot fire is worse than a class that does not exist.** It converts "I don't know"
+into confident, specific, wrong advice, and that advice then consumes sessions. `SaveLoadRoutine` is
+the exact cost: 1,165 instructions — 9.2% of everything left in the project — sat behind a verdict
+string that named the wrong subsystem, for a whole phase, while its body was byte-identical the
+entire time. Nothing in the pipeline compared the recommendation against where the bytes actually
+were (94.9% jump tables, 5.1% code).
+
+The corollary, which is the session's reusable law: **when a verdict names a subsystem, check that
+subsystem owns the majority of the bytes before acting on it.**
+
+### The strategic decision: leave the ~12,000
+
+Gating `ov_SC01_005` stalled a gate for 30+ minutes. Cause: `dedup_propagate --auto-from <bin>`
+sweeps the WHOLE binary, not the function just banked, and that overlay held **557
+matched-but-never-shared functions**. The fleet census came to **~2,073 distinct functions /
+~12,116 sweep items across 174 of 217 binaries**, every one already matched.
+
+Origin: the July 2026 mechanical family sweeps (`c993029f0` +16,512 members, `025cc03f6` +17,975
+member-matches) bank a proven body as a **private copy per overlay** and register no dedup group.
+That was a deliberate throughput trade — it moved the fleet 66%→71% in one commit — and it left
+tidying behind that nobody has done since.
+
+**Drew's decision: do not convert them.** The precedent our own cookbook records is that *sotn writes
+duplicate functions explicitly*; under that playbook the 12,000 is the normal end state, not debt.
+The sharing machinery is a BFM-specific optimisation for having 211 overlays rather than a handful.
+So: gate with `--no-propagate` from here, propagate only deliberately for a high-reach new match.
+This removes a 30-minute stall from the critical path of every gate permanently, for zero cost to
+completion — the backlog is orthogonal to the percentage.
+
+*Caveat recorded at decision time:* the sotn claim rests on **one parenthetical in our own cookbook**,
+not on sotn's repository. It is good enough to act on for an optimisation we can reverse at any time;
+verify against sotn-decomp before it becomes doctrine.
+
+### Hindsight / better path
+
+Two of the session's own instruments lied before they were trusted — the frontier classifier reported
+38 phantom free twin-remaps (it counted a stale duplicate registry and two *prototype builds* as peer
+binaries) and 32 phantom never-drafted functions (its draft scan globbed `.run/S7*` and missed five
+other draft directories). Both were caught **only** by checking a case whose answer was already
+known, and both were the same defect being hunted elsewhere in the session.
+
+The better path is not "be more careful". It is: **every scan ships with the denominator it claims to
+cover, and gets tested against one known-true case before its number is quoted to anyone.** That is
+cheap, it is mechanical, and on this evidence it is the single highest-yield habit in the project.
+
+---
+
+## S76 (2026-09-03) — EVERY WALL EXAMINED WAS THE INSTRUMENT. FIVE DEFECTS, ONE SHAPE.
+
+### Context and belief going in
+
+S75 closed with "every codegen wall examined — nine of them — was an instrument defect. Not one was
+the compiler." S76 treated that as a finished lesson and planned ordinary work: verify the fleet,
+make the main gate durable and parallel, then bank the near-term frontier. The belief was that the
+tooling was now sound and the remaining cost was drafting.
+
+That was wrong in the specific way S75 warned about, and the session found **five more** instrument
+defects — each one hiding work, each one previously reported as a property of the code.
+
+### What was found, in the order it surfaced
+
+| # | defect | what it asserted | what was true |
+|---|---|---|---|
+| 1 | verbatim drafts accepted by `gate_main` | "9 functions banked, byte-identical" | the drafts were the targets' own asm; `progress.py` moved by **zero** |
+| 2 | same gap in `harvest_verify` | (silent) | the module/overlay half of the same wave reached the tree through a gate with no guard |
+| 3 | same body offered by `api_agent.prior_draft` | "a previous attempt left this body behind" | it was raw asm; with both gates fixed, agents STILL resubmitted it because the pack supplied it |
+| 4 | `match_one` + `rtu_match` modelling `maspsx + as -O1` | a §182/§188 "IMMOVABLE epilogue wall" | those four TUs build through `reorder_passthrough + as -O2`; the wall does not exist |
+| 5 | `draw_waves --main` | `main: refusing 49 LINKED subseg(s)` | **main was never iterated at all** — no `src/main/` directory, so it was never in `bins` |
+
+### The measurements that settle each one
+
+* **#1–3.** One census: **1,099 of 704,375** `.c` files in the draft store are verbatim-asm bodies
+  under ordinary `<fn>.c` names. Negative control on the detector: **0 false positives across
+  45,898** drafts carrying both a real C definition and an inline `__asm__`.
+* **#4.** Same draft, `func_8005ECC0`: closeness **5 / 36 ins** under the old oracle, closeness
+  **2 / 35 ins** under the real build path. Seven of eleven main agents in one wave produced correct
+  C, saw the phantom tail, consulted `oracle_reorder.py` — which said *"file IMMOVABLE, stop
+  grinding, no C-level work can ever close it"* — and each submitted a §265 verbatim body instead.
+  Rescoring old drafts under the corrected oracle recovered **4 functions for zero agent tokens**.
+* **#5.** `0 -> 55` main stubs reaching the pool. Every mixed draw in the project's history
+  contributed nothing from main.
+
+### The shape they share, and why it is not "be more careful"
+
+All five are the same failure: **a tool made a TRUE statement about a scope narrower than the reader
+believed, in language that sounded like a statement about the code.** "Banked." "IMMOVABLE."
+"refusing 49 LINKED subsegs." Not one was silent; four of the five were *loud and reassuring*, which
+is worse, because a confident message is the thing nobody audits.
+
+Three of them were also **the same defect behind more than one door** — the verbatim body had to be
+refused in `gate_main`, in `harvest_verify`, AND in the pack that supplied it, and the reorder path
+had to be fixed in `match_one` AND `rtu_match`. Fixing the consumers is not the same as fixing the
+supply, and a fix made in one of two paths is a fix in neither (the §442/S74 sibling-provisioner
+lesson, now with two more instances).
+
+### Cost, and the hindsight path
+
+The direct waste is small — one wave's worth of verbatim fallbacks, four functions that were already
+solved. The real cost is **historical**: a large part of the recorded "wall" history in the 800c3
+cluster is instrument error, and several functions currently parked in `src/` as deliberate §265
+verbatim banks were parked on a false premise. Agents in S76y are now finding this on their own
+("the six journal attempts... modeled the wrong assembler"), which means the journal — our
+past-attempt fuel, measured at 38/39 MATCH when it works — has been feeding forward false walls.
+
+The better path, and it is mechanical rather than a virtue: **a tool that reports a population must
+report what it excluded from it, and a claim about the toolchain has the same shelf life as the
+toolchain.** The reorder island landed 2026-09-01; the docs asserting it was unreachable were not
+swept, and four tools kept modelling the retired path. A build change must sweep every doc and every
+oracle that asserts what the build cannot do — that sweep is now the missing step in the wave
+playbook, not a habit to remember.
+
+---
+
+## S77 (2026-09-03) — the frontier stopped being a drafting problem, and three contract items moved
+
+**Context and belief going in.** Phase 31 T10 had been a drafting campaign: draw a wave, crack
+functions, bank them. The working belief was that the remaining frontier is *hard functions*, and
+that more/better drafting is the lever.
+
+**What the session measured instead.** A 30-workflow burst over main's entire drawable frontier
+returned **9 banks and 21 NEARs — and nearly every NEAR named its own mechanism**, down to the gcc
+pass and often the source file and line, with measured negative controls. `func_80032A74` reached
+**1 of 422**. The frontier has changed character: it is no longer "we don't know why", it is "we know
+exactly why and C cannot express it". **A NEAR whose note cites a pass and a file:line is a §474
+wall-proof candidate, not a redraft** — costing another wave against that pool would buy
+already-answered questions at full price.
+
+**The pivot.** Effort moved off drafting and onto the three things drafting can never deliver: the
+contract's second oracle for main, the SDK residue, and the `-O0` build gap. All three are
+deterministic, zero-token, and were blocking the completion claim rather than the completion.
+
+**What that immediately exposed — the session's real theme.** Twelve instrument defects, all one
+shape: *a tool asserting about a DRAFT what was true only of the HARNESS*. Ratified as **R61**. The
+expensive ones were not subtle-looking; they were confident:
+
+* `gate_main`'s clash pre-check compared **block-scope** externs against file-scope spellings,
+  making it stricter than cc1 — refusing **566 instructions of byte-correct work** (§481).
+* `psyq_identify`, the placement map the whole library-linking pipeline consumes, parsed
+  `objdump`'s **rendering**, which elides repeated words. It read 520 words for a 526-word object
+  and printed **"not linked by EXE"** for objects that are linked. **+25 objects / 3,877
+  instructions** were invisible, not excluded (§485).
+* A Phase-8 exclusion said four PsyQ objects were unlinkable for "scattered `.bss`". True — and
+  **three of the four are not blocked by it**: `SYS.o`'s two bases have DISJOINT offset ranges so
+  the section splits, and two of the objects have no `.bss` at all (§484).
+
+**Three of the twelve were mine, made the same day**, which is the part worth keeping: a cookbook
+claim refuted by its own tool's negative control (§479, corrected TWICE in one session), an R48
+collision bug in a brand-new tool, and a shell wrapper reading the wrong exit code so I reported a
+red gate as still running. Each was caught by checking against a case whose answer was already known.
+
+**The hindsight "better path".** Every one of these was cheaply detectable at any point in the last
+twenty phases by an assertion the tool could have made about itself: compare the parsed word count
+against the section size; compare the number of drops against the number of judgements; compare a
+static blocker class against what the gate actually does to the draft. **R32 said "assert your
+coverage" in Phase 26; the tools that broke here were the ones that never got that treatment.** The
+lesson is not "be careful" — it is that a derived number must carry its own denominator, and the
+five minutes to add that check is repaid the first time the tool is wrong and sounds right.
+
+**Also recorded:** a yield table is evidence; a story about WHY the yield looks that way is a
+hypothesis and needs its own negative control before it enters the cookbook, because the next session
+will act on it (§479's three versions).
+
+## S78 (2026-09-04) — the completion sprint is chartered on a census, and main's "wall" band turned out to be Sony's controller library
+
+**Context and belief going in.** Drew asked the direct question: what actually remains, are the
+waves done, is the rest tooling? The working belief from S77 was that main's residual stubs were
+compiler-wall work (§332 "%lo in a delay slot", §474 wall-proofs) — genuine codegen the pinned cc1
+cannot reproduce from C.
+
+**What was measured.** Fleet: 51 stubs / 7,710 ins of 13.5 M (0.06%), every one classified by its
+true blocker (`frontier_classify`); 180 verbatim bodies of which only ~9 are Square's or the CRT's
+own asm; 5,827 ins of located-but-unlinked SDK objects sitting in subsegs labelled "game code"; five
+unclaimed disc payloads. No class needs an agent wave. Then the provenance probe: the psx loader's
+per-version PsyQ signature sets (never used before) place the `800c3` band byte-exact as **LIBPAD
+4.2.1 + LIBAPI 4.2** — twelve of main's twenty-nine stubs, including all four §332 walls, are Sony's
+DualShock library assembled in reorder mode, not game code. PsyQ 4.0 (the archive we link from) has
+no LIBPAD; 4.6/4.7 differ except one object. The 4.2/4.2.1x `Ps` stamps identified in Phase 1 were
+these two libraries all along.
+
+**The pivot.** The finish is ordered around provenance and plumbing, not cracking: name the band
+(#12, done: 46 names, Ghidra-mirrored), wire every placed-but-unwired SDK object (#3/#4 — the
+residue the build now prints), hunt a 4.2.1/4.3 LIBPAD.LIB (#13) and otherwise finish the band as C
+under the reorder island with real names (#5), then the mechanical/plumbing/near classes, the ~22
+genuine redrafts as single journal-noted agents, the verbatim end-state, and the PhaseEnd.
+
+**What the first task exposed.** Main's LINKED build had been RED at HEAD since the S77
+`psyq_identify` fix (§485): newly-located in-gap objects merged libgte's 22 stub blocks into 3.
+It read green at the gates because worktree gates have no `.run/obj40` and take the stub fallback —
+the dual "with AND without SDK objects" invariant was only ever verified by hand. Fixed by wiring
+stub↔objects by subseg range (+ exact tiling) and by redefining a library object's exported symbol
+to the curated name (`firstfile`/`firstfile2`, which also caught a Phase-21 xdedup mislabel at
+0x800430B8). And a rename hazard: verbatim `__asm__` bodies spell `\tfunc_X`, invisible to a `\b`
+regex and to the string-masking linter — the linter now scans asm bodies (negative-controlled).
+
+**Hindsight.** The signature JSONs were on disk since Phase 1; one afternoon with them in Phase 8
+would have named the band, explained the 4.2 stamps, and kept the §332 wall verdicts from ever being
+written. General form (now cookbook §487): a wall inside bytes no archive you hold can place is a
+provenance question before it is a compiler question.
+
+### S78 addendum — main was 91.8% game-code all along; the instrument said 59.8%
+
+Wiring thirteen "game code" subsegs as LINKED (task #3) moved `MAIN game-code weighted` from 59.8%
+to **56.1%** with no game-code change — the tell of a broken denominator (R35). `progress.py`'s
+comment asserted the Ghidra sig excluded LINKED objects; measured, it carried every one of them
+(~31,000 ins), and their `INCLUDE_ASM` stub records counted as unmatched game code. With the
+exclusion derived live (Makefile stub lists → yaml ranges), main reads **91.8% (44,562 / 48,537)** and
+the remainder equals the open-stub instruction sum to the instruction. Hindsight: a metric whose
+denominator is a snapshot will drift the first time the thing it snapshots changes; derive it (R33),
+and check it against a case whose answer you already know (the 28 stubs' size).
+
+### S79 addendum (2026-09-04, task #4) — the "scattered-`.bss`" wall class is closed, and the probe that measured it was too strict
+
+**Belief.** From Phase 8 to P31 S77 three SDK objects were excluded from the LINKED build as "scattered
+`.bss` commons — no single NOLOAD base reproduces them": SYS.o (3,109 ins, kept as 56 hand-matched
+Sony functions + 62 verbatim frags in `src/800c.c`), VM_F.o (237, hand-matched as game code in
+`sgap_6`), GS_001.o (384, hand-matched as game code in `gsgap3`). S77's probe reframed two of them as
+"disjoint ranges → splittable" and confirmed GS_001 as the genuine wall ("5 interleaved bases").
+
+**What happened.** Task #4 built the split as a link-time ELF rewrite (`psyq_bss_split.py`, §489)
+instead of a curated-dir artifact, and modelled the section as RUNS of one base in offset order with
+cuts snapped to symbol starts — because the original linker scattered *symbols*, not offset ranges.
+Under that model GS_001 is six symbol-aligned pieces, and the five cut symbols recover by name from
+the other libgs objects at exactly the piece bases. All three link byte-identical; main is `143dbb89`
+with and without the SDK objects; 235 placed objects across nine curated dirs pass through with zero
+refusals.
+
+**Why the probe was wrong.** It grouped references BY BASE and asked whether the per-base offset ranges
+were disjoint. A common that the linker placed between two others (PSDBASEY at +0x38 sits between
+PSDBASEX at +0x28 and CLIP2 at +0x30 in the packed section, but in the game X and Y are adjacent)
+makes two ranges interleave while every run is still single-base. The right unit was the run; the
+right tie-breaker was the symbol table.
+
+**Hindsight.** The worklist's own italic note from Phase 8 said "escalate to a Max general fix (split
+each object's `.bss` into per-common NOLOAD sections)". That fix is ~400 lines and one afternoon; it
+waited twenty-three phases because three exclusions never looked worth a general mechanism, and the
+probe's stricter test then ratified one of them as a wall. General form: when a tool says "no single
+X reproduces it", the next question is "can X be partitioned", and the partition should follow the
+structure the ORIGINAL producer used (here: symbols), not the structure the measurement happened to
+group by.
+
+### S79 addendum 2 (2026-09-04, tasks #13/#5) — the band's twelve "walls" were a library version away; the §332 wall verdicts are closed
+
+**Belief (S68 → S78).** Twelve of main's open stubs sat in `800c3`/`800c2`, four of them curated as §332
+"%lo-in-a-delay-slot" compiler walls, one as a "no jump table" wall, all excluded from waves as facts about
+gcc. S78 named the band (libpad 4.2.1 + libapi 4.2, §487) but expected to finish it as C under the
+reorder island because no archive we held could link it; the S78 brief budgeted a bounded hunt (#13) with
+three leads and a fallback to C.
+
+**What happened.** The first lead — archive.org — held a 383 KB 7z of the Runtime Library 4.2 with SCE's
+February-1998 libpad 4.2.1 patch inside. Every one of the 46 objects it places in main links byte-identical
+(cookbook §490). Task #5 then linked the whole band and the apicard region's C objects (FIRST, PAD, PATCH,
+CHCLRPAD) in one pass: four TUs deleted, the `REORDER_TUS` island empty, main byte-identical with and
+without the SDK dirs, fleet 213/213.
+
+**Why the walls were wrong as WORK while right as FACTS.** §332 is a true statement about cc1 + `as -O2`
+reorder output: no C source reproduces a `%lo` in a delay slot through our pipeline. But Sony never
+compiled that C through our pipeline; they shipped the object. A wall verdict answers "can we match this
+function?"; it never asks "is this function ours to match?" — and that provenance question, once asked
+(§487), was answered by a 383 KB download. The exclude audit had the same blind spot in code: a pinned
+`# WALL` outranked LINKED, so `PopMatrix`/`PushMatrix` sat as walls for eleven sessions while living in
+libgte3, linked since Phase 8. Fixed: LINKED dominates.
+
+**Hindsight.** The order of questions for any stubborn function in a mixed binary is provenance → archive
+→ link → (only then) compiler. We ran it backwards for the band: wall_sweep in S68/S77, names in S78,
+archive in S79. The §487 sentence — "a wall inside bytes no archive you hold can place is a provenance
+question before it is a compiler question" — now has its second half: **and a provenance answer is an
+archive to go and find, not a label to match under.**
+
+### S80 addendum (2026-09-05, tasks #9/#10) — a "bank" that was the assembly, and the permuter that could never see a pin
+
+**Context.** The completion sprint's task #9 (one agent per open function) ended S79 mid-flight; S80 aggregated the
+eleven agents that outlived that session from their transcripts (`tools/agent_verdicts.py`), banked the two MATCHes
+(`main:func_8001EFE0` 468, `ov_SC02_027:func_80180B3C` 297) and ledgered the eight NEARs. Task #10 was meant to be a
+formality — ratify five hand-asm routines, decompile one 45-instruction GAME-C verbatim.
+
+**What the instruments said, and what was true.** (1) The S79 #8 permuter verdicts on pinned seeds ("8 cycles, unchanged")
+were ONE cycle each: `permuter_ils` re-copied the decoded waypoint (raw pins) into base.c and every later cycle was a
+parser refusal; `hide_asm` only knew the `__asm__` spelling; and `defines_fn` could not see a K&R definition — the R39
+control over 5,311 stored drafts found 436 K&R backlog drafts that our own coverage check had refused for four phases.
+No permuter verdict on a pinned or K&R seed dated before S80 is a measurement. (2) S79 #7's `md_MAIN_020:func_800CB17C`
+"raw splice bank" had spliced the function's ASSEMBLY (the ledger's best_draft was the asm) as a verbatim `__asm__`
+body — a P9 fake bank the byte gate cannot see (it IS the bytes) and `progress.py` counted. `verbatim_check --strict`
+caught it in task #10, one session later. (3) The one GAME-C verbatim's 37 failed drafts were a declaration: the TU
+said `extern void f(void)` for a function it only ever takes the address of.
+
+**Decisions.** Fix the instrument before re-measuring (R35): the permuter fixes shipped with an R39 control and a
+positive control on the S79 refusal, then the 8-seed sweep re-ran (no score-0; `func_80039DEC` 9→2, `func_80023BF0`
+18→11; a "1" on `func_8017DF28` was a divergent store rewrite and was REFUSED as a closeness — R14). The ≤3 residuals with
+a mechanism citation and an ILS null are WALL candidates in `config/wave_exclude.txt`, distinct from §474-PROVED. The
+verbatim "bank" was reverted to a stub (byte-neutral) and decompiled properly; both def-side declaration walls fixed as
+byte-neutral TU plumbing committed BEFORE the gate (the S77 law). `parallel_gate` now exits 2 on banked-but-not-merged.
+
+**Cost.** Two fake or phantom results survived a session each because the instrument that would have caught them
+(tools-health's strict verbatim check; a re-read of the permuter's diff) was not in the per-bank loop. ~0 drafting tokens
+were spent on #10's two functions: the C existed (or was seven calls); the cost was the declarations.
+
+**Hindsight.** Run `verbatim_check --strict` in the per-bank close, not only at tools-health; never let a ledger's
+`best_draft` be an `__asm__` body (R48's cousin: a draft keyed by name with no "is this C?" check); and read a permuter
+waypoint's diff before recording its score.
+
+## P32 S81 (2026-09-05) — three zero-token banks and the parked five onboarded: every blocker was an instrument or a mis-keyed ledger
+
+### Context and belief going in
+Phase 32 opened on `docs/frontier-p32.md`: 21 stubs, four of them "B-CARVE" (a jump-table carve the tooling refused), and
+five disc payloads parked as static-RE targets whose loaders "are individual + condition-gated". The plan costed the carve
+class as tooling work, the md_MAIN_034 row as a Sonnet redraft (its best draft was "wrong-sized"), and the parked five as a
+static-RE session that might need the Ghidra MCP.
+
+### What actually happened
+* **resident `func_800D128C`** — the stored S71 draft was byte-correct all along. Three instruments stood in front of it,
+  each an overlay-only assumption the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed:
+  the isolation carrier dropped a typedef whose name engine_types.h also defines (§496); the carve tool regenerated
+  `JTBL_INTERLEAVE` without `--pre hdr.rodata.o`, the extract refused, and the gate linked a STALE script and booked
+  the draft as DIFF because `harvest_verify` never read the extract's exit code (§498); `interleave_check` read the
+  `--pre` line as n=0. Fixed all three; banked.
+* **ov_SC02_017 `func_80186C64`** — the "rename needed" refusal was the carrier keying a bodiless
+  `typedef struct Tag Alias;` by the TAG (§497); with the alias key the split was CLEAN with no source change, and the
+  d=2 twin remapped in one `family_remap` call plus four TU spellings the real-TU check named (§376).
+* **md_MAIN_034 `func_800CB00C`** — the census's best draft was a DIFFERENT function's file under the same bare name
+  (R48); the journal (R38) named the real one, `rtu_match` said MATCH 123/123, and the S72 resolver had gated only the
+  wrong file three times. The S68 "compiler wall" pin labelled that wrong draft. Banked; pin dropped.
+* **The parked five** — a static header probe (`payload_base_evidence.py`, §499) pinned MAIN/7 and MAIN/9 by their
+  self-calls (9/9, 6/6 on their own function starts) and SC03/53/54 by their fn-ptr tables (0x801EF468); SC03/56's
+  vote base was a shared-engine coincidence caught by asking whether its targets were overlay functions. All five
+  onboarded on the first candidate; fleet 213 → 218; the parked ledger is empty.
+
+### The measurements that settle each one
+Byte-identical builds: resident `8e17e02f…`, ov_SC02_017 `c0253499…`, md_MAIN_034 `46153c06…`; R22 213/213 after each
+batch. Instrument controls: carrier provided-types (overlay set identical, 1,197 names; resident set lacks `CdFileLoc`);
+`_merge_pre` 4 shapes; evidence tool 7/7 banked modules re-derive their bases. **The first-build byte check is base-
+lenient:** MAIN/7 at +8 builds byte-identical, at +0x1000 fails the link — so the §S44 corroboration never proved an
+address, only its class.
+
+### The shape they share
+Six defects, one shape: a tool written for the overlay class met the resident/module class and stayed silent (a
+dropped typedef, a dropped `--pre`, an ignored exit code, an n=0 parse, a tag/alias namespace collapse) — and a ledger
+keyed by bare name pointed a redraft at the wrong file. R40 (exonerate the instrument) and R38 (read the recorded
+verdicts) converted a planned agent redraft and a planned static-RE session into zero-token banks. R39 (negative-control
+a new checker) caught the evidence tool's own two false scorers before they shipped.
+
+### Cost, and the hindsight path
+~0 drafting tokens for three banks and five onboardings; the cost was the diagnosis. Sooner: the `frontier-p32.md`
+routes should have carried each row's JOURNAL verdict (R38) next to its best-draft path — two of its three "draft"
+routes were already MATCH; and the §S45 p6 "onboard at 0x801EF468 and let the first build decide" step should have run
+in P30 — with the finding that the first build decides less than it seemed to.
+
+## P32 S82 (2026-09-05) — the T3 wave: 31 drafters, 20 MATCH, a coordinator that died at bank 9, and eleven deliverables swept by one agent's tidy-up
+
+### Context and belief going in
+T2c had left 54 stubs (7 pinned walls, 11 old near/far rows, 36 never-drafted stubs in the five freshly onboarded
+modules). The plan's T3 was "one bounded crack pass, Opus agents, one per function" — the S80 one-agent-per-function
+shape, expected 1–4 banks from the 11 old rows. The belief: the old rows were the genuine hard tail (S79 had banked 3 of
+11 on the Opus tier); the new-module stubs were cheap Haiku work; the coordinator could process results one at a time
+as they arrived.
+
+### What actually happened
+* **Yield far above the estimate:** 20 MATCH / 9 NEAR / 2 FAIL of 31 — Opus 7/16 MATCH with the other 9 NEAR at exact
+  length and zero walls; Sonnet 4/4; Haiku 9/11 with both FAILs not compiler walls. Six of the eleven "hard" old rows
+  MATCHed (func_800D06E8, func_80039B20, func_80038698, func_80023BF0, func_80015B6C, func_8002FDE8), and their closers
+  were all things the journals had mis-labelled: an alias flag called a scheduler tie, a variable SCOPE called a
+  self-coalesce wall, a hand-written mask pair that is the libgpu P_TAG bitfield, an array-vs-scalar extern spelling
+  documented two functions away in the same TU, a frame-slot hack that itself caused the "wall" it was meant to fix.
+* **The coordinator overflowed** ("Prompt is too long") at 01:07 MDT, four minutes after its ninth bank; 22 completions
+  arrived into a dead session. The launch HAD been checkpointed (queue file + recovery route in `LAUNCHED.md`), so the
+  successor session recovered every verdict with `agent_verdicts.py`.
+* **Eleven Opus deliverables were missing.** One agent, tidying its own scratch in the SHARED `.run/P32/t3/opus/`, ran
+  `find … -maxdepth 1 -type f ! -name <mine> -exec mv {} _scratch/` and moved every sibling's file — two MATCHes among
+  them (604 + 120 ins). Found by reading the transcripts' commands; the files were moved, not deleted. A transcript-replay
+  tool (`agent_drafts_restore.py`) was written as the fallback and rebuilt 26 of 30 exactly (the 4 edited via shell
+  after their last Write were stale — the on-disk `_scratch/` copies were the truth).
+
+### The measurements that settle each one
+Every unbanked draft re-verified by the successor with `rtu_match` in its real TU: the 10 MATCHes are MATCH, the 9 NEARs
+reproduce the agents' closeness to the instruction (2 / 6 / 15 / 17 / 27 / 35 / 46 / 49 / 137). The 10 banks of the
+producing session each built byte-identical (main `143dbb89…` via `gate_main` ×3; resident `8e17e02f…`; md_SC03_053
+`c0848f30…` ×4; md_SC03_054 `06bd73df…`; md_MAIN_007 `2ff702b6…`); no fleet R22 has run since — the resume order starts
+with one. Census 54 → 44 stubs / 5,313 ins.
+
+### The shape they share
+Two process defects with one root: the S80 shape was designed for 11 agents and run at 31. A shared scratch dir is a
+shared blast radius (R48 — bare-name files, one dir), and a coordinator that ingests 2–4 KB of prose per result cannot
+survive 31 results in a session already eight hours old. Neither is a model failure; both are harness shape (R40). And
+the matching finding repeats S79/S80's: **not one of the six "hard" rows that fell was a compiler wall** — each was a
+mis-read mechanism, and in two cases (func_8001BC6C's five converged agents at 28; func_8002FDE8's four attempts at 35)
+a multi-agent consensus on a MECHANISM had been mistaken for evidence about the BODY.
+
+### Cost, and the hindsight path
+~16 Opus + 4 Sonnet + 11 Haiku agents (~30–70 min each for Opus) for 20 MATCH (2,111 ins) and 9 exact-length NEAR seeds
+with cited mechanisms; the recovery cost ~1 hour of a Max session and one new tool. Sooner: (1) the JSON-only final
+message and per-function work dirs should have been in the S80 shape from its first run; (2) start a 30-agent wave from
+a FRESH session, not at the end of a T0–T2c day; (3) packs should carry the same-TU neighbours' DECLARATIONS of the
+shared globals (the func_8002FDE8 fix was two functions away); (4) a "converged plateau" in the journal is a reason to
+re-read the body against a neighbour, not a reason to route to the permuter.
+
+## P32 S83 (2026-09-05) — the crack pass closed on 39 banks, the walls got their final ledger, and every remaining "wall" was re-probed in TU context without touching src/
+
+### Context and belief
+The 10:01 checkpoint handed S83 a census of 44 stubs: 10 verified-MATCH rows awaiting the gate, 17 Haiku rows never launched
+(the 20-agent cap), 9 NEAR seeds and 7 pinned walls. The belief going in: the MATCH rows were free banks, the Haiku rows were
+~50% yield on the ≤25-ins band, the walls were settled.
+
+### What happened, measured
+- **The MATCH rows were free only per draft.** Eleven of twelve same-TU drafts were `rtu_match` MATCH alone and the batch
+  failed twice: a `s16`/`u16` spelling of one global across two drafts, a §304 rodata block only the stub `.s` owned
+  (invisible to a compile-only oracle — it fails at LINK), and a prototype a sibling bank introduced between an agent's
+  verification and the splice. The BUILD is the batch verdict; a per-TU bank chain (`bank.sh`) made it deterministic.
+- **The Haiku band went 17/17 first pass** (13–25 ins, ~50k tokens each, 46–126 s) — the S82 9/11 was an under-estimate
+  because the two S82 FAILs were plumbing, not model failures. 28 banks in one session, then a 29th from the permuter.
+- **The permuter's "1" was two sound levers plus one wrong-width mutation.** Subtracting the unsound hunk left a leaf MATCH;
+  the lever was the §47 live-length slider (an early BIRTH of a pseudo), re-spelled well-defined. A waypoint carrying a
+  semantic mutation is a seed, not a rejection (R63 both ways).
+- **The `func_800CF3E8` second look corrected a mechanism and refuted a lever** (cse.c `find_best_addr`, not `canon_reg`;
+  the alias lever 5/5 inert; a new pinned-pointer launder frees the load but lands it 4 slots late) — 245k tokens for a
+  closeness that did not move, and a citation that is now right.
+- **T4: all seven pinned walls reproduce their residual in TU context** — and the three that were CC1 FAILs were
+  declaration plumbing, re-probed in a SANDBOX TU copy (`.run/P32/t4/tu/`) rather than by byte-neutral commits to `src/`.
+  1 PROVED (§474) + 6 CANDIDATE, citations current. Nothing changed; everything is now measured where it will be judged.
+
+### The shape, and the hindsight path
+Three sessions running (S81, S82, S83) the finding is the same: the last stubs fall to PLUMBING, not codegen — declaration
+environments, rodata ownership, TU spellings — and the instruments that judge them (a per-draft compile-only oracle; a
+`find src -name '*.c'` that admits a live probe) are the walls' co-authors. Sooner: (1) `rtu_match --batch` from the first
+multi-draft TU; (2) the §304 sentence in every drafter brief from the first module wave; (3) a sandbox TU for any CC1-FAIL
+re-probe — it costs a `mkdir` and two symlinks and spends no commit; (4) treat a permuter waypoint's diff as a lever list.
+What P32 leaves for P33: 15 functions (7 walls with citations, 8 near-misses with cost), every module at 100% C except the
+ones those rows sit in, the fleet byte-identical 218/218 on every sweep of the day.
+
+## P32 S83 T4b (2026-09-05) — the "final 15" directive: hand-crack first, then one Fable agent per row — 9 of 12 completed rows banked, six of them former pinned walls
+
+### Context and belief
+At the T4 close the ledger said: 7 pinned walls (1 PROVED, 6 CANDIDATE with gcc citations and 3–5 bounded attempts each, permuter
+null, an Opus second look on one) and 8 near-misses (2…137 rows off at exact length). The belief, held since S79 and re-affirmed at
+T4 with TU-context re-probes: the candidates were real compiler walls; the phase would close with 15 rows "ledgered with cost".
+Drew's directive changed the finish line: nothing but the original hand-asm and the PsyQ objects may remain; hand-crack each row
+and name its blocker before spawning agents; Fable agents permitted (later clarified: permitted, not required).
+
+### What happened, measured
+- **The hand pass (Fable 5.1 as coordinator, ≤3 probes per row, 22 spellings): 0 banks.** It refined every blocker to a named
+  mechanism and wrote the untried lever per row (`.run/P32/t4b/<fn>/NOTES.md`) — and was WRONG about the lever on the two rows it
+  measured hardest (func_800391D4's explicit promotion "18, worse" was a cascade; func_80032A74's caller-save area was refuted by
+  the agent with citations). Its value was the mechanism map handed to the agents, not the probes.
+- **One Fable agent per row, ~2 h budget, pass dumps + gcc source in the brief:** of the 12 rows completed at this writing, **9
+  MATCH** (banked byte-identical, one commit each, pins dropped) and **3 NEAR** with the residual attributed to a pass:
+  func_80032A74 1 (a ghost pseudo — near-proved), func_80185810 35 → 13, func_80039308 17 → 4. Three rows are in flight.
+  Six of the nine were the T4 "CANDIDATE walls" — every one fell to a mechanism the pin's citation had mis-attributed
+  (loop.c → cse quantity; cse → sched1 birthing boost; argument position → allocno priority; alias basin → three passes).
+  The one "PROVED" wall (§474, −O0) is still in flight.
+- **Cost (R41):** ≈3.9M subagent tokens for 12 rows (≈325k/row; 123k–655k), three usage-limit outages that killed every
+  agent mid-run (resumed with context intact via SendMessage each time; deliverables written early survived). For comparison,
+  the same 12 rows had absorbed the S79 Sonnet/Opus passes, the S82 Opus wave, the S83 Opus second look (245k tokens, 27 → 27)
+  and ~16k permuter/sweep compiles with 0 banks.
+- **What every crack had in common:** the agent READ the pass dump the prior attempts had not (`-dS` ready lists with the
+  `7f000001` birthing boost, `.loop` desirability lines, `-dl` quantity priorities, `.greg` dispositions, `-dR` hazard walks)
+  and attributed the residual to a specific pass and line of the 2.7.2 source before touching a lever; then the lever was
+  usually one zero-byte dial (a second live set, a hard-reg copy, a launder, two more pads) or a libgpu-idiom spelling.
+- **Instrument defects met on the way:** the bank helper called with an empty function list built the unchanged tree and
+  exited 0 (two premature "banked" ledger messages — corrected in the next commit; R43 hardening); gate_main's
+  `--assert-baseline --allow-dirty` restores the working tree before building (its GREEN measured the committed tree);
+  the helper derived the rtu `--split` from the binary name and refused `_jr_` TUs (SPLIT override).
+
+### The shape, and the hindsight path
+The T4 wall ledger was "instrument-exonerated" but not "pass-attributed": each pin cited a mechanism, and six of seven were
+the wrong pass. The distinguishing discipline of the agents that cracked them was not model size alone but a budget that
+allowed reading three dumps and the source before the first probe — the hand pass, at three probes per row, could not afford it
+and mis-read two cascades. Sooner: (1) a wall verdict must name the PASS and the dump line that proves it, never a mechanism
+alone (R40 → "pass-attributed"); (2) the §172 "canonicalization wall" and §474 should have been re-tested by a dump-reading agent
+before being cited as proofs for years of pins; (3) write deliverables early — every agent lost to a usage limit had to be
+resumed, and the one that had written its draft first (func_800391D4) banked from the dead run; (4) Fable on the
+compiler-internals class is cheaper than another Opus wave on the same rows (9/12 vs 0/12), and Opus is the right tier once a
+sibling's recipe exists (§501-H → the md_MAIN_007 pair). No second round this session (Drew); the three NEAR rows carry their
+next lever in the backlog.
+
+## P32 S85 (2026-09-06) — T4b hand pass row (d): the last overlay stub falls to a sibling the atlas had scored 0.55
+
+### Context and belief
+Four rows were left after the S83 Fable pass; S84 settled three (one PROVED, one BANKED by a sibling port, one PLATEAU). Row (d)
+`ov_SC03_105:func_80185810` (489 ins, DIFF 13) carried a report that had read its residual's mechanism from the dumps — the
+unboosted 2nd set behind a needed fence — and judged every honest fix blocked by combine. The checkpoint's step 0 was the §501-N
+sibling search; the twin oracle, the family maps and the atlas's own knn entry for the row all said "nothing".
+
+### What happened
+A grep for the idiom's constant (`'0x200) << 2'`, the libgpu getTPage chain) across `src/` listed `ov_SC02_027:func_80180B3C`
+— which the atlas had recorded only as a reverse 0.55 "weak cousin" — and its objdump window was the target's rows 362–386
+instruction for instruction. Porting its window spelling matched in the real TU on the first draft, then with every pin removed:
+zero pins, zero fences, zero asm dials, BANKED `cdd9a2cb8`, ov_SC03_105 100% C. A 12-variant census then measured which spelling
+elements carry the window (the fresh single-set masks, the branch polarity, the early unpinned shift) and refuted the S83 guess
+that a hard-register pin was what kept the `andi` alive (§501-P).
+
+### Why (measurement-grounded)
+The similarity metrics score REGISTER-RENAMED same-shape functions as strangers (base registers s0/s2/s1 vs t0/t1/t2 change most
+of the instruction words); the idiom's literal constants do not change. The draft's "blocked" verdict was correct about the
+mechanism and wrong about the cause: the block's other 2-set births (the `uu -= …` pair, the polarity) were what made the
+fence necessary.
+
+### Hindsight path
+Step 0 of every hand pass and every wave card for a packet-building function: grep `src/` for the idiom constants and objdump the
+hits' windows against the target BEFORE the first dial — the whole crack was one grep, one port and 25 minutes, after ~1M tokens
+of dial work on the draft. Remaining open: the two main rows with their verdicts (PROVED 1, PLATEAU 4), carried into the PhaseEnd.
+
+## P32 S85 (2026-09-06) — T4c: the last two "final verdicts" banked; the frontier is empty
+
+### Context and belief
+After the T4b close the phase held 2 stubs, both in main, both carrying verdicts written by producer censuses: `func_80032A74`
+PROVED at 1 (every stack-slot producer refuted), `func_80039308` PLATEAU at 4 (the phantom slot + a hoist order). Drew:
+"let's crack these before closing the phase."
+
+### What happened
+The §501-N step 0 found the shape cousins in main's own TUs but the cracks were compiler mechanisms the censuses lacked:
+combine's self-update bookkeeping gap mints a no-traffic frame slot (§501-Q — one chain, first probe, `f9a90affb`), and a
+hoisted invariant read three times needs three inline temps merged by loop.c plus a `u16` accumulator so cse leaves the arms
+on the hoisted register (§501-R — 56 variants, then MATCH with zero pins, `ffb1949a1`). Every pin the S79–S84 drafts carried
+came off byte-identical. Census: 0 stubs.
+
+### Why (measurement-grounded)
+Both verdicts were "instrument-exonerated and pass-attributed" (R40, §501) yet wrong, because a census is only as complete
+as its list of producers: `i2dest_in_i2src` was not in the list, and "a named variable can hoist" was assumed where loop.c
+refuses it. The reproducer battery (1-second compiles of 5-line functions) settled in minutes what the real function could
+not in hours: the mechanism first, the site second.
+
+### Hindsight path
+Build the reproducer battery for every species BEFORE the census (accelerators (15)), read the allocation order before any
+register lever (accelerators (16)), and treat "PROVED" as "proved against this list" — a wall verdict should name the list.
+
+## P33 S86 (2026-09-06) — the public flip is IN PLACE with the full history, not a fresh mirror
+- Context / belief: roadmap v2 §3 P33 and gen2-roadmap Phase 14 planned a curated, freshly-created public mirror
+  (copy-in, no history rewrite, the private master untouched). The S86 history audit (every blob on every ref) found the
+  ROM-derived and proprietary content confined to five path sets — the EXE (two historical paths), 28 RAM dumps, the
+  Ghidra project (verified to embed the EXE's bytes under Ghidra's page XOR mask), Sony's PsyQ SDK, and a 271 MB
+  session-transcript archive holding ~260k lines of game disassembly — plus two redistributed third-party binaries; no
+  secrets anywhere; the disc, `asm/`, `assets/`, `expected/`, `build/` never committed.
+- Dead-end (if any): none tried; the mirror model was rejected on the owner's stated priority — "maintain the commit
+  history, timeline, commit amount" — which a fresh mirror discards.
+- Pivot: rewrite the history with git-filter-repo (every commit, date, message and order kept; hashes change; one
+  all-purged commit drops), scrub the ~700 cited old hashes from every historical blob and message into inert
+  `commit:NNNN` tokens with a committed map and a tip commit that resolves them at HEAD, map the two personal e-mail
+  identities to the GitHub noreply address, push the current history to a private archive repo first, force-push the
+  rewrite over `Druthulu/BFM-decomp`, and gate the visibility flip on GitHub no longer serving the old hashes (Support
+  purge, probed by script; delete-and-recreate under the same name is the fallback).
+- Why: hashes are not secrets by obscurity here — our own docs publish them, so old objects reachable by hash on GitHub
+  would be reachable by anyone; a content-preserving rewrite keeps everything the story and retrospective are mined
+  from (dates, messages, the historical `docs/progress*.md`); the fixed-point argument (a new hash written into a doc
+  changes every descendant hash) is why tokens live in history and real hashes only at the tip.
+- Hindsight / for the wiki: decide the public/private boundary on day one and keep ROM-derived bytes out of git from
+  the first commit even while private (R1's relaxation bought convenience and cost a full-history rewrite); cite commits
+  by date + subject in long-lived docs, never by hash alone, if a rewrite is ever conceivable.
+
+## P33 S86 (2026-09-06) — main's game-code denominator was Ghidra's, and Ghidra under-counted by 3,616 instructions
+- Context / belief: the published "MAIN game-code weighted 41,534 / 41,534" came from a Ghidra sig whose function
+  boundaries are flow-derived; P31 S79 had corrected one instance (+22 on FUN_80023bf0).
+- Pivot: `make sig-main` now derives every game-code function's boundary from the BUILD (link-map `.text` sections ×
+  each object's `nm` symbols; tiling asserted), Ghidra-free and regenerable on a public clone.
+- Why: the derived sig tiles the game-code text exactly (45,150 words) and is never shorter than Ghidra's; Ghidra left
+  3,628 words of real game code owned by no function (unresolved switch tails, 52 two-to-four-instruction thunks, a
+  jump-table target labelled as a function). All still 100% — the denominator moved, not the verdict.
+- Hindsight / for the wiki: a metric's denominator should come from the artifact you control (the build), not from the
+  analysis tool; when two instruments disagree by a systematic offset, the "corrected" instance you found is usually one
+  of a class.
+
+## P33 S87 (2026-09-06) — the purge set leaves the INDEX before the history rewrite, as its own commit (C3)
+- Context / belief: the rewrite (git-filter-repo, Block C) removes the ROM-derived paths from every historical commit;
+  the natural reading was that the tip's removal is just the last instance of that and needs no separate step.
+- Pivot: a separate preparatory commit first — `git rm --cached` of the whole purge set (`tools/public_rewrite/
+  purge_set.txt`), files kept on disk and already gitignored — so the rewrite starts from a tip whose tree equals the
+  working tree, and only THEN the bundle, the archive mirror, the bare clone and the filter.
+- Why (measurement-grounded): (1) the rewrite becomes purely content-preserving — `verify_rewrite`'s rule that any added
+  path fails, and A5's recorded run (which cannot see the index) stays valid for the tip, since a `--cached` removal changes
+  no tracked-content byte; (2) the first-push gate (`tools/audit_public.py`) is exercised on a real state: it named exactly
+  the purge set (255 offender rows) before this commit and passes after it; (3) the ignore rules were proven with
+  `git check-ignore --no-index` on every path BEFORE the paths became untracked — a gap there means a blanket `git add -A`
+  re-adds ROM bytes into the public history; (4) the build was proven not to need any of it (main byte-identical with
+  `tools/psyq/` and both SDK object dirs moved aside — B3's fresh-clone proof still had `tools/psyq/` in the clone);
+  (5) a census showed nothing project-authored under a purged directory (the SDK checksums file had already moved out in B4)
+  — anything left there vanishes from ALL history, not just the tip.
+- Hindsight / for the wiki: the data-loss hazard flips at this commit, not at the flip — ignored-but-present directories
+  are one `git clean -x` from deletion, so the guard (CLAUDE.md fail-safe line, the bundle, the archive repo, the text
+  export) belongs in the same commit; and a mailmap or a runbook that names the personal addresses would itself need
+  scrubbing, so the mailmap is scratch and the runbook refers to it by path.
+
+
+## P33 S89 (2026-09-07) — the permuter PR and issue were closed unmerged; the maintainer read the text as LLM-written
+
+- **Context and belief.** E5 offered upstream a relocation-masked scorer (`--score-mode reloc-masked`, PR simonlindholm/decomp-permuter#213)
+  and an issue proposing a configurable symbol regex (#214). Both were byte-grounded (the floor on `func_80176D94`: base ≈225 with a
+  byte-exact answer in hand; the miniature 4 → 0 in 256 iterations where the stock scorer read 3,585). Before pushing, the text got a
+  "plain contributor-style pass" whose stated goal was zero AI or em-dash tells — i.e. to read as human-written.
+- **What happened.** The maintainer closed both the same day. Technical position: `field_matches_any_symbol` is deliberate — it covers
+  `.text+0x1234` vs `D_12345678`, where the asm uses a temporary name by necessity; where both sides use proper names, rename the symbol
+  in the asm (splat supports it), which surfaces real symbol-name mismatches instead of hiding them; and a nonzero optimal permuter
+  score is fine because the usual workflow reads all improvements anyway. Side note, verbatim in spirit: the LLM-generated issue text
+  "feels disrespectful of my time", "kinda similar to getting a robocall".
+- **Assessment.** On the merits he is largely right for HIS tool: it is interactive and human-in-the-loop, and a name mismatch is
+  information. Our scorer was right for OUR use — unattended ILS restarts under a byte gate, where nobody reads improvements and a
+  guaranteed zero is the stop condition — and it stays local. His alternative (align the target asm's names with the C through the
+  symbol files) is plausible for our floor class and untested here; recorded, not adopted. On authorship he is right without
+  qualification: the de-tell pass optimised for passing as human rather than for being short, useful, or honest about who wrote it.
+- **The pivot (binding from now; Drew's decision the same day, superseding the disclosure idea I first proposed):** outward text to third parties (issues, PRs, outreach) is written the way a developer writes — short, plain, few or no code spans, no exhaustive bullet walls, no evidence scaffolding — REWRITTEN from the facts, never a model draft with the tells removed; no AI disclosure (Drew's decision, 2026-09-07); check the target project for an AI-contribution policy first.
+  Drew's diagnosis of the giveaway, shared: the pass ran an anti-AI filter over model prose (every term in backticks, exhaustive
+  bullets, evidence scaffolding, sheer length) instead of writing the way a person writes an issue. Applied immediately to the two
+  pending outreach texts (E1's preset request, E2's Archipelago note), both rewritten in a developer's voice. Rule candidate (j).
+- **Hindsight path.** Ask before offering: "what does this maintainer's workflow need?" — an interactive tool's author does not want a
+  mode for unattended search; a short issue describing the floor with the two numbers, in Drew's voice, asking whether a symbol
+  rename would be the intended fix, would have got the same technical answer at a tenth of everyone's cost and no ill will.
+
+## P33.5 S90 (2026-09-07) — the docs sub-phase before the flip: the wiki becomes the source of truth, the tracked scratch is pruned, and the day-one kit is chartered as a Phase-0.5 overlay on ProjectArchitect 2.0
+
+- **Context and belief.** Phase 33 closed at v1.32.0 with the flip gated on GitHub Support; the wiki (13 pages + 13 chapters) had
+  been written in P33 F3 as a summary layer OVER `docs/`, linking back into it. The belief at the P33 close was that the docs tree
+  was publishable as it stood. Drew's review of the folder on 2026-09-07 found otherwise: ~100 authored files from 33 phases —
+  a hindsight study written at 78% with a commission nobody had fulfilled, two distillation ledgers whose banners said "never
+  applied" (both HAD landed, as cookbook §265–§269), a 216 KB raw agent-research JSON, eleven per-session tool designs, frontier
+  reports and worklists for sessions long closed — beside the live references; no page on how `docs/` or `.run/` are used, no
+  gitignore template, no AI-conduct rules on the wiki, nothing on Gen3; 1,086 tracked `.run/` files visible on GitHub, 172 of them
+  tracked by index inertia alone; and 81 memory files under `~/.claude` that no future project could inherit.
+- **The three audits (read-only agents) measured the gap** rather than guessing it: every `docs/` file classified (45 KEEP-LIVE, 12
+  generated, 6 INTEGRATE, ~60 SUNSET incl. 6 frozen frontier snapshots and 12 orphaned per-binary reports); the `.run/` tree by group
+  with its live readers (and one firewall gap — two tracked disassembly listings of one matched function, invisible to a path-and-hash
+  audit); the memory store by class (52 already in the repo, 14 portable-not-in-repo, 9 project-specific, 7 stale, 1 off-project).
+  An adversarial review of the plan then caught six ordering and design hazards before execution — the forward-link race with the
+  link checker, the purge set doubling as the history gate's census, regenerating snapshots into empty documents, a content-check regex
+  that would not have matched its own offenders, a kit that could not write into a constitution ProjectArchitect had already frozen,
+  and a dry-run that could write into the real tree.
+- **The pivot (Drew, 2026-09-07).** Re-charter the next work as **Phase 33.5**, a docs sub-phase BEFORE the flip: (1) the wiki is the
+  single source of truth — every `docs/` file is KEEP (listed in a Reference index, the only sanctioned wiki→docs link site),
+  INTEGRATE (folded into a page) or SUNSET (moved with history into `docs/sunset/`, indexed, for Drew's review — deletion is his);
+  in-repo documents link wiki pages, not `docs/` files; (2) prune only the TRACKED `.run/` (what GitHub shows) — the untracked
+  29 GB is out of scope; (3) the wiki carries the conventions (docs, scratch, the ROM firewall with a copyable gitignore); (4) the
+  day-one kit `decomp-architect/` is built IN-TREE now and split out after the flip as xsig was — and, from the review, it runs AFTER
+  ProjectArchitect 2.0 as the project's Phase 0.5, shipping an intake document for PA's own interview instead of writing the
+  constitution; (5) the memory store is reconciled but stays outside git (kit seed only — no `.claude-state/` retrofit for a repo
+  about to go public); (6) the two disassembly listings are untracked and named in an audit-only rules file, with NO second history
+  rewrite — the tracked C and the pinned compiler reproduce those bytes, and another force-push would add another set of old tips to
+  the open Support ticket. Rules R74–R83 (the P33 candidates) ratified at the gate.
+- **Measured through task 9 (S90):** ten commits; 17 wiki pages + 13 chapters, all reachable; the six INTEGRATE documents folded
+  (the hand-matching guide's five signature moves, the wave ledger's per-wave prices and instruction-weight metric, the portable
+  workflow's six residual items, the hindsight study's permuter-failure track); 59 files archived with history; `doc_links` grew
+  from one check to six (archive refusal, the index-derived allow-list, docs coverage 64 of 64, git-based citation classification with a
+  "(not kept)" declaration, wiki-first warnings); the render selftest asserts reachability; the timeline was found STALE at HEAD and
+  wired into report/audit-digest; tracked `.run/` 1,086 → 868 with `audit_public` gaining a content check whose first cut the
+  negative control caught (`nop` broke the run at 60 < 64); the history gate still PASS; the project memory store 80 rows == 80
+  files with seven stale memories corrected in place; the kit's 16-seed memory pack written with zero project literals.
+- **Hindsight path.** Write the wiki as the source of truth FIRST and the summary pages second — P33 built the pages over the
+  records and left the records as the reference, so the consolidation had to be its own phase. Two instruments that should have
+  existed from the first wiki commit: a link policy the checker enforces (wiki-first, no links into an archive) and a content check
+  in the ROM audit — both were one-day builds. And run the referrer census and the pending-list mechanism as a habit for every
+  document move; the one-shot audits found nothing the checks would not have found continuously.
+
+## P33.5 S91 (2026-09-07) — the kit ships the toolset and the knowledge base as DICTIONARIES; the tools folder gets its audit; the flip's gate opens
+
+- **Context and belief.** The kit (tasks 10–13) was built on the plan's honesty line: it installs documents, configuration and the ROM
+  audit, and NO tools — the source project's tools hard-code its layout, its compiler triple and its platform SDK, and a tool shipped
+  untested on a second target would be the fake-success class the project fights. The dry-run (task 13, three runs) proved the
+  installer end to end on that basis. The belief was that a manifest of tool NAMES by phase was the honest maximum before the split.
+- **What the day measured.** Asked whether `tools/` had been audited like `docs/` had, the answer was no: 326 tool files, 224 with a
+  SETUP row, 91 with no runtime consumer, the kit's manifest an agent-transcribed table that would go stale. Drew's first amendment
+  (task 13.5) added the audit with a retirement criterion — a tool that was required to finish the decomp is judged on its value to a
+  FUTURE decomp: still needed, superseded by a named successor, or a one-off with a named product. His second, after the dry-run,
+  reframed the tools question: ship them, and the cookbook, **as dictionaries** — complete, verbatim, with in-depth why/how/when — because
+  the list of what worked is the best forecast of what the next project will need, the proven implementation beside each entry is
+  worth more than a description, and for a same-compiler target the cookbook and codegen map apply directly while for another
+  compiler each idiom names exactly which pass to read in that compiler's source. Confirmed in-tree, now.
+- **The pivot.** `tools/tool_census.py` — derived facts from the tree (two agreeing enumerations, docstring, SETUP row, consumers,
+  class) + authored facts in `config/tool_dictionary.tsv` (phase, portability, the NEED each tool answers, the verdict) with coverage
+  asserted both ways — generates `docs/tool-index.md` (need-keyed), the kit's manifest and two verbatim corpora (`corpus/tools/<phase>/`
+  302 copies + 28 superseded pointers; `corpus/cookbook/` the cookbook, its index, the codegen map behind a front page stating what
+  transfers), byte-equal to their sources in tools-health; `kit_lint` exempts the corpus directories as evidence and syntax-checks
+  them; two memory seeds and two rules (G66 consult the tool dictionary first; G67 translate an inherited idiom through its pass,
+  never copy the lever); the new project installs only the index and the front pages and records where the corpus lives — 9 MB
+  in the kit, none copied into a new repository. 34 tools retired to `tools/sunset/` with history (28 superseded, 6 one-offs; four of
+  the agent's one-off verdicts overturned under the criterion because every future project needs them: the hindsight miner, the
+  decomp.me replica, the two rewrite executables). A five-tool layout-contract probe measured what a same-compiler project would need
+  to adopt for the tools to run near-unchanged (`templates/layout-contract.md`, a draft for the split).
+- **The measured why.** The dry-run's own findings were the argument: run 1 fell to ProjectArchitect's directory-form `.run/` ignore
+  line defeating every re-include beneath it (the source project's conventions page documents exactly that trap — the knowledge
+  existed and the kit had not carried it); run 4 fell to a check I typed against a figure a tool derived (321 rows vs "293 live") —
+  fixed by making both sides derived. A kit whose value is "what we learned" must carry the learning in the form an agent can grep
+  when the need arises, not as prose about it. And the purge probe PASSED the same day (every sampled old hash gone from the host;
+  the live-commit control resolves) — Phase 34's gate is open.
+- **Hindsight path.** Build the tool census and the need-keyed index at the FIRST phase that has ten tools, and keep the dictionary
+  row as part of adding a tool (a tool without a row fails the health check); the source project wrote 224 SETUP rows over thirty
+  phases and still had 91 unreachable tools at the end. And decide "install vs corpus" on day one of a kit: the honest line is not
+  "no tools" but "the proven tools as verbatim evidence with an index, and none installed as if they ran".
+
+## P33.5 S91-b (2026-09-07) — hindsight on types: a banking lever the project underweighted, not the byte lever it tested for (Drew's question; to be implemented in the kit)
+
+- **Context and belief.** Phase 16 believed the loose-typed engine core was blocked by missing types and signatures; Phase 17 tested it
+  and pivoted away: rich decompiler context (the recovered actor structure + the jump tables) scored **0 better / 10 same / 2 worse**
+  on the structural-miss sample, identical bytes — "struct/type recovery is a comprehension win, NOT a byte-match lever"
+  (`docs/struct-core-pivot.md`, 2026-06-19). Every wall after that was a compiler pass, read from the source (Phase 23) or moved by
+  source shape and width (Phase 32); the retrospective lists types as the red herring of Phases 16–17. That verdict was right for
+  cracking. The project then carried it into a second, unmeasured belief: that types could wait until after 100%.
+- **What the record says, read the other way.** (1) Banking, not cracking, was the bottleneck (≈92% of drafts byte-correct, ≈27% banked
+  at one measurement), and a large share of gate failures were DECLARATION conflicts — `s16` vs `u16`, one arity vs another, drafter-
+  invented struct variants; the tree ended with **1,232 struct definitions**, most of them variants of a few shapes, because each
+  drafting agent invented its types in isolation with no registry to draft against, and the reconcile ladder (declaration sync, callee
+  casts, canonical signatures, the type lifter) exists to repair exactly that. (2) The one place a type DOES touch bytes is width and
+  signedness — `lhu` vs `lh`, the `u16` CSE firewall (§501-R), the scaffold's ×4 pointer arithmetic, an object-table symbol declared `u8`
+  (§501-N) — and the permuter cannot change a type, so those near-misses were dial work until the width was right. (3) The post-100%
+  pile is the same debt seen from the end: the 1,232 → one-per-shape unification and the 143 raw address casts are artifacts of banking
+  without a canonical type layer; only NAMING genuinely needs after-the-fact observation (live RAM, strings, the debug menu).
+- **The corrected doctrine.** Types are a *banking* lever and a *width* lever, not a codegen lever. The achievable early form is a
+  discipline, not a census (a census needs many decompiled functions and the runtime oracle for meaning): **a canonical type file from
+  the first bank that grows one PROVEN field at a time — the width/signedness fixed by the bytes at bank time — with no draft allowed to
+  bank a duplicate definition of an existing shape or a raw address cast, and names only with evidence.** It costs a prototype/
+  duplicate-definition check per bank, removes most of the declaration-conflict class before a reconcile ladder is needed, lowers the
+  width class of near-misses on the first pass, and turns the post-100% unification into nothing. It would not have shortened one
+  compiler-pass crack.
+- **Hindsight path, as the kit's task (next session, task 14):** (a) a kernel **DK-65 "types are a banking lever, not a byte lever"**
+  with the Phase-17 measurement in its calibration fence and the declaration-conflict / 1,232-definition cost; (b) the ladder's **Phase 6
+  milestone** gains "the canonical type layer: one definition per shape, widths proven at bank time, a bank refused for a duplicate
+  definition or a raw address cast" (the multiplier that makes drafts bank), and Phase 10's row notes it is short when Phase 6 held;
+  (c) **G62 extended** (or a G68): "a canonical type file from the first bank; a draft may not bank a duplicate definition of an existing
+  shape or a raw address cast; a width is proven by the bytes, never guessed"; (d) the tool dictionary's need-keys for the type tools
+  (`lift_types`, `canon_sig_reconcile`, `sync_tu_decls`, `decl_prior`, `conform_decls`) point at Phase 6, not only Phase 10, and the
+  cookbook front page names the width class as the one place a type moves bytes; (e) the methodology's integration section states the
+  two-sided verdict in one paragraph. The source project's own Gen3 (Phase 35+) is the proof the kit will later cite.

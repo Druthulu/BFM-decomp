@@ -92,7 +92,7 @@ community-trained matching model. Each is sequenced after readability (Part C), 
 legible source.
 
 ### 9. Known risks and pain points
-Pre-answered from the source project's failure museum (`corpus/decomp-kernels.md` part 8):
+Pre-answered from the source project's failure museum (`corpus/decomp-kernels.md` part 9):
 - **Almost every recorded wall was one of the project's own instruments** (DK-9, DK-17) — plan the differential
   harness and the coverage assertions at 0%.
 - **Integration, not idioms, is the bottleneck once cracking is systematic** (DK-7) — budget for banking.

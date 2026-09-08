@@ -250,7 +250,8 @@ audit-frontier:
 # `grep -rn func_8013C08C src/` came back empty for a function defined right there; a templated body
 # had then carried the NUL into 137 overlays in this same session. Its own oracle, fail-closed.
 # P33.5 task 13.5: regenerate everything derived from config/tool_dictionary.tsv — docs/tool-index.md, the kit's
-# tools/MANIFEST.md and the verbatim corpora (decomp-architect/corpus/tools + corpus/cookbook). tools-health asserts them fresh.
+# tools/MANIFEST.md and the verbatim corpora (decomp-architect/corpus/tools + corpus/cookbook + corpus/record, the third added
+# at P33.5 task 14.5). tools-health asserts them fresh.
 kit-corpus:
 	$(VENV_PY) tools/tool_census.py --all
 
@@ -321,9 +322,12 @@ tools-health:
 	$(VENV_PY) tools/kit_lint.py --selftest
 	$(VENV_PY) tools/kit_lint.py
 	# P33.5 task 13.5: the tool census — the two enumerations agree (find == git ls-files), every tool has a dictionary row and
-	# every row a file, the need-keyed docs/tool-index.md and the kit's MANIFEST are fresh, the two verbatim corpora under
+	# every row a file, the need-keyed docs/tool-index.md and the kit's MANIFEST are fresh, the three verbatim corpora under
 	# decomp-architect/corpus/ are byte-equal to their sources (regenerate with `make kit-corpus`).
 	$(VENV_PY) tools/tool_census.py --check
+	# P33.5 task 14.5 (Drew: "the whole of our experience?"): the kit's distillation cites or dispositions EVERY rule (R1..RN from
+	# the digest) and EVERY accelerator entry; an uncovered one fails here unless config/kit_coverage_map.tsv says where it went.
+	$(VENV_PY) tools/kit_coverage.py
 	$(VENV_PY) tools/xsig/tests/test_xsig.py 2>&1 | tail -1 | grep -q '^OK' && echo 'xsig tests: OK (8)' || { echo 'xsig tests: FAIL'; exit 1; }
 	# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
 	# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).

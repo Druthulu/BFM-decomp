@@ -5,7 +5,7 @@ two verbatim corpora, all from one hand-kept dictionary (P33.5 task 13.5; `--che
     tools/tool_census.py                 # regenerate docs/tool-index.md (the dictionary) and print the counts
     tools/tool_census.py --check         # tools-health: coverage both ways, index fresh, manifest fresh, corpora equal (rc 1 on any gap)
     tools/tool_census.py --manifest      # regenerate decomp-architect/tools/MANIFEST.md from the same data
-    tools/tool_census.py --corpus        # materialise decomp-architect/corpus/tools/ and corpus/cookbook/ verbatim (+ their INDEX)
+    tools/tool_census.py --corpus        # materialise decomp-architect/corpus/tools/, corpus/cookbook/ and corpus/record/ verbatim (+ INDEX)
     tools/tool_census.py --all           # index + manifest + corpus
     tools/tool_census.py --consumers F   # print one file's consumers (the referrer census before a `git mv`)
 
@@ -40,6 +40,25 @@ MANIFEST = KIT / "tools" / "MANIFEST.md"
 CORPUS_TOOLS = KIT / "corpus" / "tools"
 CORPUS_COOK = KIT / "corpus" / "cookbook"
 COOKBOOK_SOURCES = ["docs/matching-cookbook.md", "docs/cookbook-index.md"] + [p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs" / "gcc-2.7.2-map").glob("*")) if p.is_file()]
+# P33.5 task 14.5 (Drew: "the whole of our experience"): the RECORD as the third dictionary — the distilled records and the
+# phase-by-phase record, verbatim. The phase worklogs (phase-ends/logs/) are deliberately NOT here (R19: on-demand archives, 30k
+# lines); their distillation is the task-14.5 mining pass, banked into the kernels/accelerators. Layout under corpus/record/:
+# how-to/<chapter>, docs/<file>, phase-ends/<file>; the authored front page is corpus/record/README.md.
+CORPUS_RECORD = KIT / "corpus" / "record"
+RECORD_SOURCES = ([p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs" / "how-to-ai-decomp").glob("*.md"))]
+                  + ["docs/decision-log.md", "docs/accelerators.md", "docs/retrospective.md", "docs/story.md", "docs/wave-playbook.md",
+                     "docs/effort-map.md", "docs/gen3-standards.md", "docs/gen3-handoff.md", "phase-ends/DIGEST.md"]
+                  + [p.relative_to(REPO).as_posix() for p in sorted((REPO / "phase-ends").glob("PhaseEnd_Phase*.md"),
+                                                                     key=lambda q: [float(x) if x.replace(".", "").isdigit() else x for x in re.split(r"(\d+(?:\.\d+)?)", q.stem)])])
+
+
+def record_dest(src):
+    """corpus/record/<how-to|docs|phase-ends>/<basename>."""
+    if src.startswith("docs/how-to-ai-decomp/"):
+        return CORPUS_RECORD / "how-to" / pathlib.Path(src).name
+    if src.startswith("phase-ends/"):
+        return CORPUS_RECORD / "phase-ends" / pathlib.Path(src).name
+    return CORPUS_RECORD / "docs" / pathlib.Path(src).name
 EXCL_DIRS = {".venv", "__pycache__", "asm-differ", "m2c", "maspsx", "decomp-permuter", "brave-CUE", "reference", "psyq", "bin", "sunset"}
 EXTS = {".py", ".sh", ".java"}
 PHASES = ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "PROJECT-ONLY"]
@@ -285,6 +304,8 @@ def corpus_plan(recs):
         copies.append((REPO / r["path"], dest))
     for s in COOKBOOK_SOURCES:
         copies.append((REPO / s, CORPUS_COOK / pathlib.Path(s).relative_to("docs")))
+    for s in RECORD_SOURCES:
+        copies.append((REPO / s, record_dest(s)))
     return copies, pointers
 
 
@@ -316,12 +337,15 @@ def check_corpus(recs, files):
     for dst, r in pointers:
         if not dst.exists():
             gaps.append(f"corpus pointer missing: {dst.relative_to(REPO)}")
-    expected = {d for _, d in copies} | {d for d, _ in pointers} | {CORPUS_TOOLS / "INDEX.md", CORPUS_COOK / "README.md"}
-    present = {p for p in CORPUS_TOOLS.rglob("*") if p.is_file()} | {p for p in CORPUS_COOK.rglob("*") if p.is_file()} if CORPUS_TOOLS.exists() else set()
+    expected = {d for _, d in copies} | {d for d, _ in pointers} | {CORPUS_TOOLS / "INDEX.md", CORPUS_COOK / "README.md", CORPUS_RECORD / "README.md"}
+    present = ({p for p in CORPUS_TOOLS.rglob("*") if p.is_file()} | {p for p in CORPUS_COOK.rglob("*") if p.is_file()}
+               | {p for p in CORPUS_RECORD.rglob("*") if p.is_file()}) if CORPUS_TOOLS.exists() else set()
     for p in sorted(present - expected):
         gaps.append(f"corpus file without a dictionary entry: {p.relative_to(REPO)}")
     if not (CORPUS_COOK / "README.md").exists():
         gaps.append("corpus/cookbook/README.md (the front page) is missing")
+    if not (CORPUS_RECORD / "README.md").exists():
+        gaps.append("corpus/record/README.md (the front page) is missing")
     return gaps, len(copies), len(pointers)
 
 

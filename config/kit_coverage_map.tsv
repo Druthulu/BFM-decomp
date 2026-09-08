@@ -1,0 +1,42 @@
+kind	key	disposition	note
+rule	R2	ENV	all-in-WSL, one ext4 clone, loopback MCP — the source project's machine
+rule	R3	PA	tooling under tools/ is ProjectArchitect's layout convention (its templates carry it)
+rule	R4	PA	plan mode every phase = ProjectArchitect's gate 1
+rule	R5	PA	no attribution trailers — ProjectArchitect's SETUP/commit rule
+rule	R6	PA	the agent commits, the owner pushes — ProjectArchitect's git posture (never push)
+rule	R7	PA	the effort-map check before each phase plan — ProjectArchitect's effort protocol; the kit adds the decomp rows
+rule	R8	PA	commit cadence — superseded in the source project by per-task commits (R42, cited); ProjectArchitect's own
+rule	R9	FOLDED:G6+SEED:mcp-reconnect-after-restart.md	verify the oracle database persisted after a save — inside G6 (mirror + verify) and the reconnect seed
+rule	R11	ENV	the Windows-native emulator bridged over a web API — the source project's machine
+rule	R12	KIT:templates/run-README.md	no /tmp; project-local scratch under .run/ with dated tracked exceptions — the kit's run-README template + the firewall's scratch block
+rule	R14	DK-68	a summarised signal is a claim, not ground truth — realised as a kernel by the coverage pass
+rule	R18	PA	the plain-English recap at every session/phase end — ProjectArchitect's PhaseEnd template
+rule	R19	PA	the worklog archived under logs/, out of the load order — ProjectArchitect's close step (the kit's Step 10 does the same)
+rule	R20	FOLDED:G18	the private-repo backup policy, amended by R78 (cited) — G18's text carries the backup home
+rule	R21	PA	keep the ops reference current in the same change — ProjectArchitect's ops-setup contract; the kit adds the decomp rows
+rule	R23	ENV	stop the Ghidra MCP before a checkpoint commit; the database churn is never staged — Ghidra-specific; the firewall template ignores the database directory
+rule	R25	PA	the recap stored in the PhaseEnd — ProjectArchitect's PhaseEnd template
+rule	R26	PA	prompt for breadth (multi-agent) on breadth-shaped work — ProjectArchitect's effort protocol
+rule	R27	PA	every effort transition prompted and waited for — ProjectArchitect's effort protocol
+rule	R28	PA	build the harness task list right after plan approval — ProjectArchitect's phase start
+rule	R30	PA	capture context-dependent knowledge during the producing session — ProjectArchitect X5 (cited by the methodology)
+rule	R31	PA	the decision log's WHY entries — ProjectArchitect's decision log; the kit's record ships the source project's
+rule	R52	DK-66	a blanket committer must not adopt a collapsed file — realised as a kernel by the coverage pass
+rule	R70	DK-66	a ledger's tie-break is part of the instrument — realised as a kernel by the coverage pass
+rule	R79	DK-22	pkill -f never with a literal the shell's own command line contains — DK-22's second wound
+rule	R80	DK-66	a widened checker classifies a missing promised page as PENDING — realised as a kernel by the coverage pass
+accelerator	#12	DK-25	byte-locate the residual before blaming the draft — DK-25 is this entry under its own title
+accelerator	#13	DK-31	census what is already drafted before drawing — DK-31 is this entry under its own title
+accelerator	#14	DK-26	the cheap probe must call the real planner — DK-26 is this entry
+accelerator	#18	DK-20	a claim derived from bytes is not verified by a compiler — DK-20 (a claim names the compilation it survived)
+accelerator	#20	DK-12	unit boundaries at the jump-table spans at segmentation time — DK-12 (the segmentation law)
+accelerator	S77 (2)	DK-19+G25	a refusal-check measured against what the real pipeline does — DK-19 + G25 (negative-control every refusal-check)
+accelerator	S77 (3)	G38	an exclusion reason is a claim about the tooling on the day — G38 (draw-time bankability; re-probe the exclude list)
+accelerator	P32 T3 (2)	DK-35	a shared scratch directory is a shared blast radius — DK-35 (per-item work directories)
+accelerator	P32 T3 (4)	COOKBOOK	the rematerialisation slider is a computation from the dump's counts — an idiom-level lever; lives in the cookbook corpus
+accelerator	P32 T3 (11)	DK-44	attribute the residual to a pass with a dump line — DK-44 is this entry
+accelerator	P32 T3 (14)	DK-46	the similarity score is not a shape oracle; grep the constants, objdump the window — DK-46
+accelerator	P32 T3 (15)	DK-45	re-run the producer census with the combiner's bookkeeping in view — DK-45 (a producer census before a spelling sweep)
+accelerator	P33.5 S91 (2)	DK-57	a typed figure against a derived one — DK-57 (numbers generated, never typed)
+accelerator	P33.5 S91 (3)	DK-61	a dry-run judge is an instrument; negative-control it — DK-61 (a known-true case before reading any instrument's output)
+accelerator	P33.5 S91 (4)	G66	a tool without a dictionary row is invisible — G66 (consult the tool dictionary first)

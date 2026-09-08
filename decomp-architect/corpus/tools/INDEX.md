@@ -8,8 +8,8 @@
 > its platform SDK need the marked adaptation. The last table lists the tools that are project-only in code (their *shape* is a task;
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
-> **Coverage:** 293 tool files in scope (submodules, vendored and downloaded code excluded), of which 293 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 54 · P7 20 · P8 86 · P9 26 · P10 10 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 321 (the installer checks its copy against this figure).
+> **Coverage:** 294 tool files in scope (submodules, vendored and downloaded code excluded), of which 294 live rows
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 54 · P7 20 · P8 86 · P9 27 · P10 10 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 322 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -299,6 +299,7 @@
 | `fetch_psyq.sh` | acquire and checksum-verify vendor SDK pieces for a linked build | Optional acquisition and checksum verification of vendor SDK pieces for the linked build | PS1 SDK sources, repo paths |
 | `gitignore_template_check.py` | assert a documented ignore-file template equals the shipped template byte for byte | Asserts the ignore-file template in the docs equals the kit's template byte for byte | repo doc and template paths |
 | `public_rewrite/absent_scan.py` | assert nothing purged remains in any object, message or ref | Asserts nothing purged remains in any object, message or ref | repo scratch paths |
+| `kit_coverage.py` | assert that the distilled kit cites or dispositions every rule and every hindsight entry of the source project (no silent gap in the distillation) | Derives the rule and accelerator populations from the digest and the ledger, matches them against the kit's provenance lines, refuses an uncovered entry unless config/kit_coverage_map.tsv dispositions it | repo digest/ledger/kit paths + the provenance citation forms |
 | `timeline.py` | build a progress timeline from the repository's own committed digests | Builds a progress timeline from the repository's own committed digests, with a self-check | repo doc paths |
 | `doc_links.py` | check that every relative link in the public docs resolves | Checks that every relative link in the public docs resolves and the link policy holds | repo doc paths |
 | `compile_only.py` | compile every eligible translation unit with the pinned toolchain, using no derived bytes | Compiles every eligible translation unit with the pinned toolchain, without any game bytes | compiler triple, repo makefile parsing |

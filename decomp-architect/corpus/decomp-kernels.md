@@ -831,7 +831,55 @@ provenance: BFM decision-log "P33.5 S91-b" (the hindsight on types, 2026-09-07);
 
 ---
 
-## 8. The failure museum, condensed — what looked right at the time
+## 8. Added by the coverage pass — the record's residue
+
+*The kit's coverage check derives every rule and every hindsight entry of the source project and refuses one that is neither
+cited by a provenance line nor dispositioned. These are the lessons that check found in the record and nowhere in the kit.*
+
+### DK-66 — A ledger's tie-break, a checker's widening and a blanket commit are part of the instrument
+- **Kernel:** three bookkeeping choices around an oracle that changed its verdicts without anyone reading them as part of it.
+  A ledger that keeps the earliest record at equal closeness can never render a re-verdict — the tie-break IS the instrument.
+  A link checker that widens its document set must classify a missing *promised* target as pending, never broken (a forward
+  link registered with the task that will create it), and the pending list must be empty at a phase close — otherwise every
+  new page is a false failure or the check is turned off. A blanket "commit the dirty tree rather than revert it" is right for
+  the source tree, where a bank must never be lost, and wrong for configuration, where it adopts a collapsed file and takes a
+  binary red with it.
+- **When it applies:** any ledger with a best-of ordering; any checker whose input set grows during a phase; any committer
+  that stages more than the paths it changed.
+- **Cost:** a re-verdict that never appeared; a docs check that would have gone red on every planned page; a config collapse
+  committed as a backup.
+```calibration
+source project: the backlog ledger's earliest-record tie-break hid a re-verdict (one session); the link checker's pending list
+carried 10 planned pages mid-phase with 0 false failures; one blanket commit adopted a collapsed overlay config.
+```
+provenance: BFM R70 (the ledger's tie-break), R80 (PENDING never BROKEN; `doc_links` + its pending list), R52 (a blanket committer must not adopt a collapsed file)
+
+### DK-67 — An ignore file's directory-form rule is a wall no later block can climb
+- **Kernel:** git never descends into an excluded directory, so a directory-form rule (`.run/`) defeats every re-include
+  written beneath it, however many blocks later. Write the by-contents form (`/.run/*`) and the `!` re-includes under it, and
+  write it FIRST — a later block cannot undo a directory rule, and an installer that may not edit above a marker cannot repair
+  it. The source project's own governance package wrote the directory form; the kit's installer had to be given one named
+  edit above a marker to fix that single line, found by the dry-run's negative probe.
+- **When it applies:** the first commit's ignore file, and every ignore block appended by a package.
+- **Cost:** one failed dry-run install and a special-cased installer step; on the source project, a tracked scratch tree that
+  could only be shaped by narrowing re-excludes.
+provenance: BFM accelerators P33.5 S91 (1); the kit's dry-run run 1 (Step 3.7's negative probe); the source project's conventions page
+
+### DK-68 — A summarised signal is a claim, not ground truth
+- **Kernel:** a count, a verdict or a "done" that reaches you through a summary — a sub-agent's report, a reconnaissance
+  note, a compressed hand-off, a coordinator reading prose results — is a claim about the bytes, not the bytes. Verify it
+  against the artefact before anything depends on it: the file on disk, the tool's printed success line, the hash, the diff.
+  The source project wrote this rule in its fourth phase and re-learned it in most of the later ones: agents reported matches
+  the gate had not proven, a prototype survey's counts did not survive a byte check, a fresh session read a hand-off's summary
+  as a conclusion, and "banked" was written from intent twice in one session. The same rule, applied to the project's own
+  instruments, is the whole of the instruments group above.
+- **When it applies:** every time work crosses a context boundary — agent to coordinator, session to session, summary to plan.
+- **Cost:** false banks, false walls, a plan built on a count nobody had checked.
+provenance: BFM R14 (verify recon/sub-agent summary counts against the bytes — a summarised signal is a claim), R66 (write "banked" only from the tool's printed line), the S82 coordinator that read prose results, the memory "verify blast radius, not just the defect"
+
+---
+
+## 9. The failure museum, condensed — what looked right at the time
 
 The exhibits below are the source project's, stripped of names and numbers; the column that matters is *why it looked
 right*. A failure that looks wrong gets fixed the same day; these did not.
@@ -892,7 +940,8 @@ reading, the denominator on every number, and a decision log that records each o
 - **The repository and publishing:** DK-53 … DK-58 — 6 kernels.
 - **Governance and sessions:** DK-59 … DK-63 — 5 kernels.
 - **Readability at day one:** DK-64 … DK-65 — 2 kernels.
-- **In all:** DK-1 … DK-65 — 65 kernels (the installer's check compares `grep -c '^### DK-'` against this figure).
+- **Added by the coverage pass:** DK-66 … DK-68 — 3 kernels.
+- **In all:** DK-1 … DK-68 — 68 kernels (the installer's check compares `grep -c '^### DK-'` against this figure).
 - **The failure museum:** 37 exhibits, condensed.
 - Conduct rules are not duplicated here; they are the registry seed's E.7 group. The generic engineering kernels of
   ProjectArchitect's own corpus apply unchanged and are not repeated.

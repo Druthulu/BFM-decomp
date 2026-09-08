@@ -37,7 +37,7 @@ PH_RE = re.compile(r"\{\{[A-Z_0-9]+\}\}")
 PH_LISTED_RE = re.compile(r"`(\{\{[A-Z_0-9]+\}\})`")
 
 
-CORPUS_DIRS = (KIT / "corpus" / "tools", KIT / "corpus" / "cookbook")   # verbatim evidence: exempt from LEAK + PLACEHOLDERS (coverage is tool_census --check's)
+CORPUS_DIRS = (KIT / "corpus" / "tools", KIT / "corpus" / "cookbook", KIT / "corpus" / "record")   # verbatim evidence: exempt from LEAK + PLACEHOLDERS (coverage + equality are tool_census --check's); P33.5 task 14.5 added the record
 
 
 def is_corpus(p):
@@ -111,7 +111,7 @@ def run_checks(files, do_gitignore=True):
         return 2
     corpus = [p for p in files if is_corpus(p)]
     files = [p for p in files if not is_corpus(p)]
-    print(f"kit_lint: {len(corpus)} corpus files under corpus/tools + corpus/cookbook are verbatim evidence — exempt from the leak and placeholder checks (their coverage and equality are tool_census --check's)")
+    print(f"kit_lint: {len(corpus)} corpus files under corpus/tools + corpus/cookbook + corpus/record are verbatim evidence — exempt from the leak and placeholder checks (their coverage and equality are tool_census --check's)")
     # 1 LEAK
     leaks = 0
     for p in files:

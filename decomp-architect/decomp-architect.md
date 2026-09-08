@@ -162,10 +162,11 @@ The loop: the gate accepts a function → harvest the worker's note, only for by
 7. **Harvest is a pipeline step, not hygiene** — and periodic, not per bank: the highest-value entry of one session was
    visible only because four independent instances appeared in one wave.
 8. **Seed it before the first match** — from the compiler's own source and from sibling projects on the same compiler
-   family; carry a cookbook across and adapt it rather than rebuild it (DK-14). The kit ships two dictionaries for exactly
+   family; carry a cookbook across and adapt it rather than rebuild it (DK-14). The kit ships three dictionaries for exactly
    this: the source project's tools verbatim, keyed by the need each answers (consult it before designing or debugging a tool —
-   G66), and its cookbook, symptom index and codegen map behind a front page that says what transfers (translate an inherited
-   idiom through its named pass, never copy the lever — G67).
+   G66), its cookbook, symptom index and codegen map behind a front page that says what transfers (translate an inherited
+   idiom through its named pass, never copy the lever — G67), and its record — the how-to, the decision log, the accelerators,
+   the retrospective, the playbook and every phase-end, verbatim — so that a rule's or kernel's provenance line leads to its evidence.
 9. **Capture while it is fresh** (ProjectArchitect X5): the *why* evaporates at a context boundary.
 
 ```calibration
@@ -355,5 +356,5 @@ harness defects wearing model-failure costumes.
 
 ## Coverage
 Thirteen sections; every claim outside a calibration fence is stated to transfer. The rules are the registry seed
-(`templates/registry-E.decomp.md`, G1–G67); the kernels with their costs are `corpus/decomp-kernels.md` (DK-1 … DK-65 and
+(`templates/registry-E.decomp.md`, G1–G67); the kernels with their costs are `corpus/decomp-kernels.md` (DK-1 … DK-68 and
 the failure museum); the ladder with its milestones is `intake.decomp.md` Part B; the day-one inversions are its Part C.

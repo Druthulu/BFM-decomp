@@ -34,7 +34,7 @@ log, the memory map, the environment reference) live under `docs/` and are liste
 | [Verification and progress](Verification-and-progress.md) | The contract run, the three metrics and how they are computed, what CI proves without a disc, the published numbers |
 | [Contributing and the no-ROM policy](Contributing-and-the-no-ROM-policy.md) | What may never enter the repository, what a useful contribution looks like now that the frontier is empty, the AI-use conduct rules, the license split |
 | [Tools from this project](Tools-from-this-project.md) | xsig, the permuter driver, the codegen map, the decomp.me replica, the drafter write-up — what stands on its own for other projects |
-| [Start a new decomp project](Start-a-new-decomp-project.md) | The day-one kit for the next decompilation: the three install steps, what it installs and does not (the two dictionaries), the phase ladder, the conduct rules, the six inversions, every accelerator in one line, the four dry-runs that prove it |
+| [Start a new decomp project](Start-a-new-decomp-project.md) | The day-one kit for the next decompilation: the three install steps, what it installs and does not (the three dictionaries), the phase ladder, the conduct rules, the six inversions, every accelerator in one line, the four dry-runs that prove it |
 
 ## Working conventions
 

@@ -58,10 +58,11 @@
 | `make format` | `Makefile` | clang-format over `src/` with the tracked `.clang-format` (the community style) |
 | TODO(phase-1): the extractor, the manifest | `tools/` | — |
 
-### The two dictionaries (the kit master copy — consulted, never copied into this repository)
+### The three dictionaries (the kit master copy — consulted, never copied into this repository)
 
 | Corpus | Where | How to use it |
 |---|---|---|
 | The tool dictionary — the source project's tools, verbatim, by ladder phase, keyed by the need each answers | `<kit master copy>/decomp-architect/corpus/tools/INDEX.md` (installed summary: `docs/tools-manifest.md`) | before designing or debugging a tool, grep the index by the need; the matching file is the jumping-off point, its Adapt column the list of what differs here |
 | The inherited knowledge base — the cookbook, its symptom index and the codegen map, verbatim | `<kit master copy>/decomp-architect/corpus/cookbook/` (installed front page: `docs/knowledge-corpus.md`) | same compiler family: look the symptom up, apply, re-prove on your bytes; another compiler: read the same pass in your compiler's source and find your own lever |
+| The inherited record — the source project's distilled records (the how-to, the decision log, the accelerators, the retrospective, the story, the playbook, the effort doctrine, the readability charter) and every phase-end, verbatim | `<kit master copy>/decomp-architect/corpus/record/` (installed front page: `docs/inherited-record.md`) | when a rule or kernel cites a source, open it here; the digest first, a phase-end on demand, the how-to in order |
 | Kit master copy location | TODO(phase-0.5): the absolute path where `decomp-architect/` is kept after the package folder is deleted from this repository | — |

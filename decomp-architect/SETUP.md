@@ -161,6 +161,9 @@ FAILS (the README is trackable).
    `corpus/tools/<phase>/` (the kit master copy — see the ops reference's corpus row)."*
 2b. `docs/knowledge-corpus.md` — `cp "$KIT/corpus/cookbook/README.md"` (the front page that says what transfers from the inherited
    cookbook, its symptom index and its codegen map — the files themselves stay in the kit master copy beside it).
+2c. `docs/inherited-record.md` — `cp "$KIT/corpus/record/README.md"` (the front page of the inherited record: the source project's
+   how-to, decision log, accelerators, retrospective, playbook, effort doctrine, readability charter and every phase-end — the files
+   stay in the kit master copy beside it; a rule's or kernel's `provenance:` line is followed there).
 3. `docs/decomp-kernels.md` — `cp "$KIT/corpus/decomp-kernels.md"` (the constitution's ladder cites kernels by id; they must
    survive the package's deletion).
 4. If Step 1.3 chose "proceed": `docs/decomp-ladder.md` — `cp "$KIT/intake.decomp.md"` with a banner naming it the roadmap of
@@ -169,7 +172,7 @@ FAILS (the README is trackable).
 ✓ *Verify:* the files exist; `grep -c '^| [0-9]' docs/wave-playbook.md` ≥ 11 (the step table); `grep -c '^### DK-'
 docs/decomp-kernels.md` equals the "In all" figure of that file's own Coverage section (both derived, never typed here); the manifest's row count equals the total its own header states (`grep -c '^| \`'
 docs/tools-manifest.md` == the "Table rows in all: N" figure in its Coverage line — the live rows plus the superseded pointer
-rows, both derived, never typed here); `docs/knowledge-corpus.md` exists.
+rows, both derived, never typed here); `docs/knowledge-corpus.md` and `docs/inherited-record.md` exist.
 
 ## Step 7 — The registry: the decomp rules into §E
 

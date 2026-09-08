@@ -40,12 +40,12 @@ the installer, it never defaults. Every git call is by explicit path; the instal
 | The registry seed (`templates/registry-E.decomp.md`) | rules G1–G67 in seven groups — the oracles and the gate, the ROM firewall, the instruments, the campaign, compiler walls, publishing and the record, the use of AI — each with a `provenance:` line naming the failure that earned it |
 | The firewall pack | a copyable `.gitignore` (the same block as [The ROM firewall](The-ROM-firewall.md), asserted identical in this project's health check), an audit that derives its forbidden set from a config and fails on a planted fixture before it is trusted, and a CI workflow — no game-derived bytes in git from commit one |
 | The layout, the overlays, the skeletons | the `docs/` and `.run/` conventions from [Docs and scratch conventions](Docs-and-scratch-conventions.md); marked-section appends to `CLAUDE.md`, the effort map, the cookbook, the ops reference; the session-start digest, the replayable checkpoint block and the PhaseEnd narrative axis; LICENSE, NOTICE, README and CONTRIBUTING skeletons, a `.clang-format` and a `make format` snippet |
-| The kernels (`corpus/decomp-kernels.md`) | DK-1 … DK-65: what this project learned late, each with when it applies and what it cost, plus the failure museum |
+| The kernels (`corpus/decomp-kernels.md`) | DK-1 … DK-68: what this project learned late, each with when it applies and what it cost, plus the failure museum |
 | The memory seed (`memory-seed/`) | eighteen working agreements and harness facts, de-specialised, appended to the memory ProjectArchitect configured |
 
 **It installs no tools.** A byte gate, a splitter config, a permuter harness, a decompiler context, a differential
 harness — those are the first phases' work, and the kit says so in its installer's honesty section. What it ships instead
-is **two dictionaries**, both generated from this tree and asserted equal to it on every health check:
+is **three dictionaries**, all generated from this tree and asserted equal to it on every health check:
 
 - **The tool corpus** (`decomp-architect/corpus/tools/<phase>/`): this project's 293 live tools, copied verbatim by ladder
   phase, behind an index keyed by the *need* each answers — what it does, what proved it (its consumers), what it
@@ -55,6 +55,13 @@ is **two dictionaries**, both generated from this tree and asserted equal to it 
   to look a need up in the dictionary before designing or debugging a tool (G66).
 - **The inherited knowledge base** (`decomp-architect/corpus/cookbook/`): the matching cookbook, its symptom-keyed index
   and the gcc 2.7.2 codegen map, verbatim, behind a front page that states what transfers (see *The compiler question*).
+- **The inherited record** (`decomp-architect/corpus/record/`): the thirteen how-to chapters, the decision log, the
+  accelerators, the retrospective, the story, the wave playbook, the effort doctrine, the readability charter, the digest and
+  every PhaseEnd, verbatim, behind a front page that says what each is and how to read it. The kit's rules and kernels were
+  distilled from these; a `provenance:` line on any of them leads back here. A coverage check asserts that every one of this
+  project's rules and every entry of its accelerators ledger is either cited by such a line or explicitly dispositioned, so
+  the distillation has no silent gap. The phase worklogs are not included; a dedicated pass read every one of them for lessons
+  banked nowhere else, and those became kernels.
 
 ## The phase ladder
 
@@ -219,7 +226,8 @@ installer's steps change.
 - `tools/kit_lint.py` keeps it de-specialised: no line outside a calibration fence names this project, its paths, its
   rule numbers or its cookbook sections; the placeholder set equals the documented contract; every script parses; the
   `.gitignore` template equals the wiki page's block.
-- `tools/tool_census.py --check` asserts the two dictionaries equal their sources; `make kit-corpus` regenerates them
+- `tools/tool_census.py --check` asserts the three dictionaries equal their sources, and `tools/kit_coverage.py` that every rule and
+  every accelerator entry of this project is cited or dispositioned; `make kit-corpus` regenerates them
   (any edit to a tool or to the cookbook makes a copy stale until it is run).
 - Both run in `make tools-health`. The split into its own repository happens after the flip; the folder lifts unchanged,
   because nothing in it refers to this repository's paths.

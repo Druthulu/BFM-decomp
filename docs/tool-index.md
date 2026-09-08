@@ -5,7 +5,7 @@ freshness). The derived columns come from the tree on every run; the authored on
 dictionary, whose coverage is asserted both ways. Read it by NEED: find the phrase that matches what you are trying to do, then the tool,
 then what proved it. The same data generates the day-one kit's manifest and its verbatim tool corpus.*
 
-**Coverage:** 293 tool files in scope (submodules, vendored and downloaded code excluded; `find` and `git ls-files` agree) + 34 retired under `tools/sunset/`. Classes: LIVE 232 (a runtime consumer), REFERENCED 30 (a SETUP row only), ORPHAN 31 (neither) — of 293. Portability: PORTABLE 22, ADAPT 255, PROJECT-ONLY 16.
+**Coverage:** 294 tool files in scope (submodules, vendored and downloaded code excluded; `find` and `git ls-files` agree) + 34 retired under `tools/sunset/`. Classes: LIVE 233 (a runtime consumer), REFERENCED 30 (a SETUP row only), ORPHAN 31 (neither) — of 294. Portability: PORTABLE 22, ADAPT 256, PROJECT-ONLY 16.
 
 ## P1 — extraction + manifest
 
@@ -295,6 +295,7 @@ then what proved it. The same data generates the day-one kit's manifest and its 
 | acquire and checksum-verify vendor SDK pieces for a linked build | `fetch_psyq.sh` | Optional acquisition and checksum verification of vendor SDK pieces for the linked build | Makefile, psyq_libs_from_disc.py | PS1 SDK sources, repo paths | LIVE |
 | assert a documented ignore-file template equals the shipped template byte for byte | `gitignore_template_check.py` | Asserts the ignore-file template in the docs equals the kit's template byte for byte | Makefile, kit_lint.py | repo doc and template paths | LIVE |
 | assert nothing purged remains in any object, message or ref | `public_rewrite/absent_scan.py` | Asserts nothing purged remains in any object, message or ref | — | repo scratch paths | ORPHAN |
+| assert that the distilled kit cites or dispositions every rule and every hindsight entry of the source project (no silent gap in the distillation) | `kit_coverage.py` | Derives the rule and accelerator populations from the digest and the ledger, matches them against the kit's provenance lines, refuses an uncovered entry unless config/kit_coverage_map.tsv dispositions it | Makefile | repo digest/ledger/kit paths + the provenance citation forms | LIVE |
 | build a progress timeline from the repository's own committed digests | `timeline.py` | Builds a progress timeline from the repository's own committed digests, with a self-check | Makefile | repo doc paths | LIVE |
 | check that every relative link in the public docs resolves | `doc_links.py` | Checks that every relative link in the public docs resolves and the link policy holds | Makefile, wiki_render.py, wiki_sync.sh | repo doc paths | LIVE |
 | compile every eligible translation unit with the pinned toolchain, using no derived bytes | `compile_only.py` | Compiles every eligible translation unit with the pinned toolchain, without any game bytes | .github/workflows/no-rom.yml | compiler triple, repo makefile parsing | LIVE |
