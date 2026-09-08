@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
  * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
@@ -1555,13 +1555,13 @@ s32 arg0;
 // @class: regalloc-order
 // @stuck: none — MATCH (48 ins)
 
-DEFINE_func_8015B6F4()  /* dedup: shared engine-core @0x8015B6F4 (src/shared) */
+#include "../shared/ov/func_8015B6F4.h"
 
-DEFINE_func_8015B7B4()  /* dedup: shared engine-core @0x8015B7B4 (src/shared) */
+#include "../shared/ov/func_8015B7B4.h"
 
-DEFINE_func_8015B858()  /* dedup: shared engine-core @0x8015B858 (src/shared) */
+#include "../shared/ov/func_8015B858.h"
 
-DEFINE_func_8015B8F8()  /* dedup: shared engine-core @0x8015B8F8 (src/shared) */
+#include "../shared/ov/func_8015B8F8.h"
 
 // @class: plumbing
 // @stuck: none — MATCH (271/271, pin-free, zero asm). The ONLY residual is DEF-SIDE plumbing, and it is now named exactly: the in-TU instantiation `DEFINE_func_8015BEE4()` (engine_core.h:1851-1855) expands to `extern s32 func_8015B950(void);` INSIDE ov_SC01_077_jr_8015AE2C.c, ~14 lines BELOW this definition, so the 1-param def collides with a `(void)` prototype -> `conflicting types for func_8015B950` (.run/bank_func_8015B950.log). §73 PARAMS axis / T0. Surgical fix = §65b de-macroize that ONE instantiation (blast radius: this TU); the fleet-wide `(void)`->`()` header edit is §63 and must be R22-validated.
@@ -1815,12 +1815,12 @@ join:
 }
 
 
-DEFINE_func_8015BD8C()  /* dedup: shared engine-core @0x8015BD8C (src/shared) */
+#include "../shared/ov/func_8015BD8C.h"
 
-DEFINE_func_8015BDD0()  /* dedup: shared engine-core @0x8015BDD0 (src/shared) */
+#include "../shared/ov/func_8015BDD0.h"
 
 struct Obj;
-DEFINE_func_8015BE04()  /* dedup: shared engine-core @0x8015BE04 (src/shared) */
+#include "../shared/ov/func_8015BE04.h"
 
 extern void (*D_8018932C[])(void);
 
@@ -1828,21 +1828,21 @@ void func_8015BE38(struct Obj *a0) {
     D_8018932C[a0->idx]();
 }
 
-DEFINE_func_8015BE74()  /* dedup: shared engine-core @0x8015BE74 (src/shared) */
+#include "../shared/ov/func_8015BE74.h"
 
-DEFINE_func_8015BE94()  /* dedup: shared engine-core @0x8015BE94 (src/shared) */
+#include "../shared/ov/func_8015BE94.h"
 
-DEFINE_func_8015BEC4()  /* dedup: shared engine-core @0x8015BEC4 (src/shared) */
+#include "../shared/ov/func_8015BEC4.h"
 
-DEFINE_func_8015BEE4()  /* dedup: shared engine-core @0x8015BEE4 (src/shared) */
+#include "../shared/ov/func_8015BEE4.h"
 
-DEFINE_func_8015BF04()  /* dedup: shared engine-core @0x8015BF04 (src/shared) */
+#include "../shared/ov/func_8015BF04.h"
 
-DEFINE_func_8015BF48()  /* dedup: shared engine-core @0x8015BF48 (src/shared) */
+#include "../shared/ov/func_8015BF48.h"
 
-DEFINE_func_8015BF7C()  /* dedup: shared engine-core @0x8015BF7C (src/shared) */
+#include "../shared/ov/func_8015BF7C.h"
 
-DEFINE_func_8015BFB0()  /* dedup: shared engine-core @0x8015BFB0 (src/shared) */
+#include "../shared/ov/func_8015BFB0.h"
 
 extern void (*D_80189338[])(void *);
 
@@ -1862,12 +1862,12 @@ void func_8015BFF4(void *a0)
  * definition also match_one-MATCHes but breaks the real TU with
  * `conflicting types`.  The s16 reads are cast at the use site. */
 
-DEFINE_func_8015C030()  /* dedup: shared engine-core @0x8015C030 (src/shared) */
+#include "../shared/ov/func_8015C030.h"
 
 
-DEFINE_func_8015C08C()  /* dedup: shared engine-core @0x8015C08C (src/shared) */
+#include "../shared/ov/func_8015C08C.h"
 
-DEFINE_func_8015C0C4()  /* dedup: shared engine-core @0x8015C0C4 (src/shared) */
+#include "../shared/ov/func_8015C0C4.h"
 
 extern void func_8001382C(s32 a0, void *a1, void *a2);
 extern void func_80146CA0(void *a0);

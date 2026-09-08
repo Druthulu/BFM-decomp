@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3745,7 +3745,7 @@ void func_80187674(s32 a0)
 
 #include "common.h"
 
-DEFINE_func_801878B8()  /* dedup: shared engine-core @0x801878B8 (src/shared) */
+#include "../shared/ov/func_801878B8.h"
 
 
 #include "common.h"
@@ -3926,7 +3926,7 @@ extern void func_8012E688(s32*, s32, s32);
     }
 
 
-DEFINE_func_80187D04()  /* dedup: shared engine-core @0x80187D04 (src/shared) */
+#include "../shared/ov/func_80187D04.h"
 
 #include "common.h"
 
@@ -3981,7 +3981,7 @@ void func_80187DF8(s32 *a0)
 
 #include "common.h"
 
-DEFINE_func_80187E78()  /* dedup: shared engine-core @0x80187E78 (src/shared) */
+#include "../shared/ov/func_80187E78.h"
 
 
 #include "common.h"
@@ -4028,7 +4028,7 @@ void func_8018800C(s32 a0)
 }
 
 
-DEFINE_func_80188074()  /* dedup: shared engine-core @0x80188074 (src/shared) */
+#include "../shared/ov/func_80188074.h"
 
 
 void func_801880D4(s32 a0)
@@ -4184,7 +4184,7 @@ void func_80188348(int a0)
 
 #include "common.h"
 
-DEFINE_func_80188418()  /* dedup: shared engine-core @0x80188418 (src/shared) */
+#include "../shared/ov/func_80188418.h"
 
 
 
@@ -4361,7 +4361,7 @@ void func_80188694(void *a0) {
 }
 
 
-DEFINE_func_80188748()  /* dedup: shared engine-core @0x80188748 (src/shared) */
+#include "../shared/ov/func_80188748.h"
 
 
 extern void func_801292C8(u8 *a0);
@@ -4460,7 +4460,7 @@ s32 func_801887DC(s32 a0, s16 a1, s16 a2) {
  * the seed's D_8019BBC8/D_8019BBCC, declared nowhere else in this standalone draft -- free choice).
  */
 
-DEFINE_func_80188990()  /* dedup: shared engine-core @0x80188990 (src/shared) */
+#include "../shared/ov/func_80188990.h"
 
 
 extern s32 func_8012C354(s32 a0, s32 a1);
@@ -4608,7 +4608,7 @@ void func_80188F14(void *arg0) {
 }
 
 
-DEFINE_func_80188F90()  /* dedup: shared engine-core @0x80188F90 (src/shared) */
+#include "../shared/ov/func_80188F90.h"
 
 
 extern s32 func_80178B18(s32 param_1, s32 param_2);
@@ -4768,7 +4768,7 @@ s32 func_8018924C(void *a0) {
 }
 
 
-DEFINE_func_80189274()  /* dedup: shared engine-core @0x80189274 (src/shared) */
+#include "../shared/ov/func_80189274.h"
 
 
 /* Declarations copied VERBATIM from src/ov_SC03_014/ov_SC03_014_jr_801848E4.c

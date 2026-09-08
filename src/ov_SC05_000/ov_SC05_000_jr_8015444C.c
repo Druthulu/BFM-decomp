@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -1242,20 +1242,20 @@ s32 func_801549F8(s32 param_1, s32 _arg1, s32 _arg2)
     return count;
 }
 
-DEFINE_func_80154A74()  /* dedup: shared engine-core @0x80154A74 (src/shared) */
+#include "../shared/ov/func_80154A74.h"
 
-DEFINE_func_80154AB4()  /* dedup: shared engine-core @0x80154AB4 (src/shared) */
+#include "../shared/ov/func_80154AB4.h"
 
-DEFINE_func_80154AE0()  /* dedup: shared engine-core @0x80154AE0 (src/shared) */
+#include "../shared/ov/func_80154AE0.h"
 
-DEFINE_func_80154B20()  /* dedup: shared engine-core @0x80154B20 (src/shared) */
+#include "../shared/ov/func_80154B20.h"
 
-DEFINE_func_80154B4C()  /* dedup: shared engine-core @0x80154B4C (src/shared) */
+#include "../shared/ov/func_80154B4C.h"
 
-DEFINE_func_80154B7C()  /* dedup: shared engine-core @0x80154B7C (src/shared) */
+#include "../shared/ov/func_80154B7C.h"
 
-DEFINE_func_80154B98()  /* dedup: shared engine-core @0x80154B98 (src/shared) */
+#include "../shared/ov/func_80154B98.h"
 
-DEFINE_func_80154BC8()  /* dedup: shared engine-core @0x80154BC8 (src/shared) */
+#include "../shared/ov/func_80154BC8.h"
 
-DEFINE_func_80154BE4()  /* dedup: shared engine-core @0x80154BE4 (src/shared) */
+#include "../shared/ov/func_80154BE4.h"

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -4702,7 +4702,7 @@ ret0:
 }
 
 
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern s32 rand(void);
 extern u8 D_80078E78[];
@@ -5234,7 +5234,7 @@ void func_8017FEC0(s32 a0) {
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* func_8017FF60 — 4-state handler on the u16 state word at +0x34.
  * Symbols spelled from asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC/func_8017FF60.s
@@ -5655,7 +5655,7 @@ void func_801807F8(s32 a0) {
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -5679,7 +5679,7 @@ s32 func_80180834(void *a0) {
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern void func_8012AD80(struct vec *a0);
 extern s32 func_80133784(s32, void *, s32);
@@ -5747,7 +5747,7 @@ ret:
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 extern void func_8012AD80(struct vec *a0);
 extern s32 func_80133784(s32, void*, s32);
 
@@ -6349,7 +6349,7 @@ void func_8018187C(void *a0) {
    repeated typedef even with an identical body). Absolute path so match_one's
    standalone compile resolves it; the header guard makes it a no-op in the TU.
    Same idiom as the neighbouring draft func_8017FF60. */
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern s32 rand(void);
 extern s32 D_801A47B8;

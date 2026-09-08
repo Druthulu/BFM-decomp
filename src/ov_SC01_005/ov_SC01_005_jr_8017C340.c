@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 #include "../shared/ov_setters.h"   /* dedup share across the SC01/005 ≡ 006 pair (cookbook §11) */
 
 
@@ -3274,7 +3274,7 @@ void func_8017D428(void *a0) {
 }
 
 
-DEFINE_func_8017D464()  /* dedup: shared engine-core @0x8017D464 (src/shared) */
+#include "../shared/ov/func_8017D464__4e0fdb97.h"
 
 
 
@@ -3332,7 +3332,7 @@ s32 func_8017D558(s32 a0) {
 }
 
 
-DEFINE_func_8017D5CC()  /* dedup: shared engine-core @0x8017D5CC (src/shared) */
+#include "../shared/ov/func_8017D5CC__98ab17e5.h"
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
@@ -3429,9 +3429,9 @@ void func_8017D7A4(void *a0) {
 }
 
 
-DEFINE_func_8017D7E0()  /* dedup: shared engine-core @0x8017D7E0 (src/shared) */
+#include "../shared/ov/func_8017D7E0__ee6ee2e0.h"
 
-DEFINE_func_8017D808()  /* dedup: shared engine-core @0x8017D808 (src/shared) */
+#include "../shared/ov/func_8017D808__89463c3f.h"
 
 
 s32 func_8017D9A0(void) {
@@ -3476,7 +3476,7 @@ s32 func_8017D9F4(s32 arg0) {
 }
 
 
-DEFINE_func_8017DA84()  /* dedup: shared engine-core @0x8017DA84 (src/shared) */
+#include "../shared/ov/func_8017DA84__7438ad3e.h"
 
 
 s16 func_8017DA9C(void) {
@@ -3488,7 +3488,7 @@ s16 func_8017DA9C(void) {
 
 #include "common.h"
 
-DEFINE_func_8017DAAC()  /* dedup: shared engine-core @0x8017DAAC (src/shared) */
+#include "../shared/ov/func_8017DAAC__2dcb64ae.h"
 
 
 void func_8017DB00(void *a0) {
@@ -3811,7 +3811,7 @@ void func_8017DEFC(void) {
 }
 
 
-DEFINE_func_8017E0EC()  /* dedup: shared engine-core @0x8017E0EC (src/shared) */
+#include "../shared/ov/func_8017E0EC__a0512833.h"
 
 
 void func_8017E108(void)

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
  * The file-scope decl environment from earlier code regions of this object —
@@ -3693,7 +3693,7 @@ s32 func_8017CDD8(s32 a0)
 }
 
 
-DEFINE_func_8017CE24()  /* dedup: shared engine-core @0x8017ce24 (src/shared) */
+#include "../shared/ov/func_8017CE24.h"
 
 
 
@@ -7661,7 +7661,7 @@ void func_80181B28(s32 a0) {
 }
 
 
-DEFINE_func_80181B84()  /* dedup: shared engine-core @0x80181B84 (src/shared) */
+#include "../shared/ov/func_80181B84__76785405.h"
 
 #include "common.h"
 

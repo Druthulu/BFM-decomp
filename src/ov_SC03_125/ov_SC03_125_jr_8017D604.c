@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3177,7 +3177,7 @@ s32 func_8017E4E4(s32 param_1)
 
 
 
-DEFINE_func_8017E534()  /* dedup: shared engine-core @0x8017E534 (src/shared) */
+#include "../shared/ov/func_8017E534__511a8b68.h"
 
 
 #include "common.h"
@@ -3198,20 +3198,20 @@ s32 func_8017E558(s32 param_1)
 }
 
 
-DEFINE_func_8017E5C8()  /* dedup: shared engine-core @0x8017E5C8 (src/shared) */
+#include "../shared/ov/func_8017E5C8__fc81e68c.h"
 
 
-DEFINE_func_8017E678()  /* dedup: shared engine-core @0x8017E678 (src/shared) */
-
-
-#include "common.h"
-
-DEFINE_func_8017E698()  /* dedup: shared engine-core @0x8017E698 (src/shared) */
+#include "../shared/ov/func_8017E678__37f67f3a.h"
 
 
 #include "common.h"
 
-DEFINE_func_8017E6EC()  /* dedup: shared engine-core @0x8017E6EC (src/shared) */
+#include "../shared/ov/func_8017E698__6cd03b3b.h"
+
+
+#include "common.h"
+
+#include "../shared/ov/func_8017E6EC__4d9ac626.h"
 
 
 extern void func_800CF804(void);

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
  * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
@@ -1422,11 +1422,11 @@ after_b4c:
 }
 
 
-DEFINE_func_8015A1C8()  /* dedup: shared engine-core @0x8015A1C8 (src/shared) */
+#include "../shared/ov/func_8015A1C8.h"
 
-DEFINE_func_8015A1FC()  /* dedup: shared engine-core @0x8015A1FC (src/shared) */
+#include "../shared/ov/func_8015A1FC.h"
 
-DEFINE_func_8015A230()  /* dedup: shared engine-core @0x8015A230 (src/shared) */
+#include "../shared/ov/func_8015A230.h"
 
 extern void (*D_80189308[])(void *);
 
@@ -1435,7 +1435,7 @@ void func_8015A264(void *a0)
     D_80189308[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-DEFINE_func_8015A2A0()  /* dedup: shared engine-core @0x8015A2A0 (src/shared) */
+#include "../shared/ov/func_8015A2A0.h"
 
 // @class: other
 // @stuck: none — MATCH (60 ins). switch() gives signed slti pivot; per-case duplicated call gives per-case a0 setup + nop jal delay

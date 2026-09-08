@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -4171,7 +4171,7 @@ void func_8017C710(s32 arg0)
 }
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* fleet-modal spelling (engine_core.h, n=1411 occurrences) */
 extern void func_8012ADE4(u8 *a0);
@@ -4564,7 +4564,7 @@ void func_8017DE28(s32 arg0) {
 }
 
 
-DEFINE_func_8017DEA4()  /* dedup: shared engine-core @0x8017DEA4 (src/shared) */
+#include "../shared/ov/func_8017DEA4__76785405.h"
 
 
 extern void (*D_801910A4[])(void);

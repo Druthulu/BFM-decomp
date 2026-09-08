@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3129,7 +3129,7 @@ s32 func_801870E8(s32 a0) {
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern s32 rand(void);
 extern s32 func_8012C51C(void *a0, s32 a1);

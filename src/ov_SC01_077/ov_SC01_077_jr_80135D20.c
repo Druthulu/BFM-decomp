@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
  * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
@@ -1267,15 +1267,15 @@ s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
 }
 
 
-DEFINE_func_80136BC4()  /* dedup: shared engine-core @0x80136BC4 (src/shared) */
+#include "../shared/ov/func_80136BC4.h"
 
-DEFINE_func_80136C1C()  /* dedup: shared engine-core @0x80136C1C (src/shared) */
+#include "../shared/ov/func_80136C1C.h"
 
-DEFINE_func_80136C3C()  /* dedup: shared engine-core @0x80136C3C (src/shared) */
+#include "../shared/ov/func_80136C3C.h"
 
-DEFINE_func_80136C44()  /* dedup: shared engine-core @0x80136C44 (src/shared) */
+#include "../shared/ov/func_80136C44.h"
 
-DEFINE_func_80136C4C()  /* dedup: shared engine-core @0x80136C4C (src/shared) */
+#include "../shared/ov/func_80136C4C.h"
 
 extern unsigned short D_800B99F0;
 extern void (*D_801870C8[])(void);
@@ -1298,29 +1298,29 @@ s32 func_80136C90()
 }
 
 
-DEFINE_func_80136D00()  /* dedup: shared engine-core @0x80136D00 (src/shared) */
+#include "../shared/ov/func_80136D00.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (61 ins). Modeled on byte-proven sibling func_8012D3B4. Key: precompute ((v0+v0_2)>>3)*4 into a separate statement before AddPrim so the D_800B9A02*0x14 array-index chain regallocs to $v1/$v0 (computing the index inline left lhu in $a0 / product in $v1 → 6-off).
 
-DEFINE_func_80136D08()  /* dedup: shared engine-core @0x80136D08 (src/shared) */
+#include "../shared/ov/func_80136D08.h"
 
 
-DEFINE_func_80136DFC()  /* dedup: shared engine-core @0x80136DFC (src/shared) */
+#include "../shared/ov/func_80136DFC.h"
 
 
-DEFINE_func_80136EC4()  /* dedup: shared engine-core @0x80136EC4 (src/shared) */
+#include "../shared/ov/func_80136EC4.h"
 
-DEFINE_func_80136ECC()  /* dedup: shared engine-core @0x80136ECC (src/shared) */
+#include "../shared/ov/func_80136ECC.h"
 
-DEFINE_func_80136F3C()  /* dedup: shared engine-core @0x80136F3C (src/shared) */
+#include "../shared/ov/func_80136F3C.h"
 
 // @class: schedule
 // @stuck: none — MATCH
-DEFINE_func_80137030()  /* dedup: shared engine-core @0x80137030 (src/shared) */
+#include "../shared/ov/func_80137030.h"
 
 
-DEFINE_func_80137178()  /* dedup: shared engine-core @0x80137178 (src/shared) */
+#include "../shared/ov/func_80137178.h"
 
 /* func_801372B0 — MATCH (207 ins), match_one relocation-masked byte-exact (2026-07-07, Fable5)
  * ov_SC01_077 region-a (asm/ov_SC01_077/nonmatchings/ov_SC01_077_a). Debug 3D-axis overlay:
@@ -1356,10 +1356,10 @@ DEFINE_func_80137178()  /* dedup: shared engine-core @0x80137178 (src/shared) */
  */
 /* Svec_801372B0 (8B vertex) + Gline_801372B0 (16B GsLine) lifted to src/shared/engine_types.h
  * for ×134 propagation (a different same-named SVEC lives in _after.c). */
-DEFINE_func_801372B0()  /* dedup: shared engine-core @0x801372B0 (src/shared) */
+#include "../shared/ov/func_801372B0.h"
 
 
-DEFINE_func_801375EC()  /* dedup: shared engine-core @0x801375EC (src/shared) */
+#include "../shared/ov/func_801375EC.h"
 
 // @class: schedule (arg-copy placement) — PIN-FREE
 // match_one: MATCH (26 ins).  rtu: MATCH (26 ins) with NO //@EDIT and NO header edit.
@@ -1410,12 +1410,12 @@ extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 
 s32 aF80137614(s32 a0, s32 a1, s32 a2) __asm__("func_80137614");
 
-DEFINE_func_80137614()  /* dedup: shared engine-core @0x80137614 (src/shared) */
+#include "../shared/ov/func_80137614.h"
 
 
-DEFINE_func_8013767C()  /* dedup: shared engine-core @0x8013767C (src/shared) */
+#include "../shared/ov/func_8013767C.h"
 
-DEFINE_func_801376C8()  /* dedup: shared engine-core @0x801376C8 (src/shared) */
+#include "../shared/ov/func_801376C8.h"
 
 #include "common.h"
 
@@ -1463,12 +1463,12 @@ extern void func_80139BE0(s32 a0);
 
 void *aF801376E8(int a0, int a1) __asm__("func_801376E8");
 
-DEFINE_func_801376E8()  /* dedup: shared engine-core @0x801376E8 (src/shared) */
+#include "../shared/ov/func_801376E8.h"
 
 
-DEFINE_func_801377B4()  /* dedup: shared engine-core @0x801377B4 (src/shared) */
+#include "../shared/ov/func_801377B4.h"
 
-DEFINE_func_80137840()  /* dedup: shared engine-core @0x80137840 (src/shared) */
+#include "../shared/ov/func_80137840.h"
 
 #include "common.h"
 
@@ -1505,9 +1505,9 @@ void func_801378F0(void) {
 }
 
 
-DEFINE_func_801379D8()  /* dedup: shared engine-core @0x801379D8 (src/shared) */
+#include "../shared/ov/func_801379D8.h"
 
-DEFINE_func_801379EC()  /* dedup: shared engine-core @0x801379EC (src/shared) */
+#include "../shared/ov/func_801379EC.h"
 
 // @class: regalloc-order (walker-family, §52/§52a) — PIN-FREE
 // Role-swap ($s0<->$s2 between loop1 and loops2/3) is driven by DENSITY (K2), not pins:
@@ -1515,7 +1515,7 @@ DEFINE_func_801379EC()  /* dedup: shared engine-core @0x801379EC (src/shared) */
 //  - loop2/3 index has >= pointer refs -> wins $s0; pointer -> $s2
 // Separate per-loop pointer/index vars => separate pseudos => can take different regs.
 
-DEFINE_func_801379FC()  /* dedup: shared engine-core @0x801379FC (src/shared) */
+#include "../shared/ov/func_801379FC.h"
 
 
 // @class: remat
@@ -1535,7 +1535,7 @@ void func_80137B80(void) {
 }
 
 
-DEFINE_func_80137BD8()  /* dedup: shared engine-core @0x80137BD8 (src/shared) */
+#include "../shared/ov/func_80137BD8.h"
 
 // @class: plumbing
 // @stuck: none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &D_801269F0 held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
@@ -1596,9 +1596,9 @@ int func_80137D08(int arg0, int arg1, short arg2)
 //     orders `subu` before `addiu` to match.
 #include "common.h"
 
-DEFINE_func_80137DD4()  /* dedup: shared engine-core @0x80137DD4 (src/shared) */
+#include "../shared/ov/func_80137DD4.h"
 
 
-DEFINE_func_80137FD8()  /* dedup: shared engine-core @0x80137FD8 (src/shared) */
+#include "../shared/ov/func_80137FD8.h"
 
 

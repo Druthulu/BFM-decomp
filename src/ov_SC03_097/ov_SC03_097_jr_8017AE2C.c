@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3315,13 +3315,13 @@ void func_8017BE60(void *a0) {
 }
 
 
-DEFINE_func_8017BE9C()  /* dedup: shared engine-core @0x8017BE9C (src/shared) */
+#include "../shared/ov/func_8017BE9C__76785405.h"
 
-DEFINE_func_8017BEA4()  /* dedup: shared engine-core @0x8017BEA4 (src/shared) */
+#include "../shared/ov/func_8017BEA4.h"
 
-DEFINE_func_8017BEAC()  /* dedup: shared engine-core @0x8017BEAC (src/shared) */
+#include "../shared/ov/func_8017BEAC.h"
 
-DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
+#include "../shared/ov/func_8017BEB4.h"
 
 
 /* func_8017BEBC — ov_SC02_027_jr_8017AE2C (76 ins)
@@ -3832,21 +3832,21 @@ void func_8017C8B8(void *a0) {
 
 
 
-DEFINE_func_8017C8F4()  /* dedup: shared engine-core @0x8017C8F4 (src/shared) */
+#include "../shared/ov/func_8017C8F4.h"
 
 
 
 
-DEFINE_func_8017C940()  /* dedup: shared engine-core @0x8017C940 (src/shared) */
+#include "../shared/ov/func_8017C940.h"
 
 
 
-DEFINE_func_8017CA34()  /* dedup: shared engine-core @0x8017CA34 (src/shared) */
+#include "../shared/ov/func_8017CA34.h"
 
 
 
 
-DEFINE_func_8017CAB4()  /* dedup: shared engine-core @0x8017CAB4 (src/shared) */
+#include "../shared/ov/func_8017CAB4.h"
 
 
 
@@ -3871,18 +3871,18 @@ void func_8017CB68(s32 a0) {
 
 
 
-DEFINE_func_8017CBD4()  /* dedup: shared engine-core @0x8017CBD4 (src/shared) */
+#include "../shared/ov/func_8017CBD4__6f36e213.h"
 
 
-DEFINE_func_8017CC60()  /* dedup: shared engine-core @0x8017CC60 (src/shared) */
+#include "../shared/ov/func_8017CC60.h"
 
 
 
 
-DEFINE_func_8017CC80()  /* dedup: shared engine-core @0x8017CC80 (src/shared) */
+#include "../shared/ov/func_8017CC80__229aadd9.h"
 
 
-DEFINE_func_8017CCD4()  /* dedup: shared engine-core @0x8017CCD4 (src/shared) */
+#include "../shared/ov/func_8017CCD4.h"
 
 
 
@@ -3893,14 +3893,14 @@ void func_8017CD10(void *a0) {
 }
 
 
-DEFINE_func_8017CD4C()  /* dedup: shared engine-core @0x8017CD4C (src/shared) */
+#include "../shared/ov/func_8017CD4C.h"
 
 
 
 // @class: plumbing
 // @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
-DEFINE_func_8017CD9C()  /* dedup: shared engine-core @0x8017CD9C (src/shared) */
+#include "../shared/ov/func_8017CD9C__85f5930d.h"
 
 
 
@@ -3912,7 +3912,7 @@ DEFINE_func_8017CD9C()  /* dedup: shared engine-core @0x8017CD9C (src/shared) */
  *   0x30 s32   suppress flag
  */
 
-DEFINE_func_8017CDF8()  /* dedup: shared engine-core @0x8017CDF8 (src/shared) */
+#include "../shared/ov/func_8017CDF8__6241b634.h"
 
 
 
@@ -3928,10 +3928,10 @@ DEFINE_func_8017CDF8()  /* dedup: shared engine-core @0x8017CDF8 (src/shared) */
  * `do { func_80146A6C(0x1B, obj, ...); } while (++i < 3);` s16 loop.
  */
 
-DEFINE_func_8017CE7C()  /* dedup: shared engine-core @0x8017CE7C (src/shared) */
+#include "../shared/ov/func_8017CE7C__5c1a6867.h"
 
 
-DEFINE_func_8017CFE4()  /* dedup: shared engine-core @0x8017CFE4 (src/shared) */
+#include "../shared/ov/func_8017CFE4__5b6b9682.h"
 
 
 
@@ -4043,7 +4043,7 @@ void func_8017D33C(void *a0) {
 }
 
 
-DEFINE_func_8017D378()  /* dedup: shared engine-core @0x8017D378 (src/shared) */
+#include "../shared/ov/func_8017D378__f93a4aa3.h"
 
 
 
@@ -4058,7 +4058,7 @@ DEFINE_func_8017D378()  /* dedup: shared engine-core @0x8017D378 (src/shared) */
  * `lw $s1, 0x34($s2)` / `lhu $v0, 0x12($s2)` — same record, same widths.
  */
 
-DEFINE_func_8017D3B8()  /* dedup: shared engine-core @0x8017D3B8 (src/shared) */
+#include "../shared/ov/func_8017D3B8__55df4134.h"
 
 
 
@@ -4067,14 +4067,14 @@ DEFINE_func_8017D3B8()  /* dedup: shared engine-core @0x8017D3B8 (src/shared) */
  *   counter unconditionally (gcc puts that store in the beqz delay slot),
  *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
 
-DEFINE_func_8017D428()  /* dedup: shared engine-core @0x8017D428 (src/shared) */
+#include "../shared/ov/func_8017D428__db524090.h"
 
 
 
-DEFINE_func_8017D4B4()  /* dedup: shared engine-core @0x8017D4B4 (src/shared) */
+#include "../shared/ov/func_8017D4B4__7ab6a3b9.h"
 
 
-DEFINE_func_8017D588()  /* dedup: shared engine-core @0x8017D588 (src/shared) */
+#include "../shared/ov/func_8017D588__3a43941d.h"
 
 
 
@@ -4116,14 +4116,14 @@ void func_8017D5DC(void *a0) {
  *    the front of the block and swaps the two `lhu`s instead. Boost the loads, starve
  *    the arithmetic. */
 
-DEFINE_func_8017D618()  /* dedup: shared engine-core @0x8017D618 (src/shared) */
+#include "../shared/ov/func_8017D618__744f5451.h"
 
 
-DEFINE_func_8017D6CC()  /* dedup: shared engine-core @0x8017D6CC (src/shared) */
+#include "../shared/ov/func_8017D6CC__86843ed5.h"
 
 
 
 
-DEFINE_func_8017D728()  /* dedup: shared engine-core @0x8017D728 (src/shared) */
+#include "../shared/ov/func_8017D728__81ba1d70.h"
 
 

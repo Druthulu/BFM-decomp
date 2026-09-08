@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3218,9 +3218,9 @@ void func_8018602C(s32 a0, s32 a1) {
 }
 
 
-DEFINE_func_80186084()  /* dedup: shared engine-core @0x80186084 (src/shared) */
+#include "../shared/ov/func_80186084.h"
 
-DEFINE_func_801860C0()  /* dedup: shared engine-core @0x801860C0 (src/shared) */
+#include "../shared/ov/func_801860C0__e5cac5b3.h"
 
 
 /* func_8018613C — scan the 96-entry / 0x10C-stride D_801202A0 actor table for
@@ -3308,7 +3308,7 @@ void func_8018613C(void *a0)
 }
 
 
-DEFINE_func_8018625C()  /* dedup: shared engine-core @0x8018625C (src/shared) */
+#include "../shared/ov/func_8018625C.h"
 
 
 /* func_801862A8 — scan the 96-entry / 0x10C-stride D_801202A0 actor table for

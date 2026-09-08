@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 #include "../shared/ov_setters.h"   /* dedup share across the SC01/005 ≡ 006 pair (cookbook §11) */
 
 
@@ -1344,11 +1344,11 @@ after_b4c:
 }
 
 
-DEFINE_func_8015A1C8()  /* dedup: shared engine-core @0x8015A1C8 (src/shared) */
+#include "../shared/ov/func_8015A1C8.h"
 
-DEFINE_func_8015A1FC()  /* dedup: shared engine-core @0x8015A1FC (src/shared) */
+#include "../shared/ov/func_8015A1FC.h"
 
-DEFINE_func_8015A230()  /* dedup: shared engine-core @0x8015A230 (src/shared) */
+#include "../shared/ov/func_8015A230.h"
 
 
 extern void (*D_80184B9C[])(void);
@@ -1358,7 +1358,7 @@ void func_8015A264(void *a0) {
 }
 
 
-DEFINE_func_8015A2A0()  /* dedup: shared engine-core @0x8015A2A0 (src/shared) */
+#include "../shared/ov/func_8015A2A0.h"
 
 
 // @class: other

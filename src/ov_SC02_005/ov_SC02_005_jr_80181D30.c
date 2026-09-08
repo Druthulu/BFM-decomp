@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 #include "ov_SC02_005_shared.h"
 
 /* D_80195AF6_t / SubStruct / MainStruct moved to ov_SC02_005_shared.h (S74 §431 split;

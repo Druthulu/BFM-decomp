@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
  * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
@@ -1480,10 +1480,10 @@ s32 arg0;
 }
 
 
-DEFINE_func_8015AB7C()  /* dedup: shared engine-core @0x8015AB7C (src/shared) */
+#include "../shared/ov/func_8015AB7C.h"
 
 /* func_8015ABD4 — overlay ov_SC01_077 shared core */
-DEFINE_func_8015ABD4()  /* dedup: shared engine-core @0x8015ABD4 (src/shared) */
+#include "../shared/ov/func_8015ABD4.h"
 
 // @class: plumbing
 // @stuck: none — MATCH (param held in $s0 across 3 calls; lhu 0x16E; &D_8018914C arg)
@@ -1499,11 +1499,11 @@ void func_8015AC48(s32 arg0)
     func_80161CD0(arg0, M2C_FIELD(arg0, u16 *, 0x16E));
 }
 
-DEFINE_func_8015AC90()  /* dedup: shared engine-core @0x8015AC90 (src/shared) */
+#include "../shared/ov/func_8015AC90.h"
 
-DEFINE_func_8015ACC4()  /* dedup: shared engine-core @0x8015ACC4 (src/shared) */
+#include "../shared/ov/func_8015ACC4.h"
 
-DEFINE_func_8015AD08()  /* dedup: shared engine-core @0x8015AD08 (src/shared) */
+#include "../shared/ov/func_8015AD08.h"
 
 extern void (*D_80189310[])(void *);
 
@@ -1512,7 +1512,7 @@ void func_8015AD3C(void *a0)
     D_80189310[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-DEFINE_func_8015AD78()  /* dedup: shared engine-core @0x8015AD78 (src/shared) */
+#include "../shared/ov/func_8015AD78.h"
 
-DEFINE_func_8015ADB0()  /* dedup: shared engine-core @0x8015ADB0 (src/shared) */
+#include "../shared/ov/func_8015ADB0.h"
 

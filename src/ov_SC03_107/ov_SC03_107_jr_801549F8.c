@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
  * The file-scope decl environment from earlier code regions of this object —
@@ -2023,31 +2023,31 @@ s32 func_801549F8(s32 param_1, s32 _arg1, s32 _arg2)
     return count;
 }
 
-DEFINE_func_80154A74()  /* dedup: shared engine-core @0x80154a74 (src/shared) */
+#include "../shared/ov/func_80154A74.h"
 
 
-DEFINE_func_80154AB4()  /* dedup: shared engine-core @0x80154ab4 (src/shared) */
+#include "../shared/ov/func_80154AB4.h"
 
 
-DEFINE_func_80154AE0()  /* dedup: shared engine-core @0x80154ae0 (src/shared) */
+#include "../shared/ov/func_80154AE0.h"
 
 
-DEFINE_func_80154B20()  /* dedup: shared engine-core @0x80154b20 (src/shared) */
+#include "../shared/ov/func_80154B20.h"
 
 
-DEFINE_func_80154B4C()  /* dedup: shared engine-core @0x80154b4c (src/shared) */
+#include "../shared/ov/func_80154B4C.h"
 
 
-DEFINE_func_80154B7C()  /* dedup: shared engine-core @0x80154b7c (src/shared) */
+#include "../shared/ov/func_80154B7C.h"
 
 
-DEFINE_func_80154B98()  /* dedup: shared engine-core @0x80154b98 (src/shared) */
+#include "../shared/ov/func_80154B98.h"
 
 
-DEFINE_func_80154BC8()  /* dedup: shared engine-core @0x80154bc8 (src/shared) */
+#include "../shared/ov/func_80154BC8.h"
 
 
-DEFINE_func_80154BE4()  /* dedup: shared engine-core @0x80154be4 (src/shared) */
+#include "../shared/ov/func_80154BE4.h"
 
 
 
@@ -2148,10 +2148,10 @@ LAB_80154eac:
     return;
 }
 
-DEFINE_func_80154ED8()  /* dedup: shared engine-core @0x80154ed8 (src/shared) */
+#include "../shared/ov/func_80154ED8.h"
 
 
-DEFINE_func_80154F9C()  /* dedup: shared engine-core @0x80154f9c (src/shared) */
+#include "../shared/ov/func_80154F9C.h"
 
 
 
@@ -2174,25 +2174,25 @@ void func_801550FC(s32 arg0)
 }
 
 
-DEFINE_func_80155150()  /* dedup: shared engine-core @0x80155150 (src/shared) */
+#include "../shared/ov/func_80155150.h"
 
 
-DEFINE_func_801552F4()  /* dedup: shared engine-core @0x801552f4 (src/shared) */
+#include "../shared/ov/func_801552F4.h"
 
 
-DEFINE_func_80155344()  /* dedup: shared engine-core @0x80155344 (src/shared) */
+#include "../shared/ov/func_80155344.h"
 
 
-DEFINE_func_80155394()  /* dedup: shared engine-core @0x80155394 (src/shared) */
+#include "../shared/ov/func_80155394.h"
 
 
-DEFINE_func_801553A8()  /* dedup: shared engine-core @0x801553a8 (src/shared) */
+#include "../shared/ov/func_801553A8.h"
 
 
-DEFINE_func_801553C0()  /* dedup: shared engine-core @0x801553c0 (src/shared) */
+#include "../shared/ov/func_801553C0.h"
 
 
-DEFINE_func_80155440()  /* dedup: shared engine-core @0x80155440 (src/shared) */
+#include "../shared/ov/func_80155440.h"
 
 
 
@@ -2217,13 +2217,13 @@ s32 func_80155458(s32 param_1)
 }
 
 
-DEFINE_func_801554B8()  /* dedup: shared engine-core @0x801554b8 (src/shared) */
+#include "../shared/ov/func_801554B8.h"
 
 
-DEFINE_func_80155518()  /* dedup: shared engine-core @0x80155518 (src/shared) */
+#include "../shared/ov/func_80155518.h"
 
 
-DEFINE_func_8015554C()  /* dedup: shared engine-core @0x8015554c (src/shared) */
+#include "../shared/ov/func_8015554C.h"
 
 
 
@@ -2235,5 +2235,5 @@ void func_80155580(void *a0) {
 }
 
 
-DEFINE_func_801555BC()  /* dedup: shared engine-core @0x801555bc (src/shared) */
+#include "../shared/ov/func_801555BC.h"
 

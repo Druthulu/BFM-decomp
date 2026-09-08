@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 #include "../shared/ov_setters.h"   /* dedup share across the SC01/005 ≡ 006 pair (cookbook §11) */
 
 
@@ -2789,7 +2789,7 @@ extern s32 * func_8017E978(s32 *ot, Panel_8017E978 *w0, s16 idx);
  *     at the head of the if-body reorg's stop_search_p() bails on the asm and
  *     refuses to fill the branch delay slot with the `addu` (+1 instruction).
  */
-DEFINE_func_8017ED5C()  /* dedup: shared engine-core @0x8017ED5C (src/shared) */
+#include "../shared/ov/func_8017ED5C__d800c6d0.h"
 
 
 /* func_8017EFA8 — HUD "gauge box" primitive emitter (203 ins, frame 0x28).
@@ -3788,7 +3788,7 @@ s32 *a0;
 }
 
 
-DEFINE_func_801805A0()  /* dedup: shared engine-core @0x801805A0 (src/shared) */
+#include "../shared/ov/func_801805A0__76785405.h"
 
 extern s32 func_8017DAAC(s32 a0, s32 a1);
     void func_801805A8(void) {
@@ -3855,7 +3855,7 @@ s32 func_801806B8(s32 a0) {
 }
 
 
-DEFINE_func_80180710()  /* dedup: shared engine-core @0x80180710 (src/shared) */
+#include "../shared/ov/func_80180710__d000df43.h"
 
 extern s16 func_8017DA9C(void);
 
@@ -3891,10 +3891,10 @@ void *arg0;
 }
 
 
-DEFINE_func_801807E8()  /* dedup: shared engine-core @0x801807E8 (src/shared) */
+#include "../shared/ov/func_801807E8__e97c73bd.h"
 
 
-DEFINE_func_80180800()  /* dedup: shared engine-core @0x80180800 (src/shared) */
+#include "../shared/ov/func_80180800__76785405.h"
 
 extern s32 func_8012C1B8(void);
 extern void func_8001C2C4(s32 a0);
@@ -4002,7 +4002,7 @@ void func_801809F4(s32 *a0) {
 }
 
 
-DEFINE_func_80180A30()  /* dedup: shared engine-core @0x80180A30 (src/shared) */
+#include "../shared/ov/func_80180A30__76785405.h"
 
 
 extern s32 func_8012C51C(void *, s32);
@@ -4050,10 +4050,10 @@ s32 param_1;
 }
 
 
-DEFINE_func_80180B04()  /* dedup: shared engine-core @0x80180B04 (src/shared) */
+#include "../shared/ov/func_80180B04__ff05b638.h"
 
 
-DEFINE_func_80180B14()  /* dedup: shared engine-core @0x80180B14 (src/shared) */
+#include "../shared/ov/func_80180B14__7ab3d5f0.h"
 
 
 void func_80180B24(void *a0) {
@@ -4176,7 +4176,7 @@ void func_80180D10(void *a0) {
 
 #include "common.h"
 
-DEFINE_func_80180D48()  /* dedup: shared engine-core @0x80180D48 (src/shared) */
+#include "../shared/ov/func_80180D48__2a146fff.h"
 
 
 extern void func_8012A828(s32 a0, void *a1);
@@ -4323,7 +4323,7 @@ void func_80181054(s32 a0) {
 }
 
 
-DEFINE_func_801810AC()  /* dedup: shared engine-core @0x801810AC (src/shared) */
+#include "../shared/ov/func_801810AC__274a42ec.h"
 
 
 extern void *D_801BC798[];

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
  * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
@@ -31,17 +31,17 @@ extern s32 func_80175820(void);                          /* derive-decl, arity 0
 extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
 
-DEFINE_func_80128158()  /* dedup: shared engine-core @0x80128158 (src/shared) */
+#include "../shared/ov/func_80128158.h"
 
-DEFINE_func_80128178()  /* dedup: shared engine-core @0x80128178 (src/shared) */
+#include "../shared/ov/func_80128178.h"
 
-DEFINE_func_80128198()  /* dedup: shared engine-core @0x80128198 (src/shared) */
+#include "../shared/ov/func_80128198.h"
 
-DEFINE_func_801281B8()  /* dedup: shared engine-core @0x801281B8 (src/shared) */
+#include "../shared/ov/func_801281B8.h"
 
-DEFINE_func_801281D8()  /* dedup: shared engine-core @0x801281D8 (src/shared) */
+#include "../shared/ov/func_801281D8.h"
 
-DEFINE_func_801281F8()  /* dedup: shared engine-core @0x801281F8 (src/shared) */
+#include "../shared/ov/func_801281F8.h"
 
 extern s32 D_801D7F90;
 
@@ -49,11 +49,11 @@ s32 func_80128218(void) {
     return D_801D7F90;
 }
 
-DEFINE_func_80128228()  /* dedup: shared engine-core @0x80128228 (src/shared) */
+#include "../shared/ov/func_80128228.h"
 
-DEFINE_func_80128248()  /* dedup: shared engine-core @0x80128248 (src/shared) */
+#include "../shared/ov/func_80128248.h"
 
-DEFINE_func_80128268()  /* dedup: shared engine-core @0x80128268 (src/shared) */
+#include "../shared/ov/func_80128268.h"
 
 extern u16 D_800B99F6;
 extern void (*D_80186DB4[])(void);
@@ -66,24 +66,24 @@ void func_80128288(void) {
     }
 }
 
-DEFINE_func_801282CC()  /* dedup: shared engine-core @0x801282CC (src/shared) */
+#include "../shared/ov/func_801282CC.h"
 
-DEFINE_func_801282EC()  /* dedup: shared engine-core @0x801282EC (src/shared) */
+#include "../shared/ov/func_801282EC.h"
 
-DEFINE_func_8012832C()  /* dedup: shared engine-core @0x8012832C (src/shared) */
+#include "../shared/ov/func_8012832C.h"
 
 
-DEFINE_func_80128420()  /* dedup: shared engine-core @0x80128420 (src/shared) */
+#include "../shared/ov/func_80128420.h"
 
-DEFINE_func_801284B8()  /* dedup: shared engine-core @0x801284B8 (src/shared) */
+#include "../shared/ov/func_801284B8.h"
 
-DEFINE_func_801284F0()  /* dedup: shared engine-core @0x801284F0 (src/shared) */
+#include "../shared/ov/func_801284F0.h"
 
-DEFINE_func_8012853C()  /* dedup: shared engine-core @0x8012853C (src/shared) */
+#include "../shared/ov/func_8012853C.h"
 
-DEFINE_func_80128564()  /* dedup: shared engine-core @0x80128564 (src/shared) */
+#include "../shared/ov/func_80128564.h"
 
-DEFINE_func_801285D4()  /* dedup: shared engine-core @0x801285D4 (src/shared) */
+#include "../shared/ov/func_801285D4.h"
 
 // @class: other
 // @stuck: none — MATCH (handwritten inline-asm scratchpad-stack-switch wrapper; manages its own frame, no trailing .set reorder)
@@ -149,7 +149,7 @@ void func_801285E4(void)
  * 0x1F8003FC and repoints $sp into the D-cache scratchpad before each engine call,
  * restoring it after. Manipulating $sp is not expressible in C; full inline asm
  * (manages its own frame). Signature pinned by engine_core.h: void func_80128678(void). */
-DEFINE_func_80128678()  /* dedup: shared engine-core @0x80128678 (src/shared) */
+#include "../shared/ov/func_80128678.h"
 
 // @class: other
 // @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper w/ branch)
@@ -425,7 +425,7 @@ void func_80128AF4(void) {
 }
 
 
-DEFINE_func_80128C14()  /* dedup: shared engine-core @0x80128C14 (src/shared) */
+#include "../shared/ov/func_80128C14.h"
 
 #include "common.h"
 
@@ -464,14 +464,14 @@ s32 func_80128CFC(s32 arg0) {
 }
 
 
-DEFINE_func_80128D60()  /* dedup: shared engine-core @0x80128D60 (src/shared) */
+#include "../shared/ov/func_80128D60.h"
 
 // @class: struct
 // @stuck: none — MATCH
-DEFINE_func_80128DB4()  /* dedup: shared engine-core @0x80128DB4 (src/shared) */
+#include "../shared/ov/func_80128DB4.h"
 
 
-DEFINE_func_80128EA8()  /* dedup: shared engine-core @0x80128EA8 (src/shared) */
+#include "../shared/ov/func_80128EA8.h"
 
 // LOAD-BEARING register pins (cookbook §17 + §25): the residual here was NOT scheduling but
 // gcc-2.7.2 COPY-COALESCING — gcc folded the index-preserve copy (idc) into the multiply operand
@@ -481,7 +481,7 @@ DEFINE_func_80128EA8()  /* dedup: shared engine-core @0x80128EA8 (src/shared) */
 // Do NOT "simplify" the pins or the cnt reuse — each is byte-load-bearing (byte-gated).
 #include "common.h"
 
-DEFINE_func_80128ED8()  /* dedup: shared engine-core @0x80128ED8 (src/shared) */
+#include "../shared/ov/func_80128ED8.h"
 
 
 M2C_UNK func_8001534C(M2C_UNK, M2C_UNK *, M2C_UNK, M2C_UNK, s32, s32); /* extern */
@@ -494,7 +494,7 @@ void func_80128FAC(u16 *arg0) {
 }
 
 
-DEFINE_func_80129010()  /* dedup: shared engine-core @0x80129010 (src/shared) */
+#include "../shared/ov/func_80129010.h"
 
 extern u8 *func_8012913C(s32 a0);
 
@@ -516,10 +516,10 @@ u8 *func_801290DC(s32 a0, u8 *a1) {
  * func_801291C0: canonical `u8 *func_801291C0(void)` (engine_core.h DEFINE_func_801291C0).
  * func_8001CC3C: arity-4 from m2c/asm read-before-write $a0-$a3; void->s32 byte-neutral.
  */
-DEFINE_func_8012913C()  /* dedup: shared engine-core @0x8012913C (src/shared) */
+#include "../shared/ov/func_8012913C.h"
 
 
-DEFINE_func_801291C0()  /* dedup: shared engine-core @0x801291C0 (src/shared) */
+#include "../shared/ov/func_801291C0.h"
 
 extern void func_80129258(void);
 extern void func_80129248(s16 a0);
@@ -529,30 +529,30 @@ void func_80129220(void) {
     func_80129248(1);
 }
 
-DEFINE_func_80129248()  /* dedup: shared engine-core @0x80129248 (src/shared) */
+#include "../shared/ov/func_80129248.h"
 
-DEFINE_func_80129258()  /* dedup: shared engine-core @0x80129258 (src/shared) */
+#include "../shared/ov/func_80129258.h"
 
-DEFINE_func_8012927C()  /* dedup: shared engine-core @0x8012927C (src/shared) */
+#include "../shared/ov/func_8012927C.h"
 
-DEFINE_func_801292C8()  /* dedup: shared engine-core @0x801292C8 (src/shared) */
+#include "../shared/ov/func_801292C8.h"
 
-DEFINE_func_8012931C()  /* dedup: shared engine-core @0x8012931C (src/shared) */
+#include "../shared/ov/func_8012931C.h"
 
-DEFINE_func_80129350()  /* dedup: shared engine-core @0x80129350 (src/shared) */
+#include "../shared/ov/func_80129350.h"
 
-DEFINE_func_80129374()  /* dedup: shared engine-core @0x80129374 (src/shared) */
+#include "../shared/ov/func_80129374.h"
 
-DEFINE_func_80129398()  /* dedup: shared engine-core @0x80129398 (src/shared) */
+#include "../shared/ov/func_80129398.h"
 
-DEFINE_func_80129428()  /* dedup: shared engine-core @0x80129428 (src/shared) */
+#include "../shared/ov/func_80129428.h"
 
-DEFINE_func_8012943C()  /* dedup: shared engine-core @0x8012943C (src/shared) */
+#include "../shared/ov/func_8012943C.h"
 
 // @class: schedule
 // @stuck: none — MATCH (72 ins)
 
-DEFINE_func_8012944C()  /* dedup: shared engine-core @0x8012944C (src/shared) */
+#include "../shared/ov/func_8012944C.h"
 
 
 #include "common.h"
@@ -676,7 +676,7 @@ void func_8012956C(void) {
 
 
 
-DEFINE_func_801298F4()  /* dedup: shared engine-core @0x801298F4 (src/shared) */
+#include "../shared/ov/func_801298F4.h"
 
 
 
@@ -758,27 +758,27 @@ u8 *arg2;
     }
 }
 
-DEFINE_func_80129C40()  /* dedup: shared engine-core @0x80129C40 (src/shared) */
+#include "../shared/ov/func_80129C40.h"
 
 
-DEFINE_func_80129CF8()  /* dedup: shared engine-core @0x80129CF8 (src/shared) */
+#include "../shared/ov/func_80129CF8.h"
 
-DEFINE_func_80129FF4()  /* dedup: shared engine-core @0x80129FF4 (src/shared) */
+#include "../shared/ov/func_80129FF4.h"
 
 extern u8 D_80126948[];
 void func_8012A048(void *a0, s32 a1, u8 a2);
 
-DEFINE_func_8012A018()  /* dedup: shared engine-core @0x8012A018 (src/shared) */
+#include "../shared/ov/func_8012A018.h"
 
-DEFINE_func_8012A048()  /* dedup: shared engine-core @0x8012A048 (src/shared) */
+#include "../shared/ov/func_8012A048.h"
 
-DEFINE_func_8012A094()  /* dedup: shared engine-core @0x8012A094 (src/shared) */
+#include "../shared/ov/func_8012A094.h"
 
-DEFINE_func_8012A0E0()  /* dedup: shared engine-core @0x8012A0E0 (src/shared) */
+#include "../shared/ov/func_8012A0E0.h"
 
-DEFINE_func_8012A100()  /* dedup: shared engine-core @0x8012A100 (src/shared) */
+#include "../shared/ov/func_8012A100.h"
 
-DEFINE_func_8012A110()  /* dedup: shared engine-core @0x8012A110 (src/shared) */
+#include "../shared/ov/func_8012A110.h"
 
 
 
@@ -793,34 +793,34 @@ DEFINE_func_8012A110()  /* dedup: shared engine-core @0x8012A110 (src/shared) */
 
 
 
-DEFINE_func_8012A1BC()  /* dedup: shared engine-core @0x8012A1BC (src/shared) */
+#include "../shared/ov/func_8012A1BC.h"
 
 
-DEFINE_func_8012A2F4()  /* dedup: shared engine-core @0x8012A2F4 (src/shared) */
+#include "../shared/ov/func_8012A2F4.h"
 
-DEFINE_func_8012A304()  /* dedup: shared engine-core @0x8012A304 (src/shared) */
-
-
-
+#include "../shared/ov/func_8012A304.h"
 
 
 
 
 
-DEFINE_func_8012A328()  /* dedup: shared engine-core @0x8012A328 (src/shared) */
+
+
+
+#include "../shared/ov/func_8012A328.h"
 
 
 
 
-DEFINE_func_8012A418()  /* dedup: shared engine-core @0x8012A418 (src/shared) */
+#include "../shared/ov/func_8012A418.h"
 
 
 
-DEFINE_func_8012A464()  /* dedup: shared engine-core @0x8012A464 (src/shared) */
+#include "../shared/ov/func_8012A464.h"
 
-DEFINE_func_8012A4BC()  /* dedup: shared engine-core @0x8012A4BC (src/shared) */
+#include "../shared/ov/func_8012A4BC.h"
 
-DEFINE_func_8012A568()  /* dedup: shared engine-core @0x8012A568 (src/shared) */
+#include "../shared/ov/func_8012A568.h"
 
 #include "common.h"
 
@@ -840,41 +840,41 @@ DEFINE_func_8012A568()  /* dedup: shared engine-core @0x8012A568 (src/shared) */
  * macros defining the same tag would redefine it in one TU). The SHARED `struct BigCopy`
  * (src/shared/engine_types.h L312) is the identical layout and is already used this exact way at
  * engine_core.h:16158, so using it is byte-neutral and lets the fn propagate x137. */
-DEFINE_func_8012A598()  /* dedup: shared engine-core @0x8012A598 (src/shared) */
+#include "../shared/ov/func_8012A598.h"
 
 
-DEFINE_func_8012A5F8()  /* dedup: shared engine-core @0x8012A5F8 (src/shared) */
+#include "../shared/ov/func_8012A5F8.h"
 
 
 
 
 
-DEFINE_func_8012A62C()  /* dedup: shared engine-core @0x8012A62C (src/shared) */
+#include "../shared/ov/func_8012A62C.h"
 
 
-DEFINE_func_8012A68C()  /* dedup: shared engine-core @0x8012A68C (src/shared) */
+#include "../shared/ov/func_8012A68C.h"
 
-DEFINE_func_8012A6D0()  /* dedup: shared engine-core @0x8012A6D0 (src/shared) */
-
-
-DEFINE_func_8012A758()  /* dedup: shared engine-core @0x8012A758 (src/shared) */
-
-DEFINE_func_8012A79C()  /* dedup: shared engine-core @0x8012A79C (src/shared) */
-
-DEFINE_func_8012A7D4()  /* dedup: shared engine-core @0x8012A7D4 (src/shared) */
+#include "../shared/ov/func_8012A6D0.h"
 
 
-DEFINE_func_8012A828()  /* dedup: shared engine-core @0x8012A828 (src/shared) */
+#include "../shared/ov/func_8012A758.h"
 
-DEFINE_func_8012A860()  /* dedup: shared engine-core @0x8012A860 (src/shared) */
+#include "../shared/ov/func_8012A79C.h"
 
-DEFINE_func_8012A8B0()  /* dedup: shared engine-core @0x8012A8B0 (src/shared) */
+#include "../shared/ov/func_8012A7D4.h"
 
-DEFINE_func_8012A8E8()  /* dedup: shared engine-core @0x8012A8E8 (src/shared) */
 
-DEFINE_func_8012A908()  /* dedup: shared engine-core @0x8012A908 (src/shared) */
+#include "../shared/ov/func_8012A828.h"
 
-DEFINE_func_8012A988()  /* dedup: shared engine-core @0x8012A988 (src/shared) */
+#include "../shared/ov/func_8012A860.h"
+
+#include "../shared/ov/func_8012A8B0.h"
+
+#include "../shared/ov/func_8012A8E8.h"
+
+#include "../shared/ov/func_8012A908.h"
+
+#include "../shared/ov/func_8012A988.h"
 
 
 // @class: schedule

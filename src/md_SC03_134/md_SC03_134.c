@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern u8 D_801E35C4[];
 extern void func_80175414(s32 _arg0);
@@ -220,7 +220,7 @@ void func_801E2AB8(void *a0) {
 }
 
 
-DEFINE_func_801E2AF4()  /* dedup: shared engine-core @0x801E2AF4 (src/shared) */
+#include "../shared/slot_801E25E8/func_801E2AF4.h"
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */

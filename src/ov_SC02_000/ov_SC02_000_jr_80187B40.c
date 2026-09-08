@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3256,7 +3256,7 @@ void func_80187B40(s32 p) {
 
 #include "common.h"
 
-DEFINE_func_80187DB8()  /* dedup: shared engine-core @0x80187DB8 (src/shared) */
+#include "../shared/ov/func_80187DB8.h"
 
 
 extern void func_8012AD80(s32 a0);
@@ -3279,7 +3279,7 @@ void func_80187EB4(int param_1) {
 
 #include "common.h"
 
-DEFINE_func_80187F30()  /* dedup: shared engine-core @0x80187F30 (src/shared) */
+#include "../shared/ov/func_80187F30.h"
 
 
 
@@ -3292,17 +3292,17 @@ void func_80187FEC(void *a0) {
 
 #include "common.h"
 
-DEFINE_func_80188028()  /* dedup: shared engine-core @0x80188028 (src/shared) */
+#include "../shared/ov/func_80188028.h"
 
 
 #include "common.h"
 
-DEFINE_func_80188134()  /* dedup: shared engine-core @0x80188134 (src/shared) */
+#include "../shared/ov/func_80188134__7cb1faa0.h"
 
 
 #include "common.h"
 
-DEFINE_func_8018825C()  /* dedup: shared engine-core @0x8018825C (src/shared) */
+#include "../shared/ov/func_8018825C__bd445f88.h"
 
 
 void func_80188414(void *a0) {
@@ -3347,7 +3347,7 @@ void func_801884B8(s32 arg0) {
 
 #include "common.h"
 
-DEFINE_func_801884FC()  /* dedup: shared engine-core @0x801884FC (src/shared) */
+#include "../shared/ov/func_801884FC.h"
 
 
 #include "common.h"
@@ -3428,7 +3428,7 @@ void func_80188754(void *a0) {
  * gets shift 2 and is wrong).
  */
 
-DEFINE_func_80188790()  /* dedup: shared engine-core @0x80188790 (src/shared) */
+#include "../shared/ov/func_80188790.h"
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -3728,7 +3728,7 @@ void func_80188D54(s32 param_1) {
 }
 
 
-DEFINE_func_80188DF0()  /* dedup: shared engine-core @0x80188DF0 (src/shared) */
+#include "../shared/ov/func_80188DF0.h"
 
 extern void func_8018A3C8(void *arg0);
 extern void func_800233CC(void *a0, u16 a1);
@@ -3771,7 +3771,7 @@ void func_80188ECC(void *a0) {
 }
 
 
-DEFINE_func_80188F08()  /* dedup: shared engine-core @0x80188F08 (src/shared) */
+#include "../shared/ov/func_80188F08__7dfff3b1.h"
 
 
 
@@ -4156,11 +4156,11 @@ extern s16 D_800B9A0E;
 
 #include "common.h"
 
-DEFINE_func_80189898()  /* dedup: shared engine-core @0x80189898 (src/shared) */
+#include "../shared/ov/func_80189898.h"
 
 
 
-DEFINE_func_801898C8()  /* dedup: shared engine-core @0x801898C8 (src/shared) */
+#include "../shared/ov/func_801898C8__ffb6e8f4.h"
 
 
 extern void func_80189C6C();
@@ -4178,7 +4178,7 @@ void func_80189904(s32 param_1)
 }
 
 
-DEFINE_func_80189950()  /* dedup: shared engine-core @0x80189950 (src/shared) */
+#include "../shared/ov/func_80189950.h"
 
 extern void func_8012BF4C(s32 *arg0, s32 arg1);
 extern s32 func_8012AD50(void *arg0);
@@ -4280,7 +4280,7 @@ void func_80189A70(s32 *a0)
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 typedef struct {
     s16 start;
@@ -4826,7 +4826,7 @@ void func_8018A640(s32 *a0, s32 a1, s32 a2, s32 a3)
   *((s8 *) (new_var + 0x2)) = a3;
 }
 
-DEFINE_func_8018A650()  /* dedup: shared engine-core @0x8018A650 (src/shared) */
+#include "../shared/ov/func_8018A650.h"
 
 
 

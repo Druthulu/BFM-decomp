@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3321,16 +3321,16 @@ void func_8017BE60(void *a0) {
 }
 
 
-DEFINE_func_8017BE9C()  /* dedup: shared engine-core @0x8017BE9C (src/shared) */
+#include "../shared/ov/func_8017BE9C__76785405.h"
 
-DEFINE_func_8017BEA4()  /* dedup: shared engine-core @0x8017BEA4 (src/shared) */
+#include "../shared/ov/func_8017BEA4.h"
 
-DEFINE_func_8017BEAC()  /* dedup: shared engine-core @0x8017BEAC (src/shared) */
+#include "../shared/ov/func_8017BEAC.h"
 
-DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
+#include "../shared/ov/func_8017BEB4.h"
 
 
-DEFINE_func_8017BEBC()  /* dedup: shared engine-core @0x8017BEBC (src/shared) */
+#include "../shared/ov/func_8017BEBC__29f8286d.h"
 
 
 
@@ -4195,7 +4195,7 @@ void func_8017CF30(void *a0) {
  *     shift results are born after $v0 dies and reclaim it.
  */
 
-DEFINE_func_8017CF6C()  /* dedup: shared engine-core @0x8017CF6C (src/shared) */
+#include "../shared/ov/func_8017CF6C__4771362e.h"
 
 
 /* func_8017CFE0 -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C */
@@ -4272,7 +4272,7 @@ void func_8017CFE0(s16 *a0) {
    identical layout to engine_types.h's Blk20 / Mtx8_8016CBC0. */
 
 /* --- forms taken VERBATIM from the TU (src/ov_SC03_002/ov_SC03_002_jr_8017AE2C.c) --- */
-DEFINE_func_8017D0BC()  /* dedup: shared engine-core @0x8017D0BC (src/shared) */
+#include "../shared/ov/func_8017D0BC__4f23330c.h"
 
 
 extern int func_80178970(void);
@@ -4445,6 +4445,6 @@ L_8017D57C:
 }
 
 
-DEFINE_func_8017D5C4()  /* dedup: shared engine-core @0x8017D5C4 (src/shared) */
+#include "../shared/ov/func_8017D5C4__cfafd700.h"
 
 

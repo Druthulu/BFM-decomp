@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== S74 overlay split (cookbook §426/§431) ================================
  * Split out of ov_SC03_105_jr_8017C8D0.c at vram 0x8018624C (file offset 0x5E0F4).

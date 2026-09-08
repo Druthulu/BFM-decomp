@@ -1,0 +1,31 @@
+/* func_8013E0FC — shared body (overlay slot 0x80128158, h_exact 1108e87a). ONE source: instantiated by #include at each
+ * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+extern int SquareRoot12(int a0);
+int func_8013E0FC(s16 *a0, s16 *a1) {
+    s32 d[3];
+    s32 sq[3];
+    d[0] = a0[1] - a1[0];
+    d[1] = a0[3] - a1[1];
+    d[2] = a0[5] - a1[2];
+    __asm__ __volatile__("" ::: "memory");
+    {
+        register s32 *pd __asm__("$2") = &d[0];
+        __asm__ __volatile__(
+            "lwc2 $9, 0(%0)\n"
+            "lwc2 $10, 4(%0)\n"
+            "lwc2 $11, 8(%0)\n"
+            "nop\n"
+            "nop\n"
+            "sqr 1\n"
+            : : "r"(pd) : "$9", "$10", "$11", "memory");
+    }
+    {
+        register s32 *pq __asm__("$2") = &sq[0];
+        __asm__ __volatile__(
+            "swc2 $25, 0(%0)\n"
+            "swc2 $26, 4(%0)\n"
+            "swc2 $27, 8(%0)\n"
+            : : "r"(pq) : "memory");
+    }
+    return SquareRoot12(sq[0] + sq[1] + sq[2]);
+}

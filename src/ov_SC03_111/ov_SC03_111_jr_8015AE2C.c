@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -1505,13 +1505,13 @@ s32 arg0;
     }
 }
 
-DEFINE_func_8015B6F4()  /* dedup: shared engine-core @0x8015B6F4 (src/shared) */
+#include "../shared/ov/func_8015B6F4.h"
 
-DEFINE_func_8015B7B4()  /* dedup: shared engine-core @0x8015B7B4 (src/shared) */
+#include "../shared/ov/func_8015B7B4.h"
 
-DEFINE_func_8015B858()  /* dedup: shared engine-core @0x8015B858 (src/shared) */
+#include "../shared/ov/func_8015B858.h"
 
-DEFINE_func_8015B8F8()  /* dedup: shared engine-core @0x8015B8F8 (src/shared) */
+#include "../shared/ov/func_8015B8F8.h"
 
 extern s32 func_8015AE2C();
 
@@ -1767,11 +1767,11 @@ join:
     }
 }
 
-DEFINE_func_8015BD8C()  /* dedup: shared engine-core @0x8015BD8C (src/shared) */
+#include "../shared/ov/func_8015BD8C.h"
 
-DEFINE_func_8015BDD0()  /* dedup: shared engine-core @0x8015BDD0 (src/shared) */
+#include "../shared/ov/func_8015BDD0.h"
 
-DEFINE_func_8015BE04()  /* dedup: shared engine-core @0x8015BE04 (src/shared) */
+#include "../shared/ov/func_8015BE04.h"
 
 
 
@@ -1782,21 +1782,21 @@ void func_8015BE38(struct Obj *a0) {
 }
 
 
-DEFINE_func_8015BE74()  /* dedup: shared engine-core @0x8015BE74 (src/shared) */
+#include "../shared/ov/func_8015BE74.h"
 
-DEFINE_func_8015BE94()  /* dedup: shared engine-core @0x8015BE94 (src/shared) */
+#include "../shared/ov/func_8015BE94.h"
 
-DEFINE_func_8015BEC4()  /* dedup: shared engine-core @0x8015BEC4 (src/shared) */
+#include "../shared/ov/func_8015BEC4.h"
 
-DEFINE_func_8015BEE4()  /* dedup: shared engine-core @0x8015BEE4 (src/shared) */
+#include "../shared/ov/func_8015BEE4.h"
 
-DEFINE_func_8015BF04()  /* dedup: shared engine-core @0x8015BF04 (src/shared) */
+#include "../shared/ov/func_8015BF04.h"
 
-DEFINE_func_8015BF48()  /* dedup: shared engine-core @0x8015BF48 (src/shared) */
+#include "../shared/ov/func_8015BF48.h"
 
-DEFINE_func_8015BF7C()  /* dedup: shared engine-core @0x8015BF7C (src/shared) */
+#include "../shared/ov/func_8015BF7C.h"
 
-DEFINE_func_8015BFB0()  /* dedup: shared engine-core @0x8015BFB0 (src/shared) */
+#include "../shared/ov/func_8015BFB0.h"
 
 
 extern void (*D_8018713C[])(void);
@@ -1816,12 +1816,12 @@ void func_8015BFF4(void *a0) {
  * definition also match_one-MATCHes but breaks the real TU with
  * `conflicting types`.  The s16 reads are cast at the use site. */
 
-DEFINE_func_8015C030()  /* dedup: shared engine-core @0x8015C030 (src/shared) */
+#include "../shared/ov/func_8015C030.h"
 
 
-DEFINE_func_8015C08C()  /* dedup: shared engine-core @0x8015C08C (src/shared) */
+#include "../shared/ov/func_8015C08C.h"
 
-DEFINE_func_8015C0C4()  /* dedup: shared engine-core @0x8015C0C4 (src/shared) */
+#include "../shared/ov/func_8015C0C4.h"
 
 #include "common.h"
 

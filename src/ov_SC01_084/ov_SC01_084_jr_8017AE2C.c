@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3322,13 +3322,13 @@ void func_8017BE60(void *a0) {
 }
 
 
-DEFINE_func_8017BE9C()  /* dedup: shared engine-core @0x8017BE9C (src/shared) */
+#include "../shared/ov/func_8017BE9C__76785405.h"
 
-DEFINE_func_8017BEA4()  /* dedup: shared engine-core @0x8017BEA4 (src/shared) */
+#include "../shared/ov/func_8017BEA4.h"
 
-DEFINE_func_8017BEAC()  /* dedup: shared engine-core @0x8017BEAC (src/shared) */
+#include "../shared/ov/func_8017BEAC.h"
 
-DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
+#include "../shared/ov/func_8017BEB4.h"
 
 void func_8017BEBC(void *a0) {
     func_80146A6C(0x19, a0, 0, 0, 0, 0, 1);
@@ -3355,13 +3355,13 @@ void func_8017BEF8(void *a0) {
  * §3-T4: target is `bnez $v0, .L` => source condition is `== 0`.
  */
 
-DEFINE_func_8017BF34()  /* dedup: shared engine-core @0x8017BF34 (src/shared) */
+#include "../shared/ov/func_8017BF34__952c5c00.h"
 
 
 // @class: plumbing
 // @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
-DEFINE_func_8017BF84()  /* dedup: shared engine-core @0x8017BF84 (src/shared) */
+#include "../shared/ov/func_8017BF84.h"
 
 
 #include "common.h"
@@ -3374,7 +3374,7 @@ DEFINE_func_8017BF84()  /* dedup: shared engine-core @0x8017BF84 (src/shared) */
  *   0x30 s32   suppress flag
  */
 
-DEFINE_func_8017BFE0()  /* dedup: shared engine-core @0x8017BFE0 (src/shared) */
+#include "../shared/ov/func_8017BFE0.h"
 
 
 /* func_8017C064 — entity tick with a two-mode "hit/shake" arm.
@@ -3388,7 +3388,7 @@ DEFINE_func_8017BFE0()  /* dedup: shared engine-core @0x8017BFE0 (src/shared) */
  * `do { func_80146A6C(0x1B, obj, ...); } while (++i < 3);` s16 loop.
  */
 
-DEFINE_func_8017C064()  /* dedup: shared engine-core @0x8017C064 (src/shared) */
+#include "../shared/ov/func_8017C064.h"
 
 
 #include "common.h"
@@ -3400,7 +3400,7 @@ DEFINE_func_8017C064()  /* dedup: shared engine-core @0x8017C064 (src/shared) */
  *   0x12 u16  countdown / angle-ish field (lhu / sh), tested SIGNED as s16
  */
 
-DEFINE_func_8017C1CC()  /* dedup: shared engine-core @0x8017C1CC (src/shared) */
+#include "../shared/ov/func_8017C1CC__14ad4527.h"
 
 
 /* func_8017C218 — 4-point primitive sweep driven by the 44-byte curve table
@@ -3520,7 +3520,7 @@ void func_8017C524(void *a0) {
  * pointer survives the jal in $s0, which is just the natural allocation for a
  * parameter live across a call. */
 
-DEFINE_func_8017C560()  /* dedup: shared engine-core @0x8017C560 (src/shared) */
+#include "../shared/ov/func_8017C560.h"
 
 
 #include "common.h"
@@ -3536,7 +3536,7 @@ DEFINE_func_8017C560()  /* dedup: shared engine-core @0x8017C560 (src/shared) */
  * `lw $s1, 0x34($s2)` / `lhu $v0, 0x12($s2)` — same record, same widths.
  */
 
-DEFINE_func_8017C5A0()  /* dedup: shared engine-core @0x8017C5A0 (src/shared) */
+#include "../shared/ov/func_8017C5A0.h"
 
 
 #include "common.h"
@@ -3546,7 +3546,7 @@ DEFINE_func_8017C5A0()  /* dedup: shared engine-core @0x8017C5A0 (src/shared) */
  *   counter unconditionally (gcc puts that store in the beqz delay slot),
  *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
 
-DEFINE_func_8017C610()  /* dedup: shared engine-core @0x8017C610 (src/shared) */
+#include "../shared/ov/func_8017C610.h"
 
 
 #include "common.h"
@@ -3557,7 +3557,7 @@ DEFINE_func_8017C610()  /* dedup: shared engine-core @0x8017C610 (src/shared) */
  * bumps the state word at +0x2, then tail-calls the shared advance helper.
  * §3-T4: target is `slti 0x20 ; beqz else` => `if (t < 0x20) { then } else { reset }`. */
 
-DEFINE_func_8017C69C()  /* dedup: shared engine-core @0x8017C69C (src/shared) */
+#include "../shared/ov/func_8017C69C.h"
 
 
 #include "common.h"
@@ -3569,7 +3569,7 @@ DEFINE_func_8017C69C()  /* dedup: shared engine-core @0x8017C69C (src/shared) */
  * §71 sibling-first: same shape as func_8017C610 / func_8017C69C in this TU.
  * §3-T4: target is `sll $v0,16 ; blez -> else` => `if (v > 0) { advance }`. */
 
-DEFINE_func_8017C770()  /* dedup: shared engine-core @0x8017C770 (src/shared) */
+#include "../shared/ov/func_8017C770.h"
 
 
 
@@ -3612,7 +3612,7 @@ void func_8017C7C4(void *a0) {
  *    the front of the block and swaps the two `lhu`s instead. Boost the loads, starve
  *    the arithmetic. */
 
-DEFINE_func_8017C800()  /* dedup: shared engine-core @0x8017C800 (src/shared) */
+#include "../shared/ov/func_8017C800.h"
 
 
 #include "common.h"
@@ -3633,9 +3633,9 @@ DEFINE_func_8017C800()  /* dedup: shared engine-core @0x8017C800 (src/shared) */
  * carried decl layer in this TU prototypes them as `(s32 a0)` / `(void)`.
  */
 
-DEFINE_func_8017C8B4()  /* dedup: shared engine-core @0x8017C8B4 (src/shared) */
+#include "../shared/ov/func_8017C8B4__3d8efbf9.h"
 
 
-DEFINE_func_8017C910()  /* dedup: shared engine-core @0x8017C910 (src/shared) */
+#include "../shared/ov/func_8017C910.h"
 
 

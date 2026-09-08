@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -2753,7 +2753,7 @@ extern s32 D_801EAC68;
 extern void func_80184440(void);
 /* ==== end §8b carried decl layer ==== */
 
-DEFINE_func_801848E4()  /* dedup: shared engine-core @0x801848E4 (src/shared) */
+#include "../shared/ov/func_801848E4__dac153f2.h"
 
 
 extern s32 func_80184E4C(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4);
@@ -2965,7 +2965,7 @@ void func_80184DF8(s32 param_1) {
 }
 
 
-DEFINE_func_80184E4C()  /* dedup: shared engine-core @0x80184E4C (src/shared) */
+#include "../shared/ov/func_80184E4C__c7844ae0.h"
 
 
 extern int func_80178970(void);
@@ -3234,7 +3234,7 @@ void func_80185380(s32 param_1) {
 }
 
 
-DEFINE_func_8018553C()  /* dedup: shared engine-core @0x8018553C (src/shared) */
+#include "../shared/ov/func_8018553C__3d02f43e.h"
 
 
 
@@ -3299,7 +3299,7 @@ void func_801855A0(s32 a0) {
 }
 
 
-DEFINE_func_801856B4()  /* dedup: shared engine-core @0x801856B4 (src/shared) */
+#include "../shared/ov/func_801856B4__6b65368d.h"
 
 extern s32 func_80029504(void);
 extern u16 D_8018FEE0[];
@@ -3960,7 +3960,7 @@ void func_801863B8(s32 a0) {
  *    remaining callee-saved reg, $s1.  The pins cost zero instructions.
  */
 
-DEFINE_func_8018655C()  /* dedup: shared engine-core @0x8018655C (src/shared) */
+#include "../shared/ov/func_8018655C__5fb02634.h"
 
 
 #include "common.h"
@@ -3975,7 +3975,7 @@ DEFINE_func_8018655C()  /* dedup: shared engine-core @0x8018655C (src/shared) */
  * the head ramps 0x18/0x1A by 0x100 while 0x18 is still <= 0x4000.
  */
 
-DEFINE_func_801867F8()  /* dedup: shared engine-core @0x801867F8 (src/shared) */
+#include "../shared/ov/func_801867F8.h"
 
 
 #include "common.h"
@@ -4214,7 +4214,7 @@ void func_80186C4C(s32 a0) {
 #include "common.h"
 
 /* ---- declarations (spellings adopted from the host TU where present) ---- */
-DEFINE_func_80187090()  /* dedup: shared engine-core @0x80187090 (src/shared) */
+#include "../shared/ov/func_80187090.h"
 
 
 #include "common.h"
@@ -4224,7 +4224,7 @@ DEFINE_func_80187090()  /* dedup: shared engine-core @0x80187090 (src/shared) */
  * family in the exact same idiom). See src/ov_SC03_014/ov_SC03_014_jr_801848E4.c
  * around L3500 for the proven idioms this draft reuses. */
 
-DEFINE_func_80187300()  /* dedup: shared engine-core @0x80187300 (src/shared) */
+#include "../shared/ov/func_80187300.h"
 
 
 #include "common.h"
@@ -4619,7 +4619,7 @@ void func_80187DBC(void *a0) {
 }
 
 
-DEFINE_func_80187E28()  /* dedup: shared engine-core @0x80187E28 (src/shared) */
+#include "../shared/ov/func_80187E28.h"
 
 
 
@@ -4842,7 +4842,7 @@ void func_80187EE8(s32 a0)
 }
 
 
-DEFINE_func_801880F8()  /* dedup: shared engine-core @0x801880F8 (src/shared) */
+#include "../shared/ov/func_801880F8.h"
 
 extern u8 D_801E2170[];
 extern void func_8012A828(s32 a0, void *a1);
@@ -4980,7 +4980,7 @@ s32 a0;
 }
 
 
-DEFINE_func_80188470()  /* dedup: shared engine-core @0x80188470 (src/shared) */
+#include "../shared/ov/func_80188470__76785405.h"
 
 #include "common.h"
 
@@ -4994,7 +4994,7 @@ DEFINE_func_80188470()  /* dedup: shared engine-core @0x80188470 (src/shared) */
  *   L3291 extern s32 func_8012CBCC(s32 a0);
  * D_801E7BB8 is not declared anywhere in the host TU (overlay-local data).
  */
-DEFINE_func_80188478()  /* dedup: shared engine-core @0x80188478 (src/shared) */
+#include "../shared/ov/func_80188478__82a7b589.h"
 
 
 extern s32 func_80184028();
@@ -5067,12 +5067,12 @@ void func_80188634(void *a0) {
  * (wave law 2). The other six data symbols are absent from the TU and from
  * every shared header, so they take the TU's own address-only `extern u8` form.
  */
-DEFINE_func_80188670()  /* dedup: shared engine-core @0x80188670 (src/shared) */
+#include "../shared/ov/func_80188670.h"
 
 
 #include "common.h"
 
-DEFINE_func_80188828()  /* dedup: shared engine-core @0x80188828 (src/shared) */
+#include "../shared/ov/func_80188828__6519c024.h"
 
 
 void func_801889B4(s32 arg0)
@@ -5363,7 +5363,7 @@ void func_80188E00(s32 a0) {
 }
 
 
-DEFINE_func_80188F18()  /* dedup: shared engine-core @0x80188F18 (src/shared) */
+#include "../shared/ov/func_80188F18.h"
 
 extern void func_8012AD80(s32 a0);
 
@@ -5454,9 +5454,9 @@ void func_801890D8(void) {
 }
 
 
-DEFINE_func_801890F8()  /* dedup: shared engine-core @0x801890F8 (src/shared) */
+#include "../shared/ov/func_801890F8__7c97457d.h"
 
-DEFINE_func_80189104()  /* dedup: shared engine-core @0x80189104 (src/shared) */
+#include "../shared/ov/func_80189104.h"
 
 
 extern u8 D_801EAC94;
@@ -5482,7 +5482,7 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
     }
 
 
-DEFINE_func_8018918C()  /* dedup: shared engine-core @0x8018918C (src/shared) */
+#include "../shared/ov/func_8018918C.h"
 
 
 
@@ -5547,11 +5547,11 @@ fail:
 }
 
 
-DEFINE_func_801892D4()  /* dedup: shared engine-core @0x801892D4 (src/shared) */
+#include "../shared/ov/func_801892D4.h"
 
-DEFINE_func_801892DC()  /* dedup: shared engine-core @0x801892DC (src/shared) */
+#include "../shared/ov/func_801892DC.h"
 
-DEFINE_func_801892E4()  /* dedup: shared engine-core @0x801892E4 (src/shared) */
+#include "../shared/ov/func_801892E4.h"
 
 
 extern void func_80188B94(void*);
@@ -5599,10 +5599,10 @@ s32 a0;
 
 #include "common.h"
 
-DEFINE_func_8018942C()  /* dedup: shared engine-core @0x8018942C (src/shared) */
+#include "../shared/ov/func_8018942C.h"
 
 
-DEFINE_func_801894BC()  /* dedup: shared engine-core @0x801894BC (src/shared) */
+#include "../shared/ov/func_801894BC__4f9271b2.h"
 
 
     
@@ -5802,7 +5802,7 @@ void func_80189824(void *arg0) {
 
 #include "common.h"
 
-DEFINE_func_801898BC()  /* dedup: shared engine-core @0x801898BC (src/shared) */
+#include "../shared/ov/func_801898BC.h"
 
 
 
@@ -5979,7 +5979,7 @@ s32 func_80189C4C(void *a0) {
 }
 
 
-DEFINE_func_80189C74()  /* dedup: shared engine-core @0x80189C74 (src/shared) */
+#include "../shared/ov/func_80189C74.h"
 
 /* Declarations copied VERBATIM from src/ov_SC03_014/ov_SC03_014_jr_801848E4.c
  * (func_80029178 @ line 58/3176, func_80029124 @ line 43/3253,
@@ -6230,7 +6230,7 @@ void func_8018A0F4(void *a0) {
  * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
  */
 
-DEFINE_func_8018A1B4()  /* dedup: shared engine-core @0x8018A1B4 (src/shared) */
+#include "../shared/ov/func_8018A1B4__27abf959.h"
 
 
 /* Declarations conform VERBATIM to the ones already present in

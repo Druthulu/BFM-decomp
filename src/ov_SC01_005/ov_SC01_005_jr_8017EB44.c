@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 #include "../shared/ov_setters.h"   /* dedup share across the SC01/005 ≡ 006 pair (cookbook §11) */
 
 

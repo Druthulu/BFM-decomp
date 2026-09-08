@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3314,13 +3314,13 @@ void func_8017BE60(void *a0) {
 }
 
 
-DEFINE_func_8017BE9C()  /* dedup: shared engine-core @0x8017BE9C (src/shared) */
+#include "../shared/ov/func_8017BE9C__76785405.h"
 
-DEFINE_func_8017BEA4()  /* dedup: shared engine-core @0x8017BEA4 (src/shared) */
+#include "../shared/ov/func_8017BEA4.h"
 
-DEFINE_func_8017BEAC()  /* dedup: shared engine-core @0x8017BEAC (src/shared) */
+#include "../shared/ov/func_8017BEAC.h"
 
-DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
+#include "../shared/ov/func_8017BEB4.h"
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
@@ -3337,13 +3337,13 @@ void func_8017BEF8(void *a0) {
 }
 
 
-DEFINE_func_8017BF34()  /* dedup: shared engine-core @0x8017BF34 (src/shared) */
+#include "../shared/ov/func_8017BF34__952c5c00.h"
 
 
 // @class: plumbing
 // @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
-DEFINE_func_8017BF84()  /* dedup: shared engine-core @0x8017BF84 (src/shared) */
+#include "../shared/ov/func_8017BF84.h"
 
 
 
@@ -3355,7 +3355,7 @@ DEFINE_func_8017BF84()  /* dedup: shared engine-core @0x8017BF84 (src/shared) */
  *   0x30 s32   suppress flag
  */
 
-DEFINE_func_8017BFE0()  /* dedup: shared engine-core @0x8017BFE0 (src/shared) */
+#include "../shared/ov/func_8017BFE0.h"
 
 
 
@@ -3371,10 +3371,10 @@ DEFINE_func_8017BFE0()  /* dedup: shared engine-core @0x8017BFE0 (src/shared) */
  * `do { func_80146A6C(0x1B, obj, ...); } while (++i < 3);` s16 loop.
  */
 
-DEFINE_func_8017C064()  /* dedup: shared engine-core @0x8017C064 (src/shared) */
+#include "../shared/ov/func_8017C064.h"
 
 
-DEFINE_func_8017C1CC()  /* dedup: shared engine-core @0x8017C1CC (src/shared) */
+#include "../shared/ov/func_8017C1CC__14ad4527.h"
 
 
 
@@ -3485,7 +3485,7 @@ void func_8017C524(void *a0) {
 }
 
 
-DEFINE_func_8017C560()  /* dedup: shared engine-core @0x8017C560 (src/shared) */
+#include "../shared/ov/func_8017C560.h"
 
 
 /* func_8017C5A0 — a state-tick: bump the frame counter at 0x1C; while it is
@@ -3499,7 +3499,7 @@ DEFINE_func_8017C560()  /* dedup: shared engine-core @0x8017C560 (src/shared) */
  * `lw $s1, 0x34($s2)` / `lhu $v0, 0x12($s2)` — same record, same widths.
  */
 
-DEFINE_func_8017C5A0()  /* dedup: shared engine-core @0x8017C5A0 (src/shared) */
+#include "../shared/ov/func_8017C5A0.h"
 
 
 
@@ -3508,14 +3508,14 @@ DEFINE_func_8017C5A0()  /* dedup: shared engine-core @0x8017C5A0 (src/shared) */
  *   counter unconditionally (gcc puts that store in the beqz delay slot),
  *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
 
-DEFINE_func_8017C610()  /* dedup: shared engine-core @0x8017C610 (src/shared) */
+#include "../shared/ov/func_8017C610.h"
 
 
 
-DEFINE_func_8017C69C()  /* dedup: shared engine-core @0x8017C69C (src/shared) */
+#include "../shared/ov/func_8017C69C.h"
 
 
-DEFINE_func_8017C770()  /* dedup: shared engine-core @0x8017C770 (src/shared) */
+#include "../shared/ov/func_8017C770.h"
 
 
 extern void (*D_80185E80[])(void);
@@ -3556,14 +3556,14 @@ void func_8017C7C4(void *a0) {
  *    the front of the block and swaps the two `lhu`s instead. Boost the loads, starve
  *    the arithmetic. */
 
-DEFINE_func_8017C800()  /* dedup: shared engine-core @0x8017C800 (src/shared) */
+#include "../shared/ov/func_8017C800.h"
 
 
-DEFINE_func_8017C8B4()  /* dedup: shared engine-core @0x8017C8B4 (src/shared) */
+#include "../shared/ov/func_8017C8B4__3d8efbf9.h"
 
 
 
-DEFINE_func_8017C910()  /* dedup: shared engine-core @0x8017C910 (src/shared) */
+#include "../shared/ov/func_8017C910.h"
 
 
 

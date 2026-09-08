@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3432,7 +3432,7 @@ void func_80189B74(void *a0) {
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern Blk20 D_800AE620;
 extern u8 D_801B5EC8;
@@ -3641,7 +3641,7 @@ void func_8018A07C(void) {
 }
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern Blk20 D_800AE620;
 extern s32 D_801A7A34;

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern u8 *D_80126B10;
 extern u8 D_801E334C[];
@@ -219,7 +219,7 @@ void func_801E2AB8(void *a0) {
 }
 
 
-DEFINE_func_801E2AF4()  /* dedup: shared engine-core @0x801E2AF4 (src/shared) */
+#include "../shared/slot_801E25E8/func_801E2AF4.h"
 
 
 

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -4188,7 +4188,7 @@ void func_801837C4(void *a0) {
 }
 
 
-DEFINE_func_80183808()  /* dedup: shared engine-core @0x80183808 (src/shared) */
+#include "../shared/ov/func_80183808.h"
 
 
 /* §37 lever (A): conform to the TU's existing decl verbatim (TU lines 6430 /

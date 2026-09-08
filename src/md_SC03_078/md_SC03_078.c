@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern u8 *D_80126B10;
 extern u8 D_801EFE3C[];
@@ -17,11 +17,11 @@ int func_801EF47C(u8 *arg) {
 
 
 
-DEFINE_func_801EF4D4()  /* dedup: shared engine-core @0x801EF4D4 (src/shared) */
+#include "../shared/slot_801EF468/func_801EF4D4.h"
 
 
 
-DEFINE_func_801EF4F8()  /* dedup: shared engine-core @0x801EF4F8 (src/shared) */
+#include "../shared/slot_801EF468/func_801EF4F8.h"
 
 
     extern s32 func_800D1E28(void);
@@ -44,7 +44,7 @@ DEFINE_func_801EF4F8()  /* dedup: shared engine-core @0x801EF4F8 (src/shared) */
     }
 
 
-DEFINE_func_801EF5D4()  /* dedup: shared engine-core @0x801EF5D4 (src/shared) */
+#include "../shared/slot_801EF468/func_801EF5D4.h"
 
 
 
@@ -74,7 +74,7 @@ void func_801EF66C(void *a0) {
 }
 
 
-DEFINE_func_801EF6A8()  /* dedup: shared engine-core @0x801EF6A8 (src/shared) */
+#include "../shared/slot_801EF468/func_801EF6A8.h"
 
 
 INCLUDE_RODATA("asm/md_SC03_078/nonmatchings/md_SC03_078", D_801EF468);
@@ -116,7 +116,7 @@ void func_801EF738(void *arg0) {
 }
 
 
-DEFINE_func_801EF790()  /* dedup: shared engine-core @0x801EF790 (src/shared) */
+#include "../shared/slot_801EF468/func_801EF790.h"
 
 
 
@@ -127,7 +127,7 @@ void func_801EF798(void *a0) {
 }
 
 
-DEFINE_func_801EF7D4()  /* dedup: shared engine-core @0x801EF7D4 (src/shared) */
+#include "../shared/slot_801EF468/func_801EF7D4.h"
 
 
 
@@ -146,10 +146,10 @@ void func_801EF7F4(u32 arg0) {
 }
 
 
-DEFINE_func_801EF85C()  /* dedup: shared engine-core @0x801EF85C (src/shared) */
+#include "../shared/slot_801EF468/func_801EF85C.h"
 
 
-DEFINE_func_801EF864()  /* dedup: shared engine-core @0x801EF864 (src/shared) */
+#include "../shared/slot_801EF468/func_801EF864.h"
 
 
 
@@ -161,7 +161,7 @@ void func_801EF928(void *a0) {
 }
 
 
-DEFINE_func_801EF964()  /* dedup: shared engine-core @0x801EF964 (src/shared) */
+#include "../shared/slot_801EF468/func_801EF964.h"
 
 
 

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
  * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
@@ -3425,13 +3425,13 @@ s32 func_8017BE60(void *a0) {
     return D_8018A4FC[*(u8 *)((s32)a0 + 0x4)](a0);
 }
 
-DEFINE_func_8017BE9C()  /* dedup: shared engine-core @0x8017BE9C (src/shared) */
+#include "../shared/ov/func_8017BE9C__76785405.h"
 
-DEFINE_func_8017BEA4()  /* dedup: shared engine-core @0x8017BEA4 (src/shared) */
+#include "../shared/ov/func_8017BEA4.h"
 
-DEFINE_func_8017BEAC()  /* dedup: shared engine-core @0x8017BEAC (src/shared) */
+#include "../shared/ov/func_8017BEAC.h"
 
-DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
+#include "../shared/ov/func_8017BEB4.h"
 
 extern s32 (*D_8018A520[])(void *);
 
@@ -3505,7 +3505,7 @@ void func_8017BEF8(s32 param_1) {
 }
 
 
-DEFINE_func_8017C0BC()  /* dedup: shared engine-core @0x8017C0BC (src/shared) */
+#include "../shared/ov/func_8017C0BC.h"
 
 extern s32 (*D_8018A528[])(void *);
 
@@ -3542,7 +3542,7 @@ void func_8017C18C(s32 a0) {
     }
 }
 
-DEFINE_func_8017C230()  /* dedup: shared engine-core @0x8017C230 (src/shared) */
+#include "../shared/ov/func_8017C230.h"
 
 typedef struct { s16 vx, vy; } DVEC2_C59C;
 
@@ -3635,15 +3635,15 @@ void func_8017C294(void *a0, void *a1, s32 a2)
 }
 
 
-DEFINE_func_8017C66C()  /* dedup: shared engine-core @0x8017C66C (src/shared) */
+#include "../shared/ov/func_8017C66C.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (126 ins)
 
-DEFINE_func_8017C710()  /* dedup: shared engine-core @0x8017C710 (src/shared) */
+#include "../shared/ov/func_8017C710__e2fbbbec.h"
 
 
-DEFINE_func_8017C908()  /* dedup: shared engine-core @0x8017C908 (src/shared) */
+#include "../shared/ov/func_8017C908.h"
 
 
 /* func_8017C974 — ov_SC01_077_jr_8017AE2C — MAP-TILE model renderer (947 ins).

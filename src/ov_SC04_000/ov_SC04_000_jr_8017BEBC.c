@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3924,7 +3924,7 @@ void func_8017DC7C(int param_1)
  *   0x30 s32   suppress flag
  */
 
-DEFINE_func_8017DCD8()  /* dedup: shared engine-core @0x8017DCD8 (src/shared) */
+#include "../shared/ov/func_8017DCD8__b2ff7ffd.h"
 
 
 

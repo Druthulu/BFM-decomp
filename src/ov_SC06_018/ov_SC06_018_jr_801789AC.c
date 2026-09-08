@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -2686,7 +2686,7 @@ s32 func_80178B70(s32 param_1, s32 param_2)
 
 
 
-DEFINE_func_80178BB8()  /* dedup: shared engine-core @0x80178BB8 (src/shared) */
+#include "../shared/ov/func_80178BB8.h"
 
 // @class: other
 // @stuck: none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).

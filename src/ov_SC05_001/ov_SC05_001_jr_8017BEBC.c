@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -3483,7 +3483,7 @@ void func_8017D480(void *a0) {
  *   counter unconditionally (gcc puts that store in the beqz delay slot),
  *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
 
-DEFINE_func_8017D4F0()  /* dedup: shared engine-core @0x8017D4F0 (src/shared) */
+#include "../shared/ov/func_8017D4F0__233ab6ca.h"
 
 
 
@@ -4411,7 +4411,7 @@ s32 func_8017E7B4(s32 a0) {
 
 
 
-DEFINE_func_8017E7F8()  /* dedup: shared engine-core @0x8017E7F8 (src/shared) */
+#include "../shared/ov/func_8017E7F8__511a8b68.h"
 
 
 

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -4828,7 +4828,7 @@ void func_801819B8(s32 arg0) {
 }
 
 
-DEFINE_func_80181A98()  /* dedup: shared engine-core @0x80181A98 (src/shared) */
+#include "../shared/ov/func_80181A98__76785405.h"
 
 extern void func_8012AD80(s32 a0);
 extern void func_8012C218(void *a0);

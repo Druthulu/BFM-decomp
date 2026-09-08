@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern s32 func_800183E0(s32 *a0);
 void func_800CAE0C(void) {
@@ -19,7 +19,7 @@ void func_800CAE34(void *a0) {
 }
 
 
-DEFINE_func_800CAE78()  /* dedup: shared engine-core @0x800CAE78 (src/shared) */
+#include "../shared/slot_800CAE08/func_800CAE78__a79b87ee.h"
 
 
 extern s32 D_800CBAC0[];

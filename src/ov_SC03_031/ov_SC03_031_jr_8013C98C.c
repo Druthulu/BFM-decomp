@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
  * The file-scope decl environment from earlier code regions of this object —
@@ -1766,29 +1766,29 @@ s32 func_8013E054(void) {
 }
 
 
-DEFINE_func_8013E064()  /* dedup: shared engine-core @0x8013E064 (src/shared) */
+#include "../shared/ov/func_8013E064.h"
 
-DEFINE_func_8013E0FC()  /* dedup: shared engine-core @0x8013E0FC (src/shared) */
+#include "../shared/ov/func_8013E0FC.h"
 
-DEFINE_func_8013E194()  /* dedup: shared engine-core @0x8013E194 (src/shared) */
+#include "../shared/ov/func_8013E194.h"
 
-DEFINE_func_8013E22C()  /* dedup: shared engine-core @0x8013E22C (src/shared) */
+#include "../shared/ov/func_8013E22C.h"
 
-DEFINE_func_8013E298()  /* dedup: shared engine-core @0x8013E298 (src/shared) */
+#include "../shared/ov/func_8013E298.h"
 
-DEFINE_func_8013E2C4()  /* dedup: shared engine-core @0x8013E2C4 (src/shared) */
+#include "../shared/ov/func_8013E2C4.h"
 
-DEFINE_func_8013E370()  /* dedup: shared engine-core @0x8013E370 (src/shared) */
+#include "../shared/ov/func_8013E370.h"
 
-DEFINE_func_8013E410()  /* dedup: shared engine-core @0x8013E410 (src/shared) */
+#include "../shared/ov/func_8013E410.h"
 
-DEFINE_func_8013E448()  /* dedup: shared engine-core @0x8013E448 (src/shared) */
+#include "../shared/ov/func_8013E448.h"
 
-DEFINE_func_8013E4B4()  /* dedup: shared engine-core @0x8013E4B4 (src/shared) */
+#include "../shared/ov/func_8013E4B4.h"
 
-DEFINE_func_8013E558()  /* dedup: shared engine-core @0x8013E558 (src/shared) */
+#include "../shared/ov/func_8013E558.h"
 
-DEFINE_func_8013E588()  /* dedup: shared engine-core @0x8013E588 (src/shared) */
+#include "../shared/ov/func_8013E588.h"
 
 
 extern void func_80029444(void);
@@ -1820,7 +1820,7 @@ void func_8013E5E8(void)
 }
 
 
-DEFINE_func_8013E67C()  /* dedup: shared engine-core @0x8013E67C (src/shared) */
+#include "../shared/ov/func_8013E67C.h"
 
 
 // @class: regalloc-order
@@ -1878,7 +1878,7 @@ void func_8013E6AC(void) {
 }
 
 
-DEFINE_func_8013E814()  /* dedup: shared engine-core @0x8013E814 (src/shared) */
+#include "../shared/ov/func_8013E814.h"
 
 // @class: plumbing
 // @stuck: none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the D_8011511A read above the prologue, reproduced by -O2)
@@ -1982,7 +1982,7 @@ loop:
 
 
 
-DEFINE_func_8013EA54()  /* dedup: shared engine-core @0x8013EA54 (src/shared) */
+#include "../shared/ov/func_8013EA54.h"
 
 
 // @class: regalloc-order
@@ -2060,7 +2060,7 @@ void func_8013EB7C(void) {
 }
 
 
-DEFINE_func_8013ED6C()  /* dedup: shared engine-core @0x8013ED6C (src/shared) */
+#include "../shared/ov/func_8013ED6C.h"
 
 extern short D_800B9A02;
 extern unsigned short D_80115112;
@@ -2228,7 +2228,7 @@ void func_8013F138(void) {
 }
 
 
-DEFINE_func_8013F1BC()  /* dedup: shared engine-core @0x8013F1BC (src/shared) */
+#include "../shared/ov/func_8013F1BC.h"
 
-DEFINE_func_8013F244()  /* dedup: shared engine-core @0x8013F244 (src/shared) */
+#include "../shared/ov/func_8013F244.h"
 

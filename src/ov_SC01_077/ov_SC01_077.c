@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
  * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
@@ -987,7 +987,7 @@ s32 func_8013E054(void) {
  * Also the target hand-schedules the final `addu` into the jal delay slot. Both are
  * toolchain-difference residuals (cookbook 5/10), not C-source reachable. Honest stub
  * is the alternative; kept as the closest achievable draft. */
-DEFINE_func_8013E064()  /* dedup: shared engine-core @0x8013E064 (src/shared) */
+#include "../shared/ov/func_8013E064.h"
 
 /* HANDWRITTEN GTE function (asm marked "Handwritten function"). Squared distance of
  * two SVECTORs via the GTE SQR op, then SquareRoot12 of the component sum.
@@ -1000,7 +1000,7 @@ DEFINE_func_8013E064()  /* dedup: shared engine-core @0x8013E064 (src/shared) */
  * Also the target hand-schedules the final `addu` into the jal delay slot. Both are
  * toolchain-difference residuals (cookbook 5/10), not C-source reachable. Honest stub
  * is the alternative; kept as the closest achievable draft. */
-DEFINE_func_8013E0FC()  /* dedup: shared engine-core @0x8013E0FC (src/shared) */
+#include "../shared/ov/func_8013E0FC.h"
 
 /* HANDWRITTEN GTE function (asm marked "Handwritten function"). Squared distance of
  * two SVECTORs via the GTE SQR op, then SquareRoot12 of the component sum.
@@ -1013,34 +1013,34 @@ DEFINE_func_8013E0FC()  /* dedup: shared engine-core @0x8013E0FC (src/shared) */
  * Also the target hand-schedules the final `addu` into the jal delay slot. Both are
  * toolchain-difference residuals (cookbook 5/10), not C-source reachable. Honest stub
  * is the alternative; kept as the closest achievable draft. */
-DEFINE_func_8013E194()  /* dedup: shared engine-core @0x8013E194 (src/shared) */
+#include "../shared/ov/func_8013E194.h"
 
-DEFINE_func_8013E22C()  /* dedup: shared engine-core @0x8013E22C (src/shared) */
+#include "../shared/ov/func_8013E22C.h"
 
-DEFINE_func_8013E298()  /* dedup: shared engine-core @0x8013E298 (src/shared) */
+#include "../shared/ov/func_8013E298.h"
 
 // @class: schedule
 // @stuck: none — MATCH (43/43 raw bytes verified via objcopy; match_one's "22 mismatched" is an objdump zero-run-elision artifact that drops the 2 cop2-latency nops)
 
-DEFINE_func_8013E2C4()  /* dedup: shared engine-core @0x8013E2C4 (src/shared) */
+#include "../shared/ov/func_8013E2C4.h"
 
-DEFINE_func_8013E370()  /* dedup: shared engine-core @0x8013E370 (src/shared) */
+#include "../shared/ov/func_8013E370.h"
 
-DEFINE_func_8013E410()  /* dedup: shared engine-core @0x8013E410 (src/shared) */
+#include "../shared/ov/func_8013E410.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (27 ins)
 
-DEFINE_func_8013E448()  /* dedup: shared engine-core @0x8013E448 (src/shared) */
+#include "../shared/ov/func_8013E448.h"
 
-DEFINE_func_8013E4B4()  /* dedup: shared engine-core @0x8013E4B4 (src/shared) */
+#include "../shared/ov/func_8013E4B4.h"
 
-DEFINE_func_8013E558()  /* dedup: shared engine-core @0x8013E558 (src/shared) */
+#include "../shared/ov/func_8013E558.h"
 
 // @class: plumbing
 // @stuck: none — MATCH expected (simple guarded store block, byte/half/word globals + fn-ptr)
 
-DEFINE_func_8013E588()  /* dedup: shared engine-core @0x8013E588 (src/shared) */
+#include "../shared/ov/func_8013E588.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH expected (clone of byte-proven func_80141874: $v0-pinned fn-ptr; +2 extra calls)
@@ -1074,7 +1074,7 @@ void func_8013E5E8(void)
     D_80115116 += 1;
 }
 
-DEFINE_func_8013E67C()  /* dedup: shared engine-core @0x8013E67C (src/shared) */
+#include "../shared/ov/func_8013E67C.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (90 ins, relocation-masked)
@@ -1130,7 +1130,7 @@ void func_8013E6AC(void) {
     }
 }
 
-DEFINE_func_8013E814()  /* dedup: shared engine-core @0x8013E814 (src/shared) */
+#include "../shared/ov/func_8013E814.h"
 
 // @class: plumbing
 // @stuck: none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the D_8011511A read above the prologue, reproduced by -O2)
@@ -1233,7 +1233,7 @@ loop:
 
 // @class: regalloc-order
 // @stuck: none — MATCH
-DEFINE_func_8013EA54()  /* dedup: shared engine-core @0x8013EA54 (src/shared) */
+#include "../shared/ov/func_8013EA54.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (sVar2 pinned to $v0 forces in-place sll/sra sign-ext scratch)
@@ -1310,7 +1310,7 @@ void func_8013EB7C(void) {
 }
 
 
-DEFINE_func_8013ED6C()  /* dedup: shared engine-core @0x8013ED6C (src/shared) */
+#include "../shared/ov/func_8013ED6C.h"
 
 // @class: struct
 // @stuck: none — MATCH (94 ins, relocation-masked). Keys: (1) §18 array-of-STRUCT fold
@@ -1451,12 +1451,12 @@ void func_8013F138(void) {
     }
 }
 
-DEFINE_func_8013F1BC()  /* dedup: shared engine-core @0x8013F1BC (src/shared) */
+#include "../shared/ov/func_8013F1BC.h"
 
 // @class: other
 // @stuck: none — MATCH (cached &D_8011511A pointer for the $a1 accesses; test (iVar2<<16) without storing back so $v1 stays live)
 
-DEFINE_func_8013F244()  /* dedup: shared engine-core @0x8013F244 (src/shared) */
+#include "../shared/ov/func_8013F244.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (490 ins, match_one, canonical-typed)
@@ -2758,7 +2758,7 @@ int func_80141100(int param_1)
  * them: the TU's declaration continues to govern the CALL SITES (their codegen is untouched --
  * which is what match_one could not see, since it only compiles this function), and the
  * definition keeps its byte-true signature. Zero blast radius. */
-DEFINE_func_801412A8()  /* dedup: shared engine-core @0x801412A8 (src/shared) */
+#include "../shared/ov/func_801412A8.h"
 
 
 // @class: regalloc-order
@@ -2766,14 +2766,14 @@ DEFINE_func_801412A8()  /* dedup: shared engine-core @0x801412A8 (src/shared) */
 
 #include "common.h"
 
-DEFINE_func_801415C0()  /* dedup: shared engine-core @0x801415C0 (src/shared) */
+#include "../shared/ov/func_801415C0.h"
 
-DEFINE_func_8014168C()  /* dedup: shared engine-core @0x8014168C (src/shared) */
+#include "../shared/ov/func_8014168C.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (45 ins, relocation-masked)
 
-DEFINE_func_801416D4()  /* dedup: shared engine-core @0x801416D4 (src/shared) */
+#include "../shared/ov/func_801416D4.h"
 
 extern unsigned short D_80115112;
 extern void (*D_80187F10[])(void);
@@ -2783,9 +2783,9 @@ void func_80141788(void)
     D_80187F10[D_80115112]();
 }
 
-DEFINE_func_801417C4()  /* dedup: shared engine-core @0x801417C4 (src/shared) */
+#include "../shared/ov/func_801417C4.h"
 
-DEFINE_func_801417F8()  /* dedup: shared engine-core @0x801417F8 (src/shared) */
+#include "../shared/ov/func_801417F8.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH
@@ -2925,9 +2925,9 @@ s32 func_80141A60()
 
 
 
-DEFINE_func_80141B90()  /* dedup: shared engine-core @0x80141B90 (src/shared) */
+#include "../shared/ov/func_80141B90.h"
 
-DEFINE_func_80141C04()  /* dedup: shared engine-core @0x80141C04 (src/shared) */
+#include "../shared/ov/func_80141C04.h"
 
 // @class: struct
 // @stuck: none — MATCH expected (indexed u16 global: (s16)param_1*2 + D_80115110, *2 array stride)
@@ -2941,16 +2941,16 @@ void func_80141C0C(s32 param_1)
     func_8002D4C8(*(u16 *)(&D_80187E70 + (((param_1 << 16) >> 15) + (u32)D_80115110) * 2), 0);
 }
 
-DEFINE_func_80141C50()  /* dedup: shared engine-core @0x80141C50 (src/shared) */
+#include "../shared/ov/func_80141C50.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (476 ins). Levers: $v1-pinned cmp temp; default-first early-return form; §5a cross-jump barrier on 0x3ca twin
 
-DEFINE_func_80141CA4()  /* dedup: shared engine-core @0x80141CA4 (src/shared) */
+#include "../shared/ov/func_80141CA4.h"
 
-DEFINE_func_80142414()  /* dedup: shared engine-core @0x80142414 (src/shared) */
+#include "../shared/ov/func_80142414.h"
 
-DEFINE_func_80142454()  /* dedup: shared engine-core @0x80142454 (src/shared) */
+#include "../shared/ov/func_80142454.h"
 
 // @class: struct
 // @stuck: none — MATCH (58 ins). STRUCT branch reconstruction + 3 levers: (1) §3-T4 branch-polarity
@@ -3047,11 +3047,11 @@ ad50:
     ((void (*)(s32))func_8012AD50)(param_1);
 }
 
-DEFINE_func_801426D4()  /* dedup: shared engine-core @0x801426D4 (src/shared) */
+#include "../shared/ov/func_801426D4.h"
 
 // @class: plumbing
 // @stuck: none — MATCH expected (param saved in $s0 across call, guarded tail call)
-DEFINE_func_80142740()  /* dedup: shared engine-core @0x80142740 (src/shared) */
+#include "../shared/ov/func_80142740.h"
 
 extern void func_8012C218(void *a0);
 
@@ -3066,9 +3066,9 @@ void func_80142778(u8 *a1) {
     }
 }
 
-DEFINE_func_801427DC()  /* dedup: shared engine-core @0x801427DC (src/shared) */
+#include "../shared/ov/func_801427DC.h"
 
-DEFINE_func_801427E4()  /* dedup: shared engine-core @0x801427E4 (src/shared) */
+#include "../shared/ov/func_801427E4.h"
 
 // @class: struct
 // @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
@@ -3083,9 +3083,9 @@ void func_801427EC(int param_1)
     }
 }
 
-DEFINE_func_80142838()  /* dedup: shared engine-core @0x80142838 (src/shared) */
+#include "../shared/ov/func_80142838.h"
 
-DEFINE_func_801428CC()  /* dedup: shared engine-core @0x801428CC (src/shared) */
+#include "../shared/ov/func_801428CC.h"
 
 // @class: struct
 // @stuck: none — MATCH (relocation-masked match_one)
@@ -3178,19 +3178,19 @@ void func_80142A80(void)
 
 void func_80142C84(s32 a0);
 void func_80143994(s32 a0, s32 a1);
-DEFINE_func_80142B2C()  /* dedup: shared engine-core @0x80142B2C (src/shared) */
+#include "../shared/ov/func_80142B2C.h"
 
-DEFINE_func_80142BB4()  /* dedup: shared engine-core @0x80142BB4 (src/shared) */
+#include "../shared/ov/func_80142BB4.h"
 
-DEFINE_func_80142C7C()  /* dedup: shared engine-core @0x80142C7C (src/shared) */
+#include "../shared/ov/func_80142C7C.h"
 
-DEFINE_func_80142C84()  /* dedup: shared engine-core @0x80142C84 (src/shared) */
+#include "../shared/ov/func_80142C84.h"
 
-DEFINE_func_80142C9C()  /* dedup: shared engine-core @0x80142C9C (src/shared) */
+#include "../shared/ov/func_80142C9C.h"
 
-DEFINE_func_80142D38()  /* dedup: shared engine-core @0x80142D38 (src/shared) */
+#include "../shared/ov/func_80142D38.h"
 
-DEFINE_func_80142DB8()  /* dedup: shared engine-core @0x80142DB8 (src/shared) */
+#include "../shared/ov/func_80142DB8.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (combined store-assign `*(p)=v0=call()` keeps test/store on $v0, copy to $s0 for the else)
@@ -3279,9 +3279,9 @@ void func_80142EC0(s32 param_1) {
     }
 }
 
-DEFINE_func_80142F68()  /* dedup: shared engine-core @0x80142F68 (src/shared) */
+#include "../shared/ov/func_80142F68.h"
 
-DEFINE_func_80142FFC()  /* dedup: shared engine-core @0x80142FFC (src/shared) */
+#include "../shared/ov/func_80142FFC.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (38 ins). $16=param pin; explicit $17 copy of the call result
@@ -3320,9 +3320,9 @@ void func_8014305C(int param_1)
     }
 }
 
-DEFINE_func_801430F4()  /* dedup: shared engine-core @0x801430F4 (src/shared) */
+#include "../shared/ov/func_801430F4.h"
 
-DEFINE_func_80143188()  /* dedup: shared engine-core @0x80143188 (src/shared) */
+#include "../shared/ov/func_80143188.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (memcpy unaligned copy; $s0 survivor pinned, store-before-copy keeps $v0 for early store/branch)
@@ -3372,12 +3372,12 @@ void func_801431E8(s32 param_1) {
     }
 }
 
-DEFINE_func_801432FC()  /* dedup: shared engine-core @0x801432FC (src/shared) */
+#include "../shared/ov/func_801432FC.h"
 
-DEFINE_func_80143390()  /* dedup: shared engine-core @0x80143390 (src/shared) */
+#include "../shared/ov/func_80143390.h"
 
 struct vec;
-DEFINE_func_801433F0()  /* dedup: shared engine-core @0x801433F0 (src/shared) */
+#include "../shared/ov/func_801433F0.h"
 
 // @class: plumbing
 // @stuck: none — MATCH (pending gate)
@@ -3415,7 +3415,7 @@ void func_80143458(s32 param_1)
 }
 
 struct vec;
-DEFINE_func_8014350C()  /* dedup: shared engine-core @0x8014350C (src/shared) */
+#include "../shared/ov/func_8014350C.h"
 
 
 // @class: plumbing
@@ -3455,19 +3455,19 @@ void func_8014358C(s32 param_1)
 }
 
 
-DEFINE_func_80143640()  /* dedup: shared engine-core @0x80143640 (src/shared) */
+#include "../shared/ov/func_80143640.h"
 
-DEFINE_func_801437D8()  /* dedup: shared engine-core @0x801437D8 (src/shared) */
+#include "../shared/ov/func_801437D8.h"
 
-DEFINE_func_80143970()  /* dedup: shared engine-core @0x80143970 (src/shared) */
+#include "../shared/ov/func_80143970.h"
 
-DEFINE_func_80143994()  /* dedup: shared engine-core @0x80143994 (src/shared) */
+#include "../shared/ov/func_80143994.h"
 
-DEFINE_func_801439C0()  /* dedup: shared engine-core @0x801439C0 (src/shared) */
+#include "../shared/ov/func_801439C0.h"
 
 // @class: schedule
 // @stuck: none — MATCH (key: (s0+4)&=0x7FFFFFFF stmt placed AFTER the 3 sp[]->struct stores; §2-T2/§21 stmt-order)
-DEFINE_func_801439FC()  /* dedup: shared engine-core @0x801439FC (src/shared) */
+#include "../shared/ov/func_801439FC.h"
 
 extern void (*D_80188440[])(void *);
 
@@ -3476,9 +3476,9 @@ void func_80143B30(void *a0)
     D_80188440[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-DEFINE_func_80143B6C()  /* dedup: shared engine-core @0x80143B6C (src/shared) */
+#include "../shared/ov/func_80143B6C.h"
 
-DEFINE_func_80143BDC()  /* dedup: shared engine-core @0x80143BDC (src/shared) */
+#include "../shared/ov/func_80143BDC.h"
 
 extern void (*D_8018844C[])(void *);
 
@@ -3487,7 +3487,7 @@ void func_80143C38(void *a0)
     D_8018844C[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-DEFINE_func_80143C74()  /* dedup: shared engine-core @0x80143C74 (src/shared) */
+#include "../shared/ov/func_80143C74.h"
 
 extern void (*D_80188454[])(void *);
 
@@ -3496,7 +3496,7 @@ void func_80143C98(void *a0)
     D_80188454[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-DEFINE_func_80143CD4()  /* dedup: shared engine-core @0x80143CD4 (src/shared) */
+#include "../shared/ov/func_80143CD4.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (80 ins, relocation-masked). iVar2/iVar3 pinned $s1/$s2; sVar4 is an
@@ -3552,13 +3552,13 @@ void func_80143E68(void *a0)
     D_8018849C[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-DEFINE_func_80143EA4()  /* dedup: shared engine-core @0x80143EA4 (src/shared) */
+#include "../shared/ov/func_80143EA4.h"
 
-DEFINE_func_80143EAC()  /* dedup: shared engine-core @0x80143EAC (src/shared) */
+#include "../shared/ov/func_80143EAC.h"
 
-DEFINE_func_80143EB4()  /* dedup: shared engine-core @0x80143EB4 (src/shared) */
+#include "../shared/ov/func_80143EB4.h"
 
-DEFINE_func_80143EBC()  /* dedup: shared engine-core @0x80143EBC (src/shared) */
+#include "../shared/ov/func_80143EBC.h"
 
 extern void (*D_801884B0[])(void *);
 
@@ -3572,7 +3572,7 @@ void func_80144054(void *a0)
 
  /* 0x14 stride */
 
-DEFINE_func_80144090()  /* dedup: shared engine-core @0x80144090 (src/shared) */
+#include "../shared/ov/func_80144090.h"
 
 // @class: struct
 // @stuck: none — MATCH (relocation-masked match_one); fn-ptr dispatch table + 0x1c counter, sibling idiom (func_801427EC/func_80143B30)
@@ -3667,14 +3667,14 @@ void func_80144458(void *arg0) {
 // @stuck: none — MATCH (53 ins). Natural regalloc (iVar1->$s0, param_1->$s1) matched without pins; only plumbing note: func_8012C194 canonical is void(void) but asm uses $v0, so gate may need call-site cast / s32 decl reconciliation.
 #include "common.h"
 
-DEFINE_func_80144558()  /* dedup: shared engine-core @0x80144558 (src/shared) */
+#include "../shared/ov/func_80144558.h"
 
-DEFINE_func_8014462C()  /* dedup: shared engine-core @0x8014462C (src/shared) */
+#include "../shared/ov/func_8014462C.h"
 
 // @class: regalloc-order
 // @stuck: none — MATCH (match_one 54/54, relocation-masked)
 
-DEFINE_func_801446A4()  /* dedup: shared engine-core @0x801446A4 (src/shared) */
+#include "../shared/ov/func_801446A4.h"
 
 // @class: struct
 // @stuck: none — MATCH (65 ins, match_one). Levers: uVar2/$2 + addr/$3 pins; split (uVar2&0xFFFFFFF) into addr then (addr|0x80000000)+8 deref; %hi/%lo of 0x80000008 via plain 0x80000000+8 (match_one masks the target's D_80000008 reloc, real bytes identical); v1/3 magic-divide; gv+fv reassoc (field-0x30 in own temp) loads field first
@@ -3763,7 +3763,7 @@ void func_80144880(s32 param_1)
     }
 }
 
-DEFINE_func_80144988()  /* dedup: shared engine-core @0x80144988 (src/shared) */
+#include "../shared/ov/func_80144988.h"
 
 extern void (*D_801884C0[])(void *);
 
@@ -3772,7 +3772,7 @@ void func_801449C8(void *a0)
     D_801884C0[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-DEFINE_func_80144A04()  /* dedup: shared engine-core @0x80144A04 (src/shared) */
+#include "../shared/ov/func_80144A04.h"
 
 extern void (*D_801884C8[])(void *);
 
@@ -3781,18 +3781,18 @@ void func_80144A2C(void *a0)
     D_801884C8[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-DEFINE_func_80144A68()  /* dedup: shared engine-core @0x80144A68 (src/shared) */
+#include "../shared/ov/func_80144A68.h"
 
-DEFINE_func_80144A90()  /* dedup: shared engine-core @0x80144A90 (src/shared) */
+#include "../shared/ov/func_80144A90.h"
 
-DEFINE_func_80144A98()  /* dedup: shared engine-core @0x80144A98 (src/shared) */
+#include "../shared/ov/func_80144A98.h"
 
-DEFINE_func_80144AEC()  /* dedup: shared engine-core @0x80144AEC (src/shared) */
+#include "../shared/ov/func_80144AEC.h"
 
 
 
 // @class: struct
 // @stuck: none — MATCH
 
-DEFINE_func_80144B14()  /* dedup: shared engine-core @0x80144B14 (src/shared) */
+#include "../shared/ov/func_80144B14.h"
 

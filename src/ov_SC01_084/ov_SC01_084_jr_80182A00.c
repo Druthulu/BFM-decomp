@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 #include "ov_SC01_084_shared.h"
 
 /* ==== P31 S74 §426/§431 jtbl-span isolation =================================

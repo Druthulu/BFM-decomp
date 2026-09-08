@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 void func_8013B568(s32 arg0) {
@@ -267,7 +267,7 @@ void func_8013BD74(void *a0, s32 a1) {
 }
 
 
-DEFINE_func_8013C08C()  /* dedup: shared engine-core @0x8013C08C (src/shared) */
+#include "../shared/ov/func_8013C08C.h"
 
 
 
@@ -310,7 +310,7 @@ void func_8013C0F8(int param_1) {
 }
 
 
-DEFINE_func_8013C360()  /* dedup: shared engine-core @0x8013C360 (src/shared) */
+#include "../shared/ov/func_8013C360.h"
 
 
 

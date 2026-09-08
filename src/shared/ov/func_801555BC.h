@@ -1,0 +1,9 @@
+/* func_801555BC — shared body (overlay slot 0x80128158, h_exact ccc49c06). ONE source: instantiated by #include at each
+ * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+extern s32 func_80161104(void);
+extern void func_801555F4(void *);
+void func_801555BC(void *a0) {
+    if (func_80161104()) {
+        func_801555F4(a0);
+    }
+}

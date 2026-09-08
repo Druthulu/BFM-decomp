@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
  * The file-scope decl environment from earlier code regions of this object —
@@ -2284,10 +2284,10 @@ s32 arg0;
     }
 }
 
-DEFINE_func_8015AB7C()  /* dedup: shared engine-core @0x8015ab7c (src/shared) */
+#include "../shared/ov/func_8015AB7C.h"
 
 
-DEFINE_func_8015ABD4()  /* dedup: shared engine-core @0x8015abd4 (src/shared) */
+#include "../shared/ov/func_8015ABD4.h"
 
 
 
@@ -2307,13 +2307,13 @@ void func_8015AC48(s32 arg0)
 }
 
 
-DEFINE_func_8015AC90()  /* dedup: shared engine-core @0x8015ac90 (src/shared) */
+#include "../shared/ov/func_8015AC90.h"
 
 
-DEFINE_func_8015ACC4()  /* dedup: shared engine-core @0x8015acc4 (src/shared) */
+#include "../shared/ov/func_8015ACC4.h"
 
 
-DEFINE_func_8015AD08()  /* dedup: shared engine-core @0x8015ad08 (src/shared) */
+#include "../shared/ov/func_8015AD08.h"
 
 
 
@@ -2325,10 +2325,10 @@ void func_8015AD3C(void *a0) {
 }
 
 
-DEFINE_func_8015AD78()  /* dedup: shared engine-core @0x8015ad78 (src/shared) */
+#include "../shared/ov/func_8015AD78.h"
 
 
-DEFINE_func_8015ADB0()  /* dedup: shared engine-core @0x8015adb0 (src/shared) */
+#include "../shared/ov/func_8015ADB0.h"
 
 
 
@@ -2662,14 +2662,14 @@ s32 arg0;
     }
 }
 
-DEFINE_func_8015B6F4()  /* dedup: shared engine-core @0x8015b6f4 (src/shared) */
+#include "../shared/ov/func_8015B6F4.h"
 
 
-DEFINE_func_8015B7B4()  /* dedup: shared engine-core @0x8015b7b4 (src/shared) */
+#include "../shared/ov/func_8015B7B4.h"
 
 
-DEFINE_func_8015B858()  /* dedup: shared engine-core @0x8015b858 (src/shared) */
+#include "../shared/ov/func_8015B858.h"
 
 
-DEFINE_func_8015B8F8()  /* dedup: shared engine-core @0x8015b8f8 (src/shared) */
+#include "../shared/ov/func_8015B8F8.h"
 

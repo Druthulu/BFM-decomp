@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
  * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
@@ -2919,8 +2919,8 @@ void func_8017A4AC(void) {
 
 
 /* canonical: resident engine call @ 0x80059A80 (engine_core.h) */
-DEFINE_func_8017AD0C()  /* dedup: shared engine-core @0x8017AD0C (src/shared) */
+#include "../shared/ov/func_8017AD0C.h"
 
-DEFINE_func_8017ADE8()  /* dedup: shared engine-core @0x8017ADE8 (src/shared) */
+#include "../shared/ov/func_8017ADE8.h"
 
-DEFINE_func_8017AE08()  /* dedup: shared engine-core @0x8017AE08 (src/shared) */
+#include "../shared/ov/func_8017AE08.h"

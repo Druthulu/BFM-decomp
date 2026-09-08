@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -1432,9 +1432,9 @@ s32 arg0;
 }
 
 
-DEFINE_func_8015AB7C()  /* dedup: shared engine-core @0x8015AB7C (src/shared) */
+#include "../shared/ov/func_8015AB7C.h"
 
-DEFINE_func_8015ABD4()  /* dedup: shared engine-core @0x8015ABD4 (src/shared) */
+#include "../shared/ov/func_8015ABD4.h"
 
 
 // @class: plumbing
@@ -1452,11 +1452,11 @@ void func_8015AC48(s32 arg0)
 }
 
 
-DEFINE_func_8015AC90()  /* dedup: shared engine-core @0x8015AC90 (src/shared) */
+#include "../shared/ov/func_8015AC90.h"
 
-DEFINE_func_8015ACC4()  /* dedup: shared engine-core @0x8015ACC4 (src/shared) */
+#include "../shared/ov/func_8015ACC4.h"
 
-DEFINE_func_8015AD08()  /* dedup: shared engine-core @0x8015AD08 (src/shared) */
+#include "../shared/ov/func_8015AD08.h"
 
 
 extern void (*D_801818F0[])(void);
@@ -1466,7 +1466,7 @@ void func_8015AD3C(void *a0) {
 }
 
 
-DEFINE_func_8015AD78()  /* dedup: shared engine-core @0x8015AD78 (src/shared) */
+#include "../shared/ov/func_8015AD78.h"
 
-DEFINE_func_8015ADB0()  /* dedup: shared engine-core @0x8015ADB0 (src/shared) */
+#include "../shared/ov/func_8015ADB0.h"
 

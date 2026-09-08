@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
@@ -14,7 +14,7 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-DEFINE_func_80181538()  /* dedup: shared engine-core @0x80181538 (src/shared) */
+#include "../shared/ov/func_80181538__27797037.h"
 
 
 extern void func_8012AD80(s32 a0);

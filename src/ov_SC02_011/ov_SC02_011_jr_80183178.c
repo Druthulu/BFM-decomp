@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 #include "ov_SC02_011_shared.h"
 
 /* P31 S74 — split out of src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c at a jtbl-span TU boundary
@@ -3918,7 +3918,7 @@ void func_801883EC(s32 a0) {
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 void func_80188430(s32 a0) {
     extern s32 func_80133784(s32 a0, void *a1, s32 a2);
@@ -3971,7 +3971,7 @@ void func_80188508(s32 a0) {
 
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 extern s32 rand(void);
 extern s32 func_8012B744(void *a0, void *a1);
