@@ -55,7 +55,10 @@ check("PhaseEnd_Phase0.5.md exists", (R/'phase-ends/PhaseEnd_Phase0.5.md').exist
 check("CURRENT_PHASE.md absent after close", not (R/'phase-ends/CURRENT_PHASE.md').exists())
 st = sh(f"git -C '{R}' status --porcelain").stdout.strip().splitlines(); check(f"throwaway tree clean ({len(st)} dirty)", not st, str(st[:5]))
 # 5. guardrails: BEFORE vs AFTER
-before = dict(l.split(None, 1) for l in (D/'before.txt').read_text().splitlines() if l.strip())
+before = {}
+for l in (D/'before.txt').read_text().splitlines():   # run 5: an EMPTY dirty set is a one-token line — never crash the reader on it
+    if l.strip():
+        parts = l.split(None, 1); before[parts[0]] = parts[1] if len(parts) > 1 else ''
 H = os.path.expanduser('~')
 after = {
  'settings_sha1': sh(f"sha1sum {H}/.claude/settings.json | cut -c1-40").stdout.strip(),

@@ -203,9 +203,9 @@ would have saved — in one line per entry. The kernels distil the same material
 | Phase 33.5 | A dry-run judge is an instrument; negative-control it before believing its FAILs |
 | Phase 33.5 | A tool without a dictionary row is invisible to the project that owns it |
 
-## The proof: four dry-run installs
+## The proof: five dry-run installs
 
-The kit was installed four times into a throwaway repository by an agent that had never seen it, from an answers file,
+The kit was installed five times into a throwaway repository by an agent that had never seen it, from an answers file,
 under write-scope guardrails (nothing outside the throwaway; the real tree's dirty paths, the memory store and the
 settings compared before and after), and judged by a script rather than by the agent's own report
 (`.run/P33.5/kit-dryrun/judge.py`, with the answers file, the expected manifest, the install logs and the verdicts beside it).
@@ -216,6 +216,7 @@ settings compared before and after), and judged by a script rather than by the a
 | 2 | PASS 10/10 (resumed from the fixed step) | `py_compile` always writes bytecode (an in-memory compile replaced it); prose that quotes a literal placeholder trips the audit (a documented rule); the judge itself had two false FAILs — the same scoping gap it was judging, and a dirty-tree *count* where a path *set* was needed. |
 | 3 | PASS 10/10, 0 defects (fresh throwaway, fresh agent, final kit) | Two honest agents produced two honest manifest sizes from the same words: the manifest is now specified as an exact derivable set. |
 | 4 | PASS 10/10 after one resume (after the dictionaries were added) | The installer compared a typed figure against a derived one and stopped the day the derived side moved; both sides are now derived. The one guardrail flag was a generated timeline rewritten by a health check running at the time, not a write by the agent. |
+| 5 | PASS 10/10, 0 failed verify lines (fresh throwaway, fresh agent, the final kit with the record corpus and the mined kernels) | Two installer wording notes (a template named without its folder; the manifest rule's silence on a file the installer creates and deletes itself). The one judge flag was again the judge's own output file, read as a deletion before the run and recreated by the judge; its parser was fixed. |
 
 The harness is reusable: a kit change is re-verified by resuming on the last throwaway; a fresh full run only when the
 installer's steps change.

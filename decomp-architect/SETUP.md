@@ -154,7 +154,7 @@ FAILS (the README is trackable).
 
 ## Step 6 — The flywheel skeleton (documents that outlive the package)
 
-1. `docs/wave-playbook.md` — CREATE from `pa-overlays.md` **Block 6** (the fenced body under that heading, copied verbatim);
+1. `docs/wave-playbook.md` — CREATE from `$KIT/templates/pa-overlays.md` **Block 6** (the fenced body under that heading, copied verbatim);
    fill `{{INSTALL_DATE}}`. SKIP if the file exists.
 2. `docs/tools-manifest.md` — `cp "$KIT/tools/MANIFEST.md"` and prepend one line: *"Installed by decomp-architect on
    {{INSTALL_DATE}}; every row is a task for its phase; the verbatim reference implementation of each is in the kit's
@@ -198,7 +198,7 @@ ones as the `TODO(phase-N)` literals of Step 0.3.*
 1. **`CLAUDE.md`** ← `$KIT/templates/CLAUDE.decomp-overlay.md` from its `## Decomp fail-safes` line to the end (the leading HTML
    comment dropped), APPENDED. Marker `## Decomp fail-safes`. Fill `{{INSTALL_DATE}}`, `{{COOKBOOK_NAME}}`; `{{FLEET_CHECK_CMD}}`
    → `TODO(phase-3)`.
-2. **`phase-ends/DIGEST.md`** ← `pa-overlays.md` **Block 1**, CREATE if absent. Fill `{{INSTALL_DATE}}`. Then write its part 2's
+2. **`phase-ends/DIGEST.md`** ← `$KIT/templates/pa-overlays.md` **Block 1**, CREATE if absent. Fill `{{INSTALL_DATE}}`. Then write its part 2's
    first synopsis line for Phase 0 (ProjectArchitect's install, from `PhaseEnd_Phase0.md`'s recap) — one sentence.
 3. **`phase-ends/CURRENT_PHASE.template.md`** ← **Block 2** APPENDED at the end. Marker `## 🛑 SESSION CHECKPOINT`. (Every phase
    from 1 on inherits the replayable block; the Phase-0.5 file, already created, keeps ProjectArchitect's shape.)
