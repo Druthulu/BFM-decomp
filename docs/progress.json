@@ -4,8 +4,8 @@
  "binaries": 218,
  "fleet": {
   "fn_count": {
-   "matched": 363214,
-   "total": 363214,
+   "matched": 363221,
+   "total": 363221,
    "pct": 100.0,
    "what": "functions byte-identical / matchable, every binary (one shared body counts once per overlay it is instantiated in)"
   },
@@ -31,13 +31,13 @@
   }
  },
  "counts": {
-  "real_c_functions": 360737,
+  "real_c_functions": 360744,
   "dedup_shared_of_real": 255632,
   "linked_psyq_objects": 1256,
   "verbatim_asm_bodies": 5,
   "include_asm_stubs": 0,
   "non_matching": 0,
-  "matchable": 363214,
+  "matchable": 363221,
   "dedup_groups": 2220,
   "dedup_instances": 255708
  },
@@ -814,11 +814,11 @@
   },
   {
    "binary": "ov_MAIN_012",
-   "real": 2322,
+   "real": 2323,
    "shared": 1693,
    "linked": 0,
-   "byte_identical": 2401,
-   "matchable": 2401,
+   "byte_identical": 2402,
+   "matchable": 2402,
    "instr_matched": 88184,
    "instr_total": 88184
   },
@@ -1074,11 +1074,11 @@
   },
   {
    "binary": "ov_SC02_037",
-   "real": 2433,
+   "real": 2434,
    "shared": 1708,
    "linked": 0,
-   "byte_identical": 2515,
-   "matchable": 2515,
+   "byte_identical": 2516,
+   "matchable": 2516,
    "instr_matched": 93850,
    "instr_total": 93850
   },
@@ -1444,11 +1444,11 @@
   },
   {
    "binary": "ov_SC03_107",
-   "real": 2413,
+   "real": 2414,
    "shared": 1693,
    "linked": 0,
-   "byte_identical": 2496,
-   "matchable": 2496,
+   "byte_identical": 2497,
+   "matchable": 2497,
    "instr_matched": 92353,
    "instr_total": 92353
   },
@@ -2164,21 +2164,21 @@
   },
   {
    "binary": "ov_SC07_006",
-   "real": 2377,
+   "real": 2378,
    "shared": 1630,
    "linked": 0,
-   "byte_identical": 2457,
-   "matchable": 2457,
+   "byte_identical": 2458,
+   "matchable": 2458,
    "instr_matched": 100506,
    "instr_total": 100506
   },
   {
    "binary": "ov_SC07_007",
-   "real": 2529,
+   "real": 2530,
    "shared": 1666,
    "linked": 0,
-   "byte_identical": 2612,
-   "matchable": 2612,
+   "byte_identical": 2613,
+   "matchable": 2613,
    "instr_matched": 93027,
    "instr_total": 93027
   },
@@ -2204,21 +2204,21 @@
   },
   {
    "binary": "ov_SC07_010",
-   "real": 2441,
+   "real": 2442,
    "shared": 1689,
    "linked": 0,
-   "byte_identical": 2523,
-   "matchable": 2523,
+   "byte_identical": 2524,
+   "matchable": 2524,
    "instr_matched": 92039,
    "instr_total": 92039
   },
   {
    "binary": "ov_SC07_011",
-   "real": 2368,
+   "real": 2369,
    "shared": 1664,
    "linked": 0,
-   "byte_identical": 2448,
-   "matchable": 2448,
+   "byte_identical": 2449,
+   "matchable": 2449,
    "instr_matched": 88375,
    "instr_total": 88375
   }

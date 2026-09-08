@@ -75,7 +75,9 @@ def macro_scope(tu_text, header_path=ENGINE_CORE):
     single instantiation (§63's unexplored "per-overlay-local decl").  Both are binary-local; they
     are not the same edit.  Mis-attributing one as the other routes the fix at the wrong file."""
     inst = set(re.findall(r'\b(DEFINE_func_[0-9A-Fa-f]+)\s*\(', tu_text))
-    if not inst:
+    if not inst or not os.path.exists(header_path):
+        # Phase 35: with the macro header gone the include-site form's declarations are part of the TU text cpp sees, so
+        # `cdecl.tu_scope` attributes them to the header file itself; there is no macro to name here.
         return {}
     text = open(header_path, errors='replace').read()
     out = {}

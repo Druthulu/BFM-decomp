@@ -178,7 +178,7 @@ def jr_inventory(ov):
     for cf in glob.glob(os.path.join(REPO, f"src/{ov}/*.c")):
         _, items = oss.parse_overlay_c(open(cf).read(), syms)
         for addr, name, kind, _ in items:
-            if kind not in ("def", "define") or not name or addr is None:
+            if kind not in ("def", "define", "include") or not name or addr is None:
                 continue
             targets = _reloc_targets_or_die(family_remap, ov, addr, data=img)
             if targets is None:

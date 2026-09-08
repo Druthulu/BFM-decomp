@@ -255,15 +255,29 @@ def scan_text(text, rel, shared_defs=None):
         real = aliases.get(name, name)
         recs.append(dict(form="def", name=real, line=line_of(start), end=line_of(c), alias=(real != name),
                          text_hash=_norm(body, [name, real]), pins=bool(PIN_RE.search(body)),
-                         typedef=bool(TYPEDEF_RE.search(body)), nlines=body.count("\n") + 1))
+                         typedef=bool(TYPEDEF_RE.search(body)), nlines=body.count("\n") + 1,
+                         empty=(not masked[o + 1:c].strip())))
     return recs
 
 
 def header_defined_names(path):
     """The function names a shared header DEFINES (masked: macro bodies never count)."""
-    text = path.read_text(errors="surrogateescape")
-    recs = scan_text(text, path.relative_to(REPO).as_posix(), shared_defs=None)
-    return sorted({r["name"] for r in recs if r["form"] == "def"})
+    return sorted({n for n, _ in header_defs(path)})
+
+
+def header_defs(path):
+    """[(name, empty)] for every function a shared header DEFINES, in file order — the one reader every consumer of the
+    Phase-35 include form shares (progress.py, overlay_src_split.py, dedup_integrate.py); `empty` = nothing between the braces.
+    A header that only defines macros (engine_core.h) defines no function here, by masking."""
+    p = pathlib.Path(path)
+    if not p.is_absolute():
+        p = REPO / p
+    if not p.exists():
+        return []
+    text = p.read_text(errors="surrogateescape")
+    rel = p.relative_to(REPO).as_posix() if p.is_relative_to(REPO) else str(p)
+    recs = scan_text(text, rel, shared_defs=None)
+    return [(r["name"], r["empty"]) for r in recs if r["form"] == "def"]
 
 
 def _scan_worker(args):

@@ -167,6 +167,8 @@ def classify_fail(got_sha):
     # whose antecedent was the fleet-wide benign `"DEFINE_func_80181538" redefined` WARNING — the
     # draft had in fact built and banked whole-binary-identical. Same §58 red-herring family: drop
     # the notes with their warnings, and let the real error (or the honest gap) carry the label.
+    # (Phase 35 T4 removes the twin macro definitions with engine_core.h; the filter stays — it is
+    # a general rule about notes, not about that warning.)
     lines = [ln for ln in _last_err.splitlines()
              if 'warning:' not in ln and not re.search(r':\s*note:', ln)]
     for ln in lines:
