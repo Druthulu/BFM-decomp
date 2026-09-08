@@ -22,6 +22,9 @@ in a published document is produced by a tool from the tree, and the tool assert
 generated file says so on its first line; edits go to the generator. A number that has to appear in prose is a dated
 snapshot with the command that produced it. Snapshots of a state that no longer exists are frozen, not regenerated.
 
+**Placeholders.** A tracked document never pastes a literal double-brace placeholder token; it names the placeholder in prose.
+The install-time placeholder audit cannot tell a quotation from an unfilled placeholder, and it must stay a true signal.
+
 **Links.** A document links the wiki page for a topic, not the `docs/` file behind it; a wiki page links into `docs/` only
 through its Reference index; nothing links into the archive (`docs/sunset/`), whose index names files as backticked paths
 with the version they were archived at. A backticked path is a citation, not a link; a link checker classifies cited

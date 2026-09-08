@@ -99,6 +99,17 @@ session and say `Begin Phase 1`.
   as their attribution; everything outside a fence is claimed to transfer to another console and another compiler. A
   lint keeps the kit free of the source project's names, paths and rule numbers.
 
+## Findings for ProjectArchitect (from the kit's dry-run; carried upstream at the split)
+
+- ProjectArchitect's ignore block writes the directory form `.run/`; git never descends into an excluded directory, so no later
+  `!` re-include under `.run/` can take effect beneath it. The kit's installer rewrites that one line to the by-contents form
+  `/.run/*` as its single named edit above a marker (SETUP Step 3.0); at source the fix is to write `/.run/*` and
+  `!/.run/README.md` in the first place.
+- ProjectArchitect's leftover-placeholder audit is not scoped past the installer packages' own template bodies, and a
+  `.gitignore`-aware `grep` wrapper hides that; the kit's Step 10.1 scopes the audit and says to use a plain grep.
+- On a host whose global git ignore hides `.claude/settings.local.json`, ProjectArchitect's checkpoint commit silently leaves it
+  out; neither installer names it as intentionally uncommitted.
+
 ## Package contents
 
 ```

@@ -35,7 +35,9 @@ make is whether the repository starts public or private; the firewall applies ei
    audit catches any leftover.
 4. **Marked sections, never edits.** Every append lands under the block's own heading — its **marker** — at the END of the
    target, or at the one insertion point a step names. A target that already contains the marker is SKIPPED. Nothing above
-   a marker is ever edited: ProjectArchitect's stamped content stays byte-identical.
+   a marker is ever edited — with ONE named exception, Step 3.0: ProjectArchitect's bare `.run/` ignore line is rewritten to
+   `/.run/*` (the two forms ignore the same files; without it no re-include under `.run/` can ever work). Everything else
+   ProjectArchitect stamped stays byte-identical.
 5. **Every step self-verifies** (the ✓ line). If a verification fails: STOP, report exactly what failed, and wait — do not
    improvise around it.
 6. **Idempotent:** every step begins with an existence or marker check and a SKIP branch. Re-running this file after a crash
@@ -99,6 +101,13 @@ to an existing file; in unattended mode, the file supplied every key.
 
 ## Step 3 — The ROM firewall, in force from this commit
 
+0. **The one edit above a marker.** ProjectArchitect's own ignore block writes the directory form `.run/`. Git does not
+   descend into an excluded directory, so beneath that line no `!` re-include under `.run/` — the README of Step 4, the
+   dated-exception convention for tracking irreplaceable scratch evidence — could ever take effect. If `.gitignore` contains a
+   line that is exactly `.run/`, rewrite THAT ONE LINE to `/.run/*` (same files ignored; the by-contents form). SKIP if no such
+   line exists (idempotent; runs even when Step 3.1's marker is already present). This is the single edit this installer makes
+   above a marker (Step 0.4).
+   ✓ `git -C "$ROOT" check-ignore -v .run/x` names a `/.run/*` line; `grep -cx '\.run/' .gitignore` prints 0.
 1. **The ignore file.** If `.gitignore` does not contain the marker line `# ROM firewall — in force from the FIRST commit`:
    append one dated comment line `# ---- decomp-architect Phase 0.5, installed {{INSTALL_DATE}} ----` and then the whole of
    `$KIT/templates/gitignore.decomp`. Never remove or reorder ProjectArchitect's block above it.
@@ -226,23 +235,37 @@ the appended rows resolves to a file; the marker appears once.
 
 ## Step 10 — Verify, the manifest, gitignore the package, close Phase 0.5, hard stop
 
-1. **The leftover-placeholder audit:** `grep -rln '{{' --include='*.md' --include='*.txt' --include='*.sh' --include='*.py'
-   --include='*.yml' --include='*.json' --include='*.mk' --include='Makefile' . | grep -v '^./decomp-architect/'` may list
+1. **The leftover-placeholder audit:** `command grep -rln '{{' --include='*.md' --include='*.txt' --include='*.sh'
+   --include='*.py' --include='*.yml' --include='*.json' --include='*.mk' --include='Makefile' . | grep -vE
+   '^\./(decomp-architect|project-architect-2\.0)/'` — with a grep that does NOT honour ignore files (plain GNU grep via
+   `command grep`; a wrapper that honours `.gitignore` silently narrows the result — if in doubt, `find . -type f | xargs grep -l
+   '{{'` and filter the same way); both package folders are dropped by the filter, never by ignore rules. The result may list
    ONLY `./docs/project-architect.md`, `./phase-ends/CURRENT_PHASE.template.md` and `./phase-ends/PhaseEnd.template.md`
    (ProjectArchitect's own reference spec and templates). Anything else = an unfilled placeholder → fill it, then re-run.
-2. `python3 tools/audit_public.py` → exit 0. `bash -n tools/bootstrap.sh`. `python3 -m py_compile tools/audit_public.py`
-   (then remove the `__pycache__` it makes, or run it with `PYTHONDONTWRITEBYTECODE=1`).
+   The audit cannot tell an unfilled placeholder from prose that QUOTES the token, so the rule that keeps it a true signal is:
+   **a tracked document never pastes a literal double-brace token — it names the placeholder in prose** (this installer's own
+   phase file and PhaseEnd included; the dry-run tripped on both).
+2. `python3 tools/audit_public.py` → exit 0. `bash -n tools/bootstrap.sh`. Syntax-check the audit WITHOUT writing bytecode:
+   `python3 -c "compile(open('tools/audit_public.py').read(), 'tools/audit_public.py', 'exec')"` (the `py_compile` module always
+   writes a `__pycache__`, whatever the environment says; a `__pycache__` left in a fresh install is untracked litter).
 3. `grep -c '^### G' RULES_REGISTRY.md` = 65 (+ the offset, if any).
 4. **Gitignore the package:** append to `.gitignore` under the comment `# decomp-architect (the day-one kit's package folder —
    safe to delete after install)` the line `decomp-architect/` (SKIP if present).
-5. **The install manifest:** write `.run/decomp-architect-install-manifest.txt` — one line per touched path, sorted, in the
-   form `CREATED <path>` / `APPENDED <path> (<marker>)` / `SKIPPED <path> (<reason>)` — and print it. (An unattended run diffs it
-   against an expected manifest.)
+5. **The install manifest:** write `.run/decomp-architect-install-manifest.txt`, sorted, one line per FILE, and print it.
+   Exactly these lines and no others: `CREATED <path>` for every file this installer created (Steps 1–9, plus this step's own
+   manifest file, the PhaseEnd and the archived phase log of step 6 — write the manifest after step 6 so they are in it; a file
+   created and then moved is listed once, under its final path, so the phase file appears only as `phase-ends/logs/PhaseLog_0.5.md`);
+   `APPENDED <path> (<marker>)` for every file it appended a marked section to (`.gitignore` once, with both markers named);
+   `SKIPPED <path> (<reason>)` for every OPTIONAL artifact this run did not write — the two `*.decomp-skeleton.md` beside an
+   existing README/CONTRIBUTING, `docs/decomp-ladder.md`, `.claude/settings.json` and `.mcp.json` (never touched at Phase 0.5) —
+   so the reader sees the decision, not an absence. Directories are never listed. (An unattended run diffs the manifest against
+   an expected one, so the set of lines must be derivable from this rule alone.)
 6. **Close the phase.** Tick Steps 6–10. Write `phase-ends/PhaseEnd_Phase0.5.md` from `phase-ends/PhaseEnd.template.md` (which
    now carries the narrative axis): the Build Log = the manifest; Deviations (an existing README/LICENSE left beside a
    skeleton, a registry offset, the Step-1.3 choice); Rules Added = *"G1–G65 installed into §E — the kit's seed; the origin
    of each is its provenance line"*; the narrative axis filled honestly (what the install assumed, what it found); the
-   Plain-English Recap last. Run `bash tools/backup-claude-state.sh` (ProjectArchitect's state sweep; the transcripts it
+   Plain-English Recap last. Append the Phase-0.5 synopsis (one paragraph) to `phase-ends/DIGEST.md` part 2 — the digest's own
+   maintenance rule. Run `bash tools/backup-claude-state.sh` (ProjectArchitect's state sweep; the transcripts it
    copies are ignored by the class-7 line, the memory files are tracked). Then `git -C "$ROOT" mv phase-ends/CURRENT_PHASE.md
    phase-ends/logs/PhaseLog_0.5.md`.
 7. **The close commit, by explicit path:** every path in the manifest that this step or Steps 6–9 created or appended, plus
@@ -282,6 +305,8 @@ README.md, CONTRIBUTING.md (created, or *.decomp-skeleton.md beside the existing
 - **§E already holds rules** → Step 7's renumber-by-offset fallback; the offset goes in the log and the PhaseEnd.
 - **A README, LICENSE, CONTRIBUTING or `.clang-format` already exists** → the skeleton is written beside it (or skipped) and
   named in the final message; merging is the developer's.
+- **The negative probe for `.run/README.md` fails (the path is ignored)** → ProjectArchitect's bare `.run/` line is still in
+  `.gitignore`; Step 3.0 did not run. Re-run Step 3.
 - **The control passes the planted blob** → STOP; `config/firewall-fixture.sha1` or `config/firewall.txt` is wrong. An audit
   that cannot fail proves nothing.
 - **The `answers:` file lacks a key** → STOP, naming the key; unattended runs never default.

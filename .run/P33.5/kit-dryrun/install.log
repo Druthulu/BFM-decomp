@@ -1,0 +1,115 @@
+run 3 — clean end-to-end run of the final kit
+START 2026-09-07T20:26:49-06:00
+
+=== PHASE A — ProjectArchitect 2.0 (PKG=./project-architect-2.0, root=$R) ===
+[PA §1] git rev-parse --show-toplevel -> /home/musashi/bfm-decomp/.run/P33.5/kit-dryrun/repo (is a git repo).
+[PA §1] Inventory excluding .git/ + both package folders: EMPTY (find -mindepth 1 -maxdepth 1 printed nothing).
+        => Path A (new project). Confirmed from answers.md "PA_PATH: A (a new, empty repository)".
+        ✓ path chosen and confirmed; repo root resolved.
+[PA §2] mkdir phase-ends/logs + .gitkeep; cp phase-ends-README.md -> phase-ends/README.md; cp CURRENT_PHASE.template.md, PhaseEnd.template.md.
+        Created phase-ends/CURRENT_PHASE.md from the template (verbatim copy, then field fills only): "Phase 0 — Governance install & constitution", checklist = §3..§9 (+ §2 ticked).
+        ✓ five files present (5/5 listed by ls); CURRENT_PHASE.md lists 10 install checkboxes.
+[PA §3] Path A -> no governance moves. mkdir -p docs tools .run .claude-state/memory .claude-state/transcripts — all five exist.
+        ✓ layout created.
+[PA §4] cp project-architect-2.0.md -> docs/project-architect.md; effort-map.template -> docs/effort-map.md; cookbook.template -> docs/decomp-cookbook.md (named for the domain, matching decompilation); ops-setup.template -> docs/ops-setup.md; RULES_REGISTRY.seed -> RULES_REGISTRY.md; tools/backup-claude-state.sh (chmod +x).
+        Copy-time fills only: PROJECT_NAME = "Starfall Courier Decompilation", INSTALL_DATE = 2026-09-07, cookbook DOMAIN = "Matching Decompilation". Generation-time placeholders deliberately left for §8.
+        .gitignore created with the "# Project Architect 2.0" block (.run/ , project-architect-2.0/).
+        ✓ 5 installed files + the script exist; grep -c PROJECT_NAME placeholder = 0 in RULES_REGISTRY.md and docs/effort-map.md; git check-ignore .run exits 0 (".gitignore:2:.run/ .run").
+[PA §5] cp CLAUDE.template.md -> CLAUDE.md; filled PROJECT_NAME / PROJECT_TAGLINE / COOKBOOK_NAME only (the four generation-time tokens left for §8).
+        Wrote .claude/settings.json (SessionEnd hook -> bash tools/backup-claude-state.sh --hook, timeout 60) and .claude/settings.local.json with the ABSOLUTE repo path.
+        Dev interview answered from answers.md PA_DEV_INTERVIEW (no human present): advanced; domain = matching decompilation of console games; solo; autonomous-within-phases, recommendation-first options, breadth fan-out welcome. Recorded into .claude-state/memory/who-is-dev.md (its INSTALL INTERVIEW comment deleted); {{PROJECT_NAME}} filled in project-governance-system.md.
+        Path A -> the backup-script memory import of §5.4 does not apply (that is Path C only).
+        Stated (for the record): the seeded memories and the SessionEnd hook activate from the NEXT session.
+        ✓ 16 memory files besides MEMORY.md; both settings JSONs parse; autoMemoryDirectory is absolute and ends /.claude-state/memory; 0 leftover INSTALL INTERVIEW comments; no {{ left anywhere under .claude-state/memory/.
+[PA §6] SKIPPED ENTIRELY by the run's instruction (answers.md PA_HOME_DIRECTORY_STEP): nothing written under ~/.claude — no statusline copy, no user-settings merge, no smoke test.
+        DEVIATION (recorded): "PA §6 global assets skipped entirely — unattended dry-run must not write outside the repository". No repo-side consequence: §6 touches only the home directory.
+[PA §7] Ticked §2–§6 in CURRENT_PHASE.md (with a rich per-step checkpoint entry each) and committed by explicit path.
+        commit 980dabdf3f2b3d1bd0f17e0d747d4c19a547e569 "chore: install Project Architect 2.0 governance"
+        NOTE (environment, not a kit defect): `git add .claude/settings.local.json` was REFUSED — /home/musashi/.config/git/ignore:1 carries `**/.claude/settings.local.json`, a host-level ignore outside the repository. The file exists on disk with the correct absolute path (which is all §5's ✓ and the kit's Step 9.1 check require) and it is machine-local by design; it therefore stays untracked-and-ignored and does NOT show in `git status`.
+        ✓ `git status --porcelain` shows only "?? decomp-architect/" (the other installer package, gitignored later by the kit's Step 10.4) — no untracked governance file; the commit exists; `git log -1 --format=%B | grep -c Co-Authored-By` = 0.
+[PA §8] Path A — Mode 1, generated from decomp-architect/intake.decomp.md with the FILL values of answers.md.
+        Corpus consulted per corpus/README.md's query guide: matched by stack (C + Python tooling + long-running agent work) and by problem shape (determinism/parity contracts, batch and agent work) — the relevant kernels are the §M methodology set (already installed as registry §M) plus "Isolated parallel agents beat the serial main loop on breadth", "Escalate a tool-internal problem to the tool's own source", "An adversarial refute-pass is the primary independent check", "Saturate available cores for long batch jobs", "Unattended long jobs run as detached OS processes". Per the intake's Part D, §E must hold ONLY the one-line pointer at this stage, so these were NOT landed in §E now; they are carried in the constitution's Philosophy/Notes and belong after the kit's G-block if later ratified.
+        Gate 1 (structured review): answered from answers.md PA_GATE1_REVIEW — nothing to adjust; generated as the intake says.
+        Gate 2 (the effort toggle): DEVIATION recorded — "Gate 2 toggle skipped (unattended dry-run)". Generation proceeded.
+        Generated: PROJECT_CONTEXT.md on the skeleton (every section filled; Build Roadmap = the intake's Part B, all ELEVEN phases 0..10, each ending in a machine-checkable Milestone line); registry §E = the single pointer line of Part D; CLAUDE.md's four generation-time placeholders (fail-safes = the four Part D names, session-start extras, generated constraints, environment); docs/effort-map.md per-phase map (11 phase rows + the Phase-Start row); docs/decomp-cookbook.md pinned context; docs/ops-setup.md environment + build/run/test rows (build and run honestly marked as later-phase to-dos).
+        ✓ constitution exists with every skeleton section; 11 "**Milestone:**" lines for 11 "### Phase" headings; registry §E non-empty (§F stays empty — Path A); placeholder audit `command grep -rn '{{' --include='*.md' .` filtered past both package folders lists ONLY ./docs/project-architect.md (3 hits, the reference spec) — clean; leftover-placeholder count is 0 in CLAUDE.md, docs/effort-map.md, docs/decomp-cookbook.md, docs/ops-setup.md and PROJECT_CONTEXT.md.
+        ✓ Gate-2 output review: answered from answers.md (the developer never appears) — the generated constitution is accepted as generated.
+[PA §9] Wrote phase-ends/PhaseEnd_Phase0.md (Build Log, Verification results, Milestone achieved, five Deviations, Rules Added = None with where the lessons went, Changelog, Plain-English Recap last; 9,273 bytes, no literal placeholder token anywhere in it).
+        Ran `bash tools/backup-claude-state.sh` from the repo root: "no ~/.claude project dir found for <repo> (nothing to sweep yet)", exit 0 — it wrote only inside <repo>/.claude-state (it created .claude-state/transcripts, which already existed) and nothing outside the repository.
+        `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/PhaseLog_0.md` (archived, not deleted).
+        commit a751a36 "feat: Project Architect 2.0 installed — constitution generated"
+        ✓ PhaseEnd exists; CURRENT_PHASE.md archived (phase-ends/logs/PhaseLog_0.md present, phase-ends/CURRENT_PHASE.md gone); both commits present; `git log --format=%B | grep -ci 'co-authored-by|generated with'` = 0; `git status --porcelain` = "?? decomp-architect/" only (the kit's own package, which the kit gitignores at its Step 10.4).
+        PA install manifest: CLAUDE.md · PROJECT_CONTEXT.md · RULES_REGISTRY.md · .gitignore · docs/{project-architect,effort-map,decomp-cookbook,ops-setup}.md · phase-ends/{README.md,CURRENT_PHASE.template.md,PhaseEnd.template.md,PhaseEnd_Phase0.md,logs/PhaseLog_0.md,logs/.gitkeep} · tools/backup-claude-state.sh · .claude/settings.json · .claude/settings.local.json (untracked-and-ignored on this machine) · .claude-state/memory/ (16 seeds + MEMORY.md) · .claude-state/transcripts/ · .run/
+        PA's final-message instructions to delete the package and start a fresh session do NOT apply to this run (per the run's brief) — continuing directly to Phase B.
+=== PHASE A COMPLETE ===
+
+=== PHASE B — decomp-architect (KIT="./decomp-architect", ROOT=$R), unattended, answers: $A ===
+[KIT Step 1] Prerequisites.
+  1. `git rev-parse --show-toplevel` -> the repo. PASS
+  2. Version pin — every test PASSED: grep '^> \*\*Version:\*\* 2\.0' docs/project-architect.md (the file's line is "> **Version:** 2.0.0"); test -f RULES_REGISTRY.md, PROJECT_CONTEXT.md, CLAUDE.md, phase-ends/PhaseEnd_Phase0.md, phase-ends/CURRENT_PHASE.template.md, phase-ends/PhaseEnd.template.md, docs/effort-map.md, docs/ops-setup.md; test -d phase-ends; test -d .claude-state/memory; `ls docs/*cookbook*.md` lists exactly one file (docs/decomp-cookbook.md).
+  3. Ladder in the constitution: `grep -c 'Governance and the firewall' PROJECT_CONTEXT.md` = 1. PASS — no Step-1.3 fallback, so no docs/decomp-ladder.md at Step 6.4.
+  4. Registry precondition: 0 '### G' headings between '## §E —' and '## §E′'. PASS — offset k = 0, Step 7 inserts the seed unrenumbered.
+  5. Path A only: `ls src/*.c` = 0 files, `ls config` = 0 entries (no config/ at all), no Makefile. PASS — not an existing decompilation.
+  6. phase-ends/CURRENT_PHASE.md did not exist -> created from phase-ends/CURRENT_PHASE.template.md and filled: "Phase 0.5 — decomp-architect: the decomp overlay", started 2026-09-07, milestone = Step 10's verify list, checklist = Steps 2–10.
+  ✓ every test in 2 passes; 3 and 5 hold; the §E state (k=0) is recorded; CURRENT_PHASE.md names Phase 0.5 and lists the 9 step checkboxes.
+[KIT Step 2] Unattended (`answers: .../answers.md`).
+  Read back from ProjectArchitect: project name "Starfall Courier Decompilation" (CLAUDE.md line 1 after the dash); cookbook "decomp-cookbook.md"; install date 2026-09-07 (pinned by the answers file).
+  Thirteen keys read from the answers file — none missing, none empty (values recorded in the Phase-0.5 log's answers table).
+  ✓ all sixteen values non-empty; the dump path /nonexistent/starfall-courier-usa.bin is absolute (True) and NOT under the repo root (False); the cookbook name resolves to an existing file; the file supplied every key.
+[KIT Step 3] The ROM firewall.
+  3.0 THE ONE EDIT ABOVE A MARKER — ProjectArchitect's .gitignore held exactly one line that is exactly ".run/" (line 2); rewritten to "/.run/*".
+      ✓ `git check-ignore -v .run/x` -> ".gitignore:2:/.run/*  .run/x" (a /.run/* line names it); `grep -cx '\.run/' .gitignore` = 0.
+  3.1 Marker "# ROM firewall — in force from the FIRST commit" absent -> appended one dated line "# ---- decomp-architect Phase 0.5, installed 2026-09-07 ----" plus the whole of templates/gitignore.decomp. ProjectArchitect's block above it untouched. Marker count = 1.
+  3.2 config/firewall.txt installed (1,995 B); the target-binary placeholder filled -> "purge: SLUS_999.99" (line 16).
+  3.3 config/firewall-fixture.sha1 installed (the hash only): d4bc7b5d67878461ceac039b458b0f9db0e6adaa  blob.bin
+  3.4 tools/audit_public.py installed, chmod +x (9,491 B, mode -rwxr-xr-x).
+  3.5 .github/workflows/no-rom.yml installed (2,298 B).
+  3.6 NEGATIVE CONTROL — planted .run/firewall-control/planted.bin (16 B, sha1 d4bc7b5d...adaa, equal to the fixture hash):
+        `python3 tools/audit_public.py --paths .run/firewall-control/planted.bin` -> EXIT 1 with
+          "  OFFENDER .run/firewall-control/planted.bin: game-derived content: sha1 == config/firewall-fixture.sha1:blob.bin"
+          "audit_public: FAIL — 1 offender(s) among 1 paths"
+        (three expected WARNING lines for the three pending hash sources of phases 1 and 3.)
+      Then `rm -f <abs>/.run/firewall-control/planted.bin` (the installer's one deletion, an explicit file) — verified gone.
+        `python3 tools/audit_public.py` (tracked tree) -> EXIT 0:
+          "audit_public: 33 paths, 32 files hashed against 1 forbidden hashes from 1 source(s), 17 purge rules, cap 50 MiB; 32 text files scanned for disassembly runs (cap 64 lines), longest runs: none"
+          "audit_public: OK — 0 offenders among 33 paths"
+      => the audit CAN fail and DOES pass. Control satisfied.
+  3.7 Ignore probes — positive (must succeed) all PASS: disks/x.bin, asm/x.s, extracted/x, dumps/x.bin, ghidra/x, tools/psyq/x, .claude-state/transcripts/x, .run/scratch/x.
+      Negative (must exit 1) all PASS (not ignored): src/main.c, config/x.yaml, extracted/retail/manifest.jsonl, .run/README.md, .claude-state/memory/MEMORY.md.
+  ✓ marker once; the five files exist; the control failed then passed; every probe behaved as listed.
+[KIT Step 4] Layout: mkdir -p src config tools docs .run disks extracted/retail dumps — all present. docs/README.md and .run/README.md installed and filled (project name, install date, container layout).
+  ✓ the directories exist; both READMEs contain no double-brace token (count 0 each); `git check-ignore -q .run/README.md` FAILS (the README is trackable).
+[KIT Step 5] tools/bootstrap.sh installed, chmod +x; `bash -n tools/bootstrap.sh` clean (no output, exit 0). Steps 2–5 ticked in CURRENT_PHASE.md with their checkpoint entries and the Step-2 answers table.
+  Checkpoint commit cead72f "chore: decomp-architect Phase 0.5 — firewall, layout, bootstrap" (9 explicit paths).
+  ✓ bash -n clean; the commit exists; `git status --porcelain -- <those 9 paths>` lists none of them; no attribution trailer.
+[KIT Step 6] docs/wave-playbook.md CREATED from pa-overlays Block 6's fenced body (verbatim, install date filled); docs/tools-manifest.md from tools/MANIFEST.md with the one prepended install line; docs/decomp-kernels.md from corpus/decomp-kernels.md. Step 1.3 did NOT choose "proceed" (the ladder check passed), so no docs/decomp-ladder.md — correct.
+  ✓ `grep -c '^| [0-9]' docs/wave-playbook.md` = 12 (≥ 11); `grep -c '^### DK-' docs/decomp-kernels.md` = 64 (= 64); `grep -c '^| \`' docs/tools-manifest.md` = 325 (= 325).
+[KIT Step 7] Marker absent -> the seed body (from its "## §E —" line to EOF, 407 lines, the leading HTML comment dropped) INSERTED immediately before the "## §E′" heading. Precondition re-asserted first: 0 '### G' headings in §E, so k = 0 and the renumber fallback was NOT used.
+  ✓ `grep -c '^### G' RULES_REGISTRY.md` = 65; the marker appears exactly once; order is §E heading (l.152), the pointer (l.156), the installed block (l.160, G1 at 170 … G65 at 561), then §E′ (l.567) and §F (l.581).
+[KIT Step 8] Overlays, each under its own marker, appended/inserted at the named point, nothing above a marker edited:
+  8.1 CLAUDE.md += the overlay from "## Decomp fail-safes" to EOF (install date + cookbook name filled; the fleet-check placeholder written as the literal TODO(phase-3)).
+  8.2 phase-ends/DIGEST.md CREATED from Block 1 + the Phase-0 synopsis sentence written into its part 2.
+  8.3 phase-ends/CURRENT_PHASE.template.md += Block 2 (marker "## 🛑 SESSION CHECKPOINT"). The Phase-0.5 CURRENT_PHASE.md, created earlier from the pre-append template, keeps ProjectArchitect's shape — as specified.
+  8.4 phase-ends/PhaseEnd.template.md: Block 3 (the narrative axis) INSERTED immediately before "## PhaseEnd Changelog" (now at line 46).
+  8.5 docs/effort-map.md += Block 4. 8.6 docs/decomp-cookbook.md += Block 5 (SDK evidence filled; the triple as TODO(phase-4)). 8.7 docs/ops-setup.md += the decomp environment section.
+  8.8 config/decomp-hooks.snippet.json and config/mcp.json.template CREATED from Block 7 (the MCP endpoint as TODO(phase-2)); .claude/settings.json and .mcp.json untouched.
+  8.9 docs/decomp-architect.md copied. 8.10 Skeletons — none of LICENSE, README.md, CONTRIBUTING.md, .clang-format, Makefile, src/NOTICE.md existed, so all were CREATED (no *.decomp-skeleton.md sibling was needed); LICENSE must be replaced by the license's verbatim text before the first push (carried to the final message).
+  ✓ each marker appears exactly once in its target; `grep -c '{{'` = 0 for CLAUDE.md, docs/ops-setup.md, docs/effort-map.md, docs/decomp-cookbook.md, phase-ends/DIGEST.md, src/NOTICE.md (and for LICENSE, README.md, CONTRIBUTING.md, Makefile, .clang-format); `grep -c 'TODO(phase-' docs/ops-setup.md` = 9 (≥ 5); both config JSONs parse; docs/decomp-architect.md exists.
+[KIT Step 9] Memory seed. autoMemoryDirectory = <repo>/.claude-state/memory (ends /.claude-state/memory, directory exists) — nothing written under the home directory. Copied every memory-seed file except MEMORY.md; appended the kit's 16 index rows under the new "## decomp-architect seed" heading.
+  ✓ `ls .claude-state/memory/*.md | grep -vc MEMORY.md` = 32 (16 ProjectArchitect + 16 kit); all 16 appended links resolve to existing files; the marker appears once. Stated: the seeded memories activate from the NEXT session.
+[KIT Step 10] Verify, manifest, close.
+  10.1 Leftover-placeholder audit — `command grep -rln '{{' --include=... . | grep -vE '^\./(decomp-architect|project-architect-2\.0)/'` lists exactly ONE file: ./docs/project-architect.md (ProjectArchitect's reference spec — inside the allowed set; its two phase templates carry no token at all). Cross-checked with the ignore-file-blind `find . -type f | xargs grep -l '{{'` filtered the same way: identical result. CLEAN.
+  10.2 `python3 tools/audit_public.py` -> exit 0, "audit_public: OK — 0 offenders among 41 paths" (41 paths, 40 files hashed, 17 purge rules, 40 text files scanned, longest disassembly run: none; the three pending-source WARNINGs are expected until phases 1 and 3). `bash -n tools/bootstrap.sh` clean. `python3 -c "compile(open('tools/audit_public.py').read(), ...)"` succeeded and left no __pycache__ anywhere in the tree.
+  10.3 `grep -c '^### G' RULES_REGISTRY.md` = 65 (offset 0).
+  10.4 .gitignore += "# decomp-architect (the day-one kit's package folder — safe to delete after install)" / "decomp-architect/"; `git check-ignore -v decomp-architect/SETUP.md` -> ".gitignore:83:decomp-architect/".
+  10.5 .run/decomp-architect-install-manifest.txt written (57 lines, sorted; 9 APPENDED with their markers, 43 CREATED, 5 SKIPPED with reasons) and printed; copied to the run's manifest.txt deliverable.
+  10.6 Closed the phase: Steps 6–10 ticked with their checkpoint entries; phase-ends/PhaseEnd_Phase0.5.md written from the (now narrative-axis-carrying) template — Build Log = the manifest, six Deviations, Rules Added = "G1–G65 installed into §E — the kit's seed", the narrative axis filled honestly, the Plain-English Recap last (11,138 B, no placeholder token); the Phase-0.5 synopsis appended to phase-ends/DIGEST.md part 2; `bash tools/backup-claude-state.sh` -> "no ~/.claude project dir found ... (nothing to sweep yet)", exit 0, writing only inside <repo>/.claude-state; `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/PhaseLog_0.5.md`.
+  10.7 Close commit 9f62ccc "chore: decomp-architect Phase 0.5 — the decomp overlay installed" (25 explicit paths incl. .claude-state/memory). Not pushed.
+  10.8 Final message content (recorded, not delivered — no developer in this run): (a) the manifest above; (b) the package folder may be deleted (it is gitignored) — docs/decomp-architect.md, docs/decomp-kernels.md, docs/tools-manifest.md and the registry carry what matters; (c) LICENSE was written from the skeleton and MUST be replaced by the license's verbatim text before the first push; (d) start a fresh session and say "Begin Phase 1"; (e) the plain-English recap. Its "delete the package / fresh session" instructions do not apply to this run.
+  ✓ FINAL: phase-ends/PhaseEnd_Phase0.5.md exists; CURRENT_PHASE.md archived not deleted (phase-ends/logs/PhaseLog_0.5.md present, phase-ends/CURRENT_PHASE.md absent); 4 commits total, all trailer-free (`git log --format=%B | grep -ci 'co-authored-by|generated with|claude'` = 0); `git status --porcelain` = 0 lines (empty — the package folder is now ignored).
+  Closing sanity re-run (not required by the ✓ list): `python3 tools/audit_public.py` on the committed tree -> exit 0, "OK — 0 offenders among 71 paths".
+WRITE SCOPE: nothing was written outside the throwaway repo and the three deliverables. ~/.claude shows only history.jsonl touched — the Claude Code harness's own shell-history file, written by the tool runner, not by either installer; no statusline.sh was created and no settings there were modified.
+DEVIATIONS (both logged as instructed by the run's brief, neither a kit defect): (1) PA §6 global assets skipped entirely — PA_HOME_DIRECTORY_STEP; (2) "Gate 2 toggle skipped (unattended dry-run)".
+DEFECTS: none. Every ✓ verification of both installers passed as written, first time.
+=== PHASE B COMPLETE — run 3 PASS ===
+[KIT Step 10.5 — REGENERATED] The install manifest was rewritten under the tightened Step 10.5 (one line per FILE, sorted; CREATED for every file created including the manifest, the PhaseEnd and the archived phase log; APPENDED with the marker for each marked section, .gitignore once with both markers; SKIPPED with a reason for the five optional artifacts this run did not write; no directories): 53 lines (39 CREATED, 9 APPENDED, 5 SKIPPED), copied to the run manifest.txt. No other file in the repo changed and no new commit was made — the manifest lives under the ignored scratch tree; `git status --porcelain` stays empty.

@@ -372,3 +372,15 @@ unsloth_compiled_cache/
 !/.run/P32/t4e/ghost/
 /.run/P32/t4e/ghost/*
 !/.run/P32/t4e/ghost/*.c
+
+# P33.5 task 13 (S91, 2026-09-07): the decomp-architect dry-run fixture — the answers file, the expected manifest, the
+# before/after assertions and the install logs are evidence, tracked; the nested throwaway repo/ stays ignored.
+!/.run/P33.5/
+/.run/P33.5/*
+!/.run/P33.5/kit-dryrun/
+/.run/P33.5/kit-dryrun/*
+!/.run/P33.5/kit-dryrun/*.md
+!/.run/P33.5/kit-dryrun/*.txt
+!/.run/P33.5/kit-dryrun/*.log
+!/.run/P33.5/kit-dryrun/*.json
+!/.run/P33.5/kit-dryrun/*.py
