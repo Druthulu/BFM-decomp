@@ -47,7 +47,7 @@ bundle and dictionary are deleted at C11) and a public fresh-clone re-proof (B3'
 - [x] **4** D3 — decomp.dev registration + frogress slug/key/push (Drew, xHigh); verified by curl (Claude) → **P6 rules check after this task**
 - [x] **5** F3 — the wiki: dry run (Claude), first page + `wiki_sync.sh --push` (Drew), pages verified — Low
 - [x] **6** Tool discoverability: xsig topics + homepage (Claude on Drew's word); fork deletion already done; tools post (Drew) — Low
-- [ ] **7** C11 — aftercare: scratch prune (keep `old-to-new.tsv` + `old_tag_tip.txt`), docs, checks — xHigh (Claude)
+- [x] **7** C11 — aftercare: scratch prune (keep `old-to-new.tsv` + `old_tag_tip.txt`), docs, checks — xHigh (Claude)
 - [ ] **8** G2 — tools-health, P7 walk, gate 2, `PhaseEnd_Phase34.md` v2.0.0 + DIGEST + log archive; Drew commits/tags/pushes/releases, then `gh auth logout` — **Max, Tier 1**
 
 ## Blockers
@@ -237,10 +237,12 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   in the past tense. **README (Drew's ask):** the generated timeline SVG now sits right under the progress block with its provenance line;
   `tools/timeline.py` regenerated (its rows were stale against the digests since the 33.5 close) → `timeline --check` fresh.
 - Checks: `make audit-digest` OK · `doc_links --strict` OK · `wiki_render --selftest` 12/12, 32 pages (this and part 1's outputs).
-- **Open for the wiki:** five wiki pages changed in task 7 (Reference-index, Archive-index, conventions, layout, direction) → a re-sync
-  push needs Drew's word (R6; the task-5 waiver was one-off). `gh auth logout` stays Drew's last command after the close push.
+- **The wiki re-sync — DONE** on Drew's word ("sync it", a second explicit one-off R6 waiver for the wiki repository): `tools/wiki_sync.sh
+  --push` → the five modified pages, **`75c17d0..be8a6cc master -> master`**, "wiki: sync from BFM-decomp a1d47bb00"; verified: the remote
+  `master` = `be8a6cc`, the live Archive-index page (200) carries "removed from the tree at Phase 34" (`.run/P34/outward/wiki_push_c11.log`).
+  `gh auth logout` stays Drew's last command after the close push. **Task 7 CLOSED.**
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–7 ✓ (task 7's wiki re-sync awaits Drew's word); NEXT = task 8 (G2 — Tier 1, Max: tools-health detached, the P7 walk, gate 2, the PhaseEnd v2.0.0)
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–7 ✓; task 8 IN PROGRESS (Tier 1, Max confirmed by Drew "ready for task 8"): the close tools-health ran and FAILED at audit-cdecl — under diagnosis (R40: the instrument first); then the P7 walk, gate 2, the PhaseEnd v2.0.0
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything

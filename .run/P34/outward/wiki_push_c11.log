@@ -1,0 +1,10 @@
+wiki_render: 32 pages rendered into /home/musashi/bfm-decomp/.run/wiki/render (386 relative links rewritten)
+wiki_sync: changes staged in /home/musashi/bfm-decomp/.run/wiki/BFM-decomp.wiki (32 pages rendered):
+   M  Archive-index.md
+   M  Docs-and-scratch-conventions.md
+   M  Reference-index.md
+   M  Repository-layout.md
+   M  Where-the-project-goes-next.md
+To https://github.com/Druthulu/BFM-decomp.wiki.git
+   75c17d0..be8a6cc  master -> master
+wiki_sync: pushed — wiki: sync from BFM-decomp a1d47bb00
