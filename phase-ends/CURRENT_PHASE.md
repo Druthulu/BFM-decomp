@@ -44,7 +44,7 @@ bundle and dictionary are deleted at C11) and a public fresh-clone re-proof (B3'
 - [x] **1** C10 — the flip (Drew, Max) + post-flip checks, metadata, ruleset, Actions green on the public repo (Claude, Low)
 - [x] **2** E1 — decomp.me: scratch → 100% → preset-request issue → manual search (Drew, xHigh); recorded in SETUP §6.5 + ledger row 14 (Claude)
 - [x] **3** E2 — the Archipelago issue (Drew, xHigh); URL recorded; §5 reply handling pending unless a reply arrives (Claude)
-- [ ] **4** D3 — decomp.dev registration + frogress slug/key/push (Drew, xHigh); verified by curl (Claude) → **P6 rules check after this task**
+- [x] **4** D3 — decomp.dev registration + frogress slug/key/push (Drew, xHigh); verified by curl (Claude) → **P6 rules check after this task**
 - [ ] **5** F3 — the wiki: dry run (Claude), first page + `wiki_sync.sh --push` (Drew), pages verified — Low
 - [ ] **6** Tool discoverability: xsig topics + homepage (Claude on Drew's word); fork deletion already done; tools post (Drew) — Low
 - [ ] **7** C11 — aftercare: scratch prune (keep `old-to-new.tsv` + `old_tag_tip.txt`), docs, checks — xHigh (Claude)
@@ -140,7 +140,21 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
 - Recorded in `docs/SETUP.md` P33 E2 (a SENT bullet with the §5 reply procedure). **Pending by name (P9):** their reply (memory-map rows as
   `reported`, names via symbols + `ghidra_apply_symbols.sh`); no reply within a month → noted and closed as "the offer was the deliverable".
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1, 2, 3 ✓; NEXT = task 4 (D3 the progress boards — DREW: decomp.dev + frogress) → then the P6 rules check → task 5 (the wiki)
+### 2026-09-08 — Task 4 — D3: the progress boards (xHigh; S93)
+- Pre-checks (`.run/P34/outward/d3_precheck.txt`): decomp.dev 200, `manage/new` → the GitHub login; the `SLUS_007.26_report` artifact on
+  the public repo's latest `progress` run (34257901996) present, expires 2026-12-07; frogress `data/bfm/us/` → 404 (the control).
+- **decomp.dev DONE (Drew):** repo `Druthulu/BFM-decomp`, game name "Brave Fencer Musashi", short name empty, platform PlayStation →
+  **<https://decomp.dev/Druthulu/BFM-decomp>**, verified unauthenticated (`d3_decompdev.txt`): 200, "Brave Fencer Musashi • Progress
+  Report", **100.00% decompiled | 100.00% fully linked (53.97 MB)** = 13,492,113 ins × 4. Drew added a hero image via the manage page
+  (decomp.dev's own `header_image` field, read from its source `crates/web/src/handlers/manage.rs`; the site hosts it). "No function
+  information available" on a unit = our report's empty per-unit `functions` list, by design (`report_check.json`: 218 units, 0 with
+  function rows) — **Gen3 item:** per-function rows once names exist.
+- **frogress SKIPPED this phase (Drew: "skip") — pending by name (P9):** alive (`/projects/` 38 projects, `d3_frogress_projects.txt`;
+  a project endpoint 200; root 404 by design; repo quiet since 2023-12, `d3_frogress_alive.txt`); admin-created projects; would add a
+  list row only. Recorded in `docs/SETUP.md` P33 D1–D3 with the request + push recipe for later.
+- **P6 rules check due now** (tasks 0, 1, 2, 3, 4 complete after the opening step).
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1, 2, 3, 4 ✓; P6 rules check next; then NEXT = task 5 (the wiki — DREW creates the first page, runs `tools/wiki_sync.sh --push`; Claude verifies)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything

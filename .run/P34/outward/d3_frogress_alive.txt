@@ -1,0 +1,7 @@
+https://progress.deco.mp/projects/ -> 200
+https://progress.deco.mp/data/oot/us/?mode=shield&version=us&category=default -> 404
+https://progress.deco.mp/data/dukezh/us/?mode=all -> 200
+== /projects/ body (first 300 chars)
+[{"slug":"drmario64","name":"Dr. Mario 64","versions":[{"slug":"us","name":"us"},{"slug":"cn","name":"cn"},{"slug":"gw","name":"gw"}],"repository":"https://github.com/AngheloAlf/drmario64","discord":"","website":""},{"slug":"puzzleleague64","name":"Pokémon Puzzle League","versions":[{"slug":"usa","
+== repo activity
+{"archived":false,"description":"An api for storing and retrieving decomp project progress 🐸","open_issues_count":4,"pushed_at":"2023-12-18T09:51:06Z"}

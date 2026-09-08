@@ -1347,6 +1347,18 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   (dry-run default), `.github/workflows/progress.yml` (artifact `SLUS_007.26_report`). CI never rebuilds the game: the report
   is the committed `docs/progress.json` from a local clean rebuild. Outward actions after the flip (Drew): decomp.dev
   registration, the frogress slug + key. The `objdiff-cli` binary used for validation lives in scratch (`.run/objdiff/`).
+- **Outcome (P34 task 4, 2026-09-08):** **decomp.dev — DONE.** Drew registered the repo at `decomp.dev/manage/new` (game name
+  "Brave Fencer Musashi", platform PlayStation); the project page **<https://decomp.dev/Druthulu/BFM-decomp>** renders unauthenticated
+  (200) as "Brave Fencer Musashi • Progress Report — 100.00% decompiled | 100.00% fully linked (53.97 MB)", read from the
+  `SLUS_007.26_report` artifact of the public repo's latest `progress` run (53,968,452 bytes = 13,492,113 instructions × 4). Drew set a
+  hero image on the manage page (decomp.dev hosts it; nothing enters this tree). A unit's page says "No function information
+  available" **by design**: `tools/objdiff_report.py` writes per-binary measures with an empty `functions` list (363,214 rows of
+  `func_XXXXXXXX` names would add bulk, not information) — a Gen3 item once functions carry names. **frogress — SKIPPED this phase
+  (Drew, 2026-09-08), pending by name:** the service is alive (`/projects/` lists 38 projects; a project's data endpoint answers 200;
+  the API has no root page, hence `/` → 404; the code repo last pushed 2023-12), projects are admin-created on request (the decomp
+  community Discord), and at 100% with generated README badges and decomp.dev live it would add only a row in that list. When wanted:
+  request slug `bfm` / version `us` + a key, then `FROGRESS_API_SECRET=… .venv/bin/python tools/frogress_upload.py --push` from
+  Drew's shell; verify `https://progress.deco.mp/data/bfm/us/` (404 today — the control).
 
 ### P33 C1 (S87, 2026-09-07) — the history-rewrite tooling, measured before the irreversible run
 - **Design points.** The scrub replaces a hex token only when the WHOLE token is a prefix (≥ 7) of an old commit hash —

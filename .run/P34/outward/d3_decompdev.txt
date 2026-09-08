@@ -1,0 +1,11 @@
+decomp.dev project page -> 200
+== page text (title + headline numbers, if server-rendered)
+<title>Brave Fencer Musashi • Progress Report</title>
+100.00% decompiled">
+100.00% decompiled
+100.00% fully linked
+100%}
+100.00% fully linked (53.97 MB)">
+70% &gt;10kb'">
+== decomp.dev API (if any) for the project
+api -> 404
