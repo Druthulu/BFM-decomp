@@ -196,6 +196,13 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   unauthenticated (`.run/P34/outward/decompedia_verify.txt`): both pages carry the links; the first project row reads Brave Fencer Musashi.
 - Task 6 CLOSED: xsig topics + homepage (Claude), the fork already gone, the post + two Decompedia rows (Drew). Milestone item 2's "the
   xsig topics, the fork deletion, the tools post" lines are MET.
+- **Addendum (2026-09-08):** Drew also replied in the decomp.me Discord's `#ai` channel (people describing the trouble of keeping an
+  assistant on track) with **his own version** of a note drafted from the record (`19c676f47`: the byte-identical definition of done,
+  names only with evidence, rules from failures, the checkpoint replay; links to the how-to index, ch.01, ch.12 and the kit page).
+  Then, Drew's decision: **`docs/outreach/` leaves the tree** — the notes were sent; the drafts stay on his machine (`git rm --cached`,
+  `.gitignore` contents-form rule; no rewrite, they are in the published history). Referrers fixed: `tools/doc_links.py` DEFAULT
+  list, the Reference-index row (now a no-link row pointing at SETUP's outcome sections), the two SETUP inventory rows; historical
+  citations in the seed/runbook/logs stay (untracked citations are allowed outside wiki pages). The wiki page changed → the C11 re-sync.
 
 ## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–6 ✓ (every outward action done or pending by name: frogress, the preset creation, the AP reply); NEXT = task 7 (C11 aftercare — Claude), then 8 (G2 — Tier 1, Max)
 

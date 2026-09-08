@@ -422,3 +422,8 @@ unsloth_compiled_cache/
 /.run/P34/c11/*
 !/.run/P34/c11/*.log
 !/.run/P34/c11/*.txt
+
+# Outreach drafts (P34 task 6, Drew's decision 2026-09-08): the notes to neighbouring projects were SENT (the Archipelago issue,
+# the decomp.me preset request, the tools post, the #ai reply); the drafts stay on the maintainer's machine and leave the tree
+# from here (no rewrite — they are in the published history). Contents form, R84.
+/docs/outreach/*

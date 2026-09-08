@@ -67,7 +67,7 @@ in the Archive index, not here. The conventions behind this page: [Docs and scra
 | [`gen2-mips-matching-model.md`](../gen2-mips-matching-model.md) | The design and every measurement behind that write-up. | By section. | authored |
 | [`community-matching-model-plan.md`](../community-matching-model-plan.md) | The parked plan to publish the drafter's weights and dataset (waits on a licensing decision). | Read whole. | authored |
 | [`decompme-preset.md`](../decompme-preset.md) | The decomp.me preset for the pinned compiler, its local proof, and the post-flip request procedure. | §5 for the procedure. | authored |
-| [`outreach/`](../outreach/) | The notes to neighbouring projects, written for the maintainer to send after the flip. | Read whole. | authored |
+| outreach notes (not in the tree since 2026-09-08) | The notes to neighbouring projects were sent in Phase 34 — the Archipelago issue, the decomp.me preset request, the tools announcement; the drafts stay on the maintainer's machine. | The outcomes and URLs are in `SETUP.md` §6.5 and its P33 E2 / D1–D3 sections. | authored |
 
 ## The record
 

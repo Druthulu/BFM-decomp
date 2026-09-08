@@ -40,7 +40,7 @@ DEFAULT = ["README.md", "THIRD_PARTY.md", "CLAUDE.md", "src/NOTICE.md", "tools/R
            "docs/story.md", "docs/story-timeline.md", "docs/retrospective.md", "phase-ends/README.md", "phase-ends/DIGEST.md",
            "docs/gcc-2.7.2-map/README.md", "tools/xsig/README.md",
            "docs/permuter-ils.md", "docs/matching-drafter-pipeline.md",
-           "docs/gen3-handoff.md", "docs/decompme-preset.md", "docs/outreach/archipelago.md", "docs/outreach/tools-announcement.md",
+           "docs/gen3-handoff.md", "docs/decompme-preset.md",   # docs/outreach/ left the tree at P34 task 6 (Drew, 2026-09-08)
            "docs/gen3-standards.md", "docs/phase34-seed.md",
            "decomp-architect/README.md"]   # P33.5 task 11: the kit's README is public-facing
 # whole directories in the default set (P33 F3): the wiki pages and the how-to chapters — every file, so a new page is
