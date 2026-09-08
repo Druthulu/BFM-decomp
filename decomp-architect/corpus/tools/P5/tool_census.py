@@ -52,6 +52,30 @@ RECORD_SOURCES = ([p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs"
                                                                      key=lambda q: [float(x) if x.replace(".", "").isdigit() else x for x in re.split(r"(\d+(?:\.\d+)?)", q.stem)])])
 
 
+RECORD_BUILD = CORPUS_RECORD / "build" / "tools-health.mk"   # P33.5 task 14.5 addendum (Drew: "is make tools-health set up for the kit?")
+MAKE_TARGETS = ["audit-digest", "tools-health"]              # the health chain + the digest freshness check, extracted verbatim
+
+
+def render_health_recipe():
+    """The source project's health chain, extracted VERBATIM from the Makefile (derived text; --check regenerates and compares)."""
+    lines = (REPO / "Makefile").read_text(encoding="utf-8").splitlines()
+    out = ["# corpus/record/build/tools-health.mk — the source project's health chain, extracted VERBATIM from its Makefile by",
+           "# tools/tool_census.py --corpus (never edited by hand; asserted equal by --check). Each rung's comment names the",
+           "# incident that earned it; the tools it calls are in ../../tools/<phase>/ with their dictionary rows. A new project",
+           "# rebuilds this chain rung by rung as its tools exist — sampled by default, the exhaustive form behind its own name.",
+           "# The variables ($(VENV_PY), the aliases, the paths) are the source project's; the SHAPE is what transfers.", ""]
+    for tgt in MAKE_TARGETS:
+        i = next(k for k, ln in enumerate(lines) if ln.startswith(tgt + ":"))
+        j = i + 1
+        while j < len(lines) and (lines[j].startswith("\t") or lines[j].strip() == ""):
+            j += 1
+        block = lines[i:j]
+        while block and block[-1].strip() == "":
+            block.pop()
+        out += block + [""]
+    return "\n".join(out) + "\n"
+
+
 def record_dest(src):
     """corpus/record/<how-to|docs|phase-ends>/<basename>."""
     if src.startswith("docs/how-to-ai-decomp/"):
@@ -321,6 +345,8 @@ def write_corpus(recs, files):
         dst.parent.mkdir(parents=True, exist_ok=True)
         dst.write_text(f"# {pathlib.Path(r['path']).name} — superseded\n\nSuperseded by `{r['successor_or_product'].removeprefix('tools/')}` "
                        f"(see its row in the index). What it did: {r['what'] or r['doc']}\n", encoding="utf-8")
+    RECORD_BUILD.parent.mkdir(parents=True, exist_ok=True)
+    RECORD_BUILD.write_text(render_health_recipe(), encoding="utf-8")
     (CORPUS_TOOLS / "INDEX.md").write_text(render_manifest(recs, files).replace("# tools/MANIFEST.md — the source project's tools, by ladder phase, as tasks and as a dictionary",
                                                                                 "# corpus/tools/INDEX.md — the tool dictionary (the files beside this index are the source project's tools, verbatim)"), encoding="utf-8")
     return copies, pointers
@@ -337,7 +363,9 @@ def check_corpus(recs, files):
     for dst, r in pointers:
         if not dst.exists():
             gaps.append(f"corpus pointer missing: {dst.relative_to(REPO)}")
-    expected = {d for _, d in copies} | {d for d, _ in pointers} | {CORPUS_TOOLS / "INDEX.md", CORPUS_COOK / "README.md", CORPUS_RECORD / "README.md"}
+    expected = {d for _, d in copies} | {d for d, _ in pointers} | {CORPUS_TOOLS / "INDEX.md", CORPUS_COOK / "README.md", CORPUS_RECORD / "README.md", RECORD_BUILD}
+    if not RECORD_BUILD.exists() or RECORD_BUILD.read_text(encoding="utf-8") != render_health_recipe():
+        gaps.append("corpus/record/build/tools-health.mk is missing or stale — run tools/tool_census.py --corpus")
     present = ({p for p in CORPUS_TOOLS.rglob("*") if p.is_file()} | {p for p in CORPUS_COOK.rglob("*") if p.is_file()}
                | {p for p in CORPUS_RECORD.rglob("*") if p.is_file()}) if CORPUS_TOOLS.exists() else set()
     for p in sorted(present - expected):

@@ -197,6 +197,10 @@ rules above rebuilt the exact defect it warns about an hour later in a different
 populations it cannot see; at every session and phase close, ask *which scanner's denominator just got wider?* — that
 is what converts new knowledge into free banks.
 
+The source project's whole health chain — the ordered recipe, a comment per rung naming the incident that earned it — ships
+verbatim in the record (`corpus/record/build/tools-health.mk`). Rebuild it rung by rung as your tools exist; keep it sampled by
+default with the exhaustive form behind its own name, and assert in it that each tool DID its work, not only that the data is intact.
+
 ## 6. Integration is the bottleneck
 
 Once cracking is systematic, a byte-correct body fails to bank because of the *file* it must live in, never because of
