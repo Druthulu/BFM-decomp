@@ -3504,3 +3504,46 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
 - **Hindsight path.** Ask before offering: "what does this maintainer's workflow need?" — an interactive tool's author does not want a
   mode for unattended search; a short issue describing the floor with the two numbers, in Drew's voice, asking whether a symbol
   rename would be the intended fix, would have got the same technical answer at a tenth of everyone's cost and no ill will.
+
+## P33.5 S90 (2026-09-07) — the docs sub-phase before the flip: the wiki becomes the source of truth, the tracked scratch is pruned, and the day-one kit is chartered as a Phase-0.5 overlay on ProjectArchitect 2.0
+
+- **Context and belief.** Phase 33 closed at v1.32.0 with the flip gated on GitHub Support; the wiki (13 pages + 13 chapters) had
+  been written in P33 F3 as a summary layer OVER `docs/`, linking back into it. The belief at the P33 close was that the docs tree
+  was publishable as it stood. Drew's review of the folder on 2026-09-07 found otherwise: ~100 authored files from 33 phases —
+  a hindsight study written at 78% with a commission nobody had fulfilled, two distillation ledgers whose banners said "never
+  applied" (both HAD landed, as cookbook §265–§269), a 216 KB raw agent-research JSON, eleven per-session tool designs, frontier
+  reports and worklists for sessions long closed — beside the live references; no page on how `docs/` or `.run/` are used, no
+  gitignore template, no AI-conduct rules on the wiki, nothing on Gen3; 1,086 tracked `.run/` files visible on GitHub, 172 of them
+  tracked by index inertia alone; and 81 memory files under `~/.claude` that no future project could inherit.
+- **The three audits (read-only agents) measured the gap** rather than guessing it: every `docs/` file classified (45 KEEP-LIVE, 12
+  generated, 6 INTEGRATE, ~60 SUNSET incl. 6 frozen frontier snapshots and 12 orphaned per-binary reports); the `.run/` tree by group
+  with its live readers (and one firewall gap — two tracked disassembly listings of one matched function, invisible to a path-and-hash
+  audit); the memory store by class (52 already in the repo, 14 portable-not-in-repo, 9 project-specific, 7 stale, 1 off-project).
+  An adversarial review of the plan then caught six ordering and design hazards before execution — the forward-link race with the
+  link checker, the purge set doubling as the history gate's census, regenerating snapshots into empty documents, a content-check regex
+  that would not have matched its own offenders, a kit that could not write into a constitution ProjectArchitect had already frozen,
+  and a dry-run that could write into the real tree.
+- **The pivot (Drew, 2026-09-07).** Re-charter the next work as **Phase 33.5**, a docs sub-phase BEFORE the flip: (1) the wiki is the
+  single source of truth — every `docs/` file is KEEP (listed in a Reference index, the only sanctioned wiki→docs link site),
+  INTEGRATE (folded into a page) or SUNSET (moved with history into `docs/sunset/`, indexed, for Drew's review — deletion is his);
+  in-repo documents link wiki pages, not `docs/` files; (2) prune only the TRACKED `.run/` (what GitHub shows) — the untracked
+  29 GB is out of scope; (3) the wiki carries the conventions (docs, scratch, the ROM firewall with a copyable gitignore); (4) the
+  day-one kit `decomp-architect/` is built IN-TREE now and split out after the flip as xsig was — and, from the review, it runs AFTER
+  ProjectArchitect 2.0 as the project's Phase 0.5, shipping an intake document for PA's own interview instead of writing the
+  constitution; (5) the memory store is reconciled but stays outside git (kit seed only — no `.claude-state/` retrofit for a repo
+  about to go public); (6) the two disassembly listings are untracked and named in an audit-only rules file, with NO second history
+  rewrite — the tracked C and the pinned compiler reproduce those bytes, and another force-push would add another set of old tips to
+  the open Support ticket. Rules R74–R83 (the P33 candidates) ratified at the gate.
+- **Measured through task 9 (S90):** ten commits; 17 wiki pages + 13 chapters, all reachable; the six INTEGRATE documents folded
+  (the hand-matching guide's five signature moves, the wave ledger's per-wave prices and instruction-weight metric, the portable
+  workflow's six residual items, the hindsight study's permuter-failure track); 59 files archived with history; `doc_links` grew
+  from one check to six (archive refusal, the index-derived allow-list, docs coverage 64 of 64, git-based citation classification with a
+  "(not kept)" declaration, wiki-first warnings); the render selftest asserts reachability; the timeline was found STALE at HEAD and
+  wired into report/audit-digest; tracked `.run/` 1,086 → 868 with `audit_public` gaining a content check whose first cut the
+  negative control caught (`nop` broke the run at 60 < 64); the history gate still PASS; the project memory store 80 rows == 80
+  files with seven stale memories corrected in place; the kit's 16-seed memory pack written with zero project literals.
+- **Hindsight path.** Write the wiki as the source of truth FIRST and the summary pages second — P33 built the pages over the
+  records and left the records as the reference, so the consolidation had to be its own phase. Two instruments that should have
+  existed from the first wiki commit: a link policy the checker enforces (wiki-first, no links into an archive) and a content check
+  in the ROM audit — both were one-day builds. And run the referrer census and the pending-list mechanism as a habit for every
+  document move; the one-shot audits found nothing the checks would not have found continuously.

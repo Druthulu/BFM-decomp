@@ -452,9 +452,16 @@ WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–9 
 **Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; effort follows the plan's
 column (Max for tasks 10, 12, 15 — prompt at each transition, R27). Baseline HEAD `80d45b29b`; task 0 = `39d524991`; task 1 =
 `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 = `6ec4786bd`; task 7 =
-`21c98ed5a`; task 8 = `ae71efe56`; task 9 = the commit after it (the seed). No build input changed; the fleet is 218/218 at the
-Phase-33 close. Tracked `.run/` = 868; `audit_public` OK; `gate_scan` PASS; `doc_links --strict` green; pending list empty. The kit
-directory so far holds ONLY `decomp-architect/memory-seed/` (16 seeds + MEMORY.md). Tasks 10–13 build the rest of the kit; 14–15 close.
+`21c98ed5a`; task 8 = `ae71efe56`; task 9 = `caefe9872`; the S90 checkpoint commit follows it (this file + the decision-log entry).
+No build input changed; the fleet is 218/218 at the Phase-33 close. Tracked `.run/` = 868; `audit_public` OK; `gate_scan` PASS;
+`doc_links --strict` green; pending list empty; tree clean. The kit directory so far holds ONLY `decomp-architect/memory-seed/`
+(16 seeds + MEMORY.md). Tasks 10–13 build the rest of the kit; 14–15 close. **Already banked for task 14 (R31, done at the S90
+checkpoint):** the `docs/decision-log.md` entry "P33.5 S90" — task 14 must NOT write a second one; it still owes the wiki page, the
+README/Tools rows, the SETUP rows for the kit and any accelerators entry. **Session S90 (2026-09-07) ended here at 85% context**;
+the next session is S91. Drew's effort at the end of S90 was xHigh (toggled to Max for task 3 and back); task 10 is Max — prompt.
+Nothing is running in the background; the SessionEnd hook stops the headless Ghidra MCP (no RE work happened; nothing under
+`ghidra/` is tracked). The plan file `~/.claude/plans/max-effort-set-plan-encapsulated-muffin.md` is a copy of the "Approved plan"
+section at the end of this file — this file is the one that counts.
 
 ### 2. What NEXT does (task 10, **Max**) — exact steps (plan D5)
 Read first: `/mnt/z/Storage/git/ProjectArchitect/README.md` (the install ritual, "What gets installed"), `…/project-architect-2.0/SETUP.md`
