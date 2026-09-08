@@ -1,0 +1,1 @@
+{"comments":0,"created_at":"2026-09-08T18:10:19Z","html_url":"https://github.com/AegeusEvander/Brave-Fencer-Musashi-AP-World/issues/1","number":1,"state":"open","title":"Decomp of BFM (US) is public, might be useful for the AP world","user":"Druthulu"}

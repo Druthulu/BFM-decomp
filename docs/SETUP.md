@@ -1184,6 +1184,13 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   0x8000BA94 with a fallback cascade; the game's own copy is `BASLUS-00726MUSASHI` at **0x80072DFC** in EXE `.data` (fileoff
   0x635FC, disc sector 222), so their `0x072e02` fallback is offset by 4 and inert on US. The note (GitHub issue text + Discord
   short form, plain style) asks for their unpublished US RAM notes and attribution consent; **Drew sends it after the flip.**
+- **SENT 2026-09-08 (P34 task 3, Drew, in his words):** the GitHub issue
+  **<https://github.com/AegeusEvander/Brave-Fencer-Musashi-AP-World/issues/1>** ("Decomp of BFM (US) is public, might be useful for
+  the AP world", opened 2026-09-08T18:10:19Z, state open, 0 comments at the time of writing; their repo: issues on, no license, last
+  push 2026-09-07). **Pending by name (P9):** their reply — handled per `docs/outreach/archipelago.md` §5 (every address they share →
+  a memory-map row with `Source/Provenance` = "AP-world (AegeusEvander), <date>, <where>" and `Confidence` = `reported`, promoted only
+  by Ghidra or a live datapoint; coined names via `config/symbols.us.txt` + `tools/ghidra_apply_symbols.sh`; if no reply within a
+  month, note it and move on — the deliverable is the offer).
 
 ### P33 E1 (S89, 2026-09-07) — the decomp.me preset, proven through decomp.me's own toolchain before it exists
 - `docs/decompme-preset.md` (NEW; in `doc_links`' default set). The preset: platform `ps1`, `gcc2.7.2-psx`,
