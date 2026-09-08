@@ -257,7 +257,29 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
 - Lesson for the ledger: a scratch prune is an instrument change — every tool that writes under a pruned tree must be re-run before the
   prune is called done (a candidate rule for the PhaseEnd).
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–7 ✓; task 8 IN PROGRESS (Tier 1, Max): the cdecl instrument fixed, the full tools-health re-running detached (`.run/P34/tools_health_close.log`); then the P7 walk, gate 2, the PhaseEnd v2.0.0
+### 2026-09-08 — Task 8 (part 2) — the close health chain GREEN on its fifth run; two more instrument findings on the way (Max; S93)
+- Run 2 (after the cdecl fix) went red at **`doc_links --strict`**: two wiki citations of paths I had untracked that day — the Archive
+  index cited the outreach draft's path, the conventions page cited the archive folder in backticks. Rewritten as prose (`a13d1cd9a`).
+  (The part-1 checks had printed OK because I read only their last line; strict mode had been green before those two edits.)
+- Run 3 went red at **`kit_coverage`** (R92 doing its job): R84–R95, newly in the digest, and the new accelerators entry "P34 S93" were
+  neither cited by a kit provenance line nor dispositioned. Fix: **DK-81** (the flip day's four lessons, provenance citing the entry)
+  and twelve map rows, each naming the kernel or rule that already carries the lesson (DK-67, DK-57, DK-66 ×2, G66, DK-80, DK-69,
+  DK-65, three `KIT:` files, one RECORD). **My error, recorded (R66):** commit `81ec81945` says "kit_coverage green" while three `KIT:`
+  rows were still refused — `tail` in the pipeline masked the exit code; the paths are relative to `decomp-architect/`. Fixed and
+  stated in the follow-up `9f2aa46b5` (`.run/P34/c11/kit_coverage_after.log`: 0 uncovered rules, 0 uncovered accelerators). Run 4 was
+  killed (it would have failed the same way); no cdecl leftover, no orphan.
+- **Run 5 (`.run/P34/tools_health_close.log`, 5,917 lines, 480 s): `tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries +
+  report(lint+dedup) + cookbook-index all green.`** Rungs quoted: audit-binaries 218/218 · corpus audit 0 PHANTOM + 0 TRUNCATED · cdecl
+  ALL ORACLES GREEN (unparsed 4 → NOT-C 4, DEFECTS 0; gcc 4,777 accepted / 0 rejected) · dedup-check 2,220 validated / 0 failed ·
+  audit-digest OK (instr 13,492,113 / 13,492,113; distinct 90,984 / 90,984 uniq) · progress.py --check fresh · timeline --check fresh
+  (73 rows) · sdk-dual OK (main `143dbb89…` with and without the SDK) · doc_links 0 pending / 0 broken (56 documents, 454 links,
+  coverage 63 of 63) · gccmap_cites OK · ghidra_roster OK (6) · tool_census OK (359 + 28, 0 gaps) · kit_lint OK · kit_coverage OK ·
+  split_indicator 218 OK. **No build input changed in this phase (R22 not owed); the fleet's 218/218 stands from the Phase-33 close.**
+- Candidate rules for the PhaseEnd (P10): a scratch prune is an instrument change (re-run every tool that writes under the pruned
+  tree); read a check's EXIT CODE, never its last line, before writing "green" (`set -o pipefail` in every chain); a third-party step
+  is proven through the third party's toolchain, on the pasted file, before the browser session.
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–7 ✓; task 8: tools-health OK (run 5); NEXT = the P7 walk presented, WAIT for gate 2 (Drew), then the PhaseEnd v2.0.0 + DIGEST + log archive, left uncommitted for Drew's close commit/tag/push/release/logout
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything
