@@ -1,0 +1,26 @@
+# .clang-format — the community's style for a matching decompilation, installed by decomp-architect (Step 8).
+# Settings follow the published style guide of a large, community-run PlayStation decompilation, read as data on
+# 2026-09-07: 4-space indentation, 80 columns, braces on the same line, the pointer on the type, braces on every
+# conditional and loop body. `make format` applies it over src/; a bank is formatted before it is committed.
+# (InsertBraces needs clang-format 15 or newer; older versions ignore the key.)
+BasedOnStyle: LLVM
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 80
+BreakBeforeBraces: Attach
+PointerAlignment: Left
+DerivePointerAlignment: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+InsertBraces: true
+SortIncludes: Never
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignTrailingComments: true
+SpaceAfterCStyleCast: false
+IndentCaseLabels: false
+ReflowComments: false

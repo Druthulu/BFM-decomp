@@ -1,0 +1,37 @@
+# config/firewall.txt — the ROM audit's sources, in ONE file (installed by decomp-architect Step 3).
+# The audit (tools/audit_public.py) derives everything it forbids from the lines below; it never carries a typed list.
+#
+#   purge:    <prefix-or-glob>   a path that may never be tracked (the rewrite's purge set reads the same lines, so the
+#                                audit and any future history rewrite can never disagree about what is forbidden)
+#   required: <path>             a hash source that MUST exist: a `.jsonl` manifest (one object per line with a `sha1`
+#                                key) or a checksum file (`<sha1>  <name>` lines, sha1sum format). Missing = the audit FAILS.
+#   pending:  <path>             a hash source a later phase creates; missing = a loud warning, never a pass on its own.
+#                                Promote it to `required:` in the phase that creates it (the phase ladder names which).
+#   fixture:  <path>             the planted-fixture control's sha1 (Step 3); counts as a required source.
+#
+# The audit refuses to run with zero resolvable hash sources or zero purge rules (a tool must refuse, never pass vacuously).
+
+# ---- purge rules: the nine classes of the ROM firewall (mirror .gitignore's paths) ----
+purge: disks/
+purge: {{TARGET_BINARY}}
+purge: extracted/
+glob:  extracted/**
+purge: asm/
+purge: assets/
+purge: build/
+purge: expected/
+purge: dumps/
+glob:  dumps/**/*.bin
+purge: ghidra/
+purge: tools/psyq/
+purge: session-archive/
+purge: datasets/
+purge: models/
+glob:  **/*.gguf
+glob:  **/*.safetensors
+
+# ---- hash sources ----
+fixture:  config/firewall-fixture.sha1
+pending:  extracted/retail/manifest.jsonl        # TODO(phase-1): the extraction manifest — promote to required:
+pending:  config/medium.sha1                     # TODO(phase-1): the medium's own track/image hash — promote to required:
+pending:  config/check.*.sha                     # TODO(phase-3): the per-binary contracts (a glob) — promote to required:

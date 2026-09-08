@@ -1,0 +1,44 @@
+# .github/workflows/no-rom.yml — the ROM-free CI (installed by decomp-architect Step 3).
+#
+# What CI can and cannot prove here: the project's contract is BYTE-IDENTITY of every binary against the original
+# medium, which needs the game and is therefore never in CI. CI proves everything that does NOT need the game:
+#   * audits       — the tracked tree is public-clean (tools/audit_public.py: no game-derived bytes, no purge path,
+#                    nothing over the size threshold, no pasted disassembly), and any text-only self-checks the
+#                    project adds (a cookbook index freshness check, a symbol-reference lint, decoder unit tests).
+#   * compile-only — the committed C still compiles with the pinned vintage toolchain and the build's exact flags.
+#                    TODO(phase-3): enable once the toolchain is pinned and a compile-only driver exists; scope a PR run
+#                    to a few representative binaries and the whole fleet to the weekly schedule.
+# Byte-identity is verified locally with the game and RECORDED in the tracked verification log.
+name: no-rom
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"        # weekly: the full-fleet compile-only run, once it exists
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audits:
+    name: public-clean audit (no game bytes)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: audit_public — no game-derived bytes, no purge path, nothing > 50 MiB, no pasted disassembly
+        run: python tools/audit_public.py
+      # TODO(phase-5): add the project's text-only self-checks here as they are built (index freshness, symbol lint,
+      # decoder tests) — each one a derived check that asserts its own coverage.
+
+  # TODO(phase-3): compile-only — every eligible translation unit with the pinned toolchain (no game bytes needed).
+  #   steps: checkout with submodules → install the assembler/binutils → verify the vintage compiler's checksum and
+  #   extract it → run the compile-only driver (PR scope on push/PR; the whole fleet on schedule / dispatch).

@@ -1,0 +1,71 @@
+# ============================================================
+# ROM firewall — in force from the FIRST commit; no private-repository exemption, ever.
+# The repository ships NO game-derived bytes and NO vendor SDK. Symbol names, addresses,
+# hashes, configuration and the decompiled C are what a decompilation publishes.
+# ============================================================
+
+# 1. The disc / ROM dump — never committed; your own copy goes here
+/disks/
+
+# 2. Extracted payloads — regenerated from YOUR dump by the extractor and verified against the
+#    committed manifest of hashes, the only thing tracked under extracted/
+/extracted/*
+!/extracted/retail/
+/extracted/retail/*
+!/extracted/retail/manifest.jsonl
+!/extracted/retail/manifest.sha1
+
+# 3. Generated disassembly, assets and build output — `make extract` / `make build` recreate them;
+#    the durable record is the symbol file. (A pasted listing of target instructions is class 3 too.)
+/asm/
+/assets/
+/build/
+/expected/
+/undefined_syms_auto.txt
+/undefined_funcs_auto.txt
+
+# 4. Memory images — local only; INDEX.md + CHECKSUMS.sha1 stay tracked and describe them
+/dumps/*.bin
+
+# 5. The reverse-engineering database — embeds the program's bytes; tracked as a TEXT export
+#    (config/ghidra/) with a rebuild script that proves the round trip. NEVER `git clean -x` here.
+/ghidra/
+
+# 6. The vendor SDK — user-supplied, optional, never distributed; its checksums are tracked
+/tools/psyq/
+
+# 7. Session transcripts — they quote the target's disassembly; keep them out of any public tree
+/session-archive/
+
+# 8. Training data and weights derived from the target
+/datasets/
+/models/
+*.gguf
+*.safetensors
+
+# 9. Re-downloadable binaries — a sha256 in the ops reference and a fetch step, not a commit.
+#    (A vendored compiler tarball may be tracked only if its license allows; keep its checksum beside it.)
+/tools/bin/*
+!/tools/bin/*.sha256
+/tools/ghidra-ext/*.zip
+*.tar.gz
+
+# ---- Scratch: ignored by CONTENTS (/.run/* not /.run/) so that dated `!` exceptions can re-include ----
+# ---- irreplaceable work. Rule of thumb: commit what a rerun CANNOT reproduce (hand analysis,      ----
+# ---- harnesses, ledgers, the recorded contract run); leave what a script regenerates ignored.    ----
+/.run/*
+# One dated block per exception — re-include the directory, re-exclude its contents, re-include
+# the wanted files — under a comment naming the phase, the session and the rule. For example:
+#   # P<N> <task> (<session>, <date>): the recorded contract run's per-step logs. Evidence, tracked.
+#   !/.run/P<N>/
+#   /.run/P<N>/*
+#   !/.run/P<N>/verify/
+#   /.run/P<N>/verify/*
+#   !/.run/P<N>/verify/*.log
+
+# ---- Toolchain caches, research clones and editor noise ----
+/.venv/
+__pycache__/
+/tools/reference/
+.vscode/
+Thumbs.db

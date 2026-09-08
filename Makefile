@@ -310,6 +310,10 @@ tools-health:
 	else
 		echo "[skip] gitignore-template: decomp-architect/templates/gitignore.decomp does not exist yet (Phase 33.5 task 11)"
 	fi
+	# P33.5 task 11: the day-one decomp kit stays free of this project's names/paths/addresses/rule numbers (fence-aware),
+	# honours its placeholder contract, and its scripts parse; the selftest is the R39 control (a planted leak MUST fail).
+	$(VENV_PY) tools/kit_lint.py --selftest
+	$(VENV_PY) tools/kit_lint.py
 	$(VENV_PY) tools/xsig/tests/test_xsig.py 2>&1 | tail -1 | grep -q '^OK' && echo 'xsig tests: OK (8)' || { echo 'xsig tests: FAIL'; exit 1; }
 	# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
 	# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).

@@ -16,7 +16,7 @@
 
 | Placeholder | Filled from | Used in |
 |---|---|---|
-| `{{PROJECT_NAME}}` | the installed `CLAUDE.md` title | the README/NOTICE/CONTRIBUTING skeletons, the docs and scratch READMEs |
+| `{{PROJECT_NAME}}` | the installed `CLAUDE.md` title | the README and CONTRIBUTING skeletons, the docs and scratch READMEs |
 | `{{INSTALL_DATE}}` | today, in the same format ProjectArchitect used | every overlay's "installed" line |
 | `{{COOKBOOK_NAME}}` | the cookbook file ProjectArchitect created under `docs/` | the CLAUDE overlay's flywheel line, the cookbook overlay |
 | `{{DOMAIN_FAILSAFES}}` | **referenced only, never filled by the kit** — ProjectArchitect's own CLAUDE.md placeholder, which its generation step fills from the intake's Part D | `intake.decomp.md` Part D names it so the generation step knows which four fail-safes to write |
@@ -26,12 +26,12 @@
 | Placeholder | What it is | Used in |
 |---|---|---|
 | `{{GAME_TITLE}}` | the game's title | the intake, the README skeleton, the ops-setup overlay |
-| `{{GAME_SERIAL}}` | region and serial (the identifier printed on the medium) | the intake, the README skeleton, the per-binary contract naming |
-| `{{PLATFORM}}` | the console or platform | the intake, the README skeleton, `TODO(platform)` resolution |
+| `{{GAME_SERIAL}}` | region and serial (the identifier printed on the medium) | the intake, the README and NOTICE skeletons, the ops-setup overlay |
+| `{{PLATFORM}}` | the console or platform | the intake, the README and NOTICE skeletons, the ops-setup overlay, `TODO(platform)` resolution |
 | `{{TARGET_BINARY}}` | the main executable's file name on the medium | the ops-setup overlay, the firewall config's first purge path |
-| `{{DUMP_PATH}}` | the absolute path of the developer's own dump — machine-local, never committed | `.claude/settings.local.json`-style machine-local notes in ops-setup only |
-| `{{CONTAINER_LAYOUT}}` | one line: how code is packaged on the medium (archives, overlays, compression) | the intake, the docs README |
-| `{{SDK_EVIDENCE}}` | the SDK/compiler-era evidence found (library version stamps, strings, a loader's detection) | the intake, the cookbook overlay's pinned context |
+| `{{DUMP_PATH}}` | the absolute path of the developer's own dump — machine-local, never committed | the intake; the machine-local line of the ops-setup overlay only |
+| `{{CONTAINER_LAYOUT}}` | one line: how code is packaged on the medium (archives, overlays, compression) | the intake, the docs README, the ops-setup overlay |
+| `{{SDK_EVIDENCE}}` | the SDK/compiler-era evidence found (library version stamps, strings, a loader's detection) | the intake, the ops-setup overlay, the cookbook overlay's pinned context |
 | `{{COMPILER_FAMILY}}` | the compiler family the evidence suggests — a candidate set, not the pin | the intake, the ops-setup version-pins row (`TODO` until Phase 4 replaces it with `{{TOOLCHAIN_TRIPLE}}`) |
 | `{{COMMUNITY_WORK}}` | prior public work found, or "none found on <date>" | the intake, the README skeleton's acknowledgements |
 | `{{PROJECT_GOALS}}` | the developer's stated goals, one paragraph | the intake, the README skeleton |
