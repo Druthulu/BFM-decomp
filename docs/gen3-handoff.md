@@ -200,6 +200,16 @@ PCSX-Redux, then the disc rebuild with recompressed payloads.
 - **JP (SLPS-01490) and the prototypes as extra versions** — the two prototype executables are already imported
   programs with tracked annotations (`config/ghidra/ROSTER.md`).
 - **The decomp.me preset** (E1) and **libs-from-source for the Sony regions** — small and large stretches respectively.
+- **xsig v2 — the whole knowledge base behind one search (owner's direction, 2026-09-08, P34 task 6).** Today
+  [`tools/xsig/`](../tools/xsig/) answers one question: an exact match on the relocation-masked word stream (the in-tree
+  "normalized" tier), plus a first-difference classifier. Drew's intent for its next form: given a function, find its 1-to-1
+  matches first, then **widen along the best expansion path** — the opcode-sequence tier (registers and immediates masked; the
+  in-tree `h_seq`), the structural family (`family_sweep` / `family_remap`), then cousins by the atlas's similarity scoring —
+  and return the best available result WITH its context: which tier matched, what differs (constant flip, register, length),
+  which banked sibling's spelling to port (R71), and how far the expansion had to go. The pieces exist in-tree
+  (`sig_image.py`'s tiers, the family engine, `atlas.py`); the work is a portable, game-free re-cut of them behind xsig's
+  interface, with fixtures built from our own C as the xsig tests are (R74). Sequenced after the readability phases; the
+  measured cross-game numbers in xsig's README are the baseline it must beat.
 
 ## 8. Governance for Gen3
 

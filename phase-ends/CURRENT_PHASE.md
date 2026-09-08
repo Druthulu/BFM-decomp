@@ -179,6 +179,11 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   → 0) — recorded, not redone; the upstream patch stays tracked at `tools/permuter/upstream/0001-reloc-masked-scorer.patch`.
 - **Open:** the tools announcement (`docs/outreach/tools-announcement.md`, Drew's words, R83) — done-with-link or pending by name, on
   Drew's report (addendum below).
+- **Recorded for a later phase (Drew, 2026-09-08):** Drew asked whether xsig does 1-to-1 only or the twin/family/cousin tiers — it is
+  1-to-1 on the relocation-masked stream + a first-difference classifier; the family and cousin tiers are BFM-specific in-tree tools.
+  Drew's direction: **xsig v2 should carry the whole knowledge base** — 1-to-1 first, then widen along the best expansion path
+  (sequence tier → structural family → atlas cousins) and return the best result with its context. Written into
+  `docs/gen3-handoff.md` §7 (the parked Gen3 ideas) as the seed; not this phase's scope (P5d recorded, not acted on).
 
 ## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–5 ✓; task 6 half done (xsig set; the tools post awaits Drew's report); NEXT = task 6's addendum, then 7 (C11 — Claude), 8 (G2 — Tier 1, Max)
 
