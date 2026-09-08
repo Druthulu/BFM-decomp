@@ -1,0 +1,9 @@
+== before
+{"description":"Relocation-masked function signatures for finding shared code across MIPS (PlayStation-era) decompilation projects","homepage":null,"topics":[]}
+== gh repo edit
+rc=0
+== after
+{"description":"Relocation-masked function signatures for finding shared code across MIPS (PlayStation-era) decompilation projects","homepage":"https://github.com/Druthulu/BFM-decomp","private":false,"topics":["decompilation","dedup","mips","playstation","psx","psyq","reverse-engineering"]}
+== the fork (expected: not found)
+{"message":"Not Found","documentation_url":"https://docs.github.com/rest/repos/repos#get-a-repository","status":"404"}gh: Not Found (HTTP 404)
+0

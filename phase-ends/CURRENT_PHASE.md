@@ -171,7 +171,16 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   his word (not a gate).
 - Note for C11: any wiki-page edit in task 7 needs one more `tools/wiki_sync.sh --push` (Drew, or on his word).
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–5 ✓ (public, boards, wiki live); NEXT = task 6 (xsig topics + homepage by Claude — gate-1 decision 2 is the word; the tools post — DREW), then 7 (C11), 8 (G2)
+### 2026-09-08 — Task 6 (Claude's half) — tool discoverability (Low; S93)
+- `gh repo edit Druthulu/xsig --add-topic decompilation --add-topic mips --add-topic playstation --add-topic psx --add-topic psyq
+  --add-topic dedup --add-topic reverse-engineering -h https://github.com/Druthulu/BFM-decomp` (gate-1 decision 2 is the word) → verified
+  (`.run/P34/outward/xsig_topics.txt`): topics `[decompilation, dedup, mips, playstation, psx, psyq, reverse-engineering]`, homepage
+  `https://github.com/Druthulu/BFM-decomp`, public. The fork `Druthulu/decomp-permuter`: **already gone** (API 404; `gh repo list --fork`
+  → 0) — recorded, not redone; the upstream patch stays tracked at `tools/permuter/upstream/0001-reloc-masked-scorer.patch`.
+- **Open:** the tools announcement (`docs/outreach/tools-announcement.md`, Drew's words, R83) — done-with-link or pending by name, on
+  Drew's report (addendum below).
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–5 ✓; task 6 half done (xsig set; the tools post awaits Drew's report); NEXT = task 6's addendum, then 7 (C11 — Claude), 8 (G2 — Tier 1, Max)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything
