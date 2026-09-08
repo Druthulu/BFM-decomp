@@ -46,7 +46,7 @@ bundle and dictionary are deleted at C11) and a public fresh-clone re-proof (B3'
 - [x] **3** E2 — the Archipelago issue (Drew, xHigh); URL recorded; §5 reply handling pending unless a reply arrives (Claude)
 - [x] **4** D3 — decomp.dev registration + frogress slug/key/push (Drew, xHigh); verified by curl (Claude) → **P6 rules check after this task**
 - [x] **5** F3 — the wiki: dry run (Claude), first page + `wiki_sync.sh --push` (Drew), pages verified — Low
-- [ ] **6** Tool discoverability: xsig topics + homepage (Claude on Drew's word); fork deletion already done; tools post (Drew) — Low
+- [x] **6** Tool discoverability: xsig topics + homepage (Claude on Drew's word); fork deletion already done; tools post (Drew) — Low
 - [ ] **7** C11 — aftercare: scratch prune (keep `old-to-new.tsv` + `old_tag_tip.txt`), docs, checks — xHigh (Claude)
 - [ ] **8** G2 — tools-health, P7 walk, gate 2, `PhaseEnd_Phase34.md` v2.0.0 + DIGEST + log archive; Drew commits/tags/pushes/releases, then `gh auth logout` — **Max, Tier 1**
 
@@ -185,7 +185,19 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   (sequence tier → structural family → atlas cousins) and return the best result with its context. Written into
   `docs/gen3-handoff.md` §7 (the parked Gen3 ideas) as the seed; not this phase's scope (P5d recorded, not acted on).
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–5 ✓; task 6 half done (xsig set; the tools post awaits Drew's report); NEXT = task 6's addendum, then 7 (C11 — Claude), 8 (G2 — Tier 1, Max)
+### 2026-09-08 — Task 6 (Drew's half) — the announcement, Discord + Decompedia (S93)
+- **Discord — POSTED** by Drew in the tools channel of the decomp.me server (invite `https://discord.gg/sutqNShRRs`, from decomp.me's
+  README; ~1,450 members) with the post text of `docs/outreach/tools-announcement.md`, extended on Drew's request with the xsig v2
+  direction (`6ce1a38c6`). No permalink recorded (Discord).
+- **Decompedia (decomp.wiki, a Wiki.js site whose pages sync to `decompals/decompedia`; no CONTRIBUTING, no AI policy — checked before
+  any edit, R83) — DONE by Drew in the site's own editor** (logged in with GitHub; the `/e/en/<page>` routes are login-gated, 403 to
+  anonymous): `platforms/playstation` → `- [xsig](https://github.com/Druthulu/xsig)` appended to the Tools list;
+  `projects/playstation-1` → `- [Brave Fencer Musashi](https://github.com/Druthulu/BFM-decomp)` as the first project row. Verified
+  unauthenticated (`.run/P34/outward/decompedia_verify.txt`): both pages carry the links; the first project row reads Brave Fencer Musashi.
+- Task 6 CLOSED: xsig topics + homepage (Claude), the fork already gone, the post + two Decompedia rows (Drew). Milestone item 2's "the
+  xsig topics, the fork deletion, the tools post" lines are MET.
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–6 ✓ (every outward action done or pending by name: frogress, the preset creation, the AP reply); NEXT = task 7 (C11 aftercare — Claude), then 8 (G2 — Tier 1, Max)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything

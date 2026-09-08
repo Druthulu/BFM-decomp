@@ -1,0 +1,3 @@
+platforms/playstation mentions xsig: 1
+projects/playstation-1 mentions BFM-decomp: 1
+first project row is Musashi: Brave Fencer Musashi
