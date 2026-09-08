@@ -1,11 +1,11 @@
 share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 UNACCOUNTED · 10,180 h_exact classes with >=2 instances
-  verdicts (classes): A 1,712 · B 282 · C 6,135 · D 1,833 · M 218
-  instances by verdict: A 214,478 · B 45,226 · C 14,895 · D 5,740 · M 462
-  flags: ALIAS 44 · E 3,826 · F 54 · PINS 686 · TWIN-COVERED 575 · TWIN-PENDING 3,173 · TYPEDEF 96
-  SAME-VRAM UNREGISTERED (the phase's backlog): 4,105 classes · 34,852 instances · 10,632 private copies · 6,529 collapsible · 1,632,227 ins; of which twin-pending 3,006 classes / 6,012 instances
-  TWIN-COVERED (one source directory per payload, T3): 565 classes · 1,136 instances
-  CROSS-ADDRESS / CROSS-SPACE (deferred to the names phase): 3,801 classes · 30,347 instances · 11,600 private copies
-  S1 violations (scope as run): 4,105 · multi-form instances 0 · unresolved names 0
+  verdicts (classes): A 1,712 · B 282 · C 6,640 · D 1,545 · M 1
+  instances by verdict: A 214,478 · B 45,226 · C 15,917 · D 5,178 · M 2
+  flags: ALIAS 38 · E 3,826 · F 54 · PINS 684 · TWIN-COVERED 3,748 · TYPEDEF 93
+  SAME-VRAM UNREGISTERED (the phase's backlog): 1,099 classes · 28,840 instances · 4,755 private copies · 3,658 collapsible · 1,257,027 ins; of which twin-pending 0 classes / 0 instances
+  TWIN-COVERED (one source directory per payload, T3): 3,580 classes · 7,186 instances
+  CROSS-ADDRESS / CROSS-SPACE (deferred to the names phase): 3,801 classes · 30,347 instances · 11,340 private copies
+  S1 violations (scope as run): 1,099 · multi-form instances 0 · unresolved names 0
   controls (R39):
     func_80144B9C                      got B/141/{'include': 141}/missing 7         expected B/141/{'include': 141}/missing 7  (the registry lists 134; T5 bucket 0 extends it)
     clearTbl40                         got A+E/2                                    expected A+E/2
@@ -37,4 +37,4 @@ share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 U
     B E,F                    11852 x     2  0x80014554,0x8001455C,0x8001513C  func_80014554,func_8001455c
     A -                       141 x   167  0x80163C2C  func_80163c2c
     A -                       141 x   165  0x80178004  func_80178004
-  macro sites 255,947 · duplicate-text classes 6,874 (23,325 sites) · elapsed 27.6 s
+  macro sites 255,728 · duplicate-text classes 7,385 (24,359 sites) · elapsed 46.9 s

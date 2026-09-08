@@ -85,7 +85,7 @@ then what proved it. The same data generates the day-one kit's manifest and its 
 
 | When you need to… | Tool | What it does | Proven by | Adapt | Class |
 |---|---|---|---|---|---|
-| answer from one derived model whether each function is open, matched or shared | `corpus.py` | The single derived model of the source tree: open, matched or shared, per function | Makefile, api_agent.py, aprop_autodraft.py, aprop_symfix.py (+66) | repo src/config layout | LIVE |
+| answer from one derived model whether each function is open, matched or shared | `corpus.py` | The single derived model of the source tree: open, matched or shared, per function | Makefile, api_agent.py, aprop_autodraft.py, aprop_symfix.py (+67) | repo src/config layout | LIVE |
 | assert every consumer knows about each newly onboarded binary | `audit_binaries.py` | Gate asserting every consumer knows about each newly onboarded binary | Makefile | repo config/registry paths | LIVE |
 | assert every tracked source is plain text so text searches never skip it | `audit_text_sources.py` | Every tracked C source must be plain text, or text searches silently skip it | .github/workflows/no-rom.yml, Makefile | repo src paths | LIVE |
 | check that the independent what-remains views agree with the corpus oracle | `audit_frontier.py` | Checks that the independent "what remains" views agree with the corpus oracle | Makefile | repo paths | LIVE |

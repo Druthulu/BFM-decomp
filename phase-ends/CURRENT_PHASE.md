@@ -41,8 +41,10 @@
   green (audit-binaries OK · dedup-check 2220/0 · cdecl · report + `progress.py --check` fresh · doc_links · wiki_render · kit_lint ·
   cookbook-index · gccmap_cites · ghidra_roster), one red rung — the kit's verbatim copies of the edited tools — fixed by
   `make kit-corpus` (17 copies) with the rungs after it re-run individually by exit code. The +7 count correction published.
-- ☐ **T3** — twin binaries → one source directory: SC01_005/006 (probe), SC03_118/119, SC02_000/003, SC04_018/019, SC03_014/015 (carve
-  alignment, R60); one commit per pair; the clean fleet run after the last.
+- ☑ **T3** (S94) — twin binaries → one source directory: the five pairs collapsed (probe SC01_005/006 with the race test; SC03_118/119 +
+  SC02_000/003 equal carves; SC04_018/019 + SC03_014/015 with the primary's carve, interleave + pads regenerated, R60 checks), each
+  twin and primary BYTE-IDENTICAL, 166 source files deleted; the census: same-vram backlog 4,667 → 1,099 classes; the clean fleet
+  run after the last pair (see the log).
 - ☐ **T4** — `tools/macro_to_header.py`: the fleet converted in L0-gated batches; `engine_core.h`/`ov_setters.h`/`clearTbl40.h` deleted (clearTbl40
   → the parameterized control); `func_80144B9C.h` moved; the registry's `source:`/`func:` rewritten surgically; clean fleet 218/218.
 - ☐ **T5** — `tools/share_body.py`: bucket 0 `--extend` (206 classes), then the same-vram buckets largest reach first (no trivial exception);
@@ -157,6 +159,30 @@
   `TWIN_SRC_DIR` matched the `_SRC_DIR` oracle regex as a binary named `TWIN` → renamed `TWIN_SRCDIR`; after it the census shows
   **TWIN-COVERED 575 classes** for the pair (twin-pending 3,748 → 3,173), twin symmetry 653/653 unchanged. The census's `copies` now
   counts DISTINCT private sites (a twin's instance resolves to its primary's TU — one source), `collapsible` = copies − 1.
+  Commit `9b0816e74`.
+- **S94 — T3 pairs 2–3 (equal carves, mechanical):** `ov_SC03_119` TWIN_OF `ov_SC03_118` (31 files removed; both `77ee78dd…`
+  BYTE-IDENTICAL), `ov_SC02_003` TWIN_OF `ov_SC02_000` (37 files; both `5ece4bca…`); `audit-binaries: OK`; dedup-check per twin
+  0 failed. Commit `e79cfcc06`.
+- **S94 — T3 pairs 4–5 (carve alignment, R60):** the twin's yaml := the primary's with the alias and `FILE_nnn` substituted (+ the
+  twin note + `create_c_files: False`), its `_JTBL_INTERLEAVE` := the primary's substituted — and, found by the first build's
+  failure (`missing .end at end of assembly` on `ov_SC04_019_jr_8017AE2C.o`): the per-object **`JTBL_PADS` lines are keyed by
+  OBJECT PATH** (`build/src/<twin>/…`), which my alias-normalized block diff (lines starting with the alias) never compared, so the
+  twin still carried its retired carve's pads (4 differing lines for SC04, 2 for SC03; the three committed pairs re-checked: 0, 0, 0).
+  Regenerated from the primaries by substitution → 0 differing. `pads_audit.py` built `src/<b>/<tu>.c` by hand and raised
+  IndexError on a twin — now reads the source through the oracle (`corpus.src_dir` + `twin_of`). **Verify:** `ov_SC04_019` +
+  `ov_SC04_018` BYTE-IDENTICAL (`fe9b413f…`), `ov_SC03_015` + `ov_SC03_014` (`d84b01a2…`); `interleave_check` ALIGNED (n=51, n=46);
+  `pads_audit` ok on every carve object; dedup-check 0 failed; `audit-binaries: OK` (CHECK 3b incl. equal carves). Commits
+  `2648aa5a9`, `6ebb3dac3`.
+- **S94 — T3 census after the five collapses:** TWIN-COVERED 3,748 classes (3,580 non-A, 7,186 instances); **same-vram unregistered
+  4,667 → 1,099 classes · 4,755 private sites · 3,658 collapsible · 28,840 instances** (twin-pending 0); `S1: … 10,180 classes, 9,081
+  satisfied (3,580 twin-covered, 0 excepted, 3,801 deferred cross-address), 1,099 VIOLATION(S)` — the backlog T5 shares. The controls
+  unchanged (twin symmetry 653/653). `make kit-corpus` for `pads_audit` + `share_census`; `tool_census --check: OK`.
+- **S94 — Rules check (P6, after T3 = four tasks): re-read complete (CLAUDE.md's eight mandatory behaviours; PROJECT_CONTEXT's 23
+  P/G/H/X rules). Continuing with T4.**
+- **S94 — T3 close, R22:** `make clean && make extract-all JOBS=16 && make check-all JOBS=16` → `extract-all: 217 extracted, 0 failed of
+  217 (+ main, serial)` · **`check-all: 218 passed, 0 failed of 218`** · `wall=308.78 s` (the census and the kit corpus ran beside it) ·
+  `exit=0` (`.run/P35/baseline/r22_t3.log`). Twins: 5 pairs / 10 aliases / 166 source files deleted; every twin builds from
+  its primary's directory. **T3 ☑.**
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
@@ -450,7 +476,7 @@ same commit — history keeps it.
 Candidate for the PhaseEnd: "a shared body has exactly one source; a duplicate copy is a defect the health chain asserts, and a
 count of them is published with its rule" (this phase's invariant).
 
-## 🛑 SESSION CHECKPOINT — S94 (2026-09-08): Phase 35 OPEN at gate 1; T0 ☑, T1 ☑ (the census), T2 ☑ (the health chain knows the include + twin forms; the +7 correction published); NEXT = T3 twin binaries → one source directory (probe pair SC01_005/006)
+## 🛑 SESSION CHECKPOINT — S94 (2026-09-08): Phase 35 OPEN at gate 1; T0–T3 ☑ (the census; the health chain knows the include + twin forms; the five twin pairs collapsed, fleet 218/218 from clean); NEXT = T4 `tools/macro_to_header.py` (written, its --plan being shaken out)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task in §Tasks above.

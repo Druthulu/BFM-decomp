@@ -22,7 +22,14 @@ def carves(tu):
             out.append((a, end))
     return out
 def compiled_tables(tu):
-    cmd = subprocess.run(['make', '-n', '-W', 'src/%s/%s.c' % (b, tu), 'build/src/%s/%s.o' % (b, tu), 'BINARY=%s' % b], capture_output=True, text=True).stdout
+    # Phase 35 T3: the TU's source comes from the binary's source dir through the oracle — a twin's objects
+    # (build/src/<twin>/<twin>_x.o) are compiled from src/<primary>/<primary>_x.c (R33; a hand-built src/<b>/ path
+    # found no compile line for a twin and raised IndexError here).
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import corpus
+    prim = corpus.twin_of(b) or b
+    src = os.path.join(corpus.src_dir(b), tu.replace(b, prim, 1) + '.c')
+    cmd = subprocess.run(['make', '-n', '-W', src, 'build/src/%s/%s.o' % (b, tu), 'BINARY=%s' % b], capture_output=True, text=True).stdout
     line = [l for l in cmd.splitlines() if 'cc1' in l][0]
     line = re.sub(r'\|\s*\.venv/bin/python\s+tools/jtbl_rodata_pads\.py[^|]*', '', line)
     line = re.sub(r'\|\s*[^|]*mipsel-linux-gnu-as.*$', '', line)
