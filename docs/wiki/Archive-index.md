@@ -1,9 +1,10 @@
 # Archive index
 
 Every document retired from `docs/` at the Phase-33.5 consolidation (2026-09-07, archived at **v1.32.1**), with what it
-was, what came of it, and where its information lives now. The files sit under `docs/sunset/`, moved with `git mv` so
-their history is intact, for the owner's final review before deletion; nothing links into that folder, and this page
-names each file as a path on purpose, so that deleting the folder later breaks no link. The rule for what goes there,
+was, what came of it, and where its information lives now. The files were moved into an archive folder with `git mv` at
+33.5 (history intact) for the owner's review, and **removed from the tree at Phase 34 (2026-09-08, the owner's decision)**:
+their last tracked versions are in the history at v1.32.1, and this page is the record. Nothing ever linked into that
+folder, and this page names each file as a path on purpose, so the removal broke no link. The rule for what is archived,
 and the referrer census run before every move, are on [Docs and scratch conventions](Docs-and-scratch-conventions.md).
 Records that stay — the PhaseEnds, the decision log, the cookbook — keep their citations of these files untouched.
 
@@ -86,7 +87,8 @@ documents (0 open stubs), so the last populated snapshot is kept instead of bein
 ## Tools retired at Phase 33.5 (`tools/sunset/`, v1.32.1)
 
 Retired by the tools audit (task 13.5) under the owner's criterion; the census proved no live consumer; `tools/sunset/README.md` is the review
-table and `config/tool_dictionary.tsv` the record. Paths are cited, never linked.
+table and `config/tool_dictionary.tsv` the record. The folder stays in the tree for the tool index (owner's decision, Phase 34 — unlike the
+document archive above). Paths are cited, never linked.
 
 | File | Verdict | Successor or product |
 |---|---|---|

@@ -204,7 +204,24 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   list, the Reference-index row (now a no-link row pointing at SETUP's outcome sections), the two SETUP inventory rows; historical
   citations in the seed/runbook/logs stay (untracked citations are allowed outside wiki pages). The wiki page changed → the C11 re-sync.
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–6 ✓ (every outward action done or pending by name: frogress, the preset creation, the AP reply); NEXT = task 7 (C11 aftercare — Claude), then 8 (G2 — Tier 1, Max)
+### 2026-09-08 — Task 7 (part 1) — C11: the tree's public shape, two owner decisions (xHigh; S93)
+- **`docs/outreach/` untracked** (Drew: "just gitignore", after the notes were sent — the Archipelago issue, the preset request, the
+  tools post, his `#ai` reply): `git rm --cached`, a contents-form `.gitignore` rule (R84), no rewrite (the drafts are in the published
+  history); `tools/doc_links.py` DEFAULT list, the Reference-index row (a no-link row pointing at SETUP's outcome sections), two SETUP
+  inventory rows updated (`fe45f7f01`).
+- **`docs/sunset/` untracked** (Drew: "remove sunset from the pushed repo", then "keep the old tools in the sunset folder for the index,
+  but not the other stuff"): the 60 tracked files of the document archive (59 + its README) leave the tree — the wiki's Archive index
+  rows ARE the record, the last tracked versions are in the history at v1.32.1; a contents-form ignore rule; **`tools/sunset/` (35
+  files) STAYS tracked** for the tool index (the census's file checks kept as they were). Rewritten so no wiki page cites the folder as
+  present: `Archive-index.md` (header; the tools section says the folder stays), `Docs-and-scratch-conventions.md` (the archive rule is
+  now "an Archive-index row + delete in the same commit; history keeps it"), `Repository-layout.md`, `Reference-index.md` §Not listed,
+  `docs/history/README.md`. A trial "untrack both" pass was made, measured (the census needs the retired files for its `--check`, and a
+  fresh clone would have gone red), and reverted for the tools half on Drew's clarification — the census is unchanged.
+- Checks after: `tool_census --check` OK · `doc_links --strict` OK (0 pending / 0 broken) · `wiki_render --selftest` 12/12, 32 pages ·
+  `audit_public` OK over 6,914 tracked paths · `kit_lint` OK · `make kit-corpus` regenerated (359 copies / 28 pointers).
+- The wiki pages changed (Reference-index, Archive-index, conventions, layout) → the C11 wiki re-sync (Drew's word).
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0–6 ✓; task 7 part 1 ✓ (outreach + docs/sunset out of the tree); NEXT = task 7 part 2 (the .run prune, DIGEST/decision-log/SETUP/wiki updates, checks, the wiki re-sync), then 8 (G2 — Tier 1, Max)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything

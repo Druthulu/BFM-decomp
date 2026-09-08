@@ -427,3 +427,8 @@ unsloth_compiled_cache/
 # the decomp.me preset request, the tools post, the #ai reply); the drafts stay on the maintainer's machine and leave the tree
 # from here (no rewrite — they are in the published history). Contents form, R84.
 /docs/outreach/*
+
+# The document archive (P34 task 7, Drew's decision 2026-09-08): docs/sunset/ (59 documents retired at Phase 33.5) leaves the tree —
+# the wiki's Archive index rows are the record, the last tracked versions are in the history (v1.32.1). A local copy may remain;
+# ignored. tools/sunset/ (the 34 retired tools) STAYS tracked for the tool index. Contents form, R84.
+/docs/sunset/*

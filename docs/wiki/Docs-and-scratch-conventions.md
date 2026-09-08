@@ -61,9 +61,9 @@ last populated copies are kept in the archive and the generators are not re-run.
 - A wiki page links into `docs/` only through the [Reference index](Reference-index.md), which lists every live
   reference and generated file with what it is and how to read it. A page that needs a record links the index's row's
   target; the link checker derives its allow-list from the index page itself.
-- Nothing links into the archive (`docs/sunset/`). The [Archive index](Archive-index.md) names archived files as
-  backticked paths with the version they were archived at, so that the folder can be deleted later without breaking a
-  link.
+- Nothing links into an archived document. The [Archive index](Archive-index.md) names each archived file as a
+  backticked path with the version it was archived at, so that removing the file breaks no link — which is what happened
+  at Phase 34.
 - `tools/doc_links.py` checks every relative link in the governing documents, every wiki page and every how-to chapter;
   it runs in `make tools-health`. A link to a page a later task of the same phase will create is registered in
   `docs/doc_links_pending.txt` (rule R80: a missing *promised* page is PENDING, not BROKEN); the strict mode used at a
@@ -74,16 +74,17 @@ last populated copies are kept in the archive and the generators are not re-run.
   be able to follow every path named there. In the cookbook, the decision log and the phase records, a citation of an
   untracked `.run/` path is a breadcrumb into the maintainer's private tree, and is allowed as such.
 
-## The archive: `docs/sunset/` and the Archive index
+## The archive and the Archive index
 
 A document leaves `docs/` when its purpose is fulfilled and its information lives elsewhere: a closed-phase plan whose
 outcome is in the PhaseEnd, a design note whose tool shipped and whose findings are cookbook sections, a snapshot of a
-frontier that is now empty. It is moved with `git mv` into `docs/sunset/` under the same relative path — history is kept
-— and gets one row in the [Archive index](Archive-index.md): what it was, what came of it, and where its information
-lives now (a wiki page, a PhaseEnd, a cookbook section). `docs/sunset/README.md` is the owner's review list; deletion
-is the owner's decision, made after review, never part of the move. Before any move, every referrer is re-pointed — a
-command over the tree (`git grep -F <basename>` over Markdown, Python, shell and the Makefile, excluding the phase
-records) must return only the two index files.
+frontier that is now empty. At the Phase-33.5 consolidation such files were moved with `git mv` into an archive folder
+(`docs/sunset/`, history intact) for the owner's review; at Phase 34 (2026-09-08) the owner removed that folder from the
+tree — the last tracked versions are in the history at v1.32.1. From here on a retired document gets its row in the
+[Archive index](Archive-index.md) — what it was, what came of it, and where its information lives now (a wiki page, a
+PhaseEnd, a cookbook section) — and is deleted from the tree in the same commit; history keeps it. Before any retirement,
+every referrer is re-pointed — a command over the tree (`git grep -F <basename>` over Markdown, Python, shell and the
+Makefile, excluding the phase records) must return only the index page.
 
 The historical folder `docs/history/` (the original project brief, the methodology version the constitution was
 generated from, an early experiment) is the same idea for the project's beginnings; its README says nothing there is

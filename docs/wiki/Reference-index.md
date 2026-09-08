@@ -90,5 +90,5 @@ in the Archive index, not here. The conventions behind this page: [Docs and scra
 | [`struct-core-pivot.md`](../struct-core-pivot.md) | What struct recovery can and cannot do for matching — the Phase-16 wall and the pivot. | Read whole. | authored |
 | [`wall-taxonomy.md`](../wall-taxonomy.md) | The census of residual stubs by blocker class, validated against the bytes. | By class. | authored from `tools/wall_taxonomy.py` |
 
-Not listed: `docs/wiki/` and `docs/how-to-ai-decomp/` are this wiki's sources; `docs/sunset/` is the archive, indexed by
-the [Archive index](Archive-index.md).
+Not listed: `docs/wiki/` and `docs/how-to-ai-decomp/` are this wiki's sources; the documents retired at Phase 33.5 are not
+in the tree (removed at Phase 34, 2026-09-08) and are recorded, one row each, in the [Archive index](Archive-index.md).
