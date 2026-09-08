@@ -31,9 +31,14 @@ kit-corpus`, asserted equal in tools-health), `tools/kit_coverage.py` (every rul
 its first run found 26 + 21 uncited, three genuine gaps), and the worklog mining pass (777 candidates / 634 banked / 143 new → DK-69–80).
 R74–R83 ratified at its gate 1; candidates (i)–(xii) proposed for Phase 34 gate 1. **Phase 34's gate is OPEN: the purge probe PASSED
 2026-09-07.** **Phase 34 = the flip + the outward actions + C11 + the v2.0.0 PhaseEnd = Gen2 EXIT** (`docs/phase34-seed.md`).
-**Phase 34 IN PROGRESS (opened 2026-09-08, S93; gate 1 in plan mode at Max; R84–R95 ratified; the plan and the live state are in
-`phase-ends/CURRENT_PHASE.md`): the flip done, decomp.dev live, the wiki live (32 pages), the decomp.me preset requested, the
-Archipelago note sent, the tools announced; `docs/outreach/` and `docs/sunset/` left the tree on the owner's decision.** **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (R95, the canonical
+**Phase 34 CLOSED 2026-09-08 (v2.0.0 = GEN2 EXIT; `PhaseEnd_Phase34.md`):** one session (S93), 24 commits — the flip after the probe
+passed before and after (33/33 gone); the `protect-main` ruleset, description/topics/homepage; decomp.dev (100.00% / 100.00%); the wiki
+(32 pages, three syncs); the decomp.me preset request (decompme/decomp.me#2106) on a 100% scratch, after the pasted target's form was
+fixed and proven through decomp.me's own `as` (`verbatim_target_s.py --gas`, replica steps D/E); the Archipelago note (#1); the xsig
+topics; the tool announcement, Drew's `#ai` reply and two Decompedia rows; the aftercare (~9 GB of scratch pruned, the record updated,
+`docs/outreach/` and `docs/sunset/` out of the tree on the owner's decision, `tools/sunset/` kept, the timeline in the README); three
+instrument findings fixed (cdecl's scratch dir, two wiki citations, kit_coverage → DK-81 + twelve dispositions); tools-health OK on run 5.
+**Pending by name:** the preset's creation by decomp.me's maintainers, a reply from Archipelago, frogress. Candidates (a)–(d) proposed. **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (R95, the canonical
 type layer).
 
 ## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
@@ -152,6 +157,20 @@ write-up, `decompme-preset.md` + `tools/decompme_replica.sh` (decomp.me = old-gc
 story, `mine_hindsight.py` + retrospective, the wiki + how-to + `wiki_render`/`wiki_sync`. Block G: `gen3-handoff.md`, `gen3-standards.md`,
 `phase34-seed.md`. Findings: GitHub's Activity view publishes every pre-force-push tip (the flip must wait for the purge); the probe was
 a writer (R57). Rules: R65–R73 ratified at gate 1; candidates (a)–(j) proposed for P34 gate 1.
+**P34 (2026-09-08, v2.0.0) THE FLIP — GEN2 EXIT.** One session (S93) / 24 commits. Gate 1 (plan mode, Max) ratified R84–R95 and added
+metadata, a ruleset and a Release; the preflight found (and Drew deleted) a Phase-1 relic clone of the old history. The probe PASSed
+before and after the flip; Drew made the repository public; Claude set description/7 topics/homepage and the `protect-main` ruleset
+(no force-push, no deletion, no bypass). Outward, all the same day: decomp.dev registered and verified (100.00% / 100.00%, hero image);
+the wiki pushed three times on one-off R6 waivers (32 pages); the decomp.me scratch at 100% + the preset request #2106 + the manual
+search closing ledger row 14 — after the first paste FAILED (`invalid operands 'li a2,2'`: the doc named the word-oracle listing, never
+assembled anywhere) and the tools were fixed: `verbatim_target_s.py --gas`, `decompme_replica.sh` steps D (the paste through decomp.me's
+`as`, 26/26) and E (the bundle); the Archipelago issue #1; xsig topics + homepage; the tools post, Drew's `#ai` reply, two Decompedia
+rows; frogress skipped on measurement. C11: no other clone; ~9 GB of untracked scratch pruned (46 → 37 GB); `.run/public_rewrite/` kept
+to the probe's inputs; DIGEST/decision-log/accelerators/SETUP/wiki updated; the generated timeline in the README; `docs/outreach/` and
+`docs/sunset/` untracked on Drew's decisions (the Archive index is the record; `tools/sunset/` kept for the index). The close chain went
+red three times on the day's own edits — cdecl's probe dir under the pruned tree (a refusal misgraded as four defects), two wiki
+citations of untracked paths, R84–R95 + the new accelerators entry uncited in the kit (→ DK-81 + twelve map rows) — and was OK on run 5;
+one commit claimed "green" from a masked exit code and was named in the next. Rules: R84–R95 ratified; candidates (a)–(d) proposed.
 **P33.5 (2026-09-08, v1.32.1) THE WIKI AS SOURCE OF TRUTH + THE DAY-ONE DECOMP KIT (sub-phase).** 3 sessions (S90–S92) / 26 commits.
 Six wiki pages (conventions, the ROM firewall with the copyable `.gitignore` fence, the Reference index — the only wiki→`docs/` link site —,
 the direction page, Start-a-new-decomp-project, the Archive index); six documents folded into the wiki/how-to; 59 docs + 34 tools sunset
@@ -353,6 +372,11 @@ the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1
   proven by the bytes at bank time, no duplicate definition or raw address cast banked** (the S91-b doctrine; the binding Gen3 type
   rule). Phase 17 measured the codegen half (0/10/2, identical bytes) and the project underweighted the other: 1,232 definitions,
   143 raw casts, a reconcile ladder built to repair what the discipline prevents.
+**Phase 34 proposed candidates (a)–(d) for Phase 35 gate 1** (the table in `PhaseEnd_Phase34.md` §Rules: a scratch prune is an
+instrument change — re-run every tool that writes under it; "green" is read from a check's EXIT CODE with `pipefail` in every chain,
+never from its last line; a step that hands a file to a third party is proven through that party's own toolchain on the file itself
+before the owner's browser session, and the proving tool writes the paste; what a public tree carries is decided before the flip, and a
+retired document gets its Archive-index row and is deleted in the same commit).
 
 ## 4. Where things live (the doc map a session needs)
 **The wiki is the source of truth for documentation (Phase 33.5):** `docs/wiki/Reference-index.md` lists every live reference and
