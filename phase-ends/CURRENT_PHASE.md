@@ -46,7 +46,7 @@ in-tree links to `docs/wiki/<Page>.md`. 8. `.run/`: only what git tracks; no sca
 - [x] **5** Integrate the six (hand-matching-process; wave-metrics + the s37w block → wave-playbook; portable-decomp-workflow vs the 13 chapters; generic-decomp-package attributed; hindsight §2.1/§7 → ch.03 + permuter-ils; the gen3 docs → the direction page); re-point every referrer incl. `retrospective.md:10–11` — xHigh — see Log 2026-09-07 Task 5
 - [x] **6** Sunset moves (59 files — `family-hseq.md` stays, see the log) with the referrer census by command; `docs/sunset/README.md`; `Archive-index.md` rows (backticked paths + `v1.32.1`); DIGEST §4 + `docs/history/README.md` refreshed; coverage: 0 `docs/` files outside wiki/how-to/sunset uncovered — xHigh — see Log 2026-09-07 Task 6
 - [x] **7** Checkers: `doc_links.py` (sunset refusal, index-derived allowlist, wiki-first warnings, TRACKED/UNTRACKED citation classifier + `--disk`, coverage ⊆); reachability in `wiki_render --selftest`; `timeline.py` regen in `report BINARY=main` + `--check` in `audit-digest`; the 13 dangling cookbook cites; the gitignore-template diff; tools-health wiring; SETUP rows — xHigh — see Log 2026-09-07 Task 7
-- [ ] **8** Tracked `.run/` prune (the 172 + the session logs + the 2 firewall files; `untracked_after_rewrite.txt`; `audit_public` check 4 with both controls; runbook §11; the four tool notes) — xHigh — **then P6 rules check**
+- [x] **8** Tracked `.run/` prune (218 paths untracked: the 172 inertia files + 44 finished logs + the 2 firewall listings; `untracked_after_rewrite.txt`; `audit_public` check 4 with both controls; runbook §11; the four tool notes) — xHigh — see Log 2026-09-07 Task 8 — **P6 rules check done after it**
 - [ ] **9** Memory reconciliation (move the off-project file; the 7 stale updated; `bfm-decomp-context-system` refreshed; the seed set under `decomp-architect/memory-seed/` with `upstream: PA` tags) — xHigh
 - [ ] **10** Kit part 1: `README.md`, `intake.decomp.md`, `decomp-architect.md`, `templates/registry-E.decomp.md`, `corpus/decomp-kernels.md`, `templates/PLACEHOLDERS.md` — Max
 - [ ] **11** Kit part 2: the firewall pack, docs/run READMEs, ops-setup, bootstrap, CLAUDE overlay, `pa-overlays.md`, LICENSE/NOTICE/README/CONTRIBUTING skeletons, `.clang-format` + format snippet, `tools/MANIFEST.md`; `tools/kit_lint.py` in tools-health — xHigh
@@ -391,52 +391,80 @@ PRIVATE (breadcrumbs, allowed in a record). `cookbook_index.py --check` OK (1,16
 `--strict` OK. `make audit-digest` rc 0 with the timeline check. SETUP rows for `doc_links`, `wiki_render`, `timeline` and the new
 tool (R21). The conventions page's description of the checks matches the implementation.
 
-## 🛑 SESSION CHECKPOINT — Tasks 0–7 ✓; NEXT = task 8 (the tracked-`.run/` prune + the audit-only rules file + the content check; xHigh; then the P6 rules check)
+### 2026-09-07 — Task 8 — The tracked-`.run/` prune, the audit-only rules file, the content check (xHigh)
+**Removal set = what `.gitignore` says.** After narrowing the re-includes (`!/.run/P32/t3s3/*.log` → the three cited R22 logs by
+name; explicit re-excludes for the uncited duplicate close logs under t4b ×2, t4d ×2, t4e ×1; `/.run/giants/fable_cd4/*_full.txt`
+after the `*.txt` allow line), `git ls-files .run | git check-ignore --stdin --no-index` yielded **218** paths — the 172 inertia files
+(43 loose root files; `s6h` 38, `s6f` 25, `w6` 16, `s37` 16, `s6g` 15, `s6i` 8, `t4` 6, `s6b_cracks` 2, `fable_frontier` 2, `audit` 1) +
+39 uncited `t3s3` root logs (the `gate/` verdict ledger and the 3 cited R22 logs stay) + 5 duplicate close logs + the 2 listings — and
+that list IS the removal set (`git rm -r --cached`), so the ignore file and the index agree by construction. Kept: everything a
+document cites (12 cited logs under `.run/P32/`, found by grepping each tracked `.log` name over docs + phase-ends + README).
+**Invariants after:** tracked `.run/` 1,086 → **868**; `git ls-files -ci --exclude-standard .run` = 0; `git status --porcelain .run |
+grep '^??'` = 0; all 218 removed paths still on disk; staged deletions == the list (`cmp` YES). **The firewall pair:** untracked;
+`tools/public_rewrite/untracked_after_rewrite.txt` created (audit-only; the header says why it is not the purge set); `purge_set.txt`
+byte-unchanged; **`gate_scan.py --all --worktree` PASS** (112,518 reachable blobs / 16.25 GB, 0 offenders, 73 s). **`audit_public.py`
+check 4 (CONTENT):** longest contiguous run of disassembly-shaped lines per text file, cap 64. **R39 controls, both recorded:** the first
+cut of the asm-differ shape required an operand, and `nop` lines broke the target listing's run to **60 < 64** — the control caught
+it (only `mine_full.txt` at 398 failed); the shape now accepts operand-less mnemonics and `.L` label operands, and the control by
+`--paths` over the pair + the two xsig fixtures reads **398 and 179 → FAIL, 14 and 14 → pass**; the full audit AFTER the untrack:
+**OK — 0 offenders among 6,443 tracked paths** (6,661 before), longest runs 14/14/6. `runbook` §11 gained the residue paragraph; the
+four tool comments annotate the untracked defaults (`wave_judge.py` `WAVE=.run/t4`, `claude_wave_packs.py`, `jtbl_family_bank.py`,
+`dedup_propagate.py`); SETUP row for the audit (R21). **Deviation from the plan's numbers (R41):** the plan said "~50 allowlisted
+logs"; the enumerated count was 44 (39 + 5) because the t3s3 `gate/` logs and every rtu/variant log under t4b/t4d/t4e are evidence
+and stay — and the audit's "≈860" became 868 for the same reason.
+
+**P6 rules check — re-read complete** (CLAUDE.md's Mandatory Behavior + fail-safes; DIGEST §3 R1–R83): one task per commit; never
+overwrite blind (the `.gitignore` edits are additive re-excludes under dated comments — R60's carve-state rule does not apply, no
+splat yaml or overlays.mk was touched); never commit ROM-derived content (the pair is out of the index; check 4 now guards the class);
+never `git clean -x`; `purge_set.txt` never edited in this phase. Continuing with task 9.
+
+## 🛑 SESSION CHECKPOINT — Tasks 0–8 ✓ (P6 check done); NEXT = task 9 (memory reconciliation + the kit's memory seed; xHigh)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase31/32/33.md` and this file, and
 nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest (R1–R83), then
-WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–7 completed and task 8 in progress.
+WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–8 completed and task 9 in progress.
 
 ### 1. Where we are
 **Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; effort follows the plan's
 column (Max for tasks 10, 12, 15 — prompt at each transition, R27; xHigh now). Baseline HEAD `80d45b29b`; task 0 = `39d524991`;
 task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 = `6ec4786bd`;
-task 7 = the commit after it (the checkers). `Makefile` changed (three lines: timeline regen/check, the template diff step) — no
-build input changed; the fleet is 218/218 at the Phase-33 close. `docs/doc_links_pending.txt` is EMPTY. `doc_links --strict` is
-green; the cookbook control reads 0 dangling. Wiki: 17 pages + 13 chapters, all reachable. `.run/` is still at 1,086 tracked files.
+task 7 = `21c98ed5a`; task 8 = the commit after it (the prune). No build input changed; the fleet is 218/218 at the Phase-33 close.
+Tracked `.run/` = 868 files; `audit_public` OK with its four checks; `gate_scan --all --worktree` PASS; `doc_links --strict` green;
+the pending list empty. The doc-side half of the phase (tasks 1–8) is DONE; what remains is the memory reconciliation (9), the kit
+(10–13) and the closing pages (14–15).
 
-### 2. What NEXT does (task 8, xHigh) — exact steps (plan D4)
-1. **Inertia set (172):** `git ls-files .run | git check-ignore --stdin --no-index > .run/P33.5_inertia.txt` (must be 172 lines);
-   `git rm -r --cached --quiet $(cat .run/P33.5_inertia.txt)` (paths have no spaces; verify with `grep -c ' '` first). Self-sealing —
-   no `.gitignore` edit. Before that, the two prose citations in `wave-metrics.md` are already gone (it is archived); check
-   `git grep -n -E 's37w\.js|s6f_gate\.py' -- docs/wave-playbook.md docs/wiki docs/how-to-ai-decomp` mentions only the playbook's
-   "(untracked scratch)" line. Annotate the four tool defaults/comments: `tools/wave_judge.py:8` (`WAVE=.run/t4` — "untracked since
-   P33.5; pass WAVE=…"), `tools/claude_wave_packs.py:16`, `tools/jtbl_family_bank.py:380`, `tools/dedup_propagate.py:114`.
-2. **Allowlisted finished logs:** enumerate `git ls-files .run/P32/t3s3 | grep '\.log$'` (44) and the duplicate `tools_health.log` /
-   `report_close.log` under `.run/P32/{t3s3,t4b,t4d,t4e}` — KEEP any copy a doc cites (`git grep -n -F '<name>' docs phase-ends` —
-   `verification.md` cites `.run/P32/t4e/r22_check.log`; PhaseEnd_Phase32 cites `.run/P32/t4e/r22_{clean,extract,check}.log`,
-   `report_close.log`, `tools_health.log` under t4d/t4e — those stay). `git rm --cached` the rest; narrow the `.gitignore` re-includes
-   (`!/.run/P32/t3s3/*.log` → drop; add explicit `!` lines only for kept files if a wildcard would re-include the removed ones) so that
-   `git status --porcelain .run | grep -c '^??'` stays 0.
-3. **The firewall pair:** `git rm --cached .run/giants/fable_cd4/mine_full.txt .run/giants/fable_cd4/target_full.txt`; in `.gitignore`
-   after `!/.run/giants/fable_cd4/*.txt` add `/.run/giants/fable_cd4/*_full.txt` (re-exclude); create
-   `tools/public_rewrite/untracked_after_rewrite.txt` (header: audit-only; "remains in the published history by owner decision
-   2026-09-07 — the tracked C + the pinned compiler reproduce the bytes; not in purge_set.txt because gate_scan reads that as the
-   history census") with `glob:.run/giants/fable_cd4/*_full.txt`; `tools/audit_public.py` check 1 reads BOTH files (refuse an empty
-   sibling too, R43); `purge_set.txt` UNCHANGED; `gate_scan.py --all --worktree` still PASS (run it — it is the history gate).
-4. **`audit_public.py` check 4 — CONTENT:** for every tracked TEXT file (decode utf-8; skip binaries), the longest CONTIGUOUS run of
-   lines matching any of: asm-differ `^\s*\d+:\s+[a-z]{2,8}(\.[a-z]+)?\s+(\$|-?0x|-?\d|[a-z_])`, objdump `^\s*[0-9a-f]+:\s+[0-9a-f]{8}\s+\w+`,
-   splat `^\s*/\* [0-9A-F]{5,} [0-9A-F]{8} [0-9A-F]{8} \*/`, `^(glabel|dlabel) `; refuse a file whose max run ≥ 64; print the file count and
-   the top runs with denominators. **Controls (R39), recorded in the log:** BEFORE step 3, exactly the 2 `fable_cd4` files fail; AFTER, 0
-   fail; `tools/xsig/tests/fixture_{a,b}.txt` (40 lines) pass. Run `audit_public.py` in full (checks 1–4) → OK.
-5. Runbook §11: a "residue" paragraph naming the pair and the sibling file; the ROM-firewall page already describes it.
-6. Verify (all in the log): removal list == `git diff --cached --name-only --diff-filter=D | sort`; `git ls-files -ci --exclude-standard
-   .run | wc -l` = 0; `git status --porcelain .run | grep -c '^??'` = 0; every removed path still exists on disk (`while read f; do [ -e
-   "$f" ] || echo MISSING $f; done`); `git ls-files .run | wc -l` (expect ≈ 1,086 − 172 − ~45 − 2 ≈ 865); `audit_public` OK; py_compile.
-   Commit by explicit path (`git add -u .run .gitignore tools/audit_public.py tools/public_rewrite/untracked_after_rewrite.txt
-   docs/public-flip-runbook.md tools/wave_judge.py tools/claude_wave_packs.py tools/jtbl_family_bank.py tools/dedup_propagate.py
-   docs/SETUP.md phase-ends/CURRENT_PHASE.md`). **Then the P6 rules check.** Task 9 is xHigh.
+### 2. What NEXT does (task 9, xHigh) — exact steps
+The memory store is `~/.claude/projects/-home-musashi-bfm-decomp/memory/` (81 files + `MEMORY.md`; NOT in the repo, by Drew's decision
+2026-09-07 — kit seed only). Ledger L3 in this file classifies every file.
+1. **Move the off-project memory:** `ls ~/.claude/projects/` → find the Vantage project's directory (a `-mnt-…` or `-home-…` slug whose
+   MEMORY.md mentions Vantage); `mv` `vantage-edge-never-leaks.md` there (append its index line to that MEMORY.md); delete its line from
+   this project's `MEMORY.md`. If no Vantage store exists, move it to `~/.claude/memory-parked/` and say so in the log — never delete.
+2. **Update the 7 stale memories IN PLACE** (Edit; keep frontmatter; add a dated "Updated 2026-09-07 (P33.5)" line): `cheap-tier-ab-validated`
+   (→ the ladder in `subagent-model-ladder`; the ≤50 band was later measured as ≤~30; keep as the A/B record); `effort-doctrine-xhigh-default`
+   (CLAUDE.md now agrees — the contradiction is resolved); `private-repo-backup-policy` (→ R78: text export + checksums + the archive repo;
+   never `git clean -x`); `project-endgame-deliverables` (all three shipped in P33 — story/timeline, retrospective, wiki+how-to; keep the
+   sequencing lesson + "capture live, transcripts die"); `roadmap-to-100` (→ archived at P33.5; the live seeds are `docs/phase34-seed.md` +
+   `docs/gen3-handoff.md`); `rom-content-git-policy` (INVERTED: H1 in force since P33 C3, no private exemption ever again — R74; the
+   relaxation cost the rewrite); `bfm-decomp-context-system` (status block → P33.5 open, Phase 34 next, Gen3 at 35; the load order per R64).
+   Also refresh `MEMORY.md`'s hook lines for those seven.
+3. **Write the kit seed set** under `decomp-architect/memory-seed/` (the directory does not exist yet — create it; task 10 adds the rest of
+   the package around it). Frontmatter per PA 2.0 (`name`, `description`, `metadata.type`), bodies de-BFM'd (no paths, sessions, function
+   addresses; "the project" not "BFM"), each with **Why** and **How to apply** lines: the NINE new — `no-sleep-polling-background-tasks`,
+   `live-coop-answer-before-grinding`, `tools-health-foreground-not-background` (generalise: "long verification tools run in the foreground
+   with a timeout"), `resume-means-resume-the-run`, `tool-change-ships-with-its-consumers-and-docs` (+ "no end-of-session audits"),
+   `checkpoint-means-everything-is-already-in-a-file` (the commit-message trap), `phaseend-carries-the-narrative-axis`,
+   `offline-tooling-first` (computable vs search), `one-runbook-is-the-procedure` (+ banner superseded runbooks); the FIVE riders folded
+   into whichever seed fits (the quadratic main-loop-context arithmetic → a `breadth-is-isolated-agents` seed; the accelerator ledger
+   as a habit → `keep-an-accelerator-ledger`; the per-stuck-lane briefing recipe + "what the frontier model is NOT for" → `route-by-
+   measured-difficulty`; "a slow gate is a bug" → `a-slow-gate-is-a-bug`); the THREE decomp seeds — `the-byte-gate-is-the-only-claim`,
+   `the-matching-flywheel` (R16), `mcp-reconnect-after-restart` (R29). Tag the four harness-generic ones with `upstream: PA` in
+   metadata (no-sleep-polling, tools-health-foreground, resume-means, tool-change-ships-with-consumers). `memory-seed/MEMORY.md` in PA's
+   row format (`- [title](file.md) — hook`), listing these AND citing PA 2.0's seven already-seeded ones by name (not copied).
+4. Verify: `ls memory-seed/*.md | grep -vc MEMORY.md` == the number of `- [` rows in `memory-seed/MEMORY.md`; every file's frontmatter
+   parses (`name`/`description`/`metadata.type`); `grep -rlE 'SLUS|Musashi|BFM|Druthulu|func_80|ov_SC|/home/musashi|/mnt/z' memory-seed/`
+   is empty; this project's `MEMORY.md` rows == its files. Log + checkpoint; commit by explicit path (the kit dir + this file). Task 10 is
+   **Max** — prompt Drew (R27).
 
 ### 3. Standing facts for every task of this phase
 - One commit per task, after this file's log line (R8/R42 form); commit by explicit path; no trailers (R5); Drew pushes (R6).

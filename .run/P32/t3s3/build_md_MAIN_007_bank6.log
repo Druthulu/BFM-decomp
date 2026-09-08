@@ -1,6 +1,0 @@
-  CC      build/src/md_MAIN_007/md_MAIN_007.o
-src/md_MAIN_007/md_MAIN_007.c: In function `func_800CEF94':
-src/md_MAIN_007/md_MAIN_007.c:76: conflicting types for `D_800B99E8'
-src/md_MAIN_007/md_MAIN_007.c:45: previous declaration of `D_800B99E8'
-make: *** [Makefile:791: build/src/md_MAIN_007/md_MAIN_007.o] Error 33
-make: *** Deleting file 'build/src/md_MAIN_007/md_MAIN_007.o'

@@ -1,38 +1,61 @@
 #!/usr/bin/env python3
-"""audit_public.py — the first-push gate: no ROM-derived bytes among the tracked files (P33 B7; CI job `audits`).
+"""audit_public.py — the first-push gate: no ROM-derived bytes among the tracked files (P33 B7; CI job `audits`;
+extended P33.5 task 8).
 
     tools/audit_public.py                 # every git-tracked file at HEAD's index (git ls-files)
     tools/audit_public.py --paths a b …   # an explicit file list (tests / a pre-commit hook)
 
-Three checks, each derived from something the repo already asserts (R33), never from a typed list of hashes:
-  1. PURGE PATHS — no tracked file lies under tools/public_rewrite/purge_set.txt (the C1 rewrite's own input,
-     filter-repo syntax: bare prefix or `glob:`).
+Four checks, each derived from something the repo already asserts (R33), never from a typed list of hashes:
+  1. PURGE PATHS — no tracked file lies under a rule of tools/public_rewrite/purge_set.txt (the C1 rewrite's own input,
+     filter-repo syntax: bare prefix or `glob:`) OR of tools/public_rewrite/untracked_after_rewrite.txt (the audit-only
+     sibling: paths untracked AFTER the rewrite without a second rewrite — kept out of purge_set.txt because gate_scan.py
+     reads that file as the census of what the rewrite removed from history).
   2. ROM CONTENT — no tracked file's SHA1 is a known ROM-derived hash: every `sha1` in extracted/retail/manifest.jsonl
      (the manifest IS the list of ROM-derived artifacts), every binary's SHA1 in config/check.*.sha, and the redump
      Track-1 SHA1 (tools/bfm_extract/extract_exe.REDUMP_TRACK1_SHA1). A renamed copy is caught by content.
   3. SIZE — no tracked file over 50 MiB (GitHub's warning threshold; nothing legitimately tracked is near it).
+  4. CONTENT — no tracked TEXT file carries a long contiguous run of disassembly-shaped lines (an assembler listing, an
+     objdump, a splat `/* ADDR HEX hex */` block, a glabel block): the class-3 case a path-and-hash audit cannot see —
+     a notes file that pastes a function's instructions is ROM-derived even when the tracked C reproduces the bytes.
+     The shapes were derived from the two offenders the P33.5 audit found; the criterion is the LONGEST CONTIGUOUS run
+     per file, threshold 64 lines, so a short quoted diff in a cookbook section passes and a full listing does not.
 Prints every count with its denominator (R41) and exits 1 on any offender, naming each (R43: loud, never partial).
 Ubuntu CI runs it without the disc, asm/, expected/ or build/ — it reads only tracked text and hashes tracked files.
-Control (S87, before C3): on the current private tree it MUST fail naming exactly the purge set (28 dumps, the EXE,
-ghidra/**, tools/psyq/**, the 3 session-archive parts, 2 zips, brave.exe) — that is the R39 negative control.
+Controls (R39): S87 (before C3) the private tree MUST fail naming exactly the purge set (28 dumps, the EXE, ghidra/**,
+tools/psyq/**, the 3 session-archive parts, 2 zips, brave.exe); P33.5 task 8: before the pair was untracked, check 4 MUST
+name exactly .run/giants/fable_cd4/{mine_full,target_full}.txt and nothing else (the xsig fixtures, 40 lines, pass).
 """
 import fnmatch
 import hashlib
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 PURGE = REPO / "tools" / "public_rewrite" / "purge_set.txt"
+UNTRACKED_AFTER = REPO / "tools" / "public_rewrite" / "untracked_after_rewrite.txt"
 MANIFEST = REPO / "extracted" / "retail" / "manifest.jsonl"
 SIZE_CAP = 50 * 1024 * 1024
+RUN_CAP = 64                      # contiguous disassembly-shaped lines that make a text file an offender
+DISASM_RES = [
+    # asm-differ: `12: addiu      $sp, $sp, -0x40`, `44: nop`, `50: j          .L80133D40` (an operand-less mnemonic and a
+    # `.L` label operand both continue the run — `nop` lines broke the first cut's run on the target listing, 60 < 64)
+    re.compile(r"^\s*\d+:\s+[a-z]{2,8}(?:\.[a-z]+)?(?:\s+(?:\$|-?0x|-?\d|[a-z_.])|\s*$)"),
+    re.compile(r"^\s*[0-9a-f]+:\s+[0-9a-f]{8}\s+\w+"),                             # objdump / `0: 27bdffc0 addiu sp,sp,-64`
+    re.compile(r"^\s*/\* [0-9A-F]{4,} [0-9A-F]{8} [0-9A-F]{8} \*/"),                # splat: `/* 1A2B0 80018730 27BDFFC0 */`
+    re.compile(r"^(?:glabel|dlabel)\s"),
+]
 
 
-def purge_rules():
+def read_rules(path, label):
+    """filter-repo syntax; refuses regex: rules and an empty file (R43). Returns (prefixes, globs)."""
+    if not path.exists():
+        sys.exit(f"audit_public: {path.relative_to(REPO)} is missing — cannot derive the {label} rules (R32)")
     prefixes, globs = [], []
-    for ln in PURGE.read_text(encoding="utf-8").splitlines():
+    for ln in path.read_text(encoding="utf-8").splitlines():
         ln = ln.strip()
         if not ln or ln.startswith("#"):
             continue
@@ -43,11 +66,11 @@ def purge_rules():
         else:
             prefixes.append(ln)
     if not prefixes and not globs:
-        sys.exit(f"audit_public: {PURGE} holds no rules — refusing to pass on an empty purge set (R43)")
+        sys.exit(f"audit_public: {path.relative_to(REPO)} holds no rules — refusing to pass on an empty {label} set (R43)")
     return prefixes, globs
 
 
-def under_purge(path, prefixes, globs):
+def under_rules(path, prefixes, globs):
     for p in prefixes:
         if path == p or path.startswith(p if p.endswith("/") else p + "/"):
             return p
@@ -97,20 +120,43 @@ def sha1_of(path):
     return h.hexdigest()
 
 
+def longest_disasm_run(path):
+    """The longest contiguous run of disassembly-shaped lines in a text file; 0 for a binary file."""
+    with open(path, "rb") as f:
+        data = f.read()
+    if b"\0" in data[:8192]:
+        return 0, False
+    text = data.decode("utf-8", errors="replace")
+    best = run = 0
+    for line in text.splitlines():
+        if any(r.match(line) for r in DISASM_RES):
+            run += 1
+            if run > best:
+                best = run
+        else:
+            run = 0
+    return best, True
+
+
 def main(argv):
     if "--paths" in argv:
         files = argv[argv.index("--paths") + 1:]
     else:
         files = tracked_files()
-    prefixes, globs = purge_rules()
+    p_prefixes, p_globs = read_rules(PURGE, "purge")
+    u_prefixes, u_globs = read_rules(UNTRACKED_AFTER, "untracked-after-rewrite")
     hashes, n_manifest, n_checks = rom_hashes()
     offenders = []
-    n_hashed = 0
+    n_hashed = n_text = 0
+    top_runs = []
     for rel in files:
         p = REPO / rel
-        rule = under_purge(rel, prefixes, globs)
+        rule = under_rules(rel, p_prefixes, p_globs)
         if rule:
             offenders.append((rel, f"purge path ({rule})"))
+        rule = under_rules(rel, u_prefixes, u_globs)
+        if rule:
+            offenders.append((rel, f"untracked-after-rewrite path ({rule})"))
         if not p.is_file():          # a submodule gitlink or a file deleted in the worktree — nothing to hash
             continue
         size = p.stat().st_size
@@ -122,9 +168,19 @@ def main(argv):
         n_hashed += 1
         if h in hashes:
             offenders.append((rel, f"ROM-derived content: sha1 == {hashes[h]}"))
+        run, is_text = longest_disasm_run(p)
+        if is_text:
+            n_text += 1
+            if run:
+                top_runs.append((run, rel))
+            if run >= RUN_CAP:
+                offenders.append((rel, f"disassembly-shaped content: {run} contiguous lines (cap {RUN_CAP})"))
+    top_runs.sort(reverse=True)
     print(f"audit_public: {len(files)} tracked paths, {n_hashed} files hashed against {len(hashes)} ROM hashes "
           f"({n_manifest} manifest rows + {n_checks} check.*.sha + redump), "
-          f"{len(prefixes) + len(globs)} purge rules, cap 50 MiB")
+          f"{len(p_prefixes) + len(p_globs)} purge rules + {len(u_prefixes) + len(u_globs)} untracked-after-rewrite rules, "
+          f"cap 50 MiB; {n_text} text files scanned for disassembly runs (cap {RUN_CAP} lines), "
+          f"longest runs: {', '.join(f'{r} {p}' for r, p in top_runs[:3]) or 'none'}")
     if offenders:
         for rel, why in offenders:
             print(f"  OFFENDER {rel}: {why}")

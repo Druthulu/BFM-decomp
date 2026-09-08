@@ -6,6 +6,8 @@ Usage: judge.py [arms...]   (default haiku sonnet opus ds)"""
 import sys, os, json, glob, subprocess, shutil, time
 REPO = '/home/musashi/bfm-decomp'; os.chdir(REPO)
 WAVEDIR = os.environ.get('WAVE', '.run/t4')   # the wave's dir: <WAVEDIR>/targets.json, <WAVEDIR>/<arm>/<fn>.c
+                                              # (.run/t4 is the P31 S62 model-ladder probe — untracked since P33.5, on the
+                                              # maintainer's disk only; pass WAVE=<your wave dir> on a fresh clone)
 sys.path.insert(0, 'tools'); import corpus
 UNION = '--union' in sys.argv
 ARMS = [a for a in sys.argv[1:] if not a.startswith('--')] or ['haiku', 'sonnet', 'opus', 'ds']

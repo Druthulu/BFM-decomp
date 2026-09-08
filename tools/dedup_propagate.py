@@ -111,7 +111,7 @@ def overlay_files(ov):
     # dedup_propagate (source_text / find_site / apply_plan / struct_check / reconcile_caller_extern).
     # 435 of ov_SC01_077's 689 inline defs were invisible to --auto-from.
     #
-    # It is also WHY the 4 functions in .run/audit/a1_harvest_fuel.json were never propagated: three
+    # It is also WHY the 4 functions in .run/audit/a1_harvest_fuel.json (untracked since P33.5) were never propagated: three
     # of them are defined in ov_SC01_077_jr_8012ACE0.c, which this list could not see. The dedup group
     # was registered anyway and dedup_integrate greenlit the lie (A1). Two silent-skip bugs compounding.
     #

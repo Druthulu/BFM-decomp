@@ -1,0 +1,17 @@
+# tools/public_rewrite/untracked_after_rewrite.txt — paths UNTRACKED AFTER the public history rewrite without a
+# second rewrite (audit-only; P33.5 task 8, owner decision 2026-09-07). Read by tools/audit_public.py check 1
+# alongside purge_set.txt, in the same filter-repo syntax (a bare line is a path prefix, `glob:` a glob; `#`
+# comments and blank lines ignored).
+#
+# WHY A SEPARATE FILE: purge_set.txt is also the history CENSUS that tools/public_rewrite/gate_scan.py checks
+# every reachable revision against ("nothing under these rules exists anywhere in history"). A rule added here
+# instead says: this path was tracked when the rewrite ran, still exists in the published history by decision,
+# and must never be tracked AGAIN. Adding it to purge_set.txt would make the history gate red forever.
+#
+# The two listings below (398/399 lines of one matched function's disassembly, .run/giants/fable_cd4/) were found by
+# the Phase-33.5 audit after the force-push. Decision (Drew, 2026-09-07): untrack, list here, add the content check
+# (audit_public check 4) so the class is caught from now on; do NOT rewrite history a second time for 8 KB that the
+# tracked C and the pinned compiler already reproduce, at the cost of another set of old tips for the host to purge.
+# Recorded on the wiki page docs/wiki/The-ROM-firewall.md ("The one recorded residue") and in
+# docs/public-flip-runbook.md §11.
+glob:.run/giants/fable_cd4/*_full.txt

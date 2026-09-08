@@ -1,6 +1,0 @@
-  CC      build/src/md_MAIN_007/md_MAIN_007.o
-  LD      build/md_MAIN_007/md_MAIN_007.elf
-mipsel-linux-gnu-ld: build/src/md_MAIN_007/md_MAIN_007.o: in function `func_800CF068':
-src/md_MAIN_007/md_MAIN_007.c:(.text+0x240): undefined reference to `D_800CEDFC'
-mipsel-linux-gnu-ld: src/md_MAIN_007/md_MAIN_007.c:(.text+0x244): undefined reference to `D_800CEDFC'
-make: *** [Makefile:852: build/md_MAIN_007/md_MAIN_007] Error 1

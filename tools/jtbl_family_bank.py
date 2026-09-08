@@ -377,7 +377,7 @@ def _bank(func, from_ov, from_addr, to_ov, to_addr):
         # recorded NOTHING, so every caller saw a bare "gate-fail" with no payload and the failure was
         # unroutable. (Measured: wave 6's 13 sibling failures could not be classified at all.) A tool
         # that reports an outcome without the evidence that routes it is the defect class this session
-        # fixed in harvest_verify.classify_fail and .run/s6f_gate.py; this is the third instance.
+        # fixed in harvest_verify.classify_fail and .run/s6f_gate.py (untracked since P33.5); this is the third instance.
         _out = (b.stdout or "") + (b.stderr or "")
         _hard = [l.strip() for l in _out.splitlines()
                  if ("undefined reference" in l or "multiple definition" in l

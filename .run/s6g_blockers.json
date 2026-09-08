@@ -1,6 +1,0 @@
-{
- "func_80189B78": "src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:3177: conflicting types for `func_801788B8' || src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:2527: previous declaration of `func_801788B8' || src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:3178: conflicting types for `func_8012C658' || src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:2524: previous declaration of `func_8012C658'",
- "func_8018584C": "src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:4294: conflicting types for `D_800A5E88' || src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:4275: previous declaration of `D_800A5E88' || make: *** [Makefile:579: build/src/ov_SC02_026/ov_SC02_026_jr_8017C180.o] Error 33",
- "func_80180A4C": "src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:3704: conflicting types for `D_801A9DA0' || src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:3669: previous declaration of `D_801A9DA0' || make: *** [Makefile:579: build/src/ov_SC02_026/ov_SC02_026_jr_8017C180.o] Error 33",
- "func_8017CC80": "make: *** [Makefile:579: build/src/ov_SC02_027/ov_SC02_027_jr_8017AE2C.o] Error 33"
-}

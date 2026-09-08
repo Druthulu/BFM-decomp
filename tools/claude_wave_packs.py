@@ -13,7 +13,8 @@ in wave t5a it mis-carded 48 of 48 targets, and nine agents independently report
 warm-start/twin/decl hints were a different function". A card whose binary does not match the
 target is DROPPED and counted, never silently substituted (R32/R43).
   targets.json: [{name, binary, nins, sub, asm, tu}, ...]   (api_agent's target shape; see
-                tools/main_queue_rebuild.py / .run/t4/targets.json for how to derive one from corpus)
+                tools/main_queue_rebuild.py / .run/t4/targets.json for how to derive one from corpus —
+                .run/t4 is untracked since P33.5, maintainer's disk only)
   out_dir/SYS.md + out_dir/packs/<fn>.md are produced; the workflow script
   tools/workflows/claude_wave_draft.js points its agents at them (edit REPO/paths at the top).
 Then: Workflow(scriptPath=tools/workflows/claude_wave_draft.js, args={targets:[{name,binary,nins,sub}...]})

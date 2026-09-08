@@ -1,4 +1,0 @@
-[twin_rescan] 33 open stub(s) scanned; 5 have a banked twin at d<=5
-[twin_rescan] NEWLY FREE since the last snapshot: 0
-  (nothing new — the last bank did not unlock a sibling)
-[twin_rescan] snapshot written to .run/twin_rescan.snapshot.json

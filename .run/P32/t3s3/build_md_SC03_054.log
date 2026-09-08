@@ -1,6 +1,0 @@
-  CC      build/src/md_SC03_054/md_SC03_054.o
-jtbl_rodata_pads --derive md_SC03_054: 0,0t1,0t1,0t1,0t1,0t1,0
-  LD      build/md_SC03_054/md_SC03_054.elf
-  OBJCOPY build/md_SC03_054/md_SC03_054
-[ OK ] build/md_SC03_054/md_SC03_054
-       sha1 06bd73dfbdb10748adcbac7093ead5d76131206a == config/check.md_SC03_054.sha  (BYTE-IDENTICAL)

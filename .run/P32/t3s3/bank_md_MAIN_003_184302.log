@@ -1,8 +1,0 @@
-  CC      build/src/md_MAIN_003/md_MAIN_003.o
-src/md_MAIN_003/md_MAIN_003.c: In function `func_800CFC1C':
-src/md_MAIN_003/md_MAIN_003.c:582: warning: return makes integer from pointer without a cast
-src/md_MAIN_003/md_MAIN_003.c:666: warning: return makes integer from pointer without a cast
-  LD      build/md_MAIN_003/md_MAIN_003.elf
-  OBJCOPY build/md_MAIN_003/md_MAIN_003
-[ OK ] build/md_MAIN_003/md_MAIN_003
-       sha1 dd1b32ecf1103c6f7cf1943d25546a3046e17b14 == config/check.md_MAIN_003.sha  (BYTE-IDENTICAL)

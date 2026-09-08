@@ -245,6 +245,16 @@ rewritten history (nothing else exists to lose — the archive repo and the bund
 (README, LICENSE, NOTICE, THIRD_PARTY, badges), E and F have landed on the still-private repo. Then D3's outward actions
 (frogress slug, decomp.dev registration), E1 (the decomp.me preset — Drew's six steps are in `docs/decompme-preset.md` §5 and the phase checkpoint §3; bundle `.run/decompme/drew_bundle/`), E2 (the Archipelago message), F3 (the wiki push: create the first page in the GitHub UI — Wiki → "Create the first page" — then `tools/wiki_sync.sh --push`; the pages are authored in `docs/wiki/` + `docs/how-to-ai-decomp/` and the script replaces the wiki's pages with the rendered set).
 
+**The one recorded residue (P33.5 task 8, 2026-09-07).** After the force-push, the Phase-33.5 audit found two tracked
+notes files under `.run/giants/fable_cd4/` (`mine_full.txt`, `target_full.txt`: 398 and 399 lines of one matched
+function's disassembly, re-included by a `*.txt` allow-list line) — class 3 of the firewall, invisible to a path-and-hash
+audit. Owner decision: untrack them, list them in `tools/public_rewrite/untracked_after_rewrite.txt` (an audit-only
+sibling of the purge set — the purge set is also `gate_scan.py`'s history census, so adding a rule there without a
+rewrite would make the history gate red forever), and add `audit_public.py` check 4 (a contiguous run of
+disassembly-shaped lines, threshold 64) so the class is caught from now on; **no second rewrite** for 8 KB that the
+tracked C and the pinned compiler reproduce, at the cost of another set of old tips for Support to purge. The residue
+exists in the published history and is named on the wiki page *The ROM firewall*.
+
 **Drew's post-flip checklist (consolidated S89, 2026-09-07):** (0) probe daily until PASS; push; Actions green → (1) the flip + `--after-flip`
 probe + enable Wikis → (2) E1: `docs/decompme-preset.md` §5 (scratch → 100% → preset-request issue → manual search) → (3) E2: the issue in
 `docs/outreach/archipelago.md` §4 → (4) D3 outward: decomp.dev `manage/new`, frogress slug `bfm` + key, `frogress_upload.py --push` →

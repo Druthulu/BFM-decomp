@@ -73,6 +73,9 @@
 !/.run/giants/fable_cd4/*.sh
 !/.run/giants/fable_cd4/*.gdb
 !/.run/giants/fable_cd4/*.txt
+# P33.5 task 8: the two full disassembly listings of func_80133CD4 are ROM-derived (class 3 of the firewall) and were
+# untracked; they stay in the published history by owner decision (tools/public_rewrite/untracked_after_rewrite.txt).
+/.run/giants/fable_cd4/*_full.txt
 
 # Phase-26 gdb-on-cc1 oracle harness + proof + draft ladder for func_80178004 (the
 # distilled output of a 477k-token Fable5 pass; the method §52 lever 6 depends on).
@@ -269,7 +272,11 @@ unsloth_compiled_cache/
 /.run/P32/t3s3/*
 !/.run/P32/t3s3/*.sh
 !/.run/P32/t3s3/*.py
-!/.run/P32/t3s3/*.log
+# P33.5 task 8: of the session's 41 root logs only the three the PhaseEnd cites stay tracked (the R22 runs); the
+# bank_*/report/tools-health logs of a finished session are regenerable evidence and were untracked (still on disk)
+!/.run/P32/t3s3/r22_check.log
+!/.run/P32/t3s3/r22_full.log
+!/.run/P32/t3s3/r22b_full.log
 !/.run/P32/t3s3/*.txt
 !/.run/P32/t3s3/prompts/
 !/.run/P32/t3s3/gate/
@@ -294,6 +301,9 @@ unsloth_compiled_cache/
 !/.run/P32/t4b/func_*/*.md
 !/.run/P32/t4b/func_*/*.c
 !/.run/P32/t4b/*.log
+# P33.5 task 8: the uncited duplicate close-report logs of this step were untracked (the cited copies live under t4d/t4e)
+/.run/P32/t4b/report_close.log
+/.run/P32/t4b/report_main_close.log
 !/.run/P32/t5x/
 /.run/P32/t5x/*
 !/.run/P32/t5x/BRIEF.md
@@ -324,6 +334,9 @@ unsloth_compiled_cache/
 !/.run/P32/t4d/*.c
 !/.run/P32/t4d/*.md
 !/.run/P32/t4d/*.log
+# P33.5 task 8: uncited duplicates untracked (report_close.log and tools_health.log here ARE cited and stay)
+/.run/P32/t4d/audit_disc.log
+/.run/P32/t4d/report_main_close.log
 !/.run/P32/t4d/bank/
 /.run/P32/t4d/bank/*
 !/.run/P32/t4d/bank/*.c
@@ -348,6 +361,8 @@ unsloth_compiled_cache/
 !/.run/P32/t4e/*.c
 !/.run/P32/t4e/*.md
 !/.run/P32/t4e/*.log
+# P33.5 task 8: the uncited duplicate untracked (r22_*.log, report_close.log and tools_health.log here are cited and stay)
+/.run/P32/t4e/report_main_close.log
 !/.run/P32/t4e/*.json
 !/.run/P32/t4e/*.sh
 !/.run/P32/t4e/*.py
