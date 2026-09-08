@@ -1,0 +1,6 @@
+https://github.com/Druthulu/BFM-decomp -> 200
+https://raw.githubusercontent.com/Druthulu/BFM-decomp/main/docs/badges/fleet_instr.json -> 404
+https://github.com/Druthulu/BFM-decomp/actions/workflows/no-rom.yml/badge.svg -> 200
+https://github.com/Druthulu/xsig -> 200
+raw plain URL re-check -> 200
+shields endpoint -> 200, title 'matched (instructions): 100.0%'

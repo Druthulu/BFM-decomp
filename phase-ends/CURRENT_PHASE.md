@@ -41,7 +41,7 @@ bundle and dictionary are deleted at C11) and a public fresh-clone re-proof (B3'
 ## Tasks (strict order; one commit per task after this file is updated; harness task list = the same rows, R28 — 10 at gate 1)
 - [x] **0a** Open the phase: this file, R84–R95 into DIGEST §3 (+ one §0 line), the `.run/P34/` evidence allowlist, TaskCreate ×10, `doc_links --strict` 0/0, commit — xHigh (Claude)
 - [x] **0** The probe once more: `tools/public_rewrite/probe_github.sh | tee .run/P34/probe/pre_flip.log` → PASS, control OK, no WARNING — Low (Claude)
-- [ ] **1** C10 — the flip (Drew, Max) + post-flip checks, metadata, ruleset, Actions green on the public repo (Claude, Low)
+- [x] **1** C10 — the flip (Drew, Max) + post-flip checks, metadata, ruleset, Actions green on the public repo (Claude, Low)
 - [ ] **2** E1 — decomp.me: scratch → 100% → preset-request issue → manual search (Drew, xHigh); recorded in SETUP §6.5 + ledger row 14 (Claude)
 - [ ] **3** E2 — the Archipelago issue (Drew, xHigh); URL recorded; §5 reply handling pending unless a reply arrives (Claude)
 - [ ] **4** D3 — decomp.dev registration + frogress slug/key/push (Drew, xHigh); verified by curl (Claude) → **P6 rules check after this task**
@@ -81,7 +81,25 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   Same 33 hashes as the S91 run (`.run/P33.5/probe_github_s91.log`). **The gate is open at the moment of the flip.** Log committed
   (allowlisted `.run/P34/probe/*.log`).
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0 ✓; NEXT = task 1 (the flip — DREW's action, then Claude's checks)
+### 2026-09-08 — Task 1 — C10: the flip + the post-flip checks, metadata, ruleset (Drew: Max decision; Claude: checks; S93)
+- **Drew flipped the repository PUBLIC** (Settings → Danger Zone → Change visibility; reported "flipped" 2026-09-08 ~11:25 MDT).
+- Checks (`.run/P34/flip/`, `.run/P34/probe/after_flip.log`): `gh api repos/Druthulu/BFM-decomp` → `"private":false,"visibility":"public"`;
+  `Druthulu/BFM-decomp-archive` → `"private":true` (still private); **`probe_github.sh --after-flip` → PASS, 33 `gone` of 33, 0 ALIVE
+  (incl. the unauthenticated `/commit/<7>` pages), control `eb342dc9f` OK, exit 0.** Unauthenticated URLs (404/404/404/200 while
+  private): repo page **200**, `no-rom` badge.svg **200**, xsig 200; the raw badge JSON read **404 on the first try** — the Fastly
+  negative cache from the private era (`cache-control: max-age=300`, `x-cache: HIT`), NOT the repository: the same URL with a cache-buster
+  → 200, the unauthenticated API contents endpoint → 200, the shields endpoint → 200 rendering `matched (instructions): 100.0%`, and the
+  plain URL re-checked after the cache turned over → **200** (R40: the instrument was exonerated before the subject was blamed).
+- Writes on Drew's word (decision 2/4): `gh repo edit … --enable-wiki --description "Matching decompilation of Brave Fencer Musashi (PS1,
+  SLUS-00726): 218 binaries rebuild byte-identical from C" --homepage https://github.com/Druthulu/BFM-decomp/wiki` + 7 topics → verified
+  `has_wiki:true`, topics `[brave-fencer-musashi, decompilation, mips, playstation, psx, psyq, reverse-engineering]`. Ruleset
+  **`protect-main` id 22564862** (target branch `~DEFAULT_BRANCH`, rules `deletion` + `non_fast_forward`, enforcement active,
+  `bypass_actors: []`, `current_user_can_bypass: never`) — a future history rewrite needs the ruleset edited/deleted FIRST; a
+  fast-forward push and a tag push are unaffected.
+- **Open until Drew pushes:** both workflows green on the PUBLIC repo (`gh run list --limit 2` after the push of commits 0a / 0 / 1) —
+  recorded as an addendum commit to this task, never claimed unseen (P9).
+
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1 ✓ (task 1's Actions-green line pending Drew's push); NEXT = the Actions check, then task 2 (E1 decomp.me — DREW)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything

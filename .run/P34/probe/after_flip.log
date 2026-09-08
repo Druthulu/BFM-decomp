@@ -1,0 +1,36 @@
+probe: Druthulu/BFM-decomp — 33 old hashes (every 134th of 4031 + pruned + tag tip); fetch check in /home/musashi/bfm-decomp/.run/public_rewrite/probe_scratch.git
+  gone  296ff5551ba71269972e708031b52e9cf39bc782
+  gone  bf022dd4822e7a304932e7f070cb40bc2c18c652
+  gone  2eb628650fb622cc312cb176536c4e436de485ba
+  gone  4d3147f73dbea38e49a51cef1e3598ffedf2347a
+  gone  78444d1ad17c09d158b75c1a2ebfee0233f44121
+  gone  d952a74027948f7972f461351bd012a60af23b1b
+  gone  c64ace261f7c14c6302b8c7eb73ccce976ea1c70
+  gone  848ce75f00c1618557cf60984faf645bb24b00be
+  gone  b826d6fd2bbcc7e7469ec2011fa99977347bf320
+  gone  c87a673262cc64754e6112ef2fc83c6ea5dd6d19
+  gone  a878a1fe84633a6e745f8b404407f5f79ac89205
+  gone  efd12107f8841f7464f6fd7d15fbca9e276aff4d
+  gone  5f24e5c17a5a0196aefc73bca3b66166ab4d9b52
+  gone  f87d238ea7d4128519210b43489d4343077823b9
+  gone  7cae37d537415a8e361d784c981e3af9044f0d83
+  gone  c1f41dea0081b5a922565066971f4b774c5f7a59
+  gone  646d01bed65833877bb953a3ce5f24521a0ccfd5
+  gone  be0fb2bee0462686fa8ce5563746e33f9511e2cf
+  gone  8c465e0e91be0f06b452723c954317433e3e0915
+  gone  1bce1134ae8752fdab5d6986b38d57233ed89c6e
+  gone  e26c6a01cb5bf4209a20d9b448541d245ccb5fb9
+  gone  e7e4e65bee8e73eeee900678cacea8bf1afbb540
+  gone  d0cfb7630557f8a4312a085f33e3935ff12bf37d
+  gone  ceba649f9c35433922164d3181b6f066e209a7d9
+  gone  34dc0c2e73f31c645fff8149c68dbe5b1cc51f16
+  gone  7d477483b82495bd09dee15e244a278240d46546
+  gone  7e40cf3b513300a523fd6d194ae25168ed2b4576
+  gone  f5ecfdc21d5d07c2628fb1c150b356ff43b279fe
+  gone  ad03b5364866cea95c7ae2898d99d0fc77455e5c
+  gone  f4e77ef54d912e22556b1272e31aa5781e14c085
+  gone  8bfe3e3ac80c15744c262c6d796f05a57e6310d5
+  gone  4d5b6340cfb19bf729e8d8ade3b82bfed1e3ad91
+  gone  89eefe11933eb78b2b3c1f210d2c6131fa7e4421
+  control: current main eb342dc9fe0935b8c9743f9245b08dd16f875b67 resolves (OK)
+probe: PASS — every sampled old hash is gone from Druthulu/BFM-decomp
