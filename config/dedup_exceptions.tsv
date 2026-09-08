@@ -1,0 +1,10 @@
+# config/dedup_exceptions.tsv — the S1 exception ledger (Phase 35): a byte-identical class with >=2 instances that does NOT share
+# one source, with the MEASURED reason. Read by tools/share_census.py --check; one row per h_exact class. Reason codes:
+#   JTBL-CARVE   a member's body owns a jump-table carve that the shared form cannot carry
+#   O0-LOCAL     a member lives in a per-binary -O0 split translation unit
+#   TU-CONFLICT  the chosen text is refused by a member's translation unit (a conflicting declaration)
+#   GATE-REJECT  the chosen text compiled but the member's binary did not stay byte-identical (the compiler message class in note)
+#   PINNED       every candidate text carries register pins and sharing would spread them (Phase 36's work)
+#   CROSS-SPACE  instances in different address spaces (deferred with the cross-address classes)
+# A row is evidence, not a shrug: note names the tool run and the message. Empty at the phase's open (2026-09-08).
+h_exact	reason	nins	instances	note

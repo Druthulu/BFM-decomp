@@ -1,0 +1,3 @@
+# unaccounted sig instances (alias:addr:name:nins)
+# instances with >=2 non-stub forms
+# unresolved (non-func_, not in the binary's symbol stack) definition/site names
