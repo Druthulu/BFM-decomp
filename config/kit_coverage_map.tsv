@@ -45,10 +45,10 @@ rule	R85	DK-57	two DERIVED figures per check, never a typed one — DK-57 (numbe
 rule	R86	DK-66	a dry-run judge is an instrument, negative-controlled before a FAIL is believed — DK-66 (the instrument's own parts)
 rule	R87	G66	a tool ships with its dictionary row or the health check fails — G66 (the tool dictionary)
 rule	R88	DK-80	re-run the link checker after ANY untrack or archive move — DK-80 (checks that pass vacuously before an untracking)
-rule	R89	KIT:decomp-architect/SETUP.md	an unattended installer's manifest is a derivable SET — the kit's installer states it that way
-rule	R90	KIT:decomp-architect/templates/firewall.txt	transcripts kept in the repository need the firewall's class-7 line — the kit's firewall template carries it
+rule	R89	KIT:SETUP.md	an unattended installer's manifest is a derivable SET — the kit's installer states it that way
+rule	R90	KIT:templates/firewall.txt	transcripts kept in the repository need the firewall's class-7 line — the kit's firewall template carries it
 rule	R91	RECORD	a foreign project's path is named in prose, never as a backticked citation — a rule of this repository's link checker, not portable
 rule	R92	DK-69	a distillation ships with a coverage check against the populations it claims to distil — DK-69 (blind spots by construction)
-rule	R93	KIT:decomp-architect/corpus/record/README.md	the worklogs get one final read with an "already banked?" grep — the record's front page tells the next project so
+rule	R93	KIT:corpus/record/README.md	the worklogs get one final read with an "already banked?" grep — the record's front page tells the next project so
 rule	R94	DK-66	a snapshot instrument never .strip()s a porcelain listing — one of the judge's own false flags, DK-66
 rule	R95	DK-65	types are a banking lever and a width lever — DK-65 (and G62's bank-time clause)

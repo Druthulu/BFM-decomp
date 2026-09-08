@@ -1,0 +1,3 @@
+kit_coverage: rules R1..R95 — 57 cited by the registry seed's provenance lines, 38 dispositioned ({'ENV': 3, 'PA': 15, 'FOLDED': 2, 'KIT': 4, 'DK-68': 1, 'DK-66': 5, 'DK-22': 1, 'DK-67': 1, 'DK-57': 1, 'G66': 1, 'DK-80': 1, 'RECORD': 1, 'DK-69': 1, 'DK-65': 1}), 0 UNCOVERED
+kit_coverage: accelerators — 60 entries (headings + numbered items of docs/accelerators.md), 43 cited by kernel/registry provenance lines, 15 dispositioned ({'DK-25': 1, 'DK-31': 1, 'DK-26': 1, 'DK-20': 1, 'DK-12': 1, 'DK-19': 1, 'G38': 1, 'DK-35': 1, 'COOKBOOK': 1, 'DK-44': 1, 'DK-46': 1, 'DK-45': 1, 'DK-57': 1, 'DK-61': 1, 'G66': 1}), 0 UNCOVERED
+kit_coverage: OK
