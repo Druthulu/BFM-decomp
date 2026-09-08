@@ -3583,3 +3583,37 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
   row as part of adding a tool (a tool without a row fails the health check); the source project wrote 224 SETUP rows over thirty
   phases and still had 91 unreachable tools at the end. And decide "install vs corpus" on day one of a kit: the honest line is not
   "no tools" but "the proven tools as verbatim evidence with an index, and none installed as if they ran".
+
+## P33.5 S91-b (2026-09-07) — hindsight on types: a banking lever the project underweighted, not the byte lever it tested for (Drew's question; to be implemented in the kit)
+
+- **Context and belief.** Phase 16 believed the loose-typed engine core was blocked by missing types and signatures; Phase 17 tested it
+  and pivoted away: rich decompiler context (the recovered actor structure + the jump tables) scored **0 better / 10 same / 2 worse**
+  on the structural-miss sample, identical bytes — "struct/type recovery is a comprehension win, NOT a byte-match lever"
+  (`docs/struct-core-pivot.md`, 2026-06-19). Every wall after that was a compiler pass, read from the source (Phase 23) or moved by
+  source shape and width (Phase 32); the retrospective lists types as the red herring of Phases 16–17. That verdict was right for
+  cracking. The project then carried it into a second, unmeasured belief: that types could wait until after 100%.
+- **What the record says, read the other way.** (1) Banking, not cracking, was the bottleneck (≈92% of drafts byte-correct, ≈27% banked
+  at one measurement), and a large share of gate failures were DECLARATION conflicts — `s16` vs `u16`, one arity vs another, drafter-
+  invented struct variants; the tree ended with **1,232 struct definitions**, most of them variants of a few shapes, because each
+  drafting agent invented its types in isolation with no registry to draft against, and the reconcile ladder (declaration sync, callee
+  casts, canonical signatures, the type lifter) exists to repair exactly that. (2) The one place a type DOES touch bytes is width and
+  signedness — `lhu` vs `lh`, the `u16` CSE firewall (§501-R), the scaffold's ×4 pointer arithmetic, an object-table symbol declared `u8`
+  (§501-N) — and the permuter cannot change a type, so those near-misses were dial work until the width was right. (3) The post-100%
+  pile is the same debt seen from the end: the 1,232 → one-per-shape unification and the 143 raw address casts are artifacts of banking
+  without a canonical type layer; only NAMING genuinely needs after-the-fact observation (live RAM, strings, the debug menu).
+- **The corrected doctrine.** Types are a *banking* lever and a *width* lever, not a codegen lever. The achievable early form is a
+  discipline, not a census (a census needs many decompiled functions and the runtime oracle for meaning): **a canonical type file from
+  the first bank that grows one PROVEN field at a time — the width/signedness fixed by the bytes at bank time — with no draft allowed to
+  bank a duplicate definition of an existing shape or a raw address cast, and names only with evidence.** It costs a prototype/
+  duplicate-definition check per bank, removes most of the declaration-conflict class before a reconcile ladder is needed, lowers the
+  width class of near-misses on the first pass, and turns the post-100% unification into nothing. It would not have shortened one
+  compiler-pass crack.
+- **Hindsight path, as the kit's task (next session, task 14):** (a) a kernel **DK-65 "types are a banking lever, not a byte lever"**
+  with the Phase-17 measurement in its calibration fence and the declaration-conflict / 1,232-definition cost; (b) the ladder's **Phase 6
+  milestone** gains "the canonical type layer: one definition per shape, widths proven at bank time, a bank refused for a duplicate
+  definition or a raw address cast" (the multiplier that makes drafts bank), and Phase 10's row notes it is short when Phase 6 held;
+  (c) **G62 extended** (or a G68): "a canonical type file from the first bank; a draft may not bank a duplicate definition of an existing
+  shape or a raw address cast; a width is proven by the bytes, never guessed"; (d) the tool dictionary's need-keys for the type tools
+  (`lift_types`, `canon_sig_reconcile`, `sync_tu_decls`, `decl_prior`, `conform_decls`) point at Phase 6, not only Phase 10, and the
+  cookbook front page names the width class as the one place a type moves bytes; (e) the methodology's integration section states the
+  two-sided verdict in one paragraph. The source project's own Gen3 (Phase 35+) is the proof the kit will later cite.
