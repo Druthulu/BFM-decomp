@@ -96,10 +96,11 @@ output) · `.run/P34/c11/` (the prune listing with sizes, `git worktree list`, t
   **`protect-main` id 22564862** (target branch `~DEFAULT_BRANCH`, rules `deletion` + `non_fast_forward`, enforcement active,
   `bypass_actors: []`, `current_user_can_bypass: never`) — a future history rewrite needs the ruleset edited/deleted FIRST; a
   fast-forward push and a tag push are unaffected.
-- **Open until Drew pushes:** both workflows green on the PUBLIC repo (`gh run list --limit 2` after the push of commits 0a / 0 / 1) —
-  recorded as an addendum commit to this task, never claimed unseen (P9).
+- **Addendum (Drew pushed 2026-09-08 17:34Z; `origin/main == main == df055e36c`):** `gh run list` on the PUBLIC repo →
+  **`no-rom` run 34257901983 completed success** and **`progress` run 34257901996 completed success**, both on `df055e36c`, event push
+  (`.run/P34/flip/runs_after_push.txt`). Milestone item 1's Actions line is MET. Task 1 CLOSED.
 
-## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1 ✓ (task 1's Actions-green line pending Drew's push); NEXT = the Actions check, then task 2 (E1 decomp.me — DREW)
+## 🛑 SESSION CHECKPOINT — PHASE 34 OPEN (S93, 2026-09-08): tasks 0a, 0, 1 ✓ (public; Actions green); NEXT = task 2 (E1 decomp.me — DREW) — or task 5 (the wiki) first if Drew says so, the two are independent
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task above. Everything
