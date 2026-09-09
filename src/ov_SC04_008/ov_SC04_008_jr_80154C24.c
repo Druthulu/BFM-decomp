@@ -1218,47 +1218,7 @@ L_7b8:
 #include "../shared/ov/func_80155FF8.h"
 
 
-void func_80156044(int param_1, int param_2) {
-    extern u32 func_8015616C(s32 a0, u16 a1);
-    extern void func_80156670(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-    extern void func_801567BC(s32 a0);
-    extern void func_80156848(s32 a0, s32 a1, s32 a2);
-    extern void func_80156A88(s32 a0, s32 a1);
-    extern s32 func_801565C0(s32 a0);
-    extern u8 D_80180AEC;
-    extern u8 D_80180B00;
-    extern u8 D_80180984;
-
-    register s32 puVar2 __asm__("$2");
-    register s32 iVar3 __asm__("$3");
-    u8 *puVar4;
-    s32 uVar1;
-
-    if (((u32)param_2) & 0x10000) {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_80180AEC;
-    } else if (((u32)param_2) & 0x20000) {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_80180B00;
-    } else {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_80180984;
-    }
-    puVar4 = (u8 *)(iVar3 + puVar2);
-    uVar1 = func_8015616C(((s32)param_1), *(u16 *)puVar4) & 0xffff;
-    if (*(u8 *)(((s32)param_1) + 0x1a8) != 0) {
-        func_80156670(((s32)param_1), *(s32 *)puVar4, uVar1, *(s32 *)(puVar4 + 4),
-                      *(u8 *)(puVar4 + 0xA), *(u16 *)(puVar4 + 0x12));
-        if (*(u8 *)(puVar4 + 0x10) != 0) {
-            func_801567BC(((s32)param_1));
-        }
-        func_80156848(((s32)param_1), (s32)puVar4, uVar1);
-        func_80156A88(((s32)param_1), (s32)puVar4);
-        if (func_801565C0(((s32)param_1)) != 0) {
-            *(u8 *)(((s32)param_1) + 0x1c0) = 1;
-        }
-    }
-}
+#include "../shared/ov/func_80156044__8f5b4545.h"
 
 
 #include "../shared/ov/func_8015616C.h"
@@ -1443,19 +1403,7 @@ extern s32 func_801725A4(u8 *a0);
 extern u8 D_800D5128;
 extern u8 D_80180DB0;
 
-void func_801578C0(s32 param_1)
-{
-    ((void (*)(void))func_80156648)();
-    *(u8 *)(param_1 + 0x1AA) = 9;
-    func_80154274((s32 *)param_1, (s32)&D_800D5128);
-    ((void (*)(s32 *, s32))func_80154A74)((s32 *)param_1, 0x15);
-    func_80147324(0xC20);
-    ((void (*)(s32 *, s32))func_80146DB8)((s32 *)param_1, (s32)&D_80180DB0);
-    ((void (*)(s32, s32 *, s32, s32))func_80146994)(4, (s32 *)param_1, 7, 0);
-    ((void (*)(s32, s32 *, s32, s32))func_80146994)(5, (s32 *)param_1, 9, 0);
-    ((void (*)(s32 *))func_80146CA0)((s32 *)param_1);
-    ((void (*)(s32 *))func_801725A4)((s32 *)param_1);
-}
+#include "../shared/ov/func_801578C0__5437498e.h"
 
 
 
@@ -1488,44 +1436,7 @@ extern s32 func_801725A4(u8 *a0);
 extern unsigned char D_800D5178;
 extern unsigned char D_80180DC0;
 
-void func_8015795C(int param_1)
-{
-    int frame_pad[4]; /* dead 16-byte local: forces target's 0x30 frame (vars=16); never referenced */
-    int iVar1;
-    unsigned int uVar2;
-
-    *(unsigned int *)(param_1 + 0x44) = *(unsigned int *)(param_1 + 0x44) | 2;
-    ((int (*)(int, int))func_80147A10)(param_1, 0x400);
-    if (*(int *)(param_1 + 0x2c) >= 0) {
-        *(int *)(param_1 + 0x2c) = 0;
-    }
-    func_80147A84(param_1);
-    ((void (*)(int))func_801473EC)(param_1);
-    func_80148038(param_1, 0x1a000);
-    func_80147460(param_1);
-    iVar1 = ((int (*)(int))func_8014ED28)(param_1);
-    if (iVar1 != 0) {
-        func_80146D90(param_1);
-    }
-    uVar2 = ((int (*)(int))func_80161450)(param_1);
-    if ((uVar2 & 5) != 0) {
-        func_80157A8C(param_1);
-        ((void (*)(int, int))func_80146E90)(param_1, 8);
-        ((void (*)(int))func_80146CA0)(param_1);
-    }
-    if (uVar2 == 0) {
-        ((void (*)(int, int))func_80155FF8)(param_1, *(unsigned char *)(param_1 + 0x1aa));
-        if (*(unsigned char *)(param_1 + 0x1c0) != 0) {
-            func_80154A74(param_1, 0x17);
-            ((void (*)(int, void *))func_80154274)(param_1, &D_800D5178);
-            ((void (*)(int, void *))func_80146DB8)(param_1, &D_80180DC0);
-            ((void (*)(int, int))func_801477E8)(param_1, 0xfff40000);
-            *(short *)(param_1 + 2) = 4;
-        }
-        ((void (*)(int))func_801725A4)(param_1);
-    }
-    return;
-}
+#include "../shared/ov/func_8015795C__5c731fbc.h"
 
 
 #include "../shared/ov/func_80157A8C.h"
@@ -1677,42 +1588,7 @@ extern int func_80155FF8(int arg, int a1);
 extern u8 D_80180DF4;
 extern u8 D_800D533C;
 
-void func_80158434(s32 param_1)
-{
-    u32 uVar1;
-    u32 uVar2;
-    s32 frame_pad[4];
-    (void)&frame_pad;
-
-    *(u32 *)(param_1 + 0x44) = *(u32 *)(param_1 + 0x44) | 2;
-    if ((*(u16 *)(param_1 + 0xB8) & 0x4000) != 0) {
-        *(s32 *)(param_1 + 0x234) = *(s32 *)(param_1 + 0x234) + 1;
-        ((s32 (*)(void))func_8014CBF8)();
-        ((void (*)(s32))func_801474EC)(param_1);
-        ((void (*)(s32, s32))func_801477E8)(param_1, 0xFFFA0000);
-        ((void (*)(s32, s32))func_80146DB8)(param_1, (s32)&D_80180DF4);
-    }
-    if (*(s32 *)(param_1 + 0x234) != 0) {
-        func_80148038(param_1, 0x10000);
-        func_80147460(param_1);
-        func_80147AD4(param_1, 0, 0, 0);
-        ((void (*)(s32))func_801473EC)(param_1);
-    }
-    uVar1 = ((s32 (*)(s32, s32))func_801615C4)(param_1, 0);
-    if (uVar1 != 0) {
-        if (uVar1 == 1) goto LAB_80158508;
-        uVar2 = uVar1 & 0x2000;
-    } else {
-        uVar2 = func_80146E98(param_1);
-    }
-    if (uVar2 == 0) goto LAB_80158528;
-LAB_80158508:
-    ((void (*)(s32, s32))func_80154274)(param_1, (s32)&D_800D533C);
-    ((void (*)(s32))func_80146CA0)(param_1);
-    return;
-LAB_80158528:
-    ((void (*)(s32, s32))func_80155FF8)(param_1, *(u8 *)(param_1 + 0x1AA));
-}
+#include "../shared/ov/func_80158434__cf490e3d.h"
 
 
 #include "../shared/ov/func_80158548.h"

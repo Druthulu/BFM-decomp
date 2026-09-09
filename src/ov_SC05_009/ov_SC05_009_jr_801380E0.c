@@ -1045,45 +1045,7 @@ void func_80138BE0(int p)
 
 extern s32 func_80139BE0(s32);
 
-s32 func_80138C60(s32 arg0)
-{
-    extern Q_80138C60 D_8017F094[];
-    u16 t;
-    u8 b;
-    s32 f;
-    s32 idx;
-
-    if (*(s32 *)(arg0 + 8) & 0x2000) {
-        return 1;
-    }
-
-    t = *(u8 *)(arg0 + 0x22) & 7;
-    *(s16 *)(arg0 + 0x18) = t;
-    if (t < 2) {
-        *(u8 *)(arg0 + 0x20) = 0;
-    }
-
-    f = *(s32 *)(arg0 + 8);
-    if (f & 0x40) {
-        *(u8 *)(arg0 + 0x22) = (*(u8 *)(arg0 + 0x22) & 0x67) | (f & ~0x67);
-    }
-
-    b = *(u8 *)(arg0 + 0x22);
-    if (b & 0x80) {
-        idx = (b & 0x18) >> 3;
-    } else {
-        idx = (b & 0x78) >> 3;
-        if (b & 0x60) {
-            *(s16 *)(arg0 + 0x1C) = 0;
-        }
-    }
-
-    *(Q_80138C60 *)(arg0 + 0x24) = D_8017F094[idx];
-
-    func_80139BE0(arg0);
-    func_80139C7C((u8 *)arg0);
-    return func_8013A8FC(arg0);
-}
+#include "../shared/ov/func_80138C60__2c7bdced.h"
 
 
 #include "../shared/ov/func_80138D58.h"
@@ -1121,66 +1083,7 @@ extern u8 D_8017F10C;
 extern u8 D_8017F150;
 extern void GsSortSprite(void *a0, u8 *a1, s32 a2);
 
-void func_801397B0(s32 arg0)
-{
-    register u8 *e __asm__("$7");
-    register s32 off __asm__("$4");
-    s32 buf[12];
-    u8 *b164;
-    u8 *b1A8;
-    s32 sc;
-    s32 t2;
-    s32 t0;
-    s32 hi;
-    s32 lo;
-    s32 uu;
-    s32 vv;
-
-    e = (u8 *)arg0;
-    b164 = (u8 *)&D_8017F10C;
-    off = ((s32)*(u8 *)(e + 0x20) - 1) << 2;
-    b164 = off + b164;
-
-    *(s32 *)((u8 *)buf + 0x00) = 0;
-
-    t2 = *(s16 *)(b164 + 2);
-    t0 = *(s16 *)(b164 + 0);
-    hi = (t2 & 0x100) >> 4;
-    lo = ((t0 & 0x3C0) >> 6) | 0x20;
-    *(s16 *)((u8 *)buf + 0x0C) = hi | lo | ((t2 & 0x200) << 2);
-
-    b1A8 = (u8 *)&D_8017F150 + off;
-    *(s16 *)((u8 *)buf + 0x10) = *(u16 *)(b1A8 + 0);
-    *(s16 *)((u8 *)buf + 0x12) = *(u16 *)(b1A8 + 2);
-    *(u8 *)((u8 *)buf + 0x16) = 0x80;
-    *(u8 *)((u8 *)buf + 0x15) = 0x80;
-    *(u8 *)((u8 *)buf + 0x14) = 0x80;
-    *(s16 *)((u8 *)buf + 0x06) = *(u16 *)(e + 0x32);
-    *(s16 *)((u8 *)buf + 0x08) = 0x20;
-    *(s16 *)((u8 *)buf + 0x0A) = 0x28;
-
-    uu = (*(u16 *)(b164 + 0) & 0x3F) << 2;
-    *(u8 *)((u8 *)buf + 0x0E) = uu;
-    vv = *(u16 *)(b164 + 2);
-    *(u8 *)((u8 *)buf + 0x0F) = vv;
-
-    if (*(u8 *)(e + 0x22) & 8) {
-        *(s16 *)((u8 *)buf + 0x04) =
-            *(u16 *)(e + 0x30) + *(u16 *)(e + 0x34) + 0x28;
-        sc = -*(u16 *)(e + 0x28);
-    } else {
-        *(s16 *)((u8 *)buf + 0x04) = *(u16 *)(e + 0x30) - 0x28;
-        sc = *(u16 *)(e + 0x28);
-    }
-    *(s16 *)((u8 *)buf + 0x1C) = sc;
-    *(s16 *)((u8 *)buf + 0x1E) = *(u16 *)(e + 0x2A);
-    *(s16 *)((u8 *)buf + 0x1A) = 0;
-    *(s16 *)((u8 *)buf + 0x18) = 0;
-    *(s32 *)((u8 *)buf + 0x20) = 0;
-
-    GsSortSprite(buf, &D_800A6518[(u16)D_800B9A02 * 20],
-                 *(u16 *)(e + 0x1A));
-}
+#include "../shared/ov/func_801397B0__ff08ee75.h"
 
 
 #include "../shared/ov/func_80139914.h"
@@ -1218,37 +1121,7 @@ void func_801397B0(s32 arg0)
  * unprovable"), §17 (pins/barriers).
  */
 
-s32 func_80139BE0(int param_1)
-{
-
-    extern unsigned char D_8017F090[];
-    int v;
-
-    if ((*(unsigned int *)(param_1 + 8) & 0x2000) == 0) {
-        int t = *(unsigned char *)(param_1 + 0x22) & 0x60;
-        int h = *(unsigned short *)(param_1 + 0x18);
-        unsigned int idx;
-
-        __asm__("" : "=r"(t) : "0"(t));
-        idx = (unsigned char)t;
-        if (h < 7) {
-            if (h >= 2) {
-                v = D_8017F090[idx >> 5];
-            } else {
-                v = D_8017F090[0];
-            }
-        } else {
-            v = D_8017F090[0];
-        }
-        *(short *)(param_1 + 0x2e) = 3;
-        *(short *)(param_1 + 0x2c) = v;
-    }
-    *(short *)(param_1 + 0x34) = *(short *)(param_1 + 0x2c) * 6;
-    {
-        int x = *(short *)(param_1 + 0x2e);
-        *(short *)(param_1 + 0x36) = x * 12 + (x - 1) * 2;
-    }
-}
+#include "../shared/ov/func_80139BE0__429047be.h"
 
 
 #include "../shared/ov/func_80139C7C.h"

@@ -1799,25 +1799,7 @@ extern void func_800190AC(void);
 extern void func_80141C04(void);
 
 
-void func_8013E5E8(void)
-{
-
-    extern u16 D_8011511E;
-    extern u16 D_8011511C;
-    extern unsigned short D_80115112;
-    extern u16 D_80115116;
-    extern void (*D_8017FE78[])(void);
-    register void (*fp)(void) __asm__("$2"); /* pin fn-ptr to $v0 -> store retires early */
-    func_80029444();
-    func_801754A8();
-    D_8011511E = func_80014ED4(0);
-    D_8011511C = func_80015018(0);
-    fp = D_8017FE78[D_80115112];
-    fp();
-    func_800190AC();
-    func_80141C04();
-    D_80115116 += 1;
-}
+#include "../shared/ov/func_8013E5E8__0b4494b1.h"
 
 
 #include "../shared/ov/func_8013E67C.h"
@@ -1842,40 +1824,7 @@ extern unsigned short D_80115112;
 extern void func_8013E83C(void);
 extern s32 func_80029504(void);
 
-void func_8013E6AC(void) {
-    short i;
-
-    func_8013E83C();
-    D_8011511A = 0;
-    D_80115124 = D_80078EC0;
-    for (i = 0; i < 8; i++) {
-        *(s16 *)((char *)&D_80115148 + (i << 1)) = 0;
-        D_80115140[i] = 0;
-    }
-    if (!((u32)func_80029504() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
-        register s32 *ep __asm__("$8");
-        register s32 *fp __asm__("$9");
-        fp = (s32 *)&D_80115110;
-        ep = (s32 *)&D_8017FE64;
-        for (i = 0; i < 5; i++) {
-            register s32 *fa __asm__("$6");
-            s32 v;
-            fa = (s32 *)(i * 4 + (s32)fp);
-            v = ep[i] * 3 >> 2;
-            fa[0x16] = v;
-            *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
-        }
-        D_8017FE3C = 2;
-        D_8017FE3E = 1;
-        { u16 *q = &D_80115112; *q += 1; }
-    } else {
-        func_8013E83C();
-        D_8011511A = 7;
-        D_8017FE3E = 0;
-        D_8017FE3C = 0;
-        D_80115112 = 6;
-    }
-}
+#include "../shared/ov/func_8013E6AC__55bb00e6.h"
 
 
 #include "../shared/ov/func_8013E814.h"
@@ -1945,40 +1894,7 @@ void func_8013E83C() {
 // to carry `i<<16` in $a0 exactly as the target does. Head (idx 0-31) already matched; i naturally
 // lands in $a2 from the goto-loop delay slots, driving the fp/ep/fa=$8/$7/$5 alloc with no pins.
 
-void func_8013E958()
-{
-    extern void func_8014AA28(void);
-    extern s32 func_800D0488(s32);
-    extern void func_80141C0C(s32);
-
-
-    s16 *p = &(*(s16*)&D_80115124);
-    s16 i;
-    s32 v;
-    s16 m;
-
-    D_800B9A15 = 0;
-    func_80139954();
-    if (D_80078EC0 != *p) {
-        func_8014AA28();
-        if ((D_80078EC0 & 0x7F) != 0) {
-            m = D_80078EC0 & 0x7F;
-            *p = m;
-            if (m == 0 || func_800D0488(m) == 0)
-                goto loop;
-        }
-    }
-    *p = 0;
-loop:
-    for (i = 0; i < 5; i++) {
-        s32 *q = &((s32 *)&D_80115110)[i];
-        v = ((s32 *)&D_8017FE64)[i] >> 6;
-        q[0x16] = v;
-        *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
-    }
-    func_80141C0C(7);
-    (*(u16*)&D_80115112) = 4;
-}
+#include "../shared/ov/func_8013E958__10b2e065.h"
 
 
 
@@ -2043,45 +1959,7 @@ extern unsigned char *func_80141CA4(void);
 
 
 
-s32 func_8013EE10() {
-    extern E4 aD80115188[] __asm__("D_80115188");
-    extern E4 D_80115168[];
-    extern unsigned short D_80115118;
-
-    short i;
-    u16 *p;
-    u16 old;
-    s16 *r;
-    u16 *c;
-    s32 sp10[2];
-
-    D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
-    func_8013FAF8(0, 5);
-    for (i = 0; i < 5; i++) {
-        s32 t = D_80115168[i].f0 * 3 >> 2;
-        aD80115188[i].f0 = t;
-        D_80115168[i].f0 = D_80115168[i].f0 - t;
-    }
-    r = &D_8017FE3E;
-    if (*r < 3) {
-        *r = *r + 1;
-    }
-    D_8017FE3C = (u16)D_8017FE3C + 2;
-    p = &D_80115118;
-    old = *p;
-    *p = old + 1;
-    if (old >= 5) {
-        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_8017FE40);
-        for (i = 0; i < 5; i++) {
-            s32 *q = (s32 *)((char *)p - 8);
-            *(s32 *)((char *)&q[i] + 0x78) = 0;
-            D_80115168[i].f0 = 0;
-        }
-        c = &D_80115112;
-        *c += 1;
-    }
-    (void)sp10;
-}
+#include "../shared/ov/func_8013EE10__1b85d9be.h"
 
 
 
@@ -2105,57 +1983,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern s32  func_800D0488(s16 a0);
 extern void func_800D2624(void);
 
-void func_8013EF88(void)
-{
-
-    extern u16 D_80115118;
-    extern E4  D_80115168[];
-    extern u16 D_80115114;
-    u16 *p = &D_80115118;
-    u16 old = *p;
-    short i;
-
-    if (old != 0) {
-        u16 nw = old - 1;
-        *p = nw;
-        if (nw != 0) {
-            D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)D_800B9A02 * 4);
-            func_8013FAF8(0, 5);
-            for (i = 0; i < 5; i++) {
-                s32 t = aD80115188[i].f0 * 3;
-                aD80115188[i].f0 = t;
-                D_80115168[i].f0 = D_80115168[i].f0 + t;
-            }
-            if (D_80115118 < 3) {
-                u16 *s = &(*(u16 *)&D_8017FE3E);
-                *s -= 1;
-            }
-            {
-                u16 *w = &(*(u16 *)&D_8017FE3C);
-                *w -= 2;
-                if ((s16)*w < 0) {
-                    *w = 0;
-                }
-            }
-        }
-    }
-
-    {
-        s16 *pv = &(*(s16 *)&D_80115124);
-        if (*pv != 0) {
-            if (func_800D0488(*pv) == 0) return;
-            *pv = 0;
-        }
-    }
-
-    if (D_80115118 == 0) {
-        if (D_80115114 == ((u16)D_800B9A02 ^ 1)) {
-            func_800D2624();
-        } else {
-            D_80115112 += 1;
-        }
-    }
-}
+#include "../shared/ov/func_8013EF88__bc5ad667.h"
 
 
 
@@ -2171,16 +1999,7 @@ extern unsigned char D_8017FE40;
 extern unsigned char *func_80141CA4(void);
 extern void func_801376E8(int a0, int a1);
 
-void func_8013F138(void) {
-    u16 *p = &D_80115118;
-    *p += 0x10;
-    if ((u16)*p >= 0x40) {
-        if (D_80115110 == 0) {
-            ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_8017FE40);
-        }
-        D_80115112 += 1;
-    }
-}
+#include "../shared/ov/func_8013F138__6cd0b346.h"
 
 
 #include "../shared/ov/func_8013F1BC.h"

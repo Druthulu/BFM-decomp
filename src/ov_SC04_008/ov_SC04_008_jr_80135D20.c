@@ -981,35 +981,7 @@ extern u8 D_80126720[];
 
 extern s16 *D_8017F05C;   /* holds a pointer value (*(u16**)&D_8017F05C) */
 
-s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
-    extern void ApplyMatrixSV(void *m, void *v0, void *v1);
-    extern void ApplyRotMatrix(void *v0, void *v1);
-    extern u16 D_80126722;
-    extern s16 D_80126724;
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
-
-    s32 out[4];
-    u16 *pb4;
-
-    if (a0) {
-        ApplyMatrixSV((void *)a3, *(void **)&D_8017F05C, *(void **)&D_8017F05C);
-        ApplyMatrixSV((void *)a3, (void *)D_80126720, (void *)D_80126720);
-        ApplyRotMatrix((void *)D_801152A8, (void *)out);
-        *(s16 *)D_801152A8 = out[0];
-        D_801152AA = out[1];
-        D_801152AC = out[2];
-    }
-
-    pb4 = *(u16 **)&D_8017F05C;
-    *(s16 *)(a2)     = pb4[0] + *(s32 *)(a1 + 0x48);
-    *(s16 *)(a2 + 2) = pb4[1] + *(s32 *)(a1 + 0x4C);
-    *(s16 *)(a2 + 4) = pb4[2] + *(s32 *)(a1 + 0x50);
-
-    *(u16 *)D_80126720 = *(u16 *)D_80126720 + *(s32 *)(a1 + 0x48);
-    D_80126722 = D_80126722 + *(s32 *)(a1 + 0x4C);
-    D_80126724 = D_80126724 + *(s32 *)(a1 + 0x50);
-}
+#include "../shared/ov/func_80136A94__b58271ec.h"
 
 
 
@@ -1174,35 +1146,7 @@ void *aF801376E8(int a0, int a1) __asm__("func_801376E8");
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8013A860(void);
 
-void func_801378F0(void) {
-
-    extern u8 D_80127520[];
-    extern u8 aD801269F0[] __asm__("D_801269F0"); /* §37 alias: TU canon is `extern int D_801269F0` */
-    extern u8 D_80126A28[];
-    extern u8 D_8017F078[];
-    s32 i;
-    s32 si;
-    s32 di;
-    u8 *p;
-
-    func_80016714(D_80127520, 0xBFC);
-    i = 0;
-    si = 0;
-    p = aD801269F0;
-    di = 0;
-    do {
-        func_80016714(p, 0x4C);
-        *(u16 *)&D_80126A28[di]     = *(u16 *)&D_8017F078[si];
-        *(u16 *)&D_80126A28[di + 2] = *(u16 *)&D_8017F078[si + 2];
-        *(u16 *)&D_80126A28[di + 4] = *(u16 *)&D_8017F078[si + 4];
-        *(u16 *)&D_80126A28[di + 6] = *(u16 *)&D_8017F078[si + 6];
-        p += 0x4C;
-        i += 1;
-        si += 8;
-        di += 0x4C;
-    } while (i < 3);
-    func_8013A860();
-}
+#include "../shared/ov/func_801378F0__b72a7b49.h"
 
 
 #include "../shared/ov/func_801379D8.h"
@@ -1255,25 +1199,7 @@ extern void func_801392FC();
 extern void func_80137DD4(s32 a0, u8 *a1, u8 *a2);
 extern void func_80139680(s32 a0, u8 *a1);
 
-int func_80137D08(int arg0, int arg1, short arg2)
-{
-    unsigned char buf[3];
-
-    D_800A5E60 = arg0;
-    D_80126A0A = arg2;
-    ((void (*)(void *, int, int))func_801392FC)(&D_801269F0, D_80126A0E, arg1);
-    if ((*(short *)&D_801269F4) == 7) {
-        buf[0] = 0x39;
-        buf[1] = 0xFF;
-        buf[2] = 0x71;
-        ((void (*)(void *, void *, int))func_80137DD4)(&D_801269F0, buf, arg1);
-    } else if ((*(short *)&D_801269F4) == 3) {
-        if (D_8017F0C4 & 4) {
-            ((void (*)(void *, int))func_80139680)(&D_801269F0, arg1);
-        }
-    }
-    return D_800A5E60;
-}
+#include "../shared/ov/func_80137D08__df67b9b0.h"
 
 
 #include "../shared/ov/func_80137DD4.h"

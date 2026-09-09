@@ -324,31 +324,7 @@ extern s16 D_800B9A00;
 extern M2C_UNK (*D_8017EA98)();
 extern s16 (*D_8017EA9C)();
 
-void func_80128A28(void) {
-    s16 temp_v0;
-
-    switch (D_800B99F6) {                           /* irregular */
-    case 1:
-        D_8017EA98();
-        /* fallthrough */
-    case 0:
-        func_80011C10();
-        return;
-    case 2:
-        temp_v0 = D_8017EA9C();
-        if (temp_v0 != 0) {
-            if (temp_v0 < 0) {
-                func_80011B7C(0);
-                D_800B9A00 = 1;
-                return;
-            }
-            func_80010DE0();
-        } else {
-            return;
-        }
-        break;
-    }
-}
+#include "../shared/ov/func_80128A28__2d0bd8a0.h"
 
 
 extern u16 D_800B99F6;

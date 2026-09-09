@@ -423,6 +423,10 @@
   75 TUs · 120 new headers · gating 15 binaries` → **`gated 15/15 binaries green · registered
   120 groups · extended 0 members · rejected classes 1`**; rejected: [new5] ov_SC03_126: class 60be554c70 REJECTED — src/ov_SC03_126/../shared/ov/func_8017EF6C__60be554c.h:4: 'D_80126942' undeclared (first use this func.
 
+- **S96 — T5 bucket `new`, batch 6** (`run_new6.log`, 28.66 s; `batch_new6.json`): `120 classes · 240 sites in
+  40 TUs · 120 new headers · gating 14 binaries` → **`gated 14/14 binaries green · registered
+  119 groups · extended 0 members · rejected classes 1`**; rejected: [new6] ov_SC04_006: class 250070c4bf REJECTED — src/ov_SC04_006/../shared/ov/func_8017D0FC__250070c4.h:4: 'D_80126954' undeclared (first use this func.
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)

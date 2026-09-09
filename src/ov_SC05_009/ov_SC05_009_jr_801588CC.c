@@ -1328,26 +1328,7 @@ extern s32 func_80029A94(s32);
 
 extern Entry D_80180E9C[];
 
-s32 func_80159464(void) {
-    Entry *e;
-
-    e = D_80180E9C;
-    while (e->id != 0) {
-        if (currentLocationId == e->id) {
-            return e->val;
-        }
-        e++;
-    }
-    if (func_80029A94(1) != 0) {
-        goto ret0;
-    }
-    if (func_80029A94(0) != 0) {
-        goto ret0;
-    }
-    return -1;
-ret0:
-    return 0;
-}
+#include "../shared/ov/func_80159464__57e60f69.h"
 
 
 extern u8 D_80078E78[];
@@ -1469,51 +1450,7 @@ extern u8 D_800AF630[];
 extern u32 D_800AFAE8[];
 extern char D_80180ED0[];
 
-s32 func_801596F0(s32 param_1) {
-    u8 *base = &(*(u8 *)&D_800AF630);
-    s32 v;
-    u32 *p;
-    u32 *q;
-
-    v = *(s32 *)(param_1 + 0x28) - 1;
-    *(s32 *)(param_1 + 0x28) = v;
-    if (v == -1) {
-        func_80174B6C();
-        (*(s16 *)&D_800B9AAC) = 0x7fff;
-        D_800B9B00 = 0x7fff;
-
-        __asm__ __volatile__("" ::: "memory");
-
-        for (p = (u32 *)(base + 0x65A8); p < (u32 *)(base + 0x9DA8); p += 0xe) {
-            p[1] |= 0x80000000;
-        }
-
-        if ((u32 *)(base + 0x2A8) < (u32 *)(base + 0x65A8)) {
-            u32 orc = 0x80000000;
-            u32 *ab = D_800AFAE8;
-            q = (u32 *)(base + 0x2AC);
-            do {
-                if (q < ab + 1 || q >= ab + 0x22) {
-                    *q |= orc;
-                }
-                q += 0x21;
-            } while (q < (u32 *)(base + 0x65AC));
-        }
-
-        (*(s16 *)&D_801270C0) = 3;
-        ((void (*)(s32))func_80129248)(0);
-        func_8013C938();
-        func_8013CB20();
-        func_8013C98C();
-        func_8002850C(0x800, 0x800, 0x800);
-        func_80028620(0, &(*(u8 *)&D_80180ED0));
-        func_80028620(1, &(*(u8 *)&D_80180ED0) + 0x10);
-        func_80028620(2, &(*(u8 *)&D_80180ED0) + 0x20);
-        *(s32 *)(param_1 + 0x28) = 0xff;
-        *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
-    }
-    return 0;
-}
+#include "../shared/ov/func_801596F0__501091d3.h"
 
 
 #include "../shared/ov/func_80159874.h"
@@ -1634,24 +1571,6 @@ extern void func_80146CA0(void *a0);
 
 extern unsigned char D_801810C4;
 
-void func_80159BE4(s32 arg0)
-{
-    int v;
-
-    ((void (*)(int, void *))func_80146DB8)(arg0, &D_801810C4);
-    if ((*(unsigned int *)(arg0 + 0x44) & 0x200) != 0) {
-        func_80154150(arg0, 5);
-        func_80154A74(arg0, 0x1C);
-    } else {
-        func_80154150(arg0, 4);
-        func_80154A74(arg0, 0x11);
-    }
-    *(int *)(arg0 + 0x234) = 0;
-    *(int *)(arg0 + 0x238) = 0;
-    func_801553C0(arg0);
-    ((void (*)(int))func_801553A8)(arg0);
-    ((void (*)(int))func_80172590)(arg0);
-    ((void (*)(int))func_80146CA0)(arg0);
-}
+#include "../shared/ov/func_80159BE4__d4682fe2.h"
 
 

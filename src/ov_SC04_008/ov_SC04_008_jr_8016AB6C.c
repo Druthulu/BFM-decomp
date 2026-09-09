@@ -2072,68 +2072,7 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_80016ED4(void *a0);
 
 
-void func_8016B234(s32 param_1) {
-
-    extern u8 D_800AF648;
-    extern u8 D_80181C28;
-    short input[3];
-    Prim_B234 prim;
-    struct { s16 xy[2]; s32 sp1c; s32 flag; } out;
-    void *dp;
-    u32 uVar1;
-    s16 iVar2;
-    s32 X, Y0, Y1, base, ni;
-    register s32 sy __asm__("$16");
-    register s16 xtmp __asm__("$4");
-    register s32 sxy __asm__("$3");
-
-    dp = &D_800AF648;
-    func_8004914C(dp);
-    func_800491AC(dp);
-    input[0] = *(u16 *)(param_1 + 6);
-    input[1] = *(u16 *)(param_1 + 0xA);
-    input[2] = *(u16 *)(param_1 + 0xE);
-    RotTransPers((s32)input, (s32)out.xy, &out.sp1c, &out.flag);
-    if ((out.flag & 0xffffefff) == 0) {
-        sxy = *(s32 *)out.xy;
-        prim.a04 = 0x10;
-        X = *(u16 *)(param_1 + 0x2a) + sxy;
-        sy = (u16)out.xy[1];
-        prim.ax = prim.cx = X;
-        prim.bx = prim.dx = X + 8;
-        Y0 = sy - *(u16 *)(param_1 + 0x26);
-        prim.ay = prim.by = Y0;
-        sxy = *(u16 *)(param_1 + 0x26);
-        prim.v0 = prim.v1 = 0x1d0;
-        prim.v2 = prim.v3 = 0x1d8;
-        sxy = sy + sxy;
-        prim.cy = prim.dy = sxy;
-        __asm__ __volatile__("" : : "r"(sy));
-        prim.r = prim.g = prim.b = *(u8 *)(param_1 + 0x24);
-        prim.code = (&D_80181C28)[*(s32 *)(param_1 + 0x2c)];
-        if (*(s16 *)(param_1 + 0x26) < 5) {
-            prim.tag = 0;
-        } else {
-            prim.tag = 0x50000000;
-        }
-        uVar1 = *(u16 *)(param_1 + 0x30);
-        iVar2 = 0;
-        if (0 < *(s16 *)(param_1 + 0x28) + 1) {
-            do {
-                base = ((uVar1 + 1) & 0xf) << 3;
-                prim.u0 = prim.u2 = base + 0x620;
-                prim.u1 = prim.u3 = base + 0x628;
-                func_80016ED4(&prim);
-                uVar1 = (s32)(uVar1 << 0x10) >> 0x14;
-                iVar2 = iVar2 + 1;
-                __asm__ __volatile__("");
-                xtmp = prim.ax;
-                prim.cx = prim.ax = xtmp - 8;
-                prim.bx = prim.dx = xtmp;
-            } while ((s16)iVar2 < *(s16 *)(param_1 + 0x28) + 1);
-        }
-    }
-}
+#include "../shared/ov/func_8016B234__1b494b73.h"
 
 
 #include "../shared/ov/func_8016B3F4.h"
@@ -2213,45 +2152,7 @@ extern void func_8016B91C(s32);
 
 extern s16 D_80181CA0[];
 
-void func_8016B5C0(s32 param_1) {
-    s32 iVar4;
-    s32 iVar2;
-    s32 iVar5;
-    s16 sVar1;
-    s16 *psVar5;
-    s32 i;
-
-    iVar4 = *(s32 *)(param_1 + 0x18);
-    if (((s32 (*)(void))func_8016B9F8)() != 0) {
-        goto L984;
-    }
-    sVar1 = *(s16 *)(iVar4 + 0x1a) + 0x200;
-    *(s16 *)(iVar4 + 0x1a) = sVar1;
-    *(s16 *)(iVar4 + 0x18) = sVar1;
-    if (*(s32 *)(param_1 + 0x2c) == 0) {
-        iVar2 = *(s32 *)(param_1 + 0x1c);
-    } else {
-        iVar2 = *(s32 *)(param_1 + 0x1c) / 3;
-    }
-    iVar5 = *(s32 *)(param_1 + 0x1c) + -0x20;
-    *(s32 *)(param_1 + 0x1c) = iVar5;
-    if (iVar5 >= 0) {
-        goto LOOP;
-    }
-L984:
-    ((void (*)(s32))func_8016B984)(param_1);
-    return;
-LOOP:
-    i = 0;
-    psVar5 = D_80181CA0;
-    do {
-        func_8016B6BC(param_1, iVar2, (s32)*psVar5, (s32)(s16)i);
-        psVar5 = psVar5 + 1;
-        i = i + 1;
-    } while (i < 6);
-    func_8016B91C(param_1);
-    return;
-}
+#include "../shared/ov/func_8016B5C0__b2ac4cd9.h"
 
 
 
@@ -2290,46 +2191,7 @@ extern void func_8001739C(void *a0);
 /* Def sig is deliberately (s32,s32,s32,s32) — byte-identical to the (int,unsigned,short,int)
  * spelling, and IDENTICAL to this TU's own caller decl `extern void func_8016B6BC(s32,s32,s32,s32);`
  * (ov_SC01_077_jr_8016AB6C.c), so there is no §73/§57 def-side self-decl conflict to reconcile. */
-void func_8016B6BC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
-
-    extern int D_80181C88;
-    int iVar1;
-    M8_8016B6BC *q;
-    Prim_8016B6BC prim;
-    Prim_8016B6BC *p = &prim;
-    DVec_8016B6BC off;
-    unsigned int v;
-    unsigned int c;
-
-    q = (M8_8016B6BC *)*(int *)((int)&D_80181C88 + ((param_4 << 0x10) >> 0xe));
-    p->color = 0x50000000;
-    c = (unsigned int)param_2;
-    v = 0x20;
-    if (c < 0x20) {
-        v = c;
-    }
-    if (*(int *)(param_1 + 0x2c) == 0) {
-        c = c | (v << 0x10 | v << 8);
-    } else {
-        c = c << 8 | v << 0x10 | v;
-    }
-    p->combined = c;
-    iVar1 = (int)(short)param_3;
-    p->z1c = 0;
-    p->z20 = 0;
-    func_80013CFC(iVar1, (int)q++, &p->v[0]);
-    func_80013CFC(iVar1, (int)q++, &p->v[1]);
-    func_80013CFC(iVar1, (int)q, &p->v[2]);
-    func_80015978(param_1 + 4, (s32 *)&off);
-    p->v[0].x += off.x;
-    p->v[0].y += off.y;
-    p->v[1].x += off.x;
-    p->v[1].y += off.y;
-    p->v[2].x += off.x;
-    p->v[2].y += off.y;
-    p->v[0].c = 3;
-    func_8001739C(p);
-}
+#include "../shared/ov/func_8016B6BC__c6b4f7b5.h"
 
 
 
@@ -2575,50 +2437,7 @@ void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3) {
 
 
 
-void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4) {
-    extern void func_80017714();
-    extern s32 D_80181D0C;
-    extern s32 D_80181D14;
-    extern s32 D_80181D1C;
-    extern s32 D_80181D24;
-
-    Mtx_8016BFD0 buf;
-    Vec3_8016BFD0 v1;
-    Vec3_8016BFD0 v2;
-    s32 iVar5 = *(s32 *)(a0 + 0x20);
-
-    *(u32 *)((s32)a4 + 0x30) = 0x50000000;
-    *(W_8016BFD0 *)((s32)a4 + 0x20) = *(W_8016BFD0 *)a1;
-    *(W_8016BFD0 *)((s32)a4 + 0x24) = *(W_8016BFD0 *)a1;
-    *(W_8016BFD0 *)((s32)a4 + 0x28) = *(W_8016BFD0 *)a2;
-    *(W_8016BFD0 *)((s32)a4 + 0x2c) = *(W_8016BFD0 *)a2;
-
-    v1.x = *(u16 *)(a0 + 6);
-    v1.y = *(u16 *)(a0 + 0xa);
-    v1.z = *(u16 *)(a0 + 0xe);
-    ((void(*)())func_8012EFB8)(&v1, &v1);
-    ((void(*)())func_80013F3C)(&buf);
-    ((void(*)())func_800123F0)(&buf, (s32)*(s16 *)(iVar5 + 0x12));
-
-    v2.x = *(u16 *)(a3 + 0);
-    v2.y = *(u16 *)(a3 + 2);
-    v2.z = *(u16 *)(a3 + 4);
-    ((void(*)())func_80020F34)(&buf, &v2);
-
-    buf.t[0] = v1.x;
-    buf.t[1] = v1.y;
-    buf.t[2] = v1.z;
-    ((void(*)())func_8012F14C)(&buf, &D_80181D0C, (s32)a4);
-    ((void(*)())func_8012F14C)(&buf, &D_80181D14, (s32)a4 + 8);
-    ((void(*)())func_8012F14C)(&buf, &D_80181D1C, (s32)a4 + 0x10);
-    ((void(*)())func_8012F14C)(&buf, &D_80181D24, (s32)a4 + 0x18);
-
-    *(s16 *)((s32)a4 + 4) = 0;
-    *(s16 *)((s32)a4 + 0xc) = 0;
-    *(s16 *)((s32)a4 + 0x14) = 0;
-    *(s16 *)((s32)a4 + 0x1c) = 0;
-    func_80017714(a4);
-}
+#include "../shared/ov/func_8016BFD0__97557651.h"
 
 
 
@@ -3289,26 +3108,7 @@ extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern u8 D_80181D64;
 extern u8 D_80181D70;
 
-void func_8016DA7C(s32 param_1)
-{
-    s32 iVar1;
-
-    iVar1 = ((s32 (*)(void))func_801465C0)();
-    if (iVar1 == 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
-    } else {
-        *(s32 *)(param_1 + 0x20) = iVar1;
-        ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_80181D64, 0x250, 0x100);
-        *(u8 *)(iVar1 + 0x27) = 0x90;
-        *(u16 *)(iVar1 + 0x18) = 0x3000;
-        *(u16 *)(iVar1 + 0x1a) = 0x4000;
-        *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
-        func_80128EA8(iVar1, param_1 + 0x24, (s32)&D_80181D70);
-        *(s32 *)(param_1 + 0x10) = 0;
-        *(s32 *)(param_1 + 0x14) = 0xfff40000;
-        *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
-    }
-}
+#include "../shared/ov/func_8016DA7C__5b61cb4a.h"
 
 
 #include "../shared/ov/func_8016DB34.h"
@@ -3556,44 +3356,7 @@ typedef struct {
 } Prim_8016E7C8;
 
 
-void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
-{
-    extern void func_8004914C(void *a0);
-    extern void func_800491AC(void *a0);
-    extern void RotTransSV(void *a0, void *a1, void *a2);
-    extern void func_80016ED4(void *a0);
-    extern SVECTOR_8016E7C8 D_80181E10[4];
-    extern s32 D_80181E30;
-    extern s32 D_80181E38;
-    extern s32 D_80181E40;
-    extern s32 D_80181E48;
-
-    Prim_8016E7C8 prim;
-    MATRIX_8016E7C8 m;
-    SVECTOR_8016E7C8 tmp;
-    register Prim_8016E7C8 *pp __asm__("$18");   /* $s2 — force &prim into a saved reg */
-
-    ((void (*)(void *, void *))func_80017DC4)(param_2, &m);
-    m.t[0] = *(short *)(param_1 + 6);
-    m.t[1] = *(short *)(param_1 + 10);
-    m.t[2] = *(short *)(param_1 + 14);
-    func_8004914C(&m);
-    func_800491AC(&m);
-    pp = &prim;
-    RotTransSV(&D_80181E10[0], pp, &tmp);
-    RotTransSV(&D_80181E10[1], &prim.v[1], &tmp);
-    RotTransSV(&D_80181E10[2], &prim.v[2], &tmp);
-    RotTransSV(&D_80181E10[3], &prim.v[3], &tmp);
-    prim.v[0].vz = 3;
-    prim.f5 = 0x50000000;
-    prim.f0 = D_80181E30;
-    prim.f1 = D_80181E38;
-    prim.f2 = D_80181E40;
-    prim.f3 = D_80181E48;
-    prim.f4 = *param_3;
-    prim.f6 = 0x27;
-    func_80016ED4(pp);
-}
+#include "../shared/ov/func_8016E7C8__d2abc2eb.h"
 
 
 
@@ -3609,16 +3372,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
 typedef void (*Handler)(struct Entry_8016E95C *);
 
 
-s32 func_8016E95C() {
-    extern Handler D_80181E90[];
-
-    struct Entry_8016E95C *p;
-    for (p = ((struct Entry_8016E95C *)&D_80115218); p < &((struct Entry_8016E95C *)&D_80115218)[4]; p++) {
-        if (p->f0 != 0) {
-            D_80181E90[p->f1](p);
-        }
-    }
-}
+#include "../shared/ov/func_8016E95C__a01824d8.h"
 
 
 
@@ -3663,35 +3417,7 @@ extern void func_800D2D10(s32 a0, s32 a1, void *a2, s32 a3);
 extern s32 func_80024054(void *a0, void *a1);
 extern void func_8016EC0C(s32 a0, s32 a1);
 
-void func_8016E9EC(u8 *p)
-{
-
-    extern u8 *D_80181E60[];
-    extern u8 D_80181E78[];
-    extern u16 D_80181E7C[];
-    register u32 zr __asm__("$0");
-    int i;
-    int c;
-    u8 *buf;
-    u8 off;
-    u16 h;
-    s32 r;
-
-    i = p[0] - 1;
-    off = D_80181E78[i];
-    buf = D_80181E60[i];
-    c = i + zr;
-    r = func_800D2CA8(p[3], 0x1C);
-    func_800D2D10(r, 1, buf + off, 0);
-    func_80024054(buf, p + 8);
-    p[3] = c;
-    *(s16 *)(p + 4) = -0xD7;
-    h = D_80181E7C[i];
-    p[2] = 0;
-    *(u16 *)(p + 6) = h;
-    p[1] = p[1] + 1;
-    ((void (*)(u8 *, s32))func_8016EC0C)(p, 0x80);
-}
+#include "../shared/ov/func_8016E9EC__deecac80.h"
 
 
 
@@ -3764,58 +3490,7 @@ void func_8016EBA8(u8 *param_1)
 extern void func_80017B98(void *a0);
 extern u8 D_80181E70[];
 
-void func_8016EC0C(s32 a0, s32 a1)
-{
-    /* §100 draft-LOCAL type: a file-scope typedef is an EXEMPLAR-ONLY bank — extract_unit/
-       remap_hseq carry only the BODY, so every sibling fails `T8016EC0C undeclared`
-       (measured on ov_SC01_000). Block scope travels with the body; byte-neutral. */
- /* 0x1C */
-    T8016EC0C s;
-    u16 *p;
-    s32 x;
-    s32 y;
-    s32 v;
-
-    s.r = s.g = s.b = a1;
-    s.u18 = D_80181E70[*(u8 *)(a0 + 3)];
-    s.u0C = 0x640;
-    s.u0E = 0x1C8;
-    s.u14 = 0;
-    s.u08 = 0x28;
-    s.u0A = 8;
-    x = *(u16 *)(a0 + 4);
-    s.x = x + 0x10;
-    y = *(u16 *)(a0 + 6);
-    s.u04 = 0x10;
-    s.y = y;
-    func_80017B98(&s);
-    s.u08 = 8;
-    y += 0xA;
-    p = (u16 *)(a0 + 8);
-    while (*p != 0xFFFF) {
-        v = *p;
-        switch (v) {
-        case 0x1850:
-        case 0x1858:
-            s.x = x + 4;
-            s.y = y - 7;
-            break;
-        case 0x3872:
-            x += 2;
-            p++;
-            continue;
-        default:
-            s.x = x;
-            s.y = y;
-            x += 8;
-            break;
-        }
-        s.u0C = *(u8 *)p + 0x500;
-        s.u0E = (*p >> 8) + 0x100;
-        p++;
-        func_80017B98(&s);
-    }
-}
+#include "../shared/ov/func_8016EC0C__a3cedccb.h"
 
 
 #include "../shared/ov/func_8016ED6C.h"
@@ -3885,35 +3560,7 @@ extern s32 D_80181EA0;
 extern s32 D_80126B58;
 extern s16 currentLocationId;
 
-s32 func_8016F1C4(void) {
-    s32 *p;
-    s32 cur;
-    s32 loc;
-    s32 v;
-    s32 *base = &D_80126B58;
-
-    p = &D_80181EA0;
-    cur = *p;
-    if (cur != 0) {
-        loc = currentLocationId;
-        p = p + 1;
-        for (;;) {
-            if (loc == cur) {
-                return 1;
-            }
-            cur = *p;
-            p = p + 1;
-            if (cur == 0) {
-                break;
-            }
-        }
-    }
-    v = base[0x7E];
-    if (((v & 0x80FFFFFF) != 0) && ((v & 0x10000000) != 0)) {
-        return 0;
-    }
-    return base[0x7E] & 0x80FFFFFF;
-}
+#include "../shared/ov/func_8016F1C4__be31141b.h"
 
 
 #include "../shared/ov/func_8016F250.h"

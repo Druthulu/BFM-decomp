@@ -472,25 +472,7 @@ extern void  func_80016714(void *a0, s32 a1);
 
 
 
-int func_8012D664(int arg0, int arg1, int arg2) {
-    extern int func_8012F568();
-    extern int D_8017EE00;
-
-    struct S8012D664_8012D664 s;
-    int ret;
-    int t;
-
-    s.a = (*(unsigned short*)&D_80126B5E);
-    s.b = (*(unsigned short*)&D_80126B62) - 0x40;
-    s.c = (*(unsigned short*)&D_80126B66);
-    ret = ((int(*)())func_800132BC)(arg0, &s);
-    t = arg1 + 0x20;
-    if (ret < t * t) {
-        func_8012F568(1, 1, 0, arg2, arg0, &D_8017EE00);
-        return 1;
-    }
-    return 0;
-}
+#include "../shared/ov/func_8012D664__46ca4ffa.h"
 
 
 
@@ -799,34 +781,7 @@ extern void func_8016B428(int);
 extern void func_80019064(void *);
 extern int D_8017EE18;
 
-void func_8012E9C0(int param_1)
-{
-    int iVar1;
-
-    if (*(short *)(param_1 + 0x60) != 0) {
-        if (*(unsigned char *)(param_1 + 0x5e) == 0x1d) {
-            *(short *)(param_1 + 0x82) = 0;
-            *(short *)(param_1 + 0x7c) = *(unsigned short *)(param_1 + 6);
-            *(short *)(param_1 + 0x7e) = *(unsigned short *)(param_1 + 0xa);
-            *(short *)(param_1 + 0x80) = *(unsigned short *)(param_1 + 0xe);
-        }
-        if (*(int *)(param_1 + 0x78) != 0) {
-            iVar1 = *(short *)(param_1 + 0x60) *
-                        *(short *)(*(int *)(param_1 + 0x78) + 0x30) >> 0xc;
-            if (iVar1 < 1) {
-                iVar1 = 1;
-            }
-        } else {
-            iVar1 = *(short *)(param_1 + 0x60);
-        }
-        func_8016AA50(param_1, iVar1);
-        if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
-            func_8016B428(param_1);
-            func_80019064(&D_8017EE18);
-        }
-    }
-    return;
-}
+#include "../shared/ov/func_8012E9C0__8974aa40.h"
 
 
 
@@ -1076,39 +1031,7 @@ void func_8012F8C8(u8* arg0) {
 //   blocks reorg from sharing a downstream constant into a branch delay slot.)
 
 
-s32 func_8012FCC4(s32 param_1) {
-    extern int D_8017EE4C;
-
-    int v1 = *(int *)(((int)param_1) + 0xC4);
-    *(char *)(((int)param_1) + 0xC1) = 8;
-    if (v1 & 2) {
-        *(char *)(((int)param_1) + 0xC1) = 1;
-        func_80131CA8(((int)param_1), 3);
-        return;
-    }
-    if (v1 & 1) {
-        ((void (*)(int, int))func_80131E00)(((int)param_1), 1);
-        return;
-    }
-    if (*(int *)(((int)param_1) + 0xB4) & 0x100) {
-        ((void (*)(int))func_80131B14)(((int)param_1));
-        if (*(short *)(((int)param_1) + 0x76) <= 0) {
-            ((void (*)(int, int))func_80131E00)(((int)param_1), 0xC);
-            return;
-        }
-        if (((s32(*)(s32, s32))func_80131A34)(((int)param_1), 4) != 0) {
-            *(char *)(((int)param_1) + 0xC2) = 0;
-        } else {
-            *(short *)(((int)param_1) + 0x98) = 0;
-            *(char *)(((int)param_1) + 0xC2) = 1;
-        }
-        ((void (*)(int, void *))func_8012B14C)(((int)param_1), &D_8017EE4C);
-        *(int *)(((int)param_1) + 0x1C) = 0;
-        func_80131CA8(((int)param_1), 0x1C);
-        return;
-    }
-    func_80131CA8(((int)param_1), 0x1C);
-}
+#include "../shared/ov/func_8012FCC4__d6b9cb3f.h"
 
 
 
@@ -1201,48 +1124,7 @@ extern s16 D_8017EF5C[];
 //   canonical (s32) [DEFINE macros], ((s32(*)())func_80131AC8)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
 
 
-void func_80131170(s32 p, s32 b, s32 c) {
-    extern u8 D_8017EE28[];
-
-    func_80131B14();
-    *(u8 *)(((u8 *)p) + 0xC2) = 0;
-    *(u8 *)(((u8 *)p) + 0xC3) = 0;
-    *(s16 *)(((u8 *)p) + 0x98) = 0;
-    if (((u8 *)b) == 0) {
-        ((u8 *)b) = D_8017EE28;
-    }
-    func_8012B14C((s32)((u8 *)p), (s32)((u8 *)b));
-    *(s32 *)(((u8 *)p) + 0x1C) = 0;
-    if (c != 0) {
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), c) != 0) goto tail;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
-        *(s32 *)(((u8 *)p) + 0xC4) &= ~4;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
-            *(s32 *)(((u8 *)p) + 0xC4) |= 4;
-        } else {
-            *(s16 *)(((u8 *)p) + 0x98) = 0;
-        }
-    } else {
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
-        *(s32 *)(((u8 *)p) + 0xC4) &= ~4;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
-            *(s32 *)(((u8 *)p) + 0xC4) |= 4;
-        } else {
-            *(s16 *)(((u8 *)p) + 0x98) = 0;
-        }
-    }
-tail:
-    if (*(s16 *)(((u8 *)p) + 0x76) > 0) {
-        return;
-    }
-    if (((s32(*)(s32))func_8012BCCC)((s32)((u8 *)p)) <= 0x8FFF) {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
-    } else {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x33) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x32);
-    }
-}
+#include "../shared/ov/func_80131170__c0c3e6c3.h"
 
 
 
@@ -1624,62 +1506,7 @@ void func_80131340(s32 a0)
 //   compare-time andi 0xff); f76 dual-width via per-access casts (lhu in the decrement, lh in the <=0 compare);
 //   the p->f20 reload split into TWO separate temps so the 2nd load takes $v0 not $v1.
 
-void func_80131B14() {
-    extern void func_8002A520(void *);
-    extern void func_8002A790(void *);
-    extern u8 D_8017EF84;
-
-    register u8 *a0v __asm__("$4");
-    u8 *p = a0v;
-
-
-    s32 e = *(u8 *)(p + 0x5E);
-
-    if (*(s16 *)(p + 0x60) != 0) {
-        if (e == 0x1D) {
-            *(s16 *)(p + 0x82) = 0;
-            *(s16 *)(p + 0x7C) = *(u16 *)(p + 0x06);
-            *(s16 *)(p + 0x7E) = *(u16 *)(p + 0x0A);
-            *(s16 *)(p + 0x80) = *(u16 *)(p + 0x0E);
-        }
-        {
-            s32 dec;
-            s32 q = *(s32 *)(p + 0x78);
-            if (q != 0) {
-                dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
-                if (dec <= 0) dec = 1;
-            }
-            *(u16 *)(p + 0x76) = *(u16 *)(p + 0x76) - dec;
-        }
-        ((void (*)(void *))func_8016AA50)(p);
-        if (*(u16 *)(p + 0x82) & 1) {
-            ((void (*)(void *))func_8016B428)(p);
-            ((void(*)(void *))func_80019064)(&D_8017EF84);
-        }
-    }
-
-    *(u16 *)(p + 0x5C) = *(u16 *)(p + 0x5C) & 0xFFFE;
-
-    if (e != 0x1D) {
-        if (*(u8 *)(p + 0xC8)) func_8002A520(p);
-        if (*(u8 *)(p + 0xC9)) func_8002A790(p);
-    }
-
-    if (*(s16 *)(p + 0x76) <= 0) *(s16 *)(p + 0x5C) = 0;
-
-    {
-        s32 r = *(s32 *)(p + 0x20);
-        *(s16 *)(r + 0x12) = (*(u16 *)(p + 0x62) + 0x800) & 0xFFF;
-        {
-            s32 r2 = *(s32 *)(p + 0x20);
-            *(s16 *)(r2 + 0x14) = 0;
-            *(s16 *)(r2 + 0x10) = 0;
-        }
-    }
-
-    ((void (*)(void *))func_8012B2CC)(p);
-    ((void (*)(void *))func_8012B23C)(p);
-}
+#include "../shared/ov/func_80131B14__c125ce4d.h"
 
 
 
@@ -1814,26 +1641,7 @@ extern void func_8001C214(int, int);
  * below is this function's own. D_8017EFF0 == D_8017EFEC + 4 is a SEPARATE
  * per-overlay symbol and is referenced BY NAME, never as base+literal (§84). */
 
-void func_80132018(int param_1)
-{
-
-    extern int tbl_D_80187044[][5] __asm__("D_8017EFEC");
-    extern int tbl_D_80187048[][5] __asm__("D_8017EFF0");
-    int v0;
-
-    v0 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(param_1 + 0x20) = v0;
-    if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
-    } else {
-        func_8001C214(v0, 0);
-        *(short *)(param_1 + 0x5c) = 0x80;
-        *(unsigned short *)(param_1 + 2) += 1;
-        *(int *)(param_1 + 0x58) = (int)&tbl_D_80187048[*(unsigned short *)(param_1 + 0x70) & 0xfff];
-        *(int *)(param_1 + 0xdc) = tbl_D_80187044[*(unsigned short *)(param_1 + 0x70) & 0xfff][0];
-        *(short *)(param_1 + 0xfc) = (*(unsigned short *)(param_1 + 0x70) >> 12) << 9;
-    }
-}
+#include "../shared/ov/func_80132018__89c919f4.h"
 
 
 #include "../shared/ov/func_801320D0.h"
