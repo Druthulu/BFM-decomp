@@ -55,13 +55,13 @@
   },
   "kinds": {
    "asm-body/direct": 13,
-   "barrier/direct": 5066,
+   "barrier/direct": 4941,
    "barrier/via-macro": 2,
    "gte/direct": 1140,
    "gte/via-macro": 5751,
    "instruction/direct": 1700,
    "instruction/via-macro": 22,
-   "keepalive/direct": 2241,
+   "keepalive/direct": 2089,
    "launder/direct": 4532,
    "launder/via-macro": 440,
    "verbatim-body/direct": 2682
@@ -70,52 +70,52 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 11546,
-   "distinct_bodies": 1830,
+   "bodies": 11348,
+   "distinct_bodies": 1831,
    "file_scope": 0,
-   "in_bodies": 25902,
+   "in_bodies": 24841,
    "kinds": {
-    "pin": 25902
+    "pin": 24841
    },
-   "marked": 15172,
-   "sites": 25902,
+   "marked": 16440,
+   "sites": 24841,
    "tus": 2676,
-   "unmarked": 10730
+   "unmarked": 8401
   },
   "B": {
-   "bodies": 10247,
+   "bodies": 10122,
    "distinct_bodies": 1200,
    "file_scope": 13,
-   "in_bodies": 23576,
+   "in_bodies": 23299,
    "kinds": {
     "asm-body": 13,
-    "barrier": 5068,
+    "barrier": 4943,
     "gte": 6891,
     "instruction": 1722,
-    "keepalive": 2241,
+    "keepalive": 2089,
     "launder": 4972,
     "verbatim-body": 2682
    },
-   "marked": 10043,
-   "sites": 23589,
+   "marked": 10712,
+   "sites": 23312,
    "tus": 2450,
-   "unmarked": 13546
+   "unmarked": 12600
   },
   "C": {
-   "bodies": 810,
-   "distinct_bodies": 145,
-   "file_scope": 433,
-   "in_bodies": 2068,
+   "bodies": 710,
+   "distinct_bodies": 146,
+   "file_scope": 424,
+   "in_bodies": 1748,
    "kinds": {
-    "cast": 1835,
-    "decl-body": 231,
-    "decl-file": 433,
+    "cast": 1615,
+    "decl-body": 131,
+    "decl-file": 424,
     "param": 2
    },
    "marked": 1,
-   "sites": 2501,
-   "tus": 857,
-   "unmarked": 2500
+   "sites": 2172,
+   "tus": 757,
+   "unmarked": 2171
   },
   "D": {
    "bodies": 69,
@@ -199,9 +199,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 53099,
+   "live": 51761,
    "macro_block": 7189,
-   "raw": 67080
+   "raw": 65742
   },
   "attribute": {
    "comment_dead": 0,
@@ -217,30 +217,30 @@
   },
   "register": {
    "comment_dead": 8584,
-   "live": 25988,
+   "live": 24927,
    "macro_block": 18,
-   "raw": 34590
+   "raw": 33529
   },
   "volatile": {
    "comment_dead": 2607,
-   "live": 4243,
+   "live": 3914,
    "macro_block": 6510,
-   "raw": 13360
+   "raw": 13031
   }
  },
  "coverage_ok": true,
- "elapsed_s": 34.5,
+ "elapsed_s": 35.7,
  "generated": "2026-09-09",
- "head": "5e10b19e8",
+ "head": "ca761c4f6",
  "headers": 3181,
  "levers_AB": {
-  "asm": 14016,
-  "bodies": 13820,
-  "distinct_bodies": 2224,
-  "marked": 25081,
-  "pins": 25902,
-  "sites": 39918,
-  "unmarked": 14837,
+  "asm": 13739,
+  "bodies": 13622,
+  "distinct_bodies": 2225,
+  "marked": 27018,
+  "pins": 24841,
+  "sites": 38580,
+  "unmarked": 11562,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
  "macro_definitions": {
@@ -387,19 +387,19 @@
  },
  "pins": {
   "bare_name": 74,
-  "init": 3448,
+  "init": 3421,
   "registers": {
    "$0": 1337,
    "$1": 2,
    "$10": 166,
-   "$11": 57,
+   "$11": 30,
    "$12": 420,
    "$13": 25,
    "$14": 153,
    "$15": 8,
-   "$16": 2678,
-   "$17": 2316,
-   "$18": 929,
+   "$16": 2478,
+   "$17": 2116,
+   "$18": 731,
    "$19": 685,
    "$2": 4400,
    "$20": 381,
@@ -409,13 +409,13 @@
    "$24": 4,
    "$25": 7,
    "$29": 13,
-   "$3": 2763,
-   "$4": 3344,
-   "$5": 2614,
-   "$6": 679,
-   "$7": 870,
+   "$3": 2736,
+   "$4": 3125,
+   "$5": 2587,
+   "$6": 625,
+   "$7": 788,
    "$8": 611,
-   "$9": 352,
+   "$9": 325,
    "3": 1,
    "4": 1,
    "5": 2,
@@ -430,30 +430,30 @@
    "v0": 16,
    "v1": 15
   },
-  "sites": 25902,
+  "sites": 24841,
   "sp": 13,
   "spelling": {
-   "__asm__": 25696,
+   "__asm__": 24635,
    "asm": 206
   },
   "volatile_qualified": 136,
   "zero": 1337
  },
- "src_stamp": "651da378d5a7ef03",
+ "src_stamp": "22522952c40f4327",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 17418,
+  "bodies": 17120,
   "by_kind": {
    "main": 204,
    "md": 213,
-   "ov": 16592,
+   "ov": 16294,
    "resident": 16,
    "shared": 393
   },
-  "copies_in_multi": 15380,
-  "distinct_bodies": 2535,
-  "multi_copy_classes": 497
+  "copies_in_multi": 15086,
+  "distinct_bodies": 2537,
+  "multi_copy_classes": 503
  },
  "verbatim_excluded": {
   "functions": 13,
@@ -489,9 +489,9 @@
  },
  "volatile": {
   "kinds": {
-   "cast": 1835,
-   "decl-body": 231,
-   "decl-file": 433,
+   "cast": 1615,
+   "decl-body": 131,
+   "decl-file": 424,
    "param": 2
   }
  }
