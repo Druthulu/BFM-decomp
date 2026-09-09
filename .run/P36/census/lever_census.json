@@ -95,10 +95,10 @@
     "launder": 4676,
     "verbatim-body": 2682
    },
-   "marked": 13142,
+   "marked": 13155,
    "sites": 22552,
    "tus": 2289,
-   "unmarked": 9410
+   "unmarked": 9397
   },
   "C": {
    "bodies": 628,
@@ -232,18 +232,18 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 34.1,
+ "elapsed_s": 36.8,
  "generated": "2026-09-09",
- "head": "9184678f1",
+ "head": "0cb78a6a7",
  "headers": 3181,
  "levers_AB": {
   "asm": 12979,
   "bodies": 12501,
   "distinct_bodies": 1728,
-  "marked": 33612,
+  "marked": 33625,
   "pins": 20646,
   "sites": 33625,
-  "unmarked": 13,
+  "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
  "macro_definitions": {
@@ -433,7 +433,7 @@
   "volatile_qualified": 134,
   "zero": 1321
  },
- "src_stamp": "c2985694d60d567c",
+ "src_stamp": "c88fc710f6e5a7ec",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {

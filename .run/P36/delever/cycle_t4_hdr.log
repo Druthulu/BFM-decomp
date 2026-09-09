@@ -1,3 +1,6 @@
 log: headers1 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 33,812 sites in 12,538 bodies (1,787 distinct) · marked !FAKE 33,301 · UNMARKED 511
 cycle: batch headers1 committed 9184678f1 — delever: batch headers1 — 200 files (headers; 371 drawable) · 200 bodies: 42 lever-free, 158 residue, 0 refused · sites removed 302 / needed 340 / refused 1 / deferred 0 · replays 18 (1 disagreed) · compiles 40597 in 1460 s wall · final 200/200 identical · written 196 files | check-all: 218 passed, 0 failed of 218
 log: headers2 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 33,625 sites in 12,501 bodies (1,728 distinct) · marked !FAKE 33,612 · UNMARKED 13
+cycle: batch headers2 committed 0cb78a6a7 — delever: batch headers2 — 171 files (headers; 171 drawable) · 171 bodies: 37 lever-free, 133 residue, 0 refused · sites removed 199 / needed 332 / refused 0 / deferred 1 · replays 86 (0 disagreed) · compiles 967 in 146 s wall · final 171/171 identical · written 170 files | check-all: 218 passed, 0 failed of 218
+cycle: nothing drawable at headers3 — done
+cycle exit=0

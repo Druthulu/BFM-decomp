@@ -2716,7 +2716,7 @@ extern u8 D_801F8744[];
 extern u8 D_801AFEF8[];
 extern s32 D_801A01B4[];
 
-__asm__(
+__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
     ".section .rodata\n"
     "dlabel D_801A01B4\n"
     ".word 0x00000000\n"
@@ -5102,7 +5102,7 @@ extern Blk4_801A7358 D_801F8938;
  * while the function was INCLUDE_ASM the word rode in on the stub. Re-emit it at the
  * stub's own emission position so the island bytes are unchanged and the symbol is
  * not dropped from the link. Same form as D_801A0214 in this TU (:6516). */
-__asm__(".section .rodata\nD_801A01EC:\n.word 0x00A06060\n.section .text");
+__asm__(".section .rodata\nD_801A01EC:\n.word 0x00A06060\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
 
 void func_801A788C(s32 a0) {
     /* Block scope on purpose: md_SC07_004.c declares these four at FILE scope with
@@ -5534,7 +5534,7 @@ void func_801A80C0(void *a0) {
 }
 
 
-__asm__(".section .rodata\nD_801A0210:\n.word 0x00C0C0C0\n.section .text");
+__asm__(".section .rodata\nD_801A0210:\n.word 0x00C0C0C0\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
 
 void func_801A8228(s32 a0)
 {
@@ -8025,7 +8025,7 @@ extern u8 D_801A0214;
  * migrated .s and has no INCLUDE_RODATA line in the TU; while the function
  * was INCLUDE_ASM the island rode in on the stub. Re-emit it here so the
  * banked C does not drop the symbol from the link. */
-__asm__(".section .rodata\nD_801A0214:\n.word 0x00800000\n.section .text");
+__asm__(".section .rodata\nD_801A0214:\n.word 0x00800000\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
 
 void func_801AB8C0(s32 s1)
 {
@@ -8967,7 +8967,7 @@ void func_801ACE20(void *a0) {
 /* §8 rodata island: D_801A0218 (0x000020E0) lives only in this function's own
    .s rodata block, so this draft owns its definition. Same __asm__ island spelling the TU
    already uses for its other single-word rodata islands. */
-__asm__(".section .rodata\nD_801A0218:\n.word 0x000020E0\n.section .text");
+__asm__(".section .rodata\nD_801A0218:\n.word 0x000020E0\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
