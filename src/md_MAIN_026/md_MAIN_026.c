@@ -453,30 +453,16 @@ void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, 
     w3c = (u32)L.o1;
     L.v58[2] = 0;
 
-#define LDV(p) __asm__ __volatile__("lwc2 $0, 0(%0)\n" \
-    "lwc2 $1, 4(%0)\n" \
-    : : "r"(p) : "memory")
-#define MVMVA __asm__ __volatile__("nop\n" \
-    "nop\n" \
-    "mvmva 1, 0, 0, 0, 0\n" \
-    : : : "memory")
-#define STSV(p) __asm__ __volatile__("mfc2 $12, $9\n" \
-    "mfc2 $13, $10\n" \
-    "mfc2 $14, $11\n" \
-    "sh $12, 0(%0)\n" \
-    "sh $13, 2(%0)\n" \
-    "sh $14, 4(%0)\n" \
-    : : "r"(p) : "$12", "$13", "$14", "memory")
 
-    LDV(L.v48);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
-    MVMVA;
-    STSV((u16 *)w3c);
-    LDV(L.v50);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
-    MVMVA;
-    STSV(L.o2);
-    LDV(L.v58);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
-    MVMVA;
-    STSV(L.o3);
+    gte_ldv0(L.v48);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    gte_rtv0tr();
+    gte_stsv((u16 *)w3c);
+    gte_ldv0(L.v50);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    gte_rtv0tr();
+    gte_stsv(L.o2);
+    gte_ldv0(L.v58);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    gte_rtv0tr();
+    gte_stsv(L.o3);
 
     __asm__ __volatile__("" : : "r"(twicep));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
 

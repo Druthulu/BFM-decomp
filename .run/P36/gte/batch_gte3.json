@@ -1,0 +1,73 @@
+{
+ "label": "gte3",
+ "files": [
+  "src/md_MAIN_026/md_MAIN_026.c"
+ ],
+ "totals": {
+  "CONSOLIDATED": 1,
+  "deleted": 3,
+  "renamed_defs": 0,
+  "use_renames": 9,
+  "direct_calls": 0,
+  "direct_levers": 0,
+  "direct_none": 0,
+  "marked": 0,
+  "variants_freed": 2,
+  "variants_kept": 0,
+  "kept": 0,
+  "compiles": 3
+ },
+ "rows": [
+  {
+   "ts": "2026-09-09 06:29:34",
+   "label": "gte3",
+   "rung": "gte",
+   "calib": {
+    "head": "5b6e1a2fe",
+    "stamp": "b44c5a8a3423"
+   },
+   "tu": "src/md_MAIN_026/md_MAIN_026.c",
+   "fn": null,
+   "addr": null,
+   "aliases": null,
+   "header": false,
+   "sites": [],
+   "compiles": 3,
+   "seconds": 0.16768860816955566,
+   "record": {
+    "deleted": 3,
+    "renamed_defs": 0,
+    "use_renames": 9,
+    "direct_calls": 0,
+    "direct_levers": 0,
+    "direct_none": 0,
+    "marked": 0,
+    "defs": [
+     {
+      "name": "LDV",
+      "l0": 456,
+      "action": "deleted",
+      "canonical": "gte_ldv0"
+     },
+     {
+      "name": "MVMVA",
+      "l0": 459,
+      "action": "deleted",
+      "canonical": "gte_rtv0tr"
+     },
+     {
+      "name": "STSV",
+      "l0": 463,
+      "action": "deleted",
+      "canonical": "gte_stsv"
+     }
+    ],
+    "direct": [],
+    "kept": 0,
+    "variants_freed": 2,
+    "variants_kept": 0
+   },
+   "verdict": "CONSOLIDATED"
+  }
+ ]
+}

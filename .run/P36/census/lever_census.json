@@ -3,7 +3,6 @@
   "gte_header": "include/gte_inline.h",
   "gte_header_sites": 0,
   "gte_mnemonics": {
-   "STSV": 3,
    "cfc2": 1,
    "gte_rt": 3,
    "lw": 24,
@@ -35,10 +34,10 @@
    "barrier/direct": 4576,
    "barrier/via-macro": 2,
    "gte-lever/direct": 362,
-   "gte-lever/via-macro": 103,
+   "gte-lever/via-macro": 100,
    "gte-unsigned/direct": 3,
    "gte/direct": 200,
-   "gte/via-macro": 6,
+   "gte/via-macro": 3,
    "instruction/direct": 1690,
    "instruction/via-macro": 22,
    "keepalive/direct": 2000,
@@ -66,22 +65,22 @@
    "bodies": 9435,
    "distinct_bodies": 905,
    "file_scope": 13,
-   "in_bodies": 16322,
+   "in_bodies": 16316,
    "kinds": {
     "asm-body": 13,
     "barrier": 4578,
-    "gte": 206,
-    "gte-lever": 465,
+    "gte": 203,
+    "gte-lever": 462,
     "gte-unsigned": 3,
     "instruction": 1712,
     "keepalive": 2000,
     "launder": 4676,
     "verbatim-body": 2682
    },
-   "marked": 13446,
-   "sites": 16335,
+   "marked": 13443,
+   "sites": 16329,
    "tus": 2279,
-   "unmarked": 2889
+   "unmarked": 2886
   },
   "C": {
    "bodies": 628,
@@ -186,8 +185,8 @@
   "asm": {
    "comment_dead": 6792,
    "live": 44272,
-   "macro_block": 197,
-   "raw": 51261
+   "macro_block": 194,
+   "raw": 51258
   },
   "attribute": {
    "comment_dead": 0,
@@ -215,37 +214,37 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 36.7,
+ "elapsed_s": 47.9,
  "generated": "2026-09-09",
  "gte_levers": {
   "direct": 362,
-  "marked": 465,
-  "sites": 465,
+  "marked": 462,
+  "sites": 462,
   "unmarked": 0,
   "unsigned": 3,
-  "via_macro": 103,
+  "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "666d4b5ae",
+ "head": "5b6e1a2fe",
  "headers": 3181,
  "levers_AB": {
-  "asm": 13444,
+  "asm": 13441,
   "bodies": 12712,
   "distinct_bodies": 1759,
-  "marked": 34090,
+  "marked": 34087,
   "pins": 20646,
-  "sites": 34090,
+  "sites": 34087,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
  "macro_definitions": {
   "kinds": {
    "barrier": 1,
-   "gte": 153,
+   "gte": 150,
    "instruction": 9,
    "launder": 428
   },
-  "names": 23,
+  "names": 20,
   "names_with_multiple_texts": 3,
   "top": [
    [
@@ -309,21 +308,6 @@
     1
    ],
    [
-    "LDV",
-    1,
-    1
-   ],
-   [
-    "MVMVA",
-    1,
-    1
-   ],
-   [
-    "STSV",
-    1,
-    1
-   ],
-   [
     "gte_ldv0_m",
     1,
     1
@@ -364,21 +348,25 @@
     1
    ]
   ],
-  "total": 591
+  "total": 588
  },
  "orphan_markers": {
-  "count": 0,
-  "sample": []
+  "count": 3,
+  "sample": [
+   "src/md_MAIN_026/md_MAIN_026.c:457",
+   "src/md_MAIN_026/md_MAIN_026.c:460",
+   "src/md_MAIN_026/md_MAIN_026.c:463"
+  ]
  },
  "per_tu_asm_macro_definitions": {
   "by_kind": {
    "barrier": 1,
-   "gte": 153,
+   "gte": 150,
    "instruction": 9,
    "launder": 428
   },
   "gte_variants": 64,
-  "total": 591,
+  "total": 588,
   "what": "asm-bearing #define blocks outside the GTE header: 0 at the close (T5 deletes the canonical duplicates, T7 the variants)"
  },
  "pins": {
@@ -426,7 +414,7 @@
   "volatile_qualified": 134,
   "zero": 1321
  },
- "src_stamp": "85e45235928f3860",
+ "src_stamp": "6007ef647e2f7b41",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {

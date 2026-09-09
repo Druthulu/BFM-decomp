@@ -474,6 +474,11 @@ accumulate here as the phase produces them.**
   The batch commits' census lines undercounted the GTE levers (the shrunk table) — this entry is the corrected reading (R66). Next: the
   refused unit rejudged, the dead-macro sweep, the T5 verify line.
 
+- **S98 — T5 batch `gte3`: the refused unit rejudged with the object-like fix.** `md_MAIN_026.c: CONSOLIDATED — deleted 3 defs, use renames 9`
+  (`MVMVA;` → `gte_rt();`; variant trials 2 freed) → R22 **`check-all: 218 passed, 0 failed of 218`** (`.run/P36/baseline/r22_gte3.log`) → census
+  `34,087 sites … marked 34,087 · UNMARKED 0` · `GTE levers 462` · `per-TU asm macro definitions 588 {gte 150, launder 428, instruction 9, barrier 1}`.
+  Every unit with GTE work is now consolidated (`gte_consolidate --status`: 645 consolidated, 6 unchanged, 0 refused).
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ — all committed (T4 = 13 batch commits `a605e1dba`…`f087282a3` + the tool commits; this close); NEXT = T5 the GTE consolidation + the dead lever-macro sweep | the number: 33,625 sites in 12,501 bodies (1,728 distinct) · marked 33,625 · UNMARKED 0 · orphans 0 — `lever_census --check` OK | last batch `gte2` on 145ab7719: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 34,085 sites in 12,710 bodies (1,757 distinct) · marked !FAKE 33,741 · UNMARKED 344
 
 ### 0. How to use this block

@@ -1,0 +1,2 @@
+06:29:34   src/md_MAIN_026/md_MAIN_026.c: CONSOLIDATED — deleted 3 defs, renamed 0, use renames 9, direct calls 0, direct levers 0, unmatched 0, marked 0
+06:29:34 gte_consolidate: batch gte3 — 1 files: 1 consolidated, 0 defs-only, 0 unchanged, 0 refused, 0 no-recipe · definitions deleted 3 / renamed as lever variants 0 (variant trials: 2 freed, 0 kept) · header-bound definitions kept 0 · use renames 9 · direct statements → calls 0 / lever 0 / unmatched 0 · markers 0 · compiles 3 · final 1/1 written files identical · refused 0 (restored, ledgered)
