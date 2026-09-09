@@ -1458,7 +1458,7 @@ def block_wraps(text, tu, fn, d_):
     return out
 
 
-def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=True):
+def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=True, focus=()):
     """[(recipe, description, candidate text)] — the byte-neutral shape recipes of the cookbook, mechanically.
     R2 (§76/§501-R, the allocation ORDER is the bank): the formerly-pinned declarations permuted among their own lines.
     R4: one of them moved through the whole declaration run. R3 (§17a/§501-P): an initializer split off its declaration.
@@ -1538,6 +1538,15 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
             continue
         seen.add(cand)
         uniq.append((rec, desc, cand))
+    # LOCALITY: the lever says where to look. R5/R6/R7 emit one candidate per site in body order, and a flat `cap` then
+    # truncates the tail — the aborted S99 sweep judged ~200 bodies at cap 40 and closed none, while the shape that closed
+    # func_80135D20 was a block wrap well down its body. Candidates carrying a line (`… @N`) are ordered by distance to the
+    # nearest NEEDED site; the declaration-level recipes (R2/R3/R4), which are few and have no line, keep the front.
+    if focus:
+        def key(item):
+            m = re.search(r"@(\d+)$", item[1])
+            return (1, min(abs(int(m.group(1)) - f) for f in focus)) if m else (0, 0)
+        uniq.sort(key=key)
     return uniq[:cap]
 
 
@@ -1675,7 +1684,8 @@ def recipes(a):
                     state["skipped"] += 1
                     state["done"] += 1
                 continue
-            cands = recipe_candidates(free, tu, fn, names, cap=a.cap)
+            focus = tuple(s["line"] for s in r.get("sites", []) if s.get("verdict") == "NEEDED" and s.get("line"))
+            cands = recipe_candidates(free, tu, fn, names, cap=a.cap, focus=focus)
             if not cands:
                 with _LOCK:
                     state["skipped"] += 1
