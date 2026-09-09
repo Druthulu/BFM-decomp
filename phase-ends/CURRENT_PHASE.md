@@ -96,6 +96,8 @@
   residue counted as a lever). The 20 per-overlay trampoline families (133 private copies each, bytes varying with the wrapped callee)
   are the names phase's parameterized-form inheritance.
 
+- **S98 (2026-09-09), Drew, mid-T3:** *"dont start ultra code wave for reshaping without my direct approval."* → **T7's reshaping waves (Ultracode) start ONLY on Drew's direct approval in the session that would run them** — the R27 toggle is necessary, not sufficient; the T6 recipe/permuter rungs and the mechanical campaign are not waves and proceed under P3.
+
 ## Rules at gate 1 (P10)
 
 **R100–R106 ratified by the plan approval (2026-09-09; the PhaseEnd_Phase35 candidates (a)–(g), operated through P35):**
@@ -245,7 +247,53 @@ accumulate here as the phase produces them.**
   volatile declarations, `$0` variables, instructions. **Design consequences for T3:** per-body compiles at 0.2 s make group testing
   unnecessary (simplicity wins); run T4 first and publish the fall; rung R (T6) targets the three big classes in that order.
 
-## 🛑 SESSION CHECKPOINT — S97 close (2026-09-09, at 69 % context): T0 ☑ T1 ☑ T1b ☑ T2 ☑ — all committed (T2 `617f29e30`, the checkpoint `772052dff`, this refresh); NEXT = T3 (`tools/delever.py` the campaign tool: the ledger, --plan/--apply batches with the `!FAKE` markers, exemplar/replay, refusals, `delever_cycle.sh`, selftest) in a FRESH session at Max for the design
+- **S98 2026-09-09 — T3 the campaign tool (design at Max; the tools built, the end-to-end batch follows).** Session start at low effort; Drew:
+  `/effort max`, "build task list and resume current phase"; the harness task list rebuilt (R28, 12 tasks; T0–T2 completed). Reconnaissance on
+  T2's engine and probe before any design (R37/R38): three findings that CHANGE the numbers — (1) **989 of the 4,793 direct launders are
+  ASSIGNMENTS** (`__asm__("" : "=r"(p) : "0"(&D_x))` — output ≠ input); the probe deleted them as statements, which left the variable undefined and
+  **cc1 2.7.2 ABORTED** (the probe's one "Done" COMPILE-ERROR, `ov_SC03_124 func_80188C68` launder at 3449, reproduced 3/3: rc 134,
+  `Aborted (core dumped) | tools/bin/gcc-2.7.2-psx/cc1`; the error filter had kept bash's job-status line and dropped the signal line) — the
+  probe's "launder 77 % needed" is partly this; (2) the **macro-carried launders are mostly compound macros** (`XFER`/`DRAW`/`RTP_SND`/`COPY_TO_FAAC`,
+  ~60 uses in 8 definitions: real code around the asm — the probe's rewrite deleted the whole USE statement, which is a correctness hazard; only
+  `SHB`/`ENGINE_SHB` (416 defs / 2 texts, 399 uses) are pure launder statements and `LAUNDER_8018A180` a launder statement-expression);
+  (3) **46 lever bodies live in `-O0` translation units** (boot.c 31 bare `register` + 6 instructions; `md_MAIN_003_o0*` / `md_MAIN_011`) — the
+  plan's "none have pins" was about pins; they are judged by their own recipes, not refused (the ledger records `o0`). Also measured: 5 lever
+  bodies not named `func_` (addresses from `config/symbols.us.txt`), 1 class whose members disagree on the site sequence (the replay checks it),
+  369 header bodies (203 with < 20 includers, 165 with 120–139), 517 file-scope `volatile` declarations in 256 TUs, 2 `volatile` parameters,
+  0 multi-declarator pins, nested includes only `engine_prelude.h` → `include/` (the includer scan is transitive anyway).
+  **Design (X1, the non-obvious choices):** the verdict unit is the body, the write unit the file, the proof unit the file's FINAL compile
+  (every body judged against the original text; all accepted edits + the file-scope volatile edits + the markers spliced once and compiled
+  through every recipe — a twin's object, every includer of a header in parallel; DIFFERS → the file-scope edits dropped and retried → the file
+  restored and COMBINATION-FAILED, loud); **"done" is a ledger fact keyed by normalized text** (every row carries the body's `nhash` BEFORE and
+  AFTER; current nhash ∈ after-hashes → done, ∈ before-hashes → replay in one compile, a disagreement falls through to the full ladder and is
+  recorded; markers are comments and do not move the hash; a reshaped body gets a new hash and is drawn again — so T6/T7 need no new bookkeeping);
+  the launder-assignment and macro-shape rewrites above; the oracle's **COMPILE-CRASH** verdict (a signal line / rc ≥ 128, R103) distinct from
+  COMPILE-ERROR; class C/D survivors judged, ledgered, never marked (decision 3), class A/B survivors marked `// !FAKE: <kind> <detail> — <verdict>
+  (P36 <rung> <label>)` at the end of their line (one marker per line, an old one replaced); an asm-body DEFERRED (T7) and marked; the census
+  gains `head` + a stat-based `src_stamp` and `--apply` refuses a census that does not describe the tree (it reruns it); the outer gate of EVERY
+  batch is the clean fleet run (90 s — cheaper than per-binary checks past ~15 touched binaries, and it refreshes `build/`, the oracle's
+  baselines); the calibration is rerun after every commit (2.4 s; its positive control now restores the source's mtime so the census stamp
+  survives it); exemplar files run before their copies (a class cover, phase 1) so the replay discount is real; `inflight.json` (every batch
+  file's original text, written before the first write) is the only restore (R102). Refusals: a token mismatch, no statement end, a compound
+  macro, an instruction with no C spelling, an assigned zero-register variable, two `$0` pins in one body, a no-op edit, an empty includer set,
+  a dirty `src/`, a stale calibration or census, an untracked dotfile under `src/` (the cycle).
+  **Built:** `tools/delever.py` (1,548 lines: `--plan`, `--apply`, `--restore`, `--status`, `--apply-body`, `--selftest`, `--probe`),
+  `tools/delever_oracle.py` (COMPILE-CRASH, `recipes_by_src`, `judge_all`, the mtime restore), `tools/lever_census.py` (`src_stamp`, `head`),
+  `tools/delever_cycle.sh`, `.gitignore` (`inflight.json` ignored; the ledger/batch records/logs already allowlisted), SETUP + dictionary rows,
+  kit corpus (`tool_census --check: OK`).
+  **Verify so far:** `delever --selftest: OK — 15 sites in the exemplar, 1 refused rewrite(s), ladder RESIDUE (15 compiles), replay replay
+  (1 compile), markers 5` (the fixture through the census's own parser: every rewrite incl. the assignment launder, the `$0` uses → 0, the
+  expression-launder macro → `((s32)(&buf))`, the compound macro REFUSED; the ladder against a stub oracle with two needed sites and one whose
+  removal crashes → NEEDED COMPILE-CRASH; 5 marker lines, none on a class C/D site; the replay on a copy in another address environment = 1
+  compile with the same verdicts; a disagreeing replay → rung B; the ledger index; the oracle's signal-line regex on the real bash form).
+  `lever_census --sites -j 16 --no-cache`: **53,234 / 15,679 / 2,227 unchanged**, `head 89676f096`, `src_stamp` written (32 s).
+  `delever_oracle --calibrate main ov_SC03_014 ov_SC03_015 ov_SC04_011: 177/177 objects byte-identical untouched; twin checks 32 (0 mismatch);
+  positive control DIFFERS on build/src/800.o; 2.4 s — OK`. `delever --plan --only ov_SC04_011: 18 of 18 drawable files · 176 bodies (109 in
+  multi-copy classes) · 540 removable sites`; the campaign order's head: the `*_jr_80140608.c` copies (11 bodies / 30 sites each, classes of
+  134); headers: 371 drawable files. **Next in this task:** the end-to-end batch `LABEL_PREFIX=t3_ TASK=T3 tools/delever_cycle.sh 1 1 300 tus
+  ov_SC04_011` (apply → R22 → census → log → commit), then the checkpoint refresh.
+
+## 🛑 SESSION CHECKPOINT — S98 in progress (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ — T3 tools BUILT + selftest OK + calibration OK (this commit); NEXT = the T3 end-to-end batch on ov_SC04_011 via `tools/delever_cycle.sh` (then the checkpoint refresh, then T4). The §0–§4 below are the S97-close text and stay valid except: `tools/delever.py` now has the campaign commands (see the T3 log entry) and T7 needs Drew's direct approval (decisions).
 
 ### 0. How to use this block
 A fresh session (S98) reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T3's design is Max; its

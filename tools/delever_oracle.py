@@ -42,6 +42,8 @@ RECIPES = RUN / "recipes.json"
 CALIB = RUN / "calibration.json"
 SCRATCH = RUN / "obj"
 RECIPE_RE = re.compile(r"^set -o pipefail; (.*) -o (build/\S+\.o)$")
+SIGNAL_LINE = re.compile(r"^\s*\d+\s+(Aborted|Segmentation fault|Illegal instruction|Floating point exception|Bus error|Killed)[^\n]*", re.M)
+JOB_STATUS_LINE = re.compile(r"^(bash: line \d+: )?\s*\d+\s+(Done|Exit \d+)\b")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -156,11 +158,17 @@ def compile_obj(recipe, text=None, tag="x", write_path=None):
     r = subprocess.run(["bash", "-c", cmd], cwd=REPO, capture_output=True, text=True)
     dt = time.time() - t0
     if r.returncode != 0 or not out.exists():
+        # a pipeline member killed by a signal (cc1 2.7.2 aborts on some candidates — e.g. a variable whose only definition was a
+        # launder that got deleted): bash prints the job-status block ("Done" / "Aborted (core dumped)" / "Segmentation fault")
+        # and the pipeline's rc is >= 128 — that is a CRASH verdict, not a diagnostic (R103: the real message forms)
+        sig = SIGNAL_LINE.search(r.stderr)
+        if sig or r.returncode >= 128:
+            return None, dt, "CRASH: " + (sig.group(0).strip() if sig else f"rc={r.returncode}")
         # gcc 2.7.2 prints errors without the word "error" and the assembler floods stderr with `$at` warnings: keep every
         # non-warning line (R103), then the tail
         errs = [ln for ln in r.stderr.splitlines()
                 if ln.strip() and not re.search(r"\bwarning:", ln, re.I) and not ln.startswith(("In file included", " " * 16))
-                and ": In function" not in ln]
+                and ": In function" not in ln and not JOB_STATUS_LINE.match(ln)]
         return None, dt, ("\n".join(errs[:8]) or r.stderr[-400:])
     data = out.read_bytes()
     try:
@@ -183,8 +191,30 @@ def judge(recipe, text, tag="x", write_path=None):
         return "NO-BASELINE", 0.0, ""
     data, dt, err = compile_obj(recipe, text, tag, write_path)
     if data is None:
-        return "COMPILE-ERROR", dt, err
+        return ("COMPILE-CRASH" if err.startswith("CRASH:") else "COMPILE-ERROR"), dt, err
     return ("IDENTICAL" if data == base else "DIFFERS"), dt, ""
+
+
+def recipes_by_src(recipes):
+    """src rel -> [recipe] (a twin binary compiles the primary's source into its own object: two recipes, one source)."""
+    out = {}
+    for r in recipes.values():
+        out.setdefault(r["src"], []).append(r)
+    for v in out.values():
+        v.sort(key=lambda r: r["obj"])
+    return out
+
+
+def judge_all(recipes, text, tag="x", write_path=None):
+    """Every recipe of one written file judged in turn (the file is written once, by the first compile; the CALLER restores it).
+    Returns (verdict, seconds, err): IDENTICAL only if every object is identical; otherwise the first non-identical verdict."""
+    total, first = 0.0, None
+    for i, r in enumerate(recipes):
+        v, dt, err = judge(r, text if i == 0 else None, tag=tag, write_path=write_path)
+        total += dt
+        if v != "IDENTICAL" and first is None:
+            first = (v, err)
+    return (first[0] if first else "IDENTICAL"), total, (first[1] if first else "")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -222,6 +252,7 @@ def calibrate(aliases, jobs, recipes):
     import share_census as sc
     ctl = recs[0]
     src = REPO / ctl["src"]
+    st0 = src.stat()
     orig = src.read_text(errors="surrogateescape")
     pos_verdict = "SKIPPED"
     defs = [r for r in sc.scan_text(orig, ctl["src"], shared_defs=None) if r["form"] == "def" and r.get("nlines", 0) >= 3 and not r.get("empty")]
@@ -239,6 +270,7 @@ def calibrate(aliases, jobs, recipes):
                 pos_verdict = pos_verdict if pos_verdict != "COMPILE-ERROR" else f"COMPILE-ERROR ({err[-100:]})"
             finally:
                 src.write_text(orig, errors="surrogateescape")
+                os.utime(src, ns=(st0.st_atime_ns, st0.st_mtime_ns))   # the census's src stamp is stat-based: a restore is not a change
     by_alias = {}
     for x in results:
         d = by_alias.setdefault(x["alias"], dict(objects=0, identical=0, seconds=0.0))

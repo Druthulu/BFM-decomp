@@ -598,6 +598,22 @@ def _walk_worker(args):
 # ----------------------------------------------------------------------------------------------------------------------
 # the fleet
 # ----------------------------------------------------------------------------------------------------------------------
+def src_stamp():
+    """sha1 over (path, size, mtime_ns) of every .c/.h under src/: the tree the census describes. delever refuses a census whose
+    stamp is not the working tree's (R43) — a restore-write that changes only an mtime just costs a census rerun (35 s)."""
+    h = hashlib.sha1()
+    for p in sorted((REPO / "src").rglob("*")):
+        if p.suffix in (".c", ".h") and not p.name.startswith("."):
+            st = p.stat()
+            h.update(f"{p.relative_to(REPO).as_posix()}|{st.st_size}|{st.st_mtime_ns}\n".encode())
+    return h.hexdigest()[:16]
+
+
+def git_head():
+    import subprocess
+    return subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
+
+
 def enumerate_files(aliases, dirs):
     """TU -> [aliases] (a twin's TUs are its primary's, listed for both), plus every header under src/ (aliases = its includers')."""
     import compile_only
@@ -756,6 +772,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
         macro_texts[m["name"]].add(m["text_hash"])
     summary = dict(
         generated=time.strftime("%Y-%m-%d"), binaries=len(aliases), tus=len(tu_aliases), headers=len(headers),
+        head=git_head(), src_stamp=src_stamp(),
         coverage=coverage, coverage_ok=cov_ok, unclassified=len(unclassified),
         verbatim_excluded=dict(sites=verbatim_sites, functions=len(verbatim_fns), manifest_rows=len(verb)),
         classes=classes,

@@ -229,8 +229,9 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 40.0,
+ "elapsed_s": 36.0,
  "generated": "2026-09-09",
+ "head": "89676f096",
  "headers": 3181,
  "levers_AB": {
   "asm": 15514,
@@ -434,6 +435,7 @@
   "volatile_qualified": 136,
   "zero": 1337
  },
+ "src_stamp": "8be8c2a58e0ebac7",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {

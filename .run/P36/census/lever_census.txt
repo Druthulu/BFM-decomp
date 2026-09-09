@@ -12,7 +12,7 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
   E asm-label    7428      1005       6423     737       117  2080       0      7428   {'asm-label': 7428}
   F builtin       445       445          0     428        27   302       0       445   {'builtin': 445}
   G attribute      76         1         75       1         1    40       0        76   {'attribute': 76}
-  UNION A–D: 19,156 bodies · 2,537 distinct (addresses normalized) · 488 multi-copy classes holding 17,107 bodies · by kind {'ov': 18330, 'shared': 393, 'md': 213, 'main': 204, 'resident': 16}
+  UNION A–D: 19,156 bodies · 2,537 distinct (addresses normalized) · 488 multi-copy classes holding 17,107 bodies · by kind {'ov': 18330, 'md': 213, 'shared': 393, 'main': 204, 'resident': 16}
   THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 53,234 sites in 15,679 bodies (2,227 distinct) · marked !FAKE 0 · UNMARKED 53,234
   pins: 37,720 · $0 1,337 · $sp 13 · with initializer 5,140 · volatile-qualified 136 · bare-name 76 · spellings {'__asm__': 37510, 'asm': 210}
   whole-body asm routines in C shells, manifest PERMANENT (hand asm, NOT levers): 22 routines · 2,682 sites (2,660 private copies + 22 shared headers); asm-bodies NOT permanent (levers): 13 site(s) ['func_8001E378:DECOMPILE-NOW', 'func_80020F34:DECOMPILE-NOW', 'func_800249F0:DECOMPILE-NOW', 'func_80025CBC:DECOMPILE-NOW', 'func_80026514:UNCERTAIN', 'func_800268D0:UNCERTAIN', 'func_80027058:DECOMPILE-NOW', 'func_80027200:DECOMPILE-NOW', 'func_800CBA44:DECOMPILE-NOW', 'func_8017D810:DECOMPILE-NOW', 'func_8017E26C:UNCERTAIN', 'func_80184440:DECOMPILE-NOW', 'func_801A3BCC:DECOMPILE-NOW']
@@ -25,4 +25,4 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
     src/shared/ov/func_80178004.h pins                   got 26     expected 26  OK
     ov_SC03_006 func_80184034 bare-name pins             got 3      expected 3  OK
     engine_prelude.h asm sites (a macro definition only) got 0      expected 0  OK
-  elapsed 40.0 s
+  elapsed 36.0 s
