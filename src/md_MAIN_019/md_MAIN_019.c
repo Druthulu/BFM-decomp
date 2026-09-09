@@ -427,7 +427,7 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
     func_80017DC4((void *)t, (void *)mat);
     pa = p;
     gte_SetRotMatrix(a2);
-    __asm__ volatile (
+    __asm__ volatile (  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lhu $12, 0( %0 );"
         "lhu $13, 6( %0 );"
         "lhu $14, 12( %0 );"
@@ -439,9 +439,9 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
         "mvmva 1, 0, 3, 3, 0"
         :
         : "r"((s32)mat)
-        : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldclmv+gte_rtir_m) beyond Sony's (P36 T5 gte1)
+        : "$12", "$13", "$14", "memory");
     gte_stclmv((s32)mat);
-    __asm__ volatile (
+    __asm__ volatile (  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lhu $12, 0( %0 );"
         "lhu $13, 6( %0 );"
         "lhu $14, 12( %0 );"
@@ -453,9 +453,9 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
         "mvmva 1, 0, 3, 3, 0"
         :
         : "r"((s32)mat + 2)
-        : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldclmv+gte_rtir_m) beyond Sony's (P36 T5 gte1)
+        : "$12", "$13", "$14", "memory");
     gte_stclmv((s32)mat + 2);
-    __asm__ volatile (
+    __asm__ volatile (  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lhu $12, 0( %0 );"
         "lhu $13, 6( %0 );"
         "lhu $14, 12( %0 );"
@@ -467,7 +467,7 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
         "mvmva 1, 0, 3, 3, 0"
         :
         : "r"((s32)mat + 4)
-        : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldclmv+gte_rtir_m) beyond Sony's (P36 T5 gte1)
+        : "$12", "$13", "$14", "memory");
     gte_stclmv((s32)mat + 4);
     ((s32 *)mat)[5] = a2[5];
     ((s32 *)mat)[6] = a2[6];

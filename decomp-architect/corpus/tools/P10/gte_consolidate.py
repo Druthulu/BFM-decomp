@@ -233,13 +233,23 @@ def files_under_src():
     return [p for p in sorted((REPO / "src").rglob("*")) if p.suffix in (".c", ".h") and not p.name.startswith(".")]
 
 
+def inventory_files():
+    """the tree's definitions AND the header's own (the canonical table must stay stable once definitions have moved into the header:
+    without it a signature whose per-TU definitions were all deleted dropped out of the table and its direct statements silently
+    stopped being classified — 357 levers vanished from the census after batch gte2)."""
+    files = files_under_src()
+    if (REPO / HEADER).exists():
+        files.append(REPO / HEADER)
+    return files
+
+
 def inventory(jobs=12, quiet=False):
     """definitions: [{tu, l0, l1, name, params, body, kind, sig}], direct: [{tu, line, col, inner, sig}], uses: Counter(name)."""
     sites = dl.load_sites()
     uses = collections.Counter(s["via"] for s in sites if s.get("via") and s["kind"] == "gte")
     direct_sites = [s for s in sites if s["kind"] == "gte" and not s.get("via")]
     defs, direct = [], []
-    for p in files_under_src():
+    for p in inventory_files():
         raw = p.read_text(errors="surrogateescape")
         if "#define" not in raw and "asm" not in raw:
             continue
@@ -309,6 +319,24 @@ def canonical_table(inv, quiet=False):
             base = re.sub(r"_v[0-9a-f]{4}$", "", base)
             stripped[base] += cnt
         nout0, nin0 = ds[0]["sig"]["nout"], ds[0]["sig"]["nin"]
+        from_header = [d for d in ds if d["tu"] == HEADER]
+        if from_header:
+            h = from_header[0]
+            names_taken.add(h["name"])
+            canon_clob = tuple(h["sig"]["clob"])
+            canon_defs = [d for d in ds if tuple(d["sig"]["clob"]) == canon_clob]
+            table[key] = dict(name=h["name"], params=h["params"], body=re.sub(r"[ \t]+\n", "\n", h["body"]).strip(), clob=list(canon_clob),
+                              defs=len(canon_defs) - 1, files=len({d["tu"] for d in canon_defs}) - 1, synthesized=False,
+                              names=dict(collections.Counter(d["name"] for d in ds)), sony=(h["name"] in sony), nin=nin0, nout=nout0, tmpl=h["sig"]["tmpl"])
+            clob_sets = collections.Counter(tuple(d["sig"]["clob"]) for d in ds if d["tu"] != HEADER)
+            for cs, cnt in clob_sets.items():
+                if cs != canon_clob:
+                    extra = sorted(set(cs) - set(canon_clob))
+                    fewer = sorted(set(canon_clob) - set(cs))
+                    vname = f"{h['name']}_m" if extra == ["memory"] and not fewer else f"{h['name']}_v{hashlib.sha1('|'.join(cs).encode()).hexdigest()[:4]}"
+                    variants[f"{key}|{'|'.join(cs)}"] = dict(name=vname, of=h["name"], key=key, clob=list(cs), extra=extra, fewer=fewer, defs=cnt,
+                                                           files=len({d["tu"] for d in ds if tuple(d["sig"]["clob"]) == cs and d["tu"] != HEADER}))
+            continue
         # a Sony name is taken only when the operand counts agree with Sony's macro (a private compound that borrowed the name is not it)
         sony_named = [n for n, _ in stripped.most_common() if n in sony and (sony[n][0], sony[n][1]) == (nout0, nin0)]
         gte_names = [n for n, _ in stripped.most_common() if n.startswith("gte_")]
@@ -319,8 +347,10 @@ def canonical_table(inv, quiet=False):
             name = f"gte_{base}" if base else f"gte_{re.sub(r'[^A-Za-z0-9]', '', priv).lower()}"
         if name in sony and not sony_named:
             name = f"{name}_alt"
+        base_name, k = name, 2
         while name in names_taken:
-            name = f"{name}_alt"
+            name = f"{base_name}{k}" if base_name.endswith("_alt") else f"{base_name}_alt{k}"
+            k += 1
         names_taken.add(name)
         clob_sets = collections.Counter(tuple(d["sig"]["clob"]) for d in ds)
         if name in sony:
@@ -399,28 +429,52 @@ def write_header(canon):
 # ----------------------------------------------------------------------------------------------------------------------
 # --apply: per file
 # ----------------------------------------------------------------------------------------------------------------------
-def plan_files(inv, canon, only=None):
-    """tu -> dict(defs=[definitions to delete/rename], direct=[direct statements], renames={old: new})"""
+def header_bound_names(inv):
+    """tu -> the set of asm-macro names that the headers the TU includes USE (a shared header's `gte_x(...)` binds to the includer's
+    definition — the 20 h_text headers are byte-variant per includer for exactly this reason). A local definition of such a name
+    whose canonical name differs is a HOMONYM the includer supplies: it cannot be deleted (the header's use would bind to the global
+    header's macro of that name), so it is kept and counted for the names phase."""
+    names = {d["name"] for d in inv["definitions"]}
+    use_re = re.compile(r"\b(" + "|".join(sorted(map(re.escape, names), key=len, reverse=True)) + r")\s*\(") if names else None
+    hdr_uses = {}
+    tu_headers = collections.defaultdict(set)
+    for h, tus in dl.includers().items():
+        if not h.endswith(".h") or not (REPO / h).exists():
+            continue
+        text = sc.mask_text((REPO / h).read_text(errors="surrogateescape"))
+        used = set(m.group(1) for m in use_re.finditer(text)) if use_re else set()
+        # a name defined in the header itself is the header's own, not the includer's
+        own = {n for (_, _, n, _) in lc.define_blocks((REPO / h).read_text(errors="surrogateescape"))}
+        hdr_uses[h] = used - own
+        for tu in tus:
+            tu_headers[tu].add(h)
+    return {tu: set().union(*(hdr_uses[h] for h in hs)) for tu, hs in tu_headers.items()}
+
+
+def plan_files(inv, canon, only=None, bound=None):
+    """tu -> dict(defs=[definitions to delete/rename/keep], direct=[direct statements], renames={})"""
     by_key = canon["canonical"]
     var_by = {v["key"] + "|" + "|".join(v["clob"]): v for v in canon["variants"].values()}
+    bound = bound if bound is not None else header_bound_names(inv)
     plan = collections.defaultdict(lambda: dict(defs=[], direct=[], renames={}))
     for d in inv["definitions"]:
-        if d["kind"] != "gte" or not (d["sig"] and d["sig"]["ok"]):
+        if d["kind"] != "gte" or not (d["sig"] and d["sig"]["ok"]) or d["tu"] == HEADER:
             continue
         key = sig_key(d["sig"])
         t = by_key.get(key)
         if not t:
             continue
         vkey = key + "|" + "|".join(d["sig"]["clob"])
+        homonym = d["name"] != t["name"] and d["name"] in bound.get(d["tu"], ())
         if tuple(d["sig"]["clob"]) == tuple(t["clob"]):
-            plan[d["tu"]]["defs"].append(dict(d, action="delete", canonical=t["name"]))
-            if d["name"] != t["name"]:
-                plan[d["tu"]]["renames"][d["name"]] = t["name"]
+            if homonym:
+                plan[d["tu"]]["defs"].append(dict(d, action="keep", canonical=t["name"], why="header-bound homonym"))
+            else:
+                plan[d["tu"]]["defs"].append(dict(d, action="delete", canonical=t["name"]))
         elif vkey in var_by:
             v = var_by[vkey]
-            plan[d["tu"]]["defs"].append(dict(d, action="rename", canonical=t["name"], variant=v["name"], extra=v["extra"], fewer=v["fewer"]))
-            if d["name"] != v["name"]:
-                plan[d["tu"]]["renames"][d["name"]] = v["name"]
+            plan[d["tu"]]["defs"].append(dict(d, action="rename", canonical=t["name"], variant=v["name"], extra=v["extra"], fewer=v["fewer"],
+                                              header_bound=(d["name"] in bound.get(d["tu"], ()))))
     for s in inv["direct"]:
         plan[s["tu"]]["direct"].append(s)
     files = {tu: p for tu, p in plan.items() if p["defs"] or p["direct"]}
@@ -466,8 +520,13 @@ def file_edits(tu, raw, p, canon, label):
     ls = dl.line_starts(raw)
     edits, rec = [], dict(deleted=0, renamed_defs=0, use_renames=0, direct_calls=0, direct_levers=0, direct_none=0, marked=0, defs=[], direct=[])
     # definitions: delete or rename (the #define line's name token); a renamed variant gets a comment line above
+    rec["kept"] = 0
     for d in sorted(p["defs"], key=lambda d: d["l0"]):
         start, end = ls[d["l0"] - 1], ls[d["l1"]] if d["l1"] < len(ls) else len(raw)
+        if d["action"] in ("keep", "keep-variant"):
+            rec["kept"] += 1
+            rec["defs"].append(dict(name=d["name"], l0=d["l0"], action="kept", canonical=d["canonical"], why=d.get("why", "")))
+            continue
         if d["action"] == "delete":
             edits.append((start, end, ""))
             rec["deleted"] += 1
@@ -477,34 +536,52 @@ def file_edits(tu, raw, p, canon, label):
             k = line.find(d["name"])
             if k < 0:
                 raise Refuse(f"{tu}:{d['l0']}: the #define line does not carry `{d['name']}`")
-            note = f"/* {FAKE[3:]} gte variant `{d['variant']}` — {', '.join(d['extra']) or 'fewer clobbers'} beyond Sony's `{d['canonical']}` (a scheduling steer; P36 T5) */\n"
+            note = f"/* GTE VARIANT `{d['variant']}`: {', '.join(d['extra']) or 'fewer clobbers'} beyond Sony's `{d['canonical']}` — a scheduling steer, its uses are marked (P36 T5) */\n"
             edits.append((start, start, note))
             edits.append((start + k, start + k + len(d["name"]), d["variant"]))
             rec["renamed_defs"] += 1
             rec["defs"].append(dict(name=d["name"], l0=d["l0"], action="renamed", variant=d["variant"], canonical=d["canonical"]))
-    # uses: rename tokens (outside the #define lines being edited); mark the uses of a lever variant
+    # uses: SCOPED to the definition that governs them — a name is redefined between functions in the same unit (~2 definitions per
+    # name per file), so a use belongs to the last `#define NAME` above it; that definition's target (the canonical name, or the
+    # variant name) decides the rename, and a use governed by a definition outside the plan (unsigned, unmatched) is left alone
     def_lines = {ln for d in p["defs"] for ln in range(d["l0"], d["l1"] + 1)}
-    lever_names = {d["name"] for d in p["defs"] if d["action"] == "rename"} | {d["variant"] for d in p["defs"] if d["action"] == "rename"}
-    for old, new in p["renames"].items():
-        for mm in re.finditer(r"\b%s\b(?=\s*\()" % re.escape(old), m):
+    all_defs = collections.defaultdict(list)          # name -> [(l0, target | None)] over EVERY definition of the name in the file
+    planned = {(d["name"], d["l0"]): d for d in p["defs"]}
+    for (l0, l1, name, body) in lc.define_blocks(raw):
+        d = planned.get((name, l0))
+        target = (d["canonical"] if d["action"] == "delete" else d["variant"] if d["action"] == "rename" else name) if d else None
+        all_defs[name].append((l0, target, d))
+    for name in all_defs:
+        all_defs[name].sort()
+    marked_lines = set()
+    for name, dlist in all_defs.items():
+        if not any(d for _, _, d in dlist):
+            continue
+        objlike = any(d and d.get("params", "") == "" for _, _, d in dlist)
+        use_pat = (r"\b%s\b(?!\s*\()" if objlike else r"\b%s\b(?=\s*\()") % re.escape(name)
+        for mm in re.finditer(use_pat, m):
             ln = m.count("\n", 0, mm.start()) + 1
             if ln in def_lines:
                 continue
-            edits.append((mm.start(), mm.end(), new))
-            rec["use_renames"] += 1
-    marked_lines = set()
-    for name in lever_names:
-        for mm in re.finditer(r"\b%s\b(?=\s*\()" % re.escape(name), m):
-            ln = m.count("\n", 0, mm.start()) + 1
-            if ln in def_lines or ln in marked_lines:
-                continue
-            le = m.find("\n", mm.start())
-            le = len(raw) if le < 0 else le
-            if FAKE in raw[ls[ln - 1]:le]:
-                continue
-            edits.append((le, le, f"  {FAKE} gte via {name if name.endswith(('_m',)) or '_v' in name else p['renames'].get(name, name)} — a clobber Sony's macro lacks (P36 T5 {label})"))
-            marked_lines.add(ln)
-            rec["marked"] += 1
+            gov = None
+            for l0, target, d in dlist:
+                if l0 < ln:
+                    gov = (target, d)
+            if gov is None or gov[1] is None:
+                continue                                   # a use before any definition (the header's), or one of an unplanned definition
+            target, d = gov
+            if objlike and d.get("params", "") == "" and d["action"] == "delete":
+                target = target + "()"                     # an object-like use becomes a call of the function-like canonical
+            if target != name:
+                edits.append((mm.start(), mm.end(), target))
+                rec["use_renames"] += 1
+            if d["action"] in ("rename", "keep-variant") and ln not in marked_lines:
+                le = m.find("\n", mm.start())
+                le = len(raw) if le < 0 else le
+                if FAKE not in raw[ls[ln - 1]:le]:
+                    edits.append((le, le, f"  {FAKE} gte via {target} — {', '.join(d.get('extra') or d.get('fewer') or ['a clobber'])} beyond Sony's `{d['canonical']}` (P36 T5 {label})"))
+                    marked_lines.add(ln)
+                    rec["marked"] += 1
     # direct statements
     for s in p["direct"]:
         pos = ls[s["line"] - 1] + s["col"] - 1
@@ -518,7 +595,7 @@ def file_edits(tu, raw, p, canon, label):
             rec["direct_calls"] += 1
             rec["direct"].append(dict(line=s["line"], action="call", name=name))
         elif how == "lever":
-            le = m.find("\n", e)
+            le = m.find("\n", pos)
             le = len(raw) if le < 0 else le
             if FAKE not in raw[ls[s["line"] - 1]:le] and s["line"] not in marked_lines:
                 edits.append((le, le, f"  {FAKE} gte direct — clobbers {name} ({', '.join(text if isinstance(text, list) else [str(text)])}) beyond Sony's (P36 T5 {label})".replace("clobbers " + str(text) + " (", "as " + str(text) + " (")))
@@ -544,10 +621,11 @@ def apply_batch(a):
     dl.ensure_census(a.jobs)
     inv = inventory(a.jobs, quiet=True)
     canon = canonical_table(inv, quiet=True)
-    files = plan_files(inv, canon, a.only)
+    files = plan_files(inv, canon, a.only, bound=header_bound_names(inv))
     order = sorted(files, key=lambda tu: (-len(files[tu]["defs"]) - len(files[tu]["direct"]), tu))
     ledger_rows = [json.loads(l) for l in LEDGER.read_text().splitlines() if l.strip()] if LEDGER.exists() else []
-    done = {r["tu"] for r in ledger_rows if r.get("rung") == "gte" and r.get("verdict") in ("CONSOLIDATED", "UNCHANGED")}
+    # a REFUSED file (restored to its original text, its reason in the ledger) is not drawn again without --rejudge
+    done = {r["tu"] for r in ledger_rows if r.get("rung") == "gte" and r.get("verdict") in ("CONSOLIDATED", "CONSOLIDATED-DEFS-ONLY", "UNCHANGED", "REFUSED")}
     order = [tu for tu in order if tu not in done or a.rejudge][:a.batch]
     print(f"gte_consolidate --apply {a.label}: {len(order)} files of {len(files)} with work ({len(done)} done) — "
           f"{sum(len(files[t]['defs']) for t in order)} definitions, {sum(len(files[t]['direct']) for t in order)} direct statements", flush=True)
@@ -587,7 +665,7 @@ def apply_batch(a):
         variants = [d for d in plan_tu["defs"] if d["action"] == "rename"]
         freed = 0
         for d in variants:
-            trial = dict(defs=[dict(d, action="delete")], direct=[], renames=({d["name"]: d["canonical"]} if d["name"] != d["canonical"] else {}))
+            trial = dict(defs=[dict(d, action="delete")], direct=[], renames={})
             try:
                 ed, _ = file_edits(tu, raw, trial, canon, a.label)
                 cand = dl.apply_edits(raw, ed)
@@ -601,18 +679,13 @@ def apply_batch(a):
                 row["seconds"] += dt
                 if v == "IDENTICAL":
                     d["action"], d["trial"] = "delete", "IDENTICAL"
-                    if d["name"] != d["canonical"]:
-                        plan_tu["renames"][d["name"]] = d["canonical"]
-                    plan_tu["renames"].pop(d["name"], None) if d["name"] == d["canonical"] else None
                     freed += 1
                 else:
                     d["trial"] = v
+                    if d.get("header_bound"):
+                        d["action"], d["why"] = "keep-variant", "header-bound variant (its uses in the unit marked; the header's use binds to it)"
             except (Refuse, dl.Refuse) as ex:
                 d["trial"] = f"REFUSED {ex}"
-        # a variant that stays a variant keeps its rename to <name>_m
-        for d in variants:
-            if d["action"] == "rename" and d["name"] != d["variant"]:
-                plan_tu["renames"][d["name"]] = d["variant"]
         try:
             edits, rec = file_edits(tu, raw, plan_tu, canon, a.label)
         except Refuse as ex:
@@ -620,7 +693,7 @@ def apply_batch(a):
             log(f"  {tu}: REFUSED {ex}")
             return row
         rec["variants_freed"] = freed
-        rec["variants_kept"] = sum(1 for d in variants if d["action"] == "rename")
+        rec["variants_kept"] = sum(1 for d in variants if d["action"] in ("rename", "keep-variant"))
         row["record"] = rec
         cands = []
         try:
@@ -674,16 +747,19 @@ def apply_batch(a):
     agg = collections.Counter()
     for r in results:
         agg[r["verdict"]] += 1
-        for k in ("deleted", "renamed_defs", "use_renames", "direct_calls", "direct_levers", "direct_none", "marked", "variants_freed", "variants_kept"):
+        for k in ("deleted", "renamed_defs", "use_renames", "direct_calls", "direct_levers", "direct_none", "marked", "variants_freed", "variants_kept", "kept"):
             agg[k] += r.get("record", {}).get(k, 0)
         agg["compiles"] += r["compiles"]
     line = (f"gte_consolidate: batch {a.label} — {len(order)} files: {agg['CONSOLIDATED']} consolidated, {agg['CONSOLIDATED-DEFS-ONLY']} defs-only, "
             f"{agg['UNCHANGED']} unchanged, {agg['REFUSED']} refused, {agg['NO-RECIPE']} no-recipe · definitions deleted {agg['deleted']} / renamed as lever variants "
-            f"{agg['renamed_defs']} (variant trials: {agg['variants_freed']} freed, {agg['variants_kept']} kept) · use renames {agg['use_renames']} · direct statements → calls {agg['direct_calls']} / lever {agg['direct_levers']} / "
-            f"unmatched {agg['direct_none']} · markers {agg['marked']} · compiles {agg['compiles']} · final {len(order) - agg['REFUSED'] - agg['NO-RECIPE']}/{len(order)} identical")
+            f"{agg['renamed_defs']} (variant trials: {agg['variants_freed']} freed, {agg['variants_kept']} kept) · header-bound definitions kept {agg['kept']} · use renames {agg['use_renames']} · direct statements → calls {agg['direct_calls']} / lever {agg['direct_levers']} / "
+            f"unmatched {agg['direct_none']} · markers {agg['marked']} · compiles {agg['compiles']} · "
+            f"final {agg['CONSOLIDATED'] + agg['CONSOLIDATED-DEFS-ONLY']}/{agg['CONSOLIDATED'] + agg['CONSOLIDATED-DEFS-ONLY']} written files identical · "
+            f"refused {agg['REFUSED']} (restored, ledgered)")
     log(line)
     (RUN / f"batch_{a.label}.json").write_text(json.dumps(dict(label=a.label, files=order, totals=dict(agg), rows=results), indent=1))
-    return 0 if agg["REFUSED"] == 0 else 1
+    # a refused file is restored and ledgered — a report, not a failure of the tree; the cycle's gate is the fleet run
+    return 0
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -789,6 +865,70 @@ def sweep(a):
     return 0
 
 
+def remark(a):
+    """--remark: every `gte-lever` site the census reports UNMARKED gets `// !FAKE: gte …` at the end of its (first) line; a variant
+    note that still carries the census's marker token is rewritten; each file judged through every recipe (comments only, but the
+    oracle says so). Run tools/delever.py --scrub first when misplaced markers exist (they are orphans)."""
+    clean, dirty = dl.src_clean()
+    if not clean and not a.dirty_ok:
+        sys.exit(f"gte_consolidate --remark: src/ is dirty (or --dirty-ok after a scrub, both comment-only and judged):\n{dirty[:400]}")
+    ok, why = oracle.calibration_current()
+    if not ok:
+        sys.exit(f"gte_consolidate --remark: calibration not current ({why})")
+    dl.ensure_census(a.jobs)
+    sites = [s for s in dl.load_sites() if s["kind"] == lc.GTE_LEVER_KIND and not s["marked"]]
+    by_tu = collections.defaultdict(list)
+    for s in sites:
+        by_tu[s["tu"]].append(s)
+    recipes = oracle.load_recipes()["recipes"]
+    by_src = oracle.recipes_by_src(recipes)
+    inc = dl.includers()
+    note_re = re.compile(r"^([ \t]*)/\* !FAKE: gte variant `([^`]+)` — (.*?) beyond Sony's `([^`]+)` \(a scheduling steer; P36 T5\) \*/[ \t]*$", re.M)
+    files = set(by_tu) | {p.relative_to(REPO).as_posix() for p in files_under_src() if "/* !FAKE: gte variant" in p.read_text(errors="surrogateescape")}
+    if a.only:
+        files = {f for f in files if any(o in f for o in a.only)}
+    rows, n_marks, n_notes, n_files, bad = [], 0, 0, 0, 0
+    for tu in sorted(files):
+        path = REPO / tu
+        st = path.stat()
+        raw = path.read_text(errors="surrogateescape")
+        ls = dl.line_starts(raw)
+        edits = []
+        for s in by_tu.get(tu, []):
+            le = ls[s["line"]] - 1 if s["line"] < len(ls) else len(raw)
+            if FAKE in raw[ls[s["line"] - 1]:le]:
+                continue
+            what = f"gte via {s['via']}" if s.get("via") else "gte direct"
+            edits.append((le, le, f"  {FAKE} {what} — clobbers beyond Sony's macro (a scheduling steer; P36 T5 {a.label})"))
+        n_marks += len(edits)
+        for mm in note_re.finditer(raw):
+            edits.append((mm.start(), mm.end(), f"{mm.group(1)}/* GTE VARIANT `{mm.group(2)}`: {mm.group(3)} beyond Sony's `{mm.group(4)}` — a scheduling steer, its uses are marked (P36 T5) */"))
+            n_notes += 1
+        if not edits:
+            continue
+        cand = dl.apply_edits(raw, edits)
+        recs = [r for t_ in inc.get(tu, []) for r in by_src.get(t_, [])] if tu.endswith(".h") else by_src.get(tu, [])
+        if not recs:
+            print(f"  {tu}: no recipe — skipped")
+            continue
+        try:
+            v, dt, err = oracle.judge_all(recs, cand, tag="remark", write_path=(tu if tu.endswith(".h") else None))
+        finally:
+            dl.restore_file(path, raw, st)
+        if v == "IDENTICAL":
+            path.write_text(cand, errors="surrogateescape")
+            n_files += 1
+        else:
+            bad += 1
+            print(f"  {tu}: {v} — NOT written ({err[:120]})")
+        rows.append(dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung="remark", calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
+                         tu=tu, fn=None, addr=None, aliases=None, header=tu.endswith(".h"), verdict=("REMARKED" if v == "IDENTICAL" else f"REMARK-{v}"),
+                         marks=len([e for e in edits if e[2].startswith("  //")]), notes=len([e for e in edits if e[2].lstrip().startswith("/*")]), sites=[], compiles=len(recs)))
+    dl.ledger_append(rows)
+    print(f"gte_consolidate --remark {a.label}: {n_marks} markers placed, {n_notes} variant notes rewritten, {n_files} files written, {bad} refused")
+    return 0 if not bad else 1
+
+
 def status():
     rows = [json.loads(l) for l in LEDGER.read_text().splitlines() if l.strip()] if LEDGER.exists() else []
     g = [r for r in rows if r.get("rung") in ("gte", "sweep")]
@@ -855,13 +995,25 @@ def selftest():
     finner = fm[fo + 1:lc._paren_span(fm, fo)]
     inv2 = dict(definitions=defs, direct=[dict(tu="fx.c", line=7, col=5, fn="f", inner=finner, sig=signature(finner))], uses={})
     canon2 = canonical_table(inv2, quiet=True)
-    plan = plan_files(inv2, canon2)
+    plan = plan_files(inv2, canon2, bound={})
     edits, rec = file_edits("fx.c", fx, plan["fx.c"], canon2, "self")
     out = dl.apply_edits(fx, edits)
     if "#define gte_ldv0(" in out or "#define LDV0_DA34" in out:
         fail("canonical/private definitions must be deleted")
-    if "#define gte_ldv0_m( r0 )" not in out or "gte variant `gte_ldv0_m`" not in out:
-        fail(f"the variant definition renamed + noted:\n{out}")
+    if "#define gte_ldv0_m( r0 )" not in out or "GTE VARIANT `gte_ldv0_m`" not in out or "!FAKE" in out.split("#define gte_ldv0_m")[0]:
+        fail(f"the variant definition renamed + noted (the note carries no marker token):\n{out}")
+    # an object-like macro: `#define MVMVA __asm__ volatile ("nop;nop;rtps")` used as `MVMVA;` -> `gte_rtps();`
+    fxo = ('#define MVMVA __asm__ volatile ("nop;nop;rtps")\nvoid h(void) {\n    MVMVA;\n}\n')
+    defso = []
+    for (l0, l1, name, body) in lc.define_blocks(fxo):
+        defso.append(dict(tu="fo.c", l0=l0, l1=l1, name=name, params=define_params(fxo, l0), body=body, kind="gte", sig=signature(asm_inner(body))))
+    invo = dict(definitions=defso + [dict(tu="fa.c", l0=1, l1=1, name="gte_rtps", params="()", body='__asm__ volatile ("nop;nop;rtps")', kind="gte", sig=signature('"nop;nop;rtps"'))], direct=[], uses={})
+    canono = canonical_table(invo, quiet=True)
+    plano = plan_files(invo, canono, bound={})
+    editso, reco = file_edits("fo.c", fxo, plano["fo.c"], canono, "self")
+    outo = dl.apply_edits(fxo, editso)
+    if "#define" in outo or "    gte_rtps();\n" not in outo:
+        fail(f"object-like macro: definition deleted, the bare use becomes a call:\n{outo}")
     if "    gte_ldv0(v);\n" not in out:
         fail(f"the private use renamed to the canonical name:\n{out}")
     if "gte_ldv0_m(v);  // !FAKE: gte via gte_ldv0_m" not in out:
@@ -870,6 +1022,41 @@ def selftest():
         fail(f"the direct statement rewritten into the canonical call:\n{out}")
     if rec["deleted"] != 2 or rec["renamed_defs"] != 1 or rec["use_renames"] != 2 or rec["direct_calls"] != 1 or rec["marked"] != 1:
         fail(f"record: {rec}")
+    # 4b. a name redefined in the same file: each use follows the definition above it (a wrong-target rename changed store offsets in T5's first run)
+    fx2 = ('#define gte_stsxy3( r0 ) __asm__ volatile ( "swc2 $12, 0( %0 );" "swc2 $13, 4( %0 );" "swc2 $14, 8( %0 )" : : "r"( r0 ) : "memory" )\n'
+           'void f(s32 *v) {\n    gte_stsxy3(v);\n}\n'
+           '#define gte_stsxy3( r0 ) __asm__ volatile ( "swc2 $12, 0( %0 );" "swc2 $13, 12( %0 );" "swc2 $14, 24( %0 )" : : "r"( r0 ) : "memory" )\n'
+           'void g(s32 *v) {\n    gte_stsxy3(v);\n}\n')
+    defs2 = []
+    for (l0, l1, name, body) in lc.define_blocks(fx2):
+        defs2.append(dict(tu="fy.c", l0=l0, l1=l1, name=name, params=define_params(fx2, l0), body=body, kind="gte", sig=signature(asm_inner(body))))
+    inv3 = dict(definitions=defs2, direct=[], uses={})
+    canon3 = canonical_table(inv3, quiet=True)
+    names3 = sorted(t_["name"] for t_ in canon3["canonical"].values())
+    plan3 = plan_files(inv3, canon3, bound={})
+    edits3, rec3 = file_edits("fy.c", fx2, plan3["fy.c"], canon3, "self")
+    out3 = dl.apply_edits(fx2, edits3)
+    body_f = out3.split("void f")[1].split("}")[0]
+    body_g = out3.split("void g")[1].split("}")[0]
+    tgt = {t_["tmpl"][:30]: t_["name"] for t_ in canon3["canonical"].values()}
+    if len(names3) != 2 or "#define" in out3:
+        fail(f"redefinition: two signatures, both definitions deleted: {names3} / {'#define' in out3}")
+    name_of = {}
+    for t_ in canon3["canonical"].values():
+        name_of["f" if ", 4( %0 )" in t_["tmpl"] else "g"] = t_["name"]
+    if f"{name_of.get('f')}(v)" not in body_f or f"{name_of.get('g')}(v)" not in body_g or name_of.get("f") == name_of.get("g"):
+        fail(f"redefinition: each use must follow its own definition ({name_of}):\n{out3}")
+    if any(n.endswith("_alt_alt") for n in names3):
+        fail(f"names: {names3}")
+    # 4c. a header-bound homonym is kept: the includer's `gte_stsxy3_f4` with f3's bytes, used by an included shared header
+    plan4 = plan_files(inv2, canon2, bound={"fx.c": {"LDV0_DA34"}})
+    kept = [d for d in plan4["fx.c"]["defs"] if d["action"] == "keep"]
+    if len(kept) != 1 or kept[0]["name"] != "LDV0_DA34":
+        fail(f"header-bound homonym must be kept: {[(d['name'], d['action']) for d in plan4['fx.c']['defs']]}")
+    edits4, rec4 = file_edits("fx.c", fx, plan4["fx.c"], canon2, "self")
+    out4 = dl.apply_edits(fx, edits4)
+    if "#define LDV0_DA34" not in out4 or "    LDV0_DA34(v);\n" not in out4 or rec4["kept"] != 1:
+        fail(f"a kept definition and its use untouched:\n{out4}")
     # 5. the header renders every canonical macro once, with its parameters
     h = render_header(canon2)
     if h.count("#define gte_ldv0(") != 1 or "#define gte_ldv0_m" in h:
@@ -884,12 +1071,14 @@ def main():
     ap.add_argument("--header", action="store_true")
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--sweep", action="store_true")
+    ap.add_argument("--remark", action="store_true", help="re-mark the census's UNMARKED gte-lever sites on their own lines (after --scrub)")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--batch", type=int, default=400)
     ap.add_argument("--label", default=None)
     ap.add_argument("--only", nargs="*", default=None)
     ap.add_argument("--rejudge", action="store_true")
+    ap.add_argument("--dirty-ok", action="store_true", help="--remark on a tree the scrub just modified (one fleet run for both)")
     ap.add_argument("-j", "--jobs", type=int, default=12)
     a = ap.parse_args()
     RUN.mkdir(parents=True, exist_ok=True)
@@ -915,6 +1104,10 @@ def main():
         if not a.label:
             sys.exit("--label is required")
         sys.exit(sweep(a))
+    if a.remark:
+        if not a.label:
+            sys.exit("--label is required")
+        sys.exit(remark(a))
     ap.print_help()
 
 

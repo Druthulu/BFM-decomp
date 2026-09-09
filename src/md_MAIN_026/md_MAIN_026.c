@@ -468,13 +468,13 @@ void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, 
     "sh $14, 4(%0)\n" \
     : : "r"(p) : "$12", "$13", "$14", "memory")
 
-    LDV(L.v48);
+    LDV(L.v48);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
     MVMVA;
     STSV((u16 *)w3c);
-    LDV(L.v50);
+    LDV(L.v50);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
     MVMVA;
     STSV(L.o2);
-    LDV(L.v58);
+    LDV(L.v58);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
     MVMVA;
     STSV(L.o3);
 

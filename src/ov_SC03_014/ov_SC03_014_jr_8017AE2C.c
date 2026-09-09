@@ -3469,7 +3469,7 @@ extern int D_801EA8F0;
 extern struct PW8017C290 D_8018EF70[];
 
 
-/* !FAKE: gte variant `gte_rtv0tr_m` — memory beyond Sony's `gte_rtv0tr` (a scheduling steer; P36 T5) */
+/* GTE VARIANT `gte_rtv0tr_m`: memory beyond Sony's `gte_rtv0tr` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_rtv0tr_m()  __asm__ __volatile__( \
     "nop\n" \
     "nop\n" \

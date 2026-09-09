@@ -51,7 +51,19 @@ sys.path.insert(0, str(REPO / "tools"))
 import share_census as sc  # noqa: E402  (mask_text, scan_text, fleet_and_dirs, twin_of_map, verbatim_instances, curated_names)
 
 OUT_DIR_DEFAULT = ".run/P36/census"
-TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10]   # the walker's own text: part of the cache key
+def _tables_stamp():
+    """the GTE tables the walker classifies with (tools/gte_consolidate.py's canonical.json + sig_cache.json): a cached walk made
+    under another table is stale — 357 direct GTE levers vanished from a census served from walks cached under a shrunk table."""
+    h = hashlib.sha1()
+    for name in ("canonical.json", "sig_cache.json"):
+        f = REPO / ".run" / "P36" / "gte" / name
+        if f.exists():
+            st = f.stat()
+            h.update(f"{name}|{st.st_size}|{st.st_mtime_ns}\n".encode())
+    return h.hexdigest()[:8]
+
+
+TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10] + "-" + _tables_stamp()   # the walker's text + its tables: the cache key
 GTE_HEADER_DEFAULT = "include/gte_inline.h"          # T5 writes it; until then no file is exempt from --strict
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -86,12 +98,21 @@ def _gte_lookup():
             if (base / "sig_cache.json").exists():
                 cache = _json.loads((base / "sig_cache.json").read_text())
             if (base / "canonical.json").exists():
-                for key, tbl in _json.loads((base / "canonical.json").read_text())["canonical"].items():
-                    canon[key] = dict(name=tbl["name"], clob=sorted(tbl["clob"]))
+                canon = _json.loads((base / "canonical.json").read_text())      # the tool's whole table: direct_rewrite needs nin/nout/clob
         except Exception:   # noqa: BLE001 — a torn file reads as "no table"
             cache, canon = {}, {}
         _gte_tables = (cache, canon)
     return _gte_tables
+
+
+def _macro_asm_inner(body):
+    b = sc.mask_text(body) if ("/*" in body or "//" in body) else body
+    ms = list(ASM_KW.finditer(b))
+    if len(ms) != 1:
+        return None
+    o = b.find("(", ms[0].end())
+    c = _paren_span(b, o) if o >= 0 else -1
+    return b[o + 1:c] if (o >= 0 and c > 0) else None
 
 
 def classify_direct_gte(inner):
@@ -109,10 +130,10 @@ def classify_direct_gte(inner):
     b = cache.get(bound)
     if not b or b.startswith("ERROR"):
         return "gte-unsigned"
-    c = canon.get(f"{b}|{len(outs)}|{len(ins)}")
-    if not c:
-        return "gte"
-    return GTE_LEVER_KIND if sorted(clob) != c["clob"] else "gte"
+    # the tool's own classification (a single canonical macro or a concatenation of two): 'lever' = clobbers beyond the canonical's
+    sig = dict(bytes=b, nout=len(outs), nin=len(ins), clob=sorted(clob), ok=True, ins=[e for _, e in ins], outs=[e for _, e in outs], tmpl=tmpl)
+    how, _, _ = gc.direct_rewrite(dict(sig=sig), canon)
+    return GTE_LEVER_KIND if how == "lever" else "gte"
 # an `asm-body` site (a whole routine as one asm statement inside a C shell) becomes `verbatim-body` only when the manifest lists the
 # routine as PERMANENT-VERBATIM; an unlisted or DECOMPILE-* one stays a lever and the guard (verbatim_check) names it
 NORM_SYM = re.compile(r"\b(?:func|D)_80[0-9A-Fa-f]{6}\b")
@@ -547,8 +568,19 @@ def walk_file(raw, rel, is_header):
             name = m.group(1)
             c = _paren_span(masked, m.end() - 1)
             k = asm_macro_names[name]
-            if k == "gte" and GTE_VARIANT_NAME.search(name):
-                k = GTE_LEVER_KIND
+            if k == "gte":
+                if GTE_VARIANT_NAME.search(name):
+                    k = GTE_LEVER_KIND
+                elif not is_header:
+                    # the governing definition (the last one above the use) decides: its clobbers vs the canonical's
+                    gov = None
+                    for (l0, l1, n, body) in define_blocks(raw):
+                        if n == name and l0 < ln:
+                            gov = body
+                    if gov is not None:
+                        inner = _macro_asm_inner(gov)
+                        if inner is not None and classify_direct_gte(inner) == GTE_LEVER_KIND:
+                            k = GTE_LEVER_KIND
             add_site("B", k, m.start(), masked[m.start():c + 1] if c > 0 else name, detail=name, via=name)
 
     # ---- 4. volatile tokens
@@ -868,7 +900,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
                         via_macro=sum(1 for s in sites if s["kind"] == GTE_LEVER_KIND and s.get("via")),
                         direct=sum(1 for s in sites if s["kind"] == GTE_LEVER_KIND and not s.get("via")),
                         unsigned=sum(1 for s in sites if s["kind"] == "gte-unsigned"),
-                        what="GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): levers for T7, outside the headline number"),
+                        what="GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"),
         per_tu_asm_macro_definitions=dict(total=sum(1 for m in mdefs_all if m["tu"] != gte_header),
                                           by_kind=dict(collections.Counter(m["kind"] for m in mdefs_all if m["tu"] != gte_header)),
                                           gte_variants=sum(1 for m in mdefs_all if m["tu"] != gte_header and m["kind"] == "gte" and GTE_VARIANT_NAME.search(m["name"])),
@@ -1022,7 +1054,10 @@ def selftest():
     r = walk_file(FIXTURE, "src/fx/x.c", False)
     got = collections.Counter((s["cls"], s["kind"]) for s in r["sites"])
     want = collections.Counter({("A", "pin"): 5, ("D", "register"): 2, ("C", "decl-file"): 1, ("C", "decl-body"): 1, ("C", "cast"): 1,
-                                ("B", "barrier"): 3, ("B", "launder"): 2, ("B", "keepalive"): 1, ("B", "instruction"): 2, ("B", "gte"): 1,
+                                ("B", "barrier"): 3, ("B", "launder"): 2, ("B", "keepalive"): 1, ("B", "instruction"): 2,
+                                # the fixture's GTE_LDV0 carries a "memory" clobber Sony's gte_ldv0 lacks: a gte-lever once the T5 tables
+                                # (.run/P36/gte/canonical.json + sig_cache.json, tracked) exist — they do in every checkout
+                                ("B", GTE_LEVER_KIND if _gte_lookup()[1] else "gte"): 1,
                                 ("E", "asm-label"): 2, ("F", "builtin"): 1, ("G", "attribute"): 1})
     ok = True
     if got != want:

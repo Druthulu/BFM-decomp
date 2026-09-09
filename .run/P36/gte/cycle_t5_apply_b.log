@@ -1,0 +1,6 @@
+cycle: batch gte1 — delever exited non-zero
+05:43:18 gte_consolidate: batch gte1 — 400 files: 320 consolidated, 0 defs-only, 0 unchanged, 80 refused, 0 no-recipe · definitions deleted 8136 / renamed as lever variants 5 (variant trials: 416 freed, 5 kept) · use renames 930 · direct statements → calls 460 / lever 252 / unmatched 185 · markers 276 · compiles 1151 · final 320/400 identical
+Command exited with non-zero status 1
+gte1 wall=239.80 s
+exit=1
+cycle exit=1

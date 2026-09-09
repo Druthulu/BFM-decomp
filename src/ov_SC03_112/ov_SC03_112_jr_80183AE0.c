@@ -2939,7 +2939,7 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012C218(void *a0);
-/* !FAKE: gte variant `gte_SetRotMatrix_m` — memory beyond Sony's `gte_SetRotMatrix` (a scheduling steer; P36 T5) */
+/* GTE VARIANT `gte_SetRotMatrix_m`: memory beyond Sony's `gte_SetRotMatrix` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_SetRotMatrix_m(r0) __asm__ __volatile__( \
     "lw $12, 0(%0)\n"  \
     "lw $13, 4(%0)\n"  \
@@ -2952,7 +2952,7 @@ extern void func_8012C218(void *a0);
     "ctc2 $13, $3\n"   \
     "ctc2 $14, $4\n"   \
     : : "r"(r0) : "$12", "$13", "$14", "memory")
-/* !FAKE: gte variant `gte_SetTransMatrix_m` — memory beyond Sony's `gte_SetTransMatrix` (a scheduling steer; P36 T5) */
+/* GTE VARIANT `gte_SetTransMatrix_m`: memory beyond Sony's `gte_SetTransMatrix` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_SetTransMatrix_m(r0) __asm__ __volatile__( \
     "lw $12, 20(%0)\n" \
     "lw $13, 24(%0)\n" \

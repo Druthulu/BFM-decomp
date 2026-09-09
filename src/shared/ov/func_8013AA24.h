@@ -26,7 +26,7 @@ void func_8013AA24(s32 a0, s32 a1) {
     *(s32 *)(buf + 0x1C) = 0;                       /* 0x2C */
     {
         s32 *p = (s32 *)(buf + 0x00);
-        __asm__ __volatile__(
+        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
             "lw $12, 0(%0)\n"
             "lw $13, 4(%0)\n"
             "ctc2 $12, $0\n"

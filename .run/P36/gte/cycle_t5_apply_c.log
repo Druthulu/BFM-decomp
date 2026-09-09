@@ -1,0 +1,9 @@
+log: gte1 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 33,901 sites in 12,601 bodies (1,756 distinct) · marked !FAKE 33,665 · UNMARKED 236
+cycle: stale .git/index.lock (no git process) — removed
+cycle: batch gte1 committed 145ab7719 — gte_consolidate: batch gte1 — 400 files: 400 consolidated, 0 defs-only, 0 unchanged, 0 refused, 0 no-recipe · definitions deleted 8056 / renamed as lever variants 5 (variant trials: 416 freed, 5 kept) · header-bound definitions kept 80 · use renames 930 · direct statements → calls 460 / lever 252 / unmatched 185 · markers 276 · compiles 1146 · final 400/400 identical | check-all: 218 passed, 0 failed of 218
+cycle: batch gte2 — delever exited non-zero
+05:56:25 gte_consolidate: batch gte2 — 244 files: 237 consolidated, 0 defs-only, 6 unchanged, 1 refused, 0 no-recipe · definitions deleted 895 / renamed as lever variants 60 (variant trials: 213 freed, 65 kept) · header-bound definitions kept 5 · use renames 105 · direct statements → calls 115 / lever 108 / unmatched 17 · markers 184 · compiles 1240 · final 243/244 identical
+Command exited with non-zero status 1
+gte2 wall=37.17 s
+exit=1
+cycle exit=1

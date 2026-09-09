@@ -3216,7 +3216,7 @@ void aF8017D8AC(s32 param_1) {
     {
         s32 *p =
             (s32 *)(*(s32 *)(param_1 + 0x20) + 0x34);
-        __asm__ __volatile__(
+        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
             "lw $12, 0(%0)\n"
             "lw $13, 4(%0)\n"
             "ctc2 $12, $0\n"
@@ -3233,7 +3233,7 @@ void aF8017D8AC(s32 param_1) {
             "lw $14, 28(%0)\n"
             "ctc2 $13, $6\n"
             "ctc2 $14, $7\n"
-            : : "r"(p) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetRotTransMatrix_m) beyond Sony's (P36 T5 gte1)
+            : : "r"(p) : "$12", "$13", "$14", "memory");
     }
 
     {

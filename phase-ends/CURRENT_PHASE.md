@@ -444,6 +444,36 @@ accumulate here as the phase produces them.**
 
 - **2026-09-09 — T5 batch `gte2`** (`.run/P36/delever/run_gte2.log`, `batch_gte2.json`): `gte_consolidate: batch gte2 — 244 files: 237 consolidated, 0 defs-only, 6 unchanged, 1 refused, 0 no-recipe · definitions deleted 895 / renamed as lever variants 60 (variant trials: 213 freed, 65 kept) · header-bound definitions kept 5 · use renames 105 · direct statements → calls 115 / lever 108 / unmatched 17 · markers 184 · compiles 1240 · final 237/237 written files identical · refused 1 (restored, ledgered)` → R22 (`.run/P36/baseline/r22_gte2.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=114.34 s`) → census `THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 34,085 sites in 12,710 bodies (1,757 distinct) · marked !FAKE 33,741 · UNMARKED 344`.
 
+- **S98 — T5: the consolidation applied fleet-wide (two batches, `145ab7719` + `666d4b5ae`), then the marker repair; four instrument
+  findings on the way, each fixed at its cause.** Batch `gte1` (400 files, `final 400/400`): definitions deleted 8,056, header-bound
+  homonyms kept 80, variant trials 416 freed / 5 kept, use renames 930, direct statements → calls 460 / lever 252 / unmatched 185; batch
+  `gte2` (244 files): deleted 895, kept 5, trials 213 freed / 65 kept, renames 105, direct → calls 115 / lever 108 / unmatched 17, 1 file
+  refused — R22 218/218 each. **Totals (R41): 644 files; 8,951 of 9,102 per-TU GTE definitions gone; 629 of 699 clobber variants came off
+  BYTE-IDENTICAL in their trials (the `"memory"` was no steer there) and 70 stayed as marked `_m` levers; 575 of 1,137 direct GTE
+  statements became canonical calls, 360 are levers (clobbers beyond Sony's), 202 match no canonical sequence; 85 definitions kept
+  as header-bound homonyms.** The findings: (1) the first run refused 81 files "all DIFFERS" — a macro NAME is redefined between
+  functions in one unit (~2 definitions per name per file) and a use must follow the definition ABOVE it, not the file's last: renames
+  are scoped to the governing definition (selftest: a redefinition case); (2) still 80 refused — a HOMONYM across files: the unit's
+  `gte_stsxy3_f4` had f3's bytes and was used only by an included `h_text` header (`func_8017BEBC__t67f11bf2.h`), which binds to the
+  includer's definition — that is why those 20 headers are byte-variant per includer; such a definition is KEPT (the names phase's
+  parameterized form), a header-bound variant whose trial differs stays under its own name; (3) `md_MAIN_026`: an OBJECT-like macro
+  (`#define MVMVA __asm__ …`, used as `MVMVA;`) — the use-scan required parentheses; bare uses of a deleted object-like definition now
+  become calls (`gte_rt();`); (4) after the batches the census reported 408 ORPHAN markers and only 3 direct GTE levers: the tool had put
+  a direct statement's marker at the end of its LAST line (the census reads the first line or the one above), the variant note above
+  a `#define` carried the marker token, and — the real one — the canonical table was REGENERATED at each batch from the consolidated
+  units, so a signature whose definitions had all moved into the header dropped out and its direct statements silently stopped
+  classifying; the census's walk cache then served those stale walks (keyed on the file and the walker, not on the tables). Fixed:
+  the header's own definitions are part of the inventory with name authority (the table is stable: 50 signatures, 48 with no per-TU
+  definition left), the marker goes on the statement's first line, the note carries no marker token, the census's cache key carries
+  the tables' stamp, `--remark` re-marks unmarked GTE levers. Repair: `delever --scrub` (344 misplaced markers) + `gte_consolidate
+  --remark` (349 markers on the right lines, 64 notes rewritten), R22 `check-all: 218 passed, 0 failed of 218`
+  (`.run/P36/baseline/r22_t5_remark3.log`, 118 s). **Census now:** `34,090 sites in 12,712 bodies (1,759 distinct) · marked 34,090 · UNMARKED 0`
+  (= 33,625 + the 465 GTE levers, INSIDE the number since T5) · `orphan 0` · `GTE levers 465 (103 via a variant macro, 362 direct) · marked 465`
+  · `per-TU asm macro definitions outside the GTE header: 591 {gte 153 (variants 64, header-bound homonyms 80+, the unsigned two-statement
+  macro 1), launder 428, instruction 9, barrier 1}` · `lever_census --check: 34,090 pin/asm sites, 34,090 marked !FAKE, 0 UNMARKED — OK`.
+  The batch commits' census lines undercounted the GTE levers (the shrunk table) — this entry is the corrected reading (R66). Next: the
+  refused unit rejudged, the dead-macro sweep, the T5 verify line.
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ — all committed (T4 = 13 batch commits `a605e1dba`…`f087282a3` + the tool commits; this close); NEXT = T5 the GTE consolidation + the dead lever-macro sweep | the number: 33,625 sites in 12,501 bodies (1,728 distinct) · marked 33,625 · UNMARKED 0 · orphans 0 — `lever_census --check` OK | last batch `gte2` on 145ab7719: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 34,085 sites in 12,710 bodies (1,757 distinct) · marked !FAKE 33,741 · UNMARKED 344
 
 ### 0. How to use this block

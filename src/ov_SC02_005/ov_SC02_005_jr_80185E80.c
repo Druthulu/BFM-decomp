@@ -3246,7 +3246,7 @@ void func_8018A4C4(s32 a0)
      * live at offset 0x34+0x14/0x18/0x1c inside the object pointed to by
      * a0's field 0x20. Written as raw asm: the target's .s marks these ctc2
      * lines "handwritten instruction" (not a normal codegen mnemonic). */
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lw $12, 20(%0)\n"
         "lw $13, 24(%0)\n"
         "ctc2 $12, $5\n"
@@ -3256,7 +3256,7 @@ void func_8018A4C4(s32 a0)
         :
         : "r"((u8 *)*(s32 *)(a0 + 0x20) + 0x34)
         : "$12", "$13", "$14", "memory"
-    );  // !FAKE: gte direct — clobbers ['memory'] (gte_SetTransMatrix_m) beyond Sony's (P36 T5 gte1)
+    );
 
     for (i = 0; i < 8; i++) {
         s0 = func_8012913C(0xC);
@@ -3311,13 +3311,13 @@ void func_8018A6A0(s32 a0, u16 *a1)
 body:
     puVar = func_8012913C(0xC);
     if (puVar != 0) {
-        __asm__ __volatile__(
+        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
             "lwc2 $0, 0(%0)\n"
             "lwc2 $1, 4(%0)\n"
             "nop\n"
             "nop\n"
             "mvmva 1, 0, 0, 0, 0\n"
-            : : "r"(vec0) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0+gte_rtv0tr_m) beyond Sony's (P36 T5 gte1)
+            : : "r"(vec0) : "memory");
         gte_stlvnl(res);
         gte_stflg(&flags);
         *(u16 *)(puVar + 6) = (u16)res[0];
@@ -4758,13 +4758,13 @@ void func_8018C454(void *a0)
 
     gte_SetRotTransMatrix(&mtx);
 
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lwc2 $0, 0(%0)\n"
         "lwc2 $1, 4(%0)\n"
         "nop\n"
         "nop\n"
         "mvmva 1, 0, 0, 0, 0\n"
-        : : "r"(vec0) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0+gte_rtv0tr_m) beyond Sony's (P36 T5 gte1)
+        : : "r"(vec0) : "memory");
 
     gte_stlvnl(s0 + 4);
 

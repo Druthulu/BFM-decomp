@@ -7685,12 +7685,12 @@ void func_80182E38(int param_1)
         }
         *(short *)(sv + 4) = v0;
         func_8004978C((s16 *)(*(int *)(param_1 + 0x20) + 0x10), mat);
-        __asm__ __volatile__(
+        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
             "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
             "ctc2 $12, $0\n" "ctc2 $13, $1\n"
             "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
             "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
-            : : "r"(mat) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetRotMatrix_m) beyond Sony's (P36 T5 gte1)
+            : : "r"(mat) : "$12", "$13", "$14", "memory");
         __asm__ __volatile__("lwc2 $0, 0(%0)\n" "lwc2 $1, 4(%0)\n" : : "r"(sv) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0_m) beyond Sony's (P36 T5 gte1)
         __asm__ __volatile__("nop\n" "nop\n" "mvmva 1, 0, 0, 3, 0\n" : : : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_rtv0_m) beyond Sony's (P36 T5 gte1)
         gte_stsv(sv);
@@ -8196,7 +8196,7 @@ void func_80183C9C(void *a0)
 
     func_8004978C((s16 *)(*(s32 *)(self + 0x20) + 0x10), &mat);
 
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lw $12, 0(%0)\n"
         "lw $13, 4(%0)\n"
         "ctc2 $12, $0\n"
@@ -8207,10 +8207,10 @@ void func_80183C9C(void *a0)
         "ctc2 $12, $2\n"
         "ctc2 $13, $3\n"
         "ctc2 $14, $4\n"
-        : : "r"(&mat) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetRotMatrix_m) beyond Sony's (P36 T5 gte1)
+        : : "r"(&mat) : "$12", "$13", "$14", "memory");
 
-    __asm__ __volatile__("lwc2 $0, 0(%0)\nlwc2 $1, 4(%0)"
-                         : : "r"(&D_8018C7BC[*(s16 *)(self + 0x70) * 4]) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0_m) beyond Sony's (P36 T5 gte1)
+    __asm__ __volatile__("lwc2 $0, 0(%0)\nlwc2 $1, 4(%0)"  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+                         : : "r"(&D_8018C7BC[*(s16 *)(self + 0x70) * 4]) : "memory");
     __asm__ __volatile__("nop\nnop\nmvmva 1, 0, 0, 3, 0" : : : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_rtv0_m) beyond Sony's (P36 T5 gte1)
     gte_stsv(res);
 

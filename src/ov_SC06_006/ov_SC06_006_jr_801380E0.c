@@ -1010,7 +1010,7 @@ extern s16 D_800D45F4[];   /* src0 (flat: [2*i]=x, [2*i+1]=y) */
 extern u8  D_8018247C[];   /* sign table, alt (when a1 < 0xC00) */
 
 
-/* !FAKE: gte variant `gte_rt_m` — memory beyond Sony's `gte_rt` (a scheduling steer; P36 T5) */
+/* GTE VARIANT `gte_rt_m`: memory beyond Sony's `gte_rt` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_rt_m()  __asm__ __volatile__( \
     "nop\n" \
     "nop\n" \
@@ -1109,12 +1109,12 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
     }
     *(s16 *)((u8 *)L + 2) = D_800D45F6;
 
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lwc2 $0, 0(%0)\n"
         "lwc2 $1, 4(%0)\n"
         "nop\n" "nop\n"
         "mvmva 1, 0, 0, 0, 0\n"
-        : : "r"(L) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0+gte_rt_m) beyond Sony's (P36 T5 gte2)
+        : : "r"(L) : "memory");
     gte_stlvnl((u8 *)L + 8);
 
     if (((s16*)a2)[1] > 0)
@@ -1124,12 +1124,12 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
 
     *(s16 *)L = 9;
     *(s16 *)((u8 *)L + 2) = 9;
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lwc2 $0, 0(%0)\n"
         "lwc2 $1, 4(%0)\n"
         "nop\n" "nop\n"
         "mvmva 1, 0, 0, 3, 0\n"
-        : : "r"(L) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0+gte_rtv0_m) beyond Sony's (P36 T5 gte2)
+        : : "r"(L) : "memory");
     gte_stlvnl((u8 *)L + 0x18);
 
     *(s16 *)(p + 8) = *(s32 *)((u8 *)L + 8);

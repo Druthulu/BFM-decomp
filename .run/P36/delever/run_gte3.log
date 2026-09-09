@@ -1,0 +1,4 @@
+gte_consolidate --apply gte3: 0 files of 302 with work (644 done) — 0 definitions, 0 direct statements
+gte_consolidate --apply: nothing to do
+gte3 wall=10.38 s
+exit=0

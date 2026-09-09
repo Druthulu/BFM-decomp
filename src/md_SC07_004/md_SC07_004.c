@@ -5966,19 +5966,19 @@ void func_801A8B64(s32 arg0, s32 arg1)
     g = (s32)&D_800AF648;
 
     /* gte_SetRotMatrix(&D_800AF648) */
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
         "ctc2 $12, $0\n" "ctc2 $13, $1\n"
         "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
         "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
-        : : "r"(g) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetRotMatrix_m) beyond Sony's (P36 T5 gte1)
+        : : "r"(g) : "$12", "$13", "$14", "memory");
 
     /* gte_SetTransMatrix(&D_800AF648) */
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
         "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
         "ctc2 $13, $6\n" "ctc2 $14, $7\n"
-        : : "r"(g) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetTransMatrix_m) beyond Sony's (P36 T5 gte1)
+        : : "r"(g) : "$12", "$13", "$14", "memory");
 
     gte_ldv0(arg1);
     gte_rtps();

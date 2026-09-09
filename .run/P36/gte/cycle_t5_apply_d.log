@@ -1,0 +1,4 @@
+log: gte2 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 34,085 sites in 12,710 bodies (1,757 distinct) · marked !FAKE 33,741 · UNMARKED 344
+cycle: batch gte2 committed 666d4b5ae — gte_consolidate: batch gte2 — 244 files: 237 consolidated, 0 defs-only, 6 unchanged, 1 refused, 0 no-recipe · definitions deleted 895 / renamed as lever variants 60 (variant trials: 213 freed, 65 kept) · header-bound definitions kept 5 · use renames 105 · direct statements → calls 115 / lever 108 / unmatched 17 · markers 184 · compiles 1240 · final 237/237 written files identical · refused 1 (restored, ledgered) | check-all: 218 passed, 0 failed of 218
+cycle: nothing drawable at gte3 — done
+cycle exit=0

@@ -3653,7 +3653,7 @@ void func_8017F95C(s32 a0) {
 
     mat = *(Mat32 *)&D_800AE620;
     RotMatrixX(-0x300, &mat);
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
         "lw $12, 0(%0)\n"
         "lw $13, 4(%0)\n"
         "ctc2 $12, $0\n"
@@ -3677,7 +3677,7 @@ void func_8017F95C(s32 a0) {
         :
         : "r"(&D_8018618C)
         : "memory"
-    );  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0+gte_rtv0_m) beyond Sony's (P36 T5 gte1)
+    );
     gte_stsv(buf);
 
     *(u16 *)(a0 + 6)  += buf[0];

@@ -344,7 +344,7 @@ void func_800CB5C8(s32 arg0, s32 arg1) {
 
 typedef struct { s16 m[3][4]; } Mat_CB6A0;
 
-/* !FAKE: gte variant `gte_SetRotMatrix_m` — memory beyond Sony's `gte_SetRotMatrix` (a scheduling steer; P36 T5) */
+/* GTE VARIANT `gte_SetRotMatrix_m`: memory beyond Sony's `gte_SetRotMatrix` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_SetRotMatrix_m(p) __asm__ __volatile__( \
     "lw $12, 0(%0)\n" \
     "lw $13, 4(%0)\n" \
@@ -358,13 +358,13 @@ typedef struct { s16 m[3][4]; } Mat_CB6A0;
     "ctc2 $14, $4\n" \
     : : "r"(p) : "$12", "$13", "$14", "memory")
 
-/* !FAKE: gte variant `gte_ldv0_m` — memory beyond Sony's `gte_ldv0` (a scheduling steer; P36 T5) */
+/* GTE VARIANT `gte_ldv0_m`: memory beyond Sony's `gte_ldv0` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_ldv0_m(p) __asm__ __volatile__( \
     "lwc2 $0, 0(%0)\n" \
     "lwc2 $1, 4(%0)\n" \
     : : "r"(p) : "memory")
 
-/* !FAKE: gte variant `gte_rtv0_m` — memory beyond Sony's `gte_rtv0` (a scheduling steer; P36 T5) */
+/* GTE VARIANT `gte_rtv0_m`: memory beyond Sony's `gte_rtv0` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_rtv0_m() __asm__ __volatile__( \
     "nop\n" \
     "nop\n" \

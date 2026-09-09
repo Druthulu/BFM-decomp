@@ -6760,7 +6760,7 @@ extern u8 D_801B210C, D_801B210D, D_801B210E, D_801B2110, D_801B2111, D_801B2112
 extern int D_801B2114;
 
 
-/* !FAKE: gte variant `gte_rt_m` — memory beyond Sony's `gte_rt` (a scheduling steer; P36 T5) */
+/* GTE VARIANT `gte_rt_m`: memory beyond Sony's `gte_rt` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_rt_m()  __asm__ __volatile__( \
     "nop\n" \
     "nop\n" \
