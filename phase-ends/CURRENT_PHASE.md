@@ -569,6 +569,38 @@ accumulate here as the phase produces them.**
   only where the previous non-space character is `;` or `}`. A fifth was mine and is the reason the rule exists: the first "ASSEMBLED
   OK" was an empty file (the `.s` had not been written) — a known-true case, checked, and it lied until it was read.
 
+- **S99 — T6 MEASURED: the rung-D campaign (5 of 16 exemplars) and rung R's first bank (134 of 134 bodies, R22 green).**
+  **The two campaigns before this one were the instrument** (§454, accelerators P36 S99): the permuter's `target.o` had been
+  assembled from `verbatim_target_s --gas`, and assembling a disassembly is a second toolchain — objdump prints the pseudo-instruction
+  `move` for `addu rX,rY,$zero` and gas assembles it as `or` (24 wrong words in one 234-instruction function), and a listing's %hi/%lo
+  pairs come back RESOLVED, with no relocation, against candidates that all carry one. **The scorer read 28 for a body that is
+  byte-identical**, so score 0 was unreachable and every NO-MATCH was its own (`.run/P36/permuter/outcomes_broken_target.jsonl`, the two
+  `campaign_d*_broken_target_*.log`). The control that names it in ~30 s is now `--positive-control`; the base score of the tree's own
+  body is **0** since the target became the tree's OWN body compiled by the build's tail (the candidates' relocations by construction,
+  with `match_one` against the ROM listing as the independent oracle that proves it, R34/R56). `verbatim_target_s --gas` now assembles,
+  disassembles and compares itself word by word, `.word`-patches what does not reproduce (24 in that function) and REFUSES what still
+  disagrees — it is the file pasted into decomp.me and it was wrong for every function containing a `move` (R98 in a second place).
+  **Arm C, the first campaign with a trustworthy instrument** (16 exemplars, all ov_SC04_011 132-134-copy classes, 3 cycles x 240 s,
+  4 at a time, `campaign_d3.log`): **`permuter: 5 of 16 exemplars matched lever-free in 0.69 h (665 of 2,131 bodies behind them)`**.
+  The split is the STARTING DISTANCE, not the site count — closed: 8, 12, 19, 8, 29 mismatched instructions (5.9 s, 24.4 s, 314 s,
+  651 s, 8.6 s); not closed: 25, 37, 50, 52, 70, 78, 99, 104, 105, 131, 276, every one improved a long way (78->9, 52->3, 50->3, 37->2)
+  and none a wall. The far ones are all bodies where removing a hand-placed `instruction` changed the instruction COUNT
+  (`mine=103 ins, target=106`). **The profile now follows the REGISTER a needed pin names** (callee-saved -> regalloc, caller-saved ->
+  cse): the residual on func_80163EC8's `$2` pin is the operand order of one `&`, and regalloc weights `perm_commutative` 2.0 where cse
+  weights it 40.0 — 8 of the 16 changed profile.
+  **Every rung-D win is a small nameable shape, and each became a rung-R recipe the same session** (the flywheel; the permuter's own
+  winner is pycparser-reprinted, and banking that would trade a lever for a readability regression in a phase whose purpose is
+  readability): `flag = 0;` -> `do { flag = 0; } while (0);` (RC-5 scope) became **R7**, and a single-set temp inlined at its use
+  (§501-R's S2 kill) became **R6**; **R5** (the operand order of one commutative operator) came from reading the `$2` residual.
+  With R2/R3/R4 that is seven generators, each with selftest cases on a fixture whose answers are known by hand.
+  **RUNG R's FIRST RUN BANKED THE CLASS THE PERMUTER HAD JUST CRACKED, MECHANICALLY:** `delever --recipes --label r1 --only
+  func_80135D20 --cap 200` -> **`recipes: 134 of 134 bodies closed lever-free (134 NEEDED sites in the 134 drawn), 3243 compiles in
+  6.0 min`**, every one `R7 do-while @<line>` — a ONE-LINE source change per body instead of a reprinted body, each judged on its own
+  objects. **R22: `check-all: 218 passed, 0 failed of 218`.** The number: **34,091 -> 33,957 sites**, 33,957 marked, 0 UNMARKED.
+  Also built: `delever --propagate TU FN` (a reshaped body's class re-banked by address remap — one crack, up to 134 bodies; a ledger
+  REPLAY cannot do it, it replays a SITE SET) and `--apply-body` now records the before/after body text, which the remap needs and which
+  exists nowhere else after the write.
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ T5 ☑ — all committed (this close on top of `4bc987426`); NEXT = T6 BUILD: `tools/delever_permute.py` per §2 (the design is settled and its pipeline proven by two probes — the T6 log entry); S98 ended here at 90 % context | the number: 34,091 sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0 · GTE levers 462 · per-TU asm macro definitions 314 (0 canonical duplicates) — `lever_census --check` OK
 
 ### 0. How to use this block

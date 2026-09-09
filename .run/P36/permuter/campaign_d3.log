@@ -1,0 +1,35 @@
+delever_permute --run: 16 exemplars, 4 at a time, 3 cycles x 240s @ -j4 each (budget ≈ 0.8 h)
+  prepared ov_SC04_011__func_8013CF68: draft 5467 lines, target []
+  prepared ov_SC04_011__func_80135D20: draft 5208 lines, target []
+  prepared ov_SC04_011__func_801345F8: draft 5058 lines, target []
+  prepared ov_SC04_011__func_80163EC8: draft 6727 lines, target []
+  ov_SC04_011__func_80135D20: MATCH start=12 best=0 (24.4s, 134 copies, 1 needed, regalloc)
+  prepared ov_SC04_011__func_80135A4C: draft 5161 lines, target []
+  ov_SC04_011__func_80163EC8: MATCH start=8 best=0 (313.7s, 134 copies, 1 needed, cse)
+  prepared ov_SC04_011__func_80133AB0: draft 5081 lines, target []
+  ov_SC04_011__func_8013CF68: NO-MATCH start=70 best=24 (722.6s, 134 copies, 1 needed, regalloc)
+  ov_SC04_011__func_801345F8: NO-MATCH start=105 best=18 (723.2s, 134 copies, 3 needed, cse)
+  prepared ov_SC04_011__func_80134A74: draft 5067 lines, target []
+  prepared ov_SC04_011__func_80135888: draft 5137 lines, target []
+  ov_SC04_011__func_80135A4C: NO-MATCH start=131 best=35 (722.0s, 134 copies, 3 needed, regalloc)
+  prepared ov_SC04_011__func_8015D01C: draft 6636 lines, target []
+  ov_SC04_011__func_80133AB0: NO-MATCH start=99 best=37 (721.9s, 134 copies, 4 needed, cse)
+  prepared ov_SC04_011__func_8012E364: draft 5055 lines, target []
+  ov_SC04_011__func_8015D01C: MATCH start=19 best=0 (651.0s, 133 copies, 1 needed, regalloc)
+  prepared ov_SC04_011__func_801670E4: draft 6753 lines, target []
+  ov_SC04_011__func_80134A74: NO-MATCH start=104 best=35 (721.8s, 134 copies, 5 needed, regalloc)
+  ov_SC04_011__func_80135888: NO-MATCH start=78 best=9 (721.3s, 134 copies, 5 needed, regalloc)
+  prepared ov_SC04_011__func_8013E5E8: draft 5447 lines, target []
+  prepared ov_SC04_011__func_80178840: draft 6958 lines, target []
+  ov_SC04_011__func_8013E5E8: MATCH start=8 best=0 (5.9s, 132 copies, 1 needed, cse)
+  prepared ov_SC04_011__func_80148D44: draft 5228 lines, target []
+  ov_SC04_011__func_80178840: MATCH start=29 best=0 (8.6s, 132 copies, 1 needed, regalloc)
+  prepared ov_SC04_011__func_80148E54: draft 5206 lines, target []
+  ov_SC04_011__func_8012E364: NO-MATCH start=25 best=6 (721.7s, 133 copies, 3 needed, cse)
+  prepared ov_SC04_011__func_801424E4: draft 5679 lines, target []
+  ov_SC04_011__func_801670E4: NO-MATCH start=276 best=51 (722.1s, 133 copies, 7 needed, cse)
+  ov_SC04_011__func_80148D44: NO-MATCH start=52 best=3 (721.9s, 132 copies, 2 needed, cse)
+  ov_SC04_011__func_80148E54: NO-MATCH start=50 best=3 (722.0s, 132 copies, 2 needed, cse)
+  ov_SC04_011__func_801424E4: NO-MATCH start=37 best=2 (721.6s, 132 copies, 2 needed, regalloc)
+
+permuter: 5 of 16 exemplars matched lever-free in 0.69 h (665 of 2,131 bodies behind them) — NO-MATCH 11 · MATCH 5
