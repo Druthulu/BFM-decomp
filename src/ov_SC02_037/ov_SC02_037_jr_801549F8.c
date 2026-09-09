@@ -2004,39 +2004,7 @@ extern s32 func_80154358(void * arg0);
  *           --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015444C
  *           -> MATCH (31 ins)
  */
-s32 func_801549F8(s32 param_1, s32 _arg1, s32 _arg2)
-{
-    s32 i, j;
-    u8 n;
-    u8 count;
-    s32 *base;
-
-    count = 0;
-    i = 0;
-    if (*(u8 *)(param_1 + 0xBC) != 0) {
-        base = *(s32 **)(param_1 + 0xB4);
-        n = *(u8 *)(param_1 + 0xBC);
-        do {
-            j = i;
-            switch (base[j]) {
-            case 0:  case 2:  case 7:  case 8:  case 9:  case 10:
-            case 0xd: case 0x10: case 0x11: case 0x12: case 0x13:
-            case 0x14: case 0x19: case 0x1a:
-                i = j + 1;
-                break;
-            case 3: case 4: case 5: case 6: case 0xb: case 0xc:
-            case 0xe: case 0xf: case 0x15: case 0x16:
-                i = j + 2;
-                break;
-            default:
-                i = j + 1;
-                count += 1;
-                break;
-            }
-        } while (i != n);
-    }
-    return count;
-}
+#include "../shared/ov/func_801549F8__t3621f950.h"
 
 #include "../shared/ov/func_80154A74.h"
 
@@ -2068,100 +2036,7 @@ s32 func_801549F8(s32 param_1, s32 _arg1, s32 _arg2)
 
 extern void func_80154ED8(s32 a0, s32 a1);
 
-void func_80154C24(s32 param_1, s32 *param_2, s32 *param_3) {
-    u16 uVar2;
-    s32 iVar3;
-    s32 uVar5;
-    s32 uVar6;
-
-    if (*(u8 *)(param_1 + 0xd4) == 0) {
-        return;
-    }
-    if (*param_2 == 0) {
-        *(u16 *)(param_1 + 0xd4) = (u16)*(u8 *)(param_1 + 0xd4);
-        *param_2 = *param_2 + 1;
-    }
-    uVar2 = *(u16 *)(param_1 + 0xd4) - 1;
-    *(u16 *)(param_1 + 0xd4) = uVar2;
-    if ((uVar2 & 0xff) != 0) {
-        goto LAB_80154e6c;
-    }
-    switch (*(s32 *)((u32)*(u8 *)(param_1 + 0xd8) * 4 + *(s32 *)(param_1 + 0xd0))) {
-    case 0:
-        *(u16 *)(param_1 + 0xd4) = 0;
-        *param_3 = *param_3 | 0x8000;
-        *(u16 *)(param_1 + 0xd6) = 0;
-        *(u8 *)(param_1 + 0xd8) = 0;
-        *(u8 *)(param_1 + 0xd9) = 0;
-        break;
-    case 1:
-        *(u16 *)(param_1 + 0xd4) = 1;
-        *param_3 = *param_3 | 0x8000;
-        *(u8 *)(param_1 + 0xd8) = 0;
-        *(u8 *)(param_1 + 0xd9) = 0;
-        func_80154C24(param_1, param_2, param_3);
-        break;
-    case 2:
-        *(u16 *)(param_1 + 0xd4) = 0;
-        *(s8 *)(param_1 + 0xd8) = *(s8 *)(param_1 + 0xd8) + 1;
-        goto LAB_80154e9c;
-    case 3:
-        uVar5 = *(s32 *)((u32)*(u8 *)(param_1 + 0xd8) * 4 + *(s32 *)(param_1 + 0xd0) + 4);
-        *(u16 *)(param_1 + 0xd4) = 1;
-        *(s8 *)(param_1 + 0xd8) = *(s8 *)(param_1 + 0xd8) + 2;
-        *(s16 *)(param_1 + 0xd6) = (s16)uVar5;
-        func_80154C24(param_1, param_2, param_3);
-        break;
-    case 5:
-        iVar3 = (u32)*(u8 *)(param_1 + 0xd8) * 4 + *(s32 *)(param_1 + 0xd0);
-        uVar5 = *(s32 *)(iVar3 + 4);
-        uVar6 = *(s32 *)(iVar3 + 8);
-        *(u16 *)(param_1 + 0xd4) = 1;
-        *(s8 *)(param_1 + 0xd8) = (s8)uVar6;
-        *(s32 *)(param_1 + 0xd0) = uVar5;
-        func_80154C24(param_1, param_2, param_3);
-        break;
-    case 6:
-        uVar6 = *(s32 *)((u32)*(u8 *)(param_1 + 0xd8) * 4 + *(s32 *)(param_1 + 0xd0) + 4);
-        *(u16 *)(param_1 + 0xd4) = 1;
-        *(s8 *)(param_1 + 0xd8) = (s8)uVar6;
-        func_80154C24(param_1, param_2, param_3);
-        break;
-    case 7:
-        *(u16 *)(param_1 + 0xd4) = *(u16 *)(param_1 + 0xd6);
-        *param_3 = *param_3 | 0x4000;
-        *(s8 *)(param_1 + 0xd8) = *(s8 *)(param_1 + 0xd8) + 1;
-        *(s8 *)(param_1 + 0xd9) = *(s8 *)(param_1 + 0xd9) + 1;
-        func_80154C24(param_1, param_2, param_3);
-        break;
-    case 8:
-        *(u16 *)(param_1 + 0xd4) = *(u16 *)(param_1 + 0xd6);
-        *param_3 = *param_3 | 0x2000;
-        *(s8 *)(param_1 + 0xd8) = *(s8 *)(param_1 + 0xd8) + 1;
-        *(s8 *)(param_1 + 0xd9) = *(s8 *)(param_1 + 0xd9) + 1;
-        func_80154C24(param_1, param_2, param_3);
-        break;
-    default:
-        func_80154ED8(param_1, *(s32 *)((u32)*(u8 *)(param_1 + 0xd8) * 4 + *(s32 *)(param_1 + 0xd0)));
-        *(u16 *)(param_1 + 0xd4) = *(u16 *)(param_1 + 0xd6);
-        *(s8 *)(param_1 + 0xd8) = *(s8 *)(param_1 + 0xd8) + 1;
-        break;
-    }
-    goto LAB_80154eac;
-
-LAB_80154e6c:
-    if (uVar2 != 1) {
-        goto LAB_80154eac;
-    }
-    if (*(s32 *)((u32)*(u8 *)(param_1 + 0xd8) * 4 + *(s32 *)(param_1 + 0xd0)) != 0) {
-        goto LAB_80154eac;
-    }
-LAB_80154e9c:
-    *param_3 = *param_3 | 0x8000;
-LAB_80154eac:
-    *(u16 *)(param_1 + 0xd4) = *(u16 *)(param_1 + 0xd4) | *param_3;
-    return;
-}
+#include "../shared/ov/func_80154C24__t09f0cdf7.h"
 
 #include "../shared/ov/func_80154ED8.h"
 

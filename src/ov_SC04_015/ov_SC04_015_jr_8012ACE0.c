@@ -257,20 +257,7 @@ extern void func_8012ACA0(void *arg0);
       /* 8-byte element, cmd @ +4 */
     /* list ptr @ +0x90 */
 
-s32 func_8012ACE0(void *o) {
-    int i;
-    for (i = 0; ; i++) {
-        switch (((Owner_8012ACE0_8012ACE0 *)o)->list[i].cmd) {
-            case -2:
-            case -1:
-            case 0:
-                return i;
-            case -50: case -45: case -40: case -35: case -30:   /* scatter -> force jump table (min=-50 sets low bound) */
-            default:
-                break;
-        }
-    }
-}
+#include "../shared/ov/func_8012ACE0__t7b0c0681.h"
 
 #include "../shared/ov/func_8012AD44.h"
 

@@ -163,7 +163,7 @@ def census(jobs):
         sys.exit(f"share_body: the census has {len(cov['unaccounted'])} unaccounted / {len(notes['multi_form'])} multi-form instances — fix "
                  f"the census first (R32)")
     return dict(aliases=aliases, dirs=dirs, spaces=spaces, twins=twins, twin_of=twin_of, forms=forms, groups=groups,
-                exceptions=exceptions, classes=classes)
+                exceptions=exceptions, classes=classes, sigs=sigs)
 
 
 def candidates(cen):
@@ -180,6 +180,23 @@ def candidates(cen):
     new.sort(key=lambda c: (-c["instances"], -c["nins"], c["h"]))
     extend.sort(key=lambda c: (-c["instances"], -c["nins"], c["h"]))
     return extend, new
+
+
+def text_candidates(cen):
+    """Phase 35 T5b: the TEXT-tier classes as census-shaped class dicts (verdict 'T'): one normalized text at one address in >=2
+    distinct TUs, outside the deferred/ledgered sets; every site a private `def`. The bytes differ per binary, so the group is
+    registered in the verbose form with each member's own h_exact (dedup_integrate checks C1 per member)."""
+    hx = {(a, addr): h for a, rows in cen["sigs"].items() for addr, _n, h, _name in rows}
+    out = []
+    for tc in sc.text_classes(cen["forms"], cen["classes"], cen["exceptions"]):
+        insts = [dict(alias=a, addr=tc["addr"], nins=tc["nins"], name=f"func_{tc['addr']:08X}", form="def", tu=tu,
+                      text_hash=rec.get("text_hash"), pins=rec.get("pins", False), typedef=rec.get("typedef", False),
+                      alias_form=rec.get("alias", False), line=rec.get("line"), end=rec.get("end"), nlines=rec.get("nlines", 0),
+                      h_exact=hx.get((a, tc["addr"])))
+                 for a, tu, rec in tc["sites"]]
+        out.append(dict(h=tc["text_hash"], tier="h_text", verdict="T", flags=[], nins=tc["nins"], instances=len(insts), copies=len({i["tu"] for i in insts}),
+                        aliases=sorted({i["alias"] for i in insts}), addrs=[f"0x{tc['addr']:08X}"], insts=insts, groups=[], excepted=None))
+    return out
 
 
 def choose_exemplar(priv):
@@ -208,6 +225,7 @@ class Batch:
         self.edits = collections.defaultdict(list)      # tu_rel -> [(line, end, new_text, h)]
         self.headers = {}                                # header rel -> text
         self.register = []                               # (id, hash, source, func, vram, [binaries])
+        self.register_text = []                          # (id, text_hash, source, func, [(binary, vram, name, h_exact)])
         self.extend = collections.defaultdict(list)      # group id -> [binaries]
         self.touched = set()                             # binaries
         self.members = collections.defaultdict(list)     # h -> [(alias, tu)]
@@ -219,7 +237,20 @@ class Batch:
         priv = [i for i in c["insts"] if i["form"] == "def"]
         base = self.orc.bases[priv[0]["alias"]] if priv else self.orc.bases[c["insts"][0]["alias"]]
         fn = f"func_{vram:08X}"
-        if c["verdict"] == "B":
+        if c.get("tier") == "h_text":
+            # T5b: the header is named by the TEXT hash (a byte-class header at the same vram must never collide); the body is any
+            # site's text (identical by construction); every member is registered with its own h_exact
+            ex = priv[0]
+            hdr = f"src/shared/{self.orc.space_dir(base)}/func_{vram:08X}__t{h[:8]}.h"
+            if (REPO / hdr).exists():
+                return f"refused: {hdr} exists already (a text-tier header for this text/address)"
+            space_name = "overlay slot" if base == m2h.OV_BASE else self.orc.space_dir(base)
+            text = m2h.banner(fn, base, h, space_name).replace("h_exact", "h_text") + def_text(ex)
+            text, _ = m2h.bind_alias_header(text, fn)
+            self.headers[hdr] = text
+            self.register_text.append((f"T_{fn}", h, hdr, fn, sorted((i["alias"], i["addr"], i["name"], i["h_exact"]) for i in c["insts"])))
+            self.exemplar_note[h] = f"text tier {ex['tu']}:{ex['line']} — {len(priv)} private sites → include ({len({i['h_exact'] for i in c['insts']})} byte patterns)"
+        elif c["verdict"] == "B":
             g = c["groups"][0]
             hdr = g["source"]
             defined = {n for n, _ in sc.header_defs(REPO / hdr)}
@@ -379,6 +410,20 @@ def registry_append(entries):
     p.write_text(t + "".join(out))
 
 
+def registry_append_text(entries):
+    """Append h_text groups by text (H5): verbose members, each with its own h_exact."""
+    p = REPO / "config/dedup.us.yaml"
+    t = p.read_text()
+    if not t.endswith("\n"):
+        t += "\n"
+    out = []
+    for gid, th, src, fn, members in entries:
+        out.append(f"  - id: {gid}\n    tier: h_text\n    hash: {th}\n    source: {src}\n    func: {fn}\n    members:\n")
+        for b, vram, name, hx in members:
+            out.append(f"      - {{ binary: {b}, vram: 0x{vram:08X}, name: {name}, h_exact: {hx} }}\n")
+    p.write_text(t + "".join(out))
+
+
 def run_batch(orc, cen, classes, label):
     b = Batch(orc, cen)
     refused = []
@@ -466,6 +511,21 @@ def run_batch(orc, cen, classes, label):
             reg_entries.append((gid, h, src, fn, vram, bins))
     if reg_entries:
         registry_append(reg_entries)
+    text_entries = []
+    for gid, th, src, fn, members in b.register_text:
+        if th in failed_classes:
+            rej = rejected_in(b, th, cen)
+            passing = [m for m in members if m[0] not in rej and results.get(m[0], (True,))[0]]
+            c = next(x for x in classes if x["h"] == th)
+            cb, cause = causes.get(th, ("?", "?"))
+            ledger_row(th, reason_for(cause), c["nins"], c["instances"], f"share_body {label} (text tier): rejected in {sorted(rej)}; registered for {len(passing)}; cause ({cb}): {cause}")
+            if len(passing) >= 2:
+                text_entries.append((gid, th, src, fn, passing))
+        else:
+            text_entries.append((gid, th, src, fn, members))
+    if text_entries:
+        registry_append_text(text_entries)
+    reg_entries = reg_entries + text_entries
     # a rejected EXTEND class is ledgered too (its private copies in the rejecting binaries stay)
     for c in classes:
         if c["verdict"] == "B" and c["h"] in failed_classes:
@@ -657,7 +717,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--apply", action="store_true")
-    ap.add_argument("--bucket", choices=["extend", "new"], default="new")
+    ap.add_argument("--bucket", choices=["extend", "new", "text"], default="new")
     ap.add_argument("--batch", type=int, default=120)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--batches", type=int, default=1,
@@ -696,7 +756,9 @@ def main():
         return
     if not a.apply:
         return
-    pool = extend if a.bucket == "extend" else new
+    pool = extend if a.bucket == "extend" else new if a.bucket == "new" else text_candidates(cen)
+    if a.bucket == "text":
+        log(f"share_body: text tier — {len(pool)} same-address text classes / {sum(len(c['insts']) for c in pool):,} private sites")
     if a.only:
         pool = [c for c in pool if c["h"].startswith(a.only)]
     if a.limit:

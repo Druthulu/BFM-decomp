@@ -20,7 +20,7 @@
   },
   {
    "expected": "equal (each = the twin's unregistered classes)",
-   "got": "645 / 645",
+   "got": "631 / 631",
    "name": "twin symmetry SC01_005 / SC01_006"
   }
  ],
@@ -29,33 +29,41 @@
   "copies": 11340,
   "instances": 30347
  },
- "duplicate_text_classes": 6429,
- "duplicate_text_sites": 19811,
- "elapsed_s": 36.8,
+ "duplicate_text_classes": 6398,
+ "duplicate_text_sites": 17779,
+ "elapsed_s": 31.0,
  "flags": {
   "ALIAS": 32,
   "E": 3826,
   "F": 54,
-  "PINS": 538,
+  "PINS": 533,
   "TWIN-COVERED": 3748,
-  "TYPEDEF": 80
+  "TYPEDEF": 74
  },
  "ins_by_verdict": {
-  "A": 6956398,
+  "A": 6980472,
   "B": 477146,
-  "C": 562455,
+  "C": 538381,
   "D": 84080,
   "M": 126
  },
  "instances_by_verdict": {
-  "A": 236800,
+  "A": 236946,
   "B": 26471,
-  "C": 12858,
+  "C": 12712,
   "D": 4668,
   "M": 4
  },
  "macro_sites": 0,
  "multi_form": 0,
+ "same_address_text_duplicates_deferred": {
+  "sites": 1668,
+  "texts": 381
+ },
+ "same_address_text_duplicates_pending": {
+  "sites": 0,
+  "texts": 0
+ },
  "same_vram_unregistered": {
   "classes": 51,
   "collapsible": 109,
@@ -67,8 +75,8 @@
  },
  "sig_instances": 362389,
  "twin_covered": {
-  "classes": 3580,
-  "instances": 7186
+  "classes": 3507,
+  "instances": 7040
  },
  "twin_sets": [
   [
@@ -95,9 +103,9 @@
  "unaccounted": 0,
  "unresolved_names": 0,
  "verdicts": {
-  "A": 2760,
+  "A": 2833,
   "B": 149,
-  "C": 5751,
+  "C": 5678,
   "D": 1518,
   "M": 2
  },

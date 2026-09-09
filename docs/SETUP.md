@@ -1551,6 +1551,17 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   `macro-form guard: 0 LIVE tools reference the retired form (N scanned, 14 frozen, 6 whitelisted detectors, M retired)`.
   `--guard-root DIR` runs only the guard against another tree's tools/ — the R39 negative control (a worktree of the pre-T4 commit
   `0e38b51a3` flags exactly 15 tools: the twelve whose dead macro branches T6 removed and the three retired; none frozen or whitelisted).
+- **T7/T5b (S96): the S1 gate and the text tier.** `make tools-health` runs `share_census.py --selftest` and `--check --strict-macros
+  --strict-text --quiet` before `report`; `dedup_integrate --check` has C2c (one source under `src/shared/` defining one function) and C2d
+  (every member's site is an include of the group's source — from the census's cached per-instance forms). **The second oracle**
+  (`--strict-text`) is keyed by (normalized text, address) over distinct TUs; it excludes the ledgered classes and the gate-1-deferred
+  E/F classes (their same-address duplicates are PUBLISHED as `same_address_text_duplicates_deferred`) and treats what remains as the
+  S1 text half. **The text tier (`tier: h_text`, T5b):** one normalized text at one address whose bytes differ per binary (the TU's
+  declaration environment carries the per-overlay variance the original builds had) — a verbose-member group whose hash is the text
+  hash and whose every member carries its own `h_exact`; C1 checks each member against its own hash; `share_body.py --apply --bucket
+  text` shares them (header `func_<VRAM>__t<hash8>.h`, body from any site, declarations stay in each TU, the per-binary gate as ever).
+  `progress.json` counts: `unique_function_bodies`, `duplicate_source_copies/_classes`, `text_tier_groups/_instances`,
+  `deferred_same_address_texts/_copies`, and a dated `corrections` list (R75).
 
 - **Twin binaries (T3).** Five overlay pairs are one payload (equal `config/check.*.sha`): SC01_005/006, SC03_118/119, SC02_000/003,
   SC04_018/019, SC03_014/015. The twin has NO source directory: `config/overlays.mk` declares `<twin>_TWIN_OF := <primary>` and

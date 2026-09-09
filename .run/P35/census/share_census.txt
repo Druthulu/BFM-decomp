@@ -1,16 +1,16 @@
 share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 UNACCOUNTED · 10,180 h_exact classes with >=2 instances
-  verdicts (classes): A 2,760 · B 149 · C 5,751 · D 1,518 · M 2
-  instances by verdict: A 236,800 · B 26,471 · C 12,858 · D 4,668 · M 4
-  flags: ALIAS 32 · E 3,826 · F 54 · PINS 538 · TWIN-COVERED 3,748 · TYPEDEF 80
+  verdicts (classes): A 2,833 · B 149 · C 5,678 · D 1,518 · M 2
+  instances by verdict: A 236,946 · B 26,471 · C 12,712 · D 4,668 · M 4
+  flags: ALIAS 32 · E 3,826 · F 54 · PINS 533 · TWIN-COVERED 3,748 · TYPEDEF 74
   SAME-VRAM UNREGISTERED (the phase's backlog): 51 classes · 6,518 instances · 160 private copies · 109 collapsible · 348,670 ins; of which twin-pending 0 classes / 0 instances
-  TWIN-COVERED (one source directory per payload, T3): 3,580 classes · 7,186 instances
+  TWIN-COVERED (one source directory per payload, T3): 3,507 classes · 7,040 instances
   CROSS-ADDRESS / CROSS-SPACE (deferred to the names phase): 3,801 classes · 30,347 instances · 11,340 private copies
   S1 violations (scope as run): 0 · multi-form instances 0 · unresolved names 0
   controls (R39):
     func_80144B9C                      got A/141/{'include': 141}/missing 0         expected B/141/{'include': 141}/missing 7  (the registry lists 134; T5 bucket 0 extends it)
     clearTbl40                         got A+E/2                                    expected A+E/2
     ov_setters x3                      got B/282(E),B/145(E),A/141                  expected B/282(E),B/145(E),B/141
-    twin symmetry SC01_005 / SC01_006  got 645 / 645                                expected equal (each = the twin's unregistered classes)
+    twin symmetry SC01_005 / SC01_006  got 631 / 631                                expected equal (each = the twin's unregistered classes)
   top classes by instances x nins (verdict flags instances nins addrs names):
     A -                       141 x   770  0x80144B9C  func_80144b9c
     A -                       141 x   476  0x80141CA4  func_80141ca4
@@ -37,4 +37,4 @@ share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 U
     B E,F                    11852 x     2  0x80014554,0x8001455C,0x8001513C  func_80014554,func_8001455c
     A -                       141 x   167  0x80163C2C  func_80163c2c
     A -                       141 x   165  0x80178004  func_80178004
-  macro sites 0 · duplicate-text classes 6,429 (19,811 sites) · elapsed 36.8 s
+  macro sites 0 · duplicate-text classes 6,398 (17,779 sites) · elapsed 31.0 s

@@ -50,7 +50,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 from dup_report import BINARIES  # single source of truth for per-binary .run/sig.<bin>.jsonl paths
 
-TIERS = ("h_exact", "h_norm")
+TIERS = ("h_exact", "h_norm", "h_text")   # h_text (Phase 35 T5b): one TEXT at one address whose bytes vary per binary — C1 per member
 
 # OVER-APPROXIMATING by design (R32): any C identifier, not just func_<hex> — a curated symbol
 # (e.g. listCdBuffer) is a stub too, and a `func_`-only pattern silently misses it.
@@ -226,6 +226,16 @@ def check(groups, binary_filter=None, allow_unsigned=False):
         tier, want = g["tier"], g.get("hash")
         if not want:
             print(f"[FAIL] {gid}: no recorded hash"); failures += 1; continue
+        # h_text (Phase 35 T5b): the group hash is the normalized TEXT; every member carries its OWN h_exact (the bytes differ per
+        # binary through the TU's declarations) — C1 compares each member against its recorded byte hash, never the group's
+        member_hash = {}
+        if tier == "h_text":
+            for m in g.get("members") or []:
+                if not m.get("h_exact"):
+                    print(f"[FAIL] {gid}: h_text member {m.get('binary')}:{m.get('vram')} carries no h_exact"); failures += 1
+                member_hash[(m.get("binary"), _addr(m["vram"]))] = m.get("h_exact")
+            if len(member_hash) != len(list(group_members(g))):
+                continue
 
         ok = True
         for (b, vram, name) in members:
@@ -258,9 +268,10 @@ def check(groups, binary_filter=None, allow_unsigned=False):
             if row is None:
                 print(f"[FAIL] {gid}: {b}:0x{vram:08x} ({name}) not found in {b} signature")
                 failures += 1; ok = False; continue
-            got = row.get(tier)
-            if got != want:
-                print(f"[FAIL] {gid}: {b}:0x{vram:08x} ({name}) {tier}={got} != recorded {want} — SHARE DRIFTED")
+            want_m = member_hash.get((b, vram), want) if tier == "h_text" else want
+            got = row.get("h_exact" if tier == "h_text" else tier)
+            if got != want_m:
+                print(f"[FAIL] {gid}: {b}:0x{vram:08x} ({name}) {'h_exact' if tier == 'h_text' else tier}={got} != recorded {want_m} — SHARE DRIFTED")
                 failures += 1; ok = False; continue
             members_c1 += 1
 

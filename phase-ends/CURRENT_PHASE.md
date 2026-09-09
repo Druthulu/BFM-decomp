@@ -68,7 +68,7 @@
   `progress.py` fields (105,007 bodies written once; 160 / 51 duplicate copies, all ledgered) + the dated corrections (+7, +459, REAL
   −10,211) + the README sentence; the gate negative-controlled in place (exit 1 naming the class; C2d naming the member); the second
   oracle's finding published: 380 texts deferred inside cross-address classes, 38 texts / 2,030 sites byte-variant — PENDING Drew.
-- ☐ **T5b** (added S96, Claude's delegated decision) — the text tier: registry `tier: h_text` (text hash; per-member `h_exact` in the
+- ☑ **T5b** (added S96, Claude's delegated decision; done S96 — 38 groups / 2,030 sites, 138/138 green, R22 218/218) — the text tier: registry `tier: h_text` (text hash; per-member `h_exact` in the
   verbose member form), `dedup_integrate` C1 per member; `share_census` text classes at one address (same text, ≥2 distinct TUs, outside
   the deferred/ledgered sets) → the S1 text half a violation, not PENDING; `share_body --bucket text` (header named by the text hash) over
   the 38 classes / 2,030 sites, gated per binary, one batch per run + R22; the two counts (deferred 380/1,668; text-tier shares) in the
@@ -550,6 +550,23 @@
 - **S96 — the second oracle's finding DECIDED (Max, delegated by Drew): T5b (a text tier) for the 38 byte-variant same-address texts;
   the 380 inside the deferred classes stay deferred** — the reasoning is in §Decisions; T5b's design in its task row. NEXT: T5b at high.
 
+- **S96 — T5b: the text tier.** `config/dedup.us.yaml` gains `tier: h_text` (the group hash = the normalized text; verbose members each with
+  their own `h_exact`); `dedup_integrate` C1 checks an h_text member against ITS recorded byte hash (TIERS += h_text); `share_census`
+  indexes h_text groups by site (a byte class whose sites they list is registered by TEXT — no `extra`), exports `text_classes()` (same
+  normalized text, same address, ≥2 distinct TUs, outside the deferred/ledgered sets) and makes the S1 text half a VIOLATION (was PENDING);
+  `share_body --bucket text` shares them (header `func_<VRAM>__t<hash8>.h`, banner `h_text`, the body from any site — identical by
+  construction — declarations stay in each TU; registration in the verbose form with per-member h_exact). **Run (`run_text1.log`, 1,489 s):**
+  `text tier — 38 same-address text classes / 2,030 private sites` · `[text1] 38 classes · 1957 sites in 1540 TUs · 38 new headers · gating
+  138 binaries` → **`gated 138/138 binaries green · registered 38 groups · extended 0 members · rejected classes 0`** (e.g. `T_func_8012AAAC`:
+  138 members, 133 byte patterns, one header). **Verify:** `dedup-check: 3173 validated, 0 failed | C1 coverage 262573/262573`; the strict
+  census `S1 … 10,180 satisfied … 0 VIOLATION(S) — OK` (twin-covered 3,580 → 3,507: the twin pairs' sites are text-tier includes now) with
+  the second oracle `0 same-address definition texts duplicated` and `381 … inside the deferred cross-address classes (1,668 sites)`;
+  **R22 `check-all: 218 passed, 0 failed of 218`, 90 s** (`r22_t5b.log`); `progress.py --check … fresh` — the digest now says 103,015
+  bodies written once (3,173 headers instantiated 262,573 times), 160 duplicate copies in 51 ledgered classes, 38 text-tier functions
+  (2,030 sites), 1,668 same-address copies of 381 tiny bodies deferred to the names phase (the README sentence carries all of it). The
+  census json is rewritten after the strict-text keys are set (progress.py read empty counts before). SETUP §T7/T5b (R21). **T5b ☑**
+  pending the health chain's line (next commit).
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)
@@ -849,7 +866,7 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 ☑ (S1 10,180/10,180, 0 violations; backlog 1,099 → 51 ledgered classes; registry 3,135 groups); T6 ☑ (14 frozen / 4 retired / the guard 0 LIVE); T7 ☑ (S1 strict + C2c/C2d in tools-health, OK); DECIDED: T5b = a text tier for the 38 byte-variant same-address texts (2,030 sites), the 380 deferred; NEXT = T5b, then T8 (the record); the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
+## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 ☑ (S1 10,180/10,180, 0 violations; backlog 1,099 → 51 ledgered classes; registry 3,135 groups); T6 ☑ (14 frozen / 4 retired / the guard 0 LIVE); T7 ☑ (S1 strict + C2c/C2d in tools-health, OK); T5b ☑ (the h_text tier: 38 groups / 2,030 sites shared, 138/138 green, R22 218/218; 381 tiny-body texts deferred); NEXT = T8 (the record); the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
 
 ### 0. How to use this block
 A fresh session (S96) reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at §2 step 1. This block was written by S95, a

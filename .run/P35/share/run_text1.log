@@ -1,0 +1,7 @@
+share_body: census 28 s · extend (registered-incomplete) 0 classes · new (unregistered same-vram) 0 classes / 0 private sites
+share_body: text tier — 38 same-address text classes / 2,030 private sites
+  [text1] 38 classes · 1957 sites in 1540 TUs · 38 new headers · gating 138 binaries
+  [text1] gated 138/138 binaries green · registered 38 groups · extended 0 members · rejected classes 0
+share_body: done — 38 of 38 classes in 1 batch(es); all green; 1489 s
+text1 wall=1489.34 s
+exit=0

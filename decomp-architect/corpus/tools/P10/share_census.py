@@ -463,7 +463,12 @@ def classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verbatim, except
     from dedup_integrate import group_members
     # registry index
     reg = collections.defaultdict(list)
+    reg_text = {}                     # (binary, vram) -> the h_text group listing that site (Phase 35 T5b: groups keyed by TEXT, not bytes)
     for g in groups:
+        if g.get("tier") == "h_text":
+            for b, addr, _ in group_members(g):
+                reg_text[(b, addr)] = g
+            continue
         reg[g.get("hash")].append(g)
     # instances
     classes = collections.defaultdict(list)
@@ -489,10 +494,16 @@ def classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verbatim, except
             continue
         gs = reg.get(h, [])
         members = set()
+        text_tier = False
         for g in gs:
             for b, addr, _ in group_members(g):
                 members.add((b, addr))
         inst_set = {(i["alias"], i["addr"]) for i in insts}
+        if not gs:
+            tgs = {id(reg_text[s]): reg_text[s] for s in inst_set if s in reg_text}
+            if tgs:                        # the sites share by TEXT (h_text tier): registered iff every site is listed
+                gs = list(tgs.values()); text_tier = True
+                members = {s for s in inst_set if s in reg_text}
         forms_seen = collections.Counter(i["form"] for i in insts)
         addrs = sorted({i["addr"] for i in insts})
         aliases = sorted({i["alias"] for i in insts})
@@ -517,7 +528,7 @@ def classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verbatim, except
             flags.append("STUB")
         if gs:
             missing = sorted(inst_set - members)
-            extra = sorted(members - inst_set)
+            extra = [] if text_tier else sorted(members - inst_set)
             bad_site = [i for i in insts if (i["alias"], i["addr"]) in members and i["form"] not in SHARED_FORMS]
             verdict = "A" if not missing and not bad_site and not extra else "B"
             detail = dict(groups=[g.get("id") for g in gs], missing=len(missing), extra=len(extra), bad_site=len(bad_site))
@@ -650,6 +661,28 @@ def text_duplicates(forms):
             if rec["form"] == "def" and rec.get("text_hash") and rec.get("nlines", 0) >= 2:
                 by_text[rec["text_hash"]].add((a, rec["tu"], addr))
     return {h: sorted(v) for h, v in by_text.items() if len({(a, tu) for a, tu, _ in v}) > 1}
+
+
+def text_classes(forms, classes, exceptions):
+    """Phase 35 T5b — the classes the TEXT tier shares: the same normalized definition text, still a private `def`, at the SAME
+    address in >=2 distinct TUs, outside the E/F-deferred byte classes and the ledgered ones. Each: dict(text_hash, addr, sites=[(alias,
+    tu, rec)], nins). The byte tier cannot register these (their bytes differ per binary through the TU's declarations)."""
+    exc_sites = {(al, int(s, 16)) for c in classes if c["excepted"] for s in c["addrs"] for al in c["aliases"]}
+    def_sites = {(al, int(s, 16)) for c in classes if ("E" in c["flags"] or "F" in c["flags"]) for s in c["addrs"] for al in c["aliases"]}
+    nins_of = {(i["alias"], i["addr"]): i["nins"] for c in classes for i in c.get("insts", [])}
+    by_key = collections.defaultdict(list)
+    for a, per in forms.items():
+        for addr, rec in per.items():
+            if rec["form"] == "def" and rec.get("text_hash") and rec.get("nlines", 0) >= 2 and (a, addr) not in exc_sites | def_sites:
+                by_key[(rec["text_hash"], addr)].append((a, rec["tu"], rec))
+    out = []
+    for (th, addr), sites in by_key.items():
+        if len({tu for _, tu, _ in sites}) < 2:
+            continue
+        nins = max((nins_of.get((a, addr), 0) for a, _, _ in sites), default=0)
+        out.append(dict(text_hash=th, addr=addr, sites=sorted(sites, key=lambda s: (s[0], s[1])), nins=nins))
+    out.sort(key=lambda c: (-len(c["sites"]), -c["nins"], c["text_hash"]))
+    return out
 
 
 def text_duplicates_same_addr(forms, excepted_sites=frozenset()):
@@ -844,10 +877,11 @@ def main():
             dup_same = {k: v for k, v in dup_rest.items() if _shared_class_across_tus(k, v)}
             dup_pending = {k: v for k, v in dup_rest.items() if k not in dup_same}
             summary["same_address_text_duplicates_pending"] = {"texts": len(dup_pending), "sites": sum(len(v) for v in dup_pending.values())}
+            (out / "share_census.json").write_text(json.dumps(summary, indent=1, sort_keys=True) + "\n")   # the json carries the oracle's counts (progress.py reads them)
             if dup_pending:
-                print(f"share_census: second oracle — PENDING {len(dup_pending):,} same-address definition texts ({summary['same_address_text_duplicates_pending']['sites']:,} "
-                      f"sites) are duplicated across TUs but compile to DIFFERENT bytes per binary (singleton h_exact classes) — one source the"
-                      f" byte tier cannot register; a decision for the owner (an h_norm/text tier or the names phase)")
+                print(f"share_census: S1 text half — {len(dup_pending):,} same-address definition texts ({summary['same_address_text_duplicates_pending']['sites']:,} "
+                      f"sites) are duplicated across TUs with DIFFERENT bytes per binary: the h_text tier shares them (share_body.py --apply --bucket text)"
+                      f" — VIOLATION until shared or ledgered"); bad += 1
             if dup_same:
                 print(f"share_census: S1 second oracle — {len(dup_same)} definition text(s) duplicated at the SAME address across TUs and not "
                       f"ledgered (--strict-text): " + "; ".join(f"0x{addr:08X} in {[a for a, _ in v][:4]}" for (_, addr), v in list(dup_same.items())[:6])); bad += 1
