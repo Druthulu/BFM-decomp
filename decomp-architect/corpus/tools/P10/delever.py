@@ -1017,8 +1017,8 @@ def apply_batch(a):
     v, dt, err = oracle.judge(r0, None, tag="ctl")
     if v != "IDENTICAL":
         sys.exit(f"delever --apply: the negative control FAILED — {ctl} untouched compiles {v} vs build/ ({err[:200]}); the baseline is stale (R56)")
-    # the in-flight snapshot BEFORE any write (the only restore, R102)
-    INFLIGHT.write_text(json.dumps({tu: (REPO / tu).read_text(errors="surrogateescape") for tu, _ in plan}))
+    # the in-flight snapshot BEFORE any write (the only restore, R102): the label too, so --restore can drop a killed batch's ledger rows
+    INFLIGHT.write_text(json.dumps(dict(label=a.label, files={tu: (REPO / tu).read_text(errors="surrogateescape") for tu, _ in plan})))
     log_p = RUN / f"apply_{a.label}.log"
     log_f = open(log_p, "a")
     def log(msg):
@@ -1082,18 +1082,31 @@ def apply_batch(a):
 
 
 def restore():
+    """Every in-flight file back from inflight.json, and the killed batch's ledger rows dropped (a batch that did not complete leaves no
+    trace: its bodies are drawn again — a body judged all-NEEDED in the killed batch would otherwise count as done while its markers were
+    restored away). The dropped rows are kept in ledger.jsonl.killed_<label> (ignored scratch)."""
     if not INFLIGHT.exists():
         sys.exit("delever --restore: no inflight.json — nothing in flight")
     d = json.loads(INFLIGHT.read_text())
+    label, files = (d.get("label"), d.get("files")) if isinstance(d, dict) and "files" in d else (None, d)
     n = 0
-    for tu, text in d.items():
+    for tu, text in files.items():
         p = REPO / tu
         if p.read_text(errors="surrogateescape") != text:
             p.write_text(text, errors="surrogateescape")
             n += 1
+    dropped = 0
+    if label and LEDGER.exists():
+        rows = LEDGER.read_text().splitlines()
+        keep = [l for l in rows if l.strip() and json.loads(l).get("label") != label]
+        dropped = len([l for l in rows if l.strip()]) - len(keep)
+        if dropped:
+            (RUN / f"ledger.jsonl.killed_{label}").write_text("\n".join(rows) + "\n")
+            LEDGER.write_text("".join(l + "\n" for l in keep))
     INFLIGHT.unlink()
     clean, dirty = src_clean()
-    print(f"delever --restore: {n} of {len(d)} files restored from inflight.json; src {'clean' if clean else 'STILL DIRTY:'}\n{'' if clean else dirty[:400]}")
+    print(f"delever --restore: {n} of {len(files)} files restored from inflight.json (batch {label or '?'}); {dropped} ledger rows of that batch "
+          f"dropped{' (backup ledger.jsonl.killed_' + label + ')' if dropped else ''}; src {'clean' if clean else 'STILL DIRTY:'}\n{'' if clean else dirty[:400]}")
     return 0 if clean else 1
 
 

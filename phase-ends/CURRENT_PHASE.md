@@ -343,6 +343,15 @@ accumulate here as the phase produces them.**
   3,505 / needed 5,262 · replays 1,350 (0 disagreed) · 5,616 compiles in 251 s · R22 218/218 → **46,424 sites in 14,758 bodies (2,258
   distinct) · marked 9,393 · UNMARKED 37,031**. The replay discount is real (≈ half the bodies, 1 compile each, 0 disagreements so far).
 
+- **S98 — T4: the harness's low-memory guard killed the background cycle mid-apply of batch `tus3`** ("stopped because the system is
+  running low on memory" — the box had 22 GB free of 31; the guard's own heuristic, the failure mode the S88 memory records for long
+  background tasks). State found: 50 batch files holding final or candidate texts (a SIGKILL skips the restore `finally`), `inflight.json`
+  present, no fleet run for the batch, 641 ledger rows appended by the batch's completed files, no surviving worker. **Recovery:** the
+  641 `tus3` rows dropped from the ledger (backup `ledger.jsonl.killed_tus3`, ignored scratch) — a body judged all-NEEDED in a killed batch
+  would otherwise count as done while its markers were restored away — then `delever --restore: 50 of 300 files restored … src clean`.
+  **Now built in:** `inflight.json` carries the batch label and `--restore` drops that label's rows itself; the cycle's usage says to run
+  it DETACHED (`setsid nohup …`) with a tiny waiter, never as a harness background task. The campaign continues from batch 3 detached.
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ — all committed (T3 = `39e3e1851` tools, `cd24727dd` + `7ee458dd7` the ov_SC04_011 batches, this close); NEXT = T4 the mechanical campaign: `tools/delever_cycle.sh` over the whole population (TUs then headers), unattended, one commit per batch, R22 every batch | the number: 53,033 sites in 15,638 bodies (2,246 distinct), 310 marked, 0 orphans | last batch `tus2` on a605e1dba: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 46,424 sites in 14,758 bodies (2,258 distinct) · marked !FAKE 9,393 · UNMARKED 37,031
 
 ### 0. How to use this block

@@ -10,6 +10,9 @@
 # Stops on the first red (a non-zero tool exit, a final N/M with N != M, a fleet run that is not 218/218) — the batch's files are then
 # still in place: inspect, then `tools/delever.py --restore` (never git checkout, R102). Stops cleanly when nothing is drawable.
 # Usage: [LABEL_PREFIX=t3_] [TASK=T4] [REDRAW="REFUSED NOTHING-USABLE"] tools/delever_cycle.sh START END [BATCH=300] [MODE=tus|headers] [ONLY="alias1 alias2 …"]
+#   RUN IT DETACHED from the Claude Code harness (its low-memory guard kills a long BACKGROUND task — batch tus3 died mid-apply, S98):
+#     setsid nohup bash -c 'TASK=T4 tools/delever_cycle.sh 3 12 300 tus; echo "cycle exit=$?"' > .run/P36/delever/cycle_<x>.log 2>&1 &
+#   and watch the log (a tiny waiter: `until grep -q 'cycle exit=' <log>; do sleep 60; done`). A killed batch: `tools/delever.py --restore`.
 #   size a call so one batch stays < 10 min: TUs ≈ 8 s each single-threaded / 12 workers; a header ≈ 4 s (serial, includers in parallel).
 set -o pipefail
 cd "$(dirname "$0")/.." || exit 2
