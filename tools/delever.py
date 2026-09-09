@@ -76,7 +76,9 @@ PROBE = REPO / ".run" / "P36" / "probe"
 PRELUDE = "src/shared/engine_prelude.h"
 REMOVABLE = {("A", "pin"), ("B", "barrier"), ("B", "launder"), ("B", "keepalive"), ("B", "instruction"),
              ("C", "cast"), ("C", "decl-body"), ("C", "param"), ("D", "register")}
-FILE_SCOPE_REMOVABLE = {("C", "decl-file")}
+FILE_SCOPE_REMOVABLE = {("C", "decl-file"), ("B", "barrier"), ("B", "launder"), ("B", "keepalive"), ("B", "instruction")}
+# a file-scope asm statement is a TU-level site: a barrier/launder/keep-alive is judged like any other; a `.section` block is a rodata
+# DEFINITION carried as assembly (asm-data) — data, not a compiler steer: refused with that reason and marked, for T7
 DEFERRED_KINDS = {"asm-body"}                       # a whole routine in a C shell: T7's work, marked now (the census counts it as a lever)
 MARK_KINDS = {"pin", "barrier", "launder", "keepalive", "instruction", "asm-body"}   # class A/B survivors carry the marker; C/D never
 ORDER = {"barrier": 0, "launder": 1, "keepalive": 2, "instruction": 3, "pin": 4, "cast": 5, "decl-body": 6, "param": 6, "register": 7}
@@ -417,6 +419,8 @@ def site_edits(raw, m, ls, site, keep_register=False):
             how, text = launder_rewrite(inner)
             new = "" if how == "delete" else text
         elif kind == "instruction":
+            if str(site.get("detail", "")).startswith("."):
+                raise Refuse(f"asm-data: a `{site['detail']}` block defines data as assembly (a rodata carve, not a compiler steer) — T7")
             new = instruction_to_c(inner, "")
             if new is None:
                 raise Refuse(f"instruction `{site['detail']}` has no C spelling in the table")
@@ -966,7 +970,7 @@ def work_file(tu, bs, recipes_for, pool, exemplars, ledger_ex, label, log, calib
         try:
             walk = lc.walk_file(final, tu, is_hdr)
             nh = {d["name"]: d["nhash"] for d in walk["defs"]}
-            fs_sites = [s for s in walk["sites"] if s["cls"] == "C" and s["kind"] == "decl-file"]
+            fs_sites = [s for s in walk["sites"] if not s.get("fn") and (s["cls"], s["kind"]) in FILE_SCOPE_REMOVABLE]
             fs_hash = "fs:" + hashlib.sha1("\n".join(s["text"] for s in fs_sites).encode()).hexdigest()
             for b, row in rows:
                 row["nhash_after"] = fs_hash if b["fn"] == FILE_SCOPE_FN else nh.get(b["fn"])

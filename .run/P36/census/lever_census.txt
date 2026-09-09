@@ -6,13 +6,13 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
   coverage attribute raw     76 = live     76 + macro-block     0 + comment/dead     0
   class  sites  in-bodies  file-scope  bodies  distinct  TUs  marked  unmarked   kinds
   A pins        20646     20646          0   10329      1330  2580   20646         0   {'pin': 20646}
-  B asm         22552     22539         13    9758      1054  2289   13155      9397   {'barrier': 4578, 'keepalive': 2000, 'instruction': 1712, 'launder': 4676, 'gte': 6891, 'asm-body': 13, 'verbatim-body': 2682}
+  B asm         22552     22539         13    9758      1054  2289   13155      9397   {'gte': 6891, 'barrier': 4578, 'launder': 4676, 'instruction': 1712, 'keepalive': 2000, 'asm-body': 13, 'verbatim-body': 2682}
   C volatile     1722      1570        152     628        97   612      14      1708   {'decl-body': 58, 'decl-file': 152, 'cast': 1510, 'param': 2}
   D register       50        50          0      47        47     6       0        50   {'register': 50}
   E asm-label    7428      1005       6423     737       117  2080       0      7428   {'asm-label': 7428}
   F builtin       445       445          0     428        27   302       0       445   {'builtin': 445}
   G attribute      76         1         75       1         1    40       0        76   {'attribute': 76}
-  UNION A–D: 15,955 bodies · 2,023 distinct (addresses normalized) · 394 multi-copy classes holding 14,326 bodies · by kind {'ov': 15258, 'main': 180, 'shared': 323, 'md': 182, 'resident': 12}
+  UNION A–D: 15,955 bodies · 2,023 distinct (addresses normalized) · 394 multi-copy classes holding 14,326 bodies · by kind {'ov': 15258, 'resident': 12, 'main': 180, 'md': 182, 'shared': 323}
   THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 33,625 sites in 12,501 bodies (1,728 distinct) · marked !FAKE 33,625 · UNMARKED 0
   orphan !FAKE markers (no pin/asm site on the line nor below): 0
   pins: 20,646 · $0 1,321 · $sp 13 · with initializer 2,776 · volatile-qualified 134 · bare-name 25 · spellings {'__asm__': 20544, 'asm': 102}
@@ -26,4 +26,4 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
     src/shared/ov/func_80178004.h pins                   got 8      expected 26  N-A
     ov_SC03_006 func_80184034 bare-name pins             got 0      expected 3  N-A
     engine_prelude.h asm sites (a macro definition only) got 0      expected 0  OK
-  elapsed 36.8 s
+  elapsed 39.0 s

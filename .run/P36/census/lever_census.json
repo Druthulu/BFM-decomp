@@ -232,9 +232,9 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 36.8,
+ "elapsed_s": 39.0,
  "generated": "2026-09-09",
- "head": "0cb78a6a7",
+ "head": "f087282a3",
  "headers": 3181,
  "levers_AB": {
   "asm": 12979,
