@@ -1118,8 +1118,8 @@ def scrub(a):
     """--scrub [--only …]: remove every orphan `// !FAKE:` marker (the census's definition: no pin/asm site on the line nor below), each
     file's final text judged through every recipe; the tree is left modified for the outer gate (R22) and the commit."""
     clean, dirty = src_clean()
-    if not clean:
-        sys.exit(f"delever --scrub: src/ is dirty — commit or --restore first:\n{dirty[:400]}")
+    if not clean and not a.dirty_ok:
+        sys.exit(f"delever --scrub: src/ is dirty — commit or --restore first (or --dirty-ok right after a judged pass that orphaned markers):\n{dirty[:400]}")
     ok, why = oracle.calibration_current()
     if not ok:
         sys.exit(f"delever --scrub: calibration not current ({why})")

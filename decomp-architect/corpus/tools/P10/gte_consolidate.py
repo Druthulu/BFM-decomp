@@ -802,9 +802,18 @@ def sweep(a):
         m = dl.same_len_mask(raw)
         ls = dl.line_starts(raw)
         edits, dead, inner = [], [], []
+        # the file's text with EVERY #define line of a name blanked: a sibling definition (SHB is defined twice per unit) is not a use
+        def_spans = collections.defaultdict(list)
+        for (l0, l1, name, body) in lc.define_blocks(raw):
+            def_spans[name].append((ls[l0 - 1], ls[l1] if l1 < len(ls) else len(raw)))
+        def mentions(name):
+            text = m
+            for s0, e0 in def_spans.get(name, ()):
+                text = text[:s0] + " " * (e0 - s0) + text[e0:]
+            return re.search(r"\b%s\b" % re.escape(name), text) is not None
         for (l0, l1, name, body) in blocks:
             start, end = ls[l0 - 1], ls[l1] if l1 < len(ls) else len(raw)
-            if used.get(name, 0) == 0 and not re.search(r"\b%s\b" % re.escape(name), m[:start] + m[end:]):
+            if used.get(name, 0) == 0 and not mentions(name):
                 edits.append((start, end, ""))
                 dead.append(name)
                 continue

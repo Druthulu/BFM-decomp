@@ -454,13 +454,13 @@ void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, 
     L.v58[2] = 0;
 
 
-    gte_ldv0(L.v48);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    gte_ldv0(L.v48);
     gte_rtv0tr();
     gte_stsv((u16 *)w3c);
-    gte_ldv0(L.v50);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    gte_ldv0(L.v50);
     gte_rtv0tr();
     gte_stsv(L.o2);
-    gte_ldv0(L.v58);  // !FAKE: gte via LDV — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    gte_ldv0(L.v58);
     gte_rtv0tr();
     gte_stsv(L.o3);
 
