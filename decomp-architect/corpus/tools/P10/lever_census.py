@@ -394,7 +394,30 @@ def _paren_depth_at(masked, start, pos):
     return depth
 
 
-def walk_file(raw, rel, is_header):
+def global_asm_macros(files):
+    """name -> kind for every asm-bearing #define in the tree plus the GTE header and the prelude: a USE of a macro defined in another
+    file (the prelude's ENGINE_SHB in a shared header; a unit's SHB in a header it includes) was invisible to the census, which only
+    knew a file's own definitions — 7 launder levers uncounted, three live SHB definitions judged dead (the oracle refused). Kinds
+    disagreeing across definitions resolve to the majority."""
+    kinds = collections.defaultdict(collections.Counter)
+    for rel in list(files) + [GTE_HEADER_DEFAULT, PRELUDE]:
+        p = REPO / rel
+        if not p.exists():
+            continue
+        raw = p.read_text(errors="surrogateescape")
+        if "#define" not in raw:
+            continue
+        for (l0, l1, name, body) in define_blocks(raw):
+            k = macro_kind(body)
+            if k:
+                kinds[name][k] += 1
+    return {n: c.most_common(1)[0][0] for n, c in kinds.items()}
+
+
+PRELUDE = "src/shared/engine_prelude.h"
+
+
+def walk_file(raw, rel, is_header, global_names=None):
     """One file. Returns dict(sites=[...], defs=[...], macro_defs=[...], tokens=dict(raw, live, macro_block, comment_dead, unclassified),
     unclassified=[...])."""
     masked = sc.mask_text(raw)
@@ -426,7 +449,8 @@ def walk_file(raw, rel, is_header):
             mdefs.append(dict(name=name, kind=kind, line=l0, end=l1, nlines=l1 - l0 + 1, text_hash=hashlib.sha1(re.sub(r"\s+", " ", body).encode()).hexdigest()[:12]))
         if l1 > l0:
             macro_block_lines.update(range(l0, l1 + 1))
-    asm_macro_names = {m["name"]: m["kind"] for m in mdefs}
+    asm_macro_names = dict(global_names or {})          # names defined elsewhere in the tree (kind by the majority definition)
+    asm_macro_names.update({m["name"]: m["kind"] for m in mdefs})   # the file's own definitions win
     # single-line #define lines stay in the masked text: their tokens are roled 'macro-def'
     define_single_lines = {l0 for (l0, l1, _, _) in define_blocks(raw) if l0 == l1}
     sites, roles, claimed = [], {}, set()
@@ -676,9 +700,9 @@ def walk_file(raw, rel, is_header):
 
 
 def _walk_worker(args):
-    rel, is_header = args
+    rel, is_header, global_names = args
     raw = (REPO / rel).read_text(errors="surrogateescape")
-    return walk_file(raw, rel, is_header)
+    return walk_file(raw, rel, is_header, global_names)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -755,11 +779,13 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
             cache = {}
     work, keys = [], {}
     files = [(rel, False) for rel in sorted(tu_aliases)] + [(h, True) for h in headers]
+    gnames = global_asm_macros([rel for rel, _ in files])
+    gstamp = hashlib.sha1(json.dumps(sorted(gnames.items())).encode()).hexdigest()[:8]     # the cross-file name table is part of the key
     for rel, is_h in files:
         st = (REPO / rel).stat()
-        keys[rel] = f"{rel}|{int(st.st_mtime)}|{st.st_size}|{TOOL_STAMP}"     # a tool change invalidates every cached walk (R35)
+        keys[rel] = f"{rel}|{int(st.st_mtime)}|{st.st_size}|{TOOL_STAMP}|{gstamp}"     # a tool change invalidates every cached walk (R35)
         if keys[rel] not in cache:
-            work.append((rel, is_h))
+            work.append((rel, is_h, gnames))
     results = {}
     if work:
         with ProcessPoolExecutor(max_workers=jobs) as ex:
@@ -1036,6 +1062,7 @@ s32 func_80128218(s32 a0, register s32 a1) {
     __asm__("addu %0,%1,$zero" : "=r"(v) : "r"(s));
     __asm__("la %0, D_800A5E94" : "=r"(p));
     SHB(v);
+    ENGINE_SHB(v);
     GTE_LDV0(p);
     q = (u8 *)__builtin_memcpy((void *)a0, (void *)a1, 8);
     return v + zr + plain + buf[0] + (s32)q;
@@ -1051,10 +1078,10 @@ void func_80128500(void) {
 
 
 def selftest():
-    r = walk_file(FIXTURE, "src/fx/x.c", False)
+    r = walk_file(FIXTURE, "src/fx/x.c", False, global_names={"ENGINE_SHB": "launder"})
     got = collections.Counter((s["cls"], s["kind"]) for s in r["sites"])
     want = collections.Counter({("A", "pin"): 5, ("D", "register"): 2, ("C", "decl-file"): 1, ("C", "decl-body"): 1, ("C", "cast"): 1,
-                                ("B", "barrier"): 3, ("B", "launder"): 2, ("B", "keepalive"): 1, ("B", "instruction"): 2,
+                                ("B", "barrier"): 3, ("B", "launder"): 3, ("B", "keepalive"): 1, ("B", "instruction"): 2,
                                 # the fixture's GTE_LDV0 carries a "memory" clobber Sony's gte_ldv0 lacks: a gte-lever once the T5 tables
                                 # (.run/P36/gte/canonical.json + sig_cache.json, tracked) exist — they do in every checkout
                                 ("B", GTE_LEVER_KIND if _gte_lookup()[1] else "gte"): 1,
@@ -1077,7 +1104,7 @@ def selftest():
     if len(r["orphan_markers"]) != 1:
         print(f"selftest: orphan markers {r['orphan_markers']} (want exactly the stale line)"); ok = False
     via = sorted(s["detail"] for s in r["sites"] if s.get("via"))
-    if via != ["GTE_LDV0", "SHB"]:
+    if via != ["ENGINE_SHB", "GTE_LDV0", "SHB"]:
         print(f"selftest: macro uses {via}"); ok = False
     mk = sorted((m["name"], m["kind"]) for m in r["macro_defs"])
     if mk != [("GTE_LDV0", "gte"), ("SHB", "launder")]:

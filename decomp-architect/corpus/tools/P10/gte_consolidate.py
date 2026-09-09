@@ -300,7 +300,9 @@ def inventory(jobs=12, quiet=False):
 # ----------------------------------------------------------------------------------------------------------------------
 # the canonical table
 # ----------------------------------------------------------------------------------------------------------------------
-def canonical_table(inv, quiet=False):
+def canonical_table(inv, quiet=False, write=True):
+    """write=False for fixtures: the selftest once overwrote the real table with its two-signature fixture (the census then classified
+    every direct statement against a fixture and 362 levers vanished twice) — a selftest never writes an instrument's real state."""
     sony = sony_table()
     incn = inc_names()
     groups = collections.defaultdict(list)
@@ -380,7 +382,8 @@ def canonical_table(inv, quiet=False):
                 variants[f"{key}|{'|'.join(cs)}"] = dict(name=vname, of=name, key=key, clob=list(cs), extra=extra, fewer=fewer, defs=cnt,
                                                        files=len({d["tu"] for d in ds if tuple(d["sig"]["clob"]) == cs}))
     out = dict(generated=time.strftime("%Y-%m-%d %H:%M"), canonical=table, variants=variants, unsigned=[dict(tu=d["tu"], name=d["name"], l0=d["l0"]) for d in unsigned])
-    CANON.write_text(json.dumps(out, indent=1))
+    if write:
+        CANON.write_text(json.dumps(out, indent=1))
     if not quiet:
         print(f"gte_consolidate: canonical table — {len(table)} signatures ({sum(1 for t in table.values() if t['sony'])} with Sony's name), "
               f"{sum(t['defs'] for t in table.values())} canonical definitions; {len(variants)} lever variants holding {sum(v['defs'] for v in variants.values())} definitions; "
@@ -806,14 +809,37 @@ def sweep(a):
         def_spans = collections.defaultdict(list)
         for (l0, l1, name, body) in lc.define_blocks(raw):
             def_spans[name].append((ls[l0 - 1], ls[l1] if l1 < len(ls) else len(raw)))
-        def mentions(name):
+        def mentions(name, l0=None, next_l0=None):
             text = m
             for s0, e0 in def_spans.get(name, ()):
                 text = text[:s0] + " " * (e0 - s0) + text[e0:]
+            if l0 is not None:
+                a = ls[l0 - 1]
+                b = ls[next_l0 - 1] if next_l0 else len(text)
+                text = text[a:b]
             return re.search(r"\b%s\b" % re.escape(name), text) is not None
+        # uses per DEFINITION: a use (a census site via the name, or an #include of a header that uses the name) is governed by the last
+        # definition of that name above it; a definition with no governed use is dead even when a sibling definition is used
+        use_lines = collections.defaultdict(list)
+        for s in sites:
+            if s["tu"] == rel and s.get("via"):
+                use_lines[s["via"]].append(s["line"])
+        inc_lines = []
+        for mm in sc.INCLUDE_LINE.finditer(m):
+            h = os.path.normpath(os.path.join(os.path.dirname(rel), mm.group(1)))
+            inc_lines.append((m.count("\n", 0, mm.start()) + 1, hdr_uses.get(h, collections.Counter())))
+        def governed_uses(name, l0, next_l0):
+            n = sum(1 for ln in use_lines.get(name, []) if l0 < ln and (next_l0 is None or ln < next_l0))
+            n += sum(1 for ln, hu in inc_lines if hu.get(name, 0) and l0 < ln and (next_l0 is None or ln < next_l0))
+            return n
+        same_name = collections.defaultdict(list)
+        for (l0, l1, name, body) in lc.define_blocks(raw):
+            same_name[name].append(l0)
         for (l0, l1, name, body) in blocks:
             start, end = ls[l0 - 1], ls[l1] if l1 < len(ls) else len(raw)
-            if used.get(name, 0) == 0 and not mentions(name):
+            later = sorted(x for x in same_name[name] if x > l0)
+            next_l0 = later[0] if later else None
+            if governed_uses(name, l0, next_l0) == 0 and not mentions(name, l0, next_l0):
                 edits.append((start, end, ""))
                 dead.append(name)
                 continue
@@ -971,7 +997,7 @@ def selftest():
         dict(tu="c.c", l0=1, l1=2, name="LDV0_DA34", params="( r0 )", body='__asm__ volatile ("lwc2 $0, 0( %0 );lwc2 $1, 4( %0 )" : : "r"( r0 ))', kind="gte", sig=s4),
         dict(tu="a.c", l0=3, l1=3, name="gte_rtps", params="()", body='__asm__ volatile ("nop;nop;rtps")', kind="gte", sig=s1),
     ], direct=[], uses={})
-    canon = canonical_table(inv, quiet=True)
+    canon = canonical_table(inv, quiet=True, write=False)
     t = canon["canonical"].get(sig_key(s4))
     if not t or t["name"] != "gte_ldv0" or t["clob"] != [] or t["defs"] != 2:
         fail(f"canonical ldv0: {t}")
@@ -1003,7 +1029,7 @@ def selftest():
     fo = fm.find("(", fpos)
     finner = fm[fo + 1:lc._paren_span(fm, fo)]
     inv2 = dict(definitions=defs, direct=[dict(tu="fx.c", line=7, col=5, fn="f", inner=finner, sig=signature(finner))], uses={})
-    canon2 = canonical_table(inv2, quiet=True)
+    canon2 = canonical_table(inv2, quiet=True, write=False)
     plan = plan_files(inv2, canon2, bound={})
     edits, rec = file_edits("fx.c", fx, plan["fx.c"], canon2, "self")
     out = dl.apply_edits(fx, edits)
@@ -1017,7 +1043,7 @@ def selftest():
     for (l0, l1, name, body) in lc.define_blocks(fxo):
         defso.append(dict(tu="fo.c", l0=l0, l1=l1, name=name, params=define_params(fxo, l0), body=body, kind="gte", sig=signature(asm_inner(body))))
     invo = dict(definitions=defso + [dict(tu="fa.c", l0=1, l1=1, name="gte_rtps", params="()", body='__asm__ volatile ("nop;nop;rtps")', kind="gte", sig=signature('"nop;nop;rtps"'))], direct=[], uses={})
-    canono = canonical_table(invo, quiet=True)
+    canono = canonical_table(invo, quiet=True, write=False)
     plano = plan_files(invo, canono, bound={})
     editso, reco = file_edits("fo.c", fxo, plano["fo.c"], canono, "self")
     outo = dl.apply_edits(fxo, editso)
@@ -1040,7 +1066,7 @@ def selftest():
     for (l0, l1, name, body) in lc.define_blocks(fx2):
         defs2.append(dict(tu="fy.c", l0=l0, l1=l1, name=name, params=define_params(fx2, l0), body=body, kind="gte", sig=signature(asm_inner(body))))
     inv3 = dict(definitions=defs2, direct=[], uses={})
-    canon3 = canonical_table(inv3, quiet=True)
+    canon3 = canonical_table(inv3, quiet=True, write=False)
     names3 = sorted(t_["name"] for t_ in canon3["canonical"].values())
     plan3 = plan_files(inv3, canon3, bound={})
     edits3, rec3 = file_edits("fy.c", fx2, plan3["fy.c"], canon3, "self")

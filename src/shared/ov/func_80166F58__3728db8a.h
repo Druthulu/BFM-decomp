@@ -8,9 +8,9 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     extern s32 D_8011D030;
     extern unsigned char D_8018E9E0[];
 
-    register int p2 __asm__("$20");             /* $s4 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers2)
+    register int p2 __asm__("$20");             /* $s4 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B t5_xfile)
     int p3;             /* $s1 */
-    register int t2 __asm__("$5");              /* a1 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers2)
+    register int t2 __asm__("$5");              /* a1 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t5_xfile)
     int t3;              /* a2 */
     unsigned short *puVar1;
     short iVar2;
@@ -18,8 +18,8 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
     iVar2 = 0;
     puVar1 = ((unsigned short *)&D_8011D030);
-    t2 = ((short)param_2); SHB(t2); p2 = t2; SHB(p2);
-    t3 = ((short)param_3); SHB(t3); p3 = t3;
+    t2 = ((short)param_2); SHB(t2); p2 = t2; SHB(p2);  // !FAKE: launder via SHB — REFUSED macro `SHB` is not defined in this file; launder via SHB — REFUSED macro `SHB` is not defined in this file (P36 rung B t5_xfile)
+    t3 = ((short)param_3); SHB(t3); p3 = t3;  // !FAKE: launder via SHB — REFUSED macro `SHB` is not defined in this file (P36 rung B t5_xfile)
     eq = (p2 == p3);
     do {
         if ((puVar1 != ((unsigned short *)param_1)) &&

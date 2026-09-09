@@ -1,0 +1,4 @@
+07:06:03 apply t5_xfile: 2 files, control src/shared/ov/func_80165CA0.h IDENTICAL (0.61 s), calibration 4bc987426, census a667519a38753e8f
+07:06:07   src/shared/ov/func_80165CA0.h:func_80165CA0 A=DIFFERS B: removed 6 needed 2 compiles 9
+07:06:25   src/shared/ov/func_80166F58__3728db8a.h:func_80166F58 A=DIFFERS B: removed 0 needed 2 compiles 3
+07:06:25 delever: batch t5_xfile — 2 files (headers; 2 drawable) · 2 bodies: 0 lever-free, 2 residue, 0 refused · sites removed 6 / needed 4 / refused 3 / deferred 0 · replays 0 (0 disagreed) · compiles 297 in 22 s wall · final 2/2 identical · written 2 files

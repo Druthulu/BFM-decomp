@@ -9,7 +9,7 @@ void func_80165CA0(void) {
     s32 a1, base;
     short *p;
     short v;
-    register short w __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    register short w __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t5_xfile)
     i = 0; q = &D_8011D030;
     do {
         if (*q != 0) (*(void (**)(u16 *))((u32)*q * 4 + D_80126728))(q);
@@ -17,19 +17,19 @@ void func_80165CA0(void) {
     } while (i < 0x1e);
     i = 0; off = 0;
     do {
-        base = (s32)&D_8011D030; ENGINE_SHB(base);
+        base = (s32)&D_8011D030; 
         a1 = off + base;
         p = *(short **)(a1 + 0x20);
         if (p != 0) {
             s32 q2;
             if ((u16)*p == 1) {
-                v = *(short *)(a1 + 6); p[4] = v; ENGINE_SHB(v); *(int *)(p + 0x24) = v;
-                v = *(short *)(a1 + 0xa); p[5] = v; ENGINE_SHB(v); *(int *)(p + 0x26) = v;
-                w = *(short *)(a1 + 0xe); p[6] = w; v = p[0x16] | 1; ENGINE_SHB(w); p[0x16] = v; *(int *)(p + 0x28) = w;
+                v = *(short *)(a1 + 6); p[4] = v;  *(int *)(p + 0x24) = v;
+                v = *(short *)(a1 + 0xa); p[5] = v;  *(int *)(p + 0x26) = v;
+                w = *(short *)(a1 + 0xe); p[6] = w; v = p[0x16] | 1;  p[0x16] = v; *(int *)(p + 0x28) = w;
             } else if ((q2 = *(int *)(p + 0x1a)) != 0) {
-                v = *(short *)(a1 + 6); p[4] = v; ENGINE_SHB(v); *(int *)(q2 + 0x14) = v;
-                v = *(short *)(a1 + 0xa); p[5] = v; q2 = *(int *)(p + 0x1a); ENGINE_SHB(v); *(int *)(q2 + 0x18) = v;
-                v = *(short *)(a1 + 0xe); p[6] = v; q2 = *(int *)(p + 0x1a); ENGINE_SHB(v); *(int *)(q2 + 0x1c) = v;
+                v = *(short *)(a1 + 6); p[4] = v;  *(int *)(q2 + 0x14) = v;
+                v = *(short *)(a1 + 0xa); p[5] = v; q2 = *(int *)(p + 0x1a);  *(int *)(q2 + 0x18) = v;
+                v = *(short *)(a1 + 0xe); p[6] = v; q2 = *(int *)(p + 0x1a); ENGINE_SHB(v); *(int *)(q2 + 0x1c) = v;  // !FAKE: launder via ENGINE_SHB — NEEDED DIFFERS (P36 rung B t5_xfile)
             } else {
                 p[4] = *(short *)(a1 + 6); p[5] = *(short *)(a1 + 0xa); p[6] = *(short *)(a1 + 0xe);
             }

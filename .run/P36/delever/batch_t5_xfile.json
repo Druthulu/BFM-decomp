@@ -1,0 +1,54 @@
+{
+ "label": "t5_xfile",
+ "generated": "2026-09-09 07:06",
+ "headers": true,
+ "batch": 300,
+ "only": [
+  "src/shared/ov/func_80165CA0.h",
+  "src/shared/ov/func_80166F58__3728db8a.h"
+ ],
+ "files": 2,
+ "drawable_files": 2,
+ "wall_s": 22.4,
+ "calib": {
+  "head": "4bc987426",
+  "stamp": "b44c5a8a3423"
+ },
+ "bodies": 2,
+ "compiles": 297,
+ "sites_removed": 6,
+ "sites_needed": 4,
+ "sites_refused": 3,
+ "sites_deferred": 0,
+ "lever_free": 0,
+ "residue": 2,
+ "refused_bodies": 0,
+ "replays": 0,
+ "disagreed": 0,
+ "written": 2,
+ "seconds": 132.78877711296082,
+ "final_ok": 2,
+ "final_bad": 0,
+ "per_file": [
+  {
+   "tu": "src/shared/ov/func_80165CA0.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 6,
+   "needed": 2,
+   "refused": 0,
+   "compiles": 291
+  },
+  {
+   "tu": "src/shared/ov/func_80166F58__3728db8a.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 2,
+   "refused": 3,
+   "compiles": 6
+  }
+ ]
+}

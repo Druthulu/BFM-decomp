@@ -3,13 +3,36 @@
   "gte_header": "include/gte_inline.h",
   "gte_header_sites": 0,
   "gte_mnemonics": {
-   "cfc2": 1,
-   "gte_rt": 3,
-   "lw": 24,
-   "lwc2": 159,
-   "mfc2": 1,
-   "nop": 1,
-   "swc2": 14
+   "gte_SetRotMatrix": 246,
+   "gte_SetTransMatrix": 226,
+   "gte_dpcl": 134,
+   "gte_ldIR0z": 134,
+   "gte_ldIRGB": 134,
+   "gte_ldclmv": 72,
+   "gte_ldrgb": 164,
+   "gte_ldv0": 757,
+   "gte_ldv3": 177,
+   "gte_ldv3c": 184,
+   "gte_nclip": 108,
+   "gte_rtir": 75,
+   "gte_rtps": 437,
+   "gte_rtpt": 352,
+   "gte_rtv0tr": 228,
+   "gte_stORGB": 134,
+   "gte_stclmv": 108,
+   "gte_stflg": 415,
+   "gte_stlvnl": 593,
+   "gte_stopz": 108,
+   "gte_stsv": 161,
+   "gte_stsxy": 447,
+   "gte_stsxy3": 236,
+   "gte_stsxy3_f3": 111,
+   "gte_stsxy3_ft3": 79,
+   "gte_stsxy3c": 108,
+   "gte_stsz3": 147,
+   "gte_stsz4": 149,
+   "gte_stszotz": 134,
+   "lwc2": 159
   },
   "instruction_mnemonics": {
    ".section": 7,
@@ -37,12 +60,12 @@
    "gte-lever/via-macro": 100,
    "gte-unsigned/direct": 3,
    "gte/direct": 200,
-   "gte/via-macro": 3,
+   "gte/via-macro": 6658,
    "instruction/direct": 1690,
    "instruction/via-macro": 22,
    "keepalive/direct": 2000,
    "launder/direct": 4236,
-   "launder/via-macro": 440,
+   "launder/via-macro": 444,
    "verbatim-body/direct": 2682
   }
  },
@@ -62,25 +85,25 @@
    "unmarked": 0
   },
   "B": {
-   "bodies": 9435,
-   "distinct_bodies": 905,
+   "bodies": 9766,
+   "distinct_bodies": 1063,
    "file_scope": 13,
-   "in_bodies": 16316,
+   "in_bodies": 22975,
    "kinds": {
     "asm-body": 13,
     "barrier": 4578,
-    "gte": 203,
+    "gte": 6858,
     "gte-lever": 462,
     "gte-unsigned": 3,
     "instruction": 1712,
     "keepalive": 2000,
-    "launder": 4676,
+    "launder": 4680,
     "verbatim-body": 2682
    },
-   "marked": 13443,
-   "sites": 16329,
-   "tus": 2279,
-   "unmarked": 2886
+   "marked": 13711,
+   "sites": 22988,
+   "tus": 2297,
+   "unmarked": 9277
   },
   "C": {
    "bodies": 628,
@@ -214,7 +237,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 33.0,
+ "elapsed_s": 40.8,
  "generated": "2026-09-09",
  "gte_levers": {
   "direct": 362,
@@ -225,15 +248,15 @@
   "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "3b2c5178b",
+ "head": "4bc987426",
  "headers": 3181,
  "levers_AB": {
-  "asm": 13441,
+  "asm": 13445,
   "bodies": 12712,
   "distinct_bodies": 1759,
-  "marked": 34087,
+  "marked": 34091,
   "pins": 20646,
-  "sites": 34087,
+  "sites": 34091,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -410,21 +433,21 @@
   "volatile_qualified": 134,
   "zero": 1321
  },
- "src_stamp": "a667519a38753e8f",
+ "src_stamp": "3b72bfb04cfd5830",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 15659,
+  "bodies": 15961,
   "by_kind": {
-   "main": 159,
-   "md": 167,
-   "ov": 14998,
+   "main": 180,
+   "md": 182,
+   "ov": 15258,
    "resident": 12,
-   "shared": 323
+   "shared": 329
   },
-  "copies_in_multi": 14142,
-  "distinct_bodies": 1895,
-  "multi_copy_classes": 378
+  "copies_in_multi": 14331,
+  "distinct_bodies": 2031,
+  "multi_copy_classes": 401
  },
  "verbatim_excluded": {
   "functions": 13,

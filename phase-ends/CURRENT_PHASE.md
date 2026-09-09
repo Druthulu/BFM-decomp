@@ -496,73 +496,80 @@ accumulate here as the phase produces them.**
   real `canonical.json` (the census then classified every direct GTE statement against a fixture — 362 levers vanished twice); a selftest
   never writes an instrument's real state (`write=False`).
 
-## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ — all committed (T4 = 13 batch commits `a605e1dba`…`f087282a3` + the tool commits; this close); NEXT = T5 the GTE consolidation + the dead lever-macro sweep | the number: 33,625 sites in 12,501 bodies (1,728 distinct) · marked 33,625 · UNMARKED 0 · orphans 0 — `lever_census --check` OK | last batch `gte2` on 145ab7719: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 34,085 sites in 12,710 bodies (1,757 distinct) · marked !FAKE 33,741 · UNMARKED 344
+- **S98 — T5 CLOSE.** The census's cross-file blind spot fixed (a name defined in another file is classed by the majority definition's kind;
+  selftest 24 sites): 10 launder sites appeared in two shared headers → `delever --apply --headers --rejudge`: `func_80165CA0.h A=DIFFERS
+  B: removed 6 needed 2` (6 of the prelude's 7 `ENGINE_SHB` launders came off), `func_80166F58__3728db8a.h … needed 2 / refused 3` (its
+  three `SHB` uses bind to each includer's own definition — header-bound, marked); R22 **`check-all: 218 passed, 0 failed of 218`**
+  (`.run/P36/baseline/r22_t5_xfile.log`). **T5's verify line:** `lever_census`: **per-TU asm macro definitions outside the GTE header:
+  9,540 → 314** {gte 150 = 64 lever variants (`_m`/`_v`, their uses marked) + 85 header-bound homonyms (an includer's name with another
+  signature's bytes, used by an `h_text` header — the names phase's parameterized form) + 1 unsigned two-statement macro; launder 154 = 142
+  `SHB` definitions each governing a marked NEEDED use + the 12 compound/private launders whose inner asm is a real steer; instruction 9
+  (`RTP_SND`); barrier 1 (`COPY_TO_FAAC`)} — **0 canonical duplicates remain**; every remaining definition is tied to a surviving marked
+  lever or to a homonym, and dies with it (T6/T7/names). `include/gte_inline.h`: 50 macros for what were 9,102 definitions; 575 direct
+  statements now Sony-named calls; the GTE levers (462: 100 via a variant macro, 362 direct) are inside the number. **THE NUMBER: 34,091
+  sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0** — `lever_census --check: … 0 UNMARKED — OK`. T5's
+  instrument findings for the record (nine, each fixed at its cause and selftested): the signature engine must be the build's own tail;
+  Sony's header is names-only; scoped renames; header-bound homonyms; object-like macros; the marker on the first line; the stable
+  canonical table (the header in the inventory); the census cache keyed on the tables; the selftest that wrote the real table; the
+  cross-file names; the sweep's per-definition uses. Commits: `0bd784c64` (header), `145ab7719`/`666d4b5ae`/`02810debd` (batches),
+  `5b6e1a2fe` (repair), `3b2c5178b`, `4bc987426` (sweep), this close. **T5 ☑.**
+
+## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ T5 ☑ — all committed (this close on top of `4bc987426`); NEXT = T6 rung R (mechanical shape recipes) + rung D (the permuter on the residue exemplars) | the number: 34,091 sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0 · GTE levers 462 · per-TU asm macro definitions 314 (0 canonical duplicates) — `lever_census --check` OK
 
 ### 0. How to use this block
-A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (T5/T6/T8/T9 xHigh per the plan; S98 ran
-at Max — Drew toggles, R27) and executes §2. The tree is clean at HEAD = this close commit. The headless Ghidra MCP is unused this phase.
-Drew pushes (R6). **T7 (the Ultracode reshaping waves) starts ONLY on Drew's direct approval in the session that would run them** (his
-words, 2026-09-09, decisions) — the toggle is necessary, not sufficient. **Never run a long job as a harness background task** — the
-harness's low-memory guard kills them with 22 GB free; run cycles DETACHED (`setsid nohup … &`, the usage line in the cycle script) and
-watch the log with a `Monitor`; a killed batch: `tools/delever.py --restore` (drops its ledger rows); a batch whose apply + fleet run
-were green but whose census/commit failed: `FINISH=<label> tools/delever_cycle.sh k k …`.
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (T6/T8/T9 xHigh per the plan; S98 ran at Max —
+Drew toggles, R27) and executes §2. The tree is clean at HEAD = this close commit. **T7 (the Ultracode reshaping waves) starts ONLY on
+Drew's direct approval in the session that would run them** (his words, 2026-09-09, decisions). **Never run a long job as a harness
+background task** (its low-memory guard kills them with 22 GB free; it also killed a 10-minute foreground chain that was moved to the
+background — keep foreground chains under ~8 min, run cycles DETACHED with `setsid nohup … &` and a `Monitor` on the log). A killed
+batch: `tools/delever.py --restore` (drops its ledger rows). The calibration is keyed to HEAD: EVERY commit stales it — recalibrate
+(`tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16`, 3 s) before any judging.
 
 ### 1. Where things stand
-- **T4 done:** every drawable body judged (`delever --plan` and `--plan --headers`: `0 of 0 drawable files`); the totals are in the T4
-  close entry above. THE NUMBER: **53,234 → 33,625 sites (−36.8 %) in 12,501 bodies (1,728 distinct); 33,625 marked, 0 UNMARKED, 0
-  orphans**; the residue = 12,967 bodies in 1,803 distinct classes (pins-only 6,018 · pins+asm 4,310 · asm-only 2,141 · C/D-only 498).
-  Re-derive: `.venv/bin/python tools/lever_census.py --check -j 16` (≈35 s; must print `… 0 UNMARKED — OK` and no ORPHAN line at every
-  commit from now on) · `tools/delever.py --status` (the ledger's totals) · `docs/progress.json` `counts.levers` + README line 30 are
-  generated by `make report BINARY=main` (285 s; rewrites `docs/story-timeline.*` too — commit them together, R75).
-- **The ledger** `.run/P36/delever/ledger.jsonl` (tracked): one row per body per judgement (verdict, rung, sites with REMOVED / REWRITTEN /
-  NEEDED(oracle word) / REFUSED(why) / DEFERRED, `nhash_before`/`nhash_after`, the calibration id); "done" = (tu, fn, after-hash); a body
-  reshaped by T6/T7 gets a new hash and is drawn again; `--redraw REFUSED NOTHING-USABLE` after a tool fix; `--apply-body TU FN FILE
-  --label L --rung D|E` banks a reshaped body (refused if a class A/B lever remains).
-- **Instruments (SETUP + dictionary rows current, kit corpus regenerated, `tool_census --check: OK`):** `tools/delever.py` (`--plan`,
-  `--apply`, `--restore`, `--scrub`, `--status`, `--apply-body`, `--redraw`, `--selftest`, `--probe`), `tools/delever_cycle.sh` (`[TASK=…]
-  [FINISH=label] [REDRAW=…] START END [BATCH] [tus|headers] [ONLY]`), `tools/delever_oracle.py` (`--calibrate ov_SC04_011 ov_SC03_015
-  ov_SC03_014 main -j 16`, keyed to HEAD — every commit stales it), `tools/lever_census.py` (`--sites`, `--check [--strict]`, the controls
-  keyed on T1 hashes → N-A once a control body is edited, the walk cache keyed on the tool's hash, `orphan_markers`). Selftests:
-  `delever --selftest: OK — 15 sites in the exemplar, 1 refused rewrite(s), ladder RESIDUE (15 compiles), replay replay (1 compile),
-  markers 5`; `lever_census --selftest: OK — 23 sites, 2 defs, 2 asm macros`.
-- **Environment:** WSL2, `~/bfm-decomp`, `.venv`; R22 clean fleet run 90–150 s; the census ≈35 s; `make report BINARY=main` ≈285 s; `make
-  kit-corpus` ≈25 s (a NEW tool must be `git add`ed first); 16 cores; 31 GB RAM; ~30 GB disk free; the harness's foreground cap is 10 min;
-  two `make` invocations in one tree are a race.
+- **Done:** T0–T5. T4's campaign judged every body (16,334; 3,341 lever-free; 21,063 of 56,445 sites removed; the T4 close entry has the
+  tables). T5 consolidated the GTE coprocessor asm: `include/gte_inline.h` (50 canonical macros, Sony's names for 41, included from
+  `include/common.h`), 8,951 per-TU definitions deleted, 629 clobber variants byte-identical without the clobber, 575 direct statements
+  turned into calls, 274 dead launder macros swept; the census gained the `gte-lever` class (INSIDE the number), per-TU definition
+  counts, cross-file macro names, orphan markers, the controls keyed on their T1 hashes.
+- **THE NUMBER: 34,091 sites (33,625 pins/asm + 462 GTE levers + 4 launders the cross-file fix surfaced) in 12,712 bodies (1,759
+  distinct); 34,091 marked; 0 UNMARKED; 0 orphans.** The residue for T6/T7 = every marked site: pins ≈ 20,600, barriers ≈ 4,570,
+  launders ≈ 4,640, keep-alives 2,000, instructions ≈ 1,670, refused/deferred ≈ 100, GTE levers 462. Re-derive: `.venv/bin/python
+  tools/lever_census.py --check -j 16` (must print `… 0 UNMARKED — OK`, no ORPHAN line); `tools/delever.py --status`;
+  `tools/gte_consolidate.py --status` (645 consolidated, 6 unchanged, 0 refused).
+- **Instruments (SETUP + dictionary rows, kit corpus, `tool_census --check: OK`):** `tools/delever.py` (`--plan`, `--apply`, `--restore`,
+  `--scrub [--dirty-ok]`, `--status`, `--apply-body TU FN FILE --label L --rung D|E`, `--redraw`, `--rejudge`, `--selftest`, `--probe`);
+  `tools/delever_cycle.sh` (`[TASK] [FINISH=label] [REDRAW] START END [BATCH] [tus|headers|gte] [ONLY]`); `tools/delever_oracle.py`;
+  `tools/lever_census.py`; `tools/gte_consolidate.py` (`--inventory`, `--header`, `--apply`, `--sweep`, `--remark`, `--status`,
+  `--selftest`). The ledger `.run/P36/delever/ledger.jsonl` (tracked): body rows (rung A/B/replay), gte rows, sweep/scrub/remark rows.
+- **Environment:** WSL2, `~/bfm-decomp`, `.venv`; R22 clean fleet run ≈ 115 s; the census ≈ 35 s (a full rewalk when a tool or a table
+  changes); `make report BINARY=main` ≈ 285 s; `make kit-corpus` ≈ 25 s; 16 cores; 31 GB RAM; ~30 GB disk free.
 
-### 2. T5 — the GTE consolidation and the dead lever-macro sweep (xHigh; design first, X1)
-The facts from T1's census (`.run/P36/census/lever_census.json` `macro_definitions`): 9,540 asm-bearing macro definitions under 338
-names, 32 names with more than one text — gte 9,102 (`gte_ldv0` 839 defs / 9 texts; a 171-definition variant carries a byte-relevant
-`"memory"` clobber; plus address-suffixed private copies like `LDV0_DA34`, `RTPS221A8`), launder 428 (`SHB` 416 defs / 2 texts — `__asm__
-__volatile__("" : "=r"(x) : "0"(x))` ×145 and the non-volatile ×271; `ENGINE_SHB` in `src/shared/engine_prelude.h`; `LAUNDER_8018A180`),
-instruction 9 (`RTP_SND`), barrier 1 (`COPY_TO_FAAC`), the compound `XFER`/`XFERLAST`/`XFER_1919A0`/`DRAW` (real code around a launder).
-The GTE uses: 6,891 sites (`gte_ldv0` 653 uses, `gte_rtps` 356, `gte_stsxy` 361, `gte_stflg` 319, `gte_rtpt` 289 … and raw `lwc2`/`swc2`/
-`mfc2` 945 spelled inline). Build order: (1) an inventory tool pass (extend `lever_census` or a small `tools/gte_consolidate.py`): every
-GTE macro definition's name → normalized text → the PsyQ canonical name (the SDK's `inline_c.h`/`gtemac.h` spellings under
-`include/psyq/` if present, else the majority text per name); group the address-suffixed private names by text; list the `"memory"`-
-clobber variants apart (they are levers: the clobber is the steer — their USES become class-B `gte`+clobber sites for T7, not a second
-spelling in the header). (2) `include/gte_inline.h` (the census's `GTE_HEADER_DEFAULT`) with one canonical macro per PsyQ name, included
-from `src/shared/engine_prelude.h` (every overlay/module TU) and from main's/resident's common include; (3) per TU, delete the local
-definitions whose text equals the canonical one, rename the private-name USES to the canonical name — every TU judged by the oracle
-(`delever_oracle.judge_all`: a macro that expands to the same text gives the same object, but the oracle says so, not the argument), the
-fleet gated by R22; (4) the dead-macro sweep: every `#define` with an asm inside and NO remaining use in its TU (`SHB` where T4 removed
-every use; the census's macro list vs the sites' `via` counts — `SHB` may be used by an included header: `src/shared/ov/func_80166F58__3728db8a.h`
-uses the INCLUDER's `SHB`, count cross-file uses before deleting) → deleted; `ENGINE_SHB` if unused fleet-wide; (5) the compound macros
-(XFER/DRAW/RTP_SND/COPY_TO_FAAC/XFERLAST/…; 88 refused use sites): edit the DEFINITION (drop the launder/barrier statement inside), judge
-the TU — IDENTICAL → the uses are no longer sites, their markers become orphans → `delever --scrub`; DIFFERS → the definition keeps
-its asm and the use markers stay (T7). (6) `lever_census`: 0 per-TU asm macro definitions outside the GTE header (the T5 verify line);
-R22 green; the log entry; SETUP/dictionary rows for any new tool; kit corpus; commit. Effort xHigh; one session.
+### 2. T6 — rung R (mechanical shape recipes) + rung D (the permuter on the residue exemplars) (xHigh; design first, X1)
+The plan's two yield lines: `recipes: <k> of <r> NEEDED sites removed` and `permuter: <k> of <r> exemplars matched lever-free in <t> h`.
+(a) **Rung R** = byte-neutral shape recipes applied mechanically per NEEDED site, each negative-controlled on a body it must not change:
+the cookbook's §501-P (a fresh single-set temp at the use), §501-R (the inline-expression-thrice / `u16` accumulator), §76 (declaration-scope
+moves), T4 (branch-polarity flip), §17a (the explicit temp before a call), the `zr` → `0` copy-arm rewrite for the `$0` class (1,318 needed
+`$0` pins), and for the 462 GTE levers "drop the clobber" (already tried per definition in T5 — the 70 kept ARE needed there) — read
+`docs/matching-cookbook.md` by § (grep `^## §501`) and `docs/cookbook-index.md` by symptom; measure each recipe on a stratified sample of
+its class before the sweep (R37). Implement as `tools/delever.py --recipes` (or a `tools/delever_recipes.py` that delever imports):
+per body, per NEEDED site, the recipe's rewrite → the same oracle → REMOVED/NEEDED; the ledger row's site verdict gains `rule`.
+(b) **Rung D** = `tools/permuter/run_masked.py` + `permuter_ils.py` on the residue EXEMPLARS (one per distinct after-hash class, ≈1,759;
+largest copy count first), seeded with the lever-free body (every A/B site stripped — the target bytes from `build/`'s object of the fleet
+run), `permuter_weights.py`'s class profile, a time budget per body, 16 workers, DETACHED; a score-0 candidate → `tools/delever.py
+--apply-body TU FN FILE --label d<k> --rung D` (refused if a class A/B lever remains) → the copies replay through the ledger's exemplar
+rows → the cycle's R22 + commit. Read `docs/SETUP.md` §permuter and cookbook §3/§5a/§12 for the harness (`.run/permuter/<fn>/`, `base.c`
+self-contained, `target.o` from the object, `settings.toml`); `tools/verbatim_target_s.py` for the target listing. Report both yield lines
+with denominators (R41), then the T6 log entry + checkpoint.
 
 ### 3. Numbers to re-derive, never trust
-The gate-1 table (grep) → T1's census → T4's ledger; the T2 probe's percentages → T4's measured 37.3 % of sites / 20.5 % of bodies. Any
-number in a published document is regenerated by `make report BINARY=main` (R75). The census after T5 will show FEWER macro definitions
-and the same 33,625 pin/asm sites unless T5's definition edits remove use sites (the compound macros).
+The T2 probe's rates → T4's measured rates → T5 changed the population (the number went UP by the 462 GTE levers and 4 surfaced
+launders, DOWN by 6). Published numbers: `make report BINARY=main` (R75) — last run at the T4 close; run it at the T6 close.
 
 ### 4. Gotchas known before any work
-The oracle must not write `build/`; objects embed the source path (compile in place, restore from the in-memory snapshot, the mtime
-restored); the calibration is keyed to HEAD + the Makefile/config stamp; the census's src stamp is stat-based (a written file = rerun,
-≈35 s); `compile_only.py` is not faithful; a dotfile under `src/` refuses the cycle; a shared header's edit reaches up to 136 binaries; never
-`git checkout` to restore (R102); `tool_census --check` refuses an UNTRACKED tool; never two `make`s at once; never edit a running
-bash script; a marker on a removed site is consumed by the rewrite and an orphan is a `--check` failure (`--scrub`).
+Everything in the T3/T4 lists, plus T5's: a macro name is redefined between functions (scope every use to the definition above it); a
+shared header's macro use binds to the INCLUDER's definition (the 20 `h_text` headers; a homonym is kept, not deleted); an object-like
+macro's uses carry no parentheses; a marker goes at the end of a statement's FIRST line; a tool's selftest must never write the tool's
+real tables; a census cache is keyed on every table it classifies with; never two `make`s at once; never edit a running bash script.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-09)
 
