@@ -9669,7 +9669,7 @@ void func_80186CD8(s32 a0)
     ((void (*)(s32, void *))func_8001C924)(v0, (void *)D_801AA158);
 
     /* Force addu $a0, $s0, $zero to preserve s0 in a0 for func_8018BA44 */
-    asm volatile("addu $a0, $s0, $zero");  // !FAKE: instruction addu — REFUSED instruction `addu` has no C spelling in the table (P36 rung B t3_tus1)
+    asm volatile("addu $a0, $s0, $zero");  // !FAKE: instruction addu — REFUSED instruction `addu` has no C spelling in the table (P36 rung B t3_tus2)
 
     /* Load pointer from s0 + 0x20 again */
     v1 = *(s32 *)(s0 + 0x20);
@@ -13630,17 +13630,17 @@ void func_8018C14C(void *a0)
 
     *(s16 *)((s32)a0 + 0x6) = v[0];
     {
-        register s32 zr __asm__("$0");  // !FAKE: pin $0 — REFUSED body: overlapping edits at 423200..423246 / 423243..423245 (P36 rung B t3_tus1)
-        register s32 ent __asm__("$4") = (s32)a0 + zr;  // !FAKE: pin $4 — REFUSED body: overlapping edits at 423200..423246 / 423243..423245 (P36 rung B t3_tus1)
+        register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t3_tus2)
+        s32 ent = (s32)a0 + zr;  // !FAKE: pin $4 — REFUSED body: overlapping edits at 423200..423246 / 423243..423245 (P36 rung B t3_tus1)
         s32 v2;
         s32 t1;
         s32 one;
 
         *(s16 *)(ent + 0xA) = v[1];
         t1 = *(u32 *)(ent + 0xC4);
-        __asm__ volatile("");  // !FAKE: barrier — REFUSED body: overlapping edits at 423200..423246 / 423243..423245 (P36 rung B t3_tus1)
+          // !FAKE: barrier — REFUSED body: overlapping edits at 423200..423246 / 423243..423245 (P36 rung B t3_tus1)
         one = 1;
-        __asm__ volatile("");  // !FAKE: barrier — REFUSED body: overlapping edits at 423200..423246 / 423243..423245 (P36 rung B t3_tus1)
+        __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t3_tus2)
         t1 |= 2;
         v2 = v[2];
         *(u8 *)(ent + 0xC0) = one;

@@ -1,0 +1,43 @@
+{
+ "label": "t3_tus2",
+ "generated": "2026-09-09 02:54",
+ "headers": false,
+ "batch": 300,
+ "only": [
+  "ov_SC04_011"
+ ],
+ "files": 1,
+ "drawable_files": 1,
+ "wall_s": 3.2,
+ "calib": {
+  "head": "cd24727dd",
+  "stamp": "b44c5a8a3423"
+ },
+ "bodies": 2,
+ "compiles": 6,
+ "sites_removed": 2,
+ "sites_needed": 2,
+ "sites_refused": 1,
+ "sites_deferred": 0,
+ "lever_free": 0,
+ "residue": 1,
+ "refused_bodies": 1,
+ "replays": 0,
+ "disagreed": 0,
+ "written": 1,
+ "seconds": 2.7916512489318848,
+ "final_ok": 1,
+ "final_bad": 0,
+ "per_file": [
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c",
+   "bodies": 2,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 2,
+   "needed": 2,
+   "refused": 1,
+   "compiles": 6
+  }
+ ]
+}

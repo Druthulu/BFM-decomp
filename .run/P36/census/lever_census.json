@@ -55,7 +55,7 @@
   },
   "kinds": {
    "asm-body/direct": 13,
-   "barrier/direct": 5824,
+   "barrier/direct": 5823,
    "barrier/via-macro": 2,
    "gte/direct": 1140,
    "gte/via-macro": 5751,
@@ -73,12 +73,12 @@
    "bodies": 13239,
    "distinct_bodies": 1850,
    "file_scope": 0,
-   "in_bodies": 37541,
+   "in_bodies": 37540,
    "kinds": {
-    "pin": 37541
+    "pin": 37540
    },
-   "marked": 196,
-   "sites": 37541,
+   "marked": 195,
+   "sites": 37540,
    "tus": 2676,
    "unmarked": 37345
   },
@@ -86,18 +86,18 @@
    "bodies": 10742,
    "distinct_bodies": 1209,
    "file_scope": 13,
-   "in_bodies": 25054,
+   "in_bodies": 25053,
    "kinds": {
     "asm-body": 13,
-    "barrier": 5826,
+    "barrier": 5825,
     "gte": 6891,
     "instruction": 1854,
     "keepalive": 2571,
     "launder": 5230,
     "verbatim-body": 2682
    },
-   "marked": 118,
-   "sites": 25067,
+   "marked": 117,
+   "sites": 25066,
    "tus": 2452,
    "unmarked": 24949
   },
@@ -199,9 +199,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 66216,
+   "live": 66214,
    "macro_block": 7189,
-   "raw": 80197
+   "raw": 80195
   },
   "attribute": {
    "comment_dead": 0,
@@ -217,29 +217,29 @@
   },
   "register": {
    "comment_dead": 8584,
-   "live": 37627,
+   "live": 37626,
    "macro_block": 18,
-   "raw": 46229
+   "raw": 46228
   },
   "volatile": {
    "comment_dead": 2607,
-   "live": 4865,
+   "live": 4864,
    "macro_block": 6510,
-   "raw": 13982
+   "raw": 13981
   }
  },
  "coverage_ok": true,
- "elapsed_s": 29.8,
+ "elapsed_s": 34.6,
  "generated": "2026-09-09",
- "head": "39e3e1851",
+ "head": "cd24727dd",
  "headers": 3181,
  "levers_AB": {
-  "asm": 15494,
+  "asm": 15493,
   "bodies": 15638,
   "distinct_bodies": 2246,
-  "marked": 312,
-  "pins": 37541,
-  "sites": 53035,
+  "marked": 310,
+  "pins": 37540,
+  "sites": 53033,
   "unmarked": 52723,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -383,7 +383,7 @@
  },
  "pins": {
   "bare_name": 75,
-  "init": 5110,
+  "init": 5109,
   "registers": {
    "$0": 1337,
    "$1": 2,
@@ -406,7 +406,7 @@
    "$25": 136,
    "$29": 13,
    "$3": 3518,
-   "$4": 4233,
+   "$4": 4232,
    "$5": 2981,
    "$6": 1396,
    "$7": 1040,
@@ -426,16 +426,16 @@
    "v0": 16,
    "v1": 15
   },
-  "sites": 37541,
+  "sites": 37540,
   "sp": 13,
   "spelling": {
-   "__asm__": 37334,
+   "__asm__": 37333,
    "asm": 207
   },
   "volatile_qualified": 136,
   "zero": 1337
  },
- "src_stamp": "a81cbed40b82d65e",
+ "src_stamp": "bafc9bb800830991",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {

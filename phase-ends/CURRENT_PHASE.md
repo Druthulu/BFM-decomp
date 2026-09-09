@@ -293,7 +293,7 @@ accumulate here as the phase produces them.**
   134); headers: 371 drawable files. **Next in this task:** the end-to-end batch `LABEL_PREFIX=t3_ TASK=T3 tools/delever_cycle.sh 1 1 300 tus
   ov_SC04_011` (apply → R22 → census → log → commit), then the checkpoint refresh.
 
-## 🛑 SESSION CHECKPOINT — S98 in progress (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ — T3 tools BUILT + selftest OK + calibration OK (this commit); NEXT = the T3 end-to-end batch on ov_SC04_011 via `tools/delever_cycle.sh` (then the checkpoint refresh, then T4). The §0–§4 below are the S97-close text and stay valid except: `tools/delever.py` now has the campaign commands (see the T3 log entry) and T7 needs Drew's direct approval (decisions). | last batch `t3_tus1` on 39e3e1851: lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclassified 0 · verbatim excluded 13 fn / 14 sites (manifest 13)
+## 🛑 SESSION CHECKPOINT — S98 in progress (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ — T3 tools BUILT + selftest OK + calibration OK (this commit); NEXT = the T3 end-to-end batch on ov_SC04_011 via `tools/delever_cycle.sh` (then the checkpoint refresh, then T4). The §0–§4 below are the S97-close text and stay valid except: `tools/delever.py` now has the campaign commands (see the T3 log entry) and T7 needs Drew's direct approval (decisions). | last batch `t3_tus2` on cd24727dd: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 53,033 sites in 15,638 bodies (2,246 distinct) · marked !FAKE 310 · UNMARKED 52,723
 
 ### 0. How to use this block
 A fresh session (S98) reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T3's design is Max; its
@@ -357,6 +357,8 @@ never `git checkout` to restore (R102); `tool_census --check` refuses an UNTRACK
 `make report BINARY=main` rewrites `docs/story-timeline.md` too — commit it with the rest.
 
 - **2026-09-09 — T3 batch `t3_tus1`** (`.run/P36/delever/run_t3_tus1.log`, `batch_t3_tus1.json`): `` → R22 (`.run/P36/baseline/r22_t3_tus1.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=117.23 s`) → census `lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclassified 0 · verbatim excluded 13 fn / 14 sites (manifest 13)`.
+
+- **2026-09-09 — T3 batch `t3_tus2`** (`.run/P36/delever/run_t3_tus2.log`, `batch_t3_tus2.json`): `delever: batch t3_tus2 — 1 files (TUs; 1 drawable) · 2 bodies: 0 lever-free, 1 residue, 1 refused · sites removed 2 / needed 2 / refused 1 / deferred 0 · replays 0 (0 disagreed) · compiles 6 in 3 s wall · final 1/1 identical · written 1 files` → R22 (`.run/P36/baseline/r22_t3_tus2.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=101.55 s`) → census `THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 53,033 sites in 15,638 bodies (2,246 distinct) · marked !FAKE 310 · UNMARKED 52,723`.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-09)
 

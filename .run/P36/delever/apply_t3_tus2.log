@@ -1,0 +1,4 @@
+02:54:34 apply t3_tus2: 1 files, control src/ov_SC04_011/ov_SC04_011_jr_8017D494.c IDENTICAL (0.45 s), calibration cd24727dd, census a81cbed40b82d65e
+02:54:34 apply t3_tus2: phase 1 (exemplar files) 1, phase 2 (copies replay) 0
+02:54:37   src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_8018C14C A=DIFFERS B: removed 2 needed 2 compiles 5
+02:54:38 delever: batch t3_tus2 — 1 files (TUs; 1 drawable) · 2 bodies: 0 lever-free, 1 residue, 1 refused · sites removed 2 / needed 2 / refused 1 / deferred 0 · replays 0 (0 disagreed) · compiles 6 in 3 s wall · final 1/1 identical · written 1 files
