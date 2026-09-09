@@ -53,12 +53,8 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
         "lwc2 $1, 4(%0)\n"
         "nop\n" "nop\n"
         "mvmva 1, 0, 0, 0, 0\n"
-        : : "r"(L) : "memory");
-    __asm__ __volatile__(
-        "swc2 $25, 0(%0)\n"
-        "swc2 $26, 4(%0)\n"
-        "swc2 $27, 8(%0)\n"
-        : : "r"((u8 *)L + 8) : "memory");
+        : : "r"(L) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0+gte_rt_m) beyond Sony's (P36 T5 gte2)
+    gte_stlvnl((u8 *)L + 8);
 
     if (((s16*)a2)[1] > 0)
         *(s32 *)((u8 *)L + 0xC) -= 1;
@@ -72,12 +68,8 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
         "lwc2 $1, 4(%0)\n"
         "nop\n" "nop\n"
         "mvmva 1, 0, 0, 3, 0\n"
-        : : "r"(L) : "memory");
-    __asm__ __volatile__(
-        "swc2 $25, 0(%0)\n"
-        "swc2 $26, 4(%0)\n"
-        "swc2 $27, 8(%0)\n"
-        : : "r"((u8 *)L + 0x18) : "memory");
+        : : "r"(L) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0+gte_rtv0_m) beyond Sony's (P36 T5 gte2)
+    gte_stlvnl((u8 *)L + 0x18);
 
     *(s16 *)(p + 8) = *(s32 *)((u8 *)L + 8);
     *(s16 *)(p + 0xA) = *(s32 *)((u8 *)L + 0xC);

@@ -20,11 +20,7 @@ int func_8013E0FC(s16 *a0, s16 *a1) {
     }
     {
         s32 *pq = &sq[0];
-        __asm__ __volatile__(
-            "swc2 $25, 0(%0)\n"
-            "swc2 $26, 4(%0)\n"
-            "swc2 $27, 8(%0)\n"
-            : : "r"(pq) : "memory");
+        gte_stlvnl(pq);
     }
     return SquareRoot12(sq[0] + sq[1] + sq[2]);
 }

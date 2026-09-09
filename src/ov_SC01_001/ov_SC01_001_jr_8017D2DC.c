@@ -6052,40 +6052,10 @@ void func_80181A4C(void)
  */
 
 /* ---- GTE inline-asm macros (same spelling as the matched ov_SC03_099 TU) ---- */
-#define gte_ldv3_80181E04(r0, r1, r2) __asm__ volatile ( \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 0( %1 );"                          \
-    "lwc2 $3, 4( %1 );"                          \
-    "lwc2 $4, 0( %2 );"                          \
-    "lwc2 $5, 4( %2 )"                           \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_rtpt_80181E04() __asm__ volatile ("nop;nop;rtpt")
 
-#define gte_stflg_80181E04(r0) __asm__ volatile (\
-    "cfc2 $12, $31;"                             \
-    "nop;"                                       \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
 
-#define gte_stsxy01_80181E04(r0, r1) __asm__ volatile ( \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 0( %1 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 )                       \
-    : "memory" )
 
-#define gte_stsz3_80181E04(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $17, 0( %0 );"                         \
-    "swc2 $18, 0( %1 );"                         \
-    "swc2 $19, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
 
 /* §246-2: every parallel global spelled as an array of one 0x50-byte record type so
  * gcc fuses all their address computations onto ONE scaled-offset giv. §200 aliases
@@ -6174,12 +6144,12 @@ void func_80181E04(void)
             }
 
             if (wD801EDA44[i].v != 0) {
-                gte_ldv3_80181E04(&va, &vb, &vb);
-                gte_rtpt_80181E04();
-                gte_stflg_80181E04(&g.flag);
+                gte_ldv3(&va, &vb, &vb);
+                gte_rtpt();
+                gte_stflg(&g.flag);
                 if ((g.flag & 0x7F85E000) == 0) {
-                    gte_stsxy01_80181E04(pkt + 0xC, pkt + 0x14);
-                    gte_stsz3_80181E04(&g.sz0, &g.sz1, &g.sz2);
+                    gte_stsxy01(pkt + 0xC, pkt + 0x14);
+                    gte_stsz3(&g.sz0, &g.sz1, &g.sz2);
                     z = g.sz0 + g.sz1;
                     if (z < 0) {
                         z += 7;

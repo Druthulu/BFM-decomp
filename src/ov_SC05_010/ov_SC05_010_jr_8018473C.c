@@ -3222,11 +3222,7 @@ void func_8018505C(void *a0) {
             "nop\n"
             "sqr 0\n"
             : : "r"(p) : "$9", "$10", "$11", "memory");
-        __asm__ __volatile__(
-            "swc2 $25, 0(%0)\n"
-            "swc2 $26, 4(%0)\n"
-            "swc2 $27, 8(%0)\n"
-            : : "r"(p) : "memory");
+        gte_stlvnl(p);
     }
 
     if (*(s16 *)((s32)a0 + 0x36) == 0) {

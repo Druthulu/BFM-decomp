@@ -4566,37 +4566,9 @@ extern Blk20 D_800AE620;
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
 extern void RotMatrixY(s32 a0, void *a1);
 
-#define gte_SetRotMatrix(r0) __asm__ volatile (         \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
-#define gte_ldv0(r0)  __asm__ __volatile__( \
-    "lwc2 $0, 0(%0)\n" \
-    "lwc2 $1, 4(%0)\n" \
-    : : "r"(r0) : "memory")
 
-#define gte_rtv0()  __asm__ __volatile__( \
-    "nop\n" \
-    "nop\n" \
-    "mvmva 1, 0, 0, 3, 0\n" \
-    : : : "memory")
 
-#define gte_stlvnl(r0)  __asm__ __volatile__( \
-    "swc2 $25, 0(%0)\n" \
-    "swc2 $26, 4(%0)\n" \
-    "swc2 $27, 8(%0)\n" \
-    : : "r"(r0) : "memory")
 
 void func_8018454C(s32 a0)
 {

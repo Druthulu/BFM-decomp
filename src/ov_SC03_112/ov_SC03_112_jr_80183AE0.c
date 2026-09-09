@@ -2939,7 +2939,8 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012C218(void *a0);
-#define SRM_80186B78(r0) __asm__ __volatile__( \
+/* !FAKE: gte variant `gte_SetRotMatrix_m` — memory beyond Sony's `gte_SetRotMatrix` (a scheduling steer; P36 T5) */
+#define gte_SetRotMatrix_m(r0) __asm__ __volatile__( \
     "lw $12, 0(%0)\n"  \
     "lw $13, 4(%0)\n"  \
     "ctc2 $12, $0\n"   \
@@ -2951,27 +2952,8 @@ extern void func_8012C218(void *a0);
     "ctc2 $13, $3\n"   \
     "ctc2 $14, $4\n"   \
     : : "r"(r0) : "$12", "$13", "$14", "memory")
-#define STM_80186B78(r0) __asm__ __volatile__( \
-    "lw $12, 20(%0)\n" \
-    "lw $13, 24(%0)\n" \
-    "ctc2 $12, $5\n"   \
-    "lw $14, 28(%0)\n" \
-    "ctc2 $13, $6\n"   \
-    "ctc2 $14, $7\n"   \
-    : : "r"(r0) : "$12", "$13", "$14", "memory")
-#define SRM_80186B78(r0) __asm__ __volatile__( \
-    "lw $12, 0(%0)\n"  \
-    "lw $13, 4(%0)\n"  \
-    "ctc2 $12, $0\n"   \
-    "ctc2 $13, $1\n"   \
-    "lw $12, 8(%0)\n"  \
-    "lw $13, 12(%0)\n" \
-    "lw $14, 16(%0)\n" \
-    "ctc2 $12, $2\n"   \
-    "ctc2 $13, $3\n"   \
-    "ctc2 $14, $4\n"   \
-    : : "r"(r0) : "$12", "$13", "$14", "memory")
-#define STM_80186B78(r0) __asm__ __volatile__( \
+/* !FAKE: gte variant `gte_SetTransMatrix_m` — memory beyond Sony's `gte_SetTransMatrix` (a scheduling steer; P36 T5) */
+#define gte_SetTransMatrix_m(r0) __asm__ __volatile__( \
     "lw $12, 20(%0)\n" \
     "lw $13, 24(%0)\n" \
     "ctc2 $12, $5\n"   \
@@ -3033,8 +3015,8 @@ void func_80183EA0(s32 a0)
         *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = func_80047948(ang2) >> 3;
 
         func_80049CAC(*(s32 *)(a0 + 0x20) + 0x10, *(s32 *)(a0 + 0x20) + 0x34);
-        SRM_80186B78((s32 *)(*(s32 *)(a0 + 0x20) + 0x34));
-        STM_80186B78((s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34));
+        gte_SetRotMatrix((s32 *)(*(s32 *)(a0 + 0x20) + 0x34));
+        gte_SetTransMatrix((s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34));
 
         p = *(s16 **)(a0 + 0xD0);
         sv[0] = 0;

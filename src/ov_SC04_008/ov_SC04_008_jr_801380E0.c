@@ -876,10 +876,6 @@ extern void GsSortSprite(void *a0, u8 *a1, s32 a2);
 extern s16 D_800D45F4[];   /* src0 (flat: [2*i]=x, [2*i+1]=y) */
 extern u8  D_8017F194[];   /* sign table, alt (when a1 < 0xC00) */
 
-#define gte_ldv0(r0)  __asm__ __volatile__( \
-    "lwc2 $0, 0(%0)\n" \
-    "lwc2 $1, 4(%0)\n" \
-    : : "r"(r0) : "memory")
 
 #define gte_mvmva0()  __asm__ __volatile__( \
     "nop\n" \
@@ -887,11 +883,6 @@ extern u8  D_8017F194[];   /* sign table, alt (when a1 < 0xC00) */
     "mvmva 1, 0, 0, 0, 0\n" \
     : : : "memory")
 
-#define gte_stlvnl(r0)  __asm__ __volatile__( \
-    "swc2 $25, 0(%0)\n" \
-    "swc2 $26, 4(%0)\n" \
-    "swc2 $27, 8(%0)\n" \
-    : : "r"(r0) : "memory")
 
 #include "../shared/ov/func_8013AD38__06daa24e.h"
 

@@ -1452,11 +1452,6 @@ void func_8013D8FC(void)
 extern void *D_801CEED4;
 extern s32 D_801CEEEC;
 extern void func_800599B8(u16*);
-#define gte_ldIR0z()   __asm__ __volatile__("mtc2 $0, $8")
-#define gte_ldrgb(p)   __asm__ __volatile__("lwc2 $6, 0(%0)"  :: "r"(p) : "memory")
-#define gte_ldIRGB(p)  __asm__ __volatile__("lwc2 $28, 0(%0)" :: "r"(p) : "memory")
-#define gte_dpcl()     __asm__ __volatile__("nop\n\tnop\n\tdpcl")
-#define gte_stORGB(p)  __asm__ __volatile__("swc2 $29, 0(%0)" :: "r"(p) : "memory")
 
 void func_8013D9B0(int param_1)
 {

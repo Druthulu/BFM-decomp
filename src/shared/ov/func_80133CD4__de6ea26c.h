@@ -88,11 +88,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
             "nop\n"
             "sqr 0\n"
             : : "r"(D_8017F81C) : "$9", "$10", "$11", "memory");
-        __asm__ __volatile__(
-            "swc2 $25, 0(%0)\n"
-            "swc2 $26, 4(%0)\n"
-            "swc2 $27, 8(%0)\n"
-            : : "r"(D_8017F820) : "memory");
+        gte_stlvnl(D_8017F820);
 
         pc0 = D_8017F81C;
         pc4 = D_8017F820;

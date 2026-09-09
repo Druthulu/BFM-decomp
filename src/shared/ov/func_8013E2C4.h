@@ -19,11 +19,7 @@ int func_8013E2C4(short *a0) {
         : : "r"(&in[0]) : "$9", "$10", "$11", "memory");
     {
         int *pout = &out[0];
-        __asm__ __volatile__(
-            "swc2 $25, 0(%0)\n"
-            "swc2 $26, 4(%0)\n"
-            "swc2 $27, 8(%0)\n"
-            : : "r"(pout) : "memory");
+        gte_stlvnl(pout);
     }
     return (out[0] + out[1] + out[2]) - 0x90001U < 0x18FFF;
 }
