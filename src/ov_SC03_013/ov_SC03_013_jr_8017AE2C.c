@@ -3322,10 +3322,7 @@ void func_8017BE60(void *a0) {
 
 #include "../shared/ov/func_8017BEB4.h"
 
-void func_8017BEBC(s32 arg0, s32 arg1)
-{
-    func_80146994(0x29, 0, arg0, arg1);
-}
+#include "../shared/ov/func_8017BEBC__68c14c5a.h"
 
 
 extern s32 D_80126B58;
@@ -3465,9 +3462,7 @@ void func_8017C004(s32 arg0) {
 
 
 extern void func_8017C234();
-void func_8017C214(void) {
-    func_8017C234();
-}
+#include "../shared/ov/func_8017C214.h"
 
 
 

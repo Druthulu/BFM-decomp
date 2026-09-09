@@ -2713,26 +2713,14 @@ extern s16 D_8018F90C;
 extern void func_80179B74(u16 *p);
 extern s32 D_8018F92C;
 
-void func_8017A094(s32 arg0) {
-    s16 sp10;
-
-    D_8018F92C = arg0;
-    sp10 = 0x15;
-    func_80179B74(&sp10);
-}
+#include "../shared/ov/func_8017A094__30083f0b.h"
 
 
 
 extern void func_80179B74(u16 *p);
 extern s32 D_8018F92C;
 
-void func_8017A0C4(s32 arg0) {
-    s16 sp10;
-
-    D_8018F92C = arg0;
-    sp10 = 0x16;
-    func_80179B74(&sp10);
-}
+#include "../shared/ov/func_8017A0C4__a38ef3de.h"
 
 
 #include "../shared/ov/func_8017A0F4.h"
@@ -2777,16 +2765,7 @@ extern void func_80179B74(u16 *p);
 
 extern s16 D_8018F910;
 
-s32 func_8017A3B0(void) {
-    switch (D_8018F910) {
-    case 0:
-        return 1;
-    case 1:
-        return 0;
-    default:
-        return 1;
-    }
-}
+#include "../shared/ov/func_8017A3B0__b9ffafa9.h"
 
 
 

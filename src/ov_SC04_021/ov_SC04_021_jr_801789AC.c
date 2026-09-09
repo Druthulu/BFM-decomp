@@ -2637,8 +2637,5 @@ extern short D_8018FB24;
 extern short D_8018FB24;
 extern void func_80174714(void);
 
-void func_80178D18(void) {
-    D_8018FB24 = 0;
-    func_80174714();
-}
+#include "../shared/ov/func_80178D18__7562c99f.h"
 

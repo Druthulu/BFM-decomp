@@ -2888,9 +2888,7 @@ extern s32 D_80114F38;
 
 extern void (*D_80182C58[])(void);
 
-void func_8017BE60(void *a0) {
-    D_80182C58[*(u8 *)((s32)a0 + 0x4)]();
-}
+#include "../shared/ov/func_8017BE60__8f5c9ab3.h"
 
 
 #include "../shared/ov/func_8017BE9C__76785405.h"
@@ -2904,9 +2902,7 @@ void func_8017BE60(void *a0) {
 
 extern void (*D_80182C70[])(void);
 
-void func_8017BEBC(void *a0) {
-    D_80182C70[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_8017BEBC__6696e1c4.h"
 
 
 extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);

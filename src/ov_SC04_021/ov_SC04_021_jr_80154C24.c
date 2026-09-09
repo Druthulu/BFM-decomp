@@ -950,9 +950,7 @@ extern int (*D_801810E4[])(void);
 
 extern void (*D_801810E8[])(void);
 
-void func_80155580(void *a0) {
-    D_801810E8[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80155580__a09dcb13.h"
 
 
 #include "../shared/ov/func_801555BC.h"
@@ -1005,9 +1003,7 @@ void func_80155580(void *a0) {
 
 extern S801563EC D_801812DC[];
 
-S801563EC *func_801563EC(u16 idx) {
-    return &D_801812DC[idx];
-}
+#include "../shared/ov/func_801563EC__7a824842.h"
 
 
 #include "../shared/ov/func_8015640C.h"
@@ -1256,9 +1252,7 @@ void func_80157DC4(void *a0) {
 
 extern void (*D_801815CC[])(void);
 
-void func_80157FC4(void *a0) {
-    D_801815CC[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80157FC4__98544ce3.h"
 
 
 #include "../shared/ov/func_80158000.h"

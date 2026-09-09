@@ -785,11 +785,7 @@ extern s32 D_8018E760;
 extern s32 D_801269D4;
 extern s32 D_801269C8;
 
-void func_8013C98C(void) {
-    func_80016714(&D_8018E760, 8);
-    D_801269D4 = 0;
-    D_801269C8 = 0;
-}
+#include "../shared/ov/func_8013C98C__baeed09f.h"
 
 
 extern M2C_UNK D_80062BC0;
@@ -816,12 +812,7 @@ extern s32 D_8018E778;
 extern s32 D_8018E77C;
 extern s32 D_8018E788;
 
-void func_8013CABC(void) {
-    D_8018E784 = 1;
-    D_8018E778 = 1;
-    D_8018E77C = 0;
-    D_8018E788 = 1;
-}
+#include "../shared/ov/func_8013CABC__f4f19b4f.h"
 
 
 
@@ -831,13 +822,7 @@ extern s32 D_8018E780;
 extern s32 D_8018E784;
 extern s32 D_8018E788;
 
-void func_8013CAE8(void) {
-    D_8018E778 = 1;
-    D_8018E784 = 0;
-    D_8018E77C = 0;
-    D_8018E780 = -1;
-    D_8018E788 = 0;
-}
+#include "../shared/ov/func_8013CAE8__1db1a1b9.h"
 
 
 
@@ -855,10 +840,7 @@ extern s32 D_8018E7B4;
 extern s32 D_8018E788;
 extern s32 D_8018E784;
 
-void func_8013CB5C(void) {
-    D_8018E788 = D_8018E7B0;
-    D_8018E784 = D_8018E7B4;
-}
+#include "../shared/ov/func_8013CB5C__05c30a55.h"
 
 
 
@@ -926,18 +908,13 @@ extern void func_8013D9B0();
 extern void func_8013D9B0();
 extern s32 D_8018E784;
 
-s32 func_8013D13C(void) {
-    func_8013D9B0();
-    return D_8018E784;
-}
+#include "../shared/ov/func_8013D13C__3ffb44f9.h"
 
 
 
 extern s32 D_8018E790;
 
-void func_8013D164(void) {
-    D_8018E790 = 1;
-}
+#include "../shared/ov/func_8013D164__022cc720.h"
 
 
 
@@ -1081,9 +1058,7 @@ extern void func_8013DD68(void);
 
 extern s32 D_8018E78C;
 
-s32 func_8013E054(void) {
-    return D_8018E78C;
-}
+#include "../shared/ov/func_8013E054__b97180c3.h"
 
 
 #include "../shared/ov/func_8013E064.h"

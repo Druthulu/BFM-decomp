@@ -750,11 +750,7 @@ extern u16 D_800D45F6;
 
 
 
-void func_8013B568(s32 arg0) {
-
-    extern s32 D_8017F9CC;
-    D_8017F9CC = arg0;
-}
+#include "../shared/ov/func_8013B568__9987a062.h"
 
 
 
@@ -846,17 +842,9 @@ extern s16 D_8018F9C6;
 
 
 
-void func_8013C938(void) {
-
-    extern s32 D_8018FAB8;
-    D_8018FAB8 = 1;
-}
+#include "../shared/ov/func_8013C938__7498447e.h"
 
 
 
-void func_8013C964(void) {
-
-    extern s32 D_8018FAB8;
-    D_8018FAB8 = 0;
-}
+#include "../shared/ov/func_8013C964__bf582af5.h"
 

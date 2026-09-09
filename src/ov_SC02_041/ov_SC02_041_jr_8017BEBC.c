@@ -3312,9 +3312,7 @@ L_default:
 
 
 extern void func_80151664(void);
-    void func_8017D098(void) {
-        ((s32 (*)(void))func_80151664)();
-    }
+#include "../shared/ov/func_8017D098__d560c2de.h"
 
 
 

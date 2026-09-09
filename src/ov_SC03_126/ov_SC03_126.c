@@ -16,9 +16,7 @@
 
 extern s32 D_8018D4F8;
 
-s32 func_80128218(void) {
-    return D_8018D4F8;
-}
+#include "../shared/ov/func_80128218__a108f259.h"
 
 
 #include "../shared/ov/func_80128228.h"
@@ -128,9 +126,7 @@ extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern s32 D_8018D4F8;
 extern u8 D_800AEFD0;
 
-s32 func_801288B0(void) {
-    func_8001ABBC(0, 0, &D_800AEFD0, D_8018D4F8, 0);
-}
+#include "../shared/ov/func_801288B0__8fa1b946.h"
 
 
 
@@ -184,9 +180,7 @@ extern s32 D_8018D4F8;
 extern u8 D_800AECB8;
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
-s32 func_801289F0(void) {
-    func_8001ABBC(0, 0, &D_800AECB8, D_8018D4F8, 0);
-}
+#include "../shared/ov/func_801289F0__c6f52b06.h"
 
 
 extern void func_80011B7C(int);

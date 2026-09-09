@@ -419,6 +419,10 @@
 
 - **S96 — R22 after bucket `new` batch 4** (`.run/P35/baseline/r22_t5_new4.log`): `check-all: 218 passed, 0 failed of 218` · `wall=221.86 s` · `exit=0`.
 
+- **S96 — T5 bucket `new`, batch 5** (`run_new5.log`, 79.54 s; `batch_new5.json`): `120 classes · 329 sites in
+  75 TUs · 120 new headers · gating 15 binaries` → **`gated 15/15 binaries green · registered
+  120 groups · extended 0 members · rejected classes 1`**; rejected: [new5] ov_SC03_126: class 60be554c70 REJECTED — src/ov_SC03_126/../shared/ov/func_8017EF6C__60be554c.h:4: 'D_80126942' undeclared (first use this func.
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)

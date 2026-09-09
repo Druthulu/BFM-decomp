@@ -769,10 +769,7 @@ extern s16 *D_8017F810;   /* holds a pointer value (*(u16**)&D_8017F810) */
 extern unsigned short D_800B99F0;
 extern void (*D_8017F824[])(void);
 
-void func_80136C54(void)
-{
-    D_8017F824[D_800B99F0]();
-}
+#include "../shared/ov/func_80136C54__5466cabf.h"
 
 
 // @class: struct

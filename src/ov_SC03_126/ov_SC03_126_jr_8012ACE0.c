@@ -975,9 +975,7 @@ extern u8 D_8017F5F4[];
 
 extern void (*D_8017F608[])(void);
 
-void func_80130D0C(void *a0) {
-    D_8017F608[*(u8 *)((s32)a0 + 0xC1)]();
-}
+#include "../shared/ov/func_80130D0C__fb79cc41.h"
 
 
 
@@ -1222,10 +1220,7 @@ s32 aF80131CA8(int a0) __asm__("func_80131CA8");
 
 extern void (*D_8017F748[])(struct S80131E00 *a0);
 
-void func_80131E00(struct S80131E00 *a0, s32 a1) {
-    a0->field_B0 = a1;
-    D_8017F748[a1](a0);
-}
+#include "../shared/ov/func_80131E00__aad4b1b2.h"
 
 
 #include "../shared/ov/func_80131E38.h"
@@ -1237,33 +1232,25 @@ void func_80131E00(struct S80131E00 *a0, s32 a1) {
 
 extern void (*D_8017F7A0[])(void);
 
-void func_80131EEC(void *a0) {
-    D_8017F7A0[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80131EEC__a9db33dc.h"
 
 
 
 extern void (*D_8017F7E8[])(void);
 
-void func_80131F28(void *a0) {
-    D_8017F7E8[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80131F28__d9a7b66a.h"
 
 
 
 extern void (*D_8017F7F0[])(void);
 
-void func_80131F64(void *a0) {
-    D_8017F7F0[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80131F64__568e59f5.h"
 
 
 
 extern void (*D_8017F7F8[])(void);
 
-void func_80131FA0(void *a0) {
-    D_8017F7F8[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80131FA0__e22a1664.h"
 
 
 

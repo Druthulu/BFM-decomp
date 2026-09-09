@@ -1,0 +1,8 @@
+share_body: census 30 s · extend (registered-incomplete) 5 classes · new (unregistered same-vram) 435 classes / 959 private sites
+  [new5] 120 classes · 329 sites in 75 TUs · 120 new headers · gating 15 binaries
+  [new5] ov_SC03_126: class 60be554c70 REJECTED — src/ov_SC03_126/../shared/ov/func_8017EF6C__60be554c.h:4: `D_80126942' undeclared (first use this function)
+  [new5] gated 15/15 binaries green · registered 120 groups · extended 0 members · rejected classes 1
+share_body: stopping after 1 batch(es) — 315 classes of this bucket remain; COMMIT, then re-run (the census re-derives the pool from the committed text)
+share_body: done — 120 of 435 classes in 1 batch(es); see the ledger; 79 s
+new5 wall=79.54 s
+exit=0

@@ -1,3 +1,6 @@
 log: ('120', '358', '59', '120', '12') ('12', '12', '120', '0', '0')
 cycle: batch 3 committed 3c14ee490 — gated 12/12 binaries green, rejected classes 0
 log: ('120', '360', '69', '120', '15') ('15', '15', '120', '0', '0')
+cycle: batch 4 committed 9f0cb82ff — gated 15/15 binaries green, rejected classes 0
+cycle: R22 after batch 4 — check-all: 218 passed, 0 failed of 218, committed 92c81ab7a
+log: ('120', '329', '75', '120', '15') ('15', '15', '120', '0', '1')

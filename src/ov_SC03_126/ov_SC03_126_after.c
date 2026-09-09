@@ -825,9 +825,7 @@ extern s16 currentLocationId;
 extern void func_8014C1C8(s32 arg0, s32 arg1, void *arg2);
 extern u8 D_80180EB8[];
 
-void func_8014C1A0(s32 arg0, s32 arg1) {
-    func_8014C1C8(arg0, arg1, D_80180EB8);
-}
+#include "../shared/ov/func_8014C1A0__6684567d.h"
 
 
 #include "../shared/ov/func_8014C1C8.h"
@@ -863,9 +861,7 @@ s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC")
 extern u8 D_80180EC0;
 extern s32 func_8014C5FC(s32 a0, s32 a1, void *a2);
 
-s16 func_8014C5D0(s32 a0, s32 a1) {
-    return func_8014C5FC(a0, a1, &D_80180EC0);
-}
+#include "../shared/ov/func_8014C5D0__d1a15967.h"
 
 
 #include "../shared/ov/func_8014C5FC.h"
