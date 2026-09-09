@@ -13,13 +13,14 @@ src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3129: warning: type mismatch with prev
 src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:2815: warning: previous external decl of `D_801A2154'
 src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3312: warning: type mismatch with previous external decl
 src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:2768: warning: previous external decl of `func_8017BE60'
-src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c: In function `func_8017C528':
-src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3620: warning: passing arg 1 of `func_801542A4' makes pointer from integer without a cast
-src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3620: warning: passing arg 2 of `func_801542A4' makes integer from pointer without a cast
-src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3630: warning: passing arg 1 of `func_80171A80' makes pointer from integer without a cast
-src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3631: warning: passing arg 1 of `func_80171990' makes pointer from integer without a cast
+src/ov_SC03_011/../shared/ov/func_8017C528.h: In function `func_8017C528':
+In file included from src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3603:
+src/ov_SC03_011/../shared/ov/func_8017C528.h:9: warning: passing arg 1 of `func_801542A4' makes pointer from integer without a cast
+src/ov_SC03_011/../shared/ov/func_8017C528.h:9: warning: passing arg 2 of `func_801542A4' makes integer from pointer without a cast
+src/ov_SC03_011/../shared/ov/func_8017C528.h:19: warning: passing arg 1 of `func_80171A80' makes pointer from integer without a cast
+src/ov_SC03_011/../shared/ov/func_8017C528.h:20: warning: passing arg 1 of `func_80171990' makes pointer from integer without a cast
 src/ov_SC03_011/../shared/ov/func_8017C628__af037f84.h: At top level:
-In file included from src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3651:
+In file included from src/ov_SC03_011/ov_SC03_011_jr_8017AE2C.c:3622:
 src/ov_SC03_011/../shared/ov/func_8017C628__af037f84.h:5: warning: prototype for `func_8017BEE8' follows
 src/ov_SC03_011/../shared/ov/func_8017BEE8__41748fa2.h:3: warning: non-prototype definition here
   LD      build/ov_SC03_011/ov_SC03_011.elf

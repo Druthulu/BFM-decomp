@@ -4660,24 +4660,7 @@ void func_8017E258(void *a0)
 
 extern void func_8017DF10(int);
 
-void func_8017E298(void *a0) {
-    s32 t;
-    s32 p;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    p = *(s32 *)((s32)a0 + 0x34);
-    if (t < 0xC) {
-        *(u16 *)((s32)a0 + 0x12) += 0xE0;
-    } else {
-        *(s16 *)(p + 0x64) = 0;
-        *(s16 *)(p + 0x60) = 0;
-        *(s16 *)(p + 0x62) = 0x3000;
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(u16 *)((s32)a0 + 0x2) += 1;
-    }
-    ((void (*)(void *))func_8017DF10)(a0);
-}
+#include "../shared/ov/func_8017E298__8909e8bd.h"
 
 
 
@@ -4691,25 +4674,7 @@ extern void func_80147084(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void func_8017DF10(int);
 
-void func_8017E308(void *a0)
-{
-    s32 t;
-    s32 *sub;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    sub = *(s32 **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        *(u16 *)((s32)a0 + 0x2A) = *(u16 *)((s32)a0 + 0x2A) - 0x10;
-    } else {
-        func_80147324(*(u16 *)((s32)a0 + 0x2C));
-        func_80147084(sub);
-        func_801472B4(sub);
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-    }
-    ((void (*)(void *))func_8017DF10)(a0);
-}
+#include "../shared/ov/func_8017E308.h"
 
 
 
@@ -4780,38 +4745,7 @@ void func_8017E4BC(void *a0) {
 
 extern int rand(void);
 
-void func_8017E4F8(void *a0)
-{
-    s32 p;
-    s32 obj;
-    short r;
-    u16 t;
-    u16 t2;
-    u16 e;
-    u16 c;
-    u16 d;
-
-    p = (s32)a0;
-    obj = *(s32 *)(p + 0x34);
-    r = rand();
-    *(u16 *)(p + 0x06) = *(u16 *)(obj + 0x06) + ((r & 0x3F) - 0x20);
-    if (*(s32 *)(p + 0x2C) != 0) {
-        t = *(u16 *)(obj + 0x0A);
-        *(s16 *)(p + 0x16) = 0x20;
-        *(u16 *)(p + 0x0A) = t - 0x140;
-    } else {
-        t2 = *(u16 *)(obj + 0x0A);
-        *(s16 *)(p + 0x16) = -0x20;
-        *(u16 *)(p + 0x0A) = t2;
-    }
-    e = *(u16 *)(obj + 0x0E);
-    c = *(u16 *)(p + 0x02);
-    *(s32 *)(p + 0x30) = (r >> 12) & 3;
-    d = ((r >> 6) & 0x3F) - 0x20;
-    *(u16 *)(p + 0x0E) = e + d;
-    d = c + 1;
-    *(u16 *)(p + 0x02) = d;
-}
+#include "../shared/ov/func_8017E4F8__d8145911.h"
 
 
 extern void func_800D22E4(s32 a0);

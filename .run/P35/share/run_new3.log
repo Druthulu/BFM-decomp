@@ -1,0 +1,7 @@
+share_body: census 92 s · extend (registered-incomplete) 5 classes · new (unregistered same-vram) 675 classes / 1,679 private sites
+  [new3] 120 classes · 358 sites in 59 TUs · 120 new headers · gating 12 binaries
+  [new3] gated 12/12 binaries green · registered 120 groups · extended 0 members · rejected classes 0
+share_body: stopping after 1 batch(es) — 555 classes of this bucket remain; COMMIT, then re-run (the census re-derives the pool from the committed text)
+share_body: done — 120 of 675 classes in 1 batch(es); all green; 105 s
+new3 wall=107.16 s
+exit=0

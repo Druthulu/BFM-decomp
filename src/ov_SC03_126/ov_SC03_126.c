@@ -65,44 +65,7 @@ extern void func_801287B8(void);
 extern s32 func_80011A3C(void);
 extern s32 D_8018E67C;
 
-void func_801285E4(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "sw    $sp, 0($t0)\n"
-        "addiu $t0, $t0, -4\n"
-        "addu  $sp, $t0, $zero\n"
-        "jal   func_800D18DC\n"
-        "lui   $at, %%hi(D_8018E67C)\n"
-        "sw    $v0, %%lo(D_8018E67C)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "jal   func_8014607C\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "addu  $t0, $v1, $zero\n"
-        "sw    $sp, 0($t0)\n"
-        "addiu $t0, $t0, -4\n"
-        "addu  $sp, $t0, $zero\n"
-        "jal   func_801287B8\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E67C)\n"
-        "lw    $v0, %%lo(D_8018E67C)($v0)\n"
-        "nop\n"
-        "beqz  $v0, 1f\n"
-        "nop\n"
-        "jal   func_80011A3C\n"
-        "1:\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_801285E4__22637e5f.h"
 
 
 #include "../shared/ov/func_80128678.h"
@@ -127,44 +90,7 @@ void func_801285E4(void)
  * branch set). The load-delay nop after `lw $v0,%lo(...)($v0)` is auto-inserted too.
  * %hi/%lo escaped as %%hi/%%lo (bare % is an operand placeholder).
  */
-void func_80128714(void) {
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "sw    $sp, 0($t0)\n"
-        "addiu $t0, $t0, -4\n"
-        "addu  $sp, $t0, $zero\n"
-        "jal   func_800D19F0\n"
-        "lui   $at, %%hi(D_8018E67C)\n"
-        "sw    $v0, %%lo(D_8018E67C)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E67C)\n"
-        "lw    $v0, %%lo(D_8018E67C)($v0)\n"
-        "bne   $v0, $zero, 1f\n"
-        "jal   func_8014607C\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "addu  $t0, $v1, $zero\n"
-        "sw    $sp, 0($t0)\n"
-        "addiu $t0, $t0, -4\n"
-        "addu  $sp, $t0, $zero\n"
-        "jal   func_801287B8\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "j     2f\n"
-        "1:\n"
-        "jal   func_8001903C\n"
-        "jal   func_80018FC8\n"
-        "2:\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_80128714__34914b60.h"
 
 
 
@@ -294,31 +220,7 @@ extern s16 D_800B9A00;
 extern M2C_UNK (*D_8017F24C)();
 extern s16 (*D_8017F250)();
 
-void func_80128A28(void) {
-    s16 temp_v0;
-
-    switch (D_800B99F6) {                           /* irregular */
-    case 1:
-        D_8017F24C();
-        /* fallthrough */
-    case 0:
-        func_80011C10();
-        return;
-    case 2:
-        temp_v0 = D_8017F250();
-        if (temp_v0 != 0) {
-            if (temp_v0 < 0) {
-                func_80011B7C(0);
-                D_800B9A00 = 1;
-                return;
-            }
-            func_80010DE0();
-        } else {
-            return;
-        }
-        break;
-    }
-}
+#include "../shared/ov/func_80128A28__badd0159.h"
 
 
 extern u16 D_800B99F6;
@@ -336,17 +238,7 @@ extern s32 D_8018E678;
 extern CdFileLoc_80128C98 cdFileLocTable[];
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
-s32 func_80128C98(s32 arg0) {
-
-    extern s16 D_8017F528[];
-    s16 idx = D_8017F528[arg0];
-
-    if (idx >= 0) {
-        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_8018D4F8, 0);
-    } else {
-        return 1;
-    }
-}
+#include "../shared/ov/func_80128C98__363b5a0e.h"
 
 
 
@@ -354,17 +246,7 @@ s32 func_80128C98(s32 arg0) {
 extern CdFileLoc cdFileLocTable[];
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
-s32 func_80128CFC(s32 arg0) {
-
-    extern s16 D_8017F538[];
-    s16 idx = D_8017F538[arg0];
-
-    if (idx >= 0) {
-        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_8018D4F8, 0);
-    } else {
-        return 1;
-    }
-}
+#include "../shared/ov/func_80128CFC__120c5b53.h"
 
 
 #include "../shared/ov/func_80128D60.h"
@@ -377,10 +259,7 @@ s32 func_80128CFC(s32 arg0) {
 
 extern M2C_UNK D_8018D4FC;
 
-void func_80128FAC(u16 *arg0) {
-    func_8001534C(4, &D_8018D4FC, 0x80, 0x90, 0, 0);
-    func_800153CC(5, *arg0, 0xA8, 0x90, 0x40, 0);
-}
+#include "../shared/ov/func_80128FAC__205d953e.h"
 
 
 #include "../shared/ov/func_80129010.h"

@@ -2317,26 +2317,7 @@ extern void func_80173460(s32 a0, s32 a1);
 /* ==== end §8b carried decl layer ==== */
 
 
-void func_801734BC(s32 arg0, s32 _unused1) {
-    extern void func_80173544(void);
-    extern s16 D_80126B40;
-
-
-    s16 temp;
-    switch (((u32)arg0)) {
-    case 0: temp = -0x4; break;
-    case 1: temp = -0x8; break;
-    case 2: temp = -0x12; break;
-    case 3: temp = -0x18; break;
-    case 4: temp = -0x1C; break;
-    default: goto after;
-    }
-    D_80126B32 = temp;
-after:
-    D_80126B3E = 0;
-    D_80126B40 = 0;
-    func_80174684(&func_80173544);
-}
+#include "../shared/ov/func_801734BC__0a1baba1.h"
 
 
 extern void (*D_8018285C[])(void);
@@ -2599,19 +2580,7 @@ s32 func_8017496C(void *a0) {
 
 extern void (*D_801828F0[])();
 
-void func_80174BF4(void * arg0)
-{
-    M2C_FIELD(arg0, s32 *, 0xC) = 0x12C;
-    M2C_FIELD(arg0, s32 *, 0x14) = 0x12C;
-    M2C_FIELD(arg0, s16 *, 0x20) = 0x155;
-    M2C_FIELD(arg0, s16 *, 0x22) = 0x800;
-    M2C_FIELD(arg0, s16 *, 0x24) = 0;
-    M2C_FIELD(arg0, s16 *, 0x2E) = 0;
-    M2C_FIELD(arg0, s16 *, 0x30) = -0x28;
-    M2C_FIELD(arg0, s16 *, 0x32) = 0;
-    M2C_FIELD(arg0, s32 *, 0x54) = 0;
-    D_801828F0[M2C_FIELD(arg0, u8 *, 4)]();
-}
+#include "../shared/ov/func_80174BF4__7354cf5d.h"
 
 
 #include "../shared/ov/func_80174C60.h"
@@ -2711,23 +2680,7 @@ s32 func_80175268(s32 param_1)
 
 extern s32 func_80029504(void);
 
-void func_801754A8(void) {
-
-    extern u8 D_8011F7A8;
-    extern unsigned char D_800B9A13;
-    extern s32 D_80126B9C;
-    extern DispatchFn D_80182A64[];
-    u8 *p = &D_8011F7A8;
-    s32 r = func_80029504();
-    s32 flag = 0;
-
-    if (((D_800B9A13 == 0) && ((D_80126B9C & 0x80) == 0)) ||
-        (0x4AF < (u32)(r - 10))) {
-        flag = 1;
-    }
-    p[9] = flag;
-    D_80182A64[p[0]]((void *)p);
-}
+#include "../shared/ov/func_801754A8__897945ca.h"
 
 
 
@@ -3053,21 +3006,7 @@ extern void func_80019064(void *a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 
-void func_80178840(int param_1) {
-
-    extern int D_80182ABC;
-    extern int D_80182AC8[];
-    register int p __asm__("$16");
-    register int s1byte __asm__("$17");
-    p = param_1;
-    if ((*(unsigned short *)(p + 0x5c) & 1) != 0) {
-        s1byte = *(unsigned char *)(p + 0x5e);
-        if (s1byte == 0xc) {
-            ((void (*)(int))func_80019064)((int)&D_80182ABC);
-        }
-        ((void (*)(int, int))func_80131E00)(p, D_80182AC8[s1byte]);
-    }
-}
+#include "../shared/ov/func_80178840__8d2d864b.h"
 
 
 #include "../shared/ov/func_801788B8.h"

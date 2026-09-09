@@ -815,38 +815,7 @@ extern s8 D_8018E764;
 extern s8 D_8018E765;
 extern s32 D_801269C8;
 extern s32 D_801269D4;
-void func_8013CA14(void)
-{
-  int *base = &D_8018E760;
-  signed char *p;
-  unsigned char c;
-  int t;
-  if ((*base) != 0)
-  {
-    c = D_8018E765;
-    if (c == 0)
-    {
-      p = (signed char *) ((((unsigned int) ((unsigned char) D_8018E764)) * 2) + D_8018E760);
-      t = (int) (*p);
-      D_801269D4 = t;
-      D_801269C8 = t;
-      D_8018E765 = (unsigned char) p[1];
-      D_8018E764 = D_8018E764 + 1;
-      if (D_8018E765 == 0)
-      {
-        D_801269D4 = 0;
-        D_801269C8 = 0;
-        D_8018E764 = 0;
-        *base = 0;
-      }
-    }
-    else
-    {
-      D_8018E765 = c - 1;
-    }
-  }
-  return;
-}
+#include "../shared/ov/func_8013CA14__83788c45.h"
 
 
 
@@ -1001,18 +970,7 @@ extern u8 D_8018F9B8;
 extern u8 D_8018F9D9;
 extern s32 D_8018FA98;
 
-void func_8013D330(void) {
-    if ((D_8018FAB2 & 0xff) != D_8018FB2C) {
-        D_8018FAB2 = ((D_8018FAB2 & 0xff) < D_8018FB2C) ? (D_8018FAB2 + 1) : (D_8018FAB2 - 1);
-    }
-    if ((D_8018F9DA & 0xff) != D_8018FA94) {
-        D_8018F9DA = ((D_8018F9DA & 0xff) < D_8018FA94) ? (D_8018F9DA + 1) : (D_8018F9DA - 1);
-    }
-    if ((D_8018F9B8 & 0xff) != D_8018F9D9) {
-        D_8018F9B8 = ((D_8018F9B8 & 0xff) < D_8018F9D9) ? (D_8018F9B8 + 1) : (D_8018F9B8 - 1);
-    }
-    D_8018FA98 = 1;
-}
+#include "../shared/ov/func_8013D330__3ba2802e.h"
 
 
 
@@ -1083,37 +1041,7 @@ extern void *D_8018E770;
 
 extern void func_800599B8(u16*);
 
-void func_8013D8FC(void)
-{
-
-    extern s16 *D_8018E774;
-    register s16 *psVar3 __asm__("$17");
-    register s16 *psVar2 __asm__("$16");
-    register s32 c9 __asm__("$19");
-    register s32 cff __asm__("$18");
-    u16 sVar1;
-    s16 buf[4];
-
-    psVar3 = D_8018E774;
-    if (psVar3 != (s16 *)0x0 && (sVar1 = (u16)*psVar3, sVar1 != 0xff)) {
-        c9 = 9;
-        cff = 0xff;
-        psVar2 = psVar3 + 5;
-        do {
-            if (sVar1 == c9) {
-                s32 arg2 = *(s32 *)(psVar2 + 1) + psVar2[-1] * 2;
-                buf[0] = psVar2[-3];
-                buf[1] = psVar2[-2];
-                buf[2] = psVar2[-1];
-                buf[3] = *psVar2;
-                ((void (*)(s32, s32))func_800599B8)((s32)buf, arg2);
-            }
-            psVar3 = psVar3 + 8;
-            sVar1 = (u16)*psVar3;
-            psVar2 = psVar2 + 8;
-        } while (sVar1 != cff);
-    }
-}
+#include "../shared/ov/func_8013D8FC__392f2627.h"
 
 
 extern void *D_8018E76C;
@@ -1205,25 +1133,7 @@ extern void func_800190AC(void);
 extern void func_80141C04(void);
 
 
-void func_8013E5E8(void)
-{
-
-    extern u16 D_8011511E;
-    extern u16 D_8011511C;
-    extern unsigned short D_80115112;
-    extern u16 D_80115116;
-    extern void (*D_8018062C[])(void);
-    register void (*fp)(void) __asm__("$2"); /* pin fn-ptr to $v0 -> store retires early */
-    func_80029444();
-    func_801754A8();
-    D_8011511E = func_80014ED4(0);
-    D_8011511C = func_80015018(0);
-    fp = D_8018062C[D_80115112];
-    fp();
-    func_800190AC();
-    func_80141C04();
-    D_80115116 += 1;
-}
+#include "../shared/ov/func_8013E5E8__ae7678cf.h"
 
 
 #include "../shared/ov/func_8013E67C.h"
@@ -1375,16 +1285,7 @@ extern unsigned char D_801805F4;
 extern unsigned char *func_80141CA4(void);
 extern void func_801376E8(int a0, int a1);
 
-void func_8013F138(void) {
-    u16 *p = &D_80115118;
-    *p += 0x10;
-    if ((u16)*p >= 0x40) {
-        if (D_80115110 == 0) {
-            ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_801805F4);
-        }
-        D_80115112 += 1;
-    }
-}
+#include "../shared/ov/func_8013F138__67cef5a4.h"
 
 
 #include "../shared/ov/func_8013F1BC.h"

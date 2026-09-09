@@ -1945,44 +1945,7 @@ extern void func_8016B984(void *a0);
 extern void func_8016B91C(int);
 extern int D_8018EC80;
 
-void func_8016B4F8(int param_1)
-{
-    int iVar1;
-    int uVar2;
-    volatile int buf[2];
-
-    ((void (*)(int, void *))func_80015978)(param_1 + 4, &D_8018EC80);
-    if (func_8016B9F8(param_1) == 0) {
-        *(int *)(param_1 + 0x18) = 0;
-        *(int *)(param_1 + 0x14) = 0;
-        *(int *)(param_1 + 0x10) = 0;
-        iVar1 = func_8016B834(param_1, 0);
-        *(int *)(param_1 + 0x10) = iVar1;
-        if (iVar1 != 0) {
-            iVar1 = func_8016B834(param_1, 1);
-            *(int *)(param_1 + 0x14) = iVar1;
-            if (iVar1 != 0) {
-                iVar1 = func_8016B834(param_1, 2);
-                *(int *)(param_1 + 0x18) = iVar1;
-                if (iVar1 != 0) goto success;
-            }
-        }
-    }
-    ((void (*)(int))func_8016B984)(param_1);
-    return;
-success:
-    func_8016B91C(param_1);
-    uVar2 = *(int *)(param_1 + 0x2c);
-    if (uVar2 == 0) {
-        uVar2 = 0xf0;
-    } else {
-        uVar2 = 0x2d0;
-    }
-    *(int *)(param_1 + 0x1c) = uVar2;
-    uVar2 = *(unsigned short *)(param_1 + 2);
-    uVar2 = uVar2 + 1;
-    *(unsigned short *)(param_1 + 2) = uVar2;
-}
+#include "../shared/ov/func_8016B4F8__0b2cc462.h"
 
 
 
@@ -2109,27 +2072,7 @@ extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern M2C_UNK D_8018EDBC;
 extern M2C_UNK D_8018EDC0;
 
-void func_8016BCC0(void *arg0) {
-    u16 temp_a2;
-    u16 temp_v0;
-    void *temp_s0;
-
-    temp_s0 = M2C_FIELD(arg0, void **, 0x20);
-    func_8016BF50();
-    temp_a2 = M2C_FIELD(arg0, u16 *, 0x10) + 0x60;
-    M2C_FIELD(arg0, u16 *, 0x10) = temp_a2;
-    temp_v0 = M2C_FIELD(temp_s0, u16 *, 0x1A) + temp_a2;
-    M2C_FIELD(temp_s0, u16 *, 0x1A) = temp_v0;
-    M2C_FIELD(temp_s0, u16 *, 0x18) = temp_v0;
-    M2C_FIELD(temp_s0, u16 *, 0x12) = (u16) ((M2C_FIELD(temp_s0, u16 *, 0x12) + 0x71) & 0xFFF);
-    func_8016BFA8(arg0, &D_8018EDBC, &D_8018EDC0, temp_s0 + 0x18);
-    if ((s16) M2C_FIELD(temp_s0, u16 *, 0x1A) >= 0x1001) {
-        M2C_FIELD(temp_s0, u16 *, 0x18) = 0x1000U;
-        M2C_FIELD(temp_s0, u16 *, 0x1A) = 0x1000U;
-        func_80146E90(arg0, M2C_FIELD(arg0, s32 *, 0x30));
-        M2C_FIELD(arg0, u16 *, 2) = (u16) (M2C_FIELD(arg0, u16 *, 2) + 1);
-    }
-}
+#include "../shared/ov/func_8016BCC0__04061c8b.h"
 
 
 // @class: struct
@@ -2145,24 +2088,7 @@ void func_8016BCC0(void *arg0) {
 // @class: plumbing
 // @stuck: none — MATCH
 
-s32 func_8016BEA0(s32 param_1)
-{
-    extern void func_8016BF50(void);
-
-    int iVar2;
-    unsigned short uVar1;
-
-    iVar2 = *(int *)(((int)param_1) + 0x20);
-    func_8016BF50();
-    uVar1 = *(unsigned short *)(((int)param_1) + 0x10) - 0x18;
-    *(unsigned short *)(((int)param_1) + 0x10) = uVar1;
-    *(unsigned short *)(iVar2 + 0x1a) = *(unsigned short *)(iVar2 + 0x1a) + uVar1;
-    *(unsigned short *)(iVar2 + 0x12) = (*(unsigned short *)(iVar2 + 0x12) + 0x22) & 0xfff;
-    ((void (*)(int, void *, void *, int))func_8016BFA8)(((int)param_1), &(*(int *)&D_8018EDBC), &(*(int *)&D_8018EDC0), iVar2 + 0x18);
-    if (*(short *)(iVar2 + 0x1a) < 0) {
-        ((void (*)(int))func_80146C3C)(((int)param_1));
-    }
-}
+#include "../shared/ov/func_8016BEA0__0a1f8b82.h"
 
 
 
@@ -2225,33 +2151,7 @@ extern u8 D_8018EDC4[];
 extern u8 D_8018EDCC[];
 extern u8 D_8018ED7C[];
 
-void func_8016C2C4(s32 param)
-{
-    register s32 s1 __asm__("$17");
-    register s32 s0 __asm__("$16");
-    u16 buf[3];
-    s16 v;
-    s32 r;
-    s32 arg;
-
-    s1 = param;
-    s0 = *(s32 *)(s1 + 0x20);
-    arg = *(s32 *)(s1 + 0x34);
-    buf[0] = *(u16 *)(s1 + 0x12);
-    buf[1] = *(u16 *)(s1 + 0x16);
-    buf[2] = *(u16 *)(s1 + 0x1a);
-    ((void (*)(s32, void *, void *))func_80149350)(arg, buf, buf);
-    ((void (*)(void *, s32))func_80015954)(buf, s1 + 4);
-    v = *(s16 *)(s1 + 0x10) + 0x10;
-    *(s16 *)(s1 + 0x10) = v;
-    v = *(s16 *)(s0 + 0x1a) + v;
-    *(s16 *)(s0 + 0x1a) = v;
-    *(s16 *)(s0 + 0x18) = v;
-    r = ((s32 (*)(s32, void *, void *, void *))func_8016C374)(s1, D_8018EDC4, D_8018EDCC, D_8018ED7C);
-    if (r == 0) {
-        ((void (*)(s32))func_80146C3C)(s1);
-    }
-}
+#include "../shared/ov/func_8016C2C4__ee79a1cc.h"
 
 
 #include "../shared/ov/func_8016C374.h"
@@ -2390,26 +2290,7 @@ extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern u8 D_80182518;
 extern u8 D_80182524;
 
-void func_8016DA7C(s32 param_1)
-{
-    s32 iVar1;
-
-    iVar1 = ((s32 (*)(void))func_801465C0)();
-    if (iVar1 == 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
-    } else {
-        *(s32 *)(param_1 + 0x20) = iVar1;
-        ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_80182518, 0x250, 0x100);
-        *(u8 *)(iVar1 + 0x27) = 0x90;
-        *(u16 *)(iVar1 + 0x18) = 0x3000;
-        *(u16 *)(iVar1 + 0x1a) = 0x4000;
-        *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
-        func_80128EA8(iVar1, param_1 + 0x24, (s32)&D_80182524);
-        *(s32 *)(param_1 + 0x10) = 0;
-        *(s32 *)(param_1 + 0x14) = 0xfff40000;
-        *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
-    }
-}
+#include "../shared/ov/func_8016DA7C__00aabb3f.h"
 
 
 #include "../shared/ov/func_8016DB34.h"
@@ -2527,16 +2408,7 @@ typedef struct {
 typedef void (*Handler)(struct Entry_8016E95C *);
 
 
-s32 func_8016E95C() {
-    extern Handler D_80182644[];
-
-    struct Entry_8016E95C *p;
-    for (p = ((struct Entry_8016E95C *)&D_80115218); p < &((struct Entry_8016E95C *)&D_80115218)[4]; p++) {
-        if (p->f0 != 0) {
-            D_80182644[p->f1](p);
-        }
-    }
-}
+#include "../shared/ov/func_8016E95C__11c325ba.h"
 
 
 
@@ -2591,19 +2463,7 @@ extern void func_8016EC0C(s32 a0, s32 a1);
 extern u16 D_80182638[];
 extern void func_8016EC0C(s32 a0, s32 a1);
 
-void func_8016EAC0(Wave *param_1)
-{
-    unsigned char bVar1;
-
-    param_1->f4 = param_1->f4 + D_80182638[param_1->f2];
-    ((void (*)(void *, int))func_8016EC0C)(param_1, 0x80);
-    bVar1 = param_1->f2 + 1;
-    param_1->f2 = bVar1;
-    if (5 < bVar1) {
-        param_1->f2 = 0x20;
-        param_1->f1 = param_1->f1 + 1;
-    }
-}
+#include "../shared/ov/func_8016EAC0__8bfcb845.h"
 
 
 
@@ -2613,18 +2473,7 @@ void func_8016EAC0(Wave *param_1)
 extern u8 D_80182628[];
 extern void func_8016EC0C(s32 a0, s32 a1);
 
-void func_8016EB3C(s32 p) {
-    u8 v;
-
-    ((void (*)(s32, s32))func_8016EC0C)(p, D_80182628[*(u8 *)(p + 2) & 3]);
-
-    v = *(u8 *)(p + 2);
-    *(u8 *)(p + 2) = v + 0xFF;
-    if (v == 0) {
-        *(u8 *)(p + 2) = 5;
-        *(u8 *)(p + 1) = *(u8 *)(p + 1) + 1;
-    }
-}
+#include "../shared/ov/func_8016EB3C__a0fff8a5.h"
 
 
 
@@ -2724,35 +2573,7 @@ extern s32 D_80182654;
 extern s32 D_80126B58;
 extern s16 currentLocationId;
 
-s32 func_8016F1C4(void) {
-    s32 *p;
-    s32 cur;
-    s32 loc;
-    s32 v;
-    s32 *base = &D_80126B58;
-
-    p = &D_80182654;
-    cur = *p;
-    if (cur != 0) {
-        loc = currentLocationId;
-        p = p + 1;
-        for (;;) {
-            if (loc == cur) {
-                return 1;
-            }
-            cur = *p;
-            p = p + 1;
-            if (cur == 0) {
-                break;
-            }
-        }
-    }
-    v = base[0x7E];
-    if (((v & 0x80FFFFFF) != 0) && ((v & 0x10000000) != 0)) {
-        return 0;
-    }
-    return base[0x7E] & 0x80FFFFFF;
-}
+#include "../shared/ov/func_8016F1C4__ba8761c6.h"
 
 
 #include "../shared/ov/func_8016F250.h"

@@ -2718,17 +2718,7 @@ extern s16 D_8018F984;
 extern s16 D_8018F986;
 extern s16 D_8018F988;
 
-void func_8017B7A8(void)
-{
-    D_8012694C = 1;
-    D_8018F914 = 0;
-    D_8018F98C = (s16) D_80114F30;
-    D_8018F98E = (s16) D_80114F34;
-    D_8018F990 = (s16) D_80114F38;
-    D_8018F984 = (s16) D_80114F24;
-    D_8018F986 = (s16) D_80114F28;
-    D_8018F988 = (s16) D_80114F2C;
-}
+#include "../shared/ov/func_8017B7A8__ce4e45fe.h"
 
 
 
@@ -2769,15 +2759,7 @@ extern s32 D_80114F24;
 extern s32 D_80114F28;
 extern s32 D_80114F2C;
 
-void func_8017B880(void)
-{
-    D_80114F30 = D_8018F9A4;
-    D_80114F34 = D_8018F9A6;
-    D_80114F38 = D_8018F9A8;
-    D_80114F24 = D_8018F9AC;
-    D_80114F28 = D_8018F9AE;
-    D_80114F2C = D_8018F9B0;
-}
+#include "../shared/ov/func_8017B880__dfc7ba70.h"
 
 
 // @class: struct
@@ -2866,22 +2848,7 @@ extern SV4 D_8018F93C;
 
 extern void (*D_8018F95C[10])(int);
 
-void func_8017BC38(int param_1)
-{
-    register int i __asm__("$17");
-    register void (**p)(int) __asm__("$16");
-
-    i = 0;
-    p = D_8018F95C;
-    do {
-        if (*p != (void (*)(int))0) {
-            (*p)(param_1);
-        }
-        i = i + 1;
-        p = p + 1;
-    } while (i < 10);
-    return;
-}
+#include "../shared/ov/func_8017BC38__6ac69b9e.h"
 
 
 
@@ -2980,33 +2947,7 @@ extern void func_801465C0(void);
 extern void func_80146C3C();
 extern void func_80146E90(s32 *a0, s32 a1);
 
-void func_8017BEF8(param_1)
-s32 param_1;
-{
-    register s32 s0 __asm__("$16");
-    register s32 s1 __asm__("$17");
-    extern u8 D_80182C64[];
-    s32 v0;
-
-    s1 = param_1;
-    v0 = ((s32 (*)(void))func_801465C0)();
-    *(s32 *)(s1 + 0x20) = v0;
-    s0 = v0;
-
-    if (v0 == 0) {
-        ((void (*)(s32))func_80146C3C)(s1);
-        return;
-    }
-
-    func_8001CC3C(s0, D_80182C64, 0x290, 0x100);
-    *(u8 *)(s0 + 0x27) = 0x64;
-    *(s16 *)(s0 + 0x1A) = 0x2000;
-    *(s16 *)(s0 + 0x18) = 0x2000;
-    *(s16 *)(s0 + 0x14) = -0xE3;
-    *(s32 *)(s0 + 4) |= 0x8000000;
-    func_80146E90((s32 *)s1, 4);
-    *(u16 *)(s1 + 2) += 1;
-}
+#include "../shared/ov/func_8017BEF8__5c7e6c6f.h"
 
 
 extern s32 func_80146E98(s32 a0);

@@ -1105,20 +1105,7 @@ extern void func_80154A74(s32 a0, s32 a1);
 extern M2C_UNK D_800D58D8;
 extern s32 D_8018E850;
 
-void func_80158BB0(void *arg0) {
-    if (D_8018E850 == 0) {
-        D_8018E850 = 1;
-    }
-    func_80147324(0x456);
-    func_80154274(arg0, &D_800D58D8);
-    func_80154A74(arg0, 0x16);
-    M2C_FIELD(arg0, s32 *, 0x234) = 0xE30000;
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x20), s16 *, 0x10) = 0;
-    func_801474EC(arg0);
-    func_801474D8(arg0);
-    func_801472C8(arg0);
-    func_80146CA0(arg0);
-}
+#include "../shared/ov/func_80158BB0__5d09eea9.h"
 
 
 #include "../shared/ov/func_80158C40.h"
@@ -1140,19 +1127,7 @@ extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80146CA0(void *a0);
 
-void func_80158F00(int param_1) {
-    int *self = (int *)param_1;
-    struct Actor *act = (struct Actor *)self[0x20 / 4];
-    int gate = D_8018E85C;
-
-    act->timer = (u16)((act->timer + 0x16) & 0xfff);
-
-    if (gate == 0) {
-        s32 r = rand();
-        *(s32 *)(param_1 + 0x198) = func_8013767C(D_801815E8[r % 0xb]);
-        ((void (*)(int))func_80146CA0)(param_1);
-    }
-}
+#include "../shared/ov/func_80158F00__6450992e.h"
 
 
 
@@ -1175,29 +1150,7 @@ extern void func_80146C98(s32 *a0, s16 a1);
 extern s32 func_8013767C(s32 a0);
 extern void func_80146CA0(void *a0);
 
-void func_80158FA4(s32 param_1)
-{
-    s32 v0;
-    s16 sVar1;
-
-    v0 = *(s32 *)(param_1 + 0x20);
-    *(u16 *)(v0 + 0x12) = (*(u16 *)(v0 + 0x12) + 0x16) & 0xfff;
-    if (((s32 (*)(void))func_80148800)() & 0xf0) {
-        D_8018E860 = 1;
-    }
-    if (func_801399F0(*(s32 *)(param_1 + 0x198)) != 0) {
-        func_80139914(*(s32 *)(param_1 + 0x198));
-        *(s32 *)(param_1 + 0x198) = 0;
-        sVar1 = ((s32 (*)(s32))func_80159464)(param_1);
-        if (sVar1 != 0) {
-            func_801594E8(param_1, sVar1);
-            ((void (*)(s32, s32))func_80146C98)(param_1, 0xc);
-        } else {
-            *(s32 *)(param_1 + 0x198) = ((s32 (*)(u8 *))func_8013767C)(&(*(u8 *)&D_80110C3C));
-            ((void (*)(s32))func_80146CA0)(param_1);
-        }
-    }
-}
+#include "../shared/ov/func_80158FA4__1e7a4e71.h"
 
 
 #include "../shared/ov/func_80159070.h"
@@ -1213,20 +1166,7 @@ extern u8 D_800AE6BD;
 extern s32 D_8018E850;
 extern s32 D_8018E858;
 
-void func_8015934C(void *arg0) {
-    void *temp_v1;
-
-    if (D_8018E850 == 4) {
-        D_8018E850 = 5;
-    }
-    if (D_8018E858 != 0) {
-        func_80145BF8();
-        func_80146CA0(arg0);
-        D_800AE6BD += 1;
-    }
-    temp_v1 = M2C_FIELD(arg0, void **, 0x20);
-    M2C_FIELD(temp_v1, u16 *, 0x12) = (u16) ((M2C_FIELD(temp_v1, u16 *, 0x12) + 0x16) & 0xFFF);
-}
+#include "../shared/ov/func_8015934C__8531ecc4.h"
 
 
 #include "../shared/ov/func_801593E4.h"
@@ -1241,26 +1181,7 @@ extern s32 func_80029A94(s32);
 
 extern Entry D_80181650[];
 
-s32 func_80159464(void) {
-    Entry *e;
-
-    e = D_80181650;
-    while (e->id != 0) {
-        if (currentLocationId == e->id) {
-            return e->val;
-        }
-        e++;
-    }
-    if (func_80029A94(1) != 0) {
-        goto ret0;
-    }
-    if (func_80029A94(0) != 0) {
-        goto ret0;
-    }
-    return -1;
-ret0:
-    return 0;
-}
+#include "../shared/ov/func_80159464__08b70f0d.h"
 
 
 extern u8 D_80078E78[];
@@ -1409,24 +1330,6 @@ extern void func_80146CA0(void *a0);
 
 extern unsigned char D_80181878;
 
-void func_80159BE4(s32 arg0)
-{
-    int v;
-
-    ((void (*)(int, void *))func_80146DB8)(arg0, &D_80181878);
-    if ((*(unsigned int *)(arg0 + 0x44) & 0x200) != 0) {
-        func_80154150(arg0, 5);
-        func_80154A74(arg0, 0x1C);
-    } else {
-        func_80154150(arg0, 4);
-        func_80154A74(arg0, 0x11);
-    }
-    *(int *)(arg0 + 0x234) = 0;
-    *(int *)(arg0 + 0x238) = 0;
-    func_801553C0(arg0);
-    ((void (*)(int))func_801553A8)(arg0);
-    ((void (*)(int))func_80172590)(arg0);
-    ((void (*)(int))func_80146CA0)(arg0);
-}
+#include "../shared/ov/func_80159BE4__1cf147fb.h"
 
 
