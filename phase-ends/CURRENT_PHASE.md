@@ -80,6 +80,15 @@
   job is only to capture the info from the session and create an updated checkpoint." → S95 ran no gate, build, census or tool; it read
   the S94 transcript (`~/.claude/projects/-home-musashi-bfm-decomp/e902c34e-e4b3-41a6-b1e4-7d2ef019a371.jsonl`), the two T5 commits,
   `.run/P35/share/` and the dirty tree, and wrote the log entries + the 🛑 block below.
+- S96 (Drew, 2026-09-08, after the E_func_80168B70 question): "I am not sure the best answer to this question. I have toggled Max effort.
+  now decide the best answer to the question. and then pause so I can switch back to high effort" → **Claude decided at Max: RE-EXEMPLAR
+  the header from the majority text** (the tool's own exemplar rule; T4 inherited the 7 late overlays' minority text because the registry
+  group had been created for them; the majority's cast-at-call form compiles under BOTH declaration environments, so 141/141 is expected
+  with no TU edit, and 7 private copies would beat 134 if not). The offered alternative "fix the 7 TUs' declarations" was mis-stated —
+  the header passes one argument, so the TU-side repair would be the 134 units + every other caller of func_80146C3C = Phase 37's
+  canonical-declaration work; rejected. **Policy for the other 48 rejected classes:** their headers already carry the majority text and
+  their causes are genuine declaration conflicts in the late overlays' units → they stay ledgered TU-CONFLICT with the real diagnostic
+  until the types phase (R95); ≈190 private copies of ≈3,900 collapsible, inside the plan's 2–5 % budget (exact count at T5's close).
 
 ## Log (append-only; one entry per step, with the literal verify line)
 - **S94 2026-09-08 — session start.** Load order read; Phase 34 closed at `48170fd7f`; no CURRENT_PHASE.md → new phase. Drew: order
@@ -374,6 +383,11 @@
   declaration environments vs the headers' text); 78 more sites shared in 24 TUs; 49 ledger rows. A fifth extractor wart (a chained
   `a.h:65: b.h:15: warning: …` line picked for 3 classes) fixed in this commit — those 3 rows carry a warning as cause and are
   re-judged with the step-5 run. `dedup-check` 0 failed; kit corpus + `tool_census --check: OK`. Effort: high (Drew's choice).
+- **S96 — T5 step 5 DECIDED (Max, delegated by Drew): re-exemplar `E_func_80168B70` from the majority text; the 48 late-overlay conflicts
+  stay ledgered for the types phase** (the decision and its reasoning are in §Decisions). NEXT: `share_body.py --reexemplar <h_exact>` —
+  header ← the majority private text (`choose_exemplar` over the private copies, the current header's text counted once per includer),
+  `bind_alias_header` if needed, gate every current includer's binary FIRST (roll the header back on any red), then the class as a normal
+  extend batch (`--only`), the registry extended with the members that passed; its ledger row removed just before the run. Effort: high.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
@@ -674,7 +688,7 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 IN PROGRESS (share_body.py built; bucket 0 run twice — BOTH runs committed, §2 step 1 DONE; 55 classes / 325 pairs ledgered, 317 of them still listed as registry members; three tool defects named); NEXT = inside T5: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
+## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 IN PROGRESS (share_body.py built; bucket 0 run twice — BOTH runs committed, §2 step 1 DONE; 55 classes / 325 pairs ledgered, 317 of them still listed as registry members; three tool defects named); NEXT = inside T5 (steps 1–4 DONE, step 5 DECIDED: re-exemplar): implement `--reexemplar` and run it on E_func_80168B70 → bucket `new`; the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
 
 ### 0. How to use this block
 A fresh session (S96) reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at §2 step 1. This block was written by S95, a
