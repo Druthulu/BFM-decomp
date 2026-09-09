@@ -1713,12 +1713,7 @@ extern void func_80146DB8(s32 *a0, s32 *a1);
 extern s32 func_80161CD0(s32 a0, s32 a1);
 extern M2C_UNK D_801810F4;
 
-void func_8015AC48(s32 arg0)
-{
-    func_80154150(arg0, 9);
-    func_80146DB8((s32 *)arg0, &D_801810F4);
-    func_80161CD0(arg0, M2C_FIELD(arg0, u16 *, 0x16E));
-}
+#include "../shared/ov/func_8015AC48__dbe79dca.h"
 
 
 #include "../shared/ov/func_8015AC90.h"

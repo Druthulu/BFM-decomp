@@ -3189,12 +3189,7 @@ void func_8017E778(void *a0) {
 extern void func_8017E9A8(void);
 extern void func_800167B8(s32 a0);
 
-s32 func_8017E7B4(s32 a0) {
-    func_8017E9A8();
-    func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+#include "../shared/ov/func_8017E7B4__db514c4d.h"
 
 
 
@@ -3205,12 +3200,7 @@ s32 func_8017E7B4(s32 a0) {
 
 extern void func_8017E9D0(void);
 
-s32 func_8017E81C(s32 a0) {
-    func_8017E9D0();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+#include "../shared/ov/func_8017E81C__1834ba2f.h"
 
 
 

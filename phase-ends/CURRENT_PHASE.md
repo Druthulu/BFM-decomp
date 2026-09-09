@@ -429,6 +429,10 @@
 
 - **S96 — R22 after bucket `new` batch 6** (`.run/P35/baseline/r22_t5_new6.log`): `check-all: 218 passed, 0 failed of 218` · `wall=84.30 s` · `exit=0`.
 
+- **S96 — T5 bucket `new`, batch 7** (`run_new7.log`, 32.90 s; `batch_new7.json`): `120 classes · 240 sites in
+  63 TUs · 120 new headers · gating 34 binaries` → **`gated 34/34 binaries green · registered
+  120 groups · extended 0 members · rejected classes 0`**.
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)

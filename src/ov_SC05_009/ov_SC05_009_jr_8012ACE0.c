@@ -485,11 +485,7 @@ extern void func_8014C978(void);
 extern M2C_UNK D_8017EE08;
 extern M2C_UNK D_8017EE10;
 
-s32 func_8012DB84(void)
-{
-    func_8014C978();
-    func_8012F568(1, 0xC001, 0, 0x3E8, &D_8017EE08, &D_8017EE10);
-}
+#include "../shared/ov/func_8012DB84__7e8c4bb6.h"
 
 
 #include "../shared/ov/func_8012DBD0.h"
@@ -978,14 +974,7 @@ extern void func_80131170();
 extern void func_80131CA8();
 extern unsigned char D_8017EE34[];
 
-void func_8012F828(int param_1)
-{
-    *(unsigned char *)(param_1 + 0xC1) = 4;
-    if (*(unsigned int *)(param_1 + 0xB4) & 8) {
-        func_80131170(param_1, D_8017EE34, 0xB);
-    }
-    func_80131CA8(param_1, 9);
-}
+#include "../shared/ov/func_8012F828__ff091b76.h"
 
 
 #include "../shared/ov/func_8012F87C.h"
@@ -995,13 +984,7 @@ extern void func_80131170(s32 a0, s32 a1, s32 a2);
 extern void func_80131CA8(int a0, int a1);
 extern u8 D_8017EE40[];
 
-void func_8012F8C8(u8* arg0) {
-    *(u8*)(arg0 + 0xC1) = 7;
-    if (*(u32*)(arg0 + 0xB4) & 0x80) {
-        ((void (*)(void*, void*, s32))func_80131170)(arg0, D_8017EE40, 0xB);
-    }
-    ((void (*)(void*, s32))func_80131CA8)(arg0, 0x16);
-}
+#include "../shared/ov/func_8012F8C8__9dff3451.h"
 
 
 #include "../shared/ov/func_8012F91C.h"
@@ -1094,9 +1077,7 @@ void func_8012F8C8(u8* arg0) {
 
 extern void (*D_8017EE54[])(void);
 
-void func_80130D0C(void *a0) {
-    D_8017EE54[*(u8 *)((s32)a0 + 0xC1)]();
-}
+#include "../shared/ov/func_80130D0C__0ba44c04.h"
 
 
 
@@ -1134,22 +1115,7 @@ extern s16 D_8017EF5C[];
    /* size 8, alignment 1 -> unaligned copy */
 
 
-s32 func_801312D0(s32 param_1, void *param_2)
-{
-    extern int func_80131CF4(int, int);
-    extern M8_801312D0 D_8017EF7C;
-
-    int iVar5;
-
-    iVar5 = func_80131CF4(*(int *)(((int)param_1) + 0xBC), 0x2E);
-    if (iVar5 != 0) {
-        ((short *)param_2)[2] = 0;
-        ((short *)param_2)[0] = 0;
-        ((short *)param_2)[1] = (short)iVar5;
-    } else {
-        *(M8_801312D0 *)((short *)param_2) = D_8017EF7C;
-    }
-}
+#include "../shared/ov/func_801312D0__aedb85b0.h"
 
 
 
@@ -1655,41 +1621,11 @@ extern void func_8012CAE4(void *a0);
 extern void func_8001C214(int, int);
 extern int D_8017EFF4;
 
-void func_801320D8(int param_1)
-{
-    int v0;
-
-    v0 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(param_1 + 0x20) = v0;
-    if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
-    } else {
-        func_8001C214(v0, 0);
-        *(int *)(param_1 + 0x58) = (int)&D_8017EFF4;
-        *(short *)(param_1 + 0x5c) = 0x80;
-        *(unsigned short *)(param_1 + 2) += 1;
-    }
-}
+#include "../shared/ov/func_801320D8__6ed8414a.h"
 
 
 
-s32 func_80132144(s32 param_1)
-{
-    extern int D_8017F004;
-
-    int v0;
-
-    v0 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(((int)param_1) + 0x20) = v0;
-    if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(((int)param_1));
-    } else {
-        ((void(*)(int, int))func_8001C214)(v0, 0);
-        *(int *)(((int)param_1) + 0x58) = (int)&D_8017F004;
-        *(short *)(((int)param_1) + 0x5c) = 0x80;
-        *(unsigned short *)(((int)param_1) + 2) += 1;
-    }
-}
+#include "../shared/ov/func_80132144__cdad8179.h"
 
 
 
@@ -1702,21 +1638,7 @@ extern void func_8012CAE4(void *a0);
 extern void func_8001C214(int, int);
 extern int D_8017F014;
 
-void func_801321B0(int param_1)
-{
-    int v0;
-
-    v0 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(param_1 + 0x20) = v0;
-    if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
-    } else {
-        func_8001C214(v0, 0);
-        *(int *)(param_1 + 0x58) = (int)&D_8017F014;
-        *(short *)(param_1 + 0x5c) = 0x80;
-        *(unsigned short *)(param_1 + 2) += 1;
-    }
-}
+#include "../shared/ov/func_801321B0__6af661f5.h"
 
 
 
@@ -1728,21 +1650,7 @@ extern void func_8012CAE4(void *a0);
 extern void func_8001C214(int, int);
 extern int D_8017F024;
 
-void func_8013221C(int param_1)
-{
-    int v0;
-
-    v0 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(param_1 + 0x20) = v0;
-    if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
-    } else {
-        func_8001C214(v0, 0);
-        *(int *)(param_1 + 0x58) = (int)&D_8017F024;
-        *(short *)(param_1 + 0x5c) = 0x80;
-        *(unsigned short *)(param_1 + 2) += 1;
-    }
-}
+#include "../shared/ov/func_8013221C__232d9d69.h"
 
 
 #include "../shared/ov/func_80132288.h"

@@ -3266,13 +3266,7 @@ extern s32 D_8012695C;
 extern s32 D_80126958;
 extern void func_8017D010(void *a0);
 
-void func_8017CFC0(void) {
-    D_80126954 = 400;
-    D_80126950 = 400;
-    D_8012695C = 1200;
-    D_80126958 = 1200;
-    func_8017D010(&D_80126948);
-}
+#include "../shared/ov/func_8017CFC0__4a94ec05.h"
 
 
 

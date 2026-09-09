@@ -3168,12 +3168,7 @@ void func_8017CD9C(void *a0) {
 extern void func_8017D008(void);
 extern void func_800167B8(s32 a0);
 
-s32 func_8017CDD8(s32 a0) {
-    func_8017D008();
-    func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+#include "../shared/ov/func_8017CDD8__6d4f6d3d.h"
 
 
 
@@ -3192,12 +3187,7 @@ void func_8017CE40(void *a0) {
 
 extern void func_8017D030(void);
 
-s32 func_8017CE7C(s32 a0) {
-    func_8017D030();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+#include "../shared/ov/func_8017CE7C__e7f69223.h"
 
 
 

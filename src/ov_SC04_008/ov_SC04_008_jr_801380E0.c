@@ -1031,13 +1031,7 @@ done:
 
 extern void (*D_8017F0C8[])(void);
 
-void func_80138BE0(int p)
-{
-    if (*(unsigned short *)(p + 0xe) != 0) {
-        *(unsigned short *)(p + 0xe) -= 1;
-    }
-    D_8017F0C8[*(short *)(p + 4)]();
-}
+#include "../shared/ov/func_80138BE0__28d6b333.h"
 
 
 #include "../shared/ov/func_80138C30.h"

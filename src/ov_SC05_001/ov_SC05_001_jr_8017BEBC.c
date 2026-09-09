@@ -3196,21 +3196,7 @@ void func_8017CE14(void *a0)
 
 extern void func_8017D0F8(int);
 
-void func_8017CE64(int param_1)
-{
-    int iVar1;
-
-    iVar1 = *(int *)(param_1 + 0x1c);
-    *(int *)(param_1 + 0x1c) = iVar1 + 1;
-    if (iVar1 < 0xc) {
-        *(unsigned short *)(param_1 + 0x12) = *(unsigned short *)(param_1 + 0x12) + 0xe0;
-    } else {
-        *(int *)(param_1 + 0x1c) = 0;
-        *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1;
-    }
-    func_8017D0F8(param_1);
-    return;
-}
+#include "../shared/ov/func_8017CE64__c7294b5c.h"
 
 
 
@@ -3225,23 +3211,7 @@ void func_8017CE64(int param_1)
 extern void func_80147324(s32 arg0);
 extern void func_8017D0F8(int);
 
-void func_8017CEC0(Ent_8017BFE0_8017CEC0 *param_1)
-{
-    s32 t;
-
-    t = param_1->f1c;
-    param_1->f1c = t + 1;
-    if (t < 0x20) {
-        param_1->f2a = param_1->f2a - 0x10;
-    } else {
-        if (param_1->f30 == 0) {
-            func_80147324(param_1->f2c);
-        }
-        param_1->f1c = 0;
-        param_1->f02 = param_1->f02 + 1;
-    }
-    ((void (*)(Ent_8017BFE0_8017CEC0 *))func_8017D0F8)(param_1);
-}
+#include "../shared/ov/func_8017CEC0__815ec6ba.h"
 
 
 
@@ -3267,17 +3237,7 @@ extern void func_8017D0F8(int);
 
 extern void func_8017D0F8(int);
 extern void func_80146C3C(void);
-void func_8017D0AC(int param_1)
-{
-    unsigned short uVar1;
-    uVar1 = *(unsigned short *)(param_1 + 0x12) - 0x100;
-    *(unsigned short *)(param_1 + 0x12) = uVar1;
-    if ((short)uVar1 > 0) {
-        func_8017D0F8(param_1);
-    } else {
-        ((void (*)(int))func_80146C3C)(param_1);
-    }
-}
+#include "../shared/ov/func_8017D0AC__5610933d.h"
 
 
 
@@ -3411,24 +3371,7 @@ void func_8017D440(void *a0)
 
 extern void func_8017D0F8(int);
 
-void func_8017D480(void *a0) {
-    s32 t;
-    s32 p;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    p = *(s32 *)((s32)a0 + 0x34);
-    if (t < 0xC) {
-        *(u16 *)((s32)a0 + 0x12) += 0xE0;
-    } else {
-        *(s16 *)(p + 0x64) = 0;
-        *(s16 *)(p + 0x60) = 0;
-        *(s16 *)(p + 0x62) = 0x3000;
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(u16 *)((s32)a0 + 0x2) += 1;
-    }
-    ((void (*)(void *))func_8017D0F8)(a0);
-}
+#include "../shared/ov/func_8017D480__e5cd2578.h"
 
 
 
@@ -3449,22 +3392,7 @@ extern void func_8017D0F8(int);
 
 extern void func_8017D0F8(int);
 extern void func_80146C3C(void);
-void func_8017D650(void *a0)
-{
-    void *obj;
-    s16 v;
-    v = *(u16 *)((s32)a0 + 0x12) - 0x100;
-    obj = *(void **)((s32)a0 + 0x34);
-    *(s16 *)((s32)a0 + 0x12) = v;
-    if (v > 0) {
-        ((void (*)(void *))func_8017D0F8)(a0);
-    } else {
-        *(s16 *)((s32)obj + 0x64) = 0x1000;
-        *(s16 *)((s32)obj + 0x62) = 0x1000;
-        *(s16 *)((s32)obj + 0x60) = 0x1000;
-        func_80146C3C();
-    }
-}
+#include "../shared/ov/func_8017D650__bfb17318.h"
 
 
 
@@ -3514,18 +3442,7 @@ extern int rand(void);
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(void);
 extern void func_8017D7F0(void *a0);
-void func_8017D794(void *a0)
-{
-    s32 t;
-    t = *(s32 *)((s32)a0 + 0x1C);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0xA) {
-        ((void (*)(void))func_800D22E4)();
-        func_8017D7F0(a0);
-    } else {
-        ((void (*)(void *))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_8017D794.h"
 
 
 
@@ -4179,18 +4096,7 @@ void func_8017E704(void) {
 
 
 
-void func_8017E724(s32 a0) {
-    extern int func_80178970(void);
-    extern void func_80178D18(void);
-    s32 rand_val = rand();
-
-    func_8017D960(a0, rand_val & 0xF);
-    if (((s32 (*)(s32))func_80178970)(a0) == 0) {
-        return;
-    }
-    ((void (*)(s32))func_80178D18)(a0);
-    *(s16 *)(a0 + 0x2) = 1;
-}
+#include "../shared/ov/func_8017E724__aa7171c4.h"
 
 
 
@@ -4206,12 +4112,7 @@ void func_8017E778(void *a0) {
 extern void func_8017E9A8(void);
 extern void func_800167B8(s32 a0);
 
-s32 func_8017E7B4(s32 a0) {
-    func_8017E9A8();
-    func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+#include "../shared/ov/func_8017E7B4__db514c4d.h"
 
 
 
@@ -4222,12 +4123,7 @@ s32 func_8017E7B4(s32 a0) {
 
 extern void func_8017E9D0(void);
 
-s32 func_8017E81C(s32 a0) {
-    func_8017E9D0();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+#include "../shared/ov/func_8017E81C__1834ba2f.h"
 
 
 

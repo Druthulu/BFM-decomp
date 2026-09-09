@@ -3821,12 +3821,7 @@ void func_8017CE0C(void *a0) {
 extern void func_8017D03C(void);
 extern void func_800167B8(s32 a0);
 
-s32 func_8017CE48(s32 a0) {
-    func_8017D03C();
-    func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+#include "../shared/ov/func_8017CE48__c6936270.h"
 
 
 

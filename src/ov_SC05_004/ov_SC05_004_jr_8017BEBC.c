@@ -3280,21 +3280,7 @@ void func_8017CFC4(void *a0) {
 extern void func_80146C3C(void);
 extern void func_800D22E4(s32 a0);
 
-void func_8017D000(void *a0)
-{
-    s32 val;
-
-    val = *(s32 *)((s32)a0 + 0x1C);
-    val--;
-    *(s32 *)((s32)a0 + 0x1C) = val;
-
-    if (val != -1) {
-        func_800D22E4((s32)a0);
-        *(s32 *)((s32)a0 + 0x14) += 0x1A000;
-    } else {
-        ((void (*)(s32))func_80146C3C)((s32)a0);
-    }
-}
+#include "../shared/ov/func_8017D000__4c5825a8.h"
 
 
 extern s32 func_80029178(s32 arg);

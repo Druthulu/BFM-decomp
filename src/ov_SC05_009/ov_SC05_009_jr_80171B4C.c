@@ -2390,11 +2390,7 @@ s32 func_801728E4(void *a0) {
 
 
 
-s32 func_801729F0(void *a0) {
-
-    extern void (*D_8018205C[])(void);
-    D_8018205C[*(u8 *)((s32)a0 + 0x214)]();
-}
+#include "../shared/ov/func_801729F0__00c2873a.h"
 
 
 #include "../shared/ov/func_80172A2C.h"
@@ -2507,17 +2503,7 @@ extern void func_80171A1C(u8 *a0);
 extern s32 func_80174650(s32);
 extern M2C_UNK D_8018203C;
 
-void func_80173220(void * arg0)
-{
-    if (M2C_FIELD(arg0, u16 *, 0xB8) & 0x4000) {
-        func_80147324(0x516);
-        func_80019064(&D_8018203C);
-    }
-    if (M2C_FIELD(arg0, u16 *, 0xB8) & 0x8000) {
-        func_80171A1C(arg0);
-        func_80174650(arg0);
-    }
-}
+#include "../shared/ov/func_80173220__c4bf7af4.h"
 
 
 #include "../shared/ov/func_80173294.h"

@@ -31,13 +31,7 @@ s32 func_80128218(void) {
 extern u16 D_800B99F6;
 extern void (*D_8017ED5C[])(void);
 
-void func_80128288(void) {
-    u32 v1;
-    v1 = D_800B99F6;
-    if (v1 < 9) {
-        D_8017ED5C[v1]();
-    }
-}
+#include "../shared/ov/func_80128288__74f3f7d7.h"
 
 
 #include "../shared/ov/func_801282CC.h"
@@ -827,11 +821,4 @@ pop:
 extern void func_8012AAAC();
 extern M2C_UNK D_8017EDF0;
 
-void func_8012ACA0(void *arg0) {
-    M2C_FIELD(arg0, M2C_UNK **, 0x90) = &D_8017EDF0;
-    M2C_FIELD(arg0, s32 *, 0x94) = 0;
-    M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-    M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-    M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
-    ((void (*)(void))func_8012AAAC)();
-}
+#include "../shared/ov/func_8012ACA0__46058059.h"

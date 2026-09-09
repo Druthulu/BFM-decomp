@@ -1172,14 +1172,7 @@ extern int D_8017F0C4;
 extern int D_801269F0;
 extern void func_80138BE0(int p);
 
-void func_80137B80(void) {
-    int *p = &D_801269F0;
-    (*(int *)&D_80127548) = 0x24;
-    if (*p != 0) {
-        ((void (*)(int *))func_80138BE0)(p);
-    }
-    D_8017F0C4 += 1;
-}
+#include "../shared/ov/func_80137B80__df7a21cf.h"
 
 
 #include "../shared/ov/func_80137BD8.h"

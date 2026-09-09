@@ -2659,36 +2659,14 @@ s32 func_801789AC(s32 arg0)
 
 
 
-s32 func_80178B18(s32 param_1, s32 param_2)
-{
-    extern void func_80178BF8(void);
-    extern void func_80178CBC(s32 arg0, s32 arg1);
-    extern u16 D_80182400;
-
-    int *p = &(*(int *)&D_80182400);
-    *p = ((int)param_2);
-    func_80178BF8();
-    func_801746A4();
-    func_8017435C();
-    ((void (*)(int, void *))func_80178CBC)(((int)param_1), (char *)p - 0xC);
-}
+#include "../shared/ov/func_80178B18__4cd78ff6.h"
 
 
 
 // @class: regalloc-order
 // @stuck: none — MATCH (pending verify)
 
-s32 func_80178B70(s32 param_1, s32 param_2)
-{
-    extern void func_80178BF8();
-    extern void func_80178CBC();
-    extern int D_80182400;
-
-    int *p = &D_80182400;
-    *p = ((int)param_2);
-    func_80178BF8();
-    func_80178CBC(((int)param_1), p - 3);
-}
+#include "../shared/ov/func_80178B70__c7303e83.h"
 
 
 

@@ -1416,9 +1416,7 @@ void func_801594E8(s32 param_1, s32 param_2)
 
 extern void (*D_801810B0[])(void);
 
-void func_80159698(void *a0) {
-    D_801810B0[*(u8 *)((s32)a0 + 0x15)]();
-}
+#include "../shared/ov/func_80159698__195f30ee.h"
 
 
 #include "../shared/ov/func_801596D4.h"

@@ -1,0 +1,16 @@
+  CC      build/src/md_MAIN_036/md_MAIN_036.o
+src/md_MAIN_036/md_MAIN_036.c:171: warning: type mismatch with previous external decl
+src/md_MAIN_036/md_MAIN_036.c:92: warning: previous external decl of `D_800CC130'
+src/md_MAIN_036/md_MAIN_036.c: In function `func_800CB634':
+src/md_MAIN_036/md_MAIN_036.c:344: warning: type mismatch with previous external decl
+src/md_MAIN_036/md_MAIN_036.c:90: warning: previous external decl of `D_800CBFA0'
+src/md_MAIN_036/md_MAIN_036.c: At top level:
+src/md_MAIN_036/md_MAIN_036.c:461: warning: type mismatch with previous external decl
+src/md_MAIN_036/md_MAIN_036.c:421: warning: previous external decl of `func_80015978'
+src/md_MAIN_036/md_MAIN_036.c:461: warning: type mismatch with previous implicit declaration
+src/md_MAIN_036/md_MAIN_036.c:421: warning: previous implicit declaration of `func_80015978'
+src/md_MAIN_036/md_MAIN_036.c:461: warning: `func_80015978' was previously implicitly declared to return `int'
+  LD      build/md_MAIN_036/md_MAIN_036.elf
+  OBJCOPY build/md_MAIN_036/md_MAIN_036
+[ OK ] build/md_MAIN_036/md_MAIN_036
+       sha1 a2d8f790348a05199a5b0ad344005f606f119a5b == config/check.md_MAIN_036.sha  (BYTE-IDENTICAL)

@@ -917,11 +917,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
 
 
 
-void func_8013BC7C(void *arg0) {
-
-    extern void (*D_8017EA7C[])(void *);
-    D_8017EA7C[((S_8013BC7C_8013BC7C *)arg0)->f68](arg0);
-}
+#include "../shared/ov/func_8013BC7C__422ac822.h"
 
 
 
@@ -932,14 +928,7 @@ void func_8013BC7C(void *arg0) {
  * bytes of var_size above the minimal 0x20. At -O0 (no DCE) an unused 16-byte local
  * reserves exactly that var region (cookbook §42 lever 3, frame-pad induction) with
  * zero body instructions. 22/22 byte-identical via rtu_match. */
-void func_8013BCDC(void) {
-
-    extern s32 D_8017F218;
-    s32 pad[4];
-    if (D_8017F218 != 0) {
-        ((void (*)(void))D_8017F218)();
-    }
-}
+#include "../shared/ov/func_8013BCDC__561ad169.h"
 
 
 

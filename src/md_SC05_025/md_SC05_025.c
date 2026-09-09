@@ -247,20 +247,7 @@ void func_801EDED4(s32 param_1, s16 *param_2) {
 
 
 
-u8 func_801EE0CC(a0)
-u32 a0;
-{
-    if ((u32)(a0 - 0x460) < 0x32) {
-        return 0x89;
-    }
-    if ((u32)(a0 - 0x384) < 0x6E) {
-        return 0x65;
-    }
-    if ((u32)(a0 - 0x64) < 0x1E) {
-        return 0x28;
-    }
-    return 0xE;
-}
+#include "../shared/slot_801ED988/func_801EE0CC__ab8b6f2f.h"
 
 
 

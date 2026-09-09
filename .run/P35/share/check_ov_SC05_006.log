@@ -1,17 +1,17 @@
   CC      build/src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.o
 src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:1527: warning: conflicting types for built-in function `memcpy'
 src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c: In function `func_8017E1DC':
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:3987: warning: type mismatch with previous external decl
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:3712: warning: previous external decl of `D_80189BB4'
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:3904: warning: type mismatch with previous external decl
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:3629: warning: previous external decl of `D_80189BB4'
 src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c: In function `func_8017EA9C':
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4359: warning: passing arg 1 of `func_8012A018' makes integer from pointer without a cast
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4360: warning: passing arg 1 of `func_8012A094' makes integer from pointer without a cast
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4265: warning: passing arg 1 of `func_8012A018' makes integer from pointer without a cast
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4266: warning: passing arg 1 of `func_8012A094' makes integer from pointer without a cast
 src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c: At top level:
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4431: warning: type mismatch with previous external decl
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4413: warning: previous external decl of `func_8017EC74'
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4431: warning: type mismatch with previous implicit declaration
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4413: warning: previous implicit declaration of `func_8017EC74'
-src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4431: warning: `func_8017EC74' was previously implicitly declared to return `int'
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4337: warning: type mismatch with previous external decl
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4319: warning: previous external decl of `func_8017EC74'
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4337: warning: type mismatch with previous implicit declaration
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4319: warning: previous implicit declaration of `func_8017EC74'
+src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c:4337: warning: `func_8017EC74' was previously implicitly declared to return `int'
   LD      build/ov_SC05_006/ov_SC05_006.elf
   OBJCOPY build/ov_SC05_006/ov_SC05_006
   TRIM    build/ov_SC05_006/ov_SC05_006 (-1 B linker end-align pad)

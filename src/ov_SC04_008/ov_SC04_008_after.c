@@ -144,14 +144,7 @@ void func_8014607C(void)
 extern void (*D_801805B4[])(void *);
 extern u8 D_80126BA4;
 
-void func_80146360(void)
-{
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_80126B58;
-    D_801805B4[D_80126BA4](&D_80126B58);
-}
+#include "../shared/ov/func_80146360__5c8224f3.h"
 
 
 
@@ -1902,22 +1895,7 @@ void func_80150A70(s32 a0)
 // @stuck: none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
 
 
-void func_80150B28(int param_1) {
-
-    extern s32 D_800AE6B0;
-    extern void (*D_80180740[])(void);
-    u32 idx;
-    register u32 sub __asm__("$2");
-
-    if ((D_800AE6B0 & 0x80FFFFFF) == 0) {
-        idx = *(u16 *)(param_1 + 0x16C);
-        if (idx != 0 && idx < 0x26) {
-            sub = idx - 1;
-            D_80180740[sub]();
-        }
-    }
-    *(u16 *)(param_1 + 0x16C) = 0;
-}
+#include "../shared/ov/func_80150B28__74650617.h"
 
 
 #include "../shared/ov/func_80150B9C.h"
@@ -2349,12 +2327,7 @@ extern void (*D_801808E4[])(void *a0);
 extern s16 D_8011DB0C;
 extern u16 D_8011F748;
 
-void func_80153CCC(S80153CCC *a0) {
-    ((s32 (*)(s32))func_80019064)((s32)&D_801808BC);
-    D_801808E4[a0->idx](a0);
-    D_8011DB0C = 0;
-    D_8011F748 = 0;
-}
+#include "../shared/ov/func_80153CCC__7431009e.h"
 
 
 #include "../shared/ov/func_80153D34.h"

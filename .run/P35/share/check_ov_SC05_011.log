@@ -1,25 +1,25 @@
   CC      build/src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.o
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:1531: warning: conflicting types for built-in function `memcpy'
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017D8B0':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3626: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3620: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017D8DC':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3634: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3628: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017D908':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3642: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3636: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017D934':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3650: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3644: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017D960':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3658: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3652: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017D98C':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3666: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3660: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017D9B8':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3674: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3668: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017D9E4':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3682: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3676: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017DA10':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3690: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3684: warning: passing arg 2 makes integer from pointer without a cast
 src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: In function `func_8017DA3C':
-src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3698: warning: passing arg 2 makes integer from pointer without a cast
+src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:3692: warning: passing arg 2 makes integer from pointer without a cast
   LD      build/ov_SC05_011/ov_SC05_011.elf
   OBJCOPY build/ov_SC05_011/ov_SC05_011
   TRIM    build/ov_SC05_011/ov_SC05_011 (-1 B linker end-align pad)

@@ -1,16 +1,16 @@
   CC      build/src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.o
 src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:1530: warning: conflicting types for built-in function `memcpy'
 src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: In function `func_8017E5B8':
-src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4140: warning: parameter names (without types) in function declaration
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4125: warning: parameter names (without types) in function declaration
 src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: In function `func_8017E6A4':
-src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4204: warning: type mismatch with previous external decl
-src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4140: warning: previous external decl of `func_8017E8CC'
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4189: warning: type mismatch with previous external decl
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4125: warning: previous external decl of `func_8017E8CC'
 src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: At top level:
-src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4306: warning: type mismatch with previous implicit declaration
-src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4204: warning: previous implicit declaration of `func_8017E8CC'
-src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4306: warning: `func_8017E8CC' was previously implicitly declared to return `int'
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4291: warning: type mismatch with previous implicit declaration
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4189: warning: previous implicit declaration of `func_8017E8CC'
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4291: warning: `func_8017E8CC' was previously implicitly declared to return `int'
 src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: In function `func_8017E8CC':
-src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4315: warning: assignment makes integer from pointer without a cast
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:4300: warning: assignment makes integer from pointer without a cast
   LD      build/ov_SC06_015/ov_SC06_015.elf
   OBJCOPY build/ov_SC06_015/ov_SC06_015
   TRIM    build/ov_SC06_015/ov_SC06_015 (-1 B linker end-align pad)

@@ -1,28 +1,28 @@
   CC      build/src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.o
 src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:1528: warning: conflicting types for built-in function `memcpy'
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:4908:49: warning: "/*" within comment [-Wcomment]
- 4908 |  *                   verbatim at src/ov_MAIN_012/*.c and src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c:5809
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:4804:49: warning: "/*" within comment [-Wcomment]
+ 4804 |  *                   verbatim at src/ov_MAIN_012/*.c and src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c:5809
       |                                                  
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:4911:40: warning: "/*" within comment [-Wcomment]
- 4911 |  *                   at src/ov_MAIN_012/*.c and src/ov_SC01_000/*.c (call site casts pointer args to s32).
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:4807:40: warning: "/*" within comment [-Wcomment]
+ 4807 |  *                   at src/ov_MAIN_012/*.c and src/ov_SC01_000/*.c (call site casts pointer args to s32).
       |                                         
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:4911:64: warning: "/*" within comment [-Wcomment]
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:4807:64: warning: "/*" within comment [-Wcomment]
 src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c: In function `func_8017E1DC':
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:3990: warning: type mismatch with previous external decl
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:3715: warning: previous external decl of `D_801AF450'
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:3907: warning: type mismatch with previous external decl
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:3632: warning: previous external decl of `D_801AF450'
 src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c: In function `func_80180748':
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5713: warning: passing arg 1 of `func_8012AD80' makes integer from pointer without a cast
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5609: warning: passing arg 1 of `func_8012AD80' makes integer from pointer without a cast
 src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c: In function `func_80180CC4':
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5940: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5943: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5836: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5839: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
 src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c: At top level:
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6232: warning: type mismatch with previous external decl
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6082: warning: previous external decl of `func_80181340'
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6232: warning: type mismatch with previous implicit declaration
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6179: warning: previous implicit declaration of `func_80181340'
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6232: warning: `func_80181340' was previously implicitly declared to return `int'
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6128: warning: type mismatch with previous external decl
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5978: warning: previous external decl of `func_80181340'
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6128: warning: type mismatch with previous implicit declaration
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6075: warning: previous implicit declaration of `func_80181340'
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6128: warning: `func_80181340' was previously implicitly declared to return `int'
 src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c: In function `func_801829B0':
-src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:7369: warning: passing arg 1 of `func_80182CE8' makes pointer from integer without a cast
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:7265: warning: passing arg 1 of `func_80182CE8' makes pointer from integer without a cast
   LD      build/ov_SC05_001/ov_SC05_001.elf
   OBJCOPY build/ov_SC05_001/ov_SC05_001
   TRIM    build/ov_SC05_001/ov_SC05_001 (-1 B linker end-align pad)
