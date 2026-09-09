@@ -37600,3 +37600,70 @@ green. R34 in one sentence: build the oracle that can disagree, then measure the
 the classifier became includes (ov_SC03_015's 219 single-site macros; the never-extended members of five under-listed groups). REAL
 360,744 → 350,533 with EMPTY up the same: empty-bodied shared functions were folded into REAL under the macro form. Instruction-weighted
 metrics unchanged. A number generated from a form the tooling cannot see is a number, not a count.
+
+## §454 — Rung D and rung R: taking a lever off a body that still has to compile to the same bytes (Phase 36 T6)
+
+The residue after the mechanical de-lever campaign (rungs A–C) is 12,970 bodies in 1,804 text classes, each with at least one site the
+oracle called NEEDED. Two instruments work on it: **rung D**, decomp-permuter seeded with the LEVER-FREE body, and **rung R**, the
+cookbook's byte-neutral shape recipes applied mechanically. What follows is what S99 measured, including the part where the measurement
+was wrong.
+
+**A DISASSEMBLY LISTING IS NOT A TARGET.** Two campaigns returned "0 of 16 exemplars" with a straight face. Both were the harness. The
+permuter's `target.o` had been assembled from `verbatim_target_s.py --gas`, a listing regenerated from the ROM image — and assembling a
+disassembly is a second toolchain with its own answers:
+
+* objdump prints the PSEUDO-instruction `move rX,rY` for `addu rX,rY,$zero` (0x…21). GAS assembles `move` as `or` (0x…25). In one
+  234-instruction function that is **24 wrong words**, and nothing said so.
+* a listing's `%hi`/`%lo` pairs come back RESOLVED — `lui $a1,0x801f` / `addiu $a1,$a1,-11600`, no relocation — while every compiled
+  candidate carries `R_MIPS_HI16`/`LO16` against a symbol, and the masked scorer compares reloc operands.
+
+Result: the scorer reported **28 for a body that is byte-identical**, so score 0 was unreachable and every NO-MATCH was its own.
+
+The control that names this in one line: **seed the search with the body the tree already matches and read the base score.** It must be
+0. (`delever_permute.py --positive-control`.) Run it before believing any campaign's yield — a 0-yield run cannot otherwise be told from
+a broken scorer (R40).
+
+The fix is to stop assembling a listing: **the target is the tree's own body compiled by the build's own tail** into a one-function
+object, so it carries the candidates' relocations by construction. The ROM listing stays the INDEPENDENT oracle that proves it —
+`match_one` must call that body a MATCH before the search starts — which is what keeps the arrangement from being circular (R34/R56).
+`verbatim_target_s.py --gas` now verifies itself too (assemble → disassemble → compare word by word → `.word`-patch or REFUSE); it is
+the file pasted into decomp.me, and it was wrong for every function containing a `move`.
+
+**THE PROFILE FOLLOWS THE REGISTER, NOT THE SITE KIND.** A needed pin on a CALLEE-SAVED register ($16–$23) is an allocation-order
+residual and wants the regalloc profile. A pin on a CALLER-SAVED one ($2/$3/$4–$7) is not. `func_80163EC8` pins `$2`, and its residual
+is `lw v1,68(s1); li v0,-33; and v0,v1,v0` against `lw v0,68(s1); li v1,-33; and v0,v0,v1` — the operand ORDER of one `&`. The regalloc
+profile weights `perm_commutative` 2.0; the cse profile weights it 40.0. Steering by "it was a pin, so regalloc" spends the whole budget
+20× away from the only lever that closes it.
+
+**WHAT RUNG D ACTUALLY FINDS, AND WHY RUNG R THEN GETS IT FOR FREE.** Every win is a small, nameable source shape:
+
+| function | start (mismatched ins) | time | the whole semantic change |
+|---|---|---|---|
+| `func_80135D20` | 12 | 24 s | `flag = 0;` → `do { flag = 0; } while (0);` (`perm_ins_block`, RC-5 scope) |
+| `func_80163EC8` | 8 | 314 s | `uVar5 = *(s32 *)(p+0x44); … uVar5 & ~0x20` → the temp inlined at its use (`perm_expand_expr`, §501-R's S2 kill) |
+
+The permuter's winner is machine-reprinted by pycparser (extra parens, `;` statements, its own brace style), so banking it verbatim
+trades a lever for a readability regression — which is exactly what this phase exists to prevent. Each win is therefore turned into a
+mechanical recipe that produces the SAME bytes from a one-line diff in the real source. Rung R's generators, in trial order (targeted
+first, blanket last), each one compile:
+
+* **R2** the formerly-pinned declarations permuted among their own lines · **R4** one of them moved through the whole declaration run
+  (§76/§501-R: the allocation order is the bank) · **R3** an initializer split off its declaration, the assignment placed after the
+  WHOLE run (C89 forbids a declaration after a statement — placing it after the last PINNED declaration compiles as K&R parameters and
+  fails in a way that reads like a compiler bug)
+* **R5** the operand order of one commutative operator (the caller-saved lever above; needs no pinned declaration)
+* **R6** a local assigned once and read once, inlined at its use with its dead declaration removed
+* **R7** one statement wrapped in a block — `{ stmt; }` tried before `do { stmt; } while (0);`, because the readable spelling should win
+  when both hold
+
+**THE CLASS, NOT THE BODY.** A win on an exemplar is worth its whole text class (the head of the draw is 80 classes of 134 copies), but a
+ledger REPLAY cannot deliver it: the ledger replays a SITE SET, and a reshaped body is not one. `delever.py --propagate TU FN` does it by
+address remap — the two old bodies are identical modulo `func_`/`D_` tokens (that IS the class hash), so their tokens correspond one for
+one and the map they define is applied to the new body, each sibling judged on its own objects. `--apply-body` records the before/after
+body text in its ledger row because after the write it exists nowhere else.
+
+**THE SHAPE OF THE POPULATION (first 6 of 16 exemplars, all ov_SC04_011, 134-copy classes).** Two closed, four did not, and the split is
+the starting distance, not the site count: the closers started 8 and 12 mismatched instructions from the target; the four that did not
+started at 70, 99, 105 and 131 — every one a body where removing a hand-placed `instruction` lever changed the instruction COUNT and
+shifted everything after it (`mine=103 ins, target=106`). They still improved a long way (131→35, 105→18, 99→37, 70→24), so they are
+seeds for a longer run or for T7's agents, not walls. `--max-start N` triages by that number instead of spending a search on it.
