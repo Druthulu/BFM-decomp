@@ -63,6 +63,13 @@ for i, l in enumerate(lines):
 p.write_text("\n".join(lines))
 print("log:", label, cline)
 EOF
+  # the index lock: wait out a transient holder (a harness hook's git status), clear a STALE one (no git process alive) — batch tus2
+  # lost its commit to a lock created during its own fleet run with no holder left (S98)
+  for i in 1 2 3 4 5 6; do
+    [ -e .git/index.lock ] || break
+    if [ -z "$(ps -eo cmd | grep -E '^git |/git ' | grep -v grep)" ]; then echo "cycle: stale .git/index.lock (no git process) — removed"; rm -f .git/index.lock; break; fi
+    sleep 10
+  done
   git add -A src && git add .run/P36/delever .run/P36/census .run/P36/baseline phase-ends/CURRENT_PHASE.md || exit 1
   git commit -q -m "src(phase-36): ${TASK:-T4} batch $label — $vline | R22 $line | census: $cline (delever_cycle)" || exit 1
   echo "cycle: batch $label committed $(git log --oneline -1 | cut -c1-9) — $vline | $line"

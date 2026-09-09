@@ -328,6 +328,21 @@ accumulate here as the phase produces them.**
 
 - **2026-09-09 — T4 batch `tus2`** (`.run/P36/delever/run_tus2.log`, `batch_tus2.json`): `delever: batch tus2 — 300 files (TUs; 2483 drawable) · 2752 bodies: 495 lever-free, 2257 residue, 0 refused · sites removed 3505 / needed 5262 / refused 0 / deferred 0 · replays 1350 (0 disagreed) · compiles 5616 in 251 s wall · final 300/300 identical · written 297 files` → R22 (`.run/P36/baseline/r22_tus2.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=148.11 s`) → census `THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 46,424 sites in 14,758 bodies (2,258 distinct) · marked !FAKE 9,393 · UNMARKED 37,031`.
 
+- **S98 — T4 in progress: the campaign launched; three tool fixes between batches (each picked up by the next batch — the cycle re-reads
+  the tool per batch; committed once the cycle was idle, R59).** (1) **"Done" is per body:** the T4 preflight drew `2204 of 2204` TU files
+  where ~2,583 were expected — the ledger's done set was keyed by normalized text alone, so every fleet-wide copy of an all-NEEDED exemplar
+  (after-hash == before-hash, e.g. the 133 copies of a residue body) passed as done, never drawn, never marked; now done = (tu, fn,
+  after-hash), the text hash is the REPLAY key only (selftest: a copy with a judged text but no row of its own is drawn) — batch tus2 drew
+  `2483 drawable`. (2) **The includer map is cached** per file on (mtime, size) in the ignored `includers_cache.json`: 29 s → 1.3 s per
+  batch, proven equal to the uncached map (R39). (3) **A stale `.git/index.lock`** (created 03:24:19 during batch tus2's fleet run, no
+  holder — the Makefile runs no git; a harness hook is the likely source) cost tus2 its commit: the batch was complete and gated (apply
+  `final 300/300 identical`, R22 `218 passed`, the census, the log entry) and was committed by hand from its own lines (`85905840c`); the
+  cycle now waits out a transient lock (6 × 10 s) and clears a stale one (no git process alive), logging it. **Batches so far:** `tus1`
+  (`a605e1dba`): 300 files · 1,392 bodies: 299 lever-free, 1,093 residue · sites removed 3,342 / needed 4,177 · replays 1,364 (0 disagreed) ·
+  1,794 compiles in 59 s · R22 218/218 → 49,787 sites; `tus2` (`85905840c`): 300 files · 2,752 bodies: 495 lever-free, 2,257 residue · removed
+  3,505 / needed 5,262 · replays 1,350 (0 disagreed) · 5,616 compiles in 251 s · R22 218/218 → **46,424 sites in 14,758 bodies (2,258
+  distinct) · marked 9,393 · UNMARKED 37,031**. The replay discount is real (≈ half the bodies, 1 compile each, 0 disagreements so far).
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ — all committed (T3 = `39e3e1851` tools, `cd24727dd` + `7ee458dd7` the ov_SC04_011 batches, this close); NEXT = T4 the mechanical campaign: `tools/delever_cycle.sh` over the whole population (TUs then headers), unattended, one commit per batch, R22 every batch | the number: 53,033 sites in 15,638 bodies (2,246 distinct), 310 marked, 0 orphans | last batch `tus2` on a605e1dba: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 46,424 sites in 14,758 bodies (2,258 distinct) · marked !FAKE 9,393 · UNMARKED 37,031
 
 ### 0. How to use this block

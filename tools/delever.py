@@ -533,18 +533,41 @@ def bodies_from_sites(sites, with_file_scope=False):
     return bodies
 
 
-def includers():
-    """header rel -> [TU rel] (transitive: a header included by a header is included by that header's includers)."""
+INCLUDERS_CACHE = RUN / "includers_cache.json"
+
+
+def includers(use_cache=True):
+    """header rel -> [TU rel] (transitive: a header included by a header is included by that header's includers). The per-file
+    include lists are cached on (mtime, size) — masking every file's text costs ~29 s per batch, the cache ~2 s."""
+    cache = {}
+    if use_cache and INCLUDERS_CACHE.exists():
+        try:
+            cache = json.loads(INCLUDERS_CACHE.read_text())
+        except Exception:   # noqa: BLE001 — a torn cache file is rebuilt
+            cache = {}
+    new_cache = {}
     direct = collections.defaultdict(set)
     hdr_inc = collections.defaultdict(set)
     for p in sorted((REPO / "src").rglob("*")):
         if p.suffix not in (".c", ".h") or p.name.startswith("."):
             continue
         rel = p.relative_to(REPO).as_posix()
-        text = p.read_text(errors="surrogateescape")
-        for mm in sc.INCLUDE_LINE.finditer(sc.mask_text(text)):
-            key = os.path.normpath(os.path.join(os.path.dirname(rel), mm.group(1)))
-            (direct if rel.endswith(".c") else hdr_inc)[key].add(rel)
+        st = p.stat()
+        key = f"{st.st_mtime_ns}|{st.st_size}"
+        ent = cache.get(rel)
+        if ent and ent[0] == key:
+            incs = ent[1]
+        else:
+            text = p.read_text(errors="surrogateescape")
+            incs = [os.path.normpath(os.path.join(os.path.dirname(rel), mm.group(1))) for mm in sc.INCLUDE_LINE.finditer(sc.mask_text(text))]
+        new_cache[rel] = [key, incs]
+        for k2 in incs:
+            (direct if rel.endswith(".c") else hdr_inc)[k2].add(rel)
+    if use_cache:
+        RUN.mkdir(parents=True, exist_ok=True)
+        tmp = INCLUDERS_CACHE.with_suffix(".tmp")
+        tmp.write_text(json.dumps(new_cache))
+        os.replace(tmp, INCLUDERS_CACHE)
     out = {}
     def resolve(h, seen=()):
         if h in out:
@@ -620,12 +643,15 @@ def ledger_append(rows):
 
 
 def ledger_index(rows):
-    """(done_after: set of nhash_after, exemplars: nhash_before -> the latest judged row) — the latest row per body wins (R70:
-    the tie-break is part of the instrument: rows are appended in time order, the last one is the current verdict)."""
+    """(done: set of (tu, fn, nhash_after), exemplars: nhash_before -> the latest judged row) — the latest row per body wins (R70:
+    the tie-break is part of the instrument: rows are appended in time order, the last one is the current verdict). "Done" is PER BODY:
+    another copy of the same text elsewhere is not judged (nor marked) until its own row exists — keying done by text alone let every
+    fleet-wide copy of an all-NEEDED exemplar (after-hash == before-hash) pass as done, unmarked (the T4 preflight found 2,204 drawable
+    files where ~2,583 were expected). The text hash is the REPLAY key only."""
     done, ex = set(), {}
     for r in rows:
         if r.get("verdict") in DONE_VERDICTS and r.get("nhash_after"):
-            done.add(r["nhash_after"])
+            done.add((r["tu"], r["fn"], r["nhash_after"]))
         if r.get("verdict") in ("LEVER-FREE", "RESIDUE") and r.get("nhash_before") and not r.get("replay_disagreed"):
             ex[r["nhash_before"]] = r
     return done, ex
@@ -766,7 +792,7 @@ def make_plan(bodies, ledger_rows, headers, batch, only, rejudge=False, redraw=(
             continue
         if not b["sites"] and not b["deferred"]:
             continue
-        if b["nhash"] in done and not rejudge and latest.get((tu, fn)) not in redraw:
+        if (tu, fn, b["nhash"]) in done and not rejudge and latest.get((tu, fn)) not in redraw:
             continue
         if only and not any(o in b["aliases"] or o == tu or tu.endswith("/" + o) or (b["nhash"] or "").startswith(o) or o == fn for o in only):
             continue
@@ -1433,10 +1459,16 @@ def selftest():
     except Refuse:
         pass
     # the ledger index: after-hash done, before-hash replays, the latest row wins
-    rows = [dict(verdict="RESIDUE", nhash_before="h1", nhash_after="h2", sites=[]), dict(verdict="LEVER-FREE", nhash_before="h1", nhash_after="h3", sites=[{"ord": 0}])]
+    rows = [dict(tu="a.c", fn="f", verdict="RESIDUE", nhash_before="h1", nhash_after="h2", sites=[]),
+            dict(tu="b.c", fn="g", verdict="LEVER-FREE", nhash_before="h1", nhash_after="h3", sites=[{"ord": 0}])]
     done, ex = ledger_index(rows)
-    if done != {"h2", "h3"} or ex["h1"]["nhash_after"] != "h3":
-        fail("ledger index")
+    if done != {("a.c", "f", "h2"), ("b.c", "g", "h3")} or ex["h1"]["nhash_after"] != "h3":
+        fail("ledger index: done is per body, the exemplar per text")
+    # a copy elsewhere with the exemplar's after-hash is NOT done (it has no row of its own)
+    fake_bodies = {("c.c", "h"): dict(tu="c.c", fn="h", fn_line=1, fn_end=3, nhash="h2", aliases=["x"], header=False, includers=0, sites=[{"line": 1, "col": 1, "kind": "pin", "cls": "A", "detail": "$1"}], frozen=[], deferred=[])}
+    plan_, total_, _ = make_plan(fake_bodies, rows, False, 10, None)
+    if total_ != 1:
+        fail("a copy with a judged text but no row of its own must still be drawn")
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):
         fail("SIGNAL_LINE must match bash's job-status block")
