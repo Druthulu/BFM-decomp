@@ -2485,13 +2485,7 @@ extern void func_80171A1C(u8 *a0);
 extern s16 D_80126B40;
 extern s16 D_80126B32;
 
-void func_801735EC(void *a0) {
-    if (D_80126B40 != 0) {
-        *(s32 *)((u8 *)a0 + 0x44) |= 0x40000;
-    }
-    func_801477E8((s32 *)a0, D_80126B32 << 16);
-    func_80171A1C((u8 *)a0);
-}
+#include "../shared/ov/func_801735EC.h"
 
 #include "../shared/ov/func_80173648.h"
 

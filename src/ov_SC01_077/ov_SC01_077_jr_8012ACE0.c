@@ -1294,15 +1294,7 @@ struct S80131E00;
 extern void func_80131B14(void);
 extern void func_80131CA8(int a0, int a1);
 
-void func_8012F75C(s32 a0) {
-    *(u8 *)(a0 + 0xC1) = 3;
-    if (*(s32 *)(a0 + 0xB4) & 0x4) {
-        func_80131B14();
-        *(s32 *)(a0 + 0x1C) = 0x10;
-        *(s16 *)(a0 + 0x98) = 0;
-    }
-    func_80131CA8(a0, 6);
-}
+#include "../shared/ov/func_8012F75C.h"
 
 #include "../shared/ov/func_8012F7B4.h"
 
@@ -2460,15 +2452,7 @@ extern void Square0(s32 *a0, s32 *a1);
 extern s16 D_80126CAC;
 extern s16 D_80126CB0;
 
-s32 func_80132E6C(s16 *a0) {
-    s32 in[3];
-    s32 out[3];
-    in[0] = a0[3] - D_80126CAC;
-    in[1] = 0;
-    in[2] = a0[7] - D_80126CB0;
-    Square0(in, out);
-    return out[0] + out[2];
-}
+#include "../shared/ov/func_80132E6C.h"
 
 #include "../shared/ov/func_80132EC4.h"
 

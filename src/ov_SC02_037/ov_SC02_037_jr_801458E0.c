@@ -1456,74 +1456,7 @@ extern void func_8014A71C(s32 a0);
 extern void func_80172588(s32 *a0);
 extern void func_801473DC(s32 *a0);
 extern void func_80015978(s32 a0, s32 *a1);
-s32 func_80146128(void)
-{
-
-    extern s32 D_80126B58;
-    extern s32 *D_80126B78;
-    extern u8 D_80078EC1;
-    extern s32 D_80078EC8;
-    extern s32 D_80126B9C;
-    extern s32 D_8011F730;
-    extern u16 D_801152B8;
-    extern u16 D_8012693A;
-    extern u8 D_80126BE0[];
-    extern u8 D_801150F0[];
-    register s32 base __asm__("$16");
-    register s32 *p   __asm__("$17");
-    p = D_80126B78;
-    base = (s32)&D_80126B58;
-    func_80146FC4(base);
-    memcpy((void *)D_801150F0, (void *)D_80126BE0, 8);
-    func_80150A70(base);
-    ((void (*)(s32))func_80147098)(base);
-    func_8014A638(base);
-    D_8011F730 = 0;
-    D_801152B8 = 0;
-    D_8012693A = 0;
-    if (D_80078EC1 == 0x10 && D_80078EC8 != 0) {
-        *(u16 *)((s32)p + 2) = 6;
-        D_80126B9C |= 0x800;
-    } else {
-        *(u16 *)((s32)p + 2) = 1;
-        *(s32 *)(base + 0x44) &= ~0x800;
-    }
-    if (*(s32 *)(base + 0x1B0) != 0) {
-        *(s32 *)(base + 0x1B0) = *(s32 *)(base + 0x1B0) - 1;
-    }
-    if (func_80155458(base) == 0 && (*(s32 *)(base + 0x44) & 0x4000000) == 0) {
-        if ((func_80029104() & 0xFF) != 0) {
-            func_8014ADE0(base);
-            func_8014B350(base);
-            ((void (*)(s32))func_8014B7A4)(base);
-            ((void (*)(s32))func_80161D58)(base);
-        }
-        func_80029344();
-        func_80161A90(base);
-        ((void (*)(s32))func_8014B504)(base);
-        func_80149BEC(base);
-        ((void (*)(s32))func_8014B5D0)(base);
-        ((void (*)(s32))func_8014C99C)(base);
-        func_8014B190(base);
-        func_80148648(base, 0);
-        ((void (*)(s32))func_80149228)(base);
-        func_8014A59C(base);
-        ((void (*)(s32))func_8016F14C)(base);
-        ((void (*)(s32))func_80154418)(base);
-        func_80154BE4(base);
-        func_80165694(base);
-        func_801654A8(base);
-        func_8014A680(base);
-        func_8014A6A8(base);
-        func_8014A71C(base);
-        ((void (*)(s32))func_80172588)(base);
-        ((void (*)(s32))func_801473DC)(base);
-        ((void (*)(s32, s32))func_80015978)(base + 4, base + 0x98);
-        return 1;
-    }
-    ((void (*)(s32, s32))func_80015978)(base + 4, base + 0x98);
-    return 0;
-}
+#include "../shared/ov/func_80146128.h"
 
 
 
@@ -1765,19 +1698,7 @@ void func_80146F58(s32 a0, s32 a1) {
 
 extern void func_80015954(s32 a0, s32 a1);
 extern void *memcpy(void *dst, const void *src, u32 n);
-void func_80146FC4(s32 a0) {
-
-    extern u8 D_80126DB0[];
-    extern u16 D_80126DB6;
-    s32 s1 = a0;
-    s32 s0;
-    if (*(s16 *)(s1 + 0xA) >= 0x401) {
-        s0 = (s32)D_80126DB0;
-        func_80015954(s0, s1 + 0x4);
-        memcpy((void *)(s1 + 0x88), (void *)s0, 8);
-        *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = D_80126DB6;
-    }
-}
+#include "../shared/ov/func_80146FC4.h"
 
 
 #include "../shared/ov/func_8014704C.h"
@@ -2298,40 +2219,12 @@ s32 func_80148E54(s32 arg0) {
 
 void func_8012F038(int param_1, short *param_2, short *param_3);
 
-void func_80149450(int param_1, short *param_2)
-{
-    short tmp_out[3];
-    short tmp_in[3];
-
-    tmp_in[0] = param_2[1];
-    tmp_in[1] = param_2[3];
-    tmp_in[2] = param_2[5];
-
-    func_8012F038(*(int *)(param_1 + 0x20) + 0x34, tmp_in, tmp_out);
-
-    param_2[1] = tmp_out[0];
-    param_2[3] = tmp_out[1];
-    param_2[5] = tmp_out[2];
-}
+#include "../shared/ov/func_80149450.h"
 
 
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 
-void func_801494CC(int param_1, short *param_2, short *param_3)
-{
-  short temp_out[3];
-  short temp_in[3];
-
-  temp_in[0] = param_2[1];
-  temp_in[1] = param_2[3];
-  temp_in[2] = param_2[5];
-
-  func_8012F038(*(int *)(param_1 + 0x20) + 0x34, temp_in, temp_out);
-
-  param_3[1] = temp_out[0];
-  param_3[3] = temp_out[1];
-  param_3[5] = temp_out[2];
-}
+#include "../shared/ov/func_801494CC.h"
 
 
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -2398,41 +2291,7 @@ extern void *D_8012707C;
    type per src/shared/engine_core.h DEFINE_func_80149954() sibling macro (lh => s16) */
 extern s16 currentLocationId;
 
-s32 func_80149954(s32 s0)
-{
-    s32 sp10[2];
-    s16 buf[10];
-
-    if (*(s32 *)(s0 + 0x44) & 0x404) {
-        return 0;
-    }
-    if ((*(u16 *)(s0 + 0xAA) & 0x90) == 0) {
-        if (currentLocationId == 0x308D) {
-            func_80015978((s32)&D_80126B5C, sp10);
-            func_8012E5CC((s32)sp10, 0x4, 0x8E0);
-            return 0;
-        }
-        func_8002D4C8(0x4, 0x8E0);
-        return 0;
-    }
-    if (*(u16 *)(s0 + 0xAC) & 0x90) {
-        if ((s32)D_8012707C == 0x8E0) {
-            D_8012707C = 0;
-        } else {
-            func_80147364(0x8E0, 0);
-        }
-    }
-    func_800CCF28(s0);
-    *(s16 *)((s32)buf + 0x0) = 0x12;
-    *(s32 *)((s32)buf + 0x8) = s0;
-    *(s16 *)((s32)buf + 0x2) = 0;
-    *(s16 *)((s32)buf + 0x4) = -0x1E;
-    *(s16 *)((s32)buf + 0x6) = 0;
-    *(s32 *)((s32)buf + 0xC) = 0;
-    *(s32 *)((s32)buf + 0x10) = 0;
-    func_80146750(buf);
-    return 1;
-}
+#include "../shared/ov/func_80149954.h"
 
 
 #include "../shared/ov/func_80149A64.h"
@@ -2563,55 +2422,7 @@ typedef struct {
     /* 0x14 */ s16 a1c;
 } Loc_8014A048;
 
-s32 func_8014A048(s32 param_1) {
-    Loc_8014A048 L;
-    s32 s0;
-    s32 s2;
-    u32 s3;
-
-    if ((*(u32 *)(param_1 + 0x44) & 0x400) != 0) {
-        return 0;
-    }
-    if ((*(u16 *)(param_1 + 0xAC) & 0x80) == 0) {
-        if ((*(u16 *)(param_1 + 0xAC) & 0x10) == 0) {
-            return 0;
-        }
-        if (((s32 (*)(s32))func_8014BEF8)(param_1) == 0) {
-            goto ret0;
-        }
-    }
-    L.a30 = *(s16 *)(param_1 + 6);
-    L.a2e = *(s16 *)(param_1 + 0xA);
-    L.a2c = *(s16 *)(param_1 + 0xE);
-    L.a1e = -0x10;
-    L.a20 = 0;
-    L.a1c = -0x20;
-    func_8012F14C(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&L.a20, (s32)L.buf);
-    s3 = 0;
-    s2 = 0;
-    while (1) {
-        s0 = (s32)D_801202A0 + s2;
-        __asm__ __volatile__("" : "=r"(s0) : "0"(s0));
-        if ((*(u16 *)s0 != 0) &&
-            (*(s32 *)(s0 + 0x58) != 0) &&
-            (*(s16 *)(s0 + 0xAA) == 0) &&
-            (*(s32 *)(param_1 + 0x184) != s0) &&
-            ((*(u16 *)(s0 + 0x5C) & 0x200) != 0) &&
-            (func_80135260(*(s32 *)(s0 + 0x20), *(s32 *)(s0 + 0x58), &L.a30, (s16 *)L.buf) != 0)) {
-            break;
-        }
-        s3++;
-        s2 += 0x10C;
-        if (s3 >= 0x60) {
-            return 0;
-        }
-    }
-    *(s32 *)(param_1 + 0x178) = s0;
-    func_8014A1B0(param_1, s0);
-    return 1;
-ret0:
-    return 0;
-}
+#include "../shared/ov/func_8014A048.h"
 
 
 #include "../shared/ov/func_8014A1B0.h"
@@ -4911,52 +4722,7 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern s32 func_80153978(s32 a0, u16 *src);
 extern void *memcpy(void *dst, const void *src, u32 n);
-s32 func_80153800(s32 a0) {
-
-    extern void (*D_8011DB28)(s32 a0);
-    extern u8 D_80126DB0[];
-    extern u16 D_80126DB6;
-    s32 s1 = a0;
-    s32 s0;
-    s32 s2;
-    u8 bVar1;
-    s16 buf1[4];
-    s16 buf2[4];
-    if (D_8011DB28 != 0) {
-        ((void (*)(s32, s32))func_80015978)(s1 + 4, s1 + 0x88);
-        memcpy((void *)(s1 + 0x90), (void *)(s1 + 0x88), 8);
-ret0:
-        return 0;
-    }
-    bVar1 = *(u8 *)(s1 + 0xDE);
-    if (bVar1 >= 0x21) {
-        s32 base = (s32)D_80126DB0;
-        func_80015954(base, s1 + 4);
-        memcpy((void *)(s1 + 0x88), (void *)base, 8);
-        memcpy((void *)(s1 + 0x90), (void *)(s1 + 0x88), 8);
-        *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = D_80126DB6;
-        return 0;
-    }
-    {
-        register s32 m __asm__("$3") = bVar1 * 4;
-        s2 = m;
-        buf2[1] = *(u16 *)(s1 + 0xA2) - m;
-    }
-    for (s0 = 0; s0 < 0x80; s0++) {
-        s32 ang = s0 * 0x200000;
-        buf1[0] = 0;
-        buf1[1] = 0;
-        buf1[2] = s2;
-        func_800139C8(ang >> 0x10, buf1, buf1);
-        buf2[0] = *(u16 *)(s1 + 0xA0) + buf1[0];
-        buf2[2] = *(u16 *)(s1 + 0xA4) + buf1[2];
-        if (((s32 (*)(s32, void *))func_80153978)(s1, buf2) == 0) {
-            goto ret0;
-        }
-    }
-    *(u8 *)(s1 + 0xDE) = *(u8 *)(s1 + 0xDE) + 1;
-    return 1;
-}
+#include "../shared/ov/func_80153800.h"
 
 
 #include "../shared/ov/func_80153978.h"
@@ -4969,36 +4735,7 @@ typedef struct {
     s16 f6;
 } Blk801539F8;
 
-s32 func_801539F8(s32 a0, void *a1)
-{
-    Blk801539F8 buf1;
-    Blk801539F8 buf2;
-    Blk801539F8 buf3;
-    s32 r1, r2, r3;
-
-    buf1 = *(Blk801539F8 *)(a0 + 0xA0);
-    buf2 = *(Blk801539F8 *)a1;
-    buf1.f2 -= 4;
-    r1 = func_80133784(0, &buf1, (s32)&buf2);
-    if (r1 != 0x2000) {
-        return 1;
-    }
-    buf1 = buf2;
-    buf2.f2 += 8;
-    r2 = func_80133784(0, &buf1, (s32)&buf2);
-    if (r2 != r1) {
-        return 1;
-    }
-    r3 = func_80133784(2, &buf2, (s32)&buf3);
-    if (r3 != r2) {
-        return 1;
-    }
-    *(s16 *)(a0 + 0x88) = buf2.f0;
-    *(s16 *)(a0 + 0x8A) = buf2.f2;
-    *(s16 *)(a0 + 0x8C) = buf2.f4;
-    *(Blk801539F8 *)(a0 + 0x90) = *(Blk801539F8 *)(a0 + 0x88);
-    return 0;
-}
+#include "../shared/ov/func_801539F8.h"
 
 
 #include "../shared/ov/func_80153B58.h"

@@ -1,2 +1,650 @@
+  CC      build/src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.o
+  CC      build/src/ov_SC03_107/ov_SC03_107.o
+  CC      build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o
+  CC      build/src/ov_SC03_107/ov_SC03_107_jr_8013F350.o
+  CC      build/src/ov_SC03_107/ov_SC03_107_jr_801458E0.o
+src/ov_SC03_107/../shared/ov/func_8016B448.h: In function `func_8016B448':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:2932:
+src/ov_SC03_107/../shared/ov/func_8016B448.h:10: warning: passing arg 1 of `func_8014C050' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8016B448.h:12: warning: passing arg 1 of `func_8016B984' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8016B448.h:14: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80145B24.h: In function `func_80145B24':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1211:
+src/ov_SC03_107/../shared/ov/func_80145B24.h:18: warning: assignment from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8016BA68.h: In function `func_8016BA68':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3206:
+src/ov_SC03_107/../shared/ov/func_8016BA68.h:9: warning: passing arg 1 of `func_8014C050' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8016BA68.h:11: warning: passing arg 1 makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8016BA68.h:13: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c: At top level:
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1331: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1236: warning: previous external decl of `func_80145EE8'
+src/ov_SC03_107/../shared/ov/func_8015ADB0.h: In function `func_8015ADB0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:2482:
+src/ov_SC03_107/../shared/ov/func_8015ADB0.h:12: warning: passing arg 1 of `func_80161124' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1429: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1227: warning: previous external decl of `func_80147098'
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: In function `func_8016BCC0':
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3282: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3232: In file includedwarning:  from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1458previous external decl of `:
+func_8016BF50src/ov_SC03_107/../shared/ov/func_80146128.h:4: 'warning: 
+type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1246: warning: previous external decl of `D_80126B78'
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3289: warning: passing arg 1 of `func_8016BFA8' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3289: warning: passing arg 2 of `func_8016BFA8' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3289: warning: passing arg 3 of `func_8016BFA8' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3289: warning: passing arg 4 of `func_8016BFA8' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c: In function `func_8013FAF8':
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1225: warning: passing arg 1 of `func_80024054' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1241: warning: passing arg 1 of `func_80024054' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1266: src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: warning: At top level:
+passing arg 1 of `func_80137D08' makes integer from pointer without a castsrc/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3299: 
+warning: src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1266: type mismatch with previous external declwarning: 
+passing arg 2 of `func_80137D08' makes integer from pointer without a castsrc/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3232: 
+warning: previous external decl of `src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1266: func_8016BF50warning: 'assignment makes pointer from integer without a cast
+
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1269: warning: passing arg 1 of `func_8013AB54' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1269: warning: passing arg 2 of `func_8013AB54' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1269: warning: assignment makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: In function `func_8016C2C4':
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3549: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3486: warning: previous external decl of `D_8019AE54'
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3550: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3489: warning: previous external decl of `D_8019AE5C'
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c: In function `func_8014032C':
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1447: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1302: warning: previous external decl of `D_8019A854'
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1529: warning: return makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012A418.h: In function `func_8012A418':
+In file included from src/ov_SC03_107/ov_SC03_107.c:794:
+src/ov_SC03_107/../shared/ov/func_8012A418.h:10: warning: assignment from incompatible pointer type
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1515:
+src/ov_SC03_107/../shared/ov/func_801468C8.h:5: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1235: warning: previous external decl of `func_801468C8'
+src/ov_SC03_107/../shared/ov/func_8012A6D0.h: In function `func_8012A6D0':
+In file included from src/ov_SC03_107/ov_SC03_107.c:819:
+src/ov_SC03_107/../shared/ov/func_8012A6D0.h:7: warning: initialization makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012A6D0.h:8: warning: initialization makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012A828.h: In function `func_8012A828':
+In file included from src/ov_SC03_107/ov_SC03_107.c:831:
+src/ov_SC03_107/../shared/ov/func_8012A828.h:6: warning: assignment makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: In function `func_8016C998':
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3697: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3602: warning: previous external decl of `D_8019AF28'
+src/ov_SC03_107/../shared/ov/func_80146D90.h: In function `func_80146D90':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1657:
+src/ov_SC03_107/../shared/ov/func_80146D90.h:6: warning: passing arg 1 of `func_80146DE8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c: In function `func_80140D68':
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1883: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1743: warning: previous external decl of `D_800AE7BC'
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: In function `func_8016CBC0':
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3763: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3602: warning: previous external decl of `D_8019AF28'
+src/ov_SC03_107/../shared/ov/func_80147060.h: In function `func_80147060':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1704:
+src/ov_SC03_107/../shared/ov/func_80147060.h:7: warning: `return' with a value, in function returning void
+src/ov_SC03_107/../shared/ov/func_80147084.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1713:
+src/ov_SC03_107/../shared/ov/func_80147084.h:3: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1226: warning: previous external decl of `func_80147084'
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1725:
+src/ov_SC03_107/../shared/ov/func_801470AC.h:3: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1228: warning: previous external decl of `func_801470AC'
+src/ov_SC03_107/../shared/ov/func_801412A8.h: In function `aF801412A8':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:2069:
+src/ov_SC03_107/../shared/ov/func_801412A8.h:5: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1743: warning: previous external decl of `D_800AE7BC'
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: In function `func_8016CF04':
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3913: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3602: warning: previous external decl of `D_8019AF28'
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3953: warning: passing arg 2 of `ApplyMatrixSV' from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3953: warning: passing arg 3 of `ApplyMatrixSV' from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3959: warning: passing arg 2 of `ApplyMatrixSV' from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3959: warning: passing arg 3 of `ApplyMatrixSV' from incompatible pointer type
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1749:
+src/ov_SC03_107/../shared/ov/func_801472DC.h:3: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1263: warning: previous external decl of `D_8012707C'
+src/ov_SC03_107/../shared/ov/func_80147324.h: In function `func_80147324':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1758:
+src/ov_SC03_107/../shared/ov/func_80147324.h:8: warning: comparison between pointer and integer
+src/ov_SC03_107/../shared/ov/func_8015BF48.h: In function `func_8015BF48':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3112:
+src/ov_SC03_107/../shared/ov/func_8015BF48.h:7: warning: passing arg 1 of `func_8015C0C4' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: In function `func_8016D848':
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4172: warning: passing arg 1 of `func_800D20C0' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4172: warning: passing arg 2 of `func_800D20C0' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_8015C128':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3202: warning: passing arg 1 makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3219: warning: passing arg 1 makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80147AD4.h: In function `func_80147AD4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1836:
+src/ov_SC03_107/../shared/ov/func_80147AD4.h:8: warning: passing arg 2 of `func_80147B5C' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: In function `func_8016DC20':
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4335: warning: passing arg 1 makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4335: warning: passing arg 2 makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80147D38.h: In function `func_80147D38':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1851:
+src/ov_SC03_107/../shared/ov/func_80147D38.h:12: warning: passing arg 2 of `func_80147DC0' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: In function `func_8016DF5C':
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4448: warning: passing arg 2 of `ApplyMatrixSV' from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4448: warning: passing arg 3 of `ApplyMatrixSV' from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_80142838.h: In function `func_80142838':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:2417:
+src/ov_SC03_107/../shared/ov/func_80142838.h:15: warning: passing arg 1 of `func_8012C0EC' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8015C6AC.h: In function `func_8015C6AC':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3350:
+src/ov_SC03_107/../shared/ov/func_8015C6AC.h:7: warning: passing arg 1 of `func_8015C788' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_8015C944':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3460: warning: passing arg 1 makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80142F68.h: In function `func_80142F68':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:2671:
+src/ov_SC03_107/../shared/ov/func_80142F68.h:15: warning: passing arg 1 of `func_8012C0EC' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8016EDEC.h: In function `func_8016EDEC':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4828:
+src/ov_SC03_107/../shared/ov/func_8016EDEC.h:13: warning: assignment from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8016EDEC.h:16: warning: passing arg 1 from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8016EDEC.h:17: warning: passing arg 1 from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8016EE40.h: In function `func_8016EE40':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4831:
+src/ov_SC03_107/../shared/ov/func_8016EE40.h:17: warning: passing arg 1 from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8016EE40.h:19: warning: passing arg 1 from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_801430F4.h: In function `func_801430F4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:2717:
+src/ov_SC03_107/../shared/ov/func_801430F4.h:15: warning: passing arg 1 of `func_8012C0EC' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801432FC.h: In function `func_801432FC':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:2774:
+src/ov_SC03_107/../shared/ov/func_801432FC.h:15: warning: passing arg 1 of `func_8012C044' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801433F0.h: In function `func_801433F0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:2780:
+src/ov_SC03_107/../shared/ov/func_801433F0.h:12: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801433F0.h:12: warning: passing arg 2 of `func_80128ED8' from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8012D098.h: src/ov_SC03_107/../shared/ov/func_8014350C.h: In function `func_8012D098':
+In function `func_8014350C':
+In file includedIn file included from src/ov_SC03_107/ov_SC03_107.c:1315 from src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:2821:
+:
+src/ov_SC03_107/../shared/ov/func_8012D098.h:26: src/ov_SC03_107/../shared/ov/func_8014350C.h:13: warning: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a castpassing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+
+src/ov_SC03_107/../shared/ov/func_8012D098.h:26: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:26: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:30: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:30: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:30: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:34: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:34: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:34: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:38: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:38: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:38: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:42: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:42: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:42: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:46: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:46: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:46: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:50: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:50: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:50: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:54: warning: passing arg 1 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:54: warning: passing arg 2 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:54: warning: passing arg 3 of `func_8012F214' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:55: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:55: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:56: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:56: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:57: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:57: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:58: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:58: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:59: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:59: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:60: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:60: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:61: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:61: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:62: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:62: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:63: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:63: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:64: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:64: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:65: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:65: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:66: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D098.h:66: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8016F4FC.h: In function `func_8016F4FC':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4986:
+src/ov_SC03_107/../shared/ov/func_8016F4FC.h:9: warning: passing arg 1 of `func_800D1724' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D38C.h: In function `func_8012D38C':
+In file included from src/ov_SC03_107/ov_SC03_107.c:1318:
+src/ov_SC03_107/../shared/ov/func_8012D38C.h:5: warning: passing arg 1 of `func_8012D098' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D3B4.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107.c:1324:
+src/ov_SC03_107/../shared/ov/func_8012D3B4.h:4: warning: type mismatch with previous external decl
+src/ov_SC03_107/../shared/ov/func_8012CFA8.h:6: warning: previous external decl of `RotTransPers'
+src/ov_SC03_107/../shared/ov/func_8012D3B4.h: In function `func_8012D3B4':
+src/ov_SC03_107/../shared/ov/func_8012D3B4.h:22: warning: passing arg 2 of `RotTransPers' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D3B4.h:23: warning: passing arg 2 of `RotTransPers' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8016F71C.h: In function `func_8016F71C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5022:
+src/ov_SC03_107/../shared/ov/func_8016F71C.h:11: warning: passing arg 1 of `func_8016F764' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D4B4.h: In function `func_8012D4B4':
+In file included from src/ov_SC03_107/ov_SC03_107.c:1327:
+src/ov_SC03_107/../shared/ov/func_8012D4B4.h:27: warning: passing arg 2 of `RotTransPers' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012D4B4.h:29: warning: passing arg 2 of `RotTransPers' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107.c: In function `func_8012D664':
+src/ov_SC03_107/ov_SC03_107.c:1360: warning: passing arg 6 of `func_8012F568' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80149210.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2190:
+src/ov_SC03_107/../shared/ov/func_80149210.h:3: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1229: warning: previous external decl of `func_80149210'
+src/ov_SC03_107/ov_SC03_107.c: In function `func_8012DB84':
+src/ov_SC03_107/ov_SC03_107.c:1381: warning: passing arg 5 of `func_8012F568' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107.c:1381: warning: passing arg 6 of `func_8012F568' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8016FE2C.h: In function `func_8016FE2C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5154:
+src/ov_SC03_107/../shared/ov/func_8016FE2C.h:7: warning: passing arg 1 of `func_80172658' from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_8015D1B8':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3840: warning: passing arg 1 of `func_801725F4' from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c: In function `func_801442F8':
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:3090: warning: passing arg 1 of `func_8012C218' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107.c: In function `func_8012DDA4':
+src/ov_SC03_107/ov_SC03_107.c:1410: warning: return makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107.c: In function `func_8012DE2C':
+src/ov_SC03_107/ov_SC03_107.c:1428: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107.c:1400: warning: previous external decl of `D_8019A72C'
+src/ov_SC03_107/ov_SC03_107.c:1429: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107.c:1401: warning: previous external decl of `D_8019A728'
+src/ov_SC03_107/ov_SC03_107.c:1444: warning: return makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c: In function `func_80144458':
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:3156: warning: passing arg 1 of `func_8012AD80' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:3162: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80170374.h: In function `func_80170374':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5241:
+src/ov_SC03_107/../shared/ov/func_80170374.h:11: warning: passing arg 1 of `func_8014C168' from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8017044C.h: In function `func_8017044C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5256:
+src/ov_SC03_107/../shared/ov/func_8017044C.h:14: warning: passing arg 1 of `func_80171AB0' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014462C.h: In function `func_8014462C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:3172:
+src/ov_SC03_107/../shared/ov/func_8014462C.h:13: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014462C.h:13: warning: passing arg 2 of `func_80128ED8' from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8012E138.h: In function `func_8012E138':
+In file included from src/ov_SC03_107/ov_SC03_107.c:1471:
+src/ov_SC03_107/../shared/ov/func_8012E138.h:19: warning: passing arg 2 of `func_8012F038' from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8012E138.h:19: warning: passing arg 3 of `func_8012F038' from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_8012E138.h:36: warning: passing arg 2 of `func_8012F14C' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012E138.h:36: warning: passing arg 3 of `func_8012F14C' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012E138.h:37: warning: passing arg 3 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012E138.h:37: warning: passing arg 4 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801705C0.h: In function `func_801705C0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5286:
+src/ov_SC03_107/../shared/ov/func_801705C0.h:8: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8015D480.h: In function `func_8015D480':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3897:
+src/ov_SC03_107/../shared/ov/func_8015D480.h:7: warning: passing arg 1 of `func_8015D57C' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8015D57C.h: In function `func_8015D57C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3919:
+src/ov_SC03_107/../shared/ov/func_8015D57C.h:12: warning: passing arg 1 of `func_801553A8' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8015D57C.h:13: warning: passing arg 1 of `func_80155440' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8015D57C.h:14: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80170B48.h: In function `func_80170B48':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5380:
+src/ov_SC03_107/../shared/ov/func_80170B48.h:9: warning: passing arg 1 of `func_8014706C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80170B90.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5383:
+src/ov_SC03_107/../shared/ov/func_80170B90.h:5: warning: type mismatch with previous external decl
+src/ov_SC03_107/../shared/ov/func_80170B48.h:12: warning: previous external decl of `func_80170B90'
+src/ov_SC03_107/../shared/ov/func_80170B90.h:5: warning: type mismatch with previous implicit declaration
+src/ov_SC03_107/../shared/ov/func_80170B48.h:12: warning: previous implicit declaration of `func_80170B90'
+src/ov_SC03_107/../shared/ov/func_80170B90.h:5: warning: `func_80170B90' was previously implicitly declared to return `int'
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5523: warning: "SHB" redefined
+ 5523 | #define SHB(x) __asm__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5522: note: this is the location of the previous definition
+ 5522 | #define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c: In function `func_80149F2C':
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2322: warning: initialization makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80170CF0.h: In function `func_80170CF0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5414:
+src/ov_SC03_107/../shared/ov/func_80170CF0.h:11: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80170DE0.h: In function `func_80170DE0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5429:
+src/ov_SC03_107/../shared/ov/func_80170DE0.h:11: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80170EAC.h: In function `func_80170EAC':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5444:
+src/ov_SC03_107/../shared/ov/func_80170EAC.h:11: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801710DC.h: In function `func_801710DC':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:5489:
+src/ov_SC03_107/../shared/ov/func_801710DC.h:9: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801710DC.h:10: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8015DA90.h: In function `func_8015DA90':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4080:
+src/ov_SC03_107/../shared/ov/func_8015DA90.h:7: warning: passing arg 1 of `func_8015DB6C' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8012F568.h: In function `func_8012F568':
+In file included from src/ov_SC03_107/ov_SC03_107.c:1985:
+src/ov_SC03_107/../shared/ov/func_8012F568.h:12: warning: passing arg 2 of `memcpy' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8012F568.h:13: warning: passing arg 2 of `memcpy' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8015DDF0.h: In function `func_8015DDF0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4166:
+src/ov_SC03_107/../shared/ov/func_8015DDF0.h:7: warning: passing arg 1 of `func_8015DECC' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014B034.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2502:
+src/ov_SC03_107/../shared/ov/func_8014B034.h:4: warning: type mismatch with previous external decl
+src/ov_SC03_107/../shared/ov/func_8014ADE0.h:22: warning: previous external decl of `D_80078E90'
+src/ov_SC03_107/../shared/ov/func_8015E150.h: In function `func_8015E150':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4252:
+src/ov_SC03_107/../shared/ov/func_8015E150.h:7: warning: passing arg 1 of `func_8015E22C' makes integer from pointer without a cast
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2619:
+src/ov_SC03_107/../shared/ov/func_8014BE9C.h:4: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1230: warning: previous external decl of `func_8014BE9C'
+src/ov_SC03_107/../shared/ov/func_8014C168.h: In function `func_8014C168':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2664:
+src/ov_SC03_107/../shared/ov/func_8014C168.h:12: warning: return makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014C168.h:16: warning: return makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107.c: In function `func_80130D48':
+src/ov_SC03_107/ov_SC03_107.c:2370: warning: assignment makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8015E84C.h: In function `func_8015E84C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4385:
+src/ov_SC03_107/../shared/ov/func_8015E84C.h:7: warning: passing arg 1 of `func_8015E95C' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014C3D0.h: In function `func_8014C3D0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2690:
+src/ov_SC03_107/../shared/ov/func_8014C3D0.h:6: warning: passing arg 2 of `func_8014C59C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8014C43C.h: In function `func_8014C43C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2693:
+src/ov_SC03_107/../shared/ov/func_8014C43C.h:9: warning: passing arg 4 of `func_8014C4AC' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8015E95C.h: In function `func_8015E95C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4406:
+src/ov_SC03_107/../shared/ov/func_8015E95C.h:10: warning: passing arg 1 of `func_8015E9B8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_8015EA3C':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4517: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014C6D0.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2730:
+src/ov_SC03_107/../shared/ov/func_8014C6D0.h:4: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1238: warning: previous external decl of `func_8014C6D0'
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2778:
+src/ov_SC03_107/../shared/ov/func_8014C968.h:4: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1237: warning: previous external decl of `func_8014C968'
+src/ov_SC03_107/../shared/ov/func_8014CD0C.h: In function `func_8014CD0C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2880:
+src/ov_SC03_107/../shared/ov/func_8014CD0C.h:21: warning: passing arg 2 of `func_8014CF04' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8015EDA0.h: In function `func_8015EDA0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4526:
+src/ov_SC03_107/../shared/ov/func_8015EDA0.h:7: warning: passing arg 1 of `func_8015EE7C' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014CD80.h: In function `func_8014CD80':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2883:
+src/ov_SC03_107/../shared/ov/func_8014CD80.h:43: warning: passing arg 3 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014CD80.h:43: warning: passing arg 4 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8015EFA4.h: In function `func_8015EFA4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4605:
+src/ov_SC03_107/../shared/ov/func_8015EFA4.h:7: warning: passing arg 1 of `func_8015F080' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014D438.h: In function `func_8014D438':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:2961:
+src/ov_SC03_107/../shared/ov/func_8014D438.h:15: warning: passing arg 2 of `func_8014D610' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_8015F89C':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:4842: warning: passing arg 2 of `func_801466F0' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014E48C.h: In function `func_8014E48C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:3420:
+src/ov_SC03_107/../shared/ov/func_8014E48C.h:17: warning: passing arg 1 of `func_8014E514' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8014E48C.h:17: warning: passing arg 2 of `func_8014E514' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014E48C.h:17: warning: passing arg 3 of `func_8014E514' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014E790.h: In function `func_8014E790':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:3529:
+src/ov_SC03_107/../shared/ov/func_8014E790.h:8: warning: passing arg 3 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014E790.h:8: warning: passing arg 4 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014E83C.h: In function `func_8014E83C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:3532:
+src/ov_SC03_107/../shared/ov/func_8014E83C.h:18: warning: passing arg 3 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014E83C.h:18: warning: passing arg 4 of `func_80135888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8014EE14.h: In function `func_8014EE14':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:3603:
+src/ov_SC03_107/../shared/ov/func_8014EE14.h:22: warning: assignment makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80160B70.h: In function `func_80160B70':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5351:
+src/ov_SC03_107/../shared/ov/func_80160B70.h:7: warning: passing arg 1 of `func_80160BB4' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80160F70.h: In function `func_80160F70':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5423:
+src/ov_SC03_107/../shared/ov/func_80160F70.h:15: warning: passing arg 1 of `func_8013767C' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `aF80161208':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5507: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80161278.h: In function `func_80161278':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5514:
+src/ov_SC03_107/../shared/ov/func_80161278.h:10: warning: passing arg 1 of `func_80161374' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801612B8.h: In function `func_801612B8':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5517:
+src/ov_SC03_107/../shared/ov/func_801612B8.h:11: warning: assignment makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80161418.h: In function `func_80161418':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5583:
+src/ov_SC03_107/../shared/ov/func_80161418.h:6: warning: passing arg 1 of `func_8016163C' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80161450.h: In function `func_80161450':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5586:
+src/ov_SC03_107/../shared/ov/func_80161450.h:6: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80161488.h: In function `func_80161488':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5589:
+src/ov_SC03_107/../shared/ov/func_80161488.h:9: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801614E4.h: In function `func_801614E4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5592:
+src/ov_SC03_107/../shared/ov/func_801614E4.h:6: warning: passing arg 1 of `func_80161888' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80161554.h: In function `func_80161554':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5598:
+src/ov_SC03_107/../shared/ov/func_80161554.h:6: warning: passing arg 1 of `func_8016163C' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8016158C.h: In function `func_8016158C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5601:
+src/ov_SC03_107/../shared/ov/func_8016158C.h:6: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801615C4.h: In function `func_801615C4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5604:
+src/ov_SC03_107/../shared/ov/func_801615C4.h:12: warning: passing arg 1 of `func_80146D90' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801615C4.h:15: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801615C4.h:17: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_8016163C.h: In function `func_8016163C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5607:
+src/ov_SC03_107/../shared/ov/func_8016163C.h:17: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8016163C.h:18: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8016163C.h:24: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8016163C.h:31: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8016163C.h:32: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8016163C.h:44: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8016163C.h:45: warning: passing arg 1 of `func_8015F2F0' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80161774.h: In function `func_80161774':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5609:
+src/ov_SC03_107/../shared/ov/func_80161774.h:22: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80161774.h:44: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_8016216C':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5898: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5823: warning: previous external decl of `D_8019A8F8'
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_801621CC':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5920: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5808: warning: previous external decl of `D_80078EB0'
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_801622C4':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5980: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5823: warning: previous external decl of `D_8019A8F8'
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5987: warning: assignment from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_80162438':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:6025: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5808: warning: previous external decl of `D_80078EB0'
+src/ov_SC03_107/../shared/ov/func_80151204.h: In function `func_80151204':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4207:
+src/ov_SC03_107/../shared/ov/func_80151204.h:7: warning: passing arg 1 of `func_8014ACE8' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8015126C.h: In function `func_8015126C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4213:
+src/ov_SC03_107/../shared/ov/func_8015126C.h:132: warning: passing arg 1 of `func_8015173C' from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7493: warning: "SHB" redefined
+ 7493 | #define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5523: note: this is the location of the previous definition
+ 5523 | #define SHB(x) __asm__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7494: warning: "SHB" redefined
+ 7494 | #define SHB(x) __asm__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7493: note: this is the location of the previous definition
+ 7493 | #define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC03_107/../shared/ov/func_8016345C.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:6310:
+src/ov_SC03_107/../shared/ov/func_8016345C.h:5: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:6301: warning: previous external decl of `func_8016345C'
+src/ov_SC03_107/../shared/ov/func_8016345C.h: In function `func_8016345C':
+src/ov_SC03_107/../shared/ov/func_8016345C.h:8: warning: passing arg 6 of `func_80163534' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80151AE4.h: In function `func_80151AE4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4296:
+src/ov_SC03_107/../shared/ov/func_80151AE4.h:16: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80151AE4.h:19: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80151AE4.h:32: warning: passing arg 1 of `func_8015BDD0' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c: In function `func_801520DC':
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4364: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4365: warning: passing arg 1 of `func_801472C8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4367: warning: passing arg 1 of `func_80146DB8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4368: warning: passing arg 1 of `func_801477E8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4369: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4370: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4371: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4373: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80152254.h: In function `func_80152254':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4383:
+src/ov_SC03_107/../shared/ov/func_80152254.h:22: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+{standard input}: Assembler messages:
+{standard input}:567: Warning: used $at without ".set noat"
+{standard input}:568: Warning: used $at without ".set noat"
+{standard input}:676: Warning: used $at without ".set noat"
+{standard input}:677: Warning: used $at without ".set noat"
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c: In function `func_801528B0':
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4509: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4510: warning: passing arg 1 of `func_80154274' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4510: warning: passing arg 2 of `func_80154274' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4513: warning: passing arg 1 of `func_80146DB8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4514: warning: passing arg 1 of `func_801477E8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4515: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4516: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4517: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_8015294C.h: In function `func_8015294C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4521:
+src/ov_SC03_107/../shared/ov/func_8015294C.h:31: warning: passing arg 1 of `func_801472C8' from incompatible pointer type
+src/ov_SC03_107/../shared/ov/func_80152A50.h: In function `func_80152A50':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4527:
+src/ov_SC03_107/../shared/ov/func_80152A50.h:22: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80152BF0.h: In function `func_80152BF0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4545:
+src/ov_SC03_107/../shared/ov/func_80152BF0.h:13: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80152C80.h: In function `func_80152C80':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4551:
+src/ov_SC03_107/../shared/ov/func_80152C80.h:12: warning: initialization makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c: In function `func_80152DA8':
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4586: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4587: warning: passing arg 1 of `func_80154274' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4587: warning: passing arg 2 of `func_80154274' makes integer from pointer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4591: warning: passing arg 1 of `func_80146DB8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4592: warning: passing arg 1 of `func_801477E8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4593: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4594: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4595: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80152E4C.h: In function `func_80152E4C':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4599:
+src/ov_SC03_107/../shared/ov/func_80152E4C.h:34: warning: passing arg 1 of `func_801472C8' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80152F44.h: In function `func_80152F44':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4605:
+src/ov_SC03_107/../shared/ov/func_80152F44.h:22: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801530E4.h: In function `func_801530E4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4623:
+src/ov_SC03_107/../shared/ov/func_801530E4.h:14: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801530E4.h:15: warning: passing arg 1 of `func_801472C8' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801530E4.h:17: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801530E4.h:18: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801530E4.h:19: warning: passing arg 1 of `func_80155440' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801530E4.h:20: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80153204.h: In function `func_80153204':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4632:
+src/ov_SC03_107/../shared/ov/func_80153204.h:22: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801533A4.h: In function `func_801533A4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4650:
+src/ov_SC03_107/../shared/ov/func_801533A4.h:12: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801533A4.h:15: warning: passing arg 1 of `func_8014CBF8' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801533A4.h:16: warning: passing arg 1 of `func_801474EC' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801533A4.h:17: warning: passing arg 1 of `func_80155440' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801533A4.h:18: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801534D8.h: In function `func_801534D8':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4659:
+src/ov_SC03_107/../shared/ov/func_801534D8.h:22: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_801651B8':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:6841: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:6815: warning: previous external decl of `D_8019A9F0'
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:6846: warning: assignment makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801539F8.h: In function `func_801539F8':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4686:
+src/ov_SC03_107/../shared/ov/func_801539F8.h:14: warning: passing arg 3 of `func_80133784' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801539F8.h:20: warning: passing arg 3 of `func_80133784' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801539F8.h:24: warning: passing arg 3 of `func_80133784' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_80153C8C.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4710:
+src/ov_SC03_107/../shared/ov/func_80153C8C.h:4: warning: type mismatch with previous external decl
+src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1240: warning: previous external decl of `func_80153C8C'
+src/ov_SC03_107/../shared/ov/func_80154150.h: In function `func_80154150':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:4777:
+src/ov_SC03_107/../shared/ov/func_80154150.h:7: warning: passing arg 1 of `func_80154190' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80165CA0.h: In function `func_80165CA0':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7151:
+src/ov_SC03_107/../shared/ov/func_80165CA0.h:13: warning: assignment from incompatible pointer type
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c: In function `func_80165FA4':
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7174: warning: passing arg 2 makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7174: warning: passing arg 3 makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7175: warning: passing arg 2 makes pointer from integer without a cast
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7175: warning: passing arg 3 makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80166438.h: In function `func_80166438':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7218:
+src/ov_SC03_107/../shared/ov/func_80166438.h:60: warning: passing arg 1 of `func_80146C3C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_801665B4.h: In function `func_801665B4':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7221:
+src/ov_SC03_107/../shared/ov/func_801665B4.h:8: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC03_107/../shared/ov/func_801665B4.h:9: warning: passing arg 1 of `func_80146C3C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80168328.h: At top level:
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:8082:
+src/ov_SC03_107/../shared/ov/func_80168328.h:3: warning: prototype for `func_80166994' follows
+src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:7384: warning: non-prototype definition here
+src/ov_SC03_107/../shared/ov/func_80168A14.h: In function `func_80168A14':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:8253:
+src/ov_SC03_107/../shared/ov/func_80168A14.h:11: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC03_107/../shared/ov/func_80169E44.h: In function `func_80169E44':
+In file included from src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:8733:
+src/ov_SC03_107/../shared/ov/func_80169E44.h:9: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+{standard input}: Assembler messages:
+{standard input}:681: Warning: used $at without ".set noat"
+{standard input}:682: Warning: used $at without ".set noat"
+{standard input}:12677: Warning: used $at without ".set noat"
+{standard input}:12678: Warning: used $at without ".set noat"
+{standard input}:13006: Warning: used $at without ".set noat"
+{standard input}:13007: Warning: used $at without ".set noat"
+{standard input}:13328: Warning: used $at without ".set noat"
+{standard input}:13329: Warning: used $at without ".set noat"
+{standard input}:13633: Warning: used $at without ".set noat"
+{standard input}:13634: Warning: used $at without ".set noat"
+{standard input}:14338: Warning: used $at without ".set noat"
+{standard input}:14339: Warning: used $at without ".set noat"
+{standard input}:14781: Warning: used $at without ".set noat"
+{standard input}:14782: Warning: used $at without ".set noat"
+{standard input}:15017: Warning: used $at without ".set noat"
+{standard input}:15018: Warning: used $at without ".set noat"
+{standard input}:15263: Warning: used $at without ".set noat"
+{standard input}:15264: Warning: used $at without ".set noat"
+{standard input}:15613: Warning: used $at without ".set noat"
+{standard input}:15614: Warning: used $at without ".set noat"
+{standard input}:16019: Warning: used $at without ".set noat"
+{standard input}:16020: Warning: used $at without ".set noat"
+{standard input}:16255: Warning: used $at without ".set noat"
+{standard input}:16256: Warning: used $at without ".set noat"
+{standard input}:16473: Warning: used $at without ".set noat"
+{standard input}:16474: Warning: used $at without ".set noat"
+{standard input}:16742: Warning: used $at without ".set noat"
+{standard input}:16743: Warning: used $at without ".set noat"
+{standard input}:16894: Warning: used $at without ".set noat"
+{standard input}:16895: Warning: used $at without ".set noat"
+{standard input}:17011: Warning: used $at without ".set noat"
+{standard input}:17012: Warning: used $at without ".set noat"
+{standard input}:17721: Warning: used $at without ".set noat"
+{standard input}:17722: Warning: used $at without ".set noat"
+{standard input}:18370: Warning: used $at without ".set noat"
+{standard input}:18371: Warning: used $at without ".set noat"
+  LD      build/ov_SC03_107/ov_SC03_107.elf
+  OBJCOPY build/ov_SC03_107/ov_SC03_107
+  TRIM    build/ov_SC03_107/ov_SC03_107 (-1 B linker end-align pad)
 [ OK ] build/ov_SC03_107/ov_SC03_107
        sha1 87d02b578a27a947f1da381255a1faa3f05cedfd == config/check.ov_SC03_107.sha  (BYTE-IDENTICAL)

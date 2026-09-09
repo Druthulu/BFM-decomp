@@ -3664,18 +3664,7 @@ void func_8016E5B8(void *a0) {
 
 extern void func_8016E778();
 
-void func_8016E688(void *a0) {
-    u16 *p = (u16 *)a0;
-    s16 v;
-    p[0x10/2] += 0x200;
-    v = p[0x12/2] + p[0x10/2];
-    p[0x12/2] = v;
-    if (v >= 0x3000) {
-        *(s32 *)((u8 *)a0 + 0x1C) = 4;
-        *(s16 *)((u8 *)a0 + 0x2) += 1;
-    }
-    func_8016E778();
-}
+#include "../shared/ov/func_8016E688.h"
 
 #include "../shared/ov/func_8016E6E4.h"
 
@@ -4192,20 +4181,7 @@ extern s32 func_80171D1C(void *a0, void *a1, s32 a2);
 extern void func_80171928(void *a0);
 extern u16 D_8011F73E;
 
-void func_8016F95C(void *a0) {
-    u16 *p = &D_8011F73E;
-    u16 v = *p;
-    s32 r;
-
-    if (v == 0) {
-        r = func_80171CC4(a0, p - 3);
-    } else {
-        r = func_80171D1C(a0, p - 3, v & 0xFF);
-    }
-    if (r != 0) {
-        func_80171928(a0);
-    }
-}
+#include "../shared/ov/func_8016F95C.h"
 
 extern void (*D_80189F90[])(void);
 
@@ -4413,14 +4389,7 @@ extern s32 func_80171990(u8 *a0);
 extern void func_801708B0(void *a0);
 extern u8 D_800D5DA8;
 
-void func_8017084C(s32 a0) {
-    func_801719A4(a0, 1);
-    func_8014706C((void *)a0);
-    func_80154274((s32 *)a0, (s32)&D_800D5DA8);
-    func_8016BADC((void *)a0, -0x40, 0x40);
-    func_80171990((u8 *)a0);
-    func_801708B0((void *)a0);
-}
+#include "../shared/ov/func_8017084C.h"
 
 #include "../shared/ov/func_801708B0.h"
 

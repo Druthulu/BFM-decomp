@@ -1452,74 +1452,7 @@ extern void func_8014A71C(s32 a0);
 extern void func_80172588(s32 *a0);
 extern void func_801473DC(s32 *a0);
 extern void func_80015978(s32 a0, s32 *a1);
-s32 func_80146128(void)
-{
-
-    extern s32 D_80126B58;
-    extern s32 *D_80126B78;
-    extern u8 D_80078EC1;
-    extern s32 D_80078EC8;
-    extern s32 D_80126B9C;
-    extern s32 D_8011F730;
-    extern u16 D_801152B8;
-    extern u16 D_8012693A;
-    extern u8 D_80126BE0[];
-    extern u8 D_801150F0[];
-    register s32 base __asm__("$16");
-    register s32 *p   __asm__("$17");
-    p = D_80126B78;
-    base = (s32)&D_80126B58;
-    func_80146FC4(base);
-    memcpy((void *)D_801150F0, (void *)D_80126BE0, 8);
-    func_80150A70(base);
-    ((void (*)(s32))func_80147098)(base);
-    func_8014A638(base);
-    D_8011F730 = 0;
-    D_801152B8 = 0;
-    D_8012693A = 0;
-    if (D_80078EC1 == 0x10 && D_80078EC8 != 0) {
-        *(u16 *)((s32)p + 2) = 6;
-        D_80126B9C |= 0x800;
-    } else {
-        *(u16 *)((s32)p + 2) = 1;
-        *(s32 *)(base + 0x44) &= ~0x800;
-    }
-    if (*(s32 *)(base + 0x1B0) != 0) {
-        *(s32 *)(base + 0x1B0) = *(s32 *)(base + 0x1B0) - 1;
-    }
-    if (func_80155458(base) == 0 && (*(s32 *)(base + 0x44) & 0x4000000) == 0) {
-        if ((func_80029104() & 0xFF) != 0) {
-            func_8014ADE0(base);
-            func_8014B350(base);
-            ((void (*)(s32))func_8014B7A4)(base);
-            ((void (*)(s32))func_80161D58)(base);
-        }
-        func_80029344();
-        func_80161A90(base);
-        ((void (*)(s32))func_8014B504)(base);
-        func_80149BEC(base);
-        ((void (*)(s32))func_8014B5D0)(base);
-        ((void (*)(s32))func_8014C99C)(base);
-        func_8014B190(base);
-        func_80148648(base, 0);
-        ((void (*)(s32))func_80149228)(base);
-        func_8014A59C(base);
-        ((void (*)(s32))func_8016F14C)(base);
-        ((void (*)(s32))func_80154418)(base);
-        func_80154BE4(base);
-        func_80165694(base);
-        func_801654A8(base);
-        func_8014A680(base);
-        func_8014A6A8(base);
-        func_8014A71C(base);
-        ((void (*)(s32))func_80172588)(base);
-        ((void (*)(s32))func_801473DC)(base);
-        ((void (*)(s32, s32))func_80015978)(base + 4, base + 0x98);
-        return 1;
-    }
-    ((void (*)(s32, s32))func_80015978)(base + 4, base + 0x98);
-    return 0;
-}
+#include "../shared/ov/func_80146128.h"
 
 
 extern u8 D_80126BA4;
@@ -1756,19 +1689,7 @@ void func_80146F58(s32 a0, s32 a1) {
 
 extern void func_80015954(s32 a0, s32 a1);
 extern void *memcpy(void *dst, const void *src, u32 n);
-void func_80146FC4(s32 a0) {
-
-    extern u8 D_80126DB0[];
-    extern u16 D_80126DB6;
-    s32 s1 = a0;
-    s32 s0;
-    if (*(s16 *)(s1 + 0xA) >= 0x401) {
-        s0 = (s32)D_80126DB0;
-        func_80015954(s0, s1 + 0x4);
-        memcpy((void *)(s1 + 0x88), (void *)s0, 8);
-        *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = D_80126DB6;
-    }
-}
+#include "../shared/ov/func_80146FC4.h"
 
 
 #include "../shared/ov/func_8014704C.h"
@@ -4734,34 +4655,7 @@ void func_80153320(void *a0) {
     extern void func_80146D90(s32 a0);
     extern void func_8014CC28(s32 a0);
     extern void func_8014FA04(s32 a0);
-    s32 func_801535F4(void *arg0) {
-        s32 var_s1;
-        register u32 flags __asm__("$4");
-        register u32 fcopy __asm__("$3");
-        s32 ret;
-        var_s1 = 0;
-        if (((s32 (*)(void))func_8014ED28)() != 0) {
-            func_80146D90((s32)arg0);
-        }
-        if ((*(s32 *)((u8 *)arg0 + 0x34) > 0) &&
-            (((s32 (*)(s32))func_8014CC28)((s32)arg0) != 0)) {
-            var_s1 = 1;
-        }
-        flags = ((s32 (*)(s32))func_8014FA04)((s32)arg0);
-        fcopy = flags;
-        if (flags & 0x4000) {
-            ret = 2;
-        } else if (flags & 0x2000) {
-            ret = 1;
-        } else {
-            ret = 4;
-            if ((fcopy & 0x8000) == 0) {
-                ret = var_s1;
-            }
-        }
-        __asm__ __volatile__("" : : "r"(flags));
-        return ret;
-    }  /* dedup: shared engine-core @0x801535F4 (src/shared) */
+#include "../shared/ov/func_801535F4.h"
 
 #include "../shared/ov/func_8015369C.h"
 
@@ -4774,52 +4668,7 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern s32 func_80153978(s32 a0, u16 *src);
 extern void *memcpy(void *dst, const void *src, u32 n);
-s32 func_80153800(s32 a0) {
-
-    extern void (*D_8011DB28)(s32 a0);
-    extern u8 D_80126DB0[];
-    extern u16 D_80126DB6;
-    s32 s1 = a0;
-    s32 s0;
-    s32 s2;
-    u8 bVar1;
-    s16 buf1[4];
-    s16 buf2[4];
-    if (D_8011DB28 != 0) {
-        ((void (*)(s32, s32))func_80015978)(s1 + 4, s1 + 0x88);
-        memcpy((void *)(s1 + 0x90), (void *)(s1 + 0x88), 8);
-ret0:
-        return 0;
-    }
-    bVar1 = *(u8 *)(s1 + 0xDE);
-    if (bVar1 >= 0x21) {
-        s32 base = (s32)D_80126DB0;
-        func_80015954(base, s1 + 4);
-        memcpy((void *)(s1 + 0x88), (void *)base, 8);
-        memcpy((void *)(s1 + 0x90), (void *)(s1 + 0x88), 8);
-        *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = D_80126DB6;
-        return 0;
-    }
-    {
-        register s32 m __asm__("$3") = bVar1 * 4;
-        s2 = m;
-        buf2[1] = *(u16 *)(s1 + 0xA2) - m;
-    }
-    for (s0 = 0; s0 < 0x80; s0++) {
-        s32 ang = s0 * 0x200000;
-        buf1[0] = 0;
-        buf1[1] = 0;
-        buf1[2] = s2;
-        func_800139C8(ang >> 0x10, buf1, buf1);
-        buf2[0] = *(u16 *)(s1 + 0xA0) + buf1[0];
-        buf2[2] = *(u16 *)(s1 + 0xA4) + buf1[2];
-        if (((s32 (*)(s32, void *))func_80153978)(s1, buf2) == 0) {
-            goto ret0;
-        }
-    }
-    *(u8 *)(s1 + 0xDE) = *(u8 *)(s1 + 0xDE) + 1;
-    return 1;
-}
+#include "../shared/ov/func_80153800.h"
 
 
 #include "../shared/ov/func_80153978.h"
@@ -4827,35 +4676,7 @@ ret0:
 
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void *memcpy(void *dst, const void *src, u32 n);
-s32 func_801539F8(s32 a0, void * a1)
-{
-    u8 buf1[8];
-    u8 buf2[8];
-    u8 buf3[8];
-    s32 r1, r2, r3;
-    memcpy(buf1, (void *)(a0 + 0xA0), 8);
-    memcpy(buf2, a1, 8);
-    *(s16 *)(buf1 + 2) -= 4;
-    r1 = func_80133784(0, buf1, buf2);
-    if (r1 != 0x2000) {
-        return 1;
-    }
-    memcpy((void *)buf1, (void *)(s32)buf2, 8);
-    *(s16 *)(buf2 + 2) += 8;
-    r2 = func_80133784(0, buf1, buf2);
-    if (r2 != r1) {
-        return 1;
-    }
-    r3 = func_80133784(2, buf2, buf3);
-    if (r3 != r2) {
-        return 1;
-    }
-    *(s16 *)(a0 + 0x88) = *(s16 *)(buf2 + 0);
-    *(s16 *)(a0 + 0x8A) = *(s16 *)(buf2 + 2);
-    *(s16 *)(a0 + 0x8C) = *(s16 *)(buf2 + 4);
-    memcpy((void *)(a0 + 0x90), (void *)(a0 + 0x88), 8);
-    return 0;
-}
+#include "../shared/ov/func_801539F8.h"
 
 
 #include "../shared/ov/func_80153B58.h"

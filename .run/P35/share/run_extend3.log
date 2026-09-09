@@ -1,0 +1,163 @@
+share_body: census 29 s · extend (registered-incomplete) 83 classes · new (unregistered same-vram) 915 classes / 3,567 private sites
+  [extend1] 83 classes · 235 sites in 55 TUs · 0 new headers · gating 141 binaries
+  [extend1] ov_MAIN_012: class 05353a788c REJECTED — src/ov_MAIN_012/../shared/ov/func_8015B858.h:11: too few arguments to function `func_8014A51C'
+  [extend1] ov_MAIN_012: class 0964d4c658 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_MAIN_012: class 0d18ee0d06 REJECTED — src/ov_MAIN_012/../shared/ov/func_8012D098.h:65: src/ov_MAIN_012/../shared/ov/func_801430F4.h:15: warning: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a castpassing ar
+  [extend1] ov_MAIN_012: class 0f3f34484f REJECTED — src/ov_MAIN_012/../shared/ov/func_8014CBE8.h:3: conflicting types for `D_80126CC4'
+  [extend1] ov_MAIN_012: class 238e26f72f REJECTED — src/ov_MAIN_012/../shared/ov/func_8012D098.h:57: src/ov_MAIN_012/../shared/ov/func_8015DDF0.h:7: warning: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a castpassing arg
+  [extend1] ov_MAIN_012: class 29e6564223 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_MAIN_012: class 2e065293da REJECTED — src/ov_MAIN_012/../shared/ov/func_80161BE0.h:3: conflicting types for `func_801497A8'
+  [extend1] ov_MAIN_012: class 3ef37ce705 REJECTED — src/ov_MAIN_012/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_MAIN_012: class 47b7d4a048 REJECTED — src/ov_MAIN_012/../shared/ov/func_80144090.h:11: conflicting types for `D_800A651C'
+  [extend1] ov_MAIN_012: class 4dd276719f REJECTED — src/ov_MAIN_012/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_MAIN_012: class 5793cdffde REJECTED — src/ov_MAIN_012/../shared/ov/func_8015EDA0.h:7: src/ov_MAIN_012/../shared/ov/func_80170374.h:11: warning: warning: passing arg 1 of `func_8015EE7C' makes integer from pointer without a castpassing arg
+  [extend1] ov_MAIN_012: class 6d45bcfe1c REJECTED — src/ov_MAIN_012/../shared/ov/func_80149F2C.h:6: conflicting types for `func_8016EDEC'
+  [extend1] ov_MAIN_012: class 75c3bc8284 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168F40.h:4: conflicting types for `D_800AE620'
+  [extend1] ov_MAIN_012: class 89a42c5cca REJECTED — src/ov_MAIN_012/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [extend1] ov_MAIN_012: class 8e3f8acd47 REJECTED — src/ov_MAIN_012/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_MAIN_012: class 9dda58b2de REJECTED — src/ov_MAIN_012/ov_MAIN_012_jr_8013F350.c:3086: src/ov_MAIN_012/../shared/ov/func_8012D098.h:65: warning: warning: passing arg 1 of `func_8012C218' makes pointer from integer without a castpassing arg
+  [extend1] ov_MAIN_012: class b5c37d4143 REJECTED — src/ov_MAIN_012/../shared/ov/func_801463A0.h:15: src/ov_MAIN_012/../shared/ov/func_8016BA68.h:9: warning: warning: type mismatch with previous external declpassing arg 1 of `func_8014C050' makes integ
+  [extend1] ov_MAIN_012: class cc6b91ad3d REJECTED — src/ov_MAIN_012/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [extend1] ov_MAIN_012: class cca105be1a REJECTED — src/ov_MAIN_012/../shared/ov/func_8012D098.h:63: src/ov_MAIN_012/../shared/ov/func_8016F4FC.h:9: warning: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a castpassing arg
+  [extend1] ov_MAIN_012: class dd5bb9d1dc REJECTED — src/ov_MAIN_012/../shared/ov/func_80142BB4.h:6: conflicting types for `func_8012C098'
+  [extend1] ov_MAIN_012: class e0963a4b81 REJECTED — src/ov_MAIN_012/../shared/ov/func_8017044C.h:14: src/ov_MAIN_012/../shared/ov/func_8014C168.h:12: warning: warning: passing arg 1 of `func_80171AB0' makes integer from pointer without a castreturn mak
+  [extend1] ov_MAIN_012: class e2c32e5950 REJECTED — src/ov_MAIN_012/../shared/ov/func_80147060.h:7: src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3595: warning: warning: `return' with a value, in function returning voidprevious external decl of `
+  [extend1] ov_MAIN_012: class e9c9fa5bf6 REJECTED — src/ov_MAIN_012/../shared/ov/func_8016EE40.h:17: src/ov_MAIN_012/../shared/ov/func_801430F4.h: warning: In function `func_801430F4':
+  [extend1] ov_MAIN_012: class fbef0f0b65 REJECTED — src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c:2316: src/ov_MAIN_012/../shared/ov/func_8014462C.h:13: warning: warning: initialization makes pointer from integer without a castpassing arg 1 of `func_80128E
+  [extend1] ov_SC01_000: class 5fd1ad0684 REJECTED — src/ov_SC01_000/../shared/ov/func_80174CB0.h:6: conflicting types for `func_80012ABC'
+  [extend1] ov_SC01_000: class 7e04ee1875 REJECTED — src/ov_SC01_000/../shared/ov/func_801749C8.h:7: conflicting types for `func_80012ABC'
+  [extend1] ov_SC01_077: class 0bfaee44dc REJECTED — src/ov_SC01_077/../shared/ov/func_8012F274.h:8: redefinition of `tail_8012F274'
+  [extend1] ov_SC01_077: class 5fd1ad0684 REJECTED — src/ov_SC01_077/../shared/ov/func_80174CB0.h:6: conflicting types for `func_80012ABC'
+  [extend1] ov_SC01_077: class 7e04ee1875 REJECTED — src/ov_SC01_077/../shared/ov/func_801749C8.h:7: conflicting types for `func_80012ABC'
+  [extend1] ov_SC01_077: class d50cc5103c REJECTED — src/ov_SC01_077/../shared/ov/func_80172C50.h:4: conflicting types for `func_80172CA0'
+  [extend1] ov_SC01_077: class d62e1dd557 REJECTED — src/ov_SC01_077/../shared/ov/func_80173A60.h:5: conflicting types for `func_80173B4C'
+  [extend1] ov_SC01_077: class f769ff8982 REJECTED — src/ov_SC01_077/../shared/ov/func_8013C08C.h:6: `E_13C08C_8013C08C' undeclared (first use this function)
+  [extend1] ov_SC02_037: class 05353a788c REJECTED — src/ov_SC02_037/../shared/ov/func_8015B858.h:11: too few arguments to function `func_8014A51C'
+  [extend1] ov_SC02_037: class 0964d4c658 REJECTED — src/ov_SC02_037/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class 0d18ee0d06 REJECTED — src/ov_SC02_037/../shared/ov/func_8014E790.h:8: src/ov_SC02_037/../shared/ov/func_80161278.h: warning: In function `func_80161278':
+  [extend1] ov_SC02_037: class 0f3f34484f REJECTED — src/ov_SC02_037/ov_SC02_037_jr_8013F350.c:1528: src/ov_SC02_037/ov_SC02_037_jr_801458E0.c: warning: In function `func_80146128':
+  [extend1] ov_SC02_037: class 238e26f72f REJECTED — src/ov_SC02_037/../shared/ov/func_80169058.h:8: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class 29e6564223 REJECTED — src/ov_SC02_037/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class 2e065293da REJECTED — src/ov_SC02_037/../shared/ov/func_80161BE0.h:3: conflicting types for `func_801497A8'
+  [extend1] ov_SC02_037: class 3a43941d56 REJECTED — src/ov_SC02_037/../shared/ov/func_8017D588__3a43941d.h:4: conflicting types for `func_80146C3C'
+  [extend1] ov_SC02_037: class 3ef37ce705 REJECTED — src/ov_SC02_037/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC02_037: class 47b7d4a048 REJECTED — src/ov_SC02_037/../shared/ov/func_80144090.h:11: conflicting types for `D_800A651C'
+  [extend1] ov_SC02_037: class 4dd276719f REJECTED — src/ov_SC02_037/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class 5793cdffde REJECTED — src/ov_SC02_037/ov_SC02_037_jr_8013F350.c:1882: src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c:3346: warning: warning: type mismatch with previous external declpassing arg 1 of `func_8016BFA8' makes intege
+  [extend1] ov_SC02_037: class 5b6b968251 REJECTED — src/ov_SC02_037/../shared/ov/func_8017CFE4__5b6b9682.h:4: conflicting types for `func_80146C3C'
+  [extend1] ov_SC02_037: class 6d45bcfe1c REJECTED — src/ov_SC02_037/../shared/ov/func_80149F2C.h:6: conflicting types for `func_8016EDEC'
+  [extend1] ov_SC02_037: class 75c3bc8284 REJECTED — src/ov_SC02_037/../shared/ov/func_80168F40.h:4: conflicting types for `D_800AE620'src/ov_SC02_037/ov_SC02_037_jr_801458E0.c: 
+  [extend1] ov_SC02_037: class 86843ed565 REJECTED — src/ov_SC02_037/../shared/ov/func_80146D90.h:6: src/ov_SC02_037/../shared/ov/func_8016BA68.h:11: warning: warning: passing arg 1 of `func_80146DE8' makes pointer from integer without a castpassing arg
+  [extend1] ov_SC02_037: class 89a42c5cca REJECTED — src/ov_SC02_037/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC02_037: class 8e3f8acd47 REJECTED — src/ov_SC02_037/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class 9dda58b2de REJECTED — src/ov_SC02_037/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC02_037: class b5c37d4143 REJECTED — src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:3476: src/ov_SC02_037/ov_SC02_037_jr_801458E0.c:1228: warning: warning: passing arg 1 makes pointer from integer without a castprevious external decl of `
+  [extend1] ov_SC02_037: class cc6b91ad3d REJECTED — src/ov_SC02_037/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC02_037: class cca105be1a REJECTED — src/ov_SC02_037/../shared/ov/func_8016BA68.h:13: src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c: warning: In function `func_8015C944':
+  [extend1] ov_SC02_037: class dd5bb9d1dc REJECTED — src/ov_SC02_037/../shared/ov/func_8015C6AC.h:7: src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:3889: warning: warning: passing arg 1 of `func_8015C788' makes integer from pointer without a castprevious ext
+  [extend1] ov_SC02_037: class e0963a4b81 REJECTED — src/ov_SC02_037/ov_SC02_037_jr_801458E0.c:1227: src/ov_SC02_037/../shared/ov/func_8016BA68.h:13: warning: warning: previous external decl of `passing arg 2 of `func_80146A6C' makes pointer from intege
+  [extend1] ov_SC02_037: class e2c32e5950 REJECTED — src/ov_SC02_037/../shared/ov/func_80169408.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class e9c9fa5bf6 REJECTED — src/ov_SC02_037/../shared/ov/func_8012D098.h:56: src/ov_SC02_037/../shared/ov/func_8016F71C.h:11: warning: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a castpassing ar
+  [extend1] ov_SC02_037: class fbef0f0b65 REJECTED — src/ov_SC02_037/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC03_107: class 05353a788c REJECTED — src/ov_SC03_107/../shared/ov/func_8015B858.h:11: too few arguments to function `func_8014A51C'
+  [extend1] ov_SC03_107: class 0964d4c658 REJECTED — src/ov_SC03_107/../shared/ov/func_8012D098.h:66: src/ov_SC03_107/../shared/ov/func_8015EDA0.h:7: warning: warning: passing arg 2 of `func_8012D3B4' makes integer from pointer without a castpassing arg
+  [extend1] ov_SC03_107: class 0d18ee0d06 REJECTED — src/ov_SC03_107/ov_SC03_107_jr_801458E0.c:1236: src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:3549: warning: warning: previous external decl of `func_80145EE8type mismatch with previous external decl'
+  [extend1] ov_SC03_107: class 0f3f34484f REJECTED — src/ov_SC03_107/../shared/ov/func_8012F568.h:13: src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:5507: warning: warning: passing arg 2 of `memcpy' makes pointer from integer without a castpassing arg 1 make
+  [extend1] ov_SC03_107: class 238e26f72f REJECTED — src/ov_SC03_107/../shared/ov/func_80169058.h:8: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC03_107: class 29e6564223 REJECTED — 'src/ov_SC03_107/../shared/ov/func_8012A418.h:10: 
+  [extend1] ov_SC03_107: class 2e065293da REJECTED — src/ov_SC03_107/../shared/ov/func_8015E84C.h:7: src/ov_SC03_107/../shared/ov/func_8012D4B4.h: warning: In function `func_8012D4B4':
+  [extend1] ov_SC03_107: class 3ef37ce705 REJECTED — src/ov_SC03_107/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC03_107: class 47b7d4a048 REJECTED — src/ov_SC03_107/../shared/ov/func_80144090.h:11: conflicting types for `D_800A651C'
+  [extend1] ov_SC03_107: class 4dd276719f REJECTED — src/ov_SC03_107/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC03_107: class 5793cdffde REJECTED — src/ov_SC03_107/../shared/ov/func_8016A8FC.h:4: conflicting types for `D_800AE620'
+  [extend1] ov_SC03_107: class 6d45bcfe1c REJECTED — src/ov_SC03_107/../shared/ov/func_80149F2C.h:6: conflicting types for `func_8016EDEC'
+  [extend1] ov_SC03_107: class 75c3bc8284 REJECTED — src/ov_SC03_107/../shared/ov/func_80151204.h:7: {standard input}:568: Warning: used $at without ".set noat"
+  [extend1] ov_SC03_107: class 89a42c5cca REJECTED — src/ov_SC03_107/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC03_107: class 8e3f8acd47 REJECTED — src/ov_SC03_107/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC03_107: class 9dda58b2de REJECTED — src/ov_SC03_107/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC03_107: class b5c37d4143 REJECTED — src/ov_SC03_107/../shared/ov/func_80168664.h:3: conflicting types for `D_800AE620'
+  [extend1] ov_SC03_107: class cc6b91ad3d REJECTED — src/ov_SC03_107/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC03_107: class cca105be1a REJECTED — src/ov_SC03_107/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8'
+  [extend1] ov_SC03_107: class dd5bb9d1dc REJECTED — src/ov_SC03_107/../shared/ov/func_80142BB4.h:6: conflicting types for `func_8012C098'
+  [extend1] ov_SC03_107: class e0963a4b81 REJECTED — src/ov_SC03_107/../shared/ov/func_8012A418.h:10: src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:1529: warning: warning: assignment from incompatible pointer typereturn makes integer from pointer without a 
+  [extend1] ov_SC03_107: class e2c32e5950 REJECTED — src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3202: src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4172: warning: warning: passing arg 1 makes pointer from integer without a castpassing arg 1 of `func_800D20C0
+  [extend1] ov_SC03_107: class e9c9fa5bf6 REJECTED — src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:3840: src/ov_SC03_107/../shared/ov/func_80142838.h:15: warning: warning: passing arg 1 of `func_801725F4' from incompatible pointer typepassing arg 1 of `func
+  [extend1] ov_SC03_107: class fbef0f0b65 REJECTED — src/ov_SC03_107/../shared/ov/func_8012D098.h:59: src/ov_SC03_107/ov_SC03_107_jr_8013F350.c:3090: warning: warning: passing arg 1 of `func_8012D3B4' makes integer from pointer without a castpassing arg
+  [extend1] ov_SC06_018: class 5fd1ad0684 REJECTED — src/ov_SC06_018/../shared/ov/func_80174CB0.h:6: conflicting types for `func_80012ABC'
+  [extend1] ov_SC06_018: class 7e04ee1875 REJECTED — src/ov_SC06_018/../shared/ov/func_801749C8.h:7: conflicting types for `func_80012ABC'
+  [extend1] ov_SC07_006: class 0964d4c658 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_801457A4.c:1167: src/ov_SC07_006/../shared/ov/func_8016BA68.h:13: warning: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a castprevious ex
+  [extend1] ov_SC07_006: class 0d18ee0d06 REJECTED — src/ov_SC07_006/../shared/ov/func_80171CC4.h:9: src/ov_SC07_006/ov_SC07_006_jr_801457A4.c:1252: warning: warning: passing arg 2 of `func_80171D78' makes integer from pointer without a casttype mismatc
+  [extend1] ov_SC07_006: class 1c5bc11f81 REJECTED — src/ov_SC07_006/../shared/ov/func_8016BF50.h:6: conflicting types for `func_8016BF50'
+  [extend1] ov_SC07_006: class 20aa0ffd5a REJECTED — src/ov_SC07_006/../shared/ov/func_8015DA90.h:7: src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:3057: warning: warning: passing arg 1 of `func_8015DB6C' makes integer from pointer without a castpassing arg 
+  [extend1] ov_SC07_006: class 225792366f REJECTED — src/ov_SC07_006/../shared/ov/func_8014CF04.h:7: conflicting types for `func_8014CF04'
+  [extend1] ov_SC07_006: class 238e26f72f REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: src/ov_SC07_006/../shared/ov/func_80145B24.h: warning: In function `func_80145B24':
+  [extend1] ov_SC07_006: class 29e6564223 REJECTED — src/ov_SC07_006/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_006: class 3ef37ce705 REJECTED — src/ov_SC07_006/../shared/ov/func_8012A6D0.h:8: src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:3937: warning: warning: initialization makes integer from pointer without a castpassing arg 1 of `func_800D20C
+  [extend1] ov_SC07_006: class 4dd276719f REJECTED — src/ov_SC07_006/../shared/ov/func_80170CF0.h:11: src/ov_SC07_006/ov_SC07_006.c:1506: warning: warning: passing arg 1 makes integer from pointer without a castreturn makes integer from pointer without 
+  [extend1] ov_SC07_006: class 62ab8c1ddf REJECTED — src/ov_SC07_006/../shared/ov/func_801412A8.h:5: src/ov_SC07_006/../shared/ov/func_8017248C.h:6: warning: warning: type mismatch with previous external declpassing arg 1 makes pointer from integer with
+  [extend1] ov_SC07_006: class 6d5164d17d REJECTED — src/ov_SC07_006/ov_SC07_006_jr_801457A4.c:1673: conflicting types for `func_80147364'
+  [extend1] ov_SC07_006: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_006/ov_SC07_006
+  [extend1] ov_SC07_006: class 7576525bd5 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:3726: src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c:3809: warning: warning: passing arg 2 of `ApplyMatrixSV' from incompatible pointer typepassing arg 1 makes int
+  [extend1] ov_SC07_006: class 7921cb4a22 REJECTED — src/ov_SC07_006/../shared/ov/func_80147AD4.h:8: src/ov_SC07_006/../shared/ov/func_80172D14.h:9: warning: warning: passing arg 2 of `func_80147B5C' makes pointer from integer without a castpassing arg 
+  [extend1] ov_SC07_006: class 89a42c5cca REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c:3322: src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:3720: warning: warning: passing arg 1 makes integer from pointer without a castpassing arg 2 of `ApplyMatrixSV
+  [extend1] ov_SC07_006: class 8e3f8acd47 REJECTED — src/ov_SC07_006/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_006: class 9c43d3fca3 REJECTED — src/ov_SC07_006/../shared/ov/func_8012E688.h:6: conflicting types for `RotTransPers'
+  [extend1] ov_SC07_006: class 9dda58b2de REJECTED — src/ov_SC07_006/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_006: class bd7388526b REJECTED — 'src/ov_SC07_006/../shared/ov/func_8014462C.h:13: 
+  [extend1] ov_SC07_006: class c56e1eba19 REJECTED — src/ov_SC07_006/../shared/ov/func_8012D3B4.h:4: conflicting types for `RotTransPers'
+  [extend1] ov_SC07_006: class c5e872b095 REJECTED — src/ov_SC07_006/../shared/ov/func_801615C4.h:12: src/ov_SC07_006/../shared/ov/func_801758FC.h:6: warning: warning: passing arg 1 of `func_80146D90' makes integer from pointer without a casttype mismat
+  [extend1] ov_SC07_006: class c9866fcb86 REJECTED — src/ov_SC07_006/../shared/ov/func_8012D098.h:38: src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c: warning: In function `func_80176218':
+  [extend1] ov_SC07_006: class cc6b91ad3d REJECTED — src/ov_SC07_006/../shared/ov/func_8015DDF0.h:7: src/ov_SC07_006/../shared/ov/func_801726D0.h:10: warning: warning: passing arg 1 of `func_8015DECC' makes integer from pointer without a castassignment 
+  [extend1] ov_SC07_006: class d63a10fab8 REJECTED — src/ov_SC07_006/../shared/ov/func_8012F40C.h:5: conflicting types for `RotTransPers'
+  [extend1] ov_SC07_006: class dd5bb9d1dc REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:3720: src/ov_SC07_006/../shared/ov/func_8012A418.h: warning: In function `func_8012A418':
+  [extend1] ov_SC07_006: class e0963a4b81 REJECTED — src/ov_SC07_006/../shared/ov/func_8016706C.h:3: conflicting types for `func_80146C3C'
+  [extend1] ov_SC07_006: class e2c32e5950 REJECTED — src/ov_SC07_006/../shared/ov/func_80169408.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_006: class e9c9fa5bf6 REJECTED — src/ov_SC07_006/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_006: class f420052116 REJECTED — src/ov_SC07_006/../shared/ov/func_80147AD4.h:8: src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c:3322: warning: warning: passing arg 2 of `func_80147B5C' makes pointer from integer without a castpassing arg 
+  [extend1] ov_SC07_006: class fbef0f0b65 REJECTED — src/ov_SC07_006/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_007: class 0964d4c658 REJECTED — src/ov_SC07_007/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class 0d18ee0d06 REJECTED — src/ov_SC07_007/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class 1c5bc11f81 REJECTED — src/ov_SC07_007/../shared/ov/func_8016BF50.h:6: conflicting types for `func_8016BF50'
+  [extend1] ov_SC07_007: class 238e26f72f REJECTED — src/ov_SC07_007/../shared/ov/func_80169058.h:8: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class 29e6564223 REJECTED — src/ov_SC07_007/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class 3ef37ce705 REJECTED — src/ov_SC07_007/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_007: class 4dd276719f REJECTED — src/ov_SC07_007/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class 7529ad8f17 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:3668: src/ov_SC07_007/../shared/ov/func_80147084.h:3: warning: warning: type mismatch with previous external decltype mismatch with previous external decl
+  [extend1] ov_SC07_007: class 89a42c5cca REJECTED — src/ov_SC07_007/../shared/ov/func_8015E95C.h:10: src/ov_SC07_007/../shared/ov/func_801432FC.h:15: warning: warning: passing arg 1 of `func_8015E9B8' makes pointer from integer without a castpassing ar
+  [extend1] ov_SC07_007: class 8e3f8acd47 REJECTED — src/ov_SC07_007/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class 9dda58b2de REJECTED — src/ov_SC07_007/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_007: class cc6b91ad3d REJECTED — src/ov_SC07_007/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_007: class dd5bb9d1dc REJECTED — src/ov_SC07_007/../shared/ov/func_801468C8.h:5: src/ov_SC07_007/../shared/ov/func_8015C6AC.h: warning: In function `func_8015C6AC':
+  [extend1] ov_SC07_007: class e0963a4b81 REJECTED — src/ov_SC07_007/../shared/ov/func_8016EDEC.h:13: src/ov_SC07_007/ov_SC07_007_jr_8015C32C.c:2403: warning: warning: assignment from incompatible pointer type
+  [extend1] ov_SC07_007: class e2c32e5950 REJECTED — src/ov_SC07_007/../shared/ov/func_80147084.h:3: src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:3362: warning: warning: type mismatch with previous external declprevious external decl of `
+  [extend1] ov_SC07_007: class e9c9fa5bf6 REJECTED — src/ov_SC07_007/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class fbef0f0b65 REJECTED — src/ov_SC07_007/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_010: class 1c5bc11f81 REJECTED — src/ov_SC07_010/../shared/ov/func_8016BF50.h:6: conflicting types for `func_8016BF50'
+  [extend1] ov_SC07_010: class 3ef37ce705 REJECTED — src/ov_SC07_010/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_010: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_010/ov_SC07_010
+  [extend1] ov_SC07_010: class 89a42c5cca REJECTED — src/ov_SC07_010/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_010: class 9dda58b2de REJECTED — src/ov_SC07_010/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_010: class cc6b91ad3d REJECTED — src/ov_SC07_010/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_010: class e0963a4b81 REJECTED — src/ov_SC07_010/../shared/ov/func_8016706C.h:3: conflicting types for `func_80146C3C'
+  [extend1] ov_SC07_010: class fbef0f0b65 REJECTED — src/ov_SC07_010/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_011: class 0964d4c658 REJECTED — src/ov_SC07_011/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_011: class 0d18ee0d06 REJECTED — src/ov_SC07_011/../shared/ov/func_801615C4.h:15: src/ov_SC07_011/../shared/ov/func_801705C0.h: warning: In function `func_801705C0':
+  [extend1] ov_SC07_011: class 1c5bc11f81 REJECTED — src/ov_SC07_011/../shared/ov/func_8016BF50.h:6: conflicting types for `func_8016BF50'
+  [extend1] ov_SC07_011: class 238e26f72f REJECTED — src/ov_SC07_011/../shared/ov/func_80161554.h:6: src/ov_SC07_011/../shared/ov/func_8016EE40.h:17: warning: warning: passing arg 1 of `func_8016163C' makes integer from pointer without a castpassing arg
+  [extend1] ov_SC07_011: class 29e6564223 REJECTED — src/ov_SC07_011/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_011: class 3ef37ce705 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_801457A4.c:1164: src/ov_SC07_011/ov_SC07_011_jr_80135D20.c: warning: In function `func_80136824':
+  [extend1] ov_SC07_011: class 4dd276719f REJECTED — src/ov_SC07_011/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_011: class 7529ad8f17 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:3708: src/ov_SC07_011/../shared/ov/func_801430F4.h: warning: In function `func_801430F4':
+  [extend1] ov_SC07_011: class 89a42c5cca REJECTED — src/ov_SC07_011/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_011: class 8e3f8acd47 REJECTED — src/ov_SC07_011/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_011: class 9dda58b2de REJECTED — src/ov_SC07_011/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_011: class cc6b91ad3d REJECTED — src/ov_SC07_011/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [extend1] ov_SC07_011: class dd5bb9d1dc REJECTED — src/ov_SC07_011/../shared/ov/func_80142BB4.h:6: conflicting types for `func_8012C098'
+  [extend1] ov_SC07_011: class e0963a4b81 REJECTED — src/ov_SC07_011/../shared/ov/func_8015EFA4.h:7: src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:3708: warning: warning: passing arg 1 of `func_8015F080' makes integer from pointer without a castpassing arg 
+  [extend1] ov_SC07_011: class e2c32e5950 REJECTED — src/ov_SC07_011/../shared/ov/func_80147AD4.h:8: src/ov_SC07_011/../shared/ov/func_801433F0.h:12: warning: warning: passing arg 2 of `func_80147B5C' makes pointer from integer without a castpassing arg
+  [extend1] ov_SC07_011: class e9c9fa5bf6 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_801457A4.c:1164: src/ov_SC07_011/ov_SC07_011_jr_8015C32C.c:4290: note: this is the location of the previous definition
+  [extend1] ov_SC07_011: class fbef0f0b65 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_801457A4.c:1145: src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:3310: warning: warning: previous external decl of `type mismatch with previous external declfunc_80147098
+  [extend1] gated 141/141 binaries green · registered 0 groups · extended 87 members · rejected classes 48
+share_body: done — 83 of 83 classes in 1 batch(es); see the ledger; 164 s
+extend3 wall=165.26 s
+exit=0

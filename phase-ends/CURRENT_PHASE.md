@@ -356,6 +356,24 @@
   census `362,389 classified · 0 UNACCOUNTED`, verdicts A 1,812 · B 183 · C 6,639 · D 1,545 · M 1 (A 1,712 → 1,812 = the 100 classes
   bucket 0 completed), same-vram backlog **1,099 → 999 classes · 3,883 private copies · 2,887 collapsible**; the whale control
   `A/141/missing 0`. `.run/P35/share/repair_registry.json` is the record. kit corpus + `tool_census --check: OK`.
+- **S96 — T5 step 4: the suspect rejections replayed; a FOURTH tool defect found and fixed; the extend bucket re-run (`run_extend3.log`).**
+  The census's definition ranges for the three parse-error sites are CORRECT (e.g. `ov_SC01_005_jr_8015C32C.c:3389-3426` covers all of
+  `func_8016163C`) and each single edit compiles clean (cc1 rc 0) — so the failures were not the class's edit. Cause: **a twin's instance
+  resolves to its PRIMARY's TU, so a twin pair queued the SAME (tu, line) edit twice; the second replacement swallowed the NEXT function**
+  → `parse error before 'if'` (the orphaned body) or `undefined reference to <the following function>` at link — in exactly the five twin
+  primaries; 7 classes (`d743c21bd9`, `3576d059c2`, `6f62feba35`, `7604e5daf1`, `9bda7673e9`, `bdb48359cd` + one) were the tool's artifact.
+  Fix: `Batch.add_class` dedupes edits by (tu, line). `E_func_801376E8` (`7529ad8f17`, SC07_006/007/010/011) IS a real GATE-REJECT:
+  the SC07 private copies read `((void (*)(s32))func_80139BE0)(obj)` where the header calls `func_80139BE0(obj)`, and those TUs declare
+  the callee `s32 (s32)` — the header text allocates registers differently there (replayed: `[FAIL]`, the one object differs inside
+  `func_801376E8`). The ledger's 54 S94 rows were dropped for re-judging (7 artifacts, the rest without a captured cause);
+  `E_func_80168B70`'s row kept with its real cause (step 5 pending). **Run 3** (`--bucket extend --batch 400 --batches 1`, 165 s):
+  `extend (registered-incomplete) 83 classes` · `[extend1] 83 classes · 235 sites in 55 TUs · gating 141 binaries` → `gated 141/141
+  binaries green · registered 0 groups · extended 87 members · rejected classes 48`; 157 REJECTED lines (303 before), every cause now a
+  real diagnostic (`conflicting types for 'ApplyMatrixSV'` ×6 classes, `too few arguments to function 'func_8014A51C'`, `conflicting
+  types for 'D_80126CC4'`, `… 'D_800A651C'`, `… 'func_801497A8'`, `too few arguments to function 'func_80146C3C'` — the late overlays'
+  declaration environments vs the headers' text); 78 more sites shared in 24 TUs; 49 ledger rows. A fifth extractor wart (a chained
+  `a.h:65: b.h:15: warning: …` line picked for 3 classes) fixed in this commit — those 3 rows carry a warning as cause and are
+  re-judged with the step-5 run. `dedup-check` 0 failed; kit corpus + `tool_census --check: OK`. Effort: high (Drew's choice).
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 

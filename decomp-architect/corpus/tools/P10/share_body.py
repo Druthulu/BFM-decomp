@@ -155,9 +155,15 @@ class Batch:
                 self.headers[hdr] = text
             self.register.append((f"S_{fn}", h, hdr, fn, vram, sorted({i["alias"] for i in c["insts"]})))
             self.exemplar_note[h] = f"exemplar {ex['tu']}:{ex['line']} ({reason}; texts {len(texts)}), {len(priv)} private sites → include"
+        seen_sites = set()
         for i in priv:
             inc = m2h.include_line(i["tu"], hdr)
-            self.edits[i["tu"]].append((i["line"], i["end"], inc, h))
+            # ONE edit per site: a twin's instance resolves to its PRIMARY's TU, so a twin pair yields two identical (tu, line) records;
+            # applied twice, the second replacement swallowed the NEXT function (S94 run 2: "parse error before `if'" and "undefined
+            # reference to <the following function>" in exactly the five twin primaries — 7 classes rejected on the tool's own artifact)
+            if (i["tu"], i["line"]) not in seen_sites:
+                seen_sites.add((i["tu"], i["line"]))
+                self.edits[i["tu"]].append((i["line"], i["end"], inc, h))
             self.touched.add(i["alias"])
             self.members[h].append((i["alias"], i["tu"]))
         for i in c["insts"]:
@@ -233,7 +239,8 @@ def failure_cause(txt):
     lines = txt.splitlines()
     for ln in lines:
         m = DIAG.match(ln)
-        if m and not BANNER.match(m.group(3)):
+        # gcc 2.7.2 sometimes chains locations: `a.h:65: b.h:15: warning: passing arg …` — a warning anywhere on the line disqualifies it
+        if m and not BANNER.match(m.group(3)) and " warning: " not in ln and " note: " not in ln:
             return ln[:200]
     for ln in lines:
         if re.search(r"\{standard input\}.*Error|undefined reference|multiple definition|\[FAIL\]", ln):
