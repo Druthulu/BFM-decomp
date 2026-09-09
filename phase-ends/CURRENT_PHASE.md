@@ -514,7 +514,32 @@ accumulate here as the phase produces them.**
   cross-file names; the sweep's per-definition uses. Commits: `0bd784c64` (header), `145ab7719`/`666d4b5ae`/`02810debd` (batches),
   `5b6e1a2fe` (repair), `3b2c5178b`, `4bc987426` (sweep), this close. **T5 ☑.**
 
-## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ T5 ☑ — all committed (this close on top of `4bc987426`); NEXT = T6 rung R (mechanical shape recipes) + rung D (the permuter on the residue exemplars) | the number: 34,091 sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0 · GTE levers 462 · per-TU asm macro definitions 314 (0 canonical duplicates) — `lever_census --check` OK
+- **S98 — T6 opened: reconnaissance and the two feasibility probes (the design is in the 🛑 block §2; the build is the next session's).**
+  The residue from the ledger (latest row per body): **12,970 bodies in 1,804 distinct after-hash classes** — 1,450 singletons, 80 classes
+  of 134 copies (the overlay-wide functions), 75 pairs, 60 triples; the median exemplar needs ONE site (p90 4, max 25); 904 exemplars need
+  only pins, 48 only `$0` pins; needed sites × copies: pin 20,643 · launder 4,635 · barrier 4,576 · keep-alive 2,000 · instruction 1,667 ·
+  cast 1,509. The cookbook on the classes: the `$0` pin is the "$0-ADD OPAQUE COPY" (§34/§17 RC-12: `y = x + zr` emits a `move` CSE
+  cannot see through — no plain-C spelling; T7's); §137 says a clean register swap is a TWO-COMPILE ARITHMETIC PROBLEM (read R and L from
+  `cc1 -dl -dg`, `tools/alloc_table.py`), not a permuter job; §76 the allocno class through declaration scope. The permuter harness as
+  built: `tools/permuter/run_masked.py` (the masked scorer rebound over decomp-permuter's Scorer: target.o and cand.o each hold ONE
+  function, whole-.text compared), `tools/p16_permute.py` (`make_base_c` = comments → cpp WITHOUT includes → M2C_FIELD → `hide_asm` (asm
+  statements and pins carried as decomp-permuter's own `#pragma _permuter b64literal`, decoded by its serializer, so cc1 sees the real
+  asm) → typedefs; `setup(fn, draft, asm_subdir, klass)` builds base.c + target.o from `<asm_subdir>/<fn>.s` + settings.toml;
+  `run_permuter(pd, secs, j)`; `winner_to_draft`), `tools/permuter_ils.py` (warm restarts from the best waypoint), `tools/permuter_weights.py`
+  (profiles regalloc / schedule / cse / length via `render_settings_toml(fn, klass=…)`), `tools/permuter/compile.sh` (the faithful
+  cpp→cc1→maspsx→as tail, no pad stage — .text only, fine). Per-function `.s` targets do NOT exist on disk for matched functions;
+  `tools/verbatim_target_s.py --binary <alias> --fn <fn>` regenerates one from the extracted ROM image (`.run/verbatim_targets/<alias>/<fn>.s`,
+  splat format — the independent oracle). **Probe 1:** `verbatim_target_s.py --binary ov_SC04_011 --fn func_80135D20` → `100 ins @
+  0x80135D20 -> .run/verbatim_targets/ov_SC04_011/func_80135D20.s`. **Probe 2 (the base):** the TU text with the exemplar's body lever-free
+  (delever's rung-A edits for that body: 1 site, the `$17` pin), every OTHER definition replaced by its prototype (`sc.scan_text` defs →
+  the signature up to `{` + `;`), every `#include "../shared/…/func_*.h"` replaced by the prototypes of the definitions that header holds,
+  `INCLUDE_ASM`/`INCLUDE_RODATA` lines dropped, then `mipsel-linux-gnu-cpp -P -lang-c -Iinclude -I<tu dir> -undef -Dmips -D__GNUC__=2
+  -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C` (the real include paths — common.h, the prelude, engine_types.h, the GTE header
+  expand; make_base_c's own cpp runs without includes and would lose them) → `p16_permute.make_base_c(expanded)` → `base.c` 5,218 lines,
+  `defines_fn` True, 0 other bodies → `tools/permuter/compile.sh base.c -o base.o` rc 0 → `nm`: `T func_80135D20` alone (the callees `U`).
+  The pipeline is proven; scratch under `.run/P36/permuter/probe/` (ignored).
+
+## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ T5 ☑ — all committed (this close on top of `4bc987426`); NEXT = T6 BUILD: `tools/delever_permute.py` per §2 (the design is settled and its pipeline proven by two probes — the T6 log entry); S98 ended here at 90 % context | the number: 34,091 sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0 · GTE levers 462 · per-TU asm macro definitions 314 (0 canonical duplicates) — `lever_census --check` OK
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (T6/T8/T9 xHigh per the plan; S98 ran at Max —
@@ -544,22 +569,42 @@ batch: `tools/delever.py --restore` (drops its ledger rows). The calibration is 
 - **Environment:** WSL2, `~/bfm-decomp`, `.venv`; R22 clean fleet run ≈ 115 s; the census ≈ 35 s (a full rewalk when a tool or a table
   changes); `make report BINARY=main` ≈ 285 s; `make kit-corpus` ≈ 25 s; 16 cores; 31 GB RAM; ~30 GB disk free.
 
-### 2. T6 — rung R (mechanical shape recipes) + rung D (the permuter on the residue exemplars) (xHigh; design first, X1)
-The plan's two yield lines: `recipes: <k> of <r> NEEDED sites removed` and `permuter: <k> of <r> exemplars matched lever-free in <t> h`.
-(a) **Rung R** = byte-neutral shape recipes applied mechanically per NEEDED site, each negative-controlled on a body it must not change:
-the cookbook's §501-P (a fresh single-set temp at the use), §501-R (the inline-expression-thrice / `u16` accumulator), §76 (declaration-scope
-moves), T4 (branch-polarity flip), §17a (the explicit temp before a call), the `zr` → `0` copy-arm rewrite for the `$0` class (1,318 needed
-`$0` pins), and for the 462 GTE levers "drop the clobber" (already tried per definition in T5 — the 70 kept ARE needed there) — read
-`docs/matching-cookbook.md` by § (grep `^## §501`) and `docs/cookbook-index.md` by symptom; measure each recipe on a stratified sample of
-its class before the sweep (R37). Implement as `tools/delever.py --recipes` (or a `tools/delever_recipes.py` that delever imports):
-per body, per NEEDED site, the recipe's rewrite → the same oracle → REMOVED/NEEDED; the ledger row's site verdict gains `rule`.
-(b) **Rung D** = `tools/permuter/run_masked.py` + `permuter_ils.py` on the residue EXEMPLARS (one per distinct after-hash class, ≈1,759;
-largest copy count first), seeded with the lever-free body (every A/B site stripped — the target bytes from `build/`'s object of the fleet
-run), `permuter_weights.py`'s class profile, a time budget per body, 16 workers, DETACHED; a score-0 candidate → `tools/delever.py
---apply-body TU FN FILE --label d<k> --rung D` (refused if a class A/B lever remains) → the copies replay through the ledger's exemplar
-rows → the cycle's R22 + commit. Read `docs/SETUP.md` §permuter and cookbook §3/§5a/§12 for the harness (`.run/permuter/<fn>/`, `base.c`
-self-contained, `target.o` from the object, `settings.toml`); `tools/verbatim_target_s.py` for the target listing. Report both yield lines
-with denominators (R41), then the T6 log entry + checkpoint.
+### 2. T6 — rung R (mechanical shape recipes) + rung D (the permuter on the residue exemplars) (xHigh) — DESIGN SETTLED, BUILD NEXT
+The two yield lines to report (R41): `recipes: <k> of <r> NEEDED sites removed` · `permuter: <k> of <r> exemplars matched lever-free in <t> h`.
+**Rung D first (the bigger lever; its pipeline is proven by the two probes in the T6 log entry).** Build `tools/delever_permute.py`:
+1. `--plan`: the exemplars from the ledger (`dl.load_ledger()`, latest row per (tu, fn), verdict RESIDUE, grouped by `nhash_after`, one
+   exemplar per class = the first (tu, fn); order: copies desc, then needed sites asc; skip classes in `.run/P36/permuter/outcomes.jsonl`);
+   `--only`, `--limit`.
+2. Per exemplar `prepare(tu, fn)` EXACTLY as probe 2: (a) the lever-free TU text = `dl.site_edits` for every REMOVABLE site of the body
+   (a site that REFUSES → the exemplar is `UNSTRIPPABLE`, skipped and recorded); a `gte-lever` site (kind not in `dl.REMOVABLE` yet) should
+   get a rewrite too: `gte_consolidate.set_clobbers(statement, canonical clobbers)` — add ("B", "gte-lever") to delever's rewrite table
+   (the canonical from `.run/P36/gte/canonical.json` by the statement's signature) so rung A/B in delever can judge direct GTE levers as
+   well (T5 tried only the definitions); (b) every other definition → prototype; (c) every `#include "…/shared/…/func_*.h"` → the
+   prototypes of that header's definitions (a static function's prototype keeps `static`); (d) `INCLUDE_ASM`/`INCLUDE_RODATA` lines and
+   file-scope `__asm__` blocks dropped; (e) cpp with `-Iinclude -I<tu dir>` and the build's -D flags, `-P`; (f) write the expanded text
+   as the DRAFT `.run/P36/permuter/<alias>__<fn>/draft.c`; (g) the target: `tools/verbatim_target_s.py --binary <alias> --fn <fn>` →
+   copy `.run/verbatim_targets/<alias>/<fn>.s` into the scratch dir (p16's `setup(fn, draft_c, asm_subdir=<scratch dir>)` reads
+   `<asm_subdir>/<fn>.s`); the alias = the body's first alias (`aliases[0]`; a shared header's body → its first includer's alias);
+   (h) klass from the needed-site mix for `permuter_weights`: pins only → "REGALLOC-PERM"; barriers/launders/keep-alives → "SCHEDULE-REORDER";
+   mixed → "REGALLOC-PERM"; (i) `permuter_ils.py <fn> --draft draft.c --asm-subdir <scratch> --klass <k> --cycles 3 --secs 240 --j <J>`
+   (its `setup` runs `make_base_c` on the draft — already expanded, so its include-less cpp changes nothing — and asserts `defines_fn`;
+   the winner lands in `.run/permuter-winners/<fn>.c` — KEY BY alias+fn (R48): copy it to the scratch dir at once).
+3. A winner → `p16_permute.winner_to_draft` → extract the function's definition span → write `<scratch>/body.c` → `tools/delever.py
+   --apply-body <tu> <fn> <scratch>/body.c --label d<k> --rung D --dirty-ok` (refused if a class A/B lever remains; the copies replay
+   through the ledger when their class is drawn again: `delever --apply --redraw RESIDUE --only …` or the exemplar's copies by nhash) →
+   then `tools/gte_consolidate.py --apply --only <tu> --rejudge --label d<k>g` re-folds the cpp-expanded GTE asm in that function into
+   canonical calls (the winner is macro-expanded: readability regained by the re-fold; `#define`d constants stay expanded — the names
+   phase) → the batch's R22 → commit (the cycle's FINISH mode or by hand with the log line + headline, R101).
+4. The campaign: DETACHED (`setsid nohup … &` + a `Monitor`), K exemplars concurrently with `-j 16/K` each, `--secs 240 --cycles 3` per
+   exemplar as the first measurement on ~16 exemplars (the 134-copy classes first: one match banks 134 bodies), then price the rest
+   from the measured yield (the P29 sweep's honest prior: ~3 in 8 for small residuals). `outcomes.jsonl` = exemplar, class copies, needed
+   sites, klass, secs, cycles, best score, winner path, banked commit.
+**Rung R second (cheap, measured on samples, R37):** in `tools/delever.py --recipes --only …`: per RESIDUE body, candidates from
+(R2) the declaration-ORDER permutations of the pinned callee-saved variables (§76/§501-R: the allocation order is the bank; ≤ 4 pins →
+all 24 orders, else 24 random) applied to the lever-free text; (R3) a pin with an initializer split into declaration + assignment, or the
+declaration moved next to its first use (§17a); each candidate judged by the oracle; the first IDENTICAL replaces the body (its ledger row
+updated, its markers consumed); negative-control each recipe on a LEVER-FREE body first (must stay identical, R39). Report `recipes: k of r`.
+Then the T6 log entry (both lines with denominators), `make report BINARY=main`, the checkpoint refresh, commit.
 
 ### 3. Numbers to re-derive, never trust
 The T2 probe's rates → T4's measured rates → T5 changed the population (the number went UP by the 462 GTE levers and 4 surfaced
