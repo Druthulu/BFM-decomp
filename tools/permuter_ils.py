@@ -41,12 +41,14 @@ def main():
     ap.add_argument("--secs", type=int, default=180, help="per-cycle time box")
     ap.add_argument("--j", type=int, default=12)
     ap.add_argument("--winners", default=".run/permuter-winners")
+    ap.add_argument("--target-o", help="use this one-function object as the target instead of assembling "
+                                       "<asm-subdir>/<fn>.s (S99: a disassembly listing is a second toolchain)")
     ap.add_argument("--pd", help="scratch dir for this run (default .run/permuter/<fn>) — key it by alias+fn when "
                                  "several runs share a function NAME (R48)")
     a = ap.parse_args()
 
     draft = open(a.draft).read()
-    pd = P.setup(a.fn, draft, asm_subdir=a.asm_subdir, klass=a.klass, outdir=a.pd)
+    pd = P.setup(a.fn, draft, asm_subdir=a.asm_subdir, klass=a.klass, outdir=a.pd, target_o=a.target_o)
     if not pd:
         print("ILS setup FAILED (target .s didn't assemble?)"); sys.exit(1)
     print(f"ILS {a.fn}: {a.cycles} cycles x {a.secs}s @ -j{a.j}, klass={a.klass}")

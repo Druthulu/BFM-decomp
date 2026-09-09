@@ -233,7 +233,7 @@ def klass_for_fn(fn):
     return "", ""
 
 
-def setup(fn, draft_c, asm_subdir=ASM, klass=None, where="", outdir=None):
+def setup(fn, draft_c, asm_subdir=ASM, klass=None, where="", outdir=None, target_o=None):
     # `outdir` keys the scratch dir by the CALLER's identity instead of the bare function name (R48). A name is not
     # unique across the fleet — the overlays overlap in RAM, so two different bodies are both `func_8013B274` — and two
     # concurrent runs on one name would share (and corrupt) this directory. Default: the historical path, unchanged.
@@ -247,6 +247,22 @@ def setup(fn, draft_c, asm_subdir=ASM, klass=None, where="", outdir=None):
                            f"'not found in base.c' and no-op in 0s. Inspect {pd}/base.c "
                            f"(prep order: comments -> cpp macros -> M2C_FIELD -> hide_asm -> typedefs).")
     open(f"{pd}/base.c", "w").write(base)
+    if target_o:
+        # THE TARGET AS AN OBJECT, not a listing (S99). Assembling a disassembly listing is a second toolchain with its
+        # own answers: objdump prints the pseudo-instruction `move` for `addu rX,rY,$zero` and gas assembles it as `or`
+        # (24 words wrong in one 234-instruction function), and a listing's %hi/%lo pairs come back RESOLVED, with no
+        # relocation, while every candidate carries one — and the masked scorer compares reloc operands. Both made the
+        # scorer report a nonzero floor for a body that IS byte-identical, so score 0 was unreachable and every verdict
+        # was the instrument's. A target object compiled from the tree's own body by THIS pipeline has the candidate's
+        # relocations by construction; the ROM listing stays the independent oracle that PROVES it (match_one MATCH
+        # before the search starts, R34/R56) — the proof is what keeps this from being circular.
+        shutil.copy(target_o, f"{pd}/target.o")
+        body, prof = permuter_weights.render_settings_toml(fn, klass=klass, where=where)
+        open(f"{pd}/settings.toml", "w").write(body)
+        csh = "compile_o0.sh" if asm_subdir.rstrip("/").endswith("_o0") else "compile.sh"
+        open(f"{pd}/compile.sh", "w").write(f'#!/bin/bash\nexec {REPO}/tools/permuter/{csh} "$@"\n')
+        os.chmod(f"{pd}/compile.sh", 0o755)
+        return pd
     s = os.path.join(REPO, asm_subdir, fn + ".s")
     tgt = f"{pd}/target.s"
     with open(tgt, "w") as f:

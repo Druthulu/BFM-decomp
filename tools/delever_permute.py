@@ -23,10 +23,12 @@ THE PIPELINE PER EXEMPLAR (probe-proven at S98, the T6 log entry):
      the permuter compiles must hold ONE .text function, because the masked scorer compares whole .text.
   3. cpp -P with the BUILD's own CPPFLAGS + -I<the TU's directory> (common.h, the prelude, engine_types.h and the GTE header
      expand here — p16_permute.make_base_c runs its own cpp WITHOUT includes and would lose them) -> draft.c.
-  4. the target .s            — tools/verbatim_target_s.py regenerates it from the EXTRACTED ROM IMAGE (R34: an independent
-     oracle; our own source is the thing under test), into the exemplar's scratch dir, where p16_permute.setup reads it.
-  5. tools/permuter_ils.py    — warm-restarting decomp-permuter, the weight profile chosen from the NEEDED sites' kinds
-     (pins -> regalloc, barriers/launders/keep-alives -> schedule, mixed -> regalloc).
+  4. the target             — the tree's OWN (levered) body compiled by the build's tail into a one-function object, so it
+     carries the candidates' relocations by construction; `tools/verbatim_target_s.py` regenerates the ROM listing beside it
+     and `match_one` must call that body a MATCH before the search starts (R34: the ROM image is the independent oracle that
+     PROVES the target; R56: check the baseline). S99 learned this the hard way — see THE INSTRUMENT below.
+  5. tools/permuter_ils.py    — warm-restarting decomp-permuter, the weight profile chosen from the NEEDED sites' kinds AND
+     the register each pin names (callee-saved -> regalloc, caller-saved -> cse, barriers/launders/keep-alives -> schedule).
   6. a score-0 winner is a CANDIDATE, never a bank: --bank puts the function's definition back through
      `delever.py --apply-body` (which refuses a body that still carries a class A/B lever and judges it on the object's bytes
      through every recipe of the TU), then re-folds the cpp-expanded GTE asm with `gte_consolidate.py --apply --rejudge`.
@@ -35,6 +37,15 @@ THE PIPELINE PER EXEMPLAR (probe-proven at S98, the T6 log entry):
 SCRATCH IS KEYED BY ALIAS+FN (R48): `.run/P36/permuter/<alias>__<fn>/` — a function NAME is not unique across the fleet (the
 overlays overlap in RAM, so two different bodies can both be `func_8013B274`), and the permuter's own scratch/winner paths are
 keyed by the bare name. Every attempt is recorded in `.run/P36/permuter/outcomes.jsonl`, which is also the skip list.
+
+THE INSTRUMENT, AND WHY IT IS CHECKED BEFORE IT IS BELIEVED (S99). The first two campaigns returned 0 of 16 with a straight
+face. Both were the harness: the target had been ASSEMBLED FROM A DISASSEMBLY LISTING, which is a second toolchain with its own
+answers — objdump prints the pseudo-instruction `move` for `addu rX,rY,$zero` and gas assembles it as `or` (24 wrong words in
+one 234-instruction function), and a listing's %hi/%lo pairs come back resolved with no relocation while every candidate carries
+one. The permuter scored 28 for a body that IS byte-identical, so score 0 was unreachable and every NO-MATCH was its own. The
+control that names this in one line is `--positive-control`, and the base score of the tree's own body is now 0. R40: exonerate
+the instrument before attributing a failure to its subject; the campaign that skips this control cannot tell a hard population
+from a broken scorer.
 
 NEVER RUN THE CAMPAIGN AS A HARNESS BACKGROUND TASK (the low-memory guard kills it): `setsid nohup … &` + a Monitor on the log.
 """
@@ -148,15 +159,32 @@ def exemplars(only=(), limit=None, include_done=False):
         needed = [s for s in r.get("sites", []) if s.get("verdict") == "NEEDED"]
         out.append(dict(nhash=nh, tu=tu, fn=fn, alias=(r.get("aliases") or [None])[0], copies=len(members),
                         needed=len(needed), kinds=sorted({s["kind"] for s in needed}),
+                        regs=sorted({s.get("detail", "") for s in needed if s["kind"] == "pin"}),
                         members=[dict(tu=t, fn=f) for (t, f), _ in members], row=r))
     out.sort(key=lambda e: (-e["copies"], e["needed"], e["tu"], e["fn"]))
     out = [e for e in out if matches(e, only)]
     return out[:limit] if limit else out
 
 
-def klass_for(kinds):
-    """the permuter_weights profile for a residue's NEEDED-site mix (the profile NAME is accepted verbatim by classify())."""
+CALLEE_SAVED = {f"${n}" for n in range(16, 24)} | {f"$s{n}" for n in range(8)} | {"$fp", "$30"}
+
+
+def klass_for(kinds, regs=()):
+    """the permuter_weights profile for a residue, from the NEEDED sites' kinds AND the REGISTER each pin names (the profile
+    name is accepted verbatim by classify()).
+
+    The register is the part S99 learned by reading a residual instead of assuming one. A pin on a CALLEE-SAVED register
+    ($16-$23) is an allocation-ORDER residual — the regalloc profile's declaration/statement reordering is its lever. A pin
+    on a CALLER-SAVED one ($2/$3/$4-$7/…) is not: the S99 control on func_80163EC8 (`register … __asm__("$2")`) left exactly
+    a v0/v1 swap — `lw v1,68(s1); li v0,-33; and v0,v1,v0` against `lw v0,68(s1); li v1,-33; and v0,v0,v1` — which is the
+    operand ORDER of one `&`, and the regalloc profile weights `perm_commutative` 2.0 while the cse profile weights it 40.0.
+    Steering that search by "it was a pin, so regalloc" spends the whole budget 20x away from the one lever that closes it."""
     ks = set(kinds)
+    rs = {r for r in regs if r}
+    if "pin" in ks and rs and rs & CALLEE_SAVED:
+        return "regalloc"
+    if "pin" in ks and rs and not (rs & CALLEE_SAVED):
+        return "cse"
     if ks and ks <= SCHED_KINDS:
         return "schedule"
     return "regalloc"
@@ -169,12 +197,17 @@ _sites_cache = None
 
 
 def tu_sites(tu):
+    """the census's sites for one TU. Built ONCE, into a local, and published under the lock: the workers are threads, and
+    publishing the empty dict before filling it (2 s for 53,355 rows) let every other worker read "no site in this TU" and
+    report a whole batch UNSTRIPPABLE — a race that lies in the tool's own voice."""
     global _sites_cache
-    if _sites_cache is None:
-        _sites_cache = collections.defaultdict(list)
-        for s in dl.load_sites():
-            _sites_cache[s["tu"]].append(s)
-    return _sites_cache[tu]
+    with _LOCK:
+        if _sites_cache is None:
+            built = collections.defaultdict(list)
+            for s in dl.load_sites():
+                built[s["tu"]].append(s)
+            _sites_cache = built
+        return _sites_cache.get(tu, [])
 
 
 def body_sites(tu, fn):
@@ -318,7 +351,7 @@ def scratch_of(alias, fn):
     return RUN / f"{alias}__{fn}"
 
 
-def prepare(ex, quiet=False):
+def prepare(ex, quiet=False, require_sites=True):
     """(scratch dir, draft path, target path, klass) for one exemplar — the whole probe-2 pipeline."""
     tu, fn = ex["tu"], ex["fn"]
     alias = ex["alias"] or alias_of(tu, ex.get("row"))
@@ -327,7 +360,7 @@ def prepare(ex, quiet=False):
     ex["alias"] = alias
     raw = (REPO / tu).read_text(errors="surrogateescape")
     sites = body_sites(tu, fn)
-    if not sites:
+    if not sites and require_sites:
         raise Unstrippable([("<census>", 0, f"the census has no site in {tu}:{fn} (stale? rerun lever_census --sites)")])
     d = scratch_of(alias, fn)
     if d.exists():
@@ -357,10 +390,17 @@ def prepare(ex, quiet=False):
         if r.returncode or not tgt.exists():
             raise Unstrippable([("<target>", 0, ((r.stderr or r.stdout).strip().splitlines() or ["no listing"])[-1][:160])])
         shutil.copy(tgt, d / sub / f"{fn}.s")              # p16_permute.setup / match_one.py read <dir>/<fn>.s
+    # THE TARGET OBJECT: the tree's own (levered) body through the build's own tail, so it carries the candidates'
+    # relocations by construction. Its fidelity is not assumed — `closeness(levered)` must be MATCH against the ROM
+    # listing above before any search runs (R34: the independent oracle proves the target; R56: check the baseline).
+    r = subprocess.run(["tools/permuter/compile.sh", str(d / "levered.c"), "-o", str(d / "target.o")],
+                       capture_output=True, text=True, cwd=REPO)
+    if r.returncode or not (d / "target.o").exists():
+        raise Unstrippable([("<target.o>", 0, ((r.stderr or r.stdout).strip().splitlines() or ["compile failed"])[-1][:160])])
     if not quiet:
         n = len((d / "draft.c").read_text(errors="surrogateescape").splitlines())
         print(f"  prepared {alias}__{fn}: draft {n} lines, target {(r.stdout or '').strip().split()[-3:]}", flush=True)
-    return d, d / "draft.c", d / "gas" / f"{fn}.s", klass_for(ex["kinds"])
+    return d, d / "draft.c", d / "gas" / f"{fn}.s", klass_for(ex["kinds"], ex.get("regs", ()))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -380,6 +420,52 @@ def closeness(d, fn, c):
         return 0, first
     mm = MISMATCH_RE.search(first)
     return (int(mm.group(1)) if mm else None), first
+
+
+def positive_control(a):
+    """Can rung D close a gap it is KNOWN to be able to close? Take a body the tree already matches, perturb it by ONE
+    reversible source change (the first commutative operand swap `delever` can generate), confirm the perturbed body no
+    longer matches, and give the permuter one cycle to find its way back to score 0.
+
+    Without this, "0 of 16" says nothing about the residue: it could equally be a harness that cannot reach ANY target
+    (R40 — exonerate the instrument before attributing the failure to its subject). With it, a PASS means the search
+    space, the target, the scorer and the winner path all work, and a 0-yield campaign is a fact about the population."""
+    tu, fn = a.positive_control
+    raw = (REPO / tu).read_text(errors="surrogateescape")
+    d_ = next((r for r in sc.scan_text(raw, tu, shared_defs=None) if r["form"] == "def" and r["name"] == fn), None)
+    if d_ is None:
+        sys.exit(f"delever_permute --positive-control: {fn} is not defined in {tu}")
+    swaps = dl.commutative_swaps(raw, tu, fn, d_)
+    if not swaps:
+        sys.exit(f"delever_permute --positive-control: {tu}:{fn} has no commutative operator to perturb — pick another body")
+    ex = dict(nhash="", tu=tu, fn=fn, alias=alias_of(tu), copies=1, needed=0, kinds=[], regs=[], members=[], row={})
+    d, draft, tgt, _ = prepare(ex, quiet=False, require_sites=False)
+    base, base_line = closeness(d, fn, draft)
+    desc, perturbed = swaps[a.which]
+    (d / "perturbed_tu.c").write_text(perturbed, errors="surrogateescape")
+    pert = drop_file_scope_asm(cpp_expand(tu, isolate(tu, perturbed, fn)), tu)
+    (d / "draft.c").write_text(pert, errors="surrogateescape")       # the permuter's seed IS the perturbed body
+    after, after_line = closeness(d, fn, d / "draft.c")
+    print(f"positive control {alias_of(tu)}__{fn}: the tree's own body {base_line[:40]} · perturbed by `{desc}` {after_line[:60]}",
+          flush=True)
+    if base != 0:
+        sys.exit("delever_permute --positive-control: the UNPERTURBED body does not match — calibrate first (R56)")
+    if after == 0:
+        sys.exit(f"delever_permute --positive-control: `{desc}` is byte-neutral here — nothing to find; try --which {a.which + 1}")
+    rel = d.relative_to(REPO).as_posix()
+    log = d / "positive.log"
+    cmd = [PY, "tools/permuter_ils.py", fn, "--draft", rel + "/draft.c", "--asm-subdir", rel + "/gas",
+           "--klass", "cse", "--cycles", str(a.cycles), "--secs", str(a.secs), "--j", str(a.j),
+           "--winners", rel, "--pd", rel + "/pd"]
+    with open(log, "w") as f:
+        f.write(" ".join(cmd) + "\n\n")
+        f.flush()
+        subprocess.run(cmd, cwd=REPO, stdout=f, stderr=subprocess.STDOUT, timeout=a.cycles * (a.secs + 45) + 300)
+    out = log.read_text(errors="replace")
+    won = (d / f"{fn}.c").exists()
+    print(f"positive control: {'PASS — the permuter recovered score 0' if won else 'FAIL — it did not, in '
+          f'{a.cycles}x{a.secs}s'} ({[l for l in out.splitlines() if 'cycle' in l][-1:] or ['no cycle line']})")
+    return 0 if won else 1
 
 
 def calibrate_one(ex, quiet=False):
@@ -405,7 +491,7 @@ BEST_RE = re.compile(r"best score = (\d+)")
 def run_one(ex, secs, cycles, j, max_start=None):
     t0 = time.time()
     row = dict(kind="attempt", ts=time.strftime("%Y-%m-%d %H:%M:%S"), nhash=ex["nhash"], tu=ex["tu"], fn=ex["fn"],
-               alias=ex["alias"], copies=ex["copies"], needed=ex["needed"], kinds=ex["kinds"],
+               alias=ex["alias"], copies=ex["copies"], needed=ex["needed"], kinds=ex["kinds"], regs=ex.get("regs", []),
                secs=secs, cycles=cycles, j=j)
     try:
         d, draft, tgt, klass = prepare(ex)
@@ -437,7 +523,7 @@ def run_one(ex, secs, cycles, j, max_start=None):
     log = d / "ils.log"
     cmd = [PY, "tools/permuter_ils.py", ex["fn"], "--draft", (draft.relative_to(REPO)).as_posix(),
            "--asm-subdir", rel + "/gas", "--klass", klass, "--cycles", str(cycles), "--secs", str(secs),
-           "--j", str(j), "--winners", rel, "--pd", rel + "/pd"]
+           "--j", str(j), "--winners", rel, "--pd", rel + "/pd", "--target-o", rel + "/target.o"]
     row["klass"] = klass
     row["cmd"] = " ".join(cmd)
     rc = None
@@ -535,7 +621,8 @@ def cmd_plan(a):
           f"({sum(e['copies'] for e in ex):,} bodies behind them); NEEDED kinds {dict(kinds)}")
     for e in ex[:a.show]:
         print(f"  {e['copies']:4d} copies · {e['needed']:2d} needed {','.join(e['kinds']):<28} "
-              f"{klass_for(e['kinds']):8} {e['alias'] or alias_of(e['tu'], e['row'])} {e['tu']}:{e['fn']}")
+              f"{klass_for(e['kinds'], e.get('regs', ())):8} {','.join(e.get('regs', [])) or '-':<12} "
+              f"{e['alias'] or alias_of(e['tu'], e['row'])} {e['tu']}:{e['fn']}")
     if len(ex) > a.show:
         print(f"  … {len(ex) - a.show} more")
     return 0
@@ -667,6 +754,8 @@ def main():
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--plan", action="store_true")
     g.add_argument("--prepare", nargs=2, metavar=("TU", "FN"))
+    g.add_argument("--positive-control", nargs=2, metavar=("TU", "FN"),
+                   help="perturb a MATCHING body by one commutative swap and require the permuter to find its way back")
     g.add_argument("--calibrate", action="store_true",
                    help="the control: N exemplars' levered bodies must all be MATCH against their regenerated targets")
     g.add_argument("--run", action="store_true")
@@ -682,6 +771,7 @@ def main():
     ap.add_argument("-j", type=int, default=16)
     ap.add_argument("--label", default="d1")
     ap.add_argument("--dirty-ok", action="store_true")
+    ap.add_argument("--which", type=int, default=0, help="--positive-control: which commutative swap to perturb with")
     ap.add_argument("--max-start", type=int,
                     help="skip (as FAR) an exemplar whose lever-free body is further than N instructions from the target")
     ap.add_argument("--include-done", action="store_true", help="draw classes that already have an outcome row")
@@ -702,6 +792,8 @@ def main():
         d, draft, tgt, klass = prepare(ex)
         print(f"delever_permute --prepare: {d.relative_to(REPO)} (draft.c, {tgt.name}, klass={klass})")
         return 0
+    if a.positive_control:
+        return positive_control(a)
     if a.calibrate:
         return cmd_calibrate(a)
     if a.run:

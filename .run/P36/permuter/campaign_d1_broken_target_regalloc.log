@@ -1,0 +1,13 @@
+delever_permute --run: 16 exemplars, 4 at a time, 3 cycles x 240s @ -j4 each (budget ≈ 0.8 h)
+  prepared ov_SC04_011__func_8013CF68: draft 5467 lines, target ['target(s)', '->', '.run/P36/permuter/ov_SC04_011__func_8013CF68/tgt/<binary>/<fn>.s']
+  prepared ov_SC04_011__func_80135D20: draft 5208 lines, target ['target(s)', '->', '.run/P36/permuter/ov_SC04_011__func_80135D20/tgt/<binary>/<fn>.s']
+  prepared ov_SC04_011__func_801345F8: draft 5058 lines, target ['target(s)', '->', '.run/P36/permuter/ov_SC04_011__func_801345F8/tgt/<binary>/<fn>.s']
+  prepared ov_SC04_011__func_80163EC8: draft 6727 lines, target ['target(s)', '->', '.run/P36/permuter/ov_SC04_011__func_80163EC8/tgt/<binary>/<fn>.s']
+  ov_SC04_011__func_8013CF68: NO-MATCH start=70 best=40 (721.9s, 134 copies, 1 needed, regalloc)
+  ov_SC04_011__func_80135D20: NO-MATCH start=12 best=28 (722.0s, 134 copies, 1 needed, regalloc)
+  prepared ov_SC04_011__func_80135A4C: draft 5161 lines, target ['target(s)', '->', '.run/P36/permuter/ov_SC04_011__func_80135A4C/tgt/<binary>/<fn>.s']
+  ov_SC04_011__func_801345F8: NO-MATCH start=105 best=33 (722.5s, 134 copies, 3 needed, regalloc)
+  ov_SC04_011__func_80163EC8: NO-MATCH start=8 best=28 (722.7s, 134 copies, 1 needed, regalloc)
+  prepared ov_SC04_011__func_80133AB0: draft 5081 lines, target ['target(s)', '->', '.run/P36/permuter/ov_SC04_011__func_80133AB0/tgt/<binary>/<fn>.s']
+  prepared ov_SC04_011__func_80135888: draft 5137 lines, target ['target(s)', '->', '.run/P36/permuter/ov_SC04_011__func_80135888/tgt/<binary>/<fn>.s']
+  prepared ov_SC04_011__func_80134A74: draft 5067 lines, target ['target(s)', '->', '.run/P36/permuter/ov_SC04_011__func_80134A74/tgt/<binary>/<fn>.s']
