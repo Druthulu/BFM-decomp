@@ -5516,8 +5516,6 @@ void aF80161208(void *a0) __asm__("func_80161208");
 
 extern void func_80161240(void *a0);
 extern s32 func_801612B8(void * a0, s32 a1);
-#define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
-#define SHB(x) __asm__("" : "=r"(x) : "0"(x))
 
 extern void func_801599A4(void*);
 extern void func_8015BDD0(s32*);
@@ -7473,7 +7471,6 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
 
 extern void func_80016714(void *a0, s32 a1);
 extern void func_80146C3C(u8*);
-#define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
 #define SHB(x) __asm__("" : "=r"(x) : "0"(x))
 
 void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)

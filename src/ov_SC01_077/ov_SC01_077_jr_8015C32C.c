@@ -5024,7 +5024,6 @@ extern void func_80159B3C(void *a0);
 // @stuck: none — MATCH
 extern s32 D_8011D030;
 extern s32 D_80126728;
-#define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
 #include "../shared/ov/func_80165CA0.h"
 
 M2C_UNK func_8001534C(M2C_UNK, M2C_UNK *, M2C_UNK, M2C_UNK, s32, s32); /* extern */

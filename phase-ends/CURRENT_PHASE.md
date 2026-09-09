@@ -479,6 +479,23 @@ accumulate here as the phase produces them.**
   `34,087 sites … marked 34,087 · UNMARKED 0` · `GTE levers 462` · `per-TU asm macro definitions 588 {gte 150, launder 428, instruction 9, barrier 1}`.
   Every unit with GTE work is now consolidated (`gte_consolidate --status`: 645 consolidated, 6 unchanged, 0 refused).
 
+- **S98 — T5 the dead lever-macro sweep (`gte_consolidate --sweep`, label `sweep3`).** Two false starts: the dead test counted a name's
+  sibling definition as a mention (SHB is defined twice per unit → nothing was ever dead), then counted uses per name per file (a used
+  sibling kept a dead definition alive) — now uses are counted per GOVERNING definition (a use, or an `#include` of a header that uses
+  the name, belongs to the last definition above it). Result: **274 dead asm-bearing macro definitions deleted in 133 files** (all SHB
+  definitions with no governed use), 0 compound macros' inner asm droppable (XFER/DRAW/RTP_SND/COPY_TO_FAAC/XFERLAST/LAUNDER_8018A180:
+  15 refused "all DIFFERS" — their launder/barrier is a real steer, their uses stay marked, T7's), 19 refused in all. R22
+  **`check-all: 218 passed, 0 failed of 218`** (`.run/P36/baseline/r22_sweep3.log`, 113 s). Census: `34,087 sites · marked 34,087 · UNMARKED 0`
+  · `orphan 0` · `GTE levers 462 (100 via a variant macro, 362 direct) · marked 462` · **`per-TU asm macro definitions outside the GTE header:
+  314 {launder 154 (SHB 142 + the compound ones), gte 150 (variants 64, header-bound homonyms 80+5, the unsigned two-statement macro 1),
+  instruction 9 (RTP_SND), barrier 1 (COPY_TO_FAAC)}`** (was 9,540 at T1) · `lever_census --check: … 0 UNMARKED — OK`. Two of the
+  refusals are a CENSUS BLIND SPOT, fixed next: a use of a macro defined in ANOTHER file is invisible to the census (it only knows a file's
+  own `#define`s) — the prelude's `ENGINE_SHB` is used 7 times by `src/shared/ov/func_80165CA0.h` (7 launder levers uncounted; deleting the
+  prelude's definition DIFFERED), and a unit's `SHB` used by an included header looked dead (the oracle refused the deletion — the
+  instrument's blind spot never reached the bytes). Also found on the way: the tool's selftest wrote its two-signature fixture table over the
+  real `canonical.json` (the census then classified every direct GTE statement against a fixture — 362 levers vanished twice); a selftest
+  never writes an instrument's real state (`write=False`).
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ — all committed (T4 = 13 batch commits `a605e1dba`…`f087282a3` + the tool commits; this close); NEXT = T5 the GTE consolidation + the dead lever-macro sweep | the number: 33,625 sites in 12,501 bodies (1,728 distinct) · marked 33,625 · UNMARKED 0 · orphans 0 — `lever_census --check` OK | last batch `gte2` on 145ab7719: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 34,085 sites in 12,710 bodies (1,757 distinct) · marked !FAKE 33,741 · UNMARKED 344
 
 ### 0. How to use this block

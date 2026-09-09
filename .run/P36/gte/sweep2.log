@@ -1,0 +1,38 @@
+  src/ov_SC03_126/ov_SC03_126_jr_8015C32C.c: all DIFFERS 
+  src/ov_SC03_126/ov_SC03_126_jr_8015C32C.c: REFUSED — dead ['SHB', 'SHB', 'SHB'] inner-asm dropped []
+  src/ov_SC04_021/ov_SC04_021_jr_8015C32C.c: all DIFFERS 
+  src/ov_SC04_021/ov_SC04_021_jr_8015C32C.c: REFUSED — dead ['SHB', 'SHB', 'SHB'] inner-asm dropped []
+  src/ov_SC05_019/ov_SC05_019_jr_8015C32C.c: all DIFFERS 
+  src/ov_SC05_019/ov_SC05_019_jr_8015C32C.c: REFUSED — dead ['SHB', 'SHB', 'SHB'] inner-asm dropped []
+  src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: all DIFFERS 
+  src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c: all DIFFERS 
+  src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: all DIFFERS 
+  src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c: all DIFFERS 
+  src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_018/ov_SC06_018_jr_8019059C.c: all DIFFERS 
+  src/ov_SC06_018/ov_SC06_018_jr_8019059C.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_018/ov_SC06_018_jr_80191C50.c: all DIFFERS 
+  src/ov_SC06_018/ov_SC06_018_jr_80191C50.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_022/ov_SC06_022_jr_80184A28.c: all DIFFERS 
+  src/ov_SC06_022/ov_SC06_022_jr_80184A28.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_024/ov_SC06_024_jr_80186F00.c: all DIFFERS 
+  src/ov_SC06_024/ov_SC06_024_jr_80186F00.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_029/ov_SC06_029_jr_801898CC.c: all COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_801898CC.c:3769: parse error before `)'
+src/ov_SC06_029/ov_SC06_029_j
+  src/ov_SC06_029/ov_SC06_029_jr_801898CC.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_030/ov_SC06_030_jr_8017C8D0.c: all DIFFERS 
+  src/ov_SC06_030/ov_SC06_030_jr_8017C8D0.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_032/ov_SC06_032_jr_80182890.c: all DIFFERS 
+  src/ov_SC06_032/ov_SC06_032_jr_80182890.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_032/ov_SC06_032_jr_801919A0.c: all DIFFERS 
+  src/ov_SC06_032/ov_SC06_032_jr_801919A0.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c: all DIFFERS 
+  src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_033/ov_SC06_033_jr_80186574.c: all DIFFERS 
+  src/ov_SC06_033/ov_SC06_033_jr_80186574.c: REFUSED — dead [] inner-asm dropped []
+  src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c: all DIFFERS 
+  src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c: REFUSED — dead [] inner-asm dropped []
+gte_consolidate --sweep sweep2: 0 dead asm-bearing macro definitions deleted, 0 compound macros' inner asm dropped, 0 files written, 18 refused

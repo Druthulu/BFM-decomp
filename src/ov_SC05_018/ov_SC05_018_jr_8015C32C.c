@@ -3294,8 +3294,6 @@ void aF80161208(void *a0) __asm__("func_80161208");
 
 extern void func_80161240(void *a0);
 extern s32 func_801612B8(void * a0, s32 a1);
-#define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
-#define SHB(x) __asm__("" : "=r"(x) : "0"(x))
 
 extern void func_801599A4(void*);
 extern void func_8015BDD0(s32*);

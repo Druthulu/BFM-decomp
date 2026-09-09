@@ -1,43 +1,987 @@
 {
- "generated": "2026-09-09 06:37",
+ "generated": "2026-09-09 06:44",
  "canonical": {
-  "00008ce804008de808008ee8|0|1": {
-   "name": "gte_stsxy3_alt",
-   "params": "( r0 )",
-   "body": "__asm__ volatile ( \"swc2 $12, 0( %0 );\" \"swc2 $13, 4( %0 );\" \"swc2 $14, 8( %0 )\" : : \"r\"( r0 ) : \"memory\" )",
+  "08008ce80c008de810008ee8|0|1": {
+   "name": "gte_stsxy3_f3",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $12, 8( %0 );\"\n    \"swc2 $13, 12( %0 );\"\n    \"swc2 $14, 16( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
    "clob": [
     "memory"
    ],
-   "defs": 1,
-   "files": 1,
+   "defs": 80,
+   "files": 80,
+   "synthesized": false,
+   "names": {
+    "gte_stsxy3_f4": 80,
+    "gte_stsxy3_f3": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $12, 8( %0 );swc2 $13, 12( %0 );swc2 $14, 16( %0 )"
+  },
+  "00000000000000001200484a|0|0": {
+   "name": "gte_rtv0tr",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;mvmva 1, 0, 0, 0, 0\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_rt_m": 55,
+    "gte_rtv0tr_m": 2,
+    "gte_mvmva0": 5,
+    "gte_rtv0tr": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;mvmva 1, 0, 0, 0, 0"
+  },
+  "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce48|0|1": {
+   "name": "gte_SetRotMatrix",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lw $12, 0( %0 );\"\n    \"lw $13, 4( %0 );\"\n    \"ctc2 $12, $0;\"\n    \"ctc2 $13, $1;\"\n    \"lw $12, 8( %0 );\"\n    \"lw $13, 12( %0 );\"\n    \"lw $14, 16( %0 );\"\n    \"ctc2 $12, $2;\"\n    \"ctc2 $13, $3;\"\n    \"ctc2 $14, $4\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"$13\", \"$14\" )",
+   "clob": [
+    "$12",
+    "$13",
+    "$14"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_SetRotMatrix_m": 3,
+    "gte_SetRotMatrix": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lw $12, 0( %0 );lw $13, 4( %0 );ctc2 $12, $0;ctc2 $13, $1;lw $12, 8( %0 );lw $13, 12( %0 );lw $14, 16( %0 );ctc2 $12, $2;ctc2 $13, $3;ctc2 $14, $4"
+  },
+  "14008c8c18008d8c0028cc481c008e8c0030cd480038ce48|0|1": {
+   "name": "gte_SetTransMatrix",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lw $12, 20( %0 );\"\n    \"lw $13, 24( %0 );\"\n    \"ctc2 $12, $5;\"\n    \"lw $14, 28( %0 );\"\n    \"ctc2 $13, $6;\"\n    \"ctc2 $14, $7\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"$13\", \"$14\" )",
+   "clob": [
+    "$12",
+    "$13",
+    "$14"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_SetTransMatrix_m": 2,
+    "gte_SetTransMatrix": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lw $12, 20( %0 );lw $13, 24( %0 );ctc2 $12, $5;lw $14, 28( %0 );ctc2 $13, $6;ctc2 $14, $7"
+  },
+  "000080c8040081c8|0|1": {
+   "name": "gte_ldv0",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lwc2 $0, 0( %0 );\"\n    \"lwc2 $1, 4( %0 )\"\n    :\n    : \"r\"( r0 ) )",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldv0_m": 1,
+    "gte_ldv0": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lwc2 $0, 0( %0 );lwc2 $1, 4( %0 )"
+  },
+  "00000000000000001260484a|0|0": {
+   "name": "gte_rtv0",
+   "params": "()",
+   "body": "__asm__ __volatile__(\n    \"nop\\n\"\n    \"nop\\n\"\n    \"mvmva 1, 0, 0, 3, 0\\n\" )",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_rtv0_m": 1,
+    "gte_rtv0": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop\\nnop\\nmvmva 1, 0, 0, 3, 0\\n"
+  },
+  "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce4814008c8c18008d8c0028cc481c008e8c0030cd480038ce48|0|1": {
+   "name": "gte_SetRotTransMatrix",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lw $12, 0( %0 );\"\n    \"lw $13, 4( %0 );\"\n    \"ctc2 $12, $0;\"\n    \"ctc2 $13, $1;\"\n    \"lw $12, 8( %0 );\"\n    \"lw $13, 12( %0 );\"\n    \"lw $14, 16( %0 );\"\n    \"ctc2 $12, $2;\"\n    \"ctc2 $13, $3;\"\n    \"ctc2 $14, $4;\"\n    \"lw $12, 20( %0 );\"\n    \"lw $13, 24( %0 );\"\n    \"ctc2 $12, $5;\"\n    \"lw $14, 28( %0 );\"\n    \"ctc2 $13, $6;\"\n    \"ctc2 $14, $7\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"$13\", \"$14\" )",
+   "clob": [
+    "$12",
+    "$13",
+    "$14"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_SetRotTransMatrix": 1
+   },
+   "sony": false,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lw $12, 0( %0 );lw $13, 4( %0 );ctc2 $12, $0;ctc2 $13, $1;lw $12, 8( %0 );lw $13, 12( %0 );lw $14, 16( %0 );ctc2 $12, $2;ctc2 $13, $3;ctc2 $14, $4;lw $12, 20( %0 );lw $13, 24( %0 );ctc2 $12, $5;lw $14, 28( %0 );ctc2 $13, $6;ctc2 $14, $7"
+  },
+  "00000000000000002d00584b|0|0": {
+   "name": "gte_avsz3",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;avsz3\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_avsz3": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;avsz3"
+  },
+  "00000000000000002e00684b|0|0": {
+   "name": "gte_avsz4",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;avsz4\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_avsz4": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;avsz4"
+  },
+  "00000000000000002900684a|0|0": {
+   "name": "gte_dpcl",
+   "params": "()",
+   "body": "__asm__ __volatile__(\"nop\\n\\tnop\\n\\tdpcl\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_dpcl": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop\\n\\tnop\\n\\tdpcl"
+  },
+  "00408048|0|0": {
+   "name": "gte_ldIR0z",
+   "params": "()",
+   "body": "__asm__ __volatile__(\"mtc2 $0, $8\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldIR0z": 1
+   },
+   "sony": false,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "mtc2 $0, $8"
+  },
+  "00009cc8|0|1": {
+   "name": "gte_ldIRGB",
+   "params": "(p)",
+   "body": "__asm__ __volatile__(\"lwc2 $28, 0(%0)\" :: \"r\"(p) : \"memory\")",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldIRGB": 1
+   },
+   "sony": false,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lwc2 $28, 0(%0)"
+  },
+  "00008c9406008d940c008e9400488c4800508d4800588e48|0|1": {
+   "name": "gte_ldclmv",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lhu $12, 0( %0 );\"\n    \"lhu $13, 6( %0 );\"\n    \"lhu $14, 12( %0 );\"\n    \"mtc2 $12, $9;\"\n    \"mtc2 $13, $10;\"\n    \"mtc2 $14, $11\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"$13\", \"$14\" )",
+   "clob": [
+    "$12",
+    "$13",
+    "$14"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldclmv": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lhu $12, 0( %0 );lhu $13, 6( %0 );lhu $14, 12( %0 );mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11"
+  },
+  "04008d9400008c94006c0d0025608d0100008c48080081c8|0|1": {
+   "name": "gte_ldlv0",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lhu $13, 4( %0 );\"\n    \"lhu $12, 0( %0 );\"\n    \"sll $13, $13, 16;\"\n    \"or $12, $12, $13;\"\n    \"mtc2 $12, $0;\"\n    \"lwc2 $1, 8( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"$13\" )",
+   "clob": [
+    "$12",
+    "$13"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldlv0": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lhu $13, 4( %0 );lhu $12, 0( %0 );sll $13, $13, 16;or $12, $12, $13;mtc2 $12, $0;lwc2 $1, 8( %0 )"
+  },
+  "01008d8000008c80006c0d0000640c0002640c0025608d0102008d8000008c4800088d48|0|1": {
+   "name": "gte_ldlvl_alt",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lb $13, 1( %0 );\"\n    \"lb $12, 0( %0 );\"\n    \"sll $13, $13, 16;\"\n    \"sll $12, $12, 16;\"\n    \"srl $12, $12, 16;\"\n    \"or $12, $12, $13;\"\n    \"lb $13, 2( %0 );\"\n    \"mtc2 $12, $0;\"\n    \"mtc2 $13, $1\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"$13\" )",
+   "clob": [
+    "$12",
+    "$13"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldlvl_alt": 1
+   },
+   "sony": false,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lb $13, 1( %0 );lb $12, 0( %0 );sll $13, $13, 16;sll $12, $12, 16;srl $12, $12, 16;or $12, $12, $13;lb $13, 2( %0 );mtc2 $12, $0;mtc2 $13, $1"
+  },
+  "000086c8|0|1": {
+   "name": "gte_ldrgb",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lwc2 $6, 0( %0 )\"\n    :\n    : \"r\"( r0 ) )",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldrgb": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lwc2 $6, 0( %0 )"
+  },
+  "000080c8040081c80000a2c80400a3c80000c4c80400c5c8|0|3": {
+   "name": "gte_ldv3",
+   "params": "(r0, r1, r2)",
+   "body": "__asm__ volatile (\n    \"lwc2 $0, 0( %0 );\"\n    \"lwc2 $1, 4( %0 );\"\n    \"lwc2 $2, 0( %1 );\"\n    \"lwc2 $3, 4( %1 );\"\n    \"lwc2 $4, 0( %2 );\"\n    \"lwc2 $5, 4( %2 )\"\n    :\n    : \"r\"( r0 ), \"r\"( r1 ), \"r\"( r2 ) )",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldv3": 1
+   },
+   "sony": true,
+   "nin": 3,
+   "nout": 0,
+   "tmpl": "lwc2 $0, 0( %0 );lwc2 $1, 4( %0 );lwc2 $2, 0( %1 );lwc2 $3, 4( %1 );lwc2 $4, 0( %2 );lwc2 $5, 4( %2 )"
+  },
+  "000080c8040081c80000a2c80400a3c80000a4c80400a5c8|0|2": {
+   "name": "gte_ldv3_alt",
+   "params": "(r0, r1)",
+   "body": "__asm__ volatile (\n    \"lwc2 $0, 0( %0 );\"\n    \"lwc2 $1, 4( %0 );\"\n    \"lwc2 $2, 0( %1 );\"\n    \"lwc2 $3, 4( %1 );\"\n    \"lwc2 $4, 0( %1 );\"\n    \"lwc2 $5, 4( %1 )\"\n    :\n    : \"r\"( r0 ), \"r\"( r1 ) )",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldv3_alt": 1
+   },
+   "sony": false,
+   "nin": 2,
+   "nout": 0,
+   "tmpl": "lwc2 $0, 0( %0 );lwc2 $1, 4( %0 );lwc2 $2, 0( %1 );lwc2 $3, 4( %1 );lwc2 $4, 0( %1 );lwc2 $5, 4( %1 )"
+  },
+  "000080c8040081c8080082c80c0083c8100084c8140085c8|0|1": {
+   "name": "gte_ldv3c",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lwc2 $0, 0( %0 );\"\n    \"lwc2 $1, 4( %0 );\"\n    \"lwc2 $2, 8( %0 );\"\n    \"lwc2 $3, 12( %0 );\"\n    \"lwc2 $4, 16( %0 );\"\n    \"lwc2 $5, 20( %0 )\"\n    :\n    : \"r\"( r0 ) )",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldv3c": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lwc2 $0, 0( %0 );lwc2 $1, 4( %0 );lwc2 $2, 8( %0 );lwc2 $3, 12( %0 );lwc2 $4, 16( %0 );lwc2 $5, 20( %0 )"
+  },
+  "00008c9406008d940c008e9400488c4800508d4800588e48000000000000000012e0494a00480c4800500d4800580e4800008ca406008da40c008ea4|0|1": {
+   "name": "gte_mulcol",
+   "params": "(r0)",
+   "body": "__asm__ __volatile__ (\n    \"lhu $12, 0(%0)\\n\" \"lhu $13, 6(%0)\\n\" \"lhu $14, 12(%0)\\n\"\n    \"mtc2 $12, $9\\n\" \"mtc2 $13, $10\\n\" \"mtc2 $14, $11\\n\"\n    \"nop\\n\" \"nop\\n\" \"mvmva 1, 0, 3, 3, 0\\n\"\n    \"mfc2 $12, $9\\n\" \"mfc2 $13, $10\\n\" \"mfc2 $14, $11\\n\"\n    \"sh $12, 0(%0)\\n\" \"sh $13, 6(%0)\\n\" \"sh $14, 12(%0)\\n\"\n    : : \"r\"(r0) : \"$12\", \"$13\", \"$14\", \"memory\")",
+   "clob": [
+    "$12",
+    "$13",
+    "$14",
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_mulcol": 1
+   },
+   "sony": false,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lhu $12, 0(%0)\\nlhu $13, 6(%0)\\nlhu $14, 12(%0)\\nmtc2 $12, $9\\nmtc2 $13, $10\\nmtc2 $14, $11\\nnop\\nnop\\nmvmva 1, 0, 3, 3, 0\\nmfc2 $12, $9\\nmfc2 $13, $10\\nmfc2 $14, $11\\nsh $12, 0(%0)\\nsh $13, 6(%0)\\nsh $14, 12(%0)\\n"
+  },
+  "04008d9400008c94006c0d0025608d0100008c48080081c800000000000000001200484a000099e804009ae808009be8|0|1": {
+   "name": "gte_multrans",
+   "params": "(r0)",
+   "body": "__asm__ __volatile__ (\n    \"lhu $13, 4(%0)\\n\" \"lhu $12, 0(%0)\\n\"\n    \"sll $13, $13, 16\\n\" \"or $12, $12, $13\\n\"\n    \"mtc2 $12, $0\\n\" \"lwc2 $1, 8(%0)\\n\"\n    \"nop\\n\" \"nop\\n\" \"mvmva 1, 0, 0, 0, 0\\n\"\n    \"swc2 $25, 0(%0)\\n\" \"swc2 $26, 4(%0)\\n\" \"swc2 $27, 8(%0)\\n\"\n    : : \"r\"(r0) : \"$12\", \"$13\", \"memory\")",
+   "clob": [
+    "$12",
+    "$13",
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_multrans": 1
+   },
+   "sony": false,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lhu $13, 4(%0)\\nlhu $12, 0(%0)\\nsll $13, $13, 16\\nor $12, $12, $13\\nmtc2 $12, $0\\nlwc2 $1, 8(%0)\\nnop\\nnop\\nmvmva 1, 0, 0, 0, 0\\nswc2 $25, 0(%0)\\nswc2 $26, 4(%0)\\nswc2 $27, 8(%0)\\n"
+  },
+  "00000000000000001b04084b|0|0": {
+   "name": "gte_nccs",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;nccs\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_nccs": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;nccs"
+  },
+  "00000000000000003f04184b|0|0": {
+   "name": "gte_ncct",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;ncct\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ncct": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;ncct"
+  },
+  "00000000000000000600404b|0|0": {
+   "name": "gte_nclip",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;nclip\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_nclip": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;nclip"
+  },
+  "0000a0c80400a1c800000000000000001260484a000099e804009ae808009be8|0|2": {
+   "name": "gte_rt_alt",
+   "params": "(r1, r0)",
+   "body": "__asm__ volatile (\n    \"lwc2 $0, 0( %1 );\"\n    \"lwc2 $1, 4( %1 );\"\n    \"nop;\"\n    \"nop;\"\n    \"mvmva 1, 0, 0, 3, 0;\"\n    \"swc2 $25, 0( %0 );\"\n    \"swc2 $26, 4( %0 );\"\n    \"swc2 $27, 8( %0 )\"\n    :\n    : \"r\"( r1 ), \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_rt_alt": 1
+   },
+   "sony": false,
+   "nin": 2,
+   "nout": 0,
+   "tmpl": "lwc2 $0, 0( %1 );lwc2 $1, 4( %1 );nop;nop;mvmva 1, 0, 0, 3, 0;swc2 $25, 0( %0 );swc2 $26, 4( %0 );swc2 $27, 8( %0 )"
+  },
+  "000000000000000012e0494a|0|0": {
+   "name": "gte_rtir",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;mvmva 1, 0, 3, 3, 0\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_rtir": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;mvmva 1, 0, 3, 3, 0"
+  },
+  "00000000000000000100184a|0|0": {
+   "name": "gte_rtps",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;rtps\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_rtps": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;rtps"
+  },
+  "00000000000000003000284a|0|0": {
+   "name": "gte_rtpt",
+   "params": "()",
+   "body": "__asm__ volatile (\"nop;nop;rtpt\")",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_rtpt": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop;nop;rtpt"
+  },
+  "00009de8|0|1": {
+   "name": "gte_stORGB",
+   "params": "(p)",
+   "body": "__asm__ __volatile__(\"swc2 $29, 0(%0)\" :: \"r\"(p) : \"memory\")",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stORGB": 1
+   },
+   "sony": false,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $29, 0(%0)"
+  },
+  "00480c4800500d4800580e4800008ca406008da40c008ea4|0|1": {
+   "name": "gte_stclmv",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"mfc2 $12, $9;\"\n    \"mfc2 $13, $10;\"\n    \"mfc2 $14, $11;\"\n    \"sh $12, 0( %0 );\"\n    \"sh $13, 6( %0 );\"\n    \"sh $14, 12( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"$13\", \"$14\", \"memory\" )",
+   "clob": [
+    "$12",
+    "$13",
+    "$14",
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stclmv": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0( %0 );sh $13, 6( %0 );sh $14, 12( %0 )"
+  },
+  "00f84c480000000000008cac|0|1": {
+   "name": "gte_stflg",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"cfc2 $12, $31;\"\n    \"nop;\"\n    \"sw $12, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"memory\" )",
+   "clob": [
+    "$12",
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stflg": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "cfc2 $12, $31;nop;sw $12, 0( %0 )"
+  },
+  "000099e804009ae808009be8|0|1": {
+   "name": "gte_stlvnl",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $25, 0( %0 );\"\n    \"swc2 $26, 4( %0 );\"\n    \"swc2 $27, 8( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stlvnl": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $25, 0( %0 );swc2 $26, 4( %0 );swc2 $27, 8( %0 )"
+  },
+  "000098e8|0|1": {
+   "name": "gte_stopz",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $24, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stopz": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $24, 0( %0 )"
+  },
+  "000087e8|0|1": {
+   "name": "gte_stotz",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $7, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stotz": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $7, 0( %0 )"
+  },
+  "000096e8|0|1": {
+   "name": "gte_strgb",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $22, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_strgb": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $22, 0( %0 )"
+  },
+  "000094e80000b5e80000d6e8|0|3": {
+   "name": "gte_strgb3",
+   "params": "(r0, r1, r2)",
+   "body": "__asm__ volatile (\n    \"swc2 $20, 0( %0 );\"\n    \"swc2 $21, 0( %1 );\"\n    \"swc2 $22, 0( %2 )\"\n    :\n    : \"r\"( r0 ), \"r\"( r1 ), \"r\"( r2 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_strgb3": 1
+   },
+   "sony": true,
+   "nin": 3,
+   "nout": 0,
+   "tmpl": "swc2 $20, 0( %0 );swc2 $21, 0( %1 );swc2 $22, 0( %2 )"
+  },
+  "040094e80c0095e8140096e8|0|1": {
+   "name": "gte_strgb3_g3",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $20, 4( %0 );\"\n    \"swc2 $21, 12( %0 );\"\n    \"swc2 $22, 20( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_strgb3_g3": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $20, 4( %0 );swc2 $21, 12( %0 );swc2 $22, 20( %0 )"
+  },
+  "00480c4800500d4800580e4800008ca402008da404008ea4|0|1": {
+   "name": "gte_stsv",
+   "params": "(r0)",
+   "body": "__asm__ __volatile__(\n    \"mfc2 $12, $9\\n\"\n    \"mfc2 $13, $10\\n\"\n    \"mfc2 $14, $11\\n\"\n    \"sh $12, 0(%0)\\n\"\n    \"sh $13, 2(%0)\\n\"\n    \"sh $14, 4(%0)\\n\"\n    : : \"r\"(r0) : \"$12\", \"$13\", \"$14\", \"memory\")",
+   "clob": [
+    "$12",
+    "$13",
+    "$14",
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsv": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "mfc2 $12, $9\\nmfc2 $13, $10\\nmfc2 $14, $11\\nsh $12, 0(%0)\\nsh $13, 2(%0)\\nsh $14, 4(%0)\\n"
+  },
+  "00008ee8|0|1": {
+   "name": "gte_stsxy",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $14, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsxy": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $14, 0( %0 )"
+  },
+  "00008ce8|0|1": {
+   "name": "gte_stsxy0",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $12, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsxy0": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $12, 0( %0 )"
+  },
+  "00008ce80000ade8|0|2": {
+   "name": "gte_stsxy01",
+   "params": "(r0, r1)",
+   "body": "__asm__ volatile (\n    \"swc2 $12, 0( %0 );\"\n    \"swc2 $13, 0( %1 )\"\n    :\n    : \"r\"( r0 ), \"r\"( r1 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsxy01": 1
+   },
+   "sony": true,
+   "nin": 2,
+   "nout": 0,
+   "tmpl": "swc2 $12, 0( %0 );swc2 $13, 0( %1 )"
+  },
+  "00008de8|0|1": {
+   "name": "gte_stsxy1",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $13, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsxy1": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $13, 0( %0 )"
+  },
+  "00008ce80000ade80000cee8|0|3": {
+   "name": "gte_stsxy3",
+   "params": "(r0, r1, r2)",
+   "body": "__asm__ volatile (\n    \"swc2 $12, 0( %0 );\"\n    \"swc2 $13, 0( %1 );\"\n    \"swc2 $14, 0( %2 )\"\n    :\n    : \"r\"( r0 ), \"r\"( r1 ), \"r\"( r2 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
    "synthesized": false,
    "names": {
     "gte_stsxy3": 1
    },
-   "sony": false,
+   "sony": true,
+   "nin": 3,
+   "nout": 0,
+   "tmpl": "swc2 $12, 0( %0 );swc2 $13, 0( %1 );swc2 $14, 0( %2 )"
+  },
+  "08008ce810008de818008ee8|0|1": {
+   "name": "gte_stsxy3_ft3",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $12, 8( %0 );\"\n    \"swc2 $13, 16( %0 );\"\n    \"swc2 $14, 24( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsxy3_ft3": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $12, 8( %0 );swc2 $13, 16( %0 );swc2 $14, 24( %0 )"
+  },
+  "08008ce814008de820008ee8|0|1": {
+   "name": "gte_stsxy3_gt4",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $12, 8( %0 );\"\n    \"swc2 $13, 20( %0 );\"\n    \"swc2 $14, 32( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsxy3_gt4": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "swc2 $12, 8( %0 );swc2 $13, 20( %0 );swc2 $14, 32( %0 )"
+  },
+  "00008ce804008de808008ee8|0|1": {
+   "name": "gte_stsxy3c",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $12, 0( %0 );\"\n    \"swc2 $13, 4( %0 );\"\n    \"swc2 $14, 8( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsxy3c": 1
+   },
+   "sony": true,
    "nin": 1,
    "nout": 0,
    "tmpl": "swc2 $12, 0( %0 );swc2 $13, 4( %0 );swc2 $14, 8( %0 )"
   },
-  "00008ce80c008de818008ee8|0|1": {
-   "name": "gte_stsxy3_alt2",
-   "params": "( r0 )",
-   "body": "__asm__ volatile ( \"swc2 $12, 0( %0 );\" \"swc2 $13, 12( %0 );\" \"swc2 $14, 24( %0 )\" : : \"r\"( r0 ) : \"memory\" )",
+  "000093e8|0|1": {
+   "name": "gte_stsz",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"swc2 $19, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"memory\" )",
    "clob": [
     "memory"
    ],
-   "defs": 1,
-   "files": 1,
+   "defs": 0,
+   "files": 0,
    "synthesized": false,
    "names": {
-    "gte_stsxy3": 1
+    "gte_stsz": 1
    },
-   "sony": false,
+   "sony": true,
    "nin": 1,
    "nout": 0,
-   "tmpl": "swc2 $12, 0( %0 );swc2 $13, 12( %0 );swc2 $14, 24( %0 )"
+   "tmpl": "swc2 $19, 0( %0 )"
+  },
+  "000091e80000b2e80000d3e8|0|3": {
+   "name": "gte_stsz3",
+   "params": "(r0, r1, r2)",
+   "body": "__asm__ volatile (\n    \"swc2 $17, 0( %0 );\"\n    \"swc2 $18, 0( %1 );\"\n    \"swc2 $19, 0( %2 )\"\n    :\n    : \"r\"( r0 ), \"r\"( r1 ), \"r\"( r2 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsz3": 1
+   },
+   "sony": true,
+   "nin": 3,
+   "nout": 0,
+   "tmpl": "swc2 $17, 0( %0 );swc2 $18, 0( %1 );swc2 $19, 0( %2 )"
+  },
+  "000090e80000b1e80000d2e80000f3e8|0|4": {
+   "name": "gte_stsz4",
+   "params": "(r0, r1, r2, r3)",
+   "body": "__asm__ volatile (\n    \"swc2 $16, 0( %0 );\"\n    \"swc2 $17, 0( %1 );\"\n    \"swc2 $18, 0( %2 );\"\n    \"swc2 $19, 0( %3 )\"\n    :\n    : \"r\"( r0 ), \"r\"( r1 ), \"r\"( r2 ), \"r\"( r3 )\n    : \"memory\" )",
+   "clob": [
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stsz4": 1
+   },
+   "sony": true,
+   "nin": 4,
+   "nout": 0,
+   "tmpl": "swc2 $16, 0( %0 );swc2 $17, 0( %1 );swc2 $18, 0( %2 );swc2 $19, 0( %3 )"
+  },
+  "00980c480000000083600c0000008cac|0|1": {
+   "name": "gte_stszotz",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"mfc2 $12, $19;\"\n    \"nop;\"\n    \"sra $12, $12, 2;\"\n    \"sw $12, 0( %0 )\"\n    :\n    : \"r\"( r0 )\n    : \"$12\", \"memory\" )",
+   "clob": [
+    "$12",
+    "memory"
+   ],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_stszotz": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "mfc2 $12, $19;nop;sra $12, $12, 2;sw $12, 0( %0 )"
   }
  },
- "variants": {},
- "unsigned": []
+ "variants": {
+  "00000000000000001200484a|0|0|memory": {
+   "name": "gte_rtv0tr_m",
+   "of": "gte_rtv0tr",
+   "key": "00000000000000001200484a|0|0",
+   "clob": [
+    "memory"
+   ],
+   "extra": [
+    "memory"
+   ],
+   "fewer": [],
+   "defs": 62,
+   "files": 62
+  },
+  "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce48|0|1|$12|$13|$14|memory": {
+   "name": "gte_SetRotMatrix_m",
+   "of": "gte_SetRotMatrix",
+   "key": "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce48|0|1",
+   "clob": [
+    "$12",
+    "$13",
+    "$14",
+    "memory"
+   ],
+   "extra": [
+    "memory"
+   ],
+   "fewer": [],
+   "defs": 3,
+   "files": 3
+  },
+  "14008c8c18008d8c0028cc481c008e8c0030cd480038ce48|0|1|$12|$13|$14|memory": {
+   "name": "gte_SetTransMatrix_m",
+   "of": "gte_SetTransMatrix",
+   "key": "14008c8c18008d8c0028cc481c008e8c0030cd480038ce48|0|1",
+   "clob": [
+    "$12",
+    "$13",
+    "$14",
+    "memory"
+   ],
+   "extra": [
+    "memory"
+   ],
+   "fewer": [],
+   "defs": 2,
+   "files": 2
+  },
+  "000080c8040081c8|0|1|memory": {
+   "name": "gte_ldv0_m",
+   "of": "gte_ldv0",
+   "key": "000080c8040081c8|0|1",
+   "clob": [
+    "memory"
+   ],
+   "extra": [
+    "memory"
+   ],
+   "fewer": [],
+   "defs": 1,
+   "files": 1
+  },
+  "00000000000000001260484a|0|0|memory": {
+   "name": "gte_rtv0_m",
+   "of": "gte_rtv0",
+   "key": "00000000000000001260484a|0|0",
+   "clob": [
+    "memory"
+   ],
+   "extra": [
+    "memory"
+   ],
+   "fewer": [],
+   "defs": 1,
+   "files": 1
+  }
+ },
+ "unsigned": [
+  {
+   "tu": "src/md_MAIN_019/md_MAIN_019.c",
+   "name": "gte_rt",
+   "l0": 301
+  }
+ ]
 }
