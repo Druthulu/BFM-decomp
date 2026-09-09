@@ -456,6 +456,48 @@ unsloth_compiled_cache/
 !/.run/P35/convert/*.txt
 !/.run/P35/convert/*.sh
 
+# P36 (S97, 2026-09-09): the levers-off phase's evidence — the R22 baseline and close logs, the lever census JSON/tables, the
+# oracle calibration and the probe's measurements, the delever ledger and batch logs, the permuter outcomes, the wave packs and
+# verdicts. Text only, nothing ROM-derived (no .o, no .s, no images). Contents form (R84).
+!/.run/P36/
+/.run/P36/*
+!/.run/P36/*.log
+!/.run/P36/*.md
+!/.run/P36/baseline/
+/.run/P36/baseline/*
+!/.run/P36/baseline/*.log
+!/.run/P36/baseline/*.txt
+!/.run/P36/census/
+/.run/P36/census/*
+!/.run/P36/census/*.json
+!/.run/P36/census/*.txt
+!/.run/P36/census/*.md
+!/.run/P36/probe/
+/.run/P36/probe/*
+!/.run/P36/probe/*.log
+!/.run/P36/probe/*.txt
+!/.run/P36/probe/*.md
+!/.run/P36/probe/*.json
+!/.run/P36/probe/*.py
+!/.run/P36/delever/
+/.run/P36/delever/*
+!/.run/P36/delever/*.log
+!/.run/P36/delever/*.json
+!/.run/P36/delever/*.jsonl
+!/.run/P36/delever/*.txt
+!/.run/P36/permuter/
+/.run/P36/permuter/*
+!/.run/P36/permuter/*.log
+!/.run/P36/permuter/*.json
+!/.run/P36/permuter/*.txt
+!/.run/P36/waves/
+/.run/P36/waves/*
+!/.run/P36/waves/*.log
+!/.run/P36/waves/*.json
+!/.run/P36/waves/*.jsonl
+!/.run/P36/waves/*.txt
+!/.run/P36/waves/*.md
+
 # Outreach drafts (P34 task 6, Drew's decision 2026-09-08): the notes to neighbouring projects were SENT (the Archipelago issue,
 # the decomp.me preset request, the tools post, the #ai reply); the drafts stay on the maintainer's machine and leave the tree
 # from here (no rewrite — they are in the published history). Contents form, R84.
