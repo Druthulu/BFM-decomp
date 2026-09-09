@@ -818,95 +818,46 @@ the two decisions in §2 are **Max** (the plan: T5's tool is Max; the mechanical
 start. Autonomous between the gates (P3); stop only on P5's conditions — §2 step 6 is a P5(d)-shaped decision and is written as one.
 Commit per task; a bank the moment it is green (R42); Drew pushes (R6). **Read §4's first gotcha before running `share_body.py` at all.**
 
-### 1. Where things stand (S95, 2026-09-08 ~19:30 local)
-- **HEAD `571374b97`** = "T5 bucket 0 (first pass)" (18:30 local). Phase-35 commits so far, in order: T0 …, T1 `1dbffee87`/`72a77e7d3`, T2
-  `6cb056c93`/`4ec752e68`/`24e8ff72d`, T3 `9b0816e74`/`e79cfcc06`/`2648aa5a9`/`6ebb3dac3`/`0e38b51a3`, T4 `c53a9e1a9`/`a8457663f`, T5
-  `0bccef901` (the tool + probe) and `571374b97`. `origin/main` is behind by every Phase-35 commit (Drew pushes).
-- **The tree is DIRTY with run 2's bank (uncommitted, bankable — S94 log entry "SECOND RUN" + S95 finding 1):** 38 `src/` files in 8
-  overlays (170 private definitions → shared includes), `config/dedup_exceptions.tsv` (+55 TU-CONFLICT rows), `.run/P35/share/
-  batch_extend1.json` + `batch_extend2.json` (run 2's records), 139 modified `.run/P35/share/check_*.log`, untracked `.run/P35/share/
-  run_extend2.log` and `.run/P35/baseline/kit_corpus_t5a.log`. Every binary's final `check_<b>.log` ends `(BYTE-IDENTICAL)`; the run exited 0.
-  `git diff --stat -- src` = 38 files, +225/−3,057. **Do not run `share_body.py`, any gate, `make check-all` or anything that rewrites `src/`
-  before step 1 commits this** (R42; and §4 gotcha 1 — the tool's bisect `git checkout`s TUs).
-- **Last clean fleet run:** T4's, `.run/P35/baseline/r22_t4.log` (18:04 local, `check-all: 218 passed, 0 failed of 218`, 145 s) — BEFORE any
-  T5 edit. **R22 is owed for T5** (both the committed first pass and run 2 were gated only by per-binary incremental `make check` + object
-  comparison). `build/` holds objects from those incremental gates, not from a clean run.
-- **Bucket 0 state:** started at 183 registered-incomplete classes (`share_body --plan`, 18:09). First pass: 754 + 34 = 788 members added
-  to the registry (wholesale, before the "only members that passed" fix); run 2 found 150 still incomplete, shared 170 sites (on disk) and
-  rejected 55 classes in 325 (class, binary) pairs — all 55 ledgered `TU-CONFLICT`. Of the 325 rejecting binaries, **317 are listed as
-  members** of the class's group in `config/dedup.us.yaml` (registry ahead of source). An estimated 50–63 further kept sites were wiped by
-  the cross-batch defect (S95 finding 4) — they are NOT ledgered and will reappear as verdict-B classes in the next census.
-- **Bucket `new` (untouched):** 915 unregistered same-vram classes / 3,567 private sites; by band 32+ 446 · 16–31 255 · 8–15 204 · 1–7 11;
-  27 differing-text (verdict D), 139 with pins, 6 alias-form. Cross-vram classes (E flag, 3,826 at the T4 census) are DEFERRED (plan).
-- **Ghidra MCP:** launched headless by the SessionStart hook each session (`.run/ghidra-mcp.log`; S95's connection attempt failed at start-up
-  and was not needed — no RE work this phase). Stop it via the sentinel (`tools/ghidra_mcp_stop.sh` / `.run/mcp-stop.req`) before the close
-  commit (R23). **Disk:** 32 GB free of 73 GB; `.run/` ≈ 21 GB. The S94 transcript: `~/.claude/projects/-home-musashi-bfm-decomp/
-  e902c34e-e4b3-41a6-b1e4-7d2ef019a371.jsonl` (6.4 MB; S94 ran 14:29–18:42 local). The dead session's replay residue (cc1.err, out.s,
-  bak_074.c) is at `/tmp/claude-1000/-home-musashi-bfm-decomp/e902c34e-e4b3-41a6-b1e4-7d2ef019a371/scratchpad/` (volatile).
+### 1. Where things stand (S96, 2026-09-08 late evening — refreshed at the T6 close)
+- **HEAD `93b4706c9`** = "T6 CLOSE"; tree CLEAN; `origin/main` behind by every Phase-35 commit (Drew pushes). T0–T6 ☑. The last clean fleet
+  run is `.run/P35/baseline/r22_t5_new8.log` (`check-all: 218 passed, 0 failed of 218`, after bucket new batch 8); T6 changed no build
+  input (tools, docs, the registry, the generated digests only). `make tools-health` is GREEN at `93b4706c9` (`tools_health_t6d.log`,
+  484 s, exit 0) with the macro-form guard line inside it.
+- **Dedup state:** registry 3,135 groups (2,220 at the open); shared headers 3,137 under `src/shared/{ov,main,slot_*}/`; S1 `10,180 classes,
+  10,180 satisfied (3,580 twin-covered, 51 excepted, 3,801 deferred cross-address), 0 VIOLATION(S) — OK`; the same-vram backlog is exactly
+  the 51 ledger rows (`config/dedup_exceptions.tsv`: 50 TU-CONFLICT — the late overlays' declaration conflicts, for the types phase — + 1
+  GATE-REJECT `E_func_801376E8`); cross-vram classes (E flag 3,826) DEFERRED to the names phase. Published numbers moved at T6 and are
+  explained in the T6 part-2 log entry: fleet functions 363,221 → 363,680 (+459 formerly invisible macro sites), REAL 360,744 → 350,533
+  (empty-bodied shared functions now EMPTY); the instruction-weighted metrics unchanged (13,492,113 / 5,820,205 / 45,150).
+- **Tools:** `share_body.py` (`--plan/--apply/--reexemplar/--repair-registry`, `--batches 1` default, snapshot restore, the cause rule),
+  `share_body_cycle.sh` (the unattended batch cycle), `frozen.py` (14 FROZEN tools' refusal), the guard in `tool_census --check`;
+  `dedup_propagate`/`dedup_extend`/`macro_draft`/`test_reconcile_ledger` under `tools/sunset/`. Ghidra MCP: launched by the hook, unused,
+  stop via `tools/ghidra_mcp_stop.sh` before the close commit (R23). Disk ≈ 32 GB free. The context guard (`~/.claude/ctx_guard.sh`) is
+  armed at 90 %.
 
-### 2. The resume sequence for T5 (in this order; each step's verify line quoted in the log; one commit per step)
-1. **Bank run 2 (R42/R66; the tool's success lines are quoted in the S94 "SECOND RUN" entry).** From the repository root:
-   `git add -u src config/dedup_exceptions.tsv .run/P35/share && git add .run/P35/share/run_extend2.log .run/P35/baseline/kit_corpus_t5a.log`
-   then `git status --short | grep -v '^[MA] '` must print nothing else, then commit:
-   `src(phase-35): T5 bucket 0 (second run, finished after S94 died — banked by S96) — 170 private copies in 8 overlays replaced by the shared include (ov_SC07_006 49, ov_SC07_007 29, ov_SC07_011 29, ov_SC07_010 28, ov_SC01_077 19, ov_SC02_037 6, ov_MAIN_012 5, ov_SC03_107 5); 141/141 binaries green per binary (make check + object A/B); 55 classes rejected in 325 (class, binary) pairs, ledgered TU-CONFLICT in config/dedup_exceptions.tsv; run_extend2.log + the batch records`.
-   (If Drew prefers to see the fleet first: `make clean && make extract-all JOBS=16 && make check-all JOBS=16` → `218 passed, 0 failed of 218`,
-   read by exit code — then commit. Either order is defensible; R42 says commit first.)
-2. **Fix `tools/share_body.py` (Max; one commit; `make kit-corpus` + `tool_census --check` in the same commit — the kit holds a verbatim copy):**
-   (a) `gate()` lines 201–207: the cause = the first stderr line of the form `^\S+:\d+: ` that is not `warning:`/`note:`/`In function`/
-   `At top level`/`In file included`, else `undefined reference`/`multiple definition`/`{standard input}:.*Error`/`\[FAIL\]`, else the make
-   line — gcc 2.7.2 errors carry no "error" token (S95 finding 3); negative-control on `.run/P35/share/check_*.log` from the two runs
-   (R39: the memcpy warning must never be picked). (b) Cross-batch edit loss (finding 4): take an in-memory snapshot of every TU's text in
-   `run_batch` BEFORE `b.apply_edits()` and make `restore()` write those snapshots back (never `git checkout`); AND make batch positions
-   valid — simplest: one batch per invocation (`--batch` = the whole pool, or exit after the first batch) with the caller committing between
-   runs, so every run's census sees committed text; the more general fix re-runs `census()` before each batch (~30 s). (c) Ledger reasons:
-   RANGE-DEFECT (parse error at/near the site), SYMBOL-NAME (`undefined reference`), GATE-REJECT (`[FAIL]` = bytes differ), TU-CONFLICT (cc1
-   prototype/type conflict) — the reason column in `config/dedup_exceptions.tsv` is documented at its head; add the new codes there. (d) The
-   docstring's promise "the class is registered with the members that passed" is only true since the first-pass fix — keep it, and add the
-   §4 gotcha 1 sentence to the docstring. Verify: `py_compile`; a `--only <h> --bucket extend` run on ONE ledger-free class after step 3.
-3. **Repair the registry (Max decision, mechanical edit):** remove the 317 listed-but-private members — derive them, never type them: for
-   each ledger row, the group id is in its note (`extend of <gid> rejected in [...]`), the binaries are the list; the registry members are
-   the `binaries: [...]` line of that group (`config/dedup.us.yaml`, shorthand form). Edit by TEXT (never `yaml.safe_dump`, H5); then
-   `tools/dedup_integrate.py --check` → `dedup-check: N validated, 0 failed`, and `tools/share_census.py --no-cache` → the 55 classes still
-   verdict B + EXCEPTED, `0 UNACCOUNTED`. Alternative Drew may prefer: keep the members and let T7's C2d exempt ledgered classes — S95's
-   recommendation is removal ("the registry never runs ahead of the source" is the rule the tool now enforces). Also drop the 55 ledger
-   rows for any class you intend to retry in step 5/6 — `candidates()` (`share_body.py:75`) SKIPS excepted classes, so a ledgered class is
-   never re-attempted while its row stands (use `--only <h_exact>` after deleting its row).
-4. **Replay the suspect rejections (xHigh; read-only until a fix is designed).** The replay recipe (S94's, works): from the census's instance
-   record (`share_body.census(16)['classes']` with `keep_instances`, or `share_census.scan_text(text, rel, shared_defs={})` on one TU) take
-   `line`/`end` of the private copy, replace `lines[line-1:end]` with the include line, then `mipsel-linux-gnu-cpp -lang-c -Iinclude -undef
-   -fno-builtin -Dmips <tu> | tools/bin/gcc-2.7.2-psx/cc1 -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker 2>cc1.err` and
-   READ cc1.err's non-warning lines (`grep -vE 'warning:|In function|In file included|At top level'`); restore the TU from a copy (`cp`,
-   not `git checkout`, if the tree is dirty). Targets: `E_func_8016163C` (`d743c21bd9`) at `src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3390`
-   (`parse error before 'if'`), `E_func_80161774` (`3576d059c2`) at `src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:3438` (`before 'not'`),
-   `E_func_80138C30` (`9bda7673e9`) at `src/ov_SC03_014/ov_SC03_014_jr_801380E0.c:1050`; if the include landed inside or short of the
-   definition, the defect is `share_census`'s range detection (`end`) — fix it there, re-census, retry those classes. The link-time
-   `undefined reference` cases (`func_80161A90`, `func_8012A68C`, `func_80161B18`, `func_8012A598`) need `grep -n <name> config/symbols.*`
-   for the rejecting binary — a callee named differently in that binary's symbol stack is a names-phase item; ledger it SYMBOL-NAME.
-   `E_func_801376E8` (`7529ad8f17`, bytes differ in SC07_006/007/010/011): compare the private copy's text with the alias-form header and
-   `objdump -d` both objects' function; ledger GATE-REJECT with the differing instruction.
-5. **Decide `E_func_80168B70` (`93d5fccdcc…`; 134 of the 325 pairs — P5(d)-shaped, ask Drew with the recommendation first):** the header's
-   text is the 7 late overlays' spelling (`func_80146C3C((u8 *)a0)` against their `extern void func_80146C3C(u8 *a0)`); 134 overlays
-   declare `extern void func_80146C3C(void)` and call `((void (*)(s32))func_80146C3C)(a0)` — same bytes. Options: (A) re-exemplar the
-   header from the MAJORITY private text (the 134's) and re-gate the 7 (they may then reject → 7 private copies instead of 134) —
-   S95's recommendation, and the general rule for any B class whose header is a minority spelling: `share_body` should treat a B class
-   whose header text is rejected by most members as a re-exemplar candidate (a `--reexemplar` mode: the majority `def` text becomes the
-   header, EVERY member re-gated); (B) a header spelling compatible with both environments (a cast at the call already IS the 134's
-   spelling; the 7 would need the same `(void)` extern — a TU edit outside the class, which the tool does not do); (C) leave 134 private
-   copies ledgered (defeats the phase). The same policy question applies to every late-overlay conflict in 5(a): the 7 late overlays +
-   ov_SC01_077 were matched by the P30/P31 waves with their own extern spellings (R95's story), and a header written from the 134's
-   macro text conflicts with THEIR declarations — for those the right side is the header (majority) and the fix is the TU's declaration,
-   which is the types phase's work; ledger them TU-CONFLICT with the message and move on.
-6. **Bucket `new` (xHigh runs):** after steps 2–5, `tools/share_body.py --apply --bucket new --batch 120 --limit 120` ONE batch per
-   invocation (until the cross-batch fix is proven), read the `gated N/N binaries green · registered G groups · … · rejected classes R`
-   line, commit (`src(phase-35): T5 new batch k — …`), then R22 (`make clean && make extract-all JOBS=16 && make check-all JOBS=16` →
-   `check-all: 218 passed, 0 failed of 218`, exit 0, log under `.run/P35/baseline/r22_t5_<k>.log`) after every batch or every few batches
-   (3–5 min each). Bands in order: 32+ (446 classes) → 16–31 (255) → 8–15 (204) → 1–7 (11); differing-text classes (27) go through the
-   majority-text exemplar and the gate; a class rejected everywhere is ledgered, never forced. Twin-covered and cross-vram classes are
-   skipped by `candidates()` — do not touch them. After the last batch: `tools/share_census.py --no-cache --check` → S1's line with
-   `0 unregistered, N excepted`; `tools/dedup_integrate.py --check` 0 failed; `make audit-binaries` OK; then the T5 log entry with the
-   before/after table (183 + 916 classes → registered / ledgered by reason) and **T5 ☑**.
-7. Then T6 (the freeze/retire/guard; the 30-tool hit list in the S95 entry — whitelist share_census/macro_to_header/share_body, which name
-   the retired form legitimately), T7, T8, T9 per the plan; rules check (P6) after T7.
+### 2. The resume sequence (T7 → T9; each step's verify line quoted in the log; one commit per step)
+1. **T7 (xHigh) — wire the invariants + regenerate every published number.** In the Makefile's `tools-health` after `report BINARY=main`:
+   `tools/share_census.py --selftest` (7/7) and `tools/share_census.py --check` (S1 strict — exit code, R97); `tools/dedup_integrate.py
+   --check` gains **C2c** (the source is under `src/shared/`, defines exactly one function, `func` is the token it uses — via
+   `share_census.header_defs`; the parameterized `SHARED_FN` form allowed) and **C2d** (every member's site file includes the source and no
+   inline definition of that member survives in the binary; the 51 ledgered classes' rejected members are NOT listed, so C2d is exact).
+   `progress.py`: two generated fields (`unique_function_bodies`, `duplicate_source_copies`, sourced from the census json) in
+   `docs/progress.json` + the README block; `progress.py --readme --check`, `timeline.py`, `make audit-digest`; the +459 and the REAL
+   reclassification stated where the numbers appear (a dated snapshot with the command, R75). **Negative control (R39):** in a worktree,
+   revert one member's include to its private copy → `share_census --check` exits 1 naming that class; C2d names the member. Verify:
+   `make tools-health` OK; `progress.py --readme --check` fresh. **Rules check (P6) after T7.**
+2. **T8 (xHigh) — the record.** Wiki: `The-dedup-engine.md` rewritten as the shared-source model (headers, twins, the census, the sotn fact,
+   the ledger's 51), `Repository-layout.md`, `Where-the-project-goes-next.md`, `Verification-and-progress.md`; how-to ch.10; README:117 prose;
+   `gen3-standards.md` §4 row + DoD line and `gen3-handoff.md` §2.2/§3 as dated snapshots; a cookbook section replacing §14/§38's macro
+   narrative; `docs/decision-log.md` P35 (R31: the 2026-09-02 reversal with the sotn evidence, the 5,147-vs-3,516 miscount, the twin discovery,
+   the +459/+219 undercount, the S94 death and the recovery, the four share_body defects, the E_func_80168B70 policy); `docs/accelerators.md`;
+   DIGEST §4; `tools/sunset/README.md` rows (done at T6); the memory `dedup-backlog-leave-it` rewritten; `doc_links --strict`, `wiki_render
+   --selftest`, `cookbook_index --check`, `kit_coverage` (the S95/S96 rule candidates need map rows or kernel citations, R92).
+3. **T9 (Max, Tier 1 — prompt Drew for `/effort max` first).** R22 clean fleet run → 218/218; `make tools-health` OK; the metrics table
+   before/after (macro lines 5,147 → 0; `engine_core.h` 8.8 MB → deleted; same-vram duplicate copies 4,755 → 160, all 51 classes ledgered;
+   twins 5 pairs / 10 aliases; cross-vram deferred 3,826 classes; registry 2,220 → 3,135; fleet clean-run wall 157 s → 84 s; the +459); the
+   reviewer sequence; `PhaseEnd_Phase35.md` + DIGEST §0/§2/§3 + the log archived (R19), left for Drew's close commit; v2.1.0. Rule
+   candidates for the PhaseEnd are collected under §"Rules at gate 1" (this phase's invariant + the S95 three).
 
 ### 3. Numbers to re-derive, never trust (their commands)
 `share_body --plan` (the two buckets and the bands; ~30 s); `share_census --no-cache` → `.run/P35/census/share_census.json` (verdicts, S1,
