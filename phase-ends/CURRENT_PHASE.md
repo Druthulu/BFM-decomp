@@ -690,19 +690,30 @@ fails its own completeness check). A killed batch: `tools/delever.py --restore`.
   LISTING and scored **28 for a byte-identical body**, so score 0 was unreachable and two campaigns reported "0 of 16" about a
   healthy population. Run `tools/delever_permute.py --positive-control TU FN` (base score must be 0) before believing ANY yield.
 
-### 2. NEXT, and Drew approved the compute for it: the exemplar TRIAGE (zero tokens)
-Rung D's evidence is sharp: everything that closed started **≤ 29 mismatched instructions** from the target, everything **≥ 37** did
-not (25, 37, 50, 52, 70, 78, 99, 104, 105, 131, 276 — all improved, none a wall). So measure that number for the WHOLE residue and
-work the close tail first.
-1. Parallelise `delever_permute.cmd_calibrate` over exemplars (a `ThreadPoolExecutor`; `prepare()` writes only inside its own
-   `alias__fn` scratch dir and `match_one` runs in its own temp dir, so exemplars are independent — unlike rung R, which needs TU
-   ownership because the oracle writes into the tree).
-2. Run it over all ~1,795 residue classes (`exemplars()` with no limit): prepare + two `closeness()` calls each ≈ 10–20 s, so
-   **~30 min at 20 workers**. Record the distribution into `.run/P36/permuter/triage.json` and a `lever_progress`-style table.
-3. That distribution IS T7's price: how many classes sit in the tractable band, and how many bodies stand behind them.
-Then run rung D (`delever_permute --run`) on the close band, ordered by distance (`--max-start 35` triages the rest as FAR with
-their number), 4–6 exemplars at a time — zero tokens, and **every shape it finds becomes a rung-R recipe that then sweeps its class
-for free** (that is how R5/R6/R7 were born, and it is the only thing that moves rung R's 0/300).
+### 2. NEXT — TWO LANES, IN PARALLEL (Drew's idea, 2026-09-09): build the engine while Fable reads the compiler
+Drew: *"we can have fable read the gcc source while we are building the engine so we can understand it better and hopefully build
+the engine to accomplish our debt with zero token use."* **The triage is DEFERRED by him to the next phase** — do not start it as
+the first act; it is compute that prices T7, not a prerequisite for the engine, and §3's engine will want to run over the same
+exemplars anyway.
+
+**LANE A (the coordinator, this project's context): build the engine of §3.** It is engineering against a byte oracle, not
+research — no Fable, no waves, no agents. Effort `high` (Drew's, 2026-09-09: he prefers an explicit Workflow at high over
+Ultracode, and there is no fan-out in this lane at all).
+
+**LANE B (one Fable agent, launched at the start of lane A so they overlap): the residual → move-set map.** The brief, in full:
+> Read gcc 2.7.2's own source (`tools/reference/`, and `docs/gcc-2.7.2-map/` for what this project already mapped at Phase 23)
+> and answer ONE question: **for each class of residual difference between two compilations of the same function, which
+> SOURCE-LEVEL changes can possibly produce it?** The classes to cover, in this order: (1) same opcodes, different REGISTERS —
+> especially the caller-saved v0/v1 swap and the callee-saved s-bank order; (2) a different instruction COUNT (one side has a
+> `move`/`addu` the other does not); (3) the same instruction multiset in a different ORDER. For each, name the pass
+> (`local-alloc`, `global-alloc`, `combine`, `cse`, `sched`, `reload`), the decision inside it that flips, and the C-level
+> constructs that reach that decision. Deliver a table of (residual class → ordered list of source moves, with the pass and the
+> mechanism for each). **Every claim is a hypothesis until the engine proves it on bytes** — do not report a move as effective
+> without saying how to test it. Facts you may rely on, measured 2026-09-09: a `register … __asm__("$2")` pin's residual was
+> exactly `lw v1,68(s1); li v0,-33; and v0,v1,v0` against `lw v0,68(s1); li v1,-33; and v0,v0,v1` — the operand ORDER of one `&`;
+> wrapping one statement in `do { … } while (0)` flipped an allocation; inlining a single-set temp at its use flipped another.
+Verify its claims against the bytes yourself (the `fable-agents-for-lane-tooling` memory). Its output feeds §3 step 2 and, when
+proven, becomes new rung-R recipes — which is the only thing that moves rung R's 0/300.
 
 ### 3. The compute-only engine Drew asked for ("a fancier permuter, focused on pin pulling and C shape matching")
 **The one design flaw the S100 measurement exposes: rung R is BLIND.** It generates ~57 candidates, asks the oracle "IDENTICAL?" and
@@ -727,8 +738,114 @@ from the compiler source and `docs/gcc-2.7.2-map/`, briefed with the measured fa
 bytes by the engine itself** (the `fable-agents-for-lane-tooling` memory: brief with measured facts + a doc path, then verify).
 That is exactly how P23's §31 codegen map was produced, and it is the highest-value thing a model can do here that compute cannot.
 
-### 4. Gotchas known before any work
-Everything in the T3/T4/T5 lists, plus: a disassembly listing is not a target (§454); `--only <fn>` in `--recipes` draws EVERY body of
+### 3b. The evidence the engine is built from — the 16 rung-D exemplars, measured 2026-09-09
+Ordered by the LEVER-FREE body's distance from the target (`match_one` mismatched instructions). 3 cycles x 240 s each, 4 at a
+time, profiles as shown. **The cut is the distance, not the site count or the register.**
+
+| fn | start | best | secs | copies | needed | pinned regs | profile | verdict |
+|---|---:|---:|---:|---:|---:|---|---|---|
+| func_80163EC8 | 8 | **0** | 313.7 | 134 | 1 | $2 | cse | MATCH |
+| func_8013E5E8 | 8 | **0** | 5.9 | 132 | 1 | $2 | cse | MATCH |
+| func_80135D20 | 12 | **0** | 24.4 | 134 | 1 | $17 | regalloc | MATCH |
+| func_8015D01C | 19 | **0** | 651.0 | 133 | 1 | $17 | regalloc | MATCH |
+| func_8012E364 | 25 | 6 | 721.7 | 133 | 3 | $2,$5 | cse | NO-MATCH |
+| func_80178840 | 29 | **0** | 8.6 | 132 | 1 | $16 | regalloc | MATCH |
+| func_801424E4 | 37 | 2 | 721.6 | 132 | 2 | — | regalloc | NO-MATCH |
+| func_80148E54 | 50 | 3 | 722.0 | 132 | 2 | $4 | cse | NO-MATCH |
+| func_80148D44 | 52 | 3 | 721.9 | 132 | 2 | $4 | cse | NO-MATCH |
+| func_8013CF68 | 70 | 24 | 722.6 | 134 | 1 | — | regalloc | NO-MATCH |
+| func_80135888 | 78 | 9 | 721.3 | 134 | 5 | $17,$19,$2,$21 | regalloc | NO-MATCH |
+| func_80133AB0 | 99 | 37 | 721.9 | 134 | 4 | $0,$4 | cse | NO-MATCH |
+| func_80134A74 | 104 | 35 | 721.8 | 134 | 5 | $0,$18,$4 | regalloc | NO-MATCH |
+| func_801345F8 | 105 | 18 | 723.2 | 134 | 3 | $0,$4,$5 | cse | NO-MATCH |
+| func_80135A4C | 131 | 35 | 722.0 | 134 | 3 | $23 | regalloc | NO-MATCH |
+| func_801670E4 | 276 | 51 | 722.1 | 133 | 7 | $2,$4 | cse | NO-MATCH |
+
+Read it as: **everything ≤ 29 closed; everything ≥ 37 did not, and every one of those improved** (37→2, 50→3, 52→3, 78→9) — they
+are seeds, not walls. The two 8s took 5.9 s and 313.7 s, so time-to-close is not the distance: the search is a random walk and
+sometimes gets lucky early. `func_801424E4` and `func_8013CF68` carry NO pin at all (their NEEDED sites are cast/keepalive and a
+hand-placed instruction) — the count-changing class. **The whole point of §3's engine is to replace this random walk with a
+directed one, and the honest baseline it must beat is 5 of 16 in 0.69 h.**
+
+### 3c. THE EXACT INVOCATIONS THAT WORK (copy these; every one was run this session)
+```
+# calibrate (ALWAYS the full set; every commit stales it; ~3 s)
+.venv/bin/python tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16
+
+# the census + the published series (after every task that changes the count)
+.venv/bin/python tools/lever_census.py --sites --check -j 16          # ~35 s, prints "… 0 UNMARKED — OK"
+.venv/bin/python tools/lever_progress.py --snapshot "<task>"           # appends the milestone row + re-renders docs/levers.md
+.venv/bin/python tools/lever_progress.py --check
+
+# rung R (zero tokens; TU-parallel; nice it and tell Drew the worker count)
+setsid nohup nice -n 10 .venv/bin/python tools/delever.py --recipes --label <lbl> \
+    [--limit N] [--only <fn|tu> …] --cap 40 --control 3 -j 10 > .run/P36/delever/<lbl>.log 2>&1 &
+
+# rung D (the permuter; ALWAYS positive-control a new harness first — base score must be 0)
+.venv/bin/python tools/delever_permute.py --positive-control <tu> <fn>
+.venv/bin/python tools/delever_permute.py --plan --show 20
+.venv/bin/python tools/delever_permute.py --calibrate --limit 12       # levered MATCH + the lever-free starting distance
+setsid nohup .venv/bin/python tools/delever_permute.py --run --limit 16 --workers 4 --secs 240 --cycles 3 -j 16 \
+    [--max-start 35] [--include-done] > .run/P36/permuter/<lbl>.log 2>&1 &
+.venv/bin/python tools/delever_permute.py --bank --label d2 [--dirty-ok]
+
+# spread a banked reshape to its whole class (each sibling judged on its own objects)
+.venv/bin/python tools/delever.py --propagate <tu> <fn> --label p2 --dirty-ok
+
+# the outer gate after every batch, then commit at once (R42)
+set -o pipefail; make clean >/dev/null && make extract-all JOBS=16 >/dev/null && make check-all JOBS=16 | tail -2
+```
+Timings measured this session: R22 clean fleet ≈ 115 s · census ≈ 35 s · rung R 82 bodies/min at `-j 10`, **123 at `-j 20`** ·
+one rung-R body ≈ 40–57 candidates ≈ 0.25 s per compile · rung D 12 min per exemplar at 3x240 s · `make kit-corpus` ≈ 25 s.
+
+### 3d. Where everything is
+- `.run/P36/delever/ledger.jsonl` — every judged body, ever (tracked). Rows carry `sites[]` with per-site verdicts, and since
+  S99 `before_text`/`after_text` on an `--apply-body` row (which `--propagate` needs and which exists nowhere else after the write).
+- `.run/P36/permuter/outcomes.jsonl` — every rung-D attempt (tracked) and the skip list; `<alias>__<fn>/` scratch dirs hold
+  `tu.c` (lever-free), `iso.c` (one body, the rest prototypes), `draft.c` (the permuter's seed), `levered.c` (the calibration
+  seed), `target.o`, `gas/<fn>.s` + `splat/<fn>.s`, `ils.log`, and any winner `<fn>.c`.
+- `.run/P36/permuter/outcomes_broken_target.jsonl` + `campaign_d1/d2_broken_target_*.log` — the two campaigns the bad target
+  invalidated, kept deliberately as the evidence behind cookbook §454.
+- `.run/P36/delever/sweep_cap40*.log`, `sweep_cap400.log` — the free-bank sweep's measurement.
+- `docs/levers.md` (+ `docs/lever-progress.tsv`) — the deliverable Drew asked for; `tools/lever_progress.py` regenerates it.
+- Cookbook **§454** (the instrument + the rungs) and **§454a** (replication vs discovery); accelerators **P36 S99**.
+
+### 4. Gotchas known before any work — every one of these cost something this session
+**The instrument class (R40 — clear the harness before blaming the subject):**
+- **A disassembly listing is not a target** (§454). `objdump` prints the pseudo-instruction `move` for `addu rX,rY,$zero` and GAS
+  assembles `move` as `or` — 24 wrong words in one 234-instruction function; and a listing's `%hi`/`%lo` come back RESOLVED with no
+  relocation while every compiled candidate carries one, and the masked scorer compares reloc operands. Symptom: a scorer that reads
+  nonzero for a byte-identical body and a campaign that reports 0 of N with a straight face.
+- **`verbatim_target_s.py --gas` now verifies itself** (assemble → disassemble → compare word by word → `.word`-patch or REFUSE). It
+  is the file pasted into decomp.me and it was wrong for every function containing a `move` (R98 in a second place).
+- **pycparser rejects `__attribute__((packed, …))`** outright — decomp-permuter then prints "Syntax error in base.c" and permutes
+  NOTHING. The draft's cpp defines the keyword away; the loss is recorded, not hidden.
+- **`include/include_asm.h` injects `__asm__(".include \"include/labels.inc\"")` at file scope** into every cpp-expanded draft, and
+  the permuter's own `compile.sh` already prepends `macro.inc` → `Macro 'glabel' was already defined`.
+- **An asm-LABEL clause is not an asm statement.** `extern void func_8005C324(…) __asm__("memcpy");` (6,423 of those) — a bare
+  `__asm__(` scan ate one and left a headless K&R body whose next 60 declarations became parameters. File-scope asm is taken from the
+  CENSUS in the TU and, after cpp, only where the previous non-space character is `;` or `}`.
+- **Check a known-true case before reporting.** The first "ASSEMBLED OK" of this session was an empty file (the `.s` had not been
+  written) and it lied until it was read.
+
+**The tooling class:**
+- **`--only <fn>` in `--recipes` draws EVERY body of that name across the fleet** — that is why `r1` banked a whole 134-body class in
+  one run, and it is the cheapest way to spread a known shape.
+- **`--propagate` keys the class on the FIRST bank in a body's chain** (a body reshaped then tidied has two rows, and the later
+  row's before-hash describes a text only that body ever had — func_80163EC8 found 0 siblings until this was fixed, then 132).
+- **`--bank` skips a body another rung already closed** (it had re-applied a permuter body over rung R's cleaner one-line version).
+- **A permuter winner is pycparser-reprinted** (two-space indent, a corpse `;` where a statement was inlined) — `tidy_body` fixes
+  those two things and the tidy is judged like any other candidate; parenthesisation and brace style are the formatting phase's, over
+  the whole tree at once, never per bank.
+- **Rung R needs TU ownership and serial headers**, judges a file's bodies BOTTOM-UP (a bank shifts the lines of everything below it),
+  and appends its ledger rows per body (an interrupted sweep must not leave a banked body whose row never landed).
+- **A lazy cache published before it is filled is a race that lies in the tool's own voice** — the site cache did exactly that and a
+  whole batch reported "no site in this TU".
+- **`pkill -f` with a literal your own command line contains kills your shell** (exit 144, twice in this project, once again today).
+- **The harness backgrounds any foreground command over 120 s** and its low-memory guard kills long background tasks: `setsid nohup
+  … &` + a `Monitor`, never a harness background task for a campaign.
+
+**Carried from T3/T4/T5:** a disassembly listing is not a target (§454); `--only <fn>` in `--recipes` draws EVERY body of
 that name across the fleet (that is why `r1` banked a whole class in one run); `--propagate` keys the class on the FIRST bank in a
 body's chain; rung R needs TU ownership and serial headers, judges a file's bodies BOTTOM-UP, and appends its ledger rows per body;
 `lever_progress --check` fails when the series is not this tree's; **`docs/levers.md` + `tools/lever_progress.py --snapshot "<task>"`
@@ -785,8 +902,42 @@ R67); `delever --apply-body` judges every draft on the bytes and `--propagate` s
 between waves is not optional: every shape an agent finds becomes a rung-R recipe (R5/R6/R7 all came from rung D this way) and then
 sweeps the population for free.
 
-### 4. Gotchas known before any work
-Everything in the T3/T4/T5 lists, plus: a disassembly listing is not a target (§454); `--only <fn>` in `--recipes` draws EVERY body of
+### 4. Gotchas known before any work — every one of these cost something this session
+**The instrument class (R40 — clear the harness before blaming the subject):**
+- **A disassembly listing is not a target** (§454). `objdump` prints the pseudo-instruction `move` for `addu rX,rY,$zero` and GAS
+  assembles `move` as `or` — 24 wrong words in one 234-instruction function; and a listing's `%hi`/`%lo` come back RESOLVED with no
+  relocation while every compiled candidate carries one, and the masked scorer compares reloc operands. Symptom: a scorer that reads
+  nonzero for a byte-identical body and a campaign that reports 0 of N with a straight face.
+- **`verbatim_target_s.py --gas` now verifies itself** (assemble → disassemble → compare word by word → `.word`-patch or REFUSE). It
+  is the file pasted into decomp.me and it was wrong for every function containing a `move` (R98 in a second place).
+- **pycparser rejects `__attribute__((packed, …))`** outright — decomp-permuter then prints "Syntax error in base.c" and permutes
+  NOTHING. The draft's cpp defines the keyword away; the loss is recorded, not hidden.
+- **`include/include_asm.h` injects `__asm__(".include \"include/labels.inc\"")` at file scope** into every cpp-expanded draft, and
+  the permuter's own `compile.sh` already prepends `macro.inc` → `Macro 'glabel' was already defined`.
+- **An asm-LABEL clause is not an asm statement.** `extern void func_8005C324(…) __asm__("memcpy");` (6,423 of those) — a bare
+  `__asm__(` scan ate one and left a headless K&R body whose next 60 declarations became parameters. File-scope asm is taken from the
+  CENSUS in the TU and, after cpp, only where the previous non-space character is `;` or `}`.
+- **Check a known-true case before reporting.** The first "ASSEMBLED OK" of this session was an empty file (the `.s` had not been
+  written) and it lied until it was read.
+
+**The tooling class:**
+- **`--only <fn>` in `--recipes` draws EVERY body of that name across the fleet** — that is why `r1` banked a whole 134-body class in
+  one run, and it is the cheapest way to spread a known shape.
+- **`--propagate` keys the class on the FIRST bank in a body's chain** (a body reshaped then tidied has two rows, and the later
+  row's before-hash describes a text only that body ever had — func_80163EC8 found 0 siblings until this was fixed, then 132).
+- **`--bank` skips a body another rung already closed** (it had re-applied a permuter body over rung R's cleaner one-line version).
+- **A permuter winner is pycparser-reprinted** (two-space indent, a corpse `;` where a statement was inlined) — `tidy_body` fixes
+  those two things and the tidy is judged like any other candidate; parenthesisation and brace style are the formatting phase's, over
+  the whole tree at once, never per bank.
+- **Rung R needs TU ownership and serial headers**, judges a file's bodies BOTTOM-UP (a bank shifts the lines of everything below it),
+  and appends its ledger rows per body (an interrupted sweep must not leave a banked body whose row never landed).
+- **A lazy cache published before it is filled is a race that lies in the tool's own voice** — the site cache did exactly that and a
+  whole batch reported "no site in this TU".
+- **`pkill -f` with a literal your own command line contains kills your shell** (exit 144, twice in this project, once again today).
+- **The harness backgrounds any foreground command over 120 s** and its low-memory guard kills long background tasks: `setsid nohup
+  … &` + a `Monitor`, never a harness background task for a campaign.
+
+**Carried from T3/T4/T5:** a disassembly listing is not a target (§454); `--only <fn>` in `--recipes` draws EVERY body of
 that name across the fleet, which is why `r1` banked a whole class in one run; the class key for `--propagate` is the FIRST bank in a
 body's chain; `pgrep -cf` matching your own command line counts itself (R79's cousin); the harness backgrounds any command over 120 s;
 `lever_progress --check` fails when the series is not this tree's.
