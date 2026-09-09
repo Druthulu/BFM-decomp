@@ -427,6 +427,8 @@
   40 TUs · 120 new headers · gating 14 binaries` → **`gated 14/14 binaries green · registered
   119 groups · extended 0 members · rejected classes 1`**; rejected: [new6] ov_SC04_006: class 250070c4bf REJECTED — src/ov_SC04_006/../shared/ov/func_8017D0FC__250070c4.h:4: 'D_80126954' undeclared (first use this func.
 
+- **S96 — R22 after bucket `new` batch 6** (`.run/P35/baseline/r22_t5_new6.log`): `check-all: 218 passed, 0 failed of 218` · `wall=84.30 s` · `exit=0`.
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)
