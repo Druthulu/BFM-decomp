@@ -1,5 +1,6 @@
 /* func_8014C4AC — shared body (overlay slot 0x80128158, h_exact 41904b3e). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+s32 aF8014C4AC() __asm__("func_8014C4AC");
 s32 aF8014C4AC(a0, a1, a2, a3, a4)
 s32 a0;
 s32 a1;

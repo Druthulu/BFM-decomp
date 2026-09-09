@@ -1510,6 +1510,28 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   or a quoted include that resolves to no file / outside the repo is an offender. R39 controls: 34 offenders in 19 files
   before the fix (all ABSOLUTE), 0 after; 4,299 sources scanned (the coverage line, R32).
 
+### P35 T3–T4 (S94, 2026-09-08) — twin binaries, and the macro bodies become per-function headers
+- **Twin binaries (T3).** Five overlay pairs are one payload (equal `config/check.*.sha`): SC01_005/006, SC03_118/119, SC02_000/003,
+  SC04_018/019, SC03_014/015. The twin has NO source directory: `config/overlays.mk` declares `<twin>_TWIN_OF := <primary>` and
+  `<twin>_SRC_DIR := src/<primary>`; the Makefile's twin block (after `-include $(C_DEPS)`) compiles the primary's files into the
+  twin's OWN objects (`build/src/<twin>/<twin>_<suffix>.o`, static pattern rules, the same recipe, the -O0 objects kept) so a parallel
+  `check-all` never races; the twin's yaml is the primary's carve with the alias substituted (`create_c_files: False` — splat must never
+  recreate stub files), its `_JTBL_INTERLEAVE` and per-object `JTBL_PADS` lines likewise (the pads lines are keyed by OBJECT PATH —
+  diff them by alias substitution, not by the block). Every tool asks `corpus.src_dir(alias)` / `corpus.twin_of(alias)` (the Makefile
+  oracle) — never `src/<alias>/`. `audit-binaries` CHECK 3b asserts twin citizenship (primary onboarded and not a twin, same dir, no
+  `src/<twin>/`, equal contracts, equal carves); `interleave_check` + `pads_audit` run on a re-carved twin (R60; `pads_audit` reads a
+  twin's source through the oracle).
+- **`tools/macro_to_header.py` (T4, one-off).** `--plan` (the census of macros: shared / single-site / dead, the naming), `--apply
+  --binaries a,b,…` (each `DEFINE_func_X()` site → `#include "../shared/<space>/func_X[__h8].h"`, the TU's `engine_core.h` include →
+  `engine_prelude.h`; headers written on first use, the LAST definition of a twice-defined macro, tokens asserted equal, no include
+  guard), `--finalize` (the three legacy macro headers → plain headers — clearTbl40 in the `#define SHARED_FN` / include / `#undef`
+  form —, the whale header moved under `ov/` with every `-O0` includer rewritten, alias-form bodies given their own
+  `__asm__("func_X")` binding, the registry's `source:`/`func:` lines text-edited by group id, non-shared headers that included a
+  macro header rewritten, `engine_core.h` deleted), `--verify` (0 sites, no macro header, the prelude present). The naming rule:
+  `func_<VRAM>` + `__<h8>` iff (space, vram) hosts >1 h_exact class fleet-wide (86 of 2,215). The gate: the caller's per-binary
+  `make check` + object A/B ledger (`.run/P35/convert/batch2.sh`, `ledger.txt`: 213 binaries, 4,121/4,121 objects byte-identical) and
+  the clean fleet run. Measured S94: 246,347 sites in 3,818 TUs, 2,215 headers, 1,300 dead macros dropped, 224 s for the apply pass.
+
 ### P35 T1 (S94, 2026-09-08) — the share census and the S1 invariant ("one source per unique function")
 - **`tools/share_census.py`** — the census of byte-identical function classes (keyed by `h_exact`, never by name — R48) across all
   218 binaries, and the S1 checker. One masked pass per translation unit yields every instance's source form (`macro` / `macro-param` /

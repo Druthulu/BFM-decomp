@@ -1631,7 +1631,9 @@ void func_80036FB0(s32 arg0, s32 arg1) {
     }
 }
 
-CLEAR_TBL40(func_80037004)  /* dedup I0: shared body (src/shared/clearTbl40.h) */
+#define SHARED_FN func_80037004
+#include "shared/main/func_80037004.h"
+#undef SHARED_FN
 
 
 /* func_80037028 -- resource-slot allocator (5 slots x 0x10 bytes at 0x80076244).
@@ -1828,7 +1830,9 @@ void func_80037144(s32 idx) {
     D_8007629C = 0;
 }
 
-CLEAR_TBL40(func_80037334)  /* dedup I0: shared body (src/shared/clearTbl40.h) */
+#define SHARED_FN func_80037334
+#include "shared/main/func_80037004.h"
+#undef SHARED_FN
 
 extern s32 D_8007623C;
 void func_80037358(int posInt) {

@@ -7,7 +7,6 @@
  * ended up in DIFFERENT TUs after the split. Both are guarded, so src/800.c keeping its own
  * copies is harmless. */
 #include "psyq/libcd.h"
-#include "shared/clearTbl40.h"
 
 /* P31 S72 — the declarations that CROSS the src/800.c -> 800_b.c -> 800_c.c split.
  *

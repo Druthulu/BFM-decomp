@@ -1,6 +1,5 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
-#include "../shared/ov_setters.h"   /* dedup share across the SC01/005 ≡ 006 pair (cookbook §11) */
 
 
 /* func_801457A4 (@0x801457A4) is an -O0 function; its definition lives in ov_SC01_005_o0b.c (the -O0

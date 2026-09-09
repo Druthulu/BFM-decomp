@@ -1,0 +1,8 @@
+  CC      build/src/md_SC03_138/md_SC03_138.o
+src/md_SC03_138/md_SC03_138.c: In function `func_801E2FB0':
+src/md_SC03_138/md_SC03_138.c:446: warning: type mismatch with previous external decl
+src/md_SC03_138/md_SC03_138.c:345: warning: previous external decl of `D_800D39CC'
+  LD      build/md_SC03_138/md_SC03_138.elf
+  OBJCOPY build/md_SC03_138/md_SC03_138
+[ OK ] build/md_SC03_138/md_SC03_138
+       sha1 05531456ddde6092b6cd309cdd0941ce3b5db5f1 == config/check.md_SC03_138.sha  (BYTE-IDENTICAL)

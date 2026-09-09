@@ -449,6 +449,12 @@ unsloth_compiled_cache/
 !/.run/P35/share/*.log
 !/.run/P35/share/*.json
 !/.run/P35/share/*.txt
+!/.run/P35/convert/
+/.run/P35/convert/*
+!/.run/P35/convert/*.log
+!/.run/P35/convert/*.json
+!/.run/P35/convert/*.txt
+!/.run/P35/convert/*.sh
 
 # Outreach drafts (P34 task 6, Drew's decision 2026-09-08): the notes to neighbouring projects were SENT (the Archipelago issue,
 # the decomp.me preset request, the tools post, the #ai reply); the drafts stay on the maintainer's machine and leave the tree

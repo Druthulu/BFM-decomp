@@ -1,0 +1,3 @@
+engine_core.h: 5147 define lines, 3516 distinct, 1631 twice (4 divergent asserted); 8 directives — the prelude is complete
+sites 246,347 in 148 binaries · TUs including engine_core.h 3,818 · macros: shared 1,959 · single-site→header 257 · single-site→inline 0 · dead 1,300
+apply: {'tus': 3818, 'dead': 1300}

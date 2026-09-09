@@ -1,6 +1,5 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
-#include "../shared/ov_setters.h"   /* dedup share across the SC01/005 ≡ 006 pair (cookbook §11) */
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
  * The file-scope decl environment from earlier code regions of this object —
@@ -279,7 +278,7 @@ s32 func_8012ACE0(void *o) {
 
 #include "../shared/ov/func_8012AD50.h"
 
-SETTER(func_8012AD64, 0x34, s16)   /* dedup: shared with ov_SC01_006 (src/shared/ov_setters.h) */
+#include "../shared/ov/func_8012AD64.h"
 
 #include "../shared/ov/func_8012AD6C.h"
 
@@ -357,7 +356,7 @@ SETTER(func_8012AD64, 0x34, s16)   /* dedup: shared with ov_SC01_006 (src/shared
 
 #include "../shared/ov/func_8012BF10.h"
 
-SETTER(func_8012BF4C, 0x1C, s32)   /* dedup: shared with ov_SC01_006 (src/shared/ov_setters.h) */
+#include "../shared/ov/func_8012BF4C.h"
 
 #include "../shared/ov/func_8012BF54.h"
 
@@ -674,7 +673,7 @@ s32 func_8012DE2C(s32 a0) {
 
 #include "../shared/ov/func_8012E138.h"
 
-RETCONST(func_8012E27C, 1)   /* dedup: shared with ov_SC01_006 (src/shared/ov_setters.h) */
+#include "../shared/ov/func_8012E27C.h"
 
 #include "../shared/ov/func_8012E284.h"
 

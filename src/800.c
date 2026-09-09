@@ -1,7 +1,6 @@
 #include "common.h"
 #include "800_shared.h"
 #include "psyq/libcd.h"
-#include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
 typedef struct {
     u16 unk00;
     u8  pad[14];

@@ -6760,7 +6760,7 @@ s32 func_80182318_def(s32 a0, s32 a1)
 
 
 #include "common.h"
-#include "../shared/engine_core.h"  /* match_one-only: the real TU already includes this */
+#include "../shared/engine_prelude.h"  /* match_one-only: the real TU already includes this */
 
 /* func_801823E8 -- ov_SC02_026 / ov_SC02_026_jr_8017C180
  * Same TU declares this at line 4712 (extern void func_801823E8(s32 a0);) and
@@ -6979,7 +6979,7 @@ void func_801828C8(s32 arg0) {
 
 
 #include "common.h"
-#include "../shared/engine_core.h"  /* match_one-only: gives SV3_8012CC88; the real TU (ov_SC02_026_jr_8017C180.c) already includes "../shared/engine_core.h" at file top */
+#include "../shared/engine_prelude.h"  /* match_one-only: gives SV3_8012CC88; the real TU (ov_SC02_026_jr_8017C180.c) already includes "../shared/engine_core.h" at file top */
 
 extern s32 func_80182CE4(s32 a0, s32 a1);
 extern void func_801292C8(u8 *a0);
@@ -7092,7 +7092,7 @@ void func_80182AF4(s32 a0) {
 }
 
 
-#include "../shared/engine_core.h"  /* match_one-only: gives struct vec + SV3_8012CC88; the real TU already includes this */
+#include "../shared/engine_prelude.h"  /* match_one-only: gives struct vec + SV3_8012CC88; the real TU already includes this */
 
 extern void func_8012931C(struct vec *a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);

@@ -8,8 +8,8 @@
 > its platform SDK need the marked adaptation. The last table lists the tools that are project-only in code (their *shape* is a task;
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
-> **Coverage:** 295 tool files in scope (submodules, vendored and downloaded code excluded), of which 295 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 54 · P7 20 · P8 86 · P9 27 · P10 11 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 323 (the installer checks its copy against this figure).
+> **Coverage:** 296 tool files in scope (submodules, vendored and downloaded code excluded), of which 296 live rows
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 54 · P7 20 · P8 86 · P9 27 · P10 12 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 324 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -330,6 +330,7 @@
 |---|---|---|---|
 | `cast_call_sites.py` | add per-site function-pointer casts so a draft can call a differently typed callee | Adds per-site function-pointer casts so a draft can call a differently typed callee | repo src layout |
 | `ghidra_scripts/ApplySymbols.java` | apply curated names and signatures inside the analysis tool and save | The in-tool half of that mirror: apply curated names and signatures, save on exit | none |
+| `macro_to_header.py` | convert a shared-body macro header into per-function plain-C headers included at each site | The Phase-35 converter: every DEFINE_ macro body becomes a plain-C header under src/shared/<space>/ included at its site, the legacy name-parameterized headers converted, the registry text-edited, the macro header deleted; --plan / --apply / --finalize / --verify | the macro form is this project's; a kit-born project shares headers from its first bank |
 | `asm_verbatim.py` | emit a function's target assembly as an inline-assembly body | Emits the file-scope inline-assembly body form from a disassembly file | repo asm layout |
 | `build_engine_types.py` | extract inline-defined types and typedefs from a source file into a shared header | Extracts inline-defined named types and typedefs from a source file into a shared header | repo shared-header path |
 | `lint_symbol_refs.py` | flag address-named references whose address now has a curated name | Flags address-named references in committed sources whose address now has a curated name | repo symbol/src paths |

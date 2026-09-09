@@ -9,7 +9,7 @@
  * Include set is the original TU's. */
 
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* HOISTED (P31 S54): these three typedefs were defined further down the file, BELOW the
  * INCLUDE_ASM lines of stubs that need them. harvest_verify strips a draft's own copy of any

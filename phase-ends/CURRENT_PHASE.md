@@ -45,8 +45,10 @@
   SC02_000/003 equal carves; SC04_018/019 + SC03_014/015 with the primary's carve, interleave + pads regenerated, R60 checks), each
   twin and primary BYTE-IDENTICAL, 166 source files deleted; the census: same-vram backlog 4,667 → 1,099 classes; the clean fleet
   run after the last pair (see the log).
-- ☐ **T4** — `tools/macro_to_header.py`: the fleet converted in L0-gated batches; `engine_core.h`/`ov_setters.h`/`clearTbl40.h` deleted (clearTbl40
-  → the parameterized control); `func_80144B9C.h` moved; the registry's `source:`/`func:` rewritten surgically; clean fleet 218/218.
+- ☑ **T4** (S94) — `tools/macro_to_header.py`: 246,347 sites in 3,818 TUs → 2,215 per-function headers under `src/shared/<space>/`
+  (213/213 binaries and 4,121/4,121 objects byte-identical), the legacy headers converted (clearTbl40 = the parameterized control),
+  the whale moved, 7 alias bodies bound, the registry text-edited, `engine_core.h` deleted; `--verify OK`; R22 `check-all: 218
+  passed, 0 failed of 218` in 145 s.
 - ☐ **T5** — `tools/share_body.py`: bucket 0 `--extend` (206 classes), then the same-vram buckets largest reach first (no trivial exception);
   cross-vram classes untouched; `share_census --check` same-vram unregistered = 0 or ledgered.
 - ☐ **T6** — consumers: freeze 7 (main()-time refusal, FROZEN rows), retire 3 to `tools/sunset/`, the `ast` macro-form guard in
@@ -183,6 +185,30 @@
   217 (+ main, serial)` · **`check-all: 218 passed, 0 failed of 218`** · `wall=308.78 s` (the census and the kit corpus ran beside it) ·
   `exit=0` (`.run/P35/baseline/r22_t3.log`). Twins: 5 pairs / 10 aliases / 166 source files deleted; every twin builds from
   its primary's directory. **T3 ☑.**
+- **S94 — T4 `tools/macro_to_header.py` (Max) + the fleet conversion.** `--plan` on the post-twin tree: `engine_core.h: 5147 define lines,
+  3516 distinct, 1631 twice (4 divergent asserted); 8 directives — the prelude is complete` · `sites 246,347 in 148 binaries · TUs
+  including engine_core.h 3,818 · macros: shared 1,959 · single-site→header 257 · single-site→inline 0 · dead 1,300` · naming
+  `{'suffixed': 86, 'plain': 1873}`. **`--apply` over all 213 non-twin binaries** (`.run/P35/convert/batch2.sh`: snapshot objects → one
+  apply → per binary `make check` + every object compared): **213/213 BYTE-IDENTICAL, `objects byte-identical: 4121/4121`**, apply
+  ledger `{"sites":246347,"tus":3818,"headers_written":2215,"dead":1300}`, 224 s wall (commit `c53a9e1a9`, 6,036 files). **`--finalize`:**
+  the three legacy sites (`SETTER`/`RETCONST` ×3 in SC01_005 → `ov/func_8012AD64.h` etc.; `CLEAR_TBL40` ×2 in `src/800_c.c` → the
+  `#define SHARED_FN` / `#include "shared/main/func_80037004.h"` / `#undef` form — the cross-address control), the whale moved to
+  `ov/func_80144B9C.h` (guard removed) with every `-O0` includer rewritten, **7 alias-form bodies given their own binding** (`s32
+  aF80131CA8(int a0) __asm__("func_80131CA8");` derived from the head; the K&R head gets the unprototyped form), the registry's 2,224
+  `source:`/`func:` lines text-edited by id, the 3 non-shared headers that included a macro header rewritten (`src/800_shared.h`,
+  two per-overlay `_shared.h`), `engine_core.h` + `ov_setters.h` + `clearTbl40.h` deleted; `--verify: OK — 0 macro sites, no macro
+  header, the prelude present`. **Gates:** main `143dbb89…`, ov_SC01_005, ov_SC01_084, ov_SC02_005, ov_SC06_033, ov_SC02_027,
+  ov_SC02_011, ov_SC02_026 and the 7 late whale includers all BYTE-IDENTICAL; `dedup-check: 2220 validated, 0 failed`;
+  `audit-binaries: OK`; the census `362,389 classified · 0 UNACCOUNTED · macro sites 0`, verdicts A 1,712 · B 282 · C 6,640 · D 1,545 ·
+  M 1, same-vram backlog 1,099 classes (unchanged — T4 shares nothing new); **R22: `check-all: 218 passed, 0 failed of 218`, wall
+  145.10 s** (157 s at the open; user CPU 2,230 s vs 2,231 s — the per-overlay cpp saving the probe measured is small against extract,
+  assemble and link fleet-wide). **Instrument findings, each caught by a gate and fixed at the cause:** (1) the first apply of "main"
+  swapped the include line in all 3,818 TUs (main's dir is `src/`, a prefix test matched the fleet) — restored with `git checkout --
+  src`, the test made exact; (2) the per-binary driver paid the 218-file sig load per binary (36 binaries > 10 min) → the batch form
+  pays it once (224 s for 213); (3) five mid-file `match_one-only` includes with trailing comments and (4) seven whale includers in
+  `_o0c.c`/`_o0d.c` (a `*_o0b.c` glob) were missed — the census's coverage line (7 unaccounted) and `--verify` found them; (5) `verify`
+  listed 3 of N offenders (a `[:3]` slice) — it now lists every include LINE and ignores prose; (6) `.run/P35/convert/` was not
+  allowlisted — added. `docs/SETUP.md` P35 T3–T4 section + the dictionary row (P10, PROJECT-ONLY). **T4 ☑.**
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
@@ -476,7 +502,7 @@ same commit — history keeps it.
 Candidate for the PhaseEnd: "a shared body has exactly one source; a duplicate copy is a defect the health chain asserts, and a
 count of them is published with its rule" (this phase's invariant).
 
-## 🛑 SESSION CHECKPOINT — S94 (2026-09-08): Phase 35 OPEN at gate 1; T0–T3 ☑ (the census; the health chain knows the include + twin forms; the five twin pairs collapsed, fleet 218/218 from clean); NEXT = T4 `tools/macro_to_header.py` (written, its --plan being shaken out)
+## 🛑 SESSION CHECKPOINT — S94 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑ (the census; the health chain knows the include + twin forms; the five twin pairs collapsed; every macro body a per-function header, engine_core.h gone, fleet 218/218 from clean in 145 s); NEXT = T5 `tools/share_body.py` + the same-vram backlog (1,099 classes)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at the first unchecked task in §Tasks above.

@@ -37,4 +37,4 @@ share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 U
     B E,F                    11852 x     2  0x80014554,0x8001455C,0x8001513C  func_80014554,func_8001455c
     A -                       141 x   167  0x80163C2C  func_80163c2c
     A -                       141 x   165  0x80178004  func_80178004
-  macro sites 255,728 · duplicate-text classes 7,385 (24,359 sites) · elapsed 46.9 s
+  macro sites 0 · duplicate-text classes 7,385 (24,359 sites) · elapsed 61.2 s

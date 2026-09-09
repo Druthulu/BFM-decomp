@@ -5,7 +5,7 @@
  * same one; every header below is include-guarded, so the .c files keeping their own
  * copies is harmless. */
 #include "common.h"
-#include "../shared/engine_core.h"
+#include "../shared/engine_prelude.h"
 
 /* P31 S74 — the declarations that CROSS the
  *   src/ov_SC01_084/ov_SC01_084_jr_8017F690.c -> ov_SC01_084_jr_80182A00.c

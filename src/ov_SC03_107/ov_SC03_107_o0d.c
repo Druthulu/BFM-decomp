@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../shared/func_80144B9C.h"
+#include "../shared/ov/func_80144B9C.h"
 
 /* func_801457A4 @ 0x801457A4 — an -O0 function stranded at the whale's end boundary (it is the
  * FIRST fn of the -O2 "after" segment, but its target is -O0: frame-pointer + per-case stack
