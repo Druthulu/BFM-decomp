@@ -28,7 +28,8 @@ as a frontier join — one hash cannot serve both error directions.
 
 ## Propagation
 
-[`tools/dedup_propagate.py`](../../tools/dedup_propagate.py) takes a function matched in one binary and:
+[`tools/share_body.py`](../../tools/share_body.py) (Phase 35; it replaced `dedup_propagate.py`, now retired under `tools/sunset/` — this
+page is rewritten for the shared-source model at Phase 35 T8) takes a function matched in one binary and:
 
 1. extracts the matched body from that binary's `.c`;
 2. authors it **once** as a `DEFINE_func_<ADDR>()` macro in a shared header under [`src/shared/`](../../src/shared/)
