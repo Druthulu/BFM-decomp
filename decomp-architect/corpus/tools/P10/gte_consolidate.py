@@ -486,20 +486,16 @@ def plan_files(inv, canon, only=None, bound=None):
     return files
 
 
-def direct_rewrite(s, canon):
-    """('call', text, name) | ('lever', variant_name, extra) | ('none', why, None) for a direct GTE statement."""
-    sg = s["sig"]
+def canonical_match(sg, canon):
+    """(names, clobbers) for a signed statement's signature — the canonical macro it IS (one entry), or the
+    concatenation of two canonical macros it is (a load then an op: bytes = b1 + b2, inputs the first's,
+    clobbers the union) — else (None, None). ONE reader of the canonical table (R33): `direct_rewrite` asks it
+    what the statement should look like, `delever.gte_canonical_clob` asks it what the canonical clobbers are."""
     if not sg["ok"]:
-        return "none", "unsigned", None
-    key = sig_key(sg)
-    t = canon["canonical"].get(key)
+        return None, None
+    t = canon["canonical"].get(sig_key(sg))
     if t and sg["nout"] == 0:
-        if tuple(sg["clob"]) == tuple(t["clob"]):
-            return "call", f"{t['name']}({', '.join(sg['ins'])});", t["name"]
-        extra = sorted(set(sg["clob"]) - set(t["clob"]))
-        fewer = sorted(set(t["clob"]) - set(sg["clob"]))
-        return "lever", (f"{t['name']}_m" if extra == ["memory"] and not fewer else f"{t['name']}_v"), extra or fewer
-    # a concatenation of two canonical macros (a load then an op): bytes = b1 + b2, inputs = the first's, clobbers = the union
+        return [t["name"]], list(t["clob"])
     b = sg["bytes"]
     for k1, t1 in canon["canonical"].items():
         b1 = k1.split("|")[0]
@@ -509,12 +505,28 @@ def direct_rewrite(s, canon):
         t2 = canon["canonical"].get(k2)
         if not t2 or t1["nout"] or t1["nin"] != sg["nin"]:
             continue
-        union = sorted(set(t1["clob"]) | set(t2["clob"]))
-        if union == list(sg["clob"]):
-            return "call", f"{t1['name']}({', '.join(sg['ins'])}); {t2['name']}();", f"{t1['name']}+{t2['name']}"
-        extra = sorted(set(sg["clob"]) - set(union))
-        return "lever", f"{t1['name']}+{t2['name']}_m" if extra == ["memory"] else f"{t1['name']}+{t2['name']}_v", extra or sorted(set(union) - set(sg["clob"]))
-    return "none", "no canonical signature", None
+        return [t1["name"], t2["name"]], sorted(set(t1["clob"]) | set(t2["clob"]))
+    return None, None
+
+
+def direct_rewrite(s, canon):
+    """('call', text, name) | ('lever', variant_name, extra) | ('none', why, None) for a direct GTE statement."""
+    sg = s["sig"]
+    if not sg["ok"]:
+        return "none", "unsigned", None
+    names, clob = canonical_match(sg, canon)
+    if names is None:
+        return "none", "no canonical signature", None
+    if len(names) == 1:
+        if tuple(sg["clob"]) == tuple(clob):
+            return "call", f"{names[0]}({', '.join(sg['ins'])});", names[0]
+        extra = sorted(set(sg["clob"]) - set(clob))
+        fewer = sorted(set(clob) - set(sg["clob"]))
+        return "lever", (f"{names[0]}_m" if extra == ["memory"] and not fewer else f"{names[0]}_v"), extra or fewer
+    if clob == list(sg["clob"]):
+        return "call", f"{names[0]}({', '.join(sg['ins'])}); {names[1]}();", f"{names[0]}+{names[1]}"
+    extra = sorted(set(sg["clob"]) - set(clob))
+    return "lever", f"{names[0]}+{names[1]}_m" if extra == ["memory"] else f"{names[0]}+{names[1]}_v", extra or sorted(set(clob) - set(sg["clob"]))
 
 
 def file_edits(tu, raw, p, canon, label):

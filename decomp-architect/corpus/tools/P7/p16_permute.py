@@ -233,8 +233,11 @@ def klass_for_fn(fn):
     return "", ""
 
 
-def setup(fn, draft_c, asm_subdir=ASM, klass=None, where=""):
-    pd = os.path.join(REPO, ".run/permuter", fn)
+def setup(fn, draft_c, asm_subdir=ASM, klass=None, where="", outdir=None):
+    # `outdir` keys the scratch dir by the CALLER's identity instead of the bare function name (R48). A name is not
+    # unique across the fleet — the overlays overlap in RAM, so two different bodies are both `func_8013B274` — and two
+    # concurrent runs on one name would share (and corrupt) this directory. Default: the historical path, unchanged.
+    pd = os.path.join(REPO, outdir) if outdir else os.path.join(REPO, ".run/permuter", fn)
     if os.path.exists(pd):
         shutil.rmtree(pd)
     os.makedirs(pd)
