@@ -660,7 +660,7 @@ accumulate here as the phase produces them.**
   (nice'd; Drew measured ~20-40 % CPU at 10 and asked twice for more), so a full-residue pass is ~2 h — affordable, but it buys
   nothing until the recipe set grows.
 
-## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed (this close on top of `72a9ab112`); NEXT = **the exemplar TRIAGE (Drew approved: hours of compute, zero tokens) and then a COMPUTE-ONLY guided search engine (§2/§3)**; **NO WAVES — T7's agents start only on Drew's direct approval in the session that runs them** | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
+## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed (this close on top of `72a9ab112`); NEXT = **TWO LANES IN PARALLEL (§2, Drew's call): lane A builds the COMPUTE-ONLY guided search engine (§3), lane B is one Fable agent reading gcc 2.7.2's source for the residual → move map. The exemplar triage is DEFERRED by Drew to the next phase**; **NO WAVES — T7's agents start only on Drew's direct approval in the session that runs them** | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew set `high` and prefers it for
