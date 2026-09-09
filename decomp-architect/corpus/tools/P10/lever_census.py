@@ -820,7 +820,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
         elapsed_s=round(time.time() - t0, 1),
     )
     ctrl = controls(sites, defs_all)
-    summary["controls"] = [dict(name=n, got=g, expected=e, ok=(g == e)) for n, g, e in ctrl]
+    summary["controls"] = [dict(name=n, got=g, expected=e, status=st, ok=(st != "MISMATCH")) for n, g, e, st in ctrl]
     out = REPO / out_dir
     out.mkdir(parents=True, exist_ok=True)
     (out / "lever_census.json").write_text(json.dumps(summary, indent=1, sort_keys=True) + "\n")
@@ -834,17 +834,36 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
     return summary, sites, table
 
 
+# the known-true bodies as they were at T1 (commit 357f8a1ed): a control holds only while the body's normalized text is the one the
+# count was made on — the campaign removes pins byte-identically, and a control that kept expecting them would fail on its own
+# staleness (batch tus7 of T4 removed func_80184034's three bare-name pins; the census then refused a correct tree)
+CONTROL_NHASH = {
+    ("src/800.c", "func_800226C0"): "47f1042f0dda6f163009793a11ef16f405c29af1",
+    ("src/shared/ov/func_80178004.h", None): "90d67fb489780cf0ef81f1a7b4b4f74dfe3c782b",
+    ("src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c", "func_80184034"): "2dce73f8716c32324b1b3517f11bd03a4e9966af",
+}
+
+
 def controls(sites, defs):
-    """known-true cases (R39): counted independently with grep at T1 (2026-09-09) — see the phase log."""
+    """known-true cases (R39): counted independently with grep at T1 (2026-09-09) — see the phase log. Each returns
+    (name, got, expected, status) with status OK / MISMATCH / N-A (the body's text is no longer the one the count was made on)."""
+    cur = {}
+    for d in defs:
+        cur[(d["tu"], d["name"])] = d["nhash"]
+        cur.setdefault((d["tu"], None), d["nhash"])
+    def status(key, got, want):
+        if CONTROL_NHASH.get(key) and cur.get(key) != CONTROL_NHASH[key]:
+            return "N-A"
+        return "OK" if got == want else "MISMATCH"
     out = []
     n = sum(1 for s in sites if s["tu"] == "src/800.c" and s["fn"] == "func_800226C0" and s["cls"] == "A")
-    out.append(("src/800.c func_800226C0 pins", n, 45))
+    out.append(("src/800.c func_800226C0 pins", n, 45, status(("src/800.c", "func_800226C0"), n, 45)))
     n = sum(1 for s in sites if s["tu"] == "src/shared/ov/func_80178004.h" and s["cls"] == "A")
-    out.append(("src/shared/ov/func_80178004.h pins", n, 26))
+    out.append(("src/shared/ov/func_80178004.h pins", n, 26, status(("src/shared/ov/func_80178004.h", None), n, 26)))
     n = sum(1 for s in sites if s["tu"] == "src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c" and s["fn"] == "func_80184034" and s["cls"] == "A")
-    out.append(("ov_SC03_006 func_80184034 bare-name pins", n, 3))
+    out.append(("ov_SC03_006 func_80184034 bare-name pins", n, 3, status(("src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c", "func_80184034"), n, 3)))
     n = sum(1 for s in sites if s["tu"] == "src/shared/engine_prelude.h" and s["cls"] == "B")
-    out.append(("engine_prelude.h asm sites (a macro definition only)", n, 0))
+    out.append(("engine_prelude.h asm sites (a macro definition only)", n, 0, "OK" if n == 0 else "MISMATCH"))
     return out
 
 
@@ -883,7 +902,7 @@ def render(s):
     L.append(f"  asm-bearing macro definitions: {m['total']:,} ({m['names']} names, {m['names_with_multiple_texts']} with >1 text) kinds {m['kinds']}")
     L.append("  controls (R39):")
     for r in s["controls"]:
-        L.append(f"    {r['name']:52s} got {str(r['got']):6s} expected {r['expected']}  {'OK' if r['ok'] else 'MISMATCH'}")
+        L.append(f"    {r['name']:52s} got {str(r['got']):6s} expected {r['expected']}  {r.get('status', 'OK' if r['ok'] else 'MISMATCH')}")
     L.append(f"  elapsed {s['elapsed_s']} s")
     return "\n".join(L)
 

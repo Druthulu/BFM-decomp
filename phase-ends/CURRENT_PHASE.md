@@ -362,6 +362,17 @@ accumulate here as the phase produces them.**
 
 - **2026-09-09 — T4 batch `tus7`** (`.run/P36/delever/run_tus7.log`, `batch_tus7.json`): `delever: batch tus7 — 300 files (TUs; 983 drawable) · 1407 bodies: 432 lever-free, 973 residue, 2 refused · sites removed 1855 / needed 2032 / refused 6 / deferred 0 · replays 589 (0 disagreed) · compiles 3211 in 101 s wall · final 300/300 identical · written 300 files` → R22 (`.run/P36/baseline/r22_tus7.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=116.04 s`) → census `THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 36,764 sites in 13,224 bodies (2,199 distinct) · marked !FAKE 29,045 · UNMARKED 7,719`.
 
+- **S98 — T4: the census's known-true control went stale on a correct tree (batch `tus7`).** The detached cycle (batches `tus3`–`tus6`
+  committed `ce8737066`, `5e10b19e8`, `ca761c4f6`, `3e60fdf41`, each R22 218/218) stopped after `tus7`'s green apply (`final 300/300
+  identical`) and green fleet run (`218 passed`) at the census: `ov_SC03_006 func_80184034 bare-name pins got 0 expected 3 MISMATCH` — the
+  batch had removed those three pins byte-identically; the control's hand count from T1 could only be right while the body's text was the
+  one it was counted on (R39's control is a property of the INSTRUMENT, and this one had a hidden precondition). Fix: each control carries
+  the body's T1 normalized hash (`CONTROL_NHASH`, from commit `357f8a1ed`) and reports **N-A** once the text differs — never a failure on
+  a correct tree, never a silent pass on a wrong walker. The batch was finished from its own logs with the cycle's new `FINISH=<label>`
+  mode (census → log entry → commit, no work redone): `34f03003d`. Also learned: the harness's low-memory guard kills its background
+  tasks (the cycle, then a 30-byte waiter) while the box has 22 GB free — the cycle runs DETACHED (`setsid nohup`) and a `Monitor` on
+  its log reports each commit.
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ — all committed (T3 = `39e3e1851` tools, `cd24727dd` + `7ee458dd7` the ov_SC04_011 batches, this close); NEXT = T4 the mechanical campaign: `tools/delever_cycle.sh` over the whole population (TUs then headers), unattended, one commit per batch, R22 every batch | the number: 53,033 sites in 15,638 bodies (2,246 distinct), 310 marked, 0 orphans | last batch `tus7` on 3e60fdf41: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 36,764 sites in 13,224 bodies (2,199 distinct) · marked !FAKE 29,045 · UNMARKED 7,719
 
 ### 0. How to use this block

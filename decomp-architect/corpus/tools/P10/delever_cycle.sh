@@ -13,6 +13,8 @@
 #   RUN IT DETACHED from the Claude Code harness (its low-memory guard kills a long BACKGROUND task — batch tus3 died mid-apply, S98):
 #     setsid nohup bash -c 'TASK=T4 tools/delever_cycle.sh 3 12 300 tus; echo "cycle exit=$?"' > .run/P36/delever/cycle_<x>.log 2>&1 &
 #   and watch the log (a tiny waiter: `until grep -q 'cycle exit=' <log>; do sleep 60; done`). A killed batch: `tools/delever.py --restore`.
+#   FINISH=<label> START END …: a batch whose apply and fleet run were green but whose census/commit step failed (an instrument fault) is
+#   finished from its own logs — census → log entry → commit — without redoing the work.
 #   size a call so one batch stays < 10 min: TUs ≈ 8 s each single-threaded / 12 workers; a header ≈ 4 s (serial, includers in parallel).
 set -o pipefail
 cd "$(dirname "$0")/.." || exit 2
@@ -26,12 +28,21 @@ PY=.venv/bin/python
 MARKER='## 🛑 SESSION CHECKPOINT'      # the Log section ends at the checkpoint block: entries go right before it
 for k in $(seq "$START" "$END"); do
   label="${LABEL_PREFIX:-}${MODE}${k}"
+  log=.run/P36/delever/run_${label}.log
+  r22=.run/P36/baseline/r22_${label}.log
+  if [ -n "${FINISH:-}" ]; then
+    # FINISH=1: the batch's apply and fleet run already ran green (their logs exist) and the cycle stopped after them (a census
+    # instrument fault, a lost commit): redo only the census → log entry → commit steps, from the same logs
+    [ "$FINISH" = "$label" ] || { echo "cycle: FINISH=$FINISH does not name batch $label"; exit 2; }
+    [ -s "$log" ] && [ -s "$r22" ] || { echo "cycle: FINISH=$label — no apply/R22 logs to finish from"; exit 2; }
+    echo "cycle: finishing batch $label from its logs (census → log entry → commit)"
+  else
   [ -z "$(git status --short -- src config)" ] || { echo "cycle: src/ or config/ is dirty — commit, or tools/delever.py --restore (R42/R102)"; exit 3; }
   [ -z "$(git status --short --porcelain src | grep '^??')" ] || { echo "cycle: untracked files under src/ (a dotfile probe?) — sweep them first"; exit 3; }
   $PY tools/delever_oracle.py --status >/dev/null 2>&1 || $PY tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16 > .run/P36/delever/calibrate_${label}.log 2>&1 \
     || { echo "cycle: calibration FAILED"; tail -5 .run/P36/delever/calibrate_${label}.log; exit 1; }
-  log=.run/P36/delever/run_${label}.log
   { /usr/bin/time -f "$label wall=%e s" $PY tools/delever.py --apply --batch "$BATCH" --label "$label" $HFLAG $ONLYFLAG $REDRAWFLAG -j 12; echo "exit=$?"; } > "$log" 2>&1
+  fi
   grep -q '^exit=0$' "$log" || { echo "cycle: batch $label — delever exited non-zero"; tail -4 "$log"; exit 1; }
   if grep -q 'nothing to do (no drawable file)' "$log"; then echo "cycle: nothing drawable at $label — done"; exit 0; fi
   vline=$(grep -oE 'delever: batch .*' "$log" | tail -1)
@@ -39,8 +50,9 @@ for k in $(seq "$START" "$END"); do
   final=$(echo "$vline" | grep -oE 'final [0-9]+/[0-9]+' | grep -oE '[0-9]+/[0-9]+')
   [ -n "$final" ] && [ "${final%/*}" = "${final#*/}" ] || { echo "cycle: batch $label — $vline"; exit 1; }
   if [ "$(echo "$vline" | grep -oE 'written [0-9]+' | grep -oE '[0-9]+')" = "0" ]; then echo "cycle: batch $label wrote no file — $vline"; fi
-  r22=.run/P36/baseline/r22_${label}.log
-  { /usr/bin/time -f "wall=%e s user=%U s sys=%S s" bash -c 'set -o pipefail; make clean && make extract-all JOBS=16 && make check-all JOBS=16'; echo "exit=$?"; } > "$r22" 2>&1
+  if [ -z "${FINISH:-}" ]; then
+    { /usr/bin/time -f "wall=%e s user=%U s sys=%S s" bash -c 'set -o pipefail; make clean && make extract-all JOBS=16 && make check-all JOBS=16'; echo "exit=$?"; } > "$r22" 2>&1
+  fi
   line=$(grep -oE "check-all: [0-9]+ passed, [0-9]+ failed of [0-9]+" "$r22")
   if ! grep -q '^exit=0$' "$r22" || [ "$line" != "check-all: $FLEET passed, 0 failed of $FLEET" ]; then echo "cycle: R22 RED after batch $label — $line (the batch's files are in place: inspect, then tools/delever.py --restore)"; exit 1; fi
   $PY tools/lever_census.py --sites -j 16 > .run/P36/census/census_${label}.log 2>&1 || { echo "cycle: the census FAILED after batch $label"; tail -3 .run/P36/census/census_${label}.log; exit 1; }
