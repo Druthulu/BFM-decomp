@@ -49,7 +49,7 @@
   (213/213 binaries and 4,121/4,121 objects byte-identical), the legacy headers converted (clearTbl40 = the parameterized control),
   the whale moved, 7 alias bodies bound, the registry text-edited, `engine_core.h` deleted; `--verify OK`; R22 `check-all: 218
   passed, 0 failed of 218` in 145 s.
-- ☐ **T5** — **IN PROGRESS** (S94; state recovered by S95 from the transcript — see the log and the 🛑 block). `tools/share_body.py`
+- ☑ **T5** (S94–S96) — `tools/share_body.py` (+ `--repair-registry`, `--reexemplar`, `share_body_cycle.sh`): bucket 0 183 classes → 135 shared / 48 ledgered; bucket `new` 915 → 914 shared / 3 ledgered; S1 10,180/10,180 satisfied, 0 violations; registry 2,220 → 3,135 groups; same-vram backlog 1,099 → 51 classes (= the ledger); R22 218/218. Recovery history (S94 died mid-task): `tools/share_body.py`
   built + probed (commit `0bccef901`); bucket 0 (`--bucket extend`, the registered-incomplete classes: 183 at the start) run twice —
   the first pass committed (`571374b97`: 788 members added to the registry, 141/141 + 146/146 binaries green per binary), the second
   run finished after the session died and its output (170 sites → include in 38 TUs of 8 overlays, 55 TU-CONFLICT ledger rows) is
@@ -439,6 +439,25 @@
 
 - **S96 — R22 after bucket `new` batch 8** (`.run/P35/baseline/r22_t5_new8.log`): `check-all: 218 passed, 0 failed of 218` · `wall=88.98 s` · `exit=0`.
 
+- **S96 — T5 CLOSE.** Bucket `new` done in 8 batches (`share_body_cycle.sh` 3–5 and 6–8 unattended; batches 1–2 by hand): 3,519 sites in
+  980 TUs → 914 groups registered, 3 classes rejected (new1, new5, new6 — each a body relying on a declaration outside its definition,
+  ledgered TU-CONFLICT); R22 green after batches 4, 6 and 8 (`r22_t5_new{4,6,8}.log`, `check-all: 218 passed, 0 failed of 218`). The
+  tail run (`run_extend_tail.log`): `new (unregistered same-vram) 0 classes / 0 private sites`; the 5 leftover B classes had NO private
+  copy — every one of their 141 instances already includes the header while the registry listed 16 (or 2): the eight VERBOSE `members:`
+  groups, which `dedup_extend.add_members_surgical` skipped silently (no `binaries:` line) — the inverse defect, the registry BEHIND the
+  source. Fixes: `add_members_surgical` refuses a verbose group loudly (R43); `--repair-registry` gained the second half (an
+  including-but-unlisted member is added; a verbose group is converted to shorthand): `639 including-but-unlisted members added to 5
+  groups (5 converted to shorthand: D1_ov_dup_8012AD64, E_func_80128EA8, E_func_8012A568, E_func_80132EC4, E_func_80138C30)`; 3 verbose
+  groups remain (I0_clearTbl40 + the two SC01_005 setters, cross-address controls). **Verify (T5's milestone items, literal):**
+  `share_census --check` → **`S1: one source per unique function — 10,180 classes, 10,180 satisfied (3,580 twin-covered, 51 excepted,
+  3,801 deferred cross-address), 0 VIOLATION(S) — OK`**, exit 0 (`.run/P35/census/check_t5.txt`); verdicts A 2,760 · B 149 · C 5,751 ·
+  D 1,518 · M 2; **same-vram unregistered 51 classes · 160 copies · 109 collapsible — exactly the ledger (50 TU-CONFLICT + 1
+  GATE-REJECT, every row with its diagnostic)**; `dedup-check: 3135 validated, 0 failed | C1 coverage 260543/260543`;
+  `audit-binaries: OK`; kit corpus + `tool_census --check: OK`; the last R22 (`4ba4b2080`) stands — no build input changed after it
+  (the tail run shared 0 sites; the registry is not a build input). **Before → after (T4 close → T5 close):** registry groups 2,220 →
+  3,135; shared headers 2,215 → 3,137; same-vram backlog 1,099 classes / 4,755 private copies / 3,658 collapsible → 51 / 160 / 109
+  (all ledgered); verdict A 1,712 → 2,760; fleet clean-run wall 145 s → 84 s (CPU 2,230 s → 1,335 s); 23 commits in T5. **T5 ☑.**
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)
@@ -738,7 +757,7 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 IN PROGRESS (share_body.py built; bucket 0 run twice — BOTH runs committed, §2 step 1 DONE; 55 classes / 325 pairs ledgered, 317 of them still listed as registry members; three tool defects named); NEXT = inside T5 (steps 1–5 DONE; bucket 0 closed: 135 shared / 48 ledgered): bucket `new` (915 classes) one batch per run with a commit + R22 per batch; the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
+## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 ☑ (S1 10,180/10,180, 0 violations; backlog 1,099 → 51 ledgered classes; registry 3,135 groups); NEXT = T6 (freeze 7 / retire 3 / the macro-form guard); the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
 
 ### 0. How to use this block
 A fresh session (S96) reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at §2 step 1. This block was written by S95, a

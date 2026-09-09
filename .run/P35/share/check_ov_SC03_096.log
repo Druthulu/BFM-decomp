@@ -1,13 +1,2 @@
-  CC      build/src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.o
-src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c:1528: warning: conflicting types for built-in function `memcpy'
-src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c: In function `func_8017E4F0':
-src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c:4007: warning: passing arg 1 of `func_8012B2CC' makes integer from pointer without a cast
-src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c: In function `func_801800D0':
-src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c:5187: warning: passing arg 2 of `func_80049CAC' makes integer from pointer without a cast
-src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c:5188: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
-src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c:5188: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
-  LD      build/ov_SC03_096/ov_SC03_096.elf
-  OBJCOPY build/ov_SC03_096/ov_SC03_096
-  TRIM    build/ov_SC03_096/ov_SC03_096 (-1 B linker end-align pad)
 [ OK ] build/ov_SC03_096/ov_SC03_096
        sha1 b02ddebeabf8316d0f345c709cc5022898518c5f == config/check.ov_SC03_096.sha  (BYTE-IDENTICAL)

@@ -1,12 +1,2 @@
-  CC      build/src/ov_SC06_020/ov_SC06_020_jr_8017C24C.o
-src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:1527: warning: conflicting types for built-in function `memcpy'
-src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:3345: warning: type mismatch with previous external decl
-src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:3327: warning: previous external decl of `func_8017D558'
-src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:3345: warning: type mismatch with previous implicit declaration
-src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:3327: warning: previous implicit declaration of `func_8017D558'
-src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:3345: warning: `func_8017D558' was previously implicitly declared to return `int'
-  LD      build/ov_SC06_020/ov_SC06_020.elf
-  OBJCOPY build/ov_SC06_020/ov_SC06_020
-  TRIM    build/ov_SC06_020/ov_SC06_020 (-1 B linker end-align pad)
 [ OK ] build/ov_SC06_020/ov_SC06_020
        sha1 64500dbf3453db3fc31531dc057f1a9660871ee5 == config/check.ov_SC06_020.sha  (BYTE-IDENTICAL)

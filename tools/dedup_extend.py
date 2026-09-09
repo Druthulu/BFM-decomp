@@ -92,12 +92,18 @@ def add_members_surgical(additions):
     p = os.path.join(REPO, REGISTRY)
     lines = open(p).read().splitlines(keepends=True)
     cur, n = None, 0
+    seen = set()
     for i, ln in enumerate(lines):
         m = re.match(r"^\s*-?\s*id:\s*(\S+)\s*$", ln)
         if m:
             cur = m.group(1)
             continue
+        if cur and cur in additions and re.match(r"^\s*members:\s*$", ln):
+            # a VERBOSE group has no `binaries:` line — silently skipping it left five 141-member groups listed at 16 (P35 S94/S96)
+            raise SystemExit(f"add_members_surgical: {cur} is in the verbose `members:` form — convert it to shorthand first "
+                             f"(share_body.py --repair-registry does), never skip it (R43)")
         if cur and cur in additions and re.match(r"^\s*binaries:\s*\[", ln):
+            seen.add(cur)
             add = [b for b in additions[cur] if re.search(rf"\b{re.escape(b)}\b", ln) is None]
             if add:
                 lines[i] = ln.rstrip("\n").rstrip()[:-1].rstrip() + ", " + ", ".join(add) + "]\n"

@@ -1,26 +1,2 @@
-  CC      build/src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.o
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:3299: warning: "gte_stsz4" redefined
- 3299 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
-      | 
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:3221: note: this is the location of the previous definition
- 3221 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
-      | 
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:1531: warning: conflicting types for built-in function `memcpy'
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: In function `func_8017E41C':
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:3999: warning: passing arg 1 of `func_8017CD9C' makes integer from pointer without a cast
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:3999: warning: passing arg 2 of `func_8017CD9C' makes integer from pointer without a cast
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: In function `func_8017E53C':
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:4037: warning: passing arg 2 of `func_8012C354' makes integer from pointer without a cast
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:4043: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: In function `func_8017EF24':
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:4351: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: At top level:
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:4386: warning: type mismatch with previous external decl
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:4034: warning: previous external decl of `D_8019C4C4'
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: In function `func_8017F770':
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:4771: warning: passing arg 1 of `func_8017F538' makes pointer from integer without a cast
-  LD      build/ov_SC05_002/ov_SC05_002.elf
-  OBJCOPY build/ov_SC05_002/ov_SC05_002
-  TRIM    build/ov_SC05_002/ov_SC05_002 (-1 B linker end-align pad)
 [ OK ] build/ov_SC05_002/ov_SC05_002
        sha1 bcef5e994f841a25e42217c1b77d3ab8c980dcec == config/check.ov_SC05_002.sha  (BYTE-IDENTICAL)

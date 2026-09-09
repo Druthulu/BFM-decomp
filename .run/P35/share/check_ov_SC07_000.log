@@ -1,22 +1,2 @@
-  CC      build/src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.o
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:1532: warning: conflicting types for built-in function `memcpy'
-src/ov_SC07_000/../shared/ov/func_8017CDF0__922320b0.h: In function `func_8017CDF0':
-In file included from src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:3320:
-src/ov_SC07_000/../shared/ov/func_8017CDF0__922320b0.h:7: warning: type mismatch with previous external decl
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:2819: warning: previous external decl of `func_800547D8'
-src/ov_SC07_000/../shared/ov/func_8017CDF0__922320b0.h:8: warning: type mismatch with previous external decl
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:2820: warning: previous external decl of `func_80052E38'
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c: In function `func_8017DE00':
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:3539: warning: passing arg 1 of `func_8017CD9C' makes integer from pointer without a cast
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:3551: warning: passing arg 3 of `func_8017CDF0' makes integer from pointer without a cast
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c: At top level:
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:3625: warning: type mismatch with previous external decl
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:3620: warning: previous external decl of `D_801D0B7C'
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c: In function `func_8017EAD8':
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:4073: warning: passing arg 1 of `func_800234E4' makes pointer from integer without a cast
-src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:4079: warning: passing arg 1 of `func_800234E4' makes pointer from integer without a cast
-  LD      build/ov_SC07_000/ov_SC07_000.elf
-  OBJCOPY build/ov_SC07_000/ov_SC07_000
-  TRIM    build/ov_SC07_000/ov_SC07_000 (-1 B linker end-align pad)
 [ OK ] build/ov_SC07_000/ov_SC07_000
        sha1 9dbe4241b8e39d8bd262ad742155fa09b864973a == config/check.ov_SC07_000.sha  (BYTE-IDENTICAL)

@@ -1,18 +1,2 @@
-  CC      build/src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.o
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:1528: warning: conflicting types for built-in function `memcpy'
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:4057: warning: type mismatch with previous external decl
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:3726: warning: previous external decl of `func_8012A828'
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c: In function `func_8017E7D8':
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:4142: warning: passing arg 1 of `func_8012B2CC' makes integer from pointer without a cast
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c: In function `func_8017F66C':
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:4758: warning: passing arg 2 makes integer from pointer without a cast
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:4764: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c: In function `func_80180054':
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:5073: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c: In function `func_8018019C':
-src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:5112: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-  LD      build/ov_SC03_099/ov_SC03_099.elf
-  OBJCOPY build/ov_SC03_099/ov_SC03_099
-  TRIM    build/ov_SC03_099/ov_SC03_099 (-1 B linker end-align pad)
 [ OK ] build/ov_SC03_099/ov_SC03_099
        sha1 b66411a8a269afb5311ce2a271afe947a8815196 == config/check.ov_SC03_099.sha  (BYTE-IDENTICAL)

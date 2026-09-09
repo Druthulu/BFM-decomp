@@ -186,6 +186,11 @@ We drive RE through our own headless MCP server, `tools/ghidra_scripts/BfmMcpSer
 Lifecycle scripts (under `tools/`):
 
 - **`ghidra_mcp_start.sh`** — spawns the headless server detached, logging to `.run/ghidra-mcp.log`, serving on port **8080**.
+- **Context guard (user-level, 2026-09-08 S96).** `~/.claude/statusline.sh` writes the context-window percentage to
+  `~/.claude/ctx_pct.<session_id>` on every refresh; the user-settings `PostToolUse` hook `~/.claude/ctx_guard.sh` reads it and,
+  once per session at ≥ 90 % (`CTX_GUARD_THRESHOLD`), injects "90% context. decide on the best place to checkpoint for a fresh
+  session" (re-arms below the threshold). Hooks receive no context figures — the status line is the only source. S94 died at 91 %
+  with no checkpoint; this is the alarm.
 - **`ghidra_mcp_stop.sh`** — the **only persistence event**: it requests a clean save+close by dropping the `.run/mcp-stop.req` sentinel, waits for the server to report **"Save succeeded"**, then releases the project `.rep` lock. **Never `SIGKILL` the server to stop it** — that skips the save and loses the work. Clean stop is the save.
 - **`ghidra_mcp_verify.sh <addr> <name>`** — read-only persistence re-check (rule R9): after a clean stop, re-reads the named symbol at the address to confirm the write actually landed on disk.
 

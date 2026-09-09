@@ -1,20 +1,2 @@
-  CC      build/src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.o
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:1528: warning: conflicting types for built-in function `memcpy'
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c: In function `func_8017B368':
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:2815: warning: type mismatch with previous external decl
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:2766: warning: previous external decl of `D_8018E53C'
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c: In function `func_8017B490':
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:2851: warning: type mismatch with previous external decl
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:2766: warning: previous external decl of `D_8018E53C'
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c: At top level:
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:3125: warning: type mismatch with previous external decl
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:2811: warning: previous external decl of `D_801E7F84'
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:3126: warning: type mismatch with previous external decl
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:2812: warning: previous external decl of `D_801E7F8C'
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:3309: warning: type mismatch with previous external decl
-src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:2765: warning: previous external decl of `func_8017BE60'
-  LD      build/ov_SC02_000/ov_SC02_000.elf
-  OBJCOPY build/ov_SC02_000/ov_SC02_000
-  TRIM    build/ov_SC02_000/ov_SC02_000 (-1 B linker end-align pad)
 [ OK ] build/ov_SC02_000/ov_SC02_000
        sha1 5ece4bcaca7f8a9119a561d37daa956f576eac52 == config/check.ov_SC02_000.sha  (BYTE-IDENTICAL)

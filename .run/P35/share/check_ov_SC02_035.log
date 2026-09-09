@@ -1,24 +1,2 @@
-  CC      build/src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.o
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:1527: warning: conflicting types for built-in function `memcpy'
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:4139: warning: type mismatch with previous external decl
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:3422: warning: previous external decl of `func_8012A828'
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c: In function `func_8017E9E4':
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:4222: warning: passing arg 1 of `func_8012B2CC' makes integer from pointer without a cast
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c: At top level:
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:5192: warning: type mismatch with previous external decl
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:5085: warning: previous external decl of `func_801800C0'
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:5192: warning: type mismatch with previous implicit declaration
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:5085: warning: previous implicit declaration of `func_801800C0'
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:5192: warning: `func_801800C0' was previously implicitly declared to return `int'
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c: In function `func_801832D4':
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:7684: warning: passing arg 2 of `func_8012C354' makes integer from pointer without a cast
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:7690: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c: In function `func_80183CBC':
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:8003: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c: In function `func_80183E04':
-src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:8038: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-  LD      build/ov_SC02_035/ov_SC02_035.elf
-  OBJCOPY build/ov_SC02_035/ov_SC02_035
-  TRIM    build/ov_SC02_035/ov_SC02_035 (-1 B linker end-align pad)
 [ OK ] build/ov_SC02_035/ov_SC02_035
        sha1 1b59124d3f3bcc7573aaad338999b61ae3822dcf == config/check.ov_SC02_035.sha  (BYTE-IDENTICAL)

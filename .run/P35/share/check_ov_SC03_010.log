@@ -1,25 +1,2 @@
-  CC      build/src/ov_SC03_010/ov_SC03_010_jr_8017C730.o
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:1526: warning: conflicting types for built-in function `memcpy'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:3706: warning: type mismatch with previous external decl
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:3698: warning: previous external decl of `func_8017DF54'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:3706: warning: type mismatch with previous implicit declaration
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:3698: warning: previous implicit declaration of `func_8017DF54'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:3706: warning: `func_8017DF54' was previously implicitly declared to return `int'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4134: warning: type mismatch with previous external decl
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4104: warning: previous external decl of `func_8017E934'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4134: warning: type mismatch with previous implicit declaration
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4104: warning: previous implicit declaration of `func_8017E934'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4134: warning: `func_8017E934' was previously implicitly declared to return `int'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c: In function `func_8017F14C':
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4429: warning: passing arg 1 of `func_8012BEE8' makes integer from pointer without a cast
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c: At top level:
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4631: warning: type mismatch with previous external decl
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4481: warning: previous external decl of `func_8017F558'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4631: warning: type mismatch with previous implicit declaration
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4578: warning: previous implicit declaration of `func_8017F558'
-src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:4631: warning: `func_8017F558' was previously implicitly declared to return `int'
-  LD      build/ov_SC03_010/ov_SC03_010.elf
-  OBJCOPY build/ov_SC03_010/ov_SC03_010
-  TRIM    build/ov_SC03_010/ov_SC03_010 (-1 B linker end-align pad)
 [ OK ] build/ov_SC03_010/ov_SC03_010
        sha1 cacaf7c2c08037e6934f9d02c0ae5d7c78cf2463 == config/check.ov_SC03_010.sha  (BYTE-IDENTICAL)

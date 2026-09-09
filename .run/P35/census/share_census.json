@@ -15,12 +15,12 @@
   },
   {
    "expected": "B/282(E),B/145(E),B/141",
-   "got": "B/282(E),B/145(E),B/141",
+   "got": "B/282(E),B/145(E),A/141",
    "name": "ov_setters x3"
   },
   {
    "expected": "equal (each = the twin's unregistered classes)",
-   "got": "653 / 653",
+   "got": "645 / 645",
    "name": "twin symmetry SC01_005 / SC01_006"
   }
  ],
@@ -29,39 +29,39 @@
   "copies": 11340,
   "instances": 30347
  },
- "duplicate_text_classes": 7335,
- "duplicate_text_sites": 23558,
- "elapsed_s": 25.9,
+ "duplicate_text_classes": 6429,
+ "duplicate_text_sites": 19811,
+ "elapsed_s": 112.4,
  "flags": {
-  "ALIAS": 38,
+  "ALIAS": 32,
   "E": 3826,
   "F": 54,
-  "PINS": 679,
+  "PINS": 538,
   "TWIN-COVERED": 3748,
-  "TYPEDEF": 93
+  "TYPEDEF": 80
  },
  "ins_by_verdict": {
-  "A": 6565822,
-  "B": 657446,
-  "C": 730651,
-  "D": 126236,
-  "M": 50
+  "A": 6956398,
+  "B": 477146,
+  "C": 562455,
+  "D": 84080,
+  "M": 126
  },
  "instances_by_verdict": {
-  "A": 228303,
-  "B": 31403,
-  "C": 15915,
-  "D": 5178,
-  "M": 2
+  "A": 236800,
+  "B": 26471,
+  "C": 12858,
+  "D": 4668,
+  "M": 4
  },
  "macro_sites": 0,
  "multi_form": 0,
  "same_vram_unregistered": {
-  "classes": 999,
-  "collapsible": 2887,
-  "copies": 3883,
-  "ins": 739246,
-  "instances": 15015,
+  "classes": 51,
+  "collapsible": 109,
+  "copies": 160,
+  "ins": 348670,
+  "instances": 6518,
   "twin_pending": 0,
   "twin_pending_instances": 0
  },
@@ -95,11 +95,11 @@
  "unaccounted": 0,
  "unresolved_names": 0,
  "verdicts": {
-  "A": 1812,
-  "B": 183,
-  "C": 6639,
-  "D": 1545,
-  "M": 1
+  "A": 2760,
+  "B": 149,
+  "C": 5751,
+  "D": 1518,
+  "M": 2
  },
- "violations": 944
+ "violations": 0
 }

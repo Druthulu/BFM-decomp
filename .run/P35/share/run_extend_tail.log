@@ -1,0 +1,6 @@
+share_body: census 120 s · extend (registered-incomplete) 5 classes · new (unregistered same-vram) 0 classes / 0 private sites
+  [extend_tail] 5 classes · 0 sites in 0 TUs · 0 new headers · gating 141 binaries
+  [extend_tail] gated 141/141 binaries green · registered 0 groups · extended 0 members · rejected classes 0
+share_body: done — 5 of 5 classes in 1 batch(es); all green; 150 s
+tail wall=151.64 s
+exit=0

@@ -1,27 +1,2 @@
-  CC      build/src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.o
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:1528: warning: conflicting types for built-in function `memcpy'
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c: In function `func_8017D0C0':
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3341: warning: passing arg 1 of `func_8012A018' makes integer from pointer without a cast
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3342: warning: passing arg 1 of `func_8012A094' makes integer from pointer without a cast
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c: In function `func_8017D190':
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3366: warning: passing arg 1 of `func_80175014' from incompatible pointer type
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3366: warning: passing arg 2 of `func_80175014' from incompatible pointer type
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c: In function `func_8017DA58':
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3690: warning: passing arg 1 of `func_8012CAE4' makes pointer from integer without a cast
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3701: warning: passing arg 1 of `func_8017D5DC' makes pointer from integer without a cast
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3702: warning: passing arg 1 of `func_8017D6C4' makes pointer from integer without a cast
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3703: warning: passing arg 1 of `func_8012AD50' makes pointer from integer without a cast
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c: In function `func_8017DB9C':
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3741: warning: passing arg 2 of `func_8001C214' makes integer from pointer without a cast
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3746: warning: passing arg 1 of `func_8012AD50' makes pointer from integer without a cast
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c: At top level:
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3853: warning: type mismatch with previous external decl
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3807: warning: previous external decl of `func_8017DDEC'
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3853: warning: type mismatch with previous implicit declaration
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3807: warning: previous implicit declaration of `func_8017DDEC'
-src/ov_SC04_010/ov_SC04_010_jr_8017BEBC.c:3853: warning: `func_8017DDEC' was previously implicitly declared to return `int'
-  LD      build/ov_SC04_010/ov_SC04_010.elf
-  OBJCOPY build/ov_SC04_010/ov_SC04_010
-  TRIM    build/ov_SC04_010/ov_SC04_010 (-1 B linker end-align pad)
 [ OK ] build/ov_SC04_010/ov_SC04_010
        sha1 3d20ec873d814339786a9466ef94b598ad6eed9a == config/check.ov_SC04_010.sha  (BYTE-IDENTICAL)

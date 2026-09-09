@@ -1,27 +1,2 @@
-  CC      build/src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.o
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:1529: warning: conflicting types for built-in function `memcpy'
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3526: warning: type mismatch with previous external decl
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3432: warning: previous external decl of `D_80126B62'
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: In function `func_8017DAE4':
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3705: warning: passing arg 1 of `func_80149020' makes pointer from integer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3708: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: In function `func_8017E078':
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3944: warning: passing arg 2 of `func_8012C354' makes integer from pointer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3947: warning: assignment from incompatible pointer type
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3952: warning: passing arg 1 of `func_80143970' makes integer from pointer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: In function `func_8017F678':
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:4990: warning: passing arg 2 of `func_8012C354' makes integer from pointer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:4996: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: In function `func_80180060':
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:5305: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: In function `func_801801A8':
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:5344: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: In function `func_80180474':
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:5555: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: In function `func_80180704':
-src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:5596: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
-  LD      build/ov_SC05_007/ov_SC05_007.elf
-  OBJCOPY build/ov_SC05_007/ov_SC05_007
-  TRIM    build/ov_SC05_007/ov_SC05_007 (-1 B linker end-align pad)
 [ OK ] build/ov_SC05_007/ov_SC05_007
        sha1 605f618a96ca8d3a4b5c51479d72d4d05eeacd5a == config/check.ov_SC05_007.sha  (BYTE-IDENTICAL)

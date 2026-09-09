@@ -425,13 +425,31 @@ def repair_registry(cen):
             for i in c["insts"]:
                 if i["form"] == "def" and (i["alias"], i["addr"]) in listed:
                     (verbose.append((g["id"], i["alias"])) if g.get("members") else removals[g["id"]].add(i["alias"]))
+    # the INVERSE defect — the registry BEHIND the source: a same-vram class whose every instance already includes the header but
+    # whose group lists fewer members (T4 converted every macro site; the P15-era group had listed a subset; the verbose `members:`
+    # form was skipped silently by add_members_surgical — five 141-member groups sat at 16). Fix: the full member list, in shorthand.
+    complete = {}                                  # gid -> (vram, sorted aliases) — only when every instance sits at ONE vram
+    for c in cen["classes"]:
+        if c["verdict"] != "B" or c["excepted"] or "E" in c["flags"] or "F" in c["flags"] or len(c.get("groups", [])) != 1:
+            continue
+        if any(i["form"] != "include" for i in c["insts"]) or len(c["addrs"]) != 1:
+            continue
+        g = c["groups"][0]
+        listed = {bn for bn, _, _ in m2h.sc_group_members(g)}
+        aliases = sorted({i["alias"] for i in c["insts"]})
+        if set(aliases) - listed:
+            complete[g["id"]] = (int(c["addrs"][0], 16), aliases, len(set(aliases) - listed))
     p = REPO / "config/dedup.us.yaml"
     lines = p.read_text().splitlines(keepends=True)
     cur, n_removed, touched, thin = None, 0, 0, []
-    for k, ln in enumerate(lines):
+    n_added, converted, k = 0, [], 0
+    out = []
+    while k < len(lines):
+        ln = lines[k]
         m = re.match(r"^\s*-?\s*id:\s*(\S+)\s*$", ln)
         if m:
             cur = m.group(1)
+            out.append(ln); k += 1
             continue
         if cur and cur in removals and re.match(r"^\s*binaries:\s*\[", ln):
             head, rest = ln.split("[", 1)
@@ -442,14 +460,36 @@ def repair_registry(cen):
             touched += 1
             if len(keep) < 2:
                 thin.append((cur, keep))
-            lines[k] = f"{head}[{', '.join(keep)}]{tail}"
+            out.append(f"{head}[{', '.join(keep)}]{tail}")
+            cur = None; k += 1
+            continue
+        if cur and cur in complete and re.match(r"^\s*binaries:\s*\[", ln):
+            vram, aliases, missing = complete[cur]
+            head = ln.split("[", 1)[0]
+            out.append(f"{head}[{', '.join(aliases)}]\n")
+            n_added += missing
+            cur = None; k += 1
+            continue
+        if cur and cur in complete and re.match(r"^\s*members:\s*$", ln):
+            vram, aliases, missing = complete[cur]
+            indent = ln[:len(ln) - len(ln.lstrip())]
+            out.append(f"{indent}vram: 0x{vram:08X}\n{indent}binaries: [{', '.join(aliases)}]\n")
+            k += 1
+            while k < len(lines) and re.match(r"^\s+-\s*\{", lines[k]):   # drop the `- { binary: …, vram: …, name: … }` rows
+                k += 1
+            n_added += missing
+            converted.append(cur)
             cur = None
-    p.write_text("".join(lines))
+            continue
+        out.append(ln); k += 1
+    p.write_text("".join(out))
     rec = dict(groups=touched, members_removed=n_removed, removals={g: sorted(v) for g, v in removals.items()},
-               thin_groups=thin, verbose_skipped=verbose)
+               thin_groups=thin, verbose_skipped=verbose, members_added=n_added, completed_groups=sorted(complete),
+               converted_to_shorthand=converted)
     (RUN / "repair_registry.json").write_text(json.dumps(rec, indent=1) + "\n")
     log(f"repair-registry: {n_removed} listed-but-private members removed from {touched} groups; groups left with <2 members: "
-        f"{len(thin)} {thin[:5]}; verbose groups with a private member (left alone): {len(verbose)} {verbose[:5]}")
+        f"{len(thin)} {thin[:5]}; verbose groups with a private member (left alone): {len(verbose)} {verbose[:5]}; "
+        f"{n_added} including-but-unlisted members added to {len(complete)} groups ({len(converted)} converted to shorthand: {converted})")
     return rec
 
 
