@@ -1210,9 +1210,7 @@ extern void func_800D1F90(void);
 
 extern void (*D_80181864[])(void);
 
-void func_80159698(void *a0) {
-    D_80181864[*(u8 *)((s32)a0 + 0x15)]();
-}
+#include "../shared/ov/func_80159698__2a780a02.h"
 
 
 #include "../shared/ov/func_801596D4.h"
@@ -1258,18 +1256,12 @@ extern char D_80181684[];
 
 extern void (*D_80181908[])(void);
 
-void func_80159968(void *a0) {
-    D_80181908[*(u8 *)((s32)a0 + 0x4D)]();
-}
+#include "../shared/ov/func_80159968__257eb65a.h"
 
 
 
 
-void func_801599A4(void *a0) {
-
-    extern void (*D_80181914[])(void);
-    D_80181914[*(u16 *)((s32)a0 + 0x0)]();
-}
+#include "../shared/ov/func_801599A4__475fe4fa.h"
 
 
 #include "../shared/ov/func_801599E0.h"

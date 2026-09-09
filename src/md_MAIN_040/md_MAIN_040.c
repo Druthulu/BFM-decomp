@@ -25,12 +25,7 @@ void func_800CAE44(void *a0) {
 
 extern s32 func_80161104(void);
 extern void func_800CAED0(u8 *a0);
-void func_800CAE88(u8 *a0) {
-    if (func_80161104()) {
-        func_800CAED0(a0);
-        *(u8 *)(a0 + 0x197) = *(u8 *)(a0 + 0x197) + 1;
-    }
-}
+#include "../shared/slot_800CAE08/func_800CAE88__34360208.h"
 
 
 extern void func_80154274(s32 *a0, s32 a1);

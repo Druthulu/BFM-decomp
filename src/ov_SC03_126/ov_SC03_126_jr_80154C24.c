@@ -915,14 +915,7 @@ extern void func_800183E0(s32 a0);
 
 extern ImgRect8 D_801810A4[];
 
-void func_801550FC(s32 arg0)
-{
-    if (arg0 & 0x40000000) {
-        MoveImage(&D_801810A4[arg0 & 0xFF], 0x200, 0x100);
-    } else {
-        ((void (*)(void))func_800183E0)();
-    }
-}
+#include "../shared/ov/func_801550FC__1a1b2a6c.h"
 
 
 #include "../shared/ov/func_80155150.h"
@@ -945,19 +938,7 @@ void func_801550FC(s32 arg0)
 
 extern int (*D_801810E4[])(void);
 
-s32 func_80155458(s32 param_1)
-{
-    int idx;
-
-    idx = *(unsigned char *)(param_1 + 0x4e);
-    if (idx != 0) {
-        idx = idx - 1;
-        if ((*D_801810E4[idx])() == 0) {
-            *(unsigned char *)(param_1 + 0x4e) = 0;
-        }
-    }
-    return *(unsigned char *)(param_1 + 0x4e);
-}
+#include "../shared/ov/func_80155458__1cc8391b.h"
 
 
 #include "../shared/ov/func_801554B8.h"
@@ -1137,22 +1118,13 @@ extern int D_8018E848;
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_801578C0(s32 a0);
 
-void func_80157788(int param_1)
-{
-    D_8018E848 = 300;
-    ((void (*)(int, int))func_80147078)(param_1, 7);
-    func_801578C0(param_1);
-}
+#include "../shared/ov/func_80157788__8503ac15.h"
 
 
 
 
 
-void func_801577C8(s32 arg0) {
-    D_8018E848 = 0x12C;
-    func_80147078(arg0, 7);
-    func_80157808(arg0);
-}
+#include "../shared/ov/func_801577C8__e5eaf64b.h"
 
 
 
@@ -1260,19 +1232,7 @@ extern void func_80156648(s32 *a0);
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_80157D74(u16 *a0);
 
-void func_80157D20(void)
-{
-
-    extern u16 D_801815B4[];
-    register void *a0v __asm__("$4");
-    register s32 a1v __asm__("$5");
-    void *param_1 = a0v;
-    s32 param_2 = a1v;
-
-    ((void (*)(void))func_80156648)();
-    ((void (*)(void *, s32))func_80147078)(param_1, D_801815B4[param_2]);
-    ((void (*)(void *))func_80157D74)(param_1);
-}
+#include "../shared/ov/func_80157D20__99380536.h"
 
 
 #include "../shared/ov/func_80157D74.h"
@@ -1441,7 +1401,4 @@ extern void func_80158880(s32 *param);
 extern void func_80149020(s32 *a0);
 extern void (*D_80181614[])(s32 *);
 
-void func_80158880(s32 *param) {
-    func_80149020(param);
-    D_80181614[*(u8 *)((s32)param + 0x4F)](param);
-}
+#include "../shared/ov/func_80158880__36bef1e6.h"

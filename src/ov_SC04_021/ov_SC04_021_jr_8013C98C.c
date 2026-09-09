@@ -797,15 +797,7 @@ extern s32 D_8018E760;
 extern s8 D_8018E764;
 extern s8 D_8018E765;
 
-void func_8013C9C4(void * arg0)
-{
-    D_8018E760 = arg0;
-    D_8018E764 = 0;
-    D_8018E765 = 0;
-    if (func_80019198() == 0) {
-        func_80019064(&D_80062BC0);
-    }
-}
+#include "../shared/ov/func_8013C9C4__564fe0e7.h"
 
 
 
@@ -854,13 +846,7 @@ extern s32 D_8018E788;
 extern s32 D_8018E7B0;
 extern s32 D_8018E7B4;
 
-void func_8013CB20(void)
-{
-    D_8018E7B0 = D_8018E788;
-    D_8018E7B4 = D_8018E784;
-    D_8018E788 = 1;
-    D_8018E784 = 0;
-}
+#include "../shared/ov/func_8013CB20__1985aa20.h"
 
 
 

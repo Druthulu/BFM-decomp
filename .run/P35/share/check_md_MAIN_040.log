@@ -1,0 +1,14 @@
+  CC      build/src/md_MAIN_040/md_MAIN_040.o
+src/md_MAIN_040/md_MAIN_040.c: In function `func_800CB038':
+src/md_MAIN_040/md_MAIN_040.c:123: warning: passing arg 1 makes integer from pointer without a cast
+src/md_MAIN_040/md_MAIN_040.c: In function `func_800CB114':
+src/md_MAIN_040/md_MAIN_040.c:158: warning: passing arg 1 makes integer from pointer without a cast
+src/md_MAIN_040/md_MAIN_040.c: At top level:
+src/md_MAIN_040/md_MAIN_040.c:253: warning: type mismatch with previous external decl
+src/md_MAIN_040/md_MAIN_040.c:214: warning: previous external decl of `func_800CB3DC'
+src/md_MAIN_040/md_MAIN_040.c: In function `func_800CB7B8':
+src/md_MAIN_040/md_MAIN_040.c:391: warning: passing arg 1 makes integer from pointer without a cast
+  LD      build/md_MAIN_040/md_MAIN_040.elf
+  OBJCOPY build/md_MAIN_040/md_MAIN_040
+[ OK ] build/md_MAIN_040/md_MAIN_040
+       sha1 ac52bf5f2864a705fc30b710d21e7f054afb37fd == config/check.md_MAIN_040.sha  (BYTE-IDENTICAL)

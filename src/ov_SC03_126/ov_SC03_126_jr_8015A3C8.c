@@ -1229,12 +1229,7 @@ extern void func_80146DB8(s32 *a0, s32 *a1);
 extern s32 func_80161CD0(s32 a0, s32 a1);
 extern M2C_UNK D_801818A8;
 
-void func_8015AC48(s32 arg0)
-{
-    func_80154150(arg0, 9);
-    func_80146DB8((s32 *)arg0, &D_801818A8);
-    func_80161CD0(arg0, M2C_FIELD(arg0, u16 *, 0x16E));
-}
+#include "../shared/ov/func_8015AC48__55ac6c0c.h"
 
 
 #include "../shared/ov/func_8015AC90.h"
@@ -1246,9 +1241,7 @@ void func_8015AC48(s32 arg0)
 
 extern void (*D_80181A6C[])(void);
 
-void func_8015AD3C(void *a0) {
-    D_80181A6C[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_8015AD3C__01c9d884.h"
 
 
 #include "../shared/ov/func_8015AD78.h"

@@ -1,0 +1,26 @@
+  CC      build/src/md_MAIN_033/md_MAIN_033.o
+src/md_MAIN_033/md_MAIN_033.c: In function `func_800CAFE8':
+src/md_MAIN_033/md_MAIN_033.c:82: warning: passing arg 1 makes integer from pointer without a cast
+src/md_MAIN_033/md_MAIN_033.c:84: warning: passing arg 1 makes integer from pointer without a cast
+src/md_MAIN_033/md_MAIN_033.c: In function `func_800CB058':
+src/md_MAIN_033/md_MAIN_033.c:131: warning: passing arg 1 of `func_80146DE8' makes pointer from integer without a cast
+src/md_MAIN_033/md_MAIN_033.c:132: warning: passing arg 1 of `func_80146E90' makes pointer from integer without a cast
+src/md_MAIN_033/md_MAIN_033.c:133: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/md_MAIN_033/md_MAIN_033.c:134: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/md_MAIN_033/md_MAIN_033.c: In function `func_800CB190':
+src/md_MAIN_033/md_MAIN_033.c:144: warning: type mismatch with previous external decl
+src/md_MAIN_033/md_MAIN_033.c:100: warning: previous external decl of `func_80146CA0'
+src/md_MAIN_033/md_MAIN_033.c: In function `func_800CB2C8':
+src/md_MAIN_033/md_MAIN_033.c:204: warning: type mismatch with previous external decl
+src/md_MAIN_033/md_MAIN_033.c:100: warning: previous external decl of `func_80146CA0'
+src/md_MAIN_033/md_MAIN_033.c: At top level:
+src/md_MAIN_033/md_MAIN_033.c:247: warning: type mismatch with previous external decl
+src/md_MAIN_033/md_MAIN_033.c:78: warning: previous external decl of `func_800CB3A4'
+src/md_MAIN_033/md_MAIN_033.c: In function `func_800CB4EC':
+src/md_MAIN_033/md_MAIN_033.c:305: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/md_MAIN_033/md_MAIN_033.c: In function `func_800CB76C':
+src/md_MAIN_033/md_MAIN_033.c:423: warning: passing arg 3 of `func_800139C8' makes pointer from integer without a cast
+  LD      build/md_MAIN_033/md_MAIN_033.elf
+  OBJCOPY build/md_MAIN_033/md_MAIN_033
+[ OK ] build/md_MAIN_033/md_MAIN_033
+       sha1 f109278a0b8f17167196a29104ec9bdd7ff3a934 == config/check.md_MAIN_033.sha  (BYTE-IDENTICAL)

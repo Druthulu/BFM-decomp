@@ -3570,16 +3570,7 @@ extern u16 func_80148800(s32 *a0);
 extern void func_8017C6B8(s32 arg0, s32 arg1);
 extern s32 func_80171990(u8 *a0);
 
-void func_8017C4C4(void *arg0) {
-    if (func_80148800((s32 *)arg0) & 0x10) {
-        *(u8 *)((s32)arg0 + 0x216) = 5;
-    } else {
-        func_8017C6B8((s32)arg0, *(u8 *)((s32)arg0 + 0x218));
-        if (func_80148800((s32 *)arg0) & 0x40) {
-            func_80171990((u8 *)arg0);
-        }
-    }
-}
+#include "../shared/ov/func_8017C4C4.h"
 
 
 extern s32 D_800D5E18;
@@ -3595,16 +3586,7 @@ extern s32 func_80171990(u8 *a0);
 
 extern s32 func_80171A88(s32 a0);
 
-void func_8017C5D8(void *arg0) {
-    if (func_80171A88((s32)arg0)) {
-        if (*(s16 *)((u8 *)arg0 + 0x20C) == 0x60) {
-            *(u8 *)((u8 *)arg0 + 0x216) = 4;
-        } else {
-            *(u16 *)((u8 *)arg0 + 0x20E) = 0;
-            *(u8 *)((u8 *)arg0 + 0x216) = 1;
-        }
-    }
-}
+#include "../shared/ov/func_8017C5D8.h"
 
 
 #include "../shared/ov/func_8017C628__af037f84.h"
@@ -3615,12 +3597,7 @@ extern void func_80147060(u8 *a0);
 extern void func_80171A10(s32*);
 extern void func_8017BEE8(void);
 
-    void func_8017C670(u8 *a0) {
-        func_8002D4C8(0x1B, 0);
-        func_80147060(a0);
-        func_8017BEE8();
-        ((void (*)(u8 *))func_80171A10)(a0);
-    }
+#include "../shared/ov/func_8017C670.h"
 
 
 #include "common.h"

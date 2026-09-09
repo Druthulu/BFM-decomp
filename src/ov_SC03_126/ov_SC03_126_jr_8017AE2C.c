@@ -2646,14 +2646,7 @@ extern u16 D_8018F996;
 extern u16 D_8018F998;
 extern s16 D_8018FAB0;
 
-void func_8017B1D8(void) {
-    func_8012A418();
-    D_8018FAB0 = 0;
-    D_8018F914 = 0;
-    D_8018F994 = D_80126B5E;
-    D_8018F996 = D_80126B62;
-    D_8018F998 = D_80126B66;
-}
+#include "../shared/ov/func_8017B1D8__5e0dca10.h"
 
 
 // @class: regalloc-order — simplified sibling of matched func_8017B614.
@@ -2731,14 +2724,7 @@ extern s16 D_8018F9AC;
 extern s16 D_8018F9AE;
 extern s16 D_8018F9B0;
 
-void func_8017B824(void) {
-    D_8018F9A4 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
-    D_8018F9A6 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
-    D_8018F9A8 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
-    D_8018F9AC = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
-    D_8018F9AE = (s16) M2C_FIELD(D_801151D4, s32 *, 0x40);
-    D_8018F9B0 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x44);
-}
+#include "../shared/ov/func_8017B824__55afc799.h"
 
 
 
@@ -2771,10 +2757,7 @@ extern s32 D_80114F2C;
 
 
 
-s32 func_8017B8E8(s32 src) {
-    (*(S8_8017B8E8 *)&D_8018F98C) = ((S8_8017B8E8 *)src)[0];
-    (*(S8_8017B8E8 *)&D_8018F984) = ((S8_8017B8E8 *)src)[1];
-}
+#include "../shared/ov/func_8017B8E8__4c4ff515.h"
 
 
 
@@ -2860,13 +2843,7 @@ extern void func_8017B0E4(int, int);
 extern s16 D_8018F914;
 extern s16 D_8018FAB0;
 
-void func_8017BCA0(int param_1) {
-    func_8017B0E4(param_1, 0xC);
-    D_8018F914 = D_8018F914 + 1;
-    if (D_8018F914 >= 0x1F) {
-        D_8018FAB0 = 2;
-    }
-}
+#include "../shared/ov/func_8017BCA0__62e61bf8.h"
 
 
 
@@ -2880,16 +2857,7 @@ extern s16 D_8018FAB0;
 extern void func_8017B0E4(int, int);
 extern void func_8012A4BC(void);
 
-void func_8017BCF4(int param_1)
-{
-    func_8017B0E4(param_1, 6);
-    D_8018F914 = D_8018F914 + 1;
-    if (0x18 < D_8018F914) {
-        func_8012A4BC();
-        D_8018FAB0 = 0;
-    }
-    return;
-}
+#include "../shared/ov/func_8017BCF4__4979313f.h"
 
 
 

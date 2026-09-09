@@ -2743,12 +2743,7 @@ void func_8017A0C4(s32 arg0) {
 extern s32 D_8018F954;
 extern void func_80179B74(u16 *p);
 
-void func_8017A144(s32 a0) {
-    s16 sp10;
-    sp10 = 0x1B;
-    func_80179B74(&sp10);
-    D_8018F954 = a0;
-}
+#include "../shared/ov/func_8017A144__0f22dcf1.h"
 
 
 #include "../shared/ov/func_8017A180.h"

@@ -2605,36 +2605,14 @@ extern s32 D_8018F500;
 
 
 
-s32 func_80178B18(s32 param_1, s32 param_2)
-{
-    extern void func_80178BF8(void);
-    extern void func_80178CBC(s32 arg0, s32 arg1);
-    extern u16 D_80182BB4;
-
-    int *p = &(*(int *)&D_80182BB4);
-    *p = ((int)param_2);
-    func_80178BF8();
-    func_801746A4();
-    func_8017435C();
-    ((void (*)(int, void *))func_80178CBC)(((int)param_1), (char *)p - 0xC);
-}
+#include "../shared/ov/func_80178B18__dad7e138.h"
 
 
 
 // @class: regalloc-order
 // @stuck: none — MATCH (pending verify)
 
-s32 func_80178B70(s32 param_1, s32 param_2)
-{
-    extern void func_80178BF8();
-    extern void func_80178CBC();
-    extern int D_80182BB4;
-
-    int *p = &D_80182BB4;
-    *p = ((int)param_2);
-    func_80178BF8();
-    func_80178CBC(((int)param_1), p - 3);
-}
+#include "../shared/ov/func_80178B70__bfd16ca2.h"
 
 
 
@@ -2652,12 +2630,7 @@ s32 func_80178B70(s32 param_1, s32 param_2)
 extern s32 D_8018F500;
 extern short D_8018FB24;
 
-void func_80178CBC(s32 arg0, s32 arg1) {
-    D_8018F500 = arg1;
-    do {
-        func_80178D40(arg0, D_8018F500);
-    } while (D_8018FB24 == 3);
-}
+#include "../shared/ov/func_80178CBC__f4633b88.h"
 
 
 

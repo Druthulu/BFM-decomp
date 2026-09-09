@@ -722,13 +722,7 @@ extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 extern void (*D_8017F87C[])(void);
 
-void func_80138BE0(int p)
-{
-    if (*(unsigned short *)(p + 0xe) != 0) {
-        *(unsigned short *)(p + 0xe) -= 1;
-    }
-    D_8017F87C[*(short *)(p + 4)]();
-}
+#include "../shared/ov/func_80138BE0__70b09937.h"
 
 
 #include "../shared/ov/func_80138C30.h"

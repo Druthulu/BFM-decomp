@@ -1091,10 +1091,7 @@ extern int func_801412A8(int, int, int, int, int, int);
 extern unsigned short D_80115112;
 extern void (*D_8018066C[])(void);
 
-void func_80141788(void)
-{
-    D_8018066C[D_80115112]();
-}
+#include "../shared/ov/func_80141788__48b23be8.h"
 
 
 #include "../shared/ov/func_801417C4.h"
@@ -1180,10 +1177,7 @@ extern u16 D_80115110;
 extern u8 D_801805CC;
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-void func_80141C0C(s32 param_1)
-{
-    func_8002D4C8(*(u16 *)(&D_801805CC + (((param_1 << 16) >> 15) + (u32)D_80115110) * 2), 0);
-}
+#include "../shared/ov/func_80141C0C__578d37f1.h"
 
 
 #include "../shared/ov/func_80141C50.h"
@@ -1247,12 +1241,7 @@ extern s32 D_80180690;
 extern u16 D_801270C0;
 extern void (*D_801806C0[])();
 
-void func_801427EC(int param_1)
-{
-    if (*(s16 *)&D_801270C0 != 3) {
-        D_801806C0[*(u16 *)(param_1 + 2)]();
-    }
-}
+#include "../shared/ov/func_801427EC__6ae2de7b.h"
 
 
 #include "../shared/ov/func_80142838.h"
@@ -1266,12 +1255,7 @@ void func_801427EC(int param_1)
 extern u16 D_801270C0;
 extern void (*D_801806DC[])();
 
-void func_8014292C(int param_1)
-{
-    if (*(s16 *)&D_801270C0 != 3) {
-        D_801806DC[*(u16 *)(param_1 + 2)]();
-    }
-}
+#include "../shared/ov/func_8014292C__bd8b770d.h"
 
 
 
@@ -1281,12 +1265,7 @@ void func_8014292C(int param_1)
 extern u16 D_801270C0;
 extern void (*D_801808AC[])();
 
-void func_80142978(int param_1)
-{
-    if (*(s16 *)&D_801270C0 != 3) {
-        D_801808AC[*(u16 *)(param_1 + 2)]();
-    }
-}
+#include "../shared/ov/func_80142978__e39f0f55.h"
 
 
 
@@ -1296,12 +1275,7 @@ void func_80142978(int param_1)
 extern u16 D_801270C0;
 extern void (*D_80180964[])();
 
-void func_801429C4(int param_1)
-{
-    if (*(s16 *)&D_801270C0 != 3) {
-        D_80180964[*(u16 *)(param_1 + 2)]();
-    }
-}
+#include "../shared/ov/func_801429C4__238a10f3.h"
 
 
 
@@ -1543,9 +1517,7 @@ void func_80143E68(void *a0) {
 
 extern void (*D_80180C0C[])(void);
 
-void func_80144054(void *a0) {
-    D_80180C0C[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80144054__14e9cb5e.h"
 
 
 

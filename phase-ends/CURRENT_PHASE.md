@@ -413,6 +413,10 @@
   59 TUs · 120 new headers · gating 12 binaries` → **`gated 12/12 binaries green · registered
   120 groups · extended 0 members · rejected classes 0`**.
 
+- **S96 — T5 bucket `new`, batch 4** (`run_new4.log`, 109.92 s; `batch_new4.json`): `120 classes · 360 sites in
+  69 TUs · 120 new headers · gating 15 binaries` → **`gated 15/15 binaries green · registered
+  120 groups · extended 0 members · rejected classes 0`**.
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)

@@ -18191,3 +18191,843 @@ groups:
     func: func_8015EE7C
     vram: 0x8015EE7C
     binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80164E40
+    tier: h_exact
+    hash: b458f4a1cfef015d04239482250485fabe875b82
+    source: src/shared/ov/func_80164E40__b458f4a1.h
+    func: func_80164E40
+    vram: 0x80164E40
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80164EE0
+    tier: h_exact
+    hash: b63469745ce23e5121c0e9ccf00bb3a9612866fd
+    source: src/shared/ov/func_80164EE0__b6346974.h
+    func: func_80164EE0
+    vram: 0x80164EE0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017C4C4
+    tier: h_exact
+    hash: e099fe9e2403c5b5f524bbbecb1773f464ea7b0b
+    source: src/shared/ov/func_8017C4C4.h
+    func: func_8017C4C4
+    vram: 0x8017C4C4
+    binaries: [ov_SC03_010, ov_SC03_011, ov_SC03_013]
+  - id: S_func_8016EBA8
+    tier: h_exact
+    hash: e2a1910845851d0f0ea46b5469d012a90ee8d57e
+    source: src/shared/ov/func_8016EBA8__e2a19108.h
+    func: func_8016EBA8
+    vram: 0x8016EBA8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80178438
+    tier: h_exact
+    hash: f456cbc9a3e26cdf82545a01207ebb47b2ea6166
+    source: src/shared/ov/func_80178438__f456cbc9.h
+    func: func_80178438
+    vram: 0x80178438
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80155458
+    tier: h_exact
+    hash: 1cc8391b979eb922ca4e70801d77944b63cc2ac4
+    source: src/shared/ov/func_80155458__1cc8391b.h
+    func: func_80155458
+    vram: 0x80155458
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80161034
+    tier: h_exact
+    hash: 317ceab4ee10924018597e2ebc401b0746b43f29
+    source: src/shared/ov/func_80161034__317ceab4.h
+    func: func_80161034
+    vram: 0x80161034
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017B1D8
+    tier: h_exact
+    hash: 5e0dca108e199c19a51fa65a0ed553ef57263ff6
+    source: src/shared/ov/func_8017B1D8__5e0dca10.h
+    func: func_8017B1D8
+    vram: 0x8017B1D8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80164744
+    tier: h_exact
+    hash: 75842b8ac9faf23a7d0e6a87f8bab818d88a9748
+    source: src/shared/ov/func_80164744__75842b8a.h
+    func: func_80164744
+    vram: 0x80164744
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8013BC7C
+    tier: h_exact
+    hash: 8042ae05eea59dfb249b1e483f19196a5fd6d7fd
+    source: src/shared/ov/func_8013BC7C__8042ae05.h
+    func: func_8013BC7C
+    vram: 0x8013BC7C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8016216C
+    tier: h_exact
+    hash: 8fca1d4635ea06f775ec7fa010c43fb044955f56
+    source: src/shared/ov/func_8016216C__8fca1d46.h
+    func: func_8016216C
+    vram: 0x8016216C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80162760
+    tier: h_exact
+    hash: e8f6604db0a58caff630d6472863b0b342c64feb
+    source: src/shared/ov/func_80162760__e8f6604d.h
+    func: func_80162760
+    vram: 0x80162760
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017ED0C
+    tier: h_exact
+    hash: 1c4ee29dc186181efb2ec1ef3fa8e1ffa482cf9e
+    source: src/shared/ov/func_8017ED0C__1c4ee29d.h
+    func: func_8017ED0C
+    vram: 0x8017ED0C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017BCF4
+    tier: h_exact
+    hash: 4979313f9fb71c8c96901dea6980904494ecd94e
+    source: src/shared/ov/func_8017BCF4__4979313f.h
+    func: func_8017BCF4
+    vram: 0x8017BCF4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017B824
+    tier: h_exact
+    hash: 55afc7998c477e978398a472e169daceb9774af9
+    source: src/shared/ov/func_8017B824__55afc799.h
+    func: func_8017B824
+    vram: 0x8017B824
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801634D8
+    tier: h_exact
+    hash: 644087e94bfb501794deda88e949c5d2689fc027
+    source: src/shared/ov/func_801634D8__644087e9.h
+    func: func_801634D8
+    vram: 0x801634D8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017DC7C
+    tier: h_exact
+    hash: 674c410afd094e01139faea0c3405bedbcd5263f
+    source: src/shared/ov/func_8017DC7C__674c410a.h
+    func: func_8017DC7C
+    vram: 0x8017DC7C
+    binaries: [ov_SC04_000, ov_SC04_004, ov_SC04_007]
+  - id: S_func_8017E5AC
+    tier: h_exact
+    hash: b35f08b0ada69ad0b54f599779990584be0cfe21
+    source: src/shared/ov/func_8017E5AC__b35f08b0.h
+    func: func_8017E5AC
+    vram: 0x8017E5AC
+    binaries: [ov_SC04_000, ov_SC04_004, ov_SC04_007]
+  - id: S_func_80178CBC
+    tier: h_exact
+    hash: f4633b886536a5232f844ace9022dfcf2aeab713
+    source: src/shared/ov/func_80178CBC__f4633b88.h
+    func: func_80178CBC
+    vram: 0x80178CBC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8015FD74
+    tier: h_exact
+    hash: 012cd6bc39daa060d7b849610b7c7c008fd3f8d0
+    source: src/shared/ov/func_8015FD74__012cd6bc.h
+    func: func_8015FD74
+    vram: 0x8015FD74
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014D738
+    tier: h_exact
+    hash: 023a6d30beb6d25b50faf66ab98a915056a5a97a
+    source: src/shared/ov/func_8014D738__023a6d30.h
+    func: func_8014D738
+    vram: 0x8014D738
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80137B80
+    tier: h_exact
+    hash: 1073b1607ceac9dba0ae1cf91593d487215e5bc1
+    source: src/shared/ov/func_80137B80__1073b160.h
+    func: func_80137B80
+    vram: 0x80137B80
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014E434
+    tier: h_exact
+    hash: 1a41a9cf7e9d8dfb110444b0fce5a060ec009e0a
+    source: src/shared/ov/func_8014E434__1a41a9cf.h
+    func: func_8014E434
+    vram: 0x8014E434
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014FBC0
+    tier: h_exact
+    hash: 37bdabb3ac10baf04a65006c11185506b62e4ce8
+    source: src/shared/ov/func_8014FBC0__37bdabb3.h
+    func: func_8014FBC0
+    vram: 0x8014FBC0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014E934
+    tier: h_exact
+    hash: 4b5aecb9bfb481957ca1fc5c5a4a6746edea8b82
+    source: src/shared/ov/func_8014E934__4b5aecb9.h
+    func: func_8014E934
+    vram: 0x8014E934
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017B8E8
+    tier: h_exact
+    hash: 4c4ff5152a962b5f2a9a3d95bfc593bf0ce79a1f
+    source: src/shared/ov/func_8017B8E8__4c4ff515.h
+    func: func_8017B8E8
+    vram: 0x8017B8E8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80128940
+    tier: h_exact
+    hash: 6a0ce359d00f802a21f09a0f5e415bbc24768e0e
+    source: src/shared/ov/func_80128940__6a0ce359.h
+    func: func_80128940
+    vram: 0x80128940
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014F1F4
+    tier: h_exact
+    hash: 7ce404cb07e70d6ab2e3224ed9718551189a624e
+    source: src/shared/ov/func_8014F1F4__7ce404cb.h
+    func: func_8014F1F4
+    vram: 0x8014F1F4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014FCFC
+    tier: h_exact
+    hash: 853c5baf62b23f24d44cd24bfebdcfac0c9f83bb
+    source: src/shared/ov/func_8014FCFC__853c5baf.h
+    func: func_8014FCFC
+    vram: 0x8014FCFC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014CCB4
+    tier: h_exact
+    hash: 8d2dda228a403d93aefba91a42c01cedcf2041c6
+    source: src/shared/ov/func_8014CCB4__8d2dda22.h
+    func: func_8014CCB4
+    vram: 0x8014CCB4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014F6F4
+    tier: h_exact
+    hash: 923dc24dc179e236dffc837b7c6a7d0c8bc1c25e
+    source: src/shared/ov/func_8014F6F4__923dc24d.h
+    func: func_8014F6F4
+    vram: 0x8014F6F4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014E6A0
+    tier: h_exact
+    hash: 9b3e0b9cff7106e8d23b0b7fdea671366aa63162
+    source: src/shared/ov/func_8014E6A0__9b3e0b9c.h
+    func: func_8014E6A0
+    vram: 0x8014E6A0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80128998
+    tier: h_exact
+    hash: cd2af4142dbdafc48d0848c98b67558b71b4c9d0
+    source: src/shared/ov/func_80128998__cd2af414.h
+    func: func_80128998
+    vram: 0x80128998
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014ED28
+    tier: h_exact
+    hash: d124f56e06e710437e8ef00f8dc16238e418eee4
+    source: src/shared/ov/func_8014ED28__d124f56e.h
+    func: func_8014ED28
+    vram: 0x8014ED28
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801288E8
+    tier: h_exact
+    hash: d532bf22ccfce0ded57f8f471fc5c349c93a497d
+    source: src/shared/ov/func_801288E8__d532bf22.h
+    func: func_801288E8
+    vram: 0x801288E8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80178B18
+    tier: h_exact
+    hash: dad7e1389d2f535677952fa0803f20aa8bbe2896
+    source: src/shared/ov/func_80178B18__dad7e138.h
+    func: func_80178B18
+    vram: 0x80178B18
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80150480
+    tier: h_exact
+    hash: de1033f9623744c579df56ec02e85e77872ebcd5
+    source: src/shared/ov/func_80150480__de1033f9.h
+    func: func_80150480
+    vram: 0x80150480
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014D04C
+    tier: h_exact
+    hash: f6add6d77b792a930f63e2e1cf176903c98d2226
+    source: src/shared/ov/func_8014D04C__f6add6d7.h
+    func: func_8014D04C
+    vram: 0x8014D04C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014D3E0
+    tier: h_exact
+    hash: fb5af043e0595fdfbe57d6d05647f075b7a2db58
+    source: src/shared/ov/func_8014D3E0__fb5af043.h
+    func: func_8014D3E0
+    vram: 0x8014D3E0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014DF3C
+    tier: h_exact
+    hash: fbb470988998f6b7c3f3ae6b0bc2146647bfc273
+    source: src/shared/ov/func_8014DF3C__fbb47098.h
+    func: func_8014DF3C
+    vram: 0x8014DF3C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8014F468
+    tier: h_exact
+    hash: fc2209a3f5706368df1287848a36fbd86e55127b
+    source: src/shared/ov/func_8014F468__fc2209a3.h
+    func: func_8014F468
+    vram: 0x8014F468
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8013BCDC
+    tier: h_exact
+    hash: fe41fd229765ff6385af401bfceea729a5884970
+    source: src/shared/ov/func_8013BCDC__fe41fd22.h
+    func: func_8013BCDC
+    vram: 0x8013BCDC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801550FC
+    tier: h_exact
+    hash: 1a1b2a6c37ad9a7c7c43c684c79284e5ea6b90a6
+    source: src/shared/ov/func_801550FC__1a1b2a6c.h
+    func: func_801550FC
+    vram: 0x801550FC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017BCA0
+    tier: h_exact
+    hash: 62e61bf83eb833b75798e053435806ba5687f1a4
+    source: src/shared/ov/func_8017BCA0__62e61bf8.h
+    func: func_8017BCA0
+    vram: 0x8017BCA0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E468
+    tier: h_exact
+    hash: 8a1505fe1f1aeb61fa43da7d9f6e6743b7fd4d4b
+    source: src/shared/ov/func_8017E468.h
+    func: func_8017E468
+    vram: 0x8017E468
+    binaries: [ov_SC04_000, ov_SC04_004, ov_SC04_007]
+  - id: S_func_80157D20
+    tier: h_exact
+    hash: 99380536a9b90891c70b45ae457e6bdb996ee8d8
+    source: src/shared/ov/func_80157D20__99380536.h
+    func: func_80157D20
+    vram: 0x80157D20
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80175184
+    tier: h_exact
+    hash: 9e8f8891b91b93d8f415a92b454e7f25e105ccf2
+    source: src/shared/ov/func_80175184__9e8f8891.h
+    func: func_80175184
+    vram: 0x80175184
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80163408
+    tier: h_exact
+    hash: aae3aabe97a704bbd1543c035c6252b8678d6244
+    source: src/shared/ov/func_80163408__aae3aabe.h
+    func: func_80163408
+    vram: 0x80163408
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017EA78
+    tier: h_exact
+    hash: afb31368041547aaa63d1e8a310efa21fc59e637
+    source: src/shared/ov/func_8017EA78__afb31368.h
+    func: func_8017EA78
+    vram: 0x8017EA78
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80175268
+    tier: h_exact
+    hash: bbb0b733f8587a9fe263d5c7e81ceb041ff76ec1
+    source: src/shared/ov/func_80175268__bbb0b733.h
+    func: func_80175268
+    vram: 0x80175268
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017553C
+    tier: h_exact
+    hash: c9b58b978590d7d1326402af43170db19401c0da
+    source: src/shared/ov/func_8017553C__c9b58b97.h
+    func: func_8017553C
+    vram: 0x8017553C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8012F8C8
+    tier: h_exact
+    hash: cf6e95986791d6adf0826c19f23dd168fb53c631
+    source: src/shared/ov/func_8012F8C8__cf6e9598.h
+    func: func_8012F8C8
+    vram: 0x8012F8C8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801336E8
+    tier: h_exact
+    hash: d1d2a178f9f0063f3a9cf11e3f3ee1e869bbe72b
+    source: src/shared/ov/func_801336E8__d1d2a178.h
+    func: func_801336E8
+    vram: 0x801336E8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017DB60
+    tier: h_exact
+    hash: dcca8f8fe3c545e01a37202fce4c857a3d1dacfd
+    source: src/shared/ov/func_8017DB60__dcca8f8f.h
+    func: func_8017DB60
+    vram: 0x8017DB60
+    binaries: [ov_SC04_000, ov_SC04_004, ov_SC04_007]
+  - id: S_func_80175690
+    tier: h_exact
+    hash: e44e4f8a07413dcf92cb003486c42e8099a307a1
+    source: src/shared/ov/func_80175690__e44e4f8a.h
+    func: func_80175690
+    vram: 0x80175690
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8012F828
+    tier: h_exact
+    hash: e4c10af423d293f0c13adb0066010937aa81f922
+    source: src/shared/ov/func_8012F828__e4c10af4.h
+    func: func_8012F828
+    vram: 0x8012F828
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8016B9F8
+    tier: h_exact
+    hash: 32a9602d62fa89f7d201a299b6d6751840e53db6
+    source: src/shared/ov/func_8016B9F8__32a9602d.h
+    func: func_8016B9F8
+    vram: 0x8016B9F8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8013C9C4
+    tier: h_exact
+    hash: 564fe0e7087a2da6673e5776caf7fe062889b446
+    source: src/shared/ov/func_8013C9C4__564fe0e7.h
+    func: func_8013C9C4
+    vram: 0x8013C9C4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80161CD0
+    tier: h_exact
+    hash: 591d568e24f2d8d50afa2c619236cabf08ad6829
+    source: src/shared/ov/func_80161CD0__591d568e.h
+    func: func_80161CD0
+    vram: 0x80161CD0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80138BE0
+    tier: h_exact
+    hash: 70b099373e775c6a9b346d50566574ba46117e5a
+    source: src/shared/ov/func_80138BE0__70b09937.h
+    func: func_80138BE0
+    vram: 0x80138BE0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80175218
+    tier: h_exact
+    hash: 8361e4e99a5b20ed5eb5464fa35fa5ab73cf7eb0
+    source: src/shared/ov/func_80175218__8361e4e9.h
+    func: func_80175218
+    vram: 0x80175218
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017C5D8
+    tier: h_exact
+    hash: d137679624766f16117b6aee12e11656559a812a
+    source: src/shared/ov/func_8017C5D8.h
+    func: func_8017C5D8
+    vram: 0x8017C5D8
+    binaries: [ov_SC03_010, ov_SC03_011, ov_SC03_013]
+  - id: S_func_801429C4
+    tier: h_exact
+    hash: 238a10f3a9938a5da6a26baa7f67139f54775fb9
+    source: src/shared/ov/func_801429C4__238a10f3.h
+    func: func_801429C4
+    vram: 0x801429C4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80158880
+    tier: h_exact
+    hash: 36bef1e660f286971713d9fac3302e217cb4e90b
+    source: src/shared/ov/func_80158880__36bef1e6.h
+    func: func_80158880
+    vram: 0x80158880
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8012DB84
+    tier: h_exact
+    hash: 6770f3d350745a692188a12c926ee285d94b1d1a
+    source: src/shared/ov/func_8012DB84__6770f3d3.h
+    func: func_8012DB84
+    vram: 0x8012DB84
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801427EC
+    tier: h_exact
+    hash: 6ae2de7b84a7f345cdc2fa3e971bb3666c6c4bbc
+    source: src/shared/ov/func_801427EC__6ae2de7b.h
+    func: func_801427EC
+    vram: 0x801427EC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8016DA30
+    tier: h_exact
+    hash: 6b8ab40f336fa37d71828020e4e675c60c2e7b25
+    source: src/shared/ov/func_8016DA30__6b8ab40f.h
+    func: func_8016DA30
+    vram: 0x8016DA30
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801627E8
+    tier: h_exact
+    hash: a12736256571754dd998eb40e166c1a79d8c679a
+    source: src/shared/ov/func_801627E8__a1273625.h
+    func: func_801627E8
+    vram: 0x801627E8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017DEC4
+    tier: h_exact
+    hash: b128b8251b1f5e57202313a2b853fe8e07f6e628
+    source: src/shared/ov/func_8017DEC4__b128b825.h
+    func: func_8017DEC4
+    vram: 0x8017DEC4
+    binaries: [ov_SC04_000, ov_SC04_004, ov_SC04_007]
+  - id: S_func_8014292C
+    tier: h_exact
+    hash: bd8b770d96d9df1368dc07f34b911d7a85bba007
+    source: src/shared/ov/func_8014292C__bd8b770d.h
+    func: func_8014292C
+    vram: 0x8014292C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80142978
+    tier: h_exact
+    hash: e39f0f55b3a67c5630fd7e3ab1dfe0a8de0f4761
+    source: src/shared/ov/func_80142978__e39f0f55.h
+    func: func_80142978
+    vram: 0x80142978
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017C670
+    tier: h_exact
+    hash: 16df3c7242a6f552634c2836bc0be9dec0b575ac
+    source: src/shared/ov/func_8017C670.h
+    func: func_8017C670
+    vram: 0x8017C670
+    binaries: [ov_SC03_010, ov_SC03_011, ov_SC03_013]
+  - id: S_func_8013B7AC
+    tier: h_exact
+    hash: 24e7c5e2090ff77d69dfb68a82e2b5249b181583
+    source: src/shared/ov/func_8013B7AC__24e7c5e2.h
+    func: func_8013B7AC
+    vram: 0x8013B7AC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_800CAE88
+    tier: h_exact
+    hash: 3436020821ba6075c5570bdadc15c05e6af627e1
+    source: src/shared/slot_800CAE08/func_800CAE88__34360208.h
+    func: func_800CAE88
+    vram: 0x800CAE88
+    binaries: [md_MAIN_033, md_MAIN_038, md_MAIN_040]
+  - id: S_func_8015AC48
+    tier: h_exact
+    hash: 55ac6c0c661c89dfce07c75b46bb76b0ffadc346
+    source: src/shared/ov/func_8015AC48__55ac6c0c.h
+    func: func_8015AC48
+    vram: 0x8015AC48
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8013373C
+    tier: h_exact
+    hash: b30912db0ebafc436fa21e8cf8f44786fc3f819e
+    source: src/shared/ov/func_8013373C__b30912db.h
+    func: func_8013373C
+    vram: 0x8013373C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80178B70
+    tier: h_exact
+    hash: bfd16ca269e8eeeab1606053e57f143c552a2fcf
+    source: src/shared/ov/func_80178B70__bfd16ca2.h
+    func: func_80178B70
+    vram: 0x80178B70
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E508
+    tier: h_exact
+    hash: faba0e02e29431c721a2c7a3db14c20c863b754a
+    source: src/shared/ov/func_8017E508__faba0e02.h
+    func: func_8017E508
+    vram: 0x8017E508
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8013B7F4
+    tier: h_exact
+    hash: ffdb030b6d976addd33f0d21fca8d85047ced022
+    source: src/shared/ov/func_8013B7F4__ffdb030b.h
+    func: func_8013B7F4
+    vram: 0x8013B7F4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E9CC
+    tier: h_exact
+    hash: 40fe1227222d1516ea6c8f594fa0be52c3dc9239
+    source: src/shared/ov/func_8017E9CC__40fe1227.h
+    func: func_8017E9CC
+    vram: 0x8017E9CC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80141C0C
+    tier: h_exact
+    hash: 578d37f1a7ecec7ae27a6de663f622056fdede70
+    source: src/shared/ov/func_80141C0C__578d37f1.h
+    func: func_80141C0C
+    vram: 0x80141C0C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017CDD8
+    tier: h_exact
+    hash: 621488d222c63272352c42a0987987011e6ecadb
+    source: src/shared/ov/func_8017CDD8__621488d2.h
+    func: func_8017CDD8
+    vram: 0x8017CDD8
+    binaries: [ov_SC03_114, ov_SC04_016, ov_SC05_011]
+  - id: S_func_80128288
+    tier: h_exact
+    hash: 804a056f4257148d24eb2ae586583be47e553d70
+    source: src/shared/ov/func_80128288__804a056f.h
+    func: func_80128288
+    vram: 0x80128288
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E4A0
+    tier: h_exact
+    hash: ac5217e1a32549676d6c15d773fcf8e955ab8a09
+    source: src/shared/ov/func_8017E4A0__ac5217e1.h
+    func: func_8017E4A0
+    vram: 0x8017E4A0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80165B28
+    tier: h_exact
+    hash: c7b72cf4d9ac4a488d33f9fc2a2c62f770fdd273
+    source: src/shared/ov/func_80165B28__c7b72cf4.h
+    func: func_80165B28
+    vram: 0x80165B28
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8012ACA0
+    tier: h_exact
+    hash: 1d7a3eb2884d1d52abe5fb3c41d9d734a1458cc0
+    source: src/shared/ov/func_8012ACA0__1d7a3eb2.h
+    func: func_8012ACA0
+    vram: 0x8012ACA0
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017CE7C
+    tier: h_exact
+    hash: 3970a19eb1041e29063e90a9aca1d89738f8f28a
+    source: src/shared/ov/func_8017CE7C__3970a19e.h
+    func: func_8017CE7C
+    vram: 0x8017CE7C
+    binaries: [ov_SC03_114, ov_SC04_016, ov_SC05_011]
+  - id: S_func_8013BD34
+    tier: h_exact
+    hash: 84edcb751ba7cb7f85f8f292010b5a9bf76dd0e5
+    source: src/shared/ov/func_8013BD34__84edcb75.h
+    func: func_8013BD34
+    vram: 0x8013BD34
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80157788
+    tier: h_exact
+    hash: 8503ac1512e021f9674e0546a0ba3f5319db4967
+    source: src/shared/ov/func_80157788__8503ac15.h
+    func: func_80157788
+    vram: 0x80157788
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E98C
+    tier: h_exact
+    hash: 94ae7b9b7df765d6492319d9bba01b02b90a351f
+    source: src/shared/ov/func_8017E98C__94ae7b9b.h
+    func: func_8017E98C
+    vram: 0x8017E98C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80146360
+    tier: h_exact
+    hash: a68491b7928ded41c5e6ce810b39716411d79c4a
+    source: src/shared/ov/func_80146360__a68491b7.h
+    func: func_80146360
+    vram: 0x80146360
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801577C8
+    tier: h_exact
+    hash: e5eaf64b4c60dac0879eadcc4ba90a06231146f0
+    source: src/shared/ov/func_801577C8__e5eaf64b.h
+    func: func_801577C8
+    vram: 0x801577C8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80165AC8
+    tier: h_exact
+    hash: f1ffda7fdb02c82b4630dff6c143dc73ee64a110
+    source: src/shared/ov/func_80165AC8__f1ffda7f.h
+    func: func_80165AC8
+    vram: 0x80165AC8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8015AD3C
+    tier: h_exact
+    hash: 01c9d8845d552b83e3d135772b101a1a39e01ce7
+    source: src/shared/ov/func_8015AD3C__01c9d884.h
+    func: func_8015AD3C
+    vram: 0x8015AD3C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80171064
+    tier: h_exact
+    hash: 050fa19eaaf4c873f923a58b14f081d7dbc49ed0
+    source: src/shared/ov/func_80171064__050fa19e.h
+    func: func_80171064
+    vram: 0x80171064
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80169830
+    tier: h_exact
+    hash: 0644614e74c114b49f207c508a4b68fd995cd078
+    source: src/shared/ov/func_80169830__0644614e.h
+    func: func_80169830
+    vram: 0x80169830
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801659DC
+    tier: h_exact
+    hash: 0d9631e71f0b3e66fa7bf80794d74ae5f8c6c44e
+    source: src/shared/ov/func_801659DC__0d9631e7.h
+    func: func_801659DC
+    vram: 0x801659DC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017A144
+    tier: h_exact
+    hash: 0f22dcf12c7beae181b9bcc70245ba0505bada97
+    source: src/shared/ov/func_8017A144__0f22dcf1.h
+    func: func_8017A144
+    vram: 0x8017A144
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80170240
+    tier: h_exact
+    hash: 1143a599acc8776f88862557c2c47879b6c4987a
+    source: src/shared/ov/func_80170240__1143a599.h
+    func: func_80170240
+    vram: 0x80170240
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80153320
+    tier: h_exact
+    hash: 137368b3839cb240b495225041924f049c28ded6
+    source: src/shared/ov/func_80153320__137368b3.h
+    func: func_80153320
+    vram: 0x80153320
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801714E4
+    tier: h_exact
+    hash: 149dcf17de633f1f6218fd1b37899d534e96cbe9
+    source: src/shared/ov/func_801714E4__149dcf17.h
+    func: func_801714E4
+    vram: 0x801714E4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80144054
+    tier: h_exact
+    hash: 14e9cb5e460839824d4bdd16f8251f685762667f
+    source: src/shared/ov/func_80144054__14e9cb5e.h
+    func: func_80144054
+    vram: 0x80144054
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801736FC
+    tier: h_exact
+    hash: 159477ea59762572568da32871951c33b97071ec
+    source: src/shared/ov/func_801736FC__159477ea.h
+    func: func_801736FC
+    vram: 0x801736FC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8013CB20
+    tier: h_exact
+    hash: 1985aa20871f94f580590995efeb6ce525c1c6a0
+    source: src/shared/ov/func_8013CB20__1985aa20.h
+    func: func_8013CB20
+    vram: 0x8013CB20
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801728E4
+    tier: h_exact
+    hash: 1bb116b88e4c3cf223b0d272a1dedba6efe815ab
+    source: src/shared/ov/func_801728E4__1bb116b8.h
+    func: func_801728E4
+    vram: 0x801728E4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E740
+    tier: h_exact
+    hash: 220a275fded407f642758727f5528d1dfc220b8a
+    source: src/shared/ov/func_8017E740__220a275f.h
+    func: func_8017E740
+    vram: 0x8017E740
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80170BD8
+    tier: h_exact
+    hash: 24d5e16921c6e83f3f41a321ba90d69054fe9a34
+    source: src/shared/ov/func_80170BD8__24d5e169.h
+    func: func_80170BD8
+    vram: 0x80170BD8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80159968
+    tier: h_exact
+    hash: 257eb65af261d1ba01b525a8e520c714277b1940
+    source: src/shared/ov/func_80159968__257eb65a.h
+    func: func_80159968
+    vram: 0x80159968
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80131FDC
+    tier: h_exact
+    hash: 2799831e9e16f35829cf83b9d4e5e076db03ca50
+    source: src/shared/ov/func_80131FDC__2799831e.h
+    func: func_80131FDC
+    vram: 0x80131FDC
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80159698
+    tier: h_exact
+    hash: 2a780a0266fdaff7bf3d7d870be363fa0c9ffb45
+    source: src/shared/ov/func_80159698__2a780a02.h
+    func: func_80159698
+    vram: 0x80159698
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8015282C
+    tier: h_exact
+    hash: 2a8c46207c283a3886227fa698a91a99cfe71ef6
+    source: src/shared/ov/func_8015282C__2a8c4620.h
+    func: func_8015282C
+    vram: 0x8015282C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80170D68
+    tier: h_exact
+    hash: 2b92b869a6be2a069f411ec671f72c0172fd59d3
+    source: src/shared/ov/func_80170D68__2b92b869.h
+    func: func_80170D68
+    vram: 0x80170D68
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8016F798
+    tier: h_exact
+    hash: 36d614514b0046c6a1d3d5186468ea303cf96ea2
+    source: src/shared/ov/func_8016F798__36d61451.h
+    func: func_8016F798
+    vram: 0x8016F798
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E950
+    tier: h_exact
+    hash: 396515d9a5627813cdbc3535e5be2756557b8d16
+    source: src/shared/ov/func_8017E950__396515d9.h
+    func: func_8017E950
+    vram: 0x8017E950
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E77C
+    tier: h_exact
+    hash: 3d6588dfc12169099bb05abb43d2499216ecd022
+    source: src/shared/ov/func_8017E77C__3d6588df.h
+    func: func_8017E77C
+    vram: 0x8017E77C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8017E6C8
+    tier: h_exact
+    hash: 3f9dbf7de3b96570d84e3bfceb22e55331d9c4a9
+    source: src/shared/ov/func_8017E6C8__3f9dbf7d.h
+    func: func_8017E6C8
+    vram: 0x8017E6C8
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80178970
+    tier: h_exact
+    hash: 467e87477d848ed047c4b1de7a0cb1fea1f7767f
+    source: src/shared/ov/func_80178970__467e8747.h
+    func: func_80178970
+    vram: 0x80178970
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_801599A4
+    tier: h_exact
+    hash: 475fe4fa4e955f10a003022d5aa219d09bfd62f8
+    source: src/shared/ov/func_801599A4__475fe4fa.h
+    func: func_801599A4
+    vram: 0x801599A4
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_80141788
+    tier: h_exact
+    hash: 48b23be8955e38691c09f2597d8b7f38628f3096
+    source: src/shared/ov/func_80141788__48b23be8.h
+    func: func_80141788
+    vram: 0x80141788
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
+  - id: S_func_8016084C
+    tier: h_exact
+    hash: 4dd15e962614ecd1f4988eacca0b4bfdf3dd49af
+    source: src/shared/ov/func_8016084C__4dd15e96.h
+    func: func_8016084C
+    vram: 0x8016084C
+    binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]

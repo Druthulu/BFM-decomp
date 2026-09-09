@@ -2345,11 +2345,7 @@ s32 func_801727D0(void *a0) {
 
 
 
-s32 func_801728E4(void *a0) {
-
-    extern void (*D_80182804[])(void);
-    D_80182804[*(u8 *)((s32)a0 + 0x214)]();
-}
+#include "../shared/ov/func_801728E4__1bb116b8.h"
 
 
 #include "../shared/ov/func_80172920.h"

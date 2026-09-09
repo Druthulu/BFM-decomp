@@ -1,0 +1,15 @@
+/* func_80157D20 — shared body (overlay slot 0x80128158, h_exact 99380536). ONE source: instantiated by #include at each
+ * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+void func_80157D20(void)
+{
+
+    extern u16 D_801815B4[];
+    register void *a0v __asm__("$4");
+    register s32 a1v __asm__("$5");
+    void *param_1 = a0v;
+    s32 param_2 = a1v;
+
+    ((void (*)(void))func_80156648)();
+    ((void (*)(void *, s32))func_80147078)(param_1, D_801815B4[param_2]);
+    ((void (*)(void *))func_80157D74)(param_1);
+}

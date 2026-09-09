@@ -100,14 +100,7 @@ extern void func_801463A0();
 extern void (*D_80180D68[])(void *);
 extern u8 D_80126BA4;
 
-void func_80146360(void)
-{
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_80126B58;
-    D_80180D68[D_80126BA4](&D_80126B58);
-}
+#include "../shared/ov/func_80146360__a68491b7.h"
 
 
 
@@ -970,31 +963,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 
 extern void func_8014CD0C(u8 *a0);
 
-void func_8014CCB4(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014CD0C\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014CCB4__8d2dda22.h"
 
 
 #include "../shared/ov/func_8014CD0C.h"
@@ -1007,31 +976,7 @@ void func_8014CCB4(void)
 
 extern void func_8014D0A4(s32 a0);
 
-void func_8014D04C(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014D0A4\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014D04C__f6add6d7.h"
 
 
 #include "../shared/ov/func_8014D0A4.h"
@@ -1047,31 +992,7 @@ void func_8014D04C(void)
 
 extern void func_8014D438(s32 a0);
 
-void func_8014D3E0(s32 _arg0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014D438\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014D3E0__fb5af043.h"
 
 
 #include "../shared/ov/func_8014D438.h"
@@ -1085,31 +1006,7 @@ void func_8014D3E0(s32 _arg0)
 
 extern void func_8014D790(s32 a0);
 
-void func_8014D738(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014D790\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014D738__023a6d30.h"
 
 
 #include "../shared/ov/func_8014D790.h"
@@ -1232,31 +1129,7 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
 extern void func_8014DF94(s32 arg0);
 
-void func_8014DF3C(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014DF94\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014DF3C__fbb47098.h"
 
 
 #include "../shared/ov/func_8014DF94.h"
@@ -1268,31 +1141,7 @@ void func_8014DF3C(void)
 
 extern void func_8014E48C(s32 a0);
 
-void func_8014E434(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014E48C\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014E434__1a41a9cf.h"
 
 
 #include "../shared/ov/func_8014E48C.h"
@@ -1344,31 +1193,7 @@ s32 aF8014E5B4(s32 a0, void *a1, void *a2) __asm__("func_8014E5B4");
 
 extern void func_8014E6F8(struct SubE6F8 *a0);
 
-void func_8014E6A0(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014E6F8\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014E6A0__9b3e0b9c.h"
 
 
 #include "../shared/ov/func_8014E6F8.h"
@@ -1378,31 +1203,7 @@ void func_8014E6A0(void)
 #include "../shared/ov/func_8014E83C.h"
 
 
-void func_8014E934(s32 _arg0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014E98C\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014E934__4b5aecb9.h"
 
 
 #include "../shared/ov/func_8014E98C.h"
@@ -1422,31 +1223,7 @@ void func_8014E934(s32 _arg0)
 extern s32 func_8014ED80(struct SubED80 *a0);
 extern int D_8018E810;
 
-void func_8014ED28(s32 _arg0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014ED80\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014ED28__d124f56e.h"
 
 
 #include "../shared/ov/func_8014ED80.h"
@@ -1456,31 +1233,7 @@ void func_8014ED28(s32 _arg0)
 
 extern s32 func_8014F24C(struct SubF24C *a0);
 
-void func_8014F1F4(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014F24C\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014F1F4__7ce404cb.h"
 
 
 #include "../shared/ov/func_8014F24C.h"
@@ -1493,31 +1246,7 @@ void func_8014F1F4(void)
 
 extern s32 func_8014F4C0();
 
-s32 func_8014F468(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014F4C0\n"
-        "lui   $at, %%hi(D_8018E814)\n"
-        "sw    $v0, %%lo(D_8018E814)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E814)\n"
-        "lw    $v0, %%lo(D_8018E814)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014F468__fc2209a3.h"
 
 
 #include "../shared/ov/func_8014F4C0.h"
@@ -1538,30 +1267,7 @@ s32 func_8014F468(void)
 
 extern int func_8014F74C();
 
-int func_8014F6F4(void) {
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014F74C\n"
-        "lui   $at, %%hi(D_8018E814)\n"
-        "sw    $v0, %%lo(D_8018E814)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E814)\n"
-        "lw    $v0, %%lo(D_8018E814)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014F6F4__923dc24d.h"
 
 
 #include "../shared/ov/func_8014F74C.h"
@@ -1589,30 +1295,7 @@ extern s32 D_8018E814;
 //   maspsx --aspsx-version=2.56 auto-fills the jal delay slot with a nop, so do NOT write an
 //   explicit nop after `jal` (double-nop = +1 ins); %hi/%lo escaped as %% inside __asm__.
 //   gcc emits only the `jr $ra; nop` epilogue (leaf, no locals it can see) → exactly 22 ins.
-s32 func_8014FBC0() {
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014FC18\n"
-        "lui   $at, %%hi(D_8018E814)\n"
-        "sw    $v0, %%lo(D_8018E814)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E814)\n"
-        "lw    $v0, %%lo(D_8018E814)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014FBC0__37bdabb3.h"
 
 
 
@@ -1621,31 +1304,7 @@ s32 func_8014FBC0() {
 
 extern int func_8014FD54(int param_1);
 
-void func_8014FCFC(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014FD54\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_8014FCFC__853c5baf.h"
 
 
 #include "../shared/ov/func_8014FD54.h"
@@ -1673,31 +1332,7 @@ void func_8014FCFC(void)
 
 extern void func_801504D8(u16 *a0);
 
-s32 func_80150480(s32 _arg0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_801504D8\n"
-        "lui   $at, %%hi(D_8018E810)\n"
-        "sw    $v0, %%lo(D_8018E810)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_8018E810)\n"
-        "lw    $v0, %%lo(D_8018E810)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#include "../shared/ov/func_80150480__de1033f9.h"
 
 
 #include "../shared/ov/func_801504D8.h"
@@ -2008,9 +1643,7 @@ void func_80152698(void *a0) {
 
 extern void (*D_80181004[])(void);
 
-void func_8015282C(void *a0) {
-    D_80181004[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_8015282C__2a8c4620.h"
 
 
 #include "../shared/ov/func_80152868.h"
@@ -2116,9 +1749,7 @@ void func_80153060(void *a0) {
 
 extern void (*D_8018105C[])(void);
 
-void func_80153320(void *a0) {
-    D_8018105C[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80153320__137368b3.h"
 
 
 #include "../shared/ov/func_8015335C.h"

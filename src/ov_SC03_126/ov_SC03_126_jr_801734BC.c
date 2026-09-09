@@ -2341,11 +2341,7 @@ void func_80173544(void *a0) {
 
 
 
-s32 func_801736FC(void *a0) {
-
-    extern void (*D_80182870[])(void);
-    D_80182870[*(u8 *)((s32)a0 + 0x214)]();
-}
+#include "../shared/ov/func_801736FC__159477ea.h"
 
 
 #include "../shared/ov/func_80173738.h"
@@ -2621,14 +2617,7 @@ s32 func_80174F28(void *a0) {
 extern void (*D_80182900[])(void*);
 extern s32 func_80175268(s32);
 
-void func_80175184(s32* arg0) {
-    u16 v1 = *(u16*)((u8*)arg0 + 2);
-    if (v1 < 2) {
-        D_80182900[v1](arg0);
-    } else {
-        func_80175268((s32)arg0);
-    }
-}
+#include "../shared/ov/func_80175184__9e8f8891.h"
 
 
 #include "../shared/ov/func_801751D8.h"
@@ -2641,25 +2630,13 @@ extern u8 D_80078EC0;
 extern void (*D_80182908[])(s32);
 extern void func_80146CA0(void *a0);
 
-s32 func_80175218(void * param_1)
-{
-    s32 i = D_80078EC0 - 1;
-
-    D_80182908[i](param_1);
-    ((void (*)(s32))func_80146CA0)(param_1);
-}
+#include "../shared/ov/func_80175218__8361e4e9.h"
 
 
 
 extern u8 D_80078EC0;
 
-s32 func_80175268(s32 param_1)
-{
-
-    extern VoidFn D_80182920[];
-    *(u32 *)(param_1 + 0x44) |= 2;
-    (*(VoidFn *)((s32)D_80182920 + ((D_80078EC0 - 1) << 2)))();
-}
+#include "../shared/ov/func_80175268__bbb0b733.h"
 
 
 #include "../shared/ov/func_801752BC.h"
@@ -2689,12 +2666,7 @@ extern s32 func_801758FC(void);
 extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 
-void func_8017553C(s32 *param) {
-    D_80182A70[*(u8 *)((s32)param + 1)]();
-    ((void (*)(void))func_801758FC)();
-    ((void (*)(void))func_80175820)();
-    ((void (*)(void))func_801759D8)();
-}
+#include "../shared/ov/func_8017553C__c9b58b97.h"
 
 
 #include "../shared/ov/func_80175590.h"
@@ -2709,12 +2681,7 @@ extern s32 func_801758FC(void);
 extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 
-void func_80175690(s32 *param) {
-    D_80182A7C[*(u8 *)((s32)param + 1)]();
-    ((void (*)(void))func_801758FC)();
-    ((void (*)(void))func_80175820)();
-    ((void (*)(void))func_801759D8)();
-}
+#include "../shared/ov/func_80175690__e44e4f8a.h"
 
 
 #include "../shared/ov/func_801756E4.h"
@@ -2982,10 +2949,7 @@ extern s32   func_8005A600(s32, s32, s32, s32, s32);
 
 extern M2C_UNK D_8018E370;
 
-void func_80178438(u16 *arg0) {
-    func_8001534C(2, &D_8018E370, 0x80, 0x88, 0, 0);
-    func_800153CC(3, *arg0, 0xA8, 0x88, 0x40, 0);
-}
+#include "../shared/ov/func_80178438__f456cbc9.h"
 
 
 #include "../shared/ov/func_8017849C.h"
@@ -3018,14 +2982,4 @@ extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 func_801789AC(s32 arg0);
 extern s16 D_8018FAB0;
 
-int func_80178970(void)
-{
-    register int r __asm__("$2");
-    int v;
-
-    v = ((s32 (*)(void))func_801789AC)();
-    r = 0;
-    if (v != 0)
-        r = D_8018FAB0 == 0;
-    return r;
-}
+#include "../shared/ov/func_80178970__467e8747.h"

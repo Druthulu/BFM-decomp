@@ -1,0 +1,8 @@
+  CC      build/src/md_MAIN_038/md_MAIN_038.o
+src/md_MAIN_038/md_MAIN_038.c: In function `func_800CAE0C':
+src/md_MAIN_038/md_MAIN_038.c:8: warning: passing arg 1 of `func_800183E0' makes integer from pointer without a cast
+src/md_MAIN_038/md_MAIN_038.c:9: warning: passing arg 1 of `func_800183E0' makes integer from pointer without a cast
+  LD      build/md_MAIN_038/md_MAIN_038.elf
+  OBJCOPY build/md_MAIN_038/md_MAIN_038
+[ OK ] build/md_MAIN_038/md_MAIN_038
+       sha1 7850079eb724c6a3f80bba5689972d639cbbf907 == config/check.md_MAIN_038.sha  (BYTE-IDENTICAL)

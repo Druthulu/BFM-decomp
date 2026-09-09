@@ -472,11 +472,7 @@ extern void func_8014C978(void);
 extern M2C_UNK D_8017F5BC;
 extern M2C_UNK D_8017F5C4;
 
-s32 func_8012DB84(void)
-{
-    func_8014C978();
-    func_8012F568(1, 0xC001, 0, 0x3E8, &D_8017F5BC, &D_8017F5C4);
-}
+#include "../shared/ov/func_8012DB84__6770f3d3.h"
 
 
 #include "../shared/ov/func_8012DBD0.h"
@@ -876,14 +872,7 @@ extern void func_80131170();
 extern void func_80131CA8();
 extern unsigned char D_8017F5E8[];
 
-void func_8012F828(int param_1)
-{
-    *(unsigned char *)(param_1 + 0xC1) = 4;
-    if (*(unsigned int *)(param_1 + 0xB4) & 8) {
-        func_80131170(param_1, D_8017F5E8, 0xB);
-    }
-    func_80131CA8(param_1, 9);
-}
+#include "../shared/ov/func_8012F828__e4c10af4.h"
 
 
 #include "../shared/ov/func_8012F87C.h"
@@ -893,13 +882,7 @@ extern void func_80131170(s32 a0, s32 a1, s32 a2);
 extern void func_80131CA8(int a0, int a1);
 extern u8 D_8017F5F4[];
 
-void func_8012F8C8(u8* arg0) {
-    *(u8*)(arg0 + 0xC1) = 7;
-    if (*(u32*)(arg0 + 0xB4) & 0x80) {
-        ((void (*)(void*, void*, s32))func_80131170)(arg0, D_8017F5F4, 0xB);
-    }
-    ((void (*)(void*, s32))func_80131CA8)(arg0, 0x16);
-}
+#include "../shared/ov/func_8012F8C8__cf6e9598.h"
 
 
 #include "../shared/ov/func_8012F91C.h"
@@ -1286,9 +1269,7 @@ void func_80131FA0(void *a0) {
 
 extern void (*D_8017F800[])(void);
 
-void func_80131FDC(void *a0) {
-    D_8017F800[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80131FDC__2799831e.h"
 
 
 
@@ -1550,14 +1531,7 @@ extern s32 D_8018E6EC[];
 extern int D_8018E6F0;
 extern void func_80136BC4(s32 a0);
 
-void func_801336E8(void *a0, int a1, int a2) {
-    if (a0 != 0) {
-        (*(void * *)&D_8018E6E8) = a0;
-        ((void (*)(void))func_80136BC4)();
-    }
-    (*(int *)&D_8018E6EC) = a1;
-    D_8018E6F0 = a2;
-}
+#include "../shared/ov/func_801336E8__d1d2a178.h"
 
 
 
@@ -1566,13 +1540,7 @@ extern s32 D_8018E6EC[];
 extern s32 D_8018E6E8;
 extern void func_80136BC4(s32);
 
-void func_8013373C(s16 arg0) {
-    s32 temp = D_8018E6EC[arg0];
-    if (temp != 0) {
-        D_8018E6E8 = temp;
-        func_80136BC4(temp);
-    }
-}
+#include "../shared/ov/func_8013373C__b30912db.h"
 
 
 // @class: regalloc-order

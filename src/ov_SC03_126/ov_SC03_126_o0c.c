@@ -790,18 +790,12 @@ void func_8013B568(s32 arg0) {
 
 
    /* sizeof 0x1C stride */
-void func_8013B7AC(int a0) {
-    extern E_3B7AC_8013B7AC D_8018FA00[];
- D_8018FA00[a0].f0 = 0; }
+#include "../shared/ov/func_8013B7AC__24e7c5e2.h"
 
 
 
 
-void func_8013B7F4(s32 a0, s32 a1) {
-
-    extern s32 D_8018FB1C;
-    func_8013B83C(a0, a1, D_8018FB1C);
-}
+#include "../shared/ov/func_8013B7F4__ffdb030b.h"
 
 
 extern s32 D_8018FAB8;
@@ -812,11 +806,7 @@ extern s32 D_8018FB1C;
 
 
 
-void func_8013BC7C(void *arg0) {
-
-    extern void (*D_8017F230[])(void *);
-    D_8017F230[((S_8013BC7C_8013BC7C *)arg0)->f68](arg0);
-}
+#include "../shared/ov/func_8013BC7C__8042ae05.h"
 
 
 
@@ -827,22 +817,11 @@ void func_8013BC7C(void *arg0) {
  * bytes of var_size above the minimal 0x20. At -O0 (no DCE) an unused 16-byte local
  * reserves exactly that var region (cookbook §42 lever 3, frame-pad induction) with
  * zero body instructions. 22/22 byte-identical via rtu_match. */
-void func_8013BCDC(void) {
-
-    extern s32 D_8017F9CC;
-    s32 pad[4];
-    if (D_8017F9CC != 0) {
-        ((void (*)(void))D_8017F9CC)();
-    }
-}
+#include "../shared/ov/func_8013BCDC__fe41fd22.h"
 
 
 
-void func_8013BD34(s32 a0) {
-
-    extern s32 D_8018FAB8;
-    func_8013BD74(&D_8018FAB8, a0);
-}
+#include "../shared/ov/func_8013BD34__84edcb75.h"
 
 
 
