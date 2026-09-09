@@ -46,7 +46,23 @@
   "text_tier_groups": 38,
   "text_tier_instances": 2030,
   "deferred_same_address_texts": 381,
-  "deferred_same_address_copies": 1668
+  "deferred_same_address_copies": 1668,
+  "levers": {
+   "date": "2026-09-09",
+   "what": "compiler-forcing constructs left in the C: register pins + asm statements (the classes Phase 36 drives to 0; GTE coprocessor ops and whole-body hand-asm routines excluded), with the volatile/register qualifiers censused",
+   "sites": 53221,
+   "pins": 37720,
+   "asm_statements": 15501,
+   "bodies": 15666,
+   "distinct_bodies": 2214,
+   "marked_fake": 0,
+   "unmarked": 53221,
+   "volatile_sites": 3139,
+   "register_keyword_sites": 86,
+   "gte_sites": 6911,
+   "hand_asm_routines_in_c_shells": 23,
+   "hand_asm_routine_sites": 2683
+  }
  },
  "corrections": [
   {

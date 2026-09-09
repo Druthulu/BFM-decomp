@@ -33,13 +33,13 @@
 
 ## Tasks (plan order; one commit each; ☐ → ☑ with the verify line quoted in the log)
 
-- ☐ **T0** (S97) — Baseline and the phase file: R22 clean fleet at the open; `.gitignore` P36 evidence allowlist; this file; the harness
-  task list (R28, 11 tasks); commit. Verify: `check-all: 218 passed, 0 failed of 218`; `git status` clean after the commit.
-- ☐ **T1** — `tools/lever_census.py`: the self-asserting census (derived from `share_census.build_forms()` instance records; every
-  `asm|__asm|__asm__` spelling; classes A–G per site; the verbatim manifest excluded; coverage assertion vs the raw regex totals; known
-  cases `src/800.c func_800226C0` = 45 pins, `src/shared/ov/func_80178004.h` = 26; `--check` marked/UNMARKED) + `progress.py` `levers`
-  block + README sentence + dictionary/SETUP rows. Verify: `lever_census: <N> sites in <B> bodies (<D> distinct) + <F> file-scope —
-  coverage OK (<N+F> == <raw>)`; `progress.py --json --readme --check` fresh.
+- ☑ **T0** (S97, commit `63b886626`) — Baseline and the phase file: R22 clean fleet at the open `check-all: 218 passed, 0 failed of 218`
+  (88 s); `.gitignore` P36 evidence allowlist; this file; the harness task list (R28, 11 tasks); `git status` clean after the commit.
+- ☑ **T1** (S97) — `tools/lever_census.py`: `lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclassified 0 ·
+  verbatim excluded 5 fn / 5 sites (manifest 5)`; controls 4/4 exact; **THE PHASE'S NUMBER: 53,221 sites (37,720 register pins +
+  15,501 asm statements) in 15,666 bodies (2,214 distinct)**; `progress.py --json --readme --check` fresh (the `levers` block + the
+  README sentence); `make report BINARY=main` OK (226 s); dictionary + SETUP rows; kit corpus regenerated. The finding of the task —
+  23 whole-body assembly routines inside C shells, outside the manifest — is in the log and the decisions section (Drew's call).
 - ☐ **T2** (Max) — The probe: the oracle (recipes via `make -n -W`, replayed to a scratch object, `-MF` to scratch), CALIBRATED (sampled
   TUs untouched → 100 % object equality with `build/`; twin == primary; an altered body → DIFFERS), then rung A + B on ~150 stratified
   distinct bodies; the measured table prices T4–T7 (R41). Verify: the probe table in this log with its command.
@@ -81,6 +81,12 @@
   hand-written assembly routines in `config/verbatim_manifest.json` (PERMANENT) are the original's code; the census excludes them by
   the manifest and `verbatim_check --strict` stays green. The 1,256 Sony objects are linked, not source. The GTE coprocessor ops are
   Sony's own inline-asm idiom and are kept under the SDK's names.
+- **OPEN (T1 finding, for Drew):** 23 more whole-body assembly routines sit inside C shells (2,683 sites; the scratchpad stack-switch
+  trampolines — see the T1 log entry), outside the manifest and the README's "five". Options: **(a) recommended** — extend the manifest
+  with the in-function form (23 rows, disposition PERMANENT-VERBATIM-IN-SHELL), teach `verbatim_check` that form, regenerate the README's
+  count (5 → 28, a dated correction, R75), and share the 20 per-overlay families through the names phase's parameterized form later;
+  **(b)** adjudicate each routine first (a §473-style refutation is possible for a compiler-shaped body) and list only what survives. Until
+  Drew decides, the census sets them apart as `verbatim-body`, never counts them as levers, and the README sentence names them.
 
 ## Rules at gate 1 (P10)
 
@@ -122,37 +128,94 @@ accumulate here as the phase produces them.**
   function-pointer `(`, a live `#if` inside a body, copies that disagree, a header whose registry and census includers differ, h_text
   includers disagreeing; (10) dotfile probes must be swept before any `make` (the P32 S83 precedent).
 
-## 🛑 SESSION CHECKPOINT — S97 (2026-09-09): gate 1 approved; T0 in progress (R22 green, .gitignore + this file written, commit pending); NEXT = T0's commit, then T1 (`tools/lever_census.py`) at xHigh
+- **S97 — T1 the lever census (`tools/lever_census.py`, 720 lines).** Derived from `share_census.scan_text`'s masked-text defs; a token walk
+  in which every `asm|__asm|__asm__` / `register` / `volatile` / `__builtin_*` / `__attribute__` token receives one role; coverage per
+  line against the RAW text; asm-bearing macro names harvested from every `#define` first (so `SHB(x)` / `gte_ldv0(...)` uses are classed by
+  what they expand to); string-literal tokens roled "string"; the manifest's five bodies matched by every `.globl`/`.ent` name of a
+  file-scope block (one block defines a data label THEN the routine — the first name is not enough; and `\t` in C string text is two
+  characters, not whitespace). Fixture selftest `OK — 23 sites, 2 defs, 2 asm macros` (decoys: a comment with a pin, `asm(` inside an
+  INCLUDE_ASM path string, an `#if 0` pin, a multi-line GTE define, a `!FAKE`-marked pin and barrier). Fleet run 32 s at -j16.
+  **Coverage (R32):** asm raw 80,396 = live 66,415 + macro-block 7,189 + comment/dead 6,792 · register 46,408 = 37,806 + 18 + 8,584 ·
+  volatile 14,000 = 4,883 + 6,510 + 2,607 · builtin 599 = 445 + 0 + 154 · attribute 76 = 76 + 0 + 0; unclassified 0. **Controls (R39):**
+  `src/800.c func_800226C0` 45 pins ✓ · `src/shared/ov/func_80178004.h` 26 ✓ · `ov_SC03_006 func_80184034` 3 bare-name pins ✓ ·
+  `engine_prelude.h` 0 asm sites (a macro definition only) ✓ — each counted by hand at gate 1 with an independent grep.
+  **The table (2026-09-09; `.run/P36/census/lever_census.{json,txt}`):** A pins 37,720 in 13,279 bodies (1,833 distinct; `$0` 1,337,
+  `$sp` 13, with initializer 5,140, volatile-qualified 136, bare-name 76, spelled `asm(` 210) · B asm 25,096 (barrier 5,835 · launder 5,233
+  · keepalive 2,576 · instruction 1,857 [addu 1,103, move 407, la 145, lh 134, addiu 24, RTP_SND 22, …] · gte 6,911 · verbatim-body 2,683;
+  14 at file scope) · C volatile 3,139 (cast 2,385 · decl-body 235 · decl-file 517 · param 2) · D bare register 86 · E asm-label 7,428 ·
+  F builtin 445 · G attribute 76 · **union A–D 19,164 bodies / 2,545 distinct** (488 multi-copy classes hold 17,107 bodies; by kind ov
+  18,330 · shared 393 · md 213 · main 212 · resident 16) · **the phase's number 53,221 sites in 15,666 bodies (2,214 distinct), 0 marked,
+  53,221 UNMARKED** · asm-bearing macro definitions 9,540 (338 names, 32 with >1 text; gte 9,102 · launder 428 · instruction 9 · barrier 1).
+  **Corrections to the gate-1 numbers (R14):** pins 37,720 live, not 40,346 (the grep counted 8,584 `register` tokens in comments and
+  dead code); file-scope `extern volatile` 517, not 8,262 (the gate-1 count included the `volatile` token inside 6,510 GTE macro lines);
+  bare `register` 86, not 290; asm statements 15,501 once GTE (6,911) and the verbatim bodies (2,683) are set apart.
+  **FINDING (R32, P9): 23 whole-body assembly routines live inside C shells** — `void func_801285E4(void) { extern s32 D_801840B4;
+  __asm__ __volatile__(".set noreorder\n" "addiu $sp, $sp, -24\n" "lui $v1, 0x1f80\n" "ori $v1, $v1, 0x03fc\n" "sw $ra, 16($sp)\n" "addu
+  $t0, $v1, $zero\n" "sw $sp, 0($t0)\n" … : : : "memory"); }` — 2,683 sites: 20 routines with one private copy per overlay (133 each; bytes
+  vary per overlay — 134 distinct `h_exact` at 0x801285E4 across 141 sig rows, each copy wrapping its overlay's own callee) + one shared
+  header each, and 3 shared-header-only routines (`func_80128678`, `func_80155FF8`, `func_80184440`). They switch `$sp` to the scratchpad
+  (0x1F8003FC) around a call — a stack-switch trampoline no compiler emits; 18–37 instructions each, ~448 per overlay. They are the §265
+  "verbatim-asm bank lane" in its IN-FUNCTION form, which `tools/verbatim_check.py` (a file-scope `__asm__` detector) and the manifest's
+  P31 S75 derivation never saw: the manifest lists 5 file-scope rows, the README says "Five functions across the fleet are hand-written
+  assembly", and `progress.py`'s `verbatim_asm_bodies` = 5. The census sets them apart as `verbatim-body` (not levers), publishes them in
+  the README sentence, and the decision below is Drew's.
+  **Aside for the record:** 0x801285E4 has 141 sig rows and the S1 class at that address 3 instances — the other 138 are per-overlay
+  byte variants (singleton classes), not an S1 gap.
+
+## 🛑 SESSION CHECKPOINT — S97 (2026-09-09): T0 ☑ T1 ☑ (T1's commit pending); NEXT = T2 (the probe: calibrate the object oracle, strip-all + greedy on ~150 distinct bodies, price T4–T7) at Max
 
 ### 0. How to use this block
-A fresh session reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort xhigh` (T1) — Max only for T2/T3-design/T10 —
-and executes §2. The tree is clean at **HEAD `e6d98dd1d`** plus this phase's T0 files until the T0 commit lands. Drew pushes (R6).
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T2 is Max; T3's finish and T4–T6
+xHigh) and executes §2. The tree is clean at **HEAD = T1's commit** (`git log --oneline -1` names it: `phase-36: T1 — …`). Drew pushes (R6).
 
 ### 1. Where things stand
-- **Done:** gate 1 (plan approved 2026-09-09, the decisions above); R22 at the open **218/218** (`.run/P36/baseline/r22_t0.log`); `.gitignore`
-  P36 block; this file; harness tasks #1–#11.
-- **Open:** everything from T1 on. No `src/` edit has been made. No tool exists yet (`tools/lever_census.py`, `tools/delever.py`,
-  `tools/delever_cycle.sh` are T1/T3 deliverables).
-- **Environment:** WSL2, `~/bfm-decomp`, `.venv`; fleet clean run ≈ 90 s; headless Ghidra MCP up but unused (stop it with the sentinel
-  before a checkpoint commit, R23); 16 cores; 31 GB RAM; 32 GB disk free (the WSL disk is capped at 75 GB — `.run/` churn can hit ENOSPC).
+- **Done, committed:** gate 1 (plan approved 2026-09-09, the decisions above); T0 (`63b886626`: R22 at the open **218/218**,
+  `.run/P36/baseline/r22_t0.log`; the `.gitignore` P36 block; this file; harness tasks #1–#11); T1 (`tools/lever_census.py` + the
+  `progress.py` `levers` block + README sentence + dictionary/SETUP rows + kit corpus; the census evidence under `.run/P36/census/`).
+- **The number to beat:** `lever_census: … coverage OK` — **53,221 pin/asm sites in 15,666 bodies (2,214 distinct), 0 marked** (the
+  T1 log entry has the whole table). Re-derive with `.venv/bin/python tools/lever_census.py --sites -j 16` (32 s; `--no-cache` after a
+  tool edit); `lever_sites.jsonl` (scratch) is every site with tu/aliases/fn/line/kind/detail/marked — T3's ledger input.
+- **Open for Drew:** the 23 whole-body assembly routines inside C shells (the decisions section, "OPEN (T1 finding)") — recommended (a):
+  extend the manifest + `verbatim_check`, regenerate the README's count. Not blocking T2–T4 (the census sets them apart already).
+- **No `src/` edit has been made.** `tools/delever.py` / `tools/delever_cycle.sh` do not exist yet (T3).
+- **Environment:** WSL2, `~/bfm-decomp`, `.venv`; fleet clean run ≈ 90 s; `make report BINARY=main` ≈ 226 s; headless Ghidra MCP up but
+  unused (stop it with the sentinel before a checkpoint commit, R23); 16 cores; 31 GB RAM; 32 GB disk free (the WSL disk is capped at
+  75 GB — `.run/` churn can hit ENOSPC).
 
-### 2. T0's commit, then T1
-1. `git add .gitignore phase-ends/CURRENT_PHASE.md .run/P36/baseline/r22_t0.log && git commit -m "phase-36: T0 — baseline (R22 218/218 in 88 s), the P36 evidence allowlist, CURRENT_PHASE.md from the approved plan (levers off: pins + asm statements + volatile + register, GTE consolidated, grind to zero; R100–R106 ratified)"`.
-2. T1 (xHigh): build `tools/lever_census.py` per the task text above; its parser must accept `asm|__asm|__asm__` and be comment/string
-   aware (`share_census.mask_text`); derive bodies from `share_census.build_forms()` + `classify(keep_instances=True)`; exclude the
-   verbatim manifest; assert coverage against the raw regex totals; then wire `progress.py` (`levers` block in `counts`, README
-   sentence, a dated `corrections` entry), the `config/tool_dictionary.tsv` row (eight columns; tools-health fails without it) and the
-   SETUP row; run `make report BINARY=main` and `progress.py --json --readme --check`; commit with the census line.
+### 2. T2 — the probe (Max), then T3
+1. **The oracle, calibrated first.** Recipes: `make -n -W src/<dir>/<tu>.c build/src/<alias>/<tu>.o BINARY=<alias>` prints the exact
+   pipeline (0.04–0.06 s; main objects are `build/src/<tu>.o`; a twin's object is built from the PRIMARY's source into
+   `build/src/<twin>/<twin><suffix>.o`; main/module objects carry `| .venv/bin/python tools/jtbl_rodata_pads.py --derive <alias> --tu <tu> |`
+   before `as`; `-O0` objects carry `-O0`). Replay = write the candidate text IN PLACE at the real path (objects embed the source path
+   as an STT_FILE symbol; restore from the in-memory snapshot — never `git checkout`, R102), run the recipe with `-o .run/P36/probe/obj/…`
+   and `-MF .run/P36/probe/obj/….d` (never write `build/`), compare bytes with `build/`'s object from the T0 fleet run (R56: `build/` must
+   be that run's — if in doubt rerun `make clean && make extract-all JOBS=16 && make check-all JOBS=16`, 90 s). Calibration = every TU of
+   two overlays + main + one twin pair compiled UNTOUCHED → 100 % equality (twin object == primary object too), and a positive control
+   (inject `__asm__("nop")` into one body → DIFFERS). Record `.run/P36/probe/calibration.json`.
+2. **The sample:** ~150 distinct bodies stratified from `lever_sites.jsonl` — by class mix (pins only / asm only / both / with volatile),
+   pins per body (1, 2–4, 5–9, ≥10), kind of binary (shared header, overlay, main, module, resident), the `$0` class, initializer pins, B4
+   instructions (addu/move/la/lh), file-scope `extern volatile`, a `-O0` TU if any lever sits in one (the census says 0 pins do).
+3. **Rung A then rung B** on each: strip-all (pin → plain declaration keeping type/qualifiers/initializer; barrier/launder/keepalive → statement
+   deleted; addu-$zero/move → assignment; la → `&sym`; lh → the load; `$0` pin → its variable's uses replaced by 0; volatile → dropped;
+   register → dropped; GTE and verbatim-body untouched) → compile → compare; if DIFFERS, greedy re-add one site at a time (asm statements
+   first, then pins, then volatile, then register) to the minimal needed set. Measure with `register` DROPPED vs KEPT on the pin rewrite.
+4. **Report** (R41, with denominators): % identical after strip-all, % after greedy, the residue's class/kind mix, seconds per compile per
+   binary kind, compiles per body; then price T4 (compiles × seconds), T6 and T7 (residue exemplars × the expected yield). Write the table
+   into this log with its command; commit `.run/P36/probe/*.{json,txt,md,py}`.
+5. Then T3 per the task text (the Plan agent's design notes are in the S97 log entry "Plan-agent findings").
 
 ### 3. Numbers to re-derive, never trust
-The gate-1 population table (grep-derived): pins 40,346 (+~208 `asm(` spellings), asm statements ~20k in bodies, volatile ~3.1k in
-bodies + ~529 file-scope, bare register 290, union ~19,500 bodies / ~2,534 distinct; the plan agent's independent 15,430 bodies /
-47,766 sites. T1's census is the number the phase publishes.
+The gate-1 population table in the approved plan was grep-derived and is superseded by T1's census (the corrections are in the T1 log
+entry: pins 37,720 not 40,346; file-scope volatile 517 not 8,262; bare register 86 not 290). The plan agent's 15,430 bodies / 47,766 sites
+counted a different union. `docs/progress.json` `counts.levers` and the README sentence are generated from `.run/P36/census/lever_census.json`
+— rerun the census, then `make report BINARY=main` (or `tools/progress.py --json --readme`) before any commit that quotes a number.
 
 ### 4. Gotchas known before any work
-The oracle must not write `build/` (baseline objects); objects embed the source path; `compile_only.py` is not faithful; dotfile
-probes are swept before `make`; a shared header's edit reaches up to 136 binaries — verify every includer; h_text headers compile
-differently per binary — greedy on all includers; `SHB` may be used by an included header; never `git checkout` to restore (R102).
+The oracle must not write `build/` (baseline objects); objects embed the source path; `compile_only.py` is not faithful (no pad stage);
+dotfile probes are swept before `make`; a shared header's edit reaches up to 136 binaries — verify every includer; h_text headers compile
+differently per binary — greedy on all includers; `SHB` may be used by an included header (`src/shared/ov/func_80166F58__3728db8a.h`);
+never `git checkout` to restore (R102); `tool_census --check` refuses an UNTRACKED tool — `git add` a new tool before `make kit-corpus`;
+`make report BINARY=main` rewrites `docs/story-timeline.md` too — commit it with the rest.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-09)
 

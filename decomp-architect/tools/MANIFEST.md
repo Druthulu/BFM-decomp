@@ -8,8 +8,8 @@
 > its platform SDK need the marked adaptation. The last table lists the tools that are project-only in code (their *shape* is a task;
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
-> **Coverage:** 295 tool files in scope (submodules, vendored and downloaded code excluded), of which 295 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 15 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 325 (the installer checks its copy against this figure).
+> **Coverage:** 296 tool files in scope (submodules, vendored and downloaded code excluded), of which 296 live rows
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 16 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 326 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -326,6 +326,7 @@
 |---|---|---|---|
 | `cast_call_sites.py` | add per-site function-pointer casts so a draft can call a differently typed callee | Adds per-site function-pointer casts so a draft can call a differently typed callee | repo src layout |
 | `ghidra_scripts/ApplySymbols.java` | apply curated names and signatures inside the analysis tool and save | The in-tool half of that mirror: apply curated names and signatures, save on exit | none |
+| `lever_census.py` | census every compiler-forcing construct in the C and gate the levers-off phase | The Phase-36 census of lever sites (register pins, asm statements by kind, volatile levers, bare register, asm-label aliases, builtins, attributes; the whole-body hand-asm routines and the GTE ops set apart) derived from the shared-body scanner with a per-token coverage assertion against the raw text, four known-true controls, the !FAKE marker split, --check (0 unmarked pins/asm) and --strict (0 pins, 0 asm) gates, --sites for the delever ledger, a fixture self-test | repo paths, the shared-body scanner |
 | `macro_to_header.py` | convert a shared-body macro header into per-function plain-C headers included at each site | The Phase-35 converter: every DEFINE_ macro body becomes a plain-C header under src/shared/<space>/ included at its site, the legacy name-parameterized headers converted, the registry text-edited, the macro header deleted; --plan / --apply / --finalize / --verify | the macro form is this project's; a kit-born project shares headers from its first bank |
 | `asm_verbatim.py` | emit a function's target assembly as an inline-assembly body | Emits the file-scope inline-assembly body form from a disassembly file | repo asm layout |
 | `build_engine_types.py` | extract inline-defined types and typedefs from a source file into a shared header | Extracts inline-defined named types and typedefs from a source file into a shared header | repo shared-header path |

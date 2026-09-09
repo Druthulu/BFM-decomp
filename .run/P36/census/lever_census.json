@@ -1,0 +1,470 @@
+{
+ "asm": {
+  "gte_header": "include/gte_inline.h",
+  "gte_header_sites": 0,
+  "gte_mnemonics": {
+   "gte_SetRotMatrix": 150,
+   "gte_SetTransMatrix": 145,
+   "gte_dpcl": 133,
+   "gte_ldIR0z": 133,
+   "gte_ldIRGB": 133,
+   "gte_ldrgb": 162,
+   "gte_ldv0": 653,
+   "gte_ldv3": 140,
+   "gte_ldv3c": 159,
+   "gte_mvmva0": 131,
+   "gte_nclip": 96,
+   "gte_rt": 155,
+   "gte_rtps": 356,
+   "gte_rtpt": 289,
+   "gte_stORGB": 133,
+   "gte_stflg": 319,
+   "gte_stlvnl": 143,
+   "gte_stopz": 96,
+   "gte_stsv": 145,
+   "gte_stsxy": 361,
+   "gte_stsxy3": 191,
+   "gte_stsxy3c": 94,
+   "gte_stsz3": 123,
+   "gte_stsz4": 126,
+   "gte_stszotz": 113,
+   "lhu": 70,
+   "lw": 80,
+   "lwc2": 435,
+   "mfc2": 61,
+   "swc2": 449
+  },
+  "instruction_mnemonics": {
+   ".section": 7,
+   "RTP_SND": 22,
+   "addiu": 24,
+   "addu": 1103,
+   "and": 2,
+   "andi": 1,
+   "la": 145,
+   "lh": 134,
+   "li": 1,
+   "lui": 5,
+   "lw": 1,
+   "mfhi": 1,
+   "move": 407,
+   "mult": 1,
+   "nop": 1,
+   "sll": 1,
+   "srl": 1
+  },
+  "kinds": {
+   "barrier/direct": 5833,
+   "barrier/via-macro": 2,
+   "gte/direct": 1160,
+   "gte/via-macro": 5751,
+   "instruction/direct": 1835,
+   "instruction/via-macro": 22,
+   "keepalive/direct": 2576,
+   "launder/direct": 4793,
+   "launder/via-macro": 440,
+   "verbatim-body/direct": 2683
+  }
+ },
+ "binaries": 218,
+ "classes": {
+  "A": {
+   "bodies": 13279,
+   "distinct_bodies": 1833,
+   "file_scope": 0,
+   "in_bodies": 37720,
+   "kinds": {
+    "pin": 37720
+   },
+   "marked": 0,
+   "sites": 37720,
+   "tus": 2676,
+   "unmarked": 37720
+  },
+  "B": {
+   "bodies": 10758,
+   "distinct_bodies": 1196,
+   "file_scope": 13,
+   "in_bodies": 25082,
+   "kinds": {
+    "barrier": 5835,
+    "gte": 6911,
+    "instruction": 1857,
+    "keepalive": 2576,
+    "launder": 5233,
+    "verbatim-body": 2683
+   },
+   "marked": 0,
+   "sites": 25095,
+   "tus": 2454,
+   "unmarked": 25095
+  },
+  "C": {
+   "bodies": 816,
+   "distinct_bodies": 146,
+   "file_scope": 517,
+   "in_bodies": 2622,
+   "kinds": {
+    "cast": 2385,
+    "decl-body": 235,
+    "decl-file": 517,
+    "param": 2
+   },
+   "marked": 0,
+   "sites": 3139,
+   "tus": 881,
+   "unmarked": 3139
+  },
+  "D": {
+   "bodies": 69,
+   "distinct_bodies": 69,
+   "file_scope": 0,
+   "in_bodies": 86,
+   "kinds": {
+    "register": 86
+   },
+   "marked": 0,
+   "sites": 86,
+   "tus": 19,
+   "unmarked": 86
+  },
+  "E": {
+   "bodies": 737,
+   "distinct_bodies": 117,
+   "file_scope": 6423,
+   "in_bodies": 1005,
+   "kinds": {
+    "asm-label": 7428
+   },
+   "marked": 0,
+   "sites": 7428,
+   "tus": 2080,
+   "unmarked": 7428
+  },
+  "F": {
+   "bodies": 428,
+   "distinct_bodies": 27,
+   "file_scope": 0,
+   "in_bodies": 445,
+   "kinds": {
+    "builtin": 445
+   },
+   "marked": 0,
+   "sites": 445,
+   "tus": 302,
+   "unmarked": 445
+  },
+  "G": {
+   "bodies": 1,
+   "distinct_bodies": 1,
+   "file_scope": 75,
+   "in_bodies": 1,
+   "kinds": {
+    "attribute": 76
+   },
+   "marked": 0,
+   "sites": 76,
+   "tus": 40,
+   "unmarked": 76
+  }
+ },
+ "controls": [
+  {
+   "expected": 45,
+   "got": 45,
+   "name": "src/800.c func_800226C0 pins",
+   "ok": true
+  },
+  {
+   "expected": 26,
+   "got": 26,
+   "name": "src/shared/ov/func_80178004.h pins",
+   "ok": true
+  },
+  {
+   "expected": 3,
+   "got": 3,
+   "name": "ov_SC03_006 func_80184034 bare-name pins",
+   "ok": true
+  },
+  {
+   "expected": 0,
+   "got": 0,
+   "name": "engine_prelude.h asm sites (a macro definition only)",
+   "ok": true
+  }
+ ],
+ "coverage": {
+  "asm": {
+   "comment_dead": 6792,
+   "live": 66415,
+   "macro_block": 7189,
+   "raw": 80396
+  },
+  "attribute": {
+   "comment_dead": 0,
+   "live": 76,
+   "macro_block": 0,
+   "raw": 76
+  },
+  "builtin": {
+   "comment_dead": 154,
+   "live": 445,
+   "macro_block": 0,
+   "raw": 599
+  },
+  "register": {
+   "comment_dead": 8584,
+   "live": 37806,
+   "macro_block": 18,
+   "raw": 46408
+  },
+  "volatile": {
+   "comment_dead": 2607,
+   "live": 4883,
+   "macro_block": 6510,
+   "raw": 14000
+  }
+ },
+ "coverage_ok": true,
+ "elapsed_s": 49.6,
+ "generated": "2026-09-09",
+ "headers": 3181,
+ "levers_AB": {
+  "asm": 15501,
+  "bodies": 15666,
+  "distinct_bodies": 2214,
+  "marked": 0,
+  "pins": 37720,
+  "sites": 53221,
+  "unmarked": 53221,
+  "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
+ },
+ "macro_definitions": {
+  "kinds": {
+   "barrier": 1,
+   "gte": 9102,
+   "instruction": 9,
+   "launder": 428
+  },
+  "names": 338,
+  "names_with_multiple_texts": 32,
+  "top": [
+   [
+    "gte_SetRotMatrix",
+    982,
+    4
+   ],
+   [
+    "gte_SetTransMatrix",
+    978,
+    4
+   ],
+   [
+    "gte_ldv0",
+    839,
+    8
+   ],
+   [
+    "gte_stflg",
+    674,
+    7
+   ],
+   [
+    "gte_rtps",
+    658,
+    4
+   ],
+   [
+    "gte_stsxy",
+    655,
+    4
+   ],
+   [
+    "SHB",
+    416,
+    2
+   ],
+   [
+    "gte_stlvnl",
+    282,
+    4
+   ],
+   [
+    "gte_rtpt",
+    228,
+    5
+   ],
+   [
+    "gte_ldv3",
+    207,
+    5
+   ],
+   [
+    "gte_stsxy3",
+    203,
+    3
+   ],
+   [
+    "gte_stszotz",
+    201,
+    2
+   ],
+   [
+    "gte_nclip",
+    186,
+    5
+   ],
+   [
+    "gte_stopz",
+    186,
+    4
+   ],
+   [
+    "gte_stsz4",
+    166,
+    4
+   ],
+   [
+    "gte_stsz3",
+    165,
+    1
+   ],
+   [
+    "gte_ldv3c",
+    163,
+    1
+   ],
+   [
+    "gte_stsxy3c",
+    162,
+    1
+   ],
+   [
+    "gte_ldrgb",
+    155,
+    3
+   ],
+   [
+    "gte_ldlv0",
+    139,
+    1
+   ],
+   [
+    "gte_rtv0tr",
+    139,
+    3
+   ],
+   [
+    "gte_stsxy3_ft3",
+    137,
+    1
+   ],
+   [
+    "gte_mvmva0",
+    136,
+    1
+   ],
+   [
+    "gte_ldIR0z",
+    136,
+    1
+   ],
+   [
+    "gte_ldIRGB",
+    136,
+    1
+   ]
+  ],
+  "total": 9540
+ },
+ "pins": {
+  "bare_name": 76,
+  "init": 5140,
+  "registers": {
+   "$0": 1337,
+   "$1": 2,
+   "$10": 297,
+   "$11": 423,
+   "$12": 420,
+   "$13": 288,
+   "$14": 283,
+   "$15": 8,
+   "$16": 3877,
+   "$17": 3791,
+   "$18": 2221,
+   "$19": 1346,
+   "$2": 5708,
+   "$20": 879,
+   "$21": 834,
+   "$22": 288,
+   "$23": 419,
+   "$24": 4,
+   "$25": 137,
+   "$29": 13,
+   "$3": 3536,
+   "$4": 4245,
+   "$5": 2985,
+   "$6": 1405,
+   "$7": 1042,
+   "$8": 1007,
+   "$9": 849,
+   "3": 1,
+   "4": 1,
+   "5": 2,
+   "6": 6,
+   "7": 5,
+   "9": 4,
+   "a0": 17,
+   "a1": 3,
+   "s0": 4,
+   "s1": 1,
+   "s2": 1,
+   "v0": 16,
+   "v1": 15
+  },
+  "sites": 37720,
+  "sp": 13,
+  "spelling": {
+   "__asm__": 37510,
+   "asm": 210
+  },
+  "volatile_qualified": 136,
+  "zero": 1337
+ },
+ "tus": 4121,
+ "unclassified": 0,
+ "union_AD": {
+  "bodies": 19164,
+  "by_kind": {
+   "main": 212,
+   "md": 213,
+   "ov": 18330,
+   "resident": 16,
+   "shared": 393
+  },
+  "copies_in_multi": 17107,
+  "distinct_bodies": 2545,
+  "multi_copy_classes": 488
+ },
+ "verbatim_excluded": {
+  "functions": 5,
+  "manifest_rows": 5,
+  "sites": 5
+ },
+ "verbatim_in_function": {
+  "private_copies": 2660,
+  "routines": 23,
+  "shared_headers": 23,
+  "sites": 2683,
+  "what": "whole routines written in assembly inside a C shell (the \u00a7265 lane) \u2014 hand asm, not levers; the manifest lists only the file-scope form"
+ },
+ "volatile": {
+  "kinds": {
+   "cast": 2385,
+   "decl-body": 235,
+   "decl-file": 517,
+   "param": 2
+  }
+ }
+}
