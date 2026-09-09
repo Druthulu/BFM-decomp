@@ -1638,6 +1638,79 @@ def recipes(a):
     return 0
 
 
+def remap_body(ex_before, ex_after, sib_before):
+    """the exemplar's reshaped body, with its `func_/D_` addresses replaced by the sibling's — or (None, why).
+
+    A text class is "identical modulo addresses" (that IS the nhash), so the two old bodies' address tokens correspond
+    one for one in order; the map they define is applied to the new body. This is what turns one crack into a whole
+    class: the 134-copy classes are the reason the draw is ordered by copies. A ledger REPLAY cannot do it — the ledger
+    replays a SITE SET, and a reshaped body is not one."""
+    a, b = lc.NORM_SYM.findall(ex_before), lc.NORM_SYM.findall(sib_before)
+    if len(a) != len(b):
+        return None, f"{len(a)} address tokens in the exemplar, {len(b)} in the sibling"
+    m = {}
+    for x, y in zip(a, b):
+        if m.setdefault(x, y) != y:
+            return None, f"`{x}` maps to both `{m[x]}` and `{y}` — not one class"
+    return lc.NORM_SYM.sub(lambda mm: m.get(mm.group(0), mm.group(0)), ex_after), None
+
+
+def propagate(a):
+    """--propagate TU FN: the body TU:FN was reshaped and banked; give every RESIDUE sibling of its class the same
+    shape, with its own addresses, and judge each on its own objects."""
+    tu, fn = a.propagate
+    rows = load_ledger()
+    src_row = next((r for r in reversed(rows) if r.get("tu") == tu and r.get("fn") == fn
+                    and r.get("verdict") == "LEVER-FREE" and r.get("after_text")), None)
+    if src_row is None:
+        sys.exit(f"delever --propagate: no banked reshape of {tu}:{fn} in the ledger (its row must carry after_text)")
+    key = src_row["nhash_before"]
+    cur = {}
+    for r in rows:
+        if r.get("tu") and r.get("fn"):
+            cur[(r["tu"], r["fn"])] = r
+    sibs = [k for k, r in cur.items() if k != (tu, fn) and r.get("verdict") == "RESIDUE"
+            and (r.get("nhash_after") or r.get("nhash_before")) == key]
+    if a.only:
+        sibs = [k for k in sibs if any(o in k for o in a.only)]
+    sibs = sibs[:a.limit] if a.limit else sibs
+    print(f"delever --propagate: {tu}:{fn} -> {len(sibs)} sibling(s) of class {key[:12]}", flush=True)
+    if not sibs:
+        return 1                                          # R68: an empty work list is a refusal, not a success
+    ok = bad = 0
+    for stu, sfn in sibs:
+        path = REPO / stu
+        raw = path.read_text(errors="surrogateescape")
+        d = next((r for r in sc.scan_text(raw, stu, shared_defs=None) if r["form"] == "def" and r["name"] == sfn), None)
+        if d is None:
+            print(f"  {stu}:{sfn}: not defined there — SKIPPED", flush=True)
+            bad += 1
+            continue
+        ls = line_starts(raw)
+        sib_before = raw[ls[d["line"] - 1]:ls[d["end"]]]
+        if lc.norm_hash(sc.mask_text(sib_before)) != key:
+            print(f"  {stu}:{sfn}: its text is not this class any more — SKIPPED", flush=True)
+            bad += 1
+            continue
+        body, why = remap_body(src_row["before_text"], src_row["after_text"], sib_before)
+        if body is None:
+            print(f"  {stu}:{sfn}: {why} — SKIPPED", flush=True)
+            bad += 1
+            continue
+        f = RUN / "propagate" / f"{stu.replace('/', '_')}__{sfn}.c"
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(body, errors="surrogateescape")
+        r = subprocess.run([sys.executable, str(REPO / "tools/delever.py"), "--apply-body", stu, sfn, str(f),
+                            "--label", a.label, "--rung", src_row.get("rung") or "R", "--dirty-ok"],
+                           cwd=REPO, capture_output=True, text=True)
+        line = ((r.stdout or r.stderr).strip().splitlines() or [""])[-1]
+        print(f"  {line[:200]}", flush=True)
+        ok += r.returncode == 0
+        bad += r.returncode != 0
+    print(f"delever --propagate: {ok} of {len(sibs)} sibling(s) banked, {bad} refused")
+    return 0 if ok else 1
+
+
 def status():
     rows = load_ledger()
     done, ex = ledger_index(rows)
@@ -1702,7 +1775,10 @@ def apply_body(a):
                nhash_before=nh_before, nhash_after=nh_after, source=src, verdict=("LEVER-FREE" if v == "IDENTICAL" else f"BODY-{v}"),
                sites=[dict(ord=i, kind=s["kind"], cls=s["cls"], detail=s["detail"], via=s.get("via", ""), line=s["line"], verdict="NEEDED",
                            why="left by the author", oracle="") for i, s in enumerate(levers)],
-               compiles=len(recs_), seconds=round(dt, 3), objects=[r["obj"] for r in recs_])
+               compiles=len(recs_), seconds=round(dt, 3), objects=[r["obj"] for r in recs_],
+               # the body AS IT WAS: --propagate needs it to map this class's addresses onto a sibling's, and after the
+               # write it exists nowhere else (the tree has moved on and the ledger is the record)
+               before_text=before, after_text=new)
     if v == "IDENTICAL":
         path.write_text(cand, errors="surrogateescape")
         ledger_append([row])
@@ -1982,6 +2058,15 @@ def selftest():
         fail(f"recipe_candidates: {kinds_} (the seed must never be a candidate)")
     if any("a = p;" in c.split("\n")[7] for _, _, c in cands if _ == "R3"):
         fail("R3 must place its assignment after the whole declaration run (C89)")
+    # the address remap that propagates a reshape to a class (R48-adjacent: one crack, 134 banks)
+    exb = "void func_80100000(void) { D_80200000 = func_80100004(); }"
+    exa = "void func_80100000(void) { s32 t = func_80100004(); D_80200000 = t; }"
+    sib = "void func_80300000(void) { D_80400000 = func_80300004(); }"
+    got, why = remap_body(exb, exa, sib)
+    if got != "void func_80300000(void) { s32 t = func_80300004(); D_80400000 = t; }":
+        fail(f"remap_body produced {got!r} ({why})")
+    if remap_body(exb, exa, "void func_80300000(void) { D_80400000 = 0; }")[0] is not None:
+        fail("remap_body must refuse a sibling with a different token count")
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):
         fail("SIGNAL_LINE must match bash's job-status block")
@@ -2205,6 +2290,8 @@ def main():
     ap.add_argument("--restore", action="store_true", help="restore every in-flight file from inflight.json")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--scrub", action="store_true", help="remove orphan !FAKE markers (a marker whose site is gone), byte-judged per file")
+    ap.add_argument("--propagate", nargs=2, metavar=("TU", "FN"),
+                    help="give every RESIDUE sibling of this banked body's class the same shape, with its own addresses")
     ap.add_argument("--recipes", action="store_true",
                     help="rung R: the cookbook's byte-neutral shape recipes tried mechanically on every RESIDUE body")
     ap.add_argument("--control", type=int, default=8, help="--recipes: how many LEVER-FREE bodies the control run reproduces (R39)")
@@ -2227,6 +2314,10 @@ def main():
         sys.exit(status())
     if a.scrub:
         sys.exit(scrub(a))
+    if a.propagate:
+        if not a.label:
+            sys.exit("delever --propagate: --label is required (R48)")
+        sys.exit(propagate(a))
     if a.recipes:
         if not a.label:
             sys.exit("delever --recipes: --label is required (R48: the ledger rows are keyed by it)")
