@@ -1,0 +1,10 @@
+  CC      build/src/md_MAIN_020/md_MAIN_020.o
+src/md_MAIN_020/md_MAIN_020.c:65: warning: type mismatch with previous external decl
+src/md_MAIN_020/md_MAIN_020.c:36: warning: previous external decl of `func_800CAF6C'
+src/md_MAIN_020/md_MAIN_020.c:65: warning: type mismatch with previous implicit declaration
+src/md_MAIN_020/md_MAIN_020.c:36: warning: previous implicit declaration of `func_800CAF6C'
+src/md_MAIN_020/md_MAIN_020.c:65: warning: `func_800CAF6C' was previously implicitly declared to return `int'
+  LD      build/md_MAIN_020/md_MAIN_020.elf
+  OBJCOPY build/md_MAIN_020/md_MAIN_020
+[ OK ] build/md_MAIN_020/md_MAIN_020
+       sha1 0990e04173c4cfe4cf948e78d5ac4c043c5cb61c == config/check.md_MAIN_020.sha  (BYTE-IDENTICAL)

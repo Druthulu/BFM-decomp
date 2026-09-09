@@ -1,0 +1,21 @@
+  CC      build/src/md_MAIN_027/md_MAIN_027.o
+src/md_MAIN_027/md_MAIN_027.c: In function `func_800CB06C':
+src/md_MAIN_027/md_MAIN_027.c:112: warning: passing arg 1 of `func_80165A20' makes integer from pointer without a cast
+src/md_MAIN_027/md_MAIN_027.c: In function `func_800CB1A0':
+src/md_MAIN_027/md_MAIN_027.c:166: warning: passing arg 1 of `func_80148800' makes pointer from integer without a cast
+src/md_MAIN_027/md_MAIN_027.c:169: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/md_MAIN_027/md_MAIN_027.c:170: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/md_MAIN_027/md_MAIN_027.c: In function `func_800CB82C':
+src/md_MAIN_027/md_MAIN_027.c:545: warning: assignment makes integer from pointer without a cast
+src/md_MAIN_027/md_MAIN_027.c: In function `func_800CBCB4':
+src/md_MAIN_027/md_MAIN_027.c:697: warning: passing arg 2 of `func_80015978' from incompatible pointer type
+src/md_MAIN_027/md_MAIN_027.c: At top level:
+src/md_MAIN_027/md_MAIN_027.c:824: warning: type mismatch with previous external decl
+src/md_MAIN_027/md_MAIN_027.c:760: warning: previous external decl of `func_80015954'
+src/md_MAIN_027/md_MAIN_027.c:824: warning: type mismatch with previous implicit declaration
+src/md_MAIN_027/md_MAIN_027.c:760: warning: previous implicit declaration of `func_80015954'
+src/md_MAIN_027/md_MAIN_027.c:824: warning: `func_80015954' was previously implicitly declared to return `int'
+  LD      build/md_MAIN_027/md_MAIN_027.elf
+  OBJCOPY build/md_MAIN_027/md_MAIN_027
+[ OK ] build/md_MAIN_027/md_MAIN_027
+       sha1 a0cc4fdd3cf5ec24404329829c709586907670cd == config/check.md_MAIN_027.sha  (BYTE-IDENTICAL)

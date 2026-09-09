@@ -3691,51 +3691,7 @@ extern s32 rand(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 
-void func_8017D820(void *a0) {
-
-    extern u16 D_801152BA;
-    extern s16 D_80115214;
-    void *v1;
-    void *s2;
-    void *s1;
-    u16 arg;
-    s16 v0_s16;
-    u16 tmp;
-    s32 v0;
-    s32 rand_val;
-    s32 pads[4];  /* Force stack frame to 0x30 bytes */
-
-    v1 = *(void **)(a0 + 0xDC);
-    s2 = *(void **)(a0 + 0xCC);
-    s1 = *(void **)(a0 + 0xD0);
-
-    if (*(u8 *)(v1 + 1) != 0) {
-        if (*(s16 *)(a0 + 0x108) == 0) {
-            arg = *(u16 *)(v1 + 2);
-            v0_s16 = func_80128CFC(arg);
-            *(s16 *)(a0 + 0x108) = v0_s16;
-        }
-    }
-
-    tmp = *(u16 *)((s32)s1 + 0x1A) + 0x20;
-    *(u16 *)((s32)s1 + 0x1A) = tmp;
-    *(u16 *)((s32)s1 + 0x18) = tmp;
-
-    v0 = *(s32 *)(a0 + 0x1C) - 1;
-    *(s32 *)(a0 + 0x1C) = v0;
-
-    if (v0 != -1) {
-        rand_val = rand();
-        func_8017CD9C((s32)a0, rand_val & 1);
-    } else {
-        D_80115214 = 4;
-        D_801152BA -= 1;
-        func_8002D4C8(0x62E, 0);
-        *(u16 *)s2 = 0;
-        *(u16 *)(a0 + 2) += 1;
-        *(s32 *)(a0 + 0x1C) = 0x28;
-    }
-}
+#include "../shared/ov/func_8017D820__695b63f3.h"
 
 
 
@@ -3945,53 +3901,7 @@ extern void func_8014708C(void *arg0);
 extern s32 func_801472C8(struct S *a0);
 extern void func_8017DF10(int);
 
-void func_8017DD5C(void *a0)
-{
-    void *obj;
-    s32 t;
-    s32 r;
-    s16 i;
-    u16 v;
-    u16 w;
-    u16 d;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    obj = *(void **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        if (*(s32 *)((s32)a0 + 0x30) == 0) {
-            v = *(u16 *)((s32)obj + 0x64) - 0x80;
-            w = *(u16 *)((s32)obj + 0x62) + 0x100;
-            *(s16 *)((s32)obj + 0x64) = v;
-            *(s16 *)((s32)obj + 0x60) = v;
-            *(s16 *)((s32)obj + 0x62) = w;
-        } else {
-            r = *(s32 *)((s32)obj + 0x20);
-            *(u16 *)(r + 0x2C) |= 0x10;
-            r = *(s32 *)((s32)obj + 0x20);
-            d = *(u16 *)(r + 0x1C) - 0x80;
-            *(s16 *)(r + 0x1C) = d;
-            *(s16 *)(r + 0x18) = d;
-            r = *(s32 *)((s32)obj + 0x20);
-            *(u16 *)(r + 0x1A) += 0x100;
-        }
-        i = 0;
-        do {
-            func_80146A6C(0x1B, obj, 0, 0, 0, 0, 0);
-            i++;
-        } while (i < 3);
-    } else {
-        if (*(s32 *)((s32)a0 + 0x30) == 0) {
-            func_8014708C(obj);
-            func_801472C8((struct S *)obj);
-        } else {
-            *(s32 *)(*(s32 *)((s32)obj + 0x20) + 0x4) |= 0x80000000;
-        }
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(s16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
-    }
-    ((void (*)(void *))func_8017DF10)(a0);
-}
+#include "../shared/ov/func_8017DD5C__3551370f.h"
 
 
 extern void func_8017DF10(int);
@@ -4196,34 +4106,7 @@ void func_8017E308(void *a0)
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8017DF10(int);
 
-void func_8017E394(void *a0)
-{
-    void *obj;
-    s32 t;
-    s16 i;
-    u16 v;
-    u16 w;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    obj = *(void **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        v = *(u16 *)((s32)obj + 0x64) + 0x80;
-        w = *(u16 *)((s32)obj + 0x62) - 0x100;
-        *(s16 *)((s32)obj + 0x64) = v;
-        *(s16 *)((s32)obj + 0x60) = v;
-        *(s16 *)((s32)obj + 0x62) = w;
-        i = 0;
-        do {
-            func_80146A6C(0x1B, obj, 0, 0, 0, 1, 0);
-            i++;
-        } while (i < 3);
-    } else {
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(s16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
-    }
-    ((void (*)(void *))func_8017DF10)(a0);
-}
+#include "../shared/ov/func_8017E394__d086119e.h"
 
 
 extern void func_8017DF10(int);
@@ -4340,55 +4223,7 @@ void func_8017E5AC(void *a0)
 
 
 
-void func_8017E608(void *a0)
-{
-    extern Mtx8_8017C910_8017E608 aD800AE620 __asm__("D_800AE620");
-    extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
-    Prim_8017C910_8017E608 prim;
-    Mtx8_8017C910_8017E608 mtx;
-    s32 p;
-
-    p = (s32)a0;
-    if (*(s32 *)(p + 0x2C) != 0) {
-        prim.v[0].y = *(u16 *)(p + 0xA) - 0x20;
-        prim.v[1].y = *(u16 *)(p + 0xA) + 0x20;
-    } else {
-        prim.v[0].y = *(u16 *)(p + 0xA) + 0x20;
-        prim.v[1].y = *(u16 *)(p + 0xA) - 0x20;
-    }
-    prim.v[0].x = *(u16 *)(p + 0x6);
-    prim.v[0].z = *(u16 *)(p + 0xE);
-    prim.v[1].x = *(u16 *)(p + 0x6);
-    prim.v[1].z = *(u16 *)(p + 0xE);
-    prim.col[0].b = 0;
-    prim.col[0].g = 0;
-    prim.col[0].r = 0;
-    switch (*(u32 *)(p + 0x30)) {
-    case 0:
-        prim.col[1].r = 0xFF;
-        prim.col[1].b = 0;
-        prim.col[1].g = 0;
-        break;
-    case 1:
-        prim.col[1].g = 0xFF;
-        prim.col[1].b = 0;
-        prim.col[1].r = 0;
-        break;
-    case 2:
-        prim.col[1].b = 0xFF;
-        prim.col[1].g = 0;
-        prim.col[1].r = 0;
-        break;
-    case 3:
-        prim.col[1].b = 0xFF;
-        prim.col[1].g = 0xFF;
-        prim.col[1].r = 0xFF;
-        break;
-    }
-    mtx = aD800AE620;
-    prim.tag = 0x50000000;
-    aFunc80016A5C(&prim, &mtx);
-}
+#include "../shared/ov/func_8017E608__66356b87.h"
 
 
 

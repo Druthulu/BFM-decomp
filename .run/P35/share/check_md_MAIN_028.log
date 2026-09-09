@@ -1,0 +1,15 @@
+  CC      build/src/md_MAIN_028/md_MAIN_028.o
+src/md_MAIN_028/md_MAIN_028.c: In function `func_800CBAD0':
+src/md_MAIN_028/md_MAIN_028.c:418: warning: passing arg 1 of `func_800CB8A0' makes pointer from integer without a cast
+src/md_MAIN_028/md_MAIN_028.c: In function `func_800CBBA0':
+src/md_MAIN_028/md_MAIN_028.c:450: warning: passing arg 1 of `func_800CB8A0' makes pointer from integer without a cast
+src/md_MAIN_028/md_MAIN_028.c: In function `func_800CBC7C':
+src/md_MAIN_028/md_MAIN_028.c:481: warning: passing arg 1 of `func_800CB8A0' makes pointer from integer without a cast
+src/md_MAIN_028/md_MAIN_028.c: In function `func_800CBD78':
+src/md_MAIN_028/md_MAIN_028.c:498: warning: passing arg 1 of `func_800CB8A0' makes pointer from integer without a cast
+src/md_MAIN_028/md_MAIN_028.c: In function `func_800CBDD0':
+src/md_MAIN_028/md_MAIN_028.c:519: warning: passing arg 1 of `func_800CB8A0' makes pointer from integer without a cast
+  LD      build/md_MAIN_028/md_MAIN_028.elf
+  OBJCOPY build/md_MAIN_028/md_MAIN_028
+[ OK ] build/md_MAIN_028/md_MAIN_028
+       sha1 14f0b03564d92270510391defd92fb34f601ef34 == config/check.md_MAIN_028.sha  (BYTE-IDENTICAL)

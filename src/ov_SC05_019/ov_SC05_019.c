@@ -200,37 +200,7 @@ extern void func_8013BCDC(void);
 extern void func_801379FC(void);
 extern void func_8001212C(void);
 
-void func_801287B8(void) {
-    func_80129CF8();
-    func_8017849C();
-    ((void (*)(void *))func_8014FDF4)(&D_80126B58);
-    ((void (*)(void *))func_801505FC)(&D_80126B58);
-    func_801508B4(&D_80126B58);
-    func_80165E90();
-    func_801627E8();
-    func_80162B1C();
-    func_80165CA0();
-    func_80129010();
-    func_8013CA14();
-    func_800190AC();
-    func_8012956C();
-    func_8016E95C();
-    func_801754A8();
-    {
-        /* D_8018FAB8 read: the target materializes &sym into $a0 then lw 0($a0) (not the folded
-         * lui;lw %lo). volatile forces the rematerialize; the $4 pin forces the a0 allocation. */
-        register volatile s32 *p __asm__("$4") = &D_8018FAB8;
-        if (*p == 0) {
-            func_8013BC7C();
-        }
-    }
-    func_8013BCDC();
-    func_801379FC();
-    D_800B99DA++;
-    if (D_800B9A64 != 0) {
-        func_8001212C();
-    }
-}
+#include "../shared/ov/func_801287B8__96084aee.h"
 
 
 
@@ -356,33 +326,7 @@ extern M2C_UNK (*D_8017F258)();
 extern s32 (*D_8017F25C)();
 extern s32 D_8018E678;
 
-void func_80128AF4(void) {
-    switch (D_800B99F6) {                           /* irregular */
-    case 0:
-        D_8018E678 = func_8002AF08();
-        func_80011C10();
-        return;
-    case 1:
-        D_8017F258();
-        func_80011C10();
-        return;
-    case 2:
-        if ((D_8017F25C() << 0x10) != 0) {
-            if (D_8018E678 == 1) {
-                if (func_800CFBE8() != 0) {
-                    func_800CFBBC();
-                    func_80011B7C(0x13);
-                } else {
-                    func_80011B7C(4);
-                }
-            } else {
-                func_80010DE0();
-            }
-            func_8002AEF8();
-        }
-        return;
-    }
-}
+#include "../shared/ov/func_80128AF4__79334e07.h"
 
 
 #include "../shared/ov/func_80128C14.h"
@@ -613,85 +557,7 @@ extern void func_8012A598(void *a0);
 
 extern void func_8012AAAC(void *arg0);
 
-void func_8012AAAC(void *arg0) {
-    void *ptr;
-    s32 link;
-    s32 next;
-    s32 saved;
-    s32 cnt;
-    s32 back;
-    s32 head;
-
-    M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xBFFF);
-    ptr = (void *) (M2C_FIELD(arg0, s32 *, 0x90) + (M2C_FIELD(arg0, s32 *, 0x94) * 8));
-    if (M2C_FIELD(ptr, s16 *, 4) < 0) {
-        switch (M2C_FIELD(ptr, s16 *, 4)) {
-        case -2:
-            link = M2C_FIELD(arg0, s32 *, 0x9C);
-            if (link == 0) {
-                M2C_FIELD(arg0, s16 *, 0x98) = 0;
-                break;
-            }
-            goto pop;
-        case -1:
-            link = M2C_FIELD(arg0, s32 *, 0x9C);
-            if (link != 0) {
-pop:
-                back = M2C_FIELD(arg0, s16 *, 0x9A);
-                M2C_FIELD(arg0, s32 *, 0x90) = link;
-                M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-                M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-                M2C_FIELD(arg0, s32 *, 0x94) = back;
-                func_8012AAAC(arg0);
-                break;
-            }
-            M2C_FIELD(arg0, s32 *, 0x94) = 0;
-            func_8012AAAC(arg0);
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x4000);
-            break;
-        case -4:
-            head = M2C_FIELD(ptr, s32 *, 0);
-            M2C_FIELD(arg0, s32 *, 0x94) = 0;
-            M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-            M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-            M2C_FIELD(arg0, s32 *, 0x90) = head;
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
-            func_8012AAAC(arg0);
-            break;
-        case -3:
-            cnt = M2C_FIELD(arg0, s32 *, 0x94) + 1;
-            M2C_FIELD(arg0, s32 *, 0x94) = cnt;
-            if (M2C_FIELD(arg0, s32 *, 0x9C) != 0) {
-                func_8012AAAC(arg0);
-                break;
-            }
-            saved = M2C_FIELD(arg0, s32 *, 0x90);
-            next = M2C_FIELD(ptr, s32 *, 0);
-            M2C_FIELD(arg0, s32 *, 0x94) = 0;
-            M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-            M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-            M2C_FIELD(arg0, s32 *, 0x90) = next;
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
-            func_8012AAAC(arg0);
-            M2C_FIELD(arg0, s32 *, 0x9C) = saved;
-            M2C_FIELD(arg0, s16 *, 0x9A) = (s16) cnt;
-            break;
-        case -50:
-            M2C_FIELD(arg0, s32 *, 0x94) = M2C_FIELD(arg0, s32 *, 0x94) + 1;
-            func_8012AAAC(arg0);
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x2000);
-            break;
-        case -5:
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x400);
-            M2C_FIELD(arg0, s32 *, 0x94) = M2C_FIELD(arg0, s32 *, 0x94) - 1;
-            func_8012AAAC(arg0);
-            break;
-        }
-    } else {
-        M2C_FIELD(M2C_FIELD(arg0, void **, 0x20), s32 *, 0x20) = M2C_FIELD(ptr, s32 *, 0);
-        M2C_FIELD(arg0, s16 *, 0x98) = M2C_FIELD(ptr, s16 *, 4);
-    }
-}
+#include "../shared/ov/func_8012AAAC__8ccde920.h"
 
 
 extern void func_8012AAAC();

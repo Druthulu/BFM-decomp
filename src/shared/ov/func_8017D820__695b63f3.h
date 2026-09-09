@@ -1,0 +1,47 @@
+/* func_8017D820 — shared body (overlay slot 0x80128158, h_exact 695b63f3). ONE source: instantiated by #include at each
+ * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+void func_8017D820(void *a0) {
+
+    extern u16 D_801152BA;
+    extern s16 D_80115214;
+    void *v1;
+    void *s2;
+    void *s1;
+    u16 arg;
+    s16 v0_s16;
+    u16 tmp;
+    s32 v0;
+    s32 rand_val;
+    s32 pads[4];  /* Force stack frame to 0x30 bytes */
+
+    v1 = *(void **)(a0 + 0xDC);
+    s2 = *(void **)(a0 + 0xCC);
+    s1 = *(void **)(a0 + 0xD0);
+
+    if (*(u8 *)(v1 + 1) != 0) {
+        if (*(s16 *)(a0 + 0x108) == 0) {
+            arg = *(u16 *)(v1 + 2);
+            v0_s16 = func_80128CFC(arg);
+            *(s16 *)(a0 + 0x108) = v0_s16;
+        }
+    }
+
+    tmp = *(u16 *)((s32)s1 + 0x1A) + 0x20;
+    *(u16 *)((s32)s1 + 0x1A) = tmp;
+    *(u16 *)((s32)s1 + 0x18) = tmp;
+
+    v0 = *(s32 *)(a0 + 0x1C) - 1;
+    *(s32 *)(a0 + 0x1C) = v0;
+
+    if (v0 != -1) {
+        rand_val = rand();
+        func_8017CD9C((s32)a0, rand_val & 1);
+    } else {
+        D_80115214 = 4;
+        D_801152BA -= 1;
+        func_8002D4C8(0x62E, 0);
+        *(u16 *)s2 = 0;
+        *(u16 *)(a0 + 2) += 1;
+        *(s32 *)(a0 + 0x1C) = 0x28;
+    }
+}

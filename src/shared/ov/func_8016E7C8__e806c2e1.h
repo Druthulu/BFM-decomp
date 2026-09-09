@@ -1,0 +1,40 @@
+/* func_8016E7C8 — shared body (overlay slot 0x80128158, h_exact e806c2e1). ONE source: instantiated by #include at each
+ * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
+{
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void RotTransSV(void *a0, void *a1, void *a2);
+    extern void func_80016ED4(void *a0);
+    extern SVECTOR_8016E7C8 D_801825C4[4];
+    extern s32 D_801825E4;
+    extern s32 D_801825EC;
+    extern s32 D_801825F4;
+    extern s32 D_801825FC;
+
+    Prim_8016E7C8 prim;
+    MATRIX_8016E7C8 m;
+    SVECTOR_8016E7C8 tmp;
+    register Prim_8016E7C8 *pp __asm__("$18");   /* $s2 — force &prim into a saved reg */
+
+    ((void (*)(void *, void *))func_80017DC4)(param_2, &m);
+    m.t[0] = *(short *)(param_1 + 6);
+    m.t[1] = *(short *)(param_1 + 10);
+    m.t[2] = *(short *)(param_1 + 14);
+    func_8004914C(&m);
+    func_800491AC(&m);
+    pp = &prim;
+    RotTransSV(&D_801825C4[0], pp, &tmp);
+    RotTransSV(&D_801825C4[1], &prim.v[1], &tmp);
+    RotTransSV(&D_801825C4[2], &prim.v[2], &tmp);
+    RotTransSV(&D_801825C4[3], &prim.v[3], &tmp);
+    prim.v[0].vz = 3;
+    prim.f5 = 0x50000000;
+    prim.f0 = D_801825E4;
+    prim.f1 = D_801825EC;
+    prim.f2 = D_801825F4;
+    prim.f3 = D_801825FC;
+    prim.f4 = *param_3;
+    prim.f6 = 0x27;
+    func_80016ED4(pp);
+}

@@ -949,48 +949,7 @@ extern void func_8013CF68(void);
 #include "common.h"
 
 
-void func_8013CF68()
-{
-    extern void func_80028620();
-    extern u8 D_800A5E94[];
-    extern s32 D_800A5E8C;
-    extern s32 D_800A5E90;
-    extern u8 D_800A5E95;
-    extern u8 D_800A5E96;
-    extern u8 D_8018F9D0;
-    extern u8 D_8018F9D1;
-    extern u8 D_8018F9D2;
-    extern u8 D_8018F9D3;
-    extern u8 D_8018F9D4;
-    extern u8 D_8018F9D5;
-    extern u8 D_8018F9D6;
-    extern u8 D_8018F9D7;
-    extern u8 D_8018F9D8;
-
-    u8 t0, t1, t2;
-    u8 *base;
-    __asm__("la %0, D_800A5E94" : "=r"(base));
-
-    *(s32 *)(base - 0xC) = 0;
-    t0 = D_8018F9D0; t1 = D_8018F9D1; t2 = D_8018F9D2;
-    D_800A5E8C = 0x1E;
-    D_800A5E90 = 0;
-    base[0] = t0; D_800A5E95 = t1; D_800A5E96 = t2;
-    func_80028620(0, base - 0xC);
-
-    *(s32 *)(base + 4) = 0; *(s32 *)(base + 8) = 7;
-    t0 = D_8018F9D3; t1 = D_8018F9D4; t2 = D_8018F9D5;
-    *(s32 *)(base + 0xC) = 0x14;
-    base[0x10] = t0; base[0x11] = t1; base[0x12] = t2;
-    func_80028620(1, base + 4);
-
-    *(s32 *)(base + 0x14) = 0;
-    t0 = D_8018F9D6; t1 = D_8018F9D7; t2 = D_8018F9D8;
-    *(s32 *)(base + 0x18) = -0x12;
-    *(s32 *)(base + 0x1C) = 0;
-    base[0x20] = t0; base[0x21] = t1; base[0x22] = t2;
-    func_80028620(2, base + 0x14);
-}
+#include "../shared/ov/func_8013CF68__94315c4c.h"
 
 
 
@@ -1004,28 +963,7 @@ extern s32 D_8018E794;
 extern s32 D_8018E784;
 extern void func_8013D9B0();
 
-void func_8013D064(void)
-{
-    if (D_8018E790 != 0) {
-        if (D_8018E790 != 2) {
-            if (((D_8018E790 < 3) && (D_8018E790 == 1)) &&
-                (D_8018E794 = D_8018E794 + 1, 0x23a < D_8018E794)) {
-                D_8018E778 = D_8018E790;
-                D_8018E790 = 2;
-            }
-        } else {
-            D_8018E778 = D_8018E778 + -1;
-            if (D_8018E778 == 0) {
-                D_8018E778 = D_8018E790;
-                ((void (*)(s32))func_8013D9B0)(2);
-                if (D_8018E784 == 0) {
-                    D_8018E790 = D_8018E790 + 1;
-                }
-            }
-        }
-    }
-    return;
-}
+#include "../shared/ov/func_8013D064__10bd61e3.h"
 
 
 
@@ -1048,48 +986,7 @@ void func_8013D164(void) {
 
 
 
-void func_8013D178(void) {
-
-    extern u8 D_8018F9D0;
-    extern u8 D_8018F9D1;
-    extern u8 D_8018F9D2;
-    extern u8 D_8018F9D3;
-    extern u8 D_8018F9D4;
-    extern u8 D_8018F9D5;
-    extern u8 D_8018F9D6;
-    extern u8 D_8018F9D7;
-    extern u8 D_8018F9D8;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
-    unsigned char v, t;
-    register unsigned char *p __asm__("$5");
-
-    p = &D_8018F9D0; v = *p; t = D_8018FA70;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_8018F9D1; v = *p; t = D_8018FA71;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_8018F9D2; v = *p; t = D_8018FA72;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_8018F9D3; v = *p; t = D_8018FA73;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_8018F9D4; v = *p; t = D_8018FA74;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_8018F9D5; v = *p; t = D_8018FA75;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_8018F9D6; v = *p; t = D_8018FA76;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_8018F9D7; v = *p; t = D_8018FA77;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_8018F9D8; v = *p; t = D_8018FA78;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-}
+#include "../shared/ov/func_8013D178__421ba659.h"
 
 
 
@@ -1145,44 +1042,7 @@ extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
 
-void func_8013D3D4(int param_1, int param_2)
-{
-    u8 *p = D_80078E78;
-
-    D_8018E798 = param_2;
-    D_8018E79C = (param_2 >> 2) & 3;
-    D_8018E7A0 = (param_2 >> 4) & 1;
-    if (((param_2 >> 2) & 3) == 0) {
-        D_8018E768 = D_8017FAB8;
-        D_8018E76C = D_8017FB60;
-        D_8018E770 = D_8017FA10;
-    } else {
-        D_8018E768 = D_8017FB0C;
-        D_8018E76C = D_8017FB8C;
-        D_8018E770 = D_8017FA64;
-    }
-    func_8013D53C();
-    if ((param_2 & 1) != 0) {
-        if (D_8018E7A0 != 0) {
-            func_8013DD68();
-        } else {
-            func_8013D8FC();
-        }
-        func_8013CF68();
-        if ((D_8018E798 & 2) != 0) {
-            D_8018FA0C[0] = 0x140;
-            D_8018FA0C[3] = 0x80;
-            if (p[0x37] == 4) {
-                D_8018FA0C[0] = 0x140;
-                D_8018FA0C[3] = 0;
-            }
-            if (p[0x37] == 0) {
-                D_8018FA0C[0] = 0x140;
-                D_8018FA0C[3] = 0x80;
-            }
-        }
-    }
-}
+#include "../shared/ov/func_8013D3D4__f5857947.h"
 
 
 
@@ -1287,73 +1147,7 @@ extern s32 D_8018E7AC;
 
 extern void func_8013DD68(void);
 
-void func_8013DBE4(int param_1)
-{
-    int *p;
-    int x, y, z;
-    int flag;
-
-    if (D_8018E774 != 0) {
-        D_8018E784 = 0;
-        p = (int *)(param_1 * 12 + (int)D_8018E770);
-        x = p[0];
-        y = p[1];
-        z = p[2];
-        flag = 0;
-        if (D_8018E7A4 != x) {
-            flag = 1;
-            if (D_8018E7A4 < x) {
-                if (x - D_8018E7A4 < 5) {
-                    D_8018E7A4 = x;
-                } else {
-                    D_8018E7A4 = D_8018E7A4 + 4;
-                }
-            } else {
-                if (D_8018E7A4 - x < 5) {
-                    D_8018E7A4 = x;
-                } else {
-                    D_8018E7A4 = D_8018E7A4 - 4;
-                }
-            }
-        }
-        if (D_8018E7A8 != y) {
-            flag = 1;
-            if (D_8018E7A8 < y) {
-                if (y - D_8018E7A8 < 5) {
-                    D_8018E7A8 = y;
-                } else {
-                    D_8018E7A8 = D_8018E7A8 + 4;
-                }
-            } else {
-                if (D_8018E7A8 - y < 5) {
-                    D_8018E7A8 = y;
-                } else {
-                    D_8018E7A8 = D_8018E7A8 - 4;
-                }
-            }
-        }
-        if (D_8018E7AC != z) {
-            flag = 1;
-            if (D_8018E7AC < z) {
-                if (z - D_8018E7AC < 5) {
-                    D_8018E7AC = z;
-                } else {
-                    D_8018E7AC = D_8018E7AC + 4;
-                }
-            } else {
-                if (D_8018E7AC - z < 5) {
-                    D_8018E7AC = z;
-                } else {
-                    D_8018E7AC = D_8018E7AC - 4;
-                }
-            }
-        }
-        if (flag != 0) {
-            func_8013DD68();
-        }
-        D_8018E784 = flag;
-    }
-}
+#include "../shared/ov/func_8013DBE4__036a62a6.h"
 
 
 // @class: regalloc-order
@@ -1454,40 +1248,7 @@ extern unsigned short D_80115112;
 extern void func_8013E83C(void);
 extern s32 func_80029504(void);
 
-void func_8013E6AC(void) {
-    short i;
-
-    func_8013E83C();
-    D_8011511A = 0;
-    D_80115124 = D_80078EC0;
-    for (i = 0; i < 8; i++) {
-        *(s16 *)((char *)&D_80115148 + (i << 1)) = 0;
-        D_80115140[i] = 0;
-    }
-    if (!((u32)func_80029504() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
-        register s32 *ep __asm__("$8");
-        register s32 *fp __asm__("$9");
-        fp = (s32 *)&D_80115110;
-        ep = (s32 *)&D_80180618;
-        for (i = 0; i < 5; i++) {
-            register s32 *fa __asm__("$6");
-            s32 v;
-            fa = (s32 *)(i * 4 + (s32)fp);
-            v = ep[i] * 3 >> 2;
-            fa[0x16] = v;
-            *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
-        }
-        D_801805F0 = 2;
-        D_801805F2 = 1;
-        { u16 *q = &D_80115112; *q += 1; }
-    } else {
-        func_8013E83C();
-        D_8011511A = 7;
-        D_801805F2 = 0;
-        D_801805F0 = 0;
-        D_80115112 = 6;
-    }
-}
+#include "../shared/ov/func_8013E6AC__e4884635.h"
 
 
 #include "../shared/ov/func_8013E814.h"
@@ -1495,55 +1256,7 @@ void func_8013E6AC(void) {
 // @class: plumbing
 // @stuck: none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the D_8011511A read above the prologue, reproduced by -O2)
 
-void func_8013E83C() {
-    extern void func_80141C0C(int);
-    extern unsigned short D_80115118;
-    extern unsigned short D_80115128;
-    extern unsigned short D_8011512E;
-    extern unsigned int D_80115130;
-    extern unsigned short D_80115158;
-    extern unsigned short D_8011515A;
-    extern unsigned short D_8011515C;
-    extern unsigned short D_8011515E;
-    extern unsigned short D_80115162;
-    extern unsigned short D_80115166;
-    extern void * D_8018E7C0;
-    extern void * D_8018E7C4;
-    extern unsigned char D_80180290;
-    extern unsigned char D_801802A8;
-    extern unsigned char D_8018031C;
-    extern unsigned char D_80180324;
-
-
-    D_80115118 = 0;
-    D_80115130 = 0;
-    if (D_8011511A >= 4) {
-        D_8011511A = D_8011511A - 3;
-    }
-    D_80115158 = 0x106;
-
-    if ((((int(*)(int))func_80029178)(0x1c) & 0xFF) == 0) {
-        D_8018E7C0 = &D_80180290;
-        D_8018E7C4 = &D_8018031C;
-    } else {
-        D_8018E7C0 = &D_801802A8;
-        D_8018E7C4 = &D_80180324;
-    }
-
-    D_8011515A = 0x104;
-    D_8011515C = 0x104;
-    D_8011515E = 0x129;
-    D_80115162 = 0x103;
-    D_80115166 = 0x105;
-    D_80115128 = 0;
-    D_8011512E = 0;
-
-    if (D_80115110 == 3) {
-        ((void(*)(int, int))func_8002D4C8)(0x46e, 0);
-    } else {
-        func_80141C0C(0);
-    }
-}
+#include "../shared/ov/func_8013E83C__624fc4aa.h"
 
 
 
@@ -1557,40 +1270,7 @@ void func_8013E83C() {
 // to carry `i<<16` in $a0 exactly as the target does. Head (idx 0-31) already matched; i naturally
 // lands in $a2 from the goto-loop delay slots, driving the fp/ep/fa=$8/$7/$5 alloc with no pins.
 
-void func_8013E958()
-{
-    extern void func_8014AA28(void);
-    extern s32 func_800D0488(s32);
-    extern void func_80141C0C(s32);
-
-
-    s16 *p = &(*(s16*)&D_80115124);
-    s16 i;
-    s32 v;
-    s16 m;
-
-    D_800B9A15 = 0;
-    func_80139954();
-    if (D_80078EC0 != *p) {
-        func_8014AA28();
-        if ((D_80078EC0 & 0x7F) != 0) {
-            m = D_80078EC0 & 0x7F;
-            *p = m;
-            if (m == 0 || func_800D0488(m) == 0)
-                goto loop;
-        }
-    }
-    *p = 0;
-loop:
-    for (i = 0; i < 5; i++) {
-        s32 *q = &((s32 *)&D_80115110)[i];
-        v = ((s32 *)&D_80180618)[i] >> 6;
-        q[0x16] = v;
-        *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
-    }
-    func_80141C0C(7);
-    (*(u16*)&D_80115112) = 4;
-}
+#include "../shared/ov/func_8013E958__fb86651d.h"
 
 
 
@@ -1624,52 +1304,7 @@ extern s16 D_8011512A;
 extern s32 D_80115130;
 extern unsigned char D_801805F4;
 
-void func_8013EB7C(void) {
-    s32 sp10[2];
-    short sVar1;
-    register short sVar2 __asm__("$2");
-    s32 a0v;
-    s32 iVar4;
-
-    if ((s16)func_80141C50() == 0) {
-        D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
-        sVar1 = ((short (*)(void))func_8013F350)();
-        if (D_8011511A >= 4) {
-            func_8013FAF8((s16)D_8011511A, (s16)(D_8011511A + 1));
-        }
-        func_8013FAF8(0, 5);
-        if (D_8011511A == 5) {
-            sVar2 = ((short (*)(s32))func_8014168C)(2);
-            a0v = 2;
-        } else {
-            sVar2 = ((short (*)(s32))func_8014168C)((s16)D_8011511A);
-            a0v = (s16)D_8011511A;
-        }
-        iVar4 = func_8014032C(a0v, sVar2);
-        if (iVar4 != 0) {
-            s32 *p130 = &D_80115130;
-            if (iVar4 != *p130) {
-                *p130 = iVar4;
-                func_80139954();
-                func_801376E8(iVar4, (s32)&(*(u8 *)&D_801805F4));
-            }
-        }
-        func_80137B80();
-        if ((D_8011511E & 0x10) != 0 && D_8011511A < 5 && sVar1 == 0) {
-            (*(s16 *)&D_80115128) = 0;
-            func_8002D4C8(0x466, 0);
-            if (D_8011511A != 4) {
-                func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)&D_801805F4));
-            }
-            (*(unsigned short *)&D_80115112) -= 1;
-        } else {
-            if ((D_8011511E & 0x800) != 0 || D_8011512A != 0) {
-                func_8013E958();
-            }
-        }
-    }
-    (void)sp10;
-}
+#include "../shared/ov/func_8013EB7C__5c31e6e7.h"
 
 
 #include "../shared/ov/func_8013ED6C.h"
@@ -1700,45 +1335,7 @@ extern unsigned char *func_80141CA4(void);
 
 
 
-s32 func_8013EE10() {
-    extern E4 aD80115188[] __asm__("D_80115188");
-    extern E4 D_80115168[];
-    extern unsigned short D_80115118;
-
-    short i;
-    u16 *p;
-    u16 old;
-    s16 *r;
-    u16 *c;
-    s32 sp10[2];
-
-    D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
-    func_8013FAF8(0, 5);
-    for (i = 0; i < 5; i++) {
-        s32 t = D_80115168[i].f0 * 3 >> 2;
-        aD80115188[i].f0 = t;
-        D_80115168[i].f0 = D_80115168[i].f0 - t;
-    }
-    r = &D_801805F2;
-    if (*r < 3) {
-        *r = *r + 1;
-    }
-    D_801805F0 = (u16)D_801805F0 + 2;
-    p = &D_80115118;
-    old = *p;
-    *p = old + 1;
-    if (old >= 5) {
-        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_801805F4);
-        for (i = 0; i < 5; i++) {
-            s32 *q = (s32 *)((char *)p - 8);
-            *(s32 *)((char *)&q[i] + 0x78) = 0;
-            D_80115168[i].f0 = 0;
-        }
-        c = &D_80115112;
-        *c += 1;
-    }
-    (void)sp10;
-}
+#include "../shared/ov/func_8013EE10__dc80305f.h"
 
 
 
@@ -1762,57 +1359,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern s32  func_800D0488(s16 a0);
 extern void func_800D2624(void);
 
-void func_8013EF88(void)
-{
-
-    extern u16 D_80115118;
-    extern E4  D_80115168[];
-    extern u16 D_80115114;
-    u16 *p = &D_80115118;
-    u16 old = *p;
-    short i;
-
-    if (old != 0) {
-        u16 nw = old - 1;
-        *p = nw;
-        if (nw != 0) {
-            D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)D_800B9A02 * 4);
-            func_8013FAF8(0, 5);
-            for (i = 0; i < 5; i++) {
-                s32 t = aD80115188[i].f0 * 3;
-                aD80115188[i].f0 = t;
-                D_80115168[i].f0 = D_80115168[i].f0 + t;
-            }
-            if (D_80115118 < 3) {
-                u16 *s = &(*(u16 *)&D_801805F2);
-                *s -= 1;
-            }
-            {
-                u16 *w = &(*(u16 *)&D_801805F0);
-                *w -= 2;
-                if ((s16)*w < 0) {
-                    *w = 0;
-                }
-            }
-        }
-    }
-
-    {
-        s16 *pv = &(*(s16 *)&D_80115124);
-        if (*pv != 0) {
-            if (func_800D0488(*pv) == 0) return;
-            *pv = 0;
-        }
-    }
-
-    if (D_80115118 == 0) {
-        if (D_80115114 == ((u16)D_800B9A02 ^ 1)) {
-            func_800D2624();
-        } else {
-            D_80115112 += 1;
-        }
-    }
-}
+#include "../shared/ov/func_8013EF88__48bc7f10.h"
 
 
 

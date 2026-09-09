@@ -11,20 +11,4 @@
  * that way); byte-proven at -O0 (match_one --o0 79/79) and by the whole-binary gate. Phase-29 bank. */
 extern int D_8017F22C;
 
-void *func_801457A4(s32 param_1) {
-    switch (param_1) {
-    case 0x1010:
-    case 0x1052:
-    case 0x1077:
-    case 0x1094:
-    case 0x2013:
-    case 0x2015 ... 0x201a:
-    case 0x2055 ... 0x205b:
-    case 0x207a ... 0x2080:
-    case 0x2097 ... 0x209d:
-        return (void *)(&D_8017F22C)[param_1 & 0xffff0fff];
-    default:
-        return (void *)D_8017F22C;
-        break;
-    }
-}
+#include "../shared/ov/func_801457A4__b9863ee9.h"

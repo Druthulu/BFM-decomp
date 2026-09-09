@@ -662,71 +662,7 @@ extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 D_8018E6FC;
 extern s32 D_8018E71C;
 
-s32 func_80135D20(s32 arg0, s32 arg1, u16 *arg2)
-{
-    u8 dead[96];
-    u16 sp[3];
-    s32 *p;
-    register s32 flag __asm__("$17");
-    s32 q;
-
-    sp[0] = arg2[0];
-    sp[1] = arg2[1] + 0x300;
-    sp[2] = arg2[2];
-    switch (((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)((void *)arg0, arg1, (s16 *)arg2, (s16 *)sp)) {
-    case 0:
-        return 0;
-    case 1:
-        q = arg0 + 0x34;
-        p = (s32 *)((arg1 & 0xFFFFFFF) | 0x80000000);
-        flag = 0;
-        break;
-    case 2:
-        q = arg0 + 0x34;
-        p = (s32 *)((arg1 & 0xFFFFFFF) | 0x80000000);
-        flag = 1;
-        break;
-    case 3:
-        q = arg0 + 0x34;
-        p = &D_8018E71C;
-        flag = 0;
-        break;
-    case 4:
-        q = (s32)&D_8018E6FC;
-        p = &D_8018E71C;
-        flag = 1;
-        break;
-    }
-    if (arg1 >= 0) {
-        goto elsepath;
-    }
-    if (func_80135EB0(p, 0) != 0) {
-        goto hit;
-    }
-    p = (s32 *)*p;
-    if (p == NULL) {
-        return 0;
-    }
-    __asm__ __volatile__("");
-loop:
-    if (func_80135EB0(p, 0) == 0) {
-        goto body;
-    }
-hit:
-    func_80136A94(flag, arg0, (s32)arg2, q);
-    return 1;
-body:
-    p = (s32 *)*p;
-    if (p != NULL) {
-        goto loop;
-    }
-    return 0;
-elsepath:
-    if (func_801345F8(arg1) != 0) {
-        goto hit;
-    }
-    return 0;
-}
+#include "../shared/ov/func_80135D20__616418a6.h"
 
 
 // @class: struct
@@ -815,35 +751,7 @@ extern u8 D_80126720[];
 
 extern s16 *D_8017F810;   /* holds a pointer value (*(u16**)&D_8017F810) */
 
-s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
-    extern void ApplyMatrixSV(void *m, void *v0, void *v1);
-    extern void ApplyRotMatrix(void *v0, void *v1);
-    extern u16 D_80126722;
-    extern s16 D_80126724;
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
-
-    s32 out[4];
-    u16 *pb4;
-
-    if (a0) {
-        ApplyMatrixSV((void *)a3, *(void **)&D_8017F810, *(void **)&D_8017F810);
-        ApplyMatrixSV((void *)a3, (void *)D_80126720, (void *)D_80126720);
-        ApplyRotMatrix((void *)D_801152A8, (void *)out);
-        *(s16 *)D_801152A8 = out[0];
-        D_801152AA = out[1];
-        D_801152AC = out[2];
-    }
-
-    pb4 = *(u16 **)&D_8017F810;
-    *(s16 *)(a2)     = pb4[0] + *(s32 *)(a1 + 0x48);
-    *(s16 *)(a2 + 2) = pb4[1] + *(s32 *)(a1 + 0x4C);
-    *(s16 *)(a2 + 4) = pb4[2] + *(s32 *)(a1 + 0x50);
-
-    *(u16 *)D_80126720 = *(u16 *)D_80126720 + *(s32 *)(a1 + 0x48);
-    D_80126722 = D_80126722 + *(s32 *)(a1 + 0x4C);
-    D_80126724 = D_80126724 + *(s32 *)(a1 + 0x50);
-}
+#include "../shared/ov/func_80136A94__71c439bf.h"
 
 
 
@@ -1008,35 +916,7 @@ void *aF801376E8(int a0, int a1) __asm__("func_801376E8");
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8013A860(void);
 
-void func_801378F0(void) {
-
-    extern u8 D_80127520[];
-    extern u8 aD801269F0[] __asm__("D_801269F0"); /* §37 alias: TU canon is `extern int D_801269F0` */
-    extern u8 D_80126A28[];
-    extern u8 D_8017F82C[];
-    s32 i;
-    s32 si;
-    s32 di;
-    u8 *p;
-
-    func_80016714(D_80127520, 0xBFC);
-    i = 0;
-    si = 0;
-    p = aD801269F0;
-    di = 0;
-    do {
-        func_80016714(p, 0x4C);
-        *(u16 *)&D_80126A28[di]     = *(u16 *)&D_8017F82C[si];
-        *(u16 *)&D_80126A28[di + 2] = *(u16 *)&D_8017F82C[si + 2];
-        *(u16 *)&D_80126A28[di + 4] = *(u16 *)&D_8017F82C[si + 4];
-        *(u16 *)&D_80126A28[di + 6] = *(u16 *)&D_8017F82C[si + 6];
-        p += 0x4C;
-        i += 1;
-        si += 8;
-        di += 0x4C;
-    } while (i < 3);
-    func_8013A860();
-}
+#include "../shared/ov/func_801378F0__4d54efa4.h"
 
 
 #include "../shared/ov/func_801379D8.h"

@@ -1086,72 +1086,7 @@ extern int func_8001AAA0(int);
 extern int SsGetMute(void);
 extern s32 func_80159464(void);
 
-void func_801588CC(int param_1) {
-
-    extern void (*D_80181618[])(void);
-    extern int D_8018E854;
-    extern int D_8018E858;
-    short sVar1;
-
-    D_80181618[*(unsigned short *)(param_1 + 2)]();
-    switch (D_8018E850) {
-    case 0:
-        break;
-    case 1:
-        func_800D0CA0(2);
-        D_8018E858 = 0;
-        D_8018E854 = 0x46;
-        D_8018E850 += 1;
-        break;
-    case 2:
-        if (D_8018E854 == 0) {
-            if (SsGetMute() == 0) {
-                D_8018E850 += 1;
-            }
-        } else {
-            D_8018E854 -= 1;
-        }
-        break;
-    case 3:
-        if (func_8001AAA0(0x83) != 0) {
-            D_8018E850 += 1;
-        }
-        break;
-    case 4:
-        D_8018E85C = 0;
-        sVar1 = ((int (*)(int))func_80159464)(param_1);
-        if (sVar1 != 0) {
-            D_8018E854 = 0xd2;
-        } else {
-            D_8018E854 = 1;
-        }
-        break;
-    case 5:
-        D_8018E854 -= 1;
-        if (D_8018E854 == -1 || D_8018E860 != 0) {
-            D_8018E854 = 0;
-            D_8018E850 += 1;
-        }
-        break;
-    case 6:
-        func_800D0CA0(1);
-        D_8018E854 = 0x28;
-        D_8018E850 += 1;
-        break;
-    case 7:
-        if (D_8018E854 == 0) {
-            if (SsGetMute() == 0) {
-                D_8018E850 += 1;
-            }
-        } else {
-            D_8018E854 -= 1;
-        }
-        break;
-    case 8:
-        D_8018E858 = 1;
-        break;
-    }
-}
+#include "../shared/ov/func_801588CC__7b0e7bcb.h"
 
 
 #include "../shared/ov/func_80158AB4.h"
@@ -1348,66 +1283,7 @@ extern void func_800D185C(u8 *);
 extern void func_800CF804(void);
 extern void func_800D1F90(void);
 
-void func_801594E8(s32 param_1, s32 param_2)
-{
-
-    extern s32 D_80128150;
-    extern u8 D_800D3A44[];
-    extern u8 D_800D39FC[];
-    extern u8 D_800D3A20[];
-    u8 *p = D_80078E78;
-
-    func_80175454();
-    switch (param_2) {
-    case -1: {
-        struct { u8 a, b, c; u8 pad[5]; u8 d, e; } t;
-        s32 saved;
-        t.a = func_80029178(0xB);
-        t.b = func_80029178(0xC);
-        t.c = func_80029178(0xD);
-        t.d = func_800291B4(0x2C);
-        t.e = func_800291B4(0x2D);
-        saved = *(s32 *)(p + 0x4);
-        func_80029274();
-        func_80029044();
-        func_8002906C();
-        func_80029094();
-        func_8002941C();
-        func_80029124(0xB, t.a);
-        func_80029124(0xC, t.b);
-        func_80029124(0xD, t.c);
-        func_800291A0(0x2C, t.d);
-        func_800291A0(0x2D, t.e);
-        *(s32 *)(p + 0x4) = saved;
-        ((void (*)(s32))func_8014BEC0)(param_1);
-        func_8002AB64();
-        func_80029514(2);
-        func_800D185C(D_800D3A44);
-        func_800CF804();
-        break;
-    }
-    case 1:
-        *(s16 *)(p + 0x3C) = 0x96;
-        *(s16 *)(p + 0x40) = 0x96;
-        *(s32 *)(p + 0x14) = D_80128150;
-        break;
-    case 2:
-    case 3:
-    case 4:
-        func_800D1F90();
-        break;
-    case 5:
-        func_800D1F90();
-        func_800D185C(D_800D39FC);
-        func_80029514(0x636);
-        break;
-    case 6:
-        func_800D1F90();
-        func_800D185C(D_800D3A20);
-        func_80029514(0x636);
-        break;
-    }
-}
+#include "../shared/ov/func_801594E8__ad1cbcc5.h"
 
 
 
@@ -1447,51 +1323,7 @@ extern u8 D_800AF630[];
 extern u32 D_800AFAE8[];
 extern char D_80181684[];
 
-s32 func_801596F0(s32 param_1) {
-    u8 *base = &(*(u8 *)&D_800AF630);
-    s32 v;
-    u32 *p;
-    u32 *q;
-
-    v = *(s32 *)(param_1 + 0x28) - 1;
-    *(s32 *)(param_1 + 0x28) = v;
-    if (v == -1) {
-        func_80174B6C();
-        (*(s16 *)&D_800B9AAC) = 0x7fff;
-        D_800B9B00 = 0x7fff;
-
-        __asm__ __volatile__("" ::: "memory");
-
-        for (p = (u32 *)(base + 0x65A8); p < (u32 *)(base + 0x9DA8); p += 0xe) {
-            p[1] |= 0x80000000;
-        }
-
-        if ((u32 *)(base + 0x2A8) < (u32 *)(base + 0x65A8)) {
-            u32 orc = 0x80000000;
-            u32 *ab = D_800AFAE8;
-            q = (u32 *)(base + 0x2AC);
-            do {
-                if (q < ab + 1 || q >= ab + 0x22) {
-                    *q |= orc;
-                }
-                q += 0x21;
-            } while (q < (u32 *)(base + 0x65AC));
-        }
-
-        (*(s16 *)&D_801270C0) = 3;
-        ((void (*)(s32))func_80129248)(0);
-        func_8013C938();
-        func_8013CB20();
-        func_8013C98C();
-        func_8002850C(0x800, 0x800, 0x800);
-        func_80028620(0, &(*(u8 *)&D_80181684));
-        func_80028620(1, &(*(u8 *)&D_80181684) + 0x10);
-        func_80028620(2, &(*(u8 *)&D_80181684) + 0x20);
-        *(s32 *)(param_1 + 0x28) = 0xff;
-        *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
-    }
-    return 0;
-}
+#include "../shared/ov/func_801596F0__65664140.h"
 
 
 #include "../shared/ov/func_80159874.h"
@@ -1544,42 +1376,7 @@ extern void func_80158638(unsigned char *);
 extern void func_8015126C(unsigned short *);
 extern void func_8014900C(int *a0);
 
-void func_80159A20(unsigned char *param_1)
-{
-    typedef unsigned short u16;
-    typedef unsigned int u32;
-    typedef int s32;
-    typedef unsigned char u8;
-
-    ((s32 (*)(void))func_80150B28)();
-    func_80158638(param_1);
-    ((void (*)(u8 *))func_8015126C)(param_1);
-    ((void (*)(u8 *))func_8014900C)(param_1);
-    D_801819B8[*(u16 *)param_1 & 0x7fff](param_1);
-    *(u32 *)(param_1 + 0x44) |= 0x8000000;
-    switch (*(u16 *)param_1) {
-    case 2:
-    case 3:
-    case 0xb:
-    case 0xc:
-        goto mask;
-    default:
-        return;
-    case 0x19:
-        if (param_1[0xdd] != 1) {
-            if (param_1[0xdd] == 4) {
-                goto mask;
-            }
-            return;
-        }
-        if (*(u16 *)(param_1 + 2) == 3) {
-            goto mask;
-        }
-        return;
-    }
-mask:
-    *(u32 *)(param_1 + 0x44) &= 0xf7ffffff;
-}
+#include "../shared/ov/func_80159A20__e36724ea.h"
 
 #include "../shared/ov/func_80159B08.h"
 

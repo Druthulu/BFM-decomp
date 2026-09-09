@@ -1,0 +1,5 @@
+  CC      build/src/md_SC03_133/md_SC03_133.o
+  LD      build/md_SC03_133/md_SC03_133.elf
+  OBJCOPY build/md_SC03_133/md_SC03_133
+[ OK ] build/md_SC03_133/md_SC03_133
+       sha1 c2321d8d19240a2491b985d8e32867978bf19666 == config/check.md_SC03_133.sha  (BYTE-IDENTICAL)

@@ -2677,49 +2677,7 @@ extern void func_8017A4AC(void);
 extern u16 D_8018F508[0x200];
 extern s16 D_8018F90C;
 
-void func_80179B74(u16 *p) {
-    s32 pad[10];
-    s16 c;
-
-    (void)&pad;
-    c = *p++;
-    D_8018F508[D_8018F90C] = c;
-    D_8018F90C = (D_8018F90C + 1) & 0x1FF;
-    switch (c) {
-    case 0:
-        break;
-    case 1:
-    case 5:
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        break;
-    case 0x13:
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        break;
-    case 2:
-    case 3:
-    case 4:
-    case 6:
-    case 0x12:
-    case 0x14:
-    case 0x1F:
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        break;
-    case 0x17:
-    case 0x1C:
-    case 0x1D:
-    case 0x20:
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        { s16 t = *p++; D_8018F508[D_8018F90C] = t; D_8018F90C = (D_8018F90C + 1) & 0x1FF; }
-        break;
-    case 0x22:
-        break;
-    }
-}
+#include "../shared/ov/func_80179B74__349bbda4.h"
 
 #include "../shared/ov/func_80179D30.h"
 
@@ -2847,28 +2805,4 @@ extern int func_800D0CA0(int);
 extern int func_8001AAA0(void);
 extern int func_800D0CE0(void);
 
-int func_8017A3D8(void)
-{
-    switch (D_8018F94C) {
-    case 0:
-        func_800D0CA0(1);
-        D_8018F94C = D_8018F94C + 1;
-        return 0;
-    case 100:
-    {
-        register int a __asm__("$4");
-        a = D_8018F948;
-        if (a != -1) {
-            return func_8001AAA0() != 0;
-        }
-        return func_800D0CE0() == 1;
-    }
-    default:
-        D_8018F94C = D_8018F94C + 1;
-        if (D_8018F94C < 0x1E) {
-            return 0;
-        }
-        D_8018F94C = 100;
-        return 0;
-    }
-}
+#include "../shared/ov/func_8017A3D8__0aff4a64.h"

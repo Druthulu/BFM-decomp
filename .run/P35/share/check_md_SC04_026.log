@@ -1,0 +1,10 @@
+  CC      build/src/md_SC04_026/md_SC04_026.o
+src/md_SC04_026/md_SC04_026.c:200: warning: type mismatch with previous external decl
+src/md_SC04_026/../shared/slot_801E7B28/func_801E8034.h:5: warning: previous external decl of `func_801E805C'
+src/md_SC04_026/md_SC04_026.c:200: warning: type mismatch with previous implicit declaration
+src/md_SC04_026/../shared/slot_801E7B28/func_801E8034.h:5: warning: previous implicit declaration of `func_801E805C'
+src/md_SC04_026/md_SC04_026.c:200: warning: `func_801E805C' was previously implicitly declared to return `int'
+  LD      build/md_SC04_026/md_SC04_026.elf
+  OBJCOPY build/md_SC04_026/md_SC04_026
+[ OK ] build/md_SC04_026/md_SC04_026
+       sha1 130bdd7072aeb707478ca59bd9e344e8df374678 == config/check.md_SC04_026.sha  (BYTE-IDENTICAL)

@@ -405,6 +405,9 @@
   rejected classes 1`** ([new1] ov_SC07_010: class 2e822a8f62 REJECTED — src/ov_SC07_010/../shared/ov/func_80140D68.h:41: 'D_800B9A02' undeclared (first use this function) — an exemplar body relying on a
   file-scope extern outside its definition; ledgered TU-CONFLICT, 49 rows). 795 classes of the bucket remain; the 5 unexcepted B classes
   get an `--bucket extend` run at the end.
+- **S96 — T5 bucket `new`, batch 2** (`run_new2.log`; record copied to `batch_new2.json`): `120 classes · 360 sites in
+  69 TUs · 120 new headers · gating 9 binaries` → **`gated 9/9 binaries green · registered 120 groups ·
+  extended 0 members · rejected classes 0`**.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
