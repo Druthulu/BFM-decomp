@@ -1313,9 +1313,9 @@ extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
-extern volatile s32 D_80127090;
-extern volatile s32 D_80127094;
-extern volatile s32 D_80127098;
+extern s32 D_80127090;
+extern s32 D_80127094;
+extern s32 D_80127098;
 extern void func_80147F78(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80148038(s32 a0, s32 a1);
 extern s32 csqrt(s32 a0);
@@ -2063,8 +2063,8 @@ void func_80156044(int param_1, int param_2)
     extern u8 D_80185C48;
     extern u8 D_80185ACC;
 
-    register s32 puVar2 __asm__("$2");
-    register s32 iVar3 __asm__("$3");
+    register s32 puVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
+    register s32 iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus4)
     u8 *puVar4;
     s32 uVar1;
 
@@ -2402,8 +2402,8 @@ void func_80157D20(void)
 {
 
     extern u16 D_80185F48[];
-    register void *a0v __asm__("$4");
-    register s32 a1v __asm__("$5");
+    register void *a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus4)
+    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus4)
     void *param_1 = a0v;
     s32 param_2 = a1v;
 

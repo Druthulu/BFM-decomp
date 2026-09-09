@@ -1,1 +1,3 @@
 log: tus3 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 43,517 sites in 14,550 bodies (2,250 distinct) · marked !FAKE 16,077 · UNMARKED 27,440
+cycle: batch tus3 committed ce8737066 — delever: batch tus3 — 300 files (TUs; 2183 drawable) · 2513 bodies: 194 lever-free, 2319 residue, 0 refused · sites removed 2925 / needed 6699 / refused 0 / deferred 0 · replays 1251 (0 disagreed) · compiles 5347 in 194 s wall · final 300/300 identical · written 300 files | check-all: 218 passed, 0 failed of 218
+log: tus4 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 41,414 sites in 13,872 bodies (2,225 distinct) · marked !FAKE 19,995 · UNMARKED 21,419

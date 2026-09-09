@@ -34,7 +34,7 @@ void func_80145934(void) {
         p = &D_80187C60;
         /* §5a cross-jump barrier — LOAD-BEARING: keeps this D_80187C60 load from being
          * tail-merged with the v>=0x384 D_80187C60 load below (emits zero machine code). */
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus4)
     } else if (v >= 0x5DC) {
         p = &D_80187BD0;
     } else if (v >= 0x578) {
@@ -84,7 +84,7 @@ void func_80145A2C(void) {
         p = &D_80187CF0;
         /* §5a cross-jump barrier — LOAD-BEARING: keeps this D_80187CF0 load from being
          * tail-merged with the v>=0x384 D_80187CF0 load below (emits zero machine code). */
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus4)
     } else if (v >= 0x5DC) {
         p = &D_80187BD0;
     } else if (v >= 0x578) {
@@ -639,11 +639,11 @@ int func_80148AFC(void *a0) {
     extern ActorFn D_80187220[];
     s32 p = (s32)a0;
     s32 iVar5 = *(s32 *)(p + 0x20);
-    register s32 tmp __asm__("$5") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),
+    register s32 tmp __asm__("$5") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus4)
                         *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
     s32 sVar3;
     u8 bVar1;
-    __asm__("" : "=r"(tmp) : "0"(tmp));
+    __asm__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus4)
     sVar3 = tmp;
     bVar1 = *(u8 *)(p + 0xA9);
 
@@ -653,15 +653,15 @@ int func_80148AFC(void *a0) {
     case 0x53:
     case 0x73:
         {
-            register u32 bb __asm__("$3");
-            register s32 c80 __asm__("$2") = 0x80;
-            register s32 lo __asm__("$4");
-            register s32 hi __asm__("$2");
+            register u32 bb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus4)
+            register s32 c80 __asm__("$2") = 0x80;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
+            s32 lo;
+            register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
             bb = *(u16 *)(p + 0xAE);
             lo = bb & 0xFF;
             if (lo != c80 || (hi = bb >> 8) != 0x80) {
                 s32 sVar4;
-                __asm__ __volatile__("" : : : "memory");
+                __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus4)
                 sVar4 = ratan2((*(u16 *)(p + 0xAE) & 0xFF) - 0x80, 0x80 - (*(u16 *)(p + 0xAE) >> 8));
                 *(u16 *)(iVar5 + 0x12) = (sVar3 + sVar4) & 0xFFF;
                 return 1;
@@ -716,8 +716,8 @@ s32 func_80148D44(void) {
     extern u16 D_80126C02;
     extern u16 D_80126C06;
     extern s32 D_80187260[];
-    register s32 ang __asm__("$16");
-    register s32 a __asm__("$4");
+    s32 ang;
+    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus4)
     s32 p;
     s32 res;
     s32 d;
@@ -726,7 +726,7 @@ s32 func_80148D44(void) {
     a = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
                   *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3c)) - 0x400) & 0xFFF;
     d = (s32)D_80126C01;
-    __asm__ __volatile__("" : : "r"(a));
+    __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus4)
     ang = a;
     if (d == 0x53) {
         goto final;
@@ -749,7 +749,6 @@ final:
         if (((e & 0xff) == 0x80) && ((e >> 8) == (e & 0xff))) {
             return -1;
         }
-        __asm__ __volatile__("" : : : "memory");
         res = (ang + ratan2((D_80126C06 & 0xff) - 0x80, 0x80 - (D_80126C06 >> 8))) & 0xFFF;
     }
     return res;
@@ -765,10 +764,10 @@ s32 func_80148E54(s32 arg0) {
 
     extern s32 D_801151D4;
     extern s16 (*D_801872A0[])();
-    register s32 tmp __asm__("$4") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),
+    register s32 tmp __asm__("$4") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus4)
                                              *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
     s32 ang;
-    __asm__("" : "=r"(tmp) : "0"(tmp));
+    __asm__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus4)
     ang = tmp;
 
     switch (*(u8 *)(arg0 + 0xA9)) {
@@ -949,7 +948,7 @@ extern s16 currentLocationId;
 
 s32 func_80149FB0(s32 a0) {
     s32 *p = &D_801872E0[0];
-    register s32 v __asm__("$3") = *p;
+    s32 v = *p;
     u8 *q = &D_80078E78[0];
     s32 loc;
 
@@ -1615,7 +1614,7 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
   } Ent;
   int new_var2;
   s16 new_var3;
-register u16 *a2 __asm__("$7");
+register u16 *a2 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus4)
   V4 out[3];
   V4 pos;
   Desc desc;
@@ -1639,11 +1638,11 @@ register u16 *a2 __asm__("$7");
   s32 t;
   s32 u;
   s32 a0v;
-__asm__ __volatile__("" : "=r"(a2) : "0"(a2x));
+__asm__ __volatile__("" : "=r"(a2) : "0"(a2x));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus4)
   t = a2[0];
   u = a1[0];
   dx = t - u;
-__asm__ __volatile__("" : "=r"(a0v) : "0"(a0));
+a0v = a0;
   new_var3 = (s16) dx;
   t = a2[2];
   u = a1[2];
@@ -2362,7 +2361,7 @@ s32 func_8015094C(s32 param_1) {
     struct { s32 x, mid, y; s32 _pad[9]; } arg;   /* 0x30 @ 0x10 */
     S16 local;                                     /* 0x10 @ 0x40 */
     s32 pad1[4];                                    /* 0x10 @ 0x50 */
-    register u8 *cam __asm__("$17") = D_80126948;
+    u8 *cam = D_80126948;
     s32 ret;
 
     local = D_801AB1B8;
@@ -2465,7 +2464,7 @@ void func_80150B28(int param_1) {
     extern s32 D_800AE6B0;
     extern void (*D_801873A4[])(void);
     u32 idx;
-    register u32 sub __asm__("$2");
+    u32 sub;
 
     if ((D_800AE6B0 & 0x80FFFFFF) == 0) {
         idx = *(u16 *)(param_1 + 0x16C);
@@ -2733,8 +2732,8 @@ void func_801523F4(s32 arg0)
 {
     s32 pad[4];
     s32 buf[4];
-    register s32 s0a __asm__("$16");                    /* $s0 = buf */
-    register s32 s2a __asm__("$18") = (s32)&D_8018748C; /* $s2 = &D_8018748C */
+    s32 s0a;                    /* $s0 = buf */
+    s32 s2a = (s32)&D_8018748C; /* $s2 = &D_8018748C */
 
     ((void (*)(s32, s32))func_80146E90)(arg0, 0);
     func_80019064(&D_80062C04);
@@ -3006,7 +3005,6 @@ void func_80153D7C(s32 param_1)
     if (currentLocationId == 0x3075) *(u8 *)(param_1 + 0xde) = 0x14;
     else *(u8 *)(param_1 + 0xde) = 10;
     *(u8 *)(param_1 + 0xdf) = 0;
-    __asm__ __volatile__("" ::: "memory");
     func_80146CA0((void *)param_1);
 }
 
