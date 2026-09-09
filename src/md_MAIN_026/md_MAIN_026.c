@@ -23,10 +23,7 @@ void func_800CAE44(void *a0) {
 
 
 extern void func_800CAEC0();
-void func_800CAE88(void *a0) {
-    func_800CAEC0(a0);
-    *(u8 *)((s32)a0 + 0x197) += 1;
-}
+#include "../shared/slot_800CAE08/func_800CAE88__3eeb9c91.h"
 
 
 void func_800CAEC0(void *arg0) {

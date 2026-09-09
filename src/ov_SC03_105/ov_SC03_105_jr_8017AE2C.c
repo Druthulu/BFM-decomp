@@ -3323,9 +3323,7 @@ void func_8017BE60(void *a0) {
 
 extern void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
-void func_8017BEBC(s32 arg0, s32 arg1) {
-    func_8017BF34(arg0, arg1, 0xC, 0);
-}
+#include "../shared/ov/func_8017BEBC__8998596f.h"
 
 
 #include "../shared/ov/func_8017BEE0.h"

@@ -3163,13 +3163,7 @@ extern void func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_8017CE3C(s32 a0);
 extern void func_80146CA0(void *a0);
-void func_8017CDF4(s32 a0) {
-    func_8014E934(a0);
-    func_8014CC28(a0);
-    func_8014F3E8(a0);
-    func_8017CE3C(a0);
-    func_80146CA0((void *)a0);
-}
+#include "../shared/ov/func_8017CDF4__5508e978.h"
 
 
 extern s32 D_8018B4E0;

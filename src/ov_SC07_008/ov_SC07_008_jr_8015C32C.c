@@ -3283,10 +3283,7 @@ void func_80161034(void *a0)
 extern s32 func_801612B8(void *a0, s32 a1);
 extern void func_8016130C(void*, s32);
 void aF80161208(void *a0) __asm__("func_80161208");
-void aF80161208(void *a0)
-{
-    ((s32 (*)(s32, u32))func_8016130C)(a0, func_801612B8(a0, 0));
-}
+#include "../shared/ov/func_80161208.h"
 
 
 #include "../shared/ov/func_80161240.h"
@@ -3332,20 +3329,7 @@ extern void func_8015BF48(s32*);
 
 s32 aF8016130C(void *a0, s32 a1) __asm__("func_8016130C");
 
-s32 aF8016130C(void *a0, s32 a1)
-{
-    if ((a1 == 0) || (a1 == 0x8000)) {
-        func_801599A4(a0);
-        ((void (*)(void *))func_8015BDD0)(a0);
-        return 1;
-    }
-    if ((a1 & 0x4000) != 0) {
-        func_801599A4(a0);
-        ((void (*)(void *))func_8015BF48)(a0);
-        return 1;
-    }
-    return 0;
-}
+#include "../shared/ov/func_8016130C.h"
 
 
 
@@ -5340,41 +5324,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 
 
-s32 func_80167540(s32 arg0) {
-
-    struct Node_80167540 *node;
-    struct Entity_80167540 *ent;
-    s32 v;
-
-    node = ((struct Entity_80167540 *)arg0)->unk34;
-    if (node->unk0 == 1) {
-        if (((struct Entity_80167540 *)arg0)->unk12 > ((struct Entity_80167540 *)arg0)->unk10) {
-            if (((struct Entity_80167540 *)arg0)->unk1C > 0) {
-                ((struct Entity_80167540 *)arg0)->unk10 = (s16) (rand() & 0x30);
-                v = -0x30;
-                goto shared;
-            }
-        } else if (((struct Entity_80167540 *)arg0)->unk1C < 0) {
-            ((struct Entity_80167540 *)arg0)->unk10 = (s16) ((rand() & 0x30) + 0x40);
-            v = 0x30;
-shared:
-            ((struct Entity_80167540 *)arg0)->unk1C = v;
-        }
-        ((struct Entity_80167540 *)arg0)->unk12 = (s16) (((struct Entity_80167540 *)arg0)->unk12 + ((struct Entity_80167540 *)arg0)->unk1C);
-        ((struct Entity_80167540 *)arg0)->mat = node->unk20->mat;
-        ((void (*)(struct Entity_80167540 *, s32, s32, s32))func_801670E4)(((struct Entity_80167540 *)arg0), 0, 0, 0);
-        ent = ((struct Entity_80167540 *(*)(s32, struct Entity_80167540 *, s16, s16, s32, s32, s32))func_80146A6C)(0xE, ((struct Entity_80167540 *)arg0), node->unk6, node->unkA, node->unkE, 0, 0);
-        if (ent != 0) {
-            ent->mat = node->unk20->mat;
-        }
-        if (((struct Entity_80167540 *)arg0)->unk34->unk4C->unk44 & 0x20) {
-            ((struct Entity_80167540 *)arg0)->unk30 = 0x600;
-            ((struct Entity_80167540 *)arg0)->unk2 = (u16) (((struct Entity_80167540 *)arg0)->unk2 + 1);
-        }
-    } else {
-        ((void(*)(struct Entity_80167540 *))func_80146C3C)(((struct Entity_80167540 *)arg0));
-    }
-}
+#include "../shared/ov/func_80167540.h"
 
 
 
@@ -6144,36 +6094,7 @@ void func_8016A700(void *a0) {
 
 
 
-s32 func_8016A73C(s32 arg0) {
-    int sp10[8];
-    short v[3];   /* sp30, sp32, sp34 */
-    int r;
-    short tmp;
-
-    r = ((int(*)())rand)();
-    v[1] = ((r & 0x7F) << 4) + 0x400;
-    v[0] = ((unsigned)(r & 0x7F00) >> 5) - 0x300;
-    v[2] = 0;
-    ((void(*)(short *, void *))RotMatrixYXZ)(v, sp10);
-    ((void(*)(int, void *))func_80048EAC)(((Obj_8016A73C *)arg0)->unk34->unk34->unk20 + 0x34, sp10);
-    v[0] = 0;
-    v[1] = 0;
-    v[2] = -0x50;
-    ((int(*)(void *, short *, short *))ApplyMatrixSV)(sp10, v, v);
-
-    ((Obj_8016A73C *)arg0)->mat = (*(Mat_8016A73C*)&D_800AE620);
-
-    tmp = ((Obj_8016A73C *)arg0)->unk6 + v[0];
-    ((Obj_8016A73C *)arg0)->unk6 = tmp;
-    ((Obj_8016A73C *)arg0)->mat.w[5] = tmp;
-    tmp = ((Obj_8016A73C *)arg0)->unkA + v[1];
-    ((Obj_8016A73C *)arg0)->unkA = tmp;
-    ((Obj_8016A73C *)arg0)->mat.w[6] = tmp;
-    tmp = ((Obj_8016A73C *)arg0)->unkE + v[2];
-    ((Obj_8016A73C *)arg0)->unkE = tmp;
-    ((Obj_8016A73C *)arg0)->unk2 = ((Obj_8016A73C *)arg0)->unk2 + 1;
-    ((Obj_8016A73C *)arg0)->mat.w[7] = tmp;
-}
+#include "../shared/ov/func_8016A73C.h"
 
 
 

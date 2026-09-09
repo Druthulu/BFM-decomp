@@ -3434,116 +3434,13 @@ extern void func_8017C294(u16 *a0, void *a1);
 extern int func_8017C338(short *param_1, short *param_2, short *param_3, int param_4);
 extern void func_8017C530(s32 a0, s32 a1);
 
-void func_8017BEBC(void *a0, void *a1, s32 a2)
-{
-    SVEC_BEBC corner[4];
-    SVEC_BEBC view[4];
-    SVEC_BEBC hit[4];
-    SVEC_BEBC org;
-    SVEC_BEBC eye;
-    s16 *rect = (s16 *)a0;
-    s32 i;
-    s32 x0, y0, x1, y1;
-    s16 m;
-    s32 d;
-    s32 z;
-    s16 u, v;
-    s32 mnx, mnz, mxx, mxz;
-
-    x0 = rect[0];
-    y0 = rect[1];
-    x1 = x0 + rect[2];
-    y1 = y0 + rect[3];
-    m = (rect[2] < rect[3]) ? rect[3] : rect[2];
-    d = (s16)(m / 20);
-    z = func_800491EC();
-
-    corner[0].vx = x0; corner[0].vy = y0; corner[0].vz = z;
-    corner[1].vx = x1; corner[1].vy = y0; corner[1].vz = z;
-    corner[2].vx = x0; corner[2].vy = y1; corner[2].vz = z;
-    corner[3].vx = x1; corner[3].vy = y1; corner[3].vz = z;
-
-    org.vx = 0;
-    org.vy = 0;
-    org.vz = 0;
-    func_8017C294((u16 *)&org, &eye);
-
-    for (i = 0; i < 4; i++) {
-        func_8017C294((u16 *)&corner[i], &view[i]);
-        if (func_8017C338((short *)&eye, (short *)&view[i], (short *)&hit[i], a2)) {
-            func_8017C530((s32)&hit[i], (s32)&corner[i]);
-            corner[i].vx = (corner[i].vx < x0 - d) ? (x0 - d)
-                : ((corner[i].vx > x1 + d) ? (x1 + d) : corner[i].vx);
-            corner[i].vy = (corner[i].vy < y0 - d) ? (y0 - d)
-                : ((corner[i].vy > y1 + d) ? (y1 + d) : corner[i].vy);
-            func_8017C294((u16 *)&corner[i], &view[i]);
-            func_8017C338((short *)&eye, (short *)&view[i], (short *)&hit[i], a2);
-        }
-    }
-
-    v = (hit[2].vx > hit[3].vx) ? hit[3].vx : hit[2].vx;
-    u = (hit[0].vx > hit[1].vx) ? hit[1].vx : hit[0].vx;
-    if (u > v) u = v;
-    mnx = u;
-    if (eye.vx < mnx) mnx = eye.vx;
-
-    v = (hit[2].vz > hit[3].vz) ? hit[3].vz : hit[2].vz;
-    u = (hit[0].vz > hit[1].vz) ? hit[1].vz : hit[0].vz;
-    if (u > v) u = v;
-    mnz = u;
-    if (eye.vz < mnz) mnz = eye.vz;
-
-    v = (hit[2].vx < hit[3].vx) ? hit[3].vx : hit[2].vx;
-    u = (hit[0].vx < hit[1].vx) ? hit[1].vx : hit[0].vx;
-    if (u < v) u = v;
-    mxx = u;
-    if (mxx < eye.vx) mxx = eye.vx;
-
-    v = (hit[2].vz < hit[3].vz) ? hit[3].vz : hit[2].vz;
-    u = (hit[0].vz < hit[1].vz) ? hit[1].vz : hit[0].vz;
-    if (u < v) u = v;
-    mxz = u;
-    if (mxz < eye.vz) mxz = eye.vz;
-
-    ((s16 *)a1)[0] = mnx;
-    ((s16 *)a1)[1] = mnz;
-    ((s16 *)a1)[2] = mxx - mnx;
-    ((s16 *)a1)[3] = mxz - mnz;
-}
+#include "../shared/ov/func_8017BEBC__b0ea1ff1.h"
 
 
 #include "../shared/ov/func_8017C294__dc415768.h"
 
 
-int func_8017C338(short *param_1, short *param_2, short *param_3, int param_4) {
-    register int i2o __asm__("$5");
-    register int i4o __asm__("$9");
-    short sVar1; int rx, rz, uVar5;
-    i4o = param_2[1];
-    __asm__ __volatile__("" : : "r"(i4o));
-    i2o = param_1[1]; uVar5 = 0;
-    if (i2o >= i4o) {
-        rx = param_1[0] - i2o * (param_2[0] - param_1[0]);
-        rz = param_1[2] - i2o * (param_2[2] - param_1[2]);
-    } else {
-        register int den __asm__("$3");
-        int p2x = param_2[0], p2z = param_2[2];
-        den = i2o - i4o;
-        rx = p2x + i4o * (p2x - param_1[0]) / den;
-        rz = p2z + i4o * (p2z - param_1[2]) / den;
-    }
-    if (rx >= -0x7fff) { i2o = 0x7fff; if (rx < 0x8000) i2o = rx; }
-    else i2o = -0x7fff;
-    *param_3 = (short)i2o;
-    if (rz >= -0x7fff) { i2o = 0x7fff; if (rz < 0x8000) i2o = rz; }
-    else i2o = -0x7fff;
-    param_3[2] = (short)i2o; param_3[1] = 0; sVar1 = (short)param_4;
-    if ((int)*param_3 < *param_1 - param_4) { uVar5 = 0xffffffff; *param_3 = *param_1 - sVar1; }
-    if (*param_1 + param_4 < (int)*param_3) { uVar5 = 0xffffffff; *param_3 = *param_1 + sVar1; }
-    if ((int)param_3[2] < param_1[2] - param_4) { uVar5 = 0xffffffff; param_3[2] = param_1[2] - sVar1; }
-    if (param_1[2] + param_4 < (int)param_3[2]) { uVar5 = 0xffffffff; param_3[2] = param_1[2] + sVar1; }
-    return uVar5;
-}
+#include "../shared/ov/func_8017C338__ec532abc.h"
 
 
 #include "../shared/ov/func_8017C530.h"

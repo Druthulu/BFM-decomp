@@ -3327,9 +3327,7 @@ void func_8017BE60(void *a0) {
 extern void func_80174684(void *);
 extern void func_8017BEE4(void *);
 
-void func_8017BEBC(void) {
-    func_80174684((void *)func_8017BEE4);
-}
+#include "../shared/ov/func_8017BEBC__1116e72d.h"
 
 
 
@@ -4474,13 +4472,7 @@ extern void func_8017DB00(void *a0);
 
 struct S8_8017DA98 { s16 m[4]; };
 
-void func_8017DA98(s16 a0, void *a1, s32 a2) {
-    *(struct S8_8017DA98 *)&D_80126B30 = *(struct S8_8017DA98 *)a1;
-    D_80126B3A = a0;
-    D_8012750C = a2;
-    func_80174684((void *)func_8017DB00);
-    (*(s32 *)&D_8011F9C8) = 0;
-}
+#include "../shared/ov/func_8017DA98.h"
 
 
 

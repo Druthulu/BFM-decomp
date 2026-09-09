@@ -399,6 +399,12 @@
 - **S96 — R22 after bucket 0** (`.run/P35/baseline/r22_t5_bucket0.log`): `make clean && make extract-all JOBS=16 && make check-all JOBS=16`
   → `extract-all: 217 extracted, 0 failed of 217 (+ main, serial)` · **`check-all: 218 passed, 0 failed of 218`** · `wall=84.02 s
   user=1334.73 s sys=185.72 s` · `exit=0` — every T5 bank so far (five commits) proven from clean; fleet CPU 2,230 s (T4) → 1,335 s.
+- **S96 — T5 bucket `new`, batch 1** (`.run/P35/share/run_new1.log`, 99 s; `--apply --bucket new --batch 120 --batches 1`): `census 29 s ·
+  extend (registered-incomplete) 5 classes · new (unregistered same-vram) 915 classes / 3,567 private sites` · `[new1] 120 classes · 1482
+  sites in 535 TUs · 120 new headers · gating 165 binaries` → **`gated 165/165 binaries green · registered 120 groups · extended 0 members ·
+  rejected classes 1`** ([new1] ov_SC07_010: class 2e822a8f62 REJECTED — src/ov_SC07_010/../shared/ov/func_80140D68.h:41: 'D_800B9A02' undeclared (first use this function) — an exemplar body relying on a
+  file-scope extern outside its definition; ledgered TU-CONFLICT, 49 rows). 795 classes of the bucket remain; the 5 unexcepted B classes
+  get an `--bucket extend` run at the end.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 

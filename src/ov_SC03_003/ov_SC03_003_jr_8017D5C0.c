@@ -3211,12 +3211,7 @@ extern void func_800D1EBC(void);
 
 extern void func_8012A110(void);
 
-s32 func_8017E5EC(s32 a0) {
-    func_8012A110();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+#include "../shared/ov/func_8017E5EC.h"
 
 
 
@@ -3295,56 +3290,17 @@ void func_8017E77C(void *a0) {
 extern void func_8014706C(void *arg0);
 extern void func_80154150(s32 a0, s32 a1);
 extern s32 func_80171990(u8 *a0);
-void func_8017E7B8(s32 *a0)
-{
-  s32 v1;
-  s32 a1;
-  v1 = *((s32 *) (((u8 *) a0) + 0x20));
-  *((s16 *) (((u8 *) v1) + 0x10)) = 0xC00;
-  v1 = (s32) a0;
-  func_8014706C((void *) v1);
-  a1 = 0x27;
-  func_80154150(v1, a1);
-  *((s32 *) (((u8 *) a0) + 0x200)) = 0x80;
-  func_80171990((u8 *) a0);
-}
+#include "../shared/ov/func_8017E7B8__a697eca0.h"
 
-void func_8017E808(u8 *a0) {
-    s32 v0 = *(s32 *)(a0 + 0x200) - 1;
-    *(s32 *)(a0 + 0x200) = v0;
-    if (v0 == -1) {
-        *(u16 *)(a0 + 0xB8) = 0;
-        *(s32 *)(a0 + 0x200) = 0x10;
-        func_80171990(a0);
-    }
-}
+#include "../shared/ov/func_8017E808__7af1f6e0.h"
 
 
-void func_8017E844(u8 *a0) {
-    s16 arr[3];
-
-    if (--(*(s32 *)(a0 + 0x200)) == -1) {
-        *(u16 *)(a0 + 0x74) = 0x1080;
-        *(u16 *)(a0 + 0x72) = 0x1080;
-        *(u16 *)(a0 + 0x70) = 0x1080;
-        arr[0] = *(u16 *)(a0 + 6) - 0x40;
-        arr[1] = *(u16 *)(a0 + 0xA) - 0x10;
-        arr[2] = *(u16 *)(a0 + 0xE) + 0x10;
-        func_80146A6C(0x36, a0, (s16)arr[0], (s16)arr[1], (s16)arr[2], 0, 0);
-        func_80171990(a0);
-    }
-}
+#include "../shared/ov/func_8017E844__b9fed6ce.h"
 
 
 extern s32 func_80171990(u8 *a0);
 
-void func_8017E8E8(s32 *a0) {
-    *(s16 *)((u8 *)a0 + 0x74) = 0x1000;
-    *(s16 *)((u8 *)a0 + 0x72) = 0x1000;
-    *(s16 *)((u8 *)a0 + 0x70) = 0x1000;
-    *(s32 *)((u8 *)a0 + 0x200) = 0x10;
-    func_80171990((u8 *)a0);
-}
+#include "../shared/ov/func_8017E8E8__efd7c3b2.h"
 
 
 extern void func_80171928(void *a0);

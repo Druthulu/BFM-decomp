@@ -3410,23 +3410,7 @@ void func_8017BEF8(void *a0) {
 extern void func_800D22E4(s32 a0);
 extern void func_80146E90(s32 *a0, s32 a1);
 
-void func_8017C0A4(param_1)
-s32 param_1;
-{
-    s32 var_v0;
-
-    *(s32 *)(param_1 + 0x14) = *(s32 *)(param_1 + 0x14) + 0xC000;
-    ((void (*)(void))func_800D22E4)();
-    var_v0 = *(s32 *)(param_1 + 0x1C) - 1;
-    *(s32 *)(param_1 + 0x1C) = var_v0;
-    if (var_v0 == -1) {
-        *(s32 *)(param_1 + 0x2C) = 0;
-        *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 4);
-        *(s32 *)(param_1 + 0x18) = *(s32 *)(param_1 + 0xC);
-        func_80146E90(param_1, 0x14);
-        *(u16 *)(param_1 + 2) += 1;
-    }
-}
+#include "../shared/ov/func_8017C0A4.h"
 
 
 
@@ -3463,20 +3447,6 @@ void func_8017C120(s32 param_1) {
 extern s32 func_80146E98(s32 a0);
 extern void func_80146C3C();
 
-void func_8017C1DC(param_1)
-int param_1;
-{
-    int addr;
-
-    addr = *(int *)(param_1 + 0x20);
-    if (*(unsigned int *)(param_1 + 0x1c) & 1) {
-        *(unsigned int *)(addr + 4) = *(unsigned int *)(addr + 4) | 0x80000000;
-    } else {
-        *(unsigned int *)(addr + 4) = *(unsigned int *)(addr + 4) & 0x7fffffff;
-    }
-    if (func_80146E98(param_1) != 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
-    }
-}
+#include "../shared/ov/func_8017C1DC.h"
 
 

@@ -434,18 +434,7 @@ extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
 
 extern void func_80146AFC(void*);
 void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("func_80146A6C");
-void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
-{
-    u8 sp[0x18];
-    *(s16 *)(sp + 0x0) = a0;
-    *(s32 *)(sp + 0x8) = a1;
-    *(s16 *)(sp + 0x2) = a2;
-    *(s16 *)(sp + 0x4) = a3;
-    *(s16 *)(sp + 0x6) = a4;
-    *(s32 *)(sp + 0xC) = a5;
-    *(s32 *)(sp + 0x10) = a6;
-    ((s32 (*)(void *))func_80146AFC)(sp);
-}
+#include "../shared/ov/func_80146A6C.h"
 
 
 #include "../shared/ov/func_80146AB4.h"
@@ -498,32 +487,7 @@ extern s32 D_8011D030;
 
 s32 aF80146AFC(void *arg0) __asm__("func_80146AFC");
 
-s32 aF80146AFC(void *arg0)
-{
-    register u8 *p __asm__("$6");
-    register u8 *q __asm__("$5");
-    u8 *end;
-    p = (u8 *)&D_8011D030;
-    end = p + 0xA50;
-    if ((u32)p < (u32)end) {
-        q = p + 0x30;
-        do {
-            if (*(u16 *)p == 0) {
-                *(s32 *)(q + 0x4) = *(s32 *)((u8 *)arg0 + 0x8);
-                *(s16 *)p = *(u16 *)((u8 *)arg0 + 0x0);
-                *(s16 *)(q - 0x2A) = *(u16 *)((u8 *)arg0 + 0x2);
-                *(s16 *)(q - 0x26) = *(u16 *)((u8 *)arg0 + 0x4);
-                *(s16 *)(q - 0x22) = *(u16 *)((u8 *)arg0 + 0x6);
-                *(s32 *)(q - 0x4) = *(s32 *)((u8 *)arg0 + 0xC);
-                *(s32 *)(q + 0x0) = *(s32 *)((u8 *)arg0 + 0x10);
-                return (s32)p;
-            }
-            p += 0x58;
-            q += 0x58;
-        } while ((u32)p < (u32)end);
-    }
-    return 0;
-}
+#include "../shared/ov/func_80146AFC.h"
 
 
 #include "../shared/ov/func_80146B9C.h"
@@ -3191,29 +3155,7 @@ extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h
                                  * a prototyped (s32) decl is `conflicting types` in this TU. Arg still
                                  * passes in $a0 under default promotions -> codegen unchanged. */
 
-void func_80151664(void) {
-    register s32 a0v __asm__("$4");
-    s32 s0;
-    s32 v1;
-
-    s0 = a0v;
-    func_80154A74(s0, 0x11);
-    func_801553C0(s0);
-    func_801470AC((s32 *)s0);
-    func_801472B4((void *)s0);
-    v1 = *(s32 *)(s0 + 0x20);
-    *(s16 *)(s0 + 0x3E) = 0;
-    *(s16 *)(s0 + 0x40) = 0;
-    *(s16 *)(s0 + 0x42) = 0;
-    *(s8 *)(s0 + 0xDD) = 0;
-    *(s16 *)(s0 + 0x3C) = *(u16 *)(s0 + 0x3C) & 0xFFFE;
-    *(s16 *)(v1 + 0x10) = 0;
-    *(s16 *)(s0 + 0x60) = 0x1000;
-    *(s16 *)(s0 + 0x62) = 0x1000;
-    *(s16 *)(s0 + 0x64) = 0x1000;
-    func_801477E8((s32 *)s0, 0);
-    func_80153C18(s0);
-}
+#include "../shared/ov/func_80151664.h"
 
 
 #include "../shared/ov/func_801516F0.h"
