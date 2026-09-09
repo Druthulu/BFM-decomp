@@ -2174,9 +2174,7 @@ void func_801493D0(s32 param_1, s32 param_2, s32 param_3)
 
 
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
-void func_8014942C(s32 arg0) {
-    ((void (*)(s32))func_8012F038)(*(s32 *)(arg0 + 0x20) + 0x34);
-}
+#include "../shared/ov/func_8014942C.h"
 
 
 extern void func_8012F038(int param_1, short *param_2, short *param_3);

@@ -2615,66 +2615,7 @@ void func_8016AE5C(s32 param_1) {
 extern void func_8016B234();
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(u8*);
-void func_8016B114(void *arg0)
-{
-    s32 s1;
-    u32 state;
-    s32 cv;
-    s1 = *(s32 *)((u8 *)arg0 + 0x20);
-    if ((u32)*(s32 *)((u8 *)arg0 + 0x2C) < 6U) {
-        func_8016B234();
-    }
-    state = *(u32 *)((u8 *)arg0 + 0x2C);
-    switch (state) {
-    case 6:
-    case 7:
-        cv = *(u8 *)((u8 *)s1 + 0x26) - 0x10;
-        *(u8 *)((u8 *)s1 + 0x26) = cv;
-        *(u8 *)((u8 *)s1 + 0x25) = cv;
-        *(u8 *)((u8 *)s1 + 0x24) = cv;
-        *(u16 *)((u8 *)arg0 + 0xA) = *(u16 *)((u8 *)arg0 + 0xA) - 2;
-        break;
-    case 1:
-    case 5:
-    {
-        register s32 r26 __asm__("$4");
-        register s32 r14 __asm__("$2");
-        register s32 r24 __asm__("$3");
-        func_800D22E4((s32)arg0);
-        r26 = *(u16 *)((u8 *)arg0 + 0x26);
-        r14 = *(s32 *)((u8 *)arg0 + 0x14);
-        r24 = *(u16 *)((u8 *)arg0 + 0x24);
-        r26 += 1;
-        r14 += 0x18000;
-        r24 -= 0x10;
-        *(s32 *)((u8 *)arg0 + 0x14) = r14;
-        *(u16 *)((u8 *)arg0 + 0x26) = r26;
-        *(u16 *)((u8 *)arg0 + 0x24) = r24;
-        break;
-    }
-    default:
-    {
-        register s32 d26 __asm__("$2");
-        register s32 dA  __asm__("$3");
-        register s32 d24 __asm__("$4");
-        d26 = *(u16 *)((u8 *)arg0 + 0x26);
-        dA  = *(u16 *)((u8 *)arg0 + 0xA);
-        d24 = *(u16 *)((u8 *)arg0 + 0x24);
-        d26 += 1;
-        dA  -= 2;
-        d24 -= 0x10;
-        *(u16 *)((u8 *)arg0 + 0xA) = dA;
-        *(u16 *)((u8 *)arg0 + 0x26) = d26;
-        *(u16 *)((u8 *)arg0 + 0x24) = d24;
-        break;
-    }
-    }
-    cv = *(s32 *)((u8 *)arg0 + 0x1C) - 1;
-    *(s32 *)((u8 *)arg0 + 0x1C) = cv;
-    if (cv == 0) {
-        ((void (*)(s32))func_80146C3C)((s32)arg0);
-    }
-}
+#include "../shared/ov/func_8016B114.h"
 
 
 
@@ -2992,18 +2933,7 @@ int func_8016B834(int param_1, int param_2) {
 
 extern void func_80016714(void *a0, s32 a1);
 extern void func_80146C3C(u8*);
-void func_8016B984(void *a0) {
-    if (*(s32*)((s32)a0 + 0x10) != 0) {
-        func_80016714(*(void**)((s32)a0 + 0x10), 0x38);
-    }
-    if (*(s32*)((s32)a0 + 0x14) != 0) {
-        func_80016714(*(void**)((s32)a0 + 0x14), 0x38);
-    }
-    if (*(s32*)((s32)a0 + 0x18) != 0) {
-        func_80016714(*(void**)((s32)a0 + 0x18), 0x38);
-    }
-    ((void (*)(void *))func_80146C3C)(a0);
-}
+#include "../shared/ov/func_8016B984.h"
 
 
 
@@ -3906,14 +3836,7 @@ void func_8016D428(void *a0) {
 
 extern short func_8016CF04();
 extern void func_80146C3C(u8*);
-void func_8016D5EC(s32 *a0) {
-    u16 *rec = (u16 *)a0[8];   /* lw 0x20(s0) */
-    rec[0xC] -= 0x60;          /* 0x18 */
-    rec[0xD] -= 0x60;          /* 0x1A */
-    if ((s16)((s32 (*)(s32, s32))func_8016CF04)((s32)a0, 2) != 0) {
-        ((void (*)(s32 *))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_8016D5EC.h"
 
 
 extern short func_8016CBC0(void);
@@ -3959,31 +3882,7 @@ void func_8016D688(int param_1)
 
 extern void func_80146C3C(u8*);
 extern void func_800D20C0(void *a0, void *a1, s32 a2);
-void func_8016D778(s32 a0) {
-
-    extern s32 D_80126B9C;
-    s32 s0 = a0;
-    s32 p;
-    s16 sp[6];
-    if (*(s16 *)(s0 + 0x28) == *(s16 *)(*(s32 *)(s0 + 0x30) + 0x36)) {
-        if ((D_80126B9C & 0x20) != 0) {
-            goto main;
-        }
-    }
-    ((void (*)(s32))func_80146C3C)(s0);
-    return;
-main:
-    p = *(s32 *)(s0 + 0x20);
-    *(u16 *)(p + 0x18) = *(u16 *)(p + 0x18) ^ 0x400;
-    *(u16 *)(p + 0x1A) = *(u16 *)(p + 0x1A) ^ 0x200;
-    sp[0] = *(u16 *)(s0 + 0x12);
-    sp[1] = *(u16 *)(s0 + 0x16);
-    sp[2] = *(u16 *)(s0 + 0x1A);
-    func_800D20C0(&sp[0], &sp[4], 6);
-    *(u16 *)(s0 + 6) = sp[0];
-    *(u16 *)(s0 + 0xA) = sp[1];
-    *(u16 *)(s0 + 0xE) = sp[2];
-}
+#include "../shared/ov/func_8016D778.h"
 
 
 extern void func_80146C3C(u8*);
@@ -4098,21 +3997,7 @@ void func_8016DA7C(s32 param_1)
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80146C3C(u8*);
-void func_8016DB34(s32 param_1)
-{
-    s32 iVar2;
-    iVar2 = *(s32 *)(param_1 + 0x20);
-    if (((s32 (*)(s32, s32))func_80128ED8)(iVar2, param_1 + 0x24) != 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
-    } else {
-        *(s8 *)(iVar2 + 0x27) = *(u8 *)(param_1 + 0x28) - 0x70;
-        *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 0x10) - 0x60000;
-        *(s32 *)(param_1 + 0x14) = *(s32 *)(param_1 + 0x14) + *(s32 *)(param_1 + 0x10);
-        *(s32 *)(param_1 + 0x8) = *(s32 *)(param_1 + 0x8) + *(s32 *)(param_1 + 0x14);
-        *(s16 *)(iVar2 + 0x18) = *(s16 *)(iVar2 + 0x18) - 0x500;
-        *(s16 *)(iVar2 + 0x1a) = *(s16 *)(iVar2 + 0x1a) - 0x300;
-    }
-}
+#include "../shared/ov/func_8016DB34.h"
 
 
 #include "../shared/ov/func_8016DBD8.h"
@@ -4329,34 +4214,13 @@ void func_8016DF5C(s32 param_1)
 
 extern void func_8016E3CC(s32 a0);
 extern void func_80146C3C(u8*);
-void func_8016E2E8(void *a0) {
-    s32 *s1 = *(s32 **)((s32)a0 + 0x20);
-    func_8016E3CC((s32)a0);
-    if (--*(s32 *)((s32)a0 + 0x1C) != 0) {
-        *(u16 *)((s32)s1 + 0x18) -= 0x100;
-        *(u16 *)((s32)s1 + 0x1A) -= 0x120;
-    } else {
-        ((void (*)(s32))func_80146C3C)((s32)a0);
-    }
-}
+#include "../shared/ov/func_8016E2E8.h"
 
 
 extern void func_800D22E4(s32 a0);
 extern void func_8016E460(void *a0, void *a1);
 extern void func_80146C3C(u8*);
-void func_8016E358(void *a0) {
-    s32 v0;
-    v0 = *(s32*)((s32)a0 + 0x1C) - 1;
-    *(s32*)((s32)a0 + 0x1C) = v0;
-    if (v0 != 0) {
-        func_800D22E4((s32)a0);
-        *(s16*)((s32)a0 + 0x16) = *(u16*)((s32)a0 + 0x16) - 3;
-        *(s32*)((s32)a0 + 0x30) = *(s32*)((s32)a0 + 0x30) - 0xE;
-        func_8016E460(a0, (void*)((s32)a0 + 0x38));
-    } else {
-        ((void (*)(void *))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_8016E358.h"
 
 
 #include "../shared/ov/func_8016E3CC.h"
@@ -4378,20 +4242,7 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern void func_8012EFB8(s32 a0);
 extern void func_80146C3C(u8*);
 extern void func_80015954(s32 a0, s32 a1);
-void func_8016E5F4(s32 arg0) {
-    s32 sp10;
-    func_80015978(arg0 + 4, &sp10);
-    if ((((s32 (*)(s32, s32))func_8012EFB8)((s32)&sp10, (s32)&sp10) & 0xFFFFEFFF) != 0) {
-        ((void (*)(s32))func_80146C3C)(arg0);
-    } else {
-        func_80015954((s32)&sp10, arg0 + 4);
-        *(s16 *)((u8 *)arg0 + 0x10) = 0x100;
-        *(s16 *)((u8 *)arg0 + 0x12) = 0;
-        *(s16 *)((u8 *)arg0 + 0x14) = 0;
-        *(s16 *)((u8 *)arg0 + 0x16) = 0x80;
-        *(s16 *)((u8 *)arg0 + 2) = *(u16 *)((u8 *)arg0 + 2) + 1;
-    }
-}
+#include "../shared/ov/func_8016E5F4.h"
 
 
 #include "../shared/ov/func_8016E688.h"

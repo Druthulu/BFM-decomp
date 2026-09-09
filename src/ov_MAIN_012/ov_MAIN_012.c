@@ -800,10 +800,7 @@ u8 *arg2;
 
 
 extern void func_8012A598(void *a0);
-void func_8012A568(void (*a0)(void)) {
-    func_8012A598(a0);
-    a0();
-}
+#include "../shared/ov/func_8012A568.h"
 
 
 #include "../shared/ov/func_8012A598.h"
@@ -977,9 +974,7 @@ s32 func_8012ACE0(void *o) {
 
 
 
-void func_8012AD64(s32 *a0, s16 a1) {
-    *(s16*)((s32)a0 + 0x34) = a1;
-}
+#include "../shared/ov/func_8012AD64.h"
 
 
 #include "../shared/ov/func_8012AD6C.h"

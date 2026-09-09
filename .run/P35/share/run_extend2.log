@@ -1,0 +1,311 @@
+share_body: census 37 s · extend (registered-incomplete) 150 classes · new (unregistered same-vram) 915 classes / 3,567 private sites
+  [extend1] 120 classes · 503 sites in 182 TUs · 0 new headers · gating 141 binaries
+  [extend1] ov_MAIN_012: class 05353a788c REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 0964d4c658 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 0d18ee0d06 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 238e26f72f REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 29e6564223 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 2e065293da REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.o] Error 33
+  [extend1] ov_MAIN_012: class 47b7d4a048 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8013F350.o] Error 33
+  [extend1] ov_MAIN_012: class 4dd276719f REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 5793cdffde REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 6d45bcfe1c REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] Error 33
+  [extend1] ov_MAIN_012: class 75c3bc8284 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.o] Error 33
+  [extend1] ov_MAIN_012: class 8e3f8acd47 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] Error 33
+  [extend1] ov_MAIN_012: class 9dda58b2de REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class b5c37d4143 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.o] Error 33
+  [extend1] ov_MAIN_012: class cca105be1a REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class dd5bb9d1dc REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8013F350.o] Error 33
+  [extend1] ov_MAIN_012: class e0963a4b81 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class e2c32e5950 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class e9c9fa5bf6 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class fbef0f0b65 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC01_000: class 5fd1ad0684 REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_000/ov_SC01_000_jr_801734BC.o] Error 33
+  [extend1] ov_SC01_000: class 7e04ee1875 REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_000/ov_SC01_000_jr_801734BC.o] Error 33
+  [extend1] ov_SC01_000: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_000/ov_SC01_000_jr_8015C32C.o] Error 33
+  [extend1] ov_SC01_001: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_001/ov_SC01_001_jr_8015C32C.o] Error 33
+  [extend1] ov_SC01_004: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_004/ov_SC01_004_jr_8015C32C.o] Error 33
+  [extend1] ov_SC01_005: class 3576d059c2 REJECTED — src/ov_SC01_005/ov_SC01_005_after.c:(.text+0x9a8): undefined reference to `func_80161A90'
+  [extend1] ov_SC01_005: class 93d5fccdcc REJECTED — src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5863: parse error before `}'
+  [extend1] ov_SC01_005: class d743c21bd9 REJECTED — src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3390: parse error before `if'
+  [extend1] ov_SC01_008: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_008/ov_SC01_008_jr_8015C32C.o] Error 33
+  [extend1] ov_SC01_009: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_009/ov_SC01_009_jr_8015C32C.o] Error 33
+  [extend1] ov_SC01_074: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_074/ov_SC01_074_jr_8015C32C.o] Error 33
+  [extend1] ov_SC01_077: class 0bfaee44dc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.o] Error 33
+  [extend1] ov_SC01_077: class 5fd1ad0684 REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_077/ov_SC01_077_jr_801734BC.o] Error 33
+  [extend1] ov_SC01_077: class 7e04ee1875 REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_077/ov_SC01_077_jr_801734BC.o] Error 33
+  [extend1] ov_SC01_077: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_077/ov_SC01_077_jr_8015C32C.o] Error 33
+  [extend1] ov_SC01_077: class d50cc5103c REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_077/ov_SC01_077_jr_80171B4C.o] Error 33
+  [extend1] ov_SC01_077: class d62e1dd557 REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_077/ov_SC01_077_jr_801734BC.o] Error 33
+  [extend1] ov_SC01_077: class f769ff8982 REJECTED — src/ov_SC01_077/../shared/ov/func_8013C08C.h:6: parse error before `)'
+  [extend1] ov_SC01_080: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_080/ov_SC01_080_jr_8015C32C.o] Error 33
+  [extend1] ov_SC01_084: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC01_084/ov_SC01_084_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_000: class 3576d059c2 REJECTED — src/ov_SC02_000/ov_SC02_000_after.c:(.text+0x9a8): undefined reference to `func_80161A90'
+  [extend1] ov_SC02_000: class 93d5fccdcc REJECTED — src/ov_SC02_000/ov_SC02_000_jr_8015C32C.c:5861: parse error before `}'
+  [extend1] ov_SC02_000: class d743c21bd9 REJECTED — src/ov_SC02_000/ov_SC02_000_jr_8015C32C.c:3388: parse error before `if'
+  [extend1] ov_SC02_004: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_004/ov_SC02_004_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_005: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_005/ov_SC02_005_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_011: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_011/ov_SC02_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_015: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_015/ov_SC02_015_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_016: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_016/ov_SC02_016_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_017: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_017/ov_SC02_017_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_021: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_021/ov_SC02_021_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_026: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_026/ov_SC02_026_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_027: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_027/ov_SC02_027_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_028: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_028/ov_SC02_028_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_031: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_031/ov_SC02_031_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_035: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_035/ov_SC02_035_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_037: class 05353a788c REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 0964d4c658 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 0d18ee0d06 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 238e26f72f REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 29e6564223 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 2e065293da REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC02_037: class 47b7d4a048 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8013F350.o] Error 33
+  [extend1] ov_SC02_037: class 4dd276719f REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 5793cdffde REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 6d45bcfe1c REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_801458E0.o] Error 33
+  [extend1] ov_SC02_037: class 75c3bc8284 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC02_037: class 8e3f8acd47 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_801458E0.o] Error 33
+  [extend1] ov_SC02_037: class 9dda58b2de REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class b5c37d4143 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC02_037: class cca105be1a REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class dd5bb9d1dc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8013F350.o] Error 33
+  [extend1] ov_SC02_037: class e0963a4b81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class e2c32e5950 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class e9c9fa5bf6 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class fbef0f0b65 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_039: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_039/ov_SC02_039_jr_8015C32C.o] Error 33
+  [extend1] ov_SC02_041: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_041/ov_SC02_041_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_001: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_001/ov_SC03_001_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_002: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_002/ov_SC03_002_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_003: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_003/ov_SC03_003_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_006: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_006/ov_SC03_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_007: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_007/ov_SC03_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_010: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_010/ov_SC03_010_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_011: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_011/ov_SC03_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_012: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_012/ov_SC03_012_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_013: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_013/ov_SC03_013_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_014: class 3576d059c2 REJECTED — src/ov_SC03_014/ov_SC03_014_after.c:(.text+0x9a8): undefined reference to `func_80161A90'
+  [extend1] ov_SC03_014: class 93d5fccdcc REJECTED — src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c:5863: parse error before `}'
+  [extend1] ov_SC03_014: class d743c21bd9 REJECTED — src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c:3390: parse error before `if'
+  [extend1] ov_SC03_023: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_023/ov_SC03_023_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_024: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_024/ov_SC03_024_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_028: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_028/ov_SC03_028_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_029: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_029/ov_SC03_029_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_030: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_030/ov_SC03_030_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_031: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_031/ov_SC03_031_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_089: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_089/ov_SC03_089_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_090: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_090/ov_SC03_090_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_091: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_091/ov_SC03_091_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_092: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_092/ov_SC03_092_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_093: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_093/ov_SC03_093_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_094: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_094/ov_SC03_094_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_095: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_095/ov_SC03_095_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_096: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_096/ov_SC03_096_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_097: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_097/ov_SC03_097_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_098: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_098/ov_SC03_098_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_099: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_099/ov_SC03_099_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_100: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_100/ov_SC03_100_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_101: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_101/ov_SC03_101_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_102: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_102/ov_SC03_102_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_103: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_103/ov_SC03_103_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_104: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_104/ov_SC03_104_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_105: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_105/ov_SC03_105_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_107: class 05353a788c REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 0964d4c658 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 0d18ee0d06 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 238e26f72f REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 29e6564223 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 2e065293da REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC03_107: class 47b7d4a048 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8013F350.o] Error 33
+  [extend1] ov_SC03_107: class 4dd276719f REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 5793cdffde REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 6d45bcfe1c REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_801458E0.o] Error 33
+  [extend1] ov_SC03_107: class 75c3bc8284 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC03_107: class 8e3f8acd47 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_801458E0.o] Error 33
+  [extend1] ov_SC03_107: class 9dda58b2de REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class b5c37d4143 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC03_107: class cca105be1a REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class dd5bb9d1dc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8013F350.o] Error 33
+  [extend1] ov_SC03_107: class e0963a4b81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class e2c32e5950 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class e9c9fa5bf6 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class fbef0f0b65 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_108: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_108/ov_SC03_108_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_109: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_109/ov_SC03_109_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_110: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_110/ov_SC03_110_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_111: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_111/ov_SC03_111_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_112: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_112/ov_SC03_112_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_113: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_113/ov_SC03_113_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_114: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_114/ov_SC03_114_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_115: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_115/ov_SC03_115_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_116: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_116/ov_SC03_116_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_117: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_117/ov_SC03_117_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_118: class 3576d059c2 REJECTED — src/ov_SC03_118/ov_SC03_118_after.c:(.text+0x9a8): undefined reference to `func_80161A90'
+  [extend1] ov_SC03_118: class 93d5fccdcc REJECTED — src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c:5862: parse error before `}'
+  [extend1] ov_SC03_118: class d743c21bd9 REJECTED — src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c:3389: parse error before `if'
+  [extend1] ov_SC03_121: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_121/ov_SC03_121_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_124: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_124/ov_SC03_124_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_125: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_125/ov_SC03_125_jr_8015C32C.o] Error 33
+  [extend1] ov_SC03_126: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_126/ov_SC03_126_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_000: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_000/ov_SC04_000_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_002: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_002/ov_SC04_002_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_003: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_003/ov_SC04_003_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_004: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_004/ov_SC04_004_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_005: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_005/ov_SC04_005_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_006: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_006/ov_SC04_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_007: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_007/ov_SC04_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_008: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_008/ov_SC04_008_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_009: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_009/ov_SC04_009_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_010: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_010/ov_SC04_010_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_011: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_011/ov_SC04_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_012: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_012/ov_SC04_012_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_015: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_015/ov_SC04_015_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_016: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_016/ov_SC04_016_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_018: class 3576d059c2 REJECTED — src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:3438: parse error before `not'
+  [extend1] ov_SC04_018: class 47b7d4a048 REJECTED — src/ov_SC04_018/ov_SC04_018_jr_80140608.c:2295: parse error before `}'
+  [extend1] ov_SC04_018: class 6f62feba35 REJECTED — src/ov_SC04_018/ov_SC04_018_after.c:(.text+0x1690): undefined reference to `func_8012A68C'
+  [extend1] ov_SC04_018: class 7604e5daf1 REJECTED — src/ov_SC04_018/ov_SC04_018_jr_80159C84.c:(.text+0x5c): undefined reference to `func_80161B18'
+  [extend1] ov_SC04_018: class 93d5fccdcc REJECTED — src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:5896: parse error before `}'
+  [extend1] ov_SC04_018: class d743c21bd9 REJECTED — src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:3389: parse error before `if'
+  [extend1] ov_SC04_020: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_020/ov_SC04_020_jr_8015C32C.o] Error 33
+  [extend1] ov_SC04_021: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC04_021/ov_SC04_021_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_000: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_000/ov_SC05_000_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_001: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_001/ov_SC05_001_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_002: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_002/ov_SC05_002_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_003: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_003/ov_SC05_003_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_004: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_004/ov_SC05_004_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_005: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_005/ov_SC05_005_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_006: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_006/ov_SC05_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_007: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_007/ov_SC05_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_008: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_008/ov_SC05_008_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_009: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_009/ov_SC05_009_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_010: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_010/ov_SC05_010_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_011: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_011/ov_SC05_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_017: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_017/ov_SC05_017_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_018: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_018/ov_SC05_018_jr_8015C32C.o] Error 33
+  [extend1] ov_SC05_019: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC05_019/ov_SC05_019_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_000: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_000/ov_SC06_000_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_006: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_006/ov_SC06_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_008: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_008/ov_SC06_008_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_010: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_010/ov_SC06_010_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_011: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_011/ov_SC06_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_013: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_013/ov_SC06_013_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_014: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_014/ov_SC06_014_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_015: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_015/ov_SC06_015_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_016: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_016/ov_SC06_016_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_018: class 5fd1ad0684 REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_018/ov_SC06_018_jr_801734BC.o] Error 33
+  [extend1] ov_SC06_018: class 7e04ee1875 REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_018/ov_SC06_018_jr_801734BC.o] Error 33
+  [extend1] ov_SC06_018: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_018/ov_SC06_018_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_020: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_020/ov_SC06_020_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_022: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_022/ov_SC06_022_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_024: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_024/ov_SC06_024_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_025: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_025/ov_SC06_025_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_027: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_027/ov_SC06_027_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_029: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_029/ov_SC06_029_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_030: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_030/ov_SC06_030_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_032: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_032/ov_SC06_032_jr_8015C32C.o] Error 33
+  [extend1] ov_SC06_033: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC06_033/ov_SC06_033_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_000: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_000/ov_SC07_000_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_001: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_001/ov_SC07_001_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_002: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_002/ov_SC07_002_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class 0964d4c658 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class 0d18ee0d06 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class 1c5bc11f81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_006: class 20aa0ffd5a REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_80171B4C.o] Error 33
+  [extend1] ov_SC07_006: class 225792366f REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_801457A4.o] Error 33
+  [extend1] ov_SC07_006: class 238e26f72f REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class 29e6564223 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_006: class 4dd276719f REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class 62ab8c1ddf REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006.o] Error 33
+  [extend1] ov_SC07_006: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_006/ov_SC07_006
+  [extend1] ov_SC07_006: class 7576525bd5 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_801457A4.o] Error 33
+  [extend1] ov_SC07_006: class 7921cb4a22 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_801457A4.o] Error 33
+  [extend1] ov_SC07_006: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_006: class 8e3f8acd47 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_801457A4.o] Error 33
+  [extend1] ov_SC07_006: class 9c43d3fca3 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006.o] Error 33
+  [extend1] ov_SC07_006: class 9dda58b2de REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class bd7388526b REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_801457A4.o] Error 33
+  [extend1] ov_SC07_006: class c56e1eba19 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006.o] Error 33
+  [extend1] ov_SC07_006: class c5e872b095 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006.o] Error 33
+  [extend1] ov_SC07_006: class c9866fcb86 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006.o] Error 33
+  [extend1] ov_SC07_006: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_006: class d63a10fab8 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006.o] Error 33
+  [extend1] ov_SC07_006: class dd5bb9d1dc REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_80140608.o] Error 33
+  [extend1] ov_SC07_006: class e0963a4b81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class e2c32e5950 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class e9c9fa5bf6 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_006: class f420052116 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_801457A4.o] Error 33
+  [extend1] ov_SC07_006: class fbef0f0b65 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class 0964d4c658 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class 0d18ee0d06 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class 1c5bc11f81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_007: class 238e26f72f REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class 29e6564223 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_007: class 4dd276719f REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_007/ov_SC07_007
+  [extend1] ov_SC07_007: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_007: class 8e3f8acd47 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_801457A4.o] Error 33
+  [extend1] ov_SC07_007: class 9dda58b2de REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_007: class dd5bb9d1dc REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_80140608.o] Error 33
+  [extend1] ov_SC07_007: class e0963a4b81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class e2c32e5950 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class e9c9fa5bf6 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_007: class fbef0f0b65 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_007/ov_SC07_007_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_008: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_008/ov_SC07_008_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_009: class 93d5fccdcc REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_009/ov_SC07_009_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_010: class 1c5bc11f81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_010: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_010: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_010/ov_SC07_010
+  [extend1] ov_SC07_010: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_010: class 9dda58b2de REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_010/ov_SC07_010_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_010: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_010: class e0963a4b81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_010/ov_SC07_010_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_010: class fbef0f0b65 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_010/ov_SC07_010_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class 0964d4c658 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class 0d18ee0d06 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class 1c5bc11f81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_011: class 238e26f72f REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class 29e6564223 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_011: class 4dd276719f REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_011/ov_SC07_011
+  [extend1] ov_SC07_011: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_011: class 8e3f8acd47 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_801457A4.o] Error 33
+  [extend1] ov_SC07_011: class 9dda58b2de REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC07_011: class dd5bb9d1dc REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_80140608.o] Error 33
+  [extend1] ov_SC07_011: class e0963a4b81 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class e2c32e5950 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class e9c9fa5bf6 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] ov_SC07_011: class fbef0f0b65 REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_011/ov_SC07_011_jr_8015C32C.o] Error 33
+  [extend1] gated 141/141 binaries green · registered 0 groups · extended 0 members · rejected classes 48
+  [extend2] 30 classes · 53 sites in 23 TUs · 0 new headers · gating 141 binaries
+  [extend2] ov_MAIN_012: class 0f3f34484f REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] Error 33
+  [extend2] ov_SC02_037: class 0f3f34484f REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_801458E0.o] Error 33
+  [extend2] ov_SC02_037: class 3a43941d56 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.o] Error 33
+  [extend2] ov_SC02_037: class 5b6b968251 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.o] Error 33
+  [extend2] ov_SC02_037: class 86843ed565 REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.o] Error 33
+  [extend2] ov_SC03_014: class 9bda7673e9 REJECTED — src/ov_SC03_014/ov_SC03_014_jr_801380E0.c:1050: parse error before `if'
+  [extend2] ov_SC03_014: class bdb48359cd REJECTED — src/ov_SC03_014/ov_SC03_014.c:(.text+0x241c): undefined reference to `func_8012A598'
+  [extend2] ov_SC03_107: class 0f3f34484f REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_801458E0.o] Error 33
+  [extend2] ov_SC03_118: class 9bda7673e9 REJECTED — src/ov_SC03_118/ov_SC03_118_jr_801380E0.c:1050: parse error before `if'
+  [extend2] ov_SC03_118: class bdb48359cd REJECTED — src/ov_SC03_118/ov_SC03_118.c:(.text+0x241c): undefined reference to `func_8012A598'
+  [extend2] ov_SC07_006: class 6d5164d17d REJECTED — make: *** [Makefile:1033: build/src/ov_SC07_006/ov_SC07_006_jr_801457A4.o] Error 33
+  [extend2] gated 141/141 binaries green · registered 0 groups · extended 0 members · rejected classes 7
+share_body: done — 150 classes in 2 batch(es); see the ledger; 510 s
+extend2 wall=511.06 s
+exit=0

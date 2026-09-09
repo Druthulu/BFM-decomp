@@ -333,6 +333,10 @@
      `gen_harvest_targets` 154/294, `p16_improve` 68/136, `recover_giant` 71/81, `restore_dropped_decls` 73/129, `normalize_self_decls`
      193/210, `o0_subsplit` 64/197; dictionary status today: all LIVE except restore_dropped_decls + macro_draft STILL-NEEDED.
   Nothing else changed on disk in S95 except this file.
+- **S96 (2026-09-08 evening, same terminal as S95; Drew: `/effort high` — testing Fable 5.1's default; the plan's Max for T5's tool work is
+  waived by that choice) — T5 step 1: run 2 BANKED** as the checkpoint's §2 step 1 specifies: 37 `src/` files (170 shared includes in
+  8 overlays), `config/dedup_exceptions.tsv` (+55 rows), the batch records, 139 gate logs, `run_extend2.log`, `kit_corpus_t5a.log` —
+  181 files. No gate re-run (each binary's final `check_<b>.log` is the tool's success line, R66); R22 still owed for T5.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
@@ -633,7 +637,7 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S95 recovery (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 IN PROGRESS (share_body.py built; bucket 0 run twice — first pass committed, second run's 170 shares UNCOMMITTED on disk; 55 classes / 325 pairs ledgered, 317 of them still listed as registry members; three tool defects named); NEXT = inside T5: bank run 2 → fix the tool → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
+## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 IN PROGRESS (share_body.py built; bucket 0 run twice — BOTH runs committed, §2 step 1 DONE; 55 classes / 325 pairs ledgered, 317 of them still listed as registry members; three tool defects named); NEXT = inside T5: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
 
 ### 0. How to use this block
 A fresh session (S96) reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at §2 step 1. This block was written by S95, a

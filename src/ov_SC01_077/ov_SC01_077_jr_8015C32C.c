@@ -2778,18 +2778,12 @@ void func_8015F448(s32 arg0) {
 extern void func_801553A8(s32 *a0);
 extern void func_80154A74(s32 a0, s32 a1);
 
-void func_8015F738(s32 *a0) {
-    func_801553A8(a0);
-    func_80154A74((s32)a0, 0x11);
-}
+#include "../shared/ov/func_8015F738.h"
 
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_8015F848(s32 *a0);
 
-void func_8015F76C(s32 *a0) {
-    func_80147078(a0, 0x15);
-    func_8015F848(a0);
-}
+#include "../shared/ov/func_8015F76C.h"
 
 #include "../shared/ov/func_8015F7A0.h"
 
@@ -3104,10 +3098,7 @@ void func_8015FF20(void *param_1) {
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_801601AC(s32 *a0);
 
-void func_801600D0(s32 *a0) {
-    func_80147078(a0, 0x18);
-    func_801601AC(a0);
-}
+#include "../shared/ov/func_801600D0.h"
 
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_80160138(s32 *a0);
@@ -3169,10 +3160,7 @@ void func_801602A4(s32 *a0) {
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_80160410(s32 *a0);
 
-void func_80160334(s32 *a0) {
-    func_80147078(a0, 0x1B);
-    func_80160410(a0);
-}
+#include "../shared/ov/func_80160334.h"
 
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_8016039C(s32 *a0);
@@ -3283,18 +3271,12 @@ void func_80160534(u8 *p) {
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_801608C0(s32 *a0);
 
-void func_801607E4(s32 *a0) {
-    func_80147078(a0, 0x1C);
-    func_801608C0(a0);
-}
+#include "../shared/ov/func_801607E4.h"
 
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_8016084C(s32 *a0);
 
-void func_80160818(s32 *a0) {
-    func_80147078(a0, 0x1C);
-    func_8016084C(a0);
-}
+#include "../shared/ov/func_80160818.h"
 
 extern void (*D_801895A8[])(void *);
 
@@ -3362,10 +3344,7 @@ void func_801609B8(u16 *param_1) {
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_80160BB4(s32 *a0);
 
-void func_80160ACC(s32 *a0) {
-    func_80147078(a0, 0x1D);
-    func_80160BB4(a0);
-}
+#include "../shared/ov/func_80160ACC.h"
 
 #include "../shared/ov/func_80160B00.h"
 

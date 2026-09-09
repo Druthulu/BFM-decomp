@@ -6221,22 +6221,7 @@ void func_80162CC4(void) {
 
 extern void func_80016714(void *a0, s32 a1);
 
-    void func_80162CCC(a0)
-u8 *a0;
-{
-        u8 *s0 = a0;
-        u16 *p = *(u16 **)(s0 + 0x20);
-        if (p != 0) {
-            s32 a1;
-            if (*p == 1) {
-                a1 = 0x84;
-            } else {
-                a1 = 0x38;
-            }
-            func_80016714(p, a1);
-        }
-        func_80016714(s0, 0x68);
-    }
+#include "../shared/ov/func_80162CCC.h"
 
 
 #include "../shared/ov/func_80162D28.h"
@@ -6346,28 +6331,7 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 extern void *memcpy(void *, const void *, u32);
-s32 func_801638A0(u8 *a0, s32 a1) {
-
-    extern s16 D_801152AA;
-    u8 buf[8];
-    s16 d;
-    s32 p;
-    __builtin_memcpy(buf, a0 + 0x44, 8);
-    p = (s32)(a0 + 4);
-    func_80015978(p, (s32 *)a1);
-    if (func_80135004(1, buf, a1) != 0) {
-        func_80015954(a1, p);
-        d = D_801152AA;
-        if (d >= -0x578) {
-            return 0x8000;
-        }
-        if (d >= -0xBCB) {
-            return 0x4000;
-        }
-        return 0x2000;
-    }
-    return 0;
-}
+#include "../shared/ov/func_801638A0.h"
 
 
 #include "../shared/ov/func_80163950.h"

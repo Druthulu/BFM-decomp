@@ -2534,10 +2534,7 @@ extern s16 D_80126B30;
 extern s32 func_8017390C(void *a0);
 extern void func_80174684(void *);
 
-void func_801738DC(s16 a0) {
-    D_80126B30 = a0;
-    func_80174684((void *)func_8017390C);
-}
+#include "../shared/ov/func_801738DC.h"
 
 extern s32 (*D_8018A12C[])(void *);
 
@@ -2625,10 +2622,7 @@ s32 func_80173B4C(void *a0) {
 extern s32 func_80174188(s32 a0);
 extern void func_801741A8(s32 a0);
 
-void func_80174158(s32 a0) {
-    func_80174188(a0);
-    func_801741A8(a0);
-}
+#include "../shared/ov/func_80174158.h"
 
 #include "../shared/ov/func_80174188.h"
 
@@ -2666,10 +2660,7 @@ s32 func_80174384(void *a0) {
 extern void func_80171A1C(u8 *a0);
 extern void func_801743F0(u8 *a0);
 
-void func_801743C0(u8 *a0) {
-    func_80171A1C(a0);
-    func_801743F0(a0);
-}
+#include "../shared/ov/func_801743C0.h"
 
 #include "../shared/ov/func_801743F0.h"
 
@@ -2686,10 +2677,7 @@ s32 func_80174474(void *a0) {
 extern void func_80171A1C(u8 *a0);
 extern void func_801744E0(u8 *a0);
 
-void func_801744B0(u8 *a0) {
-    func_80171A1C(a0);
-    func_801744E0(a0);
-}
+#include "../shared/ov/func_801744B0.h"
 
 #include "../shared/ov/func_801744E0.h"
 
@@ -2848,12 +2836,7 @@ void func_80174BF4(void * arg0)
 
 extern s32 func_80174CB0(s32, s32);
 
-void func_80174C80(s32 a0) {
-    s32 v;
-    v = (*(u16 *)(a0 + 0xA0) - 0x16) & 0xFFF;
-    *(s16 *)(a0 + 0xA0) = v;
-    func_80174CB0(a0, v);
-}
+#include "../shared/ov/func_80174C80.h"
 
 extern s16 func_80012ABC(s32, s32, s32);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);

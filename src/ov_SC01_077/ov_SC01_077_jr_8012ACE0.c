@@ -638,9 +638,7 @@ extern u8 D_800D3918[];
 extern s32 func_8012CC88(s32 a, s32 b, s32 c);
 extern u8 D_800D3918[];
 
-void func_8012CBCC(s32 a0) {
-    func_8012CC88(a0, 1, (s32)D_800D3918);
-}
+#include "../shared/ov/func_8012CBCC.h"
 
 #include "../shared/ov/func_8012CBF4.h"
 

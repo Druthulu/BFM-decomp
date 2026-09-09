@@ -1439,12 +1439,7 @@ void func_8014C1A0(s32 arg0, s32 arg1) {
 extern s32 func_8014C59C(void *a0, void *a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
 
-s32 func_8014C2B0(void *a0, void *a1, s32 a2) {
-    s16 r1 = (s16)func_8014C59C(a0, a1);
-    s32 v1 = *(s32 *)((u8 *)a0 + 0x20);
-    s16 r2 = (s16)func_80012A60(r1, *(s16 *)(v1 + 0x12));
-    return r2 < (a2 & 0xFFFF);
-}
+#include "../shared/ov/func_8014C2B0.h"
 
 #include "../shared/ov/func_8014C308.h"
 
@@ -1597,15 +1592,7 @@ extern s32 func_8016F1AC(void);
 extern void func_80139914(s32 a0);
 extern void func_80029124(s32, s32);
 
-void func_8014C99C(u8 *a0) {
-    if ((func_80029178(0x119) & 0xFF) != 0) {
-        if (func_8016F1AC() != 0) {
-            func_80139914(*(s32 *)(a0 + 0x198));
-            *(s32 *)(a0 + 0x198) = 0;
-            func_80029124(0x119, 0);
-        }
-    }
-}
+#include "../shared/ov/func_8014C99C.h"
 
 #include "../shared/ov/func_8014CA00.h"
 
@@ -2836,7 +2823,7 @@ void func_8014FCFC(void)
 
 #include "../shared/ov/func_8014FD54.h"
 
-extern s32 func_80150170(void *a0); extern s32 func_8014FE60(void *a0); void func_8014FDF4(struct S8014FDF4 *a0) { if (a0->f6 != a0->f88 || a0->fA != a0->f8A || a0->fE != a0->f8C) { func_80150170(a0); } else { func_8014FE60(a0); } }
+#include "../shared/ov/func_8014FDF4.h"
 
 #include "../shared/ov/func_8014FE60.h"
 

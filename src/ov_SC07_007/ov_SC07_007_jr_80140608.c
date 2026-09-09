@@ -2088,18 +2088,7 @@ extern void func_8014358C();
 extern void func_8012931C(struct vec *a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
-void func_8014350C(s32 *a0) {
-    if (*(u16 *)((u8 *)a0 + 2) == 0) {
-        func_8014358C();
-        return;
-    }
-    func_8012931C((struct vec *)a0);
-    if (((s32 (*)(void *, void *))func_80128ED8)((void *)a0[0x20 / 4], (void *)((u8 *)a0 + 0x24)) != 0) {
-        func_801292C8((u8 *)a0);
-        return;
-    }
-    *(u8 *)(a0[0x20 / 4] + 0x27) = *(u8 *)((u8 *)a0 + 0x28) - 0x70;
-}
+#include "../shared/ov/func_8014350C.h"
 
 
 
@@ -2388,17 +2377,7 @@ extern void func_8012AD80(s32 a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
-void func_8014462C(u8 *a0) {
-    u8 *s1 = *(u8 **)(a0 + 0xCC);
-    func_8012AD80((s32)a0);
-    *(u16 *)(s1 + 8) = *(u16 *)(a0 + 6);
-    *(u16 *)(s1 + 0xA) = *(u16 *)(a0 + 0xA);
-    *(u16 *)(s1 + 0xC) = *(u16 *)(a0 + 0xE);
-    if (((s32 (*)(void *, void *))func_80128ED8)(s1, a0 + 0xD0)) {
-        func_80016714(s1, 0x38);
-        func_8012C218(a0);
-    }
-}
+#include "../shared/ov/func_8014462C.h"
 
 
 #include "../shared/ov/func_801446A4.h"

@@ -1485,9 +1485,7 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
 
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
-void func_8014942C(s32 arg0) {
-    ((void (*)())func_8012F038)(*(s32 *)(arg0 + 0x20) + 0x34);
-}
+#include "../shared/ov/func_8014942C.h"
 
 
 #include "../shared/ov/func_80149450.h"
@@ -1609,20 +1607,7 @@ extern void func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8016EDEC(s32 a0, s32 a1);
-s32 func_80149F2C(s32 a0, s32 a1) {
-    void *s1 = a0;
-    s32 *s0;
-    if (*(u16 *)a1 == 0x83 || *(u16 *)a1 == 0x61) {
-        s0 = (s32 *)((s32 (*)(s32 *))func_80144A04)((s32 *)a1);
-        if (s0 != 0) {
-            func_801599A4(s1);
-            func_80159B3C(s1);
-            func_8016EDEC((s32)s0, 0x1000000);
-            return 1;
-        }
-    }
-    return 0;
-}
+#include "../shared/ov/func_80149F2C.h"
 
 
 void func_80149FA8(void) {

@@ -4464,10 +4464,7 @@ void func_80170BD8(void *a0) {
 extern s32 func_80171990(u8 *a0);
 extern void func_80170C44(u8 *a0);
 
-void func_80170C14(u8 *a0) {
-    func_80171990(a0);
-    func_80170C44(a0);
-}
+#include "../shared/ov/func_80170C14.h"
 
 #include "../shared/ov/func_80170C44.h"
 
@@ -4593,10 +4590,7 @@ s32 func_801714E4(void *a0) {
 extern void func_8013E588(void *a0);
 extern void func_80171928(void *a0);
 
-void func_801717F4(void *a0) {
-    func_8013E588(a0);
-    func_80171928(a0);
-}
+#include "../shared/ov/func_801717F4.h"
 
 extern void func_80175414(s32 _arg0);
 extern void func_80171928(void *a0);

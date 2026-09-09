@@ -5962,79 +5962,7 @@ void func_80166018(void *a0) {
 }
 
 
-void func_80166054(s32 arg0) {
-    extern void func_80149374(s32 a0, s32 a1);
-    extern s32 func_8004787C(s32 a0);
-    extern s32 func_80047948(s32 a0);
-    extern void func_800D1FC8(s32 a0, s32 a1);
-    extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
-    extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
-    extern void func_801661CC(s32 a0);
-    extern void func_80146C3C(u8*);
-    extern u8 D_800D387C[];
-    extern u8 D_800D3888[];
-    register s32 param_1 __asm__("$18"); /* $s2 */
-    register s32 s0 __asm__("$16");      /* $s0 */
-    register s32 s1 __asm__("$17");      /* $s1 */
-    register s32 r0 __asm__("$19");      /* $s3 */
-    register s32 r1 __asm__("$20");      /* $s4 */
-    s32 v1;
-    s32 iVar2;
-    s32 iVar3;
-    register u32 fld __asm__("$2"); /* $v0 */
-    s32 v0;
-    register s32 r2 __asm__("$5");  /* $a1 */
-    register s32 a0 __asm__("$4");  /* $a0 */
-    param_1 = arg0;
-    s0 = *(s32 *)(param_1 + 0x34);
-    func_80149374(s0, param_1 + 4);
-    v1 = *(s32 *)(param_1 + 0x2c);
-    if (v1 != 0) {
-        s1 = 8;
-        if (v1 != 3) {
-            s0 = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) << 16;
-        } else {
-            fld = *(s32 *)(param_1 + 0x30);
-            s0 = fld & 0xfff;
-            s1 = (fld >> 12) & 0xf;
-            s0 = s0 << 16;
-        }
-        s0 = s0 >> 16;
-        iVar2 = func_8004787C(s0);
-        r0 = iVar2 << s1;
-        r1 = -r0;
-        iVar3 = func_80047948(s0);
-        r2 = iVar3 << s1;
-        a0 = -r2;
-        if (*(s32 *)(param_1 + 0x2c) == 2) {
-            r1 = r0;
-            a0 = r2;
-        }
-        *(s32 *)(param_1 + 0x10) = r1;
-        *(s32 *)(param_1 + 0x18) = a0;
-    }
-    *(s32 *)(param_1 + 0x14) = 0xffff0000;
-    func_800D1FC8(param_1, 6);
-    v0 = func_800D21C4(param_1, D_800D387C, 0x9c);
-    if (v0 != 0) {
-        register s32 uVar1 __asm__("$2");
-        *(s32 *)(param_1 + 0x20) = v0;
-        *(u32 *)(v0 + 4) = *(u32 *)(v0 + 4) | 0x50000040;
-        if (*(s32 *)(param_1 + 0x2c) != 3) {
-            uVar1 = 0x2000;
-        } else {
-            uVar1 = *(u16 *)(param_1 + 0x32);
-        }
-        *(u16 *)(v0 + 0x18) = uVar1;
-        __asm__("" ::: "memory");
-        *(u16 *)(v0 + 0x1a) = *(u16 *)(v0 + 0x18);
-        func_80128EA8(v0, param_1 + 0x24, (s32)D_800D3888);
-        func_801661CC(param_1);
-        *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
-    } else {
-        ((void (*)(s32))func_80146C3C)(param_1);
-    }
-}
+#include "../shared/ov/func_80166054.h"
 
 
 #include "../shared/ov/func_801661CC.h"
@@ -6070,15 +5998,7 @@ void func_801663FC(void *a0) {
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80146C3C();
 extern void func_800D22E4(s32 a0);
-void func_801665B4(s32 *a0)
-{
-    if (((s32 (*)(void *, void *))func_80128ED8)((void *)a0[8], (void *)(a0 + 9))) {
-        func_80146C3C((s32)a0);
-    } else {
-        func_800D22E4((s32)a0);
-        a0[5] -= a0[5] >> 3;
-    }
-}
+#include "../shared/ov/func_801665B4.h"
 
 
 
@@ -6635,50 +6555,7 @@ extern void func_80146C3C(u8*);
 extern void func_80147324(s32 arg0);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 rand(void);
-void func_80167714(s32 param_1) {
-    s32 *psVar7;
-    s32 iVar2;
-    s32 src;
-    u32 uVar4;
-    psVar7 = *(s32 **)(param_1 + 0x34);
-    if (*(u16 *)psVar7 != 1) {
-        goto LAB_80167894;
-    }
-    if (*(s16 *)(param_1 + 0x12) > *(s16 *)(param_1 + 0x10)) {
-        iVar2 = *(s32 *)(param_1 + 0x1c);
-        if (iVar2 < 1) goto LAB_801677b0;
-        *(u16 *)(param_1 + 0x10) = rand() & 0x30;
-        iVar2 = -0x20;
-    } else {
-        iVar2 = *(s32 *)(param_1 + 0x1c);
-        if (-1 < iVar2) goto LAB_801677b0;
-        *(u16 *)(param_1 + 0x10) = (rand() & 0x30) + 0x40;
-        iVar2 = 0x20;
-    }
-    *(s32 *)(param_1 + 0x1c) = iVar2;
-LAB_801677b0:
-    *(s16 *)(param_1 + 0x12) = *(u16 *)(param_1 + 0x12) + *(s32 *)(param_1 + 0x1c);
-    if ((*(u32 *)(param_1 + 0x2c) & 8) != 0) {
-        *(s32 *)(param_1 + 0x30) = *(s32 *)(param_1 + 0x30) + 0x80;
-    } else {
-        *(s32 *)(param_1 + 0x30) = *(s32 *)(param_1 + 0x30) - 0x40;
-    }
-    uVar4 = *(u32 *)(param_1 + 0x2c);
-    *(u32 *)(param_1 + 0x2c) = uVar4 + 1;
-    if ((uVar4 & 0xf) == 0) {
-        func_80147324(0x44e);
-    }
-    src = *(s32 *)((s32)psVar7 + 0x20);
-    *(Blk16 *)(param_1 + 0x38) = *(Blk16 *)(src + 0x34);
-    *(Blk16 *)(param_1 + 0x48) = *(Blk16 *)(src + 0x44);
-    func_801670E4(param_1, 0, 0, 0);
-    if ((*(u32 *)(*(s32 *)(*(s32 *)(param_1 + 0x34) + 0x4c) + 0x44) & 0x20) == 0) {
-        *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) - 1;
-    }
-    return;
-LAB_80167894:
-    ((void (*)(s32))func_80146C3C)(param_1);
-}
+#include "../shared/ov/func_80167714.h"
 
 
 
@@ -6696,41 +6573,7 @@ extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80146C3C(u8*);
-void func_801678F0(s32 a0) {
-    s32 p;
-    s32 r;
-    s16 buf[4];
-    p = *(s32 *)(a0 + 0x34);
-    if ((*(s32 *)(p + 0x44) & 0x10) != 0) {
-        if (*(s16 *)(a0 + 0x12) > *(s16 *)(a0 + 0x10)) {
-            if (*(s32 *)(a0 + 0x1C) > 0) {
-                *(u16 *)(a0 + 0x10) = rand() & 0x30;
-                *(s32 *)(a0 + 0x1C) = -0x30;
-            }
-        } else {
-            if (*(s32 *)(a0 + 0x1C) < 0) {
-                *(u16 *)(a0 + 0x10) = (rand() & 0x30) + 0x40;
-                *(s32 *)(a0 + 0x1C) = 0x30;
-            }
-        }
-        *(s16 *)(a0 + 0x12) = *(u16 *)(a0 + 0x12) + *(s32 *)(a0 + 0x1C);
-        if (*(s32 *)(a0 + 0x30) != 0) {
-            *(s32 *)(a0 + 0x30) = *(s32 *)(a0 + 0x30) - 0xC0;
-        }
-        buf[0] = 0x400;
-        buf[1] = 0;
-        buf[2] = D_800B99DA << 8;
-        RotMatrixYXZ((void *)buf, (void *)(a0 + 0x38));
-        ((void (*)(s32, s32))func_80048EAC)(*(s32 *)(p + 0x20) + 0x34, a0 + 0x38);
-        func_801670E4(a0, -6, -0x44, -0x18);
-        r = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0xE, a0, *(s16 *)(a0 + 6), *(s16 *)(a0 + 0xA), *(s16 *)(a0 + 0xE), 0, 0);
-        if (r != 0) {
-            *(Blk32 *)(r + 0x38) = *(Blk32 *)(a0 + 0x38);
-        }
-    } else {
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_801678F0.h"
 
 
 
@@ -7026,39 +6869,13 @@ void func_8016829C(s32 a0) {
 extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80166690();
 extern void func_80146C3C(u8*);
-void func_80168328(s32 arg0) {
-    s32 a1;
-    s32 a2;
-    s32 a3;
-    s32 v;
-    if (((*(s32 *)(*(s32 *)(arg0 + 0x34) + 0x44) & 2) == 0) ||
-        (v = *(s32 *)(arg0 + 0x1c) - 1, *(s32 *)(arg0 + 0x1c) = v, v == 0)) {
-        a1 = 2;
-        a3 = 0;
-        a2 = *(s16 *)(arg0 + 0x2c);
-        *(s16 *)(arg0 + 2) = *(s16 *)(arg0 + 2) + 1;
-        func_80166994(arg0, a1, a2, a3);
-    } else {
-        a2 = *(s16 *)(arg0 + 0x2c);
-        a3 = *(s16 *)(arg0 + 0x30);
-        a1 = 1;
-        func_80166994(arg0, a1, a2, a3);
-    }
-    if ((s16)func_80166690(*(s16 *)(arg0 + 0x2c), *(s16 *)(arg0 + 0x28)) == 0) {
-        ((void (*)(s32))func_80146C3C)(arg0);
-    }
-}
+#include "../shared/ov/func_80168328.h"
 
 
 extern s32 func_80166690(s32 param_1, s32 param_2);
 extern s32 func_80166994();
 extern void func_80146C3C(u8*);
-void func_801683D8(s32 a0) {
-    func_80166994(a0, 2, *(short *)(a0 + 0x2c), 0);
-    if ((short)func_80166690(*(short *)(a0 + 0x2c), *(short *)(a0 + 0x28)) == 0) {
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_801683D8.h"
 
 
 
@@ -7099,30 +6916,13 @@ void func_801684B4(s32 a0) {
 extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80166690();
 extern void func_80146C3C(u8*);
-void func_80168540(s32 a0) {
-    s32 v0;
-    if (((*(u32 *)(*(s32 *)(a0 + 0x34) + 0x44) & 2) == 0) ||
-        (v0 = *(s32 *)(a0 + 0x1c) - 1, *(s32 *)(a0 + 0x1c) = v0, v0 == 0)) {
-        *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
-        func_80166994(a0, 2, 2, 0);
-    } else {
-        func_80166994(a0, 1, 2, (s32)*(s16 *)(a0 + 0x30));
-    }
-    if ((short)func_80166690(2, 1) == 0) {
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_80168540.h"
 
 
 extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80166690();
 extern void func_80146C3C(u8*);
-void func_801685EC(s32 a0) {
-    func_80166994(a0, 2, 2, 0);
-    if ((short)func_80166690(2, 1) == 0) {
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_801685EC.h"
 
 
 #include "../shared/ov/func_80168640.h"
@@ -7145,14 +6945,7 @@ void func_80168744(void *a0) {
 
 extern void func_80168828(void);
 extern void func_80146C3C(u8*);
-void func_801687CC(s32 param_1) {
-    if (*(int *)(param_1 + 0x1c) < 3) {
-        func_80168828();
-        *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) + 1;
-    } else {
-        ((void (*)(int))func_80146C3C)(param_1);
-    }
-}
+#include "../shared/ov/func_801687CC.h"
 
 
 extern void func_80017E68(void *a0, void *a1);
@@ -7374,18 +7167,7 @@ void func_80168D94(int a0) {
 extern void func_80168F40();
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(u8*);
-void func_80168EC4(s32 a0) {
-    if (*(s32 *)(a0 + 0x1C) < 5) {
-        func_80168F40();
-        *(u16 *)(a0 + 0x10) = *(u16 *)(a0 + 0x6);
-        *(u16 *)(a0 + 0x14) = *(u16 *)(a0 + 0xA);
-        *(u16 *)(a0 + 0x18) = *(u16 *)(a0 + 0xE);
-        func_800D22E4(a0);
-        *(s32 *)(a0 + 0x1C) += 1;
-    } else {
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_80168EC4.h"
 
 
 #include "../shared/ov/func_80168F40.h"
@@ -7460,16 +7242,7 @@ void func_80169058(s32 a0) {
 extern s32 func_80169228(void);
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(u8*);
-void func_801691B8(void *a0) {
-    if (*(s32 *)((s32)a0 + 0x1C) < 10) {
-        func_80169228();
-        func_800D22E4((s32)a0);
-        *(s32 *)((s32)a0 + 0x14) += 0x10000;
-        *(s32 *)((s32)a0 + 0x1C) += 1;
-    } else {
-        ((void (*)(s32))func_80146C3C)((s32)a0);
-    }
-}
+#include "../shared/ov/func_801691B8.h"
 
 
 #include "../shared/ov/func_80169228.h"
@@ -7526,20 +7299,7 @@ void func_80169408(s32 a0) {
 extern void func_80169584(s32 param_1);
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(u8*);
-void func_8016951C(int param_1)
-{
-    int iVar1;
-    iVar1 = *(int *)(param_1 + 0x1c);
-    *(int *)(param_1 + 0x1c) = iVar1 + 1;
-    if (iVar1 < 10) {
-        ((void (*)(void))func_80169584)();
-        func_800D22E4(param_1);
-        *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + 0x8000;
-    } else {
-        ((void (*)(int))func_80146C3C)(param_1);
-    }
-    return;
-}
+#include "../shared/ov/func_8016951C.h"
 
 
 #include "../shared/ov/func_80169584.h"
@@ -7712,27 +7472,7 @@ void func_80169BBC(s32 arg0) {
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80146C3C(u8*);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-void func_80169E44(s32 a0) {
-    s32 r;
-    s32 p;
-    if (((s32 (*)(void *, void *))func_80128ED8)((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {
-        ((void (*)(s32))func_80146C3C)(a0);
-        return;
-    }
-    r = *(s32 *)(a0 + 0x1C);
-    *(s32 *)(a0 + 0x1C) = r + 1;
-    if (r < 3) {
-        p = func_80146A6C(9, (void *)a0, *(s16 *)(a0 + 0x6),
-                          *(s16 *)(a0 + 0xA),
-                          *(s16 *)(a0 + 0xE),
-                          *(s32 *)(a0 + 0x1C) & 1, 0);
-        if (p != 0) {
-            *(s16 *)(p + 0x12) = *(u16 *)(a0 + 0x12);
-            *(s16 *)(p + 0x16) = *(u16 *)(a0 + 0x16);
-            *(s16 *)(p + 0x1A) = *(u16 *)(a0 + 0x1A);
-        }
-    }
-}
+#include "../shared/ov/func_80169E44.h"
 
 
 
@@ -7997,16 +7737,7 @@ s32 func_8016A73C(s32 arg0) {
 
 extern s32 func_8016A8FC(s32 a0);
 extern void func_80146C3C(u8*);
-void func_8016A890(s32 arg0)
-{
-    s16 *p = *(s16 **)((u8 *)arg0 + 0x34);
-    if (*(s32 *)((u8 *)arg0 + 0x1C) < 4 && *(u16 *)p == 0x14) {
-        ((void (*)(void))func_8016A8FC)();
-        *(s32 *)((u8 *)arg0 + 0x1C) = *(s32 *)((u8 *)arg0 + 0x1C) + 1;
-    } else {
-        ((void (*)(s32))func_80146C3C)(arg0);
-    }
-}
+#include "../shared/ov/func_8016A890.h"
 
 
 #include "../shared/ov/func_8016A8FC.h"
@@ -8014,41 +7745,7 @@ void func_8016A890(s32 arg0)
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80146C3C(u8*);
-void func_8016AA50(s32 param_1, s32 param_2) {
-
-    extern s32 D_8011D030;
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
-    register short *psVar3 __asm__("$4");
-    register s32 iVar4 __asm__("$5");
-    register s32 sVar2 __asm__("$3");
-    register s32 t __asm__("$2");
-    if (param_2 >= 0) {
-        ((s32 (*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(
-            0x1d, (void *)param_1,
-            *(s16 *)(param_1 + 0x7c), *(s16 *)(param_1 + 0x7e),
-            *(s16 *)(param_1 + 0x80), 0, param_2);
-        return;
-    }
-    iVar4 = 0;
-    psVar3 = (short *)&D_8011D030;
-    do {
-        sVar2 = (u16)*psVar3;
-        if (sVar2 == 0 || sVar2 == 3 || sVar2 == 9) {
-            ((void (*)(void))func_80146C3C)();
-            ((s32 (*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(
-                0x1d, (void *)param_1,
-                (s16)D_80126B5E, (s16)((u16)D_80126B62 - 0x20),
-                (s16)D_80126B66, 7, 0);
-            return;
-        }
-        t = iVar4 + 1;
-        iVar4 = t;
-        __asm__ __volatile__("" : "=r"(t) : "0"(t));
-        psVar3 = psVar3 + 0x2c;
-    } while ((s16)t < 0x1e);
-}
+#include "../shared/ov/func_8016AA50.h"
 
 
 
