@@ -34,7 +34,8 @@
   "real_c_functions": 350533,
   "dedup_shared_of_real": 251903,
   "linked_psyq_objects": 1256,
-  "verbatim_asm_bodies": 5,
+  "verbatim_asm_bodies": 27,
+  "sdk_verbatim_bodies": 8,
   "include_asm_stubs": 0,
   "non_matching": 0,
   "matchable": 363680,
@@ -50,18 +51,18 @@
   "levers": {
    "date": "2026-09-09",
    "what": "compiler-forcing constructs left in the C: register pins + asm statements (the classes Phase 36 drives to 0; GTE coprocessor ops and whole-body hand-asm routines excluded), with the volatile/register qualifiers censused",
-   "sites": 53221,
+   "sites": 53234,
    "pins": 37720,
-   "asm_statements": 15501,
-   "bodies": 15666,
-   "distinct_bodies": 2214,
+   "asm_statements": 15514,
+   "bodies": 15679,
+   "distinct_bodies": 2227,
    "marked_fake": 0,
-   "unmarked": 53221,
-   "volatile_sites": 3139,
+   "unmarked": 53234,
+   "volatile_sites": 3138,
    "register_keyword_sites": 86,
-   "gte_sites": 6911,
-   "hand_asm_routines_in_c_shells": 23,
-   "hand_asm_routine_sites": 2683
+   "gte_sites": 6891,
+   "hand_asm_routines_in_c_shells": 22,
+   "hand_asm_routine_sites": 2682
   }
  },
  "corrections": [
@@ -88,6 +89,14 @@
    "delta": -10211,
    "cause": "empty-bodied shared functions were folded into REAL under the macro form; the include form classifies them EMPTY (the instruction-weighted metrics are unchanged)",
    "command": "tools/progress.py --fleet"
+  },
+  {
+   "date": "2026-09-09",
+   "phase": "P36 T1b",
+   "metric": "counts.verbatim_asm_bodies",
+   "delta": 22,
+   "cause": "the \u00a7265 lane's IN-FUNCTION form (a whole routine as one __asm__ statement inside a C shell) was invisible to the file-scope detector behind the manifest: 22 scratchpad stack-switch trampolines (one private copy per overlay, 2,682 sites) are hand asm and are listed PERMANENT-VERBATIM; a 23rd asm-body is -O0 compiler output and is listed DECOMPILE-NOW",
+   "command": "tools/lever_census.py; tools/verbatim_check.py"
   }
  ],
  "per_binary": [

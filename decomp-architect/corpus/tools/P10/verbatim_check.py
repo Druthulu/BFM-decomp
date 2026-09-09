@@ -112,6 +112,30 @@ def asm_blocks(text):
 DETECTORS = (('defined_in', defined_in),)
 
 
+def scan_in_function():
+    """{(binary, fn): path} for every function whose body is ONE asm statement (declarations aside) — the IN-FUNCTION form of the
+    lane (P36 T1b, 2026-09-09): a C shell around a whole routine written in assembly. Detected STRUCTURALLY through
+    tools/lever_census.whole_body_asm_functions (the one detector, R33), in every non-LINKED .c and in src/shared/**/*.h (binary
+    'shared' — a shared header's routine is instantiated in every includer)."""
+    sys.path.insert(0, os.path.join(REPO, 'tools'))
+    import lever_census
+    found = {}
+    files = list(sources())
+    shared = os.path.join(REPO, 'src', 'shared')
+    for root, _d, fs in os.walk(shared):
+        for f in fs:
+            if f.endswith('.h'):
+                files.append((os.path.join(root, f), 'shared'))
+    for path, binary in files:
+        text = open(path, errors='ignore').read()
+        if '__asm__' not in text and 'asm(' not in text and '__asm(' not in text:
+            continue
+        rel = os.path.relpath(path, REPO)
+        for fn, _line, _blk in lever_census.whole_body_asm_functions(text, rel):
+            found[(binary, fn)] = rel
+    return found
+
+
 def scan():
     """{(binary, fn): path} for every file-scope __asm__ body defining a function."""
     found = {}
@@ -168,19 +192,32 @@ def main():
         m = re.match(r'(func_|D_)([0-9A-Fa-f]{8})$', fn)
         return (b, m.group(1) + m.group(2).upper()) if m else (b, fn)
     known_k = {key(*k): v for k, v in known.items()}
+    # a row with binary "ov_*" (P36 T1b) covers that routine in EVERY overlay and in the shared headers
+    wild = {key('ov_*', r['fn'])[1]: r for r in rows if r['binary'] == 'ov_*'}
 
-    found = scan()
+    found_file = scan()
+    found_in = scan_in_function()
+    found = dict(found_file)
+    found.update(found_in)
     found_k = {key(*k): v for k, v in found.items()}
+    form_of = {key(*k): 'file-scope' for k in found_file}
+    form_of.update({key(*k): 'in-function' for k in found_in})
 
-    new = sorted(set(found_k) - set(known_k))
-    gone = sorted(set(known_k) - set(found_k))
-    moved = sorted(k for k in set(found_k) & set(known_k)
-                   if found_k[k] != known_k[k].get('path'))
+    def covered(k):
+        return k in known_k or (k[1] in wild and (k[0].startswith('ov_') or k[0] == 'shared'))
 
-    print(f'verbatim bodies in tree: {len(found_k)}   manifest rows: {len(known_k)}')
-    d = collections.Counter(r['disposition'] for r in rows)
-    for k, v in d.most_common():
-        print(f'   {k:22s} {v:4d}')
+    new = sorted(k for k in found_k if not covered(k))
+    gone = sorted(k for k in known_k if k[0] != 'ov_*' and k not in found_k)
+    gone += sorted(('ov_*', fn) for fn in wild if not any(fk[1] == fn and (fk[0].startswith('ov_') or fk[0] == 'shared') for fk in found_k))
+    moved = sorted(k for k in set(found_k) & set(known_k) if found_k[k] != known_k[k].get('path'))
+
+    n_in = sum(1 for k in found_k if form_of[k] == 'in-function')
+    print(f'verbatim bodies in tree: {len(found_k)} ({len(found_k) - n_in} file-scope, {n_in} in-function sites across '
+          f'{len({k[1] for k in found_k if form_of[k] == "in-function"})} routines)   manifest rows: {len(known_k)} '
+          f'({len(wild)} of them fleet-wide "ov_*" in-function rows)')
+    d = collections.Counter((r['disposition'], r.get('form', 'file-scope')) for r in rows)
+    for (k, f), v in d.most_common():
+        print(f'   {k:22s} {f:12s} {v:4d}')
     print()
     if new:
         print(f'!! {len(new)} NEW verbatim body(ies) NOT in the manifest — assembly was banked and is '
@@ -200,10 +237,11 @@ def main():
         print('no drift — the tree matches the manifest.')
 
     if a.update:
-        keep = [r for r in rows if key(r['binary'], r['fn']) in found_k]
+        # the fleet-wide in-function rows are kept as they are (their dispositions are ratified, not derived)
+        keep = [r for r in rows if r['binary'] == 'ov_*' or key(r['binary'], r['fn']) in found_k]
         for b, fn in new:
             keep.append(dict(binary=b, fn=fn, addr=None, nins=None, cls='UNCLASSIFIED',
-                             disposition='UNKNOWN', unit_entry=fn, unit_nins=None,
+                             disposition='UNKNOWN', form=form_of.get((b, fn), 'file-scope'), unit_entry=fn, unit_nins=None,
                              path=found_k[(b, fn)], why='added by --update; NEEDS CLASSIFICATION'))
         man['rows'] = sorted(keep, key=lambda r: (r['binary'], r['fn']))
         json.dump(man, open(MANIFEST, 'w'), indent=1)

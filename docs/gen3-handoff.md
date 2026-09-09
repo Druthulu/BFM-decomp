@@ -1,7 +1,9 @@
 # Gen3 handoff — where Gen2 ends, what comes next, and the levers already in hand
 
 > **Written at the Gen2 exit (Phase 33, 2026-09-07).** Gen2's contract is met and published: 218 binaries rebuild
-> byte-identical from C ([`docs/verification.md`](verification.md)), every game-code function in every binary is C, the
+> byte-identical from C ([`docs/verification.md`](verification.md)), every game-code function in every binary is C (*corrected
+> 2026-09-09, Phase 36 T1b: fourteen were whole-body assembly inside C shells, invisible to the file-scope detector — listed
+> DECOMPILE-NOW / UNCERTAIN in the manifest*), the
 > repository is public with its full rewritten history. This page is the seed for Gen3's first plan — it names the
 > owner's stated next intent, gives the starter census derived from the tree (with the commands, so the next session
 > re-derives rather than trusts), states the one invariant that must survive every Gen3 edit, and inventories the
@@ -14,7 +16,7 @@
 |---|---|
 | Binaries byte-identical | 218 / 218 — the executable, the resident engine, 141 `ov_*` overlays, 75 `md_*` modules |
 | Functions | 363,214 / 363,214; 360,737 in C (255,632 shared bodies via 2,220 dedup groups); 1,256 Sony PsyQ functions linked (or carried as 1,258 `INCLUDE_ASM` tiles without the SDK); 5 hand-written-assembly bodies kept verbatim |
-| What is not C | Sony's objects (by design) and the 5 verbatim bodies (`config/verbatim_manifest.json`, PERMANENT) |
+| What is not C | Sony's objects (by design) and the verbatim bodies of `config/verbatim_manifest.json` (5 PERMANENT file-scope rows at this writing; **Phase 36 T1b, 2026-09-09: +22 PERMANENT in-function rows** — the per-overlay scratchpad stack-switch trampolines the file-scope detector never saw — and one DECOMPILE-NOW row, `func_80184440`, an `-O0` body in an `-O2` unit) |
 | The record | `phase-ends/` (33 PhaseEnds + the digest), `docs/decision-log.md`, `docs/matching-cookbook.md`, `docs/gcc-2.7.2-map/`, `docs/story.md`, `docs/retrospective.md`, the wiki and `docs/how-to-ai-decomp/` |
 
 The matching frontier is empty. Gen3's work is therefore of a different kind: **making the C legible and movable

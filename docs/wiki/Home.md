@@ -10,8 +10,9 @@ The claim is narrow and machine-checkable: *matching* means byte-identical outpu
 counts, and what the repository claims is exactly what `make check-all` proves. The live numbers are generated into the
 README's progress block and `docs/progress.json`, never typed by hand; at the Phase-33 close (September 2026) all three
 metrics — functions, instructions, distinct code — read 100%, with two things deliberately not our C and stated as such:
-Sony's PsyQ library objects linked into the main executable (1,256 functions) and five hand-written assembly routines
-kept verbatim.
+Sony's PsyQ library objects linked into the main executable (1,256 functions) and the original's hand-written assembly
+routines kept verbatim (27 as of 2026-09-09: five file-scope bodies and twenty-two per-overlay stack-switch trampolines,
+listed in the verbatim manifest).
 
 The project was carried out end to end by an AI coding agent (Claude Code) under a written constitution and a two-gate
 phase system, in twelve weeks. How that was done — and what it cost — is the second half of this wiki.

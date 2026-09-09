@@ -55,7 +55,10 @@ leaves the previous binary in place — rule R53). `make help` lists every targe
   stubs whose bytes come from the disc). Reimplementing Sony's libraries from source is out of scope.
 - **5 functions fleet-wide are hand-written assembly in the original** (`config/verbatim_manifest.json`, PERMANENT rows);
   they are kept as verbatim `__asm__` bodies, audited by `tools/verbatim_check.py --strict`.
-- Everything else — every game-code function in all 218 binaries — is C.
+- Everything else — every game-code function in all 218 binaries — is C. *Corrected 2026-09-09 (Phase 36 T1b): fourteen game
+  functions (eight in the main executable, two in modules, four in overlays) were still whole-body assembly inside C shells, a form
+  the file-scope verbatim detector never saw; they are listed DECOMPILE-NOW / UNCERTAIN in `config/verbatim_manifest.json` and counted
+  by `tools/lever_census.py` until decompiled.*
 
 ## 2. The last recorded run
 

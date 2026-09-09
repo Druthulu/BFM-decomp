@@ -1137,9 +1137,14 @@ def fleet():
         try:
             import json as _json
             vm = _json.loads(vp.read_text())
-            nverb = len(vm.get("rows", vm) if isinstance(vm, dict) else vm)
+            _vrows = vm.get("rows", vm) if isinstance(vm, dict) else vm
+            # the hand-asm bodies kept verbatim = the PERMANENT rows (P36 T1b: a DECOMPILE-* row is work, not a kept body); Sony's
+            # routines carried as asm where no SDK object matched are counted apart (SDK-VERBATIM)
+            nverb = sum(1 for r in _vrows if r.get("disposition", "PERMANENT-VERBATIM") == "PERMANENT-VERBATIM")
+            nsdkverb = sum(1 for r in _vrows if r.get("disposition") == "SDK-VERBATIM")
         except Exception:
             nverb = 0
+            nsdkverb = 0
     _census = {}
     try:
         import json as _j
@@ -1186,7 +1191,7 @@ def fleet():
                                 "what": "SLUS_007.26 game-code instructions (excludes the linked Sony PsyQ objects); build-derived boundaries"} if wm and wm.get('main_t') else None),
         },
         "counts": {"real_c_functions": REAL, "dedup_shared_of_real": SHARED, "linked_psyq_objects": LINKED,
-                   "verbatim_asm_bodies": nverb, "include_asm_stubs": STUBS, "non_matching": NM, "matchable": MATCH,
+                   "verbatim_asm_bodies": nverb, "sdk_verbatim_bodies": nsdkverb, "include_asm_stubs": STUBS, "non_matching": NM, "matchable": MATCH,
                    "dedup_groups": ngroups, "dedup_instances": nmembers,
                    # Phase 35 T7 — "one source per unique function": bodies written ONCE in C = every instantiated function (REAL + EMPTY)
                    # minus the shared instances plus their one header each (derived from this run's own totals, R33); the duplicate
@@ -1203,7 +1208,9 @@ def fleet():
             {"date": "2026-09-08", "phase": "P35 T6", "metric": "fn_count.total", "delta": 459,
              "cause": "macro sites invisible to the classifier became includes at T4: ov_SC03_015's 219 single-site macros, ov_SC03_118's 3, and the never-extended members of five under-listed groups", "command": "tools/progress.py --fleet"},
             {"date": "2026-09-08", "phase": "P35 T6", "metric": "counts.real_c_functions", "delta": -10211,
-             "cause": "empty-bodied shared functions were folded into REAL under the macro form; the include form classifies them EMPTY (the instruction-weighted metrics are unchanged)", "command": "tools/progress.py --fleet"}],
+             "cause": "empty-bodied shared functions were folded into REAL under the macro form; the include form classifies them EMPTY (the instruction-weighted metrics are unchanged)", "command": "tools/progress.py --fleet"},
+            {"date": "2026-09-09", "phase": "P36 T1b", "metric": "counts.verbatim_asm_bodies", "delta": 22,
+             "cause": "the §265 lane's IN-FUNCTION form (a whole routine as one __asm__ statement inside a C shell) was invisible to the file-scope detector behind the manifest: 22 scratchpad stack-switch trampolines (one private copy per overlay, 2,682 sites) are hand asm and are listed PERMANENT-VERBATIM; a 23rd asm-body is -O0 compiler output and is listed DECOMPILE-NOW", "command": "tools/lever_census.py; tools/verbatim_check.py"}],
         "per_binary": [{"binary": r['binary'], "real": r['real'], "shared": r['shared'], "linked": r['linked'],
                         "byte_identical": r['byteident'], "matchable": r['matchable'],
                         "instr_matched": (wm['per_bin'].get(r['binary'], [None, None])[0] if wm else None),
@@ -1259,7 +1266,9 @@ def readme_block(d):
             f"{d['binaries']} binaries rebuild byte-identical from source · {c['real_c_functions']:,} functions in C "
             f"({c['dedup_shared_of_real']:,} of them shared bodies via {c['dedup_groups']:,} dedup groups) · "
             f"{c['linked_psyq_objects']:,} Sony PsyQ library functions linked from the SDK objects, not our C · "
-            f"{c['verbatim_asm_bodies']} hand-written-assembly bodies kept verbatim · {c['include_asm_stubs']} assembly stubs left · "
+            f"{c['verbatim_asm_bodies']} hand-written-assembly bodies kept verbatim"
+            + (f" · {c['sdk_verbatim_bodies']} Sony library routines carried as assembly where no SDK object matched" if c.get('sdk_verbatim_bodies') else "")
+            + f" · {c['include_asm_stubs']} assembly stubs left · "
             f"{c['non_matching']} non-matching functions.",
             "", (f"One source per unique function (Phase 35): {c['unique_function_bodies']:,} function bodies written once in C "
                  f"({c['dedup_groups']:,} of them shared headers instantiated {c['dedup_instances']:,} times); "
@@ -1271,8 +1280,9 @@ def readme_block(d):
                   f"asm statements remain in {c['levers']['bodies']:,} functions ({c['levers']['distinct_bodies']:,} distinct bodies), "
                   f"{c['levers']['marked_fake']:,} of them marked `// !FAKE:`; {c['levers']['volatile_sites']:,} volatile qualifiers and "
                   f"{c['levers']['register_keyword_sites']:,} bare `register` keywords are censused; {c['levers']['gte_sites']:,} GTE coprocessor "
-                  f"operations and {c['levers']['hand_asm_routines_in_c_shells']} hand-written assembly routines carried inside C shells "
-                  f"({c['levers']['hand_asm_routine_sites']:,} sites) are not levers and are excluded."] if c.get("levers") else []) + [
+                  f"operations and {c['levers']['hand_asm_routines_in_c_shells']} whole-body assembly routines kept inside C shells "
+                  f"({c['levers']['hand_asm_routine_sites']:,} sites; the original's scratchpad stack-switch trampolines, one copy per "
+                  f"overlay, listed in the verbatim manifest) are not levers and are excluded."] if c.get("levers") else []) + [
             "", f"_Generated by `tools/progress.py --readme` from `docs/progress.json` — numbers are never typed by hand._",
             README_END]
     return "\n".join(out)

@@ -68,7 +68,9 @@ MIPS_REG_NAMES = {"zero", "at", "v0", "v1", "a0", "a1", "a2", "a3", "t0", "t1", 
 GTE_MNEMONICS = {"lwc2", "swc2", "mtc2", "mfc2", "ctc2", "cfc2", "cop2", "rtps", "rtpt", "nclip", "ncds", "nccs", "ncdt", "ncct",
                  "ncs", "nct", "cdp", "cc", "dpcs", "dpct", "dpcl", "intpl", "sqr", "op", "gpf", "gpl", "avsz3", "avsz4", "mvmva"}
 FAKE_MARK = "!FAKE:"
-NON_LEVER_KINDS = {"gte", "verbatim-body"}        # Sony's coprocessor idiom; hand asm posing as C — censused, never a lever
+NON_LEVER_KINDS = {"gte", "verbatim-body"}        # Sony's coprocessor idiom; a manifest-listed hand-asm routine — censused, never a lever
+# an `asm-body` site (a whole routine as one asm statement inside a C shell) becomes `verbatim-body` only when the manifest lists the
+# routine as PERMANENT-VERBATIM; an unlisted or DECOMPILE-* one stays a lever and the guard (verbatim_check) names it
 NORM_SYM = re.compile(r"\b(?:func|D)_80[0-9A-Fa-f]{6}\b")
 DEFINE_LINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)(\([^)]*\))?[ \t]*(.*)$")
 
@@ -147,10 +149,73 @@ def classify_asm_body(inner):
     words = {w.lower().rstrip(",") for w in re.split(r"[\s;]+", tmpl) if w}
     if mnem in GTE_MNEMONICS or (words & GTE_MNEMONICS) or re.search(r"\.word\s+0x4[abAB]", tmpl):
         return "gte", mnem
-    if mnem in (".set", ".text", ".section") and ("$sp" in tmpl or "jal" in words or "jr" in words or ".ent" in tmpl):
-        # a whole routine written in assembly inside a C shell (or at file scope): hand asm posing as C, never a lever
-        return "verbatim-body", mnem
     return "instruction", mnem
+
+
+# a statement that is a declaration (what a C shell around a whole-body asm routine may legitimately carry)
+DECL_STMT = re.compile(r"^\s*(?:(?:extern|static|const|volatile|register|struct|union|enum|unsigned|signed)\b\s*)*"
+                       r"[A-Za-z_]\w*\b(?:\s+[A-Za-z_]\w*\b)*(?:\s*\*+\s*|\s+)[A-Za-z_]\w*\b\s*(?:\[[^\]]*\])*"
+                       r"\s*(?:\([^;{}]*\))?\s*(?:(?:__asm__|__asm|asm)\s*\(\s*\"[^\"]*\"\s*\))?\s*(?:=[^;]*)?\s*$")
+# (`\b` after every identifier: without it `iVar1 = …` matched as type `iVa` + name `r1` with an initializer — three false
+#  whole-body verdicts in the first guard run; a register pin's asm clause is allowed on a declarator)
+STMT_KEYWORDS = {"return", "goto", "if", "while", "for", "do", "switch", "case", "break", "continue", "else"}
+
+
+def is_whole_body_asm(masked, span_start, span_end, asm_start, asm_close):
+    """True when the asm statement at [asm_start, asm_close] is the ONLY statement of the function whose masked span is
+    [span_start, span_end): everything else between the body's braces is declarations (or nothing)."""
+    o = masked.find("{", span_start, span_end)
+    c = masked.rfind("}", span_start, span_end)
+    if o < 0 or c < 0 or not (o < asm_start < c):
+        return False
+    # the statement extends to the ';' after the closing paren
+    e = asm_close + 1
+    while e < c and masked[e] in " \t\r\n":
+        e += 1
+    if e < c and masked[e] == ";":
+        e += 1
+    rest = masked[o + 1:asm_start] + masked[e:c]
+    # a whole-body routine's asm IS the body: the shell around it holds a few declarations at most (cheap pre-filters
+    # before the regex — the first guard run spent minutes matching every piece of every pinned function)
+    if len(rest.strip()) > 2 * (asm_close - asm_start) + 400:
+        return False
+    for piece in rest.split(";"):
+        p = piece.strip()
+        if not p:
+            continue
+        if len(p) > 300 or p.split()[0] in STMT_KEYWORDS or not DECL_STMT.match(p):
+            return False
+    return True
+
+
+def whole_body_asm_functions(raw, rel):
+    """[(fn, line, asm_text)] for every function in `raw` whose body is ONE asm statement (declarations aside) — the in-function
+    form of the §265 verbatim lane. Shared by tools/verbatim_check.py (the guard) and the census (R33: one detector)."""
+    masked = sc.mask_text(raw)
+    recs = [r for r in sc.scan_text(raw, rel, shared_defs=None) if r["form"] == "def"]
+    line_starts = [0]
+    for ln in masked.split("\n"):
+        line_starts.append(line_starts[-1] + len(ln) + 1)
+    out = []
+    for d in recs:
+        s0, s1 = line_starts[d["line"] - 1], line_starts[d["end"]] - 1
+        for m in ASM_KW.finditer(masked, s0, s1):
+            o = masked.find("(", m.end())
+            cl = _paren_span(masked, o) if o >= 0 else -1
+            if cl < 0:
+                continue
+            if is_whole_body_asm(masked, s0, s1, m.start(), cl):
+                out.append((d["name"], masked.count("\n", 0, m.start()) + 1, masked[m.start():cl + 1]))
+                break
+    return out
+
+
+def manifest_rows():
+    """The verbatim manifest's rows (config/verbatim_manifest.json): the authority on which asm bodies are the original's hand asm."""
+    p = REPO / "config" / "verbatim_manifest.json"
+    if not p.exists():
+        return []
+    return json.loads(p.read_text())["rows"]
 
 
 def _split_sections(s):
@@ -411,6 +476,9 @@ def walk_file(raw, rel, is_header):
             role(pos, "unclassified")
             continue
         role(pos, "asm-stmt")
+        d = span_of_line.get(ln)
+        if d and is_whole_body_asm(masked, line_starts[d["line"] - 1], line_starts[d["end"]] - 1, pos, c):
+            kind = "asm-body"           # a whole routine as one asm statement inside a C shell (any template: GTE ones too); the manifest decides its fate
         add_site("B", kind, pos, masked[pos:c + 1], detail=detail, via="")
         # the volatile qualifier of the asm keyword
         vm = re.match(r"\s*(?:__volatile__|volatile)\b", masked[m.end():o])
@@ -562,7 +630,17 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
     if orphans:
         sys.exit(f"lever_census: {len(orphans)} .c file(s) under src/ belong to NO binary's source set (R32): {orphans[:6]}")
     inc, inc_tus = header_includers(tu_aliases)
-    verb = sc.verbatim_instances()
+    rows = manifest_rows()
+    # the file-scope / concrete-binary rows excluded from the census: only the dispositions that are NOT the project's C
+    # (PERMANENT-VERBATIM = the original's hand asm; SDK-VERBATIM = Sony's code carried as asm); a DECOMPILE-*/UNCERTAIN row
+    # is a lever until it is resolved
+    verb = {(r["binary"], int(r["addr"], 16)) for r in rows
+            if r.get("addr") and r["binary"] != "ov_*" and r.get("disposition") in ("PERMANENT-VERBATIM", "SDK-VERBATIM")}
+    # the in-function rows: fn -> disposition (binary "ov_*" = every overlay and the shared headers)
+    # PERMANENT-VERBATIM (the original's hand asm) and SDK-VERBATIM (Sony's code carried as asm where no SDK object matched) are
+    # not the project's C and not levers; every other disposition (DECOMPILE-*, UNCERTAIN, UNLISTED) is a lever until resolved
+    perm_in_fn = {r["fn"] for r in rows if r.get("form") == "in-function" and r.get("disposition") in ("PERMANENT-VERBATIM", "SDK-VERBATIM")}
+    listed_in_fn = {r["fn"]: r.get("disposition") for r in rows if r.get("form") == "in-function"}
     names_by_alias = {a: sc.curated_names(a) for a in aliases}
     # scan (cached by mtime/size)
     cache_p = REPO / out_dir / "cache" / "walk_cache.json"
@@ -624,6 +702,10 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
                 verbatim_sites += 1
                 verbatim_fns.add((rel, s["fn"] or vfn))
                 continue
+            if s["kind"] == "asm-body" and s["fn"] in perm_in_fn:
+                s = dict(s, kind="verbatim-body", disposition=listed_in_fn[s["fn"]])
+            elif s["kind"] == "asm-body":
+                s = dict(s, disposition=listed_in_fn.get(s["fn"], "UNLISTED"))
             s = dict(s, aliases=als, header=(rel in inc), includers=len(inc_tus.get(rel, ())))
             sites.append(s)
         for d in r["defs"]:
@@ -695,10 +777,16 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
                  gte_mnemonics=dict(gte_m.most_common(30)), gte_header=gte_header, gte_header_sites=gte_header_sites),
         volatile=dict(kinds=classes["C"]["kinds"]),
         verbatim_in_function=dict(sites=sum(1 for s in sites if s["kind"] == "verbatim-body"),
-                                  routines=len({s["fn"] or s["tu"] for s in sites if s["kind"] == "verbatim-body"}),
+                                  routines=len({s["fn"] for s in sites if s["kind"] == "verbatim-body"}),
+                                  by_disposition={k: len({s["fn"] for s in sites if s["kind"] == "verbatim-body" and s["disposition"] == k})
+                                                  for k in ("PERMANENT-VERBATIM", "SDK-VERBATIM")},
                                   private_copies=sum(1 for s in sites if s["kind"] == "verbatim-body" and not s["tu"].startswith("src/shared/")),
                                   shared_headers=sum(1 for s in sites if s["kind"] == "verbatim-body" and s["tu"].startswith("src/shared/")),
-                                  what="whole routines written in assembly inside a C shell (the §265 lane) — hand asm, not levers; the manifest lists only the file-scope form"),
+                                  unlisted_routines=sorted({f"{s['fn']}:{s['disposition']}" for s in sites if s["kind"] == "asm-body"}),
+                                  unlisted_sites=sum(1 for s in sites if s["kind"] == "asm-body"),
+                                  what="whole routines written in assembly inside a C shell (the §265 lane's in-function form): the manifest's "
+                                       "PERMANENT-VERBATIM rows are hand asm and not levers; an asm-body the manifest does not list as permanent "
+                                       "stays a lever (unlisted_routines names them with their disposition)"),
         macro_definitions=dict(total=len(mdefs_all), names=len(macro_names), kinds=dict(macro_kinds),
                                names_with_multiple_texts=sum(1 for n, t in macro_texts.items() if len(t) > 1),
                                top=[(n, c, len(macro_texts[n])) for n, c in macro_names.most_common(25)]),
@@ -757,8 +845,9 @@ def render(s):
     L.append(f"  pins: {p['sites']:,} · $0 {p['zero']:,} · $sp {p['sp']} · with initializer {p['init']:,} · volatile-qualified "
              f"{p['volatile_qualified']} · bare-name {p['bare_name']} · spellings {p['spelling']}")
     vb = s["verbatim_in_function"]
-    L.append(f"  whole-body asm routines in C shells (hand asm, NOT levers): {vb['routines']} routines · {vb['sites']:,} sites "
-             f"({vb['private_copies']:,} private copies + {vb['shared_headers']} shared headers)")
+    L.append(f"  whole-body asm routines in C shells, manifest PERMANENT (hand asm, NOT levers): {vb['routines']} routines · {vb['sites']:,} sites "
+             f"({vb['private_copies']:,} private copies + {vb['shared_headers']} shared headers); asm-bodies NOT permanent (levers): "
+             f"{vb['unlisted_sites']} site(s) {vb['unlisted_routines']}")
     L.append(f"  asm kinds: {s['asm']['kinds']}")
     L.append(f"  instruction mnemonics: {s['asm']['instruction_mnemonics']}")
     L.append(f"  gte mnemonics: {s['asm']['gte_mnemonics']}")

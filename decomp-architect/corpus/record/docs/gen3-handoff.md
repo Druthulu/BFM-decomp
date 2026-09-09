@@ -14,7 +14,7 @@
 |---|---|
 | Binaries byte-identical | 218 / 218 — the executable, the resident engine, 141 `ov_*` overlays, 75 `md_*` modules |
 | Functions | 363,214 / 363,214; 360,737 in C (255,632 shared bodies via 2,220 dedup groups); 1,256 Sony PsyQ functions linked (or carried as 1,258 `INCLUDE_ASM` tiles without the SDK); 5 hand-written-assembly bodies kept verbatim |
-| What is not C | Sony's objects (by design) and the 5 verbatim bodies (`config/verbatim_manifest.json`, PERMANENT) |
+| What is not C | Sony's objects (by design) and the verbatim bodies of `config/verbatim_manifest.json` (5 PERMANENT file-scope rows at this writing; **Phase 36 T1b, 2026-09-09: +22 PERMANENT in-function rows** — the per-overlay scratchpad stack-switch trampolines the file-scope detector never saw — and one DECOMPILE-NOW row, `func_80184440`, an `-O0` body in an `-O2` unit) |
 | The record | `phase-ends/` (33 PhaseEnds + the digest), `docs/decision-log.md`, `docs/matching-cookbook.md`, `docs/gcc-2.7.2-map/`, `docs/story.md`, `docs/retrospective.md`, the wiki and `docs/how-to-ai-decomp/` |
 
 The matching frontier is empty. Gen3's work is therefore of a different kind: **making the C legible and movable

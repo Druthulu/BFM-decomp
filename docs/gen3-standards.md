@@ -18,7 +18,7 @@ enforcement is structural, not procedural:
 | No unmatched C in a default build | the `NON_MATCHING` guard (G4); the census reads 0 | `make audit-frontier`, `docs/progress.json` |
 | A bank is verified from a clean rebuild, never incremental | R22 after every banked batch; main gated only by `gate_main`'s clean rebuild | the phase logs, `.run/P33/verify/` |
 | The measuring instruments are themselves audited | corpus/cdecl/sig oracles in `make tools-health`; a second, disagreeing oracle where one is structurally blind (R34) | `docs/SETUP.md` §6, the P26/P27 audits |
-| What is *not* our C is stated, not hidden | 1,256 Sony PsyQ objects linked byte-identical; 5 hand-written assembly routines kept verbatim, censused in `config/verbatim_manifest.json` | `README.md`, `docs/verification.md` |
+| What is *not* our C is stated, not hidden | 1,256 Sony PsyQ objects linked byte-identical; the hand-written assembly routines kept verbatim, censused in `config/verbatim_manifest.json` (5 at the Phase-33 close; 27 since the Phase-36 census of 2026-09-09, which found the in-function form of the lane) | `README.md`, `docs/verification.md` |
 
 Most projects gate per function with a diff score and check the whole ROM periodically; here the whole-binary hash runs on
 every build of every binary, and a clean rebuild follows every batch. Accuracy is therefore not a Gen3 concern. It is the

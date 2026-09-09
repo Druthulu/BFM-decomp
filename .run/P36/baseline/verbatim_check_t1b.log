@@ -1,0 +1,8 @@
+verbatim bodies in tree: 2709 (5 file-scope, 2704 in-function sites across 44 routines)   manifest rows: 49 (23 of them fleet-wide "ov_*" in-function rows)
+   PERMANENT-VERBATIM     in-function    22
+   DECOMPILE-NOW          in-function    11
+   SDK-VERBATIM           in-function     8
+   PERMANENT-VERBATIM     file-scope      5
+   UNCERTAIN              in-function     3
+
+no drift — the tree matches the manifest.

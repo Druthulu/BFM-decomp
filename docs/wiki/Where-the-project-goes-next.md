@@ -26,8 +26,9 @@ reply from Archipelago, frogress). Its seed, with every task, actor and effort l
 **The floor.** Accuracy is not a Gen3 concern; it is the floor Gen3 stands on. "Matched" means instruction-identical
 including register allocation *and* a whole-binary hash equal to the original, checked inside every build of every
 binary, with a clean rebuild after every batch. Nothing functionally equivalent has ever been counted, and what is not
-the project's own C is stated: 1,256 Sony library objects linked byte-identical into the executable, five hand-written
-assembly routines kept verbatim.
+the project's own C is stated: 1,256 Sony library objects linked byte-identical into the executable, and the original's
+hand-written assembly routines kept verbatim (27 as of 2026-09-09 — the Phase-36 census found the twenty-two per-overlay
+stack-switch trampolines that the file-scope detector behind the manifest had never seen).
 
 **The bar.** The community's expectations are written down, and the project adopts sotn-decomp's style guide as its
 baseline: `camelCase` locals, `g_PascalCase` globals, `PascalCase` types and functions, the project's own `u8…u32`

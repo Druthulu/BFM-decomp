@@ -54,16 +54,17 @@
    "srl": 1
   },
   "kinds": {
+   "asm-body/direct": 13,
    "barrier/direct": 5833,
    "barrier/via-macro": 2,
-   "gte/direct": 1160,
+   "gte/direct": 1140,
    "gte/via-macro": 5751,
    "instruction/direct": 1835,
    "instruction/via-macro": 22,
    "keepalive/direct": 2576,
    "launder/direct": 4793,
    "launder/via-macro": 440,
-   "verbatim-body/direct": 2683
+   "verbatim-body/direct": 2682
   }
  },
  "binaries": 218,
@@ -82,38 +83,39 @@
    "unmarked": 37720
   },
   "B": {
-   "bodies": 10758,
-   "distinct_bodies": 1196,
+   "bodies": 10750,
+   "distinct_bodies": 1188,
    "file_scope": 13,
-   "in_bodies": 25082,
+   "in_bodies": 25074,
    "kinds": {
+    "asm-body": 13,
     "barrier": 5835,
-    "gte": 6911,
+    "gte": 6891,
     "instruction": 1857,
     "keepalive": 2576,
     "launder": 5233,
-    "verbatim-body": 2683
+    "verbatim-body": 2682
    },
    "marked": 0,
-   "sites": 25095,
-   "tus": 2454,
-   "unmarked": 25095
+   "sites": 25087,
+   "tus": 2453,
+   "unmarked": 25087
   },
   "C": {
-   "bodies": 816,
-   "distinct_bodies": 146,
+   "bodies": 815,
+   "distinct_bodies": 145,
    "file_scope": 517,
-   "in_bodies": 2622,
+   "in_bodies": 2621,
    "kinds": {
     "cast": 2385,
-    "decl-body": 235,
+    "decl-body": 234,
     "decl-file": 517,
     "param": 2
    },
    "marked": 0,
-   "sites": 3139,
-   "tus": 881,
-   "unmarked": 3139
+   "sites": 3138,
+   "tus": 880,
+   "unmarked": 3138
   },
   "D": {
    "bodies": 69,
@@ -227,17 +229,17 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 49.6,
+ "elapsed_s": 35.0,
  "generated": "2026-09-09",
  "headers": 3181,
  "levers_AB": {
-  "asm": 15501,
-  "bodies": 15666,
-  "distinct_bodies": 2214,
+  "asm": 15514,
+  "bodies": 15679,
+  "distinct_bodies": 2227,
   "marked": 0,
   "pins": 37720,
-  "sites": 53221,
-  "unmarked": 53221,
+  "sites": 53234,
+  "unmarked": 53234,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
  "macro_definitions": {
@@ -435,34 +437,54 @@
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 19164,
+  "bodies": 19156,
   "by_kind": {
-   "main": 212,
+   "main": 204,
    "md": 213,
    "ov": 18330,
    "resident": 16,
    "shared": 393
   },
   "copies_in_multi": 17107,
-  "distinct_bodies": 2545,
+  "distinct_bodies": 2537,
   "multi_copy_classes": 488
  },
  "verbatim_excluded": {
-  "functions": 5,
-  "manifest_rows": 5,
-  "sites": 5
+  "functions": 13,
+  "manifest_rows": 13,
+  "sites": 14
  },
  "verbatim_in_function": {
+  "by_disposition": {
+   "PERMANENT-VERBATIM": 22,
+   "SDK-VERBATIM": 0
+  },
   "private_copies": 2660,
-  "routines": 23,
-  "shared_headers": 23,
-  "sites": 2683,
-  "what": "whole routines written in assembly inside a C shell (the \u00a7265 lane) \u2014 hand asm, not levers; the manifest lists only the file-scope form"
+  "routines": 22,
+  "shared_headers": 22,
+  "sites": 2682,
+  "unlisted_routines": [
+   "func_8001E378:DECOMPILE-NOW",
+   "func_80020F34:DECOMPILE-NOW",
+   "func_800249F0:DECOMPILE-NOW",
+   "func_80025CBC:DECOMPILE-NOW",
+   "func_80026514:UNCERTAIN",
+   "func_800268D0:UNCERTAIN",
+   "func_80027058:DECOMPILE-NOW",
+   "func_80027200:DECOMPILE-NOW",
+   "func_800CBA44:DECOMPILE-NOW",
+   "func_8017D810:DECOMPILE-NOW",
+   "func_8017E26C:UNCERTAIN",
+   "func_80184440:DECOMPILE-NOW",
+   "func_801A3BCC:DECOMPILE-NOW"
+  ],
+  "unlisted_sites": 13,
+  "what": "whole routines written in assembly inside a C shell (the \u00a7265 lane's in-function form): the manifest's PERMANENT-VERBATIM rows are hand asm and not levers; an asm-body the manifest does not list as permanent stays a lever (unlisted_routines names them with their disposition)"
  },
  "volatile": {
   "kinds": {
    "cast": 2385,
-   "decl-body": 235,
+   "decl-body": 234,
    "decl-file": 517,
    "param": 2
   }

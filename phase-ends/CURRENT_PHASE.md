@@ -40,6 +40,13 @@
   15,501 asm statements) in 15,666 bodies (2,214 distinct)**; `progress.py --json --readme --check` fresh (the `levers` block + the
   README sentence); `make report BINARY=main` OK (226 s); dictionary + SETUP rows; kit corpus regenerated. The finding of the task —
   23 whole-body assembly routines inside C shells, outside the manifest — is in the log and the decisions section (Drew's call).
+- ☑ **T1b** (S97; added on Drew's confirmation, P5d) — The verbatim manifest learns the in-function form: 23 rows (`binary: "ov_*"`,
+  `form: "in-function"`; 22 PERMANENT-VERBATIM trampolines + `func_80184440` DECOMPILE-NOW); `tools/verbatim_check.py` detects the form
+  structurally through `lever_census.whole_body_asm_functions` (.c and `src/shared/**/*.h`) with wildcard matching — `--strict` green;
+  the census defers the exclusion to the manifest (`asm-body` → `verbatim-body` only when PERMANENT): **the phase's number is 53,222 sites
+  in 15,667 bodies (2,215 distinct)** (+1: the DECOMPILE-NOW body is a lever); `progress.py` counts PERMANENT rows (27) with a dated
+  `corrections` entry; README prose + wiki Home + Where-next + gen3-standards + gen3-handoff updated as dated snapshots; `progress.py
+  --json --readme --check` fresh; `doc_links --strict` green.
 - ☐ **T2** (Max) — The probe: the oracle (recipes via `make -n -W`, replayed to a scratch object, `-MF` to scratch), CALIBRATED (sampled
   TUs untouched → 100 % object equality with `build/`; twin == primary; an altered body → DIFFERS), then rung A + B on ~150 stratified
   distinct bodies; the measured table prices T4–T7 (R41). Verify: the probe table in this log with its command.
@@ -81,12 +88,11 @@
   hand-written assembly routines in `config/verbatim_manifest.json` (PERMANENT) are the original's code; the census excludes them by
   the manifest and `verbatim_check --strict` stays green. The 1,256 Sony objects are linked, not source. The GTE coprocessor ops are
   Sony's own inline-asm idiom and are kept under the SDK's names.
-- **OPEN (T1 finding, for Drew):** 23 more whole-body assembly routines sit inside C shells (2,683 sites; the scratchpad stack-switch
-  trampolines — see the T1 log entry), outside the manifest and the README's "five". Options: **(a) recommended** — extend the manifest
-  with the in-function form (23 rows, disposition PERMANENT-VERBATIM-IN-SHELL), teach `verbatim_check` that form, regenerate the README's
-  count (5 → 28, a dated correction, R75), and share the 20 per-overlay families through the names phase's parameterized form later;
-  **(b)** adjudicate each routine first (a §473-style refutation is possible for a compiler-shaped body) and list only what survives. Until
-  Drew decides, the census sets them apart as `verbatim-body`, never counts them as levers, and the README sentence names them.
+- **T1 finding → Drew (2026-09-09): *"confirmed per your recommendations."*** → **T1b added (P5d):** the manifest extended with the
+  in-function form; `verbatim_check` taught the form; the README count regenerated (5 → 27 PERMANENT; the 23rd routine,
+  `func_80184440`, is `-O0` compiler output — frame-pointer prologue around two global stores — and is listed DECOMPILE-NOW, a Phase-36
+  residue counted as a lever). The 20 per-overlay trampoline families (133 private copies each, bytes varying with the wrapped callee)
+  are the names phase's parameterized-form inheritance.
 
 ## Rules at gate 1 (P10)
 
@@ -162,7 +168,40 @@ accumulate here as the phase produces them.**
   **Aside for the record:** 0x801285E4 has 141 sig rows and the S1 class at that address 3 instances — the other 138 are per-overlay
   byte variants (singleton classes), not an S1 gap.
 
-## 🛑 SESSION CHECKPOINT — S97 (2026-09-09): T0 ☑ T1 ☑ (T1's commit pending); NEXT = T2 (the probe: calibrate the object oracle, strip-all + greedy on ~150 distinct bodies, price T4–T7) at Max
+- **S97 — T1b the manifest's in-function form.** Drew confirmed the recommendation. Rows built from the census sites + the sig files:
+  22 routines carry the trampoline signature (`0x03fc` + `sw $sp`; 20 with 133 private copies each + a shared header, bytes varying per
+  overlay — 134 distinct `h_exact` of 141; `func_80128678` and `func_80155FF8` shared-only, byte-identical fleet-wide) → PERMANENT-VERBATIM;
+  `func_80184440` (13 ins, 2 binaries) has an `-O0` frame-pointer prologue around two global stores → DECOMPILE-NOW (a carve into an `-O0`
+  unit; a lever until then). `tools/verbatim_check.py --strict`: `verbatim bodies in tree: … in-function sites across 23 routines · manifest
+  rows: 28 (23 of them fleet-wide "ov_*" in-function rows) · no drift` (the literal line is in `.run/P36/baseline/verbatim_check_t1b.log`).
+  The census's `asm-body` kind is structural (the asm statement is the function's only statement; declarations aside) and the manifest
+  decides: `verbatim-body` 2,682 sites / 22 routines excluded; `asm-body` 1 site (`func_80184440:DECOMPILE-NOW`) counted — **53,222 sites
+  in 15,667 bodies (2,215 distinct)**. README block: `27 hand-written-assembly bodies kept verbatim`; prose + wiki + gen3 docs dated.
+
+- **S97 — T1b, second pass: the structural detector found 21 MORE in-function bodies.** The first census had applied the whole-body
+  test only to templates classed `instruction`; `tools/verbatim_check.py`, detecting structurally (the asm statement is the function's
+  only statement, declarations aside) through `lever_census.whole_body_asm_functions`, listed 70 NEW — 49 of them false positives of
+  the declaration regex (`iVar1 = …` read as type `iVa` + name `r1` with an initializer; fixed with `\b` after every identifier and a
+  size pre-filter — the unbounded regex had also made the guard take minutes) and **21 genuine**: 8 Sony libgs `GsTMDfast*` renderers
+  in `src/800b2.c` (the cookbook's §176-area bank: libgs code carried as asm where no SDK object of that version matched) and **13 game
+  functions carried whole as assembly inside C shells** — main `func_8001E378` (188 ins), `func_80020F34` (53), `func_800249F0` (116),
+  `func_80025CBC` (127), `func_80026514` (239), `func_800268D0` (293), `func_80027058` (106), `func_80027200` (125); `md_MAIN_027:
+  func_800CBA44` (109), `md_SC07_003:func_801A3BCC` (372); `ov_SC04_016:func_8017E26C` (269), `ov_SC06_032:func_8017D810` (33),
+  `ov_SC07_000:func_8017EEC0` (8) — plus the shared `func_80184440` (13, `-O0` shape). None is in the P31 S75 taxonomy (200 rows, all
+  file-scope): the lane's in-function form was never censused. **Manifest now 49 rows:** 27 PERMANENT-VERBATIM (5 file-scope + 22
+  trampolines) · 8 SDK-VERBATIM (Sony's code, not ours) · 11 DECOMPILE-NOW (compiler-shaped prologue, no hand-asm marker) · 3 UNCERTAIN
+  (`$at` present: `func_80026514`, `func_800268D0`, `func_8017E26C` — adjudicate). `verbatim_check --strict`: `verbatim bodies in tree:
+  2709 (5 file-scope, 2704 in-function sites across 44 routines) · manifest rows: 49 (23 of them fleet-wide "ov_*" in-function rows) ·
+  no drift` (`.run/P36/baseline/verbatim_check_t1b.log`). The census excludes only PERMANENT/SDK dispositions (by name for `ov_*`
+  rows, by (binary, addr) for concrete ones — `share_census.verbatim_instances` now skips the wildcard rows); DECOMPILE/UNCERTAIN bodies
+  are LEVERS: **the phase's number is 53,234 sites in 15,679 bodies (2,227 distinct)** (pins 37,720 + asm statements 15,514, of which
+  14 are whole-body asm functions to decompile). README block: `27 hand-written-assembly bodies kept verbatim · 8 Sony library routines
+  carried as assembly where no SDK object matched`. **P9 finding for the record:** the P32 close's "every game-code function in every
+  binary is C" was measured by instruments blind to the in-function form (`progress.py`'s verbatim bucket and `verbatim_check` are
+  file-scope detectors); 14 game functions (8 in main) were assembly in C shells all along. The README prose is corrected in this commit;
+  the decision log carries it at T9; Drew's word on the SDK/DECOMPILE/UNCERTAIN split is asked at the T1b report.
+
+## 🛑 SESSION CHECKPOINT — S97 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ (T1b's commit pending); NEXT = T2 (the probe: calibrate the object oracle, strip-all + greedy on ~150 distinct bodies, price T4–T7) at Max
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T2 is Max; T3's finish and T4–T6

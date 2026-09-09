@@ -373,8 +373,10 @@ def load_groups():
 
 
 def verbatim_instances():
+    """{(binary, addr)} of the manifest's rows with a concrete binary and address. The Phase-36 in-function rows keyed by the
+    fleet-wide wildcard binary "ov_*" (and any row without an address) are matched BY NAME by their consumers, never here."""
     d = json.loads((REPO / "config" / "verbatim_manifest.json").read_text())
-    return {(r["binary"], int(r["addr"], 16)) for r in d["rows"]}
+    return {(r["binary"], int(r["addr"], 16)) for r in d["rows"] if r.get("addr") and r["binary"] != "ov_*"}
 
 
 def load_exceptions(path):
