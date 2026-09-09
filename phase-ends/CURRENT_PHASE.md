@@ -248,44 +248,48 @@ accumulate here as the phase produces them.**
 ## 🛑 SESSION CHECKPOINT — S97 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ (T2's commit pending); NEXT = T3 (`tools/delever.py` the campaign tool: --plan/--apply, the ledger, exemplar/replay, batches + `delever_cycle.sh`, the `!FAKE` markers, refusals, selftest) at Max for the design
 
 ### 0. How to use this block
-A fresh session reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T2 is Max; T3's finish and T4–T6
-xHigh) and executes §2. The tree is clean at **HEAD = T1's commit** (`git log --oneline -1` names it: `phase-36: T1 — …`). Drew pushes (R6).
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T3's design is Max; its finish
+and T4–T6 xHigh) and executes §2. The tree is clean at **HEAD = the "checkpoint for T3" commit after T2's `617f29e30`**
+(`git log --oneline -2`). Drew pushes (R6).
 
 ### 1. Where things stand
-- **Done, committed:** gate 1 (plan approved 2026-09-09, the decisions above); T0 (`63b886626`: R22 at the open **218/218**,
-  `.run/P36/baseline/r22_t0.log`; the `.gitignore` P36 block; this file; harness tasks #1–#11); T1 (`tools/lever_census.py` + the
-  `progress.py` `levers` block + README sentence + dictionary/SETUP rows + kit corpus; the census evidence under `.run/P36/census/`).
-- **The number to beat:** `lever_census: … coverage OK` — **53,221 pin/asm sites in 15,666 bodies (2,214 distinct), 0 marked** (the
-  T1 log entry has the whole table). Re-derive with `.venv/bin/python tools/lever_census.py --sites -j 16` (32 s; `--no-cache` after a
-  tool edit); `lever_sites.jsonl` (scratch) is every site with tu/aliases/fn/line/kind/detail/marked — T3's ledger input.
-- **Open for Drew:** the 23 whole-body assembly routines inside C shells (the decisions section, "OPEN (T1 finding)") — recommended (a):
-  extend the manifest + `verbatim_check`, regenerate the README's count. Not blocking T2–T4 (the census sets them apart already).
-- **No `src/` edit has been made.** `tools/delever.py` / `tools/delever_cycle.sh` do not exist yet (T3).
-- **Environment:** WSL2, `~/bfm-decomp`, `.venv`; fleet clean run ≈ 90 s; `make report BINARY=main` ≈ 226 s; headless Ghidra MCP up but
-  unused (stop it with the sentinel before a checkpoint commit, R23); 16 cores; 31 GB RAM; 32 GB disk free (the WSL disk is capped at
-  75 GB — `.run/` churn can hit ENOSPC).
+- **Done, committed:** gate 1 (2026-09-09, the decisions above); T0 (`63b886626`, R22 **218/218**); T1 (`357f8a1ed`, `tools/lever_census.py`
+  + the published `levers` block); T1b (`a1407bdfc`, the manifest's in-function form: 49 rows, `verbatim_check --strict` no drift); T2
+  (`617f29e30`: `tools/delever_oracle.py` calibrated 177/177 + control DIFFERS, `tools/delever.py --probe` on 283 distinct bodies).
+- **The number to beat:** `lever_census: … coverage OK` — **53,234 pin/asm sites in 15,679 bodies (2,227 distinct), 0 marked** (the T1/T1b
+  log entries have the tables). Re-derive: `.venv/bin/python tools/lever_census.py --sites -j 16` (35 s; `--no-cache` after a tool edit);
+  `.run/P36/census/lever_sites.jsonl` (scratch) = every site with tu/aliases/fn/fn_line/fn_end/nhash/line/col/kind/detail/marked.
+- **The probe's answer (T2 log entry):** rungs A+B fleet-wide ≈ 94k compiles ≈ 0.5 h wall, removing ≈ 43 % of sites and freeing ≈ 19 %
+  of bodies; the residue ≈ 81 % of bodies ≈ 1,800 distinct exemplars (launders/barriers/keep-alives 42 % of needed sites, v0/v1 + a0–a3
+  pins 32 %, callee-saved pins 9 %). `register` dropped vs kept: byte-neutral (53 = 53).
+- **Instruments:** `tools/delever_oracle.py` (`--recipes` 14 s, `--calibrate <aliases>`, `--status`; `.run/P36/delever/calibration.json`
+  must be CURRENT for HEAD — recalibrate after any Makefile/config change or fleet rebuild, and after EVERY commit (it records HEAD);
+  `recipes.json` is ignored scratch, regenerated on demand); `tools/delever.py` (the rewrite rules, rung A/B, `--probe`);
+  `.run/P36/probe/{probe_results.jsonl,probe_summary.json,probe_table.md,probe_run.log,probe_log.txt}`.
+- **No `src/` edit has been committed.** The probe writes candidates in place and restores them (`git status --short src` empty after
+  every run — check it; a crash mid-run leaves a modified TU that must be restored from the tool's snapshot, never blindly).
+- **Environment:** WSL2, `~/bfm-decomp`, `.venv`; fleet clean run ≈ 90 s; `make report BINARY=main` ≈ 226 s; `make kit-corpus` ≈ 25 s (needs
+  a new tool `git add`ed first); headless Ghidra MCP up but unused (stop it with the sentinel before a checkpoint commit, R23); 16 cores;
+  31 GB RAM; 32 GB disk free.
 
-### 2. T2 — the probe (Max), then T3
-1. **The oracle, calibrated first.** Recipes: `make -n -W src/<dir>/<tu>.c build/src/<alias>/<tu>.o BINARY=<alias>` prints the exact
-   pipeline (0.04–0.06 s; main objects are `build/src/<tu>.o`; a twin's object is built from the PRIMARY's source into
-   `build/src/<twin>/<twin><suffix>.o`; main/module objects carry `| .venv/bin/python tools/jtbl_rodata_pads.py --derive <alias> --tu <tu> |`
-   before `as`; `-O0` objects carry `-O0`). Replay = write the candidate text IN PLACE at the real path (objects embed the source path
-   as an STT_FILE symbol; restore from the in-memory snapshot — never `git checkout`, R102), run the recipe with `-o .run/P36/probe/obj/…`
-   and `-MF .run/P36/probe/obj/….d` (never write `build/`), compare bytes with `build/`'s object from the T0 fleet run (R56: `build/` must
-   be that run's — if in doubt rerun `make clean && make extract-all JOBS=16 && make check-all JOBS=16`, 90 s). Calibration = every TU of
-   two overlays + main + one twin pair compiled UNTOUCHED → 100 % equality (twin object == primary object too), and a positive control
-   (inject `__asm__("nop")` into one body → DIFFERS). Record `.run/P36/probe/calibration.json`.
-2. **The sample:** ~150 distinct bodies stratified from `lever_sites.jsonl` — by class mix (pins only / asm only / both / with volatile),
-   pins per body (1, 2–4, 5–9, ≥10), kind of binary (shared header, overlay, main, module, resident), the `$0` class, initializer pins, B4
-   instructions (addu/move/la/lh), file-scope `extern volatile`, a `-O0` TU if any lever sits in one (the census says 0 pins do).
-3. **Rung A then rung B** on each: strip-all (pin → plain declaration keeping type/qualifiers/initializer; barrier/launder/keepalive → statement
-   deleted; addu-$zero/move → assignment; la → `&sym`; lh → the load; `$0` pin → its variable's uses replaced by 0; volatile → dropped;
-   register → dropped; GTE and verbatim-body untouched) → compile → compare; if DIFFERS, greedy re-add one site at a time (asm statements
-   first, then pins, then volatile, then register) to the minimal needed set. Measure with `register` DROPPED vs KEPT on the pin rewrite.
-4. **Report** (R41, with denominators): % identical after strip-all, % after greedy, the residue's class/kind mix, seconds per compile per
-   binary kind, compiles per body; then price T4 (compiles × seconds), T6 and T7 (residue exemplars × the expected yield). Write the table
-   into this log with its command; commit `.run/P36/probe/*.{json,txt,md,py}`.
-5. Then T3 per the task text (the Plan agent's design notes are in the S97 log entry "Plan-agent findings").
+### 2. T3 — `tools/delever.py`, the campaign tool (design at Max, finish at xHigh)
+What T2's engine lacks, in the order to build it: (1) **the ledger** `.run/P36/delever/ledger.jsonl`, one row per (alias list, tu, fn,
+addr = the fn name's address or the sig's) with every site's verdict REMOVED / REWRITTEN(rule) / NEEDED(kind, detail, register) /
+REFUSED(why), the rung and the calibration id that judged it (R48, R65) — the census's `marked` flag and this ledger are what T8's
+`!FAKE` markers and the published count derive from; (2) **--plan / --apply --batch N --batches 1 --label**: a batch = a set of files
+(TUs, then headers serial), largest reach first (shared headers by includer count, then the multi-copy classes by copies, then singletons),
+each body run through rungs A/B, the winning candidate KEPT in place (the file's final text = original + every accepted edit), the
+NEEDED sites marked `// !FAKE: <kind> <detail> — <class> (P36 rung B)` on their line (T8's marker, from the first batch), then the batch's
+touched binaries gated by `make check BINARY=<alias> -j16` per alias (exit code) — the object oracle is the inner loop, the binary
+gate the outer; (3) **exemplar/replay** for the 488 multi-copy classes: the exemplar's accepted edit set replayed on each copy by
+site kind+order, each copy verified by its own compile (a disagreement → the copy's own rung B, logged); (4) **refusals** (R43): a token
+mismatch, an unparsable statement, a body in a `-O0` TU (none have pins, but assert), a header whose includer set is empty, a stale
+calibration; (5) **`tools/delever_cycle.sh`** = batch → exit code → the census rerun → the log entry → commit → R22 every 2 batches
+(the `share_body_cycle.sh` pattern: refuse a dirty `src/`; stop on the first red); (6) a **selftest** fixture with every site kind and
+the decoys; (7) the SETUP row + the dictionary row updated. Gotchas already paid for: header edits are serialized after the TU phase;
+a no-op edit is refused; C89 puts declarations first (a rewrite must never move a declaration after a statement — the pin rewrite keeps
+its position); the `$0` rewrite touches every use in the body (two `$0` pins in one body would collide — refuse); an asm-body (whole
+routine) is never a site; the calibration is keyed to HEAD — every commit stales it, `--calibrate` again (2 s) before the next batch.
 
 ### 3. Numbers to re-derive, never trust
 The gate-1 population table in the approved plan was grep-derived and is superseded by T1's census (the corrections are in the T1 log
