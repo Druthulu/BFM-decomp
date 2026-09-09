@@ -572,10 +572,34 @@ def winner_body(winner_c, fn, tu):
     return None
 
 
+def tidy_body(body):
+    """the permuter's winner, made to read like the tree it lands in — or None when there is nothing to tidy.
+
+    pycparser reprints a body it has parsed: two-space indent where this tree uses four, and an empty statement `;` left
+    where a statement was inlined away. Neither generates code, and the object oracle judges the tidied text before it is
+    kept, so this can only ever improve the source. What it deliberately does NOT touch is the parenthesisation
+    (`*((s32 *) (p + 4))`) or the brace style — that is the formatting phase's job, with clang-format, over the whole tree
+    at once (`decomp-architect/templates/.clang-format`); a per-bank reformat would make this phase's diffs unreadable."""
+    lines = [l for l in body.split("\n") if l.strip() != ";"]
+    indents = [len(l) - len(l.lstrip(" ")) for l in lines if l.strip() and l.startswith(" ")]
+    if indents and min(indents) == 2:                     # a two-space body: double every leading run
+        lines = [(" " * (2 * (len(l) - len(l.lstrip(" ")))) + l.lstrip(" ")) if l.startswith(" ") else l for l in lines]
+    out = "\n".join(lines)
+    return out if out != body else None
+
+
 def bank(a):
     outs = load_outcomes()
     banked = {(o["alias"], o["fn"], o["nhash"]) for o in outs if o.get("kind") == "bank" and o.get("applied")}
+    # a body ANOTHER rung already closed is not banked again (S99: --bank re-applied the permuter's reprinted body over the
+    # one-line version rung R had banked for the same function, and the tree lost a clean diff for a byte-identical one)
+    cur = {}
+    for r in dl.load_ledger():
+        if r.get("tu") and r.get("fn"):
+            cur[(r["tu"], r["fn"])] = r
+    already = {(k[0], k[1]) for k, r in cur.items() if r.get("verdict") == "LEVER-FREE"}
     todo = [o for o in outs if o.get("kind") == "attempt" and o.get("verdict") == "MATCH"
+            and (o["tu"], o["fn"]) not in already
             and (o["alias"], o["fn"], o["nhash"]) not in banked
             and (not a.only or any(x in (o["fn"], o["tu"], o["alias"]) or o["nhash"].startswith(x) for x in a.only))]
     if not todo:
@@ -590,11 +614,17 @@ def bank(a):
             bad += 1
             continue
         bf = d / "body.c"
-        bf.write_text(body, errors="surrogateescape")
-        cmd = [PY, "tools/delever.py", "--apply-body", o["tu"], o["fn"], bf.relative_to(REPO).as_posix(),
-               "--label", a.label, "--rung", "D"] + (["--dirty-ok"] if a.dirty_ok else [])
-        r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
-        print("   " + (r.stdout or r.stderr).strip().splitlines()[-1][:220], flush=True)
+        # the tidied body FIRST (the oracle judges it like any other candidate); the winner verbatim only if it is refused
+        forms = [(t_, "tidied") for t_ in [tidy_body(body)] if t_] + [(body, "verbatim")]
+        r = None
+        for text_, how in forms:
+            bf.write_text(text_, errors="surrogateescape")
+            cmd = [PY, "tools/delever.py", "--apply-body", o["tu"], o["fn"], bf.relative_to(REPO).as_posix(),
+                   "--label", a.label, "--rung", "D"] + (["--dirty-ok"] if a.dirty_ok else [])
+            r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
+            print(f"   [{how}] " + (r.stdout or r.stderr).strip().splitlines()[-1][:210], flush=True)
+            if r.returncode == 0:
+                break
         row = dict(kind="bank", ts=time.strftime("%Y-%m-%d %H:%M:%S"), nhash=o["nhash"], tu=o["tu"], fn=o["fn"],
                    alias=o["alias"], label=a.label, applied=(r.returncode == 0),
                    apply_out=(r.stdout or r.stderr).strip()[-400:])

@@ -1406,23 +1406,34 @@ def inline_single_set_temps(text, tu, fn, d_):
                 decls.append(p)
             else:
                 uses.append(p)
-        if len(asgs) != 1 or len(uses) != 1 or len(decls) > 1:
+        if not asgs or not uses or len(decls) > 1:
             continue
-        ai = asgs[0][0]
-        ui, u0, u1 = uses[0]
-        if ai >= ui:
-            continue
-        mm = re.match(ASG % re.escape(v), masked[ai].strip())
-        raw_stripped = lines[ai].strip()
-        expr = raw_stripped[mm.start(1):mm.end(1)]
-        if not expr.strip():
-            continue
-        cand = list(lines)
-        cand[ui] = lines[ui][:u0] + f"({expr})" + lines[ui][u1:]
-        cand[ai] = None                                   # the assignment goes (with its declaration when they are one)
-        if decls:                                         # form B: the separate `T v;` is dead now
-            cand[decls[0][0]] = None
-        out.append((f"inline {v} @{ai + 1}", "\n".join(l for l in cand if l is not None)))
+        # ONE ASSIGNMENT AT A TIME, not one per variable. The single-set case is the easy half; the lever rung D actually
+        # found is narrower: `uVar5` is assigned in TWO branches of func_80163EC8, and the winning move inlined ONE of them.
+        # An assignment is inlinable when its value is read exactly once before the variable is written again — the classic
+        # def-with-one-use — so the assignment can go and the read can carry the expression.
+        order = sorted(places)
+        for ai, _, _ in asgs:
+            after = [p for p in order if p[0] > ai]
+            reads = [p for p in after if p not in [(x, y, z) for x, y, z in asgs] and not is_decl_line(masked[p[0]].strip())]
+            if not reads:
+                continue
+            ui, u0, u1 = reads[0]
+            nxt = [p for p in after if p[0] > ui]
+            if nxt and (nxt[0][0], nxt[0][1], nxt[0][2]) not in [(x, y, z) for x, y, z in asgs]:
+                continue                                  # read again before it is rewritten: the assignment is not dead
+            mm = re.match(ASG % re.escape(v), masked[ai].strip())
+            if not mm:
+                continue
+            expr = lines[ai].strip()[mm.start(1):mm.end(1)]
+            if not expr.strip():
+                continue
+            cand = list(lines)
+            cand[ui] = lines[ui][:u0] + f"({expr})" + lines[ui][u1:]
+            cand[ai] = None                               # the assignment goes (with its declaration when they are one)
+            if decls and len(asgs) == 1:                  # the separate `T v;` is dead only when nothing else writes v
+                cand[decls[0][0]] = None
+            out.append((f"inline {v} @{ai + 1}", "\n".join(l for l in cand if l is not None)))
     return out
 
 
@@ -1559,12 +1570,19 @@ def recipes(a):
         return [r for t_ in inc.get(tu, []) for r in by_src.get(t_, [])] if tu.endswith(".h") else by_src.get(tu, [])
 
     def judge(tu, cand):
+        """judge one candidate, and be killable: the oracle writes the candidate into the tree to compile it, so a SIGTERM
+        between the write and the restore leaves a candidate in `src/`. The original text goes into inflight.json first, the
+        same file `--restore` reads (P35's rule: a tool restores from its OWN snapshot, never `git checkout`) — S99 killed a
+        run mid-judge and found exactly that leftover."""
         path = REPO / tu
         raw, st = path.read_text(errors="surrogateescape"), path.stat()
+        RUN.mkdir(parents=True, exist_ok=True)
+        INFLIGHT.write_text(json.dumps({tu: raw}))
         try:
             return oracle.judge_all(recs_for(tu), cand, tag="rec", write_path=(tu if tu.endswith(".h") else None))
         finally:
             restore_file(path, raw, st)
+            INFLIGHT.unlink(missing_ok=True)
 
     def lever_free(tu, raw, fn):
         m, ls = same_len_mask(raw), line_starts(raw)
@@ -1613,7 +1631,7 @@ def recipes(a):
     print(f"delever --recipes: {len(todo)} RESIDUE bodies", flush=True)
     rows, won, tried, compiles = [], 0, 0, 0
     t0 = time.time()
-    for (tu, fn), r in todo:
+    for n_body, ((tu, fn), r) in enumerate(todo, 1):
         path = REPO / tu
         raw = path.read_text(errors="surrogateescape")
         names = pin_names(sites_by[(tu, fn)])          # may be empty: R5 needs no pinned declaration
@@ -1632,6 +1650,9 @@ def recipes(a):
             if v == "IDENTICAL":
                 hit = (rec, desc, cand)
                 break
+        if n_body % 10 == 0 or hit:                       # R55: a lane that runs unattended leaves evidence
+            print(f"  [{n_body}/{len(todo)}] {won} closed · {compiles} compiles · {(time.time() - t0) / 60:.1f} min",
+                  flush=True)
         row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung="R", calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
                    tu=tu, fn=fn, addr=fn_addr(fn, tu), aliases=r.get("aliases"), header=tu.endswith(".h"),
                    nhash_before=r.get("nhash_after"), nhash_after=None, candidates=len(cands), pins=len(names),
