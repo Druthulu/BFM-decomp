@@ -419,18 +419,10 @@ def finalize(orc, ledger):
     for p in sorted((REPO / "src/shared").rglob("func_*.h")):
         want = re.match(r"(func_[0-9A-Fa-f]{8})", p.name).group(1)
         text = p.read_text(errors="surrogateescape")
-        if re.search(r'__asm__\s*\(\s*"%s"\s*\)' % want, text):
-            continue
-        m = re.search(r"^([A-Za-z_][\w \t\*]*?)\b(aF[0-9A-Fa-f]{8})\s*\(([^;{)]*)\)\s*(\{|\n)", text, re.M)
-        if not m or m.group(2)[2:].upper() != want[5:].upper():
-            continue
-        ret, name, params, after = " ".join(m.group(1).split()), m.group(2), m.group(3), m.group(4)
-        kr = after != "{" or not re.search(r"\b(void|int|s32|u32|s16|u16|s8|u8|char|short|long|float)\b|\*", params)
-        # an ANSI head repeats its prototype in the binding; a K&R head (types declared after the `)`) gets the unprototyped form
-        decl = f"{ret} {name}() __asm__(\"{want}\");" if kr else f"{ret} {name}({' '.join(params.split())}) __asm__(\"{want}\");"
-        text = text[:m.start()] + decl + "\n" + text[m.start():]
-        p.write_text(text)
-        alias_fixed += 1
+        new, changed = bind_alias_header(text, want)
+        if changed:
+            p.write_text(new)
+            alias_fixed += 1
     ledger["alias_bindings"] = alias_fixed
     # every shared-source group must DEFINE its func (C2a′) — ALL of them, not only the ones rewritten in this run
     for gid, gi in ginfo.items():
@@ -468,6 +460,21 @@ def finalize(orc, ledger):
 def sc_group_members(g):
     from dedup_integrate import group_members
     return list(group_members(g))
+
+
+def bind_alias_header(text, want):
+    """(text, changed): a header whose definition is named `aF<ADDR>` (the §37/§73 asm-label alias form) gets its own binding
+    declaration — derived from the definition head — so the body travels with its symbol. An ANSI head repeats its prototype;
+    a K&R head (types declared after the `)`) gets the unprototyped form. No-op when a binding is already present."""
+    if re.search(r'__asm__\s*\(\s*"%s"\s*\)' % re.escape(want), text):
+        return text, False
+    m = re.search(r"^([A-Za-z_][\w \t\*]*?)\b(aF[0-9A-Fa-f]{8})\s*\(([^;{)]*)\)\s*(\{|\n)", text, re.M)
+    if not m or m.group(2)[2:].upper() != want[5:].upper():
+        return text, False
+    ret, name, params, after = " ".join(m.group(1).split()), m.group(2), m.group(3), m.group(4)
+    kr = after != "{" or not re.search(r"\b(void|int|s32|u32|s16|u16|s8|u8|char|short|long|float)\b|\*", params)
+    decl = f"{ret} {name}() __asm__(\"{want}\");" if kr else f"{ret} {name}({' '.join(params.split())}) __asm__(\"{want}\");"
+    return text[:m.start()] + decl + "\n" + text[m.start():], True
 
 
 # ----------------------------------------------------------------------------------------------------------------------------

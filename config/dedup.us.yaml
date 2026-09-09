@@ -15664,3 +15664,10 @@ groups:
     func: func_80182AF8
     vram: 0x80182AF8
     binaries: [ov_SC04_018, ov_SC04_019]
+  - id: S_func_801681FC
+    tier: h_exact
+    hash: c1c085b28d16c2417f2d9ce46553d16fe45b4508
+    source: src/shared/ov/func_801681FC__c1c085b2.h
+    func: func_801681FC
+    vram: 0x801681FC
+    binaries: [ov_SC04_008, ov_SC05_009]

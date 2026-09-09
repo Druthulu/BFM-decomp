@@ -1,0 +1,24 @@
+{
+ "classes": [
+  "c1c085b28d16c2417f2d9ce46553d16fe45b4508"
+ ],
+ "refused": [],
+ "results": {
+  "ov_SC04_008": [
+   true,
+   "BYTE-IDENTICAL, obj A/B 26/26"
+  ],
+  "ov_SC05_009": [
+   true,
+   "BYTE-IDENTICAL, obj A/B 27/27"
+  ]
+ },
+ "registered": [
+  "S_func_801681FC"
+ ],
+ "extended": {},
+ "rejected": [],
+ "exemplars": {
+  "c1c085b28d16c2417f2d9ce46553d16fe45b4508": "exemplar src/ov_SC04_008/ov_SC04_008_jr_8015C32C.c:5680 (majority text; texts 1), 2 private sites \u2192 include"
+ }
+}

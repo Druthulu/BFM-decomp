@@ -457,7 +457,7 @@ def build_forms(aliases, dirs, jobs, use_cache=True, out_dir=None):
     return forms, notes
 
 
-def classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verbatim, exceptions, scope="same-vram"):
+def classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verbatim, exceptions, scope="same-vram", keep_instances=False):
     """Pure: sigs {alias: [(addr,nins,h,name)]}, forms {alias: {addr: rec}}, groups (registry list), spaces {alias: base},
     dirs {alias: src dir}, twins {alias: twin-set tuple}, twin_of {alias: primary}, verbatim {(alias,addr)}, exceptions {h: ...}."""
     from dedup_integrate import group_members
@@ -481,7 +481,8 @@ def classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verbatim, except
                 continue
             classes[h].append(dict(alias=a, addr=addr, nins=nins, name=name, form=rec["form"], tu=rec.get("tu"),
                                    text_hash=rec.get("text_hash"), pins=rec.get("pins", False), typedef=rec.get("typedef", False),
-                                   alias_form=rec.get("alias", False)))
+                                   alias_form=rec.get("alias", False), line=rec.get("line"), end=rec.get("end"),
+                                   nlines=rec.get("nlines", 0)))
     out = []
     for h, insts in classes.items():
         if len(insts) < 2:
@@ -536,10 +537,14 @@ def classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verbatim, except
         violation = (verdict != "A") and ("TWIN-COVERED" not in flags) and not deferred and not excepted
         # copies = DISTINCT private-definition sites (a twin's instance resolves to its primary's TU — one source, not two)
         copies = len({i["tu"] for i in insts if i["form"] == "def" and i["tu"]})
-        out.append(dict(h=h, verdict=verdict, flags=flags, nins=nins, band=band, instances=len(insts), copies=copies,
-                        aliases=aliases, addrs=[f"0x{x:08X}" for x in addrs], forms=dict(forms_seen), detail=detail,
-                        excepted=(excepted or {}).get("reason"), deferred=deferred, violation=violation,
-                        names=sorted({i["name"] for i in insts})[:4]))
+        row = dict(h=h, verdict=verdict, flags=flags, nins=nins, band=band, instances=len(insts), copies=copies,
+                   aliases=aliases, addrs=[f"0x{x:08X}" for x in addrs], forms=dict(forms_seen), detail=detail,
+                   excepted=(excepted or {}).get("reason"), deferred=deferred, violation=violation,
+                   names=sorted({i["name"] for i in insts})[:4])
+        if keep_instances:
+            row["insts"] = insts                      # for share_body.py: the per-instance records (never written to classes.jsonl)
+            row["groups"] = gs
+        out.append(row)
     out.sort(key=lambda c: (-c["instances"] * c["nins"], c["h"]))
     return out, dict(instances=n_inst, classified=n_inst - len(unaccounted), unaccounted=unaccounted)
 

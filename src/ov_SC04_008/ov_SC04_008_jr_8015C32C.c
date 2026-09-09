@@ -5677,24 +5677,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
 extern s32 func_80029178(s32 arg);
 extern s32 func_80166F58(s32, s32, s32, s32);
 
-void func_801681FC(s32 param_1) {
-
-    extern u8 D_80181A58[];
-    extern u8 D_80181A28[];
-    extern u8 D_80181A29[];
-    s32 iVar3;
-    s32 a3;
-
-    *(s16 *)(param_1 + 0x28) = func_80029178(0x81) & 0xFF;
-    *(s32 *)(param_1 + 0x30) = D_80181A58[*(s32 *)(param_1 + 0x2C)];
-    iVar3 = (*(s32 *)(param_1 + 0x2C) << 0x11) >> 0x10;
-    *(s16 *)(param_1 + 0x2A) = D_80181A28[iVar3];
-    *(s32 *)(param_1 + 0x1C) = D_80181A29[iVar3];
-    a3 = *(s32 *)(param_1 + 0x2C) & 1;
-    *(s32 *)(param_1 + 0x2C) = a3;
-    ((void (*)(s32, s32, s32, s32))func_80166F58)(param_1, 4, 4, a3);
-    *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
-}
+#include "../shared/ov/func_801681FC__c1c085b2.h"
 
 
 #include "../shared/ov/func_8016829C.h"

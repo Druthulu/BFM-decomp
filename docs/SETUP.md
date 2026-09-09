@@ -1510,7 +1510,17 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   or a quoted include that resolves to no file / outside the repo is an offender. R39 controls: 34 offenders in 19 files
   before the fix (all ABSOLUTE), 0 after; 4,299 sources scanned (the coverage line, R32).
 
-### P35 T3–T4 (S94, 2026-09-08) — twin binaries, and the macro bodies become per-function headers
+### P35 T3–T5 (S94, 2026-09-08) — twin binaries, the macro bodies become per-function headers, the backlog shared
+- **`tools/share_body.py` (T5, permanent — the successor of `dedup_propagate` + `dedup_extend`).** `--plan` (the buckets from the
+  census: `extend` = registered classes whose members are not all sharing, `new` = unregistered same-address classes with private
+  copies, largest reach first), `--apply --bucket extend|new [--batch N] [--limit N] [--only <h_exact>]`. Per class: the exemplar
+  by majority normalized text (tie → pin-free → shortest; printed), its definition lines become the header (alias bodies get
+  their binding), every private copy becomes the include at its position (bottom-up per TU), the registry group appended in
+  shorthand by text (or the members added with `dedup_extend.add_members_surgical`). The gate per batch: every touched binary
+  (a twin with its primary) snapshotted, `make check` by exit code, every object compared; a red binary is bisected class by
+  class, the culprit's copies stay private and the class is ledgered in `config/dedup_exceptions.tsv` (TU-CONFLICT) with the
+  compiler's line; "shared" only from the gate's success (R66). Evidence per batch under `.run/P35/share/`.
+
 - **Twin binaries (T3).** Five overlay pairs are one payload (equal `config/check.*.sha`): SC01_005/006, SC03_118/119, SC02_000/003,
   SC04_018/019, SC03_014/015. The twin has NO source directory: `config/overlays.mk` declares `<twin>_TWIN_OF := <primary>` and
   `<twin>_SRC_DIR := src/<primary>`; the Makefile's twin block (after `-include $(C_DEPS)`) compiles the primary's files into the

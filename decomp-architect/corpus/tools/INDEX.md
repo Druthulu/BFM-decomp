@@ -8,8 +8,8 @@
 > its platform SDK need the marked adaptation. The last table lists the tools that are project-only in code (their *shape* is a task;
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
-> **Coverage:** 296 tool files in scope (submodules, vendored and downloaded code excluded), of which 296 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 54 · P7 20 · P8 86 · P9 27 · P10 12 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 324 (the installer checks its copy against this figure).
+> **Coverage:** 297 tool files in scope (submodules, vendored and downloaded code excluded), of which 297 live rows
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 54 · P7 20 · P8 86 · P9 27 · P10 13 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 325 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -339,6 +339,7 @@
 | `share_census.py` | measure duplicate function bodies across the fleet and assert one source per unique function | The census of byte-identical function classes across every binary with their source forms and verdicts, plus the S1 invariant check with its exception ledger and a fixture self-test | repo paths, the registry and signature schemas |
 | `ghidra_apply_symbols.sh` | mirror the curated symbol file into the analysis database with a real save | Mirrors the curated symbol file into the analysis program headlessly, with a real save | repo symbol path, project name |
 | `verbatim_target_s.py` | regenerate a splitter-format target disassembly for a function no longer stubbed | Regenerates a splitter-format target disassembly for a function that is no longer a stub; --gas emits the assemblable gas-syntax form ($-registers, .L labels, noreorder) that a web diff service accepts as a pasted target | repo build/asm layout |
+| `share_body.py` | share one byte-identical function class across its binaries through an include-at-site header, gated per binary | The Phase-35 successor of dedup_propagate + dedup_extend for the include-at-site form: exemplar by majority text, the header written once, every private copy replaced by the include at its position, per-binary byte gate with object comparison, bisect on red, the registry appended or extended by text, the exception ledger on refusal; --plan / --apply --bucket extend|new | repo paths, the registry and signature schemas |
 | `verbatim_to_stub.py` | turn an inline-assembly body back into a stub the toolchain can reach | Turns an inline-assembly body back into an include-assembly stub | repo src/asm layout |
 
 ## PROJECT-ONLY — project-only in code (the shape is a task; the code does not transfer)
