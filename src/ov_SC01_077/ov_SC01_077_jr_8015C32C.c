@@ -2647,10 +2647,7 @@ void func_8015F118(void *a0) {
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_8015F324(s32 *a0);
 
-void func_8015F2F0(s32 *a0) {
-    func_80147078(a0, 0x14);
-    func_8015F324(a0);
-}
+#include "../shared/ov/func_8015F2F0.h"
 
 // @class: struct
 // @stuck: none — MATCH (fn-ptr table dispatch, precedent func_80131EEC byte-identical)
@@ -2862,10 +2859,7 @@ void func_8015F9A4(void *arg0) {
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_8015FBE0(s32 *a0);
 
-void func_8015FA44(s32 *a0) {
-    func_80147078(a0, 0x16);
-    func_8015FBE0(a0);
-}
+#include "../shared/ov/func_8015FA44.h"
 
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_8015FAAC(s32 *a0);
@@ -3183,10 +3177,7 @@ void func_80160334(s32 *a0) {
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_8016039C(s32 *a0);
 
-void func_80160368(s32 *a0) {
-    func_80147078(a0, 0x1B);
-    func_8016039C(a0);
-}
+#include "../shared/ov/func_80160368.h"
 
 
 

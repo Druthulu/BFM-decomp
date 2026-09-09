@@ -1,0 +1,5 @@
+  CC      build/src/md_MAIN_019/md_MAIN_019.o
+  LD      build/md_MAIN_019/md_MAIN_019.elf
+  OBJCOPY build/md_MAIN_019/md_MAIN_019
+[ OK ] build/md_MAIN_019/md_MAIN_019
+       sha1 713669c0f8bb08d4c5d37c49a936f40fda26af21 == config/check.md_MAIN_019.sha  (BYTE-IDENTICAL)

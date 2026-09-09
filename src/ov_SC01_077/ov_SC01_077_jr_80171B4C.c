@@ -2536,10 +2536,7 @@ extern s16 D_80126B32;
 extern s32 func_80172B44(void *a0);
 extern void func_80174684(void *);
 
-void func_80172B14(s16 a0) {
-    D_80126B32 = a0;
-    func_80174684((void *)func_80172B44);
-}
+#include "../shared/ov/func_80172B14.h"
 
 extern s32 (*D_8018A0C4[])(void *);
 
@@ -2668,10 +2665,7 @@ void func_80173220(void * arg0)
 extern void func_8016F30C(void);
 extern s32 func_80174650(s32);
 
-void func_801733CC(s32 a0) {
-    func_8016F30C();
-    func_80174650(a0);
-}
+#include "../shared/ov/func_801733CC.h"
 
 // @class: sibling-copy (§71)
 // @sibling: DEFINE_func_80173460() @ src/shared/engine_core.h:13352 (banked macro)

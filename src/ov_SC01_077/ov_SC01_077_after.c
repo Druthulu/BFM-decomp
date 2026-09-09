@@ -645,11 +645,7 @@ extern void func_80147928(int a0, int a1);
 extern void func_8014799C(int a0, int a1);
 extern void func_80147A10(int a0, int a1);
 
-void func_80147860(int a0, int a1, int a2, int a3) {
-    func_80147928(a0, a1);
-    func_8014799C(a0, a2);
-    func_80147A10(a0, a3);
-}
+#include "../shared/ov/func_80147860.h"
 
 #include "../shared/ov/func_801478B8.h"
 

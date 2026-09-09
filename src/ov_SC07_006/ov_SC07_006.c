@@ -476,13 +476,7 @@ s32 func_80128CFC(s32 arg0) {
 #include "../shared/ov/func_80128DB4.h"
 
 
-void func_80128EA8(s32 a0, s32 a1, s32 a2) {
-    *(s32 *)(a1 + 0x0) = a2;                       /* sw a2, 0x0(a1) */
-    *(s16 *)(a1 + 0x4) = 0;                         /* sh zero, 0x4(a1) */
-    *(s16 *)(a1 + 0x6) = (*(s32 *)(a2 + 0x4)) & 0x3F; /* lw; andi 0x3F; sh 0x6(a1) */
-    *(s16 *)(a0 + 0x28) = *(u16 *)(a2 + 0x0);      /* lhu 0x0(a2); sh 0x28(a0) */
-    *(s16 *)(a0 + 0x2A) = *(u16 *)(a2 + 0x2);      /* lhu 0x2(a2); sh 0x2A(a0) */
-}
+#include "../shared/ov/func_80128EA8.h"
 
 
 #include "../shared/ov/func_80128ED8.h"
@@ -1337,9 +1331,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 /* de-macroized: per-overlay-local decl for func_8012CC88 (byte-true sig); do NOT re-macroize */
     extern u8 D_800D3918[];
     extern s32 func_8012CC88(s32, s32, s32);
-    void func_8012CBF4(s32 a0) {
-        func_8012CC88(a0, 0x11, (s32)D_800D3918);
-    }  /* dedup: shared engine-core @0x8012cbf4 (src/shared) */
+#include "../shared/ov/func_8012CBF4.h"
 
 
 /* de-macroized: per-overlay-local decl for func_8012CC88 (byte-true sig); do NOT re-macroize */

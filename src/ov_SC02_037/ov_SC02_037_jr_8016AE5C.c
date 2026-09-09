@@ -4306,33 +4306,7 @@ void func_8016DA7C(s32 param_1)
 s32 func_80128ED8(s32 param_1, s32 *param_2);
 void func_80146C3C(u8 *a0);
 
-void func_8016DB34(s32 a0)
-{
-    register s32 s0 asm("$16") = a0;
-    register s32 s1 asm("$17") = *(s32 *)(s0 + 0x20);
-    s32 result;
-    s32 temp1;
-    s32 temp2;
-
-    result = func_80128ED8(s1, (s32 *)(s0 + 0x24));
-
-    if (result != 0) {
-        func_80146C3C((u8 *)s0);
-    } else {
-        *(u8 *)(s1 + 0x27) = *(u8 *)(s0 + 0x28) - 0x70;
-
-        temp1 = *(s32 *)(s0 + 0x10) + (-0x60000);
-        *(s32 *)(s0 + 0x10) = temp1;
-
-        temp2 = *(s32 *)(s0 + 0x14) + temp1;
-        *(s32 *)(s0 + 0x14) = temp2;
-
-        *(s32 *)(s0 + 0x8) = *(s32 *)(s0 + 0x8) + temp2;
-
-        *(s16 *)(s1 + 0x18) = *(s16 *)(s1 + 0x18) - 0x500;
-        *(s16 *)(s1 + 0x1A) = *(s16 *)(s1 + 0x1A) - 0x300;
-    }
-}
+#include "../shared/ov/func_8016DB34.h"
 
 
 #include "../shared/ov/func_8016DBD8.h"
@@ -5706,32 +5680,7 @@ void func_801714E4(void *a0) {
 s32 func_8014C568(s16 *a0, s16 *a1);
 s32 func_80012B04(s32 a0, s32 a1, s32 a2);
 
-s16 func_80171AB0(s32 param_1, void* _arg1)
-{
-    register s32 v0 asm("$2");
-    register s32 a0 asm("$4");
-    register s32 a1 asm("$5");
-    register u32 v1 asm("$3");
-
-    v0 = ((s32 (*)(s16 *))func_8014C568)((s16 *)param_1);
-    v0 = (s32)(s16)v0;
-
-    v0 = func_80012B04(
-        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12),
-        v0,
-        4
-    );
-
-    a0 = v0;
-    a1 = *(s32 *)(param_1 + 0x20);
-    v0 = (s32)(s16)a0;
-    v1 = *(u16 *)(a1 + 0x12);
-    v1 = v1 + a0;
-    v1 = v1 & 0xFFF;
-    *(u16 *)(a1 + 0x12) = v1;
-
-    return v0;
-}
+#include "../shared/ov/func_80171AB0.h"
 
 
 #include "../shared/ov/func_80171B10.h"

@@ -3524,21 +3524,11 @@ void func_80179B74(u16 *p) {
 
 extern void func_80179B74(u16 *p);
 
-void func_80179E48(s16 a0) {
-    s16 sp[2];
-    sp[0] = 0x1F;
-    sp[1] = a0;
-    func_80179B74(sp);
-}
+#include "../shared/ov/func_80179E48.h"
 
 extern void func_80179B74(u16 *p);
 
-void func_80179E74(s16 a0) {
-    s16 sp[2];
-    sp[0] = 0x4;
-    sp[1] = a0;
-    func_80179B74(sp);
-}
+#include "../shared/ov/func_80179E74.h"
 
 #include "../shared/ov/func_80179EA0.h"
 
@@ -3546,13 +3536,7 @@ void func_80179E74(s16 a0) {
 
 extern void func_80179B74(u16 *p);
 
-void func_80179F14(s16 a0, s16 a1) {
-    s16 sp[3];
-    sp[0] = 0x13;
-    sp[1] = a0;
-    sp[2] = a1;
-    func_80179B74(sp);
-}
+#include "../shared/ov/func_80179F14.h"
 
 #include "../shared/ov/func_80179F44.h"
 

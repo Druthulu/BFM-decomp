@@ -1475,9 +1475,7 @@ s32 func_80148E54(s32 arg0) {
 
 
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
-void func_80149350(s32 arg0) {
-    ((void (*)())func_8012F14C)(*(s32 *)(arg0 + 0x20) + 0x34);
-}
+#include "../shared/ov/func_80149350.h"
 
 
 #include "../shared/ov/func_80149374.h"

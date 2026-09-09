@@ -730,10 +730,7 @@ u8 *arg2;
 #include "../shared/ov/func_8012A4BC.h"
 
 extern void func_8012A598(void *a0);
-void func_8012A568(void (*a0)(void)) {
-    func_8012A598(a0);
-    a0();
-}
+#include "../shared/ov/func_8012A568.h"
 
 
 #include "../shared/ov/func_8012A598.h"

@@ -3809,44 +3809,7 @@ extern void func_80161D20(int param_1, u32 param_2);
 extern s32 func_8014A6C4(s32 a0);
 extern s32 ratan2(s32 a0, s32 a1);
 
-s32 func_8016163C(s32 arg0, u32 arg1) {
-
-    extern s16 D_801152B0;
-    extern s16 D_801152B4;
-    if (arg1 & 1) {
-        func_801599A4((void *)arg0);
-        func_80159B3C((void *)arg0);
-        func_8014C010(arg0, 1);
-        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
-        return 1;
-    }
-    if (arg1 & 0x4000) {
-        func_801599A4((void *)arg0);
-        func_8015BF48((s32 *)arg0);
-        func_8014C010(arg0, 1);
-        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
-        return 2;
-    }
-    if (arg1 & 0x2000) {
-        func_801599A4((void *)arg0);
-        func_80159B3C((void *)arg0);
-        func_8014C010(arg0, 1);
-        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
-        return 4;
-    }
-    if (arg1 & 0x8000) {
-        if (*(u16 *)(arg0 + 0x16C) != 0x15) {
-            return 0;
-        }
-        if (func_8014A6C4(arg0) != 0) {
-            func_801599A4((void *)arg0);
-            func_8015F2F0((s32 *)arg0);
-            *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = ratan2(D_801152B0, D_801152B4);
-            return 8;
-        }
-    }
-    return 0;
-}
+#include "../shared/ov/func_8016163C.h"
 
 
 
@@ -3858,41 +3821,7 @@ extern s32 func_8014A6C4(s32 a0);
 extern void func_8015F2F0(s32*);
 extern s32 ratan2(s32 x, s32 y);
 
-s32 func_80161774(int param_1, u32 param_2) {
-
-    extern s16 D_801152B0;
-    extern s16 D_801152B4;
-
-    if ((param_2 & 1) != 0) {
-        func_8014C010(param_1, 1);
-        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 1;
-    }
-    if ((param_2 & 0x4000) != 0) {
-        ((void (*)(int))func_801599A4)(param_1);
-        ((void (*)(int))func_8015BF48)(param_1);
-        func_8014C010(param_1, 1);
-        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 2;
-    }
-    if ((param_2 & 0x2000) != 0) {
-        func_8014C010(param_1, 1);
-        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 4;
-    }
-    if ((param_2 & 0x8000) != 0) {
-        if (*(unsigned short *)(param_1 + 0x16c) != 0x15) {
-            return 0;
-        }
-        if (func_8014A6C4(param_1) != 0) {
-            ((void (*)(int))func_801599A4)(param_1);
-            ((void (*)(int))func_8015F2F0)(param_1);
-            *(short *)(*(int *)(param_1 + 0x20) + 0x12) = ratan2(D_801152B0, D_801152B4);
-            return 8;
-        }
-    }
-    return 0;
-}
+#include "../shared/ov/func_80161774.h"
 
 
 
@@ -5525,18 +5454,7 @@ void func_80166054(s32 arg0) {
 }
 
 
-void func_801661CC(s32 param_1) {
-    extern s32 func_80128ED8(s32 param_1, s32 *param_2);
-    extern void func_80146C3C(u8*);
-    extern void func_800D22E4(s32 a0);
-    if (((s32 (*)(s32, s32))func_80128ED8)(*(s32 *)(param_1 + 0x20), param_1 + 0x24) != 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
-    } else {
-        func_800D22E4(param_1);
-        *(s32 *)(param_1 + 0x10) = (*(s32 *)(param_1 + 0x10) >> 1) + (*(s32 *)(param_1 + 0x10) >> 2);
-        *(s32 *)(param_1 + 0x18) = (*(s32 *)(param_1 + 0x18) >> 1) + (*(s32 *)(param_1 + 0x18) >> 2);
-    }
-}
+#include "../shared/ov/func_801661CC.h"
 
 
 #include "../shared/ov/func_80166244.h"
@@ -6440,33 +6358,7 @@ extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern s32 ratan2(s32 a0, s32 a1);
-void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) {
-
-    extern s32 D_801269A4;
-    extern s32 D_801269A8;
-    extern s32 D_801269AC;
-    s16 mid[3];
-    s16 dir[3];
-    s32 pos[3];
-    mid[0] = (param_2[0] + param_3[0]) >> 1;
-    mid[1] = (param_2[1] + param_3[1]) >> 1;
-    mid[2] = (param_2[2] + param_3[2]) >> 1;
-    ((void (*)(s32, void *, void *))func_80149350)(param_1, mid, mid);
-    func_800D20C0(mid, dir, 8);
-    func_80017E68(mid, param_4);
-    dir[0] = (u16)param_3[0] - (u16)param_2[0];
-    dir[1] = (u16)param_3[1] - (u16)param_2[1];
-    dir[2] = (u16)param_3[2] - (u16)param_2[2];
-    ApplyMatrixSV((void *)(*(s32 *)(param_1 + 0x20) + 0x34), dir, dir);
-    func_800D23D0(dir);
-    RotMatrixYXZ(dir, param_4);
-    pos[0] = D_801269A4 - mid[0];
-    pos[1] = D_801269A8 - mid[1];
-    pos[2] = D_801269AC - mid[2];
-    ApplyTransposeMatrixLV(param_4, pos, pos);
-    dir[2] = -ratan2(pos[0], pos[1]);
-    RotMatrixYXZ(dir, param_4);
-}
+#include "../shared/ov/func_80168070.h"
 
 
 
@@ -6968,19 +6860,7 @@ void func_8016986C(s32 a0) {
 extern s32 func_80169A4C(s32 a0, s32 a1);
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(u8*);
-void func_801699D0(void *arg0) {
-    s32 temp_v1;
-    temp_v1 = *(s32 *)((u8 *)arg0 + 0x1C);
-    if (temp_v1 < 0xF) {
-        *(s32 *)((u8 *)arg0 + 0x30) = 0xC0 - temp_v1 * 8;
-        func_80169A4C((s32)arg0, (s32)arg0 + 0x38);
-        func_800D22E4((s32)arg0);
-        *(s32 *)((u8 *)arg0 + 0x14) = *(s32 *)((u8 *)arg0 + 0x14) + 0x10000;
-        *(s32 *)((u8 *)arg0 + 0x1C) = *(s32 *)((u8 *)arg0 + 0x1C) + 1;
-    } else {
-        ((void (*)(s32))func_80146C3C)((s32)arg0);
-    }
-}
+#include "../shared/ov/func_801699D0.h"
 
 
 #include "../shared/ov/func_80169A4C.h"

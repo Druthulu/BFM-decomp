@@ -1264,7 +1264,7 @@ void func_80155E30(void *a0);
  * D-cache scratchpad stack held at *(0x1F8003FC), calls func_80156044, restores $sp.
  * Manipulating $sp is not expressible in C; full inline asm (manages its own frame).
  * Signature pinned by engine_core.h: int func_80155FF8(int arg, int a1). */
-extern void func_80156044(int arg, int a1); int func_80155FF8(int arg, int a1) { __asm__ __volatile__( ".set noreorder\n" "addiu $sp, $sp, -24\n" "sw $ra, 16($sp)\n" "lui $v0, 0x1f80\n" "ori $v0, $v0, 0x03fc\n" "addu $t0, $v0, $zero\n" "lw $t1, 0($t0)\n" "nop\n" "sw $sp, 0($t1)\n" "addiu $t1, $t1, -4\n" "addu $sp, $t1, $zero\n" "jal func_80156044\n" "addiu $sp, $sp, 4\n" "lw $sp, 0($sp)\n" "nop\n" "lw $ra, 16($sp)\n" "addiu $sp, $sp, 24\n" : : : "memory"); }  /* dedup: shared engine-core @0x80155FF8 (src/shared) */
+#include "../shared/ov/func_80155FF8.h"
 
 // @class: schedule (delay-slot fill via void return type)
 // @stuck: none — MATCH (74 ins). Requires engine_core.h DEFINE_func_80155FF8 flip

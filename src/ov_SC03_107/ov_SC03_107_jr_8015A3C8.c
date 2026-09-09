@@ -6942,10 +6942,7 @@ void func_80165240(void *param_1, void *param_2, void *param_3)
     extern s32 D_80126B58;
     extern u8 D_80126CF8;
     extern s32 func_801659DC();
-    void func_8016533C(void) {
-        D_80126CF8 = D_80078EC1;
-        func_801659DC((u8 *)&D_80126B58);
-    }  /* dedup: shared engine-core @0x8016533c (src/shared) */
+#include "../shared/ov/func_8016533C.h"
 
 
 #include "../shared/ov/func_80165374.h"

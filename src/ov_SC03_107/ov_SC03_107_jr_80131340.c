@@ -1249,12 +1249,7 @@ void func_8013277C(void) {
 #include "../shared/ov/func_80132E6C.h"
 
 
-void func_80132EC4(void *a0, s16 a1) {
-    while (*(s32 *)a0 != 0) {
-        *(s16 *)((s32)a0 + 4) = a1;
-        a0 = (void *)((s32)a0 + 8);
-    }
-}
+#include "../shared/ov/func_80132EC4.h"
 
 
 #include "../shared/ov/func_80132EF4.h"

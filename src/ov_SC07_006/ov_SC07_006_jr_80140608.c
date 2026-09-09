@@ -2592,14 +2592,7 @@ void func_80144A90(void) {
 
 /* de-macroized: per-overlay-local decl for func_80144B14 (byte-true sig); do NOT re-macroize */
     extern int func_80144B14(int);
-    void func_80144AEC(s32 *a0) {
-        s32 old;
-        old = *(s32 *)((s32)a0 + 0xDC);
-        *(s32 *)((s32)a0 + 0xDC) = (s32)&func_80144B14;
-        *(s16 *)((s32)a0 + 0x0) = 0x83;
-        *(s16 *)((s32)a0 + 0x2) = 1;
-        *(s32 *)((s32)a0 + 0xCC) = old;
-    }  /* dedup: shared engine-core @0x80144aec (src/shared) */
+#include "../shared/ov/func_80144AEC.h"
 
 
 // @class: struct

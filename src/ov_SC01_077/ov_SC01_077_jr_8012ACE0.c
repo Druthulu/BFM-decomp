@@ -318,9 +318,7 @@ s32 func_8012ACE0(void *o) {
 #include "../shared/ov/func_8012AD50.h"
 
 
-void func_8012AD64(s32 *a0, s16 a1) {
-    *(s16*)((s32)a0 + 0x34) = a1;
-}
+#include "../shared/ov/func_8012AD64.h"
 
 #include "../shared/ov/func_8012AD6C.h"
 
@@ -635,9 +633,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 extern s32 func_8012CC88(s32 a, s32 b, s32 c);
 extern u8 D_800D3918[];
 
-void func_8012CBA4(s32 a0) {
-    func_8012CC88(a0, 0, (s32)D_800D3918);
-}
+#include "../shared/ov/func_8012CBA4.h"
 
 extern s32 func_8012CC88(s32 a, s32 b, s32 c);
 extern u8 D_800D3918[];

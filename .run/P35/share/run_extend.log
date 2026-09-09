@@ -1,0 +1,490 @@
+share_body: census 24 s · extend (registered-incomplete) 183 classes · new (unregistered same-vram) 915 classes / 3,567 private sites
+  [extend1] 120 classes · 774 sites in 190 TUs · 0 new headers · gating 141 binaries
+  [extend1] ov_MAIN_012: class 05353a788c REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class 0964d4c658 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_MAIN_012: class 0d18ee0d06 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_MAIN_012: class 238e26f72f REJECTED — src/ov_MAIN_012/../shared/ov/func_80169058.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class 29e6564223 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168D94.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class 3da89c7662 REJECTED — src/ov_MAIN_012/../shared/ov/func_801638A0.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.o] Error 33
+  [extend1] ov_MAIN_012: class 47b7d4a048 REJECTED — src/ov_MAIN_012/../shared/ov/func_80144090.h:11: conflicting types for `D_800A651C'
+  [extend1] ov_MAIN_012: class 4dd276719f REJECTED — src/ov_MAIN_012/../shared/ov/func_8016986C.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class 5793cdffde REJECTED — src/ov_MAIN_012/../shared/ov/func_8016A8FC.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class 6d45bcfe1c REJECTED — src/ov_MAIN_012/../shared/ov/func_80149F2C.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class 75c3bc8284 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168F40.h:3: parse error before `void'
+  [extend1] ov_MAIN_012: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.o] Error 33
+  [extend1] ov_MAIN_012: class 8e3f8acd47 REJECTED — src/ov_MAIN_012/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_MAIN_012: class 9333ce9ec5 REJECTED — src/ov_MAIN_012/../shared/ov/func_801535F4.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class 9dda58b2de REJECTED — src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:8084: parse error before `s32'
+  [extend1] ov_MAIN_012: class b5c37d4143 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168664.h:3: conflicting types for `D_800AE620'
+  [extend1] ov_MAIN_012: class c9a06d9fe6 REJECTED — {standard input}:24376: Error: symbol `func_801539F8' is already defined
+  [extend1] ov_MAIN_012: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.o] Error 33
+  [extend1] ov_MAIN_012: class cca105be1a REJECTED — make: *** [Makefile:1033: build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] Error 33
+  [extend1] ov_MAIN_012: class dd5bb9d1dc REJECTED — src/ov_MAIN_012/../shared/ov/func_80142BB4.h:6: conflicting types for `func_8012C098'
+  [extend1] ov_MAIN_012: class e0963a4b81 REJECTED — src/ov_MAIN_012/../shared/ov/func_8016706C.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class e2c32e5950 REJECTED — src/ov_MAIN_012/../shared/ov/func_80169408.h:3: parse error before `extern'
+  [extend1] ov_MAIN_012: class e9c9fa5bf6 REJECTED — src/ov_MAIN_012/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_MAIN_012: class fbef0f0b65 REJECTED — {standard input}:22920: Error: symbol `func_801684B4' is already defined
+  [extend1] ov_SC01_000: class 5fd1ad0684 REJECTED — src/ov_SC01_000/ov_SC01_000_jr_801734BC.c:1534: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_000: class 7e04ee1875 REJECTED — src/ov_SC01_000/ov_SC01_000_jr_801734BC.c:1534: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_000: class 93d5fccdcc REJECTED — src/ov_SC01_000/ov_SC01_000_jr_801734BC.c:1534: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_001: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC01_004: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC01_005: class 3576d059c2 REJECTED — make: *** [Makefile:1094: build/ov_SC01_005/ov_SC01_005] Error 1
+  [extend1] ov_SC01_005: class 93d5fccdcc REJECTED — src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5863: parse error before `}'
+  [extend1] ov_SC01_005: class d743c21bd9 REJECTED — src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:3390: parse error before `if'
+  [extend1] ov_SC01_008: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC01_009: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC01_074: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC01_077: class 0bfaee44dc REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_077: class 5fd1ad0684 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_077: class 72a917edb8 REJECTED — src/ov_SC01_077/../shared/ov/func_8014C99C.h:3: parse error before `extern'
+  [extend1] ov_SC01_077: class 7e04ee1875 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_077: class 93d5fccdcc REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_077: class a7c4f31c25 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_077: class d50cc5103c REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_077: class d62e1dd557 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_077: class e369b06218 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_077: class f769ff8982 REJECTED — src/ov_SC01_077/../shared/ov/func_8013C08C.h:6: parse error before `)'
+  [extend1] ov_SC01_077: class fa2e741533 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC01_080: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC01_084: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_000: class 3576d059c2 REJECTED — make: *** [Makefile:1094: build/ov_SC02_000/ov_SC02_000] Error 1
+  [extend1] ov_SC02_000: class 93d5fccdcc REJECTED — src/ov_SC02_000/ov_SC02_000_jr_8015C32C.c:5861: parse error before `}'
+  [extend1] ov_SC02_000: class d743c21bd9 REJECTED — src/ov_SC02_000/ov_SC02_000_jr_8015C32C.c:3388: parse error before `if'
+  [extend1] ov_SC02_004: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_005: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_011: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_015: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_016: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_017: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_021: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_026: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_027: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_028: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_031: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_035: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_037: class 05353a788c REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class 0964d4c658 REJECTED — src/ov_SC02_037/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class 0d18ee0d06 REJECTED — src/ov_SC02_037/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class 204babba05 REJECTED — {standard input}:19800: Error: symbol `func_801661CC' is already defined
+  [extend1] ov_SC02_037: class 22b73ecc12 REJECTED — src/ov_SC02_037/../shared/ov/func_80153800.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class 238e26f72f REJECTED — src/ov_SC02_037/../shared/ov/func_80169058.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class 29e6564223 REJECTED — src/ov_SC02_037/../shared/ov/func_80168D94.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class 3da89c7662 REJECTED — src/ov_SC02_037/../shared/ov/func_801638A0.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class 3ef37ce705 REJECTED — In file includedmake: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC02_037: class 47b7d4a048 REJECTED — src/ov_SC02_037/../shared/ov/func_80144090.h:11: conflicting types for `D_800A651C'
+  [extend1] ov_SC02_037: class 4dd276719f REJECTED — src/ov_SC02_037/../shared/ov/func_8016986C.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class 5793cdffde REJECTED — src/ov_SC02_037/../shared/ov/func_8016A8FC.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class 6d45bcfe1c REJECTED — src/ov_SC02_037/../shared/ov/func_80149F2C.h:6: conflicting types for `func_8016EDEC'
+  [extend1] ov_SC02_037: class 75c3bc8284 REJECTED — src/ov_SC02_037/../shared/ov/func_80168F40.h:3: parse error before `void'
+  [extend1] ov_SC02_037: class 7921cb4a22 REJECTED — src/ov_SC02_037/../shared/ov/func_80149954.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class 89a42c5cca REJECTED — src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c:4601: parse error before `void'
+  [extend1] ov_SC02_037: class 8e3f8acd47 REJECTED — src/ov_SC02_037/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class 9dda58b2de REJECTED — src/ov_SC02_037/../shared/ov/func_8016829C.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class b5c37d4143 REJECTED — src/ov_SC02_037/../shared/ov/func_80168664.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class bef71548de REJECTED — {standard input}:7052: Error: symbol `func_80149450' is already defined
+  [extend1] ov_SC02_037: class c9a06d9fe6 REJECTED — {standard input}:23966: Error: symbol `func_801539F8' is already defined
+  [extend1] ov_SC02_037: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC02_037: class cca105be1a REJECTED — make: *** [Makefile:1033: build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC02_037: class dd5bb9d1dc REJECTED — src/ov_SC02_037/../shared/ov/func_80142BB4.h:6: conflicting types for `func_8012C098'
+  [extend1] ov_SC02_037: class e0963a4b81 REJECTED — src/ov_SC02_037/../shared/ov/func_8016706C.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class e2c32e5950 REJECTED — src/ov_SC02_037/../shared/ov/func_80169408.h:3: parse error before `extern'
+  [extend1] ov_SC02_037: class e56821e1a5 REJECTED — {standard input}:8522: Error: symbol `func_8014A048' is already defined
+  [extend1] ov_SC02_037: class e9c9fa5bf6 REJECTED — src/ov_SC02_037/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC02_037: class fbef0f0b65 REJECTED — src/ov_SC02_037/../shared/ov/func_801684B4.h:3: parse error before `extern'
+  [extend1] ov_SC02_039: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC02_041: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_001: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_002: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_003: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_006: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_007: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_010: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_011: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_012: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_013: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_014: class 3576d059c2 REJECTED — make: *** [Makefile:1094: build/ov_SC03_014/ov_SC03_014] Error 1
+  [extend1] ov_SC03_014: class 93d5fccdcc REJECTED — src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c:5863: parse error before `}'
+  [extend1] ov_SC03_014: class d743c21bd9 REJECTED — src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c:3390: parse error before `if'
+  [extend1] ov_SC03_023: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_024: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_028: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_029: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_030: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_031: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_089: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_090: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_091: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_092: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_093: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_094: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_095: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_096: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_097: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_098: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_099: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_100: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_101: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_102: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_103: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_104: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_105: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_107: class 05353a788c REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class 0964d4c658 REJECTED — src/ov_SC03_107/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC03_107: class 0d18ee0d06 REJECTED — src/ov_SC03_107/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC03_107: class 238e26f72f REJECTED — src/ov_SC03_107/../shared/ov/func_80169058.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class 29e6564223 REJECTED — src/ov_SC03_107/../shared/ov/func_80168D94.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class 3da89c7662 REJECTED — src/ov_SC03_107/../shared/ov/func_801638A0.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class 3ef37ce705 REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC03_107: class 47b7d4a048 REJECTED — src/ov_SC03_107/../shared/ov/func_80144090.h:11: conflicting types for `D_800A651C'
+  [extend1] ov_SC03_107: class 4dd276719f REJECTED — src/ov_SC03_107/../shared/ov/func_8016986C.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class 5793cdffde REJECTED — src/ov_SC03_107/../shared/ov/func_8016A8FC.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class 6d45bcfe1c REJECTED — src/ov_SC03_107/../shared/ov/func_80149F2C.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class 75c3bc8284 REJECTED — src/ov_SC03_107/../shared/ov/func_80168F40.h:3: parse error before `void'
+  [extend1] ov_SC03_107: class 89a42c5cca REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC03_107: class 8e3f8acd47 REJECTED — src/ov_SC03_107/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC03_107: class 9dda58b2de REJECTED — src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.c:8108: parse error before `s32'
+  [extend1] ov_SC03_107: class b5c37d4143 REJECTED — src/ov_SC03_107/../shared/ov/func_80168664.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class c9a06d9fe6 REJECTED — {standard input}:24376: Error: symbol `func_801539F8' is already defined
+  [extend1] ov_SC03_107: class cc6b91ad3d REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.o] Error 33
+  [extend1] ov_SC03_107: class cca105be1a REJECTED — make: *** [Makefile:1033: build/src/ov_SC03_107/ov_SC03_107_jr_8015A3C8.o] Error 33
+  [extend1] ov_SC03_107: class dd5bb9d1dc REJECTED — src/ov_SC03_107/../shared/ov/func_80142BB4.h:6: conflicting types for `func_8012C098'
+  [extend1] ov_SC03_107: class e0963a4b81 REJECTED — src/ov_SC03_107/../shared/ov/func_8016706C.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class e2c32e5950 REJECTED — src/ov_SC03_107/../shared/ov/func_80169408.h:3: parse error before `extern'
+  [extend1] ov_SC03_107: class e9c9fa5bf6 REJECTED — src/ov_SC03_107/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC03_107: class fbef0f0b65 REJECTED — {standard input}:22984: Error: symbol `func_801684B4' is already defined
+  [extend1] ov_SC03_108: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_109: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_110: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_111: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_112: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_113: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_114: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_115: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_116: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_117: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_118: class 3576d059c2 REJECTED — make: *** [Makefile:1094: build/ov_SC03_118/ov_SC03_118] Error 1
+  [extend1] ov_SC03_118: class 93d5fccdcc REJECTED — src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c:5862: parse error before `}'
+  [extend1] ov_SC03_118: class d743c21bd9 REJECTED — src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c:3389: parse error before `if'
+  [extend1] ov_SC03_121: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_124: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_125: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC03_126: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_000: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_002: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_003: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_004: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_005: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_006: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_007: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_008: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_009: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_010: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_011: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_012: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_015: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_016: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_018: class 3576d059c2 REJECTED — src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:3438: parse error before `not'
+  [extend1] ov_SC04_018: class 47b7d4a048 REJECTED — src/ov_SC04_018/ov_SC04_018_jr_80140608.c:2295: parse error before `}'
+  [extend1] ov_SC04_018: class 6f62feba35 REJECTED — make: *** [Makefile:1094: build/ov_SC04_018/ov_SC04_018] Error 1
+  [extend1] ov_SC04_018: class 7604e5daf1 REJECTED — make: *** [Makefile:1094: build/ov_SC04_018/ov_SC04_018] Error 1
+  [extend1] ov_SC04_018: class 93d5fccdcc REJECTED — src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:5896: parse error before `}'
+  [extend1] ov_SC04_018: class d743c21bd9 REJECTED — src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:3389: parse error before `if'
+  [extend1] ov_SC04_020: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC04_021: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_000: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_001: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_002: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_003: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_004: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_005: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_006: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_007: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_008: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_009: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_010: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_011: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_017: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_018: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC05_019: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_000: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_006: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_008: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_010: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_011: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_013: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_014: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_015: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_016: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_018: class 5fd1ad0684 REJECTED — src/ov_SC06_018/ov_SC06_018_jr_801734BC.c:1533: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC06_018: class 7e04ee1875 REJECTED — src/ov_SC06_018/ov_SC06_018_jr_801734BC.c:1533: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC06_018: class 93d5fccdcc REJECTED — src/ov_SC06_018/ov_SC06_018_jr_801734BC.c:1533: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC06_020: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_022: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_024: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_025: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_027: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_029: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_030: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_032: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC06_033: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC07_000: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC07_001: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC07_002: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC07_006: class 0964d4c658 REJECTED — src/ov_SC07_006/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_006: class 0d18ee0d06 REJECTED — src/ov_SC07_006/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_006: class 1c5bc11f81 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 20aa0ffd5a REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 225792366f REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 238e26f72f REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 25f13a1575 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 28712a6891 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 298645a7a2 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 29e6564223 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 2fc5326f58 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 34e1bcfb00 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 3576d059c2 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 3ef37ce705 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 4a4750c338 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 4dd276719f REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 53a6e34a79 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 597ff7e708 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 5e5b014612 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 62ab8c1ddf REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 68ec3141f1 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 6d45bcfe1c REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 6dfa7d5035 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 70b8e5ac8b REJECTED — src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c:2394: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 7529ad8f17 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 7576525bd5 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 7921cb4a22 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 883ec57a13 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 89a42c5cca REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 8e3f8acd47 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 9151c10a26 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 9c43d3fca3 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class 9dda58b2de REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class a26f1e54b1 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c:2394: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class a2923d0db7 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class a49844042b REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class a5aa4b51b1 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class a7f0e3d635 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class b24f1263a2 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class b2dc4b7dab REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class b7b15fe18f REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class bd7388526b REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class bef71548de REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class c20da3b025 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class c5084991e5 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class c56e1eba19 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class c5e872b095 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class c7fd0d9310 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class c9083af682 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class c9866fcb86 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class cc6b91ad3d REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class d63a10fab8 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class d743c21bd9 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class d852a554a1 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class dd5bb9d1dc REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class e0963a4b81 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class e2c32e5950 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class e56821e1a5 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class e9c9fa5bf6 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class edbc3bbda9 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class f81e8c3743 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class fbef0f0b65 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class ff32a6ba03 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_006: class fffcefd2cb REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 0964d4c658 REJECTED — src/ov_SC07_007/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class 0d18ee0d06 REJECTED — src/ov_SC07_007/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_007: class 1c5bc11f81 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 238e26f72f REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 25f13a1575 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 28712a6891 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 298645a7a2 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 29e6564223 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 2fc5326f58 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 34e1bcfb00 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 3ef37ce705 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 4dd276719f REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 53a6e34a79 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 597ff7e708 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 5e5b014612 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 68ec3141f1 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 6d45bcfe1c REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 6dfa7d5035 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 70b8e5ac8b REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 7529ad8f17 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 7921cb4a22 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 883ec57a13 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 89a42c5cca REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 8e3f8acd47 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class 9dda58b2de REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class a26f1e54b1 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class a2923d0db7 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class a49844042b REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class a5aa4b51b1 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class a7f0e3d635 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class b24f1263a2 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class b2dc4b7dab REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class b7b15fe18f REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class bef71548de REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class c20da3b025 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class c5084991e5 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class c9083af682 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class cc6b91ad3d REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class dd5bb9d1dc REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class e0963a4b81 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class e2c32e5950 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class e56821e1a5 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class e9c9fa5bf6 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class f81e8c3743 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class fbef0f0b65 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_007: class fffcefd2cb REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_008: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC07_009: class 93d5fccdcc REJECTED — {standard input}:20967: Error: symbol `func_80168B70' is already defined
+  [extend1] ov_SC07_010: class 1c5bc11f81 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 238e26f72f REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 25f13a1575 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 28712a6891 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 298645a7a2 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 2fc5326f58 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 3ef37ce705 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 4dd276719f REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 53a6e34a79 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 597ff7e708 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 5e5b014612 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 68ec3141f1 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 6dfa7d5035 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 70b8e5ac8b REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 7529ad8f17 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 89a42c5cca REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class 9dda58b2de REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class a26f1e54b1 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class a2923d0db7 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class a49844042b REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class a5aa4b51b1 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_801457A4.c:566: warning: src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: previous external decl of `warning: func_80145EE8'conflicting types for built-in function `
+  [extend1] ov_SC07_010: class a7f0e3d635 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class b24f1263a2 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class b2dc4b7dab REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class b7b15fe18f REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class c20da3b025 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class c9083af682 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class cc6b91ad3d REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class e0963a4b81 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_010: class fbef0f0b65 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 0964d4c658 REJECTED — src/ov_SC07_011/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_011: class 0d18ee0d06 REJECTED — src/ov_SC07_011/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [extend1] ov_SC07_011: class 1c5bc11f81 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 238e26f72f REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 25f13a1575 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 28712a6891 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 298645a7a2 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 29e6564223 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 2fc5326f58 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 34e1bcfb00 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 3ef37ce705 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 4dd276719f REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 53a6e34a79 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 597ff7e708 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 5e5b014612 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 68ec3141f1 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 6d45bcfe1c REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 6dfa7d5035 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 70b8e5ac8b REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 7529ad8f17 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 7921cb4a22 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 883ec57a13 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 89a42c5cca REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 8e3f8acd47 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class 9dda58b2de REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class a26f1e54b1 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class a2923d0db7 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class a49844042b REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class a5aa4b51b1 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class a7f0e3d635 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class b24f1263a2 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class b2dc4b7dab REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class b7b15fe18f REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class bef71548de REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class c20da3b025 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class c5084991e5 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class c9083af682 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class cc6b91ad3d REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class dd5bb9d1dc REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class e0963a4b81 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class e2c32e5950 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class e56821e1a5 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class e9c9fa5bf6 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class f81e8c3743 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class fbef0f0b65 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] ov_SC07_011: class fffcefd2cb REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend1] gated 141/141 binaries green · registered 0 groups · extended 754 members · rejected classes 88
+  [extend2] 63 classes · 486 sites in 406 TUs · 0 new headers · gating 146 binaries
+  [extend2] ov_MAIN_012: class 0f3f34484f REJECTED — src/ov_MAIN_012/../shared/ov/func_8014CBE8.h:3: conflicting types for `D_80126CC4'
+  [extend2] ov_MAIN_012: class 2e065293da REJECTED — src/ov_MAIN_012/../shared/ov/func_80161BE0.h:3: conflicting types for `func_801497A8'
+  [extend2] ov_MAIN_012: class 89004be309 REJECTED — src/ov_MAIN_012/../shared/ov/func_8012AD64.h:3: conflicting types for `func_8012AD64'
+  [extend2] ov_MAIN_012: class bdb48359cd REJECTED — {standard input}:3490: Error: symbol `func_8012A568' is already defined
+  [extend2] ov_SC01_077: class 23ad27a93c REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class 46194a3cc6 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_80178D40.c:1615: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class 4d3a2c42be REJECTED — src/ov_SC01_077/ov_SC01_077_jr_80178D40.c:1615: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class 50ebeabfbb REJECTED — src/ov_SC01_077/ov_SC01_077_jr_80178D40.c:1615: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class 565af8da53 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class 648bba7824 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class 7747285b12 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_80178D40.c:1615: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class 78e1b7b89f REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class 946e662363 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_80178D40.c:1615: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class a9bd1204d4 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class ab90081f03 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class b7ddc14ea3 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class bb1095bd9e REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class d01c1e2112 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class e46ff3d8f1 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_80178D40.c:1615: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class fb424e70b8 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_80178D40.c:1615: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC01_077: class fec75d1506 REJECTED — src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1621: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC02_037: class 0f3f34484f REJECTED — src/ov_SC02_037/../shared/ov/func_8014CBE8.h:3: conflicting types for `D_80126CC4'
+  [extend2] ov_SC02_037: class 2e065293da REJECTED — src/ov_SC02_037/../shared/ov/func_80161BE0.h:3: conflicting types for `func_801497A8'
+  [extend2] ov_SC02_037: class 3a43941d56 REJECTED — src/ov_SC02_037/../shared/ov/func_8017D588__3a43941d.h:4: conflicting types for `func_80146C3C'
+  [extend2] ov_SC02_037: class 5b6b968251 REJECTED — src/ov_SC02_037/../shared/ov/func_8017CFE4__5b6b9682.h:4: conflicting types for `func_80146C3C'
+  [extend2] ov_SC02_037: class 86843ed565 REJECTED — conflicting types for `func_80146C3Csrc/ov_SC02_037/ov_SC02_037_jr_80131340.c:1999: 'warning: 
+  [extend2] ov_SC02_037: class 89004be309 REJECTED — src/ov_SC02_037/../shared/ov/func_8012AD64.h:3: conflicting types for `func_8012AD64'
+  [extend2] ov_SC02_037: class bdb48359cd REJECTED — {standard input}:3490: Error: symbol `func_8012A568' is already defined
+  [extend2] ov_SC03_014: class 9bda7673e9 REJECTED — src/ov_SC03_014/ov_SC03_014_jr_801380E0.c:1050: parse error before `if'
+  [extend2] ov_SC03_014: class bdb48359cd REJECTED — make: *** [Makefile:1094: build/ov_SC03_014/ov_SC03_014] Error 1
+  [extend2] ov_SC03_107: class 0f3f34484f REJECTED — src/ov_SC03_107/../shared/ov/func_8014CBE8.h:3: conflicting types for `D_80126CC4'
+  [extend2] ov_SC03_107: class 2e065293da REJECTED — src/ov_SC03_107/../shared/ov/func_80161BE0.h:3: conflicting types for `func_801497A8'
+  [extend2] ov_SC03_107: class 89004be309 REJECTED — src/ov_SC03_107/../shared/ov/func_8012AD64.h:3: conflicting types for `func_8012AD64'
+  [extend2] ov_SC03_107: class bdb48359cd REJECTED — {standard input}:3490: Error: symbol `func_8012A568' is already defined
+  [extend2] ov_SC03_118: class 9bda7673e9 REJECTED — src/ov_SC03_118/ov_SC03_118_jr_801380E0.c:1050: parse error before `if'
+  [extend2] ov_SC03_118: class bdb48359cd REJECTED — make: *** [Makefile:1094: build/ov_SC03_118/ov_SC03_118] Error 1
+  [extend2] ov_SC07_006: class 6cedd518aa REJECTED — src/ov_SC07_006/ov_SC07_006.c:1325: parse error before `1'
+  [extend2] ov_SC07_006: class 6d5164d17d REJECTED — src/ov_SC07_006/ov_SC07_006_jr_801457A4.c:1673: conflicting types for `func_80147364'
+  [extend2] ov_SC07_006: class 731ef47ebd REJECTED — src/ov_SC07_006/../shared/ov/func_8016158C.h:3: parse error before `extern'
+  [extend2] ov_SC07_006: class 7674b8c6b1 REJECTED — src/ov_SC07_006/ov_SC07_006.c:2600: parse error at end of input
+  [extend2] ov_SC07_006: class 7b9ce63f61 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class 89004be309 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class a092f7b49a REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class afaa2ea1dc REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class b032dbf8e7 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class b094761eb7 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class bdb48359cd REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class c1c9baa642 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class d3ceaf3061 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class f420052116 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_006: class fb424e70b8 REJECTED — src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2392: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_007: class 7b9ce63f61 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_007: class 89004be309 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_007: class bdb48359cd REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_007: class c1c9baa642 REJECTED — src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_010: class 89004be309 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_010: class bdb48359cd REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_010: class c1c9baa642 REJECTED — src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1812: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_011: class 7b9ce63f61 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_011: class 89004be309 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_011: class bdb48359cd REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend2] ov_SC07_011: class c1c9baa642 REJECTED — src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2385: warning: conflicting types for built-in function `memcpy'
+  [extend2] gated 146/146 binaries green · registered 0 groups · extended 34 members · rejected classes 37
+share_body: done — 183 classes in 2 batch(es); see the ledger; 617 s
+extend wall=617.15 s
+exit=0

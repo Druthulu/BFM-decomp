@@ -3055,16 +3055,7 @@ ad50:
 
 extern void func_8012C218(void *a0);
 
-void func_80142778(u8 *a1) {
-    u8 *a0 = *(u8 **)(a1 + 0x20);
-
-    *(u16 *)(a0 + 0x18) = *(u16 *)(a0 + 0x18) - 0x800;
-    *(u16 *)(a0 + 0x1A) = *(u16 *)(a0 + 0x1A) - 0x800;
-    *(u16 *)(a1 + 0xA) = *(u16 *)(a1 + 0xA) + 0x10;
-    if (*(s16 *)(a0 + 0x18) <= 0) {
-        func_8012C218(a1);
-    }
-}
+#include "../shared/ov/func_80142778.h"
 
 #include "../shared/ov/func_801427DC.h"
 

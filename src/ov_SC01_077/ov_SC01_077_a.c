@@ -524,10 +524,7 @@ u8 *func_801290DC(s32 a0, u8 *a1) {
 extern void func_80129258(void);
 extern void func_80129248(s16 a0);
 
-void func_80129220(void) {
-    func_80129258();
-    func_80129248(1);
-}
+#include "../shared/ov/func_80129220.h"
 
 #include "../shared/ov/func_80129248.h"
 

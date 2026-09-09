@@ -3362,13 +3362,7 @@ void func_8016D5EC(s32 *a0) {
 
 extern short func_8016CBC0(void);
 extern void func_80146C3C(u8*);
-void func_8016D64C(int param_1)
-{
-    if (func_8016CBC0() == 0) {
-        ((void (*)(int))func_80146C3C)(param_1);
-    }
-    return;
-}
+#include "../shared/ov/func_8016D64C.h"
 
 
 

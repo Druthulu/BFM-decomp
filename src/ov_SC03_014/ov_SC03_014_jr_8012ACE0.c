@@ -278,11 +278,7 @@ s32 func_8012ACE0(void *o) {
 
 
 
-void func_8012AD64(s32 *a0, s16 a1) {
-    *(s16*)((s32)a0 + 0x34) = a1;
-}
-
-
+#include "../shared/ov/func_8012AD64.h"
 #include "../shared/ov/func_8012AD6C.h"
 
 #include "../shared/ov/func_8012AD80.h"

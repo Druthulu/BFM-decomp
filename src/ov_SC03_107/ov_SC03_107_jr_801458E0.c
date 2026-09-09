@@ -2299,24 +2299,13 @@ s32 func_80148E54(s32 arg0) {
 void func_8012F14C(s32 a0, s32 a1, s32 a2);
 void func_8012EF70(s32 a0, s32 a1);
 
-void func_80149544(s32 a0, s32 a1, s32 a2)
-{
-    s32 buffer[2];
-
-    func_8012F14C(*(s32 *)(a0 + 0x20) + 0x34, a1, (s32)buffer);
-    func_8012EF70((s32)buffer, a2);
-}
+#include "../shared/ov/func_80149544.h"
 
 
 void func_8012F14C(s32 a0, s32 a1, s32 a2);
 void func_8012EFB8(s32 a0);
 
-void func_80149584(s32 param_1, s32 param_2, s32 param_3)
-{
-    char local_var[8];
-    func_8012F14C(*(s32*)(param_1 + 0x20) + 0x34, param_2, (s32)local_var);
-    ((void (*)(s32, s32))func_8012EFB8)((s32)local_var, param_3);
-}
+#include "../shared/ov/func_80149584.h"
 
 
 #include "../shared/ov/func_801495C4.h"

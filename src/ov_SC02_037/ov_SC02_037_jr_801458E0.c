@@ -2337,25 +2337,13 @@ void func_801494CC(int param_1, short *param_2, short *param_3)
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8012EF70(s32 a0, s32 a1);
 
-void func_80149544(s32 a0, s32 a1, s32 a2)
-{
-    s32 buf[2];
-
-    func_8012F14C(*(s32 *)(a0 + 0x20) + 0x34, a1, buf);
-    func_8012EF70(buf, a2);
-}
+#include "../shared/ov/func_80149544.h"
 
 
 void func_8012F14C(s32 a0, s32 a1, s32 a2);
 void func_8012EFB8(s32 a0);
 
-void func_80149584(s32 a0, s32 a1, s32 a2)
-{
-    char local_10[8];
-
-    func_8012F14C(*(s32*)((char*)a0 + 0x20) + 0x34, a1, (s32)local_10);
-    ((void (*)(s32, s32))func_8012EFB8)((s32)local_10, a2);
-}
+#include "../shared/ov/func_80149584.h"
 
 
 #include "../shared/ov/func_801495C4.h"

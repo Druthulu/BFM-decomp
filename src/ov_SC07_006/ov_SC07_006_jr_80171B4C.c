@@ -4705,19 +4705,7 @@ Ltail:
     extern void func_801778A8(int, unsigned int, short, short);
     extern u16 D_8011F82C;
     extern u16 D_8011F82A;
-    void func_80176FF4(s32 a0) {
-        s32 v0;
-        a0 += 0x50;
-        func_801778A8(a0, (s16)func_801783D0(D_8011F82C, 4), 3, 0xFF);
-        a0 += 0x3C;
-        func_801778A8(a0, (s16)func_801783D0(D_8011F82A, 4), 3, 0xFF);
-        a0 += 0x3C;
-        *(s16 *)(a0 + 0xC) = (u32)(D_8011F82C * 10355) >> 15;
-        a0 += 0x14;
-        v0 = ((s32)(D_8011F82A * 10355) << 1) >> 16;
-        *(s16 *)(a0 + 0xC) = v0;
-        *(s16 *)(a0 + 0x20) = v0 + 2;
-    }  /* dedup: shared engine-core @0x80176ff4 (src/shared) */
+#include "../shared/ov/func_80176FF4.h"
 
 
 #include "../shared/ov/func_801770E0.h"
@@ -4728,19 +4716,7 @@ Ltail:
     extern void func_801778A8(int, unsigned int, short, short);
     extern u16 D_8011F830;
     extern u16 D_8011F82E;
-    void func_80177340(s32 a0) {
-        s32 v0;
-        a0 += 0x50;
-        func_801778A8(a0, (s16)func_801783D0(D_8011F830, 4), 3, 0xFF);
-        a0 += 0x3C;
-        func_801778A8(a0, (s16)func_801783D0(D_8011F82E, 4), 3, 0xFF);
-        a0 += 0x3C;
-        *(s16 *)(a0 + 0xC) = (u32)(D_8011F830 * 10355) >> 15;
-        a0 += 0x14;
-        v0 = ((s32)(D_8011F82E * 10355) << 1) >> 16;
-        *(s16 *)(a0 + 0xC) = v0;
-        *(s16 *)(a0 + 0x20) = v0 + 2;
-    }  /* dedup: shared engine-core @0x80177340 (src/shared) */
+#include "../shared/ov/func_80177340.h"
 
 
 #include "../shared/ov/func_8017742C.h"

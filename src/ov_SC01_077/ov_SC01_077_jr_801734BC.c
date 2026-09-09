@@ -2515,10 +2515,7 @@ extern s16 D_80126B30;
 extern s32 func_801737E8(void *a0);
 extern void func_80174684(void *);
 
-void func_801737B8(s16 a0) {
-    D_80126B30 = a0;
-    func_80174684((void *)func_801737E8);
-}
+#include "../shared/ov/func_801737B8.h"
 
 extern s32 (*D_8018A120[])(void *);
 

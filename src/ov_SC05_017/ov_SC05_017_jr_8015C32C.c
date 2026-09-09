@@ -3385,44 +3385,7 @@ extern void func_80161D20(int param_1, u32 param_2);
 extern s32 func_8014A6C4(s32 a0);
 extern s32 ratan2(s32 a0, s32 a1);
 
-s32 func_8016163C(s32 arg0, u32 arg1) {
-
-    extern s16 D_801152B0;
-    extern s16 D_801152B4;
-    if (arg1 & 1) {
-        func_801599A4((void *)arg0);
-        func_80159B3C((void *)arg0);
-        func_8014C010(arg0, 1);
-        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
-        return 1;
-    }
-    if (arg1 & 0x4000) {
-        func_801599A4((void *)arg0);
-        func_8015BF48((s32 *)arg0);
-        func_8014C010(arg0, 1);
-        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
-        return 2;
-    }
-    if (arg1 & 0x2000) {
-        func_801599A4((void *)arg0);
-        func_80159B3C((void *)arg0);
-        func_8014C010(arg0, 1);
-        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
-        return 4;
-    }
-    if (arg1 & 0x8000) {
-        if (*(u16 *)(arg0 + 0x16C) != 0x15) {
-            return 0;
-        }
-        if (func_8014A6C4(arg0) != 0) {
-            func_801599A4((void *)arg0);
-            func_8015F2F0((s32 *)arg0);
-            *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = ratan2(D_801152B0, D_801152B4);
-            return 8;
-        }
-    }
-    return 0;
-}
+#include "../shared/ov/func_8016163C.h"
 
 
 
@@ -3434,41 +3397,7 @@ extern s32 func_8014A6C4(s32 a0);
 extern void func_8015F2F0(s32*);
 extern s32 ratan2(s32 x, s32 y);
 
-s32 func_80161774(int param_1, u32 param_2) {
-
-    extern s16 D_801152B0;
-    extern s16 D_801152B4;
-
-    if ((param_2 & 1) != 0) {
-        func_8014C010(param_1, 1);
-        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 1;
-    }
-    if ((param_2 & 0x4000) != 0) {
-        ((void (*)(int))func_801599A4)(param_1);
-        ((void (*)(int))func_8015BF48)(param_1);
-        func_8014C010(param_1, 1);
-        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 2;
-    }
-    if ((param_2 & 0x2000) != 0) {
-        func_8014C010(param_1, 1);
-        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 4;
-    }
-    if ((param_2 & 0x8000) != 0) {
-        if (*(unsigned short *)(param_1 + 0x16c) != 0x15) {
-            return 0;
-        }
-        if (func_8014A6C4(param_1) != 0) {
-            ((void (*)(int))func_801599A4)(param_1);
-            ((void (*)(int))func_8015F2F0)(param_1);
-            *(short *)(*(int *)(param_1 + 0x20) + 0x12) = ratan2(D_801152B0, D_801152B4);
-            return 8;
-        }
-    }
-    return 0;
-}
+#include "../shared/ov/func_80161774.h"
 
 
 

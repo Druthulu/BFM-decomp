@@ -463,13 +463,7 @@ s32 func_80128CFC(s32 arg0) {
 #include "../shared/ov/func_80128DB4.h"
 
 
-void func_80128EA8(s32 a0, s32 a1, s32 a2) {
-    *(s32 *)(a1 + 0x0) = a2;                       /* sw a2, 0x0(a1) */
-    *(s16 *)(a1 + 0x4) = 0;                         /* sh zero, 0x4(a1) */
-    *(s16 *)(a1 + 0x6) = (*(s32 *)(a2 + 0x4)) & 0x3F; /* lw; andi 0x3F; sh 0x6(a1) */
-    *(s16 *)(a0 + 0x28) = *(u16 *)(a2 + 0x0);      /* lhu 0x0(a2); sh 0x28(a0) */
-    *(s16 *)(a0 + 0x2A) = *(u16 *)(a2 + 0x2);      /* lhu 0x2(a2); sh 0x2A(a0) */
-}
+#include "../shared/ov/func_80128EA8.h"
 
 
 #include "../shared/ov/func_80128ED8.h"

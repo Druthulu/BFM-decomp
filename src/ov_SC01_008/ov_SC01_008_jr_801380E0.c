@@ -1042,14 +1042,7 @@ void func_80138BE0(int p)
 }
 
 
-void func_80138C30(void *a0) {
-    s16 v1 = *(s16 *)((u8 *)a0 + 4);
-    if (v1 == 4) {
-        *(s16 *)((u8 *)a0 + 4) = 2;
-    } else {
-        *(s32 *)((u8 *)a0 + 8) |= 0x800;
-    }
-}
+#include "../shared/ov/func_80138C30.h"
 
 
 extern s32 func_80139BE0(s32);

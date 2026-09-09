@@ -200,7 +200,10 @@ def gate(alias, snap):
         r = subprocess.run(["make", "check", f"BINARY={alias}", "-j16"], cwd=REPO, stdout=f, stderr=subprocess.STDOUT)
     if r.returncode != 0:
         txt = log_p.read_text(errors="replace")
-        err = [ln for ln in txt.splitlines() if "error" in ln.lower() or "conflicting" in ln.lower()]
+        # the CAUSE is an error line, never a warning (the fleet-wide benign `memcpy` warning labelled 233 rejections before this)
+        err = [ln for ln in txt.splitlines()
+               if ("warning:" not in ln and "note:" not in ln)
+               and re.search(r"\berror\b|Error\b|undefined reference|already defined|multiple definition|parse error|\[FAIL\]", ln)]
         return False, (err[0] if err else txt.splitlines()[-1] if txt.strip() else "make check failed")[:200]
     d = objdir(alias)
     same = diff = 0
@@ -273,31 +276,32 @@ def run_batch(orc, cen, classes, label):
         for tu in my_tus:
             for e in b.edits[tu]:
                 by_class[e[3]][tu].append(e)
+        def apply_selected(selected):
+            """From the RESTORED original text: every selected class's edits per TU in ONE bottom-up pass, so the original line
+            numbers stay valid (a per-class sequential re-application shifted later classes' lines — the first bisect rejected
+            125 of 183 classes on artifacts of its own: duplicate definitions and parse errors at the shifted sites)."""
+            restore(my_tus)
+            per_tu = collections.defaultdict(list)
+            for hh in selected:
+                for tu, eds in by_class[hh].items():
+                    per_tu[tu].extend(eds)
+            for tu, eds in per_tu.items():
+                p = REPO / tu
+                lines = p.read_text(errors="surrogateescape").split("\n")
+                for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
+                    lines[line - 1:end] = [new]
+                p.write_text("\n".join(lines))
+
         good = []
         for h, tus in sorted(by_class.items(), key=lambda kv: kv[0]):
-            restore(my_tus)
-            for hh in good + [h]:
-                for tu, eds in by_class[hh].items():
-                    p = REPO / tu
-                    lines = p.read_text(errors="surrogateescape").split("\n")
-                    for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
-                        lines[line - 1:end] = [new]
-                    p.write_text("\n".join(lines))
+            apply_selected(good + [h])
             ok2, det2 = gate(a, snap)
             if ok2:
                 good.append(h)
             else:
                 failed_classes.add(h)
                 log(f"  [{label}] {a}: class {h[:10]} REJECTED — {det2}")
-                # leave the good ones applied
-                restore(my_tus)
-                for hh in good:
-                    for tu, eds in by_class[hh].items():
-                        p = REPO / tu
-                        lines = p.read_text(errors="surrogateescape").split("\n")
-                        for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
-                            lines[line - 1:end] = [new]
-                        p.write_text("\n".join(lines))
+                apply_selected(good)              # leave the good ones applied
         ok3, det3 = gate(a, snap)
         results[a] = (ok3, det3 + f" (after bisect: {len(good)} classes kept, {len(by_class) - len(good)} rejected)")
         if not ok3:
@@ -320,7 +324,25 @@ def run_batch(orc, cen, classes, label):
             reg_entries.append((gid, h, src, fn, vram, bins))
     if reg_entries:
         registry_append(reg_entries)
-    ext = {gid: bins for gid, bins in b.extend.items()}
+    # a rejected EXTEND class is ledgered too (its private copies in the rejecting binaries stay)
+    for c in classes:
+        if c["verdict"] == "B" and c["h"] in failed_classes:
+            ledger_row(c["h"], "TU-CONFLICT", c["nins"], c["instances"],
+                       f"share_body {label}: extend of {c['groups'][0]['id']} rejected in {sorted(rejected_in(b, c['h'], cen))}")
+    # extend a group ONLY with members whose sharing survived the gate (a rejected class's binaries keep their private copy
+    # and must not be listed as sharing — the registry never runs ahead of the source)
+    rejected_bins = {}
+    for c in classes:
+        if c["h"] in failed_classes:
+            rejected_bins[c["h"]] = rejected_in(b, c["h"], cen)
+    ext = {}
+    for c in classes:
+        if c["verdict"] != "B":
+            continue
+        gid = c["groups"][0]["id"]
+        bins = [x for x in b.extend.get(gid, []) if x not in rejected_bins.get(c["h"], set())]
+        if bins:
+            ext[gid] = bins
     n_ext = de.add_members_surgical(ext) if ext else 0
     ok_n = sum(1 for a in gated if results[a][0])
     log(f"  [{label}] gated {ok_n}/{len(gated)} binaries green · registered {len(reg_entries)} groups · extended {n_ext} members · "

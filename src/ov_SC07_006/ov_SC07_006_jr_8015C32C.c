@@ -4286,12 +4286,7 @@ void aF80161208(void *a0)
     extern s32 D_801152BC;
     extern s32 func_801612B8(void *a0, s32 a1);
     extern int func_80161374(int, unsigned int);
-    void func_80161278(void *a0) {
-        s32 r;
-        D_801152BC = 0;
-        r = func_801612B8(a0, 1);
-        func_80161374(a0, r);
-    }  /* dedup: shared engine-core @0x80161278 (src/shared) */
+#include "../shared/ov/func_80161278.h"
 
 
 #include "../shared/ov/func_801612B8.h"
@@ -4359,9 +4354,7 @@ s32 aF8016130C(void *a0, s32 a1)
 /* de-macroized: per-overlay-local decl for func_8016163C (byte-true sig); do NOT re-macroize */
     extern s32 func_801615C4(void *a0, s32 a1);
     extern s32 func_8016163C(s32, u32);
-    void func_80161418(void *a0) {
-        func_8016163C(a0, func_801615C4(a0, 0));
-    }  /* dedup: shared engine-core @0x80161418 (src/shared) */
+#include "../shared/ov/func_80161418.h"
 
 
 /* de-macroized: per-overlay-local decl for func_80161774 (byte-true sig); do NOT re-macroize */

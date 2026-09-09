@@ -1426,18 +1426,7 @@ extern void func_8014358C();
 extern void func_8012931C(struct vec *a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
-void func_8014350C(s32 *a0) {
-    if (*(u16 *)((u8 *)a0 + 2) == 0) {
-        func_8014358C();
-        return;
-    }
-    func_8012931C((struct vec *)a0);
-    if (func_80128ED8((void *)a0[0x20 / 4], (void *)((u8 *)a0 + 0x24)) != 0) {
-        func_801292C8((u8 *)a0);
-        return;
-    }
-    *(u8 *)(a0[0x20 / 4] + 0x27) = *(u8 *)((u8 *)a0 + 0x28) - 0x70;
-}
+#include "../shared/ov/func_8014350C.h"
 
 
 
