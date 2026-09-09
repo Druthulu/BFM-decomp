@@ -601,6 +601,26 @@ accumulate here as the phase produces them.**
   REPLAY cannot do it, it replays a SITE SET) and `--apply-body` now records the before/after body text, which the remap needs and which
   exists nowhere else after the write.
 
+- **S99 — THE LEVER SERIES IS NOW A TRACKED DELIVERABLE (Drew's directive, mid-T6): `docs/levers.md` + `tools/lever_progress.py`.**
+  Drew: the pin/hint removal is not only work to finish — *"this will be a post 100% chart where we graph it and for the story,
+  and for the decomp-architect deployable package and for the wiki … as well as what we should have done from the start to
+  prevent this issue from creeping up on us post-100%, if that is optimal, or if it's optimal to leave them till post-100%
+  cleanup"*, kept up to date **after each task**. Built: `docs/levers.md` (the taxonomy A–G; a GENERATED §2; how the levers got
+  in, phase by phase; the ladder with each rung's measured yield; §5 the prevent-vs-defer argument; §6 what the wiki and the kit
+  take from it) and `tools/lever_progress.py` (`--snapshot "<task>"` appends a milestone row with the census's totals and the
+  tree's HEAD to `docs/lever-progress.tsv` — a census is a MOMENT and cannot be recovered later — and re-renders the document;
+  the campaign half is derived from the ledger on every render, scored as state TRANSITIONS so the rung that FINISHES a body
+  gets the credit and not only the rung that first judged it; `--check` refuses a series that is not this tree's). Reference-index
+  row, SETUP row, dictionary row, and the memory `lever-removal-is-a-tracked-series`.
+  **The story's numbers so far, all generated:** 21,061 sites removed or rewritten across 17,119 bodies by the mechanical rungs
+  against 33,957 still standing — **38% of the class A/B population came off with no understanding at all** — plus rung R's first
+  134. **The argument §5 makes from that:** blanket prevention would have stalled Phase 18 (the pin toolkit is why its waves went
+  33% → 56% → 90%, and the knowledge to replace a pin did not exist until P23–P32), but *deferring silently* was the mistake —
+  the rule worth carrying to day one is **"ban the silence, not the lever"**: a lever is allowed and is a marked, ledgered,
+  published debt from the first bank, with a one-compile bank-time trial ("does it still match without this?") that would have
+  refused more than a third of the population while the context was hot, and harvest→toolify applied to lever classes so a shape
+  sweeps the banked population instead of the lever propagating with every family remap (1,758 distinct bodies became 12,578).
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ T5 ☑ — all committed (this close on top of `4bc987426`); NEXT = T6 BUILD: `tools/delever_permute.py` per §2 (the design is settled and its pipeline proven by two probes — the T6 log entry); S98 ended here at 90 % context | the number: 34,091 sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0 · GTE levers 462 · per-TU asm macro definitions 314 (0 canonical duplicates) — `lever_census --check` OK
 
 ### 0. How to use this block
