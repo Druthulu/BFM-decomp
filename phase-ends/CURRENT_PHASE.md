@@ -396,6 +396,9 @@
   `.run/P35/share/reexemplar_93d5fccd.old.h`. `dedup-check` 0 failed; SETUP paragraph extended (`--batches`, the snapshot restore, the
   cause rule, `--repair-registry`, `--reexemplar`; R21); kit corpus + `tool_census --check: OK`. **Bucket 0 is CLOSED:** 183 classes at
   the start → 135 fully shared, 48 ledgered TU-CONFLICT with real diagnostics.
+- **S96 — R22 after bucket 0** (`.run/P35/baseline/r22_t5_bucket0.log`): `make clean && make extract-all JOBS=16 && make check-all JOBS=16`
+  → `extract-all: 217 extracted, 0 failed of 217 (+ main, serial)` · **`check-all: 218 passed, 0 failed of 218`** · `wall=84.02 s
+  user=1334.73 s sys=185.72 s` · `exit=0` — every T5 bank so far (five commits) proven from clean; fleet CPU 2,230 s (T4) → 1,335 s.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
