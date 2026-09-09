@@ -75,7 +75,7 @@
   digest + README sentence. Effort: high (Drew's default).
 - ☑ **T8** (S96; doc_links strict 0 broken, wiki 32/32, cookbook §453 + index, decision log, accelerators, DIGEST §4, the memory) — the record: wiki (4 pages), how-to ch.10, README:117, the charter rows as dated snapshots, the cookbook section, decision log
   (R31), accelerators, DIGEST §4, sunset rows, the memory rewritten; doc_links/wiki_render/cookbook_index/kit_coverage green.
-- ☐ **T9** — close (Tier 1): R22 → 218/218; tools-health OK; the metrics table; the reviewer sequence; PhaseEnd + DIGEST + log archived; v2.1.0.
+- ☑ **T9** (S96, xHigh by Drew's choice) — close (Tier 1): R22 → 218/218; tools-health OK; the metrics table; the reviewer sequence; PhaseEnd + DIGEST + log archived; v2.1.0.
 - Rules check (P6): after T3 and after T7.
 
 ## Decisions (owner's words, in order)
@@ -583,6 +583,19 @@
   index regenerated (`1170 sections, 14 symptom buckets`) and `cookbook-index OK` · `kit_coverage: OK` · kit corpus + `tool_census
   --check: OK`. **T8 ☑.** (`tools/sunset/README.md` rows were written at T6.)
 
+- **S96 — T9, the close (run in S96 at xHigh by Drew's choice; the plan said Max in a fresh session).** R22 from clean:
+  `extract-all: 217 extracted, 0 failed of 217 (+ main, serial)` · **`check-all: 218 passed, 0 failed of 218`** · `wall=87.62 s` · exit 0
+  (`.run/P35/baseline/r22_t9.log`). `make tools-health` run 1 (467 s) was green through S1 / dedup-check / the guard and red only at
+  `tool_census --check` — the kit's record copies of `DIGEST.md` and the new `PhaseEnd_Phase35.md` (both written while the chain ran);
+  `make kit-corpus` regenerated them and the chain was re-run (its line is appended below). The headless Ghidra MCP stopped via the
+  sentinel: `Save succeeded for processed file: /SLUS_007.26` (R23; unused all phase). `PhaseEnd_Phase35.md` written (the metrics table,
+  the milestone items with literal output, the reviewer sequence, seven rule candidates, the recap); DIGEST §0 refreshed + §2's P35
+  synopsis appended (step 3b). **The chain, run 2:** `tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries +
+  report(lint+dedup) + cookbook-index all green.` (`.run/P35/baseline/tools_health_t9.log`, 431 s, exit 0, 0 gaps) with `S1 … 10,180
+  satisfied … 0 VIOLATION(S) — OK`, `dedup-check: 3173 validated, 0 failed`, `macro-form guard: 0 LIVE …`. The log archived to
+  `phase-ends/logs/Phase35.md` (R19); `make kit-corpus` + `tool_census --check` after the PhaseEnd's last edit; everything left
+  uncommitted for Drew's close commit (R6). **T9 ☑ — Phase 35 milestone met; v2.1.0.**
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)
@@ -882,7 +895,7 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S96 close (2026-09-08, written at the 90 % context guard): Phase 35 T0–T8 ☑ (+ T5b); NEXT = T9, THE CLOSE (Tier 1, Max) in a FRESH session
+## 🛑 SESSION CHECKPOINT — S96 close (2026-09-08): Phase 35 COMPLETE — T0–T9 ☑ (+ T5b); PhaseEnd_Phase35.md written, this log archived; NEXT = Drew's close commit, then Phase 36 (pins) in a fresh session at Max, plan mode
 
 ### 0. How to use this block
 A fresh session (S97) reads CLAUDE.md's load order, replays THIS block verbatim, asks Drew for `/effort max` (T9 is Tier 1: the PhaseEnd

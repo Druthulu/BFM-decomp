@@ -41,7 +41,13 @@ instrument findings fixed (cdecl's scratch dir, two wiki citations, kit_coverage
 **Pending by name:** the preset's creation by decomp.me's maintainers, a reply from Archipelago, frogress. Candidates (a)–(d) proposed. **Gen3 opens at Phase 35** — its seed now includes the S91-b types doctrine (R95, the canonical
 type layer).
 
-**Phase 35 OPEN (2026-09-08, S94; gate 1 in plan mode at Max) — Gen3's first phase, the DEDUP phase: "one source per unique function."**
+**Phase 35 CLOSED 2026-09-08 (v2.1.0; `PhaseEnd_Phase35.md`) — Gen3's first phase, the DEDUP phase: "one source per unique function."**
+Three sessions (S94–S96) / 48 commits: every shared body one plain-C header under `src/shared/` included at each site (3,175 headers, the
+8.8 MB macro header gone), the five twins from one source directory, the same-address backlog 1,099 classes / 4,755 copies → 51 ledgered
+/ 160, a new `h_text` registry tier for 38 byte-variant functions, S1 a tools-health gate with a second oracle, 14 macro-era tools frozen +
+4 retired behind a guard, the published counts corrected (+459 functions; REAL 360,744 → 350,533 with EMPTY up the same). R96–R99 ratified;
+candidates (a)–(g) proposed. **Gen3 continues at Phase 36 — pins off** (Drew's order dedup → pins → structs → names). The open paragraph:
+*Phase 35 OPEN (2026-09-08, S94; gate 1 in plan mode at Max)*
 Drew set the Gen3 order dedup → pins → structs → names (one phase each, planned one at a time). The phase converts the 3,516 distinct
 `DEFINE_func_` macro bodies (5,147 define lines) into per-function plain-C headers under `src/shared/<space>/` included at each member's
 site (sotn's shape, verified from its tree), collapses the five identical-payload twin overlays onto one source directory each, shares
@@ -192,6 +198,15 @@ dry-runs in a throwaway judged by script (run 5 PASS 20/20). Findings: the kit h
 40/53 accelerators, 0 PhaseEnds/logs cited) → the coverage check + the record + the worklog pass (143 of 777 candidates banked nowhere);
 the S91-b types hindsight (a banking + width lever → the canonical type layer at Phase 6, DK-65/G62); a typed verify figure wrong twice;
 four false judge flags in five runs, all the instrument's. Rules: R74–R83 ratified at gate 1; candidates (i)–(xii) proposed.
+
+**P35 (2026-09-08, v2.1.0) GEN3 OPENS — THE DEDUP PHASE.** 3 sessions (S94–S96) / 48 commits. Gate 1 reversed the 2026-09-02 "leave the
+backlog" decision on sotn's tree (it shares once, by an include). T1 `share_census` (362,389 instances, 0 unaccounted, 10,180 classes);
+T2 the health chain learns the include + twin forms; T3 five twin pairs → one source dir (166 files deleted); T4 `macro_to_header`: 246,347
+sites → 2,215 headers, 213/213 binaries and 4,121/4,121 objects byte-identical, `engine_core.h` deleted; T5 `share_body` (bucket 0 183 →
+135 shared / 48 ledgered; bucket new 915 → 914 / 3; a re-exemplar), the S94 death at 91 % and the S95 transcript recovery, four tool
+defects fixed at their cause; T5b the `h_text` tier (38 classes / 2,030 sites); T6 14 frozen / 4 retired / the guard; T7 S1 strict + C2c/C2d
+in tools-health, the digest corrected; T8 the record (wiki, cookbook §453, decision log). Close: R22 218/218; S1 10,180/10,180, 0
+violations; fleet clean-run 157 s → 84–90 s. Rules: R96–R99 ratified; candidates (a)–(g).
 
 ## 3. Every rule, in full (transcribe these at session start; P/G/H/X are in PROJECT_CONTEXT.md)
 - **R1 — H1 relaxed while private.** ROM-derived content (`asm/`, `assets/`, `extracted/`, decompressed `.CD`) MAY be
