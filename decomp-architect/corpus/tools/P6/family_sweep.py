@@ -876,6 +876,7 @@ def hseq_sweep(a):
 
 
 def main():
+    import frozen; frozen.refuse("family_sweep.py", "tools/share_body.py", "it remaps and rewrites the DEFINE_func_ macro bodies Phase 35 retired")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--source", default="ov_SC01_077")
     ap.add_argument("--limit", type=int, default=0, help="cap #exemplars (0 = all)")

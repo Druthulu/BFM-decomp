@@ -122,6 +122,7 @@ def plan(binary, fn, draft_text):
 
 
 def main():
+    import frozen; frozen.refuse("demacroize.py", "tools/share_body.py", "it turns a macro site back into a private copy — the opposite of the S1 invariant")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--binary', required=True)

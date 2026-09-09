@@ -66,6 +66,7 @@ def classify_fail(fn, cpath):
 
 
 def main():
+    import frozen; frozen.refuse("p16_improve.py", "tools/share_body.py", "it rewrites macro sites in ov_SC01_077 against engine_core.h (gone)")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser()
     ap.add_argument("--band", choices=list(BANDS), default="easy")
     ap.add_argument("--n", type=int, default=40)

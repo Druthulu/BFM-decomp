@@ -69,6 +69,7 @@ def recover(fn, src, ec):
 
 
 def main():
+    import frozen; frozen.refuse("recover_giant.py", "tools/share_body.py", "it recovers a giant into the macro header engine_core.h (gone)")  # Phase 35 T6: FROZEN
     if len(sys.argv) != 4:
         raise SystemExit(__doc__)
     fn, inp, outp = sys.argv[1], sys.argv[2], sys.argv[3]

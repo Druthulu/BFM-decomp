@@ -71,6 +71,7 @@ def insert_at_file_scope(path, decls):
 
 
 def main():
+    import frozen; frozen.refuse("restore_dropped_decls.py", "tools/share_body.py", "it repairs declarations a macro-era propagation deleted; share_body edits definition lines only")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--binary", required=True)
     ap.add_argument("--ref", required=True, help="git ref holding the pre-deletion sources")

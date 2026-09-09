@@ -574,6 +574,7 @@ def _local_verdict(fn, text, sub, o0):
 
 
 def main():
+    import frozen; frozen.refuse("aprop_autodraft.py", "tools/share_body.py", "it seeds drafts from the macro bodies in engine_core.h (gone)")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser()
     ap.add_argument("--cards", default=CARDS)
     ap.add_argument("--outdir", default=".run/aprop_autodraft")

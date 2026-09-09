@@ -264,7 +264,7 @@ def run_cycle(a, api_base, model, tried):
     for b, fns in banked_by_bin.items():
         if any((lg.reach_of(b, fn) or 1) >= 2 for fn in fns):
             before = gate_stage._dedup_group_count()
-            sh([PY, "tools/dedup_propagate.py", "--auto-from", b, "--min-reach", "2"], timeout=3600)
+            sh([PY, "tools/share_body.py", "--apply", "--bucket", "new", "--batches", "1"], timeout=3600)   # P35 T6
             propagated += max(0, gate_stage._dedup_group_count() - before)
     merge_backlogs()
     fp = fleet_pct()

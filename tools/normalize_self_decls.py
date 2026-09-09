@@ -191,6 +191,7 @@ def fix(tu_text, fn, ref_decl=None):
 
 
 def main():
+    import frozen; frozen.refuse("normalize_self_decls.py", "tools/share_body.py", "it derives canonical declarations from engine_core.h (gone)")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--tu', required=True, help='the TU file to normalize (edited in place unless --out)')
     ap.add_argument('--fn', required=True, help='func_XXXXXXXX to normalize decls of')

@@ -518,6 +518,7 @@ def reconcile(fn, draft, canon_sig=None, tu_path=None):
 
 
 def main():
+    import frozen; frozen.refuse("canon_sig_reconcile.py", "the types phase (Phase 37): one canonical declaration per symbol", "it reconciles declarations against engine_core.h (gone)")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser()
     ap.add_argument('--fn', required=True)
     ap.add_argument('--draft', required=True)

@@ -458,6 +458,22 @@
   3,135; shared headers 2,215 → 3,137; same-vram backlog 1,099 classes / 4,755 private copies / 3,658 collapsible → 51 / 160 / 109
   (all ledgered); verdict A 1,712 → 2,760; fleet clean-run wall 145 s → 84 s (CPU 2,230 s → 1,335 s); 23 commits in T5. **T5 ☑.**
 
+- **S96 — T6 part 1: freeze + retire.** `tools/frozen.py` (the one refusal, printed from main() — never at import: cdecl imports
+  gen_harvest_targets, 18 tools import family_remap). **FROZEN (14, status FROZEN + successor in the dictionary):** the plan's 7
+  (family_sweep, gen_harvest_targets, p16_improve, recover_giant, restore_dropped_decls, normalize_self_decls, o0_subsplit) + 7 the
+  guard census found reading or writing the macro form (inject_capped_externs, aprop_autodraft, canon_sig_reconcile, conform_decls,
+  blocker_probe, demacroize, and family_remap's command line — it writes a `#define DEFINE_func_` head; its library stays). Deviation
+  from the plan's "7": the S95 ast census measured 30 hits, not 22; twin_sweep/recover_integration (which exec frozen CLIs) stay LIVE
+  and would print the refusal; family_cousins stays LIVE (`make atlas` runs it) and loses its dead branch in part 2. **RETIRED (4, git mv
+  to tools/sunset/, README rows):** dedup_propagate + dedup_extend → share_body.py (add_members_surgical and the library surface
+  onboarded_overlays / load_sig / registered_addrs / sym moved verbatim; validate_targets imports share_body; inject_capped_externs
+  frozen), macro_draft (product: the headers), test_reconcile_ledger (retired with its subject). Six lane callers repointed to
+  `share_body.py --apply --bucket new --batches 1` (gate_stage, gate_lane, grinder's message, lora_grind, auto_driver, bulk_harvest);
+  audit_binaries' hint reworded. `tool_census` accepts FROZEN. Verify: every touched file compiles; `family_sweep.py --source x` →
+  `FROZEN since Phase 35 … Successor: tools/share_body.py` rc 1; `import share_body, family_remap, gen_harvest_targets,
+  validate_targets` OK; no live tool names a retired file; `tool_census --check: OK` after `make kit-corpus` (the first chain checked
+  BEFORE regenerating and a `;` let a partial commit through — R97 again; amended into one commit).
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)

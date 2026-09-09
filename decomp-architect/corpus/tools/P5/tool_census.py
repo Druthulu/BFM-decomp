@@ -92,7 +92,7 @@ PHASE_TITLES = {"P1": "extraction + manifest", "P2": "the oracles + the load map
                 "P7": "the codegen map, the dumps, the permuter", "P8": "the campaign: cards, lanes, gates, recovery, harvest",
                 "P9": "publish", "P10": "readability", "PROJECT-ONLY": "project-only in code (the shape is a task; the code does not transfer)"}
 COLS = ["path", "phase", "portability", "need", "what", "adapts", "status", "successor_or_product"]
-STATUSES = {"LIVE", "STILL-NEEDED", "SUPERSEDED", "ONE-OFF"}
+STATUSES = {"LIVE", "STILL-NEEDED", "FROZEN", "SUPERSEDED", "ONE-OFF"}   # FROZEN (P35 T6): in the tree, command line refuses, libraries import
 
 
 def sh(cmd):
@@ -191,7 +191,7 @@ def census():
     files, retired = enumerate_tools()
     rows = read_dict()
     by_path = {r["path"]: r for r in rows}
-    live_rows = {p for p, r in by_path.items() if r["status"] in ("LIVE", "STILL-NEEDED")}
+    live_rows = {p for p, r in by_path.items() if r["status"] in ("LIVE", "STILL-NEEDED", "FROZEN")}
     retired_rows = {p for p, r in by_path.items() if r["status"] in ("SUPERSEDED", "ONE-OFF")}
     gaps = []
     for f in files:

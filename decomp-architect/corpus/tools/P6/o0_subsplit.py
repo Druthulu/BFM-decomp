@@ -62,6 +62,7 @@ def free_letters(ov, n):
 
 
 def main():
+    import frozen; frozen.refuse("o0_subsplit.py", "the Makefile -O0 globs (rollout_o0 for the record)", "it splits -O0 macro sites out of a TU against the macro form")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("ov")

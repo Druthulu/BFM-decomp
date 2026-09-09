@@ -41,3 +41,7 @@ successor named), or a one-off (retired, its product named). The dictionary rows
 | `verify_map_findings.py` (was `tools/verify_map_findings.py`) | ONE-OFF | the machine-checked verdicts of one codegen-map audit (docs/gcc-2.7.2-map/regalloc.md) | ☐ |
 | `wall_taxonomy.py` (was `tools/wall_taxonomy.py`) | SUPERSEDED | tools/frontier_classify.py | ☐ |
 | `warmstart.py` (was `tools/warmstart.py`) | SUPERSEDED | tools/permuter_sweep.py | ☐ |
+| `dedup_propagate.py` (was `tools/dedup_propagate.py`) | SUPERSEDED | tools/share_body.py (P35 T6: the include-at-site share; --reexemplar, --repair-registry) | ☐ |
+| `dedup_extend.py` (was `tools/dedup_extend.py`) | SUPERSEDED | tools/share_body.py (add_members_surgical moved verbatim; the extend bucket) | ☐ |
+| `macro_draft.py` (was `tools/macro_draft.py`) | ONE-OFF | the per-function headers under src/shared/ (P35 T4) — no macro body to materialize | ☐ |
+| `test_reconcile_ledger.py` (was `tools/test_reconcile_ledger.py`) | ONE-OFF | the S45p7 reconcile-ledger proof, retired with dedup_propagate | ☐ |

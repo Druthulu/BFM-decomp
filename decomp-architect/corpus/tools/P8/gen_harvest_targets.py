@@ -152,6 +152,7 @@ def collect_stubs(c_path):
 
 
 def main():
+    import frozen; frozen.refuse("gen_harvest_targets.py", "tools/share_census.py", "it collects harvest targets from the macro header engine_core.h (gone)")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser()
     ap.add_argument('--source', default='ov_SC01_077')
     ap.add_argument('--min-reach', type=int, default=2)

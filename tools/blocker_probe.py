@@ -223,6 +223,7 @@ def cc1_verdict(fn, stub, draft_path, work):
 
 # ---------------------------------------------------------------------------------------------
 def main():
+    import frozen; frozen.refuse("blocker_probe.py", "tools/share_body.py (its per-binary gate names the blocker)", "it probes macro-scope blockers in engine_core.h (gone)")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--binary', required=True)

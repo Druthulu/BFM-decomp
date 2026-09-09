@@ -207,6 +207,7 @@ def consumers(fn):
 
 
 def main():
+    import frozen; frozen.refuse("conform_decls.py", "the types phase (Phase 37)", "it conforms the fleet's declarations to engine_core.h (gone)")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--fn", required=True)

@@ -83,7 +83,7 @@ json.dump(banked,open(outp.replace('.json','_banked.json'),'w'))
 # propagate per function
 for fn in banked:
     addr="0x"+fn.split("_")[1].lower()
-    r=subprocess.run([".venv/bin/python","tools/dedup_propagate.py","--addr",addr],
+    r=subprocess.run([".venv/bin/python","tools/share_body.py","--apply","--bucket","new","--batches","1"],   # P35 T6
                      capture_output=True,text=True)
     if dirty():
         tag=os.environ.get("GATE_PHASE","decomp")   # P31 T1: was hardcoded "phase-30 S49"

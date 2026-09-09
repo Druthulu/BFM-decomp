@@ -41,7 +41,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import corpus
-import dedup_propagate as DP
+import share_body as DP   # load_sig lives in share_body since dedup_propagate retired (P35 T6)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

@@ -519,10 +519,9 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         # cover write scope, and a killed process performs no undo at all).
         _budget = min(6 * 3600, 1800 + 1800 * len(verified))
         try:
-            pr = sh([PY, "tools/dedup_propagate.py", "--auto-from", binary, "--min-reach", "2",
-                     "--recover"], timeout=_budget)
+            pr = sh([PY, "tools/share_body.py", "--apply", "--bucket", "new", "--batches", "1"], timeout=_budget)   # P35 T6: the include-at-site share (dedup_propagate retired)
         except subprocess.TimeoutExpired:
-            print(f"[gate] FATAL: dedup_propagate exceeded {_budget}s with {len(verified)} banks — "
+            print(f"[gate] FATAL: share_body exceeded {_budget}s with {len(verified)} banks — "
                   f"the fleet is HALF-PROPAGATED and the tree is DIRTY. Revert (`git checkout -- src/`), "
                   f"then re-gate with --no-propagate and propagate separately.", file=sys.stderr)
             return {"drafts": len(draft_fns), "banked": len(verified), "propagated": 0,

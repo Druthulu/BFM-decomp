@@ -137,7 +137,7 @@ def byte_gate(draft_dir):
 
 
 def propagate():
-    sh([PY, "tools/dedup_propagate.py", "--auto-from", OV, "--min-reach", "2"], timeout=3600)
+    sh([PY, "tools/share_body.py", "--apply", "--bucket", "new", "--batches", "1"], timeout=3600)   # P35 T6: the include-at-site share
 
 
 def main():

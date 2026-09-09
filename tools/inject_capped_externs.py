@@ -30,7 +30,7 @@ import argparse, re, sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import dedup_propagate as dp
+dp = None   # the propagate library is retired to tools/sunset (P35 T6); this tool is FROZEN — main() refuses
 
 SYM_RE = re.compile(r'\b(func_[0-9A-Fa-f]{6,8}|D_[0-9A-Fa-f]{6,8})\b')
 
@@ -81,6 +81,7 @@ def inject(defblock, name, ext_map):
 
 
 def main():
+    import frozen; frozen.refuse("inject_capped_externs.py", "tools/share_body.py", "it fixed drafts a macro-era propagation skipped, on dedup_propagate (retired)")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--overlay", default="ov_SC01_077")

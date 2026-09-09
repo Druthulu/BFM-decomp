@@ -348,8 +348,8 @@ def main():
                     f"total {banked}; fleet {fp}%")
                 if s.get("verified"):
                     log("  -> propagate as its own batch: "
-                        + "; ".join("tools/dedup_propagate.py --addr 0x%s --recover" % f.split('_')[-1]
-                                    for f in s["verified"][:4]))
+                        + "tools/share_body.py --apply --bucket new --batches 1  (P35 T6: shares every new same-address class; "
+                        + "verified: " + " ".join(s["verified"][:4]) + ")")
             # A permuter win the whole-binary gate STILL rejects is plumbing-bound (not regalloc/sched) —
             # re-permuting can never bank it. Blacklist so the grinder stops churning it (the §20 trap).
             rejected = [f for f, _b in won if f not in verified]

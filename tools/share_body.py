@@ -11,7 +11,7 @@ WHAT ONE SHARE IS. A class = one h_exact (the raw instruction bytes) at one vram
 are still PRIVATE COPIES (a definition in that binary's own TU). Sharing it: the class's ONE body goes to (or already is) a plain-C
 header under src/shared/<space>/ (macro_to_header's naming: func_<VRAM>[__h8].h, keyed by the class — R48), every private copy becomes
 `#include "../shared/<space>/<header>"` at the SAME position (the copy's definition lines, nothing else — the TU keeps its own
-declarations), and the registry gains the group (shorthand form, appended by text) or the members (dedup_extend.add_members_surgical).
+declarations), and the registry gains the group (shorthand form, appended by text) or the members (add_members_surgical, inherited from the retired dedup_extend).
 
 THE EXEMPLAR (for an unregistered class) — printed with every share: the copy whose normalized text the MOST copies share; a tie goes
 to a pin-free copy; a further tie to the shortest. A body defined under an asm-label alias (aF<ADDR>) gets its own binding
@@ -47,10 +47,100 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 import share_census as sc            # noqa: E402
 import macro_to_header as m2h        # noqa: E402 — Oracles (naming, spaces, sigs), bind_alias_header, include_line, banner
-import dedup_extend as de            # noqa: E402 — add_members_surgical (the registry's surgical text edit)
 
 LEDGER = REPO / "config/dedup_exceptions.tsv"
 RUN = REPO / ".run/P35/share"
+
+
+# ----------------------------------------------------------------------------------------------------------------------------
+# The library surface inherited from the retired propagate/extend tools in tools/sunset (Phase 35 T6; verbatim, so their importers
+# change one line: `import share_body as dp`). load_sig/sig_path read the per-binary sig files; registered_addrs the registry.
+def sig_path(ov):
+    return REPO / f".run/sig.{ov}.jsonl"
+
+
+def onboarded_overlays():
+    """Overlay aliases + (S44) module aliases — every non-main/resident binary a shared body can
+    propagate into. Modules carry engine functions too; excluding them re-creates the SC07
+    invisible-work bug one class over."""
+    out = []
+    for f, var in (("config/overlays.mk", "OVERLAY_BINARIES"), ("config/modules.mk", "MODULE_BINARIES")):
+        fp = REPO / f
+        if fp.exists():
+            m = re.search(rf"^{var}\s*:=\s*(.*)$", fp.read_text(), re.M)
+            if m:
+                out += m.group(1).split()
+    return out
+def load_sig(ov):
+    """addr(int) -> {h_exact, h_norm, nins, ...}; {} if absent."""
+    p = sig_path(ov)
+    if not p.exists():
+        return {}
+    out = {}
+    for ln in p.read_text().splitlines():
+        ln = ln.strip()
+        if ln:
+            r = json.loads(ln)
+            out[int(r["addr"], 16)] = r
+    return out
+def registered_addrs():
+    """Vaddrs already in config/dedup.us.yaml (shared via ANY mechanism — engine_core, ov_setters,
+    clearTbl40). --auto-from skips these so the bulk is purely additive and never collides with an
+    existing share (e.g. a SETTER-matched function) — which would trip the structural check."""
+    p = REPO / "config/dedup.us.yaml"
+    if not p.exists():
+        return set()
+    try:
+        import yaml
+        sys.path.insert(0, str(REPO / "tools"))
+        from dedup_integrate import group_members
+        data = yaml.safe_load(p.read_text()) or {}
+        return {v for g in (data.get("groups") or []) for (_b, v, _n) in group_members(g)}
+    except Exception:
+        return set()
+def sym(addr):
+    return f"func_{addr:08X}"  # splat convention: uppercase 8-hex
+
+
+def add_members_surgical(additions):
+    """Append binaries to each group's `binaries: [...]` list by TEXT EDIT, in place.
+
+    NEVER `yaml.safe_dump` this file. The first cut of this tool round-tripped it through
+    safe_dump and silently destroyed BOTH of the things a human needs from it (H5 — "never
+    silently drop comments on a rewrite"):
+      * all 47 comment lines — including the curated Phase-11 header explaining WHY the share is
+        source-level (the linker cannot excise bytes interior to an object) — dumped to nothing;
+      * every `vram: 0x80162FF4` re-serialized as `vram: 2148937716` (PyYAML parses YAML-1.1 hex
+        to int, and dumps int as decimal), making 1,832 entries unreadable.
+    It was invisible to every gate: dedup-check passed 1840/0 and check-all stayed 140/140,
+    because `_addr()` accepts both forms — the data was fine and the DOCUMENT was ruined. A
+    formatting-destructive write that all your oracles call green is exactly the class this
+    project keeps re-learning: the gate measures bytes, not intent.
+
+    `additions` = {group_id: [binary, ...]}. Idempotent: a binary already listed is skipped.
+    """
+    p = str(REPO / "config/dedup.us.yaml")
+    lines = open(p).read().splitlines(keepends=True)
+    cur, n = None, 0
+    seen = set()
+    for i, ln in enumerate(lines):
+        m = re.match(r"^\s*-?\s*id:\s*(\S+)\s*$", ln)
+        if m:
+            cur = m.group(1)
+            continue
+        if cur and cur in additions and re.match(r"^\s*members:\s*$", ln):
+            # a VERBOSE group has no `binaries:` line — silently skipping it left five 141-member groups listed at 16 (P35 S94/S96)
+            raise SystemExit(f"add_members_surgical: {cur} is in the verbose `members:` form — convert it to shorthand first "
+                             f"(share_body.py --repair-registry does), never skip it (R43)")
+        if cur and cur in additions and re.match(r"^\s*binaries:\s*\[", ln):
+            seen.add(cur)
+            add = [b for b in additions[cur] if re.search(rf"\b{re.escape(b)}\b", ln) is None]
+            if add:
+                lines[i] = ln.rstrip("\n").rstrip()[:-1].rstrip() + ", " + ", ".join(add) + "]\n"
+                n += len(add)
+            cur = None
+    open(p, "w").write("".join(lines))
+    return n
 
 
 def log(msg):
@@ -397,7 +487,7 @@ def run_batch(orc, cen, classes, label):
         bins = [x for x in b.extend.get(gid, []) if x not in rejected_bins.get(c["h"], set())]
         if bins:
             ext[gid] = bins
-    n_ext = de.add_members_surgical(ext) if ext else 0
+    n_ext = add_members_surgical(ext) if ext else 0
     ok_n = sum(1 for a in gated if results[a][0])
     log(f"  [{label}] gated {ok_n}/{len(gated)} binaries green · registered {len(reg_entries)} groups · extended {n_ext} members · "
         f"rejected classes {len(failed_classes)}")

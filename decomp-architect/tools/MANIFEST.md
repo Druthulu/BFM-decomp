@@ -8,8 +8,8 @@
 > its platform SDK need the marked adaptation. The last table lists the tools that are project-only in code (their *shape* is a task;
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
-> **Coverage:** 298 tool files in scope (submodules, vendored and downloaded code excluded), of which 298 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 27 · P6 54 · P7 20 · P8 86 · P9 27 · P10 14 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (28 pointer rows); one-offs are omitted. Table rows in all: 326 (the installer checks its copy against this figure).
+> **Coverage:** 295 tool files in scope (submodules, vendored and downloaded code excluded), of which 295 live rows
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 15 · PROJECT-ONLY 16. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 325 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -98,7 +98,6 @@
 | `oracle_reorder.py` | decide whether a near-miss residual is a source defect or an assembler artifact | Decides whether a near-miss residual is a source defect or an assembler artifact | pinned assembler flags |
 | `tool_census.py` | derive the tool census, the need-keyed index, the kit manifest and the verbatim corpora from one dictionary | Derives the tool census, the need-keyed tool index, the kit manifest and the verbatim corpora from one dictionary, coverage-asserted both ways | repo layout (tools/, docs/SETUP.md rows, the kit paths) |
 | `wall_sweep.py` | enumerate fleet-wide every instance of one known assembler-level blocker class | Enumerates fleet-wide instances of one known assembler-level blocker class | repo asm layout, toolchain quirk |
-| `test_reconcile_ledger.py` | exercise a guarded repair path the full negative control never reaches | Targeted proof of the propagation ledger guard the full control never exercised | repo paths |
 | `blocker_probe.py` | explain with two oracles why a byte-correct draft fails the whole-binary gate | Read-only two-oracle explanation of why a byte-correct draft fails the whole-binary gate | repo build paths |
 | `atlas_features.py` | extract one deterministic feature record per function across every registered binary | Extracts one deterministic feature record per function across all registered binaries | repo signature files |
 | `worklist.py` | join the target pool and near-miss ledger into one byte-weighted queue | Joins the target pool and the near-miss ledger into one byte-weighted ranked queue | repo scratch paths |
@@ -138,7 +137,6 @@
 | `pads_audit.py` | derive an object's inter-table padding spec from the bytes instead of searching | Derives each object's padding spec from the bytes instead of searching for it | repo build/config layout |
 | `aprop_autodraft.py` | draft a family member mechanically from a seed body and symbol rebase | Mechanically drafts a family member from the seed body plus a positional symbol rebase | repo scratch paths |
 | `demacroize.py` | escape a shared-header declaration conflict locally by unmacroizing one body | Per-binary local escape from a shared-header declaration conflict by unmacroizing one body | repo shared-header layout |
-| `dedup_extend.py` | extend an existing code-share registry to newly onboarded binaries | Extends the existing share registry to newly onboarded binaries | repo config/src layout |
 | `o0_boundary.py` | find and bank unoptimized functions stranded at an optimized region's boundary | Finds and banks unoptimized functions stranded at the end of an unoptimized region | repo config layout |
 | `inject_capped_externs.py` | free duplicate matches a share propagation skips as not self-contained | Frees high-reach inline matches skipped as not self-contained by injecting their file-scope externs | repo shared-header layout |
 | `decl_from_use.py` | infer a minimal extern for a data symbol the destination unit does not declare | Infers a minimal extern for a data symbol a draft uses but its destination does not declare | repo src layout |
@@ -146,8 +144,6 @@
 | `match_protos.py` | join two related builds' signature dumps into a function correspondence | Joins per-function signature dumps of two related builds into a function correspondence | repo signature files |
 | `cast_self_callers.py` | let a unit keep calling, through per-site casts, the function it now defines | Lets a unit keep calling, through a per-site cast, the function it is about to define | repo src layout |
 | `lift_types.py` | lift a named list of types fleet-wide into the shared type header — the canonical type layer from the first bank (Phase 6, the multiplier); again at readability (Phase 10) | Lifts a named list of types fleet-wide into the shared type header | repo shared-header path |
-| `dedup_propagate.py` | lift one matched body into a shared macro and instantiate it everywhere | Lifts one matched body into a shared macro and instantiates it at every duplicate site | repo shared-header/src layout |
-| `macro_draft.py` | materialize a shared macro body back into a compilable standalone draft | Materializes a shared macro body back into a compilable standalone draft | repo shared-header layout |
 | `scope_tu_externs.py` | move a unit's file-scope data externs down into their consumers | Moves a unit's own file-scope data externs down into their consumers to legalize a block-scope type | repo src layout |
 | `family_manifest.py` | name the one exemplar to draft per structural family, ranked | Ranked structural-family target manifest naming the one exemplar to draft per family | repo signature files |
 | `normalize_self_decls.py` | normalize a function's own declaration when a templated definition lands in a new unit | Normalizes a function's own declaration when a templated definition lands in a new unit | repo src layout |
@@ -338,6 +334,7 @@
 | `verbatim_check.py` | guard that every inline-assembly body still reproduces its target bytes | Regression guard that every inline-assembly body still reproduces its target bytes | repo src layout |
 | `share_census.py` | measure duplicate function bodies across the fleet and assert one source per unique function | The census of byte-identical function classes across every binary with their source forms and verdicts, plus the S1 invariant check with its exception ledger and a fixture self-test | repo paths, the registry and signature schemas |
 | `ghidra_apply_symbols.sh` | mirror the curated symbol file into the analysis database with a real save | Mirrors the curated symbol file into the analysis program headlessly, with a real save | repo symbol path, project name |
+| `frozen.py` | refuse, from one place, the command line of a tool the project has frozen | The one refusal a FROZEN tool prints from its main(): the tool, the successor and why; imports never exit (libraries stay usable) | nothing |
 | `verbatim_target_s.py` | regenerate a splitter-format target disassembly for a function no longer stubbed | Regenerates a splitter-format target disassembly for a function that is no longer a stub; --gas emits the assemblable gas-syntax form ($-registers, .L labels, noreorder) that a web diff service accepts as a pasted target | repo build/asm layout |
 | `share_body_cycle.sh` | run the share-body batch cycle unattended: batch, verify by exit code, log, commit, periodic clean fleet check | The Phase-35 T5 driver for bucket new: per batch share_body --apply --bucket new --batches 1 --label new<k>, the gated N/N line read, the phase log entry appended, the bank committed (R42), the clean fleet run every N batches (R22) — stops on the first red | repo paths, the phase-log format, the fleet count from config/check.*.sha |
 | `share_body.py` | share one byte-identical function class across its binaries through an include-at-site header, gated per binary | The Phase-35 successor of dedup_propagate + dedup_extend for the include-at-site form: exemplar by majority text, the header written once, every private copy replaced by the include at its position, per-binary byte gate with object comparison, bisect on red, the registry appended or extended by text, the exception ledger on refusal; --plan / --apply --bucket extend|new | repo paths, the registry and signature schemas |
@@ -374,6 +371,8 @@
 | `build_wave.py` | `draw_waves.py` | Builds the next wave from a card pool, ranked by fleet leverage |
 | `build_wave_args.py` | `wave_args.py` | Emits workflow arguments for a wave from the target manifest, resolving each path |
 | `canon_draft_decls.py` | `sig_unify.py` | Canonicalizes a draft's extern and data declarations to the banked-consistent set |
+| `dedup_extend.py` | `share_body.py` | Extends the existing share registry to newly onboarded binaries |
+| `dedup_propagate.py` | `share_body.py` | Lifts one matched body into a shared macro and instantiates it at every duplicate site |
 | `exemplar_miner.py` | `atlas.py` | Routes every residual stub to its lever and ranks the highest-reach work |
 | `fix_header_decl.py` | `conform_decls.py` | Rewrites a shared-header caller declaration to a draft's byte-true signature |
 | `gen_engine_decls.py` | `conform_decls.py` | Declares every shared function and data symbol once, canonically, in a generated header |

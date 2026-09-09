@@ -1322,6 +1322,7 @@ def remap(addr, from_ov, to_ov, to_addr=None, imm_map=None):
 
 
 def main():
+    import frozen; frozen.refuse("family_remap.py", "tools/share_body.py --reexemplar / --apply", "its command line writes a DEFINE_func_ macro head; the library (stream_words, nins_of, …) stays")  # Phase 35 T6: FROZEN
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--addr", required=True)
     ap.add_argument("--from", dest="frm", required=True)

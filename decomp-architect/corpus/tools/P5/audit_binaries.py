@@ -176,7 +176,7 @@ def main():
     zero = sorted(b for b in onb if b.startswith("ov_") and memb.get(b, 0) == 0)
     if zero:
         warns.append(f"{len(zero)} overlay(s) in 0 dedup groups (onboarded but un-harvested — "
-                     f"candidate for tools/dedup_extend.py): {zero if verbose else zero[:6]}")
+                     f"candidate for tools/share_body.py --plan): {zero if verbose else zero[:6]}")
 
     # --- report
     n_ov = len([b for b in onb if b.startswith("ov_")])

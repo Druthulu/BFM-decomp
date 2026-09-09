@@ -227,8 +227,8 @@ def main():
             # periodic fleet propagate sweep (the multiplier) — every N batches
             if batch_i % a.propagate_every == 0 and propagated_since:
                 for pb in sorted(propagated_since):
-                    subprocess.run([".venv/bin/python", "tools/dedup_propagate.py", "--auto-from", pb,
-                                    "--min-reach", "2"], cwd=REPO, capture_output=True, timeout=3600)
+                    subprocess.run([".venv/bin/python", "tools/share_body.py", "--apply", "--bucket", "new",
+                                    "--batches", "1"], cwd=REPO, capture_output=True, timeout=3600)   # P35 T6
                 propagated_since.clear()
                 log("propagate sweep done")
             # heartbeat + flywheel stats. progress.py --fleet is ~14s (a full 136-binary scan), so
