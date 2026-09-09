@@ -564,8 +564,10 @@
   **R22 `check-all: 218 passed, 0 failed of 218`, 90 s** (`r22_t5b.log`); `progress.py --check … fresh` — the digest now says 103,015
   bodies written once (3,173 headers instantiated 262,573 times), 160 duplicate copies in 51 ledgered classes, 38 text-tier functions
   (2,030 sites), 1,668 same-address copies of 381 tiny bodies deferred to the names phase (the README sentence carries all of it). The
-  census json is rewritten after the strict-text keys are set (progress.py read empty counts before). SETUP §T7/T5b (R21). **T5b ☑**
-  pending the health chain's line (next commit).
+  census json is rewritten after the strict-text keys are set (progress.py read empty counts before). SETUP §T7/T5b (R21). **Verify
+  (the chain):** `tools-health: OK — …` (`.run/P35/baseline/tools_health_t5b.log`, 439 s, exit 0) with `S1 … 10,180 satisfied … 0
+  VIOLATION(S) — OK`, `dedup-check: 3173 validated, 0 failed | C1 coverage 262573/262573`, `macro-form guard: 0 LIVE …`; the timeline
+  regenerated (74 rows). **T5b ☑.**
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
