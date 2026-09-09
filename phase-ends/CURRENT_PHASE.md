@@ -68,6 +68,11 @@
   `progress.py` fields (105,007 bodies written once; 160 / 51 duplicate copies, all ledgered) + the dated corrections (+7, +459, REAL
   −10,211) + the README sentence; the gate negative-controlled in place (exit 1 naming the class; C2d naming the member); the second
   oracle's finding published: 380 texts deferred inside cross-address classes, 38 texts / 2,030 sites byte-variant — PENDING Drew.
+- ☐ **T5b** (added S96, Claude's delegated decision) — the text tier: registry `tier: h_text` (text hash; per-member `h_exact` in the
+  verbose member form), `dedup_integrate` C1 per member; `share_census` text classes at one address (same text, ≥2 distinct TUs, outside
+  the deferred/ledgered sets) → the S1 text half a violation, not PENDING; `share_body --bucket text` (header named by the text hash) over
+  the 38 classes / 2,030 sites, gated per binary, one batch per run + R22; the two counts (deferred 380/1,668; text-tier shares) in the
+  digest + README sentence. Effort: high (Drew's default).
 - ☐ **T8** — the record: wiki (4 pages), how-to ch.10, README:117, the charter rows as dated snapshots, the cookbook section, decision log
   (R31), accelerators, DIGEST §4, sunset rows, the memory rewritten; doc_links/wiki_render/cookbook_index/kit_coverage green.
 - ☐ **T9** — close (Tier 1): R22 → 218/218; tools-health OK; the metrics table; the reviewer sequence; PhaseEnd + DIGEST + log archived; v2.1.0.
@@ -94,6 +99,14 @@
   canonical-declaration work; rejected. **Policy for the other 48 rejected classes:** their headers already carry the majority text and
   their causes are genuine declaration conflicts in the late overlays' units → they stay ledgered TU-CONFLICT with the real diagnostic
   until the types phase (R95); ≈190 private copies of ≈3,900 collapsible, inside the plan's 2–5 % budget (exact count at T5's close).
+- S96 (Drew, after the T7 report): "Max effort set for this decision call. you review the information and decide what is best, make the
+  decision, and then pause" → **Claude decided at Max: T5b NOW for the 38 byte-variant same-address texts (a text tier), DEFER the 380
+  inside the cross-address classes.** The normalizer masks only the function's own name, so the 38 are the same C; their bytes differ per
+  overlay because the ORIGINAL builds compiled that source under per-overlay declaration environments (our TUs carry that environment) —
+  the types phase cannot collapse them and the names phase cannot remove them; the include-at-site form already fits (body in the header,
+  declarations in the TU, bytes proven per binary) and only the registry's single-hash group blocks it. The 380 are identical bytes at
+  thousands of addresses (empty bodies, tiny accessors): one header per address would be undone by the names phase's parameterized form —
+  gate 1's deferral stands; both counts are published. A plan change (P5d) under Drew's delegation: **T5b inserted before T8.**
 
 ## Log (append-only; one entry per step, with the literal verify line)
 - **S94 2026-09-08 — session start.** Load order read; Phase 34 closed at `48170fd7f`; no CURRENT_PHASE.md → new phase. Drew: order
@@ -534,6 +547,9 @@
   exit 0) with `S1: … 10,180 satisfied … 0 VIOLATION(S) — OK`, `dedup-check: 3135 validated, 0 failed | C1 coverage 260543/260543`,
   `macro-form guard: 0 LIVE …`, `progress.py --check: … fresh`, `timeline --check: fresh (74 rows)`. **T7 ☑.**
 
+- **S96 — the second oracle's finding DECIDED (Max, delegated by Drew): T5b (a text tier) for the 38 byte-variant same-address texts;
+  the 380 inside the deferred classes stay deferred** — the reasoning is in §Decisions; T5b's design in its task row. NEXT: T5b at high.
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)
@@ -833,7 +849,7 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 ☑ (S1 10,180/10,180, 0 violations; backlog 1,099 → 51 ledgered classes; registry 3,135 groups); T6 ☑ (14 frozen / 4 retired / the guard 0 LIVE); T7 ☑ (S1 strict + C2c/C2d in tools-health, OK; 38 byte-variant same-address texts PENDING Drew); NEXT = T8 (the record); the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
+## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 ☑ (S1 10,180/10,180, 0 violations; backlog 1,099 → 51 ledgered classes; registry 3,135 groups); T6 ☑ (14 frozen / 4 retired / the guard 0 LIVE); T7 ☑ (S1 strict + C2c/C2d in tools-health, OK); DECIDED: T5b = a text tier for the 38 byte-variant same-address texts (2,030 sites), the 380 deferred; NEXT = T5b, then T8 (the record); the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
 
 ### 0. How to use this block
 A fresh session (S96) reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at §2 step 1. This block was written by S95, a
