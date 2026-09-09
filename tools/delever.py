@@ -1569,20 +1569,33 @@ def recipes(a):
     def recs_for(tu):
         return [r for t_ in inc.get(tu, []) for r in by_src.get(t_, [])] if tu.endswith(".h") else by_src.get(tu, [])
 
-    def judge(tu, cand):
+    inflight = {}
+
+    def judge(tu, cand, tag="rec"):
         """judge one candidate, and be killable: the oracle writes the candidate into the tree to compile it, so a SIGTERM
-        between the write and the restore leaves a candidate in `src/`. The original text goes into inflight.json first, the
-        same file `--restore` reads (P35's rule: a tool restores from its OWN snapshot, never `git checkout`) — S99 killed a
-        run mid-judge and found exactly that leftover."""
+        between the write and the restore leaves a candidate in `src/`. Every in-flight file's ORIGINAL text is held in
+        inflight.json, the same file `--restore` reads (P35's rule: a tool restores from its OWN snapshot, never
+        `git checkout`) — S99 killed a run mid-judge and found exactly that leftover. The map is per-FILE and written under
+        the lock, so a killed parallel run restores every worker's file and not just the last one's.
+
+        `tag` names the scratch object: `compile_obj` writes `<object>.<tag>.o`, so two workers on the same object would
+        clobber each other's output — which is why a worker owns a whole TU and headers stay serial."""
         path = REPO / tu
         raw, st = path.read_text(errors="surrogateescape"), path.stat()
-        RUN.mkdir(parents=True, exist_ok=True)
-        INFLIGHT.write_text(json.dumps({tu: raw}))
+        with _LOCK:
+            RUN.mkdir(parents=True, exist_ok=True)
+            inflight[tu] = raw
+            INFLIGHT.write_text(json.dumps(inflight))
         try:
-            return oracle.judge_all(recs_for(tu), cand, tag="rec", write_path=(tu if tu.endswith(".h") else None))
+            return oracle.judge_all(recs_for(tu), cand, tag=tag, write_path=(tu if tu.endswith(".h") else None))
         finally:
             restore_file(path, raw, st)
-            INFLIGHT.unlink(missing_ok=True)
+            with _LOCK:
+                inflight.pop(tu, None)
+                if inflight:
+                    INFLIGHT.write_text(json.dumps(inflight))
+                else:
+                    INFLIGHT.unlink(missing_ok=True)
 
     def lever_free(tu, raw, fn):
         m, ls = same_len_mask(raw), line_starts(raw)
@@ -1628,58 +1641,99 @@ def recipes(a):
         for b in bad[:5]:
             print(f"  CONTROL FAILED {b[0]}:{b[1]} -> {b[2]} {b[3]}")
         sys.exit("delever --recipes: the control did not pass — no verdict from this run is usable (R39)")
-    print(f"delever --recipes: {len(todo)} RESIDUE bodies", flush=True)
-    rows, won, tried, compiles = [], 0, 0, 0
+    # THE SWEEP, TU-PARALLEL. A worker owns a WHOLE translation unit: the oracle writes each candidate to the real source
+    # path and names its scratch object after the object it builds, so two workers sharing a TU would overwrite each other's
+    # source AND their scratch objects. Shared headers stay SERIAL for the same reason one level up — two different headers
+    # can be included by the same TU, and both would compile that includer's object at once (`--apply` draws them the same
+    # way). Bodies of one TU are judged in that worker, in order, against that file's own text.
+    by_tu = collections.OrderedDict()
+    for k, r in todo:
+        by_tu.setdefault(k[0], []).append((k, r))
+    # BOTTOM-UP WITHIN A FILE: a banked body changes the line numbers of everything below it, and the census positions this
+    # sweep rewrites from were taken before the run. Judging a file's bodies in descending order means an accepted edit never
+    # moves a body still to come (the alternative is a REFUSED token mismatch on every later body of a file that banked one).
+    for tu in by_tu:
+        by_tu[tu].sort(key=lambda kr: -min((s["line"] for s in sites_by[kr[0]]), default=0))
+    tus = [tu for tu in by_tu if not tu.endswith(".h")]
+    hdrs = [tu for tu in by_tu if tu.endswith(".h")]
+    print(f"delever --recipes: {len(todo)} RESIDUE bodies in {len(tus)} TU(s) + {len(hdrs)} header(s), "
+          f"cap {a.cap}, {a.jobs} worker(s)", flush=True)
+    state = dict(won=0, tried=0, compiles=0, done=0, skipped=0)
+    rows = []
     t0 = time.time()
-    for n_body, ((tu, fn), r) in enumerate(todo, 1):
-        path = REPO / tu
-        raw = path.read_text(errors="surrogateescape")
-        names = pin_names(sites_by[(tu, fn)])          # may be empty: R5 needs no pinned declaration
-        try:
-            free = lever_free(tu, raw, fn)
-        except Refuse:
-            continue
-        cands = recipe_candidates(free, tu, fn, names, cap=a.cap)
-        if not cands:
-            continue
-        tried += 1
-        hit = None
-        for rec, desc, cand in cands:
-            v, dt, err = judge(tu, cand)
-            compiles += len(recs_for(tu))
-            if v == "IDENTICAL":
-                hit = (rec, desc, cand)
-                break
-        if n_body % 10 == 0 or hit:                       # R55: a lane that runs unattended leaves evidence
-            print(f"  [{n_body}/{len(todo)}] {won} closed · {compiles} compiles · {(time.time() - t0) / 60:.1f} min",
-                  flush=True)
-        row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung="R", calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
-                   tu=tu, fn=fn, addr=fn_addr(fn, tu), aliases=r.get("aliases"), header=tu.endswith(".h"),
-                   nhash_before=r.get("nhash_after"), nhash_after=None, candidates=len(cands), pins=len(names),
-                   verdict=("LEVER-FREE" if hit else "RESIDUE"), recipe=(hit[0] if hit else None), how=(hit[1] if hit else None),
-                   sites=([] if hit else r.get("sites", [])))
-        if hit:
-            path.write_text(hit[2], errors="surrogateescape")
-            # the body's own markers are now orphans (its levers are gone); every OTHER body's marker is still honest, so the
-            # scrub is scoped to this body's line span — a file-wide scrub would leave the census with UNMARKED sites elsewhere
-            recs_ = sc.scan_text(hit[2], tu, shared_defs=None)
-            d_ = next((x for x in recs_ if x["form"] == "def" and x["name"] == fn), None)
-            span = range(d_["line"], d_["end"] + 1) if d_ else range(0)
-            scrub = scrub_edits(hit[2], [i + 1 for i, l in enumerate(hit[2].split("\n")) if FAKE in l and i + 1 in span])
-            if scrub:
-                cand2 = apply_edits(hit[2], scrub)
-                v2, _, _ = judge(tu, cand2)
-                if v2 == "IDENTICAL":
-                    path.write_text(cand2, errors="surrogateescape")
-            walk = lc.walk_file(path.read_text(errors="surrogateescape"), tu, tu.endswith(".h"))
-            row["nhash_after"] = next((x["nhash"] for x in walk["defs"] if x["name"] == fn), None)
-            won += 1
-            print(f"  {tu}:{fn} — {hit[0]} {hit[1]} IDENTICAL ({len(names)} pin(s) gone)", flush=True)
-        rows.append(row)
+
+    def work_tu(tu, tag):
+        out = []
+        for (tu_, fn), r in by_tu[tu]:
+            path = REPO / tu
+            raw = path.read_text(errors="surrogateescape")
+            names = pin_names(sites_by[(tu, fn)])      # may be empty: R5/R7 need no pinned declaration
+            try:
+                free = lever_free(tu, raw, fn)
+            except Refuse:
+                with _LOCK:
+                    state["skipped"] += 1
+                    state["done"] += 1
+                continue
+            cands = recipe_candidates(free, tu, fn, names, cap=a.cap)
+            if not cands:
+                with _LOCK:
+                    state["skipped"] += 1
+                    state["done"] += 1
+                continue
+            hit, n_c = None, 0
+            for rec, desc, cand in cands:
+                v, dt, err = judge(tu, cand, tag=tag)
+                n_c += len(recs_for(tu))
+                if v == "IDENTICAL":
+                    hit = (rec, desc, cand)
+                    break
+            row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung="R",
+                       calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
+                       tu=tu, fn=fn, addr=fn_addr(fn, tu), aliases=r.get("aliases"), header=tu.endswith(".h"),
+                       nhash_before=r.get("nhash_after"), nhash_after=None, candidates=len(cands), pins=len(names),
+                       verdict=("LEVER-FREE" if hit else "RESIDUE"), recipe=(hit[0] if hit else None),
+                       how=(hit[1] if hit else None), sites=([] if hit else r.get("sites", [])))
+            if hit:
+                path.write_text(hit[2], errors="surrogateescape")
+                # the body's own markers are now orphans (its levers are gone); every OTHER body's marker is still honest,
+                # so the scrub is scoped to this body's line span — a file-wide scrub would leave the census UNMARKED elsewhere
+                recs2 = sc.scan_text(hit[2], tu, shared_defs=None)
+                d_ = next((x for x in recs2 if x["form"] == "def" and x["name"] == fn), None)
+                span = range(d_["line"], d_["end"] + 1) if d_ else range(0)
+                scrub = scrub_edits(hit[2], [i + 1 for i, l in enumerate(hit[2].split("\n")) if FAKE in l and i + 1 in span])
+                if scrub:
+                    cand2 = apply_edits(hit[2], scrub)
+                    v2, _, _ = judge(tu, cand2, tag=tag)
+                    n_c += len(recs_for(tu))
+                    if v2 == "IDENTICAL":
+                        path.write_text(cand2, errors="surrogateescape")
+                walk = lc.walk_file(path.read_text(errors="surrogateescape"), tu, tu.endswith(".h"))
+                row["nhash_after"] = next((x["nhash"] for x in walk["defs"] if x["name"] == fn), None)
+            out.append(row)
+            with _LOCK:
+                state["tried"] += 1
+                state["compiles"] += n_c
+                state["done"] += 1
+                if hit:
+                    state["won"] += 1
+                    print(f"  {tu}:{fn} — {hit[0]} {hit[1]} IDENTICAL ({len(names)} pin(s) gone)", flush=True)
+                if state["done"] % 25 == 0:               # R55: a lane that runs unattended leaves evidence
+                    el = (time.time() - t0) / 60
+                    print(f"  [{state['done']}/{len(todo)}] {state['won']} closed · {state['compiles']} compiles · "
+                          f"{el:.1f} min · {state['done'] / max(el, 0.01):.0f} bodies/min", flush=True)
+        return out
+
+    with ThreadPoolExecutor(max_workers=max(1, a.jobs)) as pool:
+        for res in pool.map(lambda it: work_tu(it[1], f"r{it[0] % max(1, a.jobs)}"), list(enumerate(tus))):
+            rows += res
+    for n, tu in enumerate(hdrs):                          # serial: two headers can share an includer's object
+        rows += work_tu(tu, "rh")
     ledger_append(rows)
     needed = sum(len([s for s in r.get("sites", []) if s.get("verdict") == "NEEDED"]) for _, r in todo)
-    print(f"recipes: {won} of {tried} bodies closed lever-free ({needed} NEEDED sites in the {len(todo)} drawn), "
-          f"{compiles} compiles in {(time.time() - t0) / 60:.1f} min")
+    print(f"recipes: {state['won']} of {state['tried']} bodies closed lever-free ({needed} NEEDED sites in the "
+          f"{len(todo)} drawn, {state['skipped']} with no candidate), {state['compiles']} compiles in "
+          f"{(time.time() - t0) / 60:.1f} min")
     return 0
 
 
