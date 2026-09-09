@@ -1720,7 +1720,10 @@ def recipes(a):
                         path.write_text(cand2, errors="surrogateescape")
                 walk = lc.walk_file(path.read_text(errors="surrogateescape"), tu, tu.endswith(".h"))
                 row["nhash_after"] = next((x["nhash"] for x in walk["defs"] if x["name"] == fn), None)
-            out.append(row)
+            # THE ROW IS WRITTEN WHEN THE BODY IS JUDGED, not at the end of the run. A killed sweep has already written its
+            # banked bodies into the tree; holding their rows until the end would leave the census calling them lever-free
+            # while the ledger still called them RESIDUE — and a multi-hour sweep WILL be interrupted (S99 killed one).
+            ledger_append([row])
             with _LOCK:
                 state["tried"] += 1
                 state["compiles"] += n_c
@@ -1739,7 +1742,6 @@ def recipes(a):
             rows += res
     for n, tu in enumerate(hdrs):                          # serial: two headers can share an includer's object
         rows += work_tu(tu, "rh")
-    ledger_append(rows)
     needed = sum(len([s for s in r.get("sites", []) if s.get("verdict") == "NEEDED"]) for _, r in todo)
     print(f"recipes: {state['won']} of {state['tried']} bodies closed lever-free ({needed} NEEDED sites in the "
           f"{len(todo)} drawn, {state['skipped']} with no candidate), {state['compiles']} compiles in "

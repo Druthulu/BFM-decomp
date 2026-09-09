@@ -118,6 +118,15 @@ cost**: on the last four functions of the frontier, *every* pin came off byte-id
 | **D** permuter | decomp-permuter seeded with the **lever-free** body against the target bytes | ~12 min per exemplar | **5 of 16 exemplars, 665 of 2,131 bodies behind them, 0.69 h** |
 | **E** agents | one agent per surviving class exemplar, with the pack | tokens | Phase 36 T7 |
 
+**RUNG R IS A REPLICATION ENGINE, NOT A DISCOVERY ENGINE — measured, S99.** On a class whose shape rung D had already found it
+closed **134 of 134 bodies in 6 minutes**. On 300 residue bodies where nobody had found the shape yet it closed **0 of 300 at
+`--cap 40` (12,110 compiles, 4.6 min) and 0 of 300 at `--cap 400` (17,140 compiles, 6.0 min)`**. Two things make that a real
+result rather than a budget problem: the instrument was checked on one body by hand (every candidate COMPILES and returns
+DIFFERS — nothing was erroring out silently), and 17,140 compiles over 300 bodies is ~57 candidates each, so **the cap was
+never the binding constraint** — ten times the depth produced 42% more candidates and closed nothing. The recipe rung banks a
+KNOWN shape across a class for free; it has nothing to say about a shape that is not in its list. Growing it means finding
+more shapes (rung D, then agents), and harvesting each one back into the rung so it sweeps the population for free.
+
 **The two rungs feed each other.** Rung D's wins are not exotic: each is a small nameable source shape — a statement wrapped
 in a block (`flag = 0;` → `do { flag = 0; } while (0);`), a single-set temp inlined at its use. Every one of them became a
 rung-R recipe the same session, and rung R then banks the whole class **mechanically, as a one-line diff in the real

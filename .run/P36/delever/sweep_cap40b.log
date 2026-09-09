@@ -1,0 +1,16 @@
+delever: the census describes another tree (stamp 1ba39deb24f5d168); rerun tools/lever_census.py --sites -j 16 — running the census now
+delever --recipes: control 3/3 — the identity splice reproduces its text and the untouched file its object
+delever --recipes: 300 RESIDUE bodies in 244 TU(s) + 1 header(s), cap 40, 10 worker(s)
+  [25/300] 0 closed · 1024 compiles · 0.3 min · 94 bodies/min
+  [50/300] 0 closed · 2131 compiles · 0.6 min · 81 bodies/min
+  [75/300] 0 closed · 3159 compiles · 0.9 min · 83 bodies/min
+  [100/300] 0 closed · 4185 compiles · 1.3 min · 80 bodies/min
+  [125/300] 0 closed · 5182 compiles · 1.5 min · 82 bodies/min
+  [150/300] 0 closed · 6222 compiles · 1.7 min · 86 bodies/min
+  [175/300] 0 closed · 7262 compiles · 2.3 min · 76 bodies/min
+  [200/300] 0 closed · 8230 compiles · 2.6 min · 78 bodies/min
+  [225/300] 0 closed · 9246 compiles · 3.0 min · 76 bodies/min
+  [250/300] 0 closed · 10134 compiles · 3.3 min · 76 bodies/min
+  [275/300] 0 closed · 11118 compiles · 3.9 min · 71 bodies/min
+  [300/300] 0 closed · 12110 compiles · 4.6 min · 66 bodies/min
+recipes: 0 of 300 bodies closed lever-free (300 NEEDED sites in the 300 drawn, 0 with no candidate), 12110 compiles in 4.6 min

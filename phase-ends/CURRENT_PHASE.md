@@ -642,6 +642,24 @@ accumulate here as the phase produces them.**
   this was fixed, then 132); the permuter's winner is TIDIED before it is offered (pycparser's two-space indent and the corpse
   `;` where a statement was inlined away), with the tidy judged like any other candidate.
 
+- **S100 — the free-bank sweep MEASURED, and it is spent at the current recipe set (zero tokens; cookbook §454a).**
+  Rung R made TU-PARALLEL first (a worker owns a whole translation unit — the oracle writes each candidate to the real source
+  path and names its scratch object after the object it builds; shared headers stay serial because two headers can share an
+  includer's object; a file's bodies are judged BOTTOM-UP so a bank never shifts a body still to come; the in-flight map is
+  per-file under the lock; ledger rows are appended per body, not at the end, so an interrupted sweep cannot leave a banked
+  body whose row never landed). Candidates are also ordered by distance to the NEEDED site — the lever says where to look.
+  **The measurement, same 300-body draw both times:** `recipes: 0 of 300 bodies closed lever-free … 12,110 compiles in 4.6 min`
+  at `--cap 40`, and `0 of 300 … 17,140 compiles in 6.0 min` at `--cap 400`. **The cap was never the binding constraint** —
+  17,140 compiles over 300 bodies is ~57 candidates each, so ten times the depth bought 42 % more candidates and closed
+  nothing — and the instrument was cleared by hand on one body (`src/800.c CdReadSectorReadyCB`, one `$18` pin): every
+  candidate COMPILES and returns DIFFERS, none errors out silently (R40).
+  **What that establishes for T7's shape:** rung R is a REPLICATION engine (134 of 134 on a class whose shape rung D had just
+  found, 6.0 min) and not a DISCOVERY engine (0 of 300 where no shape is known). So T7's real question is not "how many bodies"
+  but **"how many distinct SHAPES are left"** — every shape discovered makes its whole class free, and the 134-copy classes at
+  the head of the draw are worth 130 bodies per discovery. Throughput for planning: 82 bodies/min at 10 workers, 123 at 20
+  (nice'd; Drew measured ~20-40 % CPU at 10 and asked twice for more), so a full-residue pass is ~2 h — affordable, but it buys
+  nothing until the recipe set grows.
+
 ## 🛑 SESSION CHECKPOINT — S99 (2026-09-09): T0–T5 ☑ **T6 ☑** — all committed (this close on top of `1c2355054`); NEXT = **T7, the reshaping waves — and T7 STARTS ONLY ON DREW'S DIRECT APPROVAL IN THE SESSION THAT RUNS IT** (his words, twice: the `/effort ultracode` toggle is NOT approval); until he gives it, the drawable work is a PARALLELISED rung-R sweep (§2) | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
 
 ### 0. How to use this block

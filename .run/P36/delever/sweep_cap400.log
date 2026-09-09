@@ -1,0 +1,15 @@
+delever --recipes: control 3/3 — the identity splice reproduces its text and the untouched file its object
+delever --recipes: 300 RESIDUE bodies in 244 TU(s) + 1 header(s), cap 400, 20 worker(s)
+  [25/300] 0 closed · 1083 compiles · 0.3 min · 83 bodies/min
+  [50/300] 0 closed · 2221 compiles · 0.4 min · 112 bodies/min
+  [75/300] 0 closed · 3310 compiles · 0.6 min · 123 bodies/min
+  [100/300] 0 closed · 4374 compiles · 0.9 min · 115 bodies/min
+  [125/300] 0 closed · 5474 compiles · 1.0 min · 121 bodies/min
+  [150/300] 0 closed · 6618 compiles · 1.2 min · 124 bodies/min
+  [175/300] 0 closed · 7762 compiles · 1.5 min · 115 bodies/min
+  [200/300] 0 closed · 8782 compiles · 1.9 min · 107 bodies/min
+  [225/300] 0 closed · 10687 compiles · 3.1 min · 72 bodies/min
+  [250/300] 0 closed · 12603 compiles · 3.9 min · 63 bodies/min
+  [275/300] 0 closed · 14423 compiles · 4.5 min · 61 bodies/min
+  [300/300] 0 closed · 17140 compiles · 6.0 min · 50 bodies/min
+recipes: 0 of 300 bodies closed lever-free (300 NEEDED sites in the 300 drawn, 0 with no candidate), 17140 compiles in 6.0 min
