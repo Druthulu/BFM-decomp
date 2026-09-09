@@ -337,6 +337,15 @@
   waived by that choice) — T5 step 1: run 2 BANKED** as the checkpoint's §2 step 1 specifies: 37 `src/` files (170 shared includes in
   8 overlays), `config/dedup_exceptions.tsv` (+55 rows), the batch records, 139 gate logs, `run_extend2.log`, `kit_corpus_t5a.log` —
   181 files. No gate re-run (each binary's final `check_<b>.log` is the tool's success line, R66); R22 still owed for T5.
+- **S96 — T5 step 2: `tools/share_body.py` fixed** (the three S95 defects): `failure_cause()` = the first `file:line: message` (or
+  `file:(.text+0x..): message`) diagnostic that is not a warning/note/banner, then the assembler/linker phrases, then the make line;
+  `reason_for()` → SYMBOL-NAME / GATE-REJECT / PARSE-ERROR / TU-CONFLICT (the two new codes documented in the ledger's header); the
+  bisect restores from `tu_snapshot()` (the pre-edit text of every touched TU, in memory) — `git checkout` is gone; `--batches` (default
+  1) stops after one batch with a "COMMIT, then re-run" line; the per-class cause is kept (`causes` in the batch JSON, in every ledger
+  note); the docstring carries the run-on-a-committed-tree rule. **Controls (R39):** on the dead session's real red `cc1.err` (64 warning
+  lines) the cause is `func_80168B70.h:13: too many arguments to function 'func_80146C3C'` → TU-CONFLICT; six synthetic logs (linker,
+  assembler, `[FAIL]`, parse error, conflicting types, a warning-only log) each give the expected code and never a warning line.
+  `make kit-corpus` + `tool_census --check: OK`.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 

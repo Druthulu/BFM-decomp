@@ -3,6 +3,8 @@
 #   JTBL-CARVE   a member's body owns a jump-table carve that the shared form cannot carry
 #   O0-LOCAL     a member lives in a per-binary -O0 split translation unit
 #   TU-CONFLICT  the chosen text is refused by a member's translation unit (a conflicting declaration)
+#   PARSE-ERROR  cc1 reports a parse error at or near the site (a census range defect until a replay proves otherwise)
+#   SYMBOL-NAME  the chosen text names a callee the member's binary does not define under that name (undefined reference at link)
 #   GATE-REJECT  the chosen text compiled but the member's binary did not stay byte-identical (the compiler message class in note)
 #   PINNED       every candidate text carries register pins and sharing would spread them (Phase 36's work)
 #   CROSS-SPACE  instances in different address spaces (deferred with the cross-address classes)

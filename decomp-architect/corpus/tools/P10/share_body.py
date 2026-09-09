@@ -24,6 +24,14 @@ compared. A red binary is BISECTED: its TUs restored, the batch's classes re-app
 binary stay private and the class is LEDGERED in config/dedup_exceptions.tsv with the compiler's line (TU-CONFLICT / GATE-REJECT);
 the class is registered with the members that passed. "shared" is printed only from the gate's success (R66). The clean fleet run
 after the batch is the caller's (R22). Never `yaml.safe_dump` the registry (H5).
+
+RUN IT ON A COMMITTED TREE, ONE BATCH PER INVOCATION (the default `--batches 1`). The edit positions come from the census taken at the
+start of the run; a second batch in the same run would edit TUs the first batch already changed (stale lines → a red gate → a bisect
+that restores the TU to its pre-batch text, dropping the first batch's shares). The bisect restores from an in-memory snapshot of the
+TU taken before the batch's edits — never `git checkout` (S94 run 2 lost ~50 kept sites to exactly that). The failure cause is the
+first `file:line: message` diagnostic that is not a warning (gcc 2.7.2 prints errors without the word "error"); the ledger's reason
+code is derived from it: SYMBOL-NAME (undefined reference), GATE-REJECT (bytes differ), PARSE-ERROR (a parse error at or near the
+site — replay it before believing the TU), TU-CONFLICT (a declaration conflict).
 """
 import argparse
 import collections
@@ -199,9 +207,7 @@ def gate(alias, snap):
     with open(log_p, "w") as f:
         r = subprocess.run(["make", "check", f"BINARY={alias}", "-j16"], cwd=REPO, stdout=f, stderr=subprocess.STDOUT)
     if r.returncode != 0:
-        txt = log_p.read_text(errors="replace")
-        err = [ln for ln in txt.splitlines() if "error" in ln.lower() or "conflicting" in ln.lower()]
-        return False, (err[0] if err else txt.splitlines()[-1] if txt.strip() else "make check failed")[:200]
+        return False, failure_cause(log_p.read_text(errors="replace"))
     d = objdir(alias)
     same = diff = 0
     for name, data in snap.get(alias, {}).items():
@@ -215,9 +221,47 @@ def gate(alias, snap):
     return True, f"BYTE-IDENTICAL, obj A/B {same}/{same + diff}"
 
 
-def restore(tus):
-    if tus:
-        subprocess.run(["git", "checkout", "--"] + sorted(tus), cwd=REPO, check=True)
+DIAG = re.compile(r"^(\S+?):(\d+|\(\.\w+\+0x[0-9a-f]+\)): (.*)$")
+BANNER = re.compile(r"^(warning:|note:|In function|At top level|In file included|previous (declaration|definition|external))")
+
+
+def failure_cause(txt):
+    """The FIRST real diagnostic in a red gate's log. gcc 2.7.2 prints an error as `file:line: message` with NO 'error' token
+    (`too many arguments to function`, `conflicting types for`, `parse error before`) and a warning as `file:line: warning: …`; the linker
+    prints `file:(.text+0x..): undefined reference to …`; the assembler `{standard input}:N: Error: …`. Matching the word "error"
+    labelled 254 of 303 rejections `make: *** [...] Error 33` (cc1's fatal exit status) in S94 run 2 — the message was never read."""
+    lines = txt.splitlines()
+    for ln in lines:
+        m = DIAG.match(ln)
+        if m and not BANNER.match(m.group(3)):
+            return ln[:200]
+    for ln in lines:
+        if re.search(r"\{standard input\}.*Error|undefined reference|multiple definition|\[FAIL\]", ln):
+            return ln[:200]
+    err = [ln for ln in lines if "warning:" not in ln and re.search(r"\berror\b|Error\b", ln)]
+    return (err[0] if err else lines[-1] if lines else "make check failed")[:200]
+
+
+def reason_for(cause):
+    """The ledger's reason code from the cause line (config/dedup_exceptions.tsv's header documents the codes)."""
+    if "undefined reference" in cause:
+        return "SYMBOL-NAME"
+    if "[FAIL]" in cause or "object A/B" in cause:
+        return "GATE-REJECT"
+    if "parse error" in cause:
+        return "PARSE-ERROR"
+    return "TU-CONFLICT"
+
+
+def tu_snapshot(tus):
+    """The text of every TU about to be edited — the ONLY restore source. (A `git checkout` restored the COMMITTED text and wiped the
+    previous batch's uncommitted shares in every bisected TU — S94 run 2 lost ~50 kept sites that way; R42 applies to tools too.)"""
+    return {tu: (REPO / tu).read_text(errors="surrogateescape") for tu in tus}
+
+
+def restore(tus, tu_snap):
+    for tu in tus:
+        (REPO / tu).write_text(tu_snap[tu])
 
 
 def ledger_row(h, reason, nins, instances, note):
@@ -252,11 +296,13 @@ def run_batch(orc, cen, classes, label):
         twins_of[prim].append(t)
     gated = sorted(b.touched | {t for a in b.touched for t in twins_of.get(a, [])})
     snap = snapshot(gated)
+    tu_snap = tu_snapshot(b.edits.keys())          # the pre-edit text of every TU this batch touches (the bisect restores from it)
     b.write_headers()
     b.apply_edits()
     log(f"  [{label}] {len(classes) - len(refused)} classes · {sum(len(v) for v in b.edits.values())} sites in {len(b.edits)} TUs · "
         f"{len(b.headers)} new headers · gating {len(gated)} binaries")
     failed_classes = set()
+    causes = {}                                      # h -> (binary, the first cause line)
     results = {}
     for a in gated:
         ok, detail = gate(a, snap)
@@ -268,36 +314,38 @@ def run_batch(orc, cen, classes, label):
         prim = cen["twin_of"].get(a)
         if prim:
             my_tus = {tu for tu in b.edits if tu.startswith(cen["dirs"][prim] + "/")}
-        restore(my_tus)
+        restore(my_tus, tu_snap)
         by_class = collections.defaultdict(lambda: collections.defaultdict(list))
         for tu in my_tus:
             for e in b.edits[tu]:
                 by_class[e[3]][tu].append(e)
+        def apply_selected(selected):
+            """From the RESTORED original text: every selected class's edits per TU in ONE bottom-up pass, so the original line
+            numbers stay valid (a per-class sequential re-application shifted later classes' lines — the first bisect rejected
+            125 of 183 classes on artifacts of its own: duplicate definitions and parse errors at the shifted sites)."""
+            restore(my_tus, tu_snap)
+            per_tu = collections.defaultdict(list)
+            for hh in selected:
+                for tu, eds in by_class[hh].items():
+                    per_tu[tu].extend(eds)
+            for tu, eds in per_tu.items():
+                p = REPO / tu
+                lines = p.read_text(errors="surrogateescape").split("\n")
+                for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
+                    lines[line - 1:end] = [new]
+                p.write_text("\n".join(lines))
+
         good = []
         for h, tus in sorted(by_class.items(), key=lambda kv: kv[0]):
-            restore(my_tus)
-            for hh in good + [h]:
-                for tu, eds in by_class[hh].items():
-                    p = REPO / tu
-                    lines = p.read_text(errors="surrogateescape").split("\n")
-                    for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
-                        lines[line - 1:end] = [new]
-                    p.write_text("\n".join(lines))
+            apply_selected(good + [h])
             ok2, det2 = gate(a, snap)
             if ok2:
                 good.append(h)
             else:
                 failed_classes.add(h)
+                causes.setdefault(h, (a, det2))
                 log(f"  [{label}] {a}: class {h[:10]} REJECTED — {det2}")
-                # leave the good ones applied
-                restore(my_tus)
-                for hh in good:
-                    for tu, eds in by_class[hh].items():
-                        p = REPO / tu
-                        lines = p.read_text(errors="surrogateescape").split("\n")
-                        for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
-                            lines[line - 1:end] = [new]
-                        p.write_text("\n".join(lines))
+                apply_selected(good)              # leave the good ones applied
         ok3, det3 = gate(a, snap)
         results[a] = (ok3, det3 + f" (after bisect: {len(good)} classes kept, {len(by_class) - len(good)} rejected)")
         if not ok3:
@@ -314,13 +362,34 @@ def run_batch(orc, cen, classes, label):
             if len(passing) >= 2:
                 reg_entries.append((gid, h, src, fn, vram, passing))
             c = next(x for x in classes if x["h"] == h)
-            ledger_row(h, "TU-CONFLICT", c["nins"], c["instances"],
-                       f"share_body {label}: rejected in {sorted(rejected_in(b, h, cen))}; registered for {len(passing)}")
+            cb, cause = causes.get(h, ("?", "?"))
+            ledger_row(h, reason_for(cause), c["nins"], c["instances"],
+                       f"share_body {label}: rejected in {sorted(rejected_in(b, h, cen))}; registered for {len(passing)}; cause ({cb}): {cause}")
         else:
             reg_entries.append((gid, h, src, fn, vram, bins))
     if reg_entries:
         registry_append(reg_entries)
-    ext = {gid: bins for gid, bins in b.extend.items()}
+    # a rejected EXTEND class is ledgered too (its private copies in the rejecting binaries stay)
+    for c in classes:
+        if c["verdict"] == "B" and c["h"] in failed_classes:
+            cb, cause = causes.get(c["h"], ("?", "?"))
+            ledger_row(c["h"], reason_for(cause), c["nins"], c["instances"],
+                       f"share_body {label}: extend of {c['groups'][0]['id']} rejected in {sorted(rejected_in(b, c['h'], cen))}; "
+                       f"cause ({cb}): {cause}")
+    # extend a group ONLY with members whose sharing survived the gate (a rejected class's binaries keep their private copy
+    # and must not be listed as sharing — the registry never runs ahead of the source)
+    rejected_bins = {}
+    for c in classes:
+        if c["h"] in failed_classes:
+            rejected_bins[c["h"]] = rejected_in(b, c["h"], cen)
+    ext = {}
+    for c in classes:
+        if c["verdict"] != "B":
+            continue
+        gid = c["groups"][0]["id"]
+        bins = [x for x in b.extend.get(gid, []) if x not in rejected_bins.get(c["h"], set())]
+        if bins:
+            ext[gid] = bins
     n_ext = de.add_members_surgical(ext) if ext else 0
     ok_n = sum(1 for a in gated if results[a][0])
     log(f"  [{label}] gated {ok_n}/{len(gated)} binaries green · registered {len(reg_entries)} groups · extended {n_ext} members · "
@@ -328,7 +397,7 @@ def run_batch(orc, cen, classes, label):
     (RUN / f"batch_{label}.json").write_text(json.dumps(dict(classes=[c["h"] for c in classes], refused=refused,
                                                                 results=results, registered=[e[0] for e in reg_entries],
                                                                 extended=ext, rejected=sorted(failed_classes),
-                                                                exemplars=b.exemplar_note), indent=1) + "\n")
+                                                                causes=causes, exemplars=b.exemplar_note), indent=1) + "\n")
     return len(failed_classes) == 0 and all(results[a][0] for a in gated)
 
 
@@ -352,6 +421,9 @@ def main():
     ap.add_argument("--bucket", choices=["extend", "new"], default="new")
     ap.add_argument("--batch", type=int, default=120)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--batches", type=int, default=1,
+                    help="batches per invocation (default 1: every batch's edit positions come from THIS run's census, which read "
+                         "committed text; commit between runs — a later batch would edit TUs the earlier one already changed)")
     ap.add_argument("--only", default="")
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     a = ap.parse_args()
@@ -377,12 +449,18 @@ def main():
     if a.limit:
         pool = pool[:a.limit]
     all_ok = True
+    done = 0
     for k in range(0, len(pool), a.batch):
+        if k // a.batch >= a.batches:
+            log(f"share_body: stopping after {a.batches} batch(es) — {len(pool) - k} classes of this bucket remain; COMMIT, then re-run "
+                f"(the census re-derives the pool from the committed text)")
+            break
         chunk = pool[k:k + a.batch]
         ok = run_batch(orc, cen, chunk, f"{a.bucket}{k // a.batch + 1}")
         all_ok = all_ok and ok
-    log(f"share_body: done — {len(pool)} classes in {(len(pool) + a.batch - 1) // a.batch} batch(es); {'all green' if all_ok else 'see the ledger'}; "
-        f"{time.time() - t0:.0f} s")
+        done += len(chunk)
+    log(f"share_body: done — {done} of {len(pool)} classes in {min(a.batches, (len(pool) + a.batch - 1) // a.batch)} batch(es); "
+        f"{'all green' if all_ok else 'see the ledger'}; {time.time() - t0:.0f} s")
 
 
 if __name__ == "__main__":
