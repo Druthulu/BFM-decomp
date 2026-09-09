@@ -245,12 +245,13 @@ accumulate here as the phase produces them.**
   volatile declarations, `$0` variables, instructions. **Design consequences for T3:** per-body compiles at 0.2 s make group testing
   unnecessary (simplicity wins); run T4 first and publish the fall; rung R (T6) targets the three big classes in that order.
 
-## 🛑 SESSION CHECKPOINT — S97 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ (T2's commit pending); NEXT = T3 (`tools/delever.py` the campaign tool: --plan/--apply, the ledger, exemplar/replay, batches + `delever_cycle.sh`, the `!FAKE` markers, refusals, selftest) at Max for the design
+## 🛑 SESSION CHECKPOINT — S97 close (2026-09-09, at 69 % context): T0 ☑ T1 ☑ T1b ☑ T2 ☑ — all committed (T2 `617f29e30`, the checkpoint `772052dff`, this refresh); NEXT = T3 (`tools/delever.py` the campaign tool: the ledger, --plan/--apply batches with the `!FAKE` markers, exemplar/replay, refusals, `delever_cycle.sh`, selftest) in a FRESH session at Max for the design
 
 ### 0. How to use this block
-A fresh session reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T3's design is Max; its finish
-and T4–T6 xHigh) and executes §2. The tree is clean at **HEAD = the "checkpoint for T3" commit after T2's `617f29e30`**
-(`git log --oneline -2`). Drew pushes (R6).
+A fresh session (S98) reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T3's design is Max; its
+finish and T4–T6 xHigh) and executes §2. The tree is clean at **HEAD = the S97-close checkpoint commit** (`git log --oneline -3` shows it
+above `772052dff` and T2's `617f29e30`); the headless Ghidra MCP was stopped cleanly at this checkpoint (R23; no RE work in this phase —
+the SessionStart hook restarts it, leave it idle). Drew pushes (R6).
 
 ### 1. Where things stand
 - **Done, committed:** gate 1 (2026-09-09, the decisions above); T0 (`63b886626`, R22 **218/218**); T1 (`357f8a1ed`, `tools/lever_census.py`
@@ -262,6 +263,9 @@ and T4–T6 xHigh) and executes §2. The tree is clean at **HEAD = the "checkpoi
 - **The probe's answer (T2 log entry):** rungs A+B fleet-wide ≈ 94k compiles ≈ 0.5 h wall, removing ≈ 43 % of sites and freeing ≈ 19 %
   of bodies; the residue ≈ 81 % of bodies ≈ 1,800 distinct exemplars (launders/barriers/keep-alives 42 % of needed sites, v0/v1 + a0–a3
   pins 32 %, callee-saved pins 9 %). `register` dropped vs kept: byte-neutral (53 = 53).
+- **Open for Drew (asked at the T2 report, unanswered):** the T1b second-pass split — 8 `GsTMDfast*` rows as SDK-VERBATIM (Sony's
+  code carried as asm, excluded), 11 game bodies DECOMPILE-NOW and 3 UNCERTAIN (`$at` present: `func_80026514`, `func_800268D0`,
+  `func_8017E26C`) counted as levers. Proceed on that split unless Drew says otherwise.
 - **Instruments:** `tools/delever_oracle.py` (`--recipes` 14 s, `--calibrate <aliases>`, `--status`; `.run/P36/delever/calibration.json`
   must be CURRENT for HEAD — recalibrate after any Makefile/config change or fleet rebuild, and after EVERY commit (it records HEAD);
   `recipes.json` is ignored scratch, regenerated on demand); `tools/delever.py` (the rewrite rules, rung A/B, `--probe`);
