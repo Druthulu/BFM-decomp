@@ -1640,7 +1640,7 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     u16 *pA = (*(u16 * *)&D_801841A0);
     u16 *pB = (*(u16 * *)&D_8018419C);
     u16 *pC = (*(u16 * *)&D_801841A8);
-    register int zr __asm__("$0");
+    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus2)
     u32 X, Y, cell, Xc, Yc;
     u16 k, off;
     int cnt;
@@ -1648,7 +1648,7 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     u8 *s0;
     u16 raw;
     u32 hib;
-    register int harg __asm__("$4");
+    register int harg __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus2)
     s32 ret;
     void *p0C, *p10;
     u8 *p14, *p18, *p1C;
@@ -1659,11 +1659,11 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     pC[2] = pA[2] - pB[2];
 
     X = ((((u16)x + 0x8000) >> 7) & 0x1ff) - map->ox;
-    __asm__("addu %0,%1,$zero" : "=r"(Xc) : "r"(X));
+    __asm__("addu %0,%1,$zero" : "=r"(Xc) : "r"(X));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus2)
     if (!((X & 0xffff) < map->w))
         return 0;
     Y = ((((u16)y + 0x8000) >> 7) & 0x1ff) - map->oy;
-    __asm__("addu %0,%1,$zero" : "=r"(Yc) : "r"(Y));
+    __asm__("addu %0,%1,$zero" : "=r"(Yc) : "r"(Y));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus2)
     if (!((Y & 0xffff) < map->h))
         return 0;
 
@@ -1998,10 +1998,10 @@ s32 func_801345F8(s32 arg)
     extern u16 * D_8018419C;
     extern u16 D_801C8428;
 
-    register u16 *param_1 __asm__("$5") = ((u16 *)arg);
-    register u16 *cc __asm__("$4") = D_8018419C;
+    register u16 *param_1 __asm__("$5") = ((u16 *)arg);  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus2)
+    register u16 *cc __asm__("$4") = D_8018419C;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus2)
     int c8000 = 0x8000;
-    register int zr __asm__("$0");
+    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus2)
     u32 c1, c2, uVar6, uVar2, cnt, v14;
     u16 *ptmp, *puVar4, *puVar7, uVar1;
     int hi, harg, iVar9, iVar8, uVar3, uVar10, tbl;

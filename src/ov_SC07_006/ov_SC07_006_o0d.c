@@ -820,7 +820,7 @@ extern void func_801417C4(void);
 extern u8 D_800B9A16;
 extern u16 D_80115114;
 extern void func_801417F8(void);
-extern volatile u16 D_8011511A;
+extern u16 D_8011511A;
 extern u16 D_8011512E;   /* §17a-1: canonical width (jr_8013F350 TUs decl u16); byte-neutral here (only use is store-0) */
 extern s32  func_80029178(s32 a0);
 extern void func_801418F8(void);
