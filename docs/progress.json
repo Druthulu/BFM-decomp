@@ -39,8 +39,37 @@
   "non_matching": 0,
   "matchable": 363680,
   "dedup_groups": 3135,
-  "dedup_instances": 260543
+  "dedup_instances": 260543,
+  "unique_function_bodies": 105007,
+  "duplicate_source_copies": 160,
+  "duplicate_source_classes": 51
  },
+ "corrections": [
+  {
+   "date": "2026-09-08",
+   "phase": "P35 T2",
+   "metric": "fn_count.total",
+   "delta": 7,
+   "cause": "seven overlays including the whale header but never registered were counted by neither classify nor the registry fold",
+   "command": "tools/progress.py --fleet"
+  },
+  {
+   "date": "2026-09-08",
+   "phase": "P35 T6",
+   "metric": "fn_count.total",
+   "delta": 459,
+   "cause": "macro sites invisible to the classifier became includes at T4: ov_SC03_015's 219 single-site macros, ov_SC03_118's 3, and the never-extended members of five under-listed groups",
+   "command": "tools/progress.py --fleet"
+  },
+  {
+   "date": "2026-09-08",
+   "phase": "P35 T6",
+   "metric": "counts.real_c_functions",
+   "delta": -10211,
+   "cause": "empty-bodied shared functions were folded into REAL under the macro form; the include form classifies them EMPTY (the instruction-weighted metrics are unchanged)",
+   "command": "tools/progress.py --fleet"
+  }
+ ],
  "per_binary": [
   {
    "binary": "main",

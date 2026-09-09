@@ -44,7 +44,7 @@ sharing is source-level. The .ld interpose stays the library mechanism.
 Usage: tools/dedup_integrate.py [--check] [--binary <alias>] [--allow-unsigned]
                                 [--dedup config/dedup.us.yaml]
 """
-import argparse, json, pathlib, re, sys
+import argparse, json, os, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
@@ -168,6 +168,19 @@ def check(groups, binary_filter=None, allow_unsigned=False):
 
     failures = unvalidated = validated = 0
     members_seen = members_c1 = 0
+    # C2d (Phase 35 T7): the per-instance source FORMS from the census (one scan per TU, cached by mtime/size) — a member's site must
+    # be an include of THIS group's source; a surviving private copy is the registry running ahead of the source.
+    _forms = {}
+
+    def site_form(binary, vram):
+        if not _forms:
+            sys.path.insert(0, str(ROOT / "tools"))
+            import share_census as _sc
+            aliases, dirs = _sc.fleet_and_dirs()
+            f, _notes = _sc.build_forms(aliases, dirs, os.cpu_count() or 4, use_cache=True)
+            _forms.update(f)
+            _forms.setdefault("__loaded__", {})
+        return _forms.get(binary, {}).get(vram)
 
     for g in groups:
         gid = g.get("id", "?")
@@ -195,14 +208,20 @@ def check(groups, binary_filter=None, allow_unsigned=False):
         # ---- C2a′ (Phase 35 T2): a PLAIN-C header source must DEFINE `func` (a token occurrence is not a body) --------
         # The parameterized form (SHARED_FN) defines through cpp and keeps the token check above; every other source is a
         # plain-C header read by share_census.header_defs — the one reader of that form (R33).
-        if not PARAM_FUNC_RE.match(fn):
-            sys.path.insert(0, str(ROOT / "tools"))
-            import share_census
-            defined = {n for n, _ in share_census.header_defs(ROOT / src)}
-            if fn not in defined:
-                print(f"[FAIL] {gid}: `func: {fn}` occurs in {src} but that header does not DEFINE it "
-                      f"(defines: {sorted(defined)[:4]}) — a declaration is not a shared body")
-                failures += 1; continue
+        sys.path.insert(0, str(ROOT / "tools"))
+        import share_census
+        defined = {n for n, _ in share_census.header_defs(ROOT / src)}
+        if not PARAM_FUNC_RE.match(fn) and fn not in defined:
+            print(f"[FAIL] {gid}: `func: {fn}` occurs in {src} but that header does not DEFINE it "
+                  f"(defines: {sorted(defined)[:4]}) — a declaration is not a shared body")
+            failures += 1; continue
+        # ---- C2c (Phase 35 T7): ONE source, under src/shared/, defining exactly ONE function — the token the group names ----------
+        if not src.startswith("src/shared/"):
+            print(f"[FAIL] {gid}: source {src} is not under src/shared/ — a shared body has its one source there (S1)")
+            failures += 1; continue
+        if len(defined) != 1:
+            print(f"[FAIL] {gid}: {src} defines {len(defined)} functions {sorted(defined)[:4]} — a shared header defines exactly one (C2c)")
+            failures += 1; continue
 
         tier, want = g["tier"], g.get("hash")
         if not want:
@@ -218,6 +237,18 @@ def check(groups, binary_filter=None, allow_unsigned=False):
                       f"INCLUDE_ASM stub — the registry is claiming work that was never done")
                 failures += 1; ok = False; continue
 
+            # ---- C2d (Phase 35 T7): the member's SITE includes this group's source — no private copy survives ----------------
+            rec = site_form(b, vram)
+            if rec is None:
+                print(f"[FAIL] {gid}: {b}:0x{vram:08x} ({name}) has no source form in the census (coverage, R32)")
+                failures += 1; ok = False; continue
+            if rec.get("form") not in ("include", "param-include"):
+                print(f"[FAIL] {gid}: {b}:0x{vram:08x} ({name}) is listed as a member but its site is a {rec.get('form')} in {rec.get('tu')} — "
+                      f"the registry runs ahead of the source (C2d)")
+                failures += 1; ok = False; continue
+            if rec.get("header") and rec["header"] != src:
+                print(f"[FAIL] {gid}: {b}:0x{vram:08x} ({name}) includes {rec['header']}, not this group's source {src} (C2d)")
+                failures += 1; ok = False; continue
             # ---- C1: equivalence, against the ORIGINAL bytes ------------------------------------
             idx = sig_for(b)
             if idx is None:

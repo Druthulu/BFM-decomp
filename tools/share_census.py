@@ -642,12 +642,27 @@ def render_table(classes, summary, cov_notes, ctrl):
 # the second oracle: duplicate definition TEXT across translation units (sig-blind)
 # ----------------------------------------------------------------------------------------------------------------------
 def text_duplicates(forms):
+    """ANY-address duplicates: a name-blind normalized definition text present in >1 TU (the cross-address ones are the names
+    phase's — reported as a count, never a violation here)."""
     by_text = collections.defaultdict(set)
     for a, per in forms.items():
         for addr, rec in per.items():
             if rec["form"] == "def" and rec.get("text_hash") and rec.get("nlines", 0) >= 2:
                 by_text[rec["text_hash"]].add((a, rec["tu"], addr))
     return {h: sorted(v) for h, v in by_text.items() if len({(a, tu) for a, tu, _ in v}) > 1}
+
+
+def text_duplicates_same_addr(forms, excepted_sites=frozenset()):
+    """S1's SECOND, sig-blind oracle (R34; --strict-text): the same normalized definition text, at the SAME address, still a private
+    `def` in >1 TU — exactly what the h_exact join must have shared and did not. Ledgered sites (the exception ledger's classes) are
+    excluded, as they are from the first oracle. Keyed by (text, addr) so the deferred cross-address duplicates never count."""
+    by_key = collections.defaultdict(set)
+    for a, per in forms.items():
+        for addr, rec in per.items():
+            if rec["form"] == "def" and rec.get("text_hash") and rec.get("nlines", 0) >= 2 and (a, addr) not in excepted_sites:
+                by_key[(rec["text_hash"], addr)].add((a, rec["tu"]))
+    # distinct TUs, not distinct aliases: a twin's instance resolves to its primary's TU (one source already)
+    return {k: sorted(v) for k, v in by_key.items() if len({tu for _, tu in v}) > 1}
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -760,7 +775,7 @@ def main():
     groups = load_groups()
     exceptions = load_exceptions(a.exceptions)
     verb = verbatim_instances()
-    classes, cov = classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verb, exceptions, scope=a.scope)
+    classes, cov = classify(sigs, forms, groups, spaces, dirs, twins, twin_of, verb, exceptions, scope=a.scope, keep_instances=True)
     summary = summarize(classes, cov, notes, aliases)
     ctrl = controls(classes, sigs, forms)
     macro_tokens = 0
@@ -801,8 +816,44 @@ def main():
         bad = len(v)
         if a.strict_macros and macro_tokens:
             print(f"share_census: S1 — {macro_tokens} DEFINE_func_ site(s) remain under src/ (--strict-macros)"); bad += 1
-        if a.strict_text and dup_text:
-            print(f"share_census: S1 — {len(dup_text)} definition text(s) duplicated across TUs (--strict-text)"); bad += 1
+        if a.strict_text:
+            # the second oracle mirrors the first's scope: ledgered classes AND the gate-1 deferral (E/F cross-address classes — an
+            # empty body's hash spans every address, so its same-address pairs sit inside a deferred class) are excluded; the deferred
+            # same-address duplicates are PUBLISHED as the names phase's inheritance, never silently dropped (R41)
+            exc_sites = {(i_alias, int(addr_s, 16)) for c in classes if c["excepted"] for addr_s in c["addrs"] for i_alias in c["aliases"]}
+            def_sites = {(i_alias, int(addr_s, 16)) for c in classes if ("E" in c["flags"] or "F" in c["flags"]) for addr_s in c["addrs"] for i_alias in c["aliases"]}
+            dup_deferred = text_duplicates_same_addr(forms, exc_sites)
+            dup_rest = text_duplicates_same_addr(forms, exc_sites | def_sites)
+            n_def = len(dup_deferred) - len(dup_rest)
+            summary["same_address_text_duplicates_deferred"] = {"texts": n_def, "sites": sum(len(v) for v in dup_deferred.values()) - sum(len(v) for v in dup_rest.values())}
+            print(f"share_census: second oracle — {n_def:,} same-address duplicated texts sit inside the deferred cross-address classes "
+                  f"({summary['same_address_text_duplicates_deferred']['sites']:,} sites; the names phase's inheritance)")
+            # what is left is either a class the byte join has (a VIOLATION the first oracle missed — must be 0) or the same text at
+            # the same address compiling to DIFFERENT bytes per binary (singleton h_exact classes: data addresses differ per overlay);
+            # the latter is one source the byte tier cannot register — published as PENDING (a decision, not a pass)
+            # a violation only when two DISTINCT TUs hold private copies of the SAME byte class at that address (a twin pair is one
+            # TU); every other same-address text duplicate is byte-variant across its TUs — the byte tier cannot register it
+            site_h = {(i["alias"], i["addr"]): c["h"] for c in classes for i in c["insts"]}
+            def _shared_class_across_tus(k, v):
+                by_h = {}
+                for a, tu in v:
+                    h = site_h.get((a, k[1]))
+                    if h:
+                        by_h.setdefault(h, set()).add(tu)
+                return any(len(tus) > 1 for tus in by_h.values())
+            dup_same = {k: v for k, v in dup_rest.items() if _shared_class_across_tus(k, v)}
+            dup_pending = {k: v for k, v in dup_rest.items() if k not in dup_same}
+            summary["same_address_text_duplicates_pending"] = {"texts": len(dup_pending), "sites": sum(len(v) for v in dup_pending.values())}
+            if dup_pending:
+                print(f"share_census: second oracle — PENDING {len(dup_pending):,} same-address definition texts ({summary['same_address_text_duplicates_pending']['sites']:,} "
+                      f"sites) are duplicated across TUs but compile to DIFFERENT bytes per binary (singleton h_exact classes) — one source the"
+                      f" byte tier cannot register; a decision for the owner (an h_norm/text tier or the names phase)")
+            if dup_same:
+                print(f"share_census: S1 second oracle — {len(dup_same)} definition text(s) duplicated at the SAME address across TUs and not "
+                      f"ledgered (--strict-text): " + "; ".join(f"0x{addr:08X} in {[a for a, _ in v][:4]}" for (_, addr), v in list(dup_same.items())[:6])); bad += 1
+            else:
+                print(f"share_census: S1 second oracle — 0 same-address definition texts duplicated across TUs (any-address duplicates "
+                      f"{len(dup_text):,}, the names phase's)")
         exc = sum(1 for c in classes if c["excepted"])
         twinc = sum(1 for c in classes if "TWIN-COVERED" in c["flags"] and c["verdict"] != "A")
         print(f"S1: one source per unique function — {len(classes):,} classes, {len(classes) - len(v):,} satisfied "

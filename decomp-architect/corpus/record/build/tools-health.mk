@@ -39,6 +39,12 @@ tools-health:
 	$(MAKE) --no-print-directory audit-cdecl
 	$(MAKE) --no-print-directory audit-binaries
 	$(MAKE) --no-print-directory audit-text-sources
+	# Phase 35 T7: the S1 invariant — one source per unique function — as a gate (R36): the census self-test (7 verdicts), then the
+	# strict check by exit code (R97): no same-address class unshared unless ledgered in config/dedup_exceptions.tsv, no DEFINE_func_
+	# site under src/ (--strict-macros), and the sig-blind second oracle (--strict-text). Runs BEFORE report so progress.py reads a
+	# fresh .run/P35/census/share_census.json for its duplicate-copy fields.
+	$(VENV_PY) tools/share_census.py --selftest
+	$(VENV_PY) tools/share_census.py --check --strict-macros --strict-text --quiet
 	$(MAKE) --no-print-directory report BINARY=main
 	# AFTER report (which regenerates the digest), so this asserts the freshly-written digest agrees
 	# with the tree — and, on a tree whose digest was committed stale, says so instead of staying green.
