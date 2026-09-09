@@ -383,11 +383,11 @@ void func_801F0C4C(void) {
     extern u8 D_801F217C[];
     extern s32 D_801F84AC;
     extern s32 D_801F832C;
-    register u8 *p __asm__("$17");
-    register s32 v __asm__("$16");
-    register s32 t2 __asm__("$2");
-    register s32 flg __asm__("$3");
-    register s32 *res __asm__("$2");
+    u8 *p;
+    s32 v;
+    s32 t2;
+    s32 flg;
+    register s32 *res __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
 
     func_801F0E6C();
     p = D_80078E78;
@@ -431,7 +431,7 @@ Lcont:
     if (flg != 0) {
         res = (s32 *)&D_801F832C;
     }
-    __asm__ __volatile__("" : : "r"(res));
+    __asm__ __volatile__("" : : "r"(res));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
 }
 
 

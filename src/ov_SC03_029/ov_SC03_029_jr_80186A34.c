@@ -3476,12 +3476,11 @@ extern s32 D_801CA0A0;
 extern s32 D_801CA248;
 
 void func_80186F9C(s32 a0, s32 a1, s32 a2) {
-    register s32 s1 __asm__("$17") = a0;
-    register s32 s0 __asm__("$16");
-    register s32 s2 __asm__("$18") = a2;
+    s32 s1 = a0;
+    s32 s0;
+    s32 s2 = a2;
     s32 p;
 
-    __asm__("" :: "r"(s1));
     s0 = a1;
 
     func_8012B23C(s1);
@@ -3559,10 +3558,10 @@ s32 func_80187118(s32 a0, s32 a1)
     pos[2] = *(s32 *)(a0 + 0xC) + out.vz;
 
     {
-        register u16 rix __asm__("$2");
-        register u16 roy __asm__("$3");
-        register u16 roz __asm__("$7");
-        register u16 riz __asm__("$8");
+        u16 rix;
+        u16 roy;
+        u16 roz;
+        u16 riz;
 
         rix = *(u16 *)(a0 + 0x3A);
         roy = *((u16 *)&pos[1] + 1);

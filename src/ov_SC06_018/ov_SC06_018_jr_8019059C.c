@@ -2822,12 +2822,12 @@ extern u16 D_800B99D8;
     } while (i < 0x60);
 
 void func_8019059C(s32 _arg0) {
-    register s32 arg0 __asm__("$17");
-    register s32 src __asm__("$16");
-    register s32 dst __asm__("$3");
+    s32 arg0;
+    register s32 src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
     s32 r;
     s32 iv;
-    register s32 tmp __asm__("$2");
+    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 col;
     s32 n34;
     s32 sv;
@@ -2838,7 +2838,7 @@ void func_8019059C(s32 _arg0) {
     u8 *p;
     s32 i;
     s32 cnt;
-    register s32 e5 __asm__("$4");
+    s32 e5;
     u8 *mp;
     u8 *mm;
     u16 *m18;
@@ -2941,11 +2941,11 @@ void func_8019059C(s32 _arg0) {
         break;
     case 6:
         func_8018D40C(*(s32 *)(arg0 + 0xCC));
-        XFER(0xCC, 0xD0)
+        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
         func_8018D514(*(s32 *)(arg0 + 0xD0));
-        XFER(0xD0, 0xD4)
+        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
         func_8018D514(*(s32 *)(arg0 + 0xD4));
-        XFERLAST(0xD4)
+        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
         func_8012B77C(sp10, (void *)(arg0 + 4), ((u8 *)&D_80126B5C));
         tmp = *(s32 *)sp10;
         *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = tmp;
@@ -2973,9 +2973,9 @@ void func_8019059C(s32 _arg0) {
             goto L80190FF8;
         }
         SCAN()
-        XFER(0xCC, 0xD0)
-        XFER(0xD0, 0xD4)
-        XFERLAST(0xD4)
+        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
         func_8012B77C(sp10, (void *)(arg0 + 4), ((u8 *)&D_80126B5C));
         tmp = *(s32 *)sp10;
         *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = tmp;
@@ -3004,16 +3004,15 @@ void func_8019059C(s32 _arg0) {
         ((void (*)(s32))func_8004914C)(*(s32 *)(arg0 + 0x20) + 0x34);
         ((void (*)(s32))func_800491AC)(*(s32 *)(arg0 + 0x20) + 0x34);
         mm = D_801D1220;
-        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));
+        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         m18 = sp18;
-        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));
+        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         RotTransSV(mm, m18, sp28);
         col = 0x202080;
         if ((D_800B99D8 & 1) != 0) {
             col = 0xE0;
         }
         m18b = sp18;
-        __asm__ __volatile__("" : "=r"(m18b) : "0"(m18b));
         func_8018FE0C(m18b, sp20, col);
         return;
     case 8:
@@ -3028,9 +3027,9 @@ void func_8019059C(s32 _arg0) {
         return;
     }
 
-    XFER(0xCC, 0xD0)
-    XFER(0xD0, 0xD4)
-    XFERLAST(0xD4)
+    XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+    XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+    XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
     return;
 
 L80190FF4:
@@ -3098,13 +3097,13 @@ void func_80191020(s32 a0) {
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
         /* $a0-pinned scopes: rematerialise &D_800AF648 (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                        /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5"); /* |X| */
+            register s32 av __asm__("$5"); /* |X| */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
             s32 vol;
             sx = (s16)L.sxy[0];
             av = sx;
@@ -3113,7 +3112,7 @@ void func_80191020(s32 a0) {
             }
             vol = ((0xA0 - av) * 0x7F) / 0xA0;
             /* sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));
+            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;
@@ -3514,11 +3513,11 @@ extern u16 D_80126B5E;
 extern u16 D_80126B66;
 
 void func_80191A78(s32 arg0) {
-    register s32 r __asm__("$6");
+    register s32 r __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
     u16 t;
     s32 d0;
     s32 d1;
-    register s32 e __asm__("$6");
+    register s32 e __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
 
     *(u16 *)(arg0 + 0xE8) = (*(u8 *)(arg0 + 0xC2) << 4) + 0x100;
     switch (*(u16 *)(arg0 + 0x34)) {

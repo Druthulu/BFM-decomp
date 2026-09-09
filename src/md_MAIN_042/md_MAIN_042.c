@@ -54,7 +54,7 @@ extern s32 func_80161208();
 extern s32 func_80155FB0(s32 a0, s32 a1);
 
 void func_800CCBF0(u8 *a0) {
-    volatile s32 dead[12];
+    s32 dead[12];
     u8 *p = D_80078E78;
     s32 var = *(s32 *)(a0 + 0x23C);
 

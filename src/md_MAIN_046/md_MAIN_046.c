@@ -71,7 +71,7 @@ void func_800CCD30(void) {
 
 
 void func_800CCD50(void) {
-    register void *a0 __asm__("$4");
+    register void *a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     extern void func_80154274(s32 *a0, s32 a1);
     extern void func_80146D90(s32 a0);
     extern void func_800CCDB0(s32 *a0);
@@ -297,7 +297,7 @@ s32 func_800CD240(void *arg0) {
     s32 s0;
 
     s0 = (s32)arg0;
-    __asm__ __volatile__("" : "=r"(s0) : "0"(s0));
+    __asm__ __volatile__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
     if (*(s16 *)(s0 + 0x1C8) != 0) {
         return 0;
     }
@@ -420,7 +420,7 @@ void func_800CD288(Work *arg0) {
 extern void func_800CDA14(s32 a0);
 
 void func_800CD494(void *a0) {
-    register s32 rv __asm__("$2");
+    s32 rv;
     s32 s0;
     s32 s1;
     u16 v0;
@@ -472,7 +472,7 @@ void func_800CD494(void *a0) {
     } else {
         rv = 0;
     }
-    __asm__ __volatile__("" : : "r"(rv));
+    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
 }
 
 
@@ -483,7 +483,7 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
 
 void func_800CD5CC(void *arg0) {
-    register s32 rv __asm__("$2");
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 a0 = (s32)arg0;
     s32 found = 0;
     u8 *p = D_801202A0;
@@ -504,7 +504,7 @@ void func_800CD5CC(void *arg0) {
         } while (p < D_801202A0 + 0x6480);
     }
     rv = found;
-    __asm__ __volatile__("" : : "r"(rv));
+    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
 }
 
 
@@ -801,8 +801,8 @@ extern void func_800CDF64(void);
 void func_800CDD9C(s32 param_1) {
     extern u8 D_800CE068[];
     extern s16 D_800CE8D4;
-    register s32 iVar1 __asm__("$18");
-    register s32 iVar2 __asm__("$16");
+    s32 iVar1;
+    s32 iVar2;
     u16 d;
     u16 x;
 

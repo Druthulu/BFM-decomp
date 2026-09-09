@@ -3268,11 +3268,9 @@ void func_801838CC(s32 a0)
             *(u8 *)(pr + 0x13) = 0x22;
             *(u16 *)(pr + 0x14) = *(u16 *)&sxy;
             *(u16 *)(pr + 0x16) = *((u16 *)&sxy + 1);
-            __asm__ ("");
             t2 = *(u16 *)(pr + 0x14) + (*(s32 *)(a0 + 0x1C) << 4);
             *(u16 *)(pr + 0x18) = t2;
             w = t2;
-            __asm__ ("");
             q = (u16 *)(pr + 0xC);
             if ((s16)t2 >= 0xB1) {
                 *(u16 *)(pr + 0x18) = 0xA1;
@@ -3300,7 +3298,7 @@ void func_80183ACC(s32 a0)
     switch (state) {
     case 0:
         if (*(s16 *)((s32)s0 + 0x98) == 0) {
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
             *(u16 *)((s32)s0 + 0x34) = state + 1;
             func_8002D4C8(0x948, 0);
             func_8012C658(0x383, 0, s0);

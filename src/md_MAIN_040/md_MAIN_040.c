@@ -406,7 +406,7 @@ void func_800CB840(s32 param_1) {
 
 void func_800CB874(s32 arg0)
 {
-    register u8 *p __asm__("$4");
+    u8 *p;
     s16 t;
     s32 d;
     u8 x;
@@ -414,7 +414,7 @@ void func_800CB874(s32 arg0)
     p = *(u8 **)(arg0 + 0x20);
     t = p[0x24];
     d = t - 4;
-    __asm__ volatile("" : : "r"(t));
+    __asm__ volatile("" : : "r"(t));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
     if (d < 0)
         t = 0;
     else

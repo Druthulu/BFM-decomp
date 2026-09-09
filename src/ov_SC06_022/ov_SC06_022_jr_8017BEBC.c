@@ -3399,8 +3399,8 @@ void func_8017D9C0(s32 param_1, s16 *param_2) {
 void func_8017DB58(void) {
 
     extern u16 D_800B9AB8;
-    register s32 *p __asm__("$3"); /* pinned to $v1 */
-    register s32 v __asm__("$2"); /* pinned to $v0 */
+    s32 *p; /* pinned to $v1 */
+    s32 v; /* pinned to $v0 */
     p = &D_800B9AB8;
     v = *(u16 *)p + 1;
     *(u16 *)p = v;
@@ -4265,10 +4265,10 @@ void func_8017F1C0(s32 a0)
     extern s32 func_8012BE54(s32 a0);
     extern s32 func_80047D3C(s32 a0);
     extern void func_8002D4C8(s32 a0, s32 a1);
-    register u8 *s0 __asm__("$16");
-    register s32 s1 __asm__("$17");
-    register s32 s2 __asm__("$18");
-    register s32 s4 __asm__("$20");
+    u8 *s0;
+    s32 s1;
+    s32 s2;
+    s32 s4;
     s32 s3;
     s32 v1;
 
@@ -4365,7 +4365,7 @@ extern u8 D_80191048[];
 
 void func_8017F414(s32 param_1)
 {
-    register s32 v0 __asm__("$2");
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 v1;
     s32 sp10[3];
 
@@ -4747,7 +4747,7 @@ void func_8017FB9C(s32 p) {
                  * (temp-hoist, double-load, u32* base, s32 mask, arg-hoist,
                  * split-store, g[1] form) all produced the SAME wrong permutation,
                  * so the shape is not the lever -- pinning the base is. */
-                register s32 g __asm__("$5") = *(s32 *)(p + 0x20);
+                register s32 g __asm__("$5") = *(s32 *)(p + 0x20);  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
                 *(u32 *)(g + 4) |= 0x80000000;
             }
             func_800183E0((s32)&D_801BCE84);
@@ -5125,8 +5125,8 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
 void func_80180700(s32 a0, s16 *a1, s16 a2, s16 a3)
 {
-    register s32 r __asm__("$2");
-    register s32 t __asm__("$3");
+    s32 r;
+    s32 t;
     Blk20 m;
     s32 out[3];
     s32 self;

@@ -2875,7 +2875,7 @@ extern void func_8012B200(u8 *a0);
 
 void func_8017EEC0(void) {
     extern void func_8012AD44(s32 *a0, s16 a1);
-    register s32 a0v __asm__("$4");
+    s32 a0v;
     func_8012AD44((s32 *)a0v, 3);
 }
 
@@ -2994,7 +2994,7 @@ extern void D_801BCE04;
 
 void func_8017F15C(s32 s0)
 {
-    register s32 v1 __asm__("v1");
+    s32 v1;
     s32 t;
     s32 u;
     s32 z;
@@ -3088,7 +3088,7 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 
 void func_8017F3FC(s32 arg0)
 {
-    register s32 obj __asm__("$4");
+    s32 obj;
 
     obj = func_80132EF4(arg0, 0x22);
     if (obj != 0) {
@@ -3161,10 +3161,10 @@ extern void func_8012AD44();
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017F59C(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;
+    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     extern u8 D_801CCFA8[];
-    register s32 obj;
-    register s32 y;
+    s32 obj;
+    s32 y;
 
     *(s32 *)(s0 + 0x10) = (*(s32 *)(*(s32 *)(s0 + 0x64) + 4) - *(s32 *)(s0 + 4)) >> 4;
     y = *(s32 *)(s0 + 8) + 0x1400000;
@@ -3197,8 +3197,8 @@ extern u8 D_801CCFA8[];
 
 void func_8017F69C(s32 s0) {
     s32 v0;
-    register s32 obj;
-    register s32 y;
+    s32 obj;
+    s32 y;
 
     switch (*(u16 *)(s0 + 0x34)) {
     case 0:

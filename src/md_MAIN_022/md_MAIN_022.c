@@ -93,8 +93,8 @@ extern s32 func_8014C088(s32 a0, s32 a1);
 extern void func_80146CA0(s32 a0);
 
 void func_800CB03C(s32 *a0) {
-    register s32 flag __asm__("$16");
-    register s32 zz __asm__("$0");
+    register s32 flag __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 zz __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
 
     flag = 0;
     if (func_8014C088((s32)a0, 0x1C) || func_8014C050((s32)a0, 0x3E)) {
@@ -294,8 +294,8 @@ void func_800CB4AC(void) {
     extern u8 D_800CBD68;
     extern u8 D_800CBD69;
     extern u8 D_800CBD6A;
-    register u8 colA __asm__("$3");
-    register u8 colB __asm__("$2");
+    u8 colA;
+    register u8 colB __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
 
     if (D_800B99DA & 1) {
         colA = 0xCF;
@@ -409,7 +409,7 @@ void func_800CB68C(s32 param_1)
 
     iVar8 = *(s32 *)((u8 *)((void *)param_1) + 0x34);
     if ((*(u32 *)((u8 *)((void *)param_1) + 0x2c) & 0x8000) == 0) {
-        register s32 iNew __asm__("$17");
+        s32 iNew;
         s32 base;
         iNew = ((s32(*)())func_801465C0)();
         if (iNew == 0) {
@@ -430,7 +430,7 @@ void func_800CB68C(s32 param_1)
         *(u32 *)(iNew + 4) = *(u32 *)(iNew + 4) | 0x50000000;
         ((void (*)(void *))func_800CBAA4)(((void *)param_1));
         {
-            register s32 t10 __asm__("$3");
+            register s32 t10 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
             t10 = 0x10;
             *(s32 *)((u8 *)((void *)param_1) + 0x20) = iNew;
             *(s32 *)((u8 *)((void *)param_1) + 0x1c) = t10;
@@ -458,7 +458,7 @@ void func_800CB68C(s32 param_1)
         *(s32 *)((u8 *)((void *)param_1) + 0x2c) = 0x1000;
         *(s32 *)((u8 *)((void *)param_1) + 0x30) = 0xff;
         *(s32 *)((u8 *)((void *)param_1) + 0x1c) = 0x10;
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
         sVar1 = 4;
     }
     *(s16 *)((u8 *)((void *)param_1) + 2) = sVar1;

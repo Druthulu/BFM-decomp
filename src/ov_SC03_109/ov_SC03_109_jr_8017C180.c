@@ -3165,7 +3165,7 @@ extern s32 D_80181E54;
 
 void func_8017D8E0(void *a0)
 {
-    register void *s0 __asm__("$16") = a0;
+    void *s0 = a0;
     s32 v0;
     s32 v1;
 
@@ -3212,8 +3212,8 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017D9D8(s32 a0)
 {
-    register s32 v0 __asm__("$2");
-    register s32 v1 __asm__("$3");
+    s32 v0;
+    s32 v1;
     s32 pad;
 
     if (func_8012BEE8() != 0) {
@@ -3225,7 +3225,7 @@ void func_8017D9D8(s32 a0)
         v0 = *(s16 *)(a0 + 0xFC);
         if (v0 != 0) {
             v1 = v0;
-            __asm__ volatile("" : "=r"(v0) : "0"(v0), "m"(pad));
+            __asm__ volatile("" : "=r"(v0) : "0"(v0), "m"(pad));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung A tus10)
             if (v0 < 3) {
                 v0 = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
                 v0 = (v0 + 2) & 0x3FF;
@@ -3281,7 +3281,7 @@ extern s16 D_80181E84;
 void func_8017DB84(void *arg0) {
     s32 v0;
     s32 mask;
-    register void *s0 __asm__("$16");
+    void *s0;
     s0 = arg0;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();

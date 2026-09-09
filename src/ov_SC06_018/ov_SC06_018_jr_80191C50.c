@@ -2878,11 +2878,11 @@ extern u16 D_800B99D8;
     } while (i < 0x60);
 
 void func_80191C50(s32 _arg0) {
-    register s32 arg0 __asm__("$17");
-    register s32 src __asm__("$16");
-    register s32 dst __asm__("$3");
-    register s32 tmp __asm__("$2");
-    register s32 e5 __asm__("$4");
+    s32 arg0;
+    s32 src;
+    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 e5;
     s32 r;
     s32 cnt;
     s32 col;
@@ -2956,11 +2956,11 @@ void func_80191C50(s32 _arg0) {
         break;
     case 6:
         func_8018D40C(*(s32 *)(arg0 + 0xCC));
-        XFER(0xCC, 0xD0)
+        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
         func_8018D514(*(s32 *)(arg0 + 0xD0));
-        XFER(0xD0, 0xD4)
+        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
         func_8018D514(*(s32 *)(arg0 + 0xD4));
-        XFERLAST(0xD4)
+        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
         func_8012B77C(sp10, (void *)(arg0 + 4), ((u8 *)&D_80126B5C));
         tmp = *(s32 *)sp10;
         *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = tmp;
@@ -2988,9 +2988,9 @@ void func_80191C50(s32 _arg0) {
             goto L801924AC;
         }
         SCAN()
-        XFER(0xCC, 0xD0)
-        XFER(0xD0, 0xD4)
-        XFERLAST(0xD4)
+        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
         func_8012B77C(sp10, (void *)(arg0 + 4), ((u8 *)&D_80126B5C));
         tmp = *(s32 *)sp10;
         *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = tmp;
@@ -3019,16 +3019,15 @@ void func_80191C50(s32 _arg0) {
         ((void (*)(s32))func_8004914C)(*(s32 *)(arg0 + 0x20) + 0x34);
         ((void (*)(s32))func_800491AC)(*(s32 *)(arg0 + 0x20) + 0x34);
         mm = D_801D1220;
-        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));
+        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         m18 = sp18;
-        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));
+        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         RotTransSV(mm, m18, sp28);
         col = 0x202080;
         if ((D_800B99D8 & 1) != 0) {
             col = 0xE0;
         }
         m18b = sp18;
-        __asm__ __volatile__("" : "=r"(m18b) : "0"(m18b));
         func_8018FE0C(m18b, sp20, col);
         return;
     case 8:
@@ -3092,9 +3091,9 @@ void func_80191C50(s32 _arg0) {
         return;
     }
 
-    XFER(0xCC, 0xD0)
-    XFER(0xD0, 0xD4)
-    XFERLAST(0xD4)
+    XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+    XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+    XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
 }
 
 #include "common.h"
@@ -3365,7 +3364,7 @@ extern u8 D_801D233C[];
 extern u8 D_801D11F0[];
 
 void func_80192B60(void *arg) {
-    register u8 *p __asm__("$17");
+    u8 *p;
     s32 e;
     s32 iv;
     s32 i;

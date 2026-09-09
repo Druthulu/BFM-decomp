@@ -56,8 +56,8 @@ void func_800CB0D8(s32 a0) {
     extern s32 D_80078EC8;
     extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
     extern s32 func_80165A20(s32);
-    register s32 v __asm__("$16");
-    register Struct80078E78 *p __asm__("$19");
+    s32 v;
+    Struct80078E78 *p;
     s32 q;
 
     v = a0;

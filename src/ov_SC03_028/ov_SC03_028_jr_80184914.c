@@ -2858,7 +2858,7 @@ extern s32  func_8012DDA4(void);
 extern s32  func_800133E4(s16 *a0, s16 *a1);
 extern u8   D_8018F9A0[];
 extern void func_801808CC(s32 a0, s32 a1, s32 a2, s32 a3);
-extern volatile s32 D_801EC44C;
+extern s32 D_801EC44C;
 extern s32 func_80180A08(s32 param_1, u16 param_2);
 extern void func_80180AC4(s32 arg0, s32 arg1);
 extern s32 func_8012C588(s32 a0, s32 a1);
@@ -3172,7 +3172,7 @@ void func_80184C90(s32 a0)
     s32 tmp;
     s32 t;
     u16 x, y, z;
-    register s32 wval __asm__("$6");
+    s32 wval;
     u8 *p;
 
     p = (u8 *)D_801EC44C;
@@ -3406,7 +3406,7 @@ extern u8 D_80190600[];
 extern s32 D_80190610;
 extern u8 D_80190638[];
 extern s32 D_801EC448;
-extern volatile s32 D_801EC44C;
+extern s32 D_801EC44C;
 
 void func_80185158(s32 a0)
 {
@@ -3414,7 +3414,7 @@ void func_80185158(s32 a0)
     s32 tmp;
     s32 t;
     u16 x, y, z;
-    register s32 wval __asm__("$6");
+    s32 wval;
     u8 *p;
 
     if (((s32 (*)(s32))func_8012CBCC)(a0) != 0) {
@@ -3485,7 +3485,7 @@ extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8012C218(void *a0);
 extern void func_80180B44();
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern volatile s32 D_801EC44C;
+extern s32 D_801EC44C;
 extern s32 D_801EC448;
 extern u8 D_8018C158[];
 
@@ -3495,7 +3495,7 @@ void func_80185344(s32 a0)
     s32 tmp;
     s32 t;
     u16 x, y, z;
-    register s32 wval __asm__("$6");
+    s32 wval;
     s32 uVar2;
     s32 i;
     u8 *p;

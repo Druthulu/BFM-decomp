@@ -259,7 +259,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
         break;
     case 1:
         func_8014BB24(obj, 0x96, 1);
-        __asm__ __volatile__("");           /* §5a cross-jump barrier — load-bearing */
+        __asm__ __volatile__("");           /* §5a cross-jump barrier — load-bearing */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
         val = 0x96;
         break;
     case 2:
@@ -313,7 +313,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
         ret = 7;
         /* fallthrough */
     case 16:
-        __asm__ __volatile__("" ::: "memory");  /* §5a barrier — MUST differ from case 1's */
+        __asm__ __volatile__("" ::: "memory");  /* §5a barrier — MUST differ from case 1's */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
         val = 0x96;
         break;
     case 107:
@@ -399,7 +399,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
     }
 
     sel = ret;
-    __asm__ __volatile__("" : "=r"(sel) : "0"(sel));  /* keeps `addu $v1,$s1,$zero` alive */
+    __asm__ __volatile__("" : "=r"(sel) : "0"(sel));  /* keeps `addu $v1,$s1,$zero` alive */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
     switch (sel) {
     case 0:
         id = 0x45F;
@@ -451,10 +451,10 @@ s16 func_800D1658(s32 arg0) {
     extern void func_800291A0(int, int);
     extern void func_8002D4C8(int, int);
     extern s16 D_8010EDEC;
-    register int v __asm__("$2");
-    register int t __asm__("$3");
+    register int v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register int t __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
     int id;
-    register short ret __asm__("$16");
+    register short ret __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     int slot;
 
     slot = (arg0 & 0xFF) + 0x2F;
@@ -689,7 +689,7 @@ s32 aF800D1984(u8 *arg0) __asm__("func_800D1984");
 
 s32 aF800D1984(u8 *arg0) {
     extern s32 func_800D19DC();
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
     s32 (*fp)(void);
     u8 *p;
 
@@ -847,7 +847,7 @@ s32 func_800D1B10(u8 *arg0) {
  */
 s32 func_800D1B80(u8 *arg0) {
     extern s32 DsMix();
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
     s32 (*fp)(void);
     u8 *p;
 
@@ -1509,11 +1509,11 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
     extern Env_800D2650 D_800AE7BC[];
     extern short D_800B9A02;
 
-    register int cw __asm__("$2");
-    register u32 s_a6 __asm__("$8") = a6;
-    register u32 code __asm__("$14");
-    register int clut __asm__("$13");
-    register u8 bVar1 __asm__("$3");
+    register int cw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 s_a6 __asm__("$8") = a6;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 code __asm__("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B tus10)
+    int clut;
+    register u8 bVar1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
     short sVar2;
 
     if (*param_2 < 0x80) {
@@ -1909,7 +1909,7 @@ unsigned short *dst;
 short flag;
 {
     extern unsigned short *D_800D38D8[];
-    register unsigned int d __asm__("$8");
+    register unsigned int d __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
     short i;
     int idx;
 

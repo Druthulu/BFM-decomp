@@ -3290,7 +3290,7 @@ extern s32 func_8017EEB4(s32 arg0);
 extern void func_8017E4AC(s32 a0);
 
 void func_8017E26C(s32 arg0) {
-    volatile s32 pad[2];
+    s32 pad[2];
     s32 s0;
     s32 *ptr;
     s32 s1;
@@ -3490,7 +3490,7 @@ void func_8017E54C(s32 a0)
             }
         }
         D_8019F70C = v0;
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
 
         if (D_8019F70C >= 4) {
             func_8017F13C((void *)a0);
@@ -3629,7 +3629,7 @@ extern s32 rand(void);
 
 void func_8017E9CC(s32 arg0) {
     s32 v0;
-    register s32 flag __asm__("$3");
+    register s32 flag __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
 
     func_8017EEFC(arg0, 0xD, 0, &D_80195614);
     flag = D_8019F708;
@@ -3823,9 +3823,9 @@ extern void func_8017F13C(void *a0);
 extern u8 D_80188D38[];
 
 void func_8017EEFC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
-    register s32 s0 __asm__("$16") = param_1;
-    register s32 s2 __asm__("$18") = param_2;
-    register s32 s1 __asm__("$17") = param_4;
+    s32 s0 = param_1;
+    s32 s2 = param_2;
+    s32 s1 = param_4;
     s32 v1;
 
     *(u16 *)(s0 + 2) = s2;
@@ -3898,12 +3898,12 @@ void func_8017EFBC(u8 *a0, s32 a1) {
          * global.c:allocno_compare priority, and the surviving order is
          * strictly "reverse emission", which cannot produce the target's
          * j=$a1 / p=$a3 / src=$a2 with j emitted first. Pin them. */
-        register s32 i __asm__("$8");      /* $t0 */
-        register s32 j __asm__("$5");      /* $a1 */
-        register u16 *dst __asm__("$10");  /* $t2 */
-        register u16 *src __asm__("$6");   /* $a2 */
-        register u16 *p __asm__("$7");     /* $a3 */
-        register u16 **table __asm__("$9");/* $t1 */
+        s32 i;      /* $t0 */
+        s32 j;      /* $a1 */
+        register u16 *dst __asm__("$10");  /* $t2 */  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus10)
+        register u16 *src __asm__("$6");   /* $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
+        register u16 *p __asm__("$7");     /* $a3 */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus10)
+        register u16 **table __asm__("$9");/* $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus10)
         func_8012E88C(a0);
         for (i = 0, dst = D_8019F8BC, table = D_80188DEC; i < 5; i++) {
             for (j = 0, p = dst, src = *table; j < 0x10; j++) {
@@ -4185,7 +4185,7 @@ void func_8017F694(s32 arg0) {
                  2. it pins the arm's first sched1 group, giving the target's
                     lui / lw / ori / sh / and order.
                Drop it and the diff is 7 (stolen 0x7FFF lui + shuffled arm). */
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
             *(s32 *)(ptr2 + 0x4) &= 0x7FFFFFFF;
             *(s16 *)(ptr2 + 0x10) = 0;
             *(u16 *)(ptr2 + 0x12) = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
@@ -4225,10 +4225,10 @@ void func_8017F784(s32 param_1)
 
     switch (*(u16 *)(param_1 + 0x34)) {
     case 0: {
-        register u16 *src __asm__("$6");
-        register u16 *dst __asm__("$5");
-        register s32 i   __asm__("$4");
-        register s32 fc  __asm__("$2");
+        u16 *src;
+        u16 *dst;
+        s32 i;
+        s32 fc;
         if (*(u16 *)((char *)D_8019F6F8 + 2) != 5) {
             return;
         }
@@ -4257,14 +4257,13 @@ void func_8017F784(s32 param_1)
         *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) += 0x78;
         func_8012B370(param_1);
         func_8017F694(param_1);
-        __asm__ __volatile__("" ::: "memory");
         func_8018048C((void *)param_1);
         break;
     }
     case 1: {
-        register u16 *src __asm__("$5");
-        register u16 *dst __asm__("$4");
-        register s32 i   __asm__("$3");
+        u16 *src;
+        u16 *dst;
+        s32 i;
         var = (*(s32 *)(param_1 + 0x1C) + 1) << 10;
         *(s32 *)(param_1 + 0x1C) += 1;
         if (*(s32 *)(param_1 + 0x20) != 0) {
@@ -4275,7 +4274,7 @@ void func_8017F784(s32 param_1)
         func_8012E88C((u8 *)param_1);
         if (*(s32 *)(param_1 + 0x1C) == 4) {
             *(u16 *)(param_1 + 0x34) = 2;
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
             k = 0x1000;
             if (*(s32 *)(param_1 + 0x20) != 0) {
                 *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x18) = k;
@@ -4297,21 +4296,19 @@ void func_8017F784(s32 param_1)
         *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) += 0x78;
         func_8012B370(param_1);
         func_8017F694(param_1);
-        __asm__ __volatile__("" ::: "memory");
         func_8018048C((void *)param_1);
         break;
     }
     case 2: {
-        register u16 *src __asm__("$5");
-        register u16 *dst __asm__("$4");
+        u16 *src;
+        u16 *dst;
         s32 i;
         func_8012E88C((u8 *)param_1);
         ((void (*)(void *))func_80180BF0)((void *)param_1);
         if (*(u16 *)((char *)D_8019F6F8 + 2) == 6) {
             *(u16 *)(param_1 + 0x34) = 3;
-            __asm__ __volatile__("" ::: "memory");
             *(s32 *)(param_1 + 0x1C) = D_80188A18;
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
             k = 0x1000;
             if (*(s32 *)(param_1 + 0x20) != 0) {
                 *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x18) = k;
@@ -4350,13 +4347,12 @@ void func_8017F784(s32 param_1)
         func_8012B370(param_1);
         func_8017F694(param_1);
         func_801800E0((void *)param_1);
-        __asm__ __volatile__("" ::: "memory");
         func_8018048C((void *)param_1);
         break;
     }
     case 3: {
-        register u16 *src __asm__("$5");
-        register u16 *dst __asm__("$4");
+        u16 *src;
+        u16 *dst;
         s32 i;
         s32 k3;
         var = ((*(s32 *)(param_1 + 0x1C) - 5) << 12) / (D_80188A18 - 5);
@@ -5198,7 +5194,7 @@ void func_80180E24(void *a0)
 
     *(u16 *)((u8 *)p + 0x1A) = v0;
     *(u16 *)((u8 *)p + 0x18) = v0;
-    __asm__ __volatile__("");                  /* §194-A / law 28: emit the sh
+    __asm__ __volatile__("");                  /* §194-A / law 28: emit the sh  // !FAKE: barrier — NEEDED COMPILE-ERROR (P36 rung B tus10)
                                                 * pair FIRST in its block so the
                                                 * next call's arg setup cannot
                                                 * float above it (required --
@@ -5220,8 +5216,8 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 void func_80180F68(s32 a0)
 {
     {
-        register s32 *p __asm__("$2");
-        register s32 two __asm__("$3");
+        s32 *p;
+        register s32 two __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
 
         p = (s32 *)(*(u32 *)((u8 *)a0 + 0x20));
         two = 2;
@@ -5235,7 +5231,7 @@ void func_80180F68(s32 a0)
     func_8012B200((u8 *)a0);
 
     {
-        register s32 v __asm__("$2");
+        s32 v;
 
         v = *(s16 *)((u8 *)a0 + 6);
         if (v < 0) {
@@ -5254,7 +5250,7 @@ void func_80180F68(s32 a0)
             }
         }
         *(s32 *)((u8 *)a0 + 0x10) = v;
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
     }
 
     *(s32 *)((u8 *)a0 + 0x14) = 0x200000;
@@ -5325,7 +5321,6 @@ void func_801810A4(s32 a0) {
          * `addiu $s0,$s1,0x24` as the block's first in-order insn, exactly like the target.
          * Fencing the whole `*(u16*)(a0+2) += 1` statement drags the `sh` up with it and loses. */
         u16 st = *(u16 *)(a0 + 2) + 1;      /* shares the switch's own lhu via cse */
-        __asm__ __volatile__("");
         *(u16 *)(a0 + 2) = st;              /* obj->state */
         *(s32 *)(*(s32 *)(a0 + 0x20) + 0x20) = (s32) D_801890F0;
         *(u8 *)(*(s32 *)(a0 + 0x20) + 0x27) = 0x44;
@@ -5348,7 +5343,6 @@ void func_801810A4(s32 a0) {
              * lw one slot too late; omitting the fence lets sched1 hoist the lw above the `addu`,
              * where n ($v1) is still live -- that conflict is what costs p its $v1. */
             v = n * 3;
-            __asm__ __volatile__("");
             p = *(s32 *)(a0 + 0x20);        /* obj->model */
             v = v * 128;
             *(u16 *)(p + 0x1A) = v;
@@ -5362,7 +5356,7 @@ void func_801810A4(s32 a0) {
              * fence stops sched1 lifting that second load above the sh, where it would overlap the
              * first load's pseudo. */
             *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = 0x600;
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
             p = *(s32 *)(a0 + 0x20);
             v = 0x1200;
         } else if (*(s32 *)(obj + 0x1C) < 0x11) {
@@ -5371,9 +5365,9 @@ void func_801810A4(s32 a0) {
              * not overlap the obj->0x1C pseudo, which also wants $v1), the second keeps the
              * `+ 0x600` below it -- target order is sll / lw / addiu. */
             v = *(s32 *)(obj + 0x1C) * 3 * 32;
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
             p = *(s32 *)(a0 + 0x20);
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
             v = v + 0x600;
         } else {
             /* This arm writes its own 0x18 store and skips the shared tail; in the target it lands
@@ -5478,18 +5472,18 @@ void func_801813B0(s32 param_1) {
     for (i = 0; i < 65; i++) {
         *(Blk8_801813B0 *)(dst + i * 8) = *(Blk8_801813B0 *)(src + i * 8);
         v = *(s16 *)((u8 *)src + i * 8 + 2);
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
-        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         if (v == -150) {
             idx[i] = 4;
         } else if (v == -139) {

@@ -2948,8 +2948,8 @@ void func_8017F9F4(void *a0) {
             }
         }
         for (i = 0x180; i < 0x1000; i += 0x400) {
-            __asm__("");
-            __asm__("");
+            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
             p = func_8012913C(6);
             if (p != NULL) {
                 *(s16 *)(p + 6) = (u32)(func_80047948(i) * 3) >> 4;
@@ -3204,7 +3204,7 @@ extern u8 D_800A5EA5;
 void func_80180000(s32 param_1) {
     if (*(s32 *)(param_1 + 0xE0) != 0 && --*(s32 *)(param_1 + 0xE0) == 0) {
         u8 *base;
-        __asm__("la %0, D_800A5E88" : "=r"(base));
+        base = (s32)&D_800A5E88;
         *(s32 *)base = 0;
         D_800A5E8C = 0x1E;
         D_800A5E94 = 0x99;
@@ -3227,7 +3227,7 @@ void func_80180000(s32 param_1) {
             } else {
                 D_800A5E8C = -0x1E;
             }
-            __asm__("la %0, D_800A5E90" : "=r"(rec));
+            rec = (s32)&D_800A5E90;
             *(s32 *)rec = (rand() - 0x4000) >> 10;
             func_80028620(0, rec - 8);
             *(s32 *)(param_1 + 0xE4) = (rand() & 1) + 1;
@@ -3664,9 +3664,9 @@ void func_801809C4(Obj_801809C4 *obj) {
     s32 otz;
     s32 cy;
     s32 ang;
-    register u32 c __asm__("$2");
+    register u32 c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     u32 col;
-    register u16 *pb __asm__("$17");
+    u16 *pb;
     SVec_801809C4 *base;
     SVec_801809C4 *e;
     s32 k;
@@ -3726,7 +3726,6 @@ void func_801809C4(Obj_801809C4 *obj) {
     *(s32 *)(p[1] + 0x20) = sxy[4];
 
     pb = (u16 *)&D_800B9A02;
-    __asm__("" : "=r"(pb) : "0"(pb) : "memory");   /* 0 bytes — see note 4 */
     AddPrim(D_800A651C[*pb].a + otz * 4, p[0]);
     AddPrim(D_800A651C[*pb].a + otz * 4, p[1]);
     func_8012E28C(otz, 1);
@@ -3769,8 +3768,8 @@ void func_80180D38(s32 param_1) {
     extern s16 D_801C774C;
 
     s32 v0, v1;
-    register s32 a0v __asm__("$4");
-    register s32 dir __asm__("$5");
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 dir;
 
     if (*(s32 *)(param_1 + 0xE4) > 0) {
         dir = 0;
@@ -4561,7 +4560,7 @@ void func_80181F80(s32 param_1) {
             /* LOAD-BEARING (cookbook §5a): a zero-byte volatile-asm makes this arm's
              * RTL tail differ from the sibling arm's, so find_cross_jump refuses to
              * merge the two `beqz`+join tails. Removing it costs 4 instructions. */
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
         } else {
             if (d >= 0x201) {
                 goto skip;

@@ -88,7 +88,7 @@ extern u8  D_800B9A17;
 extern s16 D_800B9A0E;
 
 void func_800CEF5C(void) {
-    volatile int loc[2];
+    int loc[2];
     func_8001B324();
     D_800B9A12 = 1;
     D_800B9A10 = 0;
@@ -184,7 +184,7 @@ extern s32  func_80059CF4(s32);
 extern void func_8001AF34(void);
 
 void func_800CF104(void) {
-    register u8 *p = D_800AF630;
+    u8 *p = D_800AF630;
     D_80114E98 = 0;
     D_80114E9C = 0;
     func_8001B85C();
@@ -241,7 +241,7 @@ extern void func_800596F4(s32 arg0);
 extern s32 func_80059CF4(s32 arg0);
 
 void func_800CF238(void) {
-    register u8 *p = D_800AF630;
+    u8 *p = D_800AF630;
     D_80114E98 = 0;
     func_8001B85C();
 L25C:
@@ -320,7 +320,7 @@ extern void func_80011B7C(s32 arg0);
 extern void VSync(s32 arg0);
 
 void func_800CF3B8(void) {
-    register u8 *p = D_800AF630;
+    u8 *p = D_800AF630;
     D_80114E98 = 0;
     D_80114E9C = 0;
     func_8001B85C();
@@ -958,8 +958,8 @@ s32 func_800CFE60(void) {
     extern void func_800D00E4();
     extern s32 CdReadRequest(void *, void *, s32, s32);
 
-    register u8 *base __asm__("$20");
-    register s32 mode __asm__("$19");
+    u8 *base;
+    register s32 mode __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus10)
     s32 file;
     s32 val;
     s32 st;
@@ -1005,7 +1005,7 @@ s32 func_800CFE60(void) {
 
     if (func_8002F658() != val || mode >= 0) {
         s32 *q = &D_800C7C60;
-        __asm__("" : "=r"(q) : "0"(q));
+        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         p = q;
         *p = val;
         D_800C7C64 = &D_800A2E20;

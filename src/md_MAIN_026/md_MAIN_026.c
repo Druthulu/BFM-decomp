@@ -54,7 +54,7 @@ void func_800CAF68(void *arg0) {
     extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
     extern void func_80147324(s32 arg0);
     extern void func_800CB098(void *a0);
-    register u8 *p __asm__("$17") = D_80078E78;
+    u8 *p = D_80078E78;
 
     if (func_8014C088((s32)arg0, 0xB) == 0 || *(u8 *)((s32)arg0 + 0xBE) != 0) {
         func_800CB098(arg0);
@@ -183,10 +183,10 @@ extern u8 D_800CBBDF;
 
 void func_800CB278(s32 param_1)
 {
-    register s32 p1    __asm__("$17");  /* $s1 */
-    register s32 iVar1 __asm__("$16");  /* $s0 */
-    register s32 base  __asm__("$18");  /* $s2 */
-    register s32 ivar3 __asm__("$19");  /* $s3 */
+    register s32 p1    __asm__("$17");  /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 iVar1 __asm__("$16");  /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 base;  /* $s2 */
+    register s32 ivar3 __asm__("$19");  /* $s3 */  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus10)
 
     p1 = param_1;
     base = (s32)&D_800CBBD8;
@@ -435,7 +435,6 @@ void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, 
     func_8004914C(L.mat);
     func_800491AC(L.mat);
 
-    __asm__ __volatile__("" : : "r"(twicep));
 
     L.w40 = 0x50000000;
     L.w34 = *(u32 *)oncep;
@@ -479,7 +478,7 @@ void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, 
     MVMVA;
     STSV(L.o3);
 
-    __asm__ __volatile__("" : : "r"(twicep));
+    __asm__ __volatile__("" : : "r"(twicep));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
 
     L.q2A = 0x13F;
     L.q2E = 0x100;

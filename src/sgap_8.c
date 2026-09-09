@@ -164,7 +164,7 @@ s32 func_800413B8(s32 param_1)
     s32 vab;
 
     base = D_800C73D8[param_1 & 0xFF];
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
     D_800B9B36 = param_1;
     vab = (param_1 & 0xFF00) >> 8;
     base += vab * 0xB0;
@@ -181,7 +181,7 @@ s32 func_80041400(s32 param_1)
     s32 vab;
 
     base = D_800C73D8[param_1 & 0xFF];
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
     D_800B9B36 = param_1;
     vab = (param_1 & 0xFF00) >> 8;
     base += vab * 0xB0;

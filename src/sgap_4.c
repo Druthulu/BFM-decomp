@@ -26,7 +26,7 @@ extern s32 func_80041354(s16, u16 *, u16 *);
 
 void func_8003DC90(s32 arg0, s32 arg1)
 {
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
     u16 w;
     u16 h;
     s32 p;
@@ -98,7 +98,7 @@ extern s32 func_80041354(s16, u16 *, u16 *);
 
 void func_8003DF8C(s32 arg0, s32 arg1)
 {
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
     u16 w;
     u16 h;
     s32 p;

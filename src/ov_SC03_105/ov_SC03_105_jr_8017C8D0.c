@@ -2911,7 +2911,7 @@ void func_8017D994(void *arg0) {
     s32 cnt2;
     s32 i;
     s32 j;
-    register s32 base __asm__("$5");
+    register s32 base __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
     s32 p;
     s32 vel;
     s32 pos;
@@ -2921,7 +2921,7 @@ void func_8017D994(void *arg0) {
     cnt2 = 0;
     for (i = 0; i < 8; i++) {
         {
-            register s32 sym __asm__("$2") = (s32)((u8 *)D_801B9708);
+            register s32 sym __asm__("$2") = (s32)((u8 *)D_801B9708);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
             base = sym + i * 0x1D0;
         }
         if (*(s16 *)(base) == 0) {
@@ -3267,7 +3267,7 @@ void func_8017E180(s32 param_1) {
     if (v1 < 0) {
         v1 = a0 - a1;
     }
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
     *(s32*)(param_1 + 0x14) = (v1 * 0x280) / 0x400 + 0x320;
     t = *(s16*)&arr[0];
     *(s16*)&arr[0] = t - t * (s16)(*(s32*)(param_1 + 0x10) - 0x320) / 640;
@@ -3777,7 +3777,7 @@ void func_8017EE34(s32 a0) {
     s32 s0 = a0;
     Local_8017EE34 local;
     u16 t6, tA, tE;
-    register s32 fc __asm__("$6");
+    register s32 fc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
     s32 cnt;
     s32 v0;
     u16 v1;
@@ -3981,13 +3981,13 @@ void func_8017F234(s32 a0) {
     s32 m1[8];                          /* MATRIX-sized scratch at sp+0x10 */
     UVEC_8017F234 in;                   /* sp+0x30 */
     UVEC_8017F234 out;                  /* sp+0x38 */
-    register s32 obj __asm__("$17");    /* $s1 -- see the pin note above */
+    s32 obj;    /* $s1 -- see the pin note above */
     s32 r;
     s32 t;
     s32 p;
     s32 m;
     s32 w;
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
 
     obj = ((s32 (*)(void))func_8012C1B8)();
     if (obj == 0) {
@@ -4284,7 +4284,7 @@ typedef struct { s16 vx, vy, vz, pad; } SVec_8017FAE8;
 void func_8017FAE8(s32 a0) {
     SVec_8017FAE8 pos;
     SVec_8017FAE8 out;
-    register s32 base __asm__("$16");
+    register s32 base __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     s32 q;
 
     pos.vx = *(s16 *)(a0 + 0x6);
@@ -4316,7 +4316,7 @@ void func_8017FAE8(s32 a0) {
 
     q = out.vx * 63 / 160;
     {
-        register s32 r __asm__("$5") = base + q;
+        register s32 r __asm__("$5") = base + q;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
         func_8002D4C8(0x72B, ((r | 0x2000) & 0xFFFF));
     }
 }
@@ -4608,11 +4608,11 @@ void func_80180100(void *a0)
         v1 = *(s16 *)((s32)s0 + 0xAC);
         v0 &= 0xFFFE;
         *(u16 *)((s32)s0 + 0x5C) = v0;
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
 
         if (v1 != 0) {
             v0 = v1;
-            __asm__ __volatile__("" : "=r"(v0) : "0"(v0));
+            __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
             v0 = v0 - 1;
             *(s16 *)((s32)s0 + 0xAC) = v0;
             v0 = func_8004787C((s16)v0 << 8);
@@ -4737,7 +4737,7 @@ extern void func_801824CC(s32, s32, s32, s32, s32);    /* TU:5009 spelling; K&R 
 void func_801803A0(s32 a0)
 {
     s32 s0 = a0;
-    register s32 s3 __asm__("$19");
+    s32 s3;
     u8 *b58;
     s32 v;
     u32 v1;
@@ -4887,7 +4887,7 @@ void func_801806F8(s32 a0)
     s32 s0 = a0;
     s32 sp18[3];
     s32 sp28;
-    register s32 s4 __asm__("$20");
+    s32 s4;
     s32 pA;
     s32 pB;
     s32 v;
@@ -5305,7 +5305,7 @@ void func_80180EC0(s32 a0)
                 /* §336 cross-jump barrier at the BOTTOM of the twin: without it
                  * find_cross_jump merges this arm's `slti; beqz` into the sibling
                  * arm's and the function is 4 insns short. */
-                __asm__ __volatile__("");
+                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
             } else {
                 if (*(s16 *)(b58 + 0x6) - *(s16 *)(s0 + 0x6) >= 0x80) {
                     break;

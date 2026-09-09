@@ -545,8 +545,8 @@ void func_801F02B0(s32 a0_) {
     extern s32 D_801F6CA8;
     extern s32 D_801F6CAC;
 
-    register s32 c __asm__("$3") = 1;
-    register s32 a0 __asm__("$4") = a0_;
+    register s32 c __asm__("$3") = 1;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 a0 __asm__("$4") = a0_;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     s32 p1 = D_801F6CA8;
 
     *(s16 *)((s32)a0 + 0xFC) = 0;
@@ -559,8 +559,8 @@ void func_801F02B0(s32 a0_) {
 void func_801F02D4(void *a0) {
     extern s32 D_801F6CA8;
     extern s32 D_801F6CAC;
-    register s32 v0 __asm__("$2");
-    register s32 p __asm__("$4");
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 p;
     v0 = D_801F6CA8;
     *(s16 *)((s32)a0 + 0xFC) = 0;
     p = D_801F6CAC;
@@ -597,7 +597,7 @@ extern s32 D_801F6CAC;
 extern s32 D_801F6CA8;
 
 void func_801F033C(void *a0) {
-    register s32 a __asm__("$3");
+    register s32 a __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
     s32 b;
 
     a = D_801F6CA8;

@@ -107,7 +107,7 @@ extern void func_80146CA0(void *a0);
 void func_800CB06C(void *arg0) {
     s32 p;
     s32 q;
-    register void *a __asm__("$4");
+    void *a;
     if (func_80161208(arg0) != 0) {
         func_80165A20(arg0);
         return;
@@ -119,7 +119,6 @@ void func_800CB06C(void *arg0) {
     q = *(s32 *)((u8 *)arg0 + 0x20);
     if (*(s16 *)((u8 *)q + 0x10) < 0xc00) {
         a = arg0;
-        __asm__ __volatile__("" : : "r"(a));
         *(u16 *)((u8 *)q + 0x10) = 0xc00;
         *(u16 *)((u8 *)a + 0xb8) = 1;
         func_80146CA0(a);
@@ -484,15 +483,15 @@ typedef struct {
 void func_800CB82C(s32 a0, s32 a1)
 {
     u8 lo[0x30];
-    volatile struct Mid mid;
+    struct Mid mid;
     u8 src[8];
     u8 dstc[8];
     u8 out1[0x20];
     MZ mz;
     HB hb;
-    volatile u8 fpad[8];
-    register s32 g8 __asm__("$8");
-    register s32 c1 __asm__("$3");
+    u8 fpad[8];
+    s32 g8;
+    s32 c1;
     s32 *p;
     s32 *plo;
     s32 *p6;
@@ -557,7 +556,7 @@ void func_800CB82C(s32 a0, s32 a1)
 
 void func_800CBA44()
 {
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus10)
         ".set\tnoreorder\n"
         "lhu    $2, 0($5)\n"
         "lhu    $3, 16($6)\n"
@@ -786,11 +785,11 @@ void func_800CBF28(s32 p1)
 {
     s32 v0;
     s32 r;
-    register s32 base __asm__("$17");  /* $s1 */
+    s32 base;  /* $s1 */
 
     v0 = ((s32 (*)(void))func_80146578)();
     base = (s32)&D_800CC250;
-    __asm__("" : "=r"(r) : "0"(v0));
+    __asm__("" : "=r"(r) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
     *(s32 *)(p1 + 0x20) = v0;
     if (v0 != 0) {
         func_8001CD04(v0, base);
@@ -838,7 +837,7 @@ void func_800CC024() {
     s32 obj;
 
     {
-        register s32 a0p __asm__("$4");
+        register s32 a0p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
         obj = a0p;
     }
 
@@ -854,7 +853,7 @@ void func_800CC024() {
     m = v & 0x1F;
     ang = ((m << 8) & 0x7F00) >> 1;
     t = *(u16 *)(obj + 0xA);
-    __asm__("" :: "r"(m), "r"(ang));
+    __asm__("" :: "r"(m), "r"(ang));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
     *(u16 *)(obj + 0xA) = t - 0x10;
     *(u16 *)(obj + 0x60) = v + 1;
 

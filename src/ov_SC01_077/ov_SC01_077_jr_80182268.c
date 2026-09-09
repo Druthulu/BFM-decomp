@@ -3451,7 +3451,7 @@ lab_ab0:
         if (*(u16 *)(arg0 + 0x72) & 0x4000) {
             s32 c = *(u8 *)(arg0 + 0x102) + 1;
             *(u8 *)(arg0 + 0x102) = c;
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
             if ((((s32(*)())rand)() & 1) < (c & 0xff)) {
                 ((void(*)(s32))func_80182988)(arg0);
             }

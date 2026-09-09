@@ -84,7 +84,7 @@ void func_800CAFA8(void *a0) {
     extern void func_80146C3C(void *);
     extern void func_8001CD9C(void *, void *);
 
-    volatile s32 pad[6];
+    s32 pad[6];
     s32 ent;
     s16 i;
 

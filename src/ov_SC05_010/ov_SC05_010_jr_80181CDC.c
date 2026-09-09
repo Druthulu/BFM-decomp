@@ -3106,7 +3106,7 @@ extern void func_8012B370(int a0);
 
 void func_80182AC0(void *a0) {
     void *q;
-    register void *s0 __asm__("$16");
+    void *s0;
 
     D_801929DC[*(u16 *)((s32)a0 + 0x2)]();
 
@@ -3344,7 +3344,7 @@ void func_80183098(s32 param_1) {
      * folds `cam->y` back to %hi/%lo(D_80126B5E+4) and emits a SECOND `la`
      * instead of the target's `lh 0x4($s1)`.  Zero bytes. */
     cam = (Cam183098 *)&D_80126B5E;
-    __asm__("" : "=r"(cam) : "0"(cam));
+    __asm__("" : "=r"(cam) : "0"(cam));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
 
     *(s32 *)(param_1 + 0x4) += *(s32 *)(param_1 + 0x10);
     *(s32 *)(param_1 + 0x8) += *(s32 *)(param_1 + 0x14);
@@ -3514,9 +3514,9 @@ void func_8018340C(void *a0)
        D_80126950 load from being hoisted into the imul latency gap (sched1
        priority, map sched.md S3). The three pins split the one collapsed
        chain pseudo into the target's $t0/$v0/$a2 triple (local-alloc). */
-    register s32 aa __asm__("$8");
-    register s32 bb __asm__("$2");
-    register s32 cc __asm__("$6");
+    register s32 aa __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 bb __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 cc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
 
     in[0] = *(s16 *)((s8 *)a0 + 0x06);
     in[1] = *(s16 *)((s8 *)a0 + 0x0A);
@@ -3550,7 +3550,7 @@ void func_8018340C(void *a0)
         aa = t * m;
         bb = aa >> 12;
         cc = bb + 8;
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
         d = cc * (D_80126950 + 500);
         d = d / (ret * 4);
 
@@ -3811,8 +3811,8 @@ void func_80183D5C(s32 arg0)
     extern s32 D_800A651C[];
     extern s16 D_800B9A02;
 
-    register u8 *db __asm__("$16");
-    register s32 obj __asm__("$17");
+    u8 *db;
+    s32 obj;
     void *q;
     SV83 v[3];
     s32 scr[6];
@@ -3874,14 +3874,14 @@ void func_80183D5C(s32 arg0)
     r[0x1E] = r[0x16] = r[0xE] = r[6] = 0xFF;
     r[3] = 8;
     r[7] = 0x3A;
-    *(u16 *)(r + 8) = *(volatile u16 *)&scr[0];
+    *(u16 *)(r + 8) = *(u16 *)&scr[0];
     *(u16 *)(r + 0x10) = *(volatile u16 *)&scr[0];
-    *(u16 *)(r + 0x18) = *(volatile u16 *)&scr[1];
-    *(u16 *)(r + 0x20) = *(volatile u16 *)&scr[2];
-    *(u16 *)(r + 0xA) = *(volatile u16 *)((u16 *)&scr[0] + 1);
-    *(u16 *)(r + 0x12) = *(volatile u16 *)((u16 *)&scr[0] + 1);
-    *(u16 *)(r + 0x1A) = *(volatile u16 *)((u16 *)&scr[1] + 1);
-    *(u16 *)(r + 0x22) = *(volatile u16 *)((u16 *)&scr[2] + 1);
+    *(u16 *)(r + 0x18) = *(u16 *)&scr[1];
+    *(u16 *)(r + 0x20) = *(u16 *)&scr[2];
+    *(u16 *)(r + 0xA) = *(u16 *)((u16 *)&scr[0] + 1);
+    *(u16 *)(r + 0x12) = *(u16 *)((u16 *)&scr[0] + 1);
+    *(u16 *)(r + 0x1A) = *(u16 *)((u16 *)&scr[1] + 1);
+    *(u16 *)(r + 0x22) = *(u16 *)((u16 *)&scr[2] + 1);
     AddPrim(ot, r);
     AddPrim(ot, q);
 }

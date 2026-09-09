@@ -2974,7 +2974,6 @@ void func_80181BE8(void *a0) {
             if (v0 == 0) {
                 {
                     u16 ns = state + 1;
-                    __asm__("" : "=r"(ns) : "0"(ns));
                     *(u16 *)((s32)s0 + 0x34) = ns;
                 }
                 func_80187070(s0);
@@ -2993,7 +2992,7 @@ void func_80181BE8(void *a0) {
             break;
         case 1:
             if (func_8012BEE8(s0) != 0) {
-                register s32 a0r __asm__("$4");
+                s32 a0r;
                 a0r = (s32)s0;
                 *(u16 *)((s32)s0 + 0x34) += 1;
                 func_80186304((u8 *)s0, 0xF, 2);

@@ -100,13 +100,13 @@ void func_800CB058(s32 arg0)
     extern void func_80146CA0(void *a0);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void func_80147324(s32 a0);
-    register s32 s1a __asm__("$17");
-    register s32 s2a __asm__("$18");
-    register s32 s0a __asm__("$16");
-    register s32 maska __asm__("$6");
-    register s32 fptr __asm__("$6");
-    register s32 q __asm__("$5");
-    register s32 p __asm__("$4");
+    register s32 s1a __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s2a;
+    s32 s0a;
+    s32 maska;
+    s32 fptr;
+    s32 q;
+    s32 p;
     s32 v0w;
     s32 cnt;
 
@@ -207,9 +207,9 @@ void func_800CB2C8(void *arg0) {
     extern void func_80162FC0(s32 *);
 
     void *s1;
-    register void *p __asm__("$4");
-    register s32 raw __asm__("$3");
-    register s32 t __asm__("$2");
+    void *p;
+    register s32 raw __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 r;
     s32 buf[3];
 
@@ -222,7 +222,7 @@ void func_800CB2C8(void *arg0) {
         return;
     }
     raw = t;
-    __asm__("" : "=r"(raw) : "0"(raw));
+    __asm__("" : "=r"(raw) : "0"(raw));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
     t = raw;
     *(u8 *)((u8 *)s1 + 0x24) = *(u8 *)((u8 *)s1 + 0x25) = *(u8 *)((u8 *)s1 + 0x26) = t;
     r = func_80012ABC(*(s16 *)((u8 *)s1 + 0x12),

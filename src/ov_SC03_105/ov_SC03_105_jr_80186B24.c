@@ -3059,8 +3059,8 @@ void func_80186B24(s32 param_1) {
         func_8002D4C8(0x72F, 0);
         break;
     case 7: {
-        register s32 o __asm__("$4");
-        register s32 m __asm__("$2");
+        s32 o;
+        s32 m;
         (*(u16 *)(param_1 + 0x34))++;
         o = *(s32 *)(*(s32 *)(param_1 + 0xCC) + 0x20);
         m = *(s32 *)(o + 4) & 0x7FFFFFFF;

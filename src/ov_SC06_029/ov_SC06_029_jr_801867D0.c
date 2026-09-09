@@ -3469,7 +3469,7 @@ extern void func_8013C9C4(void *a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 s32 func_80186E18(s32 a0) {
-    register s32 state __asm__("$4");
+    s32 state;
 
     state = D_801DFF70;
     if (*(s32 *)(state + 0x90) == (s32)&D_801C2AA4 && *(s16 *)(state + 0x98) == 0) {
@@ -4493,7 +4493,7 @@ void func_80188988(int param_1) {
     extern s32 D_801DFFE8;
     extern s32 D_801DFFEC;
     extern s32 func_80012CB8(s32 a0, s32 a1, s32 a2);
-    register s16 *psVar1 __asm__("$5");
+    s16 *psVar1;
     s16 *psVar2;
     s16 *psVar3;
     s16 *psVar5;

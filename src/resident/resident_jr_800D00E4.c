@@ -193,14 +193,14 @@ s32 func_800D0214(s32 arg0) {
     extern CdFileLoc cdFileLocTable[];
     extern s32 CdReadRequest(void *, void *, s32, s32);
 
-    register s32 mask __asm__("$3") = ~0xF000;
+    s32 mask = ~0xF000;
     s32 idx = currentLocationId & mask;
     s32 raw = D_800D34AC[idx];
     s32 val = D_800D34AE[idx * 2];
     s32 *p = &D_800C7C60;
     s32 id;
 
-    __asm__("" ::: "memory");
+    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
     D_800C7C64 = &D_800A2E20;
     *p = val;
 
@@ -295,7 +295,7 @@ s32 func_800D02D0(s32 arg0) {
     extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
     extern void func_8001B384(void);
 
-    register s32 *p __asm__("$2");
+    register s32 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 ret;
 
     arg0 = arg0 - 1;
@@ -378,7 +378,7 @@ s32 func_800D0488(s32 arg0) {
     }
 
     val = D_800D3850[n * 2];
-    __asm__("");
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
     D_800C7C64 = &D_800A2E20;
     p = &D_800C7C60;
     *p = val;
@@ -870,7 +870,7 @@ s32 func_800D0CE0(void) {
 s32 func_800D0D7C(s32 arg0, s32 arg1) {
     extern u8 D_80078EB0;
     extern u8 D_80078EB1;
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
     u32 now;
     u32 r;
     s32 h;
@@ -898,20 +898,19 @@ s32 func_800D0D7C(s32 arg0, s32 arg1) {
 s16 func_800D0E30(u8 *p) {
     extern u8 D_80078EB0;
     extern u8 D_80078EB1;
-    register s32 zr __asm__("$0");
     u8 dummy[16];
     u32 hi;
     u32 lo;
-    register u32 b __asm__("$5");
-    register u32 t2 __asm__("$2");
-    register u32 t3 __asm__("$3");
-    register u32 h __asm__("$3");
+    register u32 b __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 t3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    u32 h;
 
     hi = (u8)(p[1] - D_80078EB1);
     lo = (u8)(p[0] - D_80078EB0);
     p = (u8 *)((hi << 8) | lo);
 
-    b = (u32)p + zr;
+    b = (u32)p + 0;
     if ((b & 0xFF) >= 0x3C) {
         t3 = (b + 0x3C) & 0xFF;
         t2 = ((u32)p & 0xFF00) - 0x100;

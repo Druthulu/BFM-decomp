@@ -150,8 +150,8 @@ extern s16 D_80126B1C;
 void func_800CB118(s32 a0) {
     s32 sp20[2];
     s32 sp28;
-    register s32 ret __asm__("$3");
-    register s32 m __asm__("$2");
+    register s32 ret __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 m __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
 
     func_80162FF4(a0, 0, 0x4000, 0);
     func_80162FC0((s32 *) a0);
@@ -252,8 +252,8 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     extern u8  D_800CB820[];
     extern u16 D_800CB7FC[];
     Fr_800CB3BC f;
-    register u8  *p   __asm__("$18");   /* $s2 */
-    register s32  ent __asm__("$20");   /* $s4 */
+    u8  *p;   /* $s2 */
+    s32  ent;   /* $s4 */
     s16 i;
     s32 node;
     u16 c;
@@ -273,12 +273,12 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     f.col[1].b = 0x70;
     cv = *(u8 *)(ent + 0x12);
     f.cx = arg1;
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
     va = (u8 *)&f.cx;
-    __asm__ __volatile__("" : "=r"(va) : "0"(va));
+    __asm__ __volatile__("" : "=r"(va) : "0"(va));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
     f.cy = arg2;
     vb = va;
-    __asm__ __volatile__("" : "=r"(vb) : "0"(vb));
+    __asm__ __volatile__("" : "=r"(vb) : "0"(vb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
     p = D_800CB820;
     i = 0;
     f.col[0].b = 0;

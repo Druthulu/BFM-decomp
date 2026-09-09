@@ -3281,7 +3281,7 @@ void func_8017D924(s32 arg0) {
     short sp10[3];
     short sp18[3];
     s32 temp;
-    register s32 color __asm__("$2");
+    register s32 color __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     u16 cnt;
 
     sp10[0] = -0x100;
@@ -3332,15 +3332,15 @@ void func_8017DA50(void *arg) {
     s32 var_s0;
     s32 var_fp;
     s32 var_s7;
-    register s32 var_a0 __asm__("$4");
+    s32 var_a0;
     s32 var_u;
     s32 var_v0;
-    register s32 var_t7 __asm__("$3");
+    register s32 var_t7 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
     s32 var_v1;
-    register s32 k40 __asm__("$21");
-    register s32 k50 __asm__("$20");
-    register s32 kF0 __asm__("$18");
-    register s32 k100 __asm__("$19");
+    s32 k40;
+    register s32 k50 __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 kF0 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 k100 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus10)
 
     var_v1 = *(s32 *)((s32)arg + 0x1C);
     *(s32 *)((s32)arg + 0x1C) = var_v1 + 1;
@@ -3374,10 +3374,10 @@ void func_8017DA50(void *arg) {
         k50 = -0x50;
         kF0 = -0xF0;
         k100 = -0x100;
-        __asm__("" : "=r"(k40) : "0"(k40));
-        __asm__("" : "=r"(k50) : "0"(k50));
-        __asm__("" : "=r"(kF0) : "0"(kF0));
-        __asm__("" : "=r"(k100) : "0"(k100));
+        __asm__("" : "=r"(k40) : "0"(k40));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(k50) : "0"(k50));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(kF0) : "0"(kF0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(k100) : "0"(k100));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         var_v0 = var_fp;
         var_t7 = var_s7;
         sp10.b[4] = var_v0;
@@ -3640,7 +3640,7 @@ void func_8017DF8C(void *a0)
 
 
 void func_8017E26C() {
-    __asm__ __volatile__(".set\tnoreorder\n"
+    __asm__ __volatile__(".set\tnoreorder\n"  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus10)
     "addiu      $sp, $sp, -88\n"
     "lui        $a0, %hi(D_801AC280)\n"
     "addiu      $a0, $a0, %lo(D_801AC280)\n"
@@ -4054,7 +4054,7 @@ void func_8017E960(s32 param_1, s32 param_2, s32 *param_3)
 {
     s32 dx, dy, dz;
     s32 ax, az;
-    register s32 ay __asm__("$7");
+    register s32 ay __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus10)
 
     dx = *(s16 *)(param_2 + 2) - *(s16 *)(param_1 + 2);
     dy = *(s16 *)(param_2 + 6) - *(s16 *)(param_1 + 6);

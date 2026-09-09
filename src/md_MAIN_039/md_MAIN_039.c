@@ -133,7 +133,7 @@ void func_800CB0B4(s32 param_1) {
         func_8001C214(obj, (s32)&D_800CC444);
         *(u16 *)(obj + 0x10) = *(u16 *)(*(s32 *)(iVar2 + 0x20) + 0x10);
         {
-            register s32 prod __asm__("$2");
+            s32 prod;
             prod = (*(s32 *)(param_1 + 0x50) - 1) * 0x155;
             *(u16 *)(obj + 0x12) =
                 (*(u16 *)(*(s32 *)(iVar2 + 0x20) + 0x12) + prod) & 0xFFF;
@@ -144,10 +144,10 @@ void func_800CB0B4(s32 param_1) {
         *(u16 *)(param_1 + 0x5C) = *(u16 *)(iVar2 + 0x104);
         func_80149374(iVar2, param_1 + 4);
         {
-            register s32 dstp __asm__("$3");
-            register s32 srcp __asm__("$2");
-            dstp = *(volatile s32 *)(param_1 + 0x20);
-            srcp = *(volatile s32 *)(iVar2 + 0x20);
+            s32 dstp;
+            s32 srcp;
+            dstp = *(s32 *)(param_1 + 0x20);
+            srcp = *(s32 *)(iVar2 + 0x20);
             *(Blk16X *)(dstp + 0x34) = *(Blk16X *)(srcp + 0x34);
             *(Blk16X *)(dstp + 0x44) = *(Blk16X *)(srcp + 0x44);
         }

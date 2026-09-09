@@ -2937,15 +2937,15 @@ void func_80181C84(s32 a0)
     /* LOAD-BEARING pins: without them the entity lands in $s2 and the loop counter in $s1
      * (measured, 40 rows). $s2=i, $s3=n, and q pinned to $v1 -- unpinned, local-alloc gives
      * q=$a0 / (r%q)=$v1, the exact inverse of the target in BOTH div loops (20 rows). */
-    register s32 s1 __asm__("$17");
+    s32 s1;
     Local_80181C84 local;
     u8 *b58;
     u16 tE;
     u16 t34;
     u16 t34b;
-    register s32 i __asm__("$18");
-    register s32 n __asm__("$19");
-    register s32 q __asm__("$3");
+    register s32 i __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 n;
+    register s32 q __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
     s32 r;
     s32 p;
     s32 tA;
@@ -3578,7 +3578,7 @@ void func_80183174(s32 a0) {
     u16 *p = &D_801BA628;
     u16 local_10[3];
     u16 local_18[3];
-    register u16 c1 __asm__("$6");
+    register u16 c1 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
 
     local_10[0] = *p;
     local_10[1] = D_801BA62A;
@@ -3732,12 +3732,12 @@ void func_801834A4(s32 arg0) {
     s32 j;
     s32 u;
     s32 base;
-    register s32 tmp __asm__("$2");
+    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 mod;
     s32 step;
     s32 obj;
     s32 half;
-    register s32 hh __asm__("$2");
+    register s32 hh __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 sign = 0;
 
     if ((D_800B99DA & 7) == 0) {
@@ -3747,7 +3747,7 @@ void func_801834A4(s32 arg0) {
             u = D_8018E894[i];
             tmp = u * 0x600 + 0x2000;
             base = tmp;
-            __asm__ ("" : "=r"(tmp) : "0"(tmp));
+            __asm__ ("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
             mod = (tmp << 16) >> 18;
             step = u * 6 + 0x12;
             half = step * 2;
@@ -3974,10 +3974,10 @@ s32 func_80183A98(void *a0) {
             {
                 s32 t;
                 if ((rand() & 1) == 0) {
-                    __asm__ __volatile__("");
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
                     t = s1 - s0;
                 } else {
-                    __asm__ __volatile__("");
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
                     t = s1 + s0;
                 }
                 *(s32 *)((u8 *)a0 + 0xF0) = t;
@@ -3995,12 +3995,12 @@ s32 func_80183A98(void *a0) {
             {
                 s32 t;
                 if ((rand() & 1) == 0) {
-                    __asm__ __volatile__("");
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
                     t = s1 - s0;
                 } else {
-                    __asm__ __volatile__("");
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
                     t = s1 + s0;
-                    __asm__ __volatile__("");
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
                 }
                 *(s32 *)((u8 *)a0 + 0xF0) = t;
             }
@@ -4093,9 +4093,9 @@ void func_80183DA0(s32 a0) {
     SVec_80183DA0 pos;
     SVec_80183DA0 out;
     s32 val;
-    register s32 lvl __asm__("$17");
+    register s32 lvl __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
     s32 sv;
-    register s32 n __asm__("$2");
+    s32 n;
     s32 t;
     s32 r;
 
@@ -4132,7 +4132,7 @@ tail:
     t = out.vx;
     n = lvl + t / 0x14;
     lvl = n;
-    __asm__ __volatile__("" : "=r"(n) : "0"(n));
+    __asm__ __volatile__("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
     if ((s16)n < 0) {
         lvl = 0;
     } else if ((s16)n >= 0x10) {
@@ -4393,8 +4393,8 @@ extern u8 D_801202A0[];
 
 void func_801843DC(void)
 {
-    register s32 i __asm__("$17");
-    register u8 *p __asm__("$16");
+    s32 i;
+    u8 *p;
     s32 limit;
 
     i = 0;
@@ -4617,9 +4617,9 @@ void func_801848A4(void *a0) {
     switch (state) {
         case 0:
         {
-            register s32 v1  __asm__("$3");
-            register s32 a0f __asm__("$4");
-            register s32 a1f __asm__("$5");
+            register s32 v1  __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+            register s32 a0f __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+            s32 a1f;
             s32 cnt;
 
             func_80185238((struct vec *)a0);
@@ -4657,9 +4657,9 @@ void func_801848A4(void *a0) {
         }
         case 2:
         {
-            register s32 v1  __asm__("$3");
-            register s32 a0f __asm__("$4");
-            register s32 a1f __asm__("$5");
+            register s32 v1  __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+            register s32 a0f __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+            s32 a1f;
             s32 cnt;
 
             func_80185238((struct vec *)a0);
@@ -4740,7 +4740,7 @@ void func_80184A60(void *arg0) {
     /* PIN 1 (carried from the first-pass draft, §48-A2-shaped): without the $16
      * pin a value crossing the /8 idiom's conditional branch drags in a spurious
      * "move $s2,$s0" plus a phantom 4th callee-saved register. */
-    register u8 *s0 __asm__("$16") = (u8 *)arg0;
+    register u8 *s0 __asm__("$16") = (u8 *)arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     u8 *s1;
     void *s2;
     s16 flag;
@@ -4759,7 +4759,7 @@ void func_80184A60(void *arg0) {
      * for the third once `vp` has died.  A `register s32 r;` (no asm) or a
      * plain `s32 r;` reused across all three does NOT do it (still 6 diffs) --
      * the hard-register pin is what forces the conflict. */
-    register s32 r __asm__("$2");
+    s32 r;
     SVEC_801BA5A8 *vp;
 
     s1 = *(u8 **)(s0 + 0x50);
@@ -4807,8 +4807,8 @@ extern void func_80185810(s32 a0);
 
 void func_80184B50(u8 *param_1)
 {
-    register u8 *s0 __asm__("$16") = param_1;
-    register u8 *s1 __asm__("$17");
+    u8 *s0 = param_1;
+    u8 *s1;
     u8 *s2;
     s32 factor;
 
@@ -4901,7 +4901,7 @@ void func_80184CA8(s32 a0) {
                        the fence -- i.e. into the lh 0x2C load-delay slot, which
                        is exactly where the target has `lh $s1,0x34($s0)`.
                        Without it that slot is a nop and the function is 116 ins. */
-                __asm__("" : "=r"(t) : "0"(t), "r"(base));
+                __asm__("" : "=r"(t) : "0"(t), "r"(base));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B tus10)
                 rem = rnd % (t >> 7);
                 if (rand() & 1) {
                     result = base + rem;
@@ -4939,8 +4939,8 @@ void func_80184CA8(s32 a0) {
 
 void func_80184E74(u8 *param_1)
 {
-    register u8 *s0 __asm__("$16") = param_1;
-    register u8 *s1 __asm__("$17");
+    u8 *s0 = param_1;
+    u8 *s1;
     u8 *s2;
     s32 b;
 
@@ -5250,8 +5250,8 @@ s32 func_80185680(void *a0, void *a1) {
     s32 base;
     s16 cnt;
     s32 ret;
-    register s32 idx __asm__("$2");
-    register s32 idc __asm__("$6");
+    register s32 idx __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 idc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
     u8 val;
     (void)&frame_pad;
 
@@ -5292,7 +5292,7 @@ extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8017E5C8(s32 a0);
 
 void func_8018574C(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;
+    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     s32 rnd;
     s32 t;
     s32 base;
@@ -5304,7 +5304,7 @@ void func_8018574C(void *a0) {
     rnd = rand();
     t = *(s16 *)(s0 + 0xC);
     base = *(s16 *)(s0 + 0x14);
-    __asm__("" : "=r"(t) : "0"(t), "r"(base));
+    __asm__("" : "=r"(t) : "0"(t), "r"(base));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B tus10)
     rem = rnd % (t >> 7);
     if (rand() & 1) {
         result = base + rem;

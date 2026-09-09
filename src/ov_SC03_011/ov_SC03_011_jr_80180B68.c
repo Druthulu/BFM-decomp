@@ -2980,7 +2980,6 @@ void func_80180B68(void *a0) {
     case 0:
         v0 = *(s32 *)((s32)a0 + 0x1C) + 1;
         *(s32 *)((s32)a0 + 0x1C) = v0;
-        __asm__ __volatile__("");
         v0 = v0 < 0xE6;
         goto check_timeout;
     case 1:

@@ -96,17 +96,17 @@ void func_800CAF94(s32 arg0) {
         func_8012F14C(*(s32 *)(ent + 0x20) + 0x34, (s32)sv, (s32)sv);
         { void *q0 = sv; void *q1 = rot;
           func_800D20C0(q0, q1, 5);
-          __asm__ __volatile__("" : "=r"(q1)); }
+          __asm__ __volatile__("" : "=r"(q1)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
         *(s16 *)(arg0 + 6)   = *(u16 *)&sv[0];
         *(s16 *)(arg0 + 0xA) = *(u16 *)&sv[1];
         *(s16 *)(arg0 + 0xE) = *(u16 *)&sv[2];
         { void *q2 = rot;
           func_800D23D0(q2);
-          __asm__ __volatile__("" : "=r"(q2)); }
+          __asm__ __volatile__("" : "=r"(q2)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
         { void *m1 = mtx;
           rot[2] = (D_800B99DA & 0x1F) << 7;
           RotMatrixYXZ(rot, m1);
-          __asm__ __volatile__("" : "=r"(m1)); }
+          __asm__ __volatile__("" : "=r"(m1)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
         func_80048D9C((void *)(arg0 + 0x38), mtx);
 
         v = *(s32 *)(arg0 + 0x1C) - 1;
@@ -165,17 +165,17 @@ void func_800CB0C8(s32 arg0) {
             func_8012F14C(*(s32 *)(ent + 0x20) + 0x34, (s32)sv, (s32)sv);
             { void *q0 = sv; void *q1 = rot;
               func_800D20C0(q0, q1, 5);
-              __asm__ __volatile__("" : "=r"(q1)); }
+              __asm__ __volatile__("" : "=r"(q1)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
             *(s16 *)(arg0 + 6)   = *(u16 *)&sv[0];
             *(s16 *)(arg0 + 0xA) = *(u16 *)&sv[1];
             *(s16 *)(arg0 + 0xE) = *(u16 *)&sv[2];
             { void *q2 = rot;
               func_800D23D0(q2);
-              __asm__ __volatile__("" : "=r"(q2)); }
+              __asm__ __volatile__("" : "=r"(q2)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
             { void *m1 = mtx;
               rot[2] = (D_800B99DA & 0x1F) << 7;
               RotMatrixYXZ(rot, m1);
-              __asm__ __volatile__("" : "=r"(m1)); }
+              __asm__ __volatile__("" : "=r"(m1)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
             func_80048D9C((void *)(arg0 + 0x38), mtx);
             return;
         }
@@ -227,7 +227,7 @@ void func_800CB378(s32 arg0) {
     u8 *v1;
     u8 *a0p;
     s16 v0;
-    register s32 ten __asm__("$3");
+    register s32 ten __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
 
     if (D_80078EC1 != 2) {
         func_80146C3C(arg0);

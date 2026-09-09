@@ -3168,9 +3168,8 @@ void func_801902EC(s32 param_1)
             fromX = *(s32 *)(param_1 + 0xCC);
             func_8012B2CC(fromX);
             q = D_801CC7CC;
-        __asm__ __volatile__("" :: "r"(fromX));
             ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(fromX + 0x20) + 0x34, (s32)q, (s32)buf10);
-            __asm__ __volatile__("" : "=r"(q));
+            __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
         }
         to1 = *(s32 *)(param_1 + 0xD0);
         *(s16 *)(to1 + 6) = buf10[0];
@@ -3187,9 +3186,8 @@ void func_801902EC(s32 param_1)
             fromX = *(s32 *)(param_1 + 0xD0);
             func_8012B2CC(fromX);
             q = D_801CC7CC;
-        __asm__ __volatile__("" :: "r"(fromX));
             ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(fromX + 0x20) + 0x34, (s32)q, (s32)buf10);
-            __asm__ __volatile__("" : "=r"(q));
+            __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
         }
         to2 = *(s32 *)(param_1 + 0xD4);
         *(s16 *)(to2 + 6) = buf10[0];
@@ -3258,9 +3256,8 @@ void func_801902EC(s32 param_1)
                 fromX = *(s32 *)(param_1 + 0xCC);
                 func_8012B2CC(fromX);
                 q = D_801CC7CC;
-        __asm__ __volatile__("" :: "r"(fromX));
                 ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(fromX + 0x20) + 0x34, (s32)q, (s32)buf10);
-                __asm__ __volatile__("" : "=r"(q));
+                __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
             }
             to3 = *(s32 *)(param_1 + 0xD0);
             *(s16 *)(to3 + 6) = buf10[0];
@@ -3276,9 +3273,8 @@ void func_801902EC(s32 param_1)
                 fromX = *(s32 *)(param_1 + 0xD0);
                 func_8012B2CC(fromX);
                 q = D_801CC7CC;
-        __asm__ __volatile__("" :: "r"(fromX));
                 ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(fromX + 0x20) + 0x34, (s32)q, (s32)buf10);
-                __asm__ __volatile__("" : "=r"(q));
+                __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
             }
             to4 = *(s32 *)(param_1 + 0xD4);
             *(s16 *)(to4 + 6) = buf10[0];
@@ -3322,7 +3318,7 @@ void func_801902EC(s32 param_1)
             {
                 s16 *bp = buf18;
                 RotTransSV(D_801CC7F4, bp, buf28);
-                __asm__ __volatile__("" : "=r"(bp));
+                __asm__ __volatile__("" : "=r"(bp));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
             }
             flag = 0x202080;
             if (D_800B99D8 & 1) {
@@ -3359,9 +3355,9 @@ void func_801902EC(s32 param_1)
         fromX = *(s32 *)(param_1 + 0xCC);
         func_8012B2CC(fromX);
         q = D_801CC7CC;
-        __asm__ __volatile__("" :: "r"(fromX));
+        __asm__ __volatile__("" :: "r"(fromX));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
         ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(fromX + 0x20) + 0x34, (s32)q, (s32)buf10);
-        __asm__ __volatile__("" : "=r"(q));
+        __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
     }
     to5 = *(s32 *)(param_1 + 0xD0);
     *(s16 *)(to5 + 6) = buf10[0];
@@ -3377,9 +3373,9 @@ void func_801902EC(s32 param_1)
         fromX = *(s32 *)(param_1 + 0xD0);
         func_8012B2CC(fromX);
         q = D_801CC7CC;
-        __asm__ __volatile__("" :: "r"(fromX));
+        __asm__ __volatile__("" :: "r"(fromX));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
         ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(fromX + 0x20) + 0x34, (s32)q, (s32)buf10);
-        __asm__ __volatile__("" : "=r"(q));
+        __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
     }
     to6 = *(s32 *)(param_1 + 0xD4);
     *(s16 *)(to6 + 6) = buf10[0];
@@ -3504,13 +3500,13 @@ void func_80190D70(s32 a0) {
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
         /* $a0-pinned scopes: rematerialise &D_800AF648 (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                        /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5"); /* |X| */
+            register s32 av __asm__("$5"); /* |X| */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
             s32 vol;
             sx = (s16)L.sxy[0];
             av = sx;
@@ -3519,7 +3515,7 @@ void func_80190D70(s32 a0) {
             }
             vol = ((0xA0 - av) * 0x7F) / 0xA0;
             /* sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));
+            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;

@@ -3503,7 +3503,7 @@ void func_8017E4DC(s32 arg0)
         func_8012C51C(rp, arg0);
         rp += 1;
         q += 4;
-        __asm__("" : "=r"(q) : "0"(q));
+        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         i++;
         off += 8;
     }
@@ -3713,7 +3713,7 @@ extern u16 D_801AAD68;
 
 void func_8017EA84(s32 param_1)
 {
-    register s32 state __asm__("$4");
+    register s32 state __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
 
     state = *(u16 *)(param_1 + 0x34);
     switch (state & 0xFFFF) {
@@ -3919,7 +3919,7 @@ void func_8017EF30(s32 arg)
     s32 hit;
     s32 q;
     s32 r;
-    register s32 t __asm__("$6");
+    register s32 t __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
 
     p = D_80185034;
     arr[3] = 0x3A7;
@@ -4146,8 +4146,8 @@ void func_8017F4E4(u8 *a0)
     V3_8017F4E4 vec;
     Mat32_8017F4E4 m;
     u8 *work;
-    register s32 t __asm__("$8");
-    register s32 j __asm__("$17");
+    s32 t;
+    s32 j;
 
     m = D_800AE620_8017F4E4[0];
     work = *(u8 **)(a0 + 0x64);
@@ -4520,7 +4520,7 @@ void func_8017FE38(s32 p)
     /* forced copy of the tpage word (§ ov_SC04_005 func_80181470 idiom): the target keeps
      * `addu $v0,$v1,$zero` because the stored/masked value and the `& 0x10` test read two
      * distinct pseudos; every plain spelling gets them coalesced. */
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
     s32 z;
     u32 *otp;
 
@@ -4710,7 +4710,7 @@ void func_80180404(void *a0)
     s32 i;
     s32 ent;
     s32 s;
-    register s32 t __asm__("$16");
+    register s32 t __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
 
     ((void (*)(void *))func_8012AD80)(a0);
     if ((D_800B99DA & 3) == 0) {
@@ -4730,7 +4730,6 @@ void func_80180404(void *a0)
                 t = rand();
                 s = rand();
                 t = (t & 1) << 12;
-                __asm__ __volatile__("" : "=r"(t) : "0"(t));
                 *(u16 *)(ent + 0x34) = ((t + 0x2000) | (s & 1));
             }
             sv[0] += 0x20;
@@ -4779,7 +4778,7 @@ s32 func_80180570(void *arg0) {
     SVec_80180570 p0;
     SVec_80180570 p1;
     SVec_80180570 p2;   /* never used — holds the target's 8 spare frame bytes (0x40, not 0x38) */
-    register s32 k __asm__("$4");
+    register s32 k __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     u16 *p;
 
     if (D_801AAD60 == 0) {
@@ -4965,8 +4964,8 @@ extern s32 rand();
 void func_80180A2C(void *a0) {
     extern s32 D_80185478;
     extern s32 D_801854F8;
-    register s32 v0 __asm__("$2");
-    register s32 v1 __asm__("$3");
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 v1;
     u16 v0_2;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();

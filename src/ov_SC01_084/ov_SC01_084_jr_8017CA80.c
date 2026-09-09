@@ -3212,7 +3212,6 @@ s32 func_8017E224(s32 param_1)
     func_8002D4C8(0x1D, 0);
     func_800D1E28();
     *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
-    __asm__ __volatile__("");
     return 0;
 }
 
@@ -3611,8 +3610,8 @@ void func_8017EA98(s32 a0) {
     if (i == 3) {
         s32 tmp;
         s32 tmp2;
-        register s32 dx __asm__("$3");
-        register s32 dz __asm__("$4");
+        register s32 dx __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+        register s32 dz __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
         s32 dz2;
         s32 sum;
 
@@ -3648,8 +3647,8 @@ void func_8017EA98(s32 a0) {
     } else {
         s32 tmp;
         s32 tmp2;
-        register s32 dx __asm__("$3");
-        register s32 dz __asm__("$4");
+        register s32 dx __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+        register s32 dz __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
         s32 dz2;
         s32 sum;
         s32 amt;

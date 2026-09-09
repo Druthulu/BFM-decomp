@@ -2868,17 +2868,17 @@ extern Blk4_9B4 aD_801CE7A4[] __asm__("D_801CE7A4");
 extern Blk4_9B4 D_801D0624[];
 
 void func_8017F9B4(void *arg0) {
-    register void *s1 __asm__("$17") = arg0;
+    void *s1 = arg0;
     void *s0 = D_801D0620;
-    register s32 off1 __asm__("$3");
-    register s32 off2 __asm__("$4");
+    s32 off1;
+    s32 off2;
 
     func_8001CD9C(*(s32 *)((u8 *)s1 + 0x20), s0);
     func_800233CC(s0, 0x40);
 
     for (off1 = 0, off2 = 0; off1 < 0x30; off1 += 8, off2 += 4) {
         *(s16 *)((u8 *)aD_801D0660 + off2) = (s16)(*(u16 *)((u8 *)aD_801D0630 + off1)) >> 3;
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
         *(s16 *)((u8 *)aD_801D0662 + off2) = (s16)(*(u16 *)((u8 *)D_801D0632 + off1)) >> 3;
     }
 
@@ -2999,7 +2999,7 @@ void func_8017FE20(void *a0) {
 extern s32 func_80132EF4();
 
 void func_8017FE5C(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;
+    s32 s0 = (s32)a0;
     s32 obj;
 
     obj = func_80132EF4((void *)s0, 0x77);
@@ -3339,9 +3339,9 @@ extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
 
 void func_80180854(void)
 {
-    register s32 s0 __asm__("$16");
-    register s32 s1 __asm__("$17");
-    register s32 s2 __asm__("$18");
+    s32 s0;
+    s32 s1;
+    s32 s2;
     s32 v1;
 
     s1 = 0;
@@ -3625,9 +3625,9 @@ extern struct D_801D0660_s D_801D0660[];
 extern struct D_801D0660_s D_801D0662[];
 
 void func_80180ED0(s32 arg0) {
-    register s32 a3 __asm__("$7") = arg0;
-    register s32 i __asm__("$6");
-    register s32 a1 __asm__("$5");
+    s32 a3 = arg0;
+    s32 i;
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
 
     if (*(s32 *)(a3 + 0x1C) != 0) {
         (*(s32 *)(a3 + 0x1C))--;
@@ -3656,7 +3656,7 @@ extern void func_801292C8(u8 *a0);
 extern void func_8017FB38();
 
 void func_80180FA8(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;
+    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     void *ptr;
     s32 v0;
 
@@ -4358,10 +4358,10 @@ void func_80181BA8(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     volatile u16 *bidx;
     s32 t;
-    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */
+    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
 
     m = D_800AE620;
     mp = &m;
@@ -4412,7 +4412,7 @@ void func_80181BA8(s32 arg0)
     *(s16 *)(p + 0x1A) = by;
 
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-    bidx = (volatile u16 *)&D_800B9A02;
+    bidx = (u16 *)&D_800B9A02;
     pv = *(u32 *)p;
     *(u32 *)p = (pv & 0xFF000000) |
                 (*(u32 *)(*(s32 *)((u8 *)&D_800A651C +
@@ -4420,7 +4420,7 @@ void func_80181BA8(s32 arg0)
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
-    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */
+    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
 }
 
 
@@ -4840,8 +4840,8 @@ void func_8018234C(s32 a0) {
         void *svp = sv;
         void *outp = out;
         ApplyMatrixSV(m, svp, outp);
-        __asm__ __volatile__("" : "=r"(svp));
-        __asm__ __volatile__("" : "=r"(outp));
+        __asm__ __volatile__("" : "=r"(svp));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("" : "=r"(outp));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
     }
 
     *(s16 *)(q + 0x8) = x + ((s16)out[0] >> 1) * 3;
@@ -4862,7 +4862,7 @@ void func_8018234C(s32 a0) {
     *(s16 *)(sv + 0) = 2;
     {
         /* lever C: sp+0x10 IS &m, but spelled so cse cannot fold it to $s4 */
-        register u8 *spr __asm__("$29");
+        register u8 *spr __asm__("$29");  // !FAKE: pin $29 — NEEDED DIFFERS (P36 rung B tus10)
         ApplyMatrixSV(spr + 0x10, sv, out);
     }
 

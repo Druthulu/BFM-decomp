@@ -42,7 +42,7 @@ extern void func_800CB00C();
  * reproduces it exactly.
  */
 void func_800CAE88(s32 *arg0, s32 p1, s32 p2) {
-    register s32 v0in __asm__("$2");
+    s32 v0in;
     s32 flag1;
     s32 flag2;
     s32 temp;
@@ -1420,21 +1420,19 @@ extern Quad4_800CCB14 D_800CCB14;
 
 void func_800CC4E8(void *a0) {
     void *s1;
-    register s32 t __asm__("$2");
+    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
 
     s1 = *(void **)((u8 *)a0 + 0x20);
     func_80146E98((s32)a0);
     if (*(s32 *)((u8 *)a0 + 0x1c) < 8) {
         t = *(u16 *)((u8 *)a0 + 0x58) - 0x100;
         *(s16 *)((u8 *)a0 + 0x58) = t;
-        __asm__ __volatile__("");
         if ((t << 16) < 0) {
             *(s16 *)((u8 *)a0 + 0x58) = 0;
         }
 
         t = *(u16 *)((u8 *)a0 + 0x5a) - 0x100;
         *(s16 *)((u8 *)a0 + 0x5a) = t;
-        __asm__ __volatile__("");
         if ((t << 16) < 0) {
             *(s16 *)((u8 *)a0 + 0x5a) = 0;
         }
@@ -1451,7 +1449,7 @@ void func_800CC4E8(void *a0) {
     }
 
     {
-        register u16 x __asm__("$2") = (*(u16 *)((u8 *)s1 + 0x10) + 0x2d) & 0xfff;
+        register u16 x __asm__("$2") = (*(u16 *)((u8 *)s1 + 0x10) + 0x2d) & 0xfff;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
         u16 y = (*(u16 *)((u8 *)s1 + 0x12) + 0x16) & 0xfff;
         *(u16 *)((u8 *)s1 + 0x10) = x;
         *(u16 *)((u8 *)s1 + 0x12) = y;
@@ -1462,7 +1460,7 @@ void func_800CC4E8(void *a0) {
 
 void func_800CC5E4(void *a0) {
     void *a1;
-    register s32 v0 __asm__("$2");
+    s32 v0;
     s32 v1;
     s32 t;
 
@@ -1472,7 +1470,7 @@ void func_800CC5E4(void *a0) {
     *(u16 *)((u8 *)a0 + 0x60) = v0;
     v1 = *(u16 *)((u8 *)a1 + 0x1A) + v0;
     *(u16 *)((u8 *)a1 + 0x1A) = v1;
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
     t = *(s16 *)((u8 *)a1 + 0x1A);
     *(u16 *)((u8 *)a1 + 0x18) = v1;
     if (t >= 0xC01) {

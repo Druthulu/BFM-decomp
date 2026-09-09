@@ -2771,7 +2771,7 @@ extern void func_8017EDEC(s32 param_1);
 extern volatile s32 D_801C7E30;
 extern s32 D_801C7E34;
 extern s32 D_801C7E38;
-extern volatile s32 D_801C7E4C;
+extern s32 D_801C7E4C;
 extern s32 D_801C7E50;
 extern s32 D_801C7E58;
 extern s32 D_801C7E64;
@@ -3025,11 +3025,11 @@ extern u8 D_80192488[];
 extern u8 D_80192860[];
 extern void *D_801C39FC[];
 extern void *D_801C3A00[];
-extern volatile s32 D_801C7E30;
+extern s32 D_801C7E30;
 extern s32 D_801C7E64;
 
 void func_801814AC(s32 param_1) {
-    volatile s32 pad1;
+    s32 pad1;
     volatile s32 pad2;
     s32 var;
     u8 t;
@@ -3139,9 +3139,9 @@ void func_80181670(void *a0)
     s32 ret;
     s32 d;
     s32 e;
-    register s32 p __asm__("$8");
-    register s32 q __asm__("$2");
-    register s32 n __asm__("$6");
+    register s32 p __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 n __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
     s32 sc;
     s32 x;
     s32 y;
@@ -3174,7 +3174,7 @@ void func_80181670(void *a0)
         p = e * sc;
         q = p >> 12;
         n = q + 8;
-        __asm__ __volatile__("" : "=r"(n) : "0"(n));
+        __asm__ __volatile__("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         d = n * (D_80126950 + 0x1F4) / (ret * 4);
 
         x = o.sxy[0];

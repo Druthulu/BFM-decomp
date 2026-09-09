@@ -3364,9 +3364,9 @@ void func_8018CDEC(void) {
         s32 slot = i + 0x2F;
         s32 id = func_800291B4(slot) & 0xFF;
         if (id != 0) {
-            register s32 tmp __asm__("$2");
-            register s32 t __asm__("$5");
-            register s32 rb __asm__("$6");
+            register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+            s32 t;
+            register s32 rb __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
             s16 flags;
             s32 m;
             tmp = (id << 1) + id;
@@ -3383,12 +3383,11 @@ void func_8018CDEC(void) {
                     D_801E79D8.unk00 = 2;
                     return;
                 } else {
-                    register s32 sc __asm__("$4");
-                    register s32 d __asm__("$2");
+                    register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+                    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
                     sc = slot;
-                    __asm__("" : "=r"(sc) : "0"(sc));
+                    __asm__("" : "=r"(sc) : "0"(sc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
                     d = rb - 0x14;
-                    __asm__("" : "=r"(d) : "0"(d));
                     D_801E79D8.unk04 = (&D_801E3EA4)[d >> 1];
                     ((void (*)(s32))func_800D0F0C)(sc);
                     D_801E79D8.unk00 = 1;

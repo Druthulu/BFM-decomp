@@ -207,7 +207,7 @@ void func_800CB360(void *arg0) {
         func_80146A6C(3, arg0, *(s16 *)((s32)arg0 + 6), *(s16 *)((s32)arg0 + 0xA),
                       *(s16 *)((s32)arg0 + 0xE), 0, 0x1C00);
     } else {
-        register void *r16 __asm__("$16") = mat + 0x20;
+        void *r16 = mat + 0x20;
         u32 ret;
         s32 id;
         func_80013F3C(r16);

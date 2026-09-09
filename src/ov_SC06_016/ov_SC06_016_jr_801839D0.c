@@ -3355,10 +3355,10 @@ void func_80184174(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     volatile u16 *bidx;
     s32 t;
-    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */
+    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
 
     m = D_800AE620;
     mp = &m;
@@ -3409,7 +3409,7 @@ void func_80184174(s32 arg0)
     *(s16 *)(p + 0x1A) = by;
 
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-    bidx = (volatile u16 *)&D_800B9A02;
+    bidx = (u16 *)&D_800B9A02;
     pv = *(u32 *)p;
     *(u32 *)p = (pv & 0xFF000000) |
                 (*(u32 *)(*(s32 *)((u8 *)&D_800A651C +
@@ -3417,7 +3417,7 @@ void func_80184174(s32 arg0)
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
-    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */
+    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
 }
 
 
@@ -3837,8 +3837,8 @@ void func_80184918(s32 a0) {
         void *svp = sv;
         void *outp = out;
         ApplyMatrixSV(m, svp, outp);
-        __asm__ __volatile__("" : "=r"(svp));
-        __asm__ __volatile__("" : "=r"(outp));
+        __asm__ __volatile__("" : "=r"(svp));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("" : "=r"(outp));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
     }
 
     *(s16 *)(q + 0x8) = x + ((s16)out[0] >> 1) * 3;
@@ -3859,7 +3859,7 @@ void func_80184918(s32 a0) {
     *(s16 *)(sv + 0) = 2;
     {
         /* lever C: sp+0x10 IS &m, but spelled so cse cannot fold it to $s4 */
-        register u8 *spr __asm__("$29");
+        register u8 *spr __asm__("$29");  // !FAKE: pin $29 — NEEDED DIFFERS (P36 rung B tus10)
         ApplyMatrixSV(spr + 0x10, sv, out);
     }
 
@@ -3984,7 +3984,7 @@ void func_80184BFC(s16 *arg0)
     void *mp;
     u16 len;
     u32 otz;
-    register u32 qt __asm__("$4");   /* §17 pin — kills the birthing boost AND
+    register u32 qt __asm__("$4");   /* §17 pin — kills the birthing boost AND  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
                                         keeps the $a0/$a1 pair in target order */
 
     ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];

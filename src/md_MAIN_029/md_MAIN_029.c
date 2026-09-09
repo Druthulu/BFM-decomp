@@ -214,8 +214,8 @@ void func_800CB2AC(void *a0)
             m = D_800AE620;
             RotMatrixY(*(u32 *)(s1 + 0x30), &m);
             vec.x = 0;
-            vec.y = -*(volatile u32 *)(s1 + 0x2C);
-            t = *(volatile u32 *)(s1 + 0x2C);
+            vec.y = -*(u32 *)(s1 + 0x2C);
+            t = *(u32 *)(s1 + 0x2C);
             m.w[5] = D_80126B5E;
             m.w[6] = D_80126B62 - 0x1C;
             m.w[7] = D_80126B66;

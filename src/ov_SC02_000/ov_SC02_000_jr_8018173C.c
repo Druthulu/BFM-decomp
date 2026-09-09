@@ -3833,7 +3833,6 @@ void func_801839C4(void *a0) {
     bVar1 = *(u8 *)((s32)a0 + 0xA9);
     *(u16 *)((s32)a0 + 0xAC) = *(u16 *)((s32)a0 + 0xAC) & 0xFF40;
 
-    __asm__ __volatile__("" ::: "memory");
 
     switch (bVar1) {
     case 0x41:
@@ -4347,7 +4346,7 @@ void func_8018483C(s32 a0) {
        lived one lands in $v0 and the call-crossing one in $s0 = the extra move. */
     {
         u16 *pb = &D_800B99DC;
-        __asm__("" : "=r"(pb) : "0"(pb));
+        __asm__("" : "=r"(pb) : "0"(pb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         p = pb;
     }
     r = &D_8018F078;
@@ -4842,7 +4841,7 @@ void func_80185840(s32 param_1) {
         r = t + *(u16 *)(param_1 + 0xE2);
     }
     *(s16 *)(param_1 + 0xE0) = r;
-    __asm__ __volatile__("");   /* cookbook §194-A: zero-byte sched fence — emits the
+    __asm__ __volatile__("");   /* cookbook §194-A: zero-byte sched fence — emits the  // !FAKE: barrier — NEEDED COMPILE-ERROR (P36 rung B tus10)
                                  * sh first in the join block, ahead of li 0x27D7D */
     D_801E8750 += 0x27D7D;
     val = (u32)D_801E8750 >> 16;
@@ -4943,7 +4942,7 @@ void func_80185910(SVECTOR *a0, SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
         gte_ldv0(a3);
         gte_rtps();
         ((u8 *)p)[7] = 0x3A;
-        __asm__ volatile ("" : : : "memory");
+        __asm__ volatile ("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
         ((u8 *)p)[3] = 8;
         *(u32 *)(p + 0x08) = *(u32 *)&xy[0];
         *(u32 *)(p + 0x10) = *(u32 *)&xy[2];
@@ -5098,7 +5097,6 @@ void func_80185E00(void)
     uVar4 = 0x29;
     puVar2 = D_801202A0;
     iVar1 = 0;
-    __asm__ __volatile__("" : "=r"(uVar4) : "0"(uVar4));
     do {
         if ((*(unsigned short *)(D_801202A0 + iVar1) != 0) &&
             (*(unsigned short *)(D_801202A0 + iVar1) != uVar4)) {
@@ -5451,7 +5449,7 @@ extern void func_8012E8E0(s32 a0, s32 a1);
 
 void func_8018694C(void *a0)
 {
-    register void *s0 __asm__("$16") = a0;
+    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     s32 v0;
     s32 v1;
 
@@ -5778,10 +5776,10 @@ struct sprite8 {
 
 void func_80187480(s32 arg0)
 {
-    register s32 acc __asm__("$16");
-    register s32 i __asm__("$17");
-    register s32 s2 __asm__("$18");
-    register s32 s3 __asm__("$19");
+    s32 acc;
+    s32 i;
+    s32 s2;
+    s32 s3;
     struct sprite8 spr;
 
     acc = D_800B99DC;
@@ -5835,9 +5833,9 @@ struct sprite8 {
 
 void func_80187558(s32 arg0)
 {
-    register s32 i __asm__("$16");
-    register s32 s2 __asm__("$18");
-    register u16 s3 __asm__("$19");
+    s32 i;
+    s32 s2;
+    u16 s3;
     struct sprite8 spr;
     s32 t;
 
@@ -5879,9 +5877,9 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 
 void func_8018762C(s32 a0, s32 a1)
 {
-    register s32 i __asm__("$16");
-    register s32 s1 __asm__("$17");
-    register u16 s2 __asm__("$18");
+    s32 i;
+    s32 s1;
+    u16 s2;
     struct sprite8 spr;
     s32 t;
 
@@ -6012,7 +6010,7 @@ void func_80187988(s32 param_1) {
         val = nudge;
     } else {
         val = nudge;
-        __asm__ __volatile__("" : : "r"(val));
+        __asm__ __volatile__("" : : "r"(val));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
         val = -val;
     }
     *(s32 *)(param_1 + 0x10) = val;

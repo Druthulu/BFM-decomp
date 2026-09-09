@@ -58,8 +58,8 @@ extern s32 func_80146CA0(void *);
 extern void func_800CCE68();
 
 void func_800CCCA0(s32 param_1) {
-    register s32 p1 __asm__("$17"); /* $s1 */
-    register s32 iVar1 __asm__("$16"); /* $s0 */
+    register s32 p1 __asm__("$17"); /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 iVar1; /* $s0 */
 
     p1 = param_1;
     iVar1 = ((s32 (*)(void))func_8014659C)();
@@ -80,8 +80,8 @@ void func_800CCCA0(s32 param_1) {
 extern s32 func_800CCF30(void *a0);
 
 void func_800CCD2C(s32 param_1) {
-    register s32 p1 __asm__("$17");
-    register s32 s0 __asm__("$16");
+    register s32 p1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s0;
     s16 v0;
 
     p1 = param_1;
@@ -404,8 +404,8 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_80162FC0(s32 *a0);
 
 void func_800CD508(s32 param_1) {
-    register s32 obj __asm__("$17") = param_1;   /* $s1 */
-    register s32 bufp __asm__("$16");            /* $s0 */
+    register s32 obj __asm__("$17") = param_1;   /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 bufp;            /* $s0 */
     u8 dead[0x20];
     char buf[0x20];
     s32 ret;
@@ -541,7 +541,7 @@ s32 func_800CD894(void *a0) {
     u8 sp10[8];
     s32 sp18;
     s32 i;
-    register s32 tag __asm__("$2");
+    register s32 tag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     Ent_CD894 *base = (Ent_CD894 *)D_801202A0;
 
     __builtin_memcpy(sp10, (u8 *)a0 + 0x44, 8);
@@ -847,7 +847,7 @@ L_c3c:
 
 
 void func_800CE134(void) {
-    register s32 a0v __asm__("$4");
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     s32 param_1 = a0v;
 
     *(s32 *)(param_1 + 0x30) = *(s32 *)(param_1 + 0x1C) * 8;

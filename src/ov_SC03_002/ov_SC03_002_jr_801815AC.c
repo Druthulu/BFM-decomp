@@ -2960,7 +2960,7 @@ void func_801816F0(void *a0) {
         }
 
         {
-            register s32 t __asm__("$2");
+            register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
             t = *(s32 *)((char *)s0 + 0x68);
             *(short *)(t + 0xC) = 0x7FFF;
         }
@@ -3049,7 +3049,7 @@ extern void func_80172710(void);
 s32 aF80181990(void *a0) __asm__("func_80181990");
 
 s32 aF80181990(void *a0) {
-    register s32 obj __asm__("$16") = (s32)a0;
+    s32 obj = (s32)a0;
     s32 ptr;
     s32 ptr2;
     ptr = *(s32 *)((char *)obj + 0x64);

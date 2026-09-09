@@ -3037,9 +3037,9 @@ void func_8017D81C(void *a0)
     s32 v;
     s32 s1;
     u8 *p;
-    register s32 x asm("v1");
-    register s32 y asm("a1");
-    register s32 z asm("a0");
+    s32 x;
+    s32 y;
+    register s32 z asm("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B tus10)
 
     v = func_8012C1B8();
     *(s32 *)((s32)a0 + 0x20) = v;
@@ -3053,8 +3053,8 @@ void func_8017D81C(void *a0)
     x = -0x680;
     y = -0xE80;
     z = -0x350;
-    __asm__ __volatile__("" : "=r"(x) : "0"(x));
-    __asm__ __volatile__("" : "=r"(y), "=r"(z) : "0"(y), "1"(z));
+    __asm__ __volatile__("" : "=r"(x) : "0"(x));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__ __volatile__("" : "=r"(y), "=r"(z) : "0"(y), "1"(z));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B tus10)
     D_80192CF0 = 0x68;
     D_80192CF2 = 0xB;
     D_80192CF4 = 0x36A;
@@ -3351,8 +3351,8 @@ s32 func_8017DC10(s32 *a)
     s32 cull;
     s32 xa, xb, t;
     s32 mx, mn, my, mny;
-    register s32 idx __asm__("$4");
-    register u32 *otp __asm__("$4");
+    register s32 idx __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 *otp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     u32 w;
     u32 msk;
     u32 ot;
@@ -3392,7 +3392,7 @@ s32 func_8017DC10(s32 *a)
         v[0].vy = v[1].vy = z;
         v[2].vy = v[3].vy = *(u16 *)((s32)a + 0x8);
         func_8017E410(mode1, buf);
-        __asm__ __volatile__ ("" :: "r"((a[2] - z) * buf[5]));
+        __asm__ __volatile__ ("" :: "r"((a[2] - z) * buf[5]));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
 
         gte_ldv3c(&v[0]);
         gte_rtpt();
@@ -3495,7 +3495,6 @@ s32 func_8017DC10(s32 *a)
             idx = otz;
             if (a[8]) idx -= 0x40;
             msk = 0xFFFFFF;
-            __asm__ __volatile__ ("" :: "r"(msk));
             otp = (u32 *)(idx * 4 + ot);
             p->tag = (p->tag & 0xFF000000) | (*otp & msk);
             *otp = (*otp & 0xFF000000) | ((u32)p & msk);
@@ -3608,7 +3607,7 @@ typedef struct {
 s32 func_8017E608(s32 a0, s32 a1, s16 a2) {
     Vec4h_8017E608 p1;
     Vec4h_8017E608 p2;
-    register s32 p2addr __asm__("$17");
+    s32 p2addr;
 
     p2addr = (s32)&p2;
     p1.x = p2.x = *(u16 *)(a1 + 0x4);
@@ -3725,7 +3724,7 @@ extern void func_801292C8(u8 *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
 
 void func_8017E940(s32 a0) {
-    register s32 *s1 __asm__("$17");
+    s32 *s1;
     u8 *s0;
     s32 *p1, *p2, *p3, *p4, *p5;
 

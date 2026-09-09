@@ -201,8 +201,8 @@ extern u8 D_800CD66C;
 
 void func_800CD010(s32 param_1)
 {
-    register s32 p1 __asm__("$17");  /* $s1 */
-    register s32 iVar1 __asm__("$16");  /* $s0 */
+    register s32 p1 __asm__("$17");  /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 iVar1;  /* $s0 */
 
     p1 = param_1;
     iVar1 = ((s32 (*)(void))func_80146578)();
@@ -259,7 +259,7 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 extern void func_80162CCC(void);
 
 void func_800CD1A8(void) {
-    register void *a0r __asm__("$4");
+    register void *a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     void *arg0 = a0r;
 
     func_80146A6C(3, arg0,
