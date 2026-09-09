@@ -6,17 +6,17 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     extern s16 D_801152AC;
     extern s16 D_80126722;
     extern s16 D_80126724;
-    register s32 a1v __asm__("$11");
-    register s32 a2v __asm__("$12");
-    register s32 n __asm__("$5");
-    register s16 *b4 __asm__("$7");
+    s32 a1v;
+    register s32 a2v __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung A headers2)
+    s32 n;
+    s16 *b4;
     s32 d;
     s32 dx;
     s32 denom;
     s32 result;
     s32 frame_pad[2];
     (void)&frame_pad;
-    __asm__("" : "=r"(a1v) : "0"(arg1));
+    __asm__("" : "=r"(a1v) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
     a2v = arg2;
 
     if (!(arg1 & 1)) {
@@ -30,7 +30,7 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     }
     n = -d;
     {
-        register s16 *b8 __asm__("$6") = *(s16 **)&D_8017F060;
+        s16 *b8 = *(s16 **)&D_8017F060;
         u16 *ac = *(u16 **)&D_8017F054;
         b4 = D_8017F05C;
         b4[0] = ac[0] + n * b8[0] / denom;
@@ -51,13 +51,13 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     (*(s16 *)D_801152A8) = 0;
     if (a1v & 1) {
         D_8017F05C[2] = a2v + 2;
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung A headers2)
         D_801152AC = 0xFFF;
     } else {
         D_801152AC = -0xFFF;
         D_8017F05C[2] = a2v - 2;
     }
-    __asm__ __volatile__("" :: "r"(a1v), "r"(a2v));
+    __asm__ __volatile__("" :: "r"(a1v), "r"(a2v));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung A headers2)
     (*(s16 *)D_80126720) = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;
     D_80126722 = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
     result = 1;

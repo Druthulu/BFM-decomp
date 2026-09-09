@@ -12,7 +12,6 @@ void func_801815DC(void *arg0) {
     s0 = (s32)arg0;
     *(s16*)((char *)arg0 + 0x2) = 2;
     func_8012E88C((s32)arg0);
-    __asm__("" ::: "memory");
     func_8012A828((s32*)s0, (s32)&D_801B99A8);
     func_80184C90((s32)s0);
     *(s16*)((char *)arg0 + 0x34) = 0;

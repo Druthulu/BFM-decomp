@@ -4,7 +4,7 @@ void func_8016B4F8(int param_1)
 {
     int iVar1;
     int uVar2;
-    volatile int buf[2];
+    int buf[2];
 
     ((void (*)(int, void *))func_80015978)(param_1 + 4, &D_8018EC80);
     if (func_8016B9F8(param_1) == 0) {

@@ -266,7 +266,7 @@ void func_8017CDF0(s32 a0, s32 a1, s32 a2)
         /* §47 live-length slider: +1 static insn inside the loop-bound
            pseudo's range only (past the tri-base's last use) — splits the
            $fp contest toward &tri[0] so the bound spills, as the target does */
-        __asm__ volatile ("");
+        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers2)
     }
     D_800A5E60 = pkt;
 }

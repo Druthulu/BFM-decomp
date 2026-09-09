@@ -11,9 +11,9 @@ void func_8016B234(s32 param_1) {
     u32 uVar1;
     s16 iVar2;
     s32 X, Y0, Y1, base, ni;
-    register s32 sy __asm__("$16");
-    register s16 xtmp __asm__("$4");
-    register s32 sxy __asm__("$3");
+    register s32 sy __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A headers2)
+    s16 xtmp;
+    register s32 sxy __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers2)
 
     dp = &D_800AF648;
     func_8004914C(dp);
@@ -36,7 +36,6 @@ void func_8016B234(s32 param_1) {
         prim.v2 = prim.v3 = 0x1d8;
         sxy = sy + sxy;
         prim.cy = prim.dy = sxy;
-        __asm__ __volatile__("" : : "r"(sy));
         prim.r = prim.g = prim.b = *(u8 *)(param_1 + 0x24);
         prim.code = (&D_80181C28)[*(s32 *)(param_1 + 0x2c)];
         if (*(s16 *)(param_1 + 0x26) < 5) {
@@ -54,7 +53,6 @@ void func_8016B234(s32 param_1) {
                 func_80016ED4(&prim);
                 uVar1 = (s32)(uVar1 << 0x10) >> 0x14;
                 iVar2 = iVar2 + 1;
-                __asm__ __volatile__("");
                 xtmp = prim.ax;
                 prim.cx = prim.ax = xtmp - 8;
                 prim.bx = prim.dx = xtmp;

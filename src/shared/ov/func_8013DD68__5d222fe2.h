@@ -11,9 +11,9 @@ void func_8013DD68() {
     u16 *puVar16;
     u16 *q;
     u16 *puVar10;
-    register u16 uVar2 __asm__("$3");
+    register u16 uVar2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers2)
     int uVar5;
-    register int iVar14 __asm__("$7");
+    register int iVar14 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung A headers2)
     Buf_8013DD68 buf;
     u8 *pbase;
     u8 *base;
@@ -32,7 +32,7 @@ void func_8013DD68() {
     p = p + 0x10;
     iVar14 = 0;
     if (uVar1 != 0) {
-        register int c5 __asm__("$11") = 5;
+        int c5 = 5;
         puVar10 = (u16 *)((int)p + 0x18);
         q = puVar16 + 8;
         do {

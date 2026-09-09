@@ -27,10 +27,10 @@ void func_80176734(s32 param_1)
     extern void func_801775E0(s32 param_1, s32 param_2);
 
     s32 st, cach, flag, cur;
-    register s32 chg  __asm__("$21");        /* L7 */
-    register s32 chg2 __asm__("$16");        /* L7 */
+    s32 chg;        /* L7 */
+    register s32 chg2 __asm__("$16");        /* L7 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A headers2)
     s32 amp;                                 /* $s0, disjoint from chg2 */
-    register u16 tgt __asm__("$5");          /* L7 */
+    register u16 tgt __asm__("$5");          /* L7 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung A headers2)
     s32 pv;                                  /* L6: the param copy that owns $s6 */
     s32 ix;                                  /* L6: block A's index, hoisted out of the block */
     u8  dum[8];                              /* L5: dead frame slot (target .frame vars=8) */
@@ -44,7 +44,7 @@ void func_80176734(s32 param_1)
 
     /* ---- block A: pulse byte ---- */
     {
-        register s32 p __asm__("$5");        /* L7 */
+        register s32 p __asm__("$5");        /* L7 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung A headers2)
         u8 *q;
         p = *(s32 *)(ix + 0x28);
         q = (u8 *)(p + 0x3C);                /* L2: must live in the entry BB */
@@ -64,7 +64,7 @@ void func_80176734(s32 param_1)
 
     /* ---- block B: 0x48 animation already running ---- */
     if (*(u8 *)(flag + 0x48) != 0) {
-        register s32 pp __asm__("$5");       /* L7 */
+        register s32 pp __asm__("$5");       /* L7 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung A headers2)
         pp = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
         *(u8 *)(pp + 0xD) = D_80182280[*(u8 *)(flag + 0x48)];
         if (*(u8 *)(flag + 0x48) < 4) {
@@ -95,7 +95,7 @@ void func_80176734(s32 param_1)
         }
     /* ---- block C: 0x48 changed -> start the animation ---- */
     } else if (*(u8 *)(cach + 0x48) != *(u8 *)(cur + 0x48)) {
-        register s32 pp __asm__("$5");       /* L7 */
+        register s32 pp __asm__("$5");       /* L7 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung A headers2)
         u8 k;                                /* L1: gives the `andi $v1,$v1,0xFF` index mask */
         if (*(u8 *)(cach + 0x48) == 0 && *(u8 *)(cur + 0x48) != 0)
             *(u8 *)(flag + 0x48) = 5;
@@ -145,7 +145,7 @@ L9C0:
     {
         u8 m = D_800B9A13;                   /* L1 */
         if (m != 3) {                        /* inverted: `chg = 0` belongs out of line */
-            register s32 t __asm__("$2");    /* L3a: pin + 2 uses keeps `chg = t` alive */
+            register s32 t __asm__("$2");    /* L3a: pin + 2 uses keeps `chg = t` alive */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers2)
             t = (*(u8 *)(st + 7) != m);
             chg = t;
             if (t != 0) *(u8 *)(st + 7) = m;
@@ -175,7 +175,7 @@ L9C0:
     {
         s32 av;
         av = amp;
-        __asm__("" : "=r"(av) : "0"(av));    /* L3b: keeps the `move $v0,$s0` at the merge */
+        __asm__("" : "=r"(av) : "0"(av));    /* L3b: keeps the `move $v0,$s0` at the merge */  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
         if (av != 0) {
             *(u8 *)(flag + 0x47) = 1;
             *(u8 *)(cach + 0x4B) = *(u8 *)(cur + 0x48) | 0xF0;
@@ -191,11 +191,11 @@ L9C0:
     tgt = *(u16 *)&D_80126CE0;
     if (D_80126CE0 != 0) {
         u16 v;                               /* dies at the mask -> destructive `andi $v1,$v1` */
-        register s32 t __asm__("$2");
+        register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers2)
         v = tgt;
         *(u8 *)(cach + 0x4B) = v;
         t = (*(u8 *)(cach + 0x47) != (v & 0xFF));
-        __asm__("" : "=r"(t) : "0"(t));      /* L3b */
+        __asm__("" : "=r"(t) : "0"(t));      /* L3b */  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
         chg2 = t;
     } else {
         u32 cv = *(u8 *)(cach + 0x47);       /* L8: one load, two compares, no re-mask */
@@ -211,12 +211,12 @@ L9C0:
     /* ---- block J: nothing-changed fast path.  The target re-tests chg after the flag load;
        the fence below is what stops cse from folding that second test away. ---- */
     {
-    register s32 c __asm__("$3");
+    register s32 c __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers2)
     c = chg;
     if (chg2 != 0) goto Lbig;
     if (c != 0) goto Lbig;
     if (*(u8 *)(flag + 0x47) == 0) goto Ltail;
-    __asm__("" : "=r"(c) : "0"(c));          /* L3b */
+    __asm__("" : "=r"(c) : "0"(c));          /* L3b */  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
     if (c == 0) goto Lzero;
     }
 Lbig:

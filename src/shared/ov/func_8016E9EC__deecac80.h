@@ -6,7 +6,7 @@ void func_8016E9EC(u8 *p)
     extern u8 *D_80181E60[];
     extern u8 D_80181E78[];
     extern u16 D_80181E7C[];
-    register u32 zr __asm__("$0");
+    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B headers2)
     int i;
     int c;
     u8 *buf;

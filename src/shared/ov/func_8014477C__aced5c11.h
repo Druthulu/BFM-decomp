@@ -3,8 +3,8 @@
 void func_8014477C(void *param_1) {
     s32 v0;
     s32 v1;
-    register s32 uVar2 __asm__("$2");
-    register s32 addr __asm__("$3");
+    s32 uVar2;
+    s32 addr;
     s32 gv;
     s32 fv;
 

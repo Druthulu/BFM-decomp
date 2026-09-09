@@ -4,10 +4,10 @@ s32 func_80148E54(s32 arg0) {
 
     extern s32 D_801151D4;
     extern s16 (*D_8018063C[])();
-    register s32 tmp __asm__("$4") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),
+    register s32 tmp __asm__("$4") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers2)
                                              *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
     s32 ang;
-    __asm__("" : "=r"(tmp) : "0"(tmp));
+    __asm__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers2)
     ang = tmp;
 
     switch (*(u8 *)(arg0 + 0xA9)) {

@@ -21,7 +21,7 @@ void func_8013D178(void) {
     extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
     extern unsigned char D_8018FA70, D_8018FA71, D_8018FA72, D_8018FA73, D_8018FA74, D_8018FA75, D_8018FA76, D_8018FA77, D_8018FA78;
     unsigned char v, t;
-    register unsigned char *p __asm__("$5");
+    register unsigned char *p __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers2)
 
     p = &D_8018F9D0; v = *p; t = D_8018FA70;
     if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }

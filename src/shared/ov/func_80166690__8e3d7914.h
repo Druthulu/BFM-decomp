@@ -19,7 +19,7 @@ s32 func_80166690(s32 param_1, s32 param_2)
     unsigned int w9, w7, w, t, w3b;
     int w3;
     short sVar10;
-    register unsigned int zr __asm__("$0");
+    register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung A headers2)
 
     blk = D_800AE620;
     i6 = (short)param_1;
@@ -105,7 +105,6 @@ s32 func_80166690(s32 param_1, s32 param_2)
                 c.c32 = t; c.c22 = t; c.c31 = t; c.c21 = t;
             }
 
-            __asm__ __volatile__("" :: "r"(iVar3));
             func_80017758(&c, &blk);
             w3b = iVar3 - 1;
             iVar3 = w3b + zr;

@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80130D48(s32 arg0)
 {
-    register s16 *tbl __asm__("$16");
-    register s32 pa __asm__("$18") = arg0;
-    register u8 *p  __asm__("$19") = D_80078E78;
+    s16 *tbl;
+    s32 pa = arg0;
+    register u8 *p  __asm__("$19") = D_80078E78;  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung A headers2)
     s32 s1v;
     s32 call_a0;
     s32 call_a1;
@@ -44,7 +44,7 @@ void func_80130D48(s32 arg0)
         } else if ((a >> 1) >= b) {
             s1v += 6;
         }
-        { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8017EED4; tbl = (s16 *)(bp + v1); }
+        { register s32 v1 __asm__("$3"); s8 *bp; v1 = s1v * 2; bp = (s8 *)D_8017EED4; tbl = (s16 *)(bp + v1); }  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers2)
 
         r = rand() % 100;
         cnt = 0;
@@ -75,7 +75,7 @@ void func_80130D48(s32 arg0)
                     }
                 }
             }
-            { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8017EF3C; tbl = (s16 *)(bp + v1); }
+            { register s32 v1 __asm__("$3"); s8 *bp; v1 = s1v * 2; bp = (s8 *)D_8017EF3C; tbl = (s16 *)(bp + v1); }  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers2)
             s1v = 0x32;
             break;
         }
@@ -91,7 +91,7 @@ void func_80130D48(s32 arg0)
                     }
                 }
             }
-            { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8017EF5C; tbl = (s16 *)(bp + v1); }
+            { register s32 v1 __asm__("$3"); s8 *bp; v1 = s1v * 2; bp = (s8 *)D_8017EF5C; tbl = (s16 *)(bp + v1); }  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers2)
             s1v = 0x33;
             break;
         }

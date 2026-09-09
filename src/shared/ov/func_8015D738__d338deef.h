@@ -13,7 +13,7 @@ void func_8015D738(void *arg0) {
     if (s1 != 0) {
         if (*(u16 *)s1 == 0x360) goto block_808;
     }
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers2)
     if (s1 != 0) {
         if (*(u16 *)s1 != 0) goto block_7F4;
     }

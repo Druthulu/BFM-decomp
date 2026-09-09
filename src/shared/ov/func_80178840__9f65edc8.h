@@ -4,8 +4,8 @@ void func_80178840(int param_1) {
 
     extern int D_80182308;
     extern int D_80182314[];
-    register int p __asm__("$16");
-    register int s1byte __asm__("$17");
+    register int p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A headers2)
+    int s1byte;
     p = param_1;
     if ((*(unsigned short *)(p + 0x5c) & 1) != 0) {
         s1byte = *(unsigned char *)(p + 0x5e);

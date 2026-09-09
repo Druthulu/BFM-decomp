@@ -8,7 +8,7 @@ void func_80168828()
     extern u16 D_80181AA8[];
 
 
-    register s32 a0v __asm__("$4");
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers2)
     s32 param_1 = a0v;
     Thing_80168828_80168828 thing;
     s16 matA[16];
@@ -16,7 +16,7 @@ void func_80168828()
     s16 svec[4];
     u16 *p;
     short i;
-    register s32 c40 __asm__("$3");   /* $v1: hold the CSE'd 0x40 (else gcc folds to $v0 immediate) */
+    register s32 c40 __asm__("$3");   /* $v1: hold the CSE'd 0x40 (else gcc folds to $v0 immediate) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers2)
 
     c40 = 0x40;
     thing.f04 = 2;

@@ -3,8 +3,8 @@
 void func_8017BEF8(param_1)
 s32 param_1;
 {
-    register s32 s0 __asm__("$16");
-    register s32 s1 __asm__("$17");
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
+    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers2)
     extern u8 D_80182C64[];
     s32 v0;
 

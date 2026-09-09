@@ -3,8 +3,8 @@
 void func_80143D28(s32 param_1) {
 
     extern MatEntry D_80180BD4[];
-    register s32 iVar3 __asm__("$18") = *(s32 *)(param_1 + 0x20); /* $s2 */
-    register s32 iVar2 __asm__("$17") = *(s32 *)(param_1 + 0x64); /* $s1 */
+    register s32 iVar3 __asm__("$18") = *(s32 *)(param_1 + 0x20); /* $s2 */  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung A headers2)
+    s32 iVar2 = *(s32 *)(param_1 + 0x64); /* $s1 */
     MatEntry *p = &D_80180BD4[*(s16 *)(param_1 + 0x70)];
     s32 sVar4;
     s32 iVar1;

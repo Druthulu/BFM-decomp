@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8017BC38(int param_1)
 {
-    register int i __asm__("$17");
-    register void (**p)(int) __asm__("$16");
+    int i;
+    void (**p)(int);
 
     i = 0;
     p = D_8018F95C;

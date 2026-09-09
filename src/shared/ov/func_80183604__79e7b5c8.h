@@ -4,7 +4,7 @@ extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
 s32 func_80183604(s32 param_1) {
-    register s32 obj __asm__("$16") = param_1;
+    register s32 obj __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
     s32 ptr;
     s32 ptr2;
     s32 result;

@@ -45,9 +45,9 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
             idx = D_801BB920[(s16)param_2];
             off = idx * 4;                                   /* [2] */
             lim = D_801BB948[idx][0];                        /* [3] */
-            __asm__ __volatile__("");                        /* [4] */
+            __asm__ __volatile__("");                        /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers2)
             e = (s16 *)D_801BB948;
-            __asm__("" : "=r"(e) : "0"(e));                  /* [5] */
+            __asm__("" : "=r"(e) : "0"(e));                  /* [5] */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers2)
             if (t < lim) {
                 if (*(s16 *)((u8 *)e + off + 2) == 0 ||
                     (func_80029178(*(s16 *)((u8 *)e + off + 2)) & 0xFF) == 0) {

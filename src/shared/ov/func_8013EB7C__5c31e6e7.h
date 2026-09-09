@@ -3,7 +3,7 @@
 void func_8013EB7C(void) {
     s32 sp10[2];
     short sVar1;
-    register short sVar2 __asm__("$2");
+    register short sVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers2)
     s32 a0v;
     s32 iVar4;
 

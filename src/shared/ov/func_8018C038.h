@@ -4,7 +4,7 @@ extern s32 func_80184BAC(s32 arg0, s32 arg1);
 extern void func_80184CB8(s32 *a0, s32 a1);
 extern short D_801E05C4;
 void func_8018C038(s32 *arg0) {
-    register s32 *s0 asm("$16") = arg0;
+    s32 *s0 = arg0;
     s32 v0, v1;
     *(s32 *)((u8 *)(*(s32 **)((u8 *)s0 + 0xCC)) + 0xB0) = 2;
     v0 = func_80184BAC(6, 0x12);

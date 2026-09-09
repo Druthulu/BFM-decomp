@@ -10,7 +10,7 @@ s32 func_80180D38(void *a0)
     void *p;
     u16 st;
     if (func_8012BD14(*(s32 *)((s32)a0 + 0x64)) > 0x4000) {
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers2)
         return 0;
     }
     p = *(void **)((s32)a0 + 0x64);

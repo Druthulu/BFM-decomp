@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80140608(s32 a0) {
     s16 t;
-    register s32 iVar2 __asm__("$2");
-    register s32 zr __asm__("$0");
+    s32 iVar2;
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung A headers2)
     s32 uVar3;
     u32 uVar4;
     s32 uVar5 = 1;

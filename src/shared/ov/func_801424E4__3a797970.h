@@ -5,7 +5,7 @@ void func_801424E4(short *param_1) {
     extern void (*D_8018069C[])(void);
     short sVar1;
     int iVar2;
-    register unsigned short t __asm__("$3");
+    unsigned short t;
 
     (*D_8018069C[(unsigned short)param_1[1]])();
     if (*(unsigned short *)param_1 != 0) {
@@ -24,8 +24,8 @@ void func_801424E4(short *param_1) {
             iVar2 = *(int *)(param_1 + 0x32);
             if ((iVar2 != 0) && (*(short *)(iVar2 + 0x36) == param_1[0x7f])) {
                 *(int *)(param_1 + 2) = *(int *)(iVar2 + 4);
-                a = *(unsigned short *)(*(volatile int *)(param_1 + 0x32) + 10);
-                __asm__ __volatile__("" : : "r"(a));
+                a = *(unsigned short *)(*(int *)(param_1 + 0x32) + 10);
+                __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung A headers2)
                 t = (unsigned short)param_1[0x7e];
                 sVar1 = a + t;
                 iVar2 = *(volatile int *)(param_1 + 0x32);

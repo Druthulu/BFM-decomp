@@ -8,7 +8,7 @@ extern void func_8012A828(s32 a0, void *a1);
 extern s32 D_801DF700;
 extern s32 D_8018EFDC;
 void func_801860E4(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;
+    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
     s32 s1;
     s32 v0;
     v0 = ((s32 (*)(void))func_8012C1B8)();

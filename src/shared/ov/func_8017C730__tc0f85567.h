@@ -133,7 +133,7 @@ void func_8017C730(s32 arg0)
             if (mxc < xmx2) mxc = xmx2;
             if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
                 t32 = mid;
-                if (!(hhi < t32)) { mnc = hmid; __asm__ volatile ("" : : "r" (mnc)); }
+                if (!(hhi < t32)) { mnc = hmid; __asm__ volatile ("" : : "r" (mnc)); }  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers2)
                 prim = (Prim *)part->prim;
                 nprim = part->nprim;
                 for (i = 0; i < nprim; i++, prim++) {

@@ -17,7 +17,7 @@ void func_8018512C(s32 p) {
     s32 a0;
     {
         s32 q;
-        register s32 q2 __asm__("$3");
+        s32 q2;
         if (D_801E873C == 0) {
             q = *(s32 *)(p + 0x20);
             *(s16 *)(q + 0x12) = *(u16 *)(q + 0x12) + D_801E874C;
@@ -32,10 +32,10 @@ void func_8018512C(s32 p) {
         *(s16 *)(p + 0xDE) = a0;
     }
     {
-        register s32 idx __asm__("$4");
-        register s32 t __asm__("$2");
+        s32 idx;
+        s32 t;
         s32 q;
-        register s32 raw __asm__("$2");
+        s32 raw;
         raw = D_800B99D8;
         idx = raw & 0xF;
         t = (idx >= 0x10) ? (0x1F - idx) : idx;
@@ -49,7 +49,7 @@ void func_8018512C(s32 p) {
     }
     {
         s32 q;
-        register s32 q2 __asm__("$3");
+        s32 q2;
         if (D_801E873C == 0) {
             q = *(s32 *)(p + 0x20);
             *(s16 *)(q + 0x12) = *(u16 *)(q + 0x12) + D_801E874C;

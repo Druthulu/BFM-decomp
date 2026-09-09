@@ -7,8 +7,8 @@ extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern void func_8012ADE4(u8 *a0);
 s32 func_8017E404(s32 param_1, s32 param_2)
 {
-    register s32 p1 __asm__("$16") = param_1;
-    register s32 p2 __asm__("$17") = param_2;
+    s32 p1 = param_1;
+    s32 p2 = param_2;
     SVEC in;
     SVEC out;
     SVEC buf;
@@ -17,7 +17,6 @@ s32 func_8017E404(s32 param_1, s32 param_2)
     u16 px, pz;
     s32 a0v;
     a0v = p1 + 4;
-    __asm__ __volatile__("" : : "r"(p2), "r"(a0v));
     if (((s32 (*)(s32, s32))func_8012BC60)(a0v, p2 + 4) >= 0x1000) {
         return 0;
     }

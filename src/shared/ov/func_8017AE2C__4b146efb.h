@@ -1,8 +1,8 @@
 /* func_8017AE2C — shared body (overlay slot 0x80128158, h_exact 4b146efb). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8017AE2C(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
-    register s16 *g __asm__("$17") = &D_8018FA80;
+    s32 pv = param_1;
+    s16 *g = &D_8018FA80;
 
     switch (g[0]) {
     case 0:

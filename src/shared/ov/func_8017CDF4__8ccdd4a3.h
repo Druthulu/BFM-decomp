@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8017CDF4(int a0) {
     int v0 = *(int *)(a0 + 0x1C);
-    register unsigned char *p __asm__("$5") = *(unsigned char **)(a0 + 0x20);
+    register unsigned char *p __asm__("$5") = *(unsigned char **)(a0 + 0x20);  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers2)
     *(int *)(a0 + 0x1C) = v0 + 1;
     if (v0 >= 0x1F) {
         func_80146C3C();

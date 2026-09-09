@@ -15,7 +15,7 @@ extern u8 D_8018EDC8[];
 extern u8 D_8018EA48[];
 extern s32 D_801E8770;
 void func_80183814(void *a0_) {
-    register void *a0 __asm__("$17") = a0_;
+    void *a0 = a0_;
     s16 state;
     s16 v;
     state = *(s16 *)((s32)a0 + 0xE);

@@ -5,7 +5,7 @@ void func_80150B28(int param_1) {
     extern s32 D_800AE6B0;
     extern void (*D_80180740[])(void);
     u32 idx;
-    register u32 sub __asm__("$2");
+    u32 sub;
 
     if ((D_800AE6B0 & 0x80FFFFFF) == 0) {
         idx = *(u16 *)(param_1 + 0x16C);

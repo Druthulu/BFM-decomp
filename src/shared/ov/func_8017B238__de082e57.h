@@ -13,8 +13,8 @@ s32 func_8017B238(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers2)
         *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
         *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
     } else {

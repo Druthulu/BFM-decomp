@@ -9,8 +9,8 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     struct Fr_80167AE0 fr;
     u8 *p;
     s32 i;
-    register s32 t __asm__("$2");
-    register s32 zr __asm__("$0");
+    s32 t;
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung A headers2)
     s32 flags;
 
     func_80168070(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);

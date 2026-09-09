@@ -14,7 +14,7 @@ void func_80163EC8(s32 param_1) {
     s32 psVar6;
     s32 iVar8;
     s32 iVar7;
-    register s32 uVar5 __asm__("$2");   /* PIN (flagged): uVar5 -> $v0 */
+    register s32 uVar5 __asm__("$2");   /* PIN (flagged): uVar5 -> $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers2)
     u16 uVar4;
     u8 uVar3;
 

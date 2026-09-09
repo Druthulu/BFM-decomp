@@ -21,14 +21,14 @@ s16 n;
   Prim4 *p;
   s16 t;
   s32 c3;
-register u16 *a __asm__("$20");
-register u16 *b __asm__("$21");
-register u16 *c __asm__("$23");
-register u16 *e __asm__("$22");
-register u16 *pb __asm__("$10");
-register u32 m24 __asm__("$8");
-register u32 mhi __asm__("$9");
-register s32 eight __asm__("$2");
+u16 *a;
+u16 *b;
+u16 *c;
+u16 *e;
+u16 *pb;
+u32 m24;
+u32 mhi;
+register s32 eight __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers2)
   if (i < n)
   {
     c3 = 3;
@@ -108,7 +108,7 @@ register s32 eight __asm__("$2");
               y = (*e) + 3;
             }
             *((s16 *) (q - 10)) = y;
-__asm__("" ::: "memory");
+__asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung A headers2)
             *((u32 *) ot) = 0x4000000;
             q[-8] = 0x78;
             *((u32 *) (q - 0x10)) = 0x64808080;
@@ -119,13 +119,13 @@ __asm__("" ::: "memory");
             *((s16 *) (q - 4)) = eight;
             *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
             {
-register u32 *op __asm__("$4");
+register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A headers2)
               op = D_800AE7BC[*pb].ot;
               op[2] = (op[2] & mhi) | (((u32) ot) & m24);
             }
             q += 0x14;
             ot += 5;
-            __asm__ volatile("" :: "r"(j));   /* [L2] zero code, +1 ref on j */
+            __asm__ volatile("" :: "r"(j));   /* [L2] zero code, +1 ref on j */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung A headers2)
           }
 
         }

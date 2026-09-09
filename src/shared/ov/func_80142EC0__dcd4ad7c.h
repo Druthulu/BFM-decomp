@@ -3,8 +3,8 @@
 void func_80142EC0(s32 param_1) {
 
     extern s32 D_801800E8[];
-    register s32 d   __asm__("$16") = param_1;   /* $s0 */
-    register s32 obj __asm__("$17");             /* $s1 */
+    register s32 d   __asm__("$16") = param_1;   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
+    register s32 obj __asm__("$17");             /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers2)
     s32 ret;
     s16 sVar2;
 

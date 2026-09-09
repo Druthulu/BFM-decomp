@@ -7,8 +7,8 @@ s32 func_80148D44(void) {
     extern u16 D_80126C02;
     extern u16 D_80126C06;
     extern s32 D_80180DB0[];
-    register s32 ang __asm__("$16");
-    register s32 a __asm__("$4");
+    s32 ang;
+    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A headers2)
     s32 p;
     s32 res;
     s32 d;
@@ -17,7 +17,7 @@ s32 func_80148D44(void) {
     a = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
                   *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3c)) - 0x400) & 0xFFF;
     d = (s32)D_80126C01;
-    __asm__ __volatile__("" : : "r"(a));
+    __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung A headers2)
     ang = a;
     if (d == 0x53) {
         goto final;
@@ -40,7 +40,6 @@ final:
         if (((e & 0xff) == 0x80) && ((e >> 8) == (e & 0xff))) {
             return -1;
         }
-        __asm__ __volatile__("" : : : "memory");
         res = (ang + ratan2((D_80126C06 & 0xff) - 0x80, 0x80 - (D_80126C06 >> 8))) & 0xFFF;
     }
     return res;

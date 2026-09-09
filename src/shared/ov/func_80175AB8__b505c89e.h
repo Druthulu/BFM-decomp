@@ -34,19 +34,19 @@ void func_80175AB8(param_1)
     u8 *arr;
     u32 *slot;
     u32 *p;
-    register u32 *a0v __asm__("$4");
+    register u32 *a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers2)
     u32 uv;
     s32 k;
     s16 q;
     s32 r1;
     s32 a2v;
-    register s32 sum __asm__("$5");
+    register s32 sum __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers2)
     s32 r2;
     s32 idx;
     s16 sv;
 
     p = (u32 *)(D_800AF638[param_1].g0 + D_800AF634[param_1].g0 * 4);
-    __asm__("" : "=r"(base) : "0"(&D_8011F7F0));               /* L1 */
+    __asm__("" : "=r"(base) : "0"(&D_8011F7F0));               /* L1 */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers2)
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
     *(volatile u32 *)&slot[6] = (u32)p;                        /* L2 */
@@ -75,7 +75,7 @@ void func_80175AB8(param_1)
             (s16)(*(u16 *)(base - 0x32) + 0x65));
     idx = D_8011F83A & 0x7F;
     D_8011F83A = idx;
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers2)
     ((void (*)(s32, u8 *))func_80024054)(((s32 *)D_80182998)[idx], local);
     p = func_80178298(p, local,
                       (s16)(*(u16 *)(base - 0x34) + 0x39),

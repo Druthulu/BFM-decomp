@@ -11,7 +11,7 @@ s32 func_80139BE0(int param_1)
         int h = *(unsigned short *)(param_1 + 0x18);
         unsigned int idx;
 
-        __asm__("" : "=r"(t) : "0"(t));
+        __asm__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers2)
         idx = (unsigned char)t;
         if (h < 7) {
             if (h >= 2) {

@@ -11,8 +11,8 @@ void func_80156044(int param_1, int param_2) {
     extern u8 D_801812B4;
     extern u8 D_80181138;
 
-    register s32 puVar2 __asm__("$2");
-    register s32 iVar3 __asm__("$3");
+    register s32 puVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers2)
+    register s32 iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers2)
     u8 *puVar4;
     s32 uVar1;
 

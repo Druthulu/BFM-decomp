@@ -4,10 +4,10 @@ void func_8013D8FC(void)
 {
 
     extern s16 *D_8018E774;
-    register s16 *psVar3 __asm__("$17");
-    register s16 *psVar2 __asm__("$16");
-    register s32 c9 __asm__("$19");
-    register s32 cff __asm__("$18");
+    s16 *psVar3;
+    register s16 *psVar2 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A headers2)
+    s32 c9;
+    s32 cff;
     u16 sVar1;
     s16 buf[4];
 

@@ -1,0 +1,5 @@
+delever_oracle --calibrate main ov_SC03_014 ov_SC03_015 ov_SC04_011: 177/177 objects byte-identical untouched; twin checks 32 (0 mismatch); positive control DIFFERS on build/src/800.o; 3.1 s — OK
+   main           85/85 identical, mean 0.108 s per object
+   ov_SC03_014    32/32 identical, mean 0.198 s per object
+   ov_SC03_015    32/32 identical, mean 0.181 s per object
+   ov_SC04_011    28/28 identical, mean 0.193 s per object

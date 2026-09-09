@@ -8,10 +8,10 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     extern s32 D_8011D030;
     extern unsigned char D_8018E9E0[];
 
-    register int p2 __asm__("$20");             /* $s4 */
-    register int p3 __asm__("$17");             /* $s1 */
-    register int t2 __asm__("$5");              /* a1 */
-    register int t3 __asm__("$6");              /* a2 */
+    register int p2 __asm__("$20");             /* $s4 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers2)
+    int p3;             /* $s1 */
+    register int t2 __asm__("$5");              /* a1 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers2)
+    int t3;              /* a2 */
     unsigned short *puVar1;
     short iVar2;
     int eq;

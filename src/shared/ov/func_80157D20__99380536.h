@@ -4,8 +4,8 @@ void func_80157D20(void)
 {
 
     extern u16 D_801815B4[];
-    register void *a0v __asm__("$4");
-    register s32 a1v __asm__("$5");
+    register void *a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers2)
+    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers2)
     void *param_1 = a0v;
     s32 param_2 = a1v;
 

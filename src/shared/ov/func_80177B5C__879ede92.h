@@ -9,19 +9,19 @@ s32 y;
 {
 
     extern u8 D_801822A8[];
-register u32 bb __asm__("$14");
+u32 bb;
   u32 *q;
-register u32 v __asm__("$25");
-register u32 cl __asm__("$3");
-register u32 cs __asm__("$5");
-register u32 ca __asm__("$8");
+u32 v;
+register u32 cl __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers2)
+register u32 cs __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung A headers2)
+u32 ca;
   s16 i;
   u32 mk1;
   u32 cc1;
   u32 flag;
-register u32 nn __asm__("$2");
+register u32 nn __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers2)
   u32 n;
-register u32 t __asm__("$13");
+u32 t;
   u32 col;
   u32 uv;
   u32 tt;
@@ -32,18 +32,18 @@ register u32 t __asm__("$13");
   u32 g;
   u32 gg;
   u32 w3;
-register u32 yr __asm__("$16");
-register u32 yt __asm__("$4");
-register u32 tr __asm__("$21");
-register u32 xr __asm__("$17");
-register u32 c3 __asm__("$18");
-register s32 ff __asm__("$19");
-register s32 two __asm__("$20");
+register u32 yr __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A headers2)
+register u32 yt __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A headers2)
+register u32 tr __asm__("$21");  // !FAKE: pin $21 — NEEDED DIFFERS (P36 rung A headers2)
+register u32 xr __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung A headers2)
+u32 c3;
+s32 ff;
+s32 two;
   yt = y;
   tr = tbli;
-__asm__("" : "=r"(tr) : "0"(tr));
+__asm__("" : "=r"(tr) : "0"(tr));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
   xr = x;
-__asm__("" : "=r"(xr) : "0"(xr));
+__asm__("" : "=r"(xr) : "0"(xr));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
   mk1 = 0xFFFFFF;
   cc1 = 0x74808080;
   bb = bits;
@@ -61,11 +61,11 @@ __asm__("" : "=r"(xr) : "0"(xr));
   x2 = (x + 5) & 0xFFFF;
   p[1] = cc1;
   yr = yt;
-__asm__("" : "=r"(yr) : "0"(yr));
+__asm__("" : "=r"(yr) : "0"(yr));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
   yt = (s16) yt;
   cs = (yt + 1) << 16;
   w = cs | x1;
-__asm__("" : "=r"(w) : "0"(w));
+__asm__("" : "=r"(w) : "0"(w));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
   cl = ((v << 6) | 0x4016) << 16;
   p[2] = w;
   p[3] = cl | 0x1800;
@@ -99,13 +99,12 @@ __asm__("" : "=r"(w) : "0"(w));
 
   }
   p = q;
-__asm__("" : "=r"(v) : "0"(v));
   g = (((u32) (p - 5)) & 0xFFFFFF) | 0x3000000;
-__asm__ __volatile__("");
+__asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung A headers2)
   cs = yr << 16;
   p[0] = g;
   w3 = cs | ((xr + 0x2A) & 0xFFFF);
-__asm__ __volatile__("");
+__asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung A headers2)
   cl = ((v << 6) | 0x4016) << 16;
   uv = ((s16) tr) << 4;
   p[2] = w3;
@@ -114,7 +113,7 @@ __asm__ __volatile__("");
   p[3] = cl | tt;
   p += 5;
   p[0] = (((u32) (p - 5)) & 0xFFFFFF) | 0x3000000;
-__asm__ __volatile__("");
+__asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung A headers2)
   cs = cs | ((xr + 0x32) & 0xFFFF);
   uv = uv | 0x1008;
   cl = cl | uv;
@@ -122,6 +121,6 @@ __asm__ __volatile__("");
   p[2] = cs;
   p[3] = cl;
   p += 5;
-__asm__("" :: "r"(tr), "r"(xr));
+__asm__("" :: "r"(tr), "r"(xr));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung A headers2)
   return p;
 }

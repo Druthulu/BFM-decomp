@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80142608(s32 param_1)
 {
-    register s32 iVar1 __asm__("$16");
+    s32 iVar1;
 
     if (*(short *)(param_1 + 0x70) != 0) {
         iVar1 = ((s32 (*)(void))func_8012C1B8)();

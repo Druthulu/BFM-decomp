@@ -3,7 +3,7 @@
 extern s32 D_801EAC64;
 extern s32 D_801EAC68;
 void func_80184440(void) {
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung A headers2)
         ".set noreorder\n"
         "addiu $sp, $sp, -8\n"
         "sw $fp, 0($sp)\n"

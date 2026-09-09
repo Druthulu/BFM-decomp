@@ -6,8 +6,8 @@ void func_8015D01C(int param_1) {
     extern int D_80181AD8;
 
     int iVar4;
-    register unsigned short uVar1 __asm__("$19");
-    register unsigned short uVar5 __asm__("$17");
+    unsigned short uVar1;
+    register unsigned short uVar5 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung A headers2)
     short sVar2;
     short sVar3;
 

@@ -3,8 +3,8 @@
 void func_8015D380(s32 a0) {
     s16 out[4];
     s32 buf[8];
-    register s32 s1 __asm__("$17") = a0;
-    register s32 *s0 __asm__("$16") = buf;
+    s32 s1 = a0;
+    s32 *s0 = buf;
     ((void (*)(void *))func_80013F3C)((void *)s0);
     ((void (*)(void *, s32))func_80012558)((void *)s0, *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12));
     ((void (*)(void *, s32))func_800126C4)((void *)s0, *(s16 *)(*(s32 *)(s1 + 0x20) + 0x10));

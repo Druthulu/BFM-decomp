@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8016C2C4(s32 param)
 {
-    register s32 s1 __asm__("$17");
-    register s32 s0 __asm__("$16");
+    s32 s1;
+    s32 s0;
     u16 buf[3];
     s16 v;
     s32 r;

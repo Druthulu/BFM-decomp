@@ -19,9 +19,9 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     s32 a1c;
     s32 a2c;
     s32 cond;
-    register u32 zr __asm__("$0");
+    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung A headers2)
 
-    __asm__("addu %0,%1,$zero" : "=r"(a1c) : "r"(arg1));
+    __asm__("addu %0,%1,$zero" : "=r"(a1c) : "r"(arg1));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung A headers2)
     cond = arg1 & 1;
     a2c = arg2 + zr;
     if (!cond) {
@@ -55,8 +55,6 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     if (M2C_FIELD(arg0, s16 *, 0xA) < temp_v1) {
         return var_v0;
     }
-    __asm__("" :: "r"(a1c));
-    __asm__("" :: "r"(a1c));
     if (a1c & 0x8000) {
         b4[1] = (s16) (*(u16 **)&D_8017F80C)[1];
         b4[2] = (s16) (*(u16 **)&D_8017F80C)[2];

@@ -31,14 +31,14 @@ s32 func_80162438(s32 _unused0) {
     extern s16 D_800B5C74;
 
     u32 uVar2;
-    register u8 *base __asm__("$18");
-    register u8 *item __asm__("$17");
+    u8 *base;
+    u8 *item;
 
     base = &(*(u8 *)&D_800AF630);
     uVar2 = func_800291DC(0x12);
     if ((uVar2 & 0x8000) != 0) {
         if (D_800B5BD8 == 0) {
-            register u8 *t __asm__("$2") = base + 0x65A8;
+            register u8 *t __asm__("$2") = base + 0x65A8;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers2)
             item = t;
             D_8018E8C0[0] = (s32)item;
             func_80024054(D_80181DE4, D_8018E8CC);
@@ -49,7 +49,7 @@ s32 func_80162438(s32 _unused0) {
             D_800B5BE2 = -D_800AF7BE / 2 + 0x28;
         }
         if (D_800B5C10 == 0) {
-            register u8 *t __asm__("$2") = base + 0x65E0;
+            register u8 *t __asm__("$2") = base + 0x65E0;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers2)
             item = t;
             D_8018E8C0[1] = (s32)item;
             func_80024054(((u8 *)&D_80181DFC), D_8018E8F4);
@@ -60,7 +60,7 @@ s32 func_80162438(s32 _unused0) {
             D_800B5C1A = -D_800AF7BE / 2 + 0x30;
         }
         if (D_800B5C48 == 0) {
-            register u8 *t __asm__("$2") = base + 0x6618;
+            register u8 *t __asm__("$2") = base + 0x6618;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers2)
             item = t;
             D_8018E8C0[2] = (s32)item;
             func_800242D0((s16)func_801626B8(), D_8018E910, 0x84);

@@ -5,7 +5,7 @@ void func_80131B14() {
     extern void func_8002A790(void *);
     extern u8 D_8017EF84;
 
-    register u8 *a0v __asm__("$4");
+    u8 *a0v;
     u8 *p = a0v;
 
 

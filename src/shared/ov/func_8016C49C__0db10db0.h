@@ -7,7 +7,7 @@ s32 func_8016C49C(s32 param_1_arg) {
     extern u8 D_8018EDD8[];
     extern u8 D_8018EE98;
 
-    register u16 *param_1 __asm__("$17") = ((u16 *)param_1_arg);
+    register u16 *param_1 __asm__("$17") = ((u16 *)param_1_arg);  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers2)
     int iVar5;
     int iVar6;
     u16 sv[4];

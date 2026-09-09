@@ -11,6 +11,5 @@ void func_80153D7C(s32 param_1)
     if (currentLocationId == 0x3075) *(u8 *)(param_1 + 0xde) = 0x14;
     else *(u8 *)(param_1 + 0xde) = 10;
     *(u8 *)(param_1 + 0xdf) = 0;
-    __asm__ __volatile__("" ::: "memory");
     func_80146CA0((void *)param_1);
 }

@@ -4,8 +4,8 @@ void func_801523F4(s32 arg0)
 {
     s32 pad[4];
     s32 buf[4];
-    register s32 s0a __asm__("$16");                    /* $s0 = buf */
-    register s32 s2a __asm__("$18") = (s32)&D_80180828; /* $s2 = &D_80180828 */
+    s32 s0a;                    /* $s0 = buf */
+    s32 s2a = (s32)&D_80180828; /* $s2 = &D_80180828 */
 
     ((void (*)(s32, s32))func_80146E90)(arg0, 0);
     func_80019064(&D_80062C04);

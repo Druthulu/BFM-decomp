@@ -4,7 +4,7 @@ void func_8017E98C(void *a0)
 {
   char *new_var;
   s32 v0;
-register void *s0 __asm__("$16");
+register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
  do { } while (0);
   s0 = a0;
   ((void (*)(void *))func_8017EE68)(a0);

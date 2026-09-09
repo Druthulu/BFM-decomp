@@ -20,7 +20,7 @@ short func_8016CBC0(void)
   unsigned int w3b;
   short count;
   short i;
-register unsigned int zr __asm__("$0");
+register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B headers2)
   mtx = (*(Mtx8_8016CBC0 *)&D_800AE620);
   count = 0;
   p1.tag = 0x50000000;

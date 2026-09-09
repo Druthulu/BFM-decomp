@@ -10,17 +10,17 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     extern s32 D_801269AC;
     extern u16 D_80126CE0;
     Fr_801670E4 f;
-    register u8 *p   __asm__("$18");   /* $s2 */
-    register s32 ent __asm__("$19");   /* $s3 */
+    u8 *p;   /* $s2 */
+    s32 ent;   /* $s3 */
     s16 i;
     s32 d;
     s32 node;
     u16 c;
     u8 cv;
     u8 cv2;
-    register s32 gA __asm__("$2");
-    register s32 cxv __asm__("$4");
-    register s32 czv __asm__("$5");
+    register s32 gA __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers2)
+    register s32 cxv __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A headers2)
+    s32 czv;
     u8 *vc;
     u8 *ap;
     u8 *mp;
@@ -38,12 +38,12 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.col[1].b = 0x70;
     cv = *(u8 *)(ent + 0x12);
     f.cx = arg1;
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung A headers2)
     va = (u8 *)&f.cx;
-    __asm__ __volatile__("" : "=r"(va) : "0"(va));
+    __asm__ __volatile__("" : "=r"(va) : "0"(va));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
     f.cy = arg2;
     vb = va;
-    __asm__ __volatile__("" : "=r"(vb) : "0"(vb));
+    __asm__ __volatile__("" : "=r"(vb) : "0"(vb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
     p = D_801819C8;
     i = 0;
     f.col[0].b = 0;
@@ -113,10 +113,10 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     if (*(s32 *)(ent + 0x30) > 0) {
         vc = (u8 *)&f.cx;
-        __asm__ __volatile__("" : "=r"(vc) : "0"(vc));
+        __asm__ __volatile__("" : "=r"(vc) : "0"(vc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
         mp = f.m1;
         ap = mp;
-        __asm__ __volatile__("" : "=r"(ap) : "0"(ap));
+        __asm__ __volatile__("" : "=r"(ap) : "0"(ap));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
         p = D_801819DC;
         i = 0;
         d = (s16)f.a8[0] >> 6;

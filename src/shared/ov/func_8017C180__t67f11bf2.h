@@ -78,7 +78,7 @@ void func_8017C180(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers2)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);

@@ -5,7 +5,7 @@ void func_80141874(void) {
     extern u16 D_8011511C;
     extern u16 D_80115116;
     extern void (*D_80180678[])(void);
-    register void (*fp)(void) __asm__("$2"); /* pin fn-ptr to $v0 → store retires early */
+    register void (*fp)(void) __asm__("$2"); /* pin fn-ptr to $v0 → store retires early */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers2)
     func_801754A8();
     D_8011511E = func_80014ED4(0);
     D_8011511C = func_80015018(0);

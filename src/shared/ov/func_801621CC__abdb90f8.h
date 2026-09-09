@@ -1,9 +1,9 @@
 /* func_801621CC — shared body (overlay slot 0x80128158, h_exact abdb90f8). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_801621CC(s32 arg0) {
-    register s32 s0 __asm__("$16") = arg0;       /* $s0: arg0, crosses the call */
-    register u8 *s1 __asm__("$17") = D_80078E78; /* $s1: base, hoisted for the loop */
-    register s32 i __asm__("$5");                /* $a1: counter (pin fixes the i/d swap) */
+    s32 s0 = arg0;       /* $s0: arg0, crosses the call */
+    u8 *s1 = D_80078E78; /* $s1: base, hoisted for the loop */
+    register s32 i __asm__("$5");                /* $a1: counter (pin fixes the i/d swap) */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung A headers2)
     u32 a2;
     s32 d;                                       /* $a0: natural alloc; load via $v0 temp */
     s32 v, last, hi, lo;

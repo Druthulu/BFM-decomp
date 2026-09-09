@@ -20,8 +20,8 @@ extern u8 D_8018DE50;
 extern u8 D_8018DF4C;
 void func_80181E58(void *a0)
 {
-    register void *self __asm__("$16") = a0;
-    register void *obj  __asm__("$17");
+    register void *self __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
+    void *obj;
     s32 pad[8];
     if ((*(s32 *)((s32)self + 0x20) = ((s32 (*)(void))func_8012C1B8)()) == 0) {
         func_8012CAE4(self);

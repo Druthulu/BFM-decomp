@@ -15,7 +15,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
     Prim_8016E7C8 prim;
     MATRIX_8016E7C8 m;
     SVECTOR_8016E7C8 tmp;
-    register Prim_8016E7C8 *pp __asm__("$18");   /* $s2 — force &prim into a saved reg */
+    Prim_8016E7C8 *pp;   /* $s2 — force &prim into a saved reg */
 
     ((void (*)(void *, void *))func_80017DC4)(param_2, &m);
     m.t[0] = *(short *)(param_1 + 6);

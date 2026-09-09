@@ -1,7 +1,7 @@
 /* func_8013F350 — shared body (overlay slot 0x80128158, h_exact ac64fadf). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8013F350(void) {
-    register u16 *pd __asm__("$5") = &D_8011511C;
+    register u16 *pd __asm__("$5") = &D_8011511C;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung A headers2)
     u16 *ps;
     u16 *pf;
     u16 *pg;
@@ -11,17 +11,17 @@ s32 func_8013F350(void) {
     u8 *pmax;
     u8 *p2e;
     u8 *p3e;
-    register s32 off __asm__("$4");
+    register s32 off __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A headers2)
     s16 i;
     s32 r;
     s16 rs;
     s16 d;
     u8 b;
-    register u8 bb __asm__("$4");
+    u8 bb;
     u8 m;
     s32 chg;
 
-    __asm__ __volatile__("" : "=r"(pd) : "0"(pd));
+    __asm__ __volatile__("" : "=r"(pd) : "0"(pd));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
     pad = *pd;
     chg = 0;
     if (pad != 0) {

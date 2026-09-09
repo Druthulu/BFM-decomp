@@ -10,7 +10,7 @@ extern s16 D_801E0294[];
 extern M2C_UNK D_8018AF28;
 extern u8 D_8018F39C[];
 void func_80186CE8(s32 a0) {
-    register s32 v0 __asm__("$2");
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers2)
     s32 v1;
     v0 = ((s32 (*)(void))func_8012C1B8)();
     *(s32 *)(a0 + 0x20) = v0;

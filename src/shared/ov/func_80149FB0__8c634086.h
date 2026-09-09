@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80149FB0(s32 a0) {
     s32 *p = &D_80180E30[0];
-    register s32 v __asm__("$3") = *p;
+    s32 v = *p;
     u8 *q = &D_80078E78[0];
     s32 loc;
 

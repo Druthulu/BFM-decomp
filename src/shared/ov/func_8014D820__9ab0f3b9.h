@@ -36,7 +36,7 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
   } Ent;
   int new_var2;
   s16 new_var3;
-register u16 *a2 __asm__("$7");
+register u16 *a2 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung A headers2)
   V4 out[3];
   V4 pos;
   Desc desc;
@@ -60,11 +60,11 @@ register u16 *a2 __asm__("$7");
   s32 t;
   s32 u;
   s32 a0v;
-__asm__ __volatile__("" : "=r"(a2) : "0"(a2x));
+__asm__ __volatile__("" : "=r"(a2) : "0"(a2x));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A headers2)
   t = a2[0];
   u = a1[0];
   dx = t - u;
-__asm__ __volatile__("" : "=r"(a0v) : "0"(a0));
+a0v = a0;
   new_var3 = (s16) dx;
   t = a2[2];
   u = a1[2];

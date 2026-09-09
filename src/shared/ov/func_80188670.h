@@ -20,8 +20,8 @@ extern u8 D_801918F8;
 extern u8 D_801919F4;
 void func_80188670(void *a0)
 {
-    register void *self __asm__("$16") = a0;
-    register void *obj  __asm__("$17");
+    void *self = a0;
+    void *obj;
     s32 h;
     s32 pad[8];
     h = ((s32 (*)(void))func_8012C1B8)();

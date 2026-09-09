@@ -5,8 +5,8 @@ extern void func_80139914(s32 a0);
 void func_80182630(s32 a0)
 {
     u8 *s0 = (u8 *)a0;
-    register s32 v0 asm("v0");
-    register s32 v1 asm("v1");
+    s32 v0;
+    register s32 v1 asm("v1");  // !FAKE: pin v1 — NEEDED DIFFERS (P36 rung A headers2)
     v0 = func_801399F0(*(s32 *)(s0 + 0x198));
     if (v0 != 0) {
         func_80139914(*(s32 *)(s0 + 0x198));

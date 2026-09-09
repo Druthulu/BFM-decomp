@@ -11,12 +11,12 @@ void func_8013E6AC(void) {
         D_80115140[i] = 0;
     }
     if (!((u32)func_80029504() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
-        register s32 *ep __asm__("$8");
-        register s32 *fp __asm__("$9");
+        s32 *ep;
+        s32 *fp;
         fp = (s32 *)&D_80115110;
         ep = (s32 *)&D_80180618;
         for (i = 0; i < 5; i++) {
-            register s32 *fa __asm__("$6");
+            s32 *fa;
             s32 v;
             fa = (s32 *)(i * 4 + (s32)fp);
             v = ep[i] * 3 >> 2;

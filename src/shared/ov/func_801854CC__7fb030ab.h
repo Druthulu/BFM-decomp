@@ -7,8 +7,8 @@ extern u8 D_8018EFF4;
 extern u8 D_8018EFF5;
 extern u8 D_8018EFF6;
 void func_801854CC(void *a0) {
-    register void *s1 __asm__("$17");
-    register void *s0 __asm__("$16");
+    void *s1;
+    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A headers2)
     s1 = (void *)((s32 (*)(s32, s32))func_8001D074)(0x3E, 0x7D);
     *(void **)((s32)a0 + 0xCC) = s1;
     if (s1 != 0) {

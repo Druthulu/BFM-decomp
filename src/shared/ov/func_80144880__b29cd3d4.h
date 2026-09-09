@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80144880(s32 param_1)
 {
-    register s32 obj  __asm__("$16");   /* $s0 */
-    register s32 self __asm__("$17") = param_1;  /* $s1 */
-    register s32 b    __asm__("$2");    /* $v0 */
+    s32 obj;   /* $s0 */
+    s32 self = param_1;  /* $s1 */
+    s32 b;    /* $v0 */
     s32 e;
 
     obj = ((s32 (*)(void))func_8012C194)();
