@@ -1426,7 +1426,28 @@ def inline_single_set_temps(text, tu, fn, d_):
     return out
 
 
-def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40):
+def block_wraps(text, tu, fn, d_):
+    """[(description, candidate text)] — one statement wrapped in a block. §501-R's RC-5 scope lever: a block changes the
+    statement's basic-block structure and with it the allocno live range, which is how rung D closed func_80135D20 in 24 s
+    (`flag = 0;` -> `do { flag = 0; } while (0);` and nothing else). The plain block is tried FIRST because it is the
+    readable spelling; the do-while is gcc's stronger form and is only reached when the plain one does not hold."""
+    lines = text.split("\n")
+    out = []
+    for i in range(d_["line"], d_["end"] - 1):
+        s = sc.mask_text(lines[i]).strip()
+        if not s.endswith(";") or CTRL_KW.match(s) or is_decl_line(s) or s.startswith("#") or "{" in s or "}" in s:
+            continue
+        raw_line = lines[i]
+        indent = raw_line[:len(raw_line) - len(raw_line.lstrip())]
+        stmt = raw_line.strip()
+        for tag, spelling in (("block", f"{indent}{{ {stmt} }}"), ("do-while", f"{indent}do {{ {stmt} }} while (0);")):
+            cand = list(lines)
+            cand[i] = spelling
+            out.append((f"{tag} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=True):
     """[(recipe, description, candidate text)] — the byte-neutral shape recipes of the cookbook, mechanically.
     R2 (§76/§501-R, the allocation ORDER is the bank): the formerly-pinned declarations permuted among their own lines.
     R4: one of them moved through the whole declaration run. R3 (§17a/§501-P): an initializer split off its declaration.
@@ -1497,6 +1518,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40):
         out.append(("R5", desc, cand))
     for desc, cand in inline_single_set_temps(text, tu, fn, d_):
         out.append(("R6", desc, cand))
+    if blocks:                                            # last: one candidate per statement, so the targeted recipes go first
+        for desc, cand in block_wraps(text, tu, fn, d_):
+            out.append(("R7", desc, cand))
     seen, uniq = {text}, []                               # never judge the seed twice, nor one candidate twice (R37)
     for rec, desc, cand in out:
         if cand in seen:
@@ -1597,7 +1621,7 @@ def recipes(a):
             free = lever_free(tu, raw, fn)
         except Refuse:
             continue
-        cands = recipe_candidates(free, tu, fn, names)
+        cands = recipe_candidates(free, tu, fn, names, cap=a.cap)
         if not cands:
             continue
         tried += 1
@@ -2052,6 +2076,9 @@ def selftest():
         fail(f"inline_single_set_temps found {[d for d, _ in inl]}")
     if "= (*(int *)(p + 4)) & ~0x20;" not in inl[0][1] or "int v;" in inl[0][1]:
         fail("R6 must inline the expression at the use AND drop the now-dead declaration")
+    bw = block_wraps(R6FIX, "src/x.c", "r6", dict(line=1, end=9))
+    if [d for d, _ in bw][:2] != ["block @5", "do-while @5"] or "{ v = *(int *)(p + 4); }" not in bw[0][1]:
+        fail(f"block_wraps: {[d for d, _ in bw][:3]} (the readable spelling first)")
     cands = recipe_candidates(RFIX, "src/x.c", "rfix", ["a", "b"])
     kinds_ = {r for r, _, _ in cands}
     if not {"R2", "R3", "R5"} <= kinds_ or any(c == RFIX for _, _, c in cands):
@@ -2294,6 +2321,7 @@ def main():
                     help="give every RESIDUE sibling of this banked body's class the same shape, with its own addresses")
     ap.add_argument("--recipes", action="store_true",
                     help="rung R: the cookbook's byte-neutral shape recipes tried mechanically on every RESIDUE body")
+    ap.add_argument("--cap", type=int, default=60, help="--recipes: candidates tried per body (each is one compile)")
     ap.add_argument("--control", type=int, default=8, help="--recipes: how many LEVER-FREE bodies the control run reproduces (R39)")
     ap.add_argument("--limit", type=int, help="--recipes: stop after this many RESIDUE bodies")
     ap.add_argument("--apply-body", nargs=3, metavar=("TU", "FN", "FILE"))
