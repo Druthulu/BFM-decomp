@@ -9,7 +9,7 @@ void func_8013F1BC(void) {
     unsigned short *p = &D_80115118;
     if (*p != 0) {
         *p -= 0x10;
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
         if (*p != 0) {
             return;
         }

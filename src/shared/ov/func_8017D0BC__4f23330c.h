@@ -13,7 +13,7 @@ void func_8017D0BC(s32 a0) {
     u8 out[8];
     Mtx8_8017DE10_8017D0BC m;
     s32 base;
-    register s32 ang __asm__("$2");
+    register s32 ang __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     s16 arg;
     *(s16 *)(in + 0) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
     *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA) + 8;

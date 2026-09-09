@@ -7,8 +7,8 @@ s32 *func_8012F40C(s32 *param_1, s32 param_2) {
     extern u8 D_800AF648;
     s32 sxy, p, flag;
     sxy = 0;
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
     ((s32 (*)(s32, s32 *, s32 *, s32 *))RotTransPers)(param_2, &sxy, &p, &flag);
     if (flag < 0) {
         *param_1 = sxy = 0;

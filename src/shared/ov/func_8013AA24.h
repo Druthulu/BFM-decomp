@@ -25,7 +25,7 @@ void func_8013AA24(s32 a0, s32 a1) {
     *(s32 *)(buf + 0x18) = *(s16 *)(s2 + 0x26);    /* 0x28 */
     *(s32 *)(buf + 0x1C) = 0;                       /* 0x2C */
     {
-        register s32 *p __asm__("$2") = (s32 *)(buf + 0x00);
+        s32 *p = (s32 *)(buf + 0x00);
         __asm__ __volatile__(
             "lw $12, 0(%0)\n"
             "lw $13, 4(%0)\n"

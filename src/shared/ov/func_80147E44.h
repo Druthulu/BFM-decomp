@@ -12,10 +12,10 @@ void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3) {
     extern s32 D_80127090;
     extern s32 D_80127094;
     extern s32 D_80127098;
-    register s32 r_a0 __asm__("$17");  /* $s1 = param_1 */
-    register s32 r_a2 __asm__("$16");  /* $s0 = param_3 */
-    register s32 r_a3 __asm__("$19");  /* $s3 = param_4 */
-    register s32 v   __asm__("$18");   /* $s2 = *(a0+0x20) */
+    s32 r_a0;  /* $s1 = param_1 */
+    s32 r_a2;  /* $s0 = param_3 */
+    s32 r_a3;  /* $s3 = param_4 */
+    s32 v;   /* $s2 = *(a0+0x20) */
     s32 out[3];
     s32 m[8];
     s32 *p0 = &D_80127090;

@@ -3,8 +3,8 @@
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
 void func_80145C54(void) {
-    register s32 a1 __asm__("$5");
-    register s32 v1 __asm__("$3");
+    s32 a1;
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
     s32 s0;
     a1 = func_800291B4(0x4A) & 0xFF;
     if (a1 >= 0x20) {

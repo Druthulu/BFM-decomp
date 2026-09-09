@@ -14,7 +14,7 @@ void func_80145B24(void)
 {
     s32 iVar1;
     s32 uVar2;
-    register u8 *p __asm__("$17");
+    u8 *p;
     p = &D_800AF630;
     iVar1 = func_80029504();
     uVar2 = func_800291DC(8);

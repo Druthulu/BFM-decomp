@@ -9,8 +9,8 @@ extern s16 currentLocationId;
 extern s32 D_80078EA4;
 void func_8014B7A4(s16 *param_1) {
     s32 s0 = (s32)param_1;
-    register u8 *s2 __asm__("$18") = D_800AF630;
-    register s32 s1 __asm__("$17") = (s32)D_80078E78;
+    u8 *s2 = D_800AF630;
+    s32 s1 = (s32)D_80078E78;
     s32 v0;
     s32 v1;
     if (func_8016F1C4() != 0) {

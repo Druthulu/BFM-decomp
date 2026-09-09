@@ -37,9 +37,8 @@ s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3) {
     *(s32 *)(buf + 0xD4) = *(s16 *)(a2 + 0);       /* 0xE4 */
     *(s32 *)(buf + 0xD8) = *(s16 *)(a2 + 2);       /* 0xE8 */
     *(s32 *)(buf + 0xDC) = 0;                       /* 0xEC */
-    __asm__ __volatile__("" ::: "memory");
     {
-        register s32 *p __asm__("$2") = (s32 *)(buf + 0xC0);
+        s32 *p = (s32 *)(buf + 0xC0);
         __asm__ __volatile__(
             "lw $12, 0(%0)\n"
             "lw $13, 4(%0)\n"

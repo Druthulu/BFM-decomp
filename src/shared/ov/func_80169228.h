@@ -5,10 +5,10 @@ extern void func_80048EAC(void *a0, void *a1);
 extern s32  func_80017758(void *a0, void *a1);
 s32 func_80169228(void)
 {
-    register s32 a0v __asm__("$4");
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     s32 arg0 = a0v;
     u8 buf[0x60];               /* $sp+0x10 .. $sp+0x6F */
-    register u8 *p __asm__("$16");   /* $sp+0x48 (matrix, a1 to the calls) -> $s0 */
+    u8 *p;   /* $sp+0x48 (matrix, a1 to the calls) -> $s0 */
     s32 col;
     s16 base;
     s16 v;

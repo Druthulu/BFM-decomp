@@ -31,7 +31,7 @@ void func_80151DB0(s32 param_1)
     }
     *(unsigned short *)(iVar3 + 0x10) = uVar2;
     *(unsigned short *)(param_1 + 100) = 0xcc;
-    __asm__ __volatile__("" : : "r"(param_1));
+    __asm__ __volatile__("" : : "r"(param_1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     ((void (*)(int))func_80149020)(param_1);
     func_80147324(0x436);
     ((void (*)(int))func_80146CA0)(param_1);

@@ -12,12 +12,12 @@ void func_801372B0(void) {
     Svec_801372B0 in;
     Svec_801372B0 out;
     Gline_801372B0 prim;
-    register u8 *mat __asm__("$23") = D_800AF630;            /* $s7 = base; +0x18 after branch */
-    register s32 white __asm__("$19");                       /* $s3, assigned lazily in-if */
-    register s16 ax __asm__("$16");                          /* $s0 = out.vx+0x7B */
-    register s16 ay __asm__("$17");                          /* $s1 = out.vx+0x75 */
-    register s16 bx __asm__("$18");                          /* $s2 = out.vy-0x57 */
-    register s16 by __asm__("$20");                          /* $s4 = out.vy-0x5D */
+    register u8 *mat __asm__("$23") = D_800AF630;            /* $s7 = base; +0x18 after branch */  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 white;                       /* $s3, assigned lazily in-if */
+    s16 ax;                          /* $s0 = out.vx+0x7B */
+    s16 ay;                          /* $s1 = out.vx+0x75 */
+    s16 bx;                          /* $s2 = out.vy-0x57 */
+    register s16 by __asm__("$20");                          /* $s4 = out.vy-0x5D */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers1)
     in.vz = 0;
     in.vy = 0;
     in.vx = 0;
@@ -28,14 +28,14 @@ void func_801372B0(void) {
         in.vx = 0x10;
         ApplyMatrixSV(mat, &in, &out);
         {
-            register s16 vx __asm__("$7") = out.vx;          /* $a3 */
-            register s16 vy __asm__("$3") = out.vy;          /* $v1 */
+            s16 vx = out.vx;          /* $a3 */
+            s16 vy = out.vy;          /* $v1 */
             prim.attr = 0;                                   /* LEVER B: colors BEFORE x0 here — */
             prim.r = white; prim.g = white; prim.b = white;  /* drops the sb LUIDs below the x0  */
             prim.x0 = 0x78;                                  /* store -> white's S2 boost fires  */
             prim.y0 = -0x5A;                                 /* late -> li $s3,0xFF lands @31    */
-            { s16 x1v = vx + 0x78; __asm__("" : "=r"(x1v) : "0"(x1v)); prim.x1 = x1v; }
-            { s16 y1v = vy - 0x5A; __asm__("" : "=r"(y1v) : "0"(y1v)); prim.y1 = y1v; }
+            { s16 x1v = vx + 0x78;  prim.x1 = x1v; }
+            { s16 y1v = vy - 0x5A;  prim.y1 = y1v; }
             aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
         }
         /* --- corner 1: +X +6, red cross --- */
@@ -50,13 +50,13 @@ void func_801372B0(void) {
         bx = bx - 0x57;                                      /* $s2 = out.vy - 0x57 (in place) */
         {
         Gline_801372B0 *op = (Gline_801372B0*)&D_800A6518[(u32)aD800B9A02 * 0x14];
-        __asm__("" : "=r"(op) : "0"(op));
+        __asm__("" : "=r"(op) : "0"(op));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         ay = ay + 0x75;                                      /* $s1 = out.vx + 0x75 (in place) */
         prim.x0 = ay; prim.y0 = by; prim.x1 = ax; prim.y1 = bx;
         aGsSortLine(&prim, op, 0);
         }
-        __asm__("" : "=r"(ax) : "0"(ax));                    /* LEVER A: 2nd set kills ax's S2   */
-        __asm__("" : "=r"(by) : "0"(by));                    /* boost (same for by) -> by/ax/bx/ */
+        __asm__("" : "=r"(ax) : "0"(ax));                    /* LEVER A: 2nd set kills ax's S2   */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
+        __asm__("" : "=r"(by) : "0"(by));                    /* boost (same for by) -> by/ax/bx/ */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         prim.attr = 0;                                       /* chain/ay revert to source order  */
         prim.r = white; prim.g = 0; prim.b = 0;
         prim.x0 = ax; prim.y0 = by; prim.x1 = ay; prim.y1 = bx;
@@ -66,14 +66,14 @@ void func_801372B0(void) {
         in.vy = 0x10;
         ApplyMatrixSV(mat, &in, &out);
         {
-            register s16 vx __asm__("$7") = out.vx;          /* $a3 */
-            register s16 vy __asm__("$2") = out.vy;          /* $v0 */
+            register s16 vx __asm__("$7") = out.vx;          /* $a3 */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
+            s16 vy = out.vy;          /* $v0 */
             prim.x0 = 0x78;
             prim.attr = 0;
             prim.r = white; prim.g = white; prim.b = white;
             prim.y0 = -0x5A;
-            { s16 x1v = vx + 0x78; __asm__("" : "=r"(x1v) : "0"(x1v)); prim.x1 = x1v; }
-            { s16 y1v = vy - 0x5A; __asm__("" : "=r"(y1v) : "0"(y1v)); prim.y1 = y1v; }
+            { s16 x1v = vx + 0x78;  prim.x1 = x1v; }
+            { s16 y1v = vy - 0x5A;  prim.y1 = y1v; }
             aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
         }
         in.vy = in.vy + 6;
@@ -84,14 +84,14 @@ void func_801372B0(void) {
         in.vz = 0x10;
         ApplyMatrixSV(mat, &in, &out);
         {
-            register s16 vx __asm__("$7") = out.vx;          /* $a3 */
-            register s16 vy __asm__("$2") = out.vy;          /* $v0 */
+            s16 vx = out.vx;          /* $a3 */
+            s16 vy = out.vy;          /* $v0 */
             prim.x0 = 0x78;
             prim.attr = 0;
             prim.r = white; prim.g = white; prim.b = white;
             prim.y0 = -0x5A;
-            { s16 x1v = vx + 0x78; __asm__("" : "=r"(x1v) : "0"(x1v)); prim.x1 = x1v; }
-            { s16 y1v = vy - 0x5A; __asm__("" : "=r"(y1v) : "0"(y1v)); prim.y1 = y1v; }
+            { s16 x1v = vx + 0x78;  prim.x1 = x1v; }
+            { s16 y1v = vy - 0x5A;  prim.y1 = y1v; }
             aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
         }
         in.vz = in.vz + 6;

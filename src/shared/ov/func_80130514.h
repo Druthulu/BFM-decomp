@@ -27,6 +27,6 @@ void func_80130514(int param_1)
     }
     /* Scheduling barrier: blocks gcc-2.7.2 reorg from hoisting the join-block
        `move $a0,$s0` into the first branch's delay slot (target keeps a nop there). */
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers1)
     func_80131CA8(param_1, 0x13);
 }

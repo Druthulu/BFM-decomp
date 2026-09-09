@@ -10,11 +10,11 @@ extern u8 D_80126BE0[];
 void func_80132F40(s32 arg0)
 {
     Svec_80132F40 v[4];
-    register Svec_80132F40 *q __asm__("$17");
-    register s16 *p __asm__("$2");
-    register s32 h __asm__("$2");
-    register s32 c __asm__("$2");
-    register s32 hh __asm__("$4");
+    register Svec_80132F40 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
+    register s16 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 h __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 hh __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     s32 w;
     s32 m;
     q = &v[1];

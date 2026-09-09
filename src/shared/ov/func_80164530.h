@@ -8,11 +8,11 @@ extern s32 ratan2(s32 a0, s32 a1);
 extern u8 D_801202A0[];
 extern u8 D_800AF630[];
 void func_80164530(s32 arg0) {
-    register u8 *p __asm__("$17");
-    register s32 s0 __asm__("$16");
-    register u8 *unaff_s5 __asm__("$21");
-    register s32 unaff_s6 __asm__("$22");
-    register u8 *base __asm__("$23");
+    u8 *p;
+    s32 s0;
+    u8 *unaff_s5;
+    s32 unaff_s6;
+    u8 *base;
     s32 iVar9;
     s16 sVar4;
     s32 ix, iy, dist;

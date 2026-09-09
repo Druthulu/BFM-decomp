@@ -7,10 +7,10 @@ extern u16 D_80126B5E;
 extern u16 D_80126B62;
 extern u16 D_80126B66;
 void func_8016AA50(s32 param_1, s32 param_2) {
-    register short *psVar3 __asm__("$4");
-    register s32 iVar4 __asm__("$5");
-    register s32 sVar2 __asm__("$3");
-    register s32 t __asm__("$2");
+    short *psVar3;
+    s32 iVar4;
+    s32 sVar2;
+    s32 t;
     if (param_2 >= 0) {
         ((s32 (*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(
             0x1d, (void *)param_1,
@@ -32,7 +32,7 @@ void func_8016AA50(s32 param_1, s32 param_2) {
         }
         t = iVar4 + 1;
         iVar4 = t;
-        __asm__ __volatile__("" : "=r"(t) : "0"(t));
+        __asm__ __volatile__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         psVar3 = psVar3 + 0x2c;
     } while ((s16)t < 0x1e);
 }

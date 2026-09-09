@@ -5,7 +5,7 @@ s32 func_80135D20(s32 arg0, s32 arg1, u16 *arg2)
     u8 dead[96];
     u16 sp[3];
     s32 *p;
-    register s32 flag __asm__("$17");
+    register s32 flag __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung A headers1)
     s32 q;
 
     sp[0] = arg2[0];
@@ -45,7 +45,6 @@ s32 func_80135D20(s32 arg0, s32 arg1, u16 *arg2)
     if (p == NULL) {
         return 0;
     }
-    __asm__ __volatile__("");
 loop:
     if (func_80135EB0(p, 0) == 0) {
         goto body;

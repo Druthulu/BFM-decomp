@@ -8,7 +8,7 @@ extern void func_80159B3C(void *a0);
 extern void func_80165718(s32 a0);
 void func_80152254(s32 *a0) {
     /* reserved stack local sets frame 0x28 (16-byte local region) */
-    volatile s32 pad[4];
+    s32 pad[4];
     func_80149020(a0);
     if (func_80153800((s32)a0) == 0) {
         *(u16 *)((u8 *)a0 + 0x4) = 0;

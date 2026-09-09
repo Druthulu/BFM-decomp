@@ -14,14 +14,14 @@ s32 func_8014DD8C(s32 arg0, void *arg1, void *arg2) {
     s32 temp_a1;
     s8 *var_s2;
     s8 *var_s3;
-    __asm__ __volatile__("" :: "r"(((void *)arg0)));
+    __asm__ __volatile__("" :: "r"(((void *)arg0)));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     temp_v0 = M2C_FIELD(arg2, u16 *, 0) - M2C_FIELD(arg1, u16 *, 0);
     temp_v1 = M2C_FIELD(arg2, u16 *, 4) - M2C_FIELD(arg1, u16 *, 4);
     if (((temp_v0 | temp_v1) << 0x10) != 0) {
         var_s3 = (s8 *) D_801202A0;
         if (var_s3 < var_s3 + 0x6480) {
             var_s2 = var_s3 + 0xE;
-            __asm__ __volatile__("" :: "r"(var_s2));
+            __asm__ __volatile__("" :: "r"(var_s2));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
 loop_3:
             if (M2C_FIELD(var_s3, u16 *, 0) != 0) {
                 temp_a1 = M2C_FIELD(var_s2, s32 *, 0x4A);

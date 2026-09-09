@@ -6,10 +6,10 @@ s32 func_801345F8(s32 arg)
     extern u16 * D_8017F808;
     extern u16 D_8018E6F8;
 
-    register u16 *param_1 __asm__("$5") = ((u16 *)arg);
-    register u16 *cc __asm__("$4") = D_8017F808;
+    register u16 *param_1 __asm__("$5") = ((u16 *)arg);  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
+    register u16 *cc __asm__("$4") = D_8017F808;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     int c8000 = 0x8000;
-    register int zr __asm__("$0");
+    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B headers1)
     u32 c1, c2, uVar6, uVar2, cnt, v14;
     u16 *ptmp, *puVar4, *puVar7, uVar1;
     int hi, harg, iVar9, iVar8, uVar3, uVar10, tbl;

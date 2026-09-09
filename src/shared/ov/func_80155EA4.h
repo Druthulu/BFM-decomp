@@ -9,7 +9,7 @@ extern void func_80159B3C(void *a0);
 extern s32 func_80161208();
 extern u16 D_800B99DA;
 void func_80155EA4(void *arg0) {
-    volatile s32 spill[4];  /* forces the 0x28 frame the target reserves */
+    s32 spill[4];  /* forces the 0x28 frame the target reserves */
     *(s32 *)((u8 *)arg0 + 0x44) |= 2;
     func_80147AD4((s32)arg0, 0, 0, 0x8000);
     func_801473EC((s32 *)arg0);

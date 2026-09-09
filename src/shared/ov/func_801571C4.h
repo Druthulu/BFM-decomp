@@ -76,6 +76,5 @@ u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7
     off += 0x10c;
   }
   while (counter < 0x60);
-__asm__ volatile("" : "=r"(local_40));
   return ret;
 }

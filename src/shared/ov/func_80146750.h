@@ -9,9 +9,9 @@ extern int D_8011FA20;
 extern int D_8011FA24;
 unsigned short *func_80146750(unsigned short *a0)
 {
-    register int a6 __asm__("6");
-    register unsigned short *a7 __asm__("7");
-    register int a5 __asm__("5");
+    int a6;
+    register unsigned short *a7 __asm__("7");  // !FAKE: pin 7 — NEEDED DIFFERS (P36 rung B headers1)
+    int a5;
     unsigned short *v1;
     unsigned short *v0;
     a6 = 0x8;

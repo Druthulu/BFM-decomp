@@ -7,14 +7,14 @@ s32 func_8012C2D0(void)
     s32 p;
     s32 it;
     it = (s32)D_80120194;
-    __asm__ __volatile__("" : "=r"(it) : "0"(it));
+    __asm__ __volatile__("" : "=r"(it) : "0"(it));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     p = it + 0x658C;
     goto test;
 copy:
     return it;
 test:
     it = (s32)D_801202A0;
-    __asm__ __volatile__("" : "=r"(it) : "0"(it));
+    __asm__ __volatile__("" : "=r"(it) : "0"(it));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     if (it == p) goto zero;
 body:
     if (*(u16 *)it == 0) goto copy;

@@ -16,8 +16,8 @@ s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u16 temp_a1;
     s32 temp_s4;
     s32 c = arg0;
-    __asm__ __volatile__("" : "=r"(c) : "0"(c));
-    __asm__ __volatile__("" : : "r"(arg0));
+    __asm__ __volatile__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
+    __asm__ __volatile__("" : : "r"(arg0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
 
     temp_s4 = arg2 + (M2C_FIELD(((void *)arg1), s16 *, 2) * 8);
     temp_s1 = *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 4) * 4));

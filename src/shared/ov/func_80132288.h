@@ -9,7 +9,7 @@ void func_80132288(int *param_1, int *param_2, int param_3) {
     *(short *)((int)param_1 + 6) = 0;
     param_1[2] = param_3;
     {
-        register char *node __asm__("$6") = (char *)*(int *)param_2[0];
+        register char *node __asm__("$6") = (char *)*(int *)param_2[0];  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1)
         if (*(int *)(node + 4) == 1) src = *(int *)(node + 0xC);
         else src = (int)(node + ((*(unsigned int *)(node + 0xC) >> 2 << 2) + 0xC));
     }
@@ -20,10 +20,10 @@ void func_80132288(int *param_1, int *param_2, int param_3) {
         func_8005C324(dst, src, *(int *)(p3 + 0x10) << 3);
     }
     {
-        register int *pn __asm__("$3") = (int *)param_2[0];
+        register int *pn __asm__("$3") = (int *)param_2[0];  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
         if (pn[2] != 0) {
             {
-                register char *node __asm__("$6") = (char *)pn[0];
+                register char *node __asm__("$6") = (char *)pn[0];  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1)
                 if (*(int *)(node + 4) == 1) src = *(int *)(node + 0x14);
                 else src = (int)(node + ((*(unsigned int *)(node + 0x14) >> 2 << 2) + 0xC));
             }

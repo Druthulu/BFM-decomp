@@ -18,7 +18,7 @@ int func_8012BFA8(short *a0) {
         "sqr 0\n"
         : : "r"(&in[0]) : "$9", "$10", "$11", "memory");
     {
-        register int *pout __asm__("$2") = &out[0];
+        int *pout = &out[0];
         __asm__ __volatile__(
             "swc2 $25, 0(%0)\n"
             "swc2 $26, 4(%0)\n"

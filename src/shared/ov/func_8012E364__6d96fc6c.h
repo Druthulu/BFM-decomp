@@ -6,13 +6,13 @@ void func_8012E364(s32 arg0_)
     extern s16 D_80126CE0;
     extern s32 D_8018E690;
     extern s32 D_8018E694;
-    register s32 arg0 __asm__("$6");
-    register s32 prev __asm__("$5");
-    register u16 flags __asm__("$2");
+    s32 arg0;
+    register s32 prev __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung A headers1)
+    register u16 flags __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers1)
     s32 a;
     s32 diff;
     s32 v;
-    register s32 d __asm__("$2");
+    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A headers1)
     s32 spd;
     s32 e1;
     s32 e2;

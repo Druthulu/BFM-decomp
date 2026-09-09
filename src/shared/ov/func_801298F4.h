@@ -2,12 +2,12 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern unsigned short D_800B99F0;
 void func_801298F4(void *arg0) {
-    register u8 *a __asm__("$7");
-    register s32 base4C __asm__("$3");
-    register u32 b __asm__("$4");
-    register u16 f38 __asm__("$6");
-    register u16 f3E __asm__("$5");
-    register u32 sh __asm__("$2");
+    register u8 *a __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 base4C;
+    register u32 b __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    register u16 f38 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1)
+    register u16 f3E __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
+    u32 sh;
     u8 *p;
     a = (u8 *) arg0;
     base4C = *(s32 *)(a + 0x4C);

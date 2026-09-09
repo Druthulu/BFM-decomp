@@ -18,7 +18,7 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
     extern Env_800D29F8 D_800AE7BC[];
 
 
-    register u32 mhi __asm__("$8");
+    register u32 mhi __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B headers1)
     s16 *q;
     s32  a;
 
@@ -38,7 +38,7 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
     *(s16 *)((u8 *)out + 0x12) = 0x10;
     *(s16 *)((u8 *)out + 0x10) = 0x10;
 
-    ((PTag_80140D68 *)out)->addr = ((PTag_80140D68 *)((D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot) + 2))->addr;
+    ((PTag_80140D68 *)out)->addr = ((PTag_80140D68 *)((D_800AE7BC[*(u16 *)&D_800B9A02].ot) + 2))->addr;
     ((PTag_80140D68 *)((D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot) + 2))->addr = (u32)out;
 
     return out + 5;

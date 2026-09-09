@@ -4,9 +4,9 @@ extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80172170(s32 a0, s32 a1);
 s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3) {
     s32 ret;
-    register s32 ang  __asm__("$3");    /* $v1 */
-    register s32 a3p  __asm__("$19");   /* $s3 = arg3 */
-    register s32 a2p  __asm__("$20");   /* $s4 = arg2 */
+    s32 ang;    /* $v1 */
+    s32 a3p;   /* $s3 = arg3 */
+    register s32 a2p  __asm__("$20");   /* $s4 = arg2 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers1)
     a3p = arg3;
     a2p = arg2;
     ret = func_8017248C((s32)arg0, (s32)arg1);

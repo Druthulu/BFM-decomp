@@ -8,12 +8,12 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     extern s16 D_8018E6F4;
     extern u16 D_8018E6F8;
 
-    register s32 s1 __asm__("$17");
+    s32 s1;
     s32 s2;
-    register s16 s3 __asm__("$19");
-    register s32 s4 __asm__("$20");
-    register s16 a0v __asm__("$4");
-    register s16 arg0s __asm__("$21");
+    register s16 s3 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung A headers1)
+    register s32 s4 __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung A headers1)
+    s16 a0v;
+    register s16 arg0s __asm__("$21");  // !FAKE: pin $21 — NEEDED DIFFERS (P36 rung A headers1)
     s32 dx, dy, dz;
     s32 r, ret;
 
@@ -38,7 +38,7 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
         s16 sz = ((Box_80133784 *)arg2)->f4 - ((Box_80133784 *)arg1)->f4;
         if (sx == 0 && sy == 0) {
             s32 zt = (sz == 0);
-            __asm__("addu %0,%1,$zero" : "=r"(s2) : "r"(zt));
+            __asm__("addu %0,%1,$zero" : "=r"(s2) : "r"(zt));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung A headers1)
         }
         D_8017F808->f2 = ((Box_80133784 *)arg1)->f2 - 4;
         r = func_80047D3C(sx * sx + sz * sz);
@@ -62,10 +62,9 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
 
     while (1) {
         s32 ret0;
-        register s32 retc __asm__("$3");
-        __asm__ __volatile__("");
+        register s32 retc __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers1)
         ret0 = func_80133AB0(arg0s, (s16)D_8017F808->f0, (s16)D_8017F808->f4, (*(s32*)&D_8018E6E8));
-        __asm__("addu %0,%1,$zero" : "=r"(retc) : "r"(ret0));
+        __asm__("addu %0,%1,$zero" : "=r"(retc) : "r"(ret0));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung A headers1)
         ret = retc;
         if (ret == 0) goto after;
         s4 |= ret;
@@ -86,7 +85,7 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
 after:
     if ((s16)s4 != 0 || D_8018E6F4 != 0) {
         s16 t;
-        __asm__ __volatile__("" :: "r"(s4));
+        __asm__ __volatile__("" :: "r"(s4));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung A headers1)
         t = D_8017F808->f6;
         if (t >= -0xBCB) {
             if (t < -0x578) {

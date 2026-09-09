@@ -5,8 +5,8 @@ extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (
 void func_8014DF94(s32 arg0) {
     s16 a[3];
     s16 b[3];
-    register s32 u88 __asm__("$4");
-    register s32 u8C __asm__("$5");
+    s32 u88;
+    s32 u8C;
     s32 t;
     s32 t2;
     u88 = *(u16 *)(arg0 + 0x88);
@@ -21,14 +21,14 @@ void func_8014DF94(s32 arg0) {
     t2 = *(u16 *)(arg0 + 0xE);
     u88 = u88 - t;
     b[0] = t;
-    __asm__ __volatile__("" : : : "memory");
+    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     b[0] = u88;
     b[2] = t2;
-    __asm__ __volatile__("" : : : "memory");
+    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     t2 = t2 - u8C;
     u8C = u8C - t2;
     b[2] = t2;
-    __asm__ __volatile__("" : : : "memory");
+    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     b[2] = u8C;
     if (*(s32 *)(arg0 + 0x170) == 0) {
         func_8014E284(arg0, a, b);

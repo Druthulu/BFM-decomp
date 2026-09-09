@@ -9,7 +9,7 @@ void func_801392FC(s32 arg0, s32 arg1, u8 *arg2)
     s32 acc;
     s32 rem;
     u16 cnt;
-    register s32 a1c __asm__("$5");
+    s32 a1c;
     *(s32 *)((u8 *)buf + 0x00) = 0;
     *(s16 *)((u8 *)buf + 0x0C) = GetTPage(0, 1,
         *(s16 *)((u8 *)arg0 + 0x38) & 0xFFC0,

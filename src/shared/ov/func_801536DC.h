@@ -10,7 +10,7 @@ s32 func_801536DC(s32 param_1) {
     s32 s1;
     s32 s2;
     s32 sp10[2];
-    register s32 r __asm__("$2");
+    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     s32 q;
     if (D_8011DB28 != 0) {
         D_8011DB28(s0 + 0xA0);
@@ -18,8 +18,8 @@ s32 func_801536DC(s32 param_1) {
     *(s16 *)(s0 + 6) = func_80012C6C((s32)*(s16 *)(s0 + 6), (s32)*(s16 *)(s0 + 0xA0), 8);
     *(s16 *)(s0 + 0xA) = func_80012C6C((s32)*(s16 *)(s0 + 0xA), (s32)*(s16 *)(s0 + 0xA2), 8);
     {
-    register s32 t __asm__("$2") = func_80012C6C((s32)*(s16 *)(s0 + 0xE), (s32)*(s16 *)(s0 + 0xA4), 8);
-    register s32 chk __asm__("$3") = (s32)D_8011DB28;
+    s32 t = func_80012C6C((s32)*(s16 *)(s0 + 0xE), (s32)*(s16 *)(s0 + 0xA4), 8);
+    s32 chk = (s32)D_8011DB28;
     *(s16 *)(s0 + 0xE) = t;
     if (chk != 0) {
         s2 = s0 + 4;

@@ -8,8 +8,8 @@ extern s32 func_800D1658(s32 a0);
 extern void func_80141C0C(s32);
 s32 func_801416D4(s16 param_1) {
     s32 cVar2;
-    register s32 iVar1 __asm__("$3");
-    register s32 two __asm__("$6");
+    register s32 iVar1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 two;
     two = 2;
     iVar1 = 0;
     cVar2 = *(u8 *)&D_8011514C + D_8011514D * D_8011515C;

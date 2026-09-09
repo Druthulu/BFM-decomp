@@ -3,15 +3,14 @@
 extern s32 func_80047D3C(s32 a0);
 s32 func_80148824(void *arg0)
 {
-    register u32 t __asm__("$2");
-    register s32 hi __asm__("$3");
-    register s32 lo __asm__("$2");
-    register s32 chi __asm__("$5");
-    register s32 clo __asm__("$4");
+    u32 t;
+    s32 hi;
+    s32 lo;
+    register s32 chi __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 clo __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     t = *(u16 *)((u8 *)arg0 + 0xAE);
     hi = (t >> 8) - 0x80;
     chi = hi;
-    __asm__ __volatile__("" : : "r"(chi));
     lo = (t & 0xFF) - 0x80;
     clo = lo;
     if (hi == 0) {

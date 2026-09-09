@@ -6,7 +6,7 @@ void func_801576A8(void *arg0) {
     extern void func_801599A4(void *a0);
     extern void func_80159B3C(void *a0);
     extern s32 func_80161208(void);
-    volatile s32 spill[4];  /* forces the 0x28 frame the target reserves */
+    s32 spill[4];  /* forces the 0x28 frame the target reserves */
     *(s32 *)((u8 *)arg0 + 0x44) |= 2;
     if (*(u16 *)((u8 *)arg0 + 0xB8) == 0x8000) {
         func_801599A4(arg0);

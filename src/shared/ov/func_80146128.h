@@ -44,8 +44,8 @@ extern void func_801473DC(s32 *a0);
 extern void func_80015978(s32 a0, s32 *a1);
 s32 func_80146128(void)
 {
-    register s32 base __asm__("$16");
-    register s32 *p   __asm__("$17");
+    s32 base;
+    s32 *p;
     p = D_80126B78;
     base = (s32)&D_80126B58;
     func_80146FC4(base);

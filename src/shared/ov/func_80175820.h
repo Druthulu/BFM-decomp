@@ -15,10 +15,9 @@ s32 func_80175820(void)
     ptr = D_800AE7BC[*q].f0;
     old = ptr[2];
     ptr[2] = (old & 0xff000000) | (*(u32 *)(p + *q * 4 + 0x20) & 0xffffff);
-    __asm__("" ::: "memory");
+    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     p2 = *(u32 **)(p + *q * 4 + 0x18);
     *p2 = (*p2 & 0xff000000) | (old & 0xffffff);
-    __asm__("" ::: "memory");
     {
         s32 acc = D_800AF634[*q].g0;
         s32 t = *(s32 *)(p + *q * 4 + 0x18) - 0x14;

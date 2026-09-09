@@ -1,7 +1,7 @@
 /* func_80151664 — shared body (overlay slot 0x80128158, h_exact 6b5a009a). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80151664(void) {
-    register s32 a0v __asm__("$4");
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     s32 s0;
     s32 v1;
 

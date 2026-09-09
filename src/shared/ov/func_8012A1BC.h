@@ -18,14 +18,14 @@ void func_8012A1BC(void) {
     extern u16 D_80126970, D_80126972, D_80126974, D_80126976, D_80126978, D_8012697A;
     extern s32 D_801269E4;
     extern u16 D_801269E8, D_801269EA;
-    register s32 r2 __asm__("$2"), r3 __asm__("$3"), r4 __asm__("$4"), r5 __asm__("$5");
-    register u16 r6 __asm__("$6"), r7 __asm__("$7");
-    register s32 r8 __asm__("$8");
-    register u16 r9 __asm__("$9"), r10 __asm__("$10");
+    register s32 r2 __asm__("$2"), r3 __asm__("$3"), r4 __asm__("$4"), r5 __asm__("$5");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+    u16 r6, r7;
+    s32 r8;
+    u16 r9, r10;
     r2 = D_80120200; r3 = D_80120204; r4 = D_80120208; r5 = D_8012020C;
     r6 = (*(u16 *)&D_80120228); r7 = (*(u16 *)&D_8012022A); r8 = D_80120294; r9 = (*(u16 *)&D_80120298); r10 = (*(u16 *)&D_8012029A);
     D_80126950 = r2; D_80126954 = r3; D_80126958 = r4; D_8012695C = r5;
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     D_80126960 = (*(Blk8 *)&D_80120210);
     r2 = (*(u16 *)&D_80120220); r3 = (*(u16 *)&D_80120222); r4 = (*(u16 *)&D_80120224); r5 = (*(u16 *)&D_80120226);
     D_80126968 = (*(Blk8 *)&D_80120218);

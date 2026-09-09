@@ -8,9 +8,8 @@ s32 func_80165910(void)
     v = (u8)D_80078EC4;
     ret = v;
     if (v == 0) {
-        register s32 one __asm__("$2");
+        s32 one;
         one = 1;
-        __asm__ __volatile__("" : "=r"(one) : "0"(one));
         D_80078EC4 = one;
     }
     return ret;

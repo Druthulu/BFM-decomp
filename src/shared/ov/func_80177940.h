@@ -4,14 +4,14 @@ extern s32 func_80029504(void);
 void func_80177940(u32 *p, u32 a_, u32 b_, u32 c_)
 {
   int new_var;
-register u32 a __asm__("$18");
-register u32 b __asm__("$16");
-register u32 c __asm__("$17");
-register u32 v __asm__("$2");
+register u32 a __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers1)
+register u32 b __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+register u32 c __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
+register u32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
   u32 *q;
   u32 *r;
   u32 flag;
-register u32 n __asm__("$6");
+register u32 n __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1)
   u32 nn;
   u32 t;
   u32 cl;
@@ -36,7 +36,7 @@ register u32 n __asm__("$6");
   p[3] = (((v << 6) | 0x4016) << 16) | 0x3850;
   p += 5;
   q = p;
-__asm__("" : "=r"(v) : "0"(v));
+__asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
   cl = ((v << 6) | 0x4016) << 16;
   flag = 0x1000000;
   for (i = 0; i < 4; i++)
@@ -61,7 +61,7 @@ __asm__("" : "=r"(v) : "0"(v));
   }
   p = q;
   r = p;
-__asm__("" : "=r"(r) : "0"(r));
+__asm__("" : "=r"(r) : "0"(r));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
   *((u16 *) (r - 8)) += 6;
   *((u16 *) (r - 3)) += 6;
 }

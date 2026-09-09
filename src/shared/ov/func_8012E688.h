@@ -8,9 +8,9 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 void func_8012E688(s32 param_1, u16 param_2, u16 param_3)
 {
     struct { short v[3]; short pad; short xy[2]; int sp1c; int flag; } f;
-    register void *p __asm__("$4");
-    register u16 a __asm__("$16") = param_2;
-    register u16 b __asm__("$17") = param_3;
+    register void *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A headers1)
+    u16 a = param_2;
+    register u16 b __asm__("$17") = param_3;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung A headers1)
     if (*(s32 *)(param_1 + 0x20) != 0) {
         f.v[0] = (short)*(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48);
         f.v[1] = (short)*(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C);

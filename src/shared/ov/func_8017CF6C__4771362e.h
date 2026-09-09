@@ -3,7 +3,7 @@
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 void func_8017CF6C(s32 a0, s16 a1, s16 a2) {
     u32 buf[4];
-    register s32 hi __asm__("$2");
+    register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     s32 lo;
     func_8012B0B4(buf, *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), a1 << 4);
     lo = *(s16 *)buf;

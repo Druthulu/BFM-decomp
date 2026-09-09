@@ -8,7 +8,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     Elem_801347A0 *pElem;
     s32 val;
-    register s32 iv __asm__("$4");
+    s32 iv;
     s32 q;
     s32 dvsr;
 

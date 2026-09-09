@@ -37,7 +37,7 @@ void func_80173CB4(s32 a0) {
         goto lb8;
     case 2:
         func_80154274((s32 *)s0, (s32)&D_800D5DA8);
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers1)
         goto lb8;
     case 3:
         func_80154274((s32 *)s0, (s32)&D_800D5DB8);

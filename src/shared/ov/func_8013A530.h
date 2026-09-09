@@ -9,7 +9,7 @@ void func_8013A530(int param_1)
     int iVar11;
     u16 uVar2;
     int sVar2;
-    register u8 bVar1 __asm__("$8");
+    register u8 bVar1 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B headers1)
     int deadlocal[2];
     iVar11 = *(int *)(param_1 + 4);
     uVar2 = *(u16 *)(iVar11 + 0x18);
@@ -18,12 +18,12 @@ void func_8013A530(int param_1)
     if (uVar2 != 0 && uVar2 < 7) {
         if (uVar2 != 1) {
             if (sVar2 != 0 && sVar2 < 7) {
-                register u32 f34 __asm__("$5");
+                register u32 f34 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
                 u32 uVar2b;
                 u32 uVar6;
                 short sVar5;
-                register int fc __asm__("$5");
-                register int zr __asm__("$0");
+                int fc;
+                register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B headers1)
                 int iVar7;
                 f34 = *(u16 *)(iVar11 + 0x34);
                 uVar6 = f34 + 0x10;
@@ -44,7 +44,7 @@ void func_8013A530(int param_1)
                 if ((bVar1 & 0x10) != 0) {
                     *(s16 *)(param_1 + 0xa) = -sVar5;
                 }
-                __asm__("" :: "r"(bVar1));
+                __asm__("" :: "r"(bVar1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
                 fc = *(s16 *)(param_1 + 0xc);
                 iVar7 = fc + zr;
                 if (fc < *(s16 *)(param_1 + 0xe)) {
@@ -55,13 +55,13 @@ void func_8013A530(int param_1)
                     }
                 } else if (*(s16 *)(param_1 + 0xe) < fc) {
                     int t = iVar7 - 0x400;
-                    __asm__("" :: "r"(iVar7), "r"(t));
+                    __asm__("" :: "r"(iVar7), "r"(t));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
                     *(s16 *)(param_1 + 0xc) = (short)t;
                     if (((t << 16) >> 16) < (int)*(s16 *)(param_1 + 0xe)) {
                         *(s16 *)(param_1 + 0xc) = *(s16 *)(param_1 + 0xe);
                     }
                 }
-                __asm__("" :: "r"(fc));
+                __asm__("" :: "r"(fc));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
                 func_8013AA24(iVar11, param_1);
             }
         } else {

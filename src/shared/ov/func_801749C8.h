@@ -10,8 +10,8 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 s32 func_801749C8(s32 param_1)
 {
     Buf_c1 buf;
-    register s32 iVar5 __asm__("$18");
-    register u32 iVar4 __asm__("$17");
+    s32 iVar5;
+    u32 iVar4;
     *(s32 *)(param_1 + 8) = (s16)((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 8), (s32)*(s16 *)(param_1 + 0xc), 4);
     *(s32 *)(param_1 + 0x10) = (s16)((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x10), (s32)*(s16 *)(param_1 + 0x14), 4);
     *(s16 *)(param_1 + 0x18) = ((s16 (*)(s32, s32, s32))func_80012ABC)((s32)*(s16 *)(param_1 + 0x18), (s32)*(s16 *)(param_1 + 0x20), 4);

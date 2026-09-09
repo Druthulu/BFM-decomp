@@ -32,7 +32,7 @@ void func_80148094(int param_1, short *param_2, int *param_3) {
             fac = ratan2((int)param_2[1], q >> 6);
         }
         if (sVar1 < 0x200) {
-            __asm__("" :: "r"(fac)); /* L1: +1 flow-ref on fac (already live-through here); zero bytes */
+            __asm__("" :: "r"(fac)); /* L1: +1 flow-ref on fac (already live-through here); zero bytes */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
             if (out[0] == out[2]) {
                 r = *(int *)(param_1 + 0x24) * -fac;
                 if (r < 0) r += 0x3ff;

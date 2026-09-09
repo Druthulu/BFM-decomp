@@ -35,9 +35,9 @@ void func_8015126C(u16 *p)
     extern void func_80147324(s32 arg0);
     extern void func_8014BD24(s32 a0, s32 a1);
     extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
-    register u8  *r __asm__("$18") = D_80078E78;     /* $s2 */
-    register s32 *q __asm__("$17") = &D_800AE6A8;   /* $s1 */
-    register s32 sh16 __asm__("$2");                 /* $v0 */
+    u8  *r = D_80078E78;     /* $s2 */
+    s32 *q = &D_800AE6A8;   /* $s1 */
+    register s32 sh16 __asm__("$2");                 /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     u16 uVar3;
     s32 angle;
     s32 v;
@@ -110,7 +110,7 @@ void func_8015126C(u16 *p)
     ((void (*)(void *))func_80147084)(p);
     {
         u16 t = p[0x1f];
-        register s32 cmp79 __asm__("$4");
+        register s32 cmp79 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
         *(u8 *)(p + 0x54) = 0;
         ((s8 *)p)[0xdd] = (s8)t;
         if (((t & 0xff) != 0x11) && ((cmp79 = *(s16 *)(p + 0x79)) != 1000)) {

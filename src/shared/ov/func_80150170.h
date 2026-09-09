@@ -19,13 +19,13 @@ s32 func_80150170(void *e) {
     }
     if ((r5 | r6) != 0) {
         if (*(s16 *)(a + 2) < *(s16 *)(b + 2)) {
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
             *(s16 *)(((s32)e) + 0x78) = *(u16 *)(a + 0);
             *(s16 *)(((s32)e) + 0x7a) = *(u16 *)(a + 2);
             *(s16 *)(((s32)e) + 0x7c) = *(u16 *)(a + 4);
             __builtin_memcpy((void *)(((s32)e) + 0x80), out, 8);
         } else {
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
             *(s16 *)(((s32)e) + 0x78) = *(u16 *)(b + 0);
             *(s16 *)(((s32)e) + 0x7a) = *(u16 *)(b + 2);
             *(s16 *)(((s32)e) + 0x7c) = *(u16 *)(b + 4);
@@ -35,8 +35,8 @@ s32 func_80150170(void *e) {
         return 1;
     }
     {
-        register s32 c __asm__("$3"); /* $v1 */
-        register s32 t __asm__("$4"); /* $a0 */
+        s32 c; /* $v1 */
+        s32 t; /* $a0 */
         t = *(u16 *)(a + 0);
         c = 0x7fff;
         *(s16 *)(((s32)e) + 0x7a) = c;

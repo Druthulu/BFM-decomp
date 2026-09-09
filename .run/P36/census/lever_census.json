@@ -24,7 +24,6 @@
    "gte_stsv": 145,
    "gte_stsxy": 361,
    "gte_stsxy3": 191,
-   "gte_stsxy3_f3": 61,
    "gte_stsxy3c": 94,
    "gte_stsz3": 123,
    "gte_stsz4": 126,
@@ -32,13 +31,14 @@
    "lhu": 70,
    "lw": 80,
    "lwc2": 435,
+   "mfc2": 61,
    "swc2": 449
   },
   "instruction_mnemonics": {
    ".section": 7,
    "RTP_SND": 22,
    "addiu": 22,
-   "addu": 967,
+   "addu": 966,
    "and": 2,
    "la": 142,
    "lh": 134,
@@ -54,14 +54,14 @@
   },
   "kinds": {
    "asm-body/direct": 13,
-   "barrier/direct": 4600,
+   "barrier/direct": 4586,
    "barrier/via-macro": 2,
    "gte/direct": 1140,
    "gte/via-macro": 5751,
-   "instruction/direct": 1691,
+   "instruction/direct": 1690,
    "instruction/via-macro": 22,
-   "keepalive/direct": 2013,
-   "launder/direct": 4266,
+   "keepalive/direct": 2008,
+   "launder/direct": 4240,
    "launder/via-macro": 440,
    "verbatim-body/direct": 2682
   }
@@ -69,65 +69,65 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 10402,
-   "distinct_bodies": 1429,
+   "bodies": 10362,
+   "distinct_bodies": 1385,
    "file_scope": 0,
-   "in_bodies": 21053,
+   "in_bodies": 20811,
    "kinds": {
-    "pin": 21053
+    "pin": 20811
    },
-   "marked": 20251,
-   "sites": 21053,
-   "tus": 2653,
-   "unmarked": 802
+   "marked": 20454,
+   "sites": 20811,
+   "tus": 2613,
+   "unmarked": 357
   },
   "B": {
-   "bodies": 9781,
-   "distinct_bodies": 1095,
+   "bodies": 9768,
+   "distinct_bodies": 1077,
    "file_scope": 13,
-   "in_bodies": 22607,
+   "in_bodies": 22561,
    "kinds": {
     "asm-body": 13,
-    "barrier": 4602,
+    "barrier": 4588,
     "gte": 6891,
-    "instruction": 1713,
-    "keepalive": 2013,
-    "launder": 4706,
+    "instruction": 1712,
+    "keepalive": 2008,
+    "launder": 4680,
     "verbatim-body": 2682
    },
-   "marked": 12896,
-   "sites": 22620,
-   "tus": 2312,
-   "unmarked": 9724
+   "marked": 13023,
+   "sites": 22574,
+   "tus": 2299,
+   "unmarked": 9551
   },
   "C": {
-   "bodies": 640,
-   "distinct_bodies": 108,
+   "bodies": 629,
+   "distinct_bodies": 101,
    "file_scope": 152,
-   "in_bodies": 1595,
+   "in_bodies": 1582,
    "kinds": {
-    "cast": 1524,
-    "decl-body": 69,
+    "cast": 1521,
+    "decl-body": 59,
     "decl-file": 152,
     "param": 2
    },
    "marked": 14,
-   "sites": 1747,
-   "tus": 624,
-   "unmarked": 1733
+   "sites": 1734,
+   "tus": 613,
+   "unmarked": 1720
   },
   "D": {
-   "bodies": 48,
-   "distinct_bodies": 48,
+   "bodies": 47,
+   "distinct_bodies": 47,
    "file_scope": 0,
-   "in_bodies": 51,
+   "in_bodies": 50,
    "kinds": {
-    "register": 51
+    "register": 50
    },
    "marked": 0,
-   "sites": 51,
-   "tus": 7,
-   "unmarked": 51
+   "sites": 50,
+   "tus": 6,
+   "unmarked": 50
   },
   "E": {
    "bodies": 737,
@@ -144,7 +144,7 @@
   },
   "F": {
    "bodies": 428,
-   "distinct_bodies": 29,
+   "distinct_bodies": 28,
    "file_scope": 0,
    "in_bodies": 445,
    "kinds": {
@@ -179,10 +179,10 @@
   },
   {
    "expected": 26,
-   "got": 26,
+   "got": 8,
    "name": "src/shared/ov/func_80178004.h pins",
    "ok": true,
-   "status": "OK"
+   "status": "N-A"
   },
   {
    "expected": 3,
@@ -202,9 +202,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 47281,
+   "live": 46991,
    "macro_block": 7189,
-   "raw": 61262
+   "raw": 60972
   },
   "attribute": {
    "comment_dead": 0,
@@ -220,30 +220,30 @@
   },
   "register": {
    "comment_dead": 8587,
-   "live": 21104,
+   "live": 20861,
    "macro_block": 18,
-   "raw": 29709
+   "raw": 29466
   },
   "volatile": {
    "comment_dead": 2607,
-   "live": 3463,
+   "live": 3449,
    "macro_block": 6510,
-   "raw": 12580
+   "raw": 12566
   }
  },
  "coverage_ok": true,
- "elapsed_s": 31.8,
+ "elapsed_s": 34.9,
  "generated": "2026-09-09",
- "head": "aa70308cf",
+ "head": "cb2fb5e6d",
  "headers": 3181,
  "levers_AB": {
-  "asm": 13047,
-  "bodies": 12570,
-  "distinct_bodies": 1823,
-  "marked": 32973,
-  "pins": 21053,
-  "sites": 34100,
-  "unmarked": 1127,
+  "asm": 13001,
+  "bodies": 12538,
+  "distinct_bodies": 1787,
+  "marked": 33301,
+  "pins": 20811,
+  "sites": 33812,
+  "unmarked": 511,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
  "macro_definitions": {
@@ -389,36 +389,34 @@
   "sample": []
  },
  "pins": {
-  "bare_name": 28,
-  "init": 2843,
+  "bare_name": 26,
+  "init": 2804,
   "registers": {
    "$0": 1321,
-   "$10": 150,
-   "$11": 12,
-   "$12": 409,
-   "$13": 10,
-   "$14": 142,
+   "$10": 146,
+   "$11": 8,
+   "$12": 406,
+   "$13": 9,
+   "$14": 141,
    "$15": 1,
-   "$16": 1811,
-   "$17": 1550,
-   "$18": 495,
-   "$19": 608,
-   "$2": 3897,
-   "$20": 298,
-   "$21": 417,
-   "$22": 12,
-   "$23": 149,
+   "$16": 1787,
+   "$17": 1517,
+   "$18": 479,
+   "$19": 596,
+   "$2": 3854,
+   "$20": 291,
+   "$21": 412,
+   "$22": 9,
+   "$23": 146,
    "$25": 3,
    "$29": 13,
-   "$3": 2479,
-   "$4": 2746,
-   "$5": 2488,
-   "$6": 541,
-   "$7": 731,
-   "$8": 441,
-   "$9": 301,
-   "5": 1,
-   "6": 1,
+   "$3": 2457,
+   "$4": 2730,
+   "$5": 2478,
+   "$6": 526,
+   "$7": 724,
+   "$8": 436,
+   "$9": 295,
    "7": 5,
    "9": 4,
    "a0": 7,
@@ -426,30 +424,30 @@
    "v0": 3,
    "v1": 5
   },
-  "sites": 21053,
+  "sites": 20811,
   "sp": 13,
   "spelling": {
-   "__asm__": 20948,
-   "asm": 105
+   "__asm__": 20707,
+   "asm": 104
   },
   "volatile_qualified": 134,
   "zero": 1321
  },
- "src_stamp": "1b9097d39edf7684",
+ "src_stamp": "e7766972514d7e87",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 16025,
+  "bodies": 15992,
   "by_kind": {
    "main": 180,
    "md": 182,
    "ov": 15258,
    "resident": 12,
-   "shared": 393
+   "shared": 360
   },
-  "copies_in_multi": 14336,
-  "distinct_bodies": 2118,
-  "multi_copy_classes": 429
+  "copies_in_multi": 14331,
+  "distinct_bodies": 2084,
+  "multi_copy_classes": 423
  },
  "verbatim_excluded": {
   "functions": 13,
@@ -485,8 +483,8 @@
  },
  "volatile": {
   "kinds": {
-   "cast": 1524,
-   "decl-body": 69,
+   "cast": 1521,
+   "decl-body": 59,
    "decl-file": 152,
    "param": 2
   }

@@ -11,7 +11,7 @@ void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param
 {
     memcpy(&D_80126C38, param_5, 8);
     memcpy(&D_80126C40, param_6, 8);
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     D_80126B96 = param_2;
     D_80126B9A = param_3;
     D_80126B98 = param_4;

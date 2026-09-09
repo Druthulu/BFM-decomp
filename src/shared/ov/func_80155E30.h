@@ -5,7 +5,7 @@ void func_80155E30(void *a0) {
     extern void func_801599A4(void *a0);
     extern void func_80159B3C(void *a0);
     extern s32 func_80161208(void);
-    volatile s32 spill[4];
+    s32 spill[4];
     *(s32 *)((u8 *)a0 + 0x44) = *(s32 *)((u8 *)a0 + 0x44) | 2;
     if (*(u16 *)((u8 *)a0 + 0xB8) == 0x8000) {
         func_801599A4(a0);

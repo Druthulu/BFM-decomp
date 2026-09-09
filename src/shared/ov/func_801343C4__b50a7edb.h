@@ -26,7 +26,6 @@ s32 func_801343C4(s32 angle, s32 p1, s32 p2)
     pb0[2] = ((u16 *)p2)[2];
 
     a1v = pac[0]; a2v = pac[2];
-    __asm__ __volatile__("" ::: "memory");
     D_8018E6F8 = 0;
     D_8018E6F4 = 0;
     if (((int (*)(int, s16, s16, int))func_80133AB0)(sangle, a1v, a2v, d94)) {

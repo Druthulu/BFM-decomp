@@ -9,12 +9,12 @@ extern s16 D_801152AA;
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2)
 {
-    register s32 param_1 __asm__("$16");   /* $s0 */
-    register s32 param_2 __asm__("$23");   /* $s7 */
-    register s16 *param_3 __asm__("$18");  /* $s2 */
-    register s32 sVar6 __asm__("$20");     /* $s4 */
-    register s32 sVar7 __asm__("$21");     /* $s5 */
-    register s32 uVar8 __asm__("$22");     /* $s6 */
+    s32 param_1;   /* $s0 */
+    s32 param_2;   /* $s7 */
+    s16 *param_3;  /* $s2 */
+    s32 sVar6;     /* $s4 */
+    s32 sVar7;     /* $s5 */
+    s32 uVar8;     /* $s6 */
     u16 *psVar4;
     s32 *piVar5;
     s32 iVar2;
@@ -33,9 +33,9 @@ s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2)
         sVar6 = 7;
         break;
     }
-    __asm__("" : "=r"(param_1) : "0"(param_1));
-    __asm__("" : "=r"(param_2) : "0"(param_2));
-    __asm__("" : "=r"(param_3) : "0"(param_3));
+    __asm__("" : "=r"(param_1) : "0"(param_1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
+    __asm__("" : "=r"(param_2) : "0"(param_2));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
+    __asm__("" : "=r"(param_3) : "0"(param_3));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     if ((*(u32 *)(param_1 + 0x44) & 0x100000) != 0) {
         psVar4 = (u16 *)D_801202A0;
         while (psVar4 < (u16 *)(D_801202A0 + 0x6480)) {

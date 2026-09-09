@@ -4,14 +4,14 @@ void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3)
 {
     Buf buf;
     s32 iVar4;
-    register u32 v __asm__("$17");      /* $s1 */
+    u32 v;      /* $s1 */
     iVar4 = *(s32 *)(param_1 + 0x20);
     v = *(u32 *)(iVar4 + 0x20);
     if (v == 0) {
         *(Blk16 *)(param_3)        = *(Blk16 *)(iVar4 + 0x34);
         *(Blk16 *)((s32)param_3 + 0x10) = *(Blk16 *)(iVar4 + 0x44);
     } else if ((v & 0x1000000) != 0) {
-        register s32 p __asm__("$16");
+        s32 p;
         s32 w;
         p = (s32)(v & 0xfeffffff);
         p = p + param_2 * 8;

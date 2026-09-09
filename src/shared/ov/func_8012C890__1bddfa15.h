@@ -30,9 +30,9 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
     *(s32 *)(dst + 0xDC) = v10;
 
     {
-        register u16 *pc __asm__("$3");
+        u16 *pc;
         pc = &(*(u16 *)&D_801270C4);
-        *(u16 *)(dst + 0x36) = *(volatile u16 *)pc;
+        *(u16 *)(dst + 0x36) = *(u16 *)pc;
         count = *(volatile u16 *)pc + 1;
         *pc = count;
         if (count == 0) {

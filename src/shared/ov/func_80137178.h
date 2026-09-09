@@ -15,16 +15,15 @@ void func_80137178(s32 a0, s32 a1)
         u8 g;
         u8 b;
     } line;
-    register s16 x0    __asm__("$19");             /* $s3 */
-    register s16 white __asm__("$17");             /* $s1 */
-    register u8 *base  __asm__("$18") = D_800A6518; /* $s2 */
+    s16 x0;             /* $s3 */
+    s16 white;             /* $s1 */
+    u8 *base = D_800A6518; /* $s2 */
     s16 x1;
     s16 y0;
     s16 y1;
     x0 = a0 - 3;
     y0 = a1 - 3;
     x1 = a0 + 3;
-    __asm__("" : "=r"(x0) : "0"(x0));
     y1 = a1 - 3;
     white = 0xFF;
     line.tag = 0;

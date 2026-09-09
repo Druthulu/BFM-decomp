@@ -11,7 +11,7 @@ s32 func_801497A8(s32 *a0) {
        single-set gate -> no REG_EQUIV -> the address constant is NOT
        rematerialized at its lone use; it is held in a callee-saved reg ($s1)
        across the calls, as the target does. NOT a register pin (no $N). */
-    __asm__("" : "=r"(s1) : "0"(s1));
+    __asm__("" : "=r"(s1) : "0"(s1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     if (*(u16 *)a0 == 0x1A) goto ret0;
     if (func_8014CB7C() != 0) goto ret0;
     if (D_80078EC1 == 0xF) {

@@ -3,8 +3,8 @@
 extern u16 D_8011DA28;
 s32 func_80146B9C(void * arg0)
 {
-    register u8 *p __asm__("$6");
-    register u8 *q __asm__("$5");
+    u8 *p;
+    register u8 *q __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
     u8 *end;
     p = (u8 *)&D_8011DA28;
     end = p - 0x9F8;

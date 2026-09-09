@@ -4,14 +4,14 @@ extern s32 func_8012DE2C(s32 a0);
 extern s32 func_8012DDA4(void);
 extern void func_80013350(s32 a0, void *a1);
 s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    register s32 param_1 __asm__("$18");  /* $s2 */
-    register s32 param_2 __asm__("$20");  /* $s4 */
-    register s32 param_3 __asm__("$21");  /* $s5 */
-    register s32 param_4 __asm__("$19");  /* $s3 */
-    register s32 iVar1 __asm__("$16");    /* $s0 */
-    register s32 iVar5 __asm__("$17");    /* $s1 (running max, then its square) */
+    s32 param_1;  /* $s2 */
+    s32 param_2;  /* $s4 */
+    register s32 param_3 __asm__("$21");  /* $s5 */  // !FAKE: pin $21 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 param_4 __asm__("$19");  /* $s3 */  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 iVar1;    /* $s0 */
+    s32 iVar5;    /* $s1 (running max, then its square) */
     s32 iVar4;
-    register s32 t __asm__("$2");          /* $v0: keep the loaded halfword in $v0 so abs copies $v0->$v1 */
+    register s32 t __asm__("$2");          /* $v0: keep the loaded halfword in $v0 so abs copies $v0->$v1 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     u32 uVar3;
     param_1 = arg0;
     param_2 = arg1;
@@ -34,7 +34,7 @@ s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         if (iVar4 < 0) {
             iVar4 = -iVar4;
         }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
+        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         if (iVar5 < iVar4) {
             iVar5 = iVar4;
         }
@@ -43,7 +43,6 @@ s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         if (t < 0) {
             iVar4 = -iVar4;
         }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
         if (iVar5 < iVar4) {
             iVar5 = iVar4;
         }
@@ -52,7 +51,6 @@ s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         if (t < 0) {
             iVar4 = -iVar4;
         }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
         if (iVar5 < iVar4) {
             iVar5 = iVar4;
         }
@@ -61,7 +59,6 @@ s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         if (t < 0) {
             iVar4 = -iVar4;
         }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
         if (iVar5 < iVar4) {
             iVar5 = iVar4;
         }
@@ -70,7 +67,6 @@ s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         if (t < 0) {
             iVar4 = -iVar4;
         }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
         if (iVar5 < iVar4) {
             iVar5 = iVar4;
         }

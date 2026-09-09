@@ -6,8 +6,8 @@ extern s32 func_80011A3C(void);
 extern short currentLocationId;
 extern short D_800B99F2;
 void func_80128564(void) {
-    register s32 p __asm__("$6") = 0x1F8003FC;
-    __asm__ __volatile__(
+    s32 p = 0x1F8003FC;
+    __asm__ __volatile__(  // !FAKE: instruction addu — REFUSED instruction `addu` has no C spelling in the table (P36 rung A headers1)
         "addu  $8, %0, $zero\n"
         "sw    $sp, 0($8)\n"
         "addiu $8, $8, -4\n"

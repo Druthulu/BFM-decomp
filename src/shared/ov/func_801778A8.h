@@ -1,15 +1,15 @@
 /* func_801778A8 — shared body (overlay slot 0x80128158, h_exact 3ca961de). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_801778A8(int param_1, unsigned int param_2, short param_3, short param_4) {
-    register unsigned int uVar1 __asm__("$2");
-    register unsigned int nib __asm__("$3");
+    unsigned int uVar1;
+    register unsigned int nib __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
     int iVar2;
-    register int im1 __asm__("$11");
+    int im1;
     int p4;
-    register char *p __asm__("$7");
+    register char *p __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
     short iVar4;
     unsigned short uVar5;
-    register unsigned int mask __asm__("$12");
+    unsigned int mask;
     uVar5 = 0x100;
     iVar2 = (int)param_3;
     iVar4 = 0;

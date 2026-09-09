@@ -4,10 +4,10 @@ extern void *memcpy(void *, const void *, u32);
 extern void gteMIMefunc();
 void func_801325B8(int dst, int src, int m0, int mm, int arg5)
 {
-    register int p __asm__("$4");
-    register int m __asm__("$16");
-    register int n __asm__("$17");
-    register int dv __asm__("$18");
+    register int p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    int m;
+    int n;
+    register int dv __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers1)
     int sv;
     int ofs;
     int c;

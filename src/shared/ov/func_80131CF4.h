@@ -14,7 +14,7 @@ enter:
     if (a0[0] == 0) {
         return 0;
     }
-    __asm__ __volatile__("" : "=r"(k) : "0"(0xD) : "memory");
+    __asm__ __volatile__("" : "=r"(k) : "0"(0xD) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     v0 = a0[0];
     do {
         if (v0 == k) {

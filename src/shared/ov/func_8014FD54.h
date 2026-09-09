@@ -7,7 +7,7 @@ int func_8014FD54(int param_1)
     short buf1[3];
     short buf2[4];
     int ret;
-    register int result __asm__("$2");
+    register int result __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     buf1[0] = 0;
     buf1[1] = 0;
     buf1[2] = 7;

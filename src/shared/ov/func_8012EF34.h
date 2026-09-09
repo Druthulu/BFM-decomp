@@ -3,10 +3,10 @@
 extern void func_8012EFB8(s32 a0);
 void func_8012EF34(s32 a0, s32 a1) {
     s32 sp10;
-    register s32 v1 __asm__("$3");
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
     func_8012EFB8(a0);
     {
-        register s32 *p __asm__("$3") = &sp10;
+        register s32 *p __asm__("$3") = &sp10;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
         __asm__ __volatile__("swc2 $19, 0(%0)" : : "r"(p) : "memory");
     }
     v1 = sp10;

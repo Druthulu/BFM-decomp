@@ -11,18 +11,18 @@ void func_80166054(s32 arg0) {
     extern void func_80146C3C();
     extern u8 D_800D387C[];
     extern u8 D_800D3888[];
-    register s32 param_1 __asm__("$18"); /* $s2 */
-    register s32 s0 __asm__("$16");      /* $s0 */
-    register s32 s1 __asm__("$17");      /* $s1 */
-    register s32 r0 __asm__("$19");      /* $s3 */
-    register s32 r1 __asm__("$20");      /* $s4 */
+    s32 param_1; /* $s2 */
+    register s32 s0 __asm__("$16");      /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 s1 __asm__("$17");      /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 r0;      /* $s3 */
+    s32 r1;      /* $s4 */
     s32 v1;
     s32 iVar2;
     s32 iVar3;
-    register u32 fld __asm__("$2"); /* $v0 */
+    register u32 fld __asm__("$2"); /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     s32 v0;
-    register s32 r2 __asm__("$5");  /* $a1 */
-    register s32 a0 __asm__("$4");  /* $a0 */
+    s32 r2;  /* $a1 */
+    register s32 a0 __asm__("$4");  /* $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     param_1 = arg0;
     s0 = *(s32 *)(param_1 + 0x34);
     func_80149374(s0, param_1 + 4);
@@ -55,7 +55,7 @@ void func_80166054(s32 arg0) {
     func_800D1FC8(param_1, 6);
     v0 = func_800D21C4(param_1, D_800D387C, 0x9c);
     if (v0 != 0) {
-        register s32 uVar1 __asm__("$2");
+        s32 uVar1;
         *(s32 *)(param_1 + 0x20) = v0;
         *(u32 *)(v0 + 4) = *(u32 *)(v0 + 4) | 0x50000040;
         if (*(s32 *)(param_1 + 0x2c) != 3) {
@@ -64,7 +64,7 @@ void func_80166054(s32 arg0) {
             uVar1 = *(u16 *)(param_1 + 0x32);
         }
         *(u16 *)(v0 + 0x18) = uVar1;
-        __asm__("" ::: "memory");
+        __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
         *(u16 *)(v0 + 0x1a) = *(u16 *)(v0 + 0x18);
         func_80128EA8(v0, param_1 + 0x24, (s32)D_800D3888);
         func_801661CC(param_1);

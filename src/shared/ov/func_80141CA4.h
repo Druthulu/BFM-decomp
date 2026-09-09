@@ -77,7 +77,7 @@ extern unsigned char D_80113C3C[];
 extern unsigned char D_80113C7C[];
 unsigned char *func_80141CA4(void) {
     s32 iVar3;
-    register s32 cVar1 __asm__("$3");
+    s32 cVar1;
     iVar3 = func_80029504();
     if (iVar3 < 10) {
         return D_80112C04;
@@ -274,7 +274,6 @@ unsigned char *func_80141CA4(void) {
         return D_80113A50;
     }
     if (iVar3 < 0x3ca) {
-        __asm__ __volatile__("");
         return D_80113A28;
     }
     if (iVar3 < 0x3d4) {

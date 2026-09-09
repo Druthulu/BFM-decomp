@@ -106,7 +106,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
             s32 h;
             h = ((s16 *)pb0)[0];
             s1var = h << 16;
-            __asm__("lh %0, 2(%2)" : "=r"(h) : "0"(h), "r"(pb0) : "memory");
+            __asm__("lh %0, 2(%2)" : "=r"(h) : "0"(h), "r"(pb0) : "memory");  // !FAKE: instruction lh — NEEDED DIFFERS (P36 rung B headers1)
             s0var = h << 16;
         }
         pb0[2] += q3v;

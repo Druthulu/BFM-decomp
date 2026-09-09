@@ -4,13 +4,13 @@ extern s32 ratan2(s32 a0, s32 a1);
 s32 func_8012BA10(s32 arg0, s32 arg1) {
     extern u16 D_80126B5E;
     extern u16 D_80126B66;
-    register s32 d __asm__("$16");      /* $s0 -- pinned: divisor, live across the jal */
-    register s32 s1ang __asm__("$17");  /* $s1 -- pinned: ptr+0x12 angle, live across the jal */
+    register s32 d __asm__("$16");      /* $s0 -- pinned: divisor, live across the jal */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 s1ang;  /* $s1 -- pinned: ptr+0x12 angle, live across the jal */
     s32 u5; s32 u6; s32 iVar4; s32 q; s32 t;
     d = arg1;
     s1ang = *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
     u5 = (ratan2(*(s16 *)(arg0 + 0xE) - (s16)D_80126B66, (s16)D_80126B5E - *(s16 *)(arg0 + 6)) - 0x400) & 0xFFF;
-    __asm__ __volatile__("" : : "r"(u5));   /* scheduling barrier: anchor u5 before the (s16)d cast */
+    __asm__ __volatile__("" : : "r"(u5));   /* scheduling barrier: anchor u5 before the (s16)d cast */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     d = (s16)d;
     u6 = s1ang & 0xFFF;
     if (u6 == u5) return 0;

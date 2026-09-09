@@ -4,13 +4,13 @@ extern void func_801757A0(s32 a0);
 extern short D_800B9A02;
 void func_80175590(void *arg0) {
     u8 temp_a0;
-    register s16 temp_v1 __asm__("$3");
+    register s16 temp_v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
     s32 temp_v0;
     temp_a0 = *(u8 *)((u8 *)arg0 + 5);
     temp_v0 = *(u8 *)((u8 *)arg0 + 6) - temp_a0;
     temp_v1 = -(temp_v0 & 0xFF);
     *(u8 *)((u8 *)arg0 + 6) = (u8)temp_v0;
-    __asm__ __volatile__("" : : : "memory");
+    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     temp_v0 = *(u8 *)((u8 *)arg0 + 6);
     *(u8 *)((u8 *)arg0 + 5) = (u8)(temp_a0 + 0xFF);
     *(s16 *)((u8 *)arg0 + 0x10) = temp_v1;

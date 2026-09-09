@@ -18,7 +18,7 @@ void func_80151780(s32 a0) {
         if (fp != 0) {
             ((s32 (*)(s32))func_801725CC)(a0);
             {
-                register s32 cur __asm__("$4");
+                register s32 cur __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
                 cur = D_8011DB1A;
                 if (cur != 1000) {
                     D_8011DB1A = func_80029D3C();

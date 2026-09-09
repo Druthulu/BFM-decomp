@@ -6,7 +6,7 @@ extern int func_8014C918();
 int func_8014CD80(int param_1, unsigned short *param_2, unsigned short *param_3)
 {
     short *psVar4;
-    register int iVar3 __asm__("$3");
+    register int iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
     unsigned short uVar1;
     unsigned short uVar2;
     psVar4 = *(short **)(param_1 + 0x174);

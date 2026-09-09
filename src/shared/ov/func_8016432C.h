@@ -24,7 +24,7 @@ void func_8016432C(s32 a0) {
             *(s32 *)(s0 + 0x184) = 0;
         }
         *(u16 *)(s0 + 0x188) = 0;
-        __asm__ __volatile__("" : : "r"(s0));
+        __asm__ __volatile__("" : : "r"(s0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
         *(u32 *)(s0 + 0x44) = *(u32 *)(s0 + 0x44) & 0xFFFFFFFB;
         func_801553C0(s0);
         func_80147364(4, 0x449);

@@ -1,26 +1,26 @@
 /* func_80128ED8 — shared body (overlay slot 0x80128158, h_exact e4095201). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80128ED8(s32 param_1, s32 *param_2) {
-    register s32 iVar4 __asm__("$8");   /* base ptr, lives whole fn in $t0 */
-    register s32 cnt   __asm__("$2");   /* decremented count in $v0 */
-    register s32 cc    __asm__("$3");   /* preserved count copy in $v1 (forces the bne-delay-slot copy) */
-    register s32 idx   __asm__("$3");   /* offset-4 index, loaded into $v1 */
-    register s32 idc   __asm__("$7");   /* $a3: preserved idx copy, forced SEPARATE from the multiply */
+    s32 iVar4;   /* base ptr, lives whole fn in $t0 */
+    register s32 cnt   __asm__("$2");   /* decremented count in $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 cc    __asm__("$3");   /* preserved count copy in $v1 (forces the bne-delay-slot copy) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 idx   __asm__("$3");   /* offset-4 index, loaded into $v1 */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 idc   __asm__("$7");   /* $a3: preserved idx copy, forced SEPARATE from the multiply */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
     u32 uVar3;
     s32 frame_pad[4];                   /* phantom 0x10 frame the target reserves (induce via clobber anchor) */
-    __asm__ __volatile__("" : : "r"(&frame_pad) : "memory");
+    __asm__ __volatile__("" : : "r"(&frame_pad) : "memory");  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     iVar4 = *param_2;
     cnt = *(s16 *)((s32)param_2 + 6);
     if (cnt == 0) {
         return 1;
     }
     cc = cnt;
-    __asm__ __volatile__("" : "=r"(cc) : "0"(cc));   /* force the count-preserve copy ($v1=$v0) */
+    __asm__ __volatile__("" : "=r"(cc) : "0"(cc));   /* force the count-preserve copy ($v1=$v0) */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     cnt = cc - 1;
     *(s16 *)((s32)param_2 + 6) = (s16)cnt;
     if (cnt * 0x10000 < 1) {
         idx = *(s16 *)((s32)param_2 + 4);
-        __asm__ __volatile__("" : "=r"(idx) : "0"(idx));   /* pin the index into $v1 */
+        __asm__ __volatile__("" : "=r"(idx) : "0"(idx));   /* pin the index into $v1 */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         uVar3 = *(u32 *)(idx * 8 + iVar4 + 4);
         idc = idx;
         if ((uVar3 & 0xc0) == 0xc0) {

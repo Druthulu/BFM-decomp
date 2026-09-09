@@ -13,7 +13,7 @@ extern void func_80159B3C(void *a0);
 extern int func_80155FF8(int arg, int a1);
 extern u8 D_800D52E8[];
 void func_80158344(s32 *a0) {
-    volatile s32 spill[4];
+    s32 spill[4];
     *(s32 *)((s32)a0 + 0x44) |= 2;
     if (func_80161208() == 0) {
         if (func_801585AC(a0) != 0) {

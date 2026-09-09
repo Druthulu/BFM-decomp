@@ -15,7 +15,7 @@ extern u8 D_80062BD0;
 extern s16 D_801152A0;
 void func_80160410(s32 * a0)
 {
-    register s32 angle __asm__("$17");
+    register s32 angle __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
     s32 m1[3];
     s32 out[12];
     u32 buf[2];

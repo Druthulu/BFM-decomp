@@ -8,7 +8,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
 {
     struct { short xy[2]; int sp14; int flag; } f;
-    register void *p __asm__("$4");
+    register void *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     p = &D_800AF648;
     func_8004914C(p);
     func_800491AC(&D_800AF648);

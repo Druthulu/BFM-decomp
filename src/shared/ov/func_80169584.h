@@ -5,7 +5,7 @@ void func_80169584(s32 param_1) {
     u8 buf[0x60];   /* spans $sp+0x10 .. (named local_<0x78-off>) */
     s32 v1;
     s32 v0;
-    register s32 s0 __asm__("$16");   /* param_1 + 0x38, held across both calls */
+    s32 s0;   /* param_1 + 0x38, held across both calls */
     *(s16 *)(buf + 0x00) = 7;     /* 0x10 = local_68 */
     *(s16 *)(buf + 0x18) = -7;    /* 0x28 = local_50 */
     *(s16 *)(buf + 0x0a) = 2;     /* 0x1A = local_5e */
@@ -41,7 +41,7 @@ void func_80169584(s32 param_1) {
     }
     *(s8 *)(buf + 0x28) = v0;        /* 0x38 = local_40 */
     *(s8 *)(buf + 0x24) = v0;        /* 0x34 = local_44 */
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     *(s32 *)(buf + 0x30) = 0x50000000;   /* 0x40 = local_38 */
     s0 = param_1 + 0x38;
     *(s32 *)(param_1 + 0x4c) = (s32)*(s16 *)(param_1 + 0x06);

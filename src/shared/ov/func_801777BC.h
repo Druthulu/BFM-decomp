@@ -5,9 +5,9 @@ void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
     u32 cl;
     u32 flag;
     u32 nn;
-    register u32 n __asm__("$10");
+    register u32 n __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B headers1)
     u32 t;
-    register u32 col __asm__("$4");
+    register u32 col __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     u32 mask;
     s32 cnt;
     s32 dp;

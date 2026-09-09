@@ -6,8 +6,8 @@ void func_8014C6F4(u8 *a) {
     extern s32 func_8016F1AC(void);
     extern void func_80015978(s32 a0, s32 *a1);
     u8 *p = D_80078E78;
-    register u8 *e __asm__("$2");
-    register u8 *lim __asm__("$3");
+    u8 *e;
+    register u8 *lim __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
     u8 *q;
     s32 want;
     u8 *src;

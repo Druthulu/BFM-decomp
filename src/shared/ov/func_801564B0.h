@@ -30,7 +30,7 @@ s32 func_801564B0(s32 a0) {
         /* LOAD-BEARING: empty volatile asm blocks gcc's noce store-flag
            if-conversion (it would fold "cond ? 0x8000 : 0" to (slt)<<15);
            the original kept the slt+branch form. */
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers1)
         return 0;
     }
     return 0x8000;

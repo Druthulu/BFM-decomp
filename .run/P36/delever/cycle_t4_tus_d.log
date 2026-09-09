@@ -3,3 +3,6 @@ cycle: batch tus8 committed d9e01a398 — delever: batch tus8 — 300 files (TUs
 log: tus9 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 34,459 sites in 12,656 bodies (1,909 distinct) · marked !FAKE 32,473 · UNMARKED 1,986
 cycle: batch tus9 committed aa70308cf — delever: batch tus9 — 300 files (TUs; 383 drawable) · 1901 bodies: 454 lever-free, 1430 residue, 8 refused · sites removed 2244 / needed 2937 / refused 42 / deferred 9 · replays 522 (0 disagreed) · compiles 5262 in 294 s wall · final 300/300 identical · written 297 files | check-all: 218 passed, 0 failed of 218
 log: tus10 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 34,100 sites in 12,570 bodies (1,823 distinct) · marked !FAKE 32,973 · UNMARKED 1,127
+cycle: batch tus10 committed cb2fb5e6d — delever: batch tus10 — 83 files (TUs; 83 drawable) · 362 bodies: 99 lever-free, 258 residue, 2 refused · sites removed 411 / needed 483 / refused 37 / deferred 3 · replays 4 (0 disagreed) · compiles 1171 in 25 s wall · final 83/83 identical · written 83 files | check-all: 218 passed, 0 failed of 218
+cycle: nothing drawable at tus11 — done
+cycle exit=0

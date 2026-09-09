@@ -20,7 +20,7 @@ void func_8014ADE0(s32 a0)
      * to `lui %hi / lw %lo`; taking the address instead materializes it and CSE hoists it
      * into a reg across all 4 uses (§18 &sym trap) — measured, it shifts ~100 insns. */
     extern s32 D_80078E90;
-    register u8 *p __asm__("$17") = D_80078E78;
+    u8 *p = D_80078E78;
     s32 temp_s2;
     s32 var_a1;
     if (func_8016F1C4() != 0) {

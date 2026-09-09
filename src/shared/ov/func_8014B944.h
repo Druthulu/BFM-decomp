@@ -9,21 +9,21 @@ void func_8014B944(s32 a0, s32 a1, s32 a2)
     u8 *base = D_80078E78;
     if (a2 != 0) {
         D_80078EA4 += a1;
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
         if ((s16)D_80078EA6 >= 0xA1) {
             D_80078EA4 = 0xA00000;
         }
     } else {
         if ((func_80029178(0x1B) & 0xFF) != 0) {
             D_80078EA4 += a1;
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
             if ((s16)D_80078EA6 >= 0xA1) {
                 D_80078EA4 = 0xA00000;
             }
         } else {
             if ((s16)D_80078EA6 < 0x80) {
                 D_80078EA4 += a1;
-                __asm__ __volatile__("" ::: "memory");
+                __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
                 if ((s16)D_80078EA6 >= 0x81) {
                     D_80078EA4 = 0x800000;
                 }

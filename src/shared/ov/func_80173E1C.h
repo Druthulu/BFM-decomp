@@ -11,8 +11,8 @@ extern s32 D_80127508;
 extern u8 D_800D5DC0[];
 void func_80173E1C(s32 a0)
 {
-    register s32 s0 __asm__("$16");
-    register s32 *s1 __asm__("$17");
+    s32 s0;
+    s32 *s1;
     s32 sp10[2];
     s32 sp18[2];
     s1 = &D_80127508;

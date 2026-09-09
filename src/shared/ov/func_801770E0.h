@@ -7,9 +7,9 @@ extern u16 D_8011F830;
 extern u16 D_8011F82E;
 u32 *func_801770E0(void *param_1, u32 param_2, s16 param_3_)
 {
-    register s32 c3  __asm__("$21") = 3;     /* $s5 */
-    register s32 cb8 __asm__("$20") = 0xb8;  /* $s4 */
-    register s32 cff __asm__("$19") = 0xff;  /* $s3 */
+    s32 c3 = 3;     /* $s5 */
+    s32 cb8 = 0xb8;  /* $s4 */
+    s32 cff = 0xff;  /* $s3 */
     s32 iVar6 = (s16)param_3_;               /* -> $s1 */
     u32 uVar5 = iVar6 << 16;                 /* -> $s0 */
     void *uVar2;
@@ -29,7 +29,7 @@ u32 *func_801770E0(void *param_1, u32 param_2, s16 param_3_)
     puVar3 = (u32 *)func_801777BC(u5, sVar1, (s32)((param_2 + 0x38) << 16) >> 16, iVar6, c3, cb8, cff);
     dl = ((struct { u16 h; } *)&D_8011F830)->h;
     { u32 v0m = ((u32)(puVar3 - 5) & 0xffffff) | 0x3000000;
-      register u32 c6055 __asm__("$6") = 0x6055ff00;
+      register u32 c6055 __asm__("$6") = 0x6055ff00;  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1)
       puVar3[1] = c6055;
       *puVar3 = v0m; }
     uVar4 = ((iVar6 - 4) << 16) | ((param_2 + 1) & 0xffff);

@@ -4,8 +4,8 @@ s32 aF8014E5B4(s32 a0, void *a1, void *a2) __asm__("func_8014E5B4");
 s32 aF8014E5B4(s32 a0, void *a1, void *a2)
 {
     extern u8 D_801202A0[];
-    register u8 *p __asm__("$17");
-    register u8 *q __asm__("$16");
+    u8 *p;
+    register u8 *q __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
     u8 *e;
     s32 t;
     p = D_801202A0;

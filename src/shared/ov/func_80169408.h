@@ -8,8 +8,8 @@ extern void func_800D20C0(void *a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);
 extern void func_80169584(s32 param_1);
 void func_80169408(s32 a0) {
-    register s32 s2 __asm__("$18") = a0;
-    register s32 s1 __asm__("$17");
+    register s32 s2 __asm__("$18") = a0;  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 s1;
     s16 v10[4];   /* sp+0x10 SVECTOR */
     s16 out[4];   /* sp+0x18 SVECTOR */
     s16 m[32];    /* sp+0x20 MATRIX_L48 (+ trailing reserve to 0x60 — matches target frame) */

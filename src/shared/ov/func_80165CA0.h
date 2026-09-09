@@ -3,13 +3,13 @@
 void func_80165CA0(void) {
     extern s32 D_8011D030;
     extern s32 D_80126728;
-    register s32 i __asm__("$17");
+    s32 i;
     s32 off;
     u16 *q;
     s32 a1, base;
     short *p;
-    register short v __asm__("$2");
-    register short w __asm__("$3");
+    short v;
+    register short w __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
     i = 0; q = &D_8011D030;
     do {
         if (*q != 0) (*(void (**)(u16 *))((u32)*q * 4 + D_80126728))(q);

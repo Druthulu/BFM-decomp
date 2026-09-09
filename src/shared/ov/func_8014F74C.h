@@ -47,7 +47,7 @@ int func_8014F74C(s32 arg0)
             __builtin_memcpy((void *)&D_801152B0, (void *)D_801152A8, 8);
             D_801152BC = 1;
         }
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
         return ret;
     }
     /* ret == 0 */

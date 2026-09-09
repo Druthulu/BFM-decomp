@@ -6,8 +6,8 @@ extern void func_8014CC28(s32 a0);
 extern void func_8014FA04(s32 a0);
 s32 func_801535F4(void *arg0) {
     s32 var_s1;
-    register u32 flags __asm__("$4");
-    register u32 fcopy __asm__("$3");
+    u32 flags;
+    register u32 fcopy __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
     s32 ret;
     var_s1 = 0;
     if (((s32 (*)(void))func_8014ED28)() != 0) {
@@ -29,6 +29,6 @@ s32 func_801535F4(void *arg0) {
             ret = var_s1;
         }
     }
-    __asm__ __volatile__("" : : "r"(flags));
+    __asm__ __volatile__("" : : "r"(flags));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     return ret;
 }

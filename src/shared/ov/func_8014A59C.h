@@ -14,7 +14,7 @@ void func_8014A59C(s32 a0) {
             }
             D_80078EBF = D_80078EBF + add;
             if (0x80 < D_80078EBF) {
-                __asm__ __volatile__("");
+                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers1)
                 D_80078EBF = 0x80;
             }
         }

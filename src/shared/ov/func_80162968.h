@@ -8,10 +8,10 @@ extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80012558(s32 a0, s32 a1);
 void func_80162968(s32 param_1)
 {
-    register int p __asm__("$18");
-    register int iVar4 __asm__("$17");
-    register int iVar3 __asm__("$16");
-    register int iVar5 __asm__("$19");
+    int p;
+    int iVar4;
+    int iVar3;
+    int iVar5;
     short sVar2;
     int iVar6;
     p = param_1;

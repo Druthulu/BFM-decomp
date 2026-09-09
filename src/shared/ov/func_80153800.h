@@ -31,7 +31,7 @@ ret0:
         return 0;
     }
     {
-        register s32 m __asm__("$3") = bVar1 * 4;
+        register s32 m __asm__("$3") = bVar1 * 4;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
         s2 = m;
         buf2[1] = *(u16 *)(s1 + 0xA2) - m;
     }

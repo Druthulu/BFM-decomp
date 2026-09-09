@@ -39,11 +39,10 @@ void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3) {
     }
     {
         s32 lo = a3 + 0xC;
-        register s32 hi __asm__("$3") = a3 + 0x5;
+        register s32 hi __asm__("$3") = a3 + 0x5;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
         *(u16 *)(a2 + 0x12) = lo;
         *(u16 *)(a2 + 0xA) = lo;
         *(u16 *)(a2 + 0x22) = hi;
         *(u16 *)(a2 + 0x1A) = hi;
     }
-    __asm__ __volatile__("" ::: "memory");
 }

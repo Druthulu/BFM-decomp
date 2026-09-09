@@ -4,8 +4,8 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_801202A0[];
 s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2)
 {
-    register u8 *p   __asm__("$17");  /* $s1 */
-    register u8 *q   __asm__("$16");  /* $s0 */
+    u8 *p;  /* $s1 */
+    register u8 *q   __asm__("$16");  /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
     u8 *end;
     s32 t;
     p = D_801202A0;

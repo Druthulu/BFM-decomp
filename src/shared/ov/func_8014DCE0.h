@@ -3,8 +3,8 @@
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 s32 func_8014DCE0(s32 arg0, s32 arg1, s32 arg2) {
     struct Quad buf;
-    register s32 i __asm__("$17");
-    register s32 s0 __asm__("$16");
+    register s32 i __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 s0;
     buf = *(struct Quad *)(*(u32 *)(arg0 + 0x58) & 0xFFFFFFF);
     i = 0;
     s0 = arg2;

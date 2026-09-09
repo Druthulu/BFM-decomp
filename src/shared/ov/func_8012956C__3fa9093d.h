@@ -12,17 +12,17 @@ void func_8012956C(void) {
     extern u8 D_8018FA98;
     extern u8 D_800AF630[];
     extern u8 D_800A6518[];
-    register s32 *sp10 __asm__("$21");
-    register u8 *afbase __asm__("$22");
-    register s32 *sp0 __asm__("$23");
+    s32 *sp10;
+    u8 *afbase;
+    s32 *sp0;
     Ent_956C *base;
     s32 i;
     s16 a1;
-    register u32 temp_a3 __asm__("$7");
-    register u32 arg0 __asm__("$4");
-    register u32 s __asm__("$2");
-    register u32 s2 __asm__("$3");
-    register u32 t6 __asm__("$8");
+    register u32 temp_a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung A headers1)
+    register u32 arg0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A headers1)
+    u32 s;
+    register u32 s2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A headers1)
+    u32 t6;
     s32 code;
 
     sp10 = (s32 *)0x1F800010;
@@ -32,7 +32,6 @@ void func_8012956C(void) {
         return;
     }
     base = (Ent_956C *)&D_800B9A78;
-    __asm__("" : "=r"(base) : "0"(base));
     i = 0;
     do {
         s32 idx = i * 8 + 4;
@@ -73,7 +72,7 @@ void func_8012956C(void) {
                       D_8018E680[idx], D_8018E681[idx], D_8018E682[idx]);
         goto next;
     do_default:
-        __asm__("");
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung A headers1)
         arg0 = D_8018FA98;
         s = base->f40;
         temp_a3 = base->f38;

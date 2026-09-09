@@ -7,7 +7,7 @@ u32 *func_8017742C(u32 *param_1, s32 param_2, s32 param_3) {
     s16 sVar1;
     u32 uVar2;
     s32 a3 = (s32)param_1;
-    register s32 t1 __asm__("$9") = param_2;
+    s32 t1 = param_2;
     s32 t0 = a3;
     u8 *base = &D_8011F7F0;
     *(u32 *)a3 = (a3 - 0x14) & 0xffffff | 0x3000000;

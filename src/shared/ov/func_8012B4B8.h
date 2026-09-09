@@ -6,9 +6,9 @@ extern void RotMatrixY(int r, void *m);
 extern void RotMatrixZ(int r, void *m);
 s32 func_8012B4B8(int param_1)
 {
-    register int self __asm__("$17");
-    register int obj  __asm__("$16");
-    register int *src __asm__("$5");
+    int self;
+    register int obj  __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+    register int *src __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
     int m[8];
     short sVar1;
     int o2, t0, t1, t2;
@@ -16,7 +16,7 @@ s32 func_8012B4B8(int param_1)
     obj = *(int *)(self + 0x20);
     if (obj != 0) {
         src = (int *)&D_800AE620;
-        __asm__("" : "=r"(src) : "0"(src));
+        __asm__("" : "=r"(src) : "0"(src));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         t0 = src[0]; t1 = src[1]; t2 = src[2]; m[0] = t0; m[1] = t1; m[2] = t2;
         t0 = src[3]; t1 = src[4]; t2 = src[5]; m[3] = t0; m[4] = t1; m[5] = t2;
         t0 = src[6]; t1 = src[7];              m[6] = t0; m[7] = t1;

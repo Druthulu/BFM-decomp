@@ -6,10 +6,10 @@ extern u8 D_800B9A78;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8();
 void func_8012944C(void) {
-    register s32 base __asm__("$16");   /* $s0 = &D_800B9A78 */
-    register short *p __asm__("$17");    /* $s1 = base + 0x1E */
-    register s32 i __asm__("$18");        /* $s2 = counter */
-    register s32 sh __asm__("$19");       /* $s3 = 0x30000 + i*0x10000 */
+    s32 base;   /* $s0 = &D_800B9A78 */
+    register short *p __asm__("$17");    /* $s1 = base + 0x1E */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 i;        /* $s2 = counter */
+    s32 sh;       /* $s3 = 0x30000 + i*0x10000 */
     s32 *g = (s32 *)&D_8005128C;
     int v;
     s32 arg;

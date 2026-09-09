@@ -11,13 +11,13 @@ s32 func_80169A4C(s32 a0, s32 a1) {
     u8 v1;
     s8 v0;
     u16 t2c;
-    register u8 *q __asm__("$4");    /* $sp+0x68, first call a0 */
-    register s32 m5 __asm__("$3");   /* -5 -> $v1 */
-    register s32 p5 __asm__("$2");   /* 5  -> $v0 */
+    u8 *q;    /* $sp+0x68, first call a0 */
+    s32 m5;   /* -5 -> $v1 */
+    s32 p5;   /* 5  -> $v0 */
     q = buf + 0x58;
-    __asm__("" : : "r"(q));
+    __asm__("" : : "r"(q));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     m5 = -5;
-    __asm__("" : : "r"(m5));
+    __asm__("" : : "r"(m5));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     p5 = 5;
     *(s16 *)(buf + 0x18) = p5;   /* 0x28 */
     *(s16 *)(buf + 0x10) = p5;   /* 0x20 */

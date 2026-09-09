@@ -14,20 +14,20 @@ s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3)
     s32 w1;
     s32 t2;
     s32 p1;
-    register s32 h __asm__("$4");   /* a0 — the b[0]-store copy temp (RC-4b) */
-    register u16 *p3 __asm__("$7");   /* a3 — force the addu a3,a2 copy to materialize (RC-3) */
+    register s32 h __asm__("$4");   /* a0 — the b[0]-store copy temp (RC-4b) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    register u16 *p3 __asm__("$7");   /* a3 — force the addu a3,a2 copy to materialize (RC-3) */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
     u16 *psVar11;
     s32 sVar7;
     s16 sVar8;
     u32 uVar10;
     short a[3];
     short b[3];
-    __asm__("addu %0,%1,$zero" : "=r"(p3) : "r"(param_3));
+    __asm__("addu %0,%1,$zero" : "=r"(p3) : "r"(param_3));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B headers1)
     w0 = p3[0];
     w1 = param_2[0];
     dx = w0 - w1;
     p1 = param_1;
-    __asm__ __volatile__("" : : "r"(p1), "r"(param_2));
+    __asm__ __volatile__("" : : "r"(p1), "r"(param_2));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     w0 = p3[2];
     w1 = param_2[2];
     dz = w0 - w1;

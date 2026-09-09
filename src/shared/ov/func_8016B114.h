@@ -25,9 +25,9 @@ void func_8016B114(void *arg0)
     case 1:
     case 5:
     {
-        register s32 r26 __asm__("$4");
-        register s32 r14 __asm__("$2");
-        register s32 r24 __asm__("$3");
+        s32 r26;
+        s32 r14;
+        s32 r24;
         func_800D22E4((s32)arg0);
         r26 = *(u16 *)((u8 *)arg0 + 0x26);
         r14 = *(s32 *)((u8 *)arg0 + 0x14);
@@ -42,9 +42,9 @@ void func_8016B114(void *arg0)
     }
     default:
     {
-        register s32 d26 __asm__("$2");
-        register s32 dA  __asm__("$3");
-        register s32 d24 __asm__("$4");
+        s32 d26;
+        s32 dA;
+        s32 d24;
         d26 = *(u16 *)((u8 *)arg0 + 0x26);
         dA  = *(u16 *)((u8 *)arg0 + 0xA);
         d24 = *(u16 *)((u8 *)arg0 + 0x24);

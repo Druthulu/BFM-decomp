@@ -12,8 +12,8 @@ void func_80169058(s32 a0) {
     s16 v18[4];   /* sp+0x18 SVECTOR */
     s16 v20[16];  /* sp+0x20 MATRIX_L48 */
     s16 v40[16];  /* sp+0x40 MATRIX_L48 */
-    register s32 v1 __asm__("$3");
-    register s32 v0 __asm__("$2");
+    s32 v1;
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     v10[0] = *(u16 *)(s1 + 0x6);
     v10[1] = *(u16 *)(s1 + 0xA);
     v10[2] = *(u16 *)(s1 + 0xE);
@@ -28,7 +28,7 @@ void func_80169058(s32 a0) {
         v0 = rand();
         v1 = (v0 & 0x7F) << 3;
         v0 = ((u32)(v0 & 0x7F00)) >> 5;
-        __asm__ __volatile__("" : "=r"(v0) : "0"(v0));
+        __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         v0 = v0 + 0xC00;
     } else {
         v0 = rand();
@@ -37,7 +37,7 @@ void func_80169058(s32 a0) {
     }
     v10[0] = v1;
     v10[1] = v0;
-    __asm__ __volatile__("" : : "r"(v1), "r"(v0));
+    __asm__ __volatile__("" : : "r"(v1), "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     v10[2] = 0;
     RotMatrixYXZ(v10, v20);
     func_80048EAC(v40, v20);

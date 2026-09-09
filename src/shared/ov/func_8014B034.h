@@ -4,7 +4,7 @@ extern void func_8014B084(void);
 extern s16 D_80078E90;
 void func_8014B034(s32 a0)
 {
-    register s16 *ptr = &D_80078E90;
+    s16 *ptr = &D_80078E90;
     s16 v;
     v = ptr[1] + a0;
     ptr[1] = v;
