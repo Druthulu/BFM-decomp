@@ -641,10 +641,9 @@ def _provided_types(header):
     paths = []
     for inc in incs:
         b = os.path.basename(inc)
-        if b == "engine_core.h":
-            # engine_core.h itself is NOT scanned: its typedefs live INSIDE `DEFINE_func_*()` macro
-            # bodies and reach a region only where that macro is invoked. What every includer gets at
-            # file scope is what engine_core.h #includes — engine_types.h + common.h (the legacy set).
+        if b == "engine_prelude.h":
+            # the Phase-35 prelude: what every overlay/module TU gets at file scope from the shared tree — engine_types.h +
+            # common.h (the legacy set; the per-function headers are included at their sites, not here)
             paths += ["src/shared/engine_types.h", "include/common.h"]
         elif b == "engine_types.h":
             paths += ["src/shared/engine_types.h", "include/common.h"]

@@ -819,7 +819,10 @@ def report(binary, audit=False, write=True):
     # _INCLUDED); it is still a shared body, so it counts in `shared`. A member parsed as a PRIVATE definition is not shared
     # (a demacroized copy) — the registry is advisory, the source authoritative, as before.
     members = dedup_members(BINARY)
-    shared = sorted((members - set(real) - set(stubs)) | (_INCLUDED & members))
+    # Phase 35 T6: an included member whose header body is EMPTY is classified `empty` by the include rule above and must NOT be
+    # folded into `real` as "shared" (pre-T4 the macro site was invisible and an empty shared body counted as real through this
+    # fold; the T6 health run put func_801EF790/func_801EF85C in BOTH buckets — the R32 assertion below caught it).
+    shared = sorted(((members - set(real) - set(stubs)) | (_INCLUDED & members)) - set(empty))
     real = sorted(set(real) | set(shared))
 
     # ---- COVERAGE ASSERTION (the rule ratified 2026-07-14: a scanner over the corpus must assert its

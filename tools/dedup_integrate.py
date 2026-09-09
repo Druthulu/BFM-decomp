@@ -55,7 +55,7 @@ TIERS = ("h_exact", "h_norm")
 # OVER-APPROXIMATING by design (R32): any C identifier, not just func_<hex> — a curated symbol
 # (e.g. listCdBuffer) is a stub too, and a `func_`-only pattern silently misses it.
 INCLUDE_ASM_RE = re.compile(r'INCLUDE_ASM\([^)]*,\s*([A-Za-z_]\w*)\s*\)')
-MACRO_FUNC_RE = re.compile(r'^(DEFINE_func_[0-9A-Fa-f]+|SETTER|RETCONST|CLEAR_TBL40)$')   # the macro-form `func` tokens
+PARAM_FUNC_RE = re.compile(r'^SHARED_FN$')   # the parameterized include form's `func` token (P35; the macro forms are gone)
 SYMBOL_LINE_RE = re.compile(r'^\s*([A-Za-z_]\w*)\s*=\s*(0x[0-9A-Fa-f]+)\s*;')
 
 
@@ -193,9 +193,9 @@ def check(groups, binary_filter=None, allow_unsigned=False):
                   f"body that was never written (the share was registered but never propagated)")
             failures += 1; continue
         # ---- C2a′ (Phase 35 T2): a PLAIN-C header source must DEFINE `func` (a token occurrence is not a body) --------
-        # The macro forms (DEFINE_func_*, SETTER/RETCONST/CLEAR_TBL40) define through cpp and keep the token check above;
-        # the include form is read by share_census.header_defs — the one reader of that form (R33).
-        if not MACRO_FUNC_RE.match(fn):
+        # The parameterized form (SHARED_FN) defines through cpp and keeps the token check above; every other source is a
+        # plain-C header read by share_census.header_defs — the one reader of that form (R33).
+        if not PARAM_FUNC_RE.match(fn):
             sys.path.insert(0, str(ROOT / "tools"))
             import share_census
             defined = {n for n, _ in share_census.header_defs(ROOT / src)}

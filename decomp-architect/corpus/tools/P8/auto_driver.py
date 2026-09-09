@@ -111,7 +111,7 @@ def fleet_pct():
 
 
 def git_commit(msg):
-    sh(["git", "add", SRC, "src/shared/engine_core.h", "config/dedup.us.yaml"])
+    sh(["git", "add", SRC, "src/shared", "config/dedup.us.yaml"])   # P35 T6: the share writes headers under src/shared/
     sh(["git", "commit", "-q", "-m", msg])
     return sh(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()
 

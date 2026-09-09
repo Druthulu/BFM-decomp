@@ -474,6 +474,30 @@
   validate_targets` OK; no live tool names a retired file; `tool_census --check: OK` after `make kit-corpus` (the first chain checked
   BEFORE regenerating and a `;` let a partial commit through — R97 again; amended into one commit).
 
+- **S96 — T6 part 2: the dead macro branches dropped + the guard.** Twelve live tools lost their macro-form code: audit_binaries
+  (`SHARED_INCLUDES` = the prelude only), auto_driver + bulk_harvest (`git add src/shared`), build_engine_types (the generated comment),
+  cdecl (`MACRO_STMT` = INCLUDE_ASM only; the fifteen-incumbent differential reduced to its honest statement — the macro header is gone —
+  and its dead body deleted, the gen_harvest_targets import with it), dedup_integrate (`PARAM_FUNC_RE` = SHARED_FN), export_pairs (mines
+  the shared headers under src/shared/ instead of macro bodies), family_cousins (`seed_body_ref` finds the shared header), fix_arity_callers
+  (the shared-header glob only), jr_isolate_all (the prelude include maps to engine_types.h + common.h), recover_integration (message +
+  snapshot list), sig_unify (help text). **The guard** (`tool_census.py --check`, `macro_form_guard`): every LIVE `.py` parsed with `ast`;
+  a non-docstring string constant carrying `DEFINE_func_` or `engine_core.h` is a gap; FROZEN, retired and six whitelisted detectors
+  (share_census, macro_to_header, share_body, overlay_src_split, gccmap_cites, tool_census) excluded; `--guard-root DIR` runs it against
+  another tree. **Verify:** `macro-form guard: 0 LIVE tools reference the retired form (217 scanned, 14 frozen, 6 whitelisted detectors, 38
+  retired)` · `tool_census --check: OK`. **Negative control (R39):** a worktree of the pre-T4 commit `0e38b51a3` → `15 LIVE tools reference
+  the retired form (197 scanned, 14 frozen, 4 whitelisted)` — exactly the twelve fixed here + the three retired, none frozen or whitelisted.
+  **`make tools-health` went red twice, both instrument findings fixed at the cause:** (1) `progress.py`'s R32 bucket assertion —
+  `func_801EF790`/`func_801EF85C` (md_SC03_073/074/075/078, empty-bodied shared headers) in BOTH `real` and `empty`: the include rule
+  classifies an empty header body as EMPTY while `report()`'s fold `real ∪= shared` re-added every included member; under the macro
+  form an empty shared body had been invisible to the classifier and counted as REAL through that fold. Fix: the fold excludes `empty`.
+  **Two published-number corrections follow (R14/R75; stated here, carried to T7/T8):** the fleet denominator **363,221 → 363,680
+  (+459)** = ov_SC03_015 +219 (its single-site macros, the plan's expected correction) + ov_SC03_118 +3 + 2 in each of ~118 overlays
+  (the never-extended members of the five under-listed groups — macro sites invisible until T4 made them includes); and **FLEET REAL
+  substantive 360,744 → 350,533 (−10,211)** with EMPTY up by the same — empty-bodied shared functions were REAL under the macro form's
+  fold and are EMPTY now, honestly; the instruction-weighted metrics (13,492,113 / 5,820,205 / 45,150) are unchanged. (2) `timeline.py`'s
+  self-check: its last row follows the COMMITTED digest (T2's lesson) — this commit carries the corrected `docs/progress.json` + README
+  block + `progress.fleet.md`; the timeline is regenerated in the next commit and the chain re-run for T6's verify line.
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)

@@ -207,7 +207,7 @@ def fleet_pct():
 
 
 def git_commit(banked_by_bin, propagated, fp):
-    add = ["src/shared/engine_core.h", "src/shared/engine_types.h", "config/dedup.us.yaml"]
+    add = ["src/shared", "config/dedup.us.yaml"]   # P35 T6: the per-function headers live under src/shared/
     for b in banked_by_bin:
         add += [os.path.relpath(p, REPO) for p in glob.glob(os.path.join(REPO, "src/%s/%s*.c" % (b, b)))]
     add += [os.path.relpath(p, REPO) for p in glob.glob(os.path.join(REPO, "src/ov_*/*.c"))]  # propagation

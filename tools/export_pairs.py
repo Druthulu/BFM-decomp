@@ -150,14 +150,13 @@ def main():
                 region = os.path.relpath(os.path.join(root, f), os.path.join(REPO, 'src'))[:-2]
                 for fn, body in extract_defs(open(os.path.join(root, f)).read()).items():
                     defs.setdefault(fn, (body, region))
-    # corpus-v3: ALSO mine the shared DEFINE_func macro bodies (engine_core.h) — the setters/return-const/
-    # dispatchers the model is blind to (extract_defs sees only inline col-0 defs, not macro instantiations).
+    # corpus-v3 mined the shared macro bodies here; since Phase 35 the shared bodies are plain-C headers under src/shared/ —
+    # (a header body is one definition in one file; mine the headers directly).
     n_inline = len(defs)
-    ec = os.path.join(REPO, 'src/shared/engine_core.h')
-    if os.path.exists(ec):
-        for fn, body in extract_macro_defs(open(ec).read()).items():
+    for hp in sorted(glob.glob(os.path.join(REPO, 'src/shared/*/func_*.h'))):
+        for fn, (body, _region) in extract_defs(open(hp).read()).items():
             defs.setdefault(fn, (body, 'shared'))
-    print('  %d func defs in src (%d inline + %d shared macros)' % (
+    print('  %d func defs in src (%d inline + %d shared headers)' % (
         len(defs), n_inline, len(defs) - n_inline), file=sys.stderr)
 
     pairs, skipped = [], {'no_asm': 0}

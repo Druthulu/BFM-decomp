@@ -199,7 +199,7 @@ def main():
                     help='overlay SPLIT .c the drafts target (e.g. ov_SC01_077_a.c / _o0.c); default = '
                          'the main .c. Reads cur_stubs + inline/extern canonical sigs from THIS file so '
                          'split-file drafts are NOT dropped (they are stubs in the split, not the main .c) '
-                         'and get the def-side arity-adopt recovery. engine_core.h is always included.')
+                         'and get the def-side arity-adopt recovery. engine_prelude.h is always included.')
     ap.add_argument('--in', dest='indir', required=True)
     ap.add_argument('--out', dest='outdir', required=True)
     args = ap.parse_args()

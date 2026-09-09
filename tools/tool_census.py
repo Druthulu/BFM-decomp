@@ -377,6 +377,59 @@ def check_corpus(recs, files):
     return gaps, len(copies), len(pointers)
 
 
+# ----------------------------------------------------------------------------------------------------------------------------
+# The macro-form guard (Phase 35 T6). The dedup macro form (`DEFINE_func_X()` sites expanding bodies from src/shared/engine_core.h)
+# is retired: every shared body is a plain-C header included at its site. A LIVE tool that still names the form in CODE (a
+# non-docstring string constant — a regex, a path, a message) is a tool that would parse or write the retired form; it must be
+# fixed, FROZEN (status FROZEN: its command line refuses) or retired. Comments and docstrings are the record and may say anything.
+# The detectors that name the form in order to REFUSE or CENSUS it are whitelisted by name — the list is the guard's own record.
+GUARD_TOKENS = ("DEFINE_func_", "engine_core.h")
+GUARD_WHITELIST = {
+    "tools/share_census.py": "the S1 census: counts macro sites so the invariant can assert 0 (and its selftest fixture uses the form)",
+    "tools/macro_to_header.py": "the T4 converter, kept as share_body's library (naming, banner, alias binding) and for the record",
+    "tools/share_body.py": "names the form in its refusal texts",
+    "tools/overlay_src_split.py": "detects a macro site only to REFUSE it (R43)",
+    "tools/gccmap_cites.py": "a citation datum (`engine_core.h:24926`) in the codegen map's cite table",
+    "tools/tool_census.py": "this guard",
+}
+
+
+def macro_form_guard(files, by_path, root=REPO):
+    """(gaps, counts): every LIVE/STILL-NEEDED tool under `root` (FROZEN and retired excluded, the whitelist excluded) is parsed
+    with `ast`; a non-docstring string constant carrying a guard token is a gap. `root` is a parameter so the negative control can
+    point the guard at a worktree of the pre-conversion tree (R39)."""
+    import ast
+    gaps, counts = [], {"scanned": 0, "frozen": 0, "whitelisted": 0, "flagged": 0}
+    for f in files:
+        if not f.endswith(".py"):
+            continue
+        status = by_path.get(f, {}).get("status", "")
+        if status == "FROZEN":
+            counts["frozen"] += 1
+            continue
+        if f in GUARD_WHITELIST:
+            counts["whitelisted"] += 1
+            continue
+        p = root / f
+        if not p.exists():
+            continue
+        try:
+            tree = ast.parse(p.read_text(encoding="utf-8", errors="replace"))
+        except SyntaxError:
+            continue
+        counts["scanned"] += 1
+        docs = {ast.get_docstring(n, clean=False) for n in ast.walk(tree)
+                if isinstance(n, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))}
+        hits = sorted({n.lineno for n in ast.walk(tree)
+                       if isinstance(n, ast.Constant) and isinstance(n.value, str) and n.value not in docs
+                       and any(tok in n.value for tok in GUARD_TOKENS)})
+        if hits:
+            counts["flagged"] += 1
+            gaps.append(f"macro-form guard: LIVE tool {f} names the retired macro form in code at line(s) {hits[:6]} — fix it, "
+                        f"freeze it (status FROZEN) or retire it")
+    return gaps, counts
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
@@ -384,7 +437,18 @@ def main():
     ap.add_argument("--corpus", action="store_true")
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--consumers", metavar="FILE")
+    ap.add_argument("--guard-root", metavar="DIR", help="run ONLY the macro-form guard against the tools/ under DIR (the R39 negative control)")
     a = ap.parse_args()
+    if a.guard_root:
+        by_path = {r["path"]: r for r in read_dict()}
+        root = pathlib.Path(a.guard_root).resolve()
+        files = sorted(p.relative_to(root).as_posix() for p in (root / "tools").glob("*.py"))
+        g, c = macro_form_guard(files, by_path, root=root)
+        for x in g:
+            print("  GAP", x)
+        print(f"macro-form guard ({root}): {c['flagged']} LIVE tools reference the retired form ({c['scanned']} scanned, "
+              f"{c['frozen']} frozen, {c['whitelisted']} whitelisted)")
+        return 1 if g else 0
     recs, files, retired, gaps = census()
     if a.consumers:
         rec = next((r for r in recs if r["path"] == a.consumers or r["path"].endswith("/" + a.consumers) or pathlib.Path(r["path"]).name == a.consumers), None)
@@ -408,6 +472,12 @@ def main():
         gaps += cg
         for g in cg:
             print("  GAP", g)
+        gg, gc = macro_form_guard(files, {r["path"]: r for r in read_dict()})
+        gaps += gg
+        for g in gg:
+            print("  GAP", g)
+        print(f"macro-form guard: {gc['flagged']} LIVE tools reference the retired form ({gc['scanned']} scanned, {gc['frozen']} frozen, "
+              f"{gc['whitelisted']} whitelisted detectors, {len(retired)} retired)")
         print(f"tool_census --check: corpus {nc} copies + {npt} pointers checked; {len(gaps)} gap(s)")
         print("tool_census --check: OK" if not gaps else "tool_census --check: FAIL")
         return 1 if gaps else 0

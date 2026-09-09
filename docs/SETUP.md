@@ -1539,6 +1539,18 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   `gated N/N` line read, the phase-log entry appended, the bank committed (R42), the clean fleet run every N batches (R22, `218 passed,
   0 failed of 218` required); stops on the first red; refuses a dirty `src/`/`config/`. Size a call under the 10-minute foreground cap
   (a batch 40–100 s, a fleet run ≈ 90 s).
+- **T6 (S96): the macro-era tools frozen or retired; the guard.** `tools/frozen.py` — the one refusal a FROZEN tool prints from its
+  `main()` (never at import: libraries stay importable — cdecl imports gen_harvest_targets, 18 tools import family_remap). Dictionary
+  status **FROZEN** (`tool_census` accepts it; the tool stays in `tools/`, its successor in the last column): family_sweep,
+  gen_harvest_targets, p16_improve, recover_giant, restore_dropped_decls, normalize_self_decls, o0_subsplit, inject_capped_externs,
+  aprop_autodraft, canon_sig_reconcile, conform_decls, blocker_probe, demacroize, family_remap (its command line; the library is live).
+  Retired to `tools/sunset/`: dedup_propagate + dedup_extend (→ share_body.py, which absorbed add_members_surgical and the load_sig
+  library surface verbatim), macro_draft, test_reconcile_ledger. **The macro-form guard** in `tool_census.py --check`: every LIVE
+  `.py` under tools/ (FROZEN, retired and the six whitelisted detectors excluded) is parsed with `ast`; a non-docstring string constant
+  carrying `DEFINE_func_` or `engine_core.h` is a gap — comments and docstrings are the record and may say anything. Its line reads
+  `macro-form guard: 0 LIVE tools reference the retired form (N scanned, 14 frozen, 6 whitelisted detectors, M retired)`.
+  `--guard-root DIR` runs only the guard against another tree's tools/ — the R39 negative control (a worktree of the pre-T4 commit
+  `0e38b51a3` flags exactly 15 tools: the twelve whose dead macro branches T6 removed and the three retired; none frozen or whitelisted).
 
 - **Twin binaries (T3).** Five overlay pairs are one payload (equal `config/check.*.sha`): SC01_005/006, SC03_118/119, SC02_000/003,
   SC04_018/019, SC03_014/015. The twin has NO source directory: `config/overlays.mk` declares `<twin>_TWIN_OF := <primary>` and

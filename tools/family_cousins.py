@@ -280,11 +280,10 @@ def write_digest(out):
 
 # ---------------------------------------------------------------- wave slate
 def seed_body_ref(bin_, addr):
-    """Where the seed's C body lives: engine_core.h DEFINE_ macro, or the inline def's src file."""
+    """Where the seed's C body lives: a shared per-function header under src/shared/ (Phase 35), or the inline def's src file."""
     name = f"func_{addr:08X}"
-    core = "src/shared/engine_core.h"
-    if os.path.exists(core) and f"DEFINE_{name}(" in open(core).read():
-        return dict(kind="macro", path=core, name=name)
+    for hp in sorted(glob.glob(f"src/shared/*/{name}.h")) + sorted(glob.glob(f"src/shared/*/{name}__*.h")):
+        return dict(kind="header", path=hp, name=name)
     for p in sorted(glob.glob(f"src/{bin_}/*.c")):
         txt = open(p).read()
         if re.search(rf"^[A-Za-z_][^\n=;]*\b{name}\s*\(", txt, re.M) and f"INCLUDE_ASM" not in \

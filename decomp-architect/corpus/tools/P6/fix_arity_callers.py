@@ -38,7 +38,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import shared_lock  # Stage 1: --apply/--undo-journal write the fleet-shared header
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EC = os.path.join(REPO, 'src/shared/engine_core.h')
 NARROW = re.compile(r'\b(char|short|signed\s+char|unsigned\s+char|unsigned\s+short|s8|u8|s16|u16|float|f32)\b')
 
 
@@ -157,7 +156,7 @@ def main():
                          'reconciliation for non-(void) conflicting forward-decls; byte-gate filters (G3/P9)')
     ap.add_argument('--binary', help='ALSO scan+rewrite this overlay\'s own inline caller decls in '
                     'src/<binary>/<binary>*.c (a conflicting extern is often in the overlay src, not just '
-                    'engine_core.h — the T6 integration-recovery gap). Default: engine_core.h only.')
+                    'the shared headers under src/shared/ — the T6 integration-recovery gap). Default: the shared headers under src/shared/ only.')
     ap.add_argument('--journal', metavar='PATH',
                     help='(apply) record each substitution\'s literal before/after to this JSON for '
                          'exact --undo-journal restore; written even when no edits were made')
@@ -177,7 +176,7 @@ def main():
         sys.exit('no funcs given')
 
     # target files: engine_core.h always; + the overlay's own src (inline callers) when --binary given.
-    files = sorted(set(([EC] if os.path.exists(EC) else []) + glob.glob(os.path.join(REPO, 'src/shared/**/*.h'), recursive=True)))  # Phase 35: every shared header carries externs
+    files = sorted(set(glob.glob(os.path.join(REPO, 'src/shared/**/*.h'), recursive=True)))  # Phase 35: every shared header carries externs
     if a.binary:
         # MAIN'S SOURCES DO NOT LIVE IN src/main/ (P31 S69). They are src/*.c — src/800.c, … — so the
         # overlay-shaped glob matched NOTHING for --binary main and the tool reported success over an

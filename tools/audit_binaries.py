@@ -33,7 +33,7 @@ import dup_report
 import corpus
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SHARED_INCLUDES = ("shared/engine_core.h", "shared/engine_prelude.h")   # the macro-era header, then the Phase-35 prelude
+SHARED_INCLUDES = ("shared/engine_prelude.h",)   # the Phase-35 prelude (the macro-era header is gone, P35 T4/T6)
 
 
 def onboarded():

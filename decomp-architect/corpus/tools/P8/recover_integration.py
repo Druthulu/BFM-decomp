@@ -233,7 +233,7 @@ def main():
     if propagate:
         if a.max_tier != "fleet" or not a.r22:
             raise SystemExit(
-                "propagation is a FLEET-tier write (src/shared/engine_core.h + up to 138 overlay .c): "
+                "propagation is a FLEET-tier write (the shared headers under src/shared/ + up to 138 overlay .c): "
                 "it requires --max-tier fleet AND --r22, or pass --no-propagate (§65a).")
         if "demacroize" in stages:
             raise SystemExit(
@@ -313,8 +313,7 @@ def main():
     # passes — `fix_arity_callers --revert` is LOSSY for --any-proto (it rewrites `()`->`(void)`, not
     # back to the original `(a,b,c)`), which corrupts a non-bank whose caller passed args. So we
     # snapshot/restore verbatim instead. (Bug caught by the clean-rebuild verify, R22.)
-    tu_files = [os.path.join(REPO, "src/shared/engine_core.h")] + \
-        sorted(glob.glob(os.path.join(REPO, f"src/{a.binary}/{a.binary}*.c")))
+    tu_files = sorted(glob.glob(os.path.join(REPO, f"src/{a.binary}/{a.binary}*.c")))   # P35 T6: no macro header to snapshot
     snapshot = {f: open(f).read() for f in tu_files}
 
     def restore():

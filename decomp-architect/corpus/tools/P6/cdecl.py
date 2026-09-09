@@ -106,7 +106,7 @@ GNU = {'__asm__', 'asm', '__attribute__', '__extension__', '__inline__'}
 # Macro invocations that are NOT declarations in RAW draft/source text (they become declarations
 # only after cpp). An EXPLICIT, NAMED exclusion list — the audit's rule: never let the exclusion set
 # be "whatever the parser happened to choke on".
-MACRO_STMT = re.compile(r'^\s*(INCLUDE_ASM|DEFINE_func_[0-9A-Fa-f]+|SETTER|RETCONST|CLEAR_TBL40)\b')
+MACRO_STMT = re.compile(r'^\s*(INCLUDE_ASM)\b')   # P35 T6: the dedup macro forms are gone; INCLUDE_ASM is the one macro statement left
 
 
 class CDeclError(Exception):
@@ -1294,81 +1294,15 @@ def audit_differential():
     scanner it replaces: any symbol an incumbent sees and this one does not is a defect in THIS
     tool. The reverse (symbols only this one sees) is the measured size of the hole."""
     sys.path.insert(0, os.path.join(REPO, 'tools'))
-    import gen_harvest_targets as ght
     # reconcile_decls RETIRED (S45, R33): its DATA_DECL_LINE_RE row proved the superset for
     # 26-A..S44; the incumbent is deleted, so the differential now compares the survivors only.
-    import sig_unify as su
-
-    ec = os.path.join(REPO, 'src/shared/engine_core.h')
-    if not os.path.exists(ec):
+    # P35 T6: the macro header is gone for good; the differential's only honest result is the statement below.
+    if True:
         # Phase 35: the macro header is gone (per-function headers under src/shared/<space>/ hold plain C that tu_scope reads
         # like any TU). The fifteen-incumbent differential was a comparison OVER MACRO TEXT; without that text it has nothing
         # to compare against, and saying so is the honest result (R43 — never fabricate a synthetic TU from the new form).
-        print('[differential] src/shared/engine_core.h is absent (Phase 35): the macro-era differential no longer applies — OK')
+        print('[differential] the macro-era shared header is gone (Phase 35): the macro-era differential no longer applies — OK')
         return True
-    text = open(ec).read()
-
-    # The incumbents scan engine_core.h's RAW TEXT — i.e. the bodies of 1,801 #define macros. A
-    # declaration in a macro body declares nothing until the macro is INVOKED (the §8c law), so the
-    # honest like-for-like comparison is against what cpp produces when every macro IS invoked.
-    # That synthetic TU is exactly "everything engine_core.h is capable of declaring".
-    d = os.path.join(REPO, 'src/shared')
-    tmp = os.path.join(d, '.cdecl_allmacros.c')
-    macros = re.findall(r'^#define\s+(DEFINE_func_[0-9A-Fa-f]+)\(\)', text, re.M)
-    with open(tmp, 'w') as f:
-        f.write('#include "../../include/common.h"\n#include "engine_types.h"\n'
-                '#include "engine_core.h"\n')
-        for mac in macros:
-            f.write(f'{mac}()\n')
-    try:
-        stmts = tu_statements(tmp)
-        mine = scope(stmts, tmp)
-        expanded = '\n'.join(stmts)
-    finally:
-        os.path.exists(tmp) and os.remove(tmp)
-    print(f'[differential] expanded {len(macros)} DEFINE_ macros through cpp -> {len(mine)} names')
-
-    mine_d = {n for n in mine if n.startswith('D_')}
-    rows = []
-    for name, rx in (('gen_harvest_targets.DATA_DECL_RE', ght.DATA_DECL_RE),
-                     ('sig_unify.DATA_DECL_RE', su.DATA_DECL_RE)):
-        theirs = set()
-        for m in rx.finditer(text):
-            theirs |= set(re.findall(r'\bD_[0-9A-Fa-f]+\b', m.group(0)))
-        # A symbol I do not report is only MY defect if it is genuinely at FILE scope. A
-        # block-scope `extern` is private to its function and is NOT part of the TU's namespace —
-        # reporting it as an authoritative canonical is what produced the §8d
-        # `conflicting types for D_801812A4` wall. So separate the two, and never let a real defect
-        # hide behind the excuse.
-        lost = theirs - mine_d
-        block = {s for s in lost if re.search(r'\bextern\b[^;]*\b' + s + r'\b', expanded)}
-        defect = lost - block
-        rows.append((name, len(theirs), len(mine_d), len(mine_d - theirs), sorted(defect),
-                     sorted(block)))
-
-    print('[differential] engine_core.h — D_ symbols (raw-text scan vs cpp-expanded file scope)')
-    print(f'    {"incumbent":<36} {"theirs":>7} {"cdecl":>7} {"cdecl-only":>11} {"MY DEFECT":>10} '
-          f'{"their block-scope error":>24}')
-    ok = True
-    for name, t, m, g, defect, block in rows:
-        print(f'    {name:<36} {t:>7} {m:>7} {g:>11} {len(defect):>10} {len(block):>24}')
-        if defect:
-            print(f'        DEFECT (file-scope, invisible to cdecl): {defect[:8]}')
-        if block:
-            print(f'        they count BLOCK-scope externs as file-scope canonicals: {block[:4]}')
-        ok &= not defect
-
-    named = {'D_80127530': 'array', 'D_80127088': 'fnptr', 'D_8011DB28': 'fnptr',
-             'D_801274D0': 'fnptr', 'D_8018E858': 'fnptr_array'}
-    print('    the audit\'s named blind symbols (engine_core.h), now resolved WITH THEIR KIND:')
-    for n, want in named.items():
-        d = mine.get(n)
-        got = d.kind if d else 'MISSING'
-        flag = 'ok' if got == want else 'WRONG'
-        ok &= (got == want)
-        print(f'      {n:<14} kind={got:<12} (expected {want})  [{flag}]'
-              + (f'  {d.type}' if d else ''))
-    return ok
 
 
 def main():
