@@ -1800,9 +1800,7 @@ void func_8015BE38(struct Obj *a0) {
 
 extern void (*D_801812E0[])(void);
 
-void func_8015BFF4(void *a0) {
-    D_801812E0[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_8015BFF4__6c024429.h"
 
 
 

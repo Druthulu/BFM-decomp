@@ -1,0 +1,6 @@
+share_body: census 25 s · extend (registered-incomplete) 5 classes · new (unregistered same-vram) 75 classes / 150 private sites
+  [new8] 75 classes · 150 sites in 30 TUs · 75 new headers · gating 4 binaries
+  [new8] gated 4/4 binaries green · registered 75 groups · extended 0 members · rejected classes 0
+share_body: done — 75 of 75 classes in 1 batch(es); all green; 27 s
+new8 wall=26.95 s
+exit=0

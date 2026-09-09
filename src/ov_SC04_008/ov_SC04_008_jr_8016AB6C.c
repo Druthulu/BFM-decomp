@@ -3699,9 +3699,7 @@ void func_8016FDB4(void *a0) {
 
 extern void (*D_80181F74[])(void);
 
-void func_8016FF30(void *a0) {
-    D_80181F74[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_8016FF30__90733dd3.h"
 
 
 #include "../shared/ov/func_8016FF6C.h"
@@ -3737,9 +3735,7 @@ extern void (*D_80181F8C[])(void);
 
 extern void (*D_80181F94[])(void);
 
-void func_80170240(void *a0) {
-    D_80181F94[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_80170240__bb88675d.h"
 
 
 #include "../shared/ov/func_8017027C.h"
@@ -3749,9 +3745,7 @@ void func_80170240(void *a0) {
 
 extern void (*D_80181F9C[])(void);
 
-void func_801702FC(void *a0) {
-    D_80181F9C[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_801702FC__9a639220.h"
 
 
 #include "../shared/ov/func_80170338.h"
@@ -3771,9 +3765,7 @@ extern void (*D_80181FA4[])(void);
 
 extern void (*D_80181FAC[])(void);
 
-void func_801704B0(void *a0) {
-    D_80181FAC[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_801704B0__b7f69a54.h"
 
 
 #include "../shared/ov/func_801704EC.h"
@@ -3783,9 +3775,7 @@ void func_801704B0(void *a0) {
 
 extern void (*D_80181FB4[])(void);
 
-void func_80170548(void *a0) {
-    D_80181FB4[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_80170548__d9c3fa7f.h"
 
 
 #include "../shared/ov/func_80170584.h"
@@ -3795,9 +3785,7 @@ void func_80170548(void *a0) {
 
 extern void (*D_80181FBC[])(void);
 
-void func_801705F8(void *a0) {
-    D_80181FBC[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_801705F8__a4ecb7ac.h"
 
 
 #include "../shared/ov/func_80170634.h"
@@ -3807,9 +3795,7 @@ void func_801705F8(void *a0) {
 
 extern void (*D_80181FC4[])(void);
 
-void func_801706AC(void *a0) {
-    D_80181FC4[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_801706AC__fbeed91b.h"
 
 
 #include "../shared/ov/func_801706E8.h"
@@ -3819,9 +3805,7 @@ void func_801706AC(void *a0) {
 
 extern void (*D_80181FCC[])(void);
 
-void func_80170748(void *a0) {
-    D_80181FCC[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_80170748__89b01003.h"
 
 
 #include "../shared/ov/func_80170784.h"
@@ -3831,9 +3815,7 @@ void func_80170748(void *a0) {
 
 extern void (*D_80181FD4[])(void);
 
-void func_80170810(void *a0) {
-    D_80181FD4[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_80170810__3b06a6b9.h"
 
 
 #include "../shared/ov/func_8017084C.h"
@@ -3879,9 +3861,7 @@ extern void (*D_80181FE4[])(void);
 
 extern void (*D_80181FEC[])(void);
 
-void func_80170C74(void *a0) {
-    D_80181FEC[*(u8 *)((s32)a0 + 0x215)]();
-}
+#include "../shared/ov/func_80170C74__eeb11981.h"
 
 
 #include "../shared/ov/func_80170CB0.h"
@@ -3893,9 +3873,7 @@ void func_80170C74(void *a0) {
 
 extern void (*D_80181FF4[])(void);
 
-void func_80170D68(void *a0) {
-    D_80181FF4[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_80170D68__e17cf64a.h"
 
 
 #include "../shared/ov/func_80170DA4.h"
@@ -3915,9 +3893,7 @@ extern void (*D_80181FFC[])(void);
 
 extern void (*D_80182004[])(void);
 
-void func_80170EFC(void *a0) {
-    D_80182004[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_80170EFC__d92cce26.h"
 
 
 #include "../shared/ov/func_80170F38.h"
@@ -3947,9 +3923,7 @@ extern void (*D_80182014[])(void);
 
 extern void (*D_8018201C[])(void);
 
-void func_80171120(void *a0) {
-    D_8018201C[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_80171120__d8c61358.h"
 
 
 #include "../shared/ov/func_8017115C.h"
@@ -3959,9 +3933,7 @@ void func_80171120(void *a0) {
 
 extern void (*D_80182024[])(void);
 
-void func_801711C0(void *a0) {
-    D_80182024[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_801711C0__b0a3cf0f.h"
 
 
 #include "../shared/ov/func_801711FC.h"
@@ -3971,9 +3943,7 @@ void func_801711C0(void *a0) {
 
 extern void (*D_8018202C[])(void);
 
-void func_80171260(void *a0) {
-    D_8018202C[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_80171260__e1e85a8a.h"
 
 
 #include "../shared/ov/func_8017129C.h"
@@ -3983,9 +3953,7 @@ void func_80171260(void *a0) {
 
 extern void (*D_80182034[])(void);
 
-void func_801714E4(void *a0) {
-    D_80182034[*(u8 *)((s32)a0 + 0x216)]();
-}
+#include "../shared/ov/func_801714E4__ad8a456f.h"
 
 
 #include "../shared/ov/func_80171520.h"

@@ -750,11 +750,7 @@ extern u16 D_800D45F6;
 
 
 
-void func_8013B568(s32 arg0) {
-
-    extern s32 D_8017F218;
-    D_8017F218 = arg0;
-}
+#include "../shared/ov/func_8013B568__c9b42778.h"
 
 
 

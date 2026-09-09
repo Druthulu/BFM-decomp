@@ -1725,9 +1725,7 @@ extern M2C_UNK D_801810F4;
 
 extern void (*D_801812B8[])(void);
 
-void func_8015AD3C(void *a0) {
-    D_801812B8[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_8015AD3C__ed237bf0.h"
 
 
 #include "../shared/ov/func_8015AD78.h"

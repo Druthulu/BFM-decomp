@@ -2,3 +2,5 @@ log: ('120', '240', '40', '120', '14') ('14', '14', '119', '0', '1')
 cycle: batch 6 committed 2dbdaa28c — gated 14/14 binaries green, rejected classes 1
 cycle: R22 after batch 6 — check-all: 218 passed, 0 failed of 218, committed e771e29bf
 log: ('120', '240', '63', '120', '34') ('34', '34', '120', '0', '0')
+cycle: batch 7 committed b4c7e5830 — gated 34/34 binaries green, rejected classes 0
+log: ('75', '150', '30', '75', '4') ('4', '4', '75', '0', '0')

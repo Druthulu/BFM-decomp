@@ -869,9 +869,7 @@ extern s16 currentLocationId;
 extern void func_8014C1C8(s32 arg0, s32 arg1, void *arg2);
 extern u8 D_80180704[];
 
-void func_8014C1A0(s32 arg0, s32 arg1) {
-    func_8014C1C8(arg0, arg1, D_80180704);
-}
+#include "../shared/ov/func_8014C1A0__986f7935.h"
 
 
 #include "../shared/ov/func_8014C1C8.h"
@@ -905,9 +903,7 @@ s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC")
 extern u8 D_8018070C;
 extern s32 func_8014C5FC(s32 a0, s32 a1, void *a2);
 
-s16 func_8014C5D0(s32 a0, s32 a1) {
-    return func_8014C5FC(a0, a1, &D_8018070C);
-}
+#include "../shared/ov/func_8014C5D0__fc041cf7.h"
 
 
 #include "../shared/ov/func_8014C5FC.h"
@@ -2028,11 +2024,7 @@ extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h
 
 
 
-void func_80151944(void *a0) {
-
-    extern void (*D_801807D4[])(void);
-    D_801807D4[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80151944__e29a2d3f.h"
 
 
 #include "../shared/ov/func_80151980.h"
@@ -2068,9 +2060,7 @@ void func_80151D24(void *a0) {
 
 extern void (*D_80180808[])(void);
 
-void func_80152058(void *a0) {
-    D_80180808[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80152058__d9dd9150.h"
 
 
 #include "../shared/ov/func_80152094.h"
@@ -2105,9 +2095,7 @@ extern M2C_UNK D_801807F8;
 
 extern void (*D_8018081C[])(void);
 
-void func_80152370(void *a0) {
-    D_8018081C[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80152370__b02ac90a.h"
 
 
 #include "../shared/ov/func_801523AC.h"
@@ -2145,9 +2133,7 @@ extern u8 D_80180828[];
 
 extern void (*D_80180838[])(void);
 
-void func_80152698(void *a0) {
-    D_80180838[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80152698__e76a6281.h"
 
 
 #include "../shared/ov/func_801526D4.h"
@@ -2159,9 +2145,7 @@ void func_80152698(void *a0) {
 
 extern void (*D_80180850[])(void);
 
-void func_8015282C(void *a0) {
-    D_80180850[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_8015282C__decf55bb.h"
 
 
 #include "../shared/ov/func_80152868.h"
@@ -2211,9 +2195,7 @@ void func_80152B6C(void *a0) {
 
 extern void (*D_80180880[])(void);
 
-void func_80152D24(void *a0) {
-    D_80180880[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80152D24__4159a8c0.h"
 
 
 #include "../shared/ov/func_80152D60.h"

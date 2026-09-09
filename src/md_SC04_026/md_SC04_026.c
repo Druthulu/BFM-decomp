@@ -244,15 +244,7 @@ void func_801E805C(s32 param_1, s16 *param_2) {
 
 
 
-u8 func_801E8254(u32 a0) {
-    if ((u32)(a0 - 0x384) < 0x6E) {
-        return 0x65;
-    }
-    if ((u32)(a0 - 0x64) < 0x1E) {
-        return 0x28;
-    }
-    return 0xE;
-}
+#include "../shared/slot_801E7B28/func_801E8254__3b1ba0f8.h"
 
 
 

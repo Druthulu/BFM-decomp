@@ -1462,18 +1462,12 @@ extern char D_80180ED0[];
 
 extern void (*D_80181154[])(void);
 
-void func_80159968(void *a0) {
-    D_80181154[*(u8 *)((s32)a0 + 0x4D)]();
-}
+#include "../shared/ov/func_80159968__90b7fc31.h"
 
 
 
 
-void func_801599A4(void *a0) {
-
-    extern void (*D_80181160[])(void);
-    D_80181160[*(u16 *)((s32)a0 + 0x0)]();
-}
+#include "../shared/ov/func_801599A4__4d243f19.h"
 
 
 #include "../shared/ov/func_801599E0.h"

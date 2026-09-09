@@ -1210,9 +1210,7 @@ L_7b8:
 
 extern S801563EC D_80180B28[];
 
-S801563EC *func_801563EC(u16 idx) {
-    return &D_80180B28[idx];
-}
+#include "../shared/ov/func_801563EC__98fb0a04.h"
 
 
 #include "../shared/ov/func_8015640C.h"
@@ -1509,9 +1507,7 @@ extern s32 D_80180DE4;
 
 extern void (*D_80180E24[])(void);
 
-void func_8015824C(void *a0) {
-    D_80180E24[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_8015824C__6ad7b977.h"
 
 
 #include "../shared/ov/func_80158288.h"

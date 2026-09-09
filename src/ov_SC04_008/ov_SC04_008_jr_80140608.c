@@ -1165,10 +1165,7 @@ extern int func_801412A8(int, int, int, int, int, int);
 extern unsigned short D_80115112;
 extern void (*D_8017FEB8[])(void);
 
-void func_80141788(void)
-{
-    D_8017FEB8[D_80115112]();
-}
+#include "../shared/ov/func_80141788__4d15e15c.h"
 
 
 #include "../shared/ov/func_801417C4.h"
@@ -1332,9 +1329,7 @@ extern void func_8012C218(void *a0);
 
 extern void (*D_8017FEF8[])(void);
 
-void func_801425CC(void *a0) {
-    D_8017FEF8[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_801425CC__8a9d3cad.h"
 
 
 
@@ -1649,9 +1644,7 @@ void func_80143C38(void *a0) {
 
 extern void (*D_801803FC[])(void);
 
-void func_80143C98(void *a0) {
-    D_801803FC[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80143C98__fbbd8503.h"
 
 
 #include "../shared/ov/func_80143CD4.h"
@@ -1674,9 +1667,7 @@ extern void func_8012C218(void *a0);
 
 extern void (*D_80180444[])(void);
 
-void func_80143E68(void *a0) {
-    D_80180444[*(u16 *)((s32)a0 + 0x2)]();
-}
+#include "../shared/ov/func_80143E68__eeb1309e.h"
 
 
 #include "../shared/ov/func_80143EA4.h"

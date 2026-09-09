@@ -3308,9 +3308,7 @@ void func_8017BD50(int param_1)
 
 extern void (*D_801824A4[])(void);
 
-void func_8017BE60(void *a0) {
-    D_801824A4[*(u8 *)((s32)a0 + 0x4)]();
-}
+#include "../shared/ov/func_8017BE60__8c283e4e.h"
 
 
 #include "../shared/ov/func_8017BE9C__76785405.h"
