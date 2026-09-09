@@ -625,6 +625,13 @@ owner's browser session, and the proving tool writes the paste.
 same commit — history keeps it.
 Candidate for the PhaseEnd: "a shared body has exactly one source; a duplicate copy is a defect the health chain asserts, and a
 count of them is published with its rule" (this phase's invariant).
+**Candidates from S95 (the recovery):** (b) "every commit that advances a task — an intra-task bank included — carries its log line and
+the 🛑 headline; a checkpoint older than the last commit is a dead session's checkpoint" (S94 refreshed the block at every TASK close but
+made two T5 bank commits with no log line, then filled its context during a background wait; the successor rebuilt 35 minutes of state
+from the transcript). (c) "a tool that restores files never uses `git checkout` on a tree it did not commit — it restores from its own
+snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R42 for tools). (d) "a failure-cause extractor is
+negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
+254 of 303 rejection lines read `Error 33`).
 
 ## 🛑 SESSION CHECKPOINT — S95 recovery (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 IN PROGRESS (share_body.py built; bucket 0 run twice — first pass committed, second run's 170 shares UNCOMMITTED on disk; 55 classes / 325 pairs ledgered, 317 of them still listed as registry members; three tool defects named); NEXT = inside T5: bank run 2 → fix the tool → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
 
