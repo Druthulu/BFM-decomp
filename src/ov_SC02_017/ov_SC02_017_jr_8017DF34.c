@@ -2708,121 +2708,20 @@ extern void func_8017DE98(void *a0);
  * because the later-defined pseudo always has the shorter range. Cookbook §47.
  */
 
-#define gte_ldv0(r0) __asm__ volatile (          \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 )"                           \
-    :                                            \
-    : "r"( r0 ) )
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 0( %1 );"                          \
-    "lwc2 $3, 4( %1 );"                          \
-    "lwc2 $4, 0( %2 );"                          \
-    "lwc2 $5, 4( %2 )"                           \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_ldv3c(r0) __asm__ volatile (         \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 8( %0 );"                          \
-    "lwc2 $3, 12( %0 );"                         \
-    "lwc2 $4, 16( %0 );"                         \
-    "lwc2 $5, 20( %0 )"                          \
-    :                                            \
-    : "r"( r0 ) )
 
-#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
 
-#define gte_stsxy(r0) __asm__ volatile (         \
-    "swc2 $14, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 0( %1 );"                         \
-    "swc2 $14, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
 
-#define gte_stsxy3c(r0) __asm__ volatile (       \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 4( %0 );"                         \
-    "swc2 $14, 8( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3_f3(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3_ft3(r0) __asm__ volatile (    \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 16( %0 );"                        \
-    "swc2 $14, 24( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3_f4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsz3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $17, 0( %0 );"                         \
-    "swc2 $18, 0( %1 );"                         \
-    "swc2 $19, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
 
-#define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
-    "swc2 $16, 0( %0 );"                         \
-    "swc2 $17, 0( %1 );"                         \
-    "swc2 $18, 0( %2 );"                         \
-    "swc2 $19, 0( %3 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ), "r"( r3 ) \
-    : "memory" )
 
-#define gte_stszotz(r0) __asm__ volatile (       \
-    "mfc2 $12, $19;"                             \
-    "nop;"                                       \
-    "sra $12, $12, 2;"                           \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
 
-#define gte_stflg(r0) __asm__ volatile (         \
-    "cfc2 $12, $31;"                             \
-    "nop;"                                       \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (         \
-    "swc2 $24, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 void func_8017DF34(s32 arg0)
 {
@@ -3061,7 +2960,7 @@ void func_8017DF34(s32 arg0)
                                     break;
                                 case 0:
                                 case 1:
-                                    gte_stsxy3_f4(pkt);
+                                    gte_stsxy3_f3(pkt);
                                     gte_ldv0(vd);
                                     gte_rtps();
                                     if (((PolyF4 *)pkt)->x0 > ((PolyF4 *)pkt)->x1) {
@@ -4171,30 +4070,6 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
 /* not declared anywhere in src/ or include/ */
 extern u8 D_8018E27C[];
 
-#define gte_SetRotMatrix(r0) __asm__ volatile (         \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define gte_SetTransMatrix(r0) __asm__ volatile (        \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 void func_80180410(s32 a0, s32 a1, s32 a2)
 {
@@ -5091,30 +4966,6 @@ extern void func_80172710(void);
 extern s32 func_80178BF8();
 extern void RotTransSV(void *a0, void *a1, void *a2);
 
-#define gte_SetRotMatrix(r0) __asm__ volatile (         \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define gte_SetTransMatrix(r0) __asm__ volatile (        \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 
 
@@ -5373,48 +5224,6 @@ s32 func_80181E5C(void *a0) {
 }
 
 
-#define gte_SetRotMatrix(r0) __asm__ volatile (         \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define gte_SetTransMatrix(r0) __asm__ volatile (        \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define gte_ldv0(r0) __asm__ volatile (                  \
-    "lwc2 $0, 0( %0 );"                                  \
-    "lwc2 $1, 4( %0 )"                                   \
-    :                                                    \
-    : "r"( r0 ) )
-#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
-#define gte_stsxy(r0) __asm__ volatile (                 \
-    "swc2 $14, 0( %0 )"                                  \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "memory" )
-#define gte_stflg(r0) __asm__ volatile (                 \
-    "cfc2 $12, $31;"                                     \
-    "nop;"                                               \
-    "sw $12, 0( %0 )"                                    \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "memory" )
 
 /* TU RECONCILE (ov_SC02_017_jr_8017DF34.c:5281): the file's authoritative forward declaration is
    `extern void func_80181E98(u8 *a0);` -- a stale guess from before this function was matched (the
@@ -5522,10 +5331,6 @@ ret0:
 typedef struct { s16 vx, vy, vz, pad; } SV_8018209C;
 typedef struct { s16 x, y; s32 flag; } RES_8018209C;
 
-#define GTE_LDXY_8018209C(r) __asm__ __volatile__ ("lwc2 $0, 0(%0)\nlwc2 $1, 4(%0)" : : "r"(r))
-#define GTE_RTPS_8018209C() __asm__ __volatile__ ("nop\nnop\nrtps")
-#define GTE_STXY_8018209C(r) __asm__ __volatile__ ("swc2 $14, 0(%0)" : : "r"(r))
-#define GTE_STFLG_8018209C(r) __asm__ __volatile__ ("cfc2 $12, $31\nnop\nsw $12, 0(%0)" : : "r"(r) : "$12", "memory")
 
 extern u8 D_800AF648;
 extern u8 D_8018E56C[];
@@ -5550,17 +5355,17 @@ void func_8018209C(void *arg0)
         "ctc2 $12, $0\n" "ctc2 $13, $1\n"
         "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
         "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
-        : : "r"(g) : "$12", "$13", "$14", "memory");
+        : : "r"(g) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetRotMatrix_m) beyond Sony's (P36 T5 gte1)
     __asm__ __volatile__(
         "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
         "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
         "ctc2 $13, $6\n" "ctc2 $14, $7\n"
-        : : "r"(g) : "$12", "$13", "$14", "memory");
+        : : "r"(g) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetTransMatrix_m) beyond Sony's (P36 T5 gte1)
 
-    GTE_LDXY_8018209C(&vin);
-    GTE_RTPS_8018209C();
-    GTE_STXY_8018209C(&res.x);
-    GTE_STFLG_8018209C(&res.flag);
+    gte_ldv0(&vin);
+    gte_rtps();
+    gte_stsxy(&res.x);
+    gte_stflg(&res.flag);
 
     if ((res.flag & -0x1001) != 0) { rv = 0; goto out; }
     if ((res.x < 0 ? -res.x : res.x) >= 0xAB)
@@ -5573,10 +5378,10 @@ L2:
     w.vx = *(u16 *)((s32)arg0 + 6);
     w.vy = *(u16 *)((s32)arg0 + 0xA);
     w.vz = *(u16 *)((s32)arg0 + 0xE);
-    GTE_LDXY_8018209C(&w);
-    GTE_RTPS_8018209C();
-    GTE_STXY_8018209C(&res.x);
-    GTE_STFLG_8018209C(&res.flag);
+    gte_ldv0(&w);
+    gte_rtps();
+    gte_stsxy(&res.x);
+    gte_stflg(&res.flag);
 
     if ((res.flag & -0x1001) != 0) { rv = 0; goto out; }
     if ((res.x < 0 ? -res.x : res.x) >= 0x105) { rv = 0; goto out; }
@@ -6189,8 +5994,7 @@ void func_80182FD0(int param)
     __asm__ volatile("lwc2 $0,0(%0);lwc2 $1,4(%0);nop;nop;rtps;swc2 $14,0(%0)"
                      : : "r"(buf) : "memory");
     /* gte_stflg(&buf[2]); */
-    __asm__ volatile("cfc2 $12,$31;nop;sw $12,0(%0)"
-                     : : "r"(buf + 2) : "$12", "memory");
+    gte_stflg(buf + 2);
 
     lim = (D_800AF7BC >> 1) + 0x20;
     x = (int)(s16)buf[0];

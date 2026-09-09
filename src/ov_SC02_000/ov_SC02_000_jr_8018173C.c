@@ -4439,19 +4439,8 @@ extern void func_801824CC(void);
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
 
-#define gte_ldv0(r0) __asm__ volatile ( \
-    "lwc2 $0, 0( %0 );"                 \
-    "lwc2 $1, 4( %0 )"                  \
-    :                                   \
-    : "r"( r0 ) )
 
-#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
 
-#define gte_stsz(r0) __asm__ volatile ( \
-    "swc2 $19, 0( %0 )"                 \
-    :                                   \
-    : "r"( r0 )                         \
-    : "memory" )
 
 void func_80184BD8(s32 p) {
     s32 sz[1];
@@ -4869,56 +4858,13 @@ extern void func_800491AC(void *a0);
 extern s32  GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32  func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
-#define gte_ldv3(r0,r1,r2) __asm__ volatile ( \
-    "lwc2 $0, 0( %0 );"                 \
-    "lwc2 $1, 4( %0 );"                 \
-    "lwc2 $2, 0( %1 );"                 \
-    "lwc2 $3, 4( %1 );"                 \
-    "lwc2 $4, 0( %2 );"                 \
-    "lwc2 $5, 4( %2 )"                  \
-    :                                   \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
 
-#define gte_stflg(r0) __asm__ volatile ( \
-    "cfc2 $12, $31;"                    \
-    "nop;"                              \
-    "sw $12, 0( %0 )"                   \
-    :                                   \
-    : "r"( r0 )                         \
-    : "$12", "memory" )
 
-#define gte_stsxy3(r0) __asm__ volatile ( \
-    "swc2 $12, 0( %0 );"                \
-    "swc2 $13, 4( %0 );"                \
-    "swc2 $14, 8( %0 )"                 \
-    :                                   \
-    : "r"( r0 )                         \
-    : "memory" )
 
-#define gte_ldv0(r0) __asm__ volatile ( \
-    "lwc2 $0, 0( %0 );"                 \
-    "lwc2 $1, 4( %0 )"                  \
-    :                                   \
-    : "r"( r0 ) )
 
-#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
 
-#define gte_stsxy(r0) __asm__ volatile ( \
-    "swc2 $14, 0( %0 )"                 \
-    :                                   \
-    : "r"( r0 )                         \
-    : "memory" )
 
-#define gte_stszotz(r0) __asm__ volatile ( \
-    "mfc2 $12, $19;"                    \
-    "nop;"                              \
-    "sra $12, $12, 2;"                  \
-    "sw $12, 0( %0 )"                   \
-    :                                   \
-    : "r"( r0 )                         \
-    : "$12", "memory" )
 
 void func_80185910(SVECTOR *a0, SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
 {
@@ -4938,7 +4884,7 @@ void func_80185910(SVECTOR *a0, SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
     gte_stflg(&flag);
     if ((flag & 0x7F85E000) == 0) {
         p = *(u8 **)&D_800A5E60;
-        gte_stsxy3(xy);
+        gte_stsxy3c(xy);
         gte_ldv0(a3);
         gte_rtps();
         ((u8 *)p)[7] = 0x3A;

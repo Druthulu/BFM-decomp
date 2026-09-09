@@ -297,20 +297,6 @@ extern u8 D_800CC114[];
 extern u8 D_800CC5B0[];
 extern u8 D_800CC638[];
 
-#define gte_SetRotMatrix(r0) __asm__ volatile (          \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14", "memory" )
 
 #define gte_rt(p)                                        \
     __asm__ volatile (                                   \
@@ -411,20 +397,6 @@ void func_800CB578(void *arg0) {
 extern s32 func_80017DC4(void *a0, void *a1);
 extern s32 func_80017758(void *a0, void *a1);
 
-#define gte_SetRotMatrix(r0) __asm__ volatile (          \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14", "memory" )
 
 void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
     struct { s16 v[4]; } p[4];
@@ -467,17 +439,8 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
         "mvmva 1, 0, 3, 3, 0"
         :
         : "r"((s32)mat)
-        : "$12", "$13", "$14", "memory");
-    __asm__ volatile (
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0( %0 );"
-        "sh $13, 6( %0 );"
-        "sh $14, 12( %0 )"
-        :
-        : "r"((s32)mat)
-        : "$12", "$13", "$14", "memory");
+        : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldclmv+gte_rtir_m) beyond Sony's (P36 T5 gte1)
+    gte_stclmv((s32)mat);
     __asm__ volatile (
         "lhu $12, 0( %0 );"
         "lhu $13, 6( %0 );"
@@ -490,17 +453,8 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
         "mvmva 1, 0, 3, 3, 0"
         :
         : "r"((s32)mat + 2)
-        : "$12", "$13", "$14", "memory");
-    __asm__ volatile (
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0( %0 );"
-        "sh $13, 6( %0 );"
-        "sh $14, 12( %0 )"
-        :
-        : "r"((s32)mat + 2)
-        : "$12", "$13", "$14", "memory");
+        : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldclmv+gte_rtir_m) beyond Sony's (P36 T5 gte1)
+    gte_stclmv((s32)mat + 2);
     __asm__ volatile (
         "lhu $12, 0( %0 );"
         "lhu $13, 6( %0 );"
@@ -513,17 +467,8 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
         "mvmva 1, 0, 3, 3, 0"
         :
         : "r"((s32)mat + 4)
-        : "$12", "$13", "$14", "memory");
-    __asm__ volatile (
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0( %0 );"
-        "sh $13, 6( %0 );"
-        "sh $14, 12( %0 )"
-        :
-        : "r"((s32)mat + 4)
-        : "$12", "$13", "$14", "memory");
+        : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldclmv+gte_rtir_m) beyond Sony's (P36 T5 gte1)
+    gte_stclmv((s32)mat + 4);
     ((s32 *)mat)[5] = a2[5];
     ((s32 *)mat)[6] = a2[6];
     ((s32 *)mat)[7] = a2[7];

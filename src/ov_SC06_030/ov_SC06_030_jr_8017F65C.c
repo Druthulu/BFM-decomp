@@ -3197,79 +3197,14 @@ typedef struct {
 
 /* every macro is suffixed: this TU already #defines the unsuffixed gte_* family
  * (func_8017C8D0 region), so an unsuffixed name would clash. */
-#define gte_ldv0_80180228(r0) __asm__ volatile (  \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 )"                           \
-    :                                            \
-    : "r"( r0 ) )
 
-#define gte_ldv3_80180228(r0, r1, r2) __asm__ volatile ( \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 0( %1 );"                          \
-    "lwc2 $3, 4( %1 );"                          \
-    "lwc2 $4, 0( %2 );"                          \
-    "lwc2 $5, 4( %2 )"                           \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_rtps_80180228() __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt_80180228() __asm__ volatile ("nop;nop;rtpt")
-#define gte_avsz4_80180228() __asm__ volatile ("nop;nop;avsz4")
 
-#define gte_stsxy_80180228(r0) __asm__ volatile ( \
-    "swc2 $14, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3_80180228(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 0( %1 );"                         \
-    "swc2 $14, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
 
-#define gte_stotz_80180228(r0) __asm__ volatile ( \
-    "swc2 $7, 0( %0 )"                           \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stflg_80180228(r0) __asm__ volatile ( \
-    "cfc2 $12, $31;"                             \
-    "nop;"                                       \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
 
-#define gte_SetRotMatrix_80180228(r0) __asm__ volatile ( \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
-#define gte_SetTransMatrix_80180228(r0) __asm__ volatile ( \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 void func_80180228(s32 a0)
 {
@@ -3323,21 +3258,21 @@ void func_80180228(s32 a0)
     pkt.code = 0x50000000;
 
     m = (s32 *)(base + 0x18);
-    gte_SetRotMatrix_80180228(m);
-    gte_SetTransMatrix_80180228(m);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
 
-    gte_ldv3_80180228((SV_80180228 *)(a0 + 0xFC), (SV_80180228 *)(a0 + 0x104),
+    gte_ldv3((SV_80180228 *)(a0 + 0xFC), (SV_80180228 *)(a0 + 0x104),
                       (SV_80180228 *)(a0 + 0xDC));
-    gte_rtpt_80180228();
-    gte_stflg_80180228(&flag1);
-    gte_stsxy3_80180228(&pkt.v[0], &pkt.v[1], &pkt.v[2]);
-    gte_ldv0_80180228((SV_80180228 *)(a0 + 0xE4));
-    gte_rtps_80180228();
-    gte_stflg_80180228(&flag2);
+    gte_rtpt();
+    gte_stflg(&flag1);
+    gte_stsxy3(&pkt.v[0], &pkt.v[1], &pkt.v[2]);
+    gte_ldv0((SV_80180228 *)(a0 + 0xE4));
+    gte_rtps();
+    gte_stflg(&flag2);
     flag1 = flag1 | flag2;
-    gte_stsxy_80180228(&pkt.v[3]);
-    gte_avsz4_80180228();
-    gte_stotz_80180228(&otz);
+    gte_stsxy(&pkt.v[3]);
+    gte_avsz4();
+    gte_stotz(&otz);
 
     if (otz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 <
@@ -3945,31 +3880,7 @@ s32 param_1;
 
 #include "common.h"
 
-#define gte_SetRotMatrix_80181164(r0) __asm__ volatile (  \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
-#define gte_SetTransMatrix_80181164(r0) __asm__ volatile ( \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 /* §202 DEF-SIDE ALIAS: this TU declares `extern void func_80181164(void);`
  * at :4223 for its live caller func_80181DD4 (:4226).  The target's asm
@@ -4036,8 +3947,8 @@ void aF80181164(void *a0)
     s32 k;
 
     m = *(s32 *)((s32)a0 + 0x20) + 0x34;
-    gte_SetRotMatrix_80181164(m);
-    gte_SetTransMatrix_80181164(m);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
 
     pv = (void *)sv;
     pflag = &o.flag;

@@ -2695,73 +2695,14 @@ extern void func_8017BEB4(void);
  * because the later-defined pseudo always has the shorter range. Cookbook §47.
  */
 
-#define gte_ldv0(r0) __asm__ volatile (          \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 )"                           \
-    :                                            \
-    : "r"( r0 ) )
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 0( %1 );"                          \
-    "lwc2 $3, 4( %1 );"                          \
-    "lwc2 $4, 0( %2 );"                          \
-    "lwc2 $5, 4( %2 )"                           \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_ldv3c(r0) __asm__ volatile (         \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 8( %0 );"                          \
-    "lwc2 $3, 12( %0 );"                         \
-    "lwc2 $4, 16( %0 );"                         \
-    "lwc2 $5, 20( %0 )"                          \
-    :                                            \
-    : "r"( r0 ) )
 
-#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
 
-#define gte_stsxy(r0) __asm__ volatile (         \
-    "swc2 $14, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 0( %1 );"                         \
-    "swc2 $14, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
 
-#define gte_stsxy3c(r0) __asm__ volatile (       \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 4( %0 );"                         \
-    "swc2 $14, 8( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3_f3(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3_ft3(r0) __asm__ volatile (    \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 16( %0 );"                        \
-    "swc2 $14, 24( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 #define gte_stsxy3_f4(r0) __asm__ volatile (     \
     "swc2 $12, 8( %0 );"                         \
@@ -2771,45 +2712,10 @@ extern void func_8017BEB4(void);
     : "r"( r0 )                                  \
     : "memory" )
 
-#define gte_stsz3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $17, 0( %0 );"                         \
-    "swc2 $18, 0( %1 );"                         \
-    "swc2 $19, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
 
-#define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
-    "swc2 $16, 0( %0 );"                         \
-    "swc2 $17, 0( %1 );"                         \
-    "swc2 $18, 0( %2 );"                         \
-    "swc2 $19, 0( %3 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ), "r"( r3 ) \
-    : "memory" )
 
-#define gte_stszotz(r0) __asm__ volatile (       \
-    "mfc2 $12, $19;"                             \
-    "nop;"                                       \
-    "sra $12, $12, 2;"                           \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
 
-#define gte_stflg(r0) __asm__ volatile (         \
-    "cfc2 $12, $31;"                             \
-    "nop;"                                       \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (         \
-    "swc2 $24, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 #include "../shared/ov/func_8017BEBC__t67f11bf2.h"
 
@@ -2831,162 +2737,6 @@ void func_8017CD9C(s32 a0) {
 }
 
 
-#define gte_ldv0(r0) __asm__ volatile (          \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 )"                           \
-    :                                            \
-    : "r"( r0 ) )
-#define gte_ldv3c(r0) __asm__ volatile (         \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 8( %0 );"                          \
-    "lwc2 $3, 12( %0 );"                         \
-    "lwc2 $4, 16( %0 );"                         \
-    "lwc2 $5, 20( %0 )"                          \
-    :                                            \
-    : "r"( r0 ) )
-#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_stsxy(r0) __asm__ volatile (         \
-    "swc2 $14, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
-#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 0( %1 );"                         \
-    "swc2 $14, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
-#define gte_stsxy3c(r0) __asm__ volatile (       \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 4( %0 );"                         \
-    "swc2 $14, 8( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
-#define gte_stsxy3_ft3(r0) __asm__ volatile (    \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 16( %0 );"                        \
-    "swc2 $14, 24( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
-#define gte_stsz3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $17, 0( %0 );"                         \
-    "swc2 $18, 0( %1 );"                         \
-    "swc2 $19, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
-#define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
-    "swc2 $16, 0( %0 );"                         \
-    "swc2 $17, 0( %1 );"                         \
-    "swc2 $18, 0( %2 );"                         \
-    "swc2 $19, 0( %3 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ), "r"( r3 ) \
-    : "memory" )
-#define gte_stszotz(r0) __asm__ volatile (       \
-    "mfc2 $12, $19;"                             \
-    "nop;"                                       \
-    "sra $12, $12, 2;"                           \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
-#define gte_stflg(r0) __asm__ volatile (         \
-    "cfc2 $12, $31;"                             \
-    "nop;"                                       \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
-#define gte_stopz(r0) __asm__ volatile (         \
-    "swc2 $24, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
-#define gte_ldv0(r0) __asm__ volatile (          \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 )"                           \
-    :                                            \
-    : "r"( r0 ) )
-#define gte_ldv3c(r0) __asm__ volatile (         \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 8( %0 );"                          \
-    "lwc2 $3, 12( %0 );"                         \
-    "lwc2 $4, 16( %0 );"                         \
-    "lwc2 $5, 20( %0 )"                          \
-    :                                            \
-    : "r"( r0 ) )
-#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_stsxy(r0) __asm__ volatile (         \
-    "swc2 $14, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
-#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 0( %1 );"                         \
-    "swc2 $14, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
-#define gte_stsxy3c(r0) __asm__ volatile (       \
-    "swc2 $12, 0( %0 );"                         \
-    "swc2 $13, 4( %0 );"                         \
-    "swc2 $14, 8( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
-#define gte_stsxy3_ft3(r0) __asm__ volatile (    \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 16( %0 );"                        \
-    "swc2 $14, 24( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
-#define gte_stsz3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $17, 0( %0 );"                         \
-    "swc2 $18, 0( %1 );"                         \
-    "swc2 $19, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
-#define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
-    "swc2 $16, 0( %0 );"                         \
-    "swc2 $17, 0( %1 );"                         \
-    "swc2 $18, 0( %2 );"                         \
-    "swc2 $19, 0( %3 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ), "r"( r3 ) \
-    : "memory" )
-#define gte_stszotz(r0) __asm__ volatile (       \
-    "mfc2 $12, $19;"                             \
-    "nop;"                                       \
-    "sra $12, $12, 2;"                           \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
-#define gte_stflg(r0) __asm__ volatile (         \
-    "cfc2 $12, $31;"                             \
-    "nop;"                                       \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
-#define gte_stopz(r0) __asm__ volatile (         \
-    "swc2 $24, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 #include "../shared/ov/func_8017CDF0__922320b0.h"
 
@@ -3878,27 +3628,7 @@ void func_8017EDC0(s32 a0, s32 a1, s32 a2, s32 a3)
 
 
 
-#define gte_SetRotMatrix(r0) __asm__ __volatile__ ( \
-    "lw $12, 0( %0 );"   \
-    "lw $13, 4( %0 );"   \
-    "ctc2 $12, $0;"      \
-    "ctc2 $13, $1;"      \
-    "lw $12, 8( %0 );"   \
-    "lw $13, 12( %0 );"  \
-    "lw $14, 16( %0 );"  \
-    "ctc2 $12, $2;"      \
-    "ctc2 $13, $3;"      \
-    "ctc2 $14, $4"       \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
-#define gte_SetTransMatrix(r0) __asm__ __volatile__ ( \
-    "lw $12, 20( %0 );"  \
-    "lw $13, 24( %0 );"  \
-    "ctc2 $12, $5;"      \
-    "lw $14, 28( %0 );"  \
-    "ctc2 $13, $6;"      \
-    "ctc2 $14, $7"       \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
 extern s16 D_80185034[];
 extern void func_8012EC04(s32 a0, s32 a1, void *a2);
@@ -4395,102 +4125,20 @@ void func_8017FD88(s32 param_1)
  *      src/shared/engine_core.h DEFINE_func_8012E778 / DEFINE_func_8012EA90
  *      and src/ov_SC06_024/ov_SC06_024_jr_801851E0.c) -------------------- */
 
-#define gte_SetRotMatrix_1(r0) __asm__ __volatile__ ( \
-    "lw $12, 0( %0 );"   \
-    "lw $13, 4( %0 );"   \
-    "ctc2 $12, $0;"      \
-    "ctc2 $13, $1;"      \
-    "lw $12, 8( %0 );"   \
-    "lw $13, 12( %0 );"  \
-    "lw $14, 16( %0 );"  \
-    "ctc2 $12, $2;"      \
-    "ctc2 $13, $3;"      \
-    "ctc2 $14, $4"       \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
-#define gte_SetTransMatrix_1(r0) __asm__ __volatile__ ( \
-    "lw $12, 20( %0 );"  \
-    "lw $13, 24( %0 );"  \
-    "ctc2 $12, $5;"      \
-    "lw $14, 28( %0 );"  \
-    "ctc2 $13, $6;"      \
-    "ctc2 $14, $7"       \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
-#define gte_ldclmv_1(r0) __asm__ __volatile__ ( \
-    "lhu $12, 0( %0 );"  \
-    "lhu $13, 6( %0 );"  \
-    "lhu $14, 12( %0 );" \
-    "mtc2 $12, $9;"      \
-    "mtc2 $13, $10;"     \
-    "mtc2 $14, $11"      \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
-#define gte_rtir_1() __asm__ __volatile__ ( "nop;nop;mvmva 1, 0, 3, 3, 0" )
 
-#define gte_stclmv_1(r0) __asm__ __volatile__ ( \
-    "mfc2 $12, $9;"      \
-    "mfc2 $13, $10;"     \
-    "mfc2 $14, $11;"     \
-    "sh $12, 0( %0 );"   \
-    "sh $13, 6( %0 );"   \
-    "sh $14, 12( %0 )"   \
-    : : "r"( r0 ) : "$12", "$13", "$14", "memory" )
 
-#define gte_ldlv0_1(r0) __asm__ __volatile__ ( \
-    "lhu $13, 4( %0 );"  \
-    "lhu $12, 0( %0 );"  \
-    "sll $13, $13, 16;"  \
-    "or $12, $12, $13;"  \
-    "mtc2 $12, $0;"      \
-    "lwc2 $1, 8( %0 )"   \
-    : : "r"( r0 ) : "$12", "$13" )
 
-#define gte_rt_1() __asm__ __volatile__ ( "nop;nop;mvmva 1, 0, 0, 0, 0" )
 
-#define gte_stlvnl_1(r0) __asm__ __volatile__ ( \
-    "swc2 $25, 0( %0 );" \
-    "swc2 $26, 4( %0 );" \
-    "swc2 $27, 8( %0 )"  \
-    : : "r"( r0 ) : "memory" )
 
-#define gte_ldv3_1(r0, r1, r2) __asm__ __volatile__ ( \
-    "lwc2 $0, 0( %0 );"  \
-    "lwc2 $1, 4( %0 );"  \
-    "lwc2 $2, 0( %1 );"  \
-    "lwc2 $3, 4( %1 );"  \
-    "lwc2 $4, 0( %2 );"  \
-    "lwc2 $5, 4( %2 )"   \
-    : : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_ldv0_1(r0) __asm__ __volatile__ ( \
-    "lwc2 $0, 0( %0 );"  \
-    "lwc2 $1, 4( %0 )"   \
-    : : "r"( r0 ) )
 
-#define gte_rtpt_1() __asm__ __volatile__ ( "nop;nop;rtpt" )
-#define gte_rtps_1() __asm__ __volatile__ ( "nop;nop;rtps" )
-#define gte_avsz4_1() __asm__ __volatile__ ( "nop;nop;avsz4" )
 
-#define gte_stflg_1(r0) __asm__ __volatile__ ( \
-    "cfc2 $12, $31;"     \
-    "nop;"               \
-    "sw $12, 0( %0 )"    \
-    : : "r"( r0 ) : "$12", "memory" )
 
-#define gte_stsxy3_1(r0, r1, r2) __asm__ __volatile__ ( \
-    "swc2 $12, 0( %0 );" \
-    "swc2 $13, 0( %1 );" \
-    "swc2 $14, 0( %2 )"  \
-    : : "r"( r0 ), "r"( r1 ), "r"( r2 ) : "memory" )
 
-#define gte_stsxy_1(r0) __asm__ __volatile__ ( \
-    "swc2 $14, 0( %0 )"  \
-    : : "r"( r0 ) : "memory" )
 
-#define gte_stotz_1(r0) __asm__ __volatile__ ( \
-    "swc2 $7, 0( %0 )"   \
-    : : "r"( r0 ) : "memory" )
 
 /* Billboard POLY_FT4 emitter: rotates the entity matrix (obj->0x20 + 0x34) through the
  * camera matrix D_800AF648 into a stack MATRIX, projects the four corners, and links the
@@ -4534,33 +4182,33 @@ void func_8017FE38(s32 p)
     ot = (u32)&D_800A6610[d << 14];
 
     r0 = (MTX_8017FE38 *)&D_800AF648;
-    gte_SetRotMatrix_1(r0);
-    gte_ldclmv_1(*(s32 *)(p + 0x20) + 0x34);
-    gte_rtir_1();
-    gte_stclmv_1((s16 *)&mat);
-    gte_ldclmv_1(*(s32 *)(p + 0x20) + 0x36);
-    gte_rtir_1();
-    gte_stclmv_1((s16 *)&mat + 1);
-    gte_ldclmv_1(*(s32 *)(p + 0x20) + 0x38);
-    gte_rtir_1();
-    gte_stclmv_1((s16 *)&mat + 2);
-    gte_SetTransMatrix_1(r0);
-    gte_ldlv0_1(*(s32 *)(p + 0x20) + 0x48);
-    gte_rt_1();
-    gte_stlvnl_1(&mat.t[0]);
-    gte_SetRotMatrix_1(&mat);
-    gte_SetTransMatrix_1(&mat);
-    gte_ldv3_1(va, p + 0xE4, p + 0xEC);
-    gte_rtpt_1();
-    gte_stflg_1(&g.flag);
-    gte_stsxy3_1(pkt + 8, pkt + 0x10, pkt + 0x18);
-    gte_ldv0_1(p + 0xF4);
-    gte_rtps_1();
-    gte_stflg_1(&g.flag2);
+    gte_SetRotMatrix(r0);
+    gte_ldclmv(*(s32 *)(p + 0x20) + 0x34);
+    gte_rtir();
+    gte_stclmv((s16 *)&mat);
+    gte_ldclmv(*(s32 *)(p + 0x20) + 0x36);
+    gte_rtir();
+    gte_stclmv((s16 *)&mat + 1);
+    gte_ldclmv(*(s32 *)(p + 0x20) + 0x38);
+    gte_rtir();
+    gte_stclmv((s16 *)&mat + 2);
+    gte_SetTransMatrix(r0);
+    gte_ldlv0(*(s32 *)(p + 0x20) + 0x48);
+    gte_rtv0tr();
+    gte_stlvnl(&mat.t[0]);
+    gte_SetRotMatrix(&mat);
+    gte_SetTransMatrix(&mat);
+    gte_ldv3(va, p + 0xE4, p + 0xEC);
+    gte_rtpt();
+    gte_stflg(&g.flag);
+    gte_stsxy3(pkt + 8, pkt + 0x10, pkt + 0x18);
+    gte_ldv0(p + 0xF4);
+    gte_rtps();
+    gte_stflg(&g.flag2);
     g.flag = g.flag | g.flag2;
-    gte_stsxy_1(pkt + 0x20);
-    gte_avsz4_1();
-    gte_stotz_1(&g.otz);
+    gte_stsxy(pkt + 0x20);
+    gte_avsz4();
+    gte_stotz(&g.otz);
 
     if ((g.flag & ~0x1000) == 0) {
         x = *(u16 *)(p + 0x104);
@@ -4671,27 +4319,7 @@ void func_80180350(s32 a0)
 }
 
 
-#define gte_SetRotMatrix_1(r0) __asm__ __volatile__ ( \
-    "lw $12, 0( %0 );"   \
-    "lw $13, 4( %0 );"   \
-    "ctc2 $12, $0;"      \
-    "ctc2 $13, $1;"      \
-    "lw $12, 8( %0 );"   \
-    "lw $13, 12( %0 );"  \
-    "lw $14, 16( %0 );"  \
-    "ctc2 $12, $2;"      \
-    "ctc2 $13, $3;"      \
-    "ctc2 $14, $4"       \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
-#define gte_SetTransMatrix_1(r0) __asm__ __volatile__ ( \
-    "lw $12, 20( %0 );"  \
-    "lw $13, 24( %0 );"  \
-    "ctc2 $12, $5;"      \
-    "lw $14, 28( %0 );"  \
-    "ctc2 $13, $6;"      \
-    "ctc2 $14, $7"       \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
 void func_80180404(void *a0)
 {
@@ -4718,8 +4346,8 @@ void func_80180404(void *a0)
         sv[1] = 0;
         sv[2] = 0x28;
         m = *(s32 *)((s32)a0 + 0x20) + 0x34;
-        gte_SetRotMatrix_1(m);
-        gte_SetTransMatrix_1(m);
+        gte_SetRotMatrix(m);
+        gte_SetTransMatrix(m);
         for (i = 0; i < 5; i++) {
             ent = func_8012913C(0x22);
             if (ent != 0) {
@@ -4833,27 +4461,7 @@ last:
 }
 
 
-#define gte_SetRotMatrix_1(r0) __asm__ __volatile__ ( \
-    "lw $12, 0( %0 );"   \
-    "lw $13, 4( %0 );"   \
-    "ctc2 $12, $0;"      \
-    "ctc2 $13, $1;"      \
-    "lw $12, 8( %0 );"   \
-    "lw $13, 12( %0 );"  \
-    "lw $14, 16( %0 );"  \
-    "ctc2 $12, $2;"      \
-    "ctc2 $13, $3;"      \
-    "ctc2 $14, $4"       \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
-#define gte_SetTransMatrix_1(r0) __asm__ __volatile__ ( \
-    "lw $12, 20( %0 );"  \
-    "lw $13, 24( %0 );"  \
-    "ctc2 $12, $5;"      \
-    "lw $14, 28( %0 );"  \
-    "ctc2 $13, $6;"      \
-    "ctc2 $14, $7"       \
-    : : "r"( r0 ) : "$12", "$13", "$14" )
 
 extern void RotTransSV(void *a0, void *a1, void *a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -4866,8 +4474,8 @@ s32 func_80180754(void *a0, void *a1, void *a2, void *a3)
     s32 m;
 
     m = *(s32 *)((s32)a0 + 0x20) + 0x34;
-    gte_SetRotMatrix_1(m);
-    gte_SetTransMatrix_1(m);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
     RotTransSV(a2, sv0, ov);
     RotTransSV(a3, sv1, ov);
     return func_80135888(*(s32 *)((s32)a1 + 0x20),

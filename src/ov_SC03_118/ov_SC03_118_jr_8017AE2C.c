@@ -3430,23 +3430,6 @@ extern void func_80013F3C(s32 a0);
 extern void func_80017714(void *);
 extern void func_8004914C();
 extern void func_800491AC();
-#define gte_ldv0(r0)  __asm__ __volatile__( \
-    "lwc2 $0, 0(%0)\n" \
-    "lwc2 $1, 4(%0)\n" \
-    : : "r"(r0) : "memory")
-#define gte_rt()  __asm__ __volatile__( \
-    "nop\n" \
-    "nop\n" \
-    "mvmva 1, 0, 0, 0, 0\n" \
-    : : : "memory")
-#define gte_stsv(r0)  __asm__ __volatile__( \
-    "mfc2 $12, $9\n" \
-    "mfc2 $13, $10\n" \
-    "mfc2 $14, $11\n" \
-    "sh $12, 0(%0)\n" \
-    "sh $13, 2(%0)\n" \
-    "sh $14, 4(%0)\n" \
-    : : "r"(r0) : "$12", "$13", "$14", "memory")
 
 void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
                    SVECTOR_8017E72C *e, SVECTOR_8017E72C *f, s16 *g)
@@ -3501,15 +3484,15 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
 
     gte_ldv0(c);
-    gte_rt();
+    gte_rtv0tr();
     gte_stsv(r0_00);
 
     gte_ldv0(f);
-    gte_rt();
+    gte_rtv0tr();
     gte_stsv(r0_00 + 1);
 
     gte_ldv0(d);
-    gte_rt();
+    gte_rtv0tr();
     r0 = r0_00 + 2;
     gte_stsv(r0);
 
@@ -3518,7 +3501,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     d->vx = d->vx - (f->pad & r);
 
     gte_ldv0(d);
-    gte_rt();
+    gte_rtv0tr();
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
@@ -3526,7 +3509,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     func_80017714(r0_00);
 
     gte_ldv0(e);
-    gte_rt();
+    gte_rtv0tr();
     gte_stsv(r0);
 
     *e = *f;
@@ -3534,7 +3517,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     e->vx = e->vx + (f->pad & r);
 
     gte_ldv0(e);
-    gte_rt();
+    gte_rtv0tr();
     gte_stsv(pSVar6);
 
     r0_00->vz = ((u16 *)b)[2];
@@ -4068,45 +4051,6 @@ extern void func_80013F3C(s32 a0);
 extern void func_80017714(void *);
 extern void func_8004914C();
 extern void func_800491AC();
-#define gte_ldv0(r0)  __asm__ __volatile__( \
-    "lwc2 $0, 0(%0)\n" \
-    "lwc2 $1, 4(%0)\n" \
-    : : "r"(r0) : "memory")
-#define gte_rt()  __asm__ __volatile__( \
-    "nop\n" \
-    "nop\n" \
-    "mvmva 1, 0, 0, 0, 0\n" \
-    : : : "memory")
-#define gte_stsv(r0)  __asm__ __volatile__( \
-    "mfc2 $12, $9\n" \
-    "mfc2 $13, $10\n" \
-    "mfc2 $14, $11\n" \
-    "sh $12, 0(%0)\n" \
-    "sh $13, 2(%0)\n" \
-    "sh $14, 4(%0)\n" \
-    : : "r"(r0) : "$12", "$13", "$14", "memory")
-#define gte_ldv0(r0)  __asm__ __volatile__( \
-    "lwc2 $0, 0(%0)\n" \
-    "lwc2 $1, 4(%0)\n" \
-    : : "r"(r0) : "memory")
-#define gte_rt()  __asm__ __volatile__( \
-    "nop\n" \
-    "nop\n" \
-    "mvmva 1, 0, 0, 0, 0\n" \
-    : : : "memory")
-#define gte_stsv(r0)  __asm__ __volatile__( \
-    "mfc2 $12, $9\n" \
-    "mfc2 $13, $10\n" \
-    "mfc2 $14, $11\n" \
-    "sh $12, 0(%0)\n" \
-    "sh $13, 2(%0)\n" \
-    "sh $14, 4(%0)\n" \
-    : : "r"(r0) : "$12", "$13", "$14", "memory")
-#define gte_ldv0(r0) __asm__ volatile (          \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 )"                           \
-    :                                            \
-    : "r"( r0 ) )
 
 void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
 {
@@ -4141,22 +4085,22 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
     r0_00 = &D_801D42A8[0];
 
     gte_ldv0(a1);
-    gte_rt();
+    gte_rtv0tr();
     gte_stsv(r0_00);
 
     gte_ldv0(a2);
-    gte_rt();
+    gte_rtv0tr();
     gte_stsv(r0_00 + 1);
 
     a1->vx = a1->vx - 2;
     gte_ldv0(a1);
-    gte_rt();
+    gte_rtv0tr();
     r0 = r0_00 + 2;
     gte_stsv(r0);
 
     a2->vx = a2->vx - 2;
     gte_ldv0(a2);
-    gte_rt();
+    gte_rtv0tr();
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
@@ -4165,12 +4109,12 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
 
     a1->vx = a1->vx + 4;
     gte_ldv0(a1);
-    gte_rt();
+    gte_rtv0tr();
     gte_stsv(r0);
 
     a2->vx = a2->vx + 4;
     gte_ldv0(a2);
-    gte_rt();
+    gte_rtv0tr();
     gte_stsv(pSVar6);
 
     r0_00->vz = *(u16 *)(a0 + 0xE);

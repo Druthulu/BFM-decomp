@@ -800,30 +800,6 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
 extern s32 func_80143BDC(u16 *a0);
 extern s32 rand(void);
 
-#define SRM_80189F30(r0) __asm__ volatile (          \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define STM_80189F30(r0) __asm__ volatile (        \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 void func_80189F30(void *param_1) {
     s16 v[8];
@@ -835,8 +811,8 @@ void func_80189F30(void *param_1) {
 
     v[1] = D_801961CE;
     m = (s32 *)(*(s32 *)((s32)param_1 + 0x20) + 0x34);
-    SRM_80189F30(m);
-    STM_80189F30(m);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
     for (i = 0; i < 10; i++) {
         r = rand() % 144;
         if (rand() & 1) {
@@ -3821,30 +3797,6 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
 extern u8 D_801DF68C[];
 extern u8 D_801DF694[];
 
-#define SRM_8018D720(r0) __asm__ volatile (          \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define STM_8018D720(r0) __asm__ volatile (        \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 void func_8018D720(void *param_1)
 {
@@ -3856,8 +3808,8 @@ void func_8018D720(void *param_1)
 
     m = (s32 *)(*(s32 *)((s32)param_1 + 0x20) + 0x34);
 
-    SRM_8018D720(m);
-    STM_8018D720(m);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
 
     RotTransSV(D_801DF68C, sv0, &flag);
     RotTransSV(D_801DF694, sv1, &flag);
@@ -4454,30 +4406,6 @@ extern u8 D_801DF7B8[];
 
 /* NOT named gte_SetRotMatrix/gte_SetTransMatrix: the host TU already defines
  * those two names twice and a third definition would collide. */
-#define SRM_8018E208(r0) __asm__ volatile (              \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define STM_8018E208(r0) __asm__ volatile (              \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 s32 func_8018E208(void *a0)
 {
@@ -4507,8 +4435,8 @@ s32 func_8018E208(void *a0)
     p0 = base;
 
     for (i = 0; i < 4; i++) {
-        SRM_8018E208(matrix);
-        STM_8018E208(matrix);
+        gte_SetRotMatrix(matrix);
+        gte_SetTransMatrix(matrix);
 
         RotTransSV(p0, sv0, &flag);
         RotTransSV(p1, sv1, &flag);
@@ -4828,30 +4756,6 @@ extern s32  func_80017758(void *a0, void *a1);
 extern u32 D_801DF7F8[];
 extern u8  D_801DF85C[];
 
-#define SRM_8018E8A0(r0) __asm__ volatile (          \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define STM_8018E8A0(r0) __asm__ volatile (        \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0;          /* 0x08 */
 typedef struct { s32 vx, vy, vz, pad; } Vec16_8018E8A0;          /* 0x10 */
@@ -4948,8 +4852,8 @@ void func_8018E8A0(void *a0)
               ((s32)(s16)*(u16 *)((s32)a0 + 0x70) / 2) * 0x20);
         dst = prim.v;
 
-        SRM_8018E8A0(&mtx);
-        STM_8018E8A0(&mtx);
+        gte_SetRotMatrix(&mtx);
+        gte_SetTransMatrix(&mtx);
 
         for (j = 0; j < 4; j++, src++, dst++) {
             RotTransSV(src, dst, &flag);
@@ -5377,30 +5281,6 @@ extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80172710(void);
 extern s32 func_80178BF8();
-#define gte_SetRotMatrix(r0) __asm__ volatile (         \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define gte_SetTransMatrix(r0) __asm__ volatile (        \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 s32 aF8018A224() __asm__("func_8018F390");
 
@@ -6192,30 +6072,6 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
  * touching the shared header. */
 
 
-#define gte_SetRotMatrix(r0) __asm__ volatile (         \
-    "lw $12, 0( %0 );"                                   \
-    "lw $13, 4( %0 );"                                   \
-    "ctc2 $12, $0;"                                      \
-    "ctc2 $13, $1;"                                      \
-    "lw $12, 8( %0 );"                                   \
-    "lw $13, 12( %0 );"                                  \
-    "lw $14, 16( %0 );"                                  \
-    "ctc2 $12, $2;"                                      \
-    "ctc2 $13, $3;"                                      \
-    "ctc2 $14, $4"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
-#define gte_SetTransMatrix(r0) __asm__ volatile (        \
-    "lw $12, 20( %0 );"                                  \
-    "lw $13, 24( %0 );"                                  \
-    "ctc2 $12, $5;"                                      \
-    "lw $14, 28( %0 );"                                  \
-    "ctc2 $13, $6;"                                      \
-    "ctc2 $14, $7"                                       \
-    :                                                    \
-    : "r"( r0 )                                          \
-    : "$12", "$13", "$14" )
 
 /* §71 sibling: identical shape to func_8018F390 (same TU, this file, D_80126B78/RotTransSV/
  * func_80135888/func_8012BDBC/func_80178BF8/func_80172710 idiom) already MATCHED -- only the

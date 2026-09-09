@@ -179,65 +179,14 @@ void func_800CB00C(s32 arg0, s32 arg1, s32 arg2)
 /* ---- PsyQ inline GTE macros (same spellings as the matched siblings
  *      func_800CBA18 / func_800CBC2C in this TU) ---- */
 
-#define gte_ldv0(r0) __asm__ volatile (           \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 );"                           \
-    "lwc2 $2, 0( %1 );"                           \
-    "lwc2 $3, 4( %1 );"                           \
-    "lwc2 $4, 0( %2 );"                           \
-    "lwc2 $5, 4( %2 )"                            \
-    :                                             \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_ldrgb(r0) __asm__ volatile (          \
-    "lwc2 $6, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
-#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
 
-#define gte_stflg(r0) __asm__ volatile (          \
-    "cfc2 $12, $31;"                              \
-    "nop;"                                        \
-    "sw $12, 0( %0 )"                             \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (          \
-    "swc2 $24, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stotz(r0) __asm__ volatile (          \
-    "swc2 $7, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy3_f3(r0) __asm__ volatile (      \
-    "swc2 $12, 8( %0 );"                          \
-    "swc2 $13, 12( %0 );"                         \
-    "swc2 $14, 16( %0 )"                          \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_strgb(r0) __asm__ volatile (          \
-    "swc2 $22, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
 /* ---- types ------------------------------------------------------------- */
 typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB1F8;   /* 0x08 */
@@ -322,72 +271,15 @@ F3P_800CB1F8 *func_800CB1F8(Face10_800CB1F8 *f, SVEC8_800CB1F8 *verts,
  */
 
 /* ---- PsyQ inline_c.h GTE macros (same spellings as the matched siblings) -- */
-#define gte_ldv0(r0) __asm__ volatile (           \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 );"                           \
-    "lwc2 $2, 0( %1 );"                           \
-    "lwc2 $3, 4( %1 );"                           \
-    "lwc2 $4, 0( %2 );"                           \
-    "lwc2 $5, 4( %2 )"                            \
-    :                                             \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_ldrgb(r0) __asm__ volatile (          \
-    "lwc2 $6, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
-#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
 
-#define gte_stflg(r0) __asm__ volatile (          \
-    "cfc2 $12, $31;"                              \
-    "nop;"                                        \
-    "sw $12, 0( %0 )"                             \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (          \
-    "swc2 $24, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stotz(r0) __asm__ volatile (          \
-    "swc2 $7, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy(r0) __asm__ volatile (          \
-    "swc2 $14, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy3_f4(r0) __asm__ volatile (      \
-    "swc2 $12, 8( %0 );"                          \
-    "swc2 $13, 12( %0 );"                         \
-    "swc2 $14, 16( %0 )"                          \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_strgb(r0) __asm__ volatile (          \
-    "swc2 $22, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
 /* ---- types ------------------------------------------------------------- */
 typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB3C0;   /* 0x08 */
@@ -435,7 +327,7 @@ PktF4_800CB3C0 *func_800CB3C0(FaceF4_800CB3C0 *face, SVEC8_800CB3C0 *vtx,
             gte_nclip();
             gte_stopz(&g.opz);
             if (g.opz > 0) {
-                gte_stsxy3_f4(pkt);
+                gte_stsxy3_f3(pkt);
                 gte_ldv0(&vtx[face->v3]);
                 gte_rtps();
                 gte_stflg(&g.flag);
@@ -468,61 +360,13 @@ PktF4_800CB3C0 *func_800CB3C0(FaceF4_800CB3C0 *face, SVEC8_800CB3C0 *vtx,
  *      store macros carry local names so they cannot collide with the
  *      three-pointer gte_strgb3 defined by the func_800CBE28 block) ---- */
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 0( %1 );"                          \
-    "lwc2 $3, 4( %1 );"                          \
-    "lwc2 $4, 0( %2 );"                          \
-    "lwc2 $5, 4( %2 )"                           \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_ldrgb(r0) __asm__ volatile (         \
-    "lwc2 $6, 0( %0 )"                           \
-    :                                            \
-    : "r"( r0 ) )
 
-#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
-#define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
 
-#define gte_stflg(r0) __asm__ volatile (         \
-    "cfc2 $12, $31;"                             \
-    "nop;"                                       \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (         \
-    "swc2 $24, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stotz(r0) __asm__ volatile (         \
-    "swc2 $7, 0( %0 )"                           \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3_flat(r0) __asm__ volatile (   \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 16( %0 );"                        \
-    "swc2 $14, 24( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_strgb3_flat(r0) __asm__ volatile (   \
-    "swc2 $20, 4( %0 );"                         \
-    "swc2 $21, 12( %0 );"                        \
-    "swc2 $22, 20( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 /* ---- types ------------------------------------------------------------- */
 typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB5D0;   /* 0x08 */
@@ -572,7 +416,7 @@ Prim1C_800CB5D0 *func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts,
             gte_nclip();
             gte_stopz(&g.opz);
             if (g.opz > 0) {
-                gte_stsxy3_flat(prim);
+                gte_stsxy3_ft3(prim);
                 gte_avsz3();
                 gte_stotz(&g.opz);
                 if (func_800CC0A0(prim) != 0) {
@@ -583,7 +427,7 @@ Prim1C_800CB5D0 *func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts,
                     gte_ldrgb(&f->rgb);
                     gte_ldv3(&norms[f->n0], &norms[f->n0], &norms[f->n0]);
                     gte_ncct();
-                    gte_strgb3_flat(prim);
+                    gte_strgb3_g3(prim);
                 }
                 func_800CC110(ot, g.opz, shift, prim, 0x6000000);
             }
@@ -594,81 +438,16 @@ Prim1C_800CB5D0 *func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts,
 }
 
 
-#define gte_ldv0(r0) __asm__ volatile (           \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_ldrgb(r0) __asm__ volatile (          \
-    "lwc2 $6, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 );"                           \
-    "lwc2 $2, 0( %1 );"                           \
-    "lwc2 $3, 4( %1 );"                           \
-    "lwc2 $4, 0( %2 );"                           \
-    "lwc2 $5, 4( %2 )"                            \
-    :                                             \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
-#define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
-#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
 
-#define gte_stflg(r0) __asm__ volatile (          \
-    "cfc2 $12, $31;"                              \
-    "nop;"                                        \
-    "sw $12, 0( %0 )"                             \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (          \
-    "swc2 $24, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stotz(r0) __asm__ volatile (          \
-    "swc2 $7, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy(r0) __asm__ volatile (          \
-    "swc2 $14, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy3_gt4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                          \
-    "swc2 $13, 16( %0 );"                         \
-    "swc2 $14, 24( %0 )"                          \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_strgb(r0) __asm__ volatile (          \
-    "swc2 $22, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_strgb3_gt4(r0) __asm__ volatile (     \
-    "swc2 $20, 4( %0 );"                          \
-    "swc2 $21, 12( %0 );"                         \
-    "swc2 $22, 20( %0 )"                          \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
 typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB7BC; /* 0x08 */
 
@@ -705,7 +484,7 @@ PktGT4_800CB7BC *func_800CB7BC(FaceGT4_800CB7BC *face, SVEC8_800CB7BC *vtx,
             gte_nclip();
             gte_stopz(&g.opz);
             if (g.opz > 0) {
-                gte_stsxy3_gt4(pkt);
+                gte_stsxy3_ft3(pkt);
                 gte_ldv0(&vtx[face->v3]);
                 gte_rtps();
                 gte_stflg(&g.flag);
@@ -722,7 +501,7 @@ PktGT4_800CB7BC *func_800CB7BC(FaceGT4_800CB7BC *face, SVEC8_800CB7BC *vtx,
                         gte_ldrgb(&face->rgb);
                         gte_ldv3(&nrm[face->n0], &nrm[face->n0], &nrm[face->n0]);
                         gte_ncct();
-                        gte_strgb3_gt4(pkt);
+                        gte_strgb3_g3(pkt);
                         gte_ldv0(&nrm[face->n0]);
                         gte_nccs();
                         gte_strgb(&pkt->rgb3);
@@ -763,72 +542,15 @@ PktGT4_800CB7BC *func_800CB7BC(FaceGT4_800CB7BC *face, SVEC8_800CB7BC *vtx,
  */
 
 /* ---- PsyQ inline_c.h GTE macros (same spellings as the matched twins) ---- */
-#define gte_ldv0(r0) __asm__ volatile (           \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 );"                           \
-    "lwc2 $2, 0( %1 );"                           \
-    "lwc2 $3, 4( %1 );"                           \
-    "lwc2 $4, 0( %2 );"                           \
-    "lwc2 $5, 4( %2 )"                            \
-    :                                             \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_ldrgb(r0) __asm__ volatile (          \
-    "lwc2 $6, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
-#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
 
-#define gte_stflg(r0) __asm__ volatile (          \
-    "cfc2 $12, $31;"                              \
-    "nop;"                                        \
-    "sw $12, 0( %0 )"                             \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (          \
-    "swc2 $24, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stotz(r0) __asm__ volatile (          \
-    "swc2 $7, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy(r0) __asm__ volatile (          \
-    "swc2 $14, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy3_ft4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                          \
-    "swc2 $13, 16( %0 );"                         \
-    "swc2 $14, 24( %0 )"                          \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_strgb(r0) __asm__ volatile (          \
-    "swc2 $22, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
 /* ---- types ------------------------------------------------------------- */
 typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CBA18;   /* 0x08 */
@@ -886,7 +608,7 @@ Ft4_800CBA18 *func_800CBA18(Face20_800CBA18 *f, SVEC8_800CBA18 *verts,
             gte_nclip();
             gte_stopz(&g.otz);
             if (g.otz > 0) {
-                gte_stsxy3_ft4(prim);
+                gte_stsxy3_ft3(prim);
                 gte_ldv0(&verts[f->v3]);
                 gte_rtps();
                 gte_stflg(&g.flag);
@@ -944,61 +666,13 @@ typedef struct {                                     /* 0x28 */
 
 /* ---- PsyQ inline GTE macros (same spellings as the matched func_80027D20) ---- */
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
-    "lwc2 $0, 0( %0 );"                          \
-    "lwc2 $1, 4( %0 );"                          \
-    "lwc2 $2, 0( %1 );"                          \
-    "lwc2 $3, 4( %1 );"                          \
-    "lwc2 $4, 0( %2 );"                          \
-    "lwc2 $5, 4( %2 )"                           \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_ldrgb(r0) __asm__ volatile (         \
-    "lwc2 $6, 0( %0 )"                           \
-    :                                            \
-    : "r"( r0 ) )
 
-#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
-#define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
 
-#define gte_stflg(r0) __asm__ volatile (         \
-    "cfc2 $12, $31;"                             \
-    "nop;"                                       \
-    "sw $12, 0( %0 )"                            \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (         \
-    "swc2 $24, 0( %0 )"                          \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stotz(r0) __asm__ volatile (         \
-    "swc2 $7, 0( %0 )"                           \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_stsxy3_gt3(r0) __asm__ volatile (    \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 20( %0 );"                        \
-    "swc2 $14, 32( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
-#define gte_strgb3_gt3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $20, 0( %0 );"                         \
-    "swc2 $21, 0( %1 );"                         \
-    "swc2 $22, 0( %2 )"                          \
-    :                                            \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
-    : "memory" )
 
 extern s16 D_800C7C74;
 extern u32 D_80063884;
@@ -1023,7 +697,7 @@ GT3P *func_800CBC2C(FaceT3 *f, SVEC2 *verts, SVEC2 *norms, GT3P *prims,
             gte_nclip();
             gte_stopz(&g.opz);
             if (g.opz > 0) {
-                gte_stsxy3_gt3(prim);
+                gte_stsxy3_gt4(prim);
                 gte_avsz3();
                 gte_stotz(&g.opz);
                 if (func_800CC0A0(prim) != 0) {
@@ -1033,7 +707,7 @@ GT3P *func_800CBC2C(FaceT3 *f, SVEC2 *verts, SVEC2 *norms, GT3P *prims,
                 } else {
                     gte_ldv3(&norms[f->n0], &norms[f->n0], &norms[f->n0]);
                     gte_ncct();
-                    gte_strgb3_gt3(&prim->rgb0, &prim->rgb1, &prim->rgb2);
+                    gte_strgb3(&prim->rgb0, &prim->rgb1, &prim->rgb2);
                 }
                 func_800CC110(ot, g.opz, shift, prim, 0x09000000);
             }
@@ -1048,81 +722,16 @@ GT3P *func_800CBC2C(FaceT3 *f, SVEC2 *verts, SVEC2 *norms, GT3P *prims,
 
 /* ---- PsyQ inline GTE macros (same spellings as the matched func_800262D8 body) ---- */
 
-#define gte_ldv0(r0) __asm__ volatile (           \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_ldrgb(r0) __asm__ volatile (          \
-    "lwc2 $6, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 ) )
 
-#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
-    "lwc2 $0, 0( %0 );"                           \
-    "lwc2 $1, 4( %0 );"                           \
-    "lwc2 $2, 0( %1 );"                           \
-    "lwc2 $3, 4( %1 );"                           \
-    "lwc2 $4, 0( %2 );"                           \
-    "lwc2 $5, 4( %2 )"                            \
-    :                                             \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
 
-#define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
-#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
-#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
-#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
-#define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
-#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
 
-#define gte_stflg(r0) __asm__ volatile (          \
-    "cfc2 $12, $31;"                              \
-    "nop;"                                        \
-    "sw $12, 0( %0 )"                             \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "$12", "memory" )
 
-#define gte_stopz(r0) __asm__ volatile (          \
-    "swc2 $24, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stotz(r0) __asm__ volatile (          \
-    "swc2 $7, 0( %0 )"                            \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy(r0) __asm__ volatile (          \
-    "swc2 $14, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_stsxy3_gt4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                          \
-    "swc2 $13, 20( %0 );"                         \
-    "swc2 $14, 32( %0 )"                          \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_strgb(r0) __asm__ volatile (          \
-    "swc2 $22, 0( %0 )"                           \
-    :                                             \
-    : "r"( r0 )                                   \
-    : "memory" )
 
-#define gte_strgb3(r0, r1, r2) __asm__ volatile ( \
-    "swc2 $20, 0( %0 );"                          \
-    "swc2 $21, 0( %1 );"                          \
-    "swc2 $22, 0( %2 )"                           \
-    :                                             \
-    : "r"( r0 ), "r"( r1 ), "r"( r2 )             \
-    : "memory" )
 
 typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CBE28;          /* 0x08 */
 

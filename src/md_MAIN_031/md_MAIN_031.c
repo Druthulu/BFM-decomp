@@ -344,7 +344,8 @@ void func_800CB5C8(s32 arg0, s32 arg1) {
 
 typedef struct { s16 m[3][4]; } Mat_CB6A0;
 
-#define SETROT_A(p) __asm__ __volatile__( \
+/* !FAKE: gte variant `gte_SetRotMatrix_m` — memory beyond Sony's `gte_SetRotMatrix` (a scheduling steer; P36 T5) */
+#define gte_SetRotMatrix_m(p) __asm__ __volatile__( \
     "lw $12, 0(%0)\n" \
     "lw $13, 4(%0)\n" \
     "ctc2 $12, $0\n" \
@@ -357,25 +358,19 @@ typedef struct { s16 m[3][4]; } Mat_CB6A0;
     "ctc2 $14, $4\n" \
     : : "r"(p) : "$12", "$13", "$14", "memory")
 
-#define LDV_A(p) __asm__ __volatile__( \
+/* !FAKE: gte variant `gte_ldv0_m` — memory beyond Sony's `gte_ldv0` (a scheduling steer; P36 T5) */
+#define gte_ldv0_m(p) __asm__ __volatile__( \
     "lwc2 $0, 0(%0)\n" \
     "lwc2 $1, 4(%0)\n" \
     : : "r"(p) : "memory")
 
-#define MVMVA_A() __asm__ __volatile__( \
+/* !FAKE: gte variant `gte_rtv0_m` — memory beyond Sony's `gte_rtv0` (a scheduling steer; P36 T5) */
+#define gte_rtv0_m() __asm__ __volatile__( \
     "nop\n" \
     "nop\n" \
     "mvmva 1, 0, 0, 3, 0\n" \
     : : : "memory")
 
-#define STSV_A(p) __asm__ __volatile__( \
-    "mfc2 $12, $9\n" \
-    "mfc2 $13, $10\n" \
-    "mfc2 $14, $11\n" \
-    "sh $12, 0(%0)\n" \
-    "sh $13, 2(%0)\n" \
-    "sh $14, 4(%0)\n" \
-    : : "r"(p) : "$12", "$13", "$14", "memory")
 
 extern s32 func_80017DC4(void *a0, void *a1);
 extern void func_80016ED4(void *a0);
@@ -401,31 +396,31 @@ void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3) {
     vin[2] = 0;
     vin[0] = *(u16 *)((u8 *)a1 + 0) - 0x30;
     vin[1] = *(u16 *)((u8 *)a1 + 2) - 0x20;
-    SETROT_A(mat);
-    LDV_A(vin);
-    MVMVA_A();
-    STSV_A(o0);
+    gte_SetRotMatrix_m(mat);  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte1)
+    gte_ldv0_m(vin);  // !FAKE: gte via gte_ldv0_m — memory beyond Sony's `gte_ldv0` (P36 T5 gte1)
+    gte_rtv0_m();  // !FAKE: gte via gte_rtv0_m — memory beyond Sony's `gte_rtv0` (P36 T5 gte1)
+    gte_stsv(o0);
 
     vin[0] = *(u16 *)((u8 *)a1 + 0) + 0x30;
     vin[1] = *(u16 *)((u8 *)a1 + 2) - 0x20;
-    SETROT_A(mat);
-    LDV_A(vin);
-    MVMVA_A();
-    STSV_A(vec[1]);
+    gte_SetRotMatrix_m(mat);  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte1)
+    gte_ldv0_m(vin);  // !FAKE: gte via gte_ldv0_m — memory beyond Sony's `gte_ldv0` (P36 T5 gte1)
+    gte_rtv0_m();  // !FAKE: gte via gte_rtv0_m — memory beyond Sony's `gte_rtv0` (P36 T5 gte1)
+    gte_stsv(vec[1]);
 
     vin[0] = *(u16 *)((u8 *)a1 + 0) - 0x30;
     vin[1] = *(u16 *)((u8 *)a1 + 2) + 0x20;
-    SETROT_A(mat);
-    LDV_A(vin);
-    MVMVA_A();
-    STSV_A(vec[2]);
+    gte_SetRotMatrix_m(mat);  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte1)
+    gte_ldv0_m(vin);  // !FAKE: gte via gte_ldv0_m — memory beyond Sony's `gte_ldv0` (P36 T5 gte1)
+    gte_rtv0_m();  // !FAKE: gte via gte_rtv0_m — memory beyond Sony's `gte_rtv0` (P36 T5 gte1)
+    gte_stsv(vec[2]);
 
     vin[0] = *(u16 *)((u8 *)a1 + 0) + 0x30;
     vin[1] = *(u16 *)((u8 *)a1 + 2) + 0x20;
-    SETROT_A(mat);
-    LDV_A(vin);
-    MVMVA_A();
-    STSV_A(vec[3]);
+    gte_SetRotMatrix_m(mat);  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte1)
+    gte_ldv0_m(vin);  // !FAKE: gte via gte_ldv0_m — memory beyond Sony's `gte_ldv0` (P36 T5 gte1)
+    gte_rtv0_m();  // !FAKE: gte via gte_rtv0_m — memory beyond Sony's `gte_rtv0` (P36 T5 gte1)
+    gte_stsv(vec[3]);
 
     tc[0] = tp[0];
     tc[1] = tp[1];
@@ -448,38 +443,9 @@ void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3) {
 
 
 
-#define SETROT_A(p) __asm__ __volatile__( \
-    "lw $12, 0(%0)\n" \
-    "lw $13, 4(%0)\n" \
-    "ctc2 $12, $0\n" \
-    "ctc2 $13, $1\n" \
-    "lw $12, 8(%0)\n" \
-    "lw $13, 12(%0)\n" \
-    "lw $14, 16(%0)\n" \
-    "ctc2 $12, $2\n" \
-    "ctc2 $13, $3\n" \
-    "ctc2 $14, $4\n" \
-    : : "r"(p) : "$12", "$13", "$14", "memory")
 
-#define LDV_A(p) __asm__ __volatile__( \
-    "lwc2 $0, 0(%0)\n" \
-    "lwc2 $1, 4(%0)\n" \
-    : : "r"(p) : "memory")
 
-#define MVMVA_A() __asm__ __volatile__( \
-    "nop\n" \
-    "nop\n" \
-    "mvmva 1, 0, 0, 3, 0\n" \
-    : : : "memory")
 
-#define STSV_A(p) __asm__ __volatile__( \
-    "mfc2 $12, $9\n" \
-    "mfc2 $13, $10\n" \
-    "mfc2 $14, $11\n" \
-    "sh $12, 0(%0)\n" \
-    "sh $13, 2(%0)\n" \
-    "sh $14, 4(%0)\n" \
-    : : "r"(p) : "$12", "$13", "$14", "memory")
 
 extern s32 func_80017DC4(void *a0, void *a1);
 extern void func_80017714(void *a0);
@@ -497,31 +463,31 @@ void func_800CB964(void *a0, void *a1, void *a2) {
     vin[2] = 0;
     vin[0] = *(u16 *)((u8 *)a1 + 0) - 0x38;
     vin[1] = *(u16 *)((u8 *)a1 + 2) - 0x28;
-    SETROT_A(mat);
-    LDV_A(vin);
-    MVMVA_A();
-    STSV_A(o0);
+    gte_SetRotMatrix(mat);
+    gte_ldv0(vin);
+    gte_rtv0();
+    gte_stsv(o0);
 
     vin[0] = *(u16 *)((u8 *)a1 + 0) + 0x38;
     vin[1] = *(u16 *)((u8 *)a1 + 2) - 0x28;
-    SETROT_A(mat);
-    LDV_A(vin);
-    MVMVA_A();
-    STSV_A(vec[1]);
+    gte_SetRotMatrix(mat);
+    gte_ldv0(vin);
+    gte_rtv0();
+    gte_stsv(vec[1]);
 
     vin[0] = *(u16 *)((u8 *)a1 + 0) - 0x38;
     vin[1] = *(u16 *)((u8 *)a1 + 2) + 0x28;
-    SETROT_A(mat);
-    LDV_A(vin);
-    MVMVA_A();
-    STSV_A(vec[2]);
+    gte_SetRotMatrix(mat);
+    gte_ldv0(vin);
+    gte_rtv0();
+    gte_stsv(vec[2]);
 
     vin[0] = *(u16 *)((u8 *)a1 + 0) + 0x38;
     vin[1] = *(u16 *)((u8 *)a1 + 2) + 0x28;
-    SETROT_A(mat);
-    LDV_A(vin);
-    MVMVA_A();
-    STSV_A(vec[3]);
+    gte_SetRotMatrix(mat);
+    gte_ldv0(vin);
+    gte_rtv0();
+    gte_stsv(vec[3]);
 
     tail[0xE] = 0x80;
     tail[0xD] = 0x80;
