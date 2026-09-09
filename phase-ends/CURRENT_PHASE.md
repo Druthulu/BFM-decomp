@@ -660,7 +660,84 @@ accumulate here as the phase produces them.**
   (nice'd; Drew measured ~20-40 % CPU at 10 and asked twice for more), so a full-residue pass is ~2 h — affordable, but it buys
   nothing until the recipe set grows.
 
-## 🛑 SESSION CHECKPOINT — S99 (2026-09-09): T0–T5 ☑ **T6 ☑** — all committed (this close on top of `1c2355054`); NEXT = **T7, the reshaping waves — and T7 STARTS ONLY ON DREW'S DIRECT APPROVAL IN THE SESSION THAT RUNS IT** (his words, twice: the `/effort ultracode` toggle is NOT approval); until he gives it, the drawable work is a PARALLELISED rung-R sweep (§2) | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
+## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed (this close on top of `72a9ab112`); NEXT = **the exemplar TRIAGE (Drew approved: hours of compute, zero tokens) and then a COMPUTE-ONLY guided search engine (§2/§3)**; **NO WAVES — T7's agents start only on Drew's direct approval in the session that runs them** | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
+
+### 0. How to use this block
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew set `high` and prefers it for
+this work — an explicit Workflow at high over Ultracode**, his words 2026-09-09) and executes §2. The tree is CLEAN at HEAD = this
+close commit; nothing is in flight. **Resource etiquette, learned the hard way this session:** 24 nice'd workers made Drew's desktop
+lag and he asked twice to stop; at 10 workers he measured ~20–40 % CPU and asked twice for more, and 20 ran fine at load 8/32. **Start
+a long run at 10–20 workers with `nice`, tell him the number, and let him call it up or down.** Never a harness background task (the
+low-memory guard kills them; the harness also backgrounds any foreground command over 120 s — fine for `make`, not for a campaign):
+`setsid nohup nice -n 10 … &` + a `Monitor`. **`pkill -f` with a literal your own command line contains kills your shell (exit 144 —
+it happened again this session); bracket a character.** The calibration is keyed to HEAD: EVERY commit stales it — recalibrate the
+FULL set (`tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16`, ~3 s; a single-alias calibration
+fails its own completeness check). A killed batch: `tools/delever.py --restore`.
+
+### 1. Where things stand — and the one measurement that reframes the phase
+- **T0–T6 done.** T6's two yield lines: `permuter: 5 of 16 exemplars matched lever-free in 0.69 h (665 of 2,131 bodies behind them)`
+  and `recipes: 134 of 134 bodies closed lever-free … 3243 compiles in 6.0 min`. Banked: rung R `r1` (134) · rung D `d1` (4) ·
+  propagation `p1`/`p1b` (525 siblings, 0 refused). **34,091 → 33,427 sites**, R22 `218 passed, 0 failed of 218` after every batch.
+- **THE S100 MEASUREMENT (cookbook §454a): the free-bank sweep is SPENT at the current recipe set.** Same 300-body draw:
+  `0 of 300 … 12,110 compiles in 4.6 min` at `--cap 40`, and `0 of 300 … 17,140 compiles in 6.0 min` at `--cap 400`. **The cap was
+  never binding** — 17,140 / 300 ≈ 57 candidates per body, so 10× the depth bought 42 % more candidates and closed nothing. The
+  instrument was cleared by hand (`src/800.c CdReadSectorReadyCB`, one `$18` pin: every candidate COMPILES and returns DIFFERS,
+  none errors out silently) and the locality ordering changed nothing. **Rung R is a REPLICATION engine (134/134 on a class whose
+  shape rung D had just found) and NOT a discovery engine (0/300 where no shape is known).** So the number that prices T7 is not
+  12,048 bodies but **how many distinct SHAPES remain** — each discovery makes its whole class free, and the head of the draw is
+  80 classes of 134 copies. Throughput for planning: 82 bodies/min at 10 workers, 123 at 20; a full-residue rung-R pass ≈ 2 h.
+- **THE INSTRUMENT LESSON THAT COST TWO CAMPAIGNS** (cookbook §454): the permuter's target had been ASSEMBLED FROM A DISASSEMBLY
+  LISTING and scored **28 for a byte-identical body**, so score 0 was unreachable and two campaigns reported "0 of 16" about a
+  healthy population. Run `tools/delever_permute.py --positive-control TU FN` (base score must be 0) before believing ANY yield.
+
+### 2. NEXT, and Drew approved the compute for it: the exemplar TRIAGE (zero tokens)
+Rung D's evidence is sharp: everything that closed started **≤ 29 mismatched instructions** from the target, everything **≥ 37** did
+not (25, 37, 50, 52, 70, 78, 99, 104, 105, 131, 276 — all improved, none a wall). So measure that number for the WHOLE residue and
+work the close tail first.
+1. Parallelise `delever_permute.cmd_calibrate` over exemplars (a `ThreadPoolExecutor`; `prepare()` writes only inside its own
+   `alias__fn` scratch dir and `match_one` runs in its own temp dir, so exemplars are independent — unlike rung R, which needs TU
+   ownership because the oracle writes into the tree).
+2. Run it over all ~1,795 residue classes (`exemplars()` with no limit): prepare + two `closeness()` calls each ≈ 10–20 s, so
+   **~30 min at 20 workers**. Record the distribution into `.run/P36/permuter/triage.json` and a `lever_progress`-style table.
+3. That distribution IS T7's price: how many classes sit in the tractable band, and how many bodies stand behind them.
+Then run rung D (`delever_permute --run`) on the close band, ordered by distance (`--max-start 35` triages the rest as FAR with
+their number), 4–6 exemplars at a time — zero tokens, and **every shape it finds becomes a rung-R recipe that then sweeps its class
+for free** (that is how R5/R6/R7 were born, and it is the only thing that moves rung R's 0/300).
+
+### 3. The compute-only engine Drew asked for ("a fancier permuter, focused on pin pulling and C shape matching")
+**The one design flaw the S100 measurement exposes: rung R is BLIND.** It generates ~57 candidates, asks the oracle "IDENTICAL?" and
+throws away everything else. The oracle also knows the DISTANCE (`masked_diff` gives a mismatch count, which is what `match_one` and
+the permuter's scorer both use) — so the same compute could hill-climb instead of guessing. The engine to build:
+1. **Score, don't test.** Every candidate scored by masked mismatch count; keep the best; re-expand from it. One-move candidates that
+   individually fail may compose — 0/300 on singles says nothing about pairs.
+2. **Classify the residual, then choose the moves.** `masked_diff` already distinguishes: same opcodes with swapped registers
+   (REG-SWAP → declaration order, commutative swap, temp introduce/inline), different instruction COUNT (→ add/remove a temp, split
+   or merge an expression — this is the class where removing a hand-placed `instruction` lever shifted everything), same multiset in
+   a different order (SCHED → block wrap, statement reorder, chained assignment). Today's profile choice is a crude version of this
+   (it follows the pinned REGISTER: callee-saved → regalloc, caller-saved → cse).
+3. **Search near the diff.** Candidates are already ordered by distance to the NEEDED site; order them by distance to the DIFFERING
+   INSTRUCTION instead once the residual is classified.
+4. **Two- and three-move combinations**, guided by (2), budgeted by (1)'s gradient. ~57 singles → ~1,600 pairs ≈ 7 min/body at
+   0.25 s a compile: affordable for a close-band class worth 130 bodies, not for the whole residue.
+**Drew's question — a Fable agent, or a fresh Fable session, to design this?** My recommendation, recorded for the next session:
+**build the engine here** (it is engineering on top of measurements that live in this phase's log and would have to be re-established
+from scratch — and this session showed how easily a wrong conclusion follows from a mis-measured instrument), and **give a Fable agent
+the compiler-internals question only**: *for each residual class, which SOURCE-level moves can possibly fix it in gcc 2.7.2* — read
+from the compiler source and `docs/gcc-2.7.2-map/`, briefed with the measured facts above, with **every claim verified against the
+bytes by the engine itself** (the `fable-agents-for-lane-tooling` memory: brief with measured facts + a doc path, then verify).
+That is exactly how P23's §31 codegen map was produced, and it is the highest-value thing a model can do here that compute cannot.
+
+### 4. Gotchas known before any work
+Everything in the T3/T4/T5 lists, plus: a disassembly listing is not a target (§454); `--only <fn>` in `--recipes` draws EVERY body of
+that name across the fleet (that is why `r1` banked a whole class in one run); `--propagate` keys the class on the FIRST bank in a
+body's chain; rung R needs TU ownership and serial headers, judges a file's bodies BOTTOM-UP, and appends its ledger rows per body;
+`lever_progress --check` fails when the series is not this tree's; **`docs/levers.md` + `tools/lever_progress.py --snapshot "<task>"`
+are updated after EVERY task that changes the count** (Drew's directive: the post-100 % chart, the story, the wiki, and the kit's
+day-one rule "ban the silence, not the lever"); the LoRA idea is PARKED by Drew for the endgame — a gcc-2.7.2 LoRA trained on the
+final clean asm/C pairs, released for other projects to use when cracking.
+
+
+## (superseded) SESSION CHECKPOINT — S99 (2026-09-09): T0–T5 ☑ **T6 ☑** — all committed (this close on top of `1c2355054`); NEXT = **T7, the reshaping waves — and T7 STARTS ONLY ON DREW'S DIRECT APPROVAL IN THE SESSION THAT RUNS IT** (his words, twice: the `/effort ultracode` toggle is NOT approval); until he gives it, the drawable work is a PARALLELISED rung-R sweep (§2) | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (T7's coordinator at Max, the waves at

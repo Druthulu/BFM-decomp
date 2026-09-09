@@ -192,6 +192,10 @@ weeks with better tools. Deferring was not obviously wrong; **deferring silently
 - **`decomp-architect/`** — section 5's five rules, as a Phase-1 kernel (a lever is a marked debt; the bank-time trial; the
   published count; harvest→toolify for levers; never block the byte gate on it) with this document's measured numbers as
   the provenance. The taxonomy in section 1 transfers unchanged to any gcc-era PS1 decomp.
+- **Parked for the endgame (Drew, 2026-09-09):** train a **gcc 2.7.2 LoRA on the final clean asm/C pairs** and release it for other
+  decompilations to use when cracking. Not now, and not on today's corpus: our 363,214 matched pairs are (asm → C-*with*-levers), so
+  training on them teaches a model to PRODUCE pins. The corpus worth releasing is the one this phase creates — lever-free C beside its
+  bytes — which is another reason to finish the removal before the project ships its dataset.
 - **The story** — the arc is: a toolkit that unlocked the project (P18) → a family engine that multiplied it 134× (P19–29) →
   a phase that measured the debt for the first time (P36 T1) → mechanical removal of a third of it (T4) → a scout-and-harvest
   loop for the rest (T6) → zero (T7). The interesting beat is not the cleanup; it is that **the shortcut that made the
