@@ -75,6 +75,7 @@ INFLIGHT = RUN / "inflight.json"
 PROBE = REPO / ".run" / "P36" / "probe"
 PRELUDE = "src/shared/engine_prelude.h"
 REMOVABLE = {("A", "pin"), ("B", "barrier"), ("B", "launder"), ("B", "keepalive"), ("B", "instruction"),
+             ("B", "gte-lever"),
              ("C", "cast"), ("C", "decl-body"), ("C", "param"), ("D", "register")}
 FILE_SCOPE_REMOVABLE = {("C", "decl-file"), ("B", "barrier"), ("B", "launder"), ("B", "keepalive"), ("B", "instruction")}
 # a file-scope asm statement is a TU-level site: a barrier/launder/keep-alive is judged like any other; a `.section` block is a rodata
@@ -343,6 +344,52 @@ def macro_shape(raw, rel, name, use_line):
     return res
 
 
+_GTE_CANON = None
+
+
+_gte_variant_cache = {}
+
+
+def gte_variant_target(raw, rel, name, use_line):
+    """The canonical macro name a lever-variant macro use should point at, from the SIGNATURE of the variant's own
+    governing `#define` (never from its spelling: T5 named `gte_rt_m` after Sony's `gte_rt` while that signature's
+    canonical name is `gte_rt_alt`). None when there is no single canonical macro for it."""
+    key = (rel, name, use_line)
+    if key in _gte_variant_cache:
+        return _gte_variant_cache[key]
+    import gte_consolidate as gc                          # lazy: gte_consolidate imports THIS module
+    gte_canonical_clob("")                                # loads the table
+    body = None
+    for (l0, l1, n, b) in lc.define_blocks(raw):
+        if n == name and l1 < use_line:
+            body = b
+    inner = lc._macro_asm_inner(body) if body is not None else None
+    names = None
+    if inner is not None:
+        names, _ = gc.canonical_match(gc.signature(inner), _GTE_CANON)
+    res = names[0] if names and len(names) == 1 else None
+    _gte_variant_cache[key] = res
+    return res
+
+
+def gte_canonical_clob(inner):
+    """The canonical clobber list for a GTE asm statement's inner text, or None when it has none to take
+    (no table, unsigned template, no canonical entry, or it already carries the canonical set)."""
+    global _GTE_CANON
+    if _GTE_CANON is None:
+        import gte_consolidate as gc                      # lazy: gte_consolidate imports THIS module
+        _GTE_CANON = json.loads(gc.CANON.read_text()) if gc.CANON.exists() else {}
+    canon = _GTE_CANON.get("canonical") or {}
+    if not canon:
+        return None
+    import gte_consolidate as gc
+    sg = gc.signature(inner)
+    names, clob = gc.canonical_match(sg, _GTE_CANON)
+    if names is None or tuple(sg["clob"]) == tuple(clob):
+        return None
+    return clob
+
+
 def site_edits(raw, m, ls, site, keep_register=False):
     """[(start, end, replacement)] for one site, or raise Refuse. `m` = same_len_mask(raw)."""
     pos = ls[site["line"] - 1] + site["col"] - 1
@@ -381,6 +428,42 @@ def site_edits(raw, m, ls, site, keep_register=False):
         return [(pos, consume_marker(raw, m, e), new)]
     if cls == "B" and kind in DEFERRED_KINDS:
         raise Refuse("asm-body: a whole routine in a C shell is T7's work (DEFERRED)")
+    if cls == "B" and kind == lc.GTE_LEVER_KIND:
+        # A GTE op whose clobber list exceeds its canonical signature's is a SCHEDULING STEER wearing Sony's
+        # coprocessor idiom (T5 named them and marked them; it judged only the macro DEFINITIONS, so a DIRECT
+        # statement's extra clobbers were never offered to the ladder). The rewrite is the canonical clobber
+        # set for that signature — not deletion: the op itself is real code. Refused when the tree has no
+        # canonical table, when the statement does not sign, when its signature is not canonical, or when it
+        # already carries the canonical set (then it is not a lever and the census is wrong about it, R43).
+        # The survivor keeps T5's own richer `// !FAKE:` text: gte-lever is deliberately NOT in MARK_KINDS.
+        name = site.get("via")
+        if name:
+            # a use of a LEVER VARIANT macro (`gte_x_m` / `gte_x_v<hash>`, kept per TU by T5): the lever is the variant's
+            # extra clobbers, so the rewrite points the use at the canonical macro of include/gte_inline.h. The variant's
+            # own `#define` is left dead for `gte_consolidate.py --sweep` (its marker for `--scrub`).
+            if not m.startswith(name, pos):
+                raise Refuse(f"token mismatch at {site['tu']}:{site['line']}: expected `{name}`")
+            base = gte_variant_target(raw, site["tu"], name, site["line"])
+            if base is None:
+                raise Refuse(f"GTE lever `{name}`: no single canonical macro for its signature")
+            if base == name:
+                raise Refuse(f"GTE lever `{name}` already IS its canonical macro")
+            return [(pos, pos + len(name), base)]
+        if not ASM_HEAD.match(m, pos):
+            raise Refuse(f"token mismatch at {site['tu']}:{site['line']}: expected an asm statement")
+        o = m.find("(", pos)
+        c = lc._paren_span(m, o)
+        e = stmt_end(m, pos)
+        if o < 0 or c < 0 or e < 0:
+            raise Refuse("unterminated GTE asm statement")
+        clob = gte_canonical_clob(m[o + 1:c])             # the MASKED inner: T5's `// !FAKE:` sits INSIDE the parens
+        if clob is None:
+            raise Refuse(f"GTE lever `{site.get('detail', '')}`: no canonical signature to take the clobbers from")
+        import gte_consolidate as gc                      # lazy: gte_consolidate imports THIS module
+        # the statement without its comments (the marker included — a de-levered site owns no honesty marker); set_clobbers
+        # parses the sections positionally and a comment between `(` and the template would derail it
+        clean = "".join(raw[i] for i in range(pos, e) if m[i] == raw[i])
+        return [(pos, consume_marker(raw, m, e), gc.set_clobbers(clean, clob))]
     if cls == "B" and site.get("via"):
         name = site["via"]
         if not m.startswith(name, pos):

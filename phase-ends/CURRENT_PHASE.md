@@ -539,6 +539,36 @@ accumulate here as the phase produces them.**
   `defines_fn` True, 0 other bodies → `tools/permuter/compile.sh base.c -o base.o` rc 0 → `nm`: `T func_80135D20` alone (the callees `U`).
   The pipeline is proven; scratch under `.run/P36/permuter/probe/` (ignored).
 
+- **S99 — T6 rung D BUILT and CALIBRATED: `tools/delever_permute.py` (the driver), the GTE-lever rewrite, four harness defects.**
+  `tools/delever_permute.py` (`--plan`, `--prepare TU FN`, `--calibrate`, `--run`, `--bank`, `--status`, `--selftest`) drives the
+  checkpoint's §2 pipeline per exemplar: delever's own rung-A rewrite of every REMOVABLE site of the body -> the TU isolated (every
+  other definition to a prototype, every shared-header include to the prototypes it defines, `INCLUDE_ASM`/file-scope asm dropped) ->
+  the build's own CPPFLAGS through `cpp -P` -> `draft.c`; the target regenerated from the ROM image in BOTH forms (`--gas` for
+  `p16_permute.setup`'s `target.o`, the splat listing for `match_one`); `permuter_ils.py` with the weight profile from the NEEDED
+  kinds; a winner banked through `delever --apply-body` + the GTE re-fold. Scratch and winners are keyed **alias+fn** (R48;
+  `p16_permute.setup(outdir=)` and `permuter_ils --pd` added, defaults unchanged). **THE CONTROL, and it is new (R39/R56):** every
+  attempt first compiles the body AS THE TREE HAS IT and requires `match_one` MATCH against the regenerated target — the harness must
+  agree with the tree before it may judge a candidate — and then records the LEVER-FREE body's distance as the search's starting point.
+  `--calibrate --limit 12`: **12 of 12 levered bodies MATCH** (ov_SC04_011, 37-279 ins) · lever-free distance **min 8 / median 78 /
+  max 276** (`.run/P36/permuter/calibration.json`). The distance splits the population: where the lever was a pin the count is
+  unchanged (8, 12, 19, 25); where it was a hand-placed `instruction` the C spelling changes the instruction COUNT (mine=103 vs
+  target=106) and everything after it shifts (99-276) — `--max-start N` triages those as FAR with their number rather than spending a
+  search on them. **The GTE levers are now on the ladder:** `("B", "gte-lever")` joined `delever.REMOVABLE` with a rewrite that resets a
+  direct statement's clobbers to its canonical set, and points a variant-macro use (`gte_rt_m`) at its canonical macro — the target name
+  derived from the variant definition's SIGNATURE, never its spelling (T5 named `gte_rt_m` after Sony's `gte_rt` while that signature's
+  canonical name is `gte_rt_alt`). `gte_consolidate.canonical_match()` is now the one reader of the canonical table (R33), with
+  `direct_rewrite` refactored onto it, selftest green. Offered to the ladder: **462 of 462** gte-lever sites (0 before, all refused).
+  **Four harness defects, each found by running the thing and each a finding for the record:** (1) the splat listing is the WORD oracle
+  and `mipsel-as` refuses its bare `addiu sp,sp,-152` exactly as decomp.me did in P34 — the permuter needs `verbatim_target_s --gas`
+  (R98 in a second place); (2) pycparser rejects `__attribute__((packed, aligned(1)))` and decomp-permuter then REFUSES base.c and
+  permutes nothing, so the draft's cpp defines the keyword away (a fidelity loss, recorded, never a correctness one — the bank gate is
+  the object oracle); (3) `include/include_asm.h` injects `__asm__(".include \"include/labels.inc\"")` at file scope into every draft,
+  and the permuter's own `compile.sh` already prepends `macro.inc` -> `Macro 'glabel' was already defined`; (4) an asm-LABEL clause
+  (`extern void func_8005C324(…) __asm__("memcpy");`, 6,423 of them) is not an asm statement — a bare `__asm__(` scan ate one and left a
+  headless K&R body whose next 60 declarations became parameters, so file-scope asm is taken from the CENSUS in the TU and, after cpp,
+  only where the previous non-space character is `;` or `}`. A fifth was mine and is the reason the rule exists: the first "ASSEMBLED
+  OK" was an empty file (the `.s` had not been written) — a known-true case, checked, and it lied until it was read.
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ T5 ☑ — all committed (this close on top of `4bc987426`); NEXT = T6 BUILD: `tools/delever_permute.py` per §2 (the design is settled and its pipeline proven by two probes — the T6 log entry); S98 ended here at 90 % context | the number: 34,091 sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0 · GTE levers 462 · per-TU asm macro definitions 314 (0 canonical duplicates) — `lever_census --check` OK
 
 ### 0. How to use this block
