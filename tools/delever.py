@@ -1378,6 +1378,54 @@ def commutative_swaps(text, tu, fn, d_):
     return out
 
 
+IDENT = re.compile(r"(?<![\w.])([A-Za-z_]\w*)(?![\w])")
+
+
+def inline_single_set_temps(text, tu, fn, d_):
+    """[(description, candidate text)] — a local assigned ONCE and read ONCE, inlined at its use and its now-dead
+    declaration removed. §501-R's S2 kill: a fresh single-set local gets a birthing boost in gcc 2.7.2's allocator, so
+    creating or removing one moves the allocation — and this is the move rung D found first (S99, func_80163EC8:
+    `uVar5 = *(s32 *)(psVar6 + 0x44); … = uVar5 & ~0x20;` became `… = *(s32 *)(psVar6 + 0x44) & ~0x20;`). Doing it here
+    keeps the SOURCE readable: the permuter's own winner is machine-reprinted, and this phase is about readability."""
+    lines = text.split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    masked = [sc.mask_text(l) for l in lines]
+    occ = collections.defaultdict(list)
+    for i in range(lo, hi):
+        for m in IDENT.finditer(masked[i]):
+            occ[m.group(1)].append((i, m.start(), m.end()))
+    out = []
+    ASG = r"^(?:[A-Za-z_][\w \t]*[\s*]\s*\*?\s*)?%s\s*=(?!=)\s*(.+);\s*$"
+    for v, places in occ.items():
+        asgs, decls, uses = [], [], []
+        for p in places:
+            s = masked[p[0]].strip()
+            if re.match(ASG % re.escape(v), s):
+                asgs.append(p)
+            elif is_decl_line(s) and "=" not in s.split(";")[0]:
+                decls.append(p)
+            else:
+                uses.append(p)
+        if len(asgs) != 1 or len(uses) != 1 or len(decls) > 1:
+            continue
+        ai = asgs[0][0]
+        ui, u0, u1 = uses[0]
+        if ai >= ui:
+            continue
+        mm = re.match(ASG % re.escape(v), masked[ai].strip())
+        raw_stripped = lines[ai].strip()
+        expr = raw_stripped[mm.start(1):mm.end(1)]
+        if not expr.strip():
+            continue
+        cand = list(lines)
+        cand[ui] = lines[ui][:u0] + f"({expr})" + lines[ui][u1:]
+        cand[ai] = None                                   # the assignment goes (with its declaration when they are one)
+        if decls:                                         # form B: the separate `T v;` is dead now
+            cand[decls[0][0]] = None
+        out.append((f"inline {v} @{ai + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
 def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40):
     """[(recipe, description, candidate text)] — the byte-neutral shape recipes of the cookbook, mechanically.
     R2 (§76/§501-R, the allocation ORDER is the bank): the formerly-pinned declarations permuted among their own lines.
@@ -1447,6 +1495,8 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40):
         out.append(("R3", f"init-split {name[0]}", "\n".join(ls_)))
     for desc, cand in commutative_swaps(text, tu, fn, d_):
         out.append(("R5", desc, cand))
+    for desc, cand in inline_single_set_temps(text, tu, fn, d_):
+        out.append(("R6", desc, cand))
     seen, uniq = {text}, []                               # never judge the seed twice, nor one candidate twice (R37)
     for rec, desc, cand in out:
         if cand in seen:
@@ -1919,6 +1969,13 @@ def selftest():
         fail(f"commutative_swaps found {[s for s, _ in sw]}")
     if "a = 3 & b;" not in sw[0][1] or "c = 1 + a;" not in sw[1][1]:
         fail("commutative_swaps must split at the assignment, never at `==`")
+    R6FIX = ("void r6(int p)\n{\n    int v;\n    int w;\n    v = *(int *)(p + 4);\n"
+             "    *(int *)(p + 4) = v & ~0x20;\n    w = 3;\n    *(int *)(p + 8) = w;\n}\n")
+    inl = inline_single_set_temps(R6FIX, "src/x.c", "r6", dict(line=1, end=9))
+    if [d for d, _ in inl] != ["inline v @5", "inline w @7"]:
+        fail(f"inline_single_set_temps found {[d for d, _ in inl]}")
+    if "= (*(int *)(p + 4)) & ~0x20;" not in inl[0][1] or "int v;" in inl[0][1]:
+        fail("R6 must inline the expression at the use AND drop the now-dead declaration")
     cands = recipe_candidates(RFIX, "src/x.c", "rfix", ["a", "b"])
     kinds_ = {r for r, _, _ in cands}
     if not {"R2", "R3", "R5"} <= kinds_ or any(c == RFIX for _, _, c in cands):

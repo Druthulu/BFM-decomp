@@ -399,7 +399,8 @@ def prepare(ex, quiet=False, require_sites=True):
         raise Unstrippable([("<target.o>", 0, ((r.stderr or r.stdout).strip().splitlines() or ["compile failed"])[-1][:160])])
     if not quiet:
         n = len((d / "draft.c").read_text(errors="surrogateescape").splitlines())
-        print(f"  prepared {alias}__{fn}: draft {n} lines, target {(r.stdout or '').strip().split()[-3:]}", flush=True)
+        print(f"  prepared {alias}__{fn}: draft {n} lines, target.o {(d / 'target.o').stat().st_size} bytes "
+              f"+ the ROM listing", flush=True)
     return d, d / "draft.c", d / "gas" / f"{fn}.s", klass_for(ex["kinds"], ex.get("regs", ()))
 
 
