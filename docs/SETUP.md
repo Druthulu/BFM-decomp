@@ -1520,6 +1520,16 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   (a twin with its primary) snapshotted, `make check` by exit code, every object compared; a red binary is bisected class by
   class, the culprit's copies stay private and the class is ledgered in `config/dedup_exceptions.tsv` (TU-CONFLICT) with the
   compiler's line; "shared" only from the gate's success (R66). Evidence per batch under `.run/P35/share/`.
+  **Run it on a COMMITTED tree, one batch per invocation** (`--batches`, default 1): the edit positions come from the run's census; the
+  bisect restores TUs from an in-memory pre-edit snapshot (never `git checkout` — S94's version wiped the previous batch's uncommitted
+  shares); a twin's instance resolves to its primary's TU and is edited ONCE. The failure cause is the first `file:line: message`
+  diagnostic that is not a warning (gcc 2.7.2 errors carry no "error" token — S94's `Error 33` rows were the make line), and the
+  ledger's reason code is derived from it: SYMBOL-NAME / GATE-REJECT / PARSE-ERROR / TU-CONFLICT (documented in the ledger's header).
+  `--repair-registry` removes every listed member whose site is still a private definition (derived from the census, matched on
+  (binary, vram) — h_exact is position-independent, a name-only match once removed 9,269); `--reexemplar <h_exact>` rewrites a
+  registered class's header from the MAJORITY private text, re-gates its includers first (header rolled back on any red), then shares
+  its private copies (`E_func_80168B70`: T4 had inherited the 7 late overlays' minority spelling). Records: `.run/P35/share/
+  batch_<label>.json` (classes, results per binary, extended, rejected, causes), `repair_registry.json`, `reexemplar_<h8>.old.h`.
 
 - **Twin binaries (T3).** Five overlay pairs are one payload (equal `config/check.*.sha`): SC01_005/006, SC03_118/119, SC02_000/003,
   SC04_018/019, SC03_014/015. The twin has NO source directory: `config/overlays.mk` declares `<twin>_TWIN_OF := <primary>` and

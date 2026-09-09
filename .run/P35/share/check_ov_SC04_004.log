@@ -1,2 +1,155 @@
+  CC      build/src/ov_SC04_004/ov_SC04_004_jr_8015C32C.o
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:1546: warning: "NULL" redefined
+ 1546 | #define NULL 0
+      | 
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:1:
+include/common.h:41: note: this is the location of the previous definition
+   41 | #define NULL ((void *)0)   /* m2c emits NULL for null pointers; byte-neutral (== 0) */
+      | 
+src/ov_SC04_004/../shared/ov/func_8015C6AC.h: In function `func_8015C6AC':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:1332:
+src/ov_SC04_004/../shared/ov/func_8015C6AC.h:7: warning: passing arg 1 of `func_8015C788' makes integer from pointer without a cast
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: In function `func_8015CD20':
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:1553: warning: type mismatch with previous external decl
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:1245: warning: previous external decl of `D_80186D5C'
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: In function `func_8015D1B8':
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:1778: warning: passing arg 1 of `func_801725F4' from incompatible pointer type
+src/ov_SC04_004/../shared/ov/func_8015D480.h: In function `func_8015D480':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:1833:
+src/ov_SC04_004/../shared/ov/func_8015D480.h:7: warning: passing arg 1 of `func_8015D57C' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8015D57C.h: In function `func_8015D57C':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:1850:
+src/ov_SC04_004/../shared/ov/func_8015D57C.h:12: warning: passing arg 1 of `func_801553A8' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_8015D57C.h:13: warning: passing arg 1 of `func_80155440' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_8015D57C.h:14: warning: passing arg 1 of `func_80146CA0' makes pointer from integer without a cast
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3301: warning: "SHB" redefined
+ 3301 | #define SHB(x) __asm__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3300: note: this is the location of the previous definition
+ 3300 | #define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+      | 
+src/ov_SC04_004/../shared/ov/func_8015DA90.h: In function `func_8015DA90':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2008:
+src/ov_SC04_004/../shared/ov/func_8015DA90.h:7: warning: passing arg 1 of `func_8015DB6C' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8015DDF0.h: In function `func_8015DDF0':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2086:
+src/ov_SC04_004/../shared/ov/func_8015DDF0.h:7: warning: passing arg 1 of `func_8015DECC' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8015E150.h: In function `func_8015E150':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2164:
+src/ov_SC04_004/../shared/ov/func_8015E150.h:7: warning: passing arg 1 of `func_8015E22C' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8015E84C.h: In function `func_8015E84C':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2288:
+src/ov_SC04_004/../shared/ov/func_8015E84C.h:7: warning: passing arg 1 of `func_8015E95C' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8015E95C.h: In function `func_8015E95C':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2305:
+src/ov_SC04_004/../shared/ov/func_8015E95C.h:10: warning: passing arg 1 of `func_8015E9B8' makes pointer from integer without a cast
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: In function `func_8015EA3C':
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2414: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8015EDA0.h: In function `func_8015EDA0':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2422:
+src/ov_SC04_004/../shared/ov/func_8015EDA0.h:7: warning: passing arg 1 of `func_8015EE7C' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8015EFA4.h: In function `func_8015EFA4':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2494:
+src/ov_SC04_004/../shared/ov/func_8015EFA4.h:7: warning: passing arg 1 of `func_8015F080' makes integer from pointer without a cast
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: In function `func_8015F89C':
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2713: warning: passing arg 2 of `func_801466F0' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_80160B70.h: In function `func_80160B70':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3192:
+src/ov_SC04_004/../shared/ov/func_80160B70.h:7: warning: passing arg 1 of `func_80160BB4' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_80160F70.h: In function `func_80160F70':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3253:
+src/ov_SC04_004/../shared/ov/func_80160F70.h:15: warning: passing arg 1 of `func_8013767C' makes integer from pointer without a cast
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: In function `aF80161208':
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3288: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_80161278.h: In function `func_80161278':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3294:
+src/ov_SC04_004/../shared/ov/func_80161278.h:10: warning: passing arg 1 of `func_80161374' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_801612B8.h: In function `func_801612B8':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3296:
+src/ov_SC04_004/../shared/ov/func_801612B8.h:11: warning: assignment makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_80161418.h: In function `func_80161418':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3359:
+src/ov_SC04_004/../shared/ov/func_80161418.h:6: warning: passing arg 1 of `func_8016163C' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_80161450.h: In function `func_80161450':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3361:
+src/ov_SC04_004/../shared/ov/func_80161450.h:6: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_80161488.h: In function `func_80161488':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3363:
+src/ov_SC04_004/../shared/ov/func_80161488.h:9: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_801614E4.h: In function `func_801614E4':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3365:
+src/ov_SC04_004/../shared/ov/func_801614E4.h:6: warning: passing arg 1 of `func_80161888' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_80161554.h: In function `func_80161554':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3369:
+src/ov_SC04_004/../shared/ov/func_80161554.h:6: warning: passing arg 1 of `func_8016163C' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8016158C.h: In function `func_8016158C':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3371:
+src/ov_SC04_004/../shared/ov/func_8016158C.h:6: warning: passing arg 1 of `func_80161774' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_801615C4.h: In function `func_801615C4':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3373:
+src/ov_SC04_004/../shared/ov/func_801615C4.h:12: warning: passing arg 1 of `func_80146D90' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_801615C4.h:15: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_801615C4.h:17: warning: passing arg 1 makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8016163C.h: In function `func_8016163C':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3388:
+src/ov_SC04_004/../shared/ov/func_8016163C.h:17: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_8016163C.h:18: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_8016163C.h:24: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_8016163C.h:31: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_8016163C.h:32: warning: passing arg 1 of `func_80159B3C' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_8016163C.h:44: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_8016163C.h:45: warning: passing arg 1 of `func_8015F2F0' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_80161774.h: In function `func_80161774':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3400:
+src/ov_SC04_004/../shared/ov/func_80161774.h:22: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_80161774.h:44: warning: passing arg 1 of `func_801599A4' makes pointer from integer without a cast
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: At top level:
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3680: warning: type mismatch with previous external decl
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3610: warning: previous external decl of `D_801B2690'
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3702: warning: type mismatch with previous external decl
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3595: warning: previous external decl of `D_80078EB0'
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: In function `func_801622C4':
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:3771: warning: assignment from incompatible pointer type
+src/ov_SC04_004/../shared/ov/func_8016345C.h: At top level:
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4068:
+src/ov_SC04_004/../shared/ov/func_8016345C.h:5: warning: type mismatch with previous external decl
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4058: warning: previous external decl of `func_8016345C'
+src/ov_SC04_004/../shared/ov/func_8016345C.h: In function `func_8016345C':
+src/ov_SC04_004/../shared/ov/func_8016345C.h:8: warning: passing arg 6 of `func_80163534' makes pointer from integer without a cast
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: At top level:
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4074: warning: type mismatch with previous external decl
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4059: warning: previous external decl of `D_801B1F5C'
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4542: warning: type mismatch with previous external decl
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4520: warning: previous external decl of `D_801B2788'
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: In function `func_801651B8':
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4550: warning: assignment makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_80165CA0.h: In function `func_80165CA0':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4798:
+src/ov_SC04_004/../shared/ov/func_80165CA0.h:13: warning: assignment from incompatible pointer type
+src/ov_SC04_004/../shared/ov/func_80165FA4.h: In function `func_80165FA4':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4811:
+src/ov_SC04_004/../shared/ov/func_80165FA4.h:11: warning: passing arg 2 of `ApplyMatrixSV' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_80165FA4.h:11: warning: passing arg 3 of `ApplyMatrixSV' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_80165FA4.h:12: warning: passing arg 2 of `ApplyMatrixSV' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_80165FA4.h:12: warning: passing arg 3 of `ApplyMatrixSV' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_801665B4.h: In function `func_801665B4':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:4845:
+src/ov_SC04_004/../shared/ov/func_801665B4.h:8: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_8016829C.h: At top level:
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:5629:
+src/ov_SC04_004/../shared/ov/func_8016829C.h:4: warning: prototype for `func_80166994' follows
+src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:5003: warning: non-prototype definition here
+src/ov_SC04_004/../shared/ov/func_80168A14.h: In function `func_80168A14':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:5769:
+src/ov_SC04_004/../shared/ov/func_80168A14.h:11: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
+src/ov_SC04_004/../shared/ov/func_80169E44.h: In function `func_80169E44':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:5939:
+src/ov_SC04_004/../shared/ov/func_80169E44.h:9: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC04_004/../shared/ov/func_80169FE0.h: In function `func_80169FE0':
+In file included from src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:5983:
+src/ov_SC04_004/../shared/ov/func_80169FE0.h:6: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+  LD      build/ov_SC04_004/ov_SC04_004.elf
+  OBJCOPY build/ov_SC04_004/ov_SC04_004
+  TRIM    build/ov_SC04_004/ov_SC04_004 (-1 B linker end-align pad)
 [ OK ] build/ov_SC04_004/ov_SC04_004
        sha1 38a3d9191d67f571cf23028f82855714bbbaab1b == config/check.ov_SC04_004.sha  (BYTE-IDENTICAL)

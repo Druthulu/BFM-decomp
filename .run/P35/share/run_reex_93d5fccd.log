@@ -1,0 +1,8 @@
+reexemplar E_func_80168B70: header src/shared/ov/func_80168B70.h ← src/ov_SC01_000/ov_SC01_000_jr_8015C32C.c:5792 (majority text; texts 1); 134 private copies, 7 includers to re-gate first
+reexemplar E_func_80168B70: 7/7 includer binaries green under the majority text
+  [reex_93d5fccd] 1 classes · 129 sites in 129 TUs · 0 new headers · gating 141 binaries
+  [reex_93d5fccd] gated 141/141 binaries green · registered 0 groups · extended 134 members · rejected classes 0
+reexemplar E_func_80168B70: the previous ledger row dropped (1)
+share_body: reexemplar done — all green; 84 s
+reex wall=83.93 s
+exit=0

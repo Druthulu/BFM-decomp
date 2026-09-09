@@ -143,10 +143,10 @@ src/ov_SC01_005/../shared/ov/func_80168A14.h: In function `func_80168A14':
 In file included from src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5770:
 src/ov_SC01_005/../shared/ov/func_80168A14.h:11: warning: passing arg 2 of `func_80146A6C' makes pointer from integer without a cast
 src/ov_SC01_005/../shared/ov/func_80169E44.h: In function `func_80169E44':
-In file included from src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5948:
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5940:
 src/ov_SC01_005/../shared/ov/func_80169E44.h:9: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
 src/ov_SC01_005/../shared/ov/func_80169FE0.h: In function `func_80169FE0':
-In file included from src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5992:
+In file included from src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c:5984:
 src/ov_SC01_005/../shared/ov/func_80169FE0.h:6: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
   LD      build/ov_SC01_006/ov_SC01_006.elf
   OBJCOPY build/ov_SC01_006/ov_SC01_006

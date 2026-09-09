@@ -388,6 +388,14 @@
   header ← the majority private text (`choose_exemplar` over the private copies, the current header's text counted once per includer),
   `bind_alias_header` if needed, gate every current includer's binary FIRST (roll the header back on any red), then the class as a normal
   extend batch (`--only`), the registry extended with the members that passed; its ledger row removed just before the run. Effort: high.
+- **S96 — T5 step 5 DONE: `share_body.py --reexemplar 93d5fccdcc`** (`.run/P35/share/run_reex_93d5fccd.log`, 84 s): `header
+  src/shared/ov/func_80168B70.h ← src/ov_SC01_000/ov_SC01_000_jr_8015C32C.c:5792 (majority text; texts 1); 134 private copies, 7 includers
+  to re-gate first` → `7/7 includer binaries green under the majority text` → `[reex_93d5fccd] 1 classes · 129 sites in 129 TUs · gating
+  141 binaries` → **`gated 141/141 binaries green · registered 0 groups · extended 134 members · rejected classes 0`**; the previous
+  ledger row dropped (48 rows remain, all late-overlay declaration conflicts for the types phase). The old header text is
+  `.run/P35/share/reexemplar_93d5fccd.old.h`. `dedup-check` 0 failed; SETUP paragraph extended (`--batches`, the snapshot restore, the
+  cause rule, `--repair-registry`, `--reexemplar`; R21); kit corpus + `tool_census --check: OK`. **Bucket 0 is CLOSED:** 183 classes at
+  the start → 135 fully shared, 48 ledgered TU-CONFLICT with real diagnostics.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
@@ -688,7 +696,7 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 IN PROGRESS (share_body.py built; bucket 0 run twice — BOTH runs committed, §2 step 1 DONE; 55 classes / 325 pairs ledgered, 317 of them still listed as registry members; three tool defects named); NEXT = inside T5 (steps 1–4 DONE, step 5 DECIDED: re-exemplar): implement `--reexemplar` and run it on E_func_80168B70 → bucket `new`; the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
+## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 IN PROGRESS (share_body.py built; bucket 0 run twice — BOTH runs committed, §2 step 1 DONE; 55 classes / 325 pairs ledgered, 317 of them still listed as registry members; three tool defects named); NEXT = inside T5 (steps 1–5 DONE; bucket 0 closed: 135 shared / 48 ledgered): bucket `new` (915 classes) one batch per run with a commit + R22 per batch; the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
 
 ### 0. How to use this block
 A fresh session (S96) reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at §2 step 1. This block was written by S95, a

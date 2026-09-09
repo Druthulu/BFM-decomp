@@ -5786,15 +5786,7 @@ extern void func_80168BDC(s32 a0, s32 a1, s32 a2, s32 a3);
  * and cast at the use site — same escape the TU already uses at :6388. Codegen-neutral. */
 extern void func_80146C3C(void);
 
-void func_80168B70(s32 a0) {
-    s32 *p = (s32 *)a0;
-    if (--p[0x1C / 4] != -1) {
-        func_80168BDC(a0, 9, 3, 1);
-    } else {
-        func_80168BDC(a0, 9, 2, 1);
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+#include "../shared/ov/func_80168B70.h"
 
 
 #include "../shared/ov/func_80168BDC.h"

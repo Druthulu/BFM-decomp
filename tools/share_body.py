@@ -453,6 +453,63 @@ def repair_registry(cen):
     return rec
 
 
+def reexemplar(orc, cen, prefix):
+    """A registered class whose header carries a MINORITY text (T4 wrote the header from whichever group existed — for E_func_80168B70
+    the 7 late overlays' spelling, refused by the 134 main overlays' declaration environments): rewrite the header from the MAJORITY
+    private text (the same rule a new class gets), gate every current includer's binary FIRST (the header rolled back on any red), then
+    share the private copies as a normal extend batch. The class's ledger row is dropped when the run shares anything."""
+    cs = [c for c in cen["classes"] if c["h"].startswith(prefix)]
+    if len(cs) != 1:
+        sys.exit(f"share_body: --reexemplar {prefix}: {len(cs)} classes match (R43)")
+    c = cs[0]
+    if c["verdict"] != "B" or len(c.get("groups", [])) != 1:
+        sys.exit(f"share_body: --reexemplar: {c['h'][:10]} is verdict {c['verdict']} with {len(c.get('groups', []))} groups — only a registered "
+                 f"(B) class with one group can be re-exemplared")
+    g = c["groups"][0]
+    hdr = g["source"]
+    priv = [i for i in c["insts"] if i["form"] == "def"]
+    incl = [i for i in c["insts"] if i["form"] == "include"]
+    if len(priv) <= len(incl):
+        sys.exit(f"share_body: --reexemplar: {g['id']} has {len(priv)} private copies vs {len(incl)} includers — the header already carries "
+                 f"the majority; nothing to re-exemplar")
+    ex, reason, texts = choose_exemplar(priv)
+    vram = int(c["addrs"][0], 16)
+    fn = f"func_{vram:08X}"
+    base = orc.bases[ex["alias"]]
+    space_name = "overlay slot" if base == m2h.OV_BASE else orc.space_dir(base)
+    new_text = m2h.banner(fn, base, c["h"], space_name) + def_text(ex)
+    new_text, _ = m2h.bind_alias_header(new_text, fn)
+    p = REPO / hdr
+    old_text = p.read_text(errors="surrogateescape")
+    (RUN / f"reexemplar_{c['h'][:8]}.old.h").write_text(old_text)
+    p.write_text(new_text)
+    if fn not in {n for n, _ in sc.header_defs(p)}:
+        p.write_text(old_text)
+        sys.exit(f"share_body: --reexemplar: the majority text does not define {fn} (R32); header restored")
+    log(f"reexemplar {g['id']}: header {hdr} ← {ex['tu']}:{ex['line']} ({reason}; texts {len(texts)}); {len(priv)} private copies, "
+        f"{len(incl)} includers to re-gate first")
+    twins_of = collections.defaultdict(list)
+    for t, prim in cen["twin_of"].items():
+        twins_of[prim].append(t)
+    gated = sorted({i["alias"] for i in incl} | {t for i in incl for t in twins_of.get(i["alias"], [])})
+    snap = snapshot(gated)
+    for a in gated:
+        ok, det = gate(a, snap)
+        if not ok:
+            p.write_text(old_text)
+            gate(a, snap)                                  # rebuild the includer with the old header so its objects are green again
+            sys.exit(f"share_body: --reexemplar: includer {a} REJECTS the majority text — {det}; header restored, nothing shared (R43)")
+    log(f"reexemplar {g['id']}: {len(gated)}/{len(gated)} includer binaries green under the majority text")
+    ok = run_batch(orc, cen, [c], f"reex_{c['h'][:8]}")
+    # the old ledger row (written for the minority header) is superseded by this run's verdict
+    lines = LEDGER.read_text().split("\n")
+    kept = [ln for ln in lines if not (ln.startswith(c["h"]) and "reex_" not in ln)]
+    if len(kept) != len(lines):
+        LEDGER.write_text("\n".join(kept))
+        log(f"reexemplar {g['id']}: the previous ledger row dropped ({len(lines) - len(kept)})")
+    return ok
+
+
 def rejected_in(b, h, cen):
     """The binaries in which class h was rejected (their private sites restored by the bisect)."""
     out = set()
@@ -479,6 +536,9 @@ def main():
     ap.add_argument("--only", default="")
     ap.add_argument("--repair-registry", action="store_true",
                     help="remove every listed member whose site is still a private definition (derived from the census), then exit")
+    ap.add_argument("--reexemplar", default="",
+                    help="<h_exact prefix>: rewrite a registered class's header from the MAJORITY private text, re-gate its includers, "
+                         "then share its private copies (the class's ledger row is dropped when anything shares)")
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     a = ap.parse_args()
     RUN.mkdir(parents=True, exist_ok=True)
@@ -486,6 +546,11 @@ def main():
     cen = census(a.jobs)
     if a.repair_registry:
         repair_registry(cen)
+        return
+    if a.reexemplar:
+        orc = m2h.Oracles()
+        ok = reexemplar(orc, cen, a.reexemplar)
+        log(f"share_body: reexemplar done — {'all green' if ok else 'see the ledger'}; {time.time() - t0:.0f} s")
         return
     orc = m2h.Oracles()
     extend, new = candidates(cen)
