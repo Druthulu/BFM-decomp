@@ -916,3 +916,33 @@ each a different action. (3) **A known-true control per join:** the registry rep
 multi-batch tool's hardest bug (stale line numbers + a restore that wipes the previous batch) into a non-event; the driver commits
 between batches. (5) **The census's per-instance forms are the registry check's C2d for free** (one cached scan, 36 s) — derive, don't
 re-parse (R33).
+
+## P36 S99 (2026-09-09) — the search harness whose target was a disassembly, and the three cheap checks that would have caught it
+
+(1) **Before believing any search yield, seed the search with a body that already MATCHES and read the base score. It must be 0.**
+Two rung-D campaigns returned "0 of 16 exemplars" and both were the instrument: the permuter's `target.o` had been assembled from a
+regenerated disassembly listing, and assembling a disassembly is a second toolchain — objdump prints the pseudo-instruction `move` for
+`addu rX,rY,$zero` and GAS assembles `move` as `or` (24 wrong words in one 234-instruction function), while a listing's `%hi`/`%lo`
+pairs come back resolved, with no relocation, against candidates that all carry one. The scorer read 28 for a byte-identical body, so
+score 0 was unreachable. The control is one command and ~30 seconds (`delever_permute.py --positive-control`); without it, "the residue
+is hard" and "the scorer is broken" are the same observation. R40, and the first place this project has needed it against a SCORER
+rather than a model.
+
+(2) **The target of a byte search should be produced by the same toolchain as the candidates, with an independent oracle to prove it
+— not by a second toolchain that has to be argued with.** The fix was to compile the tree's own body into a one-function object (the
+candidates' relocations by construction) and require `match_one` against the ROM listing to call it a MATCH before the search starts.
+Faster to build than the listing-fixing it replaced, and it cannot drift.
+
+(3) **A generated artifact that nothing ever consumed is a claim.** `verbatim_target_s.py --gas` had been proven once, through
+decomp.me, on a function with no `move` in it — so it was wrong for a large fraction of the fleet and nobody knew (R98/DK-81 in a second
+place). It now assembles, disassembles and compares itself word by word against the image, `.word`-patches what does not reproduce, and
+REFUSES what still disagrees.
+
+(4) **Steer a directed search by what the residual IS, not by what produced it.** The weight profile was chosen from the site kind
+("a pin → regalloc"); a pin on a CALLER-saved register ($2/$3/$4–$7) is an operand-order residual, and the regalloc profile weights
+`perm_commutative` 2.0 where the cse profile weights it 40.0. One reading of one diff moved 8 of 16 exemplars to the right profile.
+
+(5) **Turn each search win into a mechanical recipe the same day.** Rung D's two wins were a statement wrapped in a block and a
+single-set temp inlined at its use — both one-line source changes that a recipe generator reproduces in ONE compile, and that keep the
+source readable, where banking the permuter's own pycparser-reprinted body would trade a lever for a readability regression in a phase
+whose whole purpose is readability.

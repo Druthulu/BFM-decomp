@@ -62,7 +62,7 @@
 - Rules check (P6) after T4.
 - ☐ **T5** — GTE consolidation (one header, PsyQ's names; the `"memory"`-clobber variants are levers → residue, not a second spelling) +
   the dead lever-macro sweep (`SHB` cross-file use counted). Verify: `lever_census` 0 per-TU asm macro definitions; R22 green.
-- ☐ **T6** — Rung R (mechanical shape recipes, each negative-controlled) and rung D (the permuter on the residue exemplars, time-boxed,
+- ☑ **T6** — Rung R (mechanical shape recipes, each negative-controlled) and rung D (the permuter on the residue exemplars, time-boxed,
   16 workers; a score-0 applied through `delever --apply-body` and gated). Verify: `recipes: <k> of <r> NEEDED sites removed`;
   `permuter: <k> of <r> exemplars matched lever-free in <t> h`.
 - ☐ **T7** (Ultracode, prompted) — The reshaping waves to zero: wave → harvest → toolify (cookbook + rung R) → sweep → next draw; wave 1
@@ -621,7 +621,83 @@ accumulate here as the phase produces them.**
   refused more than a third of the population while the context was hot, and harvest→toolify applied to lever classes so a shape
   sweeps the banked population instead of the lever propagating with every family remap (1,758 distinct bodies became 12,578).
 
-## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ T5 ☑ — all committed (this close on top of `4bc987426`); NEXT = T6 BUILD: `tools/delever_permute.py` per §2 (the design is settled and its pipeline proven by two probes — the T6 log entry); S98 ended here at 90 % context | the number: 34,091 sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0 · GTE levers 462 · per-TU asm macro definitions 314 (0 canonical duplicates) — `lever_census --check` OK
+- **S99 — T6 CLOSE: both yield lines measured, 664 lever sites gone, R22 green at every step. T6 ☑.**
+  **The two lines the plan asks for (R41):** `permuter: 5 of 16 exemplars matched lever-free in 0.69 h (665 of 2,131 bodies
+  behind them)` and `recipes: 134 of 134 bodies closed lever-free (134 NEEDED sites in the 134 drawn), 3243 compiles in 6.0 min`.
+  **Banked this session:** rung R's batch `r1` (134 bodies, every one `R7 do-while @<line>`, a ONE-LINE source change each) ·
+  rung D's four remaining exemplars (`d1`, tidied and judged) · the propagation `p1`/`p1b` (132 + 130 + 131 + 132 = **525
+  siblings**, 0 refused, each judged on its own objects). **34,091 → 33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies,
+  33,427 marked, 0 UNMARKED, 0 orphans; `check-all: 218 passed, 0 failed of 218` after every batch.
+  **What T6 leaves for T7, stated rather than smoothed over:** rung R's recipe set does NOT reproduce the shape rung D found on
+  func_80163EC8 — R6 was generalised from "assigned once, read once" to "dead after one read" (the lever was one of two
+  assignments to `uVar5`) and still does not close it (154 candidates, 1.3 min, 0 hits), so that class was banked from the
+  permuter's own winner instead. The 11 exemplars rung D did not close are seeds, not walls: every one improved (78→9, 52→3,
+  50→3, 37→2, 131→35) and the ones that stayed far all removed a hand-placed `instruction` whose C spelling changed the
+  instruction COUNT. A fleet-wide rung-R sweep is priced but not run: one body costs ~150 compiles / ~1.3 min at `--cap 200`
+  when nothing hits, so the 12,000-body residue needs the run parallelised across TUs before it is affordable.
+  **Instrument work banked with it:** `--recipes` is killable (its judge snapshots to inflight.json first — a killed run had
+  left a candidate in `src/`); `--bank` skips a body another rung already closed (it had re-applied a permuter body over rung
+  R's cleaner one-line version, restored through the oracle as `d1fix`); `--propagate` keys the class on the FIRST bank in a
+  body's chain (the later row's before-hash describes a text only that body ever had — func_80163EC8 found 0 siblings until
+  this was fixed, then 132); the permuter's winner is TIDIED before it is offered (pycparser's two-space indent and the corpse
+  `;` where a statement was inlined away), with the tidy judged like any other candidate.
+
+## 🛑 SESSION CHECKPOINT — S99 (2026-09-09): T0–T5 ☑ **T6 ☑** — all committed (this close on top of `1c2355054`); NEXT = **T7, the reshaping waves — and T7 STARTS ONLY ON DREW'S DIRECT APPROVAL IN THE SESSION THAT RUNS IT** (his words, twice: the `/effort ultracode` toggle is NOT approval); until he gives it, the drawable work is a PARALLELISED rung-R sweep (§2) | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
+
+### 0. How to use this block
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (T7's coordinator at Max, the waves at
+Ultracode — Drew toggles, R27) and executes §2. The tree is clean at HEAD = this close commit. **Never run a long job as a harness
+background task** (the low-memory guard kills them; the harness also backgrounds any foreground command over 120 s, which is fine for
+`make` but not for a campaign) — run campaigns DETACHED with `setsid nohup … &` and a `Monitor` on the log. **The calibration is keyed to
+HEAD: EVERY commit stales it** — `tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16` (3 s) before any
+judging, and calibrate the FULL set: a single-alias calibration fails its own completeness check. A killed batch: `tools/delever.py
+--restore`.
+
+### 1. Where things stand
+- **Done: T0–T6.** T6 delivered both yield lines the plan asks for: `permuter: 5 of 16 exemplars matched lever-free in 0.69 h (665 of
+  2,131 bodies behind them)` and `recipes: 134 of 134 bodies closed lever-free (134 NEEDED sites in the 134 drawn), 3243 compiles in
+  6.0 min`. Banked: rung R `r1` (134 bodies) · rung D `d1` (4 exemplars) · propagation `p1`/`p1b` (525 siblings, 0 refused).
+  **34,091 → 33,427 sites**; `check-all: 218 passed, 0 failed of 218` after every batch.
+- **THE INSTRUMENT LESSON THAT COST TWO CAMPAIGNS** (cookbook §454, accelerators P36 S99): the permuter's target had been ASSEMBLED
+  FROM A DISASSEMBLY LISTING and scored **28 for a byte-identical body**, so score 0 was unreachable and two campaigns reported "0 of
+  16" about a healthy population. The target is now the tree's OWN body compiled by the build's tail (`--positive-control` reads base
+  score 0). **Run `tools/delever_permute.py --positive-control TU FN` before believing any future yield.**
+- **Instruments (SETUP + dictionary rows, kit corpus regenerated, `tool_census --check: OK`):** `tools/delever.py` (+ `--recipes`
+  rung R with R2/R3/R4/R5/R6/R7, `--propagate TU FN`, `--cap`, `--control`), `tools/delever_permute.py` (`--plan`, `--prepare`,
+  `--positive-control`, `--calibrate`, `--run`, `--bank`, `--status`, `--selftest`), `tools/lever_progress.py` (the series behind
+  `docs/levers.md`), `tools/delever_oracle.py`, `tools/lever_census.py`, `tools/gte_consolidate.py`, `tools/delever_cycle.sh`.
+- **Drew's directive, mid-session:** the lever count over time is a DELIVERABLE — `docs/levers.md` + `docs/lever-progress.tsv` +
+  `tools/lever_progress.py --snapshot "<task>"` **after every task that changes the count** (the post-100% chart, the story, a wiki
+  page, and the kit's day-one rule). §5 of that document is the prevent-vs-defer argument, written from the generated numbers:
+  **38% of the class A/B population came off with no understanding at all**, so the rule is *ban the silence, not the lever*.
+- **Environment:** WSL2, `~/bfm-decomp`, `.venv`; R22 clean fleet ≈ 115 s; the census ≈ 35 s; `make kit-corpus` ≈ 25 s; 16 cores.
+
+### 2. What is drawable WITHOUT Drew's wave approval — the parallelised rung-R sweep
+Rung R is serial today: one body costs ~150 compiles / ~1.3 min at `--cap 200` when nothing hits, so the ~12,000-body residue is
+unaffordable as written. Make `recipes()` run TU-parallel the way `apply_batch` already does (a `ThreadPoolExecutor` over files, one
+worker owning a whole TU — two workers must never share a TU, and the oracle writes the candidate into the tree to compile it), then:
+1. `--cap 40` first over the whole residue (the targeted recipes R5/R6 and a few R7s) to measure the cheap yield with a denominator;
+2. `--cap 200` on what the cheap pass leaves, drawn by class size so a hit is worth 130 bodies;
+3. after each batch: R22 → `lever_census --sites --check` → `lever_progress --snapshot "<label>"` → commit (R42, R101).
+Also drawable: more rung-D exemplars (`delever_permute --run --limit N --workers 4 --secs 240 --cycles 3`), ordered by the STARTING
+DISTANCE the calibration prints — everything that closed started ≤ 29 mismatched instructions, everything ≥ 37 did not; `--max-start 35`
+triages the rest as FAR with their number.
+
+### 3. T7, when Drew approves it
+One agent per residue exemplar with the pack (the body, the target listing, the ledger's NEEDED sites with the register each names,
+`alloc_table.py` on the real TU, §501-E/P/R + §17 + **§454**, `journal_notes`, "no lever of any class may remain", deliverable-first
+R67); `delever --apply-body` judges every draft on the bytes and `--propagate` spreads it to the class. The harvest → toolify gate
+between waves is not optional: every shape an agent finds becomes a rung-R recipe (R5/R6/R7 all came from rung D this way) and then
+sweeps the population for free.
+
+### 4. Gotchas known before any work
+Everything in the T3/T4/T5 lists, plus: a disassembly listing is not a target (§454); `--only <fn>` in `--recipes` draws EVERY body of
+that name across the fleet, which is why `r1` banked a whole class in one run; the class key for `--propagate` is the FIRST bank in a
+body's chain; `pgrep -cf` matching your own command line counts itself (R79's cousin); the harness backgrounds any command over 120 s;
+`lever_progress --check` fails when the series is not this tree's.
+
+
+## (superseded) SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ T5 ☑ — all committed (this close on top of `4bc987426`); NEXT = T6 BUILD: `tools/delever_permute.py` per §2 (the design is settled and its pipeline proven by two probes — the T6 log entry); S98 ended here at 90 % context | the number: 34,091 sites in 12,712 bodies (1,759 distinct) · marked 34,091 · UNMARKED 0 · orphans 0 · GTE levers 462 · per-TU asm macro definitions 314 (0 canonical duplicates) — `lever_census --check` OK
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (T6/T8/T9 xHigh per the plan; S98 ran at Max —

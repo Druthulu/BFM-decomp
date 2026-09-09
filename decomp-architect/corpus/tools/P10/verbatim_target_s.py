@@ -165,6 +165,43 @@ def to_gas(insns, vaddr, off, symtab):
     return out
 
 
+def gas_roundtrip(rows, insns, fn):
+    """[(row index, ROM word)] for every emitted instruction whose RE-ASSEMBLY does not reproduce the ROM's word.
+
+    WHY (S99, and it invalidated a whole campaign before it was found): objdump prints the PSEUDO-instruction
+    `move s2,a0` for `addu s2,a0,$zero` (0x00809021), and gas assembles `move` as `or` (0x00809025). Every `move` in
+    the listing therefore came back a different word, so a target object built from this form differed from the ROM
+    in every one of them — and the permuter, scoring against it, reported 28 for a body that IS byte-identical. A
+    listing nothing ever assembled and compared is a claim, not an oracle (R98/DK-81 in a second place). Words that
+    carry a RELOCATION (jal/j, HI16/LO16) are excluded: the linker fills those, and both sides mask them."""
+    body = "\n".join([f".include \"macro.inc\"", ".set noat", ".set noreorder", ".section .text", f"glabel {fn}"] + rows)
+    with tempfile.NamedTemporaryFile("w", suffix=".s", delete=False) as fh:
+        fh.write(body + "\n")
+        spath = fh.name
+    opath = spath[:-2] + ".o"
+    try:
+        r = subprocess.run(["mipsel-linux-gnu-as", "-I", os.path.join(REPO, "include"), "-march=r3000", "-mtune=r3000",
+                            "-no-pad-sections", "-O1", "-G0", spath, "-o", opath], capture_output=True, text=True)
+        if r.returncode:
+            return None, (r.stderr or "").strip().splitlines()[:3]
+        sys.path.insert(0, os.path.join(REPO, "tools"))
+        import masked_diff
+        got = masked_diff.insns_from_object(opath, None)
+    finally:
+        for p in (spath, opath):
+            if os.path.exists(p):
+                os.unlink(p)
+    if len(got) != len(insns):
+        return None, [f"re-assembly produced {len(got)} instructions, the image has {len(insns)}"]
+    bad = []
+    for k, (g, (word, _text)) in enumerate(zip(got, insns)):
+        if g["reloc_kind"]:
+            continue
+        if g["word"] != word:
+            bad.append((k, word))
+    return bad, None
+
+
 def emit(binary, fn, outdir, quiet=False, gas=False):
     fr = _fr()
     vaddr, nins = func_extent(binary, fn)
@@ -195,12 +232,34 @@ def emit(binary, fn, outdir, quiet=False, gas=False):
             fh.write(f' * thing under test. {nins} instructions at 0x{vaddr:08X}. $-registers, .L<addr> labels for\n')
             fh.write(f' * in-function targets, symbol names for external jumps; the listing carries its delay-slot nops\n')
             fh.write(f' * (hence .set noreorder). Paste WHOLE into decomp.me — its PS1 prelude defines glabel. */\n\n')
+            rows = to_gas(insns, vaddr, off, _symtab(binary))
+            # the listing must RE-ASSEMBLE to the image's own words, or it is not a target (S99). Each row that does
+            # not is replaced by its `.word`, with the mnemonic kept in the comment for the reader; then it is
+            # verified again, and a listing that still disagrees is REFUSED rather than emitted (R43).
+            patched = 0
+            for _ in range(3):
+                bad, err = gas_roundtrip(rows, insns, fn)
+                if bad is None:
+                    return None, f'{binary}:{fn}: the gas form does not assemble ({err})'
+                if not bad:
+                    break
+                # `rows` interleaves `.L<addr>:` label lines with instructions; `bad` counts INSTRUCTIONS. Indexing rows
+                # by an instruction index rewrote a label into a comment and the next round refused to assemble.
+                ins_rows = [i for i, r in enumerate(rows) if r.startswith('/*')]
+                for k, word in bad:
+                    head, _, text = rows[ins_rows[k]].partition('*/')
+                    rows[ins_rows[k]] = f'{head}*/  .word 0x{word:08X}  /* {text.strip()} */'
+                patched += len(bad)
+            else:
+                return None, (f'{binary}:{fn}: {len(bad)} instruction(s) still do not re-assemble to the image '
+                              f'(first at +{bad[0][0] * 4:#x}) — REFUSING to emit a target that is not the bytes')
             fh.write('.set noat\n.set noreorder\n\n.section .text\n\n')
             fh.write(f'glabel {fn}\n')
-            for ln in to_gas(insns, vaddr, off, _symtab(binary)):
+            for ln in rows:
                 fh.write(ln + '\n')
         if not quiet:
-            print(f'  {binary:14s} {fn:26s} {nins:5d} ins @ 0x{vaddr:08X} -> {os.path.relpath(path, REPO)} (gas form)')
+            print(f'  {binary:14s} {fn:26s} {nins:5d} ins @ 0x{vaddr:08X} -> {os.path.relpath(path, REPO)} (gas form'
+                  + (f', {patched} word-patched)' if patched else ')'))
         return path, None
     path = os.path.join(outdir, binary, f'{fn}.s')
     with open(path, 'w') as fh:

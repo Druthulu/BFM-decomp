@@ -1254,6 +1254,512 @@ def scrub(a):
     return 0 if not bad else 1
 
 
+# ----------------------------------------------------------------------------------------------------------------------
+# --recipes (rung R): the cookbook's byte-neutral shape recipes, tried mechanically on a RESIDUE body
+# ----------------------------------------------------------------------------------------------------------------------
+CTRL_KW = re.compile(r"^\s*(?:if|for|while|do|switch|else|return|goto|case|default|break|continue)\b")
+
+
+def pin_names(sites):
+    """the variable each pin site declares, in source order (the zero-register pins excluded: their declaration is deleted)."""
+    out = []
+    for s in sites:
+        if s["kind"] != "pin" or s.get("zero"):
+            continue
+        mm = re.search(r"\b([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*(?:__asm__|__asm|asm)\s*\(", s.get("text", ""))
+        if mm:
+            out.append(mm.group(1))
+    return out
+
+
+def is_decl_line(masked_line):
+    """a whole-statement DECLARATION on one line: `<type> <name>[\\[n\\]][ = init];`. The type and the name must be separated
+    (by space or `*`) — without that, `ret = f();` parses as the declaration `re t = …` and an initializer split lands its
+    assignment after the first statement, where C89 forbids the declarations that follow it."""
+    s = masked_line.strip()
+    return bool(s.endswith(";") and not CTRL_KW.match(s) and "(" not in s.split("=")[0]
+                and re.match(r"^[A-Za-z_][\w \t]*[\s*]\s*\*?\s*[A-Za-z_]\w*\s*(?:\[[^\]]*\])*\s*(?:=|;)", s))
+
+
+def decl_run_end(text, d):
+    """the 0-based index of the LAST line of the declaration run that opens fn's body — a C89 declaration may not follow a
+    statement, so an initializer split must put its assignment after the WHOLE run, not after the last pinned declaration."""
+    lines = text.split("\n")
+    last = d["line"] - 1
+    for i in range(d["line"], d["end"] - 1):
+        s = sc.mask_text(lines[i]).strip()
+        if not s or s.startswith("/*") or s.startswith("//") or s in ("{", "}"):
+            continue
+        if is_decl_line(sc.mask_text(lines[i])):
+            last = i
+            continue
+        break
+    return last
+
+
+def decl_lines(text, tu, fn, names):
+    """[(line index, text)] for the lines of fn's body that DECLARE one of `names` — one name per line, the line a whole
+    statement. The lever-free text is re-scanned for them (a stripped pin can delete its line, so the census's numbers have
+    moved); a name whose declaration is not found alone on one line makes the body ineligible (None)."""
+    recs = sc.scan_text(text, tu, shared_defs=None)
+    d = next((r for r in recs if r["form"] == "def" and r["name"] == fn), None)
+    if d is None:
+        return None
+    lines = text.split("\n")
+    found = {}
+    for i in range(d["line"], d["end"] - 1):              # inside the body, never the header line
+        raw_line = lines[i]
+        s = sc.mask_text(raw_line).strip()
+        if not is_decl_line(s):
+            continue
+        hits = [n for n in names if re.search(r"(?<![\w])%s\b" % re.escape(n), s.split("=")[0])]
+        if len(hits) != 1 or hits[0] in found:
+            continue
+        found[hits[0]] = (i, raw_line)
+    if len(found) != len(set(names)):
+        return None
+    return sorted(found.values())
+
+
+COMMUTATIVE = "&|^+*"
+
+
+def top_level_ops(expr):
+    """positions of the BINARY commutative operators at paren/bracket depth 0 in `expr` (masked text). An operator is binary
+    when the previous non-space character ends an operand (identifier, digit, `)`, `]`); that also excludes a unary `*`/`&`
+    and a cast's `*`, which in any case sits inside parentheses."""
+    out, depth = [], 0
+    for i, c in enumerate(expr):
+        if c in "([":
+            depth += 1
+        elif c in ")]":
+            depth -= 1
+        elif depth == 0 and c in COMMUTATIVE:
+            if i + 1 < len(expr) and expr[i + 1] in "&|=+*":     # && || &= += *= **
+                continue
+            if i and expr[i - 1] in "&|=+*<>!-/%":
+                continue
+            prev = expr[:i].rstrip()
+            if prev and (prev[-1].isalnum() or prev[-1] in "_)]"):
+                out.append(i)
+    return out
+
+
+def commutative_swaps(text, tu, fn, d_):
+    """[(description, candidate text)] — each line of fn's body that carries exactly ONE top-level commutative operator,
+    with its two operands swapped. THE lever for a caller-saved ($2/$3) residual: S99 read `and v0,v1,v0` against the
+    target's `and v0,v0,v1` on func_80163EC8, which is the operand order of one `&` in the source and nothing else."""
+    lines = text.split("\n")
+    out = []
+    for i in range(d_["line"], d_["end"] - 1):
+        raw_line, s = lines[i], sc.mask_text(lines[i])
+        body = s.strip()
+        if not body.endswith(";") or body.startswith("#"):
+            continue
+        # only an assignment's RHS or a `return` expression — an `if (…) stmt;` line would need the condition parsed out of
+        # the statement after it, and a wrong split is a candidate that cannot compile (wasted, and noisy in the ledger)
+        asg = re.search(r"(?<![=!<>+\-*/%&|^~])=(?!=)", s)
+        ret = re.match(r"^\s*return\b", s)
+        start = asg.end() if asg else (ret.end() if ret else -1)
+        if start < 0 or start >= len(s):
+            continue
+        expr_end = s.rstrip().rfind(";")
+        expr = s[start:expr_end]
+        ops = top_level_ops(expr)
+        if len(ops) != 1:
+            continue
+        o = start + ops[0]
+        left, right = raw_line[start:o], raw_line[o + 1:expr_end]
+        if not left.strip() or not right.strip():
+            continue
+        cand = list(lines)
+        cand[i] = raw_line[:start] + " " + right.strip() + " " + raw_line[o] + " " + left.strip() + raw_line[expr_end:]
+        out.append((f"swap {raw_line[o]} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+IDENT = re.compile(r"(?<![\w.])([A-Za-z_]\w*)(?![\w])")
+
+
+def inline_single_set_temps(text, tu, fn, d_):
+    """[(description, candidate text)] — a local assigned ONCE and read ONCE, inlined at its use and its now-dead
+    declaration removed. §501-R's S2 kill: a fresh single-set local gets a birthing boost in gcc 2.7.2's allocator, so
+    creating or removing one moves the allocation — and this is the move rung D found first (S99, func_80163EC8:
+    `uVar5 = *(s32 *)(psVar6 + 0x44); … = uVar5 & ~0x20;` became `… = *(s32 *)(psVar6 + 0x44) & ~0x20;`). Doing it here
+    keeps the SOURCE readable: the permuter's own winner is machine-reprinted, and this phase is about readability."""
+    lines = text.split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    masked = [sc.mask_text(l) for l in lines]
+    occ = collections.defaultdict(list)
+    for i in range(lo, hi):
+        for m in IDENT.finditer(masked[i]):
+            occ[m.group(1)].append((i, m.start(), m.end()))
+    out = []
+    ASG = r"^(?:[A-Za-z_][\w \t]*[\s*]\s*\*?\s*)?%s\s*=(?!=)\s*(.+);\s*$"
+    for v, places in occ.items():
+        asgs, decls, uses = [], [], []
+        for p in places:
+            s = masked[p[0]].strip()
+            if re.match(ASG % re.escape(v), s):
+                asgs.append(p)
+            elif is_decl_line(s) and "=" not in s.split(";")[0]:
+                decls.append(p)
+            else:
+                uses.append(p)
+        if not asgs or not uses or len(decls) > 1:
+            continue
+        # ONE ASSIGNMENT AT A TIME, not one per variable. The single-set case is the easy half; the lever rung D actually
+        # found is narrower: `uVar5` is assigned in TWO branches of func_80163EC8, and the winning move inlined ONE of them.
+        # An assignment is inlinable when its value is read exactly once before the variable is written again — the classic
+        # def-with-one-use — so the assignment can go and the read can carry the expression.
+        order = sorted(places)
+        for ai, _, _ in asgs:
+            after = [p for p in order if p[0] > ai]
+            reads = [p for p in after if p not in [(x, y, z) for x, y, z in asgs] and not is_decl_line(masked[p[0]].strip())]
+            if not reads:
+                continue
+            ui, u0, u1 = reads[0]
+            nxt = [p for p in after if p[0] > ui]
+            if nxt and (nxt[0][0], nxt[0][1], nxt[0][2]) not in [(x, y, z) for x, y, z in asgs]:
+                continue                                  # read again before it is rewritten: the assignment is not dead
+            mm = re.match(ASG % re.escape(v), masked[ai].strip())
+            if not mm:
+                continue
+            expr = lines[ai].strip()[mm.start(1):mm.end(1)]
+            if not expr.strip():
+                continue
+            cand = list(lines)
+            cand[ui] = lines[ui][:u0] + f"({expr})" + lines[ui][u1:]
+            cand[ai] = None                               # the assignment goes (with its declaration when they are one)
+            if decls and len(asgs) == 1:                  # the separate `T v;` is dead only when nothing else writes v
+                cand[decls[0][0]] = None
+            out.append((f"inline {v} @{ai + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
+def block_wraps(text, tu, fn, d_):
+    """[(description, candidate text)] — one statement wrapped in a block. §501-R's RC-5 scope lever: a block changes the
+    statement's basic-block structure and with it the allocno live range, which is how rung D closed func_80135D20 in 24 s
+    (`flag = 0;` -> `do { flag = 0; } while (0);` and nothing else). The plain block is tried FIRST because it is the
+    readable spelling; the do-while is gcc's stronger form and is only reached when the plain one does not hold."""
+    lines = text.split("\n")
+    out = []
+    for i in range(d_["line"], d_["end"] - 1):
+        s = sc.mask_text(lines[i]).strip()
+        if not s.endswith(";") or CTRL_KW.match(s) or is_decl_line(s) or s.startswith("#") or "{" in s or "}" in s:
+            continue
+        raw_line = lines[i]
+        indent = raw_line[:len(raw_line) - len(raw_line.lstrip())]
+        stmt = raw_line.strip()
+        for tag, spelling in (("block", f"{indent}{{ {stmt} }}"), ("do-while", f"{indent}do {{ {stmt} }} while (0);")):
+            cand = list(lines)
+            cand[i] = spelling
+            out.append((f"{tag} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=True):
+    """[(recipe, description, candidate text)] — the byte-neutral shape recipes of the cookbook, mechanically.
+    R2 (§76/§501-R, the allocation ORDER is the bank): the formerly-pinned declarations permuted among their own lines.
+    R4: one of them moved through the whole declaration run. R3 (§17a/§501-P): an initializer split off its declaration.
+    R5 (§137/§501-R, the caller-saved class): the operand order of one commutative operator — the ONLY recipe here that
+    needs no pinned declaration, so a residue of barriers and launders still has candidates."""
+    recs_ = sc.scan_text(text, tu, shared_defs=None)
+    d_ = next((r for r in recs_ if r["form"] == "def" and r["name"] == fn), None)
+    if d_ is None:
+        return []
+    dls = decl_lines(text, tu, fn, names) if names else None
+    lines = text.split("\n")
+    out = []
+    rng = rng or random.Random(0)
+    idx = [i for i, _ in dls] if dls else []
+    body = [t for _, t in dls] if dls else []
+    perms = []
+    if not dls:
+        perms = []
+    elif len(body) <= 4:
+        import itertools
+        perms = [p for p in itertools.permutations(range(len(body)))][1:]      # the identity is the current text
+    else:
+        seen = set()
+        while len(perms) < limit and len(seen) < limit * 4:
+            p = tuple(rng.sample(range(len(body)), len(body)))
+            seen.add(p)
+            if p != tuple(range(len(body))) and p not in perms:
+                perms.append(p)
+    for p in perms[:limit]:
+        ls_ = list(lines)
+        for slot, src in zip(idx, p):
+            ls_[slot] = body[src]
+        out.append(("R2", "decl-order " + ",".join(str(x) for x in p), "\n".join(ls_)))
+    # R4 (§76/§501-R again, one variable at a time): a formerly-pinned declaration moved to every other slot of the body's
+    # declaration run — the allocno creation order the pin used to override. R2 permutes the pinned declarations among
+    # THEIR OWN slots; this reaches the orders that involve the untouched declarations too, at one compile each.
+    last = decl_run_end(text, d_)
+    run_idx = [i for i in range(d_["line"], last + 1) if is_decl_line(sc.mask_text(lines[i]))]
+    if dls and len(run_idx) > 1:
+        run_txt = [lines[i] for i in run_idx]
+        for i, t in dls:
+            if i not in run_idx:
+                continue
+            src = run_idx.index(i)
+            name = next((n for n in names if re.search(r"(?<![\w])%s\b" % re.escape(n), t.split("=")[0])), "?")
+            for dst in range(len(run_txt)):
+                if dst == src:
+                    continue
+                seq = list(run_txt)
+                seq.insert(dst, seq.pop(src))
+                ls_ = list(lines)
+                for slot, txt in zip(run_idx, seq):
+                    ls_[slot] = txt
+                out.append(("R4", f"decl-move {name} {src}->{dst}", "\n".join(ls_)))
+    for k, (i, t) in enumerate(dls or []):
+        head, _, init = t.partition("=")
+        if not init.strip().endswith(";") or "==" in t:
+            continue
+        name = [n for n in names if re.search(r"(?<![\w])%s\b" % re.escape(n), head)]
+        if len(name) != 1:
+            continue
+        ls_ = list(lines)
+        ls_[i] = head.rstrip() + ";"
+        indent = t[:len(t) - len(t.lstrip())]
+        ls_.insert(last + 1, f"{indent}{name[0]} ={init.rstrip()}")
+        out.append(("R3", f"init-split {name[0]}", "\n".join(ls_)))
+    for desc, cand in commutative_swaps(text, tu, fn, d_):
+        out.append(("R5", desc, cand))
+    for desc, cand in inline_single_set_temps(text, tu, fn, d_):
+        out.append(("R6", desc, cand))
+    if blocks:                                            # last: one candidate per statement, so the targeted recipes go first
+        for desc, cand in block_wraps(text, tu, fn, d_):
+            out.append(("R7", desc, cand))
+    seen, uniq = {text}, []                               # never judge the seed twice, nor one candidate twice (R37)
+    for rec, desc, cand in out:
+        if cand in seen:
+            continue
+        seen.add(cand)
+        uniq.append((rec, desc, cand))
+    return uniq[:cap]
+
+
+def recipes(a):
+    """--recipes: rung R over the RESIDUE bodies. The seed is the body's LEVER-FREE text; the first candidate whose object is
+    IDENTICAL replaces it and its markers are scrubbed with its levers. Scope, stated (R41): only a body with at least one
+    formerly-PINNED declaration has candidates — the recipes are declaration-order and initializer-split levers — so a residue
+    of barriers/launders/keep-alives alone is not drawable here and stays for rung D and T7. A hit banks the EXEMPLAR body;
+    its copies are a separate step (their text must be remapped, not replayed: the ledger replays a SITE SET, and a reshaped
+    body is not one)."""
+    ensure_census(a.jobs)
+    clean, dirty = src_clean()
+    if not clean and not a.dirty_ok:
+        sys.exit(f"delever --recipes: src/ is dirty (commit or --restore first):\n{dirty[:400]}")
+    ok, why = oracle.calibration_current()
+    if not ok:
+        sys.exit(f"delever --recipes: calibration not current ({why})")
+    by_src = oracle.recipes_by_src(oracle.load_recipes()["recipes"])
+    inc = includers()
+    sites_by = collections.defaultdict(list)
+    for s in load_sites():
+        if s.get("fn"):
+            sites_by[(s["tu"], s["fn"])].append(s)
+    cur = {}
+    for r in load_ledger():
+        if r.get("tu") and r.get("fn"):
+            cur[(r["tu"], r["fn"])] = r
+
+    def recs_for(tu):
+        return [r for t_ in inc.get(tu, []) for r in by_src.get(t_, [])] if tu.endswith(".h") else by_src.get(tu, [])
+
+    def judge(tu, cand):
+        """judge one candidate, and be killable: the oracle writes the candidate into the tree to compile it, so a SIGTERM
+        between the write and the restore leaves a candidate in `src/`. The original text goes into inflight.json first, the
+        same file `--restore` reads (P35's rule: a tool restores from its OWN snapshot, never `git checkout`) — S99 killed a
+        run mid-judge and found exactly that leftover."""
+        path = REPO / tu
+        raw, st = path.read_text(errors="surrogateescape"), path.stat()
+        RUN.mkdir(parents=True, exist_ok=True)
+        INFLIGHT.write_text(json.dumps({tu: raw}))
+        try:
+            return oracle.judge_all(recs_for(tu), cand, tag="rec", write_path=(tu if tu.endswith(".h") else None))
+        finally:
+            restore_file(path, raw, st)
+            INFLIGHT.unlink(missing_ok=True)
+
+    def lever_free(tu, raw, fn):
+        m, ls = same_len_mask(raw), line_starts(raw)
+        edits = []
+        for s in sites_by[(tu, fn)]:
+            if (s["cls"], s["kind"]) not in REMOVABLE:
+                if s["kind"] in DEFERRED_KINDS:
+                    raise Refuse("asm-body")
+                continue
+            edits += site_edits(raw, m, ls, s)
+        return apply_edits(raw, edits) if edits else raw
+
+    todo = [(k, r) for k, r in cur.items() if r.get("verdict") == "RESIDUE" and k[1] != FILE_SCOPE_FN]
+    if a.only:
+        todo = [(k, r) for k, r in todo if any(o in (k[0], k[1]) or o in k[0] for o in a.only)]
+    csize = collections.Counter(r.get("nhash_after") or r.get("nhash_before") for _, r in todo)
+    todo.sort(key=lambda x: (len([s for s in x[1].get("sites", []) if s.get("verdict") == "NEEDED"]),
+                             -csize[x[1].get("nhash_after") or x[1].get("nhash_before")], x[0]))
+    todo = todo[:a.limit] if a.limit else todo
+    # THE CONTROL, before any verdict is believed (R39), on the first bodies drawn and on BOTH instruments:
+    #   the splice machinery — the IDENTITY permutation through the same code must reproduce its input text exactly
+    #   (a text assertion, no compile: if the line surgery is not byte-neutral, every "DIFFERS" below is its own);
+    #   the oracle — the file exactly as the tree has it must still judge IDENTICAL (its baseline is live, R56).
+    bad = []
+    for (tu, fn), r in todo[:a.control]:
+        raw = (REPO / tu).read_text(errors="surrogateescape")
+        names = pin_names(sites_by[(tu, fn)])
+        dls = decl_lines(raw, tu, fn, names) if names else None
+        if dls:
+            lines = raw.split("\n")
+            ident = list(lines)
+            for slot, src in zip([i for i, _ in dls], range(len(dls))):
+                ident[slot] = [t for _, t in dls][src]
+            if "\n".join(ident) != raw:
+                bad.append((tu, fn, "SPLICE", "the identity permutation did not reproduce the text"))
+                continue
+        v, dt, err = judge(tu, raw)
+        if v != "IDENTICAL":
+            bad.append((tu, fn, v, err[:80]))
+    print(f"delever --recipes: control {a.control - len(bad)}/{min(a.control, len(todo))} — the identity splice reproduces "
+          f"its text and the untouched file its object", flush=True)
+    if bad or not todo:
+        for b in bad[:5]:
+            print(f"  CONTROL FAILED {b[0]}:{b[1]} -> {b[2]} {b[3]}")
+        sys.exit("delever --recipes: the control did not pass — no verdict from this run is usable (R39)")
+    print(f"delever --recipes: {len(todo)} RESIDUE bodies", flush=True)
+    rows, won, tried, compiles = [], 0, 0, 0
+    t0 = time.time()
+    for n_body, ((tu, fn), r) in enumerate(todo, 1):
+        path = REPO / tu
+        raw = path.read_text(errors="surrogateescape")
+        names = pin_names(sites_by[(tu, fn)])          # may be empty: R5 needs no pinned declaration
+        try:
+            free = lever_free(tu, raw, fn)
+        except Refuse:
+            continue
+        cands = recipe_candidates(free, tu, fn, names, cap=a.cap)
+        if not cands:
+            continue
+        tried += 1
+        hit = None
+        for rec, desc, cand in cands:
+            v, dt, err = judge(tu, cand)
+            compiles += len(recs_for(tu))
+            if v == "IDENTICAL":
+                hit = (rec, desc, cand)
+                break
+        if n_body % 10 == 0 or hit:                       # R55: a lane that runs unattended leaves evidence
+            print(f"  [{n_body}/{len(todo)}] {won} closed · {compiles} compiles · {(time.time() - t0) / 60:.1f} min",
+                  flush=True)
+        row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung="R", calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
+                   tu=tu, fn=fn, addr=fn_addr(fn, tu), aliases=r.get("aliases"), header=tu.endswith(".h"),
+                   nhash_before=r.get("nhash_after"), nhash_after=None, candidates=len(cands), pins=len(names),
+                   verdict=("LEVER-FREE" if hit else "RESIDUE"), recipe=(hit[0] if hit else None), how=(hit[1] if hit else None),
+                   sites=([] if hit else r.get("sites", [])))
+        if hit:
+            path.write_text(hit[2], errors="surrogateescape")
+            # the body's own markers are now orphans (its levers are gone); every OTHER body's marker is still honest, so the
+            # scrub is scoped to this body's line span — a file-wide scrub would leave the census with UNMARKED sites elsewhere
+            recs_ = sc.scan_text(hit[2], tu, shared_defs=None)
+            d_ = next((x for x in recs_ if x["form"] == "def" and x["name"] == fn), None)
+            span = range(d_["line"], d_["end"] + 1) if d_ else range(0)
+            scrub = scrub_edits(hit[2], [i + 1 for i, l in enumerate(hit[2].split("\n")) if FAKE in l and i + 1 in span])
+            if scrub:
+                cand2 = apply_edits(hit[2], scrub)
+                v2, _, _ = judge(tu, cand2)
+                if v2 == "IDENTICAL":
+                    path.write_text(cand2, errors="surrogateescape")
+            walk = lc.walk_file(path.read_text(errors="surrogateescape"), tu, tu.endswith(".h"))
+            row["nhash_after"] = next((x["nhash"] for x in walk["defs"] if x["name"] == fn), None)
+            won += 1
+            print(f"  {tu}:{fn} — {hit[0]} {hit[1]} IDENTICAL ({len(names)} pin(s) gone)", flush=True)
+        rows.append(row)
+    ledger_append(rows)
+    needed = sum(len([s for s in r.get("sites", []) if s.get("verdict") == "NEEDED"]) for _, r in todo)
+    print(f"recipes: {won} of {tried} bodies closed lever-free ({needed} NEEDED sites in the {len(todo)} drawn), "
+          f"{compiles} compiles in {(time.time() - t0) / 60:.1f} min")
+    return 0
+
+
+def remap_body(ex_before, ex_after, sib_before):
+    """the exemplar's reshaped body, with its `func_/D_` addresses replaced by the sibling's — or (None, why).
+
+    A text class is "identical modulo addresses" (that IS the nhash), so the two old bodies' address tokens correspond
+    one for one in order; the map they define is applied to the new body. This is what turns one crack into a whole
+    class: the 134-copy classes are the reason the draw is ordered by copies. A ledger REPLAY cannot do it — the ledger
+    replays a SITE SET, and a reshaped body is not one."""
+    a, b = lc.NORM_SYM.findall(ex_before), lc.NORM_SYM.findall(sib_before)
+    if len(a) != len(b):
+        return None, f"{len(a)} address tokens in the exemplar, {len(b)} in the sibling"
+    m = {}
+    for x, y in zip(a, b):
+        if m.setdefault(x, y) != y:
+            return None, f"`{x}` maps to both `{m[x]}` and `{y}` — not one class"
+    return lc.NORM_SYM.sub(lambda mm: m.get(mm.group(0), mm.group(0)), ex_after), None
+
+
+def propagate(a):
+    """--propagate TU FN: the body TU:FN was reshaped and banked; give every RESIDUE sibling of its class the same
+    shape, with its own addresses, and judge each on its own objects."""
+    tu, fn = a.propagate
+    rows = load_ledger()
+    chain = [r for r in rows if r.get("tu") == tu and r.get("fn") == fn
+             and r.get("verdict") == "LEVER-FREE" and r.get("after_text")]
+    if not chain:
+        sys.exit(f"delever --propagate: no banked reshape of {tu}:{fn} in the ledger (its row must carry after_text)")
+    # THE CLASS is what the body looked like when the campaign found it, so the key and the "before" text come from the
+    # FIRST bank in this body's chain; the text to spread is the LAST one (a body reshaped, then tidied, has two rows, and
+    # taking the last row's before-hash would look for siblings of a text only this body ever had).
+    src_row = dict(chain[-1], nhash_before=chain[0]["nhash_before"], before_text=chain[0]["before_text"])
+    key = src_row["nhash_before"]
+    cur = {}
+    for r in rows:
+        if r.get("tu") and r.get("fn"):
+            cur[(r["tu"], r["fn"])] = r
+    sibs = [k for k, r in cur.items() if k != (tu, fn) and r.get("verdict") == "RESIDUE"
+            and (r.get("nhash_after") or r.get("nhash_before")) == key]
+    if a.only:
+        sibs = [k for k in sibs if any(o in k for o in a.only)]
+    sibs = sibs[:a.limit] if a.limit else sibs
+    print(f"delever --propagate: {tu}:{fn} -> {len(sibs)} sibling(s) of class {key[:12]}", flush=True)
+    if not sibs:
+        return 1                                          # R68: an empty work list is a refusal, not a success
+    ok = bad = 0
+    for stu, sfn in sibs:
+        path = REPO / stu
+        raw = path.read_text(errors="surrogateescape")
+        d = next((r for r in sc.scan_text(raw, stu, shared_defs=None) if r["form"] == "def" and r["name"] == sfn), None)
+        if d is None:
+            print(f"  {stu}:{sfn}: not defined there — SKIPPED", flush=True)
+            bad += 1
+            continue
+        ls = line_starts(raw)
+        sib_before = raw[ls[d["line"] - 1]:ls[d["end"]]]
+        if lc.norm_hash(sc.mask_text(sib_before)) != key:
+            print(f"  {stu}:{sfn}: its text is not this class any more — SKIPPED", flush=True)
+            bad += 1
+            continue
+        body, why = remap_body(src_row["before_text"], src_row["after_text"], sib_before)
+        if body is None:
+            print(f"  {stu}:{sfn}: {why} — SKIPPED", flush=True)
+            bad += 1
+            continue
+        f = RUN / "propagate" / f"{stu.replace('/', '_')}__{sfn}.c"
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(body, errors="surrogateescape")
+        r = subprocess.run([sys.executable, str(REPO / "tools/delever.py"), "--apply-body", stu, sfn, str(f),
+                            "--label", a.label, "--rung", src_row.get("rung") or "R", "--dirty-ok"],
+                           cwd=REPO, capture_output=True, text=True)
+        line = ((r.stdout or r.stderr).strip().splitlines() or [""])[-1]
+        print(f"  {line[:200]}", flush=True)
+        ok += r.returncode == 0
+        bad += r.returncode != 0
+    print(f"delever --propagate: {ok} of {len(sibs)} sibling(s) banked, {bad} refused")
+    return 0 if ok else 1
+
+
 def status():
     rows = load_ledger()
     done, ex = ledger_index(rows)
@@ -1318,7 +1824,10 @@ def apply_body(a):
                nhash_before=nh_before, nhash_after=nh_after, source=src, verdict=("LEVER-FREE" if v == "IDENTICAL" else f"BODY-{v}"),
                sites=[dict(ord=i, kind=s["kind"], cls=s["cls"], detail=s["detail"], via=s.get("via", ""), line=s["line"], verdict="NEEDED",
                            why="left by the author", oracle="") for i, s in enumerate(levers)],
-               compiles=len(recs_), seconds=round(dt, 3), objects=[r["obj"] for r in recs_])
+               compiles=len(recs_), seconds=round(dt, 3), objects=[r["obj"] for r in recs_],
+               # the body AS IT WAS: --propagate needs it to map this class's addresses onto a sibling's, and after the
+               # write it exists nowhere else (the tree has moved on and the ledger is the record)
+               before_text=before, after_text=new)
     if v == "IDENTICAL":
         path.write_text(cand, errors="surrogateescape")
         ledger_append([row])
@@ -1569,6 +2078,47 @@ def selftest():
     plan_, total_, _ = make_plan(fake_bodies, rows, False, 10, None)
     if total_ != 1:
         fail("a copy with a judged text but no row of its own must still be drawn")
+    # rung R's candidate generators, on a fixture whose every answer is known by hand
+    RFIX = ("void rfix(int p)\n{\n    int a = p;\n    int b;\n    int c;\n"
+            "    if (a == b) a = b & 3;\n    c = a + 1;\n    *(int *)(p + 4) = c;\n}\n")
+    rd = dict(line=1, end=9)
+    for line, want in [("s32 d = param_1;", True), ("ret = f();", False), ("u8 *p;", True), ("d = param_1;", False),
+                       ("return x;", False), ("extern s32 D_1[];", True)]:
+        if is_decl_line(line) != want:
+            fail(f"is_decl_line({line!r}) != {want}")
+    if top_level_ops("a & b") != [2] or top_level_ops("a && b") or top_level_ops("(s32 *)p") \
+            or top_level_ops("*(s32 *)(p + 4) & 0xFF") != [16]:
+        fail("top_level_ops: a binary commutative operator at depth 0, and nothing else")
+    sw = commutative_swaps(RFIX, "src/x.c", "rfix", rd)
+    if [s for s, _ in sw] != ["swap & @6", "swap + @7"]:
+        fail(f"commutative_swaps found {[s for s, _ in sw]}")
+    if "a = 3 & b;" not in sw[0][1] or "c = 1 + a;" not in sw[1][1]:
+        fail("commutative_swaps must split at the assignment, never at `==`")
+    R6FIX = ("void r6(int p)\n{\n    int v;\n    int w;\n    v = *(int *)(p + 4);\n"
+             "    *(int *)(p + 4) = v & ~0x20;\n    w = 3;\n    *(int *)(p + 8) = w;\n}\n")
+    inl = inline_single_set_temps(R6FIX, "src/x.c", "r6", dict(line=1, end=9))
+    if [d for d, _ in inl] != ["inline v @5", "inline w @7"]:
+        fail(f"inline_single_set_temps found {[d for d, _ in inl]}")
+    if "= (*(int *)(p + 4)) & ~0x20;" not in inl[0][1] or "int v;" in inl[0][1]:
+        fail("R6 must inline the expression at the use AND drop the now-dead declaration")
+    bw = block_wraps(R6FIX, "src/x.c", "r6", dict(line=1, end=9))
+    if [d for d, _ in bw][:2] != ["block @5", "do-while @5"] or "{ v = *(int *)(p + 4); }" not in bw[0][1]:
+        fail(f"block_wraps: {[d for d, _ in bw][:3]} (the readable spelling first)")
+    cands = recipe_candidates(RFIX, "src/x.c", "rfix", ["a", "b"])
+    kinds_ = {r for r, _, _ in cands}
+    if not {"R2", "R3", "R5"} <= kinds_ or any(c == RFIX for _, _, c in cands):
+        fail(f"recipe_candidates: {kinds_} (the seed must never be a candidate)")
+    if any("a = p;" in c.split("\n")[7] for _, _, c in cands if _ == "R3"):
+        fail("R3 must place its assignment after the whole declaration run (C89)")
+    # the address remap that propagates a reshape to a class (R48-adjacent: one crack, 134 banks)
+    exb = "void func_80100000(void) { D_80200000 = func_80100004(); }"
+    exa = "void func_80100000(void) { s32 t = func_80100004(); D_80200000 = t; }"
+    sib = "void func_80300000(void) { D_80400000 = func_80300004(); }"
+    got, why = remap_body(exb, exa, sib)
+    if got != "void func_80300000(void) { s32 t = func_80300004(); D_80400000 = t; }":
+        fail(f"remap_body produced {got!r} ({why})")
+    if remap_body(exb, exa, "void func_80300000(void) { D_80400000 = 0; }")[0] is not None:
+        fail("remap_body must refuse a sibling with a different token count")
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):
         fail("SIGNAL_LINE must match bash's job-status block")
@@ -1792,6 +2342,13 @@ def main():
     ap.add_argument("--restore", action="store_true", help="restore every in-flight file from inflight.json")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--scrub", action="store_true", help="remove orphan !FAKE markers (a marker whose site is gone), byte-judged per file")
+    ap.add_argument("--propagate", nargs=2, metavar=("TU", "FN"),
+                    help="give every RESIDUE sibling of this banked body's class the same shape, with its own addresses")
+    ap.add_argument("--recipes", action="store_true",
+                    help="rung R: the cookbook's byte-neutral shape recipes tried mechanically on every RESIDUE body")
+    ap.add_argument("--cap", type=int, default=60, help="--recipes: candidates tried per body (each is one compile)")
+    ap.add_argument("--control", type=int, default=8, help="--recipes: how many LEVER-FREE bodies the control run reproduces (R39)")
+    ap.add_argument("--limit", type=int, help="--recipes: stop after this many RESIDUE bodies")
     ap.add_argument("--apply-body", nargs=3, metavar=("TU", "FN", "FILE"))
     ap.add_argument("--rung", default="E")
     ap.add_argument("--allow-residue", action="store_true")
@@ -1810,6 +2367,14 @@ def main():
         sys.exit(status())
     if a.scrub:
         sys.exit(scrub(a))
+    if a.propagate:
+        if not a.label:
+            sys.exit("delever --propagate: --label is required (R48)")
+        sys.exit(propagate(a))
+    if a.recipes:
+        if not a.label:
+            sys.exit("delever --recipes: --label is required (R48: the ledger rows are keyed by it)")
+        sys.exit(recipes(a))
     if a.apply_body:
         if not a.label:
             sys.exit("delever --apply-body: --label is required")

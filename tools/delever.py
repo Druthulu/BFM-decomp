@@ -1705,10 +1705,14 @@ def propagate(a):
     shape, with its own addresses, and judge each on its own objects."""
     tu, fn = a.propagate
     rows = load_ledger()
-    src_row = next((r for r in reversed(rows) if r.get("tu") == tu and r.get("fn") == fn
-                    and r.get("verdict") == "LEVER-FREE" and r.get("after_text")), None)
-    if src_row is None:
+    chain = [r for r in rows if r.get("tu") == tu and r.get("fn") == fn
+             and r.get("verdict") == "LEVER-FREE" and r.get("after_text")]
+    if not chain:
         sys.exit(f"delever --propagate: no banked reshape of {tu}:{fn} in the ledger (its row must carry after_text)")
+    # THE CLASS is what the body looked like when the campaign found it, so the key and the "before" text come from the
+    # FIRST bank in this body's chain; the text to spread is the LAST one (a body reshaped, then tidied, has two rows, and
+    # taking the last row's before-hash would look for siblings of a text only this body ever had).
+    src_row = dict(chain[-1], nhash_before=chain[0]["nhash_before"], before_text=chain[0]["before_text"])
     key = src_row["nhash_before"]
     cur = {}
     for r in rows:
