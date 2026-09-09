@@ -2555,7 +2555,7 @@ void func_80161E08(s32 param_1) {
         ((a2 = func_800291DC(8)) & 0x8000) != 0) {
 
         if (D_800B5BD8 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65A8));
+            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65A8));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus3)
             D_80195940[0] = p;
             func_80024054(&D_801815CC, &D_8019594C);
             func_8001CE28(p, &D_8019594C);
@@ -2566,7 +2566,7 @@ void func_80161E08(s32 param_1) {
         }
 
         if (D_800B5C10 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65E0));
+            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65E0));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus3)
             D_80195940[1] = p;
             func_80024054(&D_801815EC, &D_80195974);
             func_8001CE28(p, &D_80195974);
@@ -2577,7 +2577,7 @@ void func_80161E08(s32 param_1) {
         }
 
         if (D_800B5C48 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x6618));
+            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x6618));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus3)
             D_80195940[2] = p;
             func_800242D0((s16)func_801620C4(), &D_8019598C, 0x84);
             func_8001CE68(p, &D_8019598C);
@@ -2724,14 +2724,14 @@ s32 func_80162438(s32 _unused0) {
     extern s16 D_800B5C74;
 
     u32 uVar2;
-    register u8 *base __asm__("$18");
-    register u8 *item __asm__("$17");
+    u8 *base;
+    u8 *item;
 
     base = &(*(u8 *)&D_800AF630);
     uVar2 = func_800291DC(0x12);
     if ((uVar2 & 0x8000) != 0) {
         if (D_800B5BD8 == 0) {
-            register u8 *t __asm__("$2") = base + 0x65A8;
+            register u8 *t __asm__("$2") = base + 0x65A8;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus3)
             item = t;
             D_80195998[0] = (s32)item;
             func_80024054(D_80181630, D_801959A4);
@@ -2742,7 +2742,7 @@ s32 func_80162438(s32 _unused0) {
             D_800B5BE2 = -D_800AF7BE / 2 + 0x28;
         }
         if (D_800B5C10 == 0) {
-            register u8 *t __asm__("$2") = base + 0x65E0;
+            register u8 *t __asm__("$2") = base + 0x65E0;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus3)
             item = t;
             D_80195998[1] = (s32)item;
             func_80024054(((u8 *)&D_80181648), D_801959CC);
@@ -2753,7 +2753,7 @@ s32 func_80162438(s32 _unused0) {
             D_800B5C1A = -D_800AF7BE / 2 + 0x30;
         }
         if (D_800B5C48 == 0) {
-            register u8 *t __asm__("$2") = base + 0x6618;
+            register u8 *t __asm__("$2") = base + 0x6618;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus3)
             item = t;
             D_80195998[2] = (s32)item;
             func_800242D0((s16)func_801626B8(), D_801959E8, 0x84);
@@ -2987,7 +2987,7 @@ void func_80163EC8(s32 param_1) {
     s32 psVar6;
     s32 iVar8;
     s32 iVar7;
-    register s32 uVar5 __asm__("$2");   /* PIN (flagged): uVar5 -> $v0 */
+    register s32 uVar5 __asm__("$2");   /* PIN (flagged): uVar5 -> $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus3)
     u16 uVar4;
     u8 uVar3;
 
@@ -3186,9 +3186,9 @@ extern u8 D_801959FF;
 
 void func_80164BDC(s32 param_1)
 {
-    register s32 p1   __asm__("$17");  /* $s1 */
-    register s32 iVar1 __asm__("$16");  /* $s0 */
-    register s32 base __asm__("$18");  /* $s2 */
+    register s32 p1   __asm__("$17");  /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus3)
+    s32 iVar1;  /* $s0 */
+    s32 base;  /* $s2 */
 
     p1 = param_1;
     iVar1 = ((s32 (*)(void))func_80146578)();
@@ -3332,9 +3332,9 @@ extern s32 D_80195A38;
 
 void func_801651B8(void * param_1)
 {
-    register s32 *puVar1 __asm__("$16"); /* $s0 */
-    register s32 iVar2 __asm__("$17");   /* $s1 */
-    register s32 p __asm__("$18");        /* $s2 */
+    register s32 *puVar1 __asm__("$16"); /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus3)
+    s32 iVar2;   /* $s1 */
+    s32 p;        /* $s2 */
 
     p = param_1;
     ((s32 (*)(s32, s32, s32))func_80165240)(p, p + 0x2c, p + 0x50);
@@ -3343,7 +3343,7 @@ void func_801651B8(void * param_1)
     do {
         if (puVar1[3] != 0) {
             s32 a0v = p;
-            __asm__ __volatile__("" : "=r"(a0v) : "0"(a0v));
+            __asm__ __volatile__("" : "=r"(a0v) : "0"(a0v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus3)
             ((s32 (*)(s32, s32, s32))func_80165240)(a0v, (s32)puVar1, (s32)(puVar1 + 2));
             puVar1[3] = puVar1[3] + -1;
         }
@@ -3595,7 +3595,7 @@ s32 func_80166690(s32 param_1, s32 param_2)
     unsigned int w9, w7, w, t, w3b;
     int w3;
     short sVar10;
-    register unsigned int zr __asm__("$0");
+    register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus3)
 
     blk = D_800AE620;
     i6 = (short)param_1;
@@ -3681,7 +3681,6 @@ s32 func_80166690(s32 param_1, s32 param_2)
                 c.c32 = t; c.c22 = t; c.c31 = t; c.c21 = t;
             }
 
-            __asm__ __volatile__("" :: "r"(iVar3));
             func_80017758(&c, &blk);
             w3b = iVar3 - 1;
             iVar3 = w3b + zr;
@@ -3835,18 +3834,18 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     extern s32 D_8011D030;
     extern unsigned char D_80195AB8[];
 
-    register int p2 __asm__("$20");             /* $s4 */
-    register int p3 __asm__("$17");             /* $s1 */
-    register int t2 __asm__("$5");              /* a1 */
-    register int t3 __asm__("$6");              /* a2 */
+    register int p2 __asm__("$20");             /* $s4 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus3)
+    int p3;             /* $s1 */
+    register int t2 __asm__("$5");              /* a1 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus3)
+    int t3;              /* a2 */
     unsigned short *puVar1;
     short iVar2;
     int eq;
 
     iVar2 = 0;
     puVar1 = ((unsigned short *)&D_8011D030);
-    t2 = ((short)param_2); SHB(t2); p2 = t2; SHB(p2);
-    t3 = ((short)param_3); SHB(t3); p3 = t3;
+    t2 = ((short)param_2); SHB(t2); p2 = t2; SHB(p2);  // !FAKE: launder via SHB — NEEDED DIFFERS; launder via SHB — NEEDED DIFFERS (P36 rung B tus3)
+    t3 = ((short)param_3); SHB(t3); p3 = t3;  // !FAKE: launder via SHB — NEEDED DIFFERS (P36 rung B tus3)
     eq = (p2 == p3);
     do {
         if ((puVar1 != ((unsigned short *)param_1)) &&

@@ -661,7 +661,7 @@ s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
     extern u8 D_801152B0;
 
     s32 *p;
-    register s32 s7 __asm__("$23");
+    register s32 s7 __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B tus3)
     s32 flag;
     s32 acc;
     s16 i;
@@ -708,7 +708,7 @@ s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
         return 1;
     next:
         p = (s32 *)*p;
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus3)
         if (p != 0) goto loop;
         return 0;
     }
@@ -722,7 +722,7 @@ s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
         s32 t = 0;
         if (((V3 *)a2)->x == ((V3 *)a3)->x && ((V3 *)a2)->y == ((V3 *)a3)->y) {
             s32 zt = (((V3 *)a2)->z == ((V3 *)a3)->z);
-            __asm__("addu %0,%1,$zero" : "=r"(t) : "r"(zt));
+            __asm__("addu %0,%1,$zero" : "=r"(t) : "r"(zt));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus3)
         }
         eq = t;
     }
