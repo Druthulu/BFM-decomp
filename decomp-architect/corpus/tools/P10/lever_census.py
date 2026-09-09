@@ -51,6 +51,7 @@ sys.path.insert(0, str(REPO / "tools"))
 import share_census as sc  # noqa: E402  (mask_text, scan_text, fleet_and_dirs, twin_of_map, verbatim_instances, curated_names)
 
 OUT_DIR_DEFAULT = ".run/P36/census"
+TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10]   # the walker's own text: part of the cache key
 GTE_HEADER_DEFAULT = "include/gte_inline.h"          # T5 writes it; until then no file is exempt from --strict
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -585,8 +586,13 @@ def walk_file(raw, rel, is_header):
             live_tokens += 1
             if m.start() not in roles:
                 unclassified.append(f"{rel}:{line_of(m.start())}: unroled {cls} token `{m_lines[line_of(m.start()) - 1].strip()[:80]}`")
+    # orphan markers: a `// !FAKE:` line with no class A/B site on it, and none on the line below either (unless that line carries its own
+    # marker) — a stale honesty claim (a marked site later removed or rewritten; the delever tool consumes a trailing marker, --scrub cleans)
+    ab_lines = {s["line"] for s in sites if s["cls"] in "AB"}
+    orphans = [ln for ln, l in enumerate(raw_lines, start=1)
+               if FAKE_MARK in l and ln not in ab_lines and not (ln + 1 in ab_lines and FAKE_MARK not in raw_line(ln + 1))]
     return dict(rel=rel, sites=sites, defs=[dict(name=d["name"], line=d["line"], end=d["end"], nhash=d["nhash"], nlines=d["nlines"]) for d in defs],
-                macro_defs=mdefs, coverage=cov, live_tokens=live_tokens, roled=len(roles), unclassified=unclassified)
+                macro_defs=mdefs, coverage=cov, live_tokens=live_tokens, roled=len(roles), unclassified=unclassified, orphan_markers=orphans)
 
 
 def _walk_worker(args):
@@ -671,7 +677,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
     files = [(rel, False) for rel in sorted(tu_aliases)] + [(h, True) for h in headers]
     for rel, is_h in files:
         st = (REPO / rel).stat()
-        keys[rel] = f"{rel}|{int(st.st_mtime)}|{st.st_size}"
+        keys[rel] = f"{rel}|{int(st.st_mtime)}|{st.st_size}|{TOOL_STAMP}"     # a tool change invalidates every cached walk (R35)
         if keys[rel] not in cache:
             work.append((rel, is_h))
     results = {}
@@ -691,6 +697,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
         cache_p.write_text(json.dumps(new_cache))
     # attribute aliases, exclude the verbatim bodies, gather
     sites, defs_all, mdefs_all, unclassified = [], [], [], []
+    orphan_all = []
     cov_total = {k: collections.Counter() for k in TOKEN_CLASSES}
     verbatim_sites = 0
     verbatim_fns = set()
@@ -730,6 +737,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
         for md in r["macro_defs"]:
             mdefs_all.append(dict(md, tu=rel))
         unclassified.extend(r["unclassified"])
+        orphan_all.extend(f"{rel}:{ln}" for ln in r.get("orphan_markers", ()))
         for k, c in r["coverage"].items():
             cov_total[k].update(c)
     coverage = {k: dict(v) for k, v in cov_total.items()}
@@ -773,6 +781,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
     summary = dict(
         generated=time.strftime("%Y-%m-%d"), binaries=len(aliases), tus=len(tu_aliases), headers=len(headers),
         head=git_head(), src_stamp=src_stamp(),
+        orphan_markers=dict(count=len(orphan_all), sample=orphan_all[:40]),
         coverage=coverage, coverage_ok=cov_ok, unclassified=len(unclassified),
         verbatim_excluded=dict(sites=verbatim_sites, functions=len(verbatim_fns), manifest_rows=len(verb)),
         classes=classes,
@@ -859,6 +868,7 @@ def render(s):
     ab = s["levers_AB"]
     L.append(f"  THE PHASE'S NUMBER (pins + asm statements, GTE excluded): {ab['sites']:,} sites in {ab['bodies']:,} bodies "
              f"({ab['distinct_bodies']:,} distinct) · marked !FAKE {ab['marked']:,} · UNMARKED {ab['unmarked']:,}")
+    L.append(f"  orphan !FAKE markers (no pin/asm site on the line nor below): {s.get('orphan_markers', {}).get('count', 0)}")
     p = s["pins"]
     L.append(f"  pins: {p['sites']:,} · $0 {p['zero']:,} · $sp {p['sp']} · with initializer {p['init']:,} · volatile-qualified "
              f"{p['volatile_qualified']} · bare-name {p['bare_name']} · spellings {p['spelling']}")
@@ -917,6 +927,7 @@ s32 func_80128218(s32 a0, register s32 a1) {
 void func_80128500(void) {
     register s32 keep __asm__("$17"); // !FAKE: pin $17 — SCHED-ANTIDEP
     keep = 1;
+    // !FAKE: stale — nothing on this line nor the next
     // !FAKE: barrier — CROSSJUMP-FENCE
     __asm__ __volatile__("");
 }
@@ -944,6 +955,8 @@ def selftest():
     marked = sorted((s["kind"], s["marked"]) for s in r["sites"] if s["fn"] == "func_80128500")
     if marked != [("barrier", True), ("pin", True)]:
         print(f"selftest: !FAKE marks {marked}"); ok = False
+    if len(r["orphan_markers"]) != 1:
+        print(f"selftest: orphan markers {r['orphan_markers']} (want exactly the stale line)"); ok = False
     via = sorted(s["detail"] for s in r["sites"] if s.get("via"))
     if via != ["GTE_LDV0", "SHB"]:
         print(f"selftest: macro uses {via}"); ok = False
@@ -993,6 +1006,10 @@ def main():
         print("lever_census: a known-true control MISMATCHED (R39) — the instrument is wrong, not the tree")
         rc = 1
     if a.check:
+        if s["orphan_markers"]["count"]:
+            print(f"lever_census --check: {s['orphan_markers']['count']} ORPHAN !FAKE marker(s) — a marker with no pin/asm site on its line "
+                  f"(nor below): {s['orphan_markers']['sample'][:6]} — tools/delever.py --scrub cleans them")
+            rc = 1
         ab = [x for x in sites if x["cls"] in "AB" and x["kind"] not in NON_LEVER_KINDS and x["tu"] != a.gte_header]
         un = [x for x in ab if not x["marked"]]
         if a.strict:

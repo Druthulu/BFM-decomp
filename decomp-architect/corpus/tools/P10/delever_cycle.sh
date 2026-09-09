@@ -9,7 +9,7 @@
 #      and src/ + the ledger/batch record/log + the census + the phase log are committed (R42).
 # Stops on the first red (a non-zero tool exit, a final N/M with N != M, a fleet run that is not 218/218) — the batch's files are then
 # still in place: inspect, then `tools/delever.py --restore` (never git checkout, R102). Stops cleanly when nothing is drawable.
-# Usage: [LABEL_PREFIX=t3_] [TASK=T4] tools/delever_cycle.sh START END [BATCH=300] [MODE=tus|headers] [ONLY="alias1 alias2 …"]
+# Usage: [LABEL_PREFIX=t3_] [TASK=T4] [REDRAW="REFUSED NOTHING-USABLE"] tools/delever_cycle.sh START END [BATCH=300] [MODE=tus|headers] [ONLY="alias1 alias2 …"]
 #   size a call so one batch stays < 10 min: TUs ≈ 8 s each single-threaded / 12 workers; a header ≈ 4 s (serial, includers in parallel).
 set -o pipefail
 cd "$(dirname "$0")/.." || exit 2
@@ -17,9 +17,10 @@ START=$1; END=$2; BATCH=${3:-300}; MODE=${4:-tus}; ONLY=${5:-}
 [ -n "$START" ] && [ -n "$END" ] || { echo "usage: $0 START END [BATCH] [tus|headers] [ONLY]"; exit 2; }
 case "$MODE" in tus) HFLAG="";; headers) HFLAG="--headers";; *) echo "MODE must be tus or headers"; exit 2;; esac
 ONLYFLAG=""; [ -n "$ONLY" ] && ONLYFLAG="--only $ONLY"
+REDRAWFLAG=""; [ -n "${REDRAW:-}" ] && REDRAWFLAG="--redraw $REDRAW"     # e.g. REDRAW="REFUSED NOTHING-USABLE" after a tool fix
 FLEET=$(ls config/check.*.sha | wc -l)
 PY=.venv/bin/python
-MARKER='## Approved plan (verbatim, gate 1 — 2026-09-09)'
+MARKER='## 🛑 SESSION CHECKPOINT'      # the Log section ends at the checkpoint block: entries go right before it
 for k in $(seq "$START" "$END"); do
   label="${LABEL_PREFIX:-}${MODE}${k}"
   [ -z "$(git status --short -- src config)" ] || { echo "cycle: src/ or config/ is dirty — commit, or tools/delever.py --restore (R42/R102)"; exit 3; }
@@ -27,19 +28,21 @@ for k in $(seq "$START" "$END"); do
   $PY tools/delever_oracle.py --status >/dev/null 2>&1 || $PY tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16 > .run/P36/delever/calibrate_${label}.log 2>&1 \
     || { echo "cycle: calibration FAILED"; tail -5 .run/P36/delever/calibrate_${label}.log; exit 1; }
   log=.run/P36/delever/run_${label}.log
-  { /usr/bin/time -f "$label wall=%e s" $PY tools/delever.py --apply --batch "$BATCH" --label "$label" $HFLAG $ONLYFLAG -j 12; echo "exit=$?"; } > "$log" 2>&1
+  { /usr/bin/time -f "$label wall=%e s" $PY tools/delever.py --apply --batch "$BATCH" --label "$label" $HFLAG $ONLYFLAG $REDRAWFLAG -j 12; echo "exit=$?"; } > "$log" 2>&1
   grep -q '^exit=0$' "$log" || { echo "cycle: batch $label — delever exited non-zero"; tail -4 "$log"; exit 1; }
   if grep -q 'nothing to do (no drawable file)' "$log"; then echo "cycle: nothing drawable at $label — done"; exit 0; fi
-  vline=$(grep -oE '^delever: batch .*' "$log" | tail -1)
-  final=$(echo "$vline" | grep -oE 'final [0-9]+/[0-9]+' | grep -oE '[0-9]+/[0-9]+'); [ "${final%/*}" = "${final#*/}" ] || { echo "cycle: batch $label — $vline"; exit 1; }
+  vline=$(grep -oE 'delever: batch .*' "$log" | tail -1)
+  [ -n "$vline" ] || { echo "cycle: batch $label — no verify line in $log (R32: an empty line is not a pass)"; tail -3 "$log"; exit 1; }
+  final=$(echo "$vline" | grep -oE 'final [0-9]+/[0-9]+' | grep -oE '[0-9]+/[0-9]+')
+  [ -n "$final" ] && [ "${final%/*}" = "${final#*/}" ] || { echo "cycle: batch $label — $vline"; exit 1; }
   if [ "$(echo "$vline" | grep -oE 'written [0-9]+' | grep -oE '[0-9]+')" = "0" ]; then echo "cycle: batch $label wrote no file — $vline"; fi
   r22=.run/P36/baseline/r22_${label}.log
   { /usr/bin/time -f "wall=%e s user=%U s sys=%S s" bash -c 'set -o pipefail; make clean && make extract-all JOBS=16 && make check-all JOBS=16'; echo "exit=$?"; } > "$r22" 2>&1
   line=$(grep -oE "check-all: [0-9]+ passed, [0-9]+ failed of [0-9]+" "$r22")
   if ! grep -q '^exit=0$' "$r22" || [ "$line" != "check-all: $FLEET passed, 0 failed of $FLEET" ]; then echo "cycle: R22 RED after batch $label — $line (the batch's files are in place: inspect, then tools/delever.py --restore)"; exit 1; fi
   $PY tools/lever_census.py --sites -j 16 > .run/P36/census/census_${label}.log 2>&1 || { echo "cycle: the census FAILED after batch $label"; tail -3 .run/P36/census/census_${label}.log; exit 1; }
-  cline=$(grep -oE 'levers A\+B.*' .run/P36/census/lever_census.txt | head -1)
-  [ -n "$cline" ] || cline=$(grep -oE '^lever_census:.*' .run/P36/census/census_${label}.log | head -1)
+  cline=$(grep -oE "THE PHASE'S NUMBER.*" .run/P36/census/lever_census.txt | head -1)
+  [ -n "$cline" ] || { echo "cycle: the census table carries no PHASE'S NUMBER line after batch $label"; exit 1; }
   TASK=${TASK:-T4} $PY - "$label" "$vline" "$line" "$cline" "$(grep -oE 'wall=[0-9.]+ s' "$r22" | head -1)" "$MARKER" <<'EOF' || exit 1
 import os, pathlib, re, sys, time, subprocess
 label, vline, r22line, cline, wall, marker = sys.argv[1:7]
@@ -48,7 +51,7 @@ p = pathlib.Path("phase-ends/CURRENT_PHASE.md"); t = p.read_text()
 head = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
 entry = (f"\n- **{time.strftime('%Y-%m-%d')} — {task} batch `{label}`** (`.run/P36/delever/run_{label}.log`, `batch_{label}.json`): `{vline}` → R22 "
          f"(`.run/P36/baseline/r22_{label}.log`) **`{r22line}`** (`{wall}`) → census `{cline}`.")
-assert ("\n" + marker) in t, "phase log marker not found"
+assert ("\n" + marker) in t, "phase log marker (the checkpoint heading) not found"
 t = t.replace("\n" + marker, entry + "\n\n" + marker, 1)
 # the 🛑 headline (R101): every task-advancing commit refreshes it
 lines = t.split("\n")

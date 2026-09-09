@@ -137,6 +137,45 @@ def norm_expr(e):
     return re.sub(r"\s+", "", e)
 
 
+def consume_marker(raw, m, e):
+    """The end of a removed/rewritten statement, extended over a trailing `// !FAKE:` marker on the same line (a marker from an
+    earlier judgement of a site that is now going away must not survive it)."""
+    le = m.find("\n", e)
+    le = len(raw) if le < 0 else le
+    tail = raw[e:le]
+    if m[e:le].strip() == "" and FAKE in tail:
+        return le
+    return e
+
+
+def whole_line_of(raw, m, indent_start, pos, e):
+    """True when the statement at pos..e is alone on its line (a trailing marker comment does not count: m blanks comments)."""
+    if raw[indent_start:pos].strip() != "":
+        return False
+    w = ws_after(m, e)
+    return m[w:w + 1] == "\n"
+
+
+def scrub_edits(raw, lines):
+    """Edits that remove orphan markers: a line that is only the marker goes; otherwise the marker (and the spaces before it) goes."""
+    ls = line_starts(raw)
+    edits = []
+    for ln in lines:
+        start, end = ls[ln - 1], (ls[ln] - 1 if ln < len(ls) else len(raw))
+        line = raw[start:end]
+        k = line.find(FAKE)
+        if k < 0:
+            continue
+        if line[:k].strip() == "":
+            edits.append((start, min(end + 1, len(raw)), ""))
+        else:
+            j = k
+            while j > 0 and line[j - 1] in " \t":
+                j -= 1
+            edits.append((start + j, end, ""))
+    return edits
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 # the rewrite of one site -> [(start, end, replacement)] on the raw text
 # ----------------------------------------------------------------------------------------------------------------------
@@ -322,8 +361,10 @@ def site_edits(raw, m, ls, site, keep_register=False):
             name = mm.group(1)
             if "=" in stmt.split("__asm__")[-1].split("asm")[-1]:
                 raise Refuse("zero pin with an initializer")
-            edits = [(indent_start if raw[indent_start:pos].strip() == "" else pos,
-                      e + (1 if raw[e:e + 1] == "\n" and raw[indent_start:pos].strip() == "" else 0), "")]
+            if whole_line_of(raw, m, indent_start, pos, e):
+                edits = [(indent_start, ws_after(m, e) + 1, "")]
+            else:
+                edits = [(pos, consume_marker(raw, m, e), "")]
             b0, b1 = ls[site["fn_line"] - 1], ls[site["fn_end"]] - 1
             body_m = m[b0:b1]
             if re.search(r"\b%s\s*(?:=(?!=)|\+\+|--|[-+*/&|^]=)" % re.escape(name), body_m) or re.search(r"(?:\+\+|--)\s*\b%s\b" % re.escape(name), body_m):
@@ -331,11 +372,11 @@ def site_edits(raw, m, ls, site, keep_register=False):
             for um in re.finditer(r"\b%s\b" % re.escape(name), body_m):
                 s = b0 + um.start()
                 if s < pos or s >= e:
-                    edits.append((s, s + len(name), "0"))
+                    edits.append((s, s + len(name), "0", ("zero-use", name)))
             return edits
         new = stmt if keep_register else re.sub(r"\bregister\b[ \t]*", "", stmt, count=1)
         new = PIN_CLAUSE.sub("", new)
-        return [(pos, e, new)]
+        return [(pos, consume_marker(raw, m, e), new)]
     if cls == "B" and kind in DEFERRED_KINDS:
         raise Refuse("asm-body: a whole routine in a C shell is T7's work (DEFERRED)")
     if cls == "B" and site.get("via"):
@@ -358,8 +399,9 @@ def site_edits(raw, m, ls, site, keep_register=False):
         e = stmt_end(m, pos)
         if e < 0:
             raise Refuse("no statement end for the macro use")
-        whole_line = raw[indent_start:pos].strip() == "" and raw[e:ws_after(m, e)].strip() == "" and raw[ws_after(m, e):ws_after(m, e) + 1] == "\n"
-        return [(indent_start, ws_after(m, e) + 1, "")] if whole_line else [(pos, e, "")]
+        if whole_line_of(raw, m, indent_start, pos, e):
+            return [(indent_start, ws_after(m, e) + 1, "")]
+        return [(pos, consume_marker(raw, m, e), "")]
     if cls == "B":
         if not ASM_HEAD.match(m, pos):
             raise Refuse(f"token mismatch at {site['tu']}:{site['line']}: expected an asm statement")
@@ -381,10 +423,9 @@ def site_edits(raw, m, ls, site, keep_register=False):
             new = new.strip()
         else:
             raise Refuse(f"asm kind {kind} is not removable")
-        whole_line = raw[indent_start:pos].strip() == "" and raw[e:ws_after(m, e)].strip() == "" and raw[ws_after(m, e):ws_after(m, e) + 1] == "\n"
-        if new == "" and whole_line:
+        if new == "" and whole_line_of(raw, m, indent_start, pos, e):
             return [(indent_start, ws_after(m, e) + 1, "")]
-        return [(pos, e, new)]
+        return [(pos, consume_marker(raw, m, e), new)]
     if cls == "C":
         if not m.startswith("volatile", pos):
             raise Refuse(f"token mismatch at {site['tu']}:{site['line']}: expected `volatile`")
@@ -397,8 +438,24 @@ def site_edits(raw, m, ls, site, keep_register=False):
 
 
 def apply_edits(raw, edits):
-    """Splice non-overlapping edits (bottom-up). Overlap -> Refuse (an insertion at a deletion's boundary is not an overlap)."""
-    es = sorted(edits, key=lambda x: (x[0], x[1]))
+    """Splice non-overlapping edits (bottom-up). A zero-register USE (`zr` -> 0) that lies inside another edit's range is composed
+    into that edit's replacement text (`register s32 ent __asm__("$4") = a0 + zr;` -> `s32 ent = a0 + 0;`); inside a deleted statement
+    it is moot. Any other overlap -> Refuse (an insertion at a deletion's boundary is not an overlap)."""
+    zero = [e for e in edits if len(e) > 3 and e[3][0] == "zero-use"]
+    hosts = [list(e[:3]) for e in edits if not (len(e) > 3 and e[3][0] == "zero-use")]
+    loose = []
+    for (s, e, r, meta) in zero:
+        name = meta[1]
+        host = next((h for h in hosts if h[0] <= s and e <= h[1] and (h[0], h[1]) != (s, e)), None)
+        if host is None:
+            loose.append((s, e, r))
+        elif host[2] == "":
+            continue                                   # the use vanished with its statement
+        elif not re.search(r"\b%s\b" % re.escape(name), host[2]):
+            raise Refuse(f"zero-register use inside a rewritten statement whose replacement does not carry `{name}`")
+        else:
+            host[2] = re.sub(r"\b%s\b" % re.escape(name), "0", host[2])
+    es = sorted([tuple(h) for h in hosts] + loose, key=lambda x: (x[0], x[1]))
     for a, b in zip(es, es[1:]):
         if b[0] < a[1]:
             raise Refuse(f"overlapping edits at {a[0]}..{a[1]} / {b[0]}..{b[1]}")
@@ -694,11 +751,14 @@ def class_sizes(bodies):
     return c
 
 
-def make_plan(bodies, ledger_rows, headers, batch, only, rejudge=False):
+def make_plan(bodies, ledger_rows, headers, batch, only, rejudge=False, redraw=()):
     """[(file, [bodies])] in campaign order: headers by includer count desc, TUs by their largest class first (so exemplars precede
     their copies), then path; a body is drawable iff its sites are non-empty (or it has DEFERRED asm-bodies) and its nhash is not a
     ledger row's after-hash."""
     done, ex = ledger_index(ledger_rows)
+    latest = {}
+    for r in ledger_rows:
+        latest[(r["tu"], r["fn"])] = r.get("verdict")
     sizes = class_sizes(bodies)
     files = collections.defaultdict(list)
     for (tu, fn), b in bodies.items():
@@ -706,7 +766,7 @@ def make_plan(bodies, ledger_rows, headers, batch, only, rejudge=False):
             continue
         if not b["sites"] and not b["deferred"]:
             continue
-        if b["nhash"] in done and not rejudge:
+        if b["nhash"] in done and not rejudge and latest.get((tu, fn)) not in redraw:
             continue
         if only and not any(o in b["aliases"] or o == tu or tu.endswith("/" + o) or (b["nhash"] or "").startswith(o) or o == fn for o in only):
             continue
@@ -914,7 +974,7 @@ def apply_batch(a):
     sites = load_sites()
     bodies = bodies_from_sites(sites, with_file_scope=True)
     rows = load_ledger()
-    plan, total, ledger_ex = make_plan(bodies, rows, a.headers, a.batch, a.only, a.rejudge)
+    plan, total, ledger_ex = make_plan(bodies, rows, a.headers, a.batch, a.only, a.rejudge, set(a.redraw or ()))
     print(describe_plan(plan, total, bodies), flush=True)
     if not plan:
         print("delever --apply: nothing to do (no drawable file)")
@@ -963,6 +1023,8 @@ def apply_batch(a):
             fresh = [b["nhash"] for b in bs if b["nhash"] and b["nhash"] not in covered and b["nhash"] not in ledger_ex]
             (phase1 if fresh else phase2).append((tu, bs))
             covered.update(fresh)
+        phase1.sort(key=lambda x: -len(x[1]))
+        phase2.sort(key=lambda x: -len(x[1]))
         log(f"apply {a.label}: phase 1 (exemplar files) {len(phase1)}, phase 2 (copies replay) {len(phase2)}")
         with ThreadPoolExecutor(max_workers=a.jobs) as ex:
             results = list(ex.map(one, phase1))
@@ -1007,6 +1069,63 @@ def restore():
     clean, dirty = src_clean()
     print(f"delever --restore: {n} of {len(d)} files restored from inflight.json; src {'clean' if clean else 'STILL DIRTY:'}\n{'' if clean else dirty[:400]}")
     return 0 if clean else 1
+
+
+def scrub(a):
+    """--scrub [--only …]: remove every orphan `// !FAKE:` marker (the census's definition: no pin/asm site on the line nor below), each
+    file's final text judged through every recipe; the tree is left modified for the outer gate (R22) and the commit."""
+    clean, dirty = src_clean()
+    if not clean:
+        sys.exit(f"delever --scrub: src/ is dirty — commit or --restore first:\n{dirty[:400]}")
+    ok, why = oracle.calibration_current()
+    if not ok:
+        sys.exit(f"delever --scrub: calibration not current ({why})")
+    ensure_census(a.jobs)
+    census = json.loads(CENSUS_JSON.read_text())
+    if not census.get("orphan_markers", {}).get("count"):
+        print("delever --scrub: the census lists no orphan marker — nothing to do")
+        return 0
+    recipes = oracle.load_recipes()["recipes"]
+    by_src = oracle.recipes_by_src(recipes)
+    inc = includers()
+    files = sorted({x.split(":")[0] for x in census["orphan_markers"]["sample"]})
+    if len(census["orphan_markers"]["sample"]) < census["orphan_markers"]["count"]:
+        # the summary holds a sample: walk every file that has a marker at all
+        files = sorted(p.relative_to(REPO).as_posix() for p in (REPO / "src").rglob("*") if p.suffix in (".c", ".h") and FAKE in p.read_text(errors="surrogateescape"))
+    if a.only:
+        files = [f for f in files if any(o == f or f.endswith("/" + o) or ("/" + o + "/") in f for o in a.only)]
+    rows, n_lines, n_files, bad = [], 0, 0, 0
+    for tu in files:
+        path = REPO / tu
+        st = path.stat()
+        raw = path.read_text(errors="surrogateescape")
+        lines = lc.walk_file(raw, tu, tu.endswith(".h"))["orphan_markers"]
+        if not lines:
+            continue
+        cand = apply_edits(raw, scrub_edits(raw, lines))
+        recs = [r for t_ in inc.get(tu, []) for r in by_src.get(t_, [])] if tu.endswith(".h") else by_src.get(tu, [])
+        if not recs:
+            print(f"delever --scrub: {tu}: no recipe — skipped")
+            continue
+        try:
+            v, dt, err = oracle.judge_all(recs, cand, tag="scrub", write_path=(tu if tu.endswith(".h") else None))
+        finally:
+            restore_file(path, raw, st)
+        row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label or "scrub", rung="scrub", calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
+                   tu=tu, fn=None, addr=None, aliases=None, header=tu.endswith(".h"), verdict=("SCRUBBED" if v == "IDENTICAL" else f"SCRUB-{v}"),
+                   lines=lines, sites=[], compiles=len(recs), seconds=round(dt, 3))
+        rows.append(row)
+        if v == "IDENTICAL":
+            path.write_text(cand, errors="surrogateescape")
+            n_lines += len(lines)
+            n_files += 1
+            print(f"delever --scrub: {tu}: {len(lines)} orphan marker(s) removed, {len(recs)} object(s) identical")
+        else:
+            bad += 1
+            print(f"delever --scrub: {tu}: {v} — NOT written ({err[:160]})")
+    ledger_append(rows)
+    print(f"delever --scrub: {n_lines} orphan marker(s) removed in {n_files} file(s); {bad} file(s) refused")
+    return 0 if not bad else 1
 
 
 def status():
@@ -1101,7 +1220,7 @@ extern s32 D_800A46D0;
 s32 func_80128218(s32 a0)
 {
     register s32 zr __asm__("$0");
-    register s32 s __asm__("$16") = a0;
+    register s32 s __asm__("$16") = a0 + zr;
     register s32 t __asm__("$17");
     register s32 *p __asm__("$4");
     register int plain;
@@ -1138,6 +1257,10 @@ static void dead(void) { register s32 x __asm__("$8"); }
 FIXTURE_COPY = FIXTURE.replace("func_80128218", "func_80138218").replace("D_800A46D0", "D_800B46D0").replace("D_800B0000", "D_800B1000")
 
 
+def idx_of(b, kind, line):
+    return next(i for i, s in enumerate(b["sites"]) if s["kind"] == kind and s["line"] == line)
+
+
 def selftest():
     import tempfile
     ok = True
@@ -1171,11 +1294,15 @@ def selftest():
     def line_of(text, needle):
         return next((ln for ln in text.split("\n") if needle in ln), None)
     t = texts.get(("pin", 15))
-    if not t or "register" in line_of(t, "s32 s ") or 'asm' in line_of(t, "s32 s ") or "= a0;" not in line_of(t, "s32 s "):
+    if not t or "register" in line_of(t, "s32 s ") or 'asm' in line_of(t, "s32 s ") or "= a0 + zr;" not in line_of(t, "s32 s "):
         fail(f"pin with initializer -> `{line_of(t or '', 's32 s ')}`")
     t = texts.get(("pin", 14))
-    if not t or "zr" in t.split("func_80128300")[0] or "buf[0] = 0;" not in t or "return v + 0 + plain" not in t:
-        fail("zero pin: declaration deleted, uses -> 0")
+    if not t or "zr" in t.split("func_80128300")[0] or "buf[0] = 0;" not in t or "return v + 0 + plain" not in t or "= a0 + 0;" not in t:
+        fail("zero pin: declaration deleted, uses -> 0 (inside the other pin's initializer too)")
+    # both pins at once: the zero use inside the $16 pin's initializer is composed into that pin's replacement
+    both = apply_edits(raw, site_edits(raw, m, ls, b["sites"][idx_of(b, "pin", 14)]) + site_edits(raw, m, ls, b["sites"][idx_of(b, "pin", 15)]))
+    if "    s32 s = a0 + 0;" not in both or "zr" in both.split("func_80128300")[0]:
+        fail(f"zero use composed into the host pin's replacement: `{line_of(both, 's32 s ')}`")
     t = texts.get(("launder", 25))
     if not t or line_of(t, "p = &D_800A46D0;") is None:
         fail("launder with a different input is an ASSIGNMENT")
@@ -1287,6 +1414,18 @@ def selftest():
     res3 = ladder(bc, FIXTURE_COPY, same_len_mask(FIXTURE_COPY), line_starts(FIXTURE_COPY), stub2, replay_from=exemplar_row)
     if not res3["replay_disagreed"] or res3["rung"] != "B" or {x["line"] for x in res3["sites"] if x["verdict"] == "NEEDED"} != {15, 16, 23}:
         fail(f"disagreeing replay: {res3['replay_disagreed']} rung {res3['rung']} needed {[x['line'] for x in res3['sites'] if x['verdict'] == 'NEEDED']}")
+    # a site that carried an older marker: the marker goes with the statement (a rewrite) or with the line (a deletion)
+    stale = ('s32 func_80128600(s32 a0)\n{\n    register s32 s __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B old)\n'
+             '    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B old)\n    return s;\n}\n')
+    ws = lc.walk_file(stale, "src/fx/z.c", False)
+    sb = bodies_from_sites([dict(s, aliases=["fz"], header=False, includers=0) for s in ws["sites"]])[("src/fx/z.c", "func_80128600")]
+    sm, sls = same_len_mask(stale), line_starts(stale)
+    scrubbed = apply_edits(stale, [e for s in sb["sites"] for e in site_edits(stale, sm, sls, s)])
+    if FAKE in scrubbed or "    s32 s = a0;\n    return s;" not in scrubbed:
+        fail(f"stale markers must go with their sites:\n{scrubbed}")
+    orphan_text = "int x;\n    // !FAKE: pin $5 — gone (P36 rung B old)\nint y = 1;  // !FAKE: barrier — gone (P36 rung B old)\n"
+    if apply_edits(orphan_text, scrub_edits(orphan_text, [2, 3])) != "int x;\nint y = 1;\n":
+        fail("scrub_edits: a marker-only line is deleted, a trailing marker stripped")
     # a no-op candidate is refused; overlapping edits are refused
     try:
         apply_edits(raw, [(0, 5, "x"), (3, 8, "y")])
@@ -1516,9 +1655,11 @@ def main():
     ap.add_argument("--headers", action="store_true", help="draw shared headers instead of translation units (serial; includers in parallel)")
     ap.add_argument("--only", nargs="*", default=None, help="restrict to these aliases / TU paths / function names / nhash prefixes")
     ap.add_argument("--rejudge", action="store_true", help="draw bodies the ledger already marks done")
+    ap.add_argument("--redraw", nargs="*", default=None, help="also draw bodies whose latest ledger verdict is one of these (e.g. REFUSED NOTHING-USABLE)")
     ap.add_argument("--label", default=None, help="the batch label (ledger rows, apply_<label>.log, batch_<label>.json)")
     ap.add_argument("--restore", action="store_true", help="restore every in-flight file from inflight.json")
     ap.add_argument("--status", action="store_true")
+    ap.add_argument("--scrub", action="store_true", help="remove orphan !FAKE markers (a marker whose site is gone), byte-judged per file")
     ap.add_argument("--apply-body", nargs=3, metavar=("TU", "FN", "FILE"))
     ap.add_argument("--rung", default="E")
     ap.add_argument("--allow-residue", action="store_true")
@@ -1535,6 +1676,8 @@ def main():
         sys.exit(restore())
     if a.status:
         sys.exit(status())
+    if a.scrub:
+        sys.exit(scrub(a))
     if a.apply_body:
         if not a.label:
             sys.exit("delever --apply-body: --label is required")
@@ -1543,7 +1686,7 @@ def main():
         ensure_census(a.jobs)
         sites = load_sites()
         bodies = bodies_from_sites(sites, with_file_scope=True)
-        plan, total, _ = make_plan(bodies, load_ledger(), a.headers, a.batch, a.only, a.rejudge)
+        plan, total, _ = make_plan(bodies, load_ledger(), a.headers, a.batch, a.only, a.rejudge, set(a.redraw or ()))
         print(describe_plan(plan, total, bodies))
         for tu, bs in plan[:40]:
             print(f"  {tu}: {len(bs)} bodies, {sum(len(b['sites']) for b in bs)} sites" + (f", {sum(len(b['deferred']) for b in bs)} deferred" if any(b['deferred'] for b in bs) else ""))

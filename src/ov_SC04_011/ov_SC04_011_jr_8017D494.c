@@ -13631,14 +13631,13 @@ void func_8018C14C(void *a0)
     *(s16 *)((s32)a0 + 0x6) = v[0];
     {
         register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t3_tus2)
-        s32 ent = (s32)a0 + zr;  // !FAKE: pin $4 — REFUSED body: overlapping edits at 423200..423246 / 423243..423245 (P36 rung B t3_tus1)
+        s32 ent = (s32)a0 + zr;
         s32 v2;
         s32 t1;
         s32 one;
 
         *(s16 *)(ent + 0xA) = v[1];
         t1 = *(u32 *)(ent + 0xC4);
-          // !FAKE: barrier — REFUSED body: overlapping edits at 423200..423246 / 423243..423245 (P36 rung B t3_tus1)
         one = 1;
         __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t3_tus2)
         t1 |= 2;

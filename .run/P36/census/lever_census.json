@@ -24,7 +24,6 @@
    "gte_stsv": 145,
    "gte_stsxy": 361,
    "gte_stsxy3": 191,
-   "gte_stsxy3_f3": 61,
    "gte_stsxy3c": 94,
    "gte_stsz3": 123,
    "gte_stsz4": 126,
@@ -32,6 +31,7 @@
    "lhu": 70,
    "lw": 80,
    "lwc2": 435,
+   "mfc2": 61,
    "swc2": 449
   },
   "instruction_mnemonics": {
@@ -229,9 +229,9 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 34.6,
+ "elapsed_s": 36.9,
  "generated": "2026-09-09",
- "head": "cd24727dd",
+ "head": "7ee458dd7",
  "headers": 3181,
  "levers_AB": {
   "asm": 15493,
@@ -381,6 +381,10 @@
   ],
   "total": 9540
  },
+ "orphan_markers": {
+  "count": 0,
+  "sample": []
+ },
  "pins": {
   "bare_name": 75,
   "init": 5109,
@@ -435,7 +439,7 @@
   "volatile_qualified": 136,
   "zero": 1337
  },
- "src_stamp": "bafc9bb800830991",
+ "src_stamp": "8bf16f4bc58430c5",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
