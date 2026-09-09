@@ -417,6 +417,8 @@
   69 TUs · 120 new headers · gating 15 binaries` → **`gated 15/15 binaries green · registered
   120 groups · extended 0 members · rejected classes 0`**.
 
+- **S96 — R22 after bucket `new` batch 4** (`.run/P35/baseline/r22_t5_new4.log`): `check-all: 218 passed, 0 failed of 218` · `wall=221.86 s` · `exit=0`.
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)
