@@ -479,10 +479,12 @@ unsloth_compiled_cache/
 !/.run/P36/probe/*.md
 !/.run/P36/probe/*.json
 !/.run/P36/probe/*.py
+!/.run/P36/probe/*.jsonl
 !/.run/P36/delever/
 /.run/P36/delever/*
 !/.run/P36/delever/*.log
 !/.run/P36/delever/*.json
+/.run/P36/delever/recipes.json
 !/.run/P36/delever/*.jsonl
 !/.run/P36/delever/*.txt
 !/.run/P36/permuter/

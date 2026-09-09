@@ -405,7 +405,8 @@ def walk_file(raw, rel, is_header):
         d = span_of_line.get(ln)
         flat = re.sub(r"\s+", " ", text).strip()
         # a file-scope asm block keeps its whole template: the manifest match reads its `.globl`/`.ent` name
-        sites.append(dict(tu=rel, fn=(d["name"] if d else None), fn_line=(d["line"] if d else None), line=ln,
+        sites.append(dict(tu=rel, fn=(d["name"] if d else None), fn_line=(d["line"] if d else None), fn_end=(d["end"] if d else None),
+                          nhash=(d["nhash"] if d else None), line=ln,
                           col=pos - masked.rfind("\n", 0, pos), cls=cls, kind=kind, detail=detail,
                           text=(flat if (cls == "B" and d is None) else flat[:200]), marked=marked(ln), scope=("body" if d else "file"), **kw))
 

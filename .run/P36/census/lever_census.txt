@@ -25,4 +25,4 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
     src/shared/ov/func_80178004.h pins                   got 26     expected 26  OK
     ov_SC03_006 func_80184034 bare-name pins             got 3      expected 3  OK
     engine_prelude.h asm sites (a macro definition only) got 0      expected 0  OK
-  elapsed 35.0 s
+  elapsed 40.0 s

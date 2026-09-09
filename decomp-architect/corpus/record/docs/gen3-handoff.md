@@ -1,7 +1,9 @@
 # Gen3 handoff — where Gen2 ends, what comes next, and the levers already in hand
 
 > **Written at the Gen2 exit (Phase 33, 2026-09-07).** Gen2's contract is met and published: 218 binaries rebuild
-> byte-identical from C ([`docs/verification.md`](verification.md)), every game-code function in every binary is C, the
+> byte-identical from C ([`docs/verification.md`](verification.md)), every game-code function in every binary is C (*corrected
+> 2026-09-09, Phase 36 T1b: fourteen were whole-body assembly inside C shells, invisible to the file-scope detector — listed
+> DECOMPILE-NOW / UNCERTAIN in the manifest*), the
 > repository is public with its full rewritten history. This page is the seed for Gen3's first plan — it names the
 > owner's stated next intent, gives the starter census derived from the tree (with the commands, so the next session
 > re-derives rather than trusts), states the one invariant that must survive every Gen3 edit, and inventories the

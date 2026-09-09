@@ -1,0 +1,188 @@
+{
+ "generated": "2026-09-09 01:59",
+ "seed": 11,
+ "sampled": 285,
+ "judged": 283,
+ "not_judged": {
+  "NOTHING-USABLE": 2
+ },
+ "rung_A_identical": 53,
+ "rung_A_keep_register_identical": 53,
+ "lever_free_after_B": 53,
+ "sites": {
+  "total": 1309,
+  "removed": 561,
+  "needed": 748,
+  "pct_removed": 42.9
+ },
+ "needed_by_kind": {
+  "pin": 360,
+  "launder": 154,
+  "instruction": 21,
+  "barrier": 127,
+  "register": 8,
+  "keepalive": 36,
+  "cast": 26,
+  "decl-body": 16
+ },
+ "needed_by_detail": {
+  "launder:": 123,
+  "barrier:": 82,
+  "pin:$2": 80,
+  "pin:$4": 50,
+  "pin:$3": 46,
+  "barrier:memory": 45,
+  "pin:$5": 37,
+  "keepalive:": 36,
+  "pin:$16": 27,
+  "launder:out-only": 20,
+  "cast:volatile s32 *": 18,
+  "pin:$17": 17,
+  "pin:$6": 15,
+  "instruction:addiu": 14,
+  "decl-body:": 14,
+  "pin:$0": 13,
+  "pin:$19": 13,
+  "pin:$8": 11,
+  "pin:$7": 10,
+  "pin:$9": 8,
+  "register:": 8,
+  "pin:$14": 5,
+  "pin:$21": 5,
+  "launder:LAUNDER_8018A180": 5,
+  "pin:$10": 4,
+  "pin:$12": 4,
+  "pin:$18": 4,
+  "cast:volatile s16 *": 4,
+  "instruction:addu": 4,
+  "pin:$20": 4
+ },
+ "removed_by_kind": {
+  "instruction": 3,
+  "pin": 438,
+  "decl-body": 11,
+  "register": 4,
+  "launder": 45,
+  "barrier": 27,
+  "keepalive": 8,
+  "cast": 25
+ },
+ "refused": {
+  "instruction `sll` has no C spelling in the table": 1,
+  "instruction `addu` has no C spelling in the table": 1,
+  "instruction `li` has no C spelling in the table": 1,
+  "instruction `nop` has no C spelling in the table": 1,
+  "macro-carried instruction is residue": 2,
+  "no statement end for the macro use": 3
+ },
+ "by_kind": {
+  "main": {
+   "bodies": 40,
+   "A_identical": 6,
+   "A_keep_register_identical": 6,
+   "lever_free": 6,
+   "sites": 272,
+   "removed": 146,
+   "needed": 126,
+   "compiles": 328,
+   "mean_s_per_compile": 0.386
+  },
+  "resident": {
+   "bodies": 16,
+   "A_identical": 4,
+   "A_keep_register_identical": 4,
+   "lever_free": 4,
+   "sites": 31,
+   "removed": 9,
+   "needed": 22,
+   "compiles": 53,
+   "mean_s_per_compile": 0.06
+  },
+  "md": {
+   "bodies": 29,
+   "A_identical": 2,
+   "A_keep_register_identical": 2,
+   "lever_free": 2,
+   "sites": 121,
+   "removed": 56,
+   "needed": 65,
+   "compiles": 161,
+   "mean_s_per_compile": 0.139
+  },
+  "shared": {
+   "bodies": 40,
+   "A_identical": 7,
+   "A_keep_register_identical": 7,
+   "lever_free": 7,
+   "sites": 164,
+   "removed": 65,
+   "needed": 99,
+   "compiles": 216,
+   "mean_s_per_compile": 0.211
+  },
+  "ov": {
+   "bodies": 158,
+   "A_identical": 34,
+   "A_keep_register_identical": 34,
+   "lever_free": 34,
+   "sites": 721,
+   "removed": 285,
+   "needed": 436,
+   "compiles": 902,
+   "mean_s_per_compile": 0.195
+  }
+ },
+ "flags": {
+  "zero": {
+   "bodies": 17,
+   "lever_free": 1
+  },
+  "init": {
+   "bodies": 32,
+   "lever_free": 7
+  },
+  "instr": {
+   "bodies": 10,
+   "lever_free": 1
+  },
+  "cast": {
+   "bodies": 22,
+   "lever_free": 1
+  },
+  "register": {
+   "bodies": 12,
+   "lever_free": 3
+  },
+  "launder": {
+   "bodies": 68,
+   "lever_free": 4
+  },
+  "barrier": {
+   "bodies": 78,
+   "lever_free": 9
+  },
+  "keepalive": {
+   "bodies": 27,
+   "lever_free": 1
+  },
+  "volatile": {
+   "bodies": 40,
+   "lever_free": 11
+  }
+ },
+ "compiles": 1660,
+ "mean_compiles_per_body": 5.87,
+ "mean_s_per_compile": 0.225,
+ "wall_s": 151.4,
+ "population": {
+  "bodies": 16064,
+  "sites": 55913
+ },
+ "pricing": {
+  "T4_compiles_est": 94226,
+  "T4_cpu_hours_est": 5.89,
+  "T4_wall_hours_at_16_est": 0.49,
+  "residue_bodies_est": 13055,
+  "residue_sites_est": 31950
+ }
+}

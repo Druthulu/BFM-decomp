@@ -47,9 +47,11 @@
   in 15,667 bodies (2,215 distinct)** (+1: the DECOMPILE-NOW body is a lever); `progress.py` counts PERMANENT rows (27) with a dated
   `corrections` entry; README prose + wiki Home + Where-next + gen3-standards + gen3-handoff updated as dated snapshots; `progress.py
   --json --readme --check` fresh; `doc_links --strict` green.
-- ☐ **T2** (Max) — The probe: the oracle (recipes via `make -n -W`, replayed to a scratch object, `-MF` to scratch), CALIBRATED (sampled
-  TUs untouched → 100 % object equality with `build/`; twin == primary; an altered body → DIFFERS), then rung A + B on ~150 stratified
-  distinct bodies; the measured table prices T4–T7 (R41). Verify: the probe table in this log with its command.
+- ☑ **T2** (S97) — The probe. `tools/delever_oracle.py`: 4,284 recipes captured in 14 s; `--calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014
+  main`: **177/177 objects byte-identical untouched; twin checks 32 (0 mismatch); positive control DIFFERS on build/src/800.o — OK**
+  (main 0.079 s per object mean, 0.77 s for `800.o`; overlays ~0.14 s). `tools/delever.py --probe --sample 300 --seed 11 -j 12`: **285
+  distinct bodies sampled, 283 judged, 1,660 compiles, 151 s wall; rung A identical 53/283; lever-free after rung B 53/283; sites 1,309
+  usable → removed 561 (42.9 %), needed 748 (57.1 %)**; the table is in the log entry below and in `.run/P36/probe/probe_table.md`.
 - ☐ **T3** (Max design) — `tools/delever.py` + `tools/delever_cycle.sh`: rungs A/B/C, group testing per TU with per-symbol attribution
   and the 2 % per-body control, shared headers greedy-on-one/verify-on-all (h_text on all), the in-memory snapshot + `inflight.json` as
   the only restore, the ledger keyed alias+tu+function+address, refusals, progress logs, negative controls, selftest with decoys.
@@ -201,7 +203,49 @@ accumulate here as the phase produces them.**
   file-scope detectors); 14 game functions (8 in main) were assembly in C shells all along. The README prose is corrected in this commit;
   the decision log carries it at T9; Drew's word on the SDK/DECOMPILE/UNCERTAIN split is asked at the T1b report.
 
-## 🛑 SESSION CHECKPOINT — S97 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ (T1b's commit pending); NEXT = T2 (the probe: calibrate the object oracle, strip-all + greedy on ~150 distinct bodies, price T4–T7) at Max
+- **S97 — T2 the oracle and the probe (R37).** *The oracle* (`tools/delever_oracle.py`): every object's exact build command captured once
+  through `make -n -W <src> <obj> BINARY=<alias>` (4,284 recipes, 14 s at -j16 — the Makefile's own pipeline with the jtbl pad stage of
+  main/module objects, the per-object `-O0` overrides, the twin rule); a candidate compiled IN PLACE (objects carry the source path as an
+  STT_FILE symbol) with `-o`/`-MF` redirected to scratch, the file restored from the in-memory snapshot after every compile; verdict =
+  whole-object byte equality with `build/`'s object of the T0 fleet run. **Calibration:** `177/177 objects byte-identical untouched;
+  twin checks 32 (0 mismatch); positive control DIFFERS on build/src/800.o; 2.3 s — OK` (`.run/P36/delever/calibration.json`; two
+  instrument findings on the way: a control injected BEFORE the declarations is a C89 parse error, so it goes at the end of the body;
+  gcc 2.7.2 reports errors without the word "error" and the assembler floods stderr with `$at` warnings — the error filter keeps
+  every non-warning line, R103). *The engine* (`tools/delever.py`): positional rewrites per class at the census's line/col on the raw
+  text (a token mismatch REFUSES); rung A strip-all (measured with `register` dropped and kept), rung B greedy; TUs in parallel (one
+  worker per file), **shared headers SERIAL after the TU phase** — the dry run's three "compile errors" were two workers' candidates
+  crossing inside one includer (a header edit reaches every includer: the campaign tool must never compile a TU while any header it
+  includes is being edited). A no-op edit is REFUSED (an identical object would prove nothing, R37).
+  **The probe (`--probe --sample 300 --seed 11 -j 12`; `.run/P36/probe/`):** 285 distinct bodies (one exemplar per normalized class,
+  stratified by binary kind × site count × class mix, topped up for the `$0`/initializer/instruction/cast/register/launder/keep-alive
+  features), 283 judged (2 NOTHING-USABLE), **1,660 compiles, 151 s wall, 0.225 s per compile, 5.87 compiles per body**.
+
+  | kind | bodies | A identical | A (register kept) | lever-free after B | sites | removed | needed | compiles | s/compile |
+  |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+  | main | 40 | 6 | 6 | 6 | 272 | 146 | 126 | 328 | 0.386 |
+  | resident | 16 | 4 | 4 | 4 | 31 | 9 | 22 | 53 | 0.06 |
+  | md | 29 | 2 | 2 | 2 | 121 | 56 | 65 | 161 | 0.139 |
+  | shared | 40 | 7 | 7 | 7 | 164 | 65 | 99 | 216 | 0.211 |
+  | ov | 158 | 34 | 34 | 34 | 721 | 285 | 436 | 902 | 0.195 |
+  | **all** | **283** | **53** | **53** | **53** | **1,309** | **561 (42.9 %)** | **748 (57.1 %)** | **1,660** | **0.225** |
+
+  Needed by kind: pin 360 of 798 (45 %) · launder 154 of 199 (77 %) · barrier 127 of 154 (82 %) · keep-alive 36 of 44 · instruction 21
+  of 24 · cast 26 of 51 · decl-body volatile 16 of 27 · bare register 8 of 12. **Needed pins by register class: v0/v1 126 · a0–a3 112 ·
+  s0–s7 71 · t0–t9 36 · $0 13** (removed: s 147 · t 107 · v 90 · a 87). Residue bodies 230 of 283: 75 need only pins, 129 need at least
+  one asm statement. Bodies with a launder 4/68 lever-free, a barrier 9/78, a `$0` pin 1/17, a cast 1/22, an initializer pin 7/32.
+  `register` dropped vs kept: identical results (53 = 53) — the keyword is byte-neutral at -O2 on this sample. Instrument noise: rung A
+  1 COMPILE-ERROR + 1 REFUSED; 6 of 748 needed sites judged by a compile error (0.8 %); 9 rewrites refused (multi-instruction
+  templates, `mult`/`mfhi`, a bare `addu $v0,$zero,$zero` with no C operands, `RTP_SND` macro-carried instructions).
+  **Pricing (R41; population 16,064 lever bodies / 55,913 removable sites, 2,633 distinct classes by body hash):** T4 (rungs A+B fleet-wide)
+  ≈ 94,000 compiles ≈ 5.9 CPU-h ≈ **0.5 h wall at 12 workers** — cheap, and it removes ≈ 24,000 sites (43 %) and frees ≈ 3,000 bodies
+  (19 %). **The residue ≈ 13,000 bodies / 32,000 sites ≈ 81 % of bodies — by distinct classes ≈ 1,800 exemplars** whose copies replay:
+  that is the campaign grind-to-zero prices (T6 recipes + permuter, then T7 waves). Where the residue sits: launders + barriers +
+  keep-alives (317 of 748 needed = 42 %) — the CSE/scheduling steers; v0/v1 + a0–a3 pins (238 = 32 %) — argument/return-register copies
+  (the §194-E/§17a ARGCOPY class); callee-saved pins (71 = 9 %) — the allocation-order class (R73, `alloc_table.py`); the rest casts,
+  volatile declarations, `$0` variables, instructions. **Design consequences for T3:** per-body compiles at 0.2 s make group testing
+  unnecessary (simplicity wins); run T4 first and publish the fall; rung R (T6) targets the three big classes in that order.
+
+## 🛑 SESSION CHECKPOINT — S97 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ (T2's commit pending); NEXT = T3 (`tools/delever.py` the campaign tool: --plan/--apply, the ledger, exemplar/replay, batches + `delever_cycle.sh`, the `!FAKE` markers, refusals, selftest) at Max for the design
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T2 is Max; T3's finish and T4–T6
