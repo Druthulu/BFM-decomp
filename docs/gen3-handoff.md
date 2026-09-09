@@ -97,6 +97,7 @@ items (2) and (5) are exactly the Gen3 work; (3) and (4) are conduct, governed b
 | Typed structures | **1,232** struct definitions, many drafter-invented variants of one type; 143 raw address casts remain |
 | No match-forcing tricks | **43,925** `register … __asm__("…")` pin declarations (the §3 command, snapshot 2026-09-07; two earlier figures — 43,857 and 44,243 — came from a stricter and a looser grep, the looser one counting 290 comment lines) — sotn would want each either gone or marked `// !FAKE:` |
 | Readable organisation | **5,147** shared engine functions live as `DEFINE_func_…()` macro bodies in one 8.4 MB, 227,730-line header (`src/shared/engine_core.h`), instantiated per overlay; 3,558 of the 4,287 C files are `_jr_` carve splits — the layout follows the carving tool, not the game's systems |
+| *Phase 35 snapshot (2026-09-08)* | **0** macro bodies: every shared body is a plain-C header under `src/shared/` included at its site; the invariant "one source per unique function" is a `tools-health` gate (`share_census --check`: 10,180/10,180, 0 violations; 51 classes ledgered for the types phase, 3,801 cross-address classes deferred to the names phase) | derived by `tools/share_census.py --check`; re-derive |
 | Formatting | no `.clang-format` in the tree and no `make format` target |
 | Documentation | the method, the cookbook, the decision log and the wiki are unusually complete; the CODE carries almost no comments |
 
@@ -133,7 +134,7 @@ cat config/symbols.us*.txt | grep -cE '^[A-Za-z_]'                              
 | `INCLUDE_ASM` tiles | 1,258 | all inside the executable's linked Sony regions; not Gen3 work |
 | Symbol-file entries | 1,083 (1,081 curated names, 2 address-named) | `config/symbols.us*.txt` — the names the build already knows |
 | Struct definitions in `src/shared/engine_types.h` | 1,232 | many are drafter-invented variants of the same type (`tools/lift_types.py` knows the collision landscape) |
-| Dedup groups | 2,220 (255,708 instances) | a rename or a type change inside a shared body reaches every member |
+| Dedup groups | 2,220 (255,708 instances) — *Phase 35 (2026-09-08): 3,173 groups / 262,573 instances, incl. 38 `h_text` groups; 103,015 bodies written once; `tools/progress.py --fleet`* | a rename or a type change inside a shared body reaches every member |
 | Verbatim `__asm__` bodies | 5 | PERMANENT; the manifest audits drift |
 
 ## 4. The one invariant

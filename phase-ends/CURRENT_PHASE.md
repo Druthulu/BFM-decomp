@@ -73,7 +73,7 @@
   the deferred/ledgered sets) → the S1 text half a violation, not PENDING; `share_body --bucket text` (header named by the text hash) over
   the 38 classes / 2,030 sites, gated per binary, one batch per run + R22; the two counts (deferred 380/1,668; text-tier shares) in the
   digest + README sentence. Effort: high (Drew's default).
-- ☐ **T8** — the record: wiki (4 pages), how-to ch.10, README:117, the charter rows as dated snapshots, the cookbook section, decision log
+- ☑ **T8** (S96; doc_links strict 0 broken, wiki 32/32, cookbook §453 + index, decision log, accelerators, DIGEST §4, the memory) — the record: wiki (4 pages), how-to ch.10, README:117, the charter rows as dated snapshots, the cookbook section, decision log
   (R31), accelerators, DIGEST §4, sunset rows, the memory rewritten; doc_links/wiki_render/cookbook_index/kit_coverage green.
 - ☐ **T9** — close (Tier 1): R22 → 218/218; tools-health OK; the metrics table; the reviewer sequence; PhaseEnd + DIGEST + log archived; v2.1.0.
 - Rules check (P6): after T3 and after T7.
@@ -569,6 +569,20 @@
   VIOLATION(S) — OK`, `dedup-check: 3173 validated, 0 failed | C1 coverage 262573/262573`, `macro-form guard: 0 LIVE …`; the timeline
   regenerated (74 rows). **T5b ☑.**
 
+- **S96 — T8: the record.** `docs/wiki/The-dedup-engine.md` rewritten for the shared-source model (the shape, the three tiers incl.
+  `h_text`, the tool and its four first-day defects, the S1 gate with the second oracle, the numbers as a dated derivation, the honesty
+  rules); `Repository-layout.md` (`src/shared/`), `Where-the-project-goes-next.md` (item 3 done; the macro row 5,147 → 0),
+  `Verification-and-progress.md` (the S1 rungs in the reviewer table); how-to ch.10 (dedup in both eras; the old "leave the backlog" rule
+  scoped to matching); README prose ("shared engine code lives as one plain-C header per function"); `gen3-standards.md` (§4 row
+  struck through with the Phase-35 measurement, the DoD's "0 macro bodies" marked met); `gen3-handoff.md` (§2.2 and §3 rows as dated
+  snapshots); cookbook **§453** (the include-at-site share, the exemplar rule, the gate, the four defects, S1, the second oracle, the two
+  corrections) + a retirement banner on §14; `docs/decision-log.md` P35 (R31: the reversal with the sotn evidence, the session death and
+  recovery, the six decisions, the measurements, four hindsights); `docs/accelerators.md` P35 (five); DIGEST §4 (the Phase-35 doc map);
+  the memory `dedup-backlog-leave-it` rewritten as REVERSED with its index line. **Verify:** `doc_links: 56 documents, 455 relative links
+  checked, 0 pending, 0 broken` (strict) · `wiki_render --selftest: 12 cases, 0 failed; reachability: 32 pages, 0 unlisted` · the cookbook
+  index regenerated (`1170 sections, 14 symptom buckets`) and `cookbook-index OK` · `kit_coverage: OK` · kit corpus + `tool_census
+  --check: OK`. **T8 ☑.** (`tools/sunset/README.md` rows were written at T6.)
+
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
 # Phase 35 — Gen3 opens: the dedup phase, "one source per unique function" (v2.0.0 → v2.1.0)
@@ -868,7 +882,7 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 ☑ (S1 10,180/10,180, 0 violations; backlog 1,099 → 51 ledgered classes; registry 3,135 groups); T6 ☑ (14 frozen / 4 retired / the guard 0 LIVE); T7 ☑ (S1 strict + C2c/C2d in tools-health, OK); T5b ☑ (the h_text tier: 38 groups / 2,030 sites shared, 138/138 green, R22 218/218; 381 tiny-body texts deferred); NEXT = T8 (the record); the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
+## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 ☑ (S1 10,180/10,180, 0 violations; backlog 1,099 → 51 ledgered classes; registry 3,135 groups); T6 ☑ (14 frozen / 4 retired / the guard 0 LIVE); T7 ☑ (S1 strict + C2c/C2d in tools-health, OK); T5b ☑ (the h_text tier: 38 groups / 2,030 sites); T8 ☑ (the record); NEXT = T9 (the close — Tier 1, Max: R22, tools-health, the metrics table, PhaseEnd_Phase35.md + DIGEST, the log archived, v2.1.0); the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
 
 ### 0. How to use this block
 A fresh session (S96) reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at §2 step 1. This block was written by S95, a

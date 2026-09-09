@@ -40,7 +40,7 @@ wrongly."* To that the project adds four rules of its own, because its code was 
    label with provenance — recorded the way addresses are. A model may propose a name; it may never assert one.
 2. **Every register pin goes**, or stays with a `// !FAKE:` line naming the residual. The count is a published metric until
    it is zero.
-3. **Shared engine functions live as C, not as macros** — the dedup engine's macro bodies become `.c` files per system,
+3. **Shared engine functions live as C, not as macros** — *done at Phase 35 (2026-09-08): one plain-C header per shared body under `src/shared/`, included at each site; see [The dedup engine](The-dedup-engine.md)* — the dedup engine's macro bodies become `.c` files per system,
    byte-neutrally, proven per family.
 4. **Types come from the code, names from observation** — structure from the access patterns the compiler locked into the
    bytes; the 1,232 struct definitions unified before any field is named.
@@ -54,7 +54,7 @@ wrongly."* To that the project adds four rules of its own, because its code was 
 | Distinct `D_80xxxxxx` data symbols | 61,898 | most are fields of a handful of structures the engine indexes |
 | Distinct `func_80xxxxxx` names | 16,335 | across 4,287 C files |
 | Register-pin declarations | 43,925 | `grep -rhoE 'register [^;/]*__asm__\("\$?[a-z0-9]+"\)' src --include=*.c --include=*.h \| wc -l`; 43,857 in the `"$reg"` form, 68 in the bare form |
-| Shared bodies living as macros | 5,147 | in one 8.4 MB header |
+| Shared bodies living as macros | ~~5,147~~ **0** (Phase 35, 2026-09-08) | every shared body is one plain-C header under `src/shared/`, included at its sites; 3,173 registry groups; see [The dedup engine](The-dedup-engine.md) |
 | Struct definitions | 1,232 | many drafter-invented variants of one type |
 | Curated names in the symbol files | 1,083 | the names the build already knows |
 

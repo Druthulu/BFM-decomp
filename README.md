@@ -116,8 +116,8 @@ rebuild follows every batch of banked functions. Nothing "functionally equivalen
 links unmatched C. What is not our C is listed above, not hidden.
 
 **Readability.** The code is matched but not yet finished in the sense other decompilation projects mean. Most functions still
-carry generated names, thousands of register hints that were matching levers remain, and shared engine code lives in one large
-header. Bringing it to the community's standard is the next generation of the project; we adopt sotn-decomp's style guide as the
+carry generated names and thousands of register hints that were matching levers remain; shared engine code lives as one plain-C
+header per function, included where it is used (Phase 35). Bringing it to the community's standard is the next generation of the project; we adopt sotn-decomp's style guide as the
 baseline, and the rules are written down in [`docs/gen3-standards.md`](docs/gen3-standards.md): names only with recorded
 evidence, every match-forcing trick removed or marked, structures unified before they are named, and everything still
 byte-identical.

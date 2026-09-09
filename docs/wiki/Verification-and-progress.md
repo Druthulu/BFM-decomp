@@ -13,7 +13,7 @@ timestamp under `.run/P33/verify/` (tracked) and whose summary is pasted into [`
 | 02 | the family map | `217 binaries scanned, 0 open instances` |
 | 03 | **`make clean && make extract-all && make check-all`** | `check-all: 218 passed, 0 failed of 218` |
 | 04 | `make sdk-dual` | main byte-identical WITH and WITHOUT the PsyQ objects |
-| 05 | `make tools-health` | both boundary oracles: `0 PHANTOM, 0 TRUNCATED, 0 PAD-TAIL`; dedup 2,220 validated / 0 failed; every audit fresh |
+| 05 | `make tools-health` | both boundary oracles: `0 PHANTOM, 0 TRUNCATED, 0 PAD-TAIL`; the S1 invariant (`share_census --check`, strict: 0 violations) and the registry (dedup-check, C1–C2d: 3,173 groups / 0 failed at Phase 35); every audit fresh |
 | 06 | `make audit-frontier` | every remaining `INCLUDE_ASM` is inside main's linked Sony regions; 0 game-code stubs |
 | 07 | `make audit-disc` | `UNCLAIMED code payloads: 0` |
 | 08 | `make report` | the three 100% lines, `INCLUDE_ASM stubs : 0`, `Open near-misses: 0` |

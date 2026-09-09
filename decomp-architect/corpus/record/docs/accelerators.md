@@ -906,3 +906,13 @@ the flip could have opened a day earlier. **Decide what a public tree carries be
 document archive were always going to leave (the owner removed both within hours of going public), and deciding at the consolidation
 sub-phase would have spared two untrack commits on a public history; the Archive-index rule that made the removal harmless — name
 archived files as paths, never links — held.
+
+**P35 S94–S96 (2026-09-08) — the dedup phase.** (1) **A read-only replay of the artifacts beats a re-run:** the dead session's scratchpad
+still held the `cc1.err` of its last replay; reading its non-warning lines gave the real cause (`too many arguments to function`) that
+303 rejection lines had hidden behind "Error 33". (2) **Measure a disagreement between two oracles before believing either:** the text
+oracle's 4,312 hits decomposed into twin false positives (3,495), the gate-1 deferral (380), and 38 genuine byte-variant functions —
+each a different action. (3) **A known-true control per join:** the registry repair's first cut removed 9,269 members; one control
+(`ov_SC01_004` includes `func_80146E90`) exposed the name-only match. (4) **One batch per invocation on a committed tree** turns a
+multi-batch tool's hardest bug (stale line numbers + a restore that wipes the previous batch) into a non-event; the driver commits
+between batches. (5) **The census's per-instance forms are the registry check's C2d for free** (one cached scan, 36 s) — derive, don't
+re-parse (R33).

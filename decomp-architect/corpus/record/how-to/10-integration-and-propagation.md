@@ -34,7 +34,7 @@ recover → gate → siblings → verify → harvest → checkpoint*, in that or
 
 ## Propagation: one crack, many banks
 
-- **Dedup** — a body matched in one binary is authored once as a macro in a shared header, instantiated at every member
+- **Dedup** — a body matched in one binary is authored once (as a macro in Gen2; as a plain-C header included at each site since Phase 35, sotn's shape) and instantiated at every member
   site, byte-gated per member, and registered in a fail-closed registry validated on every health check. Source-level,
   because interior functions cannot be excised by the linker. (BFM: 2,220 groups, 255,708 instances.)
 - **Structural families** — same skeleton, per-location relocations and immediates: crack one exemplar, remap the
@@ -61,5 +61,5 @@ crack compounds from match #1; without it, every match is worth ×1.
   another lane's mid-gate tree is a race, not a backup (R59).
 - **A newly-discovered binary is not real until every consumer knows it** — signature set, family map, dedup registry,
   shared-header include, reports — asserted by a gate, not remembered (R36).
-- **Leave the dedup backlog alone**: thousands of already-matched duplicate copies are orthogonal to completion;
+- **The dedup backlog is orthogonal to completion — and it is the readability phase's first job**: Gen2 left thousands of already-matched duplicate copies (right for completion %, gates ran with `--no-propagate`); Gen3's first phase gave every unique function one source, with the invariant asserted by a gate. The old rule (leave it) applied while matching was the goal;
   propagate deliberately, gate with propagation off by default.

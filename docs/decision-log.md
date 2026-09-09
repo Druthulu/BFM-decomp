@@ -3683,3 +3683,34 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
   public tree carries BEFORE the flip, not after: the outreach drafts and the archive were always going to leave; deciding at 33.5 would
   have spared two untrack commits on a public history. (3) A "daily probe for a week" should start the day the ticket is filed and be
   read the next morning — it passed in one day and the phase could have opened a day earlier.
+
+## P35 S94–S96 (2026-09-08) — the dedup phase: "one source per unique function"
+
+- **Context and belief.** Gen2 closed with 5,147 `DEFINE_func_…()` macro bodies in one 8.8 MB header and ~11,000 already-matched duplicate
+  copies banked privately per overlay by the July family sweeps. On 2026-09-02 the backlog was deferred on the belief "sotn writes
+  duplicate funcs explicitly" — one parenthetical in our cookbook, about a cross-jump idiom. Gate 1 (S94, plan mode, Max) read sotn's
+  tree: it shares stage code once as plain C, instantiated per stage by an include. The belief was false; the decision was reversed and
+  the phase chartered on the shared-source model with the invariant asserted by a gate (Drew's requirement: the tooling knows there is
+  one source per unique function).
+- **What happened.** T0–T4 in one session (S94): the census (`share_census`), the health chain taught both forms, the five identical-payload
+  twin pairs collapsed onto one source directory each, every macro body converted to a per-function header (213/213 binaries, 4,121/4,121
+  objects byte-identical, then the header deleted). T5 began the same session; the session died at 91 % context waiting on a background
+  run, without a checkpoint — S95 rebuilt its state from the transcript (see `phase-ends/CURRENT_PHASE.md`) and found four defects in the
+  share tool from its artifacts; S96 fixed them, closed bucket 0 (183 classes → 135 shared / 48 ledgered), shared bucket new (915 → 914),
+  froze 14 macro-era tools and retired 4, wired S1 into tools-health, and — on the second oracle's finding — added the `h_text` tier for
+  38 functions whose bytes legitimately vary per overlay.
+- **Decisions and why.** (1) Twins → one source directory (the twin has no `src/`; its objects are its own). (2) Cross-address classes
+  censused and DEFERRED to the names phase: the parameterized include form is their shape and every symbol is renamed then anyway.
+  (3) No "trivial" exception — a 3-instruction accessor is one function. (4) `E_func_80168B70`: re-exemplar the header from the
+  majority text rather than edit 134 units' declarations (that is Phase 37's canonical-declaration work). (5) The 48 late-overlay
+  declaration conflicts stay ledgered for the types phase (≈190 copies of ≈3,900, inside the plan's 2–5 % budget). (6) T5b: a text tier
+  for the 38 byte-variant functions — no later phase removes 2,030 literal copies and the include form already fits; the 381 tiny
+  bodies inside the deferred classes stay deferred (one header per address would be undone by the names phase's `SHARED_FN` form).
+- **Measured.** Registry 2,220 → 3,173 groups; same-address backlog 1,099 classes / 4,755 copies → 51 / 160, all ledgered; S1 10,180 /
+  10,180, 0 violations; 103,015 bodies written once in C; the fleet's clean rebuild 157 s → 84 s (CPU 2,230 s → 1,335 s); every batch
+  proven by the 218 hashes from clean.
+- **Hindsight — the better path.** (1) Read the target project's tree, not a memory of it, before deciding a policy on its precedent.
+  (2) A bank commit carries its log line and the checkpoint headline — S94 refreshed the block at every task close and still died with
+  35 minutes of state only in its transcript. (3) Build the disagreeing oracle before the batch runs, not after: the text oracle found
+  in one run what the byte join could never see. (4) A tool's restore path is part of the tool (R57): `git checkout` on an uncommitted
+  tree is a destroyer with a green exit code.

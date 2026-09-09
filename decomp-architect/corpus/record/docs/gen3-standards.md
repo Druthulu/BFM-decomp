@@ -91,7 +91,7 @@ The conduct rules below are what keep that fact from being a liability:
 | Named data | **61,898** `D_80xxxxxx` (most are per-overlay script data; many will honestly stay unnamed) |
 | Typed structures | **1,232** struct definitions, many drafter-invented variants of one type; **143** raw address casts |
 | No match-forcing tricks | **43,925** register-pin declarations (snapshot 2026-09-07: `grep -rhoE 'register [^;/]*__asm__\("\$?[a-z0-9]+"\)' src --include=*.c --include=*.h \| wc -l` — 43,857 in the `"$reg"` form + 68 in the bare `"reg"` form; 42,985 in `.c`, 940 in `.h`; the same command and number as `gen3-handoff.md` §3 — re-derive, do not trust) |
-| Readable organisation | **5,147** shared bodies as macros in one 8.4 MB, 227,730-line header; **3,558** of 4,287 C files are `_jr_` carve splits |
+| Readable organisation | ~~**5,147** shared bodies as macros in one 8.4 MB, 227,730-line header~~ → **0** at Phase 35 (2026-09-08, `git grep -c "^#define DEFINE_func_" -- src` empty; 3,173 per-function headers under `src/shared/`, S1 asserted by `tools/share_census.py --check`); **3,558** of 4,287 C files are `_jr_` carve splits |
 | Formatting, comments | no `.clang-format`, no `make format`; almost no code comments |
 
 The order, each step gated by the 218 hashes and each sized by a probe before it is priced (R37):
@@ -107,7 +107,7 @@ The order, each step gated by the 218 hashes and each sized by a probe before it
    every residual.
 
 **Definition of done for Gen3 (proposed; the Gen3 plan ratifies):** 0 pins or each one `// !FAKE:`-marked with its reason; 0
-macro bodies; one definition per structure; every renamed symbol with a recorded basis; clang-format clean; and, unchanged,
+macro bodies (**met at Phase 35**); one definition per structure; every renamed symbol with a recorded basis; clang-format clean; and, unchanged,
 218 of 218 byte-identical from a clean rebuild.
 
 ## 5. Related

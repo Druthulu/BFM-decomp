@@ -410,6 +410,7 @@ the OpenRouter-era `automation-runbook.md` is archived) · `docs/effort-map.md` 
 `docs/accelerators.md` · `docs/memory-map.md` (addresses, provenance) · `docs/formats.md` · `docs/disc-completeness.md` +
 `docs/disc-ledger.md` · `docs/backlog.md` (near-miss ledger) · `docs/gen3-handoff.md` + `docs/gen3-standards.md` (Gen3) ·
 `docs/tool-index.md` (every tool keyed by
-the need it answers; generated) · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–81, G1–67; its wiki page
+the need it answers; generated) · **Phase 35:** `docs/wiki/The-dedup-engine.md` (the shared-source model), `tools/share_census.py` (the S1
+census and gate), `tools/share_body.py` (the share tool), `config/dedup_exceptions.tsv` (the ledger), cookbook §453 · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–81, G1–67; its wiki page
 `docs/wiki/Start-a-new-decomp-project.md`; `make kit-corpus` regenerates, tools-health asserts) · `config/wave_exclude.txt` (pinned walls) · `config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/`
 (scratch; allowlisted subtrees are tracked — e.g. `.run/P32/t3/` drafts/ledger; the rules are on the conventions page).

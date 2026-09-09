@@ -1144,6 +1144,10 @@ in $(BINARIES); do make extract BINARY=$$b; done && make check-all`.
 
 ## §14 Propagate a matched function across the fleet — `tools/dedup_propagate.py` (Phase 15)
 
+> **Phase 35 (2026-09-08): the macro form this section describes is RETIRED.** Shared bodies are plain-C headers under `src/shared/`
+> included at each member's site; `dedup_propagate.py` is under `tools/sunset/`; the successor is `tools/share_body.py`. The
+> mechanism, the invariant and the defects are in **§453**. This section stays as the record of how Gen2 shared code.
+
 **The economics that drives Phase 15.** Overlays are position-locked at `0x80128158`, so a shared engine
 function has the SAME vaddr (hence the SAME `func_<ADDR>` symbol) and a BYTE-IDENTICAL body in every overlay
 that contains it. Measured on the fleet: **577 of `ov_SC01_077`'s 785 matched functions are `h_exact`-identical
@@ -37547,3 +37551,52 @@ loop's pointer and compare temp. (5) With the structure right, every remaining p
 byte-identical. **Laws:** an invariant read N times must be N inline expressions (or a single-block temp), never a named
 variable set after a jump; before pinning anything, read `alloc_table.py`'s order — the callee-saved bank IS the priority
 order; a `u16`/`s16` accumulator is a cse firewall, not just a width.
+
+## §453 ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DEFECTS THAT SHAPED IT (P35 S94–S96)
+
+**The form.** A shared body is a plain-C header under `src/shared/<space>/func_<VRAM>[__<h8>|__t<h8>].h` (a pure fragment: the
+definition, its own externs and comments, no include guard), and each member site is one line, `#include "../shared/ov/func_X.h"`, at
+the position the private copy held. The TU keeps its declarations — the body sees the same file-scope environment a private copy saw,
+which is why an include is byte-neutral where a separate object is not (Probe P1: three bodies, identical `.o`, identical relocations).
+sotn-decomp's shape (`src/st/<name>.h` + a per-stage stub), verified from its tree before adoption; the 2026-09-02 belief that "sotn
+writes duplicates explicitly" rested on one parenthetical and was false.
+
+**The exemplar rule.** For an unregistered class the header text is the private copy whose normalized text the MOST copies share (tie →
+pin-free → shortest). The same rule applies to a class that is already registered: `E_func_80168B70`'s header carried the 7 late
+overlays' spelling (`func_80146C3C((u8 *)a0)` against their `extern void func_80146C3C(u8 *)`) and was refused by the 134 main
+overlays whose units declare `func_80146C3C(void)` and call through a cast — same bytes, incompatible environments. Re-exemplar from the
+majority (`share_body.py --reexemplar`): the cast form compiles under both declarations; 141/141 shared, no TU edit.
+
+**The gate.** Per batch: every touched binary (a twin with its primary) snapshotted, `make check BINARY=<b>` by exit code, every object
+compared; a red binary bisected class by class; the culprit ledgered with the compiler's first real diagnostic. Read the diagnostic from
+its FORM, not from the word "error": gcc 2.7.2 prints `file:line: too many arguments to function …`, `conflicting types for …`, `parse
+error before …` with no "error" token and exits 33 — the first extractor labelled 254 of 303 rejections `make: *** … Error 33`.
+
+**Four defects of the first day, each caught by the run and each a rule now.** (1) A tool that restores files with `git checkout`
+restores the COMMITTED text: the second batch's bisect wiped the first batch's uncommitted shares (~50 sites) — restore from an
+in-memory snapshot of the batch's pre-edit text, and run one batch per invocation on a committed tree. (2) A twin's instance resolves to
+its primary's TU: the same (tu, line) edit queued twice, and the second replacement swallowed the NEXT function — `parse error before
+'if'` and `undefined reference to <the following function>` in exactly the five twin primaries; dedupe edits by site. (3) The registry
+was extended with every planned member BEFORE the gate spoke (788 members, 317 of them private after the run): a listed member is one
+whose site shares; extend only with the members that passed, and `--repair-registry` derives the rest from the census matched on
+(binary, vram) — a name-only match removed 9,269 members because h_exact is position-independent and a listed binary can hold the same
+bytes privately at another address. (4) `add_members_surgical` skipped the verbose `members:` form silently: five 141-member groups sat
+at 16 listed; a helper refuses what it cannot edit.
+
+**The invariant as a gate (S1).** Every same-address class with ≥2 instances is a group with the include at every member, or
+twin-covered, or ledgered with its reason. `share_census.py --check --strict-macros --strict-text` in `tools-health`, by exit code; C2c
+(one source under `src/shared/`, one definition) and C2d (every member's site includes THAT source) in `dedup_integrate --check`;
+negative-controlled by reverting one include in place (exit 1 naming the class; C2d naming the member).
+
+**The second oracle earned its keep on its first run.** The sig-blind text oracle (same normalized text, same address, two distinct
+TUs) disagreed with the byte join and the disagreement was measured: 3,495 of 4,312 hits were a twin and its primary (one TU), 380 sit
+inside the gate-1-deferred cross-address classes (an empty body's hash spans every address), and **38 texts / 2,030 copies were the same
+C compiling to DIFFERENT bytes per overlay** — the original per-overlay builds compiled that source under different declaration
+environments and each of our units carries its own, so no byte tier can class them and no later phase removes them. The `h_text` tier
+(the group hash = the text; every member with its own h_exact; C1 per member) shared all 38 through the same header form, 138/138
+green. R34 in one sentence: build the oracle that can disagree, then measure the disagreement before believing either side.
+
+**Two published-number corrections the phase surfaced (R14/R75).** The fleet denominator 363,221 → 363,680: macro sites invisible to
+the classifier became includes (ov_SC03_015's 219 single-site macros; the never-extended members of five under-listed groups). REAL
+360,744 → 350,533 with EMPTY up the same: empty-bodied shared functions were folded into REAL under the macro form. Instruction-weighted
+metrics unchanged. A number generated from a form the tooling cannot see is a number, not a count.
