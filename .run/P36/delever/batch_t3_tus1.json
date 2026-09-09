@@ -1,0 +1,213 @@
+{
+ "label": "t3_tus1",
+ "generated": "2026-09-09 02:48",
+ "headers": false,
+ "batch": 300,
+ "only": [
+  "ov_SC04_011"
+ ],
+ "files": 18,
+ "drawable_files": 18,
+ "wall_s": 100.9,
+ "calib": {
+  "head": "39e3e1851",
+  "stamp": "b44c5a8a3423"
+ },
+ "bodies": 176,
+ "compiles": 657,
+ "sites_removed": 215,
+ "sites_needed": 320,
+ "sites_refused": 5,
+ "sites_deferred": 0,
+ "lever_free": 44,
+ "residue": 130,
+ "refused_bodies": 2,
+ "replays": 0,
+ "disagreed": 0,
+ "written": 18,
+ "seconds": 201.76245760917664,
+ "final_ok": 18,
+ "final_bad": 0,
+ "per_file": [
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_80140608.c",
+   "bodies": 11,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 16,
+   "needed": 14,
+   "refused": 0,
+   "compiles": 36
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c",
+   "bodies": 14,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 21,
+   "needed": 39,
+   "refused": 0,
+   "compiles": 72
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_80135888.c",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 2,
+   "needed": 5,
+   "refused": 0,
+   "compiles": 9
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_80135A4C.c",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 3,
+   "refused": 0,
+   "compiles": 5
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_80135D20.c",
+   "bodies": 5,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 11,
+   "needed": 19,
+   "refused": 0,
+   "compiles": 36
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c",
+   "bodies": 9,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 16,
+   "needed": 34,
+   "refused": 0,
+   "compiles": 57
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c",
+   "bodies": 17,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 19,
+   "needed": 33,
+   "refused": 0,
+   "compiles": 68
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_after.c",
+   "bodies": 11,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 10,
+   "needed": 14,
+   "refused": 0,
+   "compiles": 30
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_80154C24.c",
+   "bodies": 2,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 4,
+   "refused": 0,
+   "compiles": 7
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_801734BC.c",
+   "bodies": 6,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 10,
+   "needed": 34,
+   "refused": 0,
+   "compiles": 51
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_8013F350.c",
+   "bodies": 2,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 1,
+   "needed": 4,
+   "refused": 0,
+   "compiles": 8
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_801380E0.c",
+   "bodies": 3,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 5,
+   "needed": 10,
+   "refused": 0,
+   "compiles": 19
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c",
+   "bodies": 9,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 10,
+   "needed": 8,
+   "refused": 0,
+   "compiles": 24
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011.c",
+   "bodies": 2,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 6,
+   "needed": 5,
+   "refused": 0,
+   "compiles": 14
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c",
+   "bodies": 5,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 6,
+   "needed": 8,
+   "refused": 0,
+   "compiles": 16
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_801588CC.c",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 1,
+   "needed": 0,
+   "refused": 0,
+   "compiles": 2
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_80178D40.c",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 3
+  },
+  {
+   "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c",
+   "bodies": 76,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 81,
+   "needed": 85,
+   "refused": 5,
+   "compiles": 200
+  }
+ ]
+}

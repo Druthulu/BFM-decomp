@@ -293,7 +293,7 @@ accumulate here as the phase produces them.**
   134); headers: 371 drawable files. **Next in this task:** the end-to-end batch `LABEL_PREFIX=t3_ TASK=T3 tools/delever_cycle.sh 1 1 300 tus
   ov_SC04_011` (apply → R22 → census → log → commit), then the checkpoint refresh.
 
-## 🛑 SESSION CHECKPOINT — S98 in progress (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ — T3 tools BUILT + selftest OK + calibration OK (this commit); NEXT = the T3 end-to-end batch on ov_SC04_011 via `tools/delever_cycle.sh` (then the checkpoint refresh, then T4). The §0–§4 below are the S97-close text and stay valid except: `tools/delever.py` now has the campaign commands (see the T3 log entry) and T7 needs Drew's direct approval (decisions).
+## 🛑 SESSION CHECKPOINT — S98 in progress (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ — T3 tools BUILT + selftest OK + calibration OK (this commit); NEXT = the T3 end-to-end batch on ov_SC04_011 via `tools/delever_cycle.sh` (then the checkpoint refresh, then T4). The §0–§4 below are the S97-close text and stay valid except: `tools/delever.py` now has the campaign commands (see the T3 log entry) and T7 needs Drew's direct approval (decisions). | last batch `t3_tus1` on 39e3e1851: lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclassified 0 · verbatim excluded 13 fn / 14 sites (manifest 13)
 
 ### 0. How to use this block
 A fresh session (S98) reads CLAUDE.md's load order, replays this block verbatim, asks Drew for `/effort max` (T3's design is Max; its
@@ -355,6 +355,8 @@ dotfile probes are swept before `make`; a shared header's edit reaches up to 136
 differently per binary — greedy on all includers; `SHB` may be used by an included header (`src/shared/ov/func_80166F58__3728db8a.h`);
 never `git checkout` to restore (R102); `tool_census --check` refuses an UNTRACKED tool — `git add` a new tool before `make kit-corpus`;
 `make report BINARY=main` rewrites `docs/story-timeline.md` too — commit it with the rest.
+
+- **2026-09-09 — T3 batch `t3_tus1`** (`.run/P36/delever/run_t3_tus1.log`, `batch_t3_tus1.json`): `` → R22 (`.run/P36/baseline/r22_t3_tus1.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=117.23 s`) → census `lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclassified 0 · verbatim excluded 13 fn / 14 sites (manifest 13)`.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-09)
 
