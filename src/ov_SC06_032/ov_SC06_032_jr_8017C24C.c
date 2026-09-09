@@ -2959,10 +2959,10 @@ void func_8017D4A0(s32 a0) {
     Blk8_80126940_8017D4A0 sp10;
     u8 t;
     s16 lo, hi;
-    register s16 v2E __asm__("$5");
-    register s32 y __asm__("$3");
-    register s32 cond __asm__("$2");
-    register s16 v32 __asm__("$3");
+    register s16 v2E __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 y __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 cond __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s16 v32 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     if (func_80148800(&D_80126B58) & 3) {
         t = (*(u8 *)(a0 + 5) + 1) & 1;
@@ -3088,7 +3088,7 @@ int func_8017D77C(short *a0) {
  * Recovered C semantics: dx=D_80126CAC-a0[3]; dz=D_80126CB0-a0[7];
  * GTE SQR of {dx,0,dz}; return 0xC3FFF < (MAC1+MAC2+MAC3). */
 void func_8017D810() {
-    __asm__ __volatile__(
+    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus9)
         ".set\tnoreorder\n"
         "lui $2, %hi(D_80126CAC)\n"
         "lh $2, %lo(D_80126CAC)($2)\n"
@@ -3259,7 +3259,7 @@ typedef struct {
 void func_8017DABC(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
 {
     Quad_8017DABC q;
-    register Quad_8017DABC *p asm("$16");
+    register Quad_8017DABC *p asm("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s32 buf[2];
     u16 v1val;
     u16 v0val;
@@ -3299,11 +3299,9 @@ void func_8017DABC(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param
     q.vy3 = ylo;
 skip_store:
     p->vz0 = 0;
-    __asm__ __volatile__("");
 
     p->rgb0 = p->rgb1 = param_5;
     p->rgb2 = p->rgb3 = param_6;
-    __asm__ __volatile__("");
     p->u0 = *(s32 *)(param_1 + 0xE4) + 0xC00;
     p->v0 = 0x100;
 
@@ -3549,8 +3547,8 @@ void func_8017DF7C(int param_1)
 {
 
     extern unsigned char D_801D04FC[];
-    register int iVar3 __asm__("$16");
-    register int iVar3b __asm__("$19");
+    register int iVar3 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    register int iVar3b __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
     int iVar5;
     short sVar2;
 
@@ -3637,8 +3635,8 @@ void func_8017E140(s32 *param_1)
 
     extern s8 D_801D04E8;
   int new_var;
-register s32 p __asm__("$4");
-register s32 r __asm__("$3");
+register s32 p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+s32 r;
   p = (s32) (&D_801D04E8);
   r = param_1[0x2c / 4];
   new_var = r;
@@ -4062,10 +4060,10 @@ extern s32 rand(void);
 
 void func_8017EB48(s32 param_1)
 {
-    register s32 p __asm__("$17") = param_1;
+    s32 p = param_1;
     s32 r;
     s32 s0;
-    register s32 s2 __asm__("$18");
+    s32 s2;
 
     *(u16 *)(*(s32 *)(p + 0x20) + 0x12) += func_8012B608(*(s16 *)(*(s32 *)(p + 0x20) + 0x12), *(s32 *)(p + 0xE8), 8);
     func_8012B178(p, 0xFFFB0000);
@@ -4169,7 +4167,7 @@ void func_8017ECF4(s32 p)
             return;
         }
         if (s1 < D_801D0A30) {
-            register s32 rv __asm__("$2") = 8;
+            s32 rv = 8;
             *(s16 *)(p + 2) = rv;
         }
         return;
@@ -4203,7 +4201,7 @@ void func_8017EE7C(s32 a0) {
 
 void func_8017EEB0(void *a0)
 {
-    register s32 v0 __asm__("$2");
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 s0 = (s32)a0;
 
     if (func_8012BDBC(s0, 0x300) != 0) {
@@ -4449,7 +4447,7 @@ void func_8017F320(s32 p)
         func_8001C924(*(s32 *)(p + 0x20), &D_801ACB0C);
         func_8012A828(p, D_801BD678);
         {
-            register u16 ns __asm__("$4");
+            u16 ns;
             ns = *(u16 *)(p + 0x34);
             *(s32 *)(p + 0x1C) = 0x200;
             ns = ns + 1;
@@ -5340,13 +5338,13 @@ void func_80180730(s32 param_1) {
     u8  auStack_38[8];
     s16 sp20[3];
     u8  auStack_28[8];
-    register StructB58_80180730 *b58 __asm__("$20") = &(*(StructB58_80180730 *)&D_80126B58);   /* $s4 */
+    StructB58_80180730 *b58 = &(*(StructB58_80180730 *)&D_80126B58);   /* $s4 */
     short *psVar7 = (short *)(param_1 + 0xec);
     s32 sVar1;
     s32 r_b608;
 
     if (func_8012BEE8(param_1) != 0) {
-        register unsigned int *p28 __asm__("$21") = (unsigned int *)auStack_28; /* $s5 */
+        unsigned int *p28 = (unsigned int *)auStack_28; /* $s5 */
         s32 r0 = rand();
         s32 coord;
         s32 s2v;
@@ -5590,7 +5588,7 @@ void func_80180B7C(s32 a0) {
                  * return) that ALL either fully merged or left a redundant extra sign-retest;
                  * only this barrier reproduces the target exactly. See match_one MATCH 96/96.
                  */
-                __asm__ __volatile__("" ::: "memory");
+                __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
                 return;
             }
         } else {

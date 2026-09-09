@@ -3305,7 +3305,7 @@ void func_8017E778(s32 arg0)
                                         else if (tmpxy[2].vy < mny) mny = tmpxy[2].vy;
                                         if (my >= -0x6E && mny < 0x6F) {
                                             s32 za, zb;
-                                            __asm__ __volatile__ ("" :: "r" (mny));
+                                            __asm__ __volatile__ ("" :: "r" (mny));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
                                             if (g.sz0 > g.sz1) { za = g.sz0; if (za < g.sz2) za = g.sz2; }
                                             else { za = g.sz1; if (za < g.sz2) za = g.sz2; }
                                             g.opz = za;

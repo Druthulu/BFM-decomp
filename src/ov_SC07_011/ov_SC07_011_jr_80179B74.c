@@ -843,7 +843,7 @@ extern void func_801417C4(void);
 extern u8 D_800B9A16;
 extern u16 D_80115114;
 extern void func_801417F8(void);
-extern volatile u16 D_8011511A;
+extern u16 D_8011511A;
 extern u16 D_8011512E;   /* §17a-1: canonical width (jr_8013F350 TUs decl u16); byte-neutral here (only use is store-0) */
 extern s32  func_80029178(s32 a0);
 extern void func_801418F8(void);
@@ -1187,9 +1187,9 @@ extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
-extern volatile s32 D_80127090;
-extern volatile s32 D_80127094;
-extern volatile s32 D_80127098;
+extern s32 D_80127090;
+extern s32 D_80127094;
+extern s32 D_80127098;
 extern void func_80147F78(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80148038(s32 a0, s32 a1);
 extern s32 csqrt(s32 a0);
@@ -3505,7 +3505,7 @@ int func_8017A3D8(void)
         return 0;
     case 100:
     {
-        register int a __asm__("$4");
+        register int a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
         a = D_80190320;
         if (a != -1) {
             return func_8001AAA0() != 0;

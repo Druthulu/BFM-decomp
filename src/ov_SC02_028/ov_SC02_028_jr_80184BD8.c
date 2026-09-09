@@ -3637,7 +3637,7 @@ void func_80186210(void *a0) {
             v = 0x1000;
         }
         *(s16 *)((s32)a0 + 0x100) = v;
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
 
         func_8012C588(0x153, (s32)a0);
         func_801876C4(a0, 1);
@@ -3690,9 +3690,9 @@ extern s32 rand(void);
 void func_801863C0(s32 a0) {
     s16 sp10[4];
     s16 sp18[4];
-    register s32 ang1 __asm__("$20");
-    register s32 ang2 __asm__("$19");
-    register s32 negbase __asm__("$17");
+    s32 ang1;
+    s32 ang2;
+    s32 negbase;
 
     if ((*(s32 *)(a0 + 0xE0) & 1) == 0) {
         if (func_8012BD3C(a0, 0x400, *(s32 *)(a0 + 0xDC)) == 0) {
@@ -3706,26 +3706,24 @@ void func_801863C0(s32 a0) {
     }
 
     if (*(s32 *)(a0 + 0x94) == 0x19) {
-        register s32 i __asm__("$16");
+        s32 i;
         func_8012F214(a0, (s32)&D_801A970C, (s32)sp10);
         func_8012F214(a0, (s32)&D_801A970C + 8, (s32)sp18);
         i = 0;
         {
-            register s32 fieldval __asm__("$2");
+            s32 fieldval;
             fieldval = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
             ang1 = fieldval + 0x400;
             negbase = -0x80000;
             ang2 = fieldval - 0x400;
         }
         for (; i < 6; i++) {
-            __asm__ __volatile__("" : "=r"(ang1) : "0"(ang1));
             func_80187780(sp10, (s16)ang1, negbase - (rand() % 4) * 0x10000, 0);
-            __asm__ __volatile__("" : "=r"(ang2) : "0"(ang2));
             func_80187780(sp18, (s16)ang2, negbase - (rand() % 4) * 0x10000, 0);
         }
         {
-            register s32 halfbase __asm__("$19");
-            register s32 ptr __asm__("$17");
+            s32 halfbase;
+            s32 ptr;
             i = 0;
             halfbase = 0x80000;
             ptr = (s32)D_801A971C;
@@ -3747,7 +3745,7 @@ extern void func_8012B2CC(s32 a0);
 void func_801865A4(s32 a0)
 {
     s32 v0;
-    register s32 v1 __asm__("$3");
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     if (func_8012BEE8(a0)) {
         if (func_8012BD14(a0) > 0x18FFF) {
@@ -3877,7 +3875,6 @@ void func_80186740(void *a0) {
     }
 
     *(u16 *)((u8 *)a0 + 0x76) = *(u16 *)((u8 *)a0 + 0x76) - speed;
-    __asm__ __volatile__("" ::: "memory");
 
     {
         *(u16 *)((u8 *)a0 + 0x5C) = *(u16 *)((u8 *)a0 + 0x5C) & 0xFFFE;
@@ -3996,13 +3993,13 @@ extern s32 D_801D337C;
 
 void func_80186A9C(s32 arg0_)
 {
-    register s32 arg0 __asm__("$7");
-    register s32 prev __asm__("$5");
-    register u16 flags __asm__("$2");
+    s32 arg0;
+    register s32 prev __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register u16 flags __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 a;
     s32 diff;
     s32 v;
-    register s32 d __asm__("$2");
+    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 spd;
     s32 e1;
     s32 e2;
@@ -4107,7 +4104,7 @@ s32 func_80186C8C(s32 arg0)
 
 
 void func_80186D20(s32 arg0) {
-    register s32 a3 __asm__("$7");
+    s32 a3;
     u16 a1;
     u16 b;
     u16 c;
@@ -4510,7 +4507,7 @@ void func_801875F0(s32 a0) {
         t = t * t;
         var_s0 = 0x7F - ret / ((0x40000 - t) / 0x50);
     }
-    __asm__("" :: "r"(var_s0), "r"(var_s0));
+    __asm__("" :: "r"(var_s0), "r"(var_s0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     func_8002D59C(0x64E, var_s0 | 0x5000, *(u16 *)(a0 + 0x104));
 }
 
@@ -4525,9 +4522,9 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 void func_801876C4(void *a0, s32 a1) {
     s32 sp10[5];
     s32 obj;
-    register s32 w __asm__("$7");
+    register s32 w __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
     s32 x, y, z;
-    register s32 t __asm__("$3");
+    register s32 t __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     obj = (s32)a0;
     x = D_801A9A78[a1 * 5];
@@ -4540,7 +4537,7 @@ void func_801876C4(void *a0, s32 a1) {
     sp10[3] = w;
     t = D_801A9A88[a1 * 5];
     sp10[4] = t;
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + *(u16 *)(obj + 6);
     ((u16 *)sp10)[1] = ((u16 *)sp10)[1] + *(u16 *)(obj + 0xA);
     ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + *(u16 *)(obj + 0xE);
@@ -5153,9 +5150,9 @@ void func_80188354(void *a0) {
     u16 buf[8];
     s32 ent;
     u16 saved;
-    register u16 v0 __asm__("$2");
-    register u16 v1 __asm__("$3");
-    register u16 a3 __asm__("$7");
+    u16 v0;
+    register u16 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u16 a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
 
     func_8002AC00(0xD);
     if (*(u16 *)((s32)a0 + 0x0) != 0) {

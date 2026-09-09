@@ -3140,7 +3140,7 @@ void func_8017DE28(s32 p) {
     *(s16 *)(o + 0x18) = t1;
     lim1 = **(s16 **)(p + 0x58);
     lv1 = lim1;
-    __asm__("" : "=r"(lv1) : "0"(lv1));
+    __asm__("" : "=r"(lv1) : "0"(lv1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     if (lim1 < t1) {
         *(s16 *)(o + 0x1C) = lv1;
         *(s16 *)(o + 0x18) = lv1;
@@ -3287,7 +3287,7 @@ void func_8017E1D4(void *arg0) {
     s32 cnt2;
     s32 i;
     s32 j;
-    register s32 base __asm__("$5");
+    register s32 base __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
     s32 p;
     s32 vel;
     s32 pos;
@@ -3297,7 +3297,7 @@ void func_8017E1D4(void *arg0) {
     cnt2 = 0;
     for (i = 0; i < 8; i++) {
         {
-            register s32 sym __asm__("$2") = (s32)((u8 *)D_801C6FA8);
+            register s32 sym __asm__("$2") = (s32)((u8 *)D_801C6FA8);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
             base = sym + i * 0x1D0;
         }
         if (*(s16 *)(base) == 0) {
@@ -3701,7 +3701,7 @@ void func_8017EAE4(s32 param_1, s16 *param_2) {
 s32 func_8017EC7C(void)
 {
     extern u8 D_80192478[];
-    extern volatile s32 D_801C7E30;
+    extern s32 D_801C7E30;
     s32 i;
     s32 ptr;
 
@@ -3747,7 +3747,7 @@ extern void *D_801C39FC[];
 extern void *D_801C3A00[];
 
 void func_8017EDEC(s32 param_1) {
-    volatile s32 pad1;
+    s32 pad1;
     volatile s32 pad2;
     u8 t;
 
@@ -3881,7 +3881,7 @@ void func_8017EFC8(s32 param_1)
         *(u16 *)(param_1 + 2) = 4;
         break;
     case 2: {
-        register s16 t2 __asm__("$2");
+        register s16 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
         t2 = D_801C7E78 + 7;
         *(s32 *)(param_1 + 0x1C) = 0;
         *(u16 *)(param_1 + 2) = 5;
@@ -4197,7 +4197,7 @@ void func_8017F5B8(s32 param_1)
 #include "common.h"
 
 extern s32 D_801A33AC;
-extern volatile s32 D_801C7E4C;
+extern s32 D_801C7E4C;
 extern void func_8012A828(s32 a0, void *a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
@@ -4250,7 +4250,7 @@ void func_8017FAF4(s32 param_1)
 {
     extern s32 D_801A3D5C;
     extern u8 D_801202A0[];
-    extern volatile s32 D_801C7E4C;
+    extern s32 D_801C7E4C;
     extern s32 D_80126B60;
     extern u16 D_80126B5E;
     extern s32 func_8014CB8C(void);
@@ -4402,8 +4402,8 @@ void func_8017FDE0(s32 param_1)
 
 void func_8017FFA8(s32 param_1)
 {
-    extern volatile s32 D_801C7E30;
-    extern volatile s32 D_801C7E4C;
+    extern s32 D_801C7E30;
+    extern s32 D_801C7E4C;
     extern s32 D_801C7E60;
     extern u8 D_80192478[];
     extern u16 D_801922B8;
@@ -4514,10 +4514,10 @@ extern u16 D_80126B5E;
 extern u16 D_80126B62;
 extern u16 D_80126B66;
 extern u8 D_801152A8[];
-extern volatile s32 D_801C7E30;
+extern s32 D_801C7E30;
 
 void func_80180214(s32 arg0) {
-    register s32 t __asm__("$3"); /* pinned to $v1 */
+    s32 t; /* pinned to $v1 */
     u16 state = M2C_FIELD(arg0, u16 *, 0x34);
     s16 cnt;
     s16 vec[3];
@@ -4584,7 +4584,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern u16 D_80126B62;
 
 void func_80180450(s32 arg0) {
-    register s32 t __asm__("$3"); /* pinned to $v1 */
+    s32 t; /* pinned to $v1 */
     u16 state = M2C_FIELD(arg0, u16 *, 0x34);
     s16 cnt;
     struct { s32 d0, d1; } dead; /* reserved-at-expand slot -> frame 0x20 */
@@ -4715,7 +4715,7 @@ extern u16 D_80126B66;
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
 extern u8 D_801152A8[];
-extern volatile s32 D_801C7E30;
+extern s32 D_801C7E30;
 extern void func_8012DFD4(u8 *a0);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -4785,7 +4785,7 @@ void func_80180AA0(short *param_1) {
     D_80192770[*(u16 *)((s32)param_1 + 2)]();
     if (*(u16 *)param_1 != 0) {
         u8 *arg = (u8 *)param_1;
-        __asm__("" ::: "$4");
+        __asm__("" ::: "$4");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         val = (s32)*(s16 *)(*(s32 *)(*(s32 *)((s32)arg + 0x64) + 0x20) + 0x1A) * (s32)D_80192734;
         if (val < 0) {
             val += 0xFFF;

@@ -693,7 +693,7 @@ s32 func_801E8A80(s32 ot, u8 *s, s16 c) {
     s32 flag;
     s32 dim;
     s32 dim2;
-    register s32 dim3 __asm__("$16");
+    register s32 dim3 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s32 t;
     s16 i;
     s16 k;
@@ -860,7 +860,7 @@ void func_801E8DF4(void) {
     if (D_8011512C == 4) {
         return;
     }
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     if (D_8011512C == 0xA) {
         return;
     }
@@ -1269,7 +1269,7 @@ u32 func_801E9B00(s32 a0, s32 a1) {
 
 void func_801E9B68(unsigned int val, short n, unsigned short *dst, short flag) {
     extern unsigned short *D_801EB8B8[];
-    register unsigned int d __asm__("$3");
+    register unsigned int d __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
     short i;
     int idx;
 
@@ -1336,7 +1336,7 @@ s32 *func_801E9BE0(s32 *out) {
     *((u8 *)out + 0xC) = 0x70;
     *((u8 *)out + 0xD) = 0x10;
     out[1] = 0x64808080;
-    pb = (volatile u16 *)&D_800B9A02;
+    pb = (u16 *)&D_800B9A02;
     *(u16 *)((u8 *)out + 0xE) = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
@@ -1356,7 +1356,7 @@ s32 *func_801E9BE0(s32 *out) {
         ((PTag_801E9BE0 *)(D_800AE7BC[*pb].ot + 2))->addr;
     {
         u32 *op;
-        register u32 v __asm__("$2");               /* [L3] */
+        register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
         op = D_800AE7BC[*pb].ot;
         v = op[2];
         v = (v & 0xFF000000) | (((u32)out) & 0xFFFFFF);

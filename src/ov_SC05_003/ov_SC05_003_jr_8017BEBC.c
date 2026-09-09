@@ -3027,7 +3027,7 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         wv = wz >> 16;
         wy = part->yy;
         mny = wy + dy;
-        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #2 — see (2) in the header */
+        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #2 — see (2) in the header */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         my = (wy >> 16) + dy;
         box[0].vz = wz;
         box[1].vz = wz;
@@ -3043,7 +3043,7 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
         gte_ldv0(&box[3]);
         gte_rtps();
-        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #1 — see (2) in the header */
+        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #1 — see (2) in the header */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         box[4].vx = mn; box[4].vy = my; box[4].vz = wz;
         box[5].vx = mx; box[5].vy = my; box[5].vz = wz;
         box[6].vx = mn; box[6].vy = my; box[6].vz = wv;
@@ -3058,8 +3058,7 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         gte_stszotz(&g.otz);
 
         if (lim >= g.otz) {
-            __asm__ volatile ("");   /* live-length sliders — see (1) in the header. */
-            __asm__ volatile ("");   /* Deliberately in THIS block, not the loop head. */
+            __asm__ volatile ("");   /* Deliberately in THIS block, not the loop head. */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             xa32 = sxy[0].vx;
             xb32 = sxy[1].vx;
             if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
@@ -3766,8 +3765,8 @@ extern s32 func_80143970(s32 a0);
 extern u16 D_8019EA10;
 
 void func_8017E89C(void *a0) {
-    register s32 mask __asm__("$4");
-    register s32 v1 __asm__("$3");
+    s32 mask;
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     if (((s32 (*)(s32))func_8012BD14)((s32)a0) > 0x18FFF) {
         mask = 0x7FFFFFFF;
@@ -3792,7 +3791,7 @@ extern s32 func_80047948(s32 a0);
 extern u16 D_8019EA12;
 
 void func_8017E940(s32 param_1) {
-    register s32 *s0 __asm__("$16");
+    register s32 *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v1;
     u16 v0;
 
@@ -3887,8 +3886,8 @@ extern s32 func_8017F12C(s32 a0);
 void func_8017EB44(void *a0) {
     s32 s0 = (s32)a0;
     s32 s1;
-    register s32 v1_addr asm("$3");
-    register u16 v0_val asm("$2");
+    s32 v1_addr;
+    register u16 v0_val asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
     v1_addr = *(s32 *)(s0 + 0x20);
     v0_val = *(u16 *)(v1_addr + 0x12);
@@ -4098,7 +4097,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_801824B4(s32 a0, u16 *a1, s16 a2);
 
 void func_8017EF0C(s32 a0) {
-    register int zr __asm__("$0");
+    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s16 sp10[3];
     u16 temp_v1;
     u16 var_v1;
@@ -4417,8 +4416,8 @@ void func_8017F4FC(void *a0) {
         }
 
         {
-            register u16 t88 __asm__("$2") = *(u16 *)(s0 + 0x88);
-            register u16 t8A __asm__("$3") = *(u16 *)(s0 + 0x8A);
+            register u16 t88 __asm__("$2") = *(u16 *)(s0 + 0x88);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+            register u16 t8A __asm__("$3") = *(u16 *)(s0 + 0x8A);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
             *(s16 *)(s0 + 0xDE) = 0;
             *(s16 *)(s0 + 0xAA) = 0;
             *(u16 *)(s0 + 0xE) = *(u16 *)(s0 + 0x8C);
@@ -5052,7 +5051,7 @@ void func_801803B8(s32 param_1) {
     a2 = v1 * v0;
     v0 = a2 >> 12;
     v1 = v0;
-    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));
+    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     if ((s16)v0 <= 0) {
         v1 = 1;
     }
@@ -5490,7 +5489,7 @@ void func_80180E58(s32 a0) {
             *(u16 *)(a0 + 0xA) = arr[5];
             *(u16 *)(a0 + 0xE) = arr[6];
             *(s32 *)(a0 + 0xE0) = base;
-            *(s16 *)(*(volatile s32 *)(a0 + 0x20) + 0x12) = base;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = base;
             break;
         }
         base += 0x80;
@@ -5670,12 +5669,11 @@ void func_801812AC(s32 a0) {
 
     if (*(s16 *)(obj + 0xA) >= 0x10) {
         func_8012C218((void *)a0);
-        __asm__ __volatile__("" ::: "memory");   /* zero-byte cross-jump barrier (cookbook §5a) */
         return;
     }
 
     s1 = 0;
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     if (*(s16 *)&D_801270C0 == 2) {
         return;
     }
@@ -5803,12 +5801,11 @@ void func_801815A0(void *arg0) {
 
 
 void func_80181638(void *arg0) {
-    register int zr __asm__("$0");
     s32 a1;
     u16 *p;
     s32 v0;
 
-    a1 = (s32)arg0 + zr;
+    a1 = (s32)arg0 + 0;
     p = (u16 *)(*(s32 *)(a1 + 0x20));
     *(u16 *)((s32)p + 0x18) += 0x20;
     *(u16 *)((s32)p + 0x1A) += 0x20;
@@ -5892,7 +5889,7 @@ s32 func_80181720(void *arg0) {
     }
 
     h = *(s16 *)(*(s32 *)((s32)arg0 + 0x20) + 0x18);
-    __asm__("" : "=r"(h) : "0"(h));   /* §197-A re-tie: keeps lh + sra 7 */
+    __asm__("" : "=r"(h) : "0"(h));   /* §197-A re-tie: keeps lh + sra 7 */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     r = h >> 7;
     raw[0] = *(u16 *)((s32)arg0 + 0x6);
     raw[1] = *(u16 *)((s32)arg0 + 0xA);
@@ -6122,7 +6119,7 @@ extern void func_8012BD14(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 s32 func_80181CDC(s32 a0, s32 a1) {
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     SVec_80181CDC pos;
     SVec_80181CDC out;
     s32 val;
@@ -6147,7 +6144,7 @@ s32 func_80181CDC(s32 a0, s32 a1) {
 
     if (out.vy >= 0) {
         if (out.vy >= 0xA1) { return 0; }
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     } else {
         if (-out.vy >= 0xA1) { return 0; }
     }

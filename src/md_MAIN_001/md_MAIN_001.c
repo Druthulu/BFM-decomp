@@ -180,16 +180,16 @@ void func_800CF180(void)
     extern u8 D_800CF420[];
     extern u8 D_800AA60C[];
 
-    register u32 m24 __asm__("$8");
-    register u32 mFF __asm__("$7");
-    register u32 *tb __asm__("$9");
-    register u32 *ab __asm__("$6");
+    register u32 m24 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 mFF __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 *tb;
+    register u32 *ab __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
     u32 *pp;
 
     m24 = 0x00FFFFFF;
     tb = (u32 *)D_800CF3F0;
     {
-        register s32 i __asm__("$2") = D_800B9A02;
+        register s32 i __asm__("$2") = D_800B9A02;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
         mFF = 0xFF000000;
         *(u32 *)((s32)tb + i * 24) =
             (*(u32 *)((s32)tb + i * 24) & mFF) |
@@ -197,7 +197,7 @@ void func_800CF180(void)
     }
 
     {
-        register s32 i __asm__("$4") = D_800B9A02;
+        s32 i = D_800B9A02;
         ab = (u32 *)D_800AA60C;
         pp = (u32 *)(i << 14);
         pp = (u32 *)((s32)pp + (s32)ab);
@@ -205,7 +205,7 @@ void func_800CF180(void)
     }
 
     {
-        register s32 i __asm__("$2") = D_800B9A02;
+        s32 i = D_800B9A02;
         tb = (u32 *)D_800CF420;
         *(u32 *)((s32)tb + i * 24) =
             (*(u32 *)((s32)tb + i * 24) & mFF) |
@@ -213,7 +213,7 @@ void func_800CF180(void)
     }
 
     {
-        register s32 i __asm__("$4") = D_800B9A02;
+        s32 i = D_800B9A02;
         s32 frame_pad[1];
         (void)&frame_pad;
         pp = (u32 *)(i << 14);
@@ -232,16 +232,16 @@ void func_800CF290(void) {
     extern u8 D_800D3C10_b __asm__("D_800D3C10");
     extern u8 D_800AA60C[];
 
-    register s32 n __asm__("$7") = D_800B9A02;
-    register u8 *p0 __asm__("$4");
-    register u8 *p1 __asm__("$3");
-    register u32 c5 __asm__("$6");
-    register u32 c64 __asm__("$13");
-    register u32 c7840 __asm__("$14");
-    register u32 cm28 __asm__("$12");
-    register u32 c38 __asm__("$11");
-    register u32 c256 __asm__("$10");
-    register u32 c60 __asm__("$9");
+    s32 n = D_800B9A02;
+    u8 *p0;
+    register u8 *p1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 c5;
+    u32 c64;
+    register u32 c7840 __asm__("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 cm28;
+    u32 c38;
+    u32 c256;
+    u32 c60;
     u32 *q0;
     u32 *q1;
     u32 *ot;
@@ -282,7 +282,7 @@ void func_800CF290(void) {
     p1 = D_800D3B1C + w;
     q1 = (u32 *)(D_800D3B1C + w + 4);
     {
-        register u32 e1b __asm__("$8") = 0xE100008C;
+        register u32 e1b __asm__("$8") = 0xE100008C;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
         p1[3] = c5;
         *q1 = e1b;
     }
@@ -302,8 +302,8 @@ void func_800CF290(void) {
 
     ot = (u32 *)(D_800AA60C + n);
     {
-        register u32 m24 __asm__("$8");
-        register u32 mFF __asm__("$5");
+        register u32 m24 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
+        u32 mFF;
 
         m24 = 0xFFFFFF;
         mFF = 0xFF000000;

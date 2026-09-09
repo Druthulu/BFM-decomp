@@ -204,8 +204,8 @@ void func_800CB2E0(void *arg0) {
     extern s32 D_80114EB0;
     extern s32 D_80114EC8;
 
-    register void *a0v __asm__("$17");
-    register void *fp __asm__("$18");
+    void *a0v;
+    register void *fp __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
     u8 buf[0x40];
     s32 sp60;
     s32 cmd;
@@ -216,7 +216,7 @@ void func_800CB2E0(void *arg0) {
     if (func_80146E98((s32)a0v)) {
         func_80146A6C(3, a0v, *(s16 *)((u8 *)a0v + 6), *(s16 *)((u8 *)a0v + 0xA), *(s16 *)((u8 *)a0v + 0xE), 0, 0x80001C00);
     } else {
-        register u8 *bp __asm__("$16");
+        u8 *bp;
         bp = buf + 0x20;
         func_80013F3C(bp);
         func_800126C4((s32)bp, *(s16 *)((u8 *)fp + 0x10));

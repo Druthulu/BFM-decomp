@@ -2997,7 +2997,7 @@ extern s32 func_8012CE2C(s32 a0);
 extern void func_8012CBCC(s32 a0);
 extern void func_8018031C(int param_1);
 extern int func_8012D714(int, int);
-extern volatile unsigned short D_80126B96;
+extern unsigned short D_80126B96;
 extern void func_8018047C(int param_1);
 extern void func_80180588(void);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
@@ -3105,7 +3105,7 @@ void func_8018103C(s32 a0)
         }
 
         if (*(s16 *)(a0 + 0xE0) < 9) {
-            register s32 ptr20 __asm__("$2") = *(s32 *)(a0 + 0x20);
+            s32 ptr20 = *(s32 *)(a0 + 0x20);
             s32 arg1 = *(s16 *)(a0 + 0xE2);
             s32 r;
             r = func_8012B608(*(s16 *)(ptr20 + 0x12), arg1, 6);
@@ -3289,7 +3289,7 @@ void func_8018103C(s32 a0)
         if ((s32)((u32)*(u16 *)(a0 + 0x70) << 0x10) >> 0x18 == 4 &&
             *(s16 *)&D_80126B5E >= 0x220) {
             s32 ang;
-            register s32 v1 __asm__("$3");
+            s32 v1;
             s32 arg1;
             ang = ratan2((s32)*(s16 *)(a0 + 0xE) - (s32)D_8018AAE8,
                          (s32)D_8018AAE4 - (s32)*(s16 *)(a0 + 6));
@@ -3398,7 +3398,7 @@ void func_8018103C(s32 a0)
         s32 v1;
 
         {
-            register s32 ptr20 __asm__("$2") = *(s32 *)(a0 + 0x20);
+            s32 ptr20 = *(s32 *)(a0 + 0x20);
             s32 arg1 = *(s16 *)(a0 + 0xE2);
             v0 = func_8012B608(*(s16 *)(ptr20 + 0x12), arg1, 4);
         }

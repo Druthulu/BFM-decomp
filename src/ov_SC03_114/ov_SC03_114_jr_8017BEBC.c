@@ -3338,9 +3338,9 @@ void func_8017DA30(s32 a0) {
             *(s32 *)((u8 *)a0 + 0xF8) = 0;
         }
     }
-    if ((*(volatile s32 *)((u8 *)a0 + 0x90) != (s32)&D_80182C58)) {
+    if ((*(s32 *)((u8 *)a0 + 0x90) != (s32)&D_80182C58)) {
 e58_chk:
-        if ((*(volatile s32 *)((u8 *)a0 + 0x90) != (s32)&D_80182E58)) {
+        if ((*(s32 *)((u8 *)a0 + 0x90) != (s32)&D_80182E58)) {
             v1 = *(s32 *)((u8 *)a0 + 0x1C);
             if (v1 == 0) {
                 func_800183E0((s32)D_801A1A64);
@@ -3648,7 +3648,7 @@ void func_8017E270(void *a0) {
 
     s1 = (s32 *)a0;
     v0_const = 0x0B;
-    __asm__("");
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     s0 = *(s32 **)((u8 *)s1 + 0x20);
 
     
@@ -3811,8 +3811,8 @@ void func_8017E2EC(void *a0)
     u8 *pkb;
     s32 d;
     u32 *otp;
-    register u32 tv __asm__("$3");       /* §137 pin — see header */
-    register u32 tv2 __asm__("$4");      /* §137 pin — see header */
+    register u32 tv __asm__("$3");       /* §137 pin — see header */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 tv2 __asm__("$4");      /* §137 pin — see header */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
 
     u8 *rotm;
 

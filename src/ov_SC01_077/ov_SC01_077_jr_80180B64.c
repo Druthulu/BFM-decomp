@@ -3000,7 +3000,7 @@ extern s32 func_8012CE2C(s32 a0);
 extern void func_8012CBCC(s32 a0);
 extern void func_8018031C(int param_1);
 extern int func_8012D714(int, int);
-extern volatile unsigned short D_80126B96;
+extern unsigned short D_80126B96;
 extern void func_8018047C(int param_1);
 extern void func_80180588(void);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);

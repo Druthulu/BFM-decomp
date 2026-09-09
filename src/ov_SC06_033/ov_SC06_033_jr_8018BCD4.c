@@ -3116,7 +3116,7 @@ void func_8018BCD4(s32 arg0) {
             bp->tm = 0;
         }
         mp = (u8 *)D_801D0E40;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         func_800233CC(mp, 0x80);
         D_801D0E40[0] = D_801CF1A4[0];
         D_801D0E44[0] = D_801CF1A8[0];

@@ -3062,8 +3062,8 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 void func_8017ED94(s32 param_1) {
     u16 *base;
     u16 sp10[8];
-    register s32 var_s0 __asm__("$16");
-    register s32 t2 __asm__("$4");
+    s32 var_s0;
+    s32 t2;
     s32 var_v1;
     s32 t;
     s32 i;
@@ -3322,7 +3322,7 @@ s32 func_8017F2F8(void)
 
 void func_8017F3D4(void *a0, s32 a1)
 {
-    register s32 offset __asm__("$2");
+    s32 offset;
     s16 buf[4];
     u16 t0, t1, t2, t3;
     u16 *ptr;
@@ -3550,7 +3550,7 @@ void func_8017F674(s32 param_1)
         s32 sum;
 
         sum = *(u16 *)(ptr1 + 0x12) + ret;
-        __asm__ __volatile__("" : "=r"(sum) : "0"(sum));
+        __asm__ __volatile__("" : "=r"(sum) : "0"(sum));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         ret = 0x1000 - sVar1;
         *(s16 *)(ptr1 + 0x12) = sum;
         if (ret < 0) {
@@ -3560,7 +3560,7 @@ void func_8017F674(s32 param_1)
         ret = -ret;
         {
             s32 arg1 = ret - 0x4000;
-            __asm__ __volatile__("" : "=r"(arg1) : "0"(arg1));
+            __asm__ __volatile__("" : "=r"(arg1) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             func_8012B178(param_1, arg1);
         }
         iVar1 = func_8012CBA4(param_1);
@@ -3576,7 +3576,7 @@ void func_8017F674(s32 param_1)
         {
             /* §17 pin: the merge-block pointer must land in $v1 so reload's
              * scratch for the constant store takes $v0 (see .L8017F4C0). */
-            register s32 ptr2 __asm__("$3");
+            register s32 ptr2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
             ptr2 = *(s32 *)(param_1 + 0x20);
             *(u16 *)(param_1 + 0x34) = 2;
             uVar2 = *(s16 *)(ptr2 + 0x12) + 0x800;

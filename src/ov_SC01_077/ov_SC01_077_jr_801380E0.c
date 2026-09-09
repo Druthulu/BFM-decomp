@@ -1016,8 +1016,8 @@ extern void GsSortSprite(void *a0, u8 *a1, s32 a2);
 
 void func_801397B0(s32 arg0)
 {
-    register u8 *e __asm__("$7");
-    register s32 off __asm__("$4");
+    u8 *e;
+    register s32 off __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 buf[12];
     u8 *b164;
     u8 *b1A8;
@@ -1122,7 +1122,7 @@ s32 func_80139BE0(int param_1)
         int h = *(unsigned short *)(param_1 + 0x18);
         unsigned int idx;
 
-        __asm__("" : "=r"(t) : "0"(t));
+        __asm__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         idx = (unsigned char)t;
         if (h < 7) {
             if (h >= 2) {
@@ -1453,12 +1453,12 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
         "swc2 $27, 8(%0)\n"
         : : "r"((u8 *)L + 0x18) : "memory");
 
-    *(s16 *)(p + 8) = *(volatile s32 *)((u8 *)L + 8);
-    *(s16 *)(p + 0xA) = *(volatile s32 *)((u8 *)L + 0xC);
-    *(s16 *)(p + 0x10) = *(volatile s32 *)((u8 *)L + 8) + *(volatile s32 *)((u8 *)L + 0x18);
+    *(s16 *)(p + 8) = *(s32 *)((u8 *)L + 8);
+    *(s16 *)(p + 0xA) = *(s32 *)((u8 *)L + 0xC);
+    *(s16 *)(p + 0x10) = *(volatile s32 *)((u8 *)L + 8) + *(s32 *)((u8 *)L + 0x18);
     *(s16 *)(p + 0x12) = *(volatile s32 *)((u8 *)L + 0xC);
     *(s16 *)(p + 0x18) = *(volatile s32 *)((u8 *)L + 8);
-    *(s16 *)(p + 0x1A) = *(volatile s32 *)((u8 *)L + 0xC) + *(volatile s32 *)((u8 *)L + 0x1C);
+    *(s16 *)(p + 0x1A) = *(volatile s32 *)((u8 *)L + 0xC) + *(s32 *)((u8 *)L + 0x1C);
     *(s16 *)(p + 0x20) = *(volatile s32 *)((u8 *)L + 8) + *(volatile s32 *)((u8 *)L + 0x18);
     *(s16 *)(p + 0x22) = *(volatile s32 *)((u8 *)L + 0xC) + *(volatile s32 *)((u8 *)L + 0x1C);
 

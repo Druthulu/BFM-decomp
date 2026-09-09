@@ -2838,7 +2838,7 @@ extern void func_80181D3C(void *a0);
 void func_80181D78(s32 a0) {
     s32 r;
     s32 r2;
-    register s32 *self __asm__("$16");
+    register s32 *self __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     u16 arr[6];
 
     extern s32 rand(void);
@@ -3193,7 +3193,7 @@ case1: {
 }
 
 case2: {
-    register s32 p __asm__("$2");
+    register s32 p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v0;
     v0 = *(u16 *)(a0 + 0xFC);
     p = *(s32 *)(a0 + 0x20);
@@ -3815,7 +3815,7 @@ void func_8018311C(void *a0, s32 a1, s32 a2)
 
     extern u8 D_80078EB1;
     s32 v0;
-    register s32 v1 __asm__("$3");
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     v0 = D_80078EB1;
     if (!(v0 < a1)) {

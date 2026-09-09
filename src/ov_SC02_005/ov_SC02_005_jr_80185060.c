@@ -117,9 +117,9 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_801853CC(s32 a0);
 
 void func_80185214(s32 arg0) {
-    register s32 self __asm__("$16");
-    register s32 state __asm__("$4");
-    register s32 idx __asm__("$2");
+    register s32 self __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 state __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 idx __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 acc;
     s32 lo;
     s32 hi;
@@ -164,7 +164,7 @@ void func_80185214(s32 arg0) {
         p = self;
         acc = lo - hi;
         acc = (acc << 12) + ((*(u16 *)(p + 0x70) & 7) << 16) + 0x40000;
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         *(s32 *)(p + 0x10) = acc;
 
         tgt = *(void **)(p + 0xCC);
@@ -195,10 +195,10 @@ extern void func_80186B08(s32 param_1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_801853EC(s32 arg0) {
-    register s32 s0 __asm__("$16");
-    register s32 r76 __asm__("$2");
-    register s32 r60 __asm__("$6");
-    register s32 flags __asm__("$3");
+    s32 s0;
+    s32 r76;
+    s32 r60;
+    s32 flags;
     s32 cnt;
 
     s0 = arg0;
@@ -413,9 +413,9 @@ extern void func_8018AB84(void);
 
 void func_8018592C(u8 *arg0) {
     s16 val;
-    register u8 *a2 __asm__("$6");
-    register u32 idx __asm__("$4");
-    register s32 flags __asm__("$3");
+    register u8 *a2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 idx;
+    register s32 flags __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     a2 = arg0;
     flags = *(s32 *)(a2 + 0xE8);
@@ -467,7 +467,7 @@ extern u16 D_801E4BBC;
 extern s16 D_80195B24[];
 
 s32 func_80185A88(s32 param_1, s32 param_2) {
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     int t;
     int x;
     int m;
@@ -598,7 +598,7 @@ void func_80185DD0(s32 target, u16 *cur, s32 step)
     if ((s16)diff < 0) {
         mag = -diff;
     }
-    __asm__ __volatile__("" : "=r"(diff) : "0"(diff) : "memory");
+    __asm__ __volatile__("" : "=r"(diff) : "0"(diff) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     if ((s16)mag > (u16)step) {
         if ((s16)diff < 0) {
             *cur = *cur - step;

@@ -242,7 +242,7 @@ void func_800CB328(void *a0) {
     extern Mtx32b D_800AE620;
 
     void *obj = a0;
-    register void *pf20 __asm__("$20");
+    register void *pf20 __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9)
     void *pf34;
     Svec3 rot;
     Mtx32b m;

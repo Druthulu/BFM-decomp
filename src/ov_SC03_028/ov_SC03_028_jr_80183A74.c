@@ -2858,7 +2858,7 @@ extern s32  func_8012DDA4(void);
 extern s32  func_800133E4(s16 *a0, s16 *a1);
 extern u8   D_8018F9A0[];
 extern void func_801808CC(s32 a0, s32 a1, s32 a2, s32 a3);
-extern volatile s32 D_801EC44C;
+extern s32 D_801EC44C;
 extern s32 func_80180A08(s32 param_1, u16 param_2);
 extern void func_80180AC4(s32 arg0, s32 arg1);
 extern s32 func_8012C588(s32 a0, s32 a1);
@@ -3332,12 +3332,12 @@ void func_80184568(void *a0) {
 }
 
 
-extern volatile s32 D_801EC44C;
+extern s32 D_801EC44C;
 extern s32 func_8012E544(s32 a0);
 extern s32 D_80190430[];
 
 void func_801845A4(s32 param_1) {
-    register s32 s1;
+    s32 s1;
     s32 base;
     s32 lvl;
 

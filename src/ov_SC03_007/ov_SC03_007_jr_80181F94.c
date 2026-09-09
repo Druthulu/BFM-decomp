@@ -3146,7 +3146,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern void func_80131E00();
 
 void func_801822C8(s32 param_1) {
-    register s32 a __asm__("$4");
+    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 p;
     s32 q;
     s32 x;
@@ -3715,7 +3715,7 @@ extern void func_8012B23C(s32 a0);
 extern u16 D_801E42B0;
 
 void func_80182FB8(s32 param_1) {
-    register s32 s0 __asm__("$16") = param_1;
+    s32 s0 = param_1;
 
     *(s16 *)(s0 + 0x2) = 7;
     *(s16 *)(s0 + 0x34) = 0;
@@ -3801,7 +3801,7 @@ extern s32 D_8018C50C;
 extern u8  D_801E3AE0[];
 
 void func_801830C0(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
+    s32 pv = param_1;
     s32 v0 = func_8012BCCC(pv);
 
     if (v0 <= 0x10000) {

@@ -3090,7 +3090,7 @@ s32 func_8017DE08(s32 a0)
     u8 *p;
     s32 ot;
     s32 tp;
-    register s32 c1 __asm__("$3");
+    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14));
 
@@ -3367,7 +3367,7 @@ void func_8017E120(s32 a0) {
         *(s32 *)(p + 4) = *(s32 *)(p + 4) & 0x7FFFFFFF;
         *(s32 *)(p + 0x20) = D_8019F75C[*(s32 *)(a0 + 0x94) * 2];
         *(s16 *)(a0 + 0x34) = 1;
-        RTP_SND(0x942)
+        RTP_SND(0x942)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
         *(s16 *)(a0 + 0x84) = 0x1E;
         break;
 
@@ -3376,13 +3376,13 @@ void func_8017E120(s32 a0) {
             *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
         } else {
             *(s16 *)(a0 + 0x84) = 0xF;
-            RTP_SND(0x944)
+            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
         }
         if (*(s32 *)(a0 + 0x94) == 0xE) {
             *(s16 *)(a0 + 0x34) = 2;
             ang = (ratan2(-*(s16 *)(a0 + 0xE), *(s16 *)(a0 + 6)) - 0x400) & 0xFFF;
             t2 = rand();
-            { register s32 v1 __asm__("$3"); v1 = ang - 0x200;
+            { s32 v1; v1 = ang - 0x200;
               ang = v1 + (t2 & 0x3FF);
               ang = ang & 0xFFF; }
             *(s16 *)(a0 + 0xFE) = 0x800;
@@ -3422,7 +3422,7 @@ void func_8017E120(s32 a0) {
             *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
         } else {
             *(s16 *)(a0 + 0x84) = 0xF;
-            RTP_SND(0x944)
+            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
         }
         break;
 
@@ -3442,7 +3442,7 @@ void func_8017E120(s32 a0) {
             *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
         } else {
             *(s16 *)(a0 + 0x84) = 0xF;
-            RTP_SND(0x944)
+            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
         }
         if (*(s16 *)(a0 + 0x102) <= *(s16 *)(a0 + 0xFE)) {
             *(s32 *)(a0 + 0x94) = 0xB;
@@ -3483,7 +3483,7 @@ void func_8017E120(s32 a0) {
             *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
         } else {
             *(s16 *)(a0 + 0x84) = 0xF;
-            RTP_SND(0x944)
+            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
         }
         break;
 
@@ -3518,7 +3518,7 @@ void func_8017E120(s32 a0) {
             *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
         } else {
             *(s16 *)(a0 + 0x84) = 0xF;
-            RTP_SND(0x944)
+            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
         }
         break;
 
@@ -3531,7 +3531,7 @@ void func_8017E120(s32 a0) {
             *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
         } else {
             *(s16 *)(a0 + 0x84) = 0xF;
-            RTP_SND(0x944)
+            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
         }
         if (*(s16 *)(a0 + 0xFE) == 0x5C0) {
             func_8012A828(a0, &D_8019F644);
@@ -3765,7 +3765,7 @@ void func_8017F268(s32 a0) {
         func_8012A828(a0, &D_8019F06C);
         *(s16 *)(a0 + 0x34) = 1;
         func_8002D4C8(0xA8A, 0);
-        RTP_SND(0x93F)
+        RTP_SND(0x93F)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
         break;
 
     case 1:

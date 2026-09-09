@@ -3367,10 +3367,10 @@ void func_801880EC(void)
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_801151D0;
     extern u16 D_8011511A;
-    register s16 s0 __asm__("$16");
-    register s32 s1 __asm__("$17");
-    register s32 s2 __asm__("$18");
-    register s32 base __asm__("$19");
+    s16 s0;
+    s32 s1;
+    s32 s2;
+    s32 base;
     s32 pad[2];
     (void)&pad;
 
@@ -3492,7 +3492,7 @@ s32 func_80188428(void) {
     u8 bb;
     u8 m;
     s16 d;
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     changed = 0;
     flags = func_80014ED4(0);
@@ -3737,9 +3737,9 @@ void func_80188778(void) {
     extern s32   func_8005A600(s32, s32, s32, s32, s32);
     Panel_S40_8018B238_80188778 *w;
     s32 *ot;
-    register s32 n __asm__("$2");      /* lever 2 */
+    s32 n;      /* lever 2 */
     s32 cnt;
-    register s32 zr __asm__("$0");     /* RC-12 opaque-copy source */
+    register s32 zr __asm__("$0");     /* RC-12 opaque-copy source */  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s16 i;
     volatile u16 *pbh;
 
@@ -3773,7 +3773,7 @@ void func_80188778(void) {
         cnt = n;
         do {
             if (D_80115158[i].v != 0) {
-                __asm__("");           /* lever 5 */
+                __asm__("");           /* lever 5 */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                 ot = ((s32 * (*)(s32 *, Panel_S40_8018B238_80188778 *, s16))func_801889B8)(ot, w, i);
             }
             i++;
@@ -3784,13 +3784,13 @@ void func_80188778(void) {
     func_8005A600((s32)ot, 0, 0, 0x15, 0);
 
     /* §36 bitfield-store OT link, exactly as in func_8018BCD4 next door. */
-    pbh = (volatile u16 *)&D_800B9A02;
+    pbh = (u16 *)&D_800B9A02;
     ((W_S40_8018B238_80188778 *)ot)->w = 0x02000000;
     ((PTag_S40_8018B238_80188778 *)ot)->addr =
         ((PTag_S40_8018B238_80188778 *)(D_800AE7BC[*pbh].ot + 2))->addr;
     ((PTag_S40_8018B238_80188778 *)(D_800AE7BC[*pbh].ot + 2))->addr = (u32)ot;
     ot += 10;
-    __asm__ __volatile__("" ::: "memory");   /* lever 6 */
+    __asm__ __volatile__("" ::: "memory");   /* lever 6 */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     D_801151D0 = (s32)ot;
 }
 
@@ -3842,10 +3842,10 @@ extern s32   func_80188B84(void *, s32, s32, s32, s32 *);
 s32 *func_801889B8(s32 *ot, Panel_8017E978_801889B8 *w0, s16 idx) {
 
     extern u16 D_8011511A;
-    register Panel_8017E978_801889B8 *w __asm__("$18");
+    register Panel_8017E978_801889B8 *w __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
     u8 sp18[72];
     s32 sp60[2];
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s32 flag;
     s32 flag2;
     s32 flag3;
@@ -3946,7 +3946,7 @@ s32 func_80188B84(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
     extern s32 D_8010F468[];
     extern s32 D_801B8F08;
 
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s32 ret;
     s32 n;
     s32 mode;

@@ -201,17 +201,15 @@ s32 func_801E5514(void) {
         t = 0;
         goto join;
     }
-    __asm__("");
     if (x < 300) {
         t = 1;
         goto join;
     }
-    __asm__("");
     if (func_80029178(250) & 0xFF) {
         t = 0;
         goto join;
     }
-    __asm__("");
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     t = 1;
 join:
     if (t != 0) {
@@ -238,7 +236,7 @@ void func_801E559C(void) {
     s32 flag;
 
     t = func_80029504();
-    flag = ((u32)(t - 200) < 100u) ? 0 : ((t < 300) ? 1 : (((func_80029178(250) & 0xFF) ? 0 : ({ __asm__(""); 1; }))));
+    flag = ((u32)(t - 200) < 100u) ? 0 : ((t < 300) ? 1 : (((func_80029178(250) & 0xFF) ? 0 : ({ __asm__(""); 1; }))));  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     if (flag) {
         *(s32 *)(*(s32 *)&D_801E256C + 4) = (s32)D_801E68BC;
     } else {
@@ -373,7 +371,7 @@ void func_801E56A8(s32 a0) {
     extern s32 D_801E6DF4;
     extern s32 D_801E6E40;
 
-    register s32 flag __asm__("$2");
+    s32 flag;
 
     s32 v1 = func_80029504();
 

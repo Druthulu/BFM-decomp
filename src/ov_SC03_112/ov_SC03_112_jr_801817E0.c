@@ -2835,7 +2835,7 @@ void func_801817E0(s32 param_1)
             /* the barrier keeps [0xa] live across the [0xfe] load so local-alloc
              * hands it $v0 (see the header note); without it the two lh regs swap. */
             s32 ta = *(s16 *)(param_1 + 0xa);
-            __asm__ __volatile__("" : "=r"(ta) : "0"(ta));
+            __asm__ __volatile__("" : "=r"(ta) : "0"(ta));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             cond = ta < *(s16 *)(param_1 + 0xfe);
         } else {
             cond = *(s16 *)(param_1 + 0xa) > *(s16 *)(param_1 + 0xfe);
@@ -3045,7 +3045,7 @@ void func_80181D08(s32 param_1)
         if (out.vx >= 0xB5) {
             goto TAIL;
         }
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     } else {
         if (-out.vx >= 0xB5) {
             goto TAIL;
@@ -3053,7 +3053,7 @@ void func_80181D08(s32 param_1)
     }
     if (out.vy >= 0) {
         if (out.vy >= 0x8D) {
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             goto TAIL;
         }
     } else {

@@ -3379,13 +3379,13 @@ void func_80183A20(s32 param_1) {
     u8  auStack_38[8];
     s16 sp20[3];
     u8  auStack_28[8];
-    register StructB58_80183A20 *b58 __asm__("$20") = &(*(StructB58_80183A20 *)&D_80126B58);   /* $s4 */
+    StructB58_80183A20 *b58 = &(*(StructB58_80183A20 *)&D_80126B58);   /* $s4 */
     short *psVar7 = (short *)(param_1 + 0xec);
     s32 sVar1;
     s32 r_b608;
 
     if (func_8012BEE8(param_1) != 0) {
-        register unsigned int *p28 __asm__("$21") = (unsigned int *)auStack_28; /* $s5 */
+        unsigned int *p28 = (unsigned int *)auStack_28; /* $s5 */
         s32 r0 = rand();
         s32 coord;
         s32 s2v;
@@ -3630,7 +3630,7 @@ void func_80183E6C(s32 a0) {
                  * return) that ALL either fully merged or left a redundant extra sign-retest;
                  * only this barrier reproduces the target exactly. See match_one MATCH 96/96.
                  */
-                __asm__ __volatile__("" ::: "memory");
+                __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
                 return;
             }
         } else {

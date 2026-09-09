@@ -3085,9 +3085,8 @@ int func_8017D420(int param_1)
 {
 
     extern unsigned char D_80182588[];
-    register int iVar1 __asm__("$4");
+    int iVar1;
     iVar1 = *(int *)(D_80182588 + param_1 * 4);
-    __asm__ __volatile__("" ::: "memory");
     func_8013B7F4((void *)iVar1, 0);
 }
 
@@ -3483,8 +3482,8 @@ extern s32 func_80146E98(s32 a0);
 
 void func_8017DCE0(s32 *a0) {
     s32 *s1 = *(s32 **)((s32)a0 + 0x20);
-    register s32 v0 asm("$2");
-    register s32 v1 asm("$3");
+    s32 v0;
+    register s32 v1 asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A tus9)
 
     if (func_80146E98((s32)a0) != 0) {
         v1 = 0x7FFFFFFF;

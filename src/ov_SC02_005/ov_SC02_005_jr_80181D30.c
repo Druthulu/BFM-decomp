@@ -2955,7 +2955,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 s32 func_801820E4(void *arg0)
 {
     s16 idx;
-    register u16 cnt asm("v0");
+    register u16 cnt asm("v0");  // !FAKE: pin v0 — NEEDED DIFFERS (P36 rung B tus9)
 
     idx = *(s16 *)((u8 *)arg0 + 0xE0);
     if (idx >= 0) {
@@ -3226,7 +3226,7 @@ extern void func_80186304();
 void func_80182740(void *arg0) {
     s32 s0;
 
-    __asm__ __volatile__("" : "=r"(s0) : "0"((s32)arg0));
+    s0 = (s32)arg0;
     *(u32 *)(s0 + 0x18) = 0;
     if (*(u32 *)(s0 + 0xE8) & 0x2000) {
         *(u32 *)(s0 + 0x10) = 0x38000;
@@ -3357,7 +3357,7 @@ extern void func_8018AAAC(void);
  * `void func_80182998(void *arg0)` spelling: MATCH (61 ins), so the TU needs
  * no edit and func_80181D30 needs no re-verification. */
 void func_80182998(void) {
-    register void *a0r __asm__("$4");
+    register void *a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     void *arg0 = a0r;
     s32 flags;
 
@@ -3594,7 +3594,7 @@ extern s32 D_801E43C4;
 extern void func_80185764();
 
 void func_80182EB0(void) {
-    register void *a0r __asm__("$4");
+    void *a0r;
     s32 s0 = (s32)a0r;
     u32 temp;
     s32 v0_val;
@@ -4461,9 +4461,9 @@ extern s32 D_801963D0;
 extern s32 *D_801D6D94;
 extern void func_801858C4();
 void func_80184358(u8 *arg0) {
-    register u8 *a0 __asm__("$4") = arg0;
-    register s32 v0 __asm__("$2");
-    register s32 v1 __asm__("$3");
+    register u8 *a0 __asm__("$4") = arg0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v0;
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
     v0 = *(u16 *)(a0 + 0x5C);
     v1 = *(s32 *)(a0 + 0x64);
     *(u16 *)(a0 + 0x5C) = v0 & 0xFFFE;
@@ -4492,8 +4492,8 @@ extern void func_8013240C(s32 a0, s32 a1, u32 a2);
 extern s32 D_801E44E0;
 
 void func_80184404(s32 a0) {
-    register s32 s0 __asm__("$16") = a0;
-    register s32 temp_a0 __asm__("$4") = a0;
+    register s32 s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 temp_a0 __asm__("$4") = a0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 a1;
     s32 v0;
     u32 a2 = 0x15;
@@ -4812,7 +4812,7 @@ void func_80184828(void *a0)
             s16 newval = D_80195AF6[*(s16 *)((u8 *)a0 + 0x100)].f0;
 
             if (newval >= *(s16 *)((u8 *)a0 + 0xE)) {
-                __asm__("" : "=r"(p) : "0"(p));
+                __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
                 s1 = 1;
                 ((struct S0E_80184828 *)((u8 *)a0 + 0xE))->v = newval;
                 off = *(s16 *)((u8 *)a0 + 0x100) * 8;
@@ -4893,7 +4893,6 @@ void func_80184A8C(void *a0) {
 
             timer -= 1;
             ((struct S34_80184A8C *)(s0 + 0x34))->v = timer;
-            __asm__ __volatile__("" ::: "memory");
 
             tmp[0] = (*(s16 *)(s0 + 0xDC) - *(s32 *)(*(s32 *)(s0 + 0x20) + 0x48)) >> 2;
 

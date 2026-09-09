@@ -3066,7 +3066,7 @@ extern u8 D_801E38F0[];
 extern u8 D_801E3DA8[];
 
 void func_80183894(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
+    s32 pv = param_1;
     s32 flag;
     s32 t;
 
@@ -3178,7 +3178,7 @@ void func_80183B58(s32 a0)
     u32 field70;
     /* $2 pin: idx1's post-shift value must land in $v0 so the 104-multiply
        chain is forced into $v1 (target's register choice). */
-    register s32 idx1 __asm__("$2");
+    s32 idx1;
     s32 prod1;
     s32 idx2;
 
@@ -3603,7 +3603,6 @@ void func_80184278(int param_1)
     *(s16 *)(p + 0x18) = v;
 
     *(s16 *)(param_1 + 0x12) = *(u16 *)(param_1 + 6) + *(u16 *)(ptr + 2);
-    __asm__ __volatile__("");
     v1a = *(u16 *)(param_1 + 0xE) + *(u16 *)(ptr + 6);
     *(s16 *)(param_1 + 0x10) = 0;
     *(s16 *)(param_1 + 0x18) = 0;
@@ -3760,8 +3759,8 @@ void func_801846EC(s32 *param_1)
 
     extern s8 D_801E9CE0;
   int new_var;
-register s32 p __asm__("$4");
-register s32 r __asm__("$3");
+register s32 p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+s32 r;
   p = (s32) (&D_801E9CE0);
   r = param_1[0x34 / 4];
   new_var = r;
@@ -4006,7 +4005,7 @@ void func_80184AFC(s32 a0) {
     s32 spd;
     s32 t;
     s16 rc;
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s32 fire;
 
     ret = 0;
@@ -4223,7 +4222,7 @@ zero:
     /* LOAD-BEARING (cookbook §5a): zero-byte cross-jump barrier. Without it
      * find_cross_jump merges this block's trailing `sw $v0,0x1C($s0)` with the
      * identical one ending the `dec:` block -> LENGTH-DRIFT -2. Do not remove. */
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
 }
 
 
@@ -4282,7 +4281,7 @@ void func_801850B4(s32 a0) {
     s32 u;
     s32 t;
     s32 hold;
-    register s32 one __asm__("$18");
+    register s32 one __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
     s32 cc;
 
     func_80185B48(a0);
@@ -4293,13 +4292,12 @@ void func_801850B4(s32 a0) {
         u -= 0x380;
         *(u16 *)(q + 0x12) = u;
         cc = (s16)func_8012BD3C(a0, 0x100, 0x9000);
-        __asm__ __volatile__("");
         one = 1;
         if (cc != one) {
             goto second;
         }
         func_8012D624((void *)a0, 0xC0, 0x30);
-        __asm__ __volatile__("" : "=r"(cc) : "0"(cc));
+        __asm__ __volatile__("" : "=r"(cc) : "0"(cc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         if (cc == one) {
             goto rejoin;
         }
@@ -4362,7 +4360,7 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
  * $a0 is captured into a normal pseudo instead — the copy gets a callee-saved
  * home ($s0), which is exactly what the target prologue does. */
 s32 func_80185230(void) {
-    register s32 a0v __asm__("$4");
+    s32 a0v;
     s32 arg0 = a0v;
     s32 g1;
     s32 g2;
@@ -4671,7 +4669,7 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
 void func_801858D4(s32 a0, s16 a1, s16 a2) {
     u32 buf[4];
-    register s32 hi __asm__("$2");
+    register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 lo;
 
     func_8012B0B4(buf, *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), a1 << 4);
@@ -4736,7 +4734,7 @@ s32 func_80185A24(s32 arg0) {
     ret = 0;
     raw = ((s32 (*)(s32))func_8012CBA4)(arg0);
     flags = raw;
-    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));
+    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     if ((raw & 0x6000) != 0x2000) {
         func_8012ADE4((u8 *)arg0);
         if (*(s32 *)(arg0 + 0x1C) > 8) {
@@ -5378,12 +5376,11 @@ extern void (*D_8018C610[])(void);
 
 void func_80186818(s32 a0)
 {
-    register s32 s0 __asm__("$16");
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v0;
     u16 *p;
 
     s0 = a0;
-    __asm__ __volatile__("");
 
     if (*(s32 *)(s0 + 0x1C) < 0xF) {
         v0 = func_8012B608(*(s16 *)(*(s32 *)(s0 + 0x20) + 0x12), 0xA00, 4);
@@ -5465,7 +5462,7 @@ void func_801869C0(s32 param_1, s32 param_2)
     *(short *)(param_1 + 0xfc) = *(short *)(param_1 + 0xfc) + 1;
     v0 = (rand() & 3) * 0x400 + 0x1800;
     s2 = v0;
-    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));
+    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     s1 = (v0 - 0x1000) * 0x20;
     iVar3 = ((int (*)(int))func_8012913C)(4);
     if (iVar3 != 0) {

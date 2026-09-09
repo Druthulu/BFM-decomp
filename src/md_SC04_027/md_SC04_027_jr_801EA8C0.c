@@ -223,17 +223,15 @@ s32 func_801EAA7C(void) {
         t = 0;
         goto join;
     }
-    __asm__("");
     if (x < 300) {
         t = 1;
         goto join;
     }
-    __asm__("");
     if (func_80029178(250) & 0xFF) {
         t = 0;
         goto join;
     }
-    __asm__("");
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     t = 1;
 join:
     if (t != 0) {
@@ -258,7 +256,7 @@ void func_801EAB04(void) {
     r = func_80029504();
     v = ((u32)(r - 0xC8) < 0x64) ? 0 :
         ((r < 0x12C) ? 1 :
-         (((func_80029178(0xFA) & 0xFF) == 0) ? ({ __asm__ __volatile__("" ::: "memory"); 1; }) : 0));
+         (((func_80029178(0xFA) & 0xFF) == 0) ? ({ __asm__ __volatile__("" ::: "memory"); 1; }) : 0));  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     if (v) {
         *(s32 *)(D_801E7AAC + 4) = (s32)&D_801EBE24;
     } else {

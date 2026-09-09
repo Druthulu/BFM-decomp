@@ -3157,7 +3157,7 @@ void func_80185C98(void) {
     for (i = 0; i < 6; i++) {
         D_801E23CC[i] = 0;
     }
-    __asm__ __volatile__("" :: "r"(p));
+    __asm__ __volatile__("" :: "r"(p));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
 
     if (D_80115126 == 4) {
         rec = (u8 *)func_801E585C();
@@ -3377,11 +3377,11 @@ void func_8018654C(void)
     char *d;
     char *srcA;
     char *srcB;
-    register char *tmpl __asm__("$17");
-    register s32 count __asm__("$19");
-    register u8 *table __asm__("$20");
-    register s32 descCount __asm__("$19");
-    register u8 *table2 __asm__("$20");
+    char *tmpl;
+    register s32 count __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *table __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 descCount __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *table2 __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9)
 
     /* ---- phase 1: default template + 16-row fill ---- */
     srcA = D_801E0390;
@@ -3498,7 +3498,7 @@ void func_8018654C(void)
         i = 0;
         if (descCount != 0) {
             do {
-                register s32 zr __asm__("$0");
+                register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
                 s32 id;
 
                 b = table2[i];

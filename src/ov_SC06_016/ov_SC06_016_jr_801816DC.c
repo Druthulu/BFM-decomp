@@ -3083,7 +3083,7 @@ void func_80181998(s32 param_1)
     *(u16 *)(p + 0x18) = v;
     /* §194-A one-way fence: without it sched2 hoists func_80129350's two
      * argument copies above the pair of sh stores. */
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     func_80129350(param_1, s2);
     *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
     *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = 0;
@@ -3123,8 +3123,8 @@ extern s32 D_80188AC4;
 extern s16 D_8019F724;
 
 void func_80181B68(s32 arg0) {
-    register s32 s0 __asm__("$16");
-    register s32 a0 __asm__("$4");
+    s32 s0;
+    s32 a0;
 
     s0 = arg0;
     a0 = (s32)&D_80126B58;
@@ -3173,7 +3173,7 @@ extern void func_8017ECE0(s32 a0);
 void func_80181C78(arg0)
 s32 arg0;
 {
-    register s32 s0 __asm__("$16");
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
 
     s0 = arg0;
     if ((*(s32 *)(s0 + 0x1C) & 3) == 2) {
@@ -3275,7 +3275,7 @@ extern void func_8017ECE0(s32 a0);
 extern void func_8017E96C(s32 a0);
 
 void func_80181E90(s32 arg0) {
-    register s32 s0 __asm__("$16");
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v0;
 
     s0 = arg0;
@@ -3339,7 +3339,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern void func_8017EAE4(s32 a0);
 
 void func_80181FB0(s32 arg0) {
-    register s32 s0 __asm__("$16");
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
 
     s0 = arg0;
     if ((*(s32 *)(s0 + 0x1C) & 3) == 2) {
@@ -3473,8 +3473,8 @@ extern s32 func_801472C8(struct S *a0);
 
 void func_801822C4(void) {
     extern s32 D_80126B58;
-    register s32 p __asm__("$16");
-    register s32 r __asm__("$17");
+    s32 p;
+    s32 r;
 
     p = &D_80126B58;
     func_8014708C(p);
@@ -3487,7 +3487,7 @@ extern void func_801472B4(void *a0);
 
 void func_801822FC(void) {
     extern s32 D_80126B58;
-    register s32 p __asm__("$16");
+    s32 p;
     p = &D_80126B58;
     ((void (*)(void *))func_80147084)((void *)p);
     func_801472B4((void *)p);
@@ -3566,7 +3566,6 @@ void func_80182424(s32 param_1)
         if ((*(u16 *)(param_1 + 0x2C) & 1) == 0) {
             u8 *pc = &D_8019F95C;
             *pc -= 0x30;
-            __asm__ __volatile__("");
             D_8019F95D -= 0x20;
             D_8019F95E -= 8;
             func_8017F5FC(param_1);
@@ -4001,8 +4000,8 @@ void func_80182D1C(void *a0)
         y = h & 0xFFF;
         if (*(u16 *)((s32)q + 0x12) & 0x400) {
             r1 = func_80012A60(y, 0x400);
-            __asm__ __volatile__("" ::: "memory");
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
             if (!((s16)r1 > (s16)func_80012A60(y, 0xC00))) {
                 *(s16 *)((s32)s2 + 0x12) = 0x400;
             } else {
@@ -4053,7 +4052,7 @@ typedef struct {
 
 void func_80182E64(void *arg0)
 {
-    register Ent_80182E64 *found __asm__("$20");
+    register Ent_80182E64 *found __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9)
     s32 best;
     s32 i;
     s32 off;
@@ -4099,11 +4098,11 @@ extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
 void func_80182F44(s32 arg0) {
     extern u32 D_8019FF00;
     extern u8 D_801202A0[];
-    register s32 s3 __asm__("$19");
-    register s32 best __asm__("$18");
-    register s32 i __asm__("$17");
-    register u8 *p __asm__("$16");
-    register s32 kind __asm__("$2");
+    s32 s3;
+    s32 best;
+    s32 i;
+    u8 *p;
+    register s32 kind __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     u16 sp10[3];
     s32 t;
 
@@ -4332,7 +4331,7 @@ void func_801834D8(s32 param_1)
      * ranks pri = floor_log2(R)*R/L*1e4*size; without this, diff (R=7,L=46) = 3043 outranks
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
-    __asm__ __volatile__("" :: "r"(obj));
+    __asm__ __volatile__("" :: "r"(obj));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     if (*(s16 *)obj < -0x4E0) {
         diff = (s32)(s16)D_80126B66 - *(s16 *)(param_1 + 0xE);
         if (diff < 0x140) {

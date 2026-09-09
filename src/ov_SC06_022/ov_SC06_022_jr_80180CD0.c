@@ -2844,8 +2844,8 @@ void func_80180CD0(s32 s0)
     struct RowC_80180CD0 { void *p; };
     extern struct RowC_80180CD0 D_801AD3DC[];
 
-    register s32 a0 __asm__("$4");
-    register s32 a1 __asm__("$5");
+    s32 a0;
+    s32 a1;
     s32 v1;
 
     a0 = *(s32 *)(s0 + 0x20);
@@ -2968,7 +2968,7 @@ void func_80180F30(s32 target, u16 *cur, s32 step)
     if ((s16)diff < 0) {
         mag = -diff;
     }
-    __asm__ __volatile__("" : "=r"(diff) : "0"(diff) : "memory");
+    __asm__ __volatile__("" : "=r"(diff) : "0"(diff) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     if ((s16)mag > (u16)step) {
         if ((s16)diff < 0) {
             *cur = *cur - step;
@@ -3086,7 +3086,7 @@ void func_801811A4(s32 param_1) {
 
     /* the entry call's result doubles as func_8001C214's first argument, so it
        owns $a0 for its whole live range (target: addu $a0,$v0,$zero at entry) */
-    register s32 v0 __asm__("$4");
+    register s32 v0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v1;
     s32 mask;
 
@@ -3192,8 +3192,8 @@ s32 a1;
     extern s32 rand(void);
     s32 s0;
     s32 rr;
-    register s32 x1 __asm__("$3");
-    register s32 x2 __asm__("$4");
+    s32 x1;
+    s32 x2;
 
     if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) >= 0x800) {
         if (*(s16 *)(a0 + 0xE4) == 0) {
@@ -3438,8 +3438,8 @@ extern s32 rand(void);
 extern void func_80181394(void *a0);
 
 void func_8018199C(s32 arg0) {
-    register s32 a0 __asm__("$4");
-    register s32 a1 __asm__("$5");
+    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
     u16 val;
     s16 h;
 
@@ -3637,10 +3637,10 @@ extern s32 rand(void);
 
 void func_80181E38(s32 param_1)
 {
-    register s32 p __asm__("$17") = param_1;
+    s32 p = param_1;
     s32 r;
     s32 s0;
-    register s32 s2 __asm__("$18");
+    s32 s2;
 
     *(u16 *)(*(s32 *)(p + 0x20) + 0x12) += func_8012B608(*(s16 *)(*(s32 *)(p + 0x20) + 0x12), *(s32 *)(p + 0xE8), 8);
     func_8012B178(p, 0xFFFB0000);
@@ -3744,7 +3744,7 @@ void func_80181FE4(s32 p)
             return;
         }
         if (s1 < D_801E1FB0) {
-            register s32 rv __asm__("$2") = 8;
+            s32 rv = 8;
             *(s16 *)(p + 2) = rv;
         }
         return;
@@ -4020,7 +4020,7 @@ void func_80182610(s32 p)
         func_8001C924(*(s32 *)(p + 0x20), &D_801C35D4);
         func_8012A828(p, D_801D4140);
         {
-            register u16 ns __asm__("$4");
+            u16 ns;
             ns = *(u16 *)(p + 0x34);
             *(s32 *)(p + 0x1C) = 0x200;
             ns = ns + 1;

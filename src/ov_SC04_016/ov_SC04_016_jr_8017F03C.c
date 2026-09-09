@@ -2923,15 +2923,15 @@ extern void func_8017F5D0(void *a0, void *a1);
 extern u8 D_801AC130[];
 
 void func_8017F4A0(void *a0) {
-    register s32 s1 __asm__("$17") = a0;
-    register s32 s0 __asm__("$16");
-    register s32 s2 __asm__("$18");
-    register s32 v0 __asm__("$2");
-    register s32 a0r __asm__("$4");
-    register s32 a1r __asm__("$5");
+    register s32 s1 __asm__("$17") = a0;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 s2;
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a1r __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
 
     v0 = func_8012C194();
-    __asm__ volatile("addu %0,%1,$0" : "=r"(s0) : "r"(v0));
+    __asm__ volatile("addu %0,%1,$0" : "=r"(s0) : "r"(v0));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
     s2 = (s32)&D_801AC130;
     *(s32 *)(s1 + 0x20) = s0;
 
@@ -2940,7 +2940,7 @@ void func_8017F4A0(void *a0) {
 
         a0r = s2;
         a1r = 0x80;
-        __asm__ volatile("addiu %0,$0,0x3000" : "=r"(v0));
+        __asm__ volatile("addiu %0,$0,0x3000" : "=r"(v0));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus9)
         *(s16 *)(s0 + 0x1A) = v0;
         v0 = *(s32 *)(s0 + 4);
         v0 |= 0x50000000;
@@ -3072,7 +3072,7 @@ void func_8017F82C(void *a0) {
 
     s1 = (s32 *)a0;
     v0_const = 0x0B;
-    __asm__("");
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     s0 = *(s32 **)((u8 *)s1 + 0x20);
 
     
@@ -3201,8 +3201,8 @@ void func_8017F8A8(void *a0)
     u8 *pkb;
     s32 d;
     u32 *otp;
-    register u32 tv __asm__("$3");       /* §137 pin — see header */
-    register u32 tv2 __asm__("$4");      /* §137 pin — see header */
+    register u32 tv __asm__("$3");       /* §137 pin — see header */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 tv2 __asm__("$4");      /* §137 pin — see header */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
 
     u8 *rotm;
 

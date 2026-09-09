@@ -1156,9 +1156,9 @@ extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
-extern volatile s32 D_80127090;
-extern volatile s32 D_80127094;
-extern volatile s32 D_80127098;
+extern s32 D_80127090;
+extern s32 D_80127094;
+extern s32 D_80127098;
 extern void func_80147F78(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80148038(s32 a0, s32 a1);
 extern s32 csqrt(s32 a0);
@@ -6053,8 +6053,8 @@ extern u8 D_801F6186;
 
 void func_80189FDC(s32 param_1)
 {
-    register s32 s1 __asm__("$17");
-    register s32 s0 __asm__("$16");
+    s32 s1;
+    s32 s0;
 
     s1 = param_1;
     s0 = *(s32 *)((s32)param_1 + 0x20);
@@ -6135,7 +6135,6 @@ void func_8018A150(void *a0)
             D_801F6181 = v;
             D_801F6182 = v;
         }
-        __asm__ __volatile__("" : : : "memory");
         break;
     case 1:
         q = &D_801F6140;

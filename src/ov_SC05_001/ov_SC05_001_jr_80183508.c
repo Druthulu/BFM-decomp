@@ -2883,7 +2883,7 @@ void func_80183508(s32 param_1)
             /* the barrier keeps [0xa] live across the [0xfe] load so local-alloc
              * hands it $v0 (see the header note); without it the two lh regs swap. */
             s32 ta = *(s16 *)(param_1 + 0xa);
-            __asm__ __volatile__("" : "=r"(ta) : "0"(ta));
+            __asm__ __volatile__("" : "=r"(ta) : "0"(ta));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             cond = ta < *(s16 *)(param_1 + 0xfe);
         } else {
             cond = *(s16 *)(param_1 + 0xa) > *(s16 *)(param_1 + 0xfe);
@@ -3108,7 +3108,7 @@ void func_80183A30(s32 param_1)
         if (out.vx >= 0xB5) {
             goto TAIL;
         }
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     } else {
         if (-out.vx >= 0xB5) {
             goto TAIL;
@@ -3116,7 +3116,7 @@ void func_80183A30(s32 param_1)
     }
     if (out.vy >= 0) {
         if (out.vy >= 0x8D) {
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             goto TAIL;
         }
     } else {
@@ -3355,7 +3355,7 @@ void func_80183C9C(s32 param_1)
              * This whole arm is byte-identical to case 1's counter tail; without
              * this line find_cross_jump merges the two and the function comes out
              * 7 instructions short.  Emits no machine code.  See the header. */
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             goto TAIL;
         }
         goto HITSTUN;
@@ -3733,8 +3733,8 @@ typedef struct { s16 a, b, c, d; } V8x_8018466C;
 
 s32 func_8018466C(void *arg0)
 {
-    register s32 s1 __asm__("$17") = (s32)arg0;
-    register s32 s2 __asm__("$18") = (s32)D_800AF630;
+    s32 s1 = (s32)arg0;
+    s32 s2 = (s32)D_800AF630;
     u8 buf[16];
     s32 r;
     s32 s0;

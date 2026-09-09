@@ -219,7 +219,7 @@ void func_800CB358(void *param_1) {
     extern u8 D_80078EC1;
     extern void func_80146C3C();
     extern void func_800CAF90(void *a0);
-    register s32 iVar2 __asm__("$2");
+    s32 iVar2;
     s32 cnt;
 
     if (*(u8 *)&D_80078EC1 != 5) goto LAB_800CB454;

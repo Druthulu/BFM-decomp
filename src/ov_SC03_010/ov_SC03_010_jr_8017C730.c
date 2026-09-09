@@ -3398,7 +3398,7 @@ void func_8017E088(s32 arg0) {
     s32 angle;
     s32 finalAngle;
     s16 temp;
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     sp18 = D_8019EBC4;
     angle = ratan2(*(s16 *) &D_80126B5E, *(s16 *) &D_80126B66) & 0xFFF;
@@ -3531,7 +3531,7 @@ s32 a0;
     s32 ang0;
     s32 ang1;
     s32 x;
-    register s32 m1 __asm__("$3");
+    register s32 m1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
     s32 m2;
     s16 d;
     s32 q;
@@ -3944,8 +3944,8 @@ extern s32 func_8012AD50(void *a0);
 extern void (*D_80183D08[])(void *);
 
 void func_8017EEFC(s32 param_1) {
-    register s32 s1 __asm__("$17") = param_1;
-    register s32 s0 __asm__("$16");
+    s32 s1 = param_1;
+    s32 s0;
 
     s0 = func_8012C194();
     if (s0 != 0) {

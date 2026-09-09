@@ -228,13 +228,13 @@ extern s32 D_801ABBD8;
 
 void func_8017F3C8(void *a0)
 {
-    register void *s3 __asm__("$19") = a0;
+    void *s3 = a0;
     void *s2;
-    register void *p __asm__("$3");
-    register s32 v1 __asm__("$3");
-    register s32 v0 __asm__("$2");
+    void *p;
+    s32 v1;
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 bits;
-    register s32 s0 __asm__("$16");
+    s32 s0;
     s32 s1;
 
     s2 = *(void **)((s32)s3 + 0x20);
@@ -361,7 +361,7 @@ loop:
             D_801ABBD8 = (s32)p;
         }
     }
-    __asm__("" ::
+    __asm__("" ::  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
                 "r"(best));
     i++;
     p += 0x86;
@@ -409,7 +409,7 @@ extern void func_8002AC00(s32 arg0);
 extern void func_8012C098(void*);
 
 void func_8017F760(s32 arg0) {
-    register u8 val __asm__("$3");
+    u8 val;
 
     /* Check field at +0x100 */
     if (((s16 *)arg0)[0x80] == 0) {
@@ -505,7 +505,7 @@ void func_8017F8F8(void *param_1) {
     if (d[0] + d[2] > 0x8FFFF) {
         *(s16 *)((s32)param_1 + 0xFC) = func_8012B744((void *)((s32)param_1 + 4), target);
     } else {
-        register s32 t __asm__("$2") = rand() & 0x3FF;
+        s32 t = rand() & 0x3FF;
         s32 v1 = t - 0x200;
         if (v1 < 0) {
             v1 = t - 0x500;
@@ -745,7 +745,7 @@ extern void func_8012C098(void *arg0);
 
 void func_8017FEB4(s32 arg0) {
     void (*handler)(s32);
-    register u8 val __asm__("$3");
+    u8 val;
 
     handler = (void (*)(s32))D_801A0874[((u16 *)arg0)[1]];
     handler(arg0);
@@ -917,7 +917,7 @@ extern void func_8017F8F8();
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 void func_80180298(s32 a0) {
-    register u8 val __asm__("$3");
+    u8 val;
     s16 field_a;
     s16 field_100;
     s32 result;

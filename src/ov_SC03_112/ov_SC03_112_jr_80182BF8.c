@@ -3101,10 +3101,10 @@ void func_801833A4(s32 a0)
     }
 
     if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);
+        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
           q[1] = q[1] | 0x80000000; }
     } else {
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
             *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
     }

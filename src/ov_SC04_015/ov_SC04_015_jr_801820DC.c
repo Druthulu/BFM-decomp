@@ -2867,9 +2867,9 @@ void func_801820DC(void *a0) {
     extern void *D_801B2C04[];
     extern s32 D_801B2BD4;
     extern s32 D_801B2BEC;
-    register void *s2 __asm__("$18") = a0;
-    register u8 *p __asm__("$17");
-    register void *s0 __asm__("$16");
+    void *s2 = a0;
+    register u8 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0;
     s32 v0;
     s16 v1;
 
@@ -3120,10 +3120,10 @@ void func_801824A8(void *a0)
 {
 
     extern u8 D_801202A0[];
-    register u8 *s0 __asm__("$16");
-    register s32 s1 __asm__("$17");
-    register u8 *s3 __asm__("$19");
-    register u8 *s4 __asm__("$20");
+    u8 *s0;
+    s32 s1;
+    u8 *s3;
+    u8 *s4;
     u8 *s2;
     u8 *v0;
     u8 *v1;
@@ -3235,7 +3235,7 @@ s32 func_80182614(void *a0) {
                     in[2] = *(u16 *)(p + 0xE);
                     func_8012F2E8((s32)a0, (s32)in, (s32)out);
                     if (func_8012CB64((s32)out, -0xA0, 0x80, -0xC0, 0x80) != 0) {
-                        __asm__("");
+                        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                         return 1;
                     }
                 }
@@ -3280,7 +3280,7 @@ void func_8018277C(void) {
 
     extern s32 D_801B2A0C;
     extern s32 D_801C9364;
-    register s32 a0 __asm__("$4");
+    s32 a0;
     u16 buffer[4];
     s32 val;
     s32 *p;
@@ -3768,7 +3768,7 @@ void func_80182F2C(u16 *a0, s32 a1)
     extern u16 D_801C4162[][4];
     extern u16 D_801C4164[][4];
     extern u16 D_801C4166[][4];
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     u16 pad0[16];   /* dead: locals begin at sp+0x30, va must land at sp+0x50 */
     u16 va[16];     /* sp+0x50 — outer quad, 4 x SVECTOR */
@@ -3784,7 +3784,7 @@ void func_80182F2C(u16 *a0, s32 a1)
     s32 type2;
     u16 *p1;
     u16 *p2;
-    register u16 *dst __asm__("$4");
+    register u16 *dst __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 i;
     u8 *pk;
     s32 j;
@@ -3986,8 +3986,8 @@ extern s32 rand(void);
 void func_801835DC(s32 param_1) {
     s32 uVar1;
     s32 iVar2;
-    register s32 iVar3 __asm__("$3");
-    register s32 iVar4 __asm__("$16");
+    register s32 iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 iVar4 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     u32 uVar3;
 
     uVar1 = *(u16 *)(param_1 + 0x34);
@@ -4054,7 +4054,6 @@ case2:
     return;
 
 case3:
-    __asm__ __volatile__("" ::: "memory");
     iVar3 = *(s32 *)(param_1 + 0xe4);
     iVar3 = iVar3 + *(s32 *)(param_1 + 0xe0);
     *(s32 *)(param_1 + 0xdc) = *(s32 *)(param_1 + 0xdc) + iVar3;
@@ -4397,13 +4396,13 @@ void func_80183DE8(u8 *arg0)
 
     extern u8 D_800D387C[];
     extern u8 D_800D3888[];
-    register u8 *param_1 __asm__("$16");   /* $s0 */
+    register u8 *param_1 __asm__("$16");   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s32 raw;
     u32 buf[6];
 
     param_1 = arg0;
     {
-        register s32 s0 __asm__("$17");   /* $s1 -- scoped: dead after func_80128EA8 */
+        s32 s0;   /* $s1 -- scoped: dead after func_80128EA8 */
         s0 = ((s32 (*)(void))func_8012C194)();
         if (s0 == 0) {
             func_8012CAE4(param_1);
@@ -4432,8 +4431,8 @@ void func_80183DE8(u8 *arg0)
     *(s32 *)(param_1 + 0x18) = 0;
     func_8012B0B4((unsigned int *)buf, (raw & 0xFF00) >> 4, (raw & 0xFF) << 6);
     {
-        register s32 full __asm__("$2");
-        register s32 low  __asm__("$3");
+        s32 full;
+        s32 low;
         full = *(s32 *)buf;
         low = *(s16 *)buf;
         *(s32 *)(param_1 + 0x48) = 0;
@@ -4599,7 +4598,7 @@ void func_801841EC(s32 param_1, s32 param_2)
     *(short *)(param_1 + 0xfc) = *(short *)(param_1 + 0xfc) + 1;
     v0 = (rand() & 3) * 0x400 + 0x1800;
     s2 = v0;
-    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));
+    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     s1 = (v0 - 0x1000) * 0x20;
     iVar3 = ((int (*)(int))func_8012913C)(4);
     if (iVar3 != 0) {

@@ -3474,7 +3474,7 @@ void func_80186F78(s32 param_1) {
 
 extern void func_80187038(void);
 void func_80187038(void) {
-    register s32 a0v __asm__("$4");
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     extern u8 D_801CCEC0[];
     extern u8 D_801CC1E8[];
     extern s32 D_801B51FC[];
@@ -3594,7 +3594,7 @@ extern s32 func_80189284(void *a0, s32 a1, s32 a2);
  *     const-folds `r` to 0 on the fall-through edge and the merge comes back.) */
 s32 func_80187250(s32 p) {
     s32 buf10[2];
-    register s32 r __asm__("$2");   /* $v0 — see note 2 above */
+    register s32 r __asm__("$2");   /* $v0 — see note 2 above */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
     if ((*(u32 *)(p + 0xE0) & 1) == 0) {
         goto ret0;
@@ -3769,7 +3769,7 @@ void func_801874E4(s32 arg0, s32 arg1) {
     extern void func_80189380(s32 a0, void *a1, void *a2, s32 a3);
     extern void func_8018931C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern void func_8001C924(s32 a0, void *a1);
-    register s32 rv __asm__("$2");
+    s32 rv;
     u8 buf[8];
     s32 x = arg1;
     s32 y;
@@ -3777,7 +3777,7 @@ void func_801874E4(s32 arg0, s32 arg1) {
     s16 state;
     s32 flags;
 
-    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));
+    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
     state = *(u16 *)(arg0 + 0x70) & 0xF;
     flags = *(u32 *)(arg0 + 0xE0);
     if (flags & 4) {
@@ -3814,7 +3814,7 @@ void func_801874E4(s32 arg0, s32 arg1) {
     }
     rv = 1;
 epi:
-    __asm__ volatile("" : : "r"(rv));
+    __asm__ volatile("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
 }
 
 
@@ -3872,7 +3872,6 @@ void func_801876BC(s32 a0, s32 a1) {
         ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),
                       *(s16 *)(a0 + 0xE), 0, 0, 0x14);
     } else {
-        __asm__("" ::: "memory");
         if ((*(u8 **)(a0 + 0x90) == D_801CCCA0 || *(u8 **)(a0 + 0x90) == D_801CC868) &&
             D_800B99DA % 6 == 0) {
             ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),

@@ -3140,9 +3140,9 @@ void func_8018D98C(s32 a0) {
         ((void (*)(s32))func_800491AC)(*(s32 *)(a0 + 0x20) + 0x34);
         { void *m = &D_801C836C;
           s32 _v;
-          __asm__ __volatile__("" : "=r"(m) : "0"(m));
+          __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
           _v = (s32)v18;
-          __asm__ __volatile__("" : "=r"(_v) : "0"(_v));
+          __asm__ __volatile__("" : "=r"(_v) : "0"(_v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
           RotTransSV(m, (void *)_v, &flag); }
         col = 0x202080;
         if (D_800B99D8 & 1) {
@@ -3360,7 +3360,7 @@ void func_8018E89C(void *arg) {
     extern u8 D_801C833C[];
     extern u8 D_801C9488[];
 
-    register u8 *p __asm__("$17");
+    u8 *p;
     s32 e;
     s32 iv;
     s32 i;
@@ -3841,11 +3841,11 @@ void aF8017ED80(void *param_1) {
         *(u16 *)(iVar2 + 0x1A) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A);
         *(u16 *)(iVar2 + 0x1C) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C);
         if (*(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) < 0) {
-            register u32 val __asm__("$2");
+            register u32 val __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
             val = *(u32 *)(iVar2 + 0x4);
             uVar1 = val | 0x80000000;
         } else {
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             uVar1 = *(u32 *)(iVar2 + 0x4) & 0x7FFFFFFF;
         }
         *(u32 *)(iVar2 + 0x4) = uVar1;
@@ -3861,11 +3861,11 @@ void aF8017ED80(void *param_1) {
         *(u16 *)(iVar2 + 0x1A) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A);
         *(u16 *)(iVar2 + 0x1C) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C);
         if (*(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) < 0) {
-            register u32 val __asm__("$2");
+            register u32 val __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
             val = *(u32 *)(iVar2 + 0x4);
             uVar1 = val | 0x80000000;
         } else {
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             uVar1 = *(u32 *)(iVar2 + 0x4) & 0x7FFFFFFF;
         }
         *(u32 *)(iVar2 + 0x4) = uVar1;
@@ -3950,8 +3950,8 @@ void aF8017EF54(s32 a0)
         s32 pad2[2]; /* sp+0x24 -- dead, sizes the frame */
     } L;
 
-    register s32 v1 __asm__("$3");
-    register s32 cool __asm__("$2");
+    s32 v1;
+    s32 cool;
     s32 old;
 
     if (*(u16 *)(a0 + 0x0) == 0) {
@@ -3967,8 +3967,8 @@ void aF8017EF54(s32 a0)
     L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
     L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
     L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
 
     if (L.flag < 0) {
@@ -4009,7 +4009,7 @@ L_dec:
 
 L_join:
     *(s16 *)(a0 + 0x84) = cool;
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
 
     {
         s32 p = a0;
@@ -4128,13 +4128,13 @@ void func_8018FA80(s32 a0)
     state = *(u16 *)(a0 + 0x34);
     switch (state) {
     case 0: {
-        register s32 s0v __asm__("$16");
+        register s32 s0v __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
         s32 ret;
         s32 p744;
         s32 v1p;
         s16 snd;
         s32 b608;
-        register s32 p20 __asm__("$4");
+        register s32 p20 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
 
         s0v = a0 + 0x88;
         ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)s0v);
@@ -4192,7 +4192,7 @@ void func_8018FA80(s32 a0)
         break;
     }
     case 3: {
-        register s32 s2v __asm__("$18");
+        s32 s2v;
         s32 ret;
         s32 p744;
         s32 v1p;
@@ -4315,8 +4315,8 @@ void func_8018FDBC(s32 param_1)
             L.rv[0] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48);
             L.rv[1] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C);
             L.rv[2] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                           && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
@@ -4328,7 +4328,6 @@ void func_8018FDBC(s32 param_1)
                     ax = -x;
                 }
                 ax = ((0xF0 - ax) * 0x7F) / 0xF0;
-                __asm__("" : "=r"(ax) : "0"(ax));
                 x = (x + 0xF0) / 0x1E;
                 if (x == 0x10) {
                     x = 0xF;
@@ -4406,7 +4405,7 @@ void func_80190064(s32 a0)
 
             t = *(u16 *)(a0 + 0x34);
             {
-                register s16 z __asm__("$3");
+                register s16 z __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
                 t = t + 1;
                 z = D_80126B66;
                 *(u16 *)(a0 + 0x34) = t;
@@ -4517,7 +4516,7 @@ void func_801902A8(s32 a0)
 
     *(s32 *)(a0 + 0xdc) = *(s32 *)(a0 + 0x14);
     if ((((s32 (*)(s32))func_8012CBCC)(a0)) & 0x6000) {
-        register s32 negdc __asm__("$2");
+        register s32 negdc __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
         negdc = -*(s32 *)(a0 + 0xdc);
         v1 = *(u16 *)(a0 + 0xac);
         v1 -= 1;

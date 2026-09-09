@@ -156,7 +156,7 @@ void func_800D1E9C(void *arg0) {
     s16 sp98[8];
     s32 *p;
     s32 i;
-    register s32 v0r __asm__("$2");
+    register s32 v0r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
     p = (s32 *) arg0;
     D_800EC9F0 = 1;
@@ -171,7 +171,7 @@ void func_800D1E9C(void *arg0) {
         func_800468FC();
         func_8002D8D4();
         func_800D2AA0(0);
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         goto ret;
     }
     if (func_800D2704(D_800EC9A4, p) != 0) {
@@ -261,7 +261,7 @@ after:
 ret:
     func_80010A98();
     v0r = 1;
-    __asm__ __volatile__("" : : "r"(v0r));
+    __asm__ __volatile__("" : : "r"(v0r));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
 }
 
 
@@ -386,7 +386,7 @@ void func_800D24D0(void) {
     {
         s32 *pb = &D_800EC9B8;
         s0 = *pb;
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
         *pb = (*pb == 0);
     }
     if (D_800EC9F0 != 0) {
@@ -405,7 +405,6 @@ join:
     p = (s16 *)((u8 *)D_800EC9A4 + 0x2C);
     idx = D_800EC9CC;
     if (*p < D_800EC9BC[idx * 4] + D_800EC9C0[idx * 4]) {
-        __asm__ __volatile__("");
         ((void (*)()) func_800D2C88)((&D_800EC9A4[3])[D_800EC9B8],
                                     ((D_800EC9D4 << 4) * ((D_800EC9D6 - 1) / 16 + 1)) >> 1);
     } else {
@@ -568,7 +567,7 @@ extern s32 CdRead2(s32 count);
 void func_800D2A24(s32 a0) {
     u8 *p;
     s32 r;
-    register s32 v0 __asm__("$2");
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
 retry:
     p = D_800EC9E8;
@@ -585,12 +584,12 @@ retry:
         goto retry;
     }
     v0 = 0;
-    __asm__ __volatile__("" : : "r"(v0));
+    __asm__ __volatile__("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     return;
 
 ret1:
     v0 = 1;
-    __asm__ __volatile__("" : : "r"(v0));
+    __asm__ __volatile__("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     return;
 }
 
@@ -639,7 +638,7 @@ extern s32 D_800DB5B0;
 extern void func_800D2E64();
 
 void *func_800D2B64(void *arg0) {
-    register void *base asm("$16");
+    void *base;
     s32 *dst;
     s32 i;
 
@@ -749,7 +748,7 @@ __asm__(
 extern void func_800D2E64();
 extern void func_8005C604();
 extern volatile s32 *aD800DB670 __asm__("D_800DB670");
-extern volatile s32 *aD800DB644 __asm__("D_800DB644");
+extern s32 *aD800DB644 __asm__("D_800DB644");
 extern volatile s32 *aD800DB650 __asm__("D_800DB650");
 extern s32 D_800DB52C;
 extern s32 D_800DB5B0;
@@ -903,7 +902,7 @@ __asm__(
 s32 aF800D30D0(char *arg0) __asm__("func_800D30D0");
 
 s32 aF800D30D0(char *arg0) {
-    register s32 ret __asm__("$2");
+    s32 ret;
     s32 s0;
 
     func_8005C604(D_800CEEB8, arg0);
@@ -924,7 +923,7 @@ s32 aF800D30D0(char *arg0) {
     *D_800DB670 = 0x80000000;
     *D_800DB644 = 0;
     *D_800DB650 = 0;
-    __asm__ volatile("" : "=r"(ret) : "0"(0));
+    __asm__ volatile("" : "=r"(ret) : "0"(0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     (void)*(volatile s32 *)D_800DB650;
     *D_800DB670 = 0x60000000;
     return ret;

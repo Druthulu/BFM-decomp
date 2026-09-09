@@ -4,8 +4,8 @@
 extern void (*D_800CDD08[])(void);
 
 void func_800CD384(void) {
-    register s32 idx __asm__("$2");
-    __asm__ __volatile__("" : : "r"(idx));
+    s32 idx;
+    __asm__ __volatile__("" : : "r"(idx));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     D_800CDD08[idx]();
 }
 
@@ -227,15 +227,15 @@ extern u16 D_800BAE22;
 
 void func_800CD674(s32 x, s32 y, s32 c) {
     u8 *p;
-    register u32 tp0 __asm__("$3") = 0xE1000086;
-    register u32 *ot __asm__("$7");
-    register u32 m24 __asm__("$9") = 0x00FFFFFF;
-    register u32 mff __asm__("$11") = 0xFF000000;
-    register u32 tpr __asm__("$17");
-    register u32 pm __asm__("$8");
+    u32 tp0 = 0xE1000086;
+    register u32 *ot __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 m24 __asm__("$9") = 0x00FFFFFF;  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 mff = 0xFF000000;
+    register u32 tpr __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 pm __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
     u32 pm2;
     u32 pm3;
-    register u32 otv __asm__("$3");
+    register u32 otv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     p = (u8 *)D_800A71D0;
     tpr = 0xE1000087;
@@ -319,7 +319,7 @@ void func_800CD674(s32 x, s32 y, s32 c) {
     p += 0x18;
     D_800A71D0 = p;
     *ot = (otv & mff) | pm2;
-    __asm__ volatile("" : "=r"(pm3));
+    __asm__ volatile("" : "=r"(pm3));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
 }
 
 

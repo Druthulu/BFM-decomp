@@ -2803,7 +2803,7 @@ void func_8017F83C(s32 param_1)
             /* the barrier keeps [0xa] live across the [0xfe] load so local-alloc
              * hands it $v0 (see the header note); without it the two lh regs swap. */
             s32 ta = *(s16 *)(param_1 + 0xa);
-            __asm__ __volatile__("" : "=r"(ta) : "0"(ta));
+            __asm__ __volatile__("" : "=r"(ta) : "0"(ta));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             cond = ta < *(s16 *)(param_1 + 0xfe);
         } else {
             cond = *(s16 *)(param_1 + 0xa) > *(s16 *)(param_1 + 0xfe);
@@ -3023,7 +3023,7 @@ void func_8017FD64(s32 param_1)
         if (out.vx >= 0xB5) {
             goto TAIL;
         }
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     } else {
         if (-out.vx >= 0xB5) {
             goto TAIL;
@@ -3031,7 +3031,7 @@ void func_8017FD64(s32 param_1)
     }
     if (out.vy >= 0) {
         if (out.vy >= 0x8D) {
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             goto TAIL;
         }
     } else {
@@ -3570,10 +3570,10 @@ extern s32 func_8004787C(s32 a0);
 
 s32 func_801809A0(void *arg0)
 {
-    register s32 v0 __asm__("$2");
-    register s32 s0 __asm__("$16");
-    register s32 s1 __asm__("$17") = (s32)arg0;
-    register u8 *s2 __asm__("$18") = (u8 *)D_800AF630;
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 s1 = (s32)arg0;
+    u8 *s2 = (u8 *)D_800AF630;
     s32 sp10[4];
 
     v0 = *(s32 *)(s1 + 0xD0);
@@ -3585,7 +3585,7 @@ s32 func_801809A0(void *arg0)
         if (*(s32 *)(*(s32 *)(s1 + 0x20) + 4) < 0) {
             *(s32 *)(s0 + 4) |= (s32)0x80000000;
         } else {
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             *(s32 *)(s0 + 4) &= 0x7FFFFFFF;
         }
 

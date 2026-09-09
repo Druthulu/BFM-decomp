@@ -24,7 +24,6 @@
    "gte_stsv": 145,
    "gte_stsxy": 361,
    "gte_stsxy3": 191,
-   "gte_stsxy3_f3": 61,
    "gte_stsxy3c": 94,
    "gte_stsz3": 123,
    "gte_stsz4": 126,
@@ -32,22 +31,22 @@
    "lhu": 70,
    "lw": 80,
    "lwc2": 435,
+   "mfc2": 61,
    "swc2": 449
   },
   "instruction_mnemonics": {
    ".section": 7,
    "RTP_SND": 22,
-   "addiu": 24,
+   "addiu": 22,
    "addu": 968,
    "and": 2,
-   "andi": 1,
    "la": 144,
    "lh": 134,
    "li": 1,
-   "lui": 5,
+   "lui": 4,
    "lw": 1,
    "mfhi": 1,
-   "move": 407,
+   "move": 406,
    "mult": 1,
    "nop": 1,
    "sll": 1,
@@ -55,14 +54,14 @@
   },
   "kinds": {
    "asm-body/direct": 13,
-   "barrier/direct": 4757,
+   "barrier/direct": 4622,
    "barrier/via-macro": 2,
    "gte/direct": 1140,
    "gte/via-macro": 5751,
-   "instruction/direct": 1699,
+   "instruction/direct": 1694,
    "instruction/via-macro": 22,
-   "keepalive/direct": 2046,
-   "launder/direct": 4396,
+   "keepalive/direct": 2022,
+   "launder/direct": 4301,
    "launder/via-macro": 440,
    "verbatim-body/direct": 2682
   }
@@ -70,65 +69,65 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 10893,
-   "distinct_bodies": 1779,
+   "bodies": 10488,
+   "distinct_bodies": 1515,
    "file_scope": 0,
-   "in_bodies": 23044,
+   "in_bodies": 21343,
    "kinds": {
-    "pin": 23044
+    "pin": 21343
    },
-   "marked": 18137,
-   "sites": 23044,
-   "tus": 2675,
-   "unmarked": 4907
+   "marked": 19964,
+   "sites": 21343,
+   "tus": 2663,
+   "unmarked": 1379
   },
   "B": {
-   "bodies": 9931,
-   "distinct_bodies": 1192,
+   "bodies": 9802,
+   "distinct_bodies": 1116,
    "file_scope": 13,
-   "in_bodies": 22935,
+   "in_bodies": 22676,
    "kinds": {
     "asm-body": 13,
-    "barrier": 4759,
+    "barrier": 4624,
     "gte": 6891,
-    "instruction": 1721,
-    "keepalive": 2046,
-    "launder": 4836,
+    "instruction": 1716,
+    "keepalive": 2022,
+    "launder": 4741,
     "verbatim-body": 2682
    },
-   "marked": 11676,
-   "sites": 22948,
-   "tus": 2324,
-   "unmarked": 11272
+   "marked": 12682,
+   "sites": 22689,
+   "tus": 2317,
+   "unmarked": 10007
   },
   "C": {
-   "bodies": 671,
-   "distinct_bodies": 139,
-   "file_scope": 343,
-   "in_bodies": 1707,
+   "bodies": 652,
+   "distinct_bodies": 120,
+   "file_scope": 158,
+   "in_bodies": 1634,
    "kinds": {
-    "cast": 1612,
-    "decl-body": 93,
-    "decl-file": 343,
+    "cast": 1552,
+    "decl-body": 80,
+    "decl-file": 158,
     "param": 2
    },
-   "marked": 2,
-   "sites": 2050,
-   "tus": 701,
-   "unmarked": 2048
+   "marked": 9,
+   "sites": 1792,
+   "tus": 635,
+   "unmarked": 1783
   },
   "D": {
-   "bodies": 67,
-   "distinct_bodies": 67,
+   "bodies": 53,
+   "distinct_bodies": 53,
    "file_scope": 0,
-   "in_bodies": 83,
+   "in_bodies": 58,
    "kinds": {
-    "register": 83
+    "register": 58
    },
    "marked": 0,
-   "sites": 83,
-   "tus": 17,
-   "unmarked": 83
+   "sites": 58,
+   "tus": 9,
+   "unmarked": 58
   },
   "E": {
    "bodies": 737,
@@ -173,10 +172,10 @@
  "controls": [
   {
    "expected": 45,
-   "got": 45,
+   "got": 14,
    "name": "src/800.c func_800226C0 pins",
    "ok": true,
-   "status": "OK"
+   "status": "N-A"
   },
   {
    "expected": 26,
@@ -203,9 +202,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 49600,
+   "live": 47640,
    "macro_block": 7189,
-   "raw": 63581
+   "raw": 61621
   },
   "attribute": {
    "comment_dead": 0,
@@ -221,30 +220,30 @@
   },
   "register": {
    "comment_dead": 8584,
-   "live": 23127,
+   "live": 21401,
    "macro_block": 18,
-   "raw": 31729
+   "raw": 30003
   },
   "volatile": {
    "comment_dead": 2607,
-   "live": 3787,
+   "live": 3509,
    "macro_block": 6510,
-   "raw": 12904
+   "raw": 12626
   }
  },
  "coverage_ok": true,
- "elapsed_s": 35.7,
+ "elapsed_s": 35.5,
  "generated": "2026-09-09",
- "head": "fa008b862",
+ "head": "d9e01a398",
  "headers": 3181,
  "levers_AB": {
-  "asm": 13375,
-  "bodies": 13044,
-  "distinct_bodies": 2173,
-  "marked": 29642,
-  "pins": 23044,
-  "sites": 36419,
-  "unmarked": 6777,
+  "asm": 13116,
+  "bodies": 12656,
+  "distinct_bodies": 1909,
+  "marked": 32473,
+  "pins": 21343,
+  "sites": 34459,
+  "unmarked": 1986,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
  "macro_definitions": {
@@ -390,74 +389,67 @@
   "sample": []
  },
  "pins": {
-  "bare_name": 52,
-  "init": 3115,
+  "bare_name": 32,
+  "init": 2869,
   "registers": {
-   "$0": 1335,
-   "$1": 2,
-   "$10": 166,
-   "$11": 29,
-   "$12": 420,
-   "$13": 24,
-   "$14": 152,
-   "$15": 8,
-   "$16": 2071,
-   "$17": 1766,
-   "$18": 646,
-   "$19": 669,
-   "$2": 4202,
-   "$20": 374,
-   "$21": 445,
-   "$22": 30,
-   "$23": 162,
-   "$24": 4,
-   "$25": 6,
+   "$0": 1324,
+   "$10": 150,
+   "$11": 12,
+   "$12": 409,
+   "$13": 11,
+   "$14": 142,
+   "$15": 1,
+   "$16": 1860,
+   "$17": 1587,
+   "$18": 512,
+   "$19": 617,
+   "$2": 3937,
+   "$20": 304,
+   "$21": 421,
+   "$22": 13,
+   "$23": 149,
+   "$25": 3,
    "$29": 13,
-   "$3": 2677,
-   "$4": 3026,
-   "$5": 2577,
-   "$6": 602,
-   "$7": 780,
-   "$8": 482,
-   "$9": 324,
-   "3": 1,
-   "4": 1,
-   "5": 2,
-   "6": 3,
+   "$3": 2509,
+   "$4": 2786,
+   "$5": 2510,
+   "$6": 555,
+   "$7": 734,
+   "$8": 448,
+   "$9": 304,
+   "5": 1,
+   "6": 1,
    "7": 5,
    "9": 4,
-   "a0": 10,
+   "a0": 7,
    "a1": 3,
-   "s0": 2,
-   "s1": 1,
-   "s2": 1,
-   "v0": 9,
-   "v1": 10
+   "v0": 4,
+   "v1": 7
   },
-  "sites": 23044,
+  "sites": 21343,
   "sp": 13,
   "spelling": {
-   "__asm__": 22896,
-   "asm": 148
+   "__asm__": 21234,
+   "asm": 109
   },
-  "volatile_qualified": 135,
-  "zero": 1335
+  "volatile_qualified": 134,
+  "zero": 1324
  },
- "src_stamp": "dd601798dec1ca26",
+ "src_stamp": "70faab79783639aa",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 16505,
+  "bodies": 16118,
   "by_kind": {
-   "main": 204,
-   "md": 213,
-   "ov": 15679,
+   "main": 180,
+   "md": 196,
+   "ov": 15333,
    "resident": 16,
    "shared": 393
   },
-  "copies_in_multi": 14507,
-  "distinct_bodies": 2480,
-  "multi_copy_classes": 482
+  "copies_in_multi": 14336,
+  "distinct_bodies": 2211,
+  "multi_copy_classes": 429
  },
  "verbatim_excluded": {
   "functions": 13,
@@ -493,9 +485,9 @@
  },
  "volatile": {
   "kinds": {
-   "cast": 1612,
-   "decl-body": 93,
-   "decl-file": 343,
+   "cast": 1552,
+   "decl-body": 80,
+   "decl-file": 158,
    "param": 2
   }
  }

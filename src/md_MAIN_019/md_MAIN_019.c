@@ -434,7 +434,7 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
     void *pa;
     s32 t;
 
-    t = *(volatile s32 *)&stg;
+    t = *(s32 *)&stg;
     p[0].v[0] = a0[0] - 8;
     p[0].v[1] = a0[1];
     p[0].v[2] = a0[2];
@@ -447,10 +447,10 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
     p[3].v[0] = a1[0] + 8;
     p[3].v[1] = a1[1];
     p[3].v[2] = a1[2];
-    w[0] = *(volatile s32 *)a3;
-    w[1] = *(volatile s32 *)a3;
-    w[2] = *(volatile s32 *)(a3 + 1);
-    w[3] = *(volatile s32 *)(a3 + 1);
+    w[0] = *(s32 *)a3;
+    w[1] = *(s32 *)a3;
+    w[2] = *(s32 *)(a3 + 1);
+    w[3] = *(s32 *)(a3 + 1);
     hdr[0] = 0x50000000;
     func_80017DC4((void *)t, (void *)mat);
     pa = p;

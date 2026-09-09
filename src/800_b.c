@@ -289,7 +289,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             u8 *m;
             u8 *p;
             m = (u8 *)&D_80075A40;
-            __asm__ __volatile__("" : "=r"(m) : "0"(m));
+            __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             func_80016714(m, 0x80);
             p = (u8 *)&D_80075A40 + ((idx + 1) << 7);
             D_80075A40 = D_80076040;
@@ -304,14 +304,14 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             u8 *p;
             s32 cp;
             m = D_80075FC0;
-            __asm__ __volatile__("" : "=r"(m) : "0"(m));
+            __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             func_80016714(m, 0x80);
             D_80075FC0[0] = 0xFF;
             p = &D_80075FC0[0x10];
             *(Blk152 *)p = *(Blk152 *)&D_80075CC0[0x24];
             D_800760BC = func_8002B064(p);
             cp = (s32)D_80075CC0;
-            __asm__ __volatile__("" : "=r"(cp) : "0"(cp));
+            __asm__ __volatile__("" : "=r"(cp) : "0"(cp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             D_800760C0 = func_8002B08C(cp);
             *(u16 *)&D_80075FC0[4] = D_800760C0;
             *(u16 *)&D_80075FC0[2] = D_800760BC;
@@ -350,12 +350,12 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
           }
         case 21:
             func_80060614(&D_80075A40, 0x200, 0x80);
-            __asm__ __volatile__("");                 /* §5a zero-byte cross-jump barrier */
+            __asm__ __volatile__("");                 /* §5a zero-byte cross-jump barrier */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             D_800760AC++;
             break;
         case 23:
             func_80060614(D_80075FC0, (idx + 5) << 7, 0x80);
-            __asm__ __volatile__("" ::: "memory");    /* §5a barrier, distinct from case 21's */
+            __asm__ __volatile__("" ::: "memory");    /* §5a barrier, distinct from case 21's */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
             D_800760AC++;
             break;
         case 25:
@@ -676,11 +676,11 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
 extern u8 D_80075AC0[];
 
 u32 func_8002C320(void) {
-    register u32 result __asm__("$8") = 0;
+    u32 result = 0;
     int count = 0;
-    register u32 bit1 __asm__("$14") = 1;
-    register u32 bit2 __asm__("$13") = 2;
-    register u32 shift __asm__("$7") = 0;
+    u32 bit1 = 1;
+    u32 bit2 = 2;
+    u32 shift = 0;
     u8 *base = D_80075AC0;
     u8 *ptr_data = base + 0x10;
     u8 *ptr_check = base + 0x2;

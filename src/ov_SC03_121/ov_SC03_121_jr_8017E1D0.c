@@ -2892,7 +2892,7 @@ extern u8 D_8018E684[];
 void func_8017E710(s32 a0) {
     /* register pin: target puts the dispatch value in $s2 and the case-1
        counter in $s1; without pins global_alloc swaps them (§ regalloc-order). */
-    register s32 s2 __asm__("$18");
+    s32 s2;
     s2 = *(u16 *)(a0 + 0x34);
 
     switch (s2) {
@@ -2909,7 +2909,7 @@ void func_8017E710(s32 a0) {
         break;
     case 1: {
         s32 v0;
-        register s32 s1 __asm__("$17");
+        s32 s1;
         s32 mv[4];
 
         v0 = func_8012BA10(a0, 0x10);
@@ -3154,7 +3154,7 @@ void func_8017E880(s32 param_1) {
                 *(u16 *)(s1 + 0xE) = sp28[2] + (v0 << 5 >> 12);
                 /* cookbook §353: launder the VALUE so cse cannot fold the
                    surviving dead re-test that thread_jumps leaves behind. */
-                __asm__("" : "=r"(s0) : "0"(s0));
+                __asm__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             }
         }
         if (s0 != 0) {
@@ -3368,13 +3368,13 @@ void func_8017F4C8(s32 *a0) {
         return;
     }
 
-    *(volatile u16 *)((s32)a0 + 0xA) -= 0x40;
+    *(u16 *)((s32)a0 + 0xA) -= 0x40;
 
     if (func_8012D624(a0, ((s16)(*(u16 *)((*(s32 *)((s32)a0 + 0x20)) + 0x18))) >> 8, 0xA) == 1) {
         D_80126B96 = 0xE;
         func_8012C218(a0);
     } else {
-        *(volatile u16 *)((s32)a0 + 0xA) += 0x40;
+        *(u16 *)((s32)a0 + 0xA) += 0x40;
     }
 }
 
@@ -3472,7 +3472,7 @@ void func_8017F6D8(void *a0) {
         break;
 
     case 2: {
-        register s32 v0 __asm__("$2");
+        register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
         v0 = func_8004787C(*(s16 *)((s32)s0 + 0xFE));
         *(u16 *)((s32)s0 + 0xFE) =
@@ -3973,9 +3973,9 @@ extern s32 D_801AECEC;
 extern s32 D_801AECF0;
 
 void func_80180254(s32 param_1) {
-    register s32 *p __asm__("$17");
-    register s32 off __asm__("$19");
-    register s32 v0 __asm__("$2");
+    s32 *p;
+    s32 off;
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 i;
     s32 q;
     u16 t;
@@ -4409,7 +4409,7 @@ void func_80180E64(s32 a0) {
 
     u8 *p = D_80078E78;
     s16 c0;
-    register s32 f __asm__("$3");
+    register s32 f __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
     s32 i0;
     s32 i1;
     s32 i2;
@@ -4461,7 +4461,7 @@ void func_80180E64(s32 a0) {
            strength-reduced pointer giv's -- that is what puts the counter in
            $a0 and the giv in $a1 (without it they swap).  Emits no bytes. */
         for (i1 = 0; i1 < 5; i1++) {
-            __asm__ __volatile__("" :: "r"(i1));
+            __asm__ __volatile__("" :: "r"(i1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
             if (*(u16 *)(D_801AECD8[i1] + 2) == 5) {
                 f = 1;
             }
@@ -4567,7 +4567,7 @@ void func_80181218(s32 arg0) {
     }
 
     *(s32 *)(arg0 + 0x4C) = -(*(s32 *)(arg0 + 0x18) >> 4);
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     *(s32 *)(arg0 + 0x1C) = 0x10;
 
     *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x18) = 0x1800;
@@ -4621,7 +4621,7 @@ extern s32 otTbl_801813E8[] __asm__("D_800A651C");
 
 void func_801813E8(s32 param_1) {
     void *prim;
-    register u8 *poly __asm__("$18");   /* $s2 — global_alloc keeps it callee-saved; without the pin local_alloc coalesces it into $a1 */
+    register u8 *poly __asm__("$18");   /* $s2 — global_alloc keeps it callee-saved; without the pin local_alloc coalesces it into $a1 */  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
     s32 otz;
     s32 ot;
     struct {
@@ -4944,7 +4944,7 @@ s32 func_80181C18(s32 param_1) {
     /* pool-alloc: gcc routes the loaded pointer through a caller-saved reg ($v0)
        before the callee-saved home ($s1) — pin it to reproduce the extra move. */
     {
-        register char *tmp __asm__("$2");
+        register char *tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
         tmp = D_801ABCB4;
         puVar2 = tmp;
     }
@@ -4964,7 +4964,7 @@ s32 func_80181C18(s32 param_1) {
         (s32)(s16)uVar3 - (s32)*(s16 *)((char *)&s50 + 2) < 0x80) {
         *(s16 *)((char *)&s50 + 2) = *(s16 *)((char *)&s50 + 2) - 4;
         {
-            register char *tmp __asm__("$3");
+            register char *tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
             tmp = D_801ABCB4;
             puVar2 = tmp;
         }
@@ -4998,7 +4998,7 @@ extern void func_8012C218(void *a0);
 s32 func_80181E5C(s32 param_1) {
 
     extern signed char D_801ABC6C[];
-    register int self __asm__("$17") = ((int)param_1);
+    int self = ((int)param_1);
     int iVar6;
     int iVar1;
     unsigned char buf[0x34];
@@ -5085,7 +5085,7 @@ s32 func_80181E5C(s32 param_1) {
         *(short *)(self + 0x70) = *(short *)(self + 0x70) >> 1;
         *(unsigned short *)(iVar6 + 0x2c) |= 1;
     } else {
-        __asm__ __volatile__("" : "=r"(self) : "0"(self));
+        __asm__ __volatile__("" : "=r"(self) : "0"(self));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         func_8012C218((void *)self);
     }
 }

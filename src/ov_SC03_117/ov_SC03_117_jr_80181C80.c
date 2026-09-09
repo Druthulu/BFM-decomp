@@ -3140,10 +3140,10 @@ void func_8018242C(s32 a0)
     }
 
     if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);
+        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
           q[1] = q[1] | 0x80000000; }
     } else {
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
             *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
     }
@@ -3364,7 +3364,7 @@ void func_80182B68(s32 arg0) {
                     e = *(s32 *)(arg0 + 0x6C);
                     func_8012C218((void *)arg0);
                     arg0 = e;
-                    __asm__ __volatile__("" : "=r"(arg0) : "0"(arg0));
+                    __asm__ __volatile__("" : "=r"(arg0) : "0"(arg0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
                     if (arg0 == 0) {
                         return;
                     }
@@ -3418,7 +3418,7 @@ void func_80182B68(s32 arg0) {
                     if (func_80133784(1, q, (s32)p1) != 0) {
                         n = 2;
                         *(s16 *)(e + 0x12) = (rand() & 3) + 4;
-                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n==1 arm */
+                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n==1 arm */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                     }
                 }
             }
@@ -3448,7 +3448,7 @@ void func_80182B68(s32 arg0) {
                     if (func_80133784(1, q, (s32)p1) != 0) {
                         n += 8;
                         *(s16 *)(e + 0x1A) = (rand() & 3) + 4;
-                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n+=4 arm */
+                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n+=4 arm */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                     }
                 }
             }
@@ -3593,10 +3593,10 @@ void func_80182F28(s32 a0)
     }
 
     if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);
+        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
           q[1] = q[1] | 0x80000000; }
     } else {
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
             *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
     }
@@ -4160,8 +4160,8 @@ void func_80183CCC(s32 a0)
 extern void func_8012C218(void *a0);
 void func_80183D60(void *a0)
 {
-register s32 v0 __asm__("$2");
-register s32 v1 __asm__("$3");
+s32 v0;
+s32 v1;
   v0 = (*((s32 *) (((s32) a0) + 0x8)) = (*((s32 *) (((s32) a0) + 0x8))) + 0x40000);
   v1 = 0x400000;
   if (v1 < v0)
@@ -4288,7 +4288,7 @@ void func_80183F48(void *a0) {
      * swaps $v0/$v1 across the sll/lui pair (REGALLOC-PERM). The re-tie keeps the
      * in-place `v1 <<= 6` form (so the shift stays in $v1) AND anchors it after the
      * two loads. Emits no code. */
-    __asm__ __volatile__("" : "=r"(v1) : "0"(v1));
+    __asm__ __volatile__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     v1 = v1 << 6;
     a2 = (s32)D_801CE6D8 + v1;
     v1ptr = *(u8 **)((s32)a0 + 0x20);

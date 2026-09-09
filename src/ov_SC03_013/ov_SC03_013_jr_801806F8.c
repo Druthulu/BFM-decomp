@@ -2889,9 +2889,9 @@ extern s16 *D_801AD3E4;
 void func_801806F8(void *a0)
 {
     void *a1;
-    register s32 idx __asm__("$4");
+    register s32 idx __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
 
-    __asm__ __volatile__("" : "=r"(a1) : "0"(a0));
+    a1 = a0;
 
     if (--*(s32 *)((s32)a1 + 0x1C) == 0) {
         idx = ((s32)D_801AD3E4 + 1) % 6;
@@ -2999,7 +2999,7 @@ extern void func_8012A828(s32 a0, void *a1);
 void func_80180958(s32 a0) {
     s32 v0;
     s32 v1;
-    register s32 addr __asm__("$3");
+    register s32 addr __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     addr = (s32)&D_801A52E4;
     *(s32 *)(a0 + 0x78) = addr;

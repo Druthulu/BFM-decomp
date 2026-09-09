@@ -2832,7 +2832,7 @@ void func_80181F74(s32 param_1)
         if (*(s32 *)(param_1 + 0x1c) >= 0x10) {
             goto C78;
         }
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         goto TAIL;
 
     case 4:
@@ -3199,10 +3199,10 @@ extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8004787C(s32 a0);
 
 void func_80182944(void *arg0) {
-    register s32 v0 __asm__("$2");
-    register s32 s0 __asm__("$16");
-    register s32 s1 __asm__("$17") = (s32)arg0;
-    register u8 *s2 __asm__("$18") = (u8 *)D_800AF630;
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 s1 = (s32)arg0;
+    u8 *s2 = (u8 *)D_800AF630;
     s32 sp10[4];
 
     v0 = *(s32 *)(s1 + 0xD0);
@@ -3214,7 +3214,7 @@ void func_80182944(void *arg0) {
         if (*(s32 *)(*(s32 *)(s1 + 0x20) + 4) < 0) {
             *(s32 *)(s0 + 4) |= (s32)0x80000000;
         } else {
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             *(s32 *)(s0 + 4) &= 0x7FFFFFFF;
         }
 

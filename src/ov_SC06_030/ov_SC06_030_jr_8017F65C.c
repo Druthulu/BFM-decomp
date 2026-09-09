@@ -3049,20 +3049,20 @@ void func_8017FE9C(s32 a0) {
         L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
             s32 x = (s16)L.sxy[0];
-            register s32 ax __asm__("$5");
+            register s32 ax __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
             s32 vol;
             ax = x;
             if (x < 0) {
                 ax = -x;
             }
             vol = ((0xA0 - ax) * 0x7F) / 0xA0;
-            __asm__("" : "=r"(vol) : "0"(vol));
+            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             x = (x + 0xA0) / 0x14;
             if (x == 0x10) {
                 x = 0xF;
@@ -3766,13 +3766,13 @@ extern void *D_801B9F10;
 
 void func_80180DCC(void *a0)
 {
-    register void *s3 __asm__("$19") = a0;
+    void *s3 = a0;
     void *s2;
-    register void *p __asm__("$3");
-    register s32 v1 __asm__("$3");
-    register s32 v0 __asm__("$2");
+    void *p;
+    s32 v1;
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 bits;
-    register s32 s0 __asm__("$16");
+    s32 s0;
     s32 s1;
 
     s2 = *(void **)((s32)s3 + 0x20);
@@ -3879,7 +3879,7 @@ extern void *D_801B9F10;
 
 void func_80180FF4(void *param_1)
 {
-    register void *arg0 __asm__("$19") = param_1;
+    register void *arg0 __asm__("$19") = param_1;  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
     u8 *p;
     s32 i;
     s32 best;
@@ -3891,15 +3891,15 @@ void func_80180FF4(void *param_1)
     p = D_801202A0;
     D_801B9F10 = 0;
     for (; i < 0x60; i++) {
-        __asm__("");
-        __asm__("");
-        __asm__("");
-        __asm__("");
-        __asm__("");
-        __asm__("");
-        __asm__("");
-        __asm__("");
-        __asm__("");
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         if (*(u16 *)p == 0x26E) {
             t = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
             if (t < best) {
@@ -4132,7 +4132,7 @@ void func_80181588(s32 param_1)
      * ranks pri = floor_log2(R)*R/L*1e4*size; without this, diff (R=7,L=46) = 3043 outranks
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
-    __asm__ __volatile__("" :: "r"(obj));
+    __asm__ __volatile__("" :: "r"(obj));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     if (*(s16 *)obj < -0x4E0) {
         diff = (s32)(s16)D_80126B66 - *(s16 *)(param_1 + 0xE);
         if (diff < 0x140) {

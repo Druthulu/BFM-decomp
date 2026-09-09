@@ -3112,7 +3112,7 @@ s32 a5;
         s32 f30, f34, f38, f3C, f40;
         u8 f44;
     } s;
-    register struct S_8017D918 *p __asm__("$16");
+    register struct S_8017D918 *p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     u16 h[2];
     u16 v1val;
     u16 v0val;
@@ -3152,13 +3152,11 @@ s32 a5;
     s.f1A = ylo;
 skip_store:
     p->f04 = 0;
-    __asm__ __volatile__("");
 
     p->f34 = a4;
     p->f30 = a4;
     p->f3C = a5;
     p->f38 = a5;
-    __asm__ __volatile__("");
     p->f20 = *(s32 *)(obj + 0xE4) + 0xC00;
     p->f22 = 0x100;
 
@@ -3418,10 +3416,10 @@ extern s32 rand(void);
 
 void func_8017DF14(s32 param_1)
 {
-    register s32 p __asm__("$17") = param_1;
+    s32 p = param_1;
     s32 r;
     s32 s0;
-    register s32 s2 __asm__("$18");
+    s32 s2;
 
     *(u16 *)(*(s32 *)(p + 0x20) + 0x12) += func_8012B608(*(s16 *)(*(s32 *)(p + 0x20) + 0x12), *(s32 *)(p + 0xE8), 8);
     func_8012B178(p, 0xFFFB0000);
@@ -3525,7 +3523,7 @@ void func_8017E0C0(s32 p)
             return;
         }
         if (s1 < D_801BA730) {
-            register s32 rv __asm__("$2") = 8;
+            s32 rv = 8;
             *(s16 *)(p + 2) = rv;
         }
         return;
@@ -3800,7 +3798,7 @@ void func_8017E6EC(s32 p)
         func_8001C924(*(s32 *)(p + 0x20), &D_801A4EAC);
         func_8012A828(p, D_801B5A18);
         {
-            register u16 ns __asm__("$4");
+            u16 ns;
             ns = *(u16 *)(p + 0x34);
             *(s32 *)(p + 0x1C) = 0x200;
             ns = ns + 1;
@@ -4690,13 +4688,13 @@ void func_8017FAFC(s32 param_1) {
     u8  auStack_38[8];
     s16 sp20[3];
     u8  auStack_28[8];
-    register StructB58_8017FAFC *b58 __asm__("$20") = &(*(StructB58_8017FAFC *)&D_80126B58);   /* $s4 */
+    StructB58_8017FAFC *b58 = &(*(StructB58_8017FAFC *)&D_80126B58);   /* $s4 */
     short *psVar7 = (short *)(param_1 + 0xec);
     s32 sVar1;
     s32 r_b608;
 
     if (func_8012BEE8(param_1) != 0) {
-        register unsigned int *p28 __asm__("$21") = (unsigned int *)auStack_28; /* $s5 */
+        unsigned int *p28 = (unsigned int *)auStack_28; /* $s5 */
         s32 r0 = rand();
         s32 coord;
         s32 s2v;
@@ -4940,7 +4938,7 @@ void func_8017FF48(s32 a0) {
                  * return) that ALL either fully merged or left a redundant extra sign-retest;
                  * only this barrier reproduces the target exactly. See match_one MATCH 96/96.
                  */
-                __asm__ __volatile__("" ::: "memory");
+                __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
                 return;
             }
         } else {

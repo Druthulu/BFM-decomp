@@ -3002,7 +3002,7 @@ void func_80182074(s32 p) {
                  * (temp-hoist, double-load, u32* base, s32 mask, arg-hoist,
                  * split-store, g[1] form) all produced the SAME wrong permutation,
                  * so the shape is not the lever -- pinning the base is. */
-                register s32 g __asm__("$5") = *(s32 *)(p + 0x20);
+                register s32 g __asm__("$5") = *(s32 *)(p + 0x20);  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
                 *(u32 *)(g + 4) |= 0x80000000;
             }
             func_800183E0((s32)&D_801BBFC8);
@@ -3380,8 +3380,8 @@ extern u8 D_801AC510[];
 
 void func_80182BD8(s32 a0, void *a1, s32 a2, s32 a3)
 {
-    register s32 r __asm__("$2");
-    register s32 t __asm__("$3");
+    s32 r;
+    s32 t;
     Blk20 m;
     s32 out[3];
     s32 ent;
@@ -3606,8 +3606,8 @@ void func_801831A8(s32 s0)
     struct RowC_80180CD0 { void *p; };
     extern struct RowC_80180CD0 D_801AC520[];
 
-    register s32 a0 __asm__("$4");
-    register s32 a1 __asm__("$5");
+    s32 a0;
+    s32 a1;
     s32 v1;
 
     a0 = *(s32 *)(s0 + 0x20);
@@ -3727,7 +3727,7 @@ void func_80183408(s32 target, u16 *cur, s32 step)
     if ((s16)diff < 0) {
         mag = -diff;
     }
-    __asm__ __volatile__("" : "=r"(diff) : "0"(diff) : "memory");
+    __asm__ __volatile__("" : "=r"(diff) : "0"(diff) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     if ((s16)mag > (u16)step) {
         if ((s16)diff < 0) {
             *cur = *cur - step;
@@ -3856,7 +3856,7 @@ void func_8018367C(s32 param_1) {
 
     /* the entry call's result doubles as func_8001C214's first argument, so it
        owns $a0 for its whole live range (target: addu $a0,$v0,$zero at entry) */
-    register s32 v0 __asm__("$4");
+    register s32 v0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v1;
     s32 mask;
 
@@ -3957,8 +3957,8 @@ s32 func_80183940(s32 a0, s32 a1) {
     extern s32 rand(void);
     s32 s0;
     s32 rr;
-    register s32 x1 __asm__("$3");
-    register s32 x2 __asm__("$4");
+    s32 x1;
+    s32 x2;
 
     if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) >= 0x800) {
         if (*(s16 *)(a0 + 0xE4) == 0) {

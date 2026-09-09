@@ -3266,7 +3266,7 @@ s32 a0;
 s32 a1;
 {
     extern s32 D_801E1BCC[];
-    register s32 rv __asm__("$2");
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 x = D_801E1BCC[0];
     s32 y = a1;
     s32 d;
@@ -3297,7 +3297,7 @@ s32 a1;
     }
     rv = 31;
 done:
-    __asm__("" :: "r"(rv));
+    __asm__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
 }
 
 
@@ -3401,7 +3401,7 @@ void func_80182598(u16 *a0, s32 a1)
     extern u16 D_8019035E[][4];
     extern u16 D_80190360[][4];
     extern u16 D_80190362[][4];
-    register s32 zr __asm__("$0");
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     u16 pad0[16];   /* dead: locals begin at sp+0x30, va must land at sp+0x50 */
     u16 va[16];     /* sp+0x50 — outer quad, 4 x SVECTOR */
@@ -3417,7 +3417,7 @@ void func_80182598(u16 *a0, s32 a1)
     s32 type2;
     u16 *p1;
     u16 *p2;
-    register u16 *dst __asm__("$4");
+    register u16 *dst __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 i;
     u8 *pk;
     s32 j;
@@ -3618,8 +3618,8 @@ extern s32 rand(void);
 void func_80182C48(s32 param_1) {
     s32 uVar1;
     s32 iVar2;
-    register s32 iVar3 __asm__("$3");
-    register s32 iVar4 __asm__("$16");
+    register s32 iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 iVar4 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     u32 uVar3;
 
     uVar1 = *(u16 *)(param_1 + 0x34);
@@ -3686,7 +3686,6 @@ case2:
     return;
 
 case3:
-    __asm__ __volatile__("" ::: "memory");
     iVar3 = *(s32 *)(param_1 + 0xe4);
     iVar3 = iVar3 + *(s32 *)(param_1 + 0xe0);
     *(s32 *)(param_1 + 0xdc) = *(s32 *)(param_1 + 0xdc) + iVar3;
@@ -4039,13 +4038,13 @@ void func_80183454(u8 *arg0)
 
     extern u8 D_800D387C[];
     extern u8 D_800D3888[];
-    register u8 *param_1 __asm__("$16");   /* $s0 */
+    register u8 *param_1 __asm__("$16");   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s32 raw;
     u32 buf[6];
 
     param_1 = arg0;
     {
-        register s32 s0 __asm__("$17");   /* $s1 -- scoped: dead after func_80128EA8 */
+        s32 s0;   /* $s1 -- scoped: dead after func_80128EA8 */
         s0 = ((s32 (*)(void))func_8012C194)();
         if (s0 == 0) {
             func_8012CAE4(param_1);
@@ -4074,8 +4073,8 @@ void func_80183454(u8 *arg0)
     *(s32 *)(param_1 + 0x18) = 0;
     func_8012B0B4((unsigned int *)buf, (raw & 0xFF00) >> 4, (raw & 0xFF) << 6);
     {
-        register s32 full __asm__("$2");
-        register s32 low  __asm__("$3");
+        s32 full;
+        s32 low;
         full = *(s32 *)buf;
         low = *(s16 *)buf;
         *(s32 *)(param_1 + 0x48) = 0;
@@ -4842,7 +4841,7 @@ void func_80184298(void *a0, s32 a1, s32 a2)
 
     extern u8 D_80078EB1;
     s32 v0;
-    register s32 v1 __asm__("$3");
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     v0 = D_80078EB1;
     if (!(v0 < a1)) {

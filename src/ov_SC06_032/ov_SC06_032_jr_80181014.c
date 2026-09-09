@@ -3010,7 +3010,7 @@ void func_801815A4(s32 *a0) {
 extern void func_801816CC(s32 a0);
 
 void func_801815F4(u8 *a0) {
-    register s32 c4 __asm__("$3");
+    register s32 c4 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
     *(u32 *)(a0 + 0xE0) |= 0x28;
     c4 = *(u32 *)(a0 + 0xC4);
     *(u16 *)(a0 + 0x52) = 0;
@@ -3446,7 +3446,7 @@ s32 func_80181FF4(s32 p) {
     extern s32 D_80126B9C;
     extern u8 D_801A65F4[];
     s32 buf10[2];
-    register s32 r __asm__("$2");   /* $v0 — see note 2 above */
+    register s32 r __asm__("$2");   /* $v0 — see note 2 above */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
     if ((*(u32 *)(p + 0xE0) & 1) == 0) {
         goto ret0;
@@ -3562,7 +3562,7 @@ void func_80182288(s32 arg0, s32 arg1) {
     extern void func_80184124(s32 a0, void *a1, void *a2, s32 a3);
     extern void func_801840C0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern void func_8001C924(s32 a0, void *a1);
-    register s32 rv __asm__("$2");
+    s32 rv;
     u8 buf[8];
     s32 x = arg1;
     s32 y;
@@ -3570,7 +3570,7 @@ void func_80182288(s32 arg0, s32 arg1) {
     s16 state;
     s32 flags;
 
-    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));
+    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
     state = *(u16 *)(arg0 + 0x70) & 0xF;
     flags = *(u32 *)(arg0 + 0xE0);
     if (flags & 4) {
@@ -3607,7 +3607,7 @@ void func_80182288(s32 arg0, s32 arg1) {
     }
     rv = 1;
 epi:
-    __asm__ volatile("" : : "r"(rv));
+    __asm__ volatile("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
 }
 
 
@@ -3667,7 +3667,6 @@ void func_80182460(s32 a0, s32 a1) {
         ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),
                       *(s16 *)(a0 + 0xE), 0, 0, 0x14);
     } else {
-        __asm__("" ::: "memory");
         if ((*(u8 **)(a0 + 0x90) == D_801BE130 || *(u8 **)(a0 + 0x90) == D_801BDCF8) &&
             D_800B99DA % 6 == 0) {
             ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),

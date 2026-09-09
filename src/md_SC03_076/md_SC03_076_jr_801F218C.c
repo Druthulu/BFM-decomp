@@ -191,17 +191,15 @@ s32 func_801F2348(void) {
         t = 0;
         goto join;
     }
-    __asm__("");
     if (x < 300) {
         t = 1;
         goto join;
     }
-    __asm__("");
     if (func_80029178(250) & 0xFF) {
         t = 0;
         goto join;
     }
-    __asm__("");
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     t = 1;
 join:
     if (t != 0) {
@@ -232,17 +230,15 @@ s32 func_801F23D0(void) {
         t = 0;
         goto join;
     }
-    __asm__("");
     if (x < 300) {
         t = 1;
         goto join;
     }
-    __asm__("");
     if (func_80029178(250) & 0xFF) {
         t = 0;
         goto join;
     }
-    __asm__("");
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     t = 1;
 join:
     if (t != 0) {
@@ -270,17 +266,15 @@ s32 func_801F2458(void) {
         t = 0;
         goto join;
     }
-    __asm__("");
     if (x < 300) {
         t = 1;
         goto join;
     }
-    __asm__("");
     if (func_80029178(250) & 0xFF) {
         t = 0;
         goto join;
     }
-    __asm__("");
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     t = 1;
 join:
     if (t != 0 && (func_80029178(276) & 0xFF) == 0) {

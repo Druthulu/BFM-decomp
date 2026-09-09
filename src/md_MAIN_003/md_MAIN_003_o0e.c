@@ -530,7 +530,7 @@ void func_800D09A0(void) {
  */
 void func_800D0A7C(void) {
     extern u8 D_800AF630[];
-    extern volatile s32 D_800EC890;
+    extern s32 D_800EC890;
     extern void func_800146B0(s32 a0);
     extern void func_800118AC();
     extern void func_800D12D0(void);

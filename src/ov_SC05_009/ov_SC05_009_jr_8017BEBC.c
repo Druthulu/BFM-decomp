@@ -3421,8 +3421,8 @@ void func_8017DAF4(s32 param_1)
 
 
 void func_8017DCB0(s32 arg0) {
-    register s32 a0 __asm__("$4");
-    register s32 a1 __asm__("$5");
+    s32 a0;
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
     u16 val;
 
     a1 = *(s32 *)(arg0 + 0x20);
@@ -3617,7 +3617,7 @@ void func_8017DF5C(s32 a0)
 
     {
         s32 v0;
-        __asm__ __volatile__("" : "=r"(v0) : "0"(s1));
+        __asm__ __volatile__("" : "=r"(v0) : "0"(s1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         if (v0 == 0) {
             *(u16 *)((u8 *)s0 + 0xFE) = 0;
         }
@@ -3693,7 +3693,7 @@ void func_8017E0F4(void *a0)
     extern u16 D_80126B62;
     extern u16 D_80126B66;
 
-    register s32 *tbl __asm__("$18");
+    register s32 *tbl __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v0;
     s32 v1;
     s32 a1;
@@ -4133,7 +4133,7 @@ extern s32 func_800132BC(s32 a0, s32 a1);
 s32 func_8017E9E8(s32 param_1)
 {
     s32 iVar1;
-    register s32 uVar2 __asm__("$2");
+    register s32 uVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
     if (*(u16 *) (param_1 + 6) == 0x31 || *(u16 *) (param_1 + 6) == 0x32) {
         return 1;

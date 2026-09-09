@@ -2986,7 +2986,7 @@ void func_80189C84(void *a0)
     extern u8 D_801BCBA4[];
     extern void func_80189E64();
     extern s32 func_8012AD50(void *a0);
-    register s32 i __asm__("$3");
+    register s32 i __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
     u8 *p;
 
     if (*(s16 *)((s32)a0 + 0xDE) != 0) {
@@ -3153,7 +3153,7 @@ void func_80189F24(void *a0)
         *(s16 *)((s32)a0 + 0xFE) = 0x6000;
     } else {
         s32 dv, sv;
-        __asm__ __volatile__("" : : : "memory");
+        __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
         dv = *(u16 *)((s32)a0 + 0x106) + 0x400;
         sv = *(u16 *)((s32)a0 + 0xFE) + dv;
         *(s16 *)((s32)a0 + 0x106) = dv;

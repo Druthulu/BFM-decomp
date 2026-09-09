@@ -3380,9 +3380,8 @@ int func_8017DA88(int param_1)
 {
 
     extern unsigned char D_80184118[];
-    register int iVar1 __asm__("$4");
+    int iVar1;
     iVar1 = *(int *)(D_80184118 + param_1 * 4);
-    __asm__ __volatile__("" ::: "memory");
     func_8013B7F4((void *)iVar1, 0);
 }
 
@@ -3497,7 +3496,7 @@ s32 func_8017DE14(s32 a0)
     u8 *p;
     s32 ot;
     s32 tp;
-    register s32 c1 __asm__("$3");
+    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
     ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14));
 
@@ -3936,17 +3935,17 @@ void aF8017E5D0(void *a0)
     } L;
 
     s32 m;
-    register s32 cnt __asm__("$8");
+    s32 cnt;
     s32 sc;
     s32 sx, sy;
     s32 sye;    /* single-set split of sy (see header note: §S2 birthing boost) */
     s32 d;
-    register s32 ot __asm__("$9");
+    register s32 ot __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9)
     s32 otAddr;
     void *buf;
     s32 tpage;
     u8 *prim;
-    register s8 *fp __asm__("$16");
+    register s8 *fp __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s32 i;
 
     m = *(s32 *)((s32)a0 + 0x20) + 0x34;
@@ -3980,7 +3979,7 @@ void aF8017E5D0(void *a0)
     otAddr = ot + cnt;
 
     {
-        register s32 t __asm__("$2");
+        s32 t;
 
         t = sx - sc;
         sxArr[0] = t;
@@ -4014,7 +4013,7 @@ void aF8017E5D0(void *a0)
     func_8005A600((s32)buf, 0, 0, (u16)tpage, 0);
 
     {
-        register s32 t0c __asm__("$2");
+        register s32 t0c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
         t0c = (s32)((u8 *)buf + 0xC);
         prim = (u8 *)t0c;
     }
@@ -4025,8 +4024,8 @@ void aF8017E5D0(void *a0)
     primPtrs[3] = (s32)((u8 *)buf + 0x78);
 
     {
-        register s32 *table __asm__("$21");
-        register s8 *cbase __asm__("$18");
+        s32 *table;
+        s8 *cbase;
         table = D_8019E16C;
         cbase = (s8 *)primPtrs;
         fp = (s8 *)prim + 0x22;
@@ -4091,7 +4090,7 @@ void func_8017E9F4(s32 param_1)
      * ranks pri = floor_log2(R)*R/L*1e4*size; without this, diff (R=7,L=46) = 3043 outranks
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
-    __asm__ __volatile__("" :: "r"(obj));
+    __asm__ __volatile__("" :: "r"(obj));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     if (*(s16 *)obj < -0x4E0) {
         diff = (s32)(s16)D_80126B66 - *(s16 *)(param_1 + 0xE);
         if (diff < 0x140) {

@@ -3525,7 +3525,7 @@ void func_80180BFC(s32 a0)
     }
 
     if ((func_80029178((s32)D_801AC610[*(s16 *)(a0 + 0x70)]) & 0xFF) != 0) {
-        register s32 s0 __asm__("$16") = *(s32 *)(a0 + 0xDC);
+        s32 s0 = *(s32 *)(a0 + 0xDC);
         if (s0 != 0) {
             s32 a1 = *(s32 *)(s0 + 0x4);
             if (a1 != 0) {
@@ -3542,8 +3542,8 @@ void func_80180BFC(s32 a0)
     }
 
     {
-        register s32 s0 __asm__("$16") = *(s32 *)(a0 + 0xDC);
-        register s32 flag __asm__("$2") = 1;
+        register s32 s0 __asm__("$16") = *(s32 *)(a0 + 0xDC);  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A tus9)
+        register s32 flag __asm__("$2") = 1;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A tus9)
         if (s0 != 0) {
             s32 a1 = *(s32 *)s0;
             if (a1 != 0) {

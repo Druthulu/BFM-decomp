@@ -3128,8 +3128,8 @@ dispatch:
     }
 
     {
-        register void *pv0 __asm__("$2");
-        register s32 pv1 __asm__("$3");
+        void *pv0;
+        register s32 pv1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
         pv0 = *(void **)((u8 *)s0 + 0x68);
         pv1 = 0x7FFF;
         *(s16 *)((u8 *)pv0 + 0xC) = (s16)pv1;
@@ -3294,7 +3294,7 @@ s32 func_80180FB4(void *a0)
          * Without it gcc's find_cross_jump merges this `move v0,0; j epi`
          * tail with the identical case-2 failure tail -> 58 ins instead of
          * 60, and the case-2 `beq` then loses its delay-slot fill. */
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         return 0;
     }
 

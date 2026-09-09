@@ -326,7 +326,7 @@ void main(void) {
                 func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)), 4);
                 GameModeDispatch();
 
-                __asm__ __volatile__(
+                __asm__ __volatile__(  // !FAKE: instruction lui — REFUSED instruction `lui` has no C spelling in the table (P36 rung B tus9)
                     "lui   $a2, 0x1f80\n"
                     "ori   $a2, $a2, 0x03fc\n"
                     "addu  $t0, $a2, $zero\n"
@@ -334,11 +334,11 @@ void main(void) {
                     "addiu $t0, $t0, -4\n"
                     "addu  $sp, $t0, $zero\n" : : : "memory");
                 func_80015498();
-                __asm__ __volatile__(
+                __asm__ __volatile__(  // !FAKE: instruction addiu — REFUSED instruction `addiu` has no C spelling in the table (P36 rung B tus9)
                     "addiu $sp, $sp, 4\n"
                     "lw    $sp, 0($sp)\n" : : : "memory");
 
-                __asm__ __volatile__(
+                __asm__ __volatile__(  // !FAKE: instruction lui — REFUSED instruction `lui` has no C spelling in the table (P36 rung B tus9)
                     "lui   $a2, 0x1f80\n"
                     "ori   $a2, $a2, 0x03fc\n"
                     "addu  $t0, $a2, $zero\n"
@@ -346,7 +346,7 @@ void main(void) {
                     "addiu $t0, $t0, -4\n"
                     "addu  $sp, $t0, $zero\n" : : : "memory");
                 func_8001C00C();
-                __asm__ __volatile__(
+                __asm__ __volatile__(  // !FAKE: instruction addiu — REFUSED instruction `addiu` has no C spelling in the table (P36 rung B tus9)
                     "addiu $sp, $sp, 4\n"
                     "lw    $sp, 0($sp)\n" : : : "memory");
             } else {
@@ -356,7 +356,7 @@ void main(void) {
                     *(u16 *)(p + 0xA3D2) * 16 + (s32)D_800BA0E4;
                 func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)), 4);
 
-                __asm__ __volatile__(
+                __asm__ __volatile__(  // !FAKE: instruction lui — REFUSED instruction `lui` has no C spelling in the table (P36 rung B tus9)
                     "lui   $a2, 0x1f80\n"
                     "ori   $a2, $a2, 0x03fc\n"
                     "addu  $t0, $a2, $zero\n"
@@ -364,7 +364,7 @@ void main(void) {
                     "addiu $t0, $t0, -4\n"
                     "addu  $sp, $t0, $zero\n" : : : "memory");
                 func_800D25FC();
-                __asm__ __volatile__(
+                __asm__ __volatile__(  // !FAKE: instruction addiu — REFUSED instruction `addiu` has no C spelling in the table (P36 rung B tus9)
                     "addiu $sp, $sp, 4\n"
                     "lw    $sp, 0($sp)\n" : : : "memory");
             }

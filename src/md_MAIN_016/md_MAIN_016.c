@@ -173,8 +173,8 @@ typedef struct {
 } Blk16;
 
 void func_800CB228(s32 arg0) {
-    register s32 ent __asm__("$7");
-    register s32 oth __asm__("$5");
+    s32 ent;
+    s32 oth;
     s32 cnt;
     s32 p;
     u16 t0;
@@ -261,7 +261,7 @@ void func_800CB458(s32 arg0) {
     extern void func_800CAF84(void);
     extern s32 func_80146A6C(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     typedef struct { s32 w[4]; } Struct16;
-    register s32 keep_a0 __asm__("$4");
+    register s32 keep_a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 s0 = arg0;
     s32 s1;
     s32 v0;
@@ -273,7 +273,7 @@ void func_800CB458(s32 arg0) {
 
     *(Struct16 *)(s0 + 0x38) = *(Struct16 *)(v0 + 0x34);
     *(Struct16 *)(s0 + 0x48) = *(Struct16 *)(v0 + 0x44);
-    __asm__ __volatile__("" :: "r"(keep_a0));
+    __asm__ __volatile__("" :: "r"(keep_a0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
 
     func_800CAF84();
 

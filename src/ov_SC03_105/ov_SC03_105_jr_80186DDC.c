@@ -2980,8 +2980,8 @@ void func_80186DDC(void *arg0)
     /* LOAD-BEARING register pins: ent=$s1 / tbl=$s0 reproduce the target's
      * save order (sw s1 BEFORE sw ra/s0) and let the case-2 0xCC reload land
      * back in $s0 ahead of func_8013C9C4. Do NOT "simplify" to plain locals. */
-    register s32 ent __asm__("$17");
-    register u8 *tbl __asm__("$16");
+    s32 ent;
+    register u8 *tbl __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     /* dead-local frame pads (§162i1): 8+64 bytes -> vars=72 => frame 0x48 */
     s32 pad[2];
     s32 pad2[8];
@@ -3182,7 +3182,7 @@ void func_801871C0(void *arg0, s32 arg1, s32 arg2) {
 extern u8 D_801202A0[];
 
 void func_801873C8(void) {
-    register u8 *q __asm__("$4");
+    register u8 *q __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     u8 *p;
     s32 i;
     s32 count;
@@ -3284,7 +3284,7 @@ void func_80187554(void)
     func_8012A018((s32)func_8018774C, 0);
 
     D_8012694C = 0;
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
 
     D_80126954 = 0x708;
     D_80126950 = 0x708;
@@ -4047,9 +4047,7 @@ void func_80188574(void *a0) {
     func_8012A828(*(s32 *)(s2 + 0x64), &D_8018EAB4);
     i = 3;
     func_8012C218((void *)*(s32 *)(*(s32 *)(s2 + 0x64) + 0x6C));
-    __asm__ __volatile__("");
     temp = *(s32 *)(s2 + 0x64);
-    __asm__ __volatile__("" : : "r"(temp));
     p1 = (s32)&D_8018F758;
     func_80188BA8(temp);
     do {
@@ -4548,7 +4546,7 @@ void func_80189118(void) {
 
 void func_80189254(void *a0, s32 a1)
 {
-    register s32 offset __asm__("$2");
+    s32 offset;
     s16 buf[4];
     u16 t0, t1, t2, t3;
     u16 *ptr;
@@ -4704,8 +4702,8 @@ void func_80189454(void *a0) {
     extern EffectSlot4_80189454 D_8018F44C;
     extern EffectSlot4_80189454 D_8018F47C;
     extern EffectSlot4_80189454 D_8018F480;
-    register void *s0 __asm__("$16");
-    register void *s1 __asm__("$17");
+    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s1;
 
     s0 = a0;
     s1 = ((void *(*)(void))func_801465C0)();
