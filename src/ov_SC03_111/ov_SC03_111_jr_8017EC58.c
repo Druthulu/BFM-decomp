@@ -2907,7 +2907,7 @@ void func_8017EC58(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -3352,7 +3352,7 @@ void func_8017FB38(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
             gte_stsxy(&sxy[3]);
             gte_ldv3c(&box[4]);
-            __asm__ volatile ("");   /* §47 live-length slider (carried from the twin) */
+            __asm__ volatile ("");   /* §47 live-length slider (carried from the twin) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
             gte_rtpt();
             gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
             gte_ldv0(&box[7]);
@@ -3738,7 +3738,7 @@ void func_80180A10(s32 a0) {
     }
 
     s1 = ratan2(sp10.v[0], sp10.v[2]) & 0xFFF;
-    __asm__("" : "=r"(s1) : "0"(s1));   /* §393 birthing boost: 2-set s1 -> the andi schedules first */
+    __asm__("" : "=r"(s1) : "0"(s1));   /* §393 birthing boost: 2-set s1 -> the andi schedules first */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     sp18[0] = (u16)sp10.v[0];
     sp18[1] = 0;
     sp18[2] = (u16)sp10.v[2];
@@ -4089,7 +4089,7 @@ void func_80181344(void) {
 
 void func_80181470(void *a0, s32 a1)
 {
-    register s32 offset __asm__("$2");
+    s32 offset;
     s16 buf[4];
     u16 t0, t1, t2, t3;
     u16 *ptr;
@@ -4868,10 +4868,10 @@ void func_80182490(s32 a0)
     }
 
     if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);
+        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
           q[1] = q[1] | 0x80000000; }
     } else {
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
             *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
     }
@@ -5095,7 +5095,7 @@ void func_80182BCC(s32 arg0) {
                     e = *(s32 *)(arg0 + 0x6C);
                     func_8012C218((void *)arg0);
                     arg0 = e;
-                    __asm__ __volatile__("" : "=r"(arg0) : "0"(arg0));
+                    __asm__ __volatile__("" : "=r"(arg0) : "0"(arg0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
                     if (arg0 == 0) {
                         return;
                     }
@@ -5149,7 +5149,7 @@ void func_80182BCC(s32 arg0) {
                     if (func_80133784(1, q, (s32)p1) != 0) {
                         n = 2;
                         *(s16 *)(e + 0x12) = (rand() & 3) + 4;
-                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n==1 arm */
+                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n==1 arm */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
                     }
                 }
             }
@@ -5179,7 +5179,7 @@ void func_80182BCC(s32 arg0) {
                     if (func_80133784(1, q, (s32)p1) != 0) {
                         n += 8;
                         *(s16 *)(e + 0x1A) = (rand() & 3) + 4;
-                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n+=4 arm */
+                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n+=4 arm */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
                     }
                 }
             }
@@ -5324,10 +5324,10 @@ void func_80182F8C(s32 a0)
     }
 
     if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);
+        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
           q[1] = q[1] | 0x80000000; }
     } else {
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
             *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
     }
@@ -5893,8 +5893,8 @@ void func_80183D30(int a0)
 extern void func_8012C218(void *a0);
 void func_80183DC4(void *a0)
 {
-register s32 v0 __asm__("$2");
-register s32 v1 __asm__("$3");
+s32 v0;
+s32 v1;
   v0 = (*((s32 *) (((s32) a0) + 0x8)) = (*((s32 *) (((s32) a0) + 0x8))) + 0x40000);
   v1 = 0x400000;
   if (v1 < v0)
@@ -6021,7 +6021,7 @@ void func_80183FAC(void *a0) {
      * swaps $v0/$v1 across the sll/lui pair (REGALLOC-PERM). The re-tie keeps the
      * in-place `v1 <<= 6` form (so the shift stays in $v1) AND anchors it after the
      * two loads. Emits no code. */
-    __asm__ __volatile__("" : "=r"(v1) : "0"(v1));
+    __asm__ __volatile__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     v1 = v1 << 6;
     a2 = (s32)D_801B9918 + v1;
     v1ptr = *(u8 **)((s32)a0 + 0x20);

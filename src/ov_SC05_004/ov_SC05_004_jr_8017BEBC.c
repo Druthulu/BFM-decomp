@@ -2875,7 +2875,7 @@ void func_8017BEBC(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -3200,8 +3200,8 @@ void func_8017CE68(s32 a0) {
     s32 s0;
     s32 s2;
     s32 s3;
-    register s32 v1 __asm__("$3");
-    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
     s32 rnd;
     s32 scale;
 
@@ -3238,7 +3238,7 @@ void func_8017CE68(s32 a0) {
     sp10[2] = scale;
     ApplyMatrixSV(sp18, sp10, sp10);
     {
-        register s32 c __asm__("$4");
+        register s32 c __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
         s32 z;
         c = *(u16 *)(a0 + 0x2);
         *(s32 *)(a0 + 0x10) = sp10[0] << 8;
@@ -3492,7 +3492,7 @@ void func_8017D400(s32 a0) {
        permutation. */
     raw = ((s32 (*)(s32))func_8012CBA4)(a0);
     flags = raw;
-    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));
+    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
 
     /* `m` blocks fold_truthop from merging the two bitfield tests below into a single
        `andi $v1,$s1,0xe000` -- the target keeps `& 0x8000` and `& 0x6000` separate. */
@@ -3639,7 +3639,7 @@ void func_8017D400(s32 a0) {
        copies vanish and everything from .L8017CD18 on drifts by 2 instructions. */
     {
         s32 fire = ret;
-        __asm__ __volatile__("" : "=r"(ret) : "0"(ret));
+        __asm__ __volatile__("" : "=r"(ret) : "0"(ret));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
         if (fire != 0) {
             func_80146A6C(2, (void *)s0, 0, 0, 0, 2, 0);
         }
@@ -3768,7 +3768,7 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
 void func_8017D9B0(s32 a0, s16 a1, s16 a2) {
     u32 buf[4];
-    register s32 hi __asm__("$2");
+    register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
     s32 lo;
 
     func_8012B0B4(buf, *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), a1 << 4);
@@ -3855,7 +3855,7 @@ void func_8017DB00(s32 a0) {
     u8 out[8];
     Mtx8_8017DE10_8017DB00 m;
     s32 base;
-    register s32 ang __asm__("$2");
+    register s32 ang __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
     s16 arg;
 
     *(s16 *)(in + 0) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
@@ -4718,7 +4718,7 @@ extern s32 D_801986E8;
 
 void func_8017EE14(void *a0)
 {
-    register void *s0 __asm__("$16") = a0;
+    void *s0 = a0;
     s32 v0;
     s32 v1;
 
@@ -4762,8 +4762,8 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017EF0C(s32 a0)
 {
-    register s32 v0 __asm__("$2");
-    register s32 v1 __asm__("$3");
+    s32 v0;
+    s32 v1;
     s32 pad;
 
     if (func_8012BEE8() != 0) {
@@ -4775,7 +4775,7 @@ void func_8017EF0C(s32 a0)
         v0 = *(s16 *)(a0 + 0xFC);
         if (v0 != 0) {
             v1 = v0;
-            __asm__ volatile("" : "=r"(v0) : "0"(v0), "m"(pad));
+            __asm__ volatile("" : "=r"(v0) : "0"(v0), "m"(pad));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B tus8)
             if (v0 < 3) {
                 v0 = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
                 v0 = (v0 + 2) & 0x3FF;
@@ -4831,7 +4831,7 @@ extern s16 D_80198718;
 void func_8017F0B8(void *arg0) {
     s32 v0;
     s32 mask;
-    register void *s0 __asm__("$16");
+    void *s0;
     s0 = arg0;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();

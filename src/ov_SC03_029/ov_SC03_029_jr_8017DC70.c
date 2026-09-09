@@ -2900,7 +2900,7 @@ void func_8017DC70(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -3726,7 +3726,7 @@ void func_8017F760(s32 a0)
     s32 ang;
     s16 r;
     s16 *p;
-    register s32 d __asm__("$4");
+    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
 
     sp18 = *(UShortBlk_F760 *)&D_801D8028;
 
@@ -3747,7 +3747,7 @@ void func_8017F760(s32 a0)
         }
         sp18.x1 = sp10.x1;
         r = func_80013294(&sp10, &sp18);
-        __asm__("");
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         d = ang;
         if (d < 0xA00 && r > 0xAE0) {
             sp10.x0 = 0;

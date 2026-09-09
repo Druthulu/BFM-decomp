@@ -2874,7 +2874,7 @@ void func_8017BEBC(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -4342,9 +4342,9 @@ void func_8017E778(s32 a0) {
 
     
     if (*(s32*)(a0 + 0x1C) < 0x11) {
-        register s32 mask __asm__("a0");
-        register s32 ptr __asm__("v0");
-        register s32 val __asm__("v1");
+        s32 mask;
+        s32 ptr;
+        s32 val;
 
         mask = 0x80000000;
         ptr = *(s32*)(a0 + 0x20);  
@@ -4416,8 +4416,8 @@ extern void func_8017EFB8();
 
 void func_8017E8D0(s32 a0)
 {
-    register s32 v0 __asm__("$2");
-    register s32 v1 __asm__("$3");
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
 
     v0 = *(s32 *)(a0 + 0xDC);
     if ((v0 & 0x2) != 0) {
@@ -5154,7 +5154,7 @@ void func_8017FC5C(s32 *a0, s32 a1, s32 a2) {
     s16 *q;
     u16 *p;
     s16 t;
-    register s32 rv __asm__("$2");
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
 
     q = &D_80126CBA;
     if (*q == 0) {
@@ -5173,7 +5173,7 @@ void func_8017FC5C(s32 *a0, s32 a1, s32 a2) {
     rv = sp20;
     *a0 = rv;
     rv = (s32)a0;
-    __asm__ __volatile__("" : : "r" (rv));
+    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
 }
 
 
@@ -5196,7 +5196,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
  * a hard-reg set that stays where it is written, and the call's arg move degenerates
  * to a deleted `(set (reg 4) (reg 4))`. */
 void func_8017FD20(void *a0) {
-    register s32 id __asm__("$4");
+    s32 id;
     s32 vol;
     s32 t;
 

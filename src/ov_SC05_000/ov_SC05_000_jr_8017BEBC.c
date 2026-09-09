@@ -2877,7 +2877,7 @@ void func_8017BEBC(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -3202,8 +3202,8 @@ void func_8017CE68(s32 a0) {
     s32 s0;
     s32 s2;
     s32 s3;
-    register s32 v1 __asm__("$3");
-    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
     s32 rnd;
     s32 scale;
 
@@ -3240,7 +3240,7 @@ void func_8017CE68(s32 a0) {
     sp10[2] = scale;
     ApplyMatrixSV(sp18, sp10, sp10);
     {
-        register s32 c __asm__("$4");
+        register s32 c __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
         s32 z;
         c = *(u16 *)(a0 + 0x2);
         *(s32 *)(a0 + 0x10) = sp10[0] << 8;

@@ -2878,7 +2878,7 @@ void func_8017BEBC(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -3491,7 +3491,7 @@ void func_8017D414(s32 p) {
     *(s16 *)(o + 0x18) = t1;
     lim1 = **(s16 **)(p + 0x58);
     lv1 = lim1;
-    __asm__("" : "=r"(lv1) : "0"(lv1));
+    __asm__("" : "=r"(lv1) : "0"(lv1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     if (lim1 < t1) {
         *(s16 *)(o + 0x1C) = lv1;
         *(s16 *)(o + 0x18) = lv1;
@@ -3603,8 +3603,8 @@ void func_8017D6A8(s32 a0) {
     s32 s0;
     s32 s2;
     s32 s3;
-    register s32 v1 __asm__("$3");
-    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
     s32 rnd;
     s32 scale;
 
@@ -3641,7 +3641,7 @@ void func_8017D6A8(s32 a0) {
     sp10[2] = scale;
     ApplyMatrixSV(sp18, sp10, sp10);
     {
-        register s32 c __asm__("$4");
+        register s32 c __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
         s32 z;
         c = *(u16 *)(a0 + 0x2);
         *(s32 *)(a0 + 0x10) = sp10[0] << 8;
@@ -3839,7 +3839,7 @@ void func_8017DB70(s32 a0) {
 extern void func_80146C3C(void);
 void func_8017DC14(int a0) {
     int v0 = *(int *)(a0 + 0x1C);
-    register unsigned char *p __asm__("$5") = *(unsigned char **)(a0 + 0x20);
+    register unsigned char *p __asm__("$5") = *(unsigned char **)(a0 + 0x20);  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus8)
     *(int *)(a0 + 0x1C) = v0 + 1;
     if (v0 >= 0x1F) {
         func_80146C3C();
@@ -4201,7 +4201,7 @@ void func_8017E498(s32 a0) {
                     /* LOAD-BEARING (§5a cross-jump barrier, zero bytes): without it
                        jump2 tail-merges the two identical [set $a0][jal] arms into one
                        shared call site and the function comes out 2 instructions short. */
-                    __asm__ __volatile__("");
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
                 } else {
                     func_80178B18(a0, (s32)D_8018866C);
                 }

@@ -2881,7 +2881,7 @@ void func_8017BEBC(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -4434,7 +4434,7 @@ void func_8017EE0C(s32 a0)
 
     {
         s32 v0;
-        __asm__ __volatile__("" : "=r"(v0) : "0"(s1));
+        __asm__ __volatile__("" : "=r"(v0) : "0"(s1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
         if (v0 == 0) {
             *(u16 *)((u8 *)s0 + 0xFE) = 0;
         }
@@ -4510,7 +4510,7 @@ void func_8017EFA4(void *a0)
     extern u16 D_80126B62;
     extern u16 D_80126B66;
 
-    register s32 *tbl __asm__("$18");
+    register s32 *tbl __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus8)
     s32 v0;
     s32 v1;
     s32 a1;

@@ -976,7 +976,7 @@ extern void func_801407F4(void);
 extern s32 func_801416D4(s16);  /* macro-canonical (§8e) */
 
 s32 func_8013F350(void) {
-    register u16 *pd __asm__("$5") = &D_8011511C;
+    register u16 *pd __asm__("$5") = &D_8011511C;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus8)
     u16 *ps;
     u16 *pf;
     u16 *pg;
@@ -986,17 +986,17 @@ s32 func_8013F350(void) {
     u8 *pmax;
     u8 *p2e;
     u8 *p3e;
-    register s32 off __asm__("$4");
+    register s32 off __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
     s16 i;
     s32 r;
     s16 rs;
     s16 d;
     u8 b;
-    register u8 bb __asm__("$4");
+    u8 bb;
     u8 m;
     s32 chg;
 
-    __asm__ __volatile__("" : "=r"(pd) : "0"(pd));
+    __asm__ __volatile__("" : "=r"(pd) : "0"(pd));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     pad = *pd;
     chg = 0;
     if (pad != 0) {
@@ -1274,7 +1274,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     s32 t;
     s16 *pp;
     s32 flag2;
-    register s32 flag3 __asm__("$18");
+    register s32 flag3 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus8)
 
     func_80140E6C();
     func_80140F00();

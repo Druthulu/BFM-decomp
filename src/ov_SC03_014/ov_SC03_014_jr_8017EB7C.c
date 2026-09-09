@@ -2894,7 +2894,7 @@ void func_8017EB7C(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -3484,7 +3484,7 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
 
             gte_stsxy(&sxy[3]);
             gte_ldv3c(&box[4]);
-            __asm__ volatile ("");   /* §47 live-length slider: splits the &g.sz0/&g.sz1 254/254 tie */
+            __asm__ volatile ("");   /* §47 live-length slider: splits the &g.sz0/&g.sz1 254/254 tie */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
             gte_rtpt();
             gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
             gte_ldv0(&box[7]);
@@ -3964,7 +3964,7 @@ void func_80180C34(s32 p) {
     *(s16 *)(o + 0x18) = t1;
     lim1 = **(s16 **)(p + 0x58);
     lv1 = lim1;
-    __asm__("" : "=r"(lv1) : "0"(lv1));
+    __asm__("" : "=r"(lv1) : "0"(lv1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     if (lim1 < t1) {
         *(s16 *)(o + 0x1C) = lv1;
         *(s16 *)(o + 0x18) = lv1;
@@ -5842,7 +5842,7 @@ void func_80183130(void *a0) {
     if (*(s16 *)((s32)a0 + 0xFC) == 0xB) {
         s32 f = *(s32 *)((s32)a0 + 0x1C);
         s32 v = -(f & 1) & 0xC0;
-        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
         f = f + 1;
         *(s32 *)((s32)a0 + 0x1C) = f;
         D_801EABC9 = v;
@@ -5866,16 +5866,15 @@ void func_80183130(void *a0) {
         D_801EABCD = c * 255 / h;
         D_801EABC5 = c * 255 / h;
     } else {
-        register u8 *q __asm__("$6");
+        u8 *q;
         u16 bs;
         s32 x;
         s16 y;
         t = (c - h) * 255 / h;
         q = &D_801EABC5;
-        __asm__("" : "=r"(q) : "0"(q));
+        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
         bs = (u16)D_801EABA0;
         x = bs + hw;
-        __asm__("" :: "r"(hw));
         y = x - 4;
         D_801EABCD = 0xFF;
         *q = 0xFF;
@@ -5891,7 +5890,7 @@ void func_80183130(void *a0) {
     }
 
     p = &D_801EAC20;
-    __asm__("" : "=r"(p) : "0"(p));
+    __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     D_801EAC10 = *(u16 *)((s32)p - 0x18) + (u16)D_8018F76C;
     *p = D_801EAC10 - 4;
     w = (void *)((s32)p - 0x80);

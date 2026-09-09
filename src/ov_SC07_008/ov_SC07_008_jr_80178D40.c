@@ -3503,7 +3503,7 @@ int func_8017A3D8(void)
         return 0;
     case 100:
     {
-        register int a __asm__("$4");
+        register int a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
         a = D_80196568;
         if (a != -1) {
             return func_8001AAA0() != 0;

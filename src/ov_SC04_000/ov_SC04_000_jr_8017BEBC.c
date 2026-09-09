@@ -2882,7 +2882,7 @@ void func_8017BEBC(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */
+        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -4811,8 +4811,8 @@ extern s32 func_80146E98(s32 a0);
 
 void func_8017F834(s32 *a0) {
     s32 *s1 = *(s32 **)((s32)a0 + 0x20);
-    register s32 v0 asm("$2");
-    register s32 v1 asm("$3");
+    s32 v0;
+    register s32 v1 asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
 
     if (func_80146E98((s32)a0) != 0) {
         v1 = 0x7FFFFFFF;
@@ -6065,8 +6065,8 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 void func_80181310(void *a0) {
     s32 s0 = (s32)a0;
     s32 s1;
-    register s32 v1_addr asm("$3");
-    register u16 v0_val asm("$2");
+    s32 v1_addr;
+    register u16 v0_val asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
 
     
     v1_addr = *(s32 *)(s0 + 0x20);
@@ -6170,9 +6170,9 @@ void func_801814A8(s32 a0) {
     s32 p;
 
     if (*(s32 *)(a0 + 0x1C) < 0xC) {
-        register s32 mask __asm__("a0");
-        register s32 ptr __asm__("v0");
-        register s32 val __asm__("v1");
+        s32 mask;
+        s32 ptr;
+        s32 val;
 
         mask = 0x80000000;
         ptr = *(s32 *)(a0 + 0x20);
