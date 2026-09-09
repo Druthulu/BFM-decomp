@@ -412,6 +412,34 @@ accumulate here as the phase produces them.**
   T1 hashes; the cycle's FINISH mode; the file-scope pseudo-body now holds file-scope asm statements. **T4 ☑.** Rules check (P6) done
   after T4 (re-read complete).
 
+- **S98 — T5 opened: the GTE consolidation — design, the signature engine, the header step (gated).** Reconnaissance (R37): 327 GTE macro
+  names (215 `gte_*`, 112 address-suffixed private copies), 9,102 definitions, 1,140 direct GTE statements, 5,751 macro-carried uses;
+  `mipsel-linux-gnu-as` and the maspsx tail both reject `rtps`/`mvmva` — the mnemonics are GAS macros in `include/gte_macros.inc` reached
+  through `include_asm.h`; Sony's converted `inline_c.h` is unreliable for opcode words (`gte_rtps` = `.word 0x0000007f`, which assembles to a
+  bare 0x7f) and serves for names, operand counts and clobber lists only; 3,269 macro uses and 968 direct statements carry a `"memory"`
+  clobber, of which Sony's own STORE macros account for most — the steers are the clobbers on loads and compute ops. **Design (X1):** a
+  SIGNATURE = (the bytes the build's own maspsx→as tail makes of the template with %k bound to $4–$7/$2–$3, #outputs, #inputs) — `nop;nop;rtps`,
+  `.word 0x4a180001` and `cop2 0x0180001` are one; one canonical text per signature (the majority body, byte-proven in the fleet — the header
+  ships nothing new), Sony's name when the operand counts agree, Sony's clobber set canonical EVEN when every definition carries the steer
+  (the body synthesized: `gte_rtv0`'s six definitions all added `"memory"`); a definition with the canonical bytes and other clobbers is a
+  lever variant `<name>_m` / `_v<hash>` — the apply TRIES it as canonical first and keeps it only when the object differs; direct statements
+  rewritten into canonical calls when bytes and clobbers agree (a concatenation of two canonical macros included), marked as levers when
+  their clobbers exceed the canonical's, counted when they match nothing. **Built:** `tools/gte_consolidate.py` (`--inventory`, `--header`,
+  `--apply`, `--sweep`, `--status`, `--selftest`: `OK — signatures rtps=0100184a ldv0=000080c8040081c8; table 1 canonical / 1 variant; fixture
+  edits 8`), the cycle's `MODE=gte`, the census's `gte-lever` class (a variant's uses; a direct statement whose clobbers exceed its canonical's,
+  by a read-only lookup of the tool's signature cache) + `per_tu_asm_macro_definitions` + the strict gate on both (selftest OK), the dictionary
+  + SETUP rows, kit corpus. **The inventory:** `9540 asm-bearing macro definitions (9102 GTE, 9101 signed), 1140 direct GTE statements (1137
+  signed)` → **`canonical table — 50 signatures (41 with Sony's name), 8402 canonical definitions; 10 lever variants holding 699 definitions;
+  1 unsigned`** (variants: `gte_rtv0tr_m` 307 defs / 293 files, `gte_ldv0_m` 179 / 163, `gte_ldrgb_m` 137, `gte_SetRotMatrix_m` 30,
+  `gte_SetTransMatrix_m` 25, `gte_rtv0_m` 6, `gte_rtir_m` 3, `gte_rt_m` 1; three store macros MISSING Sony's `"memory"`: `gte_stsz4_vda39` 10,
+  `gte_stsxy_vda39` 1, `gte_stclmv_v41be` 1; `gte_ldlvl_v02f2` with extra register clobbers 1; the unsigned one is a two-statement macro in
+  `md_MAIN_019`); direct statements: 713 → canonical calls, 226 lever, 201 matching no canonical signature. **The header step:**
+  `include/gte_inline.h` (50 macros; 9 project names beside Sony's 41: `gte_ldIR0z`, `gte_ldIRGB`, `gte_stORGB`, `gte_SetRotTransMatrix`,
+  `gte_mulcol`, `gte_multrans`, `gte_ldlvl_alt`, `gte_ldv3_alt`, `gte_rt_alt`), included from `include/common.h` → every TU sees it, the local
+  definitions still win as later definitions → **R22 `check-all: 218 passed, 0 failed of 218` (`wall=112.72 s`,
+  `.run/P36/baseline/r22_t5_header.log`)**. Census after the header step (before any apply): GTE levers (clobbers beyond the canonical macro's): 49 sites (0 via a variant macro, 49 direct) · marked 0 · UNMARKED 49 · unsigned GTE statements 3 · per-TU asm macro definitions outside the GTE header: 9,540 {'gte': 9102, 'launder': 428, 'instruction': 9, 'barrier': 1} (GTE variants 0). Next: the apply batches
+  (`tools/delever_cycle.sh 1 4 400 gte`, detached), then `--sweep`, then the T5 verify line.
+
 ## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ T4 ☑ — all committed (T4 = 13 batch commits `a605e1dba`…`f087282a3` + the tool commits; this close); NEXT = T5 the GTE consolidation + the dead lever-macro sweep | the number: 33,625 sites in 12,501 bodies (1,728 distinct) · marked 33,625 · UNMARKED 0 · orphans 0 — `lever_census --check` OK
 
 ### 0. How to use this block

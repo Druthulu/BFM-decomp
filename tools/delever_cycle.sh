@@ -9,7 +9,7 @@
 #      and src/ + the ledger/batch record/log + the census + the phase log are committed (R42).
 # Stops on the first red (a non-zero tool exit, a final N/M with N != M, a fleet run that is not 218/218) — the batch's files are then
 # still in place: inspect, then `tools/delever.py --restore` (never git checkout, R102). Stops cleanly when nothing is drawable.
-# Usage: [LABEL_PREFIX=t3_] [TASK=T4] [REDRAW="REFUSED NOTHING-USABLE"] tools/delever_cycle.sh START END [BATCH=300] [MODE=tus|headers] [ONLY="alias1 alias2 …"]
+# Usage: [LABEL_PREFIX=t3_] [TASK=T4] [REDRAW="REFUSED NOTHING-USABLE"] tools/delever_cycle.sh START END [BATCH=300] [MODE=tus|headers|gte] [ONLY="alias1 alias2 …"]
 #   RUN IT DETACHED from the Claude Code harness (its low-memory guard kills a long BACKGROUND task — batch tus3 died mid-apply, S98):
 #     setsid nohup bash -c 'TASK=T4 tools/delever_cycle.sh 3 12 300 tus; echo "cycle exit=$?"' > .run/P36/delever/cycle_<x>.log 2>&1 &
 #   and watch the log (a tiny waiter: `until grep -q 'cycle exit=' <log>; do sleep 60; done`). A killed batch: `tools/delever.py --restore`.
@@ -20,7 +20,12 @@ set -o pipefail
 cd "$(dirname "$0")/.." || exit 2
 START=$1; END=$2; BATCH=${3:-300}; MODE=${4:-tus}; ONLY=${5:-}
 [ -n "$START" ] && [ -n "$END" ] || { echo "usage: $0 START END [BATCH] [tus|headers] [ONLY]"; exit 2; }
-case "$MODE" in tus) HFLAG="";; headers) HFLAG="--headers";; *) echo "MODE must be tus or headers"; exit 2;; esac
+case "$MODE" in
+  tus) HFLAG=""; TOOL="tools/delever.py --apply"; VPAT='delever: batch .*';;
+  headers) HFLAG="--headers"; TOOL="tools/delever.py --apply"; VPAT='delever: batch .*';;
+  gte) HFLAG=""; TOOL="tools/gte_consolidate.py --apply"; VPAT='gte_consolidate: batch .*';;      # T5: the GTE consolidation per file
+  *) echo "MODE must be tus, headers or gte"; exit 2;;
+esac
 ONLYFLAG=""; [ -n "$ONLY" ] && ONLYFLAG="--only $ONLY"
 REDRAWFLAG=""; [ -n "${REDRAW:-}" ] && REDRAWFLAG="--redraw $REDRAW"     # e.g. REDRAW="REFUSED NOTHING-USABLE" after a tool fix
 FLEET=$(ls config/check.*.sha | wc -l)
@@ -41,11 +46,11 @@ for k in $(seq "$START" "$END"); do
   [ -z "$(git status --short --porcelain src | grep '^??')" ] || { echo "cycle: untracked files under src/ (a dotfile probe?) — sweep them first"; exit 3; }
   $PY tools/delever_oracle.py --status >/dev/null 2>&1 || $PY tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16 > .run/P36/delever/calibrate_${label}.log 2>&1 \
     || { echo "cycle: calibration FAILED"; tail -5 .run/P36/delever/calibrate_${label}.log; exit 1; }
-  { /usr/bin/time -f "$label wall=%e s" $PY tools/delever.py --apply --batch "$BATCH" --label "$label" $HFLAG $ONLYFLAG $REDRAWFLAG -j 12; echo "exit=$?"; } > "$log" 2>&1
+  { /usr/bin/time -f "$label wall=%e s" $PY $TOOL --batch "$BATCH" --label "$label" $HFLAG $ONLYFLAG $REDRAWFLAG -j 12; echo "exit=$?"; } > "$log" 2>&1
   fi
   grep -q '^exit=0$' "$log" || { echo "cycle: batch $label — delever exited non-zero"; tail -4 "$log"; exit 1; }
-  if grep -q 'nothing to do (no drawable file)' "$log"; then echo "cycle: nothing drawable at $label — done"; exit 0; fi
-  vline=$(grep -oE 'delever: batch .*' "$log" | tail -1)
+  if grep -qE 'nothing to do' "$log"; then echo "cycle: nothing drawable at $label — done"; exit 0; fi
+  vline=$(grep -oE "$VPAT" "$log" | tail -1)
   [ -n "$vline" ] || { echo "cycle: batch $label — no verify line in $log (R32: an empty line is not a pass)"; tail -3 "$log"; exit 1; }
   final=$(echo "$vline" | grep -oE 'final [0-9]+/[0-9]+' | grep -oE '[0-9]+/[0-9]+')
   [ -n "$final" ] && [ "${final%/*}" = "${final#*/}" ] || { echo "cycle: batch $label — $vline"; exit 1; }

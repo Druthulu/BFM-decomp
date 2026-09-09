@@ -69,7 +69,50 @@ MIPS_REG_NAMES = {"zero", "at", "v0", "v1", "a0", "a1", "a2", "a3", "t0", "t1", 
 GTE_MNEMONICS = {"lwc2", "swc2", "mtc2", "mfc2", "ctc2", "cfc2", "cop2", "rtps", "rtpt", "nclip", "ncds", "nccs", "ncdt", "ncct",
                  "ncs", "nct", "cdp", "cc", "dpcs", "dpct", "dpcl", "intpl", "sqr", "op", "gpf", "gpl", "avsz3", "avsz4", "mvmva"}
 FAKE_MARK = "!FAKE:"
-NON_LEVER_KINDS = {"gte", "verbatim-body"}        # Sony's coprocessor idiom; a manifest-listed hand-asm routine — censused, never a lever
+NON_LEVER_KINDS = {"gte", "verbatim-body", "gte-unsigned"}   # Sony's coprocessor idiom; a manifest-listed hand-asm routine — censused, never a lever
+GTE_LEVER_KIND = "gte-lever"        # a GTE op whose clobbers exceed its canonical's (a `_m`/`_v` variant macro, or a direct statement): a steer
+GTE_VARIANT_NAME = re.compile(r"(_m|_v[0-9a-f]{4})$")
+_gte_tables = None
+
+
+def _gte_lookup():
+    """(sig_cache, canonical-by-bytes) from tools/gte_consolidate.py's files, read once; ({}, {}) when T5 has not run."""
+    global _gte_tables
+    if _gte_tables is None:
+        cache, canon = {}, {}
+        try:
+            import json as _json
+            base = REPO / ".run" / "P36" / "gte"
+            if (base / "sig_cache.json").exists():
+                cache = _json.loads((base / "sig_cache.json").read_text())
+            if (base / "canonical.json").exists():
+                for key, tbl in _json.loads((base / "canonical.json").read_text())["canonical"].items():
+                    canon[key] = dict(name=tbl["name"], clob=sorted(tbl["clob"]))
+        except Exception:   # noqa: BLE001 — a torn file reads as "no table"
+            cache, canon = {}, {}
+        _gte_tables = (cache, canon)
+    return _gte_tables
+
+
+def classify_direct_gte(inner):
+    """'gte' (Sony's idiom or no canonical to compare), 'gte-lever' (clobbers beyond the canonical's), 'gte-unsigned' (a text the
+    consolidation tool has not signed yet — run `tools/gte_consolidate.py --inventory`)."""
+    cache, canon = _gte_lookup()
+    if not canon:
+        return "gte"
+    try:
+        import gte_consolidate as gc
+        tmpl, outs, ins, clob = gc.parse_asm(inner)
+        bound = gc.bind_regs(tmpl, len(outs), len(ins))
+    except Exception:   # noqa: BLE001
+        return "gte-unsigned"
+    b = cache.get(bound)
+    if not b or b.startswith("ERROR"):
+        return "gte-unsigned"
+    c = canon.get(f"{b}|{len(outs)}|{len(ins)}")
+    if not c:
+        return "gte"
+    return GTE_LEVER_KIND if sorted(clob) != c["clob"] else "gte"
 # an `asm-body` site (a whole routine as one asm statement inside a C shell) becomes `verbatim-body` only when the manifest lists the
 # routine as PERMANENT-VERBATIM; an unlisted or DECOMPILE-* one stays a lever and the guard (verbatim_check) names it
 NORM_SYM = re.compile(r"\b(?:func|D)_80[0-9A-Fa-f]{6}\b")
@@ -479,6 +522,8 @@ def walk_file(raw, rel, is_header):
             continue
         role(pos, "asm-stmt")
         d = span_of_line.get(ln)
+        if kind == "gte" and d:
+            kind = classify_direct_gte(masked[o + 1:c])
         if d and is_whole_body_asm(masked, line_starts[d["line"] - 1], line_starts[d["end"]] - 1, pos, c):
             kind = "asm-body"           # a whole routine as one asm statement inside a C shell (any template: GTE ones too); the manifest decides its fate
         add_site("B", kind, pos, masked[pos:c + 1], detail=detail, via="")
@@ -501,7 +546,10 @@ def walk_file(raw, rel, is_header):
                 continue
             name = m.group(1)
             c = _paren_span(masked, m.end() - 1)
-            add_site("B", asm_macro_names[name], m.start(), masked[m.start():c + 1] if c > 0 else name, detail=name, via=name)
+            k = asm_macro_names[name]
+            if k == "gte" and GTE_VARIANT_NAME.search(name):
+                k = GTE_LEVER_KIND
+            add_site("B", k, m.start(), masked[m.start():c + 1] if c > 0 else name, detail=name, via=name)
 
     # ---- 4. volatile tokens
     for m in VOLATILE_KW.finditer(masked):
@@ -814,6 +862,17 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
                                   what="whole routines written in assembly inside a C shell (the §265 lane's in-function form): the manifest's "
                                        "PERMANENT-VERBATIM rows are hand asm and not levers; an asm-body the manifest does not list as permanent "
                                        "stays a lever (unlisted_routines names them with their disposition)"),
+        gte_levers=dict(sites=sum(1 for s in sites if s["kind"] == GTE_LEVER_KIND),
+                        marked=sum(1 for s in sites if s["kind"] == GTE_LEVER_KIND and s["marked"]),
+                        unmarked=sum(1 for s in sites if s["kind"] == GTE_LEVER_KIND and not s["marked"]),
+                        via_macro=sum(1 for s in sites if s["kind"] == GTE_LEVER_KIND and s.get("via")),
+                        direct=sum(1 for s in sites if s["kind"] == GTE_LEVER_KIND and not s.get("via")),
+                        unsigned=sum(1 for s in sites if s["kind"] == "gte-unsigned"),
+                        what="GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): levers for T7, outside the headline number"),
+        per_tu_asm_macro_definitions=dict(total=sum(1 for m in mdefs_all if m["tu"] != gte_header),
+                                          by_kind=dict(collections.Counter(m["kind"] for m in mdefs_all if m["tu"] != gte_header)),
+                                          gte_variants=sum(1 for m in mdefs_all if m["tu"] != gte_header and m["kind"] == "gte" and GTE_VARIANT_NAME.search(m["name"])),
+                                          what="asm-bearing #define blocks outside the GTE header: 0 at the close (T5 deletes the canonical duplicates, T7 the variants)"),
         macro_definitions=dict(total=len(mdefs_all), names=len(macro_names), kinds=dict(macro_kinds),
                                names_with_multiple_texts=sum(1 for n, t in macro_texts.items() if len(t) > 1),
                                top=[(n, c, len(macro_texts[n])) for n, c in macro_names.most_common(25)]),
@@ -888,6 +947,12 @@ def render(s):
     L.append(f"  THE PHASE'S NUMBER (pins + asm statements, GTE excluded): {ab['sites']:,} sites in {ab['bodies']:,} bodies "
              f"({ab['distinct_bodies']:,} distinct) · marked !FAKE {ab['marked']:,} · UNMARKED {ab['unmarked']:,}")
     L.append(f"  orphan !FAKE markers (no pin/asm site on the line nor below): {s.get('orphan_markers', {}).get('count', 0)}")
+    g = s.get("gte_levers", {})
+    if g:
+        L.append(f"  GTE levers (clobbers beyond the canonical macro's): {g['sites']:,} sites ({g['via_macro']:,} via a variant macro, {g['direct']:,} direct) · "
+                 f"marked {g['marked']:,} · UNMARKED {g['unmarked']:,} · unsigned GTE statements {g['unsigned']:,}")
+        pt = s.get("per_tu_asm_macro_definitions", {})
+        L.append(f"  per-TU asm macro definitions outside the GTE header: {pt.get('total', 0):,} {pt.get('by_kind', {})} (GTE variants {pt.get('gte_variants', 0):,})")
     p = s["pins"]
     L.append(f"  pins: {p['sites']:,} · $0 {p['zero']:,} · $sp {p['sp']} · with initializer {p['init']:,} · volatile-qualified "
              f"{p['volatile_qualified']} · bare-name {p['bare_name']} · spellings {p['spelling']}")
@@ -1032,9 +1097,12 @@ def main():
         ab = [x for x in sites if x["cls"] in "AB" and x["kind"] not in NON_LEVER_KINDS and x["tu"] != a.gte_header]
         un = [x for x in ab if not x["marked"]]
         if a.strict:
-            print(f"lever_census --check --strict: pins {s['pins']['sites']}, asm {sum(1 for x in ab if x['cls'] == 'B')}, "
-                  f"volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']} — {'OK' if not ab else 'FAIL'}")
-            if ab:
+            pt = s.get("per_tu_asm_macro_definitions", {}).get("total", 0)
+            gl = s.get("gte_levers", {}).get("sites", 0)
+            print(f"lever_census --check --strict: pins {s['pins']['sites']}, asm {sum(1 for x in ab if x['cls'] == 'B' and x['kind'] != GTE_LEVER_KIND)}, "
+                  f"gte-levers {gl}, per-TU asm macro definitions {pt}, volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']} — "
+                  f"{'OK' if not ab and not pt else 'FAIL'}")
+            if ab or pt:
                 for x in ab[:10]:
                     print(f"  {x['tu']}:{x['line']} {x['fn']} {x['cls']}/{x['kind']} {x['detail']}")
                 rc = 1

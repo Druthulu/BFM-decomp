@@ -24,13 +24,13 @@
    "gte_stsv": 145,
    "gte_stsxy": 361,
    "gte_stsxy3": 191,
+   "gte_stsxy3_f3": 61,
    "gte_stsxy3c": 94,
    "gte_stsz3": 123,
    "gte_stsz4": 126,
    "gte_stszotz": 113,
-   "lhu": 70,
-   "lw": 80,
-   "lwc2": 435,
+   "lhu": 66,
+   "lwc2": 432,
    "mfc2": 61,
    "swc2": 449
   },
@@ -56,7 +56,9 @@
    "asm-body/direct": 13,
    "barrier/direct": 4576,
    "barrier/via-macro": 2,
-   "gte/direct": 1140,
+   "gte-lever/direct": 49,
+   "gte-unsigned/direct": 3,
+   "gte/direct": 1088,
    "gte/via-macro": 5751,
    "instruction/direct": 1690,
    "instruction/via-macro": 22,
@@ -89,7 +91,9 @@
    "kinds": {
     "asm-body": 13,
     "barrier": 4578,
-    "gte": 6891,
+    "gte": 6839,
+    "gte-lever": 49,
+    "gte-unsigned": 3,
     "instruction": 1712,
     "keepalive": 2000,
     "launder": 4676,
@@ -232,18 +236,27 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 39.0,
+ "elapsed_s": 50.8,
  "generated": "2026-09-09",
- "head": "f087282a3",
+ "gte_levers": {
+  "direct": 49,
+  "marked": 0,
+  "sites": 49,
+  "unmarked": 49,
+  "unsigned": 3,
+  "via_macro": 0,
+  "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): levers for T7, outside the headline number"
+ },
+ "head": "917c68afd",
  "headers": 3181,
  "levers_AB": {
-  "asm": 12979,
-  "bodies": 12501,
-  "distinct_bodies": 1728,
+  "asm": 13028,
+  "bodies": 12518,
+  "distinct_bodies": 1745,
   "marked": 33625,
   "pins": 20646,
-  "sites": 33625,
-  "unmarked": 0,
+  "sites": 33674,
+  "unmarked": 49,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
  "macro_definitions": {
@@ -387,6 +400,17 @@
  "orphan_markers": {
   "count": 0,
   "sample": []
+ },
+ "per_tu_asm_macro_definitions": {
+  "by_kind": {
+   "barrier": 1,
+   "gte": 9102,
+   "instruction": 9,
+   "launder": 428
+  },
+  "gte_variants": 0,
+  "total": 9540,
+  "what": "asm-bearing #define blocks outside the GTE header: 0 at the close (T5 deletes the canonical duplicates, T7 the variants)"
  },
  "pins": {
   "bare_name": 25,

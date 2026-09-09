@@ -41,4 +41,5 @@ typedef s64 M2C_UNK64;
 #define NULL ((void *)0)   /* m2c emits NULL for null pointers; byte-neutral (== 0) */
 #endif
 
+#include "gte_inline.h"   /* Phase 36 T5: the GTE coprocessor macros, one definition each */
 #endif /* COMMON_H */
