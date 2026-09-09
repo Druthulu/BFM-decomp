@@ -5,3 +5,9 @@ cycle: batch tus4 committed 5e10b19e8 — delever: batch tus4 — 300 files (TUs
 log: tus5 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 39,918 sites in 13,820 bodies (2,224 distinct) · marked !FAKE 25,081 · UNMARKED 14,837
 cycle: batch tus5 committed ca761c4f6 — delever: batch tus5 — 300 files (TUs; 1583 drawable) · 1225 bodies: 63 lever-free, 1162 residue, 0 refused · sites removed 1821 / needed 5783 / refused 0 / deferred 0 · replays 624 (0 disagreed) · compiles 3110 in 73 s wall · final 300/300 identical · written 300 files | check-all: 218 passed, 0 failed of 218
 log: tus6 THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 38,580 sites in 13,622 bodies (2,225 distinct) · marked !FAKE 27,018 · UNMARKED 11,562
+cycle: batch tus6 committed 3e60fdf41 — delever: batch tus6 — 300 files (TUs; 1283 drawable) · 1409 bodies: 301 lever-free, 1108 residue, 0 refused · sites removed 1667 / needed 2377 / refused 0 / deferred 0 · replays 897 (0 disagreed) · compiles 2505 in 63 s wall · final 300/300 identical · written 300 files | check-all: 218 passed, 0 failed of 218
+cycle: the census FAILED after batch tus7
+    engine_prelude.h asm sites (a macro definition only) got 0      expected 0  OK
+  elapsed 35.9 s
+lever_census: a known-true control MISMATCHED (R39) — the instrument is wrong, not the tree
+cycle exit=1

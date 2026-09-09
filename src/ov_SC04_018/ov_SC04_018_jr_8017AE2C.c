@@ -2623,8 +2623,8 @@ extern s16 D_801E7A6A;
 extern s16 D_801E7A74;
 
 void func_8017AE2C(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
-    register s16 *g __asm__("$17") = &D_801E7A68;
+    s32 pv = param_1;
+    s16 *g = &D_801E7A68;
 
     switch (g[0]) {
     case 0:
@@ -2772,8 +2772,8 @@ s32 func_8017B238(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
         *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
     } else {
@@ -2918,8 +2918,8 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
@@ -2943,7 +2943,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
             v78C = *p78C;
             v78E = D_801E6D1E;
             v790 = D_801E6D20;
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
             D_801E7AB0 = 1;
             D_801E6CAC = 0x1E;
             D_80126990 = v794;
@@ -3209,8 +3209,8 @@ extern void (*D_801E6CF4[10])(int);
 
 void func_8017BC38(int param_1)
 {
-    register int i __asm__("$17");
-    register void (**p)(int) __asm__("$16");
+    int i;
+    void (**p)(int);
 
     i = 0;
     p = D_801E6CF4;
@@ -3367,10 +3367,10 @@ void func_8017BF50(s32 a0)
 {
 
     extern u8 D_801E6D50[];
-    register s32 s3 asm("$19");
-    register s16 *s0 asm("$16");
-    register s32 *s1 asm("$17");
-    register u8 *s2 asm("$18");
+    s32 s3;
+    s16 *s0;
+    register s32 *s1 asm("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    u8 *s2;
     s16 s4;
     Buf8017BF50_8017BF50 buf;
 
@@ -4349,7 +4349,7 @@ void func_8017E3AC(s32 param_1)
     MATRIX m1;
     SVECTOR svec_in;
     SVECTOR svec_out;
-    register s32 lim __asm__("$16");
+    s32 lim;
 
     lim = *(u16 *)(param_1 + 0x9C);
 
@@ -7254,7 +7254,7 @@ void func_801821D4(void *a0)
     s32 hp;
     s32 v0;
     s32 v1;
-    register s32 arg0 __asm__("$4");
+    register s32 arg0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
     void *ptr;
 
     if (func_801847BC(a0, (void *)&D_80191C18) != 0) {
@@ -7479,7 +7479,7 @@ s32 func_801825BC(void *a0)
          * Without it gcc's find_cross_jump merges this `move v0,0; j epi`
          * tail with the identical case-2 failure tail -> 58 ins instead of
          * 60, and the case-2 `beq` then loses its delay-slot fill. */
-        __asm__ __volatile__("");
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
         return 0;
     }
 

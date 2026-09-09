@@ -2601,8 +2601,8 @@ extern s16 D_801E252A;
 extern s16 D_801E2534;
 
 void func_8017AE2C(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
-    register s16 *g __asm__("$17") = &D_801E2528;
+    s32 pv = param_1;
+    s16 *g = &D_801E2528;
 
     switch (g[0]) {
     case 0:
@@ -2753,8 +2753,8 @@ s32 func_8017B238(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
         *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
     } else {
@@ -2899,8 +2899,8 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
@@ -2924,7 +2924,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
             v78C = *p78C;
             v78E = D_801E17C6;
             v790 = D_801E17C8;
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
             D_801E2570 = 1;
             D_801E1754 = 0x1E;
             D_80126990 = v794;
@@ -3193,8 +3193,8 @@ extern void (*D_801E179C[10])(int);
 
 void func_8017BC38(int param_1)
 {
-    register int i __asm__("$17");
-    register void (**p)(int) __asm__("$16");
+    int i;
+    void (**p)(int);
 
     i = 0;
     p = D_801E179C;
@@ -3351,10 +3351,10 @@ void func_8017BF50(s32 a0)
 {
 
     extern u8 D_801E17F8[];
-    register s32 s3 asm("$19");
-    register s16 *s0 asm("$16");
-    register s32 *s1 asm("$17");
-    register u8 *s2 asm("$18");
+    s32 s3;
+    s16 *s0;
+    register s32 *s1 asm("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    u8 *s2;
     s16 s4;
     Buf8017BF50_8017BF50 buf;
 
@@ -4084,7 +4084,7 @@ void func_8017DD04(s32 param_1)
     MATRIX m1;
     SVECTOR svec_in;
     SVECTOR svec_out;
-    register s32 lim __asm__("$16");
+    s32 lim;
 
     lim = *(u16 *)(param_1 + 0x9C);
 
@@ -4337,8 +4337,8 @@ void func_8017E228(void *a0) {
         func_801843E0(s0, (s32)&D_8018E958);
     }
     {
-        register void *pv0 __asm__("$2");
-        register s32 pv1 __asm__("$3");
+        void *pv0;
+        s32 pv1;
         pv0 = *(void **)((char *)s0 + 0x68);
         pv1 = 0x7FFF;
         *(s16 *)((char *)pv0 + 0xC) = (s16)pv1;
@@ -4466,7 +4466,7 @@ s32 aF8017E5C4(s32 param_1) __asm__("func_8017E5C4");
 
 s32 aF8017E5C4(s32 param_1)
 {
-    register s32 obj __asm__("$16") = param_1;
+    register s32 obj __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
 
     if (*(u16 *)(*(s32 *)((char *)obj + 0x64) + 0x2) != 3) {
         return 0;
@@ -4890,7 +4890,7 @@ void func_8017EDE8(void *a0)
                  * lever is not in the source order, so the pointer is pinned.
                  * The range is lw..sw inside this block and crosses no call, so
                  * the §74 caller-saved hazard does not apply. */
-                register s32 *p __asm__("$2");
+                register s32 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
                 p = *(s32 **)((s32)a0 + 0xCC);
                 *(s32 *)((s32)p + 0xB0) = 2;
             }
@@ -5297,9 +5297,9 @@ void func_8017F63C(void *s1) {
         *(u16 *)(y + 0x18) = 0;
         func_80128EA8(*(s32 *)((s32)s1 + 0x20), base, (s32)&D_8018FBB8);
         node = *(s32 *)((s32)s1 + 0x20);
-        __asm__("" : "=r"(node) : "0"(node));
+        __asm__("" : "=r"(node) : "0"(node));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         delta = D_8018FBC4;
-        __asm__("" : "=r"(delta) : "0"(delta));
+        __asm__("" : "=r"(delta) : "0"(delta));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         h = *(u16 *)((s32)s1 + 2);
         *(s32 *)((s32)s1 + 0x2C) = 0x8000000;
         f = *(s32 *)((s32)s1 + 0x14);
@@ -5340,7 +5340,7 @@ void func_8017F768(void) {
      * it with no args, so the definition MUST keep the (void) signature; the real incoming
      * argument is read off $a0 with a register pin (§42/§73 PARAMS axis) and copied into an
      * ordinary local so it lands in $s1 across the two calls. */
-    register s32 a0v __asm__("$4");
+    s32 a0v;
     s32 param_1 = a0v;
     struct { s16 a, b, c, d; } buf;
     s16 *p;
@@ -5771,7 +5771,7 @@ void func_8018009C(s32 param_1)
             func_8012A828(param_1, (s32)&D_801D3BC4);
         }
         v0 = *(s32 *)(param_1 + 0x20);
-        __asm__ __volatile__(""); /* §5a cross-jump barrier, placed between the two tail
+        __asm__ __volatile__(""); /* §5a cross-jump barrier, placed between the two tail  // !FAKE: barrier — NEEDED COMPILE-ERROR (P36 rung B tus7)
                                       stores (not immediately before the jump) so reorg can
                                       still fill the branch delay slot with `a1 = 0xC00`;
                                       keeps this arm's tail distinct from case 0's identical
@@ -6409,7 +6409,7 @@ void func_80180D48(void)
     b = out[0];
     /* §194-A: zero-byte sched1 fence AFTER the defining statement so `b = out[0]`
        emits FIRST in its block, ahead of the D_801E256C lui/lw pair. */
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
 
     p = *(s32 *)&D_801E256C;
     t = a & 0xFFFF;
@@ -6444,7 +6444,7 @@ void func_80180E40(void *param_1) {
     extern s32 func_801789AC(s32 arg0);
     extern void func_80178D18(void);
 
-    register void *arg0 __asm__("$19") = param_1;
+    register void *arg0 __asm__("$19") = param_1;  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus7)
     u8 *var_s5;
     s32 var_s2;
     s32 var_s0;
@@ -6484,7 +6484,7 @@ void func_80180E40(void *param_1) {
     if (var_s2 == 0) {
         func_80185238(0xE);
     }
-    __asm__ __volatile__("" : "=r"(var_s4) : "0"(var_s4));
+    __asm__ __volatile__("" : "=r"(var_s4) : "0"(var_s4));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
     if ((D_801E1A20 < (s32)*(u16 *)(var_s5 + 0x34)) &&
         (((var_s4 - 0x1000) & 0xFFFF) < 0x11)) {
         D_801E1A20 = *(u16 *)(var_s5 + 0x34);
@@ -6537,8 +6537,8 @@ s32 func_8018107C()
     extern s16 D_801B95F0;
     extern u8 D_80190020;
 
-    register s32 t __asm__("$4");
-    register s32 s0 __asm__("$16");
+    register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0;
     s32 a1v;
     s32 zv;
     u8 a3v;
@@ -6658,8 +6658,8 @@ void func_8018130C(void *a0p)
     extern s32 rand(void);
     extern s32 func_80047948(s32 a0);
     extern s32 func_8004787C(s32 a0);
-    register void *arg0 __asm__("$17");
-    register s32 s0 __asm__("$16");
+    register void *arg0 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0;
     s32 v0;
     s32 s2;
     s32 s3;
@@ -6858,13 +6858,13 @@ s32 aF801816C8(void *a0) __asm__("func_801816C8");
 s32 aF801816C8(void *a0) {
     u8 *p = D_801202A0;
     u8 *end = D_801202A0 + 0x6480;
-    register s32 idA __asm__("$21");
+    s32 idA;
 
     if (p != end) {
         idA = 0x1D2;
         do {
-            __asm__ ("");
-            __asm__ ("");
+            __asm__ ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+            __asm__ ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
             if (*(u16 *)p == idA) {
                 if (*(u16 *)(p + 2) == 2) {
                     if (*(u16 *)(p + 0x34) < 2) {

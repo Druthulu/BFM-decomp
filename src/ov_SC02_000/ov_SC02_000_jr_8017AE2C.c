@@ -2626,8 +2626,8 @@ extern s16 D_801E875A;
 extern s16 D_801E8764;
 
 void func_8017AE2C(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
-    register s16 *g __asm__("$17") = &D_801E8758;
+    s32 pv = param_1;
+    s16 *g = &D_801E8758;
 
     switch (g[0]) {
     case 0:
@@ -2772,8 +2772,8 @@ s32 func_8017B238(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
         *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
     } else {
@@ -2918,8 +2918,8 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
@@ -2943,7 +2943,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
             v78C = *p78C;
             v78E = D_801E7FD6;
             v790 = D_801E7FD8;
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
             D_801E87BC = 1;
             D_801E7F64 = 0x1E;
             D_80126990 = v794;
@@ -3203,8 +3203,8 @@ extern void (*D_801E7FAC[10])(int);
 
 void func_8017BC38(int param_1)
 {
-    register int i __asm__("$17");
-    register void (**p)(int) __asm__("$16");
+    int i;
+    void (**p)(int);
 
     i = 0;
     p = D_801E7FAC;
@@ -3794,17 +3794,17 @@ void func_8017D230(u16 *a0, void *a1) {
 
 
 int func_8017D2D4(short *param_1, short *param_2, short *param_3, int param_4) {
-    register int i2o __asm__("$5");
-    register int i4o __asm__("$9");
+    register int i2o __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    register int i4o __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus7)
     short sVar1; int rx, rz, uVar5;
     i4o = param_2[1];
-    __asm__ __volatile__("" : : "r"(i4o));
+    __asm__ __volatile__("" : : "r"(i4o));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
     i2o = param_1[1]; uVar5 = 0;
     if (i2o >= i4o) {
         rx = param_1[0] - i2o * (param_2[0] - param_1[0]);
         rz = param_1[2] - i2o * (param_2[2] - param_1[2]);
     } else {
-        register int den __asm__("$3");
+        register int den __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
         int p2x = param_2[0], p2z = param_2[2];
         den = i2o - i4o;
         rx = p2x + i4o * (p2x - param_1[0]) / den;

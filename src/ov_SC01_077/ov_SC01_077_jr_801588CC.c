@@ -1450,7 +1450,6 @@ s32 func_801596F0(s32 param_1) {
         (*(s16 *)&D_800B9AAC) = 0x7fff;
         D_800B9B00 = 0x7fff;
 
-        __asm__ __volatile__("" ::: "memory");
 
         for (p = (u32 *)(base + 0x65A8); p < (u32 *)(base + 0x9DA8); p += 0xe) {
             p[1] |= 0x80000000;

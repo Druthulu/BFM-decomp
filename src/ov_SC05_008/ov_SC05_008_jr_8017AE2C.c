@@ -2627,8 +2627,8 @@ extern s16 D_801A1242;
 extern s16 D_801A124C;
 
 void func_8017AE2C(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
-    register s16 *g __asm__("$17") = &D_801A1240;
+    s32 pv = param_1;
+    s16 *g = &D_801A1240;
 
     switch (g[0]) {
     case 0:
@@ -2773,8 +2773,8 @@ s32 func_8017B238(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
         *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
     } else {
@@ -2919,8 +2919,8 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
@@ -2944,7 +2944,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
             v78C = *p78C;
             v78E = D_801A104E;
             v790 = D_801A1050;
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
             D_801A1270 = 1;
             D_801A0FDC = 0x1E;
             D_80126990 = v794;
@@ -3204,8 +3204,8 @@ extern void (*D_801A1024[10])(int);
 
 void func_8017BC38(int param_1)
 {
-    register int i __asm__("$17");
-    register void (**p)(int) __asm__("$16");
+    int i;
+    void (**p)(int);
 
     i = 0;
     p = D_801A1024;
@@ -3623,7 +3623,7 @@ extern s32 func_80171990(u8 *a0);
  */
 void func_8017D214(void *a0)
 {
-    register u8 *arg __asm__("$4");
+    register u8 *arg __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
     s32 wp = D_801151D4;
     u16 t;
 
@@ -3892,13 +3892,13 @@ void func_8017D7B4(void) {
     func_8012A018((s32)func_8017D8C4, 0);
     func_8012A094((s32)D_80126948);
     D_8012697C = D_801864AC[idx];
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
     (*(s16 *)&D_80126980) = D_801864B8[idx];
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
     t = D_801864C4[idx];
     D_801269EA = 0;
     D_801269E8 = t;
-    __asm__ __volatile__("" ::: "memory");
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
     D_801A1274 = D_801864D0[idx];
     func_8017D8C4(D_80126948);
     D_801151D4 = (s32)D_80126948;
@@ -4295,12 +4295,12 @@ void func_8017E464(s32 param_1) {
     extern void func_80182694(s32 a0, s32 a1);
     extern s32 rand(void);
 
-    register s32 p __asm__("$17");
-    register s32 *q __asm__("$19");
-    register s32 *flag __asm__("$2");
-    register s32 aa __asm__("$4");
-    register s32 nn __asm__("$5");
-    register s32 pp __asm__("$6");
+    s32 p;
+    s32 *q;
+    register s32 *flag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 aa __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 nn __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 pp;
     s32 s0;
     s32 t;
     s32 i;
@@ -4310,10 +4310,10 @@ void func_8017E464(s32 param_1) {
        $a0/$a1 (REGALLOC-PERM/$a0>$a1>$a2); two pins alone give the registers
        but float the $a1 load to the block head.  Pinning the WHOLE group --
        both halves reusing $2/$3 -- fixes schedule and allocation together. */
-    register u16 b0 __asm__("$2");
-    register u16 e0 __asm__("$3");
-    register u16 c1 __asm__("$5");
-    register u16 c2 __asm__("$6");
+    u16 b0;
+    u16 e0;
+    register u16 c1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    register u16 c2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7)
     u16 buf[4];
     u16 d[4];
 
@@ -4389,7 +4389,7 @@ void func_8017E464(s32 param_1) {
             t = rand();
             aa = (s32)(q + 1);
             nn = (s32)buf;
-            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
             s0 &= 0x1F;
             s0 <<= 2;
             t = (t & 0x1F) - 0x50;
@@ -4463,7 +4463,7 @@ void func_8017E6A4(s32 param_1)
     func_8012F214(param_1, (s32)D_80186544, (s32)&buf[0]);
     func_80015954((s32)&buf[0], (s32)&D_80126B5C);
     *(Blk8_8017E6A4 *)D_80126BE0 = *(Blk8_8017E6A4 *)&buf[0];
-    __asm__ __volatile__("");
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
 
     *(s16 *)((s32)b78 + 8) = D_80126B5E;
     *(s32 *)((s32)b78 + 0x48) = (s32)(s16)D_80126B5E;
@@ -4632,9 +4632,9 @@ extern void func_8012BF4C(s32 *a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
 
 void func_8017EBB8(void *a0) {
-    register s32 s1 __asm__("$17");
-    register s32 s2 __asm__("$18");
-    register s32 idx __asm__("$4");
+    s32 s1;
+    s32 s2;
+    s32 idx;
     s32 tbl;
     s32 sum;
     s32 ent;
@@ -4642,7 +4642,6 @@ void func_8017EBB8(void *a0) {
     s32 v;
 
     s1 = (s32)a0;
-    __asm__ __volatile__("" : : : "memory");
     idx = *(s16 *)(s1 + 0x70);
     tbl = D_801151D4;
     s2 = D_80186558[idx];
@@ -4948,7 +4947,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017F554(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_8018661C[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5011,7 +5010,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017F724(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186628[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5074,7 +5073,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017F8F4(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186634[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5137,7 +5136,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017FAC4(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186640[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5197,7 +5196,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017FC94(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_8018664C[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5264,7 +5263,7 @@ void func_8017FE64(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186658[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5335,7 +5334,7 @@ void func_8018000C(s32 *p) {
 
     extern void (*D_80186664[])(void);
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186664[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5397,7 +5396,7 @@ void func_80180164(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186670[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5507,7 +5506,7 @@ void func_801803B8(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_8018667C[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5566,7 +5565,7 @@ void func_80180510(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186688[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5676,7 +5675,7 @@ void func_80180764(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186694[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5737,7 +5736,7 @@ void func_801808BC(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801866A0[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5801,7 +5800,7 @@ void func_80180A14(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801866AC[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -5911,7 +5910,7 @@ void func_80180CDC(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186778[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6025,7 +6024,7 @@ void func_80180F84(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186788[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6136,7 +6135,7 @@ void func_8018122C(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_80186798[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6247,7 +6246,7 @@ void func_801814D4(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801867A8[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6355,7 +6354,7 @@ void func_8018177C(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801867B8[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6451,7 +6450,7 @@ void func_801819D8(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801867C8[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6547,7 +6546,7 @@ void func_80181C38(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801867D8[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6614,7 +6613,7 @@ void func_80181DBC(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801867E4[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6677,7 +6676,7 @@ void func_80181F40(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801867F0[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6744,7 +6743,7 @@ void func_801820C0(s32 *p) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");
+    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
 
     D_801867FC[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
@@ -6848,9 +6847,9 @@ extern u8 D_80126948[];
  */
 s32 func_80182334(void)
 {
-    register s32 a0v __asm__("$4");
-    register s32 a1 __asm__("$5");
-    register s32 zr __asm__("$0");
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 a1;
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus7)
     u8 *a2 = D_80126948;
     s16 v0;
     s16 v1;
@@ -6864,7 +6863,7 @@ s32 func_80182334(void)
     if (*(s16 *)(a1 + 0xD0) < 0x28) {
         v0 = *(s16 *)(a1 + 0xD0) + 8;
     } else {
-        __asm__ __volatile__("" ::: "memory");
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
         v1 = *(s16 *)(a1 + 0xCE) + 2;
         d0 = *(s16 *)(a1 + 0xD0);
         cpy = d0 + zr;
@@ -6935,7 +6934,7 @@ void func_80182490(s32 *p) {
     extern void (*D_80186820[])(void);
     extern s32 D_80126B58;
     extern void func_801292C8(void *a0);
-    register s32 *q __asm__("$18");
+    s32 *q;
 
     q = &D_80126B58;
     D_80186820[*(u16 *)((s32)p + 0x2)]();
@@ -6965,9 +6964,9 @@ void func_80182560(s32 param_1)
     extern void func_800233CC(void *a0, u16 a1);
     extern void func_80182654(s32 a0);
 
-    register s32 *s0 __asm__("$16");
-    register u32 *s1 __asm__("$17");
-    register s32 *s2 __asm__("$18");
+    s32 *s0;
+    u32 *s1;
+    s32 *s2;
 
     s32 t;
 
@@ -6991,7 +6990,7 @@ void func_80182560(s32 param_1)
         diff -= *(s16 *)((s32)s0 + 0x2E);
         t = diff << 9;
     }
-    __asm__("" ::: "memory");
+    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
     {
         s32 x2 = *(s16 *)((s32)s0 + 0x2E);
         *(u16 *)((s32)s0 + 0xE) += (x2 << 6);
@@ -6999,9 +6998,9 @@ void func_80182560(s32 param_1)
     *(u16 *)((s32)s2 + 0x1A) = t;
     *(u16 *)((s32)s2 + 0x18) = t;
     {
-        register u16 w __asm__("$2") = *(volatile u16 *)((s32)s0 + 2);
+        u16 w = *(volatile u16 *)((s32)s0 + 2);
         w++;
-        *(volatile u16 *)((s32)s0 + 2) = w;
+        *(u16 *)((s32)s0 + 2) = w;
         return;
     }
 }
@@ -7031,9 +7030,9 @@ extern void func_80015954(s32 a0, s32 a1);
 extern void func_801292C8(void *a0);
 
 void func_80182694(s32 a0, s32 a1) {
-    register s32 s0 __asm__("$16");
-    register s32 s1 __asm__("$17");
-    register s32 s2 __asm__("$18");
+    s32 s0;
+    s32 s1;
+    s32 s2;
     s32 v0;
     s2 = a0;
     s1 = a1;

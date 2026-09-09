@@ -2618,8 +2618,8 @@ extern s16 D_80197CAA;
 extern s16 D_80197CB4;
 
 void func_8017AE2C(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
-    register s16 *g __asm__("$17") = &D_80197CA8;
+    s32 pv = param_1;
+    s16 *g = &D_80197CA8;
 
     switch (g[0]) {
     case 0:
@@ -2764,8 +2764,8 @@ s32 func_8017B238(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
         *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
     } else {
@@ -2910,8 +2910,8 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
@@ -2935,7 +2935,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
             v78C = *p78C;
             v78E = D_80197B2E;
             v790 = D_80197B30;
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
             D_80197CD8 = 1;
             D_80197ABC = 0x1E;
             D_80126990 = v794;
@@ -3195,8 +3195,8 @@ extern void (*D_80197B04[10])(int);
 
 void func_8017BC38(int param_1)
 {
-    register int i __asm__("$17");
-    register void (**p)(int) __asm__("$16");
+    int i;
+    void (**p)(int);
 
     i = 0;
     p = D_80197B04;
@@ -3701,7 +3701,7 @@ void func_8017BF14(s32 arg0, s32 lim)
     u8 *vd;
     u32 ot;
     u8 *pkt;
-    register s32 f0 __asm__("$19");
+    register s32 f0 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus7)
     s32 f1, f2, f3;
     s16 x3, z3, y3;
     Prim *prim;
@@ -3734,7 +3734,7 @@ void func_8017BF14(s32 arg0, s32 lim)
     u8 *base;
     s16 x0, y0, z0, x1, y1, z1, x2, y2, z2;
     s32 a0v, a1v, a2v, a3v;
-    register s32 c1 __asm__("$4"); s32 c0, c2, c3;
+    register s32 c1 __asm__("$4"); s32 c0, c2, c3;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
     s32 d;
     u32 *tp;
     u32 uvw;
@@ -3928,7 +3928,7 @@ void func_8017BF14(s32 arg0, s32 lim)
                                         else if (tmpxy[2].vy < mny) mny = tmpxy[2].vy;
                                         if (my >= -0x6E && mny < 0x6F) {
                                             s32 za, zb;
-                                            __asm__ __volatile__ ("" :: "r" (mny));
+                                            __asm__ __volatile__ ("" :: "r" (mny));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
                                             if (g.sz0 > g.sz1) { za = g.sz0; if (za < g.sz2) za = g.sz2; }
                                             else { za = g.sz1; if (za < g.sz2) za = g.sz2; }
                                             g.opz = za;
@@ -3985,7 +3985,7 @@ void func_8017BF14(s32 arg0, s32 lim)
                                                 ((PolyGT3 *)pkt)->rgb0 = rgbw;
                                                 rgbw = (c1 | cb) | (c1 << 8) | (c1 << 16);
                                                 ((PolyGT3 *)pkt)->rgb1 = rgbw;
-                                                __asm__ __volatile__ ("" :: "r" (c1));
+                                                __asm__ __volatile__ ("" :: "r" (c1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
                                                 rgbw = (c2 | cb) | (c2 << 8) | (c2 << 16);
                                                 ((PolyGT3 *)pkt)->rgb2 = rgbw;
                                                 ((PolyGT3 *)pkt)->uv0 = tp[1];
@@ -4816,8 +4816,8 @@ extern u16 D_800B99DA;
 
 void func_80181864(void)
 {
-    register void *a0 __asm__("$4");
-    register void *a1 __asm__("$5");
+    void *a0;
+    void *a1;
     s32 v1;
 
     v1 = *(s16 *)((s32)a0 + 0xFC);

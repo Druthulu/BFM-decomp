@@ -219,7 +219,7 @@ void func_801287B8(void) {
     {
         /* D_801EB258 read: the target materializes &sym into $a0 then lw 0($a0) (not the folded
          * lui;lw %lo). volatile forces the rematerialize; the $4 pin forces the a0 allocation. */
-        register volatile s32 *p __asm__("$4") = &D_801EB258;
+        register volatile s32 *p __asm__("$4") = &D_801EB258;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
         if (*p == 0) {
             func_8013BC7C();
         }
@@ -493,17 +493,17 @@ void func_8012956C(void) {
     extern u8 D_801EB238;
     extern u8 D_800AF630[];
     extern u8 D_800A6518[];
-    register s32 *sp10 __asm__("$21");
-    register u8 *afbase __asm__("$22");
-    register s32 *sp0 __asm__("$23");
+    s32 *sp10;
+    u8 *afbase;
+    s32 *sp0;
     Ent_956C *base;
     s32 i;
     s16 a1;
-    register u32 temp_a3 __asm__("$7");
-    register u32 arg0 __asm__("$4");
-    register u32 s __asm__("$2");
-    register u32 s2 __asm__("$3");
-    register u32 t6 __asm__("$8");
+    register u32 temp_a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus7)
+    register u32 arg0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    u32 s;
+    register u32 s2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+    u32 t6;
     s32 code;
 
     sp10 = (s32 *)0x1F800010;
@@ -513,7 +513,6 @@ void func_8012956C(void) {
         return;
     }
     base = (Ent_956C *)&D_800B9A78;
-    __asm__("" : "=r"(base) : "0"(base));
     i = 0;
     do {
         s32 idx = i * 8 + 4;
@@ -554,7 +553,7 @@ void func_8012956C(void) {
                       D_801E89A0[idx], D_801E89A1[idx], D_801E89A2[idx]);
         goto next;
     do_default:
-        __asm__("");
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
         arg0 = D_801EB238;
         s = base->f40;
         temp_a3 = base->f38;

@@ -2622,8 +2622,8 @@ extern s16 D_801EC562;
 extern s16 D_801EC56C;
 
 void func_8017AE2C(s32 param_1) {
-    register s32 pv __asm__("$16") = param_1;
-    register s16 *g __asm__("$17") = &D_801EC560;
+    s32 pv = param_1;
+    s16 *g = &D_801EC560;
 
     switch (g[0]) {
     case 0:
@@ -2768,8 +2768,8 @@ s32 func_8017B238(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
         *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
     } else {
@@ -2914,8 +2914,8 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     u8 buf[16];
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
@@ -2939,7 +2939,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
             v78C = *p78C;
             v78E = D_801EB4B6;
             v790 = D_801EB4B8;
-            __asm__ __volatile__("");
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
             D_801EC590 = 1;
             D_801EB444 = 0x1E;
             D_80126990 = v794;
@@ -3199,8 +3199,8 @@ extern void (*D_801EB48C[10])(int);
 
 void func_8017BC38(int param_1)
 {
-    register int i __asm__("$17");
-    register void (**p)(int) __asm__("$16");
+    int i;
+    void (**p)(int);
 
     i = 0;
     p = D_801EB48C;
@@ -3679,7 +3679,7 @@ void func_8017C43C(void *a0) {
     if (*(s16 *)((s32)a0 + 0xFC) == 0xB) {
         s32 f = *(s32 *)((s32)a0 + 0x1C);
         s32 v = -(f & 1) & 0xC0;
-        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         f = f + 1;
         *(s32 *)((s32)a0 + 0x1C) = f;
         D_801EB539 = v;
@@ -3703,16 +3703,15 @@ void func_8017C43C(void *a0) {
         D_801EB53D = c * 255 / h;
         D_801EB535 = c * 255 / h;
     } else {
-        register u8 *q __asm__("$6");
+        u8 *q;
         u16 bs;
         s32 x;
         s16 y;
         t = (c - h) * 255 / h;
         q = &D_801EB535;
-        __asm__("" : "=r"(q) : "0"(q));
+        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         bs = (u16)D_801EB510;
         x = bs + hw;
-        __asm__("" :: "r"(hw));
         y = x - 4;
         D_801EB53D = 0xFF;
         *q = 0xFF;
@@ -3728,7 +3727,7 @@ void func_8017C43C(void *a0) {
     }
 
     p = &D_801EB590;
-    __asm__("" : "=r"(p) : "0"(p));
+    __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
     D_801EB580 = *(u16 *)((s32)p - 0x18) + (u16)D_8018F3D8;
     *p = D_801EB580 - 4;
     w = (void *)((s32)p - 0x80);
@@ -3947,7 +3946,7 @@ void func_8017CC70(s32 a0) {
        permutation. */
     raw = ((s32 (*)(s32))func_8012CBA4)(a0);
     flags = raw;
-    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));
+    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
 
     /* `m` blocks fold_truthop from merging the two bitfield tests below into a single
        `andi $v1,$s1,0xe000` -- the target keeps `& 0x8000` and `& 0x6000` separate. */
@@ -4094,7 +4093,7 @@ void func_8017CC70(s32 a0) {
        copies vanish and everything from .L8017CD18 on drifts by 2 instructions. */
     {
         s32 fire = ret;
-        __asm__ __volatile__("" : "=r"(ret) : "0"(ret));
+        __asm__ __volatile__("" : "=r"(ret) : "0"(ret));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         if (fire != 0) {
             func_80146A6C(2, (void *)s0, 0, 0, 0, 2, 0);
         }
@@ -4223,7 +4222,7 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
 void func_8017D220(s32 a0, s16 a1, s16 a2) {
     u32 buf[4];
-    register s32 hi __asm__("$2");
+    register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
     s32 lo;
 
     func_8012B0B4(buf, *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), a1 << 4);
@@ -4310,7 +4309,7 @@ void func_8017D370(s32 a0) {
     u8 out[8];
     Mtx8_8017DE10_8017D370 m;
     s32 base;
-    register s32 ang __asm__("$2");
+    register s32 ang __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
     s16 arg;
 
     *(s16 *)(in + 0) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
@@ -4651,17 +4650,17 @@ void func_8017DC90(u16 *a0, void *a1) {
 
 
 int func_8017DD34(short *param_1, short *param_2, short *param_3, int param_4) {
-    register int i2o __asm__("$5");
-    register int i4o __asm__("$9");
+    register int i2o __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    register int i4o __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus7)
     short sVar1; int rx, rz, uVar5;
     i4o = param_2[1];
-    __asm__ __volatile__("" : : "r"(i4o));
+    __asm__ __volatile__("" : : "r"(i4o));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
     i2o = param_1[1]; uVar5 = 0;
     if (i2o >= i4o) {
         rx = param_1[0] - i2o * (param_2[0] - param_1[0]);
         rz = param_1[2] - i2o * (param_2[2] - param_1[2]);
     } else {
-        register int den __asm__("$3");
+        register int den __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
         int p2x = param_2[0], p2z = param_2[2];
         den = i2o - i4o;
         rx = p2x + i4o * (p2x - param_1[0]) / den;
