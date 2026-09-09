@@ -1100,8 +1100,8 @@ void func_80156044(int param_1, int param_2)
     extern u8 D_80188B58;
     extern u8 D_801889DC;
 
-    register s32 puVar2 __asm__("$2");
-    register s32 iVar3 __asm__("$3");
+    register s32 puVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus5)
+    register s32 iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus5)
     u8 *puVar4;
     s32 uVar1;
 
@@ -1454,8 +1454,8 @@ extern u16 D_80188E58[];
 
 void func_80157D20(void)
 {
-    register void *a0v __asm__("$4");
-    register s32 a1v __asm__("$5");
+    register void *a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus5)
+    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus5)
     void *param_1 = a0v;
     s32 param_2 = a1v;
 
