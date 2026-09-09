@@ -3856,19 +3856,22 @@ extern void func_80019064(void *a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 
-void func_80178840(int param_1) {
-
+void func_80178840(int param_1)
+{
     extern int D_8018BACC;
     extern int D_8018BAD8[];
-    register int p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus5)
+    int p;
     int s1byte;
     p = param_1;
-    if ((*(unsigned short *)(p + 0x5c) & 1) != 0) {
-        s1byte = *(unsigned char *)(p + 0x5e);
-        if (s1byte == 0xc) {
-            ((void (*)(int))func_80019064)((int)&D_8018BACC);
+    if (((*((unsigned short *) (p + 0x5c))) & 1) != 0)
+    {
+        s1byte = *((unsigned char *) (p + 0x5e));
+        if (s1byte == 0xc)
+        {
+            ((void (*)(int)) func_80019064)((int) (&D_8018BACC));
         }
-        ((void (*)(int, int))func_80131E00)(p, D_8018BAD8[s1byte]);
+        ((void (*)(int, int)) func_80131E00)(p, D_8018BAD8[s1byte]);
+        p = param_1;
     }
 }
 

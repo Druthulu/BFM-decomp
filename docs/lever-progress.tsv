@@ -1,3 +1,4 @@
 date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_levers	per_tu_asm_macros	class_C	class_D	class_E	class_F	class_G
 2026-09-09	T6 r1 (rung R's first class)	1761a3125	33957	20512	13445	12578	1758	33957	0	462	314	1722	50	7428	445	76
 2026-09-09	T6 d1 (rung D's four exemplars)	8fac96651	33953	20508	13445	12574	1758	33953	0	462	314	1722	50	7428	445	76
+2026-09-09	T6 p1 (four classes propagated)	a2da99b13	33427	19982	13445	12048	1755	33427	0	462	314	1722	50	7428	445	76
