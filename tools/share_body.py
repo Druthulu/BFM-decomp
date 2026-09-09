@@ -401,6 +401,51 @@ def run_batch(orc, cen, classes, label):
     return len(failed_classes) == 0 and all(results[a][0] for a in gated)
 
 
+def repair_registry(cen):
+    """Remove every listed member whose site is still a PRIVATE definition — the registry ahead of the source. Derived from the census
+    (a verdict-B class's `def` instances whose alias the group lists), never typed; shorthand `binaries: [...]` lines edited by text;
+    a verbose group with such a member is reported and left alone. (S94's first pass extended 788 members wholesale before the
+    "only members that passed" rule existed; 317 of them were private after run 2, plus the sites a bisect had wiped.)"""
+    removals = collections.defaultdict(set)
+    verbose = []
+    for c in cen["classes"]:
+        if c["verdict"] != "B":
+            continue
+        for g in c.get("groups", []):
+            # match on (binary, vram): h_exact is position-independent, so one class can span several vrams and a listed binary
+            # may carry a PRIVATE copy of the same bytes at ANOTHER address (the first cut matched the name alone and removed 9,269)
+            listed = {(bn, addr) for bn, addr, _ in m2h.sc_group_members(g)}
+            for i in c["insts"]:
+                if i["form"] == "def" and (i["alias"], i["addr"]) in listed:
+                    (verbose.append((g["id"], i["alias"])) if g.get("members") else removals[g["id"]].add(i["alias"]))
+    p = REPO / "config/dedup.us.yaml"
+    lines = p.read_text().splitlines(keepends=True)
+    cur, n_removed, touched, thin = None, 0, 0, []
+    for k, ln in enumerate(lines):
+        m = re.match(r"^\s*-?\s*id:\s*(\S+)\s*$", ln)
+        if m:
+            cur = m.group(1)
+            continue
+        if cur and cur in removals and re.match(r"^\s*binaries:\s*\[", ln):
+            head, rest = ln.split("[", 1)
+            inner, tail = rest.split("]", 1)
+            names = [x.strip() for x in inner.split(",") if x.strip()]
+            keep = [x for x in names if x not in removals[cur]]
+            n_removed += len(names) - len(keep)
+            touched += 1
+            if len(keep) < 2:
+                thin.append((cur, keep))
+            lines[k] = f"{head}[{', '.join(keep)}]{tail}"
+            cur = None
+    p.write_text("".join(lines))
+    rec = dict(groups=touched, members_removed=n_removed, removals={g: sorted(v) for g, v in removals.items()},
+               thin_groups=thin, verbose_skipped=verbose)
+    (RUN / "repair_registry.json").write_text(json.dumps(rec, indent=1) + "\n")
+    log(f"repair-registry: {n_removed} listed-but-private members removed from {touched} groups; groups left with <2 members: "
+        f"{len(thin)} {thin[:5]}; verbose groups with a private member (left alone): {len(verbose)} {verbose[:5]}")
+    return rec
+
+
 def rejected_in(b, h, cen):
     """The binaries in which class h was rejected (their private sites restored by the bisect)."""
     out = set()
@@ -425,11 +470,16 @@ def main():
                     help="batches per invocation (default 1: every batch's edit positions come from THIS run's census, which read "
                          "committed text; commit between runs — a later batch would edit TUs the earlier one already changed)")
     ap.add_argument("--only", default="")
+    ap.add_argument("--repair-registry", action="store_true",
+                    help="remove every listed member whose site is still a private definition (derived from the census), then exit")
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     a = ap.parse_args()
     RUN.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     cen = census(a.jobs)
+    if a.repair_registry:
+        repair_registry(cen)
+        return
     orc = m2h.Oracles()
     extend, new = candidates(cen)
     log(f"share_body: census {time.time() - t0:.0f} s · extend (registered-incomplete) {len(extend)} classes · new (unregistered same-vram) "

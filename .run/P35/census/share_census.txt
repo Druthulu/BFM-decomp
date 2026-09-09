@@ -1,18 +1,18 @@
 share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 UNACCOUNTED · 10,180 h_exact classes with >=2 instances
-  verdicts (classes): A 1,712 · B 282 · C 6,640 · D 1,545 · M 1
-  instances by verdict: A 214,478 · B 45,226 · C 15,917 · D 5,178 · M 2
-  flags: ALIAS 38 · E 3,826 · F 54 · PINS 684 · TWIN-COVERED 3,748 · TYPEDEF 93
-  SAME-VRAM UNREGISTERED (the phase's backlog): 1,099 classes · 28,840 instances · 4,755 private copies · 3,658 collapsible · 1,257,027 ins; of which twin-pending 0 classes / 0 instances
+  verdicts (classes): A 1,812 · B 183 · C 6,639 · D 1,545 · M 1
+  instances by verdict: A 228,303 · B 31,403 · C 15,915 · D 5,178 · M 2
+  flags: ALIAS 38 · E 3,826 · F 54 · PINS 679 · TWIN-COVERED 3,748 · TYPEDEF 93
+  SAME-VRAM UNREGISTERED (the phase's backlog): 999 classes · 15,015 instances · 3,883 private copies · 2,887 collapsible · 739,246 ins; of which twin-pending 0 classes / 0 instances
   TWIN-COVERED (one source directory per payload, T3): 3,580 classes · 7,186 instances
   CROSS-ADDRESS / CROSS-SPACE (deferred to the names phase): 3,801 classes · 30,347 instances · 11,340 private copies
-  S1 violations (scope as run): 1,099 · multi-form instances 0 · unresolved names 0
+  S1 violations (scope as run): 944 · multi-form instances 0 · unresolved names 0
   controls (R39):
-    func_80144B9C                      got B/141/{'include': 141}/missing 7         expected B/141/{'include': 141}/missing 7  (the registry lists 134; T5 bucket 0 extends it)
+    func_80144B9C                      got A/141/{'include': 141}/missing 0         expected B/141/{'include': 141}/missing 7  (the registry lists 134; T5 bucket 0 extends it)
     clearTbl40                         got A+E/2                                    expected A+E/2
     ov_setters x3                      got B/282(E),B/145(E),B/141                  expected B/282(E),B/145(E),B/141
     twin symmetry SC01_005 / SC01_006  got 653 / 653                                expected equal (each = the twin's unregistered classes)
   top classes by instances x nins (verdict flags instances nins addrs names):
-    B -                       141 x   770  0x80144B9C  func_80144b9c
+    A -                       141 x   770  0x80144B9C  func_80144b9c
     A -                       141 x   476  0x80141CA4  func_80141ca4
     A -                       141 x   400  0x80132784  func_80132784
     A E                      1128 x    41  0x80151FB4,0x801522CC,0x801525F4  func_80151fb4,func_801522cc
@@ -22,7 +22,7 @@ share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 U
     A -                       141 x   214  0x80156B74  func_80156b74
     A -                       141 x   213  0x80148094  func_80148094
     A -                       141 x   207  0x801372B0  func_801372b0
-    B PINS                    141 x   204  0x8013A530  func_8013a530
+    A -                       141 x   204  0x8013A530  func_8013a530
     A -                       141 x   198  0x801412A8  func_801412a8
     A -                       141 x   198  0x801571C4  func_801571c4
     A -                       141 x   195  0x80153E00  func_80153e00
@@ -37,4 +37,4 @@ share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 U
     B E,F                    11852 x     2  0x80014554,0x8001455C,0x8001513C  func_80014554,func_8001455c
     A -                       141 x   167  0x80163C2C  func_80163c2c
     A -                       141 x   165  0x80178004  func_80178004
-  macro sites 0 · duplicate-text classes 7,385 (24,359 sites) · elapsed 61.2 s
+  macro sites 0 · duplicate-text classes 7,335 (23,558 sites) · elapsed 25.9 s

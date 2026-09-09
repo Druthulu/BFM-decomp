@@ -346,6 +346,16 @@
   lines) the cause is `func_80168B70.h:13: too many arguments to function 'func_80146C3C'` → TU-CONFLICT; six synthetic logs (linker,
   assembler, `[FAIL]`, parse error, conflicting types, a warning-only log) each give the expected code and never a warning line.
   `make kit-corpus` + `tool_census --check: OK`.
+- **S96 — T5 step 3: the registry repaired** — `share_body.py --repair-registry` (new: every listed member whose site is still a private
+  definition, derived from the census and matched on (binary, vram) — the first cut matched the binary NAME alone and removed 9,269
+  members from 214 groups because h_exact is position-independent and a listed binary can hold the same bytes privately at ANOTHER
+  address; caught by `dedup-check: 14 failed` + a known-true control (ov_SC01_004's include of func_80146E90), reverted, fixed):
+  `repair-registry: 378 listed-but-private members removed from 79 groups; groups left with <2 members: 0; verbose groups … 0` —
+  317 of them the ledger's rejected pairs (325 minus 8 never listed), 61 the sites the S94 bisects wiped plus older escapes;
+  `E_func_80168B70` back to its 7 late-overlay members. `dedup-check: 2221 validated, 0 failed | C1 coverage 256120/256120`;
+  census `362,389 classified · 0 UNACCOUNTED`, verdicts A 1,812 · B 183 · C 6,639 · D 1,545 · M 1 (A 1,712 → 1,812 = the 100 classes
+  bucket 0 completed), same-vram backlog **1,099 → 999 classes · 3,883 private copies · 2,887 collapsible**; the whale control
+  `A/141/missing 0`. `.run/P35/share/repair_registry.json` is the record. kit corpus + `tool_census --check: OK`.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-08)
 
