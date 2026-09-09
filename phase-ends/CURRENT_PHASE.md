@@ -324,7 +324,9 @@ accumulate here as the phase produces them.**
   per replayed copy → batches of 300 files ≈ 5–8 min + R22 ≈ 2 min + census ≈ 0.5 min; ~9 TU batches + ~2 header batches (371 files, serial
   with parallel includers) ≈ 1.5–2.5 h wall, unattended.
 
-## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ — all committed (T3 = `39e3e1851` tools, `cd24727dd` + `7ee458dd7` the ov_SC04_011 batches, this close); NEXT = T4 the mechanical campaign: `tools/delever_cycle.sh` over the whole population (TUs then headers), unattended, one commit per batch, R22 every batch | the number: 53,033 sites in 15,638 bodies (2,246 distinct), 310 marked, 0 orphans
+- **2026-09-09 — T4 batch `tus1`** (`.run/P36/delever/run_tus1.log`, `batch_tus1.json`): `delever: batch tus1 — 300 files (TUs; 2204 drawable) · 1392 bodies: 299 lever-free, 1093 residue, 0 refused · sites removed 3342 / needed 4177 / refused 0 / deferred 0 · replays 1364 (0 disagreed) · compiles 1794 in 59 s wall · final 300/300 identical · written 300 files` → R22 (`.run/P36/baseline/r22_tus1.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=157.17 s`) → census `THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 49,787 sites in 15,243 bodies (2,244 distinct) · marked !FAKE 4,391 · UNMARKED 45,396`.
+
+## 🛑 SESSION CHECKPOINT — S98 (2026-09-09): T0 ☑ T1 ☑ T1b ☑ T2 ☑ T3 ☑ — all committed (T3 = `39e3e1851` tools, `cd24727dd` + `7ee458dd7` the ov_SC04_011 batches, this close); NEXT = T4 the mechanical campaign: `tools/delever_cycle.sh` over the whole population (TUs then headers), unattended, one commit per batch, R22 every batch | the number: 53,033 sites in 15,638 bodies (2,246 distinct), 310 marked, 0 orphans | last batch `tus1` on e5f59c12f: THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 49,787 sites in 15,243 bodies (2,244 distinct) · marked !FAKE 4,391 · UNMARKED 45,396
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (T4/T5/T6/T8/T9 are xHigh per the plan, Max is

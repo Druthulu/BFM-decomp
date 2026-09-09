@@ -1,0 +1,20 @@
+03:15:38 apply tus1: 300 files, control src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c IDENTICAL (0.17 s), calibration e5f59c12f, census 8bf16f4bc58430c5
+03:15:38 apply tus1: phase 1 (exemplar files) 4, phase 2 (copies replay) 296
+03:15:40   src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:func_80133784 A=DIFFERS B: removed 3 needed 7 compiles 11
+03:15:40   src/ov_SC03_107/ov_SC03_107_jr_80131340.c:func_80133784 A=DIFFERS B: removed 3 needed 7 compiles 11
+03:15:40   src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c:func_8012E364 A=DIFFERS B: removed 1 needed 3 compiles 5
+03:15:40   src/ov_SC02_037/ov_SC02_037_jr_80131340.c:func_80133784 A=DIFFERS B: removed 3 needed 7 compiles 11
+03:15:40   src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:func_80133CD4 A=DIFFERS B: removed 0 needed 1 compiles 2
+03:15:40   src/ov_SC03_107/ov_SC03_107_jr_80131340.c:func_80133CD4 A=DIFFERS B: removed 0 needed 1 compiles 2
+03:15:40   src/ov_SC02_037/ov_SC02_037_jr_80131340.c:func_80133CD4 A=DIFFERS B: removed 0 needed 1 compiles 2
+03:15:41   src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:func_80134C20 A=DIFFERS B: removed 0 needed 2 compiles 3
+03:15:41   src/ov_SC03_107/ov_SC03_107_jr_80131340.c:func_80134C20 A=DIFFERS B: removed 0 needed 2 compiles 3
+03:15:41   src/ov_SC02_037/ov_SC02_037_jr_80131340.c:func_80134C20 A=DIFFERS B: removed 0 needed 2 compiles 3
+03:15:42   src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:func_80135004 A=DIFFERS B: removed 4 needed 4 compiles 9
+03:15:43   src/ov_SC03_107/ov_SC03_107_jr_80131340.c:func_80135004 A=DIFFERS B: removed 4 needed 4 compiles 9
+03:15:43   src/ov_SC02_037/ov_SC02_037_jr_80131340.c:func_80135004 A=DIFFERS B: removed 4 needed 4 compiles 9
+03:15:43   src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:func_80135168 A=DIFFERS B: removed 0 needed 5 compiles 6
+03:15:44   src/ov_SC03_107/ov_SC03_107_jr_80131340.c:func_80135168 A=DIFFERS B: removed 0 needed 5 compiles 6
+03:15:44   src/ov_SC02_037/ov_SC02_037_jr_80131340.c:func_80135168 A=DIFFERS B: removed 0 needed 5 compiles 6
+03:15:44   src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c:func_80135168 A=DIFFERS B: removed 0 needed 5 compiles 6
+03:16:37 delever: batch tus1 — 300 files (TUs; 2204 drawable) · 1392 bodies: 299 lever-free, 1093 residue, 0 refused · sites removed 3342 / needed 4177 / refused 0 / deferred 0 · replays 1364 (0 disagreed) · compiles 1794 in 59 s wall · final 300/300 identical · written 300 files
