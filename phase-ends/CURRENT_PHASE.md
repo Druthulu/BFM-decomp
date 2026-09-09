@@ -882,81 +882,83 @@ snapshot" (share_body's bisect wiped the previous batch's uncommitted shares; R4
 negative-controlled against the compiler's real message forms, not against the word error" (gcc 2.7.2 prints errors without it;
 254 of 303 rejection lines read `Error 33`).
 
-## 🛑 SESSION CHECKPOINT — S95 recovery, refreshed S96 (2026-09-08): Phase 35 OPEN at gate 1; T0–T4 ☑; T5 ☑ (S1 10,180/10,180, 0 violations; backlog 1,099 → 51 ledgered classes; registry 3,135 groups); T6 ☑ (14 frozen / 4 retired / the guard 0 LIVE); T7 ☑ (S1 strict + C2c/C2d in tools-health, OK); T5b ☑ (the h_text tier: 38 groups / 2,030 sites); T8 ☑ (the record); NEXT = T9 (the close — Tier 1, Max: R22, tools-health, the metrics table, PhaseEnd_Phase35.md + DIGEST, the log archived, v2.1.0); the old sequence for reference: fix the tool (§2 step 2) → repair the registry → replay the suspect rejections → decide E_func_80168B70 → bucket `new`
+## 🛑 SESSION CHECKPOINT — S96 close (2026-09-08, written at the 90 % context guard): Phase 35 T0–T8 ☑ (+ T5b); NEXT = T9, THE CLOSE (Tier 1, Max) in a FRESH session
 
 ### 0. How to use this block
-A fresh session (S96) reads CLAUDE.md's load order, replays THIS block verbatim, and resumes at §2 step 1. This block was written by S95, a
-recovery session that ran nothing (Drew: capture only) — every claim in it is read from the S94 transcript, the two T5 commits, the batch
-records under `.run/P35/share/` and the working tree; the S94 log entries above carry the literal lines. Effort: T5's remaining tool work and
-the two decisions in §2 are **Max** (the plan: T5's tool is Max; the mechanical batch runs xHigh) — ask Drew to `/effort max` at session
-start. Autonomous between the gates (P3); stop only on P5's conditions — §2 step 6 is a P5(d)-shaped decision and is written as one.
-Commit per task; a bank the moment it is green (R42); Drew pushes (R6). **Read §4's first gotcha before running `share_body.py` at all.**
+A fresh session (S97) reads CLAUDE.md's load order, replays THIS block verbatim, asks Drew for `/effort max` (T9 is Tier 1: the PhaseEnd
+synthesis), and executes §2. Every task's literal verify lines are in the log above (append-only, one entry per step); the numbers below
+are copied from those entries — re-derive any you publish (R75). The tree is CLEAN at **HEAD `ce837b1e4`** ("T8 — the record"); Drew
+pushes (R6). The context guard (`~/.claude/ctx_guard.sh`, PostToolUse, user settings) fired at 90 % and this block was written at once.
 
-### 1. Where things stand (S96, 2026-09-08 late evening — refreshed at the T6 close)
-- **HEAD `93b4706c9`** = "T6 CLOSE"; tree CLEAN; `origin/main` behind by every Phase-35 commit (Drew pushes). T0–T6 ☑. The last clean fleet
-  run is `.run/P35/baseline/r22_t5_new8.log` (`check-all: 218 passed, 0 failed of 218`, after bucket new batch 8); T6 changed no build
-  input (tools, docs, the registry, the generated digests only). `make tools-health` is GREEN at `93b4706c9` (`tools_health_t6d.log`,
-  484 s, exit 0) with the macro-form guard line inside it.
-- **Dedup state:** registry 3,135 groups (2,220 at the open); shared headers 3,137 under `src/shared/{ov,main,slot_*}/`; S1 `10,180 classes,
-  10,180 satisfied (3,580 twin-covered, 51 excepted, 3,801 deferred cross-address), 0 VIOLATION(S) — OK`; the same-vram backlog is exactly
-  the 51 ledger rows (`config/dedup_exceptions.tsv`: 50 TU-CONFLICT — the late overlays' declaration conflicts, for the types phase — + 1
-  GATE-REJECT `E_func_801376E8`); cross-vram classes (E flag 3,826) DEFERRED to the names phase. Published numbers moved at T6 and are
-  explained in the T6 part-2 log entry: fleet functions 363,221 → 363,680 (+459 formerly invisible macro sites), REAL 360,744 → 350,533
-  (empty-bodied shared functions now EMPTY); the instruction-weighted metrics unchanged (13,492,113 / 5,820,205 / 45,150).
-- **Tools:** `share_body.py` (`--plan/--apply/--reexemplar/--repair-registry`, `--batches 1` default, snapshot restore, the cause rule),
-  `share_body_cycle.sh` (the unattended batch cycle), `frozen.py` (14 FROZEN tools' refusal), the guard in `tool_census --check`;
-  `dedup_propagate`/`dedup_extend`/`macro_draft`/`test_reconcile_ledger` under `tools/sunset/`. Ghidra MCP: launched by the hook, unused,
-  stop via `tools/ghidra_mcp_stop.sh` before the close commit (R23). Disk ≈ 32 GB free. The context guard (`~/.claude/ctx_guard.sh`) is
-  armed at 90 %.
+### 1. Where things stand
+- **Done, committed, gated:** T0 open/probe · T1 `share_census` · T2 the health chain learns the include + twin forms · T3 five twin pairs
+  → one source dir · T4 every macro body a header, `engine_core.h` deleted · T5 `share_body` (bucket 0: 183 classes → 135 shared / 48
+  ledgered; bucket new: 915 → 914 shared / 3 ledgered; the E_func_80168B70 re-exemplar) · T5b the `h_text` tier (38 classes / 2,030
+  sites) · T6 14 tools FROZEN, 4 retired, the macro-form guard · T7 S1 strict + C2c/C2d in tools-health, the digest fields and
+  corrections · T8 the record. Sessions: S94 (T0–T4 and the start of T5; died at 91 % without a checkpoint), S95 (the recovery, no runs),
+  S96 (T5 → T8). Commits since the open `48170fd7f`: `git log --oneline 48170fd7f..HEAD` (≈50).
+- **The last gates on this tree:** R22 `check-all: 218 passed, 0 failed of 218` from clean at `ac8c29edb` (`.run/P35/baseline/r22_t5b.log`,
+  90 s; T6–T8 after it changed tools and docs only — T9 re-runs it anyway); `make tools-health: OK` at `ac8c29edb`
+  (`tools_health_t5b.log`, 439 s) with `S1: one source per unique function — 10,180 classes, 10,180 satisfied (3,507 twin-covered, 51
+  excepted, 3,801 deferred cross-address), 0 VIOLATION(S) — OK`, `dedup-check: 3173 validated, 0 failed | C1 coverage 262573/262573`,
+  `macro-form guard: 0 LIVE tools reference the retired form (217 scanned, 14 frozen, 6 whitelisted detectors, 38 retired)`; after T8,
+  `doc_links` strict 0 broken, `wiki_render` 32/32, cookbook index 1,170 sections OK, `kit_coverage: OK`, `tool_census --check: OK`.
+- **Open by design (recorded, not owed):** 51 ledgered classes / 160 copies in `config/dedup_exceptions.tsv` (50 TU-CONFLICT — the late
+  overlays' declaration conflicts, the types phase's; 1 GATE-REJECT `E_func_801376E8`); 3,801 cross-address classes deferred to the names
+  phase (E flag 3,826), including 381 same-address tiny-body texts / 1,668 copies inside them (the parameterized `SHARED_FN` form is
+  their shape). The Ghidra MCP: launched by the hook, unused all phase — stop it via `tools/ghidra_mcp_stop.sh` before the close commit
+  (R23). Disk ≈ 30 GB free.
 
-### 2. The resume sequence (T7 → T9; each step's verify line quoted in the log; one commit per step)
-1. **T7 (xHigh) — wire the invariants + regenerate every published number.** In the Makefile's `tools-health` after `report BINARY=main`:
-   `tools/share_census.py --selftest` (7/7) and `tools/share_census.py --check` (S1 strict — exit code, R97); `tools/dedup_integrate.py
-   --check` gains **C2c** (the source is under `src/shared/`, defines exactly one function, `func` is the token it uses — via
-   `share_census.header_defs`; the parameterized `SHARED_FN` form allowed) and **C2d** (every member's site file includes the source and no
-   inline definition of that member survives in the binary; the 51 ledgered classes' rejected members are NOT listed, so C2d is exact).
-   `progress.py`: two generated fields (`unique_function_bodies`, `duplicate_source_copies`, sourced from the census json) in
-   `docs/progress.json` + the README block; `progress.py --readme --check`, `timeline.py`, `make audit-digest`; the +459 and the REAL
-   reclassification stated where the numbers appear (a dated snapshot with the command, R75). **Negative control (R39):** in a worktree,
-   revert one member's include to its private copy → `share_census --check` exits 1 naming that class; C2d names the member. Verify:
-   `make tools-health` OK; `progress.py --readme --check` fresh. **Rules check (P6) after T7.**
-2. **T8 (xHigh) — the record.** Wiki: `The-dedup-engine.md` rewritten as the shared-source model (headers, twins, the census, the sotn fact,
-   the ledger's 51), `Repository-layout.md`, `Where-the-project-goes-next.md`, `Verification-and-progress.md`; how-to ch.10; README:117 prose;
-   `gen3-standards.md` §4 row + DoD line and `gen3-handoff.md` §2.2/§3 as dated snapshots; a cookbook section replacing §14/§38's macro
-   narrative; `docs/decision-log.md` P35 (R31: the 2026-09-02 reversal with the sotn evidence, the 5,147-vs-3,516 miscount, the twin discovery,
-   the +459/+219 undercount, the S94 death and the recovery, the four share_body defects, the E_func_80168B70 policy); `docs/accelerators.md`;
-   DIGEST §4; `tools/sunset/README.md` rows (done at T6); the memory `dedup-backlog-leave-it` rewritten; `doc_links --strict`, `wiki_render
-   --selftest`, `cookbook_index --check`, `kit_coverage` (the S95/S96 rule candidates need map rows or kernel citations, R92).
-3. **T9 (Max, Tier 1 — prompt Drew for `/effort max` first).** R22 clean fleet run → 218/218; `make tools-health` OK; the metrics table
-   before/after (macro lines 5,147 → 0; `engine_core.h` 8.8 MB → deleted; same-vram duplicate copies 4,755 → 160, all 51 classes ledgered;
-   twins 5 pairs / 10 aliases; cross-vram deferred 3,826 classes; registry 2,220 → 3,135; fleet clean-run wall 157 s → 84 s; the +459); the
-   reviewer sequence; `PhaseEnd_Phase35.md` + DIGEST §0/§2/§3 + the log archived (R19), left for Drew's close commit; v2.1.0. Rule
-   candidates for the PhaseEnd are collected under §"Rules at gate 1" (this phase's invariant + the S95 three).
+### 2. T9 — the close (Max; one session; leave the deliverables UNCOMMITTED for Drew's milestone-close commit, R6)
+1. `/effort max` confirmed. `make clean && make extract-all JOBS=16 && make check-all JOBS=16` → `check-all: 218 passed, 0 failed of 218`
+   by exit code (`.run/P35/baseline/r22_t9.log`); `make tools-health` in the FOREGROUND (≤ 600 s; ~440–550 s) → `tools-health: OK` with the
+   S1 line, dedup-check 3173/0, the guard line (`tools_health_t9.log`).
+2. **The metrics table (before → after)** for the PhaseEnd, each cell from its command: macro define lines 5,147 → 0 (`git grep -c
+   '^#define DEFINE_func_' -- src` empty; `git grep -cP '^\s*DEFINE_func_' -- src` empty); `src/shared/engine_core.h` 8.8 MB / 227,730 lines
+   → deleted; shared headers 2,215 (T4) → 3,175 (`find src/shared -name 'func_*.h' | wc -l`); registry groups 2,220 → 3,173 (38 `h_text`),
+   instances 255,708 → 262,573; same-address backlog 1,099 classes / 4,755 private copies / 3,658 collapsible → 51 / 160 / 109, all
+   ledgered; S1 10,180 / 10,180, 0 violations; twins 5 pairs / 10 aliases / 166 files deleted; cross-address deferred 3,801 classes;
+   `unique_function_bodies` 103,015; the fleet denominator 363,221 → 363,680 (+459, cause in the T6 part-2 entry) and REAL 360,744 →
+   350,533 (empty-bodied shared functions now EMPTY); instruction-weighted metrics unchanged (13,492,113 / 5,820,205 / 45,150); fleet
+   clean-run wall 157 s (T0) → 84–90 s; 14 tools FROZEN, 4 retired; `docs/progress.json` `corrections` (3 entries).
+3. **The milestone (gate 2), item by item with literal output:** (1) `git grep -c '^#define DEFINE_func_' -- src` empty, no
+   `DEFINE_func_X()` site, `engine_core.h` absent, every registered body a header under `src/shared/<space>/` (`dedup_integrate --check`
+   C2c); (2) `tools/share_census.py --check --strict-macros --strict-text` exit 0 — same-vram copies 0 or ledgered, the five twins from one
+   directory (`make audit-binaries` CHECK 3b), the cross-vram count published; (3) `make tools-health` OK with S1 strict and the guard;
+   every consumer updated/frozen/retired per its dictionary row (`config/tool_dictionary.tsv`); (4) R22 218/218; (5) README/wiki/kit
+   regenerated (T7/T8), decision log (T8), SETUP rows (T1–T7), PhaseEnd + DIGEST written (this task); v2.1.0.
+4. **The reviewer sequence** (document it in the PhaseEnd's Build Log): `make bootstrap` · `make clean && make extract-all JOBS=16 && make
+   check-all JOBS=16` · `make tools-health` · `tools/share_census.py --selftest && tools/share_census.py --check --strict-macros
+   --strict-text` · `tools/tool_census.py --check` · `tools/progress.py --readme --check` · `git grep -c '^#define DEFINE_func_' -- src`.
+5. **Write `phase-ends/PhaseEnd_Phase35.md`** (the format in PROJECT_CONTEXT.md; the P33/P34 files are the exemplars; R25 plain-English
+   recap; "what we believed / what failed / what we'd do sooner"; the sessions' cost in agents: none — no subagents this phase; the
+   S94 death and the S95 recovery as a Deviation; the plan's "7 frozen" → 14 and "3 retired" → 4; T5b added; the E_func_80168B70 and
+   the 38-text decisions delegated to Claude at Max). **Rule candidates for Phase 36 gate 1 (P10), from §"Rules at gate 1" + the log:**
+   (a) a shared body has exactly one source; a duplicate copy is a defect the health chain asserts and its count is published with its
+   rule (the phase's invariant); (b) every commit that advances a task carries its log line and the 🛑 headline; a checkpoint older than
+   HEAD is a dead session's checkpoint; (c) a tool that restores files restores from its own snapshot, never `git checkout` on a tree it
+   did not commit; (d) a failure-cause extractor is negative-controlled against the compiler's real message forms, not the word "error";
+   (e) build the disagreeing oracle (R34) BEFORE the batch runs and measure its disagreement before believing either side — the text
+   oracle found in one run what the byte join could never class; (f) a registry lists a member only after the gate has spoken for it
+   (never ahead of the source); (g) a policy taken on a remembered precedent is a belief — read the target project's tree.
+6. **DIGEST:** append the P35 synopsis to §2, the ratified R96–R99 are already in §3 (T0), refresh §0's "where the project stands" (Phase 35
+   closed, v2.1.0, Gen3's next = Phase 36 pins per Drew's order dedup → pins → structs → names), §4 already has the P35 map (T8).
+7. `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/Phase35.md` (R19); `make kit-corpus` so the kit's record copies (the DIGEST, the new
+   PhaseEnd, the log) stay equal; leave PhaseEnd + DIGEST + the moved log + the kit corpus UNCOMMITTED with the commit message written in
+   the PhaseEnd; stop the Ghidra MCP; final message per P8; HARD STOP — no Phase 36 preview.
 
-### 3. Numbers to re-derive, never trust (their commands)
-`share_body --plan` (the two buckets and the bands; ~30 s); `share_census --no-cache` → `.run/P35/census/share_census.json` (verdicts, S1,
-same-vram backlog); the registry member count = `grep -c` of names in `binaries:` lines; the ledger = `grep -vcE '^#|^h_exact'
-config/dedup_exceptions.tsv` (55 now); the listed-but-private pairs = the S95 script's logic (ledger notes × registry lines; 317 now); the
-lost-site estimate (50–63) is superseded by the next census's verdict-B list. T4-era figures: 2,215 headers (86 suffixed), 246,347 sites
-converted, 1,300 dead macros dropped, fleet 218/218 in 145 s, census 362,389/362,389 with 0 macro sites.
+### 3. Numbers to re-derive, never trust
+Every figure in §2 step 2 has its command there; the S1 line and the registry counts come from `share_census --check` /
+`dedup_integrate --check`; the digest from `tools/progress.py --fleet`; the header count from `find`; the frozen/retired counts from
+`config/tool_dictionary.tsv` (`grep -cP '\tFROZEN\t'`, the sunset README rows).
 
-### 4. Gotchas (each cost something)
-1. **`share_body.py`'s bisect restores TUs with `git checkout --` (line 223): running it on a tree with UNCOMMITTED `src/` edits DESTROYS
-   them for every bisected binary** (S95 finding 4). Commit first, always; and fix the tool (step 2b) before any multi-batch run.
-2. The tool's failure "detail" is not the cause until step 2a lands — `Error 33` means "cc1 reported an error whose message has no 'error'
-   word"; read the binary's `check_<b>.log` — but note the log holds only the LAST gate of that binary (the final green one), so the message
-   is gone after the bisect; the replay recipe (step 4) recovers it.
-3. `candidates()` skips EXCEPTED classes: a ledger row is a permanent skip until deleted; `--only` needs the row gone too.
-4. The census cache (`.run/P35/census/cache/`) is keyed by file mtime/size, not by the scanner's version — `--no-cache` after any
-   `share_census.py` edit. `share_census --check` exits 1 on unaccounted instances; `share_body` refuses to run on such a census (R32).
-5. `make kit-corpus` belongs in EVERY commit that edits a tool or a PhaseEnd/DIGEST/how-to/cookbook file (`tool_census --check` is a
-   tools-health rung; it failed twice in S94 on exactly this); `kit_coverage` needs a `config/kit_coverage_map.tsv` row for any new rule.
-6. `make tools-health` regenerates every sig first (~8 min; run in the FOREGROUND with a 600 s timeout, never as a harness background task);
-   two red rungs in S94 were the kit's copies and the coverage map, both fixed at their cause.
-7. The registry is text-edited only (`dedup_extend.add_members_surgical`, `share_body.registry_append`); a `yaml.safe_dump` decimalizes
-   every vram and deletes comments while every gate stays green (H5 precedent).
-8. A twin alias (SC01_006, SC03_119, SC02_003, SC04_019, SC03_015) has no source dir: its TUs are its primary's; `share_body` gates twins
-   with their primary and the bisect maps a twin's TUs to the primary's directory (`run_batch`, lines 270–273).
-9. Transcript recovery method (used by S95): dump the session's `.jsonl` to text (per record: user text, assistant text, tool_use name +
-   input, tool_result truncated), grep for `SESSION CHECKPOINT` to find the last block written, read forward from there; the commits, the
-   tool's own batch records and the tree are the ground truth the transcript is checked against (R14).
+### 4. Gotchas that cost something this phase (the log has each with its verify line)
+1. `share_body.py` runs on a COMMITTED tree, one batch per invocation; its bisect restores from an in-memory snapshot (never `git checkout`).
+2. gcc 2.7.2 error lines carry no "error" token; `Error 33` is cc1's fatal exit — read the `file:line: message` form.
+3. A twin's instance resolves to its primary's TU — dedupe edits by (tu, line); the census counts distinct TUs.
+4. `add_members_surgical` refuses the verbose `members:` form; `--repair-registry` converts and completes; matches on (binary, vram).
+5. `make kit-corpus` belongs in every commit that edits a tool, the DIGEST, a PhaseEnd, the cookbook or the how-to; the kit's lint refuses
+   rule ids (`R42`) and project names in authored kit text.
+6. The timeline's last row follows the COMMITTED digest: commit `docs/progress.json` first, regenerate the timeline in the next commit.
+7. `make tools-health` in the foreground (~440–550 s); `share_census` cache is keyed by mtime/size — `--no-cache` after a scanner edit.
+8. A `grep` guard in a `&&` chain exits 1 on zero matches (twice this session); `;` before `git commit` let a partial commit through once (R97).
