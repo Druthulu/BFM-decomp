@@ -1530,6 +1530,10 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   registered class's header from the MAJORITY private text, re-gates its includers first (header rolled back on any red), then shares
   its private copies (`E_func_80168B70`: T4 had inherited the 7 late overlays' minority spelling). Records: `.run/P35/share/
   batch_<label>.json` (classes, results per binary, extended, rejected, causes), `repair_registry.json`, `reexemplar_<h8>.old.h`.
+  **`tools/share_body_cycle.sh START END [R22_EVERY]`** runs bucket `new` unattended: per batch `--label new<k>`, exit code + the
+  `gated N/N` line read, the phase-log entry appended, the bank committed (R42), the clean fleet run every N batches (R22, `218 passed,
+  0 failed of 218` required); stops on the first red; refuses a dirty `src/`/`config/`. Size a call under the 10-minute foreground cap
+  (a batch 40–100 s, a fleet run ≈ 90 s).
 
 - **Twin binaries (T3).** Five overlay pairs are one payload (equal `config/check.*.sha`): SC01_005/006, SC03_118/119, SC02_000/003,
   SC04_018/019, SC03_014/015. The twin has NO source directory: `config/overlays.mk` declares `<twin>_TWIN_OF := <primary>` and

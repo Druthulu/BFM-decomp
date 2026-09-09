@@ -1,0 +1,5 @@
+.venv/bin/python tools/tool_census.py --all
+tool_census: 298 tool files (find == git ls-files) + 34 retired; classes {'LIVE': 237, 'ORPHAN': 32, 'REFERENCED': 29, 'RETIRED': 34}; dictionary rows 332
+tool_census: wrote docs/tool-index.md
+tool_census: wrote decomp-architect/tools/MANIFEST.md
+tool_census: corpus materialised — 364 verbatim copies, 28 pointers, INDEX.md

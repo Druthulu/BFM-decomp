@@ -534,6 +534,7 @@ def main():
                     help="batches per invocation (default 1: every batch's edit positions come from THIS run's census, which read "
                          "committed text; commit between runs — a later batch would edit TUs the earlier one already changed)")
     ap.add_argument("--only", default="")
+    ap.add_argument("--label", default="", help="the batch label for the log lines and batch_<label>.json (default <bucket><n>)")
     ap.add_argument("--repair-registry", action="store_true",
                     help="remove every listed member whose site is still a private definition (derived from the census), then exit")
     ap.add_argument("--reexemplar", default="",
@@ -578,7 +579,7 @@ def main():
                 f"(the census re-derives the pool from the committed text)")
             break
         chunk = pool[k:k + a.batch]
-        ok = run_batch(orc, cen, chunk, f"{a.bucket}{k // a.batch + 1}")
+        ok = run_batch(orc, cen, chunk, a.label if a.label and a.batches == 1 else f"{a.label or a.bucket}{k // a.batch + 1}")
         all_ok = all_ok and ok
         done += len(chunk)
     log(f"share_body: done — {done} of {len(pool)} classes in {min(a.batches, (len(pool) + a.batch - 1) // a.batch)} batch(es); "
