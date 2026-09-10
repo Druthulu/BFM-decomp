@@ -2585,7 +2585,13 @@ def propagate(a):
     if a.only:
         sibs = [k for k in sibs if any(o in k for o in a.only)]
     sibs = sibs[:a.limit] if a.limit else sibs
-    print(f"delever --propagate: {tu}:{fn} -> {len(sibs)} sibling(s) of class {key[:12]}", flush=True)
+    # A reshape may deliberately leave a lever standing (agent a2, S102: one of func_80168828's two pins is forced by the
+    # shared header's `(void)` declaration and has no C source, the other was a constant-holder and came off). Its siblings
+    # inherit exactly that shape, so the allowance is DERIVED from the exemplar's own banked text — the number of surviving
+    # markers — and never simply asserted: a sibling that would carry MORE levers than the exemplar is refused below.
+    ex_levers = src_row["after_text"].count(FAKE)
+    print(f"delever --propagate: {tu}:{fn} -> {len(sibs)} sibling(s) of class {key[:12]}"
+          + (f"; the exemplar keeps {ex_levers} marked lever(s), so its siblings may too" if ex_levers else ""), flush=True)
     if not sibs:
         return 0, 0, 0                                    # R68: an empty work list is a refusal, not a success (a tuple like every return — the
                                                           # bare `1` here killed run g4s's process after its real propagations, S101)
@@ -2611,7 +2617,13 @@ def propagate(a):
             continue
         # IN PROCESS (S101): a subprocess per sibling reloaded the recipes and the includer map every time — ~1.3 s of the
         # ~1.5 s each sibling cost, ≈40 min for run g3's 1,503 siblings
-        ok_, line = apply_body_core(stu, sfn, body, a.label, src_row.get("rung") or "R", source=f"propagate:{tu}:{fn}")
+        if body.count(FAKE) > ex_levers:
+            print(f"  {stu}:{sfn}: the remap left {body.count(FAKE)} lever(s) where the exemplar keeps {ex_levers} "
+                  f"— SKIPPED", flush=True)
+            bad += 1
+            continue
+        ok_, line = apply_body_core(stu, sfn, body, a.label, src_row.get("rung") or "R", source=f"propagate:{tu}:{fn}",
+                                    allow_residue=(a.allow_residue or ex_levers > 0))
         print(f"  {line[:200]}", flush=True)
         ok += ok_
         bad += not ok_

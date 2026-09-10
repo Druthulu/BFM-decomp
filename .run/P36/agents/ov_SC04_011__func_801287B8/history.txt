@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 3 best 3 compiles 674 path 
 g4s: verdict NO-MATCH start 3 best 3 compiles 674 path 
 g5: verdict NO-MATCH start 3 best 3 compiles 1234 path 
+s1: verdict NO-MATCH start 3 best 3 compiles 189 path 
 best-scoring single candidates of the last trace (move -> score):
   R6 inline p @222 -> 3 (from 3)
   R7 block @218 -> 3 (from 3)

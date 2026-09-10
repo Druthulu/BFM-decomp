@@ -1,5 +1,6 @@
 g3: verdict NO-MATCH start 6 best 3 compiles 54 path R6 inline r @3896
 g5: verdict NO-MATCH start 6 best 3 compiles 203 path R6 inline r @3895
+s1: verdict NO-MATCH start 6 best 3 compiles 56 path R6 inline r @3895
 best-scoring single candidates of the last trace (move -> score):
   R6 inline r @3895 -> 3 (from 6)
   R12 width v int->u16 @3890 -> 3 (from 3)

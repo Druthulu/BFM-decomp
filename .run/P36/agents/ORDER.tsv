@@ -1,58 +1,55 @@
 rank	fn	alias	copies	best	needed	kinds	regs	tu
-1	func_80156044	ov_SC04_011	130	1	2	pin	$2,$3	src/ov_SC04_011/ov_SC04_011_jr_80154C24.c
-2	func_80168828	ov_SC04_011	125	1	2	pin	$3,$4	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-3	func_801397B0	ov_SC04_011	126	2	1	pin	$4	src/ov_SC04_011/ov_SC04_011_jr_801380E0.c
-4	func_8013EB7C	ov_SC04_011	126	2	1	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
-5	func_8016C49C	ov_SC04_011	126	2	1	pin	$17	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
-6	func_80136334	ov_SC04_011	126	2	4	barrier,keepalive,launder,pin	$12	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
-7	func_8016B234	ov_SC04_011	129	3	2	pin	$16,$3	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
-8	func_801287B8	ov_SC04_011	127	3	1	pin	$4	src/ov_SC04_011/ov_SC04_011.c
-9	func_80178970	ov_SC04_011	127	3	1	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
-10	func_8015FBE0	ov_SC04_011	125	3	1	barrier		src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-11	func_8017A3D8	ov_SC04_011	118	3	1	pin	$4	src/ov_SC04_011/ov_SC04_011_jr_80178D40.c
-12	func_80148E54	ov_SC04_011	132	4	2	launder,pin	$4	src/ov_SC04_011/ov_SC04_011_after.c
-13	func_80157D20	ov_SC04_011	132	4	2	pin	$4,$5	src/ov_SC04_011/ov_SC04_011_jr_80154C24.c
-14	func_801627E8	ov_SC04_011	132	4	2	launder,pin	$4	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-15	func_80139BE0	ov_SC04_011	129	4	1	launder		src/ov_SC04_011/ov_SC04_011_jr_801380E0.c
-16	func_80136824	ov_SC04_011	126	4	6	barrier,keepalive,launder,pin	$12,$5	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
-17	func_80166F58	ov_SC04_011	125	4	5	launder,pin	$20,$5	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-18	func_80143D28	ov_SC04_011	131	5	1	pin	$18	src/ov_SC04_011/ov_SC04_011_jr_80140608.c
-19	func_80148D44	ov_SC04_011	132	6	2	keepalive,pin	$4	src/ov_SC04_011/ov_SC04_011_after.c
-20	func_8016DF5C	ov_SC04_011	127	6	2	barrier,pin	$3	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
-21	func_8012956C	ov_SC04_011	127	6	4	barrier,pin	$3,$4,$7	src/ov_SC04_011/ov_SC04_011.c
-22	func_80141874	ov_SC04_011	125	6	1	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_80140608.c
-23	func_801345F8	ov_SC04_011	134	7	3	pin	$0,$4,$5	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-24	func_8012E364	ov_SC04_011	133	7	3	pin	$2,$5	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-25	func_8013DD68	ov_SC04_011	129	7	2	pin	$3,$7	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
-26	func_8017B238	ov_SC04_011	126	7	2	launder,pin	$16	src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c
-27	func_8017B614	ov_SC04_011	126	7	3	barrier,launder,pin	$16	src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c
-28	func_80133CD4	ov_SC04_011	131	8	1	instruction		src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-29	func_8014D820	ov_SC04_011	128	8	2	launder,pin	$7	src/ov_SC04_011/ov_SC04_011_after.c
-30	func_801651B8	ov_SC04_011	127	8	2	launder,pin	$16	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-31	func_80162438	ov_SC04_011	127	8	3	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-32	func_8016CBC0	ov_SC04_011	128	11	1	pin	$0	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
-33	func_80145934	ov_SC04_011	126	11	1	barrier		src/ov_SC04_011/ov_SC04_011_after.c
-34	func_80145A2C	ov_SC04_011	126	11	1	barrier		src/ov_SC04_011/ov_SC04_011_after.c
-35	func_80133784	ov_SC04_011	127	12	7	instruction,keepalive,pin	$19,$20,$21,$3	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-36	func_80161E08	ov_SC04_011	127	13	3	instruction		src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-37	func_80135888	ov_SC04_011	134	16	5	barrier,pin	$17,$19,$2,$21	src/ov_SC04_011/ov_SC04_011_jr_80135888.c
-38	func_8013F350	ov_SC04_011	130	16	3	launder,pin	$4,$5	src/ov_SC04_011/ov_SC04_011_jr_8013F350.c
-39	func_80166690	ov_SC04_011	126	16	1	pin	$0	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-40	func_80135168	ov_SC04_011	126	16	5	barrier,keepalive,pin	$6,$7,$8	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-41	func_80133AB0	ov_SC04_011	134	17	4	instruction,pin	$0,$4	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-42	func_80134A74	ov_SC04_011	134	17	5	instruction,keepalive,pin	$0,$18,$4	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-43	func_8013D8FC	ov_SC04_011	131	17	1	pin	$16	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
-44	func_8015D738	ov_SC04_011	126	17	1	barrier		src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-45	func_80148AFC	ov_SC04_011	132	18	6	barrier,launder,pin	$2,$3,$5	src/ov_SC04_011/ov_SC04_011_after.c
-46	func_80130D48	ov_SC04_011	130	18	4	pin	$19,$3	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-47	func_80135004	ov_SC04_011	127	23	4	keepalive,pin	$6,$8,$9	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
-48	func_80135A4C	ov_SC04_011	134	24	3	barrier,instruction,pin	$23	src/ov_SC04_011/ov_SC04_011_jr_80135A4C.c
-49	func_80140958	ov_SC04_011	119	25	4	barrier,keepalive,pin	$2,$4	src/ov_SC04_011/ov_SC04_011_jr_80140608.c
-50	func_80175AB8	ov_SC04_011	125	26	5	barrier,cast,launder,pin	$4,$5	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
-51	func_801670E4	ov_SC04_011	133	31	7	barrier,launder,pin	$2,$4	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-52	func_80176734	ov_SC04_011	129	32	11	launder,pin	$16,$2,$3,$5	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
-53	func_8013CF68	ov_SC04_011	134	33	1	instruction		src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
-54	func_80135EB0	ov_SC04_011	129	52	6	barrier,pin	$19,$5	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
-55	func_8013D9B0	ov_SC04_011	125	57	25	barrier,launder,pin	$10,$12,$14,$17,$2,$3,$5,$6,$7,$8,$9	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
-56	func_8013D178	ov_SC04_011	130	72	1	pin	$5	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
-57	func_80177B5C	ov_SC04_011	132	106	15	barrier,keepalive,launder,pin	$16,$17,$2,$21,$3,$4,$5	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
+1	func_80168828	ov_SC04_011	125	1	2	pin	$3,$4	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+2	func_801397B0	ov_SC04_011	126	2	1	pin	$4	src/ov_SC04_011/ov_SC04_011_jr_801380E0.c
+3	func_8016C49C	ov_SC04_011	126	2	1	pin	$17	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
+4	func_80136334	ov_SC04_011	126	2	4	barrier,keepalive,launder,pin	$12	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
+5	func_80136824	ov_SC04_011	126	2	6	barrier,keepalive,launder,pin	$12,$5	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
+6	func_8016B234	ov_SC04_011	129	3	2	pin	$16,$3	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
+7	func_801287B8	ov_SC04_011	127	3	1	pin	$4	src/ov_SC04_011/ov_SC04_011.c
+8	func_80178970	ov_SC04_011	127	3	1	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
+9	func_8015FBE0	ov_SC04_011	125	3	1	barrier		src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+10	func_8017A3D8	ov_SC04_011	118	3	1	pin	$4	src/ov_SC04_011/ov_SC04_011_jr_80178D40.c
+11	func_80148E54	ov_SC04_011	132	4	2	launder,pin	$4	src/ov_SC04_011/ov_SC04_011_after.c
+12	func_80157D20	ov_SC04_011	132	4	2	pin	$4,$5	src/ov_SC04_011/ov_SC04_011_jr_80154C24.c
+13	func_801627E8	ov_SC04_011	132	4	2	launder,pin	$4	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+14	func_80139BE0	ov_SC04_011	129	4	1	launder		src/ov_SC04_011/ov_SC04_011_jr_801380E0.c
+15	func_80166F58	ov_SC04_011	125	4	5	launder,pin	$20,$5	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+16	func_80143D28	ov_SC04_011	131	5	1	pin	$18	src/ov_SC04_011/ov_SC04_011_jr_80140608.c
+17	func_80148D44	ov_SC04_011	132	6	2	keepalive,pin	$4	src/ov_SC04_011/ov_SC04_011_after.c
+18	func_8012956C	ov_SC04_011	127	6	4	barrier,pin	$3,$4,$7	src/ov_SC04_011/ov_SC04_011.c
+19	func_80141874	ov_SC04_011	125	6	1	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_80140608.c
+20	func_801345F8	ov_SC04_011	134	7	3	pin	$0,$4,$5	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+21	func_8012E364	ov_SC04_011	133	7	3	pin	$2,$5	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+22	func_8013DD68	ov_SC04_011	129	7	2	pin	$3,$7	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
+23	func_8017B238	ov_SC04_011	126	7	2	launder,pin	$16	src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c
+24	func_8017B614	ov_SC04_011	126	7	3	barrier,launder,pin	$16	src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c
+25	func_80133CD4	ov_SC04_011	131	8	1	instruction		src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+26	func_8014D820	ov_SC04_011	128	8	2	launder,pin	$7	src/ov_SC04_011/ov_SC04_011_after.c
+27	func_801651B8	ov_SC04_011	127	8	2	launder,pin	$16	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+28	func_80162438	ov_SC04_011	127	8	3	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+29	func_8016CBC0	ov_SC04_011	128	11	1	pin	$0	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
+30	func_80145934	ov_SC04_011	126	11	1	barrier		src/ov_SC04_011/ov_SC04_011_after.c
+31	func_80145A2C	ov_SC04_011	126	11	1	barrier		src/ov_SC04_011/ov_SC04_011_after.c
+32	func_80133784	ov_SC04_011	127	12	7	instruction,keepalive,pin	$19,$20,$21,$3	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+33	func_80161E08	ov_SC04_011	127	13	3	instruction		src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+34	func_80135888	ov_SC04_011	134	16	5	barrier,pin	$17,$19,$2,$21	src/ov_SC04_011/ov_SC04_011_jr_80135888.c
+35	func_8013F350	ov_SC04_011	130	16	3	launder,pin	$4,$5	src/ov_SC04_011/ov_SC04_011_jr_8013F350.c
+36	func_80166690	ov_SC04_011	126	16	1	pin	$0	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+37	func_80135168	ov_SC04_011	126	16	5	barrier,keepalive,pin	$6,$7,$8	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+38	func_80133AB0	ov_SC04_011	134	17	4	instruction,pin	$0,$4	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+39	func_80134A74	ov_SC04_011	134	17	5	instruction,keepalive,pin	$0,$18,$4	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+40	func_8013D8FC	ov_SC04_011	131	17	1	pin	$16	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
+41	func_8015D738	ov_SC04_011	126	17	1	barrier		src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+42	func_80148AFC	ov_SC04_011	132	18	6	barrier,launder,pin	$2,$3,$5	src/ov_SC04_011/ov_SC04_011_after.c
+43	func_80130D48	ov_SC04_011	130	18	4	pin	$19,$3	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+44	func_80135004	ov_SC04_011	127	23	4	keepalive,pin	$6,$8,$9	src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c
+45	func_80135A4C	ov_SC04_011	134	24	3	barrier,instruction,pin	$23	src/ov_SC04_011/ov_SC04_011_jr_80135A4C.c
+46	func_80140958	ov_SC04_011	119	25	4	barrier,keepalive,pin	$2,$4	src/ov_SC04_011/ov_SC04_011_jr_80140608.c
+47	func_80175AB8	ov_SC04_011	125	26	5	barrier,cast,launder,pin	$4,$5	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
+48	func_801670E4	ov_SC04_011	133	31	7	barrier,launder,pin	$2,$4	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+49	func_80176734	ov_SC04_011	129	32	11	launder,pin	$16,$2,$3,$5	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
+50	func_8013CF68	ov_SC04_011	134	33	1	instruction		src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
+51	func_80135EB0	ov_SC04_011	129	52	6	barrier,pin	$19,$5	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
+52	func_8013D9B0	ov_SC04_011	125	57	25	barrier,launder,pin	$10,$12,$14,$17,$2,$3,$5,$6,$7,$8,$9	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
+53	func_8013D178	ov_SC04_011	130	72	1	pin	$5	src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c
+54	func_80177B5C	ov_SC04_011	132	106	15	barrier,keepalive,launder,pin	$16,$17,$2,$21,$3,$4,$5	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c

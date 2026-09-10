@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 4 best 4 compiles 334 path 
 g4s: verdict NO-MATCH start 4 best 4 compiles 419 path 
 g5: verdict NO-MATCH start 4 best 4 compiles 874 path 
+s1: verdict NO-MATCH start 4 best 4 compiles 131 path 
 best-scoring single candidates of the last trace (move -> score):
   R12 width v int->u16 @916 -> 4 (from 4)
   R6 inline idx @923 -> 4 (from 4)

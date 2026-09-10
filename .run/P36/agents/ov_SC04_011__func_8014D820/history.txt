@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 8 best 8 compiles 801 path 
 g4s: verdict NO-MATCH start 8 best 8 compiles 801 path 
 g5: verdict NO-MATCH start 8 best 8 compiles 2315 path 
+s1: verdict NO-MATCH start 8 best 8 compiles 190 path 
 best-scoring single candidates of the last trace (move -> score):
   R7 block @1770 -> 8 (from 8)
   R6 inline new_var2 @1773 -> 8 (from 8)

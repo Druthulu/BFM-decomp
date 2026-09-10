@@ -1,5 +1,6 @@
 g3: verdict NO-MATCH start 11 best 11 compiles 400 path 
 g5: verdict NO-MATCH start 11 best 11 compiles 725 path 
+s1: verdict NO-MATCH start 11 best 11 compiles 143 path 
 best-scoring single candidates of the last trace (move -> score):
   R7 block @32 -> 11 (from 11)
   R7 do-while @32 -> 11 (from 11)

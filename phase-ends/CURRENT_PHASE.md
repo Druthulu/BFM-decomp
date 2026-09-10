@@ -904,7 +904,32 @@ accumulate here as the phase produces them.**
   `lever_census --check: 29,697 pin/asm sites, 29,697 marked !FAKE, 0 UNMARKED — OK`; snapshot row 11 (9,617 → 9,350 bodies).
   Drew raised the sweep concurrency to `-j 16` for everything after this run.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; 30,358 → 29,697 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,697 sites** (17,427 pins + 12,270 asm) in 9,350 bodies · marked 29,697 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (11 milestones). **S102's loop state: a1 done + harvested (R15, sweep s1); NEXT = rebuild the packs (`delever_pack.py --build`) and launch agent a2 on rank 2 `func_80168828` (125 copies, pins $3/$4; its pack history's best is 1, the cheap s1 sweep only reached 15 — start from the pack).**
+- **S102 — T7 agent a2: `func_80168828` (ov_SC04_011, 125 copies, pins `$3`/`$4`, start 35, g5's best 1).** Score **0**, one of
+  the two pins off, **125 bodies** (1 + 124 propagated, 0 refused). Two moves: (1) delete `register s32 c40 __asm__("$3")`
+  and its `c40 = 0x40;` and write the literal at its four uses — byte-neutral on its own, the pin was never doing the work;
+  (2) swap the adjacent `thing.f1e = 0x40;` and `thing.f1a = 0x10;` so the `0x10` store SPLITS the run of `0x40` stores.
+  **The residual reads like cse/sched — "the target holds `0x40` in a register while mine rematerialises it" — and the
+  decision is in local-alloc.** Dumps of the real TU in both orderings: `cse`/`combine`/`flow` identical up to order; the
+  `.lreg` header moves on exactly one line, `Register 76 used 5 times across 10 insns in block 0` → `across 14 insns`, and
+  `;; Register 76 in 2.` → `in 3.` ($v0 → $v1). The decision is `find_free_reg`'s live-range scan at
+  `local-alloc.c:2109-2110` (`for (ins = born_index; ins < dead_index; ins++) IOR_HARD_REG_SET (used, regs_live_at[ins])`):
+  unswapped, qty 76 dies at insn 61 and the `0x10` quantity is born at 64 — disjoint, both take `$v0`; swapped, 76 stays
+  live across the whole of the other and the intervals overlap, so 76 takes `$v1`. **The `$4` pin STAYS and the reason is a
+  declaration, not a lever:** `src/shared/ov/func_801687CC.h` declares `extern void func_80168828(void);`, so the target's
+  `move s1,a0` — a read of the incoming `$a0` — has no C source at all; an uninitialised local, a pointer-typed one, a split
+  declaration and deleting it outright all give the IDENTICAL score-25 residual, and both K&R and prototyped parameter forms
+  are hard cc1 errors against that header (`number of arguments doesn't match prototype`). It is one of the 51 declaration
+  conflicts P35 ledgered for the types phase, and it is the FIRST measured case of a pin that only a declaration fix can
+  remove. The engine's own score-1 text (`u8 a0v; s16 param_1 = a0v;`) is a COINCIDENCE, not a near miss: its `andi
+  s1,s1,0xff` truncates garbage already in `$s1` and never touches `$a0` — the agent refused to propose it (P9).
+  **Instrument fixed in the same change:** `--propagate` could not spread a reshape that deliberately keeps a lever (it
+  refused all 124 siblings). The allowance is now DERIVED from the exemplar's own banked text — the count of surviving
+  `// !FAKE:` markers — and a sibling whose remap would carry MORE levers than the exemplar is refused by name.
+  R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 29,572 pin/asm sites, 29,572 marked !FAKE, 0
+  UNMARKED — OK` (29,697 → 29,572); snapshot row 12. The agent's two toolify proposals (R16 the constant-run split; the
+  constant-holder pin census, its 284 of 10,958 claim to be verified against the bytes, R14) follow in their own commit.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,572 sites** (17,302 pins + 12,270 asm) in 9,225 bodies · marked 29,572 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (12 milestones). **S102's loop state: a1 done + harvested (R15, sweep s1); a2 BANKED (125 bodies, 1 of 2 pins — the other is a declaration conflict for the types phase); NEXT = toolify a2 (R16 the constant-run split + the constant-holder pin census), sweep, then agent a3.**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**

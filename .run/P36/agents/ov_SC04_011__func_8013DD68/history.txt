@@ -1,15 +1,16 @@
 g3: verdict NO-MATCH start 17 best 11 compiles 816 path R6 inline uVar2 @1733 + R9 swap-stmts @1731 + R7 do-while @1730
 g5: verdict NO-MATCH start 17 best 7 compiles 2280 path R6 inline uVar2 @1731 + R7 do-while @1728 + R9 swap-stmts @1731
+s1: verdict NO-MATCH start 17 best 14 compiles 189 path R6 inline uVar2 @1731
 best-scoring single candidates of the last trace (move -> score):
-  R9 swap-stmts @1731 -> 7 (from 14)
-  R7 block @1709 -> 7 (from 7)
-  R2 decl-order 1,0 -> 7 (from 7)
-  R4 decl-move uVar2 8->0 -> 7 (from 7)
-  R4 decl-move uVar2 8->1 -> 7 (from 7)
-  R6 inline base @1706 -> 7 (from 7)
-  R7 block @1720 -> 7 (from 7)
-  R4 decl-move uVar2 8->2 -> 7 (from 7)
-  R4 decl-move uVar2 8->3 -> 7 (from 7)
-  R8 base tmp0 @1707 -> 7 (from 7)
-  R7 block @1721 -> 7 (from 7)
-  R4 decl-move uVar2 8->4 -> 7 (from 7)
+  R6 inline uVar2 @1731 -> 14 (from 17)
+  R7 block @1720 -> 14 (from 14)
+  R2 decl-order 1,0 -> 14 (from 14)
+  R4 decl-move uVar2 8->0 -> 14 (from 14)
+  R4 decl-move uVar2 8->1 -> 14 (from 14)
+  R7 block @1711 -> 14 (from 14)
+  R4 decl-move uVar2 8->2 -> 14 (from 14)
+  R9 swap-stmts @1733 -> 14 (from 14)
+  R4 decl-move uVar2 8->3 -> 14 (from 14)
+  R7 block @1723 -> 14 (from 14)
+  R4 decl-move uVar2 8->4 -> 14 (from 14)
+  R9 swap-stmts @1728 -> 14 (from 14)

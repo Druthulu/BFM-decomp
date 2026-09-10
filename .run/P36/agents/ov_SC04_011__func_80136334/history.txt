@@ -1,15 +1,16 @@
 g3: verdict NO-MATCH start 24 best 2 compiles 811 path R7 do-while @987 + R12 width a2v s32->u16 @943 + R7 do-while @986
 g5: verdict NO-MATCH start 24 best 2 compiles 2320 path R12 width a2v s32->u16 @943 + R7 do-while @986
+s1: verdict NO-MATCH start 24 best 7 compiles 187 path R7 do-while @987 + R14 param-width arg2 s32->u16 @936
 best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @986 -> 2 (from 16)
-  R7 do-while @986 -> 2 (from 16)
-  R8 hoist tmp0 @956 -> 2 (from 2)
-  R10 param-copy arg0 @951 -> 2 (from 2)
-  R7 block @951 -> 2 (from 2)
-  R9 swap-stmts @951 -> 2 (from 2)
-  R4 decl-move a2v 6->0 -> 2 (from 2)
-  R8 hoist tmp0 @956 -> 2 (from 2)
-  R10 param-copy arg1 @951 -> 2 (from 2)
-  R7 do-while @951 -> 2 (from 2)
-  R9 swap-stmts @952 -> 2 (from 2)
-  R4 decl-move a2v 6->1 -> 2 (from 2)
+  R14 param-width arg2 s32->u16 @936 -> 7 (from 14)
+  R14 param-width arg1 s32->u16 @936 -> 12 (from 14)
+  R7 do-while @987 -> 14 (from 24)
+  R6 inline result @994 -> 14 (from 14)
+  R8 hoist tmp0 @971 -> 14 (from 14)
+  R10 param-copy arg0 @951 -> 14 (from 14)
+  R7 block @983 -> 14 (from 14)
+  R4 decl-move a2v 6->0 -> 14 (from 14)
+  R8 hoist tmp0 @970 -> 14 (from 14)
+  R5 swap + @971 -> 14 (from 14)
+  R10 param-copy arg1 @951 -> 14 (from 14)
+  R4 decl-move a2v 6->1 -> 14 (from 14)

@@ -1,15 +1,16 @@
 g3: verdict NO-MATCH start 13 best 7 compiles 814 path R7 do-while @2936 + R7 do-while @2946
 g5: verdict NO-MATCH start 13 best 7 compiles 2196 path R7 do-while @2947
+s1: verdict NO-MATCH start 13 best 13 compiles 188 path 
 best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @2947 -> 7 (from 13)
-  R7 block @2922 -> 7 (from 7)
-  R10 param-copy param_1 @2919 -> 7 (from 7)
-  R7 do-while @2922 -> 7 (from 7)
-  R8 base tmp0 @2924 -> 7 (from 7)
-  R7 block @2923 -> 7 (from 7)
-  R10 param-alias src->param_2 @2922 -> 7 (from 7)
-  R7 do-while @2923 -> 7 (from 7)
-  R7 block @2924 -> 7 (from 7)
-  R7 do-while @2924 -> 7 (from 7)
-  R9 swap-stmts @2939 -> 7 (from 7)
-  R7 block @2928 -> 7 (from 7)
+  R7 block @2944 -> 13 (from 13)
+  R10 param-copy param_1 @2919 -> 13 (from 13)
+  R6 inline v790 @2945 -> 13 (from 13)
+  R7 block @2936 -> 13 (from 13)
+  R9 swap-stmts @2945 -> 13 (from 13)
+  R10 param-alias src->param_2 @2922 -> 13 (from 13)
+  R7 do-while @2936 -> 13 (from 13)
+  R7 block @2935 -> 13 (from 13)
+  R9 swap-stmts @2939 -> 13 (from 13)
+  R7 block @2945 -> 13 (from 13)
+  R9 swap-stmts @2946 -> 13 (from 13)
+  R8 base tmp0 @2924 -> 13 (from 13)

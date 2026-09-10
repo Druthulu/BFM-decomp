@@ -1,15 +1,16 @@
 g2: verdict NO-MATCH start 28 best 10 compiles 808 path R7 do-while @2471 + R6 inline h @2476 + R7 do-while @2483
 g5: verdict NO-MATCH start 28 best 8 compiles 2339 path R7 do-while @2479 + R7 do-while @2478 + R8 hoist tmp0 @2482 + R9 swap-stmts @2482
+s1: verdict NO-MATCH start 28 best 16 compiles 189 path R7 do-while @2471 + R7 do-while @2481
 best-scoring single candidates of the last trace (move -> score):
-  R9 swap-stmts @2482 -> 8 (from 12)
-  R7 block @2482 -> 8 (from 8)
-  R8 hoist tmp1 @2489 -> 8 (from 8)
-  R8 hoist tmp1 @2486 -> 8 (from 8)
-  R12 width tmp0 s16->u16 @2403 -> 8 (from 8)
-  R7 block @2492 -> 8 (from 8)
-  R8 hoist tmp1 @2473 -> 8 (from 8)
-  R7 do-while @2492 -> 8 (from 8)
-  R7 block @2493 -> 8 (from 8)
-  R8 hoist tmp1 @2469 -> 8 (from 8)
-  R7 do-while @2493 -> 8 (from 8)
-  R9 swap-stmts @2496 -> 8 (from 8)
+  R7 do-while @2481 -> 16 (from 26)
+  R6 inline h @2476 -> 17 (from 26)
+  R7 do-while @2481 -> 18 (from 28)
+  R8 hoist tmp0 @2472 -> 18 (from 18)
+  R7 block @2491 -> 18 (from 18)
+  R6 inline h @2476 -> 18 (from 18)
+  R7 do-while @2491 -> 18 (from 18)
+  R8 hoist tmp0 @2482 -> 18 (from 18)
+  R7 block @2492 -> 18 (from 18)
+  R8 hoist tmp0 @2487 -> 18 (from 18)
+  R7 do-while @2492 -> 18 (from 18)
+  R8 temp tmp0 @2478 -> 18 (from 18)

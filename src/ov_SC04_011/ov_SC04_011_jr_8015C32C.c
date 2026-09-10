@@ -5668,9 +5668,7 @@ void func_80168828()
     s16 svec[4];
     u16 *p;
     short i;
-    register s32 c40 __asm__("$3");   /* $v1: hold the CSE'd 0x40 (else gcc folds to $v0 immediate) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t3_tus1)
 
-    c40 = 0x40;
     thing.f04 = 2;
     thing.f0c = 0x24;
     thing.f14 = 0x28;
@@ -5680,11 +5678,11 @@ void func_80168828()
     thing.f00 = 0;
     thing.f12 = 0;
     thing.f0a = 0;
-    thing.f18 = c40;
-    thing.f19 = c40;
-    thing.f22 = c40;
-    thing.f1e = c40;
+    thing.f18 = 0x40;
+    thing.f19 = 0x40;
+    thing.f22 = 0x40;
     thing.f1a = 0x10;
+    thing.f1e = 0x40;
     thing.f20 = 0xff;
     thing.f1c = 0xff;
     thing.f21 = 0xc0;

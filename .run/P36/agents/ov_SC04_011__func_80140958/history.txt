@@ -1,15 +1,16 @@
 g3: verdict NO-MATCH start 43 best 27 compiles 798 path R9 swap-stmts @1102 + R7 do-while @1101 + R5 swap | @1141 + R9 swap-stmts @1132
 g5: verdict NO-MATCH start 43 best 25 compiles 2318 path R9 swap-stmts @1102 + R7 do-while @1101 + R5 swap | @1141 + R9 swap-stmts @1105 + R9 swap-stmts @1104
+s1: verdict NO-MATCH start 43 best 34 compiles 186 path R9 swap-stmts @1102 + R7 do-while @1101
 best-scoring single candidates of the last trace (move -> score):
-  R9 swap-stmts @1104 -> 25 (from 29)
-  R9 swap-stmts @1104 -> 25 (from 29)
-  R9 swap-stmts @1105 -> 26 (from 27)
-  R9 swap-stmts @1132 -> 27 (from 30)
-  R12 width eight s32->u16 @1049 -> 27 (from 27)
-  R8 hoist tmp0 @1137 -> 27 (from 27)
-  R7 block @1131 -> 27 (from 27)
-  R12 width eight s32->s16 @1049 -> 27 (from 27)
-  R8 hoist tmp0 @1141 -> 27 (from 27)
-  R7 block @1129 -> 27 (from 27)
-  R8 hoist tmp0 @1141 -> 27 (from 27)
-  R4 decl-move eight 25->3 -> 27 (from 27)
+  R7 do-while @1101 -> 34 (from 43)
+  R5 swap | @1141 -> 39 (from 43)
+  R12 width eight s32->u16 @1049 -> 39 (from 39)
+  R8 hoist tmp0 @1116 -> 39 (from 39)
+  R7 block @1101 -> 39 (from 39)
+  R9 swap-stmts @1101 -> 39 (from 39)
+  R12 width eight s32->s16 @1049 -> 39 (from 39)
+  R7 do-while @1101 -> 39 (from 39)
+  R9 swap-stmts @1102 -> 39 (from 39)
+  R7 block @1102 -> 39 (from 39)
+  R8 hoist tmp0 @1126 -> 39 (from 39)
+  R7 do-while @1102 -> 39 (from 39)

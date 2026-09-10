@@ -1,5 +1,6 @@
 g3: verdict NO-MATCH start 17 best 17 compiles 819 path 
 g5: verdict NO-MATCH start 17 best 17 compiles 2353 path 
+s1: verdict NO-MATCH start 17 best 17 compiles 190 path 
 best-scoring single candidates of the last trace (move -> score):
   R8 temp tmp0 @1952 -> 17 (from 17)
   R7 block @2003 -> 17 (from 17)

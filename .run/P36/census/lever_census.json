@@ -75,12 +75,12 @@
    "bodies": 7594,
    "distinct_bodies": 1226,
    "file_scope": 0,
-   "in_bodies": 17427,
+   "in_bodies": 17302,
    "kinds": {
-    "pin": 17427
+    "pin": 17302
    },
-   "marked": 17427,
-   "sites": 17427,
+   "marked": 17302,
+   "sites": 17302,
    "tus": 2527,
    "unmarked": 0
   },
@@ -207,9 +207,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 39604,
+   "live": 39479,
    "macro_block": 194,
-   "raw": 46590
+   "raw": 46465
   },
   "attribute": {
    "comment_dead": 0,
@@ -225,9 +225,9 @@
   },
   "register": {
    "comment_dead": 8587,
-   "live": 17477,
+   "live": 17352,
    "macro_block": 18,
-   "raw": 26082
+   "raw": 25957
   },
   "volatile": {
    "comment_dead": 2607,
@@ -237,7 +237,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 24.0,
+ "elapsed_s": 23.2,
  "generated": "2026-09-10",
  "gte_levers": {
   "direct": 362,
@@ -248,15 +248,15 @@
   "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "861dd0651",
+ "head": "c00ffe5d4",
  "headers": 3181,
  "levers_AB": {
   "asm": 12270,
   "bodies": 9350,
   "distinct_bodies": 1617,
-  "marked": 29697,
-  "pins": 17427,
-  "sites": 29697,
+  "marked": 29572,
+  "pins": 17302,
+  "sites": 29572,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -410,7 +410,7 @@
    "$23": 144,
    "$25": 1,
    "$29": 13,
-   "$3": 2077,
+   "$3": 1952,
    "$4": 2707,
    "$5": 2328,
    "$6": 476,
@@ -423,16 +423,16 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 17427,
+  "sites": 17302,
   "sp": 13,
   "spelling": {
-   "__asm__": 17341,
+   "__asm__": 17216,
    "asm": 86
   },
   "volatile_qualified": 134,
   "zero": 788
  },
- "src_stamp": "f7751f365018df5a",
+ "src_stamp": "6083dd77b095e7f8",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {

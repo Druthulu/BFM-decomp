@@ -1,15 +1,16 @@
 g3: verdict NO-MATCH start 21 best 10 compiles 808 path R12 width pos s32->u16 @1113 + R7 do-while @1168
 g5: verdict NO-MATCH start 21 best 4 compiles 2316 path R12 width pos s32->u16 @1109 + R7 do-while @1164 + R7 do-while @1163 + R14 param-width arg1 s32->s16 @1098
+s1: verdict NO-MATCH start 21 best 2 compiles 188 path R15 sink @1171 (var_v0_3) + R12 width pos s32->u16 @1109
 best-scoring single candidates of the last trace (move -> score):
-  R14 param-width arg1 s32->s16 @1098 -> 4 (from 6)
-  R14 param-width arg1 s32->s16 @1098 -> 4 (from 6)
-  R8 cse tmp0 @1172 -> 4 (from 4)
-  R7 block @1161 -> 4 (from 4)
-  R5 swap + @1140 -> 4 (from 4)
-  R2 decl-order 1,0 -> 4 (from 4)
-  R4 decl-move pos 9->0 -> 4 (from 4)
-  R8 hoist tmp0 @1140 -> 4 (from 4)
-  R5 swap + @1138 -> 4 (from 4)
-  R9 swap-stmts @1167 -> 4 (from 4)
-  R10 param-alias a1v->arg1 @1121 -> 4 (from 4)
-  R4 decl-move pos 9->1 -> 4 (from 4)
+  R12 width pos s32->u16 @1109 -> 2 (from 11)
+  R12 width pos s32->s16 @1109 -> 2 (from 11)
+  R14 param-width arg1 s32->s16 @1098 -> 9 (from 11)
+  R7 do-while @1164 -> 10 (from 14)
+  R15 sink @1171 (var_v0_3) -> 11 (from 21)
+  R6 inline b4b @1162 -> 11 (from 11)
+  R8 cse tmp0 @1170 -> 11 (from 11)
+  R5 swap + @1139 -> 11 (from 11)
+  R7 block @1159 -> 11 (from 11)
+  R2 decl-order 1,0 -> 11 (from 11)
+  R4 decl-move pos 9->0 -> 11 (from 11)
+  R6 inline b4b @1166 -> 11 (from 11)

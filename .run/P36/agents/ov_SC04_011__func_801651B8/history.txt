@@ -1,15 +1,16 @@
 g3: verdict NO-MATCH start 29 best 8 compiles 345 path R6 inline iVar2 @4550 + R7 do-while @4554
 g5: verdict NO-MATCH start 29 best 8 compiles 629 path R6 inline iVar2 @4549 + R7 do-while @4553
+s1: verdict NO-MATCH start 29 best 8 compiles 127 path R6 inline iVar2 @4549 + R7 do-while @4553
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @4553 -> 8 (from 13)
-  R6 inline a0v @4552 -> 8 (from 8)
-  R8 hoist tmp0 @4554 -> 8 (from 8)
-  R7 block @4547 -> 8 (from 8)
-  R4 decl-move puVar1 0->1 -> 8 (from 8)
-  R10 param-copy param_1 @4546 -> 8 (from 8)
-  R4 decl-move puVar1 0->2 -> 8 (from 8)
-  R9 swap-stmts @4556 -> 8 (from 8)
-  R12 width iVar2 s32->u16 @4544 -> 8 (from 8)
-  R7 block @4554 -> 8 (from 8)
-  R12 width iVar2 s32->s16 @4544 -> 8 (from 8)
-  R12 width iVar2 s32->u8 @4544 -> 8 (from 8)
+  R6 inline iVar2 @4549 -> 13 (from 29)
+  R6 inline a0v @4552 -> 13 (from 13)
+  R8 hoist tmp0 @4554 -> 13 (from 13)
+  R7 block @4547 -> 13 (from 13)
+  R4 decl-move puVar1 0->1 -> 13 (from 13)
+  R10 param-copy param_1 @4546 -> 13 (from 13)
+  R4 decl-move puVar1 0->2 -> 13 (from 13)
+  R7 block @4553 -> 13 (from 13)
+  R12 width iVar2 s32->u16 @4544 -> 13 (from 13)
+  R9 swap-stmts @4556 -> 13 (from 13)
+  R12 width iVar2 s32->s16 @4544 -> 13 (from 13)
