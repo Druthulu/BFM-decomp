@@ -76,7 +76,7 @@ u32 mhi;
           s32 k;
           s32 t3v;
           u8 *q = ((u8 *) ot) + 0x14;
-          s16 y;
+          s16 y = 0;
           t3v = m * 4;
           k = m;
           j = 0;                  /* [L3] explicit, must sit before the 3 constants */
@@ -92,7 +92,7 @@ u32 mhi;
                 continue;
               }
               q[-7] = 0x30;
-              y = (*e) - 4;
+              *((s16 *) (q - 10)) = (*e) - 4;
             }
             else
             {
@@ -102,9 +102,8 @@ u32 mhi;
                 continue;
               }
               q[-7] = 0x38;
-              y = (*e) + 3;
+              *((s16 *) (q - 10)) = (*e) + 3;
             }
-            *((s16 *) (q - 10)) = y;
             *((u32 *) ot) = 0x4000000;
             q[-8] = 0x78;
             *((u32 *) (q - 0x10)) = 0x64808080;
@@ -116,8 +115,12 @@ u32 mhi;
             *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
             {
 u32 *op;
+u32 w;
               op = D_800AE7BC[*pb].ot;
-              op[2] = (((u32) ot) & m24) | (op[2] & mhi);
+              w = op[2];
+              w &= mhi;
+              w |= ((u32) ot) & m24;
+              op[2] = w;
             }
             q += 0x14;
             ot += 5;

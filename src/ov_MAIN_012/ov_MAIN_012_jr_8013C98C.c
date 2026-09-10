@@ -1119,26 +1119,26 @@ void func_8013D178(void) {
     extern unsigned char D_80185BC8, D_80185BC9, D_80185BCA, D_80185BCB, D_80185BCC, D_80185BCD, D_80185BCE, D_80185BCF, D_80185BD0;
     extern unsigned char D_80185BC8, D_80185BC9, D_80185BCA, D_80185BCB, D_80185BCC, D_80185BCD, D_80185BCE, D_80185BCF, D_80185BD0;
     unsigned char v, t;
-    register unsigned char *p __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus2)
+    unsigned char *p, *p2, *p3, *p4, *p5, *p6, *p7, *p8, *p9;
 
     p = &D_80185B28; v = *p; t = D_80185BC8;
     if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_80185B29; v = *p; t = D_80185BC9;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_80185B2A; v = *p; t = D_80185BCA;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_80185B2B; v = *p; t = D_80185BCB;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_80185B2C; v = *p; t = D_80185BCC;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_80185B2D; v = *p; t = D_80185BCD;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_80185B2E; v = *p; t = D_80185BCE;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_80185B2F; v = *p; t = D_80185BCF;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_80185B30; v = *p; t = D_80185BD0;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p2 = &D_80185B29; v = *p2; t = D_80185BC9;
+    if (v != t) { if (v < t) *p2 = v + 8; else *p2 = v - 8; }
+    p3 = &D_80185B2A; v = *p3; t = D_80185BCA;
+    if (v != t) { if (v < t) *p3 = v + 8; else *p3 = v - 8; }
+    p4 = &D_80185B2B; v = *p4; t = D_80185BCB;
+    if (v != t) { if (v < t) *p4 = v + 8; else *p4 = v - 8; }
+    p5 = &D_80185B2C; v = *p5; t = D_80185BCC;
+    if (v != t) { if (v < t) *p5 = v + 8; else *p5 = v - 8; }
+    p6 = &D_80185B2D; v = *p6; t = D_80185BCD;
+    if (v != t) { if (v < t) *p6 = v + 8; else *p6 = v - 8; }
+    p7 = &D_80185B2E; v = *p7; t = D_80185BCE;
+    if (v != t) { if (v < t) *p7 = v + 8; else *p7 = v - 8; }
+    p8 = &D_80185B2F; v = *p8; t = D_80185BCF;
+    if (v != t) { if (v < t) *p8 = v + 8; else *p8 = v - 8; }
+    p9 = &D_80185B30; v = *p9; t = D_80185BD0;
+    if (v != t) { if (v < t) *p9 = v + 8; else *p9 = v - 8; }
 }
 
 

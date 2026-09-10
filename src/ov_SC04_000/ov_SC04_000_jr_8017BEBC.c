@@ -5943,7 +5943,7 @@ void func_80181310(void *a0) {
     s32 s0 = (s32)a0;
     s32 s1;
     s32 v1_addr;
-    register u16 v0_val asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    u16 v0_val, v0_val2;
 
     
     v1_addr = *(s32 *)(s0 + 0x20);
@@ -5954,8 +5954,8 @@ void func_80181310(void *a0) {
     func_8018175C(a0);
 
     
-    v0_val = *(u16 *)(s0 + 0x72);
-    if (v0_val & 0x4000) {
+    v0_val2 = *(u16 *)(s0 + 0x72);
+    if (v0_val2 & 0x4000) {
         if (func_8012E778(s0, 0x8C00B4) == 1) {
             func_8002D4C8(0x662, 0);
         }

@@ -4563,8 +4563,8 @@ extern u8 D_801933C0[];
 
 void func_8017E834(s32 a0) {
     s32 s0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
-    s32 ret;
+    s32 v1;
+    s32 ret, ret2;
     u8 flag;
 
     ret = func_8012BA10(a0, 4);
@@ -4572,9 +4572,9 @@ void func_8017E834(s32 a0) {
     v1 = *(s32 *)(s0 + 0x20);
     *(u16 *)(v1 + 0x12) = *(u16 *)(v1 + 0x12) + ret;
 
-    ret = *(s32 *)(s0 + 0x1C) - 1;
-    *(s32 *)(s0 + 0x1C) = ret;
-    if (ret == 0) {
+    ret2 = *(s32 *)(s0 + 0x1C) - 1;
+    *(s32 *)(s0 + 0x1C) = ret2;
+    if (ret2 == 0) {
         flag = *(u8 *)(s0 + 0xFF) ^ 1;
         *(u8 *)(s0 + 0xFF) = flag;
         if (flag != 0) {

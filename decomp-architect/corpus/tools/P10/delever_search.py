@@ -742,7 +742,10 @@ def score_file(a):
         (shadow / os.path.dirname(os.path.relpath(tu, os.path.dirname(rec["src"])))).mkdir(parents=True, exist_ok=True)
         (shadow / os.path.relpath(tu, os.path.dirname(rec["src"]))).write_text(text, errors="surrogateescape")
         scratch_src.write_text(raw if False else (REPO / rec["src"]).read_text(errors="surrogateescape"), errors="surrogateescape")
-        extra = f"-I{shadow.as_posix()} -I{src_dir}"
+        # the INCLUDER's directory too, after the shadow: its own `#include "../shared/engine_prelude.h"` resolves only
+        # from there (the scratch copy sits in scratch_dir, whose `../shared` does not exist). Without it every header-TU
+        # candidate was a COMPILE-ERROR — S103's regen pass found 24 of 24 such classes unscorable, none ever judged.
+        extra = f"-I{shadow.as_posix()} -I{os.path.dirname(rec['src'])} -I{src_dir}"
     else:
         scratch_src.write_text(text, errors="surrogateescape")
         extra = f"-I{src_dir}"

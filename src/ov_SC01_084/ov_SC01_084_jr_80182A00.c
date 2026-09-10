@@ -2477,8 +2477,8 @@ void func_8018599C(s32 param_1)
     s32 i;
     u8 *p;
     s32 r0, r1, r2;
-    s32 mag;                                /* -> $s1, live across the sign rand() */
-    register s16 delta __asm__("$16");      /* -> $s0, 16-bit on purpose (§194-B) */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 mag, mag2;                                /* -> $s1, live across the sign rand() */
+    s16 delta;
     s32 t;
 
     if (func_8012BEE8(param_1) == 0) {
@@ -2509,11 +2509,11 @@ void func_8018599C(s32 param_1)
             r0 &= 0xF;
             r0 <<= 6;
             r1 = (r1 & 0xF) << 2;
-            mag = r0 + r1;
-            delta = mag;
+            mag2 = r0 + r1;
+            delta = mag2;
             r2 = rand();
             if ((r2 & 1) != 0) {
-                delta = -mag;
+                delta = -mag2;
             }
             out[2] = in[2] + delta;
             out[1] = *(u16 *)(base + 0xA) - 0x200;   /* D_80126B58+0xA: camera/ground Y */

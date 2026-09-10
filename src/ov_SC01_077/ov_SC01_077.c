@@ -376,26 +376,26 @@ extern unsigned char D_801DAA78, D_801DAA79, D_801DAA7A, D_801DAA7B, D_801DAA7C,
 
 void func_8013D178(void) {
     unsigned char v, t;
-    register unsigned char *p __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus2)
+    unsigned char *p, *p2, *p3, *p4, *p5, *p6, *p7, *p8, *p9;
 
     p = &D_801DA9B8; v = *p; t = D_801DAA78;
     if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801DA9B9; v = *p; t = D_801DAA79;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801DA9BA; v = *p; t = D_801DAA7A;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801DA9BB; v = *p; t = D_801DAA7B;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801DA9BC; v = *p; t = D_801DAA7C;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801DA9BD; v = *p; t = D_801DAA7D;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801DA9BE; v = *p; t = D_801DAA7E;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801DA9BF; v = *p; t = D_801DAA7F;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801DA9C0; v = *p; t = D_801DAA80;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p2 = &D_801DA9B9; v = *p2; t = D_801DAA79;
+    if (v != t) { if (v < t) *p2 = v + 8; else *p2 = v - 8; }
+    p3 = &D_801DA9BA; v = *p3; t = D_801DAA7A;
+    if (v != t) { if (v < t) *p3 = v + 8; else *p3 = v - 8; }
+    p4 = &D_801DA9BB; v = *p4; t = D_801DAA7B;
+    if (v != t) { if (v < t) *p4 = v + 8; else *p4 = v - 8; }
+    p5 = &D_801DA9BC; v = *p5; t = D_801DAA7C;
+    if (v != t) { if (v < t) *p5 = v + 8; else *p5 = v - 8; }
+    p6 = &D_801DA9BD; v = *p6; t = D_801DAA7D;
+    if (v != t) { if (v < t) *p6 = v + 8; else *p6 = v - 8; }
+    p7 = &D_801DA9BE; v = *p7; t = D_801DAA7E;
+    if (v != t) { if (v < t) *p7 = v + 8; else *p7 = v - 8; }
+    p8 = &D_801DA9BF; v = *p8; t = D_801DAA7F;
+    if (v != t) { if (v < t) *p8 = v + 8; else *p8 = v - 8; }
+    p9 = &D_801DA9C0; v = *p9; t = D_801DAA80;
+    if (v != t) { if (v < t) *p9 = v + 8; else *p9 = v - 8; }
 }
 
 
@@ -627,7 +627,6 @@ extern void func_800599B8(s32 a0, s32 a1);
 void func_8013D8FC(void)
 {
     s16 *psVar3;
-    register s16 *psVar2 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus2)
     s32 c9;
     s32 cff;
     u16 sVar1;
@@ -637,19 +636,17 @@ void func_8013D8FC(void)
     if (psVar3 != (s16 *)0x0 && (sVar1 = (u16)*psVar3, sVar1 != 0xff)) {
         c9 = 9;
         cff = 0xff;
-        psVar2 = psVar3 + 5;
         do {
             if (sVar1 == c9) {
-                s32 arg2 = *(s32 *)(psVar2 + 1) + psVar2[-1] * 2;
-                buf[0] = psVar2[-3];
-                buf[1] = psVar2[-2];
-                buf[2] = psVar2[-1];
-                buf[3] = *psVar2;
+                s32 arg2 = *(s32 *)(psVar3 + 6) + psVar3[4] * 2;
+                buf[0] = psVar3[2];
+                buf[1] = psVar3[3];
+                buf[2] = psVar3[4];
+                buf[3] = psVar3[5];
                 func_800599B8((s32)buf, arg2);
             }
             psVar3 = psVar3 + 8;
             sVar1 = (u16)*psVar3;
-            psVar2 = psVar2 + 8;
         } while (sVar1 != cff);
     }
 }

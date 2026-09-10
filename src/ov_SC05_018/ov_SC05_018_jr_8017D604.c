@@ -3370,7 +3370,7 @@ extern s32 func_80171990(u8 *a0);
 extern s32 D_801151D4;
 
 void func_8017EC80(s32 a0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 v0, v02;
     s32 v1;
 
     v1 = D_801151D4;
@@ -3378,9 +3378,9 @@ void func_8017EC80(s32 a0) {
     *(u16 *)(v1 + 0x22) = v0;
     *(s16 *)(v1 + 0x1A) = v0;
 
-    v0 = *(s32 *)((u8 *)a0 + 0x204) - 1;
-    *(s32 *)((u8 *)a0 + 0x204) = v0;
-    if (v0 == -1) {
+    v02 = *(s32 *)((u8 *)a0 + 0x204) - 1;
+    *(s32 *)((u8 *)a0 + 0x204) = v02;
+    if (v02 == -1) {
         func_8002D4C8(0xC4C, 0);
         func_8017FE44();
         func_80171990((u8 *)a0);

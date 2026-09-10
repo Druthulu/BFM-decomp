@@ -5489,22 +5489,19 @@ void func_8017FCFC(u16 *a0) {
     u16 *p;
     s32 i;
     s32 c;
-    register u16 *q __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
 
     p = D_801C7600;
     i = 0;
     c = 0x20;
-    q = p + 2;
     do {
-        if (*(s16 *)(q + 1) == 0) {
-            *(s16 *)(q + 1) = c;
+        if (*(s16 *)(p + 3) == 0) {
+            *(s16 *)(p + 3) = c;
             p[0] = a0[0];
-            q[-1] = a0[1];
-            q[0] = a0[2];
+            p[1] = a0[1];
+            p[2] = a0[2];
             return;
         }
         i++;
-        q += 4;
         p += 4;
     } while (i < 0x100);
 }

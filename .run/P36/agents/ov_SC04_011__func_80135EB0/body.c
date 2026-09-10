@@ -33,7 +33,8 @@ s32 func_80135EB0(void *arg0, s32 arg1_) {
     if (t3 < M2C_FIELD(arg0, s16 *, 8)) {
         m2 = 0x10;
     } else {
-        m2 = (M2C_FIELD(arg0, s16 *, 0xA) < t3) << 5;
+        m2 = M2C_FIELD(arg0, s16 *, 0xA) < t3;
+        m2 <<= 5;
     }
     if ((m1 | m2) == 0) {
         u16 *ac;

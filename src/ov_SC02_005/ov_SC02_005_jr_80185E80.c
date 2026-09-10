@@ -292,7 +292,7 @@ s16 param_3;
 {
     void **s0;
     s32 sp4;
-    register s32 base __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 base, base2;
 
     sp4 = 0;
     if (param_2 < 0) {
@@ -314,8 +314,8 @@ s16 param_3;
         } else {
             func_8012A828((s32)param_1, *s0);
         }
-        base = (s32)&D_801959F0;
-        s0 = (void **)(base + param_2 * 8);
+        base2 = (s32)&D_801959F0;
+        s0 = (void **)(base2 + param_2 * 8);
         func_80132EC4(*s0, param_3);
         if (sp4 != 0) {
             func_8012A860(*(void **)((u8 *)param_1 + 0xCC), (s32)*s0);

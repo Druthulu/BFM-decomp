@@ -1790,3 +1790,9 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   full. Three S103 agents found their answer in exactly such a body by hand (c2: the sibling walking the same list; c4:
   a sibling under a stale `@stuck:`; c10: `func_80135888` in a different file). Known-true: for `func_80135A4C` the top
   hit is `func_80135888`. ~2 s per pack.
+- **`tools/delever_regen.py --families R22 R23 [-j 10] [--exclude FN …] [--label L]`** (read-only) then
+  **`--bank .run/P36/regen/<L>.tsv`** (the one writer) — re-runs NEW generator families over the whole residue. The
+  residue's NO-MATCH attempts predate every family harvested since, and nothing re-tried them; an engine re-sweep writes the
+  tree and spends its budget on the old families first. Starting texts: the lever-free body and the engine's best text;
+  scorer: `delever_search --try --body`; one worker per class (the scorer's scratch dir is per function). Run it after
+  EVERY harvest that adds or widens a family, excluding the functions agents hold. First run (S103, R22+R23): see the log.

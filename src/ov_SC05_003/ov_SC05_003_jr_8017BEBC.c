@@ -3517,7 +3517,7 @@ extern u16 D_8019EA10;
 
 void func_8017E89C(void *a0) {
     s32 mask;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v1, v12, v13;
 
     if (((s32 (*)(s32))func_8012BD14)((s32)a0) > 0x18FFF) {
         mask = 0x7FFFFFFF;
@@ -3525,12 +3525,12 @@ void func_8017E89C(void *a0) {
         *(s16 *)((s32)a0 + 2) = 2;
         *(s32 *)((s32)a0 + 0x1C) = 0x10;
         *(s32 *)(v1 + 4) = *(s32 *)(v1 + 4) & mask;
-        v1 = *(s32 *)((s32)a0 + 0x20);
-        *(u16 *)(v1 + 0x2C) |= 0x10;
-        v1 = *(s32 *)((s32)a0 + 0x20);
-        *(u16 *)(v1 + 0x1C) = 1;
-        *(u16 *)(v1 + 0x1A) = 1;
-        *(u16 *)(v1 + 0x18) = 1;
+        v12 = *(s32 *)((s32)a0 + 0x20);
+        *(u16 *)(v12 + 0x2C) |= 0x10;
+        v13 = *(s32 *)((s32)a0 + 0x20);
+        *(u16 *)(v13 + 0x1C) = 1;
+        *(u16 *)(v13 + 0x1A) = 1;
+        *(u16 *)(v13 + 0x18) = 1;
         *(s32 *)((s32)a0 + 0xCC) = func_80143970((s32)a0);
         *(u16 *)((s32)a0 + 0x76) = D_8019EA10;
     }
@@ -3640,28 +3640,36 @@ void func_8017EB44(void *a0) {
     s32 s0 = (s32)a0;
     s32 s1;
     s32 v1_addr;
-    register u16 v0_val asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 v0_val, v0_val2;
 
+    
     v1_addr = *(s32 *)(s0 + 0x20);
     v0_val = *(u16 *)(v1_addr + 0x12);
     *(u16 *)(v1_addr + 0x12) = (u16)(v0_val - 0x71);
 
+    
     func_8017F1AC(a0);
 
-    v0_val = *(u16 *)(s0 + 0x72);
-    if (v0_val & 0x4000) {
+    
+    v0_val2 = *(u16 *)(s0 + 0x72);
+    if (v0_val2 & 0x4000) {
         if (func_8012E778(s0, 0x8C00B4) == 1) {
             func_8002D4C8(0x662, 0);
         }
     }
 
+    
     s1 = func_8017F010(s0);
 
+    
     if (s1 != -1) {
+        
         if (func_8012BEE8(s0) != 0) {
+            
             if (s1 != 0) {
                 func_8017F12C(s0);
             }
+            
             *(s32 *)(s0 + 0x1C) = 0x23;
         }
     }

@@ -1449,6 +1449,24 @@ accumulate here as the phase produces them.**
   `129 of 129`; R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 17,715 pin/asm sites, 17,715 marked
   !FAKE, 0 UNMARKED — OK`.
 
+- **S103 — `tools/delever_regen.py`: the new families re-run over the WHOLE residue, read-only, and 17 classes / 22
+  bodies closed with no agent.** Why it exists: every landing is harvested into a generator, but the residue's 2,078
+  NO-MATCH attempts all predate the newest families and nothing ever re-tried them (R23 widened reproduced c16's close
+  alone). Starting texts: the lever-free body and the engine's best text; candidates: `recipe_candidates(families=R22
+  R23, cap=None)`; scorer: `delever_search --try --body`, one worker per class (the scorer's scratch dir is per
+  function). Pass 1: `delever_regen: 1169 of 1169 classes judged in 127 s — {'MATCH': 14, 'BEST': 181,
+  'NO-CANDIDATE': 949, 'UNSCORED': 25, 'GEN-ERROR': 0}; 14 class(es) close at score 0 (18 bodies)`. **The 25 UNSCORED were
+  read before banking (R61): 24 were an INSTRUMENT defect** — `--try` on a class whose exemplar is a shared HEADER passed
+  `-I` for the shadow copy and the header's directory but not the INCLUDER's, so the includer's `#include
+  "../shared/engine_prelude.h"` never resolved and every header-TU candidate was a COMPILE-ERROR (no header-TU class had
+  ever been judged by `--try`); fixed in `score_file` and controlled both ways (the header's unchanged body scores 0; its
+  lever-free text 32; a mutated body 1). The 25th: a body-local `#define` spelling the locals — R22/R23 now refuse bodies
+  with preprocessor lines. Pass 2 over the header TUs: `104 of 104 classes judged in 8 s — {'MATCH': 3, 'BEST': 21,
+  'NO-CANDIDATE': 80, 'UNSCORED': 0}`. Banked by `--bank` (re-scored on the current tree first): `14 of 14 MATCH row(s)
+  banked, 4 sibling(s) propagated` and `3 of 3 MATCH row(s) banked, 1 sibling(s) propagated` — two of them shared
+  headers IDENTICAL on 141 objects each (`func_8014E83C` by R22, `func_8014CD80` by R23). Families (counted from the two TSVs): R23 12 classes,
+  R22 5. Dictionary + SETUP rows.
+
 ## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
 
 ### 0. How to use this block

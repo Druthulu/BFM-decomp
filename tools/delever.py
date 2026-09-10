@@ -2700,6 +2700,8 @@ def merge_walked_pointers(text, tu, fn, d_):
     lines = text.split("\n")
     masked = [sc.mask_text(l) for l in lines]
     lo, hi = d_["line"], d_["end"] - 1
+    if any(l.lstrip().startswith("#") for l in lines[lo:hi]):
+        return []                                       # a body-local #define spells the locals in its own text (S103)
     DECLP = re.compile(r"^\s*((?:const\s+|unsigned\s+|signed\s+|struct\s+)*[A-Za-z_]\w*)\s*\*\s*([A-Za-z_]\w*)\s*;\s*$")
     ptrs = {}
     for i in range(lo, hi):
@@ -2802,8 +2804,8 @@ def split_reused_locals(text, tu, fn, d_):
     18181, `global.c:587-610`) and took `$a0` ahead of the per-group temps (7500); split, each `p` is 4 refs over 22."""
     lines = text.split("\n")
     lo, hi = d_["line"], d_["end"] - 1
-    if hi <= lo:
-        return []
+    if hi <= lo or any(l.lstrip().startswith("#") for l in lines[lo:hi]):
+        return []                                       # a body-local #define spells the locals in its own text (S103)
     head = "\n".join(lines[:lo]) + "\n"
     body = "\n".join(lines[lo:hi])
     tail = "\n" + "\n".join(lines[hi:])

@@ -6,8 +6,8 @@ extern int func_8014C918();
 int func_8014CD80(int param_1, unsigned short *param_2, unsigned short *param_3)
 {
     short *psVar4;
-    register int iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
-    unsigned short uVar1;
+    int iVar3;
+    unsigned short uVar1, uVar12, uVar13;
     unsigned short uVar2;
     psVar4 = *(short **)(param_1 + 0x174);
     if (*(unsigned short *)psVar4 == 0) goto LAB_ce00;
@@ -32,12 +32,12 @@ LAB_ce00:
         uVar1 = param_3[0];
         *(unsigned short *)(param_1 + 0x78) = uVar1;
         *(unsigned short *)(param_1 + 6) = uVar1;
-        uVar1 = param_3[1];
-        *(unsigned short *)(param_1 + 0x7a) = uVar1;
-        *(unsigned short *)(param_1 + 0xa) = uVar1;
-        uVar1 = param_3[2];
-        *(unsigned short *)(param_1 + 0x7c) = uVar1;
-        *(unsigned short *)(param_1 + 0xe) = uVar1;
+        uVar12 = param_3[1];
+        *(unsigned short *)(param_1 + 0x7a) = uVar12;
+        *(unsigned short *)(param_1 + 0xa) = uVar12;
+        uVar13 = param_3[2];
+        *(unsigned short *)(param_1 + 0x7c) = uVar13;
+        *(unsigned short *)(param_1 + 0xe) = uVar13;
     } else {
         iVar3 = func_80135888(*(int *)((int)psVar4 + 0x20),
                               *(int *)((int)psVar4 + 0x58), param_2, param_3);

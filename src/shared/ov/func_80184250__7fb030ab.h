@@ -7,8 +7,8 @@ extern u8 D_8018EFF4;
 extern u8 D_8018EFF5;
 extern u8 D_8018EFF6;
 void func_80184250(void *a0) {
-    void *s1;
-    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
+    void *s1, *s12;
+    void *s0;
     s1 = (void *)((s32 (*)(s32, s32))func_8001D074)(0x3E, 0x7D);
     *(void **)((s32)a0 + 0xCC) = s1;
     if (s1 != 0) {
@@ -17,13 +17,13 @@ void func_80184250(void *a0) {
         func_8001CD9C((s32)s1, s0);
         *(u32 *)((s32)s1 + 4) = *(u32 *)((s32)s1 + 4) | 0x50000040;
     }
-    s1 = (void *)((s32 (*)(s32, s32))func_8001D074)(0x3E, 0x7D);
-    *(void **)((s32)a0 + 0xD0) = s1;
-    if (s1 != 0) {
+    s12 = (void *)((s32 (*)(s32, s32))func_8001D074)(0x3E, 0x7D);
+    *(void **)((s32)a0 + 0xD0) = s12;
+    if (s12 != 0) {
         s0 = &D_8018EFF4;
         func_800233CC(s0, 0x40);
-        func_8001CD9C((s32)s1, s0);
-        *(u32 *)((s32)s1 + 4) = *(u32 *)((s32)s1 + 4) | 0x50000040;
+        func_8001CD9C((s32)s12, s0);
+        *(u32 *)((s32)s12 + 4) = *(u32 *)((s32)s12 + 4) | 0x50000040;
     }
     D_8018EFF4 = 0xFF;
     D_8018EFF5 = 0x10;

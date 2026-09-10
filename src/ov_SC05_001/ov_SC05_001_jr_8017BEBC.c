@@ -4866,8 +4866,8 @@ extern s32 rand(void);
 
 void func_8017F964(s32 param_1)
 {
-    register s32 x __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
-    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 x, x2;
+    s32 r, r2;
     s32 s0;
     s32 v1;
 
@@ -4876,9 +4876,9 @@ void func_8017F964(s32 param_1)
         r = rand() & 0xF;
         x = *(u16 *)(s0 + 6) - 8;
         *(u16 *)(s0 + 6) = x + (*(u16 *)(param_1 + 0x104) + r);
-        r = rand() & 0xF;
-        x = *(u16 *)(s0 + 0xA) - 8;
-        *(u16 *)(s0 + 0xA) = x + (*(u16 *)(param_1 + 0x106) + r);
+        r2 = rand() & 0xF;
+        x2 = *(u16 *)(s0 + 0xA) - 8;
+        *(u16 *)(s0 + 0xA) = x2 + (*(u16 *)(param_1 + 0x106) + r2);
         v1 = *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1C);
         if (v1 < 0) {
             v1 += 0x3F;
