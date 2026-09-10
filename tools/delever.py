@@ -1372,6 +1372,11 @@ def commutative_swaps(text, tu, fn, d_):
         left, right = raw_line[start:o], raw_line[o + 1:expr_end]
         if not left.strip() or not right.strip():
             continue
+        # a CONSTANT operand is moved to the right by fold before expansion (fold-const.c:3179-3189; lane B, verified on
+        # bytes at S101: `*(p+17) & -33` and `-33 & *(p+17)` compile identically, `m & x` and `x & m` do not) — the swap
+        # of a constant is a candidate that can never change the object, so it is not generated
+        if any(re.fullmatch(r"[-~!]?\s*(?:0[xX][0-9A-Fa-f]+|\d+)[uUlL]*", sc.mask_text(side).strip()) for side in (left, right)):
+            continue
         cand = list(lines)
         cand[i] = raw_line[:start] + " " + right.strip() + " " + raw_line[o] + " " + left.strip() + raw_line[expr_end:]
         out.append((f"swap {raw_line[o]} @{i + 1}", "\n".join(cand)))
@@ -2425,7 +2430,7 @@ def selftest():
         fail("a copy with a judged text but no row of its own must still be drawn")
     # rung R's candidate generators, on a fixture whose every answer is known by hand
     RFIX = ("void rfix(int p)\n{\n    int a = p;\n    int b;\n    int c;\n"
-            "    if (a == b) a = b & 3;\n    c = a + 1;\n    *(int *)(p + 4) = c;\n}\n")
+            "    if (a == b) a = b & c;\n    c = a + b;\n    *(int *)(p + 4) = c & 3;\n}\n")
     rd = dict(line=1, end=9)
     for line, want in [("s32 d = param_1;", True), ("ret = f();", False), ("u8 *p;", True), ("d = param_1;", False),
                        ("return x;", False), ("extern s32 D_1[];", True)]:
@@ -2437,8 +2442,10 @@ def selftest():
     sw = commutative_swaps(RFIX, "src/x.c", "rfix", rd)
     if [s for s, _ in sw] != ["swap & @6", "swap + @7"]:
         fail(f"commutative_swaps found {[s for s, _ in sw]}")
-    if "a = 3 & b;" not in sw[0][1] or "c = 1 + a;" not in sw[1][1]:
+    if "a = c & b;" not in sw[0][1] or "c = b + a;" not in sw[1][1]:
         fail("commutative_swaps must split at the assignment, never at `==`")
+    if any("@8" in s for s, _ in sw):
+        fail("commutative_swaps must not swap a CONSTANT operand (fold moves it right; byte-neutral, S101 micro-test)")
     R6FIX = ("void r6(int p)\n{\n    int v;\n    int w;\n    v = *(int *)(p + 4);\n"
              "    *(int *)(p + 4) = v & ~0x20;\n    w = 3;\n    *(int *)(p + 8) = w;\n}\n")
     inl = inline_single_set_temps(R6FIX, "src/x.c", "r6", dict(line=1, end=9))

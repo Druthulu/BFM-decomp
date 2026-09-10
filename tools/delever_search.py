@@ -551,6 +551,12 @@ def cmd_run(a):
     by_tu = collections.OrderedDict()
     for e in ex:
         by_tu.setdefault(e["tu"], []).append(e)
+    # BOTTOM-UP WITHIN A FILE (rung R's rule): a bank shifts the lines of every body below it, and the census positions the
+    # lever-free rewrite starts from were taken before the run — run g1 lost func_80142EC0 to a `token mismatch` after
+    # func_801424E4 was banked above it in the same TU
+    sb = sites_by_body()
+    for tu in by_tu:
+        by_tu[tu].sort(key=lambda e: -min((s["line"] for s in sb.get((e["tu"], e["fn"]), [])), default=0))
     tus = [t for t in by_tu if not t.endswith(".h")]
     hdrs = [t for t in by_tu if t.endswith(".h")]
     rows = []

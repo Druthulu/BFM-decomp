@@ -702,7 +702,29 @@ accumulate here as the phase produces them.**
   dictionary + SETUP (R21/R87), the `.run/P36/engine/` evidence allowlist. Next: the measurement — `--run --limit 16 -j 8` on this
   head, against rung D's honest baseline (5 of 16 in 0.69 h), then R22 → census → snapshot → commit.
 
-## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed; **S101 IN PROGRESS: lane B (Fable agent, gcc source → move map) RUNNING; lane A rung G `tools/delever_search.py` BUILT + controlled (positive controls 1–2 PASS, 3 FAIL on a missing inverse), the 301-row ledger hash defect repaired; NEXT = the 16-exemplar measurement run, then R22 → census → snapshot → commit** | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
+- **2026-09-09 — S101 rung G run `g1` — THE MEASUREMENT (`.run/P36/engine/run_g1.log`, `outcomes.jsonl`, `trace/<alias>__<fn>.jsonl`):**
+  `search: 1 of 16 exemplars matched lever-free in 0.12 h (132 of 2,126 bodies behind them; 3,680 compiles) — NO-MATCH 14 ·
+  MATCH 1 · UNSTRIPPABLE 1` → `delever --propagate: 131 of 131 sibling(s) banked, 0 refused` → R22 (`.run/P36/baseline/r22_g1.log`)
+  **`check-all: 218 passed, 0 failed of 218`** (`wall=82.73 s`) → census `THE PHASE'S NUMBER (pins + asm statements, GTE excluded):
+  33,295 sites in 11,916 bodies (1,754 distinct) · marked !FAKE 33,295 · UNMARKED 0` → `lever_progress --snapshot` row 4
+  (33,427 → **33,295**, asm 13,445 → 13,313). **The one close is the body rung D could not:** `func_801424E4` (no pin at all —
+  a cast and a keep-alive, the count-changing class; the permuter's best was 2) by THREE composed moves, `R9 swap-stmts @1561 +
+  R6 inline t @1559 + R6 inline sVar1 @1559`, 191 compiles, 28.9 s, worth 132 bodies. **Read honestly (R41):** this draw is the
+  head of the CURRENT residue = the 11 exemplars rung D failed on + 5 it never tried — rung D's 5 of 16 counted the five it closed
+  in ITS draw, and they are banked. On rung D's failures the engine moved most a long way in ≤ 112 s each: `func_8012E364` 25 → 7
+  (`R5 swap + R7 do-while`), `func_801345F8` 39 → 14 (`R2 decl-order + R9 + R6`), `func_80135888` 29 → 22, `func_80134A74` 30 → 24,
+  `func_8013CF68` 38 → 33, `func_801670E4` 45 → 40, `func_801627E8` 7 → 4, `func_80157D20` 9 → 7; unmoved at their start:
+  `func_80135A4C` 40, `func_80133AB0` 24, `func_80148D44` 6, `func_80148E54` 6 (the two 6s: `keepalive+pin $4` / `launder+pin $4`
+  in `_after.c`, a `$s0/$s1 ↔ $a0` pair — the ARGCOPY class, 1a-9 in lane B's map: no generator yet routes a parameter through a
+  body-local copy). **The budget never bound:** ~325 compiles per body is the beam STRUCTURE exhausted (48 + 3 × 48 + 3 × 48),
+  at 0.12 s per compile — so the levers are more generators (lane B's list), a wider beam / deeper search (cheap), and the
+  exact inverses. Also: `func_80142EC0` UNSTRIPPABLE `token mismatch … expected register` — the bank of `func_801424E4` ABOVE it in
+  the same TU shifted its lines (rung R's bottom-up rule now applied per file; it is redrawable with `--include-done`).
+  **Lane B's first claim verified on bytes** (`.run/P36/engine/micro/`): `*(p+17) & -33` and `-33 & *(p+17)` compile IDENTICAL
+  (fold moves the constant), `m & x` vs `x & m` differ in one word (`and v0,v0,a1` vs `and v0,a1,v0`) — R5 no longer generates
+  a constant-operand swap (selftest updated). Commits: this bank + the two tool refinements.
+
+## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed; **S101 IN PROGRESS: lane B DELIVERED (`.run/P36/engine/residual_moves.md`, 58 moves, one verified on bytes); lane A rung G `tools/delever_search.py` BUILT, controlled and MEASURED — run g1: 1 of 16 exemplars (the one rung D could not), 132 bodies banked, R22 218/218; NEXT = iterate the engine from its traces (generators from lane B's map: param-copy, scope, width; wider beam), then the next draw** | the number: **33,295 sites** (19,982 pins + 13,313 asm) in 11,916 bodies · marked 33,295 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (4 milestones)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew set `high` and prefers it for
