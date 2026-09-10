@@ -2009,8 +2009,6 @@ extern unsigned char D_8018479C;
 void func_8013EB7C(void) {
     s32 sp10[2];
     short sVar1;
-    register short sVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus3)
-    s32 a0v;
     s32 iVar4;
 
     if ((s16)func_80141C50() == 0) {
@@ -2021,13 +2019,10 @@ void func_8013EB7C(void) {
         }
         func_8013FAF8(0, 5);
         if (D_8011511A == 5) {
-            sVar2 = ((short (*)(s32))func_8014168C)(2);
-            a0v = 2;
+            iVar4 = func_8014032C((2), (((short (*)(s32))func_8014168C)(2)));
         } else {
-            sVar2 = ((short (*)(s32))func_8014168C)((s16)D_8011511A);
-            a0v = (s16)D_8011511A;
+            iVar4 = func_8014032C(((s16)D_8011511A), (((short (*)(s32))func_8014168C)((s16)D_8011511A)));
         }
-        iVar4 = func_8014032C(a0v, sVar2);
         if (iVar4 != 0) {
             s32 *p130 = &D_80115130;
             if (iVar4 != *p130) {

@@ -884,7 +884,27 @@ accumulate here as the phase produces them.**
   (**30,358 → 30,098**, −260 sites = 130 bodies × 2 pins; 9,747 → 9,617 bodies). The body is also SHORTER and more readable than the
   levered one — two locals fewer — which is the phase's point. Toolify (R16) follows in its own commit.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED (`func_80156044`, 130 bodies, 30,358 → 30,098 sites, R22 218/218; the move DELETES two locals, which no generator produced — toolify next)**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **30,098 sites** (17,694 pins + 12,404 asm) in 9,617 bodies · marked 30,098 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (10 milestones). **S102's loop state: a1 done (rank 1); NEXT = toolify a1's move, sweep the other 56, then agent a2 on rank 2 `func_80168828`.**
+- **S102 — the a1 harvest: generator R15 (the sink) and sweep s1 (commits `861dd0651`, this one).** Agent a1's crack was
+  MECHANICAL, so it became a move the engine can make anywhere (R16, the harvest→toolify gate): **R15** pushes the statement
+  AFTER an if/else chain into every arm and deletes the variables it consumed (`if (c) { v = e1; } else { v = e2; } w = f(v);`
+  → `if (c) { w = f(e1); } else { w = f(e2); }`). Applicability is CHECKED (each consumed variable assigned exactly once in
+  every arm by a simple statement, present in the merge statement, occurring nowhere else in the function); ranked third in
+  REG-caller / REG-mixed / COUNT; three selftest controls. **The defect it was born with, caught by running it on the very
+  body it came from (the known-true case):** `if_chains()` counted a line's opening and closing braces together, and on a
+  `} else if (…) {` line the two net to zero, so the walk never closed an arm and the generator returned 0 candidates —
+  the closes are now counted first. Its known-true check after the fix: run on `func_80156044`'s pre-bank text it emits the
+  agent's crack and `--try` scores `0 (OTHER; mine 74 ins, target 74) — MATCH`.
+  **Sweep s1** (`--run --include-done --only <the 56 other head fns> -j 8 --beam 3 --depth 2 --cap 48 --budget 200`; note
+  `--only` draws EVERY body of a name across the fleet, so 147 exemplars were judged, not 56):
+  `search: 6 of 147 exemplars matched lever-free in 0.28 h (267 of 7,477 bodies behind them; 23,892 compiles) — NO-MATCH 141
+  · MATCH 6`. **All six closes are R15, in FOUR compiles each** — `func_8013EB7C` (126 + 7 copies) and `func_8016DF5C`
+  (127 + 4 + 2 + 1) across their fleet copies, every propagation 0 refused. R15 also moved `func_80136824` 21 → 2 as a first
+  move. **The economics of the loop, with denominators (R41): one agent's reading (≈221k tokens) bought 130 bodies directly
+  and 267 more for 0 tokens — 397 bodies, 30,358 → 29,697 sites (−661).** R22 `check-all: 218 passed, 0 failed of 218`;
+  `lever_census --check: 29,697 pin/asm sites, 29,697 marked !FAKE, 0 UNMARKED — OK`; snapshot row 11 (9,617 → 9,350 bodies).
+  Drew raised the sweep concurrency to `-j 16` for everything after this run.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; 30,358 → 29,697 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,697 sites** (17,427 pins + 12,270 asm) in 9,350 bodies · marked 29,697 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (11 milestones). **S102's loop state: a1 done + harvested (R15, sweep s1); NEXT = rebuild the packs (`delever_pack.py --build`) and launch agent a2 on rank 2 `func_80168828` (125 copies, pins $3/$4; its pack history's best is 1, the cheap s1 sweep only reached 15 — start from the pack).**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**
@@ -894,8 +914,9 @@ that was killed leaves candidates in `src/` — `tools/delever.py --restore` (ne
 is going** (the oracle's calibration is keyed to HEAD; `--apply-body` inside the run refuses on a stale calibration and every later
 close of that run is BANK-REFUSED) and **never edit `tools/delever.py` while a run is going** (`--apply-body`/`--propagate` are
 subprocesses that re-import it; a half-edited file breaks a bank mid-run) — `tools/delever_search.py` may be edited, the running
-process has it in memory. Resource etiquette: 8 workers with `nice -n 10` was fine all session (Drew asked for more at 10 earlier
-in the phase and less at 24); tell him the number. The harness backgrounds any foreground command over 120 s and its low-memory
+process has it in memory. Resource etiquette: **Drew raised the sweep concurrency to `-j 16` on 2026-09-10 ("you can raise the concurrency from 8
+workers to 16 for all sweeps") — use 16 with `nice -n 10` for every sweep from here**; 8 was fine all of S101 (he asked for
+more at 10 earlier in the phase and less at 24); tell him the number. The harness backgrounds any foreground command over 120 s and its low-memory
 guard kills long background tasks: campaigns run DETACHED (`setsid nohup … &`) with a `Monitor` on the log. `pkill -f` with a
 literal your own command line contains kills your shell (R79).
 

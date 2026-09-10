@@ -1,0 +1,4 @@
+{"kind": "seed", "start": 9, "tu": "src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c", "fn": "func_8016DF5C", "label": "s1"}
+{"depth": 1, "move": "R12 width sVar1 short->s32 @4333", "parent": 9, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @4316", "parent": 9, "score": 26, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R15 sink @4394 (sVar1)", "parent": 9, "score": 0, "kind": "IDENTICAL", "ident": true}

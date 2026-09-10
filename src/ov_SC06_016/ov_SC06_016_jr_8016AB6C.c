@@ -3400,7 +3400,6 @@ void func_8016DF5C(s32 param_1)
     extern u8 D_8019F13E;
 
     s32 iVar8;
-    short sVar1;
 
     iVar8 = *(s32 *)((u8 *)((void *)param_1) + 0x34);
     if ((*(u32 *)((u8 *)((void *)param_1) + 0x2c) & 0x8000) == 0) {
@@ -3434,12 +3433,12 @@ void func_8016DF5C(s32 param_1)
         *(u32 *)(iNew + 4) = *(u32 *)(iNew + 4) | 0x50000000;
         func_8016E3CC(((void *)param_1));
         {
-            register s32 t10 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+            s32 t10;
             t10 = 0x10;
             *(s32 *)((u8 *)((void *)param_1) + 0x20) = iNew;
             *(s32 *)((u8 *)((void *)param_1) + 0x1c) = t10;
         }
-        sVar1 = *(u16 *)((u8 *)((void *)param_1) + 2) + 1;
+        *(s16 *)((u8 *)((void *)param_1) + 2) = (*(u16 *)((u8 *)((void *)param_1) + 2) + 1);
     } else {
         short asStack_60[20];
         Blk20_8016DF5C localMatrix;
@@ -3459,10 +3458,8 @@ void func_8016DF5C(s32 param_1)
         *(s32 *)((u8 *)((void *)param_1) + 0x2c) = 0x1000;
         *(s32 *)((u8 *)((void *)param_1) + 0x30) = 0xff;
         *(s32 *)((u8 *)((void *)param_1) + 0x1c) = 0x10;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
-        sVar1 = 4;
+        *(s16 *)((u8 *)((void *)param_1) + 2) = (4);
     }
-    *(s16 *)((u8 *)((void *)param_1) + 2) = sVar1;
 }
 
 
