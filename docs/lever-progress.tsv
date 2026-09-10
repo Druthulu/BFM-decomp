@@ -31,3 +31,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-10	S102 wave b close — 8 agent closes banked (b1/b2/b3/b5/b5s/b6/b7/b8), b4/b9 read without closing; R19/R20/R21 added; fleet 218/218	f96af3e48	24119	13879	10240	6317	1257	24119	0	462	314	1590	50	7680	445	76
 2026-09-10	S103 c2: func_8013D8FC closed by agent c2 (the walked-pointer merge, now generator R22), 131 bodies	82da34b39	23988	13748	10240	6186	1256	23988	0	462	314	1590	50	7680	445	76
 2026-09-10	S103 wave c: c4/c6/c1/c7/c3/c5/c8 closed (two new generators R22/R23) + func_8017EEC0's parameter; 8 classes, ~1,000 bodies	205331765	20206	11271	8935	5277	1249	20206	0	462	314	1590	50	7680	445	76
+2026-09-10	S103: c12 twins func_80148E54/D44 + c10 func_80135A4C (395 bodies)	2e61220bd	19276	10873	8403	4879	1246	19276	0	462	314	1590	50	7680	445	76

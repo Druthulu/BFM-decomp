@@ -1785,3 +1785,8 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   T4 batch tus10 kept CI red while every local chain was green). `--update` now keeps the manifest's row order and writes
   UTF-8 (it used to re-sort every row and escape every `§`/`—`, a 588-line diff for one removed row); its output was
   proven byte-identical to a hand-made one-row removal.
+- **`tools/delever_pack.py` writes `related.txt`** — the LEVER-FREE bodies anywhere in the same overlay (its `.c` files and
+  the shared headers they include) that share a `func_`/`D_` symbol with the target, ranked by how many, the top six in
+  full. Three S103 agents found their answer in exactly such a body by hand (c2: the sibling walking the same list; c4:
+  a sibling under a stale `@stuck:`; c10: `func_80135888` in a different file). Known-true: for `func_80135A4C` the top
+  hit is `func_80135888`. ~2 s per pack.

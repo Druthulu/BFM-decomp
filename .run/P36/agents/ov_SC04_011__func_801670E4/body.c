@@ -19,11 +19,8 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 gA;
     s32 cxv;
     s32 czv;
-    u8 *vc;
     u8 *ap;
     u8 *mp;
-    u8 *va;
-    u8 *vb;
 
     ent = arg0;
     node = *(s32 *)(ent + 0x34);
@@ -36,9 +33,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.col[1].b = 0x70;
     cv = *(u8 *)(ent + 0x12);
     f.cx = arg1;
-    va = (u8 *)&f.cx;
     f.cy = arg2;
-    vb = va;
     p = D_80193330;
     i = 0;
     f.col[0].b = 0;
@@ -54,7 +49,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.cz = arg3;
     f.col[1].r = cv;
     f.col[1].g = cv;
-    ((void (*)(s32, void *, void *))func_80149350)(node, va, vb);
+    ((void (*)(s32, void *, void *))func_80149350)(node, &f.cx, &f.cx);
 
     c = f.cx;
     *(s16 *)(ent + 0x06) = c;
@@ -107,7 +102,6 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     } while ((i = i + 1) < 4);
 
     if (*(s32 *)(ent + 0x30) > 0) {
-        vc = (u8 *)&f.cx;
         mp = f.m1;
         ap = mp;
         p = D_80193344;
@@ -116,7 +110,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         f.cx += d;
         f.cy += d;
         f.cz += d;
-        func_80017E68(vc, ap);
+        func_80017E68(&f.cx, ap);
         f.cx = f.cy = f.cz = ((u32)*(s32 *)(ent + 0x30) >> 1) + D_80126CE0 * 0x20;
         func_80017DC4(&f.cx, f.m2);
         func_80048EAC(f.m2, mp);

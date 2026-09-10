@@ -38,7 +38,7 @@
    ".section": 7,
    "RTP_SND": 22,
    "addiu": 22,
-   "addu": 432,
+   "addu": 298,
    "and": 2,
    "la": 142,
    "lh": 134,
@@ -54,17 +54,17 @@
   },
   "kinds": {
    "asm-body/direct": 13,
-   "barrier/direct": 3177,
+   "barrier/direct": 3043,
    "barrier/via-macro": 2,
    "gte-lever/direct": 362,
    "gte-lever/via-macro": 100,
    "gte-unsigned/direct": 3,
    "gte/direct": 200,
    "gte/via-macro": 6658,
-   "instruction/direct": 775,
+   "instruction/direct": 641,
    "instruction/via-macro": 22,
-   "keepalive/direct": 930,
-   "launder/direct": 3110,
+   "keepalive/direct": 798,
+   "launder/direct": 2978,
    "launder/via-macro": 444,
    "verbatim-body/direct": 2682
   }
@@ -72,37 +72,37 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 4362,
-   "distinct_bodies": 946,
+   "bodies": 3964,
+   "distinct_bodies": 943,
    "file_scope": 0,
-   "in_bodies": 11271,
+   "in_bodies": 10873,
    "kinds": {
-    "pin": 11271
+    "pin": 10873
    },
-   "marked": 11271,
-   "sites": 11271,
-   "tus": 2071,
+   "marked": 10873,
+   "sites": 10873,
+   "tus": 1809,
    "unmarked": 0
   },
   "B": {
-   "bodies": 6573,
-   "distinct_bodies": 898,
+   "bodies": 6175,
+   "distinct_bodies": 895,
    "file_scope": 13,
-   "in_bodies": 18465,
+   "in_bodies": 17933,
    "kinds": {
     "asm-body": 13,
-    "barrier": 3179,
+    "barrier": 3045,
     "gte": 6858,
     "gte-lever": 462,
     "gte-unsigned": 3,
-    "instruction": 797,
-    "keepalive": 930,
-    "launder": 3554,
+    "instruction": 663,
+    "keepalive": 798,
+    "launder": 3422,
     "verbatim-body": 2682
    },
-   "marked": 9201,
-   "sites": 18478,
-   "tus": 1972,
+   "marked": 8669,
+   "sites": 17946,
+   "tus": 1834,
    "unmarked": 9277
   },
   "C": {
@@ -207,9 +207,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 30365,
+   "live": 29435,
    "macro_block": 194,
-   "raw": 37351
+   "raw": 36421
   },
   "attribute": {
    "comment_dead": 0,
@@ -225,9 +225,9 @@
   },
   "register": {
    "comment_dead": 8587,
-   "live": 11321,
+   "live": 10923,
    "macro_block": 18,
-   "raw": 19926
+   "raw": 19528
   },
   "volatile": {
    "comment_dead": 2480,
@@ -237,7 +237,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 25.1,
+ "elapsed_s": 24.0,
  "generated": "2026-09-10",
  "gte_levers": {
   "direct": 362,
@@ -248,15 +248,15 @@
   "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "205331765",
+ "head": "2e61220bd",
  "headers": 3181,
  "levers_AB": {
-  "asm": 8935,
-  "bodies": 5277,
-  "distinct_bodies": 1249,
-  "marked": 20206,
-  "pins": 11271,
-  "sites": 20206,
+  "asm": 8403,
+  "bodies": 4879,
+  "distinct_bodies": 1246,
+  "marked": 19276,
+  "pins": 10873,
+  "sites": 19276,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -390,7 +390,7 @@
  },
  "pins": {
   "bare_name": 15,
-  "init": 849,
+  "init": 717,
   "registers": {
    "$0": 117,
    "$10": 144,
@@ -407,11 +407,11 @@
    "$20": 284,
    "$21": 273,
    "$22": 7,
-   "$23": 144,
+   "$23": 10,
    "$25": 1,
    "$29": 13,
    "$3": 1268,
-   "$4": 1885,
+   "$4": 1621,
    "$5": 2045,
    "$6": 217,
    "$7": 452,
@@ -423,30 +423,30 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 11271,
+  "sites": 10873,
   "sp": 13,
   "spelling": {
-   "__asm__": 11193,
+   "__asm__": 10795,
    "asm": 78
   },
   "volatile_qualified": 7,
   "zero": 117
  },
- "src_stamp": "30843f2387f96cff",
+ "src_stamp": "10d264487dc9d2ce",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 8540,
+  "bodies": 8142,
   "by_kind": {
    "main": 165,
    "md": 135,
-   "ov": 8023,
+   "ov": 7630,
    "resident": 10,
-   "shared": 207
+   "shared": 202
   },
-  "copies_in_multi": 7277,
-  "distinct_bodies": 1534,
-  "multi_copy_classes": 271
+  "copies_in_multi": 6879,
+  "distinct_bodies": 1531,
+  "multi_copy_classes": 268
  },
  "verbatim_excluded": {
   "functions": 13,

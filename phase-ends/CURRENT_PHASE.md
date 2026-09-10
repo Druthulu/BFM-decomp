@@ -1397,6 +1397,23 @@ accumulate here as the phase produces them.**
   second move (a temp in a multi-statement line), so the full close stays an agent result. **Drew set the lane to at
   most five concurrent agents.** Relayed mid-run twice (c4 → c7, c1 → c8), and both relays were used in the close.
 
+- **S103 — c12 closes the twins `func_80148E54` + `func_80148D44` (6 → 0 each, 67/67 and 68/68; 131 + 131) and c10
+  closes `func_80135A4C` (40 → 0, 181/181; 133/133); 20,206 → 19,276 sites.** c12 applied c3's reading to the twins and
+  it held: the angle passed as the handler's FIRST argument (`$a0`, never overwritten before the `jalr`) JOINT with
+  `tmp` reused for the second `ratan2` — scores 7 / 6 / 1 (`(tmp + ang)`) / 0 (`(ang + tmp)`); the earlier agent's
+  "unreachable body-only" verdict was wrong only because its consumer count never treated a `jalr` as reading `$a0`.
+  The stale `jalr with no args` header comment corrected in the 135 files whose body now passes the argument (the one
+  unbanked variant, `ov_SC01_077`, keeps its true comment). c10: nine missing instructions were jump2's post-reload
+  cross-jump (`toplev.c:3142`, `jump.c:2371`) merging two identical walk tails — the loop's exits made to fall to the
+  function's single final `return`; the tenth the cse SUBREG gate (`s16 eq`); the register order by parameters passed
+  through to `func_80135480` at its real arity (one more ref each, zero bytes); its answer was `func_80135888` in a
+  DIFFERENT FILE. **Harvest: `delever_pack` writes `related.txt`** — lever-free bodies anywhere in the overlay sharing a
+  `func_`/`D_` symbol with the target, ranked (known-true: for `func_80135A4C` its top hit is `func_80135888`; c2's
+  `func_8013D53C` is listed for `func_8013D8FC`); METHOD_S103 gained six emitter entries (the implicit handler argument,
+  cross-jump both ways, the parameter pass-through, `-fno-thread-jumps`, the join-point duplicate, local-alloc's own
+  ranking). Bank lines: `apply-body … IDENTICAL … KEPT` ×3, `--propagate: 131 of 131` ×2, `133 of 133`; R22
+  `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 19,276 pin/asm sites, 19,276 marked !FAKE, 0 UNMARKED — OK`.
+
 ## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
 
 ### 0. How to use this block

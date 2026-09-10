@@ -12,6 +12,9 @@ while a run is going. Per exemplar:
   residual.txt    `--try` on the seed: score, class, the register pairs, every differing block as mnemonics (mine | target)
   sites.txt       the ledger's sites with their verdicts (NEEDED with the register each pin names)
   history.txt     every engine attempt on this class (label, start, best, compiles, path) and the best-scoring moves of the last trace
+  neighbours.txt  the target's own header in full, its TU neighbours' headers, every @class/@stuck/@crack note (S102)
+  best_body.c     the engine's best candidate TEXT (S102)
+  related.txt     lever-free bodies anywhere in the overlay sharing a callee/global with the target, ranked (S103)
 ORDER.tsv ranks the exemplars: best distance reached so far ascending, then copies descending — the cheapest readings first.
 """
 import argparse
@@ -30,6 +33,62 @@ import delever_search as ds         # noqa: E402
 
 PACKS = REPO / ".run" / "P36" / "agents"
 PY = str(REPO / ".venv" / "bin" / "python")
+
+
+SYM = re.compile(r"\b(?:func|D)_[0-9A-Fa-f]{8}\b")
+
+
+def related_bodies(tu, fn, target_text, alias, top=6, max_lines=600):
+    """related.txt — LEVER-FREE bodies anywhere in the same overlay that share a callee or a global with the target.
+
+    Three T7 agents in S103 found their answer in a lever-free function the pack never showed them: c2 in a sibling
+    walking the same `D_801EDABC` list (the shape and the struct type), c4 in a sibling spelled lever-free under a stale
+    `@stuck:` note, and c10 in a DIFFERENT FILE (`func_80135888`: the same switch, list walk and parameter pass-through,
+    which the residual cannot show because jump2 deletes those moves). neighbours.txt only reaches the target's own TU and
+    only its comments; this reaches the bodies, ranked by how many of the target's symbols they share."""
+    want = set(SYM.findall(target_text)) - {fn}
+    if not want:
+        return ""
+    files = sorted((REPO / "src" / alias).glob("*.c"))
+    inc = re.compile(r'#include\s+"\.\./(shared/[^"]+\.h)"')
+    heads = set()
+    for f in files:
+        try:
+            heads.update(inc.findall(f.read_text(errors="surrogateescape")))
+        except OSError:
+            pass
+    cands = []
+    for f in files + [REPO / "src" / h for h in sorted(heads)]:
+        try:
+            txt = f.read_text(errors="surrogateescape")
+        except OSError:
+            continue
+        rel = str(f.relative_to(REPO))
+        try:
+            recs = dl.sc.scan_text(txt, rel, shared_defs=None)
+        except Exception:
+            continue
+        ls = dl.line_starts(txt)
+        for r in recs:
+            if r.get("form") != "def" or r.get("name") == fn:
+                continue
+            body = txt[ls[r["line"] - 1]:ls[r["end"]]] if r["end"] < len(ls) else txt[ls[r["line"] - 1]:]
+            if "!FAKE" in body or "__asm__" in body:
+                continue
+            shared = sorted(want & set(SYM.findall(body)) - {r["name"]})
+            if shared:
+                cands.append((-len(shared), body.count("\n"), r["name"], rel, r["line"], shared, body))
+    cands.sort()
+    seen, out = set(), [f"=== lever-free bodies in {alias} sharing a callee or global with {fn} "
+                         f"({len(cands)} found; top {top} by shared symbols) — read them for the SHAPE ==="]
+    for _, n, name, rel, line, shared, body in cands:
+        if name in seen:
+            continue
+        seen.add(name)
+        out += [f"--- {name} ({rel}:{line}) shares {len(shared)}: {' '.join(shared[:12])} ---", body.rstrip(), ""]
+        if len(seen) >= top or len(out) > max_lines:
+            break
+    return "\n".join(out[:max_lines]) + "\n"
 
 
 def build(a):
@@ -136,6 +195,11 @@ def build(a):
                 out_n.append("--- every @class/@stuck/@crack note in this translation unit ---")
                 out_n += tagged[:60]
             (d / "neighbours.txt").write_text("\n".join(out_n[:400]) + "\n")
+        except OSError:
+            pass
+        try:
+            (d / "related.txt").write_text(related_bodies(tu, fn, (d / "body_tree.c").read_text(errors="surrogateescape"),
+                                                          e["alias"]), errors="surrogateescape")
         except OSError:
             pass
         # the BEST CANDIDATE'S TEXT, not just its move path: history.txt's `@NNNN` line numbers are relative to the

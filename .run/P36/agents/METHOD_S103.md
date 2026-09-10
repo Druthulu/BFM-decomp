@@ -23,6 +23,31 @@
      PROMOTE_MODE on MIPS gcc 2.7.2, so a u16 local is a HImode pseudo: a same-mode SI copy is folded by cse's
      `(set REG0 REG1)` case (`cse.c:7440-7474`, gate `:7455` wants a REG source), a copy into HImode is a SUBREG move and
      survives; a u16 `cnt--` takes `copy_to_reg` (`expr.c:8645`). Several joint width moves may be needed at once.
+   - (S103 c3/c12) a MISSING `move sK,$aN` whose source has no visible reader, but `$aN` reaches a `jal`/`jalr` (a
+     dispatch-table handler) unwritten on another path: the handler READS it implicitly. Pass the value as that call's
+     argument N-4 (widen the table's declaration in the body: `extern s32 (*D_x[])(void *, s32);`) AND reuse the source
+     variable later as the LATER operand of a sum, so its last mention comes after the copy's (`make_regs_eqv`,
+     `cse.c:846-862`; the swap `cse.c:7454`). Neither move helps alone. A consumer count that ignores calls reading
+     `$a0-$a3` will call this "unreachable" — it was wrong twice.
+   - (S103 c6/c10) MISSING instructions + `j` stubs into the MIDDLE of a common sequence in the target = post-reload
+     CROSS-JUMP (`toplev.c:3142`, `find_cross_jump` `jump.c:2371`). Two opposite uses: (c6) a shared `goto do_call` tail
+     rewritten as one call per site raises the allocator's ref count for the call's arguments, and cross-jump re-merges
+     the calls AFTER allocation, so the bytes keep one; (c10) two identical tails merged that the target keeps apart —
+     make their SHAPES differ (a loop's exits falling to the function's single final `return`).
+   - (S103 c10) a parameter-vs-local callee-saved swap: pass the parameters through to a callee at its REAL arity (one
+     more ref each for `allocno_compare`, zero bytes — jump2 deletes the self-copies, `jump.c:425-462`).
+   - (S103 c5) a WHOLE missing test (a second null check): compile once with `-fno-thread-jumps`; if that reproduces the
+     target, it is jump threading (`jump.c:4161`) — re-read the value from memory before the second test.
+   - (S103 c7) a callee-saved swap where the loser is short on refs: duplicate a join-point statement (a pointer/counter
+     step) into both arms of the if/else inside the loop — loop uses count double (`flow.c:2067`); check
+     `floor_log2(refs)·refs/live` beats the rival first.
+   - (S103 c1/c8) a register permutation among pointers/temps: a local REUSED across statement groups dies more than once
+     and is refused by local-alloc (`local-alloc.c:472`) — split it into one name per value (generator R23 does this).
+     `tools/alloc_table.py` prints the GLOBAL priority; local-alloc ranks by `qty_compare_1` (`local-alloc.c:1598`) —
+     `../ov_SC04_011__func_80135168/scratch/lpri.py` computes that from the `.lreg` dump.
+   - (S103 c10/c2/c4) READ LEVER-FREE BODIES that share your callees, globals or shapes ANYWHERE in the overlay, not only
+     `neighbours.txt`: the answer to c10's function was in a different file (`func_80135888`), c4's was a sibling spelled
+     lever-free under a stale `@stuck:` note. `grep -rln '<callee or global>' src/ov_SC04_011/`.
    - (S103 c2) grep the TU for the other functions that touch the same global/struct and READ THEIR BODIES, not only the
      headers in `neighbours.txt` — a sibling walking the same list gave the shape and the struct type.
 4. Only then the allocation table (`tools/alloc_table.py`). Declaration-order moves are PROVABLY DEAD on a register

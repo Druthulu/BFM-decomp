@@ -444,7 +444,7 @@ extern s32 ratan2(s32 a0, s32 a1);
 
 
 extern s32 ratan2(s32, s32);
-/* derived from asm: lui/addu/lw %lo(D_80180DF0) indexed by (u16>>12)*4, then jalr with no args;
+/* derived from asm: lui/addu/lw %lo(D_80180DF0) indexed by (u16>>12)*4, then jalr, the handler taking the angle in $a0 as its first argument (P36 S103 agent c12: the missing copy was that argument);
  * the result is sign-extended from 16 bits => the table's functions return s16. */
 
 #include "../shared/ov/func_80148E54__52af9a5c.h"

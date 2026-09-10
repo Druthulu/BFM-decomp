@@ -638,93 +638,77 @@ s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
     extern u8 D_801152B0;
 
     s32 *p;
-    register s32 s7 __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B tus3)
+    s32 base;
     s32 flag;
     s32 acc;
     s16 i;
-    s32 eq;
+    s16 eq;
     s32 ret;
     s32 frame_pad[8];
     (void)&frame_pad;
 
-    switch (((s32 (*)(void))func_80135480)()) {
+    switch (((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)((void *)a0, a1, (s16 *)a2, (s16 *)a3)) {
     case 0:
         return 0;
     case 1:
-        s7 = a0 + 0x34;
+        base = a0 + 0x34;
         p = (s32 *)((a1 & 0xFFFFFFF) | 0x80000000);
         flag = 0;
         break;
     case 2:
-        s7 = a0 + 0x34;
+        base = a0 + 0x34;
         p = (s32 *)((a1 & 0xFFFFFFF) | 0x80000000);
         flag = 1;
         break;
     case 3:
-        s7 = a0 + 0x34;
+        base = a0 + 0x34;
         p = (s32 *)&D_801BDEFC;
         flag = 0;
         break;
     case 4:
-        s7 = (s32)&D_801BDEDC;
+        base = (s32)&D_801BDEDC;
         p = (s32 *)&D_801BDEFC;
         flag = 1;
         break;
     }
 
-    acc = 0;
     if (a1 < 0) {
-        if (func_80135EB0(p, -0x8000) == 0) {
-            p = (s32 *)*p;
-            if (p == 0) return 0;
-        loop:
-            if (func_80135EB0(p, -0x8000) == 0) goto next;
+        if (func_80135EB0(p, -0x8000) != 0) {
+            goto docall;
         }
-    docall:
-        func_80136A94(flag, a0, a3, s7);
-        return 1;
-    next:
-        p = (s32 *)*p;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus3)
-        if (p != 0) goto loop;
-        return 0;
-    }
+        for (p = (s32 *)*p; p != 0; p = (s32 *)*p) {
+            if (func_80135EB0(p, -0x8000) != 0) {
+docall:
+                func_80136A94(flag, a0, a3, base);
+                return 1;
+            }
+        }
+    } else {
+        acc = 0;
+        i = 0;
+        *(s16 *)((*(u8 **)&D_801839B0) + 6) = -0x7FFF;
+        *(s16 *)((*(u8 **)&D_801839B4) + 6) = 0x7FFF;
+        D_801BDED8 = 0;
+        D_801BDED4 = 0;
+        eq = ((V3 *)a2)->x == ((V3 *)a3)->x && ((V3 *)a2)->y == ((V3 *)a3)->y && ((V3 *)a2)->z == ((V3 *)a3)->z;
 
-    i = 0;
-    *(s16 *)((*(u8 **)&D_801839B0) + 6) = -0x7FFF;
-    *(s16 *)((*(u8 **)&D_801839B4) + 6) = 0x7FFF;
-    D_801BDED8 = 0;
-    D_801BDED4 = 0;
-    {
-        s32 t = 0;
-        if (((V3 *)a2)->x == ((V3 *)a3)->x && ((V3 *)a2)->y == ((V3 *)a3)->y) {
-            s32 zt = (((V3 *)a2)->z == ((V3 *)a3)->z);
-            __asm__("addu %0,%1,$zero" : "=r"(t) : "r"(zt));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus3)
+        while (1) {
+            ret = func_80133AB0(0, (s16)(*(Box **)&D_801839B0)->f0, (s16)(*(Box **)&D_801839B0)->f4, (s32)p);
+            if (ret == 0) break;
+            acc |= ret;
+            if (eq != 0) break;
+            if (i++ >= 5) return 0;
         }
-        eq = t;
-    }
 
-    while (1) {
-        ret = func_80133AB0(0, (s16)(*(Box **)&D_801839B0)->f0, (s16)(*(Box **)&D_801839B0)->f4, (s32)p);
-        if (ret == 0) goto out;
-        acc |= ret;
-        if (eq != 0) goto out;
-        {
-            s16 old = i;
-            i = i + 1;
-            if (old >= 5) return 0;
+        if ((s16)acc != 0 || D_801BDED4 != 0) {
+            if ((*(Box **)&D_801839B0)->f6 >= -0xBCB) {
+                *(Blk8 *)D_801152A8 = *(Blk8 *)&D_801152B0;
+            }
+            (*(Box **)&D_801839B8)->f0 = (*(Box **)&D_801839B4)->f0;
+            (*(Box **)&D_801839B8)->f2 = (*(Box **)&D_801839B4)->f2;
+            (*(Box **)&D_801839B8)->f4 = (*(Box **)&D_801839B4)->f4;
+            goto docall;
         }
-    }
-
-out:
-    if ((s16)acc != 0 || D_801BDED4 != 0) {
-        if ((*(Box **)&D_801839B0)->f6 >= -0xBCB) {
-            *(Blk8 *)D_801152A8 = *(Blk8 *)&D_801152B0;
-        }
-        (*(Box **)&D_801839B8)->f0 = (*(Box **)&D_801839B4)->f0;
-        (*(Box **)&D_801839B8)->f2 = (*(Box **)&D_801839B4)->f2;
-        (*(Box **)&D_801839B8)->f4 = (*(Box **)&D_801839B4)->f4;
-        goto docall;
     }
     return 0;
 }

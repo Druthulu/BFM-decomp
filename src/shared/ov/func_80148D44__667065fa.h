@@ -6,41 +6,21 @@ s32 func_80148D44(void) {
     extern u8 D_80126C01;
     extern u16 D_80126C02;
     extern u16 D_80126C06;
-    extern s32 D_801805FC[];
-    s32 ang;
-    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A headers2)
-    s32 p;
-    s32 res;
-    s32 d;
+    extern s16 (*D_801805FC[])(s32);
+    s32 p = D_801151D4;
+    s32 tmp = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
+                      *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3C)) - 0x400) & 0xFFF;
+    s32 ang = tmp;
 
-    p = D_801151D4;
-    a = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
-                  *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3c)) - 0x400) & 0xFFF;
-    d = (s32)D_80126C01;
-    __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung A headers2)
-    ang = a;
-    if (d == 0x53) {
-        goto final;
-    }
-    if (d < 0x54) {
-        if (d == 0x41) {
-            goto call;
-        }
-        return 0x41;
-    }
-    if (d != 0x73) {
-        return 0x73;
-    }
-    goto final;
-call:
-    return (s32)(s16)((s16 (*)())(D_801805FC[D_80126C02 >> 0xc]))();
-final:
-    {
-        u32 e = D_80126C06;
-        if (((e & 0xff) == 0x80) && ((e >> 8) == (e & 0xff))) {
+    switch (D_80126C01) {
+    case 0x41:
+        return D_801805FC[D_80126C02 >> 12](tmp);
+    case 0x53:
+    case 0x73:
+        if ((D_80126C06 & 0xFF) == 0x80 && (D_80126C06 >> 8) == 0x80) {
             return -1;
         }
-        res = (ang + ratan2((D_80126C06 & 0xff) - 0x80, 0x80 - (D_80126C06 >> 8))) & 0xFFF;
+        tmp = ratan2((D_80126C06 & 0xFF) - 0x80, 0x80 - (D_80126C06 >> 8));
+        return (ang + tmp) & 0xFFF;
     }
-    return res;
 }

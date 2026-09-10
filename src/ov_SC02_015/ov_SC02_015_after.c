@@ -704,71 +704,50 @@ s32 func_80148D44(void) {
     extern u8 D_80126C01;
     extern u16 D_80126C02;
     extern u16 D_80126C06;
-    extern s32 D_8017FD7C[];
-    s32 ang;
-    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus4)
-    s32 p;
-    s32 res;
-    s32 d;
+    extern s16 (*D_8017FD7C[])(s32);
+    s32 p = D_801151D4;
+    s32 tmp = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
+                      *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3C)) - 0x400) & 0xFFF;
+    s32 ang = tmp;
 
-    p = D_801151D4;
-    a = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
-                  *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3c)) - 0x400) & 0xFFF;
-    d = (s32)D_80126C01;
-    __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus4)
-    ang = a;
-    if (d == 0x53) {
-        goto final;
-    }
-    if (d < 0x54) {
-        if (d == 0x41) {
-            goto call;
-        }
-        return 0x41;
-    }
-    if (d != 0x73) {
-        return 0x73;
-    }
-    goto final;
-call:
-    return (s32)(s16)((s16 (*)())(D_8017FD7C[D_80126C02 >> 0xc]))();
-final:
-    {
-        u32 e = D_80126C06;
-        if (((e & 0xff) == 0x80) && ((e >> 8) == (e & 0xff))) {
+    switch (D_80126C01) {
+    case 0x41:
+        return D_8017FD7C[D_80126C02 >> 12](tmp);
+    case 0x53:
+    case 0x73:
+        if ((D_80126C06 & 0xFF) == 0x80 && (D_80126C06 >> 8) == 0x80) {
             return -1;
         }
-        res = (ang + ratan2((D_80126C06 & 0xff) - 0x80, 0x80 - (D_80126C06 >> 8))) & 0xFFF;
+        tmp = ratan2((D_80126C06 & 0xFF) - 0x80, 0x80 - (D_80126C06 >> 8));
+        return (ang + tmp) & 0xFFF;
     }
-    return res;
 }
 
 
 
 extern s32 ratan2(s32, s32);
-/* derived from asm: lui/addu/lw %lo(D_8017FDBC) indexed by (u16>>12)*4, then jalr with no args;
+/* derived from asm: lui/addu/lw %lo(D_8017FDBC) indexed by (u16>>12)*4, then jalr, the handler taking the angle in $a0 as its first argument (P36 S103 agent c12: the missing copy was that argument);
  * the result is sign-extended from 16 bits => the table's functions return s16. */
 
 s32 func_80148E54(s32 arg0) {
 
     extern s32 D_801151D4;
-    extern s16 (*D_8017FDBC[])();
-    register s32 tmp __asm__("$4") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus4)
-                                             *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
-    s32 ang;
-    __asm__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus4)
-    ang = tmp;
+    extern s16 (*D_8017FDBC[])(s32);
+    s32 tmp = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),
+                      *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
+    s32 ang = tmp;
 
     switch (*(u8 *)(arg0 + 0xA9)) {
     case 0x41:
-        return D_8017FDBC[*(u16 *)(arg0 + 0xAA) >> 12]();
+        return D_8017FDBC[*(u16 *)(arg0 + 0xAA) >> 12](tmp);
     case 0x53:
     case 0x73:
         if ((*(u16 *)(arg0 + 0xAE) & 0xFF) == 0x80 && (*(u16 *)(arg0 + 0xAE) >> 8) == 0x80) {
             return -1;
         }
-        return (ang + ratan2((*(u16 *)(arg0 + 0xAE) & 0xFF) - 0x80,
-                             0x80 - (*(u16 *)(arg0 + 0xAE) >> 8))) & 0xFFF;
+        tmp = ratan2((*(u16 *)(arg0 + 0xAE) & 0xFF) - 0x80,
+                             0x80 - (*(u16 *)(arg0 + 0xAE) >> 8));
+        return (ang + tmp) & 0xFFF;
     }
 }
 
