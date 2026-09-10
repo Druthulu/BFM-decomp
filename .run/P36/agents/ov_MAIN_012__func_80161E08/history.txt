@@ -1,0 +1,17 @@
+g6b: verdict NO-MATCH start 15 best 14 compiles 324 path R9 swap-stmts @5838
+s1: verdict NO-MATCH start 15 best 14 compiles 187 path R9 swap-stmts @5838
+s2: verdict NO-MATCH start 15 best 14 compiles 187 path R9 swap-stmts @5838
+s4: verdict NO-MATCH start 15 best 14 compiles 436 path R9 swap-stmts @5838
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @5838 -> 14 [COUNT] (from 15)
+  R12 width a2 s32->u16 @5806 -> 14 [COUNT] (from 14)
+  R6 inline p @5839 -> 14 [COUNT] (from 14)
+  R8 hoist tmp0 @5823 -> 14 [COUNT] (from 14)
+  R7 block @5827 -> 14 [COUNT] (from 14)
+  R10 param-copy param_1 @5807 -> 14 [COUNT] (from 14)
+  R12 width a2 s32->s16 @5806 -> 14 [COUNT] (from 14)
+  R8 hoist tmp0 @5822 -> 14 [COUNT] (from 14)
+  R7 block @5823 -> 14 [COUNT] (from 14)
+  R7 block @5828 -> 14 [COUNT] (from 14)
+  R9 swap-stmts @5821 -> 14 [COUNT] (from 14)
+  R8 hoist tmp0 @5833 -> 14 [COUNT] (from 14)

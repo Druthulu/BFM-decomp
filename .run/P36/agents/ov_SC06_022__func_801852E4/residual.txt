@@ -1,0 +1,3 @@
+src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:func_801852E4: score 1 (OTHER; mine 52 ins, target 52) — not yet
+  replace mine[30:31] target[30:31]
+       30  beqz	v0,968 <func_801852E4+0xac>   | beqz	v0,978 <func_801852E4+0xbc>

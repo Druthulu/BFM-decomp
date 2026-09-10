@@ -1,4 +1,4 @@
-=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_8013F350 (98 found; top 6 by shared symbols) — read them for the SHAPE ===
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_8013F350 (99 found; top 6 by shared symbols) — read them for the SHAPE ===
 --- func_8013E83C (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1879) shares 9: D_80115110 D_8011511A D_80115128 D_8011512E D_80115158 D_8011515C func_80029178 func_8002D4C8 func_80141C0C ---
 void func_8013E83C() {
     extern void func_80141C0C(int);

@@ -1,0 +1,18 @@
+g6: verdict NO-MATCH start 13 best 13 compiles 327 path 
+s1: verdict NO-MATCH start 13 best 13 compiles 188 path 
+s2: verdict NO-MATCH start 13 best 13 compiles 188 path 
+s4: verdict NO-MATCH start 13 best 13 compiles 437 path 
+s7: verdict NO-MATCH start 13 best 13 compiles 559 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @3032 -> 13 [COUNT] (from 13)
+  R10 param-copy param_1 @3008 -> 13 [COUNT] (from 13)
+  R18 bystander @3028->3031 -> 13 [COUNT] (from 13)
+  R18 bystander @3028->3032 -> 13 [COUNT] (from 13)
+  R7 block @3025 -> 13 [COUNT] (from 13)
+  R10 param-alias src->param_2 @3011 -> 13 [COUNT] (from 13)
+  R18 bystander @3028->3033 -> 13 [COUNT] (from 13)
+  R7 do-while @3025 -> 13 [COUNT] (from 13)
+  R6 inline v790 @3034 -> 13 [COUNT] (from 13)
+  R18 bystander @3028->3034 -> 13 [COUNT] (from 13)
+  R7 block @3023 -> 13 [COUNT] (from 13)
+  R8 base tmp0 @3013 -> 13 [COUNT] (from 13)

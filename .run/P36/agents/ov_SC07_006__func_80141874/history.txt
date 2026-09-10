@@ -1,0 +1,19 @@
+g4s: verdict NO-MATCH start 6 best 6 compiles 238 path 
+s1: verdict NO-MATCH start 6 best 6 compiles 83 path 
+s2: verdict NO-MATCH start 6 best 6 compiles 83 path 
+s4: verdict NO-MATCH start 6 best 6 compiles 255 path 
+s7: verdict NO-MATCH start 6 best 6 compiles 312 path 
+s9: verdict NO-MATCH start 6 best 6 compiles 174 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline fp @1246 -> 6 [COUNT] (from 6)
+  R7 block @1243 -> 6 [COUNT] (from 6)
+  R7 do-while @1243 -> 6 [COUNT] (from 6)
+  R7 block @1244 -> 6 [COUNT] (from 6)
+  R7 do-while @1244 -> 6 [COUNT] (from 6)
+  R7 block @1245 -> 6 [COUNT] (from 6)
+  R7 block @1246 -> 6 [COUNT] (from 6)
+  R7 block @1247 -> 6 [COUNT] (from 6)
+  R7 do-while @1247 -> 6 [COUNT] (from 6)
+  R7 block @1248 -> 6 [COUNT] (from 6)
+  R7 do-while @1248 -> 6 [COUNT] (from 6)
+  R7 block @1249 -> 6 [COUNT] (from 6)

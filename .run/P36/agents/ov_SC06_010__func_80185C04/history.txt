@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 27 best 15 compiles 334 path R6 inline v0 @9714 + R8 temp tmp0 @9714 + R6 inline v0 @9699
+s7: verdict NO-MATCH start 27 best 14 compiles 571 path R6 inline v0 @9720 + R6 inline v0 @9712 + R6 inline v0 @9699
+s9: verdict NO-MATCH start 27 best 16 compiles 254 path R6 inline v0 @9722 + R6 inline v0 @9714
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline v0 @9714 -> 16 [REG] (from 26)
+  R8 temp tmp0 @9717 -> 17 [REG] (from 26)
+  R6 inline v0 @9701 -> 23 [COUNT] (from 25)
+  R6 inline v0 @9721 -> 24 [COUNT] (from 25)
+  R6 inline v0 @9716 -> 24 [COUNT] (from 25)
+  R7 do-while @9721 -> 24 [COUNT] (from 25)
+  R7 do-while @9718 -> 24 [COUNT] (from 25)
+  R6 inline v0 @9713 -> 25 [COUNT] (from 27)
+  R8 temp tmp0 @9705 -> 25 [COUNT] (from 25)
+  R18 bystander @9704->9707 -> 25 [COUNT] (from 25)
+  R7 block @9705 -> 25 [COUNT] (from 25)
+  R5 swap + @9718 -> 25 [COUNT] (from 25)

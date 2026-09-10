@@ -1,0 +1,37 @@
+src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:func_8018226C: score 29 (REG-caller; mine 43 ins, target 43) — not yet
+  register pairs (mine -> target, count): a1->a3 x20, a2->v0 x14, a3->v1 x7, v1->a0 x2, a0->a1 x2, v0->a2 x2
+  replace mine[1:2] target[1:2]
+        1  move	a1,a0                         | move	a3,a0
+  replace mine[3:4] target[3:4]
+        3  lhu	a3,112(a1)                     | lhu	v1,112(a3)
+  replace mine[5:6] target[5:6]
+        5  andi	v0,a3,0x800                   | andi	v0,v1,0x800
+  replace mine[7:19] target[7:19]
+        7  andi	a2,a3,0x10                    | andi	v0,v1,0x10
+        8  beqz	a2,6180 <func_8018226C+0x94>  | beqz	v0,6180 <func_8018226C+0x94>
+        9  li	a2,5                            | li	v0,5
+       10  lw	a3,120(a1)                      | lw	v1,120(a3)
+       11  lhu	v1,136(a1)                     | lhu	a0,136(a3)
+       12  lw	a0,32(a1)                       | lw	a1,32(a3)
+       13  sh	a2,2(a1)                        | sh	v0,2(a3)
+       14  li	a2,90                           | li	v0,90
+       15  sb	zero,193(a1)                    | sb	zero,193(a3)
+       16  sh	zero,94(a1)                     | sh	zero,94(a3)
+       17  sw	a2,28(a1)                       | sw	v0,28(a3)
+       18  lhu	a2,2(a3)                       | lhu	v0,2(v1)
+  replace mine[20:33] target[20:33]
+       20  sh	a2,92(a1)                       | sh	v0,92(a3)
+       21  lw	a2,120(a1)                      | lw	v0,120(a3)
+       22  lhu	a3,140(a1)                     | lhu	v1,140(a3)
+       23  lhu	v0,0(a2)                       | lhu	a2,0(v0)
+       24  lhu	a2,138(a1)                     | lhu	v0,138(a3)
+       25  sh	v1,6(a1)                        | sh	a0,6(a3)
+       26  sh	a3,14(a1)                       | sh	v1,14(a3)
+       27  sh	a2,10(a1)                       | sh	v0,10(a3)
+       28  sh	v0,118(a1)                      | sh	a2,118(a3)
+       29  sh	zero,16(a0)                     | sh	zero,16(a1)
+       30  lw	a2,32(a1)                       | lw	v0,32(a3)
+       31  move	a0,a1                         | move	a0,a3
+       32  sh	zero,18(a2)                     | sh	zero,18(v0)
+  replace mine[38:39] target[38:39]
+       38  move	a0,a1                         | move	a0,a3

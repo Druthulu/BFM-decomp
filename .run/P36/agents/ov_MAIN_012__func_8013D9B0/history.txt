@@ -1,0 +1,19 @@
+g6: verdict NO-MATCH start 96 best 66 compiles 332 path R7 do-while @1454 + R12 width uVar3 u32->u8 @1439 + R7 do-while @1456
+s1: verdict NO-MATCH start 96 best 75 compiles 191 path R7 do-while @1452 + R12 width uVar3 u32->u8 @1437
+s2: verdict NO-MATCH start 96 best 75 compiles 191 path R7 do-while @1452 + R12 width uVar3 u32->u8 @1437
+s4: verdict NO-MATCH start 96 best 66 compiles 444 path R7 do-while @1452 + R12 width uVar3 u32->u8 @1437 + R7 do-while @1454
+s7: verdict NO-MATCH start 96 best 66 compiles 569 path R7 do-while @1452 + R12 width uVar3 u32->u8 @1437 + R7 do-while @1454
+s9: verdict NO-MATCH start 96 best 75 compiles 255 path R12 width uVar1 u32->u8 @1434 + R7 do-while @1453
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @1453 -> 75 [COUNT] (from 85)
+  R12 width uVar3 u32->u8 @1437 -> 75 [COUNT] (from 87)
+  R7 do-while @1452 -> 76 [COUNT] (from 85)
+  R6 inline r0 @1446 -> 79 [COUNT] (from 85)
+  R7 do-while @1451 -> 80 [COUNT] (from 85)
+  R7 do-while @1454 -> 80 [COUNT] (from 87)
+  R6 inline r0 @1446 -> 81 [COUNT] (from 87)
+  R7 do-while @1451 -> 81 [COUNT] (from 90)
+  R7 do-while @1452 -> 82 [COUNT] (from 90)
+  R6 inline iVar11 @1449 -> 83 [COUNT] (from 85)
+  R6 inline iVar11 @1449 -> 83 [COUNT] (from 87)
+  R5 swap * @1458 -> 84 [COUNT] (from 85)

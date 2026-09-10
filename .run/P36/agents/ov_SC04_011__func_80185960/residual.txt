@@ -1,0 +1,18 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_80185960: score 12 (COUNT; mine 35 ins, target 33) — not yet
+  register pairs (mine -> target, count): a3->v0 x1
+  replace mine[6:14] target[6:12]
+        6  move	v0,v1                         | move	a3,v1
+        7  ori	v0,v1,0xf000                   | ori	a3,v1,0xf000
+        8  move	v1,v0                         | sll	v0,a3,0x10
+        9  sll	v0,v1,0x10                     | bgez	v0,84fc <func_80185960+0x30>
+       10  sra	a3,v0,0x10                     | move	v1,a3
+       11  bgez	a3,8504 <func_80185960+0x38>  | negu	v1,a3
+       12  nop                                | --
+       13  negu	v1,v1                         | --
+  replace mine[19:21] target[17:19]
+       19  nop                                | sll	v0,a3,0x10
+       20  bgez	a3,8538 <func_80185960+0x6c>  | bgez	v0,8530 <func_80185960+0x64>
+  replace mine[25:26] target[23:24]
+       25  j	8550 <func_80185960+0x84>        | j	8548 <func_80185960+0x7c>
+  replace mine[30:31] target[28:29]
+       30  j	8550 <func_80185960+0x84>        | j	8548 <func_80185960+0x7c>

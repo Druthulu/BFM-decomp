@@ -1,0 +1,3 @@
+NEEDED   pin         $3     line 3343
+NEEDED   pin         $2     line 3344
+NEEDED   pin         $4     line 3381

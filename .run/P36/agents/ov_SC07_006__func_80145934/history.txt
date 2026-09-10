@@ -1,0 +1,20 @@
+g3: verdict NO-MATCH start 11 best 11 compiles 396 path 
+g5: verdict NO-MATCH start 11 best 11 compiles 723 path 
+s1: verdict NO-MATCH start 11 best 11 compiles 142 path 
+s2: verdict NO-MATCH start 11 best 11 compiles 142 path 
+s4: verdict NO-MATCH start 11 best 11 compiles 236 path 
+s7: verdict NO-MATCH start 11 best 11 compiles 299 path 
+s9: verdict NO-MATCH start 11 best 11 compiles 142 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @1064 -> 11 [COUNT] (from 11)
+  R7 do-while @1064 -> 11 [COUNT] (from 11)
+  R7 block @1060 -> 11 [COUNT] (from 11)
+  R7 do-while @1060 -> 11 [COUNT] (from 11)
+  R7 block @1068 -> 11 [COUNT] (from 11)
+  R7 do-while @1068 -> 11 [COUNT] (from 11)
+  R7 block @1056 -> 11 [COUNT] (from 11)
+  R7 do-while @1056 -> 11 [COUNT] (from 11)
+  R7 block @1054 -> 11 [COUNT] (from 11)
+  R7 do-while @1054 -> 11 [COUNT] (from 11)
+  R7 block @1066 -> 11 [COUNT] (from 11)
+  R7 do-while @1066 -> 11 [COUNT] (from 11)

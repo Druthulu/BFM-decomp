@@ -1,0 +1,2 @@
+NEEDED   pin         $2     line 8006
+NEEDED   pin         $3     line 8026

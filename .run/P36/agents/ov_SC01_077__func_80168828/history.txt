@@ -1,0 +1,20 @@
+g6: verdict NO-MATCH start 35 best 1 compiles 323 path R9 swap-stmts @5940 + R12 width a0v s32->u8 @5917 + R12 width param_1 s32->s16 @5918
+s1: verdict NO-MATCH start 35 best 18 compiles 186 path R9 swap-stmts @5939 + R12 width a0v s32->u16 @5916
+s2: verdict NO-MATCH start 35 best 18 compiles 186 path R9 swap-stmts @5939 + R12 width a0v s32->u16 @5916
+s3: verdict BUDGET start 35 best 1 compiles 400 path R9 swap-stmts @5939 + R12 width a0v s32->u8 @5916 + R12 width param_1 s32->s16 @5917
+s3b: verdict BUDGET start 35 best 1 compiles 400 path R9 swap-stmts @5939 + R12 width a0v s32->u8 @5916 + R12 width param_1 s32->s16 @5917
+s7: verdict NO-MATCH start 35 best 1 compiles 557 path R9 swap-stmts @5939 + R12 width a0v s32->u8 @5916 + R12 width param_1 s32->s16 @5917
+s9: verdict NO-MATCH start 35 best 18 compiles 250 path R9 swap-stmts @5939 + R12 width a0v s32->u16 @5916
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width a0v s32->u16 @5916 -> 18 [COUNT] (from 25)
+  R12 width a0v s32->u8 @5916 -> 18 [COUNT] (from 25)
+  R12 width param_1 s32->u16 @5917 -> 18 [COUNT] (from 25)
+  R12 width a0v s32->s16 @5916 -> 19 [COUNT] (from 25)
+  R9 swap-stmts @5939 -> 25 [COUNT] (from 35)
+  R12 width c40 s32->u16 @5924 -> 25 [COUNT] (from 25)
+  R16 const-holder c40=0x40 x4 -> 25 [COUNT] (from 25)
+  R8 temp tmp0 @5956 -> 25 [COUNT] (from 25)
+  R18 bystander @5926->5929 -> 25 [COUNT] (from 25)
+  R7 block @5953 -> 25 [COUNT] (from 25)
+  R17 const-split @5931->5934 (3 into the 0 run) -> 25 [COUNT] (from 25)
+  R4 decl-move a0v 1->0 -> 25 [COUNT] (from 25)

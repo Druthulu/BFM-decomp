@@ -1,0 +1,5 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+ * @class: schedule
+ * @stuck: none -- MATCH. The only residual (8 ins, ADDRESSING/lui!=andi) was the `andi $s1,$v0,0xFFF`
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)

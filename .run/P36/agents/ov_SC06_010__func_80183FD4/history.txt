@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 31 best 30 compiles 321 path R14 param-width a0 s32->u16 @8620 + R7 do-while @8635
+s7: verdict NO-MATCH start 31 best 30 compiles 552 path R14 param-width a0 s32->u16 @8621 + R7 do-while @8636
+s8: verdict NO-MATCH start 31 best 30 compiles 250 path R14 param-width a0 s32->u16 @8623 + R7 do-while @8638
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @8638 -> 30 [COUNT] (from 31)
+  R7 do-while @8638 -> 30 [COUNT] (from 31)
+  R6 inline hp @8638 -> 31 [COUNT] (from 31)
+  R8 temp tmp0 @8638 -> 31 [COUNT] (from 31)
+  R18 bystander @8658->8660 -> 31 [COUNT] (from 31)
+  R7 block @8645 -> 31 [COUNT] (from 31)
+  R5 swap + @8646 -> 31 [COUNT] (from 31)
+  R14 param-width a0 s32->u16 @8623 -> 31 [COUNT] (from 31)
+  R8 base tmp0 @8638 -> 31 [COUNT] (from 31)
+  R9 swap-stmts @8646 -> 31 [COUNT] (from 31)
+  R14 param-width a0 s32->u8 @8623 -> 31 [COUNT] (from 31)
+  R7 block @8646 -> 31 [COUNT] (from 31)

@@ -1,0 +1,68 @@
+src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:func_80180324: score 43 (COUNT; mine 318 ins, target 328) — not yet
+  register pairs (mine -> target, count): t3->t4 x7, t7->t9 x6, t4->t5 x3, t9->t8 x2, t8->t7 x2, t5->t3 x2
+  replace mine[26:27] target[26:27]
+       26  lw	t7,32(t6)                       | lw	t9,32(t6)
+  delete  mine[63:64] target[63:63]
+       63  andi	s2,a1,0xffff                  | --
+  delete  mine[69:70] target[68:68]
+       69  lhu	v1,4(t1)                       | --
+  insert  mine[72:72] target[70:71]
+       72  --                                 | lhu	v1,4(t1)
+  insert  mine[74:74] target[73:78]
+       74  --                                 | addu	a0,a0,v1
+       75  --                                 | lbu	v0,2(t1)
+       76  --                                 | move	s3,a0
+       77  --                                 | addu	v0,a0,v0
+       78  --                                 | addiu	v0,v0,-1
+  replace mine[75:79] target[79:89]
+       75  beqz	v0,45a0 <func_80180324+0x138> | beqz	v0,45b4 <func_80180324+0x14c>
+       76  addu	s3,a0,v1                      | andi	a1,a1,0xffff
+       77  addiu	s2,s2,-256                   | j	45b8 <func_80180324+0x150>
+       78  li	t5,1                            | addiu	s2,a1,-256
+       79  --                                 | move	s2,a1
+       80  --                                 | lbu	v0,3(t1)
+       81  --                                 | nop
+       82  --                                 | addu	v0,s2,v0
+       83  --                                 | addiu	v0,v0,-1
+       84  --                                 | li	t3,1
+  replace mine[81:83] target[91:93]
+       81  lui	t3,0xff                        | lui	t4,0xff
+       82  ori	t3,t3,0xffff                   | ori	t4,t4,0xffff
+  replace mine[86:89] target[96:99]
+       86  li	t9,8                            | li	t8,8
+       87  addiu	t4,t7,4                      | addiu	t5,t9,4
+       88  move	t8,zero                       | move	t7,zero
+  replace mine[90:91] target[100:101]
+       90  addu	v1,t7,t8                      | addu	v1,t9,t7
+  replace mine[108:109] target[118:119]
+      108  lhu	v0,16(t4)                      | lhu	v0,16(t5)
+  replace mine[114:116] target[124:126]
+      114  lhu	v0,18(t4)                      | lhu	v0,18(t5)
+      115  addu	v1,t7,t9                      | addu	v1,t9,t8
+  replace mine[169:170] target[179:180]
+      169  sra	a0,t5,0x1                      | sra	a0,t3,0x1
+  replace mine[178:179] target[188:189]
+      178  and	v0,v0,t3                       | and	v0,v0,t4
+  replace mine[186:187] target[196:197]
+      186  and	v1,t2,t3                       | and	v1,t2,t4
+  replace mine[189:190] target[199:200]
+      189  j	4790 <func_80180324+0x328>       | j	47b8 <func_80180324+0x350>
+  replace mine[194:195] target[204:205]
+      194  and	v0,v0,t3                       | and	v0,v0,t4
+  replace mine[198:199] target[208:209]
+      198  and	v1,t2,t3                       | and	v1,t2,t4
+  delete  mine[203:205] target[213:213]
+      203  addiu	t9,t9,8                      | --
+      204  addiu	t4,t4,8                      | --
+  replace mine[206:207] target[214:217]
+      206  addiu	t5,t5,2                      | addiu	t5,t5,8
+      207  --                                 | addiu	t7,t7,8
+      208  --                                 | addiu	t3,t3,2
+  replace mine[208:209] target[218:219]
+      208  slti	v0,t5,13                      | slti	v0,t3,13
+  replace mine[217:218] target[227:228]
+      217  lhu	v0,16(t7)                      | lhu	v0,16(t9)
+  replace mine[223:224] target[233:234]
+      223  lhu	v0,18(t7)                      | lhu	v0,18(t9)
+  replace mine[278:279] target[288:289]
+      278  j	4930 <func_80180324+0x4c8>       | j	4958 <func_80180324+0x4f0>

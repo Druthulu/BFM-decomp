@@ -1,0 +1,17 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: schedule
+// @stuck: none — MATCH (105 ins). Keys: (1) single-buffer struct for the func_80049CAC/func_8012F14C
+// @class: struct
+// @stuck: none — MATCH (27 ins) via func-ptr array fold extern void(*D_801819F8[])()
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
+// @class: regalloc-order
+// @stuck: none — MATCH (37 ins, relocation-masked proxy)
+// @class: regalloc-order
+// @stuck: none — MATCH (327/327 ins, match_one MATCH; symcheck SYMS-OK 18 symbols)
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: regalloc-order
+// @stuck: sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
+// @class: regalloc-order
+// @stuck: none — MATCH (result pinned to $v0 forces call-result copy to $v1 + delay-slot zero)

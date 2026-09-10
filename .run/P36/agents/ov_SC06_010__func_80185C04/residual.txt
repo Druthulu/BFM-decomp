@@ -1,0 +1,36 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_80185C04: score 27 (REG-caller; mine 53 ins, target 53) — not yet
+  register pairs (mine -> target, count): v1->v0 x19, a0->v1 x13, v0->a0 x5, v0->v1 x2
+  replace mine[6:7] target[6:7]
+        6  lh	v1,20(v0)                       | lh	v0,20(v0)
+  replace mine[8:9] target[8:9]
+        8  slti	v0,v1,1025                    | slti	v0,v0,1025
+  replace mine[11:19] target[11:19]
+       11  lhu	v1,252(s0)                     | lhu	v0,252(s0)
+       12  lhu	a0,254(s0)                     | lhu	v1,254(s0)
+       13  lw	v0,32(s0)                       | lw	a0,32(s0)
+       14  addiu	v1,v1,1                      | addiu	v0,v0,1
+       15  addu	a0,a0,v1                      | addu	v1,v1,v0
+       16  sh	v1,252(s0)                      | sh	v0,252(s0)
+       17  sh	a0,254(s0)                      | sh	v1,254(s0)
+       18  lhu	v1,20(v0)                      | lhu	v0,20(a0)
+  replace mine[20:27] target[20:27]
+       20  addu	v1,v1,a0                      | addu	v0,v0,v1
+       21  sh	v1,20(v0)                       | sh	v0,20(a0)
+       22  lhu	v1,10(s0)                      | lhu	v0,10(s0)
+       23  lw	v0,32(s0)                       | lw	v1,32(s0)
+       24  addiu	v1,v1,-4                     | addiu	v0,v0,-4
+       25  sh	v1,10(s0)                       | sh	v0,10(s0)
+       26  lh	a0,18(v0)                       | lh	a0,18(v1)
+  replace mine[29:35] target[29:35]
+       29  sll	v1,v0,0x6                      | sll	v0,v0,0x6
+       30  lw	a0,4(s0)                        | lw	v1,4(s0)
+       31  lw	v0,32(s0)                       | lw	a0,32(s0)
+       32  addu	a0,a0,v1                      | addu	v1,v1,v0
+       33  sw	a0,4(s0)                        | sw	v1,4(s0)
+       34  lh	a0,18(v0)                       | lh	a0,18(a0)
+  replace mine[37:40] target[37:40]
+       37  lw	a0,12(s0)                       | lw	v1,12(s0)
+       38  sll	v1,v0,0x6                      | sll	v0,v0,0x6
+       39  subu	a0,a0,v1                      | subu	v1,v1,v0
+  replace mine[41:42] target[41:42]
+       41  sw	a0,12(s0)                       | sw	v1,12(s0)

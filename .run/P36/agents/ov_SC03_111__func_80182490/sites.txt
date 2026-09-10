@@ -1,0 +1,2 @@
+NEEDED   pin         $3     line 4871
+NEEDED   barrier            line 4874

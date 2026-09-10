@@ -1,0 +1,18 @@
+=== lever-free bodies in ov_MAIN_012 sharing a callee or global with func_801651B8 (1 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80165140 (src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:6784) shares 1: D_80184398 ---
+s32 func_80165140(s32 param_1) {
+    extern Slot D_80184398[8];
+
+    int i;
+    Slot *p;
+    for (i = 0; i < 8; i++) {
+        p = &D_80184398[i];
+        if (p->used == 0) {
+            p->used = 8;
+            p->a = *(B8_80165140 *)(((u8 *)param_1) + 0x2c);
+            p->b = *(B4 *)(((u8 *)param_1) + 0x50);
+            return;
+        }
+    }
+}
+

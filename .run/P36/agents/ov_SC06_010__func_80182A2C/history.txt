@@ -1,0 +1,14 @@
+g5: verdict NO-MATCH start 8 best 8 compiles 2337 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width uVar3 u16->s32 @7808 -> 8 [COUNT] (from 8)
+  R8 temp tmp0 @7850 -> 8 [COUNT] (from 8)
+  R7 block @7850 -> 8 [COUNT] (from 8)
+  R10 param-copy param_1 @7809 -> 8 [COUNT] (from 8)
+  R12 width uVar3 u16->s16 @7808 -> 8 [COUNT] (from 8)
+  R8 base tmp0 @7850 -> 8 [COUNT] (from 8)
+  R7 do-while @7850 -> 8 [COUNT] (from 8)
+  R8 temp tmp0 @7847 -> 8 [COUNT] (from 8)
+  R7 block @7843 -> 8 [COUNT] (from 8)
+  R8 base tmp0 @7847 -> 8 [COUNT] (from 8)
+  R7 do-while @7843 -> 8 [COUNT] (from 8)
+  R8 base-shared tmp0 @7847 -> 8 [COUNT] (from 8)

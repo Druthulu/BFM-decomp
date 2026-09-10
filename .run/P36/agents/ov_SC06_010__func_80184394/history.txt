@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 11 best 11 compiles 331 path 
+s7: verdict NO-MATCH start 11 best 11 compiles 562 path 
+s9: verdict NO-MATCH start 11 best 11 compiles 253 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @8881 -> 11 [COUNT] (from 11)
+  R7 block @8883 -> 11 [COUNT] (from 11)
+  R8 base tmp0 @8881 -> 11 [COUNT] (from 11)
+  R6 inline r @8865 -> 11 [COUNT] (from 11)
+  R7 block @8881 -> 11 [COUNT] (from 11)
+  R6 inline r @8862 -> 11 [COUNT] (from 11)
+  R8 base tmp0 @8870 -> 11 [COUNT] (from 11)
+  R7 do-while @8881 -> 11 [COUNT] (from 11)
+  R7 block @8870 -> 11 [COUNT] (from 11)
+  R8 base tmp0 @8873 -> 11 [COUNT] (from 11)
+  R8 temp tmp0 @8839 -> 11 [COUNT] (from 11)
+  R7 block @8871 -> 11 [COUNT] (from 11)

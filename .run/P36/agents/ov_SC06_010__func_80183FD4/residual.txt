@@ -1,0 +1,48 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_80183FD4: score 31 (COUNT; mine 116 ins, target 116) — not yet
+  register pairs (mine -> target, count): s1->s0 x11
+  replace mine[0:4] target[0:1]
+        0  addiu	sp,sp,-56                    | addiu	sp,sp,-48
+        1  sw	s1,44(sp)                       | --
+        2  move	s1,a0                         | --
+        3  sw	ra,48(sp)                       | --
+  replace mine[5:6] target[2:5]
+        5  lw	v0,32(s1)                       | move	s0,a0
+        6  --                                 | sw	ra,44(sp)
+        7  --                                 | lw	v0,32(s0)
+  replace mine[12:15] target[11:14]
+       12  lhu	v0,252(s1)                     | lhu	v0,252(s0)
+       13  lhu	v1,254(s1)                     | lhu	v1,254(s0)
+       14  lw	a0,32(s1)                       | lw	a0,32(s0)
+  replace mine[17:19] target[16:18]
+       17  sh	v0,252(s1)                      | sh	v0,252(s0)
+       18  sh	v1,254(s1)                      | sh	v1,254(s0)
+  replace mine[22:23] target[21:22]
+       22  j	9cd8 <func_80183FD4+0x1b0>       | j	9cdc <func_80183FD4+0x1b4>
+  replace mine[24:25] target[23:24]
+       24  lw	v0,208(s1)                      | lw	v0,208(s0)
+  replace mine[26:29] target[25:28]
+       26  sh	a0,2(s1)                        | sh	a0,2(s0)
+       27  sw	v1,28(s1)                       | sw	v1,28(s0)
+       28  sh	zero,152(s1)                    | sh	zero,152(s0)
+  replace mine[32:33] target[31:32]
+       32  lw	v0,32(s1)                       | lw	v0,32(s0)
+  replace mine[37:38] target[36:37]
+       37  lw	v0,32(s1)                       | lw	v0,32(s0)
+  replace mine[42:45] target[41:43]
+       42  lw	v0,32(s1)                       | lw	v0,32(s0)
+       43  lui	s0,0x0                         | nop
+       44  addiu	s0,s0,0                      | --
+  replace mine[46:47] target[44:46]
+       46  move	a0,s0                         | lui	a0,0x0
+       47  --                                 | addiu	a0,a0,0
+  insert  mine[49:49] target[48:50]
+       49  --                                 | lui	a0,0x0
+       50  --                                 | addiu	a0,a0,0
+  replace mine[50:51] target[51:52]
+       50  move	a0,s0                         | nop
+  replace mine[109:112] target[110:112]
+      109  move	a0,s1                         | move	a0,s0
+      110  lw	ra,48(sp)                       | lw	ra,44(sp)
+      111  lw	s1,44(sp)                       | --
+  replace mine[113:114] target[113:114]
+      113  addiu	sp,sp,56                     | addiu	sp,sp,48

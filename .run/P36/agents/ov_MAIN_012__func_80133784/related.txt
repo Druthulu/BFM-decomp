@@ -1,0 +1,407 @@
+=== lever-free bodies in ov_MAIN_012 sharing a callee or global with func_80133784 (18 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801343C4 (src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:1773) shares 6: D_8017E910 D_8017E914 D_80184120 D_8018412C D_80184130 func_80133AB0 ---
+s32 func_801343C4(s32 angle, s32 p1, s32 p2)
+{
+
+    extern s32 D_80184120;
+    extern s32 func_80133AB0(s16, s16, s16, s32);
+    extern s16 * D_8017E910;
+    extern s16 * D_8017E914;
+    extern u16 D_80184130;
+    extern u16 D_8018412C;
+
+    s16 *pac;
+    s16 *pb0;
+    s16 *pacs, *pb0s;
+    u16 *pb0u;
+    int a1v, a2v, d94, b0;
+    int sangle = ((s16)angle);
+
+    pac = D_8017E910;
+    d94 = D_80184120;
+    pb0 = D_8017E914;
+    pac[0] = ((u16 *)p1)[0];
+    pac[1] = ((u16 *)p1)[1];
+    pac[2] = ((u16 *)p1)[2];
+    pb0[0] = ((u16 *)p2)[0];
+    pb0[1] = ((u16 *)p2)[1];
+    pb0[2] = ((u16 *)p2)[2];
+
+    a1v = pac[0]; a2v = pac[2];
+    D_80184130 = 0;
+    D_8018412C = 0;
+    if (func_80133AB0(sangle, a1v, a2v, d94)) {
+    setdst:
+        pb0u = (u16 *)D_8017E914;
+        ((u16 *)p2)[0] = pb0u[0];
+        ((u16 *)p2)[1] = pb0u[1];
+        ((u16 *)p2)[2] = pb0u[2];
+        ((u16 *)p2)[3] = D_80184130;
+        return 1;
+    }
+
+    pacs = D_8017E910;
+    pb0s = D_8017E914;
+    b0 = pb0s[0];
+    if ((pacs[0] & 0xFF80) == (b0 & 0xFF80) &&
+        (pacs[2] & 0xFF80) == (pb0s[2] & 0xFF80)) {
+        return 0;
+    }
+    if (func_80133AB0(sangle, b0, pb0s[2], D_80184120)) {
+        goto setdst;
+    }
+    return 0;
+}
+
+--- func_80135A4C (src/ov_MAIN_012/ov_MAIN_012_jr_80135A4C.c:611) shares 5: D_8017E910 D_8017E914 D_8018412C D_80184130 func_80133AB0 ---
+s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
+    typedef struct { s8 c[8]; } Blk8;
+    extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4);
+    extern s32 func_80135EB0(void *arg0, s32 arg1_);
+    extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32 func_80133AB0(s16, s16, s16, s32);
+    extern u8 D_8017E910;
+    extern u8 D_8017E914;
+    extern s16 *D_8017E918;
+    extern s16 D_8018412C;
+    extern u16 D_80184130;
+    extern s32 D_80184134;
+    extern s32 D_80184154;
+    extern u8 D_801152A8[];
+    extern u8 D_801152B0;
+
+    s32 *p;
+    s32 base;
+    s32 flag;
+    s32 acc;
+    s16 i;
+    s16 eq;
+    s32 ret;
+    s32 frame_pad[8];
+    (void)&frame_pad;
+
+    switch (((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)((void *)a0, a1, (s16 *)a2, (s16 *)a3)) {
+    case 0:
+        return 0;
+    case 1:
+        base = a0 + 0x34;
+        p = (s32 *)((a1 & 0xFFFFFFF) | 0x80000000);
+        flag = 0;
+        break;
+    case 2:
+        base = a0 + 0x34;
+        p = (s32 *)((a1 & 0xFFFFFFF) | 0x80000000);
+        flag = 1;
+        break;
+    case 3:
+        base = a0 + 0x34;
+        p = (s32 *)&D_80184154;
+        flag = 0;
+        break;
+    case 4:
+        base = (s32)&D_80184134;
+        p = (s32 *)&D_80184154;
+        flag = 1;
+        break;
+    }
+
+    if (a1 < 0) {
+        if (func_80135EB0(p, -0x8000) != 0) {
+            goto docall;
+        }
+        for (p = (s32 *)*p; p != 0; p = (s32 *)*p) {
+            if (func_80135EB0(p, -0x8000) != 0) {
+docall:
+                func_80136A94(flag, a0, a3, base);
+                return 1;
+            }
+        }
+    } else {
+        acc = 0;
+        i = 0;
+        *(s16 *)((*(u8 **)&D_8017E910) + 6) = -0x7FFF;
+        *(s16 *)((*(u8 **)&D_8017E914) + 6) = 0x7FFF;
+        D_80184130 = 0;
+        D_8018412C = 0;
+        eq = ((V3 *)a2)->x == ((V3 *)a3)->x && ((V3 *)a2)->y == ((V3 *)a3)->y && ((V3 *)a2)->z == ((V3 *)a3)->z;
+
+        while (1) {
+            ret = func_80133AB0(0, (s16)(*(Box **)&D_8017E910)->f0, (s16)(*(Box **)&D_8017E910)->f4, (s32)p);
+            if (ret == 0) break;
+            acc |= ret;
+            if (eq != 0) break;
+            if (i++ >= 5) return 0;
+        }
+
+        if ((s16)acc != 0 || D_8018412C != 0) {
+            if ((*(Box **)&D_8017E910)->f6 >= -0xBCB) {
+                *(Blk8 *)D_801152A8 = *(Blk8 *)&D_801152B0;
+            }
+            (*(Box **)&D_8017E918)->f0 = (*(Box **)&D_8017E914)->f0;
+            (*(Box **)&D_8017E918)->f2 = (*(Box **)&D_8017E914)->f2;
+            (*(Box **)&D_8017E918)->f4 = (*(Box **)&D_8017E914)->f4;
+            goto docall;
+        }
+    }
+    return 0;
+}
+
+--- func_80134510 (src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:1832) shares 4: D_8017E910 D_8017E914 D_80184120 D_80184130 ---
+s32 func_80134510(s32 param) {
+    extern s32 func_801345F8(s32);
+    extern Foo_80134510 * D_8017E910;
+    extern Foo_80134510 * D_8017E914;
+    extern Foo_80134510 * D_8017E918;
+    extern s32 D_80184120;
+    extern u16 D_80184130;
+
+    s32 ret = 0;
+    Foo_80134510 *b0 = D_8017E914;
+    Foo_80134510 *ac = D_8017E910;
+    u16 t0 = ((Foo_80134510 *)param)->f0;
+    u16 t2, t4;
+
+    ((Foo_80134510 *)param)->f6 = 0;
+    ac->f0 = t0;
+    b0->f0 = t0;
+    t2 = ((Foo_80134510 *)param)->f2;
+    ac->f2 = t2 - 4;
+    b0->f2 = t2 + 0x2FC;
+    t4 = ((Foo_80134510 *)param)->f4;
+    ac->f4 = t4;
+    b0->f4 = t4;
+
+    if (func_801345F8(D_80184120) != 0) {
+        s16 x;
+        ((Foo_80134510 *)param)->f2 = D_8017E918->f2 - 2;
+        x = D_8017E910->f6;
+        if (x >= -3019) {
+            if (x < -1400) {
+                ret = 0x4000;
+            } else {
+                ret = 0x8000;
+            }
+        } else {
+            ret = 0x2000;
+        }
+        D_8017E910->f6 = D_80184130;
+    }
+    return ret;
+}
+
+--- func_80133AB0 (src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:1519) shares 4: D_8017E910 D_8017E914 D_8018412C D_80184130 ---
+s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
+{
+    extern u8 D_8017E914;
+    extern u8 D_8017E910;
+    extern u8 D_8017E91C;
+    extern u16 D_80184130;
+    extern s16 D_8018412C;
+    extern s32 func_80133CD4();
+
+    Map_80133AB0 *map = (Map_80133AB0 *)arg3;
+    u16 *pA = (*(u16 * *)&D_8017E914);
+    u16 *pB = (*(u16 * *)&D_8017E910);
+    u16 *pC = (*(u16 * *)&D_8017E91C);
+    u32 X, Y, cell;
+    u16 Xc, Yc;
+    u16 k, off;
+    u16 cnt;
+    u16 *cp, *lst;
+    u8 *s0;
+    u16 raw;
+    u32 hib;
+    u16 harg;
+    s32 ret;
+    void *p0C, *p10;
+    u8 *p14, *p18, *p1C;
+    u16 *cells;
+
+    pC[0] = pA[0] - pB[0];
+    pC[1] = pA[1] - pB[1];
+    pC[2] = pA[2] - pB[2];
+
+    X = ((((u16)x + 0x8000) >> 7) & 0x1ff) - map->ox;
+    Xc = X;
+    if (!((X & 0xffff) < map->w))
+        return 0;
+    Y = ((((u16)y + 0x8000) >> 7) & 0x1ff) - map->oy;
+    Yc = Y;
+    if (!((Y & 0xffff) < map->h))
+        return 0;
+
+    cell = Yc * map->w + Xc;
+    cells = map->cells;
+    p14 = map->p14;
+    p0C = map->p0C;
+    p10 = map->p10;
+    p18 = map->p18;
+    p1C = map->p1C;
+    k = cell * 2;
+    cp = (u16 *)(k * 2 + (u32)cells);
+    off = cp[0];
+    cnt = cp[1];
+    lst = (u16 *)(p14 + off);
+
+    while (cnt-- != 0) {
+        raw = *lst;
+        hib = raw & 0x8000;
+        harg = hib;
+        if (hib == 0) {
+            s0 = p18 + raw * 18;
+        } else {
+            s0 = p1C + (raw & 0x7fff) * 22;
+        }
+        ret = (s16)func_80133CD4((s16)(harg | flag), s0, p10, p0C);
+        if (ret != 0) {
+            if (ret > 0)
+                D_80184130 = *(u16 *)s0;
+            return 1;
+        }
+        lst++;
+        if (D_8018412C != 0) {
+            D_80184130 = *(u16 *)s0;
+            return 0;
+        }
+    }
+    return 0;
+}
+
+--- func_80134C20 (src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:2061) shares 3: D_8017E910 D_8017E914 D_80184130 ---
+s32 func_80134C20(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+
+    extern u8 D_801152A8[];
+    extern s32 func_80134FB8(s32 a0, s32 a1, s32 a2);
+    extern void * D_8017E910;
+    extern void * D_8017E914;
+    extern void * D_8017E918;
+    extern void * D_8017E91C;
+    extern u16 D_80184130;
+
+    s32 temp_a3;
+    s32 temp_s1;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 var_v0;
+    u16 temp_a1;
+    s32 temp_s4;
+
+    temp_s4 = arg2 + (M2C_FIELD(((void *)arg1), s16 *, 2) * 8);
+    temp_s1 = *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 4) * 4));
+    var_v0 = 0;
+    if (func_80134FB8(temp_s4, (s32) D_8017E914, temp_s1) >= 0) {
+        return var_v0;
+    }
+    temp_v0 = func_80134FB8(temp_s4, (s32) D_8017E910, temp_s1);
+    if (temp_v0 < 0) {
+        goto block_13;
+    }
+    temp_v0_2 = func_80134FB8(temp_s4, (s32) D_8017E91C, 0);
+    temp_a3 = -temp_v0;
+    {
+        u16 *pB4 = (u16 *)D_8017E918;
+        u16 *pAC = (u16 *)D_8017E910;
+        s16 *pB8 = (s16 *)D_8017E91C;
+        pB4[0] = pAC[0] + (temp_a3 * pB8[0]) / temp_v0_2;
+        pB4[1] = pAC[1] + (temp_a3 * pB8[1]) / temp_v0_2;
+        pB4[2] = pAC[2] + (temp_a3 * pB8[2]) / temp_v0_2;
+        var_v0 = 0;
+        if (func_80134FB8(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 6) * 8), (s32) pB4, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 8) * 4))) < -0x2F00) {
+            return var_v0;
+        }
+    }
+    var_v0 = 0;
+    if (func_80134FB8(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0xA) * 8), (s32) D_8017E918, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0xC) * 4))) < -0x2F00) {
+        return var_v0;
+    }
+    var_v0 = 0;
+    if (func_80134FB8(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0xE) * 8), (s32) D_8017E918, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0x10) * 4))) < -0x2F00) {
+        return var_v0;
+    }
+    if ((arg0 << 16) < 0) {
+        var_v0 = 0;
+        if (func_80134FB8(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0x12) * 8), (s32) D_8017E918, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0x14) * 4))) < -0x2F00) {
+            return var_v0;
+        }
+    }
+    if ((arg0) & 1) {
+        if (!(M2C_FIELD(((void *)arg1), u16 *, 0) & 0x300)) {
+            goto block_14;
+        }
+        return 0;
+    }
+    temp_a1 = M2C_FIELD(((void *)arg1), u16 *, 0);
+    if (!(temp_a1 & 0x200)) {
+        goto block_14;
+    }
+    D_80184130 = temp_a1;
+block_13:
+    return 0;
+block_14:
+    __builtin_memcpy(D_801152A8, (void *)temp_s4, 8);
+    VectorNormalSS(D_8017E91C, D_8017E91C);
+    {
+        u16 *pB8 = (u16 *)D_8017E91C;
+        u16 *pB4b = (u16 *)D_8017E918;
+        pB4b[0] = pB4b[0] - ((pB8[0] << 0x10) >> 0x1B);
+        var_v0 = 1;
+        pB4b[1] = pB4b[1] - ((pB8[1] << 0x10) >> 0x1B);
+        pB4b[2] = pB4b[2] - ((pB8[2] << 0x10) >> 0x1B);
+    }
+    return var_v0;
+}
+
+--- func_801345F8 (src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:1880) shares 2: D_8017E910 D_80184130 ---
+s32 func_801345F8(s32 arg)
+{
+    extern int func_801347A0(short, u16 *, int, int);
+    extern u16 * D_8017E910;
+    extern u16 D_80184130;
+
+    u16 *cc = D_8017E910;
+    u16 *param_1 = ((u16 *)arg);
+    u32 c1, c2, cnt, v14;
+    u16 uVar6, uVar2, rem;
+    u16 *ptmp, *puVar4, *puVar7, uVar1, harg;
+    int hi, iVar9, iVar8, uVar3, uVar10, tbl;
+
+    c1 = ((int)(cc[0] + 0x8000) >> 7 & 0x1ff) - (u32)param_1[0];
+    uVar6 = c1;
+    if ((c1 & 0xffff) < (u32)param_1[2]) {
+        c2 = ((int)(cc[2] + 0x8000) >> 7 & 0x1ff) - (u32)param_1[1];
+        uVar2 = c2;
+        if ((c2 & 0xffff) < (u32)param_1[3])
+            goto do_mult;
+        return 0;
+      found:
+        D_80184130 = *puVar7;
+        return 1;
+      do_mult:
+        tbl = *(int *)(param_1 + 4);
+        uVar10 = *(int *)(param_1 + 6);
+        uVar3 = *(int *)(param_1 + 8);
+        iVar9 = *(int *)(param_1 + 0xc);
+        iVar8 = *(int *)(param_1 + 0xe);
+        ptmp = (u16 *)((((u32)(u16)uVar2 * (u32)param_1[2] + (u32)(u16)uVar6) * 2 & 0xffff) * 2 + tbl);
+        cnt = (u32)ptmp[1];
+        v14 = *(int *)(param_1 + 10);
+        puVar4 = (u16 *)(v14 + (u32)*ptmp + cnt * 2) - 1;
+        for (;;) {
+            rem = cnt--;
+            if (rem == 0)
+                break;
+            uVar1 = *puVar4;
+            hi = uVar1 & 0x8000;
+            harg = hi;
+            if (hi == 0)
+                puVar7 = (u16 *)(iVar9 + (u32)uVar1 * 0x12);
+            else
+                puVar7 = (u16 *)(iVar8 + (uVar1 & 0x7fff) * 0x16);
+            if (func_801347A0((short)harg, puVar7, uVar3, uVar10) != 0)
+                goto found;
+            puVar4 = puVar4 - 1;
+        }
+    }
+    return 0;
+}
+

@@ -1,0 +1,9 @@
+src/ov_SC07_006/ov_SC07_006_jr_80140608.c:func_80141874: score 6 (COUNT; mine 33 ins, target 33) — not yet
+  replace mine[12:13] target[12:14]
+       12  nop                                | lui	at,0x0
+       13  --                                 | sh	v0,0(at)
+  replace mine[16:20] target[17:20]
+       16  lw	v1,0(at)                        | lw	v0,0(at)
+       17  lui	at,0x0                         | nop
+       18  sh	v0,0(at)                        | jalr	v0
+       19  jalr	v1                            | --

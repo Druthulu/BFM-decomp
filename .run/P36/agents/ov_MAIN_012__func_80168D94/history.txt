@@ -1,0 +1,17 @@
+g6: verdict NO-MATCH start 24 best 1 compiles 324 path R12 width v0 int->u16 @8274 + R6 inline c @8301 + R7 do-while @8289
+s7: verdict NO-MATCH start 24 best 1 compiles 556 path R12 width v0 int->u16 @8271 + R6 inline c @8298 + R7 do-while @8286
+s8: verdict NO-MATCH start 24 best 5 compiles 250 path R12 width v0 int->u16 @8270 + R6 inline c @8297
+s9: verdict NO-MATCH start 24 best 5 compiles 250 path R12 width v0 int->u16 @8270 + R6 inline c @8297
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline c @8297 -> 5 [COUNT] (from 11)
+  R6 inline c @8297 -> 5 [COUNT] (from 11)
+  R9 swap-stmts @8304 -> 7 [COUNT] (from 11)
+  R9 swap-stmts @8304 -> 7 [COUNT] (from 11)
+  R2 decl-order 0,2,1 -> 9 [COUNT] (from 11)
+  R6 inline b @8296 -> 9 [COUNT] (from 11)
+  R2 decl-order 0,2,1 -> 9 [COUNT] (from 11)
+  R6 inline b @8296 -> 9 [COUNT] (from 11)
+  R6 inline c @8299 -> 9 [COUNT] (from 15)
+  R12 width v0 int->u16 @8270 -> 11 [COUNT] (from 24)
+  R12 width v0 int->s16 @8270 -> 11 [COUNT] (from 24)
+  R8 hoist tmp0 @8282 -> 11 [COUNT] (from 11)

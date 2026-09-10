@@ -1,5 +1,5 @@
-=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_8013D9B0 (13 found; top 6 by shared symbols) — read them for the SHAPE ===
---- func_8013D53C (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1302) shares 3: D_801EDABC D_801EDACC D_801EDAD4 ---
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_8013D9B0 (14 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8013D53C (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1311) shares 3: D_801EDABC D_801EDACC D_801EDAD4 ---
 void func_8013D53C(void *arg0v) {
 
     extern Rec9 D_80190D5C[];
@@ -103,7 +103,7 @@ void func_8013D53C(void *arg0v) {
     }
 }
 
---- func_8013D8FC (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1414) shares 2: D_801EDABC func_800599B8 ---
+--- func_8013D8FC (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1423) shares 2: D_801EDABC func_800599B8 ---
 void func_8013D8FC(void)
 {
 
@@ -127,7 +127,7 @@ void func_8013D8FC(void)
     }
 }
 
---- func_8013DBE4 (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1595) shares 2: D_801EDABC D_801EDACC ---
+--- func_8013DBE4 (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1604) shares 2: D_801EDABC D_801EDACC ---
 void func_8013DBE4(int param_1)
 {
     int *p;
@@ -286,7 +286,7 @@ void func_8013CB84(void) {
     }
 }
 
---- func_8013E054 (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1748) shares 1: D_801EDAD4 ---
+--- func_8013E054 (src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1756) shares 1: D_801EDAD4 ---
 s32 func_8013E054(void) {
     return D_801EDAD4;
 }

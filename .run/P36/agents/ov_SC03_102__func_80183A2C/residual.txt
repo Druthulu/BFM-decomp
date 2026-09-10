@@ -1,0 +1,43 @@
+src/ov_SC03_102/ov_SC03_102_jr_8017BEBC.c:func_80183A2C: score 30 (COUNT; mine 151 ins, target 154) — not yet
+  replace mine[70:71] target[70:71]
+       70  bne	v0,v1,7db4 <func_80183A2C+0x244> | bne	v0,v1,7dc0 <func_80183A2C+0x250>
+  replace mine[83:85] target[83:84]
+       83  lui	s0,0x0                         | nop
+       84  addiu	s0,s0,0                      | --
+  replace mine[86:87] target[85:87]
+       86  move	a0,s0                         | lui	a0,0x0
+       87  --                                 | addiu	a0,a0,0
+  insert  mine[89:89] target[89:91]
+       89  --                                 | lui	a0,0x0
+       90  --                                 | addiu	a0,a0,0
+  replace mine[90:91] target[92:93]
+       90  move	a0,s0                         | nop
+  replace mine[98:99] target[100:101]
+       98  bltz	v0,7db4 <func_80183A2C+0x244> | bltz	v0,7dc0 <func_80183A2C+0x250>
+  replace mine[105:106] target[107:108]
+      105  beqz	v0,7db4 <func_80183A2C+0x244> | beqz	v0,7dc0 <func_80183A2C+0x250>
+  replace mine[112:113] target[114:115]
+      112  beqz	v0,7db4 <func_80183A2C+0x244> | beqz	v0,7dc0 <func_80183A2C+0x250>
+  replace mine[116:122] target[118:122]
+      116  move	v1,a2                         | move	a1,a2
+      117  negu	v1,a2                         | negu	a1,a2
+      118  lui	a1,0x6666                      | lui	a0,0x6666
+      119  ori	a1,a1,0x6667                   | ori	a0,a0,0x6667
+      120  addiu	a0,a2,160                    | --
+      121  mult	a0,a1                         | --
+  replace mine[123:125] target[123:124]
+      123  subu	v0,v0,v1                      | subu	v0,v0,a1
+      124  mfhi	a2                            | --
+  replace mine[127:131] target[126:131]
+      127  mult	v1,a1                         | mult	v1,a0
+      128  sra	a0,a0,0x1f                     | mfhi	t1
+      129  sra	v0,a2,0x3                      | addiu	v0,a2,160
+      130  subu	a2,v0,a0                      | nop
+      131  --                                 | mult	v0,a0
+  replace mine[132:135] target[132:138]
+      132  mfhi	t1                            | sra	a0,t1,0x6
+      133  sra	v0,t1,0x6                      | subu	a1,a0,v1
+      134  subu	a1,v0,v1                      | sra	v0,v0,0x1f
+      135  --                                 | mfhi	a2
+      136  --                                 | sra	v1,a2,0x3
+      137  --                                 | subu	a2,v1,v0

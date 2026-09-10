@@ -1,0 +1,40 @@
+void func_80185C04(s32 a0)
+{
+    s32 s0 = a0;
+    register s32 v0 asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 v1 asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 temp;
+
+    v0 = *(s16 *)(*(s32 *)(s0 + 0x20) + 0x14);
+
+    if (v0 < 0x401) {
+        v0 = *(u16 *)(s0 + 0xFC);
+        v1 = *(u16 *)(s0 + 0xFE);
+        v0 = v0 + 1;
+        v1 = v1 + v0;
+        *(u16 *)(s0 + 0xFC) = v0;
+        *(u16 *)(s0 + 0xFE) = v1;
+        v0 = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14);
+        v0 = v0 + v1;
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14) = v0;
+        v0 = *(u16 *)(s0 + 0xA);
+        v0 = v0 - 4;
+        *(u16 *)(s0 + 0xA) = v0;
+        v0 = func_80047948(*(s16 *)(*(s32 *)(s0 + 0x20) + 0x12));
+        v0 = v0 << 6;
+        v1 = *(s32 *)(s0 + 0x4);
+        v1 = v1 + v0;
+        *(s32 *)(s0 + 0x4) = v1;
+        v0 = func_8004787C(*(s16 *)(*(s32 *)(s0 + 0x20) + 0x12));
+        v0 = v0 << 6;
+        v1 = *(s32 *)(s0 + 0xC);
+        v1 = v1 - v0;
+        *(s32 *)(s0 + 0xC) = v1;
+    } else {
+        *(u16 *)(s0 + 0x2) = 0x3;
+        *(s32 *)(s0 + 0x1C) = 0x1E;
+        *(u16 *)(s0 + 0x98) = 0;
+    }
+
+    func_8012B370(s0);
+}

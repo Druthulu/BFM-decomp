@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 1 best 1 compiles 88 path 
+s7: verdict NO-MATCH start 1 best 1 compiles 108 path 
+s9: verdict NO-MATCH start 1 best 1 compiles 55 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R4 decl-move r 3->0 -> 1 [OTHER] (from 1)
+  R7 block @3138 -> 1 [OTHER] (from 1)
+  R4 decl-move r 3->1 -> 1 [OTHER] (from 1)
+  R7 do-while @3138 -> 1 [OTHER] (from 1)
+  R4 decl-move r 3->2 -> 1 [OTHER] (from 1)
+  R7 block @3142 -> 1 [OTHER] (from 1)
+  R7 block @3149 -> 1 [OTHER] (from 1)
+  R7 do-while @3149 -> 1 [OTHER] (from 1)
+  R7 block @3138 -> 1 [OTHER] (from 1)
+  R7 do-while @3138 -> 1 [OTHER] (from 1)
+  R7 block @3142 -> 1 [OTHER] (from 1)
+  R7 block @3149 -> 1 [OTHER] (from 1)

@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 7 best 7 compiles 327 path 
+s7: verdict NO-MATCH start 7 best 7 compiles 563 path 
+s9: verdict NO-MATCH start 7 best 7 compiles 252 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @8739 -> 7 [COUNT] (from 7)
+  R7 block @8759 -> 7 [COUNT] (from 7)
+  R5 swap + @8728 -> 7 [COUNT] (from 7)
+  R10 param-copy a0 @8711 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @8739 -> 7 [COUNT] (from 7)
+  R7 do-while @8759 -> 7 [COUNT] (from 7)
+  R6 inline r @8727 -> 7 [COUNT] (from 7)
+  R8 temp tmp0 @8738 -> 7 [COUNT] (from 7)
+  R7 block @8770 -> 7 [COUNT] (from 7)
+  R6 inline rr @8721 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @8738 -> 7 [COUNT] (from 7)
+  R7 do-while @8770 -> 7 [COUNT] (from 7)

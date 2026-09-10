@@ -1,0 +1,37 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_80157D20 (101 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80155518 (src/shared/ov/func_80155518.h:5) shares 1: func_80147078 ---
+void func_80155518(s32 *a0) {
+    func_80147078(a0, 5);
+    func_801555F4(a0);
+}
+
+--- func_8015554C (src/shared/ov/func_8015554C.h:5) shares 1: func_80147078 ---
+void func_8015554C(s32 *a0) {
+    func_80147078(a0, 5);
+    func_80155580(a0);
+}
+
+--- func_801574DC (src/shared/ov/func_801574DC.h:5) shares 1: func_80147078 ---
+void func_801574DC(s32 *a0) {
+    func_80147078(a0, 6);
+    func_801575E4(a0);
+}
+
+--- func_80157510 (src/shared/ov/func_80157510.h:5) shares 1: func_80147078 ---
+void func_80157510(s32 *a0) {
+    func_80147078(a0, 6);
+    func_80157544(a0);
+}
+
+--- func_80159B08 (src/shared/ov/func_80159B08.h:5) shares 1: func_80147078 ---
+void func_80159B08(s32 *a0) {
+    func_80147078(a0, 0);
+    func_80159BE4(a0);
+}
+
+--- func_8015A1FC (src/shared/ov/func_8015A1FC.h:5) shares 1: func_80147078 ---
+void func_8015A1FC(s32 *a0) {
+    func_80147078(a0, 1);
+    func_8015A2D8(a0);
+}
+

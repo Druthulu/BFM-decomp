@@ -1,0 +1,15 @@
+src/ov_SC07_006/ov_SC07_006.c:func_8012956C: score 11 (COUNT; mine 226 ins, target 226) — not yet
+  replace mine[33:35] target[33:35]
+       33  j	1648 <func_8012956C+0x234>       | j	1644 <func_8012956C+0x230>
+       34  sll	a1,a1,0x10                     | nop
+  replace mine[143:144] target[143:146]
+      143  lhu	t0,12(s0)                      | lui	a0,0x0
+      144  --                                 | lbu	a0,0(a0)
+      145  --                                 | lhu	v0,12(s0)
+  replace mine[146:152] target[148:152]
+      146  lhu	v0,6(s0)                       | lhu	t0,6(s0)
+      147  lui	a0,0x0                         | addu	v0,v0,a3
+      148  lbu	a0,0(a0)                       | addu	v1,v1,t0
+      149  addu	t0,t0,a3                      | sh	v0,-24(s0)
+      150  addu	v1,v1,v0                      | --
+      151  sh	t0,-24(s0)                      | --

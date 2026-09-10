@@ -1,0 +1,21 @@
+g6: verdict NO-MATCH start 43 best 35 compiles 320 path R5 swap | @1175 + R9 swap-stmts @1139 + R9 swap-stmts @1138
+s1: verdict NO-MATCH start 43 best 39 compiles 186 path R5 swap | @1175
+s2: verdict NO-MATCH start 43 best 39 compiles 186 path R5 swap | @1175
+s3: verdict BUDGET start 43 best 35 compiles 400 path R5 swap | @1175 + R9 swap-stmts @1139 + R9 swap-stmts @1138
+s3b: verdict BUDGET start 43 best 35 compiles 400 path R5 swap | @1175 + R9 swap-stmts @1139 + R9 swap-stmts @1138
+s4: verdict NO-MATCH start 43 best 30 compiles 432 path R5 swap | @1175 + R9 swap-stmts @1136 + R18 bystander @1135->1138
+s7: verdict NO-MATCH start 43 best 30 compiles 557 path R9 swap-stmts @1136 + R18 bystander @1135->1138 + R5 swap | @1175
+s9: verdict NO-MATCH start 43 best 39 compiles 250 path R5 swap | @1175
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R5 swap | @1175 -> 39 [COUNT] (from 43)
+  R12 width eight s32->u16 @1083 -> 39 [COUNT] (from 39)
+  R8 hoist tmp0 @1150 -> 39 [COUNT] (from 39)
+  R7 block @1137 -> 39 [COUNT] (from 39)
+  R9 swap-stmts @1137 -> 39 [COUNT] (from 39)
+  R12 width eight s32->s16 @1083 -> 39 [COUNT] (from 39)
+  R7 do-while @1137 -> 39 [COUNT] (from 39)
+  R9 swap-stmts @1139 -> 39 [COUNT] (from 39)
+  R7 block @1139 -> 39 [COUNT] (from 39)
+  R8 hoist tmp0 @1160 -> 39 [COUNT] (from 39)
+  R7 do-while @1139 -> 39 [COUNT] (from 39)
+  R9 swap-stmts @1136 -> 39 [COUNT] (from 39)

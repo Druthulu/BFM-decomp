@@ -1,0 +1,7 @@
+src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:func_8015FBE0: score 3 (COUNT; mine 57 ins, target 58) — not yet
+  replace mine[7:8] target[7:8]
+        7  move	a0,s0                         | nop
+  replace mine[22:23] target[22:23]
+       22  j	58e8 <func_8015FBE0+0xd0>        | j	58ec <func_8015FBE0+0xd4>
+  insert  mine[24:24] target[24:25]
+       24  --                                 | move	a0,s0

@@ -1,0 +1,67 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_8017D494 (28 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80175668 (src/shared/ov/func_80175668.h:5) shares 1: D_800B9A02 ---
+void func_80175668(void) {
+    func_801757E0(D_800B9A02);
+}
+
+--- func_80175624 (src/shared/ov/func_80175624.h:5) shares 1: D_800B9A02 ---
+void func_80175624(void *a0) {
+    func_801757A0(D_800B9A02);
+    *((u8 *)a0 + 1) = *((u8 *)a0 + 1) + 1;
+}
+
+--- func_801417F8 (src/shared/ov/func_801417F8.h:9) shares 1: D_800B9A02 ---
+void func_801417F8(void) {
+    if (D_800B9A15 == 0 || D_800B9A16 != 0) {
+        if (D_80115114 == (u16)(D_800B9A02 ^ 1)) {
+            func_800D2624();
+        } else {
+            D_80115112 += 1;
+        }
+    }
+}
+
+--- func_80141B90 (src/shared/ov/func_80141B90.h:10) shares 1: D_800B9A02 ---
+void func_80141B90(void)
+{
+  volatile char pad;
+  D_801151D0 = ((s32 *) D_801151C8)[*((u16 *) (&D_800B9A02))];
+  ((void (*)(s32, s32))func_8013FAF8)(2, 3);
+  if (D_80115116 == 0)
+  {
+    *((s8 *) (&D_800B9A15)) = 0;
+    D_80115112 = D_80115112 + 1;
+  }
+}
+
+--- func_8012E28C (src/shared/ov/func_8012E28C.h:9) shares 1: D_800B9A02 ---
+void func_8012E28C(s32 arg0, s32 arg1) {
+    void *temp_v0;
+    s32 temp_v1;
+    s32 base;
+    if (arg0 > 0) {
+        base = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (arg0 * 4);
+        temp_v0 = func_80010A08(0xC);
+        temp_v1 = GetTPage(0, arg1, 0, 0);
+        func_8005A600((s32)temp_v0, 0, 0, (u16)temp_v1, 0);
+        AddPrim(base, temp_v0);
+    }
+}
+
+--- func_8012D3B4 (src/shared/ov/func_8012D3B4.h:12) shares 1: D_800B9A02 ---
+void func_8012D3B4(s32 arg0, s32 arg1, s32 arg2) {
+    s32 sp10;
+    s32 sp14;
+    s32 temp_v0_2;
+    void *temp_v0;
+    temp_v0 = func_80010A08(0x10);
+    (*(s32 *)((s8*)(temp_v0)+(4))) = arg2;
+    SetLineF2(temp_v0);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14);
+    if ((temp_v0_2 > 0) && (sp14 >= 0) && (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
+        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_v0_2 * 4), temp_v0);
+    }
+}
+

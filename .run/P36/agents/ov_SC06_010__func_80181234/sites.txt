@@ -1,0 +1,4 @@
+NEEDED   pin         $2     line 6810
+NEEDED   barrier            line 6814
+NEEDED   pin         $2     line 6830
+NEEDED   barrier            line 6834

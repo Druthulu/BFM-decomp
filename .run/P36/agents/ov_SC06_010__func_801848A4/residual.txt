@@ -1,0 +1,19 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_801848A4: score 11 (COUNT; mine 272 ins, target 274) — not yet
+  replace mine[11:12] target[11:12]
+       11  bnez	v0,a6b0 <func_801848A4+0x2b8> | bnez	v0,a6b8 <func_801848A4+0x2c0>
+  replace mine[90:92] target[90:92]
+       90  bnez	v0,a508 <func_801848A4+0x110> | bnez	v0,a50c <func_801848A4+0x114>
+       91  nop                                | li	a0,641
+  replace mine[103:105] target[103:104]
+      103  lui	s0,0x0                         | nop
+      104  addiu	s0,s0,0                      | --
+  replace mine[106:107] target[105:107]
+      106  move	a0,s0                         | lui	a0,0x0
+      107  --                                 | addiu	a0,a0,0
+  insert  mine[109:109] target[109:111]
+      109  --                                 | lui	a0,0x0
+      110  --                                 | addiu	a0,a0,0
+  replace mine[110:111] target[112:113]
+      110  move	a0,s0                         | nop
+  replace mine[172:173] target[174:175]
+      172  j	a818 <func_801848A4+0x420>       | j	a820 <func_801848A4+0x428>

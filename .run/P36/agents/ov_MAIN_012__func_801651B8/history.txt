@@ -1,0 +1,18 @@
+g6: verdict NO-MATCH start 29 best 8 compiles 212 path R6 inline iVar2 @6820 + R7 do-while @6824
+s1: verdict NO-MATCH start 29 best 8 compiles 131 path R6 inline iVar2 @6822 + R7 do-while @6826
+s2: verdict NO-MATCH start 29 best 8 compiles 132 path R6 inline iVar2 @6822 + R7 do-while @6826
+s4: verdict NO-MATCH start 29 best 8 compiles 224 path R6 inline iVar2 @6821 + R7 do-while @6825
+s7: verdict NO-MATCH start 29 best 8 compiles 288 path R6 inline iVar2 @6819 + R7 do-while @6823
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @6823 -> 8 [COUNT] (from 13)
+  R12 width iVar2 s32->u16 @6814 -> 8 [COUNT] (from 8)
+  R6 inline a0v @6822 -> 8 [COUNT] (from 8)
+  R8 hoist tmp0 @6824 -> 8 [COUNT] (from 8)
+  R10 param-copy param_1 @6816 -> 8 [COUNT] (from 8)
+  R4 decl-move puVar1 1->0 -> 8 [COUNT] (from 8)
+  R12 width iVar2 s32->s16 @6814 -> 8 [COUNT] (from 8)
+  R7 block @6824 -> 8 [COUNT] (from 8)
+  R4 decl-move puVar1 1->2 -> 8 [COUNT] (from 8)
+  R12 width iVar2 s32->u8 @6814 -> 8 [COUNT] (from 8)
+  R9 swap-stmts @6826 -> 8 [COUNT] (from 8)
+  R4 decl-move puVar1 1->3 -> 8 [COUNT] (from 8)

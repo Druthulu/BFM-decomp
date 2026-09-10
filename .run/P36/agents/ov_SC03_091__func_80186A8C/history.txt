@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 8 best 8 compiles 329 path 
+s7: verdict NO-MATCH start 8 best 8 compiles 565 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @5224 -> 8 [ORDER] (from 8)
+  R8 temp tmp0 @5225 -> 8 [ORDER] (from 8)
+  R10 param-copy a0 @5191 -> 8 [ORDER] (from 8)
+  R8 base tmp0 @5225 -> 8 [ORDER] (from 8)
+  R7 block @5225 -> 8 [ORDER] (from 8)
+  R7 block @5226 -> 8 [ORDER] (from 8)
+  R7 do-while @5226 -> 8 [ORDER] (from 8)
+  R7 block @5222 -> 8 [ORDER] (from 8)
+  R8 hoist tmp0 @5226 -> 8 [ORDER] (from 8)
+  R7 do-while @5222 -> 8 [ORDER] (from 8)
+  R8 temp tmp0 @5225 -> 8 [ORDER] (from 8)
+  R10 param-copy a0 @5191 -> 8 [ORDER] (from 8)

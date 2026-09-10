@@ -1,0 +1,10 @@
+src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:func_80185DD8: score 7 (COUNT; mine 91 ins, target 96) — not yet
+  replace mine[74:75] target[74:75]
+       74  beqz	v0,9cdc <func_80185DD8+0x150> | beqz	v0,9cf0 <func_80185DD8+0x164>
+  replace mine[78:79] target[78:84]
+       78  bgez	v0,9cd0 <func_80185DD8+0x144> | bltz	v0,9ce0 <func_80185DD8+0x154>
+       79  --                                 | nop
+       80  --                                 | slti	v0,v0,201
+       81  --                                 | beqz	v0,9cf0 <func_80185DD8+0x164>
+       82  --                                 | nop
+       83  --                                 | j	9cf8 <func_80185DD8+0x16c>

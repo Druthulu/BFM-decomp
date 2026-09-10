@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 10 best 10 compiles 214 path 
+s7: verdict NO-MATCH start 10 best 10 compiles 296 path 
+s9: verdict NO-MATCH start 10 best 10 compiles 136 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @7351 -> 10 [COUNT] (from 10)
+  R7 block @7351 -> 10 [COUNT] (from 10)
+  R10 param-copy a0 @7342 -> 10 [COUNT] (from 10)
+  R8 base tmp0 @7351 -> 10 [COUNT] (from 10)
+  R7 do-while @7351 -> 10 [COUNT] (from 10)
+  R7 block @7355 -> 10 [COUNT] (from 10)
+  R8 temp tmp0 @7352 -> 10 [COUNT] (from 10)
+  R7 do-while @7355 -> 10 [COUNT] (from 10)
+  R8 base tmp0 @7352 -> 10 [COUNT] (from 10)
+  R7 block @7352 -> 10 [COUNT] (from 10)
+  R8 base-shared tmp0 @7352 -> 10 [COUNT] (from 10)
+  R7 do-while @7352 -> 10 [COUNT] (from 10)

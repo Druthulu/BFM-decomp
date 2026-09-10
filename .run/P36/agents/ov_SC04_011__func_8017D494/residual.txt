@@ -1,0 +1,17 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_8017D494: score 10 (REG-caller; mine 952 ins, target 952) — not yet
+  register pairs (mine -> target, count): t8->t9 x5, t9->t8 x5
+  replace mine[40:42] target[40:42]
+       40  addiu	t8,sp,208                    | addiu	t9,sp,208
+       41  addiu	t9,sp,212                    | addiu	t8,sp,212
+  replace mine[353:355] target[353:355]
+      353  swc2	$18,0(t8)                     | swc2	$18,0(t9)
+      354  swc2	$19,0(t9)                     | swc2	$19,0(t8)
+  replace mine[465:467] target[465:467]
+      465  swc2	$18,0(t8)                     | swc2	$18,0(t9)
+      466  swc2	$19,0(t9)                     | swc2	$19,0(t8)
+  replace mine[655:657] target[655:657]
+      655  swc2	$17,0(t8)                     | swc2	$17,0(t9)
+      656  swc2	$18,0(t9)                     | swc2	$18,0(t8)
+  replace mine[811:813] target[811:813]
+      811  swc2	$17,0(t8)                     | swc2	$17,0(t9)
+      812  swc2	$18,0(t9)                     | swc2	$18,0(t8)

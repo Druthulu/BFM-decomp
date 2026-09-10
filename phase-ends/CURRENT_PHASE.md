@@ -1601,6 +1601,18 @@ accumulate here as the phase produces them.**
   agent itself as unreadable. **Harvest: `delever_search --try` is now parallel-safe per call** (pid-keyed scratch,
   removed afterwards, `--keep` prints the object path) — c19, c21 and c22 had each written a private scorer. R22 after
   c21's bank: `check-all: 218 passed, 0 failed of 218`.
+- **S103 — re-draw c27: `func_8013CF68` READ, not closed (10 with c9's steering do-while, 35 with no steering
+  construct, 5 only with the refused do-nothing reassignment).** The address-spelling idea tested (struct member, array
+  element, whole-record cast on the stores; struct/array on the loads — all 10) and REFUTED on mechanism: the dependence
+  tests' struct/varying clauses (`sched.c:830-835`, `:858-863`) can only REMOVE an edge `memrefs_conflict_p` (`:614`)
+  allowed; here `base` has one constant set with a REG_EQUAL note (`cse.c:6919-6934`), so `init_alias_analysis` makes every
+  store address constant and `:775-778` proves no overlap — plain C cannot make `base` unknown without a second set, a load,
+  a call, a parameter or asm (the §194-K bound). A new reading of c9's count fix: `find_best_addr` folds then LOOKS UP the
+  constant (`cse.c:2700-2735`) and recovers `-12(s0)` from a live call argument holding the same address. The class stays
+  residue with its evidence.
+- **S103 — packs for the next tier: `delever_pack --build --min-copies 5` → `64 packs under .run/P36/agents; ORDER.tsv
+  written`** (the head-only ORDER kept as `ORDER_head.tsv`). The head (≥100 copies) is down to classes with honest
+  readings; the tier below has several classes at a mechanical best of 1-2 — agents now take TWO small classes each.
 - **S103 — the R19+R25 regen pass (R19 now sees the K&R callees):** first launch REFUSED `unknown families ['R25']` —
   the `ALL_FAMILIES` edit had matched nothing (a literal `\\n`); the selftest now asserts every family `recipe_candidates`
   dispatches is registered (negative control: removing R25 fails it by name). Rerun: `1150 of 1150 classes judged in 474
@@ -1610,14 +1622,14 @@ accumulate here as the phase produces them.**
   3 MATCH row(s) banked`. R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 13,083 pin/asm sites,
   13,083 marked !FAKE, 0 UNMARKED — OK` (13,842 → 13,083; commit `e984e5822`'s message typed "14,xxx" for the start figure — a placeholder that should never have been committed, R66/R85; recorded here rather than amended, P5c).
 
-## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
+## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **12,957 sites** (−11,162) in this session; 33 agent draws (21 closed = 22 functions incl. a twin pair — 7 of them (c12, c20, c21, c23, c24, c25, c26) RE-DRAWS of classes earlier agents left at 2-11; 7 read without closing; 5 in flight at the last refresh; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22–R25** added (R23 widened); `delever_regen` closes 22 classes with no agent; `argcheck` reads K&R definitions; propagate no longer trusts stale ledger hashes; `tools/localalloc_sim.py`; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (12,957 marked, 0 UNMARKED) · `lever_progress --check` OK (43 milestones) · refreshed at `01f066923`
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**S103 ran at `/effort
 high` on Opus 5 1M; Fable 5.1 was OUT OF USAGE CREDITS all session — every agent ran on Opus and 14 of the 15 judged draws
 closed**) and executes §2. **What may be in flight when this block is read:** at writing, five read-only agents were
-running — c13 `func_80140958`, c15 `func_80135EB0`, c17 `func_8013D9B0`, c19 `func_80177B5C`, c20 `func_8013DD68` (a
-re-draw). A dead session's agents leave their work in `.run/P36/agents/ov_SC04_011__<fn>/body.c` + `mechanism.md` (R67):
+running (at the last refresh) — c29 `func_80140958` (re-draw), c30 `func_8017B614` (re-draw), c31 `func_80178970` (re-draw),
+c32 `func_8017FC5C` + `func_801852E4`, c33 `func_80169058` + `func_80168D94` (the ov_MAIN_012 tier). A dead session's agents leave their work in `.run/P36/agents/ov_SC04_011__<fn>/body.c` + `mechanism.md` (R67):
 `--try` each `body.c`; a score 0 is bankable (§3), anything else is a reading to record. The tree is committed at every
 bank; `git status --short | wc -l` should be 0 apart from those packs. First commands:
 ```

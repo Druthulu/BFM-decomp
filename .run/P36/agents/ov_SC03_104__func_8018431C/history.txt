@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 4 best 4 compiles 327 path 
+s7: verdict NO-MATCH start 4 best 4 compiles 558 path 
+s9: verdict NO-MATCH start 4 best 4 compiles 253 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @4489->4492 -> 4 [ORDER] (from 4)
+  R7 block @4470 -> 4 [ORDER] (from 4)
+  R6 inline s0raw @4470 -> 4 [ORDER] (from 4)
+  R8 temp tmp0 @4469 -> 4 [ORDER] (from 4)
+  R8 base tmp0 @4469 -> 4 [ORDER] (from 4)
+  R12 width s0raw s16->u16 @4456 -> 4 [ORDER] (from 4)
+  R10 param-copy a0 @4457 -> 4 [ORDER] (from 4)
+  R7 block @4477 -> 4 [ORDER] (from 4)
+  R6 inline ret @4518 -> 4 [ORDER] (from 4)
+  R8 temp tmp0 @4479 -> 4 [ORDER] (from 4)
+  R18 bystander @4466->4469 -> 4 [ORDER] (from 4)
+  R7 block @4469 -> 4 [ORDER] (from 4)

@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 29 best 4 compiles 332 path R6 inline v0 @6229 + R6 inline v1 @6227 + R9 swap-stmts @6229
+s7: verdict NO-MATCH start 29 best 4 compiles 566 path R6 inline v0 @6218 + R6 inline v1 @6216 + R9 swap-stmts @6218
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @6218 -> 4 [REG] (from 8)
+  R9 swap-stmts @6217 -> 6 [COUNT] (from 8)
+  R6 inline v1 @6216 -> 8 [MIXED] (from 24)
+  R2 decl-order 0,1,3,2 -> 8 [MIXED] (from 8)
+  R7 block @6219 -> 8 [MIXED] (from 8)
+  R8 temp tmp0 @6219 -> 8 [MIXED] (from 8)
+  R9 swap-stmts @6219 -> 8 [MIXED] (from 8)
+  R18 bystander @6204->6207 -> 8 [MIXED] (from 8)
+  R2 decl-order 0,2,1,3 -> 8 [MIXED] (from 8)
+  R4 decl-move v1 2->1 -> 8 [MIXED] (from 8)
+  R8 base tmp0 @6219 -> 8 [MIXED] (from 8)
+  R18 bystander @6204->6208 -> 8 [MIXED] (from 8)

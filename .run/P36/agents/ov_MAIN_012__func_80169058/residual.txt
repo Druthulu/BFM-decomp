@@ -1,0 +1,24 @@
+src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:func_80169058: score 18 (COUNT; mine 90 ins, target 88) — not yet
+  replace mine[34:35] target[34:35]
+       34  bnez	v0,ed44 <func_80169058+0xb4>  | bnez	v0,ed40 <func_80169058+0xb0>
+  replace mine[38:45] target[38:44]
+       38  move	v1,v0                         | andi	v1,v0,0x7f
+       39  andi	v0,v1,0x7f                    | sll	v1,v1,0x3
+       40  sll	a2,v0,0x3                      | andi	v0,v0,0x7f00
+       41  andi	v0,v1,0x7f00                  | srl	v0,v0,0x5
+       42  srl	v1,v0,0x5                      | j	ed60 <func_80169058+0xd0>
+       43  j	ed68 <func_80169058+0xd8>        | addiu	v0,v0,3072
+       44  addiu	v1,v1,3072                   | --
+  replace mine[47:52] target[46:50]
+       47  move	v1,v0                         | andi	v1,v0,0x7f
+       48  andi	v0,v1,0x7f                    | sll	v1,v1,0x3
+       49  sll	v0,v0,0x3                      | addiu	v1,v1,3648
+       50  addiu	a2,v0,3648                   | andi	v0,v0,0x7f00
+       51  andi	v0,v1,0x7f00                  | --
+  replace mine[53:54] target[51:54]
+       53  addiu	v1,v0,3584                   | addiu	v0,v0,3584
+       54  --                                 | sh	v1,16(sp)
+       55  --                                 | sh	v0,18(sp)
+  delete  mine[57:59] target[57:57]
+       57  sh	a2,16(sp)                       | --
+       58  sh	v1,18(sp)                       | --

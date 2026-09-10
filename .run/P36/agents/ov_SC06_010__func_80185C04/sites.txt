@@ -1,0 +1,3 @@
+REMOVED  pin         $16    line 9871
+NEEDED   pin         $2     line 9872
+NEEDED   pin         $3     line 9873

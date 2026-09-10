@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 38 best 29 compiles 323 path R14 param-width a0 s32->u16 @6001
+s7: verdict NO-MATCH start 38 best 29 compiles 549 path R14 param-width a0 s32->u16 @6002
+s9: verdict NO-MATCH start 38 best 29 compiles 246 path R14 param-width a0 s32->u16 @6002
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R14 param-width a0 s32->u16 @6002 -> 29 [COUNT] (from 38)
+  R14 param-width a0 s32->u8 @6002 -> 29 [COUNT] (from 38)
+  R7 block @6051 -> 29 [COUNT] (from 29)
+  R9 swap-stmts @6051 -> 29 [COUNT] (from 29)
+  R8 base tmp0 @6061 -> 29 [COUNT] (from 29)
+  R7 block @6062 -> 29 [COUNT] (from 29)
+  R9 swap-stmts @6061 -> 29 [COUNT] (from 29)
+  R8 base-shared tmp0 @6061 -> 29 [COUNT] (from 29)
+  R8 temp tmp0 @6046 -> 29 [COUNT] (from 29)
+  R7 block @6069 -> 29 [COUNT] (from 29)
+  R8 base tmp0 @6046 -> 29 [COUNT] (from 29)
+  R7 do-while @6069 -> 29 [COUNT] (from 29)

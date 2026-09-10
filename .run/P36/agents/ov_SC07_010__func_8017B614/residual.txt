@@ -1,0 +1,21 @@
+src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:func_8017B614: score 13 (COUNT; mine 101 ins, target 101) — not yet
+  register pairs (mine -> target, count): s0->a1 x1
+  insert  mine[3:3] target[3:6]
+        3  --                                 | sltiu	v0,a1,11
+        4  --                                 | sw	ra,40(sp)
+        5  --                                 | bnez	v0,850 <func_8017B614+0x68>
+  delete  mine[5:8] target[8:8]
+        5  sltiu	v0,s0,11                     | --
+        6  bnez	v0,850 <func_8017B614+0x68>   | --
+        7  sw	ra,40(sp)                       | --
+  replace mine[27:28] target[27:28]
+       27  sll	s0,s0,0x4                      | sll	s0,a1,0x4
+  delete  mine[63:64] target[63:63]
+       63  li	v0,1                            | --
+  delete  mine[66:68] target[65:65]
+       66  lui	at,0x0                         | --
+       67  sh	v0,0(at)                        | --
+  insert  mine[78:78] target[75:78]
+       78  --                                 | li	v0,1
+       79  --                                 | lui	at,0x0
+       80  --                                 | sh	v0,0(at)

@@ -1,0 +1,225 @@
+=== lever-free bodies in ov_SC02_031 sharing a callee or global with func_8017BF88 (62 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80169F3C (src/ov_SC02_031/ov_SC02_031_jr_8015C32C.c:5894) shares 2: func_800D21C4 func_80146C3C ---
+void func_80169F3C(int param_1)
+{
+    int iVar1;
+
+    ((int (*)(int, int))func_800D1FC8)(param_1, 6);
+    iVar1 = func_800D21C4(param_1, D_80187D00, 0x16);
+    if (iVar1 != 0) {
+        *(int *)(param_1 + 0x20) = iVar1;
+        *(short *)(iVar1 + 0x1a) = 0x2000;
+        *(short *)(iVar1 + 0x18) = 0x2000;
+        *(char *)(iVar1 + 0x26) = 0x60;
+        *(char *)(iVar1 + 0x25) = 0x60;
+        *(char *)(iVar1 + 0x24) = 0x60;
+        *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar1 + 4) | 0x50000000;
+        ((void (*)(int, int, void *))func_80128EA8)(iVar1, param_1 + 0x24, D_80187CC0);
+        *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+    } else {
+        ((void (*)(int))func_80146C3C)(param_1);
+    }
+}
+
+--- func_801678F0 (src/shared/ov/func_801678F0.h:10) shares 2: func_80048EAC func_80146C3C ---
+void func_801678F0(s32 a0) {
+    s32 p;
+    s32 r;
+    s16 buf[4];
+    p = *(s32 *)(a0 + 0x34);
+    if ((*(s32 *)(p + 0x44) & 0x10) != 0) {
+        if (*(s16 *)(a0 + 0x12) > *(s16 *)(a0 + 0x10)) {
+            if (*(s32 *)(a0 + 0x1C) > 0) {
+                *(u16 *)(a0 + 0x10) = rand() & 0x30;
+                *(s32 *)(a0 + 0x1C) = -0x30;
+            }
+        } else {
+            if (*(s32 *)(a0 + 0x1C) < 0) {
+                *(u16 *)(a0 + 0x10) = (rand() & 0x30) + 0x40;
+                *(s32 *)(a0 + 0x1C) = 0x30;
+            }
+        }
+        *(s16 *)(a0 + 0x12) = *(u16 *)(a0 + 0x12) + *(s32 *)(a0 + 0x1C);
+        if (*(s32 *)(a0 + 0x30) != 0) {
+            *(s32 *)(a0 + 0x30) = *(s32 *)(a0 + 0x30) - 0xC0;
+        }
+        buf[0] = 0x400;
+        buf[1] = 0;
+        buf[2] = D_800B99DA << 8;
+        RotMatrixYXZ((void *)buf, (void *)(a0 + 0x38));
+        ((void (*)(s32, s32))func_80048EAC)(*(s32 *)(p + 0x20) + 0x34, a0 + 0x38);
+        func_801670E4(a0, -6, -0x44, -0x18);
+        r = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0xE, a0, *(s16 *)(a0 + 6), *(s16 *)(a0 + 0xA), *(s16 *)(a0 + 0xE), 0, 0);
+        if (r != 0) {
+            *(Blk32 *)(r + 0x38) = *(Blk32 *)(a0 + 0x38);
+        }
+    } else {
+        ((void (*)(s32))func_80146C3C)(a0);
+    }
+}
+
+--- func_8016DC20 (src/ov_SC02_031/ov_SC02_031_jr_8016AB6C.c:3284) shares 2: func_800D21C4 func_80146C3C ---
+void func_8016DC20(s16 *param_1) {
+
+    extern s16 D_801B70A8;
+    extern s16 D_801B70AC;
+    extern u8 D_80187F74[];
+    extern u8 D_80187F80[];
+    u16 *psVar1;
+    s32 iVar2;
+    s32 iVar3;
+    s32 iVar4;
+    s16 i;
+    s16 sp[6];
+
+    i = 0;
+    psVar1 = (u16 *)&D_8011D030;
+    iVar4 = *(s32 *)((u8 *)param_1 + 0x34);
+    do {
+        if ((psVar1 != (u16 *)param_1) && (*psVar1 == 0x34)) goto end;
+        i = i + 1;
+        psVar1 = psVar1 + 0x2c;
+    } while (i < 0x1e);
+    func_80149374(iVar4, (s32)param_1 + 4);
+    iVar2 = func_801619D0((void *)iVar4);
+    i = 0;
+    if (iVar2 == 0) goto ddb0;
+    psVar1 = (u16 *)&D_8011D030;
+    do {
+        if (*psVar1 == 0x11) goto ddb0;
+        i = i + 1;
+        psVar1 = psVar1 + 0x2c;
+    } while (i < 0x1e);
+    func_80146A6C(0x11, param_1, *(s16 *)((u8 *)param_1 + 6),
+                  (s16)(*(u16 *)((u8 *)param_1 + 0xa) - 8),
+                  *(s16 *)((u8 *)param_1 + 0xe), 0, 0);
+    sp[0] = *(u16 *)((u8 *)param_1 + 6);
+    sp[1] = *(u16 *)((u8 *)param_1 + 0xa);
+    sp[2] = *(u16 *)((u8 *)param_1 + 0xe);
+    func_800D20C0(&sp[0], &sp[4], 0);
+    sp[5] = 0;
+    func_800D23D0(&sp[4]);
+    i = 0;
+    do {
+        iVar3 = func_80146A6C(0x12, param_1, *(s16 *)(iVar4 + 6),
+                              *(s16 *)(iVar4 + 0xa), *(s16 *)(iVar4 + 0xe),
+                              i, 0);
+        if (iVar3 != 0) {
+            *(u16 *)(iVar3 + 0x12) = sp[4];
+            *(u16 *)(iVar3 + 0x16) = sp[5];
+            *(u16 *)(iVar3 + 0x1a) = 0;
+        }
+        i = i + 2;
+    } while (i < 3);
+    goto end;
+ddb0:
+    if (((D_801B70A8 != *(s16 *)(iVar4 + 6)) || (D_801B70AC != *(s16 *)(iVar4 + 0xe))) &&
+        (iVar2 = func_800D21C4((s32)param_1, D_80187F74, 0x18), iVar2 != 0)) {
+        D_801B70A8 = *(u16 *)(iVar4 + 6);
+        D_801B70AC = *(u16 *)(iVar4 + 0xe);
+        func_800D1FC8((s32)param_1, 7);
+        *(s32 *)((u8 *)param_1 + 0x20) = iVar2;
+        *(u16 *)(iVar2 + 0x1a) = 0x3000;
+        *(u16 *)(iVar2 + 0x18) = 0x3000;
+        *(u8 *)(iVar2 + 0x26) = 0xff;
+        *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x50000000;
+        func_80128EA8(iVar2, (s32)param_1 + 0x24, (s32)D_80187F80);
+        func_80128ED8((void *)iVar2, (void *)((s32)param_1 + 0x24));
+        *(u16 *)((u8 *)param_1 + 2) = *(u16 *)((u8 *)param_1 + 2) + 1;
+        return;
+    }
+end:
+    ((void (*)(s16 *))func_80146C3C)(param_1);
+}
+
+--- func_8016C49C (src/ov_SC02_031/ov_SC02_031_jr_8016AB6C.c:2700) shares 2: func_80048EAC func_80146C3C ---
+s32 func_8016C49C(s32 param_1_arg) {
+    extern s32 VectorNormalSS(void *, void *);
+    extern void func_8001CD9C(s32, void *);
+    extern void func_8016CF04(s32, s32);
+    extern u8 D_801B69C8[];
+    extern u8 D_801B6A88;
+
+    u16 *param_1 = ((u16 *)param_1_arg);
+    int iVar5;
+    int iVar6;
+    u16 sv[4];
+    s32 mat[8];
+    short sVar1;
+
+    iVar5 = *(int *)(param_1 + 0x18);
+    iVar6 = *(int *)(param_1 + 0x1a);
+    param_1[0x14] = *(u16 *)(iVar5 + 0x36);
+    if ((*(u32 *)(param_1 + 0x16) & 0x8000) == 0) {
+        short iVar4 = 0;
+        u16 *psVar3 = (u16 *)&D_8011D030;
+        do {
+            if (psVar3 != param_1 && *psVar3 == 0x30) {
+                ((void(*)(void *))func_80146C3C)(psVar3);
+            }
+            iVar4 = iVar4 + 1;
+            psVar3 = psVar3 + 0x2c;
+        } while (iVar4 < 0x1e);
+        D_801B69C8[1] = 0xff;
+        D_801B69C8[2] = 0x10;
+        D_801B69C8[0] = 0x10;
+        D_801B69C8[6] = 0;
+        D_801B69C8[5] = 0;
+        D_801B69C8[4] = 0;
+        ((void(*)(void *, s32))func_800233CC)(D_801B69C8, 10);
+        sv[0] = *(u16 *)(iVar5 + 6) - *(u16 *)(iVar6 + 6);
+        {
+            int t = *(u16 *)(iVar6 + 0xa) + 0x28;
+            sv[1] = *(u16 *)(iVar5 + 0xa) - t;
+        }
+        sv[2] = *(u16 *)(iVar5 + 0xe) - *(u16 *)(iVar6 + 0xe);
+        VectorNormalSS(sv, sv);
+        param_1[3] = *(u16 *)(iVar5 + 6) + ((s16)sv[0] >> 9);
+        param_1[5] = *(u16 *)(iVar5 + 0xa) + (((s16)sv[1] >> 9) - 0x28);
+        param_1[7] = *(u16 *)(iVar5 + 0xe) + ((s16)sv[2] >> 9);
+        ((void(*)(void *))func_800D23D0)(sv);
+        sv[0] = 0;
+        ((void(*)(void *, void *))RotMatrixYXZ)(sv, param_1 + 0x1c);
+        ((void(*)(void *, s32))func_80016714)(&D_801B6A88, 0x620);
+        ((s32(*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(0x32, param_1, 0, 0, 0, 0, *(int *)(param_1 + 0x18));
+        sVar1 = 5;
+    } else {
+        int iVar5b = ((s32(*)())func_801465C0)();
+        u32 uVar2;
+        if (iVar5b == 0) {
+            return;
+        }
+        func_8001CD9C(iVar5b, D_801B69C8);
+        *(u32 *)(iVar5b + 4) |= 0x50000000;
+        uVar2 = ((int(*)())rand)();
+        sv[0] = (uVar2 & 0x7f) * 8 - 0x80;
+        sv[1] = ((uVar2 & 0x7f00) >> 4) - 0x400;
+        sv[2] = 0;
+        ((void(*)(void *, void *))RotMatrixYXZ)(sv, mat);
+        ((void(*)(void *, void *))func_80048EAC)(param_1 + 0x1c, mat);
+        sv[1] = 0;
+        sv[0] = 0;
+        sv[2] = 0xb;
+        ((void(*)(void *, void *, void *))ApplyMatrixSV)(mat, sv, sv);
+        param_1[9] = sv[0];
+        param_1[0xb] = sv[1];
+        param_1[0xd] = sv[2];
+        *(int *)(param_1 + 0x10) = iVar5b;
+        *(int *)(param_1 + 0xe) = 8;
+        func_8016CF04((s32)param_1, 0);
+        *(int *)(param_1 + 0x16) = 0;
+        sVar1 = param_1[1] + 1;
+    }
+    do { param_1[1] = sVar1; } while (0);
+}
+
+--- func_80168A88 (src/shared/ov/func_80168A88.h:4) shares 1: func_80146C3C ---
+void func_80168A88(void) {
+    func_80146C3C();
+}
+
+--- func_8016ED6C (src/shared/ov/func_8016ED6C.h:4) shares 1: func_80146C3C ---
+void func_8016ED6C(void) {
+    func_80146C3C();
+}
+

@@ -1,0 +1,66 @@
+--- func_80161C24 (line 5642) ---
+/* RECONCILE (§17a-1/§20): the TU already declares
+ *   extern void func_80161C24(s32, s32);   (jr_8015C32C.c:1474 / :1417)
+ * so the definition must use (int, int); the unsigned semantics of param_2
+ * are restored by a cast at each use (codegen-neutral: sltiu + index math). */
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: plumbing
+// @stuck: none — MATCH (param held in $s0 across 3 calls; lhu 0x16E; &D_801809B0 arg)
+// @class: plumbing
+// @stuck: none — MATCH (271/271, pin-free, zero asm). The ONLY residual is DEF-SIDE plumbing, and it is now named exactly: the in-TU instantiation `DEFINE_func_8015BEE4()` (engine_core.h:1851-1855) expands to `extern s32 func_8015B950(s32 arg0);` INSIDE ov_SC01_077_jr_8015AE2C.c, ~14 lines BELOW this definition, so the 1-param def collides with a `(void)` prototype -> `conflicting types for func_8015B950` (.run/bank_func_8015B950.log). §73 PARAMS axis / T0. Surgical fix = §65b de-macroize that ONE instantiation (blast radius: this TU); the fleet-wide `(void)`->`()` header edit is §63 and must be R22-validated.
+// @class: struct
+// @stuck: none — MATCH (match_one 88/88); fn-ptr-array dispatch, top-level if/else needed branch-polarity invert (small block falls through, big block at L854)
+// @class: struct
+// @stuck: none — dispatch + control flow on a single callee-saved param; expect MATCH
+// @class: schedule
+// @stuck: none — MATCH (goto forces the func_80161240 block to the function tail; bnez-to-end layout vs early-return fall-through)
+// @class: regalloc-order
+// @stuck: none — MATCH (uVar1 pinned $s3, uVar5 pinned $s1; param_1->s2, iVar4->s0 fall out)
+// @class: struct
+// @stuck: none — MATCH (pending gate)
+// @class: regalloc-order
+// @stuck: pinning a0->$s1 and buffer-ptr->$s0; body copy already matches
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: loose-typing
+// @stuck: none — MATCH (field 0xb8 compared as u16 == 0x8000, not s16 == -0x8000)
+// @class: struct
+// @stuck: none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
+// @class: other
+// @stuck: none — MATCH (proxy gate)
+// @class: struct
+// @stuck: none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
+// @class: other
+// @stuck: none — MATCH (proxy gate)
+// @class: struct
+// @stuck: none — MATCH (pending whole-binary gate); fn-ptr table folds %lo via extern array, 0x234 single word store
+// @class: struct
+// @stuck: none — MATCH (pending whole-binary gate); s16 v[3] array forces all 3 locals addressable (reload-from-stack), u16* psVar1 → lhu null/flag check
+// @class: struct
+// @stuck: none — MATCH (clean -O2 reconstruction; table-of-fnptr indexed by param_1[0])
+// @class: plumbing
+// @stuck: none — MATCH (straight STUB call sequence; param saved to $s0 across calls)
+// @class: struct
+// @stuck: none — MATCH (indexed fn-ptr table call + byte-offset struct stores; mirrors sibling func_801599A4 idiom)
+// @class: plumbing
+// @stuck: none — MATCH expected; simple 3-call sequence with global table index
+// @class: struct
+// @stuck: none — MATCH expected (fn-ptr-table dispatch + ushort struct fields)
+// @class: struct
+// @stuck: none — MATCH (function-pointer table folds %lo via extern array indexed by halfword)
+// @class: struct
+// @stuck: none — MATCH (pending byte-gate); function-pointer table %lo-fold via extern array
+// @class: struct
+// @stuck: none — MATCH (mirrors byte-matched func_8015DBD4 in same overlay; dispatch via D_80180A1C + func_80147078/func_80159B70 tail, func_80161208 else)
+// @class: struct
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH (indexed-global %lo-fold via extern u16 array, §18)
+// @class: plumbing
+// @stuck: none — MATCH (20 ins)
+// @class: schedule
+// @stuck: none — MATCH (do-while scan over 3-entry global; increments placed AFTER the call so p++ schedules between load and jal, i++ into the delay slot)
+// @class: schedule
+// @stuck: none — MATCH

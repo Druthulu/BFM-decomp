@@ -1,0 +1,37 @@
+src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:func_80185578: score 25 (COUNT; mine 90 ins, target 94) — not yet
+  register pairs (mine -> target, count): s3->s2 x2, s2->s0 x1, s2->s3 x1
+  insert  mine[3:3] target[3:8]
+        3  --                                 | sw	s0,32(sp)
+        4  --                                 | move	s0,a1
+        5  --                                 | sw	s3,44(sp)
+        6  --                                 | move	s3,s0
+        7  --                                 | sw	ra,48(sp)
+  delete  mine[4:8] target[9:9]
+        4  move	s2,a1                         | --
+        5  sw	ra,48(sp)                       | --
+        6  sw	s3,44(sp)                       | --
+        7  sw	s0,32(sp)                       | --
+  replace mine[12:14] target[13:17]
+       12  bnez	v0,c98 <func_80185578+0x148>  | beqz	v0,b94 <func_80185578+0x44>
+       13  move	s3,v1                         | move	s2,v1
+       14  --                                 | j	ca8 <func_80185578+0x158>
+       15  --                                 | move	v0,zero
+  replace mine[19:20] target[22:25]
+       19  beqz	v0,c98 <func_80185578+0x148>  | beqz	v0,ca8 <func_80185578+0x158>
+       20  --                                 | li	v0,1
+       21  --                                 | j	c24 <func_80185578+0xd4>
+  delete  mine[21:23] target[26:26]
+       21  j	c18 <func_80185578+0xc8>         | --
+       22  nop                                | --
+  replace mine[34:35] target[37:38]
+       34  sll	a3,s2,0x10                     | sll	a3,s0,0x10
+  replace mine[58:60] target[61:63]
+       58  addiu	a3,s3,1                      | addiu	a3,s2,1
+       59  or	a3,s2,a3                        | or	a3,s3,a3
+  replace mine[68:69] target[71:72]
+       68  sll	v0,s3,0x2                      | sll	v0,s2,0x2
+  replace mine[77:79] target[80:82]
+       77  beqz	s0,c98 <func_80185578+0x148>  | beqz	s0,ca8 <func_80185578+0x158>
+       78  nop                                | li	v0,1
+  insert  mine[82:82] target[85:86]
+       82  --                                 | li	v0,1

@@ -1,0 +1,82 @@
+src/ov_SC03_102/ov_SC03_102_jr_8017BEBC.c:func_8017CD9C: score 50 (COUNT; mine 3338 ins, target 3338) — not yet
+  register pairs (mine -> target, count): a2->a3 x12, a3->a2 x11
+  replace mine[189:190] target[189:190]
+      189  move	a3,v1                         | move	a2,v1
+  replace mine[191:192] target[191:192]
+      191  srl	a2,v1,0x10                     | srl	a3,v1,0x10
+  replace mine[193:194] target[193:194]
+      193  sh	a3,34(sp)                       | sh	a2,34(sp)
+  replace mine[195:196] target[195:196]
+      195  sh	a3,42(sp)                       | sh	a2,42(sp)
+  replace mine[197:198] target[197:198]
+      197  sh	a3,50(sp)                       | sh	a2,50(sp)
+  replace mine[199:200] target[199:200]
+      199  sh	a3,58(sp)                       | sh	a2,58(sp)
+  replace mine[201:202] target[201:202]
+      201  sh	a2,66(sp)                       | sh	a3,66(sp)
+  replace mine[203:204] target[203:204]
+      203  sh	a2,74(sp)                       | sh	a3,74(sp)
+  replace mine[205:206] target[205:206]
+      205  sh	a2,82(sp)                       | sh	a3,82(sp)
+  replace mine[207:208] target[207:208]
+      207  sh	a2,90(sp)                       | sh	a3,90(sp)
+  insert  mine[577:577] target[577:580]
+      577  --                                 | move	a3,a0
+      578  --                                 | j	17f8 <func_8017CD9C+0x918>
+      579  --                                 | move	a2,a1
+  delete  mine[578:579] target[581:581]
+      578  j	17f8 <func_8017CD9C+0x918>       | --
+  delete  mine[580:582] target[582:582]
+      580  move	a3,a0                         | --
+      581  move	a2,a1                         | --
+  replace mine[583:584] target[583:584]
+      583  sll	v0,a2,0x10                     | sll	v0,a3,0x10
+  insert  mine[589:589] target[589:595]
+      589  --                                 | move	a3,v1
+      590  --                                 | sll	v0,a2,0x10
+      591  --                                 | sra	v0,v0,0x10
+      592  --                                 | slt	v0,a0,v0
+      593  --                                 | beqz	v0,1834 <func_8017CD9C+0x954>
+      594  --                                 | sll	v0,a3,0x10
+  delete  mine[592:598] target[598:598]
+      592  slt	v0,a0,v0                       | --
+      593  beqz	v0,1834 <func_8017CD9C+0x954> | --
+      594  sll	v0,a2,0x10                     | --
+      595  move	a3,v1                         | --
+      596  sll	v0,a2,0x10                     | --
+      597  sra	v0,v0,0x10                     | --
+  replace mine[600:601] target[600:601]
+      600  sll	v0,a3,0x10                     | sll	v0,a2,0x10
+  insert  mine[1750:1750] target[1750:1753]
+     1750  --                                 | move	a3,a0
+     1751  --                                 | j	2a4c <func_8017CD9C+0x1b6c>
+     1752  --                                 | move	a2,a1
+  delete  mine[1751:1752] target[1754:1754]
+     1751  j	2a4c <func_8017CD9C+0x1b6c>      | --
+  delete  mine[1753:1755] target[1755:1755]
+     1753  move	a3,a0                         | --
+     1754  move	a2,a1                         | --
+  replace mine[1756:1757] target[1756:1757]
+     1756  sll	v0,a2,0x10                     | sll	v0,a3,0x10
+  replace mine[1762:1764] target[1762:1764]
+     1762  move	a2,v1                         | move	a3,v1
+     1763  sll	v0,a3,0x10                     | sll	v0,a2,0x10
+  replace mine[1768:1769] target[1768:1769]
+     1768  move	a3,v1                         | move	a2,v1
+  replace mine[1812:1813] target[1812:1813]
+     1812  sll	v0,a3,0x10                     | sll	v0,a2,0x10
+  replace mine[1819:1821] target[1819:1821]
+     1819  move	a3,v1                         | move	a2,v1
+     1820  sll	v0,a2,0x10                     | sll	v0,a3,0x10
+  replace mine[1824:1827] target[1824:1827]
+     1824  sll	v0,a2,0x10                     | sll	v0,a3,0x10
+     1825  move	a2,v1                         | move	a3,v1
+     1826  sll	v0,a2,0x10                     | sll	v0,a3,0x10
+  replace mine[1830:1831] target[1830:1831]
+     1830  sll	v0,a3,0x10                     | sll	v0,a2,0x10
+  replace mine[2364:2365] target[2364:2365]
+     2364  lui	a2,0xff00                      | lui	v1,0x900
+  replace mine[3271:3272] target[3271:3272]
+     3271  nop                                | lui	a2,0xff00
+  replace mine[3278:3279] target[3278:3279]
+     3278  lui	v1,0x900                       | nop

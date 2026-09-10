@@ -1,0 +1,17 @@
+g4s: verdict NO-MATCH start 3 best 3 compiles 547 path 
+s1: verdict NO-MATCH start 3 best 3 compiles 154 path 
+s2: verdict NO-MATCH start 3 best 3 compiles 154 path 
+s4: verdict NO-MATCH start 3 best 3 compiles 440 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @4930 -> 3 [COUNT] (from 3)
+  R7 block @4931 -> 3 [COUNT] (from 3)
+  R7 do-while @4931 -> 3 [COUNT] (from 3)
+  R7 block @4932 -> 3 [COUNT] (from 3)
+  R7 do-while @4932 -> 3 [COUNT] (from 3)
+  R7 block @4930 -> 3 [COUNT] (from 3)
+  R7 do-while @4930 -> 3 [COUNT] (from 3)
+  R7 block @4934 -> 3 [COUNT] (from 3)
+  R7 do-while @4934 -> 3 [COUNT] (from 3)
+  R7 block @4935 -> 3 [COUNT] (from 3)
+  R7 do-while @4935 -> 3 [COUNT] (from 3)
+  R7 block @4936 -> 3 [COUNT] (from 3)

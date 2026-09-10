@@ -1,0 +1,7 @@
+src/ov_SC03_104/ov_SC03_104_jr_80182038.c:func_8018431C: score 4 (ORDER; mine 150 ins, target 150) — not yet
+  insert  mine[45:45] target[45:47]
+       45  --                                 | lui	a0,0x0
+       46  --                                 | addiu	a0,a0,0
+  delete  mine[50:52] target[52:52]
+       50  lui	a0,0x0                         | --
+       51  addiu	a0,a0,0                      | --

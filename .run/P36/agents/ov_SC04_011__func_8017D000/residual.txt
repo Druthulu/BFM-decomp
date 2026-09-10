@@ -1,0 +1,58 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c:func_8017D000: score 33 (COUNT; mine 296 ins, target 293) — not yet
+  register pairs (mine -> target, count): v1->v0 x11, v0->v1 x3, t0->a3 x2, a3->t0 x2, a2->a3 x2
+  replace mine[165:166] target[165:166]
+      165  lw	v0,28(a0)                       | lw	v1,28(a0)
+  replace mine[167:172] target[167:172]
+      167  andi	v1,v0,0x1                     | andi	v0,v1,0x1
+      168  addiu	v0,v0,1                      | negu	v0,v0
+      169  negu	v1,v1                         | andi	v0,v0,0xc0
+      170  andi	v1,v1,0xc0                    | addiu	v1,v1,1
+      171  sw	v0,28(a0)                       | sw	v1,28(a0)
+  replace mine[173:174] target[173:174]
+      173  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[175:176] target[175:176]
+      175  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[177:178] target[177:178]
+      177  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[179:180] target[179:180]
+      179  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[181:182] target[181:182]
+      181  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[183:184] target[183:184]
+      183  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[185:186] target[185:186]
+      185  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[187:188] target[187:188]
+      187  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[189:190] target[189:190]
+      189  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[191:192] target[191:192]
+      191  sb	v1,0(at)                        | sb	v0,0(at)
+  replace mine[196:198] target[196:198]
+      196  sra	t0,v0,0x11                     | sra	a3,v0,0x11
+      197  move	a0,t0                         | move	a0,a3
+  replace mine[200:201] target[200:201]
+      200  move	a3,a1                         | move	t0,a1
+  replace mine[217:218] target[217:218]
+      217  addu	v0,v0,a3                      | addu	v0,v0,t0
+  replace mine[227:228] target[227:228]
+      227  j	2620 <func_8017D000+0x44c>       | j	2618 <func_8017D000+0x444>
+  delete  mine[245:246] target[245:245]
+      245  addiu	a0,a2,15                     | --
+  replace mine[252:255] target[251:255]
+      252  addu	v0,v1,t0                      | addu	v0,v1,a3
+      253  addiu	a2,v0,-4                     | addiu	a3,v0,-4
+      254  addu	v1,v1,a3                      | addu	v1,v1,t0
+      255  --                                 | sh	v0,15(a2)
+  delete  mine[258:260] target[258:258]
+      258  lui	at,0x0                         | --
+      259  sh	v0,15(at)                       | --
+  replace mine[263:264] target[261:262]
+      263  sh	a2,0(at)                        | sh	a3,0(at)
+  replace mine[265:266] target[263:264]
+      265  sh	a2,0(at)                        | sh	a3,0(at)
+  replace mine[274:275] target[272:273]
+      274  nop                                | addiu	a0,a2,15
+  replace mine[277:279] target[275:276]
+      277  lui	v0,0x0                         | lhu	v0,-24(s0)
+      278  lhu	v0,-24(v0)                     | --

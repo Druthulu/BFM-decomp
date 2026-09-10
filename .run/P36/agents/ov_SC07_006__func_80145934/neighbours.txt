@@ -1,0 +1,60 @@
+--- func_801458E0 (line 1026) ---
+/* func_801457A4 (@0x801457A4) is an -O0 function; its definition lives in ov_SC07_006_o0d.c (the -O0
+ * whale object). Mirrors ov_SC01_077 (rollout_o0, generalizing §116/T85). */
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: schedule
+// @stuck: none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_8018C944 block defeats the tail-merge of the two identical D_8018C944 loads; barrier emits zero bytes, load-bearing)
+// @class: schedule
+// @stuck: none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_8018C9D4 block defeats the tail-merge of the two identical D_8018C9D4 loads; barrier emits zero bytes, load-bearing)
+// @class: schedule
+// @stuck: branch layout — 3-way dispatch on param_1; trying switch form
+// @class: struct
+// @stuck: none — MATCH (fnptr-table idiom: D_8018BEFC[u8 idx](&arg))
+// @class: struct
+// @stuck: none — MATCH (101 ins); also byte-verified spliced into the real ov_SC07_006 TU
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH
+// @class: regalloc-order
+// @stuck: none — MATCH (71 ins). switch binary-tree; s1 angle = pin-source-of-copy ($5 temp + retie); 2nd-block double-load + 0x80-clobber via $v1/$v0/$a0 pins + lazy hi-pin reusing dead c80 reg
+// @class: schedule
+// @stuck: none — MATCH (68 ins)
+// @class: regalloc-order
+// @stuck: none — MATCH (38 ins)
+// @class: struct
+// @stuck: none — MATCH (exact sibling ov_SC07_010_jr_80140608.c: Loc struct layout + s0 asm barrier)
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH (match_one 91/91)
+// @class: regalloc-order
+// @stuck: none — MATCH (97 ins). Levers: (1) goto-into-if to place the early-return
+// @class: plumbing
+// @stuck: none — MATCH (82/82 ins, relocation-masked) both standalone AND spliced into the real
+// @class: plumbing
+// @stuck: none — MATCH (93/93). BANK NOTE: the in-TU DEFINE_func_8014D0A4() macro
+// @class: schedule
+// @stuck: none — MATCH (goto forces the &&-body out of line; the success path as the
+// @class: other
+// @stuck: first draft — untested
+// @class: schedule
+// @stuck: none — MATCH (304/304), symcheck SYMS-OK 12/12, and the whole-TU cc1 stage now compiles CLEAN
+// @class: def-side return-type wall (cookbook §30 #2)
+// @stuck: none — MATCH (32 ins) standalone; banks after the §30#2 widen described below.
+// @class: other
+// @stuck: none — MATCH (full inline-asm $sp-switch trampoline w/ 0x40000 guard, jal func_8014FA70, stash D_801F4EF4; maspsx auto-fills jal delay slot)
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: regalloc-order
+// @stuck: none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
+// @class: regalloc-order
+// @stuck: none — MATCH (67 ins)
+// @class: struct
+// @stuck: none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
+// @class: regalloc-order
+// @stuck: none — MATCH (33/33)

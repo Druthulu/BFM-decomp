@@ -1,0 +1,19 @@
+g6: verdict NO-MATCH start 6 best 3 compiles 93 path R6 inline r @5221
+s1: verdict NO-MATCH start 6 best 3 compiles 62 path R6 inline r @5221
+s2: verdict NO-MATCH start 6 best 3 compiles 62 path R6 inline r @5221
+s4: verdict NO-MATCH start 6 best 3 compiles 93 path R6 inline r @5221
+s7: verdict NO-MATCH start 6 best 3 compiles 116 path R6 inline r @5221
+s9: verdict NO-MATCH start 6 best 3 compiles 62 path R6 inline r @5221
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline r @5221 -> 3 [COUNT] (from 6)
+  R12 width r int->u16 @5215 -> 3 [COUNT] (from 3)
+  R6 inline v @5218 -> 3 [COUNT] (from 3)
+  R7 block @5218 -> 3 [COUNT] (from 3)
+  R9 swap-stmts @5218 -> 3 [COUNT] (from 3)
+  R4 decl-move r 1->0 -> 3 [COUNT] (from 3)
+  R12 width r int->s16 @5215 -> 3 [COUNT] (from 3)
+  R7 do-while @5218 -> 3 [COUNT] (from 3)
+  R4 decl-move r 1->2 -> 3 [COUNT] (from 3)
+  R12 width r int->u8 @5215 -> 3 [COUNT] (from 3)
+  R7 block @5219 -> 3 [COUNT] (from 3)
+  R12 width v int->u16 @5216 -> 3 [MIXED] (from 3)

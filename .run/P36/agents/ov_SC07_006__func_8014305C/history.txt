@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 12 best 2 compiles 313 path R7 do-while @1845
+s7: verdict NO-MATCH start 12 best 2 compiles 537 path R7 do-while @1845
+s9: verdict NO-MATCH start 12 best 2 compiles 249 path R7 do-while @1845
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @1845 -> 2 [REG] (from 12)
+  R2 decl-order 1,0 -> 2 [REG] (from 2)
+  R4 decl-move s0_param 2->0 -> 2 [REG] (from 2)
+  R3 init-split s0_param -> 2 [REG] (from 2)
+  R8 hoist tmp0 @1851 -> 2 [REG] (from 2)
+  R7 block @1844 -> 2 [REG] (from 2)
+  R4 decl-move s0_param 2->1 -> 2 [REG] (from 2)
+  R4 decl-move s0_param 2->4 -> 2 [REG] (from 2)
+  R4 decl-move s0_param 2->5 -> 2 [REG] (from 2)
+  R7 block @1846 -> 2 [REG] (from 2)
+  R4 decl-move s1_copy 3->0 -> 2 [REG] (from 2)
+  R4 decl-move s1_copy 3->1 -> 2 [REG] (from 2)

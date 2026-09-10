@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 11 best 9 compiles 253 path R7 do-while @3248
+s7: verdict NO-MATCH start 11 best 9 compiles 344 path R7 do-while @3248
+s9: verdict NO-MATCH start 11 best 9 compiles 167 path R7 do-while @3248
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @3248 -> 9 [COUNT] (from 11)
+  R12 width tag u16->s32 @3234 -> 9 [COUNT] (from 9)
+  R8 temp tmp0 @3247 -> 9 [COUNT] (from 9)
+  R7 block @3247 -> 9 [COUNT] (from 9)
+  R10 param-copy a0 @3237 -> 9 [COUNT] (from 9)
+  R8 base tmp0 @3247 -> 9 [COUNT] (from 9)
+  R7 do-while @3247 -> 9 [COUNT] (from 9)
+  R8 temp tmp0 @3246 -> 9 [COUNT] (from 9)
+  R8 base tmp0 @3246 -> 9 [COUNT] (from 9)
+  R7 block @3249 -> 9 [COUNT] (from 9)
+  R8 temp tmp0 @3244 -> 9 [COUNT] (from 9)
+  R8 base tmp0 @3244 -> 9 [COUNT] (from 9)

@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 43 best 43 compiles 335 path 
+s7: verdict NO-MATCH start 43 best 43 compiles 559 path 
+s9: verdict NO-MATCH start 43 best 43 compiles 252 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 hoist tmp0 @5279 -> 43 [COUNT] (from 43)
+  R18 bystander @5268->5271 -> 43 [COUNT] (from 43)
+  R8 hoist tmp0 @5318 -> 43 [COUNT] (from 43)
+  R18 bystander @5268->5272 -> 43 [COUNT] (from 43)
+  R8 temp tmp0 @5275 -> 43 [COUNT] (from 43)
+  R18 bystander @5268->5273 -> 43 [COUNT] (from 43)
+  R7 block @5282 -> 43 [COUNT] (from 43)
+  R10 param-copy q @5267 -> 43 [COUNT] (from 43)
+  R8 base tmp0 @5275 -> 43 [COUNT] (from 43)
+  R18 bystander @5268->5274 -> 43 [COUNT] (from 43)
+  R10 param-copy ot @5267 -> 43 [COUNT] (from 43)
+  R8 hoist tmp0 @5315 -> 43 [COUNT] (from 43)

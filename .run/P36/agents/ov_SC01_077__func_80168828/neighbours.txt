@@ -1,0 +1,61 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: struct
+// @stuck: none — MATCH (match_one 88/88); fn-ptr-array dispatch, top-level if/else needed branch-polarity invert (small block falls through, big block at L854)
+// @class: struct
+// @stuck: none — dispatch + control flow on a single callee-saved param; expect MATCH
+// @class: schedule
+// @stuck: none — MATCH (goto forces the func_80161240 block to the function tail; bnez-to-end layout vs early-return fall-through)
+// @class: struct
+// @stuck: none — MATCH expected (lhu @0x2 → fn-ptr array dispatch; proven idiom func_80163A58)
+// @class: regalloc-order
+// @stuck: none — MATCH (uVar1 pinned $s3, uVar5 pinned $s1; param_1->s2, iVar4->s0 fall out)
+// @class: struct
+// @stuck: none — MATCH (pending gate)
+// @class: other
+// @stuck: none — MATCH (114/114 ins, symcheck 19/19 SYMS-OK)
+// @class: regalloc-order
+// @stuck: pinning a0->$s1 and buffer-ptr->$s0; body copy already matches
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: loose-typing
+// @stuck: none — MATCH (field 0xb8 compared as u16 == 0x8000, not s16 == -0x8000)
+// @class: struct
+// @stuck: none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
+// @class: other
+// @stuck: none — MATCH (proxy gate)
+// @class: struct
+// @stuck: none — MATCH (fn-ptr array %lo-fold dispatch via halfword index)
+// @class: struct
+// @stuck: none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
+// @class: other
+// @stuck: none — MATCH (proxy gate)
+// @class: struct
+// @stuck: none — MATCH (function-pointer table dispatch via u16 index at offset 2)
+// @class: struct
+// @stuck: none — MATCH (pending whole-binary gate); fn-ptr table folds %lo via extern array, 0x234 single word store
+// @class: struct
+// @stuck: none — MATCH (pending whole-binary gate); s16 v[3] array forces all 3 locals addressable (reload-from-stack), u16* psVar1 → lhu null/flag check
+// @class: struct
+// @stuck: none — MATCH (clean -O2 reconstruction; table-of-fnptr indexed by param_1[0])
+// @class: struct
+// @stuck: none — MATCH (function-pointer table dispatch, %lo-folded indexed load)
+// @class: struct
+// @stuck: none — MATCH (function-pointer table dispatch, %lo folds via array index)
+// @class: plumbing
+// @stuck: none — MATCH (straight STUB call sequence; param saved to $s0 across calls)
+// @class: struct
+// @stuck: none — MATCH (indexed fn-ptr table call + 0x8000 flag dispatch; mirrors sibling func_8015F9A4)
+// @class: struct
+// @stuck: none — MATCH (clean reconstruction; flag u16 -> andi 0xffff cmp; if/else with &0x4000 block; func-ptr table %lo-fold; tail func_80161208/func_80155FF8 per sibling func_80155E30)
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table dispatch, precedent func_80131EEC byte-identical)
+// @class: struct
+// @stuck: function-pointer-table dispatch; index is u16 at param+2, table base %lo-folds into the lw
+// @class: struct
+// @stuck: none — MATCH expected (call-crossing s0=param_1; D_801891B8 fn-ptr dispatch; 0x184 |= 0x80000000)
+// @class: schedule
+// @stuck: none — MATCH (58/58).
+// @class: struct
+// @stuck: none — MATCH (indexed fn-ptr table call + byte-offset struct stores; mirrors sibling func_801599A4 idiom)
+// @class: plumbing
+// @stuck: none — MATCH expected; simple 3-call sequence with global table index

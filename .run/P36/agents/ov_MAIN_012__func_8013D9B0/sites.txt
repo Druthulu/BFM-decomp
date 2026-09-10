@@ -1,0 +1,34 @@
+REMOVED  pin         $16    line 1429
+NEEDED   pin         $17    line 1430
+REMOVED  pin         $18    line 1431
+REMOVED  pin         $19    line 1432
+REMOVED  pin         $20    line 1433
+REMOVED  pin         $11    line 1434
+NEEDED   pin         $10    line 1435
+REMOVED  pin         $13    line 1436
+NEEDED   pin         $14    line 1437
+NEEDED   pin         $3     line 1439
+NEEDED   pin         $6     line 1440
+NEEDED   pin         $7     line 1441
+REMOVED  pin         $4     line 1442
+NEEDED   pin         $8     line 1443
+NEEDED   pin         $9     line 1444
+NEEDED   barrier     memory line 1459
+NEEDED   barrier     memory line 1461
+NEEDED   barrier     memory line 1463
+NEEDED   barrier     memory line 1465
+NEEDED   pin         $3     line 1467
+REMOVED  pin         $2     line 1468
+NEEDED   pin         $2     line 1474
+NEEDED   pin         $5     line 1475
+NEEDED   launder            line 1477
+NEEDED   pin         $2     line 1482
+NEEDED   pin         $2     line 1483
+NEEDED   pin         $2     line 1492
+NEEDED   pin         $12    line 1493
+NEEDED   barrier            line 1494
+NEEDED   launder            line 1496
+NEEDED   launder            line 1502
+REMOVED  pin         $2     line 1511
+NEEDED   pin         $2     line 1518
+NEEDED   pin         $2     line 1525

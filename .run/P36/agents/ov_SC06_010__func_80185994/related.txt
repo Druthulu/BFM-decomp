@@ -1,0 +1,104 @@
+=== lever-free bodies in ov_SC06_010 sharing a callee or global with func_80185994 (32 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80182830 (src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:7677) shares 2: func_8012B370 func_8012C218 ---
+void func_80182830(s32 a0)
+{
+    extern u8 D_800D3918[];
+    extern u8 D_801A4C48[];
+    extern u8 D_801A4C54[];
+
+    if ((*(s16 *)(a0 + 6) == *(s16 *)(a0 + 0xDE)) &&
+        (*(s16 *)(a0 + 0xE) == *(s16 *)(a0 + 0xE2))) {
+        ((void (*)(s32))func_8012C218)(a0);
+        return;
+    }
+
+    *(s32 *)(a0 + 0xDC) = *(s32 *)(a0 + 4);
+    *(s32 *)(a0 + 0xE0) = *(s32 *)(a0 + 0xC);
+    func_8012B14C(a0, (s32)D_801A4C48);
+    func_8012AD80(a0);
+    if (func_8012D5E4(a0, (s32)D_801A4C54, (s32)D_800D3918, 0x30) != 0) {
+        ((void (*)(s32))func_8012C218)(a0);
+        return;
+    }
+    {
+        s32 t = *(s32 *)(a0 + 0x1C);
+        t = t - 1;
+        *(s32 *)(a0 + 0x1C) = t;
+        if (t == 0) {
+            ((void (*)(s32))func_8012C218)(a0);
+        } else {
+            func_8012B370(a0);
+        }
+    }
+}
+
+--- func_801802E0 (src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:6078) shares 2: func_8012B370 func_8012C588 ---
+void func_801802E0(s32 param_1)
+{
+    extern u8 D_8018B0D4[];
+    extern u8 D_8018B0DC;
+    extern s32 D_8018B0E4;
+
+    u16 nv[4];
+    s16 sVar1;
+    s32 s0;
+
+    if (*(s32 *)(param_1 + 0x1c) == 0) {
+        sVar1 = *(s16 *)(param_1 + 0x100) - 1;
+        *(s16 *)(param_1 + 0x100) = sVar1;
+        if (sVar1 == 0) {
+            *(s16 *)(param_1 + 2) = 1;
+            *(s16 *)(param_1 + 0x100) = 0x3c;
+        } else {
+            *(s32 *)(param_1 + 0x1c) = (sVar1 == 1) ? 0x3c : 3;
+
+            func_801829FC(param_1, (s32)D_8018B0D4);
+
+            s0 = func_8012C588(0x260, param_1);
+            if (s0 != 0) {
+                func_8012F14C(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&D_8018B0DC, (s32)nv);
+                *(s16 *)(s0 + 6)  = nv[0];
+                *(s16 *)(s0 + 0xA) = nv[1];
+                *(s16 *)(s0 + 0xE) = nv[2];
+                func_8012B370(s0);
+                func_8012C658(0x261, 0, s0);
+            }
+
+            s0 = func_8012C588(0x260, param_1);
+            if (s0 != 0) {
+                func_8012F14C(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&D_8018B0E4, (s32)nv);
+                *(s16 *)(s0 + 6)  = nv[0];
+                *(s16 *)(s0 + 0xA) = nv[1];
+                *(s16 *)(s0 + 0xE) = nv[2];
+                func_8012B370(s0);
+                func_8012C658(0x261, 1, s0);
+            }
+
+            func_8017F10C(param_1, 0x84A);
+        }
+    } else {
+        *(s32 *)(param_1 + 0x1c) = *(s32 *)(param_1 + 0x1c) - 1;
+    }
+}
+
+--- func_80143970 (src/shared/ov/func_80143970.h:4) shares 1: func_8012C588 ---
+s32 func_80143970(s32 a0) {
+    return func_8012C588(0x1B, a0);
+}
+
+--- func_80185D98 (src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:9776) shares 1: func_8012B370 ---
+    void func_80185D98(void) {
+        ((void (*)(void))func_8012B370)();
+    }
+
+--- func_80186088 (src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:9937) shares 1: func_8012B370 ---
+    void func_80186088(void) {
+        ((void (*)(void))func_8012B370)();
+    }
+
+--- func_801829FC (src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:7772) shares 1: func_8012C588 ---
+s32 func_801829FC(s32 a0, s32 a1) {
+    D_801B2B08 = a1;
+    return func_8012C588(0x85, a0);
+}
+

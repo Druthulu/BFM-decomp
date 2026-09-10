@@ -1,0 +1,39 @@
+src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:func_801651B8: score 29 (COUNT; mine 38 ins, target 34) — not yet
+  register pairs (mine -> target, count): s1->s0 x2, s3->s2 x1
+  replace mine[0:6] target[0:1]
+        0  addiu	sp,sp,-40                    | addiu	sp,sp,-32
+        1  sw	s3,28(sp)                       | --
+        2  move	s3,a0                         | --
+        3  addiu	a1,s3,44                     | --
+        4  addiu	a2,s3,80                     | --
+        5  sw	ra,32(sp)                       | --
+  insert  mine[7:7] target[2:6]
+        7  --                                 | move	s2,a0
+        8  --                                 | addiu	a1,s2,44
+        9  --                                 | addiu	a2,s2,80
+       10  --                                 | sw	ra,28(sp)
+  replace mine[10:15] target[9:13]
+       10  move	s2,zero                       | move	s1,zero
+       11  lui	s1,0x0                         | lui	s0,0x0
+       12  addiu	s1,s1,0                      | addiu	s0,s0,0
+       13  addiu	s0,s1,12                     | lw	v0,12(s0)
+       14  lw	v0,0(s0)                        | --
+  replace mine[17:19] target[15:17]
+       17  move	a0,s3                         | move	a0,s2
+       18  move	a1,s1                         | move	a1,s0
+  replace mine[20:22] target[18:20]
+       20  addiu	a2,s1,8                      | addiu	a2,s0,8
+       21  lw	v0,0(s0)                        | lw	v0,12(s0)
+  replace mine[24:26] target[22:26]
+       24  sw	v0,0(s0)                        | sw	v0,12(s0)
+       25  addiu	s2,s2,1                      | addiu	s1,s1,1
+       26  --                                 | slti	v0,s1,8
+       27  --                                 | bnez	v0,ae20 <func_801651B8+0x30>
+  replace mine[27:32] target[27:28]
+       27  slti	v0,s2,8                       | lw	ra,28(sp)
+       28  bnez	v0,ae28 <func_801651B8+0x38>  | --
+       29  addiu	s1,s1,16                     | --
+       30  lw	ra,32(sp)                       | --
+       31  lw	s3,28(sp)                       | --
+  replace mine[35:36] target[31:32]
+       35  addiu	sp,sp,40                     | addiu	sp,sp,32

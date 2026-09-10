@@ -1,0 +1,145 @@
+=== lever-free bodies in ov_SC03_102 sharing a callee or global with func_8017CD9C (16 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8013DD68 (src/ov_SC03_102/ov_SC03_102_jr_8013C98C.c:1683) shares 2: D_800A5E60 D_800AF630 ---
+void func_8013DD68() {
+    extern void SetDrawEnv(void *p, void *env);
+    extern u16 D_800AF7B8;
+    extern u8 D_800BA0E4[];
+    extern u8 D_80186B24[];
+
+    u32 *p;
+    u16 uVar1;
+    u16 *puVar16;
+    u16 *q;
+    u16 *puVar10;
+    u16 uVar2;
+    int uVar5;
+    int iVar14;
+    Buf_8013DD68 buf;
+    u8 *pbase;
+    u8 *base;
+
+    pbase = D_800AF630;
+    puVar16 = (*(u16 * *)&D_801B871C);
+    p = (*(u32 * *)&D_800A5E60);
+    uVar1 = *puVar16;
+    puVar16 = puVar16 + 1;
+    base = pbase + (u32)D_800AF7B8 * 0x5C;
+    buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
+    *((u8 *)&buf + 0x18) = 0;
+    SetDrawEnv(p, &buf);
+    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    iVar14 = 0;
+    if (uVar1 != 0) {
+        int c5 = 5;
+        puVar10 = (u16 *)((int)p + 0x18);
+        q = puVar16 + 8;
+        do {
+            *(u8 *)((int)puVar10 + -0x15) = c5;
+            uVar2 = q[-6];
+            *(u8 *)((int)puVar10 + -0xd) = 100;
+            *(u8 *)((int)puVar10 + -0x10) = (u8)(*(int*)&D_801B874C);
+            *(u8 *)((int)puVar10 + -0xf) = (u8)(*(int*)&D_801B8750);
+            uVar5 = (*(int*)&D_801B8754);
+            *(u32 *)((int)puVar10 + -0x14) = uVar2 & 0x9ff | 0xe1000400;
+            *(u8 *)((int)puVar10 + -0xe) = (u8)uVar5;
+            *(u16 *)((int)puVar10 + -0xc) = q[-4];
+            iVar14 = iVar14 + 1;
+            *(u16 *)((int)puVar10 + -0xa) = q[-3];
+            *(u8 *)((int)puVar10 + -8) = (u8)*puVar16;
+            *(u8 *)((int)puVar10 + -7) = (u8)q[-7];
+            *(u16 *)((int)puVar10 + -6) = 0x7800;
+            puVar16 = puVar16 + 8;
+            *(u16 *)((int)puVar10 + -4) = q[-2];
+            *(u16 *)((int)puVar10 + -2) = q[-1];
+            ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
+            puVar10 = puVar10 + 0xc;
+            OTE->addr = (u32)p;
+            p = p + 6;
+            q = q + 8;
+        } while (iVar14 < (int)(u32)uVar1);
+    }
+    SetDrawEnv(p, D_80186B24);
+    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    (*(u32 * *)&D_800A5E60) = p;
+    return;
+}
+
+--- func_8013B7AC (src/ov_SC03_102/ov_SC03_102_o0c.c:810) shares 1: D_801B9B00 ---
+void func_8013B7AC(int a0) {
+    extern E_3B7AC_8013B7AC D_801B9B00[];
+ D_801B9B00[a0].f0 = 0; }
+
+--- func_8013B598 (src/ov_SC03_102/ov_SC03_102_o0c.c:784) shares 1: D_801B9B00 ---
+void func_8013B598(s32 a0, u16 *a1) {
+    extern Spr_8013B598_8013B598 D_801B9B00[];
+
+    D_801B9B00[a0].f0 = 1;
+    D_801B9B00[a0].f4 = ((Src_8013B598_8013B598 *)a1)->f0;
+    D_801B9B00[a0].f6 = ((Src_8013B598_8013B598 *)a1)->f2;
+    D_801B9B00[a0].f8 = ((Src_8013B598_8013B598 *)a1)->f4;
+    D_801B9B00[a0].fC = 0x100;
+}
+
+--- func_8013B6A0 (src/ov_SC03_102/ov_SC03_102_o0c.c:797) shares 1: D_801B9B00 ---
+void func_8013B6A0(s32 idx, u16 *src, s32 val)
+{
+    extern Ent_8013B6A0_8013B6A0 D_801B9B00[];
+
+    D_801B9B00[idx].f0 = 1;
+    D_801B9B00[idx].f4 = ((Src_8013B6A0_8013B6A0 *)src)->f0;
+    D_801B9B00[idx].f6 = ((Src_8013B6A0_8013B6A0 *)src)->f2;
+    D_801B9B00[idx].f8 = ((Src_8013B6A0_8013B6A0 *)src)->f4;
+    D_801B9B00[idx].fC = val;
+}
+
+--- func_80137D08 (src/ov_SC03_102/ov_SC03_102_jr_80135D20.c:1453) shares 1: D_800A5E60 ---
+int func_80137D08(int arg0, int arg1, short arg2)
+{
+    unsigned char buf[3];
+
+    D_800A5E60 = arg0;
+    D_80126A0A = arg2;
+    ((void (*)(void *, int, int))func_801392FC)(&D_801269F0, D_80126A0E, arg1);
+    if ((*(short *)&D_801269F4) == 7) {
+        buf[0] = 0x39;
+        buf[1] = 0xFF;
+        buf[2] = 0x71;
+        ((void (*)(void *, void *, int))func_80137DD4)(&D_801269F0, buf, arg1);
+    } else if ((*(short *)&D_801269F4) == 3) {
+        if (D_80186780 & 4) {
+            ((void (*)(void *, int))func_80139680)(&D_801269F0, arg1);
+        }
+    }
+    return D_800A5E60;
+}
+
+--- func_80145B24 (src/shared/ov/func_80145B24.h:13) shares 1: D_800AF630 ---
+void func_80145B24(void)
+{
+    s32 iVar1;
+    s32 uVar2;
+    u8 *p;
+    p = &D_800AF630;
+    iVar1 = func_80029504();
+    uVar2 = func_800291DC(8);
+    if ((uVar2 & 0x8000) != 0) {
+        func_800291C8(8, 0);
+        func_80162120();
+    }
+    if (iVar1 >= 0x6A4) {
+        func_80029124(0x1A, 0);
+        func_80029124(0x8E, 0);
+        func_80029124(0x143, 0);
+        if ((D_80078EC0 & 0x7F) != 0) {
+            D_80078EC0 = 1;
+        }
+        func_80165A50((s32)&D_80126B58);
+        func_80029514(0x4B0);
+    }
+    *(s16 *)(p + 0xA3DA) = 0x3000;
+}
+

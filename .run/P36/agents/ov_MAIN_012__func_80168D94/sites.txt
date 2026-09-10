@@ -1,0 +1,7 @@
+REMOVED  pin         $3     line 8271
+NEEDED   pin         $2     line 8272
+NEEDED   launder            line 8281
+NEEDED   barrier     memory line 8290
+NEEDED   pin         $4     line 8299
+REMOVED  pin         $5     line 8300
+NEEDED   pin         $3     line 8301

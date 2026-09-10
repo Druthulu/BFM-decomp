@@ -1,0 +1,90 @@
+=== lever-free bodies in ov_SC03_002 sharing a callee or global with func_80184854 (41 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801842BC (src/ov_SC03_002/ov_SC03_002_jr_80181D78.c:4688) shares 2: func_8012CB64 func_8012F2E8 ---
+s32 func_801842BC(void *a0) {
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    s16 out[3];
+    s16 in[3];
+
+    in[0] = D_80126B5E;
+    in[1] = D_80126B62;
+    in[2] = D_80126B66;
+    func_8012F2E8((s32)a0, (s32)in, (s32)out);
+    return func_8012CB64((s32)out, -0x80, 0x80, -0x60, 0);
+}
+
+--- func_80182E88 (src/ov_SC03_002/ov_SC03_002_jr_80181D78.c:3694) shares 2: func_8012CB64 func_8012F2E8 ---
+s32 aF801848DC(void *a0) {
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    s16 out[3];
+    s16 in[3];
+    void *p;
+
+    p = *(void **)((char *)a0 + 0x64);
+    if (*(u16 *)(*(s32 *)((char *)p + 0xCC) + 0x2) != 0x2) {
+        return 0;
+    }
+
+    in[0] = D_80126B5E;
+    in[1] = D_80126B62;
+    in[2] = D_80126B66;
+    func_8012F2E8(*(s32 *)((char *)p + 0xCC), (s32)in, (s32)out);
+    return func_8012CB64((s32)out, -0xC0, 0x40, -0x60, 0);
+}
+
+--- func_8012A908 (src/shared/ov/func_8012A908.h:6) shares 1: D_801202A0 ---
+void func_8012A908(void) {
+    u8 *p = D_801202A0;
+    s32 i;
+    for (i = 0; i < 0x60; i++) {
+        if (((s16)D_801270C0 == 1) || (*(u16 *)(p + 0x72) & 0x1000)) {
+            func_8012A988(p);
+        }
+        p += 0x10C;
+    }
+}
+
+--- func_801787D4 (src/shared/ov/func_801787D4.h:5) shares 1: D_801202A0 ---
+void func_801787D4(void) {
+    u8 *p = D_801202A0;
+    s32 i;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)(p + 0) != 0 && p[0xC0] != 0) {
+            func_80178840(p);
+        }
+        p += 0x10C;
+    }
+}
+
+--- func_8013E410 (src/shared/ov/func_8013E410.h:4) shares 1: D_801202A0 ---
+s32 func_8013E410(void) {
+    s32 a0;
+    s32 v1;
+    v1 = (s32)D_801202A0;
+    for (a0 = 0; a0 < 0x60; a0++, v1 += 0x10C) {
+        if (*(u16 *)v1 == 0) {
+            return v1;
+        }
+    }
+    return 0;
+}
+
+--- func_80149E94 (src/shared/ov/func_80149E94.h:6) shares 1: D_801202A0 ---
+s32 func_80149E94(s32 arg0) {
+    u8 *p;
+    if ((func_8016F1AC() == 0) && (*(u8 *)(arg0 + 0x1C5) != 0)) {
+        *(u8 *)(arg0 + 0x1C5) = 0;
+        for (p = D_801202A0; p < D_801202A0 + 0x6480; p += 0x10C) {
+            if (func_80149F2C(arg0, (s32)p) != 0) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+

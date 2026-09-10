@@ -1,0 +1,25 @@
+src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c:func_8017E73C: score 14 (COUNT; mine 251 ins, target 253) — not yet
+  register pairs (mine -> target, count): v1->v0 x2, v0->v1 x2, s1->v0 x1
+  replace mine[9:12] target[9:12]
+        9  andi	v1,s1,0x6000                  | andi	v0,v0,0x6000
+       10  li	v0,8192                         | li	v1,8192
+       11  beq	v1,v0,3974 <func_8017E73C+0x64> | beq	v0,v1,3974 <func_8017E73C+0x64>
+  replace mine[152:153] target[152:153]
+      152  beqz	v0,3ce0 <func_8017E73C+0x3d0> | beqz	v0,3ce8 <func_8017E73C+0x3d8>
+  replace mine[170:171] target[170:171]
+      170  j	3ce0 <func_8017E73C+0x3d0>       | j	3ce8 <func_8017E73C+0x3d8>
+  replace mine[187:188] target[187:188]
+      187  j	3cb8 <func_8017E73C+0x3a8>       | j	3cbc <func_8017E73C+0x3ac>
+  replace mine[194:195] target[194:196]
+      194  bnez	v0,3cb8 <func_8017E73C+0x3a8> | bnez	v0,3cc0 <func_8017E73C+0x3b0>
+      195  --                                 | move	v0,s2
+  replace mine[202:203] target[203:204]
+      202  j	3c68 <func_8017E73C+0x358>       | j	3c6c <func_8017E73C+0x35c>
+  replace mine[211:212] target[212:213]
+      211  j	3c68 <func_8017E73C+0x358>       | j	3c6c <func_8017E73C+0x35c>
+  replace mine[214:216] target[215:217]
+      214  beqz	s1,3cb8 <func_8017E73C+0x3a8> | beqz	s1,3cc0 <func_8017E73C+0x3b0>
+      215  nop                                | move	v0,s2
+  replace mine[234:235] target[235:237]
+      234  beqz	s2,3ce0 <func_8017E73C+0x3d0> | move	v0,s2
+      235  --                                 | beqz	v0,3ce8 <func_8017E73C+0x3d8>

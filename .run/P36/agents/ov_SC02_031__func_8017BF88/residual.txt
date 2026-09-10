@@ -1,0 +1,26 @@
+src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c:func_8017BF88: score 14 (COUNT; mine 86 ins, target 87) — not yet
+  register pairs (mine -> target, count): v1->a0 x4, a0->v1 x4, a2->v1 x2, v1->v0 x1, v0->v1 x1
+  replace mine[17:18] target[17:18]
+       17  j	1294 <func_8017BF88+0x138>       | j	1298 <func_8017BF88+0x13c>
+  replace mine[24:25] target[24:26]
+       24  lw	v1,44(s1)                       | move	v1,v0
+       25  --                                 | lw	v0,44(s1)
+  replace mine[26:28] target[27:29]
+       26  bnez	v1,11ec <func_8017BF88+0x90>  | bnez	v0,11f0 <func_8017BF88+0x94>
+       27  move	a2,v0                         | move	a2,v1
+  replace mine[29:30] target[30:31]
+       29  andi	v0,a2,0xff                    | andi	v0,v1,0xff
+  replace mine[34:35] target[35:36]
+       34  j	1210 <func_8017BF88+0xb4>        | j	1214 <func_8017BF88+0xb8>
+  replace mine[37:38] target[38:39]
+       37  andi	v0,a2,0xff                    | andi	v0,v1,0xff
+  replace mine[65:66] target[66:67]
+       65  lhu	v1,2(s1)                       | lhu	a0,2(s1)
+  replace mine[69:70] target[70:71]
+       69  addiu	v1,v1,1                      | addiu	a0,a0,1
+  replace mine[72:73] target[73:74]
+       72  lh	a0,20(sp)                       | lh	v1,20(sp)
+  replace mine[75:78] target[76:79]
+       75  sh	v1,2(s1)                        | sh	a0,2(s1)
+       76  sll	a0,a0,0x8                      | sll	v1,v1,0x8
+       77  sw	a0,24(s1)                       | sw	v1,24(s1)

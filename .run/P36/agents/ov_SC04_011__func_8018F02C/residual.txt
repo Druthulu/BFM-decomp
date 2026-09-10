@@ -1,0 +1,43 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_8018F02C: score 24 (COUNT; mine 296 ins, target 296) — not yet
+  register pairs (mine -> target, count): v1->a0 x7, a0->a1 x7, a0->v1 x4, t1->t2 x3, a1->t1 x3, t2->t3 x2
+  replace mine[134:135] target[134:135]
+      134  addiu	t2,a1,24                     | addiu	t3,a1,24
+  replace mine[138:139] target[138:139]
+      138  and	t1,s3,v0                       | and	t2,s3,v0
+  replace mine[140:141] target[140:141]
+      140  beqz	t1,11de8 <func_8018F02C+0x250> | beqz	t2,11de8 <func_8018F02C+0x250>
+  replace mine[234:237] target[234:237]
+      234  lhu	v1,100(sp)                     | lhu	a0,100(sp)
+      235  lw	a0,0(a1)                        | lw	v1,0(a1)
+      236  subu	v0,v0,v1                      | subu	v0,v0,a0
+  replace mine[241:242] target[241:242]
+      241  and	v1,a0,t0                       | and	v1,v1,t0
+  replace mine[250:251] target[250:251]
+      250  lw	a0,24(a1)                       | lw	v1,24(a1)
+  replace mine[252:253] target[252:253]
+      252  and	v1,a0,t0                       | and	v1,v1,t0
+  replace mine[255:258] target[255:258]
+      255  and	v1,t2,a3                       | and	v1,t3,a3
+      256  lui	a0,0x0                         | lui	a1,0x0
+      257  lw	a0,0(a0)                        | lw	a1,0(a1)
+  replace mine[259:260] target[259:260]
+      259  addiu	a1,a0,48                     | addiu	t1,a1,48
+  replace mine[263:265] target[263:265]
+      263  sw	a1,0(at)                        | sw	t1,0(at)
+      264  beqz	t1,12014 <func_8018F02C+0x47c> | beqz	t2,12014 <func_8018F02C+0x47c>
+  replace mine[266:267] target[266:267]
+      266  addiu	v0,a0,56                     | addiu	v0,a1,56
+  replace mine[270:271] target[270:271]
+      270  sb	v0,51(a0)                       | sb	v0,51(a1)
+  insert  mine[274:274] target[274:275]
+      274  --                                 | lw	a0,48(a1)
+  replace mine[275:277] target[276:277]
+      275  lw	v1,48(a0)                       | sw	v0,52(a1)
+      276  sw	v0,52(a0)                       | --
+  replace mine[278:279] target[278:279]
+      278  and	v1,v1,t0                       | and	a0,a0,t0
+  replace mine[280:282] target[280:282]
+      280  or	v1,v1,v0                        | or	a0,a0,v0
+      281  sw	v1,48(a0)                       | sw	a0,48(a1)
+  replace mine[283:284] target[283:284]
+      283  and	v1,a1,a3                       | and	v1,t1,a3

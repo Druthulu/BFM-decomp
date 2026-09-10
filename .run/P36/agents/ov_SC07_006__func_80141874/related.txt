@@ -1,0 +1,125 @@
+=== lever-free bodies in ov_SC07_006 sharing a callee or global with func_80141874 (18 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8013E5E8 (src/ov_SC07_006/ov_SC07_006_jr_8013C98C.c:1729) shares 8: D_80115112 D_80115116 D_8011511C D_8011511E func_80014ED4 func_80015018 func_80141C04 func_801754A8 ---
+void func_8013E5E8(void)
+{
+    extern u16 D_8011511E;
+    extern u16 D_8011511C;
+    extern unsigned short D_80115112;
+    extern u16 D_80115116;
+    extern void (*D_8018B7C0[])(void);
+    void (**new_var)(void);
+    void (*fp)(void);
+    func_80029444();
+    func_801754A8();
+    D_8011511E = func_80014ED4(0);
+    D_8011511C = func_80015018(0);
+    new_var = &D_8018B7C0[D_80115112];
+    fp = *new_var;
+    fp();
+    func_800190AC();
+    func_80141C04();
+    D_80115116 += 1;
+}
+
+--- func_80141C50 (src/shared/ov/func_80141C50.h:6) shares 2: D_8011511C D_8011511E ---
+s32 func_80141C50(void) {
+    if (D_8011511C != 0x90F) {
+        return 0;
+    }
+    if ((D_8011511E & 0x800) == 0) {
+        return 0;
+    }
+    return func_80015144() != 0;
+}
+
+--- func_80141B90 (src/shared/ov/func_80141B90.h:10) shares 2: D_80115112 D_80115116 ---
+void func_80141B90(void)
+{
+  volatile char pad;
+  D_801151D0 = ((s32 *) D_801151C8)[*((u16 *) (&D_800B9A02))];
+  ((void (*)(s32, s32))func_8013FAF8)(2, 3);
+  if (D_80115116 == 0)
+  {
+    *((s8 *) (&D_800B9A15)) = 0;
+    D_80115112 = D_80115112 + 1;
+  }
+}
+
+--- func_8013ED6C (src/shared/ov/func_8013ED6C.h:13) shares 2: D_80115112 D_8011511E ---
+void func_8013ED6C(void) {
+    s32 sp10[2];
+    if ((s16)func_80141C50() == 0) {
+        D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+        func_8013F350();
+        func_8013FAF8(7, 8);
+        if (D_8011511A == 7) {
+            if ((D_8011511E & 0x810) == 0) {
+                return;
+            }
+        }
+        func_8013E958();
+        D_80115112 = 4;
+    }
+    (void)sp10;
+}
+
+--- func_8013EA54 (src/shared/ov/func_8013EA54.h:18) shares 2: D_80115112 D_8011511E ---
+void func_8013EA54(void) {
+    s32 sp10[2];
+    if ((s16)func_80141C50() == 0) {
+        D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+        func_8013F244();
+        func_8013FAF8(0, 5);
+        func_80137B80();
+        if (D_8011511E & 0x40) {
+            if (D_8011511A == 0 && currentLocationId == 0x308F) {
+                func_8002D4C8(0x466, 0);
+            } else {
+                u16 v = D_8011511A;
+                if (v != 4) {
+                    D_80115130 = 0;
+                }
+                if ((u16)(v - 1) <= 1) {
+                    D_8011514C = 0;
+                }
+                func_8002D4C8(0x45D, 0);
+                D_80115112 += 1;
+            }
+        } else if (D_8011511E & 0x810) {
+            func_8013E958();
+        }
+    }
+    (void)sp10;
+}
+
+--- func_80141A60 (src/ov_SC07_006/ov_SC07_006_jr_80140608.c:1355) shares 2: D_80115112 D_80115116 ---
+void func_80141A60(void)
+{
+
+    extern u8  D_8011514D;
+    extern u8  D_8018B788;
+    extern u16 D_80115116;
+    s32 iVar1;
+    s32 pad[2];
+    (void)&pad;   /* §36#3 frame-pad induction: force frame 0x20 (vs 0x18) */
+
+    D_801151D0 = ((s32 *)D_801151C8)[(*(u16 *)&D_800B9A02)];
+    func_8013F350();
+    if ((*(u16 *)&D_8011511A) >= 4) {
+        func_8013FAF8((*(u16 *)&D_8011511A), (*(u16 *)&D_8011511A) + 1);
+    }
+    func_8013FAF8(2, 3);
+    iVar1 = func_8014032C(2, (s16)((*(u8 *)&D_8011514C) + D_8011514D * D_8011515C));
+    if (iVar1 != 0 && iVar1 != D_80115130) {
+        D_80115130 = iVar1;
+        func_80139954();
+        func_801376E8(iVar1, (int)&D_8018B788);
+    }
+    func_80137B80();
+    iVar1 = func_800D0EC4();
+    if (iVar1 != 0) {
+        D_80115116 = 0xfff8;
+        D_80115112 = D_80115112 + 1;
+    }
+}
+

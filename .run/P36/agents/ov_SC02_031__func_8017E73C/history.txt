@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 14 best 14 compiles 324 path 
+s7: verdict NO-MATCH start 14 best 14 compiles 558 path 
+s9: verdict NO-MATCH start 14 best 14 compiles 252 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @5016 -> 14 [COUNT] (from 14)
+  R6 inline fire @5083 -> 14 [COUNT] (from 14)
+  R8 base tmp0 @5045 -> 14 [COUNT] (from 14)
+  R7 do-while @5016 -> 14 [COUNT] (from 14)
+  R8 hoist tmp0 @5057 -> 14 [COUNT] (from 14)
+  R18 bystander @5050->5047 -> 14 [COUNT] (from 14)
+  R7 block @5047 -> 14 [COUNT] (from 14)
+  R5 swap + @4984 -> 14 [COUNT] (from 14)
+  R8 temp tmp0 @5013 -> 14 [COUNT] (from 14)
+  R18 bystander @5050->5048 -> 14 [COUNT] (from 14)
+  R8 base tmp0 @5013 -> 14 [COUNT] (from 14)
+  R7 block @5046 -> 14 [COUNT] (from 14)

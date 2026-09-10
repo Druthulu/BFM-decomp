@@ -1,0 +1,15 @@
+g5: verdict NO-MATCH start 14 best 4 compiles 2294 path R12 width rnd s32->u16 @3345 + R7 do-while @3383
+s7: verdict NO-MATCH start 14 best 5 compiles 548 path R12 width rnd s32->u16 @3345 + R7 do-while @3385
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @3385 -> 5 [COUNT] (from 6)
+  R7 do-while @3385 -> 5 [COUNT] (from 6)
+  R12 width scale s32->u16 @3346 -> 5 [COUNT] (from 5)
+  R8 temp tmp0 @3383 -> 5 [COUNT] (from 5)
+  R7 block @3383 -> 5 [COUNT] (from 5)
+  R9 swap-stmts @3383 -> 5 [COUNT] (from 5)
+  R10 param-copy a0 @3347 -> 5 [COUNT] (from 5)
+  R4 decl-move v1 6->0 -> 5 [COUNT] (from 5)
+  R12 width scale s32->s16 @3346 -> 5 [COUNT] (from 5)
+  R8 base tmp0 @3383 -> 5 [COUNT] (from 5)
+  R2 decl-order 1,0,2 -> 5 [COUNT] (from 5)
+  R4 decl-move v1 6->1 -> 5 [COUNT] (from 5)

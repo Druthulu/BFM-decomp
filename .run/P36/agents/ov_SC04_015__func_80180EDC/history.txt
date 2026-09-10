@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 3 best 2 compiles 328 path R8 cse tmp0 @6859 + R6 inline v1 @6861
+s7: verdict NO-MATCH start 3 best 2 compiles 461 path R8 cse tmp0 @6858 + R6 inline v1 @6860
+s9: verdict NO-MATCH start 3 best 2 compiles 217 path R8 cse tmp0 @6860 + R6 inline v1 @6862
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline v1 @6862 -> 2 [COUNT] (from 3)
+  R6 inline v1 @6864 -> 2 [COUNT] (from 3)
+  R6 inline v1 @6868 -> 2 [COUNT] (from 3)
+  R9 swap-stmts @6861 -> 2 [OTHER] (from 3)
+  R18 bystander @6862->6860 -> 2 [OTHER] (from 3)
+  R6 inline v1 @6862 -> 2 [COUNT] (from 3)
+  R8 temp tmp0 @6860 -> 3 [REG] (from 3)
+  R10 param-copy a0 @6855 -> 3 [REG] (from 3)
+  R7 block @6860 -> 3 [REG] (from 3)
+  R9 swap-stmts @6859 -> 3 [REG] (from 3)
+  R4 decl-move v1 2->0 -> 3 [REG] (from 3)
+  R8 base tmp0 @6860 -> 3 [REG] (from 3)

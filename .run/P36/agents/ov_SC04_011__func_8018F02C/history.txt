@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 24 best 24 compiles 333 path 
+s7: verdict NO-MATCH start 24 best 24 compiles 565 path 
+s9: verdict NO-MATCH start 24 best 24 compiles 253 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline tv2 @16132 -> 24 [COUNT] (from 24)
+  R8 hoist tmp0 @16131 -> 24 [COUNT] (from 24)
+  R18 bystander @16023->16026 -> 24 [COUNT] (from 24)
+  R7 block @16131 -> 24 [COUNT] (from 24)
+  R5 swap + @16110 -> 24 [COUNT] (from 24)
+  R9 swap-stmts @16131 -> 24 [COUNT] (from 24)
+  R10 param-copy a0 @16022 -> 24 [COUNT] (from 24)
+  R2 decl-order 1,0 -> 24 [COUNT] (from 24)
+  R4 decl-move tv 14->0 -> 24 [COUNT] (from 24)
+  R12 width tv2 u32->s16 @16019 -> 24 [COUNT] (from 24)
+  R8 hoist tmp0 @16110 -> 24 [COUNT] (from 24)
+  R7 do-while @16131 -> 24 [COUNT] (from 24)

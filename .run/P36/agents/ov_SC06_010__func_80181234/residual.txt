@@ -1,0 +1,23 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_80181234: score 18 (COUNT; mine 117 ins, target 117) — not yet
+  replace mine[49:50] target[49:54]
+       49  bgez	v0,6e64 <func_80181234+0xdc>  | bgez	v0,6e60 <func_80181234+0xd8>
+       50  --                                 | lui	v1,0x8000
+       51  --                                 | lw	v0,4(a1)
+       52  --                                 | j	6e70 <func_80181234+0xe8>
+       53  --                                 | or	v0,v0,v1
+  delete  mine[51:55] target[55:55]
+       51  lw	v1,4(a1)                        | --
+       52  lui	v0,0x8000                      | --
+       53  j	6e70 <func_80181234+0xe8>        | --
+       54  or	v0,v1,v0                        | --
+  replace mine[104:105] target[104:109]
+      104  bgez	v0,6f40 <func_80181234+0x1b8> | bgez	v0,6f3c <func_80181234+0x1b4>
+      105  --                                 | lui	v1,0x8000
+      106  --                                 | lw	v0,4(a1)
+      107  --                                 | j	6f4c <func_80181234+0x1c4>
+      108  --                                 | or	v0,v0,v1
+  delete  mine[106:110] target[110:110]
+      106  lw	v1,4(a1)                        | --
+      107  lui	v0,0x8000                      | --
+      108  j	6f4c <func_80181234+0x1c4>       | --
+      109  or	v0,v1,v0                        | --

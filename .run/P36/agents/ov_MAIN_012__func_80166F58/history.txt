@@ -1,0 +1,19 @@
+g4s: verdict NO-MATCH start 4 best 4 compiles 759 path 
+s1: verdict NO-MATCH start 4 best 4 compiles 178 path 
+s2: verdict NO-MATCH start 4 best 4 compiles 178 path 
+s4: verdict NO-MATCH start 4 best 4 compiles 417 path 
+s7: verdict NO-MATCH start 4 best 4 compiles 521 path 
+s9: verdict NO-MATCH start 4 best 4 compiles 239 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @7472 -> 4 [COUNT] (from 4)
+  R2 decl-order 1,0 -> 4 [COUNT] (from 4)
+  R4 decl-move p2 2->0 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @7473 -> 4 [COUNT] (from 4)
+  R10 param-copy param_2 @7471 -> 4 [COUNT] (from 4)
+  R4 decl-move p2 2->1 -> 4 [COUNT] (from 4)
+  R18 bystander @7473->7476 -> 4 [COUNT] (from 4)
+  R7 block @7473 -> 4 [COUNT] (from 4)
+  R10 param-copy param_3 @7471 -> 4 [COUNT] (from 4)
+  R4 decl-move p2 2->3 -> 4 [COUNT] (from 4)
+  R18 bystander @7474->7472 -> 4 [COUNT] (from 4)
+  R10 param-copy param_4 @7471 -> 4 [COUNT] (from 4)

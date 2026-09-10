@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 11 best 11 compiles 323 path 
+s7: verdict NO-MATCH start 11 best 11 compiles 544 path 
+s9: verdict NO-MATCH start 11 best 11 compiles 247 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width sxy s32->u16 @9025 -> 11 [COUNT] (from 11)
+  R8 hoist tmp0 @9094 -> 11 [COUNT] (from 11)
+  R18 bystander @9055->9057 -> 11 [COUNT] (from 11)
+  R7 block @9094 -> 11 [COUNT] (from 11)
+  R17 const-split @9121->9124 (0x1800 into the 0 run) -> 11 [COUNT] (from 11)
+  R12 width sxy s32->s16 @9025 -> 11 [COUNT] (from 11)
+  R8 temp tmp0 @9057 -> 11 [COUNT] (from 11)
+  R12 width sxy s32->u8 @9025 -> 11 [COUNT] (from 11)
+  R8 base tmp0 @9057 -> 11 [COUNT] (from 11)
+  R7 block @9065 -> 11 [COUNT] (from 11)
+  R12 width z s32->u16 @9026 -> 11 [COUNT] (from 11)
+  R8 base-shared tmp0 @9057 -> 11 [COUNT] (from 11)

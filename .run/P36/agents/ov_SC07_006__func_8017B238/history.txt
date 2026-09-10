@@ -1,0 +1,18 @@
+g4s: verdict NO-MATCH start 7 best 7 compiles 774 path 
+s1: verdict NO-MATCH start 7 best 7 compiles 189 path 
+s2: verdict NO-MATCH start 7 best 7 compiles 189 path 
+s4: verdict NO-MATCH start 7 best 7 compiles 438 path 
+s7: verdict NO-MATCH start 7 best 7 compiles 559 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @3410 -> 7 [COUNT] (from 7)
+  R10 param-copy param_1 @3407 -> 7 [COUNT] (from 7)
+  R7 do-while @3410 -> 7 [COUNT] (from 7)
+  R6 inline p794 @3420 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @3412 -> 7 [COUNT] (from 7)
+  R7 block @3411 -> 7 [COUNT] (from 7)
+  R10 param-alias src->param_2 @3410 -> 7 [COUNT] (from 7)
+  R6 inline p78C @3421 -> 7 [COUNT] (from 7)
+  R7 do-while @3411 -> 7 [COUNT] (from 7)
+  R7 block @3412 -> 7 [COUNT] (from 7)
+  R7 do-while @3412 -> 7 [COUNT] (from 7)
+  R7 block @3416 -> 7 [COUNT] (from 7)

@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 10 best 4 compiles 804 path R12 width lim s32->u16 @2729
+g5: verdict NO-MATCH start 10 best 4 compiles 2300 path R12 width lim s32->u16 @2729
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width lim s32->u16 @2729 -> 4 [MIXED] (from 10)
+  R12 width lim s32->u8 @2729 -> 4 [MIXED] (from 10)
+  R7 block @2762 -> 4 [MIXED] (from 4)
+  R10 param-copy arg0 @2746 -> 4 [MIXED] (from 4)
+  R9 swap-stmts @2763 -> 4 [MIXED] (from 4)
+  R5 swap + @2840 -> 4 [MIXED] (from 4)
+  R7 block @2763 -> 4 [MIXED] (from 4)
+  R5 swap + @2841 -> 4 [MIXED] (from 4)
+  R5 swap + @2843 -> 4 [MIXED] (from 4)
+  R7 block @2761 -> 4 [MIXED] (from 4)
+  R9 swap-stmts @2760 -> 4 [MIXED] (from 4)
+  R5 swap + @2851 -> 4 [MIXED] (from 4)

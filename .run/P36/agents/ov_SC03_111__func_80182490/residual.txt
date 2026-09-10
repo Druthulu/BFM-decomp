@@ -1,0 +1,21 @@
+src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c:func_80182490: score 18 (COUNT; mine 386 ins, target 386) — not yet
+  insert  mine[42:42] target[42:51]
+       42  --                                 | lui	a0,0x8000
+       43  --                                 | lw	v1,32(s0)
+       44  --                                 | nop
+       45  --                                 | lw	v0,4(v1)
+       46  --                                 | nop
+       47  --                                 | or	v0,v0,a0
+       48  --                                 | j	3918 <func_80182490+0xe0>
+       49  --                                 | sw	v0,4(v1)
+       50  --                                 | lw	a0,32(s0)
+  delete  mine[43:52] target[52:52]
+       43  lw	v0,32(s0)                       | --
+       44  nop                                | --
+       45  lw	v1,4(v0)                        | --
+       46  lui	a0,0x8000                      | --
+       47  or	v1,v1,a0                        | --
+       48  j	3918 <func_80182490+0xe0>        | --
+       49  sw	v1,4(v0)                        | --
+       50  lw	a0,32(s0)                       | --
+       51  nop                                | --

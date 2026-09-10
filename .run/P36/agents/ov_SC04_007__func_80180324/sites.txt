@@ -1,0 +1,8 @@
+NEEDED   pin         $0     line 5440
+NEEDED   keepalive          line 5484
+NEEDED   keepalive          line 5485
+NEEDED   keepalive          line 5493
+NEEDED   keepalive          line 5500
+NEEDED   keepalive          line 5517
+NEEDED   cast        volatile s32 * line 5549
+NEEDED   keepalive          line 5561

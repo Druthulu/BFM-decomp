@@ -1,0 +1,3 @@
+NEEDED   pin         $3     line 5486
+NEEDED   pin         $16    line 5487
+REMOVED  barrier     memory line 5554

@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 63 best 18 compiles 326 path R6 inline iVar4 @5426 + R12 width iVar3 s32->u16 @5392 + R12 width iVar4 s32->s16 @5393
+s7: verdict NO-MATCH start 63 best 20 compiles 557 path R7 do-while @5422 + R12 width iVar3 s32->u16 @5391
+s9: verdict NO-MATCH start 63 best 20 compiles 251 path R7 do-while @5424 + R12 width iVar3 s32->u16 @5393
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width iVar3 s32->u16 @5393 -> 20 [COUNT] (from 25)
+  R6 inline uVar3 @5445 -> 20 [COUNT] (from 25)
+  R12 width iVar3 s32->s16 @5393 -> 23 [COUNT] (from 30)
+  R12 width iVar3 s32->s16 @5393 -> 24 [COUNT] (from 25)
+  R12 width iVar3 s32->u16 @5393 -> 24 [COUNT] (from 30)
+  R7 do-while @5424 -> 25 [COUNT] (from 63)
+  R12 width uVar3 u32->u16 @5395 -> 25 [COUNT] (from 25)
+  R8 temp tmp0 @5463 -> 25 [COUNT] (from 25)
+  R7 block @5463 -> 25 [COUNT] (from 25)
+  R5 swap + @5463 -> 25 [COUNT] (from 25)
+  R9 swap-stmts @5463 -> 25 [COUNT] (from 25)
+  R10 param-copy param_1 @5396 -> 25 [COUNT] (from 25)

@@ -1,0 +1,5 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: struct
+// @stuck: none — MATCH (match_one: MATCH 20 ins)
+// @class: struct
+// @stuck: none — MATCH

@@ -1,0 +1,29 @@
+=== THIS FUNCTION'S OWN HEADER (func_8017D494, line 2712) — read it in full ===
+/* func_8017D494 — ov_SC01_000_after — TMD-style model renderer (952 ins, jr-function).
+ * Outer loop: per-part bbox -> RTPT/RTPS projection -> g.otz + screen cull.
+ * Inner loop: per-prim RTPT -> g.flag/nclip/g.opz cull -> switch(code&7):
+ *   4,5=POLY_F3 / 6,7=POLY_FT3 / 0,1=POLY_F4 / 2,3=POLY_FT4 -> OT insert.
+ * GTE ops are verbatim PsyQ inline_c.h macro bodies (rtps/rtpt/nclip spelled via
+ * the project gas macros from include/gte_macros.inc, pulled in by common.h).*
+ * CLOSED 2026-07-13 (Phase 26 session 8, Fable5 Max): match_one MATCH 952/952, PIN-FREE.
+ * The close=2 residual (two transposed preheader addius) was a global.c allocno-priority TIE:
+ *   pseudo 228 = &g.sz1 (sp+0xD0): refs 13, live_length 783 -> pri int(3*13*10000/783) = 498
+ *   pseudo 230 = &g.sz2 (sp+0xD4): refs 13, live_length 782 -> pri int(3*13*10000/782) = 498
+ * Tie -> creation-order tie-break -> sz1 allocated first (t8) = swapped. The shipped workaround
+ * permuted the stsz3 operand list (creation sz0,sz2,sz1) which fixed allocation but transposed
+ * the preheader emission (close=2). TRUE FIX: natural operand order restored (emission correct)
+ * + ONE zero-byte `__asm__ volatile ("")` inside the common live range (between two existing GTE
+ * volatile asms, so no new cse/sched barrier) -> L 784/783 -> pri 497 vs 498 -> the tie SPLITS
+ * toward the shorter-lived allocno (sz2) -> sz2 first -> t8. All 10 grants cascade. The slider
+ * emits nothing (#APP/#NO_APP only); the tie can ONLY split toward the target's allocation
+ * because the later-defined pseudo always has the shorter range. Cookbook §47.
+ */
+
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: schedule
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+/* @class: instruction-scheduling (SOLVED — natural statement order)
+// @class: loose-typing
+// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)

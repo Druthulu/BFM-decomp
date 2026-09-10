@@ -1,0 +1,8 @@
+src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:func_80180EDC: score 3 (REG-caller; mine 15 ins, target 15) — not yet
+  register pairs (mine -> target, count): a0->v1 x3
+  replace mine[8:9] target[8:9]
+        8  lw	a0,204(a0)                      | lw	v1,204(a0)
+  replace mine[11:12] target[11:12]
+       11  lw	a0,204(a0)                      | lw	v1,204(a0)
+  replace mine[14:15] target[14:15]
+       14  sw	v0,176(a0)                      | sw	v0,176(v1)

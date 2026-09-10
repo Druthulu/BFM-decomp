@@ -1,0 +1,17 @@
+g6: verdict NO-MATCH start 33 best 15 compiles 331 path R7 do-while @3998 + R8 base tmp0 @4044
+s7: verdict NO-MATCH start 33 best 15 compiles 566 path R7 do-while @3998 + R8 base tmp0 @4044
+s9: verdict NO-MATCH start 33 best 15 compiles 257 path R7 do-while @4000 + R8 base tmp0 @4046
+s10: verdict NO-MATCH start 33 best 15 compiles 257 path R7 do-while @4000 + R8 base tmp0 @4046
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 base tmp0 @4046 -> 15 [COUNT] (from 17)
+  R7 do-while @4000 -> 17 [COUNT] (from 33)
+  R12 width t s32->u16 @3959 -> 17 [COUNT] (from 17)
+  R8 hoist tmp0 @4018 -> 17 [COUNT] (from 17)
+  R7 block @4034 -> 17 [COUNT] (from 17)
+  R5 swap + @4018 -> 17 [COUNT] (from 17)
+  R9 swap-stmts @4034 -> 17 [COUNT] (from 17)
+  R10 param-copy a0 @3963 -> 17 [COUNT] (from 17)
+  R12 width t s32->s16 @3959 -> 17 [COUNT] (from 17)
+  R5 swap + @4030 -> 17 [COUNT] (from 17)
+  R12 width t s32->u8 @3959 -> 17 [COUNT] (from 17)
+  R8 hoist tmp0 @4019 -> 17 [COUNT] (from 17)

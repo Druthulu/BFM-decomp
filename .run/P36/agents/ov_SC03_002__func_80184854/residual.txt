@@ -1,0 +1,21 @@
+src/ov_SC03_002/ov_SC03_002_jr_8018431C.c:func_80184854: score 11 (COUNT; mine 65 ins, target 67) — not yet
+  replace mine[9:10] target[9:10]
+        9  beq	s1,s2,618 <func_80184854+0xe0> | beq	s1,s2,620 <func_80184854+0xe8>
+  replace mine[14:15] target[14:15]
+       14  beqz	v1,60c <func_80184854+0xd4>   | beqz	v1,614 <func_80184854+0xdc>
+  replace mine[16:17] target[16:17]
+       16  beq	v1,v0,60c <func_80184854+0xd4> | beq	v1,v0,614 <func_80184854+0xdc>
+  replace mine[20:21] target[20:21]
+       20  beqz	v0,60c <func_80184854+0xd4>   | beqz	v0,614 <func_80184854+0xdc>
+  replace mine[24:25] target[24:25]
+       24  beqz	v1,60c <func_80184854+0xd4>   | beqz	v1,614 <func_80184854+0xdc>
+  replace mine[28:29] target[28:29]
+       28  beqz	v0,60c <func_80184854+0xd4>   | beqz	v0,614 <func_80184854+0xdc>
+  replace mine[32:33] target[32:33]
+       32  bltz	v0,60c <func_80184854+0xd4>   | bltz	v0,614 <func_80184854+0xdc>
+  replace mine[51:52] target[51:54]
+       51  bnez	v0,61c <func_80184854+0xe4>   | beqz	v0,618 <func_80184854+0xe0>
+       52  --                                 | addiu	s1,s1,268
+       53  --                                 | j	624 <func_80184854+0xec>
+  replace mine[54:55] target[56:57]
+       54  bne	s1,s2,568 <func_80184854+0x30> | bne	s1,s2,568 <func_80184854+0x30>

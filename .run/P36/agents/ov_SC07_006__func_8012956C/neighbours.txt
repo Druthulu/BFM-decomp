@@ -1,0 +1,51 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: other
+// @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper w/ branch)
+// @class: remat
+// @stuck: none — MATCH (62 ins). D_801F6300 read needed the address REMATERIALIZED
+// @class: remat
+// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @class: remat
+// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x5e store AND arg5; writing D_800C7C60=0x5e directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @class: remat
+// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0xd store AND arg5; writing D_800C7C60=0xd directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @class: schedule
+// @stuck: none — MATCH (158 ins, match_one relocation-masked)
+// @class: regalloc-order
+// @stuck: none — MATCH (78 ins, relocation-masked). Register pins ($2-$5 reused for
+// @class: iv-combine
+// @stuck: none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
+// @class: regalloc-order
+// @stuck: none — MATCH (84 ins)
+// @class: struct
+// @stuck: none — MATCH (58 ins)
+// @class: schedule
+// @stuck: none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
+// @class: other
+// @stuck: none — MATCH (105 ins). BANK NOTE: engine_core.h declares `extern s32 func_8012CC88(s32,s32,s32)` at 5 sites; the return value is REAL (void-return probe = 102 ins / 13 mismatch, LENGTH-DRIFT -3), so the HEADER decl must be lifted void->s32 (§63 fix_header_decl.py), not the draft.
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: plumbing
+// @stuck: none — MATCH (35/35 ins, relocation-masked)
+// @class: regalloc-order
+// @stuck: none — MATCH (81/81). Key lever: post-80049CAC pointer reload uses a SEPARATE local (mm) from the pre-call/branch pointer (m) -> gcc allocates $a0 for mm not $a1; decl order cam,bufB,bufA -> slots 0x10/0x18/0x20; u16 field reads for lhu; short s -> (int)s sign-extend = sll/sra.
+// @class: other
+// @stuck: none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
+// @class: regalloc-order
+// @stuck: none — MATCH (93 ins)
+// @class: remat
+// @stuck: none — MATCH
+// @class: plumbing
+// @stuck: none — MATCH (pending gate)
+// @class: plumbing
+// @stuck: none — MATCH (pending gate)
+// @class: schedule
+// @stuck: none — MATCH (57 ins), byte-exact via rtu_match on the real TU.
+// @class: schedule
+// @stuck: none — MATCH (65 ins). Two levers: (1) ((s32 (*)(s32))func_8012CBCC)(arg0) WITH arg — it's the
+// @class: regalloc-order
+// @stuck: none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
+// @class: loop-guard
+// @stuck: none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
+// @class: struct
+// @stuck: none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)

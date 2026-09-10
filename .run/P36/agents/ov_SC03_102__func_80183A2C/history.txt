@@ -1,0 +1,17 @@
+g3: verdict NO-MATCH start 30 best 25 compiles 809 path R6 inline x @6123
+g5: verdict NO-MATCH start 30 best 25 compiles 2098 path R6 inline x @6123
+s7: verdict NO-MATCH start 30 best 25 compiles 563 path R6 inline x @6122
+s9: verdict NO-MATCH start 30 best 25 compiles 253 path R6 inline x @6122
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline x @6122 -> 25 [COUNT] (from 30)
+  R7 do-while @6122 -> 25 [COUNT] (from 30)
+  R7 do-while @6121 -> 25 [COUNT] (from 30)
+  R7 block @6125 -> 25 [COUNT] (from 25)
+  R8 hoist tmp0 @6121 -> 25 [COUNT] (from 25)
+  R7 block @6119 -> 25 [COUNT] (from 25)
+  R8 temp tmp0 @6094 -> 25 [COUNT] (from 25)
+  R7 do-while @6119 -> 25 [COUNT] (from 25)
+  R8 base tmp0 @6094 -> 25 [COUNT] (from 25)
+  R7 block @6123 -> 25 [COUNT] (from 25)
+  R8 temp tmp0 @6093 -> 25 [COUNT] (from 25)
+  R7 do-while @6123 -> 25 [COUNT] (from 25)

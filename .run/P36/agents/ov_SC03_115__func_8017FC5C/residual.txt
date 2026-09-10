@@ -1,0 +1,3 @@
+src/ov_SC03_115/ov_SC03_115_jr_8017BEBC.c:func_8017FC5C: score 1 (COUNT; mine 42 ins, target 43) — not yet
+  insert  mine[37:37] target[37:38]
+       37  --                                 | move	v0,s0

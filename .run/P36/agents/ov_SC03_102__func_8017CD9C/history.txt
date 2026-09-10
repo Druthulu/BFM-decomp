@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 50 best 50 compiles 328 path 
+s7: verdict NO-MATCH start 50 best 50 compiles 544 path 
+s9: verdict NO-MATCH start 50 best 50 compiles 249 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @3284->3287 -> 50 [COUNT] (from 50)
+  R7 block @3303 -> 50 [COUNT] (from 50)
+  R10 param-copy arg0 @3283 -> 50 [COUNT] (from 50)
+  R6 inline vzw @3467 -> 50 [COUNT] (from 50)
+  R8 temp tmp0 @3466 -> 50 [COUNT] (from 50)
+  R5 swap + @3440 -> 50 [COUNT] (from 50)
+  R7 block @3305 -> 50 [COUNT] (from 50)
+  R6 inline vzw @3473 -> 50 [COUNT] (from 50)
+  R8 temp tmp0 @3467 -> 50 [COUNT] (from 50)
+  R18 bystander @3287->3289 -> 50 [COUNT] (from 50)
+  R7 do-while @3305 -> 50 [COUNT] (from 50)
+  R9 swap-stmts @3300 -> 50 [COUNT] (from 50)

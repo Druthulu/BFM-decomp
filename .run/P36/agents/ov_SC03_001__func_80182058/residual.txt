@@ -1,0 +1,18 @@
+src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c:func_80182058: score 10 (COUNT; mine 58 ins, target 60) — not yet
+  replace mine[8:9] target[8:9]
+        8  beqz	v0,72b8 <func_80182058+0x8c>  | bnez	v0,725c <func_80182058+0x30>
+  insert  mine[10:10] target[10:12]
+       10  --                                 | j	7308 <func_80182058+0xdc>
+       11  --                                 | move	v0,zero
+  replace mine[21:22] target[23:24]
+       21  j	7300 <func_80182058+0xd4>        | j	7308 <func_80182058+0xdc>
+  replace mine[26:27] target[28:29]
+       26  j	7300 <func_80182058+0xd4>        | j	7308 <func_80182058+0xdc>
+  replace mine[29:30] target[31:32]
+       29  j	72f0 <func_80182058+0xc4>        | j	72f8 <func_80182058+0xcc>
+  insert  mine[34:34] target[36:38]
+       34  --                                 | move	v0,zero
+       35  --                                 | j	7308 <func_80182058+0xdc>
+  delete  mine[35:37] target[39:39]
+       35  j	7300 <func_80182058+0xd4>        | --
+       36  move	v0,zero                       | --

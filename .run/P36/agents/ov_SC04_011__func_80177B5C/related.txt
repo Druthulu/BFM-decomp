@@ -1,5 +1,5 @@
 === lever-free bodies in ov_SC04_011 sharing a callee or global with func_80177B5C (1 found; top 6 by shared symbols) — read them for the SHAPE ===
---- func_80177DA8 (src/ov_SC04_011/ov_SC04_011_jr_801734BC.c:3746) shares 1: D_80193C10 ---
+--- func_80177DA8 (src/ov_SC04_011/ov_SC04_011_jr_801734BC.c:3726) shares 1: D_80193C10 ---
 void func_80177DA8(p, v, idx)
 u8 *p;
 u32 v;

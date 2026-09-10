@@ -1,0 +1,51 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: iv-combine
+// @stuck: none — MATCH (89 ins). Sequential struct fields fed from a running source
+// @class: struct
+// @stuck: none — MATCH
+// @class: plumbing
+// @stuck: none — MATCH (128/128 ins, match_one confirmed)
+// @class: other
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH expected (indexed u16 global: (s16)param_1*2 + D_80115110, *2 array stride)
+// @class: struct
+// @stuck: none — MATCH (58 ins). STRUCT branch reconstruction + 3 levers: (1) §3-T4 branch-polarity
+// @class: schedule
+// @stuck: none — MATCH expected; CAE4 block fallthrough, AD50 block goto-tail
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: struct
+// @stuck: none — MATCH (packed-word struct -> lwl/lwr unaligned copy; union byte[] -> $sp-direct lbu; branch-polarity invert -> beqz)
+// @class: regalloc-order
+// @stuck: none — MATCH (combined store-assign `*(p)=v0=call()` keeps test/store on $v0, copy to $s0 for the else)
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: regalloc-order
+// @stuck: none — MATCH (38 ins). $16=param pin; explicit $17 copy of the call result
+// @class: regalloc-order
+// @stuck: none — MATCH (memcpy unaligned copy; $s0 survivor pinned, store-before-copy keeps $v0 for early store/branch)
+// @class: plumbing
+// @stuck: none — MATCH (pending gate)
+// @class: plumbing
+// @stuck: none — MATCH (pending gate)
+// @class: regalloc-order
+// @stuck: none — MATCH (80 ins, relocation-masked). iVar2/iVar3 pinned $s1/$s2; sVar4 is an
+// @class: regalloc-order
+// @stuck: 154/154 ins structural match (callees/consts/ctrl-flow/stack/GPU-packet all byte-correct); residual 25 = caller-saved temp-reg coalescing in the final ring-vertex block (target reuses dead $s0=iVar3 for iVar3-(iVar4>>6) subu where gcc reuses iVar4>>6's reg; iVar4 mflo -> $a3 vs target $v0) + 2-ins schedule swap of giv-increment vs iVar2*4 -> permuter grinder territory (§27 step-5)
+// @class: struct
+// @stuck: none — MATCH (relocation-masked match_one); fn-ptr dispatch table + 0x1c counter, sibling idiom (func_801427EC/func_80143B30)
+// @class: struct
+// @stuck: none — MATCH (65 ins, match_one). Levers: uVar2/$2 + addr/$3 pins; split (uVar2&0xFFFFFFF) into addr then (addr|0x80000000)+8 deref; %hi/%lo of 0x80000008 via plain 0x80000000+8 (match_one masks the target's D_80000008 reloc, real bytes identical); v1/3 magic-divide; gv+fv reassoc (field-0x30 in own temp) loads field first
+// @class: struct
+// @stuck: none — MATCH

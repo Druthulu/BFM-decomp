@@ -1,0 +1,19 @@
+g6: verdict NO-MATCH start 12 best 2 compiles 333 path R10 param-alias e->arg0 @1100 + R7 do-while @1102
+s1: verdict NO-MATCH start 12 best 5 compiles 191 path R7 do-while @1101
+s2: verdict NO-MATCH start 12 best 5 compiles 191 path R7 do-while @1101
+s4: verdict NO-MATCH start 12 best 2 compiles 419 path R18 bystander @1105->1108
+s7: verdict NO-MATCH start 12 best 2 compiles 542 path R18 bystander @1105->1108
+s9: verdict NO-MATCH start 12 best 2 compiles 242 path R18 bystander @1105->1108
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @1105->1108 -> 2 [ORDER] (from 12)
+  R18 bystander @1105->1109 -> 2 [ORDER] (from 12)
+  R18 bystander @1105->1110 -> 2 [ORDER] (from 12)
+  R18 bystander @1107->1105 -> 2 [ORDER] (from 12)
+  R7 do-while @1103 -> 2 [ORDER] (from 12)
+  R9 swap-stmts @1100 -> 2 [ORDER] (from 2)
+  R7 block @1100 -> 2 [ORDER] (from 2)
+  R10 param-copy arg0 @1099 -> 2 [ORDER] (from 2)
+  R15 sink @1136 (sc) -> 2 [ORDER] (from 2)
+  R4 decl-move off 5->0 -> 2 [ORDER] (from 2)
+  R9 swap-stmts @1101 -> 2 [ORDER] (from 2)
+  R7 do-while @1100 -> 2 [ORDER] (from 2)

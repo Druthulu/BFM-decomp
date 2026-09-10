@@ -1,0 +1,13 @@
+src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:func_80186A8C: score 8 (ORDER; mine 230 ins, target 230) — not yet
+  insert  mine[84:84] target[84:86]
+       84  --                                 | addiu	a1,v0,-16384
+       85  --                                 | jal	0 <func_8018326C>
+  delete  mine[85:87] target[87:87]
+       85  jal	0 <func_8018326C>              | --
+       86  addiu	a1,v0,-16384                 | --
+  insert  mine[145:145] target[145:147]
+      145  --                                 | addiu	a1,v0,-16384
+      146  --                                 | jal	0 <func_8018326C>
+  delete  mine[146:148] target[148:148]
+      146  jal	0 <func_8018326C>              | --
+      147  addiu	a1,v0,-16384                 | --

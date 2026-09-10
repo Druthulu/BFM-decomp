@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 25 best 11 compiles 321 path R12 width state s16->s32 @3301 + R12 width y s32->u16 @3299 + R12 width state s32->s16 @3301
+s7: verdict NO-MATCH start 25 best 11 compiles 556 path R12 width y s32->u16 @3299
+s9: verdict NO-MATCH start 25 best 11 compiles 250 path R12 width y s32->u16 @3299
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width y s32->u16 @3299 -> 11 [COUNT] (from 25)
+  R12 width y s32->s16 @3299 -> 11 [COUNT] (from 25)
+  R12 width flags s32->u16 @3302 -> 11 [COUNT] (from 11)
+  R8 temp tmp0 @3332 -> 11 [COUNT] (from 11)
+  R18 bystander @3306->3304 -> 11 [COUNT] (from 11)
+  R7 block @3336 -> 11 [COUNT] (from 11)
+  R12 width flags s32->s16 @3302 -> 11 [COUNT] (from 11)
+  R8 base tmp0 @3332 -> 11 [COUNT] (from 11)
+  R7 do-while @3336 -> 11 [COUNT] (from 11)
+  R9 swap-stmts @3305 -> 11 [COUNT] (from 11)
+  R12 width flags s32->u8 @3302 -> 11 [COUNT] (from 11)
+  R8 temp tmp0 @3305 -> 11 [COUNT] (from 11)

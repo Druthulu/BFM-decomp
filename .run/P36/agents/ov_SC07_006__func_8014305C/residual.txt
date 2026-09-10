@@ -1,0 +1,20 @@
+src/ov_SC07_006/ov_SC07_006_jr_80140608.c:func_8014305C: score 12 (COUNT; mine 41 ins, target 38) — not yet
+  register pairs (mine -> target, count): s2->s0 x3
+  replace mine[3:5] target[3:4]
+        3  sw	ra,28(sp)                       | sw	ra,24(sp)
+        4  sw	s2,24(sp)                       | --
+  replace mine[8:11] target[7:9]
+        8  move	s2,s0                         | bnez	v0,2a88 <func_8014305C+0x34>
+        9  bnez	s1,2a90 <func_8014305C+0x3c>  | sw	v0,32(s0)
+       10  sw	s1,32(s0)                       | --
+  replace mine[13:14] target[11:12]
+       13  j	2adc <func_8014305C+0x88>        | j	2ad4 <func_8014305C+0x80>
+  replace mine[19:21] target[17:19]
+       19  move	a0,s2                         | move	a0,s0
+       20  lhu	v1,112(s2)                     | lhu	v1,112(s0)
+  replace mine[31:32] target[29:30]
+       31  sh	zero,252(s2)                    | sh	zero,252(s0)
+  replace mine[33:36] target[31:33]
+       33  move	a0,s2                         | move	a0,s0
+       34  lw	ra,28(sp)                       | lw	ra,24(sp)
+       35  lw	s2,24(sp)                       | --

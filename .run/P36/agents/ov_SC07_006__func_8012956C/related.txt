@@ -1,0 +1,131 @@
+=== lever-free bodies in ov_SC07_006 sharing a callee or global with func_8012956C (17 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801299C8 (src/ov_SC07_006/ov_SC07_006.c:693) shares 3: D_801F4D60 D_801F4D61 D_801F4D62 ---
+void func_801299C8(arg0, arg1, arg2)
+s16 arg0;
+s16 arg1;
+u8 *arg2;
+{
+    u32 r;
+    u32 g;
+    u32 b;
+    s32 i;
+
+    if (arg0 != 0) {
+        switch (arg1) {
+        case 1:
+            r = D_801F62FA;
+            g = D_801F6222;
+            b = D_801F6200;
+            D_801F4D60[0] = r * 5 >> 3;
+            D_801F4D61[0] = g << 3;
+            D_801F4D62[0] = (s32)(b * 255) >> 4;
+            D_801F4D60[4] = (s32)(r * 143) >> 4;
+            D_801F4D61[4] = g * 25 >> 1;
+            D_801F4D62[4] = (s32)(b * 255) >> 4;
+            D_801F4D60[8] = (s32)(r * 255) >> 4;
+            D_801F4D61[8] = (s32)(g * 255) >> 4;
+            D_801F4D62[8] = (s32)(b * 255) >> 4;
+            D_801F4D60[12] = (s32)(r * 143) >> 4;
+            D_801F4D61[12] = (s32)(g * 255) >> 4;
+            D_801F4D62[12] = (s32)(b * 45) >> 2;
+            break;
+        case 0:
+        case 2:
+            i = arg1 * 4;
+            D_801F4D60[i] = arg2[0x44] * D_801F62FA >> 4;
+            D_801F4D61[i] = arg2[0x45] * D_801F6222 >> 4;
+            D_801F4D62[i] = arg2[0x46] * D_801F6200 >> 4;
+            i = (arg1 + 1) * 4;
+            D_801F4D60[i] = arg2[0x47] * D_801F62FA >> 4;
+            D_801F4D61[i] = arg2[0x48] * D_801F6222 >> 4;
+            D_801F4D62[i] = arg2[0x49] * D_801F6200 >> 4;
+            break;
+        case 3:
+        case 4:
+            arg2[0x20] = D_801F62FA << 3;
+            arg2[0x21] = D_801F6222 << 3;
+            arg2[0x22] = D_801F6200 << 3;
+            break;
+        }
+    }
+}
+
+--- func_80129428 (src/shared/ov/func_80129428.h:4) shares 1: D_80114EE0 ---
+void func_80129428(void) {
+    D_80114EE0 = 1;
+}
+
+--- func_8012943C (src/shared/ov/func_8012943C.h:4) shares 1: D_80114EE0 ---
+void func_8012943C(void) {
+    D_80114EE0 = 0;
+}
+
+--- func_8013D330 (src/ov_SC07_006/ov_SC07_006_jr_8013C98C.c:1095) shares 1: D_801F62E0 ---
+void func_8013D330(void) {
+
+    extern u8 D_801F62FA;
+    extern u8 D_801F636E;
+    extern u8 D_801F6222;
+    extern u8 D_801F62DC;
+    extern u8 D_801F6200;
+    extern u8 D_801F6221;
+    extern s32 D_801F62E0;
+    if ((D_801F62FA & 0xff) != D_801F636E) {
+        D_801F62FA = ((D_801F62FA & 0xff) < D_801F636E) ? (D_801F62FA + 1) : (D_801F62FA - 1);
+    }
+    if ((D_801F6222 & 0xff) != D_801F62DC) {
+        D_801F6222 = ((D_801F6222 & 0xff) < D_801F62DC) ? (D_801F6222 + 1) : (D_801F6222 - 1);
+    }
+    if ((D_801F6200 & 0xff) != D_801F6221) {
+        D_801F6200 = ((D_801F6200 & 0xff) < D_801F6221) ? (D_801F6200 + 1) : (D_801F6200 - 1);
+    }
+    D_801F62E0 = 1;
+}
+
+--- func_80136ECC (src/shared/ov/func_80136ECC.h:6) shares 1: D_800A6518 ---
+void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b) {
+    struct {
+        u32 tag;
+        s16 x0;
+        s16 y0;
+        s16 x1;
+        s16 y1;
+        u8 r;
+        u8 g;
+        u8 b;
+    } line;
+    line.x0 = a0;
+    line.tag = 0;
+    line.y0 = a1;
+    line.x1 = a2;
+    line.y1 = a3;
+    line.r = r;
+    line.g = g;
+    line.b = b;
+    GsSortLine(&line, &D_800A6518[(u16)D_800B9A02 * 20], 0);
+}
+
+--- func_80137BD8 (src/shared/ov/func_80137BD8.h:11) shares 1: D_800A6518 ---
+void func_80137BD8(s32 a0) {
+    u8 buf[8];
+    if ((*(s32 *)(a0 + 8) & 0x1000) != 0) {
+        func_801392FC(a0, *(u8 *)(a0 + 0x1E),
+                      &D_800A6518[(u16)D_800B9A02 * 20]);
+        if (*(u8 *)(a0 + 0x20) != 0) {
+            func_801397B0(a0);
+        }
+    }
+    if (D_80127524 == a0) {
+        if (*(s16 *)(a0 + 4) == 7) {
+            buf[0] = 0x39;
+            buf[1] = 0xFF;
+            buf[2] = 0x71;
+            func_80137DD4(a0, buf, &D_800A6518[(u16)D_800B9A02 * 20]);
+        } else if (*(s16 *)(a0 + 4) == 3) {
+            if ((D_800B99D8 & 4) != 0) {
+                func_80139680(a0, &D_800A6518[(u16)D_800B9A02 * 20]);
+            }
+        }
+    }
+}
+

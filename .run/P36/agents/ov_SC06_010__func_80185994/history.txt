@@ -1,0 +1,18 @@
+g3: verdict NO-MATCH start 3 best 3 compiles 660 path 
+g4s: verdict NO-MATCH start 3 best 3 compiles 743 path 
+g5: verdict NO-MATCH start 3 best 3 compiles 1469 path 
+s7: verdict NO-MATCH start 3 best 3 compiles 559 path 
+s9: verdict NO-MATCH start 3 best 3 compiles 253 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline t @9583 -> 3 [REG] (from 3)
+  R8 temp tmp0 @9573 -> 3 [REG] (from 3)
+  R7 block @9574 -> 3 [REG] (from 3)
+  R4 decl-move a1 1->0 -> 3 [REG] (from 3)
+  R8 base tmp0 @9573 -> 3 [REG] (from 3)
+  R7 do-while @9574 -> 3 [REG] (from 3)
+  R4 decl-move a1 1->2 -> 3 [REG] (from 3)
+  R7 block @9573 -> 3 [REG] (from 3)
+  R8 base-shared tmp0 @9573 -> 3 [REG] (from 3)
+  R7 do-while @9573 -> 3 [REG] (from 3)
+  R8 temp tmp0 @9577 -> 3 [REG] (from 3)
+  R18 bystander @9581->9583 -> 3 [REG] (from 3)

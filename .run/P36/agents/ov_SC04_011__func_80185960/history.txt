@@ -1,0 +1,14 @@
+g6: verdict NO-MATCH start 12 best 9 compiles 270 path R12 width diff s32->s16 @8604
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width diff s32->s16 @8604 -> 9 [COUNT] (from 12)
+  R8 hoist tmp0 @8607 -> 9 [COUNT] (from 9)
+  R7 block @8615 -> 9 [COUNT] (from 9)
+  R5 swap + @8621 -> 9 [COUNT] (from 9)
+  R10 param-copy target @8606 -> 9 [COUNT] (from 9)
+  R8 hoist tmp0 @8619 -> 9 [COUNT] (from 9)
+  R7 do-while @8615 -> 9 [COUNT] (from 9)
+  R10 param-copy cur @8606 -> 9 [COUNT] (from 9)
+  R7 block @8607 -> 9 [COUNT] (from 9)
+  R10 param-copy step @8606 -> 9 [COUNT] (from 9)
+  R14 param-width step s32->s16 @8601 -> 9 [COUNT] (from 9)
+  R8 hoist tmp0 @8621 -> 9 [COUNT] (from 9)

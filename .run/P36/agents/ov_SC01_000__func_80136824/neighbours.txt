@@ -1,4 +1,4 @@
-=== THIS FUNCTION'S OWN HEADER (func_80136824, line 1099) — read it in full ===
+=== THIS FUNCTION'S OWN HEADER (func_80136824, line 1084) — read it in full ===
 // @class: pointer-type — pointer-vs-array reconcile for func_80136824 (ov_SC01_077_a)
 // D_8017F198/B0/B8 are file-scope `extern u8`, D_8017F1A0 is `extern s32 []`; each HOLDS a
 // pointer value that the target loads via lw then derefs. Read as pointer via *(T**)&sym.

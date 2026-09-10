@@ -1,0 +1,6 @@
+REMOVED  pin         $7     line 6329
+NEEDED   pin         $3     line 6330
+REMOVED  pin         $2     line 6331
+NEEDED   pin         $4     line 6332
+NEEDED   pin         $5     line 6333
+NEEDED   pin         $6     line 6334

@@ -50,7 +50,7 @@ void func_8016C998(s32 param_1)
     }
 }
 
---- func_801670E4 (src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:5166) shares 1: D_80126CE0 ---
+--- func_801670E4 (src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:5169) shares 1: D_80126CE0 ---
 s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     extern u8  D_80193330[];
