@@ -3438,14 +3438,13 @@ extern s32 rand(void);
 extern void func_80181394(void *a0);
 
 void func_8018199C(s32 arg0) {
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 a0;
+    s32 a1;
     u16 val;
     s16 h;
 
     a0 = *(s32 *)(arg0 + 0x20);
-    val = *(u16 *)(arg0 + 0x106);
-    *(u16 *)(a0 + 0x10) = *(u16 *)(a0 + 0x10) + val;
+    *(u16 *)(a0 + 0x10) = *(u16 *)(a0 + 0x10) + (*(u16 *)(arg0 + 0x106));
 
     a1 = *(s32 *)(arg0 + 0x20);
     val = *(u16 *)(arg0 + 0x108);

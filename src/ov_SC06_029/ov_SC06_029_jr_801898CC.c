@@ -3957,15 +3957,14 @@ extern u16 D_801922CC[];
 
 void func_8018A5F0(s32 a0)
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 s1;
     s32 sub;
     u32 flags;
     u16 half;
 
+    s0 = (((s32 (*)(void))func_8012C1B8)());
     s1 = a0;
-    sub = ((s32 (*)(void))func_8012C1B8)();
-    s0 = sub;
     *(s32 *)(s1 + 0x20) = s0;
     if (s0 == 0) {
         func_8012CAE4((void *)s1);

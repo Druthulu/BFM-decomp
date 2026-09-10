@@ -10,18 +10,15 @@ extern void func_80147300(u16 arg0);
 extern s32 D_800D4A9C;
 int func_8015B6F4(int param_1)
 {
-    int b4;
-    register unsigned int f44 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
-    register unsigned int bc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    unsigned int f44;
+    unsigned int bc;
     if (((int (*)(void))func_80149AA8)() == 0) return 0;
     ((void (*)(int))func_80156648)(param_1);
-    b4 = *(int *)(param_1 + 0xb4);
     *(unsigned char *)(param_1 + 0x1aa) = 6;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     f44 = *(unsigned int *)(param_1 + 0x44);
     bc = *(unsigned char *)(param_1 + 0xbc);
-    *(int *)(param_1 + 0x23c) = b4;
     *(unsigned int *)(param_1 + 0x44) = f44 | 2;
+    *(int *)(param_1 + 0x23c) = (*(int *)(param_1 + 0xb4));
     *(unsigned char *)(param_1 + 0x244) = bc;
     if (*(int *)(param_1 + 0xb4) == (int)&D_800D4A9C) {
         func_80154150(param_1, 0xb);

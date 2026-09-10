@@ -1,0 +1,22 @@
+{"kind": "seed", "start": 11, "tu": "src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c", "fn": "func_8017E22C", "label": "s6"}
+{"depth": 1, "move": "R14 param-width param_1 int->s16 @3493", "parent": 11, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3529", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @3504->3507", "parent": 11, "score": 37, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3526", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3526", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @3494", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R2 decl-order 1,0", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 int->u16 @3493", "parent": 11, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @3529", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @3506->3504", "parent": 11, "score": 3, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @3526", "parent": 11, "score": 23, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3504", "parent": 11, "score": 37, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 int->u8 @3493", "parent": 11, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base-shared tmp0 @3529", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @3507->3504", "parent": 11, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @3527", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3505", "parent": 11, "score": 3, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3523", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @3507->3505", "parent": 11, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @3527", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3506", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

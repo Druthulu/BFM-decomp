@@ -14,3 +14,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-10	S102 T7 s3 (partial, the run crashed in propagate) — the constant-holder draw: 10 bodies closed	975850ff8	29533	17266	12267	9326	1594	29533	0	462	314	1590	50	7428	445	76
 2026-09-10	S102 T7 s3b — the constant-holder draw re-run after the propagate fix: 1 of 80, 6 bodies; 59 of 80 hit the compile budget	5603a114c	29527	17260	12267	9320	1593	29527	0	462	314	1590	50	7428	445	76
 2026-09-10	S102 T7 s5 — the first broad TAIL sweep with R15/R16/R17/R18: 285 of 800 bodies closed lever-free, no drafting tokens	449acd8cb	29204	17029	12175	9035	1308	29204	0	462	314	1590	50	7428	445	76
+2026-09-10	S102 T7 s6 — the last never-attempted exemplars: 25 of 337; the fresh pool is now empty	67e91ad4d	29148	16996	12152	9010	1283	29148	0	462	314	1590	50	7428	445	76

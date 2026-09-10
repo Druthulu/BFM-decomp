@@ -3087,15 +3087,14 @@ void func_80183DBC(s32 param_1) {
 
 void func_80183E74(void *arg0) {
     s32 s0 = (s32)arg0;
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 a0;
+    s32 a1;
     s32 v1;
     s32 v0;
     u16 val;
 
     a0 = *(s32 *)(s0 + 0x20);
-    val = *(u16 *)(s0 + 0x106);
-    *(u16 *)(a0 + 0x10) = *(u16 *)(a0 + 0x10) + val;
+    *(u16 *)(a0 + 0x10) = *(u16 *)(a0 + 0x10) + (*(u16 *)(s0 + 0x106));
 
     a1 = *(s32 *)(s0 + 0x20);
     val = *(u16 *)(s0 + 0x108);

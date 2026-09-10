@@ -4003,11 +4003,9 @@ void func_8017EC78(void *arg0) {
 
 
 void func_8017ED0C(s32 a0) {
-    register s32 a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 a3;
     s32 e;
     s32 e2;
-    u16 L2;
-    u16 L3;
     u16 L1;
     u16 a2b;
     u16 f;
@@ -4016,18 +4014,12 @@ void func_8017ED0C(s32 a0) {
     a3 = a0;
     *(s16 *)(a3 + 0x2) = 1;
     e = *(s32 *)(a3 + 0x78);
-    __asm__ __volatile__("" : "=r"(L2));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
-    __asm__ __volatile__("" : "=r"(L3));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
-    __asm__ __volatile__("" : "=r"(L1));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
-    __asm__ __volatile__("" : "=r"(a2b));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
     L1 = *(u16 *)(a3 + 0x88);
-    L2 = *(u16 *)(a3 + 0x8A);
-    L3 = *(u16 *)(a3 + 0x8C);
     a2b = *(u16 *)(e + 0x2);
     f = *(u16 *)(a3 + 0x70);
     *(s16 *)(a3 + 0x6) = L1;
-    *(s16 *)(a3 + 0xA) = L2;
-    *(s16 *)(a3 + 0xE) = L3;
+    *(s16 *)(a3 + 0xA) = (*(u16 *)(a3 + 0x8A));
+    *(s16 *)(a3 + 0xE) = (*(u16 *)(a3 + 0x8C));
     *(s16 *)(a3 + 0x5C) = a2b;
     if ((f & 1) != 0) {
         e2 = *(s32 *)(a3 + 0x20);

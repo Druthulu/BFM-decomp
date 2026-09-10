@@ -1,0 +1,16 @@
+{"kind": "seed", "start": 38, "tu": "src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c", "fn": "func_8017F10C", "label": "s6"}
+{"depth": 1, "move": "R12 width s2 s32->u16 @5115", "parent": 38, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->s16 @5114", "parent": 38, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline u @5123", "parent": 38, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @5122", "parent": 38, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R3 init-split s2", "parent": 38, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @5125->5128", "parent": 38, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @5125", "parent": 38, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @5125", "parent": 38, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5125", "parent": 38, "score": 42, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s2 0->1", "parent": 38, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width s2 s32->s16 @5115", "parent": 38, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->u16 @5114", "parent": 38, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @5122", "parent": 38, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @5126->5124", "parent": 38, "score": 42, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @5125", "parent": 38, "score": 0, "kind": "IDENTICAL", "ident": true}

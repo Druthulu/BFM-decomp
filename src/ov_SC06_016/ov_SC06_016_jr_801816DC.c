@@ -3985,7 +3985,7 @@ void func_80182D1C(void *a0)
     void *s2;
     u32 p;
     u32 q;
-    s32 y;
+    s16 y;
     s32 r1;
     u16 h;
 
@@ -3998,8 +3998,6 @@ void func_80182D1C(void *a0)
         y = h & 0xFFF;
         if (*(u16 *)((s32)q + 0x12) & 0x400) {
             r1 = func_80012A60(y, 0x400);
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
             if (!((s16)r1 > (s16)func_80012A60(y, 0xC00))) {
                 *(s16 *)((s32)s2 + 0x12) = 0x400;
             } else {

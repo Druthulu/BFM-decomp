@@ -183,29 +183,28 @@ extern u8 D_800CBBDF;
 
 void func_800CB278(s32 param_1)
 {
-    register s32 p1    __asm__("$17");  /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 iVar1 __asm__("$16");  /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 p1;
+    s32 iVar1;
     s32 base;  /* $s2 */
-    register s32 ivar3 __asm__("$19");  /* $s3 */  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 ivar3;
 
-    p1 = param_1;
     base = (s32)&D_800CBBD8;
     if (((s32 (*)(void))func_80146E98)() == 0) {
         return;
     }
-    *(s32 *)(p1 + 0x20) = (iVar1 = ((s32 (*)(void))func_80146578)());
+    *(s32 *)(param_1 + 0x20) = (iVar1 = ((s32 (*)(void))func_80146578)());
     ivar3 = iVar1;
     if (iVar1 != 0) {
         func_8001CD9C(iVar1, (void *)base);
         func_800233CC((void *)base, 0x80);
         *(s16 *)(iVar1 + 0x18) = 0;
         *(s16 *)(iVar1 + 0x1a) = 0;
-        *(s16 *)(p1 + 0x60) = 0;
+        *(s16 *)(param_1 + 0x60) = 0;
         D_800CBBDB = 0;
         D_800CBBDF = 0;
-        if (*(s32 *)(p1 + 0x50) == 0) {
+        if (*(s32 *)(param_1 + 0x50) == 0) {
             *(u8 *)base = 0xFF;
-            D_800CBBD9 = 0xFF;
+            do { D_800CBBD9 = 0xFF; } while (0);
             D_800CBBDA = 0xFF;
             D_800CBBDC = 0;
             D_800CBBDD = 0;
@@ -220,9 +219,9 @@ void func_800CB278(s32 param_1)
             D_800CBBDE = 0x80;
             *(u32 *)(ivar3 + 4) = *(u32 *)(ivar3 + 4) | 0x50000000;
         }
-        func_80146CA0((void *)p1);
+        func_80146CA0((void *)param_1);
     } else {
-        ((void (*)(s32))func_80162CCC)(p1);
+        ((void (*)(s32))func_80162CCC)(param_1);
     }
 }
 

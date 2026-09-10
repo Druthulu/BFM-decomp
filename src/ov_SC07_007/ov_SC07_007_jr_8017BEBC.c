@@ -7274,9 +7274,9 @@ s32 func_80181B8C(void) {
     case 0:
         func_80181DFC(D_801C79A4);
         {
-            register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+            s32 t;
             t = D_801C79A0 + 1;
-            D_801C79A0 = t;
+            do { D_801C79A0 = t; } while (0);
         }
         return 0;
     case 1:
@@ -7307,9 +7307,9 @@ s32 func_80181B8C(void) {
             func_80181DFC(D_801C79A4);
         }
         {
-            register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+            s32 t;
             t = vD_801C79A0 + 1;
-            D_801C79A0 = t;
+            do { D_801C79A0 = t; } while (0);
         }
         return 0;
     case 4:

@@ -3,15 +3,15 @@
 void func_8017BEF8(param_1)
 s32 param_1;
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers2)
+    s32 s0;
+    s32 s1;
     extern u8 D_80182C64[];
     s32 v0;
 
-    s1 = param_1;
     v0 = ((s32 (*)(void))func_801465C0)();
-    *(s32 *)(s1 + 0x20) = v0;
     s0 = v0;
+    s1 = param_1;
+    *(s32 *)(s1 + 0x20) = v0;
 
     if (v0 == 0) {
         ((void (*)(s32))func_80146C3C)(s1);

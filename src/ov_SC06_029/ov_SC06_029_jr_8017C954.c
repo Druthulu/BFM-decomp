@@ -3958,11 +3958,11 @@ void func_8017EB24(void *a0) {
     extern u8 D_801901E8[];
     extern u8 D_801DDB40[];
     void *s0;
-    register u8 *s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
-    register u8 *s2 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus10)
+    u8 *s1;
+    u8 *s2;
 
     s0 = a0;
-    D_801906C4[*(u16 *)((s32)s0 + 2)]();
+    do { D_801906C4[*(u16 *)((s32)s0 + 2)](); } while (0);
     s1 = D_801901E8;
     s2 = D_801DDB40;
     func_8012F14C((s32)D_80126B78 + 0x34, (s32)s1, (s32)s2);

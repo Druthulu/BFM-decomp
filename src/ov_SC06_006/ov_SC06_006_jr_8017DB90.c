@@ -4058,7 +4058,7 @@ void func_8017F5D0(void)
 {
     u8 *e;
     s16 *p = &D_801F8A10;           /* §20/§165-10: pointer form -> shared base in $s1 */
-    register s32 t __asm__("$2");   /* pin: local_alloc otherwise spills t to $a0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 t;
     s32 u;
     s32 c;
 
@@ -4075,8 +4075,7 @@ void func_8017F5D0(void)
         t -= *(u16 *)(e + 0x10);
         /* §194-A pair: the fences pin the D_801F809C reload between the subu
          * and the second store; without them sched2 emits the store first. */
-        c = D_801F809C;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        do { c = D_801F809C; } while (0);
         *p = t;
         u = (func_80047948(((c % *(s16 *)(e + 0xA)) << 12) / *(s16 *)(e + 0xA)) * *(s16 *)(e + 0xE)) >> 12;
         D_801F8A12 = u;

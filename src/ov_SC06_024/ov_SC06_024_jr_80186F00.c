@@ -4166,7 +4166,7 @@ void func_80188C1C(s32 param_1) {
     extern u8 D_801BC580;
     extern u8 D_80126B5C;
     u16 uVar1;
-    register s32 sVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 sVar2;
     s32 iVar3;
     s32 iVar4;
     s32 iVar5;
@@ -4221,9 +4221,8 @@ void func_80188C1C(s32 param_1) {
         if (iVar3 == 0) {
             return;
         }
-        sVar2 = *(u16 *)(param_1 + 0x34);
         *(s32 *)(param_1 + 0x1c) = 0;
-        *(u16 *)(param_1 + 0x34) = sVar2 + 1;
+        *(u16 *)(param_1 + 0x34) = (*(u16 *)(param_1 + 0x34)) + 1;
         return;
     case 2:
         *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
@@ -4257,8 +4256,7 @@ void func_80188C1C(s32 param_1) {
         uVar4 = *(u32 *)(param_1 + 0x1c);
         if ((uVar4 - 0xe < 0xb) && ((uVar4 & 1) == 0)) {
             ((void (*)(s32, s32, s32))func_8012C658)(0x2a8, (s32)*(s16 *)(param_1 + 0x104), param_1);
-            *(u16 *)(param_1 + 0x104) = *(u16 *)(param_1 + 0x104) + 1;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            do { *(u16 *)(param_1 + 0x104) = *(u16 *)(param_1 + 0x104) + 1; } while (0);
             uVar4 = *(u32 *)(param_1 + 0x1c);
         }
         if (uVar4 == 9) {
