@@ -7,12 +7,11 @@ void func_8015D738(void *arg0) {
     ((void (*)(void))func_80148AFC)();
     if (func_80161B18(arg0) != 0) return;
     if (func_80161B84(arg0) != 0) return;
+    do {
+        s1 = *(s32 *)((char *)arg0 + 0x178);
+    } while (0);
+    if (s1 != 0 && *(u16 *)s1 == 0x360) goto block_808;
     s1 = *(s32 *)((char *)arg0 + 0x178);
-    if (s1 != 0 && *(u16 *)s1 == 0x360) {
-        ((void (*)(void *, s32))func_80154A74)(arg0, 0x11);
-        ((void (*)(void *))func_8015DAC4)(arg0);
-        return;
-    }
     if (s1 == 0 || *(u16 *)s1 == 0) {
         D_80192AC8[*(u16 *)arg0](arg0);
         ((void (*)(void *, s32))func_80147078)(arg0, 0);
@@ -20,6 +19,7 @@ void func_8015D738(void *arg0) {
         return;
     }
     if (((s32 (*)(void *))func_80148800)(arg0) & 0x80) {
+    block_808:
         ((void (*)(void *, s32))func_80154A74)(arg0, 0x11);
         ((void (*)(void *))func_8015DAC4)(arg0);
         return;

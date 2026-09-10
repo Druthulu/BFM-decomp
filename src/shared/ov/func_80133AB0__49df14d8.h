@@ -13,15 +13,15 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     u16 *pA = (*(u16 * *)&D_8017F80C);
     u16 *pB = (*(u16 * *)&D_8017F808);
     u16 *pC = (*(u16 * *)&D_8017F814);
-    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B headers1)
-    u32 X, Y, cell, Xc, Yc;
+    u32 X, Y, cell;
+    u16 Xc, Yc;
     u16 k, off;
-    int cnt;
+    u16 cnt;
     u16 *cp, *lst;
     u8 *s0;
     u16 raw;
     u32 hib;
-    register int harg __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    u16 harg;
     s32 ret;
     void *p0C, *p10;
     u8 *p14, *p18, *p1C;
@@ -32,15 +32,15 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     pC[2] = pA[2] - pB[2];
 
     X = ((((u16)x + 0x8000) >> 7) & 0x1ff) - map->ox;
-    __asm__("addu %0,%1,$zero" : "=r"(Xc) : "r"(X));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B headers1)
+    Xc = X;
     if (!((X & 0xffff) < map->w))
         return 0;
     Y = ((((u16)y + 0x8000) >> 7) & 0x1ff) - map->oy;
-    __asm__("addu %0,%1,$zero" : "=r"(Yc) : "r"(Y));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B headers1)
+    Yc = Y;
     if (!((Y & 0xffff) < map->h))
         return 0;
 
-    cell = (Yc & 0xffff) * map->w + (Xc & 0xffff);
+    cell = Yc * map->w + Xc;
     cells = map->cells;
     p14 = map->p14;
     p0C = map->p0C;
@@ -53,10 +53,10 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     cnt = cp[1];
     lst = (u16 *)(p14 + off);
 
-    while (((cnt-- + zr) & 0xffff) != 0) {
+    while (cnt-- != 0) {
         raw = *lst;
         hib = raw & 0x8000;
-        harg = hib + zr;
+        harg = hib;
         if (hib == 0) {
             s0 = p18 + raw * 18;
         } else {

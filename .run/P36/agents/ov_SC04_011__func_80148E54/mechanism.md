@@ -1,178 +1,99 @@
-# func_80148E54 (ov_SC04_011 / src/ov_SC04_011/ov_SC04_011_after.c) — T7 residue
+# func_80148E54 (src/ov_SC04_011/ov_SC04_011_after.c): T7 agent c12
 
-**Status: NOT CLOSED. Best score 6 (COUNT; mine 66 ins, target 67)** — the untouched lever-free text,
-cleaned (`PACK/body.c`, one variable, the stale `// !FAKE:` comment dropped). The mechanical search's
-best of 4 (`R14 param-width arg0 s32->u16` + `R10 param-copy arg0`) is a *worse* body: it lies about
-the parameter's type, does not restore the missing instruction, and buys its 2 points by shifting the
-`lbu` base. ~90 hand-reasoned spellings were compiled through `--try` this session; the mechanism is
-now read from the compiler's source AND from the RTL dumps, and the class is argued **unreachable
-body-only** for this particular function. The same is true of its twin `func_80148D44`.
+**CLOSED: score 0** (`--try ... body.c --body`: "score 0 (OTHER; mine 67 ins, target 67) — MATCH"). Both NEEDED levers
+(the `$4` pin and the launder `asm`) are gone. There is no pin, no `asm`, no added `volatile` and no zero term.
+`PACK/body.c` is the text to bank. The whole-object gate is still the coordinator's job.
+
+The earlier agent's reading, which argued this body "unreachable body-only", is kept verbatim at
+`scratch/mechanism_prev_agent.md`, and its best body is at `scratch/body_prev_agent.c`. Its two pass readings are
+correct: cse.c:7454 for the adjacent copy and combine.c:1458 for the separated one. The unreachability conclusion was
+wrong. It rested on the census "the producer's value has exactly one consumer", and that census did not count the
+implicit `$a0` read of the `jalr` on the 0x41 path. See (f).
+
+## The two source moves. It takes both.
+
+1. **Give the 0x41 handler the angle as its first argument**: `D_80191FA4[...](tmp)`, with the in-body table declared
+   `extern s16 (*D_80191FA4[])(s32);`. It was `(*[])()` before, which passes nothing.
+2. **Reuse `tmp` for the second `ratan2` result, and make it the later operand of the sum**:
+   `tmp = ratan2(...); return (ang + tmp) & 0xFFF;`, with `s32 ang = tmp;` right after the first computation.
+
+| body (all `--try`, real TU) | score |
+|---|---|
+| `body_free.c` / the earlier agent's `body.c` | 6 (66 vs 67), the copy is missing |
+| move 1 only (`scratch/t1.c`) | 7 (66 vs 67). The copy is still missing and the 0x41 path gains `move a0,s1` |
+| move 2 only (`scratch/t3.c`) | 6 (66 vs 67) |
+| both, written `(tmp + ang)` (`scratch/t4.c`) | 1 (67 vs 67). The copy is present; only the `addu` operand order differs: `addu v0,v0,s1` vs `addu v0,s1,v0` |
+| **both, `(ang + tmp)` (`body.c` = `scratch/t2.c`)** | **0** |
 
 ## (a) The residual in one sentence
 
-The target computes the masked angle into a caller-saved register and then copies it into the
-callee-saved register that carries it across the switch — `andi a0,v0,0xfff` … `move s1,a0`, the copy
-landing in the delay slot of the first dispatch branch — while every lever-free spelling folds the
-copy away and writes `andi s1,v0,0xfff` directly, one instruction short (66 vs 67).
+The target computes the masked angle into `a0` (`andi a0,v0,0xfff` at 0x35b0) and copies it into `s1` in the delay slot of
+the first switch branch (`move s1,a0` at 0x35c0). Every earlier spelling wrote `andi s1,v0,0xfff` directly and came out
+one instruction short. In the target, `a0` is never written again before the `jalr v0` at 0x3614 on the 0x41 path. The
+handler therefore receives the angle as its first argument at no instruction cost. That hidden read is the second
+consumer that keeps the producer alive.
 
-```
-target                    mine
-addiu v0,v0,-1024         addiu v0,v0,-1024
-andi  a0,v0,0xfff         andi  s1,v0,0xfff
-lbu   v1,169(s0)          lbu   v1,169(s0)
-li    v0,83               li    v0,83
-beq   v1,v0,3628          beq   v1,v0,3624
-move  s1,a0     <- extra  slti  v0,v1,84      (reorg fills the slot from the fall-through)
-```
+## (b) The mechanism: passes and decisions, proved on the RTL dumps
 
-The copy is **unconditional and in the entry block** — proven, not assumed: it is in the delay slot of
-`beq v1,v0,3628`, and it cannot have been stolen from that branch's target thread because the 0x73
-branch at `0x35e4` reaches the same target `0x3628` with a `nop` slot and still needs `s1`. And the
-producer's value has **exactly one use** in the whole target: `a0` is written at `0x35b0` and read only
-at `0x35c0` (`s1` likewise: written `0x35c0`, read once at `0x3660`).
+Dumps are in `scratch/dumps_{t1,t2,t4}/` (made by `scratch/dump.py`: the real TU with the body spliced in, then the
+recipe's cpp and cc1 with `-dr -ds -dj -dc -dl -dg -dS`). Pseudo 73 is `tmp` and pseudo 86 is `ang`.
+In `.jump` the producer is insn 40 `(set 73 (and 85 4095))`, the copy is insn 43 `(set 86 73)` and the argument is
+insn 67 `(set a0 73)`.
 
-## (b) The passes and the decisions — two killers, both dump-verified
+- **cse.c:846-862 (`make_regs_eqv`)**. When insn 43 makes 86 equivalent to 73, 86 becomes the class's canonical register
+  only if `uid_cuid[regno_last_uid[86]] > uid_cuid[regno_last_uid[73]]` (line 856). `regno_last_uid` is set by `reg_scan`
+  at regclass.c:1764 and counts sets as well as uses.
+  - Move 1 only (t1): 73's last mention is insn 67, in the 0x41 block. 86's last mention is insn 135, the sum in the 0x53
+    block, which comes after the 0x41 block. So 86 wins. The **cse.c:7454-7471 swap** then fires. `.cse` shows insn 40
+    rewritten to `(set 86 (and ...))`, the copy gone, and insn 67 re-canonicalised to `(set a0 86)`. The angle lives in
+    `s1` and the call path pays a `move a0,s1`. That is the 7.
+  - Both moves (t2): the reuse adds insn 133 `(set 73 v0)` and puts 73 in the sum insn 136 `(plus 86 73)`. The last
+    mentions of 73 and 86 are now the same insn, 136. The test at line 856 is a strict `>`, so 86 does not become
+    canonical and the swap does not fire. `.cse` keeps insn 40 setting 73, insn 43 `(set 86 73)` and insn 67 `(set a0 73)`.
+  - `(tmp + ang)` (t4): the cse result is identical to t2, because the tie holds whichever operand comes first. The
+    SImode sum is one `addsi3` insn that mentions both. The operand order only reaches the final `addu`, which is the
+    score 1. This differs from sibling func_80148AFC. There the sum is narrowed to HImode one operand per insn, so the
+    order decided the cse tie itself (c3's `a1.c` scored 9).
+- **combine.c:1458**. In t2, 73 stays live past the copy because insn 67 reads it on the 0x41 path. So the copy carries no
+  `REG_DEAD` for 73 (`.combine`: insn 43 `(set 86 73)` with an empty note list). `added_sets_2 = ! dead_or_set_p (i3,
+  i2dest)` is 1, the merged two-SET PARALLEL is not recognised, and combine keeps both insns.
+- **Allocation and slot**. 86 is live across the second `ratan2` call, so it gets `s1`. 73 is copied into `a0` for the
+  call, so it prefers and gets `a0`. The copy is then the only entry-block insn `fill_simple_delay_slots` can move
+  into the first `beq`'s slot, which is the target's layout. This last step was not dump-verified; the bytes show it.
 
-**Killer 1 — cse1, `cse.c:7439-7502`** ("Special handling for `(set REG0 REG1)` where REG0 is the
-cheapest"). The guard is
-```c
-  if (n_sets == 1 && … GET_CODE (SET_SRC (sets[0].rtl)) == REG
-      && NEXT_INSN (PREV_INSN (insn)) == insn
-      && … (qty_first_reg[reg_qty[REGNO (SET_SRC …)]] == REGNO (SET_DEST …)))
-    { rtx prev = PREV_INSN (insn); while (prev && GET_CODE (prev) == NOTE) prev = PREV_INSN (prev);
-      if (prev && GET_CODE (prev) == INSN && SET_DEST (PATTERN (prev)) == SET_SRC (sets[0].rtl)) { … } }
-```
-It rewrites the *producer's* destination to the copy's destination and turns the copy into a dead
-store. **Verified on the real spliced TU:** `.jump` holds
-`(insn 40 (set (reg/v:SI 73) (and:SI (reg:SI 85) (const_int 4095))))` followed by
-`(insn 43 (set (reg/v:SI 86) (reg/v:SI 73)))`; in `.cse` insn 43 is gone and insn 40 sets reg 86
-directly. So §455's reading — "combine merges a single-use def into its copy" — names the wrong pass
-for the adjacent case: **cse gets there first**, and its precondition is `prev` (skipping only NOTEs).
+## (c) The moves, one line each
 
-**Killer 2 — combine, `combine.c:1458` + `flow.c:2086-2091`.** Break cse's adjacency (put any real insn
-between producer and copy) and cse leaves the copy alone — but then `try_combine (i3 = the copy,
-i2 = the producer)` fires: `added_sets_2 = ! dead_or_set_p (i3, i2dest)` is 0 because the producer dies
-at the copy, the substitution recognises as `andsi3`, and i2 is deleted. **Verified on dumps** with
-`s32 k = *(u8 *)(arg0 + 0xA9);` inserted between them (variant `w4`): the copy is still present in
-`.cse`, and `.combine` shows `(insn 47 (set (reg/v:SI 86) (and:SI (reg:SI 85) (const_int 4095))))`
-with insn 40 a `NOTE_INSN_DELETED`.
-
-**The three blockers `can_combine_p` actually admits** (`combine.c:803-960`), i.e. the complete
-lever-free option set:
-1. **No LOG_LINK** — `flow.c:2086` builds one only when `y && (BLOCK_NUM (y) == blocknum)`, so a real
-   `CODE_LABEL` between producer and copy blocks combine outright.
-2. **The producer still live at the copy** — `dead_or_set_p` false ⇒ `added_sets_2` ⇒ the merged
-   pattern would be a PARALLEL of two sets, unrecognisable on MIPS ⇒ combine fails.
-3. **A CALL between them** — `combine.c:929`, `INSN_CUID (insn) < last_call_cuid && ! CONSTANT_P (src)`.
-(The tree body uses a fourth, forbidden one: the `launder` `asm` on `$4` sits between them and
-`can_combine_p` refuses ASM_OPERANDS, `combine.c:868-870`. `.combine` for the tree body shows
-`(insn 42 (set (reg/v:SI 4 a0) (and …)))`, `(insn 44 asm_operands)`, `(insn 47 (set (reg/v:SI 87)
-(reg/v:SI 4 a0)))`, and sched1 then sinks insn 47 past the `lbu`/`li` so reorg can fill the slot.)
-
-**Why the register is `a0` and not `v0` is NOT a separate problem.** With the launder but *no* pin
-(diagnostic `d1`) the copy survives, but sched1 keeps it adjacent to the producer and local-alloc gives
-the short-lived quantity `v0` — score 4, `andi v0,v0,0xfff ; move s1,v0`. In the target the copy is
-scheduled *after* `li v0,83`, so `v0` is occupied and first-fit hands out `a0`. The colour follows the
-schedule; **the only real problem is keeping the copy at all.**
-
-## (c) Why this body cannot pay for any of the three blockers
-
-- **Blocker 2 (a second read) has no free home.** The producer's value has exactly one consumer in the
-  target's 67 instructions, and every instruction in the entry block is accounted for (`lbu`, `li`,
-  `beq`). Any second read costs an instruction. Worse, per agent a-80166F58's Step 3 (independently
-  confirmed here), a second read placed *after* the copy is neutralised anyway: `cse.c:canon_reg`
-  re-canonicalises it onto the copy's destination and the producer drops back to one use. It must sit
-  **before** the copy — where there is nothing for it to be. C's own folding kills the free candidates:
-  `tmp & 0`, `tmp - tmp`, `tmp ^ tmp` are gone at `fold-const.c` before expand (measured: `p3`, `p4`
-  score 6), and a dead second reader (`s32 dead = tmp;`) is deleted by flow (`p1`, `p2` score 6).
-- **Blocker 1 (a label) has no free home either.** A label emits no bytes, so the target *could* carry
-  one — but it must be referenced or jump1 deletes it (`goto L; L:` measured: `w3`, `y3` score 6/8),
-  and **no branch in the target targets any address between `0x35b0` and `0x35b4`**. Paying for a real
-  join costs the diamond's branch (`y5`, `y6`, `z10`, `r1`, `r3`: 67 instructions but the extra one is
-  a `nop` or a compare, never the copy).
-- **Blocker 3 (a call) is impossible:** the only call before the switch is the `ratan2` that *produces*
-  the value, so `INSN_CUID (producer) > last_call_cuid` always.
-
-**Cross-check against the binary.** I scanned all 4,284 objects under `build/src` for the shape
-"ALU insn writing a caller-saved register, no control flow, then `move sN,<that register>`"
-(101 distinct hits). Every lever-free precedent I read pays one of the two prices:
-- `func_8015D1B8` (`ov_SC03_099_jr_8015C32C.c:1725`) — `sum` has **two** uses (`*(u16*)(obj+0x10) =
-  sum & 0xFFF;` then `keep = sum;`); the drafter's own comment says "AFTER the store — this is what
-  keeps the `$s0` copy alive".
-- `func_8014DD8C` (`src/shared/ov/func_8014DD8C.h:18`) and `func_8018CBB0`
-  (`ov_SC03_001_jr_8018B8DC.c:4058`) — a **narrow (`s16`) local with two consumers** (lane B 1c-1).
-- `func_80180CFC` (`ov_SC06_032_jr_8017C24C.c:5487`) — `iVar1 = t;` followed by `t = t << 16;`, a real
-  second read of `t` *before* it is overwritten.
-- `func_801864E4` (`ov_SC05_010_jr_8018473C.c:4076`) — `sel = cond ? A : B; start = sel;`, a **join
-  label** between producer and copy.
-None of the four shapes exists in `func_80148E54`, and none can be created in it for zero bytes.
+- Pass the value the target leaves unwritten in `$a0` as the first argument of the handler call on the other switch path,
+  and widen the in-body table declaration to `(*[])(s32)`.
+- Reuse the producer variable for the second `ratan2` result, as the later operand of the final sum, so that its last
+  mention is not earlier than the copy destination's.
 
 ## (d) GENERATOR PROPOSAL
 
-**R20 "copy-keeper pair" (a paired move, plus a cheap unreachability predicate).** When the residual is
-COUNT and the missing instruction is a reg-reg `move S,C` whose source `C` is written by the
-*immediately preceding* instruction in mine, emit ONE candidate per (separation × blocker) pair — the
-nearest independent following statement moved *between* the producer and the copy (which is the only
-thing that defeats `cse.c:7454`) **crossed with** one of combine's three blockers (a second read of the
-producer inserted *before* the copy, an if/else diamond whose merge label sits between them, or a call
-moved between them) — because neither half changes the score alone, which is exactly why every
-single-move family in the registry sits at the same number on this class; and *before* spending the
-compiles, refuse the class outright when (i) the producer's value has exactly one consumer in the C
-text and (ii) no branch in the target targets an address strictly between the producer and the copy,
-since then all three blockers are unaffordable and the body is unreachable body-only.
+This is the same pair c3 named for func_80148AFC, and these two bodies are its second and third instances.
+**R22 "hidden argument"**: when a COUNT residual is missing `move sK,$aN` and `$aN` reaches a `jal`/`jalr` on some path
+without being written, pass the copy's source variable as argument N-4 of that call and widen the callee or table
+declaration.
+**R23 "stay canonical"**: when R22 alone gets worse (the call path gains `move $aN,sK`), reuse the source variable for the
+next temporary after the copy destination's last use. In an SImode sum, put it as the later operand so that the tie at
+cse.c:856 holds. That position is also what the `addu` operand order wants.
+Neither move improves the score alone (7 and 6 from 6), so a beam that drops non-improving children cannot find the
+pair. The generator has to emit them together.
 
-This is new against the four docstrings in `tools/delever.py`: `sink_merges` (R15) sinks a merge
-statement into if/else arms, `constant_holders` (R16) deletes a literal-holding local,
-`constant_run_splits` (R17) splits a run of equal constant stores, `bystander_moves` (R18) walks an
-independent statement within its block — all four are *single* moves over whole statements, and none
-of them is aimed at `cse.c:7454`'s adjacency precondition. It is also distinct from a-80166F58's
-proposed R19 ("second use before the copy"), which is one of R20's three blocker legs and is offered
-there without the separation half and without the unreachability gate.
+## (e) What did not work (byte evidence)
 
-## (e) What did NOT work — the byte evidence (all `--try` on the real TU, ~90 compiles)
-
-| spelling | score |
-|---|---|
-| one variable `s32 ang = EXPR;` (`PACK/body.c`) | 6 (66 ins) |
-| two variables adjacent; chained `ang = tmp = EXPR;`; nested block; `do { ang = tmp; } while (0)`; `(ang = tmp, 0)`; `(s32)` cast; `const`/`u32` producer; declaration order swapped | 6 each |
-| an intervening statement before the copy (`s32 k` / `u8 k` = the switch subject) | 6 (cse defeated, combine folds — dump-verified) |
-| lane B 1c-2 "re-set the SOURCE": `tmp = 0;` after the copy, `tmp = 0;` inside the case, `ang = 0;` after the switch, `tmp` reused for the second `ratan2` result | 6 each (flow deletes the dead store) |
-| lane B 1c-1 widths — 8 producer/destination width combinations **with** the intervening statement, and 6 single-variable narrow declarations (`u16`,`s16`,`short`,`unsigned short`) | 6 each; `u8`/`char` 11 (a real `andi 0xff` appears). Confirms the residual_moves ledger row: combine folds a narrowing of a value already masked to 12 bits |
-| free second reads: `tmp & 0`, `tmp + (tmp&0)` in the subject expression, `s32 dead = tmp;` before or after the copy | 6 each (fold-const / flow remove them) |
-| `goto L; L:` between producer and copy | 6 (jump1 deletes the jump, then the label) |
-| `while (0) {}`, `if (arg0) {} else {}`, `switch (0) { default: … }`, `switch (arg0) { default: … }` between them | 6 each |
-| **`ang = tmp;` moved inside `case 0x53:`** | 9, **67 ins, the copy present** — the block boundary really does keep it, but in the wrong block |
-| `if (k == 0x53/0x41) { ang = tmp; } else { ang = tmp; }`, `?:` with equal arms | 8 / 4, 67 ins — the 67th instruction is a `nop` or a hoisted compare, never the copy |
-| diagnostic (levers, not bankable): launder alone, no pin | 4, **67 ins, the copy present as `andi v0,v0,0xfff ; move s1,v0`** — proves the colour is a consequence of where sched1 puts the copy |
+The single moves and the operand order are in the table above. The earlier agent's ~90 spellings (listed in
+`scratch/mechanism_prev_agent.md` §e) all lacked move 1, so each one met the cse.c:7454 or combine.c:1458 killer.
 
 ## (f) Where the method fell short
 
-- **§455's one-line reading named the wrong pass.** "combine merges a single-use def into its copy" is
-  true only once the two insns are non-adjacent; for the adjacent form the killer is `cse.c:7454`, a
-  transformation with a *completely different* precondition (the immediately preceding insn). Chasing
-  combine first cost an hour of hypotheses that could not have worked. A pass attribution in a cookbook
-  entry should carry the `file:line` and the dump line that proves it — this one now does.
-- **The residual print does not say which side of the copy the extra instruction lives on.** "insert
-  `move s1,a0` after `beq`" reads as a scheduling fact; the load-bearing facts (the copy is
-  unconditional, its source has exactly one consumer, and no branch targets the gap) all had to be
-  recovered by hand from `objdump` on `build/src/ov_SC04_011/ov_SC04_011_after.o`. Printing the
-  *neighbourhood* of a COUNT insert, plus the target's use-count for the registers involved, would have
-  named the class in one look.
-- **The engine has no way to represent "two moves, neither of which changes the score".** The beam drops
-  a child that is not better and tails a child with the parent's score *and* diff signature, so a pair
-  whose first half is byte-neutral is structurally out of reach. That is the finding behind R20 and it
-  applies to every copy-survival class, not just this body.
-- **`--try` and the search share one scratch TU per pack** (`.run/P36/engine/score/<pack>/`). Two of my
-  batch runs came back as a bare Python traceback that re-running fixed; a per-invocation scratch dir
-  would make agent sweeps safe to run alongside anything else.
-- **A "no branch targets this gap" check is computable and would have ended the search in 30 seconds.**
-  It is offered as the R20 predicate above.
-
-## Twin
-
-`func_80148D44` has the byte-identical residual (score 6, mine 67 / target 68, `andi a0,v0,0xfff` …
-`move s0,a0`, `s0->a0 x1`) and the same census: its producer `a` has exactly one consumer, its
-`d = (s32)D_80126C01;` already separates producer from copy (so cse is already defeated there and
-**combine alone** is the killer), and no branch targets the gap. The reading transfers verbatim; the
-*text* does not (the twin reads globals, not `arg0` offsets), and since this body did not close there
-is no body text to share. If a future move closes one, it will close the other.
+- **A consumer census has to count implicit argument-register reads.** The earlier agent's unreachability argument was
+  valid given its premise. The premise ("`a0` is read only at 0x35c0") was measured with an instrument that treats a
+  `jalr` as reading nothing. Any census must treat a `jal`/`jalr` as reading every `$a0-$a3` that reaches it unwritten.
+  That check is a straight-line scan per path.
+- **The register was the clue.** A value placed in `a0` right after a call's result lands in `v0`, with no visible
+  reader, is not what first-fit gives. It is asking "which call reads it?"
+- **The TU header above func_80148E54 is now wrong.** It says "then jalr with no args" (the TU at line 749). The
+  handler takes the angle. The coordinator should correct it when banking.
+- With c3's sibling reading in hand, this closed on the second `--try`. The cross-function prediction was the method's
+  strongest step this time.

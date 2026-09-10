@@ -299,6 +299,10 @@ tools-health:
 	# fresh .run/P35/census/share_census.json for its duplicate-copy fields.
 	$(VENV_PY) tools/share_census.py --selftest
 	$(VENV_PY) tools/share_census.py --check --strict-macros --strict-text --quiet
+	# P36 S103: the hand-asm manifest has no drift. It ran ONLY in CI, so a DECOMPILE-NOW row converted by T4 batch tus10
+	# (cb2fb5e6d, 2026-09-09) turned CI red for a day while every local chain stayed green (R54: a guard that is not
+	# running locally is not a guard). Fix a GONE row with `tools/verbatim_check.py --update` (a one-row diff since S103).
+	$(VENV_PY) tools/verbatim_check.py --strict
 	$(MAKE) --no-print-directory report BINARY=main
 	# AFTER report (which regenerates the digest), so this asserts the freshly-written digest agrees
 	# with the tree — and, on a tree whose digest was committed stale, says so instead of staying green.

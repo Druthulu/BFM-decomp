@@ -814,20 +814,6 @@
    "path": "src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c",
    "why": "in-function §265 body with a compiler-shaped prologue and no hand-asm marker — a function never decompiled; a Phase-36 residue (Drew: everything short of Sony objects and the original hand asm must be C)",
    "ratified": "2026-09-09 (P36 T1b: listed by the structural detector; SDK rows and the DECOMPILE/UNCERTAIN split are the proposal for Drew)"
-  },
-  {
-   "binary": "ov_SC07_000",
-   "fn": "func_8017EEC0",
-   "addr": "0x8017eec0",
-   "nins": 8,
-   "cls": "GAME-C",
-   "disposition": "DECOMPILE-NOW",
-   "form": "in-function",
-   "unit_entry": "func_8017EEC0",
-   "unit_nins": 8,
-   "path": "src/ov_SC07_000/ov_SC07_000_jr_8017ECB4.c",
-   "why": "in-function §265 body with a compiler-shaped prologue and no hand-asm marker — a function never decompiled; a Phase-36 residue (Drew: everything short of Sony objects and the original hand asm must be C)",
-   "ratified": "2026-09-09 (P36 T1b: listed by the structural detector; SDK rows and the DECOMPILE/UNCERTAIN split are the proposal for Drew)"
   }
  ]
 }

@@ -1,139 +1,128 @@
 void func_80130D48(s32 arg0)
 {
     s16 *tbl;
-    s32 pa = arg0;
     u8 *p = D_80078E78;
-    s32 s1v;
-    s32 call_a0;
-    s32 call_a1;
-    s32 cnt;
+    s32 val;
+    s32 i;
+    s32 j;
     s32 r;
-    void *ret;
+    s32 ret;
 
-    s1v = func_80131CF4(*(s32 *)((s8 *)pa + 0xBC), 0x15);
-    if (s1v == 0) {
+    val = func_80131CF4(*(s32 *)((s8 *)arg0 + 0xBC), 0x15);
+    if (val == 0) {
         return;
     }
 
-    if (*(u8 *)((s8 *)pa + 0x5E) == 0xB) {
-        ret = (void *)func_8012C658(0x33, 0, pa);
+    if (*(u8 *)((s8 *)arg0 + 0x5E) == 0xB) {
+        ret = func_8012C658(0x33, 0, arg0);
     } else {
-        switch (s1v & 0xFFFF0000) {
+        switch (val & 0xFFFF0000) {
         case 0x10000: {
             u32 x = D_80078EB4;
             u32 y = D_80078EB2;
             u32 b;
             u32 a;
 
-            s1v = 0;
+            val = 0;
             if (x == y) {
-                s1v = 0xC;
+                val = 0xC;
             } else if ((y >> 1) >= x) {
-                s1v = 3;
+                val = 3;
             }
 
             b = *(u16 *)(p + 0x40);
             a = *(u16 *)(p + 0x3E);
             if (b == a) {
-                s1v += 0x18;
+                val += 0x18;
             } else if ((a >> 1) >= b) {
-                s1v += 6;
+                val += 6;
             }
-            { s32 v1; s8 *bp; v1 = s1v * 2; bp = (s8 *)D_8019083C; tbl = (s16 *)(bp + v1); }
+            tbl = D_8019083C + val;
 
             r = rand() % 100;
-            cnt = 0;
-        loop27:
-            if (r >= *tbl) {
-                cnt += 1;
-                tbl += 1;
-                if (cnt < 3) {
-                    goto loop27;
+            for (i = 0; i < 3; i++, tbl++) {
+                if (r < *tbl) {
+                    break;
                 }
             }
 
-            s1v = 0;
-            switch (cnt) {
+            val = 0;
+            switch (i) {
             case 0:
                 tbl = D_8019089C;
-                s1v = 0x31;
+                val = 0x31;
                 break;
             case 1: {
                 s32 mx = *(u16 *)(p + 0x3A);
                 s32 cur = *(u16 *)(p + 0x3C);
                 if (((mx * 7) / 10) >= cur) {
-                    s1v = 4;
+                    val = 4;
                     if ((mx / 2) >= cur) {
-                        s1v = 8;
+                        val = 8;
                         if ((mx / 5) >= cur) {
-                            s1v = 0xC;
+                            val = 0xC;
                         }
                     }
                 }
-                { s32 v1; s8 *bp; v1 = s1v * 2; bp = (s8 *)D_801908A4; tbl = (s16 *)(bp + v1); }
-                s1v = 0x32;
+                tbl = D_801908A4 + val;
+                val = 0x32;
                 break;
             }
             case 2: {
                 s32 mx = *(u16 *)(p + 0x3E);
                 s32 cur = *(u16 *)(p + 0x40);
                 if (((mx * 7) / 10) >= cur) {
-                    s1v = 4;
+                    val = 4;
                     if ((mx / 2) >= cur) {
-                        s1v = 8;
+                        val = 8;
                         if ((mx / 5) >= cur) {
-                            s1v = 0xC;
+                            val = 0xC;
                         }
                     }
                 }
-                { s32 v1; s8 *bp; v1 = s1v * 2; bp = (s8 *)D_801908C4; tbl = (s16 *)(bp + v1); }
-                s1v = 0x33;
+                tbl = D_801908C4 + val;
+                val = 0x33;
                 break;
             }
             }
 
             r = rand() % 100;
-            call_a1 = 0;
-        loop50:
-            if (r >= *tbl) {
-                call_a1 += 1;
-                tbl += 1;
-                if (call_a1 < 4) {
-                    goto loop50;
+            for (j = 0; j < 4; j++, tbl++) {
+                if (r < *tbl) {
+                    break;
                 }
             }
-            ret = (void *)func_8012C658(s1v, call_a1, pa);
+            ret = func_8012C658(val, j, arg0);
             break;
         }
         case 0x20000:
-            ret = (void *)func_8012C658(0x33, 0, pa);
+            ret = func_8012C658(0x33, 0, arg0);
             break;
         case 0x30000:
-            ret = (void *)func_8012C658(0x31, 0, pa);
+            ret = func_8012C658(0x31, 0, arg0);
             break;
         case 0x40000:
-            ret = (void *)func_8012C658(0x32, 0, pa);
+            ret = func_8012C658(0x32, 0, arg0);
             break;
         case 0x50000:
-            ret = (void *)func_8012C658(0x33, 0, pa);
+            ret = func_8012C658(0x33, 0, arg0);
             break;
         case 0x60000: {
             s32 rr = rand() & 0xFF;
+            s32 id;
             tbl = D_8019080C;
-            if (rr >= *tbl) {
-                do {
-                    tbl += 3;
-                } while (rr >= *tbl);
+            while (rr >= *tbl) {
+                tbl += 3;
             }
-            call_a0 = tbl[1];
+            id = tbl[1];
             if (*(u16 *)(p + 0x40) < 4U) {
-                call_a0 = 0x33;
+                id = 0x33;
             }
-            ret = (void *)func_8012C658(call_a0, tbl[2], pa);
+            ret = func_8012C658(id, tbl[2], arg0);
             break;
         }
         case 0x70000:
-            ret = (void *)func_8012C658(0x27B, 0, pa);
+            ret = func_8012C658(0x27B, 0, arg0);
             break;
         default:
             return;
@@ -141,6 +130,6 @@ void func_80130D48(s32 arg0)
     }
 
     if (ret != 0) {
-        *(u16 *)((s8 *)ret + 0xA) -= 0x20;
+        *(u16 *)(ret + 0xA) -= 0x20;
     }
 }

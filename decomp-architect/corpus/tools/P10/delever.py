@@ -2775,7 +2775,119 @@ def merge_walked_pointers(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22")
+_CTRL = re.compile(r"\b(?:if|else|while|for|do|switch|case|default|goto|return|break|continue)\b")
+_LOOPISH = re.compile(r"\b(?:while|for|do|goto)\b|^\s*[A-Za-z_]\w*\s*:(?!:)", re.M)
+
+
+def split_reused_locals(text, tu, fn, d_):
+    """[(description, candidate text)] — R23: a local that is FULLY REDEFINED several times in straight-line code split
+    into one name per value.
+
+    T7 agents c1 (func_80135168, 125 bodies) and c8 (func_80135004, 126 bodies), P36 S103, both closed a register
+    permutation this way: `u16 a, b;` reused by three statement groups became `u16 ax, bx, ay, by, az, bz;`. A pseudo that
+    dies more than once is not a local-alloc candidate (`local-alloc.c:472` takes only a register that dies exactly once
+    in its block), so the reused temps went to GLOBAL allocation — which runs after local-alloc has already handed the
+    pointers their registers. One name per value makes each a single-death local with a high `qty_compare_1` rank
+    (`local-alloc.c:1598-1625`), so they take `$v0/$v1` first and the pointers fall into the target's order. Both closes
+    were JOINT (c1: this move alone 12, a member store alone 20, both 0; c8: this alone 26, a call argument inlined alone
+    16, both 0), so the family also offers every split at once, and the engine composes it with the other families.
+
+    Refused unless `v` is declared without an initialiser in the body's declaration run, its first mention is a full
+    redefinition `v = E;` whose `E` does not read `v`, it has no other write (`+=`, `++`, …) and no `&v`, the definitions
+    lie in straight-line code (no brace or control keyword between the first and the last), and no loop, `goto` or label
+    lies between the first definition and the last use — a renamed segment can then never be reached with the old value."""
+    lines = text.split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    if hi <= lo:
+        return []
+    head = "\n".join(lines[:lo]) + "\n"
+    body = "\n".join(lines[lo:hi])
+    tail = "\n" + "\n".join(lines[hi:])
+    mb = sc.mask_text(body)
+    # declarations are read from the WHOLE-BODY mask: `decl_run_end` masks one line at a time, so a multi-line comment
+    # inside the declaration run ends it early (func_80135168's `[T51]` note returned a run of 0 lines — found by the
+    # known-true check against agent c1's own start text, S103)
+    DL = re.compile(r"^(\s*(?:unsigned\s+|signed\s+|const\s+)*[A-Za-z_]\w*\s+)([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*;\s*$")
+    decls = {}
+    for j, ml in enumerate(mb.split("\n")):
+        m = DL.match(ml)
+        if m and not m.group(1).strip() in ("return", "goto", "extern", "static", "typedef", "else", "do"):
+            for n in re.split(r"\s*,\s*", m.group(2).strip()):
+                decls[n] = lo + j
+    idents = set(re.findall(r"[A-Za-z_]\w*", text))
+    decl_off = {}                                           # line index -> char offset of that line inside `body`
+    off = 0
+    for i in range(lo, hi):
+        decl_off[i] = off
+        off += len(lines[i]) + 1
+
+    def plan(v):
+        dl_i = decls[v]
+        dl_lo, dl_hi = decl_off[dl_i], decl_off[dl_i] + len(lines[dl_i])
+        occ = [m.start() for m in re.finditer(r"(?<![\w.>])%s\b" % re.escape(v), mb) if not dl_lo <= m.start() < dl_hi]
+        if not occ:
+            return None
+        defs = []
+        for p in occ:
+            after, before = mb[p + len(v):], mb[:p].rstrip()
+            if re.match(r"\s*(?:\+\+|--|[-+*/%&|^]=|<<=|>>=)", after) or before.endswith(("++", "--", "&")):
+                return None
+            if re.match(r"\s*=(?!=)", after):
+                semi = mb.find(";", p)
+                if semi < 0 or re.search(r"(?<![\w.>])%s\b" % re.escape(v), mb[p + len(v):semi]):
+                    return None
+                if before and not before.endswith((";", "{", "}")) and not re.search(r"\)\s*$", before):
+                    return None                              # an assignment inside an expression, not a statement
+                defs.append(p)
+        if len(defs) < 2 or occ[0] != defs[0]:
+            return None
+        if re.search(r"[{}]", mb[defs[0]:defs[-1]]) or _CTRL.search(mb[defs[0]:defs[-1]]):
+            return None
+        if _LOOPISH.search(mb[defs[0]:occ[-1]]):
+            return None
+        names = []
+        for k in range(2, len(defs) + 1):
+            n = f"{v}{k}"
+            if n in idents or n in names:
+                n = f"{v}_{k}"
+            if n in idents or n in names:
+                return None
+            names.append(n)
+        return dl_i, defs, occ, names
+
+    def apply(vs, src_lines, src_body):
+        edits = []                                          # (start, end, replacement) inside the body
+        decl_edits = {}
+        for v in vs:
+            dl_i, defs, occ, names = plans[v]
+            bounds = defs[1:] + [len(src_body)]
+            for k, (a, b) in enumerate(zip(defs[1:], bounds[1:])):
+                for p in occ:
+                    if a <= p < b:
+                        edits.append((p, p + len(v), names[k]))
+            decl_edits.setdefault(dl_i, []).append((v, names))
+        new = src_body
+        for a, b, r in sorted(edits, reverse=True):
+            new = new[:a] + r + new[b:]
+        nl = new.split("\n")
+        for dl_i, items in decl_edits.items():
+            j = dl_i - lo
+            for v, names in items:
+                nl[j] = re.sub(r"(?<![\w.>])%s\b" % re.escape(v), ", ".join([v] + names), nl[j], count=1)
+        return head + "\n".join(nl) + tail
+
+    plans = {}
+    for v in decls:
+        p = plan(v)
+        if p:
+            plans[v] = p
+    out = [(f"split {v} into {len(plans[v][1])}", apply([v], lines, body)) for v in plans]
+    if len(plans) > 1:
+        out.append((f"split ALL {'+'.join(plans)}", apply(list(plans), lines, body)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2904,6 +3016,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R22" in fam:
         for desc, cand in merge_walked_pointers(text, tu, fn, d_):
             out.append(("R22", desc, cand))
+    if "R23" in fam:
+        for desc, cand in split_reused_locals(text, tu, fn, d_):
+            out.append(("R23", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -3886,6 +4001,33 @@ def selftest():
         if merge_walked_pointers(bad, "src/fx/w.c", "func_80100000",
                                  next(r for r in sc.scan_text(bad, "src/fx/w.c", shared_defs=None) if r["form"] == "def")):
             fail(f"R22 must refuse {why}")
+
+    # R23, one name per value (T7 agents c1/c8, P36 S103; known-true: on each agent's own start text R23's joint split
+    # scores exactly the number the agent measured for that move alone — 12 for func_80135168, 26 for func_80135004).
+    RFIX = ("void func_80100000(s16 *p1, s16 *p2, s16 *q) {\n"
+            "    /* a note that\n"
+            "       spans lines */\n"
+            "    u16 a, b;\n"
+            "\n"
+            "    a = p2[0]; q[0] = a; b = p1[0]; q[1] = a - b;\n"
+            "    a = p2[1]; q[2] = a; b = p1[1]; q[3] = a - b;\n"
+            "}")
+    dR = next(r for r in sc.scan_text(RFIX, "src/fx/r.c", shared_defs=None) if r["form"] == "def")
+    r23 = dict(split_reused_locals(RFIX, "src/fx/r.c", "func_80100000", dR))
+    if sorted(r23) != ["split ALL a+b", "split a into 2", "split b into 2"]:
+        fail(f"R23 must offer each reused local and the joint split (past a multi-line comment), got {sorted(r23)}")
+    else:
+        j = r23["split ALL a+b"]
+        if "u16 a, a2, b, b2;" not in j or "a2 = p2[1]; q[2] = a2; b2 = p1[1]; q[3] = a2 - b2;" not in j \
+                or "a = p2[0]; q[0] = a; b = p1[0]; q[1] = a - b;" not in j:
+            fail(f"R23's joint split must rename every later segment and declare the names: {j!r}")
+    # controls: a compound write, and a loop between the definitions, each refuse the split
+    for bad, why in ((RFIX.replace("q[3] = a - b;", "q[3] = a - b; a += 1;"), "a compound write"),
+                     (RFIX.replace("    a = p2[1];", "    while (*q) q++;\n    a = p2[1];"), "a loop between the definitions")):
+        got = dict(split_reused_locals(bad, "src/fx/r.c", "func_80100000",
+                                       next(r for r in sc.scan_text(bad, "src/fx/r.c", shared_defs=None) if r["form"] == "def")))
+        if "split a into 2" in got:
+            fail(f"R23 must refuse {why}: {sorted(got)}")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

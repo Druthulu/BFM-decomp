@@ -1710,6 +1710,7 @@ carries its mechanism, its `file:line` citations into `tools/reference/gcc-2.7.2
 | R20 | `narrow_chains` | every local in one def-use chain narrowed TOGETHER, and each pair of chains together | agent b3, `func_8016CBC0` |
 | R21 | `second_consumer` | `v = E; slot = v;` → `v = slot = E;` (chain) or `slot = E; v = E;` (hoist), each site and ALL sites | agents b2/b6 |
 | R22 | `merge_walked_pointers` | a second pointer `q = p + K` stepped in lockstep with `p` deleted; `q[n]` → `p[n+K]`, `*q` → `p[K]` (S103; leads the COUNT class after R19) | agent c2, `func_8013D8FC` — known-true: its start text's R22 candidate is the agent's closing body, score 0 |
+| R23 | `split_reused_locals` | a local fully redefined several times in straight-line code split into one name per value (`u16 a, b;` → `u16 a, a2, a3, b, b2, b3;`), each and ALL (S103; leads the REG classes after R19) | agents c1 `func_80135168` / c8 `func_80135004` — known-true: its joint split scores exactly what each agent measured for the move alone (12, 26) |
 
 **Three of these are JOINT edits and that is the point.** R20's single-chain candidates score 43 and 51 where the joint
 scores 0; R21's single sites are worse than its joint form; b7's four-way retype has every intermediate worse than the
@@ -1765,3 +1766,22 @@ side, and every `@class:`/`@stuck:`/`@crack:` note in the TU — and `best_body.
 engine reached. Both came from agents: one closed on its first try after reading a sibling's header, and one lost hours
 because the pack had reduced its own function's eight-point English header to two tagged lines. **A `@stuck:` note is a
 CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
+
+### §P36 S103 — 2026-09-10: two generators, the method file, and `verbatim_check` in the local chain
+
+- **Generators R22 and R23** (rows in the §P36 S102 generator table above): R22 `merge_walked_pointers` (agent c2) and
+  R23 `split_reused_locals` (agents c1/c8, one name per value — a pseudo that dies more than once is not a local-alloc
+  candidate, `local-alloc.c:472`). R23 reads declarations from the WHOLE-BODY mask because `decl_run_end` masks one line
+  at a time and ends the declaration run at a multi-line comment (it returned a run of 0 lines on `func_80135168`; R3's
+  init-split shares that limitation). Known-true checks: R22's candidate from c2's start text IS its closing body (score 0);
+  R23's joint split scores exactly what c1 and c8 measured for that move alone (12, 26).
+- **`.run/P36/agents/METHOD_S103.md`** — the method every agent brief cites (after `PROMPT.md`, taking precedence): count
+  first, the whole-function dump, the emitters of a missing instruction with the S103 additions (the walked-pointer merge,
+  the `u16` width move for a surviving copy, the implicit handler argument), the allocation arithmetic, joint edits, the
+  refusals. Grown at every landing.
+- **The agent lane runs at most FIVE agents at once** (Drew, 2026-09-10). Fable 5.1 may be out of credits: an agent that
+  dies with HTTP 429 on its first step is relaunched on Opus (R40 — the harness, not the function).
+- **`tools/verbatim_check.py --strict` is now in `make tools-health`** (it ran only in CI: a DECOMPILE-NOW row converted by
+  T4 batch tus10 kept CI red while every local chain was green). `--update` now keeps the manifest's row order and writes
+  UTF-8 (it used to re-sort every row and escape every `§`/`—`, a 588-line diff for one removed row); its output was
+  proven byte-identical to a hand-made one-row removal.

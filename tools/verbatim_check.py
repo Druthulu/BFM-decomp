@@ -243,8 +243,12 @@ def main():
             keep.append(dict(binary=b, fn=fn, addr=None, nins=None, cls='UNCLASSIFIED',
                              disposition='UNKNOWN', form=form_of.get((b, fn), 'file-scope'), unit_entry=fn, unit_nins=None,
                              path=found_k[(b, fn)], why='added by --update; NEEDS CLASSIFICATION'))
-        man['rows'] = sorted(keep, key=lambda r: (r['binary'], r['fn']))
-        json.dump(man, open(MANIFEST, 'w'), indent=1)
+        # the manifest's row ORDER and its non-ASCII text (§, —, ·) are part of the file: the first --update of P36 S103
+        # re-sorted every row and escaped every character, a 588-line diff for one removed row. Keep the order, append
+        # the new rows, write UTF-8 as it was written (R57 — the instrument's write path is part of the instrument).
+        man['rows'] = keep
+        with open(MANIFEST, 'w') as fh:
+            fh.write(json.dumps(man, indent=1, ensure_ascii=False) + '\n')
         print(f'\nmanifest updated: {len(rows)} -> {len(man["rows"])} rows '
               f'({len(new)} added as UNCLASSIFIED — classify them)')
     if a.strict and (new or gone or moved):

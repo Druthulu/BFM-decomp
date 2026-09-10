@@ -2873,10 +2873,9 @@ extern void func_8012B200(u8 *a0);
     }
 
 
-void func_8017EEC0(void) {
+void func_8017EEC0(s32 *a0) {
     extern void func_8012AD44(s32 *a0, s16 a1);
-    s32 a0v;
-    func_8012AD44((s32 *)a0v, 3);
+    func_8012AD44(a0, 3);
 }
 
 

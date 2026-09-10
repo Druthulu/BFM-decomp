@@ -1950,19 +1950,17 @@ void func_8015D738(void *arg0) {
     ((void (*)(void))func_80148AFC)();
     if (func_80161B18(arg0) != 0) return;
     if (func_80161B84(arg0) != 0) return;
+    do {
+        s1 = *(s32 *)((char *)arg0 + 0x178);
+    } while (0);
+    if (s1 != 0 && *(u16 *)s1 == 0x360) goto block_808;
     s1 = *(s32 *)((char *)arg0 + 0x178);
-    if (s1 != 0) {
-        if (*(u16 *)s1 == 0x360) goto block_808;
+    if (s1 == 0 || *(u16 *)s1 == 0) {
+        D_80181584[*(u16 *)arg0](arg0);
+        ((void (*)(void *, s32))func_80147078)(arg0, 0);
+        func_80159B70(arg0);
+        return;
     }
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus2)
-    if (s1 != 0) {
-        if (*(u16 *)s1 != 0) goto block_7F4;
-    }
-    D_80181584[*(u16 *)arg0](arg0);
-    ((void (*)(void *, s32))func_80147078)(arg0, 0);
-    func_80159B70(arg0);
-    return;
-block_7F4:
     if (((s32 (*)(void *))func_80148800)(arg0) & 0x80) {
     block_808:
         ((void (*)(void *, s32))func_80154A74)(arg0, 0x11);

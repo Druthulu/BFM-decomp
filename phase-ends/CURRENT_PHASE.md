@@ -96,6 +96,9 @@
   residue counted as a lever). The 20 per-overlay trampoline families (133 private copies each, bytes varying with the wrapped callee)
   are the names phase's parameterized-form inheritance.
 
+- **S103 (2026-09-10), Drew: *"max concurrent agents is 5, leave the ones you have running, but maintain max of 5
+  concurrent agents from now on."*** → the T7 agent lane runs at most FIVE agents at once (six were running when he said
+  it; they finish, and no new one launches until fewer than five are live).
 - **S98 (2026-09-09), Drew, mid-T3:** *"dont start ultra code wave for reshaping without my direct approval."* → **T7's reshaping waves (Ultracode) start ONLY on Drew's direct approval in the session that would run them** — the R27 toggle is necessary, not sufficient; the T6 recipe/permuter rungs and the mechanical campaign are not waves and proceed under P3.
 
 ## Rules at gate 1 (P10)
@@ -1355,6 +1358,44 @@ accumulate here as the phase produces them.**
   byte-for-byte the agent's closing body and `--try` scores 0**; selftest fixture + two refusal controls, `delever
   --selftest: OK`; SETUP generator table row. The mechanical search had ~3,500 compiles on this body and no move that
   merges two walked pointers — it could never close a whole extra loop variable.
+
+- **S103 — wave c lands: SEVEN more agent closes + one coordinator bank, 23,988 → 20,206 sites (−3,782).** Every body
+  `--try` score 0 before the next agent launched, then `apply-body … IDENTICAL … KEPT` and `--propagate … N of N
+  sibling(s) banked, 0 refused`: **c4 `func_80133AB0`** (24 → 0, 137/137; 133/133) three WIDTH moves — a flag copy, the
+  X/Y copies split out of `u32 X, Y, cell, Xc, Yc;`, a counter — to `u16`: no PROMOTE_MODE on MIPS, a same-mode SI copy
+  is folded by cse's `(set REG0 REG1)` case (`cse.c:7440-7474`, gate `:7455`), a HImode copy is a SUBREG move and
+  survives, a `u16 cnt--` takes `copy_to_reg` (`expr.c:8645`); **c6 `func_80130D48`** (18 → 0, 266/266; 129/129) a
+  shared `goto do_call` tail given one call per case — the parameter's refs 4 → 11 lift its `allocno_compare` priority
+  384.6 → 1586.5 past the rival's 1212.1 (`global.c:594-607`); cross-jump re-merges the calls AFTER allocation
+  (`toplev.c:3142`, `jump.c:2371`), so the bytes keep one call; **c1 `func_80135168`** (25 → 0, 62/62; 125/125) reused
+  temps split one pair per group (a pseudo dying 3× is not a local-alloc candidate, `local-alloc.c:472`) JOINT with the
+  global store written as an `H16` member store, whose MEM_IN_STRUCT_P keeps sched1's anti-dependence
+  (`sched.c:858-863`, `expr.c:4888`) the `"memory"` barrier was faking; **c7 `func_80134A74`** (30 → 0, 107/107;
+  133/133) c4's width moves (relayed mid-run) + the struct fields copied to locals before the loop + `lst--` written in
+  both arms of an if/else, which adds loop-weighted refs (`flow.c:2067`) and flips `allocno_compare` 3684 → 8461 vs
+  7674; **c3 `func_80148AFC`** (23 → 0, 71/71; 131/131) the angle passed as the dispatch handler's implicit SECOND
+  argument (the TU's `ActorFn` was one argument too narrow) JOINT with `tmp` reused as the LATER operand so its last
+  mention wins `make_regs_eqv` (`cse.c:846-862`, the swap at `:7454`); **c5 `func_8015D738`** (17 → 0, 201/201;
+  125/125) jump threading (`jump.c:4161`; `-fno-thread-jumps` reproduces the target in one compile): the pointer
+  re-read before the second null test JOINT with a `do { … } while (0);` around its first read — **the agent flagged the
+  do-while as a possible lever; banked on precedent (R7 emits it, S102's a4 and b8 banked with it, the census does not
+  count it, 1,347 in `src/`) and the class RAISED WITH DREW**; **c8 `func_80135004`** (26 → 0, 89/89; 126/126) c1's
+  temp split (relayed) JOINT with `D_801EDA30` passed straight to the call — a load stays a separate insn when a store
+  lies between it and its use (`combine.c:914-917`, `:10134`); **coordinator `func_8017EEC0`** (ov_SC07_000): the
+  uninitialised `s32 a0v;` T4 batch tus10 left when it took the `$4` pin off is the function's PARAMETER —
+  `void func_8017EEC0(s32 *a0)` scores 0 (8/8), IDENTICAL, KEPT (its callers still declare it `(void)`: the
+  too-few-arguments group). R22 after the first four: `check-all: 218 passed, 0 failed of 218`; after all eight:
+  `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 20,206 pin/asm sites, 20,206 marked !FAKE, 0 UNMARKED — OK`.
+  **CI was red since 2026-09-09 (Drew's report, run 34525907006):** `verbatim_check --strict` → `1 manifest row(s) no
+  longer verbatim … ov_SC07_000 func_8017EEC0` — the DECOMPILE-NOW row went stale when T4 batch `tus10` (`cb2fb5e6d`)
+  converted it, and the check ran ONLY in CI. Fixed: the row removed (a one-row, 14-line diff), `--update` repaired to keep
+  row order and write UTF-8 (its first run re-sorted and escaped the file: 588 lines for one row) and proven
+  byte-identical to the hand removal, **`verbatim_check --strict` wired into `make tools-health`** — `verbatim strict
+  rc=0`. **Harvest: generator R23 `split_reused_locals`** (c1/c8's move; one name per value), selftest fixture past a
+  multi-line comment + two refusal controls (`delever --selftest: OK`); known-true: its joint split scores **12** on c1's
+  start text and **26** on c8's — exactly the numbers each agent measured for that move alone; R6 does not reach c8's
+  second move (a temp in a multi-statement line), so the full close stays an agent result. **Drew set the lane to at
+  most five concurrent agents.** Relayed mid-run twice (c4 → c7, c1 → c8), and both relays were used in the close.
 
 ## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
 
