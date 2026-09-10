@@ -77,7 +77,7 @@ void func_800CAF84(int param_1)
 
 
     extern void func_801655E4(void);
-    extern void func_80146CA0(void);
+    extern void func_80146CA0(void *a0);
     void func_800CAFBC(s32 a0) {
         func_801655E4();
         ((void (*)(s32))func_80146CA0)(a0);
@@ -92,7 +92,7 @@ void func_800CAFEC(s32 *a0) {
     extern void func_800CB13C(s32 param_1);
     extern void func_80147324(s32 a0);
     extern void func_801553A8(s32 *a0);
-    extern void func_80146CA0(void);
+    extern void func_80146CA0(void *a0);
 
     s16 buf[3];
     s32 *p;

@@ -732,7 +732,7 @@ extern void func_80151878(void);
 extern void func_80153B58(s32 *a0);
 extern s32 func_80151880(s32 a0);
 extern s32 func_801518D8(s32 a0);
-extern s32 func_80151944(void);
+extern s32 func_80151944(void *a0);
 extern s32 func_80151924(void);
 extern void func_8014E934(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
@@ -1172,7 +1172,7 @@ extern int func_8015B6F4(int param_1);
 extern u8 D_800D4F8C[];
 extern s32 func_8015B7B4(s32 a0);
 extern u8 D_800D4BE0[];
-extern s32 func_8014A51C(void);
+extern s32 func_8014A51C(int param_1);
 extern s32 func_8015B858(u8 *a0);
 extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
@@ -1412,7 +1412,7 @@ extern void func_80160FE0(s32 *a0);
 extern void func_80161034(void *a0);
 extern void func_80161094(s32 a0);
 extern void func_801610FC(void);
-extern void func_801483E8(void);
+extern void func_801483E8(unsigned char *self);
 extern s32 func_80161A60(s32 a0);
 extern void func_8016130C(void *a0, s32 a1);
 extern void func_80161240(void *a0);
@@ -1432,7 +1432,7 @@ extern s32 func_801615C4(void * arg0, s32 arg1);
 extern s32 func_801619A4(s32 *a0);
 extern s32 func_80161A00(s32 a0);
 extern s32 func_80161A30(s32 a0);
-extern int func_801497A8(void);
+extern int func_801497A8(s32 *a0);
 extern int func_80161BE0(void *param_1);
 extern u16 D_8018D688[];
 extern void func_80161C98(int param_1, u32 param_2);
@@ -1525,7 +1525,7 @@ extern void func_80163A94(s32 param_1);
 extern void func_80163C2C(s32 param_1);
 extern void func_80163EC8(s32 param_1);
 extern void func_80164270(s32 *a0);
-extern void func_80164418(void);
+extern void func_80164418(s32 s0);
 extern void func_80163764(s32 a0);
 extern void func_801642AC(s32 a0);
 extern void func_8016432C(s32 a0);
@@ -1601,7 +1601,7 @@ extern u8 D_8018D92C[];
 extern u8 func_801656D0(s32 a0, s32 a1);
 extern u8 D_8018D94C[];
 extern u8 D_8018D96C[];
-extern void func_800CAF6C(void);
+extern void func_800CAF6C(s32 *a0);
 extern void func_80165770(void);
 extern void func_801657D8(void);
 extern u8 D_80078EC3;
@@ -1728,7 +1728,7 @@ extern void func_80168A88(void);
 extern void (*D_8018DBB4[])(void);
 extern void func_80168AA8(void *a0);
 extern void func_80168AE4(s32 a0);
-extern void func_800D2318(void);
+extern void func_800D2318(s32 *p);
 extern void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void (*D_8018DBBC[])(void);
 extern void func_80168D58(void *a0);
@@ -1778,7 +1778,7 @@ extern void func_8016A890(s32 arg0);
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_8018DD1C[])(void);
 extern void func_8016AB30(void *a0);
-extern void func_8016B234(void);
+extern void func_8016B234(s32 param_1);
 extern void func_8016AFB0(s32 a0);
 extern void func_8016B114(void *arg0);
 extern s32 func_8016B448(s32, s32);
@@ -2562,7 +2562,7 @@ extern s32 func_8017A3B0(void);
 extern short D_801E178C;
 extern short D_801E1788;
 extern int func_800D0CA0(int);
-extern int func_8001AAA0(void);
+extern int func_8001AAA0(s32 arg0);
 extern int func_800D0CE0(void);
 extern int func_8017A3D8(void);
 extern void func_80172310(u8*);
@@ -4203,7 +4203,7 @@ void func_8017E228(void *a0) {
     extern short D_8018E958;
     extern s32 D_8018E960;
     extern void (*D_8018E968)(void);
-    extern s32 func_8017E5C4(void);
+    extern s32 func_8017E5C4(s32 arg);
 
     void *s0 = a0;
     s32 v0, v1;
@@ -4619,7 +4619,7 @@ extern void func_801843E0(void *a0, s32 a1);
 extern s32 func_801788B8(s32 a0, s32 a1);
 
 void func_8017EB04(void *a0) {
-    extern void func_8017EB84(void);
+    extern void func_8017EB84(void *a0);
     extern short D_8018F038;
     extern u16 D_8018F040[];
     void *s0 = a0;
@@ -4909,7 +4909,7 @@ void func_8017F09C(void) {
 
 extern s32 func_80183EE4(void *a0, void *a1);
 extern s32 func_801842F8(u8 a0, u8 a1, u8 a2, u8 a3);
-extern void func_8017F1A0(void);
+extern void func_8017F1A0(void *a0);
 
 void func_8017F0A4(void *arg0) {
 
@@ -5096,7 +5096,7 @@ extern void func_8012E88C(s32 a0);
 extern void func_801843E0(void *a0, s32 a1);
 extern void func_8012A828(s32 a0, s32 a1);
 extern s32 func_801788B8(s32 a0, s32 a1);
-extern void func_8017FA98(void);
+extern void func_8017FA98(void *a0);
 extern s32 D_801E1A1C;
 extern s32 D_801CA44C;
 extern short D_8018F498;
@@ -6614,7 +6614,7 @@ void func_801814E0(void *arg0) {
     extern s32 func_80029504(void);
     extern void func_8012CAE4(void *a0);
     extern s32 func_801788B8(s32 arg0, s32 arg1);
-    extern void func_801816C8(void);
+    extern void func_801816C8(s32 a0);
     extern s32 D_801E1A20;
     extern s32 D_801E1A24;
     extern s32 D_8018FEB4;
@@ -6714,7 +6714,7 @@ void func_80181644(void *a0)
  * the next callback (func_80172710).  Sibling of aF8017F1A0 / aF8017FA98 / aF8018CB18
  * in this TU — same decl surface, same house style.
  *
- * DECL SURFACE (§37 / §73 / §376): the TU already carries `extern void func_801816C8(void);`
+ * DECL SURFACE (§37 / §73 / §376): the TU already carries `extern void func_801816C8(s32 a0);`
  * (L6948, used only to take the address at L6966).  The byte-true signature disagrees on
  * BOTH axes (void->s32, void->void*), so the definition is emitted under the C identifier
  * `aF801816C8` with an __asm__("func_801816C8") label — the same alias form already banked
@@ -6846,7 +6846,7 @@ extern void func_8012B2CC(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_80029504(void);
 extern s32 func_80029178(s32 arg);
-extern void func_80181A1C(void);
+extern void func_80181A1C(void *arg0);
 
 void func_80181870(void *arg0) {
 
@@ -6917,7 +6917,7 @@ void func_801819E0(void *a0) {
  * returns the address of the next callback (func_80172710).
  *
  * DECL SURFACE (§73 / §37): the TU already carries a fleet-canonical forward decl
- *   `extern void func_80181A1C(void);`   (ov_SC04_018_jr_8017AE2C.c L7759)
+ *   `extern void func_80181A1C(void *arg0);`   (ov_SC04_018_jr_8017AE2C.c L7759)
  * used only to take the function's ADDRESS at L7786.  The byte-true signature
  * disagrees on BOTH §73 axes (return void->s32 AND params void->void*), so neither
  * the fleet widen nor a cast-at-use fixes it.  Instead the definition is emitted

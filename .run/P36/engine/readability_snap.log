@@ -1,0 +1,1 @@
+readability_progress: P36 S102 — after the 16,759 free declaration repairs — 94001 lying declaration(s) over 1564 callee(s) (86701 `()`, 7300 `(void)`), 461 in 314 pinned bodies; 414148 raw cast deref(s), 173286 struct member read(s), at 51028a78d

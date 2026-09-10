@@ -14,10 +14,8 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
     iVar2 = 0;
     puVar1 = ((unsigned short *)&D_8011D030);
-    param_2 = ((short)param_2);
-    p2 = param_2;
-    param_3 = ((short)param_3);
-    p3 = param_3;
+    p2 = ((short)param_2);
+    p3 = ((short)param_3);
     eq = (p2 == p3);
     do {
         if ((puVar1 != ((unsigned short *)param_1)) &&

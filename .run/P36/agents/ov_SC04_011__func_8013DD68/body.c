@@ -22,13 +22,15 @@ void func_8013DD68() {
     uVar1 = *puVar16;
     puVar16 = puVar16 + 1;
     base = pbase + (u32)D_800AF7B8 * 0x5C;
-    buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
-    *((u8 *)&buf + 0x18) = 0;
-    SetDrawEnv(p, &buf);
-    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
-    OTE->addr = (u32)p;
-    p = p + 0x10;
-    iVar14 = 0;
+    do {
+        buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
+        *((u8 *)&buf + 0x18) = 0;
+        SetDrawEnv(p, &buf);
+        ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+        OTE->addr = (u32)p;
+        p = p + 0x10;
+        iVar14 = 0;
+    } while (0);
     if (uVar1 != 0) {
         int c5 = 5;
         puVar10 = (u16 *)((int)p + 0x18);
@@ -46,9 +48,8 @@ void func_8013DD68() {
             iVar14 = iVar14 + 1;
             *(u16 *)((int)puVar10 + -0xa) = q[-3];
             *(u8 *)((int)puVar10 + -8) = (u8)*puVar16;
-            uVar2 = q[-7];
+            *(u8 *)((int)puVar10 + -7) = (u8)q[-7];
             *(u16 *)((int)puVar10 + -6) = 0x7800;
-            *(u8 *)((int)puVar10 + -7) = (u8)uVar2;
             puVar16 = puVar16 + 8;
             *(u16 *)((int)puVar10 + -4) = q[-2];
             *(u16 *)((int)puVar10 + -2) = q[-1];

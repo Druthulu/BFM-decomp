@@ -6,12 +6,12 @@ void func_8016B234(s32 param_1) {
     Prim_B234 prim;
     struct { s16 xy[2]; s32 sp1c; s32 flag; } out;
     void *dp;
-    u32 uVar1;
+    u32 uVar1; /* the projected screen Y, then the UV column index */
     s16 iVar2;
     s32 X, Y0, Y1, base, ni;
-    s32 sy;
     s16 xtmp;
     s32 sxy;
+    s32 hh;
 
     dp = &D_800AF648;
     func_8004914C(dp);
@@ -24,16 +24,15 @@ void func_8016B234(s32 param_1) {
         sxy = *(s32 *)out.xy;
         prim.a04 = 0x10;
         X = *(u16 *)(param_1 + 0x2a) + sxy;
-        sy = (u16)out.xy[1];
+        uVar1 = (u16)out.xy[1];
         prim.ax = prim.cx = X;
         prim.bx = prim.dx = X + 8;
-        Y0 = sy - *(u16 *)(param_1 + 0x26);
+        Y0 = uVar1 - *(u16 *)(param_1 + 0x26);
         prim.ay = prim.by = Y0;
-        sxy = *(u16 *)(param_1 + 0x26);
+        hh = *(u16 *)(param_1 + 0x26);
         prim.v0 = prim.v1 = 0x1d0;
         prim.v2 = prim.v3 = 0x1d8;
-        sxy = sy + sxy;
-        prim.cy = prim.dy = sxy;
+        prim.cy = prim.dy = uVar1 + hh;
         prim.r = prim.g = prim.b = *(u8 *)(param_1 + 0x24);
         prim.code = (&D_80193590)[*(s32 *)(param_1 + 0x2c)];
         if (*(s16 *)(param_1 + 0x26) < 5) {

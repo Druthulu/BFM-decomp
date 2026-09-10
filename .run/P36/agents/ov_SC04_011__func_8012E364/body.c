@@ -35,15 +35,14 @@ void func_8012E364(s32 arg0_)
 
     prev = D_801ED9DC;
     e1 = *(s32 *)(arg0 + 0x20);
-    v = spd + D_801ED9D8 - prev;
+    v = D_801ED9D8 - prev + spd;
     D_801ED9DC = spd;
     flags = *(u16 *)(e1 + 0x2C);
-    D_801ED9D8 = v;
-    do { *(u16 *)(e1 + 0x2C) = flags | 0x10; } while (0);
-
+    *(u16 *)(e1 + 0x2C) = flags | 0x10;
     e2 = *(s32 *)(arg0 + 0x20);
     d = __builtin_abs(v);
     *(s16 *)(e2 + 0x1C) = d;
     *(s16 *)(e2 + 0x18) = d;
+    D_801ED9D8 = v;
     *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = 0x1000;
 }

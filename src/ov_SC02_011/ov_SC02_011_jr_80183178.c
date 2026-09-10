@@ -1024,7 +1024,7 @@ extern s32 func_800D0CE0(void);
 
 
 extern u8 D_801202A0[];
-extern void func_8012C098(void);
+extern void func_8012C098(void *param_1);
 
 void func_80184A54(void)
 {
@@ -3200,7 +3200,7 @@ void func_8018754C(s32 *a0)
 
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012C098(void);
+extern void func_8012C098(void *param_1);
 void func_80187614(s32 a0) {
     func_8012AD80(a0);
     if (func_8012BEE8(a0)) {
@@ -3282,7 +3282,7 @@ void func_801877C8(int param_1)
 
 
 extern s32 func_800D0CE0(void);
-extern void func_8012C098(void);
+extern void func_8012C098(void *param_1);
 void func_80187800(int param_1)
 {
     if (((int (*)(void))func_800D0CE0)() != 0) {
@@ -3838,7 +3838,7 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 #include "common.h"
 
 extern void func_8002A04C(void);
-extern void func_8012C098(void);
+extern void func_8012C098(void *param_1);
 
 void func_801883EC(s32 a0) {
     if (*(s16 *)(a0 + 0x102) == 0) {
@@ -3958,7 +3958,7 @@ extern void func_8012CBA4(s32 a0);            /* canonical void */
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012C098(void);
+extern void func_8012C098(void *param_1);
 extern s32 func_8012C044(s32 a0);
 
 extern void func_80188250(s32 a0);

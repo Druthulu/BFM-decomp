@@ -2874,7 +2874,7 @@ s32 func_8015B858(u8 *a0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (271/271, pin-free, zero asm). The ONLY residual is DEF-SIDE plumbing, and it is now named exactly: the in-TU instantiation `DEFINE_func_8015BEE4()` (engine_core.h:1851-1855) expands to `extern s32 func_8015B950(void);` INSIDE ov_SC01_077_jr_8015AE2C.c, ~14 lines BELOW this definition, so the 1-param def collides with a `(void)` prototype -> `conflicting types for func_8015B950` (.run/bank_func_8015B950.log). §73 PARAMS axis / T0. Surgical fix = §65b de-macroize that ONE instantiation (blast radius: this TU); the fleet-wide `(void)`->`()` header edit is §63 and must be R22-validated.
+// @stuck: none — MATCH (271/271, pin-free, zero asm). The ONLY residual is DEF-SIDE plumbing, and it is now named exactly: the in-TU instantiation `DEFINE_func_8015BEE4()` (engine_core.h:1851-1855) expands to `extern s32 func_8015B950(s32 arg0);` INSIDE ov_SC01_077_jr_8015AE2C.c, ~14 lines BELOW this definition, so the 1-param def collides with a `(void)` prototype -> `conflicting types for func_8015B950` (.run/bank_func_8015B950.log). §73 PARAMS axis / T0. Surgical fix = §65b de-macroize that ONE instantiation (blast radius: this TU); the fleet-wide `(void)`->`()` header edit is §63 and must be R22-validated.
 /* func_8015B950 (ov_SC01_077_jr_8015AE2C, 271 ins, jtbl_801D8B74) — SESSION-21 re-verified
  *
  * ── ROUND-2 INDEPENDENT RE-VERIFICATION (2026-07-27, fresh agent, §88e discipline) ─────────────
@@ -2907,7 +2907,7 @@ s32 func_8015B858(u8 *a0)
  * with ONE deliberate change: the definition's return type void -> s32.
  *   - `void func_8015B950(s32 arg0)` : MATCH (271 ins)   [the Phase-26 form]
  *   - `s32  func_8015B950(s32 arg0)` : MATCH (271 ins)   [shipped — §3a-1 void->s32 is byte-neutral]
- * The fleet/engine_core.h canonical decl is `extern s32 func_8015B950(void);` (engine_core.h:1852),
+ * The fleet/engine_core.h canonical decl is `extern s32 func_8015B950(s32 arg0);` (engine_core.h:1852),
  * and the last bank attempt (.run/bank_func_8015B950.log) died on `conflicting types for
  * func_8015B950`. Shipping the s32 return kills the §73 RETURN axis for free and leaves only the
  * cheap T0 PARAMS axis for the ladder (fix_header_decl.py / --fix-def-sig / cast_call_sites).

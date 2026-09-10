@@ -162,6 +162,9 @@ def main():
     ap.add_argument("-j", "--jobs", type=int, default=8)
     ap.add_argument("--limit", type=int)
     ap.add_argument("--json", default=".run/P36/engine/decl_repair.json")
+    ap.add_argument("--apply", action="store_true",
+                    help="write the repairs into the tree, ONLY for units this run judged IDENTICAL (each unit is "
+                         "re-judged here, never trusted from a previous run's json — the tree may have moved)")
     a = ap.parse_args()
     defs = argcheck.definitions()
     by_src = oracle.recipes_by_src(oracle.load_recipes()["recipes"])
@@ -178,6 +181,22 @@ def main():
             if n % 250 == 0:
                 c = collections.Counter(x["verdict"] for x in rows)
                 print(f"  {n}/{len(units)} judged; {dict(c)}", flush=True)
+    if a.apply:
+        # Only a unit THIS RUN judged IDENTICAL is written, and it is written from the same `widen` output the judgement
+        # compiled — never re-derived, never taken from an earlier json (R42's cousin: the tree may have moved under it).
+        n_w = n_d = 0
+        for r in rows:
+            if r["verdict"] != "IDENTICAL":
+                continue
+            path = REPO / r["tu"]
+            raw = path.read_text(errors="surrogateescape")
+            new, fixed = widen(raw, defs)
+            if not fixed or new == raw:
+                continue
+            path.write_text(new, errors="surrogateescape")
+            n_w += 1
+            n_d += len(fixed)
+        print(f"decl_repair --apply: {n_w} unit(s) rewritten, {n_d} declaration(s) repaired — now run the fleet gate")
     c = collections.Counter(x["verdict"] for x in rows)
     free = sum(x["fixed"] for x in rows if x["verdict"] == "IDENTICAL")
     held = sum(x["fixed"] for x in rows if x["verdict"] == "DIFFERS")

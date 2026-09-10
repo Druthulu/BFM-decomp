@@ -10,7 +10,10 @@ s32 func_80139BE0(int param_1)
         unsigned int idx;
 
         idx = (unsigned char)t;
-        if (h < 7) {
+        /* `t >> 8` is identically 0 (t is masked to 0x60): it is a second
+           reference to t, which is what keeps the byte narrowing above from
+           being folded into t's own definition.  cc1 discards the term. */
+        if (h < 7 + (t >> 8)) {
             if (h >= 2) {
                 v = D_801909F8[idx >> 5];
             } else {

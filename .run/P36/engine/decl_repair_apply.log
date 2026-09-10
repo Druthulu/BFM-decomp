@@ -1,0 +1,22 @@
+decl_repair: 4121 translation unit(s) with a recipe; 15626 definitions; -j10
+  250/4121 judged; {'IDENTICAL': 85, 'COMPILE-ERROR': 3}
+  500/4121 judged; {'IDENTICAL': 307, 'COMPILE-ERROR': 13}
+  750/4121 judged; {'IDENTICAL': 525, 'COMPILE-ERROR': 25}
+  1000/4121 judged; {'IDENTICAL': 738, 'COMPILE-ERROR': 34}
+  1250/4121 judged; {'IDENTICAL': 960, 'COMPILE-ERROR': 44}
+  1500/4121 judged; {'IDENTICAL': 1184, 'COMPILE-ERROR': 54}
+  1750/4121 judged; {'IDENTICAL': 1403, 'COMPILE-ERROR': 67}
+  2000/4121 judged; {'IDENTICAL': 1610, 'COMPILE-ERROR': 77}
+  2250/4121 judged; {'IDENTICAL': 1830, 'COMPILE-ERROR': 90}
+  2500/4121 judged; {'IDENTICAL': 2048, 'COMPILE-ERROR': 104}
+  2750/4121 judged; {'IDENTICAL': 2265, 'COMPILE-ERROR': 119}
+  3000/4121 judged; {'IDENTICAL': 2482, 'COMPILE-ERROR': 134}
+  3250/4121 judged; {'IDENTICAL': 2701, 'COMPILE-ERROR': 149}
+  3500/4121 judged; {'IDENTICAL': 2916, 'COMPILE-ERROR': 165}
+  3750/4121 judged; {'IDENTICAL': 3136, 'COMPILE-ERROR': 179}
+  4000/4121 judged; {'IDENTICAL': 3356, 'COMPILE-ERROR': 191}
+decl_repair --apply: 3439 unit(s) rewritten, 16759 declaration(s) repaired — now run the fleet gate
+decl_repair: 3634 unit(s) carry a lying declaration; verdicts {'IDENTICAL': 3439, 'COMPILE-ERROR': 195}
+  FREE to repair (the object is byte-identical with the declarations widened): 3439 unit(s), 16759 declaration(s)
+  the object CHANGES (the code depends on the false declaration): 0 unit(s), 0 declaration(s)
+  rows -> .run/P36/engine/decl_repair.json

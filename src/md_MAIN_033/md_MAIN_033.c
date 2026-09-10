@@ -75,7 +75,7 @@ void func_800CAFE8(void *arg0) {
 
     extern u8 D_80078EC1;
     extern void (*D_800CB8BC[])(void);
-    extern void func_800CB3A4(void);
+    extern void func_800CB3A4(void *arg0);
     extern void func_800CB384(void);
     if (D_80078EC1 == 0xb) {
         D_800CB8BC[*(u16 *)((s32)arg0 + 2)]();

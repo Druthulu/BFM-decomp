@@ -240,7 +240,7 @@ void func_800CD314(void *arg0) {
     extern u8 D_800CD7A4;
     extern void func_80147324(s32 a0);
     extern void func_800233CC(void *a0, u16 a1);
-    extern void func_80146C3C(void);
+    extern void func_80146C3C(u8 *a0);
 
     typedef struct { s32 w[8]; } Blk32;
 
@@ -303,7 +303,7 @@ void func_800CD494(void *a0) {
 void func_800CD4D0(void *arg0) {
     extern s32 D_8011D030;
     extern u8 D_800CD6E0[];
-    extern void func_80146C3C(void);
+    extern void func_80146C3C(u8 *a0);
     extern void func_80016714(void *a0, s32 a1);
 
     unsigned short *p;
@@ -350,7 +350,7 @@ void func_800CD5F8(void *arg0) {
     extern void func_801465C0(void);
     extern void func_8001CD50(s32 a0, s32 a1);
     extern void func_800CD314(void *a0);
-    extern void func_80146C3C(void);
+    extern void func_80146C3C(u8 *a0);
     extern u8 D_800CD7A4;
     extern u8 D_800CD7A5;
     extern u8 D_800CD7A6;

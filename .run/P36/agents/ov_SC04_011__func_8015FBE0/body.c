@@ -3,7 +3,7 @@ void func_8015FBE0(s32 *param_1)
 
     extern u8 D_800B9A17;
     if (param_1[0x61] < 0) {
-        ((void (**)())D_80192AC8)[*(u16 *)param_1]();
+        ((void (**)(s32 *))D_80192AC8)[*(u16 *)param_1](param_1);
         ((void (*)(s32 *, s16))func_80147078)(param_1, 0);
         ((void (*)(s32 *))func_80159B70)(param_1);
     } else {

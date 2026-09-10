@@ -867,7 +867,7 @@ extern int   CdSync(int mode, u8 *result);
 extern u32   CdMode(void);
 extern void  CdFlush(void);
 extern void *CdReadyCallback(void *func);
-extern void  func_800377D8(void);   /* this loader's CdlReadN ready-callback */
+extern void  func_800377D8(u8 arg0);   /* this loader's CdlReadN ready-callback */
 extern int func_80036260(void);   /* sub-handler passed to func_80037CD8; §376: the definition returns int */
 extern void  func_8002EC10(void);
 extern void  func_80037334(void);
@@ -2029,7 +2029,7 @@ int func_8003775C(void) {
 /* func_800377D8 -- the CD stream loader's CdlReadN ready-callback (main/src/800.c, 316 ins).
  *
  * ⚠ BANKING PREREQUISITE (§376/§378, step 1 ONLY): src/800.c:21344 already carries
- *     extern void  func_800377D8(void);   // this loader's CdlReadN ready-callback
+ *     extern void  func_800377D8(u8 arg0);   // this loader's CdlReadN ready-callback
  *   which CONFLICTS with this definition's `(u8 arg0)`.  No-proto it before gating:
  *     tools/fix_arity_callers.py --binary main --funcs func_800377D8 --any-proto --apply ...
  *   Step 2 (cast_self_callers) is NOT needed: the only two uses (src/800.c:21488/21490)

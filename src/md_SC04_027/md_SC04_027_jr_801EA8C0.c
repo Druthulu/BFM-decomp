@@ -59,7 +59,7 @@ extern void func_80016714(s8 *a0, s32 a1);
 extern s8 D_801F2194;
 extern void func_801E9DD0(void);
 extern void func_801E9DF8(s32 arg0);
-extern void func_8014B00C(void);
+extern void func_8014B00C(s32 arg0);
 extern void func_80029344(void);
 extern void func_801EA0E4(void);
 extern u8 D_801EBBAC[];

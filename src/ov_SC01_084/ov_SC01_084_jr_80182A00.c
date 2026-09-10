@@ -2551,7 +2551,7 @@ void func_80185B34(s32 param_1) {
 
 extern void func_80185C0C(s32 arg0);
 extern void func_8012931C(void *a0, s32 a1);
-extern void func_801292C8(void);
+extern void func_801292C8(u8 *a0);
 
 void func_80185B78(void *a0) {
     s8 *s0;

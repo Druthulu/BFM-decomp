@@ -20,7 +20,6 @@ void func_8012956C(void) {
     u32 arg0;
     u32 s;
     u32 s2;
-    u32 t6;
     s32 code;
 
     sp10 = (s32 *)0x1F800010;
@@ -71,13 +70,10 @@ void func_8012956C(void) {
         goto next;
     do_default:
         arg0 = D_801F1620;
-        s = base->f40;
         temp_a3 = base->f38;
-        s += temp_a3;
+        s = base->f40 + temp_a3;
         base->f1C = s;
-        s2 = base->f42;
-        t6 = base->f3A;
-        s2 += t6;
+        s2 = base->f42 + base->f3A;
         base->f1E = s2;
         ((void (*)(s32, s32, void *, s32))func_801299C8)(arg0, a1, base, temp_a3);
         *(Blk16_956C *)sp0 = *(Blk16_956C *)base;

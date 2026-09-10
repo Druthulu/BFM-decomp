@@ -68,7 +68,6 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         s32 *pc4;
         u16 *pb0;
         s32 t, o2;
-        s32 q3v;
 
         {
             s32 *pw = D_801909D0;
@@ -93,17 +92,15 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         s0var = pc4[0] + pc4[1] + pc4[2];
         pb0 = D_801909C0;
         pb0[0] += s1var * pc0[0] / s0var;
-        pb0[1] += s1var * pc0[1] / s0var;
-        q3v = s1var * pc0[2] / s0var;
-
+        do { pb0[1] += s1var * pc0[1] / s0var; } while (0);
+        pb0[2] += s1var * pc0[2] / s0var;
         {
             s32 h;
             h = ((s16 *)pb0)[0];
             s1var = h << 16;
-            h = *(s16 *)((s32)pb0 + 2);
+            h = ((s16 *)pb0)[1];
             s0var = h << 16;
         }
-        pb0[2] += q3v;
         s2a = (s16)pb0[2] << 16;
 
         t = pc0[0] << 4;

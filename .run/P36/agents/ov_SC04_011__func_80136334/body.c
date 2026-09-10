@@ -1,11 +1,11 @@
 s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     extern u8 D_801152A8[];
     extern s16 D_801152AA;
-    extern s16 D_801152AC;
+    extern s16 D_801152AC[];
     extern s16 D_80126722;
     extern s16 D_80126724;
-    s32 a1v;
-    s32 a2v;
+    u16 a1v;
+    s16 a2v;
     s32 n;
     s16 *b4;
     s32 d;
@@ -17,13 +17,13 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     a1v = arg1;
     a2v = arg2;
 
-    if (!(arg1 & 1)) {
-        dx = (s16) arg2 - (*(s16 **)&D_801909BC)[2];
+    if (!(a1v & 1)) {
+        dx = a2v - (*(s16 **)&D_801909BC)[2];
         d = dx;
         denom = -(*(s16 **)&D_801909C8)[2];
     } else {
         denom = (*(s16 **)&D_801909C8)[2];
-        d = (*(s16 **)&D_801909BC)[2] - (s16) arg2;
+        d = (*(s16 **)&D_801909BC)[2] - a2v;
         dx = -d;
     }
     n = -d;
@@ -49,9 +49,9 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     (*(s16 *)D_801152A8) = 0;
     if (a1v & 1) {
         D_801909C4[2] = a2v + 2;
-        D_801152AC = 0xFFF;
+        D_801152AC[0] = 0xFFF;
     } else {
-        D_801152AC = -0xFFF;
+        D_801152AC[0] = -0xFFF;
         D_801909C4[2] = a2v - 2;
     }
     (*(s16 *)D_80126720) = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;

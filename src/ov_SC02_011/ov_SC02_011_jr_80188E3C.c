@@ -6046,7 +6046,7 @@ s32 func_80190480(void) {
 }
 
 
-extern void func_800296F8(void);
+extern void func_800296F8(s32 arg0);
     s32 func_80190498(s32 arg0) {
         ((void (*)(s32))func_800296F8)(*(s32 *)(arg0 + 0xdc));
     }

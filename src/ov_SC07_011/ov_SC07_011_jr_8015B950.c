@@ -361,7 +361,7 @@ extern u8 D_801152A8[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
-extern void func_8012E138(void);
+extern void func_8012E138(int model);
 extern void func_8012DFD4(u8 *a0);
 extern s32 func_8012E27C(void);
 extern void func_8012E284(void);
@@ -449,7 +449,7 @@ extern void func_801301E8(u8 *a0);
 extern void func_80130278(s32 arg0);
 extern void func_80130314(s32 a0);
 extern void func_80130360(s32 a0);
-extern void func_8012E364(void);
+extern void func_8012E364(s32 arg0_);
 extern void func_801303A0(s32 a0);
 extern void func_801303EC(void *a0);
 extern void func_80143CD4(s32 a0);
@@ -1003,7 +1003,7 @@ extern void func_80144A2C(void *a0);
 extern void func_80144A68(s32 *a0);
 extern void func_80144A90(void);
 extern void func_80144A98(u8 *a0);
-extern void func_80144B14(void);
+extern void func_80144B14(int param_s0);
 extern void func_80144AEC(s32 *a0);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -1634,7 +1634,7 @@ extern void func_80151878(void);
 extern void func_80153B58(s32 *a0);
 extern s32 func_80151880(s32 a0);
 extern s32 func_801518D8(s32 a0);
-extern s32 func_80151944(void);
+extern s32 func_80151944(void *a0);
 extern s32 func_80151924(void);
 extern void func_8014E934(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
@@ -2038,7 +2038,7 @@ extern void func_8015B8F8(s32 *a0);
 extern s32 func_8015AE2C();
 
 // @class: plumbing
-// @stuck: none — MATCH (271/271, pin-free, zero asm). The ONLY residual is DEF-SIDE plumbing, and it is now named exactly: the in-TU instantiation `DEFINE_func_8015BEE4()` (engine_core.h:1851-1855) expands to `extern s32 func_8015B950(void);` INSIDE ov_SC01_077_jr_8015AE2C.c, ~14 lines BELOW this definition, so the 1-param def collides with a `(void)` prototype -> `conflicting types for func_8015B950` (.run/bank_func_8015B950.log). §73 PARAMS axis / T0. Surgical fix = §65b de-macroize that ONE instantiation (blast radius: this TU); the fleet-wide `(void)`->`()` header edit is §63 and must be R22-validated.
+// @stuck: none — MATCH (271/271, pin-free, zero asm). The ONLY residual is DEF-SIDE plumbing, and it is now named exactly: the in-TU instantiation `DEFINE_func_8015BEE4()` (engine_core.h:1851-1855) expands to `extern s32 func_8015B950(s32 arg0);` INSIDE ov_SC01_077_jr_8015AE2C.c, ~14 lines BELOW this definition, so the 1-param def collides with a `(void)` prototype -> `conflicting types for func_8015B950` (.run/bank_func_8015B950.log). §73 PARAMS axis / T0. Surgical fix = §65b de-macroize that ONE instantiation (blast radius: this TU); the fleet-wide `(void)`->`()` header edit is §63 and must be R22-validated.
 /* func_8015B950 (ov_SC01_077_jr_8015AE2C, 271 ins, jtbl_801D8B74) — SESSION-21 re-verified
  *
  * ── ROUND-2 INDEPENDENT RE-VERIFICATION (2026-07-27, fresh agent, §88e discipline) ─────────────
@@ -2071,7 +2071,7 @@ extern s32 func_8015AE2C();
  * with ONE deliberate change: the definition's return type void -> s32.
  *   - `void func_8015B950(s32 arg0)` : MATCH (271 ins)   [the Phase-26 form]
  *   - `s32  func_8015B950(s32 arg0)` : MATCH (271 ins)   [shipped — §3a-1 void->s32 is byte-neutral]
- * The fleet/engine_core.h canonical decl is `extern s32 func_8015B950(void);` (engine_core.h:1852),
+ * The fleet/engine_core.h canonical decl is `extern s32 func_8015B950(s32 arg0);` (engine_core.h:1852),
  * and the last bank attempt (.run/bank_func_8015B950.log) died on `conflicting types for
  * func_8015B950`. Shipping the s32 return kills the §73 RETURN axis for free and leaves only the
  * cheap T0 PARAMS axis for the ladder (fix_header_decl.py / --fix-def-sig / cast_call_sites).

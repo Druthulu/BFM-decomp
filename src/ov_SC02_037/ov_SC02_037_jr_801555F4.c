@@ -2694,7 +2694,7 @@ void func_80158880(s32 *param) {
 // bnez-to-the-store) is purely block placement, and both fall out at closeness 0.
 
 extern s32 func_800D0CA0(s32);
-extern s32 func_8001AAA0(void);
+extern s32 func_8001AAA0(s32 arg0);
 extern s32 SsGetMute(void);
 extern s32 func_80159464(void);
 

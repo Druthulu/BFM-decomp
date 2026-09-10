@@ -1716,7 +1716,7 @@ void func_801A227C(void *arg0) {
 #include "common.h"
 
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8012AD80(void);
+extern void func_8012AD80(s32 a0);
 
 s32 func_801A2318(s32 arg0) {
     s32 temp;
@@ -1735,7 +1735,7 @@ s32 func_801A2318(s32 arg0) {
 
 
 
-extern void func_8012AD80(void);
+extern void func_8012AD80(s32 a0);
     s32 func_801A2384(s32 arg0) {
         ((void (*)(s32))func_8012AD80)(*(s32 *)(arg0 + 0xd8));
     }

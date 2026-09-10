@@ -447,7 +447,7 @@ extern void func_801301E8(u8 *a0);
 extern void func_80130278(s32 arg0);
 extern void func_80130314(s32 a0);
 extern void func_80130360(s32 a0);
-extern void func_8012E364(void);
+extern void func_8012E364(s32 arg0_);
 extern void func_801303A0(s32 a0);
 extern void func_801303EC(void *a0);
 extern void func_80143CD4(s32 a0);

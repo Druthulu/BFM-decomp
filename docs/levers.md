@@ -68,6 +68,7 @@ counted, not marked). E, F and G belong to the canonical type layer and are the 
 | 2026-09-10 | S102 T7 burst — a5/a9/a11/a16/a25 banked; the MISSING CALL ARGUMENT class confirmed six times independently (m2c dropped arguments at unprototyped and indirect call sites) | 15324 | 11390 | **26714** | 7612 | 1271 | 462 | 314 | 1590 | 50 | 7428 | 445 | 76 | `c6b380fcd` |
 | 2026-09-10 | S102 T7 burst — a22 banked (126); a14 REFUSED as an invented zero term; a6/a10/a15 read without closing | 15198 | 11264 | **26462** | 7486 | 1270 | 462 | 314 | 1590 | 50 | 7428 | 445 | 76 | `374c8a0e9` |
 | 2026-09-10 | S102 T7 s8 — the first R19 sweep: 3 of 55 classes closed by restoring a dropped call argument, 2 compiles each | 15193 | 11263 | **26456** | 7483 | 1267 | 462 | 314 | 1590 | 50 | 7428 | 445 | 76 | `f3de70fce` |
+| 2026-09-10 | S102 — 16,759 lying call declarations repaired free (3,439 units, R22 218/218); levers unchanged, truth improved | 15193 | 11263 | **26456** | 7483 | 1267 | 462 | 314 | 1590 | 50 | 7428 | 445 | 76 | `51028a78d` |
 
 ### The campaign — every batch, from the ledger (derived on every render)
 

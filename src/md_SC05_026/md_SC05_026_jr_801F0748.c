@@ -54,7 +54,7 @@ extern u32 func_801EF960(s32 a0, s32 a1);
 extern void func_801EF9C8();
 extern void func_801EFC30(void);
 extern void func_801EFC58(s32 arg0);
-extern void func_8014B00C(void);
+extern void func_8014B00C(s32 arg0);
 extern void func_80029344(void);
 extern void func_801EFF44(void);
 extern u8 *D_80126B10;

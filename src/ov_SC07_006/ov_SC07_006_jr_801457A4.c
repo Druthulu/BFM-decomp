@@ -430,7 +430,7 @@ extern void func_801301E8(u8 *a0);
 extern void func_80130278(s32 arg0);
 extern void func_80130314(s32 a0);
 extern void func_80130360(s32 a0);
-extern void func_8012E364(void);
+extern void func_8012E364(s32 arg0_);
 extern void func_801303A0(s32 a0);
 extern void func_801303EC(void *a0);
 extern void func_80143CD4(s32 a0);
@@ -2939,7 +2939,7 @@ void func_8014CCB4(void)
 // Signature note (§58b / §63): the def sig is byte-TRUTH. Params are kept EXACTLY as the
 // engine_core.h caller decl (`s32, void*, void*`) so the required header rewrite is the minimal,
 // fix_header_decl-SAFE return-type-only edit (void -> s32); param_3 is cast to u16* at each use.
-// No fleet TU carries both DEFINE_func_8014CD0C() and the 5 stray `extern void func_8014CF04();`
+// No fleet TU carries both DEFINE_func_8014CD0C() and the 5 stray `extern void func_8014CF04(s32 param_1, void *param_2, void *param_3);`
 // K&R decls, so the header rewrite has no collateral conflict (checked).
 
 extern u8 D_801202A0[];

@@ -887,7 +887,7 @@ void func_800CC1E8(s32 arg0) {
 
 
 extern void func_801599A4(void);
-extern void func_80159B3C(void);
+extern void func_80159B3C(void * a0);
 void func_800CC260(s32 a0) {
     func_801599A4();
     ((void (*)(s32))func_80159B3C)(a0);

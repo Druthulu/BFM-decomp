@@ -1439,7 +1439,7 @@ void func_80187A8C(void *arg0) {
 }
 
 
-extern void func_8017DF00(void);
+extern void func_8017DF00(s32 a0);
 extern void func_80181F04(void *arg0);
 
 void func_80187AD0(s32 arg0) {
@@ -1452,7 +1452,7 @@ void func_80187AD0(s32 arg0) {
 
 
 extern void func_80181F04(void *arg0);
-extern void func_8017DF00(void);
+extern void func_8017DF00(s32 a0);
 
 void func_80187B0C(s32 arg0) {
     s32 temp_s0 = arg0;
@@ -1464,7 +1464,7 @@ void func_80187B0C(s32 arg0) {
 
 
 extern void func_80181F04(void *arg0);
-extern void func_8017DF28(void);
+extern void func_8017DF28(s32 a0);
 
 void func_80187B48(s32 arg0) {
     s32 temp_s0 = arg0;

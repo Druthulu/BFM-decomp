@@ -772,7 +772,7 @@ extern void func_80151878(void);
 extern void func_80153B58(s32 *a0);
 extern s32 func_80151880(s32 a0);
 extern s32 func_801518D8(s32 a0);
-extern s32 func_80151944(void);
+extern s32 func_80151944(void *a0);
 extern s32 func_80151924(void);
 extern void func_8014E934(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
@@ -1233,7 +1233,7 @@ extern int func_8015B6F4(int param_1);
 extern u8 D_800D4F8C[];
 extern s32 func_8015B7B4(s32 a0);
 extern u8 D_800D4BE0[];
-extern s32 func_8014A51C(void);
+extern s32 func_8014A51C(int param_1);
 extern s32 func_8015B858(u8 *a0);
 extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
@@ -1505,7 +1505,7 @@ extern void func_80160FE0(s32 *a0);
 extern void func_80161034(void *a0);
 extern void func_80161094(s32 a0);
 extern void func_801610FC(void);
-extern void func_801483E8(void);
+extern void func_801483E8(unsigned char *self);
 extern s32 func_80161A60(s32 a0);
 extern void func_8016130C(void *a0, s32 a1);
 extern void func_80161374(void *a0, s32 a1);
@@ -1524,7 +1524,7 @@ extern s32 func_801615C4(void * arg0, s32 arg1);
 extern s32 func_801619A4(s32 *a0);
 extern s32 func_80161A00(s32 a0);
 extern s32 func_80161A30(s32 a0);
-extern int func_801497A8(void);
+extern int func_801497A8(s32 *a0);
 extern int func_80161BE0(void *param_1);
 extern u16 D_801895F4[];
 extern void func_80161C98(int param_1, u32 param_2);
@@ -1701,7 +1701,7 @@ extern u8 D_80189898[];
 extern u8 func_801656D0(s32 a0, s32 a1);
 extern u8 D_801898B8[];
 extern u8 D_801898D8[];
-extern void func_800CAF6C(void);
+extern void func_800CAF6C(s32 *a0);
 extern void func_80165770(void);
 extern void func_801657D8(void);
 extern u8 D_80078EC3;
@@ -1848,7 +1848,7 @@ extern void func_80168A88(void);
 extern s32 (*D_80189B20[])();
 extern s32 func_80168AA8(s16 *a0);
 extern void func_80168AE4(s32 a0);
-extern void func_800D2318(void);
+extern void func_800D2318(s32 *p);
 extern void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern s32 (*D_80189B28[])();
 extern s32 func_80168D58(s16 *a0);
@@ -1900,7 +1900,7 @@ extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_80189C88[])(void);
 extern void func_8016AB30(void *a0);
-extern void func_8016B234(void);
+extern void func_8016B234(s32 param_1);
 extern void func_8016AFB0(s32 a0);
 extern void func_8016B114(void *arg0);
 extern s32 func_8016B448(s32, s32);
@@ -2779,7 +2779,7 @@ extern int func_80178970(void);
  *   3. `func_8017BC38(arg0)` — the fleet-canonical 1-arg call. The target shows only ONE move
  *      (`move $s0,$a0`, in the jal's delay slot) and no `move $a0,$s0`, because $a0 already holds
  *      arg0 and the redundant copy is deleted. VERIFIED byte-identical against the 0-arg variant
- *      `extern void func_8017BC38(void); func_8017BC38();`, so the prototyped fleet spelling is
+ *      `extern void func_8017BC38(int param_1); func_8017BC38();`, so the prototyped fleet spelling is
  *      used — it is the one that cannot collide when this template lands in sibling TUs that
  *      already declare `extern void func_8017BC38(int param_1);`.
  *   4. `D_801DA74C` stays a plain `s32` with the call-site cast (the fleet/sibling spelling,
@@ -2799,7 +2799,7 @@ extern int func_80178970(void);
  *   and diffed 6/6 against tail17.data.s above. All 11 real symbols (5 callees + 6 data) are
  *   present and correctly spelled `D_<UPPERHEX>` — 11/11 CLEAN.
  *   The TU slot is src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:3265 (INCLUDE_ASM). Note line 3250
- *   already carries `extern int func_801789AC(void);` for the caller func_80178970; the real
+ *   already carries `extern int func_801789AC(s32 arg0);` for the caller func_80178970; the real
  *   definition takes one arg, so the gate ladder's sig_unify/arity step must reconcile that decl
  *   (§58 rule 4 — declaration plumbing, deliberately not chased here).
  */

@@ -340,7 +340,7 @@ extern void func_80142C84(s32 a0);
 extern void func_80143994(s32 a0, s32 a1);
 extern void func_80142B2C(void *arg0);
 extern void func_801439C0(u8 *a0);
-extern void func_8012C098(void);
+extern void func_8012C098(void *param_1);
 extern void func_80142BB4(s32 * param_1, s32 param_2, s32 param_3);
 extern void func_80142C7C(void);
 extern void func_8012CBF4(s32 a0);
