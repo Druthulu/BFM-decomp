@@ -1618,6 +1618,24 @@ accumulate here as the phase produces them.**
   (`sched.c:817-835`) — the tail's two reads as struct members (as sibling func_8017B490 writes them) and the `sb` as an
   array element `D_8012694C[0]` (keeps its relocation symbol; the address is field 4 of the camera object `D_80126948` —
   a names-phase spelling). Moves 2 and 3 only close together (4, 6, 0). `apply-body … IDENTICAL … KEPT`.
+- **S103 — c33 (the ov_MAIN_012 tier): `func_80169058` (18 → 0) and `func_80168D94` (24 → 0) CLOSED, 5 of 6 siblings
+  each.** func_80169058: a per-arm `s32 r` holding each arm's `rand()` result with the stores duplicated into both arms
+  (the function-scope `v0` died 3× → global, `local-alloc.c:472`; jump2's cross-jump re-merges the duplicated stores,
+  `jump.c:2371` — both arms in `.sched2`, one pair in `.jump2`); func_80168D94: the same, plus `+0xE` read at its point
+  of use so it is born last and ranks first (`qty_compare_1`, `local-alloc.c:1598`; 2,520 statement orders → exactly
+  42 zeros, the predicted ones; checked with `tools/localalloc_sim.py`, 0 mismatches). Every copy (six TUs + the header)
+  scored 0 before the bank. A stray `a1.c.dis` at the repo root (c30's scratch) moved into its pack.
+- **S103 — re-draw c31: `func_80178970` PROVED IRREDUCIBLE in plain C on this compiler (stays 2).** TWO walls, each alone
+  deleting the call-result copy: combine folds it into the branch (every refusal condition enumerated — `$v0` write
+  between, a call, a volatile insn, the value live after, a block boundary: `combine.c:914-917/929/985-989/1458`,
+  `flow.c:2087`), and when it survives local-alloc hands its destination back to `$v0` (copy suggestion from the dying
+  hard register, `local-alloc.c:1798-1818`, taken at `:1469-1476`) → `move v0,v0`, deleted. Proved on bytes (a surviving
+  extension stays in `$v0`). Every S103 idea refuted (table in its `mechanism.md`). **A whole-binary byte-shape scan:**
+  `jal; nop; move rX,v0; beqz/bnez rX; move v0,zero` occurs in 9 families; the three lever-free ones read the call result
+  AGAIN in a later block; every family whose result is read only by the test is levered (func_80178970 ×133,
+  func_80180CC0 / 80181D1C / 80183790 / 80187250, and func_8002FF0C unread). **For the phase's milestone: this is an
+  irreducible class — the original source must have had a later reader the optimiser removed; Drew's call how "grind to
+  zero" treats it.** Its tool ask: a byte-shape census (`tools/shape_census.py`) that resolves shared headers.
 - **S103 — packs for the next tier: `delever_pack --build --min-copies 5` → `64 packs under .run/P36/agents; ORDER.tsv
   written`** (the head-only ORDER kept as `ORDER_head.tsv`). The head (≥100 copies) is down to classes with honest
   readings; the tier below has several classes at a mechanical best of 1-2 — agents now take TWO small classes each.
@@ -1729,6 +1747,10 @@ setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R
   2, a second merged macro to 0 — a clobber list that differs from Sony's own (`$12-$15` scores 6). Whether a GTE macro
   may be respelled that way (the plan calls a clobber variant a lever) decides this class. Evidence:
   `.run/P36/agents/ov_SC04_011__func_8013D9B0/scratch/PA.c`, `PROOF_K1.c`, `mechanism.md`.
+- **Drew's call (the milestone): irreducible sites.** c31 proved `func_80178970`'s `$2` pin (133 copies, and four more
+  families with the same byte shape) cannot come off in plain C on gcc 2.7.2 — two passes each delete the copy. The phase
+  plan says grind to zero; a proven-irreducible site needs a disposition (kept, marked and counted like the verbatim rows?).
+  Also read to an irreducibility argument: `func_8013F350`'s head (c28), `func_8013CF68` (c27, §194-K).
 - The declaration debt, measured at S103's open (`.run/P36/s103/argcheck.json`, 94,001 rows): **91,846 are calls that
   pass FEWER arguments than the definition** (the R19 population — which side is wrong is a types-phase question: a
   definition may carry a phantom parameter), 1,731 have every call passing enough but sit in units `decl_repair` did not

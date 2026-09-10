@@ -1,130 +1,110 @@
-# func_80178970 (ov_SC04_011) — the call-result copy that `combine` deletes
+# func_80178970 (ov_SC04_011_jr_801734BC.c): T7 agent c31 (re-draw after S103's new information)
 
-**Final score: 2** (lever-free start 6; mechanical best 3). **NOT a bank.** The `$2` pin is
-NEEDED-BY-CONSTRUCTION: no plain-C body can produce the missing instruction. Evidence below.
+**Final score: 2, NOT closed.** `PACK/body.c` is the S102 agent's early-return body. I re-scored it (score 2, 14 vs 15
+instructions) and found nothing better. The earlier agent's files are kept in `scratch/prev_body.c` and
+`scratch/prev_mechanism.md`. My probes, dumps and the corpus scan are in `scratch/c31/`.
 
-## (a) The residual in one sentence
+**Verdict: the `$2` pin is irreducible in plain C on this compiler. There are two independent walls, and each one alone
+deletes the copy.** S102 named only the first wall (combine). The second wall (local-alloc) is the one that makes every
+"keep the copy alive" idea from today's closes useless here. I proved it on bytes (the E_s16/D1 probes below). A
+whole-binary scan backs it up: every function in the binary with this byte shape is levered.
 
-The target keeps the call-result copy `move v1,v0` and so returns its answer in `$v0`; my lever-free
-body has that copy deleted, which pins the call result to `$v0` for the whole test and pushes the
-result variable to `$v1`, costing one instruction (14 vs 15) plus a trailing `move v0,v1`.
+## (a) The residual
 
-Target (`build/src/ov_SC04_011/ov_SC04_011_jr_801734BC.o`, `func_80178970`):
+The target keeps the call-result copy `move v1,v0`, tests `$v1`, and loads the result's zero into `$v0` in the branch
+delay slot:
 
-    jal func_801789AC / nop
-    move  v1,v0          <-- the copy:  v  = call result, in $v1
-    beqz  v1,54e0
-    move  v0,zero        <-- delay slot: r = 0,           in $v0
-    lui/lh v0,D_801F1638 / nop
-    sltiu v0,v0,1        <-- r = (D_801F1638 == 0),       in $v0
-    lw ra / addiu sp / jr ra / nop
+    jal func_801789AC / nop / move v1,v0 / beqz v1,L / move v0,zero / lui+lh v0,D / nop / sltiu v0,v0,1 / L: epilogue
 
-Both `r` and `v` want `$v0`; the whole residual is which one gets it.
+Mine (early return) is identical except that the copy is missing and the branch reads `$v0` (14 vs 15). Counted first:
+one instruction is MISSING, and nothing else is wrong. reorg already fills the delay slot with `move v0,zero` from the
+taken path.
 
-## (b) The pass and the decision (`file:line`), read then proved on bytes
+## (b) Mechanism: two walls, both read in the source and both shown in this function's own dumps
 
-**Pass: `combine`, not either allocator.** Bisecting the cc1 pass dumps (`-dr -dj -dc -dl -dg`, faithful
-minimal TU, calibrated: it reproduces the tree's own 14-instruction output exactly) shows the copy
-`(set (reg/v:SI 73) (reg:SI 2 v0))` alive through `.rtl`, `.jump`, `.cse`, `.loop`, `.flow`, and **gone in
-`.combine`**, substituted into the branch as `(if_then_else (eq (reg:SI 2 v0) (const_int 0)))`.
+For `move v1,v0` to exist in the bytes, the RTL needs a pseudo P (the tested value) that is set from the dying `$v0`
+and read only by the branch, and P must end up in a register other than `$v0`.
 
-`can_combine_p`, **`tools/reference/gcc-2.7.2/combine.c:914-917`**:
+**Wall 1: combine deletes the copy** (`scratch/c31/dumps_free/free.i.combine`: insn 11 is gone and the branch reads
+`(reg:SI 2 v0)`). `can_combine_p` refuses a copy only in these cases:
+- a set of `$v0` between the copy and its use: `use_crosses_set_p`, combine.c:914-917 and :10107-10130;
+- a CALL between them, combine.c:929;
+- a volatile insn (asm or unspec) between them, combine.c:985-989;
+- the copy's destination still live after the use: `added_sets_2`, combine.c:1458, whose PARALLEL is then not
+  recognised;
+- the copy and the use in different basic blocks, because LOG_LINKs are only made inside a block, flow.c:2087.
 
-    || (! all_adjacent
-        && (((GET_CODE (src) != MEM || ! find_reg_note (insn, REG_EQUIV, src))
-             && use_crosses_set_p (src, INSN_CUID (insn)))       <-- :917
+In plain C, the only things that write `$v0` are a `jal` and a `return` (expand_value_return). `expand_return`
+always evaluates into a pseudo first, because `cleanups = 1` (stmt.c:2634, :2853-2859), so the `$v0` write is always at
+the end of the return arm. jump.c's "x = b; if (...) x = a" hoist (jump.c:698-790) could move a `$v0 = 0` above the
+branch. It requires the then-arm to be ONE insn directly before the simplejump (jump.c:727-748). A return arm ends
+`$v0 = val; (use $v0); jump`, and `D_801F1638 == 0` needs a load plus an scc. So no plain-C body puts a `$v0` write in
+the window. A second live reader of P either shows up in the bytes or, on the taken path, is folded to 0 by cse's
+jump equivalence before combine runs (S102 measured this).
 
-`use_crosses_set_p` (**combine.c:10127-10130**) returns 1 only if some insn *between* the copy and its use
-sets a register named in `src` — here `src` is the hard register `$v0`. The MIPS port never fires the
-neighbouring "don't extend the life of a hard register" guard (**combine.c:944-957**), because that arm is
-`#ifdef SMALL_REGISTER_CLASSES`, which `config/mips/mips.h` does not define. So on MIPS a call-result copy
-whose pseudo dies at its single use is **always** folded into that use, and `$v0` stays live to the test.
+**Wall 2: local-alloc gives the copy's destination `$v0` even when the copy survives.** P has one use in block 0,
+so it is local (local-alloc.c:472: `reg_basic_block >= 0 && reg_n_deaths == 1`). block_alloc offers every operand
+pair to `combine_regs`. When the used register is a hard register, `combine_regs` records it as a copy suggestion for
+the pseudo's qty (local-alloc.c:1798-1818). The suggested-register pass (local-alloc.c:1469-1476) then gives P `$v0`,
+because `$v0` dies at P's birth and nothing else holds it in P's range. The global pseudo `r` is allocated later and
+cannot evict it. The copy becomes `move v0,v0` and is deleted.
+- **Proved on bytes:** when an instruction DOES survive between the call and the test, its result still lands in
+  `$v0`. With `s16`/`u16`/`u8`/`s8` return casts (E_*.c) and with `u16 v` (D1.c), the output is
+  `sll v0,v0,16` / `andi v0,v0,0xffff` followed by `beqz v0`. `dumps_es16/es16.i.lreg` shows local pseudo 74, which
+  holds the surviving shift, placed in hard reg 2.
+- The pin breaks BOTH walls with one hard write. `dumps_tree`: insn 14 `(set (reg/v:SI 2 v0) 0)` sits between the
+  copy and the branch. `.combine` keeps insn 11 (use_crosses_set_p), and `.lreg` places the copy's pseudo 73
+  "in 3" (`$v1`), because `$v0` is live across its range.
 
-Downstream consequence, read from the `.greg` dump of the free body:
+The only way around wall 2 is to make P a global allocno with a lower priority than `r`. That needs P to be read in a
+second basic block, and such a read would appear in the target's bytes. The target's other blocks never read `$v1`.
+The lever-free functions below show this route working when the second read is real.
 
-    ;; 1 regs to allocate: 72        (72 = r)
-    ;; 72 conflicts: 72 2 29         <-- conflicts with hard reg 2
+**Corpus evidence** (`scratch/c31/scan2.py` over all 4,284 baseline objects; shape `jal; nop; move rX,v0; beqz/bnez rX;
+move v0,zero`): 9 function families.
+- The 3 lever-free families (func_801823B8, func_80138DE0, func_8014CD80) all read the call result again in a later
+  block, so it is a GLOBAL pseudo.
+- Every family whose call result is read only by the test is levered: func_80178970 (133 pinned copies), and
+  func_80180CC0 / 80181D1C / 80183790 / 80187250 (a `$2`/`$3` pin plus keepalives).
+- func_8002FF0C (166 instructions, `src/800_b_2.c`) also carries a lever. I did not read its body, so it is not
+  classified here.
 
-`r` is cross-block (set in bb0 and bb1, used in bb2), so local-alloc skips it and `global.c`'s `find_reg`
-(**global.c:962-970**, first fit in `regno` order) takes the lowest hard reg not in `used`; `$v0` is in the
-conflict set, so `r` gets `$v1` and the return needs `move v0,v1`.
+In short, this compiler never produces this shape from plain C anywhere in the binary.
 
-**Proved on bytes.** With the tree's pin `register int r __asm__("$2")`, `r = 0` expands to
-`(set (reg/v:SI 2 v0) (const_int 0))` — a *hard* `$v0` write sitting between the copy and the branch — and
-the `.combine` dump shows insn 11 surviving verbatim, giving `move $3,$2 / beq $3,$0 / move $2,$0`.
-`--try` on `body_tree.c` scores **0**; on every lever-free spelling it scores >= 2.
+## (c) The move that got closest (6 -> 2, S102's, re-verified)
 
-## (c) The source move that got closest (6 -> 2)
+The early return: `if (v != 0) return D_801F1638 == 0; return 0;`. It deletes `r`, and with it the register swap and
+the trailing `move v0,v1`. The one missing copy is the irreducible part.
 
-**Early return: sink the result variable's zero-initialiser past the branch by turning
-`r = 0; if (c) r = E; return r;` into `if (c) return E; return 0;`.**
+## (d) Generator proposal (one sentence)
 
-That drops the residual from 6 to 2 and deletes the variable `r` entirely: the two `return`s write
-`(reg/i:SI 2 v0)` directly, so nothing is left to conflict with `$v0`, the trailing `move v0,v1` and the
-register swap all disappear, and the remaining difference is exactly the one missing `move v1,v0`.
-It is also strictly more readable than the pinned original. It is *not* bankable (score 2).
+When a COUNT residual's only missing instruction is `move rX,$v0` right after a `jal`, and `rX` is read only by the
+next branch, apply R-early-return. Then classify the pin as IRREDUCIBLE unless the call result also has a real reader
+in another basic block; if it does, make that reader explicit so the pseudo goes global.
 
-## (d) GENERATOR PROPOSAL (one sentence)
+## (e) Today's hypotheses, tested on bytes (`scratch/c31/*.c`, each scored alone)
 
-**R-early-return:** when the residual is COUNT with `mine = target - 1` and the only register pair is
-`result_reg` swapped between `$v0`/`$v1`, rewrite the function's single result variable
-`T r; r = K; if (c) r = E; return r;` into `if (c) return E; return K;` — and, when the one remaining
-missing instruction is a `move $vN,$v0` immediately after a `jal`, **stop the search and mark the `$2` pin
-NEEDED-BY-CONSTRUCTION** (see (e)), instead of spending the 400-compile budget.
+| hypothesis | spelling | score | why |
+|---|---|---|---|
+| lever-free baseline | body_free.c | 6 | both walls |
+| early return (best) | A1/B2/A5/prev_body | **2** | wall 1 folds the copy |
+| narrow result `r` (c4/c18) | `s16`/`u8`/`u16 r` (C1-C3), `s16` function return (C4) | 6 | `r` is not the problem; P still takes `$v0` |
+| narrow test value (c4) | `u16 v` + early return (D1) | 2 MIXED | `andi v0,v0,0xffff` replaces the move, and the result stays in `$v0` (wall 2) |
+| narrow callee return type | `s16/u16/u8/s8 (*)(void)` (E_*) | 2 MIXED | an extension, not a copy (combine.c:7932 needs sign-bit copies it cannot know for a call value); the result is in `$v0` |
+| real callee arity (argcheck) | `func_80178970(s32 arg0)` passing `arg0` (B1/B2) | 6 / 2 | the arg pseudo is tied to `$a0` and changes nothing near the call result |
+| `&&` / `?:` into the return | T1, T2, A2, A3, T4 | 5 / 6 / 5 / 5 / 10 | `expand_return` computes into a pseudo (stmt.c:2859), so there is no early `$v0` write |
+| second user (c25 `added_sets_2`) | `else r = v` (F1), `v = D==0; else v = 0` (F2), `r = v` (M2), merged (M1) | 6 / 3 / 3 / 3 | cse folds the taken-path reader to 0, or merges `r`/`v` into one pseudo that takes `$v0` |
+| make_regs_eqv "mentioned last" (c3/c12) | n/a | n/a | the copy's source is a hard register, and cse.c:840-842 already makes the pseudo canonical; there is no second pseudo in the class to reorder |
 
-The classifier for the second half is exact and cheap: *residual class COUNT, `mine = target - 1`, the sole
-inserted target instruction is a register-register `move` whose source is `$v0` and which is the first
-instruction after a `jal`'s delay slot.* That shape is unreachable in plain C on this compiler; recognising
-it converts a wasted search into a one-line verdict. `sites.txt` here already says `NEEDED`, and 127 copies
-of this body share the shape — the classifier retires all of them at once.
-
-## (e) What did NOT work, and why it cannot (byte evidence)
-
-For the copy to survive, an insn between it and the test must set the hard register `$v0`
-(combine.c:917). In plain C on gcc 2.7.2/MIPS only two things write `$v0`: a `call`, and a `return`
-statement (`expand_return` emits `(set (reg/i:SI 2 v0) ...)` directly — visible as insn 32 in the
-early-return body's `.cse` dump). A `return`'s hard write is always emitted *after* the branch that guards
-it, and adding a call adds a `jal`. Hence no plain-C body can place a `$v0` write in that window; only the
-`register … __asm__("$2")` pin can, which is exactly what `sites.txt` records.
-
-~40 spellings scored with `--try` (each ~0.8 s). Every family and its best score:
-
-| family | spelling | score |
-|---|---|---|
-| baseline (lever-free) | `v=call(); r=0; if(v) r=D==0; return r;` | 6 |
-| **early return** | `if (v) return D==0; return 0;` (also `if(!v)`-form, braces, `!D`, `unsigned v`, `else return 0`, extra block) | **2** |
-| merge `r` and `v` | `r=call(); if(r) r=D==0; return r;` / `r=v;` / `if(v) v=D==0; return v;` | 3 |
-| declaration order / decl-first | `int v; int r;` swapped, one-line, initialiser form | 6 |
-| `r` initialised before the call | `r=0; v=call();` | 10 (spills to `$s0`) |
-| call inlined into the test | `if (call()) r=D==0;` | 10 (`r` crosses the call -> `$s0`) |
-| ternary / `?:` / if-else assigning `r` | `r = v ? (D==0) : 0;`, `if/else` both arms | 5 |
-| statement-order & control-flow barriers | `goto`, label, `while(v){…break;}`, `for(;;)`, `do/while(0)`, `switch` | 6 (all flattened by `jump.c` before combine) |
-| second use of `v` to block combine | `return v;` / `else r = v;` | 2 (cse's `record_jump_equiv` folds `v` to `0` on the taken path *before* combine, so the second use is gone) |
-| second use that survives cse | `r = v;` (merges the two pseudos) | 3 (survives combine — `.combine` keeps insn 11 — but then one pseudo takes `$v0` and regalloc coalesces the copy away) |
-| `register` keyword (plain C, no asm) | `register int r;` / `register int v;` | 6 / 2 — **no effect**, as `combine.c:951` predicts (`SMALL_REGISTER_CLASSES` undefined on MIPS) |
-| temp for the condition | `c = v != 0; if (c) …` | 3-6 |
-| reuse `v` in the taken arm | `v = D_801F1638; r = v == 0;` | 6 |
-
-Two of these are worth keeping as measured facts: the `r = v` spelling **does** keep the copy past combine
-(so the combine reading is falsifiable and was falsified in the right direction), and the plain `register`
-keyword provably does nothing at `-O2` on this port.
+None of these used a pin, asm, volatile, a zero term, a dead assignment or a do-while.
 
 ## (f) Where the method fell short
 
-1. **The brief points at the wrong pass.** It sends you to `local-alloc`/`global`/`alloc_table.py` for a
-   register-swap residual. Here the deciding pass was `combine`, three passes earlier, and the allocator
-   behaviour was a *consequence*. The step that actually solved it — grep each `-d*` dump for the differing
-   insn and report the first pass in which it disappears — is one shell line and should be a tool
-   (`tools/pass_bisect.py <tu> <fn> <insn-pattern>`), shipped inside the pack. Everything after that
-   reading was mechanical.
-2. **The pack does not carry the target's own listing.** `residual.txt` prints only the differing blocks, so
-   the first thing I did was `objdump -drz build/.../*.o`. Fifteen lines of target mnemonics in the pack
-   would remove that step from every agent.
-3. **`residual.txt` splits one decision into three rows.** The "register pairs `v1->v0 x1`", the missing
-   instruction and the two tail rows are all one fact. A `COUNT` residual whose inserted instruction is a
-   `move` from a call's return register deserves its own printed class.
-4. **Tool bug (affects every parallel agent).** `--try` failed twice with
-   `FileNotFoundError: .run/P36/delever/includers_cache.tmp -> includers_cache.json` at
-   `tools/delever.py:657`: the temp file has a fixed name, so concurrent agents clobber each other's
-   `os.replace`. Use `tempfile.mkstemp` in the same directory (or an flock) — with ~20 agents running this
-   silently costs retries and could be mistaken for a candidate that "crashes the compiler".
+1. The METHOD's closing idioms (c4, c18, c25) all keep an instruction alive past cse or combine. None of them says
+   what happens NEXT: an instruction that survives still loses its register to local-alloc's hard-register copy
+   suggestion (local-alloc.c:1798). A check such as "does the surviving value's pseudo stay out of the source's hard
+   register?" belongs next to them. The S102 reading stopped at combine and so missed wall 2.
+2. The fastest settling step was a whole-binary byte-shape scan with a lever-free/levered split: 30 lines of Python and
+   about 2 minutes. It turns "no spelling found" into "the compiler never emits this without a lever". It should be a
+   tool (`tools/shape_census.py <regex over mnemonics>` -> families x {free, levered}) and a standard pack field.
+3. The scan's NODEF rows were bodies inside `src/shared/ov/*.h`. A census has to resolve `#include`d shared bodies.
