@@ -3,14 +3,14 @@
 void func_80142EC0(s32 param_1) {
 
     extern s32 D_801800E8[];
-    register s32 d   __asm__("$16") = param_1;   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
-    register s32 obj __asm__("$17");             /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers2)
+    s32 d = param_1;
+    s32 obj;
     s32 ret;
     s16 sVar2;
 
-    ret = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(d + 0x20) = ret;
+    do { ret = ((s32 (*)(void))func_8012C1B8)(); } while (0);
     obj = ret;
+    *(s32 *)(d + 0x20) = ret;
     if (ret == 0) {
         ((void (*)(s32))func_8012CAE4)(d);
     } else {

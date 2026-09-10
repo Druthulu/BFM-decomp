@@ -1,0 +1,82 @@
+delever_search --run: 16 exemplars (2,125 bodies behind them), 8 worker(s), beam 4 × depth 4 × cap 64, budget 1500 compiles per body, label g2
+    depth 1: 14 kept of the scored, best 4 (R12 width a1v s32->u16 @1371) · 21 compiles
+    depth 1: 26 kept of the scored, best 31 (R8 cse tmp0 @654) · 65 compiles
+    depth 1: 32 kept of the scored, best 20 (R10 param-alias p1->arg1 @647) · 65 compiles
+    depth 1: 34 kept of the scored, best 35 (R8 temp tmp0 @1068) · 62 compiles
+    depth 1: 8 kept of the scored, best 6 (R12 width tmp s32->u16 @767) · 17 compiles
+    depth 1: 36 kept of the scored, best 2 (R7 do-while @1844) · 50 compiles
+    depth 2: 38 kept of the scored, best 4 (R12 width a1v s32->u16 @1371 + R7 block @1375) · 85 compiles
+    depth 2: 124 kept of the scored, best 16 (R10 param-alias p1->arg1 @647 + R6 inline m @654) · 317 compiles
+    depth 2: 92 kept of the scored, best 24 (R8 cse tmp0 @654 + R8 cse tmp1 @680) · 317 compiles
+    depth 3: 27 kept of the scored, best 4 (R12 width a1v s32->u16 @1371 + R7 block @1375 + R2 decl-order 1,0) · 137 compiles
+    depth 1: 35 kept of the scored, best 26 (R9 swap-stmts @2808) · 65 compiles
+    depth 2: score 0 by R7 do-while @1843 + R9 swap-stmts @1844
+  ov_SC04_011__func_80142EC0: MATCH start=13 best=0 compiles=146 (22.8s, 132 copies, 2 needed, R7 do-while @1843 + R9 swap-stmts @1844)
+    depth 1: 32 kept of the scored, best 42 (R6 inline vc @5284) · 65 compiles
+    depth 4: 19 kept of the scored, best 4 (R12 width a1v s32->u16 @1371 + R7 block @1375 + R2 decl-order 1,0 + R7 block @1376) · 180 compiles
+  ov_SC04_011__func_80157D20: NO-MATCH start=9 best=4 compiles=180 (25.4s, 132 copies, 2 needed, R12 width a1v s32->u16 @1371)
+    depth 2: 135 kept of the scored, best 34 (R8 temp tmp0 @1068 + R7 do-while @1063) · 289 compiles
+    depth 2: 22 kept of the scored, best 6 (R12 width tmp s32->u16 @767 + R6 inline ang @770) · 73 compiles
+    depth 3: 116 kept of the scored, best 16 (R10 param-alias p1->arg1 @647 + R7 block @665 + R6 inline m @654) · 569 compiles
+    depth 3: 80 kept of the scored, best 24 (R8 cse tmp0 @654 + R7 block @649 + R8 cse tmp1 @680) · 569 compiles
+    depth 1: 50 kept of the scored, best 123 (R7 do-while @3674) · 65 compiles
+    depth 4: 77 kept of the scored, best 24 (R8 cse tmp0 @654 + R7 block @649 + R8 cse tmp1 @680 + R12 width i s16->s32 @644) · 812 compiles
+  ov_SC04_011__func_80135A4C: NO-MATCH start=40 best=24 compiles=812 (41.5s, 134 copies, 3 needed, R8 cse tmp0 @654 + R8 cse tmp1 @680)
+    depth 4: 120 kept of the scored, best 16 (R10 param-alias p1->arg1 @647 + R7 block @665 + R6 inline m @654 + R7 block @669) · 822 compiles
+  ov_SC04_011__func_80135888: NO-MATCH start=29 best=16 compiles=822 (41.6s, 134 copies, 5 needed, R10 param-alias p1->arg1 @647 + R6 inline m @654)
+    depth 3: 14 kept of the scored, best 6 (R12 width tmp s32->u16 @767 + R6 inline ang @770 + R10 param-copy arg0 @769) · 121 compiles
+    depth 3: 144 kept of the scored, best 33 (R7 do-while @1069 + R7 do-while @1068 + R7 do-while @1062) · 523 compiles
+    depth 4: 10 kept of the scored, best 6 (R12 width tmp s32->u16 @767 + R6 inline ang @770 + R10 param-copy arg0 @769 + R7 block @770) · 167 compiles
+  ov_SC04_011__func_80148E54: NO-MATCH start=6 best=6 compiles=167 (62.7s, 132 copies, 2 needed)
+    depth 4: 135 kept of the scored, best 33 (R7 do-while @1069 + R7 do-while @1068 + R7 do-while @1062 + R7 do-while @1066) · 732 compiles
+  ov_SC04_011__func_8013CF68: NO-MATCH start=38 best=33 compiles=732 (67.6s, 134 copies, 1 needed, R7 do-while @1069 + R7 do-while @1068 + R7 do-while @1062)
+    depth 2: 193 kept of the scored, best 119 (R7 do-while @3674 + R8 cse tmp0 @3694) · 312 compiles
+    depth 1: 24 kept of the scored, best 6 (R12 width a s32->u16 @720) · 37 compiles
+    depth 2: 134 kept of the scored, best 25 (R9 swap-stmts @2808 + R9 swap-stmts @2793) · 312 compiles
+    depth 3: 172 kept of the scored, best 116 (R6 inline yt @3671 + R9 swap-stmts @3674 + R12 width n u32->u16 @3652) · 565 compiles
+    depth 2: 119 kept of the scored, best 32 (R6 inline vc @5284 + R12 width cxv s32->s16 @5194) · 315 compiles
+    depth 2: 83 kept of the scored, best 6 (R12 width a s32->u16 @720 + R6 inline ang @729) · 163 compiles
+    depth 4: 165 kept of the scored, best 112 (R7 do-while @3674 + R8 cse tmp0 @3694 + R12 width y s32->s16 @3637 + R12 width mk1 u32->s16 @3648) · 819 compiles
+  ov_SC04_011__func_80177B5C: NO-MATCH start=135 best=112 compiles=819 (125.5s, 132 copies, 15 needed, R7 do-while @3674 + R8 cse tmp0 @3694 + R12 width y s32->s16 @3637 + R12 width mk1 u32->s16 @3648)
+    depth 3: 130 kept of the scored, best 24 (R9 swap-stmts @2808 + R9 swap-stmts @2793 + R6 inline uVar2 @2794) · 559 compiles
+    depth 3: 68 kept of the scored, best 6 (R12 width a s32->u16 @720 + R6 inline ang @729 + R4 decl-move a 5->0) · 274 compiles
+    depth 4: 40 kept of the scored, best 6 (R12 width a s32->u16 @720 + R6 inline ang @729 + R4 decl-move a 5->0 + R12 width d s32->s16 @722) · 352 compiles
+  ov_SC04_011__func_80148D44: NO-MATCH start=6 best=6 compiles=352 (125.1s, 132 copies, 2 needed)
+    depth 3: 116 kept of the scored, best 31 (R6 inline vc @5284 + R12 width cxv s32->s16 @5194 + R7 do-while @5233) · 563 compiles
+    depth 1: 30 kept of the scored, best 20 (R9 swap-stmts @663) · 40 compiles
+    depth 4: 124 kept of the scored, best 24 (R9 swap-stmts @2808 + R9 swap-stmts @2793 + R6 inline uVar2 @2794 + R8 temp tmp0 @2805) · 805 compiles
+  ov_SC04_011__func_80134A74: NO-MATCH start=30 best=24 compiles=805 (223.7s, 134 copies, 5 needed, R9 swap-stmts @2808 + R9 swap-stmts @2793 + R6 inline uVar2 @2794)
+    depth 1: 38 kept of the scored, best 19 (R2 decl-order 1,0) · 65 compiles
+    depth 2: 101 kept of the scored, best 20 (R9 swap-stmts @663 + R12 width sVar3 s32->u16 @644) · 180 compiles
+    depth 4: 113 kept of the scored, best 31 (R6 inline vc @5284 + R12 width cxv s32->s16 @5194 + R7 do-while @5233 + R10 param-copy arg0 @5200) · 810 compiles
+  ov_SC04_011__func_801670E4: NO-MATCH start=45 best=31 compiles=810 (276.2s, 133 copies, 7 needed, R6 inline vc @5284 + R12 width cxv s32->s16 @5194 + R7 do-while @5233)
+    depth 1: 11 kept of the scored, best 4 (R7 do-while @3940) · 19 compiles
+    depth 3: 95 kept of the scored, best 20 (R9 swap-stmts @663 + R12 width sVar3 s32->u16 @644 + R6 inline lo @660) · 318 compiles
+    depth 2: 32 kept of the scored, best 4 (R3 init-split p + R7 do-while @3939) · 78 compiles
+    depth 2: 120 kept of the scored, best 18 (R2 decl-order 1,0 + R9 swap-stmts @2669) · 299 compiles
+    depth 3: 28 kept of the scored, best 4 (R3 init-split p + R7 do-while @3939 + R4 decl-move p 1->0) · 131 compiles
+    depth 4: 24 kept of the scored, best 4 (R3 init-split p + R7 do-while @3939 + R4 decl-move p 1->0 + R12 width idx s32->s16 @3938) · 181 compiles
+  ov_SC04_011__func_801627E8: NO-MATCH start=7 best=4 compiles=181 (61.4s, 132 copies, 2 needed, R7 do-while @3940)
+    depth 4: 93 kept of the scored, best 20 (R9 swap-stmts @663 + R12 width sVar3 s32->u16 @644 + R6 inline lo @660 + R8 hoist tmp0 @661) · 454 compiles
+  ov_SC04_011__func_80148AFC: NO-MATCH start=23 best=20 compiles=454 (161.0s, 132 copies, 6 needed, R9 swap-stmts @663)
+    depth 3: 115 kept of the scored, best 14 (R2 decl-order 1,0 + R9 swap-stmts @2669 + R6 inline c1 @2670) · 531 compiles
+    depth 4: 119 kept of the scored, best 14 (R2 decl-order 1,0 + R9 swap-stmts @2669 + R6 inline c1 @2670 + R8 temp tmp0 @2684) · 769 compiles
+  ov_SC04_011__func_801345F8: NO-MATCH start=39 best=14 compiles=769 (202.9s, 134 copies, 3 needed, R2 decl-order 1,0 + R9 swap-stmts @2669 + R6 inline c1 @2670)
+    depth 1: 36 kept of the scored, best 18 (R7 do-while @2481) · 65 compiles
+    depth 2: 128 kept of the scored, best 16 (R7 do-while @2481 + R7 do-while @2471) · 314 compiles
+    depth 3: 126 kept of the scored, best 10 (R7 do-while @2471 + R6 inline h @2476 + R7 do-while @2483) · 561 compiles
+    depth 4: 130 kept of the scored, best 10 (R7 do-while @2471 + R6 inline h @2476 + R7 do-while @2483 + R8 hoist tmp0 @2486) · 808 compiles
+  ov_SC04_011__func_80133CD4: NO-MATCH start=28 best=10 compiles=808 (207.6s, 131 copies, 1 needed, R7 do-while @2471 + R6 inline h @2476 + R7 do-while @2483)
+    depth 1: 22 kept of the scored, best 24 (R8 hoist tmp0 @2327) · 65 compiles
+    depth 2: 87 kept of the scored, best 24 (R8 hoist tmp0 @2331 + R9 swap-stmts @2333) · 316 compiles
+    depth 3: 88 kept of the scored, best 23 (R8 hoist tmp0 @2331 + R9 swap-stmts @2333 + R12 width tmp0 s32->u16 @2310) · 565 compiles
+    depth 4: 83 kept of the scored, best 23 (R8 hoist tmp0 @2331 + R9 swap-stmts @2333 + R12 width tmp0 s32->u16 @2310 + R8 hoist tmp1 @2328) · 810 compiles
+  ov_SC04_011__func_80133AB0: NO-MATCH start=24 best=23 compiles=810 (205.3s, 134 copies, 4 needed, R8 hoist tmp0 @2331 + R9 swap-stmts @2333 + R12 width tmp0 s32->u16 @2310)
+    depth 1: 53 kept of the scored, best 13 (R5 swap + @786) · 65 compiles
+    depth 2: 169 kept of the scored, best 7 (R5 swap + @786 + R7 do-while @790) · 311 compiles
+    depth 3: 153 kept of the scored, best 7 (R5 swap + @786 + R7 do-while @790 + R8 cse tmp0 @785) · 558 compiles
+    depth 4: 126 kept of the scored, best 7 (R5 swap + @786 + R7 do-while @790 + R8 cse tmp0 @785 + R9 swap-stmts @796) · 787 compiles
+  ov_SC04_011__func_8012E364: NO-MATCH start=25 best=7 compiles=787 (205.1s, 133 copies, 3 needed, R5 swap + @786 + R7 do-while @790)
+  propagate ov_SC04_011__func_80142EC0: delever --propagate: 131 of 131 sibling(s) banked, 0 refused
+
+search: 1 of 16 exemplars matched lever-free in 0.32 h (132 of 2,125 bodies behind them; 9,454 compiles) — NO-MATCH 15 · MATCH 1

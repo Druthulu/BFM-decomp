@@ -741,7 +741,28 @@ accumulate here as the phase produces them.**
   name `d` (a phantom parameter copy); `s32 * p2` spacing. Next: run `g2` on the same head with the new families and a wider
   structure (beam 4 × depth 4 × cap 64, budget 1,500) at 8 workers.
 
-## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed; **S101 IN PROGRESS: lane B DELIVERED (`.run/P36/engine/residual_moves.md`, 58 moves, one verified on bytes); lane A rung G `tools/delever_search.py` BUILT, controlled and MEASURED — run g1: 1 of 16 exemplars (the one rung D could not), 132 bodies banked, R22 218/218; NEXT = iterate the engine from its traces (generators from lane B's map: param-copy, scope, width; wider beam), then the next draw** | the number: **33,295 sites** (19,982 pins + 13,313 asm) in 11,916 bodies · marked 33,295 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (4 milestones)
+- **2026-09-09 — S101 rung G run `g2`** (the same 16-class head, `--include-done`, beam 4 × depth 4 × cap 64, budget 1,500, the new
+  families; `.run/P36/engine/run_g2.log`): `search: 1 of 16 exemplars matched lever-free in 0.32 h (132 of 2,125 bodies behind
+  them; 9,454 compiles) — NO-MATCH 15 · MATCH 1` → `delever --propagate: 131 of 131 sibling(s) banked, 0 refused` → R22
+  (`.run/P36/baseline/r22_g2.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=86.07 s`) → census `THE PHASE'S NUMBER (pins
+  + asm statements, GTE excluded): 33,031 sites in 11,784 bodies (1,753 distinct) · marked !FAKE 33,031 · UNMARKED 0` → snapshot row 5
+  (33,295 → **33,031**). **The close:** `func_80142EC0` (two pins `$16,$17`; lost to the line shift in g1) by `R7 do-while @1843 + R9
+  swap-stmts @1844`, 146 compiles, 22.8 s — 132 bodies. **The wider search with the new families moved the hard bodies past g1's
+  best on nine of the fifteen (R41):** `func_80135A4C` 40 → 24 (g1: 40; two `R8 cse` temps — the target's duplicated call tail is
+  still 10 words), `func_80135888` 29 → 16 (22; `R10 param-alias + R6 inline`), `func_801670E4` 45 → 31 (40; `R6 + R12 width s16 + R7`),
+  `func_80133CD4` 28 → 10 (new; `R7 + R6 + R7`), `func_80157D20` 9 → 4 (7; `R12 width a1v s32->u16`), `func_801627E8` 7 → 4 (4),
+  `func_801345F8` 39 → 14 (14), `func_80177B5C` 135 → 112 (119; a 15-site body), `func_8012E364` 25 → 7 (7 — the association order
+  R13 was generated but not composed within the beam); unmoved: the two 6s (`func_80148D44`, `func_80148E54` — the one surviving copy
+  no width reaches; 352 and 167 compiles), `func_80148AFC` 23 → 20, `func_80133AB0` 24 → 23, `func_80134A74` 30 → 24, `func_8013CF68`
+  38 → 33. Compiles per body 167–822, 23–276 s. **What the two runs say together (R41):** on this head — the 11 exemplars rung D could
+  not close in 0.69 h plus five it never tried — rung G closed 2 (264 bodies) in 0.44 h of compute and no tokens, and its trace names
+  the remaining residual of each (`--explain`), so every stall is a generator to write, not a wall. The byte record against lane B's
+  map (its verification ledger, appended to `residual_moves.md`): the constant-swap claim VERIFIED, the do-while lever VERIFIED as
+  the ref weight (`.lreg` `used 5` → `used 6 times across 39 insns`, the LOOP notes surviving jump1, a plain `{ }` changing nothing),
+  the 16-bit-copy claim NOT REACHED where the value's known bits already fit the narrow mode. Cookbook **§455** written; the SETUP row
+  extended (R21).
+
+## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed; **S101 IN PROGRESS: lane B DELIVERED + two claims verified on bytes; lane A rung G BUILT, controlled, MEASURED twice (g1 + g2: 2 of the 16-class head closed, 264 bodies banked, R22 218/218 each), generators R8–R13 in the registry, cookbook §455; NEXT = the checkpoint refresh, then the next generators from `--explain` (the surviving-copy class, the association compose) and the next draw** | the number: **33,031 sites** (19,982 pins + 13,049 asm) in 11,784 bodies · marked 33,031 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (5 milestones)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew set `high` and prefers it for
