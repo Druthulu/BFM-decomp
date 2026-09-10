@@ -1800,6 +1800,9 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   other readable definition, so R19, R25, `decl_repair` and the readability census were blind to them. The params string
   carries the DEFAULT-PROMOTED types (char/short → int), so a cast built from it matches the definition. Definitions read:
   15,626 → 15,721. Found by R25's known-true check (its first callee was absent).
+- **`delever_search --try` is parallel-safe per call** (S103): its scratch directory and object tag carry the process id and
+  are removed afterwards; `--keep` keeps them and prints the candidate object's path. Four simultaneous tries of one function
+  score correctly (three agents had written private parallel scorers because same-function tries collided).
 - **`tools/localalloc_sim.py <.lreg> <fn> <uid>`** (agent c26's simulator, promoted): local-alloc's per-block ranking
   (`qty_compare_1`) and the register each quantity gets, printed beside the dump's own assignment — validated 0 mismatches
   over 150 block simulations on four functions. Use it for a register permutation inside one block; `alloc_table.py` shows

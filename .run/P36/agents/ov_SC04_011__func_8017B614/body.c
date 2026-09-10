@@ -17,19 +17,19 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     extern s32 D_8012698C;
 
     u8 buf[16];
-    s32 src;
+    u8 *src;
 
     if (((u32)param_2) >= 0xB) {
-        src = param_2;
+        src = (u8 *)((u32)param_2);
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
-        s32 a1addr;
-        src = ((u32)param_2) * 0x10;
-        a1addr = (s32)&D_80193D6C[src];
-        src = (s32)&D_80193D6C[src + 8];
-        func_8012F214(param_1, a1addr, (s32)&buf[0]);
-        func_8012F214(param_1, src, (s32)&buf[8]);
+        s32 a2addr;
+
+        src = &D_80193D6C[((u32)param_2) * 0x10];
+        a2addr = (s32)&D_80193D6C[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, (s32)src, (s32)&buf[0]);
+        func_8012F214(param_1, a2addr, (s32)&buf[8]);
     }
     {
         s16 *p794 = &D_801EECD4;
@@ -39,15 +39,13 @@ s32 func_8017B614(s32 param_1, s32 param_2)
         ((void(*)(s32, s32))func_8012A018)((s32)func_8017BE60, 0);
         {
             s32 v794, v796, v798, v78C, v78E, v790;
-            do {
-                D_8012694C = 0;
-                v794 = *p794;
-                v796 = D_801EECD6;
-                v798 = D_801EECD8;
-                v78C = *p78C;
-                v78E = D_801EECCE;
-                v790 = D_801EECD0;
-            } while (0);
+            D_8012694C = 0;
+            v794 = *p794;
+            v796 = D_801EECD6;
+            v798 = D_801EECD8;
+            v78C = *p78C;
+            v78E = D_801EECCE;
+            v790 = D_801EECD0;
             D_801F1638 = 1;
             D_801EEC5C = 0x1E;
             D_80126990 = v794;

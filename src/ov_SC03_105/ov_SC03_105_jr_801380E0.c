@@ -815,7 +815,7 @@ extern void GsSortSprite(void *a0, u8 *a1, s32 a2);
 void func_801397B0(s32 arg0)
 {
     u8 *e;
-    register s32 off __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus5)
+    s32 off;
     s32 buf[12];
     u8 *b164;
     u8 *b1A8;
@@ -841,14 +841,16 @@ void func_801397B0(s32 arg0)
     *(s16 *)((u8 *)buf + 0x0C) = hi | lo | ((t2 & 0x200) << 2);
 
     b1A8 = (u8 *)&D_8018A9D4 + off;
-    *(s16 *)((u8 *)buf + 0x10) = *(u16 *)(b1A8 + 0);
-    *(s16 *)((u8 *)buf + 0x12) = *(u16 *)(b1A8 + 2);
-    *(u8 *)((u8 *)buf + 0x16) = 0x80;
-    *(u8 *)((u8 *)buf + 0x15) = 0x80;
-    *(u8 *)((u8 *)buf + 0x14) = 0x80;
-    *(s16 *)((u8 *)buf + 0x06) = *(u16 *)(e + 0x32);
-    *(s16 *)((u8 *)buf + 0x08) = 0x20;
-    *(s16 *)((u8 *)buf + 0x0A) = 0x28;
+    do {
+        *(s16 *)((u8 *)buf + 0x10) = *(u16 *)(b1A8 + 0);
+        *(s16 *)((u8 *)buf + 0x12) = *(u16 *)(b1A8 + 2);
+        *(u8 *)((u8 *)buf + 0x16) = 0x80;
+        *(u8 *)((u8 *)buf + 0x15) = 0x80;
+        *(u8 *)((u8 *)buf + 0x14) = 0x80;
+        *(s16 *)((u8 *)buf + 0x06) = *(u16 *)(e + 0x32);
+        *(s16 *)((u8 *)buf + 0x08) = 0x20;
+        *(s16 *)((u8 *)buf + 0x0A) = 0x28;
+    } while (0);
 
     uu = (*(u16 *)(b164 + 0) & 0x3F) << 2;
     *(u8 *)((u8 *)buf + 0x0E) = uu;

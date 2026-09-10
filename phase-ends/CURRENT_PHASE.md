@@ -1577,6 +1577,30 @@ accumulate here as the phase produces them.**
   2,843 banked exemplars, one other had hash-matching unpropagated siblings (`func_8014D820`, 2) — and both are correctly
   refused by the remap's symbol-consistency check (`D_8019207C maps to both …`), so the free yield there is 0; a hash
   census overcounts remappable twins.
+- **S103 — re-draw c21: `func_801397B0` CLOSED (S102 a3 read it to 2; now 0, 89/89; 125 of 132 — 7 variants refused)
+  — with a do-while.** The eight fixed sprite-field stores wrapped in one `do { … } while (0)`: flow counts the two
+  `b1A8` loads inside the zero-trip loop double (`flow.c:1401/2067/2501`), lifting the combine_regs-tied quantity
+  (lbu→addiu→`off`→`b1A8`, `local-alloc.c:1722/1855`) from 10 refs / length 44 (6818) to 12 (8181), past t2's quantity
+  (7000, `qty_compare_1` `:1598`); lengths unchanged, a plain `{ }` scores 12. a3 had guessed "one more flow-time ref" but
+  only wrapped statements using `off` — `b1A8` belongs to the same tied quantity. Evidence: all 529 contiguous wraps in
+  two statement orders enumerated (22 close; in the original order only [cx..h] and supersets) and 288 other spellings
+  that never went below 12; the agent's quantity-level simulator predicted every flip. **Banked on the a4/c15
+  reference-weight precedent — the third S103 do-while close (c5, c15, c21); the class is Drew's open question.**
+- **S103 — re-draw c28: `func_8013F350` READ, not closed (best honest 42; b9's 16 rested on compensating errors and a
+  do-while, kept in `scratch/prev_body.c`, unclaimed).** c11's derived-pointer move cannot reach the head, for two
+  proven reasons: no first-pass-only cse boundary lies between the base's set (BB0) and the offset-4 read (BB1, its
+  fall-through — `cse.c:8039-8055` finds no label or loop end), and the second cse pass scans BB1 on TWO paths
+  (`cse.c:8098-8124`; `.cse2` shows three paths from insn 2), re-associating the read on one and folding it on the
+  other; a diagnostic with a banned do-while split proved the scan count decides (a new read in a once-scanned block
+  stays `lhu 6($5)` in the same compile). METHOD_S103's c11 entry gained that third condition. The head's `$5` pin +
+  launder: irreducible in plain C by this reading — the class stays residue with its evidence.
+- **S103 — re-draw c22: `func_8012E364` READ, not closed (stays 4; the earlier body is still the best).** A call-free
+  function, so the implicit-argument lead did not apply (the brief should say "no calls" up front); ~63,000 compiles over
+  every legal statement order × struct spellings; `combine_regs`'s refusal tests (`local-alloc.c:1722-1854`) prove `d`
+  and `v` cannot both be tail-block locals, and a reuse family that makes them cross-block reached 10 — rejected by the
+  agent itself as unreadable. **Harvest: `delever_search --try` is now parallel-safe per call** (pid-keyed scratch,
+  removed afterwards, `--keep` prints the object path) — c19, c21 and c22 had each written a private scorer. R22 after
+  c21's bank: `check-all: 218 passed, 0 failed of 218`.
 - **S103 — the R19+R25 regen pass (R19 now sees the K&R callees):** first launch REFUSED `unknown families ['R25']` —
   the `ALL_FAMILIES` edit had matched nothing (a literal `\\n`); the selftest now asserts every family `recipe_candidates`
   dispatches is registered (negative control: removing R25 fails it by name). Rerun: `1150 of 1150 classes judged in 474
@@ -1677,7 +1701,7 @@ setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R
   **Fix it next** (it should take the TU's own directory and `src/` as include roots like `--try` does).
 
 ### 6. OPEN BY NAME
-- **Drew's call, asked in S103:** does `do { … } while (0);` count as a lever? (banked with one so far: c5's `func_8015D738` and c15's `func_80135EB0` in S103, a4 and b8 in S102; and its cousin: c13's DEAD INITIALISER — `s16 size = 0;` flow deletes, whose only job is to stop `scan_loop` hoisting a constant; c9 refused the do-nothing reassignment form) It is R7's move, banked in S102 (a4, b8)
+- **Drew's call, asked in S103:** does `do { … } while (0);` count as a lever? (banked with one so far: c5's `func_8015D738`, c15's `func_80135EB0` and c21's `func_801397B0` in S103, a4 and b8 in S102 — c15 and c21 as REFERENCE-WEIGHT doublers, c5 as a cse barrier; and its cousin: c13's DEAD INITIALISER — `s16 size = 0;` flow deletes, whose only job is to stop `scan_loop` hoisting a constant; c9 refused the do-nothing reassignment form) It is R7's move, banked in S102 (a4, b8)
   and S103 (c5's `func_8015D738`, where it is the barrier the removed `asm` was — c5 flagged it), uncounted by the census,
   1,347 in `src/`. If yes: a census class + a residue to work down.
 - **Drew's call (T5, the GTE header):** c17 showed `func_8013D9B0`'s last 15 (134 copies) are `include/gte_inline.h`'s

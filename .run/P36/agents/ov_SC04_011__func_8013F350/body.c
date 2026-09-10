@@ -3,7 +3,7 @@ s32 func_8013F350(void) {
     u16 *ps;
     u16 *pf;
     u16 *pg;
-    s32 pad;
+    u16 pad;
     u16 st;
     u8 *pcur;
     u8 *pmax;
@@ -20,7 +20,7 @@ s32 func_8013F350(void) {
     s32 chg;
 
     pad = *pd;
-    do { chg = 0; } while (0);
+    chg = 0;
     if (pad != 0) {
         if (pad == pd[2]) {
             D_80115122 = D_80115122 - 1;

@@ -50,6 +50,9 @@
      (`*(T *)(arr + (D - K))`, not `*(T *)(base - K)`) — fold_rtx re-associates before folding (`cse.c:5580-5667`) and
      `find_best_addr` (`cse.c:2622`) folds base-relative reads to absolute; the FIRST cse pass must not reach them (a
      two-insn clamp arm stops it at the join label, `cse.c:8039`); the second pass (`.cse2`, dump flag `-dt`) re-associates.
+     **Third condition (S103 c28, func_8013F350):** the second pass must scan the access's block EXACTLY ONCE — a block on
+     two `.cse2` "Processing block from S to E" paths is re-associated on one and folded on the other
+     (`cse.c:8098-8124`); then the lever is irreducible in plain C.
    - (S103 c11) a value tied into the wrong register by local-alloc (`local-alloc.c:1722`, refused when the destination is
      not local, `:1774`): REUSE one temp across blocks so flow makes it block-global (`flow.c:1204/1428`) and global.c's
      preference scan (`:1535`, `:1037-1071`) picks the argument register.

@@ -711,6 +711,30 @@ def explain(a):
 
 
 def score_file(a):
+    """--try: `_score_file` with its per-call scratch removed afterwards (unless --keep, which prints where the candidate
+    object is — agents asked for both: parallel same-function scoring, and the object to dump)."""
+    try:
+        return _score_file(a)
+    finally:
+        tu, fn, _ = a.try_
+        base = RUN / "score"
+        pid = f"p{os.getpid()}"
+        dirs = list(base.glob(f"*__{fn}/{pid}"))
+        if getattr(a, "keep", False):
+            for d in dirs:
+                print(f"  --keep: candidate object {d / 'cand.o'}")
+        else:
+            import shutil
+            for d in dirs:
+                shutil.rmtree(d, ignore_errors=True)
+            for o in oracle.SCRATCH.glob(f"*.score_*_{fn}_{pid}.o"):
+                try:
+                    o.unlink()
+                except OSError:
+                    pass
+
+
+def _score_file(a):
     """--try TU FN FILE: FILE is a candidate text of the WHOLE translation unit (or, with --body, of the function's definition
     alone, spliced into the tree's TU); it is compiled through the TU's own recipe with the source path swapped for a scratch copy
     (`-I<the TU's directory>` added so its relative includes resolve) and the function's instructions are compared with the fleet
@@ -733,7 +757,10 @@ def score_file(a):
         text = raw[:ls[d_["line"] - 1]] + text.rstrip("\n") + "\n" + raw[ls[d_["end"]]:]
     rec = recs[0]
     src_dir = os.path.dirname(rec["src"] if not tu.endswith(".h") else tu)
-    scratch_dir = RUN / "score" / f"{rec['alias']}__{fn}"
+    # PER CALL, not per function (S103): two `--try` runs of the SAME function shared this directory and one of them read
+    # the other's object — agents c19, c21 and c22 each wrote a private parallel scorer to get around it. The directory is
+    # removed afterwards unless --keep (which prints the object's path, the other thing agents asked for).
+    scratch_dir = RUN / "score" / f"{rec['alias']}__{fn}" / f"p{os.getpid()}"
     scratch_dir.mkdir(parents=True, exist_ok=True)
     scratch_src = scratch_dir / os.path.basename(rec["src"])
     # a header candidate: the includer compiles with the header swapped in through a scratch include dir that shadows it
@@ -755,7 +782,7 @@ def score_file(a):
     # two agents scoring different functions of the SAME translation unit write and read one object — T7's burst of 20
     # (S102) put nine agents in one file and two of them reported it independently: spurious COMPILE-ERRORs, and one agent
     # scored four candidates against another agent's function before the echoed TU/FN line gave it away.
-    tag = "score_" + re.sub(r"\W+", "_", f"{rec['alias']}_{fn}")
+    tag = "score_" + re.sub(r"\W+", "_", f"{rec['alias']}_{fn}") + f"_p{os.getpid()}"
     data, dt, err = oracle.compile_obj(mod, None, tag=tag)
     if data is None:
         print(f"{tu}:{fn}: {'COMPILE-CRASH' if err.startswith('CRASH:') else 'COMPILE-ERROR'} — {err[:300]}")
@@ -1005,6 +1032,7 @@ def main():
     g.add_argument("--selftest", action="store_true")
     ap.add_argument("--path", help="--explain: moves to apply first, `|`-separated, named as the trace names them")
     ap.add_argument("--body", action="store_true", help="--try: FILE holds the function's definition only")
+    ap.add_argument("--keep", action="store_true", help="--try: keep the per-call scratch and print the candidate object path")
     ap.add_argument("--only", nargs="*", default=[], help="fn, TU (substring), alias or nhash prefix")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--show", type=int, default=25)

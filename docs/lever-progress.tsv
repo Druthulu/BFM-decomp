@@ -41,3 +41,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-10	S103: c15 func_80135EB0 (128 bodies; a do-while on the a4 precedent)	a620e1880	15239	8654	6585	4080	1221	15239	0	462	314	1590	50	7680	445	76
 2026-09-10	S103: re-draws c24 func_8012956C + c23 func_80133784 (252 bodies)	ae87bf75a	13842	7765	6077	3826	1219	13842	0	462	314	1590	50	7680	445	76
 2026-09-10	S103: re-draws c25 func_80166F58 + c26 func_80133CD4 (254 bodies); R25 regen 3; propagate's stale-hash fix	96820256c	13083	7512	5571	3567	1215	13083	0	462	314	1590	50	7680	445	76
+2026-09-10	S103: re-draw c21 func_801397B0 (125 bodies; do-while ref-weight)	44f7f8ddb	12957	7386	5571	3441	1214	12957	0	462	314	1590	50	7680	445	76
