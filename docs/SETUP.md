@@ -1692,3 +1692,75 @@ successor, or a one-off whose product exists); the census proved each had no liv
 | | `tools/rtu_shadow.py` | **(P31 S61)** Shadow-mode `rtu_match` beside the wave gate to decide the gate INVERSION (§3 of the same analysis). `--wave X` (prospective, before X is gated, never while a gate is in flight) writes `.run/rtu_shadow/X.jsonl`; `--join X` after the gate commit prints the rtu-verdict × outcome matrix, P(bank | rtu MATCH), the false-negative rate, and current-vs-inverted build counts. Drafts map to binaries through the shard's targets file, never by bare name. |
 
 *Rows shared with a live tool were left in place: `canon_draft_decls.py`; `t5_bank.sh, t5_targets.py`; `bounce_drafter_on_queue.sh`.*
+
+### §P36 S102 — the delever engine's second generation: the tools added or repaired on 2026-09-10
+
+Everything below is LIVE and carries a `config/tool_dictionary.tsv` row. Read this section before touching the engine.
+
+**The generator registry** (`tools/delever.py`, `recipe_candidates(..., families=)`; each generator's own docstring
+carries its mechanism, its `file:line` citations into `tools/reference/gcc-2.7.2/`, and the body it was harvested from):
+
+| family | function | what it rewrites | harvested from |
+|---|---|---|---|
+| R15 | `sink_merges` | the statement after an if/else chain sunk into every arm, deleting the cross-block variable | agent a1, `func_80156044` |
+| R16 | `constant_holders` | a local whose only assignment is one integer literal written at every use and deleted | agent a2, `func_80168828` |
+| R17 | `constant_run_splits` | a run of same-literal assignments split by moving a differently-valued one into it | agent a2 |
+| R18 | `bystander_moves` | one independent statement moved to each other position in its block, up to six away | agent a3, `func_801397B0` |
+| R19 | `restore_arguments` | a call re-issued at the callee's REAL arity through a function-pointer cast, one candidate per in-scope value | agents a7/a8/a11/a12/a13/a25 |
+| R20 | `narrow_chains` | every local in one def-use chain narrowed TOGETHER, and each pair of chains together | agent b3, `func_8016CBC0` |
+| R21 | `second_consumer` | `v = E; slot = v;` → `v = slot = E;` (chain) or `slot = E; v = E;` (hoist), each site and ALL sites | agents b2/b6 |
+
+**Three of these are JOINT edits and that is the point.** R20's single-chain candidates score 43 and 51 where the joint
+scores 0; R21's single sites are worse than its joint form; b7's four-way retype has every intermediate worse than the
+start. A beam that only composes one-move steps walks AWAY from these answers, which is why thousands of compiles sat
+flat on those bodies. When a generator's win is joint, generate the joint candidate — do not rely on the search.
+
+**Call signatures — the largest class in the phase** (six agents found it independently before any tool existed):
+- `tools/argcheck.py [--json F] [--argpin-only]` — every call declaration narrower than the callee's REAL definition,
+  read from the definition wherever it lives. Reports the scope, which says which FIX is available: the CAST route is
+  body-only at either scope, widening the declaration itself needs block scope. **Known blind spot in its docstring:** a
+  function declared `(void)` AND defined `(void)` everywhere disagrees with nothing, so a declaration comparison cannot
+  see it; only the residual can.
+- `tools/decl_repair.py [-j N] [--apply]` — the free-correctness half: a declaration is repaired only where every call
+  in that unit ALREADY passes the arguments. Compares `.text`/`.rodata`/`.data`, **never whole objects** (the object
+  records its own source path, so a scratch-built candidate always differs — that mistake returned 0 free of 3,634 units
+  and read like a finding). Every unit is negative-controlled by compiling it UNCHANGED first; a unit whose control
+  fails is reported as a harness failure, not a result. `--apply` writes only what THIS run judged identical.
+  Result on 2026-09-10: **3,439 units / 16,759 declarations repaired, fleet 218/218 unchanged.**
+- `tools/readability_progress.py --snapshot "<label>" | --check` — the Gen3 series beside `docs/levers.md`, rendered to
+  `docs/readability.md` from `docs/readability-progress.tsv`. Counts lying declarations (split `()` / `(void)`, and how
+  many sit in a pinned body) and raw cast dereferences against struct member reads (the struct debt). Dated rows carry
+  their commit; generated, never typed (R75).
+
+**The oracle and the scorer:**
+- `tools/delever_oracle.py --snapshot-baseline` — copies `build/**/*.o` into `.run/P36/delever/baseline/`, and
+  `baseline_path()` makes every score read the snapshot when it holds the object. **This is what lets the R22 fleet gate
+  and the agents run at the same time:** `make clean` deletes `build/`, which every score compares against, and without
+  the snapshot a gate would make each live `--try` compare against a missing baseline and report nonsense in the agent's
+  own voice. Refresh after each green `check-all`. Proven by moving an object aside: the score is unchanged.
+- `delever_search.score_file` tags its scratch object per FUNCTION (`score_<alias>_<fn>`). It used to be a constant tag,
+  keyed by the FILE — nine agents sharing one TU wrote and read one object, and two reported it independently.
+- `delever.propagate` inherits the exemplar's lever allowance, DERIVED from the count of surviving `// !FAKE:` markers in
+  its own banked text, and refuses a sibling whose remap would carry more.
+- `delever.protos_outside_definition` — R14 refuses a function the TU declares anywhere but at its definition, because
+  the bank is BODY-ONLY and a prototype rewrite cannot be banked. The engine also names an **OUT-OF-BODY** verdict when a
+  score-0 candidate edited outside the definition.
+
+**Reading the compiler, repaired after four agents asked for it:**
+- `tools/alloc_table.py <tag> <fn> <dump_root>` — every pseudo with refs, live length, block, conflicts, copy
+  preferences and `allocno_compare`'s priority, **with its coverage asserted against the `.greg` order line** (a named
+  gap and a non-zero exit, never a confident subset). It used to print only callee-saved holders and returned an EMPTY
+  table to two agents. Note the `.greg` dump carries the INPUTS to global allocation, not the final assignment, so a
+  global allocno's hard register prints as `-`; that is the dump's shape, not a gap.
+- `tools/cc1_dumps_tu.sh <wd> <tag>` — now passes `-I<the TU's own directory>` (it silently preprocessed to 44 lines and
+  exited 0 on any TU with relative includes), adds `-dR`, and REFUSES a preprocess under 200 lines. It globs
+  `$wd/*/t.c`, so `$wd/shared` must be symlinked to `src/shared` for TUs including `../shared/engine_prelude.h`.
+- **Two cracks this session were arithmetic on that table, not searches:** one moved a priority 6524 past 6666, another
+  shortened a live length from 44 to 43. A third predicted an allocation order from it before compiling and was right.
+
+**The agent packs** (`tools/delever_pack.py --build`, ~2 min, no tree writes): each pack now also carries
+`neighbours.txt` — the target's OWN header comment in full, the comment headers of the three matched functions either
+side, and every `@class:`/`@stuck:`/`@crack:` note in the TU — and `best_body.c`, the text of the best candidate the
+engine reached. Both came from agents: one closed on its first try after reading a sibling's header, and one lost hours
+because the pack had reduced its own function's eight-point English header to two tagged lines. **A `@stuck:` note is a
+CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**

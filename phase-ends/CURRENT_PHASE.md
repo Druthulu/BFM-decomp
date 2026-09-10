@@ -1327,7 +1327,165 @@ accumulate here as the phase produces them.**
   hand lands elsewhere (it reached 51 where the engine's own generators reproduce 16 in one round) — the pack now ships
   the best candidate's TEXT as `best_body.c`.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **27,984 sites** in 8,249 bodies · marked 27,984 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (20 milestones). **S102's loop state: the burst of 20 is landing; a4/a7/a8/a12/a18/a19 banked (756 bodies); the per-file scratch-object collision is FIXED (per-function tag); the biggest class found is a truncated `(void)` DECLARATION, three cases of which need the types phase.**
+## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
+
+### 0. How to use this block
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew ran S102 at
+`/effort high` on Opus 5 1M; xHigh on Fable is equally fine — the work is engineering against a byte oracle**) and
+executes §2. **Nothing is in flight: the tree is clean, no sweep and no agent is running, the fleet is 218/218.**
+First commands of the session:
+```
+git log --oneline -1                       # expect 8a22254bf or Drew's push on top of it
+git status --short | wc -l                 # expect 0
+.venv/bin/python tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16   # ~3 s, after EVERY commit
+.venv/bin/python tools/delever_oracle.py --snapshot-baseline                                          # 7,428 objects, 188 MB
+```
+
+### 1. THE OPERATING PROCEDURE (Drew's, and it is the thing to get right)
+- **The AGENT LANE IS THE MAIN LANE AND IS NEVER EMPTY** (2026-09-10, after a night that produced only three agents
+  because sweeps ran between them). On a landing, in this order: (1) `--try` the agent's `body.c` — seconds — to prove
+  the claim on bytes; (2) **launch the next agent immediately**; (3) only then bank, propagate, harvest the idiom into a
+  generator, gate and commit, all while the new agent runs. One agent at a time was his earlier rule so the methodology
+  is honed at each landing; four to six in parallel on DISTINCT residue classes is what he approved once it was shown
+  that `--try` writes nothing into the tree.
+- **ONLY ONE WRITER.** Agents are read-only (`--try` compiles a scratch copy). The BANK and a SWEEP both write the tree,
+  and they cannot overlap: running a sweep while banking made `--calibrate` fail at 174/177 and cost a hand
+  reconciliation of eight files. **A sweep is not part of the agent lane.** If you must stop one: kill by PID (never
+  `pkill -f` a literal your own command line contains, R79), then reconcile — a bank recorded in the run log stays, a
+  dirty file with no recorded bank is a leftover candidate and is restored from HEAD, then `make check-all` proves it.
+- **`make clean` is now SAFE beside agents** because of the baseline snapshot (§3). Refresh the snapshot after each
+  green `check-all`.
+- Effort/resources: sweeps at `-j 16` with `nice -n 10` (Drew raised it from 8 on 2026-09-10). Campaigns run DETACHED
+  (`setsid nohup … &`) with a `Monitor` on the log — the harness backgrounds any foreground command over 120 s and its
+  low-memory guard kills long background tasks (it killed a waiter, not the run, twice).
+
+### 2. NEXT — keep the loop running; the head is 34 classes and the method is now sharp
+1. `.venv/bin/python tools/delever_pack.py --build` (~2 min, no tree writes) → `.run/P36/agents/ORDER.tsv`, 34 packs.
+   Packs now carry `neighbours.txt` (the target's OWN header in full + matched siblings' headers + every
+   `@class:`/`@stuck:`/`@crack:` note) and `best_body.c` (the engine's best text, because `history.txt`'s `@NNNN` line
+   numbers are relative to the EVOLVING text and cannot be replayed by hand).
+2. Launch 4–6 agents on DISTINCT classes from `ORDER.tsv`, briefing each with `PACK/PROMPT.md` plus the method below.
+   **Already read without closing — do not re-draw without new information:** `func_80136824` (blocked: a real crack
+   that needs its prototype widened, types phase), `func_801397B0` (2), `func_80178970` (3, and its pin was judged
+   needed-by-construction inside a declaration environment we have since repaired — RE-MEASURE before believing it),
+   `func_80148E54` + twin `func_80148D44` (6), `func_80157D20` (4, needs a fleet declaration widen), `func_80139BE0`
+   (banked since, by R20), `func_80166F58` (4), `func_8012956C` (4), `func_8012E364` (4), `func_8013DD68` (2),
+   `func_8017B614` (6), `func_80133CD4` (11), `func_80133784` (2), `func_8013F350` (16, head proven a wall).
+3. **THE METHOD THAT CLOSED 14 OF 22, in order** — put it in every brief:
+   0. Read `PACK/neighbours.txt`. One agent closed on its FIRST `--try` because a sibling's header spelled the crack out
+      in English. **A `@stuck:` note is a CLAIM: two were refuted on bytes this session.**
+   1. Dump the target function WHOLE off the tree's own object (`objdump -drz build/src/<tu>.o`), not the residual's
+      hunks — the hunk view scrambles moves into branch delay slots and hides a repeated shape.
+   2. **COUNT FIRST.** The residual text cannot tell you whether an instruction is MISSING or the registers are WRONG;
+      one agent chased a register theory for hours when cse had forwarded a just-stored value and deleted a load.
+   3. If instructions are missing, ask what emits them. The answers this session: a dropped call argument (R19); a copy
+      cse deleted because the producer sat immediately before it (R21); a copy deleted because two locals shared a WIDTH
+      (R20); a block merged by cross-jump, whose equality test compares symbol names BY POINTER, so a body-local
+      `extern T alias __asm__("SYM");` keeps the blocks apart at zero byte cost.
+   4. Only then the allocation table (§3). Declaration-order moves (R2/R4) are PROVABLY DEAD on a register residual whose
+      allocnos have distinct priorities — `global.c:604-610` compares priority first and ties only by allocno number.
+4. **HARVEST EVERY LANDING (R16).** If the move is mechanical it becomes a generator with a selftest AND a known-true
+   check against the body it came from; then sweep. **Three of the four new generators win only as JOINT edits** whose
+   every single step scores worse than the start — when that is true, generate the joint candidate, do not trust a beam.
+5. Two REFUSALS to keep making: an invented identically-zero term is a compiler-forcing construct in C clothing and is
+   NOT banked (the phase's rule is *ban the silence, not the lever*; the honest close arrived from R20 hours later); and
+   a body whose improvements are compensating errors is reported, not banked (agent b9 said so itself).
+
+### 3. THE EXACT INVOCATIONS
+```
+# the packs, the agents' loop, the bank
+.venv/bin/python tools/delever_pack.py --build
+.venv/bin/python tools/delever_search.py --try <tu> <fn> <PACK>/body.c --body      # agents: read-only, any number at once
+.venv/bin/python - <<'EOF'
+import sys; sys.path.insert(0,'tools'); import delever as dl
+print(dl.apply_body_core('<tu>','<fn>',open('<PACK>/body.c').read(),'<label>','E',source='T7 agent <label>')[1])
+EOF
+.venv/bin/python tools/delever.py --propagate <tu> <fn> --label <label>p --dirty-ok
+#   allow_residue=True as a kwarg when the body deliberately KEEPS a marked lever (a2's case)
+
+# the engine (a SWEEP: never while banking, never while an agent scores)
+setsid nohup nice -n 10 .venv/bin/python tools/delever_search.py --run [--include-done] --limit N \
+    -j 16 --beam 3 --depth 2 --cap 64 --budget 300 --label sN > .run/P36/engine/run_sN.log 2>&1 &
+.venv/bin/python tools/delever_search.py --explain <tu> <fn> [--path "m1|m2"]
+
+# call signatures
+.venv/bin/python tools/argcheck.py --json .run/P36/engine/argcheck.json
+.venv/bin/python tools/decl_repair.py -j 10 [--apply]
+.venv/bin/python tools/readability_progress.py --snapshot "<label>"   # ~10 min; --check asserts it is this tree
+
+# reading the compiler
+tools/cc1_dumps_tu.sh <wd> <tag>          # needs $wd/shared -> src/shared for TUs with relative includes
+.venv/bin/python tools/alloc_table.py <tag> <fn> <dump_root>
+
+# THE FINISH SEQUENCE after every bank
+set -o pipefail; make clean >/dev/null && make extract-all JOBS=16 >/dev/null && make check-all JOBS=16 | tail -1
+.venv/bin/python tools/lever_census.py --sites --check -j 16
+.venv/bin/python tools/lever_progress.py --snapshot "<what changed>"; .venv/bin/python tools/lever_progress.py --check
+.venv/bin/python tools/delever_oracle.py --snapshot-baseline
+make kit-corpus && .venv/bin/python tools/tool_census.py --check      # after ANY tool or SETUP edit
+git add -A src tools docs config decomp-architect .run/P36 phase-ends && git commit
+```
+Timings: R22 clean fleet ≈ 90–150 s · census ≈ 35 s · calibration 3 s · one scored candidate 0.12–0.3 s · a pack build
+≈ 2 min · `argcheck` ≈ 10 min · `decl_repair` fleet ≈ 25 min · `make kit-corpus` ≈ 25 s.
+
+### 4. THE TOOLS — all documented, nothing to rediscover
+**`docs/SETUP.md` §P36 S102 is the full reference** (the generator table R15–R21 with the body each was harvested from,
+the call-signature tools, the oracle and scorer changes, the dump tools, the packs). Every tool carries a
+`config/tool_dictionary.tsv` row and `tool_census --check` is green. In one line each:
+- `tools/argcheck.py` — every call declaration narrower than the callee's real definition (110,478 → 94,001 after the
+  repair; 461 in 314 bodies still holding an argument-register pin). Blind to a function wrong EVERYWHERE.
+- `tools/decl_repair.py` — repairs the free ones (`--apply`); compares CODE SECTIONS, controls every unit by compiling
+  it unchanged first.
+- `tools/readability_progress.py` — `docs/readability.md` + `docs/readability-progress.tsv`, the Gen3 chart Drew asked
+  for: lying declarations and the struct debt (414,148 raw cast derefs vs 173,286 struct member reads).
+- `tools/alloc_table.py` — rewritten: every pseudo, coverage asserted, a loud refusal instead of an empty table.
+- `tools/cc1_dumps_tu.sh` — include path fixed, `-dR` added, refuses a short preprocess.
+- `tools/delever_oracle.py --snapshot-baseline` + `baseline_path()` — the gate and the agents are now independent.
+- `tools/delever_pack.py` — `neighbours.txt` and `best_body.c`.
+- `tools/delever.py` — generators R15–R21, `protos_outside_definition`, propagate's derived residue allowance, a unique
+  temp for the includers cache (a fixed name made a lost race look like a compiler crash).
+
+### 5. GOTCHAS THIS SESSION PAID FOR
+- **A measurement that cannot come out any other way is not a measurement.** The first declaration scan widened
+  declarations and left the calls alone: 1,766 of 3,250 units could not compile BY CONSTRUCTION. The second returned
+  0 free of 3,634 and I reported it before controlling it — compiling the UNCHANGED text through the same path also
+  differed, by 9,176 bytes, because the object records its own source filename. **Control the instrument, then believe
+  it** (R39/R40). The control now lives inside the tool.
+- **A commit stales the calibration**; recalibrate before every bank. `--apply-body` refuses on a stale calibration and
+  says so.
+- **Two writers corrupt each other** (§1). **A per-file scratch name is a collision** when agents share a TU.
+- **A `git add`/commit whose edit failed still commits**: one commit message here claimed a documentation fix the failed
+  edit had not made; it was named and repaired in the next commit (R66 — write "done" only from the tool's own line).
+- The harness's low-memory guard kills long BACKGROUND waiters; use a `Monitor` on the log instead.
+
+### 6. OPEN BY NAME
+- **The types phase inherits three measured cases** where only a declaration change can remove a pin, all body-only
+  unbankable: `func_80136824` (133 copies, needs its prototype widened with its definition), `func_80168828` (its `$4`
+  pin is forced by a shared header's `(void)`), `func_80157D20` (declared `(void)` in 131 of 138 defining sites).
+- **94,001 lying declarations remain** in three groups: units that never call the function, calls that genuinely pass
+  too few arguments (R19's population), and declarations inside `src/shared` headers — which are not units with recipes
+  and were NEVER SCANNED. That last group is the next cheap win.
+- `decl_repair`: **117 COMPILE-ERROR and 101 CONTROL-FAILED units** were never diagnosed.
+- **Drew's struct question, answered and recorded:** structs are not in the binary (types are erased; a retail build has
+  no metadata) — what is there is base + offset + width + stride, so a struct is an INFERENCE across every function
+  touching a base, which makes per-function struct invention the wrong unit (P35 already paid for that: 1,232 invented
+  definitions and a reconcile ladder, R95). The recommendation on record: keep pins as the main lane, build a zero-token
+  STRUCT EVIDENCE CENSUS beside it (cluster base+offset+width across the fleet, emit candidate layouts with the
+  functions touching each), and park a stuck pin WITH its evidence rather than inventing a type for it.
+- Carried: the 5 propagate refusals of `func_8017EB44`/`func_8017EBA8`; the `UNSTRIPPABLE` bodies named in the run logs;
+  cookbook §176 documents only the OPPOSITE of agent b4's de-looping move and wants the new direction beside it.
+
+### 7. WHERE EVERYTHING IS
+`.run/P36/engine/` — `outcomes.jsonl` (every attempt), `trace/`, `run_g*.log`/`run_s*.log`, `residual_moves.md` (lane B's
+compiler-source map), `argcheck.json`, `argcheck_draw.tsv`, `decl_repair.json`, `const_holder_census.py` ·
+`.run/P36/agents/` — `ORDER.tsv`, `PROMPT.md` (the brief), one pack per exemplar with every agent's `body.c` and
+`mechanism.md` (the readings are the durable record — several are worth more than their bodies) ·
+`.run/P36/delever/` — `ledger.jsonl`, `calibration.json`, `baseline/` (the snapshot) ·
+`docs/levers.md` + `docs/lever-progress.tsv` (the lever series) · `docs/readability.md` +
+`docs/readability-progress.tsv` (the Gen3 readability series) · `docs/SETUP.md` §P36 S102 (the tool reference) ·
+cookbook §454, §454a, §455 · this file's log (append-only, one entry per step, with the literal verify line).
+
+## (superseded) SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **27,984 sites** in 8,249 bodies · marked 27,984 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (20 milestones). **S102's loop state: the burst of 20 is landing; a4/a7/a8/a12/a18/a19 banked (756 bodies); the per-file scratch-object collision is FIXED (per-function tag); the biggest class found is a truncated `(void)` DECLARATION, three cases of which need the types phase.**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**
