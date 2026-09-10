@@ -37682,3 +37682,76 @@ and the result was identical before and after that change.
 which is worth an enormous amount when a class has 134 copies — and it discovers nothing. Budget it as replication. The
 discovery budget is the search rung and the agents, and the flywheel is that every shape either of them finds becomes a
 recipe, after which the population that shares it is free forever.
+
+## §455 — Rung G, the guided search: score the object, classify the residual, compose the moves (Phase 36 S101)
+
+§454a measured rung R as a replication engine (134 of 134 on a known shape, 0 of 300 on unknown ones) and rung D as a random walk that
+reprints the source. Rung G (`tools/delever_search.py`) sits between them with the SAME generators and the SAME per-TU oracle, and three
+changes that turn a blind test into a search.
+
+**1. The target is the tree's own object, and the score is an edit distance.** A candidate compiles through ONE recipe of its TU; the
+function's instructions are read out of the scratch object (`objdump -drz`, 35 ms on the largest overlay object) and compared with
+the same function in the fleet run's baseline object under `build/` — the tree's bytes, proven by the SHA1 check, carrying the
+candidates' relocations by construction. Nothing is assembled from a listing and nothing is isolated, so the two instrument classes of
+§454 cannot recur. The score is difflib's edit distance over the reloc-masked words, NOT `match_one`'s positional count: a positional
+count reads one inlined temp as "everything after it" (the S101 two-move control read 43 for a residual of 2), and a hill-climb on
+that number cannot see progress. Whole-object equality on every recipe stays the bank verdict, through `delever --apply-body`.
+
+**2. The residual is classified from the diff blocks, and the class orders the move families.** Same-length replace blocks whose
+words keep their shape (opcode, immediate, function code) and change only register fields → REG, with the bank read from the register
+pairs (caller-saved $2–$15 vs callee-saved $16–$23); an insert/delete → COUNT; the same multiset → ORDER. The families come from lane
+B's map of gcc 2.7.2's own source (`.run/P36/engine/residual_moves.md`): the caller-saved swap is decided in local-alloc's tie loop by
+which dying pseudo the result shares a register with, so the temp inlined/introduced goes first and the commutative swap second — and
+a constant-operand swap is NEVER generated, because fold moves a constant to the right before expansion (verified on bytes:
+`*(p+17) & -33` ≡ `-33 & *(p+17)`, while `m & x` ≠ `x & m` by one word). Families are ranked ROUND-ROBIN within the cap: a strict
+family order starved the inverse of a one-move perturbation behind 64 block wraps (the first positive control passed only by a
+two-move detour after 142 compiles; with round-robin, 23 compiles at depth 1).
+
+**3. A beam composes two to four moves, and every move has an inverse.** Beam 3–4, depth 3–4, 48–64 candidates per node, a budget of
+compiles per body; a child worse than its parent is dropped, a child with the parent's score and diff signature goes to the tail. The
+generator registry (`delever.recipe_candidates`) grew what the controls showed missing: R8 a temp introduced (a dereference, its
+base, an operand typed like the local it feeds, a repeated RHS named once — R6's inverses), R9 two adjacent statements swapped, R7's
+own inverse (the unwrap), R10 a parameter routed through a body-local copy (map 1a-9), R12 a local's width (map 1c-1), R13 two terms
+of a `+`/`-` chain exchanged. The positive control that proves the composition: a matching body perturbed by `R6 inline fv` + `R7
+do-while` (start 24) recovered by `R8 hoist tmp0` + `R7 unwrap` in 74 compiles.
+
+**The first measurement (run g1, the head of the residue after rung D, 16 exemplars of 129–134 copies, 0.12 h, 3,680 compiles):**
+`search: 1 of 16 exemplars matched lever-free` — `func_801424E4`, the body with NO pin (a cast and a keep-alive, the count-changing
+class the permuter left at 2), by `R9 swap-stmts + R6 inline t + R6 inline sVar1`, 191 compiles, 28.9 s, then `--propagate` 131 of 131
+siblings, R22 218/218. Eight of the other fifteen moved a long way in ≤ 112 s each (25→7, 39→14, 29→22, 30→24, 38→33, 45→40, 7→4,
+9→7); the budget never bound — ~325 compiles per body was the beam STRUCTURE exhausted at depth 3 — so the levers are the generators
+and the width of the search, both cheap at 0.12 s per scored candidate.
+
+**Read the residual before adding a generator (`--explain TU FN [--path "m1|m2"]`).** The two 6-distance bodies are ONE surviving copy
+(`andi a0,v0,0xfff` then `move s0,a0` in a delay slot; mine folds the copy into `andi s0` because combine merges a single-use def into
+its copy — the keep-alive was the drafter's second use); the width move on either side of the copy does not reach it (combine folds a
+narrowing of a value already masked to 12 bits). A 7 after two moves is an association order (`x + a3 - a1` vs `x - a1 + a3`) plus a
+negation the target names once for two stores. A 40 is a duplicated call tail the target keeps and mine cross-jumps, with the
+s5/s6/s7 bank rotated. Each is a generator, not a wall.
+
+**Two of lane B's claims verified on bytes the same session (the ledger is at the end of `.run/P36/engine/residual_moves.md`):** a
+constant-operand commutative swap is byte-neutral (fold moves it right; `m & x` vs `x & m` is not), and the `do { } while (0)` lever of
+§454 works through the REF WEIGHT — the real TU of `func_80135D20` in three spellings shows a plain `{ }` changing nothing, and the
+do-while keeping its LOOP notes through jump1 (`.jump` 15 vs 12 mentions) and lifting one register's `.lreg` line from `used 5 times`
+to `used 6 times across 39 insns`, which is what moves it from `$18` to `$17`. The width move (1c-1) does NOT reach a copy whose value's
+known bits already fit the narrow mode: combine folds the narrowing and the copy dissolves anyway.
+
+**The second and third runs (S101).** g2, the same head with a wider beam (4 × 4 × 64, budget 1,500) and the families R10 (a
+parameter routed through a body-local copy, and the reverse), R12 (a local's width), R13 (two terms of a `+`/`-` chain exchanged)
+and R8's named-once form: one more class (`func_80142EC0`, `R7 do-while + R9 swap`), nine of the other fifteen moved past g1's best.
+**g3, the next 64 classes by copies (7,336 bodies): 13 closed, 1,516 bodies banked, 1,503 of 1,503 siblings propagated, in 1.02 h
+of search and no tokens.** By the first move of each close: R12 width ×5 (`s32 → s16/u16`, one body by two widths), R7 do-while ×3,
+R9 adjacent swap ×3, R10 ×2 (a parameter copy; a parameter alias removed) — the two generators lane B's compiler-source map named
+were half the closes, and no close needed more than four moves. The thirteen bodies g3 left within 2–8 of the target, read with
+`--explain`, are again generators: the widths the typedef list did not spell (`short`, `u8` — the truncation the targets keep), a
+PARAMETER's declared width (a `short` parameter is sign-extended in place, `sra a1,a1,16; move s4,a1`), one address local shared by
+every dereference of a base (the pointer-in-a-register class, and the bare-pointer store that flushes cse so a global is re-loaded),
+a parameter alias through a cast. Each was added with a selftest case and run on the same bodies. The one shape no generator yet
+produces: a value kept in the ARGUMENT register a1 while mine takes a0 (`func_8013D178`, `a0 ↔ a1` 45 times over) — the incoming
+register is busy in the original and free in mine, which is a liveness the source must create, not a spelling.
+
+**Two rules the fourth round settled.** A body whose surviving sites are all class C/D — a byte-needed `volatile` cast, a bare
+`register` — is finished for the phase's number (decision 3 keeps them as ordinary C, unmarked and ledgered), so the engine neither
+draws it nor strips those sites from its seed; it had been searching for a reload that the cast it removed produces. And the
+head is where the number is: after four runs the next 64 classes by copies carry 498 bodies, while the ~65 head classes that did not
+close hold ~8,000 — each is worth a reading (`--explain --path` on its best moves) and a generator, not a wider tail pass.

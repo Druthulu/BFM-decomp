@@ -5309,11 +5309,13 @@ extern s32 func_80146E98(s32 a0);
 void func_80180688(s32 *a0) {
     s32 *s1 = *(s32 **)((s32)a0 + 0x20);
     s32 v0;
-    register s32 v1 asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 v1;
+    s32 tmp0;
 
     if (func_80146E98((s32)a0) != 0) {
         v1 = 0x7FFFFFFF;
-        v0 = *(s32 *)((s32)s1 + 0x4);
+        tmp0 = *(s32 *)((s32)s1 + 0x4);
+        v0 = tmp0;
         v0 = v0 & v1;
         *(s32 *)((s32)s1 + 0x4) = v0;
         func_80146E90(a0, 0x10);
@@ -5679,15 +5681,15 @@ void func_80180B40(int param_1)
 {
 
     extern unsigned char D_801C100C[];
-    register int iVar3 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
-    register int iVar3b __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus8)
+    int iVar3;
+    int iVar3b;
     int iVar5;
     short sVar2;
 
     iVar5 = (int)D_801C100C + *(int *)(param_1 + 0x2c) * 0x40;
     iVar3 = ((int (*)(void))func_801465C0)();
-    *(int *)(param_1 + 0x20) = iVar3;
     iVar3b = iVar3;
+    *(int *)(param_1 + 0x20) = iVar3;
     if (iVar3 != 0) {
         ((void (*)(int, int))func_8001CD9C)(iVar3, iVar5);
         ((void (*)(int, int))func_800233CC)(iVar5, 0x10);

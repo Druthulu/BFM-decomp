@@ -37749,3 +37749,9 @@ every dereference of a base (the pointer-in-a-register class, and the bare-point
 a parameter alias through a cast. Each was added with a selftest case and run on the same bodies. The one shape no generator yet
 produces: a value kept in the ARGUMENT register a1 while mine takes a0 (`func_8013D178`, `a0 ↔ a1` 45 times over) — the incoming
 register is busy in the original and free in mine, which is a liveness the source must create, not a spelling.
+
+**Two rules the fourth round settled.** A body whose surviving sites are all class C/D — a byte-needed `volatile` cast, a bare
+`register` — is finished for the phase's number (decision 3 keeps them as ordinary C, unmarked and ledgered), so the engine neither
+draws it nor strips those sites from its seed; it had been searching for a reload that the cast it removed produces. And the
+head is where the number is: after four runs the next 64 classes by copies carry 498 bodies, while the ~65 head classes that did not
+close hold ~8,000 — each is worth a reading (`--explain --path` on its best moves) and a generator, not a wider tail pass.

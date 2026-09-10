@@ -817,7 +817,36 @@ accumulate here as the phase produces them.**
   `func_8012C890`, `func_8017B238` sit where they were, so those three readings need `--explain --path` with the exact candidate to
   see what each move actually did to the bytes before another generator is written.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09): T0–T6 ☑; **lane B DELIVERED** (`.run/P36/engine/residual_moves.md`, 58 moves; 4 verified on bytes, 1 refuted-in-bound); **lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED** (g1 + g2 on the 16-class head: 2 closed; **g3 on the next 64 classes: 13 closed, 1,516 bodies; g4s the thirteen explained names: 3 of 38, 133 bodies** — every run's bank R22 218/218 and committed; generators R2–R14 in the registry, the bank and propagation in process, the scratch-object race fixed); NEXT = §2 | the number at this commit: **30,892 sites** (18,309 pins + 12,583 asm) in 10,135 bodies (1,737 distinct) · marked 31,025 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (7 milestones)
+- **S101 — the fourth generator round, from `--explain --path` on the exact candidates of the three generators that closed nothing
+  (`.run/P36/engine/explain_paths_g4s.txt`), and two draw rules.** (1) Every R14 candidate on `func_80166F58` had been a COMPILE-ERROR:
+  a parameter's width changed in the header conflicts with the TU's own PROTOTYPE — R14 now rewrites the TU's prototypes of the
+  function with the header (a prototype in a shared header stays; the candidate then fails to compile, a wasted compile, never a
+  wrong bank); on the bytes, `param_1 s32->s16` is no longer an error and the residual stands at 4 for both widths — the reading
+  was right about the extension-in-place but the width alone is not the move. (2) `func_8012C890` has NO pin or asm left: its
+  only surviving site is a byte-needed `volatile` cast, which decision 3 keeps as ordinary C — **a body whose NEEDED sites are all
+  class C/D is DONE for the phase's number and is no longer drawn** (the T4 close counted 498 such bodies; g3 spent searches on
+  them), **and the search seed keeps the tree's class C/D sites** (it had been stripping the cast and searching for the reload the
+  cast produces). (3) `func_8017B238`'s alias through the cast is byte-neutral (score 7 → 7, the same diff): the target computes
+  `param << 4` ONCE into `$s0` and never keeps the parameter, mine keeps it and recomputes — R8's named-once form now also names a
+  depth-0 operand or a parenthesised group repeated across statements (`(q << 4)` inside `*(s32 *)(p + (q << 4))`). (4) `func_80139BE0`'s
+  `u8` is on a name inside a multi-declarator line (`int t, v;`) — R12 splits such a line to widen one name; the line had also
+  ended the declaration run and been offered to R7 as a statement (`MULTI_DECL` in `decl_run_end`/`simple_stmt`). Selftests and
+  fixture prints for each. **The draw after g1–g4s:** `--plan --limit 64` → 64 classes with only 498 bodies behind them — the head
+  (the ~80 classes of 110–134 copies) is exhausted at the current generator set and its ~65 unclosed classes hold ~8,000 of the
+  10,135 remaining bodies; the tail is ~1,600 classes averaging < 8 bodies. So run `g5` re-draws the head (`--include-done --limit
+  70`: 70 classes, 7,521 bodies) at beam 6 × depth 5 × cap 96, budget 4,000, with generators R2–R14 — launched at 8 workers.
+
+- **2026-09-09 — S101 rung G run `g5`** (the head re-drawn: `--include-done --limit 70`, 7,521 bodies; beam 6 × depth 5 × cap 96,
+  budget 4,000; generators R2–R14 with the fourth round's forms; `.run/P36/engine/run_g5.log`): `search: 5 of 70 exemplars matched
+  lever-free in 1.67 h (62 of 7,521 bodies behind them; 112,216 compiles) — NO-MATCH 65 · MATCH 5` → five in-process propagations,
+  57 of 57 siblings, 0 refused → R22 (`.run/P36/baseline/r22_g5.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=80.07 s`)
+  → census → snapshot row 8. The five closes are all SMALL classes (10–14 copies: `func_8018D3FC` R8 temp; `func_8013D53C` R7;
+  `func_8017C6CC` R3 + R7; `func_80182C70` two do-whiles, from 32; `func_8017DA20` R9) — **not one of the ~50 big head classes
+  closed at three times the beam and eight times the budget of g3.** That is the measurement that ends the wide-search lever
+  (R41: 112,216 compiles bought 62 bodies; g3's 35,074 bought 1,516): the unclosed head classes (~6,500 bodies) are each a reading
+  and a generator, or T7's agents on Drew's word — the search space the registry spans is exhausted on them.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09): T0–T6 ☑; **lane B DELIVERED** (`.run/P36/engine/residual_moves.md`, 58 moves; 4 verified on bytes, 1 refuted-in-bound); **lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED** (g1 + g2 on the 16-class head: 2 closed; **g3 on the next 64 classes: 13 closed, 1,516 bodies; g4s the thirteen explained names: 3 of 38, 133 bodies; g5 the head re-drawn wide: 5 of 70, 62 bodies — the wide-search lever is spent on the big classes** — every run's bank R22 218/218 and committed; generators R2–R14 in the registry, the bank and propagation in process, the scratch-object race fixed); NEXT = §2 | the number at this commit: **30,806 sites** (18,261 pins + 12,545 asm) in 10,073 bodies (1,732 distinct) · marked 31,025 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (8 milestones)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**
@@ -874,8 +903,21 @@ literal your own command line contains kills your shell (R79).
   — a source-level tail duplication (lane B class 2 row 19); (iv) `func_8013D178` (130 copies) is a pure `a0 ↔ a1` swap 45× over,
   one `$5` pin — the ARGCOPY class, lane B 1a-9 (R10 exists; in g3's draw).
 
-### 2. NEXT (in order)
-(a) **Close g3's loop** if it finished (its `search:` line; `git status --short -- src | wc -l` > 0 means banked files wait for the
+### 2. NEXT (in order) — amended after g5 (S101 late)
+**The wide-search lever is spent on the big classes** (g5: beam 6 × depth 5 × cap 96 × 4,000 compiles closed none of the ~50 head classes
+of 110–134 copies; 112,216 compiles for 62 bodies). What remains is 30,806 sites in 10,073 bodies / 1,732 classes: ~50 head classes
+holding ~6,500 bodies at residual distances 2–135, and ~1,680 small classes (< 15 copies) holding ~3,500. The order of value:
+(a0) **per head class, a reading and a generator** — `--explain TU FN` and `--explain --path "<its best path from outcomes.jsonl>"`,
+     write the generator in `delever.py` (a selftest case; lane B's row in the docstring), prove it with `--explain --path "<move>"` →
+     score 0 on that body, bank with `--run --include-done --only <fn>`; the readings already made are in the S101 log entries (the
+     surviving copy the width does not reach; the association order; the duplicated call tail; the argument register kept busy;
+     the store-before-function-pointer-load; the `move a3,a2` parameter copy) and each names a class of 125–134 bodies;
+(a1) **T7's agents on Drew's word** for the head classes a generator does not fit — one agent per exemplar with the pack (§3 of the
+     S99 checkpoint), `delever --apply-body` the judge, `--propagate` the spread; the harvest → toolify gate between waves;
+(a2) **the tail unattended**: `--run --limit 200 -j 8` (the standard beam) draws the small classes in copy order; ~2.5 min per body,
+     an overnight pass; each close is worth its 1–14 copies.
+The FINISH sequence (§3) after every run that banked; a run that was killed: `tools/delever.py --restore`.
+(a) **Close a run's loop** if it finished (its `search:` line; `git status --short -- src | wc -l` > 0 means banked files wait for the
     gate): the FINISH sequence in §3 — R22 → census → `lever_progress --snapshot "S101 rung G g3 …"` → the log entry with the
     run's own lines → commit (R42/R101). If g3 was killed mid-run: `tools/delever.py --restore`, then the same sequence for
     whatever `--apply-body` had already banked (the ledger's `rung: "G"` rows are the record).
@@ -884,7 +926,7 @@ literal your own command line contains kills your shell (R79).
     the docstring names lane B's row), prove it on that ONE body with `--explain --path "<move>"` → score 0, then
     `--run --include-done --only <fn>` to bank + propagate. Candidates named above: a second real use of a copied value (i), the
     composition of R13 + R8 cse (ii — a deeper beam or a targeted `--only` run at beam 6), the tail duplication (iii).
-(c) **The head sweep continues** while (b) is written: `--run --limit N` draws the next N classes by copies (the outcomes file is
+(c) **The head is exhausted at the current generator set** (S101 late: the next 64 classes carry 498 bodies) — the number sits in the ~65 unclosed head classes (~8,000 bodies): re-draw them wider (`--include-done --limit 70 --beam 6 --depth 5 --cap 96 --budget 4000`, run g5), and for each that stays, `--explain --path` its best moves → a generator. The tail (~1,600 classes, < 8 bodies each) is an unattended overnight pass at most. The original text of (c): `--run --limit N` draws the next N classes by copies (the outcomes file is
     the skip list; `--include-done` redraws). Price from g2/g3: ~3 min per body at the wide setting, 8 workers, no tokens; the
     head classes are worth 100–134 bodies per close, the 1,450 singletons one each — sweep the head first, the tail unattended.
 (d) **T7's waves stay gated on Drew's word** (decision, 2026-09-09). The LoRA is parked for the endgame.
@@ -935,6 +977,7 @@ kit-corpus` ≈ 25 s (regenerate + `tool_census --check` after ANY tool or SETUP
 - **A constant-operand commutative swap is byte-neutral** (fold) — never generated now. **The width move does not reach a copy
   whose value's known bits fit the narrow mode.**
 - `pgrep -f` matching your own command line counts itself; bracket a character (`--ru[n]`).
+- **A body whose NEEDED sites are all class C/D is done** (decision 3) — `exemplars()` skips it and the seed keeps such sites; **the scorer's scratch object is keyed by the TU** (a per-tag name let two workers share one file); **`delever.propagate` returns a tuple on an empty list too**; **the bank is in process** (`apply_body_core`), so `delever.py` may now be edited during a run — a commit still may not (the calibration).
 
 ### 5. Where everything is
 `.run/P36/engine/outcomes.jsonl` (every attempt: verdict, start, best, compiles, path, bank line, propagate line) · `trace/<alias>__<fn>.jsonl`

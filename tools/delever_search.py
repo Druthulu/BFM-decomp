@@ -274,12 +274,20 @@ def sites_by_body():
         return _sites
 
 
+AB_KINDS = {"pin", "barrier", "launder", "keepalive", "instruction", "gte-lever", "asm-body"}
+
+
 def lever_free_body(tu, raw, fn, sites):
-    """the TU with every REMOVABLE site of THIS body rewritten away (rung A's edits, nothing else — the file-scope asm and every
-    other body untouched, since the scorer compares whole objects too)."""
+    """the TU with every class A/B site of THIS body rewritten away (rung A's edits, nothing else — the file-scope asm and every
+    other body untouched, since the scorer compares whole objects too). A class C/D site the tree still carries (a byte-needed
+    `volatile` cast or bare `register`) STAYS: decision 3 keeps it as ordinary C, unmarked and ledgered, so the search starts
+    from the spelling the original plausibly had rather than paying to remove what the phase does not ask removed (S101: the
+    engine had been stripping a needed `volatile` cast and searching for a reload the cast already produced)."""
     m, ls = dl.same_len_mask(raw), dl.line_starts(raw)
     edits = []
     for s in sites:
+        if s["cls"] not in "AB":
+            continue
         if (s["cls"], s["kind"]) not in dl.REMOVABLE:
             if s["kind"] in dl.DEFERRED_KINDS:
                 raise Unstrippable([(s["kind"], s["line"], "asm-body: T7's work")])
@@ -332,6 +340,10 @@ def exemplars(only=(), limit=None, include_done=False):
     for k in order:
         r = cur[k]
         if r.get("verdict") != "RESIDUE" or r["fn"] == dl.FILE_SCOPE_FN:
+            continue
+        # THE PHASE'S NUMBER is pins + asm statements: a body whose only NEEDED sites are class C/D (a byte-needed `volatile`, a bare
+        # `register`) is done (decision 3) and is not drawn — the T4 close counted 498 such bodies, and g3 spent searches on them
+        if not any(s.get("verdict") == "NEEDED" and s.get("kind") in AB_KINDS for s in r.get("sites", [])):
             continue
         nh = r.get("nhash_after") or r.get("nhash_before")
         if not nh:

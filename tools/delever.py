@@ -1295,8 +1295,9 @@ def decl_run_end(text, d):
         if not s or s.startswith("/*") or s.startswith("//") or s in ("{", "}"):
             i += 1
             continue
-        if is_decl_line(sc.mask_text(lines[i])) or (DECL_KW.match(s) and s.endswith(";") and s.count("(") == s.count(")")):
-            last = i                                      # incl. `extern s16 (*D_x[])();` — a declaration is_decl_line refuses
+        if is_decl_line(sc.mask_text(lines[i])) or (DECL_KW.match(s) and s.endswith(";") and s.count("(") == s.count(")")) \
+                or MULTI_DECL.match(s):
+            last = i                                      # incl. `extern s16 (*D_x[])();` and `int t, v;` — is_decl_line refuses both
             i += 1
             continue
         # a declaration whose initializer continues on the next line(s): `s32 tmp = (ratan2(…) -` … `…) & 0xFFF;` — the run
@@ -1482,7 +1483,7 @@ def block_wraps(text, tu, fn, d_):
             cand[i] = indent + inner
             out.append((f"unwrap @{i + 1}", "\n".join(cand)))
             continue
-        if not s.endswith(";") or CTRL_KW.match(s) or is_decl_line(s) or s.startswith("#") or "{" in s or "}" in s:
+        if not simple_stmt(s):
             continue
         stmt = raw_line.strip()
         for tag, spelling in (("block", f"{indent}{{ {stmt} }}"), ("do-while", f"{indent}do {{ {stmt} }} while (0);")):
@@ -1496,14 +1497,15 @@ DEREF = re.compile(r"\*\s*\(\s*((?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\*+)\s*\)\
 
 
 DECL_KW = re.compile(r"^\s*(?:extern|static|typedef|register|const|volatile|struct|union|enum)\b")
+MULTI_DECL = re.compile(r"^\s*(?:struct\s+|union\s+|unsigned\s+|signed\s+)?[A-Za-z_]\w*\s+\*?[A-Za-z_]\w*(?:\s*,\s*\*?[A-Za-z_]\w*)+\s*;\s*$")
 
 
 def simple_stmt(masked_line):
     """a whole simple statement alone on its line: ends with `;`, no control keyword, no declaration (an `extern s16
-    (*D_x[])();` is one too — is_decl_line refuses the `(`), no brace, no directive."""
+    (*D_x[])();` is one too — is_decl_line refuses the `(`; so is `int t, v;`), no brace, no directive."""
     s = masked_line.strip()
     return bool(s.endswith(";") and not CTRL_KW.match(s) and not is_decl_line(s) and not DECL_KW.match(s)
-                and not s.startswith("#") and "{" not in s and "}" not in s)
+                and not MULTI_DECL.match(s) and not s.startswith("#") and "{" not in s and "}" not in s)
 
 
 def introduce_temps(text, tu, fn, d_):
@@ -1734,6 +1736,19 @@ def width_changes(text, tu, fn, d_):
     out = []
     for i in range(d_["line"], decl_run_end(text, d_) + 1):
         s = sc.mask_text(lines[i]).strip()
+        # a multi-declarator line `int t, v;` (no initializers): one candidate per name, the line split so that name gets the
+        # new width and the others keep theirs (S101: the `u8` the target kept was on a name inside such a line)
+        mm = re.match(r"^(\s*)(" + WIDTH_RE + r")\s+([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)+)\s*;\s*$", lines[i])
+        if mm and "=" not in s and "*" not in s and "[" not in s:
+            names_ = [n.strip() for n in mm.group(3).split(",")]
+            for n in names_:
+                others = [x for x in names_ if x != n]
+                for alt in SCALAR_WIDTHS[mm.group(2)]:
+                    cand = list(lines)
+                    cand[i] = f"{mm.group(1)}{mm.group(2)} {', '.join(others)};"
+                    cand.insert(i + 1, f"{mm.group(1)}{alt} {n};")
+                    out.append((f"width {n} {mm.group(2)}->{alt} @{i + 1}", "\n".join(cand)))
+            continue
         # a one-line declaration, or the FIRST line of one whose initializer continues (`s32 tmp = (ratan2(…) -`)
         if not (is_decl_line(s) or (DECL_START.match(s) and s.count("(") > s.count(")"))) \
                 or "," in s.split("=")[0] or "*" in s.split("=")[0] or "[" in s:
@@ -1762,6 +1777,17 @@ def param_widths(text, tu, fn, d_):
     if not m:
         return out
     parts = m.group(2).split(",")
+    # the TU's own PROTOTYPES of fn must change with the header, or the compile fails on conflicting types (S101: every R14
+    # candidate on func_80166F58 was a COMPILE-ERROR); a prototype in a shared header cannot be changed here and the candidate
+    # then simply fails to compile — a wasted compile, never a wrong bank
+    protos = []
+    for i, l in enumerate(lines):
+        if i == d_["line"] - 1:
+            continue
+        s = sc.mask_text(l)
+        pm_ = re.match(r"^(.*?\b" + re.escape(fn) + r"\s*\()(.*)(\)\s*;.*)$", s)
+        if pm_ and (s.lstrip().startswith("extern") or i < d_["line"] - 1 or i >= d_["end"]):
+            protos.append((i, pm_))
     for k, part in enumerate(parts):
         pm = re.match(r"^(\s*)(" + WIDTH_RE + r")(\s+[A-Za-z_]\w*\s*)$", part)
         if not pm or pm.group(2) not in PARAM_WIDTHS:
@@ -1772,6 +1798,11 @@ def param_widths(text, tu, fn, d_):
             np[k] = pm.group(1) + alt + pm.group(3)
             cand = list(lines)
             cand[d_["line"] - 1] = m.group(1) + ",".join(np) + m.group(3)
+            for i, pm_ in protos:
+                pp = pm_.group(2).split(",")
+                if k < len(pp):
+                    pp[k] = re.sub(r"\b" + WIDTH_RE + r"\b", alt, pp[k], count=1)
+                    cand[i] = lines[i][:pm_.start(2)] + ",".join(pp) + lines[i][pm_.end(2):]
             out.append((f"param-width {name} {pm.group(2)}->{alt} @{d_['line']}", "\n".join(cand)))
     return out
 
@@ -1895,6 +1926,17 @@ def reassociations(text, tu, fn, d_):
     return out
 
 
+def paren_groups(s, start, end):
+    """[(open, close+1)] of every balanced parenthesised group of s[start:end], outermost first."""
+    out, stack = [], []
+    for i in range(start, end):
+        if s[i] == "(":
+            stack.append(i)
+        elif s[i] == ")" and stack:
+            out.append((stack.pop(), i + 1))
+    return sorted(out)
+
+
 def common_subexprs(text, tu, fn, d_):
     """[(description, candidate text)] — R8's third form: an RHS spelled identically by two or more statements named ONCE in
     a temp before the first (`*p = -v; *q = -v;` -> `t = -v; *p = t; *q = t;`). Lane B class 2 row 1 ("name a value the
@@ -1915,16 +1957,35 @@ def common_subexprs(text, tu, fn, d_):
         if not simple_stmt(s):
             continue
         asg = re.search(r"(?<![=!<>+\-*/%&|^~])=(?!=)", s)
-        if not asg:
+        ret = re.match(r"^\s*return\b", s)
+        start = asg.end() if asg else (ret.end() if ret else -1)
+        if start < 0:
             continue
         end = s.rstrip().rfind(";")
-        rhs = " ".join(s[asg.end():end].split())
+        rhs = " ".join(s[start:end].split())
         if not rhs or re.fullmatch(r"[A-Za-z_]\w*|-?\d+|-?0x[0-9A-Fa-f]+", rhs):
             continue
-        rhs_at[rhs].append((i, asg.end(), end))
+        rhs_at[rhs].append((i, start, end))
+        # a depth-0 OPERAND repeated across statements is also a value computed once in the original (S101: the target of
+        # func_8017B238 shifts the parameter once into s0 and reads that; mine recomputes `src << 4` at every use)
+        for ps, pe in split_operands(s[start:end]):
+            op = " ".join(s[start + ps:start + pe].split())
+            if op and not re.fullmatch(r"[A-Za-z_]\w*|-?\d+|-?0x[0-9A-Fa-f]+|&[A-Za-z_]\w*", op) and op != rhs:
+                rhs_at[op].append((i, start + ps, start + pe))
+        # and every parenthesised group at ANY depth that is not a cast and not a call's argument list (`(q << 4)` inside
+        # `*(s32 *)(p + (q << 4))`): the same value computed in two statements is the original's one temp
+        for gs, ge in paren_groups(s, start, end):
+            inner = " ".join(s[gs + 1:ge - 1].split())
+            prev = s[:gs].rstrip()
+            if not inner or re.fullmatch(r"[A-Za-z_]\w*|-?\d+|-?0x[0-9A-Fa-f]+", inner) or (prev and (prev[-1].isalnum() or prev[-1] in "_)]")):
+                continue                                  # bare, a literal, a call's `f(…)`, or a cast's operand `(T)(…)`
+            if re.fullmatch(r"(?:struct\s+|union\s+|unsigned\s+)?[A-Za-z_]\w*\s*\**", inner):
+                continue                                  # a cast `(s32 *)`
+            rhs_at[inner].append((i, gs + 1, ge - 1))
     for rhs, places in rhs_at.items():
-        if len(places) < 2:
+        if len({p[0] for p in places}) < 2:
             continue
+        places = sorted(places)
         i0 = places[0][0]
         lhs = sc.mask_text(lines[i0])[:places[0][1] - 1].strip()
         typ = types.get(lhs) if re.fullmatch(r"[A-Za-z_]\w*", lhs) else None
@@ -1935,8 +1996,10 @@ def common_subexprs(text, tu, fn, d_):
         indent = lines[i0][:len(lines[i0]) - len(lines[i0].lstrip())]
         dind = lines[last][:len(lines[last]) - len(lines[last].lstrip())] if last >= d_["line"] else indent
         cand = list(lines)
-        for i, a_end, end in places:
-            cand[i] = lines[i][:a_end] + " " + name + lines[i][end:]
+        for i, a_end, end in sorted(places, key=lambda x: (x[0], -x[1])):   # right to left within a line keeps offsets valid
+            left, right = cand[i][:a_end].rstrip(), cand[i][end:].lstrip()
+            sep = "" if left.endswith("(") else " "                      # `(tmp0)`, not `( tmp0)`, inside a kept group
+            cand[i] = left + sep + name + ((" " + right) if right and right[0] not in ";)" else right)
         cand.insert(i0, f"{indent}{name} = {lines[i0][places[0][1]:places[0][2]].strip()};")
         cand.insert(last + 1, f"{dind}{typ} {name};")
         out.append((f"cse {name} @{i0 + 1}", "\n".join(cand)))

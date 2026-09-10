@@ -1,0 +1,4 @@
+[ OK ] ov_SC03_107
+check-all: 218 passed, 0 failed of 218
+wall=80.07 s
+exit=0

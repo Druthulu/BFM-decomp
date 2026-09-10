@@ -4840,15 +4840,15 @@ void func_8018B5B0(int param_1)
 {
 
     extern unsigned char D_801E19A4[];
-    register int iVar3 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register int iVar3b __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
+    int iVar3;
+    int iVar3b;
     int iVar5;
     short sVar2;
 
     iVar5 = (int)D_801E19A4 + *(int *)(param_1 + 0x2c) * 0x40;
     iVar3 = ((int (*)(void))func_801465C0)();
-    *(int *)(param_1 + 0x20) = iVar3;
     iVar3b = iVar3;
+    *(int *)(param_1 + 0x20) = iVar3;
     if (iVar3 != 0) {
         ((void (*)(int, int))func_8001CD9C)(iVar3, iVar5);
         ((void (*)(int, int))func_800233CC)(iVar5, 0x10);
@@ -5407,7 +5407,7 @@ s32 func_8018C23C(s32 param_1) {
     int td;
     unsigned short t;
 
-    iVar1 = *(int *)(self + 0x1c);
+    do { iVar1 = *(int *)(self + 0x1c); } while (0);
     iVar6 = *(int *)(self + 0x20);
     *(int *)(self + 0x1c) = iVar1 + 1;
     if (iVar1 < 2) {
@@ -5481,10 +5481,9 @@ s32 func_8018C23C(s32 param_1) {
                 i++;
             } while (i < 4);
         }
-        *(short *)(self + 0x70) = *(short *)(self + 0x70) >> 1;
+        do { *(short *)(self + 0x70) = *(short *)(self + 0x70) >> 1; } while (0);
         *(unsigned short *)(iVar6 + 0x2c) |= 1;
     } else {
-        __asm__ __volatile__("" : "=r"(self) : "0"(self));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         func_8012C218((void *)self);
     }
 }

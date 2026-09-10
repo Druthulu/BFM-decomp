@@ -81,14 +81,15 @@ FAMILIES = {
     # lane B's map (`.run/P36/engine/residual_moves.md`, S101, gcc 2.7.2 source): the caller-saved swap is decided in
     # local-alloc's block_alloc/combine_regs by which dying pseudo the operand ties to — the temp inlined/introduced first; a
     # constant-operand commutative swap is undone by fold (fold-const.c) and only a var/var swap can reach the allocator.
-    "REG-caller": ("R6", "R8", "R5", "R3", "R7", "R9", "R2", "R4"),
+    "REG-caller": ("R6", "R8", "R5", "R10", "R12", "R14", "R13", "R3", "R7", "R9", "R2", "R4"),
     # the s-bank order is global.c's allocno_compare (ref weight x live length), declaration order only on an exact tie
-    "REG-callee": ("R2", "R4", "R3", "R6", "R8", "R7", "R9", "R5"),
-    "REG-mixed": ("R6", "R2", "R5", "R4", "R3", "R8", "R7", "R9"),
-    # a copy dies to cse's canon_reg or the local-alloc tie; an address pseudo lives when a pointer local is used twice
-    "COUNT": ("R6", "R8", "R3", "R7", "R5", "R9", "R2", "R4"),
+    "REG-callee": ("R2", "R4", "R3", "R6", "R8", "R12", "R7", "R9", "R10", "R14", "R13", "R5"),
+    "REG-mixed": ("R6", "R2", "R5", "R10", "R4", "R3", "R8", "R12", "R13", "R14", "R7", "R9"),
+    # a copy dies to cse's canon_reg or the local-alloc tie unless its destination changes MODE (the width); an address
+    # pseudo lives when a pointer local is used twice; a value named once is computed once; a short PARAMETER is extended in place
+    "COUNT": ("R12", "R14", "R6", "R8", "R3", "R7", "R5", "R13", "R9", "R10", "R2", "R4"),
     # statement order IS the schedule among equal-priority insns (rank_for_schedule's LUID tie-break); do-while is a barrier
-    "ORDER": ("R9", "R7", "R3", "R6", "R8", "R5", "R2", "R4"),
+    "ORDER": ("R9", "R7", "R13", "R3", "R6", "R8", "R5", "R12", "R14", "R10", "R2", "R4"),
     "MIXED": dl.ALL_FAMILIES,
     "OTHER": dl.ALL_FAMILIES,
 }
@@ -213,6 +214,11 @@ class Scorer:
         self.compiles = 0
         self.seconds = 0.0
         OBJ.mkdir(parents=True, exist_ok=True)
+        # PER TU, not per tag (S101 run g4s): the tag was the TU's index modulo the worker count, not a worker id, so two
+        # TUs could share `g0.o` at the same moment and one worker objdumped the other's object — a byte-identical body read
+        # as 14,871 mismatches (UNCALIBRATED), and any candidate scored in that window was noise. A worker owns a whole TU,
+        # so a name keyed by the TU cannot collide. The bank was never at risk: it re-verifies whole-object equality itself.
+        self.scratch = OBJ / f"{tag}__{tu.replace('/', '_')}.o"
 
     def score(self, text):
         """dict(score, ident, cls, seconds, err) — score None on a compile failure (R61: not judged is not a distance)."""
@@ -235,7 +241,7 @@ class Scorer:
         if data is None:
             return dict(score=None, ident=False, cls=None, seconds=dt,
                         err=("COMPILE-CRASH" if err.startswith("CRASH:") else "COMPILE-ERROR") + ": " + err[:120])
-        p = OBJ / f"{self.tag}.o"
+        p = self.scratch
         p.write_bytes(data)
         mine = md.insns_from_object(str(p), self.fn)
         cls = classify(mine, self.tgt)
@@ -268,12 +274,20 @@ def sites_by_body():
         return _sites
 
 
+AB_KINDS = {"pin", "barrier", "launder", "keepalive", "instruction", "gte-lever", "asm-body"}
+
+
 def lever_free_body(tu, raw, fn, sites):
-    """the TU with every REMOVABLE site of THIS body rewritten away (rung A's edits, nothing else — the file-scope asm and every
-    other body untouched, since the scorer compares whole objects too)."""
+    """the TU with every class A/B site of THIS body rewritten away (rung A's edits, nothing else — the file-scope asm and every
+    other body untouched, since the scorer compares whole objects too). A class C/D site the tree still carries (a byte-needed
+    `volatile` cast or bare `register`) STAYS: decision 3 keeps it as ordinary C, unmarked and ledgered, so the search starts
+    from the spelling the original plausibly had rather than paying to remove what the phase does not ask removed (S101: the
+    engine had been stripping a needed `volatile` cast and searching for a reload the cast already produced)."""
     m, ls = dl.same_len_mask(raw), dl.line_starts(raw)
     edits = []
     for s in sites:
+        if s["cls"] not in "AB":
+            continue
         if (s["cls"], s["kind"]) not in dl.REMOVABLE:
             if s["kind"] in dl.DEFERRED_KINDS:
                 raise Unstrippable([(s["kind"], s["line"], "asm-body: T7's work")])
@@ -326,6 +340,10 @@ def exemplars(only=(), limit=None, include_done=False):
     for k in order:
         r = cur[k]
         if r.get("verdict") != "RESIDUE" or r["fn"] == dl.FILE_SCOPE_FN:
+            continue
+        # THE PHASE'S NUMBER is pins + asm statements: a body whose only NEEDED sites are class C/D (a byte-needed `volatile`, a bare
+        # `register`) is done (decision 3) and is not drawn — the T4 close counted 498 such bodies, and g3 spent searches on them
+        if not any(s.get("verdict") == "NEEDED" and s.get("kind") in AB_KINDS for s in r.get("sites", [])):
             continue
         nh = r.get("nhash_after") or r.get("nhash_before")
         if not nh:
@@ -499,13 +517,14 @@ def run_body(ex, a, tag, by_src, inc, inflight, log):
             body = res["text"][ls[d_["line"] - 1]:ls[d_["end"]]]
             bf = RUN / "bodies" / f"{(ex['alias'] or 'x')}__{fn}.c"
             bf.parent.mkdir(parents=True, exist_ok=True)
-            bf.write_text(body, errors="surrogateescape")
-            r = subprocess.run([PY, "tools/delever.py", "--apply-body", tu, fn, bf.relative_to(REPO).as_posix(),
-                                "--label", a.label, "--rung", "G", "--dirty-ok"], cwd=REPO, capture_output=True, text=True)
-            line = ((r.stdout or r.stderr).strip().splitlines() or [""])[-1]
-            row["banked"] = (r.returncode == 0)
+            bf.write_text(body, errors="surrogateescape")            # the record of what was handed to the bank
+            # IN PROCESS (S101): the bank used to be a subprocess that re-imported delever.py (an edit mid-run broke a bank)
+            # and reloaded the recipes/includers each time
+            with _LOCK:                                            # the ledger append and the source write, one bank at a time
+                ok_, line = dl.apply_body_core(tu, fn, body, a.label, "G", source=bf.relative_to(REPO).as_posix())
+            row["banked"] = ok_
             row["bank_line"] = line[:220]
-            if r.returncode != 0:
+            if not ok_:
                 res["verdict"] = "BANK-REFUSED"
     row.update(verdict=res["verdict"], start=res.get("start"), best=res.get("best"), compiles=res["compiles"],
                path=res.get("path", []), start_cls=(trace and None) or None, seconds=round(time.time() - t0, 1),
@@ -551,6 +570,12 @@ def cmd_run(a):
     by_tu = collections.OrderedDict()
     for e in ex:
         by_tu.setdefault(e["tu"], []).append(e)
+    # BOTTOM-UP WITHIN A FILE (rung R's rule): a bank shifts the lines of every body below it, and the census positions the
+    # lever-free rewrite starts from were taken before the run — run g1 lost func_80142EC0 to a `token mismatch` after
+    # func_801424E4 was banked above it in the same TU
+    sb = sites_by_body()
+    for tu in by_tu:
+        by_tu[tu].sort(key=lambda e: -min((s["line"] for s in sb.get((e["tu"], e["fn"]), [])), default=0))
     tus = [t for t in by_tu if not t.endswith(".h")]
     hdrs = [t for t in by_tu if t.endswith(".h")]
     rows = []
@@ -567,12 +592,16 @@ def cmd_run(a):
     # propagation, serially after the parallel phase: a sibling lives in a TU another worker may have owned
     if a.propagate and won:
         for r in won:
-            p = subprocess.run([PY, "tools/delever.py", "--propagate", r["tu"], r["fn"], "--label", a.label + "p", "--dirty-ok"],
-                               cwd=REPO, capture_output=True, text=True)
-            line = ((p.stdout or p.stderr).strip().splitlines() or [""])[-1]
+            ns = argparse.Namespace(propagate=[r["tu"], r["fn"]], label=a.label + "p", only=[], limit=None)
+            try:
+                okn, n, bad = dl.propagate(ns)                     # in process (S101): no subprocess per sibling
+                line = f"delever --propagate: {okn} of {n} sibling(s) banked, {bad} refused"
+                rc = 0 if okn else 1
+            except SystemExit as e:                               # "no banked reshape" — the refusal is the line
+                line, rc = str(e), 2
             r["propagate_line"] = line[:200]
             outcome_append(dict(kind="propagate", ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, tu=r["tu"], fn=r["fn"],
-                                nhash=r["nhash"], line=line[:300], rc=p.returncode))
+                                nhash=r["nhash"], line=line[:300], rc=rc))
             log(f"  propagate {r['alias']}__{r['fn']}: {line[:160]}")
     v = collections.Counter(r["verdict"] for r in rows)
     print(f"\nsearch: {len(won)} of {len(rows)} exemplars matched lever-free in {(time.time() - t0) / 3600:.2f} h "
@@ -611,6 +640,59 @@ def cmd_plan(a):
     if len(ex) > a.show:
         print(f"  … {len(ex) - a.show} more")
     return 0
+
+
+def explain(a):
+    """--explain TU FN: the lever-free body's residual, read — its class, every differing block as mnemonics (mine vs the
+    target), the NEEDED sites with their lines — and, with --path "move1|move2", the residual after those moves are applied in
+    order (a move is named exactly as the trace names it). No writes; one compile per text scored."""
+    tu, fn = a.explain
+    by_src = oracle.recipes_by_src(oracle.load_recipes()["recipes"])
+    inc = dl.includers()
+    raw = (REPO / tu).read_text(errors="surrogateescape")
+    sites = sites_by_body().get((tu, fn), [])
+    scorer = Scorer(tu, fn, recs_for(tu, by_src, inc), "ex", {})
+    names = dl.pin_names(sites)
+    text = lever_free_body(tu, raw, fn, sites)
+    for mv in [m.strip() for m in (a.path or "").split("|") if m.strip()]:
+        cands = dl.recipe_candidates(text, tu, fn, names, cap=None, families=dl.ALL_FAMILIES)
+        hit = next((c for c in cands if f"{c[0]} {c[1]}" == mv), None)
+        if hit is None:
+            sys.exit(f"delever_search --explain: no candidate named `{mv}` on the current text (have: {[f'{c[0]} {c[1]}' for c in cands[:12]]} …)")
+        text = hit[2]
+    r = scorer.score(text)
+    if r["score"] is None:
+        print(f"{tu}:{fn}: {r['err']}")
+        return 1
+    cls = r["cls"]
+    print(f"{tu}:{fn}: score {r['score']} ({family_key(cls)}; mine {cls['n_mine']} ins, target {cls['n_tgt']}) ident={r['ident']}"
+          + (f" after {a.path}" if a.path else ""))
+    if cls["pairs"]:
+        print("  register pairs (mine -> target, count):", ", ".join(f"{x}->{y} x{n}" for x, y, n in cls["pairs"]))
+    row = latest_row(tu, fn) or {}
+    for s in sites:
+        v = next((d for d in row.get("sites", []) if d.get("line") == s["line"]), None)
+        tag = (v or {}).get("verdict", "?")
+        print(f"  site {s['kind']:11s} {s.get('detail', ''):5s} line {s['line']:5d} {tag:8s} {s.get('text', '')[:70]}")
+    mine = md.insns_from_object(str(scorer.scratch), fn)
+    aa, bb = [masked_word(i) for i in mine], [masked_word(i) for i in scorer.tgt]
+    for t, i1, i2, j1, j2 in difflib.SequenceMatcher(None, aa, bb, autojunk=False).get_opcodes():
+        if t == "equal":
+            continue
+        print(f"  {t:7s} mine[{i1}:{i2}] target[{j1}:{j2}]")
+        for k in range(max(i2 - i1, j2 - j1)):
+            m_ = mine[i1 + k]["mnem"] if i1 + k < i2 else "--"
+            t_ = scorer.tgt[j1 + k]["mnem"] if j1 + k < j2 else "--"
+            print(f"     {i1 + k:4d}  {m_:34s} | {t_}")
+    return 0
+
+
+def latest_row(tu, fn):
+    row = None
+    for r in dl.load_ledger():
+        if r.get("tu") == tu and r.get("fn") == fn:
+            row = r
+    return row
 
 
 def cmd_status(a):
@@ -767,8 +849,41 @@ def selftest():
     if len(r9) != 1 or "    b = q + 1;\n    a = *(s32 *)(p + 4) & q;\n" not in r9[0][2]:
         fail(f"R9 did not swap the two adjacent statements: {r9[:1]}")
     default = dl.recipe_candidates(fix, "src/x.c", "f", [], cap=None)
-    if any(c[0] in ("R8", "R9") for c in default):
-        fail("rung R's default family set grew — R8/R9 must stay the engine's until measured")
+    if any(c[0] in ("R8", "R9", "R10", "R12", "R13") for c in default):
+        fail("rung R's default family set grew — R8..R13 must stay the engine's until measured")
+    # R10 on a void-parameter function must yield nothing; on (s32 *p, s32 q) one copy per parameter, pointer spelled `s32 *p2`
+    fix2 = ("s32 g(void)\n{\n    s32 d;\n    d = 1;\n    return d;\n}\n")
+    if dl.recipe_candidates(fix2, "src/x.c", "g", [], cap=None, families=("R10",)):
+        fail("R10 generated a parameter copy for a (void) function")
+    r10 = dl.recipe_candidates(fix, "src/x.c", "f", [], cap=None, families=("R10",))
+    if len(r10) != 2 or "s32 *p2;" not in r10[0][2] or "p2 = p;" not in r10[0][2] or "*(s32 *)(p2 + 4)" not in r10[0][2]:
+        fail(f"R10 parameter copies wrong: {[(c[0], c[1]) for c in r10]}")
+    # R12 widens/narrows a local; R13 reassociates a +/- chain; R8 names a repeated RHS once
+    fix3 = ("s32 h(s32 *p, s32 q)\n{\n    s32 a;\n    u16 w;\n    a = q + *(s32 *)(p + 4) - w;\n"
+            "    *(s16 *)(p + 28) = -a;\n    *(s16 *)(p + 24) = -a;\n    return a;\n}\n")
+    r12 = dl.recipe_candidates(fix3, "src/x.c", "h", [], cap=None, families=("R12",))
+    if [c[1] for c in r12] != ["width a s32->u16 @3", "width a s32->s16 @3", "width a s32->u8 @3",
+                               "width w u16->s32 @4", "width w u16->s16 @4", "width w u16->u8 @4"]:
+        fail(f"R12 widths wrong: {[c[1] for c in r12]}")
+    # R14 changes a PARAMETER's width in the header; R8's shared base names one address local for two dereferences of one base
+    r14 = dl.recipe_candidates(fix3, "src/x.c", "h", [], cap=None, families=("R14",))
+    if [c[1] for c in r14] != ["param-width q s32->s16 @1", "param-width q s32->u16 @1", "param-width q s32->u8 @1"] \
+            or "s32 h(s32 *p, s16 q)" not in r14[0][2]:
+        fail(f"R14 parameter widths wrong: {[c[1] for c in r14]}")
+    fix4 = ("s32 m(s32 *p, s32 q)\n{\n    s32 a;\n    a = *(s32 *)(p + 4) & q;\n    *(u16 *)(p + 4) = q;\n    return a;\n}\n")
+    sb = [c for c in dl.recipe_candidates(fix4, "src/x.c", "m", [], cap=None, families=("R8",)) if c[1].startswith("base-shared")]
+    if len(sb) != 1 or "tmp0 = p + 4;" not in sb[0][2] or "a = *(s32 *)tmp0 & q;" not in sb[0][2] or "*(u16 *)tmp0 = q;" not in sb[0][2]:
+        fail(f"R8 shared base wrong: {[(c[1], c[2]) for c in sb][:1]}")
+    fix5 = ("s32 k(s32 param_2)\n{\n    u8 *src;\n    src = (u8 *)((u32)param_2);\n    return src[3];\n}\n")
+    al = [c for c in dl.recipe_candidates(fix5, "src/x.c", "k", [], cap=None, families=("R10",)) if c[1].startswith("param-alias")]
+    if len(al) != 1 or "return param_2[3];" not in al[0][2] or "src = " in al[0][2]:
+        fail(f"R10 alias through a cast wrong: {[(c[1], c[2]) for c in al][:1]}")
+    r13 = dl.recipe_candidates(fix3, "src/x.c", "h", [], cap=None, families=("R13",))
+    if len(r13) != 1 or "a = q - w + *(s32 *)(p + 4);" not in r13[0][2]:
+        fail(f"R13 reassociation wrong: {[(c[1], c[2].split(chr(10))[4]) for c in r13]}")
+    cse = [c for c in dl.recipe_candidates(fix3, "src/x.c", "h", [], cap=None, families=("R8",)) if c[1].startswith("cse")]
+    if len(cse) != 1 or "tmp0 = -a;" not in cse[0][2] or cse[0][2].count("= tmp0;") != 2:
+        fail(f"R8 common subexpression wrong: {[(c[1]) for c in cse]}")
     print(f"delever_search --selftest: {'OK' if ok else 'FAILED'} — classifier 6 cases, beam 4 cases, generators R8/R9")
     return ok
 
@@ -780,7 +895,9 @@ def main():
     g.add_argument("--run", action="store_true")
     g.add_argument("--positive-control", nargs=2, metavar=("TU", "FN"))
     g.add_argument("--status", action="store_true")
+    g.add_argument("--explain", nargs=2, metavar=("TU", "FN"), help="read one body's residual (no writes)")
     g.add_argument("--selftest", action="store_true")
+    ap.add_argument("--path", help="--explain: moves to apply first, `|`-separated, named as the trace names them")
     ap.add_argument("--only", nargs="*", default=[], help="fn, TU (substring), alias or nhash prefix")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--show", type=int, default=25)
@@ -805,6 +922,8 @@ def main():
         return cmd_plan(a)
     if a.status:
         return cmd_status(a)
+    if a.explain:
+        return explain(a)
     if a.positive_control:
         return positive_control(a)
     if a.run:

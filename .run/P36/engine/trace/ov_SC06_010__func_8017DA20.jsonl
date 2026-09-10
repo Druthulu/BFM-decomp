@@ -1,0 +1,25 @@
+{"kind": "seed", "start": 11, "tu": "src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c", "fn": "func_8017DA20", "label": "g5"}
+{"depth": 1, "move": "R12 width iVar5 int->u16 @4510", "parent": 11, "score": 39, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 int->s16 @4504", "parent": 11, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4538", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @4535", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4535", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @4512", "parent": 11, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R2 decl-order 1,0", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move iVar3 1->0", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width iVar5 int->s16 @4510", "parent": 11, "score": 38, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 int->u16 @4504", "parent": 11, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @4538", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4535", "parent": 11, "score": 23, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4513", "parent": 11, "score": 37, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move iVar3 1->3", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width iVar5 int->u8 @4510", "parent": 11, "score": 39, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 int->u8 @4504", "parent": 11, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base-shared tmp0 @4538", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @4540", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4514", "parent": 11, "score": 3, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R4 decl-move iVar3 1->4", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width sVar2 short->s32 @4511", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4532", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4540", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4515", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}
