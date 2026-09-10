@@ -3,16 +3,18 @@ g4s: verdict NO-MATCH start 4 best 4 compiles 487 path
 g5: verdict NO-MATCH start 4 best 4 compiles 888 path 
 s1: verdict NO-MATCH start 4 best 4 compiles 164 path 
 s2: verdict NO-MATCH start 4 best 4 compiles 164 path 
-best-scoring single candidates of the last trace (move -> score):
-  R7 block @5132 -> 4 (from 4)
-  R2 decl-order 1,0 -> 4 (from 4)
-  R9 swap-stmts @5133 -> 4 (from 4)
-  R7 block @5133 -> 4 (from 4)
-  R14 param-width param_2 s32->s16 @5116 -> 4 (from 4)
-  R14 param-width param_2 s32->u16 @5116 -> 4 (from 4)
-  R7 block @5134 -> 4 (from 4)
-  R9 swap-stmts @5144 -> 4 (from 4)
-  R14 param-width param_3 s32->s16 @5116 -> 4 (from 4)
-  R14 param-width param_3 s32->u16 @5116 -> 4 (from 4)
-  R7 block @5136 -> 4 (from 4)
-  R14 param-width param_4 s32->s16 @5116 -> 4 (from 4)
+s4: verdict NO-MATCH start 4 best 4 compiles 310 path 
+s7: verdict NO-MATCH start 4 best 4 compiles 282 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @5132 -> 4 [COUNT] (from 4)
+  R2 decl-order 1,0 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @5133 -> 4 [COUNT] (from 4)
+  R18 bystander @5133->5136 -> 4 [COUNT] (from 4)
+  R7 block @5133 -> 4 [COUNT] (from 4)
+  R18 bystander @5134->5132 -> 4 [COUNT] (from 4)
+  R7 block @5134 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @5144 -> 4 [COUNT] (from 4)
+  R7 block @5136 -> 4 [COUNT] (from 4)
+  R7 block @5142 -> 4 [COUNT] (from 4)
+  R7 do-while @5142 -> 4 [COUNT] (from 4)
+  R7 block @5144 -> 4 [COUNT] (from 4)

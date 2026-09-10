@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 17 best 11 compiles 816 path R6 inline uVar2 @1733 + 
 g5: verdict NO-MATCH start 17 best 7 compiles 2280 path R6 inline uVar2 @1731 + R7 do-while @1728 + R9 swap-stmts @1731
 s1: verdict NO-MATCH start 17 best 14 compiles 189 path R6 inline uVar2 @1731
 s2: verdict NO-MATCH start 17 best 14 compiles 189 path R6 inline uVar2 @1731
-best-scoring single candidates of the last trace (move -> score):
-  R6 inline uVar2 @1731 -> 14 (from 17)
-  R7 block @1720 -> 14 (from 14)
-  R2 decl-order 1,0 -> 14 (from 14)
-  R4 decl-move uVar2 8->0 -> 14 (from 14)
-  R4 decl-move uVar2 8->1 -> 14 (from 14)
-  R7 block @1711 -> 14 (from 14)
-  R4 decl-move uVar2 8->2 -> 14 (from 14)
-  R9 swap-stmts @1733 -> 14 (from 14)
-  R4 decl-move uVar2 8->3 -> 14 (from 14)
-  R7 block @1723 -> 14 (from 14)
-  R4 decl-move uVar2 8->4 -> 14 (from 14)
-  R9 swap-stmts @1728 -> 14 (from 14)
+s4: verdict NO-MATCH start 17 best 14 compiles 441 path R6 inline uVar2 @1731
+s7: verdict NO-MATCH start 17 best 14 compiles 562 path R6 inline uVar2 @1731
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline uVar2 @1731 -> 14 [COUNT] (from 17)
+  R18 bystander @1701->1704 -> 14 [COUNT] (from 14)
+  R7 block @1720 -> 14 [COUNT] (from 14)
+  R2 decl-order 1,0 -> 14 [COUNT] (from 14)
+  R4 decl-move uVar2 8->0 -> 14 [COUNT] (from 14)
+  R18 bystander @1701->1705 -> 14 [COUNT] (from 14)
+  R4 decl-move uVar2 8->1 -> 14 [COUNT] (from 14)
+  R18 bystander @1703->1701 -> 14 [COUNT] (from 14)
+  R7 block @1711 -> 14 [COUNT] (from 14)
+  R4 decl-move uVar2 8->2 -> 14 [COUNT] (from 14)
+  R9 swap-stmts @1733 -> 14 [COUNT] (from 14)
+  R4 decl-move uVar2 8->3 -> 14 [COUNT] (from 14)

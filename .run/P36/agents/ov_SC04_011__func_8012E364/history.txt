@@ -3,16 +3,18 @@ g2: verdict NO-MATCH start 25 best 7 compiles 787 path R5 swap + @786 + R7 do-wh
 g5: verdict NO-MATCH start 25 best 7 compiles 2299 path R5 swap + @786 + R7 do-while @790
 s1: verdict NO-MATCH start 25 best 7 compiles 187 path R5 swap + @786 + R7 do-while @790
 s2: verdict NO-MATCH start 25 best 7 compiles 187 path R5 swap + @786 + R7 do-while @790
-best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @790 -> 7 (from 13)
-  R7 do-while @790 -> 9 (from 13)
-  R9 swap-stmts @793 -> 11 (from 13)
-  R5 swap + @786 -> 13 (from 25)
-  R13 assoc -+ @786 -> 13 (from 25)
-  R2 decl-order 0,2,1 -> 13 (from 13)
-  R4 decl-move prev 4->0 -> 13 (from 13)
-  R7 block @789 -> 13 (from 13)
-  R8 temp tmp0 @785 -> 13 (from 13)
-  R10 param-alias arg0->arg0_ @766 -> 13 (from 13)
-  R12 width e2 s32->u16 @764 -> 13 (from 13)
-  R2 decl-order 1,0,2 -> 13 (from 13)
+s4: verdict NO-MATCH start 25 best 7 compiles 435 path R5 swap + @786 + R7 do-while @790
+s7: verdict NO-MATCH start 25 best 7 compiles 558 path R5 swap + @786 + R7 do-while @790
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @790 -> 7 [MIXED] (from 13)
+  R2 decl-order 0,2,1 -> 7 [MIXED] (from 7)
+  R4 decl-move prev 4->0 -> 7 [MIXED] (from 7)
+  R7 block @792 -> 7 [MIXED] (from 7)
+  R8 temp tmp0 @792 -> 7 [MIXED] (from 7)
+  R10 param-alias arg0->arg0_ @766 -> 7 [MIXED] (from 7)
+  R2 decl-order 1,0,2 -> 7 [MIXED] (from 7)
+  R4 decl-move prev 4->1 -> 7 [MIXED] (from 7)
+  R7 do-while @792 -> 7 [MIXED] (from 7)
+  R8 base tmp0 @792 -> 7 [MIXED] (from 7)
+  R10 param-copy arg0_ @765 -> 7 [MIXED] (from 7)
+  R18 bystander @774->777 -> 7 [MIXED] (from 7)

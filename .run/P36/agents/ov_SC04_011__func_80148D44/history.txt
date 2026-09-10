@@ -3,16 +3,18 @@ g2: verdict NO-MATCH start 6 best 6 compiles 352 path
 g5: verdict NO-MATCH start 6 best 6 compiles 723 path 
 s1: verdict NO-MATCH start 6 best 6 compiles 148 path 
 s2: verdict NO-MATCH start 6 best 6 compiles 148 path 
-best-scoring single candidates of the last trace (move -> score):
-  R12 width a s32->u16 @720 -> 6 (from 6)
-  R6 inline ang @729 -> 6 (from 6)
-  R7 block @729 -> 6 (from 6)
-  R9 swap-stmts @728 -> 6 (from 6)
-  R4 decl-move a 6->0 -> 6 (from 6)
-  R12 width a s32->s16 @720 -> 6 (from 6)
-  R4 decl-move a 6->1 -> 6 (from 6)
-  R6 inline res @751 -> 6 (from 6)
-  R8 hoist tmp0 @751 -> 6 (from 6)
-  R4 decl-move a 6->2 -> 6 (from 6)
-  R4 decl-move a 6->3 -> 6 (from 6)
-  R12 width d s32->s16 @723 -> 6 (from 6)
+s4: verdict NO-MATCH start 6 best 6 compiles 258 path 
+s7: verdict NO-MATCH start 6 best 6 compiles 324 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width a s32->u16 @720 -> 6 [COUNT] (from 6)
+  R6 inline ang @729 -> 6 [COUNT] (from 6)
+  R7 block @729 -> 6 [COUNT] (from 6)
+  R9 swap-stmts @728 -> 6 [COUNT] (from 6)
+  R4 decl-move a 6->0 -> 6 [COUNT] (from 6)
+  R12 width a s32->s16 @720 -> 6 [COUNT] (from 6)
+  R4 decl-move a 6->1 -> 6 [COUNT] (from 6)
+  R6 inline res @751 -> 6 [COUNT] (from 6)
+  R8 hoist tmp0 @751 -> 6 [COUNT] (from 6)
+  R4 decl-move a 6->2 -> 6 [COUNT] (from 6)
+  R4 decl-move a 6->3 -> 6 [COUNT] (from 6)
+  R12 width d s32->s16 @723 -> 6 [COUNT] (from 6)

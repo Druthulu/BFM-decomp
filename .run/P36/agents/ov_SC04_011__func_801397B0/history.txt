@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 12 best 2 compiles 791 path R7 do-while @833
 g5: verdict NO-MATCH start 12 best 2 compiles 2273 path R7 do-while @833
 s1: verdict NO-MATCH start 12 best 2 compiles 192 path R7 do-while @833
 s2: verdict NO-MATCH start 12 best 2 compiles 192 path R7 do-while @833
-best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @833 -> 2 (from 12)
-  R9 swap-stmts @830 -> 2 (from 2)
-  R7 block @830 -> 2 (from 2)
-  R10 param-copy arg0 @829 -> 2 (from 2)
-  R15 sink @866 (sc) -> 2 (from 2)
-  R4 decl-move off 1->0 -> 2 (from 2)
-  R9 swap-stmts @831 -> 2 (from 2)
-  R7 do-while @830 -> 2 (from 2)
-  R12 width off s32->s16 @818 -> 2 (from 2)
-  R10 param-alias e->arg0 @830 -> 2 (from 2)
-  R4 decl-move off 1->2 -> 2 (from 2)
-  R9 swap-stmts @837 -> 2 (from 2)
+s4: verdict NO-MATCH start 12 best 2 compiles 415 path R18 bystander @835->838
+s7: verdict NO-MATCH start 12 best 2 compiles 534 path R18 bystander @835->838
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @835->838 -> 2 [ORDER] (from 12)
+  R18 bystander @835->839 -> 2 [ORDER] (from 12)
+  R18 bystander @835->840 -> 2 [ORDER] (from 12)
+  R7 do-while @833 -> 2 [ORDER] (from 12)
+  R18 bystander @837->835 -> 2 [ORDER] (from 12)
+  R9 swap-stmts @830 -> 2 [ORDER] (from 2)
+  R7 block @830 -> 2 [ORDER] (from 2)
+  R12 width sc s32->u16 @822 -> 2 [ORDER] (from 2)
+  R10 param-copy arg0 @829 -> 2 [ORDER] (from 2)
+  R15 sink @866 (sc) -> 2 [ORDER] (from 2)
+  R4 decl-move off 1->0 -> 2 [ORDER] (from 2)
+  R9 swap-stmts @831 -> 2 [ORDER] (from 2)

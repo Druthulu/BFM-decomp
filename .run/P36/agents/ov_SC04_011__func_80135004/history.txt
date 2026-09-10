@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 26 best 23 compiles 677 path R7 do-while @2953
 g5: verdict NO-MATCH start 26 best 23 compiles 2234 path R7 do-while @2950
 s1: verdict NO-MATCH start 26 best 23 compiles 186 path R7 do-while @2950
 s2: verdict NO-MATCH start 26 best 23 compiles 186 path R7 do-while @2950
-best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @2950 -> 23 (from 26)
-  R10 param-copy arg0 @2947 -> 23 (from 23)
-  R12 width a u16->s32 @2944 -> 23 (from 23)
-  R14 param-width arg0 s32->s16 @2931 -> 23 (from 23)
-  R2 decl-order 0,2,1 -> 23 (from 23)
-  R4 decl-move pb0 5->0 -> 23 (from 23)
-  R10 param-copy p1 @2947 -> 23 (from 23)
-  R12 width a u16->s16 @2944 -> 23 (from 23)
-  R14 param-width arg0 s32->u16 @2931 -> 23 (from 23)
-  R7 block @2951 -> 23 (from 23)
-  R9 swap-stmts @2954 -> 23 (from 23)
-  R2 decl-order 1,0,2 -> 23 (from 23)
+s4: verdict NO-MATCH start 26 best 23 compiles 435 path R7 do-while @2950
+s7: verdict NO-MATCH start 26 best 23 compiles 553 path R7 do-while @2950
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @2950 -> 23 [REG] (from 26)
+  R18 bystander @2952->2954 -> 23 [REG] (from 23)
+  R10 param-copy arg0 @2947 -> 23 [REG] (from 23)
+  R12 width a u16->s32 @2944 -> 23 [REG] (from 23)
+  R14 param-width arg0 s32->s16 @2931 -> 23 [REG] (from 23)
+  R2 decl-order 0,2,1 -> 23 [REG] (from 23)
+  R4 decl-move pb0 5->0 -> 23 [REG] (from 23)
+  R10 param-copy p1 @2947 -> 23 [REG] (from 23)
+  R12 width a u16->s16 @2944 -> 23 [REG] (from 23)
+  R14 param-width arg0 s32->u16 @2931 -> 23 [REG] (from 23)
+  R7 block @2951 -> 23 [REG] (from 23)
+  R9 swap-stmts @2954 -> 23 [REG] (from 23)

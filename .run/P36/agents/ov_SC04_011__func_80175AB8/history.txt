@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 58 best 31 compiles 811 path R9 swap-stmts @2830 + R7
 g5: verdict NO-MATCH start 41 best 26 compiles 2294 path R9 swap-stmts @2857 + R8 hoist tmp0 @2848 + R12 width sum s32->u8 @2824 + R9 swap-stmts @2831
 s1: verdict NO-MATCH start 41 best 39 compiles 188 path R8 cse tmp0 @2833
 s2: verdict NO-MATCH start 41 best 39 compiles 188 path R8 cse tmp0 @2833
-best-scoring single candidates of the last trace (move -> score):
-  R8 cse tmp0 @2833 -> 39 (from 41)
-  R6 inline sv @2845 -> 39 (from 39)
-  R5 swap + @2854 -> 39 (from 39)
-  R9 swap-stmts @2840 -> 39 (from 39)
-  R2 decl-order 1,0 -> 39 (from 39)
-  R4 decl-move a0v 19->1 -> 39 (from 39)
-  R7 block @2840 -> 39 (from 39)
-  R4 decl-move a0v 19->2 -> 39 (from 39)
-  R8 hoist tmp1 @2849 -> 39 (from 39)
-  R7 do-while @2840 -> 39 (from 39)
-  R4 decl-move a0v 19->3 -> 39 (from 39)
-  R12 width q s16->u16 @2821 -> 39 (from 39)
+s4: verdict NO-MATCH start 41 best 39 compiles 439 path R8 cse tmp0 @2833
+s7: verdict NO-MATCH start 41 best 39 compiles 556 path R8 cse tmp0 @2833
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 cse tmp0 @2833 -> 39 [COUNT] (from 41)
+  R6 inline sv @2845 -> 39 [COUNT] (from 39)
+  R5 swap + @2854 -> 39 [COUNT] (from 39)
+  R9 swap-stmts @2840 -> 39 [COUNT] (from 39)
+  R2 decl-order 1,0 -> 39 [COUNT] (from 39)
+  R4 decl-move a0v 19->1 -> 39 [COUNT] (from 39)
+  R7 block @2840 -> 39 [COUNT] (from 39)
+  R4 decl-move a0v 19->2 -> 39 [COUNT] (from 39)
+  R8 hoist tmp1 @2849 -> 39 [COUNT] (from 39)
+  R18 bystander @2853->2849 -> 39 [COUNT] (from 39)
+  R7 do-while @2840 -> 39 [COUNT] (from 39)
+  R4 decl-move a0v 19->3 -> 39 [COUNT] (from 39)

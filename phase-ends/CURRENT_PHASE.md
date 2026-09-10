@@ -1052,7 +1052,34 @@ accumulate here as the phase produces them.**
   TUs for hours, which is exactly what emptied the agent slot for six of the eight hours of S102's night; sweeps run only
   when no agent is running, and never on the live agent's TU.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,140 sites** (16,989 pins + 12,151 asm) in 9,005 bodies · marked 29,140 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (17 milestones). **S102's loop state: sweeps s1–s7 done or stopped; the never-attempted pool is empty. THE CADENCE IS NOW AGENTS BACK-TO-BACK (Drew, on waking: he expected dozens overnight and got three because sweeps ran between them); a sweep only in a gap, and never on the live agent's TU.**
+- **S102 — T7 agent a7: `func_801287B8` CLOSED at score 0, lever-free, 127 bodies (1 + 126 propagated, 0 refused) — and it
+  is a NEW CLASS: a pin that was faking a MISSING CALL ARGUMENT.** `ov_SC04_011.c:197` declares `extern void
+  func_8013BC7C(void);` while that function's real, byte-verified definition is `src/shared/ov/func_8013BC7C__8042ae05.h:3`
+  — `void func_8013BC7C(void *arg0)`, dispatching through `D_8017F230[arg0->f68](arg0)`. The `$a0` instruction the pin was
+  forcing is simply the argument the TU's own declaration denies. The move: a block-local `s32 *p = &D_801F1640;`, tested
+  and then passed through a function-pointer cast — `((void (*)(void *))func_8013BC7C)(p);` — the idiom this TU already uses
+  for two other calls. **Score 0 on the first spelling tried, where seven mechanical runs and 4,000+ compiles had sat at 3**,
+  because every generator rewrites statements that are already there and this move ADDS an argument. Mechanism, both halves
+  proven on bytes: `update_equiv_regs` (`local-alloc.c:947`, the "referenced exactly twice" test at `:1066`, substitution at
+  `:1085-1112`) — one use folds the `SYMBOL_REF` into `lui;lw %lo`, the SECOND reference keeps the address in a register,
+  which is what the `volatile` was faking; and `combine_regs` (`local-alloc.c:1722`, the hard-reg path `:1797-1818`) records
+  `$4` in `qty_phys_copy_sugg[]` so `find_free_reg` (`:2073`, restricted at `:2145-2150`) colours the quantity `$4` and
+  coalesces the copy away, which is what the pin was faking. Controls: reading the global directly scores 9 (63 ins), and
+  declaring the pointer at function top scores 4 (`s0->a0`, an extra `move`). **Unlike a2's case this truncation is a LOCAL
+  `extern`, so the cast keeps the bank body-only** — a2's was a shared header and could not be. Its generator proposal is
+  **R19 "argument restore"**, a zero-compile STATIC filter: when a NEEDED pin sits on `$4`–`$7`, look up the callee's real
+  arity from its shared body and offer the call with the argument restored through a cast. The agent's own method note is
+  worth more than the pass reading: *an argument register in the residual's register pairs is a strong prior for "a call is
+  missing an argument", and one grep answers it before any compiler source is opened.*
+  `lever_census --check: 29,013 pin/asm sites, 29,013 marked !FAKE, 0 UNMARKED — OK` (29,140 → 29,013); snapshot row 18.
+- **S102 — THE BUILD-DIRECTORY HAZARD (recorded before it cost anything).** `--try` scores a candidate against the fleet
+  run's BASELINE OBJECT under `build/`. The R22 gate begins with `make clean`, which deletes exactly that. **A clean fleet
+  rebuild must therefore never run while agents are in flight** — every live `--try` would score against a missing or
+  half-written baseline and report nonsense in the agent's own voice. Banking and propagation are safe beside agents (they
+  compile into scratch and only READ `build/`), so the writing lane keeps up during a burst and the R22 fleet gate is taken
+  when the burst drains, before the close.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,013 sites** in 8,878 bodies · marked 29,013 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (18 milestones). **S102's loop state: BURST OF 20 AGENTS in flight (Drew, 2026-09-10); a7 landed and banked (127 bodies, the missing-argument class); the R22 fleet gate is DEFERRED until the burst drains because `make clean` deletes the `build/` baseline every live `--try` scores against.**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**

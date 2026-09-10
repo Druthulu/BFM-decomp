@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 15 best 14 compiles 809 path R9 swap-stmts @3639
 g5: verdict NO-MATCH start 15 best 13 compiles 2070 path R9 swap-stmts @3639 + R7 do-while @3648
 s1: verdict NO-MATCH start 15 best 14 compiles 187 path R9 swap-stmts @3639
 s2: verdict NO-MATCH start 15 best 14 compiles 187 path R9 swap-stmts @3639
-best-scoring single candidates of the last trace (move -> score):
-  R9 swap-stmts @3639 -> 14 (from 15)
-  R12 width a2 s32->u16 @3607 -> 14 (from 14)
-  R6 inline p @3640 -> 14 (from 14)
-  R8 hoist tmp0 @3624 -> 14 (from 14)
-  R7 block @3628 -> 14 (from 14)
-  R10 param-copy param_1 @3608 -> 14 (from 14)
-  R12 width a2 s32->s16 @3607 -> 14 (from 14)
-  R8 hoist tmp0 @3623 -> 14 (from 14)
-  R7 block @3629 -> 14 (from 14)
-  R7 block @3624 -> 14 (from 14)
-  R8 hoist tmp0 @3634 -> 14 (from 14)
-  R9 swap-stmts @3622 -> 14 (from 14)
+s4: verdict NO-MATCH start 15 best 14 compiles 436 path R9 swap-stmts @3639
+s7: verdict NO-MATCH start 15 best 14 compiles 556 path R9 swap-stmts @3639
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @3639 -> 14 [COUNT] (from 15)
+  R12 width a2 s32->u16 @3607 -> 14 [COUNT] (from 14)
+  R6 inline p @3640 -> 14 [COUNT] (from 14)
+  R8 hoist tmp0 @3624 -> 14 [COUNT] (from 14)
+  R7 block @3628 -> 14 [COUNT] (from 14)
+  R10 param-copy param_1 @3608 -> 14 [COUNT] (from 14)
+  R12 width a2 s32->s16 @3607 -> 14 [COUNT] (from 14)
+  R8 hoist tmp0 @3623 -> 14 [COUNT] (from 14)
+  R7 block @3629 -> 14 [COUNT] (from 14)
+  R7 block @3624 -> 14 [COUNT] (from 14)
+  R8 hoist tmp0 @3634 -> 14 [COUNT] (from 14)
+  R9 swap-stmts @3622 -> 14 [COUNT] (from 14)

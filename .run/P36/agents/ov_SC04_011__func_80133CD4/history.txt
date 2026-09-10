@@ -2,16 +2,18 @@ g2: verdict NO-MATCH start 28 best 10 compiles 808 path R7 do-while @2471 + R6 i
 g5: verdict NO-MATCH start 28 best 8 compiles 2339 path R7 do-while @2479 + R7 do-while @2478 + R8 hoist tmp0 @2482 + R9 swap-stmts @2482
 s1: verdict NO-MATCH start 28 best 16 compiles 189 path R7 do-while @2471 + R7 do-while @2481
 s2: verdict NO-MATCH start 28 best 16 compiles 189 path R7 do-while @2471 + R7 do-while @2481
-best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @2481 -> 16 (from 26)
-  R6 inline h @2476 -> 17 (from 26)
-  R7 do-while @2481 -> 18 (from 28)
-  R8 hoist tmp0 @2472 -> 18 (from 18)
-  R7 block @2491 -> 18 (from 18)
-  R6 inline h @2476 -> 18 (from 18)
-  R7 do-while @2491 -> 18 (from 18)
-  R8 hoist tmp0 @2482 -> 18 (from 18)
-  R7 block @2492 -> 18 (from 18)
-  R8 hoist tmp0 @2487 -> 18 (from 18)
-  R7 do-while @2492 -> 18 (from 18)
-  R8 temp tmp0 @2478 -> 18 (from 18)
+s4: verdict NO-MATCH start 28 best 10 compiles 443 path R7 do-while @2471 + R6 inline h @2476 + R7 do-while @2483
+s7: verdict NO-MATCH start 28 best 10 compiles 567 path R7 do-while @2471 + R6 inline h @2476 + R7 do-while @2483
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @2483 -> 10 [COUNT] (from 17)
+  R7 do-while @2481 -> 11 [COUNT] (from 17)
+  R7 do-while @2481 -> 16 [MIXED] (from 26)
+  R8 hoist tmp0 @2472 -> 16 [MIXED] (from 16)
+  R7 block @2491 -> 16 [MIXED] (from 16)
+  R18 bystander @2464->2466 -> 16 [MIXED] (from 16)
+  R7 do-while @2491 -> 16 [MIXED] (from 16)
+  R8 hoist tmp0 @2487 -> 16 [MIXED] (from 16)
+  R7 block @2492 -> 16 [MIXED] (from 16)
+  R8 hoist tmp0 @2482 -> 16 [MIXED] (from 16)
+  R18 bystander @2466->2469 -> 16 [MIXED] (from 16)
+  R7 do-while @2492 -> 16 [MIXED] (from 16)

@@ -3,16 +3,18 @@ g4s: verdict NO-MATCH start 6 best 6 compiles 234 path
 g5: verdict NO-MATCH start 6 best 6 compiles 328 path 
 s1: verdict NO-MATCH start 6 best 6 compiles 83 path 
 s2: verdict NO-MATCH start 6 best 6 compiles 83 path 
-best-scoring single candidates of the last trace (move -> score):
-  R6 inline fp @1357 -> 6 (from 6)
-  R7 block @1355 -> 6 (from 6)
-  R7 do-while @1355 -> 6 (from 6)
-  R7 block @1354 -> 6 (from 6)
-  R7 do-while @1354 -> 6 (from 6)
-  R7 block @1356 -> 6 (from 6)
-  R7 block @1357 -> 6 (from 6)
-  R7 block @1358 -> 6 (from 6)
-  R7 do-while @1358 -> 6 (from 6)
-  R7 block @1359 -> 6 (from 6)
-  R7 do-while @1359 -> 6 (from 6)
-  R7 block @1360 -> 6 (from 6)
+s4: verdict NO-MATCH start 6 best 6 compiles 223 path 
+s7: verdict NO-MATCH start 6 best 6 compiles 279 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline fp @1357 -> 6 [COUNT] (from 6)
+  R7 block @1355 -> 6 [COUNT] (from 6)
+  R7 do-while @1355 -> 6 [COUNT] (from 6)
+  R7 block @1354 -> 6 [COUNT] (from 6)
+  R7 do-while @1354 -> 6 [COUNT] (from 6)
+  R7 block @1356 -> 6 [COUNT] (from 6)
+  R7 block @1357 -> 6 [COUNT] (from 6)
+  R7 block @1358 -> 6 [COUNT] (from 6)
+  R7 do-while @1358 -> 6 [COUNT] (from 6)
+  R7 block @1359 -> 6 [COUNT] (from 6)
+  R7 do-while @1359 -> 6 [COUNT] (from 6)
+  R7 block @1360 -> 6 [COUNT] (from 6)

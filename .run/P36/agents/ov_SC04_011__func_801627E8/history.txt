@@ -3,16 +3,18 @@ g2: verdict NO-MATCH start 7 best 4 compiles 181 path R7 do-while @3940
 g5: verdict NO-MATCH start 7 best 4 compiles 263 path R7 do-while @3940
 s1: verdict NO-MATCH start 7 best 4 compiles 60 path R7 do-while @3940
 s2: verdict NO-MATCH start 7 best 4 compiles 60 path R7 do-while @3940
-best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @3940 -> 4 (from 7)
-  R6 inline p @3937 -> 4 (from 4)
-  R3 init-split p -> 4 (from 4)
-  R4 decl-move p 1->0 -> 4 (from 4)
-  R12 width idx s32->s16 @3938 -> 4 (from 4)
-  R7 block @3942 -> 4 (from 4)
-  R4 decl-move p 1->2 -> 4 (from 4)
-  R7 do-while @3942 -> 4 (from 4)
-  R7 block @3943 -> 4 (from 4)
-  R7 do-while @3943 -> 4 (from 4)
-  R7 do-while @3939 -> 4 (from 7)
-  R12 width idx s32->u16 @3938 -> 6 (from 4)
+s4: verdict NO-MATCH start 7 best 3 compiles 104 path R3 init-split p + R18 bystander @3941->3939
+s7: verdict NO-MATCH start 7 best 3 compiles 130 path R3 init-split p + R18 bystander @3941->3939
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @3941->3939 -> 3 [COUNT] (from 7)
+  R7 block @3939 -> 3 [COUNT] (from 3)
+  R4 decl-move p 1->0 -> 3 [COUNT] (from 3)
+  R12 width idx s32->s16 @3938 -> 3 [COUNT] (from 3)
+  R7 do-while @3939 -> 3 [COUNT] (from 3)
+  R4 decl-move p 1->2 -> 3 [COUNT] (from 3)
+  R7 block @3940 -> 3 [COUNT] (from 3)
+  R7 do-while @3940 -> 3 [COUNT] (from 3)
+  R7 block @3943 -> 3 [COUNT] (from 3)
+  R7 do-while @3943 -> 3 [COUNT] (from 3)
+  R7 block @3944 -> 3 [COUNT] (from 3)
+  R7 do-while @3944 -> 3 [COUNT] (from 3)

@@ -3,16 +3,18 @@ g4s: verdict NO-MATCH start 4 best 4 compiles 419 path
 g5: verdict NO-MATCH start 4 best 4 compiles 874 path 
 s1: verdict NO-MATCH start 4 best 4 compiles 131 path 
 s2: verdict NO-MATCH start 4 best 4 compiles 131 path 
-best-scoring single candidates of the last trace (move -> score):
-  R12 width v int->u16 @916 -> 4 (from 4)
-  R6 inline idx @923 -> 4 (from 4)
-  R7 block @923 -> 4 (from 4)
-  R10 param-copy param_1 @917 -> 4 (from 4)
-  R12 width v int->s16 @916 -> 4 (from 4)
-  R6 inline t @919 -> 4 (from 4)
-  R7 do-while @923 -> 4 (from 4)
-  R12 width v int->u8 @916 -> 4 (from 4)
-  R8 temp tmp0 @936 -> 4 (from 4)
-  R7 block @926 -> 4 (from 4)
-  R8 base tmp0 @936 -> 4 (from 4)
-  R7 do-while @926 -> 4 (from 4)
+s4: verdict NO-MATCH start 4 best 4 compiles 221 path 
+s7: verdict NO-MATCH start 4 best 4 compiles 268 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width v int->u16 @916 -> 4 [COUNT] (from 4)
+  R6 inline idx @923 -> 4 [COUNT] (from 4)
+  R7 block @923 -> 4 [COUNT] (from 4)
+  R10 param-copy param_1 @917 -> 4 [COUNT] (from 4)
+  R12 width v int->s16 @916 -> 4 [COUNT] (from 4)
+  R6 inline t @919 -> 4 [COUNT] (from 4)
+  R7 do-while @923 -> 4 [COUNT] (from 4)
+  R12 width v int->u8 @916 -> 4 [COUNT] (from 4)
+  R8 temp tmp0 @936 -> 4 [COUNT] (from 4)
+  R7 block @926 -> 4 [COUNT] (from 4)
+  R8 base tmp0 @936 -> 4 [COUNT] (from 4)
+  R7 do-while @926 -> 4 [COUNT] (from 4)

@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 10 best 8 compiles 813 path R9 swap-stmts @3863 + R9 
 g5: verdict NO-MATCH start 10 best 8 compiles 2253 path R9 swap-stmts @3863 + R9 swap-stmts @3864 + R9 swap-stmts @3865
 s1: verdict NO-MATCH start 10 best 10 compiles 188 path 
 s2: verdict NO-MATCH start 10 best 10 compiles 188 path 
-best-scoring single candidates of the last trace (move -> score):
-  R12 width uVar2 u32->u16 @3832 -> 10 (from 10)
-  R6 inline t @3851 -> 10 (from 10)
-  R8 hoist tmp0 @3848 -> 10 (from 10)
-  R7 block @3848 -> 10 (from 10)
-  R12 width uVar2 u32->s16 @3832 -> 10 (from 10)
-  R6 inline t @3840 -> 10 (from 10)
-  R9 swap-stmts @3846 -> 10 (from 10)
-  R6 inline t @3862 -> 10 (from 10)
-  R8 hoist tmp0 @3847 -> 10 (from 10)
-  R7 block @3847 -> 10 (from 10)
-  R7 block @3846 -> 10 (from 10)
-  R8 hoist tmp0 @3858 -> 10 (from 10)
+s4: verdict NO-MATCH start 10 best 10 compiles 434 path 
+s7: verdict NO-MATCH start 10 best 9 compiles 558 path R7 block @3848 + R9 swap-stmts @3863
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @3863 -> 9 [COUNT] (from 10)
+  R12 width uVar2 u32->u16 @3832 -> 9 [COUNT] (from 9)
+  R6 inline t @3851 -> 9 [COUNT] (from 9)
+  R8 hoist tmp0 @3847 -> 9 [COUNT] (from 9)
+  R7 unwrap @3848 -> 9 [COUNT] (from 9)
+  R12 width uVar2 u32->s16 @3832 -> 9 [COUNT] (from 9)
+  R6 inline t @3840 -> 9 [COUNT] (from 9)
+  R7 block @3847 -> 9 [COUNT] (from 9)
+  R9 swap-stmts @3846 -> 9 [COUNT] (from 9)
+  R6 inline t @3862 -> 9 [COUNT] (from 9)
+  R6 inline item @3864 -> 9 [COUNT] (from 9)
+  R7 block @3852 -> 9 [COUNT] (from 9)

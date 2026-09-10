@@ -3,16 +3,18 @@ g2: verdict NO-MATCH start 24 best 23 compiles 810 path R8 hoist tmp0 @2331 + R9
 g5: verdict NO-MATCH start 24 best 17 compiles 2247 path R12 width harg int->u16 @2317 + R12 width cnt int->u16 @2312
 s1: verdict NO-MATCH start 24 best 20 compiles 185 path R12 width harg int->u16 @2317
 s2: verdict NO-MATCH start 24 best 20 compiles 185 path R12 width harg int->u16 @2317
-best-scoring single candidates of the last trace (move -> score):
-  R12 width harg int->u16 @2317 -> 20 (from 24)
-  R12 width harg int->s16 @2317 -> 20 (from 24)
-  R8 hoist tmp0 @2325 -> 20 (from 20)
-  R7 block @2325 -> 20 (from 20)
-  R4 decl-move harg 13->0 -> 20 (from 20)
-  R12 width ret s32->s16 @2318 -> 20 (from 20)
-  R14 param-width flag s16->u16 @2297 -> 20 (from 20)
-  R10 param-copy x @2322 -> 20 (from 20)
-  R4 decl-move harg 13->1 -> 20 (from 20)
-  R6 inline off @2345 -> 20 (from 20)
-  R7 block @2324 -> 20 (from 20)
-  R10 param-copy y @2322 -> 20 (from 20)
+s4: verdict NO-MATCH start 24 best 20 compiles 435 path R12 width harg int->u16 @2317
+s7: verdict NO-MATCH start 24 best 20 compiles 548 path R12 width harg int->u16 @2317
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width harg int->u16 @2317 -> 20 [COUNT] (from 24)
+  R12 width harg int->s16 @2317 -> 20 [COUNT] (from 24)
+  R8 hoist tmp0 @2325 -> 20 [COUNT] (from 20)
+  R18 bystander @2325->2327 -> 20 [COUNT] (from 20)
+  R7 block @2325 -> 20 [COUNT] (from 20)
+  R4 decl-move harg 13->0 -> 20 [COUNT] (from 20)
+  R12 width ret s32->s16 @2318 -> 20 [COUNT] (from 20)
+  R10 param-copy x @2322 -> 20 [COUNT] (from 20)
+  R4 decl-move harg 13->1 -> 20 [COUNT] (from 20)
+  R6 inline off @2345 -> 20 [COUNT] (from 20)
+  R7 block @2324 -> 20 [COUNT] (from 20)
+  R10 param-copy y @2322 -> 20 [COUNT] (from 20)

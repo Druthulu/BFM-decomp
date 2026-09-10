@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 6 best 3 compiles 54 path R6 inline r @3896
 g5: verdict NO-MATCH start 6 best 3 compiles 203 path R6 inline r @3895
 s1: verdict NO-MATCH start 6 best 3 compiles 56 path R6 inline r @3895
 s2: verdict NO-MATCH start 6 best 3 compiles 56 path R6 inline r @3895
-best-scoring single candidates of the last trace (move -> score):
-  R6 inline r @3895 -> 3 (from 6)
-  R12 width v int->u16 @3890 -> 3 (from 3)
-  R6 inline v @3892 -> 3 (from 3)
-  R7 block @3892 -> 3 (from 3)
-  R9 swap-stmts @3892 -> 3 (from 3)
-  R4 decl-move r 0->1 -> 3 (from 3)
-  R12 width v int->s16 @3890 -> 3 (from 3)
-  R7 do-while @3892 -> 3 (from 3)
-  R12 width v int->u8 @3890 -> 3 (from 3)
-  R7 block @3893 -> 3 (from 3)
-  R12 width r int->u16 @3889 -> 3 (from 3)
-  R7 do-while @3893 -> 3 (from 3)
+s4: verdict NO-MATCH start 6 best 3 compiles 84 path R6 inline r @3895
+s7: verdict NO-MATCH start 6 best 3 compiles 101 path R6 inline r @3895
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline r @3895 -> 3 [COUNT] (from 6)
+  R12 width v int->u16 @3890 -> 3 [MIXED] (from 3)
+  R6 inline v @3892 -> 3 [COUNT] (from 3)
+  R7 block @3892 -> 3 [COUNT] (from 3)
+  R9 swap-stmts @3892 -> 3 [COUNT] (from 3)
+  R4 decl-move r 0->1 -> 3 [COUNT] (from 3)
+  R12 width v int->s16 @3890 -> 3 [MIXED] (from 3)
+  R7 do-while @3892 -> 3 [COUNT] (from 3)
+  R12 width v int->u8 @3890 -> 3 [MIXED] (from 3)
+  R7 block @3893 -> 3 [COUNT] (from 3)
+  R12 width r int->u16 @3889 -> 3 [COUNT] (from 3)
+  R7 do-while @3893 -> 3 [COUNT] (from 3)

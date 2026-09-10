@@ -3,16 +3,18 @@ g2: verdict NO-MATCH start 29 best 16 compiles 822 path R10 param-alias p1->arg1
 g5: verdict NO-MATCH start 29 best 16 compiles 2278 path R10 param-alias p1->arg1 @647 + R6 inline m @654
 s1: verdict NO-MATCH start 29 best 16 compiles 190 path R10 param-alias p1->arg1 @647 + R6 inline m @654
 s2: verdict NO-MATCH start 29 best 16 compiles 190 path R10 param-alias p1->arg1 @647 + R6 inline m @654
-best-scoring single candidates of the last trace (move -> score):
-  R6 inline m @654 -> 16 (from 20)
-  R6 inline m @660 -> 16 (from 20)
-  R10 param-alias p1->arg1 @647 -> 20 (from 29)
-  R7 block @665 -> 20 (from 20)
-  R10 param-alias p3->arg3 @647 -> 20 (from 20)
-  R2 decl-order 0,1,3,2 -> 20 (from 20)
-  R4 decl-move m 1->0 -> 20 (from 20)
-  R2 decl-order 0,2,1,3 -> 20 (from 20)
-  R4 decl-move m 1->2 -> 20 (from 20)
-  R7 block @659 -> 20 (from 20)
-  R10 param-copy arg0 @645 -> 20 (from 20)
-  R2 decl-order 0,2,3,1 -> 20 (from 20)
+s4: verdict NO-MATCH start 29 best 16 compiles 444 path R10 param-alias p1->arg1 @647 + R6 inline m @654
+s7: verdict NO-MATCH start 29 best 16 compiles 569 path R10 param-alias p1->arg1 @647 + R6 inline m @654
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline m @654 -> 16 [COUNT] (from 20)
+  R6 inline m @660 -> 16 [COUNT] (from 20)
+  R7 block @669 -> 16 [COUNT] (from 16)
+  R10 param-alias p3->arg3 @647 -> 16 [COUNT] (from 16)
+  R2 decl-order 0,1,3,2 -> 16 [COUNT] (from 16)
+  R4 decl-move m 1->0 -> 16 [COUNT] (from 16)
+  R2 decl-order 0,2,1,3 -> 16 [COUNT] (from 16)
+  R4 decl-move m 1->2 -> 16 [COUNT] (from 16)
+  R8 hoist tmp0 @654 -> 16 [COUNT] (from 16)
+  R7 block @670 -> 16 [COUNT] (from 16)
+  R10 param-copy arg0 @645 -> 16 [COUNT] (from 16)
+  R2 decl-order 0,2,3,1 -> 16 [COUNT] (from 16)

@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 70 best 16 compiles 810 path R12 width pad u16->s32 @
 g5: verdict NO-MATCH start 70 best 16 compiles 2325 path R12 width pad u16->s32 @983 + R6 inline p3e @1148 + R8 hoist tmp0 @1149 + R7 do-while @1000
 s1: verdict NO-MATCH start 70 best 70 compiles 188 path 
 s2: verdict NO-MATCH start 70 best 70 compiles 188 path 
-best-scoring single candidates of the last trace (move -> score):
-  R3 init-split pd -> 70 (from 70)
-  R7 block @1024 -> 70 (from 70)
-  R5 swap + @1150 -> 70 (from 70)
-  R2 decl-order 1,0 -> 70 (from 70)
-  R4 decl-move pd 0->1 -> 70 (from 70)
-  R5 swap + @1151 -> 70 (from 70)
-  R4 decl-move pd 0->2 -> 70 (from 70)
-  R7 block @1035 -> 70 (from 70)
-  R9 swap-stmts @1055 -> 70 (from 70)
-  R4 decl-move pd 0->3 -> 70 (from 70)
-  R8 hoist tmp0 @1041 -> 70 (from 70)
-  R7 do-while @1035 -> 70 (from 70)
+s4: verdict NO-MATCH start 70 best 70 compiles 437 path 
+s7: verdict NO-MATCH start 70 best 70 compiles 557 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R3 init-split pd -> 70 [COUNT] (from 70)
+  R7 block @1024 -> 70 [COUNT] (from 70)
+  R5 swap + @1150 -> 70 [COUNT] (from 70)
+  R2 decl-order 1,0 -> 70 [COUNT] (from 70)
+  R4 decl-move pd 0->1 -> 70 [COUNT] (from 70)
+  R5 swap + @1151 -> 70 [COUNT] (from 70)
+  R4 decl-move pd 0->2 -> 70 [COUNT] (from 70)
+  R7 block @1035 -> 70 [COUNT] (from 70)
+  R9 swap-stmts @1055 -> 70 [COUNT] (from 70)
+  R4 decl-move pd 0->3 -> 70 [COUNT] (from 70)
+  R8 hoist tmp0 @1041 -> 70 [COUNT] (from 70)
+  R7 do-while @1035 -> 70 [COUNT] (from 70)

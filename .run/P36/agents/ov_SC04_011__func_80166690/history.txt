@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 41 best 26 compiles 815 path R7 do-while @4931 + R9 s
 g5: verdict NO-MATCH start 41 best 16 compiles 2332 path R7 do-while @4930 + R12 width iVar3 int->u16 @4881 + R9 swap-stmts @4921 + R12 width w3 int->s16 @4883
 s1: verdict NO-MATCH start 41 best 24 compiles 188 path R7 do-while @4930 + R12 width iVar3 int->s16 @4881
 s2: verdict NO-MATCH start 41 best 24 compiles 188 path R7 do-while @4930 + R12 width iVar3 int->s16 @4881
-best-scoring single candidates of the last trace (move -> score):
-  R12 width iVar3 int->s16 @4881 -> 24 (from 34)
-  R12 width iVar3 int->u16 @4881 -> 26 (from 34)
-  R7 do-while @4943 -> 29 (from 38)
-  R7 do-while @4921 -> 31 (from 38)
-  R6 inline uVar7 @4897 -> 33 (from 34)
-  R12 width iVar3 int->u16 @4881 -> 33 (from 38)
-  R12 width iVar3 int->s16 @4881 -> 33 (from 38)
-  R7 do-while @4930 -> 34 (from 41)
-  R12 width sVar10 short->s32 @4884 -> 34 (from 34)
-  R14 param-width param_1 s32->s16 @4866 -> 34 (from 34)
-  R7 block @4889 -> 34 (from 34)
-  R9 swap-stmts @4889 -> 34 (from 34)
+s4: verdict NO-MATCH start 41 best 18 compiles 438 path R7 do-while @4930 + R12 width iVar3 int->u16 @4881 + R9 swap-stmts @4921
+s7: verdict NO-MATCH start 41 best 18 compiles 562 path R7 do-while @4930 + R12 width iVar3 int->u16 @4881 + R9 swap-stmts @4921
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @4921 -> 18 [COUNT] (from 26)
+  R12 width w3 int->s16 @4883 -> 22 [COUNT] (from 24)
+  R9 swap-stmts @4921 -> 22 [COUNT] (from 24)
+  R12 width w3 int->s16 @4883 -> 22 [COUNT] (from 24)
+  R12 width w3 int->s16 @4883 -> 22 [COUNT] (from 24)
+  R9 swap-stmts @4921 -> 22 [COUNT] (from 24)
+  R12 width iVar3 int->s16 @4881 -> 24 [COUNT] (from 34)
+  R7 do-while @4921 -> 24 [COUNT] (from 39)
+  R7 do-while @4929 -> 24 [COUNT] (from 39)
+  R12 width sVar10 short->s32 @4884 -> 24 [COUNT] (from 24)
+  R14 param-width param_1 s32->s16 @4866 -> 24 [COUNT] (from 24)
+  R8 hoist tmp0 @4920 -> 24 [COUNT] (from 24)

@@ -217,11 +217,10 @@ void func_801287B8(void) {
     func_8016E95C();
     func_801754A8();
     {
-        /* D_801A0D90 read: the target materializes &sym into $a0 then lw 0($a0) (not the folded
-         * lui;lw %lo). volatile forces the rematerialize; the $4 pin forces the a0 allocation. */
-        register volatile s32 *p __asm__("$4") = &D_801A0D90;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+        s32 *p = &D_801A0D90;
+
         if (*p == 0) {
-            func_8013BC7C();
+            ((void (*)(void *))func_8013BC7C)(p);
         }
     }
     func_8013BCDC();

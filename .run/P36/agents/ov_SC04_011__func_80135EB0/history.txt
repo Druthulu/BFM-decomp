@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 64 best 57 compiles 815 path R8 hoist tmp0 @805 + R9 
 g5: verdict NO-MATCH start 64 best 52 compiles 2295 path R9 swap-stmts @824 + R7 do-while @827 + R6 inline w @898
 s1: verdict NO-MATCH start 64 best 63 compiles 188 path R9 swap-stmts @818
 s2: verdict NO-MATCH start 64 best 63 compiles 188 path R9 swap-stmts @818
-best-scoring single candidates of the last trace (move -> score):
-  R9 swap-stmts @818 -> 63 (from 64)
-  R3 init-split arg1 -> 63 (from 63)
-  R7 block @797 -> 63 (from 63)
-  R9 swap-stmts @817 -> 63 (from 63)
-  R10 param-copy arg0 @788 -> 63 (from 63)
-  R2 decl-order 1,0 -> 63 (from 63)
-  R4 decl-move arg1 5->0 -> 63 (from 63)
-  R12 width t2 s32->s16 @775 -> 63 (from 63)
-  R14 param-width arg1_ s32->u16 @767 -> 63 (from 63)
-  R8 hoist tmp0 @805 -> 63 (from 63)
-  R7 do-while @797 -> 63 (from 63)
-  R4 decl-move arg1 5->1 -> 63 (from 63)
+s4: verdict NO-MATCH start 64 best 53 compiles 426 path R18 bystander @818->821 + R7 do-while @817 + R18 bystander @823->818
+s7: verdict NO-MATCH start 64 best 53 compiles 553 path R18 bystander @818->821 + R7 do-while @817 + R18 bystander @823->818
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @823->818 -> 53 [COUNT] (from 55)
+  R18 bystander @823->819 -> 54 [COUNT] (from 55)
+  R7 do-while @817 -> 55 [COUNT] (from 63)
+  R3 init-split arg1 -> 55 [COUNT] (from 55)
+  R7 block @797 -> 55 [COUNT] (from 55)
+  R10 param-copy arg0 @788 -> 55 [COUNT] (from 55)
+  R2 decl-order 1,0 -> 55 [COUNT] (from 55)
+  R4 decl-move arg1 5->0 -> 55 [COUNT] (from 55)
+  R12 width t2 s32->s16 @775 -> 55 [COUNT] (from 55)
+  R8 hoist tmp0 @851 -> 55 [COUNT] (from 55)
+  R7 do-while @797 -> 55 [COUNT] (from 55)
+  R9 swap-stmts @827 -> 55 [COUNT] (from 55)

@@ -3,16 +3,18 @@ g4s: verdict NO-MATCH start 3 best 3 compiles 674 path
 g5: verdict NO-MATCH start 3 best 3 compiles 1234 path 
 s1: verdict NO-MATCH start 3 best 3 compiles 189 path 
 s2: verdict NO-MATCH start 3 best 3 compiles 189 path 
-best-scoring single candidates of the last trace (move -> score):
-  R6 inline p @222 -> 3 (from 3)
-  R7 block @218 -> 3 (from 3)
-  R7 do-while @218 -> 3 (from 3)
-  R7 block @217 -> 3 (from 3)
-  R7 do-while @217 -> 3 (from 3)
-  R7 block @216 -> 3 (from 3)
-  R7 do-while @216 -> 3 (from 3)
-  R7 block @224 -> 3 (from 3)
-  R7 do-while @224 -> 3 (from 3)
-  R7 block @215 -> 3 (from 3)
-  R7 do-while @215 -> 3 (from 3)
-  R7 block @214 -> 3 (from 3)
+s4: verdict NO-MATCH start 3 best 3 compiles 440 path 
+s7: verdict NO-MATCH start 3 best 3 compiles 561 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline p @222 -> 3 [COUNT] (from 3)
+  R7 block @218 -> 3 [REG] (from 3)
+  R7 do-while @218 -> 3 [REG] (from 3)
+  R7 block @217 -> 3 [REG] (from 3)
+  R7 do-while @217 -> 3 [REG] (from 3)
+  R7 block @216 -> 3 [REG] (from 3)
+  R7 do-while @216 -> 3 [REG] (from 3)
+  R7 block @224 -> 3 [REG] (from 3)
+  R7 do-while @224 -> 3 [REG] (from 3)
+  R7 block @215 -> 3 [REG] (from 3)
+  R7 do-while @215 -> 3 [REG] (from 3)
+  R7 block @214 -> 3 [REG] (from 3)

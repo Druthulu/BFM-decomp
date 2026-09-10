@@ -3,16 +3,18 @@ g4s: verdict NO-MATCH start 3 best 3 compiles 526 path
 g5: verdict NO-MATCH start 3 best 3 compiles 1018 path 
 s1: verdict NO-MATCH start 3 best 3 compiles 156 path 
 s2: verdict NO-MATCH start 3 best 3 compiles 156 path 
-best-scoring single candidates of the last trace (move -> score):
-  R8 temp tmp0 @2807 -> 3 (from 3)
-  R7 block @2811 -> 3 (from 3)
-  R7 do-while @2811 -> 3 (from 3)
-  R7 block @2809 -> 3 (from 3)
-  R7 do-while @2809 -> 3 (from 3)
-  R7 block @2812 -> 3 (from 3)
-  R7 do-while @2812 -> 3 (from 3)
-  R7 block @2808 -> 3 (from 3)
-  R7 do-while @2808 -> 3 (from 3)
-  R7 block @2807 -> 3 (from 3)
-  R7 do-while @2807 -> 3 (from 3)
-  R7 block @2813 -> 3 (from 3)
+s4: verdict NO-MATCH start 3 best 3 compiles 440 path 
+s7: verdict NO-MATCH start 3 best 3 compiles 560 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @2807 -> 3 [COUNT] (from 3)
+  R7 block @2811 -> 3 [COUNT] (from 3)
+  R7 do-while @2811 -> 3 [COUNT] (from 3)
+  R7 block @2809 -> 3 [COUNT] (from 3)
+  R7 do-while @2809 -> 3 [COUNT] (from 3)
+  R7 block @2812 -> 3 [COUNT] (from 3)
+  R7 do-while @2812 -> 3 [COUNT] (from 3)
+  R7 block @2808 -> 3 [COUNT] (from 3)
+  R7 do-while @2808 -> 3 [COUNT] (from 3)
+  R7 block @2807 -> 3 [COUNT] (from 3)
+  R7 do-while @2807 -> 3 [COUNT] (from 3)
+  R7 block @2813 -> 3 [COUNT] (from 3)

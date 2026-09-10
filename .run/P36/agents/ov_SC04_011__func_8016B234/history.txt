@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 13 best 5 compiles 813 path R9 swap-stmts @2063 + R6 
 g5: verdict NO-MATCH start 13 best 3 compiles 2304 path R12 width sxy s32->s16 @2042 + R12 width X s32->u16 @2039
 s1: verdict NO-MATCH start 13 best 5 compiles 186 path R12 width sxy s32->s16 @2042 + R6 inline sxy @2052
 s2: verdict NO-MATCH start 13 best 5 compiles 186 path R12 width sxy s32->s16 @2042 + R6 inline sxy @2052
-best-scoring single candidates of the last trace (move -> score):
-  R6 inline sxy @2052 -> 5 (from 7)
-  R12 width sxy s32->s16 @2042 -> 7 (from 13)
-  R8 temp tmp0 @2066 -> 7 (from 7)
-  R7 block @2045 -> 7 (from 7)
-  R10 param-copy param_1 @2043 -> 7 (from 7)
-  R2 decl-order 1,0 -> 7 (from 7)
-  R6 inline Y0 @2058 -> 7 (from 7)
-  R8 base tmp0 @2066 -> 7 (from 7)
-  R5 swap + @2063 -> 7 (from 7)
-  R6 inline sxy @2063 -> 7 (from 7)
-  R8 temp tmp0 @2065 -> 7 (from 7)
-  R7 block @2046 -> 7 (from 7)
+s4: verdict NO-MATCH start 13 best 3 compiles 435 path R12 width sxy s32->s16 @2042 + R6 inline sxy @2052 + R8 hoist tmp0 @2053
+s7: verdict NO-MATCH start 13 best 3 compiles 554 path R12 width sxy s32->s16 @2042 + R6 inline sxy @2052 + R8 hoist tmp0 @2053
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 hoist tmp0 @2053 -> 3 [REG] (from 5)
+  R6 inline sxy @2052 -> 5 [COUNT] (from 7)
+  R9 swap-stmts @2052 -> 5 [COUNT] (from 7)
+  R6 inline Y0 @2057 -> 5 [COUNT] (from 5)
+  R8 temp tmp0 @2049 -> 5 [COUNT] (from 5)
+  R7 block @2045 -> 5 [COUNT] (from 5)
+  R10 param-copy param_1 @2043 -> 5 [COUNT] (from 5)
+  R2 decl-order 1,0 -> 5 [COUNT] (from 5)
+  R12 width sxy s16->u16 @2042 -> 5 [COUNT] (from 5)
+  R8 base tmp0 @2049 -> 5 [COUNT] (from 5)
+  R5 swap + @2062 -> 5 [COUNT] (from 5)
+  R6 inline sxy @2062 -> 5 [COUNT] (from 5)

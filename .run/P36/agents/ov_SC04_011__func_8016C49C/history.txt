@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 34 best 6 compiles 806 path R7 do-while @2744
 g5: verdict NO-MATCH start 34 best 2 compiles 2307 path R7 do-while @2714
 s1: verdict NO-MATCH start 34 best 6 compiles 193 path R7 do-while @2746
 s2: verdict NO-MATCH start 34 best 6 compiles 193 path R7 do-while @2746
-best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @2746 -> 6 (from 34)
-  R7 block @2741 -> 6 (from 6)
-  R3 init-split param_1 -> 6 (from 6)
-  R8 temp tmp0 @2741 -> 6 (from 6)
-  R5 swap + @2741 -> 6 (from 6)
-  R12 width sVar1 short->s32 @2712 -> 6 (from 6)
-  R4 decl-move param_1 2->0 -> 6 (from 6)
-  R8 base tmp0 @2741 -> 6 (from 6)
-  R5 swap + @2742 -> 6 (from 6)
-  R12 width sVar1 short->u16 @2712 -> 6 (from 6)
-  R4 decl-move param_1 2->1 -> 6 (from 6)
-  R7 block @2742 -> 6 (from 6)
+s4: verdict NO-MATCH start 34 best 6 compiles 446 path R7 do-while @2746
+s7: verdict NO-MATCH start 34 best 1 compiles 568 path R14 param-width param_1_arg s32->u16 @2700 + R15 sink @2777 (sVar1)
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R15 sink @2777 (sVar1) -> 1 [OTHER] (from 34)
+  R3 init-split param_1 -> 1 [OTHER] (from 1)
+  R4 decl-move param_1 2->0 -> 1 [OTHER] (from 1)
+  R7 block @2713 -> 1 [OTHER] (from 1)
+  R8 temp tmp0 @2713 -> 1 [OTHER] (from 1)
+  R9 swap-stmts @2713 -> 1 [OTHER] (from 1)
+  R4 decl-move param_1 2->1 -> 1 [OTHER] (from 1)
+  R5 swap + @2740 -> 1 [OTHER] (from 1)
+  R8 base tmp0 @2713 -> 1 [OTHER] (from 1)
+  R9 swap-stmts @2714 -> 1 [OTHER] (from 1)
+  R4 decl-move param_1 2->3 -> 1 [OTHER] (from 1)
+  R5 swap + @2741 -> 1 [OTHER] (from 1)

@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 90 best 74 compiles 801 path R7 do-while @3329 + R9 s
 g5: verdict NO-MATCH start 90 best 32 compiles 2294 path R7 do-while @3328 + R12 width amp s32->s16 @3318 + R9 swap-stmts @3342 + R12 width chg s32->u16 @3316 + R7 unwrap @3328
 s1: verdict NO-MATCH start 90 best 65 compiles 188 path R12 width amp s32->s16 @3318 + R7 do-while @3328
 s2: verdict NO-MATCH start 90 best 65 compiles 188 path R12 width amp s32->s16 @3318 + R7 do-while @3328
-best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @3328 -> 65 (from 79)
-  R7 do-while @3324 -> 71 (from 79)
-  R7 do-while @3328 -> 76 (from 90)
-  R12 width pv s32->u16 @3320 -> 76 (from 76)
-  R7 block @3324 -> 76 (from 76)
-  R12 width pv s32->s16 @3320 -> 76 (from 76)
-  R10 param-copy param_1 @3323 -> 76 (from 76)
-  R6 inline fb @3416 -> 76 (from 76)
-  R8 hoist tmp0 @3325 -> 76 (from 76)
-  R7 block @3326 -> 76 (from 76)
-  R5 swap + @3325 -> 76 (from 76)
-  R9 swap-stmts @3363 -> 76 (from 76)
+s4: verdict NO-MATCH start 90 best 63 compiles 437 path R12 width amp s32->s16 @3318 + R7 do-while @3328 + R9 swap-stmts @3342
+s7: verdict NO-MATCH start 90 best 56 compiles 559 path R12 width amp s32->s16 @3318 + R10 param-alias pv->param_1 @3326 + R12 width chg s32->u16 @3316
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width chg s32->u16 @3316 -> 56 [COUNT] (from 76)
+  R12 width chg s32->s16 @3316 -> 56 [COUNT] (from 76)
+  R12 width chg s32->u8 @3316 -> 56 [COUNT] (from 76)
+  R9 swap-stmts @3342 -> 63 [COUNT] (from 65)
+  R7 do-while @3328 -> 65 [COUNT] (from 79)
+  R7 block @3326 -> 65 [COUNT] (from 65)
+  R12 width tgt u16->s16 @3319 -> 65 [COUNT] (from 65)
+  R10 param-copy param_1 @3323 -> 65 [COUNT] (from 65)
+  R6 inline fb @3416 -> 65 [COUNT] (from 65)
+  R8 hoist tmp0 @3325 -> 65 [COUNT] (from 65)
+  R5 swap + @3325 -> 65 [COUNT] (from 65)
+  R12 width pv s32->u16 @3320 -> 65 [COUNT] (from 65)

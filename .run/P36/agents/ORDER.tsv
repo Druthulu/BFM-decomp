@@ -1,16 +1,16 @@
 rank	fn	alias	copies	best	needed	kinds	regs	tu
-1	func_801397B0	ov_SC04_011	126	2	1	pin	$4	src/ov_SC04_011/ov_SC04_011_jr_801380E0.c
-2	func_8016C49C	ov_SC04_011	126	2	1	pin	$17	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
-3	func_80136334	ov_SC04_011	126	2	4	barrier,keepalive,launder,pin	$12	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
-4	func_80136824	ov_SC04_011	126	2	6	barrier,keepalive,launder,pin	$12,$5	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
-5	func_8016B234	ov_SC04_011	129	3	2	pin	$16,$3	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
-6	func_801287B8	ov_SC04_011	127	3	1	pin	$4	src/ov_SC04_011/ov_SC04_011.c
-7	func_80178970	ov_SC04_011	127	3	1	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
-8	func_8015FBE0	ov_SC04_011	125	3	1	barrier		src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
-9	func_8017A3D8	ov_SC04_011	118	3	1	pin	$4	src/ov_SC04_011/ov_SC04_011_jr_80178D40.c
-10	func_80148E54	ov_SC04_011	132	4	2	launder,pin	$4	src/ov_SC04_011/ov_SC04_011_after.c
-11	func_80157D20	ov_SC04_011	132	4	2	pin	$4,$5	src/ov_SC04_011/ov_SC04_011_jr_80154C24.c
-12	func_801627E8	ov_SC04_011	132	4	2	launder,pin	$4	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+1	func_80136824	ov_SC01_000	125	0	6	barrier,keepalive,launder,pin	$12,$5	src/ov_SC01_000/ov_SC01_000_jr_80135D20.c
+2	func_8016C49C	ov_SC04_011	126	1	1	pin	$17	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
+3	func_801397B0	ov_SC04_011	126	2	1	pin	$4	src/ov_SC04_011/ov_SC04_011_jr_801380E0.c
+4	func_80136334	ov_SC04_011	126	2	4	barrier,keepalive,launder,pin	$12	src/ov_SC04_011/ov_SC04_011_jr_80135D20.c
+5	func_801627E8	ov_SC04_011	132	3	2	launder,pin	$4	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+6	func_8016B234	ov_SC04_011	129	3	2	pin	$16,$3	src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c
+7	func_801287B8	ov_SC04_011	127	3	1	pin	$4	src/ov_SC04_011/ov_SC04_011.c
+8	func_80178970	ov_SC04_011	127	3	1	pin	$2	src/ov_SC04_011/ov_SC04_011_jr_801734BC.c
+9	func_8015FBE0	ov_SC04_011	125	3	1	barrier		src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
+10	func_8017A3D8	ov_SC04_011	118	3	1	pin	$4	src/ov_SC04_011/ov_SC04_011_jr_80178D40.c
+11	func_80148E54	ov_SC04_011	132	4	2	launder,pin	$4	src/ov_SC04_011/ov_SC04_011_after.c
+12	func_80157D20	ov_SC04_011	132	4	2	pin	$4,$5	src/ov_SC04_011/ov_SC04_011_jr_80154C24.c
 13	func_80139BE0	ov_SC04_011	129	4	1	launder		src/ov_SC04_011/ov_SC04_011_jr_801380E0.c
 14	func_80166F58	ov_SC04_011	125	4	5	launder,pin	$20,$5	src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c
 15	func_80143D28	ov_SC04_011	131	5	1	pin	$18	src/ov_SC04_011/ov_SC04_011_jr_80140608.c

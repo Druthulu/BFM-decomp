@@ -2,16 +2,18 @@ g3: verdict NO-MATCH start 55 best 21 compiles 820 path R7 do-while @2922 + R6 i
 g5: verdict NO-MATCH start 55 best 11 compiles 2341 path R7 do-while @2924 + R6 inline uc @2980 + R12 width iVar3 int->u16 @2869 + R12 width w3 int->s16 @2870
 s1: verdict NO-MATCH start 55 best 15 compiles 190 path R9 swap-stmts @2922 + R12 width iVar3 int->s16 @2869
 s2: verdict NO-MATCH start 55 best 29 compiles 191 path R6 inline uc @2980 + R7 do-while @2934
-best-scoring single candidates of the last trace (move -> score):
-  R7 do-while @2934 -> 29 (from 30)
-  R6 inline uc @2980 -> 30 (from 55)
-  R7 block @2934 -> 30 (from 30)
-  R9 swap-stmts @2896 -> 30 (from 30)
-  R7 block @2896 -> 30 (from 30)
-  R9 swap-stmts @2898 -> 30 (from 30)
-  R12 width count short->s32 @2872 -> 30 (from 30)
-  R9 swap-stmts @2919 -> 30 (from 30)
-  R12 width count short->u16 @2872 -> 30 (from 30)
-  R7 block @2898 -> 30 (from 30)
-  R9 swap-stmts @2897 -> 30 (from 30)
-  R9 swap-stmts @2895 -> 30 (from 30)
+s4: verdict NO-MATCH start 55 best 14 compiles 445 path R9 swap-stmts @2922 + R12 width iVar3 int->u16 @2869 + R7 do-while @2918
+s7: verdict NO-MATCH start 55 best 14 compiles 569 path R9 swap-stmts @2922 + R12 width iVar3 int->u16 @2869 + R7 do-while @2918
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @2918 -> 14 [COUNT] (from 18)
+  R12 width w3 int->s16 @2870 -> 16 [COUNT] (from 18)
+  R12 width iVar3 int->u16 @2869 -> 18 [COUNT] (from 48)
+  R7 block @2918 -> 18 [COUNT] (from 18)
+  R6 inline uc @2980 -> 18 [COUNT] (from 18)
+  R9 swap-stmts @2897 -> 18 [COUNT] (from 18)
+  R7 block @2897 -> 18 [COUNT] (from 18)
+  R12 width count short->s32 @2872 -> 18 [COUNT] (from 18)
+  R9 swap-stmts @2895 -> 18 [COUNT] (from 18)
+  R12 width count short->u16 @2872 -> 18 [COUNT] (from 18)
+  R18 bystander @2875->2878 -> 18 [COUNT] (from 18)
+  R7 block @2931 -> 18 [COUNT] (from 18)

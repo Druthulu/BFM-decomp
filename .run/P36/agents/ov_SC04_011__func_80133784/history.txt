@@ -4,16 +4,18 @@ s1: verdict NO-MATCH start 21 best 21 compiles 186 path
 s2: verdict NO-MATCH start 21 best 21 compiles 187 path 
 s3: verdict BUDGET start 21 best 21 compiles 400 path 
 s3b: verdict BUDGET start 21 best 21 compiles 400 path 
-best-scoring single candidates of the last trace (move -> score):
-  R7 block @2230 -> 21 (from 21)
-  R10 param-copy arg0 @2201 -> 21 (from 21)
-  R4 decl-move s3 6->0 -> 21 (from 21)
-  R12 width arg0s s16->u16 @2198 -> 21 (from 21)
-  R6 inline ret0 @2248 -> 21 (from 21)
-  R7 do-while @2230 -> 21 (from 21)
-  R2 decl-order 0,2,1,3 -> 21 (from 21)
-  R4 decl-move s3 6->1 -> 21 (from 21)
-  R7 block @2212 -> 21 (from 21)
-  R10 param-copy arg2 @2201 -> 21 (from 21)
-  R4 decl-move s3 6->2 -> 21 (from 21)
-  R9 swap-stmts @2238 -> 21 (from 21)
+s4: verdict NO-MATCH start 21 best 21 compiles 435 path 
+s7: verdict NO-MATCH start 21 best 21 compiles 547 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @2202->2205 -> 21 [COUNT] (from 21)
+  R7 block @2230 -> 21 [COUNT] (from 21)
+  R10 param-copy arg0 @2201 -> 21 [COUNT] (from 21)
+  R4 decl-move s3 6->0 -> 21 [COUNT] (from 21)
+  R12 width arg0s s16->u16 @2198 -> 21 [COUNT] (from 21)
+  R6 inline ret0 @2248 -> 21 [COUNT] (from 21)
+  R18 bystander @2202->2206 -> 21 [COUNT] (from 21)
+  R7 do-while @2230 -> 21 [COUNT] (from 21)
+  R2 decl-order 0,2,1,3 -> 21 [COUNT] (from 21)
+  R4 decl-move s3 6->1 -> 21 [COUNT] (from 21)
+  R7 block @2212 -> 21 [COUNT] (from 21)
+  R10 param-copy arg2 @2201 -> 21 [COUNT] (from 21)
