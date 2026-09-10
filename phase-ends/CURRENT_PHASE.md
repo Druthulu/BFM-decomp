@@ -1426,6 +1426,29 @@ accumulate here as the phase produces them.**
   (`.jump2`)** — c11's deciding fact was only in `.cse2`, c10's cross-jump only in `.jump2` (smoke: `rc=0`, both
   files written); METHOD_S103 +3 entries.
 
+- **S103 — c14 `func_801670E4` CLOSED (45 → 0, 279/279; 132/132 incl. both shared twin headers) and c16
+  `func_8013D178` CLOSED (72 → 0, 110/110; 129/129); R23 widened and it closes c16's body with no agent; c9
+  `func_8013CF68` READ, not closed (38 → 10); 18,776 → 17,715 sites.** c14 (all seven levers gone; any move taken back
+  scores 5-18): `&f.cx` passed at each call instead of through a pointer local (cse's cheapest-source rewrite,
+  `cse.c:6776-6803`, made the local a callee-saved pseudo; the hard `$a1` is dropped at each call,
+  `invalidate_for_call` `cse.c:1725`); each loop's `p = tbl; i = 0;` moved to just before its `do` (sched1's LUID
+  tie-break, `rank_for_schedule` `sched.c:2385`); block 2 as single-use temps; one store order. **The `@stuck` note above
+  it ("inert to ~40 permutations") was refuted on bytes and replaced by a `@crack` note in all 136 copies**, each
+  rewritten only after checking its body is now lever-free. c16: the one pointer `p` re-seated at the head of nine
+  `if` groups had 36 refs over a live length of 99 (priority 18181, `global.c:587-610`) and took `$a0` ahead of the
+  per-group temps (7500); one block-scoped `p` per group (4 refs over 22) gives the target's order. **R23 widened** from
+  straight-line code to definitions at one brace depth of one open block (plus pointer declarators, plus a refusal of a
+  brace-less `if (c) v = E;` definition, plus `*p = E;` read as a store THROUGH `p`, not a definition): **on c16's start
+  text R23's `split p into 9` scores 0** — a whole close by the generator; c1/c8's known-true numbers unchanged (12, 26);
+  selftest fixtures for the widened form and the refusal, `delever --selftest: OK`. c9: the count closed (76 → 63) by
+  constant addresses off the array behind a block split, then order only; its 5 used a do-nothing second `base =`
+  assignment and **it refused to claim it** (a dummy set); reading: sched1's `init_alias_analysis` (`sched.c:419-438`)
+  knows the single-set constant base and `memrefs_conflict_p` (`:775-778`) lets the loads pass the stores — the target's
+  base was opaque to it; loop notes are scheduling barriers (`sched.c:2058-2080`) incompatible with the target's
+  argument-setup hoists. Not bankable. Bank lines: `apply-body … IDENTICAL … KEPT` ×2, `--propagate: 132 of 132` /
+  `129 of 129`; R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 17,715 pin/asm sites, 17,715 marked
+  !FAKE, 0 UNMARKED — OK`.
+
 ## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
 
 ### 0. How to use this block

@@ -1137,45 +1137,54 @@ void func_8013D164(void) {
 
 void func_8013D178(void) {
 
-    extern u8 D_801A9710;
-    extern u8 D_801A9711;
-    extern u8 D_801A9712;
-    extern u8 D_801A9713;
-    extern u8 D_801A9714;
-    extern u8 D_801A9715;
-    extern u8 D_801A9716;
-    extern u8 D_801A9717;
-    extern u8 D_801A9718;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    extern unsigned char D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
-    unsigned char v, t;
-    register unsigned char *p __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus3)
+    extern u8 D_801A9710, D_801A9711, D_801A9712, D_801A9713, D_801A9714, D_801A9715, D_801A9716, D_801A9717, D_801A9718;
+    extern u8 D_801A97B0, D_801A97B1, D_801A97B2, D_801A97B3, D_801A97B4, D_801A97B5, D_801A97B6, D_801A97B7, D_801A97B8;
 
-    p = &D_801A9710; v = *p; t = D_801A97B0;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801A9711; v = *p; t = D_801A97B1;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801A9712; v = *p; t = D_801A97B2;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801A9713; v = *p; t = D_801A97B3;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801A9714; v = *p; t = D_801A97B4;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801A9715; v = *p; t = D_801A97B5;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801A9716; v = *p; t = D_801A97B6;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801A9717; v = *p; t = D_801A97B7;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
-    p = &D_801A9718; v = *p; t = D_801A97B8;
-    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    {
+        u8 *p = &D_801A9710;
+        u8 v = *p, t = D_801A97B0;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
+    {
+        u8 *p = &D_801A9711;
+        u8 v = *p, t = D_801A97B1;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
+    {
+        u8 *p = &D_801A9712;
+        u8 v = *p, t = D_801A97B2;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
+    {
+        u8 *p = &D_801A9713;
+        u8 v = *p, t = D_801A97B3;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
+    {
+        u8 *p = &D_801A9714;
+        u8 v = *p, t = D_801A97B4;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
+    {
+        u8 *p = &D_801A9715;
+        u8 v = *p, t = D_801A97B5;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
+    {
+        u8 *p = &D_801A9716;
+        u8 v = *p, t = D_801A97B6;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
+    {
+        u8 *p = &D_801A9717;
+        u8 v = *p, t = D_801A97B7;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
+    {
+        u8 *p = &D_801A9718;
+        u8 v = *p, t = D_801A97B8;
+        if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    }
 }
 
 

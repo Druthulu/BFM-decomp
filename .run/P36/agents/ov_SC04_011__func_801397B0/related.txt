@@ -1,0 +1,165 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_801397B0 (24 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80136ECC (src/shared/ov/func_80136ECC.h:6) shares 2: D_800A6518 D_800B9A02 ---
+void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b) {
+    struct {
+        u32 tag;
+        s16 x0;
+        s16 y0;
+        s16 x1;
+        s16 y1;
+        u8 r;
+        u8 g;
+        u8 b;
+    } line;
+    line.x0 = a0;
+    line.tag = 0;
+    line.y0 = a1;
+    line.x1 = a2;
+    line.y1 = a3;
+    line.r = r;
+    line.g = g;
+    line.b = b;
+    GsSortLine(&line, &D_800A6518[(u16)D_800B9A02 * 20], 0);
+}
+
+--- func_80137BD8 (src/shared/ov/func_80137BD8.h:11) shares 2: D_800A6518 D_800B9A02 ---
+void func_80137BD8(s32 a0) {
+    u8 buf[8];
+    if ((*(s32 *)(a0 + 8) & 0x1000) != 0) {
+        func_801392FC(a0, *(u8 *)(a0 + 0x1E),
+                      &D_800A6518[(u16)D_800B9A02 * 20]);
+        if (*(u8 *)(a0 + 0x20) != 0) {
+            func_801397B0(a0);
+        }
+    }
+    if (D_80127524 == a0) {
+        if (*(s16 *)(a0 + 4) == 7) {
+            buf[0] = 0x39;
+            buf[1] = 0xFF;
+            buf[2] = 0x71;
+            func_80137DD4(a0, buf, &D_800A6518[(u16)D_800B9A02 * 20]);
+        } else if (*(s16 *)(a0 + 4) == 3) {
+            if ((D_800B99D8 & 4) != 0) {
+                func_80139680(a0, &D_800A6518[(u16)D_800B9A02 * 20]);
+            }
+        }
+    }
+}
+
+--- func_80137030 (src/shared/ov/func_80137030.h:6) shares 2: D_800A6518 D_800B9A02 ---
+void func_80137030(s16 a0, s16 a1) {
+    struct {
+        u32 tag;
+        s16 x0;
+        s16 y0;
+        s16 x1;
+        s16 y1;
+        u8 r;
+        u8 g;
+        u8 b;
+    } line;
+    s16 cx;
+    s16 cy;
+    s16 tx;
+    s16 ty;
+    tx = a0 - 3;
+    ty = a1 - 3;
+    cx = a0;
+    cy = a1;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0xFF;
+    line.b = 0;
+    line.x0 = tx;
+    line.y0 = ty;
+    line.x1 = cx;
+    line.y1 = cy;
+    GsSortLine(&line, &D_800A6518[(u16)D_800B9A02 * 20], 0);
+    tx = a0 + 3;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0xFF;
+    line.b = 0;
+    line.x0 = tx;
+    line.y0 = ty;
+    line.x1 = cx;
+    line.y1 = cy;
+    GsSortLine(&line, &D_800A6518[(u16)D_800B9A02 * 20], 0);
+    ty = a1 + 3;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0xFF;
+    line.b = 0;
+    line.x0 = cx;
+    line.y0 = ty;
+    line.x1 = cx;
+    line.y1 = cy;
+    GsSortLine(&line, &D_800A6518[(u16)D_800B9A02 * 20], 0);
+}
+
+--- func_80137178 (src/shared/ov/func_80137178.h:6) shares 2: D_800A6518 D_800B9A02 ---
+void func_80137178(s32 a0, s32 a1)
+{
+    struct {
+        u32 tag;
+        s16 x0;
+        s16 y0;
+        s16 x1;
+        s16 y1;
+        u8 r;
+        u8 g;
+        u8 b;
+    } line;
+    s16 x0;             /* $s3 */
+    s16 white;             /* $s1 */
+    u8 *base = D_800A6518; /* $s2 */
+    s16 x1;
+    s16 y0;
+    s16 y1;
+    x0 = a0 - 3;
+    y0 = a1 - 3;
+    x1 = a0 + 3;
+    y1 = a1 - 3;
+    white = 0xFF;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0;
+    line.b = white;
+    line.x0 = x0;
+    line.y0 = y0;
+    line.x1 = x1;
+    line.y1 = y1;
+    GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0);
+    y0 = a1 + 3;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0;
+    line.b = white;
+    line.x0 = x0;
+    line.y0 = y0;
+    line.x1 = x1;
+    line.y1 = y1;
+    GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0);
+    y1 = a1 + 3;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0;
+    line.b = white;
+    line.x0 = x0;
+    line.y0 = y0;
+    line.x1 = x1;
+    line.y1 = y1;
+    GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0);
+}
+
+--- func_80175668 (src/shared/ov/func_80175668.h:5) shares 1: D_800B9A02 ---
+void func_80175668(void) {
+    func_801757E0(D_800B9A02);
+}
+
+--- func_80175624 (src/shared/ov/func_80175624.h:5) shares 1: D_800B9A02 ---
+void func_80175624(void *a0) {
+    func_801757A0(D_800B9A02);
+    *((u8 *)a0 + 1) = *((u8 *)a0 + 1) + 1;
+}
+

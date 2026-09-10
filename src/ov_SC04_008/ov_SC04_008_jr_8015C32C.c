@@ -3868,7 +3868,11 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
 
 // @class: schedule
-// @stuck: 16/279 masked. 3 runs, ONE residual class: gcc's list-scheduler puts `la $s2` (p=DATA) + `addu $s4,$zero,$zero` (i=0) BEFORE the callee-arg address setup (addiu $a1,$sp,0x10 / addu $a2,$a1,$zero); the target emits them AFTER. Inert to ~40 statement-order permutations + pin/barrier combos (sched priority dominates the LUID tie-break, sched.c rank_for_schedule). Runs: 19-24 (blk1), 111-114 (region-B cx-load rotation), 177-182 (blk3). Permuter fuel.
+// @crack (P36 S103, agent c14 — the @stuck note that stood here was refuted on bytes): CLOSED lever-free. The `la $s2`/`i=0`
+// placement is sched1's source-order tie-break (rank_for_schedule, sched.c:2385, INSN_LUID last) — the ~40 permutations
+// never moved the loop init to just before its `do`; `&f.cx` passed at each call (no pointer local, so cse cannot make
+// it a callee-saved pseudo, cse.c:6776-6803 / invalidate_for_call :1725); block 2 as plain single-use temps (a reused
+// temp dies twice and is refused by local-alloc.c:472). Full reading: .run/P36/agents/ov_SC04_011__func_801670E4/mechanism.md
 
 
 

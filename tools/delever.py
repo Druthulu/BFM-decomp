@@ -2793,9 +2793,13 @@ def split_reused_locals(text, tu, fn, d_):
     16, both 0), so the family also offers every split at once, and the engine composes it with the other families.
 
     Refused unless `v` is declared without an initialiser in the body's declaration run, its first mention is a full
-    redefinition `v = E;` whose `E` does not read `v`, it has no other write (`+=`, `++`, …) and no `&v`, the definitions
-    lie in straight-line code (no brace or control keyword between the first and the last), and no loop, `goto` or label
-    lies between the first definition and the last use — a renamed segment can then never be reached with the old value."""
+    redefinition `v = E;` whose `E` does not read `v`, it has no other write (`+=`, `++`, …) and no `&v`, every
+    definition is a whole statement (never a brace-less `if (c) v = E;`) at ONE brace depth of ONE block that stays open
+    until the last use (agent c16, func_8013D178, 129 bodies: nine `if` groups between the definitions — each definition
+    then dominates its segment), and no loop, `goto` or label lies between the first definition and the last use — a
+    renamed segment can then never be reached with the old value. Pointer declarators (`u8 *p;`) get `u8 *p, *p2;`.
+    c16's case is the GLOBAL-allocno form of the same move: the reused `p` had 36 refs over a live length of 99 (priority
+    18181, `global.c:587-610`) and took `$a0` ahead of the per-group temps (7500); split, each `p` is 4 refs over 22."""
     lines = text.split("\n")
     lo, hi = d_["line"], d_["end"] - 1
     if hi <= lo:
@@ -2807,13 +2811,18 @@ def split_reused_locals(text, tu, fn, d_):
     # declarations are read from the WHOLE-BODY mask: `decl_run_end` masks one line at a time, so a multi-line comment
     # inside the declaration run ends it early (func_80135168's `[T51]` note returned a run of 0 lines — found by the
     # known-true check against agent c1's own start text, S103)
-    DL = re.compile(r"^(\s*(?:unsigned\s+|signed\s+|const\s+)*[A-Za-z_]\w*\s+)([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*;\s*$")
-    decls = {}
+    DL = re.compile(r"^(\s*(?:unsigned\s+|signed\s+|const\s+)*[A-Za-z_]\w*\s*)(\**\s*[A-Za-z_]\w*(?:\s*,\s*\**\s*[A-Za-z_]\w*)*)\s*;\s*$")
+    decls, stars = {}, {}
     for j, ml in enumerate(mb.split("\n")):
         m = DL.match(ml)
-        if m and not m.group(1).strip() in ("return", "goto", "extern", "static", "typedef", "else", "do"):
+        if m and m.group(1).strip() and not m.group(1).strip() in ("return", "goto", "extern", "static", "typedef", "else", "do"):
             for n in re.split(r"\s*,\s*", m.group(2).strip()):
-                decls[n] = lo + j
+                st = len(n) - len(n.lstrip("*"))
+                n = n.lstrip("*").strip()
+                decls[n], stars[n] = lo + j, "*" * st
+    depth = [0]                                             # brace depth before each offset of the masked body
+    for ch in mb:
+        depth.append(depth[-1] + (ch == "{") - (ch == "}"))
     idents = set(re.findall(r"[A-Za-z_]\w*", text))
     decl_off = {}                                           # line index -> char offset of that line inside `body`
     off = 0
@@ -2832,16 +2841,19 @@ def split_reused_locals(text, tu, fn, d_):
             after, before = mb[p + len(v):], mb[:p].rstrip()
             if re.match(r"\s*(?:\+\+|--|[-+*/%&|^]=|<<=|>>=)", after) or before.endswith(("++", "--", "&")):
                 return None
-            if re.match(r"\s*=(?!=)", after):
+            if re.match(r"\s*=(?!=)", after) and not before.endswith("*"):   # `*p = E;` stores THROUGH p
                 semi = mb.find(";", p)
                 if semi < 0 or re.search(r"(?<![\w.>])%s\b" % re.escape(v), mb[p + len(v):semi]):
                     return None
-                if before and not before.endswith((";", "{", "}")) and not re.search(r"\)\s*$", before):
-                    return None                              # an assignment inside an expression, not a statement
+                if before and not before.endswith((";", "{", "}")):
+                    return None                              # inside an expression, or a brace-less `if (c) v = E;`
                 defs.append(p)
         if len(defs) < 2 or occ[0] != defs[0]:
             return None
-        if re.search(r"[{}]", mb[defs[0]:defs[-1]]) or _CTRL.search(mb[defs[0]:defs[-1]]):
+        # every definition at ONE brace depth of ONE block that stays open until the last use (S103, agent c16's
+        # func_8013D178: nine `if` groups between the definitions), so each definition dominates its segment
+        dd = depth[defs[0]]
+        if any(depth[q] != dd for q in defs) or min(depth[defs[0]:occ[-1] + 1]) < dd:
             return None
         if _LOOPISH.search(mb[defs[0]:occ[-1]]):
             return None
@@ -2873,7 +2885,8 @@ def split_reused_locals(text, tu, fn, d_):
         for dl_i, items in decl_edits.items():
             j = dl_i - lo
             for v, names in items:
-                nl[j] = re.sub(r"(?<![\w.>])%s\b" % re.escape(v), ", ".join([v] + names), nl[j], count=1)
+                nl[j] = re.sub(r"(?<![\w.>])%s\b" % re.escape(v), ", ".join([v] + [stars[v] + n for n in names]),
+                               nl[j], count=1)
         return head + "\n".join(nl) + tail
 
     plans = {}
@@ -4021,6 +4034,28 @@ def selftest():
         if "u16 a, a2, b, b2;" not in j or "a2 = p2[1]; q[2] = a2; b2 = p1[1]; q[3] = a2 - b2;" not in j \
                 or "a = p2[0]; q[0] = a; b = p1[0]; q[1] = a - b;" not in j:
             fail(f"R23's joint split must rename every later segment and declare the names: {j!r}")
+    # the widened form (agent c16's func_8013D178 — and R23's split of `p` alone scores 0 on its start text): a pointer
+    # re-seated at the head of each `if` group, stores THROUGH it are not definitions, the new names keep the `*`
+    GFIX = ("void func_80100000(void) {\n"
+            "    unsigned char v;\n"
+            "    unsigned char *p;\n"
+            "\n"
+            "    p = &D_A; v = *p;\n"
+            "    if (v != 0) { if (v < 9) *p = v + 8; else *p = v - 8; }\n"
+            "    p = &D_B; v = *p;\n"
+            "    if (v != 0) { if (v < 9) *p = v + 8; else *p = v - 8; }\n"
+            "}")
+    gR = dict(split_reused_locals(GFIX, "src/fx/g.c", "func_80100000",
+                                  next(r for r in sc.scan_text(GFIX, "src/fx/g.c", shared_defs=None) if r["form"] == "def")))
+    if "split p into 2" not in gR:
+        fail(f"R23 must split a pointer re-seated at the head of each if-group, got {sorted(gR)}")
+    elif "unsigned char *p, *p2;" not in gR["split p into 2"] or "*p2 = v + 8" not in gR["split p into 2"]:
+        fail(f"R23 must keep the declarator's `*` and rename the stores through the second pointer: {gR['split p into 2']!r}")
+    # a brace-less conditional definition does not dominate its segment
+    CB = GFIX.replace("    p = &D_B; v = *p;\n", "    if (v) p = &D_B;\n    v = *p;\n")
+    if "split p into 2" in dict(split_reused_locals(CB, "src/fx/g.c", "func_80100000",
+                                next(r for r in sc.scan_text(CB, "src/fx/g.c", shared_defs=None) if r["form"] == "def"))):
+        fail("R23 must refuse a brace-less `if (c) v = E;` definition")
     # controls: a compound write, and a loop between the definitions, each refuse the split
     for bad, why in ((RFIX.replace("q[3] = a - b;", "q[3] = a - b; a += 1;"), "a compound write"),
                      (RFIX.replace("    a = p2[1];", "    while (*q) q++;\n    a = p2[1];"), "a loop between the definitions")):

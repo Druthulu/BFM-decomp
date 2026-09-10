@@ -5144,7 +5144,11 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
 
 // @class: schedule
-// @stuck: 16/279 masked. 3 runs, ONE residual class: gcc's list-scheduler puts `la $s2` (p=DATA) + `addu $s4,$zero,$zero` (i=0) BEFORE the callee-arg address setup (addiu $a1,$sp,0x10 / addu $a2,$a1,$zero); the target emits them AFTER. Inert to ~40 statement-order permutations + pin/barrier combos (sched priority dominates the LUID tie-break, sched.c rank_for_schedule). Runs: 19-24 (blk1), 111-114 (region-B cx-load rotation), 177-182 (blk3). Permuter fuel.
+// @crack (P36 S103, agent c14 — the @stuck note that stood here was refuted on bytes): CLOSED lever-free. The `la $s2`/`i=0`
+// placement is sched1's source-order tie-break (rank_for_schedule, sched.c:2385, INSN_LUID last) — the ~40 permutations
+// never moved the loop init to just before its `do`; `&f.cx` passed at each call (no pointer local, so cse cannot make
+// it a callee-saved pseudo, cse.c:6776-6803 / invalidate_for_call :1725); block 2 as plain single-use temps (a reused
+// temp dies twice and is refused by local-alloc.c:472). Full reading: .run/P36/agents/ov_SC04_011__func_801670E4/mechanism.md
 
 
 
@@ -5177,14 +5181,6 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u16 c;
     u8 cv;
     u8 cv2;
-    register s32 gA __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus3)
-    register s32 cxv __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus3)
-    s32 czv;
-    u8 *vc;
-    u8 *ap;
-    u8 *mp;
-    u8 *va;
-    u8 *vb;
 
     ent = arg0;
     node = *(s32 *)(ent + 0x34);
@@ -5197,14 +5193,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.col[1].b = 0x70;
     cv = *(u8 *)(ent + 0x12);
     f.cx = arg1;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus3)
-    va = (u8 *)&f.cx;
-    __asm__ __volatile__("" : "=r"(va) : "0"(va));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus3)
     f.cy = arg2;
-    vb = va;
-    __asm__ __volatile__("" : "=r"(vb) : "0"(vb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus3)
-    p = D_80187F60;
-    i = 0;
     f.col[0].b = 0;
     f.col[0].g = 0;
     f.col[0].r = 0;
@@ -5216,9 +5205,9 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.col[3].r = 0;
     f.code = 0x50000000;
     f.cz = arg3;
-    f.col[1].r = cv;
     f.col[1].g = cv;
-    ((void (*)(s32, void *, void *))func_80149350)(node, va, vb);
+    f.col[1].r = cv;
+    ((void (*)(s32, void *, void *))func_80149350)(node, &f.cx, &f.cx);
 
     c = f.cx;
     *(s16 *)(ent + 0x06) = c;
@@ -5233,6 +5222,8 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80017E68(&f.cx, f.m1);
     func_800D23D0(f.a8);
     RotMatrixYXZ(f.a8, f.m1);
+    p = D_80187F60;
+    i = 0;
 
     do {
         f.v[0].x = (s8)*p++;
@@ -5245,20 +5236,16 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     } while ((i = i + 1) < 4);
 
     p = D_80187F4C;
-    gA = 0xA0;
-    cxv = (s16)f.cx;
-    f.col[1].g = gA;
-    gA = D_801269A4;
-    czv = (s16)f.cz;
-    f.col[1].b = 0x10;
-    f.col[1].r = 0x10;
-    f.pos[0] = gA - cxv;
     i = 0;
     f.v[3].y = 0;
     f.v[2].y = 0;
     f.v[0].y = 0;
+    f.col[1].g = 0xA0;
+    f.col[1].b = 0x10;
+    f.col[1].r = 0x10;
+    f.pos[0] = D_801269A4 - (s16)f.cx;
     f.pos[1] = D_801269A8 - (s16)f.cy;
-    f.pos[2] = D_801269AC - czv;
+    f.pos[2] = D_801269AC - (s16)f.cz;
 
     do {
         f.v[0].x = (s8)*p++;
@@ -5271,21 +5258,14 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     } while ((i = i + 1) < 4);
 
     if (*(s32 *)(ent + 0x30) > 0) {
-        vc = (u8 *)&f.cx;
-        __asm__ __volatile__("" : "=r"(vc) : "0"(vc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus3)
-        mp = f.m1;
-        ap = mp;
-        __asm__ __volatile__("" : "=r"(ap) : "0"(ap));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus3)
-        p = D_80187F74;
-        i = 0;
         d = (s16)f.a8[0] >> 6;
         f.cx += d;
         f.cy += d;
         f.cz += d;
-        func_80017E68(vc, ap);
+        func_80017E68(&f.cx, f.m1);
         f.cx = f.cy = f.cz = ((u32)*(s32 *)(ent + 0x30) >> 1) + D_80126CE0 * 0x20;
         func_80017DC4(&f.cx, f.m2);
-        func_80048EAC(f.m2, mp);
+        func_80048EAC(f.m2, f.m1);
         f.v[3].z = 0;
         f.v[2].z = 0;
         f.v[0].z = 0;
@@ -5302,6 +5282,8 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         f.col[2].g = 0;
         f.col[0].g = 0;
         f.col[1].g = cv2 + 0x60;
+        p = D_80187F74;
+        i = 0;
         do {
             f.v[0].x = (s8)*p++;
             f.v[0].y = (s8)*p++;
