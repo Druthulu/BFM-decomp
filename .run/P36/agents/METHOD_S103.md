@@ -64,7 +64,8 @@
    - (S103 c18) a copy the target keeps after a `short` flag test (`move $v1,$sN`): combine reduces a sign extension of a
      0/1 value to a plain copy (`combine.c:7932-7942`, sign-bit copies `:718`) and the extension's second user keeps it —
      the tree's `c = chg` launder was faking exactly that copy; declare the flag `s16`, test it in a nested `||` if.
-   - Dumps: `tools/cc1_dumps_tu.sh` now also writes `.cse2` (`-dt`) and `.jump2` (`-dJ`).
+   - Dumps: `DUMP_ROOT=PACK/scratch tools/cc1_dumps_tu.sh PACK/scratch/<your spliced TU>.c <tag>` — it now takes a .c file,
+     resolves `../shared/…` includes, and writes `.cse2` (`-dt`) and `.jump2` (`-dJ`) too. No private dump.sh needed.
    - (S103 c10/c2/c4) READ LEVER-FREE BODIES that share your callees, globals or shapes ANYWHERE in the overlay, not only
      `neighbours.txt`: the answer to c10's function was in a different file (`func_80135888`), c4's was a sibling spelled
      lever-free under a stale `@stuck:` note. `grep -rln '<callee or global>' src/ov_SC04_011/`.

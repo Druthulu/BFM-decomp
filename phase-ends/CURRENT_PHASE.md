@@ -1563,7 +1563,7 @@ setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R
   header-TU `--try` defect hid behind that word for every header class since the engine began.
 - **A typed count in a log line is wrong the first time** (R85): the regen family split was typed 13/4 and is 12/5 —
   counted from the TSVs.
-- `tools/cc1_dumps_tu.sh` still fails with CPP-EMPTY on TUs that include `../shared/…` unless `$wd/shared` is symlinked —
+- `tools/cc1_dumps_tu.sh` failed with CPP-EMPTY on TUs that include `../shared/…` — **FIXED in S103** (`-Isrc/shared`, and it takes a .c file):
   agents keep writing their own `dump.sh` (a working one: `.run/P36/agents/ov_SC04_011__func_8013D178/scratch/dump.sh`).
   **Fix it next** (it should take the TU's own directory and `src/` as include roots like `--try` does).
 
