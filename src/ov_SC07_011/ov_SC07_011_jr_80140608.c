@@ -1234,11 +1234,13 @@ void func_80141874(void) {
     extern unsigned short D_80115112;
     extern u16 D_80115116;
     extern void (*D_8017FA80[])(void);
-    register void (*fp)(void) __asm__("$2"); /* pin fn-ptr to $v0 → store retires early */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus2)
+    void (**slot)(void);
+    void (*fp)(void);
     func_801754A8();
     D_8011511E = func_80014ED4(0);
     D_8011511C = func_80015018(0);
-    fp = D_8017FA80[D_80115112];
+    slot = &D_8017FA80[D_80115112];
+    fp = *slot;
     fp();
     func_80141C04();
     D_80115116 += 1;
@@ -1831,24 +1833,20 @@ void func_8014305C(int param_1)
 
     extern unsigned char D_8017FCC4[];
     extern unsigned char D_8017FD24[];
-    register int s0_param __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus2)
-    register int s1_copy __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus2)
-    int iVar2;
     short sVar1;
+    int iVar2;
 
-    iVar2 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(s0_param + 0x20) = iVar2;
-    s1_copy = iVar2;
+    *(int *)(param_1 + 0x20) = iVar2 = ((int (*)(void))func_8012C1B8)();
     if (iVar2 == 0) {
-        ((void (*)(int))func_8012CAE4)(s0_param);
+        ((void (*)(int))func_8012CAE4)(param_1);
     } else {
-        ((void (*)(int, void *))func_8001CA1C)(s1_copy, D_8017FCC4);
-        sVar1 = (*(unsigned short *)(s0_param + 0x70) & 0xf) * 0x600 + 0xc00;
-        *(short *)(s1_copy + 0x1a) = sVar1;
-        *(short *)(s1_copy + 0x18) = sVar1;
-        *(short *)(s0_param + 0xfc) = 0;
-        func_8012A828(s0_param, D_8017FD24);
-        ((void (*)(int))func_80142B2C)(s0_param);
+        ((void (*)(int, void *))func_8001CA1C)(iVar2, D_8017FCC4);
+        sVar1 = (*(unsigned short *)(param_1 + 0x70) & 0xf) * 0x600 + 0xc00;
+        *(short *)(iVar2 + 0x1a) = sVar1;
+        *(short *)(iVar2 + 0x18) = sVar1;
+        *(short *)(param_1 + 0xfc) = 0;
+        func_8012A828(param_1, D_8017FD24);
+        ((void (*)(int))func_80142B2C)(param_1);
     }
 }
 

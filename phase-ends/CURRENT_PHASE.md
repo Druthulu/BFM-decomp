@@ -1636,6 +1636,18 @@ accumulate here as the phase produces them.**
   func_80180CC0 / 80181D1C / 80183790 / 80187250, and func_8002FF0C unread). **For the phase's milestone: this is an
   irreducible class — the original source must have had a later reader the optimiser removed; Drew's call how "grind to
   zero" treats it.** Its tool ask: a byte-shape census (`tools/shape_census.py`) that resolves shared headers.
+- **S103 — c36 (ov_SC07_006 tier) `func_8014305C` (12 → 0; 6/6) + `func_80141874` (6 → 0; 6/7), and c35 (ov_SC06_010)
+  `func_8017DBE4` (4 → 0; 10/10) + `func_80185994` (3 → 0; 17/17) CLOSED — all four by a sibling's spelling or a call's
+  real arity.** c36: the parameter used directly instead of an entry copy, `*m = x = call();` (a store target makes
+  `preexpand_calls` give the call a fresh temp, `expr.c:6199-6202/8699`, `calls.c:2114`), and a table read through a pointer
+  temp (`p = &tbl[i]; x = *p;` — the array read is `mem/s`, the scalar store before it is not, so `true_dependence`,
+  `sched.c:837-839`, saw no dependence and sched1 hoisted the load). c35: a FRAME-ONLY residual — a self-referencing
+  local (`p += r`) whose uses all fold into one address leaves combine with refs but no insns (`combine.c:2306`) and gets a
+  stack slot from reload (`reload1.c:2331-2352`), 24 → 32 bytes; one assignment closes it; and a call whose CAST dropped the
+  argument though the TU's declaration was right (the argument copy costs 0 bytes — jump2 deletes it, `jump.c:437/462`).
+  **Harvest: R19 reads the arity a call's own cast asserts** (it compared only declarations) — known-true: on c35's
+  start text R19's `+a0` candidate scores 0; selftest fixture; `delever --selftest: OK`. METHOD gains the frame-only row.
+  R22 `check-all: 218 passed, 0 failed of 218`.
 - **S103 — packs for the next tier: `delever_pack --build --min-copies 5` → `64 packs under .run/P36/agents; ORDER.tsv
   written`** (the head-only ORDER kept as `ORDER_head.tsv`). The head (≥100 copies) is down to classes with honest
   readings; the tier below has several classes at a mechanical best of 1-2 — agents now take TWO small classes each.

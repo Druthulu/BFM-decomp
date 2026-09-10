@@ -23,7 +23,7 @@ void (**slot)(void);
 slot = &D_8018B80C[D_80115112];
 fp = *slot;
 ```
-Ported verbatim from the lever-free sibling `func_8013E5E8` (ov_SC07_006_jr_8013C98C.c:1729, the same prologue calls,
+Ported from the lever-free sibling (its `new_var` renamed `slot`, re-verified score 0) `func_8013E5E8` (ov_SC07_006_jr_8013C98C.c:1729, the same prologue calls,
 the same globals, table `D_8018B7C0`). Score 6 → 0 on the first compile.
 
 ## (d) Generator proposal
@@ -39,3 +39,6 @@ line) never touches the access FORM, so it sat at 6 for 1,145 compiles.
 ## (f) Where the method fell short
 `related.txt` had the answer as its first entry (a sibling with 8 shared symbols, spelled lever-free). Nothing else
 was needed; the method worked. The engine's move set lacks "array ref → pointer temp deref" (see (d)).
+The brief's steer (a `$2` pin = a call-result/return copy, c25/c31) did NOT apply: this `$2` pin was a
+scheduling-order lever — the pinned value is a table LOAD, and the pin worked only because it forced the load to be
+born after `$v0`'s last reader. Read a `$2` pin's producer first: call result → c25/c31; memory load → true_dependence.

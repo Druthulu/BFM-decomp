@@ -29,7 +29,7 @@ its sibling `func_8017D9A0` (same TU, line ~4448) already types it:
     D_801B2028[param_1[0x2c / 4]] = 0;
     ((void (*)(s32 *))func_80146C3C)(param_1);
 
-Byte-proven (score 0). Controls, also byte-proven score 0:
+Byte-proven (score 0). Controls (all under `scratch/`), also byte-proven score 0:
 - `c4.c`: keep the original shape but single-assign `p = (s32)&D_801B2028 + param_1[0x2c/4];` -> 0. This isolates the
   cause to the two-set `p` (not the types, not the call).
 - `c1.c` (`s8` table, void call) and `c3.c` (`u8` table, `func_80146C3C()` via the in-TU void decl) -> 0.

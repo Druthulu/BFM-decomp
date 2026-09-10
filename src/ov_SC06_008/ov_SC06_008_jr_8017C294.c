@@ -6818,27 +6818,23 @@ extern s32 rand(void);
 void func_801834E0(s32 a0)
 {
     s32 t;
-    register s32 *a1 asm("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    u32 v0;
+    u32 *p;
 
     t = *(s32 *)(a0 + 0x1C) - 1;
     *(s32 *)(a0 + 0x1C) = t;
 
     if (t != 0) {
-        a1 = *(s32 **)(a0 + 0x20);
-        v0 = *(u32 *)(a1 + 0x1);
-        v0 ^= 0x80000000;
-        *(u32 *)(a1 + 0x1) = v0;
-        ((void (*)(void))func_8012B370)();
+        p = *(u32 **)(a0 + 0x20);
+        p[1] ^= 0x80000000;
+        func_8012B370(a0);
 
-        t = *(s32 *)(a0 + 0x1C);
-        if ((t & 0x3) != 0) {
-            s32 s0 = func_8012C588(0x281, a0);
-            if (s0 != 0) {
-                *(s32 *)(s0 + 0x1C) = 2;
-                *(s16 *)(s0 + 0x12) = (rand() & 0x1F) - 0x10;
-                *(s16 *)(s0 + 0x16) = -((rand() & 0xF) + 0x10);
-                *(s16 *)(s0 + 0x1A) = (rand() & 0x1F) - 0x10;
+        if ((*(s32 *)(a0 + 0x1C) & 0x3) != 0) {
+            s32 obj = func_8012C588(0x281, a0);
+            if (obj != 0) {
+                *(s32 *)(obj + 0x1C) = 2;
+                *(s16 *)(obj + 0x12) = (rand() & 0x1F) - 0x10;
+                *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
+                *(s16 *)(obj + 0x1A) = (rand() & 0x1F) - 0x10;
             }
         }
         return;
@@ -6990,27 +6986,23 @@ extern s32 rand(void);
 void func_80183824(s32 a0)
 {
     s32 t;
-    register s32 *a1 asm("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    u32 v0;
+    u32 *p;
 
     t = *(s32 *)(a0 + 0x1C) - 1;
     *(s32 *)(a0 + 0x1C) = t;
 
     if (t != 0) {
-        a1 = *(s32 **)(a0 + 0x20);
-        v0 = *(u32 *)(a1 + 0x1);
-        v0 ^= 0x80000000;
-        *(u32 *)(a1 + 0x1) = v0;
-        ((void (*)(void))func_8012B370)();
+        p = *(u32 **)(a0 + 0x20);
+        p[1] ^= 0x80000000;
+        func_8012B370(a0);
 
-        t = *(s32 *)(a0 + 0x1C);
-        if ((t & 0x3) != 0) {
-            s32 s0 = func_8012C588(0x281, a0);
-            if (s0 != 0) {
-                *(s32 *)(s0 + 0x1C) = 2;
-                *(s16 *)(s0 + 0x12) = (rand() & 0x1F) - 0x10;
-                *(s16 *)(s0 + 0x16) = -((rand() & 0xF) + 0x10);
-                *(s16 *)(s0 + 0x1A) = (rand() & 0x1F) - 0x10;
+        if ((*(s32 *)(a0 + 0x1C) & 0x3) != 0) {
+            s32 obj = func_8012C588(0x281, a0);
+            if (obj != 0) {
+                *(s32 *)(obj + 0x1C) = 2;
+                *(s16 *)(obj + 0x12) = (rand() & 0x1F) - 0x10;
+                *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
+                *(s16 *)(obj + 0x1A) = (rand() & 0x1F) - 0x10;
             }
         }
         return;
@@ -7146,27 +7138,23 @@ extern s32 rand(void);
 void func_80183B14(s32 a0)
 {
     s32 t;
-    register s32 *a1 asm("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    u32 v0;
+    u32 *p;
 
     t = *(s32 *)(a0 + 0x1C) - 1;
     *(s32 *)(a0 + 0x1C) = t;
 
     if (t != 0) {
-        a1 = *(s32 **)(a0 + 0x20);
-        v0 = *(u32 *)(a1 + 0x1);
-        v0 ^= 0x80000000;
-        *(u32 *)(a1 + 0x1) = v0;
-        ((void (*)(void))func_8012B370)();
+        p = *(u32 **)(a0 + 0x20);
+        p[1] ^= 0x80000000;
+        func_8012B370(a0);
 
-        t = *(s32 *)(a0 + 0x1C);
-        if ((t & 0x3) != 0) {
-            s32 s0 = func_8012C588(0x281, a0);
-            if (s0 != 0) {
-                *(s32 *)(s0 + 0x1C) = 2;
-                *(s16 *)(s0 + 0x12) = (rand() & 0x1F) - 0x10;
-                *(s16 *)(s0 + 0x16) = -((rand() & 0xF) + 0x10);
-                *(s16 *)(s0 + 0x1A) = (rand() & 0x1F) - 0x10;
+        if ((*(s32 *)(a0 + 0x1C) & 0x3) != 0) {
+            s32 obj = func_8012C588(0x281, a0);
+            if (obj != 0) {
+                *(s32 *)(obj + 0x1C) = 2;
+                *(s16 *)(obj + 0x12) = (rand() & 0x1F) - 0x10;
+                *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
+                *(s16 *)(obj + 0x1A) = (rand() & 0x1F) - 0x10;
             }
         }
         return;
@@ -7609,17 +7597,10 @@ void func_801841BC(s32 *a0)
 extern void func_80146C3C(void);
 void func_80184234(s32 *param_1)
 {
+    extern u8 D_801AA180[];
 
-    extern s8 D_801AA180;
-  int new_var;
-register s32 p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-s32 r;
-  p = (s32) (&D_801AA180);
-  r = param_1[0x2c / 4];
-  new_var = r;
-  p += new_var;
-  *((s8 *) p) = 0;
-  ((void (*)(void)) func_80146C3C)();
+    D_801AA180[param_1[0x2c / 4]] = 0;
+    ((void (*)(s32 *))func_80146C3C)(param_1);
 }
 
 

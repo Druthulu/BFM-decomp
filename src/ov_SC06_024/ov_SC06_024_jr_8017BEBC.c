@@ -5710,17 +5710,10 @@ void func_80181658(s32 *a0)
 extern void func_80146C3C(void);
 void func_801816D0(s32 *param_1)
 {
+    extern u8 D_801E1160[];
 
-    extern s8 D_801E1160;
-  int new_var;
-register s32 p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-s32 r;
-  p = (s32) (&D_801E1160);
-  r = param_1[0x2c / 4];
-  new_var = r;
-  p += new_var;
-  *((s8 *) p) = 0;
-  ((void (*)(void)) func_80146C3C)();
+    D_801E1160[param_1[0x2c / 4]] = 0;
+    ((void (*)(s32 *))func_80146C3C)(param_1);
 }
 
 

@@ -2414,6 +2414,12 @@ def real_signatures():
 CALL = re.compile(r"(?<![\w.>])([A-Za-z_]\w*)\s*(\)?)\s*\(")
 
 
+def argcheck_arity(params):
+    sys.path.insert(0, str(REPO / "tools"))
+    import argcheck
+    return argcheck.arity(params)
+
+
 def restore_arguments(text, tu, fn, d_, cap=64):
     """[(description, candidate text)] — R19: a call whose in-scope declaration is NARROWER than the callee's real
     definition, re-issued at the callee's full arity through a function-pointer cast, with each in-scope value tried as
@@ -2480,8 +2486,6 @@ def restore_arguments(text, tu, fn, d_, cap=64):
             if real is None or callee == fn:
                 continue
             dec = declared.get(callee)
-            if dec is None or dec[0] >= real[0]:
-                continue
             # the call's own argument text, balanced from the opening paren
             start = m.start()
             if m.group(2) == ")":
@@ -2496,6 +2500,15 @@ def restore_arguments(text, tu, fn, d_, cap=64):
                             start = k
                             break
                         depth2 -= 1
+                # A CAST at the call is what the compiler sees, whatever the declaration says (S103, agent c35's
+                # func_80185994: the TU declared the callee correctly and the call went through `(void (*)(void))`,
+                # dropping the argument — this generator compared only declarations and never offered the repair).
+                cm = re.match(r"\(\(\s*([A-Za-z_][\w \t*]*?)\s*\(\s*\*\s*\)\s*\(([^()]*)\)\s*\)\s*$",
+                              masked[i][start:m.start()])
+                if cm:
+                    dec = (argcheck_arity(cm.group(2)), cm.group(1).strip() or "int")
+            if dec is None or dec[0] >= real[0]:
+                continue
             depth, j = 0, m.end() - 1
             while j < len(masked[i]):
                 if masked[i][j] == "(":
@@ -4074,6 +4087,20 @@ def selftest():
             fail("R19 must refuse a call whose declaration already matches the definition")
     finally:
         globals()["_ARG_DEFS"] = saved
+
+    # R19's CAST arity (S103, agent c35's func_80185994; known-true: on its start text R19's `+a0` candidate scores 0):
+    # the declaration agrees with the definition, the call's own cast drops the argument
+    _defs19 = real_signatures()
+    _defs19.setdefault("func_8FFFFFE0", (1, "s32", "src/fx/c.c", "void"))
+    CFIX = ("void func_80100000(s32 a0) {\n"
+            "    extern void func_8FFFFFE0(s32);\n"
+            "    ((void (*)(void))func_8FFFFFE0)();\n"
+            "}")
+    c19 = [d for d, _ in restore_arguments(CFIX, "src/fx/c.c", "func_80100000",
+                                           next(r for r in sc.scan_text(CFIX, "src/fx/c.c", shared_defs=None) if r["form"] == "def"))]
+    if "argrestore func_8FFFFFE0 +a0 @3" not in c19:
+        fail(f"R19 must read the arity a call's own CAST asserts, not only the declaration's: {c19}")
+    _defs19.pop("func_8FFFFFE0", None)
 
     # R20, chain narrowing (T7 agent b3's crack of func_8016CBC0, P36 S102 — it PROVED the joint form is necessary:
     # single declarations scored 45/72/51/24, each chain alone 43, both chains together 0).

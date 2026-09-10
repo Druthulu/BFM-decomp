@@ -72,15 +72,15 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 2519,
-   "distinct_bodies": 909,
+   "bodies": 2476,
+   "distinct_bodies": 905,
    "file_scope": 0,
-   "in_bodies": 7236,
+   "in_bodies": 7186,
    "kinds": {
-    "pin": 7236
+    "pin": 7186
    },
-   "marked": 7236,
-   "sites": 7236,
+   "marked": 7186,
+   "sites": 7186,
    "tus": 1440,
    "unmarked": 0
   },
@@ -207,9 +207,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 23065,
+   "live": 23015,
    "macro_block": 194,
-   "raw": 30051
+   "raw": 30001
   },
   "attribute": {
    "comment_dead": 0,
@@ -225,9 +225,9 @@
   },
   "register": {
    "comment_dead": 8587,
-   "live": 7286,
+   "live": 7236,
    "macro_block": 18,
-   "raw": 15891
+   "raw": 15841
   },
   "volatile": {
    "comment_dead": 2480,
@@ -237,7 +237,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 29.0,
+ "elapsed_s": 30.8,
  "generated": "2026-09-10",
  "gte_levers": {
   "direct": 362,
@@ -248,15 +248,15 @@
   "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "a2a1fc186",
+ "head": "dd5e44c24",
  "headers": 3181,
  "levers_AB": {
   "asm": 5295,
-  "bodies": 3303,
-  "distinct_bodies": 1211,
-  "marked": 12531,
-  "pins": 7236,
-  "sites": 12531,
+  "bodies": 3260,
+  "distinct_bodies": 1207,
+  "marked": 12481,
+  "pins": 7186,
+  "sites": 12481,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -296,14 +296,14 @@
     1
    ],
    [
-    "gte_SetRotMatrix_m",
-    3,
-    2
-   ],
-   [
     "DRAW",
     3,
     1
+   ],
+   [
+    "gte_SetRotMatrix_m",
+    3,
+    2
    ],
    [
     "gte_rtv0tr_m",
@@ -326,6 +326,16 @@
     1
    ],
    [
+    "COPY_TO_FAAC",
+    1,
+    1
+   ],
+   [
+    "LAUNDER_8018A180",
+    1,
+    1
+   ],
+   [
     "gte_rt",
     1,
     1
@@ -337,16 +347,6 @@
    ],
    [
     "gte_rtv0_m",
-    1,
-    1
-   ],
-   [
-    "COPY_TO_FAAC",
-    1,
-    1
-   ],
-   [
-    "LAUNDER_8018A180",
     1,
     1
    ],
@@ -390,7 +390,7 @@
  },
  "pins": {
   "bare_name": 15,
-  "init": 575,
+  "init": 568,
   "registers": {
    "$0": 117,
    "$10": 144,
@@ -399,11 +399,11 @@
    "$13": 6,
    "$14": 139,
    "$15": 1,
-   "$16": 312,
-   "$17": 363,
+   "$16": 305,
+   "$17": 356,
    "$18": 46,
    "$19": 52,
-   "$2": 1941,
+   "$2": 1934,
    "$20": 32,
    "$21": 146,
    "$22": 7,
@@ -411,8 +411,8 @@
    "$25": 1,
    "$29": 13,
    "$3": 746,
-   "$4": 1103,
-   "$5": 1015,
+   "$4": 1092,
+   "$5": 997,
    "$6": 216,
    "$7": 196,
    "$8": 174,
@@ -423,30 +423,30 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 7236,
+  "sites": 7186,
   "sp": 13,
   "spelling": {
-   "__asm__": 7161,
-   "asm": 75
+   "__asm__": 7129,
+   "asm": 57
   },
   "volatile_qualified": 7,
   "zero": 117
  },
- "src_stamp": "d78ac3c59e297063",
+ "src_stamp": "386841ec43447c08",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 6825,
+  "bodies": 6782,
   "by_kind": {
    "main": 165,
    "md": 134,
-   "ov": 6332,
+   "ov": 6289,
    "resident": 10,
    "shared": 184
   },
-  "copies_in_multi": 5576,
-  "distinct_bodies": 1501,
-  "multi_copy_classes": 252
+  "copies_in_multi": 5533,
+  "distinct_bodies": 1497,
+  "multi_copy_classes": 248
  },
  "verbatim_excluded": {
   "functions": 13,
