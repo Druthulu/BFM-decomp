@@ -1290,6 +1290,22 @@ accumulate here as the phase produces them.**
   `lw $4,counter` first. `$4` is the first argument register — **a false declaration DELETES AN INSTRUCTION from the
   program**, and that deleted instruction is precisely what a register pin was hired to fake.
 
+- **S102 — T7 agent b4: `func_80133784` NOT closed (21 → 2; 203/203 instructions, one two-instruction residual) and it
+  brought back three byte-proven moves plus a cookbook correction.** Its moves: (1) `while (1) { … }` rewritten as a
+  LABEL + `goto`, which emits no `NOTE_INSN_LOOP_BEG`, so `loop.c` never registers a loop and cannot hoist the call
+  argument's shift into a preheader — `invariant_p`'s REG case (`loop.c:2745-2751`), `scan_loop`'s movable
+  (`:645-710`), `move_movables` at `:1631` where the threshold (~60) dwarfs the insn count (~15) so the hoist is
+  unconditional, and `loop.c:595-596` forcing `n_times_set = 1` for a HARD register, **which is exactly what the `$21`
+  pin was buying**; (2) ONE variable for both call results, so a single allocno spanning both call sites loses `$v0` and
+  the `move v1,v0` survives; (3) an `s32` flag narrowed to `u16`, whose HImode subreg store blocks `try_combine`;
+  (4) two constants hoisted into locals at a label, padding the accumulator's flow-time live length 89 → 91 **at zero
+  instruction cost**, which flips `allocno_compare`. **The cookbook correction: §176 documents only the OPPOSITE
+  rewrite** (goto-loop → `for`, in order to OBTAIN a hoist); the de-looping direction is new and belongs beside it.
+  Its residual 2 is `andi v0,s2,0xffff / bnez v0` against `nop / bnez s2`: an `s32` flag loses the copy under all ten
+  spellings it tried, so the narrow flag is the best trade available. **Its sharpest observation is about our own
+  instrument: none of the seven NEEDED sites named what actually had to change, and one shape move retired three of
+  them** — a site list says which levers the byte oracle could not remove ALONE, not which source facts are load-bearing.
+
 ## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **27,984 sites** in 8,249 bodies · marked 27,984 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (20 milestones). **S102's loop state: the burst of 20 is landing; a4/a7/a8/a12/a18/a19 banked (756 bodies); the per-file scratch-object collision is FIXED (per-function tag); the biggest class found is a truncated `(void)` DECLARATION, three cases of which need the types phase.**
 
 ### 0. How to use this block
