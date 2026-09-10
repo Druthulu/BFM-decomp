@@ -1,3 +1,12 @@
+=== THIS FUNCTION'S OWN HEADER (func_80136824, line 1099) — read it in full ===
+// @class: pointer-type — pointer-vs-array reconcile for func_80136824 (ov_SC01_077_a)
+// D_8017F198/B0/B8 are file-scope `extern u8`, D_8017F1A0 is `extern s32 []`; each HOLDS a
+// pointer value that the target loads via lw then derefs. Read as pointer via *(T**)&sym.
+// D_8017F1A0 must be a SCALAR pointer (not s32[]) — as an array it decays and gcc CSEs the
+// base address into a held reg (lui;addiu;lw 0(reg)) across the 3 reloads; as a scalar
+// pointer it folds %lo (lui;lw %lo). Retype all 3 file-TU occurrences (byte-neutral: the
+// siblings read it once via *(u16**)&sym == direct lw either way).
+
 --- every @class/@stuck/@crack note in this translation unit ---
 // @class: regalloc-order
 // @stuck: none — MATCH (match_one 100/100 + rtu_match real-TU); needs the PAIRED //@EDIT on ((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)(return s16->s32 + `s32 result;`->`s16 result;`, whole-TU byte-neutral, verified) + one $s1 pin on `flag`

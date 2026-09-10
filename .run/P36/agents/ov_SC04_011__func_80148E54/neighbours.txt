@@ -1,3 +1,7 @@
+=== THIS FUNCTION'S OWN HEADER (func_80148E54, line 766) — read it in full ===
+/* derived from asm: lui/addu/lw %lo(D_80191FA4) indexed by (u16>>12)*4, then jalr with no args;
+ * the result is sign-extended from 16 bits => the table's functions return s16. */
+
 --- every @class/@stuck/@crack note in this translation unit ---
 // @class: schedule
 // @stuck: none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_80192964 block defeats the tail-merge of the two identical D_80192964 loads; barrier emits zero bytes, load-bearing)

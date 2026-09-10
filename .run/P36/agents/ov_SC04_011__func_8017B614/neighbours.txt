@@ -1,3 +1,11 @@
+=== THIS FUNCTION'S OWN HEADER (func_8017B614, line 2902) — read it in full ===
+// @class: regalloc-order + T1 memcpy-builtin→call re-crack
+// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// param_2 in $a1 until the branch, then $s0 for the loads). Block-moves are align-1 struct-assigns
+// (u8[8]) so they lower via emit_block_move (movstrsi/move_by_pieces) with ZERO memcpy-symbol
+// reference — TU-independent, so the sibling TU's `extern memcpy` (which disables the builtin and
+// turned the old inlined block-move into a CALL) can no longer drift this.
+
 --- every @class/@stuck/@crack note in this translation unit ---
 // @class: plumbing
 // @stuck: none — MATCH

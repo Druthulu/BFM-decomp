@@ -1327,6 +1327,35 @@ accumulate here as the phase produces them.**
   hand lands elsewhere (it reached 51 where the engine's own generators reproduce 16 in one round) — the pack now ships
   the best candidate's TEXT as `best_body.c`.
 
+- **S103 (2026-09-10, Opus 5 1M at `/effort high`) — the loop resumed from the S102 checkpoint.** `git log -1` =
+  `82da34b39`, tree clean; `delever_oracle --calibrate … : 177/177 objects byte-identical untouched; twin checks 32 (0
+  mismatch); positive control DIFFERS on build/src/800.o; 2.3 s — OK`; `--snapshot-baseline: 7428 object(s) … at
+  82da34b39`; `delever_pack --build`: `32 packs under .run/P36/agents; ORDER.tsv written`. `func_80178970` re-measured
+  after the declaration repair: still **2** (the combine fold of the call-result copy, `combine.c:914-917`) — not
+  re-drawn. **Wave c launched, six agents on unread classes, all read-only:** c1 `func_80135168` (25, Opus), c2
+  `func_8013D8FC` (25, Opus), c3 `func_80148AFC` (23, Opus), c4 `func_80133AB0` (24, Opus), c5 `func_8015D738` (17,
+  Fable, 201 ins), c6 `func_80130D48` (18, Fable, 266 ins). The S102 method is now a file every brief cites:
+  `.run/P36/agents/METHOD_S103.md` (count first, the whole-function dump, the five emitters of a missing instruction,
+  the allocation arithmetic, joint edits, the two refusals).
+  **Fable 5.1 ran out of usage credits** (HTTP 429 on c5/c6's first step — the harness, not the functions, R40); both
+  relaunched on Opus.
+
+- **S103 — T7 agent c2: `func_8013D8FC` CLOSED (25 → 0, 45/45) and harvested as generator R22.** The body walked a list
+  with `p` and ALSO kept `q = p + 5`, stepping both by 8: loop.c strength reduction keeps both bivs because a plain `*q`
+  read keeps `q` live (`-dL`: "Cannot eliminate biv … biv used in insn"), costing an add per iteration and a callee-saved
+  register — the +3 COUNT the `$16` pin was hired to hide. One pointer lets `combine_givs` (loop.c:5494) fold every field
+  read onto one base, and `record_giv` prepends (loop.c:4421-4422) so the textually LAST read becomes the base — `data`
+  must be computed before the four stores (inline after them scores 19). The agent typed the pointer as the TU's existing
+  `Cmd_8013D53C` (its sibling `func_8013D53C` walks the same `D_801EDABC`). Bank: `delever --apply-body … IDENTICAL on 1
+  object(s) — KEPT, ledgered (rung E, c2)`; `delever --propagate: 130 of 130 sibling(s) banked, 0 refused`; R22
+  `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 23,988 pin/asm sites, 23,988 marked !FAKE, 0 UNMARKED
+  — OK` (24,119 → 23,988). **Harvest: `delever.merge_walked_pointers` = family R22** (second pointer `q = p + K` stepped
+  in lockstep deleted, `q[n]` → `p[n+K]`, `*q` → `p[K]`; refuses unequal strides, a re-seated `q`, `&q`, differing
+  element types), leads the COUNT class after R19; **known-true check: its candidate from the agent's start text is
+  byte-for-byte the agent's closing body and `--try` scores 0**; selftest fixture + two refusal controls, `delever
+  --selftest: OK`; SETUP generator table row. The mechanical search had ~3,500 compiles on this body and no move that
+  merges two walked pointers — it could never close a whole extra loop variable.
+
 ## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
 
 ### 0. How to use this block

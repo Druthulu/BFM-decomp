@@ -1709,6 +1709,7 @@ carries its mechanism, its `file:line` citations into `tools/reference/gcc-2.7.2
 | R19 | `restore_arguments` | a call re-issued at the callee's REAL arity through a function-pointer cast, one candidate per in-scope value | agents a7/a8/a11/a12/a13/a25 |
 | R20 | `narrow_chains` | every local in one def-use chain narrowed TOGETHER, and each pair of chains together | agent b3, `func_8016CBC0` |
 | R21 | `second_consumer` | `v = E; slot = v;` → `v = slot = E;` (chain) or `slot = E; v = E;` (hoist), each site and ALL sites | agents b2/b6 |
+| R22 | `merge_walked_pointers` | a second pointer `q = p + K` stepped in lockstep with `p` deleted; `q[n]` → `p[n+K]`, `*q` → `p[K]` (S103; leads the COUNT class after R19) | agent c2, `func_8013D8FC` — known-true: its start text's R22 candidate is the agent's closing body, score 0 |
 
 **Three of these are JOINT edits and that is the point.** R20's single-chain candidates score 43 and 51 where the joint
 scores 0; R21's single sites are worse than its joint form; b7's four-way retype has every intermediate worse than the

@@ -1,3 +1,13 @@
+--- func_80166690 (line 4861) ---
+// @class: count
+// @crack: MATCH. Every accumulator here is a short, not an int: sVar7/sVar8/sVar9/sVar3 are
+// `short`, the colour temp `t` is `u8` (the field width) and `w` is `int`. The four `short`s are
+// what emit the target's `move s2,v0` / `move s0,v0` / `move s3,v1` copies — `short v = <int expr>`
+// is an SI->HI truncation whose SImode source is still live in the following `sll/sra` test, so
+// local-alloc refuses the tie (local-alloc.c:1855) and the copy survives. Writing them as `int`
+// (or as `unsigned int` with a hand temp) loses those four copies. `t` must be `u8` and not
+// `short`: at `short` it shares uVar7's cse quantity (cse.c:1029) and canon_reg forwards $s0 into
+// the first `sb`; at `u8` the mode gate keeps it separate and the `sb` reads the copy. No levers.
 --- every @class/@stuck/@crack note in this translation unit ---
 // @class: struct
 // @stuck: none — MATCH (match_one 88/88); fn-ptr-array dispatch, top-level if/else needed branch-polarity invert (small block falls through, big block at L854)

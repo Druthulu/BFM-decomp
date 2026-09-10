@@ -2666,7 +2666,116 @@ def second_consumer(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21")
+_INT = r"(0x[0-9A-Fa-f]+|\d+)"
+
+
+def _step_of(masked_line, name):
+    """the signed step of a whole-statement pointer step `n = n + K;` / `n += K;` / `n++;` (and the minus forms), else None."""
+    s, n = masked_line.strip(), re.escape(name)
+    m = re.match(r"^%s\s*=\s*%s\s*([+-])\s*%s\s*;$" % (n, n, _INT), s) or re.match(r"^%s\s*([+-])=\s*%s\s*;$" % (n, _INT), s)
+    if m:
+        return int(m.group(2), 0) * (1 if m.group(1) == "+" else -1)
+    m = re.match(r"^(?:%s\s*(\+\+|--)|(\+\+|--)\s*%s)\s*;$" % (n, n), s)
+    if m:
+        return 1 if (m.group(1) or m.group(2)) == "++" else -1
+    return None
+
+
+def merge_walked_pointers(text, tu, fn, d_):
+    """[(description, candidate text)] — R22: a SECOND walked pointer merged into the first.
+
+    T7 agent c2's crack of func_8013D8FC (P36 S103, 131 bodies): the body walked a list with `p` and also kept
+    `q = p + 5`, stepping both by 8. loop.c's strength reduction treats each as a basic induction variable and cannot drop
+    `q` because a plain `*q` read keeps it live ("Cannot eliminate biv … biv used in insn", `-dL`); the three pointers
+    cost one add per iteration and one callee-saved register — a COUNT residual of +3 that a `$16` pin was hired to hide.
+    With one pointer every field read becomes a giv of `p` and `combine_givs` (loop.c:5494, `combine_givs_p` :5458) folds
+    them onto one base; `record_giv` prepends (loop.c:4421-4422), so the textually LAST field read becomes the base
+    register — which is why the engine's order moves (R9/R18) are the natural second step after this one.
+
+    The rewrite: `q`'s declaration, its one initialiser `q = p + K` (or `q = &p[K]`, or `q = p`) and its step statements
+    are deleted; `q[n]` becomes `p[n + K]`, `q + n` becomes `p + (n + K)`, `*q` becomes `p[K]`, `q->f` becomes
+    `(p + K)->f`, and any other `q` becomes `(p + K)`. Refused unless both are single-declarator locals of the SAME
+    element type, `q` has no other assignment and no `&q`, and `q`'s steps equal `p`'s steps one for one — the two really
+    move in lockstep. A static rewrite; the byte oracle judges it like every other candidate."""
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    DECLP = re.compile(r"^\s*((?:const\s+|unsigned\s+|signed\s+|struct\s+)*[A-Za-z_]\w*)\s*\*\s*([A-Za-z_]\w*)\s*;\s*$")
+    ptrs = {}
+    for i in range(lo, hi):
+        m = DECLP.match(masked[i])
+        if m:
+            ptrs[m.group(2)] = (i, " ".join(m.group(1).split()))
+
+    def assigns(name):
+        n = re.escape(name)
+        a = re.compile(r"(?<![\w.>])%s\s*(?:=(?!=)|\+=|-=|\+\+|--)|(?:\+\+|--)\s*%s\b" % (n, n))
+        return [i for i in range(lo, hi) if a.search(masked[i])]
+
+    def fmt(k):
+        return str(k)
+
+    out = []
+    for q, (qi, qt) in ptrs.items():
+        qn = re.escape(q)
+        if re.search(r"&\s*%s\b" % qn, "\n".join(masked[lo:hi])):
+            continue
+        init, steps = None, []
+        ok = True
+        for i in assigns(q):
+            st = _step_of(masked[i], q)
+            if st is not None:
+                steps.append((i, st))
+                continue
+            s = masked[i].strip()
+            m = (re.match(r"^%s\s*=\s*([A-Za-z_]\w*)\s*([+-])\s*%s\s*;$" % (qn, _INT), s)
+                 or re.match(r"^%s\s*=\s*&\s*([A-Za-z_]\w*)\s*\[\s*(-?)\s*%s\s*\]\s*;$" % (qn, _INT), s)
+                 or re.match(r"^%s\s*=\s*([A-Za-z_]\w*)\s*;$()()" % qn, s))
+            if init is not None or not m or m.group(1) not in ptrs or m.group(1) == q:
+                ok = False
+                break
+            p, sign, k = m.group(1), m.group(2), m.group(3)
+            init = (i, p, (int(k, 0) if k else 0) * (-1 if sign == "-" else 1))
+        if not ok or init is None or not steps:
+            continue
+        ii, p, K = init
+        if ptrs[p][1] != qt:
+            continue
+        psteps = []
+        for i in assigns(p):
+            st = _step_of(masked[i], p)
+            if st is not None:
+                psteps.append(st)
+            elif i > ii:
+                ok = False                                   # p re-seated after q was derived from it: not lockstep
+                break
+        if not ok or sorted(psteps) != sorted(st for _, st in steps):
+            continue
+        drop = {qi, ii} | {i for i, _ in steps}
+        base = p if K == 0 else f"({p} + {fmt(K)})"
+        cand = list(lines)
+        for i in range(lo, hi):
+            if i in drop or not re.search(r"(?<![\w.>])%s\b" % qn, masked[i]):
+                continue
+            l = cand[i]
+            l = re.sub(r"(?<![\w.>])%s\s*\[\s*(-?)\s*%s\s*\]" % (qn, _INT),
+                       lambda m: f"{p}[{fmt(int(m.group(2), 0) * (-1 if m.group(1) else 1) + K)}]", l)
+            l = re.sub(r"(?<![\w.>])%s\s*\[\s*([A-Za-z_]\w*)\s*\]" % qn,
+                       lambda m: f"{p}[{m.group(1)}]" if K == 0 else f"{p}[{m.group(1)} + {fmt(K)}]", l)
+
+            def arith(m):
+                v = int(m.group(2), 0) * (1 if m.group(1) == "+" else -1) + K
+                return p if v == 0 else (f"{p} + {fmt(v)}" if v > 0 else f"{p} - {fmt(-v)}")
+            l = re.sub(r"(?<![\w.>])%s\s*([+-])\s*%s\b" % (qn, _INT), arith, l)
+            l = re.sub(r"\*\s*%s\b(?!\s*[\[\-])" % qn, f"{p}[{fmt(K)}]", l)
+            l = re.sub(r"(?<![\w.>])%s\b" % qn, base, l)
+            cand[i] = l
+        out.append((f"merge-ptr {q} into {p}{'+' + fmt(K) if K else ''}",
+                    "\n".join(l for k, l in enumerate(cand) if k not in drop)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2792,6 +2901,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R21" in fam:
         for desc, cand in second_consumer(text, tu, fn, d_):
             out.append(("R21", desc, cand))
+    if "R22" in fam:
+        for desc, cand in merge_walked_pointers(text, tu, fn, d_):
+            out.append(("R22", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -3744,6 +3856,36 @@ def selftest():
     if second_consumer(NO, "src/fx/s2.c", "func_80100000",
                        next(r for r in sc.scan_text(NO, "src/fx/s2.c", shared_defs=None) if r["form"] == "def")):
         fail("R21 must offer nothing when the next statement is not an assignment OF the value")
+
+    # R22, the walked-pointer merge (T7 agent c2's crack of func_8013D8FC, P36 S103, 131 bodies; the known-true check is
+    # the agent's own start text, whose R22 candidate is byte-for-byte its closing body and scores 0 — SETUP §P36 S103).
+    WFIX = ("void func_80100000(s16 *base) {\n"
+            "    s16 *p;\n"
+            "    s16 *q;\n"
+            "\n"
+            "    p = base;\n"
+            "    q = p + 5;\n"
+            "    do {\n"
+            "        g(q[-3], *q, *(s32 *)(q + 1));\n"
+            "        p = p + 8;\n"
+            "        q = q + 8;\n"
+            "    } while (*p != 0xff);\n"
+            "}")
+    dW = next(r for r in sc.scan_text(WFIX, "src/fx/w.c", shared_defs=None)
+              if r["form"] == "def" and r["name"] == "func_80100000")
+    w22 = merge_walked_pointers(WFIX, "src/fx/w.c", "func_80100000", dW)
+    if [d for d, _ in w22] != ["merge-ptr q into p+5"]:
+        fail(f"R22 must merge q into p+5 and nothing else, got {[d for d, _ in w22]}")
+    else:
+        cW = w22[0][1]
+        if "g(p[2], p[5], *(s32 *)(p + 6));" not in cW or re.search(r"\bq\b", cW):
+            fail(f"R22 must rewrite every use of q onto p and delete q: {cW!r}")
+    # controls: unequal strides are not lockstep; a second assignment to q is not a derived pointer
+    for bad, why in ((WFIX.replace("q = q + 8;", "q = q + 4;"), "unequal strides"),
+                     (WFIX.replace("        q = q + 8;\n", "        q = q + 8;\n        q = base;\n"), "a re-seated q")):
+        if merge_walked_pointers(bad, "src/fx/w.c", "func_80100000",
+                                 next(r for r in sc.scan_text(bad, "src/fx/w.c", shared_defs=None) if r["form"] == "def")):
+            fail(f"R22 must refuse {why}")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

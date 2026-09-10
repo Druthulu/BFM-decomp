@@ -1,3 +1,7 @@
+=== THIS FUNCTION'S OWN HEADER (func_80135004, line 2933) — read it in full ===
+// @class: plumbing
+// @stuck: MATCH (89 ins). To BANK: retype D_801909C0 + D_801909BC (u8 -> s16*) in sibling func_80135168's externs (src/ov_SC01_077/ov_SC01_077_a.c ~L1879); they hold pointers double-referenced across a call, so only a 4-byte/pointer decl folds %lo (u8 &-cast CSE's the address into a saved reg). Retype is byte-NEUTRAL for the sibling (verified: identical objdump bytes u8 vs s16*).
+
 --- func_80135480 (line 3194) ---
 /* func_80135480 — cull + coordinate-transform emitter (258 ins, ov_SC01_077 split _a, ×134 family).
  *
