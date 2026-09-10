@@ -25,8 +25,16 @@ HOW TO WORK (the method we are honing — follow it and report where it fell sho
    mechanism and how to test it; its Verification ledger at the end says which were proven on bytes). Grep the cookbook by section for
    the byte-proven idioms: `grep -n '^## §455\|^## §454\|^## §501' docs/matching-cookbook.md` then `sed -n` the range (the file is
    3.5 MB — never read it whole); §455 is this engine, §454 its instrument lessons, §501-E/P/Q/R the Phase-32 crack methods (a
-   reproducer battery before the real function; the allocation ORDER read before any register lever: `tools/alloc_table.py`,
-   `tools/cc1_dumps_tu.sh`).
+   reproducer battery before the real function; the allocation ORDER read before any register lever: **`tools/alloc_table.py
+   <tag> <fn> <dump_root>`**, fed by **`tools/cc1_dumps_tu.sh`**). **READ THE ALLOCATION TABLE FIRST FOR ANY REGISTER
+   RESIDUAL.** It prints every pseudo with refs, live length, block, conflicts, copy preferences and `allocno_compare`'s
+   priority, and it asserts its own coverage against the `.greg` order line — four agents in S102's burst asked for exactly
+   this and two were handed an empty table by the old version, which only ever printed callee-saved holders. It settles
+   arguments the residual cannot: one body closed by moving a priority 6524 past 6666, another by shortening a live length
+   from 44 to 43 — arithmetic on these columns, not a search. Note the `.greg` dump carries the INPUTS to global allocation
+   (order, conflicts, preferences) and not the final assignment, so a global allocno's hard register prints as `-`.
+   Also: the residual text alone cannot tell you whether an INSTRUCTION IS MISSING or the REGISTERS ARE WRONG — one agent
+   chased a register lever for hours when the defect was a cse store-to-load forward that deleted a load. Count first.
 2. TEST EVERY HYPOTHESIS ON BYTES, in your own scratch, never in the tree: write the whole function to `PACK/body.c` and run
    `.venv/bin/python tools/delever_search.py --try <tu> <fn> PACK/body.c --body` — it compiles a scratch copy of the translation
    unit through the real build recipe and prints the score and the mnemonic diff; score 0 = the function is byte-identical (the
