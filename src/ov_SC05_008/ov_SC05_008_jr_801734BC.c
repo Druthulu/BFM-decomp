@@ -3300,13 +3300,13 @@ void func_80176734(s32 param_1)
     extern void func_801775E0(s32 param_1, s32 param_2);
 
     s32 st, cach, flag, cur;
-    s32 chg;        /* L7 */
-    register s32 chg2 __asm__("$16");        /* L7 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus5)
-    s32 amp;                                 /* $s0, disjoint from chg2 */
-    register u16 tgt __asm__("$5");          /* L7 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus5)
-    s32 pv;                                  /* L6: the param copy that owns $s6 */
-    s32 ix;                                  /* L6: block A's index, hoisted out of the block */
-    u8  dum[8];                              /* L5: dead frame slot (target .frame vars=8) */
+    s16 chg;        /* s16: every `(s32)chg` is a sign extension that combine reduces to a copy ($v1) */
+    s16 amp;        /* s16, and reused as block I's change flag (the target keeps both in $s0) */
+    u16 tgt;
+    s32 pv;                                  /* the param copy that owns $s6 */
+    s32 ix;                                  /* block A's index, hoisted out of the block */
+    u8  dum[8];                              /* dead frame slot (target .frame vars=8) */
+    s32 p;          /* ONE sprite-list pointer for blocks A, B and C: its conflicts leave it $a1 */
 
     st  = (s32)&D_8011F7A8;
     ix  = ((param_1 << 16) >> 14) + st;
@@ -3317,12 +3317,11 @@ void func_80176734(s32 param_1)
 
     /* ---- block A: pulse byte ---- */
     {
-        register s32 p __asm__("$5");        /* L7 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus5)
         u8 *q;
         p = *(s32 *)(ix + 0x28);
-        q = (u8 *)(p + 0x3C);                /* L2: must live in the entry BB */
+        q = (u8 *)(p + 0x3C);                /* must live in the entry BB */
         if (D_801152BA != 0) {
-            u8 b = D_8011F7B0;               /* L1 */
+            u8 b = D_8011F7B0;
             u8 v;
             if (b < 0x80) v = b - 0x80;
             else          v = ~b - 0x80;
@@ -3337,20 +3336,19 @@ void func_80176734(s32 param_1)
 
     /* ---- block B: 0x48 animation already running ---- */
     if (*(u8 *)(flag + 0x48) != 0) {
-        register s32 pp __asm__("$5");       /* L7 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus5)
-        pp = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
-        *(u8 *)(pp + 0xD) = D_80186170[*(u8 *)(flag + 0x48)];
+        p = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
+        *(u8 *)(p + 0xD) = D_80186170[*(u8 *)(flag + 0x48)];
         if (*(u8 *)(flag + 0x48) < 4) {
             *(u8 *)(flag + 0x48) = *(u8 *)(flag + 0x48) + 1;
         } else {
             u8 c = *(u8 *)(cach + 0x48);
-            s32 q = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
             s32 arg;
+            p = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
             if (c & 0x80) {
-                *(u16 *)(q + 0x20) = D_801860D0;
+                *(u16 *)(p + 0x20) = D_801860D0;
                 arg = (s32)&D_800D45D4;
             } else if (c != 0) {
-                *(u16 *)(q + 0x20) = D_801860C2[c];
+                *(u16 *)(p + 0x20) = D_801860C2[c];
                 arg = D_8018617C[*(u8 *)(cach + 0x48)];
             } else {
                 goto Lskip;
@@ -3368,17 +3366,16 @@ void func_80176734(s32 param_1)
         }
     /* ---- block C: 0x48 changed -> start the animation ---- */
     } else if (*(u8 *)(cach + 0x48) != *(u8 *)(cur + 0x48)) {
-        register s32 pp __asm__("$5");       /* L7 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus5)
-        u8 k;                                /* L1: gives the `andi $v1,$v1,0xFF` index mask */
+        u8 k;                                /* gives the `andi $v1,$v1,0xFF` index mask */
         if (*(u8 *)(cach + 0x48) == 0 && *(u8 *)(cur + 0x48) != 0)
             *(u8 *)(flag + 0x48) = 5;
         else
             *(u8 *)(flag + 0x48) = 0;
         *(u8 *)(cach + 0x48) = *(u8 *)(cur + 0x48);
-        pp = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
+        p = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
         k = *(u8 *)(flag + 0x48);
         *(u8 *)(flag + 0x48) = k + 1;
-        *(u8 *)(pp + 0xD) = D_80186170[k];
+        *(u8 *)(p + 0xD) = D_80186170[k];
     }
 
     /* ---- block D: field 0x2E (equality-first: the ne-arm must be out of line) ---- */
@@ -3416,12 +3413,10 @@ L9C0:
 
     /* ---- block F: mode byte -> chg ---- */
     {
-        u8 m = D_800B9A13;                   /* L1 */
+        u8 m = D_800B9A13;
         if (m != 3) {                        /* inverted: `chg = 0` belongs out of line */
-            register s32 t __asm__("$2");    /* L3a: pin + 2 uses keeps `chg = t` alive */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus5)
-            t = (*(u8 *)(st + 7) != m);
-            chg = t;
-            if (t != 0) *(u8 *)(st + 7) = m;
+            chg = (*(u8 *)(st + 7) != m);
+            if (chg != 0) *(u8 *)(st + 7) = m;
         } else {
             chg = 0;
         }
@@ -3446,13 +3441,10 @@ L9C0:
 
     /* ---- block H: amp != 0 short-circuit ---- */
     {
-        s32 av;
-        av = amp;
-        __asm__("" : "=r"(av) : "0"(av));    /* L3b: keeps the `move $v0,$s0` at the merge */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus5)
-        if (av != 0) {
+        if (amp != 0) {
             *(u8 *)(flag + 0x47) = 1;
             *(u8 *)(cach + 0x4B) = *(u8 *)(cur + 0x48) | 0xF0;
-            *(u8 *)(cach + 0x47) = ((s32)D_80126D20 << 7) / av;
+            *(u8 *)(cach + 0x47) = ((s32)D_80126D20 << 7) / amp;
             goto Ltail;
         }
     }
@@ -3463,58 +3455,46 @@ L9C0:
        both the signed and the unsigned view of D_80126CE0 up front). ---- */
     tgt = *(u16 *)&D_80126CE0;
     if (D_80126CE0 != 0) {
-        u16 v;                               /* dies at the mask -> destructive `andi $v1,$v1` */
-        register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus5)
+        u8 v;                                /* u8: a SUBREG copy cse keeps; masked in place at the compare */
         v = tgt;
         *(u8 *)(cach + 0x4B) = v;
-        t = (*(u8 *)(cach + 0x47) != (v & 0xFF));
-        __asm__("" : "=r"(t) : "0"(t));      /* L3b */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus5)
-        chg2 = t;
+        amp = (*(u8 *)(cach + 0x47) != v);
     } else {
-        u32 cv = *(u8 *)(cach + 0x47);       /* L8: one load, two compares, no re-mask */
+        u32 cv = *(u8 *)(cach + 0x47);       /* one load, two compares, no re-mask */
         tgt = *(u8 *)(cur + 0x47);
-        chg2 = 0;
-        if (cv != tgt || cv == 0x80) chg2 = 1;
+        amp = 0;
+        if (cv != tgt || cv == 0x80) amp = 1;
         if (*(u8 *)(cur + 0x47) != 0 && *(u8 *)(cach + 0x4B) != 0) {
             *(u8 *)(cach + 0x4B) = 0;
             *(u8 *)(cach + 0x47) = *(u8 *)(cur + 0x47);
         }
     }
 
-    /* ---- block J: nothing-changed fast path.  The target re-tests chg after the flag load;
-       the fence below is what stops cse from folding that second test away. ---- */
-    {
-    register s32 c __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus5)
-    c = chg;
-    if (chg2 != 0) goto Lbig;
-    if (c != 0) goto Lbig;
-    if (*(u8 *)(flag + 0x47) == 0) goto Ltail;
-    __asm__("" : "=r"(c) : "0"(c));          /* L3b */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus5)
-    if (c == 0) goto Lzero;
-    }
-Lbig:
-    /* ---- block K: slew cach[0x47] toward tgt ---- */
-    {
-        u32 c = *(u8 *)(cach + 0x47);
-        s32 sv = (s16)tgt;                   /* L8 */
-        if ((s32)c < sv) {
-            *(u8 *)(cach + 0x47) = tgt;
-        } else {
-            if (sv != 0) *(u8 *)(cach + 0x47) = c - 3;   /* L4: store in BOTH arms */
-            else         *(u8 *)(cach + 0x47) = c - 8;
-            c = *(u8 *)(cach + 0x47);        /* stays a real lbu because of L4 */
-            if (c == 0 || c > 0x80) {
-                *(u8 *)(cach + 0x47) = 0;
-                *(u8 *)(cach + 0x4B) = 0;
-            } else if ((s32)c < (s16)tgt) {  /* fresh EBB -> the sll/sra is recomputed */
+    /* ---- block J/K: slew cach[0x47] toward tgt when anything changed.  The inner test re-reads
+       chg after the flag load (cse cannot see through the label), jump threading sends the outer
+       `chg != 0` past it. ---- */
+    if (amp != 0 || chg != 0 || *(u8 *)(flag + 0x47) != 0) {
+        if (amp != 0 || chg != 0) {
+            u32 c = *(u8 *)(cach + 0x47);
+            s32 sv = (s16)tgt;
+            if ((s32)c < sv) {
                 *(u8 *)(cach + 0x47) = tgt;
+            } else {
+                if (sv != 0) *(u8 *)(cach + 0x47) = c - 3;   /* store in BOTH arms */
+                else         *(u8 *)(cach + 0x47) = c - 8;
+                c = *(u8 *)(cach + 0x47);        /* stays a real lbu because of the two stores */
+                if (c == 0 || c > 0x80) {
+                    *(u8 *)(cach + 0x47) = 0;
+                    *(u8 *)(cach + 0x4B) = 0;
+                } else if ((s32)c < (s16)tgt) {  /* fresh EBB -> the sll/sra is recomputed */
+                    *(u8 *)(cach + 0x47) = tgt;
+                }
             }
+            *(u8 *)(flag + 0x47) = 1;
+        } else {
+            *(u8 *)(flag + 0x47) = 0;
         }
-        *(u8 *)(flag + 0x47) = 1;
     }
-    goto Ltail;
-Lzero:
-    *(u8 *)(flag + 0x47) = 0;
 Ltail:
 
     /* ---- block L: tail.  m+5 / m+9 are separate temps: `lhu + (m+5)`, not `(lhu + m) + 5`. ---- */

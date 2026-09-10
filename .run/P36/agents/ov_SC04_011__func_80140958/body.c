@@ -76,14 +76,14 @@ u32 mhi;
           s32 k;
           s32 t3v;
           u8 *q = ((u8 *) ot) + 0x14;
-          s16 y = 0;
+          s16 size = 0;
           t3v = m * 4;
           k = m;
-          j = 0;                  /* [L3] explicit, must sit before the 3 constants */
+          j = 0;
           pb = (u16 *) (&D_800B9A02);
           m24 = 0xFFFFFF;
           mhi = 0xFF000000;
-          do
+          for (; j < 2; j++)
           {
             if (j == 0)
             {
@@ -109,9 +109,9 @@ u32 mhi;
             *((u32 *) (q - 0x10)) = 0x64808080;
             *((s16 *) (q - 6)) = 0x4056;
             *((s16 *) (q - 0xC)) = (D_801912CC + ((u16) *((u16 *) (((u8 *) D_8011516A) + t3v)))) + 0x4A;
-            y = 8;
-            *((s16 *) (q - 2)) = y;
-            *((s16 *) (q - 4)) = y;
+            size = 8;
+            *((s16 *) (q - 2)) = size;
+            *((s16 *) (q - 4)) = size;
             *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
             {
 u32 *op;
@@ -124,7 +124,7 @@ u32 w;
             }
             q += 0x14;
             ot += 5;
-          } while (++j < 2);
+          }
 
         }
       }

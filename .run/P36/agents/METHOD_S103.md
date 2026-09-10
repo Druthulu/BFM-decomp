@@ -56,6 +56,14 @@
    - (S103 c11) a table load hoisted over a store (a `"memory"` barrier lever): `p[i]` is an aggregate access
      (`expr.c:4568-4575`) that `true_dependence` (`sched.c:817`) treats as independent of a scalar store; a cast-wrapped
      byte-offset read (`*(u8 **)((u8 *)tbl + i * 4)`) is not marked and stays after the store.
+   - (S103 c18) the INVERSE of the split: when the target keeps ONE register for one role across several blocks (the same
+     `$aN`/`$sN` loaded from the same expression in each), MERGE the per-block locals into one function-scope variable —
+     one pseudo with the combined refs picks up the conflicts that put it in the target's register (`find_reg`,
+     `global.c:945-990`). Read the whole objdump block by block for "same register, same role" — the hunk view hides it.
+     Also: two flags the target keeps in ONE `$sN` → reuse one variable for both.
+   - (S103 c18) a copy the target keeps after a `short` flag test (`move $v1,$sN`): combine reduces a sign extension of a
+     0/1 value to a plain copy (`combine.c:7932-7942`, sign-bit copies `:718`) and the extension's second user keeps it —
+     the tree's `c = chg` launder was faking exactly that copy; declare the flag `s16`, test it in a nested `||` if.
    - Dumps: `tools/cc1_dumps_tu.sh` now also writes `.cse2` (`-dt`) and `.jump2` (`-dJ`).
    - (S103 c10/c2/c4) READ LEVER-FREE BODIES that share your callees, globals or shapes ANYWHERE in the overlay, not only
      `neighbours.txt`: the answer to c10's function was in a different file (`func_80135888`), c4's was a sibling spelled

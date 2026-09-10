@@ -1467,6 +1467,16 @@ accumulate here as the phase produces them.**
   headers IDENTICAL on 141 objects each (`func_8014E83C` by R22, `func_8014CD80` by R23). Families (counted from the two TSVs): R23 12 classes,
   R22 5. Dictionary + SETUP rows.
 
+- **S103 — T7 agent c18: `func_80176734` CLOSED (90 → 0, 371/371; 128/128).** From the rebuilt mechanical best (32; the
+  pack had no `best_body.c`, so the agent replayed `history.txt`'s path): ONE variable `p` for the sprite pointer across
+  blocks A/B/C (12 refs over 41 insns, priority 8780, picks up `$a0`'s conflict and takes `$a1`, `global.c:945-990`) —
+  the INVERSE of R23's split, read off the whole objdump as "same register, same role"; block J/K as a nested `||` if with
+  `chg` as `s16` (combine turns the 0/1 sign extension into a plain copy, `combine.c:7932-7942`, and its second user keeps
+  the `move` the `c = chg` launder was faking); block I's change flag reuses `amp` (the target keeps both in `$s0`);
+  block I's copy `v` as `u8` (a SUBREG move survives `make_regs_eqv`, `cse.c:826-862`). Undoing one move at a time on the
+  final body: 2 / 12 / 8 / 9 / 53 / 22. The free text's `dum[8]`, `pv`, `ix` stay (removing any scores 18-32).
+  `apply-body … IDENTICAL … KEPT`; `--propagate: 128 of 128`. METHOD_S103 +2 entries.
+
 ## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
 
 ### 0. How to use this block
