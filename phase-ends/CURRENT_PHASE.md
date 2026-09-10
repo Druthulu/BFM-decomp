@@ -864,7 +864,27 @@ accumulate here as the phase produces them.**
   there"* — stopped at once, before it wrote anything. **Session total: 33,427 → 30,358 sites (−3,069), 12,048 → 9,747 bodies, every
   run gated 218/218, no drafting tokens.**
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09): T0–T6 ☑; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **30,358 sites** (17,954 pins + 12,404 asm) in 9,747 bodies (1,624 distinct) · marked 30,358 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (9 milestones)
+- **S102 2026-09-10 — T7 opens: the serial agent loop, agent a1 (Drew: `/effort high`, Opus 5 1M; "set and ready. start").** Oracle
+  recalibrated at HEAD `5a8bd1021`: `177/177 objects byte-identical untouched; twin checks 32 (0 mismatch); positive control DIFFERS
+  on build/src/800.o — OK`. **Agent a1 on rank 1 `func_80156044`** (ov_SC04_011, 130 copies, 2 NEEDED pins `$2`/`$3`, start 18,
+  six mechanical runs stuck at best 1): **closed it at score 0.** Its move is not a dial — it DELETES two locals: the `iVar3`/`puVar2`
+  pair that every arm of the if/else chain set is gone, and each arm gets the whole address expression
+  (`puVar4 = &D_80192454 + (((u32)param_2) & 0xffff) * 0x14;`). Mechanism, read from the compiler's own source and confirmed in the
+  `.lreg`/`.greg` dumps: (i) with the base scoped into the arm the block holds THREE local quantities instead of two, and
+  `block_alloc`'s unrolled `case 3` (`local-alloc.c:1491-1496`) falls through into `case 2` and applies `qty_compare(0,1)` a second
+  time — undoing its own exchange, so the `$2`/`$3` assignment flips (density formula `local-alloc.c:1578-1596`); (ii) deleting the
+  cross-block variable also removes it from `global.c`, where `set_preference` (`global.c:1535+`) had given it a copy preference for
+  `$5` through `puVar4`'s argument copy, merged by `expand_preferences` (`global.c:781-825`) and overriding first-fit at
+  `global.c:1034-1067`. The `u16 puVar2` width move that six runs found was a LOCAL OPTIMUM that imitates the fix by manufacturing the
+  third quantity while paying an `andi` — the search had no move that deletes a variable, so it could not leave that basin (the
+  method finding of the task). Verified independently before banking: `--try … score 0 (OTHER; mine 74 ins, target 74) — MATCH`.
+  Banked: `delever --apply-body: src/ov_SC04_011/ov_SC04_011_jr_80154C24.c:func_80156044 IDENTICAL on 1 object(s) (0.11 s) — KEPT,
+  ledgered (rung E, a1)`; propagated: `delever --propagate: 129 of 129 sibling(s) banked, 0 refused`. R22 `check-all: 218 passed, 0
+  failed of 218`; `lever_census --check: 30,098 pin/asm sites, 30,098 marked !FAKE, 0 UNMARKED — OK`; snapshot row 10
+  (**30,358 → 30,098**, −260 sites = 130 bodies × 2 pins; 9,747 → 9,617 bodies). The body is also SHORTER and more readable than the
+  levered one — two locals fewer — which is the phase's point. Toolify (R16) follows in its own commit.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED (`func_80156044`, 130 bodies, 30,358 → 30,098 sites, R22 218/218; the move DELETES two locals, which no generator produced — toolify next)**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **30,098 sites** (17,694 pins + 12,404 asm) in 9,617 bodies · marked 30,098 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (10 milestones). **S102's loop state: a1 done (rank 1); NEXT = toolify a1's move, sweep the other 56, then agent a2 on rank 2 `func_80168828`.**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**

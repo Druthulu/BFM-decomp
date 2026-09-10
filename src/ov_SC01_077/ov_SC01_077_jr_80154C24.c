@@ -1088,8 +1088,7 @@ void func_80155E30(void *a0);
 //         `extern int func_80156044` -> `extern void func_80156044` (byte-neutral; wrapper is inline-asm).
 #include "common.h"
 
-void func_80156044(int param_1, int param_2)
-{
+void func_80156044(int param_1, int param_2) {
     extern u32 func_8015616C(s32 a0, u16 a1);
     extern void func_80156670(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern void func_801567BC(s32 a0);
@@ -1100,22 +1099,16 @@ void func_80156044(int param_1, int param_2)
     extern u8 D_80188B58;
     extern u8 D_801889DC;
 
-    register s32 puVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus5)
-    register s32 iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus5)
     u8 *puVar4;
     s32 uVar1;
 
     if (((u32)param_2) & 0x10000) {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_80188B44;
+        puVar4 = &D_80188B44 + (((u32)param_2) & 0xffff) * 0x14;
     } else if (((u32)param_2) & 0x20000) {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_80188B58;
+        puVar4 = &D_80188B58 + (((u32)param_2) & 0xffff) * 0x14;
     } else {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_801889DC;
+        puVar4 = &D_801889DC + (((u32)param_2) & 0xffff) * 0x14;
     }
-    puVar4 = (u8 *)(iVar3 + puVar2);
     uVar1 = func_8015616C(((s32)param_1), *(u16 *)puVar4) & 0xffff;
     if (*(u8 *)(((s32)param_1) + 0x1a8) != 0) {
         func_80156670(((s32)param_1), *(s32 *)puVar4, uVar1, *(s32 *)(puVar4 + 4),

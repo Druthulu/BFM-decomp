@@ -72,16 +72,16 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 7991,
-   "distinct_bodies": 1233,
+   "bodies": 7861,
+   "distinct_bodies": 1232,
    "file_scope": 0,
-   "in_bodies": 17954,
+   "in_bodies": 17694,
    "kinds": {
-    "pin": 17954
+    "pin": 17694
    },
-   "marked": 17954,
-   "sites": 17954,
-   "tus": 2532,
+   "marked": 17694,
+   "sites": 17694,
+   "tus": 2530,
    "unmarked": 0
   },
   "B": {
@@ -207,9 +207,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 40265,
+   "live": 40005,
    "macro_block": 194,
-   "raw": 47251
+   "raw": 46991
   },
   "attribute": {
    "comment_dead": 0,
@@ -225,9 +225,9 @@
   },
   "register": {
    "comment_dead": 8587,
-   "live": 18004,
+   "live": 17744,
    "macro_block": 18,
-   "raw": 26609
+   "raw": 26349
   },
   "volatile": {
    "comment_dead": 2607,
@@ -237,8 +237,8 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 26.1,
- "generated": "2026-09-09",
+ "elapsed_s": 23.5,
+ "generated": "2026-09-10",
  "gte_levers": {
   "direct": 362,
   "marked": 462,
@@ -248,15 +248,15 @@
   "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "2f3ce92a1",
+ "head": "5a8bd1021",
  "headers": 3181,
  "levers_AB": {
   "asm": 12404,
-  "bodies": 9747,
-  "distinct_bodies": 1624,
-  "marked": 30358,
-  "pins": 17954,
-  "sites": 30358,
+  "bodies": 9617,
+  "distinct_bodies": 1623,
+  "marked": 30098,
+  "pins": 17694,
+  "sites": 30098,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -306,12 +306,12 @@
     1
    ],
    [
-    "gte_SetTransMatrix_m",
+    "gte_rtv0tr_m",
     2,
     1
    ],
    [
-    "gte_rtv0tr_m",
+    "gte_SetTransMatrix_m",
     2,
     1
    ],
@@ -323,11 +323,6 @@
    [
     "XFERLAST",
     2,
-    1
-   ],
-   [
-    "F14C",
-    1,
     1
    ],
    [
@@ -362,6 +357,11 @@
    ],
    [
     "XFERLAST_1919A0",
+    1,
+    1
+   ],
+   [
+    "F14C",
     1,
     1
    ],
@@ -403,14 +403,14 @@
    "$17": 664,
    "$18": 325,
    "$19": 576,
-   "$2": 3555,
+   "$2": 3425,
    "$20": 286,
    "$21": 408,
    "$22": 7,
    "$23": 144,
    "$25": 1,
    "$29": 13,
-   "$3": 2341,
+   "$3": 2211,
    "$4": 2707,
    "$5": 2328,
    "$6": 476,
@@ -423,30 +423,30 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 17954,
+  "sites": 17694,
   "sp": 13,
   "spelling": {
-   "__asm__": 17868,
+   "__asm__": 17608,
    "asm": 86
   },
   "volatile_qualified": 134,
   "zero": 788
  },
- "src_stamp": "20bf0928aa094079",
+ "src_stamp": "e8b8dc647b9d23af",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 13003,
+  "bodies": 12873,
   "by_kind": {
    "main": 171,
    "md": 152,
-   "ov": 12384,
+   "ov": 12256,
    "resident": 12,
-   "shared": 284
+   "shared": 282
   },
-  "copies_in_multi": 11407,
-  "distinct_bodies": 1902,
-  "multi_copy_classes": 306
+  "copies_in_multi": 11277,
+  "distinct_bodies": 1901,
+  "multi_copy_classes": 305
  },
  "verbatim_excluded": {
   "functions": 13,

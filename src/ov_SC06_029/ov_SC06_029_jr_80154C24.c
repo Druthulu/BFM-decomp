@@ -1024,22 +1024,16 @@ void func_80156044(int param_1, int param_2) {
     extern u8 D_8018E5A4;
     extern u8 D_8018E428;
 
-    register s32 puVar2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus5)
-    register s32 iVar3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus5)
     u8 *puVar4;
     s32 uVar1;
 
     if (((u32)param_2) & 0x10000) {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_8018E590;
+        puVar4 = &D_8018E590 + (((u32)param_2) & 0xffff) * 0x14;
     } else if (((u32)param_2) & 0x20000) {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_8018E5A4;
+        puVar4 = &D_8018E5A4 + (((u32)param_2) & 0xffff) * 0x14;
     } else {
-        iVar3 = (((u32)param_2) & 0xffff) * 0x14;
-        puVar2 = (s32)&D_8018E428;
+        puVar4 = &D_8018E428 + (((u32)param_2) & 0xffff) * 0x14;
     }
-    puVar4 = (u8 *)(iVar3 + puVar2);
     uVar1 = func_8015616C(((s32)param_1), *(u16 *)puVar4) & 0xffff;
     if (*(u8 *)(((s32)param_1) + 0x1a8) != 0) {
         func_80156670(((s32)param_1), *(s32 *)puVar4, uVar1, *(s32 *)(puVar4 + 4),
