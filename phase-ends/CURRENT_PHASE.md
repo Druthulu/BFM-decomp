@@ -1250,6 +1250,46 @@ accumulate here as the phase produces them.**
   independent cracks and `argcheck`'s 471 narrow call sites inside 323 bodies that still hold an argument-register pin.
   Measured for scale: the tree holds **372,224 raw cast dereferences against 92,624 struct member accesses**.
 
+- **S102 — THE CALL-SIGNATURE TURN: 16,759 lying declarations repaired across 3,439 units, byte-identical, and the class
+  turned into tooling.** Drew read the six agent cracks and asked the two questions that mattered — *"can we do a tooling
+  solution that doesn't need cracking funcs?"* and *"do call signatures need fixing in our non-register-pin funcs?"* —
+  and both answers are now measured rather than argued.
+  **`tools/argcheck.py`** reads every function's REAL signature from its definition (a `.c` under `src/` or a shared body
+  header) and reports every call declaration narrower than it: at the open, **110,478 over 1,912 callees** (86,701
+  K&R-empty, 23,777 positively `(void)`), of which **471 sat in 323 bodies still holding an argument-register pin**.
+  **`delever.restore_arguments` (R19)** turns the class into engine work: it offers the call at the callee's full arity
+  through a function-pointer cast, one candidate per value already in scope, and the byte oracle picks — the missing
+  argument is never inferred. Ranked FIRST in every residual class because it emits nothing when it does not apply.
+  Known-true: run on `func_8017A3D8`'s pre-bank text it emits agent a12's exact fix and scores `0 … MATCH`. Sweep s8:
+  `3 of 55 exemplars matched lever-free … 12,034 compiles`, **every close R19, each at depth 1 in TWO compiles** — the
+  class seven earlier runs could not touch at any width.
+  **`tools/decl_repair.py`** answers the other half: a declaration is repaired only where every call in that unit ALREADY
+  passes the arguments, so the code is right and only the promise is wrong. **3,439 units / 16,759 declarations were
+  byte-identical with the declarations made honest; `check-all: 218 passed, 0 failed of 218`.** Only 2 units / 3
+  declarations genuinely depend on a false declaration.
+  **TWO INSTRUMENT FAILURES ON THE WAY, AND THE SECOND NEARLY SHIPPED AS A FINDING (R39/R40).** (i) The first framing
+  widened declarations and left the call sites alone — not a repair at all, since a prototype demanding an argument the
+  call does not pass is a hard error; **1,766 of the first 3,250 units could not compile BY CONSTRUCTION** and none was
+  IDENTICAL. A measurement that cannot come out any other way is not a measurement. (ii) The corrected scan still
+  returned **0 free of 3,634 units**, and I reported it before controlling it. The control I had not run — compile the
+  UNCHANGED text through the same path — came back **DIFFERENT by 9,176 bytes**, because the candidate is built from a
+  scratch copy and the object records its own source filename; comparing only `.text`/`.rodata`/`.data` removes the path
+  and the control then matches exactly. **The control now runs for every unit inside the tool**, and a unit whose control
+  fails is reported as a harness failure rather than as a result about the code (101 of them). The unit that had reported
+  "the code depends on the false declaration" reports the opposite once controlled.
+  **`tools/readability_progress.py` — the Gen3 series Drew asked for**, beside `docs/levers.md`, because levers are only
+  one way the source is untrue: lying call declarations (split `()` / `(void)`, and how many sit in a pinned body) and
+  raw cast dereferences against struct member reads — the struct debt. Dated rows carrying their commit, generated never
+  typed (R75); `docs/readability.md` renders it. **First row, after the repair: 94,001 lying declarations over 1,564
+  callees (86,701 `()`, 7,300 `(void)`), 461 in 314 pinned bodies; 414,148 raw cast dereferences against 173,286 struct
+  member reads.** The remainder is three groups: declarations the unit never calls, calls that genuinely pass too few
+  arguments (R19's, one candidate per in-scope value), and declarations inside `src/shared` headers, which are not units
+  with recipes and were never scanned — stated as a scope limit in the tool.
+  **The teaching example, compiled through the pinned cc1 and worth keeping for the story:** `extern void f(void); void
+  g(void) { f(); }` emits `subu sp; sw ra; jal f`, while `extern void f(int); void g(void) { f(counter); }` emits
+  `lw $4,counter` first. `$4` is the first argument register — **a false declaration DELETES AN INSTRUCTION from the
+  program**, and that deleted instruction is precisely what a register pin was hired to fake.
+
 ## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **27,984 sites** in 8,249 bodies · marked 27,984 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (20 milestones). **S102's loop state: the burst of 20 is landing; a4/a7/a8/a12/a18/a19 banked (756 bodies); the per-file scratch-object collision is FIXED (per-function tag); the biggest class found is a truncated `(void)` DECLARATION, three cases of which need the types phase.**
 
 ### 0. How to use this block
