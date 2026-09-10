@@ -3649,7 +3649,7 @@ void func_8017EF30(s32 arg)
     s32 hit;
     s32 q;
     s32 r;
-    register s32 t __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 t;
 
     p = D_80185034;
     arr[3] = 0x3A7;
@@ -3682,7 +3682,7 @@ void func_8017EF30(s32 arg)
             arr[1] = sv[1];
             t = sv[2];
             arr[2] = t;
-            func_8012C51C(arr, (s32)arg, t);
+            ((s32 (*)(void *a0, s32 a1))func_8012C51C)(arr, (s32)arg);
         }
     }
 }

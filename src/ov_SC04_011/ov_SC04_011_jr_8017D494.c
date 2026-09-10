@@ -11670,10 +11670,10 @@ extern u8 D_801949C0[];
 
 void func_80189D38(void *a0)
 {
-    register s32 mode __asm__("$5") = 2;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t3_tus1)
+    s32 mode = 2;
 
     if (*(s16 *)((s32)a0 + 0xFE) != 0) {
-        ((void (*)())func_80189EAC)(a0, mode);
+        func_80189EAC(a0);
         {
             u16 t = *(u16 *)((s32)a0 + 0x70);
             if (t & 1) {

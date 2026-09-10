@@ -1558,6 +1558,33 @@ accumulate here as the phase produces them.**
   is claimed**; the census: 203 residue classes / 448 bodies call a function with more arguments than it takes (a first
   census counted each definition's own `(void)` header as a one-argument call — caught by its self-referencing top rows,
   R40). Selftest fixture (both spellings + the side-effect refusal), `delever --selftest: OK`; SETUP rows.
+- **S103 — re-draws c25 and c26 CLOSED (S102 readings at 4 and 11).** **c25 `func_80166F58`** (0, 69/69; 124/124): the
+  copies `p2 = (short)t2; p3 = (short)t3;` with `eq` reading the originals — cse cannot see through the double
+  extension (`cse.c:7456` wants a REG source), combine reduces it to a copy but keeps the producer (`added_sets_2`,
+  `combine.c:1458`), and local-alloc's `optimize_reg_copy_1` (`local-alloc.c:700`, called `:1003-1007`) points the `xor`
+  at the copies; each half alone scores worse (2, 11). The redundant `(short)` is a value-preserving narrowing — accepted
+  as ordinary C (a declared-`short` local reaches the same bytes). **c26 `func_80133CD4`** (0, 399/399; 130 of 133 —
+  three are a different variant): the three `pb0[k] +=` in order with the shifted reloads after, and the reused `t`
+  split into `t0/t1/t2` (local-alloc.c:472, `combine_regs` `:1870`, `qty_compare_1` `:1598`); the earlier agent's
+  do-while was not needed. **c26's `lsim.py` promoted as `tools/localalloc_sim.py`** after the coordinator's validation:
+  `mismatches vs dump: 0` over 126 block simulations on five dumps of its function and 24 on func_8013D178 /
+  func_8013D8FC / func_8013D53C.
+- **S103 — a propagate defect found and fixed: STALE ledger hashes hid siblings.** c26's propagate printed `-> 0
+  sibling(s) of class 44af245e1a13` for a 131-copy class: its siblings' ledger rows carried the T4-era hash
+  (`4b25d21fdcee`) because S102's `decl_repair` rewrote block-scope externs inside those bodies without writing rows
+  (R51). `delever.propagate` now also considers every RESIDUE row of the same function name and lets the existing
+  per-sibling current-text check decide: `130 of 133 sibling(s) banked, 3 refused`. **Blast radius measured (R14):** of
+  2,843 banked exemplars, one other had hash-matching unpropagated siblings (`func_8014D820`, 2) — and both are correctly
+  refused by the remap's symbol-consistency check (`D_8019207C maps to both …`), so the free yield there is 0; a hash
+  census overcounts remappable twins.
+- **S103 — the R19+R25 regen pass (R19 now sees the K&R callees):** first launch REFUSED `unknown families ['R25']` —
+  the `ALL_FAMILIES` edit had matched nothing (a literal `\\n`); the selftest now asserts every family `recipe_candidates`
+  dispatches is registered (negative control: removing R25 fails it by name). Rerun: `1150 of 1150 classes judged in 474
+  s — {'MATCH': 3, 'BEST': 98, 'NO-CANDIDATE': 1040, 'UNSCORED': 9}`, all three MATCH by R25 (R19 found no new close);
+  the 9 UNSCORED were candidates that genuinely do not compile (a direct trimmed call against a prototype demanding the
+  argument: "too few arguments") — `delever_regen` now reports those as COMPILE-ERROR, not UNSCORED (R61). `--bank: 3 of
+  3 MATCH row(s) banked`. R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 13,083 pin/asm sites,
+  13,083 marked !FAKE, 0 UNMARKED — OK`.
 
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
 

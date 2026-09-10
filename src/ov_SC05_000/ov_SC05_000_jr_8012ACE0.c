@@ -2408,8 +2408,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         s32 *pc0;
         s32 *pc4;
         u16 *pb0;
-        s32 t, o2;
-        s32 q3v;
+        s32 t0, t1, t2, o2;
 
         {
             s32 *pw = D_8017E830;
@@ -2435,28 +2434,21 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         pb0 = D_8017E820;
         pb0[0] += s1var * pc0[0] / s0var;
         pb0[1] += s1var * pc0[1] / s0var;
-        q3v = s1var * pc0[2] / s0var;
-
-        {
-            s32 h;
-            h = ((s16 *)pb0)[0];
-            s1var = h << 16;
-            __asm__("lh %0, 2(%2)" : "=r"(h) : "0"(h), "r"(pb0) : "memory");  // !FAKE: instruction lh — NEEDED DIFFERS (P36 rung B tus3)
-            s0var = h << 16;
-        }
-        pb0[2] += q3v;
+        pb0[2] += s1var * pc0[2] / s0var;
+        s1var = (s16)pb0[0] << 16;
+        s0var = (s16)pb0[1] << 16;
         s2a = (s16)pb0[2] << 16;
 
-        t = pc0[0] << 4;
-        pc0[0] = t;
-        if (t < 0) s1var |= 0xFFFF;
-        t = pc0[1] << 4;
-        pc0[1] = t;
-        if (t < 0) s0var |= 0xFFFF;
+        t0 = pc0[0] << 4;
+        pc0[0] = t0;
+        if (t0 < 0) s1var |= 0xFFFF;
+        t1 = pc0[1] << 4;
+        pc0[1] = t1;
+        if (t1 < 0) s0var |= 0xFFFF;
         o2 = pc0[2];
-        t = o2 << 4;
-        pc0[2] = t;
-        if (t < 0) s2a |= 0xFFFF;
+        t2 = o2 << 4;
+        pc0[2] = t2;
+        if (t2 < 0) s2a |= 0xFFFF;
         s2a += o2 << 5;
         s1var += pc0[0] << 1;
         s0var += pc0[1] << 1;

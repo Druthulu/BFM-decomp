@@ -44,7 +44,7 @@
    - (S103 c1/c8) a register permutation among pointers/temps: a local REUSED across statement groups dies more than once
      and is refused by local-alloc (`local-alloc.c:472`) — split it into one name per value (generator R23 does this).
      `tools/alloc_table.py` prints the GLOBAL priority; local-alloc ranks by `qty_compare_1` (`local-alloc.c:1598`) —
-     `../ov_SC04_011__func_80135168/scratch/lpri.py` computes that from the `.lreg` dump.
+     `tools/localalloc_sim.py <.lreg> <fn> <uid>` simulates it per block (0 mismatches over 150 validated blocks).
    - (S103 c11) the target keeps a global's address in a callee-saved register but yours rematerialises `lui`/absolute
      loads (a "launder" lever): write the late field reads relative to a DERIVED pointer the body already has
      (`*(T *)(arr + (D - K))`, not `*(T *)(base - K)`) — fold_rtx re-associates before folding (`cse.c:5580-5667`) and

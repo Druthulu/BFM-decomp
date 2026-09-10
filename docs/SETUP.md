@@ -1800,6 +1800,10 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   other readable definition, so R19, R25, `decl_repair` and the readability census were blind to them. The params string
   carries the DEFAULT-PROMOTED types (char/short → int), so a cast built from it matches the definition. Definitions read:
   15,626 → 15,721. Found by R25's known-true check (its first callee was absent).
+- **`tools/localalloc_sim.py <.lreg> <fn> <uid>`** (agent c26's simulator, promoted): local-alloc's per-block ranking
+  (`qty_compare_1`) and the register each quantity gets, printed beside the dump's own assignment — validated 0 mismatches
+  over 150 block simulations on four functions. Use it for a register permutation inside one block; `alloc_table.py` shows
+  only global allocation and misled two agents.
 - **`tools/delever_regen.py --families R22 R23 [-j 10] [--exclude FN …] [--label L]`** (read-only) then
   **`--bank .run/P36/regen/<L>.tsv`** (the one writer) — re-runs NEW generator families over the whole residue. The
   residue's NO-MATCH attempts predate every family harvested since, and nothing re-tried them; an engine re-sweep writes the

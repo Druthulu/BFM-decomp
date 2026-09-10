@@ -3242,10 +3242,10 @@ void func_8017E98C(void *a0)
 {
   char *new_var;
   s32 v0;
-register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
+void *s0;
  do { } while (0);
   s0 = a0;
-  ((void (*)(void *))func_8017EEB4)(a0);
+  func_8017EEB4();
   new_var = (char *) s0;
   v0 = 0x8;
   *((s32 *) (((char *) s0) + 0x200)) = v0;

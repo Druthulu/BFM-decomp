@@ -3439,6 +3439,16 @@ def propagate(a):
             cur[(r["tu"], r["fn"])] = r
     sibs = [k for k, r in cur.items() if k != (tu, fn) and r.get("verdict") == "RESIDUE"
             and (r.get("nhash_after") or r.get("nhash_before")) == key]
+    # The ledger's stored hash goes STALE when a tree-wide edit changes residue bodies without writing rows (S103:
+    # decl_repair's 16,759 declaration repairs rewrote block-scope externs inside bodies, so func_80133CD4's 130 siblings
+    # were recorded under the T4-era hash and propagate found 0 — R51, a derived property stored as data). So the
+    # candidates also include every RESIDUE row of the same function name, and the per-sibling check below — the
+    # sibling's CURRENT text must hash to the class — is what decides; a stale row can no longer hide a sibling.
+    seen = set(sibs)
+    for k, r in cur.items():
+        if k != (tu, fn) and k not in seen and r.get("verdict") == "RESIDUE" and k[1] == fn:
+            sibs.append(k)
+            seen.add(k)
     if a.only:
         sibs = [k for k in sibs if any(o in k for o in a.only)]
     sibs = sibs[:a.limit] if a.limit else sibs
