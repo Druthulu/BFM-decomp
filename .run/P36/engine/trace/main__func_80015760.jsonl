@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 23, "tu": "src/800.c", "fn": "func_80015760", "label": "s3"}
+{"kind": "seed", "start": 23, "tu": "src/800.c", "fn": "func_80015760", "label": "s3b"}
 {"depth": 1, "move": "R12 width tagCode u32->u16 @2716", "parent": 23, "score": 22, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R16 const-holder tagCode=0x03000000 x1", "parent": 23, "score": 24, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R6 inline xLow @2767", "parent": 23, "score": 26, "kind": "COUNT", "ident": false}

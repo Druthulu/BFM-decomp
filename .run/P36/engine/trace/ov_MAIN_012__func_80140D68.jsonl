@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 8, "tu": "src/shared/ov/func_80140D68.h", "fn": "func_80140D68", "label": "s3"}
+{"kind": "seed", "start": 8, "tu": "src/shared/ov/func_80140D68.h", "fn": "func_80140D68", "label": "s3b"}
 {"depth": 1, "move": "R6 inline mhi @28", "parent": 8, "score": 8, "kind": "REG", "ident": false}
 {"depth": 1, "move": "R16 const-holder mhi=0x64808080 x1", "parent": 8, "score": 8, "kind": "REG", "ident": false}
 {"depth": 1, "move": "R8 hoist tmp0 @41", "parent": 8, "score": null, "kind": "COMPILE-ERROR:", "ident": false}

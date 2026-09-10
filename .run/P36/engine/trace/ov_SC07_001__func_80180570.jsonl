@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 5, "tu": "src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c", "fn": "func_80180570", "label": "s3"}
+{"kind": "seed", "start": 5, "tu": "src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c", "fn": "func_80180570", "label": "s3b"}
 {"depth": 1, "move": "R4 decl-move k 3->0", "parent": 5, "score": 5, "kind": "MIXED", "ident": false}
 {"depth": 1, "move": "R6 inline k @4419", "parent": 5, "score": 8, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R7 block @4419", "parent": 5, "score": 5, "kind": "MIXED", "ident": false}

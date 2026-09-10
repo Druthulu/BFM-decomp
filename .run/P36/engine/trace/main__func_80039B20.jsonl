@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 23, "tu": "src/800_c.c", "fn": "func_80039B20", "label": "s3"}
+{"kind": "seed", "start": 23, "tu": "src/800_c.c", "fn": "func_80039B20", "label": "s3b"}
 {"depth": 1, "move": "R12 width t1 s32->u16 @3767", "parent": 23, "score": 19, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R16 const-holder i=0 x9", "parent": 23, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 1, "move": "R14 param-width arg1 s16->s32 @3763", "parent": 23, "score": 25, "kind": "COUNT", "ident": false}

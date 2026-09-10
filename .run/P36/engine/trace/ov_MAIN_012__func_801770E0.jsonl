@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 8, "tu": "src/shared/ov/func_801770E0.h", "fn": "func_801770E0", "label": "s3"}
+{"kind": "seed", "start": 8, "tu": "src/shared/ov/func_801770E0.h", "fn": "func_801770E0", "label": "s3b"}
 {"depth": 1, "move": "R12 width t s32->u16 @21", "parent": 8, "score": 10, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R14 param-width param_2 u32->u16 @8", "parent": 8, "score": 14, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R6 inline dl @30", "parent": 8, "score": 18, "kind": "COUNT", "ident": false}

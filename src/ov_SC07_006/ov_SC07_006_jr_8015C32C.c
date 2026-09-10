@@ -4728,7 +4728,7 @@ s32 func_801621CC(s32 arg0) {
     extern s32 D_8018CF48;
     s32 s0 = arg0;       /* $s0: arg0, crosses the call */
     u8 *s1 = D_80078E78; /* $s1: base, hoisted for the loop */
-    register s32 i __asm__("$5");                /* $a1: counter (pin fixes the i/d swap) */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus4)
+    s32 i;
     u32 a2;
     s32 d;                                       /* $a0: natural alloc; load via $v0 temp */
     s32 v, last, hi, lo;
@@ -4749,7 +4749,6 @@ s32 func_801621CC(s32 arg0) {
     }
     hi = (a2 >> 8) & 0xFF;
     last = s0 - 1;
-    lo = a2 & 0xFF;
     do {
         if ((s8)d < 0) {
             d = 0x17;
@@ -4760,14 +4759,14 @@ s32 func_801621CC(s32 arg0) {
                 return (s32)&D_8018CF48;
             }
             i++;
-            if ((u32)s1[0x38] < (u32)lo) {
+            if ((u32)s1[0x38] < (u32)(a2 & 0xFF)) {
                 return (s32)&D_8018CF48;
             }
             goto bot;
         }
         i++;
     bot:
-        d--;
+        do { d--; } while (0);
     } while (i < s0);
     return 0;
 }
