@@ -209,7 +209,7 @@ class Scorer:
         self.header = tu.endswith(".h")
         self.path = REPO / tu
         self.inflight = inflight
-        base = REPO / self.primary["obj"]
+        base = oracle.baseline_path(self.primary["obj"])   # the snapshot when one exists: `make clean` must not wipe a live score
         if not base.exists():
             raise Unstrippable([("<baseline>", 0, f"{self.primary['obj']} missing — run the fleet build first (R56)")])
         self.base_bytes = base.read_bytes()
@@ -749,7 +749,7 @@ def score_file(a):
     if data is None:
         print(f"{tu}:{fn}: {'COMPILE-CRASH' if err.startswith('CRASH:') else 'COMPILE-ERROR'} — {err[:300]}")
         return 2
-    base = REPO / rec["obj"]
+    base = oracle.baseline_path(rec["obj"])                # ditto: an agent scoring during an R22 gate must still see a baseline
     tgt = md.insns_from_object(str(base), fn)
     p = scratch_dir / "cand.o"
     p.write_bytes(data)

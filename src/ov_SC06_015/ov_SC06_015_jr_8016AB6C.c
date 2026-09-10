@@ -2704,7 +2704,7 @@ s32 func_8016C49C(s32 param_1_arg) {
     extern u8 D_80193C80[];
     extern u8 D_80193D40;
 
-    register u16 *param_1 __asm__("$17") = ((u16 *)param_1_arg);  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    u16 *param_1 = ((u16 *)param_1_arg);
     int iVar5;
     int iVar6;
     u16 sv[4];
@@ -2774,7 +2774,7 @@ s32 func_8016C49C(s32 param_1_arg) {
         *(int *)(param_1 + 0x16) = 0;
         sVar1 = param_1[1] + 1;
     }
-    param_1[1] = sVar1;
+    do { param_1[1] = sVar1; } while (0);
 }
 
 

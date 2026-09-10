@@ -1079,7 +1079,44 @@ accumulate here as the phase produces them.**
   compile into scratch and only READ `build/`), so the writing lane keeps up during a burst and the R22 fleet gate is taken
   when the burst drains, before the close.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,013 sites** in 8,878 bodies · marked 29,013 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (18 milestones). **S102's loop state: BURST OF 20 AGENTS in flight (Drew, 2026-09-10); a7 landed and banked (127 bodies, the missing-argument class); the R22 fleet gate is DEFERRED until the burst drains because `make clean` deletes the `build/` baseline every live `--try` scores against.**
+- **S102 — THE BUILD-DIRECTORY COUPLING FIXED so the burst is safely parallel (Drew, 2026-09-10: "fix the build issue so
+  agents effort dont get wiped, this needs to be parallelizable").** Every score in this engine compares a candidate with
+  the fleet run's object under `build/`, and the R22 gate starts with `make clean`, which deletes exactly that — with agents
+  scoring in parallel a fleet gate would have made every live `--try` compare against a missing or half-written baseline
+  and report nonsense **in the agent's own voice**. Fixed at the single accessor: `delever_oracle.baseline_path(obj)`
+  returns the SNAPSHOT under `.run/P36/delever/baseline/` when it holds the object and falls back to `build/` when it does
+  not, so nothing can silently score against half a snapshot; `baseline_bytes` and both direct readers in
+  `delever_search.py` (the engine's `Scorer` and `--try`) go through it. `delever_oracle --snapshot-baseline` refreshes it:
+  **7,428 objects, 188 MB, taken at `9f5b22176`**. It is valid until the fleet stops being green, because the baseline is
+  the ORIGINAL game's bytes and a bank is byte-identical by construction. **Known-true test, both directions:**
+  `func_800123F0` in `src/800.c` scores `0 … MATCH` with `build/src/800.o` present, `build/src/800.o` was then MOVED AWAY
+  and it scores `0 … MATCH` unchanged, then restored (186,228 bytes). The R22 gate may now run at any time; refresh the
+  snapshot after each green `check-all`.
+- **S102 — T7 agent a4: `func_8016C49C` CLOSED at score 0 from a seed of 34, 126 bodies (1 + 125, 0 refused), by ONE
+  character-level move:** `param_1[1] = sVar1;` → `do { param_1[1] = sVar1; } while (0);` on the function's LAST statement,
+  and nothing else. The whole 34-point residual was a single `qsort` comparison in `global_alloc` lost by 142 units out of
+  6,666: `global.c:546` sorts allocnos by `global.c:587`'s priority `floor_log2(refs)*refs/live_length*10000*size` and
+  `find_reg` (`global.c:904`) colours first-fit, so whoever is compared first takes `$s1`. The agent read the pinned cc1's
+  own `-dl -dg` dumps and reproduced the table by hand — it matches `;; 8 regs to allocate: 81 76 80 73 74 140 75 84`
+  exactly: `r80 iVar4` refs 5 / live 15 / **pri 6666** against `r73 param_1` refs 23 / live 141 / **pri 6524**. `reg_n_refs`
+  is LOOP-WEIGHTED and computed before combine and sched (`toplev.c:2983` → `:3004` → `:3033` → `:3080`): `flow.c:434`
+  starts at `depth = 1`, `:440-443` bumps it on `NOTE_INSN_LOOP_BEG/_END`, and `:2067`/`:2501`/`:2711` do `reg_n_refs +=
+  loop_depth`, so the reference inside a `do {} while (0)` is counted TWICE — refs 23→24, pri 6524→**6808 > 6666**, the
+  order flips, `param_1` takes `$s1` and all 34 words fall into place. **Control proving it is the NOTES and not the
+  scope:** a plain `{ … }` block at the same site leaves refs at 23 and still scores 34. **Position is the discriminator,
+  not the site:** of all 47 do-while sites in this body 22 change the instruction count and only the function's last
+  statement scores 0 (next best 2).
+  **Two instrument findings from it, both to act on:** (i) `recipe_candidates` ranks by distance to the nearest NEEDED site
+  (`delever.py:2520-2529`), the only NEEDED site here is the declaration pin at 2707 and the answer is at 2777, so
+  `do-while @2777` ranked **438 of 439** and `--cap 48` cut it in g3, g5, s1, s2, s4 and s7 — **~4,300 compiles spent
+  discarding the answer six times**; for the regalloc-order class the ranking must be by TAIL distance, or a block's last
+  statement must never be dropped by the cap. (ii) `history.txt`'s `R15 sink @2777 -> 1` is NOT reproducible — the agent ran
+  `sink_merges` and scored its exact text at **40 (mine 173 ins)**, so either the trace row or the generator moved; to be
+  checked against the bytes before either is trusted (R40). Also `tools/alloc_table.py` drops the `;; N regs to allocate:`
+  line — the most informative line in a `.greg` dump — and its `Register N in M.` regex missed 7 of the 8 allocnos.
+  `lever_census --check: 28,887 pin/asm sites, 28,887 marked !FAKE, 0 UNMARKED — OK` (29,013 → 28,887); snapshot row 19.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **28,887 sites** in 8,752 bodies · marked 28,887 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (19 milestones). **S102's loop state: the burst of 20 agents is in flight; a4 and a7 landed and banked (126 + 127 bodies); the build/ coupling is FIXED (a baseline snapshot the R22 gate cannot wipe), so the fleet gate and the agents are now independent.**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**

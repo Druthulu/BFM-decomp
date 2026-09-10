@@ -17,3 +17,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-10	S102 T7 s6 — the last never-attempted exemplars: 25 of 337; the fresh pool is now empty	67e91ad4d	29148	16996	12152	9010	1283	29148	0	462	314	1590	50	7428	445	76
 2026-09-10	S102 T7 s7 (stopped early to restore agent cadence) — 5 of 207 judged at the wider width	724c68859	29140	16989	12151	9005	1280	29140	0	462	314	1590	50	7428	445	76
 2026-09-10	S102 T7 a7 — func_801287B8: a truncated local extern was faking a  pin; the missing call argument restored through a function-pointer cast (127 bodies)	bb0e95c7c	29013	16862	12151	8878	1279	29013	0	462	314	1590	50	7428	445	76
+2026-09-10	S102 T7 a4 — func_8016C49C: one do-while on the function's LAST statement doubles a loop-note reference weight and flips allocno_compare (126 bodies)	9f5b22176	28887	16736	12151	8752	1278	28887	0	462	314	1590	50	7428	445	76
