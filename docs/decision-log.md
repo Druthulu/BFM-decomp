@@ -3714,3 +3714,37 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
   35 minutes of state only in its transcript. (3) Build the disagreeing oracle before the batch runs, not after: the text oracle found
   in one run what the byte join could never see. (4) A tool's restore path is part of the tool (R57): `git checkout` on an uncommitted
   tree is a destroyer with a green exit code.
+
+## P36 S101 (2026-09-09) — the levers phase pivots from search to reading: a scored engine, the head as the number, and one agent at a time
+
+**Context and belief.** After T6 the residue was 33,427 sites in 12,048 bodies (1,755 text classes); the free recipe rung had measured
+as a replication engine (134/134 on a known shape, 0/300 on unknown ones, cookbook §454a) and the permuter as a random walk that
+reprints the source. Drew's plan for S101: build a compute-only guided engine ("a fancier permuter, focused on pin pulling and C shape
+matching") while a Fable agent reads gcc 2.7.2's source for the residual → move map, and defer the exemplar triage.
+
+**What was built and what it measured.** Rung G (`tools/delever_search.py`): the candidate is scored by the function's instructions in
+the oracle's own scratch object against the fleet run's baseline object (an edit distance over the reloc-masked words — a positional
+count read one inlined temp as 43), the residual classified from the diff blocks, the move families ordered by the class from lane
+B's map and ranked round-robin, a beam composing two to five moves, every score-0 banked through the real recipe and propagated to the
+class. Six runs, no drafting tokens: g1 1/16, g2 1/16, g3 13/64 (1,516 bodies), g4s 3/38, g5 5/70, g6+g6b 110/400 (the tail) —
+33,427 → 30,358 sites, every bank gated 218/218. The generator registry grew from six moves to fourteen, each new one read off a
+residual with `--explain` and, where lane B's map named it, verified on bytes (a constant-operand swap is byte-neutral; the do-while
+lever is the ref weight in `.lreg`; the 16-bit copy does not reach a value whose known bits already fit).
+
+**What failed, and why it looked right.** Wider search looked like the lever after g3 (nine of fifteen moved past g1's best when the
+beam widened); g5 then spent 112,216 compiles at three times the beam and eight times the budget for 62 bodies in small classes and
+closed none of the ~50 head classes. The instrument also lied twice before it was caught by its own controls: a per-tag scratch
+object let two workers read each other's objects (a byte-identical body scored 14,871), and the ledger's rung-R miss rows carried no
+text hash (301 bodies read as one class). Both were found by reading an artifact, not by a red check.
+
+**The pivot.** Derived from the ledger at the end: 57 classes of ≥100 copies hold 7,318 of the 9,796 residue bodies, 17 within four
+instructions. Each is a reading and a generator, not a search. Drew's decision: run T7 as ONE AGENT AT A TIME on the head (he had
+approved a 57-agent wave and then reshaped it: "time clock isn't the issue, it's efficiency … hone our methodology each time one lands,
+in the hopes of learning enough to be able to tool crack the rest"), starting in a fresh session. The agent's loop scores its
+candidate without a tree write (`--try`), the coordinator banks and propagates, the move becomes a generator, the engine sweeps the
+rest for free — the harvest→toolify gate at the granularity of one crack.
+
+**Hindsight (the better path).** Read the residual first, always: every generator that closed a class this session came from
+`--explain` on one body and a line of the compiler's source, and every hour of wider search bought less than the previous one. The
+engine's real value was not the search but the SCORE — a distance that turns a stall into a named shape — and the instrument that
+prints it. Build that on day one of a de-lever campaign, before any search.
