@@ -2658,19 +2658,18 @@ s32 func_801345F8(s32 arg)
     extern u16 * D_80182F08;
     extern u16 D_801F1EC0;
 
-    register u16 *param_1 __asm__("$5") = ((u16 *)arg);  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus2)
-    register u16 *cc __asm__("$4") = D_80182F08;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus2)
-    int c8000 = 0x8000;
-    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus2)
-    u32 c1, c2, uVar6, uVar2, cnt, v14;
-    u16 *ptmp, *puVar4, *puVar7, uVar1;
-    int hi, harg, iVar9, iVar8, uVar3, uVar10, tbl;
+    u16 *cc = D_80182F08;
+    u16 *param_1 = ((u16 *)arg);
+    u32 c1, c2, cnt, v14;
+    u16 uVar6, uVar2, rem;
+    u16 *ptmp, *puVar4, *puVar7, uVar1, harg;
+    int hi, iVar9, iVar8, uVar3, uVar10, tbl;
 
-    c1 = ((int)(cc[0] + c8000) >> 7 & 0x1ff) - (u32)param_1[0];
-    uVar6 = c1 + zr;
+    c1 = ((int)(cc[0] + 0x8000) >> 7 & 0x1ff) - (u32)param_1[0];
+    uVar6 = c1;
     if ((c1 & 0xffff) < (u32)param_1[2]) {
-        c2 = ((int)(cc[2] + c8000) >> 7 & 0x1ff) - (u32)param_1[1];
-        uVar2 = c2 + zr;
+        c2 = ((int)(cc[2] + 0x8000) >> 7 & 0x1ff) - (u32)param_1[1];
+        uVar2 = c2;
         if ((c2 & 0xffff) < (u32)param_1[3])
             goto do_mult;
         return 0;
@@ -2687,10 +2686,13 @@ s32 func_801345F8(s32 arg)
         cnt = (u32)ptmp[1];
         v14 = *(int *)(param_1 + 10);
         puVar4 = (u16 *)(v14 + (u32)*ptmp + cnt * 2) - 1;
-        while (((cnt-- + zr) & 0xffff) != 0) {
+        for (;;) {
+            rem = cnt--;
+            if (rem == 0)
+                break;
             uVar1 = *puVar4;
             hi = uVar1 & 0x8000;
-            harg = hi + zr;
+            harg = hi;
             if (hi == 0)
                 puVar7 = (u16 *)(iVar9 + (u32)uVar1 * 0x12);
             else

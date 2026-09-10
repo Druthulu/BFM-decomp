@@ -1116,7 +1116,47 @@ accumulate here as the phase produces them.**
   line — the most informative line in a `.greg` dump — and its `Register N in M.` regex missed 7 of the 8 allocnos.
   `lever_census --check: 28,887 pin/asm sites, 28,887 marked !FAKE, 0 UNMARKED — OK` (29,013 → 28,887); snapshot row 19.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **28,887 sites** in 8,752 bodies · marked 28,887 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (19 milestones). **S102's loop state: the burst of 20 agents is in flight; a4 and a7 landed and banked (126 + 127 bodies); the build/ coupling is FIXED (a baseline snapshot the R22 gate cannot wipe), so the fleet gate and the agents are now independent.**
+- **S102 — THE BURST OF 20 (Drew, 2026-09-10: "maintain your concurrency of 4 if you think that is best. but lets do a
+  burst. burst 20 agents now"). The first landings, and a CROSS-AGENT DEFECT they found for us.**
+  **The defect (fixed at its cause):** `score_file` called `compile_obj(..., tag="score")` with a CONSTANT tag, and
+  `compile_obj` names its scratch object `<obj>.<tag>.o` — keyed by the FILE. Nine of the burst's agents shared one
+  translation unit, so they wrote and read ONE object. Two reported it independently without either seeing the code: one
+  saw spurious `COMPILE-ERROR`s naming an unrelated header that re-ran clean, the other **scored four candidates against
+  another agent's function** before `--try`'s echo of the TU and function name gave it away. The tag is now per FUNCTION
+  (`score_<alias>_<fn>`). **Every landed body was re-verified after the fix and all still score 0** — the banks were
+  never at risk (the coordinator verifies serially and `apply_body_core` judges on the real recipes), but the agents'
+  own intermediate readings were.
+  **Banked from the burst so far — 503 bodies:** `func_801627E8` (a8, 132), `func_8017A3D8` (a12, 118),
+  `func_80141874` (a18, 119 of 125, 6 refused), `func_801345F8` (a19, 134). 28,887 → **27,984 sites**;
+  `lever_census --check: 27,984 pin/asm sites, 27,984 marked !FAKE, 0 UNMARKED — OK`; snapshot row 20.
+  **THE FINDING OF THE BURST — the biggest lever class in the phase is a WRONG DECLARATION, not codegen.** Four agents
+  independently reached score 0 by restoring a call's real arity, each in a different spelling:
+  *a7* `extern void func_8013BC7C(void);` against a shared body taking `void *` → a function-pointer cast at the call;
+  *a8* `extern void (*D_80192FD0[])(void);` → widen the block-scope prototype to `(u8 *)` and pass the pointer, which
+  removed BOTH its levers; *a12* `extern int func_8001AAA0(void);` against `void func_8001AAA0(s32)` at `src/800.c:7846`
+  — and another TU already declares it correctly and calls it with an argument; *a13* `func_80157D20` itself declared
+  `(void)` in 131 of its 138 defining sites while the target's prologue copies two parameter registers. The mechanisms
+  differ (combine's `added_sets_2` gate at `combine.c:1458`; `set_preference` `global.c:1589` applied ahead of first-fit
+  at `:1001-1015`, the argument copy becoming a self-move deleted by `jump_optimize` at `toplev.c:3142` so it costs ZERO
+  instructions; `assign_parms`' parameter home copies), but the class is one: **a truncated `(void)` declaration removes
+  an instruction the pin was then hired to fake.** No mechanical generator can reach it — every generator rewrites
+  statements that exist, and this changes a call's ARITY — which is why these bodies sat at 3 through thousands of
+  compiles across seven runs.
+  **a13 is the one that does NOT bank body-only:** `func_80157D20` reaches 0 only by widening its own `extern` line, and
+  gcc 2.7.2 rejects a block-scope redeclaration (`conflicting types`), so the body-only ceiling is 4. Its Path A (widen the
+  declaration in the 131 + 5 defining sites, worth 2 pins × 132 copies) is recorded for the types phase together with
+  `func_80136824` and a2's `func_80168828` — **three measured cases now, all the same shape.**
+  **Two more new classes, each byte-proven:** *a18* `func_80141874` — a plain scalar global's STORE sank past an array
+  load because `true_dependence`'s exception clause (`sched.c:837-839`) discards the edge when the load is in-struct and
+  varying and the store is neither, even though `memrefs_conflict_p` returns 1; declaring the global `extern u16 X[];` and
+  storing through `X[0]` sets `MEM_IN_STRUCT_P` on the store, the exception fails and the order is restored — and the
+  delevered body is SHORTER than the levered one. *a19* `func_801345F8` — a post-decrement inside a `while` condition is
+  QUEUED by `expand_increment` and flushed only at the next sequence point, so splitting it into its own statement (or a
+  comma operator) plus a `u16` destination that `insert_regs` (`cse.c:1017-1019`) refuses to join keeps the copy alive.
+  Its answer to the `$0` question is a correction worth keeping: `zr` is `register int __asm__("$0")` with NO initializer,
+  an opaque operand and NOT R16's constant holder — **R16 must refuse an uninitialised `register … __asm__` declaration.**
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **27,984 sites** in 8,249 bodies · marked 27,984 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (20 milestones). **S102's loop state: the burst of 20 is landing; a4/a7/a8/a12/a18/a19 banked (756 bodies); the per-file scratch-object collision is FIXED (per-function tag); the biggest class found is a truncated `(void)` DECLARATION, three cases of which need the types phase.**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**

@@ -745,7 +745,12 @@ def score_file(a):
         extra = f"-I{src_dir}"
     pipeline = rec["pipeline"].replace(" " + rec["src"], " " + scratch_src.as_posix(), 1).replace("-Iinclude", f"-Iinclude {extra}", 1)
     mod = dict(rec, pipeline=pipeline, src=scratch_src.as_posix())
-    data, dt, err = oracle.compile_obj(mod, None, tag="score")
+    # THE TAG IS PER FUNCTION, not per file. compile_obj names its scratch object `<obj>.<tag>.o`, so with a constant tag
+    # two agents scoring different functions of the SAME translation unit write and read one object — T7's burst of 20
+    # (S102) put nine agents in one file and two of them reported it independently: spurious COMPILE-ERRORs, and one agent
+    # scored four candidates against another agent's function before the echoed TU/FN line gave it away.
+    tag = "score_" + re.sub(r"\W+", "_", f"{rec['alias']}_{fn}")
+    data, dt, err = oracle.compile_obj(mod, None, tag=tag)
     if data is None:
         print(f"{tu}:{fn}: {'COMPILE-CRASH' if err.startswith('CRASH:') else 'COMPILE-ERROR'} — {err[:300]}")
         return 2
