@@ -2212,7 +2212,117 @@ def sink_merges(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15")
+INT_LIT = re.compile(r"^\s*(?:\(\s*[A-Za-z_][\w \t*]*\)\s*)?(0[xX][0-9A-Fa-f]+|\d+)\s*$")
+
+
+def constant_holders(text, tu, fn, d_):
+    """[(description, candidate text)] — R16: a local whose ONLY assignment is one integer literal, written at every use
+    and its declaration removed. R6 stops at a temp read exactly ONCE (the classic def-with-one-use); a constant holder is
+    read many times and R6 never offered it, so the whole family was invisible to the search.
+
+    T7 agent a2's crack of func_80168828 (2026-09-10): its `$3` pin held `0x40` and was read as the RHS of four stores.
+    Deleting the variable is byte-neutral BY ITSELF — the pin was never doing the work — but it removes a quantity from
+    the block, which is what lets the next move reach the allocator (`qty_compare`, `local-alloc.c:1579-1595`, through the
+    unrolled switch at `:1485-1512`). A pinned local holding one literal is a CONSTANT-HOLDER, not a register lever, and
+    the readable spelling of a constant is the constant."""
+    lines = text.split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    masked = [sc.mask_text(l) for l in lines]
+    occ = collections.defaultdict(list)
+    for i in range(lo, hi):
+        for m in IDENT.finditer(masked[i]):
+            occ[m.group(1)].append(i)
+    out = []
+    for v, where in occ.items():
+        asg, decl, uses = [], [], []
+        for i in where:
+            st = masked[i].strip()
+            m = re.match(r"^(?:[A-Za-z_][\w \t]*[\s*]\s*\*?\s*)?%s\s*=(?!=)\s*(.+);\s*$" % re.escape(v), st)
+            if m:
+                asg.append((i, m.group(1)))
+            elif is_decl_line(st) and "=" not in st.split(";")[0]:
+                decl.append(i)
+            else:
+                uses.append(i)
+        if len(asg) != 1 or len(decl) != 1 or not uses:
+            continue
+        if MULTI_DECL.match(masked[decl[0]]):             # a shared declaration line: removing it would take the others
+            continue
+        lit = INT_LIT.match(asg[0][1])
+        if not lit:
+            continue
+        # every use must be a plain read — never an address-of, a member/arrow base, or another assignment's target
+        if any(re.search(r"&\s*%s(?![\w])|(?<![\w.>])%s\s*(?:\.|->|\[|=(?!=))" % (re.escape(v), re.escape(v)),
+                         masked[i]) for i in uses):
+            continue
+        cand = []
+        for i, l in enumerate(lines):
+            if i == decl[0] or i == asg[0][0]:
+                continue
+            cand.append(re.sub(r"(?<![\w.>])%s(?![\w])" % re.escape(v), lit.group(1), l) if i in uses else l)
+        out.append((f"const-holder {v}={lit.group(1)} x{len(uses)}", "\n".join(cand)))
+    return out
+
+
+def constant_run_splits(text, tu, fn, d_):
+    """[(description, candidate text)] — R17: a run of consecutive statements assigning the SAME integer literal, split by
+    moving the nearest differently-valued literal assignment into it, at each split point.
+
+    T7 agent a2 (2026-09-10), the directed form of a move R9 already contains but reaches by luck: the mechanical search
+    needed 2,271 compiles to find this swap in func_80168828, and R17 offers it in a handful. The decision is
+    `find_free_reg`'s live-range scan, `local-alloc.c:2109-2110`
+    (`for (ins = born_index; ins < dead_index; ins++) IOR_HARD_REG_SET (used, regs_live_at[ins])`): while the two constants'
+    ranges are disjoint they share one caller-saved register; splitting the run makes the first live across the second, the
+    intervals overlap and the second takes another colour. The discriminator in the dumps is the `.lreg` line `Register N
+    used K times across M insns` — M grows when the split lands."""
+    lines = text.split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    masked = [sc.mask_text(l) for l in lines]
+
+    def lit_of(i):
+        if not simple_stmt(masked[i]):
+            return None
+        m = re.match(r"^\s*[^=]+=(?!=)\s*(.+);\s*$", masked[i])
+        if not m:
+            return None
+        g = INT_LIT.match(m.group(1))
+        return g.group(1) if g else None
+
+    out = []
+    i = lo
+    while i < hi:
+        k = lit_of(i)
+        if k is None:
+            i += 1
+            continue
+        j = i
+        while j + 1 < hi and lit_of(j + 1) == k:
+            j += 1
+        if j - i + 1 < 2:                                  # a run is two or more stores of the same literal
+            i = j + 1
+            continue
+        donors = [d for d in (i - 1, j + 1) if lo <= d < hi and lit_of(d) is not None and lit_of(d) != k]
+        for d in donors:
+            for cut in range(i + 1, j + 1):                # every interior split point of the run
+                order = [x for x in range(i, j + 1)]
+                seq = [lines[x] for x in order]
+                seq.insert(cut - i, lines[d])
+                cand = []
+                for x, l in enumerate(lines):
+                    if x == d:
+                        continue
+                    if x == i:
+                        cand.extend(seq)
+                    elif i < x <= j:
+                        continue
+                    else:
+                        cand.append(l)
+                out.append((f"const-split @{d + 1}->{cut + 1} ({lit_of(d)} into the {k} run)", "\n".join(cand)))
+        i = j + 1
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2320,6 +2430,12 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R15" in fam:
         for desc, cand in sink_merges(text, tu, fn, d_):
             out.append(("R15", desc, cand))
+    if "R16" in fam:
+        for desc, cand in constant_holders(text, tu, fn, d_):
+            out.append(("R16", desc, cand))
+    if "R17" in fam:
+        for desc, cand in constant_run_splits(text, tu, fn, d_):
+            out.append(("R17", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -3088,6 +3204,46 @@ def selftest():
     ch = if_chains([sc.mask_text(l) for l in SINKFIX.split("\n")], d15["line"], d15["end"] - 1)
     if len(ch) != 1 or len(ch[0][2]) != 3:
         fail(f"if_chains must see three arms in the fixture, got {ch}")
+
+    # R16 / R17 (T7 agent a2's crack of func_80168828, 2026-09-10): a constant holder inlined, then the run it fed split.
+    CFIX = ("void func_80100000(void) {\n"
+            "    s32 c40;\n"
+            "    s32 other;\n"
+            "\n"
+            "    c40 = 0x40;\n"
+            "    other = 0x10;\n"
+            "    st(0) = c40;\n"
+            "    st(1) = c40;\n"
+            "    st(2) = c40;\n"
+            "    st(3) = other;\n"
+            "}")
+    dC = next(r for r in sc.scan_text(CFIX, "src/fx/c.c", shared_defs=None)
+              if r["form"] == "def" and r["name"] == "func_80100000")
+    h16 = constant_holders(CFIX, "src/fx/c.c", "func_80100000", dC)
+    if len(h16) != 2 or not any(d.startswith("const-holder c40=0x40 x3") for d, _ in h16):
+        fail(f"R16 must inline a 3-use constant holder, got {[d for d, _ in h16]}")
+    else:
+        c16 = next(c for d, c in h16 if d.startswith("const-holder c40"))
+        if "s32 c40;" in c16 or "c40 = 0x40;" in c16 or c16.count("st(0) = 0x40;") != 1:
+            fail(f"R16 must delete the declaration and the assignment and write the literal: {c16!r}")
+    # control: a holder whose value is not a literal, and one written twice, are not constant holders
+    if any(d.startswith("const-holder") for d, _ in
+           constant_holders(CFIX.replace("c40 = 0x40;", "c40 = f();"), "src/fx/c.c", "func_80100000",
+                            next(r for r in sc.scan_text(CFIX.replace("c40 = 0x40;", "c40 = f();"), "src/fx/c.c",
+                                                         shared_defs=None) if r["form"] == "def"))
+           if d.startswith("const-holder c40")):
+        fail("R16 must refuse a holder whose single assignment is not an integer literal")
+    # R17 on the inlined text: the 0x10 store moved into the run of three 0x40 stores, at each interior split point
+    c16 = next(c for d, c in h16 if d.startswith("const-holder c40"))
+    d17 = next(r for r in sc.scan_text(c16, "src/fx/c.c", shared_defs=None) if r["form"] == "def")
+    r17 = [d for d, _ in constant_run_splits(c16, "src/fx/c.c", "func_80100000", d17) if "into the 0x40 run" in d]
+    if len(r17) != 2:
+        fail(f"R17 must offer both interior split points of a three-store run, got {r17}")
+    # control: a run of one store has no split
+    if constant_run_splits(CFIX.replace("    st(1) = c40;\n    st(2) = c40;\n", ""), "src/fx/c.c", "func_80100000",
+                           next(r for r in sc.scan_text(CFIX.replace("    st(1) = c40;\n    st(2) = c40;\n", ""),
+                                                        "src/fx/c.c", shared_defs=None) if r["form"] == "def")):
+        fail("R17 must refuse a run shorter than two statements")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

@@ -85,15 +85,17 @@ FAMILIES = {
     # R15 (the sink) is the arm-scoped form of the same tie: a value set in every arm of an if/else chain is a CROSS-BLOCK
     # pseudo local-alloc never gives a quantity, so the arm holds two quantities and takes block_alloc's unrolled case 2;
     # sinking makes it three, and case 3 falls through into case 2 and undoes its own exchange (T7 agent a1, func_80156044).
-    "REG-caller": ("R6", "R8", "R15", "R5", "R10", "R12", "R14", "R13", "R3", "R7", "R9", "R2", "R4"),
+    "REG-caller": ("R6", "R16", "R8", "R15", "R17", "R5", "R10", "R12", "R14", "R13", "R3", "R7", "R9", "R2", "R4"),
     # the s-bank order is global.c's allocno_compare (ref weight x live length), declaration order only on an exact tie
-    "REG-callee": ("R2", "R4", "R3", "R6", "R8", "R15", "R12", "R7", "R9", "R10", "R14", "R13", "R5"),
-    "REG-mixed": ("R6", "R2", "R15", "R5", "R10", "R4", "R3", "R8", "R12", "R13", "R14", "R7", "R9"),
+    "REG-callee": ("R2", "R4", "R3", "R6", "R16", "R8", "R15", "R12", "R7", "R9", "R17", "R10", "R14", "R13", "R5"),
+    "REG-mixed": ("R6", "R16", "R2", "R15", "R17", "R5", "R10", "R4", "R3", "R8", "R12", "R13", "R14", "R7", "R9"),
     # a copy dies to cse's canon_reg or the local-alloc tie unless its destination changes MODE (the width); an address
     # pseudo lives when a pointer local is used twice; a value named once is computed once; a short PARAMETER is extended in place
-    "COUNT": ("R12", "R14", "R15", "R6", "R8", "R3", "R7", "R5", "R13", "R9", "R10", "R2", "R4"),
+    "COUNT": ("R12", "R16", "R14", "R15", "R6", "R8", "R3", "R7", "R17", "R5", "R13", "R9", "R10", "R2", "R4"),
     # statement order IS the schedule among equal-priority insns (rank_for_schedule's LUID tie-break); do-while is a barrier
-    "ORDER": ("R9", "R7", "R13", "R3", "R6", "R8", "R5", "R12", "R14", "R10", "R15", "R2", "R4"),
+    # R17 is the DIRECTED form of the run-split R9 reaches only by luck: agent a2 measured 2,271 compiles for R9 to find it
+    # in func_80168828 and R16+R17 reproduce the same close in ten.
+    "ORDER": ("R17", "R9", "R7", "R13", "R3", "R16", "R6", "R8", "R5", "R12", "R14", "R10", "R15", "R2", "R4"),
     "MIXED": dl.ALL_FAMILIES,
     "OTHER": dl.ALL_FAMILIES,
 }
@@ -842,11 +844,14 @@ def selftest():
     c = classify(mine, tgt)
     if c["kind"] != "REG" or c["bank"] != "caller" or c["score"] != 3:
         fail(f"REG-caller classification wrong: {c}")
-    # the temp move leads, and the two byte-proven caller-saved levers (R5 the commutative swap, R15 the sink) are drawn
-    # early — R15 joined the front at S102 when agent a1's crack showed the arm-scoped form of the same allocator tie.
-    if family_key(c) != "REG-caller" or FAMILIES["REG-caller"][0] != "R6" \
-            or not {"R5", "R15"} <= set(FAMILIES["REG-caller"][:4]):
-        fail(f"REG-caller family wrong: {family_key(c)} {FAMILIES['REG-caller'][:4]}")
+    # The invariant, not a fixed window (widening the window once per new generator hid what it was for): the temp move
+    # leads, and every TARGETED caller-saved lever — R5 the commutative swap, R15 the sink, R16 the constant holder —
+    # is drawn before the BLIND families that permute declarations or statements wholesale (R9, R2, R4).
+    caller = FAMILIES["REG-caller"]
+    targeted, blind = {"R5", "R15", "R16"}, {"R9", "R2", "R4"}
+    if family_key(c) != "REG-caller" or caller[0] != "R6" or not targeted <= set(caller) \
+            or max(caller.index(t) for t in targeted) > min(caller.index(b) for b in blind):
+        fail(f"REG-caller family wrong: {family_key(c)} {caller}")
     # a callee-saved swap: addu s0,a0,zero vs addu s1,a0,zero
     c = classify([_ins(0x00808021)], [_ins(0x00808821)])
     if c["kind"] != "REG" or c["bank"] != "callee":
