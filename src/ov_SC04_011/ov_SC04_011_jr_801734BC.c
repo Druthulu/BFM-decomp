@@ -2990,10 +2990,9 @@ void func_80175DA8(param_1)
         }
     }
 
-    fl = *(s16 *)(base + 0x1E) & 0x8000;
+    do { fl = *(s16 *)(base + 0x1E) & 0x8000; } while (0);
     /* §5a zero-byte sched fence: without it sched1 hoists the `la D_800D43D4`
        into the lh's load-delay slot, dropping the target's nop (-1 ins). */
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t3_tus1)
     arg = (s32)&D_800D43D4;
     if (fl != 0) {
         arg = (s32)&D_800D4414;

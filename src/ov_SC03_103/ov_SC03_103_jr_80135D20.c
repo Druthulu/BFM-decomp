@@ -1030,15 +1030,12 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     s32 var_a1;
     s32 var_v0;
     s32 var_v1;
-    s32 a1c;
-    s32 a2c;
-    s32 cond;
-    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung A tus1)
+    u16 a1c;
+    u16 a2c;
 
-    __asm__("addu %0,%1,$zero" : "=r"(a1c) : "r"(arg1));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung A tus1)
-    cond = arg1 & 1;
-    a2c = arg2 + zr;
-    if (!cond) {
+    a1c = arg1;
+    a2c = arg2 + 0;
+    if (!(arg1 & 1)) {
         var_v1 = (s16) arg2 - (*(s16 **)&D_801846C0)[0];
         var_a1 = var_v1;
         var_a3 = -(*(s16 **)&D_801846CC)[0];
@@ -1084,9 +1081,8 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     }
     *(s16 *)D_80126720 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1);
     D_80126722 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
-    var_v0 = 1;
     D_80126724 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
-    return var_v0;
+    return (1);
 }
 
 

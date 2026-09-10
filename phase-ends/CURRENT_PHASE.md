@@ -762,7 +762,155 @@ accumulate here as the phase produces them.**
   the 16-bit-copy claim NOT REACHED where the value's known bits already fit the narrow mode. Cookbook **§455** written; the SETUP row
   extended (R21).
 
-## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed; **S101 IN PROGRESS: lane B DELIVERED + two claims verified on bytes; lane A rung G BUILT, controlled, MEASURED twice (g1 + g2: 2 of the 16-class head closed, 264 bodies banked, R22 218/218 each), generators R8–R13 in the registry, cookbook §455; NEXT = the checkpoint refresh, then the next generators from `--explain` (the surviving-copy class, the association compose) and the next draw** | the number: **33,031 sites** (19,982 pins + 13,049 asm) in 11,784 bodies · marked 33,031 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (5 milestones)
+- **2026-09-09 — S101 rung G run `g3`** (the next 64 residue classes by copies, 7,336 bodies behind them; beam 4 × depth 4 × cap 64,
+  budget 1,500; `.run/P36/engine/run_g3.log`): `search: 13 of 64 exemplars matched lever-free in 1.02 h (1,516 of 7,336 bodies
+  behind them; 35,074 compiles) — NO-MATCH 51 · MATCH 13` → thirteen `--propagate` lines, **1,503 of 1,503 siblings banked, 0
+  refused** (≈40 min serial — a subprocess per sibling; the next tooling fix) → R22 (`.run/P36/baseline/r22_g3.log`) **`check-all:
+  218 passed, 0 failed of 218`** (`wall=81.70 s`) → census `THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 31,025 sites in
+  10,268 bodies (1,740 distinct) · marked !FAKE 31,025 · UNMARKED 0` → snapshot row 6 (33,031 → **31,025**; pins 19,718 → 18,442,
+  asm 13,313 → 12,583; bodies 11,784 → 10,268). **The thirteen closes and the move that closed each (R41 — the first move names
+  the family):** `func_8013FAF8` R12 width `flag` s32→s16 (20 compiles, 125 copies) · `func_801431E8` R9 swap (18, 127) ·
+  `func_8014305C` R9 + R7 (92, 126) · `func_801365B8` R12 + R6 + R6 + R12 (621, 126) · `func_80175DA8` R7 do-while (11, 128) ·
+  `func_8013D53C` R7 (40, 111) · `func_8016A290` R12 + R12 (100, 124) · `func_80134C20` R6 + R12 (191, 127) · `func_8018000C` R9
+  (5, 17) · `func_80167AE0` R12 + R12 (90, 125) · `func_8016C188` **R10 param-copy** (7, 127 — lane B's 1a-9 verified on a real
+  body) · `func_80164BDC` **R10 param-alias** (7, 127) · `func_801621CC` R7 (46, 126). By first family: R12 5, R7 3, R9 3, R10 2 —
+  **the two generators lane B's map named are half the closes**, and none of the thirteen needed more than four moves. Big movers
+  among the 51: 70→16, 18→1 (`func_80156044`, one width), 24→2, 12→2, 34→6, 29→8, 55→21, 35→14, 58→31. **Unmoved at a small
+  distance — the next generators, ~1,250 bodies behind them:** `func_8013EB7C` 2, `func_801287B8` 3, `func_8015FBE0` 3,
+  `func_8017A3D8` 3 (two classes), `func_80185994` 3, `func_80139BE0` 4, `func_80166F58` 4, `func_8012C890` 5, `func_80141874` 6,
+  `func_8017B238` 7, `func_8016E9EC` 8, `func_8014D820` 8; and `func_8013D178` 72 unmoved — the `a0 ↔ a1 ×45` body R10 did not
+  reach. Compute: 1.02 h search + ~0.7 h propagation at 8 nice'd workers, no tokens. Harness note: the low-memory guard killed a
+  30-byte waiter with 27 GB free (again); the detached run was untouched.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09): T0–T6 ☑; **lane B DELIVERED** (`.run/P36/engine/residual_moves.md`, 58 moves; 4 verified on bytes, 1 refuted-in-bound); **lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED** (g1 + g2 on the 16-class head: 2 closed; **g3 on the next 64 classes: 13 closed, 1,516 bodies** — every run's bank R22 218/218 and committed); NEXT = §2 | the number at this commit: **31,025 sites** (18,442 pins + 12,583 asm) in 10,268 bodies (1,740 distinct) · marked 31,025 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (6 milestones)
+
+### 0. How to use this block
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**
+— his 2026-09-09 setting for this work) and executes §2. **FIRST check whether run g3 finished and whether its bank is committed:**
+`grep -E '^search:|propagate' .run/P36/engine/run_g3.log` and `git status --short -- src | wc -l` (0 = nothing in flight). A run
+that was killed leaves candidates in `src/` — `tools/delever.py --restore` (never git checkout, R102). **Never commit while a run
+is going** (the oracle's calibration is keyed to HEAD; `--apply-body` inside the run refuses on a stale calibration and every later
+close of that run is BANK-REFUSED) and **never edit `tools/delever.py` while a run is going** (`--apply-body`/`--propagate` are
+subprocesses that re-import it; a half-edited file breaks a bank mid-run) — `tools/delever_search.py` may be edited, the running
+process has it in memory. Resource etiquette: 8 workers with `nice -n 10` was fine all session (Drew asked for more at 10 earlier
+in the phase and less at 24); tell him the number. The harness backgrounds any foreground command over 120 s and its low-memory
+guard kills long background tasks: campaigns run DETACHED (`setsid nohup … &`) with a `Monitor` on the log. `pkill -f` with a
+literal your own command line contains kills your shell (R79).
+
+### 1. Where things stand — what S101 built, measured and banked (commits `623e55340` → `a4cbe0d5a` → `584031c71` → `5ae0b5ceb`)
+- **Rung G (`tools/delever_search.py`)** — the guided search: the score is the ORACLE'S OWN OBJECT (a candidate compiles through one
+  recipe of its TU; the function's instructions are read from the scratch object and compared, reloc-masked, with the same
+  function in the fleet run's baseline object under `build/` — the tree's bytes, the candidates' relocations by construction; no
+  listing, no isolation, no cpp), read as an EDIT DISTANCE over the masked words (difflib; a positional count read one inlined
+  temp as 43); the residual CLASSIFIED from the diff blocks (REG caller/callee from the register pairs, COUNT, ORDER, MIXED) and
+  the class orders the generator families (lane B's map), ranked ROUND-ROBIN under the cap; a BEAM composes 2–4 moves; the first
+  score-0 is verified on every recipe and banked through `delever --apply-body --rung G`, then `--propagate` serially. Controls:
+  per body the tree's own text must score 0 and be identical; `--positive-control` (one move back in 23 compiles; inline + wrap
+  back by hoist + unwrap in 74; an inlined pointer temp under a dereference stalled at 10 until the base hoist existed);
+  `--selftest`. `--explain TU FN [--path "m1|m2"]` prints a body's residual as mnemonic blocks after any move path — the
+  instrument that turns a stall into a generator.
+- **The generator registry (`delever.recipe_candidates`, `families=`, `cap=None`)** now holds R2 decl-order, R3 init-split, R4
+  decl-move, R5 commutative swap (never a constant operand — fold), R6 single-set temp inlined, R7 block/do-while wrap AND unwrap,
+  R8 temp introduced (a dereference typed by its cast; its BASE into an address local; an operand typed like the local it feeds;
+  a repeated RHS named once), R9 adjacent statements swapped, R10 a parameter routed through a body-local copy and the reverse,
+  R12 a local's scalar width, R13 two terms of a `+`/`-` chain exchanged. Rung R's default set is still R2–R7 (`RUNG_R_FAMILIES`).
+- **Measured (R41):** g1 (beam 3 × depth 3 × cap 48, budget 400): `1 of 16 … 0.12 h, 3,680 compiles` — `func_801424E4`, the body
+  with NO pin (cast + keep-alive, the count-changing class, the permuter's best 2) by `R9 + R6 + R6`, 132 bodies. g2 (beam 4 ×
+  depth 4 × cap 64, budget 1,500, the new families, the same head): `1 of 16 … 0.32 h, 9,454 compiles` — `func_80142EC0` (two pins)
+  by `R7 do-while + R9`, 132 bodies; nine of the other fifteen moved past g1's best (40→24, 29→16, 45→31, 28→10, 39→14, 25→7, 9→4,
+  7→4, 135→112). 0.12–0.3 s per scored candidate; 23–276 s per body. The 16-class head = the 11 rung D could not close + 5 new.
+- **The ledger defect fixed:** 301 rung-R RESIDUE rows carried no text hash (`recipes()` wrote None on a miss; the next sweep
+  inherited it) — `exemplars()` had read them as one class keyed None; `delever --repair-nhash` filled them (recorded, committed).
+- **Lane B (`residual_moves.md`):** 58 ranked (class → move, pass, decision `file:line`, mechanism, how-to-test) with ~150
+  grep-verified anchors in `tools/reference/gcc-2.7.2/`; its "Verification ledger" at the end: the constant-swap claim VERIFIED
+  (`.run/P36/engine/micro/c1.c`/`c2.c`), the do-while lever VERIFIED as the ref weight (`micro/dowhile/`: `{ }` changes nothing;
+  `do…while(0)` keeps its LOOP notes through jump1 and lifts one `.lreg` line from `used 5` to `used 6 times across 39 insns`,
+  `$18` → `$17`), the 16-bit-copy claim NOT REACHED where the value's known bits fit the narrow mode. Five map contradictions
+  it found are T9's (regalloc.md RC-4 cite `:1825` → `:1722`; sched.md: a mid-block LOOP note is a full sched1 barrier; cse_expr.md
+  §1's "volatile asm invalidates nothing" row; loop.md's arg order; regalloc.md K1 vs [A23]-5).
+- **Cookbook §455** (rung G) written; SETUP + dictionary rows; `docs/levers.md` rows 4–5; the `.run/P36/engine/` allowlist.
+- **What `--explain` says about the stalls (the next generators, in the order of bodies they unlock):** (i) the two 6s
+  `func_80148D44`/`func_80148E54` (132 + 132) are ONE surviving copy — the target computes `andi a0,v0,0xfff` and copies `move
+  s0,a0` in a delay slot; mine folds the copy (combine merges a single-use def into its copy; the keep-alive/launder was the
+  drafter's second use) — no width reaches it; the move is a SECOND REAL USE of the copied value or an uncombinable copy (lane B
+  1c-2/1c-3: re-set the source after the copy; a real join label between copy and use); (ii) `func_8012E364` at 7 is `x + a3 - a1`
+  vs `x - a1 + a3` (R13 exists, was not composed within the beam) plus a negation the target names once for two stores (R8 cse
+  exists); (iii) `func_80135A4C` at 24 is a duplicated call tail the target keeps and mine cross-jumps (`jal;li;beqz;nop` vs `j`)
+  — a source-level tail duplication (lane B class 2 row 19); (iv) `func_8013D178` (130 copies) is a pure `a0 ↔ a1` swap 45× over,
+  one `$5` pin — the ARGCOPY class, lane B 1a-9 (R10 exists; in g3's draw).
+
+### 2. NEXT (in order)
+(a) **Close g3's loop** if it finished (its `search:` line; `git status --short -- src | wc -l` > 0 means banked files wait for the
+    gate): the FINISH sequence in §3 — R22 → census → `lever_progress --snapshot "S101 rung G g3 …"` → the log entry with the
+    run's own lines → commit (R42/R101). If g3 was killed mid-run: `tools/delever.py --restore`, then the same sequence for
+    whatever `--apply-body` had already banked (the ledger's `rung: "G"` rows are the record).
+(b) **The next generator round from the traces** (R16, the flywheel): pick the class with the most bodies behind it, `--explain
+    TU FN` (and `--path` with its best moves from `outcomes.jsonl`), write the generator in `delever.py` (a selftest case each;
+    the docstring names lane B's row), prove it on that ONE body with `--explain --path "<move>"` → score 0, then
+    `--run --include-done --only <fn>` to bank + propagate. Candidates named above: a second real use of a copied value (i), the
+    composition of R13 + R8 cse (ii — a deeper beam or a targeted `--only` run at beam 6), the tail duplication (iii).
+(c) **The head sweep continues** while (b) is written: `--run --limit N` draws the next N classes by copies (the outcomes file is
+    the skip list; `--include-done` redraws). Price from g2/g3: ~3 min per body at the wide setting, 8 workers, no tokens; the
+    head classes are worth 100–134 bodies per close, the 1,450 singletons one each — sweep the head first, the tail unattended.
+(d) **T7's waves stay gated on Drew's word** (decision, 2026-09-09). The LoRA is parked for the endgame.
+(e) Then T8 (the census gate in tools-health), T9 (the record — incl. lane B's five map corrections), T10.
+
+### 3. THE EXACT INVOCATIONS (every one run this session)
+```
+# the engine
+.venv/bin/python tools/delever_search.py --selftest
+.venv/bin/python tools/delever_search.py --plan --limit 24 --show 24 [--score]        # the residue head with starting distance + class
+.venv/bin/python tools/delever_search.py --explain <tu> <fn> [--path "R5 swap + @786|R7 do-while @790"]
+.venv/bin/python tools/delever_search.py --positive-control <tu> <fn> --moves 2 --seed 3
+.venv/bin/python tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16   # ~3 s; after EVERY commit
+setsid nohup nice -n 10 .venv/bin/python tools/delever_search.py --run --limit 64 -j 8 \
+    --beam 4 --depth 4 --cap 64 --budget 1500 --label g3 > .run/P36/engine/run_g3.log 2>&1 &
+#   + Monitor: tail -F .run/P36/engine/run_g3.log | grep -E --line-buffered 'MATCH start|^search:|propagate |Traceback|UNCALIBRATED|BANK-REFUSED'
+.venv/bin/python tools/delever_search.py --run --include-done --only func_80148D44 -j 1 --beam 6 --depth 4 --cap 96 --budget 3000 --label gx
+.venv/bin/python tools/delever_search.py --status
+
+# THE FINISH SEQUENCE after a run that banked (R22 → census → snapshot → log → commit)
+set -o pipefail; make clean >/dev/null && make extract-all JOBS=16 >/dev/null && make check-all JOBS=16 | tail -2   # ~85 s, must be 218/218
+.venv/bin/python tools/lever_census.py --sites --check -j 16          # ~35 s, must print "… 0 UNMARKED — OK"
+.venv/bin/python tools/lever_progress.py --snapshot "S101 rung G g3 (…)"; .venv/bin/python tools/lever_progress.py --check
+git add src .run/P36/delever/ledger.jsonl .run/P36/delever/calibration.json .run/P36/engine .run/P36/census .run/P36/baseline/r22_g3.log \
+    docs/levers.md docs/lever-progress.tsv phase-ends/CURRENT_PHASE.md && git commit -m "phase-36: rung G run g3 — …"
+
+# a killed run
+.venv/bin/python tools/delever.py --restore
+# the ledger repair (done once; the cause is fixed)
+.venv/bin/python tools/delever.py --repair-nhash
+```
+Timings: R22 ≈ 85 s · census ≈ 35 s · calibration 3 s · one scored candidate 0.12–0.3 s · one body 20–280 s at beam 4 · `make
+kit-corpus` ≈ 25 s (regenerate + `tool_census --check` after ANY tool or SETUP edit, or tools-health goes red).
+
+### 4. Gotchas this session paid for
+- **A commit during a run stales the calibration and every later bank is refused** (`--apply-body` checks `calibration_current`).
+- **`delever.py` is re-imported by the run's bank subprocesses** — edit it only between runs; `delever_search.py` is safe.
+- **A bank shifts the lines below it in the same TU** — bodies are judged BOTTOM-UP per file (g1 lost one to a `token mismatch`).
+  After any bank the census is stale until `lever_census --sites` reruns (the FINISH sequence does it).
+- **The outcomes file is the skip list**: `--include-done` redraws attempted classes; a class banked by another rung is not
+  RESIDUE any more and is never drawn.
+- **A strict family order starves later families under the cap** (round-robin fixed it); **a positional score cannot see
+  progress on a shifted residual** (edit distance fixed it); **every move needs its inverse in the registry** or the search
+  cannot undo a step it took (unwrap, hoist, param-alias were added for that).
+- **`(void)` parsed as type `voi` + name `d`; an `extern s16 (*D_x[])();` line ended the declaration run and was offered to R7 as
+  a statement; a multi-line initializer ended the run; the deref hoist targeted an assignment's LEFT side** — all fixed, each with
+  a selftest case. Read a generator's candidates on a fixture before trusting its yield.
+- **A constant-operand commutative swap is byte-neutral** (fold) — never generated now. **The width move does not reach a copy
+  whose value's known bits fit the narrow mode.**
+- `pgrep -f` matching your own command line counts itself; bracket a character (`--ru[n]`).
+
+### 5. Where everything is
+`.run/P36/engine/outcomes.jsonl` (every attempt: verdict, start, best, compiles, path, bank line, propagate line) · `trace/<alias>__<fn>.jsonl`
+(every scored candidate: depth, move, parent score, score, class) · `run_g1.log`, `run_g2.log`, `run_g3.log` · `residual_moves.md` (lane B +
+the verification ledger) · `micro/` (the two byte experiments) · `bodies/<alias>__<fn>.c` (the winning bodies handed to `--apply-body`;
+ignored scratch) · `.run/P36/delever/ledger.jsonl` (`rung: "G"` rows carry `before_text`/`after_text` — `--propagate` needs them) ·
+`docs/levers.md` + `docs/lever-progress.tsv` (the series; snapshot after every task that changes the count) · cookbook §454, §454a, §455 ·
+`docs/SETUP.md` rows for `delever_search.py` and `delever.py --repair-nhash`.
+
+
+## (superseded) SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — the two-lane plan that S101 executed
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew set `high` and prefers it for

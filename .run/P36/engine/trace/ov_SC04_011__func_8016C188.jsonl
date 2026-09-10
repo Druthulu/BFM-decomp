@@ -1,0 +1,7 @@
+{"kind": "seed", "start": 3, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c", "fn": "func_8016C188", "label": "g3"}
+{"depth": 1, "move": "R12 width t34 s32->u16 @2596", "parent": 3, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline t34 @2618", "parent": 3, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @2641", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @2637", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @2637", "parent": 3, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param @2610", "parent": 3, "score": 0, "kind": "IDENTICAL", "ident": true}

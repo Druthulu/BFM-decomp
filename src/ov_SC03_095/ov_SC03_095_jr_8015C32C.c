@@ -3695,7 +3695,7 @@ extern s32 D_80183A70;
 s32 func_801621CC(s32 arg0) {
     s32 s0 = arg0;       /* $s0: arg0, crosses the call */
     u8 *s1 = D_80078E78; /* $s1: base, hoisted for the loop */
-    register s32 i __asm__("$5");                /* $a1: counter (pin fixes the i/d swap) */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus3)
+    s32 i;
     u32 a2;
     s32 d;                                       /* $a0: natural alloc; load via $v0 temp */
     s32 v, last, hi, lo;
@@ -3734,7 +3734,7 @@ s32 func_801621CC(s32 arg0) {
         }
         i++;
     bot:
-        d--;
+        do { d--; } while (0);
     } while (i < s0);
     return 0;
 }
@@ -4394,14 +4394,13 @@ extern u8 D_8019AC87;
 
 void func_80164BDC(s32 param_1)
 {
-    register s32 p1   __asm__("$17");  /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus3)
+    s32 p1;
     s32 iVar1;  /* $s0 */
     s32 base;  /* $s2 */
 
-    p1 = param_1;
     iVar1 = ((s32 (*)(void))func_80146578)();
     base = (s32)&D_8019AC80;
-    *(s32 *)(p1 + 0x20) = iVar1;
+    *(s32 *)(param_1 + 0x20) = iVar1;
     if (iVar1 != 0) {
         func_8001CD50(iVar1, base);
         ((void (*)(s32, s32))func_800233CC)(base, 0x60);
@@ -4416,12 +4415,12 @@ void func_80164BDC(s32 param_1)
         D_8019AC83 = 0;
         *(s16 *)(iVar1 + 0x1e) = 0xccc;
         *(s16 *)(iVar1 + 0x10) = 0x400;
-        *(s16 *)(p1 + 0x60) = 0x700;
-        *(s16 *)(p1 + 0x62) = -0x60;
-        func_80164DD0(p1);
-        ((void (*)(s32))func_80146CA0)(p1);
+        *(s16 *)(param_1 + 0x60) = 0x700;
+        *(s16 *)(param_1 + 0x62) = -0x60;
+        func_80164DD0(param_1);
+        ((void (*)(s32))func_80146CA0)(param_1);
     } else {
-        ((void (*)(s32))func_80164DB0)(p1);
+        ((void (*)(s32))func_80164DB0)(param_1);
     }
 }
 
@@ -5382,9 +5381,8 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
 
     struct Fr_80167AE0 fr;
     u8 *p;
-    s32 i;
-    s32 t;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus3)
+    u16 i;
+    u16 t;
     s32 flags;
 
     func_80168070(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);
@@ -5427,7 +5425,7 @@ L1:
         fr.v[3].y = (s8)*p--;
         func_80017758(fr.v, fr.matrix);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L1;
 
     fr.v[3].y = 0;
@@ -5451,7 +5449,7 @@ L2:
             p += 2;
         }
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L2;
 
     p += 2;
@@ -5468,7 +5466,7 @@ L3:
         fr.v[3].z = (s8)*p++;
         func_80017758(fr.v, fr.matrix);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 2) goto L3;
 }
 
@@ -5975,9 +5973,8 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
 
     struct Fr_8016A290 fr;
     u8 *p;
-    s32 i;
-    s32 t;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus3)
+    u16 i;
+    u16 t;
     s32 flags;
     s32 iVar3;
 
@@ -6046,7 +6043,7 @@ L1:
         fr.v[3].y = (s8)*p--;
         func_80017758(fr.v, fr.mtx);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L1;
 
     fr.v[3].y = 0;
@@ -6070,7 +6067,7 @@ L2:
             p += 2;
         }
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L2;
 
     p += 2;
@@ -6087,7 +6084,7 @@ L3:
         fr.v[3].z = (s8)*p++;
         func_80017758(fr.v, fr.mtx);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 2) goto L3;
 }
 

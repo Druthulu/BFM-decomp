@@ -3194,14 +3194,13 @@ extern u8 D_801959FF;
 
 void func_80164BDC(s32 param_1)
 {
-    register s32 p1   __asm__("$17");  /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus3)
+    s32 p1;
     s32 iVar1;  /* $s0 */
     s32 base;  /* $s2 */
 
-    p1 = param_1;
     iVar1 = ((s32 (*)(void))func_80146578)();
     base = (s32)&D_801959F8;
-    *(s32 *)(p1 + 0x20) = iVar1;
+    *(s32 *)(param_1 + 0x20) = iVar1;
     if (iVar1 != 0) {
         func_8001CD50(iVar1, base);
         ((void (*)(s32, s32))func_800233CC)(base, 0x60);
@@ -3216,12 +3215,12 @@ void func_80164BDC(s32 param_1)
         D_801959FB = 0;
         *(s16 *)(iVar1 + 0x1e) = 0xccc;
         *(s16 *)(iVar1 + 0x10) = 0x400;
-        *(s16 *)(p1 + 0x60) = 0x700;
-        *(s16 *)(p1 + 0x62) = -0x60;
-        func_80164DD0(p1);
-        ((void (*)(s32))func_80146CA0)(p1);
+        *(s16 *)(param_1 + 0x60) = 0x700;
+        *(s16 *)(param_1 + 0x62) = -0x60;
+        func_80164DD0(param_1);
+        ((void (*)(s32))func_80146CA0)(param_1);
     } else {
-        ((void (*)(s32))func_80164DB0)(p1);
+        ((void (*)(s32))func_80164DB0)(param_1);
     }
 }
 

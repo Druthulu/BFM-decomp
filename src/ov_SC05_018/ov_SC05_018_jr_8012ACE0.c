@@ -2852,9 +2852,7 @@ s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 var_v0;
     u16 temp_a1;
     s32 temp_s4;
-    s32 c = arg0;
-    __asm__ __volatile__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus3)
-    __asm__ __volatile__("" : : "r"(arg0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus3)
+    u16 c = arg0;
 
     temp_s4 = arg2 + (M2C_FIELD(((void *)arg1), s16 *, 2) * 8);
     temp_s1 = *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 4) * 4));
@@ -2914,11 +2912,10 @@ block_14:
         u16 *pB8 = (u16 *)D_80186ED0;
         u16 *pB4b = (u16 *)D_80186ECC;
         pB4b[0] = pB4b[0] - ((pB8[0] << 0x10) >> 0x1B);
-        var_v0 = 1;
         pB4b[1] = pB4b[1] - ((pB8[1] << 0x10) >> 0x1B);
         pB4b[2] = pB4b[2] - ((pB8[2] << 0x10) >> 0x1B);
     }
-    return var_v0;
+    return (1);
 }
 
 

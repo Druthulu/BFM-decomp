@@ -1269,14 +1269,14 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     s32 *ot;
     s16 i;
     s16 j;
-    s32 flag;
+    s16 flag;
     s32 addr;
     Prim4 *p;
     s32 r;
     s32 t;
     s16 *pp;
     s32 flag2;
-    register s32 flag3 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus6)
+    s32 flag3;
 
     func_80140E6C();
     func_80140F00();

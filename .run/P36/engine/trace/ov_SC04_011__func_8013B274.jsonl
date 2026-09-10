@@ -1,0 +1,792 @@
+{"kind": "seed", "start": 59, "tu": "src/ov_SC04_011/ov_SC04_011_jr_801380E0.c", "fn": "func_8013B274", "label": "g3"}
+{"depth": 1, "move": "R12 width ang s16->s32 @1070", "parent": 59, "score": 82, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @1133", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1074", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @1135", "parent": 59, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1074", "parent": 59, "score": 64, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @1071", "parent": 59, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width quot s32->u16 @1069", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @1133", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1074", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @1138", "parent": 59, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1079", "parent": 59, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a1 @1071", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width quot s32->s16 @1069", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @1133", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1079", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @1139", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1076", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a2 @1071", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width sa s16->s32 @1068", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @1134", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1079", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @1140", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1073", "parent": 59, "score": 62, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @1134", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1076", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1072", "parent": 59, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @1134", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1076", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1077", "parent": 59, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1073", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1078", "parent": 59, "score": 62, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1073", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1075", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1130", "parent": 59, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1133", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1130", "parent": 59, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1080", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @1136", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1131", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1081", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @1136", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1131", "parent": 59, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1134", "parent": 59, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @1137", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1072", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1082", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @1137", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1072", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @1138", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1077", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1083", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @1138", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1077", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1136", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @1138", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1078", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1084", "parent": 59, "score": 62, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @1138", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1078", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width ang s16->s32 @1070", "parent": 54, "score": 77, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1133", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1074", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1135", "parent": 54, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1074", "parent": 54, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a0 @1071", "parent": 54, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width quot s32->u16 @1069", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1133", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1074", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1079", "parent": 54, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a1 @1071", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width quot s32->s16 @1069", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1133", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1079", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1139", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1076", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a2 @1071", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width sa s16->s32 @1068", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1134", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1079", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1140", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1073", "parent": 54, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1134", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1076", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1072", "parent": 54, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1134", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1076", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1077", "parent": 54, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1135", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1073", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1078", "parent": 54, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1135", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1073", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1075", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 hoist tmp0 @1135", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1130", "parent": 54, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1080", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1135", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1130", "parent": 54, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1081", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1136", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1131", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1133", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1136", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1131", "parent": 54, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1082", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1137", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1072", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1134", "parent": 54, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1137", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1072", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1083", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1122", "parent": 54, "score": 67, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1077", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1135", "parent": 54, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1122", "parent": 54, "score": 74, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1077", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1084", "parent": 54, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1138", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1078", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1124", "parent": 54, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1138", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1078", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width ang s16->s32 @1070", "parent": 56, "score": 79, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1133", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1074", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1135", "parent": 56, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1074", "parent": 56, "score": 61, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a0 @1071", "parent": 56, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width quot s32->u16 @1069", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1133", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1074", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1079", "parent": 56, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a1 @1071", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width quot s32->s16 @1069", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1133", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1079", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1139", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1076", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a2 @1071", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width sa s16->s32 @1068", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1134", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1079", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1140", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1073", "parent": 56, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1134", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1076", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1072", "parent": 56, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1134", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1076", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1077", "parent": 56, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1135", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1073", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1078", "parent": 56, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1135", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1073", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1075", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 hoist tmp0 @1135", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1130", "parent": 56, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1133", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1135", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1130", "parent": 56, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1080", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1136", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1081", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1136", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1072", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1134", "parent": 56, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1137", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1072", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1082", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1137", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1077", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1135", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1138", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1077", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1083", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1138", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1078", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1136", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 hoist tmp0 @1138", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1078", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1084", "parent": 56, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1138", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1075", "parent": 56, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width ang s16->s32 @1070", "parent": 57, "score": 80, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1133", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1074", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1134", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1074", "parent": 57, "score": 62, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a0 @1071", "parent": 57, "score": 61, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width quot s32->u16 @1069", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1133", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1074", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1079", "parent": 57, "score": 61, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a1 @1071", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width quot s32->s16 @1069", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1133", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1079", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1139", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1076", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a2 @1071", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width sa s16->s32 @1068", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1134", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1079", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1140", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1073", "parent": 57, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1134", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1076", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1072", "parent": 57, "score": 61, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 hoist tmp0 @1134", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1076", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1077", "parent": 57, "score": 61, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1134", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1073", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1078", "parent": 57, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1135", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1073", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1075", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1135", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1130", "parent": 57, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1080", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1135", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1130", "parent": 57, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1081", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1136", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1131", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1133", "parent": 57, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1136", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1082", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1137", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1072", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1137", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1072", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1083", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1122", "parent": 57, "score": 70, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1077", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1135", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1122", "parent": 57, "score": 77, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1077", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1084", "parent": 57, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1138", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1078", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1124", "parent": 57, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1138", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1078", "parent": 57, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width ang s16->s32 @1070", "parent": 59, "score": 82, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1133", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1074", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1135", "parent": 59, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1074", "parent": 59, "score": 64, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a0 @1071", "parent": 59, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width quot s32->u16 @1069", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1133", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1074", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1079", "parent": 59, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a1 @1071", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width quot s32->s16 @1069", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1133", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1079", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1139", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a2 @1071", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width sa s16->s32 @1068", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1134", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1079", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R5 swap + @1140", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1073", "parent": 59, "score": 62, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1134", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1076", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1072", "parent": 59, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1134", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1076", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1077", "parent": 59, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1073", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1078", "parent": 59, "score": 62, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1073", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1075", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 hoist tmp0 @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1130", "parent": 59, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1133", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1130", "parent": 59, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1080", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1136", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1131", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1081", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1136", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1137", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1072", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1082", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1137", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1072", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1135", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 temp tmp0 @1138", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1077", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1083", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 base tmp0 @1138", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1077", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1136", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 hoist tmp0 @1138", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @1078", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @1084", "parent": 59, "score": 62, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R8 cse tmp0 @1138", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @1078", "parent": 59, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width ang s16->s32 @1070", "parent": 51, "score": 74, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1074", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1135", "parent": 51, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1074", "parent": 51, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a0 @1071", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width quot s32->u16 @1069", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1074", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1079", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a1 @1071", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width quot s32->s16 @1069", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1079", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1139", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1076", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a2 @1071", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width sa s16->s32 @1068", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1079", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1140", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1073", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1076", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1072", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1076", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1077", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1073", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1078", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1073", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1075", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 hoist tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1130", "parent": 51, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1080", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1130", "parent": 51, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1081", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1136", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1133", "parent": 51, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1136", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1072", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1082", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1137", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1072", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1134", "parent": 51, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1137", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1077", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1083", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1122", "parent": 51, "score": 64, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1077", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1135", "parent": 51, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1122", "parent": 51, "score": 71, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1078", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1084", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1138", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1078", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1124", "parent": 51, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1138", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1075", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width ang s16->s32 @1070", "parent": 52, "score": 75, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1133", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1074", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1074", "parent": 52, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a0 @1071", "parent": 52, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width quot s32->u16 @1069", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1133", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1074", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1079", "parent": 52, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a1 @1071", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width quot s32->s16 @1069", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1133", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1079", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1139", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1076", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a2 @1071", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width sa s16->s32 @1068", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1134", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1079", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1140", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1073", "parent": 52, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1134", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1076", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1072", "parent": 52, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1134", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1076", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1077", "parent": 52, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1135", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1073", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1078", "parent": 52, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1135", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1073", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1075", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 hoist tmp0 @1135", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1130", "parent": 52, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1080", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1136", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1130", "parent": 52, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1081", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1136", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1131", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1133", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1137", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1082", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1137", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1072", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1134", "parent": 52, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1138", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1072", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1083", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1138", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1077", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1135", "parent": 52, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 hoist tmp0 @1138", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1077", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1084", "parent": 52, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1122", "parent": 52, "score": 65, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1078", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1136", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1122", "parent": 52, "score": 72, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1078", "parent": 52, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width ang s16->s32 @1070", "parent": 53, "score": 76, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1133", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1074", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1074", "parent": 53, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a0 @1071", "parent": 53, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width quot s32->u16 @1069", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1133", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1074", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1079", "parent": 53, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a1 @1071", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width quot s32->s16 @1069", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1133", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1079", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1139", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1076", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a2 @1071", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width sa s16->s32 @1068", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1134", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1079", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1140", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1073", "parent": 53, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1134", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1076", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1072", "parent": 53, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1134", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1076", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1077", "parent": 53, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1135", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1073", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1078", "parent": 53, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1135", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1073", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1075", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1136", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1130", "parent": 53, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1080", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1136", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1130", "parent": 53, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1081", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 hoist tmp0 @1136", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1072", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1133", "parent": 53, "score": 61, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1136", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1072", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1082", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1137", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1077", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1134", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1137", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1077", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1083", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1122", "parent": 53, "score": 66, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1131", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1122", "parent": 53, "score": 73, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1084", "parent": 53, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1138", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1078", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1124", "parent": 53, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1138", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1078", "parent": 53, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width ang s16->s32 @1070", "parent": 54, "score": 77, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1133", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1074", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1074", "parent": 54, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a0 @1071", "parent": 54, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width quot s32->u16 @1069", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1133", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1074", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1079", "parent": 54, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a1 @1071", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width quot s32->s16 @1069", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1133", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1079", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1139", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R10 param-copy a2 @1071", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width sa s16->s32 @1068", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1134", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1079", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R5 swap + @1140", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1073", "parent": 54, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1134", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1076", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1072", "parent": 54, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1134", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1076", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1077", "parent": 54, "score": 58, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1135", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1073", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1078", "parent": 54, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1135", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1073", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1075", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 hoist tmp0 @1135", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1130", "parent": 54, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1080", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @1135", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1130", "parent": 54, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1081", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1136", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1131", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1133", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1136", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1082", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1137", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1072", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1134", "parent": 54, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1137", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1072", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1083", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1122", "parent": 54, "score": 67, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1077", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1122", "parent": 54, "score": 74, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1077", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1084", "parent": 54, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 temp tmp0 @1138", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @1078", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R9 swap-stmts @1124", "parent": 54, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 base tmp0 @1138", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @1078", "parent": 54, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width ang s16->s32 @1070", "parent": 49, "score": 72, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1133", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1074", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1074", "parent": 49, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a0 @1071", "parent": 49, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width quot s32->u16 @1069", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1133", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1074", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1079", "parent": 49, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a1 @1071", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width quot s32->s16 @1069", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1133", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1079", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R5 swap + @1139", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1076", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a2 @1071", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width sa s16->s32 @1068", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1134", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1079", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R5 swap + @1140", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1073", "parent": 49, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1134", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1076", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1072", "parent": 49, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1134", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1076", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1077", "parent": 49, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1135", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1073", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1078", "parent": 49, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1135", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1073", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1075", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 hoist tmp0 @1135", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1130", "parent": 49, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1080", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1136", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1130", "parent": 49, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1081", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1136", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1133", "parent": 49, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1137", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1072", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1082", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1137", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1072", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1134", "parent": 49, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1138", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1077", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1083", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1138", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1077", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1135", "parent": 49, "score": 48, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 hoist tmp0 @1138", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1078", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1084", "parent": 49, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1122", "parent": 49, "score": 62, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1078", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1136", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1122", "parent": 49, "score": 69, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1075", "parent": 49, "score": 49, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width ang s16->s32 @1070", "parent": 50, "score": 73, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1133", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1074", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1074", "parent": 50, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a0 @1071", "parent": 50, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width quot s32->u16 @1069", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1133", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1074", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1079", "parent": 50, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a1 @1071", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width quot s32->s16 @1069", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1133", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1079", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R5 swap + @1139", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1076", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a2 @1071", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width sa s16->s32 @1068", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1134", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1079", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R5 swap + @1140", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1073", "parent": 50, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1134", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1076", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1072", "parent": 50, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1134", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1076", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1077", "parent": 50, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1135", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1073", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1078", "parent": 50, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1135", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1073", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1075", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1136", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1130", "parent": 50, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1080", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1136", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1130", "parent": 50, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1081", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 hoist tmp0 @1136", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1072", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1133", "parent": 50, "score": 61, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1136", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1072", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1082", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1137", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1077", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1134", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1137", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1077", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1083", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1122", "parent": 50, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1122", "parent": 50, "score": 70, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1078", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1084", "parent": 50, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1138", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1078", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1124", "parent": 50, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1138", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1075", "parent": 50, "score": 50, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width ang s16->s32 @1070", "parent": 51, "score": 74, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1074", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1074", "parent": 51, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a0 @1071", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width quot s32->u16 @1069", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1074", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1079", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a1 @1071", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width quot s32->s16 @1069", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1079", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R5 swap + @1139", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a2 @1071", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width sa s16->s32 @1068", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1079", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R5 swap + @1140", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1073", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1076", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1072", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1076", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1077", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1073", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1078", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1073", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1075", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 hoist tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1130", "parent": 51, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1080", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1130", "parent": 51, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1081", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1136", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1133", "parent": 51, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1136", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1072", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1082", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1137", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1072", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1134", "parent": 51, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1137", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1077", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1083", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1122", "parent": 51, "score": 64, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1077", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1122", "parent": 51, "score": 71, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1078", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1084", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1138", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1078", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1124", "parent": 51, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1138", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1075", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width ang s16->s32 @1070", "parent": 51, "score": 74, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1074", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1074", "parent": 51, "score": 56, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a0 @1071", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width quot s32->u16 @1069", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1074", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1079", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a1 @1071", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width quot s32->s16 @1069", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1133", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1079", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R5 swap + @1139", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1076", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R10 param-copy a2 @1071", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R12 width sa s16->s32 @1068", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1079", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R5 swap + @1140", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1073", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1076", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1072", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1134", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1076", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1077", "parent": 51, "score": 55, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1073", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1078", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1073", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 hoist tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1130", "parent": 51, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1080", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 cse tmp0 @1135", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1130", "parent": 51, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1081", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1136", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1133", "parent": 51, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1136", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1072", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1082", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1137", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1072", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1134", "parent": 51, "score": 59, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1137", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1077", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1083", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1122", "parent": 51, "score": 64, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1077", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1122", "parent": 51, "score": 71, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1078", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1084", "parent": 51, "score": 54, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 temp tmp0 @1138", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 do-while @1078", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R9 swap-stmts @1124", "parent": 51, "score": 53, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R8 base tmp0 @1138", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 4, "move": "R7 block @1075", "parent": 51, "score": 51, "kind": "COUNT", "ident": false}

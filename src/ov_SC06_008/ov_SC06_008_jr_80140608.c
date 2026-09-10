@@ -1878,14 +1878,14 @@ extern unsigned char D_80186EB8[];
 
 void func_8014305C(int param_1)
 {
-    register int s0_param __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus2)
-    register int s1_copy __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus2)
+    int s0_param = param_1;
+    int s1_copy;
     int iVar2;
     short sVar1;
 
-    iVar2 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(s0_param + 0x20) = iVar2;
+    do { iVar2 = ((int (*)(void))func_8012C1B8)(); } while (0);
     s1_copy = iVar2;
+    *(int *)(s0_param + 0x20) = iVar2;
     if (iVar2 == 0) {
         ((void (*)(int))func_8012CAE4)(s0_param);
     } else {
@@ -1928,11 +1928,11 @@ void func_801431E8(s32 param_1) {
     u16 uVar2;
     s16 sVar4;
 
-    register s32 d __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus2)
+    s32 d;
     memcpy(buf, &D_801A84DC, 4);
     iVar5 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(param_1 + 0x20) = iVar5;
     d = iVar5;
+    *(s32 *)(param_1 + 0x20) = iVar5;
     if (iVar5 == 0) {
         ((void (*)(s32))func_8012CAE4)(param_1);
     } else {

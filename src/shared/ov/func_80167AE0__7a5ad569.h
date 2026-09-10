@@ -8,9 +8,8 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
 
     struct Fr_80167AE0 fr;
     u8 *p;
-    s32 i;
-    s32 t;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung A headers2)
+    u16 i;
+    u16 t;
     s32 flags;
 
     func_80168070(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);
@@ -53,7 +52,7 @@ L1:
         fr.v[3].y = (s8)*p--;
         func_80017758(fr.v, fr.matrix);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L1;
 
     fr.v[3].y = 0;
@@ -77,7 +76,7 @@ L2:
             p += 2;
         }
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L2;
 
     p += 2;
@@ -94,6 +93,6 @@ L3:
         fr.v[3].z = (s8)*p++;
         func_80017758(fr.v, fr.matrix);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 2) goto L3;
 }

@@ -1,0 +1,20 @@
+{"kind": "seed", "start": 31, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8013F350.c", "fn": "func_8013FAF8", "label": "g3"}
+{"depth": 1, "move": "R12 width i s16->s32 @1268", "parent": 31, "score": 155, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline addr @1294", "parent": 31, "score": 70, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @1333", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1287", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1317", "parent": 31, "score": 82, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @1278", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move flag3 21->0", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width j s16->s32 @1269", "parent": 31, "score": 87, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline flag2 @1310", "parent": 31, "score": 75, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1287", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1304", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg1 @1278", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move flag3 21->1", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width flag s32->u16 @1270", "parent": 31, "score": 3, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R6 inline addr @1299", "parent": 31, "score": 63, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1294", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1330", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move flag3 21->2", "parent": 31, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width flag s32->s16 @1270", "parent": 31, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -1478,11 +1478,11 @@ void func_801431E8(s32 param_1) {
     u16 uVar2;
     s16 sVar4;
 
-    register s32 d __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus2)
+    s32 d;
     memcpy(buf, &D_80194F7C, 4);
     iVar5 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(param_1 + 0x20) = iVar5;
     d = iVar5;
+    *(s32 *)(param_1 + 0x20) = iVar5;
     if (iVar5 == 0) {
         ((void (*)(s32))func_8012CAE4)(param_1);
     } else {

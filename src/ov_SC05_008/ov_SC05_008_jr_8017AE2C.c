@@ -5240,10 +5240,10 @@ void func_8018000C(s32 *p) {
 
     extern void (*D_80186664[])(void);
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186664[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186664[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5298,14 +5298,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80180164(s32 *p) {
 
     extern void (*D_80186670[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186670[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186670[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5408,14 +5405,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_801803B8(s32 *p) {
 
     extern void (*D_8018667C[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_8018667C[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_8018667C[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5467,14 +5461,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80180510(s32 *p) {
 
     extern void (*D_80186688[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186688[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186688[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5577,14 +5568,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80180764(s32 *p) {
 
     extern void (*D_80186694[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186694[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186694[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5638,14 +5626,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_801808BC(s32 *p) {
 
     extern void (*D_801866A0[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801866A0[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801866A0[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5702,14 +5687,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80180A14(s32 *p) {
 
     extern void (*D_801866AC[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801866AC[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801866AC[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5812,14 +5794,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80180CDC(s32 *p) {
 
     extern void (*D_80186778[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186778[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186778[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5926,14 +5905,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80180F84(s32 *p) {
 
     extern void (*D_80186788[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186788[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186788[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6037,14 +6013,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_8018122C(s32 *p) {
 
     extern void (*D_80186798[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186798[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186798[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6148,14 +6121,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_801814D4(s32 *p) {
 
     extern void (*D_801867A8[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801867A8[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801867A8[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6256,14 +6226,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_8018177C(s32 *p) {
 
     extern void (*D_801867B8[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801867B8[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801867B8[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6352,14 +6319,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_801819D8(s32 *p) {
 
     extern void (*D_801867C8[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801867C8[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801867C8[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6448,14 +6412,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80181C38(s32 *p) {
 
     extern void (*D_801867D8[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801867D8[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801867D8[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6515,14 +6476,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80181DBC(s32 *p) {
 
     extern void (*D_801867E4[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801867E4[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801867E4[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6578,14 +6536,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_80181F40(s32 *p) {
 
     extern void (*D_801867F0[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801867F0[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801867F0[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6645,14 +6600,11 @@ extern s32 func_80013328(s32 a0, s32 a1);
 void func_801820C0(s32 *p) {
 
     extern void (*D_801867FC[])(void);
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_801867FC[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_801867FC[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;

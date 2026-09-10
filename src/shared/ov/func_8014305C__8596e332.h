@@ -2,14 +2,14 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8014305C(int param_1)
 {
-    register int s0_param __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers2)
-    register int s1_copy __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers2)
+    int s0_param = param_1;
+    int s1_copy;
     int iVar2;
     short sVar1;
 
-    iVar2 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(s0_param + 0x20) = iVar2;
+    do { iVar2 = ((int (*)(void))func_8012C1B8)(); } while (0);
     s1_copy = iVar2;
+    *(int *)(s0_param + 0x20) = iVar2;
     if (iVar2 == 0) {
         ((void (*)(int))func_8012CAE4)(s0_param);
     } else {
