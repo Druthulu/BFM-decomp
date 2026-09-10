@@ -1477,6 +1477,19 @@ accumulate here as the phase produces them.**
   final body: 2 / 12 / 8 / 9 / 53 / 22. The free text's `dum[8]`, `pv`, `ix` stay (removing any scores 18-32).
   `apply-body … IDENTICAL … KEPT`; `--propagate: 128 of 128`. METHOD_S103 +2 entries.
 
+- **S103 — T7 agent c20 (a RE-DRAW): `func_8013DD68` CLOSED (S102 read it to 2; now 0, 187/187; 128/128), and it
+  corrected the earlier reading on bytes (R14).** The move the earlier agent never tried: the addPrim copy reads the
+  ordering-table entry as a WHOLE WORD (`((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;` instead of `OTE->addr`). A 24-bit
+  bit-field read ANDs with the mask (`expmed.c:1456-1471`) and the 24-bit store ANDs again (`:667-683`), so at FLOW time
+  the hoisted `0x00ffffff` mask has 3 loop-weighted uses (7 refs, `flow.c:2067`) — combine later merges the ANDs but
+  never lowers the count (`combine.c:55-57`). Priorities (alloc_table): mask 2413.8 before → 1724.1 after, below the
+  counter's 1728.4, so the counter takes `$a3` as in the target. With the earlier agent's own move 2 (the `q[-7]` store
+  inlined and moved above the `0x7800` store): 17 → 10 → 0. The earlier reading counted refs AFTER combine and so called
+  the swap reachable only by an extra ref on the counter. Its method note: `alloc_table` should show where refs come
+  from (flow-time vs final RTL). R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 16,015 pin/asm
+  sites, 16,015 marked !FAKE, 0 UNMARKED — OK`. Census for a generator: the `->addr = ->addr` copy occurs in 37 residue
+  classes / 41 bodies.
+
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
 
 ### 0. How to use this block

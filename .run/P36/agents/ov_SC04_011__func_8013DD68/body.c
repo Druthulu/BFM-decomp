@@ -22,15 +22,13 @@ void func_8013DD68() {
     uVar1 = *puVar16;
     puVar16 = puVar16 + 1;
     base = pbase + (u32)D_800AF7B8 * 0x5C;
-    do {
-        buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
-        *((u8 *)&buf + 0x18) = 0;
-        SetDrawEnv(p, &buf);
-        ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
-        OTE->addr = (u32)p;
-        p = p + 0x10;
-        iVar14 = 0;
-    } while (0);
+    buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
+    *((u8 *)&buf + 0x18) = 0;
+    SetDrawEnv(p, &buf);
+    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    iVar14 = 0;
     if (uVar1 != 0) {
         int c5 = 5;
         puVar10 = (u16 *)((int)p + 0x18);
@@ -53,7 +51,7 @@ void func_8013DD68() {
             puVar16 = puVar16 + 8;
             *(u16 *)((int)puVar10 + -4) = q[-2];
             *(u16 *)((int)puVar10 + -2) = q[-1];
-            ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+            ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
             puVar10 = puVar10 + 0xc;
             OTE->addr = (u32)p;
             p = p + 6;
@@ -61,7 +59,7 @@ void func_8013DD68() {
         } while (iVar14 < (int)(u32)uVar1);
     }
     SetDrawEnv(p, D_80190DD0);
-    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
     OTE->addr = (u32)p;
     p = p + 0x10;
     (*(u32 * *)&D_800A5E60) = p;

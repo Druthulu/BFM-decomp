@@ -1,166 +1,103 @@
-# func_8013DD68 (ov_SC04_011) — T7 residue reading
+# func_8013DD68 (ov_SC04_011) — T7 agent c20 (re-draw)
 
-Lever-free start **17**; the mechanical search's best **14** (its widest trace, g5, reached 7).
-**Final: 2** — 187 instructions against 187, class ORDER, every register identical, **one instruction out of place.**
-Not banked. ~6,500 scored compiles.
+**Final: 0** — 187 against 187, byte-identical (`--try … body.c --body` → `score 0 … MATCH`). No pin, no asm, no added
+volatile, no `do { } while (0)`, no zero term. Around 10 compiles. The earlier agent's files are kept in
+`scratch/prev_body.c`, `scratch/prev_mechanism.md` and `scratch/prev_body_altB.c` (that attempt reached 2 with
+`do { } while (0)` wraps).
 
-`body.c` = the score-2 text. `body_altB.c` = the other score-2 spelling (a smaller block, a different last instruction).
+`body.c` is `body_free.c` with 3 lines changed:
 
----
+```
+-    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;          (x3: before, inside and after the loop)
++    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
+-            uVar2 = q[-7];
+-            *(u16 *)((int)puVar10 + -6) = 0x7800;
+-            *(u8 *)((int)puVar10 + -7) = (u8)uVar2;
++            *(u8 *)((int)puVar10 + -7) = (u8)q[-7];
++            *(u16 *)((int)puVar10 + -6) = 0x7800;
+```
+
+Only the addPrim inside the loop needs the `*(u32 *)` read (`scratch/c/v4.c`, which changes just that one, also
+scores 0). I changed all three so the three addPrims read the same way. The ones before and after the loop are
+byte-neutral: `v1` (loop only) and `v2` (all three) both score 10 before the scheduling move.
 
 ## (a) The residual in one sentence
 
-Lever-free the body differs in two independent ways: **(1)** the loop's hoisted `0x00ffffff` bit-field mask and the loop
-counter `iVar14` exchange hard registers (`$a3`↔`$t0`, 9 instructions) because the global allocator sorts the two
-allocnos the wrong way round, and **(2)** the list scheduler hands out different load-delay fillers inside the loop,
-costing an extra `nop` (188 vs 187). (2) is reachable from statement order; **(1) is not** — it is an allocation-priority
-comparison that no statement order can move.
+The loop counter `iVar14` and the loop's hoisted `0x00ffffff` addPrim mask swap `$a3`/`$t0`. That is 9 instructions,
+plus scheduler knock-on inside the loop. The cause: the mask's allocno sorts ahead of the counter because it carries
+**two phantom references**. They come from a bit-field read feeding a bit-field store, which masks twice. Combine later
+removes the second mask but never takes back the reference count.
 
-## (b) The pass and the decision, read from the compiler and then measured on the dumps
+## (b) The pass and the decision (read from source, proven on the dumps)
 
-### (1) `global.c allocno_compare`, fed by `flow.c`'s loop-depth reference weighting
+* `expmed.c:1456-1471` `extract_fixed_bit_field`: reading the unsigned 24-bit `addr` field of `OTE` ANDs the loaded
+  word with `0xffffff`.
+* `expmed.c:667-683` `store_fixed_bit_field`: `must_and`, storing a non-constant SImode value into a 24-bit field ANDs
+  it with `0xffffff` again.
+* loop.c hoists the invariant `0x00ffffff` into one pseudo, so both ANDs read the register and cse cannot fold them.
+  At flow the mask has 3 uses inside the loop (`.flow`: insns 242, 247, 272). `flow.c:2067/2315` add `loop_depth`
+  (2) for each: 1 set + 3×2 = **7 refs**.
+* combine turns `(and (and x r148) r148)` into one AND (insn 247 in `.combine`), but **`reg_n_refs` is not adjusted**.
+  `combine.c:55-57` says so in its own header: "reg_n_refs is not adjusted in the rare case when a register is no
+  longer required in a computation".
+* sched1 splits the constant into `lui`+`ori` (`sched.c:4830` `try_split`, mips.md:3208 `large_int` split). The
+  pseudo then has two sets, so `update_equiv_regs` cannot give it a REG_EQUIV note. Its live length is not doubled
+  (`local-alloc.c:1058-1064`), unlike the one-insn `0xff000000`, whose 56 becomes 112.
+* `global.c:587-607` `allocno_compare`: `floor_log2(refs)·refs/live·10000`:
 
-`global_alloc` sorts the allocnos by
-
-```
-pri = floor_log2(n_refs) * n_refs / live_length * 10000 * size      (global.c, allocno_compare, descending;
-                                                                     ties break on the allocno number, v1 - v2)
-```
-
-and `find_reg` gives each one the first free register in `REG_ALLOC_ORDER`, so the allocno sorted earlier gets the
-lower-numbered hard register. `flow.c:2067` (and `:2315 :2501 :2711`) accumulates `reg_n_refs[regno] += loop_depth`:
-a reference at function level is worth 1, a reference inside one loop 2.
-
-Read out of the real `-dl`/`-dg` dumps of this TU (`cpp | cc1 -O2 -G0 -mips1 -mcpu=3000 -msoft-float … -dl -dg -df -dS`),
-lever-free:
-
-| pseudo | what it is | `used N times across M insns` | where the refs come from | pri |
+| pseudo | what | refs / live | pri | allocated |
 |---|---|---|---|---|
-| **79** | `iVar14` | **7 / 81** | `1` init (depth 1) + `3 × 2` (the set, the use and the compare, depth 2) | `2*7/81 = 0.1728` |
-| **149** | the loop's `0x00ffffff` — `(set 149 (const_int 16711680))` then `(set 149 (ior 149 65535))`, `REG_EQUAL 16777215` | **7 / 58** | `3` for the two-insn constant (depth 1) + `2 × 2` for the two `and`s (depth 2) | `2*7/58 = 0.2414` |
+| r148 (free) | loop mask, double-ANDed | 7 / 58 | **2413.8** | first → `$a3` (wrong) |
+| r79 | `iVar14` | 7 / 81 | **1728.4** | second → `$t0` (wrong) |
+| r144 (body.c) | loop mask, single AND | **5** / 58 | **1724.1** | second → `$t0` ✓ |
 
-`;; 17 regs to allocate: 195 100 172 93 194 72 97 92 94 74 **149 79** 80 153 141 73 121` → `149 in 7` (`$a3`),
-`79 in 8` (`$t0`). The target wants them the other way round; the whole 9-instruction register residual **is that one
-comparison**.
+The `.greg` order line goes from `… 74 148 79 80 …` (free) to `… 74 79 144 80 …` (body.c). All three rows come from
+`tools/alloc_table.py` run on `scratch/dumps_{free,v1,v5}`. The margin is 4.3 priority points, and the bytes confirm it.
 
-The two numerators are equal (`2*7`), so the ordering is decided by `live_length` alone: 58 against 81. Neither side of
-that can be moved:
+Reading the OT entry as a plain word (`*(u32 *)OTE`) removes the extract's AND before combine ever sees it. The store
+still masks once, and the final code does not change: combine had produced the same single `and` anyway.
 
-* `iVar14` is live from `move a3,zero` (before the guard) to the loop's `slt` — its 81 is already near the floor,
-  and it would have to drop below **58** to win on length, i.e. below the loop body itself (~72 insns). Impossible.
-* pseudo 149 is defined in the loop preheader and last used ~12 insns from the loop bottom, so 58 is already near its
-  ceiling; it would need **≥ 81**. Its 3 preheader refs are the MIPS two-insn materialization of `0x00ffffff`
-  (`lui`+`ori`) — note that the sibling constant `0xff000000` (pseudo 153) is **one** insn and therefore only 5 refs.
-  Nothing in C chooses that.
+**Proven on bytes.** Control `scratch/c/v6.c` has the scheduling move but not the u32 read: 7, pairs
+`a3->t0 x5, t0->a3 x4`. `v1` has the u32 read in the loop and no scheduling move: 10, and the register pairs are GONE
+(only the `li v0,100` / `lui a0,0xe100` / `andi` order hunk is left).
 
-So the only reachable move is **one more weighted reference on `iVar14`**: at 8 refs `floor_log2` steps 2 → 3 and
-`pri` becomes `3*8/81 = 0.2963 > 0.2414`.
+The second residual is the one the earlier agent already solved (its moves 1 and 2): with `uVar2 = q[-7]` inlined,
+the store sits before the `0x7800` store, the `lhu` sits at its use, and sched1's LUID ties fall the target's way
+(`sched.c:2428`). Inlining without the reorder (`v3`) is 8; inlining plus the reorder (`v4`/`v5`) is 0.
 
-**Byte proof that it is `iVar14`'s weight and nothing else.** Wrapping each of the 22 loop statements in
-`do { } while (0)`, one at a time (22 compiles), clears the `$a3`/`$t0` pairs for **exactly one** of them — the
-`iVar14 = iVar14 + 1;` statement (score 7, `pairs []`); all 21 others keep the pairs. The `-dl` dump of that spelling
-differs from the plain one in exactly one line: `Register 79 used 7 times → used 9 times`, `across 81 insns` unchanged.
-That is `residual_moves.md` row 1a-7 (verified there on `func_80135D20`) reproduced as arithmetic.
+## (c) The moves, one line each
 
-### (2) sched1 / reorg
-
-`sched.c schedule_block :3144`, `rank_for_schedule :2385`, LUID tie-break `:2428` (LUID = source order, `:2175`).
-`iVar14` has two sets, so `adjust_priority` / `birthing_insn_p` (`:2507` / `:2469`, gated on `reg_n_sets == 1` at `:2490`)
-never boosts it — its position is its LUID, which is why moving the increment statement is a lever at all.
-
-### The trap, and the move that got past it
-
-`do { } while (0)` is **two** things at once: the loop-depth ref weight **and** a two-sided scheduling barrier
-(`sched.c:2058-2074` — a LOOP note mid-block adds every register dependence and flushes the pending lists). Put it
-around the increment and you buy the registers and immediately lose an instruction: the barrier pins the increment at a
-block boundary, so it can never land in the load-delay slot of `lhu v0,-4(a2)` where the target has it — an extra `nop`,
-and the score floors at 4.
-
-**The weight and the barrier can be separated: the extra reference only has to be on `iVar14`, and `iVar14 = 0;` lives
-outside the loop.** Wrapping the initialization leaves sched1 completely free inside the loop — the whole loop body then
-matches to the instruction, and the residual moves out to the prologue.
-
-## (c) The moves, one line each (17 → 2)
-
-1. `uVar2 = q[-7];` deleted and inlined at its single use: `*(u8 *)((int)puVar10 + -7) = (u8)q[-7];`  → **14**
-2. that store exchanged with `*(u16 *)((int)puVar10 + -6) = 0x7800;`, so the load sits at its use → **7**
-3. the tail of the pre-loop run — `buf.env = …` through `iVar14 = 0;` — wrapped in `do { … } while (0);` → **2**
-   (the ref-weight move; the `$a3`/`$t0` swap and every scheduling difference inside the loop are gone)
-
-`body_altB.c` reaches the same 2 with a smaller block: `iVar14 = 0;` moved up to just after `SetDrawEnv(p, &buf);` and
-only `{ iVar14 = 0; ((P_TAG_8013DD68 *)p)->addr = OTE->addr; OTE->addr = (u32)p; p = p + 0x10; }` wrapped.
+1. addPrim's OT read written as a word: `((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;` (the loop one is load-bearing;
+   the other two for consistency) → register swap gone (17 → 10).
+2. `uVar2 = q[-7]` inlined into its store, and that store moved above `*(u16 *)(puVar10 - 6) = 0x7800;` → 0.
 
 ## (d) GENERATOR PROPOSAL
 
-**When the residual is a two-register exchange between a loop counter and a loop-invariant constant, take
-`floor_log2(n_refs)*n_refs/live_length` for both pseudos from the `-dl` dump and, if the counter loses, wrap the
-counter's INITIALIZER — never its increment — in `do { … } while (0);`, then widen that block backwards over the
-preceding statements while the score falls.**
+**When a REG residual swaps a loop-invariant constant's pseudo with another allocno, and the constant feeds a
+bit-field store whose source is a bit-field READ of the same width (`a->f = b->f`, the PsyQ `setaddr(p, getaddr(ot))`
+/ addPrim idiom), rewrite the source read as a whole-word read (`a->f = *(u32 *)b`).** It removes one phantom
+depth-weighted reference, `2·loop_depth`, from the mask pseudo with zero byte cost, because combine would have merged
+the double AND anyway (`combine.c:55-57`). More generally: for any register-priority residual, count refs in the
+**`.flow`** dump, not only `.lreg`, and look for insns combine deleted; their refs persist into `allocno_compare`. The
+opposite lever (spell a field read as a bit-field read to ADD refs) should work for a pseudo that needs to rise.
 
-Generalized: for any REG-class residual, read the `;; N regs to allocate:` line of the `-dg` dump, find the adjacent
-pair that has to swap, and add one loop-depth weight to whichever of the two has a reference OUTSIDE the loop — that is
-the only place the `do { } while (0)` costs no schedule. (Today's `R7 block` generator wraps one statement, always
-inside the loop; it can reach 4 here and never 2.)
+## (e) What did NOT work / what the earlier reading got wrong (R14)
 
-## (e) What did NOT work, with the byte evidence
-
-* **Statement order alone is spent.** A 3-deep beam over "move one loop statement anywhere" (~4,000 compiles from the
-  best score-4 seed) plateaus at 3 and never removes the register swap. A 3,000-candidate randomized 2-3-move search over
-  (pre-loop order × block range × loop order × declaration order) never beat 2.
-* **The increment's spelling is inert.** `iVar14++`, `++iVar14`, `iVar14 += 1`, `iVar14 = iVar14 + 1` all score 7 at
-  every one of the 22 positions, and so do `while (++iVar14 < (int)(u32)uVar1)`, `while ((iVar14 = iVar14 + 1) < …)` and
-  `while ((iVar14 += 1) < …)` — pairs still `a3→t0 ×5, t0→a3 ×4`. `for (iVar14 = 0; …; iVar14++)` is much worse
-  (26 with the init in the header, 13 without): `duplicate_loop_exit_test` rebuilds the guard.
-* **`register int iVar14;`** (the bare keyword, no pin) is inert — 7, pairs unchanged; and so is it on all 11 locals.
-  gcc 2.7.2 ignores `register` for allocation at `-O2`.
-* **Declaration order** is inert here: all 121 single moves of the 11 declarations leave the score at 2.
-* **Wrapping the increment**, or any contiguous loop range containing it (260 compiles over every `[i..j]`), floors at 4:
-  the barrier costs the `lhu v0,-4(a2)` delay-slot filler and the function is 188 instructions.
-* **`for (;;) { … break; }` and `while (1) { … break; }`** are byte-identical to `do { … } while (0)` at both block
-  positions (2 and 2) — the note footprint is the same.
-* **Naming the block copy's destination** (`DrawEnv_8013DD68 *dst; dst = &buf.env;` before the block, `*dst = …` inside)
-  does not free the `addiu a3,sp,16`: cse's `find_best_addr` folds the frame address back into the MEM and the copy dies.
-  Still 2, same defect.
-* **Splitting `((P_TAG_8013DD68 *)p)->addr = OTE->addr;` into `tmp = OTE->addr;` + the store**, to get the mask constant
-  emitted above the block opener, costs 14 points (16): the split re-plans the whole entry block.
-
-## What is still open at 2
-
-Two spellings, each one instruction from the bytes, and the two are complementary:
-
-```
-body.c        mine   … lhu v1,0(v1) | sw s2,144(sp)  | …12 insns… | addiu a3,sp,16 | addiu a2,v0,56 | …
-              target … lhu v1,0(v1) | addiu a3,sp,16 | sw s2,144(sp) | …            | addiu a2,v0,56 | …
-
-body_altB.c   mine   … jal | sb zero,40(sp) | move a3,zero  | lui a0,0xff | ori a0,a0,0xffff | lui a1,0xff00 …
-              target … jal | sb zero,40(sp) | lui a0,0xff | ori a0,a0,0xffff | move a3,zero  | lui a1,0xff00 …
-```
-
-`addiu a3,sp,16` is the destination address of the `buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);` block copy; the target
-has sched2 weave it into the prologue, above the `$s2` save. Whatever statement is FIRST inside the `do { … }` gets
-pinned at the top of the region and can no longer rise into the prologue — that is the whole of `body.c`'s residual, and
-it is why widening the block past the copy costs the instruction. Pulling the block opener down past the copy instead
-(start at 7 or 8) leaves `sb zero,40(sp)` unable to reach the `jal` delay slot (6); pulling it down past the call
-(start at 9) is `body_altB.c`, where `move a3,zero` is then pinned two slots too early. The wanted boundary falls in the
-MIDDLE of one statement's insns, and no statement-level move can put it there.
-
-**What would close it:** anything that gives `iVar14` one more weighted reference without planting a note — i.e. a real
-extra reference in the source. I could not find one that keeps the semantics and the instruction count.
+* The earlier agent's claim "the only reachable move is one more weighted reference on `iVar14`" and "nothing in C
+  chooses [the mask's refs]" is **refuted**. The mask's 7 refs are 3 from the two-insn constant (their count) plus
+  **3 depth-2 uses, one of them phantom** (they read 2), and the phantom is chosen in C by how the OT field is read.
+  Their arithmetic (priority, live lengths, `floor_log2` step) was correct and was the key; the error was counting
+  the mask's uses from `.lreg` (after combine) and not `.flow`.
+* v3: inlining `q[-7]` without the reorder is 8 (the `lhu v1,0(s1)` / `sb` ordering hunk).
+* I did not need the METHOD_S103 moves (implicit handler args, cross-jump, width moves): the residual was a priority
+  inversion, and the table settled it.
 
 ## (f) Where the method fell short
 
-* The pack has no allocation table. Everything decisive here came from two numbers in the `-dl` dump
-  (`used 7 times across 81 insns` vs `used 7 times across 58 insns`) and one line in `-dg`
-  (`;; 17 regs to allocate:`). Computing `floor_log2(n)*n/L` for the residual's register pair turned a guessing game into
-  arithmetic and also **proved a negative** — that the live-length side is unreachable — which no amount of hill-climbing
-  could have shown. A `tools/alloc_table.py`-style "priority table for the pair named in `pairs:`", generated into the
-  pack, would have got here in one step instead of forty.
-* The engine's block generator (`R7`) only ever wraps ONE statement and only inside the loop. The entire win here is a
-  multi-statement block placed OUTSIDE the loop, chosen by widening backwards. That is a cheap generator to add and it
-  generalizes to every REG residual whose loser has an out-of-loop reference.
-* `--try` prints a masked-word diff but not the surrounding instructions, and the edit distance conflates "one
-  instruction 13 slots late" with "two real differences". I had to rebuild an aligned `objdump` view before any of this
-  was readable; that view belongs in `--try` behind a flag.
-* `history.txt` records only scores and move names, not the residual CLASS each move left behind. "R6 inline uVar2 → 14
-  [COUNT]" is much less useful than "…and the `a3`/`t0` pairs survive", which is the fact that decides whether the search
-  is even working on the right axis.
+* `tools/alloc_table.py` prints `.lreg` refs, the value global.c uses, but not WHERE they come from. The decisive fact
+  was the gap between flow-time uses (3 in the loop) and post-combine uses (2), and the table cannot show it. Suggest
+  a column: "refs at flow vs mentions in the final RTL". A pseudo whose refs exceed its current mentions × depth is
+  carrying phantom refs from combine, and the source construct that produced the deleted insn is the lever.
+* `residual_moves.md` should get a row: "REG swap, winner is a hoisted constant fed by a bit-field copy →
+  whole-word read of the source field."
+* The pack worked: reading the earlier agent's arithmetic plus `.flow` got here in about 10 compiles.

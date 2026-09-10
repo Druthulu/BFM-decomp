@@ -1691,9 +1691,9 @@ void func_8013DD68() {
     u16 *puVar16;
     u16 *q;
     u16 *puVar10;
-    register u16 uVar2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus4)
+    u16 uVar2;
     int uVar5;
-    register int iVar14 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus4)
+    int iVar14;
     Buf_8013DD68 buf;
     u8 *pbase;
     u8 *base;
@@ -1707,7 +1707,7 @@ void func_8013DD68() {
     buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
     *((u8 *)&buf + 0x18) = 0;
     SetDrawEnv(p, &buf);
-    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
     OTE->addr = (u32)p;
     p = p + 0x10;
     iVar14 = 0;
@@ -1728,13 +1728,12 @@ void func_8013DD68() {
             iVar14 = iVar14 + 1;
             *(u16 *)((int)puVar10 + -0xa) = q[-3];
             *(u8 *)((int)puVar10 + -8) = (u8)*puVar16;
-            uVar2 = q[-7];
+            *(u8 *)((int)puVar10 + -7) = (u8)q[-7];
             *(u16 *)((int)puVar10 + -6) = 0x7800;
-            *(u8 *)((int)puVar10 + -7) = (u8)uVar2;
             puVar16 = puVar16 + 8;
             *(u16 *)((int)puVar10 + -4) = q[-2];
             *(u16 *)((int)puVar10 + -2) = q[-1];
-            ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+            ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
             puVar10 = puVar10 + 0xc;
             OTE->addr = (u32)p;
             p = p + 6;
@@ -1742,7 +1741,7 @@ void func_8013DD68() {
         } while (iVar14 < (int)(u32)uVar1);
     }
     SetDrawEnv(p, D_80185638);
-    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
     OTE->addr = (u32)p;
     p = p + 0x10;
     (*(u32 * *)&D_800A5E60) = p;
