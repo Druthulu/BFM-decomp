@@ -1,0 +1,65 @@
+src/ov_SC04_011/ov_SC04_011_jr_80135A4C.c:func_80135A4C: score 40 (COUNT; mine 171 ins, target 181) — not yet
+  register pairs (mine -> target, count): s5->s7 x7, s6->s5 x5, s7->s6 x4
+  replace mine[1:3] target[1:3]
+        1  sw	s6,72(sp)                       | sw	s5,68(sp)
+        2  move	s6,a0                         | move	s5,a0
+  insert  mine[7:7] target[7:10]
+        7  --                                 | sw	s6,72(sp)
+        8  --                                 | move	s6,a3
+        9  --                                 | sw	ra,80(sp)
+  delete  mine[8:11] target[11:11]
+        8  move	s7,a3                         | --
+        9  sw	ra,80(sp)                       | --
+       10  sw	s5,68(sp)                       | --
+  replace mine[25:26] target[25:26]
+       25  addiu	s5,s6,52                     | addiu	s7,s5,52
+  replace mine[33:34] target[33:34]
+       33  addiu	s5,s6,52                     | addiu	s7,s5,52
+  replace mine[40:41] target[40:41]
+       40  addiu	s5,s6,52                     | addiu	s7,s5,52
+  replace mine[45:47] target[45:47]
+       45  lui	s5,0x0                         | lui	s7,0x0
+       46  addiu	s5,s5,0                      | addiu	s7,s7,0
+  replace mine[50:51] target[50:51]
+       50  bgez	s1,118 <func_80135A4C+0x118>  | bgez	s1,13c <func_80135A4C+0x13c>
+  replace mine[55:56] target[55:56]
+       55  bnez	v0,100 <func_80135A4C+0x100>  | bnez	v0,10c <func_80135A4C+0x10c>
+  replace mine[59:60] target[59:60]
+       59  beqz	s0,27c <func_80135A4C+0x27c>  | beqz	s0,2a4 <func_80135A4C+0x2a4>
+  delete  mine[61:62] target[61:61]
+       61  j	d4 <func_80135A4C+0xd4>          | --
+  insert  mine[63:63] target[62:66]
+       63  --                                 | jal	0 <func_80135A4C>
+       64  --                                 | li	a1,-32768
+       65  --                                 | beqz	v0,124 <func_80135A4C+0x124>
+       66  --                                 | nop
+  replace mine[64:66] target[67:69]
+       64  move	a1,s6                         | move	a1,s5
+       65  move	a2,s7                         | move	a2,s6
+  replace mine[67:69] target[70:72]
+       67  move	a3,s5                         | move	a3,s7
+       68  j	27c <func_80135A4C+0x27c>        | j	2a4 <func_80135A4C+0x2a4>
+  insert  mine[70:70] target[73:79]
+       70  --                                 | lw	s0,0(s0)
+       71  --                                 | nop
+       72  --                                 | bnez	s0,f8 <func_80135A4C+0xf8>
+       73  --                                 | move	a0,s0
+       74  --                                 | j	2a4 <func_80135A4C+0x2a4>
+       75  --                                 | move	v0,zero
+  replace mine[80:81] target[89:90]
+       80  lh	v0,0(s7)                        | lh	v0,0(s6)
+  replace mine[85:86] target[94:95]
+       85  bne	v1,v0,184 <func_80135A4C+0x184> | bne	v1,v0,1ac <func_80135A4C+0x1ac>
+  replace mine[88:89] target[97:98]
+       88  lh	v0,2(s7)                        | lh	v0,2(s6)
+  replace mine[90:91] target[99:100]
+       90  bne	v1,v0,184 <func_80135A4C+0x184> | bne	v1,v0,1ac <func_80135A4C+0x1ac>
+  replace mine[93:94] target[102:103]
+       93  lh	v1,4(s7)                        | lh	v1,4(s6)
+  replace mine[96:97] target[105:107]
+       96  sltiu	a0,v0,1                      | sltiu	v0,v0,1
+       97  --                                 | move	a0,v0
+  replace mine[115:116] target[125:126]
+      115  j	27c <func_80135A4C+0x27c>        | j	2a4 <func_80135A4C+0x2a4>
+  replace mine[156:157] target[166:167]
+      156  j	fc <func_80135A4C+0xfc>          | j	108 <func_80135A4C+0x108>

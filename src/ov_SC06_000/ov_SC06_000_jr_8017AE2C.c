@@ -3995,8 +3995,8 @@ void func_8017D1E0(void *a0)
 
     extern u16 D_8018BD18[][2];
     s16 n;
-    register s32 tmp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 t __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 tmp;
+    s32 t;
     s16 v;
     SVECTOR_8017C290 vec1;
     SVECTOR_8017C290 vec2;
@@ -4011,8 +4011,8 @@ void func_8017D1E0(void *a0)
     }
 
     tmp = *(s32 *)((s32)a0 + 0x30) + 0x6000;
-    *(s32 *)((s32)a0 + 0x14) += tmp;
     t = tmp;
+    *(s32 *)((s32)a0 + 0x14) += tmp;
 
     v = *(u16 *)((s32)a0 + 0x10) - *(u16 *)((s32)a0 + 0x16);
     *(s16 *)((s32)a0 + 0x10) = v;
@@ -4324,11 +4324,9 @@ void func_8017D900(s32 arg0) {
     u8 *p = &D_801AE668;
 
     D_801AE669 = D_801AE66A = *p = func_80012F74(*p, 0, 10, 1);
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-    *(Quad_801EA880_8017D900 *)&D_801AE66C = *(Quad_801EA880_8017D900 *)p;
-    *(Quad_801EA880_8017D900 *)&D_801AE670 = *(Quad_801EA880_8017D900 *)p;
+    do { *(Quad_801EA880_8017D900 *)&D_801AE66C = *(Quad_801EA880_8017D900 *)p; } while (0);
+    do { *(Quad_801EA880_8017D900 *)&D_801AE670 = *(Quad_801EA880_8017D900 *)p; } while (0);
     *(Quad_801EA880_8017D900 *)&D_801AE674 = *(Quad_801EA880_8017D900 *)p;
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
     if (*p == 0) {
         ((void (*)(s32))func_80146C3C)(arg0);
     }
@@ -8726,12 +8724,12 @@ void func_80184870(s32 arg0) {
 int func_801848A4(int a0, void* a1)
 {
     s16 stack_buf[8];
-    register s16 *s0 __asm__("$16") = (s16 *)a1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s16 *s0 = (s16 *)a1;
     s16 v0;
     s32 result;
     s32 ret;
 
-    v0 = s0[2];
+    do { v0 = s0[2]; } while (0);
     stack_buf[0] = v0;
     v0 = s0[3];
     stack_buf[4] = v0;
@@ -11353,32 +11351,33 @@ void func_80187AB8(void *a0) {
     u16 v0_const;
     s32 rand_val;
     u16 *val_ptr;
+    void *a02;
+    a02 = a0;
 
-    s1 = (s32 *)a0;
+    s1 = (s32 *)a02;
     v0_const = 0x0B;
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
     s0 = *(s32 **)((u8 *)s1 + 0x20);
 
-    
+    // Store 0x0B as halfword at offset 0x2
     *(u16 *)((u8 *)s0 + 0x2) = v0_const;
 
-    
+    // Load word from offset 0x4, OR with 0x50000000, store back
     *(s32 *)((u8 *)s0 + 0x4) |= 0x50000000;
 
-    
+    // If the halfword at offset 0x18 is 0, store 0x600
     if (*(s16 *)((u8 *)s0 + 0x18) == 0) {
         *(s16 *)((u8 *)s0 + 0x18) = 0x600;
     }
 
-    
+    // Call rand, mask to 0xFF0, store at offset 0x14
     rand_val = rand();
     *(u16 *)((u8 *)s0 + 0x14) = (u16)(rand_val & 0xFF0);
 
-    
+    // Load halfword at offset 0x2 of s1, increment, store back
     val_ptr = (u16 *)((u8 *)s1 + 0x2);
     *val_ptr = *val_ptr + 1;
 
-    
+    // Store 0x100 as halfword at offset 0x30 of s1
     *(s16 *)((u8 *)s1 + 0x30) = 0x100;
 }
 

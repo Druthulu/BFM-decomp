@@ -559,9 +559,9 @@ void func_801F02B0(s32 a0_) {
 void func_801F02D4(void *a0) {
     extern s32 D_801F6CA8;
     extern s32 D_801F6CAC;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 v0;
     s32 p;
-    v0 = D_801F6CA8;
+    do { v0 = D_801F6CA8; } while (0);
     *(s16 *)((s32)a0 + 0xFC) = 0;
     p = D_801F6CAC;
     *(s16 *)(v0 + 0xFC) = 2;

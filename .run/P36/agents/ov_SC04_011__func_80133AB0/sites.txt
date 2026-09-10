@@ -1,0 +1,4 @@
+NEEDED   pin         $0     line 2533
+NEEDED   pin         $4     line 2541
+NEEDED   instruction addu   line 2552
+NEEDED   instruction addu   line 2556

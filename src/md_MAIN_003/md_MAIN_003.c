@@ -4,8 +4,7 @@ extern void (*D_800D3598[])(void);
 
 void func_800CEED0(void) {
     s32 idx;
-    __asm__ __volatile__("" : : "r"(idx));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-    D_800D3598[idx]();
+    do { D_800D3598[idx](); } while (0);
 }
 
 

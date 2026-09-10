@@ -1,0 +1,13 @@
+src/ov_SC04_011/ov_SC04_011_after.c:func_80148E54: score 6 (COUNT; mine 66 ins, target 67) — not yet
+  register pairs (mine -> target, count): s1->a0 x1
+  replace mine[15:16] target[15:16]
+       15  andi	s1,v0,0xfff                   | andi	a0,v0,0xfff
+  replace mine[18:19] target[18:20]
+       18  beq	v1,v0,3624 <func_80148E54+0xb0> | beq	v1,v0,3628 <func_80148E54+0xb4>
+       19  --                                 | move	s1,a0
+  replace mine[24:25] target[25:26]
+       24  j	3664 <func_80148E54+0xf0>        | j	3668 <func_80148E54+0xf4>
+  replace mine[29:30] target[30:31]
+       29  j	3664 <func_80148E54+0xf0>        | j	3668 <func_80148E54+0xf4>
+  replace mine[42:43] target[43:44]
+       42  j	3664 <func_80148E54+0xf0>        | j	3668 <func_80148E54+0xf4>

@@ -5817,12 +5817,12 @@ extern s32 func_80182784(s32 arg0, s32 arg1, s32 arg2);
 int func_801826E8(int a0, void* a1)
 {
     s16 stack_buf[8];
-    register s16 *s0 __asm__("$16") = (s16 *)a1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
+    s16 *s0 = (s16 *)a1;
     s16 v0;
     s32 result;
     s32 ret;
 
-    v0 = s0[2];
+    do { v0 = s0[2]; } while (0);
     stack_buf[0] = v0;
     v0 = s0[3];
     stack_buf[4] = v0;

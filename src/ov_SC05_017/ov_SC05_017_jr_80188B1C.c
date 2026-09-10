@@ -4663,11 +4663,11 @@ void func_8018AE9C(u8 *arg0)
 
     extern u8 D_800D387C[];
     extern u8 D_800D3888[];
-    register u8 *param_1 __asm__("$16");   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *param_1;
     s32 raw;
     u32 buf[6];
 
-    param_1 = arg0;
+    do { param_1 = arg0; } while (0);
     {
         s32 s0;   /* $s1 -- scoped: dead after func_80128EA8 */
         s0 = ((s32 (*)(void))func_8012C194)();

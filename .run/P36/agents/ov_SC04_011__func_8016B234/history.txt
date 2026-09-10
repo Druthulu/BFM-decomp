@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 13 best 5 compiles 813 path R9 swap-stmts @2063 + R6 inline sxy @2052 + R8 hoist tmp0 @2053
+g5: verdict NO-MATCH start 13 best 3 compiles 2304 path R12 width sxy s32->s16 @2042 + R12 width X s32->u16 @2039
+best-scoring single candidates of the last trace (move -> score):
+  R12 width X s32->u16 @2039 -> 3 (from 7)
+  R12 width X s32->s16 @2039 -> 3 (from 7)
+  R6 inline sxy @2053 -> 3 (from 3)
+  R2 decl-order 1,0 -> 3 (from 3)
+  R10 param-copy param_1 @2044 -> 3 (from 3)
+  R8 temp tmp0 @2050 -> 3 (from 3)
+  R7 block @2056 -> 3 (from 3)
+  R9 swap-stmts @2056 -> 3 (from 3)
+  R6 inline Y0 @2059 -> 3 (from 3)
+  R5 swap + @2064 -> 3 (from 3)
+  R8 base tmp0 @2050 -> 3 (from 3)
+  R12 width sxy s16->u16 @2043 -> 3 (from 3)

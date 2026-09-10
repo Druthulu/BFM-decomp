@@ -3722,7 +3722,7 @@ extern s32 rand(void);
 
 void func_8017D9E4(s32 param_1) {
     u16 delta[4];
-    register s32 t __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+    u16 t;
     s32 t2;
     s16 d;
     s32 obj;
@@ -3776,12 +3776,14 @@ extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern s32 D_80181D90;
 
 void func_8017DB60(void *a0) {
-    register s8 *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s8 *s0;
     s32 t;
     u8 *p;
     s32 x;
+    void *a02;
+    a02 = a0;
 
-    s0 = (s8 *)a0;
+    s0 = (s8 *)a02;
     ((void (*)(void))func_8017DC24)();
     *(s32 *)(s0 + 0x10) = *(volatile s32 *)(s0 + 0x10);
     t = *(volatile s32 *)(s0 + 0x18);
@@ -3980,7 +3982,7 @@ void func_8017DF44(void *a0) {
     u8 *v1ptr;
 
     v0 = *(s32 *)((s32)a0 + 0x1C);
-    v1 = *(s32 *)((s32)a0 + 0x2C);
+    do { v1 = *(s32 *)((s32)a0 + 0x2C); } while (0);
     a1 = v0 - 1;
     /* §21 zero-byte re-tie barrier: without it gcc's scheduler hoists the 0x2C load
      * (and its sll) ahead of the 0x1C load + addiu pair -- the 4-slot SCHEDULE-REORDER
@@ -3988,7 +3990,6 @@ void func_8017DF44(void *a0) {
      * swaps $v0/$v1 across the sll/lui pair (REGALLOC-PERM). The re-tie keeps the
      * in-place `v1 <<= 6` form (so the shift stays in $v1) AND anchors it after the
      * two loads. Emits no code. */
-    __asm__ __volatile__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
     v1 = v1 << 6;
     a2 = (s32)D_80190330 + v1;
     v1ptr = *(u8 **)((s32)a0 + 0x20);

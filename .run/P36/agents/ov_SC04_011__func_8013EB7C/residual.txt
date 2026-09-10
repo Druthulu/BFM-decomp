@@ -1,0 +1,6 @@
+src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:func_8013EB7C: score 2 (REG-caller; mine 124 ins, target 124) — not yet
+  register pairs (mine -> target, count): a1->v0 x2
+  replace mine[48:49] target[48:49]
+       48  sll	a1,v0,0x10                     | sll	v0,v0,0x10
+  replace mine[50:51] target[50:51]
+       50  sra	a1,a1,0x10                     | sra	a1,v0,0x10

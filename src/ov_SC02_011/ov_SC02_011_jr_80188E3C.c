@@ -2412,7 +2412,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern void func_80131E00();
 
 void func_8018BCC4(s32 param_1) {
-    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 a;
     s32 p;
     s32 q;
     s32 x;
@@ -2421,7 +2421,7 @@ void func_8018BCC4(s32 param_1) {
 
     if (func_8012BEE8(param_1) != 0) {
         p = *(s32 *)(param_1 + 0x20);
-        h = *(u16 *)(param_1 + 0x100);
+        do { h = *(u16 *)(param_1 + 0x100); } while (0);
         *(s16 *)(p + 0x1C) = h;
         *(s16 *)(p + 0x18) = h;
         a = param_1;
@@ -2995,7 +2995,7 @@ void func_8018C874(s32 a0)
 {
     s32 t;
     s32 u;
-    register s32 p __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 p;
 
     if (*(s16 *)(a0 + 0x102) == 0) {
         if (func_8012E778(a0, 0x64008C) == 0) {
@@ -3015,8 +3015,7 @@ void func_8018C874(s32 a0)
     *(s32 *)(a0 + 0x1C) = 8;
     *(u16 *)(a0 + 0x5C) = 0xAA10;
 
-    p = *(s32 *)(a0 + 0x20);
-    *(u16 *)(p + 0x2C) |= 0x10;
+    *(u16 *)((*(s32 *)(a0 + 0x20)) + 0x2C) |= 0x10;
 
     p = *(s32 *)(a0 + 0x20);
     *(s32 *)(p + 0x4) &= 0x7FFFFFFF;
@@ -3159,12 +3158,11 @@ extern u8 D_800D3918[];
 void func_8018CBBC(s32 a0)
 {
     s32 s0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 v0;
+    s32 v1;
+    u16 v0;
     u16 *p;
 
     s0 = a0;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     v0 = func_8012B8E4(s0, 8);
     p = *(u16 **)(s0 + 0x20);
     p[9] = p[9] + (u16)v0;
@@ -3179,18 +3177,16 @@ void func_8018CBBC(s32 a0)
         }
         v0 = -1;
         if (v1 == -1) {
-            /* target skips the field_2 store entirely on this path */
+            
             return;
         }
-        /* else fall through to the common path */
+        
     }
 
-    v0 = func_8012BEE8(s0);
-    if (v0 != 0) {
+    if ((func_8012BEE8(s0)) != 0) {
         v0 = 9;
     } else {
-        v0 = func_8012BCCC(s0);
-        if (v0 < 0x2001) {
+        if ((func_8012BCCC(s0)) < 0x2001) {
             v0 = 9;
         } else {
             return;
@@ -3728,7 +3724,7 @@ void func_8018D574(s32 a0) {
     s32 obj;
     s32 i;
     s32 t4;
-    register s32 tmp __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 tmp;
     s32 q1;
     unsigned int *pbuf;
     s32 r1, r2, r4;
@@ -3753,8 +3749,7 @@ void func_8018D574(s32 a0) {
     for (; i < 10;) {
         r1 = rand();
         tmp = (r1 >= 0) ? r1 : (r1 + 0xFFF);
-        tmp = (tmp >> 12) << 12;
-        ang1 = r1 - tmp;
+        ang1 = r1 - ((tmp >> 12) << 12);
 
         r2 = rand();
         q1 = r2 / 48;

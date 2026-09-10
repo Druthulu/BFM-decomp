@@ -1,0 +1,33 @@
+src/ov_SC04_011/ov_SC04_011_after.c:func_80148AFC: score 23 (COUNT; mine 72 ins, target 71) — not yet
+  register pairs (mine -> target, count): s1->a1 x1, a0->v1 x1, v1->v0 x1, a0->a1 x1
+  replace mine[17:18] target[17:18]
+       17  andi	s1,v0,0xfff                   | andi	a1,v0,0xfff
+  replace mine[20:21] target[20:22]
+       20  beq	v1,v0,32d0 <func_80148AFC+0xb4> | beq	v1,v0,32d4 <func_80148AFC+0xb8>
+       21  --                                 | move	s1,a1
+  replace mine[26:27] target[27:28]
+       26  j	3320 <func_80148AFC+0x104>       | j	331c <func_80148AFC+0x100>
+  replace mine[31:32] target[32:33]
+       31  j	3320 <func_80148AFC+0x104>       | j	331c <func_80148AFC+0x100>
+  replace mine[43:44] target[44:45]
+       43  j	3320 <func_80148AFC+0x104>       | j	331c <func_80148AFC+0x100>
+  replace mine[45:55] target[46:56]
+       45  lhu	a0,174(s0)                     | lhu	v1,174(s0)
+       46  li	v1,128                          | li	v0,128
+       47  andi	a1,a0,0xffff                  | andi	a0,v1,0xff
+       48  andi	v0,a1,0xff                    | bne	a0,v0,32f0 <func_80148AFC+0xd4>
+       49  bne	v0,v1,32f4 <func_80148AFC+0xd8> | srl	v0,v1,0x8
+       50  nop                                | beq	v0,a0,331c <func_80148AFC+0x100>
+       51  srl	v0,a1,0x8                      | move	v0,zero
+       52  beq	v0,v1,331c <func_80148AFC+0x100> | lhu	a1,174(s0)
+       53  nop                                | li	v0,128
+       54  andi	a0,a0,0xff                    | andi	a0,a1,0xff
+  replace mine[58:63] target[59:61]
+       58  subu	a1,v1,a1                      | subu	a1,v0,a1
+       59  addu	v0,s1,v0                      | addu	v1,s1,v0
+       60  andi	v0,v0,0xfff                   | --
+       61  sh	v0,18(s2)                       | --
+       62  j	3320 <func_80148AFC+0x104>       | --
+  replace mine[64:65] target[62:64]
+       64  move	v0,zero                       | andi	v1,v1,0xfff
+       65  --                                 | sh	v1,18(s2)

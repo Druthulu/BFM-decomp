@@ -1,0 +1,25 @@
+src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:func_80161E08: score 15 (COUNT; mine 172 ins, target 175) — not yet
+  replace mine[10:11] target[10:11]
+       10  beq	v1,v0,5d6c <func_80161E08+0x290> | beq	v1,v0,5d78 <func_80161E08+0x29c>
+  replace mine[15:16] target[15:16]
+       15  beq	v1,v0,5d6c <func_80161E08+0x290> | beq	v1,v0,5d78 <func_80161E08+0x29c>
+  replace mine[17:18] target[17:18]
+       17  beq	v1,v0,5d6c <func_80161E08+0x290> | beq	v1,v0,5d78 <func_80161E08+0x29c>
+  replace mine[19:20] target[19:20]
+       19  beq	v1,v0,5d6c <func_80161E08+0x290> | beq	v1,v0,5d78 <func_80161E08+0x29c>
+  replace mine[21:22] target[21:22]
+       21  beq	v1,v0,5d6c <func_80161E08+0x290> | beq	v1,v0,5d78 <func_80161E08+0x29c>
+  replace mine[27:28] target[27:28]
+       27  beqz	v0,5d6c <func_80161E08+0x290> | beqz	v0,5d78 <func_80161E08+0x29c>
+  replace mine[32:34] target[32:35]
+       32  bnez	v0,5bf0 <func_80161E08+0x114> | bnez	v0,5bf4 <func_80161E08+0x118>
+       33  addiu	s1,s2,26024                  | addiu	v0,s2,26024
+       34  --                                 | move	s1,v0
+  replace mine[72:74] target[73:76]
+       72  bnez	v0,5c90 <func_80161E08+0x1b4> | bnez	v0,5c98 <func_80161E08+0x1bc>
+       73  addiu	s1,s2,26080                  | addiu	v0,s2,26080
+       74  --                                 | move	s1,v0
+  replace mine[112:114] target[114:117]
+      112  bnez	v0,5d30 <func_80161E08+0x254> | bnez	v0,5d3c <func_80161E08+0x260>
+      113  addiu	s1,s2,26136                  | addiu	v0,s2,26136
+      114  --                                 | move	s1,v0

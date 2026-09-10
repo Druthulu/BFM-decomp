@@ -1168,13 +1168,28 @@ def apply_batch(a):
     return 0 if agg["final_bad"] == 0 else 1
 
 
+def load_inflight():
+    """the in-flight map, or None with a loud reason when the file is absent, empty or torn (a SIGTERM that landed mid-write left a
+    0-byte file at S101; a traceback there hid the real state — R43: refuse, never mishandle)."""
+    if not INFLIGHT.exists():
+        return None, "no inflight.json — nothing was in flight"
+    raw = INFLIGHT.read_text()
+    if not raw.strip():
+        return None, ("inflight.json is EMPTY (a kill landed mid-write): the snapshot is lost — reconcile every dirty file with the oracle "
+                      "(a bank is IDENTICAL, a leftover candidate DIFFERS) and restore a DIFFERS file from HEAD only if no uncommitted bank touched it")
+    try:
+        return json.loads(raw), "ok"
+    except json.JSONDecodeError as ex:
+        return None, f"inflight.json is TORN ({ex}): same reconciliation as for an empty one"
+
+
 def restore():
     """Every in-flight file back from inflight.json, and the killed batch's ledger rows dropped (a batch that did not complete leaves no
     trace: its bodies are drawn again — a body judged all-NEEDED in the killed batch would otherwise count as done while its markers were
     restored away). The dropped rows are kept in ledger.jsonl.killed_<label> (ignored scratch)."""
-    if not INFLIGHT.exists():
-        sys.exit("delever --restore: no inflight.json — nothing in flight")
-    d = json.loads(INFLIGHT.read_text())
+    d, why = load_inflight()
+    if d is None:
+        sys.exit(f"delever --restore: {why}")
     label, files = (d.get("label"), d.get("files")) if isinstance(d, dict) and "files" in d else (None, d)
     n = 0
     for tu, text in files.items():

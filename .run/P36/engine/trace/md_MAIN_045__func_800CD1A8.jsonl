@@ -1,0 +1,12 @@
+{"kind": "seed", "start": 3, "tu": "src/md_MAIN_045/md_MAIN_045.c", "fn": "func_800CD1A8", "label": "g6b"}
+{"depth": 1, "move": "R7 block @269", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R4 decl-move a0r 0->1", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 do-while @269", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 block @270", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @270", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @269", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R4 decl-move a0r 0->1", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R7 do-while @269", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R7 block @269", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R4 decl-move a0r 0->1", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R7 do-while @269", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}

@@ -1,0 +1,16 @@
+g1: verdict NO-MATCH start 40 best 40 compiles 322 path 
+g2: verdict NO-MATCH start 40 best 24 compiles 812 path R8 cse tmp0 @654 + R8 cse tmp1 @680
+g5: verdict NO-MATCH start 40 best 24 compiles 2267 path R8 cse tmp0 @654 + R8 cse tmp1 @680
+best-scoring single candidates of the last trace (move -> score):
+  R8 cse tmp1 @680 -> 24 (from 31)
+  R8 cse tmp1 @655 -> 24 (from 33)
+  R12 width i s16->s32 @644 -> 24 (from 24)
+  R7 block @667 -> 24 (from 24)
+  R4 decl-move s7 10->0 -> 24 (from 24)
+  R12 width i s16->u16 @644 -> 24 (from 24)
+  R4 decl-move s7 10->1 -> 24 (from 24)
+  R7 block @664 -> 24 (from 24)
+  R9 swap-stmts @668 -> 24 (from 24)
+  R4 decl-move s7 10->2 -> 24 (from 24)
+  R7 do-while @664 -> 24 (from 24)
+  R10 param-copy a3 @650 -> 24 (from 24)

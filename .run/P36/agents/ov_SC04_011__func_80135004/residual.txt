@@ -1,0 +1,37 @@
+src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:func_80135004: score 26 (COUNT; mine 90 ins, target 89) — not yet
+  register pairs (mine -> target, count): t0->v1 x6, a3->t0 x5, v1->t1 x2
+  insert  mine[0:0] target[0:2]
+        0  --                                 | lui	t1,0x0
+        1  --                                 | lw	t1,0(t1)
+  delete  mine[6:8] target[8:8]
+        6  lui	v1,0x0                         | --
+        7  lw	v1,0(v1)                        | --
+  replace mine[10:17] target[10:17]
+       10  sh	v0,0(v1)                        | sh	v0,0(t1)
+       11  lhu	t0,0(a1)                       | lhu	v1,0(a1)
+       12  lui	a3,0x0                         | lui	t0,0x0
+       13  lw	a3,0(a3)                        | lw	t0,0(t0)
+       14  subu	v0,v0,t0                      | subu	v0,v0,v1
+       15  sh	t0,0(a2)                        | sh	v1,0(a2)
+       16  sh	v0,0(a3)                        | sh	v0,0(t0)
+  replace mine[19:21] target[19:21]
+       19  sh	v0,2(v1)                        | sh	v0,2(t1)
+       20  lhu	t0,2(a1)                       | lhu	v1,2(a1)
+  replace mine[22:25] target[22:25]
+       22  subu	v0,v0,t0                      | subu	v0,v0,v1
+       23  sh	t0,2(a2)                        | sh	v1,2(a2)
+       24  sh	v0,2(a3)                        | sh	v0,2(t0)
+  delete  mine[26:29] target[26:26]
+       26  nop                                | --
+       27  sh	v0,4(v1)                        | --
+       28  lhu	t0,4(a1)                       | --
+  replace mine[30:33] target[27:29]
+       30  subu	v0,v0,t0                      | sh	v0,4(t1)
+       31  sh	t0,4(a2)                        | lhu	v1,4(a1)
+       32  sh	v0,4(a3)                        | --
+  insert  mine[35:35] target[31:34]
+       35  --                                 | subu	v0,v0,v1
+       36  --                                 | sh	v1,4(a2)
+       37  --                                 | sh	v0,4(t0)
+  replace mine[57:58] target[56:57]
+       57  j	a474 <func_80135004+0x150>       | j	a470 <func_80135004+0x14c>

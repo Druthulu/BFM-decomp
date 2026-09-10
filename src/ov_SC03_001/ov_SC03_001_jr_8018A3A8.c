@@ -4007,16 +4007,15 @@ s32 func_8018B644(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
     extern s32 D_8010F468[];
     extern s32 D_801C12E8;
 
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s32 ret;
     s32 n;
-    s32 mode;
+    u16 mode;
 
     *arg4 = 0x808080;
     n = D_80115159[(s16)arg2 * 2];
     n = n * D_80115158[(s16)arg2 * 2];
     ret = 0;
-    mode = arg1 + zr;
+    mode = arg1 + 0;
 
     switch ((s16)arg1) {                                  /* jtbl_801E597C */
     case 10:

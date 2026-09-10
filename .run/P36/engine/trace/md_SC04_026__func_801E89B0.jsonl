@@ -1,0 +1,18 @@
+{"kind": "seed", "start": 7, "tu": "src/md_SC04_026/md_SC04_026.c", "fn": "func_801E89B0", "label": "g6b"}
+{"depth": 1, "move": "R6 inline var @602", "parent": 7, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @601", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width var s32->u16 @599", "parent": 7, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @603", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @603", "parent": 7, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move var 2->0", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R6 inline var2 @604", "parent": 7, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width var s32->s16 @599", "parent": 7, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @603", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @602", "parent": 7, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R4 decl-move var 2->1", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width var s32->u8 @599", "parent": 7, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @602", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @605", "parent": 7, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move var 2->3", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width var2 s32->u16 @600", "parent": 7, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @602", "parent": 7, "score": 0, "kind": "IDENTICAL", "ident": true}

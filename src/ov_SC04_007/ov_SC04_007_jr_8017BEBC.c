@@ -4732,10 +4732,9 @@ void func_8017F634(void *a0) {
         return;
     }
 
-    func_8001CF00((s32)s0);
+    do { func_8001CF00((s32)s0); } while (0);
 
     s2 = (void *)D_801B5498;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
 
     *(s32 *)((s32)s1 + 0xCC) = (s32)s0;
     *(s16 *)((s32)s0 + 0x28) = 0x300;
@@ -6595,7 +6594,7 @@ s32 func_801821DC(s32 a0) {
             *(s16 *)(v1 + 0x1C) = v0;
         }
         *(s16 *)(v1 + 0x1A) = v0;
-        *(s16 *)(v1 + 0x18) = v0;
+        do { *(s16 *)(v1 + 0x18) = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
@@ -6605,7 +6604,6 @@ s32 func_801821DC(s32 a0) {
      * instead of the target's `addiu $a1`.  -fno-schedule-insns{,2} alone does
      * not reproduce the target order -- only both together do, hence a real
      * barrier rather than a statement reorder. */
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
     ((s32 (*)())func_80182358)(a0, 0x7F3);
     return s2;
 }
@@ -7465,11 +7463,9 @@ void func_801838EC(s32 a0) {
 
     ret = func_8004787C(*(s16 *)(a0 + 0xFC));
     {
-        register s32 arg0 __asm__("$4") = a0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
-        register s32 arg1 __asm__("$5") = 0x30;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus8)
-        __asm__ __volatile__("" :: "r"(arg0), "r"(arg1) : "memory");  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
-        v0 = -(ret >> 7);
-        *(s16 *)(a0 + 0x52) = v0;
+        s32 arg0 = a0;
+        s32 arg1 = 0x30;
+        *(s16 *)(a0 + 0x52) = (-(ret >> 7));
         func_8018370C(arg0, arg1);
     }
 
@@ -7627,8 +7623,8 @@ extern void func_8012C218(void *a0);
 extern void func_80165988(void);
 
 void func_80183CF8(s32 arg0) {
-    register s32 s0 __asm__("$16") = arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
-    ((void (*)(s32))func_80165988)(arg0);
+    s32 s0 = arg0;
+    do { ((void (*)(s32))func_80165988)(arg0); } while (0);
     if (*(s32 *)(s0 + 0x78) != 0) {
         func_8002A04C(s0);
     }

@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 96 best 69 compiles 827 path R7 do-while @1491 + R7 do-while @1489 + R6 inline result @1555 + R6 inline uVar16 @1565
+g5: verdict NO-MATCH start 96 best 57 compiles 2343 path R12 width uVar3 u32->u8 @1472 + R7 do-while @1489 + R7 do-while @1487 + R6 inline r0 @1481 + R6 inline pa @1520
+best-scoring single candidates of the last trace (move -> score):
+  R6 inline pa @1520 -> 57 (from 59)
+  R6 inline pb @1521 -> 57 (from 59)
+  R6 inline pa @1522 -> 57 (from 59)
+  R6 inline pb @1523 -> 57 (from 59)
+  R7 do-while @1493 -> 58 (from 59)
+  R6 inline p1 @1515 -> 58 (from 59)
+  R9 swap-stmts @1518 -> 58 (from 59)
+  R6 inline p1 @1517 -> 58 (from 59)
+  R6 inline r0 @1481 -> 59 (from 66)
+  R6 inline uVar16 @1564 -> 59 (from 66)
+  R7 block @1475 -> 59 (from 59)
+  R10 param-copy param_1 @1472 -> 59 (from 59)

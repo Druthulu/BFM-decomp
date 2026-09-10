@@ -1,0 +1,10 @@
+{"kind": "seed", "start": 6, "tu": "src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c", "fn": "func_801821DC", "label": "g6"}
+{"depth": 1, "move": "R9 swap-stmts @6597", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @6598", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @6590", "parent": 6, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @6593", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width s2 s32->u16 @6546", "parent": 6, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->s16 @6545", "parent": 6, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @6547", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @6594", "parent": 6, "score": 22, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @6598", "parent": 6, "score": 0, "kind": "IDENTICAL", "ident": true}

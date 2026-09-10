@@ -3266,16 +3266,15 @@ void func_8017E3C4(s32 arg0) {
     SVECTOR_8016E7C8 sp10;
     SVECTOR_8016E7C8 sp18;
     s32 angle;
-    s32 finalAngle;
+    u16 finalAngle;
     s16 temp;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     sp18 = D_801ABF28;
     angle = ratan2(*(s16 *) &D_80126B5E, *(s16 *) &D_80126B66) & 0xFFF;
     sp10 = D_80126940;
     sp18.vy = D_80126942;
     temp = func_80013294(&sp10, &sp18);
-    finalAngle = angle + zr;
+    finalAngle = angle + 0;
     if (temp >= 0x281) {
         sp10.vx = 0;
         sp10.vy = D_80126942;

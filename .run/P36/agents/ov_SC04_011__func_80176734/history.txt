@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 90 best 74 compiles 801 path R7 do-while @3329 + R9 swap-stmts @3343
+g5: verdict NO-MATCH start 90 best 32 compiles 2294 path R7 do-while @3328 + R12 width amp s32->s16 @3318 + R9 swap-stmts @3342 + R12 width chg s32->u16 @3316 + R7 unwrap @3328
+best-scoring single candidates of the last trace (move -> score):
+  R7 unwrap @3328 -> 32 (from 42)
+  R7 unwrap @3328 -> 32 (from 42)
+  R7 unwrap @3328 -> 32 (from 42)
+  R12 width chg s32->u16 @3316 -> 42 (from 63)
+  R12 width chg s32->s16 @3316 -> 42 (from 63)
+  R12 width chg s32->u8 @3316 -> 42 (from 63)
+  R12 width tgt u16->s16 @3319 -> 42 (from 42)
+  R7 block @3326 -> 42 (from 42)
+  R10 param-copy param_1 @3323 -> 42 (from 42)
+  R12 width pv s32->u16 @3320 -> 42 (from 42)
+  R8 hoist tmp0 @3467 -> 42 (from 42)
+  R7 block @3324 -> 42 (from 42)

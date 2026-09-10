@@ -1,0 +1,12 @@
+src/ov_SC04_011/ov_SC04_011_jr_801734BC.c:func_80178970: score 6 (COUNT; mine 14 ins, target 15) — not yet
+  register pairs (mine -> target, count): v1->v0 x1
+  replace mine[4:6] target[4:7]
+        4  beqz	v0,54dc <func_80178970+0x28>  | move	v1,v0
+        5  move	v1,zero                       | beqz	v1,54e0 <func_80178970+0x2c>
+        6  --                                 | move	v0,zero
+  replace mine[9:10] target[10:11]
+        9  sltiu	v1,v0,1                      | sltiu	v0,v0,1
+  replace mine[11:12] target[12:13]
+       11  move	v0,v1                         | addiu	sp,sp,24
+  replace mine[13:14] target[14:15]
+       13  addiu	sp,sp,24                     | nop

@@ -6458,11 +6458,9 @@ void func_80181E90(s32 a0) {
 
     ret = func_8004787C(*(s16 *)(a0 + 0xFC));
     {
-        register s32 arg0 __asm__("$4") = a0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
-        register s32 arg1 __asm__("$5") = 0x30;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus8)
-        __asm__ __volatile__("" :: "r"(arg0), "r"(arg1) : "memory");  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
-        v0 = -(ret >> 7);
-        *(s16 *)(a0 + 0x52) = v0;
+        s32 arg0 = a0;
+        s32 arg1 = 0x30;
+        *(s16 *)(a0 + 0x52) = (-(ret >> 7));
         func_80181CB0(arg0, arg1);
     }
 
@@ -6636,8 +6634,8 @@ extern void func_8012C218(void *a0);
 extern void func_80165988(void);
 
 void func_8018229C(s32 arg0) {
-    register s32 s0 __asm__("$16") = arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
-    ((void (*)(s32))func_80165988)(arg0);
+    s32 s0 = arg0;
+    do { ((void (*)(s32))func_80165988)(arg0); } while (0);
     if (*(s32 *)(s0 + 0x78) != 0) {
         func_8002A04C(s0);
     }
@@ -9294,7 +9292,7 @@ s32 func_80185B70(s32 a0) {
             *(s16 *)(v1 + 0x1C) = v0;
         }
         *(s16 *)(v1 + 0x1A) = v0;
-        *(s16 *)(v1 + 0x18) = v0;
+        do { *(s16 *)(v1 + 0x18) = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
@@ -9304,7 +9302,6 @@ s32 func_80185B70(s32 a0) {
      * instead of the target's `addiu $a1`.  -fno-schedule-insns{,2} alone does
      * not reproduce the target order -- only both together do, hence a real
      * barrier rather than a statement reorder. */
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
     ((s32 (*)())func_80185CEC)(a0, 0x7F3);
     return s2;
 }
@@ -10298,10 +10295,10 @@ void func_80187548(s32 arg0, s32 arg1) {
     s16 lim;
     s32 wide;
     s16 t1n;
-    s16 a3n;
+    s32 a3n;
     s32 d;
-    register s32 t1 __asm__("9");  // !FAKE: pin 9 — NEEDED DIFFERS (P36 rung B tus8)
-    register s32 a3 __asm__("7");  // !FAKE: pin 7 — NEEDED DIFFERS (P36 rung B tus8)
+    s16 t1;
+    s16 a3;
 
     if (*(u16 *)&D_80126B58 == 0x1A) {
         return;

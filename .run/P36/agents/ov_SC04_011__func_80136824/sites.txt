@@ -1,0 +1,10 @@
+REMOVED  pin         $4     line 1112
+REMOVED  pin         $6     line 1113
+REMOVED  pin         $9     line 1114
+REMOVED  pin         $3     line 1115
+NEEDED   pin         $12    line 1116
+NEEDED   pin         $5     line 1117
+NEEDED   launder            line 1128
+NEEDED   barrier            line 1172
+NEEDED   barrier            line 1177
+NEEDED   keepalive          line 1181

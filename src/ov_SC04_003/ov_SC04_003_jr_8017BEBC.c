@@ -3379,10 +3379,9 @@ void func_8017DC20(void *a0) {
         return;
     }
 
-    func_8001CF00((s32)s0);
+    do { func_8001CF00((s32)s0); } while (0);
 
     s2 = (void *)D_8019B9E0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
 
     *(s32 *)((s32)s1 + 0xCC) = (s32)s0;
     *(s16 *)((s32)s0 + 0x28) = 0x300;
@@ -4587,12 +4586,11 @@ extern void func_8012BE98(s32 a0, u16 *a1);
 
 s32 func_8017FC18(s32 arg0) {
     extern u8 D_801202A0[];
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     u8 *pe; 
     s32 i;
     u16 buf[3];
     s32 thresh;
-    s32 t;
+    s16 t;
     s32 d;
     s32 f20;
     u16 state;
@@ -4623,12 +4621,12 @@ s32 func_8017FC18(s32 arg0) {
 
     do_239:
         f20 = *(s32 *) (pe + 0x20);
-        d = *(s16 *) (pe + 6) - *(s16 *) (arg0 + 6);
+        { d = *(s16 *) (pe + 6) - *(s16 *) (arg0 + 6); }
         t = (*(s16 *) (f20 + 0x18) * 9) >> 9;
         if (d < 0) {
             d = -d;
         }
-        thresh = t + zr;
+        thresh = t + 0;
         if (thresh < d) {
             goto next;
         }
@@ -5490,10 +5488,10 @@ void func_80180FB8(s32 arg0, s32 arg1) {
     s16 lim;
     s32 wide;
     s16 t1n;
-    s16 a3n;
+    s32 a3n;
     s32 d;
-    register s32 t1 __asm__("9");  // !FAKE: pin 9 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a3 __asm__("7");  // !FAKE: pin 7 — NEEDED DIFFERS (P36 rung B tus9)
+    s16 t1;
+    s16 a3;
 
     if (*(u16 *)&D_80126B58 == 0x1A) {
         return;

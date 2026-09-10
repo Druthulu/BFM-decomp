@@ -1,0 +1,12 @@
+{"kind": "seed", "start": 7, "tu": "src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c", "fn": "func_8018B774", "label": "g6b"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @5800", "parent": 7, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v1 @5830", "parent": 7, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base-shared tmp0 @5805", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R3 init-split s1", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @5804", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5804", "parent": 7, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s1 0->1", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->s16 @5800", "parent": 7, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v1 @5832", "parent": 7, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @5813", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @5804", "parent": 7, "score": 0, "kind": "IDENTICAL", "ident": true}

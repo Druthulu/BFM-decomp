@@ -6701,11 +6701,13 @@ void func_80164BDC(s32 param_1)
     extern u8 D_801C8655;
     extern u8 D_801C8656;
     extern u8 D_801C8657;
-    register s32 p1   __asm__("$17");  /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus2)
+    s32 p1;
     s32 iVar1;  /* $s0 */
     s32 base;  /* $s2 */
+    s32 param_12;
+    param_12 = param_1;
 
-    p1 = param_1;
+    p1 = param_12;
     iVar1 = ((s32 (*)(void))func_80146578)();
     base = (s32)&D_801C8650;
     *(s32 *)(p1 + 0x20) = iVar1;
@@ -7802,9 +7804,8 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
 
     struct Fr fr;
     u8 *p;
-    s32 i;
-    s32 t;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus2)
+    u16 i;
+    u16 t;
     s32 flags;
 
     func_80168070(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);
@@ -7847,7 +7848,7 @@ L1:
         fr.v[3].y = (s8)*p--;
         func_80017758(fr.v, fr.matrix);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L1;
 
     fr.v[3].y = 0;
@@ -7871,7 +7872,7 @@ L2:
             p += 2;
         }
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L2;
 
     p += 2;
@@ -7888,7 +7889,7 @@ L3:
         fr.v[3].z = (s8)*p++;
         func_80017758(fr.v, fr.matrix);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 2) goto L3;
 }
 
@@ -8275,8 +8276,8 @@ void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     short mtx[16];
     short vec[4];
     int r;
-    int i;     /* loop counter, survives the call -> $s1 */
-    int tmp;    /* increment temp -> $v0 (the split-IV) */
+    u16 i;     /* loop counter, survives the call -> $s1 */
+    u16 tmp;    /* increment temp -> $v0 (the split-IV) */
     func_800D2318();
     vec[0] = *(short *)(param_1 + 0x12);
     vec[1] = *(short *)(param_1 + 0x16);
@@ -8309,7 +8310,6 @@ void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
             }
             tmp = i + 1;
             i = tmp;
-            __asm__ __volatile__("" : "=r"(i) : "0"(i));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus2)
         } while ((short)tmp < (short)param_4);
     }
 }
@@ -8524,7 +8524,7 @@ extern void func_800D20C0(void *a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);
 extern void func_80169584(s32 param_1);
 void func_80169408(s32 a0) {
-    register s32 s2 __asm__("$18") = a0;  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus2)
+    s32 s2 = a0;
     s32 s1;
     s16 v10[4];   /* sp+0x10 SVECTOR */
     s16 out[4];   /* sp+0x18 SVECTOR */
@@ -8551,7 +8551,7 @@ void func_80169408(s32 a0) {
         func_800D23D0(out);
         RotMatrixYXZ(out, (void *)s1);
     }
-    func_80169584(s2);
+    do { func_80169584(s2); } while (0);
     *(u16 *)(s2 + 0x2) = *(u16 *)(s2 + 0x2) + 1;
 }
 

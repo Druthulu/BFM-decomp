@@ -1,0 +1,10 @@
+REMOVED  pin         $17    line 2415
+NEEDED   pin         $19    line 2417
+NEEDED   pin         $20    line 2418
+REMOVED  pin         $4     line 2419
+NEEDED   pin         $21    line 2420
+NEEDED   instruction addu   line 2445
+NEEDED   pin         $3     line 2469
+REMOVED  barrier            line 2470
+NEEDED   instruction addu   line 2472
+NEEDED   keepalive          line 2493

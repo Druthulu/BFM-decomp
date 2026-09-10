@@ -1,0 +1,6 @@
+{"kind": "seed", "start": 11, "tu": "src/ov_SC02_015/ov_SC02_015_jr_8017AE2C.c", "fn": "func_8017DB60", "label": "g6b"}
+{"depth": 1, "move": "R12 width t s32->u16 @3780", "parent": 11, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @3786", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 block @3798", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3798", "parent": 11, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @3783", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

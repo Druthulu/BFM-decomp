@@ -1,0 +1,15 @@
+{"kind": "seed", "start": 4, "tu": "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c", "fn": "func_8018582C", "label": "g6b"}
+{"depth": 1, "move": "R9 swap-stmts @7495", "parent": 4, "score": 5, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @7498", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v @7498", "parent": 4, "score": 7, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @7492", "parent": 4, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @7470", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @7502", "parent": 4, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @7498", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline sub @7489", "parent": 4, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @7492", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @7494", "parent": 4, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @7500", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @7490", "parent": 4, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @7503", "parent": 4, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @7500", "parent": 4, "score": 0, "kind": "IDENTICAL", "ident": true}

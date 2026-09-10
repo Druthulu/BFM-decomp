@@ -1,0 +1,17 @@
+{"kind": "seed", "start": 13, "tu": "src/ov_SC03_013/ov_SC03_013_jr_8017C730.c", "fn": "func_8017E3C4", "label": "g6b"}
+{"depth": 1, "move": "R12 width angle s32->u16 @3268", "parent": 13, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @3265", "parent": 13, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline finalAngle @3277", "parent": 13, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @3273", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3285", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3282", "parent": 13, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @3271", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width angle s32->s16 @3268", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u16 @3265", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @3285", "parent": 13, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3284", "parent": 13, "score": 30, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width angle s32->u8 @3268", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u8 @3265", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3282", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3293", "parent": 13, "score": 45, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width finalAngle s32->u16 @3269", "parent": 13, "score": 0, "kind": "IDENTICAL", "ident": true}

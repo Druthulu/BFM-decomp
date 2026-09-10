@@ -1,0 +1,4 @@
+REMOVED  pin         $16    line 719
+NEEDED   pin         $4     line 720
+NEEDED   keepalive          line 729
+REMOVED  barrier     memory line 752

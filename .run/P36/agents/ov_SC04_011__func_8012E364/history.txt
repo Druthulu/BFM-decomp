@@ -1,0 +1,16 @@
+g1: verdict NO-MATCH start 25 best 7 compiles 325 path R5 swap + @786 + R7 do-while @790
+g2: verdict NO-MATCH start 25 best 7 compiles 787 path R5 swap + @786 + R7 do-while @790
+g5: verdict NO-MATCH start 25 best 7 compiles 2299 path R5 swap + @786 + R7 do-while @790
+best-scoring single candidates of the last trace (move -> score):
+  R7 do-while @790 -> 7 (from 13)
+  R2 decl-order 0,2,1 -> 7 (from 7)
+  R4 decl-move prev 4->0 -> 7 (from 7)
+  R7 block @792 -> 7 (from 7)
+  R8 temp tmp0 @792 -> 7 (from 7)
+  R10 param-alias arg0->arg0_ @766 -> 7 (from 7)
+  R2 decl-order 1,0,2 -> 7 (from 7)
+  R4 decl-move prev 4->1 -> 7 (from 7)
+  R7 do-while @792 -> 7 (from 7)
+  R8 base tmp0 @792 -> 7 (from 7)
+  R10 param-copy arg0_ @765 -> 7 (from 7)
+  R2 decl-order 1,2,0 -> 7 (from 7)

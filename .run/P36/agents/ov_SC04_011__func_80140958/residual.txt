@@ -1,0 +1,65 @@
+src/ov_SC04_011/ov_SC04_011_jr_80140608.c:func_80140958: score 43 (COUNT; mine 260 ins, target 260) — not yet
+  register pairs (mine -> target, count): a3->a2 x6, a2->a3 x4, t3->t2 x4, v0->v1 x3, v1->a0 x3, t2->t1 x2, t5->t4 x2, t4->t3 x1
+  replace mine[142:147] target[142:147]
+      142  move	a3,zero                       | move	a2,zero
+      143  move	a2,v1                         | move	a3,v1
+      144  sll	t4,v1,0x2                      | sll	t3,v1,0x2
+      145  lui	t3,0x0                         | lui	t2,0x0
+      146  addiu	t3,t3,0                      | addiu	t2,t2,0
+  replace mine[149:151] target[149:150]
+      149  lui	t2,0xff00                      | lui	t1,0xff00
+      150  li	t1,8                            | --
+  replace mine[152:153] target[151:152]
+      152  sll	v0,a3,0x10                     | sll	v0,a2,0x10
+  replace mine[154:155] target[153:154]
+      154  sll	v0,a2,0x1                      | sll	v0,a3,0x1
+  replace mine[156:157] target[155:156]
+      156  addu	at,at,a2                      | addu	at,at,a3
+  replace mine[159:160] target[158:159]
+      159  beqz	v0,6e4 <func_80140958+0x394>  | beqz	v0,6e4 <func_80140958+0x394>
+  replace mine[163:164] target[162:163]
+      163  j	624 <func_80140958+0x2d4>        | j	620 <func_80140958+0x2d0>
+  replace mine[169:170] target[168:169]
+      169  addu	at,at,a2                      | addu	at,at,a3
+  replace mine[174:176] target[173:175]
+      174  bnez	v0,6e8 <func_80140958+0x398>  | bnez	v0,6e8 <func_80140958+0x398>
+      175  addiu	v0,a3,1                      | addiu	v0,a2,1
+  insert  mine[181:181] target[180:181]
+      181  --                                 | sh	v0,-6(a1)
+  delete  mine[183:184] target[183:183]
+      183  sh	v0,-6(a1)                       | --
+  replace mine[191:193] target[190:192]
+      191  lui	v0,0x0                         | lui	v1,0x0
+      192  lhu	v0,0(v0)                       | lhu	v1,0(v1)
+  replace mine[194:202] target[193:202]
+      194  addu	at,at,t4                      | addu	at,at,t3
+      195  lhu	v1,0(at)                       | lhu	a0,0(at)
+      196  sh	t1,2(a1)                        | li	v0,8
+      197  sh	t1,0(a1)                        | sh	v0,2(a1)
+      198  addu	v0,v0,v1                      | sh	v0,0(a1)
+      199  addiu	v0,v0,74                     | addu	v1,v1,a0
+      200  sh	v0,-8(a1)                       | addiu	v1,v1,74
+      201  lhu	v1,0(t3)                       | sh	v1,-8(a1)
+      202  --                                 | lhu	v1,0(t2)
+  replace mine[211:212] target[211:212]
+      211  and	v0,v0,t2                       | and	v0,v0,t1
+  replace mine[215:217] target[215:217]
+      215  lhu	v1,0(t3)                       | lhu	v1,0(t2)
+      216  and	a0,s1,t0                       | addiu	a1,a1,20
+  replace mine[222:225] target[222:225]
+      222  lw	v1,0(at)                        | lw	a0,0(at)
+      223  addiu	a1,a1,20                     | and	v1,s1,t0
+      224  lw	v0,8(v1)                        | lw	v0,8(a0)
+  replace mine[226:231] target[226:231]
+      226  and	v0,v0,t2                       | and	v0,v0,t1
+      227  or	v0,v0,a0                        | or	v0,v0,v1
+      228  sw	v0,8(v1)                        | sw	v0,8(a0)
+      229  addiu	v0,a3,1                      | addiu	v0,a2,1
+      230  move	a3,v0                         | move	a2,v0
+  replace mine[234:236] target[234:236]
+      234  bnez	v0,5b4 <func_80140958+0x264>  | bnez	v0,5b0 <func_80140958+0x260>
+      235  sll	v0,a3,0x10                     | sll	v0,a2,0x10
+  replace mine[239:240] target[239:240]
+      239  lhu	t5,24(sp)                      | lhu	t4,24(sp)
+  replace mine[241:242] target[241:242]
+      241  sll	v0,t5,0x10                     | sll	v0,t4,0x10

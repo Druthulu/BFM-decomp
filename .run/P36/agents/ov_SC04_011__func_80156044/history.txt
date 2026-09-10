@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 18 best 1 compiles 797 path R12 width puVar2 s32->u16 @1027
+g5: verdict NO-MATCH start 18 best 1 compiles 2029 path R12 width puVar2 s32->u16 @1027
+best-scoring single candidates of the last trace (move -> score):
+  R12 width puVar2 s32->u16 @1027 -> 1 (from 18)
+  R12 width puVar2 s32->u8 @1027 -> 1 (from 18)
+  R8 hoist tmp0 @1033 -> 1 (from 1)
+  R7 block @1033 -> 1 (from 1)
+  R10 param-copy param_1 @1031 -> 1 (from 1)
+  R2 decl-order 1,0 -> 1 (from 1)
+  R4 decl-move puVar2 3->0 -> 1 (from 1)
+  R7 do-while @1033 -> 1 (from 1)
+  R4 decl-move puVar2 3->1 -> 1 (from 1)
+  R7 block @1034 -> 1 (from 1)
+  R4 decl-move puVar2 3->2 -> 1 (from 1)
+  R4 decl-move puVar2 3->5 -> 1 (from 1)

@@ -1,0 +1,35 @@
+src/ov_SC04_011/ov_SC04_011_jr_80135D20.c:func_80136824: score 21 (COUNT; mine 154 ins, target 156) — not yet
+  register pairs (mine -> target, count): t4->t3 x4, v0->a1 x2, t3->a2 x2, t4->a1 x1, t3->t4 x1
+  replace mine[1:6] target[1:6]
+        1  move	t4,a1                         | move	t3,a1
+        2  andi	v0,t4,0x1                     | andi	a1,a1,0x1
+        3  bnez	v0,b48 <func_80136824+0x44>   | bnez	a1,b48 <func_80136824+0x44>
+        4  move	t3,a2                         | move	t4,a2
+        5  sll	v0,t3,0x10                     | sll	v0,a2,0x10
+  replace mine[22:23] target[22:23]
+       22  sll	v0,t3,0x10                     | sll	v0,a2,0x10
+  replace mine[83:84] target[83:84]
+       83  bnez	v0,d64 <func_80136824+0x260>  | bnez	v0,d6c <func_80136824+0x268>
+  replace mine[88:89] target[88:89]
+       88  bnez	v0,d64 <func_80136824+0x260>  | bnez	v0,d6c <func_80136824+0x268>
+  replace mine[94:95] target[94:95]
+       94  bnez	v0,d64 <func_80136824+0x260>  | bnez	v0,d6c <func_80136824+0x268>
+  replace mine[99:100] target[99:100]
+       99  bnez	v0,d64 <func_80136824+0x260>  | bnez	v0,d6c <func_80136824+0x268>
+  replace mine[101:102] target[101:102]
+      101  andi	v0,t4,0x8000                  | andi	v0,t3,0x8000
+  replace mine[103:104] target[103:104]
+      103  andi	v0,t4,0x1                     | andi	v0,t3,0x1
+  replace mine[113:114] target[113:114]
+      113  andi	v0,t4,0x1                     | andi	v0,t3,0x1
+  replace mine[118:120] target[118:120]
+      118  beqz	v0,cf4 <func_80136824+0x1f0>  | beqz	v0,cfc <func_80136824+0x1f8>
+      119  addiu	a0,t3,2                      | li	v0,4095
+  replace mine[122:125] target[122:126]
+      122  j	d04 <func_80136824+0x200>        | lui	at,0x0
+      123  li	v0,4095                         | sh	v0,0(at)
+      124  addiu	a0,t3,-2                     | j	d14 <func_80136824+0x210>
+      125  --                                 | addiu	v0,t4,2
+  replace mine[130:131] target[131:133]
+      130  sh	a0,2(v1)                        | addiu	v0,t4,-2
+      131  --                                 | sh	v0,2(v1)

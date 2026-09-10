@@ -1,0 +1,16 @@
+src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c:func_8016DF5C: score 9 (COUNT; mine 155 ins, target 156) — not yet
+  register pairs (mine -> target, count): v1->v0 x2, v0->v1 x2, a2->v0 x1
+  replace mine[36:37] target[36:37]
+       36  beqz	s1,3638 <func_8016DF5C+0x248> | beqz	s1,363c <func_8016DF5C+0x24c>
+  replace mine[67:69] target[67:69]
+       67  lhu	v1,2(s2)                       | lhu	v0,2(s2)
+       68  li	v0,16                           | li	v1,16
+  replace mine[70:73] target[70:73]
+       70  sw	v0,28(s2)                       | sw	v1,28(s2)
+       71  j	3634 <func_8016DF5C+0x244>       | j	3638 <func_8016DF5C+0x248>
+       72  addiu	a2,v1,1                      | addiu	v0,v0,1
+  replace mine[120:121] target[120:121]
+      120  li	a2,4                            | nop
+  replace mine[145:146] target[145:147]
+      145  sh	a2,2(s2)                        | li	v0,4
+      146  --                                 | sh	v0,2(s2)

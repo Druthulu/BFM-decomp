@@ -1,0 +1,6 @@
+NEEDED   pin         $19    line 774
+NEEDED   pin         $5     line 787
+NEEDED   barrier            line 824
+NEEDED   barrier            line 830
+NEEDED   barrier            line 877
+NEEDED   barrier            line 881

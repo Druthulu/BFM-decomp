@@ -329,7 +329,7 @@ void func_8002CC4C(void) {
     s32 off;
     B12 *p;
     s32 i;
-    register s32 *cp __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 *cp;
     s32 pad;
 
     (void)&pad;
@@ -339,7 +339,7 @@ void func_8002CC4C(void) {
         p = *pp;
         i = 0;
         if (*cnt > 0) {
-            cp = cnt;
+            do { cp = cnt; } while (0);
             do {
                 i++;
                 p->unk0A = 0;
@@ -7094,8 +7094,7 @@ extern s32 func_8002F4E4(u8 *);
 
 void func_8003491C(s32 arg0)
 {
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 id;
+    u16 id;
     s32 raw;
     s32 t;
     s16 lo;
@@ -7105,14 +7104,14 @@ void func_8003491C(s32 arg0)
     u8 *e;
     s32 i;
 
-    id = arg0 + zr;
+    id = arg0 + 0;
     lo = (s16)arg0;
     p = &D_8006451C[lo * 4];
     hi = (s16)((u32)arg0 >> 16);
     if ((*p & 0x7F) == 6) {
         raw = func_8002F4E4(p);
         t = (s16)raw;
-        id = raw + zr;
+        id = raw + 0;
         if (t == 0) {
             return;
         }

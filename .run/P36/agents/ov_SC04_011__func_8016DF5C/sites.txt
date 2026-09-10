@@ -1,0 +1,3 @@
+REMOVED  pin         $17    line 3409
+NEEDED   pin         $3     line 3437
+NEEDED   barrier     memory line 3462

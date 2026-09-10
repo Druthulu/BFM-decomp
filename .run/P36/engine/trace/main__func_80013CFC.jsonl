@@ -1,0 +1,2 @@
+{"kind": "seed", "start": 5, "tu": "src/800.c", "fn": "func_80013CFC", "label": "g6b"}
+{"depth": 1, "move": "R12 width v1 s32->u16 @1336", "parent": 5, "score": 0, "kind": "IDENTICAL", "ident": true}

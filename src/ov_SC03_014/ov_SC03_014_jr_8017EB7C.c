@@ -3786,10 +3786,9 @@ void func_80180C34(s32 p) {
     *(s16 *)(o + 0x18) = t1;
     lim1 = **(s16 **)(p + 0x58);
     lv1 = lim1;
-    __asm__("" : "=r"(lv1) : "0"(lv1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     if (lim1 < t1) {
         *(s16 *)(o + 0x1C) = lv1;
-        *(s16 *)(o + 0x18) = lv1;
+        do { *(s16 *)(o + 0x18) = lv1; } while (0);
         D_80126B0C = 1;
     }
     t2 = *(u16 *)(o + 0x1A) + 0x800;

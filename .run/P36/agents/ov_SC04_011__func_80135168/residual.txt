@@ -1,0 +1,33 @@
+src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:func_80135168: score 25 (COUNT; mine 62 ins, target 62) — not yet
+  register pairs (mine -> target, count): t0->v1 x6, a3->a2 x4, v1->t0 x2, a2->a3 x2
+  insert  mine[0:0] target[0:2]
+        0  --                                 | lui	t0,0x0
+        1  --                                 | lw	t0,0(t0)
+  replace mine[5:16] target[7:16]
+        5  lui	v1,0x0                         | lui	a2,0x0
+        6  lw	v1,0(v1)                        | lw	a2,0(a2)
+        7  lui	a3,0x0                         | sh	v0,0(t0)
+        8  lw	a3,0(a3)                        | lhu	v1,0(a1)
+        9  sh	v0,0(v1)                        | lui	a3,0x0
+       10  lhu	t0,0(a1)                       | lw	a3,0(a3)
+       11  lui	a2,0x0                         | subu	v0,v0,v1
+       12  lw	a2,0(a2)                        | sh	v1,0(a2)
+       13  subu	v0,v0,t0                      | sh	v0,0(a3)
+       14  sh	t0,0(a3)                        | --
+       15  sh	v0,0(a2)                        | --
+  replace mine[18:20] target[18:20]
+       18  sh	v0,2(v1)                        | sh	v0,2(t0)
+       19  lhu	t0,2(a1)                       | lhu	v1,2(a1)
+  replace mine[21:24] target[21:24]
+       21  subu	v0,v0,t0                      | subu	v0,v0,v1
+       22  sh	t0,2(a3)                        | sh	v1,2(a2)
+       23  sh	v0,2(a2)                        | sh	v0,2(a3)
+  replace mine[26:28] target[26:28]
+       26  sh	v0,4(v1)                        | sh	v0,4(t0)
+       27  lhu	t0,4(a1)                       | lhu	v1,4(a1)
+  replace mine[29:34] target[29:34]
+       29  subu	v0,v0,t0                      | subu	v0,v0,v1
+       30  sh	t0,4(a3)                        | sh	v1,4(a2)
+       31  sh	v0,4(a2)                        | sh	v0,4(a3)
+       32  lh	a1,0(a3)                        | lh	a1,0(a2)
+       33  lh	a2,4(a3)                        | lh	a2,4(a2)

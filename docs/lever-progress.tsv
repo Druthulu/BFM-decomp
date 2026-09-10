@@ -7,3 +7,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-09	S101 rung G g3 (the next 64 classes: 13 of 64, 1,516 bodies)	5ae0b5ceb	31025	18442	12583	10268	1740	31025	0	462	314	1590	50	7428	445	76
 2026-09-09	S101 rung G g4s (the 13 explained names, 38 classes: 3 of 38, 133 bodies)	068781ae0	30892	18309	12583	10135	1737	30892	0	462	314	1590	50	7428	445	76
 2026-09-09	S101 rung G g5 (the head re-drawn wide: 5 of 70, 62 bodies)	1ec67f667	30806	18261	12545	10073	1732	30806	0	462	314	1590	50	7428	445	76
+2026-09-09	S101 rung G g6 + g6b (the tail: 47 + 63 of 400 small classes, 93 + 186 + 47 bodies)	2f3ce92a1	30358	17954	12404	9747	1624	30358	0	462	314	1590	50	7428	445	76

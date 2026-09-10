@@ -4607,9 +4607,8 @@ extern u16 D_800B99DA;
 s32 func_8017F73C(void *a0) {
     u8 val;
     u16 global;
-    s32 result;
+    s16 result;
     s32 cmp;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8)
 
     val = *(u8 *)((s32)a0 + 3) - 2;
     *(u8 *)((s32)a0 + 3) = val;
@@ -4618,7 +4617,6 @@ s32 func_8017F73C(void *a0) {
         goto ret1;
     }
 
-    __asm__ __volatile__("" : "=r"(val) : "0"(val));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
 
     global = D_800B99DA;
 
@@ -4635,7 +4633,7 @@ joinpt:
         result = 0xFF;
     }
 
-    cmp = result + zr;
+    cmp = result + 0;
 
     *(u8 *)((s32)a0 + 2) = result;
     if (cmp < (s32)*(u8 *)a0) {
@@ -6960,12 +6958,11 @@ extern void func_8012BE98(s32 a0, u16 *a1);
  */
 s32 func_801826E8(s32 arg0) {
     extern u8 D_801202A0[];
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8)
-    u8 *pe; /* walks the entity base (kind word at offset 0) */
+    u8 *pe; 
     s32 i;
     u16 buf[3];
     s32 thresh;
-    s32 t;
+    s16 t;
     s32 d;
     s32 f20;
     u16 state;
@@ -6996,12 +6993,12 @@ s32 func_801826E8(s32 arg0) {
 
     do_239:
         f20 = *(s32 *) (pe + 0x20);
-        d = *(s16 *) (pe + 6) - *(s16 *) (arg0 + 6);
+        { d = *(s16 *) (pe + 6) - *(s16 *) (arg0 + 6); }
         t = (*(s16 *) (f20 + 0x18) * 9) >> 9;
         if (d < 0) {
             d = -d;
         }
-        thresh = t + zr;
+        thresh = t + 0;
         if (thresh < d) {
             goto next;
         }
@@ -7897,10 +7894,10 @@ void func_80183A88(s32 arg0, s32 arg1) {
     s16 lim;
     s32 wide;
     s16 t1n;
-    s16 a3n;
+    s32 a3n;
     s32 d;
-    register s32 t1 __asm__("9");  // !FAKE: pin 9 — NEEDED DIFFERS (P36 rung B tus8)
-    register s32 a3 __asm__("7");  // !FAKE: pin 7 — NEEDED DIFFERS (P36 rung B tus8)
+    s16 t1;
+    s16 a3;
 
     if (*(u16 *)&D_80126B58 == 0x1A) {
         return;
@@ -10057,7 +10054,7 @@ s32 func_801867A0(s32 a0) {
             *(s16 *)(v1 + 0x1C) = v0;
         }
         *(s16 *)(v1 + 0x1A) = v0;
-        *(s16 *)(v1 + 0x18) = v0;
+        do { *(s16 *)(v1 + 0x18) = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
@@ -10067,7 +10064,6 @@ s32 func_801867A0(s32 a0) {
      * instead of the target's `addiu $a1`.  -fno-schedule-insns{,2} alone does
      * not reproduce the target order -- only both together do, hence a real
      * barrier rather than a statement reorder. */
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
     ((s32 (*)())func_8018691C)(a0, 0x7F3);
     return s2;
 }

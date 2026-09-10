@@ -295,14 +295,14 @@ void func_800CB4AC(void) {
     extern u8 D_800CBD69;
     extern u8 D_800CBD6A;
     u8 colA;
-    register u8 colB __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    u8 colB;
 
     if (D_800B99DA & 1) {
         colA = 0xCF;
         colB = 0xFF;
     } else {
         colA = 0xBF;
-        colB = 0xEF;
+        do { colB = 0xEF; } while (0);
     }
     D_800CBD68 = colA;
     D_800CBD69 = colB;

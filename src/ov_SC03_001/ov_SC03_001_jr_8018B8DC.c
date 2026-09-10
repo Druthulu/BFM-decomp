@@ -4059,9 +4059,8 @@ void func_8018CBB0(s32 param_1, s32 param_2)
 {
     int s3;
     unsigned short s0;
-    int s2;
     int s1;
-    int v0;
+    s16 v0;
     int iVar3;
 
     s0 = D_801EB344[*(short *)(param_1 + 0xfc)];
@@ -4072,8 +4071,6 @@ void func_8018CBB0(s32 param_1, s32 param_2)
     }
     *(short *)(param_1 + 0xfc) = *(short *)(param_1 + 0xfc) + 1;
     v0 = (rand() & 3) * 0x400 + 0x1800;
-    s2 = v0;
-    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     s1 = (v0 - 0x1000) * 0x20;
     iVar3 = ((int (*)(int))func_8012913C)(4);
     if (iVar3 != 0) {
@@ -4081,7 +4078,7 @@ void func_8018CBB0(s32 param_1, s32 param_2)
         *(short *)(iVar3 + 0xa) = s0;
         *(short *)(iVar3 + 0xe) = 0;
         *(int *)(iVar3 + 0x10) = s1;
-        *(short *)(iVar3 + 0x2c) = s2;
+        *(short *)(iVar3 + 0x2c) = (v0);
     }
 }
 

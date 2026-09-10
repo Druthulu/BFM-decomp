@@ -1,0 +1,13 @@
+{"kind": "seed", "start": 16, "tu": "src/md_MAIN_043/md_MAIN_043.c", "fn": "func_800CD404", "label": "g6b"}
+{"depth": 1, "move": "R6 inline srcp @455", "parent": 16, "score": 43, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @453", "parent": 16, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @466", "parent": 16, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @438", "parent": 16, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @466", "parent": 16, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @419", "parent": 16, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline srcp @456", "parent": 16, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @453", "parent": 16, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @466", "parent": 16, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap & @436", "parent": 16, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @453", "parent": 16, "score": 64, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-alias s1->a0 @431", "parent": 16, "score": 0, "kind": "IDENTICAL", "ident": true}

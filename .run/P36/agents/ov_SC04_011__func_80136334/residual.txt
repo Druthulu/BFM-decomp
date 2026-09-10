@@ -1,0 +1,39 @@
+src/ov_SC04_011/ov_SC04_011_jr_80135D20.c:func_80136334: score 24 (COUNT; mine 158 ins, target 161) — not yet
+  register pairs (mine -> target, count): t4->t3 x4, v0->a1 x2, t3->t4 x2, t3->a2 x2, t4->a1 x1
+  replace mine[2:7] target[2:7]
+        2  move	t4,a1                         | move	t3,a1
+        3  andi	v0,t4,0x1                     | andi	a1,a1,0x1
+        4  bnez	v0,65c <func_80136334+0x48>   | bnez	a1,65c <func_80136334+0x48>
+        5  move	t3,a2                         | move	t4,a2
+        6  sll	v0,t3,0x10                     | sll	v0,a2,0x10
+  replace mine[23:24] target[23:24]
+       23  sll	v0,t3,0x10                     | sll	v0,a2,0x10
+  replace mine[84:85] target[84:85]
+       84  bnez	v0,880 <func_80136334+0x26c>  | bnez	v0,88c <func_80136334+0x278>
+  replace mine[89:90] target[89:90]
+       89  bnez	v0,880 <func_80136334+0x26c>  | bnez	v0,88c <func_80136334+0x278>
+  replace mine[95:96] target[95:96]
+       95  bnez	v0,880 <func_80136334+0x26c>  | bnez	v0,88c <func_80136334+0x278>
+  replace mine[100:101] target[100:101]
+      100  bnez	v0,880 <func_80136334+0x26c>  | bnez	v0,88c <func_80136334+0x278>
+  replace mine[102:103] target[102:103]
+      102  andi	v0,t4,0x8000                  | andi	v0,t3,0x8000
+  replace mine[104:105] target[104:105]
+      104  andi	v0,t4,0x1                     | andi	v0,t3,0x1
+  replace mine[114:115] target[114:115]
+      114  andi	v0,t4,0x1                     | andi	v0,t3,0x1
+  replace mine[119:120] target[119:125]
+      119  beqz	v0,810 <func_80136334+0x1fc>  | beqz	v0,81c <func_80136334+0x208>
+      120  --                                 | addiu	v1,t4,2
+      121  --                                 | lui	v0,0x0
+      122  --                                 | lw	v0,0(v0)
+      123  --                                 | nop
+      124  --                                 | sh	v1,4(v0)
+  delete  mine[121:123] target[126:126]
+      121  lui	v1,0x0                         | --
+      122  lw	v1,0(v1)                        | --
+  replace mine[125:127] target[128:130]
+      125  j	828 <func_80136334+0x214>        | j	838 <func_80136334+0x224>
+      126  addiu	v0,t3,2                      | nop
+  replace mine[132:133] target[135:136]
+      132  addiu	v0,t3,-2                     | addiu	v0,t4,-2

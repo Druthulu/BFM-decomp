@@ -4163,8 +4163,7 @@ s32 func_80188250_body(s32 a0) {
                 }
                 *(u16 *)(a0 + 6) = v18[0];
                 *(u16 *)(a0 + 0xA) = v18[1];
-                *(u16 *)(a0 + 0xE) = v18[2];
-                __asm__ __volatile__("" ::: "memory");   /* zero-byte cross-jump barrier (§5a) */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
+                do { *(u16 *)(a0 + 0xE) = v18[2]; } while (0);
                 return 1;
             }
         }

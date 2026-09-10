@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 11 best 11 compiles 806 path 
+g5: verdict NO-MATCH start 11 best 6 compiles 2241 path R9 swap-stmts @557 + R7 do-while @556
+best-scoring single candidates of the last trace (move -> score):
+  R7 do-while @556 -> 6 (from 11)
+  R7 block @550 -> 6 (from 6)
+  R6 inline t6 @562 -> 6 (from 6)
+  R2 decl-order 0,2,1 -> 6 (from 6)
+  R4 decl-move temp_a3 16->0 -> 6 (from 6)
+  R6 inline end @570 -> 6 (from 6)
+  R2 decl-order 1,0,2 -> 6 (from 6)
+  R4 decl-move temp_a3 16->1 -> 6 (from 6)
+  R2 decl-order 1,2,0 -> 6 (from 6)
+  R4 decl-move temp_a3 16->2 -> 6 (from 6)
+  R9 swap-stmts @560 -> 6 (from 6)
+  R12 width t6 u32->u16 @506 -> 6 (from 6)

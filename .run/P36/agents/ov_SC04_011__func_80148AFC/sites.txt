@@ -1,0 +1,7 @@
+NEEDED   pin         $5     line 642
+NEEDED   launder            line 646
+NEEDED   pin         $3     line 656
+NEEDED   pin         $2     line 657
+REMOVED  pin         $4     line 658
+NEEDED   pin         $2     line 659
+NEEDED   barrier     memory line 664

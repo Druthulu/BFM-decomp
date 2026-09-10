@@ -1,0 +1,9 @@
+{"kind": "seed", "start": 11, "tu": "src/md_MAIN_033/md_MAIN_033.c", "fn": "func_800CB058", "label": "g6b"}
+{"depth": 1, "move": "R12 width s1a s32->u16 @103", "parent": 11, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @89", "parent": 11, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline cnt @126", "parent": 11, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @134", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @134", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @129", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @134", "parent": 11, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @112", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

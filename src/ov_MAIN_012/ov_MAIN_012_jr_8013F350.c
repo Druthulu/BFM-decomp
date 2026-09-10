@@ -1197,7 +1197,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     s32 t;
     s16 *pp;
     s32 flag2;
-    register s32 flag3 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus4)
+    u16 flag3;
 
     func_80140E6C();
     func_80140F00();
@@ -2620,11 +2620,11 @@ void func_801431E8(s32 param_1) {
     u16 uVar2;
     s16 sVar4;
 
-    register s32 d __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus4)
+    s32 d;
     memcpy(buf, &D_801836A8, 4);
     iVar5 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(param_1 + 0x20) = iVar5;
     d = iVar5;
+    *(s32 *)(param_1 + 0x20) = iVar5;
     if (iVar5 == 0) {
         ((void (*)(s32))func_8012CAE4)(param_1);
     } else {

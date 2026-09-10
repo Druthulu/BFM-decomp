@@ -5232,12 +5232,14 @@ void func_80182434(void *a0) {
     s32 ent;
     u16 saved;
     u16 v0;
-    register u16 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u16 a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 v1;
+    u16 a3;
+    u16 tmp0;
 
     func_8002AC00(0xD);
     if (*(u16 *)((s32)a0 + 0x0) != 0) {
-        v0 = *(u16 *)((s32)a0 + 0x6);
+        tmp0 = *(u16 *)((s32)a0 + 0x6);
+        v0 = tmp0;
         buf[0] = v0;
         buf[4] = v0;
 
@@ -5247,9 +5249,8 @@ void func_80182434(void *a0) {
         buf[5] = v1;
 
         a3 = *(u16 *)((s32)a0 + 0xE);
-        v1 = v1 + 8;
         buf[1] = v0;
-        buf[5] = v1;
+        buf[5] = (v1 + 8);
         buf[2] = a3;
         buf[6] = a3;
 

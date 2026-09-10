@@ -1,17 +1,16 @@
 /* func_8017C710 — shared body (overlay slot 0x80128158, h_exact e2fbbbec). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 int func_8017C710(short *param_1, short *param_2, short *param_3, int param_4) {
-    register int i2o __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers2)
-    register int i4o __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B headers2)
+    s16 i2o;
+    int i4o;
     short sVar1; int rx, rz, uVar5;
     i4o = param_2[1];
-    __asm__ __volatile__("" : : "r"(i4o));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers2)
     i2o = param_1[1]; uVar5 = 0;
     if (i2o >= i4o) {
         rx = param_1[0] - i2o * (param_2[0] - param_1[0]);
         rz = param_1[2] - i2o * (param_2[2] - param_1[2]);
     } else {
-        register int den __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers2)
+        int den;
         int p2x = param_2[0], p2z = param_2[2];
         den = i2o - i4o;
         rx = p2x + i4o * (p2x - param_1[0]) / den;

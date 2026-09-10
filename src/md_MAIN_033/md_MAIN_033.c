@@ -100,7 +100,7 @@ void func_800CB058(s32 arg0)
     extern void func_80146CA0(void *a0);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void func_80147324(s32 a0);
-    register s32 s1a __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s1a;
     s32 s2a;
     s32 s0a;
     s32 maska;
@@ -109,8 +109,10 @@ void func_800CB058(s32 arg0)
     s32 p;
     s32 v0w;
     s32 cnt;
+    s32 arg02;
+    arg02 = arg0;
 
-    s1a = arg0;
+    s1a = arg02;
     s2a = *(s32 *)(s1a + 0x4C);
     s0a = ((s32 (*)(void))func_80146578)();
     *(s32 *)(s1a + 0x20) = s0a;

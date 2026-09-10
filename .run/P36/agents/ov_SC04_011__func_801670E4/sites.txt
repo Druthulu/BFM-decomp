@@ -1,0 +1,10 @@
+REMOVED  pin         $18    line 5172
+REMOVED  pin         $19    line 5173
+NEEDED   pin         $2     line 5180
+NEEDED   pin         $4     line 5181
+REMOVED  pin         $5     line 5182
+NEEDED   barrier            line 5200
+NEEDED   launder            line 5202
+NEEDED   launder            line 5205
+NEEDED   launder            line 5275
+NEEDED   launder            line 5278

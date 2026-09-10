@@ -1,0 +1,30 @@
+{"kind": "seed", "start": 2, "tu": "src/md_MAIN_040/md_MAIN_040.c", "fn": "func_800CB874", "label": "g6b"}
+{"depth": 1, "move": "R6 inline t @415", "parent": 2, "score": 9, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @414", "parent": 2, "score": 9, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @413", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width t s16->s32 @410", "parent": 2, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @407", "parent": 2, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @414", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @414", "parent": 2, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline t @418", "parent": 2, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @414", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width t s16->u16 @410", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u16 @407", "parent": 2, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @414", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @415", "parent": 2, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline t @420", "parent": 2, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width t s16->u8 @410", "parent": 2, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u8 @407", "parent": 2, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @415", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @421", "parent": 2, "score": 6, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R12 width x u8->s32 @412", "parent": 2, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @415", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @422", "parent": 2, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width x u8->u16 @412", "parent": 2, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @416", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @423", "parent": 2, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width x u8->s16 @412", "parent": 2, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @416", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width d s32->u16 @411", "parent": 2, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @418", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width d s32->s16 @411", "parent": 2, "score": 0, "kind": "IDENTICAL", "ident": true}

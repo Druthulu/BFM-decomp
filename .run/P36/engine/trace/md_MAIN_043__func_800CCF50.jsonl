@@ -1,0 +1,7 @@
+{"kind": "seed", "start": 17, "tu": "src/md_MAIN_043/md_MAIN_043.c", "fn": "func_800CCF50", "label": "g6b"}
+{"depth": 1, "move": "R12 width s0 s32->u16 @211", "parent": 17, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @229", "parent": 17, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @235", "parent": 17, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap & @219", "parent": 17, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @235", "parent": 17, "score": 22, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-alias s1->a0 @216", "parent": 17, "score": 0, "kind": "IDENTICAL", "ident": true}

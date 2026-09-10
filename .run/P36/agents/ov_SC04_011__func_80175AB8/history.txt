@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 58 best 31 compiles 811 path R9 swap-stmts @2830 + R7 do-while @2834 + R9 swap-stmts @2857
+g5: verdict NO-MATCH start 41 best 26 compiles 2294 path R9 swap-stmts @2857 + R8 hoist tmp0 @2848 + R12 width sum s32->u8 @2824 + R9 swap-stmts @2831
+best-scoring single candidates of the last trace (move -> score):
+  R9 swap-stmts @2831 -> 26 (from 27)
+  R9 swap-stmts @2830 -> 26 (from 27)
+  R7 block @2850 -> 26 (from 26)
+  R5 swap + @2854 -> 26 (from 26)
+  R2 decl-order 1,0 -> 26 (from 26)
+  R12 width q s16->u16 @2821 -> 26 (from 26)
+  R9 swap-stmts @2839 -> 26 (from 26)
+  R4 decl-move a0v 19->1 -> 26 (from 26)
+  R6 inline sv @2844 -> 26 (from 26)
+  R7 block @2840 -> 26 (from 26)
+  R4 decl-move a0v 19->2 -> 26 (from 26)
+  R12 width r1 s32->u16 @2822 -> 26 (from 26)

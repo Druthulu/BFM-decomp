@@ -201,10 +201,12 @@ extern u8 D_800CD66C;
 
 void func_800CD010(s32 param_1)
 {
-    register s32 p1 __asm__("$17");  /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 p1;
     s32 iVar1;  /* $s0 */
+    s32 param_12;
+    param_12 = param_1;
 
-    p1 = param_1;
+    p1 = param_12;
     iVar1 = ((s32 (*)(void))func_80146578)();
     *(s32 *)(p1 + 0x20) = iVar1;
     if (iVar1 != 0) {

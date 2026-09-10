@@ -6330,7 +6330,7 @@ void func_80182C44(void *a0) {
     u8 *v1ptr;
 
     v0 = *(s32 *)((s32)a0 + 0x1C);
-    v1 = *(s32 *)((s32)a0 + 0x2C);
+    do { v1 = *(s32 *)((s32)a0 + 0x2C); } while (0);
     a1 = v0 - 1;
     /* §21 zero-byte re-tie barrier: without it gcc's scheduler hoists the 0x2C load
      * (and its sll) ahead of the 0x1C load + addiu pair -- the 4-slot SCHEDULE-REORDER
@@ -6338,7 +6338,6 @@ void func_80182C44(void *a0) {
      * swaps $v0/$v1 across the sll/lui pair (REGALLOC-PERM). The re-tie keeps the
      * in-place `v1 <<= 6` form (so the shift stays in $v1) AND anchors it after the
      * two loads. Emits no code. */
-    __asm__ __volatile__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     v1 = v1 << 6;
     a2 = (s32)D_801A5A80 + v1;
     v1ptr = *(u8 **)((s32)a0 + 0x20);

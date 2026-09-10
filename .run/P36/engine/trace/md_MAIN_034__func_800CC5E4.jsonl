@@ -1,0 +1,3 @@
+{"kind": "seed", "start": 11, "tu": "src/md_MAIN_034/md_MAIN_034.c", "fn": "func_800CC5E4", "label": "g6b"}
+{"depth": 1, "move": "R12 width t s32->u16 @1074", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline t @1082", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

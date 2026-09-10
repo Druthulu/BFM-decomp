@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 17 best 17 compiles 819 path 
+g5: verdict NO-MATCH start 17 best 17 compiles 2353 path 
+best-scoring single candidates of the last trace (move -> score):
+  R8 temp tmp0 @1952 -> 17 (from 17)
+  R7 block @2003 -> 17 (from 17)
+  R10 param-copy arg0 @1949 -> 17 (from 17)
+  R8 base tmp0 @1952 -> 17 (from 17)
+  R7 do-while @2003 -> 17 (from 17)
+  R7 block @1949 -> 17 (from 17)
+  R8 temp tmp0 @1959 -> 17 (from 17)
+  R7 block @1972 -> 17 (from 17)
+  R8 temp tmp0 @2001 -> 17 (from 17)
+  R7 do-while @1972 -> 17 (from 17)
+  R8 temp tmp0 @1999 -> 17 (from 17)
+  R7 block @1960 -> 17 (from 17)

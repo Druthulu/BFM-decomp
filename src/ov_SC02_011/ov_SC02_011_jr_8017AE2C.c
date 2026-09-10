@@ -5920,8 +5920,8 @@ void func_8017F67C(void *a0)
 
     extern u16 D_80194C30[][2];
     s16 n;
-    register s32 tmp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 t __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 tmp;
+    s32 t;
     s16 v;
     SVECTOR_8017C290 vec1;
     SVECTOR_8017C290 vec2;
@@ -5936,8 +5936,8 @@ void func_8017F67C(void *a0)
     }
 
     tmp = *(s32 *)((s32)a0 + 0x30) + 0x6000;
-    *(s32 *)((s32)a0 + 0x14) += tmp;
     t = tmp;
+    *(s32 *)((s32)a0 + 0x14) += tmp;
 
     v = *(u16 *)((s32)a0 + 0x10) - *(u16 *)((s32)a0 + 0x16);
     *(s16 *)((s32)a0 + 0x10) = v;

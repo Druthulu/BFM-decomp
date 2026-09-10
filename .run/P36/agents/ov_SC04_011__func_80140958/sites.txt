@@ -1,0 +1,11 @@
+REMOVED  pin         $20    line 1042
+REMOVED  pin         $21    line 1043
+REMOVED  pin         $23    line 1044
+REMOVED  pin         $22    line 1045
+REMOVED  pin         $10    line 1046
+REMOVED  pin         $8     line 1047
+REMOVED  pin         $9     line 1048
+NEEDED   pin         $2     line 1049
+NEEDED   barrier     memory line 1129
+NEEDED   pin         $4     line 1140
+NEEDED   keepalive          line 1146

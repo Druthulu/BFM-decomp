@@ -1,0 +1,142 @@
+src/ov_SC04_011/ov_SC04_011_jr_801734BC.c:func_80176734: score 90 (COUNT; mine 364 ins, target 371) — not yet
+  register pairs (mine -> target, count): s4->s3 x14, s5->s4 x7, a0->a1 x6, a1->a0 x4, a0->v1 x3, s0->v0 x3, a0->s0 x3, v1->a1 x2
+  replace mine[1:4] target[1:4]
+        1  sw	s4,48(sp)                       | sw	s3,44(sp)
+        2  lui	s4,0x0                         | lui	s3,0x0
+        3  addiu	s4,s4,0                      | addiu	s3,s3,0
+  replace mine[6:7] target[6:7]
+        6  addu	v0,v0,s4                      | addu	v0,v0,s3
+  replace mine[10:11] target[10:11]
+       10  addiu	s1,s4,72                     | addiu	s1,s3,72
+  replace mine[12:13] target[12:17]
+       12  addiu	s2,s4,224                    | addiu	s2,s3,224
+       13  --                                 | sw	s4,48(sp)
+       14  --                                 | lui	s4,0x0
+       15  --                                 | addiu	s4,s4,0
+       16  --                                 | sw	ra,60(sp)
+  delete  mine[14:18] target[18:18]
+       14  lui	s5,0x0                         | --
+       15  addiu	s5,s5,0                      | --
+       16  sw	ra,60(sp)                       | --
+       17  sw	s3,44(sp)                       | --
+  replace mine[19:20] target[19:20]
+       19  lw	a0,40(v0)                       | lw	a1,40(v0)
+  replace mine[24:25] target[24:25]
+       24  addiu	a1,a0,60                     | addiu	a0,a1,60
+  insert  mine[34:34] target[34:35]
+       34  --                                 | sb	v0,4(a0)
+  replace mine[35:37] target[36:37]
+       35  sb	v0,4(a0)                        | lbu	v0,8(s3)
+       36  lbu	v0,8(s4)                       | --
+  replace mine[42:43] target[42:43]
+       42  sb	v0,8(s4)                        | sb	v0,8(s3)
+  replace mine[44:47] target[44:47]
+       44  sb	v0,64(a0)                       | sb	v0,64(a1)
+       45  sb	v0,4(a0)                        | sb	v0,4(a1)
+       46  lbu	a0,72(s2)                      | lbu	v1,72(s2)
+  replace mine[48:49] target[48:49]
+       48  beqz	a0,3420 <func_80176734+0x1a8> | beqz	v1,3420 <func_80176734+0x1a8>
+  replace mine[51:53] target[51:53]
+       51  addu	a1,v0,s4                      | addu	a0,v0,s3
+       52  lw	v1,40(a1)                       | lw	a1,40(a0)
+  replace mine[54:55] target[54:55]
+       54  addu	at,at,a0                      | addu	at,at,v1
+  replace mine[57:58] target[57:58]
+       57  sb	v0,13(v1)                       | sb	v0,13(a1)
+  replace mine[64:65] target[64:65]
+       64  lw	a1,40(a1)                       | lw	a1,40(a0)
+  replace mine[107:108] target[107:108]
+      107  lbu	v1,72(s5)                      | lbu	v1,72(s4)
+  replace mine[118:119] target[118:119]
+      118  lbu	v0,72(s5)                      | lbu	v0,72(s4)
+  replace mine[123:124] target[123:124]
+      123  addu	v0,v0,s4                      | addu	v0,v0,s3
+  replace mine[125:126] target[125:126]
+      125  lw	a0,40(v0)                       | lw	a1,40(v0)
+  replace mine[133:135] target[133:135]
+      133  sb	v0,13(a0)                       | sb	v0,13(a1)
+      134  lh	v1,46(s5)                       | lh	v1,46(s4)
+  replace mine[150:151] target[150:151]
+      150  addu	v0,v0,s4                      | addu	v0,v0,s3
+  replace mine[164:165] target[164:165]
+      164  lh	v0,30(s5)                       | lh	v0,30(s4)
+  replace mine[184:187] target[184:187]
+      184  beq	v1,v0,357c <func_80176734+0x304> | beq	v1,v0,3580 <func_80176734+0x308>
+      185  move	s3,zero                       | nop
+      186  lbu	v0,7(s4)                       | lbu	v0,7(s3)
+  replace mine[189:194] target[189:196]
+      189  sltu	s3,zero,v0                    | sltu	v0,zero,v0
+      190  beqz	s3,357c <func_80176734+0x304> | beqz	v0,3584 <func_80176734+0x30c>
+      191  nop                                | move	s5,v0
+      192  sb	a0,7(s4)                        | j	3584 <func_80176734+0x30c>
+      193  lbu	v1,72(s5)                      | sb	a0,7(s3)
+      194  --                                 | move	s5,zero
+      195  --                                 | lbu	v1,72(s4)
+  replace mine[201:203] target[203:205]
+      201  nop                                | move	v0,s0
+      202  j	3630 <func_80176734+0x3b8>       | j	363c <func_80176734+0x3c4>
+  replace mine[208:210] target[210:212]
+      208  nop                                | move	v0,s0
+      209  j	3630 <func_80176734+0x3b8>       | j	363c <func_80176734+0x3c4>
+  replace mine[215:216] target[217:218]
+      215  j	3604 <func_80176734+0x38c>       | j	360c <func_80176734+0x394>
+  replace mine[221:222] target[223:224]
+      221  j	3604 <func_80176734+0x38c>       | j	360c <func_80176734+0x394>
+  replace mine[227:230] target[229:232]
+      227  beqz	v0,3630 <func_80176734+0x3b8> | beqz	v0,363c <func_80176734+0x3c4>
+      228  nop                                | move	v0,s0
+      229  j	3630 <func_80176734+0x3b8>       | j	3638 <func_80176734+0x3c0>
+  replace mine[235:237] target[237:239]
+      235  beqz	v0,3630 <func_80176734+0x3b8> | beqz	v0,363c <func_80176734+0x3c4>
+      236  nop                                | move	v0,s0
+  replace mine[238:239] target[240:242]
+      238  beqz	s0,368c <func_80176734+0x414> | move	v0,s0
+      239  --                                 | beqz	v0,3698 <func_80176734+0x420>
+  replace mine[244:246] target[247:249]
+      244  div	zero,a0,s0                     | div	zero,a0,v0
+      245  bnez	s0,3658 <func_80176734+0x3e0> | bnez	v0,3664 <func_80176734+0x3ec>
+  replace mine[249:250] target[252:253]
+      249  bne	s0,at,3670 <func_80176734+0x3f8> | bne	v0,at,367c <func_80176734+0x404>
+  replace mine[255:256] target[258:259]
+      255  lbu	v0,72(s5)                      | lbu	v0,72(s4)
+  replace mine[259:260] target[262:263]
+      259  j	37b0 <func_80176734+0x538>       | j	37cc <func_80176734+0x554>
+  replace mine[271:273] target[274:276]
+      271  beqz	v0,36d0 <func_80176734+0x458> | beqz	v0,36e4 <func_80176734+0x46c>
+      272  andi	v1,a1,0xff                    | move	v1,a1
+  replace mine[274:275] target[277:279]
+      274  sb	a1,75(s1)                       | sb	v1,75(s1)
+      275  --                                 | andi	v1,v1,0xff
+  replace mine[276:279] target[280:284]
+      276  j	3720 <func_80176734+0x4a8>       | sltu	v0,zero,v0
+      277  sltu	a0,zero,v0                    | j	3734 <func_80176734+0x4bc>
+      278  lbu	a1,71(s5)                      | move	s0,v0
+      279  --                                 | lbu	a1,71(s4)
+  replace mine[282:283] target[287:288]
+      282  move	a0,zero                       | move	s0,zero
+  replace mine[286:288] target[291:293]
+      286  li	a0,1                            | li	s0,1
+      287  lbu	v0,71(s5)                      | lbu	v0,71(s4)
+  replace mine[295:296] target[300:301]
+      295  lbu	v0,71(s5)                      | lbu	v0,71(s4)
+  replace mine[298:301] target[303:306]
+      298  bnez	a0,3748 <func_80176734+0x4d0> | bnez	s0,375c <func_80176734+0x4e4>
+      299  nop                                | move	v1,s5
+      300  bnez	s3,3748 <func_80176734+0x4d0> | bnez	v1,375c <func_80176734+0x4e4>
+  replace mine[304:305] target[309:310]
+      304  beqz	v0,37b4 <func_80176734+0x53c> | beqz	v0,37d0 <func_80176734+0x558>
+  replace mine[306:308] target[311:313]
+      306  j	37b4 <func_80176734+0x53c>       | beqz	v1,37c8 <func_80176734+0x550>
+      307  sb	zero,71(s2)                     | nop
+  replace mine[325:326] target[330:331]
+      325  j	37a8 <func_80176734+0x530>       | j	37bc <func_80176734+0x544>
+  insert  mine[333:333] target[338:339]
+      333  --                                 | j	37cc <func_80176734+0x554>
+  insert  mine[334:334] target[340:341]
+      334  --                                 | sb	zero,71(s2)
+  replace mine[336:339] target[343:346]
+      336  addu	a0,a0,s4                      | addu	a0,a0,s3
+      337  lbu	v1,7(s4)                       | lbu	v1,7(s3)
+      338  lhu	v0,18(s4)                      | lhu	v0,18(s3)
+  replace mine[347:348] target[354:355]
+      347  lhu	a1,18(s4)                      | lhu	a1,18(s3)

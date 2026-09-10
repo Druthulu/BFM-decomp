@@ -3946,13 +3946,12 @@ void func_80180024(void *a0)
 
     p = &D_801AAAE0;
     
-    __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     c0 = *p;
     if (c0 < 0xFF) {
-        nc0 = c0 + 0x10;
+        do { nc0 = c0 + 0x10; } while (0);
         *p = nc0;
-        c1 = D_801AAAE1;
         c2 = D_801AAAE2;
+        c1 = D_801AAAE1;
         c1 = c1 + 0x10;
         c2 = c2 + 0x10;
         D_801AAAE1 = c1;

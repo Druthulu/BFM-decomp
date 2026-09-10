@@ -3200,7 +3200,7 @@ extern void func_80149350(s32 arg0);
 
 void func_8016C188(s32 param)
 {
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 s1;
     s32 s2;
     u8 *s0;
     u16 buf[3];
@@ -3220,8 +3220,10 @@ void func_8016C188(s32 param)
     extern s16 D_801F54AC;
     extern s16 D_801F54AE;
     extern s16 D_801F54B0;
+    s32 param2;
+    param2 = param;
 
-    s1 = param;
+    s1 = param2;
     s2 = ((s32 (*)(void))func_801465C0)();
     *(s32 *)(s1 + 0x20) = s2;
     if (s2 != 0) {

@@ -1,0 +1,22 @@
+{"kind": "seed", "start": 13, "tu": "src/md_SC04_027/md_SC04_027.c", "fn": "func_801E9B68", "label": "g6b"}
+{"depth": 1, "move": "R12 width i short->s32 @1273", "parent": 13, "score": 23, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width n short->s32 @1270", "parent": 13, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline idx @1283", "parent": 13, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1281", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1287", "parent": 13, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy val @1275", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move d 1->0", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width i short->u16 @1273", "parent": 13, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width n short->u16 @1270", "parent": 13, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline idx @1278", "parent": 13, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1281", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1277", "parent": 13, "score": 5, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R10 param-copy n @1275", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move d 1->2", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width i short->u8 @1273", "parent": 13, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width flag short->s32 @1270", "parent": 13, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1283", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1286", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy dst @1275", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move d 1->3", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width idx int->u16 @1274", "parent": 13, "score": 0, "kind": "IDENTICAL", "ident": true}

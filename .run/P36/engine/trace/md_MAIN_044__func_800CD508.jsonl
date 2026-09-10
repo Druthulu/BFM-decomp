@@ -1,0 +1,11 @@
+{"kind": "seed", "start": 6, "tu": "src/md_MAIN_044/md_MAIN_044.c", "fn": "func_800CD508", "label": "g6b"}
+{"depth": 1, "move": "R12 width obj s32->u16 @407", "parent": 6, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @406", "parent": 6, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline ret @413", "parent": 6, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R3 init-split obj", "parent": 6, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @413", "parent": 6, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @417", "parent": 6, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move obj 0->1", "parent": 6, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width obj s32->s16 @407", "parent": 6, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->u16 @406", "parent": 6, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R7 do-while @413", "parent": 6, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -58,21 +58,20 @@ extern s32 func_80146CA0(void *);
 extern void func_800CCE68();
 
 void func_800CCCA0(s32 param_1) {
-    register s32 p1 __asm__("$17"); /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 p1;
     s32 iVar1; /* $s0 */
 
-    p1 = param_1;
     iVar1 = ((s32 (*)(void))func_8014659C)();
-    *(s32 *)(p1 + 0x20) = iVar1;
+    *(s32 *)(param_1 + 0x20) = iVar1;
     if (iVar1 != 0) {
         func_8001C810(iVar1, &D_800CEBEC);
         *(u32 *)(iVar1 + 4) |= 0x40010000;
         func_800CCF58(iVar1, 0);
-        func_800CCE88(p1);
-        *(s16 *)(p1 + 0x60) = 0;
-        ((s32 (*)(void *))func_80146CA0)(p1);
+        func_800CCE88(param_1);
+        *(s16 *)(param_1 + 0x60) = 0;
+        ((s32 (*)(void *))func_80146CA0)(param_1);
     } else {
-        ((void (*)(s32))func_800CCE68)(p1);
+        ((void (*)(s32))func_800CCE68)(param_1);
     }
 }
 
@@ -80,13 +79,15 @@ void func_800CCCA0(s32 param_1) {
 extern s32 func_800CCF30(void *a0);
 
 void func_800CCD2C(s32 param_1) {
-    register s32 p1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 p1;
     s32 s0;
     s16 v0;
+    s32 param_12;
+    param_12 = param_1;
 
-    p1 = param_1;
+    p1 = param_12;
     s0 = *(s32 *)(p1 + 0x20);
-    if (func_800CCF30((void *)param_1) == 0) {
+    if (func_800CCF30((void *)param_12) == 0) {
         v0 = *(u16 *)(s0 + 0x18) + 0x100;
         *(s16 *)(s0 + 0x18) = v0;
         if (v0 >= 0x1001) {
@@ -404,13 +405,13 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_80162FC0(s32 *a0);
 
 void func_800CD508(s32 param_1) {
-    register s32 obj __asm__("$17") = param_1;   /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 obj = param_1;
     s32 bufp;            /* $s0 */
     u8 dead[0x20];
     char buf[0x20];
     s32 ret;
 
-    ret = ((s32 (*)(void))func_80146E98)();
+    do { ret = ((s32 (*)(void))func_80146E98)(); } while (0);
     if (ret != 0) {
         ((void (*)(s32))func_80162CCC)(obj);
     } else {

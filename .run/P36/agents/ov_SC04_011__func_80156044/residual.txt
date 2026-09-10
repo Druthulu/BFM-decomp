@@ -1,0 +1,26 @@
+src/ov_SC04_011/ov_SC04_011_jr_80154C24.c:func_80156044: score 18 (COUNT; mine 76 ins, target 74) — not yet
+  register pairs (mine -> target, count): v0->v1 x4, v1->v0 x2, a1->v1 x2
+  replace mine[7:8] target[7:8]
+        7  beqz	v0,1464 <func_80156044+0x44>  | beqz	v0,1460 <func_80156044+0x40>
+  replace mine[9:13] target[9:12]
+        9  andi	v1,a1,0xffff                  | andi	v0,a1,0xffff
+       10  sll	v0,v1,0x2                      | sll	v1,v0,0x2
+       11  addu	v0,v0,v1                      | addu	v1,v1,v0
+       12  sll	a1,v0,0x2                      | --
+  replace mine[15:17] target[14:16]
+       15  j	14a8 <func_80156044+0x88>        | j	149c <func_80156044+0x7c>
+       16  addu	s0,a1,v0                      | sll	v1,v1,0x2
+  replace mine[19:24] target[18:22]
+       19  beqz	v0,1490 <func_80156044+0x70>  | beqz	v0,1488 <func_80156044+0x68>
+       20  andi	v1,a1,0xffff                  | andi	v0,a1,0xffff
+       21  sll	v0,v1,0x2                      | sll	v1,v0,0x2
+       22  addu	v0,v0,v1                      | addu	v1,v1,v0
+       23  sll	a1,v0,0x2                      | --
+  replace mine[26:31] target[24:29]
+       26  j	14a8 <func_80156044+0x88>        | j	149c <func_80156044+0x7c>
+       27  addu	s0,a1,v0                      | sll	v1,v1,0x2
+       28  sll	v0,v1,0x2                      | sll	v1,v0,0x2
+       29  addu	v0,v0,v1                      | addu	v1,v1,v0
+       30  sll	a1,v0,0x2                      | sll	v1,v1,0x2
+  replace mine[33:34] target[31:32]
+       33  addu	s0,a1,v0                      | addu	s0,v1,v0

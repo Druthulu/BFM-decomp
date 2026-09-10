@@ -1,0 +1,32 @@
+src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:func_8015D738: score 17 (COUNT; mine 197 ins, target 201) — not yet
+  register pairs (mine -> target, count): a1->v1 x1
+  replace mine[11:12] target[11:12]
+       11  bnez	v0,1704 <func_8015D738+0x2f8> | bnez	v0,1714 <func_8015D738+0x308>
+  replace mine[15:16] target[15:16]
+       15  bnez	v0,1704 <func_8015D738+0x2f8> | bnez	v0,1714 <func_8015D738+0x308>
+  replace mine[19:20] target[19:20]
+       19  beqz	s1,1478 <func_8015D738+0x6c>  | beqz	s1,1470 <func_8015D738+0x64>
+  replace mine[21:22] target[21:22]
+       21  lhu	a1,0(s1)                       | lhu	v1,0(s1)
+  replace mine[23:24] target[23:24]
+       23  beq	a1,v0,14cc <func_8015D738+0xc0> | beq	v1,v0,14dc <func_8015D738+0xd0>
+  replace mine[25:26] target[25:30]
+       25  bnez	a1,14b8 <func_8015D738+0xac>  | beqz	s1,1488 <func_8015D738+0x7c>
+       26  --                                 | nop
+       27  --                                 | lhu	v0,0(s1)
+       28  --                                 | nop
+       29  --                                 | bnez	v0,14c8 <func_8015D738+0xbc>
+  replace mine[41:42] target[45:46]
+       41  j	1704 <func_8015D738+0x2f8>       | j	1714 <func_8015D738+0x308>
+  replace mine[53:54] target[57:58]
+       53  j	1704 <func_8015D738+0x2f8>       | j	1714 <func_8015D738+0x308>
+  replace mine[68:69] target[72:73]
+       68  j	1704 <func_8015D738+0x2f8>       | j	1714 <func_8015D738+0x308>
+  replace mine[87:88] target[91:92]
+       87  j	1704 <func_8015D738+0x2f8>       | j	1714 <func_8015D738+0x308>
+  replace mine[93:94] target[97:98]
+       93  j	1704 <func_8015D738+0x2f8>       | j	1714 <func_8015D738+0x308>
+  replace mine[110:111] target[114:115]
+      110  j	15e4 <func_8015D738+0x1d8>       | j	15f4 <func_8015D738+0x1e8>
+  replace mine[182:183] target[186:187]
+      182  j	1704 <func_8015D738+0x2f8>       | j	1714 <func_8015D738+0x308>

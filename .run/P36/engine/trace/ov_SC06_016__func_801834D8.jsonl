@@ -1,0 +1,13 @@
+{"kind": "seed", "start": 20, "tu": "src/ov_SC06_016/ov_SC06_016_jr_801816DC.c", "fn": "func_801834D8", "label": "g6"}
+{"depth": 1, "move": "R6 inline quotient @4355", "parent": 20, "score": 24, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @4351", "parent": 20, "score": 20, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width diff s32->u16 @4296", "parent": 20, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @4351", "parent": 20, "score": 20, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4351", "parent": 20, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @4301", "parent": 20, "score": 20, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @4291", "parent": 20, "score": 61, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @4353", "parent": 20, "score": 20, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R6 inline quotient @4354", "parent": 20, "score": 66, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @4352", "parent": 20, "score": 20, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width diff s32->s16 @4296", "parent": 20, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4351", "parent": 20, "score": 0, "kind": "IDENTICAL", "ident": true}

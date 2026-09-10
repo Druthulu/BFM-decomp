@@ -1,0 +1,16 @@
+g1: verdict NO-MATCH start 38 best 33 compiles 323 path R7 do-while @1069 + R7 do-while @1068 + R7 do-while @1062
+g2: verdict NO-MATCH start 38 best 33 compiles 732 path R7 do-while @1069 + R7 do-while @1068 + R7 do-while @1062
+g5: verdict NO-MATCH start 38 best 33 compiles 1463 path R7 do-while @1069 + R7 do-while @1068 + R7 do-while @1062
+best-scoring single candidates of the last trace (move -> score):
+  R7 do-while @1062 -> 33 (from 34)
+  R7 do-while @1059 -> 33 (from 34)
+  R7 block @1066 -> 33 (from 33)
+  R7 do-while @1066 -> 33 (from 33)
+  R7 block @1072 -> 33 (from 33)
+  R7 do-while @1072 -> 33 (from 33)
+  R9 swap-stmts @1070 -> 33 (from 33)
+  R7 block @1065 -> 33 (from 33)
+  R7 do-while @1065 -> 33 (from 33)
+  R9 swap-stmts @1074 -> 33 (from 33)
+  R12 width t2 u8->s32 @1057 -> 33 (from 33)
+  R7 block @1061 -> 33 (from 33)

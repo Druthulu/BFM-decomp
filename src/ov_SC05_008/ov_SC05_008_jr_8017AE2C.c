@@ -4853,10 +4853,10 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017F554(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_8018661C[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_8018661C[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         s16 v = ((s16 (*)(s32, s32))func_80013328)((s32)p + 4, (s32)(q + 1));
         if (v >= 0xA01) {
@@ -4916,10 +4916,10 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017F724(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186628[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186628[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         s16 v = ((s16 (*)(s32, s32))func_80013328)((s32)p + 4, (s32)(q + 1));
         if (v >= 0xA01) {
@@ -4979,10 +4979,10 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017F8F4(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186634[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186634[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         s16 v = ((s16 (*)(s32, s32))func_80013328)((s32)p + 4, (s32)(q + 1));
         if (v >= 0xA01) {
@@ -5042,10 +5042,10 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017FAC4(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_80186640[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_80186640[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         s16 v = ((s16 (*)(s32, s32))func_80013328)((s32)p + 4, (s32)(q + 1));
         if (v >= 0xA01) {
@@ -5102,10 +5102,10 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017FC94(s32 *p) {
     extern s32 D_80126B58;
-    register s32 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
 
-    D_8018664C[*(u16 *)((s32)p + 0x2)]();
     q = &D_80126B58;
+    D_8018664C[*(u16 *)((s32)p + 0x2)]();
     if (p[8] != 0) {
         s16 v = ((s16 (*)(s32, s32))func_80013328)((s32)p + 4, (s32)(q + 1));
         if (v >= 0xA01) {

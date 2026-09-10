@@ -1,0 +1,39 @@
+src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:func_80133784: score 21 (COUNT; mine 201 ins, target 203) — not yet
+  register pairs (mine -> target, count): s5->s2 x3, s2->s5 x2, s2->a0 x1, v0->v1 x1
+  replace mine[22:23] target[22:23]
+       22  move	s5,zero                       | move	s2,zero
+  replace mine[25:26] target[25:26]
+       25  move	s2,a0                         | move	s5,a0
+  replace mine[36:37] target[36:37]
+       36  bnez	a0,8c04 <func_80133784+0x160> | bnez	a0,8c08 <func_80133784+0x164>
+  replace mine[49:50] target[49:50]
+       49  bnez	v1,8b84 <func_80133784+0xe0>  | bnez	v1,8b88 <func_80133784+0xe4>
+  replace mine[52:53] target[52:53]
+       52  bnez	v0,8b88 <func_80133784+0xe4>  | bnez	v0,8b8c <func_80133784+0xe8>
+  replace mine[55:56] target[55:57]
+       55  sltiu	s5,v0,1                      | sltiu	v0,v0,1
+       56  --                                 | move	s2,v0
+  replace mine[75:76] target[76:77]
+       75  j	8be4 <func_80133784+0x140>       | j	8be8 <func_80133784+0x144>
+  replace mine[86:87] target[87:88]
+       86  j	8c54 <func_80133784+0x1b0>       | j	8c58 <func_80133784+0x1b4>
+  replace mine[102:104] target[103:105]
+      102  li	s5,1                            | li	s2,1
+      103  j	8c54 <func_80133784+0x1b0>       | j	8c58 <func_80133784+0x1b4>
+  replace mine[108:109] target[109:110]
+      108  sll	s2,s2,0x10                     | sll	a0,s5,0x10
+  replace mine[116:118] target[117:120]
+      116  sra	a0,s2,0x10                     | sra	a0,a0,0x10
+      117  beqz	v0,8cd8 <func_80133784+0x234> | move	v1,v0
+      118  --                                 | beqz	v1,8ce0 <func_80133784+0x23c>
+  replace mine[119:121] target[121:123]
+      119  bnez	s5,8cd8 <func_80133784+0x234> | bnez	s2,8ce0 <func_80133784+0x23c>
+      120  or	s4,s4,v0                        | or	s4,s4,v1
+  replace mine[125:126] target[127:128]
+      125  bnez	v0,8c58 <func_80133784+0x1b4> | bnez	v0,8c58 <func_80133784+0x1b4>
+  replace mine[139:140] target[141:142]
+      139  j	8d50 <func_80133784+0x2ac>       | j	8d58 <func_80133784+0x2b4>
+  replace mine[159:160] target[161:162]
+      159  j	8d2c <func_80133784+0x288>       | j	8d34 <func_80133784+0x290>
+  replace mine[185:186] target[187:188]
+      185  j	8da0 <func_80133784+0x2fc>       | j	8da8 <func_80133784+0x304>

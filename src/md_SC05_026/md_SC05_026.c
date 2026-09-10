@@ -1228,9 +1228,9 @@ unsigned short *dst;
 short flag;
 {
     extern unsigned short *D_801F1740[];
-    register unsigned int d __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    unsigned int d;
     short i;
-    int idx;
+    u16 idx;
 
     for (i = 0; i < n; i++) {
         d = val >> 28;

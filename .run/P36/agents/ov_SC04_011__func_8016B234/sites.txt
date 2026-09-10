@@ -1,0 +1,5 @@
+NEEDED   pin         $16    line 2040
+REMOVED  pin         $4     line 2041
+NEEDED   pin         $3     line 2042
+REMOVED  keepalive          line 2065
+REMOVED  barrier            line 2083

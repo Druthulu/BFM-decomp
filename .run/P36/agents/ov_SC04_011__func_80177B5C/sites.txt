@@ -1,0 +1,23 @@
+REMOVED  pin         $14    line 3641
+REMOVED  pin         $25    line 3643
+NEEDED   pin         $3     line 3644
+NEEDED   pin         $5     line 3645
+REMOVED  pin         $8     line 3646
+NEEDED   pin         $2     line 3651
+REMOVED  pin         $13    line 3653
+NEEDED   pin         $16    line 3664
+NEEDED   pin         $4     line 3665
+NEEDED   pin         $21    line 3666
+NEEDED   pin         $17    line 3667
+REMOVED  pin         $18    line 3668
+REMOVED  pin         $19    line 3669
+REMOVED  pin         $20    line 3670
+NEEDED   launder            line 3673
+NEEDED   launder            line 3675
+NEEDED   launder            line 3693
+NEEDED   launder            line 3697
+REMOVED  launder            line 3731
+NEEDED   barrier            line 3733
+NEEDED   barrier            line 3737
+NEEDED   barrier            line 3746
+NEEDED   keepalive          line 3754

@@ -4396,11 +4396,11 @@ void func_80183DE8(u8 *arg0)
 
     extern u8 D_800D387C[];
     extern u8 D_800D3888[];
-    register u8 *param_1 __asm__("$16");   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *param_1;
     s32 raw;
     u32 buf[6];
 
-    param_1 = arg0;
+    do { param_1 = arg0; } while (0);
     {
         s32 s0;   /* $s1 -- scoped: dead after func_80128EA8 */
         s0 = ((s32 (*)(void))func_8012C194)();
@@ -4584,9 +4584,8 @@ void func_801841EC(s32 param_1, s32 param_2)
 {
     int s3;
     unsigned short s0;
-    int s2;
     int s1;
-    int v0;
+    s16 v0;
     int iVar3;
 
     s0 = D_801C5EEC[*(short *)(param_1 + 0xfc)];
@@ -4597,8 +4596,6 @@ void func_801841EC(s32 param_1, s32 param_2)
     }
     *(short *)(param_1 + 0xfc) = *(short *)(param_1 + 0xfc) + 1;
     v0 = (rand() & 3) * 0x400 + 0x1800;
-    s2 = v0;
-    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     s1 = (v0 - 0x1000) * 0x20;
     iVar3 = ((int (*)(int))func_8012913C)(4);
     if (iVar3 != 0) {
@@ -4606,7 +4603,7 @@ void func_801841EC(s32 param_1, s32 param_2)
         *(short *)(iVar3 + 0xa) = s0;
         *(short *)(iVar3 + 0xe) = 0;
         *(int *)(iVar3 + 0x10) = s1;
-        *(short *)(iVar3 + 0x2c) = s2;
+        *(short *)(iVar3 + 0x2c) = (v0);
     }
 }
 

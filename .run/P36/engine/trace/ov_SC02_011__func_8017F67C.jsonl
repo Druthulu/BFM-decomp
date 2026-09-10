@@ -1,0 +1,7 @@
+{"kind": "seed", "start": 4, "tu": "src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c", "fn": "func_8017F67C", "label": "g6"}
+{"depth": 1, "move": "R2 decl-order 1,0", "parent": 4, "score": 4, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R4 decl-move tmp 2->0", "parent": 4, "score": 4, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R6 inline t @5940", "parent": 4, "score": 4, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R7 block @5940", "parent": 4, "score": 4, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @5934", "parent": 4, "score": 4, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5939", "parent": 4, "score": 0, "kind": "IDENTICAL", "ident": true}

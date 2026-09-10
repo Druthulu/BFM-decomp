@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 15 best 14 compiles 809 path R9 swap-stmts @3639
+g5: verdict NO-MATCH start 15 best 13 compiles 2070 path R9 swap-stmts @3639 + R7 do-while @3648
+best-scoring single candidates of the last trace (move -> score):
+  R7 do-while @3648 -> 13 (from 14)
+  R12 width a2 s32->u16 @3607 -> 13 (from 13)
+  R6 inline p @3640 -> 13 (from 13)
+  R8 hoist tmp0 @3645 -> 13 (from 13)
+  R7 block @3628 -> 13 (from 13)
+  R10 param-copy param_1 @3608 -> 13 (from 13)
+  R12 width a2 s32->s16 @3607 -> 13 (from 13)
+  R8 hoist tmp0 @3624 -> 13 (from 13)
+  R8 hoist tmp0 @3644 -> 13 (from 13)
+  R7 block @3645 -> 13 (from 13)
+  R8 hoist tmp0 @3623 -> 13 (from 13)
+  R7 block @3629 -> 13 (from 13)

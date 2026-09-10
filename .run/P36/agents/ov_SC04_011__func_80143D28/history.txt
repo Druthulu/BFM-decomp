@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 11 best 5 compiles 765 path R8 temp tmp0 @2120
+g5: verdict NO-MATCH start 11 best 5 compiles 1805 path R8 temp tmp0 @2120
+best-scoring single candidates of the last trace (move -> score):
+  R8 temp tmp0 @2120 -> 5 (from 11)
+  R8 hoist tmp1 @2127 -> 5 (from 5)
+  R3 init-split iVar3 -> 5 (from 5)
+  R7 block @2124 -> 5 (from 5)
+  R4 decl-move iVar3 1->0 -> 5 (from 5)
+  R4 decl-move iVar3 1->2 -> 5 (from 5)
+  R8 base tmp1 @2121 -> 5 (from 5)
+  R7 block @2122 -> 5 (from 5)
+  R9 swap-stmts @2108 -> 5 (from 5)
+  R4 decl-move iVar3 1->3 -> 5 (from 5)
+  R4 decl-move iVar3 1->4 -> 5 (from 5)
+  R8 base tmp1 @2129 -> 5 (from 5)

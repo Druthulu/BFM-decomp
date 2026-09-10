@@ -2061,7 +2061,7 @@ int func_80134A74(int param_1, s16 param_2, s16 param_3, int param_4)
 // @try: variant B — direct pins m=$s5($21), c=$s6($22)
 
 
-s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 func_80134C20(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     extern u8 D_801152A8[];
     extern s32 func_80134FB8(s32 a0, s32 a1, s32 a2);
@@ -2078,9 +2078,6 @@ s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 var_v0;
     u16 temp_a1;
     s32 temp_s4;
-    s32 c = arg0;
-    __asm__ __volatile__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus1)
-    __asm__ __volatile__("" : : "r"(arg0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus1)
 
     temp_s4 = arg2 + (M2C_FIELD(((void *)arg1), s16 *, 2) * 8);
     temp_s1 = *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 4) * 4));
@@ -2120,7 +2117,7 @@ s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             return var_v0;
         }
     }
-    if (c & 1) {
+    if ((arg0) & 1) {
         if (!(M2C_FIELD(((void *)arg1), u16 *, 0) & 0x300)) {
             goto block_14;
         }

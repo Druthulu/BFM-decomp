@@ -1,0 +1,93 @@
+src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:func_8013D178: score 72 (REG-caller; mine 110 ins, target 110) — not yet
+  register pairs (mine -> target, count): a0->a1 x45, a1->a0 x45
+  replace mine[0:5] target[0:5]
+        0  lui	a0,0x0                         | lui	a1,0x0
+        1  addiu	a0,a0,0                      | addiu	a1,a1,0
+        2  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+        3  lui	a1,0x0                         | lui	a0,0x0
+        4  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[6:8] target[6:8]
+        6  beq	v0,a1,81c <func_8013D178+0x30> | beq	v0,a0,81c <func_8013D178+0x30>
+        7  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[11:17] target[11:17]
+       11  sb	v0,0(a0)                        | sb	v0,0(a1)
+       12  lui	a0,0x0                         | lui	a1,0x0
+       13  addiu	a0,a0,0                      | addiu	a1,a1,0
+       14  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       15  lui	a1,0x0                         | lui	a0,0x0
+       16  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[18:20] target[18:20]
+       18  beq	v0,a1,84c <func_8013D178+0x60> | beq	v0,a0,84c <func_8013D178+0x60>
+       19  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[23:29] target[23:29]
+       23  sb	v0,0(a0)                        | sb	v0,0(a1)
+       24  lui	a0,0x0                         | lui	a1,0x0
+       25  addiu	a0,a0,0                      | addiu	a1,a1,0
+       26  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       27  lui	a1,0x0                         | lui	a0,0x0
+       28  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[30:32] target[30:32]
+       30  beq	v0,a1,87c <func_8013D178+0x90> | beq	v0,a0,87c <func_8013D178+0x90>
+       31  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[35:41] target[35:41]
+       35  sb	v0,0(a0)                        | sb	v0,0(a1)
+       36  lui	a0,0x0                         | lui	a1,0x0
+       37  addiu	a0,a0,0                      | addiu	a1,a1,0
+       38  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       39  lui	a1,0x0                         | lui	a0,0x0
+       40  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[42:44] target[42:44]
+       42  beq	v0,a1,8ac <func_8013D178+0xc0> | beq	v0,a0,8ac <func_8013D178+0xc0>
+       43  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[47:53] target[47:53]
+       47  sb	v0,0(a0)                        | sb	v0,0(a1)
+       48  lui	a0,0x0                         | lui	a1,0x0
+       49  addiu	a0,a0,0                      | addiu	a1,a1,0
+       50  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       51  lui	a1,0x0                         | lui	a0,0x0
+       52  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[54:56] target[54:56]
+       54  beq	v0,a1,8dc <func_8013D178+0xf0> | beq	v0,a0,8dc <func_8013D178+0xf0>
+       55  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[59:65] target[59:65]
+       59  sb	v0,0(a0)                        | sb	v0,0(a1)
+       60  lui	a0,0x0                         | lui	a1,0x0
+       61  addiu	a0,a0,0                      | addiu	a1,a1,0
+       62  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       63  lui	a1,0x0                         | lui	a0,0x0
+       64  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[66:68] target[66:68]
+       66  beq	v0,a1,90c <func_8013D178+0x120> | beq	v0,a0,90c <func_8013D178+0x120>
+       67  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[71:77] target[71:77]
+       71  sb	v0,0(a0)                        | sb	v0,0(a1)
+       72  lui	a0,0x0                         | lui	a1,0x0
+       73  addiu	a0,a0,0                      | addiu	a1,a1,0
+       74  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       75  lui	a1,0x0                         | lui	a0,0x0
+       76  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[78:80] target[78:80]
+       78  beq	v0,a1,93c <func_8013D178+0x150> | beq	v0,a0,93c <func_8013D178+0x150>
+       79  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[83:89] target[83:89]
+       83  sb	v0,0(a0)                        | sb	v0,0(a1)
+       84  lui	a0,0x0                         | lui	a1,0x0
+       85  addiu	a0,a0,0                      | addiu	a1,a1,0
+       86  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       87  lui	a1,0x0                         | lui	a0,0x0
+       88  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[90:92] target[90:92]
+       90  beq	v0,a1,96c <func_8013D178+0x180> | beq	v0,a0,96c <func_8013D178+0x180>
+       91  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[95:101] target[95:101]
+       95  sb	v0,0(a0)                        | sb	v0,0(a1)
+       96  lui	a0,0x0                         | lui	a1,0x0
+       97  addiu	a0,a0,0                      | addiu	a1,a1,0
+       98  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       99  lui	a1,0x0                         | lui	a0,0x0
+      100  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[102:104] target[102:104]
+      102  beq	v0,a1,99c <func_8013D178+0x1b0> | beq	v0,a0,99c <func_8013D178+0x1b0>
+      103  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[107:108] target[107:108]
+      107  sb	v0,0(a0)                        | sb	v0,0(a1)

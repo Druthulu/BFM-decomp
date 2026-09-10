@@ -1,0 +1,16 @@
+g1: verdict NO-MATCH start 24 best 24 compiles 329 path 
+g2: verdict NO-MATCH start 24 best 23 compiles 810 path R8 hoist tmp0 @2331 + R9 swap-stmts @2333 + R12 width tmp0 s32->u16 @2310
+g5: verdict NO-MATCH start 24 best 17 compiles 2247 path R12 width harg int->u16 @2317 + R12 width cnt int->u16 @2312
+best-scoring single candidates of the last trace (move -> score):
+  R12 width cnt int->u16 @2312 -> 17 (from 20)
+  R12 width cnt int->s16 @2312 -> 17 (from 20)
+  R12 width cnt int->u16 @2312 -> 17 (from 20)
+  R12 width cnt int->s16 @2312 -> 17 (from 20)
+  R7 block @2338 -> 17 (from 17)
+  R9 swap-stmts @2338 -> 17 (from 17)
+  R4 decl-move harg 13->0 -> 17 (from 17)
+  R12 width ret s32->s16 @2318 -> 17 (from 17)
+  R14 param-width flag s16->u16 @2297 -> 17 (from 17)
+  R8 hoist tmp0 @2325 -> 17 (from 17)
+  R10 param-copy x @2322 -> 17 (from 17)
+  R4 decl-move harg 13->1 -> 17 (from 17)

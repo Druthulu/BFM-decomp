@@ -2262,9 +2262,9 @@ extern u16 D_801AFE34[8];
 
 void func_801A370C(s32 a0) {
     s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v1;
 
-    v0 = *(u16 *)(a0 + 0x10A);
+    do { v0 = *(u16 *)(a0 + 0x10A); } while (0);
     v1 = *(s32 *)(a0 + 0x20);
     v0 = v0 + 1;
     *(u16 *)(a0 + 0x10A) = v0;
@@ -10633,32 +10633,33 @@ void func_801AF2EC(void *a0) {
     u16 v0_const;
     s32 rand_val;
     u16 *val_ptr;
+    void *a02;
+    a02 = a0;
 
-    s1 = (s32 *)a0;
+    s1 = (s32 *)a02;
     v0_const = 0x0B;
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     s0 = *(s32 **)((u8 *)s1 + 0x20);
 
-    
+    // Store 0x0B as halfword at offset 0x2
     *(u16 *)((u8 *)s0 + 0x2) = v0_const;
 
-    
+    // Load word from offset 0x4, OR with 0x50000000, store back
     *(s32 *)((u8 *)s0 + 0x4) |= 0x50000000;
 
-    
+    // If the halfword at offset 0x18 is 0, store 0x600
     if (*(s16 *)((u8 *)s0 + 0x18) == 0) {
         *(s16 *)((u8 *)s0 + 0x18) = 0x600;
     }
 
-    
+    // Call rand, mask to 0xFF0, store at offset 0x14
     rand_val = rand();
     *(u16 *)((u8 *)s0 + 0x14) = (u16)(rand_val & 0xFF0);
 
-    
+    // Load halfword at offset 0x2 of s1, increment, store back
     val_ptr = (u16 *)((u8 *)s1 + 0x2);
     *val_ptr = *val_ptr + 1;
 
-    
+    // Store 0x100 as halfword at offset 0x30 of s1
     *(s16 *)((u8 *)s1 + 0x30) = 0x100;
 }
 

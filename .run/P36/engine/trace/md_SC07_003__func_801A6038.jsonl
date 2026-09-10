@@ -1,0 +1,10 @@
+{"kind": "seed", "start": 20, "tu": "src/md_SC07_003/md_SC07_003.c", "fn": "func_801A6038", "label": "g6b"}
+{"depth": 1, "move": "R12 width s0 s32->u16 @4587", "parent": 20, "score": 2, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4614", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R3 init-split s0", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @4598", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4612", "parent": 20, "score": 22, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s0 0->1", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width s0 s32->s16 @4587", "parent": 20, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @4614", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4598", "parent": 20, "score": 0, "kind": "IDENTICAL", "ident": true}

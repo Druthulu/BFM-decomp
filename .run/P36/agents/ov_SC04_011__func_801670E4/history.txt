@@ -1,0 +1,16 @@
+g1: verdict NO-MATCH start 45 best 40 compiles 331 path R6 inline gA @5258 + R6 inline vc @5283 + R7 do-while @5236
+g2: verdict NO-MATCH start 45 best 31 compiles 810 path R6 inline vc @5284 + R12 width cxv s32->s16 @5194 + R7 do-while @5233
+g5: verdict NO-MATCH start 45 best 31 compiles 2306 path R7 do-while @5236 + R12 width cxv s32->s16 @5193 + R6 inline vc @5283
+best-scoring single candidates of the last trace (move -> score):
+  R6 inline vc @5283 -> 31 (from 34)
+  R12 width cxv s32->s16 @5193 -> 31 (from 41)
+  R12 width gA s32->u16 @5192 -> 31 (from 31)
+  R7 block @5232 -> 31 (from 31)
+  R10 param-alias ent->arg0 @5200 -> 31 (from 31)
+  R2 decl-order 1,0 -> 31 (from 31)
+  R4 decl-move gA 16->0 -> 31 (from 31)
+  R8 hoist tmp0 @5268 -> 31 (from 31)
+  R10 param-copy arg0 @5199 -> 31 (from 31)
+  R4 decl-move gA 16->1 -> 31 (from 31)
+  R12 width gA s32->u8 @5192 -> 31 (from 31)
+  R6 inline czv @5260 -> 31 (from 31)

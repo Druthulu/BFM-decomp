@@ -1,0 +1,8 @@
+NEEDED   pin         $0     line 3008
+REMOVED  pin         $9     line 3010
+NEEDED   pin         $18    line 3012
+NEEDED   pin         $4     line 3013
+REMOVED  pin         $3     line 3014
+NEEDED   instruction addu   line 3023
+NEEDED   keepalive          line 3036
+REWRITTEN instruction addu   line 3055

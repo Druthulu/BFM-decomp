@@ -1269,9 +1269,9 @@ u32 func_801E9B00(s32 a0, s32 a1) {
 
 void func_801E9B68(unsigned int val, short n, unsigned short *dst, short flag) {
     extern unsigned short *D_801EB8B8[];
-    register unsigned int d __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    unsigned int d;
     short i;
-    int idx;
+    u16 idx;
 
     for (i = 0; i < n; i++) {
         d = val >> 28;

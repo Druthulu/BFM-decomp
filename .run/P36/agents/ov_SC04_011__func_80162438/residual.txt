@@ -1,0 +1,15 @@
+src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:func_80162438: score 10 (COUNT; mine 157 ins, target 160) — not yet
+  replace mine[12:13] target[12:13]
+       12  beqz	v0,6360 <func_80162438+0x254> | beqz	v0,636c <func_80162438+0x260>
+  replace mine[17:19] target[17:20]
+       17  bnez	v0,61e4 <func_80162438+0xd8>  | bnez	v0,61e8 <func_80162438+0xdc>
+       18  addiu	s1,s2,26024                  | addiu	v0,s2,26024
+       19  --                                 | move	s1,v0
+  replace mine[57:59] target[58:61]
+       57  bnez	v0,6284 <func_80162438+0x178> | bnez	v0,628c <func_80162438+0x180>
+       58  addiu	s1,s2,26080                  | addiu	v0,s2,26080
+       59  --                                 | move	s1,v0
+  replace mine[97:99] target[99:102]
+       97  bnez	v0,6324 <func_80162438+0x218> | bnez	v0,6330 <func_80162438+0x224>
+       98  addiu	s1,s2,26136                  | addiu	v0,s2,26136
+       99  --                                 | move	s1,v0

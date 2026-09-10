@@ -1,0 +1,13 @@
+{"kind": "seed", "start": 3, "tu": "src/800.c", "fn": "func_80016A7C", "label": "g6b"}
+{"depth": 1, "move": "R12 width otz s32->u16 @4036", "parent": 3, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg1 s32->s16 @4031", "parent": 3, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline otz @4051", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @4051", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 block @4051", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4051", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @4037", "parent": 3, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width otz s32->s16 @4036", "parent": 3, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg1 s32->u16 @4031", "parent": 3, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline flag @4052", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @4049", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 do-while @4051", "parent": 3, "score": 0, "kind": "IDENTICAL", "ident": true}

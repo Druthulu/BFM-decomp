@@ -1,0 +1,12 @@
+REMOVED  pin         $21    line 3317
+NEEDED   pin         $16    line 3318
+NEEDED   pin         $5     line 3320
+NEEDED   pin         $5     line 3334
+NEEDED   pin         $5     line 3354
+NEEDED   pin         $5     line 3385
+NEEDED   pin         $2     line 3435
+NEEDED   launder            line 3465
+NEEDED   pin         $2     line 3481
+NEEDED   launder            line 3485
+NEEDED   pin         $3     line 3501
+NEEDED   launder            line 3506

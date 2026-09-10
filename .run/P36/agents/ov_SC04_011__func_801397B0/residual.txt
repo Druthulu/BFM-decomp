@@ -1,0 +1,21 @@
+src/ov_SC04_011/ov_SC04_011_jr_801380E0.c:func_801397B0: score 12 (REG-caller; mine 89 ins, target 89) — not yet
+  register pairs (mine -> target, count): a1->a0 x10, a0->a1 x7
+  replace mine[3:4] target[3:4]
+        3  lbu	a1,32(a3)                      | lbu	a0,32(a3)
+  replace mine[7:11] target[7:11]
+        7  addiu	a1,a1,-1                     | addiu	a0,a0,-1
+        8  sll	a1,a1,0x2                      | sll	a0,a0,0x2
+        9  addu	a2,a1,a2                      | addu	a2,a0,a2
+       10  lh	a0,2(a2)                        | lh	a1,2(a2)
+  replace mine[12:13] target[12:13]
+       12  andi	v1,a0,0x100                   | andi	v1,a1,0x100
+  replace mine[18:21] target[18:21]
+       18  andi	a0,a0,0x200                   | andi	a1,a1,0x200
+       19  sll	a0,a0,0x2                      | sll	a1,a1,0x2
+       20  or	v1,v1,a0                        | or	v1,v1,a1
+  replace mine[23:24] target[23:24]
+       23  addu	a1,a1,v0                      | addu	a0,a0,v0
+  replace mine[25:26] target[25:26]
+       25  lhu	v0,0(a1)                       | lhu	v0,0(a0)
+  replace mine[28:29] target[28:29]
+       28  lhu	v1,2(a1)                       | lhu	v1,2(a0)

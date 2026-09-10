@@ -1,0 +1,65 @@
+src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:func_801670E4: score 45 (COUNT; mine 281 ins, target 279) — not yet
+  register pairs (mine -> target, count): v0->v1 x3, a0->v0 x2, v1->a0 x1, v1->v0 x1
+  delete  mine[3:7] target[3:3]
+        3  sw	s2,176(sp)                      | --
+        4  lui	s2,0x0                         | --
+        5  addiu	s2,s2,0                      | --
+        6  li	v0,112                          | --
+  insert  mine[9:9] target[5:6]
+        9  --                                 | sw	s2,176(sp)
+  replace mine[12:13] target[9:10]
+       12  move	s4,zero                       | li	v0,112
+  delete  mine[21:22] target[18:18]
+       21  addiu	s0,sp,16                     | --
+  replace mine[23:24] target[19:20]
+       23  move	a1,s0                         | addiu	a1,sp,16
+  replace mine[25:26] target[21:25]
+       25  move	a2,s0                         | move	a2,a1
+       26  --                                 | lui	s2,0x0
+       27  --                                 | addiu	s2,s2,0
+       28  --                                 | move	s4,zero
+  insert  mine[38:38] target[37:39]
+       38  --                                 | sb	v1,85(sp)
+       39  --                                 | jal	0 <func_8015C32C>
+  replace mine[39:42] target[40:41]
+       39  jal	0 <func_8015C32C>              | addiu	a0,sp,16
+       40  sb	v1,85(sp)                       | --
+       41  move	a0,s0                         | --
+  replace mine[61:62] target[60:61]
+       61  move	a0,s0                         | addiu	a0,sp,16
+  replace mine[109:110] target[108:109]
+      109  li	a0,160                          | li	v0,160
+  replace mine[112:116] target[111:115]
+      112  sb	a0,85(sp)                       | lh	a0,16(sp)
+      113  lui	a0,0x0                         | sb	v0,85(sp)
+      114  lw	a0,0(a0)                        | lui	v0,0x0
+      115  lh	v1,16(sp)                       | lw	v0,0(v0)
+  replace mine[117:123] target[116:122]
+      117  li	v0,16                           | li	v1,16
+      118  sb	v0,86(sp)                       | sb	v1,86(sp)
+      119  sb	v0,84(sp)                       | sb	v1,84(sp)
+      120  lui	v0,0x0                         | lui	v1,0x0
+      121  lw	v0,0(v0)                        | lw	v1,0(v1)
+      122  subu	v1,a0,v1                      | subu	v0,v0,a0
+  replace mine[128:131] target[127:132]
+      128  sw	v1,32(sp)                       | sw	v0,32(sp)
+      129  lui	v1,0x0                         | lui	v0,0x0
+      130  lw	v1,0(v1)                        | lw	v0,0(v0)
+      131  --                                 | subu	v1,v1,a1
+      132  --                                 | sw	v1,40(sp)
+  delete  mine[132:133] target[133:133]
+      132  subu	v1,v1,a1                      | --
+  delete  mine[134:135] target[134:134]
+      134  sw	v1,40(sp)                       | --
+  replace mine[177:179] target[176:180]
+      177  blez	v0,b1f8 <func_801670E4+0x440> | blez	v0,b1f0 <func_801670E4+0x438>
+      178  move	s4,zero                       | addiu	a0,sp,16
+      179  --                                 | addiu	s1,sp,104
+      180  --                                 | move	a1,s1
+  replace mine[181:185] target[182:183]
+      181  addiu	s0,sp,16                     | move	s4,zero
+      182  move	a0,s0                         | --
+      183  addiu	s1,sp,104                    | --
+      184  move	a1,s1                         | --
+  replace mine[198:199] target[196:197]
+      198  move	a0,s0                         | addiu	a0,sp,16

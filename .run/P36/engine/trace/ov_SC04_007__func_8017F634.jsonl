@@ -1,0 +1,20 @@
+{"kind": "seed", "start": 4, "tu": "src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c", "fn": "func_8017F634", "label": "g6"}
+{"depth": 1, "move": "R9 swap-stmts @4739", "parent": 4, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @4729", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v1 @4748", "parent": 4, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @4729", "parent": 4, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4740", "parent": 4, "score": 8, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @4729", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @4766", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4745", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4741", "parent": 4, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @4731", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @4745", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4742", "parent": 4, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @4731", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4746", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4743", "parent": 4, "score": 8, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @4735", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @4746", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4744", "parent": 4, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4735", "parent": 4, "score": 0, "kind": "IDENTICAL", "ident": true}

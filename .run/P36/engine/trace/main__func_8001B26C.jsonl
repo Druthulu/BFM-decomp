@@ -1,0 +1,17 @@
+{"kind": "seed", "start": 4, "tu": "src/800.c", "fn": "func_8001B26C", "label": "g6b"}
+{"depth": 1, "move": "R9 swap-stmts @8256", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @8256", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v1 @8263", "parent": 4, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width tmp s32->u16 @8250", "parent": 4, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s0 0->1", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @8257", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @8256", "parent": 4, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v1 @8272", "parent": 4, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width tmp s32->s16 @8250", "parent": 4, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s0 0->2", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @8258", "parent": 4, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @8257", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v1 @8278", "parent": 4, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width tmp s32->u8 @8250", "parent": 4, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @8277", "parent": 4, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @8257", "parent": 4, "score": 0, "kind": "IDENTICAL", "ident": true}

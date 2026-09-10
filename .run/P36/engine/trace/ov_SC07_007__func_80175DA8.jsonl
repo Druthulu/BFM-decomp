@@ -1,0 +1,11 @@
+{"kind": "seed", "start": 3, "tu": "src/ov_SC07_007/ov_SC07_007_jr_80171B4C.c", "fn": "func_80175DA8", "label": "g6b"}
+{"depth": 1, "move": "R12 width v u16->s32 @3967", "parent": 3, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline fl @4054", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4054", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @4054", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap & @4057", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4028", "parent": 3, "score": 30, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v u16->s16 @3967", "parent": 3, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline arg @4057", "parent": 3, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @4054", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4054", "parent": 3, "score": 0, "kind": "IDENTICAL", "ident": true}

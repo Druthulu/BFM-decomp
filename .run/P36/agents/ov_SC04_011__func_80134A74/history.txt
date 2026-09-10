@@ -1,0 +1,16 @@
+g1: verdict NO-MATCH start 30 best 24 compiles 324 path R9 swap-stmts @2808 + R9 swap-stmts @2793 + R6 inline uVar2 @2794
+g2: verdict NO-MATCH start 30 best 24 compiles 805 path R9 swap-stmts @2808 + R9 swap-stmts @2793 + R6 inline uVar2 @2794
+g5: verdict NO-MATCH start 30 best 17 compiles 2314 path R9 swap-stmts @2808 + R12 width hic u32->u16 @2787 + R9 swap-stmts @2794 + R9 swap-stmts @2791
+best-scoring single candidates of the last trace (move -> score):
+  R9 swap-stmts @2791 -> 17 (from 21)
+  R9 swap-stmts @2791 -> 17 (from 21)
+  R14 param-width param_1 int->s16 @2774 -> 17 (from 17)
+  R8 hoist tmp0 @2792 -> 17 (from 17)
+  R7 block @2791 -> 17 (from 17)
+  R10 param-copy param_1 @2790 -> 17 (from 17)
+  R2 decl-order 1,0 -> 17 (from 17)
+  R4 decl-move n 3->0 -> 17 (from 17)
+  R14 param-width param_1 int->u16 @2774 -> 17 (from 17)
+  R8 hoist tmp0 @2792 -> 17 (from 17)
+  R10 param-copy param_2 @2790 -> 17 (from 17)
+  R4 decl-move n 3->1 -> 17 (from 17)

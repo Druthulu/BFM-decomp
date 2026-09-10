@@ -357,12 +357,10 @@ loop:
     if (*p == 0x26E) {
         v = (s16)func_80013328(arg0 + 4, (s32)(p + 2));
         if (v < best) {
-            best = v;
+            do { best = v; } while (0);
             D_801ABBD8 = (s32)p;
         }
     }
-    __asm__("" ::  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-                "r"(best));
     i++;
     p += 0x86;
     if (i < 0x60) {

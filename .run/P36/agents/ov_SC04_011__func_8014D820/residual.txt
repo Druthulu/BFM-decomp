@@ -1,0 +1,18 @@
+src/ov_SC04_011/ov_SC04_011_after.c:func_8014D820: score 8 (COUNT; mine 303 ins, target 304) — not yet
+  register pairs (mine -> target, count): a2->a3 x4
+  insert  mine[3:3] target[3:4]
+        3  --                                 | move	a3,a2
+  replace mine[9:10] target[10:11]
+        9  lhu	v1,0(a2)                       | lhu	v1,0(a3)
+  replace mine[13:14] target[14:15]
+       13  lhu	v1,4(a2)                       | lhu	v1,4(a3)
+  replace mine[22:23] target[23:24]
+       22  lhu	v0,2(a2)                       | lhu	v0,2(a3)
+  replace mine[27:28] target[28:29]
+       27  lhu	v0,4(a2)                       | lhu	v0,4(a3)
+  replace mine[130:131] target[131:132]
+      130  j	82c0 <func_8014D820+0x380>       | j	82c4 <func_8014D820+0x384>
+  replace mine[277:278] target[278:279]
+      277  j	83bc <func_8014D820+0x47c>       | j	83c0 <func_8014D820+0x480>
+  replace mine[289:290] target[290:291]
+      289  j	83d4 <func_8014D820+0x494>       | j	83d8 <func_8014D820+0x498>

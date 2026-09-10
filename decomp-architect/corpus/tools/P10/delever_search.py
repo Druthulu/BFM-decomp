@@ -4,6 +4,7 @@
     tools/delever_search.py --plan [--limit N] [--only X ...] [--score]      # the residue's exemplars; --score = their starting distance
     tools/delever_search.py --run [--limit K] [--only X ...] [-j W] [--beam B] [--depth D] [--cap C] [--budget M] [--label gN]
     tools/delever_search.py --positive-control TU FN [--moves 1|2]           # perturb a MATCHING body, require the search to return to 0
+    tools/delever_search.py --try TU FN FILE [--body]                       # score a candidate WITHOUT writing the tree (an agent's loop)
     tools/delever_search.py --status
     tools/delever_search.py --selftest
 
@@ -687,6 +688,70 @@ def explain(a):
     return 0
 
 
+def score_file(a):
+    """--try TU FN FILE: FILE is a candidate text of the WHOLE translation unit (or, with --body, of the function's definition
+    alone, spliced into the tree's TU); it is compiled through the TU's own recipe with the source path swapped for a scratch copy
+    (`-I<the TU's directory>` added so its relative includes resolve) and the function's instructions are compared with the fleet
+    run's baseline object — the same score, class and mnemonic diff as --explain, WITHOUT writing the tree. This is the loop an
+    agent runs on its own candidate (T7, one agent at a time): zero tree writes, so any number may run at once; the bank itself
+    stays the coordinator's (`delever.apply_body_core` on the real recipe)."""
+    tu, fn, path = a.try_
+    by_src = oracle.recipes_by_src(oracle.load_recipes()["recipes"])
+    inc = dl.includers()
+    recs = recs_for(tu, by_src, inc)
+    if not recs:
+        sys.exit(f"delever_search --try: no recipe compiles {tu}")
+    text = pathlib.Path(path).read_text(errors="surrogateescape")
+    raw = (REPO / tu).read_text(errors="surrogateescape")
+    if a.body:
+        d_ = body_span(raw, tu, fn)
+        if d_ is None:
+            sys.exit(f"delever_search --try: {fn} is not defined in {tu}")
+        ls = dl.line_starts(raw)
+        text = raw[:ls[d_["line"] - 1]] + text.rstrip("\n") + "\n" + raw[ls[d_["end"]]:]
+    rec = recs[0]
+    src_dir = os.path.dirname(rec["src"] if not tu.endswith(".h") else tu)
+    scratch_dir = RUN / "score" / f"{rec['alias']}__{fn}"
+    scratch_dir.mkdir(parents=True, exist_ok=True)
+    scratch_src = scratch_dir / os.path.basename(rec["src"])
+    # a header candidate: the includer compiles with the header swapped in through a scratch include dir that shadows it
+    if tu.endswith(".h"):
+        shadow = scratch_dir / "inc"
+        (shadow / os.path.dirname(os.path.relpath(tu, os.path.dirname(rec["src"])))).mkdir(parents=True, exist_ok=True)
+        (shadow / os.path.relpath(tu, os.path.dirname(rec["src"]))).write_text(text, errors="surrogateescape")
+        scratch_src.write_text(raw if False else (REPO / rec["src"]).read_text(errors="surrogateescape"), errors="surrogateescape")
+        extra = f"-I{shadow.as_posix()} -I{src_dir}"
+    else:
+        scratch_src.write_text(text, errors="surrogateescape")
+        extra = f"-I{src_dir}"
+    pipeline = rec["pipeline"].replace(" " + rec["src"], " " + scratch_src.as_posix(), 1).replace("-Iinclude", f"-Iinclude {extra}", 1)
+    mod = dict(rec, pipeline=pipeline, src=scratch_src.as_posix())
+    data, dt, err = oracle.compile_obj(mod, None, tag="score")
+    if data is None:
+        print(f"{tu}:{fn}: {'COMPILE-CRASH' if err.startswith('CRASH:') else 'COMPILE-ERROR'} — {err[:300]}")
+        return 2
+    base = REPO / rec["obj"]
+    tgt = md.insns_from_object(str(base), fn)
+    p = scratch_dir / "cand.o"
+    p.write_bytes(data)
+    mine = md.insns_from_object(str(p), fn)
+    cls = classify(mine, tgt)
+    print(f"{tu}:{fn}: score {cls['score']} ({family_key(cls)}; mine {cls['n_mine']} ins, target {cls['n_tgt']}) — "
+          f"{'MATCH (the function is byte-identical; the bank judges the whole object)' if cls['score'] == 0 else 'not yet'}")
+    if cls["pairs"]:
+        print("  register pairs (mine -> target, count):", ", ".join(f"{x}->{y} x{n}" for x, y, n in cls["pairs"]))
+    aa, bb = [masked_word(i) for i in mine], [masked_word(i) for i in tgt]
+    for t, i1, i2, j1, j2 in difflib.SequenceMatcher(None, aa, bb, autojunk=False).get_opcodes():
+        if t == "equal":
+            continue
+        print(f"  {t:7s} mine[{i1}:{i2}] target[{j1}:{j2}]")
+        for k in range(max(i2 - i1, j2 - j1)):
+            m_ = mine[i1 + k]["mnem"] if i1 + k < i2 else "--"
+            t_ = tgt[j1 + k]["mnem"] if j1 + k < j2 else "--"
+            print(f"     {i1 + k:4d}  {m_:34s} | {t_}")
+    return 0 if cls["score"] == 0 else 1
+
+
 def latest_row(tu, fn):
     row = None
     for r in dl.load_ledger():
@@ -896,8 +961,10 @@ def main():
     g.add_argument("--positive-control", nargs=2, metavar=("TU", "FN"))
     g.add_argument("--status", action="store_true")
     g.add_argument("--explain", nargs=2, metavar=("TU", "FN"), help="read one body's residual (no writes)")
+    g.add_argument("--try", dest="try_", nargs=3, metavar=("TU", "FN", "FILE"), help="score a candidate TU text (or --body: a body) WITHOUT writing the tree")
     g.add_argument("--selftest", action="store_true")
     ap.add_argument("--path", help="--explain: moves to apply first, `|`-separated, named as the trace names them")
+    ap.add_argument("--body", action="store_true", help="--try: FILE holds the function's definition only")
     ap.add_argument("--only", nargs="*", default=[], help="fn, TU (substring), alias or nhash prefix")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--show", type=int, default=25)
@@ -924,6 +991,8 @@ def main():
         return cmd_status(a)
     if a.explain:
         return explain(a)
+    if a.try_:
+        return score_file(a)
     if a.positive_control:
         return positive_control(a)
     if a.run:

@@ -1,0 +1,7 @@
+{"kind": "seed", "start": 7, "tu": "src/800.c", "fn": "func_800147B8", "label": "g6b"}
+{"depth": 1, "move": "R12 width raw_h s32->u16 @1866", "parent": 7, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R6 inline h_offset @1867", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R3 init-split raw_h", "parent": 7, "score": 7, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @1873", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1876", "parent": 7, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move raw_h 1->0", "parent": 7, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -2,17 +2,16 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32 a0);
-void func_80182630(s32 a0)
-{
-    u8 *s0 = (u8 *)a0;
-    s32 v0;
-    register s32 v1 asm("v1");  // !FAKE: pin v1 — NEEDED DIFFERS (P36 rung A headers2)
-    v0 = func_801399F0(*(s32 *)(s0 + 0x198));
-    if (v0 != 0) {
-        func_80139914(*(s32 *)(s0 + 0x198));
-        v0 = s0[0x4D];
-        v1 = s0[0x214];
-        s0[0x4D] = v0 - 1;
-        s0[0x214] = v1 + 1;
+    void func_80182630(s32 a0)
+    {
+        u8 *s0 = (u8 *)a0;
+        s32 v0;
+        s32 v1;
+        v0 = func_801399F0(*(s32 *)(s0 + 0x198));
+        if (v0 != 0) {
+            func_80139914(*(s32 *)(s0 + 0x198));
+            v1 = s0[0x214];
+            s0[0x4D] = (s0[0x4D]) - 1;
+            s0[0x214] = v1 + 1;
+        }
     }
-}

@@ -1,0 +1,21 @@
+{"kind": "seed", "start": 2, "tu": "src/ov_SC07_006/ov_SC07_006_jr_80140608.c", "fn": "func_801431E8", "label": "g6"}
+{"depth": 1, "move": "R6 inline uVar2 @1906", "parent": 2, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @1898", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R4 decl-move d 7->0", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @1906", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width sVar4 s16->s32 @1895", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @1887", "parent": 2, "score": 44, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1898", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1898", "parent": 2, "score": 19, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move d 7->1", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @1906", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width sVar4 s16->u16 @1895", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->u16 @1887", "parent": 2, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1898", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1899", "parent": 2, "score": 4, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R4 decl-move d 7->2", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @1908", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width sVar4 s16->u8 @1895", "parent": 2, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->u8 @1887", "parent": 2, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1899", "parent": 2, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1900", "parent": 2, "score": 0, "kind": "IDENTICAL", "ident": true}

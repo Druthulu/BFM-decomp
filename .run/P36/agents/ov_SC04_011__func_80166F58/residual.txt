@@ -1,0 +1,9 @@
+src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:func_80166F58: score 4 (COUNT; mine 67 ins, target 69) — not yet
+  insert  mine[11:11] target[11:12]
+       11  --                                 | sra	a1,a1,0x10
+  replace mine[12:13] target[13:14]
+       12  sra	s4,a1,0x10                     | move	s4,a1
+  insert  mine[14:14] target[15:16]
+       14  --                                 | sra	a2,a2,0x10
+  replace mine[15:16] target[17:18]
+       15  sra	s1,a2,0x10                     | move	s1,a2

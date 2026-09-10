@@ -763,9 +763,9 @@ void func_800CBF28(s32 p1)
     s32 r;
     s32 base;  /* $s1 */
 
-    v0 = ((s32 (*)(void))func_80146578)();
     base = (s32)&D_800CC250;
-    __asm__("" : "=r"(r) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+    v0 = ((s32 (*)(void))func_80146578)();
+    r = v0;
     *(s32 *)(p1 + 0x20) = v0;
     if (v0 != 0) {
         func_8001CD04(v0, base);

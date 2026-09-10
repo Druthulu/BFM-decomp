@@ -3427,9 +3427,8 @@ extern u16 D_800B99DA;
 s32 func_8017DD60(void *a0) {
     u8 val;
     u16 global;
-    s32 result;
+    s16 result;
     s32 cmp;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     val = *(u8 *)((s32)a0 + 3) - 2;
     *(u8 *)((s32)a0 + 3) = val;
@@ -3438,7 +3437,6 @@ s32 func_8017DD60(void *a0) {
         goto ret1;
     }
 
-    __asm__ __volatile__("" : "=r"(val) : "0"(val));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
 
     global = D_800B99DA;
 
@@ -3455,7 +3453,7 @@ joinpt:
         result = 0xFF;
     }
 
-    cmp = result + zr;
+    cmp = result + 0;
 
     *(u8 *)((s32)a0 + 2) = result;
     if (cmp < (s32)*(u8 *)a0) {
@@ -7515,7 +7513,7 @@ s32 func_8018317C(s32 a0) {
             *(s16 *)(v1 + 0x1C) = v0;
         }
         *(s16 *)(v1 + 0x1A) = v0;
-        *(s16 *)(v1 + 0x18) = v0;
+        do { *(s16 *)(v1 + 0x18) = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
@@ -7525,7 +7523,6 @@ s32 func_8018317C(s32 a0) {
      * instead of the target's `addiu $a1`.  -fno-schedule-insns{,2} alone does
      * not reproduce the target order -- only both together do, hence a real
      * barrier rather than a statement reorder. */
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     ((s32 (*)())func_801832F8)(a0, 0x7F3);
     return s2;
 }

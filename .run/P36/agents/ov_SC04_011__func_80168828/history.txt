@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 35 best 14 compiles 805 path R12 width a0v s32->u16 @5665 + R7 do-while @5675 + R7 do-while @5679
+g5: verdict NO-MATCH start 35 best 1 compiles 2271 path R12 width a0v s32->u8 @5663 + R12 width param_1 s32->s16 @5664 + R9 swap-stmts @5686
+best-scoring single candidates of the last trace (move -> score):
+  R9 swap-stmts @5686 -> 1 (from 11)
+  R4 decl-move a0v 1->0 -> 1 (from 1)
+  R7 block @5673 -> 1 (from 1)
+  R8 temp tmp0 @5694 -> 1 (from 1)
+  R9 swap-stmts @5673 -> 1 (from 1)
+  R8 base tmp0 @5694 -> 1 (from 1)
+  R7 block @5674 -> 1 (from 1)
+  R8 temp tmp0 @5695 -> 1 (from 1)
+  R8 base tmp0 @5695 -> 1 (from 1)
+  R7 block @5675 -> 1 (from 1)
+  R8 temp tmp0 @5696 -> 1 (from 1)
+  R8 base tmp0 @5696 -> 1 (from 1)

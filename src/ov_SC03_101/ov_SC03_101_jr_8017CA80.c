@@ -4905,8 +4905,9 @@ void func_80180E50(void *a0)
     extern u8 D_8019AA28;
     extern s32 D_8019A9DC;
 
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0;
     s32 v0 = ((s32 (*)(void))func_8012C1B8)();
+    s0 = a0;
 
     *(s32 *)((u8 *)s0 + 0x20) = v0;
 
@@ -6587,11 +6588,9 @@ void func_80182FB8(void *a0)
         *(s16 *)((s32)a0 + 0xFE) = 0x6000;
     } else {
         s32 dv, sv;
-        __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
         dv = *(u16 *)((s32)a0 + 0x106) + 0x400;
-        sv = *(u16 *)((s32)a0 + 0xFE) + dv;
         *(s16 *)((s32)a0 + 0x106) = dv;
-        *(s16 *)((s32)a0 + 0xFE) = sv;
+        *(s16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + dv);
     }
     {
         s32 d = *(u16 *)((s32)a0 + 0x104) - 0x80;

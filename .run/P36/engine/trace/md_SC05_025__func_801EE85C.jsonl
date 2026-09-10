@@ -1,0 +1,23 @@
+{"kind": "seed", "start": 7, "tu": "src/md_SC05_025/md_SC05_025.c", "fn": "func_801EE85C", "label": "g6b"}
+{"depth": 1, "move": "R6 inline p1 @618", "parent": 7, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @618", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R5 swap & @618", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @617", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width p1 s32->u16 @615", "parent": 7, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @619", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @619", "parent": 7, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move p1 2->0", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R6 inline p2 @620", "parent": 7, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @618", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R5 swap & @620", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R12 width p1 s32->s16 @615", "parent": 7, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @619", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @618", "parent": 7, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R4 decl-move p1 2->1", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @620", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R12 width p1 s32->u8 @615", "parent": 7, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @618", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @621", "parent": 7, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move p1 2->3", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width p2 s32->u16 @616", "parent": 7, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @618", "parent": 7, "score": 0, "kind": "IDENTICAL", "ident": true}

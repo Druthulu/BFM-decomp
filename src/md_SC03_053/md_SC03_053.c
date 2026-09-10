@@ -109,11 +109,11 @@ extern short D_801F0E10;
 extern short D_801F0DD0;
 
 void func_801EF624(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s0 = (s32)a0;
     *(s16 *)(s0 + 0x2) = 0x1A;
     func_8012E8E0(s0, (s32)&D_801F0900);
     func_8012E88C(s0);
-    func_80187344(s0);
+    do { func_80187344(s0); } while (0);
     if ((func_80029178(0xEF) & 0xFF) != 0) {
         func_80178CBC(s0, (s32)&D_801F0E10);
         *(s16 *)(s0 + 0x34) = 1;
@@ -163,12 +163,12 @@ extern short D_801F0A9C;
 extern short D_801F0934;
 
 void func_801EF734(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s0 = (s32)a0;
 
     *(s16 *)(s0 + 0x2) = 0x5;
     func_8012E8E0(s0, (s32)&D_801F0900);
     func_8012E88C(s0);
-    func_80187344(s0);
+    do { func_80187344(s0); } while (0);
 
     if ((func_80029178(0xDF) & 0xFF) != 0) {
         *(s16 *)(s0 + 0x34) = 0;

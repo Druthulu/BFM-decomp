@@ -4217,7 +4217,6 @@ void func_8017F178(s32 param_1)
      * ranks pri = floor_log2(R)*R/L*1e4*size; without this, diff (R=7,L=46) = 3043 outranks
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
-    __asm__ __volatile__("" :: "r"(obj));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     if (*(s16 *)obj < -0x4E0) {
         diff = (s32)(s16)D_80126B66 - *(s16 *)(param_1 + 0xE);
         if (diff < 0x140) {
@@ -4259,7 +4258,7 @@ void func_8017F178(s32 param_1)
             obj = func_80143C74(param_1, 0);
             if (obj != 0) {
                 *(s16 *)(obj + 6) = rand() % 0x120 - 0xE0;
-                *(u16 *)(obj + 0xA) = -(rand() & 0x3F) - 0x502;
+                do { *(u16 *)(obj + 0xA) = -(rand() & 0x3F) - 0x502; } while (0);
                 diff = rand() % 0x560 + 0x140;
                 *(u16 *)(obj + 0xE) = *(u16 *)(obj + 0xE) + diff;
                 quotient = (*(s16 *)(param_1 + 0xFC) * 0xD) / 0x300;
@@ -4682,12 +4681,10 @@ loop:
     if (*p == 0x26E) {
         v = (s16)func_80013328(arg0 + 4, (s32)(p + 2));
         if (v < best) {
-            best = v;
+            do { best = v; } while (0);
             D_801A14A8 = (s32)p;
         }
     }
-    __asm__("" ::  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-                "r"(best));
     i++;
     p += 0x86;
     if (i < 0x60) {

@@ -1,0 +1,16 @@
+g3: verdict NO-MATCH start 8 best 8 compiles 801 path 
+g4s: verdict NO-MATCH start 8 best 8 compiles 801 path 
+g5: verdict NO-MATCH start 8 best 8 compiles 2315 path 
+best-scoring single candidates of the last trace (move -> score):
+  R7 block @1770 -> 8 (from 8)
+  R6 inline new_var2 @1773 -> 8 (from 8)
+  R8 hoist tmp0 @1780 -> 8 (from 8)
+  R7 block @1779 -> 8 (from 8)
+  R5 swap + @1774 -> 8 (from 8)
+  R7 do-while @1779 -> 8 (from 8)
+  R8 hoist tmp0 @1767 -> 8 (from 8)
+  R7 block @1771 -> 8 (from 8)
+  R10 param-alias a2->a2x @1641 -> 8 (from 8)
+  R6 inline r2 @1677 -> 8 (from 8)
+  R7 do-while @1771 -> 8 (from 8)
+  R6 inline r3 @1678 -> 8 (from 8)

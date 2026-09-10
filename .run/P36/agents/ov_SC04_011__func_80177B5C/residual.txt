@@ -1,0 +1,149 @@
+src/ov_SC04_011/ov_SC04_011_jr_801734BC.c:func_80177B5C: score 135 (COUNT; mine 142 ins, target 147) — not yet
+  register pairs (mine -> target, count): t1->t0 x5, v1->a1 x5, a0->a2 x4, t7->t5 x3, t8->t7 x2, t6->t4 x2, s0->t8 x1, t5->a0 x1
+  replace mine[1:9] target[1:14]
+        1  move	t2,a0                         | move	t3,a0
+        2  lui	t0,0xff                        | sw	s5,20(sp)
+        3  ori	t0,t0,0xffff                   | move	s5,a2
+        4  lui	t1,0x7480                      | sw	s1,4(sp)
+        5  ori	t1,t1,0x8080                   | move	s1,a3
+        6  addiu	t7,a3,14                     | lui	t1,0xff
+        7  lui	t8,0x100                       | ori	t1,t1,0xffff
+        8  move	t6,zero                       | lui	t2,0x7480
+        9  --                                 | ori	t2,t2,0x8080
+       10  --                                 | move	t6,a1
+       11  --                                 | addiu	t5,a3,14
+       12  --                                 | lui	t7,0x100
+       13  --                                 | move	t4,zero
+  replace mine[13:16] target[18:20]
+       13  sw	s0,0(sp)                        | lui	t8,0xff
+       14  lui	s0,0xff                        | ori	t8,t8,0xffff
+       15  ori	s0,s0,0xffff                   | --
+  replace mine[18:26] target[22:29]
+       18  sw	s1,4(sp)                        | sll	a2,a2,0x10
+       19  move	s1,a2                         | sra	a2,a2,0x10
+       20  sll	v1,s1,0x10                     | addiu	v0,t3,-20
+       21  sra	v1,v1,0x10                     | and	v0,v0,t1
+       22  addiu	v0,t2,-20                    | lw	a0,40(sp)
+       23  and	v0,v0,t0                       | lui	t0,0x300
+       24  lui	a0,0x300                       | sw	s0,0(sp)
+       25  lw	t5,40(sp)                       | --
+  replace mine[27:40] target[30:34]
+       27  addu	at,at,v1                      | addu	at,at,a2
+       28  lbu	a2,0(at)                       | lbu	t9,0(at)
+       29  or	v0,v0,a0                        | or	v0,v0,t0
+       30  sw	v0,0(t2)                        | sw	v0,0(t3)
+       31  sw	t1,4(t2)                        | --
+       32  move	t9,t5                         | --
+       33  sll	v0,t9,0x10                     | --
+       34  sra	t5,v0,0x10                     | --
+       35  addiu	v0,t5,1                      | --
+       36  sll	t3,v0,0x10                     | --
+       37  sll	v0,a2,0x6                      | --
+       38  ori	v0,v0,0x4016                   | --
+       39  sll	t4,v0,0x10                     | --
+  replace mine[42:65] target[36:65]
+       42  or	v0,t3,v0                        | addiu	a3,a3,5
+       43  sw	v0,8(t2)                        | andi	a3,a3,0xffff
+       44  ori	v0,t4,0x1800                   | sw	t2,4(t3)
+       45  sw	v0,12(t2)                       | move	s0,a0
+       46  addiu	t2,t2,20                     | sll	a0,a0,0x10
+       47  addiu	v0,t2,-20                    | sra	a0,a0,0x10
+       48  and	v0,v0,t0                       | addiu	a1,a0,1
+       49  or	v0,v0,a0                        | sll	a1,a1,0x10
+       50  sw	v0,0(t2)                        | or	v0,a1,v0
+       51  addiu	v0,a3,5                      | sll	v1,t9,0x6
+       52  andi	v0,v0,0xffff                  | ori	v1,v1,0x4016
+       53  or	v0,t3,v0                        | sll	v1,v1,0x10
+       54  sw	v0,8(t2)                        | sw	v0,8(t3)
+       55  ori	v0,t4,0x1808                   | ori	v0,v1,0x1800
+       56  sw	t1,4(t2)                        | sw	v0,12(t3)
+       57  sw	v0,12(t2)                       | addiu	t3,t3,20
+       58  addiu	t2,t2,20                     | addiu	v0,t3,-20
+       59  move	a0,t2                         | and	v0,v0,t1
+       60  sll	t5,t5,0x10                     | or	v0,v0,t0
+       61  addiu	v1,a0,12                     | or	a1,a1,a3
+       62  sll	v0,a1,0x10                     | sw	v0,0(t3)
+       63  srl	t0,v0,0x1c                     | ori	v0,v1,0x1808
+       64  bnez	t0,47bc <func_80177B5C+0x11c> | sw	t2,4(t3)
+       65  --                                 | sw	a1,8(t3)
+       66  --                                 | sw	v0,12(t3)
+       67  --                                 | addiu	t3,t3,20
+       68  --                                 | move	a2,t3
+       69  --                                 | sll	a0,a0,0x10
+       70  --                                 | addiu	a1,a2,12
+  insert  mine[66:66] target[66:70]
+       66  --                                 | srl	v0,v0,0x1c
+       67  --                                 | bnez	v0,47cc <func_80177B5C+0x12c>
+       68  --                                 | move	a3,v0
+       69  --                                 | sll	v0,t4,0x10
+  replace mine[70:76] target[74:80]
+       70  lui	t1,0x7480                      | lui	t0,0x7480
+       71  move	t8,zero                       | move	t7,zero
+       72  lui	t1,0x7480                      | lui	t0,0x7480
+       73  ori	t1,t1,0x8080                   | ori	t0,t0,0x8080
+       74  addiu	v0,a0,-20                    | addiu	v0,a2,-20
+       75  and	v0,v0,s0                       | and	v0,v0,t8
+  replace mine[77:83] target[81:87]
+       77  sw	v0,0(a0)                        | sw	v0,0(a2)
+       78  andi	v0,t7,0xffff                  | andi	v0,t5,0xffff
+       79  or	v0,t5,v0                        | or	v0,a0,v0
+       80  or	v0,v0,t8                        | or	v0,v0,t7
+       81  sw	v0,-4(v1)                       | sw	v0,-4(a1)
+       82  sll	v0,t0,0x3                      | sll	v0,a3,0x3
+  replace mine[85:93] target[89:97]
+       85  or	v0,t4,v0                        | or	v0,v1,v0
+       86  sw	t1,-8(v1)                       | sw	t0,-8(a1)
+       87  sw	v0,0(v1)                        | sw	v0,0(a1)
+       88  addiu	v1,v1,20                     | addiu	a1,a1,20
+       89  addiu	a0,a0,20                     | addiu	a2,a2,20
+       90  addiu	t7,t7,8                      | addiu	t5,t5,8
+       91  addiu	v0,t6,1                      | addiu	v0,t4,1
+       92  move	t6,v0                         | move	t4,v0
+  replace mine[96:113] target[100:112]
+       96  bnez	v0,4798 <func_80177B5C+0xf8>  | bnez	v0,47a4 <func_80177B5C+0x104>
+       97  sll	a1,a1,0x4                      | sll	t6,t6,0x4
+       98  move	t2,a0                         | move	t3,a2
+       99  lui	a1,0xff                        | lui	a3,0xff
+      100  ori	a1,a1,0xffff                   | ori	a3,a3,0xffff
+      101  sll	t3,t9,0x10                     | addiu	v0,t3,-20
+      102  sll	v0,a2,0x6                      | and	v0,v0,a3
+      103  ori	v0,v0,0x4016                   | lui	a2,0x300
+      104  sll	t4,v0,0x10                     | or	v0,v0,a2
+      105  sll	v1,s1,0x10                     | sll	a1,s0,0x10
+      106  sra	v1,v1,0xc                      | sw	v0,0(t3)
+      107  addiu	v0,t2,-20                    | addiu	v0,s1,42
+      108  and	v0,v0,a1                       | --
+      109  lui	a0,0x300                       | --
+      110  or	v0,v0,a0                        | --
+      111  sw	v0,0(t2)                        | --
+      112  addiu	v0,a3,42                     | --
+  replace mine[114:122] target[113:130]
+      114  or	v0,t3,v0                        | or	v0,a1,v0
+      115  sw	v0,8(t2)                        | sll	v1,t9,0x6
+      116  ori	v0,v1,0x1000                   | ori	v1,v1,0x4016
+      117  or	v0,t4,v0                        | sll	v1,v1,0x10
+      118  sw	t1,4(t2)                        | sll	a0,s5,0x10
+      119  sw	v0,12(t2)                       | sra	a0,a0,0xc
+      120  addiu	t2,t2,20                     | sw	v0,8(t3)
+      121  addiu	v0,a3,50                     | ori	v0,a0,0x1000
+      122  --                                 | or	v0,v1,v0
+      123  --                                 | sw	t0,4(t3)
+      124  --                                 | sw	v0,12(t3)
+      125  --                                 | addiu	t3,t3,20
+      126  --                                 | addiu	v0,t3,-20
+      127  --                                 | and	v0,v0,a3
+      128  --                                 | or	v0,v0,a2
+      129  --                                 | sw	v0,0(t3)
+      130  --                                 | addiu	v0,s1,50
+  replace mine[123:134] target[131:139]
+      123  or	t3,t3,v0                        | or	a1,a1,v0
+      124  ori	v1,v1,0x1008                   | ori	a0,a0,0x1008
+      125  or	t4,t4,v1                        | or	v1,v1,a0
+      126  addiu	v0,t2,-20                    | addiu	v0,t3,20
+      127  and	v0,v0,a1                       | sw	t0,4(t3)
+      128  or	v0,v0,a0                        | sw	a1,8(t3)
+      129  sw	v0,0(t2)                        | sw	v1,12(t3)
+      130  addiu	v0,t2,20                     | lw	s5,20(sp)
+      131  sw	t1,4(t2)                        | --
+      132  sw	t3,8(t2)                        | --
+      133  sw	t4,12(t2)                       | --

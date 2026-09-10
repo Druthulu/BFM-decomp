@@ -1,0 +1,32 @@
+src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:func_80130D48: score 18 (COUNT; mine 266 ins, target 266) — not yet
+  register pairs (mine -> target, count): s2->s3 x10, s3->s2 x3
+  insert  mine[1:1] target[1:4]
+        1  --                                 | sw	s2,24(sp)
+        2  --                                 | move	s2,a0
+        3  --                                 | sw	ra,32(sp)
+  delete  mine[2:5] target[5:5]
+        2  move	s3,a0                         | --
+        3  sw	ra,32(sp)                       | --
+        4  sw	s2,24(sp)                       | --
+  replace mine[7:8] target[7:8]
+        7  lw	a0,188(s3)                      | lw	a0,188(s2)
+  replace mine[11:13] target[11:13]
+       11  lui	s2,0x0                         | lui	s3,0x0
+       12  addiu	s2,s2,0                      | addiu	s3,s3,0
+  replace mine[15:16] target[15:16]
+       15  lbu	v1,94(s3)                      | lbu	v1,94(s2)
+  replace mine[68:70] target[68:70]
+       68  lhu	v1,64(s2)                      | lhu	v1,64(s3)
+       69  lhu	v0,62(s2)                      | lhu	v0,62(s3)
+  replace mine[127:128] target[127:128]
+      127  lhu	a0,58(s2)                      | lhu	a0,58(s3)
+  replace mine[132:133] target[132:133]
+      132  lhu	a1,60(s2)                      | lhu	a1,60(s3)
+  replace mine[160:161] target[160:161]
+      160  lhu	a0,62(s2)                      | lhu	a0,62(s3)
+  replace mine[165:166] target[165:166]
+      165  lhu	a1,64(s2)                      | lhu	a1,64(s3)
+  replace mine[239:240] target[239:240]
+      239  lhu	v0,64(s2)                      | lhu	v0,64(s3)
+  replace mine[250:251] target[250:251]
+      250  move	a2,s3                         | move	a2,s2

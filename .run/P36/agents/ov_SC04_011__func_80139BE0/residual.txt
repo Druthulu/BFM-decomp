@@ -1,0 +1,8 @@
+src/ov_SC04_011/ov_SC04_011_jr_801380E0.c:func_80139BE0: score 4 (COUNT; mine 38 ins, target 39) — not yet
+  replace mine[3:4] target[3:4]
+        3  bnez	v0,1b5c <func_80139BE0+0x5c>  | bnez	v0,1b60 <func_80139BE0+0x60>
+  replace mine[7:8] target[7:9]
+        7  andi	a1,v0,0x60                    | andi	v0,v0,0x60
+        8  --                                 | andi	a1,v0,0xff
+  replace mine[16:17] target[17:18]
+       16  j	1b54 <func_80139BE0+0x54>        | j	1b58 <func_80139BE0+0x58>

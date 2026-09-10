@@ -1,0 +1,16 @@
+g3: verdict NO-MATCH start 3 best 3 compiles 101 path 
+g4s: verdict NO-MATCH start 3 best 3 compiles 101 path 
+g5: verdict NO-MATCH start 3 best 3 compiles 135 path 
+best-scoring single candidates of the last trace (move -> score):
+  R6 inline a @3508 -> 3 (from 3)
+  R7 block @3508 -> 3 (from 3)
+  R7 do-while @3508 -> 3 (from 3)
+  R7 block @3503 -> 3 (from 3)
+  R7 block @3502 -> 3 (from 3)
+  R7 do-while @3502 -> 3 (from 3)
+  R7 block @3515 -> 3 (from 3)
+  R7 do-while @3515 -> 3 (from 3)
+  R7 block @3519 -> 3 (from 3)
+  R7 do-while @3519 -> 3 (from 3)
+  R7 block @3503 -> 3 (from 3)
+  R7 block @3502 -> 3 (from 3)

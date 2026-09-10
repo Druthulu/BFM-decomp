@@ -1,0 +1,21 @@
+{"kind": "seed", "start": 25, "tu": "src/800.c", "fn": "func_80025A30", "label": "g6b"}
+{"depth": 1, "move": "R14 param-width n s32->s16 @16358", "parent": 25, "score": 45, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @16421", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @16421", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @16421", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy prim @16363", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width n s32->u16 @16358", "parent": 25, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @16408", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @16421", "parent": 25, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @16401", "parent": 25, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy vtx @16363", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width n s32->u8 @16358", "parent": 25, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @16408", "parent": 25, "score": 60, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @16402", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @16418", "parent": 25, "score": 111, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy nrm @16363", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width shift s32->s16 @16358", "parent": 25, "score": 40, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @16408", "parent": 25, "score": 26, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @16402", "parent": 25, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @16379", "parent": 25, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy pkt @16363", "parent": 25, "score": 0, "kind": "IDENTICAL", "ident": true}

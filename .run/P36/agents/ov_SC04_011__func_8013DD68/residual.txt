@@ -1,0 +1,30 @@
+src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:func_8013DD68: score 17 (COUNT; mine 187 ins, target 187) — not yet
+  register pairs (mine -> target, count): a3->t0 x5, t0->a3 x4
+  replace mine[48:49] target[48:49]
+       48  move	t0,zero                       | move	a3,zero
+  replace mine[78:80] target[78:80]
+       78  lui	a3,0xff                        | lui	t0,0xff
+       79  ori	a3,a3,0xffff                   | ori	t0,t0,0xffff
+  insert  mine[83:83] target[83:84]
+       83  --                                 | li	v0,100
+  replace mine[85:86] target[86:87]
+       85  li	v0,100                          | lui	a0,0xe100
+  replace mine[89:90] target[90:91]
+       89  lui	a0,0xe100                      | ori	a0,a0,0x400
+  replace mine[93:94] target[94:95]
+       93  ori	a0,a0,0x400                    | andi	v1,v1,0x9ff
+  replace mine[95:101] target[96:101]
+       95  andi	v0,v1,0x9ff                   | lui	v0,0x0
+       96  lui	v1,0x0                         | lw	v0,0(v0)
+       97  lw	v1,0(v1)                        | or	v1,v1,a0
+       98  or	v0,v0,a0                        | sw	v1,-18(a1)
+       99  sw	v0,-18(a1)                      | sb	v0,-12(a1)
+      100  sb	v1,-12(a1)                      | --
+  replace mine[105:106] target[105:106]
+      105  addiu	t0,t0,1                      | addiu	a3,a3,1
+  replace mine[108:109] target[108:109]
+      108  and	a0,s0,a3                       | and	a0,s0,t0
+  replace mine[128:129] target[128:129]
+      128  and	v0,v0,a3                       | and	v0,v0,t0
+  replace mine[142:143] target[142:143]
+      142  slt	v0,t0,s3                       | slt	v0,a3,s3

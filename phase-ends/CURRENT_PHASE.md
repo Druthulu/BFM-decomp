@@ -846,7 +846,25 @@ accumulate here as the phase produces them.**
   (R41: 112,216 compiles bought 62 bodies; g3's 35,074 bought 1,516): the unclosed head classes (~6,500 bodies) are each a reading
   and a generator, or T7's agents on Drew's word — the search space the registry spans is exhausted on them.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09): T0–T6 ☑; **lane B DELIVERED** (`.run/P36/engine/residual_moves.md`, 58 moves; 4 verified on bytes, 1 refuted-in-bound); **lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED** (g1 + g2 on the 16-class head: 2 closed; **g3 on the next 64 classes: 13 closed, 1,516 bodies; g4s the thirteen explained names: 3 of 38, 133 bodies; g5 the head re-drawn wide: 5 of 70, 62 bodies — the wide-search lever is spent on the big classes** — every run's bank R22 218/218 and committed; generators R2–R14 in the registry, the bank and propagation in process, the scratch-object race fixed); NEXT = §2 | the number at this commit: **30,806 sites** (18,261 pins + 12,545 asm) in 10,073 bodies (1,732 distinct) · marked 31,025 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (8 milestones)
+- **2026-09-09 — S101 the tail pass, `g6` (8 workers, stopped at 138 of 200 on Drew's word to double the concurrency) + `g6b` (16
+  workers, the rest of the tail):** `g6b`: `search: 63 of 200 exemplars matched lever-free in 0.89 h (93 of 376 bodies behind them;
+  41,366 compiles) — NO-MATCH 136 · MATCH 63 · UNSTRIPPABLE 1`; `g6` had banked 47 exemplars before the stop and never reached its
+  propagation phase — propagated by hand in process (`g6p`): **186 of 191 siblings banked, 5 refused** (one class whose siblings carry
+  7 address tokens to the exemplar's 11: the remap refuses, R43) → R22 (`.run/P36/baseline/r22_g6.log`) **`check-all: 218 passed, 0
+  failed of 218`** (`wall=84.61 s`) → census `THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 30,358 sites in 9,747 bodies
+  (1,624 distinct) · marked !FAKE 30,358 · UNMARKED 0` → snapshot row 9 (30,806 → **30,358**). **The stop itself was an instrument
+  finding (R40):** a SIGTERM landed while the tool was writing `inflight.json` and left it EMPTY; `--restore` crashed on it; the 31
+  dirty files were reconciled against the object oracle (a bank is IDENTICAL, a leftover candidate DIFFERS: 29 banks, 2 candidates),
+  the 2 proven to hold no uncommitted bank and restored from HEAD; `--restore` now refuses loudly on an empty or torn snapshot and
+  says how to reconcile. **Built for T7 while the tail ran (both without tree writes): `delever_search.py --try TU FN FILE [--body]`**
+  (a candidate scored through the TU's real recipe on a scratch copy — proven on a known-true case: the tree's text 0, one pin removed
+  the known residual) **and `tools/delever_pack.py`** (57 packs under `.run/P36/agents/<alias>__<fn>/`, `ORDER.tsv` by best distance
+  reached; the brief `PROMPT.md`). One agent was launched on rank 1 (`func_80156044`, best 1 after one width move) a minute before Drew's
+  message *"dont launch the agents yet, wait for the tail to finish, and then checkpoint for a fresh session and we will start it in
+  there"* — stopped at once, before it wrote anything. **Session total: 33,427 → 30,358 sites (−3,069), 12,048 → 9,747 bodies, every
+  run gated 218/218, no drafting tokens.**
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09): T0–T6 ☑; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **30,358 sites** (17,954 pins + 12,404 asm) in 9,747 bodies (1,624 distinct) · marked 30,358 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (9 milestones)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**
@@ -903,34 +921,36 @@ literal your own command line contains kills your shell (R79).
   — a source-level tail duplication (lane B class 2 row 19); (iv) `func_8013D178` (130 copies) is a pure `a0 ↔ a1` swap 45× over,
   one `$5` pin — the ARGCOPY class, lane B 1a-9 (R10 exists; in g3's draw).
 
-### 2. NEXT (in order) — amended after g5 (S101 late)
-**The wide-search lever is spent on the big classes** (g5: beam 6 × depth 5 × cap 96 × 4,000 compiles closed none of the ~50 head classes
-of 110–134 copies; 112,216 compiles for 62 bodies). What remains is 30,806 sites in 10,073 bodies / 1,732 classes: ~50 head classes
-holding ~6,500 bodies at residual distances 2–135, and ~1,680 small classes (< 15 copies) holding ~3,500. The order of value:
-(a0) **per head class, a reading and a generator** — `--explain TU FN` and `--explain --path "<its best path from outcomes.jsonl>"`,
-     write the generator in `delever.py` (a selftest case; lane B's row in the docstring), prove it with `--explain --path "<move>"` →
-     score 0 on that body, bank with `--run --include-done --only <fn>`; the readings already made are in the S101 log entries (the
-     surviving copy the width does not reach; the association order; the duplicated call tail; the argument register kept busy;
-     the store-before-function-pointer-load; the `move a3,a2` parameter copy) and each names a class of 125–134 bodies;
-(a1) **T7's agents on Drew's word** for the head classes a generator does not fit — one agent per exemplar with the pack (§3 of the
-     S99 checkpoint), `delever --apply-body` the judge, `--propagate` the spread; the harvest → toolify gate between waves;
-(a2) **the tail unattended**: `--run --limit 200 -j 8` (the standard beam) draws the small classes in copy order; ~2.5 min per body,
-     an overnight pass; each close is worth its 1–14 copies.
-The FINISH sequence (§3) after every run that banked; a run that was killed: `tools/delever.py --restore`.
-(a) **Close a run's loop** if it finished (its `search:` line; `git status --short -- src | wc -l` > 0 means banked files wait for the
-    gate): the FINISH sequence in §3 — R22 → census → `lever_progress --snapshot "S101 rung G g3 …"` → the log entry with the
-    run's own lines → commit (R42/R101). If g3 was killed mid-run: `tools/delever.py --restore`, then the same sequence for
-    whatever `--apply-body` had already banked (the ledger's `rung: "G"` rows are the record).
-(b) **The next generator round from the traces** (R16, the flywheel): pick the class with the most bodies behind it, `--explain
-    TU FN` (and `--path` with its best moves from `outcomes.jsonl`), write the generator in `delever.py` (a selftest case each;
-    the docstring names lane B's row), prove it on that ONE body with `--explain --path "<move>"` → score 0, then
-    `--run --include-done --only <fn>` to bank + propagate. Candidates named above: a second real use of a copied value (i), the
-    composition of R13 + R8 cse (ii — a deeper beam or a targeted `--only` run at beam 6), the tail duplication (iii).
-(c) **The head is exhausted at the current generator set** (S101 late: the next 64 classes carry 498 bodies) — the number sits in the ~65 unclosed head classes (~8,000 bodies): re-draw them wider (`--include-done --limit 70 --beam 6 --depth 5 --cap 96 --budget 4000`, run g5), and for each that stays, `--explain --path` its best moves → a generator. The tail (~1,600 classes, < 8 bodies each) is an unattended overnight pass at most. The original text of (c): `--run --limit N` draws the next N classes by copies (the outcomes file is
-    the skip list; `--include-done` redraws). Price from g2/g3: ~3 min per body at the wide setting, 8 workers, no tokens; the
-    head classes are worth 100–134 bodies per close, the 1,450 singletons one each — sweep the head first, the tail unattended.
-(d) **T7's waves stay gated on Drew's word** (decision, 2026-09-09). The LoRA is parked for the endgame.
-(e) Then T8 (the census gate in tools-health), T9 (the record — incl. lane B's five map corrections), T10.
+### 2. NEXT — T7 as ONE AGENT AT A TIME (Drew, 2026-09-09: "spawn one agent at a time, this way we can hone our methodology each time one lands, in the hopes of learning enough to be able to tool crack the rest"; approved: "i am okay with the 57 agent wave"; "wait for the tail to finish, and then checkpoint for a fresh session and we will start it in there")
+The head holds the number: 57 residue classes of ≥100 copies = 7,318 of the 9,796 residue bodies (derived from the ledger at S101's
+end: `ds.exemplars(include_done=True)`; 17 of the 57 are within 4 instructions of the target, 14 more within 10). Six runs of the
+mechanical search closed none of them at any width, so each is a READING + a GENERATOR, and the loop below is the harvest→toolify
+gate at agent granularity. **The packs exist:** `.run/P36/agents/ORDER.tsv` (rank, fn, alias, copies, best distance reached, needed
+sites, kinds, regs, tu) and one directory per exemplar (`tu.txt`, `body_tree.c`, `body_free.c` = the seed, `residual.txt`, `sites.txt`,
+`history.txt`); rebuild them after any bank with `.venv/bin/python tools/delever_pack.py --build` (no tree writes; ~2 min). **The
+brief is `.run/P36/agents/PROMPT.md`** (read it before launching: the residual first, the pass from the compiler's source + the map,
+every hypothesis on bytes with `--try`, deliverables early — `body.c` + `mechanism.md` with a GENERATOR PROPOSAL, no tree writes).
+**Per agent, in order:**
+1. `sed -n 2,3p .run/P36/agents/ORDER.tsv` → the next exemplar (rank 1 first: `func_80156044`, best 1 after `R12 width puVar2 s32->u16`;
+   rank 2 `func_80168828` best 1; then the 2s and 3s). Launch ONE general-purpose agent (the session's model, Fable) with the prompt:
+   "Read /home/musashi/bfm-decomp/.run/P36/agents/PROMPT.md in full and follow it exactly. PACK = <the pack dir>. <the head start from
+   its history.txt, one sentence>. Work in PACK only; score with `.venv/bin/python tools/delever_search.py --try <tu> <fn> PACK/body.c
+   --body` from the repository root; write PACK/body.c and PACK/mechanism.md early; report as PROMPT.md says." Wait for it (it is the
+   only agent; nothing else touches the tree meanwhile).
+2. When it lands: read `mechanism.md`; verify its claim yourself — `--try` on its `body.c` (score 0 expected), then the bank on the REAL
+   recipe: `.venv/bin/python - <<'EOF'` … `dl.apply_body_core(tu, fn, open('PACK/body.c').read(), 'a<k>', 'E')` → the printed line must say
+   IDENTICAL … KEPT; then `.venv/bin/python tools/delever.py --propagate <tu> <fn> --label a<k>p --dirty-ok` (each sibling judged on its
+   own objects). A refused bank = the agent's reading was of the isolated compile, not the object: read the diff it printed.
+3. TOOLIFY (R16): if the move is mechanical, add it as a generator in `delever.recipe_candidates` (a selftest case; the docstring names
+   the agent's mechanism and the body), then sweep the REMAINING head exemplars cheaply with the engine — `--run --include-done --only
+   <the other 56 fns> -j 8 --beam 3 --depth 2 --cap 48 --budget 200 --label s<k>` (~30 s per body) — every close is a free class; if it is
+   not mechanical, write it into the cookbook (§455's addenda) and PROMPT.md's method so the NEXT agent starts from it.
+4. THE FINISH SEQUENCE (§3) after every bank: R22 → census → `lever_progress --snapshot "S102 a<k> …"` → the log entry (the agent's
+   reading, the move, the mechanism with its `file:line`, the generator, the propagation count) → commit (R42/R101). Then the next agent.
+5. Stop rule: Drew's — the residue reaches 0 (decision 2). Report yield and tokens per bank with denominators (R41) after every 5 agents.
+Also open, by name: the 5 propagate refusals of class `func_8017EB44`/`func_8017EBA8` (7 vs 11 address tokens — the remap needs a
+per-token alignment, not a count match); the 1 UNSTRIPPABLE of g6b; the tail's remaining ~1,500 small classes (a second unattended pass
+after the head, or never — 1–8 bodies each).
 
 ### 3. THE EXACT INVOCATIONS (every one run this session)
 ```

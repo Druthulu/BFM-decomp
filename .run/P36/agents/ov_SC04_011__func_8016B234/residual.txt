@@ -1,0 +1,24 @@
+src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c:func_8016B234: score 13 (COUNT; mine 113 ins, target 112) — not yet
+  register pairs (mine -> target, count): a0->v1 x3, v1->s0 x1, a0->s0 x1
+  replace mine[26:27] target[26:27]
+       26  bnez	v0,870 <func_8016B234+0x1a8>  | bnez	v0,86c <func_8016B234+0x1a4>
+  replace mine[28:29] target[28:29]
+       28  lw	a0,88(sp)                       | lw	v1,88(sp)
+  replace mine[31:33] target[31:33]
+       31  nop                                | lhu	s0,90(sp)
+       32  addu	v0,v0,a0                      | addu	v0,v0,v1
+  insert  mine[34:34] target[34:36]
+       34  --                                 | sh	v0,40(sp)
+       35  --                                 | sh	v0,24(sp)
+  delete  mine[36:39] target[38:38]
+       36  lhu	v1,90(sp)                      | --
+       37  sh	v0,40(sp)                       | --
+       38  sh	v0,24(sp)                       | --
+  replace mine[41:42] target[40:41]
+       41  subu	v0,v1,v0                      | subu	v0,s0,v0
+  replace mine[44:45] target[43:44]
+       44  lhu	a0,38(s1)                      | lhu	v1,38(s1)
+  replace mine[51:52] target[50:51]
+       51  addu	v1,a0,v1                      | addu	v1,s0,v1
+  replace mine[70:71] target[69:70]
+       70  j	7ec <func_8016B234+0x124>        | j	7e8 <func_8016B234+0x120>

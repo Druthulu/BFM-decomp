@@ -3,9 +3,8 @@
 s32 func_80140608(s32 a0) {
     s16 t;
     s32 iVar2;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung A headers2)
     s32 uVar3;
-    u32 uVar4;
+    u16 uVar4;
     s32 uVar5 = 1;
 
     switch (D_80115148[(s16)a0 * 2]) {
@@ -24,14 +23,14 @@ s32 func_80140608(s32 a0) {
         iVar2 = func_80028FBC();
         if (D_8011511E & 0x8000) {
             iVar2 = iVar2 - 1;
-            uVar4 = iVar2 + zr;
+            uVar4 = iVar2 + 0;
             if ((s16)iVar2 < 0) {
                 uVar4 = 0;
                 uVar5 = 0;
             }
         } else {
             iVar2 = iVar2 + 1;
-            uVar4 = iVar2 + zr;
+            uVar4 = iVar2 + 0;
             if ((s16)iVar2 >= 8) {
                 uVar4 = 7;
                 uVar5 = 0;
@@ -44,14 +43,14 @@ s32 func_80140608(s32 a0) {
         iVar2 = func_80029000();
         if (D_8011511E & 0x8000) {
             iVar2 = iVar2 - 1;
-            uVar4 = iVar2 + zr;
+            uVar4 = iVar2 + 0;
             if ((s16)iVar2 < 0) {
                 uVar4 = 0;
                 uVar5 = 0;
             }
         } else {
             iVar2 = iVar2 + 1;
-            uVar4 = iVar2 + zr;
+            uVar4 = iVar2 + 0;
             if ((s16)iVar2 >= 8) {
                 uVar4 = 7;
                 uVar5 = 0;

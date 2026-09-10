@@ -1,0 +1,4 @@
+{"kind": "seed", "start": 12, "tu": "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c", "fn": "func_8018292C", "label": "g6b"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @5866", "parent": 12, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @5876", "parent": 12, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R3 init-split s0", "parent": 12, "score": 0, "kind": "IDENTICAL", "ident": true}

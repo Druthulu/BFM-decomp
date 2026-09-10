@@ -1,0 +1,8 @@
+NEEDED   pin         $9     line 3171
+NEEDED   pin         $6     line 3172
+NEEDED   pin         $8     line 3173
+NEEDED   keepalive          line 3180
+REMOVED  barrier     memory line 3188
+REMOVED  pin         $4     line 3201
+REMOVED  pin         $5     line 3202
+REMOVED  pin         $6     line 3203

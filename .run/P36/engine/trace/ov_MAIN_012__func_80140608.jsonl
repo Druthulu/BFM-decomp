@@ -1,0 +1,21 @@
+{"kind": "seed", "start": 32, "tu": "src/shared/ov/func_80140608__t42e81990.h", "fn": "func_80140608", "label": "g6b"}
+{"depth": 1, "move": "R12 width uVar5 s32->u16 @8", "parent": 32, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->s16 @3", "parent": 32, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline uVar5 @29", "parent": 32, "score": 37, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @63", "parent": 32, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @20", "parent": 32, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @35", "parent": 32, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @9", "parent": 32, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width uVar5 s32->s16 @8", "parent": 32, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->u16 @3", "parent": 32, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline uVar5 @36", "parent": 32, "score": 37, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @25", "parent": 32, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @20", "parent": 32, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @55", "parent": 32, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width uVar5 s32->u8 @8", "parent": 32, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->u8 @3", "parent": 32, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline uVar5 @56", "parent": 32, "score": 37, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @32", "parent": 32, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @35", "parent": 32, "score": 32, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @52", "parent": 32, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width uVar4 u32->u16 @7", "parent": 32, "score": 0, "kind": "IDENTICAL", "ident": true}

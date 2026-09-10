@@ -1,0 +1,20 @@
+src/ov_SC04_011/ov_SC04_011_jr_80140608.c:func_80143D28: score 11 (REG-callee; mine 80 ins, target 80) — not yet
+  register pairs (mine -> target, count): s3->s2 x7, s2->s3 x4
+  replace mine[8:9] target[8:9]
+        8  lw	s3,32(s0)                       | lw	s2,32(s0)
+  replace mine[18:20] target[18:20]
+       18  sh	v0,20(s3)                       | sh	v0,20(s2)
+       19  lhu	v0,18(s3)                      | lhu	v0,18(s2)
+  replace mine[23:24] target[23:24]
+       23  sh	v0,18(s3)                       | sh	v0,18(s2)
+  replace mine[31:32] target[31:32]
+       31  li	s2,4096                         | li	s3,4096
+  replace mine[57:58] target[57:58]
+       57  sll	s2,v1,0x8                      | sll	s3,v1,0x8
+  replace mine[62:66] target[62:66]
+       62  sll	s2,v0,0xa                      | sll	s3,v0,0xa
+       63  move	v0,s2                         | move	v0,s3
+       64  sh	v0,28(s3)                       | sh	v0,28(s2)
+       65  sh	v0,26(s3)                       | sh	v0,26(s2)
+  replace mine[67:68] target[67:68]
+       67  sh	v0,24(s3)                       | sh	v0,24(s2)

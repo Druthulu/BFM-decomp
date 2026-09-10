@@ -1,0 +1,36 @@
+src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:func_8013D8FC: score 25 (COUNT; mine 48 ins, target 45) — not yet
+  register pairs (mine -> target, count): s2->s0 x1
+  replace mine[4:6] target[4:5]
+        4  sw	ra,44(sp)                       | sw	ra,40(sp)
+        5  sw	s4,40(sp)                       | --
+  replace mine[8:9] target[7:8]
+        8  beqz	s1,100c <func_8013D8FC+0x9c>  | beqz	s1,1004 <func_8013D8FC+0x94>
+  replace mine[13:19] target[12:17]
+       13  beq	v1,v0,100c <func_8013D8FC+0x9c> | beq	v1,v0,1004 <func_8013D8FC+0x94>
+       14  li	s4,9                            | li	s3,9
+       15  li	s3,255                          | li	s2,255
+       16  addiu	s2,s1,10                     | addiu	s0,s1,10
+       17  addiu	s0,s1,8                      | bne	a0,s3,ff0 <func_8013D8FC+0x80>
+       18  bne	a0,s4,ff8 <func_8013D8FC+0x88> | --
+  insert  mine[20:20] target[18:22]
+       20  --                                 | lhu	v0,-6(s0)
+       21  --                                 | lh	a1,-2(s0)
+       22  --                                 | lw	v1,2(s0)
+       23  --                                 | sh	v0,16(sp)
+  delete  mine[21:25] target[23:23]
+       21  lh	a1,0(s0)                        | --
+       22  lw	v1,4(s0)                        | --
+       23  sh	v0,16(sp)                       | --
+       24  lhu	v0,-2(s0)                      | --
+  replace mine[27:28] target[25:26]
+       27  lhu	v0,0(s0)                       | lhu	v0,-2(s0)
+  replace mine[30:31] target[28:29]
+       30  lhu	v0,0(s2)                       | lhu	v0,0(s0)
+  insert  mine[36:36] target[34:36]
+       36  --                                 | nop
+       37  --                                 | bne	a0,s2,fb0 <func_8013D8FC+0x40>
+  replace mine[37:41] target[37:38]
+       37  bne	a0,s3,fb8 <func_8013D8FC+0x48> | lw	ra,40(sp)
+       38  addiu	s2,s2,16                     | --
+       39  lw	ra,44(sp)                       | --
+       40  lw	s4,40(sp)                       | --

@@ -1,0 +1,24 @@
+{"kind": "seed", "start": 6, "tu": "src/md_SC07_003/md_SC07_003.c", "fn": "func_801A28AC", "label": "g6b"}
+{"depth": 1, "move": "R6 inline state @1993", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @1989", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @1983", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width obj s32->u16 @1982", "parent": 6, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @1979", "parent": 6, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 block @1993", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1993", "parent": 6, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline obj @1989", "parent": 6, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @1989", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width obj s32->s16 @1982", "parent": 6, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u16 @1979", "parent": 6, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 do-while @1993", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width obj s32->u8 @1982", "parent": 6, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u8 @1979", "parent": 6, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 block @1994", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width handle s32->u16 @1981", "parent": 6, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1994", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width handle s32->s16 @1981", "parent": 6, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @1989", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width handle s32->u8 @1981", "parent": 6, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @1989", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @1996", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 do-while @1996", "parent": 6, "score": 0, "kind": "IDENTICAL", "ident": true}

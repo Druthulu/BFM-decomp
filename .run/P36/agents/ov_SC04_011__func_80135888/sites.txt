@@ -1,0 +1,7 @@
+NEEDED   pin         $2     line 638
+NEEDED   pin         $17    line 640
+REMOVED  pin         $18    line 641
+NEEDED   pin         $19    line 642
+REMOVED  pin         $20    line 643
+NEEDED   pin         $21    line 644
+NEEDED   barrier            line 683

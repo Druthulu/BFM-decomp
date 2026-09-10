@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+"""delever_pack.py — the pack one T7 agent gets for one residue exemplar (Phase 36 S101; one agent at a time, Drew 2026-09-09).
+
+    tools/delever_pack.py --build [--min-copies 100] [--limit N] [--only X ...]   # .run/P36/agents/<alias>__<fn>/ + ORDER.tsv
+    tools/delever_pack.py --list
+
+Everything in a pack is derived WITHOUT writing the tree (`delever_search --try` compiles a scratch copy), so packs can be built
+while a run is going. Per exemplar:
+  tu.txt          the translation unit path and the function name
+  body_tree.c     the function as the tree has it (markers and all)
+  body_free.c     the function with every class A/B lever rewritten away — the search's seed and the agent's starting text
+  residual.txt    `--try` on the seed: score, class, the register pairs, every differing block as mnemonics (mine | target)
+  sites.txt       the ledger's sites with their verdicts (NEEDED with the register each pin names)
+  history.txt     every engine attempt on this class (label, start, best, compiles, path) and the best-scoring moves of the last trace
+ORDER.tsv ranks the exemplars: best distance reached so far ascending, then copies descending — the cheapest readings first.
+"""
+import argparse
+import collections
+import json
+import os
+import pathlib
+import subprocess
+import sys
+
+REPO = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO / "tools"))
+import delever as dl                # noqa: E402
+import delever_search as ds         # noqa: E402
+
+PACKS = REPO / ".run" / "P36" / "agents"
+PY = str(REPO / ".venv" / "bin" / "python")
+
+
+def build(a):
+    ex = [e for e in ds.exemplars(include_done=True) if e["copies"] >= a.min_copies and ds.matches(e, a.only)]
+    outs = [json.loads(l) for l in ds.OUTCOMES.read_text().splitlines() if l.strip()] if ds.OUTCOMES.exists() else []
+    by_nh = collections.defaultdict(list)
+    for o in outs:
+        if o.get("kind") == "attempt":
+            by_nh[o["nhash"]].append(o)
+    rows = []
+    for e in ex:
+        att = by_nh.get(e["nhash"], [])
+        bests = [o["best"] for o in att if o.get("best") is not None]
+        e["best"] = min(bests) if bests else None
+        rows.append(e)
+    rows.sort(key=lambda e: (e["best"] if e["best"] is not None else 10**6, -e["copies"]))
+    rows = rows[:a.limit] if a.limit else rows
+    PACKS.mkdir(parents=True, exist_ok=True)
+    order = ["rank\tfn\talias\tcopies\tbest\tneeded\tkinds\tregs\ttu"]
+    for k, e in enumerate(rows, 1):
+        tu, fn = e["tu"], e["fn"]
+        d = PACKS / f"{e['alias']}__{fn}"
+        d.mkdir(parents=True, exist_ok=True)
+        raw = (REPO / tu).read_text(errors="surrogateescape")
+        sites = ds.sites_by_body().get((tu, fn), [])
+        try:
+            free = ds.lever_free_body(tu, raw, fn, sites)
+        except ds.Unstrippable as u:
+            (d / "residual.txt").write_text(f"UNSTRIPPABLE {u.args[0][:3]}\n")
+            order.append(f"{k}\t{fn}\t{e['alias']}\t{e['copies']}\t{e['best']}\t{e['needed']}\t{','.join(e['kinds'])}\t{','.join(e['regs'])}\t{tu}")
+            continue
+        (d / "tu.txt").write_text(f"{tu}\n{fn}\n")
+        for name, text in (("body_tree.c", raw), ("body_free.c", free)):
+            dd = ds.body_span(text, tu, fn)
+            ls = dl.line_starts(text)
+            (d / name).write_text(text[ls[dd["line"] - 1]:ls[dd["end"]]] if dd else "", errors="surrogateescape")
+        (d / "tu_free.c").write_text(free, errors="surrogateescape")
+        r = subprocess.run([PY, "tools/delever_search.py", "--try", tu, fn, (d / "tu_free.c").as_posix()],
+                           capture_output=True, text=True, cwd=REPO)
+        (d / "residual.txt").write_text((r.stdout or "") + (r.stderr or ""))
+        (d / "sites.txt").write_text("\n".join(
+            f"{s.get('verdict', '?'):8s} {s['kind']:11s} {s.get('detail', ''):6s} line {s['line']}" for s in e["row"].get("sites", [])) + "\n")
+        hist = [f"{o['label']}: verdict {o['verdict']} start {o.get('start')} best {o.get('best')} compiles {o.get('compiles')} "
+                f"path {' + '.join(o.get('path', []))}" for o in by_nh.get(e["nhash"], [])]
+        tr = ds.TRACE / f"{e['alias']}__{fn}.jsonl"
+        if tr.exists():
+            cands = [json.loads(l) for l in tr.read_text().splitlines() if l.strip()]
+            cands = [c for c in cands if c.get("score") is not None]
+            cands.sort(key=lambda c: c["score"])
+            hist.append("best-scoring single candidates of the last trace (move -> score):")
+            hist += [f"  {c['move']} -> {c['score']} (from {c['parent']})" for c in cands[:12]]
+        (d / "history.txt").write_text("\n".join(hist) + "\n")
+        order.append(f"{k}\t{fn}\t{e['alias']}\t{e['copies']}\t{e['best']}\t{e['needed']}\t{','.join(e['kinds'])}\t{','.join(e['regs'])}\t{tu}")
+        print(f"  {k:3d} {fn} {e['copies']:4d} copies best {e['best']} -> {d.relative_to(REPO)}", flush=True)
+    (PACKS / "ORDER.tsv").write_text("\n".join(order) + "\n")
+    print(f"delever_pack: {len(rows)} packs under {PACKS.relative_to(REPO)}; ORDER.tsv written")
+    return 0
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    g = ap.add_mutually_exclusive_group(required=True)
+    g.add_argument("--build", action="store_true")
+    g.add_argument("--list", action="store_true")
+    ap.add_argument("--min-copies", type=int, default=100)
+    ap.add_argument("--limit", type=int)
+    ap.add_argument("--only", nargs="*", default=[])
+    a = ap.parse_args()
+    os.chdir(REPO)
+    if a.list:
+        p = PACKS / "ORDER.tsv"
+        print(p.read_text() if p.exists() else "no packs built")
+        return 0
+    return build(a)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,16 @@
+g1: verdict NO-MATCH start 9 best 7 compiles 73 path R7 do-while @1376
+g2: verdict NO-MATCH start 9 best 4 compiles 180 path R12 width a1v s32->u16 @1371
+g5: verdict NO-MATCH start 9 best 4 compiles 342 path R12 width a1v s32->u16 @1371
+best-scoring single candidates of the last trace (move -> score):
+  R12 width a1v s32->u16 @1371 -> 4 (from 9)
+  R12 width a1v s32->u8 @1371 -> 4 (from 9)
+  R12 width param_2 s32->u16 @1373 -> 4 (from 9)
+  R12 width param_2 s32->u8 @1373 -> 4 (from 9)
+  R7 block @1375 -> 4 (from 4)
+  R2 decl-order 1,0 -> 4 (from 4)
+  R4 decl-move a0v 1->0 -> 4 (from 4)
+  R7 do-while @1375 -> 4 (from 4)
+  R7 block @1376 -> 4 (from 4)
+  R7 do-while @1376 -> 4 (from 4)
+  R4 decl-move a1v 2->0 -> 4 (from 4)
+  R7 block @1377 -> 4 (from 4)

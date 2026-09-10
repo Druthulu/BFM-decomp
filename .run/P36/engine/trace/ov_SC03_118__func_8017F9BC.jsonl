@@ -1,0 +1,12 @@
+{"kind": "seed", "start": 11, "tu": "src/ov_SC03_118/ov_SC03_118_jr_8017AE2C.c", "fn": "func_8017F9BC", "label": "g6"}
+{"depth": 1, "move": "R6 inline lv2 @5790", "parent": 11, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base-shared tmp0 @5779", "parent": 11, "score": 11, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R10 param-copy p @5774", "parent": 11, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width lim1 s32->u16 @5771", "parent": 11, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width p s32->s16 @5767", "parent": 11, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @5783", "parent": 11, "score": 11, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5783", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @5776", "parent": 11, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width lim1 s32->s16 @5771", "parent": 11, "score": 6, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R14 param-width p s32->u16 @5767", "parent": 11, "score": 12, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R7 do-while @5783", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -1,0 +1,55 @@
+src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:func_801345F8: score 39 (COUNT; mine 103 ins, target 106) — not yet
+  register pairs (mine -> target, count): a2->a1 x6, a0->a1 x4, a1->a0 x4, a3->a2 x3, t1->a3 x2, t2->t1 x2, t0->v0 x1, a0->zero x1
+  replace mine[1:4] target[1:5]
+        1  lui	a1,0x0                         | move	a1,a0
+        2  lw	a1,0(a1)                        | lui	a0,0x0
+        3  li	t1,0x8000                       | lw	a0,0(a0)
+        4  --                                 | li	a3,0x8000
+  replace mine[12:16] target[13:17]
+       12  lhu	v1,0(a0)                       | lhu	v1,0(a1)
+       13  lhu	v0,0(a1)                       | lhu	v0,0(a0)
+       14  lhu	a3,4(a0)                       | lhu	a2,4(a1)
+       15  addu	v0,v0,t1                      | addu	v0,v0,a3
+  replace mine[20:27] target[21:28]
+       20  andi	v0,t0,0xffff                  | andi	v0,v0,0xffff
+       21  sltu	v0,v0,a3                      | sltu	v0,v0,a2
+       22  beqz	v0,9a84 <func_801345F8+0x16c> | beqz	v0,9a94 <func_801345F8+0x17c>
+       23  move	a2,a0                         | move	v0,zero
+       24  lhu	v0,4(a1)                       | lhu	v0,4(a0)
+       25  lhu	v1,2(a0)                       | lhu	v1,2(a1)
+       26  addu	v0,v0,t1                      | addu	v0,v0,a3
+  replace mine[30:33] target[31:34]
+       30  move	a1,v0                         | move	a0,v0
+       31  lhu	v1,6(a0)                       | lhu	v1,6(a1)
+       32  andi	v0,a1,0xffff                  | andi	v0,v0,0xffff
+  replace mine[35:37] target[36:38]
+       35  andi	v0,a1,0xffff                  | andi	v0,a0,0xffff
+       36  j	9a88 <func_801345F8+0x170>       | j	9a94 <func_801345F8+0x17c>
+  replace mine[41:42] target[42:43]
+       41  j	9a88 <func_801345F8+0x170>       | j	9a94 <func_801345F8+0x17c>
+  replace mine[43:44] target[44:45]
+       43  mult	v0,a3                         | mult	v0,a2
+  replace mine[45:52] target[46:53]
+       45  lw	v1,8(a2)                        | lw	v1,8(a1)
+       46  lw	s6,12(a2)                       | lw	s6,12(a1)
+       47  lw	s5,16(a2)                       | lw	s5,16(a1)
+       48  lw	s4,24(a2)                       | lw	s4,24(a1)
+       49  lw	s3,28(a2)                       | lw	s3,28(a1)
+       50  mflo	t2                            | mflo	t1
+       51  addu	v0,t2,v0                      | addu	v0,t1,v0
+  replace mine[56:57] target[57:58]
+       56  lw	v1,20(a2)                       | lw	v1,20(a1)
+  replace mine[62:63] target[63:64]
+       62  j	9a78 <func_801345F8+0x160>       | j	9a80 <func_801345F8+0x168>
+  replace mine[66:68] target[67:70]
+       66  andi	a0,v1,0x8000                  | andi	v0,v1,0x8000
+       67  bnez	a0,9a3c <func_801345F8+0x124> | bnez	v0,9a44 <func_801345F8+0x12c>
+       68  --                                 | move	a0,v0
+  replace mine[71:72] target[73:74]
+       71  j	9a58 <func_801345F8+0x140>       | j	9a60 <func_801345F8+0x148>
+  replace mine[86:87] target[88:89]
+       86  bnez	v0,99b0 <func_801345F8+0x98>  | bnez	v0,99b4 <func_801345F8+0x9c>
+  replace mine[88:90] target[90:93]
+       88  andi	v0,s1,0xffff                  | move	v0,s1
+       89  bnez	v0,9a18 <func_801345F8+0x100> | andi	v0,v0,0xffff
+       90  --                                 | bnez	v0,9a1c <func_801345F8+0x104>

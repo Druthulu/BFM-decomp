@@ -1,0 +1,22 @@
+{"kind": "seed", "start": 6, "tu": "src/ov_MAIN_012/ov_MAIN_012_jr_8013C98C.c", "fn": "func_8013D53C", "label": "g6"}
+{"depth": 1, "move": "R6 inline out @1355", "parent": 6, "score": 115, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @1341", "parent": 6, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R5 swap * @1341", "parent": 6, "score": 8, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R12 width b0 u8->s32 @1286", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @1360", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1359", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R6 inline out @1353", "parent": 6, "score": 26, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @1341", "parent": 6, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R5 swap + @1344", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width b0 u8->u16 @1286", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 do-while @1360", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1358", "parent": 6, "score": 6, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R6 inline b @1352", "parent": 6, "score": 70, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @1353", "parent": 6, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width b0 u8->s16 @1286", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @1359", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @1332", "parent": 6, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline g @1351", "parent": 6, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @1343", "parent": 6, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R12 width b1 u8->s32 @1286", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 do-while @1359", "parent": 6, "score": 0, "kind": "IDENTICAL", "ident": true}

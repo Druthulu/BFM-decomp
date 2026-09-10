@@ -121,7 +121,7 @@ void func_800123F0(s32 param_1, s32 param_2)
     s32 s1;
     s32 cos_val;
     s32 sin_val;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 v1;
     s16 matrix[16];
 
     s1 = (s32)param_1;
@@ -638,13 +638,12 @@ s32 func_80012E0C(s16 a0, s16 a1, s32 a2, s32 a3) {
 s16 func_80012E6C(s32 a, s32 b, s32 c, s32 d, s16 *f)
 {
     s32 z;
-    s32 x;
-    s32 y;
+    u16 x;
+    u16 y;
     s32 q;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     z = b - a;
-    y = z + zr;
+    y = z + 0;
     x = y;
     if (*f == 0 || (s16)c == 0) {
         if ((s16)z > 0x800)
@@ -1333,7 +1332,7 @@ void func_80013CFC(short param_1, void *param_2, void *param_3)
     s16 rot[16];
     s32 sin_val;
     s32 cos_val;
-    s32 v1;
+    u16 v1;
     s16 *rotp;
     s16 *matp;
 
@@ -1342,7 +1341,6 @@ void func_80013CFC(short param_1, void *param_2, void *param_3)
     cos_val = func_80047948(param_1);
 
     v1 = -sin_val;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     *(s16 *)((s32)rot + 0x00) = cos_val;
     *(s16 *)((s32)rot + 0x08) = cos_val;
     *(s16 *)((s32)rot + 0x10) = 0x1000;
@@ -1862,8 +1860,8 @@ extern void *SetDefDispEnv(void *env, s32 x, s32 y, s32 w, s32 h);
 extern void func_80014960(void);
 
 void func_800147B8(void) {
+    s32 raw_h = D_800AF7BE;
     u8 *base = D_800AF630;
-    register s32 raw_h __asm__("$3") = D_800AF7BE;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
     s32 h_offset = raw_h;
     u16 halfW;
     u16 halfH;
@@ -4048,8 +4046,7 @@ void func_80016A7C(Src_80016A7C *arg0, s32 arg1)
     } else {
         p->xy0 = arg0->v[0].xy;
         p->xy1 = arg0->v[1].xy;
-        __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        otz = arg0->v[0].z;
+        do { otz = arg0->v[0].z; } while (0);
         flag = 0;
     }
 
@@ -4494,8 +4491,7 @@ void func_80017168(Src_80017168 *arg0, s32 arg1)
     } else {
         p->xy0 = arg0->v[0].xy;
         p->xy1 = arg0->v[1].xy;
-        p->xy2 = arg0->v[2].xy;
-        __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        do { p->xy2 = arg0->v[2].xy; } while (0);
         otz = arg0->v[0].z;
         flag = 0;
     }
@@ -4579,7 +4575,7 @@ void func_80017294(Src_80017294 *arg0, s32 arg1)
     } else {
         p->xy0 = arg0->v[0].xy;
         p->xy1 = arg0->v[1].xy;
-        p->xy2 = arg0->v[2].xy;
+        do { p->xy2 = arg0->v[2].xy; } while (0);
         p->xy3 = arg0->v[3].xy;
         otz = arg0->v[0].z;
         /* zero-byte scheduling barrier: without it gcc-2.7.2's sched1 hoists
@@ -4587,7 +4583,6 @@ void func_80017294(Src_80017294 *arg0, s32 arg1)
          * normalises statement order away, cf. func_80015D4C's note in this
          * same TU); the barrier keeps the store in its natural last position,
          * leaving a genuine nop in that slot as the target has. */
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
         flag = 0;
     }
 
@@ -4671,8 +4666,7 @@ void func_800173DC(Src_800173DC *arg0, s32 arg1)
         p->xy0 = arg0->v0.xy;
         p->xy1 = arg0->v1.xy;
         p->xy2 = arg0->v2.xy;
-        __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        otz = arg0->v0.z;
+        do { otz = arg0->v0.z; } while (0);
         flg = 0;
     }
 
@@ -8245,7 +8239,7 @@ extern s32 func_8001AE90(s32 a0, s32 a1, s32 a2);
 extern s32 func_8001ACF0(s32 arg0, s32 arg1, s32 *arg2, s32 arg3, s32 arg4);
 
 void func_8001B26C(void) {
-    register s32 *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 *s0;
     s32 v1;
     s32 tmp;
 
@@ -8254,7 +8248,7 @@ void func_8001B26C(void) {
     }
 
     s0 = &D_800C7C60;
-    tmp = D_800BA1B4;
+    do { tmp = D_800BA1B4; } while (0);
     *s0 = 0x8;
     D_800C7C64 = &D_800A2E20;
 
@@ -15810,20 +15804,21 @@ u8 *func_80024DE8(TmdG3 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 
     s32 flag;
     s32 z;
     u32 *otp;
+    u8 *pkt2;
+    pkt2 = pkt;
 
     if (n != 0) {
         /* Identity no-op (emits nothing). It must sit in the loop PREHEADER (inside the
            `if (n != 0)`), not before the guard branch.
            Why: loop.c `record_initial`/`valid_initial_value_p` otherwise take the biv's
-           initial value to be the raw incoming hard reg $a3, so the `pkt + 4` giv is
+           initial value to be the raw incoming hard reg $a3, so the `pkt2 + 4` giv is
            emitted as `addiu giv,$a3,4`.  That keeps $a3 live past the parameter copy, so
-           the pkt pseudo CONFLICTS with $a3 and can never live there (costing an extra
+           the pkt2 pseudo CONFLICTS with $a3 and can never live there (costing an extra
            `move`).  An asm_operands src makes valid_initial_value_p reject it, the giv is
-           computed from the pseudo, and pkt keeps $a3.
+           computed from the pseudo, and pkt2 keeps $a3.
            In the preheader it also stays clear of reorg's backward delay-slot scan, which
            breaks on any asm and would otherwise lose `addu $t5,$a0,$zero` from the guard's
            delay slot. */
-        __asm__("" : "=r"(pkt) : "0"(pkt));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         do {
             gte_ldv3(vtx + prim->v0 * 8, vtx + prim->v1 * 8, vtx + prim->v2 * 8);
             gte_rtpt();
@@ -15832,32 +15827,32 @@ u8 *func_80024DE8(TmdG3 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 
                 gte_nclip();
                 gte_stopz(&z);
                 if (z > 0) {
-                    gte_stsxy3_ft3(pkt);
+                    gte_stsxy3_ft3(pkt2);
                     gte_avsz3();
                     gte_stotz(&z);
                     gte_ldv0(nrm + prim->n0 * 8);
                     gte_ldrgb(&prim->rgb0);
                     gte_nccs();
-                    gte_strgb(pkt + 4);
+                    gte_strgb(pkt2 + 4);
                     gte_ldrgb(&prim->rgb1);
                     gte_nccs();
-                    gte_strgb(pkt + 0xC);
+                    gte_strgb(pkt2 + 0xC);
                     gte_ldrgb(&prim->rgb2);
                     gte_nccs();
-                    gte_strgb(pkt + 0x14);
-                    pkt[7] = (pkt[7] & 2) | 0x30;
+                    gte_strgb(pkt2 + 0x14);
+                    pkt2[7] = (pkt2[7] & 2) | 0x30;
                     otp = ot + (z >> shift);
-                    *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x6000000;
-                    *otp = (u32)pkt & 0xFFFFFF;
-                    pkt += 0x1C;
+                    *(u32 *)pkt2 = (*otp & 0xFFFFFF) | 0x6000000;
+                    *otp = (u32)pkt2 & 0xFFFFFF;
+                    pkt2 += 0x1C;
                     if (D_800A2B78 != 0) {
-                        if (pkt[7 - 0x1C] & 2) {
+                        if (pkt2[7 - 0x1C] & 2) {
                             otp = ot + (z >> shift);
-                            pkt[3] = 1;
-                            *(u32 *)(pkt + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
-                            *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x1000000;
-                            *otp = (u32)pkt & 0xFFFFFF;
-                            pkt += 8;
+                            pkt2[3] = 1;
+                            *(u32 *)(pkt2 + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
+                            *(u32 *)pkt2 = (*otp & 0xFFFFFF) | 0x1000000;
+                            *otp = (u32)pkt2 & 0xFFFFFF;
+                            pkt2 += 8;
                         }
                     }
                 }
@@ -15866,7 +15861,7 @@ u8 *func_80024DE8(TmdG3 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 
             prim++;
         } while (n != 0);
     }
-    return pkt;
+    return pkt2;
 }
 
 
@@ -16360,9 +16355,10 @@ u8 *func_80025A30(u8 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot
     long flag;
     long z;
     u32 *o;
+    u8 *pkt2;
+    pkt2 = pkt;
 
     if (n != 0) {
-    __asm__ volatile ("" : "=r"(pkt) : "0"(pkt));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     for (; n != 0; n--, prim += 0x24) {
         gte_ldv3(vtx + (*(u16 *)(prim + 0x16) << 3),
                  vtx + (*(u16 *)(prim + 0x1A) << 3),
@@ -16377,53 +16373,53 @@ u8 *func_80025A30(u8 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot
         if (z <= 0) {
             continue;
         }
-        gte_stsxy3_ft3(pkt);
+        gte_stsxy3_ft3(pkt2);
         gte_ldv0(vtx + (*(u16 *)(prim + 0x22) << 3));
         gte_rtps();
         gte_stflg(&flag);
         if (flag & 0xFFFFEFFF) {
             continue;
         }
-        gte_stsxy(pkt + 0x20);
+        gte_stsxy(pkt2 + 0x20);
         gte_avsz4();
         gte_stotz(&z);
 
         gte_ldv0(nrm + (*(u16 *)(prim + 0x14) << 3));
         gte_ldrgb(prim + 0x4);
         gte_nccs();
-        gte_strgb(pkt + 0x4);
+        gte_strgb(pkt2 + 0x4);
         gte_ldrgb(prim + 0x8);
         gte_nccs();
-        gte_strgb(pkt + 0xC);
+        gte_strgb(pkt2 + 0xC);
         gte_ldrgb(prim + 0xC);
         gte_nccs();
-        gte_strgb(pkt + 0x14);
+        gte_strgb(pkt2 + 0x14);
         gte_ldrgb(prim + 0x10);
         gte_nccs();
-        gte_strgb(pkt + 0x1C);
+        gte_strgb(pkt2 + 0x1C);
 
-        pkt[7] = (pkt[7] & 2) | 0x38;
+        pkt2[7] = (pkt2[7] & 2) | 0x38;
 
         o = &ot[z >> shift];
-        *(u32 *)pkt = (*o & 0xFFFFFF) | 0x08000000;
-        *o = (u32)pkt & 0xFFFFFF;
-        pkt += 0x24;
+        *(u32 *)pkt2 = (*o & 0xFFFFFF) | 0x08000000;
+        *o = (u32)pkt2 & 0xFFFFFF;
+        pkt2 += 0x24;
 
         if (D_800A2B78 == 0) {
             continue;
         }
-        if ((pkt[-0x1D] & 2) == 0) {
+        if ((pkt2[-0x1D] & 2) == 0) {
             continue;
         }
         o = &ot[z >> shift];
-        pkt[3] = 1;
-        *(u32 *)(pkt + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
-        *(u32 *)pkt = (*o & 0xFFFFFF) | 0x01000000;
-        *o = (u32)pkt & 0xFFFFFF;
-        pkt += 8;
+        pkt2[3] = 1;
+        *(u32 *)(pkt2 + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
+        *(u32 *)pkt2 = (*o & 0xFFFFFF) | 0x01000000;
+        *o = (u32)pkt2 & 0xFFFFFF;
+        pkt2 += 8;
     }
     }
-    return pkt;
+    return pkt2;
 }
 
 
@@ -17874,9 +17870,10 @@ u8 *func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot
     s32 flag;
     s32 z;
     u32 *otp;
+    u8 *pkt2;
+    pkt2 = pkt;
 
     if (n != 0) {
-        __asm__("" : "=r"(pkt) : "0"(pkt));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         do {
             gte_ldv3(vtx + f->v0 * 8, vtx + f->v1 * 8, vtx + f->v2 * 8);
             gte_rtpt();
@@ -17885,25 +17882,25 @@ u8 *func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot
                 gte_nclip();
                 gte_stopz(&z);
                 if (z > 0) {
-                    gte_stsxy3_ft3(pkt);
+                    gte_stsxy3_ft3(pkt2);
                     gte_avsz3();
                     gte_stotz(&z);
-                    *(u32 *)(pkt + 4) = f->rgb0;
-                    *(u32 *)(pkt + 0xC) = f->rgb1;
-                    *(u32 *)(pkt + 0x14) = f->rgb2;
-                    pkt[7] = (pkt[7] & 2) | 0x30;
+                    *(u32 *)(pkt2 + 4) = f->rgb0;
+                    *(u32 *)(pkt2 + 0xC) = f->rgb1;
+                    *(u32 *)(pkt2 + 0x14) = f->rgb2;
+                    pkt2[7] = (pkt2[7] & 2) | 0x30;
                     otp = ot + (z >> shift);
-                    *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x6000000;
-                    *otp = (u32)pkt & 0xFFFFFF;
-                    pkt += 0x1C;
+                    *(u32 *)pkt2 = (*otp & 0xFFFFFF) | 0x6000000;
+                    *otp = (u32)pkt2 & 0xFFFFFF;
+                    pkt2 += 0x1C;
                     if (D_800A2B78 != 0) {
-                        if (pkt[7 - 0x1C] & 2) {
+                        if (pkt2[7 - 0x1C] & 2) {
                             otp = ot + (z >> shift);
-                            pkt[3] = 1;
-                            *(u32 *)(pkt + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
-                            *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x1000000;
-                            *otp = (u32)pkt & 0xFFFFFF;
-                            pkt += 8;
+                            pkt2[3] = 1;
+                            *(u32 *)(pkt2 + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
+                            *(u32 *)pkt2 = (*otp & 0xFFFFFF) | 0x1000000;
+                            *otp = (u32)pkt2 & 0xFFFFFF;
+                            pkt2 += 8;
                         }
                     }
                 }
@@ -17912,7 +17909,7 @@ u8 *func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot
             f++;
         } while (n != 0);
     }
-    return pkt;
+    return pkt2;
 }
 
 

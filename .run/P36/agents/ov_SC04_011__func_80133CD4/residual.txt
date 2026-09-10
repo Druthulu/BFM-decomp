@@ -1,0 +1,46 @@
+src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:func_80133CD4: score 28 (COUNT; mine 398 ins, target 399) — not yet
+  register pairs (mine -> target, count): v1->a0 x8, a0->v0 x4, a0->v1 x2, v0->v1 x2
+  replace mine[28:29] target[28:29]
+       28  bgez	v0,95f8 <func_80133CD4+0x604> | bgez	v0,95fc <func_80133CD4+0x608>
+  replace mine[120:121] target[120:121]
+      120  bnez	v0,95f8 <func_80133CD4+0x604> | bnez	v0,95fc <func_80133CD4+0x608>
+  replace mine[133:134] target[133:134]
+      133  bnez	v0,95f8 <func_80133CD4+0x604> | bnez	v0,95fc <func_80133CD4+0x608>
+  replace mine[146:147] target[146:147]
+      146  bnez	v0,95f8 <func_80133CD4+0x604> | bnez	v0,95fc <func_80133CD4+0x608>
+  replace mine[162:163] target[162:163]
+      162  bnez	v0,95f8 <func_80133CD4+0x604> | bnez	v0,95fc <func_80133CD4+0x608>
+  replace mine[170:171] target[170:171]
+      170  bnez	v0,95f8 <func_80133CD4+0x604> | bnez	v0,95fc <func_80133CD4+0x608>
+  replace mine[179:180] target[179:180]
+      179  j	95f8 <func_80133CD4+0x604>       | j	95fc <func_80133CD4+0x608>
+  replace mine[234:237] target[234:237]
+      234  mflo	a0                            | mflo	v1
+      235  lui	v1,0x0                         | lui	a0,0x0
+      236  lw	v1,0(v1)                        | lw	a0,0(a0)
+  replace mine[238:239] target[238:239]
+      238  lhu	v0,0(v1)                       | lhu	v0,0(a0)
+  replace mine[240:242] target[240:242]
+      240  addu	v0,v0,a0                      | addu	v0,v0,v1
+      241  sh	v0,0(v1)                        | sh	v0,0(a0)
+  replace mine[258:260] target[258:260]
+      258  mflo	v0                            | mflo	v1
+      259  lhu	a0,2(v1)                       | lhu	v0,2(a0)
+  replace mine[261:263] target[261:263]
+      261  addu	a0,a0,v0                      | addu	v0,v0,v1
+      262  sh	a0,2(v1)                        | sh	v0,2(a0)
+  replace mine[280:281] target[280:281]
+      280  lh	v0,0(v1)                        | lh	v0,0(a0)
+  replace mine[283:290] target[283:291]
+      283  lhu	v0,4(v1)                       | lh	v0,2(a0)
+      284  sll	s0,a0,0x10                     | lhu	v1,4(a0)
+      285  addu	v0,v0,a1                      | sll	s0,v0,0x10
+      286  sh	v0,4(v1)                        | addu	v1,v1,a1
+      287  lw	v1,0(a2)                        | sh	v1,4(a0)
+      288  sll	s2,v0,0x10                     | lw	v0,0(a2)
+      289  sll	v0,v1,0x4                      | sll	s2,v1,0x10
+      290  --                                 | sll	v0,v0,0x4
+  replace mine[337:338] target[338:339]
+      337  j	9544 <func_80133CD4+0x550>       | j	9548 <func_80133CD4+0x554>
+  replace mine[366:367] target[367:368]
+      366  j	95f8 <func_80133CD4+0x604>       | j	95fc <func_80133CD4+0x608>

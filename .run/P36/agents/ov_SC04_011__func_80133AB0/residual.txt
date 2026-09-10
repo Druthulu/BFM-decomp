@@ -1,0 +1,41 @@
+src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:func_80133AB0: score 24 (COUNT; mine 131 ins, target 137) — not yet
+  register pairs (mine -> target, count): a0->a3 x2, v1->v0 x2, v0->a1 x1, a1->v0 x1, s7->a0 x1, a0->s7 x1
+  replace mine[37:38] target[37:38]
+       37  lhu	a0,4(t1)                       | lhu	a3,4(t1)
+  insert  mine[39:39] target[39:40]
+       39  --                                 | move	t0,a1
+  replace mine[40:42] target[41:43]
+       40  sltu	v0,a1,a0                      | sltu	a1,a1,a3
+       41  beqz	v0,8fa8 <func_80133AB0+0x1d8> | beqz	a1,8fc0 <func_80133AB0+0x1f0>
+  insert  mine[48:48] target[49:50]
+       48  --                                 | move	a0,v0
+  replace mine[50:54] target[52:56]
+       50  sltu	v1,v0,v1                      | sltu	v0,v0,v1
+       51  bnez	v1,8ec0 <func_80133AB0+0xf0>  | bnez	v0,8ec8 <func_80133AB0+0xf8>
+       52  mult	v0,a0                         | andi	v0,a0,0xffff
+       53  j	8fac <func_80133AB0+0x1dc>       | j	8fc4 <func_80133AB0+0x1f4>
+  replace mine[58:59] target[60:61]
+       58  j	8fac <func_80133AB0+0x1dc>       | j	8fc4 <func_80133AB0+0x1f4>
+  insert  mine[60:60] target[62:64]
+       60  --                                 | mult	v0,a3
+       61  --                                 | andi	v0,t0,0xffff
+  replace mine[67:68] target[71:72]
+       67  addu	v0,t2,a1                      | addu	v0,t2,v0
+  replace mine[74:75] target[78:79]
+       74  j	8f9c <func_80133AB0+0x1cc>       | j	8fb0 <func_80133AB0+0x1e0>
+  replace mine[78:80] target[82:85]
+       78  andi	a0,v1,0x8000                  | andi	v0,v1,0x8000
+       79  bnez	a0,8f24 <func_80133AB0+0x154> | bnez	v0,8f38 <func_80133AB0+0x168>
+       80  --                                 | move	a0,v0
+  replace mine[83:84] target[88:89]
+       83  j	8f40 <func_80133AB0+0x170>       | j	8f54 <func_80133AB0+0x184>
+  replace mine[92:93] target[97:98]
+       92  or	a0,s7,a0                        | or	a0,a0,s7
+  replace mine[108:109] target[113:114]
+      108  j	8fac <func_80133AB0+0x1dc>       | j	8fc4 <func_80133AB0+0x1f4>
+  replace mine[113:114] target[118:119]
+      113  bnez	v0,8eac <func_80133AB0+0xdc>  | bnez	v0,8eb4 <func_80133AB0+0xe4>
+  replace mine[115:117] target[120:123]
+      115  andi	v0,s1,0xffff                  | move	v0,s1
+      116  bnez	v0,8f00 <func_80133AB0+0x130> | andi	v0,v0,0xffff
+      117  --                                 | bnez	v0,8f10 <func_80133AB0+0x140>

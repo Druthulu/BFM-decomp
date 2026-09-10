@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 70 best 16 compiles 810 path R12 width pad u16->s32 @983 + R6 inline p3e @1148 + R8 hoist tmp0 @1149 + R7 do-while @1000
+g5: verdict NO-MATCH start 70 best 16 compiles 2325 path R12 width pad u16->s32 @983 + R6 inline p3e @1148 + R8 hoist tmp0 @1149 + R7 do-while @1000
+best-scoring single candidates of the last trace (move -> score):
+  R7 do-while @1000 -> 16 (from 23)
+  R7 do-while @1000 -> 16 (from 23)
+  R7 do-while @1000 -> 16 (from 23)
+  R3 init-split pd -> 16 (from 16)
+  R7 block @999 -> 16 (from 16)
+  R5 swap + @1149 -> 16 (from 16)
+  R2 decl-order 1,0 -> 16 (from 16)
+  R4 decl-move pd 0->1 -> 16 (from 16)
+  R12 width b u8->u16 @993 -> 16 (from 16)
+  R5 swap + @1151 -> 16 (from 16)
+  R4 decl-move pd 0->2 -> 16 (from 16)
+  R12 width b u8->s16 @993 -> 16 (from 16)

@@ -1,0 +1,4 @@
+REMOVED  pin         $17    line 1420
+NEEDED   pin         $16    line 1421
+REMOVED  pin         $19    line 1422
+REMOVED  pin         $18    line 1423

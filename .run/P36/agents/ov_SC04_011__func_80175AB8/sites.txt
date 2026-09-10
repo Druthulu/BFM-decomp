@@ -1,0 +1,5 @@
+NEEDED   pin         $4     line 2818
+NEEDED   pin         $5     line 2824
+NEEDED   launder            line 2830
+NEEDED   cast        volatile u32 * line 2833
+NEEDED   barrier     memory line 2859

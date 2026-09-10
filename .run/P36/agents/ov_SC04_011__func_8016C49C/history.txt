@@ -1,0 +1,15 @@
+g3: verdict NO-MATCH start 34 best 6 compiles 806 path R7 do-while @2744
+g5: verdict NO-MATCH start 34 best 2 compiles 2307 path R7 do-while @2714
+best-scoring single candidates of the last trace (move -> score):
+  R7 do-while @2714 -> 2 (from 34)
+  R3 init-split param_1 -> 2 (from 2)
+  R8 temp tmp0 @2715 -> 2 (from 2)
+  R4 decl-move param_1 2->0 -> 2 (from 2)
+  R9 swap-stmts @2724 -> 2 (from 2)
+  R7 block @2715 -> 2 (from 2)
+  R8 base tmp0 @2715 -> 2 (from 2)
+  R5 swap + @2741 -> 2 (from 2)
+  R4 decl-move param_1 2->1 -> 2 (from 2)
+  R8 temp tmp0 @2716 -> 2 (from 2)
+  R5 swap + @2742 -> 2 (from 2)
+  R4 decl-move param_1 2->3 -> 2 (from 2)

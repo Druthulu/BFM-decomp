@@ -1,0 +1,20 @@
+src/ov_SC04_011/ov_SC04_011_after.c:func_80145934: score 11 (COUNT; mine 58 ins, target 62) — not yet
+  replace mine[6:7] target[6:7]
+        6  beqz	v0,c4 <func_80145934+0x70>    | bnez	v0,84 <func_80145934+0x30>
+  insert  mine[8:8] target[8:12]
+        8  --                                 | lui	a0,0x0
+        9  --                                 | addiu	a0,a0,0
+       10  --                                 | j	12c <func_80145934+0xd8>
+       11  --                                 | nop
+  replace mine[12:13] target[16:17]
+       12  j	11c <func_80145934+0xc8>         | j	12c <func_80145934+0xd8>
+  replace mine[18:19] target[22:23]
+       18  j	11c <func_80145934+0xc8>         | j	12c <func_80145934+0xd8>
+  replace mine[24:25] target[28:29]
+       24  j	11c <func_80145934+0xc8>         | j	12c <func_80145934+0xd8>
+  replace mine[30:31] target[34:35]
+       30  j	11c <func_80145934+0xc8>         | j	12c <func_80145934+0xd8>
+  replace mine[36:37] target[40:41]
+       36  j	11c <func_80145934+0xc8>         | j	12c <func_80145934+0xd8>
+  replace mine[42:43] target[46:47]
+       42  j	11c <func_80145934+0xc8>         | j	12c <func_80145934+0xd8>

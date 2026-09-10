@@ -1,0 +1,16 @@
+g3: verdict NO-MATCH start 2 best 2 compiles 665 path 
+g4s: verdict NO-MATCH start 2 best 2 compiles 757 path 
+g5: verdict NO-MATCH start 2 best 2 compiles 1439 path 
+best-scoring single candidates of the last trace (move -> score):
+  R7 block @2027 -> 2 (from 2)
+  R4 decl-move sVar2 2->0 -> 2 (from 2)
+  R7 do-while @2027 -> 2 (from 2)
+  R4 decl-move sVar2 2->1 -> 2 (from 2)
+  R7 block @2028 -> 2 (from 2)
+  R4 decl-move sVar2 2->3 -> 2 (from 2)
+  R7 do-while @2028 -> 2 (from 2)
+  R4 decl-move sVar2 2->4 -> 2 (from 2)
+  R7 block @2025 -> 2 (from 2)
+  R7 do-while @2025 -> 2 (from 2)
+  R7 block @2024 -> 2 (from 2)
+  R7 do-while @2024 -> 2 (from 2)

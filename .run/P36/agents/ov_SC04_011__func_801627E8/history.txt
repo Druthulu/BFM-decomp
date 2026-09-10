@@ -1,0 +1,16 @@
+g1: verdict NO-MATCH start 7 best 4 compiles 66 path R7 do-while @3940
+g2: verdict NO-MATCH start 7 best 4 compiles 181 path R7 do-while @3940
+g5: verdict NO-MATCH start 7 best 4 compiles 263 path R7 do-while @3940
+best-scoring single candidates of the last trace (move -> score):
+  R7 do-while @3940 -> 4 (from 7)
+  R6 inline p @3937 -> 4 (from 4)
+  R3 init-split p -> 4 (from 4)
+  R4 decl-move p 1->0 -> 4 (from 4)
+  R12 width idx s32->s16 @3938 -> 4 (from 4)
+  R7 block @3942 -> 4 (from 4)
+  R4 decl-move p 1->2 -> 4 (from 4)
+  R7 do-while @3942 -> 4 (from 4)
+  R7 block @3943 -> 4 (from 4)
+  R7 do-while @3943 -> 4 (from 4)
+  R7 do-while @3939 -> 4 (from 7)
+  R4 decl-move p 1->0 -> 4 (from 4)

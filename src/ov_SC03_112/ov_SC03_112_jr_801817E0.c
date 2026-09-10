@@ -2804,7 +2804,7 @@ void func_801817E0(s32 param_1)
     extern s16 D_80126B9A;
 
     s32 iVar1;
-    s32 cond;
+    s16 cond;
 
     if (*(s16 *)(param_1 + 0xa) >= 0x10) {
         func_80182858((void *)param_1);
@@ -2835,7 +2835,6 @@ void func_801817E0(s32 param_1)
             /* the barrier keeps [0xa] live across the [0xfe] load so local-alloc
              * hands it $v0 (see the header note); without it the two lh regs swap. */
             s32 ta = *(s16 *)(param_1 + 0xa);
-            __asm__ __volatile__("" : "=r"(ta) : "0"(ta));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             cond = ta < *(s16 *)(param_1 + 0xfe);
         } else {
             cond = *(s16 *)(param_1 + 0xa) > *(s16 *)(param_1 + 0xfe);

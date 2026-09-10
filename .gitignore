@@ -505,6 +505,15 @@ unsloth_compiled_cache/
 !/.run/P36/engine/trace/
 /.run/P36/engine/trace/*
 !/.run/P36/engine/trace/*.jsonl
+!/.run/P36/agents/
+/.run/P36/agents/*
+!/.run/P36/agents/*.md
+!/.run/P36/agents/*.tsv
+!/.run/P36/agents/*__func_*/
+/.run/P36/agents/*__func_*/*
+!/.run/P36/agents/*__func_*/*.txt
+!/.run/P36/agents/*__func_*/*.md
+!/.run/P36/agents/*__func_*/body*.c
 !/.run/P36/permuter/
 /.run/P36/permuter/*
 !/.run/P36/permuter/*.log

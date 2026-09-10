@@ -5862,8 +5862,9 @@ void func_8018292C(void *a0)
     extern u8 D_801A4EF0;
     extern s32 D_801A4EA4;
 
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0;
     s32 v0 = ((s32 (*)(void))func_8012C1B8)();
+    s0 = a0;
 
     *(s32 *)((u8 *)s0 + 0x20) = v0;
 

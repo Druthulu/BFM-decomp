@@ -1,0 +1,5 @@
+NEEDED   pin         $8     line 3237
+NEEDED   pin         $6     line 3238
+NEEDED   pin         $7     line 3239
+NEEDED   keepalive          line 3245
+NEEDED   barrier     memory line 3252
