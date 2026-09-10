@@ -1,31 +1,31 @@
 lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclassified 0 · verbatim excluded 13 fn / 14 sites (manifest 13)
-  coverage asm       raw  43355 = live  36369 + macro-block   194 + comment/dead  6792
-  coverage register  raw  23853 = live  15248 + macro-block    18 + comment/dead  8587
+  coverage asm       raw  43349 = live  36363 + macro-block   194 + comment/dead  6792
+  coverage register  raw  23848 = live  15243 + macro-block    18 + comment/dead  8587
   coverage volatile  raw   4456 = live   1894 + macro-block    82 + comment/dead  2480
   coverage builtin   raw    599 = live    445 + macro-block     0 + comment/dead   154
   coverage attribute raw     76 = live     76 + macro-block     0 + comment/dead     0
   class  sites  in-bodies  file-scope  bodies  distinct  TUs  marked  unmarked   kinds
-  A pins        15198     15198          0    5937       962  2354   15198         0   {'pin': 15198}
-  B asm         20807     20794         13    8122       911  2119   11530      9277   {'launder': 3942, 'barrier': 3950, 'gte': 6858, 'keepalive': 1317, 'instruction': 1580, 'gte-lever': 462, 'gte-unsigned': 3, 'asm-body': 13, 'verbatim-body': 2682}
-  C volatile     1590      1438        152     496        96   610      14      1576   {'cast': 1378, 'decl-file': 152, 'decl-body': 58, 'param': 2}
+  A pins        15193     15193          0    5934       959  2354   15193         0   {'pin': 15193}
+  B asm         20806     20793         13    8121       910  2119   11529      9277   {'barrier': 3949, 'launder': 3942, 'gte-lever': 462, 'keepalive': 1317, 'gte-unsigned': 3, 'gte': 6858, 'instruction': 1580, 'asm-body': 13, 'verbatim-body': 2682}
+  C volatile     1590      1438        152     496        96   610      14      1576   {'cast': 1378, 'decl-body': 58, 'decl-file': 152, 'param': 2}
   D register       50        50          0      47        47     6       0        50   {'register': 50}
   E asm-label    7428      1005       6423     737       117  2080       0      7428   {'asm-label': 7428}
   F builtin       445       445          0     428        28   302       0       445   {'builtin': 445}
   G attribute      76         1         75       1         1    40       0        76   {'attribute': 76}
-  UNION A–D: 10,749 bodies · 1,555 distinct (addresses normalized) · 289 multi-copy classes holding 9,483 bodies · by kind {'ov': 10209, 'shared': 230, 'md': 135, 'main': 165, 'resident': 10}
-  THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 26,462 sites in 7,486 bodies (1,270 distinct) · marked !FAKE 26,462 · UNMARKED 0
+  UNION A–D: 10,746 bodies · 1,552 distinct (addresses normalized) · 289 multi-copy classes holding 9,483 bodies · by kind {'ov': 10206, 'md': 135, 'shared': 230, 'main': 165, 'resident': 10}
+  THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 26,456 sites in 7,483 bodies (1,267 distinct) · marked !FAKE 26,456 · UNMARKED 0
   orphan !FAKE markers (no pin/asm site on the line nor below): 0
   GTE levers (clobbers beyond the canonical macro's): 462 sites (100 via a variant macro, 362 direct) · marked 462 · UNMARKED 0 · unsigned GTE statements 3
-  per-TU asm macro definitions outside the GTE header: 314 {'gte': 150, 'barrier': 1, 'instruction': 9, 'launder': 154} (GTE variants 64)
-  pins: 15,198 · $0 639 · $sp 13 · with initializer 1,626 · volatile-qualified 7 · bare-name 15 · spellings {'__asm__': 15120, 'asm': 78}
+  per-TU asm macro definitions outside the GTE header: 314 {'gte': 150, 'launder': 154, 'instruction': 9, 'barrier': 1} (GTE variants 64)
+  pins: 15,193 · $0 639 · $sp 13 · with initializer 1,624 · volatile-qualified 7 · bare-name 15 · spellings {'__asm__': 15115, 'asm': 78}
   whole-body asm routines in C shells, manifest PERMANENT (hand asm, NOT levers): 22 routines · 2,682 sites (2,660 private copies + 22 shared headers); asm-bodies NOT permanent (levers): 13 site(s) ['func_8001E378:DECOMPILE-NOW', 'func_80020F34:DECOMPILE-NOW', 'func_800249F0:DECOMPILE-NOW', 'func_80025CBC:DECOMPILE-NOW', 'func_80026514:UNCERTAIN', 'func_800268D0:UNCERTAIN', 'func_80027058:DECOMPILE-NOW', 'func_80027200:DECOMPILE-NOW', 'func_800CBA44:DECOMPILE-NOW', 'func_8017D810:DECOMPILE-NOW', 'func_8017E26C:UNCERTAIN', 'func_80184440:DECOMPILE-NOW', 'func_801A3BCC:DECOMPILE-NOW']
-  asm kinds: {'asm-body/direct': 13, 'barrier/direct': 3948, 'barrier/via-macro': 2, 'gte/direct': 200, 'gte/via-macro': 6658, 'gte-lever/direct': 362, 'gte-lever/via-macro': 100, 'gte-unsigned/direct': 3, 'instruction/direct': 1558, 'instruction/via-macro': 22, 'keepalive/direct': 1317, 'launder/direct': 3498, 'launder/via-macro': 444, 'verbatim-body/direct': 2682}
-  instruction mnemonics: {'addu': 834, 'move': 406, 'la': 142, 'lh': 134, 'RTP_SND': 22, 'addiu': 22, '.section': 7, 'lui': 4, 'and': 2, 'mult': 1, 'mfhi': 1, 'sll': 1, 'li': 1, 'lw': 1, 'nop': 1, 'srl': 1}
+  asm kinds: {'asm-body/direct': 13, 'barrier/direct': 3947, 'barrier/via-macro': 2, 'gte/direct': 200, 'gte/via-macro': 6658, 'gte-lever/direct': 362, 'gte-lever/via-macro': 100, 'gte-unsigned/direct': 3, 'instruction/direct': 1558, 'instruction/via-macro': 22, 'keepalive/direct': 1317, 'launder/direct': 3498, 'launder/via-macro': 444, 'verbatim-body/direct': 2682}
+  instruction mnemonics: {'addu': 834, 'move': 406, 'la': 142, 'lh': 134, 'addiu': 22, 'RTP_SND': 22, '.section': 7, 'lui': 4, 'and': 2, 'mult': 1, 'mfhi': 1, 'sll': 1, 'li': 1, 'lw': 1, 'nop': 1, 'srl': 1}
   gte mnemonics: {'gte_ldv0': 757, 'gte_stlvnl': 593, 'gte_stsxy': 447, 'gte_rtps': 437, 'gte_stflg': 415, 'gte_rtpt': 352, 'gte_SetRotMatrix': 246, 'gte_stsxy3': 236, 'gte_rtv0tr': 228, 'gte_SetTransMatrix': 226, 'gte_ldv3c': 184, 'gte_ldv3': 177, 'gte_ldrgb': 164, 'gte_stsv': 161, 'lwc2': 159, 'gte_stsz4': 149, 'gte_stsz3': 147, 'gte_stszotz': 134, 'gte_ldIR0z': 134, 'gte_ldIRGB': 134, 'gte_dpcl': 134, 'gte_stORGB': 134, 'gte_stsxy3_f3': 111, 'gte_nclip': 108, 'gte_stopz': 108, 'gte_stsxy3c': 108, 'gte_stclmv': 108, 'gte_stsxy3_ft3': 79, 'gte_rtir': 75, 'gte_ldclmv': 72}
-  asm-bearing macro definitions: 314 (20 names, 3 with >1 text) kinds {'gte': 150, 'barrier': 1, 'instruction': 9, 'launder': 154}
+  asm-bearing macro definitions: 314 (20 names, 3 with >1 text) kinds {'gte': 150, 'launder': 154, 'instruction': 9, 'barrier': 1}
   controls (R39):
     src/800.c func_800226C0 pins                         got 14     expected 45  N-A
     src/shared/ov/func_80178004.h pins                   got 8      expected 26  N-A
     ov_SC03_006 func_80184034 bare-name pins             got 0      expected 3  N-A
     engine_prelude.h asm sites (a macro definition only) got 0      expected 0  OK
-  elapsed 42.5 s
+  elapsed 24.7 s

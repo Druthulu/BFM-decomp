@@ -5883,8 +5883,8 @@ extern s32 func_80180B44();
 
 void func_80180960(u8 *param_1) {
     s32 iVar2;
-    register u8 *work __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 snd __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    u8 *work;
+    s32 snd;
 
     if (*(s32 *)(param_1 + 0xCC) != 0) {
         iVar2 = *(s32 *)(*(s32 *)(param_1 + 0xCC) + 0xCC);
@@ -5900,13 +5900,12 @@ void func_80180960(u8 *param_1) {
     if (func_8012CC40((s32)param_1, (s32)D_80186950) & 0x2000) {
         func_8002D4C8(0x581, 0);
         snd = 0xF0;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
         work = param_1;
         *(u32 *)(work + 0x1C) = 0xF;
         *(u32 *)(work + 0x18) = 0;
         *(u32 *)(work + 0x10) = 0;
         *(u16 *)(work + 2) = 6;
-        func_8012C588(snd);
+        ((void (*)(s32 a0, s32 a1))func_8012C588)(snd, param_1);
     } else {
         func_80180B44((s32)param_1);
     }

@@ -21,3 +21,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-10	S102 T7 burst — a8/a12/a18/a19 banked (132+118+119+134 bodies): the call-arity class twice, a MEM_IN_STRUCT_P alias flip, and a sequence-point split	fb6c857f7	27984	15965	12019	8249	1275	27984	0	462	314	1590	50	7428	445	76
 2026-09-10	S102 T7 burst — a5/a9/a11/a16/a25 banked; the MISSING CALL ARGUMENT class confirmed six times independently (m2c dropped arguments at unprototyped and indirect call sites)	c6b380fcd	26714	15324	11390	7612	1271	26714	0	462	314	1590	50	7428	445	76
 2026-09-10	S102 T7 burst — a22 banked (126); a14 REFUSED as an invented zero term; a6/a10/a15 read without closing	374c8a0e9	26462	15198	11264	7486	1270	26462	0	462	314	1590	50	7428	445	76
+2026-09-10	S102 T7 s8 — the first R19 sweep: 3 of 55 classes closed by restoring a dropped call argument, 2 compiles each	f3de70fce	26456	15193	11263	7483	1267	26456	0	462	314	1590	50	7428	445	76

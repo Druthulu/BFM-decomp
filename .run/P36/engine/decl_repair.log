@@ -1,0 +1,21 @@
+decl_repair: 4121 translation unit(s) with a recipe; 15626 definitions; -j6
+  250/4121 judged; {'IDENTICAL': 82, 'COMPILE-ERROR': 3, 'CONTROL-FAILED': 3}
+  500/4121 judged; {'IDENTICAL': 296, 'COMPILE-ERROR': 13, 'CONTROL-FAILED': 11}
+  750/4121 judged; {'IDENTICAL': 505, 'COMPILE-ERROR': 25, 'CONTROL-FAILED': 19, 'DIFFERS': 1}
+  1000/4121 judged; {'IDENTICAL': 714, 'COMPILE-ERROR': 31, 'CONTROL-FAILED': 25, 'DIFFERS': 2}
+  1250/4121 judged; {'IDENTICAL': 936, 'COMPILE-ERROR': 33, 'CONTROL-FAILED': 33, 'DIFFERS': 2}
+  1500/4121 judged; {'IDENTICAL': 1160, 'COMPILE-ERROR': 34, 'CONTROL-FAILED': 42, 'DIFFERS': 2}
+  1750/4121 judged; {'IDENTICAL': 1379, 'COMPILE-ERROR': 40, 'CONTROL-FAILED': 49, 'DIFFERS': 2}
+  2000/4121 judged; {'IDENTICAL': 1585, 'COMPILE-ERROR': 44, 'CONTROL-FAILED': 56, 'DIFFERS': 2}
+  2250/4121 judged; {'IDENTICAL': 1805, 'COMPILE-ERROR': 49, 'CONTROL-FAILED': 64, 'DIFFERS': 2}
+  2500/4121 judged; {'IDENTICAL': 2023, 'COMPILE-ERROR': 56, 'CONTROL-FAILED': 71, 'DIFFERS': 2}
+  2750/4121 judged; {'IDENTICAL': 2240, 'COMPILE-ERROR': 62, 'CONTROL-FAILED': 80, 'DIFFERS': 2}
+  3000/4121 judged; {'IDENTICAL': 2457, 'COMPILE-ERROR': 68, 'CONTROL-FAILED': 89, 'DIFFERS': 2}
+  3250/4121 judged; {'IDENTICAL': 2676, 'COMPILE-ERROR': 76, 'CONTROL-FAILED': 96, 'DIFFERS': 2}
+  3500/4121 judged; {'IDENTICAL': 2891, 'COMPILE-ERROR': 87, 'CONTROL-FAILED': 101, 'DIFFERS': 2}
+  3750/4121 judged; {'IDENTICAL': 3111, 'COMPILE-ERROR': 101, 'CONTROL-FAILED': 101, 'DIFFERS': 2}
+  4000/4121 judged; {'IDENTICAL': 3331, 'COMPILE-ERROR': 113, 'CONTROL-FAILED': 101, 'DIFFERS': 2}
+decl_repair: 3634 unit(s) carry a lying declaration; verdicts {'IDENTICAL': 3414, 'COMPILE-ERROR': 117, 'CONTROL-FAILED': 101, 'DIFFERS': 2}
+  FREE to repair (the object is byte-identical with the declarations widened): 3414 unit(s), 16732 declaration(s)
+  the object CHANGES (the code depends on the false declaration): 2 unit(s), 3 declaration(s)
+  rows -> .run/P36/engine/decl_repair.json

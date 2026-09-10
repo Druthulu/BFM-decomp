@@ -1,0 +1,11 @@
+[
+ {
+  "tu": "src/800_c.c",
+  "verdict": "IDENTICAL",
+  "fixed": 2,
+  "callees": [
+   "func_800377D8"
+  ],
+  "err": ""
+ }
+]

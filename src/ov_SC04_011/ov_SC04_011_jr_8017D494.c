@@ -9618,7 +9618,7 @@ extern void func_801805D8(void);
 
 void func_80186F44(void *a0)
 {
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t3_tus1)
+    void *s0 = a0;
     s32 v0;
 
     v0 = func_8012C1B8();
@@ -9637,14 +9637,14 @@ void func_80186F44(void *a0)
     func_8018637C(s0, &D_801DEC6C);
     func_801862A4(s0);
     {
-        register void *t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t3_tus1)
+        void *t;
         t = s0;
         *(s16 *)((u8 *)t + 0x76) = 0x40;
         *(s16 *)((u8 *)t + 0xF6) = 3;
     }
     (*(u16 *)&D_801EFD2C) = 0x12C;
     (*(u16 *)&D_801EFD28) = 0x12C;
-    func_801805D8();
+    ((void (*)(s32 a0))func_801805D8)(a0);
 }
 
 

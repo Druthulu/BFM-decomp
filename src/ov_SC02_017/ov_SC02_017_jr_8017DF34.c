@@ -4245,7 +4245,7 @@ void func_801807DC(int param_1)
     u8 *entry;
 
     sub = *(s32 *)(param_1 + 0x64);
-    if (func_8018096C() != 1) {
+    if (((s32 (*)(void *a0))func_8018096C)(param_1) != 1) {
         if (*(u16 *)(sub + 2) == 2) {
             *(Blk8_801807DC *)(*(s32 *)(param_1 + 0x20) + 0x10) =
                 *(Blk8_801807DC *)(*(s32 *)(sub + 0x20) + 0x10);
@@ -4273,7 +4273,7 @@ void func_801807DC(int param_1)
             *(s16 *)(param_1 + 0xFE) =
                 *(u16 *)(entry + 2) + *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xFE);
             {
-                register s32 self __asm__("$4") = param_1;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
+                s32 self = param_1;
                 *(s16 *)(self + 0x100) =
                     *(u16 *)(entry + 4) + *(u16 *)(*(s32 *)(param_1 + 0x64) + 0x100);
                 func_8012B2CC(self);
