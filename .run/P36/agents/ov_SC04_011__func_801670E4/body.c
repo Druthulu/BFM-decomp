@@ -16,11 +16,6 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u16 c;
     u8 cv;
     u8 cv2;
-    s32 gA;
-    s32 cxv;
-    s32 czv;
-    u8 *ap;
-    u8 *mp;
 
     ent = arg0;
     node = *(s32 *)(ent + 0x34);
@@ -34,8 +29,6 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     cv = *(u8 *)(ent + 0x12);
     f.cx = arg1;
     f.cy = arg2;
-    p = D_80193330;
-    i = 0;
     f.col[0].b = 0;
     f.col[0].g = 0;
     f.col[0].r = 0;
@@ -47,8 +40,8 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.col[3].r = 0;
     f.code = 0x50000000;
     f.cz = arg3;
-    f.col[1].r = cv;
     f.col[1].g = cv;
+    f.col[1].r = cv;
     ((void (*)(s32, void *, void *))func_80149350)(node, &f.cx, &f.cx);
 
     c = f.cx;
@@ -64,6 +57,8 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80017E68(&f.cx, f.m1);
     func_800D23D0(f.a8);
     RotMatrixYXZ(f.a8, f.m1);
+    p = D_80193330;
+    i = 0;
 
     do {
         f.v[0].x = (s8)*p++;
@@ -76,20 +71,16 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     } while ((i = i + 1) < 4);
 
     p = D_8019331C;
-    gA = 0xA0;
-    cxv = (s16)f.cx;
-    f.col[1].g = gA;
-    gA = D_801269A4;
-    czv = (s16)f.cz;
-    f.col[1].b = 0x10;
-    f.col[1].r = 0x10;
-    f.pos[0] = gA - cxv;
     i = 0;
     f.v[3].y = 0;
     f.v[2].y = 0;
     f.v[0].y = 0;
+    f.col[1].g = 0xA0;
+    f.col[1].b = 0x10;
+    f.col[1].r = 0x10;
+    f.pos[0] = D_801269A4 - (s16)f.cx;
     f.pos[1] = D_801269A8 - (s16)f.cy;
-    f.pos[2] = D_801269AC - czv;
+    f.pos[2] = D_801269AC - (s16)f.cz;
 
     do {
         f.v[0].x = (s8)*p++;
@@ -102,18 +93,14 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     } while ((i = i + 1) < 4);
 
     if (*(s32 *)(ent + 0x30) > 0) {
-        mp = f.m1;
-        ap = mp;
-        p = D_80193344;
-        i = 0;
         d = (s16)f.a8[0] >> 6;
         f.cx += d;
         f.cy += d;
         f.cz += d;
-        func_80017E68(&f.cx, ap);
+        func_80017E68(&f.cx, f.m1);
         f.cx = f.cy = f.cz = ((u32)*(s32 *)(ent + 0x30) >> 1) + D_80126CE0 * 0x20;
         func_80017DC4(&f.cx, f.m2);
-        func_80048EAC(f.m2, mp);
+        func_80048EAC(f.m2, f.m1);
         f.v[3].z = 0;
         f.v[2].z = 0;
         f.v[0].z = 0;
@@ -130,6 +117,8 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         f.col[2].g = 0;
         f.col[0].g = 0;
         f.col[1].g = cv2 + 0x60;
+        p = D_80193344;
+        i = 0;
         do {
             f.v[0].x = (s8)*p++;
             f.v[0].y = (s8)*p++;

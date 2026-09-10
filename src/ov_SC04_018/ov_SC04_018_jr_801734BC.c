@@ -2815,52 +2815,39 @@ void func_80175AB8(param_1)
     u8 *arr;
     u32 *slot;
     u32 *p;
-    register u32 *a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus5)
-    u32 uv;
-    s32 k;
     s16 q;
-    s32 r1;
     s32 a2v;
-    register s32 sum __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus5)
-    s32 r2;
+    s32 t;
     s32 idx;
     s16 sv;
 
     p = (u32 *)(D_800AF638[param_1].g0 + D_800AF634[param_1].g0 * 4);
-    __asm__("" : "=r"(base) : "0"(&D_8011F7F0));               /* L1 */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus5)
+    base = &D_8011F7F0;
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
-    *(volatile u32 *)&slot[6] = (u32)p;                        /* L2 */
+    *(volatile u32 *)&slot[6] = (u32)p;
     p = func_80176D94(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x51));
     p = func_801770E0(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x65));
-    p = func_80177EA4(p, func_801783D0(D_8011F804, 0),
+    t = func_801783D0(D_8011F804, 0);
+    p = func_80177EA4(p, t,
                       (s16)((*(u16 *)&D_8011F7BC) + 0x39), (s16)((*(u16 *)&D_8011F7BE) + 0x51));
-    uv = D_8011F824;
-    k = 0x3E7;
-    if (uv < 1000) {
-        k = uv;
-    }
-    sv = (s16)func_801783D0(k, 4);
+    sv = (s16)func_801783D0((D_8011F824 < 1000) ? D_8011F824 : 0x3E7, 4);
     p = func_80177B5C(p, sv, D_8011F832,
-                      (s16)(*(u16 *)(base - 0x34) + 0x39),
-                      (s16)(*(u16 *)(base - 0x32) + 0x65));
+                      (s16)(*(u16 *)(arr + 0x14) + 0x39),
+                      (s16)(*(u16 *)(arr + 0x16) + 0x65));
     q = (s16)D_8011F80A / 15;
     a2v = (q & 3) * 15;
-    r1 = func_801783D0((s32)(q << 16) >> 18, 8);
-    r2 = func_801783D0(a2v, 0);
-    a0v = p;                                                   /* L4 */
-    sum = r1 + r2;                                             /* L3 */
+    t = func_801783D0(q >> 2, 8) + func_801783D0(a2v, 0);
     p = ((u32 * (*)(u32 *, s32, s32, s32))func_80177940)(
-            a0v, (s16)sum,
-            (s16)(*(u16 *)(base - 0x34) + 0x76),
-            (s16)(*(u16 *)(base - 0x32) + 0x65));
+            p, (s16)t,
+            (s16)(*(u16 *)(arr + 0x14) + 0x76),
+            (s16)(*(u16 *)(arr + 0x16) + 0x65));
     idx = D_8011F83A & 0x7F;
     D_8011F83A = idx;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus5)
-    ((void (*)(s32, u8 *))func_80024054)(((s32 *)D_80190934)[idx], local);
+    func_80024054(*(u8 **)((u8 *)D_80190934 + idx * 4), local);
     p = func_80178298(p, local,
-                      (s16)(*(u16 *)(base - 0x34) + 0x39),
-                      (s16)(*(u16 *)(base - 0x32) + 0x5B));
+                      (s16)(*(u16 *)(arr + 0x14) + 0x39),
+                      (s16)(*(u16 *)(arr + 0x16) + 0x5B));
     func_8005A600((s32)p, 0, 0, 0x15, 0);
     *p = (((u32)p - 0x14) & 0xFFFFFF) | 0x2000000;
     slot[8] = (u32)p;

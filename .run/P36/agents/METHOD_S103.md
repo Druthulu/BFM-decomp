@@ -45,6 +45,18 @@
      and is refused by local-alloc (`local-alloc.c:472`) — split it into one name per value (generator R23 does this).
      `tools/alloc_table.py` prints the GLOBAL priority; local-alloc ranks by `qty_compare_1` (`local-alloc.c:1598`) —
      `../ov_SC04_011__func_80135168/scratch/lpri.py` computes that from the `.lreg` dump.
+   - (S103 c11) the target keeps a global's address in a callee-saved register but yours rematerialises `lui`/absolute
+     loads (a "launder" lever): write the late field reads relative to a DERIVED pointer the body already has
+     (`*(T *)(arr + (D - K))`, not `*(T *)(base - K)`) — fold_rtx re-associates before folding (`cse.c:5580-5667`) and
+     `find_best_addr` (`cse.c:2622`) folds base-relative reads to absolute; the FIRST cse pass must not reach them (a
+     two-insn clamp arm stops it at the join label, `cse.c:8039`); the second pass (`.cse2`, dump flag `-dt`) re-associates.
+   - (S103 c11) a value tied into the wrong register by local-alloc (`local-alloc.c:1722`, refused when the destination is
+     not local, `:1774`): REUSE one temp across blocks so flow makes it block-global (`flow.c:1204/1428`) and global.c's
+     preference scan (`:1535`, `:1037-1071`) picks the argument register.
+   - (S103 c11) a table load hoisted over a store (a `"memory"` barrier lever): `p[i]` is an aggregate access
+     (`expr.c:4568-4575`) that `true_dependence` (`sched.c:817`) treats as independent of a scalar store; a cast-wrapped
+     byte-offset read (`*(u8 **)((u8 *)tbl + i * 4)`) is not marked and stays after the store.
+   - Dumps: `tools/cc1_dumps_tu.sh` now also writes `.cse2` (`-dt`) and `.jump2` (`-dJ`).
    - (S103 c10/c2/c4) READ LEVER-FREE BODIES that share your callees, globals or shapes ANYWHERE in the overlay, not only
      `neighbours.txt`: the answer to c10's function was in a different file (`func_80135888`), c4's was a sibling spelled
      lever-free under a stale `@stuck:` note. `grep -rln '<callee or global>' src/ov_SC04_011/`.

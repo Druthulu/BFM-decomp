@@ -77,9 +77,9 @@ u32 mhi;
           s32 t3v;
           u8 *q = ((u8 *) ot) + 0x14;
           s16 y;
-          j = 0;
+          t3v = m * 4;
           k = m;
-          t3v = m * 4;                  /* [L3] explicit, must sit before the 3 constants */
+          j = 0;                  /* [L3] explicit, must sit before the 3 constants */
           pb = (u16 *) (&D_800B9A02);
           m24 = 0xFFFFFF;
           mhi = 0xFF000000;
@@ -117,7 +117,7 @@ u32 mhi;
             {
 u32 *op;
               op = D_800AE7BC[*pb].ot;
-              op[2] = (op[2] & mhi) | (((u32) ot) & m24);
+              op[2] = (((u32) ot) & m24) | (op[2] & mhi);
             }
             q += 0x14;
             ot += 5;

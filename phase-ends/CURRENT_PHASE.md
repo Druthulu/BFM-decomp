@@ -1414,6 +1414,18 @@ accumulate here as the phase produces them.**
   ranking). Bank lines: `apply-body … IDENTICAL … KEPT` ×3, `--propagate: 131 of 131` ×2, `133 of 133`; R22
   `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 19,276 pin/asm sites, 19,276 marked !FAKE, 0 UNMARKED — OK`.
 
+- **S103 — T7 agent c11: `func_80175AB8` CLOSED (41 → 0, 188/188; 124/124).** Four joint moves, any one removed breaks
+  it (30/37/8/3): late field reads through the derived pointer `arr` (fold_rtx re-associates before folding,
+  `cse.c:5580-5667`; base-relative reads fold absolute via `find_best_addr`, `cse.c:2622`; the first cse pass stops at
+  the clamp's join label, `cse.c:8039`, and only `.cse2` re-associates); the clamp as a ternary reading the global twice;
+  ONE temp reused for both `$a1` values (block-global by flow, `flow.c:1204/1428`, so global.c's preference scan picks
+  `$a1`, `:1535`/`:1037-1071`); the table read as a cast-wrapped byte offset (not an aggregate access, `expr.c:4568`,
+  so `true_dependence`, `sched.c:817`, keeps it after the store). The body keeps the `*(volatile u32 *)&slot[6]` store
+  the free text already had (without it 20). `apply-body … IDENTICAL … KEPT`; `--propagate: 124 of 124`; R22
+  `check-all: 218 passed, 0 failed of 218`. **Harvest: `tools/cc1_dumps_tu.sh` now dumps `-dt` (`.cse2`) and `-dJ`
+  (`.jump2`)** — c11's deciding fact was only in `.cse2`, c10's cross-jump only in `.jump2` (smoke: `rc=0`, both
+  files written); METHOD_S103 +3 entries.
+
 ## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
 
 ### 0. How to use this block
