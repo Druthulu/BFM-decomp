@@ -2079,7 +2079,140 @@ def param_copies(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14")
+def if_chains(masked, lo, hi):
+    """[(chain_lo, chain_hi, [(arm_lo, arm_hi)])] — every brace-form if / else-if / else chain whose lines lie in
+    masked[lo:hi] at the body's own depth. `chain_hi` is the line index just past the chain's last `}`; an arm span is the
+    lines strictly inside that arm's braces. Depth is counted on the MASKED text, so a brace in a string or a comment is
+    not a brace. Chains that do not open a brace on the `if` line (a one-statement `if` without braces) are skipped: the
+    sink rewrites arm bodies and needs somewhere to put the statement."""
+    out = []
+    i = lo
+    while i < hi:
+        s_ = masked[i].strip()
+        if not (s_.startswith("if") and re.match(r"^if\s*\(", s_) and s_.endswith("{")):
+            i += 1
+            continue
+        arms, depth, arm_start, j = [], 0, i + 1, i
+        while j < hi:
+            nxt = masked[j].strip()
+            closes = masked[j].count("}")
+            # the CLOSES are counted before the OPENS: on a `} else if (…) {` line the two net to zero, and a depth
+            # counter that adds both at once never comes back to zero — the chain then looks like one unterminated arm.
+            if j > i and depth - closes == 0:                 # this arm's `}` is on line j
+                arms.append((arm_start, j))
+                m = re.match(r"^\}\s*else\b(.*)$", nxt)
+                if m and m.group(1).strip().endswith("{"):    # `} else {` or `} else if (…) {`
+                    arm_start, depth, j = j + 1, 1, j + 1
+                    continue
+                if nxt == "}" and j + 1 < hi and re.match(r"^else\b", masked[j + 1].strip()) \
+                        and masked[j + 1].strip().endswith("{"):
+                    arm_start, depth, j = j + 2, 1, j + 2     # the `else …{` on its own line
+                    continue
+                break
+            depth += masked[j].count("{") - closes
+            j += 1
+        if len(arms) >= 2:
+            out.append((i, j + 1, arms))
+            i = j + 1
+        else:
+            i += 1
+    return out
+
+
+def sink_merges(text, tu, fn, d_):
+    """[(description, candidate text)] — R15: the statement AFTER an if/else chain sunk into every arm, and the variables
+    it consumed deleted. `if (c) { v = e1; } else { v = e2; } w = f(v);` -> `if (c) { w = f(e1); } else { w = f(e2); }`.
+
+    T7 agent a1's crack of func_80156044 (2026-09-10, 130 bodies, the rank-1 head class six rung-G runs left at best 1).
+    The mechanism is a REGISTER move, not a scheduling one: a variable set in every arm and read after the merge is a
+    CROSS-BLOCK pseudo, so (i) local-alloc never makes a quantity for it (`local-alloc.c:472`, `next_qty` reset per block
+    at `:517`) and each arm holds two quantities, which is `block_alloc`'s unrolled `case 2` at `local-alloc.c:1499-1502`
+    — one `qty_compare` (`:1578-1596`), higher density first; sinking makes it a third block-local quantity and
+    `case 3` at `:1491-1496` FALLS THROUGH into `case 2`, applying that comparison a second time and undoing its own
+    exchange, so the two caller-saved colours swap; and (ii) while it is a global allocno it can inherit a copy
+    preference from whatever the merge statement's result is passed to (`set_preference` `global.c:1535+`, merged by
+    `expand_preferences` `global.c:781-825`, overriding first-fit at `global.c:1034-1067`) — sinking removes it from
+    `global.c` entirely. Read the whole reading in `.run/P36/agents/ov_SC04_011__func_80156044/mechanism.md`.
+
+    Applicability is checked, not assumed: every consumed variable must be assigned exactly once in EVERY arm by a simple
+    statement, must appear in the merge statement, and must occur nowhere else in the function (declaration + one
+    assignment per arm + its uses in the merge statement is its whole census) — otherwise the rewrite would change what
+    the code reads. The bytes remain the correctness proof (a rewrite that changes behaviour simply DIFFERS)."""
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    whole = sc.mask_text("\n".join(lines[d_["line"] - 1:d_["end"]]))
+    out = []
+    for c_lo, c_hi, arms in if_chains(masked, lo, hi):
+        j = next((k for k in range(c_hi, hi) if masked[k].strip()), None)
+        if j is None or not simple_stmt(masked[j]):
+            continue
+        merge_masked = masked[j]
+        eq = re.search(r"(?<![=!<>+\-*/%&|^~])=(?!=)", merge_masked)
+        if not eq:                                            # only an assignment merges arm values
+            continue
+        rhs = merge_masked[eq.end():]
+        # every variable assigned exactly once, by a simple statement, in EVERY arm
+        per_arm = []
+        for a_lo, a_hi in arms:
+            got = {}
+            for k in range(a_lo, a_hi):
+                if not simple_stmt(masked[k]):
+                    continue
+                m = re.match(r"^\s*([A-Za-z_]\w*)\s*=\s*(.+);\s*$", masked[k])
+                if not m:
+                    continue
+                if m.group(1) in got:                         # assigned twice in one arm: not a single value
+                    got[m.group(1)] = None
+                else:
+                    got[m.group(1)] = k
+            per_arm.append(got)
+        common = set(k for k, v in per_arm[0].items() if v is not None)
+        for g in per_arm[1:]:
+            common &= set(k for k, v in g.items() if v is not None)
+        names_ = sorted(v for v in common if re.search(r"(?<![\w.>])%s(?![\w])" % re.escape(v), rhs))
+        if not names_:
+            continue
+        decl = {}
+        for v in names_:
+            # the variable's whole census: one declaration, one assignment per arm, and its uses in the merge statement
+            uses = len(re.findall(r"(?<![\w.>])%s(?![\w])" % re.escape(v), whole))
+            in_merge = len(re.findall(r"(?<![\w.>])%s(?![\w])" % re.escape(v), merge_masked))
+            d_line = next((k for k in range(lo, hi)
+                           if is_decl_line(masked[k].strip())
+                           and re.search(r"(?<![\w.>])%s(?![\w])\s*(?:=|;|,)" % re.escape(v), masked[k])), None)
+            if d_line is None or MULTI_DECL.match(masked[d_line]) or "=" in masked[d_line]:
+                decl[v] = None                                # a shared or initialised declaration: leave it standing
+            else:
+                decl[v] = d_line
+            if uses != len(arms) + in_merge + (1 if d_line is not None else 0):
+                names_ = None
+                break
+        if not names_:
+            continue
+        drop = {decl[v] for v in names_ if decl[v] is not None} | {j}
+        after = {}                                            # line index -> the sunk statement to emit just after it
+        for a_idx, (a_lo, a_hi) in enumerate(arms):
+            stmt = lines[j].strip()
+            for v in names_:
+                k = per_arm[a_idx][v]
+                expr = re.match(r"^\s*[A-Za-z_]\w*\s*=\s*(.+);\s*$", lines[k]).group(1).strip()
+                stmt = re.sub(r"(?<![\w.>])%s(?![\w])" % re.escape(v), "(" + expr + ")", stmt)
+                drop.add(k)
+            tail = a_hi - 1                                   # the arm's LAST BODY line (a_hi is its `}`)
+            ref = lines[tail] if lines[tail].strip() else lines[a_lo]
+            after[tail] = ref[:len(ref) - len(ref.lstrip())] + stmt
+        cand = []
+        for k, l in enumerate(lines):                         # a dropped line may still be the one we append after
+            if k not in drop:
+                cand.append(l)
+            if k in after:
+                cand.append(after[k])
+        out.append((f"sink @{j + 1} ({','.join(names_)})", "\n".join(cand)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2184,6 +2317,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R13" in fam:
         for desc, cand in reassociations(text, tu, fn, d_):
             out.append(("R13", desc, cand))
+    if "R15" in fam:
+        for desc, cand in sink_merges(text, tu, fn, d_):
+            out.append(("R15", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -2894,6 +3030,53 @@ def selftest():
         fail(f"remap_body produced {got!r} ({why})")
     if remap_body(exb, exa, "void func_80300000(void) { D_80400000 = 0; }")[0] is not None:
         fail("remap_body must refuse a sibling with a different token count")
+    # R15, the sink (T7 agent a1's crack of func_80156044, 2026-09-10): the merge statement pushed into every arm and the
+    # variables it consumed deleted. The three controls are the ones the applicability test exists for.
+    SINKFIX = ("void func_80100000(int c) {\n"
+               "    s32 base;\n"
+               "    u8 *row;\n"
+               "\n"
+               "    if (c) {\n"
+               "        base = 1;\n"
+               "    } else if (c == 2) {\n"
+               "        base = 2;\n"
+               "    } else {\n"
+               "        base = 3;\n"
+               "    }\n"
+               "    row = (u8 *)(base + 4);\n"
+               "    use(row);\n"
+               "}")
+    d15 = next(r for r in sc.scan_text(SINKFIX, "src/fx/s.c", shared_defs=None)
+               if r["form"] == "def" and r["name"] == "func_80100000")
+    got15 = sink_merges(SINKFIX, "src/fx/s.c", "func_80100000", d15)
+    if len(got15) != 1 or "sink" not in got15[0][0] or "base" not in got15[0][0]:
+        fail(f"R15 must find one sink in the three-arm fixture, got {[g[0] for g in got15]}")
+    else:
+        c15 = got15[0][1]
+        want15 = ["row = (u8 *)((1) + 4);", "row = (u8 *)((2) + 4);", "row = (u8 *)((3) + 4);"]
+        if not all(w in c15 for w in want15):
+            fail(f"R15 must sink the merge statement into every arm: {c15!r}")
+        if "s32 base;" in c15 or "base = 1;" in c15:
+            fail("R15 must delete the consumed variable's declaration and its per-arm assignments")
+        if c15.count("row = ") != 3 or "row = (u8 *)(base + 4);" in c15:
+            fail("R15 must remove the merge statement itself")
+        if "u8 *row;" not in c15:
+            fail("R15 must keep the declaration of the variable the merge statement ASSIGNS")
+    # control 1: a consumed variable read anywhere else is not sinkable (its census would not add up)
+    if sink_merges(SINKFIX.replace("    use(row);", "    use(row + base);"), "src/fx/s.c", "func_80100000",
+                   next(r for r in sc.scan_text(SINKFIX.replace("    use(row);", "    use(row + base);"), "src/fx/s.c",
+                                                shared_defs=None) if r["form"] == "def")):
+        fail("R15 must refuse a variable that is read after the merge statement")
+    # control 2: a variable not set in EVERY arm is not sinkable
+    if sink_merges(SINKFIX.replace("        base = 2;\n", ""), "src/fx/s.c", "func_80100000",
+                   next(r for r in sc.scan_text(SINKFIX.replace("        base = 2;\n", ""), "src/fx/s.c",
+                                                shared_defs=None) if r["form"] == "def")):
+        fail("R15 must refuse a variable one arm does not set")
+    # control 3: the brace walk itself — a `} else if (…) {` line nets to zero braces and must still close its arm
+    ch = if_chains([sc.mask_text(l) for l in SINKFIX.split("\n")], d15["line"], d15["end"] - 1)
+    if len(ch) != 1 or len(ch[0][2]) != 3:
+        fail(f"if_chains must see three arms in the fixture, got {ch}")
+
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):
         fail("SIGNAL_LINE must match bash's job-status block")
