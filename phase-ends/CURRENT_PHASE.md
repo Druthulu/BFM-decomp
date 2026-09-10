@@ -1584,7 +1584,7 @@ accumulate here as the phase produces them.**
   the 9 UNSCORED were candidates that genuinely do not compile (a direct trimmed call against a prototype demanding the
   argument: "too few arguments") — `delever_regen` now reports those as COMPILE-ERROR, not UNSCORED (R61). `--bank: 3 of
   3 MATCH row(s) banked`. R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 13,083 pin/asm sites,
-  13,083 marked !FAKE, 0 UNMARKED — OK`.
+  13,083 marked !FAKE, 0 UNMARKED — OK` (13,842 → 13,083; commit `e984e5822`'s message typed "14,xxx" for the start figure — a placeholder that should never have been committed, R66/R85; recorded here rather than amended, P5c).
 
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
 
