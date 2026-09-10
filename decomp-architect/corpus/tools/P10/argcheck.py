@@ -63,8 +63,12 @@ def arity(params):
     return n
 
 
+RET = re.compile(r"^([A-Za-z_][\w \t*]*?)\b" + NAME + r"\s*\(")
+
+
 def definitions():
-    """{name: (arity, params, where)} from every DEFINITION in the tree."""
+    """{name: (arity, params, where, ret)} from every DEFINITION in the tree. The return type comes with it because the
+    CAST route — the one that stays body-only at either scope — needs the whole signature, not just the arity."""
     out = {}
     for f in sorted(list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h"))):
         rel = str(f.relative_to(REPO))
@@ -77,7 +81,8 @@ def definitions():
             name, params = m.group(1), m.group(2)
             if name in ("if", "for", "while", "switch", "return", "sizeof"):
                 continue
-            out.setdefault(name, (arity(params), params.strip(), rel))
+            head = masked[m.start():m.start(1)].strip()
+            out.setdefault(name, (arity(params), params.strip(), rel, head or "void"))
     return out
 
 

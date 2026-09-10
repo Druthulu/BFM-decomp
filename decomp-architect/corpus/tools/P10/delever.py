@@ -2396,7 +2396,132 @@ def bystander_moves(text, tu, fn, d_, span=6):
     return [(d, c) for _, d, c in sorted(out, key=lambda t: t[0])]
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18")
+_ARG_DEFS = None
+
+
+def real_signatures():
+    """{name: (arity, params, where, ret)} — every function's REAL signature, read from its definition, cached once."""
+    global _ARG_DEFS
+    if _ARG_DEFS is None:
+        sys.path.insert(0, str(REPO / "tools"))
+        import argcheck
+        _ARG_DEFS = argcheck.definitions()
+    return _ARG_DEFS
+
+
+# `name(` AND `name)(` — a dropped-argument call is usually ALREADY wrapped in a cast that asserts the wrong arity,
+# `((s32 (*)(void))func_801789AC)()`, so a pattern that only sees `name(` misses the whole class it was written for.
+CALL = re.compile(r"(?<![\w.>])([A-Za-z_]\w*)\s*(\)?)\s*\(")
+
+
+def restore_arguments(text, tu, fn, d_, cap=64):
+    """[(description, candidate text)] — R19: a call whose in-scope declaration is NARROWER than the callee's real
+    definition, re-issued at the callee's full arity through a function-pointer cast, with each in-scope value tried as
+    the missing argument and the bytes deciding which.
+
+    THE CLASS (P36 S102). Six T7 agents, working independently on six different functions and never seeing each other's
+    results, each reached score 0 by restoring an argument the decompiled source had dropped — m2c drops them at
+    unprototyped and indirect call sites. The register pin was in every case hired to fake the instruction the missing
+    argument would have emitted. The mechanisms are different each time and each was proven on bytes: combine's
+    `added_sets_2` gate (`combine.c:1458`) keeps a copy alive when the value has a second reference; `set_preference`
+    (`global.c:1535`, called at `:1348`) records a copy preference for the argument-setup insn and `find_reg` applies it
+    over first-fit (`global.c:997-1030`), after which the setup degenerates into a self-move deleted by `jump_optimize`
+    (`toplev.c:3142`, `jump.c:424-443`) — so the restored argument can cost ZERO instructions; and reorg's liveness half
+    (`reorg.c:3374`), where the argument's `use` in `CALL_INSN_FUNCTION_USAGE` (`reorg.c:428`) refuses a delay-slot steal.
+
+    WHY IT MUST BE A GENERATOR AND NOT A SEARCH MOVE. Every other family here rewrites statements or declarations that
+    already exist; this one changes a call's ARITY, which is why those six bodies sat at their starting distance through
+    thousands of compiles across seven runs. The cast keeps the edit inside the definition, so the bank stays body-only
+    at either declaration scope (widening a file-scope declaration is the types phase's job, not ours).
+
+    The missing argument is not inferable, so it is not inferred: every parameter of the enclosing function and every
+    local declared before the call is offered, nearest first, and the byte oracle picks. `cap` bounds that fan-out."""
+    defs = real_signatures()
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    # what this TU claims about each callee (file scope or block scope — either way it is what the compiler sees here)
+    declared = {}
+    for i, l in enumerate(masked):
+        for m in re.finditer(r"\bextern\s+([A-Za-z_][\w \t*]*?)\b([A-Za-z_]\w*)\s*\(([^;)]*)\)\s*;", l):
+            sys.path.insert(0, str(REPO / "tools"))
+            import argcheck
+            # the TU's own RETURN TYPE is kept and only the ARITY is repaired: this generator restores arguments, it does
+            # not re-type results. The first spelling took the return type from the definition and produced
+            # `((void (*)(s32))f)(a) != 0`, which does not compile — the defining TU said `void` where this one says `int`.
+            declared.setdefault(m.group(2), (argcheck.arity(m.group(3)), m.group(1).strip() or "int"))
+    # the values in scope: the enclosing function's parameters, then locals in declaration order
+    head = lines[d_["line"] - 1]
+    params = []
+    mh = re.match(r"^.*?\(([^)]*)\)", head)
+    if mh:
+        for part in mh.group(1).split(","):
+            nm = re.findall(r"([A-Za-z_]\w*)\s*$", part.strip().rstrip("[]"))
+            if nm and nm[0] not in ("void",):
+                params.append(nm[0])
+    locals_ = []
+    for i in range(lo, hi):
+        st = masked[i].strip()
+        if is_decl_line(st) and not st.startswith("extern"):
+            for nm in re.findall(r"([A-Za-z_]\w*)\s*(?:=|;|,|\[)", st):
+                if nm not in locals_ and nm not in params:
+                    locals_.append((i, nm))
+    out = []
+    for i in range(lo, hi):
+        # NOT simple_stmt(): these calls live in `return f() != 0;` and in `if (f()) …` as often as in a plain
+        # statement, and the first spelling of this generator found nothing on the very body it was written from
+        # because `return` is a control keyword. A declaration line is still skipped; everything else is fair.
+        st = masked[i].strip()
+        if not st or is_decl_line(st) or st.startswith("#") or st.startswith("extern"):
+            continue
+        for m in CALL.finditer(masked[i]):
+            callee = m.group(1)
+            real = defs.get(callee)
+            if real is None or callee == fn:
+                continue
+            dec = declared.get(callee)
+            if dec is None or dec[0] >= real[0]:
+                continue
+            # the call's own argument text, balanced from the opening paren
+            start = m.start()
+            if m.group(2) == ")":
+                # walk back over the cast wrapper `((T (*)(...))name)` to its opening paren
+                k, depth2 = m.start(), 0
+                while k > 0:
+                    k -= 1
+                    if masked[i][k] == ")":
+                        depth2 += 1
+                    elif masked[i][k] == "(":
+                        if depth2 == 0:
+                            start = k
+                            break
+                        depth2 -= 1
+            depth, j = 0, m.end() - 1
+            while j < len(masked[i]):
+                if masked[i][j] == "(":
+                    depth += 1
+                elif masked[i][j] == ")":
+                    depth -= 1
+                    if depth == 0:
+                        break
+                j += 1
+            if j >= len(masked[i]):
+                continue
+            args = lines[i][m.end():j].strip()
+            have = 0 if args == "" else args.count(",") + 1
+            if have >= real[0]:
+                continue
+            cast = f"(({dec[1]} (*)({real[1]})){callee})"
+            avail = [n for n in params] + [n for k, n in locals_ if k < i]
+            for val in avail[:cap]:
+                newargs = (args + ", " + val) if args else val
+                cand = list(lines)
+                cand[i] = lines[i][:start] + cast + "(" + newargs + ")" + lines[i][j + 1:]
+                out.append((f"argrestore {callee} +{val} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2513,6 +2638,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R18" in fam:
         for desc, cand in bystander_moves(text, tu, fn, d_):
             out.append(("R18", desc, cand))
+    if "R19" in fam:
+        for desc, cand in restore_arguments(text, tu, fn, d_):
+            out.append(("R19", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -3369,6 +3497,37 @@ def selftest():
     d2W = next(r for r in sc.scan_text(W2, "src/fx/w.c", shared_defs=None) if r["form"] == "def" and r["name"] == "f")
     if not param_widths(W2, "src/fx/w.c", "f", d2W):
         fail("R14 must still offer widths when the definition is the only declaration")
+
+    # R19, the argument restore (P36 S102: six T7 agents reached score 0 by restoring a dropped call argument, and no
+    # other family can, because every other family rewrites statements that exist while this changes a call's ARITY).
+    AFIX = ("extern int callee_x(void);\n"
+            "void func_80100000(s32 p) {\n"
+            "    s32 a;\n"
+            "    a = p + 1;\n"
+            "    return callee_x() != 0;\n"
+            "}")
+    dA = next(r for r in sc.scan_text(AFIX, "src/fx/a.c", shared_defs=None)
+              if r["form"] == "def" and r["name"] == "func_80100000")
+    saved = globals().get("_ARG_DEFS")
+    globals()["_ARG_DEFS"] = {"callee_x": (1, "s32 arg0", "src/fx/z.c", "void")}
+    try:
+        r19 = restore_arguments(AFIX, "src/fx/a.c", "func_80100000", dA)
+        got = {d: c for d, c in r19}
+        if len(r19) != 2:
+            fail(f"R19 must offer one candidate per in-scope value (the parameter and the local), got {list(got)}")
+        elif not any("((int (*)(s32 arg0))callee_x)(p)" in c for c in got.values()):
+            fail(f"R19 must keep the TU's DECLARED return type and repair only the arity: {list(got.values())[:1]}")
+        elif any("(*)(void)" in c or "((void (*)" in c for c in got.values()):
+            fail("R19 must not take the return type from the definition (it produced an uncompilable void comparison once)")
+        # a `return` statement is where these calls usually live: a simple_stmt gate found nothing on the real body
+        if not any("@5" in d for d in got):
+            fail(f"R19 must see a call inside a return statement, got {list(got)}")
+        # control: when the declaration already matches the definition there is nothing to restore
+        globals()["_ARG_DEFS"] = {"callee_x": (0, "void", "src/fx/z.c", "void")}
+        if restore_arguments(AFIX, "src/fx/a.c", "func_80100000", dA):
+            fail("R19 must refuse a call whose declaration already matches the definition")
+    finally:
+        globals()["_ARG_DEFS"] = saved
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

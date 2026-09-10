@@ -77,7 +77,10 @@ REGNAME = {0: "zero", 1: "at", 2: "v0", 3: "v1", 4: "a0", 5: "a1", 6: "a2", 7: "
            23: "s7", 24: "t8", 25: "t9", 26: "k0", 27: "k1", 28: "gp", 29: "sp", 30: "fp", 31: "ra"}
 CALLEE = set(range(16, 24)) | {30}
 CALLER = set(range(2, 16)) | {24, 25}
-# the move families per residual class, in trial order (the first is the one the class's byte-proven exemplar closed on)
+# the move families per residual class, in trial order (the first is the one the class's byte-proven exemplar closed on).
+# R19 leads EVERY class since S102: it is the only family that can change a call's arity, it emits a handful of
+# candidates and only for calls whose declaration provably disagrees with the callee's definition, and six independent
+# agent cracks say it is the largest single class in the residue. It costs nothing when it does not apply.
 FAMILIES = {
     # lane B's map (`.run/P36/engine/residual_moves.md`, S101, gcc 2.7.2 source): the caller-saved swap is decided in
     # local-alloc's block_alloc/combine_regs by which dying pseudo the operand ties to — the temp inlined/introduced first; a
@@ -85,17 +88,17 @@ FAMILIES = {
     # R15 (the sink) is the arm-scoped form of the same tie: a value set in every arm of an if/else chain is a CROSS-BLOCK
     # pseudo local-alloc never gives a quantity, so the arm holds two quantities and takes block_alloc's unrolled case 2;
     # sinking makes it three, and case 3 falls through into case 2 and undoes its own exchange (T7 agent a1, func_80156044).
-    "REG-caller": ("R6", "R16", "R8", "R15", "R17", "R5", "R18", "R10", "R12", "R14", "R13", "R3", "R7", "R9", "R2", "R4"),
+    "REG-caller": ("R19", "R6", "R16", "R8", "R15", "R17", "R5", "R18", "R10", "R12", "R14", "R13", "R3", "R7", "R9", "R2", "R4"),
     # the s-bank order is global.c's allocno_compare (ref weight x live length), declaration order only on an exact tie
-    "REG-callee": ("R2", "R4", "R3", "R6", "R16", "R8", "R15", "R18", "R12", "R7", "R9", "R17", "R10", "R14", "R13", "R5"),
-    "REG-mixed": ("R6", "R16", "R2", "R15", "R17", "R18", "R5", "R10", "R4", "R3", "R8", "R12", "R13", "R14", "R7", "R9"),
+    "REG-callee": ("R19", "R2", "R4", "R3", "R6", "R16", "R8", "R15", "R18", "R12", "R7", "R9", "R17", "R10", "R14", "R13", "R5"),
+    "REG-mixed": ("R19", "R6", "R16", "R2", "R15", "R17", "R18", "R5", "R10", "R4", "R3", "R8", "R12", "R13", "R14", "R7", "R9"),
     # a copy dies to cse's canon_reg or the local-alloc tie unless its destination changes MODE (the width); an address
     # pseudo lives when a pointer local is used twice; a value named once is computed once; a short PARAMETER is extended in place
-    "COUNT": ("R12", "R16", "R14", "R15", "R6", "R8", "R3", "R18", "R7", "R17", "R5", "R13", "R9", "R10", "R2", "R4"),
+    "COUNT": ("R19", "R12", "R16", "R14", "R15", "R6", "R8", "R3", "R18", "R7", "R17", "R5", "R13", "R9", "R10", "R2", "R4"),
     # statement order IS the schedule among equal-priority insns (rank_for_schedule's LUID tie-break); do-while is a barrier
     # R17 is the DIRECTED form of the run-split R9 reaches only by luck: agent a2 measured 2,271 compiles for R9 to find it
     # in func_80168828 and R16+R17 reproduce the same close in ten.
-    "ORDER": ("R17", "R18", "R9", "R7", "R13", "R3", "R16", "R6", "R8", "R5", "R12", "R14", "R10", "R15", "R2", "R4"),
+    "ORDER": ("R19", "R17", "R18", "R9", "R7", "R13", "R3", "R16", "R6", "R8", "R5", "R12", "R14", "R10", "R15", "R2", "R4"),
     "MIXED": dl.ALL_FAMILIES,
     "OTHER": dl.ALL_FAMILIES,
 }
@@ -867,8 +870,10 @@ def selftest():
     # leads, and every TARGETED caller-saved lever — R5 the commutative swap, R15 the sink, R16 the constant holder —
     # is drawn before the BLIND families that permute declarations or statements wholesale (R9, R2, R4).
     caller = FAMILIES["REG-caller"]
-    targeted, blind = {"R5", "R15", "R16"}, {"R9", "R2", "R4"}
-    if family_key(c) != "REG-caller" or caller[0] != "R6" or not targeted <= set(caller) \
+    # R19 leads (the only family that can change a call's arity, and free when it does not apply), R6 the temp move next,
+    # and every TARGETED lever before every BLIND family that permutes declarations or statements wholesale.
+    targeted, blind = {"R5", "R15", "R16", "R19"}, {"R9", "R2", "R4"}
+    if family_key(c) != "REG-caller" or caller[:2] != ("R19", "R6") or not targeted <= set(caller) \
             or max(caller.index(t) for t in targeted) > min(caller.index(b) for b in blind):
         fail(f"REG-caller family wrong: {family_key(c)} {caller}")
     # a callee-saved swap: addu s0,a0,zero vs addu s1,a0,zero
