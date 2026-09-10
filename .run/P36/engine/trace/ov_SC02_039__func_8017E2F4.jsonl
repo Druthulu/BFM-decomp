@@ -1,0 +1,13 @@
+{"kind": "seed", "start": 10, "tu": "src/ov_SC02_039/ov_SC02_039_jr_8017BEBC.c", "fn": "func_8017E2F4", "label": "s5"}
+{"depth": 1, "move": "R4 decl-move p2addr 2->0", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3605", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @3596->3599", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width avg u32->u16 @3594", "parent": 10, "score": 26, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3605", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3605", "parent": 10, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @3595", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R5 swap & @3596", "parent": 10, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R4 decl-move p2addr 2->1", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @3605", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @3596->3600", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width avg u32->s16 @3594", "parent": 10, "score": 0, "kind": "IDENTICAL", "ident": true}

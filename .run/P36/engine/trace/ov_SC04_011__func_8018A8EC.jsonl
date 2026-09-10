@@ -1,0 +1,15 @@
+{"kind": "seed", "start": 7, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c", "fn": "func_8018A8EC", "label": "s5"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @12191", "parent": 7, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline merged @12209", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @12203", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R3 init-split ent", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @12197->12195", "parent": 7, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @12195", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @12216", "parent": 7, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R13 assoc +- @12216", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @12195", "parent": 7, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move ent 0->1", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->s16 @12191", "parent": 7, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @12203", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @12203->12205", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @12195", "parent": 7, "score": 0, "kind": "IDENTICAL", "ident": true}

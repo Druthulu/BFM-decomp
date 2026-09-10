@@ -93,15 +93,14 @@ extern s32 func_8014C088(s32 a0, s32 a1);
 extern void func_80146CA0(s32 a0);
 
 void func_800CB03C(s32 *a0) {
-    register s32 flag __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 zz __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 flag;
 
     flag = 0;
     if (func_8014C088((s32)a0, 0x1C) || func_8014C050((s32)a0, 0x3E)) {
-        flag = 1;
+        do { flag = 1; } while (0);
     }
     if (!flag) {
-        func_80146994(0x41, (s32)a0, zz, zz);
+        func_80146994(0x41, (s32)a0, 0, 0);
         func_80147324(0x836);
         func_80146CA0((s32)a0);
     }

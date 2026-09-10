@@ -1,0 +1,7 @@
+{"kind": "seed", "start": 8, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c", "fn": "func_80185648", "label": "s5"}
+{"depth": 1, "move": "R2 decl-order 1,0", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R4 decl-move t 6->0", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R6 inline d @8547", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R16 const-holder s4=1 x2", "parent": 8, "score": 3, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @8554", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @8505->8508", "parent": 8, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -4841,8 +4841,7 @@ void func_8017EDB8(void *a0) {
         v0 = 1;
     }
 
-    *(s16 *)((u8 *)s0 + 0x2) = (s16)v0;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+    do { *(s16 *)((u8 *)s0 + 0x2) = (s16)v0; } while (0);
     func_80187778((s32 *)s0, (s32)&D_801913D4);
 
     v1p = *(void **)((u8 *)s0 + 0x68);
@@ -9194,11 +9193,11 @@ extern void func_80172710(void);
     s32 func_801843DC(param_1)
 s32 param_1;
 {
-        register s32 obj __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+        s32 obj = param_1;
         s32 ptr;
         s32 ptr2;
         s32 result;
-        ptr = *(s32 *)((char *)obj + 0x64);
+        do { ptr = *(s32 *)((char *)obj + 0x64); } while (0);
         if (*(u16 *)((char *)ptr + 0x2) != 6) {
             return 0;
         }

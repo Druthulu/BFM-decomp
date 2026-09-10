@@ -1,0 +1,5 @@
+{"kind": "seed", "start": 11, "tu": "src/ov_SC03_102/ov_SC03_102_jr_8017BEBC.c", "fn": "func_80181030", "label": "s5"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @4277", "parent": 11, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->s16 @4274", "parent": 11, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline rv0 @4300", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4296", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

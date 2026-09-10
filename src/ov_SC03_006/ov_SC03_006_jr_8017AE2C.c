@@ -7037,8 +7037,7 @@ void func_80182080(void *arg0)
 
     q = &prim;
     vz = 3;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-    p = *(u16 **)a0;
+    do { p = *(u16 **)a0; } while (0);
     dx = *(u16 *)(a0 + 0x12);
     dy = *(u16 *)(a0 + 0x14);
     i = 0;
@@ -11243,13 +11242,13 @@ void func_801877D8(void *a0) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_801C9F04[];
-    register u8 *s0 __asm__("$16") = (u8 *)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    u8 *s0 = (u8 *)a0;
     s32 v1;
 
     *(s16 *)(s0 + 0x2) = 4;
     ((void (*)(void *, s32))func_801888A8)(s0, 1);
 
-    v1 = (rand() & 1) ? 1 : -1;
+    do { v1 = (rand() & 1) ? 1 : -1; } while (0);
 
     *(s16 *)(s0 + 0xE0) = v1;
     if (*(s16 *)(s0 + 0xEA) != 0) {
@@ -11303,12 +11302,12 @@ void func_801879C4(void *a0) {
     extern s32 D_801F7730;
     extern s32 D_801C9F04[];
     extern s32 D_801CAE68;
-    register u8 *s0 __asm__("$16") = (u8 *)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    u8 *s0 = (u8 *)a0;
     s32 v0;
     s32 *ptr;
 
     *(s16 *)(s0 + 0x2) = 6;
-    func_8012B23C(s0);
+    do { func_8012B23C(s0); } while (0);
     func_8012B178(s0, (s32)0xFFFE0000);
     v0 = rand();
     *(s32 *)(s0 + 0x1C) = v0 % 61 + 90;

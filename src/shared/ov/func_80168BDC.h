@@ -9,8 +9,8 @@ void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     short mtx[16];
     short vec[4];
     int r;
-    int i;     /* loop counter, survives the call -> $s1 */
-    int tmp;    /* increment temp -> $v0 (the split-IV) */
+    u16 i;     /* loop counter, survives the call -> $s1 */
+    u16 tmp;    /* increment temp -> $v0 (the split-IV) */
     func_800D2318();
     vec[0] = *(short *)(param_1 + 0x12);
     vec[1] = *(short *)(param_1 + 0x16);
@@ -43,7 +43,6 @@ void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
             }
             tmp = i + 1;
             i = tmp;
-            __asm__ __volatile__("" : "=r"(i) : "0"(i));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         } while ((short)tmp < (short)param_4);
     }
 }

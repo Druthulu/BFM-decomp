@@ -13,7 +13,6 @@ s32 func_801612B8(void * a0, s32 a1)
         func_8014E934(p);
     }
     v0 = ((s32 (*)(s32))func_8014CC28)(p);
-    __asm__ __volatile__("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
-    v1 = ((s32 (*)(s32))func_8014F3E8)(p);
+    do { v1 = ((s32 (*)(s32))func_8014F3E8)(p); } while (0);
     return v0 | v1;
 }

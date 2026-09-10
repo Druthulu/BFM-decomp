@@ -1,0 +1,19 @@
+{"kind": "seed", "start": 10, "tu": "src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c", "fn": "func_80180A2C", "label": "s5"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @4575", "parent": 10, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v0_2 @4591", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base-shared tmp0 @4592", "parent": 10, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @4585->4587", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @4579", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R17 const-split @4592->4595 (0x800 into the 0 run)", "parent": 10, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4579", "parent": 10, "score": 23, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @4578", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move v0 2->0", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->s16 @4575", "parent": 10, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @4588", "parent": 10, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base-shared tmp0 @4580", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @4587->4585", "parent": 10, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4579", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4593", "parent": 10, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move v0 2->1", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->u8 @4575", "parent": 10, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @4598", "parent": 10, "score": 0, "kind": "IDENTICAL", "ident": true}

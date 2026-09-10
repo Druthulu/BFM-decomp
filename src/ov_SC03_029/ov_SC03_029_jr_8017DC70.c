@@ -3625,7 +3625,7 @@ void func_8017F760(s32 a0)
     s32 ang;
     s16 r;
     s16 *p;
-    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
+    s16 d;
 
     sp18 = *(UShortBlk_F760 *)&D_801D8028;
 
@@ -3646,7 +3646,6 @@ void func_8017F760(s32 a0)
         }
         sp18.x1 = sp10.x1;
         r = func_80013294(&sp10, &sp18);
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         d = ang;
         if (d < 0xA00 && r > 0xAE0) {
             sp10.x0 = 0;

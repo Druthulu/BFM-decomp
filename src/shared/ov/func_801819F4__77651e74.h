@@ -16,7 +16,7 @@ extern void func_8012A018(s32 a0, s32 a1);
 extern void func_80181D2C(u8 *a0);
 void func_801819F4(void) {
     s32 v0;
-    register u16 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers2)
+    u16 v1;
     v0 = 0x64;
     D_80126954 = v0;
     v0 = 0x190;
@@ -27,11 +27,10 @@ void func_801819F4(void) {
     D_8012696A = v0;
     v0 = -0x80;
     D_80126978 = v0;
-    v0 = 0xC8;
     v1 = D_80126B5E;
     D_8012696C = 0;
     D_80126976 = 0;
-    D_8012697A = v0;
+    D_8012697A = (0xC8);
     D_801269E4 = 0;
     D_801269E8 = 0;
     D_801274E8 = v1;

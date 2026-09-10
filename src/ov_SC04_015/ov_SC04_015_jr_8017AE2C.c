@@ -5070,8 +5070,7 @@ void func_8017EB78(void *arg0)
     u8 u_lo, y_lo;
 
     s = (u8 *)arg0;
-    X = *(s16 *)(s + 0x10);
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+    do { X = *(s16 *)(s + 0x10); } while (0);
     Y = *(s16 *)(s + 0x12);
 
     p = (u8 *)func_80010A08(0x28);

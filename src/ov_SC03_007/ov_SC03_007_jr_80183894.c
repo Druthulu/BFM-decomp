@@ -4005,8 +4005,7 @@ void func_80184AFC(s32 a0) {
     s32 spd;
     s32 t;
     s16 rc;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 fire;
+    u16 fire;
 
     ret = 0;
     if ((*(u16 *)(a0 + 0x5C) & 0x200) != 0) {
@@ -4113,7 +4112,7 @@ void func_80184AFC(s32 a0) {
         }
     }
 
-    fire = ret + zr;
+    fire = ret + 0;
     if (fire != 0) {
         func_80146A6C(2, (void *)a0, 0, 0, 0, 3,
                       ((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x800) & 0xFFF) | 0x30009000);
@@ -4728,13 +4727,12 @@ extern void func_80185D3C(void *a0, s32 a1);
 s32 func_80185A24(s32 arg0) {
     s32 ret;
     s32 raw;
-    s32 flags;
+    u16 flags;
     s32 h;
 
     ret = 0;
     raw = ((s32 (*)(s32))func_8012CBA4)(arg0);
     flags = raw;
-    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     if ((raw & 0x6000) != 0x2000) {
         func_8012ADE4((u8 *)arg0);
         if (*(s32 *)(arg0 + 0x1C) > 8) {
@@ -5376,29 +5374,28 @@ extern void (*D_8018C610[])(void);
 
 void func_80186818(s32 a0)
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
     s32 v0;
     u16 *p;
 
-    s0 = a0;
 
-    if (*(s32 *)(s0 + 0x1C) < 0xF) {
-        v0 = func_8012B608(*(s16 *)(*(s32 *)(s0 + 0x20) + 0x12), 0xA00, 4);
-        p = *(u16 **)(s0 + 0x20);
+    if (*(s32 *)(a0 + 0x1C) < 0xF) {
+        v0 = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), 0xA00, 4);
+        p = *(u16 **)(a0 + 0x20);
         p[9] = p[9] + v0;
     }
 
-    v0 = *(s32 *)(s0 + 0x1C) - 1;
-    *(s32 *)(s0 + 0x1C) = v0;
+    v0 = *(s32 *)(a0 + 0x1C) - 1;
+    *(s32 *)(a0 + 0x1C) = v0;
     if (v0 != 0) {
         return;
     }
 
-    func_8012B178(s0, 0xFFF40000);
-    func_8012A828(s0, (void *)D_8018C610);
-    *(s32 *)(s0 + 0x1C) = 0x2D;
+    func_8012B178(a0, 0xFFF40000);
+    func_8012A828(a0, (void *)D_8018C610);
+    *(s32 *)(a0 + 0x1C) = 0x2D;
     func_800D0CE0();
-    *(u16 *)(s0 + 0x2) = *(u16 *)(s0 + 0x2) + 1;
+    *(u16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
 }
 
 

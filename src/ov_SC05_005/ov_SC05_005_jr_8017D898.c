@@ -5279,18 +5279,17 @@ extern void func_80146C3C();
 
 void func_801822E8(void *a0)
 {
-    register s32 self __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 self;
     s32 obj;
 
-    self = (s32)a0;
-    obj = *(s32 *)(self + 0x20);
-    if (func_80128ED8(obj, (s32 *)(self + 0x24)) != 0) {
-        ((void (*)(s32))func_80146C3C)(self);
+    obj = *(s32 *)(a0 + 0x20);
+    if (func_80128ED8(obj, (s32 *)(a0 + 0x24)) != 0) {
+        ((void (*)(s32))func_80146C3C)(a0);
     } else {
-        *(s32 *)(self + 0x14) += -0x8000;
-        *(s32 *)(self + 0x8) += *(s32 *)(self + 0x14);
+        *(s32 *)(a0 + 0x14) += -0x8000;
+        *(s32 *)(a0 + 0x8) += *(s32 *)(a0 + 0x14);
         *(u16 *)(obj + 0x18) += 0x500;
-        if (*(s32 *)(self + 0x2C) == 0) {
+        if (*(s32 *)(a0 + 0x2C) == 0) {
             *(u16 *)(obj + 0x1A) += 0x300;
         } else {
             *(u16 *)(obj + 0x1A) += 0x600;

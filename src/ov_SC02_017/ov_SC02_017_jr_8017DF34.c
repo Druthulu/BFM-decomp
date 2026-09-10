@@ -3827,12 +3827,14 @@ extern void func_8012B2CC(s32 a0);
 extern u8 D_801C8558[];
 
 void func_8017FE78(void *a0) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 s0;
     s32 s1;
     s32 v0;
     s32 v1;
+    void *a02;
+    a02 = a0;
 
-    s0 = (s32)a0;
+    s0 = (s32)a02;
     s1 = 1;
     *(s16 *)(s0 + 0x76) = s1;
     v0 = ((s32 (*)(void))func_8012C1B8)();
@@ -7065,11 +7067,11 @@ extern u8 aD8018A800[] __asm__("D_8018A800");
 
 void func_801846B8(void *arg0)
 {
-    register s32 s1 __asm__("$17") = (s32)arg0;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 s1 = (s32)arg0;
     s32 *p;
     s32 v0;
 
-    v0 = ((s32 (*)(void))func_8012C1B8)();
+    do { v0 = ((s32 (*)(void))func_8012C1B8)(); } while (0);
     *(s32 *)(s1 + 0x20) = v0;
     if (v0 == 0) {
         ((void (*)(s32))func_8012CAE4)(s1);
@@ -7447,13 +7449,11 @@ extern void func_8012B178(s32 a0, s32 a1);
 void func_80184F4C(s0)
 s32 s0;
 {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 v0;
     s32 v1;
 
-    v0 = func_8012BDBC(s0, 0x400);
-    if (v0 == 1) {
-        v0 = func_8012BCCC(s0);
-        if (v0 >= 0x3001) {
+    if ((func_8012BDBC(s0, 0x400)) == 1) {
+        if ((func_8012BCCC(s0)) >= 0x3001) {
             v0 = rand();
             v0 = func_8012B8E4(s0, (s16)(v0 - v0 / 5 * 5 + 4));
             v1 = *(s32 *)(s0 + 0x20);
@@ -7904,11 +7904,10 @@ extern void func_80185EE4(s32 a0);
 
 void func_801857C4(s32 a0)
 {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 v0;
     s32 v1;
 
-    v0 = *(s32 *)(a0 + 0x1C);
-    if (v0 < 0x11) {
+    if ((*(s32 *)(a0 + 0x1C)) < 0x11) {
         v0 = *(s32 *)(a0 + 0x20);
         v1 = *(s32 *)(v0 + 0x4);
         v1 = v1 ^ 0x80000000;
@@ -8286,8 +8285,7 @@ s32 aF80185F88(s32 a0) {
                 }
                 *(u16 *)(a0 + 6) = v18[0];
                 *(u16 *)(a0 + 0xA) = v18[1];
-                *(u16 *)(a0 + 0xE) = v18[2];
-                __asm__ __volatile__("" ::: "memory");   /* zero-byte cross-jump barrier (§5a) */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
+                do { *(u16 *)(a0 + 0xE) = v18[2]; } while (0);
                 return 1;
             }
         }

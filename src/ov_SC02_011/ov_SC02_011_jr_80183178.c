@@ -2696,7 +2696,7 @@ void func_80186BB0(void *a0) {
 
 
 void func_80186C30(s32 a0) {
-    register s32 self __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 self = a0;
     s32 v0;
     extern s32 func_80029178(s32);
     extern void func_8012C1B8(void);
@@ -2715,7 +2715,7 @@ void func_80186C30(s32 a0) {
         goto L88;
     }
     func_8001C214(v0, (s32)&D_801E4D54);
-    v0 = func_8012C588(0x110, self);
+    do { v0 = func_8012C588(0x110, self); } while (0);
     if (v0 != 0) {
         goto L98;
     }

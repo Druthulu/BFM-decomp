@@ -3548,11 +3548,13 @@ void func_80181B04(s32 arg0) {
     extern void func_8001C214(s32 a0, s32 a1);
     extern void func_8012A828(s32 a0, void *a1);
     extern s32 func_80143994(s32 a0, s32 a1);
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s0;
     s32 flag;
     void *mat;
+    s32 arg02;
+    arg02 = arg0;
 
-    s0 = arg0;
+    s0 = arg02;
     flag = D_801ED59C[*(s16 *)(s0 + 0x10A)];
     if (flag == 0 || func_80128CFC(flag) != 0) {
         func_8001C214(*(s32 *)(s0 + 0x20), D_801ED4E4[*(s16 *)(s0 + 0x10A)]);

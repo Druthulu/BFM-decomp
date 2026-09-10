@@ -1,0 +1,3 @@
+{"kind": "seed", "start": 9, "tu": "src/ov_SC06_029/ov_SC06_029_jr_801898CC.c", "fn": "func_8018A084", "label": "s5"}
+{"depth": 1, "move": "R12 width v1 s32->u16 @3660", "parent": 9, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @3684", "parent": 9, "score": 0, "kind": "IDENTICAL", "ident": true}

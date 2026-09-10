@@ -1,0 +1,15 @@
+{"kind": "seed", "start": 8, "tu": "src/md_MAIN_031/md_MAIN_031.c", "fn": "func_800CB288", "label": "s5"}
+{"depth": 1, "move": "R8 temp tmp0 @219", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @200->203", "parent": 8, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @196", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width cur2 u16->s32 @195", "parent": 8, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @188", "parent": 8, "score": 26, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @219", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @219", "parent": 8, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move cur2 5->0", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @219", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @201->198", "parent": 8, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width cur2 u16->s16 @195", "parent": 8, "score": 8, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u16 @188", "parent": 8, "score": 23, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @219", "parent": 8, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @220", "parent": 8, "score": 0, "kind": "IDENTICAL", "ident": true}

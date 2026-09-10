@@ -5621,12 +5621,14 @@ void func_801812C4(void *param_1)
     extern s32 D_80190E5C;
     extern u8 D_8019814C[];
 
-    register s32 ent __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 ent;
     s32 v0;
     s32 t1;
     s32 one;
+    void *param_12;
+    param_12 = param_1;
 
-    ent = (s32)param_1;
+    ent = (s32)param_12;
     v0 = ((s32 (*)(void))func_8012C1B8)();
     *(s32 *)(ent + 0x20) = v0;
     if (v0 == 0) {

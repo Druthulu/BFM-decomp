@@ -3619,22 +3619,21 @@ extern void func_80154150(s32 a0, s32 a1);
 extern void func_80171A1C(u8 *a0);
 
 void func_8017DF50(void *arg0) {
-    register s32 b __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 b;
     s32 a;
-    b = (s32)arg0;
-    a = *(s32 *)(b + 0x20);
+    a = *(s32 *)(arg0 + 0x20);
     func_8017E100();
-    *(s16 *)(a + 0x12) = func_8014C568((s16 *)b, (s16 *)D_801B12E4);
-    if (func_80146E98(b) != 0) {
+    *(s16 *)(a + 0x12) = func_8014C568((s16 *)arg0, (s16 *)D_801B12E4);
+    if (func_80146E98(arg0) != 0) {
         ((void (*)(s32 *))func_8017E230)(arg0);
-        func_80154150(b, 0x10);
-        func_80171A1C((u8 *)b);
+        func_80154150(arg0, 0x10);
+        func_80171A1C((u8 *)arg0);
     } else {
         ((void (*)(s32 *))func_8017E230)(arg0);
-        if (*(s16 *)(b + 0x20C) == 0) {
-            if ((*(u16 *)(b + 0xB8) & 0x8000) != 0) {
-                *(u16 *)(b + 0x20C) = 1;
-                *(u16 *)(b + 0xB8) = *(u16 *)(b + 0xBA);
+        if (*(s16 *)(arg0 + 0x20C) == 0) {
+            if ((*(u16 *)(arg0 + 0xB8) & 0x8000) != 0) {
+                *(u16 *)(arg0 + 0x20C) = 1;
+                *(u16 *)(arg0 + 0xB8) = *(u16 *)(arg0 + 0xBA);
             }
         }
     }

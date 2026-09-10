@@ -5615,7 +5615,6 @@ void func_801814B0(u16 *param_1, s32 param_2)
      * `__asm__ __volatile__("")` here fixes the registers but fences sched2
      * out of the prologue and the `addiu $s3,$a1,-1` falls into the guard's
      * delay slot (closeness 6). */
-    __asm__ ("" : "=r" (param_2) : "0" (param_2));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
 
     i = param_2 - 1;
     if (param_2 != 0) {
@@ -5647,7 +5646,7 @@ void func_801814B0(u16 *param_1, s32 param_2)
                     *(s32 *)(*(s32 *)(sub + 0x20) + 0x4) |= 0x40000000;
                 }
             }
-            i--;
+            do { i--; } while (0);
         } while (i != -1);
     }
 }

@@ -3080,7 +3080,7 @@ s32 func_8017D5DC(void* param_1)
 {
     u8 *s0;
     s32 s1;
-    register u16 ret asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 ret;
 
     s1 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
     if (s1 == 0) {

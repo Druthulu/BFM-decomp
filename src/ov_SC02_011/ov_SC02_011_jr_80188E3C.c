@@ -111,12 +111,11 @@ void func_80189050(s32 param_1) {
     s32 s0 = param_1;
     s32 *s1;
 
-    __asm__ __volatile__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
 
     if ((*(u16 *)(s0 + 0x70) & 0x2000) == 0) {
         s1 = &D_801960B4[3];
     } else {
-        s1 = &D_801960B4[0];
+        do { s1 = &D_801960B4[0]; } while (0);
     }
     *(s16 *)(s0 + 2) = 7;
     func_8012A828(s0, (void *)s1[0]);
@@ -348,10 +347,12 @@ extern short D_801D3B74;
 extern short D_801D4494;
 
 void func_8018951C(s32 param_1) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
     s32 v0;
+    s32 param_12;
+    param_12 = param_1;
 
-    s0 = param_1;
+    s0 = param_12;
     if ((*(u16 *)(s0 + 0x72) & 0x4000) != 0) {
         *(u16 *)(s0 + 0x100) = 3;
         if (func_8012BD3C(s0, 0x400, 0x40000) != 0) {
@@ -749,10 +750,10 @@ void func_80189C90(s32 s0)
 
 void func_80189E00(s32 a0) {
     extern u8 D_801961BC[];
-    register s32 s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0 = a0;
     s32 v0, v1;
 
-    v0 = *(s32 *)(s0 + 0xDC);
+    do { v0 = *(s32 *)(s0 + 0xDC); } while (0);
     if (v0 != 0) {
         v0 = v0 - 1;
         *(s32 *)(s0 + 0xDC) = v0;
@@ -4246,7 +4247,7 @@ struct vec;
 extern void func_8012931C(struct vec *a0);
 
 void func_8018E014(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0 = (s32)a0;
     s16 v1;
     u16 v0;
     s16 decremented;
@@ -4260,7 +4261,7 @@ void func_8018E014(void *a0) {
 
     func_8018E0AC();
 
-    v0 = *(u16 *)(s0 + 0x2C);
+    do { v0 = *(u16 *)(s0 + 0x2C); } while (0);
     decremented = v0 - 1;
     *(u16 *)(s0 + 0x2C) = decremented;
 

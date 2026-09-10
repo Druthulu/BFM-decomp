@@ -1,0 +1,15 @@
+{"kind": "seed", "start": 11, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c", "fn": "func_8018CB68", "label": "s5"}
+{"depth": 1, "move": "R2 decl-order 1,0", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R4 decl-move a0 0->2", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R5 swap + @13926", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R6 inline a0 @13924", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 block @13926", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @13926", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @13924", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @13923", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R12 width val u16->s32 @13922", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @13919", "parent": 11, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @13926->13928", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R4 decl-move a1 1->2", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R5 swap + @13930", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R6 inline val @13925", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

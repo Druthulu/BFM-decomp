@@ -4933,7 +4933,9 @@ extern s32 func_801788B8(s32 a0, s32 a1);
 
 void func_8017EE8C(s32 arg0) {
     s32 a1;
-    __asm__ __volatile__("" : "=r"(a1) : "0"(arg0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+    s32 arg02;
+    arg02 = arg0;
+    a1 = arg02;
 
     if (*(s16 *)(a1 + 0xFC) != 0) {
         s32 idx;

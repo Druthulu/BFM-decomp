@@ -3683,8 +3683,8 @@ void func_8017EE34(s32 a0) {
     s32 s0 = a0;
     Local_8017EE34 local;
     u16 t6, tA, tE;
-    register s32 fc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
-    s32 cnt;
+    s32 fc;
+    u16 cnt;
     s32 v0;
     u16 v1;
 
@@ -3888,12 +3888,10 @@ void func_8017F234(s32 a0) {
     UVEC_8017F234 in;                   /* sp+0x30 */
     UVEC_8017F234 out;                  /* sp+0x38 */
     s32 obj;    /* $s1 -- see the pin note above */
-    s32 r;
     s32 t;
     s32 p;
     s32 m;
-    s32 w;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
+    u16 w;
 
     obj = ((s32 (*)(void))func_8012C1B8)();
     if (obj == 0) {
@@ -3933,7 +3931,6 @@ void func_8017F234(s32 a0) {
             *(s32 *)(p + 0x1C) = rand() % 5;
         }
         w = rand();
-        r = w + zr;
         m = (s16)w % 0x380;
         if ((w & 1) == 0) {
             *(s16 *)(obj + 0x12) = -(s16)m;
@@ -3941,7 +3938,7 @@ void func_8017F234(s32 a0) {
             *(s16 *)(obj + 0x12) = (s16)m;
         }
         func_8012B2CC(a0);
-        func_8012B178(a0, 0xFFF80000 - (((s16)r % 4) << 16));
+        func_8012B178(a0, 0xFFF80000 - (((s16)(w + 0) % 4) << 16));
         *(s16 *)(a0 + 0x34) = 1;
         *(s32 *)(a0 + 0x1C) = 0x40;
         *(s16 *)(a0 + 0xFC)  = rand() & 0xF0;

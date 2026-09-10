@@ -4492,11 +4492,12 @@ extern void func_8013240C(s32 a0, s32 a1, u32 a2);
 extern s32 D_801E44E0;
 
 void func_80184404(s32 a0) {
-    register s32 s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 temp_a0 __asm__("$4") = a0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 temp_a0 = a0;
     s32 a1;
     s32 v0;
     u32 a2 = 0x15;
+    s0 = a0;
 
     a1 = *(s32 *)(s0 + 0x64);
     v0 = *(s32 *)(a1 + 0xE8);

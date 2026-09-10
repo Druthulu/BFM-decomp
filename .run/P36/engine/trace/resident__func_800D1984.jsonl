@@ -1,0 +1,43 @@
+{"kind": "seed", "start": 1, "tu": "src/resident/resident_jr_800D128C.c", "fn": "func_800D1984", "label": "s5"}
+{"depth": 1, "move": "R6 inline fp @695", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @698", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @698", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @697", "parent": 1, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @698", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @697", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 do-while @697", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @695", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 do-while @695", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @692", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 do-while @692", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R8 hoist tmp0 @697", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @697", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @696", "parent": 1, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @697", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @696", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 do-while @696", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @692", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R7 do-while @692", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R6 inline tmp0 @699", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R18 bystander @700->698", "parent": 1, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width tmp0 s32->u16 @692", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @700", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @699", "parent": 1, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width tmp0 s32->s16 @692", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 do-while @700", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R9 swap-stmts @698", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R12 width tmp0 s32->u8 @692", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @699", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 do-while @699", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @698", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 do-while @698", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @696", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 do-while @696", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @693", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R7 do-while @693", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R7 block @697", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 do-while @697", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @695", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 do-while @695", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 2, "move": "R7 block @692", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 2, "move": "R7 do-while @692", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}

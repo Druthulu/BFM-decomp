@@ -1,0 +1,7 @@
+{"kind": "seed", "start": 2, "tu": "src/md_SC07_004/md_SC07_004.c", "fn": "func_801AC29C", "label": "s5"}
+{"depth": 1, "move": "R18 bystander @8443->8440", "parent": 2, "score": 51, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @8471", "parent": 2, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @8471", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline ra0 @8470", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @8471", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width v1 s32->u16 @8438", "parent": 2, "score": 0, "kind": "IDENTICAL", "ident": true}

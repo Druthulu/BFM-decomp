@@ -3590,8 +3590,8 @@ typedef struct {
 s32 func_8017E2F4(s32 a0, s32 a1) {
     Vec4h_8017E2F4 p1;
     Vec4h_8017E2F4 p2;
-    register s32 p2addr __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
-    u32 avg;
+    s32 p2addr;
+    s16 avg;
 
     p2addr = (s32)&p2;
     p1.x = p2.x = *(u16 *)(a1 + 0x4);
@@ -4151,10 +4151,10 @@ void func_8017EED8(s32 a0in) {
     extern u16 D_80126B96;
     extern s16 D_80126B98;
     s32 param_1;
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s1;
 
     param_1 = a0in;
-    s1 = D_8019B618[*(s16 *)(param_1 + 0x102)];
+    do { s1 = D_8019B618[*(s16 *)(param_1 + 0x102)]; } while (0);
     if (s1 != 0) {
         ((void (*)(void))func_8012B2CC)();
         if (func_8017EF5C(param_1, s1) != 0) {
@@ -4213,10 +4213,10 @@ extern s32 func_8012AD50(void *a0);
 
 void func_8017F050(void *a0)
 {
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
+    void *s0;
     s32 v0 = ((s32 (*)(void))func_8012C1B8)();
     s32 p;
+    s0 = a0;
 
     *(s32 *)((u8 *)s0 + 0x20) = v0;
 
@@ -4227,7 +4227,7 @@ void func_8017F050(void *a0)
 
         func_8001C2C4(v0);
         t = *(s16 *)((u8 *)s0 + 0xFC);
-        p = (s32)s0 + zr;
+        p = (s32)s0 + 0;
         *(s16 *)(p + 0xFE) = 0;
         *(s16 *)(p + 0x102) = 0;
         *(s32 *)(p + 0x1C) = t;

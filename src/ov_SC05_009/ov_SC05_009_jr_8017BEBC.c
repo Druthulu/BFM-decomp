@@ -3328,12 +3328,10 @@ void func_8017DAF4(s32 param_1)
 
 void func_8017DCB0(s32 arg0) {
     s32 a0;
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    u16 val;
+    s32 a1;
 
     a1 = *(s32 *)(arg0 + 0x20);
-    val = *(u16 *)(arg0 + 0xFC);
-    *(u16 *)(a1 + 0x10) = *(u16 *)(a1 + 0x10) + val;
+    *(u16 *)(a1 + 0x10) = *(u16 *)(a1 + 0x10) + (*(u16 *)(arg0 + 0xFC));
 
     *(u16 *)(a1 + 0x14) = *(u16 *)(a1 + 0x14) + *(u16 *)(arg0 + 0xFE);
 

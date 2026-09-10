@@ -3329,15 +3329,14 @@ extern u8 D_801E9928[];
 s32 func_8017EFC4(s32 a0) {
     u16 t;
     s32 c;
-    s32 d;
-    s32 e;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    s16 d;
+    s16 e;
     s16 r;
 
     t = func_80029504();
     c = func_800291B4(0x3B) & 0xFF;
     if ((u16)(t - 0x87) < 0x41) {
-        d = c + zr;
+        d = c + 0;
         if (d < 4) {
             func_80029514(0x8C);
             func_800291A0(0x3B, 4);
@@ -3350,7 +3349,7 @@ s32 func_8017EFC4(s32 a0) {
         }
     }
     if ((u16)(t - 0x280) < 0x14) {
-        e = c + zr;
+        e = c + 0;
         if (e < 6) {
             func_800291A0(0x3B, 6);
             D_801E91D4 = D_801E93F8;
@@ -4031,7 +4030,6 @@ s32 func_8017FED8(s32 a0) {
         e = D_801202A0;
         for (;;) {
             p = e + 0x102;
-            __asm__ __volatile__("" :: "r"(p));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
             if (*(u16 *)(e + 0) != 0x1AB) goto next;
             if (*(s16 *)(p - 0x92) != 0x2B) goto next;
             cur = D_801F32D8;
@@ -4050,7 +4048,7 @@ s32 func_8017FED8(s32 a0) {
             break;
         next:
             ++i;
-            e += 0x10C;
+            do { e += 0x10C; } while (0);
             if ((s16)i >= 0x60) break;
         }
     }

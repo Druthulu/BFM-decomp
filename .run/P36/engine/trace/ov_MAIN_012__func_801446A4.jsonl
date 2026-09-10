@@ -1,0 +1,9 @@
+{"kind": "seed", "start": 8, "tu": "src/shared/ov/func_801446A4.h", "fn": "func_801446A4", "label": "s5"}
+{"depth": 1, "move": "R12 width s1 int->u16 @11", "parent": 8, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 int->s16 @9", "parent": 8, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @29", "parent": 8, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @18->21", "parent": 8, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @14", "parent": 8, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap & @20", "parent": 8, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @28", "parent": 8, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @13", "parent": 8, "score": 0, "kind": "IDENTICAL", "ident": true}

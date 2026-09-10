@@ -3537,7 +3537,7 @@ void func_80180A10(s32 a0) {
     extern Blk8_80126940_80180A10 D_80126940;
     Blk8_80126940_80180A10 sp10;
     u16 sp18[3];
-    s32 s1;
+    u16 s1;
     s32 v;
     u8 t;
 
@@ -3556,7 +3556,6 @@ void func_80180A10(s32 a0) {
     }
 
     s1 = ratan2(sp10.v[0], sp10.v[2]) & 0xFFF;
-    __asm__("" : "=r"(s1) : "0"(s1));   /* §393 birthing boost: 2-set s1 -> the andi schedules first */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     sp18[0] = (u16)sp10.v[0];
     sp18[1] = 0;
     sp18[2] = (u16)sp10.v[2];

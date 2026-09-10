@@ -4070,8 +4070,8 @@ extern u16 D_8018EFFC[][2];
 void func_8017D1E0(void *a0)
 {
     s16 n;
-    register s32 tmp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 t __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 tmp;
+    s32 t;
     s16 v;
     SVECTOR_8017C290 vec1;
     SVECTOR_8017C290 vec2;
@@ -4086,8 +4086,8 @@ void func_8017D1E0(void *a0)
     }
 
     tmp = *(s32 *)((s32)a0 + 0x30) + 0x6000;
-    *(s32 *)((s32)a0 + 0x14) += tmp;
     t = tmp;
+    *(s32 *)((s32)a0 + 0x14) += tmp;
 
     v = *(u16 *)((s32)a0 + 0x10) - *(u16 *)((s32)a0 + 0x16);
     *(s16 *)((s32)a0 + 0x10) = v;
@@ -4429,11 +4429,9 @@ void func_8017D900(s32 arg0) {
     u8 *p = &D_801EA880;
 
     D_801EA881 = D_801EA882 = *p = func_80012F74(*p, 0, 10, 1);
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-    *(Quad_801EA880 *)&D_801EA884 = *(Quad_801EA880 *)p;
+    do { *(Quad_801EA880 *)&D_801EA884 = *(Quad_801EA880 *)p; } while (0);
     *(Quad_801EA880 *)&D_801EA888 = *(Quad_801EA880 *)p;
-    *(Quad_801EA880 *)&D_801EA88C = *(Quad_801EA880 *)p;
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+    do { *(Quad_801EA880 *)&D_801EA88C = *(Quad_801EA880 *)p; } while (0);
     if (*p == 0) {
         ((void (*)(s32))func_80146C3C)(arg0);
     }

@@ -6292,11 +6292,9 @@ void func_8017FD9C(s32 arg0) {
     u8 *p = &D_801EB488;
 
     D_801EB489 = D_801EB48A = *p = func_80012F74(*p, 0, 10, 1);
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-    *(Quad_801EA880_8017FD9C *)&D_801EB48C = *(Quad_801EA880_8017FD9C *)p;
-    *(Quad_801EA880_8017FD9C *)&D_801EB490 = *(Quad_801EA880_8017FD9C *)p;
+    do { *(Quad_801EA880_8017FD9C *)&D_801EB48C = *(Quad_801EA880_8017FD9C *)p; } while (0);
+    do { *(Quad_801EA880_8017FD9C *)&D_801EB490 = *(Quad_801EA880_8017FD9C *)p; } while (0);
     *(Quad_801EA880_8017FD9C *)&D_801EB494 = *(Quad_801EA880_8017FD9C *)p;
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
     if (*p == 0) {
         ((void (*)(s32))func_80146C3C)(arg0);
     }

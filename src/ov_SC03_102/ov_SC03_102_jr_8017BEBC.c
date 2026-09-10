@@ -4275,6 +4275,7 @@ void func_80181030(s32 a0)
 {
     SVECTOR_80181030 sv1, sv2;
     s32 v0;
+    s32 tmp0;
 
     if (*(s32 *)(a0 + 0x2C) == 0) {
         sv1.vx = *(u16 *)(a0 + 0x6);
@@ -4289,12 +4290,12 @@ void func_80181030(s32 a0)
         v0 = func_80133784(1, &sv1, (s32)&sv2);
         if (v0 != 0) {
             s32 rv0;
-            register s16 rv1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
+            s16 rv1;
 
             *(u16 *)(a0 + 0x6) = sv2.vx;
             *(u16 *)(a0 + 0xA) = sv2.vy;
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
-            rv0 = *(s32 *)(a0 + 0x2C);
+            tmp0 = *(s32 *)(a0 + 0x2C);
+            rv0 = tmp0;
             rv1 = sv2.vz;
             rv0 = rv0 + 1;
             *(s32 *)(a0 + 0x2C) = rv0;
@@ -4568,20 +4569,17 @@ void func_801815D4(void *a0)
     Blk4_801815D4 col;
     s32 flags;
     u32 v;
-    u32 val;
 
     s0 = *(u8 **)((u8 *)a0 + 0x20);
     flags = ((s32 (*)(s32, s32))func_8012EF70)((s32)((u8 *)a0 + 0xFC), (s32)buf);
 
     if (flags & 0xFFFFEFFF) {
-        register u32 loaded __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+        u32 loaded;
         loaded = *(u32 *)(s0 + 4);
-        val = loaded | 0x80000000;
+        *(u32 *)(s0 + 4) = (loaded | 0x80000000);
     } else {
-        val = *(u32 *)(s0 + 4) & 0x7FFFFFFF;
+        *(u32 *)(s0 + 4) = (*(u32 *)(s0 + 4) & 0x7FFFFFFF);
     }
-    *(u32 *)(s0 + 4) = val;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
 
     func_80015954((s32)buf, (s32)((u8 *)a0 + 4));
 

@@ -4271,11 +4271,11 @@ extern u8 D_80191048[];
 
 void func_8017F414(s32 param_1)
 {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 v0;
     s32 v1;
     s32 sp10[3];
 
-    *(s32 *)(param_1 + 0x20) = v0 = ((s32 (*)(void))func_8012C1B8)();
+    do { *(s32 *)(param_1 + 0x20) = v0 = ((s32 (*)(void))func_8012C1B8)(); } while (0);
     if (v0 == 0) {
         ((void (*)(s32))func_8012CAE4)(param_1);
         return;

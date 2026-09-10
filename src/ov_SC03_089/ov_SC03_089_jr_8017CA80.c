@@ -6055,14 +6055,13 @@ void func_80184E54(void *a0)
         *(s32 *)(s0 + 0x1C) = 0x5A;
         return;
     }
-    __asm__("" : "=r"(s0) : "0"(s0) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
 
     if (*(s16 *)(s0 + 0xFE) != *(s16 *)(s1 + 0x36)) {
         func_80185144(s0);
         return;
     }
 
-    func_8012F214(s1, (s32)&D_801A3B98, (s32)&out);
+    do { func_8012F214(s1, (s32)&D_801A3B98, (s32)&out); } while (0);
     *(s16 *)(s0 + 0x6) = out.a;
     *(s16 *)(s0 + 0xA) = out.b;
     *(s16 *)(s0 + 0xE) = out.c;

@@ -1,0 +1,12 @@
+{"kind": "seed", "start": 6, "tu": "src/sgap_8.c", "fn": "func_80041400", "label": "s5"}
+{"depth": 1, "move": "R18 bystander @183->186", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @183", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @183", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline vab @185", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @185", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width vab s32->u16 @181", "parent": 6, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @178", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @182", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @185->183", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @184", "parent": 6, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @183", "parent": 6, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -2061,16 +2061,15 @@ extern s32 D_800C7D20;
 void func_8002EFF8(s32 a0, s32 a1)
 {
     s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a0_tmp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v1;
+    s32 a0_tmp;
 
     v0 = 1;
 
     if (a0 == v0) {
-        v0 = ~a1;
         v1 = D_800A2B98;
         a0_tmp = D_800C7D20;
-        v1 = v1 & v0;
+        v1 = v1 & (~a1);
         a0_tmp = a0_tmp | a1;
         D_800A2B98 = v1;
         D_800C7D20 = a0_tmp;
@@ -2091,8 +2090,8 @@ extern s32 D_800C7D2C;
 
 void func_8002F064(s32 a0, s32 a1) {
     s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 out_a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v1;
+    s32 out_a0;
 
     if (a0 == 1) {
         v0 = ~a1;
@@ -2103,10 +2102,9 @@ void func_8002F064(s32 a0, s32 a1) {
         D_800A2BA0 = v1;
         D_800C7D2C = out_a0;
     } else {
-        v0 = ~a1;
         v1 = D_800C7D2C;
         out_a0 = D_800A2BA0;
-        v1 = v1 & v0;
+        v1 = v1 & (~a1);
         out_a0 = out_a0 | a1;
         D_800C7D2C = v1;
         D_800A2BA0 = out_a0;

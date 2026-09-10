@@ -1,0 +1,5 @@
+{"kind": "seed", "start": 10, "tu": "src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c", "fn": "func_8017FE64", "label": "s5"}
+{"depth": 1, "move": "R6 inline q @5175", "parent": 10, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @5178", "parent": 10, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @5178", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5174", "parent": 10, "score": 0, "kind": "IDENTICAL", "ident": true}

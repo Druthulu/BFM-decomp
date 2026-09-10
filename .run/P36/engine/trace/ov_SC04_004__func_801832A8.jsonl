@@ -1,0 +1,21 @@
+{"kind": "seed", "start": 12, "tu": "src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c", "fn": "func_801832A8", "label": "s5"}
+{"depth": 1, "move": "R12 width s0 s32->u16 @7942", "parent": 12, "score": 2, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @7941", "parent": 12, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R3 init-split s0", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @7950->7953", "parent": 12, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @7943", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @7951", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width s0 s32->s16 @7942", "parent": 12, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u16 @7941", "parent": 12, "score": 2, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R18 bystander @7952->7950", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @7943", "parent": 12, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @7952", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width s0 s32->u8 @7942", "parent": 12, "score": 3, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u8 @7941", "parent": 12, "score": 3, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R18 bystander @7953->7950", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @7951", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @7950", "parent": 12, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @7953->7951", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @7951", "parent": 12, "score": 5, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @7952", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @7952", "parent": 12, "score": 0, "kind": "IDENTICAL", "ident": true}

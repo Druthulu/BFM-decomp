@@ -11,7 +11,7 @@ extern void *memcpy(void *dst, const void *src, u32 n);
 s32 func_80153800(s32 a0) {
     s32 s1 = a0;
     s32 s0;
-    s32 s2;
+    u16 s2;
     u8 bVar1;
     s16 buf1[4];
     s16 buf2[4];
@@ -31,7 +31,7 @@ ret0:
         return 0;
     }
     {
-        register s32 m __asm__("$3") = bVar1 * 4;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+        s32 m = bVar1 * 4;
         s2 = m;
         buf2[1] = *(u16 *)(s1 + 0xA2) - m;
     }

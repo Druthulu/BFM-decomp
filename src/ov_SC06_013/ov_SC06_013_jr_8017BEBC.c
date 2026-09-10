@@ -3130,14 +3130,14 @@ extern void (*D_8018278C[])(void);
 
 void func_8017D700(void *a0)
 {
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0 = a0;
     s32 v0;
 
     if (*(u16 *)((u8 *)s0 + 0x2) != 0) {
         return;
     }
 
-    v0 = ((s32 (*)(void))func_8012C1B8)();
+    do { v0 = ((s32 (*)(void))func_8012C1B8)(); } while (0);
     *(s32 *)((u8 *)s0 + 0x20) = v0;
 
     if (!v0) {

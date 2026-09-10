@@ -192,7 +192,7 @@ void func_800CB288(s32 arg0)
     u16 temp;
     u16 cur;
     u16 temp2;
-    register u16 cur2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    u16 cur2;
 
     if ((func_80146E98(arg0) == 0) || (!(func_80148800((s32 *) arg0) & 0x20))) {
         sp10[0] = 0;
@@ -217,8 +217,8 @@ void func_800CB288(s32 arg0)
         }
         temp2 = *(u16 *) (arg0 + 0x238) + 0x200;
         cur2 = *(u16 *) (arg0 + 0x234) - temp2;
-        *(u16 *) (arg0 + 0x234) = cur2;
         *(u16 *) (arg0 + 0x238) = temp2;
+        *(u16 *) (arg0 + 0x234) = cur2;
         if ((s16) cur2 >= 0) {
             return;
         }

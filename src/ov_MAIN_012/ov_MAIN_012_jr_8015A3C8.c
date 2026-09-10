@@ -6364,7 +6364,7 @@ void func_80163EC8(s32 param_1) {
     s32 psVar6;
     s32 iVar8;
     s32 iVar7;
-    register s32 uVar5 __asm__("$2");   /* PIN (flagged): uVar5 -> $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus2)
+    s32 uVar5;
     u16 uVar4;
     u8 uVar3;
 
@@ -6374,10 +6374,9 @@ void func_80163EC8(s32 param_1) {
     func_80162D88((s32 *)param_1);
 
     if (*(s32 *)(psVar6 + 0x184) == 0) {
-        uVar5 = *(s32 *)(psVar6 + 0x44);
         *(s16 *)(psVar6 + 0x18a) = 0;
         *(s16 *)(psVar6 + 0x188) = 0;
-        *(s32 *)(psVar6 + 0x44) = uVar5 & ~0x20;
+        *(s32 *)(psVar6 + 0x44) = (*(s32 *)(psVar6 + 0x44)) & ~0x20;
         func_80146CA0((void *)param_1);
         func_80146CA0((void *)param_1);
         return;
@@ -6386,10 +6385,9 @@ void func_80163EC8(s32 param_1) {
         goto LAB_matched;
     }
     *(s32 *)(psVar6 + 0x184) = 0;
-    uVar5 = *(s32 *)(psVar6 + 0x44);
     *(s16 *)(psVar6 + 0x18a) = 0;
     *(s16 *)(psVar6 + 0x188) = 0;
-    *(s32 *)(psVar6 + 0x44) = uVar5 & ~0x20;
+    *(s32 *)(psVar6 + 0x44) = (*(s32 *)(psVar6 + 0x44)) & ~0x20;
     func_80146CA0((void *)param_1);
     func_80146CA0((void *)param_1);
     return;

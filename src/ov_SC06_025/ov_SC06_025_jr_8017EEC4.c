@@ -3339,9 +3339,8 @@ void func_8017F9D8(s32 param_1) {
         val = (s32)base <= (s32)end;
         *base = val;
         *top = val;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        base++;
         top--;
+        base++;
     } while ((s32)base < (s32)&arr[16]);
 
     if (D_801B1728 != 0) {

@@ -1,0 +1,14 @@
+{"kind": "seed", "start": 9, "tu": "src/ov_SC03_105/ov_SC03_105_jr_80186DDC.c", "fn": "func_80189454", "label": "s5"}
+{"depth": 1, "move": "R6 inline D_8018F3E0 @4633", "parent": 9, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4636", "parent": 9, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @4634->4636", "parent": 9, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @4636", "parent": 9, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4633", "parent": 9, "score": 23, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @4592", "parent": 9, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s0 13->0", "parent": 9, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline idx @4600", "parent": 9, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @4636", "parent": 9, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @4636->4633", "parent": 9, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4636", "parent": 9, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4593", "parent": 9, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-alias s0->a0 @4593", "parent": 9, "score": 0, "kind": "IDENTICAL", "ident": true}

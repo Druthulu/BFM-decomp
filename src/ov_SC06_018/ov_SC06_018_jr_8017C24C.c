@@ -3121,7 +3121,7 @@ typedef struct {
 void func_8017DB20(s32 param_1, s32 param_2, s16 param_3, s16 param_4, s32 param_5, s32 param_6)
 {
     Quad_8017DB20 q;
-    register Quad_8017DB20 *p asm("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    Quad_8017DB20 *p;
     s32 buf[2];
     u16 v1val;
     u16 v0val;
@@ -3131,12 +3131,12 @@ void func_8017DB20(s32 param_1, s32 param_2, s16 param_3, s16 param_4, s32 param
     s16 t_vx0;
     s16 t_vx1;
 
+    p = &q;
     func_80015978(param_1 + 4, buf);
     v1val = *(u16 *)buf;
     v0val = *((u16 *)buf + 1);
 
     t_vx0 = v1val + param_3;
-    p = &q;
     yhi = v0val + 0x80;
     t_vx1 = v1val + param_4;
     ylo = v0val - 0x80;

@@ -1,0 +1,10 @@
+{"kind": "seed", "start": 15, "tu": "src/ov_SC03_007/ov_SC03_007_jr_80183894.c", "fn": "func_80186818", "label": "s5"}
+{"depth": 1, "move": "R12 width s0 s32->u16 @5379", "parent": 15, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->s16 @5377", "parent": 15, "score": 2, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline p @5387", "parent": 15, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @5391", "parent": 15, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @5400->5397", "parent": 15, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @5383", "parent": 15, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @5388", "parent": 15, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5391", "parent": 15, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-alias s0->a0 @5383", "parent": 15, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -1,0 +1,26 @@
+{"kind": "seed", "start": 2, "tu": "src/ov_SC03_001/ov_SC03_001_jr_8018631C.c", "fn": "func_80186A8C", "label": "s5"}
+{"depth": 1, "move": "R18 bystander @3447->3443", "parent": 2, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3443", "parent": 2, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3436", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @3436", "parent": 2, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @3432", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @3447->3444", "parent": 2, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3444", "parent": 2, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @3436", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @3438", "parent": 2, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @3447->3445", "parent": 2, "score": 10, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3445", "parent": 2, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @3438", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @3443->3446", "parent": 2, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3446", "parent": 2, "score": 10, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @3438", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @3443->3447", "parent": 2, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3447", "parent": 2, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3440", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @3443->3448", "parent": 2, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3448", "parent": 2, "score": 9, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @3440", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @3443->3449", "parent": 2, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3443", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @3444->3447", "parent": 2, "score": 9, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @3443", "parent": 2, "score": 0, "kind": "IDENTICAL", "ident": true}

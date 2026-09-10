@@ -7249,9 +7249,8 @@ s32 func_80182AB4(s32 a0, s16 a1, s32 a2) {
     *(u32 *)(p + 0x20) = (u32)&D_800D387C;
     *(u8 *)(p + 0x27) = 0x9C;
     *(u16 *)(p + 0x1A) = a1;
-    *(u16 *)(p + 0x18) = a1;
     *(u32 *)(p + 4) = *(u32 *)(p + 4) | 0x50000000;
-    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
+    *(u16 *)(p + 0x18) = a1;
     *(u32 *)(p + 4) = *(u32 *)(p + 4) | 0x80000000;
     func_80128EA8((s32)p, t, (s32)&D_800D3888);
     ret = s0;

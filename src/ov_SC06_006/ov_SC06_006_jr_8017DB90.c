@@ -4123,17 +4123,14 @@ extern s16 D_800B9AB8[];
 extern void (*D_80186368)(void);
 
 void func_8017F8CC(void) {
-    s16 t;
 
     if (*(u16 *)((u8 *)D_801F8118 + 2) == 0x11) {
         D_800B9AAC[0] = 0x7FFF;
-        t = 0xFFE;
+        D_800B9B00 = (0xFFE);
     } else {
         D_800B9AAC[0] = 0xFFE;
-        t = 0x7FFF;
+        D_800B9B00 = (0x7FFF);
     }
-    D_800B9B00 = t;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     *(u16 *)D_800B9AB8 += (s32)D_80186368;
 }
 
@@ -4805,14 +4802,13 @@ extern void *D_801F8118;
 
 void func_801808C0(s32 arg0)
 {
-    register s32 param_1 __asm__("$16");   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 param_1;
     s32 obj;
 
-    param_1 = arg0;
     obj = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(param_1 + 0x20) = obj;
+    *(s32 *)(arg0 + 0x20) = obj;
     if (obj == 0) {
-        ((void (*)(s32))func_8012CAE4)(param_1);
+        ((void (*)(s32))func_8012CAE4)(arg0);
         return;
     }
     func_8001C214(obj, 0);
@@ -4822,11 +4818,11 @@ void func_801808C0(s32 arg0)
     func_80029124(0x71, 0);
     func_80029124(0x72, 0);
     func_80029124(0x73, 0);
-    D_801F8118 = (void *)param_1;
+    D_801F8118 = (void *)arg0;
     func_8017FF24();
     func_8017FFA8();
     func_8017F2A0();
-    func_801803F4(param_1);
+    func_801803F4(arg0);
 }
 
 
@@ -5241,23 +5237,22 @@ void func_801811D4(void *a0) {
     extern EffectSlot4_801811D4 D_801F54EC;
     extern EffectSlot4_801811D4 D_801F551C;
     extern EffectSlot4_801811D4 D_801F5520;
-    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0;
     void *s1;
 
-    s0 = a0;
     s1 = ((void *(*)(void))func_801465C0)();
     if (s1 != 0) {
         s32 idx;
         u8 uVar1;
 
-        *(s32 *)((s32)s0 + 0x20) = (s32)s1;
-        idx = *(s32 *)((s32)s0 + 0x2C);
+        *(s32 *)((s32)a0 + 0x20) = (s32)s1;
+        idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_801F5420, D_801F53BC[idx][0], D_801F53BC[idx][1]);
-        uVar1 = D_801F53E8[*(s32 *)((s32)s0 + 0x2C)];
+        uVar1 = D_801F53E8[*(s32 *)((s32)a0 + 0x2C)];
         *(s16 *)((s32)s1 + 0x2C) = 3;
         *(u8 *)((s32)s1 + 0x27) = uVar1;
-        *(s16 *)((s32)s0 + 0x6) = 0;
-        *(s16 *)((s32)s0 + 0xA) = 0x50;
+        *(s16 *)((s32)a0 + 0x6) = 0;
+        *(s16 *)((s32)a0 + 0xA) = 0x50;
 
         /* The shift chain below needs a BASIC-BLOCK BOUNDARY before every copy
            except the first: gcc-2.7.2 CSE is per-extended-BB, and inside one BB
@@ -5275,8 +5270,8 @@ void func_801811D4(void *a0) {
            neighbouring symbol (idiom 7): `&D_801F551C + 4 == &D_801F5520`, a
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
-#define COND (*(s32 *)((s32)s0 + 0x2C) > 0)
-        *(EffectSlot4_801811D4 *)((s32)&D_801F551C + 4) = D_801F53F4[*(s32 *)((s32)s0 + 0x2C)];
+#define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
+        *(EffectSlot4_801811D4 *)((s32)&D_801F551C + 4) = D_801F53F4[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_801F551C = D_801F5520; } else { D_801F551C = D_801F5520; }
         if (COND) { D_801F54EC = D_801F551C; } else { D_801F54EC = D_801F551C; }
         if (COND) { D_801F54E8 = D_801F54EC; } else { D_801F54E8 = D_801F54EC; }
@@ -5287,9 +5282,9 @@ void func_801811D4(void *a0) {
         D_801F5480 = D_801F5484;
         D_801F5458 = D_801F5480;
 
-        *(s16 *)((s32)s0 + 0x2) = *(s16 *)((s32)s0 + 0x2) + 1;
+        *(s16 *)((s32)a0 + 0x2) = *(s16 *)((s32)a0 + 0x2) + 1;
     } else {
-        ((void (*)(void *))func_80146C3C)(s0);
+        ((void (*)(void *))func_80146C3C)(a0);
     }
 }
 

@@ -1,0 +1,4 @@
+{"kind": "seed", "start": 12, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c", "fn": "func_8018C440", "label": "s5"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @13555", "parent": 12, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @13563", "parent": 12, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R3 init-split s0", "parent": 12, "score": 0, "kind": "IDENTICAL", "ident": true}

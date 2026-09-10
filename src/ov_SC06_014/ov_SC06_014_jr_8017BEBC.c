@@ -3392,9 +3392,8 @@ void func_8017DF08(void *param)
         *(u16 *)(s0 + 0xE) = var;
         if ((s16)var < -0xBF)
             goto L_AC;
-        var = -0xC0;
         flag = *(s16 *)(s0 + 0x84);
-        __asm__ __volatile__("");   /* zero-byte cross-jump barrier */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        var = -0xC0;
     } else {
         var = *(u16 *)(s0 + 0xE) - 8;
         *(u16 *)(s0 + 0xE) = var;
@@ -4622,7 +4621,7 @@ extern void func_80171928(void *a0);
 void func_8017FC94(void *a0)
 {
     u8 *bp;
-    register s32 best __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 best;
     s32 i;
     s32 off;
     u8 *p;
@@ -4642,7 +4641,7 @@ loop:
         s16 v = ((s16 (*)(s32, s32))func_80013328)((s32)a0 + 4, (s32)p + 4);
         if (v >= best)
             goto next;
-        best = v;
+        do { best = v; } while (0);
         bp = p;
     }
 next:

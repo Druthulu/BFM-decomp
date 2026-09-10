@@ -5160,9 +5160,9 @@ extern void func_801292C8(u8 *a0);
 extern void func_801827A0(s32 a0);
 
 void func_80182480(s32 arg0) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    s0 = arg0;
+    s32 s0;
     func_801827A0(arg0);
+    s0 = arg0;
     if (*(u16 *)(*(s32 *)(s0 + 0x2C)) == 0) {
         func_801292C8((u8 *)s0);
     }

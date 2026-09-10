@@ -1,0 +1,14 @@
+{"kind": "seed", "start": 10, "tu": "src/md_MAIN_022/md_MAIN_022.c", "fn": "func_800CB03C", "label": "s5"}
+{"depth": 1, "move": "R12 width flag s32->u16 @96", "parent": 10, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline flag @100", "parent": 10, "score": 23, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @105->103", "parent": 10, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @104", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @104", "parent": 10, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @97", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width flag s32->s16 @96", "parent": 10, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline flag @98", "parent": 10, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @104", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @103", "parent": 10, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width flag s32->u8 @96", "parent": 10, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @100", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @100", "parent": 10, "score": 0, "kind": "IDENTICAL", "ident": true}

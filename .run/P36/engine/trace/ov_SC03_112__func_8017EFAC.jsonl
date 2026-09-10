@@ -1,0 +1,11 @@
+{"kind": "seed", "start": 10, "tu": "src/ov_SC03_112/ov_SC03_112_jr_8017C294.c", "fn": "func_8017EFAC", "label": "s5"}
+{"depth": 1, "move": "R8 temp tmp0 @3907", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @3888->3891", "parent": 10, "score": 19, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width avg u32->u16 @3885", "parent": 10, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3907", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3896", "parent": 10, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @3886", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->s16 @3882", "parent": 10, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @3907", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @3890->3888", "parent": 10, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width avg u32->s16 @3885", "parent": 10, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -2945,7 +2945,7 @@ extern s32 func_80178BF8();
 extern void func_80172710(void);
 
 s32 func_8017F1B4(s32 param_1) {
-    register s32 obj __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 obj = param_1;
     s32 ptr;
     s32 ptr2;
     s32 result;
@@ -2954,7 +2954,7 @@ s32 func_8017F1B4(s32 param_1) {
     if (*(u16 *)((char *)ptr + 0x2) != 1) {
         return 0;
     }
-    result = func_8012BD14(ptr);
+    do { result = func_8012BD14(ptr); } while (0);
     if (result < 0x4001) {
         ptr2 = *(s32 *)((char *)obj + 0x64);
         *(u16 *)((char *)ptr2 + 0x2) = 3;

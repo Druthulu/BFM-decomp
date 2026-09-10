@@ -1,0 +1,3 @@
+{"kind": "seed", "start": 6, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c", "fn": "func_8018FD38", "label": "s5"}
+{"depth": 1, "move": "R18 bystander @16572->16575", "parent": 6, "score": 34, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @16572", "parent": 6, "score": 0, "kind": "IDENTICAL", "ident": true}

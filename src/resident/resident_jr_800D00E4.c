@@ -377,8 +377,7 @@ s32 func_800D0488(s32 arg0) {
     default: n = -1; break;
     }
 
-    val = D_800D3850[n * 2];
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+    do { val = D_800D3850[n * 2]; } while (0);
     D_800C7C64 = &D_800A2E20;
     p = &D_800C7C60;
     *p = val;

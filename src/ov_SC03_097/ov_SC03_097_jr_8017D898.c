@@ -3779,11 +3779,11 @@ extern s32 func_8012AD50(void *a0);
 extern s32 D_8019AE5C[];
 
 void func_8017FDBC(s32 arg0) {
-    register s32 s0 __asm__("$16") = arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0 = arg0;
     s32 ret;
 
     ret = ((s32 (*)())func_8012C1B8)();
-    *(s32 *)(s0 + 0x20) = ret;
+    do { *(s32 *)(s0 + 0x20) = ret; } while (0);
     if (ret == 0) {
         func_8012CAE4((void *)s0);
         return;
@@ -4343,11 +4343,11 @@ extern u8 D_8019AF34[];
 extern s32 D_8019AEE8;
 
 void func_801808F0(s32 arg0) {
-    register s32 s0 __asm__("$16") = arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0 = arg0;
     s32 ret;
 
     ret = ((s32 (*)())func_8012C1B8)();
-    *(s32 *)(s0 + 0x20) = ret;
+    do { *(s32 *)(s0 + 0x20) = ret; } while (0);
     if (ret == 0) {
         func_8012CAE4((void *)s0);
         return;

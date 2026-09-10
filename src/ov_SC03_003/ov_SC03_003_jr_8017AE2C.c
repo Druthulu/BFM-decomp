@@ -3337,18 +3337,17 @@ extern void func_80146E90(s32 *a0, s32 a1);
 
 void func_8017BEF8(s32 param_1)
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0;
+    s32 s1;
     extern u8 D_80182CB0[];
     s32 v0;
 
-    s1 = param_1;
     v0 = ((s32 (*)(void))func_801465C0)();
-    *(s32 *)(s1 + 0x20) = v0;
     s0 = v0;
+    *(s32 *)(param_1 + 0x20) = v0;
 
     if (v0 == 0) {
-        ((void (*)(s32))func_80146C3C)(s1);
+        ((void (*)(s32))func_80146C3C)(param_1);
         return;
     }
 
@@ -3358,8 +3357,8 @@ void func_8017BEF8(s32 param_1)
     *(s16 *)(s0 + 0x18) = 0x2000;
     *(s16 *)(s0 + 0x14) = -0xE3;
     *(s32 *)(s0 + 4) |= 0x8000000;
-    func_80146E90((s32 *)s1, 4);
-    *(u16 *)(s1 + 2) += 1;
+    func_80146E90((s32 *)param_1, 4);
+    *(u16 *)(param_1 + 2) += 1;
 }
 
 

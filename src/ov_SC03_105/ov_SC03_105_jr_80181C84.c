@@ -4716,7 +4716,7 @@ void func_80184A60(void *arg0) {
     /* PIN 1 (carried from the first-pass draft, §48-A2-shaped): without the $16
      * pin a value crossing the /8 idiom's conditional branch drags in a spurious
      * "move $s2,$s0" plus a phantom 4th callee-saved register. */
-    register u8 *s0 __asm__("$16") = (u8 *)arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    u8 *s0 = (u8 *)arg0;
     u8 *s1;
     void *s2;
     s16 flag;
@@ -4763,7 +4763,7 @@ void func_80184A60(void *arg0) {
     vp = &D_801BA5A8[idx];
     scale = mag * ang;
 
-    r = (scale * vp->vx) >> 12;
+    do { r = (scale * vp->vx) >> 12; } while (0);
     *(s16 *)(s0 + 0x34) = r;
     r = ((scale * vp->vy) >> 12) - 0x40;
     *(s16 *)(s0 + 0x36) = r;

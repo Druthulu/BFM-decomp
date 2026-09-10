@@ -7541,10 +7541,12 @@ void func_80180CF0(void *a0) {
 
     u16 buf[8];
     u16 v0;
-    register u16 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u16 a2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 v1;
+    u16 a2;
+    u16 tmp0;
 
-    v0 = *(u16 *)((s32)a0 + 0x6);
+    tmp0 = *(u16 *)((s32)a0 + 0x6);
+    v0 = tmp0;
     *(u16 *)(&buf[0]) = v0;
     *(u16 *)(&buf[4]) = v0;
 
@@ -7554,9 +7556,8 @@ void func_80180CF0(void *a0) {
     *(u16 *)(&buf[5]) = v1;
 
     a2 = *(u16 *)((s32)a0 + 0xE);
-    v1 = v1 + 8;
     *(u16 *)(&buf[1]) = v0;
-    *(u16 *)(&buf[5]) = v1;
+    *(u16 *)(&buf[5]) = (v1 + 8);
     *(u16 *)(&buf[2]) = a2;
     *(u16 *)(&buf[6]) = a2;
 
@@ -7623,10 +7624,12 @@ void func_80180DD8(void *a0) {
     extern u8 D_801B0F00[];
     u16 buf[8];
     u16 v0;
-    register u16 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u16 a2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 v1;
+    u16 a2;
+    u16 tmp0;
 
-    v0 = *(u16 *)((s32)a0 + 0x6);
+    tmp0 = *(u16 *)((s32)a0 + 0x6);
+    v0 = tmp0;
     buf[0] = v0;
     buf[4] = v0;
 
@@ -7636,9 +7639,8 @@ void func_80180DD8(void *a0) {
     buf[5] = v1;
 
     a2 = *(u16 *)((s32)a0 + 0xE);
-    v1 = v1 + 8;
     buf[1] = v0;
-    buf[5] = v1;
+    buf[5] = (v1 + 8);
     buf[2] = a2;
     buf[6] = a2;
 
@@ -7795,10 +7797,12 @@ void func_80181150(void *a0) {
 
     u16 buf[8];
     u16 v0;
-    register u16 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u16 a2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 v1;
+    u16 a2;
+    u16 tmp0;
 
-    v0 = *(u16 *)((s32)a0 + 0x6);
+    tmp0 = *(u16 *)((s32)a0 + 0x6);
+    v0 = tmp0;
     *(u16 *)(&buf[0]) = v0;
     *(u16 *)(&buf[4]) = v0;
 
@@ -7808,9 +7812,8 @@ void func_80181150(void *a0) {
     *(u16 *)(&buf[5]) = v1;
 
     a2 = *(u16 *)((s32)a0 + 0xE);
-    v1 = v1 + 8;
     *(u16 *)(&buf[1]) = v0;
-    *(u16 *)(&buf[5]) = v1;
+    *(u16 *)(&buf[5]) = (v1 + 8);
     *(u16 *)(&buf[2]) = a2;
     *(u16 *)(&buf[6]) = a2;
 

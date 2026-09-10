@@ -4883,12 +4883,11 @@ void func_80185910(SVECTOR *a0, SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
     gte_rtpt();
     gte_stflg(&flag);
     if ((flag & 0x7F85E000) == 0) {
-        p = *(u8 **)&D_800A5E60;
+        do { p = *(u8 **)&D_800A5E60; } while (0);
         gte_stsxy3c(xy);
         gte_ldv0(a3);
         gte_rtps();
         ((u8 *)p)[7] = 0x3A;
-        __asm__ volatile ("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
         ((u8 *)p)[3] = 8;
         *(u32 *)(p + 0x08) = *(u32 *)&xy[0];
         *(u32 *)(p + 0x10) = *(u32 *)&xy[2];
@@ -5395,12 +5394,12 @@ extern void func_8012E8E0(s32 a0, s32 a1);
 
 void func_8018694C(void *a0)
 {
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    void *s0 = a0;
     s32 v0;
     s32 v1;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)((s32)s0 + 0x20) = v0;
+    do { *(s32 *)((s32)s0 + 0x20) = v0; } while (0);
     if (v0 == 0) {
         func_8012CAE4(s0);
         return;

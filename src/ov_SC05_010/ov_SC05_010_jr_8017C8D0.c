@@ -3786,11 +3786,11 @@ void func_8017EFC8(s32 param_1)
         *(u16 *)(param_1 + 2) = 4;
         break;
     case 2: {
-        register s16 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        s16 t2;
         t2 = D_801C7E78 + 7;
         *(s32 *)(param_1 + 0x1C) = 0;
         *(u16 *)(param_1 + 2) = 5;
-        *(s16 *)(param_1 + 0xFE) = t2;
+        do { *(s16 *)(param_1 + 0xFE) = t2; } while (0);
         break;
     }
     case 3:

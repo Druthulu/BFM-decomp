@@ -4152,8 +4152,8 @@ s32 func_8018A224(Ent_8018A224 *arg0, s32 arg1)
 {
     u8 rect[4];
     s32 step;
-    register s32 q __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 half __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 q;
+    s32 half;
 
     step = 0x50;
     if (D_801E04E0[D_800B99DA & 0xF] == 0) {
@@ -4162,7 +4162,7 @@ s32 func_8018A224(Ent_8018A224 *arg0, s32 arg1)
     arg1 += 1;
     q = (step * arg1) / 32;
     half = q / 2;
-    rect[0] = q;
+    do { rect[0] = q; } while (0);
     rect[1] = q;
     rect[2] = half;
     rect[3] = 0;
@@ -4780,11 +4780,13 @@ extern u8 D_800D3888[];
 
 void func_8018B19C(u8 *arg0)
 {
-    register u8 *param_1 __asm__("$16");   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *param_1;
     s32 raw;
     u32 buf[6];
+    u8 *arg02;
+    arg02 = arg0;
 
-    param_1 = arg0;
+    param_1 = arg02;
     {
         s32 s0;   /* $s1 -- scoped: dead after func_80128EA8 */
         s0 = ((s32 (*)(void))func_8012C194)();
@@ -5522,8 +5524,7 @@ void func_8018C278(void *a0) {
         v0 = 1;
     }
 
-    *(s16 *)((u8 *)s0 + 0x2) = (s16)v0;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    do { *(s16 *)((u8 *)s0 + 0x2) = (s16)v0; } while (0);
     func_80184CB8((s32 *)s0, (s32)&D_801E06A8);
 
     v1p = *(void **)((u8 *)s0 + 0x68);

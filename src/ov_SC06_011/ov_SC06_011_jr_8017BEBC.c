@@ -3972,7 +3972,6 @@ void func_8017E9F4(s32 param_1)
      * ranks pri = floor_log2(R)*R/L*1e4*size; without this, diff (R=7,L=46) = 3043 outranks
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
-    __asm__ __volatile__("" :: "r"(obj));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     if (*(s16 *)obj < -0x4E0) {
         diff = (s32)(s16)D_80126B66 - *(s16 *)(param_1 + 0xE);
         if (diff < 0x140) {
@@ -4020,7 +4019,7 @@ void func_8017E9F4(s32 param_1)
                 quotient = (*(s16 *)(param_1 + 0xFC) * 0xD) / 0x300;
                 quotient = (quotient * (0x800 - diff)) / 0x800;
                 *(s16 *)(obj + 0x1A) = quotient * 2;
-                *(s32 *)(obj + 0x48) = -((rand() & 0x1FF) << 7);
+                do { *(s32 *)(obj + 0x48) = -((rand() & 0x1FF) << 7); } while (0);
             }
         }
     }

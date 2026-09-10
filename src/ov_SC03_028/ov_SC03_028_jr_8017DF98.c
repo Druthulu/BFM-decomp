@@ -5281,43 +5281,42 @@ typedef struct {
 extern s32 D_801EC450;
 
 void func_80182780(s32 a0) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
     s32 v0;
     s16 angle;
     void *q;
 
-    s0 = a0;
     func_801789AC(a0);
 
-    v0 = *(s32 *)(s0 + 0x20);
+    v0 = *(s32 *)(a0 + 0x20);
     v0 = *(s32 *)(v0 + 0x4);
     if (v0 < 0) {
         return;
     }
 
-    v0 = *(s32 *)(s0 + 0x1C) - 1;
-    *(s32 *)(s0 + 0x1C) = v0;
+    v0 = *(s32 *)(a0 + 0x1C) - 1;
+    *(s32 *)(a0 + 0x1C) = v0;
     if ((v0 & 1) != 0) {
-        ((void (*)(s32, s32))func_80180B44)(s0, 3);
+        ((void (*)(s32, s32))func_80180B44)(a0, 3);
     }
 
-    angle = *(u16 *)(s0 + 0xE8);
+    angle = *(u16 *)(a0 + 0xE8);
     angle = (angle + 0x88) & 0xFFF;
-    *(u16 *)(s0 + 0xE8) = angle;
+    *(u16 *)(a0 + 0xE8) = angle;
     v0 = func_8004787C(angle);
     D_8018FA0C = (v0 >> 6) + 0xC0;
 
-    v0 = func_8004787C(*(s16 *)(s0 + 0xE8));
+    v0 = func_8004787C(*(s16 *)(a0 + 0xE8));
     D_8018FA0E = (v0 >> 6) + 0xC0;
 
-    v0 = func_8004787C(*(s16 *)(s0 + 0xE8));
+    v0 = func_8004787C(*(s16 *)(a0 + 0xE8));
     D_8018FA10 = (v0 >> 6) + 0xC0;
 
     if (((int (*)(s32))func_8001AAA0)(0x24) == 0) {
         return;
     }
 
-    *(s16 *)(s0 + 0x2) = 0x25;
+    *(s16 *)(a0 + 0x2) = 0x25;
 
     q = ((D_801EC450_t *)D_801EC450)->arr[0];
     *(s16 *)((u8 *)q + 0x2) = 2;
@@ -5751,15 +5750,14 @@ extern u16 D_80126B66;
  *     separate pseudo.  Naming it in the source is what breaks it.
  */
 void func_80183264(s32 a0) {
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s32 ang;
     s16 t;
-    s32 arg;
+    s16 arg;
     s32 v1;
 
     ang = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF;
     t = ang;
-    arg = ang + zr;
+    arg = ang + 0;
     *(s16 *)(a0 + 0xA) = *(u16 *)(*(s32 *)(a0 + 0x64) + 0xA) - 0x28;
     *(s32 *)(a0 + 0xC) = *(s32 *)(*(s32 *)(a0 + 0x64) + 0xC);
     *(s32 *)(a0 + 0xC) -= func_80047948(arg) << 9;

@@ -1,0 +1,11 @@
+{"kind": "seed", "start": 4, "tu": "src/ov_SC06_032/ov_SC06_032_jr_80182890.c", "fn": "func_80187268", "label": "s5"}
+{"depth": 1, "move": "R12 width otz u32->u16 @6057", "parent": 4, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline mb @6061", "parent": 4, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @6060->6063", "parent": 4, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @6064", "parent": 4, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @6063", "parent": 4, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @6059", "parent": 4, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s1 0->1", "parent": 4, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width otz u32->s16 @6057", "parent": 4, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @6060->6064", "parent": 4, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @6064", "parent": 4, "score": 0, "kind": "IDENTICAL", "ident": true}

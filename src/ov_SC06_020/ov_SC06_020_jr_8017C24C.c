@@ -3018,7 +3018,7 @@ s32 a5;
         s32 f30, f34, f38, f3C, f40;
         u8 f44;
     } s;
-    register struct S_8017D918 *p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    struct S_8017D918 *p;
     u16 h[2];
     u16 v1val;
     u16 v0val;
@@ -3028,12 +3028,12 @@ s32 a5;
     s16 ylo;
     s16 xsel;
 
+    p = &s;
     func_80015978(obj + 4, (s32 *)h);
     v1val = h[0];
     v0val = h[1];
 
     t_vx0 = v1val + a2;
-    p = &s;
     yhi = v0val + 0x80;
     t_vx1 = v1val + a3;
     ylo = v0val - 0x80;

@@ -3313,8 +3313,7 @@ void func_80186570(void) {
                     dest = D_801E775C + 0x18 + ((s32)(i++) << 2);
                 }
                 *(u8 **)dest = rec;
-                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-                rec += 0x10;
+                do { rec += 0x10; } while (0);
             } while (*(s32 *)(rec - 0x10) != 0);
         }
         mode = D_80115126;

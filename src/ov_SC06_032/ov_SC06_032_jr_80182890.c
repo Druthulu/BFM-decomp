@@ -5319,7 +5319,7 @@ void func_8018603C(s32 param_1)
 {
     s32 obj;
     s16 v;
-    register s32 w __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 w;
     s32 p48;
 
     obj = ((s32 (*)(void))func_8012C1B8)();
@@ -6051,7 +6051,7 @@ s32 func_80187180(s32 out, s32 from, s32 to) {
 extern u8 D_800AF648;
 void func_80187268(void *a0)
 {
-    register void *s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s1;
     u8 *s0;
     s32 flag1, flag2;
     u32 otz;
@@ -6061,7 +6061,7 @@ void func_80187268(void *a0)
     mb = &D_800AF648;
     s0 = mb;
     func_8004914C(s0);
-    func_800491AC(s0);
+    do { func_800491AC(s0); } while (0);
 
     gte_ldv3(s1, (u8 *)s1 + 8, (u8 *)s1 + 0x10);
     gte_rtpt();

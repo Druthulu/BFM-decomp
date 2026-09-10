@@ -23,8 +23,7 @@ void func_80188134(s32 a0) {
             v1 = *(s32 *)(s0 + 0x20);
             v0 = *(u8 *)&D_800B99DC;
         }
-        *(s16 *)(v1 + 0x12) = v0;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers2)
+        do { *(s16 *)(v1 + 0x12) = v0; } while (0);
         func_8012B2CC(s0);
         func_8012B14C(s0, (s32)&D_8018F48C);
         if (*(s16 *)(s0 + 0x70) == 0) {

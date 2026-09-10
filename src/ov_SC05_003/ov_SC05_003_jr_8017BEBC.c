@@ -3542,12 +3542,14 @@ extern s32 func_80047948(s32 a0);
 extern u16 D_8019EA12;
 
 void func_8017E940(s32 param_1) {
-    register s32 *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 *s0;
     s32 v1;
     u16 v0;
+    s32 param_12;
+    param_12 = param_1;
 
-    s0 = (s32 *)param_1;
-    if (func_8012BEE8(param_1) != 0) {
+    s0 = (s32 *)param_12;
+    if (func_8012BEE8(param_12) != 0) {
         v1 = *(s32 *)((s32)s0 + 0x20);
         *(u16 *)((s32)v1 + 0x2C) &= ~0x10;
         *(u16 *)((s32)s0 + 2) = 3;
@@ -3848,13 +3850,14 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_801824B4(s32 a0, u16 *a1, s16 a2);
 
 void func_8017EF0C(s32 a0) {
-    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s16 sp10[3];
     u16 temp_v1;
     u16 var_v1;
     s32 phi_a1;
+    s32 a02;
+    a02 = a0;
 
-    phi_a1 = a0 + zr;
+    phi_a1 = a02 + 0;
     temp_v1 = *(u16 *)(phi_a1 + 0x5E);
     if (temp_v1 == 0x23) {
         *(u16 *)(phi_a1 + 0xFE) = 1;

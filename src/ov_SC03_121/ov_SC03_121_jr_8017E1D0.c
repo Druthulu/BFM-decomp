@@ -3472,7 +3472,7 @@ void func_8017F6D8(void *a0) {
         break;
 
     case 2: {
-        register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        s32 v0;
 
         v0 = func_8004787C(*(s16 *)((s32)s0 + 0xFE));
         *(u16 *)((s32)s0 + 0xFE) =
@@ -3482,8 +3482,7 @@ void func_8017F6D8(void *a0) {
             v0 = (v0 >> 3) + 0x1000;
             *(u16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1C) = v0;
         } else {
-            v0 = 0x1000;
-            *(u16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1C) = v0;
+            *(u16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1C) = (0x1000);
         }
         break;
     }
@@ -4621,7 +4620,7 @@ extern s32 otTbl_801813E8[] __asm__("D_800A651C");
 
 void func_801813E8(s32 param_1) {
     void *prim;
-    register u8 *poly __asm__("$18");   /* $s2 — global_alloc keeps it callee-saved; without the pin local_alloc coalesces it into $a1 */  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *poly;
     s32 otz;
     s32 ot;
     struct {
@@ -4651,8 +4650,8 @@ void func_801813E8(s32 param_1) {
                 L.v10[2] = *(u16 *)(param_1 + 0xE);
                 L.sxy0[0] = L.sxy[0];
                 L.sxy0[1] = L.sxy[1];
-                RotTransPers((s32)L.v10, (s32)L.sxy, &L.p, &L.flag);
                 poly = (u8 *)prim + 0xC;   /* the POLY_G4 riding behind the DR_MODE */
+                RotTransPers((s32)L.v10, (s32)L.sxy, &L.p, &L.flag);
 
                 /* r0 r1 r2 r3 */
                 *(u8 *)((u8 *)prim + 0x10) = *(s32 *)(param_1 + 0x1C);

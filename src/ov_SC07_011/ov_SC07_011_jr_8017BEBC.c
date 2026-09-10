@@ -4196,23 +4196,22 @@ void func_8017E32C(void *a0) {
     extern EffectSlot4_8017E32C D_8018BC04;
     extern EffectSlot4_8017E32C D_8018BC34;
     extern EffectSlot4_8017E32C D_8018BC38;
-    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0;
     void *s1;
 
-    s0 = a0;
     s1 = ((void *(*)(void))func_801465C0)();
     if (s1 != 0) {
         s32 idx;
         u8 uVar1;
 
-        *(s32 *)((s32)s0 + 0x20) = (s32)s1;
-        idx = *(s32 *)((s32)s0 + 0x2C);
+        *(s32 *)((s32)a0 + 0x20) = (s32)s1;
+        idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_8018BB38, D_8018BAD4[idx][0], D_8018BAD4[idx][1]);
-        uVar1 = D_8018BB00[*(s32 *)((s32)s0 + 0x2C)];
+        uVar1 = D_8018BB00[*(s32 *)((s32)a0 + 0x2C)];
         *(s16 *)((s32)s1 + 0x2C) = 3;
         *(u8 *)((s32)s1 + 0x27) = uVar1;
-        *(s16 *)((s32)s0 + 0x6) = 0;
-        *(s16 *)((s32)s0 + 0xA) = 0x50;
+        *(s16 *)((s32)a0 + 0x6) = 0;
+        *(s16 *)((s32)a0 + 0xA) = 0x50;
 
         /* The shift chain below needs a BASIC-BLOCK BOUNDARY before every copy
            except the first: gcc-2.7.2 CSE is per-extended-BB, and inside one BB
@@ -4230,8 +4229,8 @@ void func_8017E32C(void *a0) {
            neighbouring symbol (idiom 7): `&D_8018BC34 + 4 == &D_8018BC38`, a
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
-#define COND (*(s32 *)((s32)s0 + 0x2C) > 0)
-        *(EffectSlot4_8017E32C *)((s32)&D_8018BC34 + 4) = D_8018BB0C[*(s32 *)((s32)s0 + 0x2C)];
+#define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
+        *(EffectSlot4_8017E32C *)((s32)&D_8018BC34 + 4) = D_8018BB0C[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_8018BC34 = D_8018BC38; } else { D_8018BC34 = D_8018BC38; }
         if (COND) { D_8018BC04 = D_8018BC34; } else { D_8018BC04 = D_8018BC34; }
         if (COND) { D_8018BC00 = D_8018BC04; } else { D_8018BC00 = D_8018BC04; }
@@ -4242,9 +4241,9 @@ void func_8017E32C(void *a0) {
         D_8018BB98 = D_8018BB9C;
         D_8018BB70 = D_8018BB98;
 
-        *(s16 *)((s32)s0 + 0x2) = *(s16 *)((s32)s0 + 0x2) + 1;
+        *(s16 *)((s32)a0 + 0x2) = *(s16 *)((s32)a0 + 0x2) + 1;
     } else {
-        ((void (*)(void *))func_80146C3C)(s0);
+        ((void (*)(void *))func_80146C3C)(a0);
     }
 }
 

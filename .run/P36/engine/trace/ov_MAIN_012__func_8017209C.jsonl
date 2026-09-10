@@ -1,0 +1,39 @@
+{"kind": "seed", "start": 4, "tu": "src/shared/ov/func_8017209C.h", "fn": "func_8017209C", "label": "s5"}
+{"depth": 1, "move": "R18 bystander @12->10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline a2p @11", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width ang s32->u16 @7", "parent": 4, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg2 s32->s16 @5", "parent": 4, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R4 decl-move a2p 3->0", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @11", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width ang s32->s16 @7", "parent": 4, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg2 s32->u16 @5", "parent": 4, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg1 @10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R4 decl-move a2p 3->1", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @24", "parent": 4, "score": 23, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @11", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width ang s32->u8 @7", "parent": 4, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg2 s32->u8 @5", "parent": 4, "score": 2, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg2 @10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R4 decl-move a2p 3->2", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @11", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width a3p s32->u16 @8", "parent": 4, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg3 s32->s16 @5", "parent": 4, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg3 @10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @12", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width a3p s32->s16 @8", "parent": 4, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg3 s32->u16 @5", "parent": 4, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-alias a3p->arg3 @10", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @12", "parent": 4, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width a3p s32->u8 @8", "parent": 4, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg3 s32->u8 @5", "parent": 4, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-alias a2p->arg2 @11", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @14", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width a2p s32->u16 @9", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @14", "parent": 4, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width a2p s32->s16 @9", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @19", "parent": 4, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R12 width a2p s32->u8 @9", "parent": 4, "score": 0, "kind": "IDENTICAL", "ident": true}

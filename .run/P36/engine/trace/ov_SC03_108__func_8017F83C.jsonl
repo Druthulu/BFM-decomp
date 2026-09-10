@@ -1,0 +1,15 @@
+{"kind": "seed", "start": 3, "tu": "src/ov_SC03_108/ov_SC03_108_jr_8017F83C.c", "fn": "func_8017F83C", "label": "s5"}
+{"depth": 1, "move": "R6 inline ta @2805", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @2806", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R5 swap * @2834", "parent": 3, "score": 30, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @2792->2795", "parent": 3, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @2776", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width cond s32->u16 @2775", "parent": 3, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @2759", "parent": 3, "score": 97, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @2799", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @2798", "parent": 3, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline cond @2806", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @2806", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R5 swap * @2835", "parent": 3, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @2794->2792", "parent": 3, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width cond s32->s16 @2775", "parent": 3, "score": 0, "kind": "IDENTICAL", "ident": true}

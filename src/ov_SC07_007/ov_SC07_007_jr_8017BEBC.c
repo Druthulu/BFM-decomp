@@ -5663,11 +5663,11 @@ extern s32 func_8012AD50(void *a0);
 
 void func_8017FD2C(void *a0) {
     s32 *s1;
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0 = a0;
     s32 v0;
 
     s1 = (s32 *)D_801151D4;
-    v0 = ((s32 (*)(void *))func_80180F84)(s0);
+    do { v0 = ((s32 (*)(void *))func_80180F84)(s0); } while (0);
 
     if (v0 != 5) {
         return;
@@ -6035,10 +6035,12 @@ extern void *D_80187B90;
 extern void *D_80188098;
 
 void func_8018044C(s32 a0) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
     s32 v0;
+    s32 a02;
+    a02 = a0;
 
-    s0 = a0;
+    s0 = a02;
     v0 = func_8012E544(0x357);
     func_801815B8(s0, v0);
 

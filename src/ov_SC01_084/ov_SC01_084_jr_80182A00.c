@@ -387,9 +387,8 @@ void func_80183068(void *a0)
                 func_80185E68((s32)a0, (s32)D_8018AA6C);
             }
             if (func_8012BEE8((s32)a0) != 0) {
-                *(s32 *)((s32)a0 + 0x1C) = 0x1E;
                 *(u16 *)((s32)a0 + 0x34) = *(u16 *)((s32)a0 + 0x34) + 1;
-                __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+                *(s32 *)((s32)a0 + 0x1C) = 0x1E;
                 if (*(u16 *)((s32)a0 + 0x34) == 4) {
                     func_8012A828((s32)a0, D_801A2940);
                 }
@@ -1466,7 +1465,7 @@ void func_80184460(void *a0) {
     s32 sxy;         /* sp+0x18 */
     s32 pp;          /* sp+0x1c */
     s32 flag;        /* sp+0x20 */
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v0;
     s32 v1;
 
     s0 = a0;
@@ -1478,8 +1477,7 @@ void func_80184460(void *a0) {
      * per-access raw-cast idiom and the target's two separate loads. */
     v1 = buf[0];
     v0 = *(u16 *)((u8 *)*(void **)((u8 *)s0 + 0x64) + 0x6);
-    v0 = v0 + v1;
-    *(s16 *)((u8 *)s0 + 0x6) = v0;
+    *(s16 *)((u8 *)s0 + 0x6) = (v0 + v1);
     v0 = *(u16 *)((u8 *)*(void **)((u8 *)s0 + 0x64) + 0xE) + (v1 >> 16);
     *(s16 *)((u8 *)s0 + 0xE) = v0;
     func_8012AD80((s32)s0);
@@ -2260,7 +2258,7 @@ extern void (*D_8018ABE4[])(void *);
 
 void func_801855EC(s32 param_1)
 {
-    register s32 s0v __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0v = param_1;
     s32 s1v;
     u16 uVar2;
 
@@ -2271,7 +2269,7 @@ void func_801855EC(s32 param_1)
     }
     ((void (*)(s32, void *))func_8001CA1C)(s1v,
         &D_8018ABF8[(*(u16 *)(s0v + 0x70) & 1) * 12]);
-    *(u16 *)(s1v + 0x1C) = 0x3000;
+    do { *(u16 *)(s1v + 0x1C) = 0x3000; } while (0);
     *(u16 *)(s1v + 0x1A) = 0x3000;
     *(u16 *)(s1v + 0x18) = 0x3000;
     *(s32 *)(s0v + 0x20) = ((s32 (*)(void))func_8012C1B8)();
@@ -2556,12 +2554,14 @@ extern void func_8012931C(void *a0, s32 a1);
 extern void func_801292C8(void);
 
 void func_80185B78(void *a0) {
-    register s8 *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s8 *s0;
     s32 pad[2];
     s32 cnt;
     s32 t;
+    void *a02;
+    a02 = a0;
 
-    s0 = (s8 *)a0;
+    s0 = (s8 *)a02;
     cnt = *(s32 *)(s0 + 0x1C);
 
     if (cnt == 0) {

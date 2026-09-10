@@ -11063,11 +11063,9 @@ void func_8018A150(void *a0)
         *(s16 *)((s32)a0 + 0xFE) = 0x6000;
     } else {
         s32 dv, sv;
-        __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
         dv = *(u16 *)((s32)a0 + 0x106) + 0x400;
-        sv = *(u16 *)((s32)a0 + 0xFE) + dv;
         *(s16 *)((s32)a0 + 0x106) = dv;
-        *(s16 *)((s32)a0 + 0xFE) = sv;
+        *(s16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + dv);
     }
     {
         s32 d = *(u16 *)((s32)a0 + 0x104) - 0x80;

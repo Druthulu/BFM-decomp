@@ -3400,7 +3400,7 @@ typedef struct {
 
 void func_8017E0E4(param_1, param_2, param_3, param_4, param_5, param_6) s32 param_1; s32 param_2; s16 param_3; s16 param_4; s32 param_5; s32 param_6; {
     Quad_8017E0E4 q;
-    register Quad_8017E0E4 *p asm("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    Quad_8017E0E4 *p;
     s32 buf[2];
     u16 v1val;
     u16 v0val;
@@ -3410,12 +3410,12 @@ void func_8017E0E4(param_1, param_2, param_3, param_4, param_5, param_6) s32 par
     s16 t_vx0;
     s16 t_vx1;
 
+    p = &q;
     func_80015978(param_1 + 4, buf);
     v1val = *(u16 *)buf;
     v0val = *((u16 *)buf + 1);
 
     t_vx0 = v1val + param_3;
-    p = &q;
     yhi = v0val + 0x80;
     t_vx1 = v1val + param_4;
     ylo = v0val - 0x80;
@@ -5810,14 +5810,15 @@ void func_80181CD4(s32 a0)
     extern u8 D_801AF1B0[];
     extern u8 D_801AF2B0[];
     extern u8 D_801AF3B0[];
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s32 s0;
+    s32 a02;
+    a02 = a0;
 
-    s0 = a0 + zr;
+    s0 = a02 + 0;
     if (*(s16 *)(s0 + 0x100) == 0) {
         *(s16 *)(s0 + 2) = 1;
         *(u16 *)(s0 + 0x100) = 0x3C;
-        func_8012A828(a0, D_801AF1B0);
+        func_8012A828(a02, D_801AF1B0);
         if (*(s32 *)(s0 + 0xCC) != 0) {
             func_8012A828(*(s32 *)(s0 + 0xCC), D_801AF2B0);
         }

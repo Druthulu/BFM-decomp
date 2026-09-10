@@ -5487,8 +5487,7 @@ void func_8018BF78(void *arg0) {
         v0 = 1;
     }
 
-    *(s16 *)((u8 *)s0 + 0x2) = (s16)v0;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    do { *(s16 *)((u8 *)s0 + 0x2) = (s16)v0; } while (0);
     func_801849B8((s32 *)s0, (s32)&D_801E6968);
 
     v1 = *(s32 *)((u8 *)s0 + 0x68);

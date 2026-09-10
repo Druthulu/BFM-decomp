@@ -3253,14 +3253,13 @@ void func_801829C4(void *a0)
         *(s32 *)(s0 + 0x1C) = 0x5A;
         return;
     }
-    __asm__("" : "=r"(s0) : "0"(s0) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
 
     if (*(s16 *)(s0 + 0xFE) != *(s16 *)(s1 + 0x36)) {
         func_80182CB4(s0);
         return;
     }
 
-    func_8012F214(s1, (s32)&D_80199F08, (s32)&out);
+    do { func_8012F214(s1, (s32)&D_80199F08, (s32)&out); } while (0);
     *(s16 *)(s0 + 0x6) = out.a;
     *(s16 *)(s0 + 0xA) = out.b;
     *(s16 *)(s0 + 0xE) = out.c;
@@ -4408,8 +4407,9 @@ void func_8018428C(void *a0)
     extern s32 D_8019CA14;
     extern s32 func_8012AD50(void *a0);
 
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0;
     s32 v0 = ((s32 (*)(void))func_8012C1B8)();
+    s0 = a0;
 
     *(s32 *)((u8 *)s0 + 0x20) = v0;
 

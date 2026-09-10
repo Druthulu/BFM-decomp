@@ -3856,11 +3856,11 @@ void func_8018367C(s32 param_1) {
 
     /* the entry call's result doubles as func_8001C214's first argument, so it
        owns $a0 for its whole live range (target: addu $a0,$v0,$zero at entry) */
-    register s32 v0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v0;
     s32 v1;
     s32 mask;
 
-    *(s32 *)(param_1 + 0x20) = v0 = ((s32 (*)(void))func_8012C1B8)();
+    do { *(s32 *)(param_1 + 0x20) = v0 = ((s32 (*)(void))func_8012C1B8)(); } while (0);
     if (v0 == 0) {
         func_8012CAE4(param_1);
         return;

@@ -1,0 +1,5 @@
+{"kind": "seed", "start": 12, "tu": "src/ov_SC01_077/ov_SC01_077_jr_801734BC.c", "fn": "func_80178840", "label": "s5"}
+{"depth": 1, "move": "R12 width p int->u16 @4393", "parent": 12, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 int->s16 @4392", "parent": 12, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 block @4395", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @4395", "parent": 12, "score": 0, "kind": "IDENTICAL", "ident": true}

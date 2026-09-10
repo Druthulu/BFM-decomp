@@ -6,7 +6,7 @@ s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3) {
     s32 ret;
     s32 ang;    /* $v1 */
     s32 a3p;   /* $s3 = arg3 */
-    register s32 a2p  __asm__("$20");   /* $s4 = arg2 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers1)
+    u8 a2p;
     a3p = arg3;
     a2p = arg2;
     ret = func_8017248C((s32)arg0, (s32)arg1);

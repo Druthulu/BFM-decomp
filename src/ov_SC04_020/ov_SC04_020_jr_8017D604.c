@@ -4483,9 +4483,10 @@ extern u8 D_801AA264[];
 void func_8018087C(s32 a0)
 {
     s32 v1;
+    u16 tmp0;
 
-    v1 = func_800291B4(0xDC) & 0xFF;
-    __asm__ volatile("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
+    tmp0 = func_800291B4(0xDC);
+    v1 = tmp0 & 0xFF;
     func_80029124(0xDE, 1);
     if (v1 == 0) {
         *(s32 *)(a0 + 0xE4) = (s32)D_801AA148;

@@ -1,0 +1,11 @@
+{"kind": "seed", "start": 12, "tu": "src/shared/ov/func_80160410.h", "fn": "func_80160410", "label": "s5"}
+{"depth": 1, "move": "R12 width angle s32->u16 @18", "parent": 12, "score": 22, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline a5v @33", "parent": 12, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @38", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @37->40", "parent": 12, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @22", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap * @33", "parent": 12, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @22", "parent": 12, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @22", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move angle 0->1", "parent": 12, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width angle s32->s16 @18", "parent": 12, "score": 0, "kind": "IDENTICAL", "ident": true}

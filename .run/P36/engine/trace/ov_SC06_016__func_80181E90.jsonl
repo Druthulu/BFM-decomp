@@ -1,0 +1,8 @@
+{"kind": "seed", "start": 5, "tu": "src/ov_SC06_016/ov_SC06_016_jr_801816DC.c", "fn": "func_80181E90", "label": "s5"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @3279", "parent": 5, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @3277", "parent": 5, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @3282", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3282", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3281", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3281", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-alias s0->arg0 @3281", "parent": 5, "score": 0, "kind": "IDENTICAL", "ident": true}

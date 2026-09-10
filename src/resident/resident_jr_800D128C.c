@@ -1909,9 +1909,9 @@ unsigned short *dst;
 short flag;
 {
     extern unsigned short *D_800D38D8[];
-    register unsigned int d __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
+    unsigned int d;
     short i;
-    int idx;
+    u16 idx;
 
     for (i = 0; i < n; i++) {
         d = val >> 28;
@@ -1920,7 +1920,7 @@ short flag;
             if (d != 0) {
                 flag = 0;
             } else if (flag < 0) {
-                idx = (i != n - 1) ? 10 : 0;
+                do { idx = (i != n - 1) ? 10 : 0; } while (0);
             } else {
                 idx = 10;
             }

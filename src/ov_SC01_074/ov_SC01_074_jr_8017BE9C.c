@@ -3396,12 +3396,12 @@ extern void func_8017D98C(void *a0, s32 a1, s32 a2, s32 a3);
 void func_8017D528(a0)
 s32 a0;
 {
-    register int p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
+    int p;
     u16 v;
     int s1byte;
 
     p = a0;
-    v = *(u16 *)((u8 *)p + 0x20E);
+    do { v = *(u16 *)((u8 *)p + 0x20E); } while (0);
     (*(u16 *)((u8 *)p + 0x20E)) = v + 1;
     s1byte = D_80182200[(s16)v];
     if (s1byte == 0) {

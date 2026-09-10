@@ -3010,12 +3010,12 @@ void func_801815A4(s32 *a0) {
 extern void func_801816CC(s32 a0);
 
 void func_801815F4(u8 *a0) {
-    register s32 c4 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 c4;
     *(u32 *)(a0 + 0xE0) |= 0x28;
     c4 = *(u32 *)(a0 + 0xC4);
     *(u16 *)(a0 + 0x52) = 0;
-    *(u32 *)(a0 + 0xC4) = c4 | 4;
     *(u16 *)(a0 + 0xAE) |= 1;
+    *(u32 *)(a0 + 0xC4) = c4 | 4;
     func_801816CC((s32)a0);
 }
 

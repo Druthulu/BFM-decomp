@@ -6925,7 +6925,7 @@ void func_80181AB4(s32 a0) {
     extern void func_80181CCC();
     extern void func_80181EA0();
     Blk16_80126940 sp10;
-    register s32 ang __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s16 ang;
     s32 t;
 
     if (func_80148800(&D_80126B58) & 3) {
@@ -8235,10 +8235,10 @@ extern s32 D_8018C8C4;
 
 void func_80183DAC(void *arg0)
 {
-    register void *self __asm__("$16") = arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    void *self = arg0;
     s32 h;
 
-    h = ((s32 (*)(void))func_8012C1B8)();
+    do { h = ((s32 (*)(void))func_8012C1B8)(); } while (0);
     *(s32 *)((s32)self + 0x20) = h;
     if (h == 0) {
         func_8012CAE4(self);
@@ -9338,13 +9338,12 @@ void func_80185520(void *a0) {
     s32 s0;
     s32 s1;
     s32 t;
-    s32 idx;
+    u16 idx;
 
     s0 = rand();
     s1 = rand();
     t = rand();
     idx = ((s0 & 3) << 10) + (s1 & 3) * 341 + (t & 0xF) * 11;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
     *(u16 *)((s32)a0 + 0x14) = 0x2E0;
     *(u16 *)((s32)a0 + 0x0C) = 0x2E0;
     *(u16 *)((s32)a0 + 0x02) = idx;

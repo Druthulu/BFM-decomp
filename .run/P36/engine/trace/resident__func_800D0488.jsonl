@@ -1,0 +1,10 @@
+{"kind": "seed", "start": 24, "tu": "src/resident/resident_jr_800D00E4.c", "fn": "func_800D0488", "label": "s5"}
+{"depth": 1, "move": "R12 width z s32->u16 @366", "parent": 24, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline val @380", "parent": 24, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @382->380", "parent": 24, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @380", "parent": 24, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @380", "parent": 24, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width z s32->s16 @366", "parent": 24, "score": 30, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline z @366", "parent": 24, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @380->383", "parent": 24, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @380", "parent": 24, "score": 0, "kind": "IDENTICAL", "ident": true}

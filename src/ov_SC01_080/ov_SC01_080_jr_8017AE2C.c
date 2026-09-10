@@ -3863,12 +3863,12 @@ void func_8017D72C(s32 arg0) {
     extern s16 D_801C5AB2[];
     extern Blk12_801C5A30 D_801C5A30[];
     s32 i;
-    s32 n;
+    u8 n;
     /* The lbu result must stay in a CALLER-saved reg while `n` lives across
      * func_8012A828, so the target's `addu $s0,$v0,$zero` copy survives.
      * Without the pin gcc coalesces the two pseudos (`lbu $s0` / `sh $s0`)
      * and the copy disappears -- one instruction short. */
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 t;
     s32 v;
     u16 t5c;
     s32 t5e;
@@ -4125,13 +4125,13 @@ void func_8017DCF8(s32 arg0) {
     extern u8 D_80186F6C;
     extern u8 D_80186F5C;
     s32 param_1 = arg0;
-    register s32 iVar1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 iVar1;
     s32 ret;
     s32 iVar2;
 
     ret = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(param_1 + 0x20) = ret;
     iVar1 = ret;
+    *(s32 *)(param_1 + 0x20) = ret;
     if (ret == 0) {
         ((void (*)(s32))func_8012CAE4)(param_1);
     } else {
@@ -5637,14 +5637,14 @@ void func_8017FFB4(s32 arg0)
     extern u8 D_80189974;
     extern s32 D_801C7EC0;
 
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0;
     s32 s1;
-    register s32 s2 __asm__("$18") = arg0;  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s2 = arg0;
     s32 v0;
 
-    v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(s2 + 0x20) = v0;
+    do { v0 = ((s32 (*)(void))func_8012C1B8)(); } while (0);
     s0 = v0;
+    *(s32 *)(s2 + 0x20) = v0;
     if (v0 == 0) {
         func_8012CAE4((void *)s2);
         return;
@@ -5804,26 +5804,25 @@ void func_8018045C(s32 arg0)
     extern u8 D_801AE850;
     extern u8 D_8018A044;
 
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0;
+    s32 s1;
     s32 v0;
 
-    s0 = arg0;
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(s0 + 0x20) = v0;
     s1 = v0;
+    *(s32 *)(arg0 + 0x20) = v0;
     if (v0 == 0) {
-        func_8012CAE4((void *)s0);
+        func_8012CAE4((void *)arg0);
         return;
     }
     func_8001C214(s1, &D_801AE850);
     func_8001D0E8(s1, 0x800, 0x800);
-    func_8012A828((void *)s0, &D_8018A044);
+    func_8012A828((void *)arg0, &D_8018A044);
     *(s32 *)(s1 + 4) = *(s32 *)(s1 + 4) | 0x40;
-    *(s32 *)(s0 + 4) = *(s32 *)(*(s32 *)(s0 + 0x64) + 4);
-    *(s32 *)(s0 + 8) = *(s32 *)(*(s32 *)(s0 + 0x64) + 8) - *(s32 *)(*(s32 *)(s0 + 0x64) + 0xF0);
-    *(s32 *)(s0 + 0xC) = *(s32 *)(*(s32 *)(s0 + 0x64) + 0xC);
-    *(u16 *)(s0 + 2) = *(u16 *)(s0 + 2) + 1;
+    *(s32 *)(arg0 + 4) = *(s32 *)(*(s32 *)(arg0 + 0x64) + 4);
+    *(s32 *)(arg0 + 8) = *(s32 *)(*(s32 *)(arg0 + 0x64) + 8) - *(s32 *)(*(s32 *)(arg0 + 0x64) + 0xF0);
+    *(s32 *)(arg0 + 0xC) = *(s32 *)(*(s32 *)(arg0 + 0x64) + 0xC);
+    *(u16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
 }
 
 
@@ -6774,7 +6773,7 @@ void func_80181854(void *a0) {
     p = 0;
     p = &v2;
     func_800D23D0(p);
-    p = 0;
+    { p = 0; }
 
     v2.vz = v2.vy * 2;
     RotMatrixYXZ(&v2, &mtx);
@@ -6785,8 +6784,7 @@ void func_80181854(void *a0) {
        the "memory" clobber): without it both schedulers sink this store past the
        two argument insns below and it steals the jal's delay slot. Same lever as
        the §5a barrier in func_801810E4. */
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-    func_801696D8((s32)a0, (s32)&mtx);
+    do { func_801696D8((s32)a0, (s32)&mtx); } while (0);
 
     if (--*(s32 *)((u8 *)a0 + 0x1C) == -1) {
         func_801292C8((u8 *)a0);

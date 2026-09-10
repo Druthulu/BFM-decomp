@@ -4226,8 +4226,8 @@ u32 func_8017DC48(s32 a0, s32 a1) {
 extern unsigned short *D_80182540[];
 
 void func_8017DCB0(s32 val, s32 n, void *dst, s32 flag) {
-    register u32 d __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 idx;
+    u32 d;
+    u16 idx;
     s16 i;
 
     n = (s16)n;

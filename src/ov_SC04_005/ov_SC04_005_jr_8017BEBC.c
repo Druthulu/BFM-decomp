@@ -5635,10 +5635,9 @@ void func_80180780(void *a0) {
         return;
     }
 
-    func_8001CF00((s32)s0);
+    do { func_8001CF00((s32)s0); } while (0);
 
     s2 = (void *)D_801C2180;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
 
     *(s32 *)((s32)s1 + 0xCC) = (s32)s0;
     *(s16 *)((s32)s0 + 0x28) = 0x300;
@@ -7369,9 +7368,8 @@ void func_801831F0(void *a0)
 s32 func_80183228(s32 a0) {
     s32 ret;
     ret = 0xA810;
-    *(u8 *)((s32)a0 + 0xC1) = 0;
+    do { *(u8 *)((s32)a0 + 0xC1) = 0; } while (0);
     *(u16 *)((s32)a0 + 0x5E) = 0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
     *(u16 *)((s32)a0 + 0x5C) = ret;
     return ret;
 }

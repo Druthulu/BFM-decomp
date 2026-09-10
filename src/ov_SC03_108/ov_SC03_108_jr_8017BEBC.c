@@ -3301,8 +3301,8 @@ extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 s32 func_8017DDDC(s32 a0, s32 a1) {
     V4_8017FAC0_8017D708 p2;
     V4_8017FAC0_8017D708 p1;
-    register s32 rp1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
-    s32 mid;
+    s32 rp1;
+    s16 mid;
 
     rp1 = (s32)&p1;
 
@@ -3863,10 +3863,10 @@ extern void func_8012CAE4(void *a0);
 void func_8017EB38(a0)
 void *a0;
 {
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
+    void *s0;
     s32 v0 = ((s32 (*)(void))func_8012C1B8)();
     s32 p;
+    s0 = a0;
 
     *(s32 *)((u8 *)s0 + 0x20) = v0;
 
@@ -3877,7 +3877,7 @@ void *a0;
 
         func_8001C2C4(v0);
         t = *(s16 *)((u8 *)s0 + 0xFC);
-        p = (s32)s0 + zr;
+        p = (s32)s0 + 0;
         *(s16 *)(p + 0xFE) = 0;
         *(s16 *)(p + 0x102) = 0;
         *(s32 *)(p + 0x1C) = t;

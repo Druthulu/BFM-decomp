@@ -3173,9 +3173,9 @@ extern void func_8017ECE0(s32 a0);
 void func_80181C78(arg0)
 s32 arg0;
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
 
-    s0 = arg0;
+    do { s0 = arg0; } while (0);
     if ((*(s32 *)(s0 + 0x1C) & 3) == 2) {
         func_8017ECE0(s0);
     }
@@ -3275,17 +3275,16 @@ extern void func_8017ECE0(s32 a0);
 extern void func_8017E96C(s32 a0);
 
 void func_80181E90(s32 arg0) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
     s32 v0;
 
-    s0 = arg0;
-    v0 = *(s32 *)(s0 + 0x1C);
+    v0 = *(s32 *)(arg0 + 0x1C);
     if ((v0 & 3) == 0) {
-        func_8017ECE0(s0);
+        func_8017ECE0(arg0);
     }
-    v0 = func_8012BEE8(s0);
+    v0 = func_8012BEE8(arg0);
     if (v0 != 0) {
-        func_8017E96C(s0);
+        func_8017E96C(arg0);
     }
 }
 
@@ -3339,14 +3338,13 @@ extern s32 func_8012BEE8(s32 a0);
 extern void func_8017EAE4(s32 a0);
 
 void func_80181FB0(s32 arg0) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
 
-    s0 = arg0;
-    if ((*(s32 *)(s0 + 0x1C) & 3) == 2) {
-        func_8017ECE0(s0);
+    if ((*(s32 *)(arg0 + 0x1C) & 3) == 2) {
+        func_8017ECE0(arg0);
     }
-    if (func_8012BEE8(s0)) {
-        func_8017EAE4(s0);
+    if (func_8012BEE8(arg0)) {
+        func_8017EAE4(arg0);
     }
 }
 
@@ -4052,7 +4050,7 @@ typedef struct {
 
 void func_80182E64(void *arg0)
 {
-    register Ent_80182E64 *found __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9)
+    Ent_80182E64 *found;
     s32 best;
     s32 i;
     s32 off;
@@ -4075,7 +4073,7 @@ loop:
     if (d >= best) {
         goto next;
     }
-    best = d;
+    do { best = d; } while (0);
     found = p;
 next:
     i++;

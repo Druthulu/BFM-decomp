@@ -5,7 +5,7 @@ s32 aF8014E5B4(s32 a0, void *a1, void *a2)
 {
     extern u8 D_801202A0[];
     u8 *p;
-    register u8 *q __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+    u8 *q;
     u8 *e;
     s32 t;
     p = D_801202A0;
@@ -27,7 +27,7 @@ s32 aF8014E5B4(s32 a0, void *a1, void *a2)
             }
         }
         p += 0x10C;
-        q += 0x10C;
+        do { q += 0x10C; } while (0);
         if (p < e) {
             goto loop;
         }

@@ -1,0 +1,10 @@
+{"kind": "seed", "start": 3, "tu": "src/shared/ov/func_80151DB0.h", "fn": "func_80151DB0", "label": "s5"}
+{"depth": 1, "move": "R18 bystander @26->24", "parent": 3, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @32", "parent": 3, "score": 6, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R7 block @32", "parent": 3, "score": 3, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline uVar2 @30", "parent": 3, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @29", "parent": 3, "score": 3, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width iVar3 int->u16 @18", "parent": 3, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @14", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @19", "parent": 3, "score": 3, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R15 sink @32 (uVar2)", "parent": 3, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -2979,14 +2979,14 @@ void func_80185A70(void *a0) {
     extern s32 D_801B895C;
     extern s32 D_801B8974;
     void *s2 = a0;
-    register u8 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *p;
     void *s0;
     s32 v0;
     s16 v1;
 
+    p = D_80078E78;
     v0 = func_80029504();
     v1 = *(s16 *)((s32)s2 + 0x70);
-    p = D_80078E78;
     s0 = D_801B898C[v1];
     v1 -= 8;
     switch (v1) {

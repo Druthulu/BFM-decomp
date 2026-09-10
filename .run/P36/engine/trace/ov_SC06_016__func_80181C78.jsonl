@@ -1,0 +1,6 @@
+{"kind": "seed", "start": 3, "tu": "src/ov_SC06_016/ov_SC06_016_jr_801816DC.c", "fn": "func_80181C78", "label": "s5"}
+{"depth": 1, "move": "R12 width arg0 s32->u16 @3174", "parent": 3, "score": 2, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R7 block @3178", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s0 1->0", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R12 width arg0 s32->s16 @3174", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @3178", "parent": 3, "score": 0, "kind": "IDENTICAL", "ident": true}

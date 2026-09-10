@@ -1,0 +1,13 @@
+{"kind": "seed", "start": 10, "tu": "src/ov_SC03_108/ov_SC03_108_jr_8017BEBC.c", "fn": "func_8017DDDC", "label": "s5"}
+{"depth": 1, "move": "R4 decl-move rp1 2->0", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3311", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @3307->3309", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width mid s32->u16 @3305", "parent": 10, "score": 26, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3311", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3311", "parent": 10, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @3306", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R5 swap & @3307", "parent": 10, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R4 decl-move rp1 2->1", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @3311", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @3307->3310", "parent": 10, "score": 10, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width mid s32->s16 @3305", "parent": 10, "score": 0, "kind": "IDENTICAL", "ident": true}

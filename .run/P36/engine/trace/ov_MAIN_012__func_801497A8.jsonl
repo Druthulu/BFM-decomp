@@ -1,0 +1,6 @@
+{"kind": "seed", "start": 14, "tu": "src/shared/ov/func_801497A8.h", "fn": "func_801497A8", "label": "s5"}
+{"depth": 1, "move": "R10 param-copy a0 @10", "parent": 14, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @11", "parent": 14, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-copy a0 @11", "parent": 14, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @11", "parent": 14, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R10 param-alias a02->a0 @11", "parent": 14, "score": 14, "kind": "COUNT", "ident": false}

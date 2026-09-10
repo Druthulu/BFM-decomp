@@ -2877,8 +2877,7 @@ void func_8017F9B4(void *arg0) {
     func_800233CC(s0, 0x40);
 
     for (off1 = 0, off2 = 0; off1 < 0x30; off1 += 8, off2 += 4) {
-        *(s16 *)((u8 *)aD_801D0660 + off2) = (s16)(*(u16 *)((u8 *)aD_801D0630 + off1)) >> 3;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
+        do { *(s16 *)((u8 *)aD_801D0660 + off2) = (s16)(*(u16 *)((u8 *)aD_801D0630 + off1)) >> 3; } while (0);
         *(s16 *)((u8 *)aD_801D0662 + off2) = (s16)(*(u16 *)((u8 *)D_801D0632 + off1)) >> 3;
     }
 
@@ -3656,11 +3655,11 @@ extern void func_801292C8(u8 *a0);
 extern void func_8017FB38();
 
 void func_80180FA8(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s0 = (s32)a0;
     void *ptr;
     s32 v0;
 
-    v0 = *(s32 *)(s0 + 0x1C);
+    do { v0 = *(s32 *)(s0 + 0x1C); } while (0);
     v0 = v0 - 1;
     *(s32 *)(s0 + 0x1C) = v0;
     if (v0 == 0) {

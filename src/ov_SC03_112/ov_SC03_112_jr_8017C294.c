@@ -3882,7 +3882,7 @@ typedef struct {
 s32 func_8017EFAC(s32 a0, s32 a1) {
     Vec4h_8017EFAC p1;
     Vec4h_8017EFAC p2;
-    u32 avg;
+    s16 avg;
 
     if (*(u8 *)(a0 + 0x74) != 0) {
         p1.x = p2.x = *(u16 *)(a1 + 0x4);
@@ -3914,7 +3914,6 @@ s32 func_8017EFAC(s32 a0, s32 a1) {
             return 1;
         }
     }
-    __asm__("" :: "r"(avg)); /* zero-byte allocno-priority slider, see above */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     return 0;
 }
 

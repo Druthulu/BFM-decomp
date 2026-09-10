@@ -467,16 +467,15 @@ extern u16 D_801E4BBC;
 extern s16 D_80195B24[];
 
 s32 func_80185A88(s32 param_1, s32 param_2) {
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     int t;
     int x;
-    int m;
+    u16 m;
     int h;
     int d;
     t = (u16)*(u16 *)(param_1 + 0x76) - (u16)*(u16 *)(param_1 + 0x60);
     x = t - param_2;
-    d = t + zr;
-    m = x + zr;
+    d = t + 0;
+    m = x + 0;
     if (D_801E4BBC == 2) {
         if (*(u32 *)(param_1 + 0xE8) & 0x800) goto RET;
         if ((s16)x < 0x80) m = 0x80;

@@ -3440,8 +3440,7 @@ void func_80186A8C(void *arg0) {
             func_8012CAE4(arg0);
             return;
         }
-        *(s16 *)((char *)arg0 + 2) = v0;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
+        do { *(s16 *)((char *)arg0 + 2) = v0; } while (0);
         func_8012E8E0((s32)arg0, (s32)&D_80192A64);
         func_80187750((s32)arg0);
         func_8012A828((s32)arg0, (s32)&D_801C3C90);

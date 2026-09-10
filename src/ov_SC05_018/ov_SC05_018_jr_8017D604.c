@@ -3793,19 +3793,18 @@ extern void func_8017F818(void *a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_8018A918[];
 
 void func_8017F648(s32 a0) {
-    register int p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
+    int p;
     u16 v;
     int s1byte;
 
-    p = a0;
-    v = *(u16 *)((u8 *)p + 0x20E);
-    (*(u16 *)((u8 *)p + 0x20E)) = v + 1;
+    v = *(u16 *)((u8 *)a0 + 0x20E);
+    (*(u16 *)((u8 *)a0 + 0x20E)) = v + 1;
     s1byte = D_8018A918[(s16)v];
     if (s1byte == 0) {
         func_8002D4C8(0xC27, 0);
-        func_80171990((u8 *)p);
+        func_80171990((u8 *)a0);
     }
-    func_8017F818((void *)p, *(s16 *)((u8 *)p + 0x20C), *(s32 *)((u8 *)p + 0x200), s1byte);
+    func_8017F818((void *)a0, *(s16 *)((u8 *)a0 + 0x20C), *(s32 *)((u8 *)a0 + 0x200), s1byte);
 }
 
 
@@ -4554,8 +4553,7 @@ void func_801808AC(s32 arg0)
     s32 j;
     s16 pad[3];
 
-    tbl = *(s32 **)(arg0 + 0x90);
-    __asm__ __volatile__("" :: "r"(arg0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+    do { tbl = *(s32 **)(arg0 + 0x90); } while (0);
     i = 0;
     if (tbl == &D_801B3DC4) {
         goto found;
@@ -4714,8 +4712,7 @@ void func_80180D40(void *a0)
 
     *(u16 *)((u8 *)a0 + 2) = *(u16 *)((u8 *)a0 + 2) + 1;
     *(u32 *)((u8 *)a0 + 0x1C) = 0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
-    func_80016714(&D_801E650C, 0x100);
+    do { func_80016714(&D_801E650C, 0x100); } while (0);
     for (i = 0; i < 0x10; i++) {
         *(s16 *)((s32)&D_801E650C + (i << 4)) = 1;
         *(s16 *)((s32)&D_801E6514 + (i << 4)) = i;

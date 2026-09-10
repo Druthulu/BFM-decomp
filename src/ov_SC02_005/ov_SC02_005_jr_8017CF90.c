@@ -5367,8 +5367,7 @@ void func_8018118C(s32 a0) {
         r = (s16)func_80012F74((s16)D_80126958, 0x708, 0xA, 1);
     }
     D_80126958 = r;
-    D_8012695C = r;
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    do { D_8012695C = r; } while (0);
     if (0x6A3 < *(s32 *)(p + 0x10)) {
         *(u8 *)(a0 + 0x214) += 1;
     }

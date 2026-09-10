@@ -4407,10 +4407,9 @@ void func_8017F8CC(s32 a0)
 
             t = *(u16 *)(a0 + 0x34);
             {
-                register s16 z __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-                t = t + 1;
+                s16 z;
                 z = D_80126B66;
-                *(u16 *)(a0 + 0x34) = t;
+                *(u16 *)(a0 + 0x34) = (t + 1);
                 *(s16 *)(a0 + 0x8C) = z;
                 *(s16 *)(a0 + 0xE)  = z;
             }

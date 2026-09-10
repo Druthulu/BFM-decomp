@@ -2986,14 +2986,14 @@ void func_80189C84(void *a0)
     extern u8 D_801BCBA4[];
     extern void func_80189E64();
     extern s32 func_8012AD50(void *a0);
-    register s32 i __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 i;
     u8 *p;
 
     if (*(s16 *)((s32)a0 + 0xDE) != 0) {
         func_80189E64(a0);
         return;
     }
-    p = D_801BCBA4;
+    do { p = D_801BCBA4; } while (0);
     for (i = 4; i >= 0; i--) {
         *p = 0;
         p--;

@@ -1,0 +1,4 @@
+{"kind": "seed", "start": 10, "tu": "src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c", "fn": "func_8017DCB0", "label": "s5"}
+{"depth": 1, "move": "R4 decl-move a1 1->0", "parent": 10, "score": 10, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R5 swap + @3336", "parent": 10, "score": 2, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R6 inline val @3335", "parent": 10, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -4399,7 +4399,7 @@ void func_8017E084(void *a0) {
 
 void func_8017E0C0(s32 a0)
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
     s32 s1;
     s32 v1;
     s32 v0;
@@ -4425,8 +4425,8 @@ void func_8017E0C0(s32 a0)
         } while (v1 >= 0);
     }
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(s1 + 0x20) = v0;
     s0 = v0;
+    *(s32 *)(s1 + 0x20) = v0;
     if (v0 == 0) {
         func_8012CAE4((void *)s1);
     } else {
@@ -4571,8 +4571,10 @@ void func_8017E3EC(s32 param_1) {
     s32 s0;
     s32 s1;
     u16 v0;
+    s32 param_12;
+    param_12 = param_1;
 
-    __asm__ __volatile__("" : "=r"(s0) : "0"(param_1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    s0 = param_12;
 
     s1 = *(s32 *)(s0 + 0x20);
 

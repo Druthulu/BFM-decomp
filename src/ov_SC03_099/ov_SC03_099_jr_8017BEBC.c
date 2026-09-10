@@ -2948,7 +2948,7 @@ void func_8017D2AC(s32 a0) {
     extern Blk8_80126940_8017D20C D_80126940;
     Blk8_80126940_8017D20C sp10;
     u8 t;
-    s32 lim;
+    s16 lim;
 
     if (func_80148800(&D_80126B58) & 3) {
         t = (*(u8 *)(a0 + 5) + 1) & 1;
@@ -2956,10 +2956,9 @@ void func_8017D2AC(s32 a0) {
         *(s32 *)(a0 + 0x14) = D_80186EE0[t];
     }
     sp10 = D_80126940;
-    __asm__ volatile("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     lim = -0x180;
     if (sp10.v[1] > lim) {
-        register s32 v4 asm("$4") = -0x180;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        s32 v4 = -0x180;
         sp10.v[1] = v4;
     }
     func_8017D364(a0, sp10.v);

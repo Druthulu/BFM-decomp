@@ -1,0 +1,5 @@
+{"kind": "seed", "start": 4, "tu": "src/shared/ov/func_80137614.h", "fn": "func_80137614", "label": "s5"}
+{"depth": 1, "move": "R9 swap-stmts @7", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @7", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v1 @7", "parent": 4, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width v1 s32->u16 @6", "parent": 4, "score": 0, "kind": "IDENTICAL", "ident": true}

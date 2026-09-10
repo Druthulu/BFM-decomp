@@ -3180,8 +3180,7 @@ void func_8018305C(void *arg0) {
         } else {
             v = 5;
         }
-        *(s16 *)((char *)arg0 + 0x2) = v;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        do { *(s16 *)((char *)arg0 + 0x2) = v; } while (0);
         func_801849B8((s32 *)arg0, (s32)&D_80191C44);
         v1 = *(void **)((char *)arg0 + 0x68);
         *(s16 *)((char *)v1 + 0xC) = 0x7FFF;

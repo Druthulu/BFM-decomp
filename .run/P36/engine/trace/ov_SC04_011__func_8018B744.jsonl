@@ -1,0 +1,23 @@
+{"kind": "seed", "start": 1, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c", "fn": "func_8018B744", "label": "s5"}
+{"depth": 1, "move": "R16 const-holder i=0 x2", "parent": 1, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @12922", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @12922->12920", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @12912", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width a1 s32->u16 @12910", "parent": 1, "score": 2, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R7 block @12913", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @12915", "parent": 1, "score": 17, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @12929", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R18 bystander @12933->12931", "parent": 1, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width a1 s32->s16 @12910", "parent": 1, "score": 2, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R7 do-while @12913", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @12920", "parent": 1, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @12929", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width a1 s32->u8 @12910", "parent": 1, "score": 2, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R7 block @12915", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @12921", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @12931", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width v1 s32->u16 @12911", "parent": 1, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R7 do-while @12915", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @12924", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @12931", "parent": 1, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width v1 s32->s16 @12911", "parent": 1, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -15,6 +15,7 @@ void func_80148094(int param_1, short *param_2, int *param_3) {
     int sVar1;
     int fac;
     int r;
+    int tmp0;
     if (*param_2 != 0 || param_2[2] != 0) {
         t1 = ratan2(-(int)param_2[2], -(int)*param_2) + 0x400;
         bp = (s32)buf;
@@ -32,9 +33,8 @@ void func_80148094(int param_1, short *param_2, int *param_3) {
             fac = ratan2((int)param_2[1], q >> 6);
         }
         if (sVar1 < 0x200) {
-            __asm__("" :: "r"(fac)); /* L1: +1 flow-ref on fac (already live-through here); zero bytes */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
             if (out[0] == out[2]) {
-                r = *(int *)(param_1 + 0x24) * -fac;
+                do { r = *(int *)(param_1 + 0x24) * -fac; } while (0);
                 if (r < 0) r += 0x3ff;
                 out[0] = r >> 10;
                 out[1] = 0;
@@ -72,7 +72,8 @@ void func_80148094(int param_1, short *param_2, int *param_3) {
             } else {
                 out[0] = *(int *)(param_1 + 0x24);
                 out[1] = 0;
-                r = *(int *)(param_1 + 0x2c) * -fac;
+                tmp0 = *(int *)(param_1 + 0x2c);
+                r = tmp0 * -fac;
                 if (r < 0) r += 0x3ff;
                 out[2] = *(int *)(param_1 + 0x2c) + (r >> 10);
             }

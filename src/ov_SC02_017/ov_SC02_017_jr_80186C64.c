@@ -3491,7 +3491,7 @@ void func_80187298(s32 a0) {
     s32 t;
     s32 v1;
     s32 p;
-    s32 sc;
+    u16 sc;
 
     switch (*(u16 *)(a0 + 0x34)) {
     case 0:
@@ -3518,7 +3518,6 @@ void func_80187298(s32 a0) {
     case 2:
         t = func_8004787C((*(u32 *)(a0 + 0x1C) << 7) & 0x780);
         sc = ((t << 9) >> 12) + 0x1000;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         p = *(s32 *)(a0 + 0x20);
         *(s16 *)(p + 0x1C) = sc;
         *(s16 *)(p + 0x18) = sc;

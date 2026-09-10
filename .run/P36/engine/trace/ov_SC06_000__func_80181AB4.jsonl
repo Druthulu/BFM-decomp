@@ -1,0 +1,14 @@
+{"kind": "seed", "start": 11, "tu": "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c", "fn": "func_80181AB4", "label": "s5"}
+{"depth": 1, "move": "R4 decl-move ang 4->0", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R7 block @6940", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @6938", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @6943", "parent": 11, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @6930", "parent": 11, "score": 12, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R12 width ang s32->u16 @6928", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width a0 s32->s16 @6918", "parent": 11, "score": 23, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @6934->6932", "parent": 11, "score": 22, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move ang 4->1", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R7 do-while @6940", "parent": 11, "score": 11, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @6936", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @6933", "parent": 11, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width ang s32->s16 @6928", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

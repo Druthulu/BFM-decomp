@@ -4360,7 +4360,6 @@ void func_8017F27C(s32 a0) {
         return;
     }
 
-    __asm__ __volatile__("" : "=r"(s0) : "0"(s0) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
     func_8012931C((void *)s0);
     *(s32 *)(s0 + 0x1C) = *(s32 *)(s0 + 0x1C) + 1;
     *(s32 *)(s0 + 0x14) = *(s32 *)(s0 + 0x14) + 0x18000;
@@ -4372,7 +4371,7 @@ void func_8017F27C(s32 a0) {
         v0 = func_8012913C(0x22);
         if (v0 != 0) {
             *(u16 *)(v0 + 0x6) = *(u16 *)(s0 + 0x6);
-            *(u16 *)(v0 + 0xA) = *(u16 *)(s0 + 0xA);
+            do { *(u16 *)(v0 + 0xA) = *(u16 *)(s0 + 0xA); } while (0);
             {
                 u16 t = *(u16 *)(s0 + 0xE);
                 *(u16 *)(v0 + 0x34) = 0x3000;
@@ -4599,13 +4598,13 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 
 void func_8017F84C(void *a0)
 {
-    register void *s0 __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus8)
+    void *s0 = a0;
     s32 r;
     s32 v0;
     s32 buf[4];
 
     r = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)((u8 *)s0 + 0x20) = r;
+    do { *(s32 *)((u8 *)s0 + 0x20) = r; } while (0);
     if (r == 0) {
         func_8012CAE4(s0);
     } else {

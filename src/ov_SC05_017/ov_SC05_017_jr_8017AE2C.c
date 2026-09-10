@@ -4755,7 +4755,7 @@ extern void func_80172710(void);
 s32 func_8017EE10(void *a0)
 {
     s32 p;
-    register s32 p2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 p2;
     u16 st;
 
     p = *(s32 *)((s32)a0 + 0x64);
@@ -4766,8 +4766,7 @@ s32 func_8017EE10(void *a0)
         if (func_8012BD14(p) > 0x4000) {
             return 0;
         }
-        p2 = *(s32 *)((s32)a0 + 0x64);
-        *(u16 *)(p2 + 0x2) += 1;
+        *(u16 *)((*(s32 *)((s32)a0 + 0x64)) + 0x2) += 1;
         break;
     case 9:
         if (func_8012BD14(p) > 0x4000) {

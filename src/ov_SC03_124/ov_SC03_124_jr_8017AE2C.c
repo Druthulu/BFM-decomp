@@ -5193,7 +5193,7 @@ void func_8017F63C(void *s1) {
 
     if (*(u16 *)((s32)s1 + 2) == 0) {
         *(s32 *)(*(s32 *)((s32)s1 + 0x20) + 0x20) = (s32)&D_8018FBAC;
-        t = *(s32 *)((s32)s1 + 0x20);
+        do { t = *(s32 *)((s32)s1 + 0x20); } while (0);
         base = (s32)s1 + 0x24;
         *(s32 *)(t + 4) |= 0x50000000;
         x = *(s32 *)((s32)s1 + 0x20);
@@ -5201,11 +5201,9 @@ void func_8017F63C(void *s1) {
         y = *(s32 *)((s32)s1 + 0x20);
         *(u16 *)(y + 0x1A) = 0;
         *(u16 *)(y + 0x18) = 0;
-        func_80128EA8(*(s32 *)((s32)s1 + 0x20), base, (s32)&D_8018FBB8);
+        do { func_80128EA8(*(s32 *)((s32)s1 + 0x20), base, (s32)&D_8018FBB8); } while (0);
         node = *(s32 *)((s32)s1 + 0x20);
-        __asm__("" : "=r"(node) : "0"(node));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         delta = D_8018FBC4;
-        __asm__("" : "=r"(delta) : "0"(delta));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         h = *(u16 *)((s32)s1 + 2);
         *(s32 *)((s32)s1 + 0x2C) = 0x8000000;
         f = *(s32 *)((s32)s1 + 0x14);
@@ -6312,10 +6310,9 @@ void func_80180D48(void)
     func_8012F40C(out, &in1);
     a = out[0];
     func_8012F40C(out, &in2);
-    b = out[0];
+    do { b = out[0]; } while (0);
     /* §194-A: zero-byte sched1 fence AFTER the defining statement so `b = out[0]`
        emits FIRST in its block, ahead of the D_801E256C lui/lw pair. */
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
 
     p = *(s32 *)&D_801E256C;
     t = a & 0xFFFF;
@@ -6764,13 +6761,11 @@ s32 aF801816C8(void *a0) __asm__("func_801816C8");
 s32 aF801816C8(void *a0) {
     u8 *p = D_801202A0;
     u8 *end = D_801202A0 + 0x6480;
-    s32 idA;
+    u16 idA;
 
     if (p != end) {
         idA = 0x1D2;
         do {
-            __asm__ ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-            __asm__ ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
             if (*(u16 *)p == idA) {
                 if (*(u16 *)(p + 2) == 2) {
                     if (*(u16 *)(p + 0x34) < 2) {

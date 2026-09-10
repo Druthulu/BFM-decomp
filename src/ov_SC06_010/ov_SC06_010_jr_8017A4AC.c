@@ -5865,6 +5865,7 @@ void func_8017FE3C(s32 a0)
     s32 sp10[3];
     s32 r;
     u16 state;
+    s32 tmp0;
 
     hi = *(s16 *)(a0 + 0x8A);
     pos = *(s16 *)(a0 + 0xA);
@@ -5902,7 +5903,7 @@ void func_8017FE3C(s32 a0)
     state = *(u16 *)(a0 + 0x34);
     switch (state) {
     case 0: {
-        register s32 p20 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+        s32 p20;
         s32 ret;
         s32 p744;
         s32 v1p;
@@ -5919,7 +5920,8 @@ void func_8017FE3C(s32 a0)
         b608 = func_8012B608(snd, p744, 8);
         p20 = *(s32 *)(a0 + 0x20);
         *(u16 *)(p20 + 0x12) = *(u16 *)(p20 + 0x12) + b608;
-        v1p = *(s32 *)(a0 + 0x20);
+        tmp0 = *(s32 *)(a0 + 0x20);
+        v1p = tmp0;
         *(u16 *)(v1p + 0x12) = *(u16 *)(v1p + 0x12) & 0xFFF;
         func_8012B1B4(a0, (s32)sp10);
         break;
@@ -9531,13 +9533,13 @@ void func_801857F4(s32 a0) {
 extern void func_8012A828(s32 a0, void *a1);
 
 void func_801858F4(s32 a0) {
-    register s32 s0 asm("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0 = a0;
     extern u8 D_801AE660[];
     extern u8 D_801AE760[];
     extern u8 D_801AE860[];
     s16 v0;
 
-    v0 = *(s16 *)(s0 + 0x100);
+    do { v0 = *(s16 *)(s0 + 0x100); } while (0);
     if (v0 == 0) {
         *(u16 *)(s0 + 2) = 1;
         *(u16 *)(s0 + 0x100) = 0x3C;

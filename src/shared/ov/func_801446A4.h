@@ -8,9 +8,11 @@ extern u8 D_800D3888[];
 extern u8 D_800D387C[];
 void func_801446A4(int param_1)
 {
-    register int s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
+    int s1;
     int iVar1;
-    s1 = param_1;
+    int param_12;
+    param_12 = param_1;
+    s1 = param_12;
     iVar1 = ((int (*)(void))func_8012C194)();
     if (iVar1 == 0) {
         ((void (*)(int))func_8012CAE4)(s1);

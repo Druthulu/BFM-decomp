@@ -4332,28 +4332,27 @@ extern u8 D_80182C24;
 
 void func_8017E230(void *a0)
 {
-    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    void *s0;
 
-    s0 = a0;
-    if (--*(s16 *)((s32)s0 + 0x70) == 0) {
-        *(s16 *)((s32)s0 + 0x12) = (rand() & 0xF) - 7;
-        *(s16 *)((s32)s0 + 0x16) -= rand() & 0xF;
-        *(s16 *)((s32)s0 + 0x16) -= 8;
-        *(s16 *)((s32)s0 + 0x1A) -= rand() & 0xF;
+    if (--*(s16 *)((s32)a0 + 0x70) == 0) {
+        *(s16 *)((s32)a0 + 0x12) = (rand() & 0xF) - 7;
+        *(s16 *)((s32)a0 + 0x16) -= rand() & 0xF;
+        *(s16 *)((s32)a0 + 0x16) -= 8;
+        *(s16 *)((s32)a0 + 0x1A) -= rand() & 0xF;
         if (rand() & 1) {
-            func_8012A828((s32)s0, &D_80182BAC);
+            func_8012A828((s32)a0, &D_80182BAC);
         } else {
-            func_8012A828((s32)s0, &D_80182BD4);
+            func_8012A828((s32)a0, &D_80182BD4);
         }
-        *(s16 *)((s32)s0 + 2) = 2;
+        *(s16 *)((s32)a0 + 2) = 2;
         if (rand() % 3 == 0) {
             func_8002D4C8(0x532, 0);
         }
-    } else if (*(u16 *)((s32)s0 + 0x72) & 0x4000) {
+    } else if (*(u16 *)((s32)a0 + 0x72) & 0x4000) {
         if (rand() & 1) {
-            func_8012A828((s32)s0, &D_80182BFC);
+            func_8012A828((s32)a0, &D_80182BFC);
         } else {
-            func_8012A828((s32)s0, &D_80182C24);
+            func_8012A828((s32)a0, &D_80182C24);
         }
     }
 }

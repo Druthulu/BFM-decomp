@@ -4998,10 +4998,10 @@ void func_8017EFF4(s32 a0)
 
 void func_8017F07C(s32 a0)
 {
-    register s32 s0 asm("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0 = a0;
     u8 v1;
 
-    func_80149020((s32 *)s0);
+    do { func_80149020((s32 *)s0); } while (0);
     v1 = *(u8 *)(s0 + 0xDE);
     *(u8 *)(s0 + 0xDE) = v1 + 0xFF;
     if (v1 == 0) {
@@ -7939,7 +7939,7 @@ extern void func_8012C098(void);
 extern void func_8012E8A8(u8 *a0);
 
 void func_801832A8(s32 arg0) {
-    register s32 s0 __asm__("$16") = arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0 = arg0;
     *(s16 *)(s0 + 0x76) = 0;
     if (*(s16 *)(s0 + 0x100) == 0) {
         func_8002A04C(s0);
@@ -7949,7 +7949,7 @@ void func_801832A8(s32 arg0) {
     } else {
         *(s16 *)(s0 + 0x2) = 6;
         func_8012E8A8((u8 *)s0);
-        *(s16 *)(s0 + 0x5C) = 0;
+        do { *(s16 *)(s0 + 0x5C) = 0; } while (0);
         *(u8 *)(s0 + 0xC1) = 0;
     }
 }

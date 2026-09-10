@@ -1,0 +1,20 @@
+{"kind": "seed", "start": 2, "tu": "src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c", "fn": "func_8017FD2C", "label": "s5"}
+{"depth": 1, "move": "R18 bystander @5676->5679", "parent": 2, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5669", "parent": 2, "score": 7, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @5669", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R3 init-split s0", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @5670", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->u16 @5667", "parent": 2, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s0 1->0", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @5676->5680", "parent": 2, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5676", "parent": 2, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @5669", "parent": 2, "score": 4, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->s16 @5667", "parent": 2, "score": 4, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s0 1->2", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R18 bystander @5676->5681", "parent": 2, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5677", "parent": 2, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @5670", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->u8 @5667", "parent": 2, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @5676->5682", "parent": 2, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @5678", "parent": 2, "score": 6, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 do-while @5670", "parent": 2, "score": 0, "kind": "IDENTICAL", "ident": true}

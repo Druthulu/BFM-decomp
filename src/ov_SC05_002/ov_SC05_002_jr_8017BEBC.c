@@ -4184,11 +4184,11 @@ extern s32 D_8019CA2C;
 extern u8 D_8019C808[];
 
 void func_8017F868(void *a0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v0;
     s32 p;
     u16 u;
 
-    *(s32 *)((s32)a0 + 0x20) = v0 = func_8012C1B8();
+    do { *(s32 *)((s32)a0 + 0x20) = v0 = func_8012C1B8(); } while (0);
 
     if (v0 == 0) {
         func_8012CAE4(a0);

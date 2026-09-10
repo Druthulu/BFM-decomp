@@ -28,7 +28,6 @@ s32 func_8017AD0C(s32 arg0)
         rect.y = (var_v1 >> 3) * 0x28 + 0x180;
     }
     rect.w = 0x20;
-    rect.h = 0x28;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
+    do { rect.h = 0x28; } while (0);
     MoveImage(&rect, 0x1C8, 0x190);
 }

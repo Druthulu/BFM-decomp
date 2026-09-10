@@ -31,8 +31,7 @@ void func_8016AA50(s32 param_1, s32 param_2) {
             return;
         }
         t = iVar4 + 1;
-        iVar4 = t;
-        __asm__ __volatile__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
+        do { iVar4 = t; } while (0);
         psVar3 = psVar3 + 0x2c;
     } while ((s16)t < 0x1e);
 }

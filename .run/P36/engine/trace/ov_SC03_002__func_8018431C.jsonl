@@ -1,0 +1,19 @@
+{"kind": "seed", "start": 28, "tu": "src/ov_SC03_002/ov_SC03_002_jr_8018431C.c", "fn": "func_8018431C", "label": "s5"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @2886", "parent": 28, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline s0 @2917", "parent": 28, "score": 70, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @2897", "parent": 28, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @2889->2892", "parent": 28, "score": 57, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @2917", "parent": 28, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @2892", "parent": 28, "score": 43, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move p 4->0", "parent": 28, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->s16 @2886", "parent": 28, "score": 37, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline s0 @2928", "parent": 28, "score": 70, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @2908", "parent": 28, "score": 22, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @2889->2893", "parent": 28, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @2917", "parent": 28, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @2889", "parent": 28, "score": 52, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move p 4->1", "parent": 28, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->u8 @2886", "parent": 28, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline s0 @2931", "parent": 28, "score": 70, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @2890", "parent": 28, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @2891->2889", "parent": 28, "score": 0, "kind": "IDENTICAL", "ident": true}

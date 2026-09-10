@@ -3077,7 +3077,7 @@ extern s16 D_801B04DC;
 
 void func_80181714(s32 a0) {
     s32 v0;
-    s32 v1;
+    u16 v1;
     s32 obj;
 
     switch (*(u16 *)(a0 + 0x34)) {
@@ -3102,7 +3102,6 @@ void func_80181714(s32 a0) {
     case 2:
         v0 = func_8004787C((*(s32 *)(a0 + 0x1C) << 7) & 0x780);
         v1 = ((v0 << 9) >> 12) + 0x1000;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         obj = *(s32 *)(a0 + 0x20);
         *(s16 *)(obj + 0x1C) = v1;
         *(s16 *)(obj + 0x18) = v1;

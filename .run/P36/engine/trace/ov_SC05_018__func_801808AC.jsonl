@@ -1,0 +1,9 @@
+{"kind": "seed", "start": 2, "tu": "src/ov_SC05_018/ov_SC05_018_jr_8017D604.c", "fn": "func_801808AC", "label": "s5"}
+{"depth": 1, "move": "R9 swap-stmts @4557", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @4557", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R16 const-holder j=0 x3", "parent": 2, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4557", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width i s32->u16 @4553", "parent": 2, "score": 3, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @4556", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4581", "parent": 2, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @4557", "parent": 2, "score": 0, "kind": "IDENTICAL", "ident": true}

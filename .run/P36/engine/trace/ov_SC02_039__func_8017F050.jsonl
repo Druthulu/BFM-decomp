@@ -1,0 +1,5 @@
+{"kind": "seed", "start": 13, "tu": "src/ov_SC02_039/ov_SC02_039_jr_8017BEBC.c", "fn": "func_8017F050", "label": "s5"}
+{"depth": 1, "move": "R12 width v0 s32->u16 @4217", "parent": 13, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline t @4228", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @4229", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R3 init-split s0", "parent": 13, "score": 0, "kind": "IDENTICAL", "ident": true}

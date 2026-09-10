@@ -2960,15 +2960,14 @@ void func_801816F0(void *a0) {
         }
 
         {
-            register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+            s32 t;
             t = *(s32 *)((char *)s0 + 0x68);
             *(short *)(t + 0xC) = 0x7FFF;
         }
         v0 = func_801788B8((s32)s0, (s32)&func_80181990);
         *(s32 *)((char *)s0 + 0xD4) = v0;
         func_8012E8E0(v0, (s32)&D_80189928);
-        v0 = func_801788B8((s32)s0, (s32)&func_801813E4);
-        *(s32 *)((char *)s0 + 0xD8) = v0;
+        *(s32 *)((char *)s0 + 0xD8) = (func_801788B8((s32)s0, (s32)&func_801813E4));
     }
 }
 

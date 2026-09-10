@@ -14,7 +14,6 @@ extern s32 D_800D58AC;
 void func_80151DB0(s32 param_1)
 {
     short sVar1;
-    unsigned short uVar2;
     int iVar3;
     func_80019064(&D_80062C14);
     ((void (*)(int, int))func_80151204)(param_1, (int)*(short *)(param_1 + 0xf2));
@@ -23,15 +22,13 @@ void func_80151DB0(s32 param_1)
     if (sVar1 >= 0x401) {
         ((void (*)(int, void *))func_80154274)(param_1, &D_800D5880);
         iVar3 = *(int *)(param_1 + 0x20);
-        uVar2 = 0xc00;
+        *(unsigned short *)(iVar3 + 0x10) = (0xc00);
     } else {
         ((void (*)(int, void *))func_80154274)(param_1, &D_800D58AC);
         iVar3 = *(int *)(param_1 + 0x20);
-        uVar2 = 0x400;
+        *(unsigned short *)(iVar3 + 0x10) = (0x400);
     }
-    *(unsigned short *)(iVar3 + 0x10) = uVar2;
     *(unsigned short *)(param_1 + 100) = 0xcc;
-    __asm__ __volatile__("" : : "r"(param_1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     ((void (*)(int))func_80149020)(param_1);
     func_80147324(0x436);
     ((void (*)(int))func_80146CA0)(param_1);

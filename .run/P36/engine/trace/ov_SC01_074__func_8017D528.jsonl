@@ -1,0 +1,23 @@
+{"kind": "seed", "start": 10, "tu": "src/ov_SC01_074/ov_SC01_074_jr_8017BE9C.c", "fn": "func_8017D528", "label": "s5"}
+{"depth": 1, "move": "R12 width a0 s32->u16 @3397", "parent": 10, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3404", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @3403->3406", "parent": 10, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3409", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3404", "parent": 10, "score": 15, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move p 1->0", "parent": 10, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R12 width a0 s32->s16 @3397", "parent": 10, "score": 2, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @3404", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @3405->3403", "parent": 10, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @3409", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3403", "parent": 10, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move p 1->2", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width a0 s32->u8 @3397", "parent": 10, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R8 base-shared tmp0 @3404", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @3406->3403", "parent": 10, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3404", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3408", "parent": 10, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move p 1->3", "parent": 10, "score": 8, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width p int->u16 @3399", "parent": 10, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3411", "parent": 10, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @3406->3404", "parent": 10, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @3404", "parent": 10, "score": 0, "kind": "IDENTICAL", "ident": true}

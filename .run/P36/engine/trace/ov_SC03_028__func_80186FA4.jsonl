@@ -1,0 +1,10 @@
+{"kind": "seed", "start": 27, "tu": "src/ov_SC03_028/ov_SC03_028_jr_80185C14.c", "fn": "func_80186FA4", "label": "s5"}
+{"depth": 1, "move": "R12 width thresh s32->u16 @3887", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R16 const-holder thresh=0xE100 x1", "parent": 27, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline thresh @3894", "parent": 27, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3895", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @3894->3897", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3895", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap * @3897", "parent": 27, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3895", "parent": 27, "score": 26, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @3888", "parent": 27, "score": 0, "kind": "IDENTICAL", "ident": true}

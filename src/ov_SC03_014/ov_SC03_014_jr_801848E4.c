@@ -5326,12 +5326,11 @@ void func_80188F80(void* arg0)
 int func_80188FB4(int a0, void* a1)
 {
     s16 stack_buf[8];
-    register u16 *s0 __asm__("$16") = (u16 *)a1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    u16 *s0 = (u16 *)a1;
     u16 v0;
     s32 result;
 
-    v0 = s0[2];
-    stack_buf[0] = v0;
+    do { stack_buf[0] = (s0[2]); } while (0);
     v0 = s0[3];
     stack_buf[4] = v0;
     v0 = s0[5];

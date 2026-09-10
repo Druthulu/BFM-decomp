@@ -5079,8 +5079,10 @@ void func_8017FDB0(void *a0)
     extern s16 D_80197F68;
     void *s0;
     void *p;
+    void *a02;
+    a02 = a0;
 
-    __asm__ __volatile__("" : "=r"(s0) : "0"(a0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
+    s0 = a02;
 
     if (*(s16 *)((s32)s0 + 0x70) & 0x8000) {
         p = *(void **)((s32)s0 + 0x64);

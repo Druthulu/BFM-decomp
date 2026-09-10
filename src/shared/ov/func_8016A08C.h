@@ -8,21 +8,20 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 extern void func_80147364();
 extern void func_80146C3C();
 void func_8016A08C(s32 param_1) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 s0;
     void *s1;
     u8 buf20[8];
     u8 buf18[8];
     s32 iVar4;
     s16 sVar2;
-    s0 = param_1;
     if (D_80078EBF != 0) {
         s1 = buf18;
         ((void (*)(void *, void *))func_80148534)(buf20, s1);
-        *(s32 *)(s0 + 0x30) = (s32)(u32)D_80078EBF - 0x18;
+        *(s32 *)(param_1 + 0x30) = (s32)(u32)D_80078EBF - 0x18;
         if ((s32)((u32)D_80078EBF - 0x18) >= 0) {
-            func_8016A290(s0, buf20, s1);
-            iVar4 = *(s32 *)(s0 + 0x1C) + 1;
-            *(s32 *)(s0 + 0x1C) = iVar4;
+            func_8016A290(param_1, buf20, s1);
+            iVar4 = *(s32 *)(param_1 + 0x1C) + 1;
+            *(s32 *)(param_1 + 0x1C) = iVar4;
             if (iVar4 == 4) {
                 func_80147324(0x44C);
             }
@@ -31,20 +30,20 @@ void func_8016A08C(s32 param_1) {
                 do {
                     sVar2 = sVar2 + 1;
                 } while (sVar2 < 2);
-                ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x17, s0, (s32)*(s16 *)(s0 + 6), (s32)*(s16 *)(s0 + 0xA),
-                              (s32)*(s16 *)(s0 + 0xE), 0, 0);
+                ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x17, param_1, (s32)*(s16 *)(param_1 + 6), (s32)*(s16 *)(param_1 + 0xA),
+                              (s32)*(s16 *)(param_1 + 0xE), 0, 0);
             } else {
-                if (*(s16 *)(s0 + 0x2A) == 0) {
-                    *(s16 *)(s0 + 0x2A) = 1;
-                    *(s32 *)(s0 + 0x1C) = 0x100;
+                if (*(s16 *)(param_1 + 0x2A) == 0) {
+                    *(s16 *)(param_1 + 0x2A) = 1;
+                    *(s32 *)(param_1 + 0x1C) = 0x100;
                 }
-                if ((*(u32 *)(s0 + 0x1C) & 0x1F) == 0) {
+                if ((*(u32 *)(param_1 + 0x1C) & 0x1F) == 0) {
                     func_80147324(0x44D);
                 }
             }
         }
     } else {
         ((void (*)(s32, s32))func_80147364)(4, 0x44C);
-        ((void (*)(s32))func_80146C3C)(s0);
+        ((void (*)(s32))func_80146C3C)(param_1);
     }
 }

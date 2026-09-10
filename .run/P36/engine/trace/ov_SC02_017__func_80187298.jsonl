@@ -1,0 +1,7 @@
+{"kind": "seed", "start": 2, "tu": "src/ov_SC02_017/ov_SC02_017_jr_80186C64.c", "fn": "func_80187298", "label": "s5"}
+{"depth": 1, "move": "R18 bystander @3498->3501", "parent": 2, "score": 33, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3523", "parent": 2, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3526", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline v1 @3542", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @3524", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R12 width sc s32->u16 @3494", "parent": 2, "score": 0, "kind": "IDENTICAL", "ident": true}

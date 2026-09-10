@@ -4676,13 +4676,13 @@ extern u8 func_8014BF6C(void);
 void func_8017ECA8(void) {
     extern s32 D_80126B58;
     s32 s0;
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s1;
     s32 r;
     s32 v0;
     s32 v1;
 
-    s0 = ((s32 (*)(void))func_8014BF6C)();
     s1 = (s32)&D_80126B58;
+    s0 = ((s32 (*)(void))func_8014BF6C)();
 
     v0 = s0 & 0xFF;
     if (v0 != 0) {
@@ -4762,11 +4762,11 @@ extern void func_8017F0E8(u8 *a0, u8 *a1);
 void func_8017EDD4(s32 a0) {
     Blk8_801E0764 buf;
     u8 *p;
-    s32 v0;
+    u16 v0;
 
     buf = D_801E0764;
     p = (u8 *)&buf;
-    v0 = ((s32 (*)(void))func_8014BF6C)() & 0xFF;
+    do { v0 = ((s32 (*)(void))func_8014BF6C)() & 0xFF; } while (0);
 
     if (*(s16 *)(a0 + 0x70) >= v0) {
         *(s32 *)(a0 + 0x4) = *(s32 *)&D_80126B5C;
@@ -4791,7 +4791,6 @@ void func_8017EDD4(s32 a0) {
        turn frees the branch slot for `addu $a0,$s0,$zero` and lets the prologue
        keep its descending `sw $ra` / `sw $s1` order. A plain C reassignment does
        not work here — cse/flow deletes it. */
-    __asm__ volatile("" : "=r"(p));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus7)
 }
 
 
@@ -5592,9 +5591,11 @@ extern u8 D_80182178;
 void func_801802BC(s32 a0)
 {
     s32 s0;
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s1;
+    s32 a02;
+    a02 = a0;
 
-    s1 = a0;
+    s1 = a02;
     s0 = ((s32 (*)(void))func_8012C1B8)();
     *(s32 *)(s1 + 0x20) = s0;
 
@@ -5674,7 +5675,7 @@ extern s32 func_8014C860(s32 a0, s32 a1);
 void func_801804F4(void *param_1) {
     void *arg0;
     s16 *lim;
-    register void *out __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    void *out;
     s16 cnt;
 
     arg0 = param_1;
@@ -5682,7 +5683,7 @@ void func_801804F4(void *param_1) {
     cnt = *(u16 *)((s32)arg0 + 0x100) - 8;
     *(u16 *)((s32)arg0 + 0x100) = cnt;
     if (*lim < cnt) {
-        out = (char *)arg0 + 0xFC;
+        do { out = (char *)arg0 + 0xFC; } while (0);
         *(u16 *)((s32)arg0 + 0x100) = *lim;
     } else {
         out = (char *)arg0 + 0xFC;

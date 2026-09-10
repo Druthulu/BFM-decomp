@@ -23,8 +23,8 @@ extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 void func_80153E00(s32 param_1) {
     s32 b;
-    u32 uVar3;
-    register u32 s2 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers1)
+    u16 uVar3;
+    u32 s2;
     u8 *s3;
     u32 t;
     s32 iVar4;

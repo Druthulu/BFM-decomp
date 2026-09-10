@@ -1,0 +1,23 @@
+{"kind": "seed", "start": 27, "tu": "src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c", "fn": "func_8017D918", "label": "s5"}
+{"depth": 1, "move": "R12 width a5 s32->u16 @3012", "parent": 27, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline t_vx1 @3038", "parent": 27, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3066", "parent": 27, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @3033->3035", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3043", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @3038", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3041", "parent": 27, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width a5 s32->s16 @3012", "parent": 27, "score": 36, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline t_vx0 @3035", "parent": 27, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @3066", "parent": 27, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @3033->3036", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @3043", "parent": 27, "score": 24, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap + @3035", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3038", "parent": 27, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width a5 s32->u8 @3012", "parent": 27, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @3066", "parent": 27, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @3035->3033", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3041", "parent": 27, "score": 27, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3055", "parent": 27, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width a4 s32->u16 @3011", "parent": 27, "score": 34, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @3066", "parent": 27, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @3036->3031", "parent": 27, "score": 0, "kind": "IDENTICAL", "ident": true}

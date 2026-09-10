@@ -1,0 +1,23 @@
+{"kind": "seed", "start": 7, "tu": "src/ov_SC02_005/ov_SC02_005_jr_80185060.c", "fn": "func_80185A88", "label": "s5"}
+{"depth": 1, "move": "R6 inline d @477", "parent": 7, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @475", "parent": 7, "score": 7, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @475", "parent": 7, "score": 7, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @475", "parent": 7, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @475", "parent": 7, "score": 7, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R12 width h int->u16 @473", "parent": 7, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @475->478", "parent": 7, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline h @484", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 do-while @475", "parent": 7, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @475", "parent": 7, "score": 7, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @476", "parent": 7, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_2 @475", "parent": 7, "score": 7, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R12 width h int->s16 @473", "parent": 7, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @477->475", "parent": 7, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @478", "parent": 7, "score": 7, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @475", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @477", "parent": 7, "score": 7, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R12 width h int->u8 @473", "parent": 7, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @478->475", "parent": 7, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @478", "parent": 7, "score": 14, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @475", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R12 width m int->u16 @472", "parent": 7, "score": 0, "kind": "IDENTICAL", "ident": true}

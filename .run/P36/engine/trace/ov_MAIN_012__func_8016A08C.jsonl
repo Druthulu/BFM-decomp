@@ -1,0 +1,18 @@
+{"kind": "seed", "start": 18, "tu": "src/shared/ov/func_8016A08C.h", "fn": "func_8016A08C", "label": "s5"}
+{"depth": 1, "move": "R12 width sVar2 s16->s32 @16", "parent": 18, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @10", "parent": 18, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline sVar2 @32", "parent": 18, "score": 28, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 hoist tmp0 @21", "parent": 18, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R18 bystander @21->19", "parent": 18, "score": 22, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @21", "parent": 18, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @47", "parent": 18, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @17", "parent": 18, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move s0 0->1", "parent": 18, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width sVar2 s16->u16 @16", "parent": 18, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->u16 @10", "parent": 18, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R6 inline sVar2 @30", "parent": 18, "score": 39, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @35", "parent": 18, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @25->23", "parent": 18, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @21", "parent": 18, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @20", "parent": 18, "score": 22, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-alias s0->param_1 @17", "parent": 18, "score": 0, "kind": "IDENTICAL", "ident": true}

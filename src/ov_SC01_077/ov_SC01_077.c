@@ -2862,11 +2862,8 @@ void func_801424E4(short *param_1) {
             if ((iVar2 != 0) && (*(short *)(iVar2 + 0x36) == param_1[0x7f])) {
                 *(int *)(param_1 + 2) = *(int *)(iVar2 + 4);
                 a = *(unsigned short *)(*(int *)(param_1 + 0x32) + 10);
-                __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus2)
-                t = (unsigned short)param_1[0x7e];
-                sVar1 = a + t;
                 iVar2 = *(volatile int *)(param_1 + 0x32);
-                param_1[5] = sVar1;
+                param_1[5] = (a + ((unsigned short)param_1[0x7e]));
                 *(int *)(param_1 + 6) = *(int *)(iVar2 + 0xc);
                 return;
             }
@@ -3125,14 +3122,14 @@ extern void func_80142B2C(void *arg0);
 extern s32 D_80188140[];
 
 void func_80142EC0(s32 param_1) {
-    register s32 d   __asm__("$16") = param_1;   /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus2)
-    register s32 obj __asm__("$17");             /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus2)
+    s32 d = param_1;
+    s32 obj;
     s32 ret;
     s16 sVar2;
 
-    ret = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(d + 0x20) = ret;
+    do { ret = ((s32 (*)(void))func_8012C1B8)(); } while (0);
     obj = ret;
+    *(s32 *)(d + 0x20) = ret;
     if (ret == 0) {
         ((void (*)(s32))func_8012CAE4)(d);
     } else {

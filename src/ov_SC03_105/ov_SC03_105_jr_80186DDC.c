@@ -3281,10 +3281,9 @@ void func_80187554(void)
     D_801BC9E0 = D_8018ED84;
     D_801BC9D8 = D_8018ED8C;
 
-    func_8012A018((s32)func_8018774C, 0);
+    do { func_8012A018((s32)func_8018774C, 0); } while (0);
 
     D_8012694C = 0;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
 
     D_80126954 = 0x708;
     D_80126950 = 0x708;
@@ -4587,23 +4586,22 @@ void func_80189454(void *a0) {
     extern EffectSlot4_80189454 D_8018F44C;
     extern EffectSlot4_80189454 D_8018F47C;
     extern EffectSlot4_80189454 D_8018F480;
-    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s0;
     void *s1;
 
-    s0 = a0;
     s1 = ((void *(*)(void))func_801465C0)();
     if (s1 != 0) {
         s32 idx;
         u8 uVar1;
 
-        *(s32 *)((s32)s0 + 0x20) = (s32)s1;
-        idx = *(s32 *)((s32)s0 + 0x2C);
+        *(s32 *)((s32)a0 + 0x20) = (s32)s1;
+        idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_8018F380, D_8018F31C[idx][0], D_8018F31C[idx][1]);
-        uVar1 = D_8018F348[*(s32 *)((s32)s0 + 0x2C)];
+        uVar1 = D_8018F348[*(s32 *)((s32)a0 + 0x2C)];
         *(s16 *)((s32)s1 + 0x2C) = 3;
         *(u8 *)((s32)s1 + 0x27) = uVar1;
-        *(s16 *)((s32)s0 + 0x6) = 0;
-        *(s16 *)((s32)s0 + 0xA) = 0x50;
+        *(s16 *)((s32)a0 + 0x6) = 0;
+        *(s16 *)((s32)a0 + 0xA) = 0x50;
 
         /* The shift chain below needs a BASIC-BLOCK BOUNDARY before every copy
            except the first: gcc-2.7.2 CSE is per-extended-BB, and inside one BB
@@ -4621,8 +4619,8 @@ void func_80189454(void *a0) {
            neighbouring symbol (idiom 7): `&D_8018F47C + 4 == &D_8018F480`, a
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
-#define COND (*(s32 *)((s32)s0 + 0x2C) > 0)
-        *(EffectSlot4_80189454 *)((s32)&D_8018F47C + 4) = D_8018F354[*(s32 *)((s32)s0 + 0x2C)];
+#define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
+        *(EffectSlot4_80189454 *)((s32)&D_8018F47C + 4) = D_8018F354[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_8018F47C = D_8018F480; } else { D_8018F47C = D_8018F480; }
         if (COND) { D_8018F44C = D_8018F47C; } else { D_8018F44C = D_8018F47C; }
         if (COND) { D_8018F448 = D_8018F44C; } else { D_8018F448 = D_8018F44C; }
@@ -4633,9 +4631,9 @@ void func_80189454(void *a0) {
         D_8018F3E0 = D_8018F3E4;
         D_8018F3B8 = D_8018F3E0;
 
-        *(s16 *)((s32)s0 + 0x2) = *(s16 *)((s32)s0 + 0x2) + 1;
+        *(s16 *)((s32)a0 + 0x2) = *(s16 *)((s32)a0 + 0x2) + 1;
     } else {
-        ((void (*)(void *))func_80146C3C)(s0);
+        ((void (*)(void *))func_80146C3C)(a0);
     }
 }
 

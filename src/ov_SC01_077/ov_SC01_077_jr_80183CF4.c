@@ -3660,18 +3660,13 @@ extern void func_8012C098(void);
 
 void func_80184A68(s32 param_1)
 {
-    s32 iVar;
-    s32 threshold;
-    register s32 cond __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 cond;
 
     if (*(s16 *)(param_1 + 0x70) & 0x8000) {
-        iVar = func_8012BCCC(param_1);
-        threshold = 0x90000;
+        cond = (0x90000) < (func_8012BCCC(param_1));
     } else {
-        iVar = func_8012BCCC(param_1);
-        threshold = 0x24000;
+        cond = (0x24000) < (func_8012BCCC(param_1));
     }
-    cond = threshold < iVar;
     if (!cond) {
         func_80184554(param_1);
     }
@@ -4715,13 +4710,13 @@ extern u8 D_801D5558;
 
 void func_80186434(s32 arg0) {
     s32 param_1 = arg0;
-    register s32 iVar1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 iVar1;
     s32 ret;
     s32 iVar2;
 
     ret = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(param_1 + 0x20) = ret;
     iVar1 = ret;
+    *(s32 *)(param_1 + 0x20) = ret;
     if (ret == 0) {
         ((void (*)(s32))func_8012CAE4)(param_1);
     } else {

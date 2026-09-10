@@ -1,0 +1,15 @@
+{"kind": "seed", "start": 11, "tu": "src/shared/ov/func_8016AA50.h", "fn": "func_8016AA50", "label": "s5"}
+{"depth": 1, "move": "R12 width t s32->u16 @13", "parent": 11, "score": 1, "kind": "OTHER", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @9", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline iVar4 @21", "parent": 11, "score": 12, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @18", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R18 bystander @35->33", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @34", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R5 swap & @22", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @34", "parent": 11, "score": 1, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R10 param-copy param_1 @14", "parent": 11, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width t s32->s16 @13", "parent": 11, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->u16 @9", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline psVar3 @22", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @18", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R7 do-while @34", "parent": 11, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -5382,14 +5382,14 @@ extern s32 D_801EDA38;
 
 void func_80180F64(s32 a0)
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 s1;
     s32 v0;
 
-    s0 = a0;
     v0 = func_8012C1B8();
-    *(s32 *)(s0 + 0x20) = v0;
     s1 = v0;
+    s0 = a0;
+    *(s32 *)(s0 + 0x20) = v0;
 
     if (v0 == 0) {
         func_8012CAE4(s0);
@@ -5681,9 +5681,11 @@ extern s32 D_801EDA00;
 
 void func_801816A4(s32 a0)
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 a02;
+    a02 = a0;
 
-    s0 = a0;
+    s0 = a02;
     if (--D_801ED9F8 == 0) {
         func_8012A828(s0, (s32)&D_80187430);
     }
@@ -6303,9 +6305,7 @@ s32 func_80182284(void) {
                 {
                     /* $3 pin: without it local-alloc hands $v1 to the 0x50000040 constant and
                        $a0 to this pointer — the exact inverse of the target (closeness 6). */
-                    register Obj_80182284 *o __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-                    o = (Obj_80182284 *)*en;
-                    o->unk4 |= 0x50000040;
+                    do { ((Obj_80182284 *)*en)->unk4 |= 0x50000040; } while (0);
                 }
                 break;
             }
@@ -6766,14 +6766,14 @@ extern s32 D_80183B84;
 
 void func_80182F94(s32 a0)
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 s1;
     s32 v0;
 
-    s0 = a0;
     v0 = func_8012C1B8();
-    *(s32 *)(s0 + 0x20) = v0;
     s1 = v0;
+    s0 = a0;
+    *(s32 *)(s0 + 0x20) = v0;
 
     if (v0 == 0) {
         func_8012CAE4(s0);

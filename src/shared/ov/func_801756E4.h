@@ -16,9 +16,8 @@ void func_801756E4(s32 arg0) {
     sum = *(u8 *)(a + 6) + f5;
     neg = -(s16)(sum & 0xFF);
     *(u8 *)(a + 6) = sum;
-    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
-    b6 = *(u8 *)(a + 6);
     *(u8 *)(a + 5) = (u8)f5 + 0xFF;
+    b6 = *(u8 *)(a + 6);
     *(s16 *)(a + 0x10) = neg;
     *(s16 *)(a + 0xc) = neg;
     *(u16 *)(a + 0x16) = b6;
