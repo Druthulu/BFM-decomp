@@ -660,7 +660,49 @@ accumulate here as the phase produces them.**
   (nice'd; Drew measured ~20-40 % CPU at 10 and asked twice for more), so a full-residue pass is ~2 h — affordable, but it buys
   nothing until the recipe set grows.
 
-## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed (this close on top of `72a9ab112`); NEXT = **TWO LANES IN PARALLEL (§2, Drew's call): lane A builds the COMPUTE-ONLY guided search engine (§3), lane B is one Fable agent reading gcc 2.7.2's source for the residual → move map. The exemplar triage is DEFERRED by Drew to the next phase**; **NO WAVES — T7's agents start only on Drew's direct approval in the session that runs them** | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
+- **S101 2026-09-09 — the two lanes opened (Drew: `/effort xhigh`, Fable 5.1). LANE B launched first** so it overlaps: one Fable
+  agent reading `tools/reference/gcc-2.7.2/` + `docs/gcc-2.7.2-map/` for the residual → source-move map, deliverable
+  `.run/P36/engine/residual_moves.md` written early (R67), every claim a hypothesis until the engine proves it on bytes.
+  **LANE A — rung G, `tools/delever_search.py` (the guided search), built and controlled.** Reconnaissance first (R37/R38): the
+  four tools read (`masked_diff` gives a structured, reloc-masked diff; `delever_oracle.compile_obj` returns the scratch object's
+  bytes; `objdump -drz` of the largest overlay object is 35 ms) and **a ledger defect found by reading the artifact (R14): 301
+  RESIDUE rows of the S99/S100 rung-R sweeps carried NO text hash** — `recipes()` wrote `nhash_after=None` on a miss, so the next
+  sweep's rows inherited None as their before-hash; `exemplars()` then read those 300 bodies as ONE class keyed None and
+  `--propagate` could never find them. Fixed at the cause (a RESIDUE row keeps the body's hash) and repaired once:
+  `delever --repair-nhash: 301 RESIDUE row(s) given their body's hash from earlier rows; 0 still without one`.
+  **The design (X1):** the SCORER is the oracle's own object — a candidate compiles through ONE recipe (a header: its first
+  includer's), the function's instructions are read from the scratch object and compared, reloc-masked with reloc-operand
+  equality, against the same function in the fleet run's baseline object under `build/` (the tree's own bytes, the candidates'
+  relocations by construction — no listing, no isolation, no cpp: the two instrument classes of §454 cannot recur); the SCORE is an
+  EDIT DISTANCE over the masked words (difflib opcodes), not the positional count; the residual is CLASSIFIED from the diff blocks
+  (REG caller/callee from the register pairs, COUNT, ORDER, MIXED) and the class orders the move families; the search is a beam
+  (`--beam 3 --depth 3 --cap 48 --budget 400`), a worse-than-parent child dropped, the first score-0 verified on every recipe and
+  banked through `delever --apply-body --rung G`, then `--propagate` serially after the parallel phase. The generators stay ONE
+  registry (`delever.recipe_candidates`, R33): a `families` filter, `cap=None`, and three new moves — **R8** a temp introduced
+  (the deref hoisted, typed by its cast) or an operand hoisted (the exact inverse of R6, typed like the local it feeds), **R9** two
+  adjacent simple statements swapped, and **R7's inverse**, the unwrap of a one-line block. Rung R's default family set is unchanged.
+  **The controls, in order, each of which changed the tool (R39/R40):** selftest OK (classifier 6 cases, beam 4 cases on a stub
+  needing three composed moves, R8/R9 on a fixture) — its first run failed on my own arithmetic (a start three moves away was five).
+  Positive control 1 (`func_8014477C`, one R9 swap, start 7): PASS, but by a two-move detour after 142 compiles — the inverse swap
+  sat behind 64 block wraps because the family order was a strict primary key → **round-robin across families within the cap**; rerun:
+  `PASS … MATCH after 23 compiles by R9 swap-stmts @2289` at depth 1. Positive control 2 (one R6 inline + one R7 wrap, start 46
+  POSITIONAL): FAIL at best 41 — the positional score read one inlined temp as 43 shifted words → **the edit-distance score** (the
+  same perturbation now starts at 14/24), and the inline of `fv = *(u16 *)(p + 0xA) - 0x30` had no inverse → **R8's operand hoist**
+  and **R7's unwrap**; rerun: `PASS — perturbed by R6 inline fv @2302 + R7 do-while @2307 (start 24), MATCH after 74 compiles by R8
+  hoist tmp0 @2301 + R7 unwrap @2309` — the composition the engine exists for. Positive control 3 (`func_80135D20`, an inlined
+  POINTER temp under a dereference + a wrap, start 26): FAIL at best 10 after 328 compiles — the unwrap came back, the inline of a
+  dereference's base has no inverse generator yet: **the engine's stall mode is a missing inverse, and it is measurable** (lane B's
+  map feeds exactly this). Also fixed on the way: the deref hoist targeted an assignment's LEFT side (the store's address) — RHS only.
+  Speed: 0.11 s per scored candidate on an overlay TU (142 compiles in 15.7 s; 336 in 37.5 s).
+  **`--plan --score --limit 24` (the head of the residue, 134–129-copy classes, every control 0/identical):** starting distances as
+  EDIT distance vs the permuter's positional ones — `func_8013CF68` 38 (was 70), `func_80135A4C` 40 (131), `func_801345F8` 39 (105),
+  `func_80133AB0` 24 (99), `func_80134A74` 30 (104), `func_80135888` 29 (78), `func_801670E4` 45 (276); the class-count-changing
+  bodies are COUNT with register pairs beside the count (`s5↔s7`, `a2↔a1`), `func_8013D178` is a pure `a0↔a1` swap 45 times over
+  (REG-caller, one `$5` pin — the ARGCOPY class), `func_80143D28` REG-callee `s2↔s3`, and five bodies start ≤ 9. Instrument rows:
+  dictionary + SETUP (R21/R87), the `.run/P36/engine/` evidence allowlist. Next: the measurement — `--run --limit 16 -j 8` on this
+  head, against rung D's honest baseline (5 of 16 in 0.69 h), then R22 → census → snapshot → commit.
+
+## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed; **S101 IN PROGRESS: lane B (Fable agent, gcc source → move map) RUNNING; lane A rung G `tools/delever_search.py` BUILT + controlled (positive controls 1–2 PASS, 3 FAIL on a missing inverse), the 301-row ledger hash defect repaired; NEXT = the 16-exemplar measurement run, then R22 → census → snapshot → commit** | the number: **33,427 sites** (19,982 pins + 13,445 asm) in 12,048 bodies · marked 33,427 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (3 milestones)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew set `high` and prefers it for

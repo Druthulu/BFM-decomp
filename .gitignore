@@ -495,6 +495,16 @@ unsloth_compiled_cache/
 !/.run/P36/gte/*.log
 !/.run/P36/gte/*.txt
 /.run/P36/gte/inventory.json
+!/.run/P36/engine/
+/.run/P36/engine/*
+!/.run/P36/engine/*.log
+!/.run/P36/engine/*.md
+!/.run/P36/engine/*.json
+!/.run/P36/engine/*.jsonl
+!/.run/P36/engine/*.txt
+!/.run/P36/engine/trace/
+/.run/P36/engine/trace/*
+!/.run/P36/engine/trace/*.jsonl
 !/.run/P36/permuter/
 /.run/P36/permuter/*
 !/.run/P36/permuter/*.log

@@ -37667,3 +37667,18 @@ the starting distance, not the site count: the closers started 8 and 12 mismatch
 started at 70, 99, 105 and 131 — every one a body where removing a hand-placed `instruction` lever changed the instruction COUNT and
 shifted everything after it (`mine=103 ins, target=106`). They still improved a long way (131→35, 105→18, 99→37, 70→24), so they are
 seeds for a longer run or for T7's agents, not walls. `--max-start N` triages by that number instead of spending a search on it.
+
+### §454a — the recipe rung's real shape: replication, not discovery (S99, measured)
+
+`delever --recipes` closed **134 of 134** bodies of the class rung D had just cracked, in 6.0 minutes, every one by the same
+`R7 do-while` — and **0 of 300** residue bodies drawn by fewest-NEEDED-sites, at both `--cap 40` (12,110 compiles, 4.6 min)
+and `--cap 400` (17,140 compiles, 6.0 min). The zero is not a budget: 17,140 compiles over 300 bodies is ~57 candidates per
+body, so the cap was never binding — ten times the depth added 42% more candidates and closed nothing — and a by-hand check of
+one body (`src/800.c CdReadSectorReadyCB`, one `$18` pin) showed every candidate COMPILING and returning DIFFERS, not
+COMPILE-ERROR. Nor was it the ordering: candidates are sorted by distance to the NEEDED site (the lever says where to look)
+and the result was identical before and after that change.
+
+**The lesson for any mechanical-rewrite rung:** it multiplies a shape you already have across the population that shares it —
+which is worth an enormous amount when a class has 134 copies — and it discovers nothing. Budget it as replication. The
+discovery budget is the search rung and the agents, and the flywheel is that every shape either of them finds becomes a
+recipe, after which the population that shares it is free forever.

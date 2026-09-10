@@ -1445,11 +1445,22 @@ def block_wraps(text, tu, fn, d_):
     lines = text.split("\n")
     out = []
     for i in range(d_["line"], d_["end"] - 1):
-        s = sc.mask_text(lines[i]).strip()
+        raw_line = lines[i]
+        s = sc.mask_text(raw_line).strip()
+        indent = raw_line[:len(raw_line) - len(raw_line.lstrip())]
+        # the INVERSE first: a one-line block around a single statement unwrapped (the search needs every move's inverse, or a
+        # wrap it tried on the way cannot be undone — the S101 two-move control stalled at 6 for exactly that)
+        un = re.match(r"^(?:do\s*)?\{\s*(.*;)\s*\}(\s*while\s*\(\s*0\s*\)\s*;)?$", s)
+        if un and un.group(1).count("{") == 0 and simple_stmt(un.group(1)):
+            inner = raw_line.strip()
+            inner = re.sub(r"^(?:do\s*)?\{\s*", "", inner)
+            inner = re.sub(r"\s*\}(\s*while\s*\(\s*0\s*\)\s*;)?$", "", inner)
+            cand = list(lines)
+            cand[i] = indent + inner
+            out.append((f"unwrap @{i + 1}", "\n".join(cand)))
+            continue
         if not s.endswith(";") or CTRL_KW.match(s) or is_decl_line(s) or s.startswith("#") or "{" in s or "}" in s:
             continue
-        raw_line = lines[i]
-        indent = raw_line[:len(raw_line) - len(raw_line.lstrip())]
         stmt = raw_line.strip()
         for tag, spelling in (("block", f"{indent}{{ {stmt} }}"), ("do-while", f"{indent}do {{ {stmt} }} while (0);")):
             cand = list(lines)
@@ -1458,16 +1469,243 @@ def block_wraps(text, tu, fn, d_):
     return out
 
 
-def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=True, focus=()):
+DEREF = re.compile(r"\*\s*\(\s*((?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\*+)\s*\)\s*")
+
+
+def simple_stmt(masked_line):
+    """a whole simple statement alone on its line: ends with `;`, no control keyword, no declaration, no brace, no directive."""
+    s = masked_line.strip()
+    return bool(s.endswith(";") and not CTRL_KW.match(s) and not is_decl_line(s) and not s.startswith("#")
+                and "{" not in s and "}" not in s)
+
+
+def introduce_temps(text, tu, fn, d_):
+    """[(description, candidate text)] — R8, the INVERSE of R6 (§501-P's "a fresh single-set temp at the use"): the first
+    `*(T *)(…)` dereference of a simple statement hoisted into a fresh local of type T, declared at the end of the body's
+    declaration run and assigned on the line before the statement. Creating a single-set local moves gcc 2.7.2's allocation
+    the same way removing one does (§501-R's birthing boost) and is the count-changing class's natural move: a temp is a copy
+    the compiler may or may not fold. A hoist that changes what the code does is simply DIFFERS to the oracle — the bytes are
+    the correctness proof, so the generator need not prove independence."""
+    lines = text.split("\n")
+    out = []
+    last = decl_run_end(text, d_)
+    used = set(IDENT.findall(sc.mask_text("\n".join(lines[d_["line"] - 1:d_["end"]]))))
+    k = 0
+    while f"tmp{k}" in used:
+        k += 1
+    name = f"tmp{k}"
+    for i in range(last + 1, d_["end"] - 1):
+        raw_line, s = lines[i], sc.mask_text(lines[i])
+        if not simple_stmt(s):
+            continue
+        # the RHS only: a dereference that is the assignment's LEFT side is the store's address, not a value to hoist
+        asg = re.search(r"(?<![=!<>+\-*/%&|^~])=(?!=)", s)
+        ret = re.match(r"^\s*return\b", s)
+        rhs0 = asg.end() if asg else (ret.end() if ret else 0)
+        mm = DEREF.search(s, rhs0)
+        if not mm:
+            continue
+        start = mm.start()
+        j = mm.end()
+        # the operand: a parenthesised group (balanced) or a bare identifier
+        if j < len(s) and s[j] == "(":
+            depth, e = 0, j
+            while e < len(s):
+                if s[e] == "(":
+                    depth += 1
+                elif s[e] == ")":
+                    depth -= 1
+                    if depth == 0:
+                        e += 1
+                        break
+                e += 1
+            if depth != 0:
+                continue
+        else:
+            m2 = re.match(r"[A-Za-z_]\w*", s[j:])
+            if not m2:
+                continue
+            e = j + m2.end()
+        expr = raw_line[start:e]
+        if s[start:e].count("(") != s[start:e].count(")"):
+            continue
+        typ = " ".join(mm.group(1).replace("*", " * ").split())
+        typ = re.sub(r"\s*\*\s*$", "", typ)                 # `s32 *` -> `s32`: the load's value type
+        if typ.count("*"):
+            typ = typ.replace(" * ", " *").replace(" *", "*").replace("*", " *")
+        indent = raw_line[:len(raw_line) - len(raw_line.lstrip())]
+        dind = lines[last][:len(lines[last]) - len(lines[last].lstrip())] if last >= d_["line"] else indent
+        cand = list(lines)
+        cand[i] = raw_line[:start] + name + raw_line[e:]
+        cand.insert(i, f"{indent}{name} = {expr};")
+        cand.insert(last + 1, f"{dind}{typ} {name};")
+        out.append((f"temp {name} @{i + 1}", "\n".join(cand)))
+        # the dereference's BASE hoisted into an address local (lane B, class 2: cse's find_best_addr rewrites `(mem (symbol))`
+        # to `(mem (reg))` when a pointer pseudo is cheaper and lives; the S101 positive control 3 stalled on exactly the
+        # inverse — an inlined pointer temp under a dereference — because nothing could put the local back)
+        if j < len(s) and s[j] == "(":
+            inner = raw_line[j + 1:e - 1].strip()
+            if inner and not re.fullmatch(r"[A-Za-z_]\w*", sc.mask_text(inner).strip()):
+                cand = list(lines)
+                cand[i] = raw_line[:j] + name + raw_line[e:]
+                cand.insert(i, f"{indent}{name} = {inner};")
+                cand.insert(last + 1, f"{dind}s32 {name};")
+                out.append((f"base {name} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+BINOP = re.compile(r"<<|>>|[-+&|^*/%]")
+
+
+def local_types(text, d_):
+    """name -> declared type for the locals of the body's declaration run (`s32 a, b;` gives both)."""
+    lines = text.split("\n")
+    out = {}
+    for i in range(d_["line"], decl_run_end(text, d_) + 1):
+        s = sc.mask_text(lines[i]).strip()
+        if not is_decl_line(s):
+            continue
+        head = s.rstrip(";").split("=")[0]
+        m = re.match(r"^((?:struct\s+|union\s+|unsigned\s+|signed\s+)?[A-Za-z_]\w*)\s+(.*)$", head.strip())
+        if not m:
+            continue
+        typ = m.group(1)
+        for part in m.group(2).split(","):
+            p = part.strip()
+            stars = p.count("*")
+            name = re.sub(r"[\*\[\]\d\s]", "", p)
+            if name:
+                out[name] = typ + (" " + "*" * stars if stars else "")
+    return out
+
+
+def split_operands(expr):
+    """[(start, end)] of the depth-0 operands of `expr` separated by binary operators; [] when there is none."""
+    depth, parts, cur = 0, [], 0
+    i = 0
+    while i < len(expr):
+        c = expr[i]
+        if c in "([":
+            depth += 1
+        elif c in ")]":
+            depth -= 1
+        elif depth == 0:
+            m = BINOP.match(expr, i)
+            if m:
+                prev = expr[:i].rstrip()
+                nxt = expr[m.end():m.end() + 1]
+                # binary when the previous non-space char ends an operand, and not part of a compound/comparison token
+                if prev and (prev[-1].isalnum() or prev[-1] in "_)]") and nxt not in "=" and expr[i - 1:i] not in "=<>!":
+                    parts.append((cur, i))
+                    cur = m.end()
+                    i = m.end()
+                    continue
+        i += 1
+    if not parts:
+        return []
+    parts.append((cur, len(expr)))
+    return parts
+
+
+def hoist_operands(text, tu, fn, d_):
+    """[(description, candidate text)] — R8's second form, the exact inverse of R6: a non-trivial depth-0 operand of an
+    assignment's or return's expression hoisted into a fresh local, typed like the local it feeds (an assignment to a declared
+    local), else like its dereference or cast, else s32. The S101 two-move control inlined `fv = *(u16 *)(p + 0xA) - 0x30;`
+    into `gv + (…)`; only a hoist of the whole operand can undo that, and a deref-only hoist could not."""
+    lines = text.split("\n")
+    out = []
+    types = local_types(text, d_)
+    used = set(IDENT.findall(sc.mask_text("\n".join(lines[d_["line"] - 1:d_["end"]]))))
+    k = 0
+    while f"tmp{k}" in used:
+        k += 1
+    name = f"tmp{k}"
+    last = decl_run_end(text, d_)
+    for i in range(last + 1, d_["end"] - 1):
+        raw_line, s = lines[i], sc.mask_text(lines[i])
+        if not simple_stmt(s):
+            continue
+        asg = re.search(r"(?<![=!<>+\-*/%&|^~])=(?!=)", s)
+        ret = re.match(r"^\s*return\b", s)
+        start = asg.end() if asg else (ret.end() if ret else -1)
+        if start < 0:
+            continue
+        end = s.rstrip().rfind(";")
+        expr = s[start:end]
+        parts = split_operands(expr)
+        if not parts:
+            continue
+        lhs = s[:asg.start()].strip() if asg else ""
+        lhs_type = types.get(lhs) if re.fullmatch(r"[A-Za-z_]\w*", lhs or "") else None
+        n_here = 0
+        for ps, pe in parts:
+            op = raw_line[start + ps:start + pe].strip()
+            opm = s[start + ps:start + pe].strip()
+            if not opm or re.fullmatch(r"[A-Za-z_]\w*|-?\d+|-?0x[0-9A-Fa-f]+|&[A-Za-z_]\w*", opm):
+                continue                                  # a bare name, a literal, an address: nothing to hoist
+            if opm.count("(") != opm.count(")"):
+                continue
+            mm = DEREF.match(opm)
+            cast = re.match(r"^\(\s*((?:struct\s+|union\s+|unsigned\s+)?[A-Za-z_]\w*(?:\s*\*+)?)\s*\)", opm)
+            if lhs_type:
+                typ = lhs_type
+            elif mm:
+                typ = re.sub(r"\s*\*\s*$", "", " ".join(mm.group(1).replace("*", " * ").split()))
+            elif cast and "(" not in cast.group(1):
+                typ = " ".join(cast.group(1).split())
+            else:
+                typ = "s32"
+            indent = raw_line[:len(raw_line) - len(raw_line.lstrip())]
+            dind = lines[last][:len(lines[last]) - len(lines[last].lstrip())] if last >= d_["line"] else indent
+            cand = list(lines)
+            left, right = raw_line[:start + ps].rstrip(), raw_line[start + pe:].lstrip()
+            cand[i] = left + " " + name + ((" " + right) if right and right[0] != ";" else right)
+            cand.insert(i, f"{indent}{name} = {op};")
+            cand.insert(last + 1, f"{dind}{typ} {name};")
+            out.append((f"hoist {name} @{i + 1}", "\n".join(cand)))
+            n_here += 1
+            if n_here >= 3:
+                break
+    return out
+
+
+def adjacent_swaps(text, tu, fn, d_):
+    """[(description, candidate text)] — R9: two consecutive simple statements at the same indentation exchanged. The
+    scheduling class's move (sched.c follows source order for independent statements, cookbook T2/§205); a swap that is not
+    independent changes the bytes and the oracle says DIFFERS — again the bytes prove the candidate, not the generator."""
+    lines = text.split("\n")
+    out = []
+    for i in range(d_["line"], d_["end"] - 2):
+        a, b = lines[i], lines[i + 1]
+        sa, sb = sc.mask_text(a), sc.mask_text(b)
+        if not (simple_stmt(sa) and simple_stmt(sb)):
+            continue
+        if (len(a) - len(a.lstrip())) != (len(b) - len(b.lstrip())):
+            continue
+        cand = list(lines)
+        cand[i], cand[i + 1] = b, a
+        out.append((f"swap-stmts @{i + 1}", "\n".join(cand)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9")
+RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
+
+
+def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=True, focus=(), families=RUNG_R_FAMILIES):
     """[(recipe, description, candidate text)] — the byte-neutral shape recipes of the cookbook, mechanically.
     R2 (§76/§501-R, the allocation ORDER is the bank): the formerly-pinned declarations permuted among their own lines.
     R4: one of them moved through the whole declaration run. R3 (§17a/§501-P): an initializer split off its declaration.
     R5 (§137/§501-R, the caller-saved class): the operand order of one commutative operator — the ONLY recipe here that
-    needs no pinned declaration, so a residue of barriers and launders still has candidates."""
+    needs no pinned declaration, so a residue of barriers and launders still has candidates. R6 a single-set temp inlined;
+    R7 a statement wrapped in a block; R8 a temp introduced (R6's inverse); R9 two adjacent statements swapped.
+    `families` selects the generators (the guided search engine, tools/delever_search.py, picks them from the residual's
+    class); `cap=None` returns every candidate (the engine ranks them itself)."""
     recs_ = sc.scan_text(text, tu, shared_defs=None)
     d_ = next((r for r in recs_ if r["form"] == "def" and r["name"] == fn), None)
     if d_ is None:
         return []
+    fam = set(families)
     dls = decl_lines(text, tu, fn, names) if names else None
     lines = text.split("\n")
     out = []
@@ -1487,7 +1725,7 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
             seen.add(p)
             if p != tuple(range(len(body))) and p not in perms:
                 perms.append(p)
-    for p in perms[:limit]:
+    for p in (perms[:limit] if "R2" in fam else []):
         ls_ = list(lines)
         for slot, src in zip(idx, p):
             ls_[slot] = body[src]
@@ -1497,7 +1735,7 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     # THEIR OWN slots; this reaches the orders that involve the untouched declarations too, at one compile each.
     last = decl_run_end(text, d_)
     run_idx = [i for i in range(d_["line"], last + 1) if is_decl_line(sc.mask_text(lines[i]))]
-    if dls and len(run_idx) > 1:
+    if dls and len(run_idx) > 1 and "R4" in fam:
         run_txt = [lines[i] for i in run_idx]
         for i, t in dls:
             if i not in run_idx:
@@ -1513,7 +1751,7 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
                 for slot, txt in zip(run_idx, seq):
                     ls_[slot] = txt
                 out.append(("R4", f"decl-move {name} {src}->{dst}", "\n".join(ls_)))
-    for k, (i, t) in enumerate(dls or []):
+    for k, (i, t) in enumerate(dls if (dls and "R3" in fam) else []):
         head, _, init = t.partition("=")
         if not init.strip().endswith(";") or "==" in t:
             continue
@@ -1525,11 +1763,21 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
         indent = t[:len(t) - len(t.lstrip())]
         ls_.insert(last + 1, f"{indent}{name[0]} ={init.rstrip()}")
         out.append(("R3", f"init-split {name[0]}", "\n".join(ls_)))
-    for desc, cand in commutative_swaps(text, tu, fn, d_):
-        out.append(("R5", desc, cand))
-    for desc, cand in inline_single_set_temps(text, tu, fn, d_):
-        out.append(("R6", desc, cand))
-    if blocks:                                            # last: one candidate per statement, so the targeted recipes go first
+    if "R5" in fam:
+        for desc, cand in commutative_swaps(text, tu, fn, d_):
+            out.append(("R5", desc, cand))
+    if "R6" in fam:
+        for desc, cand in inline_single_set_temps(text, tu, fn, d_):
+            out.append(("R6", desc, cand))
+    if "R8" in fam:
+        for desc, cand in introduce_temps(text, tu, fn, d_):
+            out.append(("R8", desc, cand))
+        for desc, cand in hoist_operands(text, tu, fn, d_):
+            out.append(("R8", desc, cand))
+    if "R9" in fam:
+        for desc, cand in adjacent_swaps(text, tu, fn, d_):
+            out.append(("R9", desc, cand))
+    if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
     seen, uniq = {text}, []                               # never judge the seed twice, nor one candidate twice (R37)
@@ -1547,7 +1795,7 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
             m = re.search(r"@(\d+)$", item[1])
             return (1, min(abs(int(m.group(1)) - f) for f in focus)) if m else (0, 0)
         uniq.sort(key=key)
-    return uniq[:cap]
+    return uniq if cap is None else uniq[:cap]
 
 
 def recipes(a):
@@ -1698,10 +1946,15 @@ def recipes(a):
                 if v == "IDENTICAL":
                     hit = (rec, desc, cand)
                     break
+            # THE HASH SURVIVES A MISS. A RESIDUE row leaves the text unchanged, so its after-hash IS its before-hash; writing
+            # None there (S99/S100) made the NEXT sweep's rows inherit None as their before-hash — 301 bodies with no hash,
+            # which `exemplars()` then read as ONE class keyed None and `--propagate` could never find (found at S101 by
+            # reading the ledger, R14; `--repair-nhash` filled them from each body's earlier rows).
+            nh = r.get("nhash_after") or r.get("nhash_before")
             row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung="R",
                        calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
                        tu=tu, fn=fn, addr=fn_addr(fn, tu), aliases=r.get("aliases"), header=tu.endswith(".h"),
-                       nhash_before=r.get("nhash_after"), nhash_after=None, candidates=len(cands), pins=len(names),
+                       nhash_before=nh, nhash_after=(None if hit else nh), candidates=len(cands), pins=len(names),
                        verdict=("LEVER-FREE" if hit else "RESIDUE"), recipe=(hit[0] if hit else None),
                        how=(hit[1] if hit else None), sites=([] if hit else r.get("sites", [])))
             if hit:
@@ -1824,6 +2077,32 @@ def propagate(a):
         bad += r.returncode != 0
     print(f"delever --propagate: {ok} of {len(sibs)} sibling(s) banked, {bad} refused")
     return 0 if ok else 1
+
+
+def repair_nhash():
+    """--repair-nhash: fill the text hash of every RESIDUE row that carries none (the S99/S100 rung-R rows) from the same body's
+    earlier rows — a RESIDUE verdict leaves the text unchanged, so the body's hash is the last one any row recorded for it.
+    Rewrites the ledger in place through a temp file (the instrument's own defect, repaired once and recorded; R35)."""
+    rows = load_ledger()
+    last = {}
+    fixed = 0
+    for r in rows:
+        k = (r.get("tu"), r.get("fn"))
+        if not k[0] or not k[1]:
+            continue
+        nh = r.get("nhash_after") or r.get("nhash_before")
+        if nh:
+            last[k] = nh
+        elif r.get("verdict") == "RESIDUE" and k in last:
+            r["nhash_before"] = r["nhash_after"] = last[k]
+            r["nhash_repaired"] = True
+            fixed += 1
+    left = sum(1 for r in rows if r.get("verdict") == "RESIDUE" and not (r.get("nhash_after") or r.get("nhash_before")))
+    tmp = LEDGER.with_suffix(".tmp")
+    tmp.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    os.replace(tmp, LEDGER)
+    print(f"delever --repair-nhash: {fixed} RESIDUE row(s) given their body's hash from earlier rows; {left} still without one")
+    return 0 if left == 0 else 1
 
 
 def status():
@@ -2420,10 +2699,13 @@ def main():
     ap.add_argument("--allow-residue", action="store_true")
     ap.add_argument("--dirty-ok", action="store_true", help="--apply-body on a dirty tree (a wave banking several bodies before one commit)")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--repair-nhash", action="store_true", help="fill the missing text hash of RESIDUE rows from each body's earlier rows")
     ap.add_argument("-j", "--jobs", type=int, default=12)
     a = ap.parse_args()
     if a.selftest:
         sys.exit(0 if selftest() else 1)
+    if a.repair_nhash:
+        sys.exit(repair_nhash())
     if a.probe:
         probe(a.sample, a.seed, a.jobs)
         return
