@@ -26,15 +26,20 @@ extern u8 D_8018D910;
 extern u8 D_8018D880;
 
 void func_80145934(void) {
+    /* §5a cross-jump alias (replaces the memory barrier that used to sit in the >=0x6A4 arm).
+     * Both the >=0x6A4 and the >=0x384 arm take the address of D_8018D97C, so their blocks are the
+     * identical pair `la a0,D_8018D97C / j <call>` and jump2's cross-jumper merges them (jump.c:1969).
+     * find_cross_jump compares the two SYMBOL_REFs with rtx_renumbered_equal_p, which tests the name
+     * STRING POINTERS (jump.c:2440 `case SYMBOL_REF: return XSTR (x, 0) == XSTR (y, 0);`), so a second
+     * declaration of the same symbol under its own asm label gives the first arm a distinct string and
+     * the two blocks stay separate.  Same bytes, same R_MIPS_HI16/LO16 D_8018D97C relocations. */
+    extern u8 aD80192964 __asm__("D_8018D97C");
     s32 v;
     void *p;
 
     v = func_80029504();
     if (v >= 0x6A4) {
-        p = &D_8018D97C;
-        /* §5a cross-jump barrier — LOAD-BEARING: keeps this D_8018D97C load from being
-         * tail-merged with the v>=0x384 D_8018D97C load below (emits zero machine code). */
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus4)
+        p = &aD80192964;
     } else if (v >= 0x5DC) {
         p = &D_8018D8EC;
     } else if (v >= 0x578) {
@@ -76,15 +81,13 @@ extern u8 D_8018D880;
 extern u8 D_8018D9A0;
 
 void func_80145A2C(void) {
+    extern u8 aD801929F4 __asm__("D_8018DA0C");
     s32 v;
     void *p;
 
     v = func_80029504();
     if (v >= 0x6A4) {
-        p = &D_8018DA0C;
-        /* §5a cross-jump barrier — LOAD-BEARING: keeps this D_8018DA0C load from being
-         * tail-merged with the v>=0x384 D_8018DA0C load below (emits zero machine code). */
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus4)
+        p = &aD801929F4;
     } else if (v >= 0x5DC) {
         p = &D_8018D8EC;
     } else if (v >= 0x578) {

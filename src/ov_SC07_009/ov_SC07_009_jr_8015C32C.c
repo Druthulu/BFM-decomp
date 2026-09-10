@@ -3613,8 +3613,7 @@ void func_80161E08(s32 param_1) {
         ((a2 = func_800291DC(8)) & 0x8000) != 0) {
 
         if (D_800B5BD8 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65A8));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus4)
-            D_801A2B18[0] = p;
+            p = D_801A2B18[0] = base + 0x65A8;
             func_80024054(&D_801808AC, &D_801A2B24);
             func_8001CE28(p, &D_801A2B24);
             D_800B5C04 = 1;
@@ -3624,8 +3623,7 @@ void func_80161E08(s32 param_1) {
         }
 
         if (D_800B5C10 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65E0));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus4)
-            D_801A2B18[1] = p;
+            p = D_801A2B18[1] = base + 0x65E0;
             func_80024054(&D_801808CC, &D_801A2B4C);
             func_8001CE28(p, &D_801A2B4C);
             D_800B5C3C = 1;
@@ -3635,8 +3633,7 @@ void func_80161E08(s32 param_1) {
         }
 
         if (D_800B5C48 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x6618));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus4)
-            D_801A2B18[2] = p;
+            p = D_801A2B18[2] = base + 0x6618;
             func_800242D0((s16)func_801620C4(), &D_801A2B64, 0x84);
             func_8001CE68(p, &D_801A2B64);
             D_800B5C74 = 1;
@@ -3836,9 +3833,8 @@ s32 func_80162438(s32 _unused0) {
     uVar2 = func_800291DC(0x12);
     if ((uVar2 & 0x8000) != 0) {
         if (D_800B5BD8 == 0) {
-            register u8 *t __asm__("$2") = base + 0x65A8;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
-            item = t;
-            D_801A2B70[0] = (s32)item;
+            D_801A2B70[0] = (s32)(base + 0x65A8);
+            item = base + 0x65A8;
             func_80024054(D_80180910, D_801A2B7C);
             func_8001CE28(item, D_801A2B7C);
             D_800B5C04 = 1;
@@ -3847,9 +3843,8 @@ s32 func_80162438(s32 _unused0) {
             D_800B5BE2 = -D_800AF7BE / 2 + 0x28;
         }
         if (D_800B5C10 == 0) {
-            register u8 *t __asm__("$2") = base + 0x65E0;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
-            item = t;
-            D_801A2B70[1] = (s32)item;
+            D_801A2B70[1] = (s32)(base + 0x65E0);
+            item = base + 0x65E0;
             func_80024054(((u8 *)&D_80180928), D_801A2BA4);
             func_8001CE28(item, D_801A2BA4);
             D_800B5C3C = 1;
@@ -3858,9 +3853,8 @@ s32 func_80162438(s32 _unused0) {
             D_800B5C1A = -D_800AF7BE / 2 + 0x30;
         }
         if (D_800B5C48 == 0) {
-            register u8 *t __asm__("$2") = base + 0x6618;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
-            item = t;
-            D_801A2B70[2] = (s32)item;
+            D_801A2B70[2] = (s32)(base + 0x6618);
+            item = base + 0x6618;
             func_800242D0((s16)func_801626B8(), D_801A2BC0, 0x84);
             func_8001CE68(item, D_801A2BC0);
             D_800B5C74 = 1;

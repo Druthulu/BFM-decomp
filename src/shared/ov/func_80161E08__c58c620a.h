@@ -43,8 +43,7 @@ void func_80161E08(s32 param_1) {
         ((a2 = func_800291DC(8)) & 0x8000) != 0) {
 
         if (D_800B5BD8 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65A8));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B headers2)
-            D_8018E868[0] = p;
+            p = D_8018E868[0] = base + 0x65A8;
             func_80024054(&D_80181D80, &D_8018E874);
             func_8001CE28(p, &D_8018E874);
             D_800B5C04 = 1;
@@ -54,8 +53,7 @@ void func_80161E08(s32 param_1) {
         }
 
         if (D_800B5C10 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65E0));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B headers2)
-            D_8018E868[1] = p;
+            p = D_8018E868[1] = base + 0x65E0;
             func_80024054(&D_80181DA0, &D_8018E89C);
             func_8001CE28(p, &D_8018E89C);
             D_800B5C3C = 1;
@@ -65,8 +63,7 @@ void func_80161E08(s32 param_1) {
         }
 
         if (D_800B5C48 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x6618));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B headers2)
-            D_8018E868[2] = p;
+            p = D_8018E868[2] = base + 0x6618;
             func_800242D0((s16)func_801620C4(), &D_8018E8B4, 0x84);
             func_8001CE68(p, &D_8018E8B4);
             D_800B5C74 = 1;
