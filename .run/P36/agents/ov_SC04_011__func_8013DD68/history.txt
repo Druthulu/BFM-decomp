@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 17 best 11 compiles 816 path R6 inline uVar2 @1733 + R9 swap-stmts @1731 + R7 do-while @1730
 g5: verdict NO-MATCH start 17 best 7 compiles 2280 path R6 inline uVar2 @1731 + R7 do-while @1728 + R9 swap-stmts @1731
 s1: verdict NO-MATCH start 17 best 14 compiles 189 path R6 inline uVar2 @1731
+s2: verdict NO-MATCH start 17 best 14 compiles 189 path R6 inline uVar2 @1731
 best-scoring single candidates of the last trace (move -> score):
   R6 inline uVar2 @1731 -> 14 (from 17)
   R7 block @1720 -> 14 (from 14)

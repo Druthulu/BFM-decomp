@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 58 best 31 compiles 811 path R9 swap-stmts @2830 + R7 do-while @2834 + R9 swap-stmts @2857
 g5: verdict NO-MATCH start 41 best 26 compiles 2294 path R9 swap-stmts @2857 + R8 hoist tmp0 @2848 + R12 width sum s32->u8 @2824 + R9 swap-stmts @2831
 s1: verdict NO-MATCH start 41 best 39 compiles 188 path R8 cse tmp0 @2833
+s2: verdict NO-MATCH start 41 best 39 compiles 188 path R8 cse tmp0 @2833
 best-scoring single candidates of the last trace (move -> score):
   R8 cse tmp0 @2833 -> 39 (from 41)
   R6 inline sv @2845 -> 39 (from 39)

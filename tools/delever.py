@@ -2322,7 +2322,57 @@ def constant_run_splits(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17")
+def bystander_moves(text, tu, fn, d_, span=6):
+    """[(description, candidate text)] — R18: one INDEPENDENT simple statement moved to each other position inside its own
+    brace block, up to `span` statements away. R9 is this move's adjacent special case; the distance is the point.
+
+    T7 agent a3's reading of func_801397B0 (2026-09-10; it did NOT close that body — this is its proposal, and the body's
+    own residual is the control it failed against). MIPS declares no `REG_ALLOC_ORDER`, so `find_free_reg`
+    (`local-alloc.c:2158`) hands out the lowest free regno and the winner is simply whichever quantity `qty_compare`
+    (`:1579`) reaches first; `combine_regs` (`:1722`) welds an index chain into one quantity that then competes with a
+    short-lived value. Moving a statement that depends on NEITHER contender into or out of the interval between the
+    chain's birth and its first consumer changes `reg_live_length` and flips that race — at zero instruction cost, unlike
+    `R7 do-while`, whose LOOP notes are a full `sched1` barrier (`sched.c:2058-2074`) and therefore always cost one
+    displaced insn (a3 enumerated all 60 wrap ranges in its body and every one paid exactly that).
+
+    INDEPENDENCE is conservative and textual: the statement may cross only statements with which it shares NO identifier,
+    so what moves is genuinely a bystander. The bytes remain the correctness proof."""
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    # the statement's own block: the maximal run of lines at one brace depth containing only simple statements
+    depth = [0] * (hi + 1)
+    d = 0
+    for i in range(lo, hi):
+        depth[i] = d
+        d += masked[i].count("{") - masked[i].count("}")
+    ids = {i: set(IDENT.findall(masked[i])) for i in range(lo, hi)}
+    for i in range(lo, hi):
+        if not simple_stmt(masked[i]) or is_decl_line(masked[i].strip()):
+            continue
+        for j in range(max(lo, i - span), min(hi, i + span + 1)):
+            if j == i or j == i + 1 or not simple_stmt(masked[j]) or depth[j] != depth[i]:
+                continue
+            # a BLANK line is transparent: the first spelling treated it as an obstacle and so never offered the very
+            # move it was written from (the agent's store crosses one blank line to reach its position)
+            crossed = [k for k in range(min(i, j), max(i, j) + 1) if k != i and masked[k].strip()]
+            if any(depth[k] != depth[i] or not simple_stmt(masked[k]) for k in crossed):
+                continue
+            # Identifier-disjointness was the first spelling of "bystander" and it was far too strict — three candidates
+            # in the body the move was read from, none of them the agent's. It is also not what makes the move safe:
+            # byte-identical output IS the same program, so the oracle is the whole correctness proof (the same footing
+            # R9's adjacent swap has always stood on). Sharing is kept only as an ORDERING preference: the statements
+            # that share nothing with what they cross are the likeliest bystanders, so they are offered first.
+            shares = any(ids[i] & ids[k] for k in crossed)
+            seq = [l for k, l in enumerate(lines) if k != i]
+            dst = j if j < i else j - 1
+            seq.insert(dst, lines[i])
+            out.append((shares, f"bystander @{i + 1}->{j + 1}", "\n".join(seq)))
+    return [(d, c) for _, d, c in sorted(out, key=lambda t: t[0])]
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2436,6 +2486,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R17" in fam:
         for desc, cand in constant_run_splits(text, tu, fn, d_):
             out.append(("R17", desc, cand))
+    if "R18" in fam:
+        for desc, cand in bystander_moves(text, tu, fn, d_):
+            out.append(("R18", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -3244,6 +3297,43 @@ def selftest():
                            next(r for r in sc.scan_text(CFIX.replace("    st(1) = c40;\n    st(2) = c40;\n", ""),
                                                         "src/fx/c.c", shared_defs=None) if r["form"] == "def")):
         fail("R17 must refuse a run shorter than two statements")
+
+    # R18, the bystander move (T7 agent a3's proposal from func_801397B0, 2026-09-10 — the body it did NOT close)
+    BFIX = ("void func_80100000(void) {\n"
+            "    s32 a;\n"
+            "    s32 b;\n"
+            "\n"
+            "    a = one();\n"
+            "    b = two();\n"
+            "\n"
+            "    st(0) = 0;\n"
+            "}")
+    dB = next(r for r in sc.scan_text(BFIX, "src/fx/b.c", shared_defs=None) if r["form"] == "def")
+    b18 = bystander_moves(BFIX, "src/fx/b.c", "func_80100000", dB)
+    if not any(d == "bystander @8->5" for d, _ in b18):
+        fail(f"R18 must offer the store moved above both assignments (across a blank line), got {[d for d, _ in b18]}")
+    else:
+        cB = next(c for d, c in b18 if d == "bystander @8->5")
+        body = [l.strip() for l in cB.split("\n") if l.strip() and "{" not in l and "}" not in l]
+        if body[2] != "st(0) = 0;" or body.count("st(0) = 0;") != 1:
+            fail(f"R18 must move the statement, not copy it: {body}")
+    # the true bystanders come FIRST. In this fixture `st(0) = 0;` crosses nothing it names, while `b = a + 1;` crossing
+    # `a = one();` shares `a` — the disjoint move must be offered before the sharing one.
+    SFIX = BFIX.replace("    b = two();", "    b = a + 1;")
+    b18s = [d for d, _ in bystander_moves(SFIX, "src/fx/b.c", "func_80100000",
+                                          next(r for r in sc.scan_text(SFIX, "src/fx/b.c", shared_defs=None)
+                                               if r["form"] == "def"))]
+    if "bystander @8->5" not in b18s or "bystander @6->5" not in b18s:
+        fail(f"R18 fixture lost a move: {b18s}")
+    elif b18s.index("bystander @8->5") > b18s.index("bystander @6->5"):
+        fail(f"R18 must offer identifier-disjoint moves before sharing ones: {b18s}")
+    # control: a blank line is transparent, a BRACE is not — nothing may move across a nested block
+    NB = BFIX.replace("    st(0) = 0;", "    if (a) {\n        b = 3;\n    }\n    st(0) = 0;")
+    if any(d.endswith("->5") for d, _ in
+           bystander_moves(NB, "src/fx/b.c", "func_80100000",
+                           next(r for r in sc.scan_text(NB, "src/fx/b.c", shared_defs=None) if r["form"] == "def"))
+           if d.startswith("bystander @11")):
+        fail("R18 must not move a statement across a nested block")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

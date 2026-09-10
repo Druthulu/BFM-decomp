@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 13 best 5 compiles 813 path R9 swap-stmts @2063 + R6 inline sxy @2052 + R8 hoist tmp0 @2053
 g5: verdict NO-MATCH start 13 best 3 compiles 2304 path R12 width sxy s32->s16 @2042 + R12 width X s32->u16 @2039
 s1: verdict NO-MATCH start 13 best 5 compiles 186 path R12 width sxy s32->s16 @2042 + R6 inline sxy @2052
+s2: verdict NO-MATCH start 13 best 5 compiles 186 path R12 width sxy s32->s16 @2042 + R6 inline sxy @2052
 best-scoring single candidates of the last trace (move -> score):
   R6 inline sxy @2052 -> 5 (from 7)
   R12 width sxy s32->s16 @2042 -> 7 (from 13)

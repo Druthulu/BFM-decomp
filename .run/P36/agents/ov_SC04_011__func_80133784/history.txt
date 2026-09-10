@@ -1,6 +1,9 @@
 g3: verdict NO-MATCH start 21 best 12 compiles 782 path R12 width s2 s32->u16 @2194
 g5: verdict NO-MATCH start 21 best 18 compiles 2285 path R10 param-copy arg0 @2201 + R9 swap-stmts @2251
 s1: verdict NO-MATCH start 21 best 21 compiles 186 path 
+s2: verdict NO-MATCH start 21 best 21 compiles 187 path 
+s3: verdict BUDGET start 21 best 21 compiles 400 path 
+s3b: verdict BUDGET start 21 best 21 compiles 400 path 
 best-scoring single candidates of the last trace (move -> score):
   R7 block @2230 -> 21 (from 21)
   R10 param-copy arg0 @2201 -> 21 (from 21)

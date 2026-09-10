@@ -2,6 +2,7 @@ g1: verdict NO-MATCH start 6 best 6 compiles 44 path
 g2: verdict NO-MATCH start 6 best 6 compiles 167 path 
 g5: verdict NO-MATCH start 6 best 4 compiles 445 path R10 param-copy arg0 @770 + R14 param-width arg0 s32->u16 @763
 s1: verdict NO-MATCH start 6 best 6 compiles 63 path 
+s2: verdict NO-MATCH start 6 best 6 compiles 63 path 
 best-scoring single candidates of the last trace (move -> score):
   R12 width tmp s32->u16 @767 -> 6 (from 6)
   R6 inline ang @770 -> 6 (from 6)

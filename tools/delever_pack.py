@@ -78,8 +78,12 @@ def build(a):
             cands = [json.loads(l) for l in tr.read_text().splitlines() if l.strip()]
             cands = [c for c in cands if c.get("score") is not None]
             cands.sort(key=lambda c: c["score"])
-            hist.append("best-scoring single candidates of the last trace (move -> score):")
-            hist += [f"  {c['move']} -> {c['score']} (from {c['parent']})" for c in cands[:12]]
+            # the CLASS as well as the score (T7 agent a3, S102: history.txt recorded only a number, which hid that a
+            # move had already turned this body's residual from REG into ORDER — the agent spent its first hour reading
+            # the seed's class for a body whose best child was in a different one)
+            hist.append("best-scoring single candidates of the last trace (move -> score [residual class]):")
+            hist += [f"  {c['move']} -> {c['score']} [{c.get('cls') or c.get('kind') or '?'}] (from {c['parent']})"
+                     for c in cands[:12]]
         (d / "history.txt").write_text("\n".join(hist) + "\n")
         order.append(f"{k}\t{fn}\t{e['alias']}\t{e['copies']}\t{e['best']}\t{e['needed']}\t{','.join(e['kinds'])}\t{','.join(e['regs'])}\t{tu}")
         print(f"  {k:3d} {fn} {e['copies']:4d} copies best {e['best']} -> {d.relative_to(REPO)}", flush=True)

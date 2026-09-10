@@ -2,6 +2,7 @@ g1: verdict NO-MATCH start 29 best 22 compiles 333 path R6 inline m @661 + R7 do
 g2: verdict NO-MATCH start 29 best 16 compiles 822 path R10 param-alias p1->arg1 @647 + R6 inline m @654
 g5: verdict NO-MATCH start 29 best 16 compiles 2278 path R10 param-alias p1->arg1 @647 + R6 inline m @654
 s1: verdict NO-MATCH start 29 best 16 compiles 190 path R10 param-alias p1->arg1 @647 + R6 inline m @654
+s2: verdict NO-MATCH start 29 best 16 compiles 190 path R10 param-alias p1->arg1 @647 + R6 inline m @654
 best-scoring single candidates of the last trace (move -> score):
   R6 inline m @654 -> 16 (from 20)
   R6 inline m @660 -> 16 (from 20)

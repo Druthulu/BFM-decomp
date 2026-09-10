@@ -1,16 +1,17 @@
 g3: verdict NO-MATCH start 55 best 21 compiles 820 path R7 do-while @2922 + R6 inline uc @2978 + R9 swap-stmts @2920
 g5: verdict NO-MATCH start 55 best 11 compiles 2341 path R7 do-while @2924 + R6 inline uc @2980 + R12 width iVar3 int->u16 @2869 + R12 width w3 int->s16 @2870
 s1: verdict NO-MATCH start 55 best 15 compiles 190 path R9 swap-stmts @2922 + R12 width iVar3 int->s16 @2869
+s2: verdict NO-MATCH start 55 best 29 compiles 191 path R6 inline uc @2980 + R7 do-while @2934
 best-scoring single candidates of the last trace (move -> score):
-  R12 width iVar3 int->s16 @2869 -> 15 (from 48)
-  R12 width iVar3 int->u16 @2869 -> 18 (from 48)
-  R6 inline uc @2980 -> 23 (from 48)
-  R12 width iVar3 int->s16 @2869 -> 27 (from 30)
-  R12 width iVar3 int->u16 @2869 -> 28 (from 30)
   R7 do-while @2934 -> 29 (from 30)
-  R6 inline uVar9 @2924 -> 29 (from 50)
   R6 inline uc @2980 -> 30 (from 55)
   R7 block @2934 -> 30 (from 30)
   R9 swap-stmts @2896 -> 30 (from 30)
   R7 block @2896 -> 30 (from 30)
   R9 swap-stmts @2898 -> 30 (from 30)
+  R12 width count short->s32 @2872 -> 30 (from 30)
+  R9 swap-stmts @2919 -> 30 (from 30)
+  R12 width count short->u16 @2872 -> 30 (from 30)
+  R7 block @2898 -> 30 (from 30)
+  R9 swap-stmts @2897 -> 30 (from 30)
+  R9 swap-stmts @2895 -> 30 (from 30)

@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 26 best 23 compiles 677 path R7 do-while @2953
 g5: verdict NO-MATCH start 26 best 23 compiles 2234 path R7 do-while @2950
 s1: verdict NO-MATCH start 26 best 23 compiles 186 path R7 do-while @2950
+s2: verdict NO-MATCH start 26 best 23 compiles 186 path R7 do-while @2950
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @2950 -> 23 (from 26)
   R10 param-copy arg0 @2947 -> 23 (from 23)

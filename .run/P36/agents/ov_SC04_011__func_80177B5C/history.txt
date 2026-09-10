@@ -2,16 +2,17 @@ g1: verdict NO-MATCH start 135 best 119 compiles 326 path R6 inline yt @3671 + R
 g2: verdict NO-MATCH start 135 best 112 compiles 819 path R7 do-while @3674 + R8 cse tmp0 @3694 + R12 width y s32->s16 @3637 + R12 width mk1 u32->s16 @3648
 g5: verdict NO-MATCH start 135 best 106 compiles 2326 path R6 inline yt @3670 + R7 do-while @3673 + R12 width x s32->u8 @3635 + R6 inline yt @3689 + R9 swap-stmts @3681
 s1: verdict NO-MATCH start 135 best 119 compiles 189 path R6 inline yt @3670 + R9 swap-stmts @3673
+s2: verdict NO-MATCH start 135 best 119 compiles 188 path R6 inline yt @3670 + R16 const-holder cc1=0x74808080 x2
 best-scoring single candidates of the last trace (move -> score):
+  R16 const-holder cc1=0x74808080 x2 -> 119 (from 130)
   R9 swap-stmts @3673 -> 119 (from 130)
-  R12 width x s32->u8 @3635 -> 122 (from 128)
-  R9 swap-stmts @3674 -> 123 (from 128)
+  R7 do-while @3671 -> 122 (from 133)
+  R7 do-while @3670 -> 123 (from 133)
   R6 inline yt @3670 -> 124 (from 129)
-  R7 do-while @3671 -> 126 (from 128)
-  R7 do-while @3670 -> 127 (from 128)
   R12 width y s32->s16 @3636 -> 127 (from 129)
   R9 swap-stmts @3674 -> 127 (from 129)
   R12 width y s32->u8 @3636 -> 127 (from 129)
-  R7 do-while @3672 -> 128 (from 135)
-  R12 width x s32->u16 @3635 -> 128 (from 128)
-  R8 hoist tmp0 @3683 -> 128 (from 128)
+  R12 width x s32->u8 @3635 -> 129 (from 135)
+  R16 const-holder ca=0x3000000 x2 -> 129 (from 129)
+  R8 hoist tmp0 @3683 -> 129 (from 129)
+  R7 block @3670 -> 129 (from 129)

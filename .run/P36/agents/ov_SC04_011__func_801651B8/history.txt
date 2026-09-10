@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 29 best 8 compiles 345 path R6 inline iVar2 @4550 + R7 do-while @4554
 g5: verdict NO-MATCH start 29 best 8 compiles 629 path R6 inline iVar2 @4549 + R7 do-while @4553
 s1: verdict NO-MATCH start 29 best 8 compiles 127 path R6 inline iVar2 @4549 + R7 do-while @4553
+s2: verdict NO-MATCH start 29 best 8 compiles 128 path R6 inline iVar2 @4549 + R7 do-while @4553
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @4553 -> 8 (from 13)
   R6 inline iVar2 @4549 -> 13 (from 29)

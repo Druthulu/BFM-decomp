@@ -2,6 +2,7 @@ g3: verdict NO-MATCH start 3 best 3 compiles 517 path
 g4s: verdict NO-MATCH start 3 best 3 compiles 526 path 
 g5: verdict NO-MATCH start 3 best 3 compiles 1018 path 
 s1: verdict NO-MATCH start 3 best 3 compiles 156 path 
+s2: verdict NO-MATCH start 3 best 3 compiles 156 path 
 best-scoring single candidates of the last trace (move -> score):
   R8 temp tmp0 @2807 -> 3 (from 3)
   R7 block @2811 -> 3 (from 3)

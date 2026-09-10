@@ -2,6 +2,7 @@ g1: verdict NO-MATCH start 39 best 14 compiles 326 path R2 decl-order 1,0 + R9 s
 g2: verdict NO-MATCH start 39 best 14 compiles 769 path R2 decl-order 1,0 + R9 swap-stmts @2669 + R6 inline c1 @2670
 g5: verdict NO-MATCH start 39 best 7 compiles 2286 path R2 decl-order 1,0 + R12 width uVar6 u32->u16 @2665 + R12 width harg int->u16 @2668
 s1: verdict NO-MATCH start 39 best 13 compiles 180 path R3 init-split param_1 + R12 width harg int->u16 @2667
+s2: verdict NO-MATCH start 39 best 13 compiles 180 path R3 init-split param_1 + R12 width harg int->u16 @2667
 best-scoring single candidates of the last trace (move -> score):
   R12 width harg int->u16 @2667 -> 13 (from 19)
   R12 width harg int->s16 @2667 -> 13 (from 19)

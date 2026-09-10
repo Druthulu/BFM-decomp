@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 96 best 69 compiles 827 path R7 do-while @1491 + R7 do-while @1489 + R6 inline result @1555 + R6 inline uVar16 @1565
 g5: verdict NO-MATCH start 96 best 57 compiles 2343 path R12 width uVar3 u32->u8 @1472 + R7 do-while @1489 + R7 do-while @1487 + R6 inline r0 @1481 + R6 inline pa @1520
 s1: verdict NO-MATCH start 96 best 74 compiles 189 path R12 width uVar3 u32->u8 @1472 + R7 do-while @1489
+s2: verdict NO-MATCH start 96 best 74 compiles 189 path R12 width uVar3 u32->u8 @1472 + R7 do-while @1489
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @1489 -> 74 (from 84)
   R7 do-while @1488 -> 74 (from 84)

@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 34 best 6 compiles 806 path R7 do-while @2744
 g5: verdict NO-MATCH start 34 best 2 compiles 2307 path R7 do-while @2714
 s1: verdict NO-MATCH start 34 best 6 compiles 193 path R7 do-while @2746
+s2: verdict NO-MATCH start 34 best 6 compiles 193 path R7 do-while @2746
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @2746 -> 6 (from 34)
   R7 block @2741 -> 6 (from 6)

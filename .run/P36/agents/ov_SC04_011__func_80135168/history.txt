@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 25 best 16 compiles 524 path R7 do-while @3022 + R7 do-while @3015
 g5: verdict NO-MATCH start 25 best 16 compiles 859 path R7 do-while @3019 + R7 do-while @3012
 s1: verdict NO-MATCH start 25 best 16 compiles 167 path R7 do-while @3019 + R7 do-while @3012
+s2: verdict NO-MATCH start 25 best 16 compiles 167 path R7 do-while @3019 + R7 do-while @3012
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @3012 -> 16 (from 20)
   R7 do-while @3019 -> 20 (from 25)

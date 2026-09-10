@@ -2,6 +2,7 @@ g1: verdict NO-MATCH start 25 best 7 compiles 325 path R5 swap + @786 + R7 do-wh
 g2: verdict NO-MATCH start 25 best 7 compiles 787 path R5 swap + @786 + R7 do-while @790
 g5: verdict NO-MATCH start 25 best 7 compiles 2299 path R5 swap + @786 + R7 do-while @790
 s1: verdict NO-MATCH start 25 best 7 compiles 187 path R5 swap + @786 + R7 do-while @790
+s2: verdict NO-MATCH start 25 best 7 compiles 187 path R5 swap + @786 + R7 do-while @790
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @790 -> 7 (from 13)
   R7 do-while @790 -> 9 (from 13)

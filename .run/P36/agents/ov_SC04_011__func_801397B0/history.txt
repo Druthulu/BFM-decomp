@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 12 best 2 compiles 791 path R7 do-while @833
 g5: verdict NO-MATCH start 12 best 2 compiles 2273 path R7 do-while @833
 s1: verdict NO-MATCH start 12 best 2 compiles 192 path R7 do-while @833
+s2: verdict NO-MATCH start 12 best 2 compiles 192 path R7 do-while @833
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @833 -> 2 (from 12)
   R9 swap-stmts @830 -> 2 (from 2)

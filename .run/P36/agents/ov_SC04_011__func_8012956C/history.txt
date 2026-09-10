@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 11 best 11 compiles 806 path 
 g5: verdict NO-MATCH start 11 best 6 compiles 2241 path R9 swap-stmts @557 + R7 do-while @556
 s1: verdict NO-MATCH start 11 best 11 compiles 185 path 
+s2: verdict NO-MATCH start 11 best 11 compiles 185 path 
 best-scoring single candidates of the last trace (move -> score):
   R6 inline arg0 @556 -> 11 (from 11)
   R9 swap-stmts @556 -> 11 (from 11)

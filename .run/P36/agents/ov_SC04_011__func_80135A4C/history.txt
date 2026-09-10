@@ -2,8 +2,8 @@ g1: verdict NO-MATCH start 40 best 40 compiles 322 path
 g2: verdict NO-MATCH start 40 best 24 compiles 812 path R8 cse tmp0 @654 + R8 cse tmp1 @680
 g5: verdict NO-MATCH start 40 best 24 compiles 2267 path R8 cse tmp0 @654 + R8 cse tmp1 @680
 s1: verdict NO-MATCH start 40 best 24 compiles 188 path R8 cse tmp0 @678 + R8 cse tmp1 @655
+s2: verdict NO-MATCH start 40 best 32 compiles 188 path R8 cse tmp0 @678 + R10 param-copy a2 @649
 best-scoring single candidates of the last trace (move -> score):
-  R8 cse tmp1 @655 -> 24 (from 33)
   R10 param-copy a2 @649 -> 32 (from 33)
   R8 cse tmp0 @678 -> 33 (from 40)
   R12 width i s16->s32 @644 -> 33 (from 33)
@@ -15,3 +15,4 @@ best-scoring single candidates of the last trace (move -> score):
   R4 decl-move s7 10->1 -> 33 (from 33)
   R7 block @666 -> 33 (from 33)
   R4 decl-move s7 10->2 -> 33 (from 33)
+  R7 do-while @666 -> 33 (from 33)

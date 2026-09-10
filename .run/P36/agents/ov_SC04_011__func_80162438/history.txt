@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 10 best 8 compiles 813 path R9 swap-stmts @3863 + R9 swap-stmts @3864 + R9 swap-stmts @3865
 g5: verdict NO-MATCH start 10 best 8 compiles 2253 path R9 swap-stmts @3863 + R9 swap-stmts @3864 + R9 swap-stmts @3865
 s1: verdict NO-MATCH start 10 best 10 compiles 188 path 
+s2: verdict NO-MATCH start 10 best 10 compiles 188 path 
 best-scoring single candidates of the last trace (move -> score):
   R12 width uVar2 u32->u16 @3832 -> 10 (from 10)
   R6 inline t @3851 -> 10 (from 10)

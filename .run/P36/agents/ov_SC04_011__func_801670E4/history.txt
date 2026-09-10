@@ -2,6 +2,7 @@ g1: verdict NO-MATCH start 45 best 40 compiles 331 path R6 inline gA @5258 + R6 
 g2: verdict NO-MATCH start 45 best 31 compiles 810 path R6 inline vc @5284 + R12 width cxv s32->s16 @5194 + R7 do-while @5233
 g5: verdict NO-MATCH start 45 best 31 compiles 2306 path R7 do-while @5236 + R12 width cxv s32->s16 @5193 + R6 inline vc @5283
 s1: verdict NO-MATCH start 45 best 43 compiles 190 path R7 do-while @5233 + R6 inline gA @5257
+s2: verdict NO-MATCH start 45 best 43 compiles 190 path R7 do-while @5233 + R6 inline gA @5257
 best-scoring single candidates of the last trace (move -> score):
   R6 inline gA @5257 -> 43 (from 44)
   R7 do-while @5233 -> 44 (from 45)

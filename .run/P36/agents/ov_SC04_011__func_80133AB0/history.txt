@@ -2,6 +2,7 @@ g1: verdict NO-MATCH start 24 best 24 compiles 329 path
 g2: verdict NO-MATCH start 24 best 23 compiles 810 path R8 hoist tmp0 @2331 + R9 swap-stmts @2333 + R12 width tmp0 s32->u16 @2310
 g5: verdict NO-MATCH start 24 best 17 compiles 2247 path R12 width harg int->u16 @2317 + R12 width cnt int->u16 @2312
 s1: verdict NO-MATCH start 24 best 20 compiles 185 path R12 width harg int->u16 @2317
+s2: verdict NO-MATCH start 24 best 20 compiles 185 path R12 width harg int->u16 @2317
 best-scoring single candidates of the last trace (move -> score):
   R12 width harg int->u16 @2317 -> 20 (from 24)
   R12 width harg int->s16 @2317 -> 20 (from 24)

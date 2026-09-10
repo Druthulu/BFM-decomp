@@ -2,6 +2,7 @@ g3: verdict NO-MATCH start 7 best 7 compiles 722 path
 g4s: verdict NO-MATCH start 7 best 7 compiles 791 path 
 g5: verdict NO-MATCH start 7 best 7 compiles 1317 path 
 s1: verdict NO-MATCH start 7 best 7 compiles 189 path 
+s2: verdict NO-MATCH start 7 best 7 compiles 189 path 
 best-scoring single candidates of the last trace (move -> score):
   R7 block @2776 -> 7 (from 7)
   R10 param-copy param_1 @2773 -> 7 (from 7)

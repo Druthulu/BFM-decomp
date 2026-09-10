@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 21 best 10 compiles 808 path R12 width pos s32->u16 @1113 + R7 do-while @1168
 g5: verdict NO-MATCH start 21 best 4 compiles 2316 path R12 width pos s32->u16 @1109 + R7 do-while @1164 + R7 do-while @1163 + R14 param-width arg1 s32->s16 @1098
 s1: verdict NO-MATCH start 21 best 2 compiles 188 path R15 sink @1171 (var_v0_3) + R12 width pos s32->u16 @1109
+s2: verdict NO-MATCH start 21 best 2 compiles 188 path R15 sink @1171 (var_v0_3) + R12 width pos s32->u16 @1109
 best-scoring single candidates of the last trace (move -> score):
   R12 width pos s32->u16 @1109 -> 2 (from 11)
   R12 width pos s32->s16 @1109 -> 2 (from 11)

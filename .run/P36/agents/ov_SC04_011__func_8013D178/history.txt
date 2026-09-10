@@ -2,6 +2,7 @@ g3: verdict NO-MATCH start 72 best 72 compiles 513 path
 g4s: verdict NO-MATCH start 72 best 72 compiles 513 path 
 g5: verdict NO-MATCH start 72 best 72 compiles 615 path 
 s1: verdict NO-MATCH start 72 best 72 compiles 122 path 
+s2: verdict NO-MATCH start 72 best 72 compiles 122 path 
 best-scoring single candidates of the last trace (move -> score):
   R7 block @1161 -> 72 (from 72)
   R4 decl-move p 9->0 -> 72 (from 72)

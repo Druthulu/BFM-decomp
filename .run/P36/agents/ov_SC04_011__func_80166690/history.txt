@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 41 best 26 compiles 815 path R7 do-while @4931 + R9 swap-stmts @4922 + R7 do-while @4946
 g5: verdict NO-MATCH start 41 best 16 compiles 2332 path R7 do-while @4930 + R12 width iVar3 int->u16 @4881 + R9 swap-stmts @4921 + R12 width w3 int->s16 @4883
 s1: verdict NO-MATCH start 41 best 24 compiles 188 path R7 do-while @4930 + R12 width iVar3 int->s16 @4881
+s2: verdict NO-MATCH start 41 best 24 compiles 188 path R7 do-while @4930 + R12 width iVar3 int->s16 @4881
 best-scoring single candidates of the last trace (move -> score):
   R12 width iVar3 int->s16 @4881 -> 24 (from 34)
   R12 width iVar3 int->u16 @4881 -> 26 (from 34)

@@ -2,6 +2,7 @@ g1: verdict NO-MATCH start 30 best 24 compiles 324 path R9 swap-stmts @2808 + R9
 g2: verdict NO-MATCH start 30 best 24 compiles 805 path R9 swap-stmts @2808 + R9 swap-stmts @2793 + R6 inline uVar2 @2794
 g5: verdict NO-MATCH start 30 best 17 compiles 2314 path R9 swap-stmts @2808 + R12 width hic u32->u16 @2787 + R9 swap-stmts @2794 + R9 swap-stmts @2791
 s1: verdict NO-MATCH start 30 best 26 compiles 190 path R9 swap-stmts @2808
+s2: verdict NO-MATCH start 30 best 26 compiles 190 path R9 swap-stmts @2808
 best-scoring single candidates of the last trace (move -> score):
   R9 swap-stmts @2808 -> 26 (from 30)
   R8 hoist tmp0 @2808 -> 26 (from 26)

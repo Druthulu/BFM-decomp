@@ -957,7 +957,27 @@ accumulate here as the phase produces them.**
   9,747 → 9,320 bodies, of which the agents' own two bodies are 255 and everything else (576 sites) came from their
   toolified moves at zero drafting tokens.**
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,527 sites** (17,260 pins + 12,267 asm) in 9,320 bodies · marked 29,527 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (14 milestones). **S102's loop state: a1 + a2 banked and harvested (R15, R16, R17); sweeps s1 (6) / s2 (0) / s3 (10) / s3b (1, BUDGET 59 of 80 — the constant-holder family is sampled, not measured); NEXT = agent a3 on the head's rank 1.**
+- **S102 — T7 agent a3: `func_801397B0` (126 copies, one `$4` pin, best 2) — NO BANK, and the reading is the deliverable.**
+  It first ran the a2 check and REFUTED it: `git grep` returns 1,770 declarations in two forms, both `(s32 a0)`, no `(void)`
+  anywhere, and the pin is on a LOCAL, not the parameter — three different lever-free spellings reach the target's complete
+  register assignment, so this class is reachable from plain C. Its best is **score 2, class ORDER, 89/89 instructions, every
+  register correct**, one displaced bystander store. Why it stops there: the target emits that `sw` at index 6, INSIDE the
+  `lbu`→`addiu` window, and that position is forced — `anti_dependence`/`true_dependence` (`sched.c:817/845`) both hold (the
+  QImode carve-out kills the first, `$fp` not varying the second), so the store can neither hoist above nor sink below the
+  `lbu`; the post-`sched1` stream and `reg_live_length` are then identical to ours, leaving `reg_n_refs` — computed by flow on
+  the PRE-combine RTL — as the only remaining input, so the original gave that chain a fourth reference from a loop note or
+  from an insn `combine` later deleted. **Toolified as R18, the bystander move** (its proposal): one simple statement moved to
+  each other position in its own block, up to six away — R9's adjacent swap is the special case and the distance is the point;
+  it costs no instruction, where `R7 do-while`'s LOOP notes are a full `sched1` barrier and always cost one displaced insn
+  (the agent enumerated all 60 wrap ranges in its body and every one paid exactly that), so R18 is ranked ahead of R7 in every
+  class. **Two wrong spellings before the known-true check passed:** identifier-disjointness as a REQUIREMENT offered three
+  candidates and none of them the agent's — it is now only an ORDERING preference, because byte-identical output is the same
+  program and the oracle is the whole correctness proof (R9's own footing) — and a BLANK line counted as an obstacle, so the
+  generator never offered the very move it was written from. It now reproduces that body exactly (`bystander @21->17`).
+  **`delever_pack.py` fixed from the agent's own method note:** each trace candidate now carries its residual CLASS beside its
+  score, because a bare number hid that a move had already turned this body's residual from REG into ORDER.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,527 sites** (17,260 pins + 12,267 asm) in 9,320 bodies · marked 29,527 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (14 milestones). **S102's loop state: a1 + a2 banked and harvested (R15, R16, R17); sweeps s1 (6) / s2 (0) / s3 (10) / s3b (1, BUDGET 59 of 80 — the constant-holder family is sampled, not measured); a3 read `func_801397B0` without closing it (best 2) and its move is now R18; NEXT = sweep the head with R18, then agent a4.**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**

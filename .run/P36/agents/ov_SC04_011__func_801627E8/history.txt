@@ -2,6 +2,7 @@ g1: verdict NO-MATCH start 7 best 4 compiles 66 path R7 do-while @3940
 g2: verdict NO-MATCH start 7 best 4 compiles 181 path R7 do-while @3940
 g5: verdict NO-MATCH start 7 best 4 compiles 263 path R7 do-while @3940
 s1: verdict NO-MATCH start 7 best 4 compiles 60 path R7 do-while @3940
+s2: verdict NO-MATCH start 7 best 4 compiles 60 path R7 do-while @3940
 best-scoring single candidates of the last trace (move -> score):
   R7 do-while @3940 -> 4 (from 7)
   R6 inline p @3937 -> 4 (from 4)

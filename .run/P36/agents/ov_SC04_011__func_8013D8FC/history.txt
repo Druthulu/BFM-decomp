@@ -1,9 +1,11 @@
 g3: verdict NO-MATCH start 25 best 19 compiles 583 path R9 swap-stmts @1435 + R9 swap-stmts @1429 + R9 swap-stmts @1442
 g5: verdict NO-MATCH start 25 best 17 compiles 1136 path R9 swap-stmts @1433 + R12 width c9 s32->s16 @1420 + R6 inline cff @1428 + R7 do-while @1437
 s1: verdict NO-MATCH start 25 best 20 compiles 186 path R9 swap-stmts @1433 + R9 swap-stmts @1427
+s2: verdict NO-MATCH start 25 best 20 compiles 184 path R9 swap-stmts @1433 + R9 swap-stmts @1427
 best-scoring single candidates of the last trace (move -> score):
   R9 swap-stmts @1427 -> 20 (from 22)
   R7 do-while @1427 -> 20 (from 22)
+  R16 const-holder c9=9 x1 -> 21 (from 22)
   R6 inline c9 @1427 -> 21 (from 22)
   R12 width c9 s32->u16 @1420 -> 21 (from 22)
   R12 width c9 s32->s16 @1420 -> 21 (from 22)
@@ -12,5 +14,4 @@ best-scoring single candidates of the last trace (move -> score):
   R9 swap-stmts @1433 -> 22 (from 25)
   R7 block @1439 -> 22 (from 22)
   R4 decl-move psVar2 2->0 -> 22 (from 22)
-  R7 do-while @1439 -> 22 (from 22)
-  R4 decl-move psVar2 2->1 -> 22 (from 22)
+  R16 const-holder cff=0xff x1 -> 22 (from 22)

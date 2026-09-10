@@ -2,6 +2,7 @@ g3: verdict NO-MATCH start 4 best 4 compiles 330 path
 g4s: verdict NO-MATCH start 4 best 4 compiles 487 path 
 g5: verdict NO-MATCH start 4 best 4 compiles 888 path 
 s1: verdict NO-MATCH start 4 best 4 compiles 164 path 
+s2: verdict NO-MATCH start 4 best 4 compiles 164 path 
 best-scoring single candidates of the last trace (move -> score):
   R7 block @5132 -> 4 (from 4)
   R2 decl-order 1,0 -> 4 (from 4)

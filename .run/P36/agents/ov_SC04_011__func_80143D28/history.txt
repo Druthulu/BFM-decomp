@@ -1,6 +1,7 @@
 g3: verdict NO-MATCH start 11 best 5 compiles 765 path R8 temp tmp0 @2120
 g5: verdict NO-MATCH start 11 best 5 compiles 1805 path R8 temp tmp0 @2120
 s1: verdict NO-MATCH start 11 best 10 compiles 189 path R9 swap-stmts @2108
+s2: verdict NO-MATCH start 11 best 10 compiles 189 path R9 swap-stmts @2108
 best-scoring single candidates of the last trace (move -> score):
   R9 swap-stmts @2108 -> 10 (from 11)
   R8 hoist tmp0 @2125 -> 10 (from 10)
