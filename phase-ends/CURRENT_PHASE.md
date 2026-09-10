@@ -1190,6 +1190,66 @@ accumulate here as the phase produces them.**
   candidate (the CORRECT shape) scores 21 while the 2-instruction-short one scores 4, so a hill-climb cannot reach the
   answer from the start; a secondary sort on |count difference| would have let the mechanical search find it.
 
+- **S102 — a14's close is a FORK, not a bank, and I am NOT banking it (recorded for Drew).** `func_80139BE0` reaches score
+  0, but by an INVENTED identically-zero term: `if (h < 7 + (t >> 8))`, whose only purpose is to keep `t` alive so combine
+  cannot fold the second `andi`. The agent said so itself and named the fork: *"whatever kept `t` alive in the original was
+  probably a real second use we cannot recover"*. **An invented no-op expression is a compiler-forcing construct wearing C
+  clothes** — worse than the marked `__asm__` launder it replaces, because the launder is COUNTED and this would be
+  silent. That is the phase's own rule, from `docs/levers.md` §5: **ban the silence, not the lever.** The body is parked
+  for the structs/types phase with its reading (five other spellings also reach 0, all equally invented); the tree comment
+  above it — "no pure-C spelling survives that fold" — is refuted and should be replaced when the body is next touched.
+- **S102 — a6's `func_80148E54` NOT closed (score 6), and it CORRECTS cookbook §455.** §455 says "combine merges a
+  single-use def into its copy"; the agent's dumps show that is only the second half — **cse1 (`cse.c:7439-7502`) rewrites
+  the producer's destination to the copy's destination whenever the producer is the IMMEDIATELY PRECEDING insn**, and
+  combine (`combine.c:1458`) only finishes the job once cse's adjacency is broken. It then enumerated the three
+  lever-free blockers `can_combine_p` admits (no LOG_LINK via a `CODE_LABEL` between, the producer still live at the copy,
+  a CALL between) and showed this body can pay for NONE of them: one consumer in the target's 67 instructions, no branch
+  targets any address in the gap, and the only prior call is the one that produces the value. It scanned all 4,284 objects
+  under `build/src` for the shape — 101 hits — and every lever-free precedent pays with a genuine second use, a narrow
+  local with two consumers, or a join label. Its **R20 "copy-keeper pair"** proposal is the generalisable part: neither
+  half moves the score alone, which is exactly why every single-move family sits at the same number, so the generator must
+  emit one candidate per (separation × blocker) PAIR. Its twin `func_80148D44` carries the identical residual and census.
+- **S102 — a22 banked: `func_8017B238` (126 bodies), by giving the if-arm's pointer and the else arm's FIRST table address
+  one function-scope `u8 *src`.** Three decisions turn on that single edit, all dump-proven: `make_regs_eqv`'s head rule
+  (`cse.c:840-857`) makes `src` the canonical head so the `move s0,a1` survives and the parameter dies at it keeping `$a1`;
+  `set_preference` (`global.c:1535`) strips one RTX level so the ARITHMETIC set `src = idx*16 + base` inherits the
+  register `idx*16` already has (`;; 74 preferences: 16`); and `combine_regs` (`local-alloc.c:1765-1788`) with
+  `birthing_insn_p`'s `reg_n_sets == 1` (`sched.c:2469`) is why `src` must be merged with the else arm's read-only,
+  NON-call-crossing temp — merging the call-crossing one instead gives the score-12 and score-6 near misses.
+
+- **S102 — a24's `func_80133CD4` NOT closed (28 → 11; its readable spelling is 21) — and it names the instrument the
+  engine is missing.** Its 28-point residual was ONE ABSENT LOAD: after `sh <val>,2(pb0)` cse holds the value of that
+  halfword, so the later sign-extending read is replaced by the stored pseudo and combine folds the extension away — no
+  `lh` is emitted at all, and seven branch-displacement mismatches downstream were consequences of that single missing
+  instruction. Moving the store to the object's HIGHEST offset to just before the reads makes cse invalidate the lower
+  entries and both reads become real loads. The register half then moved `pb0` from `v1` to the target's `a0` by a
+  `do { } while (0)` whose loop-depth weighting doubles that statement's `REG_N_REFS` (`local-alloc.c:1578-1595` +
+  `:2073`, MIPS having no `REG_ALLOC_ORDER`), demoting the pointer below three other quantities. **Its method gap is the
+  one to act on: the residual text cannot separate "an instruction is missing" from "the registers are wrong" — the
+  register-pair histogram invited a register lever when the defect was a cse invalidation.** What closed it was reading
+  local-alloc's own quantity table out of the `.lreg` dump (priority, refs, live length, assigned hard reg per pseudo).
+  **Three agents have now independently asked for that same table in the pack** (a4, a9, a16, a24), and `tools/alloc_table.py`
+  — which is supposed to be it — was reported by two of them as printing an EMPTY or one-row table because it keys on
+  `Register N in M.` lines the dumps often do not emit. That is the silently-narrowed-scope defect class, and it is the
+  next instrument to fix.
+- **S102 — Drew on structs (2026-09-10), and the answer he should have on the record.** He asked whether to fix a
+  function's struct when a pin will not pull, or to define all structs first, and whether structs are detectable in the
+  binary at all. **They are not in the binary:** C types are erased at compile time, a retail PS1 build carries no type
+  metadata, and our symbol names come from library signature matching, not layout. **What IS there is exactly what he
+  described** — a base register, constant offsets, an access width, and for arrays a stride (`(x & 0xffff) * 0x14` in this
+  session's first crack is an array of twenty-byte objects). So a struct is an INFERENCE over consistent access patterns
+  across every function touching a base, which is why fixing one function's struct to unstick its pin is the wrong unit:
+  the next function invents a different shape and the two must then be reconciled — the failure P35 already recorded as
+  1,232 drafter-invented definitions and a reconcile ladder built to repair them (R95). **But struct typing DOES change
+  bytes** — a18 closed `func_80141874` outright by declaring a global an array rather than a scalar, which set
+  `MEM_IN_STRUCT_P` and restored a dependence `sched.c:837-839` had discarded. **The recommendation on record: do not
+  shift gears** (struct unification churns the whole tree and would invalidate the pin lane's in-flight work); keep pins
+  as the main lane, build a zero-token STRUCT EVIDENCE CENSUS beside it (cluster base+offset+width across the fleet, emit
+  candidate layouts with the functions that touch each), and park a stuck pin WITH its evidence instead of inventing a
+  type for it. **And a correction to the priority: call SIGNATURES are the bigger and cheaper blocker right now** — six
+  independent cracks and `argcheck`'s 471 narrow call sites inside 323 bodies that still hold an argument-register pin.
+  Measured for scale: the tree holds **372,224 raw cast dereferences against 92,624 struct member accesses**.
+
 ## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **27,984 sites** in 8,249 bodies · marked 27,984 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (20 milestones). **S102's loop state: the burst of 20 is landing; a4/a7/a8/a12/a18/a19 banked (756 bodies); the per-file scratch-object collision is FIXED (per-function tag); the biggest class found is a truncated `(void)` DECLARATION, three cases of which need the types phase.**
 
 ### 0. How to use this block

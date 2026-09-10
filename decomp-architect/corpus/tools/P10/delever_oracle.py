@@ -179,8 +179,47 @@ def compile_obj(recipe, text=None, tag="x", write_path=None):
     return data, dt, ""
 
 
+BASELINE = RUN / "baseline"        # the snapshot `make clean` cannot reach (see baseline_path)
+
+
+def baseline_path(obj):
+    """The object a score is compared against — the SNAPSHOT when one exists, else `build/`.
+
+    Everything in this engine scores a candidate against the fleet run's object under `build/`, and the R22 gate begins
+    with `make clean`, which deletes exactly that. With agents scoring in parallel (T7's burst, S102) a fleet gate would
+    make every live `--try` compare against a missing or half-written baseline and report nonsense in the agent's own
+    voice. The snapshot decouples the two: the baseline is the ORIGINAL game's bytes, which never change as we bank (a
+    bank is byte-identical by construction), so a copy taken from any green fleet is valid until the fleet stops being
+    green. Refresh it with `--snapshot-baseline` after a green `check-all`; a missing object simply falls back to
+    `build/`, so nothing silently scores against half a snapshot."""
+    if obj.startswith("build/"):
+        p = BASELINE / obj[len("build/"):]
+        if p.exists():
+            return p
+    return REPO / obj
+
+
+def snapshot_baseline():
+    """Copy every object under `build/` into the snapshot. Run it after a GREEN `check-all` — the caller states that; this
+    records the HEAD it was taken at so a reader can tell what it is."""
+    import shutil, subprocess as sp
+    n = 0
+    BASELINE.mkdir(parents=True, exist_ok=True)
+    for src in sorted((REPO / "build").glob("**/*.o")):
+        rel = src.relative_to(REPO / "build")
+        dst = BASELINE / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        if not dst.exists() or dst.stat().st_mtime < src.stat().st_mtime or dst.stat().st_size != src.stat().st_size:
+            shutil.copy2(src, dst)
+        n += 1
+    head = sp.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
+    (BASELINE / "TAKEN_AT.txt").write_text(f"{head}\n{n} objects\n")
+    print(f"delever_oracle --snapshot-baseline: {n} object(s) under {BASELINE.relative_to(REPO)} at {head[:9]}")
+    return n
+
+
 def baseline_bytes(obj):
-    p = REPO / obj
+    p = baseline_path(obj)
     return p.read_bytes() if p.exists() else None
 
 
@@ -301,9 +340,13 @@ def main():
     ap.add_argument("--recipes", action="store_true", help="(re)capture every object's recipe")
     ap.add_argument("--calibrate", nargs="*", help="binaries to calibrate on (e.g. ov_SC04_011 ov_SC03_015 main)")
     ap.add_argument("--status", action="store_true")
+    ap.add_argument("--snapshot-baseline", action="store_true",
+                    help="copy build/**/*.o into the snapshot every score compares against (run after a GREEN check-all)")
     ap.add_argument("-j", "--jobs", type=int, default=16)
     a = ap.parse_args()
     RUN.mkdir(parents=True, exist_ok=True)
+    if a.snapshot_baseline:
+        sys.exit(0 if snapshot_baseline() else 1)
     if a.status:
         ok, why = calibration_current()
         print(f"delever_oracle: calibration {'CURRENT' if ok else 'STALE/MISSING'} — {why}")
