@@ -1,171 +1,114 @@
-# func_8012956C (ov_SC04_011) — T7 residue exemplar
+# func_8012956C (ov_SC04_011) — T7 agent c24 (S103 re-draw)
 
-Levers in the tree: `register` pins `$7` (temp_a3), `$4` (arg0), `$3` (s2) and one `__asm__("")`
-barrier at the head of the `do_default:` block. Starting text `body_free.c` scores **11**.
-Best lever-free text found: **score 4** (`PACK/body.c`).
+**Score 0, no lever of any kind** (`PACK/body.c`). Levers in the tree: pins `$7` temp_a3, `$4` arg0, `$3` s2 and one
+`__asm__("")` at the head of `do_default:`. Start `body_free.c` = 11; the S102 agent's best = 4 (its files are kept
+as `scratch/prev_body.c` / `scratch/prev_mechanism.md`). The same text, with that overlay's global names, also scores 0 on
+the shared sibling `src/shared/ov/func_8012956C__3fa9093d.h` (`scratch/hdr_body.c`).
 
 ## (a) The residual in one sentence
 
-Everything in the function matches except the `do_default:` block, where (i) the four `lhu`
-field loads come out in a different order — `base->f38` is emitted before `base->f40` instead of
-after it — and (ii) the `j` that enters the block copies the block's first instruction
-(`sll a1,a1,0x10`) into its own delay slot and jumps one instruction further in, where the target
-leaves a `nop` and jumps to the label.
+Two defects, one per lever group: (1) the `j` into the default block steals the block's first insn
+(`j <dflt+4>` + `sll a1,a1,16`) where the target leaves `j <dflt>` + `nop` — the `__asm__("")` faked this; (2) inside the
+block the `f38` load is scheduled before `f40` (`lhu a3,4(s0); lhu v0,12(s0)` vs the target's reverse) — the `$7`/`$4`/`$3`
+pins faked this. The count is the same (226 ins) in every version: a pure delay-slot plus order residual.
 
-Score-4 diff (the whole of it):
+## (b) The passes and the decisions
 
-```
-  replace mine[33:35] target[33:35]
-       33  j  <do_default+4>   | j  <do_default>
-       34  sll a1,a1,0x10      | nop
-  ... mine  lhu a3,4(s0) ; lhu v0,12(s0)
-      target lhu v0,12(s0) ; lhu a3,4(s0)
-```
+### Defect 1 — the empty `j` slot is left by reorg's SECOND pass, not a refused steal
 
-## (b) The passes and the decisions, read from `tools/reference/gcc-2.7.2/`
+Tell-tale in the target: the SAME insn `addiu a1,s4,3` sits in the delay slot of BOTH branches into the default block
+(`beq …,case_7FFD` at 0x1490 and `bne …,default` at 0x14a4), while the block itself starts at the `sll`. That is reorg
+copying the block's OWN first insn onto every edge into it, which means the source computes `i + 3` INSIDE the default
+block, not before the tests (m2c had hoisted it into the dispatch as `a1 = i + 3;` twice, because it read the delay slots).
 
-### The pins are a *scheduling* lever, not a register lever (proved)
+With the add at the block head (proved in `scratch/dumps_fin/fin.i.sched2`: `code_label 316` → `insn 342 (set a1 (plus s4 3))`
+→ `343 ashlsi3` → `348 ashrsi3`; reached by `jump_insn 491` (the `j`) and `jump_insn 496` (the `bne`)), reorg's two passes
+(`reorg.c:4326-4332`, `MAX_REORG_PASSES` = 2 at `reorg.c:1089`) do this — read from source, consistent with the bytes,
+not traced insn by insn:
 
-`register u32 arg0 __asm__("$4")` does not primarily choose a register — the allocator already
-picks `$4`/`$7`/`$3` without it. What it changes is the **insn count entering `sched1`**. With the
-pin the variable *is* the hard register, so `combine` folds the load straight into the argument
-register: `.i.sched` for the tree has one insn
+1. pass 1, `fill_eager_delay_slots` (`reorg.c:3632`): the `j` (a `condjump_p`, condition `const_true_rtx`) fills from
+   its target thread; the label has two users so `own_thread` is 0 → the `addiu` is COPIED (`reorg.c:3430`) and the `j` is
+   redirected to a new label before the `sll` (`reorg.c:3615`). The `bne` then owns the (now single-use, barrier-preceded,
+   `own_thread_p` `reorg.c:2151`) label and MOVES the original `addiu` into its slot, no redirect. The `beq case_7FFD` got
+   nothing in pass 1: its fallthrough thread was the still-unfilled `j` (`stop_search_p`, `reorg.c:675`).
+2. pass 2, the `beq case_7FFD` again: its fallthrough thread is now the `j`'s filled SEQUENCE →
+   `steal_delay_list_from_fallthrough` (`reorg.c:1699`) takes the `addiu` (a1 is dead at case_7FFD, so it is safe on the
+   taken path) and `delete_from_delay_slot` (`reorg.c:1741`) EMPTIES the `j`'s slot. The redirect from pass 1 stays →
+   `j <sll>` + `nop`, exactly the target.
 
-```
-(insn 377 (set (reg/v:SI 4 a0) (zero_extend:SI (mem:QI (symbol_ref "D_801F1620")))))
-(insn 387 (set (reg/v:SI 7 a3) (zero_extend:SI (mem/s:HI (plus (reg 233) (const_int 4))))))
-```
+With the add in the dispatch (the tree/m2c shape), the `beq`'s slot is filled backward in pass 1 by
+`fill_simple_delay_slots`, nothing is left to steal, and the `j` keeps the `sll` it stole → the 2-point residual. The
+tree's `__asm__("")` got the `nop` only because an `ASM_INPUT` stops `fill_slots_from_thread` at the first trial
+(`stop_search_p`, `reorg.c:696-698`).
 
-while the lever-free text has *two* insns for each: the load into a pseudo plus a
-`(set (reg:SI 4 a0) (reg/v:SI 79))` copy emitted at the call. `local-alloc` coalesces the copy
-away again, so the final instruction **count** is equal — but `sched1` saw a different dependency
-graph and ordered the block differently. This is the whole of the 11.
+The dispatch is a `switch`: the target's compare tree (`beq 0x7FFE`; `slti 0x7FFF`/`beqz`; `beq 0x7FFD` + `j default`;
+`bne 0x7FFF → default` + `j end`) is `emit_case_nodes`' balanced tree (`stmt.c:5580`, the `test_label` split `:5640-5658`)
+for three single-value cases. The last test comes out as `bne → default; j end` only when `case 0x7FFF: break;` is the
+FIRST case in the body: the tree emits `beq → L7FFF; j default` (`stmt.c:5654`) and with `L7FFF` immediately following,
+jump.c inverts a conditional jump over an unconditional one (`jump.c:1725-1757`). With `case 0x7FFF` last (`scratch/sw1.c`)
+the code keeps `beq → end; j default` → score 7.
 
-* `gcc-2.7.2/combine.c:can_combine_p` / `try_combine` — the fold puts the merged insn at **i3**'s
-  position (the later insn), which is why inlining `D_801F1620` into the call argument folds the
-  load but drops it to the *end* of the block's LUID order.
-* `gcc-2.7.2/sched.c:rank_for_schedule` (the whole function, ~line 2385): priority first, then the
-  data/anti/independent class against `last_scheduled_insn`, then `INSN_LUID (tmp) - INSN_LUID (tmp2)`.
-  The block is scheduled **backwards** (`sched.c:1208` "The scheduler is operating in reverse"), so
-  the *first* insn picked is emitted *last*; among priority ties the larger LUID is picked first and
-  therefore emitted last, i.e. **ties come out in source order**. Both remaining `lhu`s are a
-  priority tie (`2 + P(add)` either way); the tie is broken against `last_scheduled_insn`, and the
-  extra `a3 = pseudo` copy that the lever-free text still has is what flips it.
+### Defect 2 — the `$7` pin was a phantom FOURTH argument
 
-### `do { X } while (0);` is a hard scheduling barrier (proved on bytes)
+`func_801299C8` is a 3-parameter K&R function (`src/shared/ov/func_801299C8__f9a41b0d.h:3`: `(arg0, arg1, arg2)`); the
+body called it through a cast `(void (*)(s32, s32, void *, s32))` with `temp_a3 = base->f38` as a 4th argument — m2c
+reading `$a3` still holding `f38` at the `jal`. That argument adds a `(set (reg:SI 7 a3) (reg/v:SI 78))` copy before the
+call and turns the f38 load into an SImode `zero_extend` load with two consumers (the add and the copy):
+`scratch/dumps_t4/t4.i.sched` shows sched1 (`sched.c:2385` `rank_for_schedule`, priorities `sched.c:1425`) putting it first
+(`insn 327` before `330`), where the 3-argument form has four plain HImode loads in source order f40, f38, f42, f3A
+(`scratch/dumps_fin/fin.i.sched`, `insn 319 321 328 330`). The allocator still puts the f38 temp in `$a3` on its own. The
+`$4`/`$3` pins were pinning the same pseudos into the argument/temp registers the phantom copy displaced.
 
-`sched.c` collects `NOTE_INSN_LOOP_BEG` / `NOTE_INSN_LOOP_END` into `loop_notes` and
-`sched_analyze_insn` makes the insn that carries them depend on *everything* before it and
-everything after depend on *it* — a two-sided barrier pinned at that source position. A plain
-`{ X }` emits only `NOTE_INSN_BLOCK_BEG/END`, which are **not** in that set and change nothing.
-Measured here: `{ arg0 = D_801F1620; }` → 11 (no change), `do { arg0 = D_801F1620; } while (0);`
-plus one statement swap → **6** (this is the path the mechanical search `g5` found).
-That spelling is a dead end for a full match: the barrier can only pin the load *first* in the
-block, and the target wants it fourth, after `sll/sra/move a2` (which are generated at the call,
-i.e. last in RTL, and float to the head because they have the lowest priority).
+Byte proof (each on the switch body): 4 args via `temp_a3` → 2 (`v_t4.c`, exactly the lhu swap); 4 args with `base->f38`
+inline → 12 (`v_nat4.c`); 3 args → **0** (`v_nat3.c`, `v_a1_3.c`).
 
-### The delay slot: `reorg.c:fill_slots_from_thread`
+## (c) The source moves (11 → 0)
 
-`fill_eager_delay_slots` → `fill_slots_from_thread (j, const_true_rtx, next_active_insn(label), …)`
-copies the first insn of the jump's target into the delay slot and redirects the jump past it
-(`reorg.c:3430` `temp = own_thread ? trial : copy_rtx (trial);`, then the redirect at
-`reorg.c:3592-3615`). The gate is `eligible_for_delay`, i.e. mips.md's
+1. **Call `func_801299C8` at its real arity, with its argument computed where it is used:**
+   `func_801299C8(D_801F1620, (s16)(i + 3), base);` — no cast, no 4th argument, no `a1`/`arg0`/`temp_a3`/`s`/`s2`/`t6`
+   locals; the two field sums are written directly: `base->f1C = base->f40 + base->f38; base->f1E = base->f42 + base->f3A;`
+   (the `(s16)` cast is the same one the 0x7FFE case already carries: the K&R callee takes an `s16`).
+2. **The `goto` dispatch is a `switch (base->f34)`**, cases in the order `0x7FFF` (empty, `break`), `0x7FFD`, `0x7FFE`,
+   `default`; `code`, the labels and every `goto` disappear.
 
-```
-(define_delay (eq_attr "type" "jump") [(and (eq_attr "dslot" "no") (eq_attr "length" "1")) …])
-(define_attr "dslot" "no,yes"
-  (if_then_else (eq_attr "type" "branch,jump,call,load,xfer,hilo,fcmp") "yes" "no"))
-```
-
-so a **load** at the head of the block (`dslot = yes`) or a two-instruction insn (`length = 2`,
-e.g. `la`/`lbu sym` — that is the 9014 `j+nop` sites whose target starts with `lui`) cannot be
-stolen, and `stop_search_p` (`reorg.c`) stops outright on an `ASM_INPUT` — which is exactly what
-the tree's `__asm__("")` does. Verified three ways on bytes:
-
-* tree (asm at the head) → `j <label>` + `nop`;
-* the `do-while` candidate (head = `lbu $4,D_801F1620`, a load) → `j <label>` + `nop`;
-* a probe with `s32 a1` (head = `move $6,$18`) → `j <label+4>` + `move $6,$18` — stolen.
-
-A whole-build scan (`build/src/**/*.o`, 4284 objects) finds 32092 target-steal sites, and of the
-`j`+`nop` sites the target's first mnemonic is overwhelmingly `lui` (9014, the length-2 `la`),
-`move` (2932, almost all epilogue `move sp,s8`), or a load — consistent with the rule above.
-**This is the part I could not close.** The target's block starts with `sll a1,a1,0x10`
-(`ashlsi3`, `dslot=no`, `length=1` — mips.md's `extendhisi2` is an *expander* that always emits two
-separate `ashlsi3`/`ashrsi3` insns for a register operand, so the `sll` stands alone and the rule
-above says it must be stealable) — yet the original leaves a `nop`. I probed the two lever-free
-counter-examples in the tree, `func_801800C0` (`ov_SC03_100_jr_8017D898.c:3583`, `j`+`nop` onto
-`sra a0,v0,0x10`) and `func_80166994` (`ov_SC03_099_jr_8015C32C.c:4997`, `j`+`nop` onto
-`sra v0,v0,0x10`): in **both**, the steal *did* happen — the jump is redirected PAST the block's
-first insn — and the copy was then deleted again by `relax_delay_slots`
-(`reorg.c`, "See if the first insn in the delay slot is redundant with some previous insn. Remove
-it from the delay slot if so"), because the same insn already executes in the delay slot of the
-conditional branch that falls into the jump. That leaves `j <label+4>` + `nop`. Our target is
-`j <label>` + `nop`, i.e. **no redirect at all**, so `fill_slots_from_thread` declined at the very
-first trial and I could not determine which of its guards fired. The only lever-free way I found to
-get the `nop` is to make the block start with a load, which contradicts the target's own first
-instruction.
-
-## (c) The source move(s)
-
-From `body_free.c` to `PACK/body.c` (11 → 4), two moves, both readability-positive:
-
-1. **Sink the accumulate into its initializer**: `s = base->f40; temp_a3 = base->f38; s += temp_a3;`
-   → `temp_a3 = base->f38; s = base->f40 + temp_a3;` (11 → 11 alone).
-2. **Merge the second pair into one expression, dropping the temp**:
-   `s2 = base->f42; t6 = base->f3A; s2 += t6;` → `s2 = base->f42 + base->f3A;` and delete the now
-   unused `u32 t6;` declaration. Together with (1): **11 → 4**.
-
-Both moves delete a `+=` accumulation whose left-hand side had just been initialised, i.e. they
-turn `x = A; x += B;` into `x = A + B;`. That single rewrite is what removes the two intermediate
-pseudos whose copies were confusing `sched1`.
+Move 1 alone, kept inside the goto form, also scores 0 (`scratch/goto_nat2.c`) — but only because the dispatch's two
+`a1 = i + 3;` become dead assignments, which the rules refuse; dropping them is what the switch spelling does. Move 2
+alone (the switch with the old default block) scores 2 (`scratch/sw2.c`).
 
 ## (d) GENERATOR PROPOSAL
 
-> **R19 `accum_folds`** — when the residual is a pure ORDER/COUNT residual confined to a run of
-> loads and adds (mine and target hold the same instruction multiset but a straight-line block
-> comes out permuted), rewrite every `x = A;` … `x += B;` pair in the body — where `x` is a local
-> whose only intervening use is none — as the single statement `x = A + B;` (and drop the now-dead
-> temp's declaration), trying each pair alone and then all pairs together.
+> **R24 `delay_slot_duplicate_sinks`** — when the TARGET shows one identical instruction in the delay slots of EVERY
+> branch into a block (and the body assigns that value in the dispatch before those branches), move the assignment into
+> the block's head — inline it into its single use when it has one — and delete the dispatch copies; when the dispatch is
+> an m2c compare tree over one value (`==` k, `<` k+1, `==` k-1 …), re-spell it as a `switch`, trying each case's position
+> (an empty `break` case first reproduces `bne → default; j end`).
+>
+> **R25 `arity_trim`** — for every call through a function-pointer cast, compare the argument count with the callee's
+> real definition (grep `src/` and `src/shared/`); if the call passes MORE, drop the extras (and their temps) and call it
+> directly. A `$4`–`$7` pin on a temp that is also a trailing argument is the symptom.
 
-It is the exact inverse of the existing `R17 constant_run_splits` / `R15 sink_merges` family
-(`tools/delever.py:2141` `sink_merges`, `:2237` `constant_holders`, `:2286` `constant_run_splits`,
-`:2344` `bystander_moves`) — those *split* statements or *move* bystanders; none of them **fuses a
-two-statement accumulation into one initializer**, which is why the 2241-compile `g5` search and
-my own 2800-candidate exhaustive statement-permutation sweep both stalled at 11/6: the winning
-move is not in the generator set at all. A cheap second rung of the same rule is the reverse
-direction (`x = A + B;` → `x = A; x += B;`) for bodies where the tree already has the fused form.
+## (e) What did not work / earlier claims refuted (R14)
 
-## (e) What did NOT work (byte evidence)
-
-| tried | result |
+| claim or try | result |
 |---|---|
-| all 2800 legal permutations of the 9 `do_default` statements × 10 positions for `arg0` (incl. inlined into the call) | **every one 11** — statement order alone cannot leave the plateau |
-| declaration order: all 120 permutations of the five locals | 11 |
-| declaration width: `s`/`s2`/`t6`/`temp_a3`/`arg0` as `s32/u32/s16/u16/u8/int/short/unsigned char` | 11 |
-| `{ … }` plain block around any single statement | 11 (block notes are not `loop_notes`) |
-| `do { … } while (0);` around the whole `do_default` body, or around each statement individually | 11–25, except `arg0` + one swap → 6 |
-| inlining `D_801F1620` into the call (folds the load into `a0` — confirmed in `.i.sched`) | 11: the folded insn lands at the call's LUID, so it is emitted *after* the four `lhu`s instead of before them |
-| `base->f1C = base->f40 + base->f38;` with `base->f38` passed to the call (no `temp_a3` at all) | ≥11 — CSE re-creates the single pseudo with two uses |
-| every S-form × T-form × `arg0` position (1201 candidates) | the score-4 plateau: *every* variant that reaches 4 has the identical residual, so the last `lhu` swap is not reachable by statement spelling |
-| `s32 a1` (kills the `sll/sra`) | probe only — confirms a `move` at the block head *is* stolen |
+| S102: "`fill_slots_from_thread` declined at the first trial; the only lever-free `nop` is a load at the block head" | refuted: the steal happens in pass 1 and pass 2's `steal_delay_list_from_fallthrough` empties the slot; a plain `addiu` heads the block |
+| S102: "`x = A; x += B` → `x = A + B` removes the copies that confuse sched1" (11 → 4) | partly: it removed the `$3` copy; the remaining lhu swap was the phantom 4th argument (`v_t4.c` = 2 even with the fused sums) |
+| switch with `case 0x7FFF: break;` last | 7 (`beq → end; j default` not inverted) |
+| switch + S102's default block (4-arg call, pinned temps unpinned) | 2 (lhu swap) |
+| switch + S102's original three-temp accumulate spelling | 9 |
+| goto form + 3-arg call with `a1` | 2 (the `j` steal stays) |
 
 ## (f) Where the method fell short
 
-* **The residual class was mislabelled.** `residual.txt` says `COUNT` with `mine 226 ins,
-  target 226` — the counts are equal; the class picked the temp-move generators (`R4`, `R6`,
-  `R18`) and never the expression-fusion family that actually mattered. A class that compared the
-  instruction *multisets* first would have said ORDER and pointed at scheduling.
-* **`sites.txt` is not a map of the mechanism.** Three sites are marked NEEDED (`$7`, `$4`, `$3`)
-  and one REMOVED (`$2`), which reads as "three registers must be forced". In fact the two argument
-  pins ($4, $7) matter only because they let `combine` fold a copy, and `$3` (`s2`) fell out for
-  free once the `s2 = A + B` fusion removed its copy. The a2-agent finding quoted in the brief
-  generalises: **a pin's byte effect can be a scheduling effect, and it disappears when the
-  statement that created the extra copy is rewritten** — here, deleting `t6` deleted the need for
-  the `$3` pin.
-* **`residual_moves.md` has no row for "the same instructions in a different order inside one basic
-  block, caused by an extra register copy that `local-alloc` will coalesce away".** That is the
-  row this exemplar should add, with the `.i.sched` insn-count comparison as its test.
-* The `--try` loop is excellent (0.15 s/compile in-process; I ran ~4500 candidates in a few
-  minutes with a private-scratch parallel wrapper). What is missing is a `--try` mode that prints
-  the *pre-sched RTL* insn count for the function, which is the quantity that actually predicts
-  whether a pin is removable.
+* The residual printed the delay-slot hunk as `j`/`sll` vs `j`/`nop` and nothing pointed at the **other** delay slots,
+  which were EQUAL in both versions and so never printed — but the fact that decided it was in them (the same `addiu`
+  on both edges into the block). Reading the whole objdump (METHOD step 1) found it; a classifier rule "identical insn in
+  the delay slots of all predecessors of a block → the source computes it in the block" would have found it mechanically.
+* `sites.txt` called the `__asm__("")` a barrier; its real job was a reorg `stop_search_p`, and the missing source fact
+  was *where a value is computed*, not a barrier. A `__asm__("")` at a block head whose first insn is also in the delay
+  slots of the branches into the block should be classified as "delay-slot" and routed to R24.
+* The brief's arity hint was exactly right, in the less common direction: the call passed MORE than the callee's arity
+  (m2c reads a live `$a3` as an argument). Worth adding "or more" to the METHOD line.
+* Propagation: `if (code == 0x7FFD)` appears in 134 files under `src/` (`grep -rl 'if (code == 0x7FFD)' src/`, e.g.
+  `ov_SC03_099.c:524`), plus the shared header above; `hdr_body.c` shows the header closes with the same text. Not every
+  hit has been checked to be this exact body.

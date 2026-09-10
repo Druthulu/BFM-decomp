@@ -83,7 +83,46 @@ def definitions():
                 continue
             head = masked[m.start():m.start(1)].strip()
             out.setdefault(name, (arity(params), params.strip(), rel, head or "void"))
+        # K&R definitions — `f(a, b, c)` then `s16 a; s16 b; u8 *c;` then `{`. DEF above requires `) {` and never saw them:
+        # 505 functions are defined this way and 95 had no other readable definition, so R19, R25 and the census were
+        # blind to them (found S103 by R25's known-true check: func_8012956C's callee func_801299C8 was absent). The
+        # params string carries the DEFAULT-PROMOTED types (char/short → int, float → double): that is what a K&R callee
+        # receives, so a prototype cast built from it stays compatible with the definition.
+        for m in KR_DEF.finditer(masked):
+            name, names = m.group(1), [n.strip() for n in m.group(2).split(",")]
+            if name in ("if", "for", "while", "switch", "return", "sizeof") or name in out:
+                continue
+            ptypes = kr_params(names, m.group(3))
+            head = masked[m.start():m.start(1)].strip()
+            out.setdefault(name, (len(names), ", ".join(ptypes), rel, head or "int"))
     return out
+
+
+def kr_params(names, decl_block):
+    """[type] — the DEFAULT-PROMOTED type of each K&R parameter, in order, read from the declaration block between the
+    parameter list and the `{` (an undeclared parameter is `int`, as in C89)."""
+    types = {}
+    for decl in decl_block.split(";"):
+        dm = re.match(r"^\s*((?:(?:unsigned|signed|const|struct|union|volatile)\s+)*[A-Za-z_]\w*)\s*(.*)$", decl.strip())
+        if not dm:
+            continue
+        for part in dm.group(2).split(","):
+            pm = re.match(r"^\s*(\**)\s*([A-Za-z_]\w*)\s*$", part)
+            if pm:
+                types[pm.group(2)] = (dm.group(1) + (" " + pm.group(1) if pm.group(1) else "")).strip()
+    out = []
+    for n in names:
+        t = types.get(n, "int")
+        if "*" not in t and re.fullmatch(r"(?:unsigned\s+|signed\s+)?(?:s8|u8|s16|u16|char|short)(?:\s+int)?", t):
+            t = "int"
+        elif t == "float":
+            t = "double"
+        out.append(t)
+    return out
+
+
+KR_DEF = re.compile(r"^[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(\s*(" + NAME + r"(?:\s*,\s*" + NAME + r")*)\s*\)\s*\n"
+                    r"((?:[ \t]*[A-Za-z_][^;{}()]*;[ \t]*\n)+)\s*\{", re.M)
 
 
 def scan(defs, only_needed_argpins=True):

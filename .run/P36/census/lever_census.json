@@ -38,7 +38,7 @@
    ".section": 7,
    "RTP_SND": 22,
    "addiu": 22,
-   "addu": 298,
+   "addu": 44,
    "and": 2,
    "la": 142,
    "lh": 134,
@@ -54,16 +54,16 @@
   },
   "kinds": {
    "asm-body/direct": 13,
-   "barrier/direct": 2269,
+   "barrier/direct": 2142,
    "barrier/via-macro": 2,
    "gte-lever/direct": 362,
    "gte-lever/via-macro": 100,
    "gte-unsigned/direct": 3,
    "gte/direct": 200,
    "gte/via-macro": 6658,
-   "instruction/direct": 641,
+   "instruction/direct": 387,
    "instruction/via-macro": 22,
-   "keepalive/direct": 798,
+   "keepalive/direct": 671,
    "launder/direct": 1934,
    "launder/via-macro": 444,
    "verbatim-body/direct": 2682
@@ -72,37 +72,37 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 3165,
-   "distinct_bodies": 918,
+   "bodies": 2911,
+   "distinct_bodies": 916,
    "file_scope": 0,
-   "in_bodies": 8654,
+   "in_bodies": 7765,
    "kinds": {
-    "pin": 8654
+    "pin": 7765
    },
-   "marked": 8654,
-   "sites": 8654,
-   "tus": 1792,
+   "marked": 7765,
+   "sites": 7765,
+   "tus": 1664,
    "unmarked": 0
   },
   "B": {
-   "bodies": 5659,
-   "distinct_bodies": 891,
+   "bodies": 5405,
+   "distinct_bodies": 889,
    "file_scope": 13,
-   "in_bodies": 16115,
+   "in_bodies": 15607,
    "kinds": {
     "asm-body": 13,
-    "barrier": 2271,
+    "barrier": 2144,
     "gte": 6858,
     "gte-lever": 462,
     "gte-unsigned": 3,
-    "instruction": 663,
-    "keepalive": 798,
+    "instruction": 409,
+    "keepalive": 671,
     "launder": 2378,
     "verbatim-body": 2682
    },
-   "marked": 6851,
-   "sites": 16128,
-   "tus": 1826,
+   "marked": 6343,
+   "sites": 15620,
+   "tus": 1824,
    "unmarked": 9277
   },
   "C": {
@@ -207,9 +207,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 25398,
+   "live": 24001,
    "macro_block": 194,
-   "raw": 32384
+   "raw": 30987
   },
   "attribute": {
    "comment_dead": 0,
@@ -225,9 +225,9 @@
   },
   "register": {
    "comment_dead": 8587,
-   "live": 8704,
+   "live": 7815,
    "macro_block": 18,
-   "raw": 17309
+   "raw": 16420
   },
   "volatile": {
    "comment_dead": 2480,
@@ -237,7 +237,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 42.5,
+ "elapsed_s": 38.0,
  "generated": "2026-09-10",
  "gte_levers": {
   "direct": 362,
@@ -248,15 +248,15 @@
   "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "a620e1880",
+ "head": "ae87bf75a",
  "headers": 3181,
  "levers_AB": {
-  "asm": 6585,
-  "bodies": 4080,
-  "distinct_bodies": 1221,
-  "marked": 15239,
-  "pins": 8654,
-  "sites": 15239,
+  "asm": 6077,
+  "bodies": 3826,
+  "distinct_bodies": 1219,
+  "marked": 13842,
+  "pins": 7765,
+  "sites": 13842,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -402,19 +402,19 @@
    "$16": 439,
    "$17": 363,
    "$18": 46,
-   "$19": 179,
+   "$19": 52,
    "$2": 1953,
-   "$20": 284,
-   "$21": 273,
+   "$20": 157,
+   "$21": 146,
    "$22": 7,
    "$23": 10,
    "$25": 1,
    "$29": 13,
-   "$3": 1006,
-   "$4": 1362,
+   "$3": 752,
+   "$4": 1235,
    "$5": 1141,
    "$6": 217,
-   "$7": 323,
+   "$7": 196,
    "$8": 174,
    "$9": 156,
    "7": 1,
@@ -423,30 +423,30 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 8654,
+  "sites": 7765,
   "sp": 13,
   "spelling": {
-   "__asm__": 8579,
+   "__asm__": 7690,
    "asm": 75
   },
   "volatile_qualified": 7,
   "zero": 117
  },
- "src_stamp": "5f178c695dbd4b7c",
+ "src_stamp": "2fca05bbc37ad1c7",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 7470,
+  "bodies": 7216,
   "by_kind": {
    "main": 165,
    "md": 134,
-   "ov": 6971,
+   "ov": 6719,
    "resident": 10,
-   "shared": 190
+   "shared": 188
   },
-  "copies_in_multi": 6221,
-  "distinct_bodies": 1509,
-  "multi_copy_classes": 260
+  "copies_in_multi": 5967,
+  "distinct_bodies": 1507,
+  "multi_copy_classes": 258
  },
  "verbatim_excluded": {
   "functions": 13,

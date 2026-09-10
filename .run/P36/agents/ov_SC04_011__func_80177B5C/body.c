@@ -1,6 +1,6 @@
 u32 *func_80177B5C(p, bits, tbli, x, y)
 u32 *p;
-u16 bits;
+u32 bits;
 s16 tbli;
 s16 x;
 s16 y;
@@ -30,9 +30,13 @@ s16 y;
     u32 gg;
     s32 yt;
     u32 yl;
+    u32 c;
+    u16 bb;
+    u32 c0;
 
     mk1 = 0xFFFFFF;
     cc1 = 0x74808080;
+    bb = bits;
     t = x + 0xE;
     flag = 0x1000000;
     i = 0;
@@ -44,19 +48,23 @@ s16 y;
     x2 = (u16)(x + 5);
     p[1] = cc1;
     yt = y;
-    cl = ((v << 6) | 0x4016) << 16;
-    p[2] = ((yt + 1) << 16) | x1;
+    c0 = yt + 1;
+    c0 <<= 16;
+    c = v << 6;
+    c |= 0x4016;
+    cl = c << 16;
+    p[2] = c0 | x1;
     p[3] = cl | 0x1800;
     p += 5;
     p[0] = (((u32)(p - 5)) & mk1) | ca;
     p[1] = cc1;
-    p[2] = ((yt + 1) << 16) | x2;
+    p[2] = c0 | x2;
     p[3] = cl | 0x1808;
     p += 5;
     q = p;
     yl = yt << 16;
     do {
-        n = (u32)(bits << 16) >> 28;
+        n = (u32)(bb << 16) >> 28;
         m = n;
         if (n != 0 || i == 2 || i == 0xFF) {
             flag = 0;
@@ -70,7 +78,7 @@ s16 y;
         q += 5;
         t += 8;
         i++;
-        bits <<= 4;
+        bb <<= 4;
     } while (i < 3);
     p = q;
     p[0] = (((u32)(p - 5)) & 0xFFFFFF) | 0x3000000;

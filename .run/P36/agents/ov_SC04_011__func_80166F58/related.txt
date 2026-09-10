@@ -1,0 +1,179 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_80166F58 (95 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8016C49C (src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c:2699) shares 3: D_8011D030 func_80016714 func_80146C3C ---
+s32 func_8016C49C(s32 param_1_arg) {
+    extern s32 VectorNormalSS(void *, void *);
+    extern void func_8001CD9C(s32, void *);
+    extern void func_8016CF04(s32, s32);
+    extern u8 D_801EE120[];
+    extern u8 D_801EE1E0;
+
+    u16 *param_1 = ((u16 *)param_1_arg);
+    int iVar5;
+    int iVar6;
+    u16 sv[4];
+    s32 mat[8];
+    short sVar1;
+
+    iVar5 = *(int *)(param_1 + 0x18);
+    iVar6 = *(int *)(param_1 + 0x1a);
+    param_1[0x14] = *(u16 *)(iVar5 + 0x36);
+    if ((*(u32 *)(param_1 + 0x16) & 0x8000) == 0) {
+        short iVar4 = 0;
+        u16 *psVar3 = (u16 *)&D_8011D030;
+        do {
+            if (psVar3 != param_1 && *psVar3 == 0x30) {
+                ((void(*)(void *))func_80146C3C)(psVar3);
+            }
+            iVar4 = iVar4 + 1;
+            psVar3 = psVar3 + 0x2c;
+        } while (iVar4 < 0x1e);
+        D_801EE120[1] = 0xff;
+        D_801EE120[2] = 0x10;
+        D_801EE120[0] = 0x10;
+        D_801EE120[6] = 0;
+        D_801EE120[5] = 0;
+        D_801EE120[4] = 0;
+        ((void(*)(void *, s32))func_800233CC)(D_801EE120, 10);
+        sv[0] = *(u16 *)(iVar5 + 6) - *(u16 *)(iVar6 + 6);
+        {
+            int t = *(u16 *)(iVar6 + 0xa) + 0x28;
+            sv[1] = *(u16 *)(iVar5 + 0xa) - t;
+        }
+        sv[2] = *(u16 *)(iVar5 + 0xe) - *(u16 *)(iVar6 + 0xe);
+        VectorNormalSS(sv, sv);
+        param_1[3] = *(u16 *)(iVar5 + 6) + ((s16)sv[0] >> 9);
+        param_1[5] = *(u16 *)(iVar5 + 0xa) + (((s16)sv[1] >> 9) - 0x28);
+        param_1[7] = *(u16 *)(iVar5 + 0xe) + ((s16)sv[2] >> 9);
+        ((void(*)(void *))func_800D23D0)(sv);
+        sv[0] = 0;
+        ((void(*)(void *, void *))RotMatrixYXZ)(sv, param_1 + 0x1c);
+        ((void(*)(void *, s32))func_80016714)(&D_801EE1E0, 0x620);
+        ((s32(*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(0x32, param_1, 0, 0, 0, 0, *(int *)(param_1 + 0x18));
+        sVar1 = 5;
+    } else {
+        int iVar5b = ((s32(*)())func_801465C0)();
+        u32 uVar2;
+        if (iVar5b == 0) {
+            return;
+        }
+        func_8001CD9C(iVar5b, D_801EE120);
+        *(u32 *)(iVar5b + 4) |= 0x50000000;
+        uVar2 = ((int(*)())rand)();
+        sv[0] = (uVar2 & 0x7f) * 8 - 0x80;
+        sv[1] = ((uVar2 & 0x7f00) >> 4) - 0x400;
+        sv[2] = 0;
+        ((void(*)(void *, void *))RotMatrixYXZ)(sv, mat);
+        ((void(*)(void *, void *))func_80048EAC)(param_1 + 0x1c, mat);
+        sv[1] = 0;
+        sv[0] = 0;
+        sv[2] = 0xb;
+        ((void(*)(void *, void *, void *))ApplyMatrixSV)(mat, sv, sv);
+        param_1[9] = sv[0];
+        param_1[0xb] = sv[1];
+        param_1[0xd] = sv[2];
+        *(int *)(param_1 + 0x10) = iVar5b;
+        *(int *)(param_1 + 0xe) = 8;
+        func_8016CF04((s32)param_1, 0);
+        *(int *)(param_1 + 0x16) = 0;
+        sVar1 = param_1[1] + 1;
+    }
+    do { param_1[1] = sVar1; } while (0);
+}
+
+--- func_80165C78 (src/shared/ov/func_80165C78.h:5) shares 2: D_8011D030 func_80016714 ---
+void func_80165C78(void) {
+    func_80016714(&D_8011D030, 0xA50);
+}
+
+--- func_8016B984 (src/shared/ov/func_8016B984.h:5) shares 2: func_80016714 func_80146C3C ---
+void func_8016B984(void *a0) {
+    if (*(s32*)((s32)a0 + 0x10) != 0) {
+        func_80016714(*(void**)((s32)a0 + 0x10), 0x38);
+    }
+    if (*(s32*)((s32)a0 + 0x14) != 0) {
+        func_80016714(*(void**)((s32)a0 + 0x14), 0x38);
+    }
+    if (*(s32*)((s32)a0 + 0x18) != 0) {
+        func_80016714(*(void**)((s32)a0 + 0x18), 0x38);
+    }
+    ((void (*)(void *))func_80146C3C)(a0);
+}
+
+--- func_8016706C (src/shared/ov/func_8016706C.h:4) shares 2: D_8011D030 func_80146C3C ---
+void func_8016706C(s32 param_1)
+{
+    extern s32 D_8011D030;
+    unsigned short *puVar1;
+    short iVar2;
+    iVar2 = 0;
+    puVar1 = ((unsigned short *)&D_8011D030);
+    do {
+        if ((unsigned int)*puVar1 == ((short)param_1)) {
+            ((void(*)(unsigned short *))func_80146C3C)(puVar1);
+        }
+        iVar2 = iVar2 + 1;
+        puVar1 = puVar1 + 0x2c;
+    } while (iVar2 < 0x1e);
+}
+
+--- func_8014AC10 (src/shared/ov/func_8014AC10.h:5) shares 2: D_8011D030 func_80016714 ---
+void func_8014AC10(s32 arg0) {
+    u8 *p;
+    u8 *end;
+    u8 *t;
+    s32 one;
+    void *a0;
+    s32 a1;
+    p = (u8 *)&D_8011D030;
+    t = p + 0xA50;
+    if (p < t) {
+        one = 1;
+        end = t;
+        do {
+            if (*(u16 *)p == arg0) {
+                a0 = *(void **)(p + 0x20);
+                if (a0 != 0) {
+                    a1 = 0x38;
+                    if (*(u16 *)a0 == one) {
+                        a1 = 0x84;
+                    }
+                    func_80016714(a0, a1);
+                }
+                func_80016714(p, 0x58);
+            }
+            p += 0x58;
+        } while (p < end);
+    }
+}
+
+--- func_8016AA50 (src/shared/ov/func_8016AA50.h:9) shares 2: D_8011D030 func_80146C3C ---
+void func_8016AA50(s32 param_1, s32 param_2) {
+    short *psVar3;
+    s32 iVar4;
+    s32 sVar2;
+    s32 t;
+    if (param_2 >= 0) {
+        ((s32 (*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(
+            0x1d, (void *)param_1,
+            *(s16 *)(param_1 + 0x7c), *(s16 *)(param_1 + 0x7e),
+            *(s16 *)(param_1 + 0x80), 0, param_2);
+        return;
+    }
+    iVar4 = 0;
+    psVar3 = (short *)&D_8011D030;
+    do {
+        sVar2 = (u16)*psVar3;
+        if (sVar2 == 0 || sVar2 == 3 || sVar2 == 9) {
+            ((void (*)(void))func_80146C3C)();
+            ((s32 (*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(
+                0x1d, (void *)param_1,
+                (s16)D_80126B5E, (s16)((u16)D_80126B62 - 0x20),
+                (s16)D_80126B66, 7, 0);
+            return;
+        }
+        t = iVar4 + 1;
+        do { iVar4 = t; } while (0);
+        psVar3 = psVar3 + 0x2c;
+    } while ((s16)t < 0x1e);
+}
+

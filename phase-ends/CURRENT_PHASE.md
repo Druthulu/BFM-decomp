@@ -1532,6 +1532,32 @@ accumulate here as the phase produces them.**
   new body for every copy (the old bodies pin the pointer to `$12`). **This is T5's GTE question** (one GTE header
   under Sony's names; the phase plan says a clobber VARIANT is a lever, not a second spelling) **— for Drew, not a
   bank.** The agent refused a dead second store that also reached 0.
+- **S103 — RE-DRAWS c24 and c23 both CLOSED (the S102 readings stopped at 4 and 2).** **c24 `func_8012956C`** (0,
+  226/226; 126/126 incl. a shared header): the decompiler had read the still-live `$a3` at a `jal` as a FOURTH argument to
+  the three-parameter K&R callee `func_801299C8` — the phantom argument's copy and second load consumer reordered sched1
+  (`rank_for_schedule`, `sched.c:2385`), which is what the `$7`/`$4`/`$3` pins undid (four args via a temp 2, inline 12,
+  three 0); the `__asm__("")` barrier faked the empty delay slot a `switch` produces (reorg's `fill_eager_delay_slots` /
+  `steal_delay_list_from_fallthrough`, `reorg.c:3632/1699`; the empty `0x7FFF` case first, `stmt.c:5580`,
+  `jump.c:1725-1757`). **c23 `func_80133784`** (0, 203/203; 126/126 incl. its twin header): a real `while (1)` with the
+  timeout block INSIDE it — loop.c's desirability test `threshold*savings*lifetime >= insn_count` (`loop.c:1631`,
+  threshold `1 + n_non_fixed_regs` with a call, `:532`) then refuses the argument `sll`'s hoist ("38 real insns … not
+  desirable") where the block-after form (28 insns) hoisted it; the flag `s16`. **This overturns S102 b4's reading**
+  (de-loop to a `goto`, "threshold ~60 vs ~15, never fails" — the real margin is ~29 vs 28) and the cookbook §176 note
+  S102 wanted: the new direction is "move the loop's exit block into the body", not "de-loop". Bank lines: `apply-body
+  … IDENTICAL … KEPT` ×2; `--propagate: 126 of 126` ×2.
+- **S103 — c19 `func_80177B5C` READ, not closed (135 → 2, 147/147, every register right; one `or` two slots late —
+  sched2's tie at equal priority falls back to sched1's order, `sched.c:2385`, and every natural multi-set spelling
+  fails).** Its K&R-parameter move and its annealing scorer (`PACK/scratch/fast.py`, ~0.12 s/candidate) are recorded.
+- **S103 — R25 `trim_arguments` (c24's move, R19's inverse) and a BLIND SPOT FIXED IN `argcheck`: K&R definitions.**
+  R25's known-true check found nothing on the very body it came from — the callee `func_801299C8` is defined K&R
+  (`f(a, b, c) s16 a; …; {`) and `argcheck.definitions()` required `) {`: **505 functions are K&R-defined and 95 had no
+  other readable definition**, invisible to R19, R25, `decl_repair` and the readability census since S102. Fixed:
+  `KR_DEF` + `kr_params` (the default-promoted types, char/short → int, so a cast matches the definition; unit-checked on
+  `s16 a, b; int *p, q; unsigned char c;` + an undeclared parameter); definitions read 15,626 → 15,721. R25 then offers
+  the trim; alone it scores 11 → 12 and 4 → 7 on c24's texts (the close was joint) — **no single-move known-true number
+  is claimed**; the census: 203 residue classes / 448 bodies call a function with more arguments than it takes (a first
+  census counted each definition's own `(void)` header as a one-argument call — caught by its self-referencing top rows,
+  R40). Selftest fixture (both spellings + the side-effect refusal), `delever --selftest: OK`; SETUP rows.
 
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
 

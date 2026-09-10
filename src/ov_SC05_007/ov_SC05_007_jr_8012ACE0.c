@@ -2170,21 +2170,17 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     extern s16 D_8019BA8C;
     extern u16 D_8019BA90;
 
-    s32 s1;
-    s32 s2;
-    register s16 s3 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung A tus1)
-    register s32 s4 __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung A tus1)
-    s16 a0v;
-    register s16 arg0s __asm__("$21");  // !FAKE: pin $21 — NEEDED DIFFERS (P36 rung A tus1)
-    s32 dx, dy, dz;
-    s32 r, ret;
+    s32 flags;
+    s16 same;
+    s16 tries;
+    s32 hits;
+    s16 mode = arg0;
+    s32 r;
 
-    a0v = ((s16)arg0);
-    s1 = 0;
-    s3 = 0;
-    s4 = 0;
-    s2 = 0;
-    arg0s = a0v;
+    flags = 0;
+    tries = 0;
+    hits = 0;
+    same = 0;
     D_80180FEC->f6 = -0x7FFF;
     D_80180FF0->f6 = 0x7FFF;
     D_80180FEC->f0 = ((Box_80133784 *)arg1)->f0;
@@ -2194,16 +2190,15 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     D_8019BA90 = 0;
     D_8019BA8C = 0;
 
-    if ((s16)a0v == 0) {
-        s16 sx = ((Box_80133784 *)arg2)->f0 - ((Box_80133784 *)arg1)->f0;
-        s16 sy = ((Box_80133784 *)arg2)->f2 - ((Box_80133784 *)arg1)->f2;
-        s16 sz = ((Box_80133784 *)arg2)->f4 - ((Box_80133784 *)arg1)->f4;
-        if (sx == 0 && sy == 0) {
-            s32 zt = (sz == 0);
-            __asm__("addu %0,%1,$zero" : "=r"(s2) : "r"(zt));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung A tus1)
+    if (mode == 0) {
+        s16 dx = ((Box_80133784 *)arg2)->f0 - ((Box_80133784 *)arg1)->f0;
+        s16 dy = ((Box_80133784 *)arg2)->f2 - ((Box_80133784 *)arg1)->f2;
+        s16 dz = ((Box_80133784 *)arg2)->f4 - ((Box_80133784 *)arg1)->f4;
+        if (dx == 0 && dy == 0) {
+            same = (dz == 0);
         }
         D_80180FEC->f2 = ((Box_80133784 *)arg1)->f2 - 4;
-        r = func_80047D3C(sx * sx + sz * sz);
+        r = func_80047D3C(dx * dx + dz * dz);
         if (r < 3) {
             r = 4;
         } else if (r < 5) {
@@ -2212,10 +2207,10 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
         D_80180FF0->f2 = ((Box_80133784 *)arg2)->f2 + r + 1;
     } else {
         D_80180FEC->f2 = ((Box_80133784 *)arg1)->f2;
-        if ((s16)a0v == 2) {
+        if (mode == 2) {
             D_80180FF0->f0 = D_80180FEC->f0;
             D_80180FF0->f2 = D_80180FEC->f2 + 6;
-            s2 = 1;
+            same = 1;
             D_80180FF0->f4 = D_80180FEC->f4;
         } else {
             D_80180FF0->f2 = ((Box_80133784 *)arg2)->f2;
@@ -2223,48 +2218,37 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     }
 
     while (1) {
-        s32 ret0;
-        register s32 retc __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung A tus1)
-        ret0 = func_80133AB0(arg0s, (s16)D_80180FEC->f0, (s16)D_80180FEC->f4, (*(s32*)&D_8019BA80));
-        __asm__("addu %0,%1,$zero" : "=r"(retc) : "r"(ret0));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung A tus1)
-        ret = retc;
-        if (ret == 0) goto after;
-        s4 |= ret;
-        if (s2 != 0) goto after;
-        {
-            s16 oldc = s3;
-            s3 = s3 + 1;
-            if (oldc >= 5) break;
+        r = func_80133AB0(mode, D_80180FEC->f0, D_80180FEC->f4, D_8019BA80);
+        if (r == 0) break;
+        hits |= r;
+        if (same) break;
+        if (tries++ >= 5) {
+            D_80180FF0->f0 = D_80180FEC->f0;
+            D_80180FF0->f2 = D_80180FEC->f2;
+            flags = 0x2000;
+            D_80180FF0->f4 = D_80180FEC->f4;
+            goto store_out;
         }
     }
 
-    D_80180FF0->f0 = D_80180FEC->f0;
-    D_80180FF0->f2 = D_80180FEC->f2;
-    s1 = 0x2000;
-    D_80180FF0->f4 = D_80180FEC->f4;
-    goto store_out;
-
-after:
-    if ((s16)s4 != 0 || D_8019BA8C != 0) {
-        s16 t;
-        __asm__ __volatile__("" :: "r"(s4));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung A tus1)
-        t = D_80180FEC->f6;
+    if ((s16)hits != 0 || D_8019BA8C != 0) {
+        s16 t = D_80180FEC->f6;
         if (t >= -0xBCB) {
             if (t < -0x578) {
-                s1 |= 0x4000;
+                flags |= 0x4000;
             } else {
-                s1 |= 0x8000;
+                flags |= 0x8000;
             }
         }
-        if ((s16)D_80180FF0->f6 < -0xBCB) {
-            s1 |= 0x2000;
+        if (D_80180FF0->f6 < -0xBCB) {
+            flags |= 0x2000;
         }
     store_out:
         ((Box_80133784 *)arg2)->f0 = D_80180FF0->f0;
         ((Box_80133784 *)arg2)->f2 = D_80180FF0->f2;
         ((Box_80133784 *)arg2)->f4 = D_80180FF0->f4;
         ((Box_80133784 *)arg2)->f6 = D_8019BA90;
-        return s1 & 0xFFFF;
+        return flags & 0xFFFF;
     }
     ((Box_80133784 *)arg2)->f6 = D_8019BA90;
     return 0;

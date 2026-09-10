@@ -2953,7 +2953,93 @@ def word_read_bitfields(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24")
+def _split_args(args):
+    """the top-level comma-separated arguments of a call's argument text."""
+    out, depth, cur = [], 0, ""
+    for ch in args:
+        if ch in "([{":
+            depth += 1
+        elif ch in ")]}":
+            depth -= 1
+        if ch == "," and depth == 0:
+            out.append(cur.strip())
+            cur = ""
+        else:
+            cur += ch
+    if cur.strip():
+        out.append(cur.strip())
+    return out
+
+
+def trim_arguments(text, tu, fn, d_):
+    """[(description, candidate text)] — R25: a call that passes MORE arguments than the callee's real definition takes,
+    re-issued at the real arity — R19's inverse.
+
+    T7 agent c24's re-draw of func_8012956C (P36 S103, 126 bodies): the decompiler had read the still-live `$a3` at a
+    `jal` as a fourth argument to a three-parameter K&R callee. The phantom argument added a copy into `$a3` and gave a load
+    a second consumer, so sched1 (`rank_for_schedule`, `sched.c:2385`) scheduled it first — the `$7`/`$4`/`$3` pins were
+    hired to undo exactly that. Measured on the switch body: four arguments through a temp 2, four inline 12, three 0.
+    The census at S103: 203 residue classes / 448 bodies call a function with more arguments than its definition takes.
+    WHICH side is wrong — the call or a definition that lost a parameter — is not decidable from the text; the bytes
+    decide, candidate by candidate.
+
+    Two spellings per call: the callee called directly by name, and through a cast to its real signature (the TU's
+    declaration may be narrower or absent; the cast keeps the edit inside the definition). Refused when a dropped argument
+    has a side effect (`++`, `--`, an assignment, a call) — dropping it would change the program, not its spelling."""
+    defs = real_signatures()
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        st = masked[i].strip()
+        if not st or is_decl_line(st) or st.startswith("#") or st.startswith("extern"):
+            continue
+        for m in CALL.finditer(masked[i]):
+            callee = m.group(1)
+            real = defs.get(callee)
+            if real is None or callee == fn or not real[1].strip():
+                continue                                  # unknown, recursive, or a K&R `()` definition (arity unstated)
+            start = m.start()
+            if m.group(2) == ")":
+                k, depth2 = m.start(), 0
+                while k > 0:
+                    k -= 1
+                    if masked[i][k] == ")":
+                        depth2 += 1
+                    elif masked[i][k] == "(":
+                        if depth2 == 0:
+                            start = k
+                            break
+                        depth2 -= 1
+            depth, j = 0, m.end() - 1
+            while j < len(masked[i]):
+                if masked[i][j] == "(":
+                    depth += 1
+                elif masked[i][j] == ")":
+                    depth -= 1
+                    if depth == 0:
+                        break
+                j += 1
+            if j >= len(masked[i]):
+                continue
+            args = _split_args(lines[i][m.end():j])
+            if len(args) <= real[0]:
+                continue
+            dropped = args[real[0]:]
+            if any(re.search(r"\+\+|--|(?<![=!<>])=(?!=)|\w\s*\(", a) for a in dropped):
+                continue
+            keep = ", ".join(args[:real[0]])
+            ret = (real[3] if len(real) > 3 else "int") or "int"
+            ret = re.sub(r"\b(extern|static|inline)\b", "", ret).strip() or "int"
+            for tag, head in (("direct", callee), ("cast", f"(({ret} (*)({real[1]})){callee})")):
+                cand = list(lines)
+                cand[i] = lines[i][:start] + head + "(" + keep + ")" + lines[i][j + 1:]
+                out.append((f"argtrim {callee} {len(args)}->{real[0]} {tag} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3088,6 +3174,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R24" in fam:
         for desc, cand in word_read_bitfields(text, tu, fn, d_):
             out.append(("R24", desc, cand))
+    if "R25" in fam:
+        for desc, cand in trim_arguments(text, tu, fn, d_):
+            out.append(("R25", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -4135,6 +4224,34 @@ def selftest():
     elif "p->addr = *(u32 *)ot;" not in a24["word-read addr @2"] or \
             "p->addr = *(u32 *)(ot + 1);" not in a24["word-read addr ALL 2 sites"]:
         fail(f"R24 must read the source as a whole word, parenthesising a compound source: {a24!r}")
+
+    # R25, the arity trim (T7 agent c24's re-draw of func_8012956C, S103). No known-true single-move number exists: on the
+    # agent's two texts the trim alone scores 11 -> 12 and 4 -> 7 — its close was joint with a switch rewrite, so R25 is
+    # a family for the engine and the regen pass to compose, and the fixture checks the rewrite and the refusal only.
+    import argcheck as _ac
+    _defs = real_signatures()
+    _defs.setdefault("func_8FFFFFF0", (2, "int, void *", "src/fx/t.c", "void"))
+    TFIX = ("void func_80100000(s32 a, void *b, s32 c) {\n"
+            "    ((void (*)(s32, void *, s32))func_8FFFFFF0)(a, b, c);\n"
+            "    func_8FFFFFF0(a, b, c++);\n"
+            "}")
+    t25 = dict(trim_arguments(TFIX, "src/fx/t.c", "func_80100000",
+                              next(r for r in sc.scan_text(TFIX, "src/fx/t.c", shared_defs=None) if r["form"] == "def")))
+    if sorted(t25) != ["argtrim func_8FFFFFF0 3->2 cast @2", "argtrim func_8FFFFFF0 3->2 direct @2"]:
+        fail(f"R25 must trim the cast call at both spellings and refuse the one whose dropped argument has a side effect, "
+             f"got {sorted(t25)}")
+    elif "    func_8FFFFFF0(a, b);" not in t25["argtrim func_8FFFFFF0 3->2 direct @2"] or \
+            "((void (*)(int, void *))func_8FFFFFF0)(a, b);" not in t25["argtrim func_8FFFFFF0 3->2 cast @2"]:
+        fail(f"R25 must re-issue the call at the real arity: {t25!r}")
+    _defs.pop("func_8FFFFFF0", None)
+
+    # every family recipe_candidates dispatches must be in ALL_FAMILIES (S103: R25 was dispatched but missing from the
+    # tuple — a string edit matched nothing — and delever_regen refused `--families R25` while the selftest, which calls
+    # the generator directly, stayed green; the MIXED/OTHER classes would have silently never offered it)
+    import inspect as _insp
+    _disp = set(re.findall(r'if "(R\d+)" in fam', _insp.getsource(recipe_candidates)))
+    if _disp - set(ALL_FAMILIES):
+        fail(f"families dispatched by recipe_candidates but absent from ALL_FAMILIES: {sorted(_disp - set(ALL_FAMILIES))}")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

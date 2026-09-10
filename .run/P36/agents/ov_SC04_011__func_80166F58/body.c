@@ -6,17 +6,22 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     extern s32 D_8011D030;
     extern unsigned char D_801EDD28[];
 
+    int t2;
+    int t3;
     int p2;
     int p3;
+
     unsigned short *puVar1;
     short iVar2;
     int eq;
 
     iVar2 = 0;
     puVar1 = ((unsigned short *)&D_8011D030);
-    p2 = ((short)param_2);
-    p3 = ((short)param_3);
-    eq = (p2 == p3);
+    t2 = (short)param_2;
+    p2 = (short)t2;
+    t3 = (short)param_3;
+    p3 = (short)t3;
+    eq = (t2 == t3);
     do {
         if ((puVar1 != ((unsigned short *)param_1)) &&
             ((unsigned int)*puVar1 == p2 || (unsigned int)*puVar1 == p3) &&

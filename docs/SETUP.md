@@ -1712,6 +1712,7 @@ carries its mechanism, its `file:line` citations into `tools/reference/gcc-2.7.2
 | R22 | `merge_walked_pointers` | a second pointer `q = p + K` stepped in lockstep with `p` deleted; `q[n]` → `p[n+K]`, `*q` → `p[K]` (S103; leads the COUNT class after R19) | agent c2, `func_8013D8FC` — known-true: its start text's R22 candidate is the agent's closing body, score 0 |
 | R23 | `split_reused_locals` | a local fully redefined several times at one brace depth of one open block (straight-line or between `if` groups; pointer declarators kept) split into one name per value (`u16 a, b;` → `u16 a, a2, a3, b, b2, b3;`), each and ALL (S103; leads the REG classes after R19) | agents c1 `func_80135168` / c8 `func_80135004` — known-true: its joint split scores exactly what each agent measured for the move alone (12, 26); on c16's `func_8013D178` its split of `p` alone scores 0 — a whole close with no agent |
 | R24 | `word_read_bitfields` | the addPrim copy `X->addr = Y->addr;` read as a whole word `X->addr = *(u32 *)Y;` (a 24-bit field read + store leaves a phantom flow-time mask reference that decides `allocno_compare`), each site and ALL (S103; REG classes after R23) | agent c20 `func_8013DD68` — known-true: the in-loop site alone scores 10 from 17, the other two sites nothing, as the agent measured |
+| R25 | `trim_arguments` | a call passing MORE arguments than the callee's real definition re-issued at the real arity (direct and through a cast to the real signature); refused when a dropped argument has a side effect (S103; beside R19 in every class — the inverse move) | agent c24 `func_8012956C` (a phantom fourth argument read off a live `$a3`). No single-move known-true number: on c24's texts the trim alone scores 11→12 and 4→7 — its close was joint. The census at S103: 203 residue classes / 448 bodies over-arity |
 
 **Three of these are JOINT edits and that is the point.** R20's single-chain candidates score 43 and 51 where the joint
 scores 0; R21's single sites are worse than its joint form; b7's four-way retype has every intermediate worse than the
@@ -1795,6 +1796,10 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   `.c` FILE directly (an agent's spliced TU), and puts `-Isrc/shared` on the cpp line so `#include "../shared/…"` resolves from
   a copied TU (every scratch copy failed CPP-EMPTY and six agents wrote their own `dump.sh`). Smoke: a copy of
   `ov_SC04_011_jr_8013C98C.c` preprocesses to 7,168 lines, cpp.err empty, every dump written.
+- **`tools/argcheck.py` reads K&R definitions** (`f(a, b) s16 a; u8 *b; {`): 505 functions are defined that way and 95 had no
+  other readable definition, so R19, R25, `decl_repair` and the readability census were blind to them. The params string
+  carries the DEFAULT-PROMOTED types (char/short → int), so a cast built from it matches the definition. Definitions read:
+  15,626 → 15,721. Found by R25's known-true check (its first callee was absent).
 - **`tools/delever_regen.py --families R22 R23 [-j 10] [--exclude FN …] [--label L]`** (read-only) then
   **`--bank .run/P36/regen/<L>.tsv`** (the one writer) — re-runs NEW generator families over the whole residue. The
   residue's NO-MATCH attempts predate every family harvested since, and nothing re-tried them; an engine re-sweep writes the
