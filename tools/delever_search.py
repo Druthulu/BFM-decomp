@@ -81,14 +81,15 @@ FAMILIES = {
     # lane B's map (`.run/P36/engine/residual_moves.md`, S101, gcc 2.7.2 source): the caller-saved swap is decided in
     # local-alloc's block_alloc/combine_regs by which dying pseudo the operand ties to — the temp inlined/introduced first; a
     # constant-operand commutative swap is undone by fold (fold-const.c) and only a var/var swap can reach the allocator.
-    "REG-caller": ("R6", "R8", "R5", "R3", "R7", "R9", "R2", "R4"),
+    "REG-caller": ("R6", "R8", "R5", "R10", "R13", "R3", "R12", "R7", "R9", "R2", "R4"),
     # the s-bank order is global.c's allocno_compare (ref weight x live length), declaration order only on an exact tie
-    "REG-callee": ("R2", "R4", "R3", "R6", "R8", "R7", "R9", "R5"),
-    "REG-mixed": ("R6", "R2", "R5", "R4", "R3", "R8", "R7", "R9"),
-    # a copy dies to cse's canon_reg or the local-alloc tie; an address pseudo lives when a pointer local is used twice
-    "COUNT": ("R6", "R8", "R3", "R7", "R5", "R9", "R2", "R4"),
+    "REG-callee": ("R2", "R4", "R3", "R6", "R8", "R12", "R7", "R9", "R10", "R13", "R5"),
+    "REG-mixed": ("R6", "R2", "R5", "R10", "R4", "R3", "R8", "R13", "R12", "R7", "R9"),
+    # a copy dies to cse's canon_reg or the local-alloc tie unless its destination changes MODE (the width); an address
+    # pseudo lives when a pointer local is used twice; a value named once is computed once
+    "COUNT": ("R12", "R6", "R8", "R3", "R7", "R5", "R13", "R9", "R10", "R2", "R4"),
     # statement order IS the schedule among equal-priority insns (rank_for_schedule's LUID tie-break); do-while is a barrier
-    "ORDER": ("R9", "R7", "R3", "R6", "R8", "R5", "R2", "R4"),
+    "ORDER": ("R9", "R7", "R13", "R3", "R6", "R8", "R5", "R12", "R10", "R2", "R4"),
     "MIXED": dl.ALL_FAMILIES,
     "OTHER": dl.ALL_FAMILIES,
 }
@@ -619,6 +620,60 @@ def cmd_plan(a):
     return 0
 
 
+def explain(a):
+    """--explain TU FN: the lever-free body's residual, read — its class, every differing block as mnemonics (mine vs the
+    target), the NEEDED sites with their lines — and, with --path "move1|move2", the residual after those moves are applied in
+    order (a move is named exactly as the trace names it). No writes; one compile per text scored."""
+    tu, fn = a.explain
+    by_src = oracle.recipes_by_src(oracle.load_recipes()["recipes"])
+    inc = dl.includers()
+    raw = (REPO / tu).read_text(errors="surrogateescape")
+    sites = sites_by_body().get((tu, fn), [])
+    scorer = Scorer(tu, fn, recs_for(tu, by_src, inc), "ex", {})
+    names = dl.pin_names(sites)
+    text = lever_free_body(tu, raw, fn, sites)
+    for mv in [m.strip() for m in (a.path or "").split("|") if m.strip()]:
+        cands = dl.recipe_candidates(text, tu, fn, names, cap=None, families=dl.ALL_FAMILIES)
+        hit = next((c for c in cands if f"{c[0]} {c[1]}" == mv), None)
+        if hit is None:
+            sys.exit(f"delever_search --explain: no candidate named `{mv}` on the current text (have: {[f'{c[0]} {c[1]}' for c in cands[:12]]} …)")
+        text = hit[2]
+    r = scorer.score(text)
+    if r["score"] is None:
+        print(f"{tu}:{fn}: {r['err']}")
+        return 1
+    cls = r["cls"]
+    print(f"{tu}:{fn}: score {r['score']} ({family_key(cls)}; mine {cls['n_mine']} ins, target {cls['n_tgt']}) ident={r['ident']}"
+          + (f" after {a.path}" if a.path else ""))
+    if cls["pairs"]:
+        print("  register pairs (mine -> target, count):", ", ".join(f"{x}->{y} x{n}" for x, y, n in cls["pairs"]))
+    row = latest_row(tu, fn) or {}
+    for s in sites:
+        v = next((d for d in row.get("sites", []) if d.get("line") == s["line"]), None)
+        tag = (v or {}).get("verdict", "?")
+        print(f"  site {s['kind']:11s} {s.get('detail', ''):5s} line {s['line']:5d} {tag:8s} {s.get('text', '')[:70]}")
+    p = OBJ / "ex.o"
+    mine = md.insns_from_object(str(p), fn)
+    aa, bb = [masked_word(i) for i in mine], [masked_word(i) for i in scorer.tgt]
+    for t, i1, i2, j1, j2 in difflib.SequenceMatcher(None, aa, bb, autojunk=False).get_opcodes():
+        if t == "equal":
+            continue
+        print(f"  {t:7s} mine[{i1}:{i2}] target[{j1}:{j2}]")
+        for k in range(max(i2 - i1, j2 - j1)):
+            m_ = mine[i1 + k]["mnem"] if i1 + k < i2 else "--"
+            t_ = scorer.tgt[j1 + k]["mnem"] if j1 + k < j2 else "--"
+            print(f"     {i1 + k:4d}  {m_:34s} | {t_}")
+    return 0
+
+
+def latest_row(tu, fn):
+    row = None
+    for r in dl.load_ledger():
+        if r.get("tu") == tu and r.get("fn") == fn:
+            row = r
+    return row
+
+
 def cmd_status(a):
     outs = load_outcomes()
     att = [o for o in outs if o.get("kind") == "attempt"]
@@ -773,8 +828,27 @@ def selftest():
     if len(r9) != 1 or "    b = q + 1;\n    a = *(s32 *)(p + 4) & q;\n" not in r9[0][2]:
         fail(f"R9 did not swap the two adjacent statements: {r9[:1]}")
     default = dl.recipe_candidates(fix, "src/x.c", "f", [], cap=None)
-    if any(c[0] in ("R8", "R9") for c in default):
-        fail("rung R's default family set grew — R8/R9 must stay the engine's until measured")
+    if any(c[0] in ("R8", "R9", "R10", "R12", "R13") for c in default):
+        fail("rung R's default family set grew — R8..R13 must stay the engine's until measured")
+    # R10 on a void-parameter function must yield nothing; on (s32 *p, s32 q) one copy per parameter, pointer spelled `s32 *p2`
+    fix2 = ("s32 g(void)\n{\n    s32 d;\n    d = 1;\n    return d;\n}\n")
+    if dl.recipe_candidates(fix2, "src/x.c", "g", [], cap=None, families=("R10",)):
+        fail("R10 generated a parameter copy for a (void) function")
+    r10 = dl.recipe_candidates(fix, "src/x.c", "f", [], cap=None, families=("R10",))
+    if len(r10) != 2 or "s32 *p2;" not in r10[0][2] or "p2 = p;" not in r10[0][2] or "*(s32 *)(p2 + 4)" not in r10[0][2]:
+        fail(f"R10 parameter copies wrong: {[(c[0], c[1]) for c in r10]}")
+    # R12 widens/narrows a local; R13 reassociates a +/- chain; R8 names a repeated RHS once
+    fix3 = ("s32 h(s32 *p, s32 q)\n{\n    s32 a;\n    u16 w;\n    a = q + *(s32 *)(p + 4) - w;\n"
+            "    *(s16 *)(p + 28) = -a;\n    *(s16 *)(p + 24) = -a;\n    return a;\n}\n")
+    r12 = dl.recipe_candidates(fix3, "src/x.c", "h", [], cap=None, families=("R12",))
+    if [c[1] for c in r12] != ["width a s32->u16 @3", "width a s32->s16 @3", "width w u16->s32 @4"]:
+        fail(f"R12 widths wrong: {[c[1] for c in r12]}")
+    r13 = dl.recipe_candidates(fix3, "src/x.c", "h", [], cap=None, families=("R13",))
+    if len(r13) != 1 or "a = q - w + *(s32 *)(p + 4);" not in r13[0][2]:
+        fail(f"R13 reassociation wrong: {[(c[1], c[2].split(chr(10))[4]) for c in r13]}")
+    cse = [c for c in dl.recipe_candidates(fix3, "src/x.c", "h", [], cap=None, families=("R8",)) if c[1].startswith("cse")]
+    if len(cse) != 1 or "tmp0 = -a;" not in cse[0][2] or cse[0][2].count("= tmp0;") != 2:
+        fail(f"R8 common subexpression wrong: {[(c[1]) for c in cse]}")
     print(f"delever_search --selftest: {'OK' if ok else 'FAILED'} — classifier 6 cases, beam 4 cases, generators R8/R9")
     return ok
 
@@ -786,7 +860,9 @@ def main():
     g.add_argument("--run", action="store_true")
     g.add_argument("--positive-control", nargs=2, metavar=("TU", "FN"))
     g.add_argument("--status", action="store_true")
+    g.add_argument("--explain", nargs=2, metavar=("TU", "FN"), help="read one body's residual (no writes)")
     g.add_argument("--selftest", action="store_true")
+    ap.add_argument("--path", help="--explain: moves to apply first, `|`-separated, named as the trace names them")
     ap.add_argument("--only", nargs="*", default=[], help="fn, TU (substring), alias or nhash prefix")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--show", type=int, default=25)
@@ -811,6 +887,8 @@ def main():
         return cmd_plan(a)
     if a.status:
         return cmd_status(a)
+    if a.explain:
+        return explain(a)
     if a.positive_control:
         return positive_control(a)
     if a.run:

@@ -1281,17 +1281,35 @@ def is_decl_line(masked_line):
                 and re.match(r"^[A-Za-z_][\w \t]*[\s*]\s*\*?\s*[A-Za-z_]\w*\s*(?:\[[^\]]*\])*\s*(?:=|;)", s))
 
 
+DECL_START = re.compile(r"^(?:register\s+|static\s+|const\s+|volatile\s+|unsigned\s+|signed\s+|struct\s+|union\s+)*[A-Za-z_]\w*\s*\*?\s*[A-Za-z_]\w*\s*(?:\[[^\]]*\])*\s*=(?!=)")
+
+
 def decl_run_end(text, d):
     """the 0-based index of the LAST line of the declaration run that opens fn's body — a C89 declaration may not follow a
     statement, so an initializer split must put its assignment after the WHOLE run, not after the last pinned declaration."""
     lines = text.split("\n")
     last = d["line"] - 1
-    for i in range(d["line"], d["end"] - 1):
+    i = d["line"]
+    while i < d["end"] - 1:
         s = sc.mask_text(lines[i]).strip()
         if not s or s.startswith("/*") or s.startswith("//") or s in ("{", "}"):
+            i += 1
             continue
-        if is_decl_line(sc.mask_text(lines[i])):
-            last = i
+        if is_decl_line(sc.mask_text(lines[i])) or (DECL_KW.match(s) and s.endswith(";") and s.count("(") == s.count(")")):
+            last = i                                      # incl. `extern s16 (*D_x[])();` — a declaration is_decl_line refuses
+            i += 1
+            continue
+        # a declaration whose initializer continues on the next line(s): `s32 tmp = (ratan2(…) -` … `…) & 0xFFF;` — the run
+        # continues past it (S101: the locals declared after such a line were invisible to every declaration-level move)
+        if DECL_START.match(s) and "(" in s and s.count("(") > s.count(")"):
+            j, depth = i, 0
+            while j < d["end"] - 1:
+                depth += sc.mask_text(lines[j]).count("(") - sc.mask_text(lines[j]).count(")")
+                if depth <= 0 and sc.mask_text(lines[j]).rstrip().endswith(";"):
+                    break
+                j += 1
+            last = j
+            i = j + 1
             continue
         break
     return last
@@ -1477,11 +1495,15 @@ def block_wraps(text, tu, fn, d_):
 DEREF = re.compile(r"\*\s*\(\s*((?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\*+)\s*\)\s*")
 
 
+DECL_KW = re.compile(r"^\s*(?:extern|static|typedef|register|const|volatile|struct|union|enum)\b")
+
+
 def simple_stmt(masked_line):
-    """a whole simple statement alone on its line: ends with `;`, no control keyword, no declaration, no brace, no directive."""
+    """a whole simple statement alone on its line: ends with `;`, no control keyword, no declaration (an `extern s16
+    (*D_x[])();` is one too — is_decl_line refuses the `(`), no brace, no directive."""
     s = masked_line.strip()
-    return bool(s.endswith(";") and not CTRL_KW.match(s) and not is_decl_line(s) and not s.startswith("#")
-                and "{" not in s and "}" not in s)
+    return bool(s.endswith(";") and not CTRL_KW.match(s) and not is_decl_line(s) and not DECL_KW.match(s)
+                and not s.startswith("#") and "{" not in s and "}" not in s)
 
 
 def introduce_temps(text, tu, fn, d_):
@@ -1693,7 +1715,204 @@ def adjacent_swaps(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9")
+SCALAR_WIDTHS = {"s32": ("u16", "s16"), "u32": ("u16", "s16"), "s16": ("s32",), "u16": ("s32",)}
+
+
+def width_changes(text, tu, fn, d_):
+    """[(description, candidate text)] — R12: a local's declared scalar width changed (s32 -> u16/s16, u16/s16 -> s32; never
+    u8). Lane B 1c-1 / 2-2 (§194-B, byte-proven): MIPS has no PROMOTE_MODE, so a narrow local is an HImode pseudo whose set
+    from an SImode value cse's insert_regs refuses to join (cse.c:1017-1019) — the copy `ang = a` SURVIVES as `move s0,a0`
+    instead of dissolving into one register. Read on the bytes at S101: func_80148D44/func_80148E54's whole residual is
+    that one copy."""
+    lines = text.split("\n")
+    out = []
+    for i in range(d_["line"], decl_run_end(text, d_) + 1):
+        s = sc.mask_text(lines[i]).strip()
+        # a one-line declaration, or the FIRST line of one whose initializer continues (`s32 tmp = (ratan2(…) -`)
+        if not (is_decl_line(s) or (DECL_START.match(s) and s.count("(") > s.count(")"))) \
+                or "," in s.split("=")[0] or "*" in s.split("=")[0] or "[" in s:
+            continue
+        m = re.match(r"^(\s*)(s32|u32|s16|u16)(\s+[A-Za-z_]\w*\s*(?:=|;))", lines[i])
+        if not m:
+            continue
+        name = re.search(r"[A-Za-z_]\w*", m.group(3)).group(0)
+        for alt in SCALAR_WIDTHS[m.group(2)]:
+            cand = list(lines)
+            cand[i] = m.group(1) + alt + lines[i][m.end(2):]
+            out.append((f"width {name} {m.group(2)}->{alt} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+def terms_of(expr):
+    """[(op, start, end)] — the depth-0 terms of a `+`/`-` chain (op '' for the first); [] unless EVERY depth-0 binary
+    operator of the expression is `+` or `-` (a `*` or `&` in the chain would need precedence the generator does not model)."""
+    depth, terms, cur, op = 0, [], 0, ""
+    i = 0
+    while i < len(expr):
+        c = expr[i]
+        if c in "([":
+            depth += 1
+        elif c in ")]":
+            depth -= 1
+        elif depth == 0:
+            m = BINOP.match(expr, i)
+            if m:
+                prev = expr[:i].rstrip()
+                nxt = expr[m.end():m.end() + 1]
+                if prev and (prev[-1].isalnum() or prev[-1] in "_)]") and nxt not in "=" and expr[i - 1:i] not in "=<>!":
+                    if m.group(0) not in ("+", "-"):
+                        return []
+                    terms.append((op, cur, i))
+                    op, cur = m.group(0), m.end()
+                    i = m.end()
+                    continue
+        i += 1
+    if not terms:
+        return []
+    terms.append((op, cur, len(expr)))
+    return terms
+
+
+def reassociations(text, tu, fn, d_):
+    """[(description, candidate text)] — R13: two adjacent terms of a `+`/`-` chain exchanged with their operators
+    (`x + a - b` -> `x - b + a`). The evaluation order of a chain is the RTL order (expr.c `binop:` evaluates left to right),
+    which is the birth order local-alloc ties on; read on the bytes at S101 (func_8012E364 after two moves: `addu;subu` vs
+    `subu;addu`)."""
+    lines = text.split("\n")
+    out = []
+    for i in range(d_["line"], d_["end"] - 1):
+        raw_line, s = lines[i], sc.mask_text(lines[i])
+        if not simple_stmt(s):
+            continue
+        asg = re.search(r"(?<![=!<>+\-*/%&|^~])=(?!=)", s)
+        ret = re.match(r"^\s*return\b", s)
+        start = asg.end() if asg else (ret.end() if ret else -1)
+        if start < 0:
+            continue
+        end = s.rstrip().rfind(";")
+        terms = terms_of(s[start:end])
+        if len(terms) < 3:
+            continue
+        for k in range(1, len(terms) - 1):
+            (o1, s1, e1), (o2, s2, e2) = terms[k], terms[k + 1]
+            t1, t2 = raw_line[start + s1:start + e1].strip(), raw_line[start + s2:start + e2].strip()
+            if not t1 or not t2:
+                continue
+            new_expr = raw_line[start:start + terms[k][1]].rstrip()
+            head = new_expr[:len(new_expr) - len(o1)].rstrip() if new_expr.endswith(o1) else new_expr
+            rest = raw_line[start + e2:end]
+            cand = list(lines)
+            cand[i] = raw_line[:start] + head + f" {o2} {t2} {o1} {t1}" + rest + raw_line[end:]
+            out.append((f"assoc {o1}{o2} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+def common_subexprs(text, tu, fn, d_):
+    """[(description, candidate text)] — R8's third form: an RHS spelled identically by two or more statements named ONCE in
+    a temp before the first (`*p = -v; *q = -v;` -> `t = -v; *p = t; *q = t;`). Lane B class 2 row 1 ("name a value the
+    target computed once"); read on the bytes at S101 (func_8012E364's target negates into a fresh register and stores it
+    twice; mine negates in place)."""
+    lines = text.split("\n")
+    out = []
+    last = decl_run_end(text, d_)
+    types = local_types(text, d_)
+    used = set(IDENT.findall(sc.mask_text("\n".join(lines[d_["line"] - 1:d_["end"]]))))
+    k = 0
+    while f"tmp{k}" in used:
+        k += 1
+    name = f"tmp{k}"
+    rhs_at = collections.defaultdict(list)
+    for i in range(last + 1, d_["end"] - 1):
+        s = sc.mask_text(lines[i])
+        if not simple_stmt(s):
+            continue
+        asg = re.search(r"(?<![=!<>+\-*/%&|^~])=(?!=)", s)
+        if not asg:
+            continue
+        end = s.rstrip().rfind(";")
+        rhs = " ".join(s[asg.end():end].split())
+        if not rhs or re.fullmatch(r"[A-Za-z_]\w*|-?\d+|-?0x[0-9A-Fa-f]+", rhs):
+            continue
+        rhs_at[rhs].append((i, asg.end(), end))
+    for rhs, places in rhs_at.items():
+        if len(places) < 2:
+            continue
+        i0 = places[0][0]
+        lhs = sc.mask_text(lines[i0])[:places[0][1] - 1].strip()
+        typ = types.get(lhs) if re.fullmatch(r"[A-Za-z_]\w*", lhs) else None
+        mm = DEREF.match(rhs)
+        if typ is None and mm:
+            typ = re.sub(r"\s*\*\s*$", "", " ".join(mm.group(1).replace("*", " * ").split()))
+        typ = typ or "s32"
+        indent = lines[i0][:len(lines[i0]) - len(lines[i0].lstrip())]
+        dind = lines[last][:len(lines[last]) - len(lines[last].lstrip())] if last >= d_["line"] else indent
+        cand = list(lines)
+        for i, a_end, end in places:
+            cand[i] = lines[i][:a_end] + " " + name + lines[i][end:]
+        cand.insert(i0, f"{indent}{name} = {lines[i0][places[0][1]:places[0][2]].strip()};")
+        cand.insert(last + 1, f"{dind}{typ} {name};")
+        out.append((f"cse {name} @{i0 + 1}", "\n".join(cand)))
+    return out
+
+
+def param_copies(text, tu, fn, d_):
+    """[(description, candidate text)] — R10: a parameter routed through a body-local copy (`T p2; p2 = p;` after the
+    declaration run, every body use renamed), and the reverse (a local that is a plain copy of a parameter and is never
+    re-assigned: its uses read the parameter, the copy goes). Lane B 1a-9 (map-proven, S13): the incoming $aN dies at the
+    head copy and is free for any scratch temp's first fit; a mid-body copy keeps $aN live into the contested window."""
+    lines = text.split("\n")
+    out = []
+    head = " ".join(lines[d_["line"] - 1].split())
+    m = re.match(r"^.*?\b" + re.escape(fn) + r"\s*\((.*)\)\s*\{?$", head)
+    if not m:
+        return out
+    params = []
+    for part in m.group(1).split(","):
+        # the type and the name must be SEPARATED (whitespace or `*`): without that, `void` parsed as type `voi` + name `d`
+        # and a void-parameter function grew a "parameter copy" of a local called d (S101)
+        pm = re.match(r"^\s*((?:struct\s+|union\s+|unsigned\s+)?[A-Za-z_]\w*)(\s*\*+\s*|\s+)([A-Za-z_]\w*)\s*$", part)
+        if pm and pm.group(3) != "void":
+            stars = pm.group(2).count("*")
+            typ = " ".join(pm.group(1).split()) + (" " + "*" * stars if stars else "")    # `s32 *` -> the tree's `s32 *p2`
+            params.append((typ, pm.group(3)))
+    if not params:
+        return out
+    last = decl_run_end(text, d_)
+    lo, hi = d_["line"], d_["end"] - 1
+    masked = [sc.mask_text(l) for l in lines]
+    body_names = set(IDENT.findall("\n".join(masked[lo:hi])))
+    for typ, p in params:
+        uses = [i for i in range(last + 1, hi) if re.search(r"(?<![\w.>])%s(?![\w])" % re.escape(p), masked[i])]
+        if not uses:
+            continue
+        new = p + "2"
+        while new in body_names:
+            new += "2"
+        cand = list(lines)
+        for i in uses:
+            cand[i] = re.sub(r"(?<![\w.>])%s(?![\w])" % re.escape(p), new, lines[i])
+        dind = lines[last][:len(lines[last]) - len(lines[last].lstrip())] if last >= lo else "    "
+        cand.insert(last + 1, f"{dind}{new} = {p};")
+        cand.insert(last + 1, f"{dind}{typ}{'' if typ.endswith('*') else ' '}{new};")
+        out.append((f"param-copy {p} @{last + 2}", "\n".join(cand)))
+        # the reverse: `x = p;` once, x never assigned again -> every use of x reads p
+        for i in range(last + 1, hi):
+            am = re.match(r"^\s*([A-Za-z_]\w*)\s*=\s*%s\s*;\s*$" % re.escape(p), masked[i])
+            if not am:
+                continue
+            x = am.group(1)
+            if any(re.search(r"(?<![\w.>])%s\s*(?:[-+*/&|^]|<<|>>)?=(?!=)" % re.escape(x), masked[j]) for j in range(lo, hi) if j != i):
+                continue
+            cand = list(lines)
+            cand[i] = None
+            for j in range(lo, hi):
+                if j != i and cand[j] is not None and not is_decl_line(masked[j].strip()):
+                    cand[j] = re.sub(r"(?<![\w.>])%s(?![\w])" % re.escape(x), p, cand[j])
+            out.append((f"param-alias {x}->{p} @{i + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -1779,9 +1998,20 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
             out.append(("R8", desc, cand))
         for desc, cand in hoist_operands(text, tu, fn, d_):
             out.append(("R8", desc, cand))
+        for desc, cand in common_subexprs(text, tu, fn, d_):
+            out.append(("R8", desc, cand))
     if "R9" in fam:
         for desc, cand in adjacent_swaps(text, tu, fn, d_):
             out.append(("R9", desc, cand))
+    if "R10" in fam:
+        for desc, cand in param_copies(text, tu, fn, d_):
+            out.append(("R10", desc, cand))
+    if "R12" in fam:
+        for desc, cand in width_changes(text, tu, fn, d_):
+            out.append(("R12", desc, cand))
+    if "R13" in fam:
+        for desc, cand in reassociations(text, tu, fn, d_):
+            out.append(("R13", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))

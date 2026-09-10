@@ -724,6 +724,23 @@ accumulate here as the phase produces them.**
   (fold moves the constant), `m & x` vs `x & m` differ in one word (`and v0,v0,a1` vs `and v0,a1,v0`) — R5 no longer generates
   a constant-operand swap (selftest updated). Commits: this bank + the two tool refinements.
 
+- **S101 — the engine's second generator round, from the residuals read with the new `--explain TU FN [--path "m1|m2"]`
+  (the residual as mnemonic blocks, mine vs the target, after any move path):** the two 6-distance bodies (`func_80148D44`,
+  `func_80148E54`) are ONE surviving copy — the target computes `andi a0,v0,0xfff` and copies `move s0,a0` in the branch's delay
+  slot, mine folds the copy into `andi s0` (combine merges a single-use def into its copy; the keep-alive/launder was the drafter's
+  second use); `func_8012E364` after its best two moves (7) is an ASSOCIATION order (`addu;subu` vs `subu;addu` — `x + a3 - a1` vs
+  `x - a1 + a3`) plus a negation the target names once for two stores; `func_80135A4C` (40) is a duplicated call tail the target
+  keeps and mine cross-jumps (`jal;li;beqz;nop` vs `j`) with the s5/s6/s7 bank rotated. **Generators added to the registry
+  (each with a selftest case, lane B's row in the docstring):** R10 a parameter routed through a body-local copy and the
+  reverse (1a-9), R12 a local's scalar width (1c-1/2-2), R13 two adjacent terms of a `+`/`-` chain exchanged, R8's third form
+  a repeated RHS named once. **Tested on bytes:** R12 on `ang` AND on the source `a` (u16 and s16) leaves func_80148D44's 6
+  unchanged — combine folds the narrowing of a value already masked to 12 bits (nonzero_bits), so lane B's 1c-1 does not
+  reach this copy; the class stays open (a second real use of the copied value is what the keep-alive stood in for). Generator
+  defects fixed on the way: an `extern s16 (*D_x[])();` line ended the declaration run (every local after it invisible to
+  R2/R3/R4/R12) and was offered to R7 as a statement; a multi-line initializer ended the run; `(void)` parsed as type `voi` +
+  name `d` (a phantom parameter copy); `s32 * p2` spacing. Next: run `g2` on the same head with the new families and a wider
+  structure (beam 4 × depth 4 × cap 64, budget 1,500) at 8 workers.
+
 ## 🛑 SESSION CHECKPOINT — S100 (2026-09-09): T0–T6 ☑ — all committed; **S101 IN PROGRESS: lane B DELIVERED (`.run/P36/engine/residual_moves.md`, 58 moves, one verified on bytes); lane A rung G `tools/delever_search.py` BUILT, controlled and MEASURED — run g1: 1 of 16 exemplars (the one rung D could not), 132 bodies banked, R22 218/218; NEXT = iterate the engine from its traces (generators from lane B's map: param-copy, scope, width; wider beam), then the next draw** | the number: **33,295 sites** (19,982 pins + 13,313 asm) in 11,916 bodies · marked 33,295 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (4 milestones)
 
 ### 0. How to use this block
