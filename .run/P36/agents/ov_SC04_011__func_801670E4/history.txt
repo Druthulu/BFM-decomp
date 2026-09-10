@@ -7,16 +7,17 @@ s4: verdict NO-MATCH start 45 best 43 compiles 441 path R7 do-while @5233 + R6 i
 s7: verdict NO-MATCH start 45 best 43 compiles 560 path R7 do-while @5233 + R6 inline gA @5257
 s8: verdict NO-MATCH start 45 best 43 compiles 253 path R7 do-while @5231 + R6 inline gA @5255
 s9: verdict NO-MATCH start 45 best 43 compiles 253 path R7 do-while @5231 + R6 inline gA @5255
+s10: verdict NO-MATCH start 45 best 43 compiles 253 path R7 do-while @5225 + R6 inline gA @5249
 best-scoring single candidates of the last trace (move -> score [residual class]):
-  R6 inline gA @5255 -> 43 [COUNT] (from 44)
-  R6 inline gA @5258 -> 43 [COUNT] (from 44)
-  R7 do-while @5231 -> 44 [COUNT] (from 45)
-  R6 inline gA @5255 -> 44 [COUNT] (from 45)
-  R6 inline gA @5258 -> 44 [COUNT] (from 45)
-  R10 param-copy arg0 @5198 -> 44 [COUNT] (from 44)
+  R6 inline gA @5249 -> 43 [COUNT] (from 44)
+  R6 inline gA @5252 -> 43 [COUNT] (from 44)
+  R7 do-while @5225 -> 44 [COUNT] (from 45)
+  R6 inline gA @5249 -> 44 [COUNT] (from 45)
+  R6 inline gA @5252 -> 44 [COUNT] (from 45)
+  R10 param-copy arg0 @5192 -> 44 [COUNT] (from 44)
   R2 decl-order 1,0 -> 44 [COUNT] (from 44)
   R4 decl-move gA 16->0 -> 44 [COUNT] (from 44)
-  R6 inline vb @5212 -> 44 [COUNT] (from 44)
-  R8 temp tmp0 @5200 -> 44 [COUNT] (from 44)
-  R7 block @5232 -> 44 [COUNT] (from 44)
-  R10 param-copy arg1 @5198 -> 44 [COUNT] (from 44)
+  R6 inline vb @5206 -> 44 [COUNT] (from 44)
+  R8 temp tmp0 @5194 -> 44 [COUNT] (from 44)
+  R7 block @5226 -> 44 [COUNT] (from 44)
+  R10 param-copy arg1 @5192 -> 44 [COUNT] (from 44)

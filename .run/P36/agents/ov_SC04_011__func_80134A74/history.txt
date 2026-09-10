@@ -6,6 +6,7 @@ s2: verdict NO-MATCH start 30 best 26 compiles 190 path R9 swap-stmts @2808
 s4: verdict NO-MATCH start 30 best 25 compiles 438 path R9 swap-stmts @2808 + R9 swap-stmts @2793
 s7: verdict NO-MATCH start 30 best 22 compiles 562 path R6 inline p0 @2807 + R12 width hic u32->u16 @2786 + R9 swap-stmts @2807
 s9: verdict NO-MATCH start 30 best 25 compiles 250 path R9 swap-stmts @2810 + R9 swap-stmts @2795
+s10: verdict NO-MATCH start 30 best 25 compiles 251 path R9 swap-stmts @2810 + R9 swap-stmts @2795
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R9 swap-stmts @2795 -> 25 [COUNT] (from 26)
   R9 swap-stmts @2810 -> 26 [COUNT] (from 30)

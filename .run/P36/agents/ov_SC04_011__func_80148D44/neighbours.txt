@@ -1,0 +1,41 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: schedule
+// @stuck: none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_80192964 block defeats the tail-merge of the two identical D_80192964 loads; barrier emits zero bytes, load-bearing)
+// @class: other
+// @stuck: none — MATCH (62 ins). Sibling func_80145934 (byte-matched, same shape) is the template. Tail is default-then-conditional-override (matches asm .L80145AEC), and a §5a cross-jump barrier prevents the two identical D_801929F4 loads (>=0x6A4 and >=0x384) from being tail-merged.
+// @class: struct
+// @stuck: 2 residuals — (1) target RELOADS global ptr D_80126B78 before each of its 5 field accesses (f28/f18/f1a/f1c/f2c); gcc-2.7.2 CSEs the single pointer load in every clean-C form I tried (int-cast, (s8*)/(s32) M2C_FIELD, struct*), keeping ONE load. volatile forces reloads but hoists them + leaves delay-slot nops the target fills (target is NOT volatile). (2) frame 0x20 not 0x18: target reserves an unused 8-byte stack local @0x10 (address-taken local — reproduced, but every code-free escape optimizes away and a visible escape corrupts the func_80145EE8(0) arg). Structure/order/values/callees all match; only the alias-driven reload chain + the phantom frame local remain. Family exemplar (~130 overlays).
+// @class: schedule
+// @stuck: branch layout — 3-way dispatch on param_1; trying switch form
+// @class: struct
+// @stuck: none — MATCH (fnptr-table idiom: D_80191F1C[u8 idx](&arg))
+// @class: regalloc-order
+// @stuck: none — MATCH (71 ins). switch binary-tree; s1 angle = pin-source-of-copy ($5 temp + retie); 2nd-block double-load + 0x80-clobber via $v1/$v0/$a0 pins + lazy hi-pin reusing dead c80 reg
+// @class: schedule
+// @stuck: none — MATCH (68 ins)
+// @class: regalloc-order
+// @stuck: none — MATCH (34 ins). param_2 pinned to $s0; the two stack out-bufs (in@0x10,
+// @class: regalloc-order
+// @stuck: none — MATCH (38 ins)
+// @class: struct
+// @stuck: none — MATCH (90 ins). Keys: (1) single Loc struct pins the 0x10..0x25 stack
+// @class: schedule
+// @stuck: none — MATCH (match_one 91/91)
+// @class: schedule
+// @stuck: none — MATCH (304/304), symcheck SYMS-OK 12/12, and the whole-TU cc1 stage now compiles CLEAN
+// @class: other
+// @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper; no trailing .set reorder — that adds a stray epilogue nop)
+// @class: plumbing
+// @stuck: none — MATCH (22 ins, relocation-masked). Handwritten scratchpad-stack-switch
+// @class: other
+// @stuck: none — MATCH (full inline-asm $sp-switch trampoline w/ 0x40000 guard, jal func_8014FA70, stash D_801EDB5C; maspsx auto-fills jal delay slot)
+// @class: other
+// @stuck: none — MATCH (22 ins, relocation-masked). Handwritten scratchpad-stack-switch
+// @class: regalloc-order
+// @stuck: none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
+// @class: regalloc-order
+// @stuck: none — MATCH (67 ins)
+// @class: struct
+// @stuck: none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
+// @class: regalloc-order
+// @stuck: none — MATCH (33/33)

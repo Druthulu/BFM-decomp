@@ -6,6 +6,7 @@ s2: verdict NO-MATCH start 38 best 34 compiles 188 path R8 temp tmp0 @1068 + R7 
 s4: verdict NO-MATCH start 38 best 34 compiles 437 path R8 temp tmp0 @1068 + R7 do-while @1063
 s7: verdict NO-MATCH start 38 best 34 compiles 555 path R8 temp tmp0 @1068 + R7 do-while @1063
 s9: verdict NO-MATCH start 38 best 34 compiles 252 path R8 temp tmp0 @1068 + R7 do-while @1063
+s10: verdict NO-MATCH start 38 best 34 compiles 252 path R8 temp tmp0 @1068 + R7 do-while @1063
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R7 do-while @1063 -> 34 [COUNT] (from 35)
   R7 do-while @1060 -> 34 [COUNT] (from 35)

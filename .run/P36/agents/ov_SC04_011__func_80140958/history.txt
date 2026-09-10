@@ -7,6 +7,7 @@ s3b: verdict BUDGET start 43 best 30 compiles 400 path R9 swap-stmts @1102 + R7 
 s4: verdict NO-MATCH start 43 best 30 compiles 434 path R9 swap-stmts @1102 + R7 do-while @1101 + R5 swap | @1141
 s7: verdict NO-MATCH start 43 best 30 compiles 552 path R9 swap-stmts @1102 + R7 do-while @1101 + R5 swap | @1141
 s9: verdict NO-MATCH start 43 best 34 compiles 250 path R9 swap-stmts @1102 + R7 do-while @1101
+s10: verdict NO-MATCH start 43 best 34 compiles 250 path R9 swap-stmts @1102 + R7 do-while @1101
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R7 do-while @1101 -> 34 [COUNT] (from 43)
   R18 bystander @1101->1104 -> 34 [COUNT] (from 43)

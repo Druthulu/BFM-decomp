@@ -5,6 +5,7 @@ s2: verdict NO-MATCH start 96 best 74 compiles 189 path R12 width uVar3 u32->u8 
 s4: verdict NO-MATCH start 96 best 66 compiles 440 path R12 width uVar3 u32->u8 @1472 + R7 do-while @1489 + R7 do-while @1487
 s7: verdict NO-MATCH start 96 best 66 compiles 565 path R12 width uVar3 u32->u8 @1472 + R7 do-while @1489 + R7 do-while @1487
 s9: verdict NO-MATCH start 96 best 74 compiles 253 path R12 width uVar3 u32->u8 @1472 + R7 do-while @1489
+s10: verdict NO-MATCH start 96 best 74 compiles 253 path R12 width uVar3 u32->u8 @1472 + R7 do-while @1489
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R7 do-while @1489 -> 74 [COUNT] (from 84)
   R7 do-while @1488 -> 74 [COUNT] (from 84)

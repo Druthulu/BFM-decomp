@@ -5,16 +5,17 @@ s2: verdict NO-MATCH start 90 best 65 compiles 188 path R12 width amp s32->s16 @
 s4: verdict NO-MATCH start 90 best 63 compiles 437 path R12 width amp s32->s16 @3318 + R7 do-while @3328 + R9 swap-stmts @3342
 s7: verdict NO-MATCH start 90 best 56 compiles 559 path R12 width amp s32->s16 @3318 + R10 param-alias pv->param_1 @3326 + R12 width chg s32->u16 @3316
 s9: verdict NO-MATCH start 90 best 65 compiles 251 path R12 width amp s32->s16 @3318 + R7 do-while @3328
+s10: verdict NO-MATCH start 90 best 36 compiles 256 path R20 chain-narrow c+chg+chg2+t & amp+av -> s16
 best-scoring single candidates of the last trace (move -> score [residual class]):
-  R7 do-while @3328 -> 65 [COUNT] (from 79)
-  R7 do-while @3324 -> 71 [COUNT] (from 79)
-  R7 do-while @3325 -> 71 [COUNT] (from 79)
-  R7 do-while @3328 -> 76 [COUNT] (from 90)
-  R12 width pv s32->u16 @3320 -> 76 [COUNT] (from 76)
-  R7 block @3324 -> 76 [COUNT] (from 76)
-  R12 width pv s32->s16 @3320 -> 76 [COUNT] (from 76)
-  R10 param-copy param_1 @3323 -> 76 [COUNT] (from 76)
-  R6 inline fb @3416 -> 76 [COUNT] (from 76)
-  R8 hoist tmp0 @3325 -> 76 [COUNT] (from 76)
-  R7 block @3326 -> 76 [COUNT] (from 76)
-  R5 swap + @3325 -> 76 [COUNT] (from 76)
+  R20 chain-narrow c+chg+chg2+t & amp+av -> s16 -> 36 [COUNT] (from 90)
+  R12 width pv s32->u16 @3320 -> 36 [COUNT] (from 36)
+  R8 temp tmp0 @3379 -> 36 [COUNT] (from 36)
+  R7 block @3379 -> 36 [COUNT] (from 36)
+  R12 width pv s32->s16 @3320 -> 36 [COUNT] (from 36)
+  R8 base tmp0 @3379 -> 36 [COUNT] (from 36)
+  R7 do-while @3379 -> 36 [COUNT] (from 36)
+  R5 swap + @3325 -> 36 [COUNT] (from 36)
+  R10 param-copy param_1 @3323 -> 36 [COUNT] (from 36)
+  R7 block @3324 -> 36 [COUNT] (from 36)
+  R9 swap-stmts @3466 -> 36 [COUNT] (from 36)
+  R12 width tgt u16->s16 @3319 -> 36 [COUNT] (from 36)

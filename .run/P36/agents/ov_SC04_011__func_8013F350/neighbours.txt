@@ -1,0 +1,5 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: regalloc-order
+// @stuck: none — MATCH (490 ins, match_one, canonical-typed)
+// @class: regalloc-order
+// @stuck: none — MATCH (312/312, relocation-masked)

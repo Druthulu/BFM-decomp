@@ -5,6 +5,7 @@ s2: verdict NO-MATCH start 17 best 14 compiles 189 path R6 inline uVar2 @1731
 s4: verdict NO-MATCH start 17 best 14 compiles 441 path R6 inline uVar2 @1731
 s7: verdict NO-MATCH start 17 best 14 compiles 562 path R6 inline uVar2 @1731
 s9: verdict NO-MATCH start 17 best 14 compiles 252 path R6 inline uVar2 @1731
+s10: verdict NO-MATCH start 17 best 14 compiles 252 path R6 inline uVar2 @1731
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R6 inline uVar2 @1731 -> 14 [COUNT] (from 17)
   R18 bystander @1701->1704 -> 14 [COUNT] (from 14)

@@ -1,0 +1,20 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: regalloc-order
+// @stuck: none — MATCH (match_one 100/100 + rtu_match real-TU); needs the PAIRED //@EDIT on ((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)(return s16->s32 + `s32 result;`->`s16 result;`, whole-TU byte-neutral, verified) + one $s1 pin on `flag`
+// @class: struct
+// @stuck: none — MATCH (289 ins). symcheck: only the cosmetic jtbl_801D81B8 floor (§8 carve).
+// @class: regalloc-order — per-location family member of ov_SC01_077 exemplar func_801365B8 (x134).
+// @stuck: none — MATCH expected; identical structure, only the 4 data ptrs differ (AC/B0/B4/B8 -> B64/68/6C/70).
+// @class: pointer-type — pointer-vs-array reconcile for func_80136824 (ov_SC01_077_a)
+// @class: schedule
+// @stuck: none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
+// @class: struct
+// @stuck: none — MATCH (28 ins). 10-byte 1-aligned struct copy (S10_80136C90{char s[10]}) from global D_801A3488 into a stack buffer, then func_8001534C(0,&buf,0x78,0x10,0,0). gcc emits the block move as 2 unaligned words (lwl/lwr+swl/swr) + 2 bytes (lb/sb).
+// @class: schedule (arg-copy placement) — PIN-FREE
+/* @class: plumbing (globals-around-two-calls)
+ * @stuck: none — MATCH (51 ins).
+// @class: regalloc-order (walker-family, §52/§52a) — PIN-FREE
+// @class: remat
+// @stuck: target CSEs &D_801269F0 once for load+call arg; force via local pointer
+// @class: plumbing
+// @stuck: none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &D_801269F0 held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.

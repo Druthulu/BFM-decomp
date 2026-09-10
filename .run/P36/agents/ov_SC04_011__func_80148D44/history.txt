@@ -6,16 +6,17 @@ s2: verdict NO-MATCH start 6 best 6 compiles 148 path
 s4: verdict NO-MATCH start 6 best 6 compiles 258 path 
 s7: verdict NO-MATCH start 6 best 6 compiles 324 path 
 s9: verdict NO-MATCH start 6 best 6 compiles 154 path 
+s10: verdict NO-MATCH start 6 best 6 compiles 162 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
+  R20 chain-narrow a+ang -> s16 -> 6 [COUNT] (from 6)
   R12 width a s32->u16 @720 -> 6 [COUNT] (from 6)
   R6 inline ang @729 -> 6 [COUNT] (from 6)
   R7 block @729 -> 6 [COUNT] (from 6)
   R9 swap-stmts @728 -> 6 [COUNT] (from 6)
   R4 decl-move a 6->0 -> 6 [COUNT] (from 6)
+  R20 chain-narrow a+ang -> u16 -> 6 [COUNT] (from 6)
   R12 width a s32->s16 @720 -> 6 [COUNT] (from 6)
   R4 decl-move a 6->1 -> 6 [COUNT] (from 6)
   R6 inline res @751 -> 6 [COUNT] (from 6)
   R8 hoist tmp0 @751 -> 6 [COUNT] (from 6)
   R4 decl-move a 6->2 -> 6 [COUNT] (from 6)
-  R4 decl-move a 6->3 -> 6 [COUNT] (from 6)
-  R12 width d s32->s16 @723 -> 6 [COUNT] (from 6)

@@ -5,6 +5,7 @@ s2: verdict NO-MATCH start 25 best 16 compiles 167 path R7 do-while @3019 + R7 d
 s4: verdict NO-MATCH start 25 best 16 compiles 419 path R18 bystander @3012->3018
 s7: verdict NO-MATCH start 25 best 16 compiles 532 path R18 bystander @3012->3018
 s9: verdict NO-MATCH start 25 best 16 compiles 244 path R18 bystander @3014->3020
+s10: verdict NO-MATCH start 25 best 16 compiles 244 path R18 bystander @3014->3020
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R18 bystander @3014->3020 -> 16 [COUNT] (from 25)
   R7 block @3015 -> 16 [COUNT] (from 16)

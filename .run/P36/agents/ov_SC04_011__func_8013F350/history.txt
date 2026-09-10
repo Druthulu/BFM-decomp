@@ -5,6 +5,7 @@ s2: verdict NO-MATCH start 70 best 70 compiles 188 path
 s4: verdict NO-MATCH start 70 best 70 compiles 437 path 
 s7: verdict NO-MATCH start 70 best 70 compiles 557 path 
 s9: verdict NO-MATCH start 70 best 70 compiles 252 path 
+s10: verdict NO-MATCH start 70 best 70 compiles 252 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R3 init-split pd -> 70 [COUNT] (from 70)
   R7 block @1024 -> 70 [COUNT] (from 70)

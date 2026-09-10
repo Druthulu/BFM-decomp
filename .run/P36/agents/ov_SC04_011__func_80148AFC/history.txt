@@ -8,6 +8,7 @@ s3b: verdict NO-MATCH start 23 best 18 compiles 300 path R9 swap-stmts @663 + R1
 s4: verdict NO-MATCH start 23 best 18 compiles 300 path R9 swap-stmts @663 + R12 width tmp s32->u8 @642
 s7: verdict NO-MATCH start 23 best 18 compiles 390 path R9 swap-stmts @663 + R12 width tmp s32->u8 @642
 s9: verdict NO-MATCH start 23 best 18 compiles 178 path R9 swap-stmts @663 + R12 width tmp s32->u8 @642
+s10: verdict NO-MATCH start 23 best 18 compiles 178 path R9 swap-stmts @663 + R12 width tmp s32->u8 @642
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R12 width tmp s32->u8 @642 -> 18 [COUNT] (from 20)
   R9 swap-stmts @663 -> 20 [COUNT] (from 23)

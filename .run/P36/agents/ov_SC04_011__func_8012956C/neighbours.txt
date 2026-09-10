@@ -1,0 +1,15 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: other
+// @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper w/ branch)
+// @class: remat
+// @stuck: none — MATCH (62 ins). D_801F1640 read needed the address REMATERIALIZED
+// @class: remat
+// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @class: remat
+// @stuck: none — MATCH (pointer-var forces single materialization of &D_800C7C60, reused as store base + arg5)
+// @class: remat
+// @stuck: none — MATCH. &D_800C7C60 must be CSE'd once (pointer local `p`) so the same reg feeds the *p=13 store AND arg5; writing D_800C7C60=13 directly emits a 2nd address materialization (+1 ins).
+// @class: schedule
+// @stuck: none — MATCH (158 ins, match_one relocation-masked)
+// @class: regalloc-order
+// @stuck: none — MATCH (78 ins, relocation-masked). Register pins ($2-$5 reused for

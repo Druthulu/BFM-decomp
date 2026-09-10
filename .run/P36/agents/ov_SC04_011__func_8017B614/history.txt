@@ -5,6 +5,7 @@ s2: verdict NO-MATCH start 13 best 13 compiles 188 path
 s4: verdict NO-MATCH start 13 best 13 compiles 439 path 
 s7: verdict NO-MATCH start 13 best 7 compiles 561 path R7 do-while @2936 + R7 block @2944 + R7 do-while @2946
 s9: verdict NO-MATCH start 13 best 13 compiles 252 path 
+s10: verdict NO-MATCH start 13 best 13 compiles 252 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R7 block @2946 -> 13 [COUNT] (from 13)
   R10 param-copy param_1 @2921 -> 13 [COUNT] (from 13)

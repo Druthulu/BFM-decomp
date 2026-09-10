@@ -6,6 +6,7 @@ s2: verdict NO-MATCH start 29 best 16 compiles 190 path R10 param-alias p1->arg1
 s4: verdict NO-MATCH start 29 best 16 compiles 444 path R10 param-alias p1->arg1 @647 + R6 inline m @654
 s7: verdict NO-MATCH start 29 best 16 compiles 569 path R10 param-alias p1->arg1 @647 + R6 inline m @654
 s9: verdict NO-MATCH start 29 best 16 compiles 254 path R10 param-alias p1->arg1 @647 + R6 inline m @654
+s10: verdict NO-MATCH start 29 best 16 compiles 254 path R10 param-alias p1->arg1 @647 + R6 inline m @654
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R6 inline m @654 -> 16 [COUNT] (from 20)
   R6 inline m @660 -> 16 [COUNT] (from 20)

@@ -6,13 +6,14 @@ s2: verdict NO-MATCH start 135 best 119 compiles 188 path R6 inline yt @3670 + R
 s4: verdict NO-MATCH start 135 best 114 compiles 439 path R6 inline yt @3670 + R9 swap-stmts @3673 + R12 width x s32->u8 @3635
 s7: verdict NO-MATCH start 135 best 114 compiles 561 path R6 inline yt @3670 + R9 swap-stmts @3673 + R12 width x s32->u8 @3635
 s9: verdict NO-MATCH start 135 best 119 compiles 253 path R6 inline yt @3670 + R16 const-holder cc1=0x74808080 x2
+s10: verdict NO-MATCH start 135 best 116 compiles 253 path R6 inline yt @3670 + R20 chain-narrow tbli+tr -> s16
 best-scoring single candidates of the last trace (move -> score [residual class]):
+  R20 chain-narrow tbli+tr -> s16 -> 116 [COUNT] (from 130)
+  R20 chain-narrow bb+bits & tbli+tr -> s16 -> 116 [COUNT] (from 130)
   R16 const-holder cc1=0x74808080 x2 -> 119 [COUNT] (from 130)
   R9 swap-stmts @3673 -> 119 [COUNT] (from 130)
-  R18 bystander @3672->3675 -> 119 [COUNT] (from 130)
   R12 width x s32->u8 @3635 -> 122 [COUNT] (from 128)
   R18 bystander @3673->3679 -> 122 [COUNT] (from 128)
-  R18 bystander @3674->3679 -> 122 [COUNT] (from 128)
   R18 bystander @3673->3676 -> 123 [COUNT] (from 128)
   R18 bystander @3673->3677 -> 123 [COUNT] (from 128)
   R16 const-holder cc1=0x74808080 x2 -> 123 [COUNT] (from 128)

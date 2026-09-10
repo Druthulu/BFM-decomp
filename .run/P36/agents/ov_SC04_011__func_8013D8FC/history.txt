@@ -5,6 +5,7 @@ s2: verdict NO-MATCH start 25 best 20 compiles 184 path R9 swap-stmts @1433 + R9
 s4: verdict NO-MATCH start 25 best 19 compiles 408 path R9 swap-stmts @1433 + R9 swap-stmts @1427 + R18 bystander @1441->1439
 s7: verdict NO-MATCH start 25 best 19 compiles 519 path R9 swap-stmts @1433 + R9 swap-stmts @1427 + R18 bystander @1441->1439
 s9: verdict NO-MATCH start 25 best 20 compiles 240 path R9 swap-stmts @1433 + R9 swap-stmts @1427
+s10: verdict NO-MATCH start 25 best 20 compiles 240 path R9 swap-stmts @1433 + R9 swap-stmts @1427
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R9 swap-stmts @1427 -> 20 [COUNT] (from 22)
   R7 do-while @1427 -> 20 [COUNT] (from 22)

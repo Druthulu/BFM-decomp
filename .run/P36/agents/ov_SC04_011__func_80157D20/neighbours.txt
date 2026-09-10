@@ -1,0 +1,26 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: struct
+// @stuck: none — MATCH (array-of-struct stride-8 base materialize + addu, %lo folded into addiu)
+// @class: struct
+// @stuck: none — MATCH expected; decrement persists as separate addiu in delay slot
+// @class: MATCH (18 ins) — match_one, asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80154C24
+// @class: struct
+// @stuck: none — MATCH expected; D_8011520C indexed by param_2 (byte) folds %lo; D_80192700 indexed halfword folds %lo
+// @class: plumbing
+// @stuck: none — MATCH expected (scalar global store + two sequential calls, param_1 saved across)
+// @class: struct
+// @stuck: none — MATCH expected (fnptr-table %lo-fold via extern array + global counter decrement + two saved-param calls)
+// @class: plumbing
+// @stuck: none — MATCH (expected); STUB: param_1 held in $s0 across calls, u8 store of 9 before func_80154274
+// @class: other
+// @stuck: none — MATCH (76 ins). Body is byte-identical with a plain transcription; the only
+// @class: plumbing
+// @stuck: none — MATCH (expected); straight-line call sequence with two stores scheduled into jal delay slots
+// @class: other
+// @stuck: none — MATCH (branch-polarity invert on both dispatch ifs + goto block-order to put the v1!=0/L508 paths as fallthrough; phantom 0x10 frame via address-taken frame_pad[4] + (void)& — zero code)
+// @class: loose-typing
+// @stuck: none — MATCH (87 ins, match_one) + symcheck SYMS-OK (17 symbols agree); same file also
+// @class: plumbing
+// @stuck: none — MATCH expected (3 scalar global stores + byte store + 6 calls, source order)
+// @class: plumbing
+// @stuck: none — MATCH (STUB: 3 global stores + byte store + 5 calls in source order)

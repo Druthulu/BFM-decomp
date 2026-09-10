@@ -5,16 +5,17 @@ s2: verdict NO-MATCH start 41 best 39 compiles 188 path R8 cse tmp0 @2833
 s4: verdict NO-MATCH start 41 best 39 compiles 439 path R8 cse tmp0 @2833
 s7: verdict NO-MATCH start 41 best 39 compiles 556 path R8 cse tmp0 @2833
 s9: verdict NO-MATCH start 41 best 39 compiles 252 path R8 cse tmp0 @2833
+s10: verdict NO-MATCH start 41 best 39 compiles 253 path R8 cse tmp0 @2833
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R8 cse tmp0 @2833 -> 39 [COUNT] (from 41)
   R6 inline sv @2845 -> 39 [COUNT] (from 39)
   R5 swap + @2854 -> 39 [COUNT] (from 39)
   R9 swap-stmts @2840 -> 39 [COUNT] (from 39)
   R2 decl-order 1,0 -> 39 [COUNT] (from 39)
+  R20 chain-narrow k+uv -> u16 -> 39 [COUNT] (from 39)
   R4 decl-move a0v 19->1 -> 39 [COUNT] (from 39)
   R7 block @2840 -> 39 [COUNT] (from 39)
   R4 decl-move a0v 19->2 -> 39 [COUNT] (from 39)
   R8 hoist tmp1 @2849 -> 39 [COUNT] (from 39)
   R18 bystander @2853->2849 -> 39 [COUNT] (from 39)
   R7 do-while @2840 -> 39 [COUNT] (from 39)
-  R4 decl-move a0v 19->3 -> 39 [COUNT] (from 39)

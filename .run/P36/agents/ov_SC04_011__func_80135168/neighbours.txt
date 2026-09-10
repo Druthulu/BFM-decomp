@@ -1,0 +1,87 @@
+--- func_80135480 (line 3194) ---
+/* func_80135480 — cull + coordinate-transform emitter (258 ins, ov_SC01_077 split _a, ×134 family).
+ *
+ * NOT a §43 s16-param giant. Params are (void*, s32, s16*, s16*); the sole `sll/sra 16` is the s16
+ * RETURN narrowing on $s3 (result), not an in-place arg-reg narrow. So §43's K&R-s16-param map does
+ * not apply here — no //@EDIT, no ec_edit. func_80135480 has NO ambient prototype/caller anywhere in
+ * src/include, so the s16 return type is free (no void->s32 flip, no engine_core.h edit).
+ *
+ * THE CRACK (residual class = §31 regalloc/schedule, RC-4/RC-2 in gcc-2.7.2-map/regalloc.md):
+ * the two output buffers D_801909BC / D_801909C0 are written through a pointer in each of the two
+ * return tails (mode!=0 and mode==0). A single function-scope `s16 *tmp` reused across both tails is a
+ * GLOBAL allocno (used in 2 blocks, dies 4x) -> forced onto one hard reg ($a1), which is WRONG and also
+ * perturbs the switch's first-`beq` delay-slot fill (extra nop). The target instead allocates each
+ * store-group's pointer as a LOCAL-ALLOC pseudo (set once, used 3x, dies once, single block) that picks
+ * the lowest-free scratch over its OWN window:
+ *     mode!=0 tail:  p_AC -> $v1,  p_B0 -> $v1 (reused, $v0 = the load temp)
+ *     mode==0 tail:  p_AC -> $v1,  p_B0 -> $a0 (the sub-scratch occupies $v1, so $v1 is unavailable)
+ * Reproduced by giving each of the four store-groups its OWN block-scoped pointer. With the tail
+ * allocation correct, the whole schedule (incl. the beq delay slot) re-derives to byte-identical.
+ * No register pins (§17 caveat: don't pin $v1 — the target reuses it for the cull; a pin cascades
+ * per RC-5). NOTE: the block-scope `s16 *p` intentionally shadows the function-scope `s32 p` (the
+ * case-0x20000000 pointer base); scopes never overlap — legal and byte-verified.
+ *
+ * Zero file-scope footprint (block-scoped typedefs + externs; D_801909BC/B0 read via the ambient
+ * `extern u8` + `*(s16**)&` §30 anon-cast, matching neighbor func_80135168) -> ×134-clean for
+ * family_sweep --edit-remap with no cc1 crash.
+ *
+ * VERIFIED: tools/rtu_match.py func_80135480 --split ov_SC01_077_a  ->  MATCH (258 ins), 3x stable.
+ */
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: iv-combine
+// @stuck: none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
+// @class: schedule
+// @stuck: none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
+// @class: schedule
+// @stuck: none — MATCH
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: plumbing
+// @stuck: none — MATCH (35/35 ins, relocation-masked)
+// @class: schedule
+// @stuck: none — MATCH
+// @class: other
+// @stuck: none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
+// @class: regalloc-order
+// @stuck: none — MATCH (93 ins)
+// @class: other
+// @stuck: none — MATCH (33 ins, match_one verified)
+// @class: plumbing
+// @stuck: none — MATCH (clone of confirmed func_8012F214 template; passthrough a0)
+// @class: remat
+// @stuck: none — MATCH
+// @class: plumbing
+// @stuck: none — MATCH (pending gate)
+// @class: schedule
+// @stuck: none — MATCH (57 ins), byte-exact via rtu_match on the real TU.
+// @class: regalloc-order
+// @stuck: none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
+// @class: loop-guard
+// @stuck: none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
+// @class: struct
+// @stuck: none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)
+// @class: plumbing
+// @stuck: none — MATCH (424/424). Verified TWICE: match_one 424/424 standalone AND 424/424
+// @class: regalloc-order
+// @stuck: none — MATCH (89 ins). Reconcile: TU canonical decl is `void func_80131B14(void)`
+// @class: plumbing
+// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @class: plumbing
+// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @class: plumbing
+// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: regalloc-order
+// @class: schedule
+// @stuck: none — MATCH (83 ins, relocation-masked)
+// @class: schedule
+// @class: regalloc-order
+// @stuck: 26-mismatch near-miss (structure fully matches: while-loop test-first via j-to-bottom-test, s0=puVar7/s1=cnt/s2=scan/s3=iVar8/s4=iVar9/s5=uVar3/s6=uVar10, a1=param/a0=cc/a3=0x8000 pinned, both range-persist copies present, mult+GPU-index+call all byte-correct). Residual = 4 instances of ONE gcc-2.7.2 regalloc/copy-prop tie-break: target computes a preserved-then-masked value in $v0 and reads $v0 for the mask (`subu $v0; addu $persist,$v0; andi $v0,$v0`), gcc here reads the persist reg (`andi $v0,$t0`). (1) range-check-1 andi reads $t0 not $v0; (2) range-check-2 andi reads $a0 not $v0; (3) `hi=uVar1&0x8000` folds into $a0 — target computes in $v0 + copies to $a0 in the branch-delay (same-block copy, gcc coalesces mine); (4) loop-test `cnt&0xffff` folds to direct `andi $v0,$s1` — target copies `addu $v0,$s1` first. Splitting the value into compare-temp + persist-var produces the copy but gcc forward-propagates the copy DEST into the mask; persist-after-compare kills the copy; explicit `register __asm__` pins fold the whole expr chain into the pinned reg; `=r/0` barriers force bad materialization. Also minor: while-loop header-copy adds a `beqz s1` entry guard vs target `j`, and a2/a3 call-arg setup order. Permuter can't run (register __asm__ pins rejected by pycparser). Genuinely compiler-internal — hand-finish or accept as ceiling.
+// @class: regalloc-order
+// @stuck: none — MATCH (162 ins). iv pinned to $4 (a0) forces move+delay-slot negu; divisor-temp forces divisor-first schedule (load-delay nop). Globals declared pointer-typed (SVec_801347A0*/s16*) so %lo folds per-use instead of &sym address-CSE into callee regs.
+// @class: regalloc-order
+// @class: plumbing
+// @stuck: MATCH (89 ins). To BANK: retype D_801909C0 + D_801909BC (u8 -> s16*) in sibling func_80135168's externs (src/ov_SC01_077/ov_SC01_077_a.c ~L1879); they hold pointers double-referenced across a call, so only a 4-byte/pointer decl folds %lo (u8 &-cast CSE's the address into a saved reg). Retype is byte-NEUTRAL for the sibling (verified: identical objdump bytes u8 vs s16*).
+// @class: schedule
+// @stuck: none — MATCH (62 ins, relocation-masked)

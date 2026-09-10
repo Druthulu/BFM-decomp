@@ -6,6 +6,7 @@ s4: verdict NO-MATCH start 11 best 11 compiles 431 path
 s7: verdict NO-MATCH start 11 best 11 compiles 550 path 
 s8: verdict NO-MATCH start 11 best 11 compiles 241 path 
 s9: verdict NO-MATCH start 11 best 11 compiles 241 path 
+s10: verdict NO-MATCH start 11 best 11 compiles 241 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R6 inline arg0 @555 -> 11 [COUNT] (from 11)
   R9 swap-stmts @555 -> 11 [COUNT] (from 11)
