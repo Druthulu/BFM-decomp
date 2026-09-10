@@ -8,9 +8,9 @@ short func_8016CBC0(void)
   Blk_8016CBC0 *blk;
   Rec_8016CBC0 *sub;
   Rec_8016CBC0 *pv;
-  unsigned short uVar9;
+  short uVar9;
   short w9;
-  short uc;
+  unsigned short uc;
   unsigned int a2;
   int col;
   short iVar3;
@@ -50,7 +50,7 @@ short func_8016CBC0(void)
       {
         do
         {
-          pv = &sub[(short) uVar9];
+          pv = &sub[uVar9];
           {
             unsigned int a = pv->h[0];
             unsigned int b;
@@ -88,7 +88,7 @@ short func_8016CBC0(void)
           {
             uVar9 = 0xF;
           }
-          pv = &sub[(short) uVar9];
+          pv = &sub[uVar9];
           col = col - 0xF;
           a2 = (unsigned) (col & 0xFF);
           a2 = a2 >> 3;

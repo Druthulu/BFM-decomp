@@ -2521,7 +2521,90 @@ def restore_arguments(text, tu, fn, d_, cap=64):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19")
+NARROW_FROM = ("int", "unsigned int", "u32", "s32", "long", "unsigned long")
+NARROW_TO = (("short", "s16"), ("unsigned short", "u16"))
+
+
+def narrow_chains(text, tu, fn, d_, cap=24):
+    """[(description, candidate text)] — R20: every local in one def-use CHAIN narrowed together, and each pair of
+    chains narrowed together, rather than one declaration at a time.
+
+    T7 agent b3's crack of func_8016CBC0 (P36 S102), and it proved the joint form is NECESSARY: narrowing single
+    declarations scored 45, 72, 51 and 24; each chain alone scored 43; **both chains together scored 0**. Every
+    intermediate is worse than the search's own best of 11, so a beam over R12's one-declaration moves cannot reach the
+    answer from either side — seven runs and 4,811 compiles stalled at 11, and the joint candidate is one compile.
+
+    The mechanism is `insert_regs` (`cse.c:1029-1032`, the early bail at `:1018-1020`): cse puts two pseudos in one
+    equivalence class only when their MODES match, so an all-`int` `w = c - 1; c = w;` is a same-mode copy that cse
+    collapses and `delete_dead_from_cse` sweeps, giving `addiu c,c,-1` in place — while the narrowed copy-back is a
+    TRUNCATION, no equivalence is made, the wide temp stays live and reaches reload as the `move` the target has. The
+    other half is `strength_reduce`: a wide counter whose every use is `(short)x` mints a `x << 16` giv that combine
+    distributes a `-1` over; a HImode pseudo cannot be that giv. MIPS defines no `PROMOTE_MODE`, which is why any of
+    this is reachable from a declaration at all.
+
+    A chain is built conservatively from the body's own text: two locals are linked when one is assigned from the other,
+    optionally through a cast or a `± constant`. Only whole components are offered, so a partial narrowing that the
+    measurement showed is always worse is never generated."""
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    decls = {}                                             # name -> (line index, declared type)
+    for i in range(lo, hi):
+        st = masked[i].strip()
+        if not is_decl_line(st) or st.startswith("extern") or MULTI_DECL.match(masked[i]):
+            continue
+        m = re.match(r"^\s*((?:unsigned\s+|signed\s+)?[A-Za-z_]\w*)\s+([A-Za-z_]\w*)\s*(?:=[^;]*)?;\s*$", masked[i])
+        if m and m.group(1) in NARROW_FROM:
+            decls[m.group(2)] = (i, m.group(1))
+    if not decls:
+        return []
+    parent = {n: n for n in decls}
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+
+    LINK = re.compile(r"^\s*([A-Za-z_]\w*)\s*=\s*(?:\(\s*[A-Za-z_][\w \t*]*\)\s*)?([A-Za-z_]\w*)"
+                      r"(?:\s*[-+]\s*\d+|\s*[-+]\s*0[xX][0-9A-Fa-f]+)?\s*;\s*$")
+    for i in range(lo, hi):
+        m = LINK.match(masked[i])
+        if m and m.group(1) in decls and m.group(2) in decls:
+            union(m.group(1), m.group(2))
+    comps = collections.defaultdict(list)
+    for n in decls:
+        comps[find(n)].append(n)
+    chains = [sorted(v) for v in comps.values() if len(v) > 1]
+    if not chains:
+        return []
+
+    def apply(names, to):
+        cand = list(lines)
+        for n in names:
+            i, old = decls[n]
+            cand[i] = re.sub(r"(?<![\w])" + re.escape(old) + r"(?=\s)", to, cand[i], count=1)
+        return "\n".join(cand)
+
+    out = []
+    for to, tag in NARROW_TO:
+        for ch in chains[:cap]:
+            out.append((f"chain-narrow {'+'.join(ch)} -> {tag}", apply(ch, to)))
+        for a in range(len(chains)):                        # the PAIR form: b3's body needed two chains at once
+            for b in range(a + 1, len(chains)):
+                if len(out) >= cap * 3:
+                    break
+                out.append((f"chain-narrow {'+'.join(chains[a])} & {'+'.join(chains[b])} -> {tag}",
+                            apply(chains[a] + chains[b], to)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2641,6 +2724,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R19" in fam:
         for desc, cand in restore_arguments(text, tu, fn, d_):
             out.append(("R19", desc, cand))
+    if "R20" in fam:
+        for desc, cand in narrow_chains(text, tu, fn, d_):
+            out.append(("R20", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -3528,6 +3614,40 @@ def selftest():
             fail("R19 must refuse a call whose declaration already matches the definition")
     finally:
         globals()["_ARG_DEFS"] = saved
+
+    # R20, chain narrowing (T7 agent b3's crack of func_8016CBC0, P36 S102 — it PROVED the joint form is necessary:
+    # single declarations scored 45/72/51/24, each chain alone 43, both chains together 0).
+    NFIX = ("void func_80100000(void) {\n"
+            "    int c;\n"
+            "    int w;\n"
+            "    int other;\n"
+            "\n"
+            "    c = 15;\n"
+            "    w = c - 1;\n"
+            "    c = w;\n"
+            "    other = f();\n"
+            "}")
+    dN = next(r for r in sc.scan_text(NFIX, "src/fx/n.c", shared_defs=None)
+              if r["form"] == "def" and r["name"] == "func_80100000")
+    n20 = narrow_chains(NFIX, "src/fx/n.c", "func_80100000", dN)
+    descs = [d for d, _ in n20]
+    if not any(d.startswith("chain-narrow c+w -> s16") for d in descs):
+        fail(f"R20 must find the c/w copy chain and narrow it whole, got {descs}")
+    elif any("other" in d for d in descs):
+        fail(f"R20 must not pull in a local with no assignment link to the chain: {descs}")
+    else:
+        cN = next(c for d, c in n20 if d.startswith("chain-narrow c+w -> s16"))
+        if "short c;" not in cN or "short w;" not in cN or "int other;" not in cN:
+            fail(f"R20 must narrow every member of the chain and nothing else: {cN!r}")
+    # control: a body with no linked pair offers nothing (a single declaration is R12's move, not this one)
+    if narrow_chains(NFIX.replace("    c = w;\n", ""), "src/fx/n.c", "func_80100000",
+                     next(r for r in sc.scan_text(NFIX.replace("    c = w;\n", ""), "src/fx/n.c", shared_defs=None)
+                          if r["form"] == "def")):
+        pass                                               # one link (w = c - 1) still makes a chain: that is correct
+    if narrow_chains("void func_80100000(void) {\n    int a;\n    a = f();\n}", "src/fx/n.c", "func_80100000",
+                     next(r for r in sc.scan_text("void func_80100000(void) {\n    int a;\n    a = f();\n}",
+                                                  "src/fx/n.c", shared_defs=None) if r["form"] == "def")):
+        fail("R20 must offer nothing when no two locals are linked by an assignment")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

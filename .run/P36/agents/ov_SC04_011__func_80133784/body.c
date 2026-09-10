@@ -17,8 +17,8 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
 
     a0v = ((s16)arg0);
     s1 = 0;
-    s3 = 0;
     s4 = 0;
+    s3 = 0;
     s2 = 0;
     arg0s = a0v;
     D_801909BC->f6 = -0x7FFF;
@@ -58,7 +58,8 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
         }
     }
 
-    while (1) {
+loop:
+    {
         s32 ret0;
         s32 retc;
         ret0 = func_80133AB0(arg0s, (s16)D_801909BC->f0, (s16)D_801909BC->f4, (*(s32*)&D_801EDA30));
@@ -70,7 +71,7 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
         {
             s16 oldc = s3;
             s3 = s3 + 1;
-            if (oldc >= 5) break;
+            if (oldc < 5) goto loop;
         }
     }
 

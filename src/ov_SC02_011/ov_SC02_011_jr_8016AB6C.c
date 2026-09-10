@@ -2861,17 +2861,16 @@ short func_8016CBC0(void)
   Blk_8016CBC0 *blk;
   Rec_8016CBC0 *sub;
   Rec_8016CBC0 *pv;
-  unsigned int uVar9;
-  unsigned int w9;
-  unsigned int uc;
+  short uVar9;
+  short w9;
+  unsigned short uc;
   unsigned int a2;
   int col;
-  int iVar3;
-  int w3;
-  unsigned int w3b;
+  short iVar3;
+  short w3;
+  short w3b;
   short count;
   short i;
-register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus6)
   mtx = (*(Mtx8_8016CBC0 *)&D_800AE620);
   count = 0;
   p1.tag = 0x50000000;
@@ -2899,12 +2898,12 @@ register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P3
       col = blk->f3;
       count = count + 1;
       w3 = iVar3 - 1;
-      iVar3 = w3 + zr;
+      iVar3 = w3;
       if (w3 != (-1))
       {
         do
         {
-          pv = &sub[(short) uVar9];
+          pv = &sub[uVar9];
           {
             unsigned int a = pv->h[0];
             unsigned int b;
@@ -2922,7 +2921,7 @@ register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P3
             p1.v[1].y = b;
             p0.v[1].y = (p1.v[0].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
             w9 = uVar9 - 1;
-            uVar9 = w9 + zr;
+            uVar9 = w9;
           }
           {
             unsigned int a = pv->h[2];
@@ -2938,11 +2937,11 @@ register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P3
             p1.v[1].z = b;
             p0.v[1].z = (p1.v[0].z = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
-          if (((int) (w9 << 16)) < 0)
+          if (w9 < 0)
           {
             uVar9 = 0xF;
           }
-          pv = &sub[(short) uVar9];
+          pv = &sub[uVar9];
           col = col - 0xF;
           a2 = (unsigned) (col & 0xFF);
           a2 = a2 >> 3;
@@ -2978,11 +2977,10 @@ register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P3
           }
           func_80017758(&p0, &mtx);
           func_80017758(&p1, &mtx);
-          uc = iVar3 - 1;
-          w3b = uc;
-          iVar3 = w3b + zr;
+          w3b = iVar3 - 1;
+          iVar3 = w3b;
         }
-        while (((short) w3b) != (-1));
+        while (w3b != (-1));
       }
     }
   }

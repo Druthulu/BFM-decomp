@@ -24,3 +24,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-10	S102 T7 s8 — the first R19 sweep: 3 of 55 classes closed by restoring a dropped call argument, 2 compiles each	f3de70fce	26456	15193	11263	7483	1267	26456	0	462	314	1590	50	7428	445	76
 2026-09-10	S102 — 16,759 lying call declarations repaired free (3,439 units, R22 218/218); levers unchanged, truth improved	51028a78d	26456	15193	11263	7483	1267	26456	0	462	314	1590	50	7428	445	76
 2026-09-10	S102 T7 b1 — func_801651B8: the hand-walked pointer folded back into the index, one induction variable instead of two (127 bodies)	8c0e7c549	26202	15066	11136	7356	1266	26202	0	462	314	1590	50	7428	445	76
+2026-09-10	S102 T7 b3 — func_8016CBC0: two counter chains narrowed TOGETHER (128 bodies); single declarations could never reach it	acba5c59d	26074	14938	11136	7228	1265	26074	0	462	314	1590	50	7428	445	76

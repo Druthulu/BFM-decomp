@@ -72,16 +72,16 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 5807,
-   "distinct_bodies": 958,
+   "bodies": 5679,
+   "distinct_bodies": 957,
    "file_scope": 0,
-   "in_bodies": 15066,
+   "in_bodies": 14938,
    "kinds": {
-    "pin": 15066
+    "pin": 14938
    },
-   "marked": 15066,
-   "sites": 15066,
-   "tus": 2353,
+   "marked": 14938,
+   "sites": 14938,
+   "tus": 2227,
    "unmarked": 0
   },
   "B": {
@@ -207,9 +207,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 36109,
+   "live": 35981,
    "macro_block": 194,
-   "raw": 43095
+   "raw": 42967
   },
   "attribute": {
    "comment_dead": 0,
@@ -225,9 +225,9 @@
   },
   "register": {
    "comment_dead": 8587,
-   "live": 15116,
+   "live": 14988,
    "macro_block": 18,
-   "raw": 23721
+   "raw": 23593
   },
   "volatile": {
    "comment_dead": 2480,
@@ -237,7 +237,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 25.6,
+ "elapsed_s": 23.7,
  "generated": "2026-09-10",
  "gte_levers": {
   "direct": 362,
@@ -248,15 +248,15 @@
   "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "8c0e7c549",
+ "head": "acba5c59d",
  "headers": 3181,
  "levers_AB": {
   "asm": 11136,
-  "bodies": 7356,
-  "distinct_bodies": 1266,
-  "marked": 26202,
-  "pins": 15066,
-  "sites": 26202,
+  "bodies": 7228,
+  "distinct_bodies": 1265,
+  "marked": 26074,
+  "pins": 14938,
+  "sites": 26074,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -392,7 +392,7 @@
   "bare_name": 15,
   "init": 1624,
   "registers": {
-   "$0": 639,
+   "$0": 511,
    "$10": 144,
    "$11": 5,
    "$12": 280,
@@ -423,30 +423,30 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 15066,
+  "sites": 14938,
   "sp": 13,
   "spelling": {
-   "__asm__": 14988,
+   "__asm__": 14860,
    "asm": 78
   },
   "volatile_qualified": 7,
-  "zero": 639
+  "zero": 511
  },
- "src_stamp": "34b7cdf388c456db",
+ "src_stamp": "c4786135b7fc79ca",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 10619,
+  "bodies": 10491,
   "by_kind": {
    "main": 165,
    "md": 135,
-   "ov": 10080,
+   "ov": 9953,
    "resident": 10,
-   "shared": 229
+   "shared": 228
   },
-  "copies_in_multi": 9356,
-  "distinct_bodies": 1551,
-  "multi_copy_classes": 288
+  "copies_in_multi": 9228,
+  "distinct_bodies": 1550,
+  "multi_copy_classes": 287
  },
  "verbatim_excluded": {
   "functions": 13,
