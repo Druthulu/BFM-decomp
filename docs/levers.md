@@ -74,6 +74,7 @@ counted, not marked). E, F and G belong to the canonical type layer and are the 
 | 2026-09-10 | S102 T7 wave b — b2/b5/b5s/b6 banked plus R19 and R20's own closes (766 bodies): a chained assignment, a symbol alias defeating cross-jump, and the store hoisted above its copy | 14541 | 10374 | **24915** | 6577 | 1259 | 462 | 314 | 1590 | 50 | 7680 | 445 | 76 | `9d78fc408` |
 | 2026-09-10 | S102 T7 b7 — func_80166690: four accumulators retyped short in ONE edit, the truncation temps deleted, the colour temp typed to its destination field (126 bodies) | 14415 | 10374 | **24789** | 6451 | 1258 | 462 | 314 | 1590 | 50 | 7680 | 445 | 76 | `17d192d24` |
 | 2026-09-10 | S102 T7 b8 — func_80135888: a guarded do-while defeating cross-jump, a duplicated block replaced by goto to shed one loop-weighted reference, and a two-arm temp inlined (134 bodies, the largest class) | 13879 | 10240 | **24119** | 6317 | 1257 | 462 | 314 | 1590 | 50 | 7680 | 445 | 76 | `0d92d1029` |
+| 2026-09-10 | S102 wave b close — 8 agent closes banked (b1/b2/b3/b5/b5s/b6/b7/b8), b4/b9 read without closing; R19/R20/R21 added; fleet 218/218 | 13879 | 10240 | **24119** | 6317 | 1257 | 462 | 314 | 1590 | 50 | 7680 | 445 | 76 | `f96af3e48` |
 
 ### The campaign — every batch, from the ledger (derived on every render)
 

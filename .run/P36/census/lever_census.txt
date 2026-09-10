@@ -6,13 +6,13 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
   coverage attribute raw     76 = live     76 + macro-block     0 + comment/dead     0
   class  sites  in-bodies  file-scope  bodies  distinct  TUs  marked  unmarked   kinds
   A pins        13879     13879          0    5276       953  2080   13879         0   {'pin': 13879}
-  B asm         19783     19770         13    7352       904  1980   10506      9277   {'instruction': 1199, 'keepalive': 1317, 'gte': 6858, 'barrier': 3563, 'gte-lever': 462, 'gte-unsigned': 3, 'launder': 3686, 'asm-body': 13, 'verbatim-body': 2682}
+  B asm         19783     19770         13    7352       904  1980   10506      9277   {'gte': 6858, 'barrier': 3563, 'gte-lever': 462, 'gte-unsigned': 3, 'launder': 3686, 'instruction': 1199, 'asm-body': 13, 'keepalive': 1317, 'verbatim-body': 2682}
   C volatile     1590      1438        152     496        96   610      14      1576   {'decl-body': 58, 'decl-file': 152, 'cast': 1378, 'param': 2}
   D register       50        50          0      47        47     6       0        50   {'register': 50}
   E asm-label    7680      1257       6423     989       119  2084       0      7680   {'asm-label': 7680}
   F builtin       445       445          0     428        28   302       0       445   {'builtin': 445}
   G attribute      76         1         75       1         1    40       0        76   {'attribute': 76}
-  UNION A–D: 9,580 bodies · 1,542 distinct (addresses normalized) · 279 multi-copy classes holding 8,317 bodies · by kind {'ov': 9052, 'md': 135, 'main': 165, 'shared': 218, 'resident': 10}
+  UNION A–D: 9,580 bodies · 1,542 distinct (addresses normalized) · 279 multi-copy classes holding 8,317 bodies · by kind {'ov': 9052, 'shared': 218, 'main': 165, 'md': 135, 'resident': 10}
   THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 24,119 sites in 6,317 bodies (1,257 distinct) · marked !FAKE 24,119 · UNMARKED 0
   orphan !FAKE markers (no pin/asm site on the line nor below): 0
   GTE levers (clobbers beyond the canonical macro's): 462 sites (100 via a variant macro, 362 direct) · marked 462 · UNMARKED 0 · unsigned GTE statements 3
@@ -28,4 +28,4 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
     src/shared/ov/func_80178004.h pins                   got 8      expected 26  N-A
     ov_SC03_006 func_80184034 bare-name pins             got 0      expected 3  N-A
     engine_prelude.h asm sites (a macro definition only) got 0      expected 0  OK
-  elapsed 23.5 s
+  elapsed 23.0 s
