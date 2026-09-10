@@ -1610,6 +1610,14 @@ accumulate here as the phase produces them.**
   a call, a parameter or asm (the §194-K bound). A new reading of c9's count fix: `find_best_addr` folds then LOOKS UP the
   constant (`cse.c:2700-2735`) and recovers `-12(s0)` from a live call argument holding the same address. The class stays
   residue with its evidence.
+- **S103 — re-draw c30: `func_8017B614` CLOSED with NO do-while (S102 read it 13 → 6; now 0, 101/101; 125 of 133 —
+  8 variants refused).** One function-scope `u8 *src` assigned in both arms (as the matched sibling func_8017B238 is
+  written): `src` becomes the class's canonical register (`make_regs_eqv`, `cse.c:850-858`), `expand_preferences`
+  (`global.c:781-821`) hands it `$s0` — 13 → 6 and every register right. The order: sched1 still hoists `li 1; sh
+  D_801F1638` (launch priority, `sched.c:2469/2539`); the target's order is restored in SCHED2 by the struct-access rule
+  (`sched.c:817-835`) — the tail's two reads as struct members (as sibling func_8017B490 writes them) and the `sb` as an
+  array element `D_8012694C[0]` (keeps its relocation symbol; the address is field 4 of the camera object `D_80126948` —
+  a names-phase spelling). Moves 2 and 3 only close together (4, 6, 0). `apply-body … IDENTICAL … KEPT`.
 - **S103 — packs for the next tier: `delever_pack --build --min-copies 5` → `64 packs under .run/P36/agents; ORDER.tsv
   written`** (the head-only ORDER kept as `ORDER_head.tsv`). The head (≥100 copies) is down to classes with honest
   readings; the tier below has several classes at a mechanical best of 1-2 — agents now take TWO small classes each.
