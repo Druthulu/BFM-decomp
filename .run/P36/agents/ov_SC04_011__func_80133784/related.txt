@@ -1,0 +1,355 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_80133784 (22 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801343C4 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:2532) shares 6: D_801909BC D_801909C0 D_801EDA30 D_801EDA3C D_801EDA40 func_80133AB0 ---
+s32 func_801343C4(s32 angle, s32 p1, s32 p2)
+{
+    extern s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3);
+    extern s16 * D_801909BC;
+    extern s16 * D_801909C0;
+    extern u16 D_801EDA40;
+    extern u16 D_801EDA3C;
+
+    s16 *pac;
+    s16 *pb0;
+    s16 *pacs, *pb0s;
+    u16 *pb0u;
+    int a1v, a2v, d94, b0;
+    int sangle = ((s16)angle);
+
+    pac = D_801909BC;
+    d94 = D_801EDA30;
+    pb0 = D_801909C0;
+    pac[0] = ((u16 *)p1)[0];
+    pac[1] = ((u16 *)p1)[1];
+    pac[2] = ((u16 *)p1)[2];
+    pb0[0] = ((u16 *)p2)[0];
+    pb0[1] = ((u16 *)p2)[1];
+    pb0[2] = ((u16 *)p2)[2];
+
+    a1v = pac[0]; a2v = pac[2];
+    D_801EDA40 = 0;
+    D_801EDA3C = 0;
+    if (((int (*)(int, s16, s16, int))func_80133AB0)(sangle, a1v, a2v, d94)) {
+    setdst:
+        pb0u = (u16 *)D_801909C0;
+        ((u16 *)p2)[0] = pb0u[0];
+        ((u16 *)p2)[1] = pb0u[1];
+        ((u16 *)p2)[2] = pb0u[2];
+        ((u16 *)p2)[3] = D_801EDA40;
+        return 1;
+    }
+
+    pacs = D_801909BC;
+    pb0s = D_801909C0;
+    b0 = pb0s[0];
+    if ((pacs[0] & 0xFF80) == (b0 & 0xFF80) &&
+        (pacs[2] & 0xFF80) == (pb0s[2] & 0xFF80)) {
+        return 0;
+    }
+    if (((int (*)(int, s16, s16, int))func_80133AB0)(sangle, b0, pb0s[2], D_801EDA30)) {
+        goto setdst;
+    }
+    return 0;
+}
+
+--- func_80135A4C (src/ov_SC04_011/ov_SC04_011_jr_80135A4C.c:624) shares 5: D_801909BC D_801909C0 D_801EDA3C D_801EDA40 func_80133AB0 ---
+s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
+    typedef struct { s8 c[8]; } Blk8;
+    extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4);
+    extern s32 func_80135EB0(void *arg0, s32 arg1_);
+    extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32 func_80133AB0(s16, s16, s16, s32);
+    extern u8 D_801909BC;
+    extern u8 D_801909C0;
+    extern s16 *D_801909C4;
+    extern s16 D_801EDA3C;
+    extern u16 D_801EDA40;
+    extern s32 D_801EDA44;
+    extern s32 D_801EDA64;
+    extern u8 D_801152A8[];
+    extern u8 D_801152B0;
+
+    s32 *p;
+    s32 base;
+    s32 flag;
+    s32 acc;
+    s16 i;
+    s16 eq;
+    s32 ret;
+    s32 frame_pad[8];
+    (void)&frame_pad;
+
+    switch (((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)((void *)a0, a1, (s16 *)a2, (s16 *)a3)) {
+    case 0:
+        return 0;
+    case 1:
+        base = a0 + 0x34;
+        p = (s32 *)((a1 & 0xFFFFFFF) | 0x80000000);
+        flag = 0;
+        break;
+    case 2:
+        base = a0 + 0x34;
+        p = (s32 *)((a1 & 0xFFFFFFF) | 0x80000000);
+        flag = 1;
+        break;
+    case 3:
+        base = a0 + 0x34;
+        p = (s32 *)&D_801EDA64;
+        flag = 0;
+        break;
+    case 4:
+        base = (s32)&D_801EDA44;
+        p = (s32 *)&D_801EDA64;
+        flag = 1;
+        break;
+    }
+
+    if (a1 < 0) {
+        if (func_80135EB0(p, -0x8000) != 0) {
+            goto docall;
+        }
+        for (p = (s32 *)*p; p != 0; p = (s32 *)*p) {
+            if (func_80135EB0(p, -0x8000) != 0) {
+docall:
+                func_80136A94(flag, a0, a3, base);
+                return 1;
+            }
+        }
+    } else {
+        acc = 0;
+        i = 0;
+        *(s16 *)((*(u8 **)&D_801909BC) + 6) = -0x7FFF;
+        *(s16 *)((*(u8 **)&D_801909C0) + 6) = 0x7FFF;
+        D_801EDA40 = 0;
+        D_801EDA3C = 0;
+        eq = ((V3 *)a2)->x == ((V3 *)a3)->x && ((V3 *)a2)->y == ((V3 *)a3)->y && ((V3 *)a2)->z == ((V3 *)a3)->z;
+
+        while (1) {
+            ret = func_80133AB0(0, (s16)(*(Box **)&D_801909BC)->f0, (s16)(*(Box **)&D_801909BC)->f4, (s32)p);
+            if (ret == 0) break;
+            acc |= ret;
+            if (eq != 0) break;
+            if (i++ >= 5) return 0;
+        }
+
+        if ((s16)acc != 0 || D_801EDA3C != 0) {
+            if ((*(Box **)&D_801909BC)->f6 >= -0xBCB) {
+                *(Blk8 *)D_801152A8 = *(Blk8 *)&D_801152B0;
+            }
+            (*(Box **)&D_801909C4)->f0 = (*(Box **)&D_801909C0)->f0;
+            (*(Box **)&D_801909C4)->f2 = (*(Box **)&D_801909C0)->f2;
+            (*(Box **)&D_801909C4)->f4 = (*(Box **)&D_801909C0)->f4;
+            goto docall;
+        }
+    }
+    return 0;
+}
+
+--- func_80135168 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:2973) shares 4: D_801909BC D_801909C0 D_801EDA30 D_801EDA40 ---
+int func_80135168(u16 arg0, u16 *p1, u16 *p2)
+{
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §100); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_801909BC;
+    extern u8 D_801909C0;
+    extern u8 D_801909C8;
+    s16 *pb0;
+    s16 *pac;
+    s16 *pb8;
+    u16 *pb4;
+    u16 ax, bx, ay, by, az, bz;
+    int a1v, a2v, d94;
+
+    pb0 = (*(s16 * *)&D_801909C0);
+
+    ax = p2[0]; pac = (*(s16 * *)&D_801909BC); pb0[0] = ax; bx = p1[0]; pb8 = (*(s16 * *)&D_801909C8); pac[0] = bx; pb8[0] = ax - bx;
+    ay = p2[1]; pb0[1] = ay; by = p1[1]; pac[1] = by; pb8[1] = ay - by;
+    az = p2[2]; pb0[2] = az; bz = p1[2]; pac[2] = bz; pb8[2] = az - bz;
+
+    a1v = pac[0]; a2v = pac[2]; d94 = D_801EDA30;
+    ((H16 *)&D_801EDA40)->h = 0;
+    if (func_80134A74(arg0, a1v, a2v, d94)) {
+        pb4 = (*(u16 * *)&D_801909C4);
+        p2[0] = pb4[0];
+        p2[1] = pb4[1];
+        p2[2] = pb4[2];
+        p2[3] = D_801EDA40;
+        return 1;
+    }
+    return 0;
+}
+
+--- func_80134510 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:2588) shares 4: D_801909BC D_801909C0 D_801EDA30 D_801EDA40 ---
+s32 func_80134510(s32 param) {
+    extern s32 func_801345F8(s32);
+    extern Foo_80134510_80134510 * D_801909BC;
+    extern Foo_80134510_80134510 * D_801909C0;
+    extern Foo_80134510_80134510 * D_801909C4;
+    extern u16 D_801EDA40;
+
+
+    s32 ret = 0;
+    Foo_80134510_80134510 *b0 = D_801909C0;
+    Foo_80134510_80134510 *ac = D_801909BC;
+    u16 t0 = ((Foo_80134510_80134510 *)param)->f0;
+    u16 t2, t4;
+
+    ((Foo_80134510_80134510 *)param)->f6 = 0;
+    ac->f0 = t0;
+    b0->f0 = t0;
+    t2 = ((Foo_80134510_80134510 *)param)->f2;
+    ac->f2 = t2 - 4;
+    b0->f2 = t2 + 0x2FC;
+    t4 = ((Foo_80134510_80134510 *)param)->f4;
+    ac->f4 = t4;
+    b0->f4 = t4;
+
+    if (func_801345F8((*(s32*)&D_801EDA30)) != 0) {
+        s16 x;
+        ((Foo_80134510_80134510 *)param)->f2 = D_801909C4->f2 - 2;
+        x = D_801909BC->f6;
+        if (x >= -3019) {
+            if (x < -1400) {
+                ret = 0x4000;
+            } else {
+                ret = 0x8000;
+            }
+        } else {
+            ret = 0x2000;
+        }
+        D_801909BC->f6 = D_801EDA40;
+    }
+    return ret;
+}
+
+--- func_80135004 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:2908) shares 4: D_801909BC D_801909C0 D_801EDA30 D_801EDA40 ---
+s32 func_80135004(s32 arg0, s32 p1, s32 p2)
+{
+    extern int func_80134A74(int, s16, s16, int);
+    extern s16 * D_801909C0;
+    extern s16 * D_801909BC;
+    extern u8 D_801909C8;
+    extern s16 *D_801909C4;
+    extern u16 D_801EDA40;
+
+    s16 *pb0;
+    s16 *pac;
+    s16 *pb8;
+    u16 *pb4;
+    u16 ax, bx, ay, by, az, bz;
+    int id;
+    int a1v, a2v;
+
+    pb0 = D_801909C0;
+
+    ax = ((u16 *)p2)[0]; pac = D_801909BC; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_801909C8); pac[0] = bx; pb8[0] = ax - bx;
+    ay = ((u16 *)p2)[1]; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
+    az = ((u16 *)p2)[2]; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
+
+    id = ((int)arg0) & 0xFFFF;
+    a1v = pac[0]; a2v = pac[2];
+    D_801EDA40 = 0;
+
+    if (func_80134A74(id, a1v, a2v, D_801EDA30)) {
+    found:
+        pb4 = (*(u16 * *)&D_801909C4);
+        ((u16 *)p2)[0] = pb4[0];
+        ((u16 *)p2)[1] = pb4[1];
+        ((u16 *)p2)[2] = pb4[2];
+        ((u16 *)p2)[3] = D_801EDA40;
+        return 1;
+    }
+    {
+        u16 *qb;   /* D_801909BC -> $a0 (reloaded) */
+        int qa0;   /* D_801909C0[0], kept in $a1 for the 2nd-call arg */
+        u16 *qa;   /* D_801909C0 -> $a2 (reloaded) */
+        qb = (u16 *)D_801909BC;
+        qa = (u16 *)D_801909C0;
+        qa0 = qa[0];
+        if (((qb[0] & 0xFF80) == (qa0 & 0xFF80)) &&
+            ((qb[2] & 0xFF80) == (qa[2] & 0xFF80)))
+            return 0;
+        if (func_80134A74(id, (s16)qa0, (s16)qa[2], D_801EDA30))
+            goto found;
+        return 0;
+    }
+}
+
+--- func_80133AB0 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:2277) shares 4: D_801909BC D_801909C0 D_801EDA3C D_801EDA40 ---
+s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
+{
+    extern u8 D_801909C0;
+    extern u8 D_801909BC;
+    extern u8 D_801909C8;
+    extern u16 D_801EDA40;
+    extern s16 D_801EDA3C;
+    extern s32 func_80133CD4();
+
+    Map_80133AB0 *map = (Map_80133AB0 *)arg3;
+    u16 *pA = (*(u16 * *)&D_801909C0);
+    u16 *pB = (*(u16 * *)&D_801909BC);
+    u16 *pC = (*(u16 * *)&D_801909C8);
+    u32 X, Y, cell;
+    u16 Xc, Yc;
+    u16 k, off;
+    u16 cnt;
+    u16 *cp, *lst;
+    u8 *s0;
+    u16 raw;
+    u32 hib;
+    u16 harg;
+    s32 ret;
+    void *p0C, *p10;
+    u8 *p14, *p18, *p1C;
+    u16 *cells;
+
+    pC[0] = pA[0] - pB[0];
+    pC[1] = pA[1] - pB[1];
+    pC[2] = pA[2] - pB[2];
+
+    X = ((((u16)x + 0x8000) >> 7) & 0x1ff) - map->ox;
+    Xc = X;
+    if (!((X & 0xffff) < map->w))
+        return 0;
+    Y = ((((u16)y + 0x8000) >> 7) & 0x1ff) - map->oy;
+    Yc = Y;
+    if (!((Y & 0xffff) < map->h))
+        return 0;
+
+    cell = Yc * map->w + Xc;
+    cells = map->cells;
+    p14 = map->p14;
+    p0C = map->p0C;
+    p10 = map->p10;
+    p18 = map->p18;
+    p1C = map->p1C;
+    k = cell * 2;
+    cp = (u16 *)(k * 2 + (u32)cells);
+    off = cp[0];
+    cnt = cp[1];
+    lst = (u16 *)(p14 + off);
+
+    while (cnt-- != 0) {
+        raw = *lst;
+        hib = raw & 0x8000;
+        harg = hib;
+        if (hib == 0) {
+            s0 = p18 + raw * 18;
+        } else {
+            s0 = p1C + (raw & 0x7fff) * 22;
+        }
+        ret = (s16)func_80133CD4((s16)(harg | flag), s0, p10, p0C);
+        if (ret != 0) {
+            if (ret > 0)
+                D_801EDA40 = *(u16 *)s0;
+            return 1;
+        }
+        lst++;
+        if (D_801EDA3C != 0) {
+            D_801EDA40 = *(u16 *)s0;
+            return 0;
+        }
+    }
+    return 0;
+}
+

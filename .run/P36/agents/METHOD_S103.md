@@ -2,8 +2,8 @@
 
 0. Read `PACK/neighbours.txt` first. One agent closed on its FIRST `--try` because a sibling's header spelled the crack out
    in English. **A `@stuck:` note is a CLAIM: two were refuted on bytes last session.**
-1. Dump the target function WHOLE off the tree's own object (`mipsel-linux-gnu-objdump -drz build/src/<tu>.o`, the tree
-   object is byte-identical to the original), not the residual's hunks — the hunk view scrambles moves into branch delay
+1. Dump the target function WHOLE off the BASELINE SNAPSHOT (`mipsel-linux-gnu-objdump -drz .run/P36/delever/baseline/src/<tu>.o`
+   — byte-identical to the original; NOT `build/`, which the coordinator's fleet gate deletes and rebuilds mid-run, S103 c15), not the residual's hunks — the hunk view scrambles moves into branch delay
    slots and hides a repeated shape. Dump your candidate's object the same way from your `PACK/scratch/` compile.
 2. **COUNT FIRST.** The residual text cannot tell you whether an instruction is MISSING or the registers are WRONG; one
    agent chased a register theory for hours when cse had forwarded a just-stored value and deleted a load.

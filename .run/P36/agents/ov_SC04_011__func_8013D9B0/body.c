@@ -3,7 +3,7 @@ void func_8013D9B0(int param_1)
     extern s16 *D_801EDABC;
     extern s32 D_801EDAD4;
     s16 rect[4];    /* LoadImage rect: x, y, w, h */
-    u32 gte[6];     /* [0] fog colour (RGB), [1] source pixel (IRGB), [2] DPCL result (ORGB) */
+    u32 gte[6];     /* [0] fog colour (RGB), [1] source pixel (IRGB), [2] DPCL result (ORGB); [3..5] unused (frame 0x48) */
     Cmd_8013D53C *p;
     u32 *fc;
     u16 cmd;

@@ -1507,6 +1507,18 @@ accumulate here as the phase produces them.**
   family as c9's refused do-nothing reassignment and c5's barrier do-while; NOT bankable at 4 either way, and raised
   with Drew beside the do-while question. Its tool asks: a `.loop`-dump reader that says why each invariant was or was
   not hoisted, and its per-block sched1 priority extractor (`PACK/scratch/sblk.py`).
+- **S103 — T7 agent c15: `func_80135EB0` CLOSED (64 → 0, 289/289 + its jump table; 128/128) — with a do-while.** Eleven
+  of the thirteen missing instructions were jump2's cross-jump folding case tails (`jump.c:2370`): it searches other
+  jumps to a label only when that label existed before the pass (`INSN_UID < max_uid`, `jump.c:1985`), so one `if (F(…))
+  goto ret1;` per case makes jump2 create the join label itself and the tails are never matched; two nops from
+  `true_dependence` (`sched.c:817-835`) — the globals written as array/struct accesses keep the dependence
+  (`MEM_IN_STRUCT_P`, `expr.c:4888`), removing both barriers; the `$5` pin replaced by a shared `test:` label. **The
+  register swap closes only with `m2 = -(c); m2 &= 0x20;` inside a `do { } while (0)`** — the wrapper doubles the chain's
+  loop-weighted refs (`flow.c:2067`) to lift `m2` (11 refs, 2307) past `arg1` (2045, `global.c:596-610`); without it
+  the best is 18. The agent asked for a ruling; **banked on the S102 a4 precedent (the same reference-weight mechanism,
+  already banked) and ADDED to the do-while question for Drew** — if he rules the class a lever, this body is one of its
+  members. The agent also found `build/` deleted mid-run (the fleet gate's `make clean`): METHOD step 1 now dumps the
+  target from `.run/P36/delever/baseline/`. `apply-body … IDENTICAL … KEPT`; `--propagate: 128 of 128`.
 
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
 
@@ -1599,7 +1611,7 @@ setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R
   **Fix it next** (it should take the TU's own directory and `src/` as include roots like `--try` does).
 
 ### 6. OPEN BY NAME
-- **Drew's call, asked in S103:** does `do { … } while (0);` count as a lever? (and its cousin: c13's DEAD INITIALISER — `s16 size = 0;` flow deletes, whose only job is to stop `scan_loop` hoisting a constant; c9 refused the do-nothing reassignment form) It is R7's move, banked in S102 (a4, b8)
+- **Drew's call, asked in S103:** does `do { … } while (0);` count as a lever? (banked with one so far: c5's `func_8015D738` and c15's `func_80135EB0` in S103, a4 and b8 in S102; and its cousin: c13's DEAD INITIALISER — `s16 size = 0;` flow deletes, whose only job is to stop `scan_loop` hoisting a constant; c9 refused the do-nothing reassignment form) It is R7's move, banked in S102 (a4, b8)
   and S103 (c5's `func_8015D738`, where it is the barrier the removed `asm` was — c5 flagged it), uncounted by the census,
   1,347 in `src/`. If yes: a census class + a residue to work down.
 - The declaration debt, measured at S103's open (`.run/P36/s103/argcheck.json`, 94,001 rows): **91,846 are calls that
