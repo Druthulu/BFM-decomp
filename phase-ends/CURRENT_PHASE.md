@@ -1037,6 +1037,21 @@ accumulate here as the phase produces them.**
   refusal plus the fleet was a complete reconciliation instrument with no snapshot at all.
   `lever_census --check: 29,140 pin/asm sites, 29,140 marked !FAKE, 0 UNMARKED — OK`; snapshot row 17.
 
+- **S102 — THE OPERATING PROCEDURE FOR T7, set by Drew 2026-09-10 after the three-agent night:** *"you should always have an
+  agent running once it finishes, prove the rule, harvest the idiom, start a new agent, thats the main lane. the banking and
+  propegation lane can run slower in the background as needed."* **The agent lane is the MAIN lane and is never empty.**
+  On a landing, in this order: (1) `--try` the agent's `body.c` — seconds — to prove the claim on bytes; (2) **launch the
+  next agent immediately**; (3) only then bank, propagate, harvest the idiom into a generator, gate and commit, all of it
+  while the new agent runs. Still ONE agent at a time (his earlier rule: the methodology is honed at each landing), but the
+  slot is refilled in seconds, not after an hour of gating.
+  **The one real hazard, and how it is handled:** the scorer's scratch object is keyed by the TU, so two processes scoring
+  the SAME TU collide and one gets a wrong score. Banking itself is safe to run beside an agent — a bank is IDENTICAL on the
+  whole object by construction, so it cannot move the agent's function's bytes — but a `--propagate` that reaches the LIVE
+  AGENT'S TU must be deferred until that agent lands. Pick the next exemplar from a different file when there is a choice,
+  and note the live TU before propagating. **A sweep is not part of this lane at all:** it writes candidates across many
+  TUs for hours, which is exactly what emptied the agent slot for six of the eight hours of S102's night; sweeps run only
+  when no agent is running, and never on the live agent's TU.
+
 ## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,140 sites** (16,989 pins + 12,151 asm) in 9,005 bodies · marked 29,140 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (17 milestones). **S102's loop state: sweeps s1–s7 done or stopped; the never-attempted pool is empty. THE CADENCE IS NOW AGENTS BACK-TO-BACK (Drew, on waking: he expected dozens overnight and got three because sweeps ran between them); a sweep only in a gap, and never on the live agent's TU.**
 
 ### 0. How to use this block
