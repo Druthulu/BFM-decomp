@@ -1519,6 +1519,19 @@ accumulate here as the phase produces them.**
   already banked) and ADDED to the do-while question for Drew** — if he rules the class a lever, this body is one of its
   members. The agent also found `build/` deleted mid-run (the fleet gate's `make clean`): METHOD step 1 now dumps the
   target from `.run/P36/delever/baseline/`. `apply-body … IDENTICAL … KEPT`; `--propagate: 128 of 128`.
+  R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 15,239 pin/asm sites … 0 UNMARKED — OK`.
+- **S103 — T7 agent c17: `func_8013D9B0` READ, not closed (96 → 15 in plain C; 140 vs 141) — and the last 15 are a GTE
+  HEADER MACRO, not the body.** Plain-C moves: one walked `Cmd_8013D53C *p` (the siblings' struct; two `u16*` + casts
+  had made a third walked pointer), `s16 rect[4]` filled field by field (replaces all four `"memory"` barriers),
+  LoadImage given both arguments (the target keeps `img` live in `a1`), the flag set in both arms (15 → 24 refs, beats
+  the pointer for `$s0`; the delay-slot filler re-merges the stores), `fc = gte;` inside the guard. The residual: a
+  `move t4,v0` before `swc2 $29,0(t4)` that no C variable can own, because `include/gte_inline.h`'s `gte_stORGB` does not
+  write `$12` itself. **Proof in scratch (asm, not claimable):** `gte_stORGB` respelled `"move $12, %0\n\tswc2 $29,
+  0($12)" :: "r"(p) : "$12", "memory"` scores 2 (PsyQ `inline_o.h`'s `$12-$15` clobber list scores 6); a second macro
+  merged scores 0. The four macros are used only by the 134 `func_8013D9B0` copies, and a macro change must ship with a
+  new body for every copy (the old bodies pin the pointer to `$12`). **This is T5's GTE question** (one GTE header
+  under Sony's names; the phase plan says a clobber VARIANT is a lever, not a second spelling) **— for Drew, not a
+  bank.** The agent refused a dead second store that also reached 0.
 
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
 
@@ -1614,6 +1627,11 @@ setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R
 - **Drew's call, asked in S103:** does `do { … } while (0);` count as a lever? (banked with one so far: c5's `func_8015D738` and c15's `func_80135EB0` in S103, a4 and b8 in S102; and its cousin: c13's DEAD INITIALISER — `s16 size = 0;` flow deletes, whose only job is to stop `scan_loop` hoisting a constant; c9 refused the do-nothing reassignment form) It is R7's move, banked in S102 (a4, b8)
   and S103 (c5's `func_8015D738`, where it is the barrier the removed `asm` was — c5 flagged it), uncounted by the census,
   1,347 in `src/`. If yes: a census class + a residue to work down.
+- **Drew's call (T5, the GTE header):** c17 showed `func_8013D9B0`'s last 15 (134 copies) are `include/gte_inline.h`'s
+  `gte_stORGB` spelling: an `inline_o`-style macro that writes `$12` itself (clobber `$12` only) takes the plain-C body to
+  2, a second merged macro to 0 — a clobber list that differs from Sony's own (`$12-$15` scores 6). Whether a GTE macro
+  may be respelled that way (the plan calls a clobber variant a lever) decides this class. Evidence:
+  `.run/P36/agents/ov_SC04_011__func_8013D9B0/scratch/PA.c`, `PROOF_K1.c`, `mechanism.md`.
 - The declaration debt, measured at S103's open (`.run/P36/s103/argcheck.json`, 94,001 rows): **91,846 are calls that
   pass FEWER arguments than the definition** (the R19 population — which side is wrong is a types-phase question: a
   definition may carry a phantom parameter), 1,731 have every call passing enough but sit in units `decl_repair` did not
