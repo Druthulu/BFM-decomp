@@ -2095,13 +2095,14 @@ extern void func_8012C218(void *a0);
 void func_80143D28(s32 param_1) {
 
     extern MatEntry D_80187834[];
-    register s32 iVar3 __asm__("$18") = *(s32 *)(param_1 + 0x20); /* $s2 */  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus2)
     s32 iVar2 = *(s32 *)(param_1 + 0x64); /* $s1 */
     MatEntry *p = &D_80187834[*(s16 *)(param_1 + 0x70)];
+    u16 uVar5 = p->f8;
+    s32 iVar3 = *(s32 *)(param_1 + 0x20);
     s32 sVar4;
     s32 iVar1;
 
-    *(s16 *)(iVar3 + 0x14) = p->f8;
+    *(s16 *)(iVar3 + 0x14) = uVar5;
     *(u16 *)(iVar3 + 0x12) = *(u16 *)(iVar3 + 0x12) + p->fa;
     sVar4 = 0x1000;
     ((void (*)(void *, void *, void *))ApplyMatrixSV)((void *)(*(s32 *)(param_1 + 0x20) + 0x34), p, (void *)(param_1 + 0x50));

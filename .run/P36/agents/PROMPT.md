@@ -42,7 +42,11 @@ HOW TO WORK (the method we are honing — follow it and report where it fell sho
    into a family, (e) what you tried that did NOT work and why (byte evidence), (f) where the method above fell short.
    Every claim about a pass is a hypothesis until `--try` shows the bytes; say which claims you proved and which you did not.
 4. Do NOT: run `make`, edit anything under `src/`, `tools/`, `docs/` or `config/`, run any git command that changes state, write
-   outside PACK. If the bytes will not close, stop at your best score with the mechanism written — a precise reading of why is worth
+   outside PACK. **This includes your own helper scripts, dumps and probe directories: put them in `PACK/scratch/`, never in the
+   session scratchpad or any shared `/tmp`-like directory.** Agents run in PARALLEL and share those directories: three agents in
+   S102's burst had their helper scripts overwritten mid-run by another agent, and two of them scored candidates against ANOTHER
+   agent's function before `--try`'s echo of the TU and function name gave it away. If a `--try` fails with an error that is not
+   about your own text (an unrelated header, a function that is not yours), RETRY IT ONCE before believing it. If the bytes will not close, stop at your best score with the mechanism written — a precise reading of why is worth
    more than a lever put back.
 
 Report back: the final score, the move(s) in one line each, the mechanism (pass + `file:line`), the generator proposal in one

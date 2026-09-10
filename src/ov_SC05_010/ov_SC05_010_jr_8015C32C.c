@@ -2804,11 +2804,10 @@ void func_8015FBE0(s32 *param_1)
 
     extern u8 D_800B9A17;
     if (param_1[0x61] < 0) {
-        ((void (**)())D_8018B03C)[*(u16 *)param_1]();
+        ((void (**)(s32 *))D_8018B03C)[*(u16 *)param_1](param_1);
         ((void (*)(s32 *, s16))func_80147078)(param_1, 0);
         ((void (*)(s32 *))func_80159B70)(param_1);
     } else {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus3)
         D_80078EC1 = 0;
         ((void (*)(s32 *, s32))func_80154150)(param_1, 0x20);
         ((void (*)(s32 *, s32))func_80154A74)(param_1, 0x18);

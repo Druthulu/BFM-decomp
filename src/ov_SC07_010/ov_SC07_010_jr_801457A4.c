@@ -2326,13 +2326,10 @@ extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014DCE0(s32 a0, s32 a1, s32 a2);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
+s32 func_8014D820(s32 a0, u16 *a1, u16 *a2)
 {
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 D_801202A0[];
 
+    extern u8 D_801202A0[];
     extern u8 D_80183C10[];
     extern u8 D_801152A8[];
     extern s16 D_801152AC;
@@ -2365,7 +2362,6 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
   } Ent;
   int new_var2;
   s16 new_var3;
-register u16 *a2 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus2)
   V4 out[3];
   V4 pos;
   Desc desc;
@@ -2389,7 +2385,6 @@ register u16 *a2 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B
   s32 t;
   s32 u;
   s32 a0v;
-__asm__ __volatile__("" : "=r"(a2) : "0"(a2x));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus2)
   t = a2[0];
   u = a1[0];
   dx = t - u;
@@ -2418,7 +2413,7 @@ a0v = a0;
   {
     goto fail;
   }
-  if (((s32 (*)(s32, s32, s32)) func_80135A4C)(ent->f20, ent->f58, (s32) a1) == 0)
+  if (func_80135A4C(ent->f20, ent->f58, (s32 *) a1, (s32) a2) == 0)
   {
     goto fail;
   }

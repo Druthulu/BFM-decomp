@@ -652,9 +652,14 @@ def includers(use_cache=True):
             (direct if rel.endswith(".c") else hdr_inc)[k2].add(rel)
     if use_cache:
         RUN.mkdir(parents=True, exist_ok=True)
-        tmp = INCLUDERS_CACHE.with_suffix(".tmp")
-        tmp.write_text(json.dumps(new_cache))
-        os.replace(tmp, INCLUDERS_CACHE)
+        # a UNIQUE temp per process: the name used to be fixed, so concurrent readers clobbered each other's os.replace
+        # and the loser saw `FileNotFoundError: includers_cache.tmp -> includers_cache.json`, which reads like a compiler
+        # crash on the candidate. Found by an agent in S102's burst of 20 (R48: never key a shared path by a bare name).
+        import tempfile
+        fd, tmpname = tempfile.mkstemp(dir=str(RUN), prefix="includers_cache.", suffix=".tmp")
+        with os.fdopen(fd, "w") as fh:
+            json.dump(new_cache, fh)
+        os.replace(tmpname, INCLUDERS_CACHE)
     out = {}
     def resolve(h, seen=()):
         if h in out:
