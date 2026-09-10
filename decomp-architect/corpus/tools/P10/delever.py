@@ -1779,6 +1779,29 @@ def width_changes(text, tu, fn, d_):
     return out
 
 
+def protos_outside_definition(text, fn, d_):
+    """[(line index, match)] — every declaration of `fn` in this TU that lies OUTSIDE its definition.
+
+    R14 has to change a parameter's width at the definition AND at each of these, or the compile dies on `conflicting
+    types`. But the bank is BODY-ONLY by contract: `apply_body_core` splices just the function's definition into the
+    original file, and `--propagate` remaps that body text to siblings — so a candidate whose edits reach outside the
+    definition verifies at score 0 and then cannot be banked at all. S102 measured the cost once: run s4 spent 288 compiles
+    reaching 0 on func_80136824 and recorded BANK-REFUSED (`conflicting types for 'func_80136824'`) for a search that had
+    succeeded. A generator refuses an input it cannot handle rather than hand back an unbankable candidate (R43); R14
+    therefore offers nothing when the TU declares the function anywhere but at its definition, which is exactly the case
+    its earlier banked closes did not have."""
+    lines = text.split("\n")
+    out = []
+    for i, l in enumerate(lines):
+        if i == d_["line"] - 1:
+            continue
+        st = sc.mask_text(l)
+        m = re.match(r"^(.*?\b" + re.escape(fn) + r"\s*\()(.*)(\)\s*;.*)$", st)
+        if m and (st.lstrip().startswith("extern") or i < d_["line"] - 1 or i >= d_["end"]):
+            out.append((i, m))
+    return out
+
+
 def param_widths(text, tu, fn, d_):
     """[(description, candidate text)] — R14: a PARAMETER's declared scalar width changed in the header. MIPS has no
     PROMOTE_MODE: a `short` parameter arrives in its SImode register and gcc 2.7.2 sign-extends it IN PLACE (`sra a1,a1,16`) before
@@ -1787,22 +1810,18 @@ def param_widths(text, tu, fn, d_):
     simply DIFFERS; one that matches is the original's declaration."""
     lines = text.split("\n")
     out = []
+    if protos_outside_definition(text, fn, d_):
+        return out                                        # R43: this candidate could never be BANKED — see below
     hi = lines[d_["line"] - 1]
     m = re.match(r"^(.*?\b" + re.escape(fn) + r"\s*\()(.*)(\).*)$", hi)
     if not m:
         return out
     parts = m.group(2).split(",")
     # the TU's own PROTOTYPES of fn must change with the header, or the compile fails on conflicting types (S101: every R14
-    # candidate on func_80166F58 was a COMPILE-ERROR); a prototype in a shared header cannot be changed here and the candidate
-    # then simply fails to compile — a wasted compile, never a wrong bank
-    protos = []
-    for i, l in enumerate(lines):
-        if i == d_["line"] - 1:
-            continue
-        s = sc.mask_text(l)
-        pm_ = re.match(r"^(.*?\b" + re.escape(fn) + r"\s*\()(.*)(\)\s*;.*)$", s)
-        if pm_ and (s.lstrip().startswith("extern") or i < d_["line"] - 1 or i >= d_["end"]):
-            protos.append((i, pm_))
+    # candidate on func_80166F58 was a COMPILE-ERROR). A prototype in a SHARED header cannot be changed here at all, so such a
+    # function is refused outright above (S102: the failure lands at bank time, on an includer, after the scorer has already
+    # said 0 — 288 compiles and a BANK-REFUSED for a search that had succeeded)
+    protos = []                                            # empty by construction: refused above when it would not be
     for k, part in enumerate(parts):
         pm = re.match(r"^(\s*)(" + WIDTH_RE + r")(\s+[A-Za-z_]\w*\s*)$", part)
         if not pm or pm.group(2) not in PARAM_WIDTHS:
@@ -3334,6 +3353,17 @@ def selftest():
                            next(r for r in sc.scan_text(NB, "src/fx/b.c", shared_defs=None) if r["form"] == "def"))
            if d.startswith("bystander @11")):
         fail("R18 must not move a statement across a nested block")
+
+    # R14's bankability refusal (S102 run s4): the bank is body-only, so a width change that must also rewrite a prototype
+    # outside the definition can never be banked — the generator refuses instead of spending compiles on it (R43).
+    WFIX = "extern void f(s32 a);\nvoid f(s32 a) {\n    use(a);\n}\n"
+    dW = next(r for r in sc.scan_text(WFIX, "src/fx/w.c", shared_defs=None) if r["form"] == "def" and r["name"] == "f")
+    if param_widths(WFIX, "src/fx/w.c", "f", dW):
+        fail("R14 must refuse a function the TU declares outside its definition (the bank is body-only)")
+    W2 = "void f(s32 a) {\n    use(a);\n}\n"
+    d2W = next(r for r in sc.scan_text(W2, "src/fx/w.c", shared_defs=None) if r["form"] == "def" and r["name"] == "f")
+    if not param_widths(W2, "src/fx/w.c", "f", d2W):
+        fail("R14 must still offer widths when the definition is the only declaration")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

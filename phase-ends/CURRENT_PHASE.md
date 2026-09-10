@@ -977,6 +977,30 @@ accumulate here as the phase produces them.**
   **`delever_pack.py` fixed from the agent's own method note:** each trace candidate now carries its residual CLASS beside its
   score, because a bare number hid that a move had already turned this body's residual from REG into ORDER.
 
+- **S102 — the OUT-OF-BODY defect, found by run s4 and fixed at its cause.** s4 reported `BANK-REFUSED` on `func_80136824`
+  after 288 compiles that had genuinely reached score 0 (`R15 sink + R12 width pos + R14 param-width arg1 s32->s16`), with
+  `conflicting types for 'func_80136824'`. **The cause is a contract, not a bad body:** the engine verifies the WHOLE
+  candidate text through every recipe, then hands `apply_body_core` only the function's DEFINITION — and `--propagate`
+  remaps that body text to siblings — so any generator whose candidate edits lines outside the definition produces a
+  score-0 text that can never be banked. R14 (a parameter's declared width) is the only such generator: it must rewrite the
+  TU's prototypes too, and those edits are dropped at bank time. **My first diagnosis was wrong and was discarded rather
+  than shipped** — I guessed the conflicting declaration lived in a shared header, built a 2,431-name index of shared-header
+  declarations to refuse on, and the index said `func_80136824` is NOT in it; reading `cmd_run` gave the real answer.
+  Two fixes: `param_widths` refuses outright when the TU declares the function anywhere but at its definition
+  (`protos_outside_definition`, R43 — the earlier R14 banks were all bodies with no such prototype, so nothing that worked
+  is lost), and the engine names the condition itself with a new **OUT-OF-BODY** verdict instead of letting the bank fail on
+  a compiler error that reads like a bad body. Controls both ways in the selftest. **Open by name for the types phase:**
+  `func_80136824` (126 + 4 copies) has a REAL crack that needs its prototype widened with its definition — the same shape as
+  a2's `$4` pin, and the second measured case where a declaration, not codegen, is what stands between us and the bytes.
+
+- **S102 — sweep s4 (the head, with R18): `search: 0 of 139 exemplars matched lever-free in 0.54 h (0 of 7,077 bodies
+  behind them; 52,566 compiles) — NO-MATCH 136 · BANK-REFUSED 3`.** The three refusals are the three fleet copies of
+  `func_80136824`, each a REAL score-0 blocked by the body-only bank contract. **The measurement that should steer the rest
+  of T7 (R41): across s1–s4 the head's 57 classes have now absorbed ~128,000 compiles and yielded 6 closes, all of them
+  R15's, all in the first sweep. The head is resistant to every mechanical generator at this width** — the tail and the
+  targeted families are where the sweeps pay, and the head is what agents are for. Cumulative for the session so far:
+  30,358 → 29,527 sites, 9,747 → 9,320 bodies, three agents (≈590k tokens) and four sweeps (0 tokens).
+
 ## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,527 sites** (17,260 pins + 12,267 asm) in 9,320 bodies · marked 29,527 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (14 milestones). **S102's loop state: a1 + a2 banked and harvested (R15, R16, R17); sweeps s1 (6) / s2 (0) / s3 (10) / s3b (1, BUDGET 59 of 80 — the constant-holder family is sampled, not measured); a3 read `func_801397B0` without closing it (best 2) and its move is now R18; NEXT = sweep the head with R18, then agent a4.**
 
 ### 0. How to use this block

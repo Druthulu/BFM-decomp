@@ -514,6 +514,7 @@ def run_body(ex, a, tag, by_src, inc, inflight, log):
     if res["verdict"] == "MATCH":
         # the bank verdict: every recipe of the file, then the proven apply path (the ledger row with before/after text)
         v, dt, err = scorer.verify_all(res["text"])
+        body = None
         if v != "IDENTICAL":
             res["verdict"] = "ONE-OBJECT-ONLY"                # R34: the one-object score said 0, the file's other objects disagree
             row["verify"] = f"{v} {err[:120]}"
@@ -521,6 +522,19 @@ def run_body(ex, a, tag, by_src, inc, inflight, log):
             d_ = body_span(res["text"], tu, fn)
             ls = dl.line_starts(res["text"])
             body = res["text"][ls[d_["line"] - 1]:ls[d_["end"]]]
+            # THE BANK IS BODY-ONLY (apply_body_core splices the definition; --propagate remaps that body to siblings), so
+            # a candidate that also edited lines outside the definition verifies at 0 and can never be banked. Say so in
+            # its own words instead of letting the bank fail on `conflicting types` (S102 run s4, func_80136824: 288
+            # compiles to a real score 0, then a BANK-REFUSED that read like a bad body). R14 no longer generates these.
+            d0 = body_span(free, tu, fn)
+            l0 = dl.line_starts(free)
+            outside_now = res["text"][:ls[d_["line"] - 1]] + res["text"][ls[d_["end"]]:]
+            outside_before = free[:l0[d0["line"] - 1]] + free[l0[d0["end"]]:]
+            if outside_now != outside_before:
+                res["verdict"] = "OUT-OF-BODY"
+                row["verify"] = "the candidate edits lines outside the definition; the bank is body-only"
+                body = None
+        if res["verdict"] == "MATCH" and body is not None:
             bf = RUN / "bodies" / f"{(ex['alias'] or 'x')}__{fn}.c"
             bf.parent.mkdir(parents=True, exist_ok=True)
             bf.write_text(body, errors="surrogateescape")            # the record of what was handed to the bank
