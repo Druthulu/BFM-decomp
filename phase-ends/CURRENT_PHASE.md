@@ -1156,6 +1156,40 @@ accumulate here as the phase produces them.**
   Its answer to the `$0` question is a correction worth keeping: `zr` is `register int __asm__("$0")` with NO initializer,
   an opaque operand and NOT R16's constant holder — **R16 must refuse an uninitialised `register … __asm__` declaration.**
 
+- **S102 — DREW'S CHALLENGE TO a10's "NEEDED BY CONSTRUCTION", and the verdict DOWNGRADED (R65/R69).** He asked the right
+  question: *"does this mean the dev in 1998 wrote in that register pin in his C code? because if not, then it should be
+  possible to remove it."* **He is right, and the verdict was too strong.** Nobody wrote `register int r __asm__("$2")` —
+  every pin in this tree is OUR scaffold, inserted by this project to force a byte match, so a plain-C spelling exists for
+  every one of them by construction. What agent a10 actually proved is the SCOPED claim: within `func_80178970`'s CURRENT
+  declaration environment, no spelling it tried reaches the bytes, because combine deletes the call-result copy
+  (`combine.c:914-917`, `use_crosses_set_p` at `:10127-10130`; the `SMALL_REGISTER_CLASSES` arm at `:944-957` is not
+  defined for MIPS) and only a call or a return writes `$v0` in plain C. **The environment is demonstrably wrong in that
+  very function:** the TU declares `extern s32 func_801789AC(s32 arg0);` at line 3884 and the body calls it as
+  `((s32 (*)(void))func_801789AC)()` — the SAME dropped-argument class six other agents cracked today. Restoring the
+  argument was tested on the bytes at once: `func_801789AC(0)` scores **3**, both as a statement and folded into the `if`,
+  so it is not the whole answer here — but it proves the body is being read in a distorted environment, and a verdict
+  taken inside a distorted environment is not a property of the function. **Drew's own next hypothesis is the right one to
+  record:** structs, once built out and propagated, change the RTL a body generates — this phase already has a byte-proof
+  of exactly that lever, agent a18's `func_80141874`, where declaring a global `extern u16 X[];` instead of a scalar set
+  `MEM_IN_STRUCT_P` on its store, restored a `true_dependence` edge the exception clause at `sched.c:837-839` had
+  discarded, and closed the body. **So `func_80178970` is NOT permanent: it moves to the structs/types phase's list**
+  alongside `func_80136824`, `func_80168828` and `func_80157D20`, with its reading attached.
+- **S102 — T7 agent a15: `func_80166F58` NOT closed (score 4 of a start of 4; ~350 hand-tested candidates on top of the
+  search's 2,625) — and it CORRECTS one of my own documented premises.** The SETUP row for R14 says a `short` parameter
+  "arrives in its SImode register and gcc 2.7.2 sign-extends it IN PLACE". **That is wrong for this port:** MIPS defines
+  only `PROMOTE_PROTOTYPES`, not `PROMOTE_MODE` (`config/mips/mips.h:1153`), so a narrowed parameter stays a HImode pseudo
+  and the extension still happens at the USE — the agent compiled it both ways and got the same 67-instruction merged
+  form, and the K&R form too. R14 was doubly dead on that body (the TU also declares the function twice at file scope
+  after its definition, so narrowing is a hard `conflicting types` error). Its real reading: the missing pair is a reg-reg
+  copy that combine deletes because the extension's destination carries `REG_DEAD` at the copy, and the obvious defence —
+  a second use — is undone by `cse.c:canon_reg`, which rewrites the later use onto the COPY's destination; only a second
+  use placed BEFORE the copy survives, and it then rotates the callee-saved seats. Its sweep measures the trap exactly:
+  second use after both copies 67 ins, between them 68, before both 69. It also disassembled all 4,284 objects under
+  `build/src` looking for the target's shape and found it in exactly ONE function in the whole game — itself.
+  **And a scoring finding that explains several stalls: the score is not monotone in structure.** Its 69-instruction
+  candidate (the CORRECT shape) scores 21 while the 2-instruction-short one scores 4, so a hill-climb cannot reach the
+  answer from the start; a secondary sort on |count difference| would have let the mechanical search find it.
+
 ## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **27,984 sites** in 8,249 bodies · marked 27,984 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (20 milestones). **S102's loop state: the burst of 20 is landing; a4/a7/a8/a12/a18/a19 banked (756 bodies); the per-file scratch-object collision is FIXED (per-function tag); the biggest class found is a truncated `(void)` DECLARATION, three cases of which need the types phase.**
 
 ### 0. How to use this block
