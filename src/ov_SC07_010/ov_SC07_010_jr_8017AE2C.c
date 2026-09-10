@@ -5226,14 +5226,14 @@ extern void func_8012C194(void);
 extern u32 D_801A7D0C[];
 
 void func_8017F31C(s32 a0) {
-    register s32 s1 __asm__("$17") = a0;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s1 = a0;
     s32 s0;
     s32 v0;
     s32 s2;
 
-    s2 = (*(s16 *)(s1 + 0x70) << 6) + (s32)&D_801A7D0C;
+    do { s2 = (*(s16 *)(s1 + 0x70) << 6) + (s32)&D_801A7D0C; } while (0);
     v0 = ((s32 (*)(void))func_8012C194)();
-    __asm__ volatile("addu %0,%1,$0" : "=r"(s0) : "r"(v0));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
+    s0 = v0;
     *(s32 *)(s1 + 0x20) = v0;
 
     if (v0 == 0) {

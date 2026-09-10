@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 5, "tu": "src/md_SC03_076/md_SC03_076_jr_801F218C.c", "fn": "func_801F2458", "label": "g6b"}
+{"kind": "seed", "start": 5, "tu": "src/md_SC03_076/md_SC03_076_jr_801F218C.c", "fn": "func_801F2458", "label": "s7"}
 {"depth": 1, "move": "R12 width t s32->u16 @262", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R6 inline t @266", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R7 block @266", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
@@ -76,6 +76,24 @@
 {"depth": 2, "move": "R7 do-while @277", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R7 block @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R7 do-while @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R6 inline t @266", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R6 inline t @270", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @266", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R6 inline t @274", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @264", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width x s32->u16 @261", "parent": 5, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R6 inline t @277", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @264", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width x s32->s16 @261", "parent": 5, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @270", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R12 width x s32->u8 @261", "parent": 5, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @270", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @274", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @274", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @277", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @277", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 block @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R7 do-while @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline t @270", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline t @274", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R7 block @264", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
@@ -93,7 +111,6 @@
 {"depth": 3, "move": "R7 block @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R7 do-while @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline t @270", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
-{"depth": 3, "move": "R12 width t u16->s16 @262", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline t @274", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R7 block @264", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline t @277", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
@@ -110,7 +127,21 @@
 {"depth": 3, "move": "R7 block @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R7 do-while @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline t @266", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
-{"depth": 3, "move": "R12 width t u16->s16 @262", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R6 inline t @270", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R6 inline t @274", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width x s32->u16 @261", "parent": 5, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R6 inline t @277", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @270", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width x s32->s16 @261", "parent": 5, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @270", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R12 width x s32->u8 @261", "parent": 5, "score": 13, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @274", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @274", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @277", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @277", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 block @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @280", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R6 inline t @266", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline t @270", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline t @274", "parent": 5, "score": 21, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R12 width x s32->u16 @261", "parent": 5, "score": 7, "kind": "COUNT", "ident": false}

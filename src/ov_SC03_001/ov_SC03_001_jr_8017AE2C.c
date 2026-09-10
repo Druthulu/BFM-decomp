@@ -4013,7 +4013,7 @@ typedef struct { s16 vx, vy, vz, pad; } TmpVec_8017DCE4;
 
 void func_8017DCE4(s32 a0)
 {
-    register s32 pv __asm__("$16") = a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 pv = a0;
     s32 s1;
     s32 flags;
     TmpVec_8017DCE4 tmp;
@@ -4025,7 +4025,7 @@ void func_8017DCE4(s32 a0)
         return;
     }
 
-    func_8012B1B4(pv, (s32)&D_80191020);
+    do { func_8012B1B4(pv, (s32)&D_80191020); } while (0);
     flags = func_8012CBCC(pv);
 
     if (flags & 0x6000) {

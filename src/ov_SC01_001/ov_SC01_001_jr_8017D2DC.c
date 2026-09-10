@@ -4247,14 +4247,14 @@ extern s32 D_801EDA10;
 
 void func_8017F28C(s32 a0)
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 s1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 s0;
+    s32 s1;
     s32 v0;
 
-    s0 = a0;
     v0 = func_8012C1B8();
-    *(s32 *)(s0 + 0x20) = v0;
     s1 = v0;
+    s0 = a0;
+    *(s32 *)(s0 + 0x20) = v0;
 
     if (v0 == 0) {
         func_8012CAE4(s0);
