@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 29, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c", "fn": "func_801651B8", "label": "s1"}
+{"kind": "seed", "start": 29, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c", "fn": "func_801651B8", "label": "s2"}
 {"depth": 1, "move": "R12 width iVar2 s32->u16 @4544", "parent": 29, "score": 30, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R6 inline a0v @4553", "parent": 29, "score": 29, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R8 hoist tmp0 @4555", "parent": 29, "score": 29, "kind": "COUNT", "ident": false}
@@ -65,6 +65,7 @@
 {"depth": 2, "move": "R7 block @4557", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R7 do-while @4557", "parent": 13, "score": 13, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R12 width iVar2 s32->u16 @4544", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R16 const-holder iVar2=0 x1", "parent": 20, "score": 13, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R6 inline a0v @4553", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R8 hoist tmp0 @4555", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R7 block @4547", "parent": 20, "score": 20, "kind": "COUNT", "ident": false}

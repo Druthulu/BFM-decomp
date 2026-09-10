@@ -3600,7 +3600,7 @@ void func_8017E3AC(s32 a0) {
     Blk8_func_8017E3AC sp10;
     Blk8_func_8017E3AC sp18;
     s32 act;
-    register s32 i __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 i;
     s32 angm;
     s32 angp;
     s32 k;
@@ -3642,7 +3642,7 @@ void func_8017E3AC(s32 a0) {
         while (j < 4) {
             func_8012F214(act, k, (s32)&sp10);
             func_8017F76C((s16 *)&sp10, 0, rand() % 4 * 0x10000 + pos, 1);
-            j++;
+            do { j++; } while (0);
             k += 8;
         }
     }

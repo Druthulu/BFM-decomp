@@ -1,0 +1,13 @@
+{"kind": "seed", "start": 7, "tu": "src/md_SC03_134/md_SC03_134.c", "fn": "func_801E3448", "label": "s3"}
+{"depth": 1, "move": "R6 inline c @604", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 base-shared tmp0 @608", "parent": 7, "score": 7, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width c s32->u16 @604", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R3 init-split c", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @610", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @610", "parent": 7, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R2 decl-order 1,0", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R4 decl-move c 3->0", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline a0 @605", "parent": 7, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R12 width c s32->s16 @604", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R3 init-split a0", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 do-while @610", "parent": 7, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -1,0 +1,19 @@
+{"kind": "seed", "start": 3, "tu": "src/ov_SC05_017/ov_SC05_017_jr_801808D4.c", "fn": "func_80180C5C", "label": "s3"}
+{"depth": 1, "move": "R6 inline pv0 @3133", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R16 const-holder pv1=0x7FFF x1", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @3133", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @3091", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->u16 @3089", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @3126", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3133", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R6 inline pv1 @3134", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @3133", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->s16 @3089", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 do-while @3126", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3134", "parent": 3, "score": 16, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @3120", "parent": 3, "score": 4, "kind": "MIXED", "ident": false}
+{"depth": 1, "move": "R8 cse tmp0 @3138", "parent": 3, "score": 31, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->u8 @3089", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R7 block @3133", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3122", "parent": 3, "score": 33, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline newEnt @3140", "parent": 3, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 25, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c", "fn": "func_80135168", "label": "s1"}
+{"kind": "seed", "start": 25, "tu": "src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c", "fn": "func_80135168", "label": "s2"}
 {"depth": 1, "move": "R14 param-width arg0 u16->s32 @2997", "parent": 25, "score": 26, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R6 inline a1v @3018", "parent": 25, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 1, "move": "R8 hoist tmp0 @3014", "parent": 25, "score": null, "kind": "COMPILE-ERROR:", "ident": false}

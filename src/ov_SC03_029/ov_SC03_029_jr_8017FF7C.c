@@ -3188,18 +3188,17 @@ void func_801804A0(s32 a0) {
 
 void func_80180904(s32 arg0) {
     s32 base;
-    register s32 cst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 cst;
     s32 b2;
-    register s32 c2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 r6 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 c2;
+    s32 r6;
     s32 rA;
     s32 rE;
 
-    base = *(s32 *)(arg0 + 0x20);
     cst = 0x1800;
     *(s16 *)(arg0 + 0xAA) = 0;
     *(s16 *)(arg0 + 0x5C) = 0;
-    *(s16 *)(base + 0x18) = cst;
+    *(s16 *)((*(s32 *)(arg0 + 0x20)) + 0x18) = cst;
     base = *(s32 *)(arg0 + 0x20);
     *(s16 *)(base + 0x1C) = cst;
     b2 = *(s32 *)(arg0 + 0x20);

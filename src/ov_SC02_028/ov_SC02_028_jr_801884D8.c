@@ -4658,15 +4658,15 @@ extern void func_8018AA74(void *a0);
 void func_8018A894(void *a0) {
     extern u8 D_801D34CC[];
     u8 *p;
-    register s32 i __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 i;
 
     if (*(s16 *)((s32)a0 + 0xDE) != 0) {
         func_8018AA74(a0);
         return;
     }
 
-    p = D_801D34CC;
     i = 4;
+    p = D_801D34CC;
     do {
         *p = 0;
         p--;

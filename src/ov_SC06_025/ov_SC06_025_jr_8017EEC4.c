@@ -4558,10 +4558,10 @@ extern s16 D_801B173C;
 void func_801812FC(s32 a0) {
     switch (*(u16 *)(a0 + 0x34)) {
     case 0: {
-        register s32 c __asm__("$4") = 0x1000;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        s32 c = 0x1000;
         s32 flag;
         s32 base;
-        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+        do { *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10; } while (0);
         base = *(s32 *)(a0 + 0x20);
         flag = D_801B173C;
         *(s16 *)(base + 0x18) = c;

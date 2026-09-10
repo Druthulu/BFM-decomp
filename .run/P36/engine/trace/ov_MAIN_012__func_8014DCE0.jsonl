@@ -1,0 +1,28 @@
+{"kind": "seed", "start": 5, "tu": "src/shared/ov/func_8014DCE0.h", "fn": "func_8014DCE0", "label": "s3"}
+{"depth": 1, "move": "R12 width s0 s32->u16 @7", "parent": 5, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R16 const-holder i=0 x2", "parent": 5, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->s16 @4", "parent": 5, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline r @13", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @13", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @16", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @13", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg0 @8", "parent": 5, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move i 1->0", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width s0 s32->s16 @7", "parent": 5, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u16 @4", "parent": 5, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R6 inline buf @8", "parent": 5, "score": 39, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @13", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @16", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @9", "parent": 5, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg1 @8", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move i 1->2", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width s0 s32->u8 @7", "parent": 5, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg0 s32->u8 @4", "parent": 5, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @8", "parent": 5, "score": 29, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @13", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @8", "parent": 5, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy arg2 @8", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width i s32->u16 @6", "parent": 5, "score": 6, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width arg1 s32->s16 @4", "parent": 5, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 1, "move": "R8 base tmp0 @8", "parent": 5, "score": 5, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 do-while @13", "parent": 5, "score": 0, "kind": "IDENTICAL", "ident": true}

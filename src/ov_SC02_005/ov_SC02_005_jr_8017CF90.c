@@ -4646,10 +4646,9 @@ void func_801800CC(s32 s0)
 {
     s32 v0;
 
-    v0 = *(s32 *)(s0 + 0x204);
-    if (v0 != 0) {
+    if ((*(s32 *)(s0 + 0x204)) != 0) {
         if (func_8001A9D8() == 0) {
-            register s32 c14 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+            s32 c14;
             c14 = 0xE;
             v0 = *(s32 *)(s0 + 0x204);
             v0 -= 1;

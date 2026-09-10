@@ -7166,13 +7166,13 @@ void func_80181AA8(s32 *a0) {
     extern void func_800146B0(s32 a0);
     extern s32 func_8012AD50(void *arg0);
 
-    register s32 one __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 one;
     u16 flags;
     s32 v0;
 
     one = 1;
     flags = *(u16 *)((s32)a0 + 0x72);
-    D_801C7870 = one;
+    do { D_801C7870 = one; } while (0);
     *(u16 *)((s32)a0 + 0x72) = flags | 0x1000;
 
     v0 = D_801C7A08;

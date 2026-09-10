@@ -5724,15 +5724,13 @@ s32 LzssDecodeSector(u8 *src) {
                 if (count == 0) {
                     /* state-2 reload save. The original keeps this as a SEPARATE copy of the 6
                      * stores (not shared with `save:`). Two more load-bearing constructs: */
-                    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+                    s32 r;
                     /* LOAD-BEARING #4 (residual B, state-2): an explicit $v0 local pinned early by a
                      * read-only input-asm. This forces `li $v0,1` to materialise BEFORE the stores
                      * (the target schedules the return value first; gcc otherwise, since `li $v0,1`'s
                      * only use is the shared epilogue, defers it to just before `jr ra`). Cookbook §10/B. */
                     r = 1;
-                    __asm__ __volatile__("" : : "r"(r));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-                    newState = 2;
-                    lzss_state = newState;
+                    lzss_state = (2);
                     lzss_ringIndex = ringIdx;
                     lzss_curMask = mask;
                     lzss_curToken = token;

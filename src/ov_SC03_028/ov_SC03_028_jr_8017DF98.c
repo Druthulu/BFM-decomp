@@ -5684,8 +5684,8 @@ extern MatEntry D_80190078[];
 void func_80183104(s32 param_1) {
     s32 s1;
     MatEntry *p;
-    register s32 sVar1 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 sVar1;
+    u16 tmp;
 
     *(s32 *)(param_1 + 4) = *(s32 *)(*(s32 *)(param_1 + 0x64) + 4);
     *(s32 *)(param_1 + 8) = *(s32 *)(*(s32 *)(param_1 + 0x64) + 8) + (s32)0xFF000000;
@@ -5694,8 +5694,8 @@ void func_80183104(s32 param_1) {
     p = &D_80190078[*(u16 *)(param_1 + 0x70) & 3];
     *(s16 *)(s1 + 0x14) = p->f8;
     *(u16 *)(s1 + 0x12) = *(u16 *)(s1 + 0x12) + p->fa;
-    ApplyMatrixSV((void *)(*(s32 *)(param_1 + 0x20) + 0x34), p, (void *)(param_1 + 0x50));
     sVar1 = 0x1000;
+    ApplyMatrixSV((void *)(*(s32 *)(param_1 + 0x20) + 0x34), p, (void *)(param_1 + 0x50));
     if (*(s16 *)(param_1 + 0xfe) == 0) {
         if (*(s32 *)(param_1 + 0x64) == 0 ||
             *(s16 *)(*(s32 *)(param_1 + 0x64) + 0x36) != *(s16 *)(param_1 + 0xfc) ||

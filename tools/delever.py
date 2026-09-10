@@ -2739,7 +2739,7 @@ def propagate(a):
             bad += 1
             continue
         ok_, line = apply_body_core(stu, sfn, body, a.label, src_row.get("rung") or "R", source=f"propagate:{tu}:{fn}",
-                                    allow_residue=(a.allow_residue or ex_levers > 0))
+                                    allow_residue=(getattr(a, "allow_residue", False) or ex_levers > 0))  # getattr: the search engine builds its own Namespace for this call (R43 — a library must not assume its caller's)
         print(f"  {line[:200]}", flush=True)
         ok += ok_
         bad += not ok_

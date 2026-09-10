@@ -226,8 +226,7 @@ void func_800CB378(s32 arg0) {
     s32 s0;
     u8 *v1;
     u8 *a0p;
-    s16 v0;
-    register s32 ten __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 ten;
 
     if (D_80078EC1 != 2) {
         func_80146C3C(arg0);
@@ -243,7 +242,7 @@ void func_800CB378(s32 arg0) {
         D_800CB55C = 0;
         a0p[0] = 0;
         func_800233CC(a0p, 0x60);
-        v0 = 3;
+        *(s16 *)(arg0 + 2) = (3);
     } else {
         s0 = ((s32 (*)(void))func_801465C0)();
         if (s0 == 0) {
@@ -255,11 +254,10 @@ void func_800CB378(s32 arg0) {
         *(s16 *)(s0 + 0x18) = 0;
         *(u32 *)(s0 + 4) = *(u32 *)(s0 + 4) | 0x50000000;
         ten = 0x10;
-        v0 = *(u16 *)(arg0 + 2) + 1;
         *(s32 *)(arg0 + 0x20) = s0;
         *(s32 *)(arg0 + 0x1C) = ten;
+        *(s16 *)(arg0 + 2) = (*(u16 *)(arg0 + 2) + 1);
     }
-    *(s16 *)(arg0 + 2) = v0;
 }
 
 

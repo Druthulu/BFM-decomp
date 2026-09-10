@@ -545,13 +545,13 @@ void func_801F02B0(s32 a0_) {
     extern s32 D_801F6CA8;
     extern s32 D_801F6CAC;
 
-    register s32 c __asm__("$3") = 1;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 a0 __asm__("$4") = a0_;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 c = 1;
+    s32 a0 = a0_;
     s32 p1 = D_801F6CA8;
 
     *(s16 *)((s32)a0 + 0xFC) = 0;
     a0 = D_801F6CAC;
-    *(s16 *)(p1 + 0xFC) = c;
+    do { *(s16 *)(p1 + 0xFC) = c; } while (0);
     *(s16 *)((s32)a0 + 0xFC) = 0;
 }
 

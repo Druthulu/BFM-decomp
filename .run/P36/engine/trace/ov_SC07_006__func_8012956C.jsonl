@@ -1,5 +1,6 @@
-{"kind": "seed", "start": 11, "tu": "src/ov_SC07_006/ov_SC07_006.c", "fn": "func_8012956C", "label": "s1"}
+{"kind": "seed", "start": 11, "tu": "src/ov_SC07_006/ov_SC07_006.c", "fn": "func_8012956C", "label": "s2"}
 {"depth": 1, "move": "R12 width i s32->u16 @569", "parent": 11, "score": 81, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R16 const-holder i=0 x7", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 1, "move": "R6 inline arg0 @625", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R8 hoist tmp0 @626", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 1, "move": "R7 block @622", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
@@ -46,8 +47,8 @@
 {"depth": 1, "move": "R7 block @625", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R9 swap-stmts @631", "parent": 11, "score": 34, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R4 decl-move temp_a3 17->6", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
-{"depth": 1, "move": "R12 width temp_a3 u32->s16 @571", "parent": 11, "score": 13, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R12 width i s32->u16 @569", "parent": 11, "score": 79, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R16 const-holder i=0 x7", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 2, "move": "R6 inline t6 @629", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R8 hoist tmp0 @624", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 2, "move": "R7 block @621", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
@@ -94,8 +95,8 @@
 {"depth": 2, "move": "R7 do-while @625", "parent": 11, "score": 19, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R9 swap-stmts @632", "parent": 11, "score": 17, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R12 width s u32->s16 @572", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
-{"depth": 2, "move": "R8 base tmp0 @646", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R12 width i s32->u16 @569", "parent": 11, "score": 81, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R16 const-holder i=0 x7", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 2, "move": "R8 hoist tmp0 @625", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 2, "move": "R7 block @622", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 2, "move": "R5 swap & @580", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
@@ -140,8 +141,8 @@
 {"depth": 2, "move": "R7 block @625", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R9 swap-stmts @631", "parent": 11, "score": 34, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R4 decl-move temp_a3 17->6", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
-{"depth": 2, "move": "R12 width temp_a3 u32->s16 @571", "parent": 11, "score": 13, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R12 width i s32->u16 @569", "parent": 11, "score": 81, "kind": "COUNT", "ident": false}
+{"depth": 2, "move": "R16 const-holder i=0 x7", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 2, "move": "R6 inline arg0 @625", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R8 hoist tmp0 @626", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 2, "move": "R7 block @622", "parent": 11, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
@@ -182,4 +183,3 @@
 {"depth": 2, "move": "R7 block @625", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R9 swap-stmts @631", "parent": 11, "score": 34, "kind": "COUNT", "ident": false}
 {"depth": 2, "move": "R4 decl-move temp_a3 17->6", "parent": 11, "score": 11, "kind": "COUNT", "ident": false}
-{"depth": 2, "move": "R12 width temp_a3 u32->s16 @571", "parent": 11, "score": 13, "kind": "COUNT", "ident": false}

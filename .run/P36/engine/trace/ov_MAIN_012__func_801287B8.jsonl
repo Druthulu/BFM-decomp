@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 3, "tu": "src/ov_MAIN_012/ov_MAIN_012.c", "fn": "func_801287B8", "label": "s1"}
+{"kind": "seed", "start": 3, "tu": "src/ov_MAIN_012/ov_MAIN_012.c", "fn": "func_801287B8", "label": "s2"}
 {"depth": 1, "move": "R6 inline p @246", "parent": 3, "score": 3, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R3 init-split p", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
 {"depth": 1, "move": "R7 block @241", "parent": 3, "score": 3, "kind": "REG", "ident": false}

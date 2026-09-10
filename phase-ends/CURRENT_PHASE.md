@@ -929,7 +929,24 @@ accumulate here as the phase produces them.**
   UNMARKED — OK` (29,697 → 29,572); snapshot row 12. The agent's two toolify proposals (R16 the constant-run split; the
   constant-holder pin census, its 284 of 10,958 claim to be verified against the bytes, R14) follow in their own commit.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,572 sites** (17,302 pins + 12,270 asm) in 9,225 bodies · marked 29,572 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (12 milestones). **S102's loop state: a1 done + harvested (R15, sweep s1); a2 BANKED (125 bodies, 1 of 2 pins — the other is a declaration conflict for the types phase); NEXT = toolify a2 (R16 the constant-run split + the constant-holder pin census), sweep, then agent a3.**
+- **S102 — sweeps s2 and s3, and the constant-holder census (R14/R40).** **s2** re-swept the same head with R16/R17 added:
+  `search: 0 of 140 exemplars matched lever-free in 0.24 h (0 of 7,085 bodies behind them; 23,689 compiles)` — **the two new
+  generators closed NOTHING on the head**, honestly recorded; the head's shapes are not this family's. Agent a2's claim of
+  "284 constant-holder pins of 10,958" was then verified against the source rather than believed (R14), and the FIRST
+  instrument was wrong (R40): asking R16 directly answered **33**, because R16 only fires on a SPLIT declaration while most
+  pins carry their value as an INITIALISER (`register s32 c __asm__("$3") = 0x40;`) — R3 already converts one form to the
+  other, so the family R16 can reach is R3+R16. The corrected census (`.run/P36/engine/const_holder_census.py`, both figures
+  derived): **537 constant-holder pin sites of 17,302, in 510 bodies** — 152 as an initialiser, 385 as a separate assignment;
+  by register `$2` 282, `$20` 136, `$3` 28. **s3** drew exactly those 99 function names at beam 3 × depth 3 × cap 64:
+  **10 bodies closed before the run CRASHED** — `AttributeError: 'Namespace' object has no attribute 'allow_residue'` in
+  `propagate`, because the a2 fix read the flag off the caller's namespace and the search engine builds its OWN Namespace for
+  that in-process call. Fixed with `getattr(a, "allow_residue", False)` (R43: a library must not assume its caller's
+  namespace shape). The ten banks were all real — R22 `check-all: 218 passed, 0 failed of 218` on the tree the crash left,
+  which is the proof no leftover candidate was standing; `lever_census --check: 29,533 pin/asm sites, 29,533 marked !FAKE,
+  0 UNMARKED — OK` (29,572 → 29,533); snapshot row 13. By first move the ten are R15 ×3, R6 ×4, R7 ×2, R9 ×1 — the draw was
+  right about the family even though R16 itself did not fire. s3 re-runs from the top with the fix.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **29,533 sites** (17,266 pins + 12,267 asm) in 9,326 bodies · marked 29,533 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (13 milestones). **S102's loop state: a1 + a2 banked and harvested (R15, R16, R17); sweeps s1 (6 closes) / s2 (0) / s3 (10 closes, crashed in propagate, fixed and re-running); NEXT = finish s3, then agent a3.**
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**

@@ -3985,7 +3985,7 @@ extern s32 func_8012BD14(s32 a0);
 extern s32 func_80143970(s32 a0);
 
 void func_8017E948(void *a0) {
-    register s32 mask __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 mask;
     s32 ret;
     s32 *obj;
     s32 *tail;
@@ -3993,10 +3993,9 @@ void func_8017E948(void *a0) {
     ret = func_8012BD14((s32)a0);
     if (ret > 0x18FFF) {
         mask = 0x7FFFFFFF;
-        obj = *(s32 **)((s32)a0 + 0x20);
         *(u16 *)((s32)a0 + 2) = 2;
         *(s32 *)((s32)a0 + 0x1C) = 0x10;
-        *(s32 *)((s32)obj + 4) &= mask;
+        *(s32 *)((s32)(*(s32 **)((s32)a0 + 0x20)) + 4) &= mask;
         obj = *(s32 **)((s32)a0 + 0x20);
         *(u16 *)((s32)obj + 0x2C) |= 0x10;
         obj = *(s32 **)((s32)a0 + 0x20);

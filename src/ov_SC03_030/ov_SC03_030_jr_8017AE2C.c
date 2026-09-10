@@ -6572,11 +6572,11 @@ void func_80181A60(SVec_80181A60 *v)
     LineF2_80181A60 *p;
     u8 *mx;
     u32 m24;
-    register u32 mFF __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7)
+    u32 mFF;
     s32 flag;
     s32 otz;
     s32 sh;
-    register u32 tag0 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    u32 tag0;
     u32 ix;
 
     p = (LineF2_80181A60 *)func_80010A08(0x10);
@@ -6594,18 +6594,17 @@ void func_80181A60(SVec_80181A60 *v)
     gte_stszotz(&otz);
     if ((flag & ~0x1000) == 0) {
         v++;
-        gte_ldv0(v);
+        { gte_ldv0(v); }
         gte_rtps();
         gte_stsxy(&p->x1);
         gte_stflg(&flag);
         if ((flag & ~0x1000) == 0) {
-            mFF = 0xFF000000;
+            do { mFF = 0xFF000000; } while (0);
             ix = *(u16 *)&D_800B9A02;
             tag0 = *(u32 *)p;
             tag0 = tag0 & mFF;
             sh = otz * 4;
             *(u32 *)p = tag0 | (*(u32 *)(sh + D_800A651C[ix].a) & m24);
-            __asm__ volatile("" : "=r"(ix) : "0"(ix));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
             sh = sh + D_800A651C[*(u16 *)&D_800B9A02].a;
             *(u32 *)sh = (*(u32 *)sh & mFF) | ((u32)p & m24);
         }

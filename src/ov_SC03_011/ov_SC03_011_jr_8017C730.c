@@ -3810,7 +3810,6 @@ extern M2C_UNK D_80181594;
 void func_8017E65C(s32 a0) {
     /* $zero handle: forces the s2 = s1 copy to survive optimize_reg_copy_1
      * as a real `addu $s2,$s1,$zero` (cookbook "A" lever, PLUS-not-SET). */
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8)
     s32 s1;
     s32 s2;
     s32 v0;
@@ -3823,12 +3822,12 @@ void func_8017E65C(s32 a0) {
      * The $17 pin restores the target's callee-saved rotation: without it the
      * extra pseudo makes local_alloc hand the a0 parameter $s1 and this value
      * $s0 (a whole-body 29-register swap). */
-    register s32 one __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 one;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();
     s1 = v0;
     *(s32 *)(a0 + 0x20) = s1;
-    s2 = s1 + zr;
+    s2 = s1 + 0;
 
     /* Both if/else pairs are written INVERTED w.r.t. natural reading: the arm
      * that is the physical fallthrough in the target must be C's "then". */
@@ -3849,8 +3848,7 @@ void func_8017E65C(s32 a0) {
             *(s32 *)(a0 + 0xDC) = 0;
             func_8012C51C(buf, a0);
 
-            v0 = func_800291B4(0xCE);
-            if ((v0 & 0xFF) == 9) {
+            if (((func_800291B4(0xCE)) & 0xFF) == 9) {
                 *(s16 *)(a0 + 0xDE) = 0x40;
                 *(s16 *)(a0 + 0x6) = -0x40;
                 *(s16 *)(a0 + 0xE4) = 0xD0;

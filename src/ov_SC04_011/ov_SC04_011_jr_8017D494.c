@@ -13887,14 +13887,13 @@ extern void func_8018A784();
 
 void func_8018CAF0(void *a0) {
     s32 s0 = (s32)a0;
-    register s32 mask __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t3_tus1)
+    s32 mask;
     u16 v0;
     s16 h;
     s32 p;
 
-    v0 = *(u16 *)(s0 + 0x34);
 
-    if (v0 == 0) {
+    if ((*(u16 *)(s0 + 0x34)) == 0) {
         h = *(s16 *)(s0 + 0xFC);
         if (h != 0) {
             mask = (s32)0x80000000;

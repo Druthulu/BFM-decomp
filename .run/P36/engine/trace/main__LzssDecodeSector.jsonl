@@ -1,0 +1,5 @@
+{"kind": "seed", "start": 2, "tu": "src/800.c", "fn": "LzssDecodeSector", "label": "s3"}
+{"depth": 1, "move": "R9 swap-stmts @5734", "parent": 2, "score": 5, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R7 block @5734", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R16 const-holder r=1 x1", "parent": 2, "score": 2, "kind": "ORDER", "ident": false}
+{"depth": 1, "move": "R6 inline newState @5733", "parent": 2, "score": 0, "kind": "IDENTICAL", "ident": true}

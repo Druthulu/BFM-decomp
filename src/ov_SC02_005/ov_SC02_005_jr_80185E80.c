@@ -5534,8 +5534,7 @@ extern void func_8018EA04(s32 a0);
 void func_8018D574(void *a0)
 {
     s32 pad[10];
-    s16 v0;
-    register u32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    u32 v1;
 
     func_8018F414();
     func_8018F444();
@@ -5547,14 +5546,13 @@ void func_8018D574(void *a0)
     func_8018F564();
     func_8018F594();
     if (*(s16 *)((s32)a0 + 0x70) != 0) {
-        v0 = 9;
+        *(s16 *)((s32)a0 + 0x2) = (9);
     } else {
         func_8018EA04(0);
         v1 = 0x30;
         *(u32 *)((s32)a0 + 0x1C) = v1;
-        v0 = *(u16 *)((s32)a0 + 0x2) + 1;
+        *(s16 *)((s32)a0 + 0x2) = (*(u16 *)((s32)a0 + 0x2) + 1);
     }
-    *(s16 *)((s32)a0 + 0x2) = v0;
 }
 
 

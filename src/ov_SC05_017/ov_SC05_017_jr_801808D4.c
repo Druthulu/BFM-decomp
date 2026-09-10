@@ -3129,7 +3129,7 @@ dispatch:
 
     {
         void *pv0;
-        register s32 pv1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+        s32 pv1;
         pv0 = *(void **)((u8 *)s0 + 0x68);
         pv1 = 0x7FFF;
         *(s16 *)((u8 *)pv0 + 0xC) = (s16)pv1;
@@ -3137,8 +3137,7 @@ dispatch:
     newEnt = (void *)func_801788B8((s32)s0, (s32)func_80180F3C);
     *(s32 *)((u8 *)s0 + 0xD4) = (s32)newEnt;
     func_8012E8E0((s32)newEnt, (s32)&D_80191530);
-    newEnt = (void *)func_801788B8((s32)s0, (s32)func_80180FB4);
-    *(s32 *)((u8 *)s0 + 0xD8) = (s32)newEnt;
+    *(s32 *)((u8 *)s0 + 0xD8) = (s32)((void *)func_801788B8((s32)s0, (s32)func_80180FB4));
 }
 
 

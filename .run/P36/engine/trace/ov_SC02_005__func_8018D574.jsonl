@@ -1,0 +1,5 @@
+{"kind": "seed", "start": 6, "tu": "src/ov_SC02_005/ov_SC02_005_jr_80185E80.c", "fn": "func_8018D574", "label": "s3"}
+{"depth": 1, "move": "R6 inline v1 @5553", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R16 const-holder v1=0x30 x1", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @5555", "parent": 6, "score": 6, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R15 sink @5557 (v0)", "parent": 6, "score": 0, "kind": "IDENTICAL", "ident": true}

@@ -1,0 +1,10 @@
+{"kind": "seed", "start": 7, "tu": "src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c", "fn": "func_801800CC", "label": "s3"}
+{"depth": 1, "move": "R6 inline c14 @4653", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R16 const-holder c14=0xE x1", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4654", "parent": 7, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy s0 @4648", "parent": 7, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R12 width v0 s32->u16 @4647", "parent": 7, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width s0 s32->s16 @4645", "parent": 7, "score": 10, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @4654", "parent": 7, "score": 7, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @4654", "parent": 7, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R6 inline v0 @4649", "parent": 7, "score": 0, "kind": "IDENTICAL", "ident": true}

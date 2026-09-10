@@ -5624,7 +5624,7 @@ void func_80182AFC(s32 arg0)
     u16 a0v;
     s32 s2;
     s32 diff;
-    register s32 ok __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    s16 ok;
     u8 *base = (u8 *)&D_80126B58;
 
     func_8012AD80(s0);
@@ -5659,9 +5659,8 @@ void func_80182AFC(s32 arg0)
     }
 
     if ((s16)diff >= s2 - 0x18) {
-        register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-        register s32 vt __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-        vt = ok + zr;
+        s32 vt;
+        vt = ok + 0;
         if (vt != 0) {
             if (*(s16 *)(base + 0xA) >= *(s16 *)(s0 + 0xA) + D_801AB668[0]) {
                 func_8012DB84();

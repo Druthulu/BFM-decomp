@@ -1,0 +1,5 @@
+{"kind": "seed", "start": 9, "tu": "src/md_MAIN_022/md_MAIN_022.c", "fn": "func_800CB68C", "label": "s3"}
+{"depth": 1, "move": "R12 width iVar8 s32->u16 @407", "parent": 9, "score": 25, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R16 const-holder t10=0x10 x1", "parent": 9, "score": 9, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R14 param-width param_1 s32->s16 @392", "parent": 9, "score": 18, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R15 sink @463 (sVar1)", "parent": 9, "score": 0, "kind": "IDENTICAL", "ident": true}

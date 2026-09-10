@@ -1,0 +1,10 @@
+{"kind": "seed", "start": 13, "tu": "src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c", "fn": "func_8017E948", "label": "s3"}
+{"depth": 1, "move": "R6 inline ret @3993", "parent": 13, "score": 13, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R16 const-holder mask=0x7FFFFFFF x1", "parent": 13, "score": 13, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R8 temp tmp0 @4001", "parent": 13, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R10 param-copy a0 @3992", "parent": 13, "score": 13, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R12 width ret s32->u16 @3989", "parent": 13, "score": 35, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R7 block @3997", "parent": 13, "score": 13, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R9 swap-stmts @3997", "parent": 13, "score": 17, "kind": "COUNT", "ident": false}
+{"depth": 1, "move": "R4 decl-move mask 0->1", "parent": 13, "score": 13, "kind": "REG", "ident": false}
+{"depth": 1, "move": "R6 inline obj @3996", "parent": 13, "score": 0, "kind": "IDENTICAL", "ident": true}
