@@ -1,0 +1,172 @@
+== func_8013EB7C 126 copies, best 2 path []
+src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:func_8013EB7C: score 2 (REG-caller; mine 124 ins, target 124) ident=False
+  register pairs (mine -> target, count): a1->v0 x2
+  site pin         $2    line  2012 ?        register short sVar2 __asm__("$2");
+  replace mine[48:49] target[48:49]
+       48  sll	a1,v0,0x10                     | sll	v0,v0,0x10
+  replace mine[50:51] target[50:51]
+       50  sra	a1,a1,0x10                     | sra	a1,v0,0x10
+== func_801287B8 127 copies, best 3 path []
+src/ov_SC04_011/ov_SC04_011.c:func_801287B8: score 3 (REG-caller; mine 62 ins, target 62) ident=False
+  register pairs (mine -> target, count): v0->a0 x4
+  site pin         $4    line   222 NEEDED   register volatile s32 *p __asm__("$4") = &D_801F1640;
+  replace mine[34:37] target[34:37]
+       34  lui	v0,0x0                         | lui	a0,0x0
+       35  addiu	v0,v0,0                      | addiu	a0,a0,0
+       36  lw	v0,0(v0)                        | lw	v0,0(a0)
+== func_8015FBE0 125 copies, best 3 path []
+src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:func_8015FBE0: score 3 (COUNT; mine 57 ins, target 58) ident=False
+  site barrier           line  2811 ?        __asm__ __volatile__("")
+  replace mine[7:8] target[7:8]
+        7  move	a0,s0                         | nop
+  replace mine[22:23] target[22:23]
+       22  j	3984 <func_8015FBE0+0xd0>        | j	3988 <func_8015FBE0+0xd4>
+  insert  mine[24:24] target[24:25]
+       24  --                                 | move	a0,s0
+== func_8017A3D8 118 copies, best 3 path []
+src/ov_SC04_011/ov_SC04_011_jr_80178D40.c:func_8017A3D8: score 3 (REG-caller; mine 53 ins, target 53) ident=False
+  register pairs (mine -> target, count): v1->a0 x4
+  site pin         $4    line  3507 NEEDED   register int a __asm__("$4");
+  replace mine[20:22] target[20:22]
+       20  lui	v1,0x0                         | lui	a0,0x0
+       21  lh	v1,0(v1)                        | lh	a0,0(a0)
+  replace mine[23:24] target[23:24]
+       23  beq	v1,v0,170c <func_8017A3D8+0x74> | beq	a0,v0,170c <func_8017A3D8+0x74>
+== func_80185994 18 copies, best 3 path []
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_80185994: score 3 (REG-caller; mine 48 ins, target 48) ident=False
+  register pairs (mine -> target, count): a0->a1 x3
+  site pin         $5    line  9568 ?        register s32 *a1 asm("$5");
+  replace mine[9:10] target[9:10]
+        9  lw	a0,32(s0)                       | lw	a1,32(s0)
+  replace mine[11:12] target[11:12]
+       11  lw	v0,4(a0)                        | lw	v0,4(a1)
+  replace mine[15:16] target[15:16]
+       15  sw	v0,4(a0)                        | sw	v0,4(a1)
+== func_80139BE0 129 copies, best 4 path []
+src/ov_SC04_011/ov_SC04_011_jr_801380E0.c:func_80139BE0: score 4 (COUNT; mine 38 ins, target 39) ident=False
+  site launder           line   923 NEEDED   __asm__("" : "=r"(t) : "0"(t))
+  replace mine[3:4] target[3:4]
+        3  bnez	v0,1b5c <func_80139BE0+0x5c>  | bnez	v0,1b60 <func_80139BE0+0x60>
+  replace mine[7:8] target[7:9]
+        7  andi	a1,v0,0x60                    | andi	v0,v0,0x60
+        8  --                                 | andi	a1,v0,0xff
+  replace mine[16:17] target[17:18]
+       16  j	1b54 <func_80139BE0+0x54>        | j	1b58 <func_80139BE0+0x58>
+== func_80166F58 125 copies, best 4 path []
+src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:func_80166F58: score 4 (COUNT; mine 67 ins, target 69) ident=False
+  site pin         $20   line  5124 ?        register int p2 __asm__("$20");
+  site pin         $5    line  5126 ?        register int t2 __asm__("$5");
+  site launder     SHB   line  5134 ?        SHB(t2)
+  site launder     SHB   line  5134 ?        SHB(p2)
+  site launder     SHB   line  5135 ?        SHB(t3)
+  insert  mine[11:11] target[11:12]
+       11  --                                 | sra	a1,a1,0x10
+  replace mine[12:13] target[13:14]
+       12  sra	s4,a1,0x10                     | move	s4,a1
+  insert  mine[14:14] target[15:16]
+       14  --                                 | sra	a2,a2,0x10
+  replace mine[15:16] target[17:18]
+       15  sra	s1,a2,0x10                     | move	s1,a2
+== func_8012C890 126 copies, best 5 path []
+src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:func_8012C890: score 5 (COUNT; mine 147 ins, target 149) ident=False
+  site cast        volatile u16 * line   445 NEEDED   (volatile u16 *)
+  insert  mine[43:43] target[43:45]
+       43  --                                 | lhu	v0,0(v1)
+       44  --                                 | nop
+  replace mine[52:53] target[54:55]
+       52  j	1c90 <func_8012C890+0xe0>        | j	1c98 <func_8012C890+0xe8>
+  replace mine[90:91] target[92:93]
+       90  j	1d24 <func_8012C890+0x174>       | j	1d2c <func_8012C890+0x17c>
+  replace mine[101:102] target[103:104]
+      101  j	1de0 <func_8012C890+0x230>       | j	1de8 <func_8012C890+0x238>
+== func_80141874 125 copies, best 6 path []
+src/ov_SC04_011/ov_SC04_011_jr_80140608.c:func_80141874: score 6 (COUNT; mine 33 ins, target 33) ident=False
+  site pin         $2    line  1353 NEEDED   register void (*fp)(void) __asm__("$2");
+  replace mine[12:13] target[12:14]
+       12  nop                                | lui	at,0x0
+       13  --                                 | sh	v0,0(at)
+  replace mine[16:20] target[17:20]
+       16  lw	v1,0(at)                        | lw	v0,0(at)
+       17  lui	at,0x0                         | nop
+       18  sh	v0,0(at)                        | jalr	v0
+       19  jalr	v1                            | --
+== func_8017B238 126 copies, best 7 path []
+src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c:func_8017B238: score 7 (COUNT; mine 76 ins, target 76) ident=False
+  register pairs (mine -> target, count): s0->a1 x1
+  site pin         $16   line  2775 NEEDED   register u8 *src __asm__("$16");
+  site launder           line  2776 NEEDED   __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)))
+  insert  mine[3:3] target[3:6]
+        3  --                                 | sltiu	v0,a1,11
+        4  --                                 | sw	ra,40(sp)
+        5  --                                 | bnez	v0,474 <func_8017B238+0x68>
+  delete  mine[5:8] target[8:8]
+        5  sltiu	v0,s0,11                     | --
+        6  bnez	v0,474 <func_8017B238+0x68>   | --
+        7  sw	ra,40(sp)                       | --
+  replace mine[27:28] target[27:28]
+       27  sll	s0,s0,0x4                      | sll	s0,a1,0x4
+== func_8016E9EC 125 copies, best 8 path []
+src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c:func_8016E9EC: score 8 (COUNT; mine 50 ins, target 53) ident=False
+  site pin         $0    line  3626 NEEDED   register u32 zr __asm__("$0");
+  replace mine[3:4] target[3:6]
+        3  sw	ra,32(sp)                       | li	a1,28
+        4  --                                 | sw	ra,36(sp)
+        5  --                                 | sw	s4,32(sp)
+  replace mine[18:19] target[20:21]
+       18  li	a1,28                           | move	s4,s0
+  delete  mine[29:30] target[31:31]
+       29  sb	s0,3(a0)                        | --
+  insert  mine[31:31] target[32:33]
+       31  --                                 | sb	s4,3(a0)
+  replace mine[42:43] target[44:46]
+       42  lw	ra,32(sp)                       | lw	ra,36(sp)
+       43  --                                 | lw	s4,32(sp)
+== func_8014D820 128 copies, best 8 path []
+src/ov_SC04_011/ov_SC04_011_after.c:func_8014D820: score 8 (COUNT; mine 303 ins, target 304) ident=False
+  register pairs (mine -> target, count): a2->a3 x4
+  site pin         $7    line  1617 ?        register u16 *a2 __asm__("$7");
+  site launder           line  1641 ?        __asm__ __volatile__("" : "=r"(a2) : "0"(a2x))
+  site builtin     __builtin_memcpy line  1757 ?        __builtin_memcpy
+  insert  mine[3:3] target[3:4]
+        3  --                                 | move	a3,a2
+  replace mine[9:10] target[10:11]
+        9  lhu	v1,0(a2)                       | lhu	v1,0(a3)
+  replace mine[13:14] target[14:15]
+       13  lhu	v1,4(a2)                       | lhu	v1,4(a3)
+  replace mine[22:23] target[23:24]
+       22  lhu	v0,2(a2)                       | lhu	v0,2(a3)
+  replace mine[27:28] target[28:29]
+       27  lhu	v0,4(a2)                       | lhu	v0,4(a3)
+  replace mine[130:131] target[131:132]
+      130  j	82c0 <func_8014D820+0x380>       | j	82c4 <func_8014D820+0x384>
+  replace mine[277:278] target[278:279]
+      277  j	83bc <func_8014D820+0x47c>       | j	83c0 <func_8014D820+0x480>
+  replace mine[289:290] target[290:291]
+      289  j	83d4 <func_8014D820+0x494>       | j	83d8 <func_8014D820+0x498>
+== func_8013D178 130 copies, best 72 path []
+src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:func_8013D178: score 72 (REG-caller; mine 110 ins, target 110) ident=False
+  register pairs (mine -> target, count): a0->a1 x45, a1->a0 x45
+  site pin         $5    line  1159 NEEDED   register unsigned char *p __asm__("$5");
+  replace mine[0:5] target[0:5]
+        0  lui	a0,0x0                         | lui	a1,0x0
+        1  addiu	a0,a0,0                      | addiu	a1,a1,0
+        2  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+        3  lui	a1,0x0                         | lui	a0,0x0
+        4  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[6:8] target[6:8]
+        6  beq	v0,a1,81c <func_8013D178+0x30> | beq	v0,a0,81c <func_8013D178+0x30>
+        7  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[11:17] target[11:17]
+       11  sb	v0,0(a0)                        | sb	v0,0(a1)
+       12  lui	a0,0x0                         | lui	a1,0x0
+       13  addiu	a0,a0,0                      | addiu	a1,a1,0
+       14  lbu	v1,0(a0)                       | lbu	v1,0(a1)
+       15  lui	a1,0x0                         | lui	a0,0x0
+       16  lbu	a1,0(a1)                       | lbu	a0,0(a0)
+  replace mine[18:20] target[18:20]
+       18  beq	v0,a1,84c <func_8013D178+0x60> | beq	v0,a0,84c <func_8013D178+0x60>
+       19  sltu	v0,v0,a1                      | sltu	v0,v0,a0
+  replace mine[23:29] target[23:29]
+       23  sb	v0,0(a0)                        | sb	v0,0(a1)
+       24  lui	a0,0x0                         | lui	a1,0x0
+       25  addiu	a0,a0,0                      | addiu	a1,a1,0

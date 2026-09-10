@@ -1,4 +1,4 @@
-{"kind": "seed", "start": 3, "tu": "src/ov_SC07_006/ov_SC07_006_jr_80179B74.c", "fn": "func_8017A3D8", "label": "g3"}
+{"kind": "seed", "start": 3, "tu": "src/ov_SC07_006/ov_SC07_006_jr_80179B74.c", "fn": "func_8017A3D8", "label": "g4s"}
 {"depth": 1, "move": "R6 inline a @3523", "parent": 3, "score": 3, "kind": "REG", "ident": false}
 {"depth": 1, "move": "R8 cse tmp0 @3518", "parent": 3, "score": 18, "kind": "COUNT", "ident": false}
 {"depth": 1, "move": "R7 block @3523", "parent": 3, "score": 3, "kind": "REG", "ident": false}
@@ -61,11 +61,11 @@
 {"depth": 3, "move": "R7 block @3517", "parent": 3, "score": 3, "kind": "REG", "ident": false}
 {"depth": 3, "move": "R7 do-while @3517", "parent": 3, "score": 3, "kind": "REG", "ident": false}
 {"depth": 3, "move": "R7 block @3528", "parent": 3, "score": 3, "kind": "REG", "ident": false}
-{"depth": 3, "move": "R7 do-while @3528", "parent": 3, "score": 15012, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R7 do-while @3528", "parent": 3, "score": 3, "kind": "REG", "ident": false}
 {"depth": 3, "move": "R7 block @3532", "parent": 3, "score": 3, "kind": "REG", "ident": false}
 {"depth": 3, "move": "R7 do-while @3532", "parent": 3, "score": 3, "kind": "REG", "ident": false}
 {"depth": 3, "move": "R6 inline D_801F602C @3518", "parent": 3, "score": 15, "kind": "COUNT", "ident": false}
-{"depth": 3, "move": "R8 cse tmp0 @3518", "parent": 3, "score": 15059, "kind": "COUNT", "ident": false}
+{"depth": 3, "move": "R8 cse tmp0 @3518", "parent": 3, "score": 18, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R6 inline D_801F602C @3528", "parent": 3, "score": 11, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R7 do-while @3518", "parent": 3, "score": 19, "kind": "COUNT", "ident": false}
 {"depth": 3, "move": "R7 block @3528", "parent": 3, "score": 3, "kind": "REG", "ident": false}
@@ -96,4 +96,6 @@
 {"depth": 4, "move": "R7 do-while @3532", "parent": 3, "score": 3, "kind": "REG", "ident": false}
 {"depth": 4, "move": "R7 block @3532", "parent": 3, "score": 3, "kind": "REG", "ident": false}
 {"depth": 4, "move": "R7 do-while @3532", "parent": 3, "score": 3, "kind": "REG", "ident": false}
-{"depth": 4, "move": "R7 do-while @3528", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 4, "move": "R5 swap + @3528", "parent": 3, "score": null, "kind": "COMPILE-ERROR:", "ident": false}
+{"depth": 4, "move": "R7 block @3532", "parent": 3, "score": 3, "kind": "REG", "ident": false}
+{"depth": 4, "move": "R7 do-while @3532", "parent": 3, "score": 3, "kind": "REG", "ident": false}

@@ -3623,22 +3623,17 @@ void func_8016E9EC(u8 *p)
     extern u8 *D_801966C0[];
     extern u8 D_801966D8[];
     extern u16 D_801966DC[];
-    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus7)
-    int i;
-    int c;
+    s16 i;
     u8 *buf;
     u8 off;
-    u16 h;
-    s32 r;
+    s32 h;
 
     i = p[0] - 1;
     off = D_801966D8[i];
     buf = D_801966C0[i];
-    c = i + zr;
-    r = func_800D2CA8(p[3], 0x1C);
-    func_800D2D10(r, 1, buf + off, 0);
+    func_800D2D10((func_800D2CA8(p[3], 0x1C)), 1, buf + off, 0);
     func_80024054(buf, p + 8);
-    p[3] = c;
+    p[3] = (i + 0);
     *(s16 *)(p + 4) = -0xD7;
     h = D_801966DC[i];
     p[2] = 0;

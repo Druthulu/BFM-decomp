@@ -1715,7 +1715,13 @@ def adjacent_swaps(text, tu, fn, d_):
     return out
 
 
-SCALAR_WIDTHS = {"s32": ("u16", "s16"), "u32": ("u16", "s16"), "s16": ("s32",), "u16": ("s32",)}
+SCALAR_WIDTHS = {"s32": ("u16", "s16", "u8"), "u32": ("u16", "s16", "u8"), "s16": ("s32", "u16", "u8"), "u16": ("s32", "s16", "u8"),
+                 "u8": ("s32", "u16", "s16"), "s8": ("s32", "s16"),
+                 # the spellings the drafters used beside the typedefs (`register short sVar2 __asm__("$2")`)
+                 "int": ("u16", "s16", "u8"), "short": ("s32", "u16", "u8"), "char": ("s32", "u16")}
+WIDTH_RE = r"(?:s32|u32|s16|u16|u8|s8|int|short|char)"
+PARAM_WIDTHS = {"s32": ("s16", "u16", "u8"), "u32": ("u16", "s16", "u8"), "s16": ("s32", "u16"), "u16": ("s32", "s16"), "u8": ("s32", "u16"),
+                "int": ("s16", "u16", "u8"), "short": ("s32", "u16")}
 
 
 def width_changes(text, tu, fn, d_):
@@ -1732,7 +1738,7 @@ def width_changes(text, tu, fn, d_):
         if not (is_decl_line(s) or (DECL_START.match(s) and s.count("(") > s.count(")"))) \
                 or "," in s.split("=")[0] or "*" in s.split("=")[0] or "[" in s:
             continue
-        m = re.match(r"^(\s*)(s32|u32|s16|u16)(\s+[A-Za-z_]\w*\s*(?:=|;))", lines[i])
+        m = re.match(r"^(\s*)(" + WIDTH_RE + r")(\s+[A-Za-z_]\w*\s*(?:=|;))", lines[i])
         if not m:
             continue
         name = re.search(r"[A-Za-z_]\w*", m.group(3)).group(0)
@@ -1740,6 +1746,88 @@ def width_changes(text, tu, fn, d_):
             cand = list(lines)
             cand[i] = m.group(1) + alt + lines[i][m.end(2):]
             out.append((f"width {name} {m.group(2)}->{alt} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+def param_widths(text, tu, fn, d_):
+    """[(description, candidate text)] — R14: a PARAMETER's declared scalar width changed in the header. MIPS has no
+    PROMOTE_MODE: a `short` parameter arrives in its SImode register and gcc 2.7.2 sign-extends it IN PLACE (`sra a1,a1,16`) before
+    any copy, where an `s32` parameter cast at its uses extends into the destination (`sra s4,a1,16`) — the S101 reading of
+    func_80166F58 (`sra a1,a1,0x10; move s4,a1` vs mine `sra s4,a1,0x10`). A width that changes the bytes the wrong way is
+    simply DIFFERS; one that matches is the original's declaration."""
+    lines = text.split("\n")
+    out = []
+    hi = lines[d_["line"] - 1]
+    m = re.match(r"^(.*?\b" + re.escape(fn) + r"\s*\()(.*)(\).*)$", hi)
+    if not m:
+        return out
+    parts = m.group(2).split(",")
+    for k, part in enumerate(parts):
+        pm = re.match(r"^(\s*)(" + WIDTH_RE + r")(\s+[A-Za-z_]\w*\s*)$", part)
+        if not pm or pm.group(2) not in PARAM_WIDTHS:
+            continue
+        name = pm.group(3).strip()
+        for alt in PARAM_WIDTHS[pm.group(2)]:
+            np = list(parts)
+            np[k] = pm.group(1) + alt + pm.group(3)
+            cand = list(lines)
+            cand[d_["line"] - 1] = m.group(1) + ",".join(np) + m.group(3)
+            out.append((f"param-width {name} {pm.group(2)}->{alt} @{d_['line']}", "\n".join(cand)))
+    return out
+
+
+def shared_bases(text, tu, fn, d_):
+    """[(description, candidate text)] — R8's fourth form: ONE address local for every dereference of the same base
+    expression in the body (`*(T *)(p + 4)` … `*(U *)(p + 4)` → `tmp = p + 4; *(T *)tmp … *(U *)tmp`), stores included.
+    Lane B class 2 row 6 (cse's find_best_addr keeps an address pseudo that is used twice, and it crosses calls in an $s
+    register) and row 12 (a store through a BARE pointer flushes cse's whole memory table, so a global is re-loaded after
+    it — the S101 reading of func_8012C890's extra `lhu` behind a `volatile` cast)."""
+    lines = text.split("\n")
+    out = []
+    last = decl_run_end(text, d_)
+    used = set(IDENT.findall(sc.mask_text("\n".join(lines[d_["line"] - 1:d_["end"]]))))
+    k = 0
+    while f"tmp{k}" in used:
+        k += 1
+    name = f"tmp{k}"
+    occ = collections.defaultdict(list)                   # normalized base -> [(line, start, end, raw base)]
+    for i in range(last + 1, d_["end"] - 1):
+        s = sc.mask_text(lines[i])
+        if not simple_stmt(s):
+            continue
+        for mm in DEREF.finditer(s):
+            j = mm.end()
+            if j >= len(s) or s[j] != "(":
+                continue
+            depth, e = 0, j
+            while e < len(s):
+                if s[e] == "(":
+                    depth += 1
+                elif s[e] == ")":
+                    depth -= 1
+                    if depth == 0:
+                        e += 1
+                        break
+                e += 1
+            if depth != 0:
+                continue
+            base = lines[i][j + 1:e - 1]
+            nb = " ".join(sc.mask_text(base).split())
+            if not nb or re.fullmatch(r"[A-Za-z_]\w*", nb):
+                continue
+            occ[nb].append((i, j, e, base))
+    for nb, places in occ.items():
+        if len(places) < 2:
+            continue
+        i0 = places[0][0]
+        indent = lines[i0][:len(lines[i0]) - len(lines[i0].lstrip())]
+        dind = lines[last][:len(lines[last]) - len(lines[last].lstrip())] if last >= d_["line"] else indent
+        cand = list(lines)
+        for i, j, e, _ in sorted(places, key=lambda x: (x[0], -x[1])):   # right to left within a line keeps offsets valid
+            cand[i] = cand[i][:j] + name + cand[i][e:]
+        cand.insert(i0, f"{indent}{name} = {places[0][3].strip()};")
+        cand.insert(last + 1, f"{dind}s32 {name};")
+        out.append((f"base-shared {name} @{i0 + 1}", "\n".join(cand)))
     return out
 
 
@@ -1895,9 +1983,10 @@ def param_copies(text, tu, fn, d_):
         cand.insert(last + 1, f"{dind}{new} = {p};")
         cand.insert(last + 1, f"{dind}{typ}{'' if typ.endswith('*') else ' '}{new};")
         out.append((f"param-copy {p} @{last + 2}", "\n".join(cand)))
-        # the reverse: `x = p;` once, x never assigned again -> every use of x reads p
+        # the reverse: `x = p;` (or `x = (T)p;` / `x = (T)((U)p);` — func_8017B238's `src = (u8 *)((u32)param_2)`) once, x never
+        # assigned again -> every use of x reads p (the casts go with the copy; a use that needed them reads as DIFFERS)
         for i in range(last + 1, hi):
-            am = re.match(r"^\s*([A-Za-z_]\w*)\s*=\s*%s\s*;\s*$" % re.escape(p), masked[i])
+            am = re.match(r"^\s*([A-Za-z_]\w*)\s*=\s*(?:\(\s*[A-Za-z_][\w\s\*]*\)\s*\(?\s*){0,2}%s\s*\)?\s*\)?\s*;\s*$" % re.escape(p), masked[i])
             if not am:
                 continue
             x = am.group(1)
@@ -1912,7 +2001,7 @@ def param_copies(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2000,6 +2089,11 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
             out.append(("R8", desc, cand))
         for desc, cand in common_subexprs(text, tu, fn, d_):
             out.append(("R8", desc, cand))
+        for desc, cand in shared_bases(text, tu, fn, d_):
+            out.append(("R8", desc, cand))
+    if "R14" in fam:
+        for desc, cand in param_widths(text, tu, fn, d_):
+            out.append(("R14", desc, cand))
     if "R9" in fam:
         for desc, cand in adjacent_swaps(text, tu, fn, d_):
             out.append(("R9", desc, cand))
@@ -2279,7 +2373,8 @@ def propagate(a):
     sibs = sibs[:a.limit] if a.limit else sibs
     print(f"delever --propagate: {tu}:{fn} -> {len(sibs)} sibling(s) of class {key[:12]}", flush=True)
     if not sibs:
-        return 1                                          # R68: an empty work list is a refusal, not a success
+        return 0, 0, 0                                    # R68: an empty work list is a refusal, not a success (a tuple like every return — the
+                                                          # bare `1` here killed run g4s's process after its real propagations, S101)
     ok = bad = 0
     for stu, sfn in sibs:
         path = REPO / stu
@@ -2300,18 +2395,14 @@ def propagate(a):
             print(f"  {stu}:{sfn}: {why} — SKIPPED", flush=True)
             bad += 1
             continue
-        f = RUN / "propagate" / f"{stu.replace('/', '_')}__{sfn}.c"
-        f.parent.mkdir(parents=True, exist_ok=True)
-        f.write_text(body, errors="surrogateescape")
-        r = subprocess.run([sys.executable, str(REPO / "tools/delever.py"), "--apply-body", stu, sfn, str(f),
-                            "--label", a.label, "--rung", src_row.get("rung") or "R", "--dirty-ok"],
-                           cwd=REPO, capture_output=True, text=True)
-        line = ((r.stdout or r.stderr).strip().splitlines() or [""])[-1]
+        # IN PROCESS (S101): a subprocess per sibling reloaded the recipes and the includer map every time — ~1.3 s of the
+        # ~1.5 s each sibling cost, ≈40 min for run g3's 1,503 siblings
+        ok_, line = apply_body_core(stu, sfn, body, a.label, src_row.get("rung") or "R", source=f"propagate:{tu}:{fn}")
         print(f"  {line[:200]}", flush=True)
-        ok += r.returncode == 0
-        bad += r.returncode != 0
+        ok += ok_
+        bad += not ok_
     print(f"delever --propagate: {ok} of {len(sibs)} sibling(s) banked, {bad} refused")
-    return 0 if ok else 1
+    return ok, len(sibs), bad
 
 
 def repair_nhash():
@@ -2370,38 +2461,64 @@ def apply_body(a):
     ok, why = oracle.calibration_current()
     if not ok:
         sys.exit(f"delever --apply-body: calibration not current ({why})")
-    new = pathlib.Path(src).read_text(errors="surrogateescape").rstrip("\n") + "\n"
+    new = pathlib.Path(src).read_text(errors="surrogateescape")
+    ok_, line = apply_body_core(tu, fn, new, a.label, a.rung, allow_residue=a.allow_residue, source=src)
+    print(line)
+    return 0 if ok_ else 1
+
+
+_recipes_cache = {}
+
+
+def _recipes_and_includers():
+    """the recipe map and the includer map, loaded once per process (a subprocess per bank paid ~1.3 s for these)."""
+    if "by_src" not in _recipes_cache:
+        _recipes_cache["by_src"] = oracle.recipes_by_src(oracle.load_recipes()["recipes"])
+        _recipes_cache["inc"] = includers()
+    return _recipes_cache["by_src"], _recipes_cache["inc"]
+
+
+def apply_body_core(tu, fn, new, label, rung, allow_residue=False, source=""):
+    """(ok, line): the function's definition in TU replaced by `new` (the body text), judged through every recipe (or every
+    includer), kept and ledgered on IDENTICAL; refused (ok False, the reason in `line`) if the body still carries a class A/B
+    lever, equals the current text, or cannot be judged. The library form of --apply-body — the engine and --propagate call it
+    in process; the CLI wrapper adds the clean-tree check."""
+    path = REPO / tu
+    if not path.exists():
+        return False, f"delever --apply-body: no such file {tu}"
+    ok, why = oracle.calibration_current()
+    if not ok:
+        return False, f"delever --apply-body: calibration not current ({why})"
+    new = new.rstrip("\n") + "\n"
     raw = path.read_text(errors="surrogateescape")
     st = path.stat()
     recs = lc.sc.scan_text(raw, tu, shared_defs=None)
     d = next((r for r in recs if r["form"] == "def" and r["name"] == fn), None)
     if d is None:
-        sys.exit(f"delever --apply-body: {fn} is not defined in {tu}")
+        return False, f"delever --apply-body: {fn} is not defined in {tu}"
     ls = line_starts(raw)
     before = raw[ls[d["line"] - 1]:ls[d["end"]]]
     cand = raw[:ls[d["line"] - 1]] + new + raw[ls[d["end"]]:]
     if cand == raw:
-        sys.exit("delever --apply-body: the new body equals the current text (no-op, R37)")
+        return False, "delever --apply-body: the new body equals the current text (no-op, R37)"
     walk = lc.walk_file(cand, tu, tu.endswith(".h"))
     levers = [s for s in walk["sites"] if s.get("fn") == fn and s["cls"] in "AB" and s["kind"] not in lc.NON_LEVER_KINDS]
-    if levers and not a.allow_residue:
-        sys.exit(f"delever --apply-body: the new body still carries {len(levers)} class A/B lever site(s) "
-                 f"({[(s['kind'], s['detail'], s['line']) for s in levers][:6]}) — no lever of any class may remain (--allow-residue to override)")
-    recipes = oracle.load_recipes()["recipes"]
-    by_src = oracle.recipes_by_src(recipes)
-    inc = includers()
+    if levers and not allow_residue:
+        return False, (f"delever --apply-body: the new body still carries {len(levers)} class A/B lever site(s) "
+                       f"({[(s['kind'], s['detail'], s['line']) for s in levers][:6]}) — no lever of any class may remain (--allow-residue to override)")
+    by_src, inc = _recipes_and_includers()
     recs_ = [r for t in inc.get(tu, []) for r in by_src.get(t, [])] if tu.endswith(".h") else by_src.get(tu, [])
     if not recs_:
-        sys.exit(f"delever --apply-body: no recipe compiles {tu}")
+        return False, f"delever --apply-body: no recipe compiles {tu}"
     try:
         v, dt, err = oracle.judge_all(recs_, cand, tag="body", write_path=(tu if tu.endswith(".h") else None))
     finally:
         restore_file(path, raw, st)
     nh_before = lc.norm_hash(sc.mask_text(before))
     nh_after = next((x["nhash"] for x in walk["defs"] if x["name"] == fn), None)
-    row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung=a.rung, calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
+    row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung=rung, calib=dict(head=oracle.head(), stamp=oracle.config_stamp()),
                tu=tu, fn=fn, addr=fn_addr(fn, tu), aliases=None, header=tu.endswith(".h"), includers=len(inc.get(tu, [])),
-               nhash_before=nh_before, nhash_after=nh_after, source=src, verdict=("LEVER-FREE" if v == "IDENTICAL" else f"BODY-{v}"),
+               nhash_before=nh_before, nhash_after=nh_after, source=source, verdict=("LEVER-FREE" if v == "IDENTICAL" else f"BODY-{v}"),
                sites=[dict(ord=i, kind=s["kind"], cls=s["cls"], detail=s["detail"], via=s.get("via", ""), line=s["line"], verdict="NEEDED",
                            why="left by the author", oracle="") for i, s in enumerate(levers)],
                compiles=len(recs_), seconds=round(dt, 3), objects=[r["obj"] for r in recs_],
@@ -2411,11 +2528,9 @@ def apply_body(a):
     if v == "IDENTICAL":
         path.write_text(cand, errors="surrogateescape")
         ledger_append([row])
-        print(f"delever --apply-body: {tu}:{fn} IDENTICAL on {len(recs_)} object(s) ({dt:.2f} s) — KEPT, ledgered (rung {a.rung}, {a.label})")
-        return 0
+        return True, f"delever --apply-body: {tu}:{fn} IDENTICAL on {len(recs_)} object(s) ({dt:.2f} s) — KEPT, ledgered (rung {rung}, {label})"
     ledger_append([row])
-    print(f"delever --apply-body: {tu}:{fn} {v} on {len(recs_)} object(s) — NOT kept ({err[:200]})")
-    return 1
+    return False, f"delever --apply-body: {tu}:{fn} {v} on {len(recs_)} object(s) — NOT kept ({err[:200]})"
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -2955,7 +3070,7 @@ def main():
     if a.propagate:
         if not a.label:
             sys.exit("delever --propagate: --label is required (R48)")
-        sys.exit(propagate(a))
+        sys.exit(0 if propagate(a)[0] else 1)
     if a.recipes:
         if not a.label:
             sys.exit("delever --recipes: --label is required (R48: the ledger rows are keyed by it)")

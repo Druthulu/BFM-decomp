@@ -782,7 +782,42 @@ accumulate here as the phase produces them.**
   reach. Compute: 1.02 h search + ~0.7 h propagation at 8 nice'd workers, no tokens. Harness note: the low-memory guard killed a
   30-byte waiter with 27 GB free (again); the detached run was untouched.
 
-## 🛑 SESSION CHECKPOINT — S101 (2026-09-09): T0–T6 ☑; **lane B DELIVERED** (`.run/P36/engine/residual_moves.md`, 58 moves; 4 verified on bytes, 1 refuted-in-bound); **lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED** (g1 + g2 on the 16-class head: 2 closed; **g3 on the next 64 classes: 13 closed, 1,516 bodies** — every run's bank R22 218/218 and committed); NEXT = §2 | the number at this commit: **31,025 sites** (18,442 pins + 12,583 asm) in 10,268 bodies (1,740 distinct) · marked 31,025 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (6 milestones)
+- **S101 — the third generator round, from `--explain` on g3's thirteen unmoved small residuals (`.run/P36/engine/explain_g3_small.txt`),
+  and the bank made in-process.** The readings: `func_8013EB7C` (2) a `short` local extended in place vs into a temp; `func_801287B8`
+  (3) a global's address in `a0` vs `v0` (a pointer local used once folds); `func_8015FBE0` (3) a `move a0,s0` scheduled early vs
+  late (the barrier's job); `func_8017A3D8`/`func_80185994` (3) a value in the argument register vs the next free one;
+  `func_80139BE0` (4) an `andi 0xff` the target keeps — a `u8` variable; `func_80166F58` (4) `sra a1,a1,0x10; move s4,a1` vs mine
+  `sra s4,a1,0x10` — a `short` PARAMETER extended in place; `func_8012C890` (5) a global re-loaded after a store (the `volatile`
+  cast's job — a bare-pointer store flushes cse's table); `func_80141874` (6) a store before the function-pointer load; `func_8017B238`
+  (7) the parameter used directly vs through a cast copy; `func_8016E9EC` (8) the `$0`-pin's copy kept in `s4` across a call;
+  `func_8014D820` (8) `move a3,a2` — a parameter copied into the next register; `func_8013D178` (72) `a0 ↔ a1` ×45. **Generators
+  (each with a selftest case):** R12 now spells `u8` and `short`/`int`/`char`; **R14** a parameter's width in the header; R8's fourth
+  form `base-shared` (one address local for every dereference of one base, stores included); R10's alias through casts. **The bank
+  in process:** `delever.apply_body_core(tu, fn, body, label, rung)` (the CLI wraps it; `--propagate` returns `(banked, n, refused)`
+  and calls it) — the engine no longer spawns a subprocess per bank or per sibling (g3's 1,503 siblings cost ≈40 min that way) and a
+  `delever.py` edit mid-run can no longer break a bank. Run `g4s` (the thirteen names, `--include-done`; `--only` matched 38
+  classes across the fleet, 1,619 bodies) launched at 8 workers as the test of both.
+
+- **2026-09-09 — S101 rung G run `g4s`** (`--include-done --only` the thirteen names → 38 classes across the fleet, 1,619 bodies;
+  beam 4 × depth 4 × cap 64, budget 1,500; `.run/P36/engine/run_g4s.log`): **3 of 38 matched** — `func_8016E9EC` (the `$0`-pin body
+  whose copy the target keeps in `$s4` across a call) in three overlays' classes (125 + 7 + 1 copies) by `R12 width h u16->s32 +
+  R6 inline r + R6 inline c + R12 width i int->s16` (the new `int` spelling was the fourth move); 35 NO-MATCH at their start
+  (`func_8015FBE0` 3 → 2 and `func_80166F58` 4 → 2 in singleton copies only). Propagation IN PROCESS: 124 of 124 and 6 of 6 siblings
+  in seconds (g3's 1,503 had cost ≈40 min as subprocesses). **Two instrument findings, both fixed (R40/R43):** (1) the scorer's
+  scratch object was named by the worker TAG, which is the TU's index modulo the worker count and not a worker id — two TUs could
+  share `g0.o` at the same moment and one worker objdumped the other's object: `ov_SC01_077__func_80141874: UNCALIBRATED — the
+  tree's own text scores 14871 ident=True` (the whole object byte-identical, the function stream compared against another TU's);
+  every candidate scored in such a window in g1–g3 was noise (never a false bank — the bank re-verifies whole-object equality on
+  every recipe) — the scratch is now keyed by the TU; (2) `delever.propagate` returned a bare `1` for a class with no siblings (the
+  R68 refusal) where the in-process caller unpacked a tuple — the run's process died after its two real propagations, before its
+  `search:` line (the 133 banked files and every per-body outcome row were already on disk; `inflight.json` absent). R22
+  (`.run/P36/baseline/r22_g4s.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=81.47 s`) → census → snapshot row 7.
+  **What the four new generators did on the thirteen (R41):** the `u8`/`short`/`int` widths closed one class (through `int->s16`);
+  R14 (parameter width), R8 base-shared and R10's cast alias closed none of the bodies they were written from — `func_80166F58`,
+  `func_8012C890`, `func_8017B238` sit where they were, so those three readings need `--explain --path` with the exact candidate to
+  see what each move actually did to the bytes before another generator is written.
+
+## 🛑 SESSION CHECKPOINT — S101 (2026-09-09): T0–T6 ☑; **lane B DELIVERED** (`.run/P36/engine/residual_moves.md`, 58 moves; 4 verified on bytes, 1 refuted-in-bound); **lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED** (g1 + g2 on the 16-class head: 2 closed; **g3 on the next 64 classes: 13 closed, 1,516 bodies; g4s the thirteen explained names: 3 of 38, 133 bodies** — every run's bank R22 218/218 and committed; generators R2–R14 in the registry, the bank and propagation in process, the scratch-object race fixed); NEXT = §2 | the number at this commit: **30,892 sites** (18,309 pins + 12,583 asm) in 10,135 bodies (1,737 distinct) · marked 31,025 · UNMARKED 0 · orphans 0 · GTE levers 462 — `lever_census --check` OK · `lever_progress --check` OK (7 milestones)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew: `/effort xhigh`, Fable 5.1**

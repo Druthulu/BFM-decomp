@@ -37735,3 +37735,17 @@ constant-operand commutative swap is byte-neutral (fold moves it right; `m & x` 
 do-while keeping its LOOP notes through jump1 (`.jump` 15 vs 12 mentions) and lifting one register's `.lreg` line from `used 5 times`
 to `used 6 times across 39 insns`, which is what moves it from `$18` to `$17`. The width move (1c-1) does NOT reach a copy whose value's
 known bits already fit the narrow mode: combine folds the narrowing and the copy dissolves anyway.
+
+**The second and third runs (S101).** g2, the same head with a wider beam (4 × 4 × 64, budget 1,500) and the families R10 (a
+parameter routed through a body-local copy, and the reverse), R12 (a local's width), R13 (two terms of a `+`/`-` chain exchanged)
+and R8's named-once form: one more class (`func_80142EC0`, `R7 do-while + R9 swap`), nine of the other fifteen moved past g1's best.
+**g3, the next 64 classes by copies (7,336 bodies): 13 closed, 1,516 bodies banked, 1,503 of 1,503 siblings propagated, in 1.02 h
+of search and no tokens.** By the first move of each close: R12 width ×5 (`s32 → s16/u16`, one body by two widths), R7 do-while ×3,
+R9 adjacent swap ×3, R10 ×2 (a parameter copy; a parameter alias removed) — the two generators lane B's compiler-source map named
+were half the closes, and no close needed more than four moves. The thirteen bodies g3 left within 2–8 of the target, read with
+`--explain`, are again generators: the widths the typedef list did not spell (`short`, `u8` — the truncation the targets keep), a
+PARAMETER's declared width (a `short` parameter is sign-extended in place, `sra a1,a1,16; move s4,a1`), one address local shared by
+every dereference of a base (the pointer-in-a-register class, and the bare-pointer store that flushes cse so a global is re-loaded),
+a parameter alias through a cast. Each was added with a selftest case and run on the same bodies. The one shape no generator yet
+produces: a value kept in the ARGUMENT register a1 while mine takes a0 (`func_8013D178`, `a0 ↔ a1` 45 times over) — the incoming
+register is busy in the original and free in mine, which is a liveness the source must create, not a spelling.

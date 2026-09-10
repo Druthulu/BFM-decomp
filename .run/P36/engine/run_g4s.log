@@ -1,0 +1,334 @@
+delever_search --run: 38 exemplars (1,619 bodies behind them), 8 worker(s), beam 4 × depth 4 × cap 64, budget 1500 compiles per body, label g4s
+    depth 1: 13 kept of the scored, best 6 (R6 inline fp @1357) · 27 compiles
+    depth 1: 23 kept of the scored, best 4 (R12 width v int->u16 @916) · 36 compiles
+    depth 1: 23 kept of the scored, best 7 (R10 param-copy param_1 @2773) · 59 compiles
+    depth 1: 40 kept of the scored, best 3 (R6 inline p @222) · 59 compiles
+    depth 1: 37 kept of the scored, best 2 (R7 block @2027) · 65 compiles
+    depth 2: 40 kept of the scored, best 6 (R6 inline fp @1357 + R7 block @1355) · 110 compiles
+    depth 1: 14 kept of the scored, best 4 (R7 block @5132) · 44 compiles
+    depth 1: 30 kept of the scored, best 5 (R8 temp tmp0 @445) · 65 compiles
+    depth 2: 80 kept of the scored, best 4 (R12 width v int->u16 @916 + R12 width v u16->s32 @916) · 169 compiles
+    depth 1: 19 kept of the scored, best 8 (R7 block @1770) · 65 compiles
+    depth 3: 36 kept of the scored, best 6 (R6 inline fp @1357 + R7 block @1355 + R7 block @1354) · 178 compiles
+    depth 2: 88 kept of the scored, best 7 (R10 param-copy param_1 @2773 + R10 param-copy param_1 @2774) · 292 compiles
+    depth 2: 148 kept of the scored, best 3 (R6 inline p @222 + R7 block @218) · 274 compiles
+    depth 2: 140 kept of the scored, best 2 (R7 block @2027 + R4 decl-move sVar2 2->0) · 306 compiles
+    depth 4: 28 kept of the scored, best 6 (R6 inline fp @1357 + R7 block @1355 + R7 block @1354 + R7 block @1353) · 234 compiles
+  ov_SC04_011__func_80141874: NO-MATCH start=6 best=6 compiles=234 (40.1s, 125 copies, 1 needed)
+    depth 3: 73 kept of the scored, best 4 (R12 width v int->u16 @916 + R12 width v u16->s32 @916 + R6 inline idx @923) · 295 compiles
+    depth 1: 28 kept of the scored, best 8 (R12 width h u16->s32 @3630) · 64 compiles
+    depth 4: 71 kept of the scored, best 4 (R12 width v int->u16 @916 + R12 width v u16->s32 @916 + R6 inline t @919 + R7 do-while @922) · 419 compiles
+  ov_SC04_011__func_80139BE0: NO-MATCH start=4 best=4 compiles=419 (72.7s, 129 copies, 1 needed)
+    depth 3: 144 kept of the scored, best 3 (R6 inline p @222 + R7 block @218 + R7 block @217) · 480 compiles
+    depth 1: 10 kept of the scored, best 3 (R6 inline a @3508) · 16 compiles
+    depth 3: 137 kept of the scored, best 2 (R7 block @2027 + R4 decl-move sVar2 2->0 + R7 block @2028) · 537 compiles
+    depth 3: 96 kept of the scored, best 7 (R10 param-copy param_1 @2773 + R10 param-copy param_1 @2774 + R6 inline param_122 @2775) · 539 compiles
+    depth 2: 27 kept of the scored, best 3 (R6 inline a @3508 + R7 block @3503) · 59 compiles
+    depth 3: 16 kept of the scored, best 3 (R6 inline a @3508 + R7 block @3503 + R7 block @3502) · 86 compiles
+    depth 4: 12 kept of the scored, best 3 (R6 inline a @3508 + R7 block @3503 + R7 block @3502 + R7 block @3513) · 101 compiles
+  ov_SC04_011__func_8017A3D8: NO-MATCH start=3 best=3 compiles=101 (10.2s, 118 copies, 1 needed)
+    depth 2: 48 kept of the scored, best 4 (R7 block @5132 + R9 swap-stmts @5133) · 201 compiles
+    depth 4: 136 kept of the scored, best 3 (R6 inline p @222 + R7 block @218 + R7 block @217 + R7 block @216) · 674 compiles
+  ov_SC04_011__func_801287B8: NO-MATCH start=3 best=3 compiles=674 (96.0s, 127 copies, 1 needed)
+    depth 1: 10 kept of the scored, best 3 (R6 inline a @3523) · 16 compiles
+    depth 4: 127 kept of the scored, best 2 (R7 block @2027 + R4 decl-move sVar2 2->0 + R7 block @2028 + R7 block @2025) · 757 compiles
+  ov_SC04_011__func_8013EB7C: NO-MATCH start=2 best=2 compiles=757 (99.6s, 126 copies, 1 needed)
+    depth 2: 27 kept of the scored, best 3 (R6 inline a @3523 + R7 block @3518) · 59 compiles
+    depth 4: 92 kept of the scored, best 7 (R10 param-copy param_1 @2773 + R10 param-copy param_1 @2774 + R6 inline param_122 @2775 + R10 param-copy param_1 @2774) · 791 compiles
+  ov_SC04_011__func_8017B238: NO-MATCH start=7 best=7 compiles=791 (105.6s, 126 copies, 2 needed)
+    depth 1: 36 kept of the scored, best 3 (R6 inline t @9581) · 61 compiles
+    depth 1: 8 kept of the scored, best 72 (R7 block @1161) · 48 compiles
+    depth 3: 16 kept of the scored, best 3 (R6 inline a @3523 + R7 block @3518 + R7 block @3517) · 86 compiles
+    depth 4: 12 kept of the scored, best 3 (R6 inline a @3523 + R7 block @3518 + R7 block @3517 + R7 block @3528) · 101 compiles
+  ov_SC07_006__func_8017A3D8: NO-MATCH start=3 best=3 compiles=101 (13.9s, 16 copies, 1 needed)
+    depth 2: 111 kept of the scored, best 5 (R8 temp tmp0 @445 + R12 width tmp0 u16->s32 @417) · 314 compiles
+    depth 1: 36 kept of the scored, best 2 (R7 block @2019) · 65 compiles
+    depth 2: 100 kept of the scored, best 8 (R12 width h u16->s32 @3630 + R6 inline r @3637) · 296 compiles
+    depth 2: 26 kept of the scored, best 72 (R7 block @1161 + R7 block @1163) · 215 compiles
+    depth 2: 71 kept of the scored, best 8 (R7 block @1770 + R6 inline new_var2 @1773) · 313 compiles
+    depth 2: 112 kept of the scored, best 2 (R7 block @2019 + R4 decl-move sVar2 12->0) · 287 compiles
+    depth 1: 28 kept of the scored, best 4 (R7 block @7474) · 65 compiles
+    depth 3: 21 kept of the scored, best 72 (R7 block @1161 + R7 block @1163 + R7 block @1165) · 370 compiles
+    depth 3: 44 kept of the scored, best 4 (R7 block @5132 + R9 swap-stmts @5133 + R2 decl-order 1,0) · 345 compiles
+    depth 4: 18 kept of the scored, best 72 (R7 block @1161 + R7 block @1163 + R7 block @1165 + R7 block @1167) · 513 compiles
+  ov_SC04_011__func_8013D178: NO-MATCH start=72 best=72 compiles=513 (58.9s, 130 copies, 1 needed)
+    depth 3: 110 kept of the scored, best 2 (R7 block @2019 + R4 decl-move sVar2 12->0 + R7 block @2021) · 505 compiles
+    depth 1: 28 kept of the scored, best 8 (R12 width h u16->s32 @4668) · 64 compiles
+    depth 3: 100 kept of the scored, best 8 (R12 width h u16->s32 @3630 + R6 inline r @3637 + R6 inline c @3635) · 521 compiles
+    depth 4: score 0 by R12 width h u16->s32 @3630 + R6 inline r @3637 + R6 inline c @3635 + R12 width i int->s16 @3626
+  ov_SC04_011__func_8016E9EC: MATCH start=8 best=0 compiles=547 (161.0s, 125 copies, 1 needed, R12 width h u16->s32 @3630 + R6 inline r @3637 + R6 inline c @3635 + R12 width i int->s16 @3626)
+    depth 2: 132 kept of the scored, best 3 (R6 inline t @9581 + R8 temp tmp0 @9571) · 289 compiles
+    depth 3: 102 kept of the scored, best 5 (R8 temp tmp0 @445 + R12 width tmp0 u16->s32 @417 + R8 temp tmp1 @470) · 560 compiles
+    depth 4: 108 kept of the scored, best 2 (R7 block @2019 + R4 decl-move sVar2 12->0 + R7 block @2021 + R7 block @2017) · 716 compiles
+  ov_MAIN_012__func_8013EB7C: NO-MATCH start=2 best=2 compiles=716 (106.8s, 7 copies, 1 needed)
+    depth 4: 43 kept of the scored, best 4 (R7 block @5132 + R9 swap-stmts @5133 + R2 decl-order 1,0 + R7 block @5133) · 487 compiles
+  ov_SC04_011__func_80166F58: NO-MATCH start=4 best=4 compiles=487 (215.6s, 125 copies, 5 needed)
+    depth 1: 9 kept of the scored, best 72 (R7 block @1124) · 64 compiles
+    depth 1: 28 kept of the scored, best 5 (R8 temp tmp0 @1140) · 65 compiles
+    depth 1: 25 kept of the scored, best 3 (R8 temp tmp0 @2807) · 40 compiles
+    depth 2: 26 kept of the scored, best 72 (R7 block @1124 + R7 block @1126) · 295 compiles
+    depth 2: 103 kept of the scored, best 8 (R12 width h u16->s32 @4668 + R6 inline r @4675) · 296 compiles
+    depth 3: 68 kept of the scored, best 8 (R7 block @1770 + R6 inline new_var2 @1773 + R8 hoist tmp0 @1779) · 558 compiles
+    depth 2: 93 kept of the scored, best 4 (R7 block @7474 + R9 swap-stmts @7475) · 299 compiles
+    depth 3: 22 kept of the scored, best 72 (R7 block @1124 + R7 block @1126 + R7 block @1128) · 514 compiles
+    depth 4: 103 kept of the scored, best 5 (R8 temp tmp0 @445 + R12 width tmp0 u16->s32 @417 + R8 temp tmp1 @470 + R8 temp tmp2 @446) · 800 compiles
+  ov_SC04_011__func_8012C890: NO-MATCH start=5 best=5 compiles=800 (283.3s, 126 copies, 1 needed)
+    depth 4: 17 kept of the scored, best 72 (R7 block @1124 + R7 block @1126 + R7 block @1128 + R7 block @1130) · 721 compiles
+  ov_MAIN_012__func_8013D178: NO-MATCH start=72 best=72 compiles=721 (71.6s, 3 copies, 1 needed)
+    depth 3: 119 kept of the scored, best 3 (R6 inline t @9581 + R8 temp tmp0 @9571 + R6 inline tmp0 @9572) · 511 compiles
+    depth 2: 111 kept of the scored, best 5 (R8 temp tmp0 @1140 + R12 width tmp0 u16->s32 @1121) · 318 compiles
+    depth 1: 13 kept of the scored, best 6 (R6 inline fp @1246) · 27 compiles
+    depth 1: 23 kept of the scored, best 7 (R10 param-copy param_1 @3407) · 59 compiles
+    depth 2: 93 kept of the scored, best 3 (R8 temp tmp0 @2807 + R12 width tmp0 u16->s32 @2806) · 189 compiles
+    depth 3: 101 kept of the scored, best 8 (R12 width h u16->s32 @4668 + R6 inline r @4675 + R6 inline c @4673) · 521 compiles
+    depth 4: score 0 by R12 width h u16->s32 @4668 + R6 inline r @4675 + R6 inline c @4673 + R12 width i int->s16 @4664
+  ov_SC02_037__func_8016E9EC: MATCH start=8 best=0 compiles=547 (141.4s, 7 copies, 1 needed, R12 width h u16->s32 @4668 + R6 inline r @4675 + R6 inline c @4673 + R12 width i int->s16 @4664)
+    depth 2: 40 kept of the scored, best 6 (R6 inline fp @1246 + R7 block @1243) · 110 compiles
+    depth 2: 88 kept of the scored, best 7 (R10 param-copy param_1 @3407 + R7 block @3408) · 292 compiles
+    depth 3: 36 kept of the scored, best 6 (R6 inline fp @1246 + R7 block @1243 + R7 block @1242) · 180 compiles
+    depth 1: 39 kept of the scored, best 3 (R6 inline p @246) · 59 compiles
+    depth 4: 28 kept of the scored, best 6 (R6 inline fp @1246 + R7 block @1243 + R7 block @1242 + R7 block @1244) · 238 compiles
+  ov_SC07_006__func_80141874: NO-MATCH start=6 best=6 compiles=238 (57.6s, 7 copies, 1 needed)
+    depth 3: 96 kept of the scored, best 7 (R10 param-copy param_1 @3407 + R7 block @3408 + R10 param-copy param_1 @3408) · 537 compiles
+    depth 1: 19 kept of the scored, best 8 (R7 block @3279) · 65 compiles
+    depth 4: 69 kept of the scored, best 8 (R7 block @1770 + R6 inline new_var2 @1773 + R8 hoist tmp0 @1779 + R12 width tmp0 s32->u16 @1588) · 801 compiles
+  ov_SC04_011__func_8014D820: NO-MATCH start=8 best=8 compiles=801 (368.6s, 128 copies, 2 needed)
+    depth 4: 83 kept of the scored, best 7 (R10 param-copy param_1 @3407 + R7 block @3408 + R10 param-copy param_1 @3408 + R6 inline param_122 @3409) · 774 compiles
+  ov_SC07_006__func_8017B238: NO-MATCH start=7 best=7 compiles=774 (84.7s, 5 copies, 2 needed)
+    depth 3: 108 kept of the scored, best 5 (R8 temp tmp0 @1140 + R12 width tmp0 u16->s32 @1121 + R8 temp tmp1 @1140) · 566 compiles
+    depth 3: 105 kept of the scored, best 3 (R8 temp tmp0 @2807 + R12 width tmp0 u16->s32 @2806 + R8 temp tmp1 @2808) · 362 compiles
+    depth 3: 93 kept of the scored, best 4 (R7 block @7474 + R9 swap-stmts @7475 + R2 decl-order 1,0) · 530 compiles
+    depth 1: 23 kept of the scored, best 4 (R12 width v int->u16 @948) · 36 compiles
+    depth 4: 123 kept of the scored, best 3 (R6 inline t @9581 + R8 temp tmp0 @9571 + R6 inline tmp0 @9572 + R8 temp tmp0 @9571) · 743 compiles
+  ov_SC06_010__func_80185994: NO-MATCH start=3 best=3 compiles=743 (298.9s, 18 copies, 1 needed)
+    depth 1: 23 kept of the scored, best 7 (R10 param-copy param_1 @2853) · 59 compiles
+    depth 2: 82 kept of the scored, best 4 (R12 width v int->u16 @948 + R12 width v u16->s32 @948) · 169 compiles
+    depth 2: 143 kept of the scored, best 3 (R6 inline p @246 + R7 block @241) · 274 compiles
+    depth 1: 28 kept of the scored, best 4 (R7 block @5365) · 65 compiles
+    depth 3: 76 kept of the scored, best 4 (R12 width v int->u16 @948 + R6 inline t @950 + R7 do-while @952) · 297 compiles
+    depth 4: 72 kept of the scored, best 4 (R12 width v int->u16 @948 + R6 inline t @950 + R7 do-while @952 + R12 width v u16->s32 @948) · 422 compiles
+  ov_MAIN_012__func_80139BE0: NO-MATCH start=4 best=4 compiles=422 (54.3s, 2 copies, 1 needed)
+  ov_SC01_077__func_80141874: UNCALIBRATED — the tree's own text scores 14871 ident=True 
+    depth 1: 9 kept of the scored, best 72 (R7 block @383) · 30 compiles
+    depth 4: 106 kept of the scored, best 5 (R8 temp tmp0 @1140 + R12 width tmp0 u16->s32 @1121 + R8 temp tmp1 @1140 + R12 width tmp1 u16->s32 @1122) · 808 compiles
+  ov_SC07_006__func_8012C890: NO-MATCH start=5 best=5 compiles=808 (231.7s, 7 copies, 1 needed)
+    depth 4: 100 kept of the scored, best 3 (R8 temp tmp0 @2807 + R12 width tmp0 u16->s32 @2806 + R8 temp tmp1 @2808 + R8 temp tmp2 @2809) · 526 compiles
+  ov_SC04_011__func_8015FBE0: NO-MATCH start=3 best=3 compiles=526 (218.4s, 125 copies, 1 needed)
+    depth 2: 87 kept of the scored, best 7 (R10 param-copy param_1 @2853 + R7 block @2854) · 292 compiles
+    depth 1: 23 kept of the scored, best 4 (R12 width v int->u16 @1118) · 36 compiles
+    depth 3: 144 kept of the scored, best 3 (R6 inline p @246 + R7 block @241 + R7 block @242) · 480 compiles
+    depth 1: 40 kept of the scored, best 3 (R6 inline p @251) · 59 compiles
+    depth 2: 24 kept of the scored, best 72 (R7 block @383 + R7 block @381) · 125 compiles
+    depth 2: 82 kept of the scored, best 4 (R6 inline t @1121 + R7 do-while @1124) · 170 compiles
+    depth 2: 71 kept of the scored, best 8 (R7 block @3279 + R6 inline new_var2 @3282) · 313 compiles
+    depth 4: 93 kept of the scored, best 4 (R7 block @7474 + R9 swap-stmts @7475 + R2 decl-order 1,0 + R4 decl-move t2 2->0) · 759 compiles
+  ov_MAIN_012__func_80166F58: NO-MATCH start=4 best=4 compiles=759 (376.0s, 6 copies, 5 needed)
+    depth 3: 22 kept of the scored, best 72 (R7 block @383 + R7 block @381 + R7 block @385) · 206 compiles
+    depth 3: 72 kept of the scored, best 4 (R6 inline t @1121 + R7 do-while @1124 + R12 width v int->u16 @1118) · 291 compiles
+    depth 1: 24 kept of the scored, best 3 (R8 temp tmp0 @4930) · 42 compiles
+    depth 4: 17 kept of the scored, best 72 (R7 block @383 + R7 block @381 + R7 block @385 + R7 block @387) · 277 compiles
+  ov_SC01_077__func_8013D178: NO-MATCH start=72 best=72 compiles=277 (83.1s, 1 copies, 1 needed)
+    depth 4: 63 kept of the scored, best 4 (R6 inline t @1121 + R7 do-while @1124 + R12 width v int->u16 @1118 + R12 width v u16->s32 @1118) · 408 compiles
+  ov_SC01_077__func_80139BE0: NO-MATCH start=4 best=4 compiles=408 (76.5s, 1 copies, 1 needed)
+    depth 3: 96 kept of the scored, best 7 (R10 param-copy param_1 @2853 + R7 block @2854 + R10 param-copy param_1 @2854) · 537 compiles
+    depth 2: 94 kept of the scored, best 4 (R7 block @5365 + R9 swap-stmts @5366) · 300 compiles
+    depth 1: 23 kept of the scored, best 4 (R12 width v int->u16 @947) · 36 compiles
+    depth 4: 135 kept of the scored, best 3 (R6 inline p @246 + R7 block @241 + R7 block @242 + R7 block @240) · 674 compiles
+  ov_MAIN_012__func_801287B8: NO-MATCH start=3 best=3 compiles=674 (217.9s, 3 copies, 1 needed)
+    depth 1: 28 kept of the scored, best 8 (R6 inline r @3770) · 64 compiles
+    depth 2: 147 kept of the scored, best 3 (R6 inline p @251 + R7 block @246) · 273 compiles
+    depth 2: 82 kept of the scored, best 4 (R6 inline t @950 + R7 do-while @953) · 170 compiles
+    depth 1: 16 kept of the scored, best 8 (R7 block @2087) · 65 compiles
+    depth 3: 72 kept of the scored, best 4 (R6 inline t @950 + R7 do-while @953 + R12 width v int->u16 @947) · 291 compiles
+    depth 4: 63 kept of the scored, best 4 (R6 inline t @950 + R7 do-while @953 + R12 width v int->u16 @947 + R12 width v u16->s32 @947) · 408 compiles
+  ov_SC02_037__func_80139BE0: NO-MATCH start=4 best=4 compiles=408 (52.3s, 1 copies, 1 needed)
+    depth 4: 81 kept of the scored, best 7 (R10 param-copy param_1 @2853 + R7 block @2854 + R10 param-copy param_1 @2854 + R6 inline param_122 @2855) · 774 compiles
+  ov_SC07_010__func_8017B238: NO-MATCH start=7 best=7 compiles=774 (195.5s, 2 copies, 2 needed)
+    depth 2: 91 kept of the scored, best 3 (R8 temp tmp0 @4930 + R12 width tmp0 u16->s32 @4929) · 197 compiles
+    depth 2: 108 kept of the scored, best 8 (R6 inline r @3770 + R6 inline c @3768) · 302 compiles
+    depth 3: score 0 by R6 inline r @3770 + R6 inline c @3768 + R12 width i int->s16 @3759
+  ov_SC01_077__func_8016E9EC: MATCH start=8 best=0 compiles=309 (68.9s, 1 copies, 1 needed, R6 inline r @3770 + R6 inline c @3768 + R12 width i int->s16 @3759)
+    depth 1: 23 kept of the scored, best 7 (R10 param-copy param_1 @2919) · 59 compiles
+    depth 3: 144 kept of the scored, best 3 (R6 inline p @251 + R7 block @246 + R7 block @247) · 479 compiles
+    depth 3: 69 kept of the scored, best 8 (R7 block @3279 + R6 inline new_var2 @3282 + R8 hoist tmp0 @3288) · 558 compiles
+    depth 1: 19 kept of the scored, best 8 (R7 block @3422) · 65 compiles
+    depth 3: 94 kept of the scored, best 4 (R7 block @5365 + R9 swap-stmts @5366 + R2 decl-order 1,0) · 532 compiles
+    depth 1: 26 kept of the scored, best 4 (R7 block @5135) · 65 compiles
+    depth 2: 88 kept of the scored, best 7 (R10 param-copy param_1 @2919 + R10 param-copy param_1 @2920) · 292 compiles
+    depth 4: 136 kept of the scored, best 3 (R6 inline p @251 + R7 block @246 + R7 block @247 + R7 block @245) · 673 compiles
+  ov_SC07_006__func_801287B8: NO-MATCH start=3 best=3 compiles=673 (200.0s, 4 copies, 1 needed)
+    depth 2: 53 kept of the scored, best 8 (R7 block @2087 + R5 swap + @2090) · 312 compiles
+    depth 3: 107 kept of the scored, best 3 (R8 temp tmp0 @4930 + R12 width tmp0 u16->s32 @4929 + R8 temp tmp1 @4931) · 377 compiles
+    depth 3: 96 kept of the scored, best 7 (R10 param-copy param_1 @2919 + R10 param-copy param_1 @2920 + R6 inline param_122 @2921) · 539 compiles
+    depth 4: 72 kept of the scored, best 8 (R7 block @3279 + R6 inline new_var2 @3282 + R8 hoist tmp0 @3288 + R12 width tmp0 s32->u16 @3097) · 801 compiles
+  ov_MAIN_012__func_8014D820: NO-MATCH start=8 best=8 compiles=801 (359.2s, 3 copies, 2 needed)
+    depth 4: 92 kept of the scored, best 4 (R7 block @5365 + R9 swap-stmts @5366 + R2 decl-order 1,0 + R4 decl-move t2 1->0) · 762 compiles
+  ov_SC01_077__func_80166F58: NO-MATCH start=4 best=4 compiles=762 (324.4s, 2 copies, 5 needed)
+    depth 2: 93 kept of the scored, best 4 (R7 block @5135 + R9 swap-stmts @5136) · 300 compiles
+    depth 2: 67 kept of the scored, best 8 (R7 block @3422 + R6 inline new_var2 @3425) · 313 compiles
+    depth 1: 23 kept of the scored, best 2 (R9 swap-stmts @2950) · 40 compiles
+    depth 4: 101 kept of the scored, best 3 (R8 temp tmp0 @4930 + R12 width tmp0 u16->s32 @4929 + R8 temp tmp1 @4931 + R12 width tmp1 u16->s32 @4930) · 547 compiles
+  ov_MAIN_012__func_8015FBE0: NO-MATCH start=3 best=3 compiles=547 (254.6s, 7 copies, 1 needed)
+    depth 4: 92 kept of the scored, best 7 (R10 param-copy param_1 @2919 + R10 param-copy param_1 @2920 + R6 inline param_122 @2921 + R10 param-copy param_1 @2920) · 791 compiles
+  ov_SC01_077__func_8017B238: NO-MATCH start=7 best=7 compiles=791 (182.0s, 1 copies, 2 needed)
+    depth 3: 49 kept of the scored, best 8 (R7 block @2087 + R5 swap + @2090 + R7 block @2095) · 556 compiles
+    depth 2: 41 kept of the scored, best 3 (R7 do-while @2949 + R7 block @2950) · 179 compiles
+    depth 3: 94 kept of the scored, best 2 (R7 block @5135 + R9 swap-stmts @5136 + R4 decl-move p2 1->0) · 532 compiles
+    depth 3: 68 kept of the scored, best 8 (R7 block @3422 + R6 inline new_var2 @3425 + R8 hoist tmp0 @3431) · 558 compiles
+    depth 3: 76 kept of the scored, best 3 (R7 do-while @2949 + R7 block @2950 + R7 block @2945) · 305 compiles
+    depth 4: 45 kept of the scored, best 8 (R7 block @2087 + R5 swap + @2090 + R7 block @2095 + R7 block @2086) · 796 compiles
+  ov_SC01_077__func_8014D820: NO-MATCH start=8 best=8 compiles=796 (325.0s, 1 copies, 2 needed)
+    depth 4: 68 kept of the scored, best 3 (R7 do-while @2949 + R7 block @2950 + R7 block @2945 + R7 block @2951) · 417 compiles
+  ov_SC01_077__func_8015FBE0: NO-MATCH start=3 best=2 compiles=417 (147.2s, 1 copies, 1 needed, R9 swap-stmts @2950)
+    depth 4: 49 kept of the scored, best 2 (R7 block @5135 + R9 swap-stmts @5136 + R4 decl-move p2 1->0 + R4 decl-move t2 3->4) · 759 compiles
+  ov_SC01_000__func_80166F58: NO-MATCH start=4 best=2 compiles=759 (291.7s, 1 copies, 5 needed, R7 block @5135 + R9 swap-stmts @5136 + R4 decl-move p2 1->0)
+    depth 4: 68 kept of the scored, best 8 (R7 block @3422 + R6 inline new_var2 @3425 + R8 hoist tmp0 @3431 + R12 width tmp0 s32->u16 @3240) · 802 compiles
+  ov_SC07_006__func_8014D820: NO-MATCH start=8 best=8 compiles=802 (322.7s, 1 copies, 2 needed)
+delever --propagate: src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c:func_8016E9EC -> 124 sibling(s) of class d2cf084f817c
+  delever --apply-body: src/ov_SC01_004/ov_SC01_004_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_004/ov_SC02_004_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC01_001/ov_SC01_001_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC01_080/ov_SC01_080_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC01_084/ov_SC01_084_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC01_008/ov_SC01_008_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC01_074/ov_SC01_074_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC01_000/ov_SC01_000_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC01_009/ov_SC01_009_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_005/ov_SC02_005_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_011/ov_SC02_011_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_000/ov_SC02_000_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 2 object(s) (0.33 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_016/ov_SC02_016_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC01_005/ov_SC01_005_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 2 object(s) (0.33 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_028/ov_SC02_028_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_026/ov_SC02_026_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_027/ov_SC02_027_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_015/ov_SC02_015_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_031/ov_SC02_031_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_021/ov_SC02_021_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_017/ov_SC02_017_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_035/ov_SC02_035_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_041/ov_SC02_041_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC02_039/ov_SC02_039_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_006/ov_SC03_006_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_007/ov_SC03_007_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_003/ov_SC03_003_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_012/ov_SC03_012_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_010/ov_SC03_010_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_002/ov_SC03_002_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_001/ov_SC03_001_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_013/ov_SC03_013_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_011/ov_SC03_011_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_023/ov_SC03_023_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_024/ov_SC03_024_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_028/ov_SC03_028_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_029/ov_SC03_029_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_090/ov_SC03_090_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_091/ov_SC03_091_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_089/ov_SC03_089_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_031/ov_SC03_031_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_092/ov_SC03_092_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_093/ov_SC03_093_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_030/ov_SC03_030_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_014/ov_SC03_014_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 2 object(s) (0.33 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_094/ov_SC03_094_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_096/ov_SC03_096_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_095/ov_SC03_095_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_097/ov_SC03_097_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_098/ov_SC03_098_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_103/ov_SC03_103_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_100/ov_SC03_100_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_101/ov_SC03_101_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_102/ov_SC03_102_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_099/ov_SC03_099_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_104/ov_SC03_104_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_108/ov_SC03_108_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_105/ov_SC03_105_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_109/ov_SC03_109_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_110/ov_SC03_110_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_111/ov_SC03_111_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_112/ov_SC03_112_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_114/ov_SC03_114_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_113/ov_SC03_113_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_116/ov_SC03_116_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_117/ov_SC03_117_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_115/ov_SC03_115_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_121/ov_SC03_121_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_124/ov_SC03_124_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_000/ov_SC04_000_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_125/ov_SC03_125_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_118/ov_SC03_118_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 2 object(s) (0.33 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_004/ov_SC04_004_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_003/ov_SC04_003_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_002/ov_SC04_002_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_005/ov_SC04_005_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_007/ov_SC04_007_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_006/ov_SC04_006_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_009/ov_SC04_009_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_010/ov_SC04_010_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_012/ov_SC04_012_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_015/ov_SC04_015_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_020/ov_SC04_020_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_001/ov_SC05_001_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_016/ov_SC04_016_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_000/ov_SC05_000_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_002/ov_SC05_002_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_003/ov_SC05_003_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_005/ov_SC05_005_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_004/ov_SC05_004_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_006/ov_SC05_006_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_007/ov_SC05_007_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC04_018/ov_SC04_018_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 2 object(s) (0.33 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_008/ov_SC05_008_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_008/ov_SC06_008_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_000/ov_SC06_000_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_017/ov_SC05_017_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_011/ov_SC05_011_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_014/ov_SC06_014_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_015/ov_SC06_015_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_010/ov_SC06_010_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_010/ov_SC05_010_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_006/ov_SC06_006_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC05_018/ov_SC05_018_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_013/ov_SC06_013_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_011/ov_SC06_011_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_016/ov_SC06_016_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_020/ov_SC06_020_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_025/ov_SC06_025_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_027/ov_SC06_027_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_024/ov_SC06_024_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_022/ov_SC06_022_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_029/ov_SC06_029_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_018/ov_SC06_018_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_032/ov_SC06_032_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_033/ov_SC06_033_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_000/ov_SC07_000_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC06_030/ov_SC06_030_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_002/ov_SC07_002_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_009/ov_SC07_009_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_001/ov_SC07_001_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_008/ov_SC07_008_jr_8016AB6C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.17 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/shared/ov/func_8016E9EC__286b6760.h:func_8016E9EC IDENTICAL on 3 object(s) (0.50 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/shared/ov/func_8016E9EC__deecac80.h:func_8016E9EC IDENTICAL on 2 object(s) (0.33 s) — KEPT, ledgered (rung G, g4sp)
+delever --propagate: 124 of 124 sibling(s) banked, 0 refused
+  propagate ov_SC04_011__func_8016E9EC: delever --propagate: 124 of 124 sibling(s) banked, 0 refused
+delever --propagate: src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c:func_8016E9EC -> 6 sibling(s) of class f01be1a78072
+  delever --apply-body: src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.15 s) — KEPT, ledgered (rung G, g4sp)
+  delever --apply-body: src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:func_8016E9EC IDENTICAL on 1 object(s) (0.16 s) — KEPT, ledgered (rung G, g4sp)
+delever --propagate: 6 of 6 sibling(s) banked, 0 refused
+  propagate ov_SC02_037__func_8016E9EC: delever --propagate: 6 of 6 sibling(s) banked, 0 refused
+delever --propagate: src/ov_SC01_077/ov_SC01_077_jr_8016AB6C.c:func_8016E9EC -> 0 sibling(s) of class 77b2d138bc3f
+Traceback (most recent call last):
+  File "/home/musashi/bfm-decomp/tools/delever_search.py", line 918, in <module>
+    return cmd_run(a)
+         ^^^^^^
+  File "/home/musashi/bfm-decomp/tools/delever_search.py", line 914, in main
+    return explain(a)
+           ^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/delever_search.py", line 580, in cmd_run
+    # propagation, serially after the parallel phase: a sibling lives in a TU another worker may have owned
+                ^^^^^^^^^^^
+TypeError: cannot unpack non-iterable int object
