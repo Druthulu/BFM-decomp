@@ -1477,7 +1477,117 @@ accumulate here as the phase produces them.**
   final body: 2 / 12 / 8 / 9 / 53 / 22. The free text's `dum[8]`, `pv`, `ix` stay (removing any scores 18-32).
   `apply-body … IDENTICAL … KEPT`; `--propagate: 128 of 128`. METHOD_S103 +2 entries.
 
-## 🛑 SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
+## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
+
+### 0. How to use this block
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**S103 ran at `/effort
+high` on Opus 5 1M; Fable 5.1 was OUT OF USAGE CREDITS all session — every agent ran on Opus and 14 of the 15 judged draws
+closed**) and executes §2. **What may be in flight when this block is read:** at writing, five read-only agents were
+running — c13 `func_80140958`, c15 `func_80135EB0`, c17 `func_8013D9B0`, c19 `func_80177B5C`, c20 `func_8013DD68` (a
+re-draw). A dead session's agents leave their work in `.run/P36/agents/ov_SC04_011__<fn>/body.c` + `mechanism.md` (R67):
+`--try` each `body.c`; a score 0 is bankable (§3), anything else is a reading to record. The tree is committed at every
+bank; `git status --short | wc -l` should be 0 apart from those packs. First commands:
+```
+git log --oneline -1 && git status --short | grep -v '^?? .run/P36/agents\| M .run/P36/agents' | wc -l
+.venv/bin/python tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16   # after EVERY commit
+.venv/bin/python tools/delever_oracle.py --snapshot-baseline
+```
+
+### 1. THE OPERATING PROCEDURE (Drew's; S103 additions in bold)
+- **At most FIVE agents at once** (Drew, 2026-09-10, S103). The agent lane is the main lane and is never empty: on a
+  landing (1) `--try` the agent's `body.c`; (2) launch the next agent into the free slot; (3) then bank, propagate,
+  harvest, gate, commit. Agents are read-only; **one writer** (a bank, a propagate, a sweep, a `delever_regen --bank`)
+  at a time.
+- **Relay a sibling's crack to a running agent** with SendMessage when a landing's mechanism plausibly applies to it —
+  twice in S103 (c4 → c7, c1 → c8), both relays used in the close.
+- **Every harvest that adds or widens a generator is followed by `tools/delever_regen.py`** over the whole residue (§3):
+  the residue's NO-MATCH attempts predate every new family and nothing else revisits them (17 free classes the first time).
+- Brief every agent with `PROMPT.md` + `METHOD_S103.md` (grown at every landing — it is the method) + the pack's
+  `related.txt` + the named sibling packs whose mechanism applies. Tell it which functions other agents hold in its TU.
+- Fable out of credits → an agent dies with HTTP 429 on its first step; relaunch on Opus (R40). Drafter ladder otherwise.
+- Sweeps/fleet runs detached or `run_in_background` with a watcher; the finish sequence after every bank (§3).
+
+### 2. NEXT — the head is 16 classes of ≥100 copies; keep five agents on it and harvest every landing
+1. Land whatever of c13/c15/c17/c19/c20 is back (§0). Then draw from the classes still open (`delever_search.exemplars`):
+   ≥100 copies at S103's end — `func_8013CF68` (134; **c9 READ: 38 → 10, count closed, order only; its 5 used a dummy
+   reassignment and was refused; sched1 alias analysis `sched.c:419-438` — re-draw only with a new idea**),
+   `func_8012E364` (133), `func_80157D20` (132, needs a fleet declaration widen — types phase), `func_80133CD4` (131),
+   `func_8013F350` (130, head a proven wall), `func_8012956C` (127), `func_80133784` (127, S102 b4 read 21 → 2),
+   `func_801397B0` (126, `$4` pin — try the implicit-argument reading), `func_8017B614` (126), `func_80166F58` (125),
+   `func_80136824` (125, types phase), `func_80178970` (127, the combine fold wall, `combine.c:914-917`) — plus whichever
+   of the five in flight did not close. **A re-draw needs new information in the brief** (S103's re-draws carried
+   METHOD_S103 + `related.txt`); the prior agent's `body.c`/`mechanism.md` are copied to `scratch/prev_*` first.
+2. Below 100 copies the residue is ~1,165 classes of 1–41 copies: that is `delever_regen` + the engine's territory, and
+   the next lever after the head is a pack build over them (`delever_pack --build --min-copies 10`) once the head is down.
+3. Per landing, the checklist: `--try` → next agent → `apply_body_core` → `--propagate` → R22 → census → `lever_progress
+   --snapshot` → baseline → METHOD_S103 entry → generator if mechanical (selftest + known-true against the agent's own
+   start text) → `delever_regen` if a family was added/widened → log line → commit.
+
+### 3. THE EXACT INVOCATIONS (S102's §3 still holds; additions)
+```
+# per-pack related bodies for a draw whose pack predates S103 (the pack builder writes it for every pack now)
+.venv/bin/python - <<'PY'
+import sys; sys.path.insert(0,'tools'); import delever_pack as dp
+fn,tu='<fn>','<tu>'; d=f'.run/P36/agents/ov_SC04_011__{fn}'
+open(d+'/related.txt','w').write(dp.related_bodies(tu,fn,open(d+'/body_tree.c').read(),'ov_SC04_011'))
+PY
+# the regen pass (read-only; ~2 min for 1,169 classes at -j 10) and its bank (the one writer)
+setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R23 -j 10 --label <L> \
+    --exclude <every fn an agent holds> > .run/P36/regen/<L>.log 2>&1 &
+.venv/bin/python tools/delever_regen.py --bank .run/P36/regen/<L>.tsv      # then the R22 fleet run
+# read every UNSCORED row before banking (R61): S103's were 24 header TUs --try could not compile + 1 #define body
+```
+
+### 4. WHAT S103 BUILT (all with SETUP rows under §P36 S103 and dictionary rows; `tool_census --check` OK)
+- **R22 `merge_walked_pointers`** (c2) and **R23 `split_reused_locals`** (c1/c8, widened from c16: one brace depth of one
+  open block, pointer declarators, `*p = E` is a store through `p`, brace-less `if (c) v = E;` refused, `#define` bodies
+  refused). Known-true: R22 reproduces c2's closing body (0); R23 reproduces c1/c8's single-move scores (12, 26) and closes
+  c16's `func_8013D178` alone (0). Both lead their residual classes in `delever_search.FAMILIES`.
+- **`tools/delever_regen.py`** — §3. **`delever_search --try` on a shared-header TU** now passes the includer's directory
+  (`-I`): no header-TU class had ever been scorable (controlled: unchanged 0, lever-free 32, mutated 1).
+- **`delever_pack` writes `related.txt`**: lever-free bodies anywhere in the overlay sharing a `func_`/`D_` symbol, ranked
+  (known-true: for `func_80135A4C` the top hit is `func_80135888`, the body its agent found by hand in another file).
+- **`tools/cc1_dumps_tu.sh`** dumps `.cse2` (`-dt`) and `.jump2` (`-dJ`).
+- **`verbatim_check --strict` in `make tools-health`**; `--update` keeps the manifest's order and UTF-8. CI had been red
+  since `cb2fb5e6d` (2026-09-09) on the stale DECOMPILE-NOW row `func_8017EEC0` — fixed, and that function's uninitialised
+  `a0v` local is now its parameter.
+- **`.run/P36/agents/METHOD_S103.md`** — every emitter and register-order move byte-proven in S103 with its `file:line`.
+
+### 5. GOTCHAS S103 PAID FOR
+- **A mid-turn message from Drew can arrive with a tool result** — answer it in the same turn (the CI failure and the
+  five-agent cap both came that way).
+- **A check that runs only in CI is not a guard for the local chain** (R54): the verbatim row sat red for a day.
+- **A "json.dump" rewrite is an instrument change**: `--update` re-sorted and ASCII-escaped the whole manifest; a
+  one-row fix became a 588-line diff until the tool was fixed (R57).
+- **An instrument that cannot score a population reports it as UNSCORED, and "unscored" is not "judged"** (R61): the
+  header-TU `--try` defect hid behind that word for every header class since the engine began.
+- **A typed count in a log line is wrong the first time** (R85): the regen family split was typed 13/4 and is 12/5 —
+  counted from the TSVs.
+- `tools/cc1_dumps_tu.sh` still fails with CPP-EMPTY on TUs that include `../shared/…` unless `$wd/shared` is symlinked —
+  agents keep writing their own `dump.sh` (a working one: `.run/P36/agents/ov_SC04_011__func_8013D178/scratch/dump.sh`).
+  **Fix it next** (it should take the TU's own directory and `src/` as include roots like `--try` does).
+
+### 6. OPEN BY NAME
+- **Drew's call, asked in S103:** does `do { … } while (0);` count as a lever? It is R7's move, banked in S102 (a4, b8)
+  and S103 (c5's `func_8015D738`, where it is the barrier the removed `asm` was — c5 flagged it), uncounted by the census,
+  1,347 in `src/`. If yes: a census class + a residue to work down.
+- The declaration debt, measured at S103's open (`.run/P36/s103/argcheck.json`, 94,001 rows): **91,846 are calls that
+  pass FEWER arguments than the definition** (the R19 population — which side is wrong is a types-phase question: a
+  definition may carry a phantom parameter), 1,731 have every call passing enough but sit in units `decl_repair` did not
+  judge IDENTICAL, 424 are in `src/shared` headers. The "shared headers are the next cheap win" line of S102 was an
+  overestimate — 424 rows.
+- The types phase inherits: `func_80136824`, `func_80168828`, `func_80157D20` (S102); `func_8017EEC0`'s callers still
+  declare it `(void)`; the `ov_SC01_077` variant of `func_80148E54` still calls its handler with no argument.
+- Tool gaps agents named: `alloc_table.py` prints the GLOBAL priority only — local-alloc's `qty_compare_1` rank is in
+  `.run/P36/agents/ov_SC04_011__func_80135168/scratch/lpri.py` (c1, c8 asked); `--try` does not print its object path;
+  the pack has no `best_body.c` where the engine never wrote one.
+
+### 7. WHERE EVERYTHING IS
+S102's §7 holds, plus: `.run/P36/regen/` (every regen TSV, log and candidate) · `.run/P36/s103/` (this session's R22 logs,
+the argcheck census, the verbatim manifest before/after, the R22/R23 known-true candidates) · `.run/P36/agents/METHOD_S103.md`
+· each landed pack's `mechanism.md` (c1–c20) · SETUP §P36 S103.
+
+## (superseded) SESSION CHECKPOINT — S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING AND PRODUCTIVE**. 30,358 → **24,119 sites** (−6,239) in 6,317 bodies; 22 agents across two waves (14 closed, 8 read); generators **R15–R21** added, each with a known-true check; **16,759 lying call declarations repaired free** across 3,439 units; R22 `check-all: 218 passed, 0 failed of 218` at every step | `lever_census --check` OK (24,119 marked, 0 UNMARKED) · `lever_progress --check` OK (30 milestones) · tree CLEAN at `8a22254bf`
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**Drew ran S102 at
