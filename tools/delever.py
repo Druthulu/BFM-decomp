@@ -2902,7 +2902,58 @@ def split_reused_locals(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23")
+def _one_group(e):
+    """True when `e` is ONE parenthesised group, `(…)`, whose opening paren closes at the very end."""
+    if not (e.startswith("(") and e.endswith(")")):
+        return False
+    depth = 0
+    for k, ch in enumerate(e):
+        depth += (ch == "(") - (ch == ")")
+        if depth == 0 and k < len(e) - 1:
+            return False
+    return True
+
+
+def word_read_bitfields(text, tu, fn, d_):
+    """[(description, candidate text)] — R24: the addPrim copy `X->addr = Y->addr;` read as a WHOLE WORD,
+    `X->addr = *(u32 *)Y;`.
+
+    T7 agent c20's re-draw of func_8013DD68 (P36 S103, 128 bodies): reading a 24-bit bit-field ANDs it with the mask
+    (`expmed.c:1456-1471`) and storing into one ANDs again (`expmed.c:667-683`), so at FLOW time the hoisted `0x00ffffff`
+    mask carries an extra loop-weighted use per copy (`flow.c:2067`) — combine merges the two ANDs later but never lowers
+    the reference count (`combine.c:55-57`), and that phantom reference decides `allocno_compare` (`global.c:587-607`): the
+    mask sorted ahead of the loop counter (2413.8 vs 1728.4) and took its register. Read as a word, the mask drops to
+    1724.1 and the counter takes `$a3` as in the target. The value is the same: the store masks to 24 bits either way and
+    `addr` is the struct's first field (the PsyQ P_TAG layout). Measured on the agent's start text: this move alone 17 → 10;
+    with the agent's statement move, 0. One candidate per site and one with every site (the census at S103: the copy occurs
+    in 37 residue classes / 41 bodies). Refused when the source has a side effect (`++`, `--`, an assignment)."""
+    lines = text.split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    PAT = re.compile(r"(->\s*addr\s*=\s*)([^;]*?)\s*->\s*addr\s*;")
+    sites = []
+    for i in range(lo, hi):
+        ml = sc.mask_text(lines[i])
+        for m in PAT.finditer(ml):
+            src = lines[i][m.start(2):m.end(2)].strip()
+            if not src or re.search(r"\+\+|--|(?<![=!<>])=(?!=)", src):
+                continue
+            sites.append((i, m.start(), m.end(), m.group(1), src))
+    if not sites:
+        return []
+
+    def rewrite(sel):
+        ls_ = list(lines)
+        for i, a, b, lhs_eq, src in sorted(sel, key=lambda t: (t[0], -t[1])):
+            word = src if (re.fullmatch(r"[A-Za-z_]\w*", src) or _one_group(src)) else f"({src})"
+            ls_[i] = ls_[i][:a] + f"{lhs_eq}*(u32 *){word};" + ls_[i][b:]
+        return "\n".join(ls_)
+    out = [(f"word-read addr @{i + 1}", rewrite([(i, a, b, l, s_)])) for i, a, b, l, s_ in sites]
+    if len(sites) > 1:
+        out.append((f"word-read addr ALL {len(sites)} sites", rewrite(sites)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3034,6 +3085,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R23" in fam:
         for desc, cand in split_reused_locals(text, tu, fn, d_):
             out.append(("R23", desc, cand))
+    if "R24" in fam:
+        for desc, cand in word_read_bitfields(text, tu, fn, d_):
+            out.append(("R24", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -4065,6 +4119,22 @@ def selftest():
                                        next(r for r in sc.scan_text(bad, "src/fx/r.c", shared_defs=None) if r["form"] == "def")))
         if "split a into 2" in got:
             fail(f"R23 must refuse {why}: {sorted(got)}")
+
+    # R24, the whole-word read (T7 agent c20's re-draw of func_8013DD68, S103; known-true: on its start text the in-loop
+    # site alone scores 10 from 17 and the two sites outside the loop change nothing — exactly the agent's measurement)
+    AFIX = ("void func_80100000(P_TAG *p, P_TAG *ot) {\n"
+            "    p->addr = ot->addr;\n"
+            "    ot->addr = (u32)p;\n"
+            "    p->addr = (ot + 1)->addr;\n"
+            "    p->addr = ot++->addr;\n"
+            "}")
+    a24 = dict(word_read_bitfields(AFIX, "src/fx/a.c", "func_80100000",
+                                   next(r for r in sc.scan_text(AFIX, "src/fx/a.c", shared_defs=None) if r["form"] == "def")))
+    if sorted(a24) != ["word-read addr @2", "word-read addr @4", "word-read addr ALL 2 sites"]:
+        fail(f"R24 must offer the two side-effect-free copies and their joint form (not the ++ source), got {sorted(a24)}")
+    elif "p->addr = *(u32 *)ot;" not in a24["word-read addr @2"] or \
+            "p->addr = *(u32 *)(ot + 1);" not in a24["word-read addr ALL 2 sites"]:
+        fail(f"R24 must read the source as a whole word, parenthesising a compound source: {a24!r}")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

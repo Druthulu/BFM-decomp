@@ -1,6 +1,6 @@
 # func_80140958 (src/ov_SC04_011/ov_SC04_011_jr_80140608.c), T7 agent c13, S103
 
-**Status: IN PROGRESS — score 4 (260/260 ins, class ORDER), no pin, no asm, no added volatile, no invented term.**
+**Status: NOT CLOSED — score 4 (260/260 ins, class ORDER) from 43; no pin, no asm, no added volatile, no invented term.**
 `body.c` is the current best text. The only remaining diff is the order of the three pre-loop statements
 (`t3v`, `k`, `j`) — see (c) move 4 and (f).
 
@@ -23,7 +23,8 @@ registers, and (4) the inner-loop counter `j` and the index `k` had each other's
    (`maybe_never`), and it is a user var: none of (1)-(3) hold, the set stays in the loop. flow then deletes the dead
    initializer (it reaches no use), so the register is referenced in ONE block, dies once, and becomes a local-alloc
    qty (`local-alloc.c:472`) whose density (3 refs over 2 insns) beats the two x-coordinate loads, so it takes `$v0`
-   and they take `$v1`/`$a0` — exactly the target. Proven on bytes (43 → ... → 6 with this move).
+   and they take `$v1`/`$a0` — exactly the target. Proven on bytes: on the same base, `s16 y;` scores 28 (8 hoisted to
+   `li t1,8`) and `s16 y = 0;` scores 6 (`scratch/a2arm.c` vs `scratch/y1.c`).
 2. **The y store (defect 2): jump2 cross-jumping.** The target's arm A ends `j 620` into the MIDDLE of arm B's tail:
    `sh v0,-6(a1)` at 0x620 is the first insn of the join and arm A's `addiu v0,v0,-4` sits in the jump's delay slot.
    That is the `find_cross_jump` fingerprint (`jump.c:2371`, post-reload `jump_optimize(insns,1,1,0)`): each arm ended
@@ -79,9 +80,39 @@ registers, and (4) the inner-loop counter `j` and the index `k` had each other's
 - a goto-built inner or outer loop (g1-g4): 44-63.
 - duplicating the draw code into both arms (d1: 96/265): combine_movables pairs the constants and hoists them.
 
-## (f) Where the method fell short / open question
-The last 4 points are the `j`/`k` priority. The target's pre-loop order is `j = 0; k = m; t3v = …` (sched1 keeps the
-source order for these leaves — proven on four variants), so j is born first and lives one insn longer than k; with
-that order the target needs j >= 14 refs against k's 13 (or j >= 12 against 11). Every spelling tried leaves j at 11.
-The tree's `__asm__ volatile("" :: "r"(j))` supplies exactly +3 (one depth-3 ref). No natural zero-code reference
-to j has been found yet.
+## (f) Where it stops, and where the method fell short
+**The last 4 points are the j/k allocation order, and I could not close them without a lever.** What the bytes pin down:
+- **Source order.** For this block's leaf insns, sched1 keeps the source order. I checked this on four orderings
+  (r1, x2, x5, k9, printed side by side). The target's pre-loop order is `move a2,zero / move a3,v1 / sll t3,v1,2`,
+  which is `j = 0; k = m; t3v = ...`. So j is born first and lives one insn longer than k (measured Lj = Lk + 1).
+- **cse.** With `k = m` before `t3v`, cse rewrites t3v to read k (`make_regs_eqv`: k lives longer, so it becomes the
+  canonical register). That leaves k at 13 refs.
+- **What the target needs.** Given those two facts, j needs at least 14 weighted refs (or k at most 10). The tree's
+  `__asm__ volatile("" :: "r"(j))` adds exactly one depth-3 ref (+3 → 14). That is lever [L2], and every overlay copy of
+  this function carries it.
+- **What the target code rules out.** Every instruction in the target's inner loop is accounted for, and j is read in
+  only 4 RTL places (checked in the `.flow` dump). So an extra ref would have to sit in an insn that a pass after flow
+  deletes (combine, a reload no-op move, or a jump2 cross-jump of duplicated source code).
+  - The loop-exit test reads the SImode increment temp, not j. reorg's copy-propagation cannot have rewritten it:
+    `reorg.c:3490` refuses when the next insn sets the copy's source, and `sll v0,v0,16` sets v0.
+  - Refuted on bytes: `for`/`do`/`while` forms, every increment spelling, `<=`, `!j`, casts, swapped arms,
+    `for (j = 0; ...)`, an `i`-indexed inner loop, and explicit `j++` before each `continue` (w1: j gets 26 refs and
+    the right register, but the increments become `addiu a2,a2,1` and do not merge: 16/259).
+  - Also refuted by reading the source: a register preference via `regs_someone_prefers` (no non-call-crossing
+    allocno prefers a2), `regs_used_so_far` (a2 is used by block-0 locals), and a REG_EQUIV live-length doubling of k
+    (cse would pick `li a3,3` if it knew the constant, as the tree's [L1] note records).
+- **The best lever-free text** (`body.c`) trades the order for the registers: `t3v = m * 4; k = m; j = 0;`, so k has
+  11 refs and j is born last. The allocation matches and only the three `move/sll` insns are out of order.
+  The alternative (`x5.c`, `for (j = 0; ...)`) is also 4.
+
+**Method notes.**
+1. The allocation table was essential: it showed j 11/75 against k 13/74 immediately.
+2. The sched1 `;; ready list` / priority lines in the `.sched` dump were what explained the addPrim hunk.
+   `scratch/sblk.py` extracts them per block, and a tool like it belongs in `tools/`.
+3. The residual hunk view hid the cross-jump. Only the whole-function dump showed `j 620` landing on a store.
+4. The biggest single time sink was the hypothesis "the 8 must be a non-movable local". Its resolution (a dead
+   initializer defeats `reg_in_basic_block_p`) came from reading `scan_loop` line by line, not from any table.
+   A `.loop` dump reader that prints each movable's case (1)/(2)/(3) verdict would have found it in minutes.
+
+Paths: `body.c` (score 4), candidates in `scratch/*.c`, dumps in `scratch/dumps_*`, helpers in `scratch/t.sh`,
+`scratch/dump.sh`, `scratch/at.sh`, `scratch/var.py`, `scratch/blk.py` and `scratch/sblk.py`.

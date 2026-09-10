@@ -72,16 +72,16 @@
  "binaries": 218,
  "classes": {
   "A": {
-   "bodies": 3296,
-   "distinct_bodies": 921,
+   "bodies": 3294,
+   "distinct_bodies": 919,
    "file_scope": 0,
-   "in_bodies": 8914,
+   "in_bodies": 8912,
    "kinds": {
-    "pin": 8914
+    "pin": 8912
    },
-   "marked": 8914,
-   "sites": 8914,
-   "tus": 1795,
+   "marked": 8912,
+   "sites": 8912,
+   "tus": 1794,
    "unmarked": 0
   },
   "B": {
@@ -207,9 +207,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6792,
-   "live": 26174,
+   "live": 26172,
    "macro_block": 194,
-   "raw": 33160
+   "raw": 33158
   },
   "attribute": {
    "comment_dead": 0,
@@ -225,9 +225,9 @@
   },
   "register": {
    "comment_dead": 8587,
-   "live": 8964,
+   "live": 8962,
    "macro_block": 18,
-   "raw": 17569
+   "raw": 17567
   },
   "volatile": {
    "comment_dead": 2480,
@@ -237,7 +237,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 28.9,
+ "elapsed_s": 31.3,
  "generated": "2026-09-10",
  "gte_levers": {
   "direct": 362,
@@ -248,15 +248,15 @@
   "via_macro": 100,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "9f2b6b24a",
+ "head": "5eb46b267",
  "headers": 3181,
  "levers_AB": {
   "asm": 7101,
-  "bodies": 4211,
-  "distinct_bodies": 1224,
-  "marked": 16015,
-  "pins": 8914,
-  "sites": 16015,
+  "bodies": 4209,
+  "distinct_bodies": 1222,
+  "marked": 16013,
+  "pins": 8912,
+  "sites": 16013,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -415,7 +415,7 @@
    "$5": 1270,
    "$6": 217,
    "$7": 323,
-   "$8": 176,
+   "$8": 174,
    "$9": 156,
    "7": 1,
    "a0": 7,
@@ -423,16 +423,16 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 8914,
+  "sites": 8912,
   "sp": 13,
   "spelling": {
-   "__asm__": 8839,
+   "__asm__": 8837,
    "asm": 75
   },
   "volatile_qualified": 7,
   "zero": 117
  },
- "src_stamp": "4bfdabccfbe9d755",
+ "src_stamp": "ae126b9311553ba2",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {

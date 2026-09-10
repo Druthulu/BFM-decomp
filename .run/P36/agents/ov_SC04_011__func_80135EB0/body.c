@@ -1,10 +1,9 @@
-s32 func_80135EB0(void *arg0, s32 arg1_) {
+s32 func_80135EB0(void *arg0, s32 arg1) {
     extern u8 D_801152A8[];
     extern s16 D_801152AA[];
     extern s16 D_801152AC[];
     extern s16 D_80126722[];
     extern s16 D_80126724[];
-    s32 arg1 = arg1_;
     s32 t1;
     s32 t2;
     s32 t3;
@@ -30,12 +29,16 @@ s32 func_80135EB0(void *arg0, s32 arg1_) {
         m1 |= 8;
     }
     t3 = (*(s16 **)&D_801909BC)[1];
-    if (t3 < M2C_FIELD(arg0, s16 *, 8)) {
-        m2 = 0x10;
-    } else {
-        m2 = M2C_FIELD(arg0, s16 *, 0xA) < t3;
-        m2 <<= 5;
-    }
+    /* The do-while(0) is NOT inert: flow.c counts every ref inside it at loop depth 2 (flow.c:2067), which
+     * lifts m2 to 11 refs and ranks it above arg1 in global.c allocno_compare -> m2 $s2, arg1 $s3. */
+    do {
+        if (t3 < M2C_FIELD(arg0, s16 *, 8)) {
+            m2 = 0x10;
+        } else {
+            m2 = -(M2C_FIELD(arg0, s16 *, 0xA) < t3);
+            m2 &= 0x20;
+        }
+    } while (0);
     if ((m1 | m2) == 0) {
         u16 *ac;
         s16 *b4;

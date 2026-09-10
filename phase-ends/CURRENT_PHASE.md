@@ -1490,6 +1490,24 @@ accumulate here as the phase produces them.**
   sites, 16,015 marked !FAKE, 0 UNMARKED — OK`. Census for a generator: the `->addr = ->addr` copy occurs in 37 residue
   classes / 41 bodies.
 
+- **S103 — harvest: generator R24 `word_read_bitfields`** (c20's move: `X->addr = Y->addr;` → `X->addr = *(u32 *)Y;`,
+  each site and ALL; a side-effecting source refused; an already-parenthesised source not wrapped twice — the selftest
+  caught `*(u32 *)((ot + 1))`). **Known-true on c20's start text: 17; the in-loop site alone 10; ALL 10; the two sites
+  outside the loop 17** — exactly the agent's measurement. `delever --selftest: OK`; SETUP row; REG classes after R23.
+  **R24 regen:** `delever_regen: 1150 of 1150 classes judged in 84 s — {'MATCH': 2, 'BEST': 11, 'NO-CANDIDATE': 1137,
+  'UNSCORED': 0}`; `--bank: 2 of 2 MATCH row(s) banked` — one of them the shared header `func_80140D68.h`, IDENTICAL on
+  140 objects.
+- **S103 — T7 agent c13: `func_80140958` READ, not closed (43 → 4, 260/260; three of four levers replaced).** Four
+  defects behind an equal count: the loop constant 8 (hoisted by `scan_loop`, `loop.c:681-690` / `move_movables`
+  `:1631`), a join store (jump2 cross-jump, the target's `j` lands on the second branch's store — split into both
+  branches), the addPrim store (a reused read-modify-write local `w`; sched1's `birthing_insn_p`/`adjust_priority`,
+  `sched.c:2469-2540`), and the pre-loop `j`/`k` order — unsolved: `allocno_compare` (`global.c:594-609`) needs `j` at ≥14
+  loop-weighted refs; the tree's `j` keepalive adds exactly +3; ~20 spellings refuted on bytes. **Its first move is a
+  DEAD INITIALISER (`s16 size = 0;` then `size = 8;` in the loop) whose only job is to defeat the hoist** — the same
+  family as c9's refused do-nothing reassignment and c5's barrier do-while; NOT bankable at 4 either way, and raised
+  with Drew beside the do-while question. Its tool asks: a `.loop`-dump reader that says why each invariant was or was
+  not hoisted, and its per-block sched1 priority extractor (`PACK/scratch/sblk.py`).
+
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **16,273 sites** (−7,846) in this session; 20 agent draws (14 closed = 15 functions incl. a twin pair, 1 read without closing, 5 in flight at writing; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22, R23** added and R23 widened; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (16,273 marked, 0 UNMARKED) · `lever_progress --check` OK (37 milestones) · last commit `750797a04`
 
 ### 0. How to use this block
@@ -1581,7 +1599,7 @@ setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R
   **Fix it next** (it should take the TU's own directory and `src/` as include roots like `--try` does).
 
 ### 6. OPEN BY NAME
-- **Drew's call, asked in S103:** does `do { … } while (0);` count as a lever? It is R7's move, banked in S102 (a4, b8)
+- **Drew's call, asked in S103:** does `do { … } while (0);` count as a lever? (and its cousin: c13's DEAD INITIALISER — `s16 size = 0;` flow deletes, whose only job is to stop `scan_loop` hoisting a constant; c9 refused the do-nothing reassignment form) It is R7's move, banked in S102 (a4, b8)
   and S103 (c5's `func_8015D738`, where it is the barrier the removed `asm` was — c5 flagged it), uncounted by the census,
   1,347 in `src/`. If yes: a census class + a residue to work down.
 - The declaration debt, measured at S103's open (`.run/P36/s103/argcheck.json`, 94,001 rows): **91,846 are calls that
