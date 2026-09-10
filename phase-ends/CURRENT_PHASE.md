@@ -1306,6 +1306,27 @@ accumulate here as the phase produces them.**
   instrument: none of the seven NEEDED sites named what actually had to change, and one shape move retired three of
   them** — a site list says which levers the byte oracle could not remove ALONE, not which source facts are load-bearing.
 
+- **S102 — T7 agent b9: `func_8013F350` NOT closed (70 → 16) and it REFUSED TO OFFER ITS OWN IMPROVEMENTS AS A BANK.**
+  It solved the whole tail — **instructions 32 to 489 of 490 are byte-identical in plain C with the `$4` pin gone** — by
+  ONE statement move: hoisting `off = st << 1;` above the two derived pointers, which is a COLOURING move and not a
+  scheduling one (the `.sched`/`.sched2` RTL order is identical in both candidates, so the tree's own header note
+  blaming the scheduler describes the assembly, not the RTL). With `off` born first it takes `$a0` and dies into the
+  later pointer, and `fill_simple_delay_slots`' backward scan (`reorg.c:2906-2952`), which ACCUMULATES set/needed over
+  skipped insns, then finds the conflict that produces the target's `nop`. **The head is a proven wall**: `find_best_addr`
+  (`cse.c:2663-2665`) folds the base to an absolute address because its only set is a `symbol_ref`, so combine deletes
+  the pseudo outright — and its known-true control `func_8013F138` keeps its base in plain C ONLY because both its uses
+  are at offset 0, where `find_best_addr` returns early. Ours needs offsets 0 and 4. **The honesty that matters: it
+  labelled its remaining two moves COMPENSATING ERRORS** — a width change that deletes the target's real `andi` to cancel
+  an extra instruction the folded head costs — and wrote "nothing here is bankable" rather than hand back a 16 dressed as
+  progress. **Its generator proposal is R18 with the independence test INVERTED** (hoist the shared operand's defining
+  statement to the front of its run — R18 refuses it precisely because it shares identifiers with what it crosses, which
+  is why ~4,000 mechanical compiles never tried it). **Two pack defects it found, both fixed:** `neighbours.txt` carried
+  the `@class`/`@stuck` LINES but not the header comment they sit in — and that comment is an eight-point English
+  explanation of every lever in the body, including the tail crack stated outright; the pack now ships the target's own
+  header IN FULL. And `history.txt`'s `@NNNN` line numbers are relative to the EVOLVING text, so reconstructing a path by
+  hand lands elsewhere (it reached 51 where the engine's own generators reproduce 16 in one round) — the pack now ships
+  the best candidate's TEXT as `best_body.c`.
+
 ## 🛑 SESSION CHECKPOINT — S101 (2026-09-09) / LIVE, refreshed S102 (2026-09-10): T0–T6 ☑, **T7 RUNNING — agent a1 BANKED + HARVESTED: `func_80156044` (130 bodies) and its move toolified as generator **R15, the sink**, which then closed 6 more exemplars (267 bodies) in 4 compiles each with no tokens; agent a2 banked 125 more; 30,358 → 29,572 sites, R22 218/218**; **lane B DELIVERED + 4 claims verified on bytes; lane A = rung G, `tools/delever_search.py`, BUILT, CONTROLLED, MEASURED over six runs (g1–g6b: 33,427 → 30,358 sites, 12,048 → 9,747 bodies, every bank R22 218/218, no drafting tokens); the head is where the number is (57 classes ≥100 copies = 7,318 of 9,796 residue bodies) and the wide search is spent on it; T7 APPROVED by Drew as ONE AGENT AT A TIME — the packs, the brief and the agent's scorer are built; NEXT = §2: start the serial agent loop IN THIS FRESH SESSION** | the number at this commit: **27,984 sites** in 8,249 bodies · marked 27,984 · UNMARKED 0 · orphans 0 — `lever_census --check` OK · `lever_progress --check` OK (20 milestones). **S102's loop state: the burst of 20 is landing; a4/a7/a8/a12/a18/a19 banked (756 bodies); the per-file scratch-object collision is FIXED (per-function tag); the biggest class found is a truncated `(void)` DECLARATION, three cases of which need the types phase.**
 
 ### 0. How to use this block

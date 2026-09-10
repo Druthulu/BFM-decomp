@@ -12,13 +12,12 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     s32 s4;
     s16 a0v;
     s16 arg0s;
-    s32 dx, dy, dz;
     s32 r;
 
     a0v = ((s16)arg0);
     s1 = 0;
-    s4 = 0;
     s3 = 0;
+    s4 = 0;
     s2 = 0;
     arg0s = a0v;
     D_801909BC->f6 = -0x7FFF;
@@ -35,8 +34,7 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
         s16 sy = ((Box_80133784 *)arg2)->f2 - ((Box_80133784 *)arg1)->f2;
         s16 sz = ((Box_80133784 *)arg2)->f4 - ((Box_80133784 *)arg1)->f4;
         if (sx == 0 && sy == 0) {
-            s32 zt = (sz == 0);
-            s2 = zt;
+            s2 = (sz == 0);
         }
         D_801909BC->f2 = ((Box_80133784 *)arg1)->f2 - 4;
         r = func_80047D3C(sx * sx + sz * sz);
@@ -78,17 +76,21 @@ loop:
     goto store_out;
 
 after:
+    {
+        s32 lim = -0xBCB;
+        s32 mask = 0xFFFF;
+
     if ((s16)s4 != 0 || D_801EDA3C != 0) {
         s16 t;
         t = D_801909BC->f6;
-        if (t >= -0xBCB) {
+        if (t >= lim) {
             if (t < -0x578) {
                 s1 |= 0x4000;
             } else {
                 s1 |= 0x8000;
             }
         }
-        if ((s16)D_801909C0->f6 < -0xBCB) {
+        if ((s16)D_801909C0->f6 < lim) {
             s1 |= 0x2000;
         }
     store_out:
@@ -96,7 +98,8 @@ after:
         ((Box_80133784 *)arg2)->f2 = D_801909C0->f2;
         ((Box_80133784 *)arg2)->f4 = D_801909C0->f4;
         ((Box_80133784 *)arg2)->f6 = D_801EDA40;
-        return s1 & 0xFFFF;
+        return s1 & mask;
+    }
     }
     ((Box_80133784 *)arg2)->f6 = D_801EDA40;
     return 0;

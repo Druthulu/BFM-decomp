@@ -112,12 +112,40 @@ def build(a):
                     if head:
                         out_n.append(f"--- {defs_at[k][1]} (line {ln + 1}) ---")
                         out_n += list(reversed(head))
+            # THE TARGET'S OWN HEADER, IN FULL. neighbours.txt used to carry only the @class/@stuck LINES, and agent b9
+            # (S102) lost hours to exactly that: its function's header comment is an eight-point English explanation of
+            # every lever it carries, including the tail crack stated outright, and the pack had reduced it to two
+            # tagged lines. A grep for tags is not a substitute for the paragraph they sit in.
+            if here is not None:
+                ln0 = ntxt[:defs_at[here][0]].count("\n")
+                own, j = [], ln0 - 1
+                while j >= 0 and len(own) < 80 and (nlines[j].lstrip().startswith("//")
+                                                   or nlines[j].lstrip().startswith("*")
+                                                   or nlines[j].lstrip().startswith("/*")
+                                                   or nlines[j].strip() == ""):
+                    if nlines[j].strip() == "" and own:
+                        break
+                    if nlines[j].strip():
+                        own.append(nlines[j])
+                    j -= 1
+                if own:
+                    out_n = [f"=== THIS FUNCTION'S OWN HEADER ({fn}, line {ln0 + 1}) — read it in full ==="] \
+                            + list(reversed(own)) + [""] + out_n
             tagged = [l for l in nlines if "@class:" in l or "@stuck:" in l or "@crack:" in l]
             if tagged:
                 out_n.append("--- every @class/@stuck/@crack note in this translation unit ---")
                 out_n += tagged[:60]
             (d / "neighbours.txt").write_text("\n".join(out_n[:400]) + "\n")
         except OSError:
+            pass
+        # the BEST CANDIDATE'S TEXT, not just its move path: history.txt's `@NNNN` line numbers are relative to the
+        # EVOLVING text, so hand-reconstructing a path lands somewhere else (agent b9 reconstructed 51 where the engine's
+        # own generators reproduce 16 in one round).
+        try:
+            bp = ds.RUN / "bodies" / f"{e['alias']}__{fn}.c"
+            if bp.exists():
+                (d / "best_body.c").write_text(bp.read_text(errors="surrogateescape"), errors="surrogateescape")
+        except Exception:
             pass
         (d / "history.txt").write_text("\n".join(hist) + "\n")
         order.append(f"{k}\t{fn}\t{e['alias']}\t{e['copies']}\t{e['best']}\t{e['needed']}\t{','.join(e['kinds'])}\t{','.join(e['regs'])}\t{tu}")
