@@ -635,13 +635,12 @@ extern s32 D_801957F4;
 
 s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 pad_[8];
-    register s32 m __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A tus1)
     s32 sp;
-    register s32 p1   __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung A tus1)
+    s32 p1;
     s32 mode;
-    register s32 p0   __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung A tus1)
+    s32 p0;
     s32 base;
-    register s32 p3   __asm__("$21");  // !FAKE: pin $21 — NEEDED DIFFERS (P36 rung A tus1)
+    s32 p3;
 
     p0 = arg0;
     p1 = arg1;
@@ -652,14 +651,12 @@ s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         return 0;
     case 1:
         base = p0 + 0x34;
-        m = p1 & 0xFFFFFFF;
-        sp = m | 0x80000000;
+        sp = (p1 & 0xFFFFFFF) | 0x80000000;
         mode = 0;
         break;
     case 2:
         base = p0 + 0x34;
-        m = p1 & 0xFFFFFFF;
-        sp = m | 0x80000000;
+        sp = (p1 & 0xFFFFFFF) | 0x80000000;
         mode = 1;
         break;
     case 3:
@@ -676,19 +673,20 @@ s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     if (p1 < 0) {
         if (func_80135EB0(sp, 0) != 0) {
-            func_80136A94(mode, p0, p3, base);
-            return 1;
+            goto hit;
         }
         sp = *(s32 *)sp;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung A tus1)
-        while (sp != 0) {
+        if (sp == 0) {
+            return 0;
+        }
+        do {
             if (func_80135EB0(sp, 0) != 0) {
 hit:
                 func_80136A94(mode, p0, p3, base);
                 return 1;
             }
             sp = *(s32 *)sp;
-        }
+        } while (sp != 0);
         return 0;
     }
     {

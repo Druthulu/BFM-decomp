@@ -88,17 +88,17 @@ FAMILIES = {
     # R15 (the sink) is the arm-scoped form of the same tie: a value set in every arm of an if/else chain is a CROSS-BLOCK
     # pseudo local-alloc never gives a quantity, so the arm holds two quantities and takes block_alloc's unrolled case 2;
     # sinking makes it three, and case 3 falls through into case 2 and undoes its own exchange (T7 agent a1, func_80156044).
-    "REG-caller": ("R19", "R6", "R20", "R16", "R8", "R15", "R17", "R5", "R18", "R10", "R12", "R14", "R13", "R3", "R7", "R9", "R2", "R4"),
+    "REG-caller": ("R19", "R21", "R6", "R20", "R16", "R8", "R15", "R17", "R5", "R18", "R10", "R12", "R14", "R13", "R3", "R7", "R9", "R2", "R4"),
     # the s-bank order is global.c's allocno_compare (ref weight x live length), declaration order only on an exact tie
-    "REG-callee": ("R19", "R20", "R2", "R4", "R3", "R6", "R16", "R8", "R15", "R18", "R12", "R7", "R9", "R17", "R10", "R14", "R13", "R5"),
-    "REG-mixed": ("R19", "R6", "R20", "R16", "R2", "R15", "R17", "R18", "R5", "R10", "R4", "R3", "R8", "R12", "R13", "R14", "R7", "R9"),
+    "REG-callee": ("R19", "R21", "R20", "R2", "R4", "R3", "R6", "R16", "R8", "R15", "R18", "R12", "R7", "R9", "R17", "R10", "R14", "R13", "R5"),
+    "REG-mixed": ("R19", "R21", "R6", "R20", "R16", "R2", "R15", "R17", "R18", "R5", "R10", "R4", "R3", "R8", "R12", "R13", "R14", "R7", "R9"),
     # a copy dies to cse's canon_reg or the local-alloc tie unless its destination changes MODE (the width); an address
     # pseudo lives when a pointer local is used twice; a value named once is computed once; a short PARAMETER is extended in place
-    "COUNT": ("R19", "R20", "R12", "R16", "R14", "R15", "R6", "R8", "R3", "R18", "R7", "R17", "R5", "R13", "R9", "R10", "R2", "R4"),
+    "COUNT": ("R19", "R21", "R20", "R12", "R16", "R14", "R15", "R6", "R8", "R3", "R18", "R7", "R17", "R5", "R13", "R9", "R10", "R2", "R4"),
     # statement order IS the schedule among equal-priority insns (rank_for_schedule's LUID tie-break); do-while is a barrier
     # R17 is the DIRECTED form of the run-split R9 reaches only by luck: agent a2 measured 2,271 compiles for R9 to find it
     # in func_80168828 and R16+R17 reproduce the same close in ten.
-    "ORDER": ("R19", "R17", "R18", "R20", "R9", "R7", "R13", "R3", "R16", "R6", "R8", "R5", "R12", "R14", "R10", "R15", "R2", "R4"),
+    "ORDER": ("R19", "R17", "R18", "R20", "R21", "R9", "R7", "R13", "R3", "R16", "R6", "R8", "R5", "R12", "R14", "R10", "R15", "R2", "R4"),
     "MIXED": dl.ALL_FAMILIES,
     "OTHER": dl.ALL_FAMILIES,
 }
@@ -870,10 +870,12 @@ def selftest():
     # leads, and every TARGETED caller-saved lever — R5 the commutative swap, R15 the sink, R16 the constant holder —
     # is drawn before the BLIND families that permute declarations or statements wholesale (R9, R2, R4).
     caller = FAMILIES["REG-caller"]
-    # R19 leads (the only family that can change a call's arity, and free when it does not apply), R6 the temp move next,
+    # R19 leads (the only family that can change a call's arity, and free when it does not apply), R6 the temp move is
+    # still near the front, and every TARGETED lever precedes every BLIND family. The window is deliberately loose: it
+    # was widened once per new generator until it stopped expressing anything, so it now states the ORDERING RULE only.
     # and every TARGETED lever before every BLIND family that permutes declarations or statements wholesale.
     targeted, blind = {"R5", "R15", "R16", "R19"}, {"R9", "R2", "R4"}
-    if family_key(c) != "REG-caller" or caller[:2] != ("R19", "R6") or not targeted <= set(caller) \
+    if family_key(c) != "REG-caller" or caller[0] != "R19" or "R6" not in caller[:4] or not targeted <= set(caller) \
             or max(caller.index(t) for t in targeted) > min(caller.index(b) for b in blind):
         fail(f"REG-caller family wrong: {family_key(c)} {caller}")
     # a callee-saved swap: addu s0,a0,zero vs addu s1,a0,zero

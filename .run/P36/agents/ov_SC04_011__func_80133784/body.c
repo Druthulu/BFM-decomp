@@ -7,13 +7,13 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     extern u16 D_801EDA40;
 
     s32 s1;
-    s32 s2;
+    u16 s2;
     s16 s3;
     s32 s4;
     s16 a0v;
     s16 arg0s;
     s32 dx, dy, dz;
-    s32 r, ret;
+    s32 r;
 
     a0v = ((s16)arg0);
     s1 = 0;
@@ -60,13 +60,9 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
 
 loop:
     {
-        s32 ret0;
-        s32 retc;
-        ret0 = func_80133AB0(arg0s, (s16)D_801909BC->f0, (s16)D_801909BC->f4, (*(s32*)&D_801EDA30));
-        retc = ret0;
-        ret = retc;
-        if (ret == 0) goto after;
-        s4 |= ret;
+        r = func_80133AB0(arg0s, (s16)D_801909BC->f0, (s16)D_801909BC->f4, (*(s32*)&D_801EDA30));
+        if (r == 0) goto after;
+        s4 |= r;
         if (s2 != 0) goto after;
         {
             s16 oldc = s3;

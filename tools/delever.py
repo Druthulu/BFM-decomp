@@ -2604,7 +2604,69 @@ def narrow_chains(text, tu, fn, d_, cap=24):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20")
+def second_consumer(text, tu, fn, d_):
+    """[(description, candidate text)] — R21: give a computed value a SECOND CONSUMER before its copy, so the compiler
+    stops deleting the copy. Two spellings, both byte-proven by T7 agents on the same day (P36 S102):
+
+      * CHAIN (agent b6, func_80161E08, 127 bodies): `v = E; slot = v;`  ->  `v = slot = E;`
+      * HOIST (agent b2, func_80162438, 127 bodies): `v = E; slot = v;`  ->  `slot = E; v = E;`
+
+    The residual both closed was COUNT-short by exactly one `move <callee-saved>,<caller-saved>` per site — the copy the
+    original keeps and our C let the compiler delete. Two gates decide it and the move defeats both. cse's
+    "(set REG0 REG1) where REG0 is the cheapest" rewrite (`cse.c:7440-7501`, guarded at `:7454-7460`) deletes the copy
+    only when the insn IMMEDIATELY BEFORE it set the source; and `flow` builds a LOG_LINK only to the FIRST following use
+    (`flow.c:2076-2091`), so once the store sits between the compute and the copy, combine is never even offered the
+    pair. The chained form reaches the same place differently: `expand_assignment` materialises the value in a compiler
+    temp with two consumers, and the single link goes to the store.
+
+    `R9 swap-stmts` can never produce either, because the two statements share the identifier `v` and its independence
+    guard refuses the exchange — which is why ~2,000 compiles per body sat flat on both."""
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    ASSIGN = re.compile(r"^\s*([A-Za-z_]\w*)\s*=\s*(.+);\s*$")
+    out, sites = [], []
+    for i in range(lo, hi - 1):
+        if not simple_stmt(masked[i]) or not simple_stmt(masked[i + 1]):
+            continue
+        a = ASSIGN.match(masked[i])
+        if not a:
+            continue
+        v, expr = a.group(1), a.group(2).strip()
+        b = re.match(r"^\s*(.+?)\s*=\s*" + re.escape(v) + r"\s*;\s*$", masked[i + 1])
+        if not b:
+            continue
+        slot = lines[i + 1][:lines[i + 1].rindex("=")].strip()
+        if not slot or slot == v:
+            continue
+        raw_expr = lines[i][lines[i].index("=") + 1:].rsplit(";", 1)[0].strip()
+        ind = lines[i][:len(lines[i]) - len(lines[i].lstrip())]
+        chain = list(lines)
+        chain[i] = f"{ind}{v} = {slot} = {raw_expr};"
+        chain[i + 1] = None
+        out.append((f"chain {v}={slot} @{i + 1}", "\n".join(l for l in chain if l is not None)))
+        hoist = list(lines)
+        hoist[i] = f"{ind}{slot} = {raw_expr};"
+        hoist[i + 1] = f"{ind}{v} = {raw_expr};"
+        out.append((f"consumer-first {slot} before {v} @{i + 1}", "\n".join(hoist)))
+        sites.append((i, ind, v, slot, raw_expr))
+    # THE JOINT FORM: agent b6's body needed all THREE of its sites rewritten at once, and one site alone is worse than
+    # the start. The same lesson R20 measured — a hill-climb over single sites walks away from the answer.
+    if len(sites) > 1:
+        for tag, mk in (("chain", lambda ind, v, slot, e: [f"{ind}{v} = {slot} = {e};"]),
+                        ("consumer-first", lambda ind, v, slot, e: [f"{ind}{slot} = {e};", f"{ind}{v} = {e};"])):
+            cand, drop = list(lines), set()
+            for i, ind, v, slot, e in sites:
+                repl = mk(ind, v, slot, e)
+                cand[i] = "\n".join(repl)
+                if len(repl) == 1:
+                    drop.add(i + 1)
+            out.append((f"{tag} ALL {len(sites)} sites",
+                        "\n".join(l for k, l in enumerate(cand) if k not in drop)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -2727,6 +2789,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R20" in fam:
         for desc, cand in narrow_chains(text, tu, fn, d_):
             out.append(("R20", desc, cand))
+    if "R21" in fam:
+        for desc, cand in second_consumer(text, tu, fn, d_):
+            out.append(("R21", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -3648,6 +3713,37 @@ def selftest():
                      next(r for r in sc.scan_text("void func_80100000(void) {\n    int a;\n    a = f();\n}",
                                                   "src/fx/n.c", shared_defs=None) if r["form"] == "def")):
         fail("R20 must offer nothing when no two locals are linked by an assignment")
+
+    # R21, the second consumer (T7 agents b2 and b6, P36 S102 — the same idea in two spellings, 127 bodies each).
+    SFIX = ("void func_80100000(u8 *base) {\n"
+            "    u8 *p;\n"
+            "\n"
+            "    p = base + 0x10;\n"
+            "    D_80000000[0] = p;\n"
+            "    p = base + 0x20;\n"
+            "    D_80000000[1] = p;\n"
+            "}")
+    dS = next(r for r in sc.scan_text(SFIX, "src/fx/s2.c", shared_defs=None)
+              if r["form"] == "def" and r["name"] == "func_80100000")
+    s21 = second_consumer(SFIX, "src/fx/s2.c", "func_80100000", dS)
+    ds = [d for d, _ in s21]
+    if not any(d.startswith("chain p=D_80000000[0]") for d in ds) or not any("ALL 2 sites" in d for d in ds):
+        fail(f"R21 must offer each site and the joint form, got {ds}")
+    else:
+        one = next(c for d, c in s21 if d.startswith("chain p=D_80000000[0]"))
+        allc = next(c for d, c in s21 if d == "chain ALL 2 sites")
+        if "p = D_80000000[0] = base + 0x10;" not in one or one.count("D_80000000[0]") != 1:
+            fail(f"R21's chain must fold the two statements into one: {one!r}")
+        if allc.count(" = base + 0x") != 2 or "D_80000000[1] = p;" in allc:
+            fail(f"R21's joint form must rewrite every site: {allc!r}")
+        hoist = next(c for d, c in s21 if d.startswith("consumer-first"))
+        if "D_80000000[0] = base + 0x10;" not in hoist or "p = base + 0x10;" not in hoist:
+            fail(f"R21's hoist must put the store first and repeat the expression: {hoist!r}")
+    # control: a pair that does not feed a store offers nothing
+    NO = "void func_80100000(void) {\n    int a;\n    a = f();\n    g(a);\n}"
+    if second_consumer(NO, "src/fx/s2.c", "func_80100000",
+                       next(r for r in sc.scan_text(NO, "src/fx/s2.c", shared_defs=None) if r["form"] == "def")):
+        fail("R21 must offer nothing when the next statement is not an assignment OF the value")
 
     # the oracle's crash classification on its real message forms (R103)
     if not oracle.SIGNAL_LINE.search("bash: line 1: 3845091 Done   mipsel-linux-gnu-cpp ...\n     3845092 Aborted                 (core dumped) | tools/bin/gcc-2.7.2-psx/cc1 -quiet\n"):

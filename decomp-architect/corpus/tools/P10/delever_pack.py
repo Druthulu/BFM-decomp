@@ -15,6 +15,7 @@ while a run is going. Per exemplar:
 ORDER.tsv ranks the exemplars: best distance reached so far ascending, then copies descending — the cheapest readings first.
 """
 import argparse
+import re
 import collections
 import json
 import os
