@@ -5,16 +5,17 @@ s1: verdict NO-MATCH start 38 best 34 compiles 188 path R8 temp tmp0 @1068 + R7 
 s2: verdict NO-MATCH start 38 best 34 compiles 188 path R8 temp tmp0 @1068 + R7 do-while @1063
 s4: verdict NO-MATCH start 38 best 34 compiles 437 path R8 temp tmp0 @1068 + R7 do-while @1063
 s7: verdict NO-MATCH start 38 best 34 compiles 555 path R8 temp tmp0 @1068 + R7 do-while @1063
+s9: verdict NO-MATCH start 38 best 34 compiles 252 path R8 temp tmp0 @1068 + R7 do-while @1063
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R7 do-while @1063 -> 34 [COUNT] (from 35)
   R7 do-while @1060 -> 34 [COUNT] (from 35)
-  R12 width tmp0 s32->u16 @1059 -> 34 [COUNT] (from 34)
-  R7 block @1072 -> 34 [COUNT] (from 34)
-  R9 swap-stmts @1072 -> 34 [COUNT] (from 34)
-  R12 width tmp0 s32->s16 @1059 -> 34 [COUNT] (from 34)
-  R8 temp tmp1 @1069 -> 34 [COUNT] (from 34)
-  R12 width tmp0 s32->u8 @1059 -> 34 [COUNT] (from 34)
-  R8 base tmp1 @1069 -> 34 [COUNT] (from 34)
-  R7 block @1062 -> 34 [COUNT] (from 34)
-  R9 swap-stmts @1071 -> 34 [COUNT] (from 34)
-  R7 do-while @1062 -> 34 [COUNT] (from 34)
+  R8 temp tmp0 @1068 -> 35 [COUNT] (from 38)
+  R12 width tmp0 s32->u16 @1059 -> 35 [COUNT] (from 35)
+  R18 bystander @1062->1065 -> 35 [COUNT] (from 35)
+  R7 block @1072 -> 35 [COUNT] (from 35)
+  R9 swap-stmts @1072 -> 35 [COUNT] (from 35)
+  R12 width tmp0 s32->s16 @1059 -> 35 [COUNT] (from 35)
+  R8 temp tmp1 @1069 -> 35 [COUNT] (from 35)
+  R18 bystander @1063->1060 -> 35 [COUNT] (from 35)
+  R9 swap-stmts @1062 -> 35 [COUNT] (from 35)
+  R12 width tmp0 s32->u8 @1059 -> 35 [COUNT] (from 35)

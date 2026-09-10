@@ -5,6 +5,8 @@ s1: verdict NO-MATCH start 24 best 20 compiles 185 path R12 width harg int->u16 
 s2: verdict NO-MATCH start 24 best 20 compiles 185 path R12 width harg int->u16 @2317
 s4: verdict NO-MATCH start 24 best 20 compiles 435 path R12 width harg int->u16 @2317
 s7: verdict NO-MATCH start 24 best 20 compiles 548 path R12 width harg int->u16 @2317
+s8: verdict NO-MATCH start 24 best 20 compiles 249 path R12 width harg int->u16 @2317
+s9: verdict NO-MATCH start 24 best 20 compiles 249 path R12 width harg int->u16 @2317
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R12 width harg int->u16 @2317 -> 20 [COUNT] (from 24)
   R12 width harg int->s16 @2317 -> 20 [COUNT] (from 24)

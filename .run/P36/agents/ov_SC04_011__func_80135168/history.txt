@@ -4,16 +4,17 @@ s1: verdict NO-MATCH start 25 best 16 compiles 167 path R7 do-while @3019 + R7 d
 s2: verdict NO-MATCH start 25 best 16 compiles 167 path R7 do-while @3019 + R7 do-while @3012
 s4: verdict NO-MATCH start 25 best 16 compiles 419 path R18 bystander @3012->3018
 s7: verdict NO-MATCH start 25 best 16 compiles 532 path R18 bystander @3012->3018
+s9: verdict NO-MATCH start 25 best 16 compiles 244 path R18 bystander @3014->3020
 best-scoring single candidates of the last trace (move -> score [residual class]):
-  R18 bystander @3012->3018 -> 16 [COUNT] (from 25)
-  R7 block @3013 -> 16 [COUNT] (from 16)
+  R18 bystander @3014->3020 -> 16 [COUNT] (from 25)
+  R7 block @3015 -> 16 [COUNT] (from 16)
   R2 decl-order 0,2,1 -> 16 [COUNT] (from 16)
   R2 decl-order 1,0,2 -> 16 [COUNT] (from 16)
-  R7 block @3014 -> 16 [COUNT] (from 16)
-  R9 swap-stmts @3017 -> 16 [COUNT] (from 16)
+  R7 block @3016 -> 16 [COUNT] (from 16)
+  R9 swap-stmts @3019 -> 16 [COUNT] (from 16)
   R2 decl-order 1,2,0 -> 16 [COUNT] (from 16)
-  R7 do-while @3014 -> 16 [COUNT] (from 16)
+  R7 do-while @3016 -> 16 [COUNT] (from 16)
   R2 decl-order 2,0,1 -> 16 [COUNT] (from 16)
-  R7 block @3015 -> 16 [COUNT] (from 16)
-  R2 decl-order 2,1,0 -> 16 [COUNT] (from 16)
   R7 block @3017 -> 16 [COUNT] (from 16)
+  R2 decl-order 2,1,0 -> 16 [COUNT] (from 16)
+  R7 block @3019 -> 16 [COUNT] (from 16)

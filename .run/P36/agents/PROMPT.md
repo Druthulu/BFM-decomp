@@ -15,6 +15,10 @@ to the original's. Readability counts: this is a readability phase; prefer the s
 bytes (a declaration's width or order, a temp named or inlined, two statements exchanged, a parameter routed through a local, a block).
 
 HOW TO WORK (the method we are honing — follow it and report where it fell short):
+0. **READ `PACK/neighbours.txt` FIRST.** It carries the comment headers of the already-matched functions next to yours in
+   the same translation unit, and every `@class:` / `@stuck:` / `@crack:` note in that file. This project has been leaving
+   itself notes for months: one agent closed its body on its FIRST `--try` because a sibling's header spelled the whole
+   crack out in English. Also `grep -n <a global your body touches> <the tu>` to find the other functions that use it.
 1. READ THE RESIDUAL before touching the source. Name what differs: which registers, which instruction is extra or missing, what
    moved. Then name the compiler decision that produces it and the pass it lives in, from the compiler's own source:
    `tools/reference/gcc-2.7.2/` (the exact source of the pinned cc1) — `local-alloc.c` (`block_alloc`, `combine_regs`, `qty_compare`,

@@ -5,6 +5,7 @@ s1: verdict NO-MATCH start 72 best 72 compiles 122 path
 s2: verdict NO-MATCH start 72 best 72 compiles 122 path 
 s4: verdict NO-MATCH start 72 best 72 compiles 198 path 
 s7: verdict NO-MATCH start 72 best 72 compiles 250 path 
+s9: verdict NO-MATCH start 72 best 72 compiles 122 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R7 block @1161 -> 72 [REG] (from 72)
   R4 decl-move p 9->0 -> 72 [REG] (from 72)

@@ -4,6 +4,7 @@ s1: verdict NO-MATCH start 11 best 11 compiles 143 path
 s2: verdict NO-MATCH start 11 best 11 compiles 143 path 
 s4: verdict NO-MATCH start 11 best 11 compiles 238 path 
 s7: verdict NO-MATCH start 11 best 11 compiles 301 path 
+s9: verdict NO-MATCH start 11 best 11 compiles 143 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R7 block @82 -> 11 [COUNT] (from 11)
   R7 do-while @82 -> 11 [COUNT] (from 11)

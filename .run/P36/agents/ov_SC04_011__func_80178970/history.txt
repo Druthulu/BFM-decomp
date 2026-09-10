@@ -4,6 +4,7 @@ s1: verdict NO-MATCH start 6 best 3 compiles 56 path R6 inline r @3895
 s2: verdict NO-MATCH start 6 best 3 compiles 56 path R6 inline r @3895
 s4: verdict NO-MATCH start 6 best 3 compiles 84 path R6 inline r @3895
 s7: verdict NO-MATCH start 6 best 3 compiles 101 path R6 inline r @3895
+s9: verdict NO-MATCH start 6 best 3 compiles 56 path R6 inline r @3895
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R6 inline r @3895 -> 3 [COUNT] (from 6)
   R12 width v int->u16 @3890 -> 3 [MIXED] (from 3)

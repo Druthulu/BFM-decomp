@@ -84,6 +84,40 @@ def build(a):
             hist.append("best-scoring single candidates of the last trace (move -> score [residual class]):")
             hist += [f"  {c['move']} -> {c['score']} [{c.get('cls') or c.get('kind') or '?'}] (from {c['parent']})"
                      for c in cands[:12]]
+        # NEIGHBOURS (P36 S102): the answer is sometimes written in English a few lines away. Agent b1 closed
+        # func_801651B8 on its FIRST --try after reading the `// @class:` header of an already-matched sibling in the
+        # same TU, which spelled the whole crack out ("recompute p = &D[i] each iteration (NOT p++) so gcc reduces
+        # base+i*0x10 into a SINGLE pointer IV"). The pack sent agents to the cookbook and the compiler source and never
+        # to the target's own neighbours — this project has been leaving itself notes for months.
+        try:
+            ntxt = (REPO / tu).read_text(errors="surrogateescape")
+            nlines = ntxt.split("\n")
+            defs_at = [(m.start(), m.group(1)) for m in re.finditer(
+                r"^[A-Za-z_][\w \t*]*?\b(func_[0-9A-Fa-f]+)\s*\([^;{]*\)\s*\{", ntxt, re.M)]
+            here = next((k for k, (_, nm) in enumerate(defs_at) if nm == fn), None)
+            out_n = []
+            if here is not None:
+                for k in range(max(0, here - 3), min(len(defs_at), here + 4)):
+                    if k == here:
+                        continue
+                    ln = ntxt[:defs_at[k][0]].count("\n")
+                    head = []
+                    j = ln - 1
+                    while j >= 0 and len(head) < 40 and (nlines[j].lstrip().startswith("//")
+                                                        or nlines[j].lstrip().startswith("*")
+                                                        or nlines[j].lstrip().startswith("/*")):
+                        head.append(nlines[j])
+                        j -= 1
+                    if head:
+                        out_n.append(f"--- {defs_at[k][1]} (line {ln + 1}) ---")
+                        out_n += list(reversed(head))
+            tagged = [l for l in nlines if "@class:" in l or "@stuck:" in l or "@crack:" in l]
+            if tagged:
+                out_n.append("--- every @class/@stuck/@crack note in this translation unit ---")
+                out_n += tagged[:60]
+            (d / "neighbours.txt").write_text("\n".join(out_n[:400]) + "\n")
+        except OSError:
+            pass
         (d / "history.txt").write_text("\n".join(hist) + "\n")
         order.append(f"{k}\t{fn}\t{e['alias']}\t{e['copies']}\t{e['best']}\t{e['needed']}\t{','.join(e['kinds'])}\t{','.join(e['regs'])}\t{tu}")
         print(f"  {k:3d} {fn} {e['copies']:4d} copies best {e['best']} -> {d.relative_to(REPO)}", flush=True)

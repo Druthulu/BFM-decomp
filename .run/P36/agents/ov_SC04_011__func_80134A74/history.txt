@@ -5,16 +5,17 @@ s1: verdict NO-MATCH start 30 best 26 compiles 190 path R9 swap-stmts @2808
 s2: verdict NO-MATCH start 30 best 26 compiles 190 path R9 swap-stmts @2808
 s4: verdict NO-MATCH start 30 best 25 compiles 438 path R9 swap-stmts @2808 + R9 swap-stmts @2793
 s7: verdict NO-MATCH start 30 best 22 compiles 562 path R6 inline p0 @2807 + R12 width hic u32->u16 @2786 + R9 swap-stmts @2807
+s9: verdict NO-MATCH start 30 best 25 compiles 250 path R9 swap-stmts @2810 + R9 swap-stmts @2795
 best-scoring single candidates of the last trace (move -> score [residual class]):
-  R9 swap-stmts @2807 -> 22 [COUNT] (from 26)
-  R9 swap-stmts @2807 -> 22 [COUNT] (from 26)
-  R9 swap-stmts @2793 -> 25 [COUNT] (from 26)
-  R8 temp tmp0 @2803 -> 25 [COUNT] (from 25)
-  R7 block @2803 -> 25 [COUNT] (from 25)
-  R10 param-copy param_1 @2789 -> 25 [COUNT] (from 25)
-  R2 decl-order 1,0 -> 25 [COUNT] (from 25)
-  R4 decl-move n 3->0 -> 25 [COUNT] (from 25)
-  R8 base tmp0 @2803 -> 25 [COUNT] (from 25)
-  R10 param-copy param_2 @2789 -> 25 [COUNT] (from 25)
-  R4 decl-move n 3->1 -> 25 [COUNT] (from 25)
-  R8 temp tmp0 @2806 -> 25 [COUNT] (from 25)
+  R9 swap-stmts @2795 -> 25 [COUNT] (from 26)
+  R9 swap-stmts @2810 -> 26 [COUNT] (from 30)
+  R8 hoist tmp0 @2810 -> 26 [COUNT] (from 26)
+  R7 block @2810 -> 26 [COUNT] (from 26)
+  R10 param-copy param_1 @2791 -> 26 [COUNT] (from 26)
+  R2 decl-order 1,0 -> 26 [COUNT] (from 26)
+  R4 decl-move n 3->0 -> 26 [COUNT] (from 26)
+  R8 temp tmp0 @2808 -> 26 [COUNT] (from 26)
+  R10 param-copy param_2 @2791 -> 26 [COUNT] (from 26)
+  R4 decl-move n 3->1 -> 26 [COUNT] (from 26)
+  R6 inline uVar6c @2793 -> 26 [COUNT] (from 26)
+  R8 base tmp0 @2808 -> 26 [COUNT] (from 26)

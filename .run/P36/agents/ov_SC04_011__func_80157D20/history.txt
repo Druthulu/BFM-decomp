@@ -5,6 +5,7 @@ s1: verdict NO-MATCH start 9 best 4 compiles 77 path R12 width a1v s32->u16 @136
 s2: verdict NO-MATCH start 9 best 4 compiles 77 path R12 width a1v s32->u16 @1365
 s4: verdict NO-MATCH start 9 best 4 compiles 126 path R12 width a1v s32->u16 @1365
 s7: verdict NO-MATCH start 9 best 4 compiles 158 path R12 width a1v s32->u16 @1365
+s9: verdict NO-MATCH start 9 best 4 compiles 81 path R12 width a1v s32->u16 @1365
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R12 width a1v s32->u16 @1365 -> 4 [COUNT] (from 9)
   R12 width a1v s32->u8 @1365 -> 4 [COUNT] (from 9)

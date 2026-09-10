@@ -7,16 +7,17 @@ s3: verdict NO-MATCH start 23 best 18 compiles 300 path R9 swap-stmts @663 + R12
 s3b: verdict NO-MATCH start 23 best 18 compiles 300 path R9 swap-stmts @663 + R12 width tmp s32->u8 @642
 s4: verdict NO-MATCH start 23 best 18 compiles 300 path R9 swap-stmts @663 + R12 width tmp s32->u8 @642
 s7: verdict NO-MATCH start 23 best 18 compiles 390 path R9 swap-stmts @663 + R12 width tmp s32->u8 @642
+s9: verdict NO-MATCH start 23 best 18 compiles 178 path R9 swap-stmts @663 + R12 width tmp s32->u8 @642
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R12 width tmp s32->u8 @642 -> 18 [COUNT] (from 20)
-  R12 width bVar1 u8->s32 @645 -> 18 [COUNT] (from 18)
-  R6 inline lo @660 -> 18 [COUNT] (from 18)
-  R8 temp tmp0 @659 -> 18 [COUNT] (from 18)
-  R7 block @659 -> 18 [COUNT] (from 18)
-  R10 param-copy a0 @646 -> 18 [COUNT] (from 18)
-  R12 width bVar1 u8->u16 @645 -> 18 [COUNT] (from 18)
-  R8 base tmp0 @659 -> 18 [COUNT] (from 18)
-  R12 width bVar1 u8->s16 @645 -> 18 [COUNT] (from 18)
-  R8 base-shared tmp0 @659 -> 18 [COUNT] (from 18)
-  R7 block @660 -> 18 [COUNT] (from 18)
-  R9 swap-stmts @646 -> 18 [COUNT] (from 18)
+  R9 swap-stmts @663 -> 20 [COUNT] (from 23)
+  R12 width sVar3 s32->u16 @644 -> 20 [COUNT] (from 20)
+  R6 inline lo @660 -> 20 [COUNT] (from 20)
+  R8 temp tmp0 @659 -> 20 [COUNT] (from 20)
+  R7 block @660 -> 20 [COUNT] (from 20)
+  R10 param-copy a0 @646 -> 20 [COUNT] (from 20)
+  R12 width sVar3 s32->s16 @644 -> 20 [COUNT] (from 20)
+  R6 inline c80 @656 -> 20 [COUNT] (from 20)
+  R8 base tmp0 @659 -> 20 [COUNT] (from 20)
+  R9 swap-stmts @646 -> 20 [COUNT] (from 20)
+  R6 inline sVar3 @646 -> 20 [COUNT] (from 20)

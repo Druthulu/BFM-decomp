@@ -4,6 +4,7 @@ s1: verdict NO-MATCH start 12 best 2 compiles 192 path R7 do-while @833
 s2: verdict NO-MATCH start 12 best 2 compiles 192 path R7 do-while @833
 s4: verdict NO-MATCH start 12 best 2 compiles 415 path R18 bystander @835->838
 s7: verdict NO-MATCH start 12 best 2 compiles 534 path R18 bystander @835->838
+s9: verdict NO-MATCH start 12 best 2 compiles 242 path R18 bystander @835->838
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R18 bystander @835->838 -> 2 [ORDER] (from 12)
   R18 bystander @835->839 -> 2 [ORDER] (from 12)

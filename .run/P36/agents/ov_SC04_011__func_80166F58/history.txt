@@ -5,16 +5,17 @@ s1: verdict NO-MATCH start 4 best 4 compiles 164 path
 s2: verdict NO-MATCH start 4 best 4 compiles 164 path 
 s4: verdict NO-MATCH start 4 best 4 compiles 310 path 
 s7: verdict NO-MATCH start 4 best 4 compiles 282 path 
+s9: verdict NO-MATCH start 4 best 4 compiles 143 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
-  R7 block @5132 -> 4 [COUNT] (from 4)
+  R7 block @5130 -> 4 [COUNT] (from 4)
   R2 decl-order 1,0 -> 4 [COUNT] (from 4)
-  R9 swap-stmts @5133 -> 4 [COUNT] (from 4)
-  R18 bystander @5133->5136 -> 4 [COUNT] (from 4)
-  R7 block @5133 -> 4 [COUNT] (from 4)
-  R18 bystander @5134->5132 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @5131 -> 4 [COUNT] (from 4)
+  R18 bystander @5131->5134 -> 4 [COUNT] (from 4)
+  R7 block @5131 -> 4 [COUNT] (from 4)
+  R18 bystander @5132->5130 -> 4 [COUNT] (from 4)
+  R7 block @5132 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @5142 -> 4 [COUNT] (from 4)
   R7 block @5134 -> 4 [COUNT] (from 4)
-  R9 swap-stmts @5144 -> 4 [COUNT] (from 4)
-  R7 block @5136 -> 4 [COUNT] (from 4)
+  R7 block @5140 -> 4 [COUNT] (from 4)
+  R7 do-while @5140 -> 4 [COUNT] (from 4)
   R7 block @5142 -> 4 [COUNT] (from 4)
-  R7 do-while @5142 -> 4 [COUNT] (from 4)
-  R7 block @5144 -> 4 [COUNT] (from 4)

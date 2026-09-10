@@ -4,6 +4,7 @@ s1: verdict NO-MATCH start 41 best 39 compiles 188 path R8 cse tmp0 @2833
 s2: verdict NO-MATCH start 41 best 39 compiles 188 path R8 cse tmp0 @2833
 s4: verdict NO-MATCH start 41 best 39 compiles 439 path R8 cse tmp0 @2833
 s7: verdict NO-MATCH start 41 best 39 compiles 556 path R8 cse tmp0 @2833
+s9: verdict NO-MATCH start 41 best 39 compiles 252 path R8 cse tmp0 @2833
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R8 cse tmp0 @2833 -> 39 [COUNT] (from 41)
   R6 inline sv @2845 -> 39 [COUNT] (from 39)

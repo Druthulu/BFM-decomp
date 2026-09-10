@@ -5,6 +5,7 @@ s1: verdict NO-MATCH start 4 best 4 compiles 131 path
 s2: verdict NO-MATCH start 4 best 4 compiles 131 path 
 s4: verdict NO-MATCH start 4 best 4 compiles 221 path 
 s7: verdict NO-MATCH start 4 best 4 compiles 268 path 
+s9: verdict NO-MATCH start 4 best 4 compiles 119 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R12 width v int->u16 @916 -> 4 [COUNT] (from 4)
   R6 inline idx @923 -> 4 [COUNT] (from 4)

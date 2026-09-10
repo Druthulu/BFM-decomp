@@ -6,6 +6,7 @@ s3: verdict BUDGET start 21 best 21 compiles 400 path
 s3b: verdict BUDGET start 21 best 21 compiles 400 path 
 s4: verdict NO-MATCH start 21 best 21 compiles 435 path 
 s7: verdict NO-MATCH start 21 best 21 compiles 547 path 
+s9: verdict NO-MATCH start 21 best 21 compiles 253 path 
 best-scoring single candidates of the last trace (move -> score [residual class]):
   R18 bystander @2202->2205 -> 21 [COUNT] (from 21)
   R7 block @2230 -> 21 [COUNT] (from 21)
