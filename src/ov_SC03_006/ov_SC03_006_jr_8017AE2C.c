@@ -7632,7 +7632,8 @@ s32 func_80182F4C(s32 a0, s16 a1)
     u16 temp2;
     u16 idx2;
     u16 *tbl;
-    register s32 p1 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 p1;
+    s32 list;
     s32 p2;
     s32 p3;
     u16 dx;
@@ -7653,7 +7654,7 @@ s32 func_80182F4C(s32 a0, s16 a1)
             innerIdx = (c1 + 0x8000) >> 7 & 0x1FF;
             diff = innerIdx - *(u16 *)(base + 2);
             prod = diff * *(u16 *)(base + 4);
-            p1 = *(s32 *)(base + 0x14);
+            list = *(s32 *)(base + 0x14);
             p2 = *(s32 *)(base + 0x18);
             p3 = *(s32 *)(base + 0x1C);
             temp2 = outerIdx - *(u16 *)(base + 0);
@@ -7661,7 +7662,7 @@ s32 func_80182F4C(s32 a0, s16 a1)
             idx2 = (prod + temp2) * 2;
             dx = tbl[idx2];
             n = tbl[idx2 + 1];
-            p1 += dx;
+            p1 = list + dx;
             while (n--) {
                 sample = *(u16 *)p1;
                 if (!(sample & 0x8000)) {
