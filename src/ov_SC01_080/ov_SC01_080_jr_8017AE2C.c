@@ -6991,7 +6991,8 @@ extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
  * unconditional `*p = 1` lands in the bnez delay slot. */
 void func_80181D98(void *a0) {
     s32 *p;
-    register SpotDef_8018A278 *t __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 *q;
+    SpotDef_8018A278 *t;
     s32 e;
     s32 s;
     u16 v;
@@ -7020,21 +7021,21 @@ void func_80181D98(void *a0) {
         break;
     case 2:
         func_80181CA4();
-        p += 15;
         t = D_8018A278;
+        q = p + 15;
         if (D_80127188 == 4) {
             while ((s16)t->dist != -1) {
-                if (*p == 0 && D_801270D0 >= (s16)t->dist) {
+                if (*q == 0 && D_801270D0 >= (s16)t->dist) {
                     e = func_8012C658(0x2C, t->kind, 0);
                     if (e != 0) {
                         v = t->dist;
-                        *(s32 *)(e + 0xCC) = (s32)p;
+                        *(s32 *)(e + 0xCC) = (s32)q;
                         *(s16 *)(e + 0xFC) = v + 0x500;
                     }
-                    *p = 1;
+                    *q = 1;
                 }
                 t++;
-                p++;
+                q++;
             }
         }
         break;
