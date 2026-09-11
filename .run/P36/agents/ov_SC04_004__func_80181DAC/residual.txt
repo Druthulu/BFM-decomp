@@ -1,0 +1,27 @@
+src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c:func_80181DAC: score 16 (COUNT; mine 55 ins, target 57) — not yet
+  register pairs (mine -> target, count): s2->s3 x6, s3->s2 x2, a0->s2 x2
+  replace mine[1:3] target[1:3]
+        1  sw	s3,28(sp)                       | sw	s2,24(sp)
+        2  move	s3,a0                         | move	s2,a0
+  replace mine[6:8] target[6:8]
+        6  sw	s2,24(sp)                       | sw	s3,28(sp)
+        7  move	s2,zero                       | move	s3,zero
+  replace mine[11:12] target[11:12]
+       11  beq	s0,s3,7024 <func_80181DAC+0xa4> | beq	s0,s2,702c <func_80181DAC+0xac>
+  replace mine[16:17] target[16:17]
+       16  move	a0,s3                         | move	a0,s2
+  replace mine[20:23] target[20:23]
+       20  j	7028 <func_80181DAC+0xa8>        | j	7030 <func_80181DAC+0xb0>
+       21  addiu	s2,s2,1                      | addiu	s3,s3,1
+       22  lw	v0,32(a0)                       | lw	v0,32(s2)
+  replace mine[30:31] target[30:31]
+       30  lw	v0,32(a0)                       | lw	v0,32(s2)
+  replace mine[39:40] target[39:42]
+       39  bnez	v0,703c <func_80181DAC+0xbc>  | beqz	v0,7030 <func_80181DAC+0xb0>
+       40  --                                 | addiu	s3,s3,1
+       41  --                                 | j	7044 <func_80181DAC+0xc4>
+  replace mine[41:42] target[43:44]
+       41  addiu	s2,s2,1                      | addiu	s3,s3,1
+  replace mine[43:45] target[45:47]
+       43  slti	v0,s2,96                      | slti	v0,s3,96
+       44  bnez	v0,6fac <func_80181DAC+0x2c>  | bnez	v0,6fac <func_80181DAC+0x2c>

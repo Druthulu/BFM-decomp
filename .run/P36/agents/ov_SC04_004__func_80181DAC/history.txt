@@ -1,0 +1,14 @@
+g6: verdict NO-MATCH start 16 best 16 compiles 322 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width state u16->s32 @6988 -> 16 [COUNT] (from 16)
+  R8 temp tmp0 @7016 -> 16 [COUNT] (from 16)
+  R7 block @7016 -> 16 [COUNT] (from 16)
+  R10 param-copy arg0 @6991 -> 16 [COUNT] (from 16)
+  R8 base tmp0 @7016 -> 16 [COUNT] (from 16)
+  R9 swap-stmts @6999 -> 16 [COUNT] (from 16)
+  R7 block @7000 -> 16 [COUNT] (from 16)
+  R8 temp tmp0 @6999 -> 16 [COUNT] (from 16)
+  R7 do-while @7000 -> 16 [COUNT] (from 16)
+  R9 swap-stmts @7011 -> 16 [COUNT] (from 16)
+  R7 block @6992 -> 16 [COUNT] (from 16)
+  R8 temp tmp0 @7012 -> 16 [COUNT] (from 16)
