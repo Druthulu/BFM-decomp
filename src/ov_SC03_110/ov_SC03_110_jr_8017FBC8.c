@@ -3533,22 +3533,21 @@ extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8004787C(s32 a0);
 
 void func_80180D2C(void *arg0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v0;
     s32 s0;
     s32 s1 = (s32)arg0;
     u8 *s2 = (u8 *)D_800AF630;
-    s32 sp10[4];
+    V8x_80180D2C out;
 
     v0 = *(s32 *)(s1 + 0xD0);
     if (v0 != 0) {
         s0 = v0;
-        func_8012F214((s32)arg0, (s32)&D_8019BFFC, (s32)sp10);
-        *(V8x_80180D2C *)(s0 + 8) = *(V8x_80180D2C *)sp10;
+        func_8012F214((s32)arg0, (s32)&D_8019BFFC, (s32)&out);
+        *(V8x_80180D2C *)(s0 + 8) = out;
 
-        if (*(s32 *)(*(s32 *)(s1 + 0x20) + 4) < 0) {
-            *(s32 *)(s0 + 4) |= (s32)0x80000000;
+        if (*(u32 *)(*(s32 *)(s1 + 0x20) + 4) & 0x80000000) {
+            *(s32 *)(s0 + 4) |= 0x80000000;
         } else {
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
             *(s32 *)(s0 + 4) &= 0x7FFFFFFF;
         }
 
