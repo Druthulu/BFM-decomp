@@ -4260,15 +4260,13 @@ void func_80180970(void *a0)
     s16 i;
     s16 id;
 
-    if ((*(s32 *)((s32)a0 + 0x20) = v0 = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
         func_8012CAE4(a0);
         return;
     }
 
-    /* §67: launder v0 at the statement where the target's `addu a0,v0,zero`
-     * copy actually lands (the func_8001C214 call site), not right after
-     * func_8012C1B8 returns -- an unconstrained copy gets hoisted early. */
-    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     func_8001C214(v0, (s32)&D_801A6578);
 
     *(u32 *)(*(s32 *)((s32)a0 + 0x20) + 0x28) = 0x2000200;
