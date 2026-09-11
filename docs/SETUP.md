@@ -1820,3 +1820,15 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   classes the pass has judged and not closed. An ALL-families pass (`--families R2 … R26`, `-j 26`) costs ~1.8 s per `--try`
   and 100–370 candidates per head class; it closed an R12 class in its first minute, so re-running the old families on a
   moved tree is not redundant.
+- **Generator R27 `named_ports` (`tools/delever.py`, S104; `delever_regen --families R27`)** — the SAME function already
+  lever-free in another binary, ported. Donors: every definition of the name in `src/` (`named_definitions()`, one `git
+  grep`, cached) with no `register`/`__asm__`/`!FAKE`, nearest line count first, ≤ 6 distinct texts. Symbol renaming by
+  **`reloc_map`**: the two ORIGINAL objects' relocation sequences for the function (`objdump -dr`, the snapshot object; a
+  shared header's first includer's) paired in order — a donor symbol mapping to two targets refuses the map; fallbacks pair
+  the `extern` lists by position or the first occurrences, or rename nothing. **`_carry_decls`** copies the donor TU's
+  file-scope `extern` for every renamed data symbol the target TU (minus the replaced body) never declares — d6's
+  COMPILE-ERROR. Signature variants: the donor's, the donor's with the TARGET's return type (d2's `s32` vs the TU's later
+  `extern void`), the target's whole header. Measured at birth: 511 of 1,010 residue classes (636 bodies) have a donor; a
+  24-class probe closed 4 at the first candidate, all by `reloc`. Known limits: a same-name donor that is a DIFFERENT
+  function scores high (the ranking is by line count only); a pair whose REL addends differ cannot match (MIPS REL: the
+  addend is in the instruction, the object comparison sees the symbol name).

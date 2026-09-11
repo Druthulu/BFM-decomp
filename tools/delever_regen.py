@@ -74,9 +74,16 @@ def one(e, fams, label):
         # the census's site lines no longer fit the file — the tree moved under the pass (S103: a bank during the R26 run
         # crashed the whole pool here). One class refused loudly, never the pass (R43); rerun after a census refresh.
         return dict(e, verdict="STALE-SITES", err=str(x)[:120], tried=0)
-    for sname, body in st:
+    # R27 (the named port) reads the REAL translation unit and the objects — it is not a rewrite of a start text, so it
+    # runs once per class, first (S104: 4 of 24 donor classes closed at the first candidate, d2/d6's move made mechanical)
+    srcs = ([("port", None)] if "R27" in fams else []) + st
+    for sname, body in srcs:
         try:
-            cands = dl.recipe_candidates(body, "src/fx/regen.c", e["fn"], [], cap=None, families=fams)
+            if sname == "port":
+                cands = [("R27", d, c) for d, c in dl.named_ports(e["tu"], e["fn"])]
+            else:
+                cands = dl.recipe_candidates(body, "src/fx/regen.c", e["fn"], [], cap=None,
+                                             families=tuple(f for f in fams if f != "R27"))
         except Exception as x:                               # a generator crash is a finding, not a silent skip (R43)
             return dict(e, verdict="GEN-ERROR", err=str(x)[:160], tried=tried)
         for rec, desc, cand in cands:
@@ -116,6 +123,8 @@ def run(a):
     ds.sites_by_body()
     if "R19" in fams:
         dl.real_signatures()
+    if "R27" in fams:
+        dl.named_definitions()
     with cf.ProcessPoolExecutor(max_workers=a.jobs, mp_context=multiprocessing.get_context("fork")) as pool:
         futs = {pool.submit(one, e, fams, label): e for e in ex}
         # one line per judged class AS IT LANDS (R55): the agent lane draws only classes this pass has already judged

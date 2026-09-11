@@ -3096,7 +3096,183 @@ def alias_repeated_addresses(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26")
+_NAMED_DEFS = None
+_SYM = r"(?:D|g)_[0-9A-Fa-f]{8}"
+
+
+def named_definitions():
+    """{name: [(file, line)]} — every definition-looking line of a `func_XXXXXXXX` in src/ (.c and shared .h), cached once."""
+    global _NAMED_DEFS
+    if _NAMED_DEFS is None:
+        r = subprocess.run(["git", "grep", "-nE", r"^[A-Za-z_][^;]*\bfunc_[0-9A-Fa-f]{8}[[:space:]]*\([^;]*$", "--", "src/*.c", "src/*.h"],
+                           cwd=REPO, capture_output=True, text=True, errors="surrogateescape")
+        idx = collections.defaultdict(list)
+        for ln in r.stdout.splitlines():
+            f, n, t = ln.split(":", 2)
+            for m in re.finditer(r"\b(func_[0-9A-Fa-f]{8})\s*\(", t):
+                idx[m.group(1)].append((f, int(n)))
+                break
+        _NAMED_DEFS = dict(idx)
+    return _NAMED_DEFS
+
+
+def _fn_text(raw, rel, fn):
+    d_ = sc_body_span(raw, rel, fn)
+    if not d_:
+        return None
+    ls = line_starts(raw)
+    return raw[ls[d_["line"] - 1]:ls[d_["end"]]] if d_["end"] < len(ls) else raw[ls[d_["line"] - 1]:]
+
+
+def sc_body_span(text, rel, fn):
+    return next((r for r in sc.scan_text(text, rel, shared_defs=None) if r["form"] == "def" and r["name"] == fn), None)
+
+
+def _uniq(seq):
+    seen, out = set(), []
+    for x in seq:
+        if x not in seen:
+            seen.add(x)
+            out.append(x)
+    return out
+
+
+def _obj_of(rel):
+    """The original-bytes object that carries `rel`'s code: a .c file's own object (snapshot first); a shared header's
+    first includer's."""
+    if rel.endswith(".h"):
+        r = subprocess.run(["git", "grep", "-l", "-F", pathlib.Path(rel).name, "--", "src/*.c"], cwd=REPO,
+                           capture_output=True, text=True)
+        inc = r.stdout.split()
+        if not inc:
+            return None
+        rel = inc[0]
+    p = oracle.baseline_path("build/" + rel[:-2] + ".o")
+    return p if p.exists() else None
+
+
+def fn_relocs(obj, fn):
+    """[symbol] — the relocation targets of `fn` in `obj`, in address order (objdump -dr)."""
+    r = subprocess.run(["mipsel-linux-gnu-objdump", "-dr", "--no-show-raw-insn", str(obj)], capture_output=True, text=True)
+    out, inside = [], False
+    for ln in r.stdout.splitlines():
+        m = re.match(r"^[0-9a-f]+ <([^>]+)>:$", ln)
+        if m:
+            inside = m.group(1) == fn
+            continue
+        if inside:
+            m = re.search(r"\bR_MIPS_\w+\s+(\S+)", ln)
+            if m:
+                out.append(m.group(1).split("+")[0])
+    return out
+
+
+def reloc_map(donor_rel, tu, fn):
+    """{donor symbol: target symbol} — the two ORIGINAL objects' relocation sequences for `fn` paired in order (the same
+    function at the same address in two binaries: same instructions, per-binary data symbols). None when the sequences do
+    not align (different lengths) or one donor symbol would map to two targets."""
+    a, b = _obj_of(donor_rel), _obj_of(tu)
+    if not a or not b:
+        return None
+    ra, rb = fn_relocs(a, fn), fn_relocs(b, fn)
+    if not ra or len(ra) != len(rb):
+        return None
+    m = {}
+    for x, y in zip(ra, rb):
+        if not re.match(r"(?:D|g|func)_[0-9A-Fa-f]{8}$", x) or not re.match(r"(?:D|g|func)_[0-9A-Fa-f]{8}$", y):
+            continue
+        if m.setdefault(x, y) != y:
+            return None
+    return {x: y for x, y in m.items() if x != y}
+
+
+def _carry_decls(ported, m, donor_raw, target_raw):
+    """Body-local copies of the donor TU's file-scope `extern` declarations for every renamed symbol the target TU does not
+    declare anywhere (a donor symbol declared at file scope is 'undeclared' in the target — d6's COMPILE-ERROR)."""
+    add = []
+    for x, y in m.items():
+        if not y.startswith(("D_", "g_")) or re.search(r"\b%s\b" % re.escape(y), target_raw):
+            continue
+        if re.search(r"extern\b[^;]*\b%s\b" % re.escape(y), ported):
+            continue
+        dm = re.search(r"^extern\b[^;\n]*\b%s\b[^;\n]*;" % re.escape(x), donor_raw, re.M)
+        if dm:
+            add.append("    " + re.sub(r"\b%s\b" % re.escape(x), y, dm.group(0)))
+    if not add:
+        return ported
+    i = ported.index("{") + 1
+    return ported[:i] + "\n" + "\n".join(add) + ported[i:]
+
+
+def named_ports(tu, fn, max_donors=6):
+    """[(description, candidate text)] — R27: the SAME function already lever-free in another binary, ported with its
+    symbols renamed onto this binary's.
+
+    T7 agents d2 (func_80166F58, ov_MAIN_012 ×6 from ov_SC04_011's shared header) and d6 (func_8017B614, ov_SC07_010 ×5
+    from ov_SC01_000), P36 S104: both closed on their FIRST `--try` by porting a banked lever-free variant — the overlays
+    carry one engine function at one address with per-overlay data symbols. The sweep had spent 1,699 compiles on d6's
+    class without getting below 13. The port needs two repairs, both mechanical: (1) the data symbols renamed — pairing
+    the two bodies' `extern` declaration lists by POSITION (d6's port.py) or their first occurrences in order; (2) the
+    return type taken from the TARGET, whose TU declares the function again later (`extern void …` vs a donor's `s32`:
+    "conflicting types", d2). Donors: every definition of `fn` in src/ with no `register`/`__asm__`/`!FAKE`, nearest line
+    count first. Every candidate is judged on the bytes; a wrong pairing just does not score."""
+    raw_t = (REPO / tu).read_text(errors="surrogateescape")
+    target = _fn_text(raw_t, tu, fn)
+    if not target:
+        return []
+    t_head = target[:target.index("{")] if "{" in target else ""
+    t_ext = _uniq(re.findall(r"extern\b[^;]*?\b(%s)\b" % _SYM, target))
+    t_occ = _uniq(re.findall(r"\b(%s)\b" % _SYM, target))
+    donors, seen = [], set()
+    for f, _n in named_definitions().get(fn, ()):
+        if f == tu:
+            continue
+        try:
+            body = _fn_text((REPO / f).read_text(errors="surrogateescape"), f, fn)
+        except (OSError, ValueError):
+            continue
+        if not body or re.search(r"__asm__|\bregister\b|!FAKE", body):
+            continue
+        key = re.sub(r"\s+", " ", re.sub(r"\b%s\b" % _SYM, "D", body))
+        if key in seen:
+            continue
+        seen.add(key)
+        donors.append((abs(body.count("\n") - target.count("\n")), f, body))
+    out = []
+    for _d, f, body in sorted(donors)[:max_donors]:
+        d_ext = _uniq(re.findall(r"extern\b[^;]*?\b(%s)\b" % _SYM, body))
+        d_occ = _uniq(re.findall(r"\b(%s)\b" % _SYM, body))
+        maps = []
+        rm = reloc_map(f, tu, fn)
+        if rm is not None:
+            maps.append(("reloc", rm))
+        maps.append(("same", {}))
+        for tag, a, b in (("extern-order", d_ext, t_ext), ("first-occurrence", d_occ, t_occ)):
+            if a and len(a) == len(b):
+                m = {x: y for x, y in zip(a, b) if x != y}
+                if len(set(m.values())) == len(m):
+                    maps.append((tag, m))
+        donor_raw = (REPO / f).read_text(errors="surrogateescape")
+        for tag, m in maps:
+            ported = re.sub(r"\b(?:D|g|func)_[0-9A-Fa-f]{8}\b", lambda x: m.get(x.group(0), x.group(0)), body) if m else body
+            if m:      # the target's own body is replaced, so its local declarations do not count
+                ported = _carry_decls(ported, m, donor_raw, raw_t.replace(target, "", 1))
+            if "{" not in ported:
+                continue
+            d_head = ported[:ported.index("{")]
+            k = d_head.find(fn)
+            variants = [("", ported)]
+            tk = t_head.find(fn)
+            if k >= 0 and tk >= 0 and d_head[:k] != t_head[:tk]:
+                variants.append((" +target-return", t_head[:tk] + ported[k:]))
+            if t_head and d_head != t_head:
+                variants.append((" +target-signature", t_head + ported[ported.index("{"):]))
+            for vtag, cand in variants:
+                out.append((f"port {f.split('/')[-1]} {tag}{vtag}", cand))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3237,6 +3413,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R26" in fam:
         for desc, cand in alias_repeated_addresses(text, tu, fn, d_):
             out.append(("R26", desc, cand))
+    if "R27" in fam and not tu.startswith("src/fx/") and (REPO / tu).exists():   # the named port needs the real TU
+        for desc, cand in named_ports(tu, fn):
+            out.append(("R27", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))

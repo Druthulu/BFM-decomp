@@ -105,3 +105,27 @@
     scalar stores in `sched.c`/`cse.c` is the known channel). If you can test it on bytes with a body-local struct declaration, do.
 11. The free sweep already ran every generator family (R2–R26) on your class: its best candidate is named in your brief (the path
     under `.run/P36/regen/s104_all/`) — start from whichever of it and `body_free.c` scores lower.
+12. **S104's landings — all at 0, eight of nine with ZERO levers (read these before the allocation table):**
+    - (d2, d6) **a lever-free SAME-NAME variant in another binary is the answer half the time**: grep the WHOLE `src/` for the
+      function's other definitions (not only `related.txt`, which searches one overlay). Port it: rename the per-overlay `D_`
+      symbols (pair the two objects' relocations, or the extern lists), take the return type from the target TU's own later
+      `extern`, add body-local `extern`s for symbols the donor TU declared at file scope.
+    - (d3, d9) **a goto chain → STRUCTURED if/else (or a `||`)** — every generator mutates the goto text, so the sweep cannot
+      reach it. A label between a condjump and a constant store blocks jump.c's if-conversion (`jump.c:805`, `:1019`); one
+      constant store per arm keeps cross-jump from re-merging (`jump.c:2371`).
+    - (d1) `x = a; if (c) x = f(a);` → `if (!c) x = a; else x = f(a);` — the NON-simple value in the ELSE arm (jump1
+      re-merges an if/else whose else value is a reg/const, `jump.c:739-741`); never a ternary.
+    - (d3) **reorder an independent test before a value's definition** to flip a scheduler tie-break (`sched.c:2428`) → the
+      live lengths `allocno_compare` ranks on.
+    - (d5) a hoisted temp `v = *(T*)(b+K); … x = x + v;` → `x += *(T*)(b+K)`: local-alloc's THREE-quantity order is by BIRTH,
+      not a sort (`local-alloc.c:1486-1507`). `tools/localalloc_sim.py` sorts fully and mispredicts this — the fix is in
+      `.run/P36/agents/ov_SC05_018__func_801837E8/scratch/lsim3.py`.
+    - (d7) **declare a function-scope local INSIDE each switch case / if-arm** when it is used only there: a per-arm local
+      crossing a call takes `$s0` in local-alloc (`local-alloc.c:2101-2106`) before global runs; `combine_regs` can then tie
+      it (`:1722`, refused at `:1773` for a shared one). The inverse of S103 c18's merge.
+    - (d8) **the WIDTH of an incremented local** decides sched1's birth priority: `(*(u16 *)(p + 2))++` or a `u16` counter
+      (a SUBREG destination fails `birthing_insn_p`, `sched.c:2477-2490`); `+= 1` folds back to SImode and fails.
+    - (d2) `home = (short)t;` re-extending an already-short value, with `t` given a second use (`combine.c:7926-7942`).
+    - (d4) a marked `do { store; } while (0)` as a LOOP-note scheduling barrier (`sched.c:2058-2074`) — allowed, marked.
+    - The `.sched` ready-list trace (`blocking insn N for 1 cycles`, the uid picked next) and `.lreg`'s `Register N in 16.`
+      lines settled three of these where the allocation table misled.
