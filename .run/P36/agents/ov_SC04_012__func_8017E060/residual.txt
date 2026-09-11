@@ -1,0 +1,7 @@
+src/ov_SC04_012/ov_SC04_012_jr_8017AE2C.c:func_8017E060: score 4 (OTHER; mine 12 ins, target 12) — not yet
+  replace mine[0:2] target[0:2]
+        0  addiu	sp,sp,-32                    | addiu	sp,sp,-24
+        1  sw	ra,24(sp)                       | sw	ra,16(sp)
+  replace mine[8:10] target[8:10]
+        8  lw	ra,24(sp)                       | lw	ra,16(sp)
+        9  addiu	sp,sp,32                     | addiu	sp,sp,24

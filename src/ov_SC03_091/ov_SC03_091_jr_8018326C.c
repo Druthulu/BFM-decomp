@@ -4711,28 +4711,22 @@ extern s32 func_8004787C(s32 a0);
 extern void func_8012C218(void *a0);
 extern void func_8018632C(s32 a0);
 
-void func_801861FC(s32 a0) {
-    s32 ent = a0;
-    s32 state = *(u16 *)(ent + 0x34);
-    s32 sub;
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+void func_801861FC(s32 ent) {
+    s32 t;
     s32 cnt;
 
-    switch (state) {
+    switch (*(u16 *)(ent + 0x34)) {
     case 0:
         t = func_8004787C(*(s32 *)(ent + 0x1C) << 6);
         *(s16 *)(*(s32 *)(ent + 0x20) + 0x18) = t * 7;
-        sub = *(s32 *)(ent + 0x20);
-        *(s16 *)(sub + 0x1A) = t << 1;
+        *(s16 *)(*(s32 *)(ent + 0x20) + 0x1A) = t << 1;
         cnt = *(s32 *)(ent + 0x1C) + 1;
         *(s32 *)(ent + 0x1C) = cnt;
         if (cnt < 0x10) {
             break;
         }
-        sub = *(s32 *)(ent + 0x20);
-        *(s16 *)(sub + 0x1A) = 0x7000;
-        sub = *(s32 *)(ent + 0x20);
-        *(s16 *)(sub + 0x1A) = 0x2000;
+        *(s16 *)(*(s32 *)(ent + 0x20) + 0x1A) = 0x7000;
+        *(s16 *)(*(s32 *)(ent + 0x20) + 0x1A) = 0x2000;
         *(s32 *)(ent + 0x1C) = 0x40;
         *(u16 *)(ent + 0x34) = *(u16 *)(ent + 0x34) + 1;
         break;
@@ -4743,9 +4737,7 @@ void func_801861FC(s32 a0) {
         }
         break;
     case 2:
-        t = func_8004787C(*(s32 *)(ent + 0x1C) << 6);
-        sub = *(s32 *)(ent + 0x20);
-        *(s16 *)(sub + 0x1A) = t << 1;
+        *(s16 *)(*(s32 *)(ent + 0x20) + 0x1A) = func_8004787C(*(s32 *)(ent + 0x1C) << 6) << 1;
         cnt = *(s32 *)(ent + 0x1C) - 1;
         *(s32 *)(ent + 0x1C) = cnt;
         if (cnt == 0) {

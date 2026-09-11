@@ -1,0 +1,155 @@
+=== lever-free bodies in ov_SC04_012 sharing a callee or global with func_8017E060 (6 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8012927C (src/shared/ov/func_8012927C.h:5) shares 1: func_801292C8 ---
+void func_8012927C(void) {
+    s32 i;
+    u8 *p = (u8 *)&D_8011DB30;
+    for (i = 0; i < 0x80; i++) {
+        func_801292C8(p);
+        p += 0x38;
+    }
+}
+
+--- func_801433F0 (src/shared/ov/func_801433F0.h:7) shares 1: func_801292C8 ---
+void func_801433F0(s32 a0) {
+    if (*(u16 *)(a0 + 2) == 0) {
+        func_80143458();
+    } else {
+        func_8012931C((struct vec *)a0);
+        if (func_80128ED8(*(void **)(a0 + 0x20), (u8 *)a0 + 0x24) != 0) {
+            func_801292C8((u8 *)a0);
+        }
+    }
+}
+
+--- func_8014350C (src/shared/ov/func_8014350C.h:7) shares 1: func_801292C8 ---
+void func_8014350C(s32 *a0) {
+    if (*(u16 *)((u8 *)a0 + 2) == 0) {
+        func_8014358C();
+        return;
+    }
+    func_8012931C((struct vec *)a0);
+    if (func_80128ED8((void *)a0[0x20 / 4], (void *)((u8 *)a0 + 0x24)) != 0) {
+        func_801292C8((u8 *)a0);
+        return;
+    }
+    *(u8 *)(a0[0x20 / 4] + 0x27) = *(u8 *)((u8 *)a0 + 0x28) - 0x70;
+}
+
+--- func_8017DAE4 (src/ov_SC04_012/ov_SC04_012_jr_8017AE2C.c:3916) shares 1: D_80191C70 ---
+void func_8017DAE4(s32 a0) {
+    extern u8 D_80126B5C;
+    extern s32 D_801930C0;
+    extern s8 D_80191C70;
+
+    s16 buf[4];
+    s32 i;
+    s32 j;
+    s32 slot;
+    u8 *obj;
+
+    slot = -1;
+    func_80015978((s32)&D_80126B5C, (s32 *)buf);
+    buf[1] = *(u16 *)(a0 + 0xA);
+
+    for (j = 0, i = 0; j < D_801930C0; j++, i++) {
+        if (slot != -1) {
+            break;
+        }
+        if (*((u8 *)&D_80191C70 + i) == 0) {
+            slot = i;
+        }
+    }
+
+    if (slot != -1) {
+        obj = func_801290DC(0x61, (u8 *)buf);
+        if (obj != 0) {
+            *(&D_80191C70 + slot) = 1;
+            *(s32 *)(obj + 0x34) = slot;
+        }
+    }
+}
+
+--- func_8017E4C8 (src/ov_SC04_012/ov_SC04_012_jr_8017AE2C.c:4400) shares 1: func_801292C8 ---
+void func_8017E4C8(int param_1)
+{
+    UVec_8017EA1C_8017E4C8 v;
+    int p;
+    short ang;
+    int siz;
+    int wid;
+    int col;
+
+    p = *(int *)(param_1 + 0x20);
+    ang = *(unsigned short *)(param_1 + 0x2c) + 0x40;
+    *(unsigned short *)(param_1 + 0x2c) = ang;
+    v.vz = func_8004787C(ang) / 256;
+    v.vy = 0;
+    v.vx = 0;
+    func_800139C8(*(short *)(p + 0x12), &v, &v);
+
+    *(unsigned short *)(param_1 + 6) = *(unsigned short *)(param_1 + 0x12) + v.vx;
+    *(unsigned short *)(param_1 + 0xe) = *(unsigned short *)(param_1 + 0x1a) + v.vz;
+    *(unsigned short *)(param_1 + 0xa) = *(unsigned short *)(param_1 + 0xa) - *(unsigned short *)(param_1 + 0x30);
+    siz = *(unsigned short *)(param_1 + 0x2e) + 0x10;
+    *(unsigned short *)(param_1 + 0x2e) = siz;
+
+    wid = *(unsigned short *)(p + 0x1a) + siz;
+    *(unsigned short *)(p + 0x1a) = wid;
+    *(unsigned short *)(p + 0x18) = wid;
+
+    col = *(unsigned char *)(p + 0x26) - 4;
+    *(unsigned char *)(p + 0x26) = col;
+    *(unsigned char *)(p + 0x25) = col;
+    *(unsigned char *)(p + 0x24) = col;
+
+    if (func_80146E98(param_1) != 0) {
+        ((void (*)(int))func_801292C8)(param_1);
+    }
+}
+
+--- func_8017D99C (src/ov_SC04_012/ov_SC04_012_jr_8017AE2C.c:3867) shares 1: D_80191C70 ---
+void func_8017D99C(s32 a0) {
+
+    extern u8 D_80126B5C;
+    extern s32 D_801930C0;
+    extern s16 D_801930C4;
+    extern s32 D_801930C8;
+    extern s32 D_801930CC;
+    extern u8 D_80182290[];
+    extern u8 D_80182298[];
+    extern s8 D_80191C70;
+    extern s8 D_80191CBF;
+
+    s16 buf[4];
+    s32 i;
+    s8 *p;
+    u8 *obj;
+
+    /* [] form (not *(T *)(a0 + K)) -- see the MEM_IN_STRUCT_P note above. */
+    D_801930C0 = ((s16 *)a0)[0xFC / 2];
+    D_801930C4 = ((s32 *)a0)[0xDC / 4];
+    D_801930C8 = (s32)(D_80182290 + ((s16 *)a0)[0x70 / 2] * 4);
+    D_801930CC = (s32)(D_80182298 + ((s16 *)a0)[0x70 / 2] * 8);
+
+    func_80015978((s32)&D_80126B5C, (s32 *)buf);
+    buf[1] = *(u16 *)(a0 + 0xA);
+
+    p = &D_80191CBF;
+    for (i = 0x4F; i >= 0; i--) {
+        *p = 0;
+        p--;
+    }
+
+    for (i = 0; i < D_801930C0; i++) {
+        obj = func_801290DC(0x61, (u8 *)buf);
+        if (obj != 0) {
+            *(&D_80191C70 + i) = 1;
+            *(s32 *)(obj + 0x34) = i;
+            func_8017DED4((s32)obj);
+            *(u16 *)(obj + 0xA) += (rand() & 0xF) * 3 * 16;
+        }
+    }
+
+    func_8012AD50((void *)a0);
+}
+

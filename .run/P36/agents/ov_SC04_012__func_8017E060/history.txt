@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 4 best 2 compiles 190 path R9 swap-stmts @4172
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @4172 -> 2 [COUNT] (from 4)
+  R12 width new_var int->u16 @4166 -> 2 [COUNT] (from 2)
+  R6 inline r @4170 -> 2 [COUNT] (from 2)
+  R7 block @4169 -> 2 [COUNT] (from 2)
+  R9 swap-stmts @4169 -> 2 [COUNT] (from 2)
+  R10 param-copy param_1 @4169 -> 2 [COUNT] (from 2)
+  R4 decl-move p 2->0 -> 2 [COUNT] (from 2)
+  R12 width new_var int->s16 @4166 -> 2 [COUNT] (from 2)
+  R6 inline new_var @4171 -> 2 [COUNT] (from 2)
+  R7 do-while @4169 -> 2 [COUNT] (from 2)
+  R9 swap-stmts @4170 -> 2 [COUNT] (from 2)
+  R4 decl-move p 2->1 -> 2 [COUNT] (from 2)
