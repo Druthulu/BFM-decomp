@@ -4258,9 +4258,8 @@ extern u8 D_800A5EB6;
 void func_8018F944(void *a0)
 {
     s32 v0;
-    s32 eac;
     s32 *s0;
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 *p;
 
     v0 = *(s32 *)((u8 *)a0 + 0x1C) - 1;
     *(s32 *)((u8 *)a0 + 0x1C) = v0;
@@ -4269,7 +4268,7 @@ void func_8018F944(void *a0)
     }
 
     *(s16 *)((u8 *)a0 + 0x2) = 4;
-    __asm__("la %0, D_800A5E88" : "=r"(s0));  // !FAKE: instruction la — NEEDED DIFFERS (P36 rung B tus9)
+    s0 = &D_800A5E88;
     s0[0] = 0;
     D_800A5E8C = -4;
     D_800A5E90 = -4;
@@ -4282,16 +4281,14 @@ void func_8018F944(void *a0)
     D_800A5EA5 = 0;
     func_80028620(1, &s0[4]);
 
-    a0v = 2;
-    eac = 0xA;
-    s0[8] = 0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    D_800A5EAC = eac;
-    D_800A5EB0 = eac;
+    p = &s0[8];
+    *p = 0;
+    D_800A5EAC = 0xA;
+    D_800A5EB0 = 0xA;
     D_800A5EB4 = 0xCC;
     D_800A5EB5 = 0x99;
     D_800A5EB6 = 0x99;
-    func_80028620(a0v, &s0[8]);
+    func_80028620(2, p);
 }
 
 
