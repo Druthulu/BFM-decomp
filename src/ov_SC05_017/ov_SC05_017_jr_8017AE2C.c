@@ -3348,7 +3348,6 @@ void func_8017BF50(s32 a0)
     extern u8 D_801ECBA8[];
     s32 s3;
     s16 *s0;
-    register s32 *s1 asm("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
     u8 *s2;
     s16 s4;
     Buf8017BF50_8017BF50 buf;
@@ -3358,7 +3357,6 @@ void func_8017BF50(s32 a0)
     if (s0 != 0) {
         s2 = D_801ECBA8;
         s4 = 0;
-        s1 = (s32 *)(D_801ECBA8 + 0x1C);
         buf.unk06 = 0x158;
         buf.unk0A = 0;
         buf.unk08 = 0;
@@ -3380,10 +3378,9 @@ void func_8017BF50(s32 a0)
 
                 v3 = ((s32 (*)(s32))func_8012913C)(0x11);
                 if (v3 == 0) break;
-                s1[-2] = *s0++;
-                s1[-1] = *s0++;
-                s1[0] = *s0++;
-                s1 += 8;
+                *(s32 *)(s2 + 0x14) = *s0++;
+                *(s32 *)(s2 + 0x18) = *s0++;
+                *(s32 *)(s2 + 0x1C) = *s0++;
                 *(u8 **)(v3 + 0x30) = s2;
                 s2 += 0x20;
             }
