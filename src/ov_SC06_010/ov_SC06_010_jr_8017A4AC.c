@@ -4136,14 +4136,18 @@ void func_8017CAD4(s32 *ctx, s32 *model, s32 mtxsrc)
                                             s32 za, tz, q, rgb;
                                             u32 *otp;
                                             u32 *tp;
+                                            /* g.opz stored in each arm: post-reload cross-jump merges the two
+                                             * stores back into one, but flow counted both (the &g.sz0/&g.sz1
+                                             * allocno tie then falls the target's way). */
                                             if (g.sz0 > g.sz1) {
                                                 za = g.sz0;
                                                 if (za < g.sz2) za = g.sz2;
+                                                g.opz = za;
                                             } else {
                                                 za = g.sz1;
                                                 if (za < g.sz2) za = g.sz2;
+                                                g.opz = za;
                                             }
-                                            g.opz = za;
                                             if (code == 7) g.opz = za + 0x40;
                                             tz = g.opz;
                                             tp = (u32 *)prim->w0;
@@ -4234,7 +4238,6 @@ void func_8017CAD4(s32 *ctx, s32 *model, s32 mtxsrc)
                         i++;
                         prim++;
                     } while (i < nprim);
-                    __asm__ __volatile__("" : "=r"(m24) : "0"(m24));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
                   noprim: ;
                 }
             }
