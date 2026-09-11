@@ -5291,6 +5291,7 @@ void func_8017F0EC(s32 a0) {
     extern u16 D_801C8B68;
     extern s16 D_801C8B70;
     extern s32 D_801C8B78;
+    extern u16 D_801C8B64_arg __asm__("D_801C8B64");  /* a class-E declaration alias (deferred to the structs phase, like R26): D_801C8B64 (func_8012F568's 6th argument) — cse2 would reuse the pre-call address pseudo across VectorNormalSS (cse.c:6776-6803, exp_equiv_p compares SYMBOL_REF names by pointer) (P36 S104 e33 minimum-lever) */
     u16 sp18[3];
     u16 sp20[3];
     u16 *q;
@@ -5313,15 +5314,11 @@ void func_8017F0EC(s32 a0) {
         sp20[1] = D_80126B62;
         sp20[2] = D_80126B66;
         if (func_800132BC(sp20, q) < 0x401) {
-            {
-                s32 _m = (s32)&D_801C8B64;
-                __asm__ __volatile__("" : "=r"(_m) : "0"(_m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
-                D_801C8B64 = sp20[0] - q[0];
-                D_801C8B66 = sp20[1] - q[1];
-                D_801C8B68 = sp20[2] - q[2];
-                VectorNormalSS((void *)_m, (void *)_m);
-            }
-            func_8012F568(1, 0x4201, 0, 4, (s32)q, (s32)&D_801C8B64);
+            D_801C8B64 = sp20[0] - q[0];
+            D_801C8B66 = sp20[1] - q[1];
+            D_801C8B68 = sp20[2] - q[2];
+            VectorNormalSS(&D_801C8B64, &D_801C8B64);
+            func_8012F568(1, 0x4201, 0, 4, (s32)q, (s32)&D_801C8B64_arg);
         }
         v0 = *(u16 *)(a0 + 0x76) + 1;
         *(u16 *)(a0 + 0x76) = v0;
