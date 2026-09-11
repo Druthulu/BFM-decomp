@@ -7149,26 +7149,21 @@ extern CdlFILE D_80063028;        /* CdPathTable entry; its name string sits at 
 
 int func_8001A114(void) {
     int ret;
-    u8 *p;
+    u8 *result;
+    u8 *mode;
     int r;
     int i;
     CdlFILE *fp;
     int *rp;
     s32 *sp;
-    int c0;
-    int c1;
 
     ret = 0;
     switch (D_800AE6F4) {
     case 0:
         func_800434BC();
-        c0 = 1;
-        __asm__ __volatile__("" : "=r"(c0) : "0"(c0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        c1 = 0;
-        __asm__ __volatile__("" : "=r"(c1) : "0"(c1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        p = &cdReq_cdResult;
-        func_80043830(c0, (u8 *)c1, p);
-        if ((*p & 0x10) != 0) {
+        result = &cdReq_cdResult;
+        func_80043830(1, 0, result);
+        if ((*result & 0x10) != 0) {
             break;
         }
         D_800AE6F4 = D_800AE6F4 + 1;
@@ -7185,12 +7180,12 @@ int func_8001A114(void) {
         D_800AE6F4 = 0;
         break;
     case 2:
-        p = &D_800AE740;
-        *p = 0x80;
-        if (func_80043830(0xE, p, p - 8) == 0) {
+        mode = &D_800AE740;
+        *mode = 0x80;
+        if (func_80043830(0xE, mode, mode - 8) == 0) {
             break;
         }
-        if ((p[-8] & 0x10) != 0) {
+        if ((mode[-8] & 0x10) != 0) {
             goto reset;
         }
         cdReq_retry = 0;
