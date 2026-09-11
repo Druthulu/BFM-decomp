@@ -2895,6 +2895,7 @@ void func_8017C954(s32 arg0)
     u8 *va, *vb, *vc, *vd;
     u32 w, code;
     u32 wx, wy, wz;
+    s16 wq;                    /* P36 S104 e22: the box's high z half, its own s16 (see mechanism.md) */
     s32 xa32, xb32, t32;
     s32 xmn1, xmx1, xmn2, xmx2;
     s32 mnc, mxc;
@@ -2933,15 +2934,15 @@ void func_8017C954(s32 arg0)
         box[5].vx = mx; box[5].vy = my;
         box[6].vx = mn; box[6].vy = my;
         box[7].vx = mx; box[7].vy = my;
-        wy = wz >> 16;
+        wq = wz >> 16;
         box[0].vz = wz;
         box[1].vz = wz;
         box[4].vz = wz;
         box[5].vz = wz;
-        box[2].vz = wy;
-        box[3].vz = wy;
-        box[6].vz = wy;
-        box[7].vz = wy;
+        box[2].vz = wq;
+        box[3].vz = wq;
+        box[6].vz = wq;
+        box[7].vz = wq;
 
         gte_ldv3c(&box[0]);
         gte_rtpt();
@@ -3088,11 +3089,12 @@ void func_8017C954(s32 arg0)
                                             if (g.sz0 > g.sz1) {
                                                 za = g.sz0;
                                                 if (za < g.sz2) za = g.sz2;
+                                                g.opz = za;
                                             } else {
                                                 za = g.sz1;
                                                 if (za < g.sz2) za = g.sz2;
+                                                g.opz = za;
                                             }
-                                            g.opz = za;
                                             if (code == 7) g.opz = za + 0x200;
                                             tp = (u32 *)prim->w0;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0];
@@ -3240,9 +3242,6 @@ void func_8017C954(s32 arg0)
                                     }
                                     if (tmpxy[2].vy > my) my = tmpxy[2].vy;
                                     else if (tmpxy[2].vy < mny) mny = tmpxy[2].vy;
-                                    /* L1: zero-byte $v1 conflict dial -- keeps my/mny off $v1 so the
-                                     * my/mny/mx/mn quad lands on $a2/$a3/$t0/$t1 (see header). */
-                                    __asm__ __volatile__ ("" ::: "$3");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
                                     gte_stflg(&g.flag);
                                     if (!(g.flag & 0x7F85E000)) {
                                         gte_stsz4(&g.sz0, &g.sz1, &g.sz2, &g.sz3);
