@@ -15900,7 +15900,7 @@ extern s32 D_80078D88[];
 extern s32 D_800A2B78;
 
 void *func_80025504(GFace *prim, GVec8 *vtx, GVec8 *nrm, GPolyG4 *poly, s32 n, s32 shift,
-                    u32 *ot)
+                u32 *ot)
 {
     s32 flag;
     s32 p;
@@ -15908,74 +15908,73 @@ void *func_80025504(GFace *prim, GVec8 *vtx, GVec8 *nrm, GPolyG4 *poly, s32 n, s
     s32 zmax, ztmp;
     u32 *op;
     GDrMode *dm;
-    GFace *fp;
-    register GFace *p0 __asm__("$4") = prim;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    GPolyG4 *pk = poly;   /* the output cursor is walked as a LOCAL copy (its biv's initial value is then the
+                       * parameter's pseudo, loop.c:6327/4120, so poly's pseudo is tied back into $a3);
+                       * the face list is walked through the PARAMETER itself (its giv init reads $a0). */
 
-    __asm__("" : "=r"(poly) : "0"(poly));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-    fp = p0;
-    for (; n != 0; n--, fp++) {
-            gte_ldv3(&vtx[fp->v0], &vtx[fp->v1], &vtx[fp->v2]);
-            gte_rtpt();
-            gte_stflg(&flag);
-            if (flag & 0xffffefff) {
-                continue;
+    for (; n != 0; n--, prim++) {
+        gte_ldv3(&vtx[prim->v0], &vtx[prim->v1], &vtx[prim->v2]);
+        gte_rtpt();
+        gte_stflg(&flag);
+        if (flag & 0xffffefff) {
+            continue;
+        }
+        gte_nclip();
+        gte_stopz(&p);
+        if (p <= 0) {
+            continue;
+        }
+        gte_stsxy3_ft3(pk);
+        gte_ldv0(&vtx[prim->v3]);
+        gte_rtps();
+        gte_stflg(&flag);
+        if (flag & 0xffffefff) {
+            continue;
+        }
+        gte_stsxy(&pk->xy3);
+        if (D_80078D88[0] & 0x8000) {
+            gte_stsz4(&sz0, &sz1, &sz2, &sz3);
+            zmax = sz2;
+            if (zmax < sz3) {
+                zmax = sz3;
             }
-            gte_nclip();
-            gte_stopz(&p);
-            if (p <= 0) {
-                continue;
+            ztmp = sz0;
+            if (ztmp < sz1) {
+                ztmp = sz1;
             }
-            gte_stsxy3_ft3(poly);
-            gte_ldv0(&vtx[fp->v3]);
-            gte_rtps();
-            gte_stflg(&flag);
-            if (flag & 0xffffefff) {
-                continue;
+            if (ztmp < zmax) {
+                ztmp = zmax;
             }
-            gte_stsxy(&poly->xy3);
-            if (D_80078D88[0] & 0x8000) {
-                gte_stsz4(&sz0, &sz1, &sz2, &sz3);
-                zmax = sz2;
-                if (zmax < sz3) {
-                    zmax = sz3;
-                }
-                ztmp = sz0;
-                if (ztmp < sz1) {
-                    ztmp = sz1;
-                }
-                if (ztmp < zmax) {
-                    ztmp = zmax;
-                }
-                p = ztmp >> 2;
-            } else {
-                gte_avsz4();
-                gte_stotz(&p);
-            }
-            gte_ldrgb(&fp->rgb);
-            gte_ldv3(&nrm[fp->n0], &nrm[fp->n1], &nrm[fp->n2]);
-            gte_ncct();
-            gte_strgb3_g3(poly);
-            gte_ldv0(&nrm[fp->n3]);
-            gte_nccs();
-            gte_strgb(&poly->rgb3);
+            p = ztmp >> 2;
+        } else {
+            gte_avsz4();
+            gte_stotz(&p);
+        }
+        gte_ldrgb(&prim->rgb);
+        gte_ldv3(&nrm[prim->n0], &nrm[prim->n1], &nrm[prim->n2]);
+        gte_ncct();
+        gte_strgb3_g3(pk);
+        gte_ldv0(&nrm[prim->n3]);
+        gte_nccs();
+        gte_strgb(&pk->rgb3);
 
-            op = &ot[p >> shift];
-            poly->tag = (*op & 0xffffff) | 0x08000000;
-            *op = (u32)poly & 0xffffff;
-            poly++;
-            if (D_800A2B78 != 0) {
-                if (poly[-1].code & 2) {
-                    dm = (GDrMode *)poly;
-                    op = &ot[p >> shift];
-                    dm->len = 1;
-                    dm->code0 = 0xe100000a | ((D_800A2B78 & 3) << 5);
-                    *(u32 *)dm = (*op & 0xffffff) | 0x01000000;
-                    *op = (u32)dm & 0xffffff;
-                    poly = (GPolyG4 *)((u8 *)dm + 8);
-                }
+        op = &ot[p >> shift];
+        pk->tag = (*op & 0xffffff) | 0x08000000;
+        *op = (u32)pk & 0xffffff;
+        pk++;
+        if (D_800A2B78 != 0) {
+            if (pk[-1].code & 2) {
+                dm = (GDrMode *)pk;
+                op = &ot[p >> shift];
+                dm->len = 1;
+                dm->code0 = 0xe100000a | ((D_800A2B78 & 3) << 5);
+                *(u32 *)dm = (*op & 0xffffff) | 0x01000000;
+                *op = (u32)dm & 0xffffff;
+                pk = (GPolyG4 *)((u8 *)dm + 8);
             }
+        }
     }
-    return poly;
+    return pk;
 }
 
 
