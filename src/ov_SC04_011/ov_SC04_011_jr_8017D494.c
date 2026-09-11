@@ -7397,18 +7397,14 @@ void aF80183E20(void *a0) {
     u16 cnt;
     s32 v0;
     s32 v1;
-    s32 v1b;
     flags = D_801EFD40;
     if (flags & 0x80) {
         v0 = *(u16 *)((u8 *)a0 + 0x76);
         v1 = *(u16 *)((u8 *)a0 + 0x60);
         *(u16 *)((u8 *)a0 + 0x60) = 0;
-        v0 = v0 - v1;
-        *(u16 *)((u8 *)a0 + 0x76) = v0;
-        __asm__("":::"memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t3_tus1)
-        v1b = *(s16 *)((u8 *)a0 + 0x76);
+        *(u16 *)((u8 *)a0 + 0x76) = v0 - v1;
         D_801EFD40 = flags & 0xFF7F;
-        if (v1b < 0) {
+        if (((s16 *)a0)[0x3B] < 0) {
             *(u16 *)((u8 *)a0 + 0x76) = 0;
         }
     }
