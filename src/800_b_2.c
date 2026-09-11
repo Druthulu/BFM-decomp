@@ -3058,7 +3058,7 @@ int func_800301C8(int entry, s32 a1, s32 a2) {
     extern s16 D_800A46D2;
     s16 *p;
     s32 bs;
-    s32 e;
+    s16 e;
     s32 b;
     s32 h;
     s32 k;
@@ -3081,9 +3081,10 @@ int func_800301C8(int entry, s32 a1, s32 a2) {
             if (h != D_80064D4A[entry * 12]) {
                 s32 n = *(s16 *)((u8 *)D_800A4648 + k);
                 D_800C532A[n * 2] = -1;
-                __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-                *(s16 *)((u8 *)D_800A4644 + k) = 0;
-                *(s16 *)((u8 *)D_800A4648 + k) = 0;
+                do {  // !FAKE: do-while — sched1 LOOP-note barrier, sched.c:2058-2074: keeps the zero stores after the D_800C532A store (the Rsc24 field spelling D_800A4640[b].unk04/.unk08 needs none; identical only after linking) (P36 S104 e23 minimum-lever)
+                    *(s16 *)((u8 *)D_800A4644 + k) = 0;
+                    *(s16 *)((u8 *)D_800A4648 + k) = 0;
+                } while (0);
             }
         }
         {
@@ -3099,7 +3100,6 @@ int func_800301C8(int entry, s32 a1, s32 a2) {
         }
         p = &D_800A46D0;
         e = entry;
-        __asm__("" : "=r"(e) : "0"(e));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         *p = e;
         *(s16 *)((u8 *)D_800A4640 + k2) = e;
         D_800A4650[k2] = 1;
