@@ -1,0 +1,300 @@
+=== lever-free bodies in main sharing a callee or global with func_80025818 (8 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800243EC (src/800.c:15354) shares 1: D_800A2B78 ---
+void func_800243EC(s32 *a0) {
+    s32 v = *a0;
+
+    D_80078D88[0] = v;
+    D_800A2B78 = (v >> 28) & 7;
+
+    if (v & 0x40) {
+        func_80026D64();
+    } else {
+        func_80024448();
+    }
+}
+
+--- func_800273F4 (src/800.c:17833) shares 1: D_800A2B78 ---
+u8 *func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot)
+{
+    s32 flag;
+    s32 z;
+    u32 *otp;
+    u8 *pkt2;
+    pkt2 = pkt;
+
+    if (n != 0) {
+        do {
+            gte_ldv3(vtx + f->v0 * 8, vtx + f->v1 * 8, vtx + f->v2 * 8);
+            gte_rtpt();
+            gte_stflg(&flag);
+            if ((flag & ~0x1000) == 0) {
+                gte_nclip();
+                gte_stopz(&z);
+                if (z > 0) {
+                    gte_stsxy3_ft3(pkt2);
+                    gte_avsz3();
+                    gte_stotz(&z);
+                    *(u32 *)(pkt2 + 4) = f->rgb0;
+                    *(u32 *)(pkt2 + 0xC) = f->rgb1;
+                    *(u32 *)(pkt2 + 0x14) = f->rgb2;
+                    pkt2[7] = (pkt2[7] & 2) | 0x30;
+                    otp = ot + (z >> shift);
+                    *(u32 *)pkt2 = (*otp & 0xFFFFFF) | 0x6000000;
+                    *otp = (u32)pkt2 & 0xFFFFFF;
+                    pkt2 += 0x1C;
+                    if (D_800A2B78 != 0) {
+                        if (pkt2[7 - 0x1C] & 2) {
+                            otp = ot + (z >> shift);
+                            pkt2[3] = 1;
+                            *(u32 *)(pkt2 + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
+                            *(u32 *)pkt2 = (*otp & 0xFFFFFF) | 0x1000000;
+                            *otp = (u32)pkt2 & 0xFFFFFF;
+                            pkt2 += 8;
+                        }
+                    }
+                }
+            }
+            n--;
+            f++;
+        } while (n != 0);
+    }
+    return pkt2;
+}
+
+--- func_80024BC0 (src/800.c:15700) shares 1: D_800A2B78 ---
+POLY_F4 *func_80024BC0(Face *f, SVECTOR_80024BC0 *sv, SVECTOR_80024BC0 *nv, POLY_F4 *poly0,
+                       s32 n, s32 shift, u32 *ot)
+{
+    POLY_F4 *poly = poly0;
+    s32 flag;
+    s32 otz;
+    u32 *p;
+
+    if (n != 0) {
+    do {
+        gte_ldv3(&sv[f->v0], &sv[f->v1], &sv[f->v2]);
+        gte_rtpt();
+        gte_stflg(&flag);
+        if ((flag & 0xFFFFEFFF) == 0) {
+            gte_nclip();
+            gte_stopz(&otz);
+            if (otz > 0) {
+                gte_stsxy3_f3(poly);
+                gte_ldv0(&sv[f->v3]);
+                gte_rtps();
+                gte_stflg(&flag);
+                if ((flag & 0xFFFFEFFF) == 0) {
+                    gte_stsxy(&poly->x3);
+                    gte_avsz4();
+                    gte_stotz(&otz);
+                    gte_ldrgb(&f->rgb);
+                    gte_ldv0(&nv[f->n0]);
+                    gte_nccs();
+                    gte_strgb(&poly->r0);
+                    p = &ot[otz >> shift];
+                    poly->tag = (*p & 0x00FFFFFF) | 0x05000000;
+                    *p = (u32)poly & 0x00FFFFFF;
+                    poly++;
+                    if (D_800A2B78 != 0 && (poly[-1].code & 2) != 0) {
+                        s32 z = otz;
+                        *((u8 *)poly + 3) = 1;
+                        p = &ot[z >> shift];
+                        *(u32 *)((u8 *)poly + 4) =
+                            0xE100000A | ((D_800A2B78 & 3) << 5);
+                        poly->tag = (*p & 0x00FFFFFF) | 0x01000000;
+                        *p = (u32)poly & 0x00FFFFFF;
+                        poly = (POLY_F4 *)((u8 *)poly + 8);
+                    }
+                }
+            }
+        }
+        n--;
+        f++;
+    } while (n != 0);
+    }
+    return poly;
+}
+
+--- func_800275BC (src/800.c:17911) shares 1: D_800A2B78 ---
+void *func_800275BC(TPRIM_800275BC *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, s32 n,
+                    s32 shift, u32 *ot)
+{
+    s32 flag;
+    s32 otz;
+    u32 *op;
+
+    if (n == 0) {
+        return pk;
+    }
+
+    do {
+        gte_ldv3(&vp[prim->v0], &vp[prim->v1], &vp[prim->v2]);
+        gte_rtpt();
+        gte_stflg(&flag);
+        if ((flag & 0xFFFFEFFF) == 0) {
+            gte_nclip();
+            gte_stopz(&otz);
+            if (otz > 0) {
+                gte_stsxy3_ft3(pk);
+                gte_ldv0(&vp[prim->v3]);
+                gte_rtps();
+                gte_stflg(&flag);
+                if ((flag & 0xFFFFEFFF) == 0) {
+                    gte_stsxy(pk + 0x20);
+                    gte_avsz4();
+                    gte_stotz(&otz);
+                    *(u32 *)(pk + 0x04) = prim->c0;
+                    *(u32 *)(pk + 0x0C) = prim->c1;
+                    *(u32 *)(pk + 0x14) = prim->c2;
+                    *(u32 *)(pk + 0x1C) = prim->c3;
+                    *(u8 *)(pk + 7) = (*(u8 *)(pk + 7) & 2) | 0x38;
+                    op = &ot[otz >> shift];
+                    *(u32 *)pk = (*op & 0xFFFFFF) | 0x08000000;
+                    *op = (u32)pk & 0xFFFFFF;
+                    pk += 0x24;
+                    if (D_800A2B78 != 0) {
+                        if (*(u8 *)(pk - 0x1D) & 2) {
+                            op = &ot[otz >> shift];
+                            *(u8 *)(pk + 3) = 1;
+                            *(u32 *)(pk + 4) =
+                                ((D_800A2B78 & 3) << 5) | 0xE100000A;
+                            *(u32 *)pk = (*op & 0xFFFFFF) | 0x01000000;
+                            *op = (u32)pk & 0xFFFFFF;
+                            pk += 8;
+                        }
+                    }
+                }
+            }
+        }
+        prim++;
+    } while (--n != 0);
+    return pk;
+}
+
+--- func_8002528C (src/800.c:15971) shares 1: D_800A2B78 ---
+u8 *func_8002528C(Prim *pr, Vec8 *vtx, Vec8 *nrm, void *arg3, s32 n, s32 shift, u32 *ot)
+{
+    struct { s32 flag, opz, sz1, sz2, sz3; } g;
+    u8 *pk = (u8 *)arg3;
+    u32 *otp;
+    s32 z;
+
+    if (n != 0) {
+        do {
+            gte_ldv3(&vtx[pr->v0], &vtx[pr->v1], &vtx[pr->v2]);
+            gte_rtpt();
+            gte_stflg(&g.flag);
+            if (!(g.flag & ~0x1000)) {
+                gte_nclip();
+                gte_stopz(&g.opz);
+                if (g.opz > 0) {
+                    gte_stsxy3_ft3(pk);
+                    if (D_80078D88[0] & 0x8000) {
+                        gte_stsz3(&g.sz1, &g.sz2, &g.sz3);
+                        if (g.sz1 > g.sz2) {
+                            z = g.sz1;
+                            if (z < g.sz3) {
+                                z = g.sz3;
+                            }
+                        } else {
+                            z = g.sz2;
+                            if (z < g.sz3) {
+                                z = g.sz3;
+                            }
+                        }
+                        g.opz = z >> 2;
+                    } else {
+                        gte_avsz3();
+                        gte_stotz(&g.opz);
+                    }
+                    gte_ldrgb(&pr->rgbc);
+                    gte_ldv3(&nrm[pr->n0], &nrm[pr->n1], &nrm[pr->n2]);
+                    gte_ncct();
+                    gte_strgb3_g3(pk);
+                    otp = &ot[g.opz >> shift];
+                    *(u32 *)pk = (*otp & 0xFFFFFF) | 0x6000000;
+                    *otp = (u32)pk & 0xFFFFFF;
+                    pk += 0x1C;
+                    if (D_800A2B78 != 0 && (pk[-0x15] & 2)) {
+                        otp = &ot[g.opz >> shift];
+                        pk[3] = 1;
+                        *(u32 *)(pk + 4) = 0xE100000A | ((D_800A2B78 & 3) << 5);
+                        *(u32 *)pk = (*otp & 0xFFFFFF) | 0x1000000;
+                        *otp = (u32)pk & 0xFFFFFF;
+                        pk += 8;
+                    }
+                }
+            }
+            n--;
+            pr++;
+        } while (n != 0);
+    }
+    return pk;
+}
+
+--- func_80024DE8 (src/800.c:15767) shares 1: D_800A2B78 ---
+u8 *func_80024DE8(TmdG3 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot)
+{
+    s32 flag;
+    s32 z;
+    u32 *otp;
+    u8 *pkt2;
+    pkt2 = pkt;
+
+    if (n != 0) {
+        /* Identity no-op (emits nothing). It must sit in the loop PREHEADER (inside the
+           `if (n != 0)`), not before the guard branch.
+           Why: loop.c `record_initial`/`valid_initial_value_p` otherwise take the biv's
+           initial value to be the raw incoming hard reg $a3, so the `pkt2 + 4` giv is
+           emitted as `addiu giv,$a3,4`.  That keeps $a3 live past the parameter copy, so
+           the pkt2 pseudo CONFLICTS with $a3 and can never live there (costing an extra
+           `move`).  An asm_operands src makes valid_initial_value_p reject it, the giv is
+           computed from the pseudo, and pkt2 keeps $a3.
+           In the preheader it also stays clear of reorg's backward delay-slot scan, which
+           breaks on any asm and would otherwise lose `addu $t5,$a0,$zero` from the guard's
+           delay slot. */
+        do {
+            gte_ldv3(vtx + prim->v0 * 8, vtx + prim->v1 * 8, vtx + prim->v2 * 8);
+            gte_rtpt();
+            gte_stflg(&flag);
+            if ((flag & ~0x1000) == 0) {
+                gte_nclip();
+                gte_stopz(&z);
+                if (z > 0) {
+                    gte_stsxy3_ft3(pkt2);
+                    gte_avsz3();
+                    gte_stotz(&z);
+                    gte_ldv0(nrm + prim->n0 * 8);
+                    gte_ldrgb(&prim->rgb0);
+                    gte_nccs();
+                    gte_strgb(pkt2 + 4);
+                    gte_ldrgb(&prim->rgb1);
+                    gte_nccs();
+                    gte_strgb(pkt2 + 0xC);
+                    gte_ldrgb(&prim->rgb2);
+                    gte_nccs();
+                    gte_strgb(pkt2 + 0x14);
+                    pkt2[7] = (pkt2[7] & 2) | 0x30;
+                    otp = ot + (z >> shift);
+                    *(u32 *)pkt2 = (*otp & 0xFFFFFF) | 0x6000000;
+                    *otp = (u32)pkt2 & 0xFFFFFF;
+                    pkt2 += 0x1C;
+                    if (D_800A2B78 != 0) {
+                        if (pkt2[7 - 0x1C] & 2) {
+                            otp = ot + (z >> shift);
+                            pkt2[3] = 1;
+                            *(u32 *)(pkt2 + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
+                            *(u32 *)pkt2 = (*otp & 0xFFFFFF) | 0x1000000;
+                            *otp = (u32)pkt2 & 0xFFFFFF;
+                            pkt2 += 8;
+                        }
+                    }
+                }
+            }
+            n--;
+            prim++;
+        } while (n != 0);
+    }
+    return pkt2;
+}
+

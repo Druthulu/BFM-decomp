@@ -1,0 +1,9 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+ * @class: MATCH — 120/120 byte-exact under tools/match_one.py AND
+ * @class: MATCH — 131/131 byte-exact (relocation-masked), and
+ * @class: (was regalloc-order / sched)
+ * @stuck: none — MATCH, 122/122 instructions, byte-exact under match_one, and
+ * @class: was regalloc-order + IOR-tree reassociation
+ * @stuck: none — MATCH (128 ins), byte-exact under match_one.
+ * @class: MATCH (was LENGTH-DRIFT/+1 -> ADDRESSING -> MATCH)
+ * @class: MATCH (was SCHEDULE-REORDER/2)

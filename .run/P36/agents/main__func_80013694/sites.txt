@@ -1,0 +1,4 @@
+REMOVED  pin         $3     line 995
+NEEDED   pin         $2     line 996
+NEEDED   barrier            line 1008
+REMOVED  barrier            line 1015

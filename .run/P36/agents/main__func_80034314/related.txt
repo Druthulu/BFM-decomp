@@ -1,0 +1,555 @@
+=== lever-free bodies in main sharing a callee or global with func_80034314 (21 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80032048 (src/800_b_2.c:4446) shares 4: D_800A46E8 D_800A4EE8 D_800A4EF0 func_8003310C ---
+s32 func_80032048(u32 arg0, u8 *p, u32 flags) {
+    Rec14 *rec;
+    Slot54 *e;
+    s32 idx;
+    s32 ret;
+    u32 x;
+    u32 y;
+    u32 v;
+    u8 old;
+    u8 b1;
+    u8 b2;
+    u32 b3;
+    u32 b0;
+
+    y = arg0 >> 16;
+    b1 = p[1];
+    b2 = p[2];
+    b3 = p[3];
+
+    if (b1 == 0) {
+        rec = &D_80068304[b2][b3];
+    } else {
+        if (D_800A4EF0 != b1) {
+            return 0;
+        }
+        if (D_800A4EE8 == 0) {
+            return 0;
+        }
+        rec = D_800A4EE8->unk14[b2];
+        rec += b3;
+    }
+
+    old = *(u8 *)&D_800A4F17;
+    *(u8 *)&D_800A4F17 = 1;
+
+    ret = 0;
+    v = rec->unk00;
+    if ((u16)flags == 0xFFFF) {
+        flags = 0;
+        x = (u16)y;
+        y = 0;
+    } else {
+        x = arg0;
+    }
+
+    idx = func_800331D4(x);
+    if (idx == 0) {
+        if (flags & 0x4000) {
+            if ((flags & 0x3000) == 0) {
+                goto done;
+            }
+        } else if (flags & 0x1000) {
+            if ((flags & 0x7F) < 0x30) {
+                v >>= 1;
+            }
+        }
+        idx = func_8003310C(v);
+        if (idx == 0) {
+            goto done;
+        }
+        ret = idx;
+        idx = ret - 1;
+        e = (Slot54 *)((u8 *)D_800A46E8 + idx * 0x54);
+    } else {
+        if (flags & 0x4000) {
+            func_800335B8(idx - 1, (u16)flags);
+            goto done;
+        }
+        idx--;
+        e = (Slot54 *)((u8 *)D_800A46E8 + idx * 0x54);
+        if (e->unk08 != 0) {
+            goto done;
+        }
+        ret = idx + 1;
+        func_8003324C((u16)idx);
+    }
+
+    b0 = p[0];
+    e->unk04 = x;
+    e->unk06 = y;
+    e->unk02 = v;
+    e->unk00 = (b0 & 0xC0) | 1;
+    e->unk08 = rec->unk0C;
+    e->unk0A = 5;
+    func_80032A74(e, idx, rec, (u16)flags);
+
+done:
+    *(u8 *)&D_800A4F17 = old;
+    return ret;
+}
+
+--- func_800324A4 (src/800_b_2.c:4757) shares 4: D_800A46E8 D_800A4EE8 D_800A4EF0 func_8003310C ---
+s32 func_800324A4(u32 arg0, u8 *p, u32 flags, s32 arg3) {
+    Rec14 *rec;
+    Slot54 *e;
+    u8 *q;
+    s32 i;
+    s32 idx;
+    s32 ret;
+    s32 count;
+    s32 minp;
+    s32 maxp;
+    s32 pr;
+    u16 x;
+    /* t: keeps the raw incoming arg0 in $a0 so the "srl $t4, $a0, 16" that
+     * feeds the y spill reads $a0 and not $fp.  Without it cse collapses
+     * x into the parameter pseudo, the shift reads the callee-saved home and
+     * the $s7/$fp pair flips (v <-> arg0) -- 9 diffs.  Emits no instruction. */
+    u32 t;
+    u16 y;
+    s32 v;
+    u8 old;
+    u8 b0;
+    u8 b1;
+    u8 b2;
+    /* b3 is u32, NOT u8: the width is what wins it $a0 ahead of b1.  See the
+     * header note (lever 3) -- with u8 it loses the allocno density race and
+     * the b1/b3 pair comes out swapped. */
+    u32 b3;
+
+    t = arg0;
+    x = arg0;
+    b2 = p[2];
+    b1 = p[1];
+    b3 = p[3];
+    /* maxp = 0 must precede the shift: it gates when "sw $s4" becomes ready
+     * in sched2 (lever 2). */
+    maxp = 0;
+    y = t >> 16;
+
+    if (b1 == 0) {
+        rec = &D_80068304[b2][b3];
+    } else {
+        if (D_800A4EF0 != b1) {
+            return 0;
+        }
+        if (D_800A4EE8 == 0) {
+            return 0;
+        }
+        rec = D_800A4EE8->unk14[b2];
+        rec += b3;
+    }
+
+    ret = 0;
+    idx = 0;
+    count = 0;
+
+    old = LOCKBYTE;
+    LOCKBYTE = 1;
+
+    v = rec->unk00;
+
+    q = SLOTBASE;
+    minp = 0x80;
+    for (i = 0; i < 8; i++, q += 0x54) {
+        if ((*(u16 *)q & 0x3F) == 1 && *(u16 *)(q + 4) == (u16)x) {
+            pr = q[0xB] & 0x7F;
+            if (pr < minp) {
+                idx = i + 1;
+                minp = pr;
+            }
+            if (pr >= maxp) {
+                maxp = pr;
+            }
+            count++;
+        }
+    }
+
+    if (count <= arg3) {
+        idx = 0;
+    } else if ((s32)(flags & 0x7F) < minp) {
+        goto done;
+    }
+
+    if (idx == 0) {
+        if (flags & 0x4000) {
+            if ((flags & 0x3000) == 0) {
+                goto done;
+            }
+        }
+        idx = func_8003310C(v);
+        if (idx == 0) {
+            goto done;
+        }
+        ret = idx;
+        idx = ret - 1;
+        e = (Slot54 *)((u8 *)D_800A46E8 + idx * 0x54);
+    } else {
+        idx--;
+        e = (Slot54 *)((u8 *)D_800A46E8 + idx * 0x54);
+        if (e->unk08 != 0) {
+            goto done;
+        }
+        ret = idx + 1;
+        func_8003324C((u16)idx);
+    }
+
+    if (flags & 0x1000) {
+        ((u8 *)e)[0xB] = flags & 0x7F;
+        if ((s32)(flags & 0x7F) < maxp) {
+            flags |= 0x8000;
+        }
+    }
+
+    b0 = p[0];
+    e->unk04 = x;
+    e->unk06 = y;
+    e->unk02 = v;
+    e->unk00 = (b0 & 0xC0) | 1;
+    e->unk08 = rec->unk0C;
+    e->unk0A = 5;
+    func_80032A74(e, idx, rec, (u16)flags);
+
+done:
+    LOCKBYTE = old;
+    return ret;
+}
+
+--- func_800322A8 (src/800_b_2.c:4590) shares 3: D_800A4EE8 D_800A4EF0 func_8003310C ---
+s32 func_800322A8(u32 arg0, u8 *p, u32 arg2) {
+    Rec14 *rec;
+    Slot54 *e;
+    s32 idx;
+    s32 ret;
+    u16 y;
+    u32 x;
+    u32 flags;
+    u32 v;
+    u8 old;
+    u8 b1;
+    u8 b2;
+    u32 b3;
+    u32 b0;
+
+    y = arg0 >> 16;
+    flags = arg2;
+    x = arg0;
+    b1 = p[1];
+    b2 = p[2];
+    b3 = p[3];
+
+    if (b1 == 0) {
+        rec = &D_80068304[b2][b3];
+    } else {
+        if (D_800A4EF0 != b1) {
+            return 0;
+        }
+        if (D_800A4EE8 == 0) {
+            return 0;
+        }
+        rec = D_800A4EE8->unk14[b2];
+        rec += b3;
+    }
+
+    old = *(u8 *)&D_800A4F17;
+    *(u8 *)&D_800A4F17 = 1;
+
+    ret = 0;
+    v = rec->unk00;
+
+    idx = func_800331D4((u16)arg0);
+    if (idx == 0) {
+        if (flags & 0x4000) {
+            if ((flags & 0x3000) == 0) {
+                goto done;
+            }
+        }
+        idx = func_8003310C(v);
+        if (idx == 0) {
+            goto done;
+        }
+        ret = idx;
+        idx = ret - 1;
+        e = (Slot54 *)(SLOT_BASE + idx * 0x54);
+    } else {
+        idx--;
+        e = (Slot54 *)(SLOT_BASE + idx * 0x54);
+        if (e->unk08 != 0) {
+            goto done;
+        }
+        ret = idx + 1;
+        func_8003324C((u16)idx);
+    }
+
+    b0 = p[0];
+    e->unk04 = x;
+    e->unk06 = y;
+    e->unk02 = v;
+    e->unk00 = (b0 & 0xC0) | 1;
+    e->unk08 = rec->unk0C;
+    e->unk0A = 5;
+    func_80032A74(e, idx, rec, (u16)flags);
+
+done:
+    *(u8 *)&D_800A4F17 = old;
+    return ret;
+}
+
+--- func_8002C8F4 (src/800_b_2.c:205) shares 3: D_800A46E8 D_800A4EE8 D_800A4EF0 ---
+void func_8002C8F4(void)
+{
+    s32 sp10[2];
+    s32 *p;
+    u8 *q;
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 n;
+    s32 m;
+
+    func_8003A424();
+    func_8003D518();
+
+    p = &D_800A4EA4;
+    *p = 0x23CF;
+    D_800A4EA8 = 0x3FFF;
+    D_800A4EAA = 0x3FFF;
+    D_800A4EB4 = 0x3FFF;
+    D_800A4EB6 = 0x3FFF;
+    D_800A4EAC = 0;
+    D_800A4EAE = 0;
+    D_800A4EB8 = 0;
+    D_800A4EBC = 1;
+    D_800A4EC8 = 0;
+
+    func_8003C598(p);
+    func_8003BE24(1);
+    func_8002D1F0(4);
+    func_8003B280(1);
+    func_80037D98();
+
+    D_800A4E68 = 0x3C;
+    D_800A4E6C = 0x2F;
+    D_800A4E6E = 0x2F;
+    D_800A4E70 = 1;
+    D_800A4F18 = 1;
+    D_800A4F19 = 1;
+    D_800A4EF6 = 1;
+    (&D_800A4638)[1] = 0x1010;
+    D_800A4638 = 0;
+    D_800A4E7A = 0;
+    D_800A46E4 = 0;
+    D_800A4654 = 0x10000;
+    D_800A466C = 0x14000;
+    D_800A4684 = 0x18000;
+    D_800A469C = 0x39F00;
+
+    for (j = 0x54; j >= 0; j -= 0xC) {
+        *(s32 *)((u8 *)&D_800A64B0 + j) = 0;
+    }
+
+    for (i = 0; i < 5; i++) {
+        k = i * 0x18;
+        D_800A4650[k] = 1;
+        *(s16 *)((u8 *)D_800A4644 + k) = 0;
+        *(s16 *)((u8 *)D_800A4642 + k) = -1;
+    }
+
+    for (n = 0x24C; n >= 0; n -= 0x54) {
+        *(u16 *)((u8 *)D_800A46E8 + n) = 0;
+    }
+
+    m = 0x10;
+    for (i = 0, q = D_800A4988 + 0x4F; i < 8; i++, m++, q += 0x54) {
+        k = i * 0x48;
+        q[2] = i;
+        *(s16 *)(q - 0x45) = m;
+        q[-1] = 0;
+        *(s32 *)(q - 0x4B) = 0;
+        *(s32 *)(q - 0xF) = 0;
+        q[1] = 0;
+        *(s32 *)((u8 *)D_800A4C68 + k) = m;
+        D_800A4C6C[k] = 0;
+        D_800A4C6D[k] = 0;
+    }
+
+    func_8002CC4C();
+
+    D_800A4EFA = 0x7F;
+    D_800A4EF8 = 0x7F;
+    D_800A4F1B = 1;
+    D_800A46BA = 0;
+    D_800A2B98 = 0;
+    D_800C7D20 = 0;
+    D_800C7D2C = 0;
+    D_800A2BA0 = 0;
+    D_800A4F17 = 0;
+    D_800A4E8E = 0;
+    D_800A4EA2 = 0;
+    D_800A4EF0 = 0;
+    D_800A4EE8 = 0;
+    D_800A4EFC = 0;
+    D_800A4F20 = 0;
+    D_800A4F22 = 0;
+    D_800A4F1D = 0;
+    D_800A4EEC = 0;
+    D_800A4EE6 = 0;
+    D_800A4EE0 = 0x4000;
+    D_800A4EE4 = 0x4000;
+    D_800A4F24 = 0;
+    D_800A4F16 = 0;
+
+    func_8002FAE0();
+    func_80037CC8();
+    func_8003BE74(0, 0xFFFFFF);
+
+    sp10[0] = 1;
+    sp10[1] = 0;
+    func_8003B1EC(sp10);
+
+    D_800A4F1C = 0;
+    D_800A4F1E = 0;
+    func_80034C24();
+    func_80037004();
+}
+
+--- func_80032774 (src/800_b_2.c:4928) shares 3: D_800A4EE8 D_800A4EF0 func_8003310C ---
+s32 func_80032774(u32 arg0, u8 *p, u32 flags)
+{
+    Rec14 *rec;
+    Slot54View *e;
+    Slot54View *q;
+    s32 ret;
+    s32 best;
+    s32 cnt;
+    s32 i;
+    s32 mn;
+    s32 mx;
+    s32 t;
+    s32 yy;
+    s32 f4000;
+    u32 x;
+    u16 y;
+    u16 v;
+    u8 old;
+    u8 b0;
+    u8 b1;
+    u8 b2;
+    s32 b3;
+
+    b2 = p[2];
+    b1 = p[1];
+    b3 = p[3];
+    mx = 0;
+    y = arg0 >> 16;
+    x = arg0;
+
+    if (b1 == 0) {
+        rec = &D_80068304[b2][b3];
+    } else {
+        if (D_800A4EF0 != b1) {
+            return 0;
+        }
+        if (D_800A4EE8 == 0) {
+            return 0;
+        }
+        rec = D_800A4EE8->unk14[b2];
+        rec += b3;
+    }
+
+    yy = y;
+    ret = 0;
+    best = 0;
+    cnt = 0;
+    old = *PFLAG;
+    *PFLAG = 1;
+    q = SLOTS;
+    mn = 0x80;
+    v = rec->unk00;
+    for (i = 0, f4000 = flags & 0x4000; i < 8; i++, q++) {
+        if ((q->unk00 & 0x3F) == 1 && q->unk04 == (u16)x) {
+            if (yy == 0 || q->unk06 == yy) {
+                if (f4000) {
+                    func_800335B8(i, (u16)flags);
+                }
+                goto done;
+            }
+            t = q->unk0B & 0x7F;
+            if (t < mn) {
+                best = i + 1;
+                mn = t;
+            }
+            if (mx <= t) {
+                mx = t;
+            }
+            cnt++;
+        }
+    }
+
+    if (cnt < 2) {
+        best = 0;
+    } else if ((s32)(flags & 0x7F) < mn) {
+        goto done;
+    }
+
+    if (best == 0) {
+        if (flags & 0x4000) {
+            if ((flags & 0x3000) == 0) {
+                goto done;
+            }
+        }
+        best = func_8003310C(v);
+        if (best == 0) {
+            goto done;
+        }
+        ret = best;
+        best = ret - 1;
+        e = &SLOTS[best];
+    } else {
+        ret = best;
+        best = ret - 1;
+        e = &SLOTS[best];
+        if (e->unk08 != 0) {
+            goto done;
+        }
+        func_8003324C((u16)best);
+    }
+
+    if (flags & 0x1000) {
+        e->unk0B = flags & 0x7F;
+        if ((s32)(flags & 0x7F) < mx) {
+            flags |= 0x8000;
+        }
+    }
+
+    b0 = p[0];
+    e->unk04 = x;
+    e->unk06 = y;
+    e->unk02 = v;
+    e->unk00 = (b0 & 0xC0) | 1;
+    e->unk08 = rec->unk0C;
+    e->unk0A = 5;
+    func_80032A74((Slot54 *)e, best, rec, (u16)flags);
+
+done:
+    *PFLAG = old;
+    return ret;
+}
+
+--- func_8002F5C8 (src/800_b_2.c:2429) shares 2: D_800A4EE8 D_800A4EF0 ---
+void func_8002F5C8(u8 *a0) {
+    extern Owner4EE8 *D_800A4EE8;
+    s16 *p = &D_800A4EF0;
+    u16 temp;
+
+    if (*p != 0) {
+        func_8002F620();
+    }
+    temp = *(u16 *)a0;
+    D_800A4EE8 = a0;
+    *p = temp;
+}
+

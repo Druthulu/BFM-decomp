@@ -1,0 +1,4 @@
+REMOVED  pin         $5     line 2814
+REMOVED  pin         $2     line 2819
+NEEDED   pin         $21    line 2825
+NEEDED   pin         $3     line 2875

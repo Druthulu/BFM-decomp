@@ -1,0 +1,15 @@
+s3: verdict BUDGET start 23 best 16 compiles 400 path R7 do-while @2744 + R12 width tagCode u32->s16 @2716 + R7 do-while @2770
+s3b: verdict BUDGET start 23 best 16 compiles 400 path R7 do-while @2744 + R12 width tagCode u32->s16 @2716 + R7 do-while @2770
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @2770 -> 16 [COUNT] (from 17)
+  R12 width tagCode u32->u16 @2716 -> 17 [COUNT] (from 18)
+  R12 width tagCode u32->s16 @2716 -> 17 [COUNT] (from 18)
+  R16 const-holder uvc=0x40560000 x1 -> 17 [COUNT] (from 18)
+  R12 width tagCode u32->u8 @2716 -> 17 [COUNT] (from 18)
+  R6 inline uvc @2775 -> 17 [COUNT] (from 18)
+  R6 inline idx @2769 -> 17 [COUNT] (from 17)
+  R8 hoist tmp0 @2769 -> 17 [COUNT] (from 17)
+  R7 block @2769 -> 17 [COUNT] (from 17)
+  R5 swap + @2768 -> 17 [COUNT] (from 17)
+  R10 param-copy obj @2718 -> 17 [COUNT] (from 17)
+  R4 decl-move tagCode 12->0 -> 17 [COUNT] (from 17)

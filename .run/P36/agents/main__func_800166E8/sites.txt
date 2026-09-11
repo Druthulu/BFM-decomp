@@ -1,0 +1,3 @@
+NEEDED   pin         $2     line 3864
+REMOVED  pin         $3     line 3865
+NEEDED   barrier            line 3867

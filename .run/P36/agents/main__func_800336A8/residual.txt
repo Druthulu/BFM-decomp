@@ -1,0 +1,14 @@
+src/800_b_2.c:func_800336A8: score 7 (COUNT; mine 120 ins, target 121) — not yet
+  replace mine[11:12] target[11:12]
+       11  beqz	v0,6fb0 <func_800336A8+0x1c4> | beqz	v0,6fb4 <func_800336A8+0x1c8>
+  replace mine[52:53] target[52:53]
+       52  beqz	v1,6f70 <func_800336A8+0x184> | beqz	v1,6f74 <func_800336A8+0x188>
+  replace mine[72:73] target[72:74]
+       72  beqz	v0,6f58 <func_800336A8+0x16c> | beqz	v0,6f5c <func_800336A8+0x170>
+       73  --                                 | nop
+  replace mine[89:90] target[90:91]
+       89  j	6f74 <func_800336A8+0x188>       | j	6f78 <func_800336A8+0x18c>
+  replace mine[107:108] target[108:109]
+      107  j	6fb0 <func_800336A8+0x1c4>       | j	6fb4 <func_800336A8+0x1c8>
+  replace mine[116:117] target[117:118]
+      116  bnez	v0,6e0c <func_800336A8+0x20>  | bnez	v0,6e0c <func_800336A8+0x20>

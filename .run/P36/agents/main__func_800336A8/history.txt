@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 7 best 6 compiles 320 path R9 swap-stmts @6085
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @6085 -> 6 [COUNT] (from 7)
+  R7 block @6073 -> 6 [COUNT] (from 6)
+  R5 swap * @6059 -> 6 [COUNT] (from 6)
+  R10 param-copy arg @6041 -> 6 [COUNT] (from 6)
+  R8 hoist tmp0 @6083 -> 6 [COUNT] (from 6)
+  R7 do-while @6073 -> 6 [COUNT] (from 6)
+  R5 swap * @6054 -> 6 [COUNT] (from 6)
+  R8 hoist tmp0 @6085 -> 6 [COUNT] (from 6)
+  R7 block @6094 -> 6 [COUNT] (from 6)
+  R5 swap * @6051 -> 6 [COUNT] (from 6)
+  R8 hoist tmp0 @6089 -> 6 [COUNT] (from 6)
+  R9 swap-stmts @6086 -> 6 [COUNT] (from 6)

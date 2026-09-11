@@ -1,0 +1,41 @@
+src/800.c:func_80025818: score 23 (COUNT; mine 135 ins, target 134) — not yet
+  register pairs (mine -> target, count): t1->a3 x14, a3->t1 x11, a3->a0 x1, t1->t5 x1
+  delete  mine[1:2] target[1:1]
+        1  move	t5,a0                         | --
+  replace mine[6:7] target[5:6]
+        6  move	t1,a3                         | move	t5,a0
+  replace mine[11:12] target[10:11]
+       11  addiu	a3,a3,4                      | addiu	t1,a3,4
+  replace mine[46:49] target[45:48]
+       46  swc2	$12,8(t1)                     | swc2	$12,8(a3)
+       47  swc2	$13,16(t1)                    | swc2	$13,16(a3)
+       48  swc2	$14,24(t1)                    | swc2	$14,24(a3)
+  replace mine[64:65] target[63:64]
+       64  swc2	$22,0(a3)                     | swc2	$22,0(t1)
+  replace mine[70:71] target[69:70]
+       70  addiu	v0,t1,12                     | addiu	v0,a3,12
+  replace mine[76:77] target[75:76]
+       76  addiu	v0,t1,20                     | addiu	v0,a3,20
+  replace mine[78:79] target[77:78]
+       78  lbu	v0,3(a3)                       | lbu	v0,3(t1)
+  replace mine[82:83] target[81:82]
+       82  sb	v0,3(a3)                        | sb	v0,3(t1)
+  replace mine[84:85] target[83:84]
+       84  addiu	a3,a3,28                     | addiu	t1,t1,28
+  replace mine[92:94] target[91:93]
+       92  and	v0,t1,t3                       | and	v0,a3,t3
+       93  sw	v1,0(t1)                        | sw	v1,0(a3)
+  replace mine[99:101] target[98:100]
+       99  addiu	t1,t1,28                     | addiu	a3,a3,28
+      100  lbu	v0,-25(a3)                     | lbu	v0,-25(t1)
+  replace mine[108:109] target[107:108]
+      108  sb	v0,-1(a3)                       | sb	v0,-1(t1)
+  replace mine[117:119] target[116:118]
+      117  sw	v0,0(a3)                        | sw	v0,0(t1)
+      118  addiu	a3,a3,8                      | addiu	t1,t1,8
+  replace mine[123:126] target[122:125]
+      123  and	v0,t1,t3                       | and	v0,a3,t3
+      124  sw	v1,0(t1)                        | sw	v1,0(a3)
+      125  addiu	t1,t1,8                      | addiu	a3,a3,8
+  replace mine[131:132] target[130:131]
+      131  move	v0,t1                         | move	v0,a3

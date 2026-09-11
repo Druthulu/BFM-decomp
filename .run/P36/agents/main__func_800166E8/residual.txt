@@ -1,0 +1,11 @@
+src/800.c:func_800166E8: score 6 (COUNT; mine 11 ins, target 11) — not yet
+  register pairs (mine -> target, count): a1->v0 x3, v0->v1 x1
+  delete  mine[0:1] target[0:0]
+        0  beqz	a1,4318 <func_800166E8+0x20>  | --
+  replace mine[2:4] target[1:4]
+        2  addiu	a1,a1,-1                     | beqz	a1,4318 <func_800166E8+0x20>
+        3  li	v0,-1                           | addiu	v0,a1,-1
+        4  --                                 | li	v1,-1
+  replace mine[5:7] target[5:7]
+        5  addiu	a1,a1,-1                     | addiu	v0,v0,-1
+        6  bne	a1,v0,4308 <func_800166E8+0x10> | bne	v0,v1,4308 <func_800166E8+0x10>

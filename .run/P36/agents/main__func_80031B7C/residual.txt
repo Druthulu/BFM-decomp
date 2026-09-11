@@ -1,0 +1,24 @@
+src/800_b_2.c:func_80031B7C: score 18 (COUNT; mine 27 ins, target 25) — not yet
+  replace mine[0:7] target[0:6]
+        0  move	a1,zero                       | move	a0,zero
+        1  li	a3,1                            | li	a2,1
+        2  li	a2,32767                        | li	a1,32767
+        3  lui	a0,0x0                         | lui	v1,0x0
+        4  addiu	a0,a0,0                      | addiu	v1,v1,0
+        5  addiu	v1,a0,2                      | lbu	v0,4(v1)
+        6  lbu	v0,2(v1)                       | --
+  replace mine[10:11] target[9:10]
+       10  lbu	v0,0(v1)                       | lbu	v0,2(v1)
+  replace mine[14:15] target[13:14]
+       14  lbu	v0,1(v1)                       | lbu	v0,3(v1)
+  replace mine[18:20] target[17:22]
+       18  sb	a3,0(v1)                        | sb	a2,2(v1)
+       19  sh	a2,0(a0)                        | sh	a1,0(v1)
+       20  --                                 | addiu	a0,a0,1
+       21  --                                 | slti	v0,a0,8
+       22  --                                 | bnez	v0,52d4 <func_80031B7C+0x14>
+  delete  mine[21:25] target[23:23]
+       21  addiu	a1,a1,1                      | --
+       22  slti	v0,a1,8                       | --
+       23  bnez	v0,52d8 <func_80031B7C+0x18>  | --
+       24  addiu	a0,a0,84                     | --

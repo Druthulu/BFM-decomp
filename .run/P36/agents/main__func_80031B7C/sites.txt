@@ -1,0 +1,4 @@
+REMOVED  pin         $4     line 4244
+REMOVED  pin         $6     line 4245
+REMOVED  pin         $5     line 4246
+NEEDED   pin         $3     line 4247

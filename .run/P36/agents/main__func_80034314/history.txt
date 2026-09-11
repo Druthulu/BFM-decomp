@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 27 best 23 compiles 325 path R12 width i s32->u16 @6817 + R7 do-while @6836
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @6836 -> 23 [COUNT] (from 27)
+  R7 block @6921 -> 23 [COUNT] (from 23)
+  R4 decl-move idx 5->0 -> 23 [COUNT] (from 23)
+  R7 do-while @6921 -> 23 [COUNT] (from 23)
+  R4 decl-move idx 5->1 -> 23 [COUNT] (from 23)
+  R12 width i u16->u8 @6817 -> 23 [COUNT] (from 23)
+  R10 param-copy arg2 @6822 -> 23 [COUNT] (from 23)
+  R4 decl-move idx 5->2 -> 23 [COUNT] (from 23)
+  R7 block @6866 -> 23 [COUNT] (from 23)
+  R4 decl-move idx 5->3 -> 23 [COUNT] (from 23)
+  R4 decl-move idx 5->4 -> 23 [COUNT] (from 23)
+  R8 cse tmp0 @6913 -> 23 [COUNT] (from 23)

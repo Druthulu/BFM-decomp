@@ -1,0 +1,38 @@
+src/800.c:func_80015760: score 23 (COUNT; mine 106 ins, target 106) — not yet
+  register pairs (mine -> target, count): s5->s4 x5, s4->s3 x1
+  replace mine[19:20] target[19:20]
+       19  subu	s4,a1,v0                      | subu	s3,a1,v0
+  replace mine[32:33] target[32:33]
+       32  li	s5,8                            | li	s4,8
+  replace mine[35:36] target[35:36]
+       35  li	s5,8                            | li	s4,8
+  replace mine[38:41] target[38:41]
+       38  andi	v1,s5,0xff                    | andi	v1,s4,0xff
+       39  li	s5,16                           | li	s4,16
+       40  andi	v1,s5,0xff                    | andi	v1,s4,0xff
+  insert  mine[49:49] target[49:50]
+       49  --                                 | lui	s5,0x300
+  delete  mine[53:55] target[54:54]
+       53  lui	s3,0xff                        | --
+       54  ori	s3,s3,0xffff                   | --
+  replace mine[58:59] target[57:59]
+       58  andi	v1,s4,0xffff                  | andi	v1,s3,0xffff
+       59  --                                 | addu	s3,s4,s3
+  replace mine[68:69] target[68:69]
+       68  addu	s4,s5,s4                      | addiu	s2,s2,-1
+  replace mine[75:76] target[75:77]
+       75  addiu	s2,s2,-1                     | lui	v1,0xff
+       76  --                                 | ori	v1,v1,0xffff
+  insert  mine[80:80] target[81:82]
+       80  --                                 | lw	v0,0(s8)
+  replace mine[81:85] target[83:86]
+       81  lw	v0,0(s8)                        | and	v0,v0,v1
+       82  lui	a2,0x300                       | or	v0,v0,s5
+       83  and	v0,v0,s3                       | and	v1,s1,v1
+       84  or	v0,v0,a2                        | --
+  replace mine[86:88] target[87:88]
+       86  and	v0,s1,s3                       | addiu	s1,s1,16
+       87  sw	v0,0(s8)                        | --
+  replace mine[89:91] target[89:91]
+       89  bnez	v0,3458 <func_80015760+0xe8>  | bnez	v0,3454 <func_80015760+0xe4>
+       90  addiu	s1,s1,16                     | sw	v1,0(s8)

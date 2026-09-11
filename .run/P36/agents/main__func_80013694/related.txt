@@ -1,0 +1,200 @@
+=== lever-free bodies in main sharing a callee or global with func_80013694 (5 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800139C8 (src/800.c:1181) shares 4: func_8001282C func_80013F3C func_8004787C func_80047948 ---
+void func_800139C8(s16 param_1, void *param_2, void *param_3)
+{
+    s16 sin_val;
+    s32 cos_val;
+    s16 *ip;
+    s16 *rp;
+    MTX_139C8 ident;
+    MTX_139C8 rotm;
+
+    func_80013F3C(&ident);
+    sin_val = func_8004787C(param_1);
+    cos_val = func_80047948(param_1);
+
+    rotm.m[0][2] = sin_val;
+    rotm.m[1][0] = rotm.m[0][1] = 0;
+    rotm.m[1][1] = 0x1000;
+    rotm.m[0][0] = cos_val;
+    rotm.m[2][2] = cos_val;
+    rp = &rotm.m[0][0];
+    rotm.m[2][0] = -sin_val;
+    ip = &ident.m[0][0];
+    rotm.m[1][2] = 0;
+    rotm.m[2][1] = 0;
+
+    gte_SetRotMatrix(ip);
+    gte_ldclmv(rp);
+    gte_rtir();
+    gte_stclmv(ip);
+    gte_ldclmv(rp + 1);
+    gte_rtir();
+    gte_stclmv(ip + 1);
+    gte_ldclmv(rp + 2);
+    gte_rtir();
+    gte_stclmv(ip + 2);
+
+    func_8001282C(ip);
+    ApplyMatrixSV(ip, param_2, param_3);
+}
+
+--- func_80013CFC (src/800.c:1329) shares 4: func_8001282C func_80013F3C func_8004787C func_80047948 ---
+void func_80013CFC(short param_1, void *param_2, void *param_3)
+{
+    s16 matrix[16];
+    s16 rot[16];
+    s32 sin_val;
+    s32 cos_val;
+    u16 v1;
+    s16 *rotp;
+    s16 *matp;
+
+    func_80013F3C(matrix);
+    sin_val = func_8004787C(param_1);
+    cos_val = func_80047948(param_1);
+
+    v1 = -sin_val;
+    *(s16 *)((s32)rot + 0x00) = cos_val;
+    *(s16 *)((s32)rot + 0x08) = cos_val;
+    *(s16 *)((s32)rot + 0x10) = 0x1000;
+    rotp = rot;
+    *(s16 *)((s32)rot + 0x06) = sin_val;
+    matp = matrix;
+    *(s16 *)((s32)rot + 0x02) = v1;
+    *(s16 *)((s32)rot + 0x04) = 0;
+    *(s16 *)((s32)rot + 0x0A) = 0;
+    *(s16 *)((s32)rot + 0x0C) = 0;
+    *(s16 *)((s32)rot + 0x0E) = 0;
+
+    gte_SetRotMatrix(matp);
+    gte_ldclmv(rotp);
+    gte_rtir();
+    gte_stclmv(matp);
+    gte_ldclmv(rotp + 1);
+    gte_rtir();
+    gte_stclmv(matp + 1);
+    gte_ldclmv(rotp + 2);
+    gte_rtir();
+    gte_stclmv(matp + 2);
+
+    func_8001282C(matp);
+    ApplyMatrixSV(matp, param_2, param_3);
+}
+
+--- func_800234E4 (src/800.c:14526) shares 2: func_8004787C func_80047948 ---
+void func_800234E4(void *a0, u16 a1, u16 a2) {
+    s32 k = 0;
+    s32 rad = a1;
+
+    /* Struct-free spelling of the func_800233CC sibling: the only dependencies
+     * are common.h types and the two callee externs, so the body survives any
+     * splice model (whole-snippet or function-only extraction).  Addresses are
+     * written as a0 + k*4 + 0x10/0x12 so LSR keeps the incoming pointer as the
+     * IV base (addu s1,a0,zero) and folds the member offset into the sh
+     * displacements, exactly as the struct form did. */
+    while (k < 12) {
+        *(u16 *)((u8 *)a0 + k * 4 + 0x10) = (func_8004787C(a2 + k * 0x155) * rad) >> 12;
+        *(u16 *)((u8 *)a0 + k * 4 + 0x12) = (func_80047948(a2 + k * 0x155) * rad) >> 12;
+        k++;
+    }
+}
+
+--- func_800233CC (src/800.c:14498) shares 2: func_8004787C func_80047948 ---
+void func_800233CC(Poly12Obj *a0, u16 a1) {
+    s32 i = 0;
+    s32 radius = a1;
+
+    /* `i * 0x155` must stay a DERIVED induction variable (no explicit `ang`
+     * local): loop_strength_reduce then emits its preheader init alongside the
+     * hoisted &pts[0] copy, giving the target's s2-before-s1 init order and the
+     * s1-before-s0 increment order.  An explicit pre-loop `ang = 0` statement
+     * sits ahead of the LSR-inserted init instead -> 6-instruction residual. */
+    for (; i < 4; i++) {
+        a0->pts[i].x = (func_8004787C(i * 0x155) * radius) >> 12;
+        a0->pts[i].y = (func_80047948(i * 0x155) * radius) >> 12;
+    }
+
+    for (i = 4; i < 7; i++) {
+        a0->pts[i].x = a0->pts[6 - i].x;
+        a0->pts[i].y = -a0->pts[6 - i].y;
+    }
+
+    for (i = 7; i < 12; i++) {
+        a0->pts[i].x = -a0->pts[12 - i].x;
+        a0->pts[i].y = a0->pts[12 - i].y;
+    }
+}
+
+--- func_8002C410 (src/800_b_o0a.c:97) shares 2: func_8004787C func_80047948 ---
+void func_8002C410(void)
+{
+    func_80059888(0, 0, 0, 0);
+    func_800596F4(0);
+    func_800599B8(0, 0);
+    MoveImage(0, 0, 0);
+    GetClut(0, 0);
+    GetTPage(0, 0, 0, 0);
+    AddPrim(0, 0);
+    func_8005A600(0, 0, 0, 0, 0);
+    SetLineF2(0);
+    SetLineG2(0);
+    SetPolyF3(0);
+    SetPolyFT4(0);
+    SetSemiTrans(0, 0);
+    MulMatrix0(0, 0, 0);
+    func_80048D9C(0, 0);
+    func_80048EAC(0, 0);
+    MulRotMatrix(0);
+    SetMulMatrix(0, 0);
+    SetMulRotMatrix(0);
+    ApplyRotMatrix(0, 0);
+    ApplyRotMatrixLV(0, 0);
+    func_800484EC(0, 0, 0);
+    ApplyMatrixSV(0, 0, 0);
+    ApplyTransposeMatrixLV(0, 0, 0);
+    func_8004978C(0, 0);
+    RotMatrixYXZ(0, 0);
+    func_80049CAC(0, 0);
+    RotMatrixX(0, 0);
+    RotMatrixY(0, 0);
+    RotMatrixZ(0, 0);
+    func_8004901C(0, 0);
+    func_8004974C(0, 0);
+    CompMatrix(0, 0, 0);
+    CompMatrixLV(0, 0, 0);
+    func_8004914C(0);
+    func_800491AC(0);
+    PushMatrix(0);
+    PopMatrix(0);
+    ReadRotMatrix(0);
+    func_8004921C(0, 0);
+    ReadGeomOffset(0, 0);
+    func_800491EC(0);
+    RotTransPers(0, 0, 0, 0);
+    RotTransSV(0, 0, 0);
+    Square12(0, 0);
+    Square0(0, 0);
+    func_800495EC(0, 0, 0);
+    RotTransPers4(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    RotNclip4(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    VectorNormalSS(0, 0);
+    func_80047D3C(0);
+    SquareRoot12(0);
+    gteMIMefunc(0, 0, 0, 0);
+    func_80047948(0);
+    func_8004787C(0);
+    csqrt(0);
+    ratan2(0, 0);
+    SsUtKeyOnV(0, 0, 0, 0, 0, 0, 0, 0);
+    SsUtKeyOffV(0);
+    SsGetCurrentPoint(0, 0);
+    func_8005C324(0, 0, 0);
+    func_8005C2C8(0, 0);
+    rand(0);
+    func_8005C4CC(0);
+    getchar(0);
+    func_8005C388(0);
+    strcpy(0, 0);
+}
+

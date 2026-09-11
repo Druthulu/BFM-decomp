@@ -1,0 +1,197 @@
+=== lever-free bodies in main sharing a callee or global with func_80015760 (13 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800145EC (src/800.c:1756) shares 2: D_800AF7BC D_800AF7BE ---
+void func_800145EC(s32 mode) {
+    extern void func_800525DC(s32 w, s32 h, s32 mode2, s32 a3, s32 st);
+    extern void func_80053178(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_80059234(s32);
+    extern void func_80053218(void);
+    extern void func_80014774(void);
+    extern void func_800147B8(void);
+    extern u8 D_80062A3C[];
+    extern u8 D_80062A3E[];
+    extern u8 D_80062A40[];
+    extern u16 D_800AF7BC;
+    extern u16 D_800AF7BE;
+    extern u16 D_800AF7C0;
+    s32 off;
+
+    off = (mode & 0xFFFF) * 6;
+
+    D_800AF7BC = *(u16 *) (D_80062A3C + off);
+    D_800AF7BE = *(u16 *) (D_80062A3E + off);
+    D_800AF7C0 = *(u16 *) (D_80062A40 + off);
+
+    func_800525DC(D_800AF7BC, D_800AF7BE, D_800AF7C0 | 4, 0, 0);
+
+    if (D_800AF7BE == 0x1E0) {
+        func_80053178(0, 0, 0, 0);
+    } else {
+        func_80053178(0, D_800AF7BE, 0, 0);
+    }
+
+    func_80059234(1);
+    func_80053218();
+    func_80014774();
+    func_800147B8();
+}
+
+--- func_800146B0 (src/800.c:1791) shares 2: D_800AF7BC D_800AF7BE ---
+void func_800146B0(s32 mode) {
+    extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
+    extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_80059234(s32);
+    extern void func_80053218(void);
+    extern void func_80014774(void);
+    extern void func_800147B8(void);
+    extern u8 D_80062A3C[];
+    extern u8 D_80062A3E[];
+    extern u8 D_80062A40[];
+    extern u16 D_800AF7BC;
+    extern u16 D_800AF7BE;
+    extern u16 D_800AF7C0;
+    s32 off;
+
+    off = (mode & 0xFFFF) * 6;
+
+    D_800AF7BC = *(u16 *) (D_80062A3C + off);
+    D_800AF7BE = *(u16 *) (D_80062A3E + off);
+    D_800AF7C0 = *(u16 *) (D_80062A40 + off);
+
+    GsInitGraph2(D_800AF7BC, D_800AF7BE, D_800AF7C0 | 4, 0, 0);
+
+    if (D_800AF7BE == 0x1E0) {
+        func_80053EEC(0, 0, 0, 0);
+    } else {
+        func_80053EEC(0, D_800AF7BE, 0, 0);
+    }
+
+    func_80059234(1);
+    func_80053218();
+    func_80014774();
+    func_800147B8();
+}
+
+--- func_800147B8 (src/800.c:1862) shares 2: D_800AF7BC D_800AF7BE ---
+void func_800147B8(void) {
+    s32 raw_h = D_800AF7BE;
+    u8 *base = D_800AF630;
+    s32 h_offset = raw_h;
+    u16 halfW;
+    u16 halfH;
+    s16 h;
+
+    if (h_offset == 0x1E0) {
+        h_offset = 0;
+    }
+
+    func_80058A4C(base + 0x38, 0, 0xA, D_800AF7BC, D_800AF7BE - 0x14);
+    SetDefDispEnv(base + 0x14C, 0, 0, D_800AF7BC, D_800AF7BE);
+    func_80058A4C(base + 0x94, 0, h_offset + 0xA, D_800AF7BC, D_800AF7BE - 0x14);
+    SetDefDispEnv(base + 0x160, 0, h_offset, D_800AF7BC, D_800AF7BE);
+
+    halfW = D_800AF7BC >> 1;
+    halfH = D_800AF7BE >> 1;
+    D_800AF672 = halfH;
+    D_800AF670 = halfW;
+    D_800AF6CC = halfW;
+
+    h = (D_800AF7BE == 0xF0) ? 0x168 : 0xF0;
+
+    D_800AF6D6 = 0x100;
+    D_800AF6D4 = 0x100;
+    D_800AF67A = 0x100;
+    D_800AF678 = 0x100;
+    D_800AF6CE = h;
+    D_800AF6DA = 0;
+    D_800AF67E = 0;
+    D_800AF6DC = 1;
+    D_800AF680 = 1;
+
+    func_80014960();
+}
+
+--- func_8001BB60 (src/800.c:8775) shares 1: D_800A5E60 ---
+void func_8001BB60(void)
+{
+    s32 i;
+
+    D_80074808 = (s32)D_800A5E60;
+    for (i = 0; i < 30; i++) {
+        func_8001BBBC(0, i * 8, 0);
+    }
+    D_8007480C = 0;
+}
+
+--- func_80010A08 (src/boot.c:415) shares 1: D_800A5E60 ---
+s32 func_80010A08(s32 arg0) {
+    register u8 *p;
+    s32 old;
+    s32 q;
+
+    p = D_800AF630;
+    q = (arg0 + 3) / 4;
+    old = D_800A5E60;
+    D_800A5E60 += q << 2;
+    return old;
+}
+
+--- func_8001212C (src/boot.c:1122) shares 1: D_800A5E60 ---
+void func_8001212C(void) {
+    typedef struct {
+        unsigned int addr : 24;
+        unsigned int len : 8;
+    } PrimTag;
+    typedef struct {
+        u8 pad0, pad1, pad2, len;
+        u32 tpage;
+        u8 r0, g0, b0, code;
+        s16 x0, y0;
+        u8 u0, v0;
+        u16 clut;
+        s16 w, h;
+    } Sprt24;
+
+    register u8 *base = D_800AF630;
+    Sprt24 *p;
+    u32 *ot;
+
+    p = (Sprt24 *)D_800A5E60;
+    ot = (u32 *)(D_800A6610 + *(u16 *)(base + 0xA3D2) * 0x4000);
+
+    p->len = 5;
+    ((u32 *)p)[1] = 0xE1000018;
+    p->code = 0x66;
+    p->clut = 0x77D6;
+    p->r0 = 0x80;
+    p->g0 = 0x80;
+    p->b0 = 0x80;
+    p->x0 = 0x30;
+    p->y0 = 0x2E;
+    p->u0 = 0x40;
+    p->v0 = 0xE0;
+    p->w = 0x60;
+    p->h = 0x18;
+    ((PrimTag *)p)->addr = ((PrimTag *)(ot + 1))->addr;
+    ((PrimTag *)(ot + 1))->addr = (u32)p;
+    p++;
+
+    p->len = 5;
+    ((u32 *)p)[1] = 0xE1000018;
+    p->code = 0x66;
+    p->clut = 0x77D6;
+    p->r0 = 0x80;
+    p->g0 = 0x80;
+    p->b0 = 0x80;
+    p->x0 = 0x30;
+    p->y0 = 0x46;
+    p->u0 = 0xA0;
+    p->v0 = 0xE0;
+    p->w = 0x60;
+    p->h = 0x18;
+    ((PrimTag *)p)->addr = ((PrimTag *)(ot + 1))->addr;
+    ((PrimTag *)(ot + 1))->addr = (u32)p;
+    p++;
+
+    D_800A5E60 = (s32)p;
+}
+

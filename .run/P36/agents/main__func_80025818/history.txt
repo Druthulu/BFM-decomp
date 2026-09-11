@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 23 best 23 compiles 323 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R5 swap + @16299 -> 23 [COUNT] (from 23)
+  R5 swap + @16292 -> 23 [COUNT] (from 23)
+  R7 block @16273 -> 23 [COUNT] (from 23)
+  R7 do-while @16273 -> 23 [COUNT] (from 23)
+  R7 block @16272 -> 23 [COUNT] (from 23)
+  R7 do-while @16272 -> 23 [COUNT] (from 23)
+  R7 block @16281 -> 23 [COUNT] (from 23)
+  R7 do-while @16281 -> 23 [COUNT] (from 23)
+  R7 block @16310 -> 23 [COUNT] (from 23)
+  R7 block @16295 -> 23 [COUNT] (from 23)
+  R7 block @16284 -> 23 [COUNT] (from 23)
+  R7 do-while @16284 -> 23 [COUNT] (from 23)

@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 18 best 15 compiles 155 path R9 swap-stmts @4254 + R6 inline a1 @4244 + R7 do-while @4253
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @4253 -> 15 [COUNT] (from 17)
+  R7 do-while @4251 -> 16 [COUNT] (from 17)
+  R12 width a1 u16->s32 @4244 -> 16 [COUNT] (from 16)
+  R6 inline a1 @4244 -> 16 [COUNT] (from 16)
+  R7 block @4254 -> 16 [COUNT] (from 16)
+  R4 decl-move v1 3->0 -> 16 [COUNT] (from 16)
+  R12 width a1 u16->s16 @4244 -> 16 [COUNT] (from 16)
+  R7 do-while @4254 -> 16 [COUNT] (from 16)
+  R4 decl-move v1 3->1 -> 16 [COUNT] (from 16)
+  R12 width a1 u16->u8 @4244 -> 16 [COUNT] (from 16)
+  R7 block @4247 -> 16 [COUNT] (from 16)
+  R4 decl-move v1 3->2 -> 16 [COUNT] (from 16)

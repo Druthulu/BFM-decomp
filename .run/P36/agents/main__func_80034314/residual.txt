@@ -1,0 +1,49 @@
+src/800_b_2.c:func_80034314: score 27 (COUNT; mine 205 ins, target 207) — not yet
+  register pairs (mine -> target, count): s5->s3 x5, s3->v1 x2, s3->s5 x1
+  replace mine[1:3] target[1:3]
+        1  sw	s5,36(sp)                       | sw	s3,28(sp)
+        2  move	s5,a1                         | move	s3,a1
+  insert  mine[9:9] target[9:10]
+        9  --                                 | sw	s5,36(sp)
+  delete  mine[10:11] target[11:11]
+       10  sw	s3,28(sp)                       | --
+  replace mine[13:14] target[13:14]
+       13  lbu	s4,1(s5)                       | lbu	s4,1(s3)
+  replace mine[17:18] target[17:18]
+       17  lbu	v0,3(s5)                       | lbu	v0,3(s3)
+  replace mine[28:29] target[28:29]
+       28  beqz	a1,7d5c <func_80034314+0x304> | beqz	a1,7d64 <func_80034314+0x30c>
+  replace mine[33:34] target[33:34]
+       33  bne	v0,s4,7d5c <func_80034314+0x304> | bne	v0,s4,7d64 <func_80034314+0x30c>
+  replace mine[35:36] target[35:36]
+       35  lbu	v0,3(s5)                       | lbu	v0,3(s3)
+  replace mine[43:46] target[43:47]
+       43  move	s3,v0                         | move	v1,v0
+       44  beqz	s3,7bb0 <func_80034314+0x158> | beqz	v1,7bb4 <func_80034314+0x15c>
+       45  addiu	v1,s3,-1                     | move	s5,v1
+       46  --                                 | addiu	v1,s5,-1
+  replace mine[72:73] target[73:74]
+       72  j	7d58 <func_80034314+0x300>       | j	7d60 <func_80034314+0x308>
+  replace mine[75:76] target[76:77]
+       75  j	7d58 <func_80034314+0x300>       | j	7d60 <func_80034314+0x308>
+  replace mine[79:80] target[80:81]
+       79  bnez	v0,7d5c <func_80034314+0x304> | bnez	v0,7d64 <func_80034314+0x30c>
+  replace mine[84:85] target[85:86]
+       84  j	7bf0 <func_80034314+0x198>       | j	7bf8 <func_80034314+0x1a0>
+  replace mine[89:93] target[90:94]
+       89  move	s3,v0                         | move	v1,v0
+       90  bnez	s3,7bd0 <func_80034314+0x178> | bnez	v1,7bd4 <func_80034314+0x17c>
+       91  addiu	v1,s3,-1                     | move	s5,v1
+       92  j	7d5c <func_80034314+0x304>       | j	7d64 <func_80034314+0x30c>
+  insert  mine[94:94] target[95:96]
+       94  --                                 | addiu	v1,s5,-1
+  replace mine[116:117] target[118:119]
+      116  lbu	v1,2(s5)                       | lbu	v1,2(s3)
+  replace mine[130:131] target[132:133]
+      130  j	7c6c <func_80034314+0x214>       | j	7c74 <func_80034314+0x21c>
+  replace mine[161:162] target[163:164]
+      161  j	7d24 <func_80034314+0x2cc>       | j	7d2c <func_80034314+0x2d4>
+  replace mine[173:174] target[175:176]
+      173  j	7d24 <func_80034314+0x2cc>       | j	7d2c <func_80034314+0x2d4>
+  replace mine[192:193] target[194:195]
+      192  move	v0,s3                         | move	v0,s5
