@@ -5089,44 +5089,32 @@ extern void func_8012BD14(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 s32 func_80181DE4(s32 a0, s32 a1) {
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     SVec_80181CDC_80181DE4 pos;
     SVec_80181CDC_80181DE4 out;
     s32 val;
-    s32 lvl;
+    s16 lvl;
     s32 t;
-    s32 x;
-    s32 n;
-    s32 y;
     s32 arg;
 
     val = 0x7F;
+    lvl = 7;
     arg = a1;
     pos.vx = *(s16 *)(a0 + 0x6);
     pos.vy = *(s16 *)(a0 + 0xA);
     pos.vz = *(s16 *)(a0 + 0xE);
     ((void (*)(void *, void *))func_8012EFB8)(&pos, &out);
-    lvl = 7;
 
     t = out.vx;
     if (t < 0) { t = -t; }
     if (t >= 0xC9) { return 0; }
 
-    if (out.vy >= 0) {
-        if (out.vy >= 0xA1) { return 0; }
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-    } else {
-        if (-out.vy >= 0xA1) { return 0; }
-    }
+    if (out.vy >= 0 ? out.vy >= 0xA1 : -out.vy >= 0xA1) { return 0; }
 
     val -= ((((s32 (*)(s32))func_8012BD14)(a0) - 0x1000) * 0x7F) / 0xFF000;
-    x = out.vx;
-    n = lvl + x / 0x19;
-    lvl = n + zr;
-    if ((s16)n < 0) { lvl = 0; }
-    else if ((s16)n > 0xF) { lvl = 0xF; }
-    y = (lvl << 8) | 0x3000;
-    func_8002D4C8(arg & 0xFFFF, (val | y) & 0xFFFF);
+    lvl += out.vx / 0x19;
+    if (lvl < 0) { lvl = 0; }
+    else if (lvl > 0xF) { lvl = 0xF; }
+    func_8002D4C8(arg & 0xFFFF, (u16)(val | ((lvl << 8) | 0x3000)));
     return 1;
 }
 
