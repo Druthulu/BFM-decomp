@@ -1920,25 +1920,16 @@ accumulate here as the phase produces them.**
   struct close (link-only; banked with a marked do-while), func_80185D44 / func_80015608 / func_8001BBBC (near-misses, one lever
   or lever-free at 2/6). R22 after every batch (r22_h…l): `check-all: 218 passed, 0 failed of 218`; census **4,272** (exit 0).
 
-## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, FINAL, written at 86% context after the weekly usage limit killed the four running agents): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,227 sites** this session (−870); ~105 agent draws (d1–d39, e1–e38), ~205 classes closed at 0 — nearly all with ZERO levers; generators **R27–R43**; R22 `check-all: 218 passed, 0 failed of 218` at `046e84600` after every batch | `lever_census --check` exit 0 (4,227 marked, 0 UNMARKED, 0 orphans)
+## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,152 sites** this session (−945); ~105 agent draws (d1–d39, e1–e38, ALL landed and banked — nothing in flight); ~220 classes closed at 0, nearly all with ZERO levers; generators **R27–R43**; R22 `check-all: 218 passed, 0 failed of 218` at `765704ca5` | `lever_census --check` exit 0 (4,152 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S104 ran at `/effort high` on
-Opus 5 1M; every agent on Opus) and executes §2. **The weekly usage limit hit at ~09:30 on 2026-09-11 (resets Sep 14, 5 am
-America/Denver)**: agents e35–e38 died mid-work with HTTP 429. **RESUME THEM in the fresh session with SendMessage to these
-agent ids** (the harness resumes an agent from its transcript; each holds its packs and its own reading so far):
-- **e35** `md_SC07_004` batch 4 (func_801A3594 func_801A395C func_801ABEE0 func_801A4ACC): agent id `a27df0b41311e4c0f`
-  — it left `md_SC07_004__func_801A3594/body.c` at score 11 (lever-free), nothing else.
-- **e36** `ov_SC03_091` batch 2 (func_80185730 func_80188B64 func_8018632C func_801880E8): agent id `abfceafedb4d9cd83`
-  — it FINISHED two: `ov_SC03_091__func_8018632C/body.c` scores 0, zero levers (d39's casts ported); `ov_SC03_091__func_80185730/body.c`
-  scores 0 with the TU's existing def-side asm-label alias `aF80185730 … __asm__("func_80185730")` (the function returns a0 —
-  the same class-E form e9's func_8018209C was banked with). **Both UNBANKED** (the bank was interrupted at the pause) — bank
-  them first (§3), then resume the agent for the other two.
-- **e37** `ov_SC03_097` (func_80180D54 func_8017FEA0 func_8017F7E4 func_80182498): agent id `a1cf3ce7d4576633f` — nothing written yet.
-- **e38** `md_MAIN_003` (func_800D24D0 func_800D2A24 func_800D1E9C func_800D30D0): agent id `a77a7a2aa19ac3262` — nothing written yet.
-Message each: "The session was cut by the usage limit; continue exactly where you were, same rules, same PACKs; report per function."
-If a resume fails (the ids are session-local and may not survive), relaunch from the same briefs — the packs are committed; the
-brief pattern is in the S104 log (a TU batch: 3–4 classes of one TU + that TU's closed mechanisms + METHOD steps 8–16).
+Opus 5 1M; every agent on Opus) and executes §2. **NOTHING IS IN FLIGHT.** The weekly usage limit hit at ~09:30 on 2026-09-11
+(it resets **Sep 14, 5 am America/Denver**); Drew's limit then reset and the four dead agents (e35–e38) were RESUMED by
+SendMessage to their ids and all four finished — every one of their closes is banked (or parked by name in §2.4). An
+agent id survives a limit cut within a session; whether it survives a NEW session is untested — relaunch from the packs if not.
+No new agents were drawn after the resume (Drew's instruction). Docs are current: SETUP rows for every tool change, METHOD
+steps 8–16, decision log P36 S104, cookbook §456, the kit corpus regenerated (`tool_census --check: OK`).
 First commands:
 ```
 git log --oneline -1 && git status --short | grep -v '^??' | wc -l
@@ -1960,7 +1951,7 @@ git log --oneline -1 && git status --short | grep -v '^??' | wc -l
   the pack. Tell each agent what every pass already did and which same-name donors are NOT the same function.
 
 ### 2. NEXT
-1. Bank e36's two finished bodies (§3's bank_list line shape; labels `s104_e36`), census, commit. Resume e35–e38 (§0).
+1. (done) e35–e38 banked. Start the lane fresh: the residue is ~330 drawable classes (the picker in the log), the biggest TUs `ov_SC04_011_jr_8017D494` (~16), `src/800.c` (~6).
 2. Keep the TU-batch lane at FIVE agents: `.venv/bin/python` the drawable-class picker in the log (group residue classes by TU,
    skip `$4`–`$7` pins = the missing-parameter shape, skip the park list, skip drawn packs), `delever_pack --build --min-copies 1
    --only <fns>`, brief with the TU's closed mechanisms (their `mechanism.md` under `.run/P36/agents/<alias>__<fn>/`). ~345
