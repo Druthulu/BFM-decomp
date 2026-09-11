@@ -1525,7 +1525,7 @@ extern void func_801407F4(void);
 extern s32 func_801416D4(s16);  /* macro-canonical redecl (§8e) */
 
 s32 func_8013F350(void) {
-    register u16 *pd __asm__("$5") = &D_8011511C;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus2)
+    register u16 *pd __asm__("$5") = &D_8011511C;  // !FAKE: pin $5 — global.c allocno_compare (:594-603) ranks pd (6 refs/9 insns = 13333) ahead of the pad zext (7500) and pad (6154), so find_reg gives pd $v1; pinned, the zext takes $v1 and pad $a0 as in the target, and no zero-byte set_preference (global.c:1535) source for $a1 exists (P36 S103 c49 minimum-lever)
     u16 *ps;
     u16 *pf;
     u16 *pg;
@@ -1535,7 +1535,7 @@ s32 func_8013F350(void) {
     u8 *pmax;
     u8 *p2e;
     u8 *p3e;
-    register s32 off __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus2)
+    s32 off;
     s16 i;
     s32 r;
     s16 rs;
@@ -1545,7 +1545,7 @@ s32 func_8013F350(void) {
     u8 m;
     s32 chg;
 
-    __asm__ __volatile__("" : "=r"(pd) : "0"(pd));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus2)
+    __asm__("" : "=r"(pd) : "0"(pd));  // !FAKE: launder pd — keeps &D_8011511C out of cse so find_best_addr cannot fold pd[2] (cse.c:2663) on either .cse2 path (cse.c:8098-8124); proved irreducible in plain C (S103 c28) (P36 S103 c49 minimum-lever)
     pad = *pd;
     chg = 0;
     if (pad != 0) {
@@ -1571,7 +1571,7 @@ s32 func_8013F350(void) {
         }
         i = i + 1;
     } while (i < 6);
-    *(u16 *)D_80115158 = i | 0x100;          /* §18: sh under canonical u8[] */
+    *(u16 *)D_80115158 = i | 0x100;
 
     switch (D_8011511A) { /* jtbl_801D8860 */
     case 0:
@@ -1656,7 +1656,7 @@ s32 func_8013F350(void) {
         break;
     case 5:
         if ((D_8011511E & 0x40) != 0) {
-            rs = (s16)((s32 (*)(s32))func_801416D4)(D_80115152);  /* §17a-1: def is (s16) */
+            rs = (s16)((s32 (*)(s32))func_801416D4)(D_80115152);
             if (rs != 0) {
                 if (rs < 0) {
                     D_8011512A = 1;
@@ -1694,9 +1694,9 @@ s32 func_8013F350(void) {
     ps = &D_8011511A;
     
     st = *ps;
+    off = st << 1;
     p2e = (u8 *)ps + 0x2E;
     p3e = (u8 *)ps + 0x3E;
-    off = st << 1;
     pcur = p2e + off;
     pmax = p3e + off;
     if (st == 2 || 1 < pmax[0]) {
@@ -1756,7 +1756,7 @@ s32 func_8013F350(void) {
                 D_8011514C = 0;
             }
         }
-        *(u16 *)&D_8011515C = D_80187AD4[D_80115128];  /* §18: sh under canonical u8 */
+        *(u16 *)&D_8011515C = D_80187AD4[D_80115128];
         if ((chg << 0x10) != 0) {
             func_80141C0C(1);
         }

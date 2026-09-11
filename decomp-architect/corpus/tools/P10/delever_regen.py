@@ -68,7 +68,13 @@ def one(e, fams, label):
     d = OUT / label / f"{e['alias']}__{e['fn']}"
     best = None
     tried = compile_errors = 0
-    for sname, body in starts(e):
+    try:
+        st = starts(e)
+    except (IndexError, ValueError) as x:
+        # the census's site lines no longer fit the file — the tree moved under the pass (S103: a bank during the R26 run
+        # crashed the whole pool here). One class refused loudly, never the pass (R43); rerun after a census refresh.
+        return dict(e, verdict="STALE-SITES", err=str(x)[:120], tried=0)
+    for sname, body in st:
         try:
             cands = dl.recipe_candidates(body, "src/fx/regen.c", e["fn"], [], cap=None, families=fams)
         except Exception as x:                               # a generator crash is a finding, not a silent skip (R43)
@@ -114,7 +120,7 @@ def run(a):
                 print(f"  MATCH {r['alias']}__{r['fn']} ({r['copies']} copies) {r['family']} {r['desc']} from {r['start']} "
                       f"-> {r['path']}", flush=True)
             if n % 50 == 0:
-                c = {v: sum(1 for x in rows if x["verdict"] == v) for v in ("MATCH", "BEST", "NO-CANDIDATE", "COMPILE-ERROR", "UNSCORED", "GEN-ERROR")}
+                c = {v: sum(1 for x in rows if x["verdict"] == v) for v in ("MATCH", "BEST", "NO-CANDIDATE", "COMPILE-ERROR", "UNSCORED", "GEN-ERROR", "STALE-SITES")}
                 print(f"  {n}/{len(ex)} classes · {c} · {time.time() - t0:.0f} s", flush=True)
     tsv = OUT / f"{label}.tsv"
     cols = ["verdict", "alias", "fn", "tu", "copies", "score", "cls", "family", "desc", "start", "path", "tried", "err"]
@@ -124,7 +130,7 @@ def run(a):
         for r in sorted(rows, key=lambda r: (r["verdict"] != "MATCH", r.get("score") if r.get("score") is not None else 10**6,
                                              -r["copies"])):
             w.writerow([r.get(c, "") for c in cols])
-    c = {v: sum(1 for x in rows if x["verdict"] == v) for v in ("MATCH", "BEST", "NO-CANDIDATE", "COMPILE-ERROR", "UNSCORED", "GEN-ERROR")}
+    c = {v: sum(1 for x in rows if x["verdict"] == v) for v in ("MATCH", "BEST", "NO-CANDIDATE", "COMPILE-ERROR", "UNSCORED", "GEN-ERROR", "STALE-SITES")}
     m = [r for r in rows if r["verdict"] == "MATCH"]
     print(f"delever_regen: {len(rows)} of {len(ex)} classes judged in {time.time() - t0:.0f} s — {c}; "
           f"{len(m)} class(es) close at score 0 ({sum(r['copies'] for r in m)} bodies) -> {tsv.relative_to(REPO)}")

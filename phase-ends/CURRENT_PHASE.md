@@ -1731,6 +1731,25 @@ accumulate here as the phase produces them.**
   is multi-set (no birthing boost). c37: an integer-priority TIE in `allocno_compare` (498 = 498) split by a +1 live-length
   shift — `zc = za;` gives it in natural C (the tree's empty asm was that +1); `func_8015FBE0` was already banked by the
   R19 cast regen.
+- **S103 — c50: `func_80136824` CLOSED WITH ZERO LEVERS as a BODY-ONLY change (130 bodies; was 10 levers/copy and listed
+  for the types phase since S102).** A body-local `u16 a1v` copy of the parameter, with the first test reading `arg1` and
+  the later tests the copy (the lever-free sibling func_801365B8's spelling), `u16 pos`, and the store in each branch:
+  the u16 copy is a SUBREG move cse cannot merge (`cse.c:7440-7474`), so `arg1` lives in block 0 only and local-alloc keeps
+  it in `$a1` (`local-alloc.c:1281-1295`, `:1722`) — the same allocation an `s16 arg1` prototype gives (the whole-TU
+  prototype route also scores 0 and is not needed). **func_80136824 comes OFF the types-phase list.**
+- **S103 — c49: `func_8013F350` at 0 with TWO marked head levers (was 4/copy; 133 bodies)** — c28's plain-C body (b9's
+  tail move, no compensating errors) + the `$5` pin and the launder, each marked with its pass: the launder keeps
+  `&D_8011511C` from `find_best_addr` on both `.cse2` paths (c28's irreducibility), the pin breaks a three-way conflict
+  `allocno_compare` ranks 13333/7500/6154 (`global.c:594-603`) with no zero-byte `set_preference` source. Single-lever
+  table: none 42, pin only 42, launder only 9, both 0.
+- **S103 — c47: `func_8013D9B0` at 0 with TWO marked GTE `__asm__` statements (was 34 levers/copy).** Defect 1 is c17's
+  (only an asm writing `$12` gives the target's `move t4,v0`); defect 2: every header GTE macro is a volatile asm, a
+  scheduling barrier (`sched.c:1957`), so the IRGB pointer lands after `lwc2 $6`; set earlier it is hoisted (life 4,
+  `loop.c:1631`), set twice it loses `birthing_insn_p` (`sched.c:2490`). No single lever reaches 0 (best 2); three pairs
+  do. If Drew's T5 respells `gte_stORGB` and adds a three-op load macro, both become macro calls and the body has 0.
+  `delever_regen` crashed mid-R26 (`IndexError` in `site_edits`): the census's site lines no longer fit files a bank had
+  changed during the pass — it now refuses such a class as STALE-SITES instead of dying (R43); R26 reruns after a census
+  refresh. R22 after c49/c50: `check-all: 218 passed, 0 failed of 218`.
 - **S103 — WHERE THE RESIDUE IS (measured at 12,003 sites): ~70% of the remaining lever weight sits in 9 classes of
   ≥100 copies, every one already read by an agent with a written reading** (approx. copies × sites/body:
   func_8013D9B0 125×34 — c17 15 plain, the GTE-macro question; func_80177B5C 132×23 — c19 2, one `or` late;
@@ -1861,7 +1880,7 @@ setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R
   definition may carry a phantom parameter), 1,731 have every call passing enough but sit in units `decl_repair` did not
   judge IDENTICAL, 424 are in `src/shared` headers. The "shared headers are the next cheap win" line of S102 was an
   overestimate — 424 rows.
-- The types phase inherits: `func_80136824`, `func_80168828`, `func_80157D20` (S102); `func_8017FC5C` + `func_80180200` (S103 c32 — a `void` function that returns its first argument; ready patch `ov_SC03_115__func_8017FC5C/scratch/tu_p1.diff`); `func_8017EEC0`'s callers still
+- The types phase inherits: `func_80168828`, `func_80157D20` (S102; `func_80136824` CLOSED body-only by S103 c50); `func_8017FC5C` + `func_80180200` (S103 c32 — a `void` function that returns its first argument; ready patch `ov_SC03_115__func_8017FC5C/scratch/tu_p1.diff`); `func_8017EEC0`'s callers still
   declare it `(void)`; the `ov_SC01_077` variant of `func_80148E54` still calls its handler with no argument.
 - Tool gaps agents named: `alloc_table.py` prints the GLOBAL priority only — local-alloc's `qty_compare_1` rank is in
   `.run/P36/agents/ov_SC04_011__func_80135168/scratch/lpri.py` (c1, c8 asked); `--try` does not print its object path;

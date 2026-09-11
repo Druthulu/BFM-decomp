@@ -47,11 +47,9 @@ void func_8013D9B0(int param_1)
                             r = pix & 0x1f;
                             g = pix & 0x3e0;
                             b = pix & 0x7c00;
-                            gte_ldIR0z();
-                            gte_ldrgb(fc);
-                            gte_ldIRGB(&gte[1]);
+                            __asm__ __volatile__("mtc2 $0, $8\n\tlwc2 $6, 0(%0)\n\tlwc2 $28, 0(%1)" :: "r"(fc), "r"(&gte[1]) : "memory");  // !FAKE: asm gte_ldIR0z+gte_ldrgb+gte_ldIRGB — the header spells these as three volatile asms (sched.c:1957 barriers), so the IRGB address lands after lwc2 $6, and a pointer set before mtc2 has life 4 and is hoisted (loop.c:1631); one asm keeps its addiu adjacent (life 1) and before mtc2 (P36 S103 c47 minimum-lever)
                             gte_dpcl();
-                            gte_stORGB(&gte[2]);
+                            __asm__ __volatile__("move $12, %0\n\tswc2 $29, 0($12)" :: "r"(&gte[2]) : "$12", "memory");  // !FAKE: asm gte_stORGB — the header macro does not write $12 itself; the target's move t4,v0 needs it (S103 c17; the header respelling is Drew's T5 call) (P36 S103 c47 minimum-lever)
                             out = gte[2];
                             tr = out & 0x1f;
                             tg = out & 0x3e0;
