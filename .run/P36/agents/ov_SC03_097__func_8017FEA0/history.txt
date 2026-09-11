@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 16 best 12 compiles 183 path R6 inline t0 @3859 + R6 inline t0 @3857
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline t0 @3857 -> 12 [COUNT] (from 14)
+  R6 inline t0 @3859 -> 14 [COUNT] (from 16)
+  R12 width v1 s32->u16 @3849 -> 14 [COUNT] (from 14)
+  R16 const-holder t1=0x14 x1 -> 14 [COUNT] (from 14)
+  R8 temp tmp0 @3860 -> 14 [COUNT] (from 14)
+  R18 bystander @3861->3857 -> 14 [COUNT] (from 14)
+  R7 block @3857 -> 14 [COUNT] (from 14)
+  R9 swap-stmts @3857 -> 14 [COUNT] (from 14)
+  R8 base tmp0 @3860 -> 14 [COUNT] (from 14)
+  R18 bystander @3861->3858 -> 14 [COUNT] (from 14)
+  R7 do-while @3857 -> 14 [COUNT] (from 14)
+  R9 swap-stmts @3858 -> 14 [COUNT] (from 14)

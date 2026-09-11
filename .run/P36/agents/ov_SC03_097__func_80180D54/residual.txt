@@ -1,0 +1,14 @@
+src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:func_80180D54: score 8 (COUNT; mine 49 ins, target 48) — not yet
+  register pairs (mine -> target, count): v0->v1 x6, v1->a0 x2, a0->v0 x1
+  replace mine[31:33] target[31:33]
+       31  lw	v0,32(sp)                       | lw	v1,32(sp)
+       32  lw	v1,40(sp)                       | lw	a0,40(sp)
+  replace mine[34:35] target[34:35]
+       34  addu	v0,v0,v1                      | addu	v1,v1,a0
+  replace mine[36:39] target[36:39]
+       36  slt	v0,v0,a2                       | slt	v1,v1,a2
+       37  beqz	v0,3564 <func_80180D54+0xa8>  | beqz	v1,3564 <func_80180D54+0xa8>
+       38  move	a0,zero                       | move	v0,zero
+  replace mine[41:43] target[41:42]
+       41  slti	a0,v0,4                       | slti	v0,v0,4
+       42  move	v0,a0                         | --

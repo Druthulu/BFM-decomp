@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 17 best 17 compiles 190 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 hoist tmp0 @5851 -> 17 [COUNT] (from 17)
+  R18 bystander @5817->5819 -> 17 [COUNT] (from 17)
+  R7 block @5851 -> 17 [COUNT] (from 17)
+  R5 swap + @5851 -> 17 [COUNT] (from 17)
+  R10 param-copy a0 @5816 -> 17 [COUNT] (from 17)
+  R18 bystander @5819->5817 -> 17 [COUNT] (from 17)
+  R8 hoist tmp0 @5850 -> 17 [COUNT] (from 17)
+  R18 bystander @5819->5821 -> 17 [COUNT] (from 17)
+  R7 block @5850 -> 17 [COUNT] (from 17)
+  R5 swap + @5853 -> 17 [COUNT] (from 17)
+  R8 base-shared tmp0 @5852 -> 17 [COUNT] (from 17)
+  R18 bystander @5819->5822 -> 17 [COUNT] (from 17)

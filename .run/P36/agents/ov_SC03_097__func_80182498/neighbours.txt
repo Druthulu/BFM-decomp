@@ -1,0 +1,11 @@
+=== THIS FUNCTION'S OWN HEADER (func_80182498, line 5788) — read it in full ===
+      /* the 0x20-byte matrix */
+  /* == engine_types.h OtBlk */
+          /* the D_800B9A02 buffer index */
+ /* libgpu P_TAG */
+
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: schedule
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)

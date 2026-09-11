@@ -1,0 +1,85 @@
+=== lever-free bodies in ov_SC03_097 sharing a callee or global with func_80180D54 (16 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8012BE54 (src/shared/ov/func_8012BE54.h:7) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_8012BE54(s32 a0) {
+    u16 sp[3];
+    sp[0] = D_80126B5E;
+    sp[1] = D_80126B62;
+    sp[2] = D_80126B66;
+    func_8012BE98(a0, sp);
+}
+
+--- func_80136DFC (src/shared/ov/func_80136DFC.h:9) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_80136DFC(void) {
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xA, (*(s16 *)&D_80126B5E), 0x110, 0x3C, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xB, (*(s16 *)&D_80126B62), 0x110, 0x44, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xC, (*(s16 *)&D_80126B66), 0x110, 0x4C, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xD, *(s16 *)((s32)D_80126B78 + 0x12), 0x110, 0x54, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xE, D_80126CC4, 0x110, 0x5C, 4, 0);
+}
+
+--- func_8012A048 (src/shared/ov/func_8012A048.h:9) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_8012A048(void *a0, s32 a1, u8 a2) {
+    *(s32 *)((s32)a0 + 0x0) = a1;
+    *(u8 *)((s32)a0 + 0x4) = a2;
+    *(s32 *)((s32)a0 + 0x9C) = 0;
+    *(s16 *)((s32)a0 + 0xA0) = 0;
+    *(s16 *)((s32)a0 + 0xA2) = 0;
+    D_80126940 = D_80126B5E;
+    D_80126942 = D_80126B62;
+    D_80126944 = D_80126B66;
+}
+
+--- func_8017B1D8 (src/ov_SC03_097/ov_SC03_097_jr_8017AE2C.c:2742) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_8017B1D8(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_80126B62;
+    func_8012A418();
+    D_801AAE58 = 0;
+    D_801AA7B4 = 0;
+    D_801AA834 = D_80126B5E;
+    D_801AA836 = D_80126B62;
+    D_801AA838 = D_80126B66;
+}
+
+--- func_80144B14 (src/shared/ov/func_80144B14.h:7) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+int func_80144B14(int param_s0)
+{
+    u16 local_buf1[3];
+    u16 local_buf2[3];
+    s32 call_result;
+    local_buf1[0] = *(u16 *)((char *)param_s0 + 0x6);
+    local_buf1[1] = *(u16 *)((char *)param_s0 + 0xA);
+    local_buf1[2] = *(u16 *)((char *)param_s0 + 0xE);
+    local_buf2[0] = D_80126B5E;
+    local_buf2[1] = D_80126B62;
+    local_buf2[2] = D_80126B66;
+    call_result = func_80013294(local_buf1, local_buf2);
+    if (call_result < *(s16 *)((char *)param_s0 + 0xFC)) {
+        return *(u32 *)((char *)param_s0 + 0xCC);
+    }
+    return 0;
+}
+
+--- func_8012D664 (src/ov_SC03_097/ov_SC03_097_jr_8012ACE0.c:555) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+int func_8012D664(int arg0, int arg1, int arg2) {
+    extern int func_8012F568();
+    extern int D_801861D0;
+
+    struct S8012D664_8012D664 s;
+    int ret;
+    int t;
+
+    s.a = (*(unsigned short*)&D_80126B5E);
+    s.b = (*(unsigned short*)&D_80126B62) - 0x40;
+    s.c = (*(unsigned short*)&D_80126B66);
+    ret = ((int(*)())func_800132BC)(arg0, &s);
+    t = arg1 + 0x20;
+    if (ret < t * t) {
+        func_8012F568(1, 1, 0, arg2, arg0, &D_801861D0);
+        return 1;
+    }
+    return 0;
+}
+

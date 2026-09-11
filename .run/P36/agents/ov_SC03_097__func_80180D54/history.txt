@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 8 best 7 compiles 318 path R7 do-while @4561
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @4561 -> 7 [COUNT] (from 8)
+  R14 param-width a1 s32->s16 @4543 -> 7 [COUNT] (from 7)
+  R8 temp tmp0 @4555 -> 7 [COUNT] (from 7)
+  R7 block @4558 -> 7 [COUNT] (from 7)
+  R10 param-copy a0 @4549 -> 7 [COUNT] (from 7)
+  R4 decl-move ret 4->0 -> 7 [COUNT] (from 7)
+  R14 param-width a1 s32->u16 @4543 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @4555 -> 7 [COUNT] (from 7)
+  R7 do-while @4558 -> 7 [COUNT] (from 7)
+  R10 param-copy a1 @4549 -> 7 [COUNT] (from 7)
+  R4 decl-move ret 4->1 -> 7 [COUNT] (from 7)
+  R4 decl-move ret 4->2 -> 7 [COUNT] (from 7)

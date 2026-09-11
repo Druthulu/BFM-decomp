@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 19 best 13 compiles 181 path R8 base-shared tmp0 @3501
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 base-shared tmp0 @3501 -> 13 [COUNT] (from 19)
+  R8 hoist tmp1 @3502 -> 13 [COUNT] (from 13)
+  R7 block @3485 -> 13 [COUNT] (from 13)
+  R10 param-copy a0 @3483 -> 13 [COUNT] (from 13)
+  R7 do-while @3485 -> 13 [COUNT] (from 13)
+  R7 block @3502 -> 13 [COUNT] (from 13)
+  R12 width cond s32->u16 @3481 -> 13 [COUNT] (from 13)
+  R8 temp tmp1 @3503 -> 13 [COUNT] (from 13)
+  R7 do-while @3502 -> 13 [COUNT] (from 13)
+  R12 width cond s32->s16 @3481 -> 13 [COUNT] (from 13)
+  R8 base tmp1 @3503 -> 13 [COUNT] (from 13)
+  R7 block @3536 -> 13 [COUNT] (from 13)

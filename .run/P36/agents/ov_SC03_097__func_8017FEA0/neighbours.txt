@@ -1,0 +1,12 @@
+=== THIS FUNCTION'S OWN HEADER (func_8017FEA0, line 3838) — read it in full ===
+/* §183 TYPE-adopted-sibling: func_80182060 / func_80182688 land in this same TU
+ * and spell D_801AAAE0 as a plain `u8` (byte lbu/sb arithmetic).  This function
+ * wants the 4-byte block view, so it adopts the raw `u8` spelling on the
+ * DECLARATION and takes the block view at the USE SITE — which it was already
+ * doing via `(s32)&D_801AAAE0` + `*(Blk4_80181EDC_8017FEA0 *)s0`, so this is byte-free. */
+
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: schedule
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)

@@ -1,0 +1,118 @@
+=== lever-free bodies in ov_SC03_097 sharing a callee or global with func_80182498 (45 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801820F8 (src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:5519) shares 5: D_801AAB60 D_801AAB62 D_801AAB68 D_801AAB69 D_801AAB6A ---
+void func_801820F8(void *a0, void *a1, s16 a2) {
+
+    extern s16 D_801AAB60;
+    extern s16 D_801AAB62;
+    extern u8 D_801AAB68;
+    extern u8 D_801AAB69;
+    extern u8 D_801AAB6A;
+    extern u32 D_801AAB64;
+    if (a0 != NULL) {
+        D_801AAB60 = *(u16 *)a0;
+        D_801AAB62 = *(u16 *)((s32)a0 + 2);
+    } else {
+        D_801AAB60 = 0;
+        D_801AAB62 = 0;
+    }
+
+    D_801AAB68 = *(u8 *)a1;
+    D_801AAB69 = *(u8 *)((s32)a1 + 1);
+    D_801AAB6A = *(u8 *)((s32)a1 + 2);
+    D_801AAB64 = (u32)a2 << 16;
+}
+
+--- func_8012E28C (src/shared/ov/func_8012E28C.h:9) shares 2: D_800A651C D_800B9A02 ---
+void func_8012E28C(s32 arg0, s32 arg1) {
+    void *temp_v0;
+    s32 temp_v1;
+    s32 base;
+    if (arg0 > 0) {
+        base = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (arg0 * 4);
+        temp_v0 = func_80010A08(0xC);
+        temp_v1 = GetTPage(0, arg1, 0, 0);
+        func_8005A600((s32)temp_v0, 0, 0, (u16)temp_v1, 0);
+        AddPrim(base, temp_v0);
+    }
+}
+
+--- func_8012D3B4 (src/shared/ov/func_8012D3B4.h:12) shares 2: D_800A651C D_800B9A02 ---
+void func_8012D3B4(s32 arg0, s32 arg1, s32 arg2) {
+    s32 sp10;
+    s32 sp14;
+    s32 temp_v0_2;
+    void *temp_v0;
+    temp_v0 = func_80010A08(0x10);
+    (*(s32 *)((s8*)(temp_v0)+(4))) = arg2;
+    SetLineF2(temp_v0);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14);
+    if ((temp_v0_2 > 0) && (sp14 >= 0) && (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
+        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_v0_2 * 4), temp_v0);
+    }
+}
+
+--- func_8013B204 (src/shared/ov/func_8013B204.h:6) shares 2: D_800A651C D_800B9A02 ---
+void func_8013B204(s32 a0, s32 a1)
+{
+    void *a2;
+    s32 idx;
+    a2 = a1;
+    if (*(s16 *)((u8 *)a2 + 0xC) != 0) {
+        return;
+    }
+    if (*(s16 *)a2 != 2) {
+        return;
+    }
+    a2 = (u8 *)a2 + 8;
+    idx = (u16)D_800B9A02;
+    func_8013B274(
+        (&D_800A651C)[idx * 5] + ((u16)(*(u16 *)((u8 *)a0 + 0x1A)) << 2),
+        *(s16 *)((u8 *)a0 + 0x1C),
+        a2);
+}
+
+--- func_80182168 (src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:5549) shares 2: D_801AAB60 D_801AAB62 ---
+void func_80182168(s32 a0) {
+
+    extern s16 D_801AAB60;
+    extern s16 D_801AAB62;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_800AF648;
+    u16 sxy[2];
+    s32 pv[4];
+
+    func_80015978(a0, pv);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    RotTransPers((s32)pv, (s32)sxy, &pv[2], &pv[3]);
+
+    D_801AAB60 = sxy[0];
+    D_801AAB62 = sxy[1];
+}
+
+--- func_8012D4B4 (src/shared/ov/func_8012D4B4.h:13) shares 2: D_800A651C D_800B9A02 ---
+void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    s32 sp10[2];
+    s32 sp18[2];
+    s32 sp20;
+    s32 sp24;
+    s32 temp_v0_2;
+    void *temp_v0;
+    func_8012F214(arg0, arg1, (s32)sp10);
+    func_8012F214(arg0, arg2, (s32)sp18);
+    temp_v0 = func_80010A08(0x10);
+    (*(s32 *)((s8 *)(temp_v0) + (4))) = arg3;
+    SetLineF2(temp_v0);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    temp_v0_2 = RotTransPers((s32)sp10, temp_v0 + 8, &sp20, &sp24);
+    if ((temp_v0_2 > 0) && (sp24 >= 0) &&
+        (RotTransPers((s32)sp18, temp_v0 + 0xC, &sp20, &sp24) > 0) && (sp24 >= 0)) {
+        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_v0_2 * 4), temp_v0);
+    }
+}
+

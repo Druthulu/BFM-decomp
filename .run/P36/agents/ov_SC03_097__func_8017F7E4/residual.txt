@@ -1,0 +1,32 @@
+src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:func_8017F7E4: score 19 (COUNT; mine 103 ins, target 108) — not yet
+  insert  mine[3:3] target[3:5]
+        3  --                                 | lui	a1,0x0
+        4  --                                 | addiu	a1,a1,0
+  replace mine[13:14] target[15:16]
+       13  j	2070 <func_8017F7E4+0x124>       | j	2084 <func_8017F7E4+0x138>
+  replace mine[15:16] target[17:18]
+       15  bltz	v1,2070 <func_8017F7E4+0x124> | bltz	v1,2084 <func_8017F7E4+0x138>
+  replace mine[22:23] target[24:25]
+       22  beqz	v0,2070 <func_8017F7E4+0x124> | beqz	v0,2084 <func_8017F7E4+0x138>
+  replace mine[29:30] target[31:32]
+       29  j	2064 <func_8017F7E4+0x118>       | j	2078 <func_8017F7E4+0x12c>
+  replace mine[36:37] target[38:39]
+       36  beqz	v0,2070 <func_8017F7E4+0x124> | beqz	v0,2084 <func_8017F7E4+0x138>
+  replace mine[42:43] target[44:45]
+       42  j	2064 <func_8017F7E4+0x118>       | j	2078 <func_8017F7E4+0x12c>
+  replace mine[56:57] target[58:59]
+       56  bnez	v0,206c <func_8017F7E4+0x120> | bnez	v0,2080 <func_8017F7E4+0x134>
+  replace mine[58:60] target[60:61]
+       58  lui	a0,0x0                         | lh	a0,6(a1)
+       59  lh	a0,6(a0)                        | --
+  replace mine[63:64] target[64:65]
+       63  beqz	v0,2070 <func_8017F7E4+0x124> | beqz	v0,2084 <func_8017F7E4+0x138>
+  replace mine[65:67] target[66:72]
+       65  lui	v0,0x0                         | lh	v0,112(s0)
+       66  lh	v0,6(v0)                        | nop
+       67  --                                 | sll	v0,v0,0x1
+       68  --                                 | lui	at,0x0
+       69  --                                 | addu	at,at,v0
+       70  --                                 | lh	v0,0(at)
+  replace mine[84:85] target[89:90]
+       84  j	20cc <func_8017F7E4+0x180>       | j	20e0 <func_8017F7E4+0x194>

@@ -1,0 +1,3 @@
+REMOVED  pin         $2     line 3576
+NEEDED   launder            line 3578
+NEEDED   barrier     memory line 3619

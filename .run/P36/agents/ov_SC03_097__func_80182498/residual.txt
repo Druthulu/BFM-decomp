@@ -1,0 +1,26 @@
+src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:func_80182498: score 17 (COUNT; mine 193 ins, target 185) — not yet
+  register pairs (mine -> target, count): s7->sp x1
+  replace mine[0:1] target[0:1]
+        0  addiu	sp,sp,-120                   | addiu	sp,sp,-104
+  replace mine[4:8] target[4:5]
+        4  sw	ra,112(sp)                      | sw	ra,100(sp)
+        5  sw	s7,108(sp)                      | --
+        6  sw	s6,104(sp)                      | --
+        7  sw	s5,100(sp)                      | --
+  replace mine[73:76] target[70:71]
+       73  addiu	s6,sp,48                     | addiu	a1,sp,48
+       74  move	a1,s6                         | --
+       75  addiu	s5,sp,56                     | --
+  replace mine[77:78] target[72:73]
+       77  move	a2,s5                         | addiu	a2,sp,56
+  replace mine[126:129] target[121:124]
+      126  addiu	a0,s7,16                     | addiu	a0,sp,16
+      127  move	a1,s6                         | addiu	a1,sp,48
+      128  move	a2,s5                         | addiu	a2,sp,56
+  replace mine[181:185] target[176:177]
+      181  lw	ra,112(sp)                      | lw	ra,100(sp)
+      182  lw	s7,108(sp)                      | --
+      183  lw	s6,104(sp)                      | --
+      184  lw	s5,100(sp)                      | --
+  replace mine[190:191] target[182:183]
+      190  addiu	sp,sp,120                    | addiu	sp,sp,104
