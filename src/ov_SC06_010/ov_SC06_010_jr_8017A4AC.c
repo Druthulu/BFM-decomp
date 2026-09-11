@@ -5429,34 +5429,20 @@ void func_8017F10C(s32 a0, s32 a1)
 
 void func_8017F278(void *arg0) {
     extern void func_8017F10C(s32 a0, s32 a1);
-    s32 pad_[5];
     u8 *s0;
-    s32 v1;
-    s32 cool;
-    s32 old;
     s32 iVar2;
-    u32 uVar1;
 
     s0 = (u8 *)arg0;
     if (*(u16 *)(s0 + 0x0) == 0) {
         return;
     }
 
-    old = *(s16 *)(s0 + 0x84);
-    v1 = old;
-    if (old != 0) {
-        goto L_dec;
+    if (*(s16 *)(s0 + 0x84) == 0) {
+        func_8017F10C((s32)s0, 0x849);
+        *(s16 *)(s0 + 0x84) = 0xA;
+    } else {
+        (*(s16 *)(s0 + 0x84))--;
     }
-    func_8017F10C((s32)s0, 0x849);
-    cool = 0xA;
-    goto L_join;
-
-L_dec:
-    cool = v1 - 1;
-
-L_join:
-    *(s16 *)(s0 + 0x84) = cool;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
 
     *(u16 *)(s0 + 0xFC) = *(u16 *)(s0 + 0xFC) + 0x280;
     *(u16 *)(s0 + 0xFE) = *(u16 *)(s0 + 0xFE) - 0x280;
@@ -5472,15 +5458,11 @@ L_join:
     *(u16 *)(iVar2 + 0x10) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10);
     *(u16 *)(iVar2 + 0x12) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) + *(u16 *)(s0 + 0xFC);
     *(u16 *)(iVar2 + 0x14) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14);
-    if (*(s32 *)(*(s32 *)(s0 + 0x20) + 0x4) < 0) {
-        register u32 val __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-        val = *(u32 *)(iVar2 + 0x4);
-        uVar1 = val | 0x80000000;
+    if (*(u32 *)(*(s32 *)(s0 + 0x20) + 4) & 0x80000000) {
+        *(u32 *)(iVar2 + 4) |= 0x80000000;
     } else {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-        uVar1 = *(u32 *)(iVar2 + 0x4) & 0x7FFFFFFF;
+        *(u32 *)(iVar2 + 4) &= 0x7FFFFFFF;
     }
-    *(u32 *)(iVar2 + 0x4) = uVar1;
 
     iVar2 = *(s32 *)(s0 + 0xD0);
     *(u16 *)(iVar2 + 0x8) = *(u16 *)(s0 + 0x6);
@@ -5489,15 +5471,11 @@ L_join:
     *(u16 *)(iVar2 + 0x10) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10);
     *(u16 *)(iVar2 + 0x12) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) + *(u16 *)(s0 + 0xFE);
     *(u16 *)(iVar2 + 0x14) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14);
-    if (*(s32 *)(*(s32 *)(s0 + 0x20) + 0x4) < 0) {
-        register u32 val __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-        val = *(u32 *)(iVar2 + 0x4);
-        uVar1 = val | 0x80000000;
+    if (*(u32 *)(*(s32 *)(s0 + 0x20) + 4) & 0x80000000) {
+        *(u32 *)(iVar2 + 4) |= 0x80000000;
     } else {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-        uVar1 = *(u32 *)(iVar2 + 0x4) & 0x7FFFFFFF;
+        *(u32 *)(iVar2 + 4) &= 0x7FFFFFFF;
     }
-    *(u32 *)(iVar2 + 0x4) = uVar1;
 }
 
 
