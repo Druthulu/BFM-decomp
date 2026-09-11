@@ -5065,56 +5065,36 @@ extern void func_8002D4C8(int, int);
 void func_8017F114(void)
 {
     int iVar1;
-    int iVar5;
-    int iVar7;
     int iVar8;
-    register short *psVar6 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus7)
-    register short *psVar2 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
-    register int uVar4 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
-    int uVar3;
-    register int num __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    short *psVar6;
+    int uVar4;
 
     uVar4 = 0;
     if ((D_800B99DA & 4) == 0) {
         iVar1 = (int)(*(short *)&D_80126B66);
         psVar6 = &D_8018A858;
-        iVar8 = 0;
-        psVar2 = psVar6 + 3;
-        do {
-            iVar7 = (int)psVar6[0];
-            if (iVar1 < iVar7) goto cont;
-            iVar5 = (int)psVar2[-2];
-            if (iVar1 < iVar5) goto adjA;
-            iVar7 = (int)psVar2[-1];
-            if (iVar1 < iVar7) goto set7f;
-            iVar5 = (int)psVar2[0];
-            if (iVar1 < iVar5) goto adjC;
-cont:
-            iVar8 = iVar8 + 1;
-            psVar2 = psVar2 + 4;
-            psVar6 = psVar6 + 4;
-        } while (iVar8 < 2);
-post:
-        if (uVar4 > 0) goto clamp;
-        uVar3 = 4;
-        uVar4 = 0x499;
-        goto call;
-adjC: iVar1 = iVar5 - iVar1; goto divide;
-set7f: uVar4 = 0x7f; goto post;
-adjA: iVar1 = iVar1 - iVar7;
-divide:
-        num = iVar1 * 0x7f;
-        iVar1 = iVar5 - iVar7;
-        uVar4 = num / iVar1;
-        goto post;
-clamp:
-        uVar3 = 0x499;
-        if (0x7f < uVar4) uVar4 = 0x7f;
-        uVar4 = (uVar4 | 0x1000) & 0xffff;
-call:
-        func_8002D4C8(uVar3, uVar4);
+        for (iVar8 = 0; iVar8 < 2; iVar8++, psVar6 += 4) {
+            if (iVar1 < psVar6[0]) continue;
+            if (iVar1 < psVar6[1]) {
+                uVar4 = (iVar1 - psVar6[0]) * 0x7f / (psVar6[1] - psVar6[0]);
+                break;
+            }
+            if (iVar1 < psVar6[2]) {
+                uVar4 = 0x7f;
+                break;
+            }
+            if (iVar1 < psVar6[3]) {
+                uVar4 = (psVar6[3] - iVar1) * 0x7f / (psVar6[3] - psVar6[2]);
+                break;
+            }
+        }
+        if (uVar4 <= 0) {
+            func_8002D4C8(4, 0x499);
+        } else {
+            if (0x7f < uVar4) uVar4 = 0x7f;
+            func_8002D4C8(0x499, (uVar4 | 0x1000) & 0xffff);
+        }
     }
-    return;
 }
 
 
