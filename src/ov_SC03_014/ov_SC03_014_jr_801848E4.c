@@ -5326,17 +5326,16 @@ void func_80188F80(void* arg0)
 int func_80188FB4(int a0, void* a1)
 {
     s16 stack_buf[8];
-    u16 *s0 = (u16 *)a1;
     u16 v0;
     s32 result;
 
-    do { stack_buf[0] = (s0[2]); } while (0);
-    v0 = s0[3];
+    stack_buf[0] = ((u16 *)a1)[2];
+    v0 = ((u16 *)a1)[3];
     stack_buf[4] = v0;
-    v0 = s0[5];
+    v0 = ((u16 *)a1)[5];
     stack_buf[5] = v0;
     stack_buf[1] = v0;
-    v0 = s0[6];
+    v0 = ((u16 *)a1)[6];
     stack_buf[6] = v0;
     stack_buf[2] = v0;
 
@@ -5345,7 +5344,7 @@ int func_80188FB4(int a0, void* a1)
         return 1;
     }
 
-    v0 = s0[7];
+    v0 = ((u16 *)a1)[7];
     stack_buf[6] = v0;
     stack_buf[2] = v0;
 
