@@ -3685,27 +3685,14 @@ void func_80016638(void *a0, s32 a1, s32 a2)
 }
 
 
-void func_800166E8(void *a0, s32 a1) {
-    s32 local_buffer[2];
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 v1;
+void func_800166E8(void *a0, int a1) {
+    u8 *p = a0;
 
-    __asm__ volatile("");  // Barrier to force stack allocation first  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-
-    if (a1 == 0)
-        goto skip;
-
-    v0 = a1 - 1;
-    v1 = -1;
-
-    do {
-        *(u8 *)a0 = 0;
-        v0--;
-        a0 = (void *)((s32)a0 + 1);
-    } while (v0 != v1);
-
-skip:
-    return;
+    /* `int`, not the `s32` typedef: `a1-- != 0` is folded to `--a1 != -1` (fold-const.c:4399) only when the
+     * decrement is not wrapped in a type conversion, and the s32 typedef variant gets one against the literal. */
+    while (a1-- != 0) {
+        *p++ = 0;
+    }
 }
 
 #ifdef NON_MATCHING
