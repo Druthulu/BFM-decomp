@@ -3335,7 +3335,7 @@ extern s16 D_8019F70C;
 void func_8017E54C(s32 a0)
 {
     s32 dmg;
-    s32 v0;
+    s32 flag;
 
     func_8012E9C0(a0);
 
@@ -3377,26 +3377,14 @@ void func_8017E54C(s32 a0)
 
         *(u8 *)(a0 + 0xC1) = 1;
 
-        {
-            s32 tmp = D_80188A1C;
-            s32 flag = *(u8 *)(a0 + 0x5E);
+        *(s32 *)(a0 + 0x1C) = D_80188A1C;
+        flag = *(u8 *)(a0 + 0x5E);
 
-            *(s32 *)(a0 + 0x1C) = tmp;
-
-            if (flag != 0) {
-                if (flag < 5) {
-                    v0 = *(u16 *)&D_8019F70C + 1;
-                } else if (flag == 8) {
-                    v0 = *(u16 *)&D_8019F70C + 1;
-                } else {
-                    v0 = *(u16 *)&D_8019F70C + 4;
-                }
-            } else {
-                v0 = *(u16 *)&D_8019F70C + 4;
-            }
+        if (flag != 0 && (flag < 5 || flag == 8)) {
+            D_8019F70C += 1;
+        } else {
+            D_8019F70C += 4;
         }
-        D_8019F70C = v0;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
 
         if (D_8019F70C >= 4) {
             func_8017F13C((void *)a0);
