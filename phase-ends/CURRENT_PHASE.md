@@ -1933,6 +1933,17 @@ accumulate here as the phase produces them.**
   `ov_SC04_011_jr_8017D494` 11. **R43 has never been run as a regen pass** (no `.run/P36/regen/*.log` names it; R42 was the last) —
   the free sweep owed before any draw: R43 on the two TUs to be drawn first, then the whole residue with the drawn functions excluded.
 
+- **S105 — the free sweep is SPENT at R43, and the lane is up at two.** `delever_regen --families R43`: on the two main TUs to be
+  drawn first `42 of 42 classes judged in 1 s — NO-CANDIDATE 42`; over the rest `637 of 637 classes judged in 5 s — BEST 2,
+  NO-CANDIDATE 635; 0 class(es) close at score 0` (`.run/P36/regen/s105_r43_{main,all}.tsv`). Every residue class has now been judged
+  by every family R2–R43 and not closed — the residue is the agents'. **Agents f1 (`src/800.c`: func_80016638, func_80029D3C,
+  func_80025504, func_80015D4C) and f2 (`src/800_c.c`: func_80039F50, func_800385C0, func_80038838, func_80038958) launched** (two =
+  Drew's cap; briefs `.run/P36/s105/BRIEF_f{1,2}.md`, four packs each, the TU's landed `mechanism.md`s named). Two packs the builder
+  could not strip (`func_80029E30` — an `instruction \`mult\` has no C spelling`; `func_800383A4` — `sll`) were replaced in the draw by
+  func_80015D4C and func_80039F50; the UNSTRIPPABLE pair is a pack-builder gap to fix (an agent can spell a `mult`/`sll` from the
+  tree body). Packs and briefs f3 (`md_SC07_004`, 5 classes) and f4 (`ov_SC04_011_jr_8017D494`, 5 classes) are built and wait for
+  the next free slots.
+
 ## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,152 sites** this session (−945); ~105 agent draws (d1–d39, e1–e38, ALL landed and banked — nothing in flight); ~220 classes closed at 0, nearly all with ZERO levers; generators **R27–R43**; R22 `check-all: 218 passed, 0 failed of 218` at `765704ca5` | `lever_census --check` exit 0 (4,152 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
