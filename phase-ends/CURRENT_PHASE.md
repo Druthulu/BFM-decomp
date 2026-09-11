@@ -1783,7 +1783,42 @@ accumulate here as the phase produces them.**
   3 MATCH row(s) banked`. R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 13,083 pin/asm sites,
   13,083 marked !FAKE, 0 UNMARKED — OK` (13,842 → 13,083; commit `e984e5822`'s message typed "14,xxx" for the start figure — a placeholder that should never have been committed, R66/R85; recorded here rather than amended, P5c).
 
-## 🛑 SESSION CHECKPOINT — S103 (2026-09-10): T0–T6 ☑, **T7 RUNNING — the agent lane at FIVE, every landing harvested**. 24,119 → **12,957 sites** (−11,162) in this session; 33 agent draws (21 closed = 22 functions incl. a twin pair — 7 of them (c12, c20, c21, c23, c24, c25, c26) RE-DRAWS of classes earlier agents left at 2-11; 7 read without closing; 5 in flight at the last refresh; c5/c6 relaunched on Opus after Fable ran out of credits) + 17 classes closed by generators alone (`delever_regen`); generators **R22–R25** added (R23 widened); `delever_regen` closes 22 classes with no agent; `argcheck` reads K&R definitions; propagate no longer trusts stale ledger hashes; `tools/localalloc_sim.py`; `--try` learned header TUs; CI's `verbatim_check` fixed and wired into tools-health; R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (12,957 marked, 0 UNMARKED) · `lever_progress --check` OK (43 milestones) · refreshed at `01f066923`
+## 🛑 SESSION CHECKPOINT — S103 (2026-09-10, refreshed at the session's end): T0–T6 ☑, **T7 RUNNING**. 24,119 → **5,376 sites** this session (−18,743); 56 agent draws; generators **R22–R26**; `delever_regen` + `delever --port-scan`; **the MINIMUM-LEVER pivot** (four 130-copy classes now carry 1-2 marked levers instead of 4-34); R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (5,376 marked, 0 UNMARKED) · `lever_progress --check` OK (53 milestones) · last full commit `baac1f851`
+
+### LATE S103 — READ THIS FIRST (it supersedes §0-§2 below where they differ)
+- **Drew ended agent drawing at 89% context: "no more agents this session. let the current ones finish."** At that
+  moment three agents were running — **c51** `func_8012E364` (minimum-lever), **c53** `func_80182A2C` + `func_80185C04` +
+  `func_80181234` (ov_SC06_010), **c55** `func_8018226C` + `func_8017FA18` — and the **R26 regen** `s103_r26b` (read-only;
+  `.run/P36/regen/s103_r26b.tsv`; bank its MATCH rows with `tools/delever_regen.py --bank .run/P36/regen/s103_r26b.tsv`).
+  Whatever is unbanked when you read this: each agent's `PACK/body.c` is in its pack — `--try` it, bank a 0 with
+  `apply_body_core` (+ `allow_residue=True` when it keeps MARKED minimum-lever levers), then `--propagate`, then
+  `delever.py --port-scan --apply`, then R22 + census + `lever_progress --snapshot` + commit.
+- **The agent cap is FIVE** (Drew). Every landing: `--try` → next agent → bank → propagate → `--port-scan --apply`
+  (copies under other names) → harvest (a generator with a known-true check on the agent's own start text, then a
+  `delever_regen` pass of the new family) → R22 → census → commit.
+- **THE MINIMUM-LEVER PIVOT (the biggest lever of the session):** for a class an agent cannot close in plain C, take the
+  best honest plain-C body and keep only the one or two MARKED levers it cannot do without (`// !FAKE: <kind> <where> —
+  <pass> (P36 S103 cNN minimum-lever)`), banked with `allow_residue=True`; propagate derives the allowance from the
+  exemplar's marker count. Banked this way: func_80177B5C (23 → 1), func_8013F350 (4 → 2), func_8013D9B0 (34 → 2 GTE
+  asm, plus ov_MAIN_012's 7-copy class), func_80140958 (11 → 2). func_80136824 closed with ZERO levers (off the types list).
+- **NEXT (a fresh session):** (1) land and bank whatever above is unbanked; (2) the ~111 `&D_800AF648` `$4` pins c52
+  counted — whatever the R26 regen did not close is an agent draw with c45/c52's mechanism; (3) rebuild packs for the tier
+  below (`delever_pack --build --min-copies 2`) and re-score each class before issuing it (c54 got a pack that propagation
+  had already closed); (4) the ≈940 single-copy classes: `delever_regen` of every family + agents taking two or three per TU.
+- **Tools added late S103 (SETUP §P36 S103 has each):** `delever.py --port-scan [--apply]` (105 residue classes carried
+  members under other names); propagate ignores body-local `extern` lines and no longer trusts stale ledger hashes;
+  `argcheck` reads K&R definitions (95 callees had been invisible); R19 reads a call's CAST arity; R24
+  `word_read_bitfields`, R25 `trim_arguments`, R26 `alias_repeated_addresses`; `tools/localalloc_sim.py` (c26's, 0
+  mismatches over 150 blocks); `delever_search --try` parallel-safe per call (+ `--keep`, path on the last line);
+  `delever_pack` writes `related.txt` (lever-free same-function variants first, evidence required); `cc1_dumps_tu.sh`
+  takes a .c file, `-Isrc/shared`, `-dt -dJ -dd`; `verbatim_check --strict` in tools-health; `delever_regen` refuses a
+  STALE-SITES class instead of dying, and reports COMPILE-ERROR apart from UNSCORED.
+- **FOUR DECISIONS ARE DREW'S (asked, unanswered):** (a) does `do { } while (0)` count as a lever (c5, c15, c21 banked
+  with one; c13's dead initialiser its cousin, refused)? (b) the GTE header: respell `gte_stORGB` and add a three-op load
+  macro so func_8013D9B0's two marked asm lines become macro calls (0 levers)? (c) the disposition of PROVEN-irreducible
+  sites (func_80178970 ×133 + four same-shape families, func_8013CF68 ×134, func_8013F350's head) — the milestone says
+  zero; (d) the signature changes a body-only bank cannot carry: func_8017FC5C + func_80180200 (void → s32 *),
+  func_80185578 (void → s32), func_80157D20, func_80168828 — the types phase, with ready patches in their packs.
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**S103 ran at `/effort
