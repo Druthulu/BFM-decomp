@@ -8245,7 +8245,7 @@ extern void func_801AA60C();
 
 void func_801ABEE0(void *a0) {
     s32 r0 = (s32)a0;
-    register s32 ptr1 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 ptr1;
     s32 s2;
     s16 v1;
     s32 val;
@@ -8264,11 +8264,11 @@ void func_801ABEE0(void *a0) {
         func_801A9270((void *)r0);
     } else {
         if (s2 != 0) {
-            register s32 inner __asm__("$17") = *(s32 *)(s2 + 0xCC);  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
-            if (inner != 0) {
+            ptr1 = *(s32 *)(s2 + 0xCC);
+            if (ptr1 != 0) {
                 val = (v1 + 0x500) << 4;
-                *(s16 *)(inner + 0x1A) = val;
-                *(s16 *)(inner + 0x18) = val;
+                *(s16 *)(ptr1 + 0x1A) = val;
+                *(s16 *)(ptr1 + 0x18) = val;
             }
         }
         *(s32 *)(r0 + 0x1C) += 1;
