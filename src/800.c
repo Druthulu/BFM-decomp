@@ -20289,31 +20289,13 @@ extern Blk16 D_80075CC0[];
 extern u32 D_80076040;
 
 void func_8002AF70(void *a0, u32 a1) {
-    Blk16 *src = (Blk16 *)a0;
-    u32 val = a1;
-    register Blk16 *dest __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    Blk16 *end;
+    typedef struct {
+        u32 w[0x2DC / 4];
+    } Blk2DC;
 
-    __asm__(  // !FAKE: instruction lui — NEEDED DIFFERS (P36 rung B tus9)
-        "lui %0, %%hi(D_80075CC0)\n\taddiu %0, %0, %%lo(D_80075CC0)"
-        : "=r"(dest)
-        : "r"(val)
-    );
-
-    func_80016714(dest, 0x300);
-    end = src + 0x2D0 / 0x10;
-
-    do {
-        *dest = *src;
-        src++;
-        dest++;
-    } while (src != end);
-
-    __asm__ volatile("" : "=r"(src) : "0"(src));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-
-    *(Blk12 *)dest = *(Blk12 *)src;
-
-    D_80076040 = val;
+    func_80016714(D_80075CC0, 0x300);
+    *(Blk2DC *)D_80075CC0 = *(Blk2DC *)a0;
+    D_80076040 = a1;
 }
 
 
