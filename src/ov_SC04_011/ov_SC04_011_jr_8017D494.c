@@ -6885,9 +6885,12 @@ s32 impl_801833D4(s32 a0, s32 a1)
 {
     /* $a1 is call-saved across func_801852BC/func_801853D0/func_80185648 until its one use
        far below; gcc puts its param->hardreg move in the branch's delay slot rather than up
-       front. A plain local didn't reproduce that ordering vs. the s4=0 init -- pin it to $19
-       ($s3, its natural hardreg) so the mid-fn scheduling matches (cookbook lever B/pin). */
-    register s32 r1 __asm__("$19") = a1;  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t3_tus1)
+       front. The copy is a STATEMENT after the first load, not the declaration's initialiser:
+       an initialiser sits right after the parameter copy, cse retargets that copy
+       (cse.c:7454-7480) and sched1 never moves it (sched.c:3188-3205); after a real insn,
+       combine folds the parameter copy into it and it is scheduled like any other insn
+       (P36 S104 e11, the $19 pin removed). */
+    s32 r1;
     u16 s0;
     s32 obj;
     s32 s4;
@@ -6899,6 +6902,7 @@ s32 impl_801833D4(s32 a0, s32 a1)
 
     s0 = D_801EFD20;
     s4 = 0;
+    r1 = a1;
     obj = aFC4C[s0];
 
     if (D_801EFD40 & 0x4) {
