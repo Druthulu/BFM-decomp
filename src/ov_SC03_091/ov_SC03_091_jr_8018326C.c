@@ -5342,16 +5342,10 @@ extern void func_8012B21C(void *a0);
 extern s32 func_8004787C(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-void func_80186F1C(s32 a0) {
-    s32 state;   /* $s0 */
-    register s32 ent   __asm__("$17");   /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 sub;
-    s32 t;
-    s32 v;
-    s32 cnt;
+void func_80186F1C(s32 ent) {
+    s32 state;
+    s32 t;  /* shared by cases 2 and 3; sub, v and cnt are per case (P36 S104 d7) */
 
-    ent = a0;
-    __asm__ volatile("" ::: "$4");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     state = *(u16 *)(ent + 0x34);
 
     switch (state) {
@@ -5371,16 +5365,17 @@ void func_80186F1C(s32 a0) {
         *(u16 *)(ent + 0x34) = *(u16 *)(ent + 0x34) + 1;
         func_8002D4C8(0x703, 0);
         /* fallthrough */
-    case 2:
+    case 2: {
+        s32 sub;
+        s32 v;
+        s32 cnt;
+
         sub = *(s32 *)(ent + 0x20);
         t = func_8004787C(*(s32 *)(ent + 0x1C) << 7);
         v = (t * 0x1c00 >> 12) + 0x400;
         *(s16 *)(sub + 0x1C) = v;
         *(s16 *)(sub + 0x18) = v;
-        {
-            s32 w = 0x3000 - (t * 0x2800 >> 12);
-            *(s16 *)(sub + 0x1A) = w;
-        }
+        *(s16 *)(sub + 0x1A) = 0x3000 - (t * 0x2800 >> 12);
         cnt = *(s32 *)(ent + 0x1C) + 1;
         *(s32 *)(ent + 0x1C) = cnt;
         if (cnt < 9) {
@@ -5389,26 +5384,25 @@ void func_80186F1C(s32 a0) {
         *(s32 *)(ent + 0x1C) = 1;
         *(u16 *)(ent + 0x34) = *(u16 *)(ent + 0x34) + 1;
         return;
-    case 3:
+    }
+    case 3: {
+        s32 sub;
+        s32 v;
+        s32 cnt;
+
         sub = *(s32 *)(ent + 0x20);
         t = func_8004787C(*(s32 *)(ent + 0x1C) << 7);
-        {
-            register s32 lo __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-            lo = (t << 12) >> 12;
-            v = 0x2000 - lo;
-        }
+        v = 0x2000 - ((t << 12) >> 12);
         *(s16 *)(sub + 0x1C) = v;
         *(s16 *)(sub + 0x18) = v;
-        {
-            s32 w = ((t * 0x800) >> 12) + 0x800;
-            *(s16 *)(sub + 0x1A) = w;
-        }
+        *(s16 *)(sub + 0x1A) = (t * 0x800 >> 12) + 0x800;
         cnt = *(s32 *)(ent + 0x1C) + 1;
         *(s32 *)(ent + 0x1C) = cnt;
         if (8 < cnt) {
             *(u16 *)(ent + 2) = 1;
         }
         return;
+    }
     }
 }
 
