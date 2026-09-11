@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 24 best 5 compiles 314 path R12 width s0 s32->u16 @8439 + R9 swap-stmts @8451
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @8451 -> 5 [COUNT] (from 7)
+  R9 swap-stmts @8451 -> 5 [COUNT] (from 7)
+  R8 temp tmp0 @8449 -> 5 [COUNT] (from 5)
+  R7 block @8451 -> 5 [COUNT] (from 5)
+  R5 swap + @8451 -> 5 [COUNT] (from 5)
+  R10 param-copy arg0 @8440 -> 5 [COUNT] (from 5)
+  R2 decl-order 1,0 -> 5 [COUNT] (from 5)
+  R8 base tmp0 @8449 -> 5 [COUNT] (from 5)
+  R7 do-while @8451 -> 5 [COUNT] (from 5)
+  R5 swap + @8453 -> 5 [COUNT] (from 5)
+  R8 base-shared tmp0 @8449 -> 5 [COUNT] (from 5)
+  R7 block @8471 -> 5 [COUNT] (from 5)

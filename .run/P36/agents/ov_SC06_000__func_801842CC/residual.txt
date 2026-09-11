@@ -1,0 +1,29 @@
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:func_801842CC: score 24 (COUNT; mine 51 ins, target 51) — not yet
+  register pairs (mine -> target, count): a0->v0 x15, v0->v1 x10, v1->a0 x4, v0->s0 x1, s0->v1 x1
+  replace mine[12:30] target[12:30]
+       12  lhu	a0,132(s1)                     | lhu	v0,132(s1)
+       13  lhu	v1,14(a1)                      | lhu	a0,14(a1)
+       14  andi	a0,a0,0x4                     | andi	v0,v0,0x4
+       15  sll	v0,a0,0x1                      | sll	v1,v0,0x1
+       16  addu	v0,v0,a0                      | addu	v1,v1,v0
+       17  addu	v0,v0,s0                      | addu	v1,s0,v1
+       18  addiu	v0,v0,-42                    | addiu	v1,v1,-42
+       19  lhu	a0,6(a1)                       | lhu	v0,6(a1)
+       20  addiu	v1,v1,40                     | addiu	a0,a0,40
+       21  sh	v1,14(a1)                       | sh	a0,14(a1)
+       22  subu	a0,a0,v0                      | subu	v0,v0,v1
+       23  sh	a0,6(a1)                        | sh	v0,6(a1)
+       24  lhu	a0,10(a1)                      | lhu	v0,10(a1)
+       25  sll	v0,v0,0x10                     | sll	v1,v1,0x10
+       26  addiu	a0,a0,-32                    | addiu	v0,v0,-32
+       27  sh	a0,10(a1)                       | sh	v0,10(a1)
+       28  sra	a0,v0,0x10                     | sra	v0,v1,0x10
+       29  bltz	a0,9524 <func_801842CC+0x84>  | bltz	v0,9524 <func_801842CC+0x84>
+  replace mine[32:36] target[32:37]
+       32  sll	a0,a0,0x7                      | sll	v0,v0,0x7
+       33  sll	a0,a0,0x7                      | sll	v0,v0,0x7
+       34  negu	a0,a0                         | negu	v0,v0
+       35  addiu	a0,a0,4096                   | addiu	v0,v0,4096
+       36  --                                 | sh	v0,52(a1)
+  delete  mine[39:40] target[40:40]
+       39  sh	a0,52(a1)                       | --

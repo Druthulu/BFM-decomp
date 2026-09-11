@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 22 best 18 compiles 184 path R9 swap-stmts @9273 + R9 swap-stmts @9270
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @9270 -> 18 [COUNT] (from 19)
+  R9 swap-stmts @9273 -> 19 [COUNT] (from 22)
+  R12 width vA u32->u16 @9268 -> 19 [COUNT] (from 19)
+  R6 inline vB @9277 -> 19 [COUNT] (from 19)
+  R8 hoist tmp0 @9277 -> 19 [COUNT] (from 19)
+  R7 block @9279 -> 19 [COUNT] (from 19)
+  R10 param-copy param_1 @9269 -> 19 [COUNT] (from 19)
+  R4 decl-move e 1->0 -> 19 [COUNT] (from 19)
+  R12 width vA u32->s16 @9268 -> 19 [COUNT] (from 19)
+  R8 hoist tmp0 @9276 -> 19 [COUNT] (from 19)
+  R12 width vA u32->u8 @9268 -> 19 [COUNT] (from 19)
+  R7 block @9271 -> 19 [COUNT] (from 19)

@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 4 best 2 compiles 139 path R9 swap-stmts @7202
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @7202 -> 2 [ORDER] (from 4)
+  R7 block @7198 -> 2 [ORDER] (from 2)
+  R10 param-copy a0 @7197 -> 2 [ORDER] (from 2)
+  R4 decl-move q 4->0 -> 2 [ORDER] (from 2)
+  R10 param-copy a1 @7197 -> 2 [ORDER] (from 2)
+  R4 decl-move q 4->1 -> 2 [ORDER] (from 2)
+  R7 block @7199 -> 2 [ORDER] (from 2)
+  R4 decl-move q 4->2 -> 2 [ORDER] (from 2)
+  R7 do-while @7199 -> 2 [ORDER] (from 2)
+  R4 decl-move q 4->3 -> 2 [ORDER] (from 2)
+  R7 block @7200 -> 2 [ORDER] (from 2)
+  R7 block @7201 -> 2 [ORDER] (from 2)

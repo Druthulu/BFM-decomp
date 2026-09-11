@@ -1,0 +1,8 @@
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:func_801823BC: score 4 (COUNT; mine 29 ins, target 28) — not yet
+  insert  mine[17:17] target[17:18]
+       17  --                                 | addiu	a2,s1,-82
+  delete  mine[19:21] target[20:20]
+       19  lui	at,0x0                         | --
+       20  sw	zero,-82(at)                    | --
+  replace mine[22:23] target[21:22]
+       22  addiu	a2,s1,-82                    | sw	zero,-82(s1)

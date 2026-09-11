@@ -1,4 +1,5 @@
 rank	fn	alias	copies	best	needed	kinds	regs	tu
-254	func_801AC9CC	md_SC07_004	1	2	1	barrier		src/md_SC07_004/md_SC07_004.c
-264	func_801AD068	md_SC07_004	1	5	1	pin	$3	src/md_SC07_004/md_SC07_004.c
-298	func_801AE82C	md_SC07_004	1	5	1	pin	$0	src/md_SC07_004/md_SC07_004.c
+1	func_801823BC	ov_SC06_000	1	2	2	launder,pin	$17	src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c
+125	func_80182464	ov_SC06_000	1	2	2	launder,pin	$17	src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c
+176	func_801842CC	ov_SC06_000	2	5	3	launder,pin	a0,v1	src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c
+212	func_80185354	ov_SC06_000	1	18	1	pin	$16	src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c
