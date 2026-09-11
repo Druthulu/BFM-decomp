@@ -61,6 +61,15 @@ def starts(e):
     bp = ds.RUN / "bodies" / f"{e['alias']}__{e['fn']}.c"
     if bp.exists():
         out.append(("best", bp.read_text(errors="surrogateescape")))
+    # an AGENT's lever-free near-miss (S104 e22, func_8017C954: the sweep had only ever seen the 632 free body; re-running
+    # the families on the agent's improved 28 body found the finisher in one pass — 1,655 candidates, two at 0)
+    ap = REPO / ".run" / "P36" / "agents" / f"{e['alias']}__{e['fn']}" / "body.c"
+    if ap.exists():
+        t = ap.read_text(errors="surrogateescape")
+        # no lever AND no marked fake: S104's first run started from d20's PARKED body (invented always-false branches
+        # marked `!FAKE: dead-branch`, awaiting Drew) and the families "closed" it — a marked body is never a start text
+        if not re.search(r"__asm__|\bregister\b[^;]*\$|!FAKE", t) and all(t != x for _n, x in out):
+            out.append(("agent", t))
     return out
 
 
@@ -74,9 +83,18 @@ def one(e, fams, label):
         # the census's site lines no longer fit the file — the tree moved under the pass (S103: a bank during the R26 run
         # crashed the whole pool here). One class refused loudly, never the pass (R43); rerun after a census refresh.
         return dict(e, verdict="STALE-SITES", err=str(x)[:120], tried=0)
-    for sname, body in st:
+    # R27 (the named port) reads the REAL translation unit and the objects — it is not a rewrite of a start text, so it
+    # runs once per class, first (S104: 4 of 24 donor classes closed at the first candidate, d2/d6's move made mechanical)
+    srcs = ([("port", None)] if "R27" in fams else []) + st
+    for sname, body in srcs:
         try:
-            cands = dl.recipe_candidates(body, "src/fx/regen.c", e["fn"], [], cap=None, families=fams)
+            if sname == "port":
+                cands = [("R27", d, c) for d, c in dl.named_ports(e["tu"], e["fn"])]
+            else:
+                cands = dl.recipe_candidates(body, "src/fx/regen.c", e["fn"], [], cap=None,
+                                             families=tuple(f for f in fams if f not in ("R27", "R28")))
+                if "R28" in fams:                            # R28 reads the tree's pins from the REAL unit
+                    cands += [("R28", d, c) for d, c in dl.merge_pinned_twins(e["tu"], e["fn"], body)]
         except Exception as x:                               # a generator crash is a finding, not a silent skip (R43)
             return dict(e, verdict="GEN-ERROR", err=str(x)[:160], tried=tried)
         for rec, desc, cand in cands:
@@ -116,6 +134,8 @@ def run(a):
     ds.sites_by_body()
     if "R19" in fams:
         dl.real_signatures()
+    if "R27" in fams:
+        dl.named_definitions()
     with cf.ProcessPoolExecutor(max_workers=a.jobs, mp_context=multiprocessing.get_context("fork")) as pool:
         futs = {pool.submit(one, e, fams, label): e for e in ex}
         # one line per judged class AS IT LANDS (R55): the agent lane draws only classes this pass has already judged

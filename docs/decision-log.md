@@ -3748,3 +3748,42 @@ rest for free — the harvest→toolify gate at the granularity of one crack.
 `--explain` on one body and a line of the compiler's source, and every hour of wider search bought less than the previous one. The
 engine's real value was not the search but the SCORE — a distance that turns a stall into a named shape — and the instrument that
 prints it. Build that on day one of a de-lever campaign, before any search.
+
+## P36 S104 (2026-09-10/11) — Drew's four rulings read against sotn, the sweep-before-agent rule, and the TU-batch lane
+
+**Context/belief.** S103 ended with four open questions (do-while as a lever? the GTE header? proven-irreducible sites? the
+signature changes?) and a residue of 5,097 sites in ~1,020 classes, 912 of them singletons. **Drew (2026-09-10):** "search the
+sotn decomp" for all four. Read from sotn-decomp's tree (a shallow clone under the ignored `tools/reference/`, X2 — data): 0
+register pins and 0 asm statements in its PSX C across 2,987 files (it keeps 3,101 `INCLUDE_ASM` stubs instead); its fakes are
+ordinary C marked `// !FAKE:` by `docs/STYLE.md`; one GTE header with seven project-local macros Sony never had. **Rulings:**
+(a) `do { } while (0)` and dead initialisers stay as marked ordinary C — a census class apart, never an orphan, never a lever;
+(b) GTE stays T5 and sotn is the precedent for a project-local macro; (c) every site is reducible to C — an unclosed site stays
+marked and goes to the STRUCTS phase (the milestone amended: "0" is that phase's line); (d) "the types phase" IS the structs
+phase; signature changes go there. **The sweep-before-agent rule (Drew):** "are we running sweeps with the new tooling on all
+remaining funcs … before an agent touches them?" — from then on an agent draws only classes every current generator pass has
+judged and not closed.
+
+**What failed and why it looked right.** (1) The first all-families regen ran on THREADS and sat on the GIL for five minutes
+with zero compiles — R18 emits 1,000+ texts per body, R19 rebuilds a 29 s table per thread; processes forked after warming the
+caches fixed it. (2) A `census && next` chain read the census's last line as OK while it had exited 1 on four orphan markers
+(commit `830650946`, R97 again). (3) A pack-builder bug had left every MAIN pack's `related.txt` empty (main's units are
+`src/800*.c`, not `src/main/`) — three main closes came from same-TU siblings the agents had to find by hand. (4) A lever strip
+that deleted a line opening a block comment left the start text as invalid C; the sweeps read the class as UNSCORED — seven
+classes named by a refusal now. (5) The float priority column in `alloc_table` hid the integer ties gcc actually breaks by
+allocno number (`global.c:594-607`); two closes hinged on them. (6) The agent-start regen "closed" 14 of 27 — every one already
+closed by its agent or PARKED (it had started from d20's marked invented-branch body): a marked body is never a start text.
+
+**The pivot.** With the ≥100-copy head worked, the residue is singletons: the lane became **TU batches** — one agent takes 3–4
+classes of ONE translation unit with that TU's closed mechanisms in its brief. Nearly every batch closed everything it took;
+`ov_SC02_017_jr_8017DF34.c` reached 0 lever sites. The moves are a small catalog (METHOD steps 12–16; cookbook §456): one value
+per temp, calls at their real arity, parameter copies deleted, narrow widths, stores in each arm, walked pointers → indexed
+loops, goto chains → structured C, `& 0x80000000` sign tests, struct/array spellings where sched's alias test decides. Seventeen
+generator families (R27–R43) were harvested, each run against its agent's own start text, then across the residue.
+
+**Measurement.** 5,097 → 4,223 sites; ~105 draws, ~205 classes at 0 (nearly all zero-lever), five bodies with a marked
+do-while; the all-families sweep 74 MATCH over 1,020 classes (20,821 s); R27 25 of 995; the newer families 4–16 each.
+
+**Hindsight (the better path).** The sweep-before-agent rule and the TU-batch brief should have been the lane from T7's first
+draw: the "closed mechanisms of this TU" are the strongest lead an agent gets, and the free sweep is the cheapest reviewer of an
+agent's near-miss. Two structural gaps remain for tooling: a goto-chain → structured-C rewriter (about one close in five), and
+a link-aware scorer (six parked closes are identical only after linking).

@@ -1506,7 +1506,7 @@ def block_wraps(text, tu, fn, d_):
         if not simple_stmt(s):
             continue
         stmt = raw_line.strip()
-        for tag, spelling in (("block", f"{indent}{{ {stmt} }}"), ("do-while", f"{indent}do {{ {stmt} }} while (0);")):
+        for tag, spelling in (("block", f"{indent}{{ {stmt} }}"), ("do-while", f"{indent}do {{ {stmt} }} while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)")):
             cand = list(lines)
             cand[i] = spelling
             out.append((f"{tag} @{i + 1}", "\n".join(cand)))
@@ -2860,8 +2860,10 @@ def split_reused_locals(text, tu, fn, d_):
                 semi = mb.find(";", p)
                 if semi < 0 or re.search(r"(?<![\w.>])%s\b" % re.escape(v), mb[p + len(v):semi]):
                     return None
-                if before and not before.endswith((";", "{", "}")):
+                if before and not before.endswith((";", "{", "}")) and \
+                        not re.search(r"(?:\bcase\s+[^;:?]+|\bdefault\s*):$", before):
                     return None                              # inside an expression, or a brace-less `if (c) v = E;`
+                    # (a `case K:` / `default:` label IS a statement boundary — S104 d22: R23 never split func_801861FC's `t`)
                 defs.append(p)
         if len(defs) < 2 or occ[0] != defs[0]:
             return None
@@ -3096,7 +3098,837 @@ def alias_repeated_addresses(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26")
+def _uses(masked, lo, hi, name):
+    return sum(len(re.findall(r"\b%s\b" % re.escape(name), masked[i])) for i in range(lo, hi))
+
+
+def _drop_single_decl(lines, masked, lo, hi, name):
+    """Delete `name`'s own one-name declaration line (no initializer) once the name has no other use; returns True if done."""
+    for i in range(lo, hi):
+        if lines[i] is None:
+            continue
+        if re.match(r"^\s*(?:(?:unsigned|signed|const|volatile|struct|union)\s+)*[A-Za-z_]\w*\s*\**\s*%s\s*;\s*$" % re.escape(name),
+                    masked[i]):
+            lines[i] = None
+            return True
+    return False
+
+
+def shift_operand_casts(text, tu, fn, d_):
+    """[(description, candidate text)] — R31: `v >> N` → `(s16)v >> N` / `(s8)v >> N`, one shift at a time.
+
+    T7 agent d13 (func_8018F694 ×5, P36 S104): the residual was `lhu; sll 16; sra 16` against the target's `lh`, plus one
+    shift reading the sll register. cse's associative fold (`cse.c:5577-5667`) had rewritten `t >> 6` as `(sll t) >> 22`, so
+    the load's temp gained a second reader and combine never formed `lh`. A cast on the SHIFT'S OPERAND makes the front end
+    shift in `short` (`c-typeck.c:2418-2450`), cse folds that new pair instead, and combine reduces `(t << 16) >> 22` to
+    `t >> 6` (`combine.c:7930-7944`). A declaration width (R12) cannot do it — `s16 t` scored 5."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")          # whole-text: a block comment's inner lines are masked too
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    sites = []
+    for i in range(lo, hi):
+        for m in re.finditer(r"(?<![\w)\]\.>])([A-Za-z_]\w*)\s*>>\s*(0x[0-9A-Fa-f]+|\d+)", masked[i]):
+            sites.append((i, m))
+            for T in ("s16", "s8"):
+                cand = list(lines)
+                l = cand[i]
+                cand[i] = l[:m.start(1)] + f"({T}){m.group(1)}" + l[m.end(1):]
+                out.append((f"shift-cast ({T}){m.group(1)} >> {m.group(2)} @{i + 1}", "\n".join(cand)))
+    if len(sites) > 1:            # S104 d39 (func_80185484 ×3): BOTH shifts needed the cast; one site alone scored 5 / 4
+        cand = list(lines)
+        for i, m in sorted(sites, key=lambda t: (t[0], -t[1].start(1))):
+            cand[i] = cand[i][:m.start(1)] + f"(s16){m.group(1)}" + cand[i][m.end(1):]
+        out.append((f"shift-cast (s16) at all {len(sites)} shifts", "\n".join(cand)))
+    return out
+
+
+_RELOP = re.compile(r"^(.*?)\s*(<=|>=|==|!=|<|>)\s*(.*)$")
+_INV = {"<": ">=", ">=": "<", ">": "<=", "<=": ">", "==": "!=", "!=": "=="}
+
+
+def _invert(cond):
+    c = cond.strip()
+    if any(t in c for t in ("&&", "||", "?")) or len(re.findall(r"<=|>=|==|!=|<|>", c)) != 1:
+        return None
+    m = _RELOP.match(c)
+    return f"{m.group(1)} {_INV[m.group(2)]} {m.group(3)}" if m else None
+
+
+def else_arm_assignments(text, tu, fn, d_):
+    """[(description, candidate text)] — R33: `x = A; if (C) x = B;` → `if (!C) { x = A; } else { x = B; }`.
+
+    T7 agent d1 (func_80185960 ×10, P36 S104): the one-armed form let cse's skip-block path carry a value past the join
+    (`cse.c:8101-8106`, `:8149`), so a later test reused it from a register. A plain if/else whose ELSE value is a register or
+    constant is folded straight back to the one-armed form by jump1 (`jump.c:699-750`, guard `:739-741`) — the non-simple
+    value must sit in the else arm, so the condition is inverted (the relational operator flipped, or `!(C)`). Never a ternary
+    (`expr.c:5808-5814` expands it one-armed)."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")          # whole-text: a block comment's inner lines are masked too
+    lo, hi = d_["line"], d_["end"] - 1
+    ASSIGN = re.compile(r"^(\s*)([A-Za-z_]\w*)\s*=\s*(.+);\s*$")
+    out = []
+    for i in range(lo, hi - 1):
+        a = ASSIGN.match(masked[i])
+        if not a or not simple_stmt(masked[i]):
+            continue
+        ind, x = a.group(1), a.group(2)
+        A = lines[i][lines[i].index("=") + 1:].rsplit(";", 1)[0].strip()
+        k = None
+        m = re.match(r"^\s*if\s*\((.*)\)\s*\{?\s*%s\s*=\s*(.+?);\s*\}?\s*$" % re.escape(x), masked[i + 1])
+        if m and masked[i + 1].count("{") == masked[i + 1].count("}"):
+            k, C, B = i + 1, lines[i + 1][masked[i + 1].index("(") + 1:m.end(1)], lines[i + 1][m.start(2):m.end(2)]
+        elif i + 3 < hi and re.match(r"^\s*if\s*\((.*)\)\s*\{\s*$", masked[i + 1]) and re.match(r"^\s*\}\s*$", masked[i + 3]):
+            m2 = re.match(r"^\s*%s\s*=\s*(.+?);\s*$" % re.escape(x), masked[i + 2])
+            if m2:
+                mc = re.match(r"^\s*if\s*\((.*)\)\s*\{\s*$", masked[i + 1])
+                k, C, B = i + 3, lines[i + 1][mc.start(1):mc.end(1)], lines[i + 2][m2.start(1):m2.end(1)]
+        if k is None:
+            continue
+        for tag, nc in (("inverted", _invert(C)), ("not", f"!({C.strip()})")):
+            if not nc:
+                continue
+            cand = lines[:i] + [f"{ind}if ({nc}) {{", f"{ind}    {x} = {A};", f"{ind}}} else {{", f"{ind}    {x} = {B};",
+                                f"{ind}}}"] + lines[k + 1:]
+            out.append((f"else-arm {x} {tag} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+def compound_assignments(text, tu, fn, d_):
+    """[(description, candidate text)] — R32: a single-use temp folded into its consumer.
+
+      * (T7 agent d5, func_801837E8 ×4, P36 S104) `v = E; … L = L + v;` → `L += E;` — the compound form loads its left side
+        first, so the three quantities of the block are BORN in the target's order; local-alloc's three-quantity "sort" is a
+        fixed compare sequence on birth order, not a sort (`local-alloc.c:1486-1507`).
+      * (T7 agent d8, func_80186440 ×4) `v = F + 1; … F = v;` → `(F)++;` — the u16 field increment's destination is a SUBREG,
+        which fails `birthing_insn_p` (`sched.c:2477-2490`), so sched1 does not pull the add down; `F += 1` folds back to SImode.
+    `v` must have exactly two mentions besides its declaration; the declaration goes with it."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")          # whole-text: a block comment's inner lines are masked too
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        a = re.match(r"^(\s*)([A-Za-z_]\w*)\s*=\s*(.+);\s*$", masked[i])
+        if not a or not simple_stmt(masked[i]):
+            continue
+        v = a.group(2)
+        decl = re.compile(r"^\s*[A-Za-z_][\w\s]*\**\s*%s\s*(?:=[^;]*)?;" % re.escape(v))
+        dls = [j for j in range(lo, hi) if decl.match(masked[j])]
+        s0 = max([j for j in dls if j < i], default=lo)                  # the scope: this declaration of v to the next one
+        s1 = min([j for j in dls if j > i], default=hi)
+        if _uses(masked, s0, s1, v) - (1 if s0 in dls else 0) != 2:
+            continue
+        E = lines[i][lines[i].index("=") + 1:].rsplit(";", 1)[0].strip()
+        for j in range(i + 1, s1):
+            if not re.search(r"\b%s\b" % re.escape(v), masked[j]):
+                continue
+            ind = lines[j][:len(lines[j]) - len(lines[j].lstrip())]
+            cand, op = None, None
+            m1 = re.match(r"^\s*(.+?)\s*=\s*(.+?)\s*([-+|&^])\s*%s\s*;\s*$" % re.escape(v), masked[j])   # L = L op v
+            m2 = re.match(r"^\s*(.+?)\s*=\s*%s\s*([+|&^])\s*(.+?)\s*;\s*$" % re.escape(v), masked[j])    # L = v op L
+            ns = lambda s: re.sub(r"\s", "", s)
+            if m1 and ns(m1.group(1)) == ns(m1.group(2)):
+                op = m1.group(3)
+            elif m2 and ns(m2.group(1)) == ns(m2.group(3)):
+                op = m2.group(2)
+            if op:
+                L = lines[j][:lines[j].index("=")].strip()
+                cand = list(lines)
+                cand[j], cand[i] = f"{ind}{L} {op}= {E};", None
+                tag = f"compound {L} {op}= @{j + 1}"
+            ms = re.match(r"^\s*(.+?)\s*=\s*%s\s*;\s*$" % re.escape(v), masked[j])
+            mf = re.match(r"^(.+?)\s*([-+])\s*1\s*$", E)
+            if cand is None and ms and mf and re.sub(r"\s", "", ms.group(1)) == re.sub(r"\s", "", mf.group(1)):
+                F = lines[j][:lines[j].index("=")].strip()
+                cand = list(lines)
+                cand[j], cand[i] = f"{ind}({F}){mf.group(2) * 2};", None
+                tag = f"increment ({F}){mf.group(2) * 2} @{j + 1}"
+            if cand is not None:
+                cm = [sc.mask_text(l) if l is not None else "" for l in cand]
+                _drop_single_decl(cand, cm, s0, s1, v)            # THIS scope's declaration, not the first in the body
+                out.append((tag, "\n".join(l for l in cand if l is not None)))
+            break
+    return out
+
+
+def fold_store_temps(text, tu, fn, d_):
+    """[(description, candidate text)] — R29: a temp REUSED for several values, each stored once, written as direct stores.
+
+    T7 agent d15 (func_8018594C ×4, P36 S104): `v1 = K; *(u16 *)(s0 + off) = v1; … v1 = K2; …` — one pseudo that "dies in 3
+    places" (`.lreg`), which local-alloc refuses (`local-alloc.c:472`), so global gave it the target's other register. Each
+    `t = E; <lvalue> = t;` pair becomes `<lvalue> = E;` and `t = <lvalue>; t |= K; <lvalue> = t;` becomes `<lvalue> |= K;`
+    — every pair of one temp at once (the reuse is the defect), then the temp's declaration if it is left unused."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")          # whole-text: a block comment's inner lines are masked too
+    lo, hi = d_["line"], d_["end"] - 1
+    pairs = collections.defaultdict(list)            # t -> [(first line, last line, {line: new text or None})]
+    LV = r"(.*[*\[\]>].*?)"
+    for i in range(lo, hi - 1):
+        a = re.match(r"^(\s*)([A-Za-z_]\w*)\s*=\s*(.+);\s*$", masked[i])
+        if not a or not simple_stmt(masked[i]):
+            continue
+        t = a.group(2)
+        E = lines[i][lines[i].index("=") + 1:].rsplit(";", 1)[0].strip()
+        k, edits = i + 1, {i: None}
+        while k < hi and re.match(r"^\s*%s\s*=\s*%s\s*;\s*$" % (LV, re.escape(t)), masked[k]):     # `LV = t;` run
+            edits[k] = f"{lines[k][:lines[k].rindex('=')].rstrip()} = {E};"
+            k += 1
+        if len(edits) > 1:
+            pairs[t].append((i, k - 1, edits))
+            continue
+        # `t = LV; … t OP= K; … LV = t;` within four lines, the in-between lines not mentioning t
+        for k in range(i + 1, min(i + 5, hi)):
+            o = re.match(r"^\s*%s\s*([|&^+-])=\s*(.+);\s*$" % re.escape(t), masked[k])
+            if o:
+                break
+            if re.search(r"\b%s\b" % re.escape(t), masked[k]):
+                o = None
+                break
+        else:
+            o = None
+        if not o:
+            continue
+        for s_ in range(k + 1, min(k + 4, hi)):
+            st = re.match(r"^(\s*)(.+?)\s*=\s*%s\s*;\s*$" % re.escape(t), masked[s_])
+            if st and re.sub(r"\s", "", st.group(2)) == re.sub(r"\s", "", E):
+                K = lines[k][lines[k].index("=") + 1:].rsplit(";", 1)[0].strip()
+                pairs[t].append((i, s_, {i: None, k: None, s_: f"{st.group(1)}{E} {o.group(1)}= {K};"}))
+                break
+            if re.search(r"\b%s\b" % re.escape(t), masked[s_]):
+                break
+    out = []
+    for t, ps in pairs.items():
+        if len(ps) < 2 and _uses(masked, lo, hi, t) <= 3:
+            continue
+        cand = list(lines)
+        for _i, _k, edits in ps:
+            for x, new in edits.items():
+                cand[x] = new
+        cm = [sc.mask_text(l) if l is not None else "" for l in cand]
+        if _uses(cm, lo, hi, t) == 1:
+            _drop_single_decl(cand, cm, lo, hi, t)
+        out.append((f"fold-stores {t} ×{len(ps)}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
+def merge_disjoint_locals(text, tu, fn, d_, max_pairs=40):
+    """[(description, candidate text)] — R34: two same-type locals whose live ranges do not overlap, merged into one.
+
+    Three T7 closes in one session were this move (P36 S104): d12 (func_801898E4 ×4 — `count`/`descCount`, `table`/`table2`),
+    d14 (func_801860B8 ×3 — late temps reusing earlier-dead variables so they land in those variables' registers) and d19
+    (func_80189030 ×3 — a search loop's index renamed to the counter that lost a `$s0`/`$s1` race). One pseudo with the
+    combined refs and a longer live range is ranked differently by `allocno_compare` (`global.c:587-610`) and conflicts with
+    the registers that push it into the target's (`find_reg`, `global.c:945-966`); a block-local pseudo merged into a global
+    one also leaves local-alloc (`local-alloc.c:1845`). The inverse (a split) is R23. Pairs: every one-name declaration pair
+    of the same type text whose textual mention spans are disjoint (the earlier's last mention before the later's first);
+    the later name is renamed to the earlier and its declaration dropped. Textual disjointness inside a loop is not
+    liveness — the byte oracle judges every candidate."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    decls = {}
+    for i in range(lo, hi):
+        m = re.match(r"^\s*((?:(?:unsigned|signed|const)\s+)*[A-Za-z_]\w*\s*\**)\s*([A-Za-z_]\w*)\s*;\s*$", masked[i])
+        if m and m.group(1).strip() not in ("return", "goto", "break", "continue") and m.group(2) not in decls:
+            decls[m.group(2)] = (i, re.sub(r"\s+", " ", m.group(1)).strip())
+    span = {}
+    for n, (di, _t) in decls.items():
+        hits = [i for i in range(lo, hi) if i != di and re.search(r"\b%s\b" % re.escape(n), masked[i])]
+        if hits:
+            span[n] = (hits[0], hits[-1])
+    out = []
+    names = [n for n in decls if n in span]
+    for a in names:
+        for b in names:
+            if a == b or decls[a][1] != decls[b][1] or not span[a][1] < span[b][0]:
+                continue
+            if _loop_between(masked, span[a][0], span[b][1]):
+                pass                                          # still a candidate: the oracle decides
+            cand = list(lines)
+            cand[decls[b][0]] = None
+            cand = [re.sub(r"\b%s\b" % re.escape(b), a, l) if l is not None else None for l in cand]
+            out.append((f"merge-disjoint {b}->{a}", "\n".join(l for l in cand if l is not None)))
+            if len(out) >= max_pairs:
+                return out
+    return out
+
+
+def _loop_between(masked, i, j):
+    return any(re.match(r"^\s*(?:for|while|do)\b", masked[k]) for k in range(i, j + 1))
+
+
+def drop_param_copies(text, tu, fn, d_):
+    """[(description, candidate text)] — R35: a parameter copy `T x = argN;` (or `x = argN;` as the first use) deleted and
+    `argN` used everywhere instead.
+
+    T7 agents d24 (func_8018003C ×4) and d17 (func_80181DAC ×4), P36 S104: a copy of a parameter that lives past the
+    parameter's last use becomes the canonical register in cse (`make_regs_eqv`, `cse.c:846-862`), which re-routes later
+    reads through it — two callee-saved registers where the target has one, and tails that cross-jump could have merged now
+    load `$a0` differently (`jump.c:2371`). Only a copy that is never reassigned, of a parameter never reassigned after it."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    head = " ".join(masked[d_["line"] - 1:lo + 2])
+    pm = re.search(r"\b%s\s*\(([^)]*)\)" % re.escape(fn), head)
+    if not pm:
+        return []
+    params = [re.findall(r"([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*$", p_.strip())[0] for p_ in pm.group(1).split(",")
+              if re.findall(r"([A-Za-z_]\w*)\s*$", p_.strip()) and p_.strip() not in ("void", "")]
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^\s*(?:(?:[A-Za-z_]\w*\s*\**\s+)+)?\**\s*([A-Za-z_]\w*)\s*=\s*(?:\([^()]*\)\s*)?([A-Za-z_]\w*)\s*;\s*$",
+                     masked[i])
+        if not m or m.group(2) not in params or m.group(1) in params:
+            continue
+        x, a = m.group(1), m.group(2)
+        cm_ = re.search(r"=\s*(\([^()]*\))\s*%s\s*;" % re.escape(a), masked[i])
+        repl = f"({cm_.group(1)}{a})" if cm_ else a       # S104 d38: a CAST copy `T *p = (T *)a1;` → `((T *)a1)` at each use
+        body = "\n".join(masked[i + 1:hi])
+        assign = r"(?<![=!<>])\b%s\s*(?:[-+*/%%&|^]|<<|>>)?=(?!=)|(?:\+\+|--)\s*%s\b|\b%s\s*(?:\+\+|--)"
+        if re.search(assign % ((re.escape(x),) * 3), body) or re.search(assign % ((re.escape(a),) * 3), body):
+            continue
+        cand = list(lines)
+        is_decl = bool(re.match(r"^\s*[A-Za-z_]\w*[\w\s]*\**\s*%s\s*=" % re.escape(x), masked[i])) and \
+            not re.match(r"^\s*%s\s*=" % re.escape(x), masked[i])
+        cand[i] = None
+        if not is_decl:
+            cm = [sc.mask_text(l) if l is not None else "" for l in cand]
+            _drop_single_decl(cand, cm, lo, hi, x)
+        cand = [re.sub(r"\b%s\b" % re.escape(x), lambda _m: repl, l) if l is not None and k > i else l for k, l in enumerate(cand)]
+        out.append((f"drop-param-copy {x}->{repl} @{i + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
+def merge_set_chains(text, tu, fn, d_):
+    """[(description, candidate text)] — R36: a local set twice in a row, `x = A; x += B;` / `x = A; x = x + B;`, written as
+    one assignment `x = A + B;` (the operator kept).
+
+    T7 agent d25 (func_8017E060 ×3, P36 S104) and S103 c35: combine folds every use of such a pseudo into its consumers but
+    zeroes its ref count only when its set count reaches 0 (`combine.c:2305-2337`; `i2dest_in_i2src` skips the i2 update,
+    `:1394`), so the dead pseudo keeps refs, gets no register, and reload hands it a stack slot (`reload1.c:2327-2352`) — a
+    FRAME-ONLY residual: every instruction equal, the frame 8 bytes larger."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi - 1):
+        a = re.match(r"^(\s*)([A-Za-z_]\w*)\s*=\s*(.+);\s*$", masked[i])
+        if not a or not simple_stmt(masked[i]):
+            continue
+        x = a.group(2)
+        A = lines[i][lines[i].index("=") + 1:].rsplit(";", 1)[0].strip()
+        for j in range(i + 1, min(i + 4, hi)):      # up to two lines between that do not mention x (d25: `new_var = r;`)
+            m1 = re.match(r"^\s*%s\s*([-+|&^])=\s*(.+);\s*$" % re.escape(x), masked[j])
+            m2 = re.match(r"^\s*%s\s*=\s*%s\s*([-+|&^])\s*(.+);\s*$" % (re.escape(x), re.escape(x)), masked[j])
+            m = m1 or m2
+            if m or re.search(r"\b%s\b" % re.escape(x), masked[j]) or not simple_stmt(masked[j]):
+                break
+        if not m or re.search(r"\b%s\b" % re.escape(x), m.group(2)):
+            continue
+        B = lines[j][m.start(2):m.end(2)]
+        cand = list(lines)
+        cand[i], cand[j] = None, f"{a.group(1)}{x} = {A} {m.group(1)} {B};"
+        out.append((f"merge-set-chain {x} @{i + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
+def shift_to_division(text, tu, fn, d_):
+    """[(description, candidate text)] — R38: the hand-expanded signed division `if (v < 0) v += 2^k-1; v = v >> k;` written
+    as the division it is, `v = v / 2^k;` (and, when the line before assigns `v = E;`, `v = (E) / 2^k;`).
+
+    T7 agent e7 (func_801831FC, P36 S104): the decompiler printed gcc's own expansion of `x / 0x800`; compiled as that C,
+    the shift's operand keeps a single preference, while a real division expands through `expand_divmod` into a block-local
+    quotient in `$v0` whose `set_preference` (`global.c:1535/1545`) gives the dividend the target's register. The byte
+    oracle judges every candidate."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^(\s*)if\s*\(\s*([A-Za-z_]\w*)\s*<\s*0\s*\)\s*(\{)?\s*(?:\2\s*\+=\s*|\2\s*=\s*\2\s*\+\s*)(0x[0-9A-Fa-f]+|\d+)\s*;\s*(\})?\s*$",
+                     masked[i])
+        j = i
+        if m:
+            ind, v, K = m.group(1), m.group(2), int(m.group(4), 0)
+            if m.group(3) and not m.group(5):
+                continue
+        else:
+            m = re.match(r"^(\s*)if\s*\(\s*([A-Za-z_]\w*)\s*<\s*0\s*\)\s*\{\s*$", masked[i])
+            if not m or i + 2 >= hi:
+                continue
+            ind, v = m.group(1), m.group(2)
+            b = re.match(r"^\s*(?:%s\s*\+=\s*|%s\s*=\s*%s\s*\+\s*)(0x[0-9A-Fa-f]+|\d+)\s*;\s*$" % ((re.escape(v),) * 3), masked[i + 1])
+            if not b or not re.match(r"^\s*\}\s*$", masked[i + 2]):
+                continue
+            K, j = int(b.group(1), 0), i + 2
+        N = K + 1
+        if N & K or N < 2 or j + 1 >= hi:
+            continue
+        k = N.bit_length() - 1
+        s = re.match(r"^\s*(?:%s\s*>>=\s*|%s\s*=\s*%s\s*>>\s*)(0x[0-9A-Fa-f]+|\d+)\s*;\s*$" % ((re.escape(v),) * 3), masked[j + 1])
+        if not s or int(s.group(1), 0) != k:
+            continue
+        Nh = f"0x{N:X}"
+        cand = lines[:i] + [f"{ind}{v} = {v} / {Nh};"] + lines[j + 2:]
+        out.append((f"shift-to-division {v} / {Nh} @{i + 1}", "\n".join(cand)))
+        a = re.match(r"^(\s*)%s\s*=\s*(.+);\s*$" % re.escape(v), masked[i - 1]) if i - 1 >= lo else None
+        if a and not re.search(r"\b%s\b" % re.escape(v), a.group(2)):
+            E = lines[i - 1][lines[i - 1].index("=") + 1:].rsplit(";", 1)[0].strip()
+            cand = lines[:i - 1] + [f"{ind}{v} = ({E}) / {Nh};"] + lines[j + 2:]
+            out.append((f"shift-to-division {v} = (E) / {Nh} @{i}", "\n".join(cand)))
+    return out
+
+
+def duplicate_join_statement(text, tu, fn, d_, max_sites=12):
+    """[(description, candidate text)] — R39: the single simple statement right after an if/else's closing brace copied to
+    the end of BOTH arms (and deleted after the join), one site at a time.
+
+    T7 agents e12 (func_8017E35C) and e14 (func_8017BEBC, func_8017CAD4), P36 S104: `global.c:594-603` truncates allocno
+    priorities to int, so two loop-live pseudos tie (245/245) and the lower allocno takes the wrong register. One extra insn
+    inside the loop lengthens every loop-live pseudo by one (flow.c:1660-1684) and splits the tie (244 vs 245); post-reload
+    cross-jump merges the two copies back into one (`toplev.c:3142`, `jump.c:2371`), so the bytes keep a single store.
+    `tools/alloc_table.py` flags such ties as TIE."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for c in range(lo, hi - 1):
+        if not re.match(r"^\s*\}\s*$", masked[c]):
+            continue
+        k = c + 1
+        while k < hi and not masked[k].strip():         # blank lines between the join and the statement (S104 e24)
+            k += 1
+        if k >= hi or not simple_stmt(masked[k]) or is_decl_line(masked[k].strip()):
+            continue
+        # find the matching `if (…) {` … `} else {` … `}` that closes at c
+        depth, j, else_at = 0, c, None
+        while j >= lo:
+            depth += masked[j].count("}") - masked[j].count("{")
+            if re.match(r"^\s*\}\s*else\s*\{\s*$", masked[j]) and depth == 1:
+                else_at = j
+            if depth == 0:
+                break
+            j -= 1
+        if else_at is None or j < lo or not re.match(r"^\s*if\s*\(", masked[j]):
+            continue
+        ind = lines[else_at][:len(lines[else_at]) - len(lines[else_at].lstrip())] + "    "
+        # the first 1..3 simple statements after the join (S104 e24 func_80180E24: a STORE PAIR had to move together)
+        n = 0
+        while n < 3 and k + n < hi and simple_stmt(masked[k + n]) and not is_decl_line(masked[k + n].strip()) \
+                and not re.match(r"^\s*(?:return|goto|break|continue)\b", masked[k + n]):
+            n += 1
+            stmts = [lines[x].strip() for x in range(k, k + n)]
+            cand = (lines[:else_at] + [ind + t for t in stmts] + [lines[else_at]] + lines[else_at + 1:c]
+                    + [ind + t for t in stmts] + [lines[c]] + lines[c + 1:k] + lines[k + n:])
+            out.append((f"dup-join ×{n} {stmts[0][:24]} @{k + 1}", "\n".join(cand)))
+        if len(out) >= max_sites:
+            break
+    return out
+
+
+def return_preincrement(text, tu, fn, d_):
+    """[(description, candidate text)] — R40: `return x + 1;` (x a local) → `return ++x;`.
+
+    T7 agents e2 (func_800348A8) and e16 (func_800331D4), P36 S104: a loop counter whose only exit use is `return i + 1`
+    loses an `allocno_compare` race (`global.c:587-603`, refs weighted by loop depth `flow.c:2067`) to a loop pointer; the
+    pre-increment adds refs, and combine folds `i = i + 1; $v0 = i` back into one `addiu` — zero bytes."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^(\s*)return\s+([A-Za-z_]\w*)\s*([-+])\s*1\s*;\s*$", masked[i])
+        if m:
+            cand = list(lines)
+            cand[i] = f"{m.group(1)}return {m.group(3) * 2}{m.group(2)};"
+            out.append((f"return-preinc {m.group(3) * 2}{m.group(2)} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+def swap_if_else_arms(text, tu, fn, d_, max_sites=12):
+    """[(description, candidate text)] — R41: an `if (C) { A } else { B }` rewritten `if (!(C)) { B } else { A }`, one site
+    at a time.
+
+    T7 agent e16 (func_800336A8, P36 S104): the arm ORDER decides which block falls through and which one reorg's delay-slot
+    filler can steal from (`update_block` reorg.c:2233, `mark_target_live_regs` :2696-2704, `fill_eager_delay_slots` :3368);
+    swapping the arms closed a barrier class the generators never reached (they never swap arms). One compile per site."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^(\s*)if\s*\((.*)\)\s*\{\s*$", masked[i])
+        if not m or masked[i].count("(") != masked[i].count(")"):
+            continue
+        depth, j, e = 0, i, None
+        while j < hi:
+            depth += masked[j].count("{") - masked[j].count("}")
+            if depth == 1 and j > i and re.match(r"^\s*\}\s*else\s*\{\s*$", masked[j]):
+                e = j
+            if depth == 0 and j > i:
+                break
+            j += 1
+        if e is None or j >= hi or not re.match(r"^\s*\}\s*$", masked[j]):
+            continue
+        ind = m.group(1)
+        C = lines[i][masked[i].index("(") + 1:m.end(2)]
+        nc = _invert(C) or f"!({C.strip()})"
+        cand = lines[:i] + [f"{ind}if ({nc}) {{"] + lines[e + 1:j] + [f"{ind}}} else {{"] + lines[i + 1:e] + [f"{ind}}}"] + lines[j + 1:]
+        out.append((f"swap-arms @{i + 1}", "\n".join(cand)))
+        if len(out) >= max_sites:
+            break
+    return out
+
+
+def move_statement_far(text, tu, fn, d_, max_dist=6, cap=120):
+    """[(description, candidate text)] — R42: one simple statement moved DOWN past 2..max_dist following simple statements of
+    the same block (R9 only exchanges neighbours).
+
+    T7 agent e19 (func_8018230C, P36 S104): `w = D + D * c;` moved below four `base[]` statements let sched1 put its `addu`
+    inside z's range (26..30 → 24..30), dropping z below base[1] in `qty_compare_1` (`local-alloc.c:1598`); the header's
+    "@stuck: every source-order permutation was INERT" had only permuted neighbours. e19 counted this gap in three of its
+    four closes. The byte oracle judges every candidate (a move past a dependent statement changes the program and simply
+    does not score)."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    ok = lambda i: simple_stmt(masked[i]) and not is_decl_line(masked[i].strip()) and not re.match(
+        r"^\s*(?:return|goto|break|continue|case|default)\b", masked[i]) and masked[i].strip().endswith(";")
+    out = []
+    for i in range(lo, hi):
+        if not ok(i):
+            continue
+        j = i + 1
+        while j < hi and j - i <= max_dist and ok(j):
+            if j - i >= 2:
+                cand = lines[:i] + lines[i + 1:j + 1] + [lines[i]] + lines[j + 1:]
+                out.append((f"move-far @{i + 1} below @{j + 1}", "\n".join(cand)))
+                if len(out) >= cap:
+                    return out
+            j += 1
+    return out
+
+
+def sign_test_to_mask(text, tu, fn, d_):
+    """[(description, candidate text)] — R43: `if (E < 0)` / `if (E >= 0)` whose arms set or clear bit 31 (`0x80000000` /
+    `0x7FFFFFFF` within the next lines) rewritten as a mask test `if ((u32)(E) & 0x80000000)` (resp. `!(…)`).
+
+    T7 agents e24 (func_8017F694) and e26 (func_8017F438, func_8017F600 + seven siblings), P36 S104: the mask is loaded BEFORE
+    the branch as the AND's operand, cse hands the arm's `|= 0x80000000` the same register, combine still makes `bgez`, and
+    reorg's `fill_simple_delay_slots` moves the `lui` into the delay slot (`reorg.c:2799ff`); the `< 0` spelling lets
+    `mostly_true_jump` fill the slot from the other arm instead (`reorg.c:1335-1420`). combine then leaves a `(use)` of the
+    dead AND whose pseudo reload gives a stack slot (`combine.c:10831-10845`) — what the trees' dead pads were faking."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^(\s*(?:\}\s*else\s+)?if\s*\()(.+?)\s*(<|>=)\s*0\s*(\)\s*\{?\s*)$", masked[i])
+        if not m or masked[i].count("(") != masked[i].count(")"):
+            continue
+        near = "\n".join(masked[i:min(hi, i + 8)])
+        if "0x80000000" not in near and "0x7FFFFFFF" not in near and "0x7fffffff" not in near:
+            continue
+        E = lines[i][m.start(2):m.end(2)].strip()
+        test = f"(u32)({E}) & 0x80000000" if m.group(3) == "<" else f"!((u32)({E}) & 0x80000000)"
+        cand = list(lines)
+        cand[i] = lines[i][:m.start(1)] + m.group(1) + test + m.group(4)
+        out.append((f"sign-to-mask @{i + 1}", "\n".join(cand)))
+        # the mask test creates the dead-AND slot a tree pad was faking (e24/e26 both deleted the pad): the combination
+        nopad = _drop_dead_pads(cand, lo, hi)
+        if nopad is not None:
+            out.append((f"sign-to-mask @{i + 1} + dead pad dropped", "\n".join(l for l in nopad if l is not None)))
+    return out
+
+
+def _drop_dead_pads(lines, lo, hi):
+    """lines with every never-used (or only `(void)&x;`-used) array local deleted; None if there is none."""
+    masked = [sc.mask_text(l) for l in lines]
+    body = "\n".join(masked[lo:hi])
+    cand, hit = list(lines), False
+    for i in range(lo, hi):
+        m = re.match(r"^\s*[A-Za-z_][\w\s]*\s+([A-Za-z_]\w*)\s*\[[^\]]*\]\s*;\s*$", masked[i])
+        if not m:
+            continue
+        n = m.group(1)
+        uses = [j for j in range(lo, hi) if j != i and re.search(r"\b%s\b" % re.escape(n), masked[j])]
+        if all(re.match(r"^\s*\(void\)\s*&?\s*%s\s*;\s*$" % re.escape(n), masked[j]) for j in uses):
+            for j in [i] + uses:
+                cand[j] = None
+            hit = True
+    return cand if hit else None
+
+
+def return_constants(text, tu, fn, d_):
+    """[(description, candidate text)] — R37: a result local `r = 0; if (A) r = (B); return r;` (or with `{ }`) written as
+    `if (A && B) return 1; return 0;` — and the nested form `if (A) { if (B) return 1; } return 0;`.
+
+    T7 agent d27 (func_80184B94 + three copies + the shared header func_8013E448.h ×141, P36 S104): the result pseudo
+    `r = 0` was hoisted by sched1 above the call-result copy and took `$a1`, costing a final `move v0,a1`. With constant
+    returns jump1's store-flag works on the hard `$v0` (`jump.c:1140-1210`, the `x = b; if (…) x = a` hoist `:700-760`),
+    which sched1 must keep after the copy. Only when `r` has exactly these three mentions; its declaration goes."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for k in range(lo, hi):
+        rm = re.match(r"^(\s*)return\s+([A-Za-z_]\w*)\s*;\s*$", masked[k])
+        if not rm:
+            continue
+        ind, r = rm.group(1), rm.group(2)
+        hits = [i for i in range(lo, hi) if re.search(r"\b%s\b" % re.escape(r), masked[i])]
+        decl = [i for i in hits if re.match(r"^\s*[A-Za-z_][\w\s]*\**\s*%s\s*;\s*$" % re.escape(r), masked[i])]
+        use = [i for i in hits if i not in decl]
+        z = next((i for i in use if re.match(r"^\s*%s\s*=\s*0\s*;\s*$" % re.escape(r), masked[i])), None)
+        if z is None:
+            continue
+        rest = [i for i in use if i not in (z, k)]
+        # `if (A) r = (B);` on one line, or `if (A) {` / `r = (B);` / `}`
+        span = None
+        if len(rest) == 1:
+            i = rest[0]
+            m1 = re.match(r"^\s*if\s*\((.*)\)\s*\{?\s*%s\s*=\s*(.+?);\s*\}?\s*$" % re.escape(r), masked[i])
+            if m1 and masked[i].count("(") == masked[i].count(")"):
+                span = (i, i, lines[i][masked[i].index("(") + 1:m1.end(1)], lines[i][m1.start(2):m1.end(2)])
+            elif i >= 1 and re.match(r"^\s*if\s*\((.*)\)\s*\{\s*$", masked[i - 1]) and re.match(r"^\s*\}\s*$", masked[i + 1]):
+                m2 = re.match(r"^\s*%s\s*=\s*(.+?);\s*$" % re.escape(r), masked[i])
+                mc = re.match(r"^\s*if\s*\((.*)\)\s*\{\s*$", masked[i - 1])
+                if m2 and mc:
+                    span = (i - 1, i + 1, lines[i - 1][mc.start(1):mc.end(1)], lines[i][m2.start(1):m2.end(1)])
+        if not span or not (z < span[0] and span[1] < k):
+            continue
+        a, b = span[2].strip(), span[3].strip()
+        if b.startswith("(") and b.endswith(")"):
+            b = b[1:-1].strip()
+        for tag, new in (("and", [f"{ind}if (({a}) && ({b})) {{", f"{ind}    return 1;", f"{ind}}}", f"{ind}return 0;"]),
+                         ("nested", [f"{ind}if ({a}) {{", f"{ind}    if ({b}) {{", f"{ind}        return 1;", f"{ind}    }}",
+                                     f"{ind}}}", f"{ind}return 0;"])):
+            cand = list(lines)
+            for x in [z] + list(range(span[0], span[1] + 1)) + decl:
+                cand[x] = None
+            cand[k] = "\n".join(new)
+            out.append((f"return-constants {r} {tag} @{k + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
+def merge_pinned_twins(tu, fn, free_text):
+    """[(description, candidate text)] — R28: locals the TREE pins to the same hard register, merged into one variable.
+
+    T7 agent d12 (func_801898E4 ×4, P36 S104): the tree pinned `count`/`descCount` to one register and `table`/`table2` to
+    another — each pair was ONE original variable the decompiler split. Merged, the variable spans both phases and conflicts
+    with the registers that push it into the target's (`find_reg`, `global.c:945-966`). Reads the tree body for the pins
+    (the start text has them stripped); renames the later names to the first in the start text and drops their one-name
+    declarations — every group at once, then each group alone."""
+    raw = (REPO / tu).read_text(errors="surrogateescape")
+    tree = _fn_text(raw, tu, fn)
+    if not tree:
+        return []
+    groups = collections.defaultdict(list)
+    for m in re.finditer(r"register\s+[^;=()]*?\b([A-Za-z_]\w*)\s*__asm__\s*\(\s*\"\$(\d+)\"\s*\)", tree):
+        if m.group(1) not in groups[m.group(2)]:
+            groups[m.group(2)].append(m.group(1))
+    gs = [(r, ns) for r, ns in groups.items() if len(ns) >= 2 and r != "0"]
+    if not gs:
+        return []
+    d_ = sc_body_span(free_text, "src/fx/regen.c", fn)
+    if not d_:
+        return []
+
+    def apply(sel):
+        lines = free_text.split("\n")
+        for _r, ns in sel:
+            keep = ns[0]
+            for n in ns[1:]:
+                masked = [sc.mask_text(l) if l is not None else "" for l in lines]
+                if not _drop_single_decl(lines, masked, d_["line"], d_["end"] - 1, n):
+                    return None
+                lines = [re.sub(r"\b%s\b" % re.escape(n), keep, l) if l is not None else None for l in lines]
+        return "\n".join(l for l in lines if l is not None)
+    out = []
+    for tag, sel in ([("all", gs)] if len(gs) > 1 else []) + [(f"${r}", [(r, ns)]) for r, ns in gs]:
+        c = apply(sel)
+        if c and c != free_text:
+            out.append((f"merge-pinned {tag} " + ";".join("=".join(ns) for _r, ns in sel), c))
+    return out
+
+
+_NAMED_DEFS = None
+_SYM = r"(?:D|g)_[0-9A-Fa-f]{8}"
+
+
+def named_definitions():
+    """{name: [(file, line)]} — every definition-looking line of a `func_XXXXXXXX` in src/ (.c and shared .h), cached once."""
+    global _NAMED_DEFS
+    if _NAMED_DEFS is None:
+        r = subprocess.run(["git", "grep", "-nE", r"^[A-Za-z_][^;]*\bfunc_[0-9A-Fa-f]{8}(_body)?[[:space:]]*\([^;]*$", "--", "src/*.c", "src/*.h"],
+                           cwd=REPO, capture_output=True, text=True, errors="surrogateescape")
+        idx = collections.defaultdict(list)
+        for ln in r.stdout.splitlines():
+            f, n, t = ln.split(":", 2)
+            for m in re.finditer(r"\b(func_[0-9A-Fa-f]{8})(?:_body)?\s*\(", t):   # `func_X_body(` = an asm-label definition (S104)
+                idx[m.group(1)].append((f, int(n)))
+                break
+        _NAMED_DEFS = dict(idx)
+    return _NAMED_DEFS
+
+
+def _fn_text(raw, rel, fn):
+    d_ = sc_body_span(raw, rel, fn)
+    if not d_:
+        return None
+    ls = line_starts(raw)
+    return raw[ls[d_["line"] - 1]:ls[d_["end"]]] if d_["end"] < len(ls) else raw[ls[d_["line"] - 1]:]
+
+
+def sc_body_span(text, rel, fn):
+    return next((r for r in sc.scan_text(text, rel, shared_defs=None) if r["form"] == "def" and r["name"] == fn), None)
+
+
+def _uniq(seq):
+    seen, out = set(), []
+    for x in seq:
+        if x not in seen:
+            seen.add(x)
+            out.append(x)
+    return out
+
+
+def _obj_of(rel):
+    """The original-bytes object that carries `rel`'s code: a .c file's own object (snapshot first); a shared header's
+    first includer's."""
+    if rel.endswith(".h"):
+        r = subprocess.run(["git", "grep", "-l", "-F", pathlib.Path(rel).name, "--", "src/*.c"], cwd=REPO,
+                           capture_output=True, text=True)
+        inc = r.stdout.split()
+        if not inc:
+            return None
+        rel = inc[0]
+    p = oracle.baseline_path("build/" + rel[:-2] + ".o")
+    return p if p.exists() else None
+
+
+def fn_relocs(obj, fn):
+    """[symbol] — the relocation targets of `fn` in `obj`, in address order (objdump -dr)."""
+    r = subprocess.run(["mipsel-linux-gnu-objdump", "-dr", "--no-show-raw-insn", str(obj)], capture_output=True, text=True)
+    out, inside = [], False
+    for ln in r.stdout.splitlines():
+        m = re.match(r"^[0-9a-f]+ <([^>]+)>:$", ln)
+        if m:
+            inside = m.group(1) == fn
+            continue
+        if inside:
+            m = re.search(r"\bR_MIPS_\w+\s+(\S+)", ln)
+            if m:
+                out.append(m.group(1).split("+")[0])
+    return out
+
+
+def reloc_map(donor_rel, tu, fn):
+    """{donor symbol: target symbol} — the two ORIGINAL objects' relocation sequences for `fn` paired in order (the same
+    function at the same address in two binaries: same instructions, per-binary data symbols). None when the sequences do
+    not align (different lengths) or one donor symbol would map to two targets."""
+    a, b = _obj_of(donor_rel), _obj_of(tu)
+    if not a or not b:
+        return None
+    ra, rb = fn_relocs(a, fn), fn_relocs(b, fn)
+    if not ra or len(ra) != len(rb):
+        return None
+    m = {}
+    for x, y in zip(ra, rb):
+        if not re.match(r"(?:D|g|func)_[0-9A-Fa-f]{8}$", x) or not re.match(r"(?:D|g|func)_[0-9A-Fa-f]{8}$", y):
+            continue
+        if m.setdefault(x, y) != y:
+            return None
+    return {x: y for x, y in m.items() if x != y}
+
+
+def _carry_decls(ported, m, donor_raw, target_raw):
+    """Body-local copies of the donor TU's file-scope `extern` declarations for every renamed symbol the target TU does not
+    declare anywhere (a donor symbol declared at file scope is 'undeclared' in the target — d6's COMPILE-ERROR)."""
+    add = []
+    for x, y in m.items():
+        if not y.startswith(("D_", "g_")) or re.search(r"\b%s\b" % re.escape(y), target_raw):
+            continue
+        if re.search(r"extern\b[^;]*\b%s\b" % re.escape(y), ported):
+            continue
+        dm = re.search(r"^extern\b[^;\n]*\b%s\b[^;\n]*;" % re.escape(x), donor_raw, re.M)
+        if dm:
+            add.append("    " + re.sub(r"\b%s\b" % re.escape(x), y, dm.group(0)))
+    if not add:
+        return ported
+    i = ported.index("{") + 1
+    return ported[:i] + "\n" + "\n".join(add) + ported[i:]
+
+
+def named_ports(tu, fn, max_donors=6):
+    """[(description, candidate text)] — R27: the SAME function already lever-free in another binary, ported with its
+    symbols renamed onto this binary's.
+
+    T7 agents d2 (func_80166F58, ov_MAIN_012 ×6 from ov_SC04_011's shared header) and d6 (func_8017B614, ov_SC07_010 ×5
+    from ov_SC01_000), P36 S104: both closed on their FIRST `--try` by porting a banked lever-free variant — the overlays
+    carry one engine function at one address with per-overlay data symbols. The sweep had spent 1,699 compiles on d6's
+    class without getting below 13. The port needs two repairs, both mechanical: (1) the data symbols renamed — pairing
+    the two bodies' `extern` declaration lists by POSITION (d6's port.py) or their first occurrences in order; (2) the
+    return type taken from the TARGET, whose TU declares the function again later (`extern void …` vs a donor's `s32`:
+    "conflicting types", d2). Donors: every definition of `fn` in src/ with no `register`/`__asm__`/`!FAKE`, nearest line
+    count first. Every candidate is judged on the bytes; a wrong pairing just does not score."""
+    raw_t = (REPO / tu).read_text(errors="surrogateescape")
+    target = _fn_text(raw_t, tu, fn)
+    if not target:
+        return []
+    t_head = target[:target.index("{")] if "{" in target else ""
+    t_ext = _uniq(re.findall(r"extern\b[^;]*?\b(%s)\b" % _SYM, target))
+    t_occ = _uniq(re.findall(r"\b(%s)\b" % _SYM, target))
+    donors, seen = [], set()
+    for f, _n in named_definitions().get(fn, ()):
+        if f == tu:
+            continue
+        try:
+            body = _fn_text((REPO / f).read_text(errors="surrogateescape"), f, fn)
+        except (OSError, ValueError):
+            continue
+        if not body or re.search(r"__asm__|\bregister\b|!FAKE", body):
+            continue
+        key = re.sub(r"\s+", " ", re.sub(r"\b%s\b" % _SYM, "D", body))
+        if key in seen:
+            continue
+        seen.add(key)
+        donors.append((abs(body.count("\n") - target.count("\n")), f, body))
+    out = []
+    for _d, f, body in sorted(donors)[:max_donors]:
+        d_ext = _uniq(re.findall(r"extern\b[^;]*?\b(%s)\b" % _SYM, body))
+        d_occ = _uniq(re.findall(r"\b(%s)\b" % _SYM, body))
+        maps = []
+        rm = reloc_map(f, tu, fn)
+        if rm is not None:
+            maps.append(("reloc", rm))
+        maps.append(("same", {}))
+        for tag, a, b in (("extern-order", d_ext, t_ext), ("first-occurrence", d_occ, t_occ)):
+            if a and len(a) == len(b):
+                m = {x: y for x, y in zip(a, b) if x != y}
+                if len(set(m.values())) == len(m):
+                    maps.append((tag, m))
+        donor_raw = (REPO / f).read_text(errors="surrogateescape")
+        for tag, m in maps:
+            ported = re.sub(r"\b(?:D|g|func)_[0-9A-Fa-f]{8}\b", lambda x: m.get(x.group(0), x.group(0)), body) if m else body
+            if m:      # the target's own body is replaced, so its local declarations do not count
+                ported = _carry_decls(ported, m, donor_raw, raw_t.replace(target, "", 1))
+            if "{" not in ported:
+                continue
+            d_head = ported[:ported.index("{")]
+            k = d_head.find(fn)
+            variants = [("", ported)]
+            tk = t_head.find(fn)
+            if k >= 0 and tk >= 0 and d_head[:k] != t_head[:tk]:
+                variants.append((" +target-return", t_head[:tk] + ported[k:]))
+            if t_head and d_head != t_head:
+                variants.append((" +target-signature", t_head + ported[ported.index("{"):]))
+            for vtag, cand in variants:
+                out.append((f"port {f.split('/')[-1]} {tag}{vtag}", cand))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39", "R40", "R41", "R42", "R43")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3237,6 +4069,54 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R26" in fam:
         for desc, cand in alias_repeated_addresses(text, tu, fn, d_):
             out.append(("R26", desc, cand))
+    if "R29" in fam:
+        for desc, cand in fold_store_temps(text, tu, fn, d_):
+            out.append(("R29", desc, cand))
+    if "R31" in fam:
+        for desc, cand in shift_operand_casts(text, tu, fn, d_):
+            out.append(("R31", desc, cand))
+    if "R32" in fam:
+        for desc, cand in compound_assignments(text, tu, fn, d_):
+            out.append(("R32", desc, cand))
+    if "R33" in fam:
+        for desc, cand in else_arm_assignments(text, tu, fn, d_):
+            out.append(("R33", desc, cand))
+    if "R35" in fam:
+        for desc, cand in drop_param_copies(text, tu, fn, d_):
+            out.append(("R35", desc, cand))
+    if "R36" in fam:
+        for desc, cand in merge_set_chains(text, tu, fn, d_):
+            out.append(("R36", desc, cand))
+    if "R40" in fam:
+        for desc, cand in return_preincrement(text, tu, fn, d_):
+            out.append(("R40", desc, cand))
+    if "R43" in fam:
+        for desc, cand in sign_test_to_mask(text, tu, fn, d_):
+            out.append(("R43", desc, cand))
+    if "R42" in fam:
+        for desc, cand in move_statement_far(text, tu, fn, d_):
+            out.append(("R42", desc, cand))
+    if "R41" in fam:
+        for desc, cand in swap_if_else_arms(text, tu, fn, d_):
+            out.append(("R41", desc, cand))
+    if "R39" in fam:
+        for desc, cand in duplicate_join_statement(text, tu, fn, d_):
+            out.append(("R39", desc, cand))
+    if "R38" in fam:
+        for desc, cand in shift_to_division(text, tu, fn, d_):
+            out.append(("R38", desc, cand))
+    if "R37" in fam:
+        for desc, cand in return_constants(text, tu, fn, d_):
+            out.append(("R37", desc, cand))
+    if "R34" in fam:
+        for desc, cand in merge_disjoint_locals(text, tu, fn, d_):
+            out.append(("R34", desc, cand))
+    if "R28" in fam and not tu.startswith("src/fx/") and (REPO / tu).exists():   # the tree's pins live in the real TU
+        for desc, cand in merge_pinned_twins(tu, fn, text):
+            out.append(("R28", desc, cand))
+    if "R27" in fam and not tu.startswith("src/fx/") and (REPO / tu).exists():   # the named port needs the real TU
+        for desc, cand in named_ports(tu, fn):
+            out.append(("R27", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))

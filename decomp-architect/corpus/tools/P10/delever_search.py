@@ -308,9 +308,14 @@ def lever_free_body(tu, raw, fn, sites):
     if not edits:
         return raw
     try:
-        return dl.apply_edits(raw, edits)
+        out = dl.apply_edits(raw, edits)
     except dl.Refuse as ex:
         raise Unstrippable([("<combination>", 0, str(ex)[:120])])
+    # R43 (S104 e24, func_80180E24): a deleted lever line that OPENED a multi-line comment left the comment's tail as code — the
+    # start text did not compile, and every sweep read the class as UNSCORED, never as refused. Refuse instead.
+    if out.count("/*") - out.count("*/") != raw.count("/*") - raw.count("*/"):
+        raise Unstrippable([("<comment>", 0, "a stripped lever line opened or closed a block comment")])
+    return out
 
 
 def load_outcomes():
