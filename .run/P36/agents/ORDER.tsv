@@ -1,5 +1,6 @@
 rank	fn	alias	copies	best	needed	kinds	regs	tu
-2	func_80189030	ov_SC03_001	3	13	1	keepalive		src/ov_SC03_001/ov_SC03_001_jr_80189030.c
-125	func_80181DAC	ov_SC04_004	3	16	2	keepalive,pin	$0	src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c
-25	func_8017BF50	ov_SC03_124	3	21	1	pin	$17	src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c
-81	func_8017F368	ov_SC03_001	4	40	2	pin	$0,$4	src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c
+61	func_801861FC	ov_SC03_091	4	9	1	pin	$2	src/ov_SC03_091/ov_SC03_091_jr_8018326C.c
+36	func_8018003C	ov_SC02_016	4	9	4	pin	$0,$17,$5,$6	src/ov_SC02_016/ov_SC02_016_jr_8017DC70.c
+57	func_80181864	ov_SC03_113	4	21	3	barrier,launder		src/ov_SC03_113/ov_SC03_113_jr_8017C294.c
+68	func_80180324	ov_SC04_007	7	43	8	cast,keepalive,pin	$0	src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c
+85	func_8018179C	ov_SC06_010	4	63	2	pin	$16,$4	src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c

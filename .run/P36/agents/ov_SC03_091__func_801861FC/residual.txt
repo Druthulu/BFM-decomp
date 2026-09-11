@@ -1,0 +1,25 @@
+src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:func_801861FC: score 15 (COUNT; mine 77 ins, target 76) — not yet
+  replace mine[6:7] target[6:7]
+        6  beq	v1,v0,3048 <func_801861FC+0xb8> | beq	v1,v0,3044 <func_801861FC+0xb4>
+  replace mine[12:13] target[12:13]
+       12  j	30a8 <func_801861FC+0x118>       | j	30a4 <func_801861FC+0x114>
+  replace mine[15:16] target[15:16]
+       15  beq	v1,v0,306c <func_801861FC+0xdc> | beq	v1,v0,3068 <func_801861FC+0xd8>
+  replace mine[17:18] target[17:18]
+       17  j	30a8 <func_801861FC+0x118>       | j	30a4 <func_801861FC+0x114>
+  replace mine[22:24] target[22:26]
+       22  move	a0,v0                         | sll	v1,v0,0x3
+       23  sll	v0,a0,0x3                      | lw	a0,32(s0)
+       24  --                                 | subu	v1,v1,v0
+       25  --                                 | sh	v1,24(a0)
+  replace mine[25:29] target[27:28]
+       25  subu	v0,v0,a0                      | sll	v0,v0,0x1
+       26  sh	v0,24(v1)                       | --
+       27  lw	v1,32(s0)                       | --
+       28  sll	v0,a0,0x1                      | --
+  replace mine[44:45] target[43:44]
+       44  j	305c <func_801861FC+0xcc>        | j	3058 <func_801861FC+0xc8>
+  replace mine[53:54] target[52:53]
+       53  j	30a8 <func_801861FC+0x118>       | j	30a4 <func_801861FC+0x114>
+  replace mine[68:69] target[67:68]
+       68  j	30b0 <func_801861FC+0x120>       | j	30ac <func_801861FC+0x11c>

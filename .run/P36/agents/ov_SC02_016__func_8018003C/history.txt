@@ -1,0 +1,14 @@
+g6: verdict NO-MATCH start 36 best 9 compiles 333 path R7 do-while @3956 + R6 inline v0 @3966 + R6 inline v0 @3962
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline v0 @3962 -> 9 [COUNT] (from 21)
+  R6 inline v0 @3966 -> 9 [COUNT] (from 22)
+  R14 param-width arg0 s32->s16 @3942 -> 11 [COUNT] (from 21)
+  R6 inline v0 @3953 -> 11 [COUNT] (from 21)
+  R7 do-while @3982 -> 15 [COUNT] (from 21)
+  R6 inline v0 @3981 -> 18 [COUNT] (from 21)
+  R9 swap-stmts @3981 -> 18 [COUNT] (from 21)
+  R6 inline v1 @3967 -> 19 [COUNT] (from 22)
+  R6 inline v1 @3955 -> 20 [COUNT] (from 21)
+  R9 swap-stmts @3967 -> 20 [COUNT] (from 22)
+  R6 inline v0 @3966 -> 21 [COUNT] (from 23)
+  R8 cse tmp0 @3982 -> 21 [COUNT] (from 23)

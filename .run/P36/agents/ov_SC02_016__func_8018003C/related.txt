@@ -1,0 +1,62 @@
+=== lever-free bodies in ov_SC02_016 sharing a callee or global with func_8018003C (12 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801433F0 (src/shared/ov/func_801433F0.h:7) shares 3: func_80128ED8 func_801292C8 func_8012931C ---
+void func_801433F0(s32 a0) {
+    if (*(u16 *)(a0 + 2) == 0) {
+        func_80143458();
+    } else {
+        func_8012931C((struct vec *)a0);
+        if (func_80128ED8(*(void **)(a0 + 0x20), (u8 *)a0 + 0x24) != 0) {
+            func_801292C8((u8 *)a0);
+        }
+    }
+}
+
+--- func_8014350C (src/shared/ov/func_8014350C.h:7) shares 3: func_80128ED8 func_801292C8 func_8012931C ---
+void func_8014350C(s32 *a0) {
+    if (*(u16 *)((u8 *)a0 + 2) == 0) {
+        func_8014358C();
+        return;
+    }
+    func_8012931C((struct vec *)a0);
+    if (func_80128ED8((void *)a0[0x20 / 4], (void *)((u8 *)a0 + 0x24)) != 0) {
+        func_801292C8((u8 *)a0);
+        return;
+    }
+    *(u8 *)(a0[0x20 / 4] + 0x27) = *(u8 *)((u8 *)a0 + 0x28) - 0x70;
+}
+
+--- func_80169FE0 (src/shared/ov/func_80169FE0.h:5) shares 1: func_80128ED8 ---
+void func_80169FE0(s32 a0) {
+    if (func_80128ED8((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {
+        ((void (*)(s32))func_80146C3C)(a0);
+    }
+}
+
+--- func_8016DEE0 (src/shared/ov/func_8016DEE0.h:5) shares 1: func_80128ED8 ---
+void func_8016DEE0(s32 a0) {
+    if (func_80128ED8((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {
+        ((void (*)(s32))func_80146C3C)(a0);
+    }
+}
+
+--- func_8012927C (src/shared/ov/func_8012927C.h:5) shares 1: func_801292C8 ---
+void func_8012927C(void) {
+    s32 i;
+    u8 *p = (u8 *)&D_8011DB30;
+    for (i = 0; i < 0x80; i++) {
+        func_801292C8(p);
+        p += 0x38;
+    }
+}
+
+--- func_801665B4 (src/shared/ov/func_801665B4.h:6) shares 1: func_80128ED8 ---
+void func_801665B4(s32 *a0)
+{
+    if (func_80128ED8((void *)a0[8], (void *)(a0 + 9))) {
+        func_80146C3C((s32)a0);
+    } else {
+        func_800D22E4((s32)a0);
+        a0[5] -= a0[5] >> 3;
+    }
+}
+

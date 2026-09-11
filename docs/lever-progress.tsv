@@ -56,3 +56,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-10	S103 end: c51 func_8012E364 2 levers (134); scrub of 46 orphan markers	94520756e	5097	2798	2299	2569	1097	5097	0	456	314	1590	50	7782	445	76
 2026-09-10	S104 T7: free sweep (5 classes) + agents d1–d9 (all 0; 8 with zero levers, d4 one marked do-while)	910875139	4963	2730	2233	2498	1077	4963	0	456	314	1590	50	7782	445	76
 2026-09-10	S104 T7: sweeps (all-families, R27) + agents d11–d19 all at 0 with zero levers	91ae94a64	4753	2578	2175	2383	1019	4753	0	456	314	1590	50	7780	445	76
+2026-09-10	S104 T7: d17 + R28–R33 pass (4) + R27 remainder	13069c142	4732	2565	2167	2373	1011	4732	0	456	314	1590	50	7780	445	76

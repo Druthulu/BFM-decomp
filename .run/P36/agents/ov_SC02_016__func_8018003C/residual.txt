@@ -1,0 +1,44 @@
+src/ov_SC02_016/ov_SC02_016_jr_8017DC70.c:func_8018003C: score 36 (COUNT; mine 44 ins, target 42) — not yet
+  register pairs (mine -> target, count): a1->v0 x8, a0->v1 x6, v0->a1 x2, v1->a2 x2
+  replace mine[5:9] target[5:9]
+        5  lw	a1,16(s1)                       | lw	v0,16(s1)
+        6  lw	a0,44(s1)                       | lw	v1,44(s1)
+        7  lw	v0,48(s1)                       | lw	a1,48(s1)
+        8  lw	v1,52(s1)                       | lw	a2,52(s1)
+  replace mine[10:17] target[10:17]
+       10  addu	a1,a1,a0                      | addu	v0,v0,v1
+       11  sw	a1,16(s1)                       | sw	v0,16(s1)
+       12  lw	a1,20(s1)                       | lw	v0,20(s1)
+       13  lw	a0,24(s1)                       | lw	v1,24(s1)
+       14  addu	a1,a1,v0                      | addu	v0,v0,a1
+       15  addu	a0,a0,v1                      | addu	v1,v1,a2
+       16  sw	a1,20(s1)                       | sw	v0,20(s1)
+  replace mine[18:19] target[18:19]
+       18  sw	a0,24(s1)                       | sw	v1,24(s1)
+  replace mine[20:25] target[20:24]
+       20  lhu	a1,26(s0)                      | lhu	v0,26(s0)
+       21  move	s0,s1                         | addiu	a1,s1,36
+       22  addiu	a1,a1,-256                   | addiu	v0,v0,-256
+       23  sh	a1,26(a0)                       | sh	v0,26(a0)
+       24  sh	a1,24(a0)                       | --
+  replace mine[26:28] target[25:35]
+       26  addiu	a1,s1,36                     | sh	v0,24(a0)
+       27  bnez	v0,245c <func_8018003C+0x90>  | bnez	v0,2454 <func_8018003C+0x88>
+       28  --                                 | nop
+       29  --                                 | lw	v0,28(s1)
+       30  --                                 | nop
+       31  --                                 | beqz	v0,245c <func_8018003C+0x90>
+       32  --                                 | addiu	v0,v0,-1
+       33  --                                 | bnez	v0,245c <func_8018003C+0x90>
+       34  --                                 | sw	v0,28(s1)
+       35  --                                 | jal	0 <func_8017DC70>
+  delete  mine[29:38] target[36:36]
+       29  lw	a1,28(s0)                       | --
+       30  nop                                | --
+       31  beqz	a1,2464 <func_8018003C+0x98>  | --
+       32  addiu	a1,a1,-1                     | --
+       33  bnez	a1,2464 <func_8018003C+0x98>  | --
+       34  sw	a1,28(s0)                       | --
+       35  move	a0,s0                         | --
+       36  jal	0 <func_8017DC70>              | --
+       37  nop                                | --

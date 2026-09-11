@@ -147,3 +147,20 @@
       (`c-typeck.c:2418-2450` short_shift re-extends; cse folds that pair instead, `cse.c:5577-5667`); never the declaration.
     - Copies of your class under OTHER names in other TUs close with the same text almost always — find them by grepping a
       distinctive line and `--try` each (d7, d9, d11, d12, d13, d15 all did).
+14. **S104's third wave (d14, d16–d19), all at 0 with ZERO levers — and a pattern across the session:**
+    - **FOUR of nineteen closes were a goto chain rewritten as STRUCTURED C** (d3 if/else, d9 `||`, d11 ternary condition,
+      d17 `switch` + a `for` with `continue`). The tree's bodies are decompiler goto text; no generator reaches a structured
+      shape. If your body has `goto`/labels, try the structured spelling EARLY.
+    - (d17) a do-while's return path `bnez …,<epilogue>; move v0,<ret>` vs the target's `beqz …; <increment in slot>` →
+      write the loop as `for (…; …; count++, p += K)` with `continue`: a rotated for/while emits `NOTE_INSN_LOOP_VTOP`
+      (`jump.c:2306`), which flips reorg's `mostly_true_jump` (`reorg.c:1364-1372`). A hoisted copy of a parameter living past
+      the parameter's last use makes cse re-route reads through it (`cse.c:846-862`) — delete the copy.
+    - (d14) a register residual in a LATE block where the target keeps late values in the same registers as unrelated
+      EARLY variables → the original REUSED those variables: rename each late local to an earlier-dead one (enumerate;
+      `combine_regs` refuses a pseudo that dies in several places, `local-alloc.c:1845`). (d19) a walked pointer vs counter
+      `$s0/$s1` swap → make other loops' index the losing counter (raises its `allocno_compare` priority, `global.c:595-599`).
+    - (d16, d18) a walked destination/secondary pointer (`dst`, `s1 = p + K` stepped alongside `p`) → index the array by the
+      loop counter / write the accesses as `p + K + off`: all addresses become givs of one biv and combine into one register
+      (`record_giv` `loop.c:4341`, `combine_givs` `:5494`). A `$0` pin on `y = x + zr` → declare `y` at the proven width.
+    - Enumerating cheap spellings (d14: 365 bodies in ~3 min through `--try`) beats reasoning when the residual is a
+      register permutation; `alloc_table.py` explains afterwards.

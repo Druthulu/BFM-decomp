@@ -1,0 +1,48 @@
+src/ov_SC03_113/ov_SC03_113_jr_8017C294.c:func_80181864: score 25 (COUNT; mine 237 ins, target 240) — not yet
+  replace mine[12:13] target[12:13]
+       12  bnez	v0,5648 <func_80181864+0x78>  | bnez	v0,564c <func_80181864+0x7c>
+  replace mine[19:20] target[19:20]
+       19  beqz	v0,5648 <func_80181864+0x78>  | beqz	v0,564c <func_80181864+0x7c>
+  replace mine[21:22] target[21:22]
+       21  beqz	s0,5964 <func_80181864+0x394> | beqz	s0,5970 <func_80181864+0x3a0>
+  delete  mine[26:27] target[26:26]
+       26  beqz	s0,5964 <func_80181864+0x394> | --
+  insert  mine[28:28] target[27:29]
+       28  --                                 | beqz	a0,5970 <func_80181864+0x3a0>
+       29  --                                 | nop
+  replace mine[48:49] target[49:50]
+       48  j	5964 <func_80181864+0x394>       | j	5970 <func_80181864+0x3a0>
+  replace mine[51:52] target[52:53]
+       51  beqz	v0,587c <func_80181864+0x2ac> | beqz	v0,5888 <func_80181864+0x2b8>
+  replace mine[77:78] target[78:79]
+       77  beqz	v0,5724 <func_80181864+0x154> | beqz	v0,572c <func_80181864+0x15c>
+  delete  mine[83:84] target[84:84]
+       83  j	5764 <func_80181864+0x194>       | --
+  insert  mine[85:85] target[85:87]
+       85  --                                 | j	5770 <func_80181864+0x1a0>
+       86  --                                 | sh	v0,18(s0)
+  replace mine[118:119] target[120:121]
+      118  beqz	v0,57c8 <func_80181864+0x1f8> | beqz	v0,57d4 <func_80181864+0x204>
+  delete  mine[124:125] target[126:126]
+      124  j	5808 <func_80181864+0x238>       | --
+  insert  mine[126:126] target[127:129]
+      126  --                                 | j	5818 <func_80181864+0x248>
+      127  --                                 | sh	v0,26(s0)
+  replace mine[153:154] target[156:157]
+      153  j	5870 <func_80181864+0x2a0>       | j	587c <func_80181864+0x2ac>
+  replace mine[155:156] target[158:159]
+      155  j	5870 <func_80181864+0x2a0>       | j	587c <func_80181864+0x2ac>
+  replace mine[157:158] target[160:161]
+      157  j	5870 <func_80181864+0x2a0>       | j	587c <func_80181864+0x2ac>
+  replace mine[159:160] target[162:163]
+      159  j	5870 <func_80181864+0x2a0>       | j	587c <func_80181864+0x2ac>
+  replace mine[161:162] target[164:165]
+      161  j	5870 <func_80181864+0x2a0>       | j	587c <func_80181864+0x2ac>
+  replace mine[163:164] target[166:167]
+      163  j	5870 <func_80181864+0x2a0>       | j	587c <func_80181864+0x2ac>
+  replace mine[165:166] target[168:169]
+      165  j	5870 <func_80181864+0x2a0>       | j	587c <func_80181864+0x2ac>
+  replace mine[169:170] target[172:173]
+      169  j	5948 <func_80181864+0x378>       | j	5954 <func_80181864+0x384>
+  replace mine[214:215] target[217:218]
+      214  j	5948 <func_80181864+0x378>       | j	5954 <func_80181864+0x384>

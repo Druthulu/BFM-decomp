@@ -1,0 +1,2 @@
+src/ov_SC02_016/ov_SC02_016_jr_8017DC70.c
+func_8018003C

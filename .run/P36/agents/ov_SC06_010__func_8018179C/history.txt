@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 63 best 63 compiles 305 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R2 decl-order 1,0 -> 63 [MIXED] (from 63)
+  R5 swap + @6944 -> 63 [MIXED] (from 63)
+  R6 inline state @6921 -> 63 [MIXED] (from 63)
+  R7 block @6906 -> 63 [MIXED] (from 63)
+  R8 temp tmp0 @6906 -> 63 [MIXED] (from 63)
+  R9 swap-stmts @6899 -> 63 [MIXED] (from 63)
+  R10 param-copy a0 @6893 -> 63 [MIXED] (from 63)
+  R12 width state u16->s32 @6892 -> 63 [MIXED] (from 63)
+  R5 swap + @6975 -> 63 [MIXED] (from 63)
+  R6 inline r @7019 -> 63 [MIXED] (from 63)
+  R8 base tmp0 @6906 -> 63 [MIXED] (from 63)
+  R12 width state u16->s16 @6892 -> 63 [MIXED] (from 63)

@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 25 best 25 compiles 323 path 
+s7: verdict NO-MATCH start 25 best 21 compiles 558 path R12 width dir s32->u16 @5454 + R8 base tmp0 @5536 + R12 width tmp0 s32->s16 @5455
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width tmp0 s32->s16 @5455 -> 21 [COUNT] (from 25)
+  R12 width dir s32->u16 @5454 -> 25 [COUNT] (from 25)
+  R8 temp tmp0 @5536 -> 25 [COUNT] (from 25)
+  R7 block @5567 -> 25 [COUNT] (from 25)
+  R10 param-copy arg0 @5455 -> 25 [COUNT] (from 25)
+  R12 width dir s32->s16 @5454 -> 25 [COUNT] (from 25)
+  R8 base tmp0 @5536 -> 25 [COUNT] (from 25)
+  R7 do-while @5567 -> 25 [COUNT] (from 25)
+  R9 swap-stmts @5537 -> 25 [COUNT] (from 25)
+  R8 temp tmp0 @5505 -> 25 [COUNT] (from 25)
+  R7 block @5564 -> 25 [COUNT] (from 25)
+  R8 base tmp0 @5505 -> 25 [COUNT] (from 25)

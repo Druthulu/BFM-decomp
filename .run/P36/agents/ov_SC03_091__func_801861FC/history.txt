@@ -1,0 +1,14 @@
+g6: verdict NO-MATCH start 15 best 9 compiles 324 path R9 swap-stmts @4725 + R6 inline sub @4748 + R6 inline sub @4735
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline sub @4735 -> 9 [COUNT] (from 11)
+  R6 inline sub @4733 -> 9 [COUNT] (from 11)
+  R6 inline sub @4733 -> 9 [COUNT] (from 11)
+  R6 inline sub @4748 -> 11 [COUNT] (from 13)
+  R6 inline sub @4735 -> 11 [COUNT] (from 13)
+  R6 inline sub @4733 -> 11 [COUNT] (from 13)
+  R8 temp tmp0 @4728 -> 11 [COUNT] (from 11)
+  R7 block @4737 -> 11 [COUNT] (from 11)
+  R9 swap-stmts @4737 -> 11 [COUNT] (from 11)
+  R4 decl-move t 3->0 -> 11 [COUNT] (from 11)
+  R8 base tmp0 @4728 -> 11 [COUNT] (from 11)
+  R4 decl-move t 3->1 -> 11 [COUNT] (from 11)

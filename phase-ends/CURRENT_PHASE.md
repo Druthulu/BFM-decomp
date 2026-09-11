@@ -1863,7 +1863,112 @@ accumulate here as the phase produces them.**
   marked ordinary-C fakes); R7's do-while now carries the marker. **Open for T9:** the tree's `LOAD-BEARING CONSTRUCTS` header
   comments (232 files) still describe levers their banked bodies no longer have (e.g. `func_8017EF88`'s) — a stale-comment pass.
 
-## 🛑 SESSION CHECKPOINT — S103 (2026-09-10, refreshed at the session's end): T0–T6 ☑, **T7 RUNNING**. 24,119 → **5,097 sites** this session (−19,022); 56 agent draws; generators **R22–R26**; `delever_regen` + `delever --port-scan`; **the MINIMUM-LEVER pivot** (four 130-copy classes now carry 1-2 marked levers instead of 4-34); R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK, exit 0 (5,097 marked, 0 UNMARKED, 0 orphans) · the session's last commit follows
+- **S104 — the second and third waves: d11–d19 ALL at 0 with ZERO levers; generators R28–R34; the new-families pass.** d11
+  `func_801800F0` (sign-split range tests → one ternary condition; cookbook §396(a); 4 bodies), d12 `func_801898E4` (the split
+  locals merged + `s16 b`; 4), d13 `func_8018F694` (`(s16)t >> 6` at the shift; 5), d14 `func_801860B8` (late locals reuse
+  earlier-dead variables; 3), d15 `func_8018594C` (a reused temp as direct stores + an `s16` parameter; 4), d16 `func_8017F368`
+  (arrays indexed by the loop counter, a `u8` copy; 5), d17 `func_80181DAC` (goto chain → `switch`, do-while → `for`:
+  `NOTE_INSN_LOOP_VTOP` flips `mostly_true_jump`, `reorg.c:1364-1372`; 4), d18 `func_8017BF50` (the invented second stepped
+  pointer deleted; 9), d19 `func_80189030` (loop indices renamed to the losing counter; 3). **Four of nineteen closes this session
+  were goto chains rewritten as structured C** (d3/d9/d11/d17) — no generator can reach that shape. **Generators R28
+  `merge_pinned_twins`, R29 `fold_store_temps`, R31 `shift_operand_casts`, R32 `compound_assignments`, R33
+  `else_arm_assignments`, R34 `merge_disjoint_locals`**, each run against its agent's own start text (R31/R32/R33 reproduce the
+  close at 0; R28 63 and R29 4 = the agents' measured single-move scores; R34 is a composition move: 13/5/63 alone). Their first
+  residue pass: `945 of 945 classes judged in 842 s — MATCH 4` (R32 ×2, R33, R28), banked 4/4. R27 pass: `995 of 995 classes judged
+  in 919 s — MATCH 25`, all banked. Sweep bank part 2: `39 of 44 MATCH row(s) banked, 35 sibling(s) propagated` (2 sibling
+  DIFFERS refused, 3 re-score misses). R22 after every batch: `check-all: 218 passed, 0 failed of 218` (r22_a/b/c logs). Census
+  4,928 → **4,732** (`0 UNMARKED — OK`, exit 0). Agents d20–d24 launched on the triple-judged residue (see the checkpoint).
+
+## 🛑 SESSION CHECKPOINT — S104 (2026-09-10): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,732 sites** this session; 24 agent draws, **19 landed, ALL at 0** (18 with zero levers, d4 one marked do-while); generators **R27–R34**; the census counts kept ordinary-C fakes apart; R22 `check-all: 218 passed, 0 failed of 218` after every batch | `lever_census --check` exit 0 (4,732 marked, 0 UNMARKED, 0 orphans, 4 marked ordinary-C fakes)
+
+### 0. How to use this block
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**S104 ran at `/effort high` on
+Opus 5 1M; every agent on Opus**) and executes §2. **In flight when last refreshed:** agents d20 `func_80180324` (ov_SC04_007,
+7 copies), d21 `func_8018179C` (ov_SC06_010), d22 `func_801861FC` (ov_SC03_091), d23 `func_80181864` (ov_SC03_113), d24
+`func_8018003C` (ov_SC02_016) — read-only; each leaves `.run/P36/agents/<alias>__<fn>/body.c` + `mechanism.md` (+ copies under
+`scratch/`). And the all-families sweep `s104_all` (detached, `setsid`; `.run/P36/regen/s104_all.jsonl` grows one line per
+judged class; ~350 of 1,020 at the refresh; its MATCH rows are banked from the jsonl, see §3). First commands:
+```
+git log --oneline -1 && git status --short | grep -v '^??' | wc -l
+ps -eo pid,etime,args | grep '[d]elever_regen'            # is s104_all still running?
+.venv/bin/python tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16   # after EVERY commit
+```
+
+### 1. THE OPERATING PROCEDURE (Drew's; S104 additions in bold)
+- At most FIVE agents at once (Drew, S103). **Free sweep BEFORE any agent touches a class (Drew, S104: "are we running sweeps
+  with the new tooling on all remaining funcs to see if we can reduce them further for free before an agent touches them?")** —
+  draw only classes that every current generator pass has judged and not closed (`s104_all` + `s104_r27` + `s104_new5`).
+- Every landing: `--try` the body (and `grep -c '__asm__\|register\|FAKE\|volatile'` it) → launch the next agent → bank the
+  exemplar AND the agent's copies (`.run/P36/s104/bank_list.sh`, one line per body: `TU FN FILE LABEL MSG`; it calibrates,
+  `--apply-body --rung E`, `--propagate`, commits per bank, skips a no-op) → harvest (a generator with a known-true check on
+  the agent's own start text) → a regen pass of the new families → R22 → census (READ THE EXIT CODE, R97) → commit.
+- **Resolve a copy's TU from `delever.named_definitions()` filtered by `/<alias>/`** — a grep for `^[a-z].*\bfn(` finds call
+  lines (one bank list stopped on it).
+- Agents' brief: `PROMPT.md` + `METHOD_S103.md` (steps 8–14 are S104's; step 12–14 list every close with its `file:line`) +
+  the pack. Tell each agent what every pass already did and which same-name donors are NOT the same function.
+
+### 2. NEXT
+1. Land d20–d24 (§0). Bank each + copies; harvest mechanical moves into generators; re-run the new families.
+2. When `s104_all` finishes: bank its remaining MATCH rows (build a TSV from the jsonl, skip rows already banked, mark R7
+   do-while lines — §3), then R22.
+3. The residue at the refresh: **930 classes**; ~300 judged by all three passes and undrawn — keep five agents on them, largest
+   copies first, one per TU. Below 3 copies the classes are mostly singletons (912 at S104's open).
+4. Open generator ideas, not built: **a goto-chain → structured-C rewriter** (d3/d9/d11/d17 — the biggest gap: every generator
+   mutates goto text); widen R22 `merge_walked_pointers` to STORES through a second stepped pointer (d18 found it did not
+   fire); `tools/localalloc_sim.py` three-quantity rule (d5's `scratch/lsim3.py`, both sorts); `alloc_table.py` final
+   registers (d12's `scratch/finalregs.py`) and local-alloc's handed-out call-saved registers (d7).
+5. **Drew's rulings of S104 bind (decisions §S104):** do-while stays, marked; GTE is T5; unclosed sites stay marked and go to the
+   STRUCTS phase (the milestone amended); the signature-change functions go to the structs phase.
+
+### 3. THE EXACT INVOCATIONS (S103's §3 still holds; additions)
+```
+# a regen pass (read-only; processes; one jsonl line per judged class as it lands)
+setsid nohup nice -n 5 .venv/bin/python tools/delever_regen.py --families R28 R29 R31 R32 R33 R34 -j 8 --label <L> \
+    --exclude <every fn an agent holds> > .run/P36/regen/<L>.log 2>&1 < /dev/null & disown
+.venv/bin/python tools/delever_regen.py --bank .run/P36/regen/<L>.tsv        # the one writer; then R22
+# banking MATCH rows from a still-running pass: build a TSV from <L>.jsonl (the S104 snippet: cols verdict alias fn tu copies
+# score cls family desc start path tried err; skip (alias, fn) already banked; for family R7 append the do-while marker to the
+# candidate's `while (0);` line — the pass generated before R7 learned the marker)
+# R22 (≈90 s):
+make clean && make extract-all JOBS=16 && make check-all JOBS=16
+.venv/bin/python tools/delever_oracle.py --snapshot-baseline
+.venv/bin/python tools/lever_census.py --check -j 16 --quiet; echo "exit=$?"         # the EXIT CODE, never the last line
+.venv/bin/python tools/lever_progress.py --snapshot "<what>"
+```
+
+### 4. WHAT S104 BUILT (SETUP rows under the delever_regen entry; kit corpus regenerated after the regen/census change)
+- `delever_regen`: forked worker PROCESSES after warming `sites_by_body` / `real_signatures` / `named_definitions` (threads
+  made zero compiles in five minutes); `<label>.jsonl` written as each class lands; R27/R28 fed the REAL TU.
+- `lever_census`: `walk_file` defaults to the tree's cross-file macro table (`tree_asm_macros()`) — S103's scrub false
+  positive fixed; a marker on a kept ordinary-C fake (`while (0)` / `!FAKE: do-while|dead-init`) is counted apart, never an
+  orphan (the census had exited 1 on d4's four markers — commit `830650946`'s "0 unmarked" was read from the last line; R97).
+- Generators R27 (named port by relocation pairing), R28, R29, R31, R32, R33, R34 (§ the log); R7's do-while carries the marker.
+- `.run/P36/s104/bank_list.sh` (the per-bank loop; scratch, untracked like `s103/`).
+
+### 5. GOTCHAS S104 PAID FOR
+- A regen on THREADS is GIL-bound: R18 emits 1,000+ texts per body and R19 builds a 29 s table once per thread.
+- **R97, again:** a chain `census && next` stops on the census's exit 1 and the commit message still said OK — read `$?`.
+- A per-line `mask_text` leaves a block comment's inner lines unmasked — the new generators mask the whole text.
+- `--apply-body` refuses a dirty tree: one commit per bank (the script does it); the calibration must be at HEAD.
+- Two git writers (a bank script and a tool commit) race on the index — commit tools only while no bank runs.
+- `delever_pack --only` matches fn / TU / alias, not `alias__fn`.
+- Banked bodies keep the tree's stale `LOAD-BEARING CONSTRUCTS` header comments (232 files mention the phrase) — T9.
+
+### 6. OPEN BY NAME
+- `func_80181D1C` (ov_SC04_004 ×4): d17 read it — two defects the `for`/`switch` move does not reach (an early `return 0` with
+  the reorg symptom and no loop; a return value kept in `v0` across a test while every spelling puts it in `v1`) — a separate
+  draw or the structs phase.
+- The structs phase's list: `func_80157D20`, `func_8013CF68`, `func_80178970` (+ the four same-shape families), `func_8017FC5C`
+  + `func_80180200`, `func_80185578`, `func_80168828`, `func_8013F350`'s head, the minimum-lever classes of S103; d10's union
+  proof (`func_8017EF88`) is the first evidence FOR Drew's struct hypothesis; d6 and d18 name struct types the phase can adopt.
+- d14's side probe: `func_8012E364` (134 bodies at two marked pins) reaches 3 by local reuse (`ov_SC02_027__func_801860B8/scratch/e364/c0009.c`).
+
+### 7. WHERE EVERYTHING IS
+S103's §7 holds, plus `.run/P36/regen/s104_*` (all, r27, new5, part1/part2 TSVs, `s104_marked/` R7 candidates with markers) ·
+`.run/P36/s104/` (R22 logs r22_a/b/c, bank lists banks_1–5, known-true harnesses kt.py/kt34.py, r27_probe.py) · each landed
+pack's `mechanism.md` (d1–d19) · SETUP under the delever_regen entry.
+
+## (superseded) SESSION CHECKPOINT — S103 (2026-09-10, refreshed at the session's end): T0–T6 ☑, **T7 RUNNING**. 24,119 → **5,097 sites** this session (−19,022); 56 agent draws; generators **R22–R26**; `delever_regen` + `delever --port-scan`; **the MINIMUM-LEVER pivot** (four 130-copy classes now carry 1-2 marked levers instead of 4-34); R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK, exit 0 (5,097 marked, 0 UNMARKED, 0 orphans) · the session's last commit follows
 
 ### LATE S103 — READ THIS FIRST (it supersedes §0-§2 below where they differ)
 - **Drew ended agent drawing at 89% context: "no more agents this session. let the current ones finish."** At that

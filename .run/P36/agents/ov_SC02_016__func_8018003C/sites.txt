@@ -1,0 +1,8 @@
+NEEDED   pin         $17    line 4070
+REMOVED  pin         $16    line 4071
+REMOVED  pin         $2     line 4072
+REMOVED  pin         $3     line 4073
+REMOVED  pin         $4     line 4074
+NEEDED   pin         $5     line 4075
+NEEDED   pin         $6     line 4076
+NEEDED   pin         $0     line 4077
