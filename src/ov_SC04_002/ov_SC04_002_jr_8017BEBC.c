@@ -7478,52 +7478,32 @@ extern s32 func_8012BEE8(s32 a0);
 extern M2C_UNK D_801A86E4;
 
 void func_801831B8(s32 a0) {
-    s32 local[4]; /* sp+0x10, out-param scratch for func_80182564; never read back here */
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
-    s32 sum;
+    s32 local;
 
-    v0 = func_80182564(a0, 0xFFFB0000, local);
-    if (v0 == 1) {
+    if (func_80182564(a0, 0xFFFB0000, &local) == 1) {
         func_8012ADE4((u8 *)a0);
         *(s32 *)(a0 + 0x1C) = 8;
         func_8012A8B0((u8 *)a0, (s32)&D_801A86E4);
         func_8012B23C(a0);
         func_8012AD44((s32 *)a0, 1);
     } else {
-        v0 = *(s16 *)(a0 + 0x102);
-        if (v0 != 0) {
-            /* two DISTINCT registers on purpose: the pinned $v0 (=result) is a
-             * hardware register variable, so gcc cannot copy-propagate the
-             * plain local `tmp` into it — it must emit a real move, matching
-             * the target's addu $v1,$v0,zero / addiu $v0,$v1,-1 pair. */
-            register s32 tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
-            tmp = v0;
-            __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-            v0 = tmp - 1;
+        if (*(s16 *)(a0 + 0x102) != 0) {
+            (*(s16 *)(a0 + 0x102))--;
         } else {
-            s16 cnt;
-
             if (*(s16 *)(a0 + 0xAA) == 0) {
                 func_80182A6C((void *)a0);
             }
-            cnt = *(u16 *)(a0 + 0x104) - 1;
-            *(s16 *)(a0 + 0x104) = cnt;
-            if (cnt != 0) {
-                v0 = 4;
+            if (--(*(s16 *)(a0 + 0x104)) != 0) {
+                *(s16 *)(a0 + 0x102) = 4;
             } else {
                 *(s16 *)(a0 + 0x104) = 3;
-                v0 = 0x20;
+                *(s16 *)(a0 + 0x102) = 0x20;
             }
         }
-        *(s16 *)(a0 + 0x102) = v0;
-
-        v0 = *(s32 *)(a0 + 0x20);
-        sum = *(u16 *)(v0 + 0x12) + *(u16 *)(a0 + 0x106);
-        *(u16 *)(v0 + 0x12) = sum;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += *(u16 *)(a0 + 0x106);
         if (func_8012BEE8(a0) != 0) {
             *(s32 *)(a0 + 0x1C) = 0x80;
-            v0 = rand();
-            *(s16 *)(a0 + 0x106) = (v0 & 0x20) - 0x10;
+            *(s16 *)(a0 + 0x106) = (rand() & 0x20) - 0x10;
         }
     }
 }
