@@ -39,9 +39,8 @@ void func_80169584(s32 param_1) {
         *(s8 *)(buf + 0x2a) = v1;    /* 0x3A */
         *(s8 *)(buf + 0x26) = v1;    /* 0x36 */
     }
-    *(s8 *)(buf + 0x28) = v0;        /* 0x38 = local_40 */
+    do { *(s8 *)(buf + 0x28) = v0;        /* 0x38 = local_40 */ } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     *(s8 *)(buf + 0x24) = v0;        /* 0x34 = local_44 */
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
     *(s32 *)(buf + 0x30) = 0x50000000;   /* 0x40 = local_38 */
     s0 = param_1 + 0x38;
     *(s32 *)(param_1 + 0x4c) = (s32)*(s16 *)(param_1 + 0x06);

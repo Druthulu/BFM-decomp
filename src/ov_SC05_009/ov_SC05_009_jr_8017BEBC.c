@@ -3481,7 +3481,7 @@ void func_8017DF5C(s32 a0)
     s32 pad[2];
     s32 s0 = a0;
     s32 *anchor = &D_80126B58;   /* &SYM in the entry block -> one $s2 base */
-    s32 s1 = 0;
+    short s1 = 0;
     (void)&pad;
 
     if (*(u8 *)((u8 *)s0 + 0x74) != 0) {
@@ -3520,8 +3520,8 @@ void func_8017DF5C(s32 a0)
     }
 
     {
-        s32 v0;
-        __asm__ __volatile__("" : "=r"(v0) : "0"(s1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        short v0;
+        v0 = s1;
         if (v0 == 0) {
             *(u16 *)((u8 *)s0 + 0xFE) = 0;
         }

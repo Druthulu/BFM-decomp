@@ -4168,7 +4168,6 @@ void func_8017FE38(s32 p)
     /* forced copy of the tpage word (§ ov_SC04_005 func_80181470 idiom): the target keeps
      * `addu $v0,$v1,$zero` because the stored/masked value and the `& 0x10` test read two
      * distinct pseudos; every plain spelling gets them coalesced. */
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
     s32 z;
     u32 *otp;
 
@@ -4213,12 +4212,12 @@ void func_8017FE38(s32 p)
     if ((g.flag & ~0x1000) == 0) {
         x = *(u16 *)(p + 0x104);
         y = *(u16 *)(p + 0x106);
-        *(u16 *)(pkt + 0xE) = 0x7800;
         x = x + 0x140;
         a = (y & 0x100) >> 4;
         b = ((x & 0x3C0) >> 6) | 0x80;
         w = a | b | ((y & 0x200) << 2);
-        tp = w + zr;
+        *(u16 *)(pkt + 0xE) = 0x7800;
+        tp = w + 0;
         *(u16 *)(pkt + 0x16) = tp;
         tp = tp & 0xF;
         x -= tp << 6;

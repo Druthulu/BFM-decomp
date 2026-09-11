@@ -6548,7 +6548,7 @@ void func_8018130C(void *a0p)
     extern s32 rand(void);
     extern s32 func_80047948(s32 a0);
     extern s32 func_8004787C(s32 a0);
-    register void *arg0 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    void *arg0;
     s32 s0;
     s32 v0;
     s32 s2;
@@ -6572,7 +6572,7 @@ void func_8018130C(void *a0p)
         *(s32 *)((char *)arg0 + 0x14) = s2;
 
         s2 = D_8018FEEC;
-        s0 = rand() & 0xFFF;
+        do { s0 = rand() & 0xFFF; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
         s3 = func_80047948(s0) * s2;
         s0 = func_8004787C(s0) * s2;
         s3 = (s3 * (rand() & 0xFF)) >> 4;

@@ -5416,7 +5416,7 @@ s32 func_8018A950(s32 param_1) {
     int td;
     unsigned short t;
 
-    iVar1 = *(int *)(self + 0x1c);
+    do { iVar1 = *(int *)(self + 0x1c); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     iVar6 = *(int *)(self + 0x20);
     *(int *)(self + 0x1c) = iVar1 + 1;
     if (iVar1 < 2) {
@@ -5493,7 +5493,6 @@ s32 func_8018A950(s32 param_1) {
         *(short *)(self + 0x70) = *(short *)(self + 0x70) >> 1;
         *(unsigned short *)(iVar6 + 0x2c) |= 1;
     } else {
-        __asm__ __volatile__("" : "=r"(self) : "0"(self));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         ((void (*)(void *))func_8012C218)((void *)self);
     }
 }

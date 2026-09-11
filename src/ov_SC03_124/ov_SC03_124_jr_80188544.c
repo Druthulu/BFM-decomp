@@ -4419,9 +4419,8 @@ void func_8018A3C8(s32 arg0) {
     v1 = 0x40000000;
     v0 |= v1;
     v1 = 0x20000000;
-    v0 |= v1;
+    do { v0 |= v1; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     *(s32 *)(arg0 + 0x58) = v0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     D_801DE4DC[*(u16 *)(arg0 + 0x2)](arg0);
 }
 

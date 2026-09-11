@@ -4565,8 +4565,7 @@ void func_80181218(s32 arg0) {
         *(s16 *)(arg0 + 0x1A) = t;
     }
 
-    *(s32 *)(arg0 + 0x4C) = -(*(s32 *)(arg0 + 0x18) >> 4);
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    do { *(s32 *)(arg0 + 0x4C) = -(*(s32 *)(arg0 + 0x18) >> 4); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     *(s32 *)(arg0 + 0x1C) = 0x10;
 
     *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x18) = 0x1800;

@@ -7460,7 +7460,7 @@ void func_80183F10(void)
     Blk32_80183F10 m;
     s32 vecB[4];
     s32 out[4];
-    register void *mp __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t3_tus1)
+    void *mp;
     void *op;
     void *mp2;
     void *op2;
@@ -7484,7 +7484,7 @@ void func_80183F10(void)
         m = aAE620_80183F10[0];
         RotMatrixY(i << 9, mp);
         func_800484EC((s32)mp, (s32)vecB, (s32)op);
-        func_8018B0B0((void *)obj, svec, op, 0x10);
+        do { func_8018B0B0((void *)obj, svec, op, 0x10); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     }
 
     mp2 = mp;
@@ -10266,7 +10266,7 @@ void func_80187B40(void *a0)
     extern Blk4_80187B40 D_801ED994;
     extern Blk4_80187B40 D_801ED998;
 
-    register void *s4 __asm__("$20") = a0;  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B t3_tus1)
+    void *s4 = a0;
     s32 obj;
     s32 i;
     s32 sz;
@@ -10287,7 +10287,7 @@ void func_80187B40(void *a0)
      * loop (loop.c never runs, so nothing is hoisted and nothing is strength-
      * reduced) plus 0x1000 held in a variable initialised in the preheader. */
     i = 0;
-    sz = 0x1000;
+    do { sz = 0x1000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     pp = D_801EFD70;
 loop:
     obj = func_8012C194();

@@ -4519,7 +4519,7 @@ void func_80181200(s32 a0)
     s32 m;
     s32 vp;
     u16 w6;
-    register s32 t8C __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 t8C;
     u16 t88;
     u16 t8A;
 
@@ -4531,7 +4531,7 @@ void func_80181200(s32 a0)
 
     if (func_8012BEE8(a0) != 0) {
         *(u16 *)(a0 + 0x2) = 1;
-        vp = *(s32 *)(a0 + 0x78);
+        do { vp = *(s32 *)(a0 + 0x78); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
         t88 = *(u16 *)(a0 + 0x88);
         t8C = *(u16 *)(a0 + 0x8C);
         *(u16 *)(a0 + 0x34) = 0;

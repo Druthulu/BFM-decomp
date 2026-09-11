@@ -8470,7 +8470,7 @@ void func_80184398(s32 a0) {
 
     extern u8 D_8018C9DC[];
     s32 obj;            /* $s0 */
-    register s32 self __asm__("$17") = a0;       /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 self = a0;
     s32 t0;
     s32 t1;
     s32 t2;
@@ -8482,7 +8482,7 @@ void func_80184398(s32 a0) {
     *(u16 *)(self + 0xE) = *(u16 *)(self + 0xE) + 0x10;
     *(u16 *)(obj + 0x18) = 0x2C00;
     *(u16 *)(obj + 0x1A) = 0x1C00;
-    *(u32 *)(obj + 4) = *(u32 *)(obj + 4) | 0x1000000;
+    do { *(u32 *)(obj + 4) = *(u32 *)(obj + 4) | 0x1000000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
     t0 = *(s32 *)(self + 0xCC);
     *(u16 *)(t0) = 0;

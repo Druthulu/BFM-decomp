@@ -5543,15 +5543,14 @@ extern void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u
 
 void func_801828A0(s32 a0) {
     s32 s0;
-    register s32 sum __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 sum;
     s32 x;
 
     s0 = a0;
     func_8012AD80(s0);
     *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) += D_80188EF4;
     sum = *(s32 *)(s0 + 0x1C) + 4;
-    x = sum;
-    *(s32 *)(s0 + 0x1C) = x;
+    x = *(s32 *)(s0 + 0x1C) = sum;
     if (x >= 0x100) {
         x = 0xFF;
     }

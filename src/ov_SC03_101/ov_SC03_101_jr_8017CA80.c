@@ -5098,7 +5098,6 @@ s32 func_801812B4(void *arg0, s32 arg1) {
     s32 in[3];
     s32 out[3];
     s16 d;
-    register int ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     int decoy;
     in[0] = ((s16 *)arg0)[3] - *(s16 *)&D_80126B5E;
     in[1] = 0;
@@ -5108,12 +5107,10 @@ s32 func_801812B4(void *arg0, s32 arg1) {
     if (d < 0) {
         d = -d;
     }
-    asm("":"=r"(decoy));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
-    ret = 0;
-    if (out[0] + out[2] < (u16)arg1 * (u16)arg1) {
-        ret = d < 4;
+    if ((out[0] + out[2] < (u16)arg1 * (u16)arg1) && (d < 4)) {
+        return 1;
     }
-    return ret;
+    return 0;
 }
 
 

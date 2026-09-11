@@ -4443,7 +4443,6 @@ void func_801800B8(void *a0) {
 
     u = ctl->unk0C;
     t = D_801861F0[(*(u16 *)((u8 *)D_801F8118 + 2)) * 5];
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     D_801F80A4 = 0;
     D_801F8084 = 0;
     D_801F8088 = -1;
@@ -4452,7 +4451,7 @@ void func_801800B8(void *a0) {
         D_801F809C = t;
     }
 
-    func_8017F5D0();
+    do { func_8017F5D0(); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
     D_801F8090 = ctl->unk10;
     func_80180E68(ctl->unk04, ctl->unk10);

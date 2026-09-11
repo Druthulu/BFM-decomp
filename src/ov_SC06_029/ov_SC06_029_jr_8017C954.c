@@ -6666,8 +6666,7 @@ void func_80182ED8(s32 arg0) {
     q = (s32 *)(dd4 + (t << 5));
 
     while (ctr < 4) {
-        __asm__ ("" :: "r"(p8));                 /* §3-C numerator slider — zero bytes */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
-        func_8012F214(*(s32 *)(arg0 + 0x64), (s32)p8, (s32)top);
+        do { func_8012F214(*(s32 *)(arg0 + 0x64), (s32)p8, (s32)top); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
         bot[0] = top[0];
         bot[1] = top[1];
         bot[2] = top[2];

@@ -6,10 +6,9 @@ extern void func_80147364();
 extern void func_80146C3C();
 void func_8016A1CC(int param_1)
 {
-    register int iVar1 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+    int iVar1;
     if (D_80078EBF != 0) {
-        iVar1 = D_80078EBF - 0x18;
-        *(int *)(param_1 + 0x30) = iVar1;
+        iVar1 = *(int *)(param_1 + 0x30) = D_80078EBF - 0x18;
         if (iVar1 >= 0) {
             iVar1 = *(int *)(param_1 + 0x1c) + 1;
             *(int *)(param_1 + 0x1c) = iVar1;

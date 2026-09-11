@@ -4928,7 +4928,7 @@ void func_8018124C(void) {
 #include "common.h"
 
 s32 func_80181294(u16 a0, s32 a1) {
-    register s32 scale __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 scale;
     s32 r;
     s32 g;
     s32 b;
@@ -4939,7 +4939,7 @@ s32 func_80181294(u16 a0, s32 a1) {
     s32 out;
 
     r = a0 & 0x1F;
-    scale = 0x1000 - a1;
+    do { scale = 0x1000 - a1; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     rp = r * scale;
     g = (a0 >> 5) & 0x1F;
     gp = g * scale;

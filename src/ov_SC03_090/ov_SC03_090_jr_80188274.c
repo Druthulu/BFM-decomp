@@ -4805,7 +4805,6 @@ s32 func_8018A9C8(void *a0, s32 a1) {
     s32 sp20[3];
     s32 m;
     s16 e;
-    register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
     sp10[0] = *(s16 *)((s32)a0 + 6) - *(s16 *)&D_80126B5E;
     sp10[1] = 0;
@@ -4818,11 +4817,10 @@ s32 func_8018A9C8(void *a0, s32 a1) {
         e = -m;
     }
 
-    ret = 0;
-    if (sp20[0] + sp20[2] < (u16)a1 * (u16)a1) {
-        ret = (s16)e < 4;
+    if ((sp20[0] + sp20[2] < (u16)a1 * (u16)a1) && ((s16)e < 4)) {
+        return 1;
     }
-    return ret;
+    return 0;
 }
 
 
