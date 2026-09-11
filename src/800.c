@@ -2986,16 +2986,17 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 {
     extern OtBlk_80016450 D_800A651C[];   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
     void *temp_v0;
-    register s16 vx __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
-    register s16 vy __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 tag0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s16 vx;
+    s16 vy;
+    register u32 tag0 __asm__("$4");  // !FAKE: pin $4 tag0 — local-alloc qty_compare, local-alloc.c:1579: the 0xFF000000-masked tag word must take $a0 before the depth4+slot quantity (6 refs / 44 insns) does; a plain u32 is 6 refs / 56 insns and loses (P36 S105 f1 minimum-lever)
     s32 depth4;
 
+    vx = a0;                       /* the s16 copies are made BEFORE the allocation call: they cross it, so global
+                                    * gives them $s2/$s1 and a3/arg7 are the ones spilled (the target's frame) */
+    vy = a1;
     temp_v0 = func_80010A08(0x18);
     *(u8 *)((u8 *)temp_v0 + 3) = 5;
     *(u8 *)((u8 *)temp_v0 + 7) = 0x28;
-    vx = a0;
-    vy = a1;
     if (arg8 < 4) {
         *(u8 *)((u8 *)temp_v0 + 7) = 0x2A;
     }
