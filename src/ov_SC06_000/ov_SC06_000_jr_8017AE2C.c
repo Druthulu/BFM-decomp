@@ -4896,7 +4896,6 @@ void func_8017E35C(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    __asm__ __volatile__ ("" :: "r" (nparts));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
                     prim = (Prim *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
@@ -4941,9 +4940,8 @@ void func_8017E35C(s32 arg0)
                                         else if (((Ft3_35C *)pkt)->y2 < mny) mny = ((Ft3_35C *)pkt)->y2;
                                         if (my >= -0x6E && mny < 0x6F) {
                                             u32 *otp;
-                                            if (g.sz0 > g.sz1) { za = g.sz0; if (za < g.sz2) za = g.sz2; }
-                                            else               { za = g.sz1; if (za < g.sz2) za = g.sz2; }
-                                            g.opz = za;
+                                            if (g.sz0 > g.sz1) { za = g.sz0; if (za < g.sz2) za = g.sz2; g.opz = za; }
+                                            else               { za = g.sz1; if (za < g.sz2) za = g.sz2; g.opz = za; }
                                             if (code == 7) g.opz = za + 0x50;
                                             oz = g.opz;
                                             d = oz - 400;
