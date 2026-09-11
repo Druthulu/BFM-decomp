@@ -3570,53 +3570,17 @@ extern void *func_80010A08(s32 a0);
 
 void func_80016638(void *a0, s32 a1, s32 a2)
 {
-    void *s2 = a0;
-    s32 s1 = a1;
-    s32 s0 = a2;
-    void *v0;
-    u32 mask1;
-    register u32 mask2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
-    u32 pv;
-    u32 v1;
-    u32 tmp;
+    typedef struct { u32 addr : 24; u32 len : 8; } PTag;             /* libgpu P_TAG: an OT link word */
+    typedef struct { u32 addr : 24; u32 len : 8; u32 code; } DrTpage; /* libgpu DR_TPAGE (8 bytes) */
+    typedef struct { u8 pad[4]; PTag *ot; } Env;                    /* a0 + 4: the frame's ordering table */
+    Env *env = a0;
+    DrTpage *p;
 
-    v0 = func_80010A08(8);
-
-    mask1 = 0xFFFFFF;
-    {
-        u32 one = 1;
-        s0 = (s0 << 5) & 0x9FF;
-        *(u8 *)((u8 *)v0 + 3) = (u8)one;
-        __asm__ __volatile__("" : "=r"(one) : "0"(one));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-    }
-    s0 = s0 | 0xE1000000;
-
-    s1 = s1 << 2;
-    mask2 = 0xFF000000;
-
-    *(u32 *)((u8 *)v0 + 4) = s0;
-
-    /* First addPrim RMW: new primitive's link = OT slot's current low24,
-     * primitive keeps its own top-byte tag. Mirrors func_80015D4C /
-     * func_80016450's matched addPrim idiom in this same TU. */
-    v1 = *(u32 *)((u8 *)s2 + 4);
-    pv = *(u32 *)v0;
-    v1 = *(u32 *)(s1 + v1);
-    pv = pv & mask2;
-    v1 = v1 & mask1;
-    pv = pv | v1;
-    *(u32 *)v0 = pv;
-
-    /* Second addPrim RMW: OT slot := (OT slot's own top-byte tag) |
-     * (new primitive's address, masked to low24) — head-insert the new
-     * primitive into the OT chain. */
-    v1 = *(u32 *)((u8 *)s2 + 4);
-    s1 = s1 + v1;
-    v1 = *(u32 *)s1;
-    tmp = (u32)v0 & mask1;
-    v1 = v1 & mask2;
-    v1 = v1 | tmp;
-    *(u32 *)s1 = v1;
+    p = func_80010A08(8);
+    p->len = 1;                                  /* setlen(p, 1) */
+    p->code = 0xE1000000 | ((a2 << 5) & 0x9FF);  /* setDrawTPage(p, 0, 0, a2 << 5) */
+    p->addr = env->ot[a1].addr;                  /* addPrim(&env->ot[a1], p): setaddr(p, getaddr(ot)) */
+    env->ot[a1].addr = (u32)p;                   /*                          setaddr(ot, p)           */
 }
 
 
