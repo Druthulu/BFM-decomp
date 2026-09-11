@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 4 best 4 compiles 318 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width n s32->u16 @377 -> 4 [COUNT] (from 4)
+  R8 hoist tmp0 @392 -> 4 [COUNT] (from 4)
+  R7 block @381 -> 4 [COUNT] (from 4)
+  R5 swap + @395 -> 4 [COUNT] (from 4)
+  R12 width n s32->s16 @377 -> 4 [COUNT] (from 4)
+  R7 do-while @381 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @394 -> 4 [COUNT] (from 4)
+  R12 width n s32->u8 @377 -> 4 [COUNT] (from 4)
+  R8 temp tmp0 @413 -> 4 [COUNT] (from 4)
+  R7 block @392 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @410 -> 4 [COUNT] (from 4)
+  R8 base tmp0 @413 -> 4 [COUNT] (from 4)

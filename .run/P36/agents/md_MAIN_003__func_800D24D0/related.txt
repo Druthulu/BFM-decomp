@@ -1,0 +1,54 @@
+=== lever-free bodies in md_MAIN_003 sharing a callee or global with func_800D24D0 (2 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800D0C50 (src/md_MAIN_003/md_MAIN_003_o0e.c:621) shares 1: func_800599B8 ---
+void func_800D0C50(void) {
+    s16 sp10[8];
+    u16 *addr2;
+    u16 *addr1;
+
+    addr1 = (u16 *)(D_800EC894 * 307744 + 0x80114014);
+    addr2 = (u16 *)(D_800EC894 * 307744 + 0x80114220);
+    sp10[0] = 0;
+    sp10[1] = 0x1E0;
+    sp10[2] = 0x100;
+    sp10[3] = 1;
+    sp10[4] = 0x280;
+    sp10[5] = 0x10;
+    sp10[6] = 0x140;
+    sp10[7] = 0x1E0;
+    func_800599B8(sp10, addr1);
+    func_800599B8(&sp10[4], addr2);
+    func_80011928(3);
+}
+
+--- func_800CFE00 (src/md_MAIN_003/md_MAIN_003.c:670) shares 1: func_800599B8 ---
+void func_800CFE00(void) {
+    u16 sp10[8];
+    u16 *addr1;
+    u16 *addr2;
+    s32 v;
+    s32 t;
+
+    v = D_800EC678;
+    sp10[0] = 0;
+    sp10[1] = 0x1E0;
+    sp10[2] = 0x100;
+    sp10[3] = 1;
+    sp10[4] = 0x280;
+    sp10[5] = 0x24;
+    sp10[6] = 0x140;
+    sp10[7] = 0x1B8;
+    t = v << 4;
+    t += v;
+    t <<= 2;
+    t += v;
+    t <<= 3;
+    t -= v;
+    t <<= 4;
+    t += v;
+    t <<= 5;
+    addr1 = (u16 *)(t + 0x80120014);
+    addr2 = (u16 *)(t + 0x80120220);
+    func_800599B8(sp10, addr1);
+    func_800599B8(&sp10[4], addr2);
+}
+

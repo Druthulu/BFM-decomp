@@ -1,0 +1,15 @@
+s3: verdict BUDGET start 20 best 5 compiles 400 path R9 swap-stmts @172
+s3b: verdict BUDGET start 20 best 5 compiles 400 path R9 swap-stmts @172
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @172 -> 5 [COUNT] (from 20)
+  R9 swap-stmts @179 -> 5 [COUNT] (from 20)
+  R12 width v0r s32->u16 @159 -> 5 [COUNT] (from 5)
+  R7 block @173 -> 5 [COUNT] (from 5)
+  R9 swap-stmts @261 -> 5 [COUNT] (from 5)
+  R4 decl-move v0r 5->0 -> 5 [COUNT] (from 5)
+  R12 width v0r s32->s16 @159 -> 5 [COUNT] (from 5)
+  R7 do-while @173 -> 5 [COUNT] (from 5)
+  R10 param-copy arg0 @160 -> 5 [COUNT] (from 5)
+  R4 decl-move v0r 5->1 -> 5 [COUNT] (from 5)
+  R12 width v0r s32->u8 @159 -> 5 [COUNT] (from 5)
+  R8 hoist tmp0 @190 -> 5 [COUNT] (from 5)

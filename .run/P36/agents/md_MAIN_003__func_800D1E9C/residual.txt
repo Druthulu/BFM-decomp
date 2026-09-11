@@ -1,0 +1,31 @@
+src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c:func_800D1E9C: score 20 (COUNT; mine 307 ins, target 318) — not yet
+  replace mine[51:52] target[51:62]
+       51  bnez	v0,170 <func_800D1E9C+0xec>   | beqz	v0,180 <func_800D1E9C+0xfc>
+       52  --                                 | nop
+       53  --                                 | jal	0 <func_800D1E18>
+       54  --                                 | move	a0,zero
+       55  --                                 | jal	0 <func_800D1E18>
+       56  --                                 | nop
+       57  --                                 | jal	0 <func_800D1E18>
+       58  --                                 | nop
+       59  --                                 | jal	0 <func_800D1E18>
+       60  --                                 | move	a0,zero
+       61  --                                 | j	554 <func_800D1E9C+0x4d0>
+  replace mine[67:68] target[77:78]
+       67  j	52c <func_800D1E9C+0x4a8>        | j	554 <func_800D1E9C+0x4d0>
+  replace mine[89:90] target[99:100]
+       89  j	1f4 <func_800D1E9C+0x170>        | j	21c <func_800D1E9C+0x198>
+  replace mine[115:116] target[125:126]
+      115  j	2b0 <func_800D1E9C+0x22c>        | j	2d8 <func_800D1E9C+0x254>
+  replace mine[123:124] target[133:134]
+      123  j	51c <func_800D1E9C+0x498>        | j	544 <func_800D1E9C+0x4c0>
+  replace mine[198:199] target[208:209]
+      198  j	3b0 <func_800D1E9C+0x32c>        | j	3d8 <func_800D1E9C+0x354>
+  replace mine[218:219] target[228:229]
+      218  j	3f8 <func_800D1E9C+0x374>        | j	420 <func_800D1E9C+0x39c>
+  replace mine[270:271] target[280:281]
+      270  j	4e4 <func_800D1E9C+0x460>        | j	50c <func_800D1E9C+0x488>
+  replace mine[282:283] target[292:293]
+      282  j	2c4 <func_800D1E9C+0x240>        | j	2ec <func_800D1E9C+0x268>
+  insert  mine[300:300] target[310:311]
+      300  --                                 | li	v0,1

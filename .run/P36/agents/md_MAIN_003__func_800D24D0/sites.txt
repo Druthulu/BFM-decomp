@@ -1,0 +1,2 @@
+NEEDED   barrier     memory line 389
+REMOVED  barrier            line 408

@@ -1,0 +1,3 @@
+NEEDED   pin         $2     line 159
+NEEDED   barrier            line 174
+NEEDED   keepalive          line 264

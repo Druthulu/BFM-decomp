@@ -1,0 +1,1 @@
+=== lever-free bodies in md_MAIN_003 sharing a callee or global with func_800D2A24 (0 found; top 6 by shared symbols) — read them for the SHAPE ===

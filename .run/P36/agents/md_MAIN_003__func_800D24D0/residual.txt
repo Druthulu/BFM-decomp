@@ -1,0 +1,10 @@
+src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c:func_800D24D0: score 4 (COUNT; mine 140 ins, target 141) — not yet
+  register pairs (mine -> target, count): s0->v0 x1
+  insert  mine[28:28] target[28:29]
+       28  --                                 | lw	v0,0(v1)
+  replace mine[30:31] target[31:32]
+       30  sltiu	v0,s0,1                      | sltiu	v0,v0,1
+  replace mine[63:64] target[64:65]
+       63  j	7dc <func_800D24D0+0x124>        | j	7e0 <func_800D24D0+0x128>
+  replace mine[109:110] target[110:111]
+      109  j	8c0 <func_800D24D0+0x208>        | j	8c4 <func_800D24D0+0x20c>

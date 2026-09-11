@@ -1,0 +1,8 @@
+src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c:func_800D2A24: score 4 (COUNT; mine 28 ins, target 31) — not yet
+  replace mine[14:15] target[14:15]
+       14  bnez	v1,c64 <func_800D2A24+0x58>   | bnez	v1,c6c <func_800D2A24+0x60>
+  insert  mine[21:21] target[21:23]
+       21  --                                 | move	v0,zero
+       22  --                                 | j	c70 <func_800D2A24+0x64>
+  insert  mine[22:22] target[24:25]
+       22  --                                 | li	v0,1

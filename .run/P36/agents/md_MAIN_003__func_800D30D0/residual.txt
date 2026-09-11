@@ -1,0 +1,17 @@
+src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c:func_800D30D0: score 14 (COUNT; mine 76 ins, target 76) — not yet
+  delete  mine[63:70] target[63:63]
+       63  lui	v0,0x0                         | --
+       64  lw	v0,0(v0)                        | --
+       65  lui	v1,0x0                         | --
+       66  lw	v1,0(v1)                        | --
+       67  lw	v0,0(v0)                        | --
+       68  lui	v0,0x6000                      | --
+       69  sw	v0,0(v1)                        | --
+  insert  mine[71:71] target[64:71]
+       71  --                                 | lui	v1,0x0
+       72  --                                 | lw	v1,0(v1)
+       73  --                                 | lui	a0,0x0
+       74  --                                 | lw	a0,0(a0)
+       75  --                                 | lw	v1,0(v1)
+       76  --                                 | lui	v1,0x6000
+       77  --                                 | sw	v1,0(a0)

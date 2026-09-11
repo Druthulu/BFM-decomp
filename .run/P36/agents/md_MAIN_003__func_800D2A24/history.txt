@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 4 best 4 compiles 73 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width v0 s32->u16 @570 -> 4 [COUNT] (from 4)
+  R7 block @586 -> 4 [COUNT] (from 4)
+  R10 param-copy a0 @571 -> 4 [COUNT] (from 4)
+  R4 decl-move v0 2->0 -> 4 [COUNT] (from 4)
+  R12 width v0 s32->s16 @570 -> 4 [COUNT] (from 4)
+  R7 do-while @586 -> 4 [COUNT] (from 4)
+  R4 decl-move v0 2->1 -> 4 [COUNT] (from 4)
+  R12 width v0 s32->u8 @570 -> 4 [COUNT] (from 4)
+  R7 block @590 -> 4 [COUNT] (from 4)
+  R7 do-while @590 -> 4 [COUNT] (from 4)
+  R7 block @575 -> 4 [COUNT] (from 4)
+  R7 block @573 -> 4 [COUNT] (from 4)

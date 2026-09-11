@@ -1,0 +1,6 @@
+REMOVED  pin         $2     line 906
+NEEDED   cast        volatile s32 * line 910
+NEEDED   cast        volatile u32 * line 912
+NEEDED   cast        volatile u32 * line 913
+NEEDED   launder            line 927
+NEEDED   cast        volatile s32 * line 928

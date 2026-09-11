@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 14 best 12 compiles 173 path R16 const-holder ret=0 x1 + R9 swap-stmts @924
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @924 -> 12 [COUNT] (from 14)
+  R9 swap-stmts @924 -> 12 [COUNT] (from 14)
+  R16 const-holder ret=0 x1 -> 14 [COUNT] (from 14)
+  R6 inline ret @926 -> 14 [COUNT] (from 14)
+  R7 block @927 -> 14 [COUNT] (from 14)
+  R9 swap-stmts @926 -> 14 [COUNT] (from 14)
+  R7 block @926 -> 14 [COUNT] (from 14)
+  R9 swap-stmts @925 -> 14 [COUNT] (from 14)
+  R12 width ret s32->u16 @905 -> 14 [COUNT] (from 14)
+  R7 do-while @926 -> 14 [COUNT] (from 14)
+  R12 width ret s32->s16 @905 -> 14 [COUNT] (from 14)
+  R7 block @928 -> 14 [COUNT] (from 14)
