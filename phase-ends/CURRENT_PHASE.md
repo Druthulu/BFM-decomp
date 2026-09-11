@@ -1694,6 +1694,16 @@ accumulate here as the phase produces them.**
   merge; and a hand-rotated `if … do … while` written as a real `for` loop, whose `NOTE_INSN_LOOP_VTOP`
   (`jump.c:2306`) makes reorg's `mostly_true_jump` predict taken (`reorg.c:1364-1372`) and fill the slot from the target.
   Tools: `cc1_dumps_tu.sh` gains `-dd` (`.dbr`); METHOD notes `--keep`'s path is the LAST output line.
+- **S103 — WHERE THE RESIDUE IS (measured at 12,003 sites): ~70% of the remaining lever weight sits in 9 classes of
+  ≥100 copies, every one already read by an agent with a written reading** (approx. copies × sites/body:
+  func_8013D9B0 125×34 — c17 15 plain, the GTE-macro question; func_80177B5C 132×23 — c19 2, one `or` late;
+  func_80140958 119×11 — c13/c29 4; func_80136824 125×10 — types phase; func_8012E364 133×4 — c22 4; func_8013F350
+  130×4 — c28 head irreducible; func_80157D20 132×2 — types phase; func_8013CF68 134×1 — c27 irreducible;
+  func_80178970 127×1 — c31 irreducible). 940 of the 1,093 classes are single-copy (~3,500 sites). **The pivot: a
+  MINIMUM-LEVER close** — the best honest plain-C body an agent reached, plus only the one or two MARKED `// !FAKE:` levers
+  it cannot do without, banked with `allow_residue` (S102 a2's precedent; the phase's rule is "ban the silence, not the
+  lever"): each such bank replaces a body's 11-34 levers with 1-2, marked and explained, and the census falls by
+  thousands. The disposition of the last marked lever per class stays Drew's (GTE, irreducible, types phase).
 - **S103 — packs for the next tier: `delever_pack --build --min-copies 5` → `64 packs under .run/P36/agents; ORDER.tsv
   written`** (the head-only ORDER kept as `ORDER_head.tsv`). The head (≥100 copies) is down to classes with honest
   readings; the tier below has several classes at a mechanical best of 1-2 — agents now take TWO small classes each.
