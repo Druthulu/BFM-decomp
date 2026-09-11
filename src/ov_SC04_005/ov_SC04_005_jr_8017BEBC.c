@@ -9275,13 +9275,15 @@ s32 func_80185B70(s32 a0) {
             v1 = *(s32 *)(s2 + 0x20);
             v0 = -0x2000;
             *(s16 *)(v1 + 0x1C) = v0;
+            *(s16 *)(v1 + 0x1A) = v0;
+            *(s16 *)(v1 + 0x18) = v0;
         } else {
             v1 = *(s32 *)(s2 + 0x20);
             v0 = 0x2000;
             *(s16 *)(v1 + 0x1C) = v0;
+            *(s16 *)(v1 + 0x1A) = v0;
+            *(s16 *)(v1 + 0x18) = v0;
         }
-        *(s16 *)(v1 + 0x1A) = v0;
-        do { *(s16 *)(v1 + 0x18) = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
