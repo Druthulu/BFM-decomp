@@ -3522,7 +3522,7 @@ void func_8017E7E8(void *arg0) {
     s32 cnt2;
     s32 i;
     s32 j;
-    register s32 base __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 base;
     s32 p;
     s32 vel;
     s32 pos;
@@ -3531,10 +3531,7 @@ void func_8017E7E8(void *arg0) {
 
     cnt2 = 0;
     for (i = 0; i < 8; i++) {
-        {
-            register s32 sym __asm__("$2") = (s32)((u8 *)D_8019E1B8);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-            base = sym + i * 0x1D0;
-        }
+        base = (s32)((u8 *)D_8019E1B8 + i * 0x1D0);
         if (*(s16 *)(base) == 0) {
             *(s32 *)(base + 0xC) = *(s32 *)(base + 0xC) + 0x10000;
         }
@@ -3569,7 +3566,7 @@ void func_8017E7E8(void *arg0) {
                 break;
             }
         }
-        ((void (*)(void *))func_8017E97C)(arg0);
+        func_8017E97C((s32)arg0, base);
     }
     if (cnt2 == 0x80) {
         ((void (*)(void *))func_80146C3C)(arg0);
