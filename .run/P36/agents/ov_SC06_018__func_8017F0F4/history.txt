@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 63 best 63 compiles 305 path 
+s7: verdict NO-MATCH start 63 best 62 compiles 538 path R9 swap-stmts @4202
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @4202 -> 62 [COUNT] (from 63)
+  R12 width state u16->s32 @4153 -> 62 [COUNT] (from 62)
+  R6 inline state @4182 -> 62 [COUNT] (from 62)
+  R8 temp tmp0 @4167 -> 62 [COUNT] (from 62)
+  R7 block @4167 -> 62 [COUNT] (from 62)
+  R5 swap + @4205 -> 62 [COUNT] (from 62)
+  R9 swap-stmts @4160 -> 62 [COUNT] (from 62)
+  R10 param-copy a0 @4154 -> 62 [COUNT] (from 62)
+  R2 decl-order 1,0 -> 62 [COUNT] (from 62)
+  R12 width state u16->s16 @4153 -> 62 [COUNT] (from 62)
+  R6 inline r @4280 -> 62 [COUNT] (from 62)
+  R8 base tmp0 @4167 -> 62 [COUNT] (from 62)

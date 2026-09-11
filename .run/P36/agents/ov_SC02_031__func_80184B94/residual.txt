@@ -1,0 +1,12 @@
+src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c:func_80184B94: score 6 (COUNT; mine 36 ins, target 36) — not yet
+  register pairs (mine -> target, count): v0->a0 x1, a1->v0 x1
+  insert  mine[21:21] target[21:22]
+       21  --                                 | move	a0,v0
+  replace mine[23:25] target[24:26]
+       23  move	a0,v0                         | nop
+       24  slt	v1,v1,v0                       | slt	v1,v1,a0
+  replace mine[26:27] target[27:28]
+       26  move	a1,zero                       | move	v0,zero
+  replace mine[30:32] target[31:32]
+       30  slt	a1,a0,v0                       | slt	v0,a0,v0
+       31  move	v0,a1                         | --
