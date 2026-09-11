@@ -74,7 +74,7 @@
    - (S103 c35) a call through a CAST that asserts fewer arguments than the callee takes, even when the declaration is
      right: pass the argument the caller already holds (0 bytes; jump2 deletes the no-op copy, `jump.c:437/462`). R19 now
      generates this.
-   - Dumps: `DUMP_ROOT=PACK/scratch tools/cc1_dumps_tu.sh PACK/scratch/<your spliced TU>.c <tag>` — it now takes a .c file,
+   - Dumps: `DUMP_ROOT=PACK/scratch tools/cc1_dumps_tu.sh PACK/scratch/<your spliced TU>.c <tag>` (also `.dbr`, reorg) — it takes a .c file,
      resolves `../shared/…` includes, and writes `.cse2` (`-dt`) and `.jump2` (`-dJ`) too. No private dump.sh needed.
    - (S103 c10/c2/c4) READ LEVER-FREE BODIES that share your callees, globals or shapes ANYWHERE in the overlay, not only
      `neighbours.txt`: the answer to c10's function was in a different file (`func_80135888`), c4's was a sibling spelled
@@ -90,4 +90,4 @@
 6. Two REFUSALS: an invented identically-zero term (`x + 0*y`, `x - x`, a dummy dependency) is a compiler-forcing construct
    in C clothing and is NOT a close — the phase's rule is *ban the silence, not the lever*; and a body whose improvements
    are compensating errors is reported, not claimed. A plain `volatile` that the body did not already carry is also a lever.
-7. Write `PACK/body.c` and `PACK/mechanism.md` EARLY and keep them current. All scratch under `PACK/scratch/`.
+7. `--try … --keep` keeps the candidate object and prints its path as the LAST line of the output. Write `PACK/body.c` and `PACK/mechanism.md` EARLY and keep them current. All scratch under `PACK/scratch/`.

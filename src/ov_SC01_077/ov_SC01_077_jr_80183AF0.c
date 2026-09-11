@@ -3089,13 +3089,13 @@ extern void func_8012C218(void *a0);
 extern s32 D_801270CC;
 
 void func_80183AF0(s32 param_1) {
-    register s32 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 mask __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 *p;
+    s32 mask;
 
     mask = 0x80000000;
     p = *(s32 **)(param_1 + 0x20);
     p[1] ^= mask;
-    if (((s32 (*)(void))func_8012BEE8)() == 0) {
+    if (((s32 (*)(s32 a0))func_8012BEE8)(param_1) == 0) {
         return;
     }
     func_80130D48(param_1);

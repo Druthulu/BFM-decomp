@@ -1648,6 +1648,42 @@ accumulate here as the phase produces them.**
   **Harvest: R19 reads the arity a call's own cast asserts** (it compared only declarations) — known-true: on c35's
   start text R19's `+a0` candidate scores 0; selftest fixture; `delever --selftest: OK`. METHOD gains the frame-only row.
   R22 `check-all: 218 passed, 0 failed of 218`.
+- **S103 — c34 (ov_SC02_031): `func_8017ECEC` (8 → 0; 10/10) and `func_8017BF88` (14 → 0; 13/14) CLOSED.**
+  func_8017ECEC: the helper's output read as ONE packed `u32` (the TU's own header said so) with `(s16)w` and
+  `(s32)w >> 16`, the fake `u32 buf[4]` frame pad gone — combine's split at `combine.c:1994` skips the ref cleanup at
+  `:2306`, leaving a stale count that both lifts the high half's priority (12000 → 14000, `qty_compare_1`) and gives a
+  deleted pseudo the stack slot `buf[4]` was faking (`reload1.c:2331`); func_8017BF88: `u16 r = rand();` keeps the copy
+  (SUBREG move, `cse.c:7457`) and `c++; store(c)` makes the counter twice-set so `birthing_insn_p` (`sched.c:2490`) stops
+  boosting its load. Tool asks: `--try` should report a FRAME-size difference (`.frame … vars=`), not OTHER.
+- **S103 — c32: `func_801852E4` (ov_SC06_022) CLOSED (1 → 0; 4 of 4 siblings)** — the return point given a second
+  predecessor (`goto out;` + `r = 1;` falling into `out: return r;`): `record_jump_equiv` (`cse.c:7508-7511`) had folded
+  `return r` to the tested 0 on the fall-through, and with `out:` holding two users `cse_end_of_basic_block` does not
+  follow the jump (`cse.c:8106-8116`). **`func_8017FC5C` (ov_SC03_115, 9 copies) closes only with a SIGNATURE change** —
+  the target returns its first argument (`move v0,s0`), so the function is `s32 *f(s32 *a0, …)` and the TU's three
+  `extern void` declarations must say so; a body-only bank cannot carry it → **types-phase inheritance with a ready patch**
+  (`.run/P36/agents/ov_SC03_115__func_8017FC5C/scratch/tu_p1.diff`, whole-object identical; the same edit closes
+  `ov_SC03_099` `func_80180200`).
+- **S103 — c39 ports two variants (func_8012956C in ov_SC07_006, func_80133784 in ov_MAIN_012 — both 0 on the first
+  try, 6/6 siblings each) and finds why propagation refused them: the ONLY difference beyond a symbol remap was one
+  BODY-LOCAL `extern` line (the banked sibling declared it at file scope).** `delever.propagate` now compares and remaps
+  with body-local `extern` lines stripped (`_strip_externs`) and re-inserts the sibling's own. **Re-propagation over every
+  banked exemplar: `repropagate: 413 exemplars, 97 sibling(s) banked, 48 refused of 145 candidates`** — a first census
+  said "1,250 siblings" by counting each banked copy of a class as its own exemplar; the distinct candidates were 145
+  (R41, deduplicate before quoting).
+- **S103 — c41: `func_8017E73C` (ov_SC02_031, 14 → 0; 10/10) and `func_80145934` (ov_SC07_006, 11 → 0; 7/7) CLOSED.**
+  The first by two widths (`u16 flags`, `s16 ret` — the SUBREG gate and combine's 0/1 sign-extension copy), the author's
+  habit c34 found in the same TU; the second PORTED from another overlay's banked pack — a body-local `extern u8
+  aD8018C944 __asm__("D_8018C944");` declaration alias keeps jump2's cross-jump (which compares symbols by pointer,
+  `jump.c:2440`) from merging two identical `la/j` blocks; an asm LABEL on a declaration is class E (deferred to the types
+  phase by Drew's gate-1 scope decision; S102 banked the same form). **Harvest: `related.txt` now lists the SAME function
+  already lever-free in other overlays, first** (`git grep`) — known-true: for func_80145934 it lists the variants c41
+  found by hand; for c43's func_80185578 it found a lever-free copy in ov_SC03_014 (relayed to c43 mid-run).
+- **S103 — the R19 cast-arity regen: `1131 of 1131 classes judged in 408 s — {'MATCH': 8, 'BEST': 33, 'NO-CANDIDATE':
+  1086, 'COMPILE-ERROR': 4, 'UNSCORED': 0}`; `--bank: 8 of 8 MATCH row(s) banked, 4 sibling(s) propagated`** (one a shared
+  header IDENTICAL on 141 objects, `func_80130514.h`). **c29 `func_80140958` READ (still 4):** the loop constant 8 without a
+  dead initialiser but through ONE variable holding two unrelated 8s (flagged by the agent itself as steering); the
+  pre-loop order unclosable without raising `j`'s weight (sched1 rewrites `reg_live_length`, `sched.c:4947`; k 5270 vs j
+  4400, `global.c:587-609`).
 - **S103 — packs for the next tier: `delever_pack --build --min-copies 5` → `64 packs under .run/P36/agents; ORDER.tsv
   written`** (the head-only ORDER kept as `ORDER_head.tsv`). The head (≥100 copies) is down to classes with honest
   readings; the tier below has several classes at a mechanical best of 1-2 — agents now take TWO small classes each.
@@ -1768,7 +1804,7 @@ setsid nohup nice -n 10 .venv/bin/python tools/delever_regen.py --families R22 R
   definition may carry a phantom parameter), 1,731 have every call passing enough but sit in units `decl_repair` did not
   judge IDENTICAL, 424 are in `src/shared` headers. The "shared headers are the next cheap win" line of S102 was an
   overestimate — 424 rows.
-- The types phase inherits: `func_80136824`, `func_80168828`, `func_80157D20` (S102); `func_8017EEC0`'s callers still
+- The types phase inherits: `func_80136824`, `func_80168828`, `func_80157D20` (S102); `func_8017FC5C` + `func_80180200` (S103 c32 — a `void` function that returns its first argument; ready patch `ov_SC03_115__func_8017FC5C/scratch/tu_p1.diff`); `func_8017EEC0`'s callers still
   declare it `(void)`; the `ov_SC01_077` variant of `func_80148E54` still calls its handler with no argument.
 - Tool gaps agents named: `alloc_table.py` prints the GLOBAL priority only — local-alloc's `qty_compare_1` rank is in
   `.run/P36/agents/ov_SC04_011__func_80135168/scratch/lpri.py` (c1, c8 asked); `--try` does not print its object path;

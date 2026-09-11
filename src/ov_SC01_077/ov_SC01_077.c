@@ -519,6 +519,12 @@ extern s32 D_801D95A8;
 extern void *D_801D9578;
 
 void func_8013D53C(void *arg0v) {
+
+    extern Rec9 D_8018744C[];
+    extern Rec12 D_80187484[];
+    extern u8 D_80078EAF;
+    extern u8 D_801DAA78;
+    extern s32 D_801D9594;
     Cmd_8013D53C *arg0 = arg0v;
 
     extern u8 D_80187488[];
@@ -589,13 +595,11 @@ void func_8013D53C(void *arg0v) {
                     n = arg0->w * arg0->h;
                     i = 0;
                     src = arg0->data;
-                    __asm__("" :: "r"(src));  /* +2 refs on src (depth-2): keeps src above i, below the mfhi temp */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus2)
                     dst = src + n;
                     if (n > 0) {
                         do {
                             u16 px;
                             s32 r, g, b, out;
-                            __asm__("" :: "r"(i));  /* +3 refs on i (depth-3): lifts i over dst in the $t2 race */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus2)
                             px = *src;
                             r = ((px & 0x1F) * s0v) / 2560;
                             g = (((px & 0x3E0) * t9v) / 2560) & 0x3E0;
@@ -606,7 +610,7 @@ void func_8013D53C(void *arg0v) {
                             }
                             *dst = out;
                             dst++;
-                            i++;
+                            do { i++; } while (0);
                             src++;
                         } while (i < n);
                     }
@@ -1054,12 +1058,19 @@ extern void (*D_80187ED0[])(void);
 
 void func_8013E5E8(void)
 {
-    register void (*fp)(void) __asm__("$2"); /* pin fn-ptr to $v0 -> store retires early */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus2)
+    extern u16 D_8011511E;
+    extern u16 D_8011511C;
+    extern unsigned short D_80115112;
+    extern u16 D_80115116;
+    extern void (*D_80187ED0[])(void);
+    void (**new_var)(void);
+    void (*fp)(void);
     func_80029444();
     func_801754A8();
     D_8011511E = func_80014ED4(0);
     D_8011511C = func_80015018(0);
-    fp = D_80187ED0[D_80115112];
+    new_var = &D_80187ED0[D_80115112];
+    fp = *new_var;
     fp();
     func_800190AC();
     func_80141C04();
@@ -1798,19 +1809,29 @@ extern s16    D_80187E94;
 extern s16    D_80187E96;
 
 void func_8013FAF8(s16 arg0, s16 arg1) {
+
+    extern Hw4    D_8011516A[];
+    extern Rec20  D_800AE7B8[];
+    extern Blk60  D_8018751C[];
+    extern Blk20  D_8018781C[];
+    extern Prim4  D_8018791C[];
+    extern Prim4  D_8018798C[];
+    extern Prim4 *D_80187A80[];
+    extern s32    D_80187AA0[];
+    extern u8 D_80187AC0;
     u8 sp18[72];
     s32 sp60[2];
     s32 *ot;
     s16 i;
     s16 j;
-    s32 flag;
+    s16 flag;
     s32 addr;
     Prim4 *p;
     s32 r;
     s32 t;
     s16 *pp;
     s32 flag2;
-    register s32 flag3 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus2)
+    s32 flag3;
 
     func_80140E6C();
     func_80140F00();

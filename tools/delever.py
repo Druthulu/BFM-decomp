@@ -3415,6 +3415,17 @@ def recipes(a):
     return 0
 
 
+def _strip_externs(text):
+    """(text without its whole-line `extern …;` declarations, [those lines]) — a body-local extern is a declaration, not
+    code: two bodies that differ ONLY in one are the same class (S103, agent c39: func_8012956C and func_80133784's
+    variants each carried one extra body-local `extern` where the banked sibling declared it at file scope, and
+    propagate refused both as "not this class"; ported by hand, each matched on its first try)."""
+    keep, ext = [], []
+    for l in text.split("\n"):
+        (ext if re.match(r"^\s*extern\b[^;{}]*;\s*$", sc.mask_text(l)) else keep).append(l)
+    return "\n".join(keep), ext
+
+
 def remap_body(ex_before, ex_after, sib_before):
     """the exemplar's reshaped body, with its `func_/D_` addresses replaced by the sibling's — or (None, why).
 
@@ -3486,11 +3497,25 @@ def propagate(a):
             continue
         ls = line_starts(raw)
         sib_before = raw[ls[d["line"] - 1]:ls[d["end"]]]
+        extra_ext = []
+        ex_before_used, sib_used = src_row["before_text"], sib_before
         if lc.norm_hash(sc.mask_text(sib_before)) != key:
-            print(f"  {stu}:{sfn}: its text is not this class any more — SKIPPED", flush=True)
-            bad += 1
-            continue
-        body, why = remap_body(src_row["before_text"], src_row["after_text"], sib_before)
+            sb, sext = _strip_externs(sib_before)
+            eb, _ = _strip_externs(src_row["before_text"])
+            if lc.norm_hash(sc.mask_text(sb)) != lc.norm_hash(sc.mask_text(eb)):
+                print(f"  {stu}:{sfn}: its text is not this class any more — SKIPPED", flush=True)
+                bad += 1
+                continue
+            ex_before_used, sib_used, extra_ext = eb, sb, sext      # equal but for body-local extern lines
+        body, why = remap_body(ex_before_used, src_row["after_text"], sib_used)
+        if body is not None and extra_ext:
+            # the sibling's own body-local declarations go back in, after the opening brace, unless already declared
+            have = set(re.findall(r"\b(?:func|D)_[0-9A-Fa-f]{8}\b", "\n".join(l for l in body.split("\n") if "extern" in l)))
+            add = [l for l in extra_ext if not (set(re.findall(r"\b(?:func|D)_[0-9A-Fa-f]{8}\b", l)) & have)]
+            bl = body.split("\n")
+            k = next((n for n, l in enumerate(bl) if "{" in sc.mask_text(l)), None)
+            if k is not None and add:
+                body = "\n".join(bl[:k + 1] + add + bl[k + 1:])
         if body is None:
             print(f"  {stu}:{sfn}: {why} — SKIPPED", flush=True)
             bad += 1

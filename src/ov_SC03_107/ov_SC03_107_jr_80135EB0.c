@@ -800,7 +800,6 @@ ret1:
 
 
 s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
-
     extern u8 D_80126720[];
     extern u8 D_80182A38;
     extern u8 D_80182A3C;
@@ -808,11 +807,11 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     extern u8 D_80182A44;
     extern u8 D_801152A8[];
     extern s16 D_801152AA;
-    extern s16 D_801152AC;
+    extern s16 D_801152AC[];
     extern s16 D_80126722;
     extern s16 D_80126724;
-    s32 a1v;
-    register s32 a2v __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus5)
+    u16 a1v;
+    s16 a2v;
     s32 n;
     s16 *b4;
     s32 d;
@@ -821,16 +820,16 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     s32 result;
     s32 frame_pad[2];
     (void)&frame_pad;
-    __asm__("" : "=r"(a1v) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus5)
+    a1v = arg1;
     a2v = arg2;
 
-    if (!(arg1 & 1)) {
-        dx = (s16) arg2 - (*(s16 **)&D_80182A38)[2];
+    if (!(a1v & 1)) {
+        dx = a2v - (*(s16 **)&D_80182A38)[2];
         d = dx;
         denom = -(*(s16 **)&D_80182A44)[2];
     } else {
         denom = (*(s16 **)&D_80182A44)[2];
-        d = (*(s16 **)&D_80182A38)[2] - (s16) arg2;
+        d = (*(s16 **)&D_80182A38)[2] - a2v;
         dx = -d;
     }
     n = -d;
@@ -856,13 +855,11 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     (*(s16 *)D_801152A8) = 0;
     if (a1v & 1) {
         D_80182A40[2] = a2v + 2;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus5)
-        D_801152AC = 0xFFF;
+        D_801152AC[0] = 0xFFF;
     } else {
-        D_801152AC = -0xFFF;
+        D_801152AC[0] = -0xFFF;
         D_80182A40[2] = a2v - 2;
     }
-    __asm__ __volatile__("" :: "r"(a1v), "r"(a2v));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus5)
     (*(s16 *)D_80126720) = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;
     D_80126722 = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
     result = 1;
@@ -878,7 +875,6 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
 // -> single store via *(s16*)D_80126720. D_801152A8/AA/AC, D_80126722/24 block-scope externs
 // (siblings use block-scope; gcc-2.7.2 does not cross-conflict block-scope externs).
 s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
-
     extern u8 D_80126720[];
     extern u8 D_80182A38;
     extern u8 D_80182A3C;
@@ -899,15 +895,12 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     s32 var_a1;
     s32 var_v0;
     s32 var_v1;
-    s32 a1c;
-    s32 a2c;
-    s32 cond;
-    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus5)
+    u16 a1c;
+    u16 a2c;
 
-    __asm__("addu %0,%1,$zero" : "=r"(a1c) : "r"(arg1));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus5)
-    cond = arg1 & 1;
-    a2c = arg2 + zr;
-    if (!cond) {
+    a1c = arg1;
+    a2c = arg2 + 0;
+    if (!(arg1 & 1)) {
         var_v1 = (s16) arg2 - (*(s16 **)&D_80182A38)[0];
         var_a1 = var_v1;
         var_a3 = -(*(s16 **)&D_80182A44)[0];
@@ -953,9 +946,8 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     }
     *(s16 *)D_80126720 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1);
     D_80126722 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
-    var_v0 = 1;
     D_80126724 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
-    return var_v0;
+    return (1);
 }
 
 

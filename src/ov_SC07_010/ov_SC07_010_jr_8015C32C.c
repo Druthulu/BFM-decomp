@@ -2230,11 +2230,7 @@ extern void func_801483E8(void);
 
 
 void func_8015D738(void *arg0) {
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern u8 D_80078E78[];
-
     extern void (*D_8018465C[])(void *);
     extern u8 D_801848A0[];
 
@@ -2245,19 +2241,17 @@ void func_8015D738(void *arg0) {
     ((void (*)(void))func_80148AFC)();
     if (func_80161B18(arg0) != 0) return;
     if (func_80161B84(arg0) != 0) return;
+    do {
+        s1 = *(s32 *)((char *)arg0 + 0x178);
+    } while (0);
+    if (s1 != 0 && *(u16 *)s1 == 0x360) goto block_808;
     s1 = *(s32 *)((char *)arg0 + 0x178);
-    if (s1 != 0) {
-        if (*(u16 *)s1 == 0x360) goto block_808;
+    if (s1 == 0 || *(u16 *)s1 == 0) {
+        D_8018465C[*(u16 *)arg0](arg0);
+        ((void (*)(void *, s32))func_80147078)(arg0, 0);
+        func_80159B70(arg0);
+        return;
     }
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus4)
-    if (s1 != 0) {
-        if (*(u16 *)s1 != 0) goto block_7F4;
-    }
-    D_8018465C[*(u16 *)arg0](arg0);
-    ((void (*)(void *, s32))func_80147078)(arg0, 0);
-    func_80159B70(arg0);
-    return;
-block_7F4:
     if (((s32 (*)(void *))func_80148800)(arg0) & 0x80) {
     block_808:
         ((void (*)(void *, s32))func_80154A74)(arg0, 0x11);
@@ -3162,17 +3156,16 @@ extern void func_80146CA0(void *a0);
 
 void func_8015FBE0(s32 *param_1)
 {
-
     extern void (*D_8018465C[])(void *);
     extern u8 D_80078EC1;
     extern u16 D_801270C0;
+
     extern u8 D_800B9A17;
     if (param_1[0x61] < 0) {
-        ((void (**)())D_8018465C)[*(u16 *)param_1]();
+        ((void (**)(s32 *))D_8018465C)[*(u16 *)param_1](param_1);
         ((void (*)(s32 *, s16))func_80147078)(param_1, 0);
         ((void (*)(s32 *))func_80159B70)(param_1);
     } else {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus4)
         D_80078EC1 = 0;
         ((void (*)(s32 *, s32))func_80154150)(param_1, 0x20);
         ((void (*)(s32 *, s32))func_80154A74)(param_1, 0x18);
@@ -3999,7 +3992,6 @@ extern s32 func_800291DC(s32);
 
 
 void func_80161E08(s32 param_1) {
-
     extern u8 D_800AF630[];
     extern void func_80024054(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
@@ -4043,8 +4035,7 @@ void func_80161E08(s32 param_1) {
         ((a2 = func_800291DC(8)) & 0x8000) != 0) {
 
         if (D_800B5BD8 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65A8));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus4)
-            D_801A6BA8[0] = p;
+            p = D_801A6BA8[0] = base + 0x65A8;
             func_80024054(&D_80184AC8, &D_801A6BB4);
             func_8001CE28(p, &D_801A6BB4);
             D_800B5C04 = 1;
@@ -4054,8 +4045,7 @@ void func_80161E08(s32 param_1) {
         }
 
         if (D_800B5C10 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x65E0));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus4)
-            D_801A6BA8[1] = p;
+            p = D_801A6BA8[1] = base + 0x65E0;
             func_80024054(&D_80184AE8, &D_801A6BDC);
             func_8001CE28(p, &D_801A6BDC);
             D_800B5C3C = 1;
@@ -4065,8 +4055,7 @@ void func_80161E08(s32 param_1) {
         }
 
         if (D_800B5C48 == 0) {
-            __asm__("move %0,%1" : "=r"(p) : "r"(base + 0x6618));  // !FAKE: instruction move — NEEDED DIFFERS (P36 rung B tus4)
-            D_801A6BA8[2] = p;
+            p = D_801A6BA8[2] = base + 0x6618;
             func_800242D0((s16)func_801620C4(), &D_801A6BF4, 0x84);
             func_8001CE68(p, &D_801A6BF4);
             D_800B5C74 = 1;
@@ -4224,7 +4213,6 @@ extern s32 func_800291DC(s32);
 
 
 s32 func_80162438(s32 _unused0) {
-
     extern s16 D_80078EB0;
     extern u8 D_800AF630[];
     extern void func_80024054(void *, void *);
@@ -4264,9 +4252,8 @@ s32 func_80162438(s32 _unused0) {
     uVar2 = func_800291DC(0x12);
     if ((uVar2 & 0x8000) != 0) {
         if (D_800B5BD8 == 0) {
-            register u8 *t __asm__("$2") = base + 0x65A8;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
-            item = t;
-            D_801A6C00[0] = (s32)item;
+            D_801A6C00[0] = (s32)(base + 0x65A8);
+            item = base + 0x65A8;
             func_80024054(D_80184B2C, D_801A6C0C);
             func_8001CE28(item, D_801A6C0C);
             D_800B5C04 = 1;
@@ -4275,9 +4262,8 @@ s32 func_80162438(s32 _unused0) {
             D_800B5BE2 = -D_800AF7BE / 2 + 0x28;
         }
         if (D_800B5C10 == 0) {
-            register u8 *t __asm__("$2") = base + 0x65E0;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
-            item = t;
-            D_801A6C00[1] = (s32)item;
+            D_801A6C00[1] = (s32)(base + 0x65E0);
+            item = base + 0x65E0;
             func_80024054(((u8 *)&D_80184B44), D_801A6C34);
             func_8001CE28(item, D_801A6C34);
             D_800B5C3C = 1;
@@ -4286,9 +4272,8 @@ s32 func_80162438(s32 _unused0) {
             D_800B5C1A = -D_800AF7BE / 2 + 0x30;
         }
         if (D_800B5C48 == 0) {
-            register u8 *t __asm__("$2") = base + 0x6618;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus4)
-            item = t;
-            D_801A6C00[2] = (s32)item;
+            D_801A6C00[2] = (s32)(base + 0x6618);
+            item = base + 0x6618;
             func_800242D0((s16)func_801626B8(), D_801A6C50, 0x84);
             func_8001CE68(item, D_801A6C50);
             D_800B5C74 = 1;
@@ -5050,26 +5035,19 @@ extern void func_80165240(void *param_1, void *param_2, void *param_3);
 
 void func_801651B8(void * param_1)
 {
-
     extern s32 D_801A6CA0;
-    register s32 *puVar1 __asm__("$16"); /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus4)
-    s32 iVar2;   /* $s1 */
-    s32 p;        /* $s2 */
+    Slot_80165140 *tbl = (Slot_80165140 *)&D_801A6CA0;
+    Slot_80165140 *p;
+    int i;
 
-    p = param_1;
-    ((s32 (*)(s32, s32, s32))func_80165240)(p, p + 0x2c, p + 0x50);
-    iVar2 = 0;
-    puVar1 = &D_801A6CA0;
-    do {
-        if (puVar1[3] != 0) {
-            s32 a0v = p;
-            __asm__ __volatile__("" : "=r"(a0v) : "0"(a0v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus4)
-            ((s32 (*)(s32, s32, s32))func_80165240)(a0v, (s32)puVar1, (s32)(puVar1 + 2));
-            puVar1[3] = puVar1[3] + -1;
+    func_80165240(param_1, (u8 *)param_1 + 0x2c, (u8 *)param_1 + 0x50);
+    for (i = 0; i < 8; i++) {
+        p = &tbl[i];
+        if (p->used != 0) {
+            func_80165240(param_1, p, &p->b);
+            p->used--;
         }
-        iVar2 = iVar2 + 1;
-        puVar1 = puVar1 + 4;
-    } while (iVar2 < 8);
+    }
 }
 
 

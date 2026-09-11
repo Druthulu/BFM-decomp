@@ -2583,17 +2583,18 @@ extern void func_80016ED4(void *a0);
 
 void func_8016B234(s32 param_1) {
 
+    extern u8 D_800AF648;
     extern u8 D_801817E4;
     short input[3];
     Prim_B234 prim;
     struct { s16 xy[2]; s32 sp1c; s32 flag; } out;
     void *dp;
-    u32 uVar1;
+    u32 uVar1; /* the projected screen Y, then the UV column index */
     s16 iVar2;
     s32 X, Y0, Y1, base, ni;
-    register s32 sy __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s16 xtmp;
-    register s32 sxy __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 sxy;
+    s32 hh;
 
     dp = &D_800AF648;
     func_8004914C(dp);
@@ -2606,16 +2607,15 @@ void func_8016B234(s32 param_1) {
         sxy = *(s32 *)out.xy;
         prim.a04 = 0x10;
         X = *(u16 *)(param_1 + 0x2a) + sxy;
-        sy = (u16)out.xy[1];
+        uVar1 = (u16)out.xy[1];
         prim.ax = prim.cx = X;
         prim.bx = prim.dx = X + 8;
-        Y0 = sy - *(u16 *)(param_1 + 0x26);
+        Y0 = uVar1 - *(u16 *)(param_1 + 0x26);
         prim.ay = prim.by = Y0;
-        sxy = *(u16 *)(param_1 + 0x26);
+        hh = *(u16 *)(param_1 + 0x26);
         prim.v0 = prim.v1 = 0x1d0;
         prim.v2 = prim.v3 = 0x1d8;
-        sxy = sy + sxy;
-        prim.cy = prim.dy = sxy;
+        prim.cy = prim.dy = uVar1 + hh;
         prim.r = prim.g = prim.b = *(u8 *)(param_1 + 0x24);
         prim.code = (&D_801817E4)[*(s32 *)(param_1 + 0x2c)];
         if (*(s16 *)(param_1 + 0x26) < 5) {
@@ -3465,7 +3465,6 @@ void func_8016CB84(void *a0) {
 extern s32 func_80017758(void *a0, void *a1);
 short func_8016CBC0(void)
 {
-
     extern Blk20 D_800AE620;
 
     extern Blk_8016CBC0 D_8018F870[];
@@ -3475,17 +3474,16 @@ short func_8016CBC0(void)
   Blk_8016CBC0 *blk;
   Rec_8016CBC0 *sub;
   Rec_8016CBC0 *pv;
-  unsigned int uVar9;
-  unsigned int w9;
-  unsigned int uc;
+  short uVar9;
+  short w9;
+  unsigned short uc;
   unsigned int a2;
   int col;
-  int iVar3;
-  int w3;
-  unsigned int w3b;
+  short iVar3;
+  short w3;
+  short w3b;
   short count;
   short i;
-register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
   mtx = (*(Mtx8_8016CBC0 *)&D_800AE620);
   count = 0;
   p1.tag = 0x50000000;
@@ -3513,12 +3511,12 @@ register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P3
       col = blk->f3;
       count = count + 1;
       w3 = iVar3 - 1;
-      iVar3 = w3 + zr;
+      iVar3 = w3;
       if (w3 != (-1))
       {
         do
         {
-          pv = &sub[(short) uVar9];
+          pv = &sub[uVar9];
           {
             unsigned int a = pv->h[0];
             unsigned int b;
@@ -3536,7 +3534,7 @@ register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P3
             p1.v[1].y = b;
             p0.v[1].y = (p1.v[0].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
             w9 = uVar9 - 1;
-            uVar9 = w9 + zr;
+            uVar9 = w9;
           }
           {
             unsigned int a = pv->h[2];
@@ -3552,11 +3550,11 @@ register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P3
             p1.v[1].z = b;
             p0.v[1].z = (p1.v[0].z = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
-          if (((int) (w9 << 16)) < 0)
+          if (w9 < 0)
           {
             uVar9 = 0xF;
           }
-          pv = &sub[(short) uVar9];
+          pv = &sub[uVar9];
           col = col - 0xF;
           a2 = (unsigned) (col & 0xFF);
           a2 = a2 >> 3;
@@ -3592,11 +3590,10 @@ register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P3
           }
           func_80017758(&p0, &mtx);
           func_80017758(&p1, &mtx);
-          uc = iVar3 - 1;
-          w3b = uc;
-          iVar3 = w3b + zr;
+          w3b = iVar3 - 1;
+          iVar3 = w3b;
         }
-        while (((short) w3b) != (-1));
+        while (w3b != (-1));
       }
     }
   }

@@ -681,19 +681,17 @@ extern s32 func_801365B8(void *arg0, s32 arg1, s32 arg2);
 extern s32 func_80136334(void *arg0, s32 arg1, s32 arg2);
 extern s32 func_80136824(s32, s32, s32);
 
-s32 func_80135EB0(void *arg0, s32 arg1_) {
-
+s32 func_80135EB0(void *arg0, s32 arg1) {
     extern u8 D_801834C0;
     extern u8 D_801834C4;
     extern s16 *D_801834C8;
     extern u8 D_801834CC;
     extern s32 D_801150D8;
     extern u8 D_801152A8[];
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
-    extern s16 D_80126722;
-    extern s16 D_80126724;
-    register s32 arg1 __asm__("$19") = arg1_;  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
+    extern s16 D_801152AA[];
+    extern s16 D_801152AC[];
+    extern s16 D_80126722[];
+    extern s16 D_80126724[];
     s32 t1;
     s32 t2;
     s32 t3;
@@ -705,9 +703,6 @@ s32 func_80135EB0(void *arg0, s32 arg1_) {
     s32 n1;
     s32 n2;
     s32 r;
-    s32 sv;
-    register s32 w __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    void *q;
 
     t1 = (*(s16 **)&D_801834C0)[0];
     if (t1 < M2C_FIELD(arg0, s16 *, 4)) {
@@ -722,11 +717,16 @@ s32 func_80135EB0(void *arg0, s32 arg1_) {
         m1 |= 8;
     }
     t3 = (*(s16 **)&D_801834C0)[1];
-    if (t3 < M2C_FIELD(arg0, s16 *, 8)) {
-        m2 = 0x10;
-    } else {
-        m2 = (M2C_FIELD(arg0, s16 *, 0xA) < t3) << 5;
-    }
+    /* The do-while(0) is NOT inert: flow.c counts every ref inside it at loop depth 2 (flow.c:2067), which
+     * lifts m2 to 11 refs and ranks it above arg1 in global.c allocno_compare -> m2 $s2, arg1 $s3. */
+    do {
+        if (t3 < M2C_FIELD(arg0, s16 *, 8)) {
+            m2 = 0x10;
+        } else {
+            m2 = -(M2C_FIELD(arg0, s16 *, 0xA) < t3);
+            m2 &= 0x20;
+        }
+    } while (0);
     if ((m1 | m2) == 0) {
         u16 *ac;
         s16 *b4;
@@ -740,18 +740,16 @@ s32 func_80135EB0(void *arg0, s32 arg1_) {
         c0 = ac[0];
         b4[0] = c0;
         h0 = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;
-        D_801152AA = 0;
-        (*(s16 *)D_80126720) = h0;
+        D_801152AA[0] = 0;
+        ((SVECTOR *)D_80126720)->vx = h0;
         (*(s16 *)D_801152A8) = c0 - h0;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
         c1 = ac[2];
         b4[2] = c1;
         h1 = (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1;
-        D_80126724 = h1;
-        D_801152AC = c1 - h1;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        D_80126724[0] = h1;
+        D_801152AC[0] = c1 - h1;
         b4[1] = ac[1];
-        D_80126722 = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
+        D_80126722[0] = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
         VectorNormalSS(D_801152A8, D_801152A8);
         D_801150D8 |= 1;
         return 1;
@@ -790,74 +788,59 @@ s32 func_80135EB0(void *arg0, s32 arg1_) {
 
     switch (m1) {
     case 4:
-        q = arg0;
-        sv = M2C_FIELD(arg0, s16 *, 0xC);
-        w = arg1 << 16;
-        goto L288;
+        r = func_80136334(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 0xC));
+        goto test;
     case 1:
-        r = func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4));
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        goto done;
+        if (func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4)) != 0) goto ret1;
+        break;
     case 2:
-        r = func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6));
-        __asm__ __volatile__(" ");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        goto done;
+        if (func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6)) != 0) goto ret1;
+        break;
     case 5:
-        if (func_80136334(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 0xC)) != 0) {
-            return 1;
-        }
-        r = func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4));
-        goto done;
+        if (func_80136334(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 0xC)) != 0) goto ret1;
+        if (func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4)) != 0) goto ret1;
+        break;
     case 6:
-        if (func_80136334(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 0xC)) != 0) {
-            return 1;
-        }
-        r = func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6));
-        goto done;
+        if (func_80136334(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 0xC)) != 0) goto ret1;
+        if (func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6)) != 0) goto ret1;
+        break;
     case 9:
-        if (func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4)) != 0) {
-            return 1;
-        }
+        if (func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4)) != 0) goto ret1;
         /* fallthrough */
     case 8:
-        q = arg0;
-        sv = M2C_FIELD(arg0, s16 *, 0xE);
-        w = (arg1 | 1) << 16;
-    L288:
-        r = func_80136334(q, w >> 16, sv);
-        goto done;
+        r = func_80136334(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 0xE));
+    test:
+        if (r != 0) goto ret1;
+        break;
     ret0:
         return 0;
     case 10:
-        if (func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6)) != 0) {
-            return 1;
-        }
-        r = func_80136334(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 0xE));
-    done:
-        if (r != 0) {
-            return 1;
-        }
+        if (func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6)) != 0) goto ret1;
+        if (func_80136334(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 0xE)) != 0) goto ret1;
+        break;
     case 0:
-        if (m2 == 0) {
+        break;
+    default:
+        goto ret1;
+    }
+    if (m2 == 0) {
+        goto ret0;
+    }
+    if (m2 == 0x10) {
+        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 8)) == 0) {
             goto ret0;
         }
-        if (m2 == 0x10) {
-            if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 8)) == 0) {
-                goto ret0;
-            }
-        } else {
-            if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 0xA)) == 0) {
-                goto ret0;
-            }
+    } else {
+        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 0xA)) == 0) {
+            goto ret0;
         }
-    default:
-        return 1;
     }
+ret1:
+    return 1;
 }
 
 
 s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
-
     extern u8 D_80126720[];
     extern Box_80133784 * D_801834C0;
     extern Box_80133784 * D_801834C4;
@@ -865,11 +848,11 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     extern u8 D_801834CC;
     extern u8 D_801152A8[];
     extern s16 D_801152AA;
-    extern s16 D_801152AC;
+    extern s16 D_801152AC[];
     extern s16 D_80126722;
     extern s16 D_80126724;
-    s32 a1v;
-    register s32 a2v __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 a1v;
+    s16 a2v;
     s32 n;
     s16 *b4;
     s32 d;
@@ -878,16 +861,16 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     s32 result;
     s32 frame_pad[2];
     (void)&frame_pad;
-    __asm__("" : "=r"(a1v) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    a1v = arg1;
     a2v = arg2;
 
-    if (!(arg1 & 1)) {
-        dx = (s16) arg2 - (*(s16 **)&D_801834C0)[2];
+    if (!(a1v & 1)) {
+        dx = a2v - (*(s16 **)&D_801834C0)[2];
         d = dx;
         denom = -(*(s16 **)&D_801834CC)[2];
     } else {
         denom = (*(s16 **)&D_801834CC)[2];
-        d = (*(s16 **)&D_801834C0)[2] - (s16) arg2;
+        d = (*(s16 **)&D_801834C0)[2] - a2v;
         dx = -d;
     }
     n = -d;
@@ -913,13 +896,11 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     (*(s16 *)D_801152A8) = 0;
     if (a1v & 1) {
         D_801834C8[2] = a2v + 2;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        D_801152AC = 0xFFF;
+        D_801152AC[0] = 0xFFF;
     } else {
-        D_801152AC = -0xFFF;
+        D_801152AC[0] = -0xFFF;
         D_801834C8[2] = a2v - 2;
     }
-    __asm__ __volatile__("" :: "r"(a1v), "r"(a2v));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     (*(s16 *)D_80126720) = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;
     D_80126722 = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
     result = 1;
@@ -935,7 +916,6 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
 // -> single store via *(s16*)D_80126720. D_801152A8/AA/AC, D_80126722/24 block-scope externs
 // (siblings use block-scope; gcc-2.7.2 does not cross-conflict block-scope externs).
 s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
-
     extern u8 D_80126720[];
     extern Box_80133784 * D_801834C0;
     extern Box_80133784 * D_801834C4;
@@ -956,15 +936,12 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     s32 var_a1;
     s32 var_v0;
     s32 var_v1;
-    s32 a1c;
-    s32 a2c;
-    s32 cond;
-    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    u16 a1c;
+    u16 a2c;
 
-    __asm__("addu %0,%1,$zero" : "=r"(a1c) : "r"(arg1));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
-    cond = arg1 & 1;
-    a2c = arg2 + zr;
-    if (!cond) {
+    a1c = arg1;
+    a2c = arg2 + 0;
+    if (!(arg1 & 1)) {
         var_v1 = (s16) arg2 - (*(s16 **)&D_801834C0)[0];
         var_a1 = var_v1;
         var_a3 = -(*(s16 **)&D_801834CC)[0];
@@ -1010,9 +987,8 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     }
     *(s16 *)D_80126720 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1);
     D_80126722 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
-    var_v0 = 1;
     D_80126724 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
-    return var_v0;
+    return (1);
 }
 
 

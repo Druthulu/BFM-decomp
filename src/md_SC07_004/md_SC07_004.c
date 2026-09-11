@@ -1415,14 +1415,14 @@ extern s32 D_801F8720;
 
 void func_801A2364(s32 a0)
 {
-    register s32 flag __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 flag;
 
     func_80178B18(a0, (s32)&D_801AFD8C);
     flag = *(s32 *)(a0 + 0xD4);
     *(s32 *)(a0 + 0x1C) = 0x20;
     (*(u16 *)&D_801F8868) = 0;
     if (flag != 0) {
-        ((void (*)(void))func_801A7D18)();
+        ((void (*)(s32 arg0))func_801A7D18)(flag);
         *(s32 *)(a0 + 0xD4) = 0;
         func_801A36F0((void *)a0);
     }

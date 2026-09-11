@@ -79,7 +79,34 @@ def related_bodies(tu, fn, target_text, alias, top=6, max_lines=600):
             if shared:
                 cands.append((-len(shared), body.count("\n"), r["name"], rel, r["line"], shared, body))
     cands.sort()
-    seen, out = set(), [f"=== lever-free bodies in {alias} sharing a callee or global with {fn} "
+    # THE SAME FUNCTION already lever-free in ANOTHER overlay (S103, agent c41: func_80145934 closed on its first try by
+    # porting another overlay's banked text — the variant differed only in its symbols and a body-local extern, and
+    # nothing in the pack pointed at it). Listed first; found by `git grep`, not by scanning the tree.
+    same = []
+    try:
+        hits = subprocess.run(["git", "grep", "-l", "-E", r"\b" + fn + r"\s*\(", "--", "src"], capture_output=True,
+                              text=True, cwd=REPO).stdout.split()
+    except OSError:
+        hits = []
+    for rel in hits:
+        if rel == tu or len(same) >= 2:
+            continue
+        try:
+            txt = (REPO / rel).read_text(errors="surrogateescape")
+            recs = dl.sc.scan_text(txt, rel, shared_defs=None)
+        except Exception:
+            continue
+        ls = dl.line_starts(txt)
+        for r in recs:
+            if r.get("form") == "def" and r.get("name") == fn:
+                body = txt[ls[r["line"] - 1]:ls[r["end"]]] if r["end"] < len(ls) else txt[ls[r["line"] - 1]:]
+                if "!FAKE" not in body and "__asm__ __volatile__" not in body:
+                    same.append((rel, r["line"], body))
+                break
+    head = []
+    for rel, line, body in same:
+        head += [f"=== {fn} ALREADY LEVER-FREE in {rel}:{line} — a variant of your function: port it (R71) ===", body.rstrip(), ""]
+    seen, out = set(), head + [f"=== lever-free bodies in {alias} sharing a callee or global with {fn} "
                          f"({len(cands)} found; top {top} by shared symbols) — read them for the SHAPE ==="]
     for _, n, name, rel, line, shared, body in cands:
         if name in seen:

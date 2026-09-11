@@ -46,6 +46,10 @@ which is what stops cse following the jump. `goto out` alone, with `return 1` ke
 shifts too. The structured `if (r != 0) { ...; r = 1; } return r;` scores 7 (`scratch/f2.c`) — ret0 ends up after
 the store and the branch polarity flips. The tree's own label order (ret0 BEFORE store) still has to hold.
 
+Transfer checked on a sibling: the same textual edit on `ov_SC06_024` `func_801877BC` (symbols remapped)
+scores 0 (`scratch/sib024.c`). The other copies are in ov_SC06_018/020/032/033, found by grepping the header's
+`/* $v0 — see note 2 above */` pin comment. The tree's header notes 2 and 1 should be rewritten to match this reading.
+
 ## (d) GENERATOR PROPOSAL
 When the target branches on a call result straight to the epilogue with no `$v0` set in the delay slot, and the
 lever-free `return r` inside `if (r == 0)` jumps to a shared `return 0` block instead: turn the arm into

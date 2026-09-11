@@ -9,7 +9,7 @@ void func_80130514(int param_1)
 {
     unsigned int uVar1;
     if ((*(unsigned int *)(param_1 + 0xb4) & 0x40) != 0) {
-        uVar1 = ((int (*)(void))func_8012CBF4)();
+        uVar1 = ((int (*)(s32 a0))func_8012CBF4)(param_1);
         if (0xf < *(short *)(param_1 + 10)) {
             func_801319E0(param_1);
             return;
@@ -27,6 +27,5 @@ void func_80130514(int param_1)
     }
     /* Scheduling barrier: blocks gcc-2.7.2 reorg from hoisting the join-block
        `move $a0,$s0` into the first branch's delay slot (target keeps a nop there). */
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers1)
     func_80131CA8(param_1, 0x13);
 }

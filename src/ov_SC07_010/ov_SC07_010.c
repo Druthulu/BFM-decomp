@@ -225,7 +225,6 @@ extern void func_801379FC(void);
 extern void func_8001212C(void);
 
 void func_801287B8(void) {
-
     extern s32 D_80126B58;
     extern s32 D_801A94D8;
     extern u16 D_800B99DA;
@@ -246,11 +245,10 @@ void func_801287B8(void) {
     func_8016E95C();
     func_801754A8();
     {
-        /* D_801A94D8 read: the target materializes &sym into $a0 then lw 0($a0) (not the folded
-         * lui;lw %lo). volatile forces the rematerialize; the $4 pin forces the a0 allocation. */
-        register volatile s32 *p __asm__("$4") = &D_801A94D8;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        s32 *p = &D_801A94D8;
+
         if (*p == 0) {
-            func_8013BC7C();
+            ((void (*)(void *))func_8013BC7C)(p);
         }
     }
     func_8013BCDC();
@@ -567,13 +565,6 @@ void func_8012956C(void) {
     s32 *sp0;
     Ent_956C *base;
     s32 i;
-    s16 a1;
-    register u32 temp_a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 arg0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    u32 s;
-    register u32 s2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    u32 t6;
-    s32 code;
 
     sp10 = (s32 *)0x1F800010;
     sp0 = (s32 *)0x1F800000;
@@ -585,73 +576,53 @@ void func_8012956C(void) {
     i = 0;
     do {
         s32 idx = i * 8 + 4;
-        code = base->f34;
-        if (code == 0x7FFE) {
-            goto case_7FFE;
-        }
-        if (code < 0x7FFF) {
-            a1 = i + 3;
-            if (code == 0x7FFD) {
-                goto case_7FFD;
+        switch (base->f34) {
+        case 0x7FFF:
+            break;
+        case 0x7FFD:
+            if (i == 0) {
+                func_801299C8(D_801A94B8, 1, base);
             }
-            goto do_default;
-        }
-        a1 = i + 3;
-        if (code != 0x7FFF) {
-            goto do_default;
-        }
-        goto next;
-    case_7FFD:
-        if (i == 0) {
-            func_801299C8(D_801A94B8, 1, base);
-        }
-        func_80015B6C(-0xA0, -0x74, 0x140, 0x8C,
-                      D_801A69C0[0], D_801A69C0[1], D_801A69C0[2],
-                      D_801A69C0[4], D_801A69C0[5], D_801A69C0[6]);
-        func_80015B6C(-0xA0, 0x18, 0x140, 0x3C,
-                      D_801A69C0[4], D_801A69C0[5], D_801A69C0[6],
-                      D_801A69C0[8], D_801A69C0[9], D_801A69C0[0xA]);
-        func_80015B6C(-0xA0, 0x54, 0x140, 0x28,
-                      D_801A69C0[8], D_801A69C0[9], D_801A69C0[0xA],
-                      D_801A69C0[0xC], D_801A69C0[0xD], D_801A69C0[0xE]);
-        goto next;
-    case_7FFE:
-        func_801299C8(D_801A94B8, (s16)(i * 2), base);
-        func_80015B6C(-0xA0, *(s16 *)&base->f3A, 0x140, base->f3E,
-                      ((u8 *)&D_801A69BC)[idx], D_801A69BD[idx], D_801A69BE[idx],
-                      D_801A69C0[idx], D_801A69C1[idx], D_801A69C2[idx]);
-        goto next;
-    do_default:
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        arg0 = D_801A94B8;
-        s = base->f40;
-        temp_a3 = base->f38;
-        s += temp_a3;
-        base->f1C = s;
-        s2 = base->f42;
-        t6 = base->f3A;
-        s2 += t6;
-        base->f1E = s2;
-        ((void (*)(s32, s32, void *, s32))func_801299C8)(arg0, a1, base, temp_a3);
-        *(Blk16_956C *)sp0 = *(Blk16_956C *)base;
-        {
-            s32 *dst = sp10;
-            s32 *src = (s32 *)((u8 *)base + 0x10);
-            s32 *end = (s32 *)((u8 *)base + 0x30);
-            do {
-                *(Blk16_956C *)dst = *(Blk16_956C *)src;
-                src += 4;
-                dst += 4;
-            } while (src != end);
-            *dst = *src;
-            sp10[5] = (s32)sp0;
-            if (base->f36 == 0) {
-                GsSortFastBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
-            } else {
-                GsSortBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
+            func_80015B6C(-0xA0, -0x74, 0x140, 0x8C,
+                          D_801A69C0[0], D_801A69C0[1], D_801A69C0[2],
+                          D_801A69C0[4], D_801A69C0[5], D_801A69C0[6]);
+            func_80015B6C(-0xA0, 0x18, 0x140, 0x3C,
+                          D_801A69C0[4], D_801A69C0[5], D_801A69C0[6],
+                          D_801A69C0[8], D_801A69C0[9], D_801A69C0[0xA]);
+            func_80015B6C(-0xA0, 0x54, 0x140, 0x28,
+                          D_801A69C0[8], D_801A69C0[9], D_801A69C0[0xA],
+                          D_801A69C0[0xC], D_801A69C0[0xD], D_801A69C0[0xE]);
+            break;
+        case 0x7FFE:
+            func_801299C8(D_801A94B8, (s16)(i * 2), base);
+            func_80015B6C(-0xA0, *(s16 *)&base->f3A, 0x140, base->f3E,
+                          ((u8 *)&D_801A69BC)[idx], D_801A69BD[idx], D_801A69BE[idx],
+                          D_801A69C0[idx], D_801A69C1[idx], D_801A69C2[idx]);
+            break;
+        default:
+            base->f1C = base->f40 + base->f38;
+            base->f1E = base->f42 + base->f3A;
+            func_801299C8(D_801A94B8, (s16)(i + 3), base);
+            *(Blk16_956C *)sp0 = *(Blk16_956C *)base;
+            {
+                s32 *dst = sp10;
+                s32 *src = (s32 *)((u8 *)base + 0x10);
+                s32 *end = (s32 *)((u8 *)base + 0x30);
+                do {
+                    *(Blk16_956C *)dst = *(Blk16_956C *)src;
+                    src += 4;
+                    dst += 4;
+                } while (src != end);
+                *dst = *src;
+                sp10[5] = (s32)sp0;
+                if (base->f36 == 0) {
+                    GsSortFastBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
+                } else {
+                    GsSortBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
+                }
             }
+            break;
         }
-    next:
         base += 1;
         i += 1;
     } while (i < 2);
