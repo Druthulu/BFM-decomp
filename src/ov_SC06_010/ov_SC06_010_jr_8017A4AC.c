@@ -5567,15 +5567,12 @@ void func_8017F600(s32 param_1) {
 
     u8 *s0 = (u8 *)param_1;
     u16 nv[4];
-    s32 pad_[4];
     s32 g;
     s32 iv;
     s32 idx;
     s32 t1;
     s32 t2;
     s32 p;
-    s32 q;
-    u32 uVar1;
 
     g = D_801151D4;
 
@@ -5630,6 +5627,10 @@ void func_8017F600(s32 param_1) {
     }
 
     if (*(u16 *)s0 != 0) {
+        /* Mirror the model's bit 31 into both attached objects. The bit is TESTED with the mask (not `< 0`): the
+         * mask register is loaded before the branch and cse reuses it for the `|=` (its load fills the branch delay
+         * slot), and combine's sign test leaves a `(use)` of the dead AND result that reload gives a stack slot — the
+         * frame's 16 bytes (P36 S104 e26; same text as func_8017F438). */
         p = *(s32 *)(s0 + 0xCC);
         *(u16 *)(p + 0x8) = *(u16 *)(s0 + 0x6);
         *(u16 *)(p + 0xA) = *(u16 *)(s0 + 0xA);
@@ -5637,16 +5638,11 @@ void func_8017F600(s32 param_1) {
         *(u16 *)(p + 0x10) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10);
         *(u16 *)(p + 0x12) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) + *(u16 *)(s0 + 0xFC);
         *(u16 *)(p + 0x14) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14);
-        q = *(s32 *)(s0 + 0x20);
-        if (*(s32 *)(q + 4) < 0) {
-            register u32 val __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-            val = *(u32 *)(p + 4);
-            uVar1 = val | 0x80000000;
+        if (*(u32 *)(*(s32 *)(s0 + 0x20) + 4) & 0x80000000) {
+            *(u32 *)(p + 4) |= 0x80000000;
         } else {
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-            uVar1 = *(u32 *)(p + 4) & 0x7FFFFFFF;
+            *(u32 *)(p + 4) &= 0x7FFFFFFF;
         }
-        *(u32 *)(p + 4) = uVar1;
 
         p = *(s32 *)(s0 + 0xD0);
         *(u16 *)(p + 0x8) = *(u16 *)(s0 + 0x6);
@@ -5655,16 +5651,11 @@ void func_8017F600(s32 param_1) {
         *(u16 *)(p + 0x10) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10);
         *(u16 *)(p + 0x12) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) + *(u16 *)(s0 + 0xFE);
         *(u16 *)(p + 0x14) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14);
-        q = *(s32 *)(s0 + 0x20);
-        if (*(s32 *)(q + 4) < 0) {
-            register u32 val __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-            val = *(u32 *)(p + 4);
-            uVar1 = val | 0x80000000;
+        if (*(u32 *)(*(s32 *)(s0 + 0x20) + 4) & 0x80000000) {
+            *(u32 *)(p + 4) |= 0x80000000;
         } else {
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-            uVar1 = *(u32 *)(p + 4) & 0x7FFFFFFF;
+            *(u32 *)(p + 4) &= 0x7FFFFFFF;
         }
-        *(u32 *)(p + 4) = uVar1;
     }
 }
 
