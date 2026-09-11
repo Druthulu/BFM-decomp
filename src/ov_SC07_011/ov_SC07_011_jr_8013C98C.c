@@ -1350,8 +1350,8 @@ extern void func_800599B8(u16*);
 void func_8013D9B0(int param_1)
 {
     extern void *D_8018F144;
-    extern s32 D_8018F15C;
     extern s16 *D_8018F14C;
+    extern s32 D_8018F15C;
     extern s32 D_8018F164;
     s16 rect[4];    /* LoadImage rect: x, y, w, h */
     u32 gte[6];     /* [0] fog colour (RGB), [1] source pixel (IRGB), [2] DPCL result (ORGB); [3..5] unused (frame 0x48) */
