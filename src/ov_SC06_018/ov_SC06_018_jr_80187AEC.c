@@ -5386,9 +5386,9 @@ void func_8018AD74(s32 p1, s32 p2, s32 p3, s32 p4)
 
     local_30 = D_800AE620;
     obj = func_8012C658((s16)p2, (s16)p3, p1);
+    do { } while (0);  // !FAKE: do-while — its NOTE_INSN_LOOP_END ends cse1's extended block (cse.c:8054), so m below is not folded onto the struct copy's address pseudo (cse.c:846-862) and is set AFTER obj's copy: sched1 then ranks it last by LUID (sched.c:2428) (P36 S104 e5 minimum-lever)
+    m = &local_30;
     if (obj != 0) {
-        __asm__("" : "=r"(obj) : "0"(obj));   /* §350 birthing-boost kill; 0 bytes */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        m = &local_30;
         *(u16 *)(obj + 0xA) = *(u16 *)(obj + 0xA) - 0x80;
         RotMatrixY((s16)p4, m);
         func_800484EC((s32)m, (s32)&D_801CD468, (s32)out);
