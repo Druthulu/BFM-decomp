@@ -382,26 +382,19 @@ void func_800D24D0(void) {
             D_800A5F1C = 0;
         }
     }
-    sp10[0] = *(D24D0_Rect *)&D_800EC9D0;
     {
         s32 *pb = &D_800EC9B8;
         s0 = *pb;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+        sp10[0] = *(D24D0_Rect *)&D_800EC9D0;
         *pb = (*pb == 0);
     }
-    if (D_800EC9F0 != 0) {
-        r = D_800EC9C0[D_800EC9CC * 4] % D_800EC9D4;
-        if (r != 0) {
-            D_800EC9F0 = 0;
-            D_800EC9D0 = D_800EC9D0 + r;
-            goto join;
-        }
-    }
-    {
+    if (D_800EC9F0 != 0 && (r = D_800EC9C0[D_800EC9CC * 4] % D_800EC9D4) != 0) {
+        D_800EC9F0 = 0;
+        D_800EC9D0 = D_800EC9D0 + r;
+    } else {
         s16 *px = &D_800EC9D0;
         *px = *px + D_800EC9D4;
     }
-join:
     p = (s16 *)((u8 *)D_800EC9A4 + 0x2C);
     idx = D_800EC9CC;
     if (*p < D_800EC9BC[idx * 4] + D_800EC9C0[idx * 4]) {
