@@ -5,7 +5,6 @@
   "gte_mnemonics": {
    "gte_SetRotMatrix": 252,
    "gte_SetTransMatrix": 231,
-   "gte_avsz3": 25,
    "gte_avsz4": 56,
    "gte_dpcl": 134,
    "gte_ldclmv": 75,
@@ -13,6 +12,7 @@
    "gte_ldv0": 758,
    "gte_ldv3": 177,
    "gte_ldv3c": 184,
+   "gte_nccs": 25,
    "gte_nclip": 108,
    "gte_rtir": 78,
    "gte_rtps": 439,
@@ -72,16 +72,16 @@
  "cfake_markers": {
   "count": 44,
   "sample": [
-   "src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:5178",
-   "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:4534",
-   "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:5461",
    "src/800.c:12654",
    "src/md_SC07_003/md_SC07_003.c:3577",
    "src/md_SC07_004/md_SC07_004.c:280",
    "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:3570",
    "src/ov_SC01_009/ov_SC01_009_jr_8017E590.c:4271",
    "src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c:3979",
+   "src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:5178",
    "src/ov_SC02_011/ov_SC02_011_jr_80183178.c:2139",
+   "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:4534",
+   "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:5461",
    "src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:7554",
    "src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:5080",
    "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5534",
@@ -281,7 +281,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 23.7,
+ "elapsed_s": 26.0,
  "generated": "2026-09-11",
  "gte_levers": {
   "direct": 357,
@@ -292,7 +292,7 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "c621e6d82",
+ "head": "6d513a6af",
  "headers": 3181,
  "levers_AB": {
   "asm": 2040,

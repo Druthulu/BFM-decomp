@@ -1905,15 +1905,11 @@ accumulate here as the phase produces them.**
   rough regex, unverified), ~110 of them `func_80157D20` copies** — the structs phase's signature population. R22 after every
   batch (r22_e/f/g): `check-all: 218 passed, 0 failed of 218`; census **4,517** → (after e1) exit 0.
 
-## 🛑 SESSION CHECKPOINT — S104 (2026-09-10, refreshed ~23:55): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,603 sites** this session; 38 agent draws, **32 closed at 0** (31 with zero levers, d4 one marked do-while), d29 PARKED (a void→s32 signature — structs phase), d20 PARKED (a minimum-lever body with two invented always-false C branches — **Drew's call**); generators **R27–R37**; the census counts kept ordinary-C fakes apart; R22 `check-all: 218 passed, 0 failed of 218` after every batch | `lever_census --check` exit 0 (4,603 marked, 0 UNMARKED, 0 orphans)
+## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, refreshed ~04:30): T0–T6 ☑, **T7 RUNNING**. 5,097 → **~4,390 sites** this session; ~70 agent draws (d1–d39 single classes, e1–e24 TU batches of 3–4), ~115 classes closed at 0 — nearly all with ZERO levers, a handful with a marked do-while (ruling (a)); PARKED: signature changes (d29, d36, e1 ×2, e2, e3, e17) + relocation-only closes (e3 func_80037144, e8 func_801A5094, e12 func_80182614's second lever, e18 func_801805EC) + d20's invented-condition body (Drew's call); generators **R27–R42**; the all-families sweep finished (74 MATCH); `ov_SC02_017_jr_8017DF34.c` has 0 lever sites; R22 `check-all: 218 passed, 0 failed of 218` after every batch | `lever_census --check` exit 0
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**S104 ran at `/effort high` on
-Opus 5 1M; every agent on Opus**) and executes §2. **In flight when last refreshed (~23:55):** agents d34 `func_80181408` (ov_SC06_010), d35 `func_8018486C` (ov_SC03_091), d36
-`func_80183CC4` (ov_SC03_094), d37 `func_8017DAB8` (ov_SC02_026), d38 `func_801818A4` (ov_SC02_031) — read-only; each leaves `.run/P36/agents/<alias>__<fn>/body.c` + `mechanism.md` (+ copies under
-`scratch/`). And two detached regen passes: the all-families sweep `s104_all` (~660 of 1,020 judged, MATCH rows banked
-from its jsonl through part 2 only — §3) and the R37 pass `s104_r37` (bank its TSV when it ends). d20 and d29 are PARKED
-(§6). First commands:
+Opus 5 1M; every agent on Opus**) and executes §2. **In flight when last refreshed (~04:30):** agents e20 (src/800.c: func_800168C4 func_8001A114 func_8001C320 func_8001C5B8), e21 (src/800_c.c: func_800359B0 func_80036AF8 func_80037EA0 func_80037F3C), e22 (ov_SC06_029: func_8017C954 func_80185D44 func_80181708 func_80184EFC), e23 (src/800_b_2.c: func_80034844 func_8002D320 func_800301C8 func_800314DC), e24 (ov_SC06_016: func_8017E54C func_8017E9CC func_8017F694 func_80180E24) — read-only; each leaves `<PACK>/body.c` + `mechanism.md` per function; bank with `.run/P36/s104/bank_list.sh` (resolve TUs from the agent's table — `named_definitions` names can be ambiguous across overlays). And the R42 pass `s104_r42` (bank its TSV). The TU-batch lane: take the next 3–4 classes of one TU (skip `$4`–`$7` pins — the missing-parameter shape), brief with the TU's closed mechanisms. (§6). First commands:
 ```
 git log --oneline -1 && git status --short | grep -v '^??' | wc -l
 ps -eo pid,etime,args | grep '[d]elever_regen'            # is s104_all still running?
