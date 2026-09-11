@@ -7895,29 +7895,28 @@ void func_8018489C(s32 arg0, s32 arg1, s32 arg2)
 {
     extern u16 aEFD24 __asm__("D_801EFD24");
 
-    s32 z;        /* arg2, kept in the caller-saved $t0 */
-    register s32 a1v __asm__("$5");      /* the INCOMING $a1, i.e. arg1 pre-copy — lever 1 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t3_tus1)
-    register u8 *base __asm__("$2");     /* multi-set home for the symbol — lever 2 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t3_tus1)
+    s16 y = arg1;
+    s16 z = arg2;
+    s16 n;
     s16 sp10[3];
     s16 sp18[3];
     u8 *p;
 
     if (aEFD24 == 0 && !(D_801EFD40 & 0x100)) {
-        z = arg2;
-        base = D_801946AC;
-        p = base + *(s16 *)(arg0 + 0x102) * 16;
+        n = -y;
+        p = D_801946AC + *(s16 *)(arg0 + 0x102) * 16;
         sp10[2] = *(u16 *)(p + 12);
         sp18[2] = *(u16 *)(p + 14);
         sp18[1] = z;
         sp10[1] = z;
-        sp18[0] = -a1v;
-        sp10[0] = -a1v;
+        sp18[0] = n;
+        sp10[0] = n;
         if (func_80184978(arg0, (s32)sp10, (s32)sp18) == 0) {
             sp18[0] = 0;
             sp10[0] = 0;
             if (func_80184978(arg0, (s32)sp10, (s32)sp18) == 0) {
-                sp18[0] = arg1;
-                sp10[0] = arg1;
+                sp18[0] = y;
+                sp10[0] = y;
                 func_80184978(arg0, (s32)sp10, (s32)sp18);
             }
         }
