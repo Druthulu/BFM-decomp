@@ -3110,12 +3110,12 @@ void func_80186270(void) {
             D_801ED610[i] = 0;
         }
 
-        for (k = 0; k < 4; k++) {
-            if (iVar5 < D_801B940C[k]) {
+        for (j = 0; j < 4; j++) {
+            if (iVar5 < D_801B940C[j]) {
                 break;
             }
         }
-        k = k + 2;
+        k = j + 2;
         if ((u8)func_80029178(0x11D) != 0) {
             k = 6;
         }
@@ -3151,7 +3151,6 @@ void func_80186270(void) {
     for (i = 0; i < 6; i++) {
         D_801ED5D4[i] = 0;
     }
-    __asm__ __volatile__("" :: "r"(p));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
 
     if (D_80115126 == 4) {
         rec = (u8 *)func_801F0C4C();
@@ -3207,13 +3206,13 @@ void func_80186270(void) {
                 break;
             case 3:
                 pp[1] = 0x19;
-                for (k = 0; k < 4; k++) {
-                    if (iVar5 < D_801B940C[k]) {
+                for (j = 0; j < 4; j++) {
+                    if (iVar5 < D_801B940C[j]) {
                         break;
                     }
                 }
                 {
-                s32 v3 = D_801B9414[k];
+                s32 v3 = D_801B9414[j];
                 if (v3 != 0) {
                     pp[0] = v3;
                     D_801ED5D4[3] = (s32)rec;
