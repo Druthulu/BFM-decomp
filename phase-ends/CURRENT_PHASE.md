@@ -1891,6 +1891,20 @@ accumulate here as the phase produces them.**
   218 passed, 0 failed of 218` (r22_d); census **4,661** (exit 0). The R23/R34/R35/R36 pass `s104_new4` is running (16 MATCH at
   650/915); agents d20, d30–d33 in flight.
 
+- **S104 — the fifth wave and the TU batches.** d30–d39 + d34: d30 `func_80183884` (7), d31 `func_80182FB4` (4), d32
+  `func_80181744` (3), d33 `func_8017DD70` (4), d34 `func_80181408` (7), d35 `func_8018486C` (4), d37 `func_8017DAB8` (4), d38
+  `func_801818A4` (2 + 4 siblings de-do-while'd), d39 `func_80185484` (3) — all 0 with ZERO levers; **d36 `func_80183CC4` ×5
+  PARKED** (a `void` → `s32` signature, like d29). Generators widened: R31 all-shifts, R35 cast copies, `named_definitions` sees
+  `func_X_body` asm-label definitions, R37 `return_constants`; `tools/localalloc_sim.py` models the three-quantity switch (the old
+  tool mispredicted 387/16/228 blocks on d5's dumps, the new 0/0/0). Regen passes banked: R23/R34–R36 16/16, R37 4, part 3 (the
+  all-families pass's rows on the live residue) 38 rows — **a 590 s tool timeout killed that bank mid-run; the 30 files it had
+  written were verified by R22 `check-all: 218 passed` before committing (`c5786dac6`), the rest resumed (6 more)** — and R31/R35
+  4 + 1. TU batches from here (the residue's copies are 1–2): e1 `md_SC07_004` → `func_801AB818` 0 zero levers;
+  `func_801A1E94`/`func_801A5C44` close only as a SIGNATURE change (a `(void)` function that reads a pinned `$a0` takes a parameter;
+  five externs and the callers change) — PARKED; e1 estimates **~158 such "`$4` pin = a missing parameter" functions in `src/` (a
+  rough regex, unverified), ~110 of them `func_80157D20` copies** — the structs phase's signature population. R22 after every
+  batch (r22_e/f/g): `check-all: 218 passed, 0 failed of 218`; census **4,517** → (after e1) exit 0.
+
 ## 🛑 SESSION CHECKPOINT — S104 (2026-09-10, refreshed ~23:55): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,603 sites** this session; 38 agent draws, **32 closed at 0** (31 with zero levers, d4 one marked do-while), d29 PARKED (a void→s32 signature — structs phase), d20 PARKED (a minimum-lever body with two invented always-false C branches — **Drew's call**); generators **R27–R37**; the census counts kept ordinary-C fakes apart; R22 `check-all: 218 passed, 0 failed of 218` after every batch | `lever_census --check` exit 0 (4,603 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block

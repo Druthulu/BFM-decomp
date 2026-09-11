@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 30 best 3 compiles 323 path R9 swap-stmts @12944
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @12944 -> 3 [COUNT] (from 30)
+  R9 swap-stmts @12945 -> 3 [COUNT] (from 30)
+  R8 temp tmp0 @12941 -> 3 [COUNT] (from 3)
+  R7 block @12944 -> 3 [COUNT] (from 3)
+  R10 param-copy a0 @12930 -> 3 [COUNT] (from 3)
+  R2 decl-order 1,0 -> 3 [COUNT] (from 3)
+  R6 inline v0 @12941 -> 3 [COUNT] (from 3)
+  R8 base tmp0 @12941 -> 3 [COUNT] (from 3)
+  R7 do-while @12944 -> 3 [COUNT] (from 3)
+  R8 temp tmp0 @12945 -> 3 [COUNT] (from 3)
+  R7 block @12941 -> 3 [COUNT] (from 3)
+  R9 swap-stmts @12943 -> 3 [COUNT] (from 3)

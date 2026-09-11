@@ -1,0 +1,4 @@
+REMOVED  pin         $8     line 7734
+REMOVED  pin         $11    line 7736
+REMOVED  pin         $7     line 7737
+NEEDED   pin         $4     line 7745

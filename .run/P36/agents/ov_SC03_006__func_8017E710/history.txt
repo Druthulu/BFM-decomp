@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 9 best 7 compiles 189 path R6 inline ang @4934
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline ang @4934 -> 7 [REG] (from 9)
+  R8 temp tmp0 @4919 -> 7 [REG] (from 7)
+  R18 bystander @4933->4936 -> 7 [REG] (from 7)
+  R10 param-copy a0 @4918 -> 7 [REG] (from 7)
+  R7 block @4919 -> 7 [REG] (from 7)
+  R4 decl-move ang 7->0 -> 7 [REG] (from 7)
+  R8 base tmp0 @4919 -> 7 [REG] (from 7)
+  R18 bystander @4933->4937 -> 7 [REG] (from 7)
+  R7 do-while @4919 -> 7 [REG] (from 7)
+  R4 decl-move ang 7->1 -> 7 [REG] (from 7)
+  R5 swap + @4943 -> 7 [REG] (from 7)
+  R7 block @4921 -> 7 [REG] (from 7)

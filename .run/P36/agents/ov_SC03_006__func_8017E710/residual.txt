@@ -1,0 +1,15 @@
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:func_8017E710: score 9 (REG-caller; mine 133 ins, target 133) — not yet
+  register pairs (mine -> target, count): v1->v0 x9, v0->v1 x4
+  replace mine[43:47] target[43:47]
+       43  andi	v1,v0,0xfff                   | andi	v0,v0,0xfff
+       44  subu	v0,v1,s0                      | subu	v1,v0,s0
+       45  sll	v0,v0,0x10                     | sll	v1,v1,0x10
+       46  bgez	v0,39ac <func_8017E710+0xc8>  | bgez	v1,39ac <func_8017E710+0xc8>
+  replace mine[49:52] target[49:52]
+       49  addiu	v1,v1,1152                   | addiu	v0,v0,1152
+       50  addiu	v1,v1,-1152                  | addiu	v0,v0,-1152
+       51  subu	a0,s0,v1                      | subu	a0,s0,v0
+  replace mine[53:54] target[53:54]
+       53  lhu	v1,6(s1)                       | lhu	v0,6(s1)
+  replace mine[55:56] target[55:56]
+       55  sh	v1,16(sp)                       | sh	v0,16(sp)

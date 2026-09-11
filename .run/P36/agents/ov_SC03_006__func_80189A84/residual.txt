@@ -1,0 +1,39 @@
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:func_80189A84: score 30 (COUNT; mine 46 ins, target 46) — not yet
+  register pairs (mine -> target, count): v1->v0 x3
+  replace mine[4:5] target[4:5]
+        4  lw	v1,220(s0)                      | lw	v0,220(s0)
+  replace mine[6:7] target[6:7]
+        6  andi	v0,v1,0x2                     | andi	v0,v0,0x2
+  replace mine[9:10] target[9:10]
+        9  lw	v1,28(s0)                       | lw	v0,28(s0)
+  replace mine[11:15] target[11:13]
+       11  slti	v0,v1,21                      | slti	v0,v0,21
+       12  bnez	v0,ecb4 <func_80189A84+0x5c>  | bnez	v0,eca8 <func_80189A84+0x50>
+       13  slti	v0,v1,17                      | --
+       14  lw	a0,32(s0)                       | --
+  delete  mine[16:25] target[14:14]
+       16  lhu	v1,16(a0)                      | --
+       17  nop                                | --
+       18  addiu	v0,v1,-40                    | --
+       19  sh	v0,16(a0)                       | --
+       20  lw	v1,28(s0)                       | --
+       21  nop                                | --
+       22  slti	v0,v1,17                      | --
+       23  beqz	v0,ecd4 <func_80189A84+0x7c>  | --
+       24  lui	v0,0x8000                      | --
+  replace mine[27:28] target[16:17]
+       27  lw	a0,4(v1)                        | lhu	v0,16(v1)
+  replace mine[29:31] target[18:31]
+       29  xor	a0,a0,v0                       | addiu	v0,v0,-40
+       30  sw	a0,4(v1)                        | sh	v0,16(v1)
+       31  --                                 | lw	v0,28(s0)
+       32  --                                 | nop
+       33  --                                 | slti	v0,v0,17
+       34  --                                 | beqz	v0,ecd4 <func_80189A84+0x7c>
+       35  --                                 | lui	a0,0x8000
+       36  --                                 | lw	v0,32(s0)
+       37  --                                 | nop
+       38  --                                 | lw	v1,4(v0)
+       39  --                                 | nop
+       40  --                                 | xor	v1,v1,a0
+       41  --                                 | sw	v1,4(v0)

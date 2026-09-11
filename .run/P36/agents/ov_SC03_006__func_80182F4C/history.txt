@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 29 best 13 compiles 189 path R6 inline diff @7683 + R12 width p1 s32->u16 @7663
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width p1 s32->u16 @7663 -> 13 [COUNT] (from 18)
+  R12 width p1 s32->u8 @7663 -> 14 [COUNT] (from 18)
+  R12 width p1 s32->s16 @7663 -> 17 [COUNT] (from 18)
+  R6 inline diff @7683 -> 18 [COUNT] (from 29)
+  R6 inline outerIdx @7679 -> 18 [COUNT] (from 18)
+  R18 bystander @7675->7673 -> 18 [COUNT] (from 18)
+  R7 block @7679 -> 18 [COUNT] (from 18)
+  R5 swap * @7682 -> 18 [COUNT] (from 18)
+  R4 decl-move p1 10->0 -> 18 [COUNT] (from 18)
+  R6 inline v @7697 -> 18 [COUNT] (from 18)
+  R8 temp tmp0 @7686 -> 18 [COUNT] (from 18)
+  R7 do-while @7679 -> 18 [COUNT] (from 18)

@@ -1,0 +1,150 @@
+=== lever-free bodies in ov_SC03_006 sharing a callee or global with func_80189A84 (60 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8018993C (src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:12809) shares 4: func_8002AC00 func_8012BEE8 func_80130D48 func_8018A05C ---
+void func_8018993C(s32 a0) {
+    if (*(s32 *)(a0 + 0x1C) < 0x11) {
+        s32 mask;
+        s32 ptr;
+        s32 val;
+
+        mask = 0x80000000;
+        ptr = *(s32 *)(a0 + 0x20);
+        val = *(s32 *)(ptr + 0x4);
+        val ^= mask;
+        *(s32 *)(ptr + 0x4) = val;
+    }
+
+    if (func_8012BEE8(a0) != 0) {
+        func_8002AC00(0xB);
+        func_80130D48(a0);
+        func_8018A05C(a0);
+    }
+}
+
+--- func_801856A0 (src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:9601) shares 3: func_8002AC00 func_8012BEE8 func_80130D48 ---
+void func_801856A0(s32 a0) {
+    s32 obj;
+    s32 i;
+    s32 t4;
+    s32 tmp;
+    s32 q1;
+    unsigned int *pbuf;
+    s32 r1, r2, r4;
+    s32 ang1, dist;
+    s32 base, v3;
+    s32 buf;
+    u16 pos[3];
+
+    obj = a0;
+
+    if (*(u16 *)(obj + 0x34) != 0) {
+        if (func_8012BEE8(a0) != 0) {
+            func_8002AC00(0xA);
+            func_80130D48(obj);
+            func_80185D20(obj);
+        }
+        return;
+    }
+
+    i = 0;
+    pbuf = (unsigned int *)&buf;
+    for (; i < 10;) {
+        r1 = rand();
+        tmp = (r1 >= 0) ? r1 : (r1 + 0xFFF);
+        ang1 = r1 - ((tmp >> 12) << 12);
+
+        r2 = rand();
+        q1 = r2 / 48;
+        dist = r2 - q1 * 48;
+
+        func_8012B0B4(pbuf, ang1, dist);
+        t4 = buf;
+
+        pos[0] = *(u16 *)(obj + 0x6) + t4;
+
+        v3 = rand() % 24;
+
+        base = *(s16 *)(obj + 0xA) - 0x34;
+
+        r4 = rand();
+        {
+            s32 t1 = (r4 & 1) ? (base + v3) : (base - v3);
+            pos[1] = t1;
+
+            {
+                s32 hi4;
+                hi4 = t4 >> 16;
+                pos[2] = *(u16 *)(obj + 0xE) + hi4;
+            }
+            func_80143BDC(pos);
+            i++;
+        }
+    }
+
+    *(s32 *)(obj + 0x1C) = 0x10;
+    *(u16 *)(obj + 0x34) += 1;
+
+    for (i = 0; i < 3; i++) {
+        func_8012C658(0x240, i, obj);
+    }
+}
+
+--- func_8012FF98 (src/shared/ov/func_8012FF98.h:7) shares 2: func_8012BEE8 func_80130D48 ---
+void func_8012FF98(u8 *a0) {
+    if (*(s32 *)(a0 + 0xB4) & 0x20) {
+        s32 p = *(s32 *)(a0 + 0x20);
+        if (p != 0) {
+            *(u32 *)(p + 4) ^= 0x80000000;
+        }
+        if (func_8012BEE8((s32)a0)) {
+            func_80130D48((s32)a0);
+            func_801319E0((s32)a0);
+        }
+    }
+    func_80131CA8((int)a0, 0x10);
+}
+
+--- func_801301E8 (src/shared/ov/func_801301E8.h:7) shares 2: func_8012BEE8 func_80130D48 ---
+void func_801301E8(u8 *a0) {
+    if (*(s32 *)(a0 + 0xB4) & 0x2000) {
+        if (*(u8 *)(a0 + 0xC3) != 0) {
+            if (*(u16 *)(a0 + 0x72) & 0x4000) {
+                func_80130D48((s32)a0);
+                func_801319E0((s32)a0);
+            }
+        } else if (func_8012BEE8((s32)a0) != 0) {
+            func_80130D48((s32)a0);
+            func_801319E0((s32)a0);
+        }
+    }
+    func_80131CA8((int)a0, 0x26);
+}
+
+--- func_80184034 (src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:8418) shares 2: func_8012BEE8 func_80130D48 ---
+void func_80184034(s32 a0) {
+    if (*(s32 *)(a0 + 0x1C) < 0xC) {
+        s32 mask;
+        s32 ptr;
+        s32 val;
+
+        mask = 0x80000000;
+        ptr = *(s32 *)(a0 + 0x20);
+        val = *(s32 *)(ptr + 0x4);
+        val ^= mask;
+        *(s32 *)(ptr + 0x4) = val;
+    }
+
+    if (func_8012BEE8(a0) != 0) {
+        func_80130D48(a0);
+        *(s32 *)(a0 + 0x1C) = 0x3C;
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) = 0x80000000;
+        func_801846D0(a0);
+    }
+}
+
+--- func_80188F14 (src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:12280) shares 1: func_8012BEE8 ---
+    void func_80188F14(void *a0) {
+        if (func_8012BEE8((s32)a0)) {
+            *(s16 *)((s32)a0 + 0x2) = 0x5;
+        }
+    }
+

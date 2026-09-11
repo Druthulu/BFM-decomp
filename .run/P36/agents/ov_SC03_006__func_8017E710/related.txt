@@ -1,0 +1,192 @@
+=== lever-free bodies in ov_SC03_006 sharing a callee or global with func_8017E710 (37 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8015C0C4 (src/shared/ov/func_8015C0C4.h:8) shares 2: D_801152B0 D_801152B4 ---
+void func_8015C0C4(s32 a0) {
+    s32 t = D_801152B0 << 6;
+    *(s32 *)(a0 + 0x238) = 0x80000;
+    *(s32 *)(a0 + 0x234) = t;
+    *(s32 *)(a0 + 0x23C) = D_801152B4 << 6;
+    func_80154150(a0, 0x11);
+    func_801553A8((s32 *)a0);
+    func_80146CA0((void *)a0);
+}
+
+--- func_8014A3E0 (src/shared/ov/func_8014A3E0.h:5) shares 2: D_801152B0 D_801152B4 ---
+s32 func_8014A3E0(struct S_8014A3E0 *a0) {
+    s32 sp[4];
+    sp[0] = a0->h12 * D_801152B0;
+    sp[2] = a0->h1A * D_801152B4;
+    if (sp[0] >= 0 && sp[2] >= 0) {
+        return 1;
+    }
+    *(s16 *)((char *)a0 + 0x6) = a0->h88;
+    *(s16 *)((char *)a0 + 0xA) = a0->h8A;
+    *(s16 *)((char *)a0 + 0xE) = a0->h8C;
+    return 0;
+}
+
+--- func_8014FA70 (src/shared/ov/func_8014FA70.h:8) shares 2: D_801152B0 func_80133784 ---
+s32 func_8014FA70(s32 a0) {
+    s32 s1;
+    s32 v0;
+    u8 in[8];
+    u8 out[8];
+    *(s16 *)(in + 0x0) = *(u16 *)(a0 + 0x88);
+    *(s16 *)(in + 0x2) = *(u16 *)(a0 + 0x8A);
+    *(s16 *)(in + 0x4) = *(u16 *)(a0 + 0x8C);
+    *(s16 *)(out + 0x0) = *(u16 *)(a0 + 0x6);
+    *(s16 *)(out + 0x2) = *(u16 *)(a0 + 0xA);
+    *(s16 *)(out + 0x4) = *(u16 *)(a0 + 0xE);
+    s1 = func_80133784(1, &in[0], (s32)&out[0]);
+    if (s1 != 0) {
+        *(s16 *)(a0 + 0x6) = *(u16 *)(out + 0x0);
+        *(s16 *)(a0 + 0xA) = *(u16 *)(out + 0x2);
+        *(s16 *)(a0 + 0xE) = *(u16 *)(out + 0x4);
+        v0 = *(u8 *)(out + 0x6);
+        if (v0 != 0) {
+            *(s16 *)(a0 + 0x16C) = v0;
+        }
+        *(s16 *)(a0 + 0x16E) = *(u16 *)(out + 0x6) >> 13;
+        if (*(u16 *)(a0 + 0x16C) == 0x1D) {
+            if ((func_80029178(0x21) & 0xFF) == 0) {
+                s1 &= ~0x2000;
+                s1 |= 0x4000;
+                __builtin_memcpy(&D_801152B0, &D_801152A8[0], 8);
+                D_801152BC = 1;
+            }
+        }
+        return s1;
+    }
+    v0 = *(u8 *)(out + 0x6);
+    if (v0 != 0) {
+        *(s16 *)(a0 + 0x16C) = v0;
+    }
+    return 0;
+}
+
+--- func_8016163C (src/shared/ov/func_8016163C.h:13) shares 2: D_801152B0 D_801152B4 ---
+s32 func_8016163C(s32 a0, u32 a1)
+{
+    s32 result;
+    if ((a1 & 1) != 0) {
+        func_801599A4(a0);
+        func_80159B3C(a0);
+        func_8014C010((s32)a0, 1);
+        func_80161D20((s32)a0, *(u16 *)((s32)a0 + 0x16E));
+        return 1;
+    }
+    if ((a1 & 0x4000) != 0) {
+        func_801599A4(a0);
+        func_8015BF48((s32 *)a0);
+        func_8014C010((s32)a0, 1);
+        func_80161D20((s32)a0, *(u16 *)((s32)a0 + 0x16E));
+        return 2;
+    }
+    if ((a1 & 0x2000) != 0) {
+        func_801599A4(a0);
+        func_80159B3C(a0);
+        func_8014C010((s32)a0, 1);
+        func_80161D20((s32)a0, *(u16 *)((s32)a0 + 0x16E));
+        return 4;
+    }
+    if ((a1 & 0x8000) != 0) {
+        if (*(u16 *)((s32)a0 + 0x16C) != 0x15) {
+            return 0;
+        }
+        if (func_8014A6C4((s32)a0) == 0) {
+            return 0;
+        }
+        func_801599A4(a0);
+        func_8015F2F0(a0);
+        result = ratan2(D_801152B0, D_801152B4);
+        *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = (s16)result;
+        return 8;
+    }
+    return 0;
+}
+
+--- func_80161774 (src/shared/ov/func_80161774.h:11) shares 2: D_801152B0 D_801152B4 ---
+s32 func_80161774(int a0, u32 a1)
+{
+    s32 v1;
+    s16 v2;
+    if ((a1 & 1) != 0) {
+        func_8014C010((s32)a0, 1);
+        v1 = *(u16 *)((s32)a0 + 0x16E);
+        func_80161D20((s32)a0, v1);
+        return 1;
+    }
+    if ((a1 & 0x4000) != 0) {
+        func_801599A4(a0);
+        func_8015BF48((s32 *)a0);
+        func_8014C010((s32)a0, 1);
+        v1 = *(u16 *)((s32)a0 + 0x16E);
+        func_80161D20((s32)a0, v1);
+        return 2;
+    }
+    if ((a1 & 0x2000) != 0) {
+        func_8014C010((s32)a0, 1);
+        v1 = *(u16 *)((s32)a0 + 0x16E);
+        func_80161D20((s32)a0, v1);
+        return 4;
+    }
+    if ((a1 & 0x8000) != 0) {
+        v1 = *(u16 *)((s32)a0 + 0x16C);
+        if (v1 != 0x15) {
+            return 0;
+        }
+        v1 = func_8014A6C4((s32)a0);
+        if (v1 == 0) {
+            return 0;
+        }
+        func_801599A4(a0);
+        func_8015F2F0((s32 *)a0);
+        v2 = ratan2(D_801152B0, D_801152B4);
+        *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = v2;
+        return 8;
+    }
+    return 0;
+}
+
+--- func_80188AF4 (src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:12079) shares 2: D_800AE620 func_8012CEB0 ---
+void func_80188AF4(s32 a0, s32 a1) {
+    extern s32  func_8012B864(s32 a0);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+    extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+    extern Mtx8_8017DE10_8017E710 D_800AE620;
+
+    u32 pos[3];
+    Vec32_80188AF4 out;
+    u8 rotIn[8];
+    u8 rotOut[8];
+    Blk20_80188AF4 m;
+
+    m = (*(Blk20_80188AF4 *)&D_800AE620);
+    RotMatrixY(func_8012B864(a0), &m);
+    func_800484EC((s32)&m, a1, (s32)&out);
+
+    pos[0] = *(s32 *)(a0 + 0x4) + out.vx;
+    pos[1] = *(s32 *)(a0 + 0x8) + out.vy;
+    pos[2] = *(s32 *)(a0 + 0xC) + out.vz;
+
+    {
+        u16 rix;
+        u16 roy;
+        u16 roz;
+        u16 riz;
+
+        rix = *(u16 *)(a0 + 0x3A);
+        roy = *((u16 *)&pos[1] + 1);
+        roz = *((u16 *)&pos[2] + 1);
+        *(u16 *)(rotIn + 0) = rix;
+        *(u16 *)(rotIn + 2) = *(u16 *)(a0 + 0x3E);
+        riz = *(u16 *)(a0 + 0x42);
+        *(u16 *)(rotOut + 0) = *((u16 *)&pos[0] + 1);
+        *(u16 *)(rotOut + 2) = roy;
+        *(u16 *)(rotOut + 4) = roz;
+        *(u16 *)(rotIn + 4) = riz;
+    }
+
+    func_8012CEB0((s32)&rotIn[0], (s32)&rotOut[0], 0);
+}
+
