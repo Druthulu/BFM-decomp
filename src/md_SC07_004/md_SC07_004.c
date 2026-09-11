@@ -9660,13 +9660,13 @@ void func_801ADF5C(void *a0)
     {
         s32 mask;
         s16 one;
-        register s32 rv0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-        register s32 rv1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-        register s32 ra1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 rv0 __asm__("$2");  // !FAKE: pin $2 rv0 — the 0x2000/0x8C/0x1E0 holder is a 3-death pseudo, global.c find_reg (global.c:945-990) hands it $a2 once the single-death locals hold $v0/$v1 (P36 S105 f3 minimum-lever)
+        register s32 rv1 __asm__("$3");  // !FAKE: pin $3 rv1 — the 0x118/D_800B9A88 holder, same global.c:945-990 contest (P36 S105 f3 minimum-lever)
+        register s32 ra1 __asm__("$5");  // !FAKE: pin $5 ra1 — keeps `ra1 = &D_801F8B18` a second SET of one pseudo (combine.c:1460 otherwise folds it into the call argument and the 0x100 load becomes a birthing insn, sched.c:2477-2490) (P36 S105 f3 minimum-lever)
 
         mask = 0xF7FFFFFF;
         one = 1;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier after one/mask — sched1 birthing boost (sched.c:2477-2544) would sink `li 1` to its first store; the target keeps it at the block top (P36 S105 f3 minimum-lever)
         rv0 = 0x2000;
         rv1 = 0x118;
 
@@ -9682,7 +9682,7 @@ void func_801ADF5C(void *a0)
 
 
         rv1 = D_800B9A88;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier after the D_800B9A88 load — keeps the 0x8C/0x100 group below the load (sched1 hazard tie-break, sched.c:2620-2690, otherwise lifts the load and the 0x118 stores past it) (P36 S105 f3 minimum-lever)
         ra1 = 0x100;
 
         D_800B9AA0 = (s16)rv0;
