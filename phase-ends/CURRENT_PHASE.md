@@ -2023,17 +2023,37 @@ accumulate here as the phase produces them.**
   `4a503fce1` → `lever_census --check: 4,077 pin/asm sites, 4,077 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,111 → **4,077**;
   2,188 pins + 1,889 asm in 2,009 bodies). **Session so far: 25 of 25 drawn classes at 0 (21 plain C, 4 minimum-lever), 4,152 → 4,077.**
 
-## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, LIVE — refreshed at every landing): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,077 sites** so far; f1–f5 landed (25/25), f6 + f7 IN FLIGHT; generators **R44–R46** + the R22 `&&` blind-spot fix; R22 `check-all: 218 passed, 0 failed of 218` at `4a503fce1` | `lever_census --check` exit 0 (4,077 marked, 0 UNMARKED, 0 orphans)
+- **S105 — f7 landed: 6 of 6 at 0 (5 plain C, 1 minimum-lever); two more R22 blind spots fixed and one free header bank; R22
+  218/218; 4,077 → 4,065 sites.** f7 (`ov_SC01_077_jr_8017AE2C`, ≈353k tokens, 44 min): `func_8017EB2C` 9 → 0 (`y += c % K` with no
+  target variable — `expand_divmod` puts quotient and remainder in the named pseudo, `expmed.c:2787`), `func_8017F5BC` 12 → 0 (two
+  independent stores swapped: the order sets a birthing load's life, `sched.c:2614-2660`; 36 of 120 orders close), `func_80180590`
+  13 → 0 and `func_8017F114` 41 → 0 (per-arm store/call — c6's mechanism; a goto chain → `for`; 4 pins → 0), `func_8017FD14` 37 → 0
+  on the first `--try` (every access off the real biv — the giv-base law, `loop.c:4193-4196`), `func_8017EF50` (×2, its twin in
+  ov_SC02_000 propagated) 10 → 0 only with its two pins — the keepalive was DEAD (ablated alone: 0), the pins are `find_free_reg`'s
+  lowest-free rule (`local-alloc.c:2073`), unreachable by any priority order (~650 bodies + `localalloc_sim` 0 mismatches) → **minimum-lever
+  3 → 2**. `bank_list.sh`: `IDENTICAL … KEPT` ×6, `--propagate: 1 of 1` (`3d2949e3a`…`d62cb1170`). **Harvest — R22 had two more blind spots**
+  (R14 — read from the agent's first-try close that the S105 regen had judged NO-CANDIDATE): it took the LITERAL base of `q = E + c1`
+  (`prim`, which never steps) and stopped instead of trying the same-base sibling that does (`pp = prim + 0xC`), and its assigns scan
+  read `*(u16 *)fp = v;` as an ASSIGNMENT to `fp` (the `)` before the name — R44/R45 shared the scan). Fixed (`bb2012f78`), selftest
+  case, SETUP; **known-true: R22 alone now reproduces f7's close of func_8017FD14, 37 → 0.** Regen `s105_r22b` (R22 R44 R45): `603 of
+  603 classes judged in 25 s — MATCH 1` → **`src/shared/ov/func_80146B9C.h` banked, IDENTICAL on 141 objects** (`d85a4e387`). Three
+  R22 defects in one session (`&&`, the literal base, the cast store) — every pre-S105 R22 refusal was suspect and has now been
+  re-judged. METHOD step 20. R22 (`.run/P36/s105/r22_e.log`) **`check-all: 218 passed, 0 failed of 218`** (80 s) → baseline at
+  `d85a4e387` → `lever_census --check: 4,065 pin/asm sites, 4,065 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,077 → **4,065**).
+  **Drew (mid-turn): *"dont start any new agents at this time. let the current ones finish"*** → no draw after f8; f6 and f8 finish and are
+  banked; the session then checkpoints.
+
+## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, LIVE — refreshed at every landing): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,065 sites** so far; f1–f5 + f7 landed (31/31), f6 + f8 IN FLIGHT — **Drew: no new agents after these**; generators **R44–R46** + the R22 `&&` blind-spot fix; R22 `check-all: 218 passed, 0 failed of 218` at `d85a4e387` | `lever_census --check` exit 0 (4,065 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S105 runs at `/effort high` on Opus 5 1M;
 every agent on Opus) and executes §2. **Drew's cap is TWO concurrent agents (S105 open).** What may be in flight when this is read:
 **f6** (`src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c`: func_8018122C, func_80180FA4, func_8017F584, func_80181F4C, func_80182184,
-func_8017DFB8) and **f7** (`src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c`: func_8017EB2C, func_8017EF50, func_8017F5BC, func_80180590,
-func_8017FD14, func_8017F114). A dead session's agents leave `body.c` + `mechanism.md` in
+func_8017DFB8) and **f8** (`src/ov_SC02_005/ov_SC02_005_jr_80185E80.c`: func_8018622C, func_80186424, func_8018A6A0, func_8018CA74,
+func_8018D270). **Drew (S105, mid-turn): no new agents after these — let them finish.** A dead session's agents leave `body.c` + `mechanism.md` in
 `.run/P36/agents/<alias>__<fn>/` (R67): `--try` each `body.c`; a 0 banks via `.run/P36/s105/bank_list.sh` (one line per body
 `TU FN FILE LABEL MSG`; a `*minlever*` label adds `--allow-residue`); anything else is a reading to record. Briefs for the NEXT draws are
-written and their packs built: `.run/P36/s105/BRIEF_f8.md` (ov_SC02_005_jr_80185E80, 5 classes); `.run/P36/s105/mkbrief.py <id> <tu>` builds the packs + brief for any TU of `pick.json` — launch each as a general-purpose Agent whose prompt names the brief file (the f1/f3 prompts are the
+written and their packs built: `.run/P36/s105/BRIEF_f9.md` (ov_SC02_027, 6 classes), `BRIEF_f10.md` (ov_SC06_006, 4); `.run/P36/s105/mkbrief.py <id> <tu>` builds the packs + brief for any TU of `pick.json` — launch each as a general-purpose Agent whose prompt names the brief file (the f1/f3 prompts are the
 pattern). First commands:
 ```
 git log --oneline -1 && git status --short | grep -v '^??' | wc -l
@@ -2049,7 +2069,7 @@ git log --oneline -1 && git status --short | grep -v '^??' | wc -l
 - The free sweep is SPENT: every residue class has been judged by every family R2–R46 (S105 `s105_r43_*`, `s105_r44r22`, `s105_r45r46`).
 
 ### 2. NEXT
-1. Land f6/f7 (§0) → launch f8, then `mkbrief.py f9 <next TU>` … (two at a time) → then draw the next TUs from `pick.py` (ov_SC01_077 6 cls, then the
+1. Land f6/f8 (§0); on Drew's word, launch f9, f10, then `mkbrief.py f11 <next TU>` … (two at a time) → then draw the next TUs from `pick.py` (ov_SC01_077 6 cls, then the
    5-class TUs), one brief per TU, 4–7 classes each, skipping ARG-ONLY (`$4`–`$7`-only pins = the missing-parameter shape → structs phase)
    and the park list (S104 §2.4 + f2's func_800385C0 signature change).
 2. The 21 UNSTRIPPABLE classes (`.run/P36/s105/unstrippable.json`: 6 comment-boundary strips, 6 macro-carried launders, 5 instructions

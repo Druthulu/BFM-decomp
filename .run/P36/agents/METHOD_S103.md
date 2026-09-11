@@ -271,3 +271,24 @@
       (func_8018FAE0, func_8018FC38 which even spells the record as a struct) closed packs 4–7 on the first `--try` each.
     - The strip must not leave a READ of the pinned variable (`-a1v` after `register a1v __asm__("$5")` is gone): the free body's
       score is garbage until the argument is restored (f4 pack 5's "best 13" was measured on an uninitialised local).
+20. **S105 f7 (`ov_SC01_077_jr_8017AE2C`, 6 of 6 at 0: 5 plain C, 1 minimum-lever):**
+    - **STEP 0 — ablate each lever SEPARATELY** (`--try` the tree body minus one lever at a time) before any reading: dead
+      keepalives and barriers exist in the tree (func_8017EF50's keepalive scored 0 without it).
+    - **A pin unreachable by priority:** `find_free_reg` (`local-alloc.c:2073-2160`) takes the LOWEST register free over the
+      quantity's [birth, death); when the pinned register lies ABOVE the block's first free register with nothing occupying the lower
+      ones in the pre-alloc range, no priority order reaches it — decide from `.lreg` (~650 enumerated bodies said the same), bank
+      the minimum-lever body with the pass on the marker.
+    - **The giv-base law:** an offset-0 access is never a giv (`find_mem_givs`, `loop.c:4193-4196`), so a secondary pointer `q = p + K`
+      with a `q[0]` read becomes a THIRD stepped register; write every access as `*(T *)(p + K ± c)` off the real biv (R22 does it now
+      — it had refused every body with a `*(T *)q = v` store or a base sibling that does not itself step).
+    - **The per-arm store / per-arm call** (c6's mechanism, two bodies here): duplicate the single consumer of an if/else-assigned
+      local into both arms — jump1's `x = b; if (…) x = a;` merge (`jump.c:698-760`) needs one common pseudo, post-reload cross-jump
+      (`jump.c:2371`) re-merges the tails; detect by a `li <else-const>` in the branch delay slot, or a pseudo "set in 2 blocks" whose
+      join temp took its register (`global.c:945-990`). As a call ARGUMENT the `ior`/`and` temps are block-local and copy-suggested
+      (`combine_regs`, `local-alloc.c:1722`); a function-scope result puts the `and` into a global pseudo and the tie is refused (`:1774`).
+    - `x = E % K; … y += x` expands the quotient AND the remainder into `x`'s pseudo (`expand_divmod`, `expmed.c:2787-2790`,
+      `:3653-3667`; dies twice → global) — write `c = E; y += c % K;` with no target variable; two statements keep fold's
+      re-association (`fold-const.c:3685-3760`) from merging `(lhu - 320) + rem`.
+    - The ORDER of a block's independent constant stores sets a birthing load's LIFE (`schedule_select`, `sched.c:2614-2660`: the
+      load is "blocked for 1 cycle" behind every store issued the cycle before) and so its `qty_compare_1` rank — permute the stores;
+      the sched1 trace, not the allocation table, is the instrument (36 of 120 orders close, exactly those with the 0xdc store first).
