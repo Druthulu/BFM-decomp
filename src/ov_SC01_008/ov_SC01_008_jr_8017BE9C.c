@@ -3860,19 +3860,18 @@ s32 func_8017DD70(void) {
     s32 flags;
     s32 val;
     u16 *p11a;
-    register s32 c __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus8)
+    s16 c;
     s16 ret;
-    s32 changed;
+    s16 changed;
     u8 *pb;
     u8 *pe;
     s32 d;
     s32 nz;
-    s32 c3;
     s32 off;
 
     changed = 0;
     flags = func_80014ED4(0);
-    if ((flags & 0xFFFF) != 0) {
+    if ((u16)flags != 0) {
         D_801A3458 = 0;
     }
     val = func_80015018(0);
@@ -3880,16 +3879,15 @@ s32 func_8017DD70(void) {
     ret = func_8014168C(*(s16 *)p11a);
     c = D_80115138[*p11a];
 
-    if ((flags & 0x40) != 0) {
+    if (flags & 0x40) {
         ret = func_8017EC68(c, ret);
         nz = ret != 0;
         return ret & -nz;
     }
 
-    if ((flags & 0x10) != 0) {
-        __asm__ ("" : "=r"(c3) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-        if (c3 < 6) {
-            if (c3 != 1) {
+    if (flags & 0x10) {
+        if (c < 6) {
+            if (c != 1) {
                 return -1;
             }
         } else {
@@ -3909,10 +3907,9 @@ s32 func_8017DD70(void) {
         pe = base2 + off;
     }
 
-    if ((val & 0xFFFF) != 0) {
-        if ((val & 0xFFFF) == D_80115120) {
-            D_80115122 = D_80115122 - 1;
-            if (D_80115122 == 0) {
+    if ((u16)val != 0) {
+        if ((u16)val == D_80115120) {
+            if (--D_80115122 == 0) {
                 flags = val & 0xF000;
                 D_80115122 = 3;
             }
@@ -3925,7 +3922,7 @@ s32 func_8017DD70(void) {
         D_80115122 = 0xC;
     }
 
-    if ((flags & 0x1000) != 0) {
+    if (flags & 0x1000) {
         u8 b2 = *pb;
         *pb = b2 - 1;
         changed = 1;
@@ -3939,7 +3936,7 @@ s32 func_8017DD70(void) {
         }
     }
 
-    if ((flags & 0x4000) != 0) {
+    if (flags & 0x4000) {
         u8 b2 = *pb;
         u8 b4 = b2 + 1;
         *pb = b4;
@@ -3956,29 +3953,23 @@ s32 func_8017DD70(void) {
 
     {
         u8 b2 = *pb;
-        s32 result;
         d = (s16)((s8)b2 - (s8)D_80115140[D_8011511A]);
         if (d >= 6) {
             D_80115140[D_8011511A] = b2 - 5;
-            result = changed;
-        } else {
-            if (d < 0) {
-                D_80115140[D_8011511A] = b2;
-            }
-            result = changed;
+        } else if (d < 0) {
+            D_80115140[D_8011511A] = b2;
         }
+    }
 
-        if (result) {
-            func_8002D4C8(0x45A, 0);
-            if (D_8011511A != 1) {
-                return 0;
-            }
-            __asm__ ("" : "=r"(c3) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-            if (c3 == 9) {
-                D_80115142 = 0;
-            }
-            func_8017D890();
+    if (changed != 0) {
+        func_8002D4C8(0x45A, 0);
+        if (D_8011511A != 1) {
+            return 0;
         }
+        if (c == 9) {
+            D_80115142 = 0;
+        }
+        func_8017D890();
     }
 
     return 0;
