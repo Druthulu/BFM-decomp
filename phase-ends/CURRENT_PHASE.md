@@ -1920,15 +1920,30 @@ accumulate here as the phase produces them.**
   struct close (link-only; banked with a marked do-while), func_80185D44 / func_80015608 / func_8001BBBC (near-misses, one lever
   or lever-free at 2/6). R22 after every batch (r22_h…l): `check-all: 218 passed, 0 failed of 218`; census **4,272** (exit 0).
 
-## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, refreshed ~08:00): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,272 sites** this session; ~100 agent draws (d1–d39, e1–e34), ~175 classes closed at 0 — nearly all with ZERO levers; generators **R27–R43**; parked lists in §6 and the log; R22 `check-all: 218 passed, 0 failed of 218` after every batch | `lever_census --check` exit 0
+## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, FINAL, written at 86% context after the weekly usage limit killed the four running agents): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,227 sites** this session (−870); ~105 agent draws (d1–d39, e1–e38), ~205 classes closed at 0 — nearly all with ZERO levers; generators **R27–R43**; R22 `check-all: 218 passed, 0 failed of 218` at `046e84600` after every batch | `lever_census --check` exit 0 (4,227 marked, 0 UNMARKED, 0 orphans)
 
-### 0. How to use this block
-A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**S104 ran at `/effort high` on
-Opus 5 1M; every agent on Opus**) and executes §2. **In flight when last refreshed (~08:00):** agents e30 (ov_SC04_011: func_8018C14C func_8018BAC4 func_801836D4 func_80180B24), e31 (src/800_b_2.c: func_8003324C func_800335B8 func_8002FF0C func_80032A74), e32 (ov_SC03_105: func_80181C84 func_80183DA0 func_801834A4 func_8018574C), e33 (ov_SC04_015: func_8017E830 func_8017EE80 func_8017F0EC func_8017E2CC), e34 (resident: func_800D1984 func_800D1B80 func_800D128C func_800D1658) — read-only; bank with `.run/P36/s104/bank_list.sh` (resolve TUs from the agent's table). The agent-start regen `s104_agentstart` may still be running — bank its TSV EXCLUDING func_80180324 (d20's parked body). The lane: next 3–4 classes of one TU (skip `$4`–`$7` pins), brief with the TU's closed mechanisms. (§6). First commands:
+### 0. How to use this block — READ THIS FIRST
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S104 ran at `/effort high` on
+Opus 5 1M; every agent on Opus) and executes §2. **The weekly usage limit hit at ~09:30 on 2026-09-11 (resets Sep 14, 5 am
+America/Denver)**: agents e35–e38 died mid-work with HTTP 429. **RESUME THEM in the fresh session with SendMessage to these
+agent ids** (the harness resumes an agent from its transcript; each holds its packs and its own reading so far):
+- **e35** `md_SC07_004` batch 4 (func_801A3594 func_801A395C func_801ABEE0 func_801A4ACC): agent id `a27df0b41311e4c0f`
+  — it left `md_SC07_004__func_801A3594/body.c` at score 11 (lever-free), nothing else.
+- **e36** `ov_SC03_091` batch 2 (func_80185730 func_80188B64 func_8018632C func_801880E8): agent id `abfceafedb4d9cd83`
+  — it FINISHED two: `ov_SC03_091__func_8018632C/body.c` scores 0, zero levers (d39's casts ported); `ov_SC03_091__func_80185730/body.c`
+  scores 0 with the TU's existing def-side asm-label alias `aF80185730 … __asm__("func_80185730")` (the function returns a0 —
+  the same class-E form e9's func_8018209C was banked with). **Both UNBANKED** (the bank was interrupted at the pause) — bank
+  them first (§3), then resume the agent for the other two.
+- **e37** `ov_SC03_097` (func_80180D54 func_8017FEA0 func_8017F7E4 func_80182498): agent id `a1cf3ce7d4576633f` — nothing written yet.
+- **e38** `md_MAIN_003` (func_800D24D0 func_800D2A24 func_800D1E9C func_800D30D0): agent id `a77a7a2aa19ac3262` — nothing written yet.
+Message each: "The session was cut by the usage limit; continue exactly where you were, same rules, same PACKs; report per function."
+If a resume fails (the ids are session-local and may not survive), relaunch from the same briefs — the packs are committed; the
+brief pattern is in the S104 log (a TU batch: 3–4 classes of one TU + that TU's closed mechanisms + METHOD steps 8–16).
+First commands:
 ```
 git log --oneline -1 && git status --short | grep -v '^??' | wc -l
-ps -eo pid,etime,args | grep '[d]elever_regen'            # is s104_all still running?
 .venv/bin/python tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16   # after EVERY commit
+.venv/bin/python tools/delever_oracle.py --snapshot-baseline    # only after a green check-all
 ```
 
 ### 1. THE OPERATING PROCEDURE (Drew's; S104 additions in bold)
@@ -1945,17 +1960,30 @@ ps -eo pid,etime,args | grep '[d]elever_regen'            # is s104_all still ru
   the pack. Tell each agent what every pass already did and which same-name donors are NOT the same function.
 
 ### 2. NEXT
-1. Land d20–d24 (§0). Bank each + copies; harvest mechanical moves into generators; re-run the new families.
-2. When `s104_all` finishes: bank its remaining MATCH rows (build a TSV from the jsonl, skip rows already banked, mark R7
-   do-while lines — §3), then R22.
-3. The residue at the refresh: **930 classes**; ~300 judged by all three passes and undrawn — keep five agents on them, largest
-   copies first, one per TU. Below 3 copies the classes are mostly singletons (912 at S104's open).
-4. Open generator ideas, not built: **a goto-chain → structured-C rewriter** (d3/d9/d11/d17 — the biggest gap: every generator
-   mutates goto text); widen R22 `merge_walked_pointers` to STORES through a second stepped pointer (d18 found it did not
-   fire); `tools/localalloc_sim.py` three-quantity rule (d5's `scratch/lsim3.py`, both sorts); `alloc_table.py` final
-   registers (d12's `scratch/finalregs.py`) and local-alloc's handed-out call-saved registers (d7).
-5. **Drew's rulings of S104 bind (decisions §S104):** do-while stays, marked; GTE is T5; unclosed sites stay marked and go to the
-   STRUCTS phase (the milestone amended); the signature-change functions go to the structs phase.
+1. Bank e36's two finished bodies (§3's bank_list line shape; labels `s104_e36`), census, commit. Resume e35–e38 (§0).
+2. Keep the TU-batch lane at FIVE agents: `.venv/bin/python` the drawable-class picker in the log (group residue classes by TU,
+   skip `$4`–`$7` pins = the missing-parameter shape, skip the park list, skip drawn packs), `delever_pack --build --min-copies 1
+   --only <fns>`, brief with the TU's closed mechanisms (their `mechanism.md` under `.run/P36/agents/<alias>__<fn>/`). ~345
+   drawable classes at the pause; the biggest remaining TUs: `src/800.c` (~7 left), `ov_SC04_011_jr_8017D494` (~16), `800_b_2`
+   (~2), `md_SC07_004` (~4, e35), `ov_SC03_091` (~2, e36).
+3. Per landing: verify `--try` 0 + `grep -c '__asm__\|register\|FAKE\|volatile'`; bank via `.run/P36/s104/bank_list.sh`
+   (one line per body `TU FN FILE LABEL MSG`; resolve copy TUs from the AGENT'S table — `named_definitions` names are ambiguous
+   across overlays); a marked `do { } while (0)` body banks with `--allow-residue` only when a class A/B lever also remains;
+   harvest any mechanical move into a generator with a known-true run on the agent's start text; regen pass; R22 every ~2
+   batches (`make clean && make extract-all JOBS=16 && make check-all JOBS=16`, then `--snapshot-baseline`, then the census
+   READING ITS EXIT CODE); `lever_progress --snapshot`; commit.
+4. **Parked (do not redraw; the structs phase):** signature changes — d29 func_80188DF4, d36 func_80183CC4, e1 func_801A1E94
+   + func_801A5C44 (+ ~158 "$4 pin = missing parameter" functions), e2 func_80035210, e3 func_800384A8, e17 func_80188A30;
+   relocation-only closes — e3 func_80037144, e8 func_801A5094, e12 func_80182614 (2nd lever), e18 func_801805EC, e23
+   func_800301C8's struct form, e31 func_8002FF0C's record form, e33 func_8017F0EC; **Drew's calls** — d20 func_80180324
+   (invented always-false branches), e32 func_801834A4 (two steering dead stores; its body.c is at 0 with them marked);
+   near-misses at their levers — d14's func_8012E364 (3), e22 func_80185D44, e29 func_80015608 (2) / func_8001BBBC (6), e30
+   func_8018C14C (1 pin + a marked do-while, banked).
+5. **Open tool ideas:** a link-aware scorer (relocations resolved through the map — six parked closes need it); a goto-chain →
+   structured-C rewriter (the single biggest manual move class); `alloc_table` "preference inherited from rN"; a per-pass
+   load-count helper (e2). **T9 owes:** the stale `LOAD-BEARING CONSTRUCTS` / pin-explaining header comments over ~250
+   banked functions (every agent named its TU's), cookbook §197-A's "do not chase with casts" (refuted by 9 bodies), §396(a)'s
+   asm claim.
 
 ### 3. THE EXACT INVOCATIONS (S103's §3 still holds; additions)
 ```
