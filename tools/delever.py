@@ -3479,6 +3479,42 @@ def shift_to_division(text, tu, fn, d_):
     return out
 
 
+def duplicate_join_statement(text, tu, fn, d_, max_sites=12):
+    """[(description, candidate text)] — R39: the single simple statement right after an if/else's closing brace copied to
+    the end of BOTH arms (and deleted after the join), one site at a time.
+
+    T7 agents e12 (func_8017E35C) and e14 (func_8017BEBC, func_8017CAD4), P36 S104: `global.c:594-603` truncates allocno
+    priorities to int, so two loop-live pseudos tie (245/245) and the lower allocno takes the wrong register. One extra insn
+    inside the loop lengthens every loop-live pseudo by one (flow.c:1660-1684) and splits the tie (244 vs 245); post-reload
+    cross-jump merges the two copies back into one (`toplev.c:3142`, `jump.c:2371`), so the bytes keep a single store.
+    `tools/alloc_table.py` flags such ties as TIE."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for k in range(lo + 1, hi):
+        if not re.match(r"^\s*\}\s*$", masked[k - 1]) or not simple_stmt(masked[k]) or is_decl_line(masked[k].strip()):
+            continue
+        # find the matching `if (…) {` … `} else {` … `}` that closes at k-1
+        depth, j, else_at = 0, k - 1, None
+        while j >= lo:
+            depth += masked[j].count("}") - masked[j].count("{")
+            if re.match(r"^\s*\}\s*else\s*\{\s*$", masked[j]) and depth == 1:
+                else_at = j
+            if depth == 0:
+                break
+            j -= 1
+        if else_at is None or j < lo or not re.match(r"^\s*if\s*\(", masked[j]):
+            continue
+        ind = lines[else_at][:len(lines[else_at]) - len(lines[else_at].lstrip())] + "    "
+        stmt = lines[k].strip()
+        cand = lines[:else_at] + [ind + stmt] + [lines[else_at]] + lines[else_at + 1:k - 1] + [ind + stmt, lines[k - 1]] + lines[k + 1:]
+        out.append((f"dup-join {stmt[:24]} @{k + 1}", "\n".join(cand)))
+        if len(out) >= max_sites:
+            break
+    return out
+
+
 def return_constants(text, tu, fn, d_):
     """[(description, candidate text)] — R37: a result local `r = 0; if (A) r = (B); return r;` (or with `{ }`) written as
     `if (A && B) return 1; return 0;` — and the nested form `if (A) { if (B) return 1; } return 0;`.
@@ -3748,7 +3784,7 @@ def named_ports(tu, fn, max_donors=6):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3907,6 +3943,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R36" in fam:
         for desc, cand in merge_set_chains(text, tu, fn, d_):
             out.append(("R36", desc, cand))
+    if "R39" in fam:
+        for desc, cand in duplicate_join_statement(text, tu, fn, d_):
+            out.append(("R39", desc, cand))
     if "R38" in fam:
         for desc, cand in shift_to_division(text, tu, fn, d_):
             out.append(("R38", desc, cand))
