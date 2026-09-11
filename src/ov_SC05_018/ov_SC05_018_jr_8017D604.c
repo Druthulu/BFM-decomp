@@ -6616,11 +6616,9 @@ case1: {
 }
 
 case2: {
-    register s32 p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
-    s32 v0;
-    v0 = *(u16 *)(a0 + 0xFC);
+    s32 p;
     p = *(s32 *)(a0 + 0x20);
-    *(u16 *)(p + 0x12) = *(u16 *)(p + 0x12) + v0;
+    *(u16 *)(p + 0x12) += *(u16 *)(a0 + 0xFC);
     if (func_8012BEE8(a0) == 0) {
         goto tail;
     }
