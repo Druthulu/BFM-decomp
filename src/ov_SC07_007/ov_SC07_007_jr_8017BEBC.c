@@ -6631,14 +6631,10 @@ extern s32 func_80180FF4();
 extern void func_801813A8(s32, s32);
 
 s32 func_80180FA4(s32 a0, s32 a1) {
-    s32 s1 = a0;
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 res;
-    register s32 tmp __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
-    s0 = tmp;
-    res = func_80180FF4(s1);
-    if (res != 0) {
-        func_801813A8(s1, s0);
+    register s32 a2reg __asm__("$6");  // !FAKE: pin $6 — the function's THIRD parameter (assign_parms, function.c:3679); signature patch in scratch/ (P36 S105 f6 minimum-lever)
+    s32 a2 = a2reg;
+    if (func_80180FF4(a0, a1, a2) != 0) {
+        func_801813A8(a0, a2);
         return 1;
     }
     return 0;
