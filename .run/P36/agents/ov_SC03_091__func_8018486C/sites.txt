@@ -1,0 +1,6 @@
+REMOVED  pin         $21    line 3512
+REMOVED  pin         $20    line 3513
+REMOVED  pin         $18    line 3515
+NEEDED   pin         $22    line 3516
+NEEDED   pin         $19    line 3517
+NEEDED   pin         $23    line 3519

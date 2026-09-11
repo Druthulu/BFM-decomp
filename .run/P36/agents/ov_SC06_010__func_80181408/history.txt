@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 26 best 26 compiles 327 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @6808 -> 26 [COUNT] (from 26)
+  R7 block @6808 -> 26 [COUNT] (from 26)
+  R8 base tmp0 @6808 -> 26 [COUNT] (from 26)
+  R8 base-shared tmp0 @6808 -> 26 [COUNT] (from 26)
+  R7 block @6801 -> 26 [COUNT] (from 26)
+  R8 temp tmp0 @6809 -> 26 [COUNT] (from 26)
+  R7 do-while @6801 -> 26 [COUNT] (from 26)
+  R8 base tmp0 @6809 -> 26 [COUNT] (from 26)
+  R7 block @6810 -> 26 [COUNT] (from 26)
+  R8 base-shared tmp0 @6809 -> 26 [COUNT] (from 26)
+  R8 temp tmp0 @6754 -> 26 [COUNT] (from 26)
+  R7 block @6809 -> 26 [COUNT] (from 26)

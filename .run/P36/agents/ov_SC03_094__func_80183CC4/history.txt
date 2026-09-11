@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 28 best 27 compiles 310 path R12 width s0 s32->u16 @7182 + R12 width v1 s32->u16 @7183 + R7 do-while @7198
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @7198 -> 27 [COUNT] (from 28)
+  R7 do-while @7198 -> 27 [COUNT] (from 28)
+  R12 width s0 s32->u16 @7182 -> 28 [COUNT] (from 28)
+  R7 block @7199 -> 28 [COUNT] (from 28)
+  R9 swap-stmts @7199 -> 28 [COUNT] (from 28)
+  R2 decl-order 0,2,1 -> 28 [COUNT] (from 28)
+  R12 width s0 s32->s16 @7182 -> 28 [COUNT] (from 28)
+  R8 temp tmp0 @7187 -> 28 [COUNT] (from 28)
+  R7 do-while @7199 -> 28 [COUNT] (from 28)
+  R2 decl-order 1,0,2 -> 28 [COUNT] (from 28)
+  R12 width s0 s32->u8 @7182 -> 28 [COUNT] (from 28)
+  R8 base tmp0 @7187 -> 28 [COUNT] (from 28)

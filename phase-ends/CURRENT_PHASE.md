@@ -1891,15 +1891,15 @@ accumulate here as the phase produces them.**
   218 passed, 0 failed of 218` (r22_d); census **4,661** (exit 0). The R23/R34/R35/R36 pass `s104_new4` is running (16 MATCH at
   650/915); agents d20, d30–d33 in flight.
 
-## 🛑 SESSION CHECKPOINT — S104 (2026-09-10): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,732 sites** this session; 24 agent draws, **19 landed, ALL at 0** (18 with zero levers, d4 one marked do-while); generators **R27–R34**; the census counts kept ordinary-C fakes apart; R22 `check-all: 218 passed, 0 failed of 218` after every batch | `lever_census --check` exit 0 (4,732 marked, 0 UNMARKED, 0 orphans, 4 marked ordinary-C fakes)
+## 🛑 SESSION CHECKPOINT — S104 (2026-09-10, refreshed ~23:55): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,603 sites** this session; 38 agent draws, **32 closed at 0** (31 with zero levers, d4 one marked do-while), d29 PARKED (a void→s32 signature — structs phase), d20 PARKED (a minimum-lever body with two invented always-false C branches — **Drew's call**); generators **R27–R37**; the census counts kept ordinary-C fakes apart; R22 `check-all: 218 passed, 0 failed of 218` after every batch | `lever_census --check` exit 0 (4,603 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (**S104 ran at `/effort high` on
-Opus 5 1M; every agent on Opus**) and executes §2. **In flight when last refreshed:** agents d20 `func_80180324` (ov_SC04_007,
-7 copies), d21 `func_8018179C` (ov_SC06_010), d22 `func_801861FC` (ov_SC03_091), d23 `func_80181864` (ov_SC03_113), d24
-`func_8018003C` (ov_SC02_016) — read-only; each leaves `.run/P36/agents/<alias>__<fn>/body.c` + `mechanism.md` (+ copies under
-`scratch/`). And the all-families sweep `s104_all` (detached, `setsid`; `.run/P36/regen/s104_all.jsonl` grows one line per
-judged class; ~350 of 1,020 at the refresh; its MATCH rows are banked from the jsonl, see §3). First commands:
+Opus 5 1M; every agent on Opus**) and executes §2. **In flight when last refreshed (~23:55):** agents d34 `func_80181408` (ov_SC06_010), d35 `func_8018486C` (ov_SC03_091), d36
+`func_80183CC4` (ov_SC03_094), d37 `func_8017DAB8` (ov_SC02_026), d38 `func_801818A4` (ov_SC02_031) — read-only; each leaves `.run/P36/agents/<alias>__<fn>/body.c` + `mechanism.md` (+ copies under
+`scratch/`). And two detached regen passes: the all-families sweep `s104_all` (~660 of 1,020 judged, MATCH rows banked
+from its jsonl through part 2 only — §3) and the R37 pass `s104_r37` (bank its TSV when it ends). d20 and d29 are PARKED
+(§6). First commands:
 ```
 git log --oneline -1 && git status --short | grep -v '^??' | wc -l
 ps -eo pid,etime,args | grep '[d]elever_regen'            # is s104_all still running?
@@ -1967,6 +1967,12 @@ make clean && make extract-all JOBS=16 && make check-all JOBS=16
 - Banked bodies keep the tree's stale `LOAD-BEARING CONSTRUCTS` header comments (232 files mention the phrase) — T9.
 
 ### 6. OPEN BY NAME
+- **Drew's call (S104): d20's `func_80180324` ×11** — 8 levers → 2 by replacing six asm keepalives + a `$0` pin with two marked
+  C branches `if (tpage & 0x200) su = e;` whose condition is INVENTED and always false (flow keeps the unread chain alive; combine
+  folds the test after flow, `combine.c:6803/8716/2353`). Ruling (a) covers do-while and dead initialisers, not an invented
+  condition — not banked; the census would read its marker as an orphan. Body + 11 copies in the pack.
+- **d29 `func_80188DF4` ×6: a signature change** (`void` → `s32`, the TU's `extern` too; the keepalive faked `return v0;`) — the
+  structs phase, patches in the pack.
 - `func_80181D1C` (ov_SC04_004 ×4): d17 read it — two defects the `for`/`switch` move does not reach (an early `return 0` with
   the reorg symptom and no loop; a return value kept in `v0` across a test while every spelling puts it in `v1`) — a separate
   draw or the structs phase.

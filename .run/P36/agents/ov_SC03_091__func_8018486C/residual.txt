@@ -1,0 +1,46 @@
+src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:func_8018486C: score 27 (COUNT; mine 117 ins, target 117) — not yet
+  register pairs (mine -> target, count): s4->s2 x7, s5->s6 x5, s7->s5 x4, s2->s7 x4, s6->s4 x4
+  replace mine[1:5] target[1:5]
+        1  sw	s4,40(sp)                       | sw	s2,32(sp)
+        2  move	s4,zero                       | move	s2,zero
+        3  sw	s5,44(sp)                       | sw	s6,48(sp)
+        4  move	s5,zero                       | move	s6,zero
+  replace mine[7:8] target[7:9]
+        7  sw	s6,48(sp)                       | sw	s5,44(sp)
+        8  --                                 | sw	s4,40(sp)
+  delete  mine[9:10] target[10:10]
+        9  sw	s2,32(sp)                       | --
+  replace mine[23:25] target[23:25]
+       23  move	s7,v0                         | move	s5,v0
+       24  move	s4,s0                         | move	s2,s0
+  replace mine[32:33] target[32:33]
+       32  li	s2,1                            | li	s7,1
+  replace mine[35:36] target[35:36]
+       35  beq	v0,s2,1654 <func_8018486C+0x54> | beq	v0,s7,1654 <func_8018486C+0x54>
+  replace mine[49:51] target[49:51]
+       49  move	s6,v0                         | move	s4,v0
+       50  move	s5,s0                         | move	s6,s0
+  replace mine[55:56] target[55:56]
+       55  li	s2,1                            | li	s7,1
+  replace mine[58:59] target[58:59]
+       58  beq	v0,s2,16bc <func_8018486C+0xbc> | beq	v0,s7,16bc <func_8018486C+0xbc>
+  replace mine[66:67] target[66:67]
+       66  move	a0,s4                         | move	a0,s2
+  replace mine[74:75] target[74:75]
+       74  move	a0,s4                         | move	a0,s2
+  replace mine[83:84] target[83:84]
+       83  slt	v0,v1,s7                       | slt	v0,v1,s5
+  replace mine[85:89] target[85:89]
+       85  slt	v0,v1,s6                       | slt	v0,v1,s4
+       86  move	s5,s4                         | move	s6,s2
+       87  move	s4,s0                         | move	s2,s0
+       88  move	s6,s7                         | move	s4,s5
+  replace mine[90:91] target[90:91]
+       90  move	s7,v1                         | move	s5,v1
+  replace mine[93:95] target[93:95]
+       93  move	s5,s0                         | move	s6,s0
+       94  move	s6,v1                         | move	s4,v1
+  replace mine[99:100] target[99:100]
+       99  move	a0,s4                         | move	a0,s2
+  replace mine[102:103] target[102:103]
+      102  move	a0,s5                         | move	a0,s6

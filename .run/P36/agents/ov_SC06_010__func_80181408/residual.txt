@@ -1,0 +1,43 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_80181408: score 26 (COUNT; mine 107 ins, target 107) — not yet
+  register pairs (mine -> target, count): s1->s0 x3
+  replace mine[0:4] target[0:1]
+        0  addiu	sp,sp,-64                    | addiu	sp,sp,-56
+        1  sw	s1,52(sp)                       | --
+        2  move	s1,a0                         | --
+        3  sw	ra,56(sp)                       | --
+  replace mine[5:6] target[2:5]
+        5  lhu	v0,0(s1)                       | move	s0,a0
+        6  --                                 | sw	ra,52(sp)
+        7  --                                 | lhu	v0,0(s0)
+  replace mine[7:8] target[6:7]
+        7  beqz	v0,70f0 <func_80181408+0x194> | beqz	v0,70f4 <func_80181408+0x198>
+  replace mine[9:10] target[8:9]
+        9  lh	v0,132(s1)                      | lh	v0,132(s0)
+  replace mine[11:12] target[10:11]
+       11  bnez	v0,70c8 <func_80181408+0x16c> | bnez	v0,70cc <func_80181408+0x170>
+  replace mine[13:14] target[12:13]
+       13  lw	v0,32(s1)                       | lw	v0,32(s0)
+  replace mine[18:19] target[17:18]
+       18  lw	v0,32(s1)                       | lw	v0,32(s0)
+  replace mine[23:26] target[22:24]
+       23  lw	v0,32(s1)                       | lw	v0,32(s0)
+       24  lui	s0,0x0                         | nop
+       25  addiu	s0,s0,0                      | --
+  replace mine[27:28] target[25:27]
+       27  move	a0,s0                         | lui	a0,0x0
+       28  --                                 | addiu	a0,a0,0
+  insert  mine[30:30] target[29:31]
+       30  --                                 | lui	a0,0x0
+       31  --                                 | addiu	a0,a0,0
+  replace mine[31:32] target[32:33]
+       31  move	a0,s0                         | nop
+  replace mine[89:90] target[90:91]
+       89  j	70cc <func_80181408+0x170>       | j	70d0 <func_80181408+0x174>
+  replace mine[92:94] target[93:95]
+       92  move	a0,s1                         | sh	v0,132(s0)
+       93  sh	v0,132(a0)                      | move	a0,s0
+  replace mine[101:103] target[102:103]
+      101  lw	ra,56(sp)                       | lw	ra,52(sp)
+      102  lw	s1,52(sp)                       | --
+  replace mine[104:105] target[104:105]
+      104  addiu	sp,sp,64                     | addiu	sp,sp,56

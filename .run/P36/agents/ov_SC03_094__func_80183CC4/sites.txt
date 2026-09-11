@@ -1,0 +1,4 @@
+NEEDED   pin         $2     line 7328
+NEEDED   pin         $16    line 7329
+NEEDED   pin         $3     line 7330
+NEEDED   keepalive          line 7352

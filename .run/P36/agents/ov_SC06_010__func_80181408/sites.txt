@@ -1,0 +1,5 @@
+REMOVED  pin         $3     line 6919
+REMOVED  pin         $2     line 6920
+NEEDED   pin         $4     line 6936
+REMOVED  pin         $4     line 6937
+NEEDED   barrier     memory line 6978

@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 17 best 1 compiles 329 path R6 inline ret @6514
+s7: verdict NO-MATCH start 17 best 1 compiles 563 path R6 inline ret @6513
+s9: verdict NO-MATCH start 17 best 1 compiles 256 path R6 inline ret @6515
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline ret @6515 -> 1 [OTHER] (from 17)
+  R6 inline ret @6521 -> 1 [OTHER] (from 17)
+  R3 init-split s0 -> 1 [OTHER] (from 1)
+  R4 decl-move s0 1->0 -> 1 [OTHER] (from 1)
+  R6 inline result @6519 -> 1 [OTHER] (from 1)
+  R7 block @6517 -> 1 [OTHER] (from 1)
+  R10 param-copy a0 @6501 -> 1 [OTHER] (from 1)
+  R12 width ret s32->u16 @6500 -> 1 [OTHER] (from 1)
+  R4 decl-move s0 1->2 -> 1 [OTHER] (from 1)
+  R6 inline result @6512 -> 1 [OTHER] (from 1)
+  R12 width ret s32->s16 @6500 -> 1 [OTHER] (from 1)
+  R4 decl-move s0 1->3 -> 1 [OTHER] (from 1)

@@ -1,0 +1,14 @@
+g6: verdict NO-MATCH start 27 best 21 compiles 321 path R10 param-copy a0 @3473 + R7 do-while @3518
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @3518 -> 21 [COUNT] (from 27)
+  R8 temp tmp0 @3479 -> 21 [COUNT] (from 21)
+  R9 swap-stmts @3534 -> 21 [COUNT] (from 21)
+  R10 param-copy a0 @3474 -> 21 [COUNT] (from 21)
+  R2 decl-order 0,2,1 -> 21 [COUNT] (from 21)
+  R4 decl-move best2 7->0 -> 21 [COUNT] (from 21)
+  R8 base tmp0 @3479 -> 21 [COUNT] (from 21)
+  R7 block @3534 -> 21 [COUNT] (from 21)
+  R10 param-alias a02->a0 @3474 -> 21 [COUNT] (from 21)
+  R2 decl-order 1,0,2 -> 21 [COUNT] (from 21)
+  R4 decl-move best2 7->1 -> 21 [COUNT] (from 21)
+  R7 do-while @3534 -> 21 [COUNT] (from 21)

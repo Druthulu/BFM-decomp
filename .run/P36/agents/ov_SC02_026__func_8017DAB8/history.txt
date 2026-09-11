@@ -1,0 +1,16 @@
+g6: verdict NO-MATCH start 42 best 30 compiles 326 path R6 inline flag @3243
+s3: verdict BUDGET start 42 best 30 compiles 400 path R6 inline flag @3243
+s3b: verdict BUDGET start 42 best 30 compiles 400 path R6 inline flag @3243
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline flag @3243 -> 30 [MIXED] (from 42)
+  R7 block @3248 -> 30 [MIXED] (from 30)
+  R10 param-copy a0 @3209 -> 30 [MIXED] (from 30)
+  R7 do-while @3248 -> 30 [MIXED] (from 30)
+  R9 swap-stmts @3250 -> 30 [MIXED] (from 30)
+  R7 block @3237 -> 30 [MIXED] (from 30)
+  R8 temp tmp0 @3237 -> 30 [MIXED] (from 30)
+  R7 do-while @3237 -> 30 [MIXED] (from 30)
+  R8 base tmp0 @3237 -> 30 [MIXED] (from 30)
+  R7 block @3210 -> 30 [MIXED] (from 30)
+  R7 do-while @3210 -> 30 [MIXED] (from 30)
+  R9 swap-stmts @3251 -> 30 [MIXED] (from 30)
