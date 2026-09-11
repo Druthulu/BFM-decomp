@@ -4987,16 +4987,15 @@ s32 func_8017EF50(s32 param_1)
     extern void func_8012931C(struct vec *a0);
     extern void func_801292C8(u8 *a0);
 
-    register unsigned short c __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    register unsigned short c __asm__("$5");  // !FAKE: pin $5 c — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever)
     int d;
-    register int g __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7)
+    register int g __asm__("$6");  // !FAKE: pin $6 g — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever)
     int a;
     int e;
     ((void (*)(int))func_8012931C)(((int)param_1));
     a = *(int *)(((int)param_1) + 0x10);
     c = *(unsigned short *)(((int)param_1) + 0x34);
     e = *(int *)(((int)param_1) + 0x2c);
-    __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
     d = *(int *)(((int)param_1) + 0x30);
     {
         unsigned short cp1 = c + 1;
