@@ -4039,9 +4039,9 @@ extern s32 D_800A5EAC;
 extern s32 D_800A5EB0;
 
 void func_8017DFB8(void *a0) {
-    register u8 *p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *p;
     u8 *tbl;
-    register s32 aa __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 aa __asm__("$4");  // !FAKE: pin $4 — gives `aa = idx` (the second call's a0 copy) an early LUID that cse would otherwise fold away, and makes `aa = 2` the asm input in $a0 (P36 S105 f6 minimum-lever)
     u8 *ab;
     s32 idx;
     s16 v[3];
@@ -4049,7 +4049,6 @@ void func_8017DFB8(void *a0) {
     s32 x1, y1, z1;
     s32 x2, y2, z2;
 
-    p = (u8 *)a0;
     if ((u8)func_80029178(0x123) != 0 && (s16)func_8002AE60() == 0 &&
         ((s16)func_80014C54(0, 0, 0x800) != 0 || (s16)func_80014C54(0, 0, 0x40) != 0) &&
         func_800CF8B4() != 0) {
@@ -4057,14 +4056,14 @@ void func_8017DFB8(void *a0) {
         func_800D1724((s32)D_80186964);
         return;
     }
-    D_801882B8[*(u16 *)(p + 2)](p);
+    D_801882B8[*(u16 *)((u8 *)a0 + 2)](a0);
     idx = func_8012A758();
     tbl = D_80187C60;
     func_800139C8(idx, tbl, v);
     aa = idx;
     ab = tbl + 8;
     x0 = v[0]; y0 = v[1]; z0 = v[2];
-    __asm__("la %0, D_800A5E88" : "=r"(p) : "r"(x0), "r"(y0), "r"(z0), "r"(ab));  // !FAKE: instruction la — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("la %0, D_800A5E88" : "=r"(p) : "r"(x0), "r"(y0), "r"(z0), "r"(ab));  // !FAKE: instruction la — cse find_best_addr (cse.c:2622) folds (plus p K) to the absolute symbol whenever p is a known constant; the dead inputs place it after the lh loads (sched1 LUID) (P36 S105 f6 minimum-lever)
     *(s32 *)p = x0;
     D_800A5E8C = y0;
     D_800A5E90 = z0;
@@ -4081,7 +4080,7 @@ void func_8017DFB8(void *a0) {
     func_80028620(0, p);
     func_80028620(1, p + 0x10);
     aa = 2;
-    __asm__("addiu %0,%1,0x20" : "=r"(p) : "0"(p), "r"(aa));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("addiu %0,%1,0x20" : "=r"(p) : "0"(p), "r"(aa));  // !FAKE: instruction addiu — combine folds `p += 0x20; f(2, p)` into `addiu a1,s0,32` unless a CALL_INSN separates add and copy (combine.c:929); the "r"(aa) input orders it after `li a0,2` (P36 S105 f6 minimum-lever)
     func_80028620(aa, p);
 }
 
