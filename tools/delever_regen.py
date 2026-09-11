@@ -66,7 +66,9 @@ def starts(e):
     ap = REPO / ".run" / "P36" / "agents" / f"{e['alias']}__{e['fn']}" / "body.c"
     if ap.exists():
         t = ap.read_text(errors="surrogateescape")
-        if not re.search(r"__asm__|\bregister\b[^;]*\$", t) and all(t != x for _n, x in out):
+        # no lever AND no marked fake: S104's first run started from d20's PARKED body (invented always-false branches
+        # marked `!FAKE: dead-branch`, awaiting Drew) and the families "closed" it — a marked body is never a start text
+        if not re.search(r"__asm__|\bregister\b[^;]*\$|!FAKE", t) and all(t != x for _n, x in out):
             out.append(("agent", t))
     return out
 
