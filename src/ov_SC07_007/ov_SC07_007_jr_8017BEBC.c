@@ -7463,13 +7463,12 @@ void func_80181F4C(s32 arg0, s32 arg1) {
     extern u32 D_800A661C[];
 
     s32 n = arg1 & 0xFF;
-    register u8 *p __asm__("$8") = D_801C7874;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *p __asm__("$8") = D_801C7874;  // !FAKE: pin $8 — local-alloc qty_compare_1 (local-alloc.c:1598): base 13 refs/222 vs &D_800B9A02 14 refs/226; no plain-C mention adds a 14th (P36 S105 f6 minimum-lever)
     u8 *p4 = p + 4;
     u8 *q;
     u32 *ot;
     s32 pad[4];
 
-    (void)&pad;
     *(u8 *)(D_801C7877 + F4C_IDX) = 5;
     *(u32 *)(p4 + F4C_IDX) = ((n * 0x10 + 0x8E) & 0x9FF) | 0xE1000000;
     *(u8 *)(p + F4C_IDX + 0xB) = 0x64;
