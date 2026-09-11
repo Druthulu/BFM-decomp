@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 34 best 31 compiles 188 path R9 swap-stmts @681 + R18 bystander @707->705
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @707->705 -> 31 [COUNT] (from 32)
+  R9 swap-stmts @681 -> 32 [COUNT] (from 34)
+  R8 hoist tmp0 @696 -> 32 [COUNT] (from 32)
+  R7 block @673 -> 32 [COUNT] (from 32)
+  R2 decl-order 1,0 -> 32 [COUNT] (from 32)
+  R4 decl-move p 1->0 -> 32 [COUNT] (from 32)
+  R6 inline b2 @699 -> 32 [COUNT] (from 32)
+  R7 do-while @673 -> 32 [COUNT] (from 32)
+  R4 decl-move p 1->2 -> 32 [COUNT] (from 32)
+  R6 inline id @700 -> 32 [COUNT] (from 32)
+  R8 temp tmp0 @677 -> 32 [COUNT] (from 32)
+  R7 block @694 -> 32 [COUNT] (from 32)

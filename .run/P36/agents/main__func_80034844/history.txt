@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 14 best 9 compiles 204 path R4 decl-move v1 5->1 + R6 inline t0 @7042 + R6 inline a3 @7042
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline a3 @7042 -> 9 [COUNT] (from 11)
+  R12 width t0 int->u16 @7042 -> 9 [COUNT] (from 11)
+  R12 width t0 int->s16 @7042 -> 9 [COUNT] (from 11)
+  R12 width t0 int->u8 @7042 -> 9 [COUNT] (from 11)
+  R7 do-while @7050 -> 10 [COUNT] (from 11)
+  R12 width t0 int->u16 @7042 -> 10 [COUNT] (from 10)
+  R6 inline t0 @7042 -> 10 [COUNT] (from 10)
+  R7 block @7051 -> 10 [COUNT] (from 10)
+  R12 width t0 int->s16 @7042 -> 10 [COUNT] (from 10)
+  R12 width t0 int->u8 @7042 -> 10 [COUNT] (from 10)
+  R6 inline a2 @7044 -> 10 [COUNT] (from 10)
+  R7 block @7055 -> 10 [COUNT] (from 10)

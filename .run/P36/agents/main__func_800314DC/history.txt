@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 15 best 13 compiles 192 path R8 hoist tmp0 @3985 + R5 swap + @3987
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R5 swap + @3987 -> 13 [REG] (from 15)
+  R8 hoist tmp0 @3985 -> 15 [REG] (from 15)
+  R7 block @3986 -> 15 [REG] (from 15)
+  R9 swap-stmts @3986 -> 15 [REG] (from 15)
+  R2 decl-order 1,0 -> 15 [REG] (from 15)
+  R5 swap * @4001 -> 15 [REG] (from 15)
+  R7 block @3994 -> 15 [REG] (from 15)
+  R9 swap-stmts @3985 -> 15 [REG] (from 15)
+  R8 hoist tmp0 @4001 -> 15 [REG] (from 15)
+  R7 do-while @3994 -> 15 [REG] (from 15)
+  R8 cse tmp0 @4001 -> 15 [REG] (from 15)
+  R7 block @4000 -> 15 [REG] (from 15)

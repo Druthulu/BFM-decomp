@@ -1,0 +1,24 @@
+src/800_b_2.c:func_800314DC: score 15 (REG-caller; mine 135 ins, target 135) — not yet
+  register pairs (mine -> target, count): v1->v0 x13, v0->v1 x8
+  replace mine[92:93] target[92:93]
+       92  addu	v1,v1,v0                      | addu	v0,v1,v0
+  replace mine[95:97] target[95:97]
+       95  addiu	v1,v1,-15360                 | addiu	v0,v0,-15360
+       96  subu	a1,a1,v1                      | subu	a1,a1,v0
+  replace mine[101:102] target[101:102]
+      101  li	v1,16383                        | li	v0,16383
+  replace mine[104:105] target[104:105]
+      104  li	v0,256                          | li	v1,256
+  replace mine[107:111] target[107:111]
+      107  lhu	v1,0(at)                       | lhu	v0,0(at)
+      108  subu	v0,v0,a1                      | subu	v1,v1,a1
+      109  mult	v1,v0                         | mult	v0,v1
+      110  mflo	v1                            | mflo	v0
+  replace mine[113:114] target[113:114]
+      113  lhu	v0,0(at)                       | lhu	v1,0(at)
+  replace mine[115:120] target[115:120]
+      115  mult	v0,a1                         | mult	v1,a1
+      116  mflo	v0                            | mflo	v1
+      117  addu	v1,v1,v0                      | addu	v0,v0,v1
+      118  srl	v1,v1,0x8                      | srl	v0,v0,0x8
+      119  sh	v1,20(a3)                       | sh	v0,20(a3)

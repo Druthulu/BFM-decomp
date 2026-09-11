@@ -1,0 +1,38 @@
+src/800_b_2.c:func_800301C8: score 25 (COUNT; mine 168 ins, target 170) — not yet
+  register pairs (mine -> target, count): v0->v1 x1
+  replace mine[8:9] target[8:9]
+        8  bnez	v0,3b1c <func_800301C8+0x210> | bnez	v0,3b24 <func_800301C8+0x218>
+  replace mine[34:35] target[34:35]
+       34  beqz	v1,39ec <func_800301C8+0xe0>  | beqz	v1,39f0 <func_800301C8+0xe4>
+  replace mine[40:42] target[40:42]
+       40  beq	v1,v0,39e8 <func_800301C8+0xdc> | beq	v1,v0,39ec <func_800301C8+0xe0>
+       41  li	v0,-1                           | li	v1,-1
+  replace mine[44:45] target[44:50]
+       44  lh	v1,0(at)                        | lh	v0,0(at)
+       45  --                                 | nop
+       46  --                                 | sll	v0,v0,0x2
+       47  --                                 | lui	at,0x0
+       48  --                                 | addu	at,at,v0
+       49  --                                 | sh	v1,0(at)
+  delete  mine[51:55] target[56:56]
+       51  sll	v1,v1,0x2                      | --
+       52  lui	at,0x0                         | --
+       53  addu	at,at,v1                      | --
+       54  sh	v0,0(at)                        | --
+  replace mine[82:86] target[83:84]
+       82  sh	s2,0(s0)                        | move	v0,s2
+       83  lui	at,0x0                         | --
+       84  addu	at,at,s1                      | --
+       85  sh	s2,0(at)                        | --
+  insert  mine[87:87] target[85:86]
+       87  --                                 | sh	v0,0(s0)
+  insert  mine[90:90] target[89:92]
+       90  --                                 | lui	at,0x0
+       91  --                                 | addu	at,at,s1
+       92  --                                 | sh	v0,0(at)
+  replace mine[108:109] target[110:111]
+      108  j	3b90 <func_800301C8+0x284>       | j	3b98 <func_800301C8+0x28c>
+  replace mine[125:126] target[127:128]
+      125  j	3b0c <func_800301C8+0x200>       | j	3b14 <func_800301C8+0x208>
+  replace mine[130:131] target[132:133]
+      130  j	3b90 <func_800301C8+0x284>       | j	3b98 <func_800301C8+0x28c>

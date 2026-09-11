@@ -1,0 +1,7 @@
+src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c:func_8017E54C: score 4 (COUNT; mine 112 ins, target 113) — not yet
+  replace mine[41:42] target[41:42]
+       41  j	1e24 <func_8017E54C+0x1a8>       | j	1e28 <func_8017E54C+0x1ac>
+  replace mine[99:101] target[99:102]
+       99  sll	v0,v0,0x10                     | lui	v0,0x0
+      100  sra	v0,v0,0x10                     | lh	v0,0(v0)
+      101  --                                 | nop

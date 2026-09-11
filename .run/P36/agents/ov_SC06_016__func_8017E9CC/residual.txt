@@ -1,0 +1,9 @@
+src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c:func_8017E9CC: score 6 (REG-caller; mine 70 ins, target 70) — not yet
+  register pairs (mine -> target, count): v0->v1 x4, v1->v0 x4
+  replace mine[9:15] target[9:15]
+        9  lui	v0,0x0                         | lui	v1,0x0
+       10  lh	v0,0(v0)                        | lh	v1,0(v1)
+       11  li	v1,17                           | li	v0,17
+       12  sw	v1,28(s0)                       | sw	v0,28(s0)
+       13  li	v1,1                            | li	v0,1
+       14  bne	v0,v1,217c <func_8017E9CC+0x80> | bne	v1,v0,217c <func_8017E9CC+0x80>

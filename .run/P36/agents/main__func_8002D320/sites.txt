@@ -1,0 +1,3 @@
+NEEDED   pin         $16    line 667
+REMOVED  pin         $17    line 668
+NEEDED   pin         $18    line 669

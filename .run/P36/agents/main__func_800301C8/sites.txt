@@ -1,0 +1,6 @@
+REMOVED  pin         $17    line 3079
+NEEDED   barrier            line 3098
+REMOVED  pin         $2     line 3104
+REWRITTEN launder            line 3114
+NEEDED   launder            line 3116
+REMOVED  pin         $16    line 3123

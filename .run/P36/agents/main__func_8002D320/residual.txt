@@ -1,0 +1,55 @@
+src/800_b_2.c:func_8002D320: score 34 (COUNT; mine 108 ins, target 102) — not yet
+  register pairs (mine -> target, count): s3->s1 x7, s1->s0 x2
+  replace mine[0:1] target[0:1]
+        0  addiu	sp,sp,-40                    | addiu	sp,sp,-32
+  delete  mine[3:5] target[3:3]
+        3  sw	s3,28(sp)                       | --
+        4  lui	s3,0x6                         | --
+  replace mine[6:8] target[4:5]
+        6  lui	s1,0x0                         | lui	s1,0x6
+        7  addiu	s1,s1,0                      | --
+  replace mine[9:12] target[6:10]
+        9  addiu	s0,s1,-5                     | lui	s0,0x0
+       10  sw	ra,32(sp)                       | addiu	s0,s0,0
+       11  lbu	v0,0(s1)                       | sw	ra,28(sp)
+       12  --                                 | lbu	v0,0(s0)
+  replace mine[15:16] target[13:14]
+       15  lbu	v0,4(s0)                       | lbu	v0,-1(s0)
+  replace mine[19:20] target[17:18]
+       19  lw	v0,-60(s0)                      | lw	v0,-65(s0)
+  replace mine[21:22] target[19:20]
+       21  and	v0,v0,s3                       | and	v0,v0,s1
+  replace mine[24:25] target[22:23]
+       24  lw	a0,0(s0)                        | lw	a0,-5(s0)
+  replace mine[27:28] target[25:26]
+       27  sb	zero,0(s1)                      | sb	zero,0(s0)
+  insert  mine[29:29] target[27:29]
+       29  --                                 | slti	v0,s2,8
+       30  --                                 | bnez	v0,a88 <func_8002D320+0x24>
+  delete  mine[30:33] target[30:30]
+       30  slti	v0,s2,8                       | --
+       31  bnez	v0,a90 <func_8002D320+0x2c>   | --
+       32  addiu	s1,s1,72                     | --
+  replace mine[57:59] target[54:56]
+       57  lui	s3,0x0                         | lui	s1,0x0
+       58  addiu	s3,s3,0                      | addiu	s1,s1,0
+  replace mine[60:63] target[57:59]
+       60  addiu	s1,s3,4                      | addiu	s0,s1,4
+       61  addiu	s0,s3,68                     | lbu	v0,64(s0)
+       62  lbu	v0,0(s0)                       | --
+  replace mine[65:67] target[61:63]
+       65  move	a1,s3                         | move	a1,s1
+       66  lw	a0,-4(s0)                       | lw	a0,60(s0)
+  replace mine[68:70] target[64:66]
+       68  sb	zero,0(s0)                      | sb	zero,64(s0)
+       69  sw	zero,0(s1)                      | sw	zero,0(s0)
+  delete  mine[71:72] target[67:67]
+       71  addiu	s1,s1,72                     | --
+  replace mine[74:76] target[69:71]
+       74  bnez	v0,b5c <func_8002D320+0xf8>   | bnez	v0,b4c <func_8002D320+0xe8>
+       75  addiu	s3,s3,72                     | addiu	s1,s1,72
+  replace mine[100:102] target[95:96]
+      100  lw	ra,32(sp)                       | lw	ra,28(sp)
+      101  lw	s3,28(sp)                       | --
+  replace mine[105:106] target[99:100]
+      105  addiu	sp,sp,40                     | addiu	sp,sp,32

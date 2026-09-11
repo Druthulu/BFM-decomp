@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 25 best 17 compiles 188 path R14 param-width entry int->u16 @3064 + R8 base-shared tmp0 @3090
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 base-shared tmp0 @3090 -> 17 [COUNT] (from 21)
+  R8 base-shared tmp0 @3090 -> 17 [COUNT] (from 21)
+  R12 width tmp0 s32->s16 @3065 -> 19 [COUNT] (from 21)
+  R14 param-width entry int->u16 @3064 -> 21 [COUNT] (from 25)
+  R14 param-width entry int->u8 @3064 -> 21 [COUNT] (from 25)
+  R8 base-shared tmp0 @3090 -> 21 [COUNT] (from 25)
+  R6 inline n @3094 -> 21 [COUNT] (from 21)
+  R8 temp tmp0 @3090 -> 21 [COUNT] (from 21)
+  R7 block @3086 -> 21 [COUNT] (from 21)
+  R6 inline n @3106 -> 21 [COUNT] (from 21)
+  R8 base tmp0 @3090 -> 21 [COUNT] (from 21)
+  R5 swap + @3120 -> 21 [COUNT] (from 21)

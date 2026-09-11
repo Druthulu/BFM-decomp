@@ -1,0 +1,21 @@
+src/800_b_2.c:func_80034844: score 14 (COUNT; mine 27 ins, target 25) — not yet
+  register pairs (mine -> target, count): a2->a1 x2, t1->t0 x1, a1->v1 x1, a3->a2 x1
+  replace mine[2:8] target[2:7]
+        2  move	a2,zero                       | move	a1,zero
+        3  li	t1,5                            | li	t0,5
+        4  li	t0,1                            | li	a3,1
+        5  li	a3,544                          | li	a2,544
+        6  addiu	a1,a0,26                     | addiu	v1,a0,26
+        7  addiu	v1,a0,22                     | --
+  replace mine[10:11] target[9:10]
+       10  bne	v0,t1,7fd4 <func_80034844+0x4c> | bne	v0,t0,7fd0 <func_80034844+0x48>
+  replace mine[12:13] target[11:12]
+       12  lbu	v0,33(v1)                      | lbu	v0,29(v1)
+  replace mine[17:20] target[16:19]
+       17  sb	t0,0(v1)                        | sb	a3,-4(v1)
+       18  sh	a3,0(a1)                        | sh	a2,0(v1)
+       19  addiu	a2,a2,1                      | addiu	a1,a1,1
+  replace mine[21:24] target[20:22]
+       21  addiu	a1,a1,84                     | slti	v0,a1,8
+       22  slti	v0,a2,8                       | bnez	v0,7fa4 <func_80034844+0x1c>
+       23  bnez	v0,7fa8 <func_80034844+0x20>  | --

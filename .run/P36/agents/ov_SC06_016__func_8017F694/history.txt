@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 12 best 5 compiles 149 path R18 bystander @4097->4094
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @4097->4094 -> 5 [ORDER] (from 12)
+  R9 swap-stmts @4096 -> 5 [ORDER] (from 12)
+  R18 bystander @4097->4095 -> 5 [ORDER] (from 12)
+  R7 do-while @4096 -> 5 [ORDER] (from 12)
+  R7 do-while @4097 -> 5 [ORDER] (from 12)
+  R7 block @4082 -> 5 [ORDER] (from 5)
+  R18 bystander @4096->4094 -> 5 [ORDER] (from 5)
+  R9 swap-stmts @4095 -> 5 [ORDER] (from 5)
+  R7 do-while @4082 -> 5 [ORDER] (from 5)
+  R8 base tmp0 @4082 -> 5 [ORDER] (from 5)
+  R7 block @4078 -> 5 [ORDER] (from 5)
+  R8 base tmp0 @4095 -> 5 [ORDER] (from 5)

@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 6 best 4 compiles 182 path R6 inline flag @3541
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline flag @3541 -> 4 [ORDER] (from 6)
+  R9 swap-stmts @3541 -> 4 [ORDER] (from 6)
+  R7 block @3539 -> 4 [ORDER] (from 4)
+  R8 hoist tmp0 @3553 -> 4 [ORDER] (from 4)
+  R10 param-copy arg0 @3538 -> 4 [ORDER] (from 4)
+  R7 block @3540 -> 4 [ORDER] (from 4)
+  R7 do-while @3540 -> 4 [ORDER] (from 4)
+  R7 block @3546 -> 4 [ORDER] (from 4)
+  R7 block @3548 -> 4 [ORDER] (from 4)
+  R7 do-while @3548 -> 4 [ORDER] (from 4)
+  R7 block @3550 -> 4 [ORDER] (from 4)
+  R7 block @3551 -> 4 [ORDER] (from 4)

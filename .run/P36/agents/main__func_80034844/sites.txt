@@ -1,0 +1,6 @@
+REMOVED  pin         $4     line 7044
+REMOVED  pin         $5     line 7045
+REMOVED  pin         $8     line 7046
+REMOVED  pin         $7     line 7047
+REMOVED  pin         $6     line 7048
+NEEDED   pin         $3     line 7049
