@@ -5266,7 +5266,7 @@ void func_8017F5BC(int param_1)
     int iVar1;
     int c70;
     short vf4;
-    register unsigned short v5c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    unsigned short v5c;
     struct buf_8017F5BC sp;
 
     *(short *)(param_1 + 2) = 2;
@@ -5274,9 +5274,9 @@ void func_8017F5BC(int param_1)
     *(short *)(*(int *)(param_1 + 0x20) + 0x10) = 0;
     *(int *)(param_1 + 0xe0) = 0x100000;
     *(int *)(param_1 + 0xe4) = 0x40000;
-    *(int *)(param_1 + 0x1c) = 0x10;
-    c70 = *(char *)(param_1 + 0x70);
     *(int *)(param_1 + 0xdc) = 0;
+    c70 = *(char *)(param_1 + 0x70);
+    *(int *)(param_1 + 0x1c) = 0x10;
     v5c = *(unsigned short *)(param_1 + 0x5c) & 0x73ff;
     *(unsigned short *)(param_1 + 0x5c) = v5c;
     if (c70 != 4) {
