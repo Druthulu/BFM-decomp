@@ -3764,11 +3764,10 @@ void func_80182F2C(u16 *a0, s32 a1)
     extern u16 D_801C4162[][4];
     extern u16 D_801C4164[][4];
     extern u16 D_801C4166[][4];
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     u16 pad0[16];   /* dead: locals begin at sp+0x30, va must land at sp+0x50 */
-    u16 va[16];     /* sp+0x50 — outer quad, 4 x SVECTOR */
-    u16 vb[16];     /* sp+0x70 — inner quad, 4 x SVECTOR */
+    SVECTOR va[4];  /* sp+0x50 — outer quad, 4 x SVECTOR */
+    SVECTOR vb[4];  /* sp+0x70 — inner quad, 4 x SVECTOR */
     s32 sxy[8];     /* sp+0x90 — [0..3] RotNclip4, [4..7] RotTransPers4 */
     s16 idx[4];     /* sp+0xB0 */
     s32 p;          /* sp+0xB8 */
@@ -3777,10 +3776,9 @@ void func_80182F2C(u16 *a0, s32 a1)
 
     u16 attr;
     s32 type;
-    s32 type2;
+    u8 type2;
     u16 *p1;
     u16 *p2;
-    register u16 *dst __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 i;
     u8 *pk;
     s32 j;
@@ -3789,27 +3787,20 @@ void func_80182F2C(u16 *a0, s32 a1)
 
     attr = a0[3];
     type = attr & 0xFF;
-    type2 = type + zr;
+    type2 = type;
     if ((attr & 0xF00) == 0x200) {
         func_80183314(a0, a1);
         return;
     }
 
     p1 = (u16 *)((u8 *)D_801C4040 + type * 0x20);
-    i = 0;
-    p2 = p1 + 2;
-    dst = va;
-    while (i < 4) {
-        dst[0] = a0[0] + p1[0];
-        dst[1] = a0[1] + p2[-1];
-        dst[2] = a0[2] + p2[0];
-        i++;
-        p1 += 4;
-        p2 += 4;
-        dst += 4;
+    for (i = 0; i < 4; i++, p1 += 4) {
+        va[i].vx = a0[0] + p1[0];
+        va[i].vy = a0[1] + p1[1];
+        va[i].vz = a0[2] + p1[2];
     }
 
-    if (RotNclip4((s32)&va[0], (s32)&va[4], (s32)&va[8], (s32)&va[12],
+    if (RotNclip4((s32)&va[0], (s32)&va[1], (s32)&va[2], (s32)&va[3],
                   &sxy[0], &sxy[1], &sxy[2], &sxy[3], &p, &otz, &flag) <= 0) {
         return;
     }
@@ -3822,21 +3813,14 @@ void func_80182F2C(u16 *a0, s32 a1)
         return;
     }
 
-    p1 = (u16 *)((u8 *)D_801C40C0 + type2 * 0x20);
-    i = 0;
-    p2 = p1 + 2;
-    dst = vb;
-    while (i < 4) {
-        dst[0] = a0[0] + p1[0];
-        dst[1] = a0[1] + p2[-1];
-        dst[2] = a0[2] + p2[0];
-        i++;
-        p1 += 4;
-        p2 += 4;
-        dst += 4;
+    p2 = (u16 *)((u8 *)D_801C40C0 + type2 * 0x20);
+    for (i = 0; i < 4; i++, p2 += 4) {
+        vb[i].vx = a0[0] + p2[0];
+        vb[i].vy = a0[1] + p2[1];
+        vb[i].vz = a0[2] + p2[2];
     }
 
-    RotTransPers4((s32)&vb[0], (s32)&vb[4], (s32)&vb[8], (s32)&vb[12],
+    RotTransPers4((s32)&vb[0], (s32)&vb[1], (s32)&vb[2], (s32)&vb[3],
                   &sxy[4], &sxy[5], &sxy[6], &sxy[7], &p, &flag);
 
     pk = func_80010A08(0xA8);
