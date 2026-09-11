@@ -4376,28 +4376,26 @@ extern s32 D_800A5EB0;
 
 void func_8018FB8C(void *a0) {
     s32 *s0;
-    register s32 a0v __asm__("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 *s1 = (s32 *)a0;
+    s32 *s1;
     s32 tmp;
 
-    tmp = rand();
-    s0 = (s32 *)&D_800A5E88;
-    tmp = (tmp & 0x1F) - 0x10;
-    s0[0] = tmp;
-    tmp = rand();
-    __asm__("addu %0,$zero,$zero" : "=r"(a0v));  // !FAKE: instruction addu — REFUSED instruction `addu` has no C spelling in the table (P36 rung B tus9)
-    tmp = (tmp & 0x1F) - 0x14;
-    D_800A5E90 = tmp;
+    s1 = (s32 *)a0;
+    s0 = &D_800A5E88;
 
-    func_80028620(a0v, s0);
+    tmp = rand();
+    s0[0] = (tmp & 0x1F) - 0x10;
+
+    tmp = rand();
+    D_800A5E90 = (tmp & 0x1F) - 0x14;
+
+    func_80028620(0, s0);
 
     if (D_801270C8 == 0xC) {
-        *(s16 *)((s8 *)s1 + 2) = 0x7;
+        *(s16 *)((u8 *)s1 + 2) = 7;
         D_800A5EA0 = 0xE;
-        func_80028620(1, (void *)((s32)s0 + 0x10));
-        __asm__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        func_80028620(1, (void *)((u8 *)s0 + 0x10));
         D_800A5EB0 = -0xA;
-        func_80028620(2, (void *)((s32)s0 + 0x20));
+        func_80028620(2, (void *)((u8 *)s0 + 0x20));
     }
 }
 
