@@ -4472,23 +4472,19 @@ void func_8018FCE4(void *a0)
 {
     void *s1;
     s32 *s0;
+    s32 *p;
     s32 v0;
-    s32 eac;
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
 
     s1 = a0;
-    v0 = rand();
-    s0 = (s32 *)&D_800A5E88;
-    v0 = (v0 & 0x1F) - 0x10;
-    s0[0] = v0;
+    s0 = &D_800A5E88;
 
     v0 = rand();
-    a0v = 0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    v0 = (v0 & 0x1F) - 0x14;
-    D_800A5E90 = v0;
+    s0[0] = (v0 & 0x1F) - 0x10;
 
-    func_80028620(a0v, s0);
+    v0 = rand();
+    D_800A5E90 = (v0 & 0x1F) - 0x14;
+
+    func_80028620(0, s0);
 
     if (D_801270C8 == 0xD) {
         *(s16 *)((u8 *)s1 + 2) = 9;
@@ -4504,17 +4500,14 @@ void func_8018FCE4(void *a0)
         D_800A5EA5 = 0x19;
         func_80028620(1, &s0[4]);
 
-        a0v = 2;
-        eac = 0x14;
-        __asm__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        s0[8] = 0;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-        D_800A5EAC = eac;
+        p = &s0[8];
+        *p = 0;
+        D_800A5EAC = 0x14;
         D_800A5EB0 = 0xF;
         D_800A5EB4 = 0x4C;
         D_800A5EB5 = 0x33;
         D_800A5EB6 = 0x7F;
-        func_80028620(a0v, &s0[8]);
+        func_80028620(2, p);
     }
 }
 
