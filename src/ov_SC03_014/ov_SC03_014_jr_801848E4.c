@@ -5011,43 +5011,36 @@ void func_80188634(void *a0) {
 
 void func_801889B4(s32 arg0)
 {
-    s32 s0;
-    for (s0 = 0; s0 < 0x49; s0 += 0x18) {
-        s32 a1 = func_80132EF4(arg0, 0x22);
-        if (a1 == 0)
-            continue;
-        {
-            s32 v0;
-            register s32 v1 __asm__("v1");  // !FAKE: pin v1 — NEEDED DIFFERS (P36 rung B tus10)
-            register s32 a0 __asm__("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B tus10)
-            v0 = *(u16 *)(arg0 + 0x84);
-            a0 = *(u16 *)(a1 + 0xE);
-            v0 &= 0x4;
-            v1 = v0 * 2;
-            __asm__("":"=r"(v1):"0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-            v1 = v1 + v0;
-            v1 = s0 + v1;
-            v1 = v1 - 0x2A;
-            v0 = *(u16 *)(a1 + 0x6);
-            a0 -= 0x28;
-            *(u16 *)(a1 + 0xE) = a0;
-            v0 -= v1;
-            *(u16 *)(a1 + 0x6) = v0;
-            v0 = *(u16 *)(a1 + 0xA);
-            v1 = v1 << 16;
-            v0 -= 0x20;
-            *(u16 *)(a1 + 0xA) = v0;
-            v0 = v1 >> 16;
-            if (v0 >= 0) {
-                v0 = v0 << 7;
+    s32 i;
+    for (i = 0; i < 0x49; i += 0x18) {
+        s32 e = func_80132EF4(arg0, 0x22);
+        if (e != 0) {
+            s32 t;
+            s32 v;
+            s32 d;
+            s32 z;
+            t = *(u16 *)(arg0 + 0x84) & 4;
+            z = *(u16 *)(e + 0xE);
+            d = i + t * 3 - 0x2A;
+            do {  // !FAKE: do-while — its LOOP notes are sched1 barriers (sched.c:2053-2080): the +6 load stays after d, the +E store before the sign extension (P36 S104 e28)
+                v = *(u16 *)(e + 0x6);
+                z -= 0x28;
+                *(u16 *)(e + 0xE) = z;
+            } while (0);
+            v -= d;
+            *(u16 *)(e + 0x6) = v;
+            v = *(u16 *)(e + 0xA);
+            v -= 0x20;
+            *(u16 *)(e + 0xA) = v;
+            v = (s16)d;
+            if (v >= 0) {
+                v = v << 7;
             } else {
-                v0 = v0 << 7;
-                v0 = -v0;
+                v = -(v << 7);
             }
-            v0 += 0x1000;
-            *(u16 *)(a1 + 0x34) = v0;
-            *(s32 *)(a1 + 0x14) = 0xFFFE0000;
-            *(s32 *)(a1 + 0x18) = 0xFFFD0000;
+            *(u16 *)(e + 0x34) = v + 0x1000;
+            *(s32 *)(e + 0x14) = 0xFFFE0000;
+            *(s32 *)(e + 0x18) = 0xFFFD0000;
         }
     }
 }
