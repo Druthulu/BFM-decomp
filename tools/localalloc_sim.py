@@ -254,8 +254,11 @@ def main():
     GR = sorted(GR)
     ids = list(range(len(qties)))
     # suggested first (qty_sugg_compare_1 approx: fewer suggestions first, then priority)
+    skey = lambda q: (len(qties[q]['copysugg']) or len(qties[q]['sugg']) * 64, -pri(qties[q]), q)
     sug = [q for q in ids if qties[q]['sugg'] or qties[q]['copysugg']]
-    sug.sort(key=lambda q: (len(qties[q]['copysugg']) or len(qties[q]['sugg']) * 64, -pri(qties[q]), q))
+    sug.sort(key=skey)
+    if len(qties) == 3:          # the same three-quantity switch in the suggested pass (local-alloc.c:1439-1462)
+        sug = [q for q in three_qty_order(lambda a, b: (skey(a) > skey(b)) - (skey(a) < skey(b))) if q in sug]
     phys = {}
     for q in sug:
         cs = qties[q]['copysugg'] or qties[q]['sugg']
@@ -265,6 +268,12 @@ def main():
             for k in range(qties[q]['birth'], qties[q]['death']):
                 live_at.setdefault(k, set()).add(r)
     ids.sort(key=lambda q: (-pri(qties[q]), q))
+    if len(qties) == 3:
+        # local-alloc.c:1486-1507 — a block with exactly THREE quantities is not sorted: `qty_compare (0, 1)` / `(1, 2)` /
+        # `(0, 1)` compare the quantity NUMBERS (birth order) while EXCHANGE swaps positions in qty_order, so the first-born
+        # is allocated first unless priorities rise strictly in birth order. (S104 agent d5, func_801837E8: the full sort
+        # mispredicted 10-11 of 40 three-quantity blocks; this rule, 0 in the function, 6 left in the whole TU — separate.)
+        ids = three_qty_order(lambda a, b: pri(qties[b]) - pri(qties[a]))
     for q in ids:
         if q in phys:
             continue
@@ -290,6 +299,20 @@ def main():
         for k, u, kind, txt in order_rows:
             if k >= int(verbose_from):
                 print(f"   {2*k:4d} {u:5d} {txt}")
+
+
+
+def three_qty_order(qty_compare):
+    """gcc 2.7.2 block_alloc's `case 3:` / `case 2:` fall-through (local-alloc.c:1486-1507), literally: the compares take
+    quantity numbers 0, 1, 2 — never qty_order entries."""
+    o = [0, 1, 2]
+    if qty_compare(0, 1) > 0:
+        o[0], o[1] = o[1], o[0]
+    if qty_compare(1, 2) > 0:
+        o[2], o[1] = o[1], o[2]
+    if qty_compare(0, 1) > 0:
+        o[0], o[1] = o[1], o[0]
+    return o
 
 
 main()
