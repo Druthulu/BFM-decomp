@@ -3807,6 +3807,161 @@ def counter_derived_pointer(text, tu, fn, d_):
     return out
 
 
+def derived_pointer_store(text, tu, fn, d_):
+    """[(description, candidate text)] — R45: a store through a DERIVED POINTER the function already passes to a call.
+
+    T7 agent f5 (ov_SC02_005, four witnesses, P36 S105): `s0[K] = 0;` with `s0 = &SYM` known to cse compiles to `lui $at; sw
+    $zero,K($at)` — cse pass 1 FOLDS the address `(plus s0 K)` to the constant `SYM+K` first (`find_best_addr`, `cse.c:2622-2740`,
+    the fold at `:2653`), whose equivalence class is empty, so the absolute form stays; a REG whose class holds `(plus s0 K)` wins
+    the `ADDRESS_COST` search instead (REG cost 1 vs symbol 2 under -G0, `mips.h:2895`). The original had the pointer it passes to
+    the call — `p = &s0[K]` — born BEFORE the store and stored through it: zero instructions added, and the `$sN` swaps that
+    travel with the count hunks are the base's ref count (`global.c:594-610`), which vanish with them.
+
+    The rewrite, per `&BASE[K]` (or `BASE + K`) passed as a call argument where an earlier line of the same block stores
+    `BASE[K] = E;`: a new pointer local of BASE's declared type declared at the end of the declaration run, `p = &BASE[K];`
+    inserted before the FIRST such store, every `BASE[K] = …` store rewritten `*p = …`, and the call argument replaced by `p`.
+    One candidate per (BASE, K); all of a body's pairs together as a last candidate when there are several. Refused: BASE not a
+    single-declarator pointer local, K not an integer literal, a `#` line in the body."""
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    if any(l.lstrip().startswith("#") for l in lines[lo:hi]):
+        return []
+    DECLP = re.compile(r"^(\s*)((?:const\s+|unsigned\s+|signed\s+|struct\s+)*[A-Za-z_]\w*)\s*\*\s*([A-Za-z_]\w*)\s*;\s*$")
+    ptrs, decl_end = {}, None
+    for i in range(lo, hi):
+        m = DECLP.match(masked[i])
+        if m:
+            ptrs[m.group(3)] = (i, " ".join(m.group(2).split()), m.group(1))
+        if re.match(r"^\s*(?:(?:const|unsigned|signed|struct|extern|static)\s+)*[A-Za-z_]\w*[\s\*]+[A-Za-z_]\w*(?:\s*\[[^\]]*\])*\s*(?:=[^;]*)?;\s*$", masked[i]) \
+                and not re.search(r"\b(return|goto)\b", masked[i]) and "(" not in masked[i]:
+            decl_end = i
+    if decl_end is None:
+        return []
+    pairs = []                                             # (base, K, call line, store lines)
+    for i in range(lo, hi):
+        for m in re.finditer(r"(?:&\s*([A-Za-z_]\w*)\s*\[\s*(%s)\s*\]|(?<![\w.>])([A-Za-z_]\w*)\s*\+\s*(%s)(?=\s*[,)]))" % (_INT, _INT), masked[i]):
+            base, K = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
+            if base not in ptrs or not re.search(r"\b[A-Za-z_]\w*\s*\(", masked[i]):
+                continue
+            k = int(K, 0)
+            stores = [j for j in range(lo, i) if re.match(r"^\s*%s\s*\[\s*%s\s*\]\s*(?:[-+|&^*/%%]|<<|>>)?=(?!=)" % (re.escape(base), _INT), masked[j])
+                      and int(re.match(r"^\s*%s\s*\[\s*(%s)\s*\]" % (re.escape(base), _INT), masked[j]).group(1), 0) == k]
+            if stores and (base, k) not in [(b, kk) for b, kk, _, _ in pairs]:
+                pairs.append((base, k, i, stores))
+    if not pairs:
+        return []
+    used = {n for i in range(lo, hi) for n in re.findall(r"\b[A-Za-z_]\w*\b", masked[i])}
+
+    def apply(sel):
+        cand = list(lines)
+        decls = []
+        names = {}
+        for base, k, ci, stores in sel:
+            n = 1
+            while f"p{n}" in used or f"p{n}" in names.values():
+                n += 1
+            names[(base, k)] = f"p{n}"
+            used.add(f"p{n}")
+            bi, bt, ind = ptrs[base]
+            decls.append(f"{ind}{bt} *{names[(base, k)]};")
+            for j in stores:
+                cand[j] = re.sub(r"^(\s*)%s\s*\[\s*%s\s*\]" % (re.escape(base), _INT), lambda m: f"{m.group(1)}*{names[(base, k)]}", cand[j], count=1)
+            ks = re.search(r"%s\s*\[\s*(%s)\s*\]|%s\s*\+\s*(%s)" % (re.escape(base), _INT, re.escape(base), _INT), lines[ci])
+            cand[ci] = re.sub(r"&\s*%s\s*\[\s*(%s)\s*\]|(?<![\w.>])%s\s*\+\s*(%s)(?=\s*[,)])" % (re.escape(base), _INT, re.escape(base), _INT),
+                              lambda m: names[(base, k)] if int(m.group(1) or m.group(2), 0) == k else m.group(0), cand[ci])
+            first = min(stores)
+            ind2 = re.match(r"^\s*", lines[first]).group(0)
+            kspell = ks.group(1) or ks.group(2)
+            cand[first] = f"{ind2}{names[(base, k)]} = &{base}[{kspell}];\n" + cand[first]
+        cand[decl_end] = cand[decl_end] + "\n" + "\n".join(decls)
+        return "\n".join(cand)
+    out = [(f"derived-ptr {b}[{k}] @{min(st) + 1}", apply([(b, k, ci, st)])) for b, k, ci, st in pairs]
+    if len(pairs) > 1:
+        out.append((f"derived-ptr ALL {len(pairs)}", apply(pairs)))
+    return out
+
+
+def set_once_chain(text, tu, fn, d_, _no_all=False):
+    """[(description, candidate text)] — R46: a compound-assignment CHAIN on one temp folded into its final store.
+
+    T7 agent f5 (ov_SC02_005, three witnesses, P36 S105): `v &= 0x1F; v -= K; DST = v;` sets ONE pseudo several times, so
+    neither the `andi` nor the `addiu` is a `birthing_insn_p` (`reg_n_sets == 1` fails, `sched.c:2468-2546`); their priority
+    stays 1 and the backward list scheduler emits the chain at the block TOP, ahead of the boosted `la`/`li` setups the target
+    has first. Written `DST = (v & 0x1F) - K;` every temp is set once, the chain gets the boost too and the LUID tie-break
+    (`sched.c:2428`) puts it after the independent instructions. The exact INVERSE of METHOD step 18's multi-set trick: the
+    `.sched` priority column (`7f000001` vs `1`) says which direction a body needs, and the byte oracle decides.
+
+    The rewrite: 1–3 consecutive `v OP= E;` lines (or `v = v OP E;`) followed by `DST = v;` → `DST = ((v OP1 E1) OP2 E2);` with
+    the chain lines deleted; refused unless `v` is dead after the store until its next plain assignment (no read of `v` in
+    between), and unless every chain operand is a literal or an identifier."""
+    lines = text.split("\n")
+    masked = [sc.mask_text(l) for l in lines]
+    lo, hi = d_["line"], d_["end"] - 1
+    if any(l.lstrip().startswith("#") for l in lines[lo:hi]):
+        return []
+    OPS = r"(\+|-|\*|/|%|&|\||\^|<<|>>)"
+    CH = re.compile(r"^(\s*)([A-Za-z_]\w*)\s*%s=\s*([A-Za-z_]\w*|-?%s)\s*;\s*$" % (OPS, _INT))
+    CH2 = re.compile(r"^(\s*)([A-Za-z_]\w*)\s*=\s*\2\s*%s\s*([A-Za-z_]\w*|-?%s)\s*;\s*$" % (OPS, _INT))
+    ST = re.compile(r"^(\s*)(.+?)\s*=\s*([A-Za-z_]\w*)\s*;\s*$")
+    out = []
+    i = lo
+    while i < hi:
+        m = CH.match(masked[i]) or CH2.match(masked[i])
+        if not m:
+            i += 1
+            continue
+        v = m.group(2)
+        chain = []
+        j = i
+        while j < hi and len(chain) < 3:
+            mm = CH.match(masked[j]) or CH2.match(masked[j])
+            if not mm or mm.group(2) != v:
+                break
+            chain.append((mm.group(3), mm.group(4)))
+            j += 1
+        ms = ST.match(masked[j]) if j < hi else None
+        if not chain or not ms or ms.group(3) != v or "(" in ms.group(2) and ms.group(2).count("(") != ms.group(2).count(")"):
+            i += 1
+            continue
+        # v must be dead after the store until its next plain assignment
+        dead = True
+        for k in range(j + 1, hi):
+            if re.match(r"^\s*%s\s*=(?!=)" % re.escape(v), masked[k]):
+                break
+            if re.search(r"(?<![\w.>])%s\b" % re.escape(v), masked[k]):
+                dead = False
+                break
+        if not dead:
+            i = j + 1
+            continue
+        expr = v
+        for op, e in chain:
+            expr = f"({expr} {op} {e})"
+        expr = expr[1:-1] if len(chain) == 1 else expr
+        cand = list(lines)
+        for k in range(i, j):
+            cand[k] = None
+        cand[j] = f"{ms.group(1)}{lines[j][len(ms.group(1)):lines[j].index('=')].rstrip()} = {expr};"
+        out.append((f"set-once chain {v} @{j + 1}", "\n".join(l for l in cand if l is not None)))
+        i = j + 1
+    if len(out) > 1 and not _no_all:
+        # all chains at once (f5's bodies carried two): apply the first single candidate repeatedly on the evolving text
+        t = text
+        for _ in range(len(out)):
+            r = set_once_chain(t, tu, fn, body_span_of(t, tu, fn) or d_, _no_all=True)
+            if not r:
+                break
+            t = r[0][1]
+        if t != text:
+            out.append((f"set-once chain ALL {len(out)}", t))
+    return out
+
+
+def body_span_of(text, tu, fn):
+    return next((r for r in sc.scan_text(text, tu, shared_defs=None) if r["form"] == "def" and r["name"] == fn), None)
+
+
 def _drop_dead_pads(lines, lo, hi):
     """lines with every never-used (or only `(void)&x;`-used) array local deleted; None if there is none."""
     masked = [sc.mask_text(l) for l in lines]
@@ -4094,7 +4249,7 @@ def named_ports(tu, fn, max_donors=6):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39", "R40", "R41", "R42", "R43", "R44")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39", "R40", "R41", "R42", "R43", "R44", "R45", "R46")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -4259,6 +4414,12 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R43" in fam:
         for desc, cand in sign_test_to_mask(text, tu, fn, d_):
             out.append(("R43", desc, cand))
+    if "R45" in fam:
+        for desc, cand in derived_pointer_store(text, tu, fn, d_):
+            out.append(("R45", desc, cand))
+    if "R46" in fam:
+        for desc, cand in set_once_chain(text, tu, fn, d_):
+            out.append(("R46", desc, cand))
     if "R44" in fam:
         for desc, cand in counter_derived_pointer(text, tu, fn, d_):
             out.append(("R44", desc, cand))
@@ -5518,6 +5679,44 @@ def selftest():
                                      next(r for r in sc.scan_text(MFIX, "src/fx/m.c", shared_defs=None) if r["form"] == "def")))
     if sorted(m22) != ["merge-ptr a1 into a3+1"] or "a3[4] = 0x40 && a3[1];" not in m22["merge-ptr a1 into a3+1"]:
         fail(f"R22 must merge two walked pointers derived from one base at two offsets (K = 1): {m22!r}")
+
+    # R45, the derived-pointer store (T7 agent f5, S105; known-true: ALONE it reproduces f5's closes of func_8018F944 (4 -> 0)
+    # and, as the ALL form, func_8018FEA0 (16 -> 0)); R46, the set-once chain (f5; known-true: the ALL form closes func_8018FA34
+    # 6 -> 0; the two singles score 2 and 4 — the agent's numbers).
+    DFIX = ("void func_80100000(void) {\n"
+            "    s32 *s0;\n"
+            "    s32 v0;\n"
+            "    s0 = &D_800A5E88;\n"
+            "    v0 = rand();\n"
+            "    s0[8] = 0;\n"
+            "    v0 &= 0x1F;\n"
+            "    v0 -= 0x10;\n"
+            "    s0[0] = v0;\n"
+            "    func_80028620(2, &s0[8]);\n"
+            "    v0 = rand();\n"
+            "    v0 &= 0x1F;\n"
+            "    D_800A5E90 = v0;\n"
+            "    func_80028620(1, s0 + 4);\n"
+            "}")
+    d45 = dict(derived_pointer_store(DFIX, "src/fx/d.c", "func_80100000",
+                                     next(r for r in sc.scan_text(DFIX, "src/fx/d.c", shared_defs=None) if r["form"] == "def")))
+    if sorted(d45) != ["derived-ptr s0[8] @6"]:
+        fail(f"R45 must derive a pointer for the stored-then-passed slot only (s0 + 4 has no store): {sorted(d45)}")
+    elif "    s32 *p1;" not in d45["derived-ptr s0[8] @6"] or "    p1 = &s0[8];\n    *p1 = 0;" not in d45["derived-ptr s0[8] @6"] \
+            or "func_80028620(2, p1);" not in d45["derived-ptr s0[8] @6"]:
+        fail(f"R45 must declare the pointer, bear it before the store, store through it and pass it: {d45!r}")
+    d46 = dict(set_once_chain(DFIX, "src/fx/d.c", "func_80100000",
+                              next(r for r in sc.scan_text(DFIX, "src/fx/d.c", shared_defs=None) if r["form"] == "def")))
+    if sorted(d46) != ["set-once chain ALL 2", "set-once chain v0 @13", "set-once chain v0 @9"]:
+        fail(f"R46 must fold each chain into its store and offer both together: {sorted(d46)}")
+    elif "    s0[0] = ((v0 & 0x1F) - 0x10);" not in d46["set-once chain v0 @9"] or "    D_800A5E90 = v0 & 0x1F;" not in d46["set-once chain ALL 2"] \
+            or "v0 -= 0x10;" in d46["set-once chain v0 @9"]:
+        fail(f"R46 must delete the chain lines and write one expression: {d46!r}")
+    # a chain whose temp is read after the store is refused
+    DF2 = DFIX.replace("    func_80028620(2, &s0[8]);\n", "    func_80028620(v0, &s0[8]);\n")
+    if "set-once chain v0 @9" in dict(set_once_chain(DF2, "src/fx/d.c", "func_80100000",
+                                                     next(r for r in sc.scan_text(DF2, "src/fx/d.c", shared_defs=None) if r["form"] == "def"))):
+        fail("R46 must refuse a chain whose temp is read after the store")
 
     # R26, the address alias (T7 agent c45, S103; known-true: on func_80183E3C's start text R26's "second" candidate
     # scores 0 from 38 — the agent's close, reproduced by the generator alone)
