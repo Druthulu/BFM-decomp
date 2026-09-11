@@ -1,0 +1,3 @@
+REMOVED  register    paren  line 4038
+NEEDED   pin         $3     line 4039
+NEEDED   barrier     memory line 4049

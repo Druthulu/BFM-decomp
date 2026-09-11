@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 31 best 11 compiles 322 path R14 param-width flags s32->u16 @1395 + R7 do-while @1422 + R9 swap-stmts @1417
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @1417 -> 11 [COUNT] (from 16)
+  R9 swap-stmts @1417 -> 13 [COUNT] (from 18)
+  R6 inline mode @1412 -> 15 [COUNT] (from 16)
+  R7 do-while @1422 -> 16 [COUNT] (from 23)
+  R12 width b u8->s32 @1404 -> 16 [COUNT] (from 16)
+  R8 hoist tmp0 @1419 -> 16 [COUNT] (from 16)
+  R7 block @1412 -> 16 [COUNT] (from 16)
+  R10 param-copy loc @1411 -> 16 [COUNT] (from 16)
+  R12 width b u8->u16 @1404 -> 16 [COUNT] (from 16)
+  R8 hoist tmp0 @1420 -> 16 [COUNT] (from 16)
+  R9 swap-stmts @1418 -> 16 [COUNT] (from 16)
+  R10 param-copy flags @1411 -> 16 [COUNT] (from 16)

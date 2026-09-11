@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 2 best 2 compiles 177 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @8659->8662 -> 2 [ORDER] (from 2)
+  R9 swap-stmts @8658 -> 2 [ORDER] (from 2)
+  R7 block @8655 -> 2 [ORDER] (from 2)
+  R8 base-shared tmp0 @8653 -> 2 [ORDER] (from 2)
+  R12 width t s16->s32 @8649 -> 2 [ORDER] (from 2)
+  R18 bystander @8659->8663 -> 2 [ORDER] (from 2)
+  R9 swap-stmts @8659 -> 2 [ORDER] (from 2)
+  R7 do-while @8655 -> 2 [ORDER] (from 2)
+  R6 inline v1 @8667 -> 2 [ORDER] (from 2)
+  R8 temp tmp0 @8667 -> 2 [ORDER] (from 2)
+  R18 bystander @8659->8664 -> 2 [ORDER] (from 2)
+  R7 block @8658 -> 2 [ORDER] (from 2)

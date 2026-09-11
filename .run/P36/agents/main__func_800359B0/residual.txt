@@ -1,0 +1,35 @@
+src/800_c.c:func_800359B0: score 18 (COUNT; mine 165 ins, target 167) — not yet
+  replace mine[7:8] target[7:8]
+        7  beqz	v0,9bc <func_800359B0+0x27c>  | beqz	v0,9c4 <func_800359B0+0x284>
+  replace mine[17:18] target[17:18]
+       17  j	9c0 <func_800359B0+0x280>        | j	9c8 <func_800359B0+0x288>
+  replace mine[24:25] target[24:25]
+       24  j	9c0 <func_800359B0+0x280>        | j	9c8 <func_800359B0+0x288>
+  replace mine[46:47] target[46:47]
+       46  j	9c0 <func_800359B0+0x280>        | j	9c8 <func_800359B0+0x288>
+  replace mine[91:92] target[91:92]
+       91  j	9c0 <func_800359B0+0x280>        | j	9c8 <func_800359B0+0x288>
+  replace mine[93:94] target[93:94]
+       93  bne	v1,v0,9bc <func_800359B0+0x27c> | bne	v1,v0,9c4 <func_800359B0+0x284>
+  replace mine[98:99] target[98:99]
+       98  beqz	v0,9bc <func_800359B0+0x27c>  | beqz	v0,9c4 <func_800359B0+0x284>
+  replace mine[102:103] target[102:103]
+      102  j	9c0 <func_800359B0+0x280>        | j	9c8 <func_800359B0+0x288>
+  replace mine[111:112] target[111:112]
+      111  j	9c0 <func_800359B0+0x280>        | j	9c8 <func_800359B0+0x288>
+  replace mine[120:121] target[120:121]
+      120  j	9c0 <func_800359B0+0x280>        | j	9c8 <func_800359B0+0x288>
+  replace mine[130:131] target[130:131]
+      130  bnez	v0,9b4 <func_800359B0+0x274>  | bnez	v0,9bc <func_800359B0+0x27c>
+  replace mine[136:137] target[136:137]
+      136  j	9c0 <func_800359B0+0x280>        | j	9c8 <func_800359B0+0x288>
+  replace mine[142:143] target[142:143]
+      142  bnez	v0,9b4 <func_800359B0+0x274>  | bnez	v0,9bc <func_800359B0+0x27c>
+  replace mine[153:154] target[153:154]
+      153  beqz	v0,89c <func_800359B0+0x15c>  | bnez	v0,9c8 <func_800359B0+0x288>
+  replace mine[155:156] target[155:156]
+      155  j	9c0 <func_800359B0+0x280>        | jal	0 <func_80035270>
+  replace mine[157:158] target[157:160]
+      157  j	9c0 <func_800359B0+0x280>        | j	8d0 <func_800359B0+0x190>
+      158  --                                 | li	v0,1
+      159  --                                 | j	9c8 <func_800359B0+0x288>

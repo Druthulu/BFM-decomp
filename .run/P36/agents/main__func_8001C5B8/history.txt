@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 24 best 11 compiles 184 path R12 width obj s32->s16 @9391
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width obj s32->s16 @9391 -> 11 [COUNT] (from 24)
+  R14 param-width a0 s32->s16 @9376 -> 11 [COUNT] (from 11)
+  R8 temp tmp0 @9414 -> 11 [COUNT] (from 11)
+  R7 block @9404 -> 11 [COUNT] (from 11)
+  R10 param-copy a0 @9396 -> 11 [COUNT] (from 11)
+  R4 decl-move obj 6->0 -> 11 [COUNT] (from 11)
+  R14 param-width a0 s32->u16 @9376 -> 11 [COUNT] (from 11)
+  R8 base tmp0 @9414 -> 11 [COUNT] (from 11)
+  R7 do-while @9404 -> 11 [COUNT] (from 11)
+  R10 param-copy a1 @9396 -> 11 [COUNT] (from 11)
+  R4 decl-move obj 6->1 -> 11 [COUNT] (from 11)
+  R8 base-shared tmp0 @9414 -> 11 [COUNT] (from 11)

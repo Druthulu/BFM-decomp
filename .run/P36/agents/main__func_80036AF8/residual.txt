@@ -1,0 +1,47 @@
+src/800_c.c:func_80036AF8: score 31 (COUNT; mine 139 ins, target 139) — not yet
+  register pairs (mine -> target, count): s2->s3 x4, s3->s2 x3, s2->a0 x2, s5->s4 x2, a1->a3 x1, s4->s5 x1
+  insert  mine[1:1] target[1:3]
+        1  --                                 | sw	s4,88(sp)
+        2  --                                 | move	s4,a0
+  replace mine[2:6] target[4:6]
+        2  move	s5,a0                         | move	s5,a1
+        3  sw	s4,88(sp)                       | andi	v0,a1,0x4000
+        4  move	s4,a1                         | --
+        5  andi	v0,s4,0x4000                  | --
+  replace mine[12:14] target[12:15]
+       12  andi	a1,s4,0xf                     | andi	a2,a1,0xf
+       13  sll	v0,s4,0x10                     | move	a3,a2
+       14  --                                 | sll	v0,a1,0x10
+  replace mine[15:16] target[16:17]
+       15  andi	s3,v1,0x1f                    | andi	s2,v1,0x1f
+  insert  mine[17:17] target[18:19]
+       17  --                                 | andi	a0,v0,0x1f
+  replace mine[18:22] target[20:24]
+       18  beqz	v1,1908 <func_80036AF8+0x80>  | beqz	v1,1908 <func_80036AF8+0x80>
+       19  andi	s2,v0,0x1f                    | move	s3,a0
+       20  sll	v0,s2,0x3                      | sll	v0,a0,0x3
+       21  addu	v0,v0,s2                      | addu	v0,v0,a0
+  replace mine[27:33] target[29:33]
+       27  beqz	v0,1904 <func_80036AF8+0x7c>  | bnez	v0,1908 <func_80036AF8+0x80>
+       28  nop                                | addiu	a3,a2,4
+       29  j	1908 <func_80036AF8+0x80>        | addiu	a3,a2,8
+       30  addiu	a1,a1,4                      | sll	a0,s2,0x10
+       31  addiu	a1,a1,8                      | --
+       32  sll	a0,s3,0x10                     | --
+  replace mine[34:36] target[34:36]
+       34  sll	v0,s2,0x3                      | sll	v0,s3,0x3
+       35  addu	v0,v0,s2                      | addu	v0,v0,s3
+  replace mine[42:43] target[42:43]
+       42  sll	v1,a1,0x2                      | sll	v1,a3,0x2
+  replace mine[48:49] target[48:49]
+       48  move	s3,a0                         | move	s2,a0
+  replace mine[76:77] target[76:77]
+       76  sll	v0,s3,0x10                     | sll	v0,s2,0x10
+  replace mine[83:86] target[83:86]
+       83  move	a0,s5                         | move	a0,s4
+       84  sll	v1,s2,0x3                      | sll	v1,s3,0x3
+       85  addu	v1,v1,s2                      | addu	v1,v1,s3
+  replace mine[96:97] target[96:97]
+       96  move	a0,s5                         | move	a0,s4
+  replace mine[99:100] target[99:100]
+       99  sll	v0,s4,0x10                     | sll	v0,s5,0x10

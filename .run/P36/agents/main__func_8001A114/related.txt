@@ -1,0 +1,621 @@
+=== lever-free bodies in main sharing a callee or global with func_8001A114 (6 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8001A0FC (src/800.c:7124) shares 1: D_800AE6F4 ---
+void func_8001A0FC(void) {
+    D_800AE6F4 = 0;
+    D_800AE70C = 0;
+}
+
+--- func_8003602C (src/800_c.c:663) shares 1: func_800434BC ---
+void func_8003602C(s32 arg0) {
+    u8 result[8];
+    u8 state;
+    s32 sync;
+
+    switch (*(u8 *)(arg0 + 3)) {
+    case 0:
+    case 1:
+    default:
+        *(u8 *)(arg0 + 2) = 0;
+        break;
+    case 2:
+        *(u8 *)(arg0 + 2) = 1;
+        func_800434BC();
+        *(u8 *)(arg0 + 3) += 2;
+        break;
+    case 3:
+        *(u8 *)(arg0 + 2) = 1;
+        func_800434BC();
+        *(u8 *)(arg0 + 3) += 1;
+        /* fall through */
+    case 4:
+        func_80043704(9, 0);
+        func_8003621C();
+        state = *(u8 *)(arg0 + 3);
+        *(u8 *)(arg0 + 2) = 1;
+        *(u8 *)(arg0 + 3) = state + 1;
+        break;
+    case 5:
+        sync = func_8004355C(1, result);
+        if (sync == 0) {
+            *(u8 *)(arg0 + 2) = 1;
+            return;
+        }
+        if (sync == 5 && (result[0] & 0x10)) {
+            D_80076214 = 1;
+        }
+        *(u8 *)(arg0 + 2) = 0;
+        break;
+    }
+}
+
+--- func_80036260 (src/800_c.c:794) shares 1: func_800434BC ---
+int func_80036260(void) {
+    u8 result[8];
+    u16 *flags;
+    s16 *vabp;
+    s32 t;
+    int sync;
+
+    func_80037334();
+    D_8006AEF4 &= 0xFD;
+    flags = &D_800A4E8E;
+    *flags &= 0xFFDF;
+
+    if (streamLoad_state != 0) {
+        switch (streamLoad_state) {
+        case 0:
+        case 1:
+        case 2:
+            break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 15:
+        case 16:
+        case 17:
+            func_800434BC();
+            break;
+        case 12:
+            if (streamLoad_cbActive != 0) {
+                CdReadyCallback(streamLoad_savedReadyCB);
+                streamLoad_savedReadyCB = 0;
+                streamLoad_cbActive = 0;
+            }
+            /* fall through */
+        case 13:
+        case 14:
+            func_800435CC(9, 0, 0);
+            streamLoad_state = 0;
+            D_800A6544 = 0x3C;
+            break;
+        }
+    }
+
+    if (D_800A6544 != 0) {
+        D_800A6544--;
+        if (D_800A6544 != 0) {
+            sync = func_8004355C(1, result);
+            if (sync != 5 && sync != 2) {
+                return 0;
+            }
+        }
+    }
+
+    vabp = &D_800A46A2;
+    t = *vabp;
+    streamLoad_state = 0;
+    D_800A6544 = 0;
+    if (t >= 0) {
+        func_800415A8(t);
+        *vabp = -1;
+        D_800A46B0 = 1;
+    }
+    return 1;
+}
+
+--- ResourceLoadStateMachine (src/800.c:8396) shares 1: D_800AE6F4 ---
+void ResourceLoadStateMachine(void) {
+    s32 result;
+    /* The original keeps 8 bytes of frame the emitted code never touches (target frame 0x38, an
+     * empty-locals build gets 0x30). Reserved as a local so the prologue/epilogue offsets match. */
+    s32 sp10[2];
+
+    result = 0;
+    switch ((u32)resLoad_state) {
+    case 0:
+        if (resLoad_curId == resLoad_lastId) {
+            resLoad_result = 1;
+            return;
+        }
+        if (RES_FILE[resLoad_curId].v == resLoad_loadedFileIdx && RES_POST[resLoad_curId].v != 0) {
+            func_8002D4C8((u16)RES_POST[resLoad_curId].v, 0);
+            resLoad_lastId = resLoad_curId;
+            resLoad_result = 1;
+            return;
+        }
+        if (CdQueueBusy() != 0) {
+            break;
+        }
+        if (RES_FILE[resLoad_curId].v < 0) {
+            ((void (*)())func_80036D58)(RES_ARG[resLoad_curId].v);
+            resLoad_result = 1;
+            return;
+        }
+        if (ResourceGetCdLoc((s16)resLoad_curId) == 0) {
+            resLoad_result = 1;
+            return;
+        }
+        if (cdReq_curSector != 0 && *(s32 *)(cdFileLocTable + RES_FILE[resLoad_curId].v * 8) != cdReq_curSector) {
+            break;
+        }
+        cdReq_curSector = *(s32 *)(cdFileLocTable + RES_FILE[resLoad_curId].v * 8);
+        resLoad_state++;
+        /* fallthrough */
+    case 1:
+        result = StreamLoadStateMachine(RES_ARG[resLoad_curId].v,
+                                        &cdFileLocTable[RES_FILE[resLoad_curId].v * 8], 0x10);
+        if (result == 2) {
+            resLoad_state++;
+            result = 0;
+        }
+        break;
+    case 2:
+        D_800AE6F4 = 0;
+        D_800AE70C = 0;
+        resLoad_state = 3;
+        /* fallthrough */
+    case 3:
+        if (func_8001A114() != 0) {
+            resLoad_state = 0;
+        }
+        break;
+    }
+    if (result != 0) {
+        resLoad_loadedFileIdx = RES_FILE[resLoad_curId].v;
+        if (RES_POST[resLoad_curId].v > 0) {
+            func_8002D4C8((u16)RES_POST[resLoad_curId].v, 0);
+            resLoad_lastId = resLoad_curId;
+            if (resLoad_curId == 0x3D) {
+                func_8001B710();
+            }
+        }
+        resLoad_state = 0;
+        cdReq_curSector = 0;
+    }
+    resLoad_result = result;
+}
+
+--- CdReadStateMachine (src/800.c:6914) shares 1: func_800434BC ---
+void CdReadStateMachine(s32 pauseAfterSeek) {
+    s32 *rp;
+    s32 *dp;
+    s32 *sp7;
+    s32 *sp9;
+    u8 *p;
+    u8 *q;
+    u8 *p2;
+    u8 *p3;
+    u8 *p8;
+    void **fpp;
+    s32 r;
+    s32 st;
+    s32 n;
+    s32 i;
+    s32 off;
+    s32 pad[2];
+
+    switch (cdReq_state) {
+    case 0:
+        p = (u8 *)&cdReq_retry;
+        *(s32 *)p = 0;
+        D_800AE71C = 0;
+        D_800AE70C = 0;
+        q = p - 0x10;
+        *q = 0xA0;
+        func_800435CC(0xE, q, p - 0x18);
+        if ((p[-0x18] & 0x10) != 0) {
+        setStateNine:
+            cdReq_state = 9;
+            break;
+        }
+        cdReq_state++;
+        /* fallthrough */
+    case 1:
+        r = func_8004355C(1, &cdReq_cdResult);
+        D_800AE6E8 = r;
+        if (r == 0) {
+            break;
+        }
+        if (r == 5) {
+            goto resetState;
+        }
+        if (r != 2) {
+            break;
+        }
+        cdReq_retry = 0;
+        cdReq_state++;
+        /* fallthrough */
+    case 2:
+        rp = &cdReq_retry;
+        *rp = *rp + 1;
+        if (*rp < 3) {
+            break;
+        }
+        *rp = 0;
+        cdReq_state++;
+        break;
+    case 3:
+        fpp = &cdReq_cdlFile;
+        func_800435CC(0x15, (u8 *)*fpp, (u8 *)fpp - 0x6C);
+        if ((*((u8 *)fpp - 0x6C) & 0x10) != 0) {
+            goto setStateNine;
+        }
+        cdReq_timeout = 0;
+        cdReq_posInt = CdPosToInt((CdlLOC *)*fpp);
+        cdReq_state++;
+        /* fallthrough */
+    case 4:
+        p2 = &cdReq_cdResult;
+        r = func_8004355C(1, p2);
+        D_800AE6E8 = r;
+        if (r == 5) {
+            cdReq_retry++;
+        flushRetry:
+            func_800434BC();
+            cdReq_state = 3;
+            break;
+        }
+        if (r == 0) {
+            break;
+        }
+        if (r != 2) {
+            cdReq_result = 0;
+            cdReq_timeout++;
+            if (cdReq_timeout < 0xB5) {
+                return;
+            }
+            goto flushRetry;
+        }
+        if (pauseAfterSeek != 0) {
+            func_800435CC(9, 0, p2);
+            if ((*p2 & 0x10) != 0) {
+                goto setStateNine;
+            }
+            cdReq_state = 8;
+            D_800AE70C = *(s32 *)cdReq_cdlFile;
+            break;
+        }
+        cdReq_state++;
+        /* fallthrough */
+    case 5:
+        cdReq_drainPhase = 0;
+        if (cdReq_size < 1) {
+            D_800AE6F8 = 0;
+        } else {
+            D_800AE6F8 = 3;
+            cdReq_wordsRemaining = (cdReq_size + 3) / 4;
+            D_800AE798 = 1;
+            cdReq_sink = (s32)cdReq_dest;
+        }
+        p3 = (u8 *)&cdReq_savedReadyCB;
+        *(void **)p3 = CdReadyCallback(CdReadSectorReadyCB);
+        func_800435CC(6, 0, p3 + 4);
+        if ((p3[4] & 0x10) != 0) {
+            goto setStateNine;
+        }
+        cdReq_retry = 0;
+        cdReq_state++;
+        /* fallthrough */
+    case 6:
+        dp = &cdReq_drainPhase;
+        if (*dp == 1) {
+            CdReadyCallback(cdReq_savedReadyCB);
+            func_800435CC(9, 0, (u8 *)dp - 0x14);
+            if ((*((u8 *)dp - 0x14) & 0x10) != 0) {
+                goto setStateNine;
+            }
+            st = cdReq_state;
+            n = D_800AE71C;
+            cdReq_state = st + 1;
+            if (n == 0) {
+                cdReq_state = st + 2;
+            }
+            break;
+        }
+        if (*dp == 2) {
+            CdReadyCallback(cdReq_savedReadyCB);
+            goto resetState;
+        }
+        cdReq_retry++;
+        if (cdReq_retry < 0x12C) {
+            break;
+        }
+        CdReadyCallback(cdReq_savedReadyCB);
+        cdReq_state = 0;
+        func_800434BC();
+        break;
+    case 7:
+        i = 0;
+        if (D_800AE71C > 0) {
+            do {
+                off = i * 8;
+                do {
+                    r = func_8002FD14(*(s32 *)(off + D_800AE724), *(s32 *)(off + D_800AE724 + 4));
+                } while (r == 0);
+                i++;
+            } while (i < D_800AE71C);
+        }
+        sp7 = &cdReq_state;
+        *sp7 = *sp7 + 1;
+        break;
+    case 8:
+        p8 = &cdReq_cdResult;
+        r = func_8004355C(1, p8);
+        D_800AE6E8 = r;
+        if (r == 2) {
+            cdReq_sink = 0x80010000;
+            cdReq_state = 0;
+            D_800AE6F8 = 0;
+            D_800AE6FC = 0;
+            D_800AE700 = 0;
+            cdReq_wordsRemaining = 1;
+            cdReq_drainPhase = 0;
+            D_800AE798 = 0;
+            D_800AE799 = 0;
+            D_800AE70C = 0;
+            cdReq_result = 1;
+            cdReq_curSector = 0;
+            return;
+        }
+        if (r != 5) {
+            break;
+        }
+        func_800434BC();
+        func_800435CC(9, 0, p8);
+        if ((*p8 & 0x10) == 0) {
+            break;
+        }
+        goto setStateNine;
+    case 9:
+        func_8001A0FC();
+        sp9 = &cdReq_state;
+        *sp9 = *sp9 + 1;
+        /* fallthrough */
+    case 10:
+        D_800AE6E8 = func_8001A114();
+        if (D_800AE6E8 == 0) {
+            break;
+        }
+    resetState:
+        cdReq_state = 0;
+        break;
+    }
+    cdReq_result = 0;
+}
+
+--- StreamLoadStateMachine (src/800_c.c:1145) shares 1: func_800434BC ---
+int StreamLoadStateMachine(int arg0, void *loc, int n) {
+    u8    cmd[8];
+    u8    result[8];
+    int   pos;
+    int   sync;
+    int   resKind;
+    u8   *pb;
+    int  *p28;
+    int  *p2C;
+    int  *p30;
+    int  *p34;
+    u16  *flags;
+    int   t;
+    int   idx;
+
+    idx = arg0 - 0x100;
+    resKind = *(short *)(D_80068B60 + idx * 0x10);
+    p28 = &D_800A4F28;
+    *p28 += 1;
+    switch (streamLoad_state) {
+    case 0:
+        D_800A4F30 = n;
+        *(u8 *)&D_800A4F38 = 0;
+        D_800A6544 = 0;
+        func_8002EC10();
+        flags = &D_800A4E8E;
+        *flags &= 0xFFDF;
+        streamLoad_state++;
+        break;
+    case 1:
+        func_80037334();
+        func_80037358(CdPosToInt((CdlLOC *)loc));
+        func_80037144(resKind);
+        streamLoad_state++;
+        /* fall through */
+    case 2:
+        sync = func_8004355C(1, result);
+        if (sync != 5 && sync != 2) break;
+        if ((func_80043420() & 0x80) != 0) {
+            D_800A4F2C = 0;
+        } else {
+            D_800A4F2C = 3;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 3:
+        cmd[0] = 0xA0;
+        if (func_800435CC(0x0E, cmd, result) == 0) {   /* CdlSetmode */
+            if ((result[0] & 0x10) == 0) break;
+            func_80037334();
+            streamLoad_state = 0;
+            return 2;
+        }
+        D_800A4F28 = 0;
+        streamLoad_state++;
+        /* fall through */
+    case 4:
+        sync = func_8004355C(1, result);
+        if (sync == 5) {
+            streamLoad_state = 3;
+            break;
+        }
+        if (sync != 2) {
+            if (D_800A4F28 < 0x3D) break;
+            streamLoad_state = 3;
+            break;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 5:
+        p2C = &D_800A4F2C;
+        if (*p2C != 0) {
+            *p2C -= 1;
+            break;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 6:
+        if (func_80037CD8((void *)func_80036260) == 0) break;
+        streamLoad_state = 7;
+        /* fall through */
+    case 7:
+        if (func_8003750C() == 0) break;
+        streamLoad_state++;
+        /* fall through */
+    case 8:
+        sync = func_8004355C(1, result);
+        if (sync != 5 && sync != 2) break;
+        streamLoad_state++;
+        /* fall through */
+    case 9:
+        D_800A4F28 = 0;
+        if (func_800435CC(0x15, loc, result) == 0) break;   /* CdlSeekL */
+        streamLoad_state++;
+        /* fall through */
+    case 10:
+        sync = func_8004355C(1, result);
+        if (sync == 5) {
+            if (func_800435CC(1, 0, result) == 0) {         /* CdlNop */
+                streamLoad_state = 9;
+                break;
+            }
+            if ((result[0] & 0x10) == 0) {
+                streamLoad_state = 9;
+                break;
+            }
+            func_80037334();
+            D_8006AEF4 &= 0xFD;
+            streamLoad_state = 0;
+            return 2;
+        }
+        if (sync != 2) {
+            if (D_800A4F28 < 0x12D) break;
+            func_800434BC();
+            streamLoad_state = 9;
+            return 2;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 11:
+        D_800A4F28 = 0;
+        if (func_800435CC(6, loc, result) == 0) {           /* CdlReadN */
+            if ((result[0] & 0x10) == 0) break;
+            D_8006AEF4 &= 0xFD;
+            func_80037334();
+            streamLoad_state = 0;
+            return 2;
+        }
+        if (streamLoad_cbActive == 0) {
+            streamLoad_savedReadyCB = ((void *(*)(void *))CdReadyCallback)((void *)func_800377D8);
+        } else {
+            CdReadyCallback((void *)func_800377D8);
+        }
+        streamLoad_cbActive = 1;
+        streamLoad_state++;
+        return 0;   /* NOT `break` -- see the header note */
+    case 12:
+        if (func_800374CC(&pos) == 0) {
+            p34 = &D_800A4F34;
+            if (pos != *p34) {
+                *p34 = pos;
+                D_800A4F28 = 0;
+            }
+            if (D_800A4F28 < 0x12D) break;
+            if (streamLoad_cbActive != 0) {
+                CdReadyCallback(streamLoad_savedReadyCB);
+                streamLoad_savedReadyCB = 0;
+                streamLoad_cbActive = 0;
+            }
+            streamLoad_state++;
+            break;
+        }
+        if (streamLoad_cbActive != 0) {
+            CdReadyCallback(streamLoad_savedReadyCB);
+            streamLoad_savedReadyCB = 0;
+            streamLoad_cbActive = 0;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 13:
+        if (func_8003775C() == 0) break;
+        func_80037D74();
+        streamLoad_state++;
+        break;
+    case 14:
+        pb = (u8 *)func_80037368(&sync);
+        if (sync != 1) {
+            streamLoad_state = 0x11;
+            break;
+        }
+        if (*pb == 1) {
+            streamLoad_state++;
+        } else if (*pb == 2) {
+            *(u8 *)&D_800A4F38 = 1;
+            streamLoad_state = 0x11;
+            break;
+        } else {
+            p30 = &D_800A4F30;
+            t = *p30;
+            if (t == 0) {
+                streamLoad_state = 1;
+                break;
+            }
+            t -= 1;
+            *p30 = t;
+            if (t != 0) {
+                streamLoad_state = 1;
+                break;
+            }
+            streamLoad_state = 0x11;
+            break;
+        }
+        /* fall through */
+    case 15:
+        if (func_800435CC(9, 0, result) == 0) {             /* CdlPause */
+            if ((result[0] & 0x10) == 0) break;
+            streamLoad_state = 0;
+            return 1;
+        }
+        streamLoad_state++;
+        break;
+    case 16:
+        sync = func_8004355C(1, result);
+        if (sync != 5 && sync != 2) break;
+        pb = (u8 *)&D_800A4F38;
+        t = *pb;
+        streamLoad_state = 0;
+        if (t != 0) {
+            *pb = 0;
+            return 2;
+        }
+        return 1;
+    case 17:
+        if (func_800435CC(9, 0, result) != 0) streamLoad_state = 0x10;
+        break;
+    }
+    return 0;
+}
+

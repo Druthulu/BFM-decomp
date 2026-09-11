@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 33 best 18 compiles 239 path R8 temp tmp0 @2348
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @2348 -> 18 [COUNT] (from 33)
+  R12 width i s32->u16 @2339 -> 18 [COUNT] (from 18)
+  R8 temp tmp1 @2349 -> 18 [COUNT] (from 18)
+  R7 block @2349 -> 18 [COUNT] (from 18)
+  R9 swap-stmts @2349 -> 18 [COUNT] (from 18)
+  R4 decl-move p 0->1 -> 18 [COUNT] (from 18)
+  R6 inline mask @2344 -> 18 [COUNT] (from 18)
+  R8 base tmp1 @2349 -> 18 [COUNT] (from 18)
+  R7 do-while @2349 -> 18 [COUNT] (from 18)
+  R9 swap-stmts @2350 -> 18 [COUNT] (from 18)
+  R4 decl-move p 0->2 -> 18 [COUNT] (from 18)
+  R12 width i s32->u8 @2339 -> 18 [COUNT] (from 18)

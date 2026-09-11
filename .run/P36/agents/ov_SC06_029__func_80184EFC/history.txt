@@ -1,0 +1,15 @@
+s6: verdict NO-MATCH start 35 best 11 compiles 191 path R10 param-alias s0->a0 @7848 + R6 inline tmp @7864
+s8: verdict NO-MATCH start 35 best 11 compiles 255 path R10 param-alias s0->a0 @7848 + R6 inline tmp @7864
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline tmp @7864 -> 11 [COUNT] (from 16)
+  R6 inline tmp @7865 -> 11 [COUNT] (from 16)
+  R6 inline tmp @7867 -> 11 [COUNT] (from 16)
+  R6 inline tmp @7868 -> 13 [COUNT] (from 16)
+  R6 inline tmp @7869 -> 13 [COUNT] (from 16)
+  R6 inline tmp @7871 -> 13 [COUNT] (from 16)
+  R6 inline tmp @7869 -> 14 [COUNT] (from 16)
+  R6 inline tmp @7870 -> 14 [COUNT] (from 16)
+  R6 inline tmp @7871 -> 14 [COUNT] (from 16)
+  R6 inline tmp @7870 -> 14 [COUNT] (from 16)
+  R6 inline tmp @7871 -> 14 [COUNT] (from 16)
+  R6 inline tmp @7872 -> 14 [COUNT] (from 16)

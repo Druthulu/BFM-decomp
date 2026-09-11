@@ -4516,21 +4516,20 @@ void func_8017E044(s32 param_1) {
         *(s16 *)(param_1 + 0x22) = v;
         *(s16 *)(param_1 + 0x1A) = v;
     } else {
-        if (((s16 *)&sp10)[2] < 0x601) {
+        if (((s16 *)&sp10)[2] >= 0x601) {
+            x = 0x800;
+        } else {
             if (func_8016F1AC() != 0) goto L250;
             if (func_80161A30((s32)g) != 0) goto L250;
             if (*(u16 *)g == 0x11) goto L250;
             if ((s16)func_80012A60((s32)*(s16 *)(g[8] + 0x12),
                                    (*(u16 *)(param_1 + 0x1A) + 0x800) & 0xFFF) < 0xE4) goto L250;
             x = *(u16 *)(g[8] + 0x12);
-        } else {
-            x = 0x800;
         }
         /* Zero-byte reorg fence: without it, gcc fills the then-arm's `j` with a stolen
            copy of the shared `sh` (+1 ins). A volatile asm at the join blocks the steal,
            the `j` becomes a jump-to-next and is deleted, leaving the load-delay nop the
            target has at .L8017E248 (byte-gate). */
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
         *(s16 *)(param_1 + 0xA0) = x;
     L250:
         v = func_80012ABC((s32)*(s16 *)(param_1 + 0x1A), (s32)*(s16 *)(param_1 + 0xA0), 0x14);

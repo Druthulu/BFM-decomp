@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 18 best 18 compiles 329 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @462 -> 18 [COUNT] (from 18)
+  R10 param-copy arg0 @405 -> 18 [COUNT] (from 18)
+  R7 do-while @462 -> 18 [COUNT] (from 18)
+  R7 block @456 -> 18 [COUNT] (from 18)
+  R7 do-while @456 -> 18 [COUNT] (from 18)
+  R7 block @486 -> 18 [COUNT] (from 18)
+  R7 do-while @486 -> 18 [COUNT] (from 18)
+  R7 block @479 -> 18 [COUNT] (from 18)
+  R7 do-while @479 -> 18 [COUNT] (from 18)
+  R7 block @481 -> 18 [COUNT] (from 18)
+  R7 do-while @481 -> 18 [COUNT] (from 18)
+  R7 block @430 -> 18 [COUNT] (from 18)

@@ -1,0 +1,39 @@
+src/800.c:func_8001C320: score 24 (COUNT; mine 73 ins, target 74) — not yet
+  register pairs (mine -> target, count): s2->s1 x6, s1->s2 x3
+  insert  mine[1:1] target[1:3]
+        1  --                                 | sw	s1,52(sp)
+        2  --                                 | move	s1,a0
+  replace mine[2:5] target[4:5]
+        2  move	s2,a0                         | move	s2,a1
+        3  sw	s1,52(sp)                       | --
+        4  move	s1,a1                         | --
+  replace mine[11:12] target[11:12]
+       11  addiu	s0,s2,48                     | addiu	s0,s1,48
+  replace mine[14:15] target[14:15]
+       14  sh	v0,0(s2)                        | sh	v0,0(s1)
+  replace mine[16:17] target[16:17]
+       16  sh	v0,2(s2)                        | sh	v0,2(s1)
+  replace mine[22:24] target[22:24]
+       22  beqz	s1,a030 <func_8001C320+0x100> | beqz	s2,a034 <func_8001C320+0x104>
+       23  sw	s1,36(s2)                       | sw	s2,36(s1)
+  replace mine[26:27] target[26:27]
+       26  sw	v0,32(s2)                       | sw	v0,32(s1)
+  replace mine[31:33] target[31:33]
+       31  sh	v0,46(s2)                       | sh	v0,46(s1)
+       32  lw	v0,0(s1)                        | lw	v0,0(s2)
+  replace mine[34:35] target[34:35]
+       34  beqz	v0,a02c <func_8001C320+0xfc>  | beqz	v0,a030 <func_8001C320+0x100>
+  replace mine[36:41] target[36:42]
+       36  lui	s2,0x80ff                      | lui	s1,0x80ff
+       37  ori	s2,s2,0xffff                   | ori	s1,s1,0xffff
+       38  lw	s0,0(s1)                        | lw	s0,0(s2)
+       39  addiu	s1,s1,4                      | addiu	s2,s2,4
+       40  and	s0,s0,s2                       | and	s0,s0,s1
+       41  --                                 | addiu	s0,s0,4
+  replace mine[42:44] target[43:45]
+       42  addiu	a0,s0,4                      | move	a0,s0
+       43  addiu	a0,s0,12                     | addiu	a0,s0,8
+  replace mine[59:60] target[60:61]
+       59  lw	v1,0(s1)                        | lw	v1,0(s2)
+  replace mine[61:62] target[62:63]
+       61  bnez	v1,9fc8 <func_8001C320+0x98>  | bnez	v1,9fc8 <func_8001C320+0x98>

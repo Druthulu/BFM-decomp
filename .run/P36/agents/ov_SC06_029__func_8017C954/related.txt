@@ -1,0 +1,221 @@
+=== lever-free bodies in ov_SC06_029 sharing a callee or global with func_8017C954 (33 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80184C68 (src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:7732) shares 3: D_800A5E60 D_800A6610 D_800B9A02 ---
+void func_80184C68(u8 *v, s32 idx)
+{
+    /* BANK NOTE: P_TAG is already `typedef struct { u32 addr : 24; u32 len : 8;
+     * u8 r0, g0, b0, code; } P_TAG;` in src/shared/engine_types.h (pulled in by
+     * this TU's ../shared/engine_core.h).  This block-scope copy exists only so
+     * the draft compiles standalone under match_one -- DELETE IT when banking.
+     * Byte-neutral either way (only ->addr is used, and it is bits 0..23 of
+     * word 0 in both spellings).  */
+    typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
+
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+    extern short D_800B9A02;
+    extern u16 D_800B99DA;
+    extern u32 D_801909F0[];
+
+    u8 *pkt;
+    u32 *ot;
+    u32 *otp;
+    u8 *q;
+    u32 col;
+    s32 flag, flag2, otz;
+    s32 z;
+
+    col = D_801909F0[idx * 2 + (D_800B99DA & 1)];
+    pkt = D_800A5E60;
+    D_800A5E60 = pkt + 0x24;
+    ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    pkt[3] = 8;
+    *(u32 *)(pkt + 4) = col;
+    pkt[7] = 0x38;
+    *(u32 *)(pkt + 0xC) = col;
+    *(u32 *)(pkt + 0x14) = col;
+    *(u32 *)(pkt + 0x1C) = col;
+
+    gte_ldv3(v, v + 8, v + 0x10);
+    gte_rtpt();
+    gte_stflg(&flag);
+    gte_stsxy3(pkt + 8, pkt + 0x10, pkt + 0x18);
+    gte_ldv0(v + 0x18);
+    gte_rtps();
+    gte_stflg(&flag2);
+    flag |= flag2;
+    gte_stsxy(pkt + 0x20);
+    gte_avsz4();
+    gte_stotz(&otz);
+
+    if ((flag & ~0x1000) == 0) {
+        z = otz - 3;
+        if (z < 0) {
+            z = 0;
+        } else if (z > 0xFFF) {
+            z = 0xFFF;
+        }
+        otp = (u32 *)(z * 4 + (u32)ot);
+        pkt[7] |= 2;
+        q = D_800A5E60;
+        ((P_TAG *)pkt)->addr = ((P_TAG *)otp)->addr;
+        D_800A5E60 = q + 8;
+        ((P_TAG *)otp)->addr = (u32)pkt;
+        q[3] = 1;
+        *(u32 *)(q + 4) = 0xE100012A;
+        ((P_TAG *)q)->addr = ((P_TAG *)otp)->addr;
+        ((P_TAG *)otp)->addr = (u32)q;
+    }
+}
+
+--- func_80189440 (src/ov_SC06_029/ov_SC06_029_jr_801867D0.c:4805) shares 3: D_800A5E60 D_800A6610 D_800B9A02 ---
+void func_80189440(s32 arg0, SV_189440 *v)
+{
+    /* block-scope copies so the draft compiles standalone under match_one; the
+     * TU's ../shared/engine_core.h already provides both -- delete when banking. */
+    typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
+    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX;
+    typedef struct { s32 w[8]; } Blk20;
+
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+
+    MTX m;
+    s32 flag, flag2, otz;
+    SV_189440 *p;
+    u32 *ot;
+    u32 *otp;
+    u8 *pkt;
+    u8 *q;
+    s32 col;
+    u32 dr;
+    s32 i, j, x, z;
+
+    for (i = 0x32, p = &v[0x32]; i >= 2; i -= 2) {
+        *(u16 *)&p[0].vx = *(u16 *)&p[-2].vx;
+        *(u16 *)&p[1].vx = *(u16 *)&p[-1].vx;
+        p -= 2;
+    }
+
+    j = func_80047948(v[0x34].vy);
+    x = (v[0x34].vx * j) >> 12;
+    *(u16 *)&v[0x34].vy = *(u16 *)&v[0x34].vy + *(s32 *)&v[0x35].vz;
+    v[0].vx = x - *(u16 *)&v[0x35].vy;
+    v[1].vx = *(u16 *)&v[0x35].vy + x;
+
+    col = *(s32 *)(arg0 + 0xE0);
+    m = *(MTX *)&D_800AE620;
+    ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    RotMatrixZ(v[0x35].vx, &m);
+    m.t[0] = v[0x34].vz;
+    m.t[1] = -0xF2;
+    m.t[2] = v[0x34].pad;
+
+    gte_SetRotMatrix(&D_800AF648);
+    gte_ldclmv(&m.m[0][0]);
+    gte_rtir();
+    gte_stclmv(&m.m[0][0]);
+    gte_ldclmv(&m.m[0][1]);
+    gte_rtir();
+    gte_stclmv(&m.m[0][1]);
+    gte_ldclmv(&m.m[0][2]);
+    gte_rtir();
+    gte_stclmv(&m.m[0][2]);
+    gte_SetTransMatrix(&D_800AF648);
+    gte_ldlv0(&m.t[0]);
+    gte_rtv0tr();
+    gte_stlvnl(&m.t[0]);
+    gte_SetRotMatrix(&m);
+    gte_SetTransMatrix(&m);
+
+    for (i = 0, p = v; i < 0x19; ) {
+        pkt = D_800A5E60;
+        D_800A5E60 = pkt + 0x24;
+        pkt[3] = 8;
+        *(u32 *)(pkt + 4) = col;
+        pkt[7] = 0x3A;
+        *(u32 *)(pkt + 0xC) = col;
+        *(u32 *)(pkt + 0x14) = col;
+        *(u32 *)(pkt + 0x1C) = col;
+
+        gte_ldv3(p, p + 1, p + 2);
+        gte_rtpt();
+        gte_stflg(&flag);
+        gte_stsxy3(pkt + 8, pkt + 0x10, pkt + 0x18);
+        gte_ldv0(p + 3);
+        gte_rtps();
+        gte_stflg(&flag2);
+        flag |= flag2;
+        gte_stsxy(pkt + 0x20);
+        gte_avsz4();
+        gte_stotz(&otz);
+
+        if ((flag & ~0x1000) == 0) {
+            z = otz + 1;
+            if (z >= 0x1000) {
+                z = 0xFFF;
+            }
+            otp = (u32 *)(z * 4 + (u32)ot);
+            q = D_800A5E60;
+            ((P_TAG *)pkt)->addr = ((P_TAG *)otp)->addr;
+            /* LEVER 1 (cookbook §193-F / §148-A2, the loop.c hoist arithmetic).
+             * The target hoists ALL THREE loop constants into the preheader
+             * ($t0=0xFFFFFF, $t2=0xFF000000, $t3=0xE100004A).  Written inline at
+             * its store, 0xE100004A is a movable of `life 1, savings 1`, and
+             * `-dL` reads `Loop from 202 to 420: 85 real insns` with the
+             * threshold already decayed to 52 by the two mask hoists:
+             * 52*1*1 = 52 < 85  ->  "not desirable", so it stayed in the body and
+             * the whole $a3/$t0../$t3 file shifted down one register.
+             * Materialising it HERE and consuming it at the store below widens
+             * `lifetime` to >=2 (52*1*2 = 104 >= 85) and loop.c moves it -- and
+             * because loop.c emits its hoists immediately before loop_start, in
+             * movable order, it lands AFTER the two masks, exactly as in the
+             * target.  A source-level `dr = 0xE100004A;` in the PREHEADER does
+             * not work: it would emit BEFORE the i/p inits and the hoists. */
+            dr = 0xE100004A;
+            D_800A5E60 = q + 8;
+            ((P_TAG *)otp)->addr = (u32)pkt;
+            q[3] = 1;
+            *(u32 *)(q + 4) = dr;
+            ((P_TAG *)q)->addr = ((P_TAG *)otp)->addr;
+            ((P_TAG *)otp)->addr = (u32)q;
+        }
+        /* LEVER 2: `i++` must be written HERE, ahead of the colour step, not
+         * left to the `for` increment.  The tail block ties on priority --
+         * lw->addu and addiu->slti->bnez are both chains of 3 -- so
+         * `rank_for_schedule` falls through to INSN_LUID (source order).  With
+         * the increment last, sched1 issues the `lw` first and fills the load
+         * delay with it; the target issues `addiu $t1,$t1,1` first and leaves a
+         * real `nop` in the load-delay slot (the -1 instruction). */
+        i++;
+        col += *(s32 *)(arg0 + 0xE0);
+        p += 2;
+    }
+}
+
+--- func_80175668 (src/shared/ov/func_80175668.h:5) shares 1: D_800B9A02 ---
+void func_80175668(void) {
+    func_801757E0(D_800B9A02);
+}
+
+--- func_8017C8D0 (src/ov_SC06_029/ov_SC06_029_jr_8017AE2C.c:3735) shares 1: D_801DCCA0 ---
+    void func_8017C8D0(void) {
+        D_801DCCA0 = 0x80;
+    }
+
+--- func_80175624 (src/shared/ov/func_80175624.h:5) shares 1: D_800B9A02 ---
+void func_80175624(void *a0) {
+    func_801757A0(D_800B9A02);
+    *((u8 *)a0 + 1) = *((u8 *)a0 + 1) + 1;
+}
+
+--- func_801417F8 (src/shared/ov/func_801417F8.h:9) shares 1: D_800B9A02 ---
+void func_801417F8(void) {
+    if (D_800B9A15 == 0 || D_800B9A16 != 0) {
+        if (D_80115114 == (u16)(D_800B9A02 ^ 1)) {
+            func_800D2624();
+        } else {
+            D_80115112 += 1;
+        }
+    }
+}
+

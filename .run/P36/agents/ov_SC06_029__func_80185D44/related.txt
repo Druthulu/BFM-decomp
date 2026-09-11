@@ -1,0 +1,144 @@
+=== lever-free bodies in ov_SC06_029 sharing a callee or global with func_80185D44 (40 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8017EBC4 (src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:4024) shares 4: D_801DDBF4 func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_8017EBC4(Obj8017EBC4 *a0) {
+    Obj8017EBC4 *ent;
+    Obj8017EBC4 *ent2;
+    u8 *p;
+    s32 *q;
+    Sub8017EBC4 *sp;
+    s16 t;
+    s32 i;
+
+    sp = (Sub8017EBC4 *)func_8012C1B8();
+    a0->unk_020 = sp;
+    if (sp == NULL) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    func_8001C214((s32)sp, (s32)D_801A0720);
+    func_8001D0E8((s32)a0->unk_020, 0x7FFF, 0x7FFF);
+    func_8001C97C(D_8019EA38);
+
+    for (i = 0; i < 5; i++) {
+        ent = (Obj8017EBC4 *)func_8012C658(0x294, i, (s32)a0);
+        t = (s16)((i & 1) << 9);
+        D_801DDB2C[i] = (s32)ent;
+        ent->unk_00A -= i << 8;
+        ent2 = (Obj8017EBC4 *)D_801DDB2C[i];
+        ent2->unk_020->unk_012 = t;
+        ent2->unk_0FC = t;
+        D_801DFD38[i] = 0;
+    }
+
+    D_801DDBF4 = (void *)func_8012C194();
+    if (D_801DDBF4 != 0) {
+        p = &D_80190450;
+        func_8001CD9C((int)D_801DDBF4, p);
+        *(u16 *)((s32)D_801DDBF4 + 0x2C) = 0xC010;
+        *(s32 *)((s32)D_801DDBF4 + 0x4) |= 0xD0000000;
+        *p = 0;
+        D_80190451 = 0;
+        D_80190452 = 0;
+    }
+
+    a0->unk_01C = 0x100;
+    D_801DDBF0 = NULL;
+    a0->unk_076 = 0x1E0;
+    StoreImage(D_80190490, D_801DDBF8);
+    StoreImage(&D_80190490[4], D_801DEBF8);
+
+    q = &D_801DFD4C;
+    func_800233CC(q, 0xD0);
+    *q = 0xFFFFFF;
+    a0->unk_002 = 1;
+    D_801DFD50 = 0;
+    D_801DDB28 = (s32)a0;
+    a0->unk_10A = 0xFF;
+    func_80016450(0xFF, 0);
+    a0->unk_100 = 2;
+}
+
+--- func_80144A98 (src/shared/ov/func_80144A98.h:6) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_80144A98(u8 *a0) {
+    s32 v0;
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+    } else {
+        func_8001C214(v0, 0);
+        *(s16 *)(a0 + 0x2) = 1;
+    }
+}
+
+--- func_801320D8 (src/ov_SC06_029/ov_SC06_029_jr_8012ACE0.c:1915) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_801320D8(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8018CA98;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_801321B0 (src/ov_SC06_029/ov_SC06_029_jr_8012ACE0.c:1962) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_801321B0(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8018CAB8;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_8013221C (src/ov_SC06_029/ov_SC06_029_jr_8012ACE0.c:1988) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_8013221C(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8018CAC8;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_80132144 (src/ov_SC06_029/ov_SC06_029_jr_8012ACE0.c:1933) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+s32 func_80132144(s32 param_1)
+{
+    extern int D_8018CAA8;
+
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(((int)param_1) + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(((int)param_1));
+    } else {
+        ((void(*)(int, int))func_8001C214)(v0, 0);
+        *(int *)(((int)param_1) + 0x58) = (int)&D_8018CAA8;
+        *(short *)(((int)param_1) + 0x5c) = 0x80;
+        *(unsigned short *)(((int)param_1) + 2) += 1;
+    }
+}
+

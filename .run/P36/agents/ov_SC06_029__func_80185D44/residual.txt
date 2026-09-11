@@ -1,0 +1,5 @@
+src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:func_80185D44: score 2 (ORDER; mine 47 ins, target 47) — not yet
+  insert  mine[15:15] target[15:16]
+       15  --                                 | lui	a1,0x7fff
+  delete  mine[20:21] target[21:21]
+       20  lui	a1,0x7fff                      | --

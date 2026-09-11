@@ -1,0 +1,102 @@
+=== THIS FUNCTION'S OWN HEADER (func_8017C954, line 2864) — read it in full ===
+ * L1  ONE ZERO-BYTE $v1 CONFLICT DIAL, first statement after arm E's y min/max:
+ *         __asm__ __volatile__ ("" ::: "$3");
+ *     62.6% -> 94.9% kept.  THE dominant lever; everything else is small.
+ *     WHY (this is the reusable finding):
+ *       my/mny/mx/mn are four s16 GLOBAL allocnos (pseudos 103..106, refs 103,
+ *       live length 245..282).  In the target they are granted
+ *       my=$a2 mny=$a3 mx=$t0 mn=$t1 -- exactly what the MATCHED 952-ins base
+ *       compiles to.  Adding the 5th arm makes `my` and `mny` LOSE their hard-reg
+ *       conflict with $v1 and instead acquire a COPY PREFERENCE for it
+ *       (`;; 103 conflicts: ... 2 12 29` / `;; 103 preferences: 3`, greg dump),
+ *       so `my` takes $v1 and the whole quad slides one slot down the
+ *       reg_alloc_order (v1,a2,a3,t0 instead of a2,a3,t0,t1).  That single slide
+ *       renames ~40% of every switch arm.
+ *       Bisected to the instruction: with arm E truncated after its y min/max
+ *       the conflict is present; adding ANY block after it (even
+ *       `if (!(g.flag & 0x7F85E000)) pkt += 4;`) removes it.  A 5th arm that is
+ *       *small* (or a verbatim duplicate of arm D) does not break it -- so it is
+ *       the SIZE/shape of arm E, not the arm count.
+ *       Only "$3" works: a bare `__asm__ volatile("")`, a "$2"/"$4" clobber or a
+ *       "memory" clobber are all no-ops here (measured).  Six "natural" spellings
+ *       were tried and all failed (see the report's do-not-re-buy list), so this
+ *       dial stands in for whatever the original source did to keep $v1 busy.
+ *
+ * L2  `u32 nprim;` DECLARED BEFORE `s32 nparts;`   -> +3 structural ins,
+ *     94.9% -> 95.2% kept.  Sec.79: spill slots are handed out in pseudo-number
+ *     (= declaration) order, and the target has nprim at 0x118, nparts at 0x120.
+ *
+ * L3  ARM E's PACKET-1 STORE ORDER: the four xy words, then `tp`, then rgbc,
+ *     then the three uv words.   95.2% -> 95.5% kept.
+ *
+ * L4  TWO SEPARATELY-SCOPED `otp`s IN ARM E (one per OT insert), not one
+ *     function-scope-style `otp` assigned twice.        95.5% -> 97.3% kept AND
+ *     1202 -> 1194 ins (the whole remaining LENGTH DRIFT).
+ *     This is the family's L1 lever (Sec.76) applied inside one arm:
+ *     `local-alloc.c:472` accepts an allocno only if REG_BASIC_BLOCK >= 0 &&
+ *     REG_N_DEATHS == 1.  One `otp` with two OT inserts has 2 deaths -> GLOBAL
+ *     allocno -> `combine_regs` (local-alloc.c:1825) cannot tie the
+ *     `(za>>2)<<2` shift chain into it, so the chain needs a separate $v0 scratch
+ *     -- and $v0 is exactly the register the four `lw/sw` xy pairs are using, so
+ *     the scheduler can no longer slot `sra/sll/addu` into their load-delay slots
+ *     and maspsx emits three `nop`s instead.  Per-insert scoping makes each a
+ *     1-death, 1-block pseudo, the chain ties in place in $a0, and the three nops
+ *     turn back into the target's `sra $a0 / sll $a0 / addu $a0,$a0,$s0`.
+ *     (The first insert also has to read `za`, not `g.opz`: `g` has its address
+ *     taken by the gte macros, so `g.opz` would have to be RE-LOADED after the
+ *     aliasing `pkt` stores and could not be hoisted at all.)
+ *
+ * L5  ARM E's PACKET-2 STORE ORDER: len byte, +0x08 colour word, +0x0C xy0,
+ *     +0x04 0xE1000040, then +0x10/+0x14/+0x18.        37 -> 28 mismatched.
+ *     The odd interleave is what keeps the two-insn 0xE1000040 constant from
+ *     being materialised early: with the store any earlier, `lui $a1` gets
+ *     scheduled into the packet-1 load-delay slot at tgt[1093] where the target
+ *     has a real `nop` (Sec.78 -- a nop the target has and you lack is a
+ *     register-liveness fact).
+ *
+ * L6  ZERO `__asm__ volatile ("")` LIVE-LENGTH SLIDERS.  The matched 952-ins base
+ *     ships ONE (Sec.47, to split the &g.sz1 / &g.sz2 allocno tie).  Here the
+ *     correct count is NONE: 0 -> MATCH, 2 -> 28, 3 -> 10, 1 and 5 -> length -1.
+ *     Same mechanism, opposite sign: `allocno_compare` (global.c:594) gives the
+ *     three &g.szN pointers refs 16 and lengths within 2 of each other, so
+ *     int(4*16*10000/L) puts them 1 apart and every static instruction added
+ *     anywhere in the outer loop re-ranks them.  The last 28 mismatched
+ *     instructions were exactly this: a 3-cycle on {vtx, &g.flag, 0x7F85E000}
+ *     ($s7/$s5/$s6 -> $s6/$s7/$s5) plus a swap on {&g.sz1, &g.sz2} ($s1/$t8).
+ *
+ * ===== TRIED AND REJECTED (byte-measured; scoped to the base named) =====
+ *   On the 1129 base: all 24 permutations of `s16 my, mny, mx, mn` (ALL exactly
+ *   neutral -- the four are not tied); 9 positions for that declaration in the
+ *   decl list (all neutral); colA/colB declared first / last / next to d,e;
+ *   `ot` hoisted before the 3 calls (worse) or moved after the clamp (-1 ins,
+ *   much worse); `e = d << 1`; reading nprim before prim; dedicated arm-E
+ *   min/max variables (function-scope, block-scope, x-only, y-only -- all
+ *   neutral or worse); a reversed y comparison; a `t32` temp for tmpxy[2];
+ *   `gte_ldv0(vd)` instead of the vv[3] block copy (much worse -- and it loses
+ *   the target's lwl/lwr).  Arm E's y-block BEFORE its x-block reaches the right
+ *   REGISTERS (a2,a3,t0,t1) but with x and y swapped, and costs +7 ins: it was
+ *   the diagnostic that proved the residual was one allocno-slide, not 40 bugs.
+ *   On the MATCH base: removing the "$3" dial, or replacing it with "" / "$2" /
+ *   "memory", drops to 1182 ins / ~1085 mismatched.
+ * =========================================================================== */
+
+--- func_8017DDE0 (line 3399) ---
+/* func_8017DDE0 (ov_SC06_029) — particle-group tick.
+ * §193-A twin remap of the byte-matched ov_SC03_028:func_8017F278
+ * (src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c:3385), symbol-for-symbol re-spelled
+ * from THIS target's own relocation lines: D_801EB5C8->D_801DCCA8,
+ * func_8017F40C->func_8017DF74, func_80146C3C unchanged.
+ *
+ * The two register pins ($2 for the %hi/%lo symbol temp, $5 for the group base)
+ * are what make gcc-2.7.2 keep the base pointer in $a1 and reload the address
+ * each outer iteration (cookbook: register __asm__ allocation pins).
+ *
+ * NOTE FOR BANKING: SubRec_/GroupRec_801EB5C8_8017DC38 are ALREADY defined at file
+ * scope in the destination TU (ov_SC06_029_jr_8017C954.c, above func_8017DC38).
+ * They are repeated here at BLOCK scope only so this draft compiles standalone;
+ * block scope means they shadow rather than collide, so the file banks as-is.
+ * Delete the two inner typedefs if a file-scope-only form is preferred.
+ */
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)

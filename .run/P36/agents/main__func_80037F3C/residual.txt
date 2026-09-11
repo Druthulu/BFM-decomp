@@ -1,0 +1,26 @@
+src/800_c.c:func_80037F3C: score 15 (COUNT; mine 38 ins, target 34) — not yet
+  replace mine[0:1] target[0:1]
+        0  addiu	sp,sp,-40                    | addiu	sp,sp,-32
+  delete  mine[6:8] target[6:6]
+        6  sw	s3,28(sp)                       | --
+        7  addiu	s3,s2,94                     | --
+  replace mine[9:12] target[7:10]
+        9  addiu	s0,s2,93                     | addiu	s0,s2,94
+       10  sw	ra,32(sp)                       | sw	ra,28(sp)
+       11  lbu	v0,-3(s0)                      | lbu	v0,-4(s0)
+  replace mine[15:16] target[13:14]
+       15  lbu	v0,0(s0)                       | lbu	v0,-1(s0)
+  replace mine[21:22] target[19:21]
+       21  sw	zero,-73(s0)                    | sw	zero,-74(s0)
+       22  --                                 | sb	zero,-1(s0)
+  delete  mine[23:24] target[22:22]
+       23  sb	zero,0(s3)                      | --
+  delete  mine[26:27] target[24:24]
+       26  addiu	s3,s3,96                     | --
+  replace mine[28:29] target[25:26]
+       28  bnez	v0,2cf8 <func_80037F3C+0x2c>  | bnez	v0,2cf0 <func_80037F3C+0x24>
+  replace mine[30:32] target[27:28]
+       30  lw	ra,32(sp)                       | lw	ra,28(sp)
+       31  lw	s3,28(sp)                       | --
+  replace mine[35:36] target[31:32]
+       35  addiu	sp,sp,40                     | addiu	sp,sp,32

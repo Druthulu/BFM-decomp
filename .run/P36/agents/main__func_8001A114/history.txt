@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 4 best 4 compiles 178 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @7255->7258 -> 4 [ORDER] (from 4)
+  R9 swap-stmts @7255 -> 4 [ORDER] (from 4)
+  R7 block @7255 -> 4 [ORDER] (from 4)
+  R16 const-holder c0=1 x1 -> 4 [ORDER] (from 4)
+  R6 inline c0 @7256 -> 4 [ORDER] (from 4)
+  R12 width c1 int->u16 @7250 -> 4 [ORDER] (from 4)
+  R18 bystander @7255->7259 -> 4 [ORDER] (from 4)
+  R9 swap-stmts @7256 -> 4 [ORDER] (from 4)
+  R7 do-while @7255 -> 4 [ORDER] (from 4)
+  R16 const-holder c1=0 x1 -> 4 [ORDER] (from 4)
+  R8 hoist tmp0 @7290 -> 4 [ORDER] (from 4)
+  R12 width c1 int->s16 @7250 -> 4 [ORDER] (from 4)

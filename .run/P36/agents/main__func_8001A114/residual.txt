@@ -1,0 +1,7 @@
+src/800.c:func_8001A114: score 4 (ORDER; mine 137 ins, target 137) — not yet
+  insert  mine[20:20] target[20:22]
+       20  --                                 | li	a0,1
+       21  --                                 | move	a1,zero
+  delete  mine[22:24] target[24:24]
+       22  li	a0,1                            | --
+       23  move	a1,zero                       | --

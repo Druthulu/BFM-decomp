@@ -1,0 +1,24 @@
+src/800.c:func_800168C4: score 17 (COUNT; mine 25 ins, target 31) — not yet
+  register pairs (mine -> target, count): v1->a1 x4, v0->a0 x1
+  replace mine[0:4] target[0:4]
+        0  lui	v1,0x0                         | lui	a1,0x0
+        1  addiu	v1,v1,0                      | addiu	a1,a1,0
+        2  andi	v0,a0,0x3                     | andi	a0,a0,0x3
+        3  bnez	v0,44f0 <func_800168C4+0x1c>  | bnez	a0,4504 <func_800168C4+0x30>
+  replace mine[9:10] target[9:15]
+        9  lbu	a0,0(at)                       | lbu	v1,0(at)
+       10  --                                 | j	4510 <func_800168C4+0x3c>
+       11  --                                 | nop
+       12  --                                 | lui	at,0x0
+       13  --                                 | addu	at,at,a0
+       14  --                                 | lbu	v1,0(at)
+  replace mine[13:15] target[18:19]
+       13  addu	v0,v0,a0                      | addu	v0,v0,v1
+       14  lhu	a0,414(v1)                     | --
+  replace mine[17:19] target[21:25]
+       17  sltiu	v0,a0,255                    | lhu	v1,414(a1)
+       18  bnez	v0,4530 <func_800168C4+0x5c>  | nop
+       19  --                                 | sltiu	v1,v1,255
+       20  --                                 | bnez	v1,4548 <func_800168C4+0x74>
+  replace mine[20:21] target[26:27]
+       20  lhu	v0,392(v1)                     | lhu	v0,392(a1)

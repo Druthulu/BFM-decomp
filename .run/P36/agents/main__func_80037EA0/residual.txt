@@ -1,0 +1,46 @@
+src/800_c.c:func_80037EA0: score 33 (COUNT; mine 44 ins, target 39) — not yet
+  register pairs (mine -> target, count): s1->s0 x1, s2->s1 x1
+  replace mine[0:1] target[0:3]
+        0  addiu	sp,sp,-40                    | addiu	sp,sp,-32
+        1  --                                 | sw	s1,20(sp)
+        2  --                                 | move	s1,zero
+  replace mine[2:9] target[4:6]
+        2  move	s2,zero                       | lui	s2,0xfff9
+        3  sw	s3,28(sp)                       | ori	s2,s2,0xffff
+        4  lui	s3,0xfff9                      | --
+        5  ori	s3,s3,0xffff                   | --
+        6  sw	s1,20(sp)                       | --
+        7  lui	s1,0x0                         | --
+        8  addiu	s1,s1,0                      | --
+  replace mine[10:13] target[7:11]
+       10  addiu	s0,s1,-74                    | lui	s0,0x0
+       11  sw	ra,32(sp)                       | addiu	s0,s0,0
+       12  lbu	v0,70(s0)                      | sw	ra,28(sp)
+       13  --                                 | lbu	v0,-4(s0)
+  replace mine[14:15] target[12:13]
+       14  beqz	v0,2cac <func_80037EA0+0x7c>  | beqz	v0,2ca0 <func_80037EA0+0x70>
+  replace mine[16:17] target[14:15]
+       16  lbu	v0,73(s0)                      | lbu	v0,-1(s0)
+  replace mine[18:19] target[16:17]
+       18  bnez	v0,2cac <func_80037EA0+0x7c>  | bnez	v0,2ca0 <func_80037EA0+0x70>
+  replace mine[20:21] target[18:19]
+       20  lbu	v0,0(s1)                       | lbu	v0,0(s0)
+  replace mine[22:24] target[20:22]
+       22  beqz	v0,2cac <func_80037EA0+0x7c>  | beqz	v0,2ca0 <func_80037EA0+0x70>
+       23  move	a0,s2                         | move	a0,s1
+  replace mine[26:32] target[24:31]
+       26  lw	v0,0(s0)                        | lw	v0,-74(s0)
+       27  nop                                | sb	zero,0(s0)
+       28  and	v0,v0,s3                       | and	v0,v0,s2
+       29  sw	v0,0(s0)                        | sw	v0,-74(s0)
+       30  sb	zero,0(s1)                      | addiu	s1,s1,1
+       31  addiu	s2,s2,1                      | slti	v0,s1,16
+       32  --                                 | bnez	v0,2c58 <func_80037EA0+0x28>
+  replace mine[33:38] target[32:33]
+       33  slti	v0,s2,16                      | lw	ra,28(sp)
+       34  bnez	v0,2c60 <func_80037EA0+0x30>  | --
+       35  addiu	s1,s1,96                     | --
+       36  lw	ra,32(sp)                       | --
+       37  lw	s3,28(sp)                       | --
+  replace mine[41:42] target[36:37]
+       41  addiu	sp,sp,40                     | addiu	sp,sp,32

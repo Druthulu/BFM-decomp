@@ -1,0 +1,825 @@
+src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:func_8017C954: score 632 (COUNT; mine 1182 ins, target 1194) — not yet
+  register pairs (mine -> target, count): t1->t2 x53, t2->t3 x36, t0->t1 x17, a3->t0 x15, t3->t5 x13, a2->a3 x10, a0->v1 x9, t6->t7 x8
+  replace mine[0:2] target[0:2]
+        0  addiu	sp,sp,-656                   | addiu	sp,sp,-664
+        1  sw	s1,620(sp)                      | sw	s1,628(sp)
+  replace mine[3:11] target[3:11]
+        3  sw	ra,652(sp)                      | sw	ra,660(sp)
+        4  sw	s8,648(sp)                      | sw	s8,656(sp)
+        5  sw	s7,644(sp)                      | sw	s7,652(sp)
+        6  sw	s6,640(sp)                      | sw	s6,648(sp)
+        7  sw	s5,636(sp)                      | sw	s5,644(sp)
+        8  sw	s4,632(sp)                      | sw	s4,640(sp)
+        9  sw	s3,628(sp)                      | sw	s3,636(sp)
+       10  sw	s2,624(sp)                      | sw	s2,632(sp)
+  replace mine[12:13] target[12:13]
+       12  sw	s0,616(sp)                      | sw	s0,624(sp)
+  replace mine[24:26] target[24:26]
+       24  lui	t2,0x0                         | lui	t3,0x0
+       25  lw	t2,0(t2)                        | lw	t3,0(t3)
+  replace mine[32:33] target[32:33]
+       32  addu	t7,v0,v1                      | addu	s0,v0,v1
+  insert  mine[44:44] target[44:45]
+       44  --                                 | lw	s3,12(s1)
+  replace mine[45:47] target[46:47]
+       45  sw	zero,600(sp)                    | sw	s3,296(sp)
+       46  lw	s8,12(s1)                       | --
+  replace mine[50:51] target[50:51]
+       50  lw	s2,8(v1)                        | lw	s4,8(v1)
+  replace mine[52:53] target[52:53]
+       52  sw	s2,288(sp)                      | sw	s4,288(sp)
+  replace mine[54:57] target[54:57]
+       54  blez	s2,123c <func_8017C954+0x123c> | blez	s4,126c <func_8017C954+0x126c>
+       55  nop                                | move	s8,zero
+       56  addiu	s4,sp,228                    | addiu	s7,sp,228
+  replace mine[59:61] target[59:61]
+       59  addiu	t8,sp,236                    | addiu	t9,sp,236
+       60  addiu	s0,sp,240                    | addiu	t8,sp,240
+  replace mine[62:68] target[62:71]
+       62  addiu	s3,s8,12                     | addiu	s3,s3,12
+       63  lw	v0,0(s8)                        | sw	s3,616(sp)
+       64  lw	a0,-8(s3)                       | lw	s4,296(sp)
+       65  move	t0,v0                         | lw	s3,616(sp)
+       66  srl	a3,v0,0x10                     | lw	v0,0(s4)
+       67  move	a2,a0                         | lw	v1,-8(s3)
+       68  --                                 | move	t1,v0
+       69  --                                 | srl	t0,v0,0x10
+       70  --                                 | move	a3,v1
+  replace mine[69:87] target[72:90]
+       69  srl	v1,a0,0x10                     | srl	a2,v1,0x10
+       70  sh	t0,32(sp)                       | sh	t1,32(sp)
+       71  sh	a2,34(sp)                       | sh	a3,34(sp)
+       72  sh	a3,40(sp)                       | sh	t0,40(sp)
+       73  sh	a2,42(sp)                       | sh	a3,42(sp)
+       74  sh	t0,48(sp)                       | sh	t1,48(sp)
+       75  sh	a2,50(sp)                       | sh	a3,50(sp)
+       76  sh	a3,56(sp)                       | sh	t0,56(sp)
+       77  sh	a2,58(sp)                       | sh	a3,58(sp)
+       78  sh	t0,64(sp)                       | sh	t1,64(sp)
+       79  sh	v1,66(sp)                       | sh	a2,66(sp)
+       80  sh	a3,72(sp)                       | sh	t0,72(sp)
+       81  sh	v1,74(sp)                       | sh	a2,74(sp)
+       82  sh	t0,80(sp)                       | sh	t1,80(sp)
+       83  sh	v1,82(sp)                       | sh	a2,82(sp)
+       84  sh	a3,88(sp)                       | sh	t0,88(sp)
+       85  sh	v1,90(sp)                       | sh	a2,90(sp)
+       86  srl	a0,v0,0x10                     | srl	v1,v0,0x10
+  replace mine[92:96] target[95:99]
+       92  sh	a0,52(sp)                       | sh	v1,52(sp)
+       93  sh	a0,60(sp)                       | sh	v1,60(sp)
+       94  sh	a0,84(sp)                       | sh	v1,84(sp)
+       95  sh	a0,92(sp)                       | sh	v1,92(sp)
+  replace mine[149:150] target[152:153]
+      149  lw	s7,256(sp)                      | lw	s4,256(sp)
+  replace mine[151:153] target[154:156]
+      151  slt	v0,s7,v0                       | slt	v0,s4,v0
+      152  bnez	v0,121c <func_8017C954+0x121c> | bnez	v0,1244 <func_8017C954+0x1244>
+  replace mine[160:161] target[163:164]
+      160  j	290 <func_8017C954+0x290>        | j	29c <func_8017C954+0x29c>
+  replace mine[169:170] target[172:173]
+      169  j	2b8 <func_8017C954+0x2b8>        | j	2c4 <func_8017C954+0x2c4>
+  replace mine[179:180] target[182:183]
+      179  j	2e0 <func_8017C954+0x2e0>        | j	2ec <func_8017C954+0x2ec>
+  replace mine[190:191] target[193:194]
+      190  j	308 <func_8017C954+0x308>        | j	314 <func_8017C954+0x314>
+  replace mine[199:200] target[202:203]
+      199  j	330 <func_8017C954+0x330>        | j	33c <func_8017C954+0x33c>
+  replace mine[209:210] target[212:213]
+      209  j	358 <func_8017C954+0x358>        | j	364 <func_8017C954+0x364>
+  replace mine[226:227] target[229:230]
+      226  bnez	v0,121c <func_8017C954+0x121c> | bnez	v0,1244 <func_8017C954+0x1244>
+  replace mine[230:231] target[233:234]
+      230  beqz	v0,121c <func_8017C954+0x121c> | beqz	v0,1244 <func_8017C954+0x1244>
+  replace mine[238:239] target[241:242]
+      238  j	3c8 <func_8017C954+0x3c8>        | j	3d4 <func_8017C954+0x3d4>
+  replace mine[247:248] target[250:251]
+      247  j	3f0 <func_8017C954+0x3f0>        | j	3fc <func_8017C954+0x3fc>
+  replace mine[257:258] target[260:261]
+      257  j	418 <func_8017C954+0x418>        | j	424 <func_8017C954+0x424>
+  replace mine[268:269] target[271:272]
+      268  j	440 <func_8017C954+0x440>        | j	44c <func_8017C954+0x44c>
+  replace mine[277:278] target[280:281]
+      277  j	468 <func_8017C954+0x468>        | j	474 <func_8017C954+0x474>
+  replace mine[287:288] target[290:291]
+      287  j	490 <func_8017C954+0x490>        | j	49c <func_8017C954+0x49c>
+  replace mine[304:305] target[307:308]
+      304  bnez	v0,121c <func_8017C954+0x121c> | bnez	v0,1244 <func_8017C954+0x1244>
+  replace mine[308:309] target[311:312]
+      308  beqz	v0,121c <func_8017C954+0x121c> | beqz	v0,1244 <func_8017C954+0x1244>
+  insert  mine[310:310] target[313:315]
+      310  --                                 | lw	s3,616(sp)
+      311  --                                 | lw	s4,616(sp)
+  replace mine[311:312] target[316:317]
+      311  lw	s2,0(s3)                        | lw	s3,0(s3)
+  replace mine[313:316] target[318:321]
+      313  sw	s2,280(sp)                      | sw	s3,280(sp)
+      314  lw	t6,4(s3)                        | lw	t7,4(s4)
+      315  beqz	s2,121c <func_8017C954+0x121c> | beqz	s3,1244 <func_8017C954+0x1244>
+  replace mine[317:322] target[322:327]
+      317  lui	t3,0xff                        | lui	t5,0xff
+      318  ori	t3,t3,0xffff                   | ori	t5,t5,0xffff
+      319  lui	t9,0xff00                      | lui	s2,0xff00
+      320  addiu	t1,t2,24                     | addiu	t2,t3,24
+      321  lw	a1,4(t6)                        | lw	a1,4(t7)
+  replace mine[326:327] target[331:332]
+      326  lw	a1,8(t6)                        | lw	a1,8(t7)
+  replace mine[342:343] target[347:348]
+      342  sw	t4,0(s4)                        | sw	t4,0(s7)
+  replace mine[346:347] target[351:352]
+      346  bnez	v0,1200 <func_8017C954+0x1200> | bnez	v0,1228 <func_8017C954+0x1228>
+  replace mine[351:352] target[356:357]
+      351  andi	t5,a1,0x7                     | andi	t6,a1,0x7
+  replace mine[358:362] target[363:367]
+      358  blez	v0,1200 <func_8017C954+0x1200> | blez	v0,1228 <func_8017C954+0x1228>
+      359  sltiu	v0,t5,8                      | sltiu	v0,t6,8
+      360  beqz	v0,1200 <func_8017C954+0x1200> | beqz	v0,1228 <func_8017C954+0x1228>
+      361  sll	v0,t5,0x2                      | sll	v0,t6,0x2
+  replace mine[368:373] target[373:378]
+      368  swc2	$12,8(t2)                     | swc2	$12,8(t3)
+      369  swc2	$13,12(t2)                    | swc2	$13,12(t3)
+      370  swc2	$14,16(t2)                    | swc2	$14,16(t3)
+      371  swc2	$17,0(t8)                     | swc2	$17,0(t9)
+      372  swc2	$18,0(s0)                     | swc2	$18,0(t8)
+  replace mine[374:376] target[379:381]
+      374  lh	v1,-16(t1)                      | lh	v1,-16(t2)
+      375  lh	v0,-12(t1)                      | lh	v0,-12(t2)
+  replace mine[381:383] target[386:390]
+      381  move	a3,a0                         | move	t0,a0
+      382  j	608 <func_8017C954+0x608>        | j	61c <func_8017C954+0x61c>
+      383  --                                 | move	t1,a1
+      384  --                                 | move	t1,a0
+  replace mine[384:388] target[391:393]
+      384  move	t0,a0                         | lh	a0,-8(t2)
+      385  move	a3,a1                         | sll	v0,t0,0x10
+      386  lh	a0,-8(t1)                       | --
+      387  sll	v0,a3,0x10                     | --
+  replace mine[392:395] target[397:400]
+      392  j	640 <func_8017C954+0x640>        | j	654 <func_8017C954+0x654>
+      393  move	a3,v1                         | move	t0,v1
+      394  sll	v0,t0,0x10                     | sll	v0,t1,0x10
+  replace mine[398:401] target[403:406]
+      398  sll	v0,a3,0x10                     | sll	v0,t0,0x10
+      399  move	t0,v1                         | move	t1,v1
+      400  sll	v0,a3,0x10                     | sll	v0,t0,0x10
+  replace mine[403:405] target[408:410]
+      403  bnez	v0,1200 <func_8017C954+0x1200> | bnez	v0,1228 <func_8017C954+0x1228>
+      404  sll	v0,t0,0x10                     | sll	v0,t1,0x10
+  replace mine[407:408] target[412:413]
+      407  beqz	v0,1200 <func_8017C954+0x1200> | beqz	v0,1228 <func_8017C954+0x1228>
+  replace mine[409:411] target[414:416]
+      409  lh	v1,-14(t1)                      | lh	v1,-14(t2)
+      410  lh	v0,-10(t1)                      | lh	v0,-10(t2)
+  replace mine[414:415] target[419:420]
+      414  beqz	v0,688 <func_8017C954+0x688>  | beqz	v0,6a0 <func_8017C954+0x6a0>
+  replace mine[416:417] target[421:425]
+      416  j	690 <func_8017C954+0x690>        | move	a2,a0
+      417  --                                 | j	6a8 <func_8017C954+0x6a8>
+      418  --                                 | move	a3,a1
+      419  --                                 | move	a3,a0
+  replace mine[418:428] target[426:427]
+      418  move	a2,a0                         | lh	a0,-6(t2)
+      419  move	v1,a1                         | --
+      420  lh	a1,-6(t1)                       | --
+      421  sll	v0,v1,0x10                     | --
+      422  sra	v0,v0,0x10                     | --
+      423  slt	v0,v0,a1                       | --
+      424  beqz	v0,6b0 <func_8017C954+0x6b0>  | --
+      425  move	a0,a1                         | --
+      426  j	6c8 <func_8017C954+0x6c8>        | --
+      427  move	v1,a0                         | --
+  replace mine[430:431] target[429:430]
+      430  slt	v0,a1,v0                       | slt	v0,v0,a0
+  replace mine[432:435] target[431:441]
+      432  sll	v0,v1,0x10                     | move	v1,a0
+      433  move	a2,a0                         | j	6e0 <func_8017C954+0x6e0>
+      434  sll	v0,v1,0x10                     | move	a2,v1
+      435  --                                 | sll	v0,a3,0x10
+      436  --                                 | sra	v0,v0,0x10
+      437  --                                 | slt	v0,a0,v0
+      438  --                                 | beqz	v0,6e4 <func_8017C954+0x6e4>
+      439  --                                 | sll	v0,a2,0x10
+      440  --                                 | move	a3,v1
+      441  --                                 | sll	v0,a2,0x10
+  replace mine[437:439] target[443:445]
+      437  bnez	v0,1200 <func_8017C954+0x1200> | bnez	v0,1228 <func_8017C954+0x1228>
+      438  sll	v0,a2,0x10                     | sll	v0,a3,0x10
+  replace mine[441:442] target[447:448]
+      441  beqz	v0,1200 <func_8017C954+0x1200> | beqz	v0,1228 <func_8017C954+0x1228>
+  replace mine[450:451] target[456:457]
+      450  j	714 <func_8017C954+0x714>        | j	72c <func_8017C954+0x72c>
+  replace mine[458:459] target[464:465]
+      458  beq	t5,v0,738 <func_8017C954+0x738> | beq	t6,v0,750 <func_8017C954+0x750>
+  replace mine[462:463] target[468:469]
+      462  lw	v0,0(t6)                        | lw	v0,0(t7)
+  replace mine[464:465] target[470:471]
+      464  sw	v0,-20(t1)                      | sw	v0,-20(t2)
+  replace mine[469:470] target[475:476]
+      469  addu	a0,a0,t7                      | addu	a0,a0,s0
+  replace mine[471:473] target[477:479]
+      471  addiu	t1,t1,20                     | addiu	t2,t2,20
+      472  and	v0,v0,t3                       | and	v0,v0,t5
+  replace mine[474:476] target[480:482]
+      474  and	v1,t2,t3                       | and	v1,t3,t5
+      475  sw	v0,0(t2)                        | sw	v0,0(t3)
+  replace mine[477:484] target[483:490]
+      477  j	11f4 <func_8017C954+0x11f4>      | j	121c <func_8017C954+0x121c>
+      478  addiu	t2,t2,20                     | addiu	t3,t3,20
+      479  swc2	$12,8(t2)                     | swc2	$12,8(t3)
+      480  swc2	$13,16(t2)                    | swc2	$13,16(t3)
+      481  swc2	$14,24(t2)                    | swc2	$14,24(t3)
+      482  swc2	$17,0(t8)                     | swc2	$17,0(t9)
+      483  swc2	$18,0(s0)                     | swc2	$18,0(t8)
+  replace mine[485:487] target[491:493]
+      485  lh	v1,-16(t1)                      | lh	v1,-16(t2)
+      486  lh	v0,-8(t1)                       | lh	v0,-8(t2)
+  replace mine[492:494] target[498:502]
+      492  move	a3,a0                         | move	t0,a0
+      493  j	7c4 <func_8017C954+0x7c4>        | j	7dc <func_8017C954+0x7dc>
+      494  --                                 | move	t1,a1
+      495  --                                 | move	t1,a0
+  replace mine[495:499] target[503:505]
+      495  move	t0,a0                         | lh	a0,0(t2)
+      496  move	a3,a1                         | sll	v0,t0,0x10
+      497  lh	a0,0(t1)                        | --
+      498  sll	v0,a3,0x10                     | --
+  replace mine[503:506] target[509:512]
+      503  j	7fc <func_8017C954+0x7fc>        | j	814 <func_8017C954+0x814>
+      504  move	a3,v1                         | move	t0,v1
+      505  sll	v0,t0,0x10                     | sll	v0,t1,0x10
+  replace mine[509:512] target[515:518]
+      509  sll	v0,a3,0x10                     | sll	v0,t0,0x10
+      510  move	t0,v1                         | move	t1,v1
+      511  sll	v0,a3,0x10                     | sll	v0,t0,0x10
+  replace mine[514:516] target[520:522]
+      514  bnez	v0,1200 <func_8017C954+0x1200> | bnez	v0,1228 <func_8017C954+0x1228>
+      515  sll	v0,t0,0x10                     | sll	v0,t1,0x10
+  replace mine[518:519] target[524:525]
+      518  beqz	v0,1200 <func_8017C954+0x1200> | beqz	v0,1228 <func_8017C954+0x1228>
+  replace mine[520:522] target[526:528]
+      520  lh	v1,-14(t1)                      | lh	v1,-14(t2)
+      521  lh	v0,-6(t1)                       | lh	v0,-6(t2)
+  replace mine[525:526] target[531:532]
+      525  beqz	v0,844 <func_8017C954+0x844>  | beqz	v0,860 <func_8017C954+0x860>
+  replace mine[527:528] target[533:537]
+      527  j	84c <func_8017C954+0x84c>        | move	a2,a0
+      528  --                                 | j	868 <func_8017C954+0x868>
+      529  --                                 | move	a3,a1
+      530  --                                 | move	a3,a0
+  replace mine[529:539] target[538:539]
+      529  move	a2,a0                         | lh	a0,2(t2)
+      530  move	v1,a1                         | --
+      531  lh	a1,2(t1)                        | --
+      532  sll	v0,v1,0x10                     | --
+      533  sra	v0,v0,0x10                     | --
+      534  slt	v0,v0,a1                       | --
+      535  beqz	v0,86c <func_8017C954+0x86c>  | --
+      536  move	a0,a1                         | --
+      537  j	884 <func_8017C954+0x884>        | --
+      538  move	v1,a0                         | --
+  replace mine[541:542] target[541:542]
+      541  slt	v0,a1,v0                       | slt	v0,v0,a0
+  replace mine[543:546] target[543:553]
+      543  sll	v0,v1,0x10                     | move	v1,a0
+      544  move	a2,a0                         | j	8a0 <func_8017C954+0x8a0>
+      545  sll	v0,v1,0x10                     | move	a2,v1
+      546  --                                 | sll	v0,a3,0x10
+      547  --                                 | sra	v0,v0,0x10
+      548  --                                 | slt	v0,a0,v0
+      549  --                                 | beqz	v0,8a4 <func_8017C954+0x8a4>
+      550  --                                 | sll	v0,a2,0x10
+      551  --                                 | move	a3,v1
+      552  --                                 | sll	v0,a2,0x10
+  replace mine[548:550] target[555:557]
+      548  bnez	v0,1200 <func_8017C954+0x1200> | bnez	v0,1228 <func_8017C954+0x1228>
+      549  sll	v0,a2,0x10                     | sll	v0,a3,0x10
+  replace mine[552:553] target[559:560]
+      552  beqz	v0,1200 <func_8017C954+0x1200> | beqz	v0,1228 <func_8017C954+0x1228>
+  replace mine[561:562] target[568:569]
+      561  j	8d0 <func_8017C954+0x8d0>        | j	8ec <func_8017C954+0x8ec>
+  replace mine[569:570] target[576:577]
+      569  bne	t5,v0,8f4 <func_8017C954+0x8f4> | bne	t6,v0,910 <func_8017C954+0x910>
+  replace mine[573:574] target[580:581]
+      573  lw	v1,0(t6)                        | lw	v1,0(t7)
+  replace mine[577:578] target[584:585]
+      577  sw	v0,-20(t1)                      | sw	v0,-20(t2)
+  replace mine[580:581] target[587:588]
+      580  sw	v0,-12(t1)                      | sw	v0,-12(t2)
+  replace mine[583:584] target[590:591]
+      583  sw	v0,-4(t1)                       | sw	v0,-4(t2)
+  replace mine[586:587] target[593:594]
+      586  sh	v0,4(t1)                        | sh	v0,4(t2)
+  replace mine[591:592] target[598:599]
+      591  addu	a0,a0,t7                      | addu	a0,a0,s0
+  replace mine[593:595] target[600:602]
+      593  addiu	t1,t1,32                     | addiu	t2,t2,32
+      594  and	v0,v0,t3                       | and	v0,v0,t5
+  replace mine[596:598] target[603:605]
+      596  and	v1,t2,t3                       | and	v1,t3,t5
+      597  sw	v0,0(t2)                        | sw	v0,0(t3)
+  replace mine[599:604] target[606:611]
+      599  j	11f4 <func_8017C954+0x11f4>      | j	121c <func_8017C954+0x121c>
+      600  addiu	t2,t2,32                     | addiu	t3,t3,32
+      601  swc2	$12,8(t2)                     | swc2	$12,8(t3)
+      602  swc2	$13,12(t2)                    | swc2	$13,12(t3)
+      603  swc2	$14,16(t2)                    | swc2	$14,16(t3)
+  replace mine[609:611] target[616:618]
+      609  lh	v1,-16(t1)                      | lh	v1,-16(t2)
+      610  lh	v0,-12(t1)                      | lh	v0,-12(t2)
+  replace mine[616:618] target[623:627]
+      616  move	a3,a0                         | move	t0,a0
+      617  j	9b4 <func_8017C954+0x9b4>        | j	9d0 <func_8017C954+0x9d0>
+      618  --                                 | move	t1,a1
+      619  --                                 | move	t1,a0
+  replace mine[619:623] target[628:630]
+      619  move	t0,a0                         | lh	a0,-8(t2)
+      620  move	a3,a1                         | sll	v0,t0,0x10
+      621  lh	a0,-8(t1)                       | --
+      622  sll	v0,a3,0x10                     | --
+  replace mine[627:630] target[634:637]
+      627  j	9ec <func_8017C954+0x9ec>        | j	a08 <func_8017C954+0xa08>
+      628  move	a3,v1                         | move	t0,v1
+      629  sll	v0,t0,0x10                     | sll	v0,t1,0x10
+  replace mine[634:637] target[641:644]
+      634  move	t0,v1                         | move	t1,v1
+      635  lh	v1,-14(t1)                      | lh	v1,-14(t2)
+      636  lh	v0,-10(t1)                      | lh	v0,-10(t2)
+  replace mine[640:641] target[647:648]
+      640  beqz	v0,a10 <func_8017C954+0xa10>  | beqz	v0,a30 <func_8017C954+0xa30>
+  replace mine[642:643] target[649:653]
+      642  j	a18 <func_8017C954+0xa18>        | move	a2,a0
+      643  --                                 | j	a38 <func_8017C954+0xa38>
+      644  --                                 | move	a3,a1
+      645  --                                 | move	a3,a0
+  replace mine[644:654] target[654:655]
+      644  move	a2,a0                         | lh	a0,-6(t2)
+      645  move	v1,a1                         | --
+      646  lh	a1,-6(t1)                       | --
+      647  sll	v0,v1,0x10                     | --
+      648  sra	v0,v0,0x10                     | --
+      649  slt	v0,v0,a1                       | --
+      650  beqz	v0,a38 <func_8017C954+0xa38>  | --
+      651  move	a0,a1                         | --
+      652  j	a50 <func_8017C954+0xa50>        | --
+      653  move	v1,a0                         | --
+  replace mine[656:657] target[657:665]
+      656  slt	v0,a1,v0                       | slt	v0,v0,a0
+      657  --                                 | beqz	v0,a58 <func_8017C954+0xa58>
+      658  --                                 | move	v1,a0
+      659  --                                 | j	a70 <func_8017C954+0xa70>
+      660  --                                 | move	a2,v1
+      661  --                                 | sll	v0,a3,0x10
+      662  --                                 | sra	v0,v0,0x10
+      663  --                                 | slt	v0,a0,v0
+  replace mine[659:660] target[667:668]
+      659  move	a2,a0                         | move	a3,v1
+  replace mine[662:663] target[670:671]
+      662  sw	t4,0(s4)                        | sw	t4,0(s7)
+  replace mine[666:667] target[674:675]
+      666  bnez	v0,1200 <func_8017C954+0x1200> | bnez	v0,1228 <func_8017C954+0x1228>
+  replace mine[668:670] target[676:678]
+      668  swc2	$16,0(t8)                     | swc2	$16,0(t9)
+      669  swc2	$17,0(s0)                     | swc2	$17,0(t8)
+  replace mine[672:673] target[680:681]
+      672  addiu	v0,t2,20                     | addiu	v0,t3,20
+  replace mine[674:675] target[682:690]
+      674  lh	a1,-4(t1)                       | lh	a0,-4(t2)
+      675  --                                 | sll	v0,t1,0x10
+      676  --                                 | sra	v0,v0,0x10
+      677  --                                 | slt	v0,a0,v0
+      678  --                                 | beqz	v0,ac8 <func_8017C954+0xac8>
+      679  --                                 | move	v1,a0
+      680  --                                 | j	ae0 <func_8017C954+0xae0>
+      681  --                                 | move	t1,v1
+  replace mine[677:678] target[692:693]
+      677  slt	v0,a1,v0                       | slt	v0,v0,a0
+  replace mine[679:682] target[694:722]
+      679  move	a0,a1                         | sll	v0,t0,0x10
+      680  j	ac0 <func_8017C954+0xac0>        | move	t0,v1
+      681  move	t0,a0                         | sll	v0,t0,0x10
+      682  --                                 | sra	v0,v0,0x10
+      683  --                                 | slti	v0,v0,-160
+      684  --                                 | bnez	v0,1228 <func_8017C954+0x1228>
+      685  --                                 | sll	v0,t1,0x10
+      686  --                                 | sra	v0,v0,0x10
+      687  --                                 | slti	v0,v0,161
+      688  --                                 | beqz	v0,1228 <func_8017C954+0x1228>
+      689  --                                 | sll	v0,a3,0x10
+      690  --                                 | lh	a0,-2(t2)
+      691  --                                 | sra	v0,v0,0x10
+      692  --                                 | slt	v0,a0,v0
+      693  --                                 | beqz	v0,b20 <func_8017C954+0xb20>
+      694  --                                 | move	v1,a0
+      695  --                                 | j	b38 <func_8017C954+0xb38>
+      696  --                                 | move	a3,v1
+      697  --                                 | sll	v0,a2,0x10
+      698  --                                 | sra	v0,v0,0x10
+      699  --                                 | slt	v0,v0,a0
+      700  --                                 | beqz	v0,b3c <func_8017C954+0xb3c>
+      701  --                                 | sll	v0,a2,0x10
+      702  --                                 | move	a2,v1
+      703  --                                 | sll	v0,a2,0x10
+      704  --                                 | sra	v0,v0,0x10
+      705  --                                 | slti	v0,v0,-120
+      706  --                                 | bnez	v0,1228 <func_8017C954+0x1228>
+  delete  mine[684:716] target[724:724]
+      684  slt	v0,v0,a1                       | --
+      685  beqz	v0,ac4 <func_8017C954+0xac4>  | --
+      686  sll	v0,a3,0x10                     | --
+      687  move	a3,a0                         | --
+      688  sll	v0,a3,0x10                     | --
+      689  sra	v0,v0,0x10                     | --
+      690  slti	v0,v0,-160                    | --
+      691  bnez	v0,1200 <func_8017C954+0x1200> | --
+      692  sll	v0,t0,0x10                     | --
+      693  sra	v0,v0,0x10                     | --
+      694  slti	v0,v0,161                     | --
+      695  beqz	v0,1200 <func_8017C954+0x1200> | --
+      696  sll	v0,a2,0x10                     | --
+      697  lh	a1,-2(t1)                       | --
+      698  sra	v0,v0,0x10                     | --
+      699  slt	v0,a1,v0                       | --
+      700  beqz	v0,b00 <func_8017C954+0xb00>  | --
+      701  move	a0,a1                         | --
+      702  j	b18 <func_8017C954+0xb18>        | --
+      703  move	a2,a0                         | --
+      704  sll	v0,v1,0x10                     | --
+      705  sra	v0,v0,0x10                     | --
+      706  slt	v0,v0,a1                       | --
+      707  beqz	v0,b1c <func_8017C954+0xb1c>  | --
+      708  sll	v0,v1,0x10                     | --
+      709  move	v1,a0                         | --
+      710  sll	v0,v1,0x10                     | --
+      711  sra	v0,v0,0x10                     | --
+      712  slti	v0,v0,-120                    | --
+      713  bnez	v0,1200 <func_8017C954+0x1200> | --
+      714  sll	v0,a2,0x10                     | --
+      715  sra	v0,v0,0x10                     | --
+  replace mine[717:718] target[725:726]
+      717  beqz	v0,1200 <func_8017C954+0x1200> | beqz	v0,1228 <func_8017C954+0x1228>
+  replace mine[740:742] target[748:750]
+      740  addu	a0,a0,t7                      | addu	a0,a0,s0
+      741  lw	v0,0(t6)                        | lw	v0,0(t7)
+  replace mine[743:744] target[751:752]
+      743  sw	v0,-20(t1)                      | sw	v0,-20(t2)
+  replace mine[745:747] target[753:755]
+      745  addiu	t1,t1,24                     | addiu	t2,t2,24
+      746  and	v0,v0,t3                       | and	v0,v0,t5
+  replace mine[748:750] target[756:758]
+      748  and	v1,t2,t3                       | and	v1,t3,t5
+      749  sw	v0,0(t2)                        | sw	v0,0(t3)
+  replace mine[751:753] target[759:761]
+      751  j	11f4 <func_8017C954+0x11f4>      | j	121c <func_8017C954+0x121c>
+      752  addiu	t2,t2,24                     | addiu	t3,t3,24
+  replace mine[769:771] target[777:781]
+      769  move	a3,a0                         | move	t0,a0
+      770  j	c18 <func_8017C954+0xc18>        | j	c38 <func_8017C954+0xc38>
+      771  --                                 | move	t1,a1
+      772  --                                 | move	t1,a0
+  delete  mine[772:774] target[782:782]
+      772  move	t0,a0                         | --
+      773  move	a3,a1                         | --
+  replace mine[775:776] target[783:784]
+      775  sll	v0,a3,0x10                     | sll	v0,t0,0x10
+  replace mine[780:783] target[788:791]
+      780  j	c50 <func_8017C954+0xc50>        | j	c70 <func_8017C954+0xc70>
+      781  move	a3,v1                         | move	t0,v1
+      782  sll	v0,t0,0x10                     | sll	v0,t1,0x10
+  replace mine[787:788] target[795:796]
+      787  move	t0,v1                         | move	t1,v1
+  replace mine[793:794] target[801:802]
+      793  beqz	v0,c74 <func_8017C954+0xc74>  | beqz	v0,c98 <func_8017C954+0xc98>
+  replace mine[795:796] target[803:807]
+      795  j	c7c <func_8017C954+0xc7c>        | move	a2,a0
+      796  --                                 | j	ca0 <func_8017C954+0xca0>
+      797  --                                 | move	a3,a1
+      798  --                                 | move	a3,a0
+  replace mine[797:807] target[808:809]
+      797  move	a2,a0                         | lh	a0,26(sp)
+      798  move	v1,a1                         | --
+      799  lh	a1,26(sp)                       | --
+      800  sll	v0,v1,0x10                     | --
+      801  sra	v0,v0,0x10                     | --
+      802  slt	v0,v0,a1                       | --
+      803  beqz	v0,c9c <func_8017C954+0xc9c>  | --
+      804  move	a0,a1                         | --
+      805  j	cb4 <func_8017C954+0xcb4>        | --
+      806  move	v1,a0                         | --
+  replace mine[809:810] target[811:819]
+      809  slt	v0,a1,v0                       | slt	v0,v0,a0
+      810  --                                 | beqz	v0,cc0 <func_8017C954+0xcc0>
+      811  --                                 | move	v1,a0
+      812  --                                 | j	cd8 <func_8017C954+0xcd8>
+      813  --                                 | move	a2,v1
+      814  --                                 | sll	v0,a3,0x10
+      815  --                                 | sra	v0,v0,0x10
+      816  --                                 | slt	v0,a0,v0
+  replace mine[812:813] target[821:822]
+      812  move	a2,a0                         | move	a3,v1
+  replace mine[815:816] target[824:825]
+      815  sw	t4,0(s4)                        | sw	t4,0(s7)
+  replace mine[819:820] target[828:829]
+      819  bnez	v0,1200 <func_8017C954+0x1200> | bnez	v0,1228 <func_8017C954+0x1228>
+  replace mine[821:823] target[830:832]
+      821  swc2	$16,0(t8)                     | swc2	$16,0(t9)
+      822  swc2	$17,0(s0)                     | swc2	$17,0(t8)
+  replace mine[825:826] target[834:835]
+      825  addiu	v0,t2,32                     | addiu	v0,t3,32
+  replace mine[827:828] target[836:844]
+      827  lh	a1,8(t1)                        | lh	a0,8(t2)
+      828  --                                 | sll	v0,t1,0x10
+      829  --                                 | sra	v0,v0,0x10
+      830  --                                 | slt	v0,a0,v0
+      831  --                                 | beqz	v0,d30 <func_8017C954+0xd30>
+      832  --                                 | move	v1,a0
+      833  --                                 | j	d48 <func_8017C954+0xd48>
+      834  --                                 | move	t1,v1
+  replace mine[830:831] target[846:847]
+      830  slt	v0,a1,v0                       | slt	v0,v0,a0
+  replace mine[832:835] target[848:876]
+      832  move	a0,a1                         | sll	v0,t0,0x10
+      833  j	d24 <func_8017C954+0xd24>        | move	t0,v1
+      834  move	t0,a0                         | sll	v0,t0,0x10
+      835  --                                 | sra	v0,v0,0x10
+      836  --                                 | slti	v0,v0,-160
+      837  --                                 | bnez	v0,1228 <func_8017C954+0x1228>
+      838  --                                 | sll	v0,t1,0x10
+      839  --                                 | sra	v0,v0,0x10
+      840  --                                 | slti	v0,v0,161
+      841  --                                 | beqz	v0,1228 <func_8017C954+0x1228>
+      842  --                                 | sll	v0,a3,0x10
+      843  --                                 | lh	a0,10(t2)
+      844  --                                 | sra	v0,v0,0x10
+      845  --                                 | slt	v0,a0,v0
+      846  --                                 | beqz	v0,d88 <func_8017C954+0xd88>
+      847  --                                 | move	v1,a0
+      848  --                                 | j	da0 <func_8017C954+0xda0>
+      849  --                                 | move	a3,v1
+      850  --                                 | sll	v0,a2,0x10
+      851  --                                 | sra	v0,v0,0x10
+      852  --                                 | slt	v0,v0,a0
+      853  --                                 | beqz	v0,da4 <func_8017C954+0xda4>
+      854  --                                 | sll	v0,a2,0x10
+      855  --                                 | move	a2,v1
+      856  --                                 | sll	v0,a2,0x10
+      857  --                                 | sra	v0,v0,0x10
+      858  --                                 | slti	v0,v0,-120
+      859  --                                 | bnez	v0,1228 <func_8017C954+0x1228>
+  delete  mine[837:869] target[878:878]
+      837  slt	v0,v0,a1                       | --
+      838  beqz	v0,d28 <func_8017C954+0xd28>  | --
+      839  sll	v0,a3,0x10                     | --
+      840  move	a3,a0                         | --
+      841  sll	v0,a3,0x10                     | --
+      842  sra	v0,v0,0x10                     | --
+      843  slti	v0,v0,-160                    | --
+      844  bnez	v0,1200 <func_8017C954+0x1200> | --
+      845  sll	v0,t0,0x10                     | --
+      846  sra	v0,v0,0x10                     | --
+      847  slti	v0,v0,161                     | --
+      848  beqz	v0,1200 <func_8017C954+0x1200> | --
+      849  sll	v0,a2,0x10                     | --
+      850  lh	a1,10(t1)                       | --
+      851  sra	v0,v0,0x10                     | --
+      852  slt	v0,a1,v0                       | --
+      853  beqz	v0,d64 <func_8017C954+0xd64>  | --
+      854  move	a0,a1                         | --
+      855  j	d7c <func_8017C954+0xd7c>        | --
+      856  move	a2,a0                         | --
+      857  sll	v0,v1,0x10                     | --
+      858  sra	v0,v0,0x10                     | --
+      859  slt	v0,v0,a1                       | --
+      860  beqz	v0,d80 <func_8017C954+0xd80>  | --
+      861  sll	v0,v1,0x10                     | --
+      862  move	v1,a0                         | --
+      863  sll	v0,v1,0x10                     | --
+      864  sra	v0,v0,0x10                     | --
+      865  slti	v0,v0,-120                    | --
+      866  bnez	v0,1200 <func_8017C954+0x1200> | --
+      867  sll	v0,a2,0x10                     | --
+      868  sra	v0,v0,0x10                     | --
+  replace mine[870:871] target[879:880]
+      870  beqz	v0,1200 <func_8017C954+0x1200> | beqz	v0,1228 <func_8017C954+0x1228>
+  replace mine[890:891] target[899:900]
+      890  bne	t5,v0,df8 <func_8017C954+0xdf8> | bne	t6,v0,e1c <func_8017C954+0xe1c>
+  replace mine[896:897] target[905:906]
+      896  sw	v0,-16(t1)                      | sw	v0,-16(t2)
+  replace mine[899:900] target[908:909]
+      899  sw	v0,-8(t1)                       | sw	v0,-8(t2)
+  replace mine[902:904] target[911:913]
+      902  sw	v0,0(t1)                        | sw	v0,0(t2)
+      903  lw	v1,0(t6)                        | lw	v1,0(t7)
+  replace mine[907:908] target[916:917]
+      907  sw	v0,-20(t1)                      | sw	v0,-20(t2)
+  replace mine[910:911] target[919:920]
+      910  sw	v0,-12(t1)                      | sw	v0,-12(t2)
+  replace mine[913:914] target[922:923]
+      913  sw	v0,-4(t1)                       | sw	v0,-4(t2)
+  replace mine[916:917] target[925:926]
+      916  sh	v0,4(t1)                        | sh	v0,4(t2)
+  replace mine[918:919] target[927:928]
+      918  sh	v0,12(t1)                       | sh	v0,12(t2)
+  replace mine[923:924] target[932:933]
+      923  addu	a0,a0,t7                      | addu	a0,a0,s0
+  replace mine[925:927] target[934:936]
+      925  addiu	t1,t1,40                     | addiu	t2,t2,40
+      926  and	v0,v0,t3                       | and	v0,v0,t5
+  replace mine[928:930] target[937:939]
+      928  and	v1,t2,t3                       | and	v1,t3,t5
+      929  sw	v0,0(t2)                        | sw	v0,0(t3)
+  replace mine[931:933] target[940:942]
+      931  j	11f4 <func_8017C954+0x11f4>      | j	121c <func_8017C954+0x121c>
+      932  addiu	t2,t2,40                     | addiu	t3,t3,40
+  replace mine[958:960] target[967:971]
+      958  move	a3,a0                         | move	t0,a0
+      959  j	f0c <func_8017C954+0xf0c>        | j	f30 <func_8017C954+0xf30>
+      960  --                                 | move	t1,a1
+      961  --                                 | move	t1,a0
+  delete  mine[961:963] target[972:972]
+      961  move	t0,a0                         | --
+      962  move	a3,a1                         | --
+  replace mine[964:965] target[973:974]
+      964  sll	v0,a3,0x10                     | sll	v0,t0,0x10
+  replace mine[969:972] target[978:981]
+      969  j	f44 <func_8017C954+0xf44>        | j	f68 <func_8017C954+0xf68>
+      970  move	a3,v1                         | move	t0,v1
+      971  sll	v0,t0,0x10                     | sll	v0,t1,0x10
+  replace mine[976:977] target[985:986]
+      976  move	t0,v1                         | move	t1,v1
+  replace mine[982:983] target[991:992]
+      982  beqz	v0,f68 <func_8017C954+0xf68>  | beqz	v0,f90 <func_8017C954+0xf90>
+  replace mine[984:985] target[993:997]
+      984  j	f70 <func_8017C954+0xf70>        | move	a2,a0
+      985  --                                 | j	f98 <func_8017C954+0xf98>
+      986  --                                 | move	a3,a1
+      987  --                                 | move	a3,a0
+  replace mine[986:996] target[998:999]
+      986  move	a2,a0                         | lh	a0,26(sp)
+      987  move	v1,a1                         | --
+      988  lh	a1,26(sp)                       | --
+      989  sll	v0,v1,0x10                     | --
+      990  sra	v0,v0,0x10                     | --
+      991  slt	v0,v0,a1                       | --
+      992  beqz	v0,f90 <func_8017C954+0xf90>  | --
+      993  move	a0,a1                         | --
+      994  j	fa8 <func_8017C954+0xfa8>        | --
+      995  move	v1,a0                         | --
+  replace mine[998:999] target[1001:1009]
+      998  slt	v0,a1,v0                       | slt	v0,v0,a0
+      999  --                                 | beqz	v0,fb8 <func_8017C954+0xfb8>
+     1000  --                                 | move	v1,a0
+     1001  --                                 | j	fd0 <func_8017C954+0xfd0>
+     1002  --                                 | move	a2,v1
+     1003  --                                 | sll	v0,a3,0x10
+     1004  --                                 | sra	v0,v0,0x10
+     1005  --                                 | slt	v0,a0,v0
+  replace mine[1001:1002] target[1011:1012]
+     1001  move	a2,a0                         | move	a3,v1
+  replace mine[1004:1005] target[1014:1015]
+     1004  sw	t4,0(s4)                        | sw	t4,0(s7)
+  replace mine[1010:1012] target[1020:1022]
+     1010  swc2	$16,0(t8)                     | swc2	$16,0(t9)
+     1011  swc2	$17,0(s0)                     | swc2	$17,0(t8)
+  replace mine[1016:1017] target[1026:1034]
+     1016  lh	a1,28(sp)                       | lh	a0,28(sp)
+     1017  --                                 | sll	v0,t1,0x10
+     1018  --                                 | sra	v0,v0,0x10
+     1019  --                                 | slt	v0,a0,v0
+     1020  --                                 | beqz	v0,1028 <func_8017C954+0x1028>
+     1021  --                                 | move	v1,a0
+     1022  --                                 | j	1040 <func_8017C954+0x1040>
+     1023  --                                 | move	t1,v1
+  replace mine[1019:1020] target[1036:1037]
+     1019  slt	v0,a1,v0                       | slt	v0,v0,a0
+  replace mine[1021:1031] target[1038:1041]
+     1021  move	a0,a1                         | sll	v0,t0,0x10
+     1022  j	1018 <func_8017C954+0x1018>      | move	t0,v1
+     1023  move	t0,a0                         | sll	v0,t0,0x10
+     1024  sll	v0,a3,0x10                     | --
+     1025  sra	v0,v0,0x10                     | --
+     1026  slt	v0,v0,a1                       | --
+     1027  beqz	v0,101c <func_8017C954+0x101c> | --
+     1028  sll	v0,a3,0x10                     | --
+     1029  move	a3,a0                         | --
+     1030  sll	v0,a3,0x10                     | --
+  replace mine[1034:1035] target[1044:1045]
+     1034  sll	v0,t0,0x10                     | sll	v0,t1,0x10
+  insert  mine[1038:1038] target[1048:1056]
+     1038  --                                 | sll	v0,a3,0x10
+     1039  --                                 | lh	a0,30(sp)
+     1040  --                                 | sra	v0,v0,0x10
+     1041  --                                 | slt	v0,a0,v0
+     1042  --                                 | beqz	v0,1080 <func_8017C954+0x1080>
+     1043  --                                 | move	v1,a0
+     1044  --                                 | j	1098 <func_8017C954+0x1098>
+     1045  --                                 | move	a3,v1
+  delete  mine[1039:1040] target[1057:1057]
+     1039  lh	a1,30(sp)                       | --
+  replace mine[1041:1042] target[1058:1059]
+     1041  slt	v0,a1,v0                       | slt	v0,v0,a0
+  replace mine[1043:1053] target[1060:1063]
+     1043  move	a0,a1                         | sll	v0,a2,0x10
+     1044  j	1070 <func_8017C954+0x1070>      | move	a2,v1
+     1045  move	a2,a0                         | sll	v0,a2,0x10
+     1046  sll	v0,v1,0x10                     | --
+     1047  sra	v0,v0,0x10                     | --
+     1048  slt	v0,v0,a1                       | --
+     1049  beqz	v0,1074 <func_8017C954+0x1074> | --
+     1050  sll	v0,v1,0x10                     | --
+     1051  move	v1,a0                         | --
+     1052  sll	v0,v1,0x10                     | --
+  replace mine[1056:1057] target[1066:1067]
+     1056  sll	v0,a2,0x10                     | sll	v0,a3,0x10
+  replace mine[1081:1082] target[1091:1092]
+     1081  sw	v0,-16(t1)                      | sw	v0,-16(t2)
+  replace mine[1084:1085] target[1094:1095]
+     1084  sw	v0,-8(t1)                       | sw	v0,-8(t2)
+  replace mine[1087:1088] target[1097:1098]
+     1087  sw	v0,0(t1)                        | sw	v0,0(t2)
+  replace mine[1090:1091] target[1100:1101]
+     1090  sw	v0,8(t1)                        | sw	v0,8(t2)
+  replace mine[1092:1096] target[1102:1106]
+     1092  lw	s7,264(sp)                      | lw	s3,264(sp)
+     1093  lw	v1,0(t6)                        | lw	v1,0(t7)
+     1094  or	v0,s7,v0                        | or	v0,s3,v0
+     1095  sw	v0,-20(t1)                      | sw	v0,-20(t2)
+  replace mine[1097:1099] target[1107:1109]
+     1097  addu	a0,a0,t7                      | addu	a0,a0,s0
+     1098  sw	v0,-12(t1)                      | sw	v0,-12(t2)
+  replace mine[1101:1102] target[1111:1112]
+     1101  sw	v0,-4(t1)                       | sw	v0,-4(t2)
+  replace mine[1104:1105] target[1114:1115]
+     1104  sh	v0,4(t1)                        | sh	v0,4(t2)
+  replace mine[1106:1107] target[1116:1117]
+     1106  sh	v0,12(t1)                       | sh	v0,12(t2)
+  replace mine[1108:1110] target[1118:1120]
+     1108  addiu	t1,t1,40                     | addiu	t2,t2,40
+     1109  and	v0,v0,t3                       | and	v0,v0,t5
+  replace mine[1111:1112] target[1121:1122]
+     1111  sw	v0,0(t2)                        | sw	v0,0(t3)
+  replace mine[1113:1115] target[1123:1125]
+     1113  and	v1,t2,t3                       | and	v1,t3,t5
+     1114  and	v0,v0,t9                       | and	v0,v0,s2
+  replace mine[1118:1120] target[1128:1130]
+     1118  sb	v0,-21(t1)                      | sb	v0,-21(t2)
+     1119  lw	s2,272(sp)                      | lw	s4,272(sp)
+  replace mine[1121:1123] target[1131:1133]
+     1121  or	v0,s2,v0                        | or	v0,s4,v0
+     1122  sw	v0,-16(t1)                      | sw	v0,-16(t2)
+  replace mine[1125:1127] target[1135:1137]
+     1125  sw	a1,-20(t1)                      | sw	a1,-20(t2)
+     1126  sw	v0,-12(t1)                      | sw	v0,-12(t2)
+  replace mine[1129:1130] target[1139:1140]
+     1129  sw	v0,-8(t1)                       | sw	v0,-8(t2)
+  replace mine[1132:1133] target[1142:1143]
+     1132  sw	v0,-4(t1)                       | sw	v0,-4(t2)
+  replace mine[1134:1136] target[1144:1146]
+     1134  addiu	t2,t2,40                     | addiu	t3,t3,40
+     1135  sw	v0,0(t1)                        | sw	v0,0(t2)
+  replace mine[1140:1147] target[1150:1151]
+     1140  addu	a0,a0,t7                      | addu	a0,a0,s0
+     1141  lw	v0,0(a0)                        | --
+     1142  addiu	t1,t1,28                     | --
+     1143  and	v0,v0,t3                       | --
+     1144  or	v0,v0,v1                        | --
+     1145  and	v1,t2,t3                       | --
+     1146  sw	v0,0(t2)                        | --
+  replace mine[1149:1150] target[1153:1160]
+     1149  and	v0,v0,t9                       | and	v0,v0,t5
+     1150  --                                 | or	v0,v0,v1
+     1151  --                                 | and	v1,t3,t5
+     1152  --                                 | sw	v0,0(t3)
+     1153  --                                 | lw	v0,0(a0)
+     1154  --                                 | addiu	t3,t3,28
+     1155  --                                 | and	v0,v0,s2
+  replace mine[1152:1159] target[1162:1172]
+     1152  addiu	t6,t6,12                     | addiu	t7,t7,12
+     1153  lw	s7,608(sp)                      | lw	s3,608(sp)
+     1154  lw	s2,280(sp)                      | lw	s4,280(sp)
+     1155  addiu	s7,s7,1                      | addiu	s3,s3,1
+     1156  sltu	v0,s7,s2                      | sltu	v0,s3,s4
+     1157  bnez	v0,504 <func_8017C954+0x504>  | bnez	v0,518 <func_8017C954+0x518>
+     1158  sw	s7,608(sp)                      | sw	s3,608(sp)
+     1159  --                                 | addiu	s8,s8,1
+     1160  --                                 | lw	s3,616(sp)
+     1161  --                                 | lw	s4,296(sp)
+  replace mine[1160:1167] target[1173:1179]
+     1160  addiu	s8,s8,20                     | sw	s3,616(sp)
+     1161  lw	s7,600(sp)                      | lw	s3,288(sp)
+     1162  lw	s2,288(sp)                      | addiu	s4,s4,20
+     1163  addiu	s7,s7,1                      | slt	v0,s8,s3
+     1164  slt	v0,s7,s2                       | bnez	v0,100 <func_8017C954+0x100>
+     1165  bnez	v0,fc <func_8017C954+0xfc>    | sw	s4,296(sp)
+     1166  sw	s7,600(sp)                      | --
+  replace mine[1168:1180] target[1180:1192]
+     1168  sw	t2,0(at)                        | sw	t3,0(at)
+     1169  lw	ra,652(sp)                      | lw	ra,660(sp)
+     1170  lw	s8,648(sp)                      | lw	s8,656(sp)
+     1171  lw	s7,644(sp)                      | lw	s7,652(sp)
+     1172  lw	s6,640(sp)                      | lw	s6,648(sp)
+     1173  lw	s5,636(sp)                      | lw	s5,644(sp)
+     1174  lw	s4,632(sp)                      | lw	s4,640(sp)
+     1175  lw	s3,628(sp)                      | lw	s3,636(sp)
+     1176  lw	s2,624(sp)                      | lw	s2,632(sp)
+     1177  lw	s1,620(sp)                      | lw	s1,628(sp)
+     1178  lw	s0,616(sp)                      | lw	s0,624(sp)
+     1179  addiu	sp,sp,656                    | addiu	sp,sp,664

@@ -4730,16 +4730,15 @@ void func_8017E8A4(u16 *param_1)
     s32 cVar1;
 
     if (1 < (u16)(*param_1 - 0x19)) {
-        if (D_801270D4 < 0x1e) {
-            __asm__ __volatile__("" ::: "$4");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+        if (D_801270D4 >= 0x1e) {
+            cVar1 = 4;
+        } else {
             if (((s32 (*)(u16 *))func_80172658)(param_1) == 0) {
                 return;
             }
             *(u16 *)(*(s32 *)(param_1 + 0x10) + 0x12) = 0;
             ((void (*)(u16 *))func_80171B44)(param_1);
             cVar1 = *(u8 *)(param_1 + 0x10a) + 1;
-        } else {
-            cVar1 = 4;
         }
         *(s8 *)(param_1 + 0x10a) = cVar1;
     }

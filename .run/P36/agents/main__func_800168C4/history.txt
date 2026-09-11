@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 17 best 8 compiles 86 path R12 width t s32->u16 @3929
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width t s32->u16 @3929 -> 8 [COUNT] (from 17)
+  R12 width t s32->s16 @3929 -> 8 [COUNT] (from 17)
+  R6 inline t @3940 -> 8 [COUNT] (from 17)
+  R14 param-width arg0 s32->s16 @3928 -> 8 [COUNT] (from 8)
+  R8 temp tmp0 @3940 -> 8 [COUNT] (from 8)
+  R18 bystander @3938->3940 -> 8 [COUNT] (from 8)
+  R7 block @3938 -> 8 [COUNT] (from 8)
+  R10 param-copy arg0 @3931 -> 8 [COUNT] (from 8)
+  R4 decl-move t 0->1 -> 8 [COUNT] (from 8)
+  R14 param-width arg0 s32->u16 @3928 -> 8 [COUNT] (from 8)
+  R8 base tmp0 @3940 -> 8 [COUNT] (from 8)
+  R14 param-width arg0 s32->u8 @3928 -> 8 [COUNT] (from 8)

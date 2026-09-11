@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 632 best 581 compiles 188 path R18 bystander @2907->2913 + R14 param-width arg0 s32->s16 @2864
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R14 param-width arg0 s32->s16 @2864 -> 581 [COUNT] (from 591)
+  R10 param-copy arg0 @2904 -> 587 [COUNT] (from 591)
+  R18 bystander @2907->2913 -> 591 [COUNT] (from 632)
+  R18 bystander @2906->2908 -> 591 [COUNT] (from 591)
+  R7 block @2905 -> 591 [COUNT] (from 591)
+  R8 base tmp0 @2905 -> 591 [COUNT] (from 591)
+  R9 swap-stmts @2908 -> 591 [COUNT] (from 591)
+  R8 hoist tmp0 @2905 -> 591 [COUNT] (from 591)
+  R7 block @2906 -> 591 [COUNT] (from 591)
+  R5 swap + @3003 -> 591 [COUNT] (from 591)
+  R9 swap-stmts @2909 -> 591 [COUNT] (from 591)
+  R5 swap + @3004 -> 591 [COUNT] (from 591)

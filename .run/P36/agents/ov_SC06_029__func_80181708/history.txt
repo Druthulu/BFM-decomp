@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 26 best 2 compiles 188 path R7 do-while @5676 + R6 inline t @5679
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline t @5679 -> 2 [ORDER] (from 7)
+  R12 width acc s32->u8 @5669 -> 3 [COUNT] (from 7)
+  R6 inline sVar4 @5677 -> 6 [COUNT] (from 7)
+  R6 inline t @5679 -> 6 [COUNT] (from 11)
+  R7 do-while @5676 -> 7 [COUNT] (from 26)
+  R7 block @5673 -> 7 [COUNT] (from 7)
+  R5 swap + @5678 -> 7 [COUNT] (from 7)
+  R10 param-copy param_1 @5670 -> 7 [COUNT] (from 7)
+  R4 decl-move psVar2 1->0 -> 7 [COUNT] (from 7)
+  R6 inline acc @5678 -> 7 [COUNT] (from 7)
+  R8 temp tmp0 @5678 -> 7 [COUNT] (from 7)
+  R4 decl-move psVar2 1->2 -> 7 [COUNT] (from 7)

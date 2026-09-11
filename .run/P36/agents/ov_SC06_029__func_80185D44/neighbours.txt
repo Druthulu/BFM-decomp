@@ -1,0 +1,19 @@
+=== THIS FUNCTION'S OWN HEADER (func_80185D44, line 8640) — read it in full ===
+/* The `m` split + zero-byte re-tie is a SCHEDULING lever, not semantics.
+ * sched1 is a BACKWARD list scheduler: picked-first == placed-last, and at equal
+ * INSN_PRIORITY the tie-break is INSN_LUID with the HIGHER luid picked first
+ * (sched.c rank_for_schedule:2428, ready[0] taken at :3747).  The mask's
+ * `lui`/`ori` normally arrive as ONE insn that sched1's own try_split (:4830)
+ * splits into two LUID-ADJACENT halves, so no source order can put the `lui`
+ * dead-last in the pick order (block position 0) while the `ori` still wins the
+ * contest against `t = -2` seven picks earlier — the target needs
+ * luid(lui) < luid(t=0x80) < luid(t=-2) < luid(ori), which adjacency forbids.
+ * Writing the two halves as two statements with a non-volatile re-tie between
+ * them (§30#3) keeps cse/combine from re-folding the constant, breaks the
+ * adjacency, and gives each half its own luid.  `t` is deliberately ONE 2-set
+ * s16 (§49-variant / §199-A): that kills the birthing boost on both constants,
+ * so `t = -2` is picked after the `ori` instead of the instant it is ready. */
+
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)

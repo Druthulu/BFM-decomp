@@ -1,0 +1,38 @@
+=== lever-free bodies in main sharing a callee or global with func_800168C4 (49 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800168B4 (src/800.c:3833) shares 1: D_800AF7CE ---
+void func_800168B4(void) {
+    D_800AF7CE = 0;
+}
+
+--- GameModeDispatch (src/boot.c:454) shares 1: D_800AF630 ---
+void GameModeDispatch(void) {
+    register u8 *p = D_800AF630;
+    gameModeHandlerTable[*(u16 *)(p + 0xA3AE)]();
+}
+
+--- func_8001099C (src/boot.c:407) shares 1: D_800AF630 ---
+void func_8001099C(void) {
+    register u8 *p = D_800AF630;
+    D_800AE810[*(u16 *)(p + 0xA3D2)] = VSync(1);
+}
+
+--- func_80010DA0 (src/boot.c:532) shares 1: D_800AF630 ---
+void func_80010DA0(void) {
+    register u8 *p = D_800AF630;
+    func_80011778();
+}
+
+--- func_80011998 (src/boot.c:901) shares 1: D_800AF630 ---
+void func_80011998(void) {
+    register u8 *p = D_800AF630;
+    (*(u16 *)(p + 0xA3BA))++;
+    *(u16 *)(p + 0xA3BC) = 0;
+}
+
+--- func_800119F0 (src/boot.c:909) shares 1: D_800AF630 ---
+void func_800119F0(u16 arg0) {
+    register u8 *p = D_800AF630;
+    *(u16 *)(p + 0xA3BA) = arg0;
+    *(u16 *)(p + 0xA3BC) = 0;
+}
+
