@@ -5318,15 +5318,17 @@ extern void (*D_8018AFBC[])(void);
 extern void func_8012B2CC(s32 a0);
 
 void func_8017F024(s32 a0) {
-    register s32 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-    s32 self;
+    s32 *p;
 
-    D_8018AFBC[*(u16 *)(a0 + 2)]();
+    /* The table's handlers take the actor (func_8017EE3C(s32 a0) is entry 1): passing it keeps a second set of $a0
+     * in the RTL (cse deletes the copy — $a0 still holds the parameter), so the later argument copy is not a
+     * "birthing" insn for sched1 (sched.c:2469-2545) and stays at the top of the block, where it keeps the mask
+     * constant out of $a0 (P36 S104 e26). */
+    ((void (*)(s32))D_8018AFBC[*(u16 *)(a0 + 2)])(a0);
     if (*(u16 *)a0 != 0) {
-        __asm__ __volatile__("" : "=r"(self) : "0"(a0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         p = *(s32 **)(a0 + 0x20);
         p[1] |= 0x80000000;
-        func_8012B2CC(self);
+        func_8012B2CC(a0);
     }
 }
 
