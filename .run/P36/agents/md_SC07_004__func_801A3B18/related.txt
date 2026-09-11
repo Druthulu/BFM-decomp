@@ -1,0 +1,232 @@
+=== lever-free bodies in md_SC07_004 sharing a callee or global with func_801A3B18 (26 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801A5698 (src/md_SC07_004/md_SC07_004.c:3707) shares 6: D_800AE620 D_80126B5E D_80126B62 D_80126B66 func_8004914C func_800491AC ---
+void func_801A5698(u8 *s2, s32 a1)
+{
+    Mtx32_801A5698 mtx;
+    SVec_801A5698 sv;
+    s32 flag;
+    s32 angle;
+
+    mtx = *(Mtx32_801A5698 *)&D_800AE620;
+    mtx.t[0] = D_80126B5E;
+    mtx.t[1] = D_80126B62;
+    mtx.t[2] = D_80126B66;
+
+    angle = (s16)a1 + *(s16 *)(*(s32 *)(s2 + 0x64) + 0x102);
+    RotMatrixY(angle, &mtx);
+
+    sv.vy = 0;
+    sv.vx = 0;
+    sv.vz = 0x1A0;
+    func_8004914C(&mtx);
+    func_800491AC(&mtx);
+
+    RotTransSV((s32)&sv, (s32)&sv, &flag);
+
+    *(u16 *)(s2 + 0x6) = sv.vx;
+    *(u16 *)(s2 + 0xE) = sv.vz;
+}
+
+--- func_801A3D60 (src/md_SC07_004/md_SC07_004.c:2593) shares 5: D_800AE620 D_80126B58 D_801F8864 func_8012BE54 func_8017267C ---
+void func_801A3D60(s32 a0)
+{
+    /* D_800AE620 is the shared 32-byte matrix global; this TU's real file-scope
+     * spelling (`extern Mtx32_801A90D8 D_800AE620;`) is declared LATER in the
+     * file. A second file-scope spelling here is a hard `conflicting types`
+     * error in gcc-2.7.2 (see func_801A3180 / func_801A3B18 above it), so this
+     * copy is BLOCK scope, matching this TU's own house style. */
+    extern s32 D_800AE620[8];
+    Mtx32_801A3D60 m;   /* sp+0x10 */
+    s32 buf[3];         /* sp+0x30 */
+    s32 s0;
+    s32 *s1;
+    s32 r;
+
+    s0 = a0;
+    m = *(Mtx32_801A3D60 *)&D_800AE620;
+    s1 = (s32 *)&m;
+
+    if (D_801F8864 <= 0xAFFFF) {
+        D_801F8864 = D_801F8864 + 0x4000;
+    }
+
+    r = ((s32 (*)(s32))func_8012BE54)(s0);
+    RotMatrixY((s16)func_8012B8A4((s16 *)s0), s1);
+    s0 = r;
+
+    if (D_801F8864 != 0 && s0 >= 0x101) {
+        if (func_8017267C(D_80126B58) == 0) {
+            buf[1] = 0;
+            buf[0] = 0;
+            buf[2] = D_801F8864;
+            func_800484EC((s32)s1, (s32)buf, (s32)buf);
+            D_80126B5C += buf[0];
+            D_80126B64 += buf[2];
+        }
+    }
+}
+
+--- func_801AAF8C (src/md_SC07_004/md_SC07_004.c:7564) shares 5: D_80126B5E D_80126B62 D_80126B66 func_8004914C func_800491AC ---
+s32 func_801AAF8C(SV_801AAF8C *src, SV_801AAF8C *ofs, s32 arg2)
+{
+    MTX_801AAF8C mtx;   /* sp+0x18 */
+    SV_801AAF8C  rot;   /* sp+0x38 */
+    SV_801AAF8C  pos;   /* sp+0x40 */
+    SV_801AAF8C  sv;    /* sp+0x48 */
+    s32          flag;  /* sp+0x50 */
+    s32 dx, dy, dz;
+    s32 ang;
+    s32 s;
+    s32 t;
+
+    pos = *src;
+    if (ofs != 0) {
+        pos.vx += ofs->vx;
+        pos.vy += ofs->vy;
+        pos.vz += ofs->vz;
+    }
+
+    dz = D_80126B66 - pos.vz;
+    dx = D_80126B5E - pos.vx;
+    t  = pos.vy + 0x20;
+    dy = D_80126B62 - t;
+
+    ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
+    rot.vy = ang;
+    s = func_80047948(ang);
+    dz = (dz * s + dx * func_8004787C(rot.vy)) >> 12;
+    rot.vx = ratan2(dy, -dz);
+    rot.vz = 0;
+    func_80049CAC((s32)&rot, (s32)&mtx);
+
+    func_8004914C(&mtx);
+    mtx.t[0] = pos.vx;
+    mtx.t[1] = pos.vy;
+    mtx.t[2] = pos.vz;
+    func_800491AC(&mtx);
+
+    sv.vy = 0;
+    sv.vx = 0;
+    sv.vz = -arg2;
+    RotTransSV((s32)&sv, (s32)&sv, &flag);
+
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&pos, (s32)&sv) != 0) {
+        func_8012F568(1, 1, 0, 0xA, (s32)&sv, (s32)D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+
+--- func_801A54F0 (src/md_SC07_004/md_SC07_004.c:3633) shares 4: D_800AE620 D_80126B62 func_8004914C func_800491AC ---
+s32 func_801A54F0(s32 param_1, s32 param_2)
+{
+    Mtx32_801A54F0 mtx;  /* sp+0x18 */
+    SV_801A54F0 pos;     /* sp+0x38 */
+    SV_801A54F0 vec2;    /* sp+0x40 */
+    SV_801A54F0 out;     /* sp+0x48 */
+    s32 v1;
+    s32 t;
+
+    mtx = *(Mtx32_801A54F0 *)&(*(Mtx32_801A54F0 *)&D_800AE620);
+
+    RotMatrixY((s16)func_8012B8A4((s16 *)param_1), &mtx);
+    func_8004914C(&mtx);
+
+    v1 = *(u16 *)(param_1 + 6);
+    t = (u16)D_80126B62 - 0x20;
+    pos.vx = v1;
+    arr0:
+    mtx.t[0] = (s16)v1;
+    pos.vy = t;
+    mtx.t[1] = (s16)t;
+    pos.vz = *(u16 *)(param_1 + 0xE);
+    mtx.t[2] = pos.vz;
+    func_800491AC(&mtx);
+
+    vec2.vy = 0;
+    vec2.vx = 0;
+    vec2.vz = -param_2;
+    RotTransSV((s32)&vec2, (s32)&vec2, &out);
+
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&pos, (s32)&vec2) != 0) {
+        func_8012F568(1, 1, 0, 0xA, (s32)&vec2, (s32)D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+
+--- func_801A4570 (src/md_SC07_004/md_SC07_004.c:2978) shares 4: D_80126B5E D_80126B62 D_80126B66 func_8012BE54 ---
+void func_801A4570(void *arg0)
+{
+    SV3_801A4570 localA; /* sp+0x18 */
+    SV3_801A4570 localB; /* sp+0x20 */
+    s16 v0;
+
+    v0 = *(s16 *)((u8 *)arg0 + 0xFE);
+    if (v0 != 0) {
+        *(s16 *)((u8 *)arg0 + 0xFE) = v0 - 1;
+        return;
+    }
+
+    if (((s32 (*)(s32))func_8012BE54)((s32)arg0) >= 0x640) {
+        return;
+    }
+
+    {
+        u16 diff = (u16)D_80126B62 -
+            (*(u16 *)((u8 *)arg0 + 0xA) + *(u16 *)((u8 *)arg0 + 0x52)) + 0x8F;
+        if (diff >= 0xDF) {
+            return;
+        }
+    }
+
+    func_801A9C00(arg0);
+    *(s16 *)((u8 *)arg0 + 0xFE) = 8;
+
+    localA.vx = *(u16 *)((u8 *)arg0 + 0x6) + *(u16 *)((u8 *)arg0 + 0x50);
+    localA.vy = *(u16 *)((u8 *)arg0 + 0xA) + *(u16 *)((u8 *)arg0 + 0x52) - 0x40;
+    localA.vz = *(u16 *)((u8 *)arg0 + 0xE) + *(u16 *)((u8 *)arg0 + 0x54);
+
+    localB.vx = (u16)D_80126B5E;
+    localB.vy = (u16)D_80126B62 - 0x20;
+    localB.vz = (u16)D_80126B66;
+
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&localA, (s32)&localB) != 0) {
+        s32 dist = func_8012B8A4((s16 *)arg0);
+        func_8012F568(1, 4, dist, 0x40, (s32)&localB, (s32)D_801152A8);
+    }
+}
+
+--- func_801A4EBC (src/md_SC07_004/md_SC07_004.c:3413) shares 3: D_800AE620 func_8004914C func_800491AC ---
+void func_801A4EBC(u8 *a0)
+{
+    u8 *s1;
+    Mat32_801A4EBC m;
+    void *mp;
+    s32 v0;
+    s32 *p;
+
+    s1 = a0;
+    p = &D_801F888C;
+    v0 = *(u16 *)p;
+    if ((u32)(v0 - 2) < 3) {
+        if (*p == 2) {
+            func_8002D4C8(0xABE, 0);
+        }
+
+        m = *(Mat32_801A4EBC *)&D_800AE620;
+        mp = &m;
+
+        RotMatrixY(*(s16 *)(*(s32 *)(*(s32 *)(s1 + 0x64) + 0x20) + 0x12), mp);
+
+        m.t0 = *(s16 *)(*(s32 *)(s1 + 0x64) + 0x6);
+        m.t1 = *(s16 *)(*(s32 *)(s1 + 0x64) + 0xA);
+        m.t2 = *(s16 *)(*(s32 *)(s1 + 0x64) + 0xE);
+
+        func_8004914C(mp);
+        func_800491AC(mp);
+        func_801A4FDC();
+        func_801A5094();
+    }
+}
+

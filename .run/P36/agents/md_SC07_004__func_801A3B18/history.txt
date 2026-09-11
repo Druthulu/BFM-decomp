@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 23 best 6 compiles 185 path R9 swap-stmts @2543 + R12 width mag s32->u16 @2511
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width mag s32->u16 @2511 -> 6 [MIXED] (from 14)
+  R12 width mag s32->s16 @2511 -> 6 [MIXED] (from 14)
+  R12 width mag s32->u8 @2511 -> 11 [COUNT] (from 14)
+  R12 width ang s32->u16 @2510 -> 11 [MIXED] (from 14)
+  R9 swap-stmts @2543 -> 14 [COUNT] (from 23)
+  R18 bystander @2529->2531 -> 14 [COUNT] (from 14)
+  R7 block @2543 -> 14 [COUNT] (from 14)
+  R7 do-while @2543 -> 14 [COUNT] (from 14)
+  R8 temp tmp0 @2527 -> 14 [COUNT] (from 14)
+  R7 block @2536 -> 14 [COUNT] (from 14)
+  R8 base tmp0 @2527 -> 14 [COUNT] (from 14)
+  R8 temp tmp0 @2526 -> 14 [COUNT] (from 14)

@@ -49,7 +49,9 @@ def related_bodies(tu, fn, target_text, alias, top=6, max_lines=600):
     want = set(SYM.findall(target_text)) - {fn}
     if not want:
         return ""
-    files = sorted((REPO / "src" / alias).glob("*.c"))
+    d = REPO / "src" / alias
+    # main's units live directly under src/ (src/800*.c), not src/main/ — S104 e3: every main pack's related.txt was empty
+    files = sorted((d if d.is_dir() else (REPO / tu).parent).glob("*.c"))
     inc = re.compile(r'#include\s+"\.\./(shared/[^"]+\.h)"')
     heads = set()
     for f in files:

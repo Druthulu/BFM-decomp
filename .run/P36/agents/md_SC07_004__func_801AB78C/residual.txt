@@ -1,0 +1,15 @@
+src/md_SC07_004/md_SC07_004.c:func_801AB78C: score 9 (COUNT; mine 37 ins, target 35) — not yet
+  register pairs (mine -> target, count): v0->v1 x3
+  replace mine[10:11] target[10:11]
+       10  j	b5e0 <func_801AB78C+0x84>        | j	b5d8 <func_801AB78C+0x7c>
+  replace mine[23:24] target[23:24]
+       23  lbu	v0,0(a1)                       | lbu	v1,0(a1)
+  replace mine[25:29] target[25:27]
+       25  andi	v0,v0,0xff                    | beqz	v1,b5d8 <func_801AB78C+0x7c>
+       26  beqz	v0,b5e0 <func_801AB78C+0x84>  | addiu	v0,v1,-16
+       27  addiu	v1,v0,-16                    | --
+       28  move	v0,v1                         | --
+  replace mine[30:33] target[28:31]
+       30  nop                                | move	v1,v0
+       31  move	v0,zero                       | move	v1,zero
+       32  sb	v0,0(a1)                        | sb	v1,0(a1)

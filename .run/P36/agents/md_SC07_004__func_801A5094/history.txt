@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 4 best 4 compiles 183 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @3517 -> 4 [ORDER] (from 4)
+  R7 block @3517 -> 4 [ORDER] (from 4)
+  R6 inline r @3515 -> 4 [ORDER] (from 4)
+  R8 temp tmp0 @3519 -> 4 [ORDER] (from 4)
+  R12 width r s32->u16 @3502 -> 4 [ORDER] (from 4)
+  R12 width r s32->s16 @3502 -> 4 [ORDER] (from 4)
+  R7 block @3519 -> 4 [ORDER] (from 4)
+  R12 width r s32->u8 @3502 -> 4 [ORDER] (from 4)
+  R7 block @3516 -> 4 [ORDER] (from 4)
+  R7 block @3518 -> 4 [ORDER] (from 4)
+  R12 width flag s32->u16 @3500 -> 4 [ORDER] (from 4)
+  R12 width flag s32->s16 @3500 -> 4 [ORDER] (from 4)

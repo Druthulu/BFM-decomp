@@ -1,0 +1,38 @@
+src/md_SC07_004/md_SC07_004.c:func_801A3B18: score 23 (COUNT; mine 145 ins, target 146) — not yet
+  register pairs (mine -> target, count): s2->s3 x6, s0->s2 x2, s1->s0 x2, s0->a0 x1
+  replace mine[0:1] target[0:1]
+        0  addiu	sp,sp,-104                   | addiu	sp,sp,-112
+  replace mine[3:4] target[3:5]
+        3  sw	ra,100(sp)                      | sw	ra,104(sp)
+        4  --                                 | sw	s3,100(sp)
+  replace mine[65:67] target[66:68]
+       65  lui	s2,0x0                         | lui	s3,0x0
+       66  addiu	s2,s2,0                      | addiu	s3,s3,0
+  replace mine[70:75] target[71:75]
+       70  bnez	v0,3a10 <func_801A3B18+0x128> | bnez	v0,3a10 <func_801A3B18+0x128>
+       71  move	s0,v1                         | move	a0,v1
+       72  ori	v1,v1,0xf000                   | ori	a0,v1,0xf000
+       73  move	s0,v1                         | sll	v0,a0,0x10
+       74  sll	v0,s0,0x10                     | --
+  replace mine[76:78] target[76:78]
+       76  nop                                | move	s2,a0
+       77  negu	s0,s0                         | negu	s2,a0
+  replace mine[81:82] target[81:82]
+       81  move	s1,v0                         | move	s0,v0
+  replace mine[85:86] target[85:86]
+       85  slt	v0,v0,s1                       | slt	v0,v0,s0
+  replace mine[87:88] target[87:88]
+       87  sll	v0,s0,0x10                     | sll	v0,s2,0x10
+  replace mine[93:94] target[93:94]
+       93  move	a0,s2                         | move	a0,s3
+  replace mine[130:131] target[130:131]
+      130  lw	v0,4(s2)                        | lw	v0,4(s3)
+  replace mine[132:133] target[132:133]
+      132  lw	v1,12(s2)                       | lw	v1,12(s3)
+  replace mine[136:139] target[136:140]
+      136  sw	v0,4(s2)                        | sw	v0,4(s3)
+      137  sw	v1,12(s2)                       | sw	v1,12(s3)
+      138  lw	ra,100(sp)                      | lw	ra,104(sp)
+      139  --                                 | lw	s3,100(sp)
+  replace mine[142:143] target[143:144]
+      142  addiu	sp,sp,104                    | addiu	sp,sp,112

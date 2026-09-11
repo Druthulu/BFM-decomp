@@ -62,7 +62,7 @@
    "gte/via-macro": 6128,
    "instruction/direct": 210,
    "instruction/via-macro": 22,
-   "keepalive/direct": 346,
+   "keepalive/direct": 345,
    "launder/direct": 663,
    "launder/via-macro": 42,
    "verbatim-body/direct": 2682
@@ -122,10 +122,10 @@
    "unmarked": 0
   },
   "B": {
-   "bodies": 4718,
-   "distinct_bodies": 777,
+   "bodies": 4717,
+   "distinct_bodies": 776,
    "file_scope": 13,
-   "in_bodies": 11350,
+   "in_bodies": 11349,
    "kinds": {
     "asm-body": 13,
     "barrier": 330,
@@ -133,12 +133,12 @@
     "gte-lever": 456,
     "gte-unsigned": 271,
     "instruction": 232,
-    "keepalive": 346,
+    "keepalive": 345,
     "launder": 705,
     "verbatim-body": 2682
    },
-   "marked": 2572,
-   "sites": 11363,
+   "marked": 2571,
+   "sites": 11362,
    "tus": 1428,
    "unmarked": 8791
   },
@@ -244,9 +244,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6782,
-   "live": 15447,
+   "live": 15446,
    "macro_block": 194,
-   "raw": 22423
+   "raw": 22422
   },
   "attribute": {
    "comment_dead": 0,
@@ -268,13 +268,13 @@
   },
   "volatile": {
    "comment_dead": 2606,
-   "live": 1699,
+   "live": 1698,
    "macro_block": 82,
-   "raw": 4387
+   "raw": 4386
   }
  },
  "coverage_ok": true,
- "elapsed_s": 37.3,
+ "elapsed_s": 34.7,
  "generated": "2026-09-11",
  "gte_levers": {
   "direct": 362,
@@ -285,15 +285,15 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "577b2592d",
+ "head": "a2e8a8924",
  "headers": 3181,
  "levers_AB": {
-  "asm": 2082,
-  "bodies": 2235,
-  "distinct_bodies": 918,
-  "marked": 4505,
+  "asm": 2081,
+  "bodies": 2234,
+  "distinct_bodies": 917,
+  "marked": 4504,
   "pins": 2423,
-  "sites": 4505,
+  "sites": 4504,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -469,20 +469,20 @@
   "volatile_qualified": 0,
   "zero": 70
  },
- "src_stamp": "2eae723786136464",
+ "src_stamp": "83c1eadc0c5012ca",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 5979,
+  "bodies": 5978,
   "by_kind": {
-   "main": 161,
+   "main": 160,
    "md": 119,
    "ov": 5527,
    "resident": 10,
    "shared": 162
   },
   "copies_in_multi": 4871,
-  "distinct_bodies": 1229,
+  "distinct_bodies": 1228,
   "multi_copy_classes": 121
  },
  "verbatim_excluded": {

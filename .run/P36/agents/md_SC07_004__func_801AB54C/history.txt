@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 11 best 6 compiles 185 path R12 width c s32->u16 @7778 + R9 swap-stmts @7801
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @7801 -> 6 [COUNT] (from 7)
+  R9 swap-stmts @7793 -> 6 [COUNT] (from 7)
+  R6 inline v @7801 -> 7 [COUNT] (from 11)
+  R12 width c s32->u16 @7778 -> 7 [COUNT] (from 11)
+  R12 width c s32->u8 @7778 -> 7 [COUNT] (from 11)
+  R12 width v s32->u16 @7777 -> 7 [COUNT] (from 11)
+  R12 width v s32->s16 @7777 -> 7 [COUNT] (from 11)
+  R8 temp tmp0 @7797 -> 7 [COUNT] (from 7)
+  R7 block @7797 -> 7 [COUNT] (from 7)
+  R6 inline v @7793 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @7797 -> 7 [COUNT] (from 7)
+  R7 do-while @7797 -> 7 [COUNT] (from 7)

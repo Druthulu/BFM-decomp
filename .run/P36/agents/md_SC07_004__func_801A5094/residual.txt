@@ -1,0 +1,7 @@
+src/md_SC07_004/md_SC07_004.c:func_801A5094: score 4 (ORDER; mine 64 ins, target 64) — not yet
+  delete  mine[51:53] target[51:51]
+       51  lui	v1,0x0                         | --
+       52  lw	v1,0(v1)                        | --
+  insert  mine[56:56] target[54:56]
+       56  --                                 | lui	v1,0x0
+       57  --                                 | lw	v1,0(v1)
