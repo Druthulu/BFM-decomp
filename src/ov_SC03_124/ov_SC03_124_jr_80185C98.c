@@ -3372,16 +3372,14 @@ void func_8018654C(void)
     s16 i;
     s16 cnt;
     s16 k;
-    s32 b;
+    s16 b;
     u8 *s;
     char *d;
     char *srcA;
     char *srcB;
     char *tmpl;
-    register s32 count __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
-    register u8 *table __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 descCount __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
-    register u8 *table2 __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 count;
+    u8 *table;
 
     /* ---- phase 1: default template + 16-row fill ---- */
     srcA = D_801E0390;
@@ -3481,10 +3479,10 @@ void func_8018654C(void)
     {
         u8 sel = D_801E2408[D_8011514A];
 
-        table2 = D_801DE82C[sel];
-        descCount = D_801DE824[sel];
-        D_801E2354 = table2;
-        D_8011515E = descCount | 0x100;
+        table = D_801DE82C[sel];
+        count = D_801DE824[sel];
+        D_801E2354 = table;
+        D_8011515E = count | 0x100;
 
         if (D_80115126 == 0) {
             if (func_800D0F8C(0xA) != 0) {
@@ -3496,21 +3494,18 @@ void func_8018654C(void)
     /* ---- phase 5 (mode 3): second builder + the 64-entry filter ---- */
     if (D_80115126 == 3) {
         i = 0;
-        if (descCount != 0) {
+        if (count != 0) {
             do {
-                register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-                s32 id;
 
-                b = table2[i];
+                b = table[i];
                 s = *(u8 **)(D_8010F468 + b * 8);
                 d = &D_801E1ECC[i * 36];
                 COPY2(d, s)
 
-                id = b + zr;
-                cnt = (u8)func_800291B4(id + 0x62);
+                cnt = (u8)func_800291B4(b + 0x62);
                 if ((cnt & 0x80) != 0) {
                     if ((cnt & 0x40) == 0) {
-                        u16 q = ((s32 (*)(s16, s32))func_801783D0)(D_800A6586[id], 0);
+                        u16 q = ((s32 (*)(s16, s32))func_801783D0)(D_800A6586[b], 0);
                         RENDER_QTY(&D_801E1EE7[i * 36], q, 0x82, cnt, k, d)
                     } else {
                         strcpy(&D_801E1EE2[i * 36], D_801BC654 + 2);
@@ -3520,7 +3515,7 @@ void func_8018654C(void)
                 }
 
                 i++;
-            } while (i < descCount);
+            } while (i < count);
         }
 
         if (D_8011511A != 1 && D_8011511A != 2) {
