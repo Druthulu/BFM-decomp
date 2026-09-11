@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 22 best 7 compiles 188 path R18 bystander @8914->8918 + R6 inline y @8918
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline y @8918 -> 7 [COUNT] (from 10)
+  R18 bystander @8914->8919 -> 7 [COUNT] (from 10)
+  R18 bystander @8914->8920 -> 7 [COUNT] (from 10)
+  R9 swap-stmts @8917 -> 7 [COUNT] (from 12)
+  R18 bystander @8915->8920 -> 8 [COUNT] (from 10)
+  R18 bystander @8914->8918 -> 10 [COUNT] (from 22)
+  R8 hoist tmp0 @8927 -> 10 [COUNT] (from 10)
+  R18 bystander @8915->8918 -> 10 [COUNT] (from 10)
+  R7 block @8927 -> 10 [COUNT] (from 10)
+  R5 swap + @8916 -> 10 [COUNT] (from 10)
+  R12 width x u16->s16 @8903 -> 10 [COUNT] (from 10)
+  R6 inline y @8914 -> 10 [COUNT] (from 10)

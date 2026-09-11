@@ -1,0 +1,10 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_801833D4: score 5 (ORDER; mine 100 ins, target 100) — not yet
+  register pairs (mine -> target, count): zero->a1 x1, s4->s3 x1
+  insert  mine[8:8] target[8:10]
+        8  --                                 | sw	s4,56(sp)
+        9  --                                 | move	s4,zero
+  delete  mine[9:11] target[11:11]
+        9  move	s3,a1                         | --
+       10  sw	s4,56(sp)                       | --
+  replace mine[19:20] target[19:20]
+       19  move	s4,zero                       | move	s3,a1

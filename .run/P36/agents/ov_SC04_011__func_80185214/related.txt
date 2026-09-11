@@ -1,0 +1,93 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_80185214 (20 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80185FAC (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:8866) shares 1: D_80194724 ---
+void func_80185FAC(void) {
+    s32 i;
+    for (i = 0; i < 0x15; i++) {
+        if (D_80194724[i] == 0) {
+            *(u8 *)(((s32 *)&D_801EFC4C)[i] + 0x10A) = 0;
+        }
+    }
+}
+
+--- func_8018681C (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:9242) shares 1: D_80194724 ---
+void func_8018681C(s32 a0, void *a1) {
+    s32 i;
+
+    for (i = a0 + 1; i < 0x15; i++) {
+        if (D_80194724[i] == 0) {
+            func_801868A0((void *)aFC4C[i], a1);
+        }
+    }
+}
+
+--- func_80183C74 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7328) shares 1: D_801EFC48 ---
+void func_80183C74(s32 a0, u16 a1)
+{
+    s32 id;
+    s32 v;
+
+    v = func_8012B6D4((s16 *)(a0 + 4), (s16 *)&D_80126B5C);
+    id = v & 0xFFF;
+    if (id < 0x800) {
+        id = (id < 0x221) ? id : 0x220;
+    } else {
+        if (id < 0xDE0) id = 0xDE0;
+    }
+    func_80185960(id, (u16 *)(*(s32 *)(D_801EFC48 + 0x20) + 0x12), a1);
+}
+
+--- func_80184840 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7850) shares 1: D_801EFC48 ---
+void func_80184840(void) {
+    extern s32 D_801EFC48;
+    extern s32 D_801EFC4C;
+    extern s32 D_801EFC54;
+    s32 p;
+    s32 obj;
+
+    p = D_801EFC4C;
+    *(s16 *)(p + 0x76) = 0x240;
+    *(s16 *)(D_801EFC48 + 0x76) = 0x1000;
+    p = D_801EFC54;
+    obj = *(s32 *)(p + 0x20);
+    *(s16 *)(obj + 0x1C) = 0x1000;
+    *(s16 *)(obj + 0x1A) = 0x1000;
+    *(s16 *)(obj + 0x18) = 0x1000;
+}
+
+--- func_80185C5C (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:8754) shares 1: D_801EFC48 ---
+void func_80185C5C(u16 id)
+{
+
+    extern s32 D_801EFC48;
+    extern s32 D_801EFC4C[];
+    s32 obj;
+    s32 q;
+
+    obj = D_801EFC4C[*(u8 *)(id * 8 + *(s32 *)(D_801EFC48 + 0xCC) + 6)];
+    if (obj != 0) {
+        *(u16 *)(obj + 0xF6) = *(u16 *)(obj + 0xF6) + *(u16 *)(obj + 0xFA);
+        q = func_8004787C(*(s16 *)(obj + 0xF6)) / 22;
+        *(s16 *)(obj + 0xF4) = q;
+        *(s16 *)(obj + 0xE8) = *(u16 *)(obj + 0xF8) + q;
+    }
+}
+
+--- func_80185B04 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:8686) shares 1: D_801EFC48 ---
+void func_80185B04(u16 a0, u16 a1)
+{
+    
+    extern s32 D_801EFC48;
+    extern s32 D_801EFC4C[];
+    s32 obj;
+    u16 t;
+
+    obj = D_801EFC4C[*(u8 *)(a0 * 8 + *(s32 *)(D_801EFC48 + 0xCC) + 6)];
+    if (obj != 0) {
+        t = *(u16 *)(obj + 0xE4);
+        *(u16 *)(obj + 0xEC) = 0;
+        *(u16 *)(obj + 0xEE) = 0;
+        *(u16 *)(obj + 0xF2) = a1;
+        *(u16 *)(obj + 0xF0) = t;
+    }
+}
+

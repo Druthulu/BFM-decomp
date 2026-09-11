@@ -1,0 +1,10 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_80183E20: score 5 (COUNT; mine 34 ins, target 34) — not yet
+  register pairs (mine -> target, count): v1->v0 x1, v0->v1 x1
+  delete  mine[10:11] target[10:10]
+       10  andi	v1,a1,0xff7f                  | --
+  replace mine[12:13] target[11:13]
+       12  sll	v0,v0,0x10                     | lh	v1,118(a0)
+       13  --                                 | andi	v0,a1,0xff7f
+  replace mine[14:16] target[14:16]
+       14  sh	v1,0(at)                        | sh	v0,0(at)
+       15  bgez	v0,69d4 <func_80183E20+0x48>  | bgez	v1,69d4 <func_80183E20+0x48>

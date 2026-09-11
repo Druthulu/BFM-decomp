@@ -1,0 +1,31 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_80186020: score 22 (COUNT; mine 60 ins, target 60) — not yet
+  register pairs (mine -> target, count): v0->v1 x9, v1->v0 x8
+  replace mine[18:22] target[18:22]
+       18  lui	v0,0x0                         | lui	v1,0x0
+       19  lhu	v0,0(v0)                       | lhu	v1,0(v1)
+       20  lui	v1,0x0                         | lui	v0,0x0
+       21  lhu	v1,0(v1)                       | lhu	v0,0(v0)
+  insert  mine[23:23] target[23:28]
+       23  --                                 | addu	v1,v1,v0
+       24  --                                 | lui	v0,0x0
+       25  --                                 | lhu	v0,0(v0)
+       26  --                                 | lui	at,0x0
+       27  --                                 | sh	v1,0(at)
+  delete  mine[24:29] target[29:29]
+       24  lui	v1,0x0                         | --
+       25  lhu	v1,0(v1)                       | --
+       26  lui	at,0x0                         | --
+       27  sh	v0,0(at)                        | --
+       28  addu	v1,v1,v0                      | --
+  replace mine[30:31] target[30:31]
+       30  sh	v1,16(a0)                       | sh	v0,16(a0)
+  replace mine[40:41] target[40:41]
+       40  addiu	v1,v1,96                     | addiu	v0,v1,96
+  replace mine[49:52] target[49:52]
+       49  addiu	v1,v1,-96                    | addiu	v0,v1,-96
+       50  lui	v0,0x0                         | lui	v1,0x0
+       51  lhu	v0,0(v0)                       | lhu	v1,0(v1)
+  replace mine[54:57] target[54:57]
+       54  sh	v1,0(at)                        | sh	v0,0(at)
+       55  addu	v0,v0,v1                      | addu	v1,v1,v0
+       56  sh	v0,16(a0)                       | sh	v1,16(a0)

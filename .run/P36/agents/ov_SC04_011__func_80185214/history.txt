@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 6 best 6 compiles 161 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @8361 -> 6 [COUNT] (from 6)
+  R7 block @8362 -> 6 [COUNT] (from 6)
+  R10 param-alias s2->a0 @8360 -> 6 [COUNT] (from 6)
+  R4 decl-move s0 2->0 -> 6 [COUNT] (from 6)
+  R6 inline s2 @8360 -> 6 [COUNT] (from 6)
+  R8 base tmp0 @8361 -> 6 [COUNT] (from 6)
+  R7 do-while @8362 -> 6 [COUNT] (from 6)
+  R9 swap-stmts @8360 -> 6 [COUNT] (from 6)
+  R10 param-copy a0 @8359 -> 6 [COUNT] (from 6)
+  R4 decl-move s0 2->1 -> 6 [COUNT] (from 6)
+  R8 temp tmp0 @8364 -> 6 [COUNT] (from 6)
+  R7 block @8361 -> 6 [COUNT] (from 6)

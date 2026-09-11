@@ -1,0 +1,3 @@
+NEEDED   pin         $16    line 8459
+REMOVED  pin         $17    line 8460
+REMOVED  pin         $18    line 8461
