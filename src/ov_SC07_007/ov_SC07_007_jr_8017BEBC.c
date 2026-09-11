@@ -7552,19 +7552,17 @@ extern u32 D_800A6618[];
 #define F184_IDX (aB9A02[0] * 0x18 + n * 0x30)
 
 void func_80182184(s32 arg0, s32 arg1) {
+    typedef struct { u32 addr : 24; u32 len : 8; } PTag;
     s32 n = arg1 & 0xFF;
     u8 *p = D_801C78D4;
     u8 *p4 = p + 4;
-    register u8 *r __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 mLO __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *r;
     u8 *r4;
     u8 *q;
-    u32 *ot1;
-    u32 *ot2;
-    register u8 *ob __asm__("$13");  // !FAKE: pin $13 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 pad[6];
-
-    (void)&pad;
+    PTag *ot1;
+    PTag *ot2;
+    u8 *ob;
+    s32 pad[4];
 
     *(u8 *)(D_801C78D7 + F184_IDX) = 5;
     *(u32 *)(p4 + F184_IDX) = ((n * 2 + 0x8A) & 0x9FF) | 0xE1000000;
@@ -7582,12 +7580,9 @@ void func_80182184(s32 arg0, s32 arg1) {
     *(s16 *)(p + F184_IDX + 0x16) = 0x100;
 
     ob = (u8 *)D_800A6618;
-    mLO = 0xFFFFFF;
-    *(u32 *)(p + F184_IDX) = (*(u32 *)(p + F184_IDX) & 0xFF000000) |
-                        (*(u32 *)((u8 *)D_800A6618 + (aB9A02[0] << 14)) & mLO);
-
-    ot1 = (u32 *)(ob + (aB9A02[0] << 14));
-    *ot1 = (*ot1 & 0xFF000000) | ((n * 0x30 + (aB9A02[0] * 0x18 + (u32)p)) & mLO);
+    ((PTag *)(p + F184_IDX))->addr = ((PTag *)(ob + (aB9A02[0] << 14)))->addr;
+    ot1 = (PTag *)(ob + (aB9A02[0] << 14));
+    ot1->addr = n * 0x30 + (aB9A02[0] * 0x18 + (u32)p);
 
     r = D_801C7934;
     r4 = r + 4;
@@ -7598,7 +7593,7 @@ void func_80182184(s32 arg0, s32 arg1) {
     q[0xA] = arg0;
     q[0x9] = arg0;
     q[0x8] = arg0;
-    *(s16 *)(r + F184_IDX + 0xC) = -0x118;
+    do { *(s16 *)(r + F184_IDX + 0xC) = -0x118; } while (0);  // !FAKE: do-while — flow.c:2067 loop_depth ref weight for r: local-alloc qty_compare_1 (local-alloc.c:1598) ranks r (13 refs/202 = 1930) below r4 (2 refs/10 = 2000) (P36 S105 f6)
     *(s16 *)(r + F184_IDX + 0xE) = 0x10;
     *(u8 *)(r + F184_IDX + 0x10) = 0;
     *(u8 *)(r + F184_IDX + 0x11) = 0;
@@ -7606,11 +7601,9 @@ void func_80182184(s32 arg0, s32 arg1) {
     *(s16 *)(r + F184_IDX + 0x14) = 0x100;
     *(s16 *)(r + F184_IDX + 0x16) = 0xE0;
 
-    *(u32 *)(r + F184_IDX) = (*(u32 *)(r + F184_IDX) & 0xFF000000) |
-                        (*(u32 *)(ob + (aB9A02[0] << 14)) & mLO);
-
-    ot2 = (u32 *)(ob + (aB9A02[0] << 14));
-    *ot2 = (*ot2 & 0xFF000000) | ((n * 0x30 + (aB9A02[0] * 0x18 + (u32)r)) & mLO);
+    ((PTag *)(r + F184_IDX))->addr = ((PTag *)(ob + (aB9A02[0] << 14)))->addr;
+    ot2 = (PTag *)(ob + (aB9A02[0] << 14));
+    ot2->addr = n * 0x30 + (aB9A02[0] * 0x18 + (u32)r);
 }
 
 #undef F184_IDX
