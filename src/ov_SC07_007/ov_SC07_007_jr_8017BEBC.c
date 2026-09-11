@@ -6748,14 +6748,10 @@ extern s32 func_8013767C(s32 a0);
 
 void func_8018122C(s32 param_1, void* param_2)
 {
-    s32 base;
-    register s32 val __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
-
-    base = param_1;
-    val = param_2;
     func_801812BC();
     if (D_801C79CC == 0) {
-        *(s32 *)(base + 0xCC) = func_8013767C(val);
+        s32 r = func_8013767C((s32)param_2);
+        do { *(s32 *)(param_1 + 0xCC) = r; } while (0);  // !FAKE: do-while — flow.c:2067 loop_depth ref weight, global.c:594-607 allocno_compare (P36 S105 f6)
     }
 }
 
