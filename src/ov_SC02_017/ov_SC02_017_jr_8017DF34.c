@@ -6725,20 +6725,17 @@ extern s32 D_801270C8;
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_801842E0(void) {
-    register s32 t __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
-    s32 a0;
-    s32 v0;
-    s32 a1;
-    register s32 a1p __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 t;
+    s32 y;
 
     t = D_800B99DA;
     if (t != D_8018EF88) {
-        a0 = (s16)D_80126B62;
+        y = (s16)D_80126B62;
         D_8018EF88 = t;
 
-        if (a0 >= -0x7FF) {
+        if (y >= -0x7FF) {
             t = D_8018EF84;
-        } else if (a0 < -0xC00) {
+        } else if (y < -0xC00) {
             t = D_8018EF84;
         } else {
             SV3_8012CC88 sp10;
@@ -6754,21 +6751,14 @@ void func_801842E0(void) {
             t = func_800132BC((s32)&sp10, (s32)&sp18);
         }
 
-        a0 = D_8018EF84;
-        if (t >= a0) {
+        if (t >= D_8018EF84) {
             func_8002D4C8(4, 0x5E5);
         } else {
-            t = a0 - t;
-            t -= 0x10000;
-
-            if (t >= 0) {
-                v0 = t << 7;
-            } else {
+            t = D_8018EF84 - t - 0x10000;
+            if (t < 0) {
                 t = -t;
-                v0 = t << 7;
             }
-            v0 = v0 - t;
-            t = v0 / a0;
+            t = t * 127 / D_8018EF84;
 
             if (t <= 0) {
                 t = 0;
@@ -6777,16 +6767,10 @@ void func_801842E0(void) {
             }
 
             if (D_801270C8 != 0) {
-                a1 = (u32)t >> 31;
-                v0 = t + a1;
-                t = v0 >> 1;
+                t /= 2;
             }
 
-            a0 = 0x5E5;
-            __asm__ __volatile__("" : "=r"(a0) : "0"(a0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-            a1p = t | 0x1000;
-            a1p = (u16)a1p;
-            func_8002D4C8(a0, a1p);
+            func_8002D4C8(0x5E5, (u16)(t | 0x1000));
         }
     }
 }
