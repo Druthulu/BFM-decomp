@@ -3597,8 +3597,8 @@ void func_80188034(s32 a0) {
     s32 base;
     s16 buf[2];
     s16 sVar1;
-    register s32 iVar3 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 a1v;
+    s32 q;
+    s16 a1v;
 
     idx = *(s16 *)(a0 + 0xFC);
     s0 = D_80195FC8 + idx * 8;
@@ -3609,19 +3609,16 @@ void func_80188034(s32 a0) {
         buf[1] = *(u16 *)(s0 + 2);
         sVar1 = (s16)func_80013294((void *)buf, (void *)s0);
         if (sVar1 < 0x800) {
-            iVar3 = (0x800 - sVar1) * 0x7F;
-            if (iVar3 < 0) {
-                iVar3 += 0x7FF;
-            }
-            iVar3 = iVar3 >> 11;
-            a1v = iVar3;
-            if (iVar3 < 0) {
+            q = (0x800 - sVar1) * 0x7F / 0x800;
+            if (q < 0) {
                 a1v = 0;
+            } else {
+                a1v = q;
             }
-            if ((s16)a1v >= 0x80) {
+            if (a1v >= 0x80) {
                 a1v = 0x7F;
             }
-            func_8002D4C8(*(u16 *)(s0 + 6), (a1v | 0x1000) & 0xffff);
+            func_8002D4C8(*(u16 *)(s0 + 6), (u16)(a1v | 0x1000));
         }
     }
 }
