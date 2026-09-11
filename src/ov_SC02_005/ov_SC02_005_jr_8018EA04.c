@@ -4687,12 +4687,13 @@ void func_80190074(void *a0) {
 extern s32 func_800CF854(void);
 
 s32 func_801900B0(void) {
-    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v;
 
     v = ((s32 (*)(void))func_800CF854)();
-    r = v ? 9 : 8;
-    return r;
+    if (!v) {
+        return 8;
+    }
+    return 9;
 }
 
 
