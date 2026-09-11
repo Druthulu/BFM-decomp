@@ -4896,7 +4896,9 @@ void func_8017E830(s32 a0)
     s32 s4;
     s32 s1, s2;
     u8 *p;
-    s32 u_lo, u_hi;
+    s32 u;
+    u8 u_lo;
+    s32 u_hi;
     s32 X, Y;
     s32 x_lo, y_lo, x_hi, y_hi;
 
@@ -4916,11 +4918,10 @@ void func_8017E830(s32 a0)
         p[3] = 9;
         *(u32 *)(p + 4) = 0x808080;
         p[7] = 0x2C;
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
 
-        u_hi = (s4 & 0x3F) << 2;
-        u_lo = u_hi;
-        u_hi += 0x10;
+        u = (s4 & 0x3F) << 2;
+        u_lo = u;
+        u_hi = u + 0x10;
         s1 = s1 + 0x178;
         p[0xC] = u_lo;
         p[0xD] = s2;
