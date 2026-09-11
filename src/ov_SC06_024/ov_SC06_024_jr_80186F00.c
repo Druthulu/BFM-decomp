@@ -7754,6 +7754,7 @@ void func_8018E428(s32 a0)
     s16 pos;
     s32 sp10[3];
     u16 state;
+    s32 ret;
 
     hi = *(s16 *)(a0 + 0x8A);
     pos = *(s16 *)(a0 + 0xA);
@@ -7785,13 +7786,12 @@ void func_8018E428(s32 a0)
     state = *(u16 *)(a0 + 0x34);
     switch (state) {
     case 0: {
-        register s32 s0v __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-        s32 ret;
+        s32 s0v;
         s32 p744;
         s32 v1p;
         s16 snd;
         s32 b608;
-        register s32 p20 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        s32 p20;
 
         s0v = a0 + 0x88;
         ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)s0v);
@@ -7806,13 +7806,11 @@ void func_8018E428(s32 a0)
         b608 = func_8012B608(snd, p744, 8);
         p20 = *(s32 *)(a0 + 0x20);
         *(u16 *)(p20 + 0x12) = *(u16 *)(p20 + 0x12) + b608;
-        v1p = *(s32 *)(a0 + 0x20);
-        *(u16 *)(v1p + 0x12) = *(u16 *)(v1p + 0x12) & 0xFFF;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) &= 0xFFF;
         func_8012B1B4(a0, (s32)sp10);
         break;
     }
     case 1: {
-        s32 ret;
 
         *(s32 *)(a0 + 0xDC) = *(s32 *)(a0 + 0xDC) << 1;
         ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)(a0 + 0x88));
@@ -7850,7 +7848,6 @@ void func_8018E428(s32 a0)
     }
     case 3: {
         s32 s2v;
-        s32 ret;
         s32 p744;
         s32 v1p;
         s16 snd;
