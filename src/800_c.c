@@ -444,10 +444,9 @@ void func_800359B0(s32 arg0) {
             D_80076104 = D_80076104 + 1;
             if ((s16)D_80076104 >= 0x12D) {
                 func_800434BC();
-            do_flag:
                 D_80076214 = 1;
                 *(u8 *)(arg0 + 2) = 0;
-                return;
+                break;
             }
             *(u8 *)(arg0 + 2) = 1;
             return;
@@ -479,8 +478,8 @@ void func_800359B0(s32 arg0) {
             D_80076104 = D_80076104 + 1;
             if ((s16)D_80076104 >= 0x12D) {
                 func_800434BC();
-                __asm__ __volatile__("");   /* §336 cross-jump fence, zero bytes */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-                goto do_flag;
+                D_80076214 = 1;
+                *(u8 *)(arg0 + 2) = 0;
             }
             break;
         }
