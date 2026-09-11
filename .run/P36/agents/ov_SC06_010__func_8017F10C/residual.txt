@@ -1,0 +1,10 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_8017F10C: score 5 (ORDER; mine 91 ins, target 91) — not yet
+  register pairs (mine -> target, count): s0->a1 x1, a0->s2 x1
+  replace mine[14:15] target[14:16]
+       14  move	s2,a1                         | lui	s0,0x0
+       15  --                                 | addiu	s0,s0,0
+  replace mine[17:19] target[18:19]
+       17  lui	s0,0x0                         | move	a0,s0
+       18  addiu	s0,s0,0                      | --
+  replace mine[20:21] target[20:21]
+       20  move	a0,s0                         | move	s2,a1

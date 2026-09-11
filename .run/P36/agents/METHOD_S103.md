@@ -179,3 +179,12 @@
       (`p = &D; p += x;`) written as one expression (`combine.c:2305-2337`, `reload1.c:2327-2352`).
     - (d29) a `void` function whose last statement is a keepalive of `v0` RETURNS it — `s32` + `return X;` + the TU's `extern`
       prototype changed: a SIGNATURE change, parked for the STRUCTS phase (Drew S104 (d)); report it, do not expect it banked.
+16. **S104's TU batches (e1–e9), and tool news:**
+    - **`tools/localalloc_sim.py` now models the three-quantity switch** (both passes) — use it, not d5's `scratch/lsim3.py`.
+    - `related.txt` now covers MAIN (`src/800*.c`); in main the answer is often a same-TU sibling that shares a global.
+    - Recurring closes: every temp holds ONE value (a multi-death local is refused, `local-alloc.c:472`) — substitute in place or
+      split, all at once; REUSE a temp across blocks to make it global; split a load from its update (`T = LOAD; … P = T + X;`);
+      `return ++i;` for a counter's refs; a narrow load needed twice → `+=` on the field and re-read it at each test (combine's
+      SUBREG copy survives, `local-alloc.c:1003-1007`); a hand-rolled `if (v < 0) v += 2^k-1; v >>= k;` is `v / 2^k`.
+    - A `(void)` function whose first act reads a pinned `$a0`–`$a3` TAKES A PARAMETER; a narrow parameter the bytes use as s32
+      IS s32; a store through another symbol of the same address is identical only after LINKING — all three are parked.

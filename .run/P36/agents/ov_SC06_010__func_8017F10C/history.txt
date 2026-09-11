@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 5 best 5 compiles 190 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @5412 -> 5 [ORDER] (from 5)
+  R6 inline sid @5415 -> 5 [ORDER] (from 5)
+  R8 temp tmp0 @5412 -> 5 [ORDER] (from 5)
+  R18 bystander @5415->5412 -> 5 [ORDER] (from 5)
+  R8 base tmp0 @5412 -> 5 [ORDER] (from 5)
+  R18 bystander @5415->5413 -> 5 [ORDER] (from 5)
+  R9 swap-stmts @5414 -> 5 [ORDER] (from 5)
+  R7 block @5413 -> 5 [ORDER] (from 5)
+  R8 base-shared tmp0 @5412 -> 5 [ORDER] (from 5)
+  R10 param-alias sid->a1 @5415 -> 5 [ORDER] (from 5)
+  R18 bystander @5415->5418 -> 5 [ORDER] (from 5)
+  R9 swap-stmts @5415 -> 5 [ORDER] (from 5)

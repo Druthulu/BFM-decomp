@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 98 best 98 compiles 187 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R4 decl-move p 0->1 -> 98 [REG] (from 98)
+  R7 block @6517 -> 98 [REG] (from 98)
+  R7 block @6526 -> 98 [REG] (from 98)
+  R9 swap-stmts @6516 -> 98 [REG] (from 98)
+  R7 block @6522 -> 98 [REG] (from 98)
+  R7 block @6525 -> 98 [REG] (from 98)
+  R7 block @6521 -> 98 [REG] (from 98)
+  R9 swap-stmts @6511 -> 98 [REG] (from 98)
+  R7 block @6517 -> 98 [REG] (from 98)
+  R7 block @6526 -> 98 [REG] (from 98)
+  R9 swap-stmts @6516 -> 98 [REG] (from 98)
+  R7 block @6522 -> 98 [REG] (from 98)

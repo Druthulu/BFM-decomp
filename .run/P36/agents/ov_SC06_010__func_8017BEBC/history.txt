@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 6 best 6 compiles 186 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @3593->3595 -> 6 [REG] (from 6)
+  R7 block @3695 -> 6 [REG] (from 6)
+  R10 param-copy arg0 @3586 -> 6 [REG] (from 6)
+  R5 swap + @3694 -> 6 [REG] (from 6)
+  R7 do-while @3695 -> 6 [REG] (from 6)
+  R5 swap + @3685 -> 6 [REG] (from 6)
+  R7 block @3694 -> 6 [REG] (from 6)
+  R5 swap + @3681 -> 6 [REG] (from 6)
+  R5 swap + @3680 -> 6 [REG] (from 6)
+  R7 block @3774 -> 6 [REG] (from 6)
+  R7 block @3695 -> 6 [REG] (from 6)
+  R10 param-copy arg0 @3586 -> 6 [REG] (from 6)

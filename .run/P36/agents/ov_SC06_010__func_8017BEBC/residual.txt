@@ -1,0 +1,11 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_8017BEBC: score 6 (REG-callee; mine 753 ins, target 753) — not yet
+  register pairs (mine -> target, count): s6->s7 x3, s7->s6 x3
+  replace mine[44:46] target[44:46]
+       44  addiu	s6,sp,236                    | addiu	s7,sp,236
+       45  addiu	s7,sp,240                    | addiu	s6,sp,240
+  replace mine[384:386] target[384:386]
+      384  swc2	$17,0(s6)                     | swc2	$17,0(s7)
+      385  swc2	$18,0(s7)                     | swc2	$18,0(s6)
+  replace mine[598:600] target[598:600]
+      598  swc2	$16,0(s6)                     | swc2	$16,0(s7)
+      599  swc2	$17,0(s7)                     | swc2	$17,0(s6)

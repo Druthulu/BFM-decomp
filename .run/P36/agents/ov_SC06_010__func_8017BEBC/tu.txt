@@ -1,0 +1,2 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c
+func_8017BEBC

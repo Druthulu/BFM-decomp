@@ -1,0 +1,148 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_80180A88: score 98 (REG-callee; mine 411 ins, target 411) — not yet
+  register pairs (mine -> target, count): s1->s0 x96, s0->s1 x15
+  replace mine[225:229] target[225:229]
+      225  lui	s1,0x0                         | lui	s0,0x0
+      226  addiu	s1,s1,0                      | addiu	s0,s0,0
+      227  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      228  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[231:235] target[231:235]
+      231  sh	v0,0(s1)                        | sh	v0,0(s0)
+      232  lui	s0,0x0                         | lui	s1,0x0
+      233  addiu	s0,s0,0                      | addiu	s1,s1,0
+      234  move	a0,s0                         | move	a0,s1
+  replace mine[237:238] target[237:238]
+      237  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[239:240] target[239:240]
+      239  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[242:246] target[242:246]
+      242  lui	s1,0x0                         | lui	s0,0x0
+      243  addiu	s1,s1,0                      | addiu	s0,s0,0
+      244  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      245  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[248:250] target[248:250]
+      248  sh	v0,0(s1)                        | sh	v0,0(s0)
+      249  move	a0,s0                         | move	a0,s1
+  replace mine[252:253] target[252:253]
+      252  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[254:255] target[254:255]
+      254  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[257:261] target[257:261]
+      257  lui	s1,0x0                         | lui	s0,0x0
+      258  addiu	s1,s1,0                      | addiu	s0,s0,0
+      259  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      260  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[263:265] target[263:265]
+      263  sh	v0,0(s1)                        | sh	v0,0(s0)
+      264  move	a0,s0                         | move	a0,s1
+  replace mine[267:268] target[267:268]
+      267  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[269:270] target[269:270]
+      269  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[272:276] target[272:276]
+      272  lui	s1,0x0                         | lui	s0,0x0
+      273  addiu	s1,s1,0                      | addiu	s0,s0,0
+      274  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      275  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[278:280] target[278:280]
+      278  sh	v0,0(s1)                        | sh	v0,0(s0)
+      279  move	a0,s0                         | move	a0,s1
+  replace mine[282:283] target[282:283]
+      282  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[284:285] target[284:285]
+      284  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[287:291] target[287:291]
+      287  lui	s1,0x0                         | lui	s0,0x0
+      288  addiu	s1,s1,0                      | addiu	s0,s0,0
+      289  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      290  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[293:295] target[293:295]
+      293  sh	v0,0(s1)                        | sh	v0,0(s0)
+      294  move	a0,s0                         | move	a0,s1
+  replace mine[297:298] target[297:298]
+      297  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[299:300] target[299:300]
+      299  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[302:306] target[302:306]
+      302  lui	s1,0x0                         | lui	s0,0x0
+      303  addiu	s1,s1,0                      | addiu	s0,s0,0
+      304  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      305  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[308:310] target[308:310]
+      308  sh	v0,0(s1)                        | sh	v0,0(s0)
+      309  move	a0,s0                         | move	a0,s1
+  replace mine[312:313] target[312:313]
+      312  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[314:315] target[314:315]
+      314  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[317:321] target[317:321]
+      317  lui	s1,0x0                         | lui	s0,0x0
+      318  addiu	s1,s1,0                      | addiu	s0,s0,0
+      319  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      320  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[323:325] target[323:325]
+      323  sh	v0,0(s1)                        | sh	v0,0(s0)
+      324  move	a0,s0                         | move	a0,s1
+  replace mine[327:328] target[327:328]
+      327  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[329:330] target[329:330]
+      329  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[332:336] target[332:336]
+      332  lui	s1,0x0                         | lui	s0,0x0
+      333  addiu	s1,s1,0                      | addiu	s0,s0,0
+      334  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      335  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[338:340] target[338:340]
+      338  sh	v0,0(s1)                        | sh	v0,0(s0)
+      339  move	a0,s0                         | move	a0,s1
+  replace mine[342:343] target[342:343]
+      342  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[344:345] target[344:345]
+      344  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[347:351] target[347:351]
+      347  lui	s1,0x0                         | lui	s0,0x0
+      348  addiu	s1,s1,0                      | addiu	s0,s0,0
+      349  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      350  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[353:355] target[353:355]
+      353  sh	v0,0(s1)                        | sh	v0,0(s0)
+      354  move	a0,s0                         | move	a0,s1
+  replace mine[357:358] target[357:358]
+      357  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[359:360] target[359:360]
+      359  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[362:366] target[362:366]
+      362  lui	s1,0x0                         | lui	s0,0x0
+      363  addiu	s1,s1,0                      | addiu	s0,s0,0
+      364  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      365  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[368:370] target[368:370]
+      368  sh	v0,0(s1)                        | sh	v0,0(s0)
+      369  move	a0,s0                         | move	a0,s1
+  replace mine[372:373] target[372:373]
+      372  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[374:375] target[374:375]
+      374  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[377:381] target[377:381]
+      377  lui	s1,0x0                         | lui	s0,0x0
+      378  addiu	s1,s1,0                      | addiu	s0,s0,0
+      379  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      380  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[383:385] target[383:385]
+      383  sh	v0,0(s1)                        | sh	v0,0(s0)
+      384  move	a0,s0                         | move	a0,s1
+  replace mine[387:388] target[387:388]
+      387  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[389:390] target[389:390]
+      389  sw	zero,-84(s1)                    | sw	zero,-84(s0)
+  replace mine[392:396] target[392:396]
+      392  lui	s1,0x0                         | lui	s0,0x0
+      393  addiu	s1,s1,0                      | addiu	s0,s0,0
+      394  addiu	a0,s1,-4                     | addiu	a0,s0,-4
+      395  addiu	a1,s1,-80                    | addiu	a1,s0,-80
+  replace mine[398:400] target[398:400]
+      398  sh	v0,0(s1)                        | sh	v0,0(s0)
+      399  move	a0,s0                         | move	a0,s1
+  replace mine[402:403] target[402:403]
+      402  addiu	a2,s1,-84                    | addiu	a2,s0,-84
+  replace mine[404:405] target[404:405]
+      404  sw	zero,-84(s1)                    | sw	zero,-84(s0)
