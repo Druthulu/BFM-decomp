@@ -6354,8 +6354,8 @@ L_BF8:
     if (((s32 (*)(int, int))func_801833D4)((int)self, 0) == 0) {
         goto L_D14;
     } else {
-        register u16 f __asm__("$3") = *(u16 *)(self + 0xF4);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t3_tus1)
-        register s32 off __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t3_tus1)
+        s32 f = *(u16 *)(self + 0xF4);
+        s32 off;
         u8 *addr;
         f = f + 1;
         off = (s16)f * 8;
