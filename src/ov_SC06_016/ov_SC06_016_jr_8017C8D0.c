@@ -5060,18 +5060,13 @@ void func_80180E24(void *a0)
     if (t < 4) {
         v0 = (t * 5) << 9;                     /* 0xA00 per frame ramp */
         p = *(s32 **)((u8 *)s1 + 0x20);
+        *(u16 *)((u8 *)p + 0x1A) = v0;
+        *(u16 *)((u8 *)p + 0x18) = v0;
     } else {
         p = *(s32 **)((u8 *)s1 + 0x20);
-        v0 = 0x2800;
+        *(u16 *)((u8 *)p + 0x1A) = 0x2800;
+        *(u16 *)((u8 *)p + 0x18) = 0x2800;
     }
-
-    *(u16 *)((u8 *)p + 0x1A) = v0;
-    *(u16 *)((u8 *)p + 0x18) = v0;
-    __asm__ __volatile__("");                  /* §194-A / law 28: emit the sh  // !FAKE: barrier — NEEDED COMPILE-ERROR (P36 rung B tus10)
-                                                * pair FIRST in its block so the
-                                                * next call's arg setup cannot
-                                                * float above it (required --
-                                                * removing it costs 6 ins) */
 
     func_8012F214((s32)s2, (s32)&D_801890D0, (s32)out);
     *(u16 *)((u8 *)s1 + 0x6) = out[0];
