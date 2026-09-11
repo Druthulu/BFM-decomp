@@ -3754,15 +3754,6 @@ void func_8018342C(s32 param_1) {
     s32 v;
     s32 q;
     s32 w;
-    /* The `register ... __asm__("$4")` pin on the tail's +2-field counter is
-     * load-bearing (matching-cookbook idiom 9 / L-lever family): unpinned, gcc
-     * puts the 0x50000000 OR-mask constant in $a0 and the field value in $v1
-     * (register-swapped vs. the target) and schedules the field's `lhu` right
-     * before the `or` instead of hoisting it ahead of the 0xFC/FD/FE `sb`
-     * stores. Pinning $4/$a0 to this value AND folding the `+1` into the same
-     * statement as the load (`cnt = *(u16*)(param_1+2) + 1;`, store separate)
-     * reproduces both the register choice and the exact schedule position. */
-    register s32 cnt __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
 
     obj = ((s32 (*)(void))func_8012C1B8)();
     if (obj == 0) {
@@ -3862,12 +3853,17 @@ void func_8018342C(s32 param_1) {
     }
     *(s16 *)(param_1 + 0xF8) = w;
 
-    cnt = *(u16 *)(param_1 + 2) + 1;
     *(u8 *)(param_1 + 0xFC) = 0x80;
     *(u8 *)(param_1 + 0xFD) = 0x80;
     *(u8 *)(param_1 + 0xFE) = 0x80;
     *(u32 *)(param_1 + 0x100) = *(u32 *)(param_1 + 0x100) | 0x50000000;
-    *(u16 *)(param_1 + 2) = cnt;
+    /* A u16 `++` (not `+= 1`): expand_increment adds in HImode through a
+     * widened SImode add (expr.c:8662), combine rewrites the HImode copy as a
+     * SUBREG destination (combine.c:4376-4402), and sched1's birthing_insn_p
+     * (sched.c:2477-2478) no longer boosts the addiu next to the store, so the
+     * lhu is scheduled ahead of the 0xFC-0xFE byte stores and takes $a0
+     * (P36 S104 d8; formerly a `register __asm__("$4")` pin on a s32 local). */
+    (*(u16 *)(param_1 + 2))++;
 }
 
 
