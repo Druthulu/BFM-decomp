@@ -3192,7 +3192,6 @@ void func_80180A64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
             gte_stsxy(&sxy[3]);
             gte_ldv3c(&box[4]);
-            __asm__ volatile ("");   /* §47 live-length slider (carried from the twin) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
             gte_rtpt();
             gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
             gte_ldv0(&box[7]);
@@ -3296,11 +3295,12 @@ void func_80180A64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                                 if (g.sz0 > g.sz1) {
                                                     za = g.sz0;
                                                     if (za < g.sz2) za = g.sz2;
+                                                    g.opz = za;
                                                 } else {
                                                     za = g.sz1;
                                                     if (za < g.sz2) za = g.sz2;
+                                                    g.opz = za;
                                                 }
-                                                g.opz = za;
                                                 if (code == 7) g.opz = za + 0x200;
                                                 tp = (u32 *)prim->w0;
                                                 ((PolyFT3 *)pkt)->rgbc = tp[0] | 0x2000000;

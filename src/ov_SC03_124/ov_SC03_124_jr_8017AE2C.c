@@ -4783,18 +4783,19 @@ void func_8017EDE8(void *a0)
                  * lever is not in the source order, so the pointer is pinned.
                  * The range is lw..sw inside this block and crosses no call, so
                  * the §74 caller-saved hazard does not apply. */
-                register s32 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+                s32 *p;
                 p = *(s32 **)((s32)a0 + 0xCC);
                 *(s32 *)((s32)p + 0xB0) = 2;
             }
             func_801845FC((s32)a0, (s32)&D_801B95B0, 0, 0x60);
+            *(u16 *)((s32)a0 + 0x34) = 1;
         } else {
             if (func_801846CC((s32)a0) == 0) {
                 return;
             }
             func_801845FC((s32)a0, (s32)&D_801B95B0, 0, 0x60);
+            *(u16 *)((s32)a0 + 0x34) = 1;
         }
-        *(u16 *)((s32)a0 + 0x34) = 1;
         break;
     case 1:
         if (func_801846CC((s32)a0) != 0) {

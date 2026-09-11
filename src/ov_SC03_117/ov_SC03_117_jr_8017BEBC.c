@@ -4091,11 +4091,11 @@ void func_8017E498(s32 a0) {
                     /* LOAD-BEARING (§5a cross-jump barrier, zero bytes): without it
                        jump2 tail-merges the two identical [set $a0][jal] arms into one
                        shared call site and the function comes out 2 instructions short. */
-                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
+                    *(u16 *)(a0 + 0x34) += 1;
                 } else {
                     func_80178B18(a0, (s32)D_8018866C);
+                    *(u16 *)(a0 + 0x34) += 1;
                 }
-                *(u16 *)(a0 + 0x34) += 1;
             }
         }
         break;
