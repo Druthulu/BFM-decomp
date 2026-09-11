@@ -54,3 +54,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-10	S103: c56 ports func_8013D9B0 to ov_MAIN_012's class (7); c54 func_8017B238 (8)	c02fc7cd5	5376	3061	2315	2654	1131	5376	0	456	314	1590	50	7733	445	76
 2026-09-10	S103 end: R26 regen 28 classes (71 bodies) + c55/c53 five classes	0ef49b515	5231	2932	2299	2569	1098	5231	0	456	314	1590	50	7782	445	76
 2026-09-10	S103 end: c51 func_8012E364 2 levers (134); scrub of 46 orphan markers	94520756e	5097	2798	2299	2569	1097	5097	0	456	314	1590	50	7782	445	76
+2026-09-10	S104 T7: free sweep (5 classes) + agents d1–d9 (all 0; 8 with zero levers, d4 one marked do-while)	910875139	4963	2730	2233	2498	1077	4963	0	456	314	1590	50	7782	445	76
