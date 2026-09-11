@@ -3541,7 +3541,6 @@ extern void func_8012A018(s32 a, s32 b);
 
 s32 func_8017B614(s32 param_1, s32 param_2)
 {
-
     extern s32 D_80126990;
     extern s32 D_80126994;
     extern s16 D_801902EC;
@@ -3556,52 +3555,40 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     extern s16 D_8019035C;
     extern s16 D_8019035E;
     extern s16 D_80190360;
-    extern u8 D_8012694C;
+    extern u8 D_8012694C[];
     extern s32 D_80126998;
     extern s32 D_80126984;
     extern s32 D_80126988;
     extern s32 D_8012698C;
 
     u8 buf[16];
+    u8 *src;
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        src = (u8 *)((u32)param_2);
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
-        s32 a1addr = (s32)&D_80181FC0[((u32)param_2) * 0x10];
-        s32 a2addr = (s32)&D_80181FC0[((u32)param_2) * 0x10 + 8];
-        func_8012F214(param_1, a1addr, (s32)&buf[0]);
+        s32 a2addr;
+
+        src = &D_80181FC0[((u32)param_2) * 0x10];
+        a2addr = (s32)&D_80181FC0[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, (s32)src, (s32)&buf[0]);
         func_8012F214(param_1, a2addr, (s32)&buf[8]);
     }
-    {
-        s16 *p794 = &D_80190364;
-        s16 *p78C = &D_8019035C;
-        *(Blk8_8017B614 *)p794 = *(Blk8_8017B614 *)&buf[0];
-        *(Blk8_8017B614 *)p78C = *(Blk8_8017B614 *)&buf[8];
-        func_8012A018((s32)func_8017BE60, 0);
-        {
-            s32 v794, v796, v798, v78C, v78E, v790;
-            D_8012694C = 0;
-            v794 = *p794;
-            v796 = D_80190366;
-            v798 = D_80190368;
-            v78C = *p78C;
-            v78E = D_8019035E;
-            v790 = D_80190360;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-            D_80190488 = 1;
-            D_801902EC = 0x1E;
-            D_80126990 = v794;
-            D_80126994 = v796;
-            D_80126998 = v798;
-            D_80126984 = v78C;
-            D_80126988 = v78E;
-            D_8012698C = v790;
-        }
-        func_80129CF8();
-    }
+    *(Blk8_8017B614 *)&D_80190364 = *(Blk8_8017B614 *)&buf[0];
+    *(Blk8_8017B614 *)&D_8019035C = *(Blk8_8017B614 *)&buf[8];
+    func_8012A018((s32)func_8017BE60, 0);
+    D_8012694C[0] = 0;
+    D_80190488 = 1;
+    D_801902EC = 0x1E;
+    D_80126990 = ((SV4_8017B368 *)&D_80190364)->a;
+    D_80126994 = D_80190366;
+    D_80126998 = D_80190368;
+    D_80126984 = ((SV4_8017B368 *)&D_8019035C)->a;
+    D_80126988 = D_8019035E;
+    D_8012698C = D_80190360;
+    func_80129CF8();
 }
 
 

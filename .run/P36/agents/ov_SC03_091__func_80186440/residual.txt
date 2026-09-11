@@ -1,0 +1,11 @@
+src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:func_80186440: score 6 (COUNT; mine 231 ins, target 231) — not yet
+  register pairs (mine -> target, count): v1->a0 x1
+  replace mine[214:215] target[214:216]
+      214  lui	a0,0x5000                      | lhu	a0,2(s2)
+      215  --                                 | lui	v1,0x5000
+  replace mine[219:222] target[220:222]
+      219  lhu	v1,2(s2)                       | addiu	a0,a0,1
+      220  or	v0,v0,a0                        | or	v0,v0,v1
+      221  addiu	v1,v1,1                      | --
+  replace mine[223:224] target[223:224]
+      223  sh	v1,2(s2)                        | sh	a0,2(s2)

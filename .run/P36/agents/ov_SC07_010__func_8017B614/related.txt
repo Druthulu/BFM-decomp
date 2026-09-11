@@ -1,5 +1,103 @@
-=== lever-free bodies in ov_SC07_010 sharing a callee or global with func_8017B614 (23 found; top 6 by shared symbols) — read them for the SHAPE ===
---- func_8017B490 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:2925) shares 12: D_80126984 D_80126988 D_8012698C D_80126990 D_80126994 D_80126998 D_80185900 D_801A7C54 D_801A7CC4 D_801A7CCC D_801A94D0 func_8012F214 ---
+=== func_8017B614 ALREADY LEVER-FREE in src/ov_SC01_000/ov_SC01_000_jr_8017AE2C.c:2907 — same name, shares symbols and size: PROBABLY a variant; diff it before porting (R71) ===
+s32 func_8017B614(s32 param_1, s32 param_2)
+{
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void func_80129CF8(void);
+    extern s32 func_8017BE60(void *a0);
+    extern u8 D_80182548[];
+    extern s16 D_801A56EC;
+    extern s16 D_801A56EE;
+    extern s16 D_801A56F0;
+    extern s16 D_801A56E4;
+    extern s16 D_801A56E6;
+    extern s16 D_801A56E8;
+    extern u8 D_8012694C[];
+    extern s32 D_80126998;
+    extern s32 D_80126984;
+    extern s32 D_80126988;
+    extern s32 D_8012698C;
+
+    u8 buf[16];
+    u8 *src;
+
+    if (((u32)param_2) >= 0xB) {
+        src = (u8 *)((u32)param_2);
+        *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
+        *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
+    } else {
+        s32 a2addr;
+
+        src = &D_80182548[((u32)param_2) * 0x10];
+        a2addr = (s32)&D_80182548[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, (s32)src, (s32)&buf[0]);
+        func_8012F214(param_1, a2addr, (s32)&buf[8]);
+    }
+    *(Blk8_8017B614 *)&D_801A56EC = *(Blk8_8017B614 *)&buf[0];
+    *(Blk8_8017B614 *)&D_801A56E4 = *(Blk8_8017B614 *)&buf[8];
+    func_8012A018((s32)func_8017BE60, 0);
+    D_8012694C[0] = 0;
+    D_801A5870 = 1;
+    D_801A5674 = 0x1E;
+    D_80126990 = ((SV4_8017B368 *)&D_801A56EC)->a;
+    D_80126994 = D_801A56EE;
+    D_80126998 = D_801A56F0;
+    D_80126984 = ((SV4_8017B368 *)&D_801A56E4)->a;
+    D_80126988 = D_801A56E6;
+    D_8012698C = D_801A56E8;
+    func_80129CF8();
+}
+
+=== func_8017B614 ALREADY LEVER-FREE in src/ov_SC01_001/ov_SC01_001_jr_8017AE2C.c:2905 — same name, shares symbols and size: PROBABLY a variant; diff it before porting (R71) ===
+s32 func_8017B614(s32 param_1, s32 param_2)
+{
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void func_80129CF8(void);
+    extern s32 func_8017BE60(void *a0);
+    extern u8 D_80187198[];
+    extern s16 D_801ED97C;
+    extern s16 D_801ED97E;
+    extern s16 D_801ED980;
+    extern s16 D_801ED974;
+    extern s16 D_801ED976;
+    extern s16 D_801ED978;
+    extern u8 D_8012694C[];
+    extern s32 D_80126998;
+    extern s32 D_80126984;
+    extern s32 D_80126988;
+    extern s32 D_8012698C;
+
+    u8 buf[16];
+    u8 *src;
+
+    if (((u32)param_2) >= 0xB) {
+        src = (u8 *)((u32)param_2);
+        *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
+        *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
+    } else {
+        s32 a2addr;
+
+        src = &D_80187198[((u32)param_2) * 0x10];
+        a2addr = (s32)&D_80187198[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, (s32)src, (s32)&buf[0]);
+        func_8012F214(param_1, a2addr, (s32)&buf[8]);
+    }
+    *(Blk8_8017B614 *)&D_801ED97C = *(Blk8_8017B614 *)&buf[0];
+    *(Blk8_8017B614 *)&D_801ED974 = *(Blk8_8017B614 *)&buf[8];
+    func_8012A018((s32)func_8017BE60, 0);
+    D_8012694C[0] = 0;
+    D_801F3150 = 1;
+    D_801ED904 = 0x1E;
+    D_80126990 = ((SV4_8017B368 *)&D_801ED97C)->a;
+    D_80126994 = D_801ED97E;
+    D_80126998 = D_801ED980;
+    D_80126984 = ((SV4_8017B368 *)&D_801ED974)->a;
+    D_80126988 = D_801ED976;
+    D_8012698C = D_801ED978;
+    func_80129CF8();
+}
+
+=== lever-free bodies in ov_SC07_010 sharing a callee or global with func_8017B614 (25 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8017B490 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:2927) shares 12: D_80126984 D_80126988 D_8012698C D_80126990 D_80126994 D_80126998 D_80185900 D_801A7C54 D_801A7CC4 D_801A7CCC D_801A94D0 func_8012F214 ---
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -46,7 +144,47 @@ s32 func_8017B490(s32 param)
     D_8012698C = (*(SV4_8017B368 *)&D_801A7CC4).c;
 }
 
---- func_8017B7A8 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:3057) shares 8: D_8012694C D_801A7C54 D_801A7CC4 D_801A7CC6 D_801A7CC8 D_801A7CCC D_801A7CCE D_801A7CD0 ---
+--- func_8017B238 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:2840) shares 9: D_8012694C D_80185900 D_801A7C54 D_801A7CC4 D_801A7CCC D_801A94D0 func_8012A018 func_8012F214 func_8017BE60 ---
+s32 func_8017B238(s32 param_1, s32 param_2)
+{
+
+    extern s16 D_801A7C54;
+    extern s16 D_801A94D0;
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern s32 func_8017BE60(void *a0);
+    extern u8 D_80185900[];
+    extern s16 D_801A7CCC;
+    extern s16 D_801A7CC4;
+    extern u8 D_8012694C;
+
+    u8 buf[16];
+    u8 *src;
+
+    if (((u32)param_2) >= 0xB) {
+        src = (u8 *)((u32)param_2);
+        *(Blk8_8017B238 *)&buf[0] = *(Blk8_8017B238 *)src;
+        *(Blk8_8017B238 *)&buf[8] = *(Blk8_8017B238 *)(src + 8);
+    } else {
+        s32 a2addr;
+
+        src = &D_80185900[((u32)param_2) * 0x10];
+        a2addr = (s32)&D_80185900[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, (s32)src, (s32)&buf[0]);
+        func_8012F214(param_1, a2addr, (s32)&buf[8]);
+    }
+    {
+        s16 *p794 = &D_801A7CCC;
+        s16 *p78C = &D_801A7CC4;
+        *(Blk8_8017B238 *)p794 = *(Blk8_8017B238 *)&buf[0];
+        *(Blk8_8017B238 *)p78C = *(Blk8_8017B238 *)&buf[8];
+        func_8012A018((s32)func_8017BE60, 0);
+        D_8012694C = 0;
+        D_801A94D0 = 1;
+        D_801A7C54 = 0;
+    }
+}
+
+--- func_8017B7A8 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:3059) shares 8: D_8012694C D_801A7C54 D_801A7CC4 D_801A7CC6 D_801A7CC8 D_801A7CCC D_801A7CCE D_801A7CD0 ---
 void func_8017B7A8(void)
 {
 
@@ -74,7 +212,7 @@ void func_8017B7A8(void)
     D_801A7CC8 = (s16) D_80114F2C;
 }
 
---- func_8017B940 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:3155) shares 8: D_8012694C D_801A7C54 D_801A7CC4 D_801A7CC6 D_801A7CC8 D_801A7CCC D_801A7CCE D_801A7CD0 ---
+--- func_8017B940 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:3157) shares 8: D_8012694C D_801A7C54 D_801A7CC4 D_801A7CC6 D_801A7CC8 D_801A7CCC D_801A7CCE D_801A7CD0 ---
 void func_8017B940(void)
 {
 
@@ -137,7 +275,7 @@ void func_8017B0E4(int param_1, int param_2)
     *(s32 *)(((s32)param_1) + 0x44) = (s16)func_80012C6C((s32)*(s16 *)(((s32)param_1) + 0x44), (s32)D_801A7CC8, (s32)((s16)param_2));
 }
 
---- func_8017B368 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:2887) shares 6: D_80185900 D_801A7C54 D_801A7CC4 D_801A7CCC D_801A94D0 func_8012F214 ---
+--- func_8017B368 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:2889) shares 6: D_80185900 D_801A7C54 D_801A7CC4 D_801A7CCC D_801A94D0 func_8012F214 ---
 s32 func_8017B368(s32 param)
 {
 
@@ -171,14 +309,5 @@ s32 func_8017B368(s32 param)
     (*(SV4_8017B368 *)&D_801A7CC4) = loc1;
     D_801A94D0 = 1;
     D_801A7C54 = 0;
-}
-
---- func_8017B8E8 (src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:3138) shares 2: D_801A7CC4 D_801A7CCC ---
-s32 func_8017B8E8(s32 src) {
-
-    extern s16 D_801A7CC4;
-    extern s16 D_801A7CCC;
-    (*(S8_8017B8E8 *)&D_801A7CCC) = ((S8_8017B8E8 *)src)[0];
-    (*(S8_8017B8E8 *)&D_801A7CC4) = ((S8_8017B8E8 *)src)[1];
 }
 

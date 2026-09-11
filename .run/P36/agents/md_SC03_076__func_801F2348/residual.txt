@@ -1,0 +1,11 @@
+src/md_SC03_076/md_SC03_076_jr_801F218C.c:func_801F2348: score 6 (COUNT; mine 32 ins, target 34) — not yet
+  replace mine[7:8] target[7:8]
+        7  bnez	v0,1fc <func_801F2348+0x40>   | bnez	v0,204 <func_801F2348+0x48>
+  replace mine[10:11] target[10:11]
+       10  bnez	v0,1fc <func_801F2348+0x40>   | bnez	v0,204 <func_801F2348+0x48>
+  replace mine[15:16] target[15:18]
+       15  sltiu	v0,v0,1                      | bnez	v0,204 <func_801F2348+0x48>
+       16  --                                 | move	v0,zero
+       17  --                                 | li	v0,1
+  replace mine[22:23] target[24:25]
+       22  j	22c <func_801F2348+0x70>         | j	234 <func_801F2348+0x78>

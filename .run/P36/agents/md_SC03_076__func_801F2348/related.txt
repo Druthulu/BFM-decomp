@@ -1,0 +1,139 @@
+=== lever-free bodies in md_SC03_076 sharing a callee or global with func_801F2348 (5 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801F24DC (src/md_SC03_076/md_SC03_076_jr_801F218C.c:288) shares 2: func_80029178 func_80029504 ---
+void func_801F24DC(s32 a0) {
+    extern s32 func_80029504(void);
+    extern s32 func_80029178(s32 arg);
+    extern s32 func_801877C0(void);
+    extern s32 func_80187890(void);
+    extern s32 func_80187904(void);
+    extern void func_80187960(void);
+    extern s32 D_801F35EC[];
+    extern s32 D_801F3600[];
+    extern s32 D_801F361C[];
+    extern s32 D_801F3D68;
+    extern s32 D_801F3DB4;
+
+    s32 v1 = func_80029504();
+    if (v1 < 0x258) {
+        s32 flag;
+        v1 = func_80029504();
+        if ((u32)(v1 - 0xC8) >= 0x64U) {
+            if (v1 < 0x12C || (func_80029178(0xFA) & 0xFF) == 0) {
+                flag = 1;
+            } else {
+                flag = 0;
+            }
+        } else {
+            flag = 0;
+        }
+        if (flag) {
+            *(s32 *)(a0 + 0xE4) = D_801F35EC[func_801877C0()];
+        } else {
+            if (func_80029504() < 0x12CU) {
+                *(s32 *)(a0 + 0xE4) = (s32)&D_801F3D68;
+            } else {
+                *(s32 *)(a0 + 0xE4) = (s32)&D_801F3DB4;
+            }
+        }
+    } else if (v1 < 0x384) {
+        *(s32 *)(a0 + 0xE4) = D_801F3600[func_80187890()];
+    } else {
+        *(s32 *)(a0 + 0xE4) = D_801F361C[func_80187904()];
+        func_80187960();
+    }
+}
+
+--- func_801F2930 (src/md_SC03_076/md_SC03_076_jr_801F218C.c:505) shares 1: func_80029504 ---
+void func_801F2930(void) {
+    func_80029124(0xFD, 0x1);
+    if (((s32 (*)(void))func_80029504)() == 0x136) {
+        ((void (*)(s32))func_80029514)(0x140);
+    }
+}
+
+--- func_801F2970 (src/md_SC03_076/md_SC03_076_jr_801F218C.c:517) shares 1: func_80029504 ---
+void func_801F2970(void) {
+    func_80029124(0xFE, 0x1);
+    if (((s32 (*)(void))func_80029504)() == 0x136) {
+        ((void (*)(s32))func_80029514)(0x140);
+    }
+}
+
+--- func_801EF750 (src/md_SC03_076/md_SC03_076.c:20) shares 1: func_80029504 ---
+void func_801EF750(void) {
+
+    extern s16 D_801F96C0;
+    extern u16 D_801F96B8;
+    extern s32 func_80029504(void);
+    extern void func_801EF800(s32, s16);
+    s32 v;
+    u16 *p;
+
+    v = func_80029504();
+
+    if ((u32)(v - 5) >= 0x4B5) {
+        if (v != 0x6A4) {
+            D_801F96C0 = 1;
+        } else {
+            D_801F96C0 = 2;
+        }
+    } else {
+        D_801F96C0 = 0;
+    }
+
+    func_801EF800(1, D_801F96C0);
+    p = &D_801F96B8;
+    (*p)++;
+}
+
+--- func_801F2690 (src/md_SC03_076/md_SC03_076_jr_801F218C.c:374) shares 1: func_80029504 ---
+s32 *func_801F2690(void) {
+    extern u8 D_80078EB1;
+    extern u8 D_80078E78[];
+    extern u32 D_801F3BDC;
+    extern u32 D_801F3D00;
+    extern s32 D_801F9DD4;
+    extern s32 D_801F9F54;
+    s32 v;
+    u8 *p;
+
+    p = D_80078E78;
+    func_801F28B0();
+    v = func_80029504();
+
+    if (v >= 0xC8) {
+        if (v < 0x258) {
+            if (func_801F2850(D_80078EB1, 0xD, 0x18)) {
+                if ((u32)(v - 0x136) < 0x46) {
+                    func_801F2868(0xA, (s32)&D_801F3BDC, (s32)func_801F2930);
+                    func_80029124(0x112, 1);
+                } else {
+                    func_801F2868(0xA, 0, 0);
+                }
+            } else {
+                func_801F2868(0xA, 0, 0);
+            }
+            if (func_801F2850(p[0x39], 0xD, 0x18)) {
+                if ((u32)(v - 0x136) < 0x46) {
+                    func_801F2868(0xB, (s32)&D_801F3D00, (s32)func_801F2970);
+                } else {
+                    func_801F2868(0xB, 0, 0);
+                }
+            } else {
+                func_801F2868(0xB, 0, 0);
+            }
+        } else {
+            func_801F2868(0xA, 0, 0);
+            func_801F2868(0xB, 0, 0);
+        }
+    } else {
+        func_801F2868(0xA, 0, 0);
+        func_801F2868(0xB, 0, 0);
+    }
+    func_801F28E0();
+    if (D_801F9F54 == 0) {
+        return 0;
+    }
+    return &D_801F9DD4;
+}
+

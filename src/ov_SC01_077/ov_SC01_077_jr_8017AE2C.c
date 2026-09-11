@@ -3044,6 +3044,10 @@ s32 func_8017B490(s32 param)
 
 s32 func_8017B614(s32 param_1, s32 param_2)
 {
+    extern s32 D_80126990;
+    extern s32 D_80126994;
+    extern s16 D_801DA71C;
+    extern s16 D_801DAAB8;
     extern void func_8012F214(s32 a0, s32 a1, s32 a2);
     extern void func_80129CF8(void);
     extern s32 func_8017BE60(void *a0);
@@ -3054,52 +3058,40 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     extern s16 D_801DA78C;
     extern s16 D_801DA78E;
     extern s16 D_801DA790;
-    extern u8 D_8012694C;
+    extern u8 D_8012694C[];
     extern s32 D_80126998;
     extern s32 D_80126984;
     extern s32 D_80126988;
     extern s32 D_8012698C;
 
     u8 buf[16];
+    u8 *src;
 
     if (((u32)param_2) >= 0xB) {
-        register u8 *src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
-        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+        src = (u8 *)((u32)param_2);
         *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
         *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
     } else {
-        s32 a1addr = (s32)&D_8018A45C[((u32)param_2) * 0x10];
-        s32 a2addr = (s32)&D_8018A45C[((u32)param_2) * 0x10 + 8];
-        func_8012F214(param_1, a1addr, (s32)&buf[0]);
+        s32 a2addr;
+
+        src = &D_8018A45C[((u32)param_2) * 0x10];
+        a2addr = (s32)&D_8018A45C[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, (s32)src, (s32)&buf[0]);
         func_8012F214(param_1, a2addr, (s32)&buf[8]);
     }
-    {
-        s16 *p794 = &D_801DA794;
-        s16 *p78C = &D_801DA78C;
-        *(Blk8_8017B614 *)p794 = *(Blk8_8017B614 *)&buf[0];
-        *(Blk8_8017B614 *)p78C = *(Blk8_8017B614 *)&buf[8];
-        func_8012A018((s32)func_8017BE60, 0);
-        {
-            s32 v794, v796, v798, v78C, v78E, v790;
-            D_8012694C = 0;
-            v794 = *p794;
-            v796 = D_801DA796;
-            v798 = D_801DA798;
-            v78C = *p78C;
-            v78E = D_801DA78E;
-            v790 = D_801DA790;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-            D_801DAAB8 = 1;
-            D_801DA71C = 0x1E;
-            D_80126990 = v794;
-            D_80126994 = v796;
-            D_80126998 = v798;
-            D_80126984 = v78C;
-            D_80126988 = v78E;
-            D_8012698C = v790;
-        }
-        func_80129CF8();
-    }
+    *(Blk8_8017B614 *)&D_801DA794 = *(Blk8_8017B614 *)&buf[0];
+    *(Blk8_8017B614 *)&D_801DA78C = *(Blk8_8017B614 *)&buf[8];
+    func_8012A018((s32)func_8017BE60, 0);
+    D_8012694C[0] = 0;
+    D_801DAAB8 = 1;
+    D_801DA71C = 0x1E;
+    D_80126990 = ((SV4_8017B368 *)&D_801DA794)->a;
+    D_80126994 = D_801DA796;
+    D_80126998 = D_801DA798;
+    D_80126984 = ((SV4_8017B368 *)&D_801DA78C)->a;
+    D_80126988 = D_801DA78E;
+    D_8012698C = D_801DA790;
+    func_80129CF8();
 }
 
 

@@ -1,4 +1,4 @@
-=== THIS FUNCTION'S OWN HEADER (func_8017B614, line 2984) — read it in full ===
+=== THIS FUNCTION'S OWN HEADER (func_8017B614, line 2986) — read it in full ===
 // @class: regalloc-order + T1 memcpy-builtin→call re-crack
 // @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
 // param_2 in $a1 until the branch, then $s0 for the loads). Block-moves are align-1 struct-assigns

@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 6 best 6 compiles 324 path 
+s7: verdict NO-MATCH start 6 best 6 compiles 555 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width w s32->u16 @4868 -> 6 [COUNT] (from 6)
+  R6 inline cnt @4977 -> 6 [COUNT] (from 6)
+  R8 temp tmp0 @4977 -> 6 [COUNT] (from 6)
+  R18 bystander @4885->4887 -> 6 [COUNT] (from 6)
+  R7 block @4977 -> 6 [COUNT] (from 6)
+  R9 swap-stmts @4977 -> 6 [COUNT] (from 6)
+  R12 width w s32->s16 @4868 -> 6 [COUNT] (from 6)
+  R8 base tmp0 @4977 -> 6 [COUNT] (from 6)
+  R8 base-shared tmp0 @4977 -> 6 [COUNT] (from 6)
+  R7 block @4979 -> 6 [COUNT] (from 6)
+  R8 temp tmp0 @4981 -> 6 [COUNT] (from 6)
+  R9 swap-stmts @4980 -> 6 [COUNT] (from 6)
