@@ -1392,15 +1392,12 @@ typedef struct {
 } CdReq;
 
 void func_80036AF8(CdlLOC *loc, s32 flags) {
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     CdReq req;
-    s32 mode;
-    s32 n;
-    s32 idx;
-    s32 lo;
+    s16 mode;
+    s16 idx;
+    s16 lo;
     s16 h;
-    s32 drv;
-    s32 hi;
+    s16 drv;
     u8 b;
     s32 i;
     s32 ret;
@@ -1409,27 +1406,25 @@ void func_80036AF8(CdlLOC *loc, s32 flags) {
     u8 *tbl;
     s32 hoff;
 
-    mode = flags + zr;
-    if (!(flags & 0x4000)) {
+    mode = flags;
+    if (!(mode & 0x4000)) {
         return;
     }
 
-    n = flags & 0xF;
-    idx = n + zr;
-    lo = (s32)(flags << 16) >> 20;
-    drv = ((s32)(flags << 16) >> 25) & 0x1F;
-    hi = drv + zr;
+    idx = mode & 0xF;
+    lo = mode >> 4;
+    drv = (mode >> 9) & 0x1F;
     h = lo & 0x1F;
     if (lo & 1) {
         if (*(u8 *)((u8 *)&D_8006A6A0 + drv * 0x48) != 0) {
-            idx = n + 4;
+            idx += 4;
         } else {
-            idx = n + 8;
+            idx += 8;
         }
     }
 
     h = h >> 1;
-    rec = (u8 *)*(s32 *)((u8 *)&D_8006A69C + hi * 0x48);
+    rec = (u8 *)*(s32 *)((u8 *)&D_8006A69C + drv * 0x48);
     rec2 = rec + (h << 6);
     b = *(u8 *)(rec2 + (idx << 2) + 1);
     if ((b & 0xF0) == 0) {
@@ -1453,13 +1448,13 @@ void func_80036AF8(CdlLOC *loc, s32 flags) {
     D_800A46BA = 0;
     if (h != 0) {
         ret = CdPosToInt(loc);
-        hoff = hi * 0x48;
+        hoff = drv * 0x48;
         tbl = (u8 *)&D_8006A6A4;
         req.f0c = ret + *(s32 *)(tbl + hoff + h * 4);
     } else {
         req.f0c = CdPosToInt(loc);
     }
-    req.f10 = (s16)mode;
+    req.f10 = mode;
     req.f1c = (s32)func_80036D24;
     req.f24 = (s32)func_800359B0;
     req.f20 = 0;
