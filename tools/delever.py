@@ -3609,6 +3609,56 @@ def move_statement_far(text, tu, fn, d_, max_dist=6, cap=120):
     return out
 
 
+def sign_test_to_mask(text, tu, fn, d_):
+    """[(description, candidate text)] — R43: `if (E < 0)` / `if (E >= 0)` whose arms set or clear bit 31 (`0x80000000` /
+    `0x7FFFFFFF` within the next lines) rewritten as a mask test `if ((u32)(E) & 0x80000000)` (resp. `!(…)`).
+
+    T7 agents e24 (func_8017F694) and e26 (func_8017F438, func_8017F600 + seven siblings), P36 S104: the mask is loaded BEFORE
+    the branch as the AND's operand, cse hands the arm's `|= 0x80000000` the same register, combine still makes `bgez`, and
+    reorg's `fill_simple_delay_slots` moves the `lui` into the delay slot (`reorg.c:2799ff`); the `< 0` spelling lets
+    `mostly_true_jump` fill the slot from the other arm instead (`reorg.c:1335-1420`). combine then leaves a `(use)` of the
+    dead AND whose pseudo reload gives a stack slot (`combine.c:10831-10845`) — what the trees' dead pads were faking."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^(\s*(?:\}\s*else\s+)?if\s*\()(.+?)\s*(<|>=)\s*0\s*(\)\s*\{?\s*)$", masked[i])
+        if not m or masked[i].count("(") != masked[i].count(")"):
+            continue
+        near = "\n".join(masked[i:min(hi, i + 8)])
+        if "0x80000000" not in near and "0x7FFFFFFF" not in near and "0x7fffffff" not in near:
+            continue
+        E = lines[i][m.start(2):m.end(2)].strip()
+        test = f"(u32)({E}) & 0x80000000" if m.group(3) == "<" else f"!((u32)({E}) & 0x80000000)"
+        cand = list(lines)
+        cand[i] = lines[i][:m.start(1)] + m.group(1) + test + m.group(4)
+        out.append((f"sign-to-mask @{i + 1}", "\n".join(cand)))
+        # the mask test creates the dead-AND slot a tree pad was faking (e24/e26 both deleted the pad): the combination
+        nopad = _drop_dead_pads(cand, lo, hi)
+        if nopad is not None:
+            out.append((f"sign-to-mask @{i + 1} + dead pad dropped", "\n".join(l for l in nopad if l is not None)))
+    return out
+
+
+def _drop_dead_pads(lines, lo, hi):
+    """lines with every never-used (or only `(void)&x;`-used) array local deleted; None if there is none."""
+    masked = [sc.mask_text(l) for l in lines]
+    body = "\n".join(masked[lo:hi])
+    cand, hit = list(lines), False
+    for i in range(lo, hi):
+        m = re.match(r"^\s*[A-Za-z_][\w\s]*\s+([A-Za-z_]\w*)\s*\[[^\]]*\]\s*;\s*$", masked[i])
+        if not m:
+            continue
+        n = m.group(1)
+        uses = [j for j in range(lo, hi) if j != i and re.search(r"\b%s\b" % re.escape(n), masked[j])]
+        if all(re.match(r"^\s*\(void\)\s*&?\s*%s\s*;\s*$" % re.escape(n), masked[j]) for j in uses):
+            for j in [i] + uses:
+                cand[j] = None
+            hit = True
+    return cand if hit else None
+
+
 def return_constants(text, tu, fn, d_):
     """[(description, candidate text)] — R37: a result local `r = 0; if (A) r = (B); return r;` (or with `{ }`) written as
     `if (A && B) return 1; return 0;` — and the nested form `if (A) { if (B) return 1; } return 0;`.
@@ -3878,7 +3928,7 @@ def named_ports(tu, fn, max_donors=6):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39", "R40", "R41", "R42")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39", "R40", "R41", "R42", "R43")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -4040,6 +4090,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R40" in fam:
         for desc, cand in return_preincrement(text, tu, fn, d_):
             out.append(("R40", desc, cand))
+    if "R43" in fam:
+        for desc, cand in sign_test_to_mask(text, tu, fn, d_):
+            out.append(("R43", desc, cand))
     if "R42" in fam:
         for desc, cand in move_statement_far(text, tu, fn, d_):
             out.append(("R42", desc, cand))
