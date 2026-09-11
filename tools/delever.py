@@ -3432,6 +3432,53 @@ def merge_set_chains(text, tu, fn, d_):
     return out
 
 
+def shift_to_division(text, tu, fn, d_):
+    """[(description, candidate text)] — R38: the hand-expanded signed division `if (v < 0) v += 2^k-1; v = v >> k;` written
+    as the division it is, `v = v / 2^k;` (and, when the line before assigns `v = E;`, `v = (E) / 2^k;`).
+
+    T7 agent e7 (func_801831FC, P36 S104): the decompiler printed gcc's own expansion of `x / 0x800`; compiled as that C,
+    the shift's operand keeps a single preference, while a real division expands through `expand_divmod` into a block-local
+    quotient in `$v0` whose `set_preference` (`global.c:1535/1545`) gives the dividend the target's register. The byte
+    oracle judges every candidate."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^(\s*)if\s*\(\s*([A-Za-z_]\w*)\s*<\s*0\s*\)\s*(\{)?\s*(?:\2\s*\+=\s*|\2\s*=\s*\2\s*\+\s*)(0x[0-9A-Fa-f]+|\d+)\s*;\s*(\})?\s*$",
+                     masked[i])
+        j = i
+        if m:
+            ind, v, K = m.group(1), m.group(2), int(m.group(4), 0)
+            if m.group(3) and not m.group(5):
+                continue
+        else:
+            m = re.match(r"^(\s*)if\s*\(\s*([A-Za-z_]\w*)\s*<\s*0\s*\)\s*\{\s*$", masked[i])
+            if not m or i + 2 >= hi:
+                continue
+            ind, v = m.group(1), m.group(2)
+            b = re.match(r"^\s*(?:%s\s*\+=\s*|%s\s*=\s*%s\s*\+\s*)(0x[0-9A-Fa-f]+|\d+)\s*;\s*$" % ((re.escape(v),) * 3), masked[i + 1])
+            if not b or not re.match(r"^\s*\}\s*$", masked[i + 2]):
+                continue
+            K, j = int(b.group(1), 0), i + 2
+        N = K + 1
+        if N & K or N < 2 or j + 1 >= hi:
+            continue
+        k = N.bit_length() - 1
+        s = re.match(r"^\s*(?:%s\s*>>=\s*|%s\s*=\s*%s\s*>>\s*)(0x[0-9A-Fa-f]+|\d+)\s*;\s*$" % ((re.escape(v),) * 3), masked[j + 1])
+        if not s or int(s.group(1), 0) != k:
+            continue
+        Nh = f"0x{N:X}"
+        cand = lines[:i] + [f"{ind}{v} = {v} / {Nh};"] + lines[j + 2:]
+        out.append((f"shift-to-division {v} / {Nh} @{i + 1}", "\n".join(cand)))
+        a = re.match(r"^(\s*)%s\s*=\s*(.+);\s*$" % re.escape(v), masked[i - 1]) if i - 1 >= lo else None
+        if a and not re.search(r"\b%s\b" % re.escape(v), a.group(2)):
+            E = lines[i - 1][lines[i - 1].index("=") + 1:].rsplit(";", 1)[0].strip()
+            cand = lines[:i - 1] + [f"{ind}{v} = ({E}) / {Nh};"] + lines[j + 2:]
+            out.append((f"shift-to-division {v} = (E) / {Nh} @{i}", "\n".join(cand)))
+    return out
+
+
 def return_constants(text, tu, fn, d_):
     """[(description, candidate text)] — R37: a result local `r = 0; if (A) r = (B); return r;` (or with `{ }`) written as
     `if (A && B) return 1; return 0;` — and the nested form `if (A) { if (B) return 1; } return 0;`.
@@ -3701,7 +3748,7 @@ def named_ports(tu, fn, max_donors=6):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3860,6 +3907,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R36" in fam:
         for desc, cand in merge_set_chains(text, tu, fn, d_):
             out.append(("R36", desc, cand))
+    if "R38" in fam:
+        for desc, cand in shift_to_division(text, tu, fn, d_):
+            out.append(("R38", desc, cand))
     if "R37" in fam:
         for desc, cand in return_constants(text, tu, fn, d_):
             out.append(("R37", desc, cand))
