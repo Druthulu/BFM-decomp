@@ -6969,11 +6969,11 @@ void func_801835B0(s32 a0)
 {
     s32 obj;
     s16 *p;
-    s32 t;
-    s16 u;
+    s16 x;
+    s16 y;
+    s16 z;
     s16 m;
     s16 c;
-    s32 pad[6];                         /* §333: sets the 0x18 frame */
 
     obj = aFC4C[D_801EFD20];
     p = (s16 *)(a0 + 0xEC);
@@ -6988,36 +6988,30 @@ void func_801835B0(s32 a0)
     }
     *(u16 *)(a0 + 0xEA) = 0x1E0;
 
-    t = p[0];
-    u = t;
-    if (t < 0) {
-        __asm__("" : "=r"(u) : "0"(u));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t3_tus1)
-        m = -u;
+    x = p[0];
+    if (x < 0) {
+        m = -x;
     } else {
-        m = u;
+        m = x;
     }
     *(u16 *)(a0 + 0xE2) = 0;
 
-    t = p[1];
-    u = t;
-    if (t < 0) {
-        __asm__("" : "=r"(u) : "0"(u));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t3_tus1)
-        c = -u;
+    y = p[1];
+    if (y < 0) {
+        c = -y;
     } else {
-        c = u;
+        c = y;
     }
     if (m < c) {
         m = c;
         *(u16 *)(a0 + 0xE2) = 1;
     }
 
-    t = p[2];
-    u = t;
-    if (t < 0) {
-        __asm__("" : "=r"(u) : "0"(u));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t3_tus1)
-        c = -u;
+    z = p[2];
+    if (z < 0) {
+        c = -z;
     } else {
-        c = u;
+        c = z;
     }
     if (m < c) {
         *(u16 *)(a0 + 0xE2) = 2;
