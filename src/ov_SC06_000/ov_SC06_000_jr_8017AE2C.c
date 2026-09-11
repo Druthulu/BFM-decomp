@@ -7272,6 +7272,7 @@ void func_80182614(void *a0) {
     s32 *p;
     s32 *base;
     s32 *q;
+    s32 *r;
     u16 val;
 
     __asm__("la %0, D_801AEAFC" : "=r"(p));  // !FAKE: instruction la — NEEDED DIFFERS (P36 rung B tus7)
@@ -7288,10 +7289,11 @@ void func_80182614(void *a0) {
         *(u16 *)((s32)a0 + 0xE0) = (D_800B99DC & 7) + 3;
     }
     base = (s32)&D_801B20E0;
-    __asm__("la %0, D_801AEBCC" : "=r"(q));  // !FAKE: instruction la — NEEDED DIFFERS (P36 rung B tus7)
-    q[-7] = 0;
-    q[0] = D_801AEAFE;
-    func_8017EF68((s32)base, (s32)&D_8019FD8C, (s32)q - 0x1C);
+    q = &D_801AEBCC;
+    r = q - 7;
+    *r = 0;
+    *q = D_801AEAFE;
+    func_8017EF68((s32)base, (s32)&D_8019FD8C, (s32)r);
     func_8017EF68((s32)base, (s32)&D_80197B60, (s32)&D_801AEC08);
 }
 
