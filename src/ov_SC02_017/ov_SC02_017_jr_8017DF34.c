@@ -5266,59 +5266,52 @@ extern s32 func_80013478(s32 a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern u8 D_80126B5C;
 
-void func_8018209C(void *arg0)
+s32 func_8018209C_impl(void *arg0) __asm__("func_8018209C");
+
+s32 func_8018209C_impl(void *arg0)
 {
     SV_8018209C vin;
     SV_8018209C w;
     RES_8018209C res;
-    register s32 g __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus8)
-    s32 rv;
+    s32 t;
 
     func_8012F214((s32)arg0, (s32)D_8018E56C, (s32)&vin);
-
-    g = (s32)&D_800AF648;
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
-        "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
-        "ctc2 $12, $0\n" "ctc2 $13, $1\n"
-        "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
-        : : "r"(g) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetRotMatrix_m) beyond Sony's (P36 T5 gte1)
-    __asm__ __volatile__(
-        "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
-        "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
-        "ctc2 $13, $6\n" "ctc2 $14, $7\n"
-        : : "r"(g) : "$12", "$13", "$14", "memory");
-
+    gte_SetRotMatrix(&D_800AF648);
+    gte_SetTransMatrix(&D_800AF648);
     gte_ldv0(&vin);
     gte_rtps();
     gte_stsxy(&res.x);
     gte_stflg(&res.flag);
-
-    if ((res.flag & -0x1001) != 0) { rv = 0; goto out; }
-    if ((res.x < 0 ? -res.x : res.x) >= 0xAB)
-        goto L2;
-    if ((res.y < 0 ? -res.y : res.y) >= 0x83)
-        goto L2;
-    goto tail;
-
-L2:
-    w.vx = *(u16 *)((s32)arg0 + 6);
-    w.vy = *(u16 *)((s32)arg0 + 0xA);
-    w.vz = *(u16 *)((s32)arg0 + 0xE);
-    gte_ldv0(&w);
-    gte_rtps();
-    gte_stsxy(&res.x);
-    gte_stflg(&res.flag);
-
-    if ((res.flag & -0x1001) != 0) { rv = 0; goto out; }
-    if ((res.x < 0 ? -res.x : res.x) >= 0x105) { rv = 0; goto out; }
-    if ((res.y < 0 ? -res.y : res.y) >= 0x8D) { rv = 0; goto out; }
-tail:
-    if (func_80013478((s32)&D_80126B5C, (s32)&vin) <= 0x41010)
+    if (res.flag & 0xFFFFEFFF) {
+        return 0;
+    }
+    t = res.x;
+    if (t < 0) {
+        t = -t;
+    }
+    if (t >= 0xAB || (res.y >= 0 ? res.y >= 0x83 : -res.y >= 0x83)) {
+        w.vx = *(u16 *)((s32)arg0 + 6);
+        w.vy = *(u16 *)((s32)arg0 + 0xA);
+        w.vz = *(u16 *)((s32)arg0 + 0xE);
+        gte_ldv0(&w);
+        gte_rtps();
+        gte_stsxy(&res.x);
+        gte_stflg(&res.flag);
+        if (res.flag & 0xFFFFEFFF) {
+            return 0;
+        }
+        t = res.x;
+        if (t < 0) {
+            t = -t;
+        }
+        if (t >= 0x105 || (res.y >= 0 ? res.y >= 0x8D : -res.y >= 0x8D)) {
+            return 0;
+        }
+    }
+    if (func_80013478((s32)&D_80126B5C, (s32)&vin) <= 0x41010) {
         func_8002D4C8(0xB67, 0);
-    rv = 1;
-out:
-    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+    }
+    return 1;
 }
 
 
