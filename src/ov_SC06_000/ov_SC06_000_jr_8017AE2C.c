@@ -8714,19 +8714,18 @@ void func_80184870(s32 arg0) {
 int func_801848A4(int a0, void* a1)
 {
     s16 stack_buf[8];
-    s16 *s0 = (s16 *)a1;
     s16 v0;
     s32 result;
     s32 ret;
 
-    do { v0 = s0[2]; } while (0);
+    v0 = ((s16 *)a1)[2];
     stack_buf[0] = v0;
-    v0 = s0[3];
+    v0 = ((s16 *)a1)[3];
     stack_buf[4] = v0;
-    v0 = s0[5];
+    v0 = ((s16 *)a1)[5];
     stack_buf[5] = v0;
     stack_buf[1] = v0;
-    v0 = s0[6];
+    v0 = ((s16 *)a1)[6];
     stack_buf[6] = v0;
     stack_buf[2] = v0;
 
@@ -8735,7 +8734,7 @@ int func_801848A4(int a0, void* a1)
     if (result != 0) {
         ret = 1;
     } else {
-        v0 = s0[7];
+        v0 = ((s16 *)a1)[7];
         stack_buf[6] = v0;
         stack_buf[2] = v0;
         result = func_80184940((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);
