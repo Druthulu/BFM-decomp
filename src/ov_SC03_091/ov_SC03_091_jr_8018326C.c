@@ -4165,13 +4165,14 @@ extern s16 D_80126CBA;
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 extern s32 func_801858AC();
 
-void func_80185730(s32 *a0, s32 a1, s32 a2) {
+s32 *aF80185730(s32 *a0, s32 a1, s32 a2) __asm__("func_80185730");
+
+s32 *aF80185730(s32 *a0, s32 a1, s32 a2) {
     s32 sp10[4];
     s32 sp20;
     s16 *q;
     u16 *p;
     s16 t;
-    register s32 dst __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
 
     q = &D_80126CBA;
     if (*q == 0) {
@@ -4192,9 +4193,8 @@ void func_80185730(s32 *a0, s32 a1, s32 a2) {
     *(s16 *)(a1 + 0x100) = t;
     *(s16 *)((s32)sp10 + 0xA) = p[2] + *(u16 *)(a2 + 4);
     func_8012B77C((s32)&sp20, a1 + 4, (s32)sp10);
-    dst = (s32)a0;
-    *(s32 *)dst = sp20;
-    __asm__ __volatile__("" : : "r" (dst));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    *a0 = sp20;
+    return a0;
 }
 
 
