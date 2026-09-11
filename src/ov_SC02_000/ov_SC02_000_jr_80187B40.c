@@ -4863,15 +4863,15 @@ s32 func_8018A690(s32 param_1) {
     extern void RotMatrixZ(s32, void *);
     extern void MulMatrix0(s32, void *, s32);
     extern s32 D_801A7AF0;
-    extern char * D_801A7B24;
-    extern char D_801E8648[];
+    extern MATRIX *D_801A7B24;     /* matrix pool cursor */
+    extern MATRIX D_801E8648[];    /* matrix pool end */
 
     S8_80184F08 s60;
     SVECTOR_80184F08 sStack_58;
     S8_80184F08 s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
-    char *puVar2, *puVar4;
+    MATRIX *m;
     u16 uVar3;
 
     if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_801A7AF0) == 0) {
@@ -4893,42 +4893,30 @@ s32 func_8018A690(s32 param_1) {
     MulMatrix0(iVar8, auStack_48, iVar5 + 0x34);
     ((void (*)(void *, s32))func_80017E68)(&s50, iVar5 + 0x34);
 
-    /* pool-alloc: gcc routes the loaded pointer through a caller-saved reg ($v0)
-       before the callee-saved home ($s1) — pin it to reproduce the extra move. */
-    {
-        register char *tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-        tmp = D_801A7B24;
-        puVar2 = tmp;
-    }
-    puVar4 = puVar2 + 0x20;
-    D_801A7B24 = puVar4;
-    *(char **)(param_1 + 0xcc) = puVar2;
-    if (D_801E8648 < puVar4) {
-        D_801A7B24 = D_801E8648 - 0x120;
+    /* take the next matrix from the pool (wraps near the end); the post-increment
+       is what keeps the load in $v0 and the copy into $s1. */
+    m = D_801A7B24++;
+    *(MATRIX **)(param_1 + 0xcc) = m;
+    if (D_801A7B24 > D_801E8648) {
+        D_801A7B24 = D_801E8648 - 9;
     }
     func_800D20C0(&s60, &sStack_58, 7);
     func_800D23D0(&sStack_58);
-    ((void(*)(void *, void *))RotMatrixYXZ)(&sStack_58, puVar2);
-    ((void (*)(void *, s32))func_80017E68)(&s60, (s32)puVar2);
+    ((void(*)(void *, void *))RotMatrixYXZ)(&sStack_58, m);
+    ((void (*)(void *, s32))func_80017E68)(&s60, (s32)m);
 
     uVar3 = *(u16 *)((char *)&s50 + 2);
     if (((s32 (*)(void *))func_80134510)(&s50) != 0 &&
         (s32)(s16)uVar3 - (s32)*(s16 *)((char *)&s50 + 2) < 0x80) {
         *(s16 *)((char *)&s50 + 2) = *(s16 *)((char *)&s50 + 2) - 4;
-        {
-            register char *tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-            tmp = D_801A7B24;
-            puVar2 = tmp;
-        }
-        puVar4 = puVar2 + 0x20;
-        D_801A7B24 = puVar4;
-        *(char **)(param_1 + 0xd0) = puVar2;
-        if (D_801E8648 < puVar4) {
-            D_801A7B24 = D_801E8648 - 0x120;
+        m = D_801A7B24++;
+        *(MATRIX **)(param_1 + 0xd0) = m;
+        if (D_801A7B24 > D_801E8648) {
+            D_801A7B24 = D_801E8648 - 9;
         }
         func_800D23D0(&(*(s32 *)&D_801152A8));
-        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&D_801152A8), puVar2);
-        ((void (*)(void *, s32))func_80017E68)(&s50, (s32)puVar2);
+        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&D_801152A8), m);
+        ((void (*)(void *, s32))func_80017E68)(&s50, (s32)m);
     }
     *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
 }

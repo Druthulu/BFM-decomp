@@ -1761,6 +1761,17 @@ accumulate here as the phase produces them.**
   (ov_SC07_006) ported from ov_SC04_011's lever-free copy (symbols only, first try); `func_801651B8` had already been
   banked by the extern-variant re-propagation after its pack was built (the pack builder should re-score before issuing).
   R22 after c47/c48/c52: `check-all: 218 passed, 0 failed of 218`.
+- **S103 (after Drew's "no more agents") — the R26 regen and the last landings.** R26 on a fresh census: `1048 of
+  1048 classes judged in 229 s — {'MATCH': 28, …}; 28 class(es) close at score 0 (49 bodies)`; `--bank: 28 of 28 MATCH
+  row(s) banked, 22 sibling(s) propagated`. c55: `func_8018226C` (29 → 0; one name per value, stores in field order,
+  4/5) and `func_8017FA18` (63 → 0; the speed built in place so it out-ranks the parameter, one sum per arm; 4/4). c53:
+  `func_80182A2C` (8 → 0; the pool allocation is `m = D_801A6A2C++;`, 11/11), `func_80185C04` (27 → 0; the matched mirror's
+  spelling, 6/6), `func_80181234` (18 → 0; the sign test as a mask test, and the dead `pad_[4]` deleted — **an UNMARKED
+  frame-pad lever the census does not count**, 6/6). R22 `check-all: 218 passed, 0 failed of 218`; `lever_census`: 5,231
+  sites, 0 UNMARKED, **but exit 1 on 45 ORPHAN `!FAKE` markers** — the R26 candidates were built from lever-free start
+  texts that still carried the old marker comments; `delever.py --scrub` (which refuses a dirty tree, H4) runs on the
+  committed tree next. **Open for the census:** dead `pad_[N]` frame-padding locals are unmarked levers (c33/c34/c43/c53
+  each deleted one) — count them.
 - **S103 — WHERE THE RESIDUE IS (measured at 12,003 sites): ~70% of the remaining lever weight sits in 9 classes of
   ≥100 copies, every one already read by an agent with a written reading** (approx. copies × sites/body:
   func_8013D9B0 125×34 — c17 15 plain, the GTE-macro question; func_80177B5C 132×23 — c19 2, one `or` late;

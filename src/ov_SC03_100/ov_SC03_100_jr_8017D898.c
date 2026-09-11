@@ -4980,6 +4980,7 @@ extern void func_8012CBCC(s32 a0);
 
 
 void func_80181DC8(s32 a0) {
+    extern u8 D_800AF648_b __asm__("D_800AF648");
 
     extern u8 D_800AF648;
     extern s32 D_801B2004;
@@ -5007,7 +5008,7 @@ void func_80181DC8(s32 a0) {
         /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialised
          * per call (cookbook §88a); otherwise CSE parks it in a callee-saved reg
          * and mis-seats every register in the function. */
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
         { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F

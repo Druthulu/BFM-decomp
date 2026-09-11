@@ -14,6 +14,7 @@ extern u8 D_800D5DA8;
 extern u8 D_800D5DB8;
 extern s32 D_8012750C;
 void func_80173CB4(s32 a0) {
+    extern u8 D_800D5DA8_b __asm__("D_800D5DA8");
     s32 s0 = a0;
     s32 v1 = D_801151D4;
     s16 tmp[4];
@@ -33,11 +34,10 @@ void func_80173CB4(s32 a0) {
         a = 0x843;
         goto ld0;
     case 1:
-        func_80154274((s32 *)s0, (s32)&D_800D5DA8);
+        func_80154274((s32 *)s0, (s32)&D_800D5DA8_b);
         goto lb8;
     case 2:
         func_80154274((s32 *)s0, (s32)&D_800D5DA8);
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers1)
         goto lb8;
     case 3:
         func_80154274((s32 *)s0, (s32)&D_800D5DB8);

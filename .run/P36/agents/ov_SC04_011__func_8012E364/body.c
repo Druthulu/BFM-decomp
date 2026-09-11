@@ -5,12 +5,12 @@ void func_8012E364(s32 arg0_)
     extern s32 D_801ED9D8;
     extern s32 D_801ED9DC;
     s32 arg0;
-    s32 prev;
-    u16 flags;
+    register s32 prev __asm__("$5");  // !FAKE: pin $5 — local-alloc qty_compare_1 (local-alloc.c:1598) ranks prev (2 refs) above e1 (3 refs) and gives it $a0; target $a1 (P36 S103 c51 minimum-lever)
+    register u16 flags __asm__("$2");  // !FAKE: pin $2 — holds $2 across the D_801ED9D8 chain, so the $2 suggestion d's pin gives v (local-alloc.c:1822) fails in block_alloc's suggested-reg pass (:1472) (P36 S103 c51 minimum-lever)
     s32 a;
     s32 diff;
     s32 v;
-    s32 d;
+    register s32 d __asm__("$2");  // !FAKE: pin $2 — combine_regs (local-alloc.c:1722) otherwise ties d into v, which dies at the abs: abssi2 dest==src arm, nop for move (P36 S103 c51 minimum-lever)
     s32 spd;
     s32 e1;
     s32 e2;
@@ -38,11 +38,12 @@ void func_8012E364(s32 arg0_)
     v = D_801ED9D8 - prev + spd;
     D_801ED9DC = spd;
     flags = *(u16 *)(e1 + 0x2C);
+    D_801ED9D8 = v;
     *(u16 *)(e1 + 0x2C) = flags | 0x10;
+
     e2 = *(s32 *)(arg0 + 0x20);
     d = __builtin_abs(v);
     *(s16 *)(e2 + 0x1C) = d;
     *(s16 *)(e2 + 0x18) = d;
-    D_801ED9D8 = v;
     *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = 0x1000;
 }

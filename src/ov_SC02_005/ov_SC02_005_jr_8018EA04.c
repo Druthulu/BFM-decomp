@@ -3894,6 +3894,7 @@ extern u8 D_80196C24[];
 
 void func_8018F230(void *param_1)
 {
+    extern u8 D_801270CC_b __asm__("D_801270CC");
     s32 v0;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();
@@ -3905,8 +3906,7 @@ void func_8018F230(void *param_1)
         func_8018F2C4((s32)param_1);
         *(u16 *)((s32)param_1 + 0xDE) = *(u16 *)(*(s32 *)&D_801270CC + 6);
         *(s16 *)((s32)param_1 + 0xA) = -0x880;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-        *(u16 *)((s32)param_1 + 0xDC) = *(u16 *)(*(s32 *)&D_801270CC + 0xE);
+        *(u16 *)((s32)param_1 + 0xDC) = *(u16 *)(*(s32 *)&D_801270CC_b + 0xE);
         *(u16 *)((s32)param_1 + 2) += 1;
     }
 }

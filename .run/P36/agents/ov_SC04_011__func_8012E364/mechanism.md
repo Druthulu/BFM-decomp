@@ -1,112 +1,130 @@
-# func_8012E364 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c) — T7 agent c22 re-draw
+# func_8012E364 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c) — T7 agent c51, MINIMUM-LEVER pass
 
-**Final score 4 (ORDER, 67/67). NOT closed.** `PACK/body.c` is still the earlier agent's score-4 body, unchanged. I found
-nothing better under the same rules. The earlier agent's files are kept as `scratch/prev_body.c` and
-`scratch/prev_mechanism.md`, and its reading of the pass (section (b) there) still holds.
+**Final score 0 (MATCH, 67/67) with THREE levers** — the tree's own three pins (`prev` $5, `flags` $2, `d` $2) on the
+tree's statement order (`body_free.c`). No single lever and no pair of levers reaches 0; the reading below proves why
+for every pair that gets close. The earlier agents' files are kept: `scratch/c22_body.c` (the score-4 ORDER body),
+`scratch/c22_mechanism.md`, `scratch/prev_mechanism.md`. All my probes are under `scratch/c51/`.
 
-This re-draw contributes two things:
-1. A proof, from the scheduler's source and ~63,000 compiles, that the earlier agent's family (the `D_801ED9D8` store
-   written after the abs) **cannot** reach 0. Its last 4 are structural, not a missing dial.
-2. A deduction from the target's registers about what the original source must have looked like, plus a new family built
-   on it (`d` or `v` made block-global, `e2` reusing `a`). That family produces the target's abs arm and `e2 = $a0`, and
-   reaches 10 at best (`scratch/best_G_family_k2.c`). The reading of why it stops there is in (d).
+(The tree's fourth marked site, the `arg0` $6 pin, was already REMOVED by the byte oracle — `sites.txt` — and it
+changes nothing on either base; see the table.)
 
-## (a) The residual in one sentence
+## (a) Single-lever table (official `--try`, 67/67 ins unless noted)
 
-The tail block needs the abs destination `d` ($v0) in a different quantity from its operand `v` ($v1), which selects the
-`move` arm of `abssi2` (`mips.md:1526`). At the same time `prev` must be $a1, `e1`/`e2` $a0, flags $v0 and the
-`D_801ED9D8` chain $v1, with the `D_801ED9D8` store right after the `addu`, before the flags `ori`/`sh`.
-
-## (b) Passes and decisions (read in `tools/reference/gcc-2.7.2/`)
-
-- The S103 implicit-argument shape (c3/c12) does **not** apply. There is no call of any kind in this function; `abs` is
-  the `abssi2` insn. The `$5` pin sits on `prev`, a plain local whose register comes from local-alloc's ordering (below).
-  The phantom-reference shape (c20) was checked too. No `reg_n_refs` inflation exists here: combine removes no use.
-- **The tie is decided by `combine_regs`, `local-alloc.c:1722`.** When `d` and `v` are both block-local, the only
-  refusal left is `local-alloc.c:1854`: no `REG_DEAD` for `v` on the abs, so `v` must be used after it. The other tests
-  each fail:
-  - `:1765`/`:1774` need `v` or `d` to be non-local.
-  - `:1843` needs `d` already born. `d` would need an earlier set in the block that flow does not delete (flow deletes
-    dead sets before it counts `reg_n_sets`).
-  - Class and mode are `GR_REGS`/SI on both sides.
-- **The "use `v` after the abs" route is closed. This is the new proof against the earlier agent's family.**
-  - sched1 recomputes death notes after scheduling each block. The later use would have to be the `D_801ED9D8` store X,
-    placed after the abs in sched1, and sched2 would then have to hoist X above the abs, the `e2` load and the flags
-    `ori`/`sh` to where the target has it.
-  - sched1 and sched2 use the same memory-dependence functions (`true/anti/output_dependence`, `sched.c:817-890`).
-    `memrefs_conflict_p` (`sched.c:614`) always reports a symbol against a register-based address as a conflict, and the
-    `MEM_IN_STRUCT` exemption depends only on MEM flags that both passes share.
-  - sched2's register dependences are a superset of sched1's, because pseudos only merge into hard regs.
-  - So sched2 can move X only where sched1 could, and the passes differ only in priority. The one sched1-only priority
-    term is the birthing boost (`sched.c:2469` `birthing_insn_p`, `:2507` `adjust_priority`, guarded by
-    `reload_completed == 0`). It gives the abs `max_priority`, since `d` is set once and live. In a backward list
-    schedule the abs is then picked as soon as it is ready and lands after X. That is the opposite of what the route needs.
-  - Measured: once X is free of the entity stores (typed-index `MEM_IN_STRUCT` spellings), sched1 hoists it before the
-    abs every time, so the tie returns. While X is tied behind them, sched2 cannot hoist it.
-- **What this implies about the target.** Both `d` and `v` block-local is impossible, so one of them was block-global in
-  the original.
-  - If so, `e2` = $a0 cannot come from local-alloc. A local `e2` needs local holders of **both** $v0 and $v1 across its
-    life (`d` and `v`). With either one global, local-alloc hands `e2` that free register. So `e2`'s pseudo must be global
-    as well.
-  - The only $a0 role in other blocks is the `a` temp (the hint value, then the quotient). The original very probably
-    reused one temp for hint, quotient and entity pointer.
-  - Measured: spelling `e2` as `a` does give `e2 = $a0`.
-
-## (c) Moves tried in the new family (all `--try`, real TU; fast pre-filter `scratch/fast.py`)
-
-| body (scratch/) | what | score |
+| lever (one only) | on `body_free.c` (tree order, 25) | on the c22 ORDER body (4) |
 |---|---|---|
-| `c10.c` / `best_G_family_c10.c` | `d = (-diff) / 4; D_801ED9D8 += d;` in the else-if arm (d block-global) + `e2` spelled `a` | 15. Abs arm, `d`, `v`, flags and `e2` all right. **Only `prev` is wrong ($v0 for $a1)**, and arg0/spd/mfhi cascade one register down |
-| `k2.c` / `best_G_family_k2.c` | c10 + a named `cur = D_801ED9D8;` + `flags |= 0x10;` + the store order below | **10**. `prev`/`e1` swap $a0/$a1, and the `D_801ED9DC` store comes out after the flags `sh` |
-| `r6.c` | `v = D_801ED9D8; … v = v - prev + spd;` (v two deaths → global) + `e2` = `a` | 13. `v`/`prev` swap $a1/$v1 |
-| `r1.c` | `v` reused as the last entity pointer (global) + `e2` = `a` | 16-18 |
-| `v1.c` | `v` reused for the block-2 `D_801ED9D8` value (the natural global `v`, and $v1 in both blocks in the target) | 26. `v` has two sets, so its block-2 load loses the birthing boost and sched1 hoists it above the division temps (conflicts with $v0/$v1, lands in $a1) |
-| `c6.c` | `diff` and `d` merged | 14. The block-2 load schedule breaks the same way |
+| none | 25 | 4 |
+| pin `prev` $5 (tree) | **13** | 4 |
+| pin `flags` $2 (tree) | 19 | 4 |
+| pin `d` $2 (tree) | 25 | 4 |
+| pin `arg0` $6 (tree, oracle-REMOVED) | 19 | 4 |
+| pin `v` $3 | 19 | 4 (fast) |
+| pin `e1` $4 | 25 | 4 (fast) |
+| pin `e2` $4 | 23 | 4 (fast) |
+| pin `spd` $7 | 23 | 4 (fast) |
+| pin `a` $4 | 26 | — |
+| pin `diff` $2 | 25 | 4 (fast) |
+| keepalive `v` after the second entity `sh` (`__asm__ __volatile__("" : : "r"(v))`) | 26 (the abs `move` arm appears; every other register permuted) | 4 (fast) |
+| keepalive `v`, non-volatile | 25 (sched1 hoists it above the abs; no effect) | — |
+| keepalive `v` at the function end | 17, 68 ins (reorg cannot fill the `jr` slot across a volatile asm) | — |
+| keepalive `prev` after the `v =` line | 22 | — |
+| keepalive `e1` after the second entity `sh` | 25 | — |
+| keepalive `flags` after its load | 27, 68 ins | — |
 
-## (d) Why the new family stops at 10
+**No single lever reaches 0 from either plain body.** On the ORDER body no lever of any kind moves the score. Its one
+defect is where the `D_801ED9D8` store X sits, and a register lever cannot move a memory op (see (c)).
 
-Take the k-family: `d` global and `e2` = `a`. For the target allocation, local-alloc's `qty_compare`
-(`local-alloc.c:1579`, `floor_log2(refs)·refs/(death-birth)`) must give three things at once:
-- flags (4 refs) before the chain `{cur, t, v}` (7 refs), which needs `L_chain > 1.75·L_flags`;
-- `e1` (3 refs) before `prev` (2 refs), which needs `L_e1 < 1.5·L_prev`;
-- the flags `lhu` inside `prev`'s life.
+## (b) Pairs and triples (official `--try` unless marked fast)
 
-Working through the arithmetic gives one sched1 order that satisfies all three: prev load, `D_801ED9D8` load,
-`e1` load, `D_801ED9DC` store, `lhu`, `subu`, `addu`, X, `ori`, `sh`. sched1 cannot produce it:
-- The `D_801ED9D8` load is boosted (single-set), and in backward scheduling it becomes ready in the same cycle as the
-  `D_801ED9DC` store (`scratch/dumps_k4/fn.sched`, T-14). The boost wins, so the load always lands after the store.
-- With the load there, the chain priority is 0.875 against flags' 0.8, so the chain takes $v0.
-- Un-boosting the load (a multi-set `cur`/`v`) makes `v` global, and `prev` loses its $v1 holder.
+| levers | score | what is left |
+|---|---|---|
+| prev + flags + d (the tree) | **0** | — |
+| keepalive v + prev + d | **0** | — |
+| keepalive v + prev + flags | **0** | — |
+| keepalive v + prev + pin v $3 | **0** | — |
+| prev + flags | 5 | d tied into v: abssi2 `nop` arm |
+| flags + d | 6 | prev/e1 swap $a0/$a1 |
+| keepalive v + prev | 13; **2** with `v =` moved above `e1 =` (`scratch/c51/s2_b.c`, ORDER); **2** with the keepalive after a split-out last pointer load (`w/e3_P.c`) | 13: flags and the chain swap $v0/$v1. s2_b: registers all right, but the `e1` load lands after the D load. e3_P: the last pointer takes $a0, because v is still live in $v1 |
+| keepalive v + flags | 15; 6 with `flags |= 0x10;` on its own line (`kf_or2.c`) | 15: prev takes $v0. 6: the prev/e1 swap $a0/$a1 |
+| keepalive v + d | 15 | prev takes $v0 |
+| prev + d | 13 | the chain takes d's $2 through a suggestion |
+| every pair of {pins of arg0/prev/flags/v/d/e1/e2/spd/a/diff, keepalive v/prev/e1/flags}, on both bases (`search5.py`, 364 fast compiles) | best 5 | — |
+| 14 lever pairs × 3 flags spellings × 2 widths × 3 `v` spellings × 16 MEM_IN_STRUCT masks × 4 load orders (`search7.py`, 11,200 fast compiles) | see (e) | — |
 
-The 1,955-order search (`search9.py`) and its role check (`roles.py`) found no order where all three hold: 34
-candidates get `prev` = $a1 and `e1` = $a0, but every one of them has flags and chain swapped.
+## (c) The mechanism: three independent defects, and each lever fixes exactly one
 
-## (e) Measured negatives (compile counts; fast scorer = the .s text against the tree body's, calibrated 0/2/4/23 on the known bodies)
+Plain C in the tree's order (`body_free.c`, 25) has three separate local-alloc defects in block 8, the tail.
 
-- Earlier-agent family × `MEM_IN_STRUCT` on each entity access (typed-index spellings) × every legal statement order:
-  `search1` (896 compiles), `search2` (29,568), `search2b` (16,128). Best fast 2, which is the earlier agent's body.
-- G1 (`v` global by reuse) × orders: `search3` (17,024), `search5` (918), `search10` (1,955). Best fast 8-15.
-- k-family: `search6` (296), `search7` (761), `search8` (392), `search9` (1,955). Best official 10.
-- Hand-rolled abs in branch form (`d = v; if (v < 0) d = -d;` and 6 other spellings): 28. cse makes the copy's
-  destination canonical (`make_regs_eqv`, `cse.c:846-862`), so both the test and the negate read `d` and the copy
-  coalesces.
-- `d` reused for the final 0x1000 (`g1`/`g2`): the constant propagates and the second set disappears. `d` reused as the
-  block-2 counter (`c1`-`c4`): the preference ties it to $v1 anyway.
+1. **The abs tie.** At `(set d (abs:SI v))`, `combine_regs` (`local-alloc.c:1722`) ties d into v's quantity because v
+   dies there (`:1854` needs a `REG_DEAD`). abssi2 (`mips.md:1526`) then emits the dest==src arm (`nop`) where the
+   target has `move $v0,$v1`. **The tie cannot be broken in plain C here, by a two-pass argument:**
+   - X and the flags `sh` are ordered by a memory dependence (a symbol against a register-based address,
+     `memrefs_conflict_p`, `sched.c:614`). Both schedulers keep that order, so the target's X-before-flags-`sh` holds in
+     sched1 as well as in sched2.
+   - flags and d share $v0 in the target. As local quantities their lives must not overlap, so in sched1 the flags `sh`
+     comes before the abs.
+   - So in sched1, X comes before the abs, and the abs is v's last use. Something must keep v alive past the abs (a
+     keepalive), or make one of v/d a hard register (a pin), or make one of them block-global. Block-global would take
+     a reused variable, which the brief forbids.
+   - The earlier agents' score-4 body breaks the tie by putting X last. That is exactly the X position the dependence
+     argument rules out, which is why no lever moves that body off 4.
+2. **The chain/flags order.** Once the tie is broken, the `D_801ED9D8` chain (`r105`, `r106`, `v`) and flags compete
+   for $v0 in `qty_compare_1` (`local-alloc.c:1598`; priority = `floor_log2(refs)·refs/(death−birth)`).
+   - With a keepalive, the chain has 8 refs: 24/Lc. flags has 4 refs: 8/Lf.
+   - The sched1 order is fixed. The three loads have no predecessors in sched2, so they keep sched1's order
+     (priority 1 each, then the LUID tie-break at `sched.c:2427`). That forces the D load third, and the keepalive can
+     sit no later than the second entity `sh`, because the last `lw $v1` needs $v1 free. So Lc ≤ 24.
+   - The lhu→ior latency ("blocking insn 120 for 1 cycles") forces Lf ≥ 8.
+   - The best case is therefore 10000 = 10000, and the tie goes to the lower quantity number, the chain (born first).
+     The chain takes $v0 (a18_P: 13).
+   - Without a keepalive the chain has 7 refs (14/Lc) and flags wins easily. So the keepalive, the only lever-light way
+     to break defect 1, is what creates defect 2.
+3. **prev.** prev (2 refs, D_801ED9DC load → `subu`) is the lowest-priority quantity. It gets $a1 only if $v0, $v1 and
+   $a0 are all taken during its life.
+   - With the target's final order, $v0 (flags) is born after prev dies, so prev takes $v0 (a18_F, a18_D: 15).
+   - When flags is a hard $2 with two sets, the lhu loses sched1's birthing boost (`sched.c:2469`, `reg_n_sets == 1`).
+     Examples: `flags |= 0x10;` spelled on its own line, or d also pinned to $2. sched1 then places the lhu before the
+     `subu`, and sched2 restores the target order ("insn 120 has a greater potential hazard"). $v0 is then busy.
+   - prev then competes with e1 for $a0: 2/Lp = 2/10 against 3/Le = 3/16. prev wins and takes $a0 (FD, K+F+`|=`: 5-6).
+   - e1 would win only with Le ≤ 14. That needs the flags `ori` placed before X in sched1, but `ori` has priority 3
+     (after a load) against X's 2, and the backward list scheduler puts it after X. Or it needs the `e1` load after the
+     D load, which sched2 keeps (see 2).
 
-## (f) GENERATOR PROPOSAL (one sentence)
+Each tree lever removes one defect:
 
-When the residual is the `abssi2` delay-slot pair (mine `nop`, target `move rD,rS`), first rule out "both locals" as the
-earlier agent's last-use move tried, then enumerate block-global reuses: re-spell the abs operand or destination as an
-existing local whose other-block role has the same target hard register ($v1 for the operand, $v0 for the destination),
-and reuse an `$a0` temp for any pointer whose local allocation loses its holder. Score each with the allocation table
-before compiling.
+| lever | defect | pass / decision |
+|---|---|---|
+| `d` $2 | 1 | a hard-reg SREG is never tied; v gets a $2 *suggestion* instead (`local-alloc.c:1822`) |
+| `flags` $2 | the suggestion d's pin creates, and 2 | $2 is held across the chain's life, so the suggested-register pass (`:1472`) refuses the chain $2 and it takes $3 |
+| `prev` $5 | 3 | prev leaves local-alloc's ranking altogether |
 
-## (g) Where the method fell short
+- prev + flags (5) leaves defect 1.
+- flags + d (6) leaves defect 3.
+- prev + d (13): the chain takes d's $2 through the suggestion.
+- The keepalive sets are three levers too: keepalive + prev, plus d, flags or pin v, each 0.
 
-1. `delever_search --try` cannot be driven in bulk, so the searches ran on a private pre-filter (`scratch/fast.py`: cpp
-   + cc1 only, .s text against the tree body's, about 0.4 s and parallel-safe). The tool should offer this.
-2. There is no simulator for local-alloc on a **given** sched1 order. The priority inequalities in (d) were worked by hand
-   from the `.lreg`/`.sched` dumps. A `lalloc_sim.py` that takes a block's insn order and prints qtys, ties and
-   registers would turn "which sched1 order do we need" into arithmetic, and "can sched1 produce it" into a dump check.
-3. The METHOD's two new shapes (implicit argument, phantom reference) did not apply. The brief's pointer toward the
-   `$5` pin as an argument register was a false lead for a call-free function. Packs should say "no calls" up front.
+**The floor is three.** No lever covers two of the three defects.
+- The keepalive breaks defect 1 but creates defect 2.
+- The flags pin needs d's pin to be useful.
+- The prev pin touches only prev.
+
+## (d) GENERATOR PROPOSAL (one sentence)
+
+For a MINIMUM-LEVER pass, enumerate lever subsets bottom-up (singles, then pairs, then triples) on BOTH the lever-free
+body and the best plain body. For each pair that comes within a handful, run the `localalloc_sim.py` table on its
+dump and check whether the leftover is a `qty_compare_1` tie or an inequality that the sched1 order provably cannot
+satisfy. If it is, stop: the subset floor is proved. This takes arithmetic, not a search.
+
+## (e) The product search (`scratch/c51/search7.py`)
+
+(filled in below when it finishes)
+
+## (f) Where the method fell short
+
+1. The pack's ORDER body (4) was a dead end for a minimum-lever search. It fixes defect 1 by moving X, which the
+   memory dependence then pins, so no lever of any kind moves it. A minimum-lever pass must start from the TREE's
+   order, not from the best plain body.
+2. `localalloc_sim.py` mis-simulates a block that holds a hard-register pin, reporting 2 mismatches on K+F+`|=`. The
+   pinned $2's live range is not modelled as an occupant, so prev appears to get $v0. Trust the dump's
+   `;; Register N in M.` lines there.
+3. The fast scorer (`scratch/c51/fast51.py`, cpp+cc1 text compare against the tree body) is 2 lower than the official
+   score on the ORDER body (2 vs 4). It is fine as a filter, but every claim above is official unless marked "fast".

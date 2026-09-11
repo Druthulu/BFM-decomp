@@ -4873,6 +4873,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 
 void func_801803B4(s32 a0) {
+    extern u8 D_800AF648_b __asm__("D_800AF648");
 
     extern u8   D_800AF648;
 
@@ -4912,8 +4913,8 @@ void func_801803B4(s32 a0) {
         L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+        { void *r4; r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+        { void *r4; r4 = &D_800AF648_b; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                         && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
@@ -4979,6 +4980,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 
 void func_80180584(s32 a0) {
+    extern u8 D_800AF648_b __asm__("D_800AF648");
 
     extern u8   D_800AF648;
 
@@ -5034,8 +5036,8 @@ L_B:
     L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
     L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
     L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+    { void *r4; r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    { void *r4; r4 = &D_800AF648_b; func_800491AC(r4); }
     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
     if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                     && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
@@ -5954,45 +5956,30 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern void func_8012B370(int a0);
 
-void func_80181FE4(s32 a0)
-{
-    s32 s0 = a0;
-    register s32 v0 asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 v1 asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 temp;
+void func_80181FE4(s32 a0) {
+    u16 cnt;
+    u16 acc;
 
-    v0 = *(s16 *)(*(s32 *)(s0 + 0x20) + 0x14);
-
-    if (v0 < 0x401) {
-        v0 = *(u16 *)(s0 + 0xFC);
-        v1 = *(u16 *)(s0 + 0xFE);
-        v0 = v0 + 1;
-        v1 = v1 + v0;
-        *(u16 *)(s0 + 0xFC) = v0;
-        *(u16 *)(s0 + 0xFE) = v1;
-        v0 = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14);
-        v0 = v0 + v1;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14) = v0;
-        v0 = *(u16 *)(s0 + 0xA);
-        v0 = v0 - 4;
-        *(u16 *)(s0 + 0xA) = v0;
-        v0 = func_80047948(*(s16 *)(*(s32 *)(s0 + 0x20) + 0x12));
-        v0 = v0 << 6;
-        v1 = *(s32 *)(s0 + 0x4);
-        v1 = v1 + v0;
-        *(s32 *)(s0 + 0x4) = v1;
-        v0 = func_8004787C(*(s16 *)(*(s32 *)(s0 + 0x20) + 0x12));
-        v0 = v0 << 6;
-        v1 = *(s32 *)(s0 + 0xC);
-        v1 = v1 - v0;
-        *(s32 *)(s0 + 0xC) = v1;
+    if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x14) < 0x401) {
+        cnt = *(u16 *)(a0 + 0xFC);
+        acc = *(u16 *)(a0 + 0xFE);
+        cnt = cnt + 1;
+        acc = acc + cnt;
+        *(u16 *)(a0 + 0xFC) = cnt;
+        *(u16 *)(a0 + 0xFE) = acc;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) + acc;
+        *(u16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) - 4;
+        *(s32 *)(a0 + 4) = *(s32 *)(a0 + 4) +
+            func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) * 0x40;
+        *(s32 *)(a0 + 0xC) = *(s32 *)(a0 + 0xC) -
+            func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) * 0x40;
     } else {
-        *(u16 *)(s0 + 0x2) = 0x3;
-        *(s32 *)(s0 + 0x1C) = 0x1E;
-        *(u16 *)(s0 + 0x98) = 0;
+        *(u16 *)(a0 + 2) = 3;
+        *(s32 *)(a0 + 0x1C) = 0x1E;
+        *(u16 *)(a0 + 0x98) = 0;
     }
-
-    func_8012B370(s0);
+    func_8012B370(a0);
 }
 
 

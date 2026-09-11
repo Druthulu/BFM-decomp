@@ -5,6 +5,7 @@ extern void func_800491AC();
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
+    extern u8 D_800AF648_b __asm__("D_800AF648");
     extern u8 D_800AF648;
     s16 sv[4];
     s32 out[2];
@@ -19,7 +20,7 @@ s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
     sxy = 0;
     /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it. */
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
     ((s32 (*)(void *, s32 *, s32 *, s32 *))RotTransPers)(pv, &sxy, &p, &flag);
     if (flag < 0) {

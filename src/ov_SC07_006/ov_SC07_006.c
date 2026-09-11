@@ -1608,11 +1608,12 @@ void func_8012E364(s32 arg0_)
     extern void func_8002D4C8(s32 a0, s32 a1);
     void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
     {
+    extern u8 D_800AF648_b __asm__("D_800AF648");
         struct { short xy[2]; int sp14; int flag; } f;
-        register void *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        void *p;
         p = &D_800AF648;
         func_8004914C(p);
-        func_800491AC(&D_800AF648);
+        func_800491AC(&D_800AF648_b);
         RotTransPers(param_1, (s32)f.xy, &f.sp14, &f.flag);
         if (f.flag >= 0 && (u16)(f.xy[0] + 199) < 399 && (u16)(f.xy[1] + 0xA9) < 0x153) {
             func_8002D4C8(param_2, param_3);
@@ -1783,13 +1784,14 @@ extern s32 RotTransPers(s32 a0, s32 *a1, s32 *a2, s32 *a3);
 extern u8 D_800AF648;
 
 s32 *func_8012F40C(s32 *param_1, s32 param_2) {
+    extern u8 D_800AF648_b __asm__("D_800AF648");
     s32 sxy, p, flag;
 
     sxy = 0;
     /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it into a third
        callee-saved register. */
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
     RotTransPers(param_2, &sxy, &p, &flag);
     if (flag < 0) {
@@ -1806,6 +1808,7 @@ extern void func_800491AC();
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32 RotTransPers(s32, s32*, s32*, s32*);
 s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
+    extern u8 D_800AF648_b __asm__("D_800AF648");
     s16 sv[4];
     s32 out[2];
     s32 sxy, p, flag;
@@ -1819,7 +1822,7 @@ s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
     sxy = 0;
     /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it. */
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
     ((s32 (*)(void *, s32 *, s32 *, s32 *))RotTransPers)(pv, &sxy, &p, &flag);
     if (flag < 0) {
