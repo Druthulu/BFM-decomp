@@ -4838,7 +4838,7 @@ void func_80182A98(s32 a0)
 
 #include "common.h"
 
-void func_80182BCC(s32 arg0) {
+void func_80182BCC(s32 e) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
@@ -4852,29 +4852,23 @@ void func_80182BCC(s32 arg0) {
     extern s32 rand(void);
     extern s32 D_801B1C80;
 
-    s32 e;
+    s32 p;
     s32 n;
     s32 dir;
 
-    e = arg0;
     if (--*(s16 *)(e + 0xFC) == 0) {
         n = 0;
+        p = e;
         do {
-            arg0 = *(s32 *)(arg0 + 0x6C);
+            p = *(s32 *)(p + 0x6C);
             n++;
-        } while (arg0 != 0);
+        } while (p != 0);
         if (n < 7) {
-            if (e != 0) {
-                arg0 = e;
-                for (;;) {
-                    e = *(s32 *)(arg0 + 0x6C);
-                    func_8012C218((void *)arg0);
-                    arg0 = e;
-                    __asm__ __volatile__("" : "=r"(arg0) : "0"(arg0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-                    if (arg0 == 0) {
-                        return;
-                    }
-                }
+            p = e;
+            while (p != 0) {
+                s32 next = *(s32 *)(p + 0x6C);
+                func_8012C218((void *)p);
+                p = next;
             }
             return;
         }
@@ -4915,16 +4909,15 @@ void func_80182BCC(s32 arg0) {
                 q[2] = z;
 
                 if (func_80133784(1, p1, (s32)q) != 0) {
-                    n = 1;
                     *(s16 *)(e + 0x12) = -(rand() & 3) - 4;
+                    n = 1;
                 } else {
                     q[0] = p1[0] + 0x40;
                     q[1] = p1[1];
                     q[2] = p1[2];
                     if (func_80133784(1, q, (s32)p1) != 0) {
-                        n = 2;
                         *(s16 *)(e + 0x12) = (rand() & 3) + 4;
-                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n==1 arm */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
+                        n = 2;
                     }
                 }
             }
@@ -4945,16 +4938,15 @@ void func_80182BCC(s32 arg0) {
                 q[2] = z + 0x40;
 
                 if (func_80133784(1, p1, (s32)q) != 0) {
-                    n += 4;
                     *(s16 *)(e + 0x1A) = -(rand() & 3) - 4;
+                    n += 4;
                 } else {
                     q[0] = p1[0];
                     q[1] = p1[1];
                     q[2] = p1[2] + 0x40;
                     if (func_80133784(1, q, (s32)p1) != 0) {
-                        n += 8;
                         *(s16 *)(e + 0x1A) = (rand() & 3) + 4;
-                        __asm__ __volatile__(""); /* cookbook 5a cross-jump barrier vs the n+=4 arm */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
+                        n += 8;
                     }
                 }
             }
@@ -4992,7 +4984,6 @@ void func_80182BCC(s32 arg0) {
                 s32 t1;
                 s32 t2;
                 s32 t3;
-                s32 p;
 
                 *(s16 *)(*(s32 *)(e + 0x20) + 0x14) = 0;
                 t1 = *(u16 *)(e + 6);
