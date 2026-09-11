@@ -5417,23 +5417,23 @@ extern s32 func_80017758(void *a0, void *a1);
 
 s32 func_80166690(s32 param_1, s32 param_2)
 {
-
+    extern s32 func_80017758(void *a0, void *a1);
     extern Blk20 D_800AE620;
     extern u8 D_801A6D20[];
-    Frame_80166690 c;
+
+    Frame_80166690_80166690 c;
     Blk20 blk;
-    Rec_80166690 *sub;
-    Rec_80166690 *pv;
+    Rec_80166690_80166690 *sub;
+    Rec_80166690_80166690 *pv;
     u8 *rec;
     int i6;
     int lt2;
     int p2;
-    unsigned int uVar7, uVar8, uVar9;
-    int iVar3;
-    unsigned int w9, w7, w, t, w3b;
-    int w3;
+    short sVar7, sVar8, sVar9;
+    short sVar3;
+    int w;
+    u8 t;
     short sVar10;
-    register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus4)
 
     blk = D_800AE620;
     i6 = (short)param_1;
@@ -5443,18 +5443,17 @@ s32 func_80166690(s32 param_1, s32 param_2)
     if (rec[0] == 0) {
         return 0;
     }
-    sub = (Rec_80166690 *)(rec + 4);
-    uVar9 = rec[1];
-    uVar8 = rec[3];
-    uVar7 = uVar8 >> 1;
-    iVar3 = rec[2];
-    w3 = iVar3 - 1;
-    iVar3 = w3 + zr;
-    if (w3 != -1) {
+    sub = (Rec_80166690_80166690 *)(rec + 4);
+    sVar9 = rec[1];
+    sVar8 = rec[3];
+    sVar7 = sVar8 >> 1;
+    sVar3 = rec[2];
+    sVar3 = sVar3 - 1;
+    if (sVar3 != -1) {
         lt2 = i6 < 2;
         p2 = (short)param_2;
         do {
-            pv = &sub[(short)uVar9];
+            pv = &sub[sVar9];
             c.v0 = pv->h[0];
             c.v1 = pv->h[1];
             c.v2 = pv->h[2];
@@ -5465,66 +5464,63 @@ s32 func_80166690(s32 param_1, s32 param_2)
 
             if (lt2) {
                 if (p2 == 0) {
-                    t = uVar8 + zr;
+                    t = sVar8;
                     c.c12 = t; c.c02 = t;
-                    t = uVar7 + zr;
+                    t = sVar7;
                 } else {
-                    w = ((int)(uVar8 << 16) >> 17) + ((int)(uVar8 << 16) >> 19);
-                    uVar7 = w + zr;
+                    w = (sVar8 >> 1) + (sVar8 >> 3);
+                    sVar7 = w;
                     c.c12 = w; c.c02 = w;
-                    t = uVar8 + zr;
+                    t = sVar8;
                 }
                 c.c11 = t; c.c01 = t; c.c10 = t; c.c00 = t;
             } else {
-                t = uVar8 + zr;
+                t = sVar8;
                 c.c10 = t; c.c00 = t;
-                t = uVar7 + zr;
+                t = sVar7;
                 c.c12 = t; c.c02 = t; c.c11 = t; c.c01 = t;
             }
 
-            w9 = uVar9 - 1;
-            uVar9 = w9 + zr;
-            if ((int)(w9 << 16) < 0) {
-                uVar9 = 0xF;
+            sVar9 = sVar9 - 1;
+            if (sVar9 < 0) {
+                sVar9 = 0xF;
             }
-            pv = &sub[(short)uVar9];
+            pv = &sub[sVar9];
             c.v3 = pv->h[0];
             c.v4 = pv->h[1];
             c.v5 = pv->h[2];
             c.w3 = pv->h[3];
             c.w4 = pv->h[4];
-            uVar8 = uVar8 - 0x10;
-            w7 = uVar7 - 0x10;
-            uVar7 = w7 + zr;
+            sVar8 = sVar8 - 0x10;
+            sVar7 = sVar7 - 0x10;
             c.w5 = pv->h[5];
-            if ((int)(w7 << 16) < 0) {
-                uVar7 = 0;
+            if (sVar7 < 0) {
+                sVar7 = 0;
             }
 
             if (lt2) {
                 if (p2 == 0) {
-                    t = uVar8 + zr;
+                    t = sVar8;
                     c.c32 = t; c.c22 = t;
-                    t = uVar7 + zr;
+                    t = sVar7;
                 } else {
-                    t = uVar7 + zr;
+                    t = sVar7;
                     c.c32 = t; c.c22 = t;
-                    t = uVar8 + zr;
+                    t = sVar8;
                 }
                 c.c31 = t; c.c21 = t; c.c30 = t; c.c20 = t;
             } else {
-                t = uVar8 + zr;
+                t = sVar8;
                 c.c30 = t; c.c20 = t;
-                t = uVar7 + zr;
+                t = sVar7;
                 c.c32 = t; c.c22 = t; c.c31 = t; c.c21 = t;
             }
 
             func_80017758(&c, &blk);
-            w3b = iVar3 - 1;
-            iVar3 = w3b + zr;
-        } while ((short)w3b != -1);
+            sVar3 = sVar3 - 1;
+        } while (sVar3 != -1);
     }
-    return (short)sVar10;
+    return sVar10;
 }
 
 
@@ -6641,18 +6637,13 @@ extern void func_80149350(s32 arg0);
 
 
 void func_8016A290(s32 param_1, void *param_2, void *param_3) {
-
-    extern s32 D_801269A4;
-    extern s32 D_801269A8;
-    extern s32 D_801269AC;
     extern u8 D_801850A8;
     extern u8 D_801850BC[];
 
     struct Fr_8016A290 fr;
     u8 *p;
-    s32 i;
-    s32 t;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus4)
+    u16 i;
+    u16 t;
     s32 flags;
     s32 iVar3;
 
@@ -6680,7 +6671,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.pos[1] = D_801269A8 - fr.center.y;
     fr.pos[2] = D_801269AC - fr.center.z;
     ApplyTransposeMatrixLV(fr.mtx, fr.pos, fr.pos);
-    fr.diff.z = -((s32(*)(s32, s32))ratan2)(fr.pos[0], fr.pos[1]);
+    fr.diff.z = -ratan2(fr.pos[0], fr.pos[1]);
     RotMatrixYXZ(&fr.diff, fr.mtx);
 
     fr.v[3].z = 0;
@@ -6721,7 +6712,7 @@ L1:
         fr.v[3].y = (s8)*p--;
         func_80017758(fr.v, fr.mtx);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L1;
 
     fr.v[3].y = 0;
@@ -6745,7 +6736,7 @@ L2:
             p += 2;
         }
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L2;
 
     p += 2;
@@ -6762,7 +6753,7 @@ L3:
         fr.v[3].z = (s8)*p++;
         func_80017758(fr.v, fr.mtx);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 2) goto L3;
 }
 

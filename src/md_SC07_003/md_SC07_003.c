@@ -3563,7 +3563,7 @@ extern u8 D_801A7148[];
 extern u16 D_801A7314[];
 
 void func_801A48A8(void *arg0) {
-    register s32 s0 __asm__("$16") = (s32)arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s0 = (s32)arg0;
     s32 s1;
 
     s1 = func_8012C1B8();
@@ -3574,7 +3574,7 @@ void func_801A48A8(void *arg0) {
 
     *(s32 *)(s0 + 0x20) = s1;
     func_8001CA1C(s1, (s32)D_801A6F08);
-    func_8012A828(s0, (void *)D_801A7148);
+    do { func_8012A828(s0, (void *)D_801A7148); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
     {
         u16 t70 = *(u16 *)(s0 + 0x70);

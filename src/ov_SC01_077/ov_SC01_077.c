@@ -855,9 +855,14 @@ void func_8013DBE4(int param_1)
 
 void func_8013DD68() {
     extern void SetDrawEnv(void *p, void *env);
-    extern s32 D_800A5E60;
-    extern u16 D_800AF7B8;
     extern u8 D_800AF630[];
+    extern s32 D_800A5E60;
+    extern s16 *D_801D957C;
+    extern s32 D_801D95AC;
+    extern s32 D_801D95B0;
+    extern s32 D_801D95B4;
+    extern void SetDrawEnv(void *p, void *env);
+    extern u16 D_800AF7B8;
     extern u8 D_800BA0E4[];
     extern u8 D_801874C0[];
 
@@ -866,10 +871,10 @@ void func_8013DD68() {
     u16 *puVar16;
     u16 *q;
     u16 *puVar10;
-    register u16 uVar2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus2)
+    u16 uVar2;
     int uVar5;
-    register int iVar14 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus2)
-    Buf_c2 buf;
+    int iVar14;
+    Buf_8013DD68 buf;
     u8 *pbase;
     u8 *base;
 
@@ -879,10 +884,10 @@ void func_8013DD68() {
     uVar1 = *puVar16;
     puVar16 = puVar16 + 1;
     base = pbase + (u32)D_800AF7B8 * 0x5C;
-    buf.env = *(DrawEnv *)(base + 0x38);
+    buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
     *((u8 *)&buf + 0x18) = 0;
     SetDrawEnv(p, &buf);
-    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
     OTE->addr = (u32)p;
     p = p + 0x10;
     iVar14 = 0;
@@ -903,13 +908,12 @@ void func_8013DD68() {
             iVar14 = iVar14 + 1;
             *(u16 *)((int)puVar10 + -0xa) = q[-3];
             *(u8 *)((int)puVar10 + -8) = (u8)*puVar16;
-            uVar2 = q[-7];
+            *(u8 *)((int)puVar10 + -7) = (u8)q[-7];
             *(u16 *)((int)puVar10 + -6) = 0x7800;
-            *(u8 *)((int)puVar10 + -7) = (u8)uVar2;
             puVar16 = puVar16 + 8;
             *(u16 *)((int)puVar10 + -4) = q[-2];
             *(u16 *)((int)puVar10 + -2) = q[-1];
-            ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+            ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
             puVar10 = puVar10 + 0xc;
             OTE->addr = (u32)p;
             p = p + 6;
@@ -917,7 +921,7 @@ void func_8013DD68() {
         } while (iVar14 < (int)(u32)uVar1);
     }
     SetDrawEnv(p, D_801874C0);
-    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    ((P_TAG_8013DD68 *)p)->addr = *(u32 *)OTE;
     OTE->addr = (u32)p;
     p = p + 0x10;
     (*(u32 * *)&D_800A5E60) = p;
@@ -3365,16 +3369,19 @@ extern s32 func_8012BEE8(s32 a0);
 extern void func_8012C218(void *a0);
 
 void func_80143D28(s32 param_1) {
-    register s32 iVar3 __asm__("$18") = *(s32 *)(param_1 + 0x20); /* $s2 */  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus2)
+
+    extern MatEntry D_80188478[];
     s32 iVar2 = *(s32 *)(param_1 + 0x64); /* $s1 */
     MatEntry *p = &D_80188478[*(s16 *)(param_1 + 0x70)];
+    u16 uVar5 = p->f8;
+    s32 iVar3 = *(s32 *)(param_1 + 0x20);
     s32 sVar4;
     s32 iVar1;
 
-    *(s16 *)(iVar3 + 0x14) = p->f8;
+    *(s16 *)(iVar3 + 0x14) = uVar5;
     *(u16 *)(iVar3 + 0x12) = *(u16 *)(iVar3 + 0x12) + p->fa;
     sVar4 = 0x1000;
-    ApplyMatrixSV((void *)(*(s32 *)(param_1 + 0x20) + 0x34), p, (void *)(param_1 + 0x50));
+    ((void (*)(void *, void *, void *))ApplyMatrixSV)((void *)(*(s32 *)(param_1 + 0x20) + 0x34), p, (void *)(param_1 + 0x50));
 
     if (*(s16 *)(param_1 + 0xfe) == 0 &&
         (iVar2 == 0 || *(s16 *)(iVar2 + 0x36) != *(s16 *)(param_1 + 0xfc) ||

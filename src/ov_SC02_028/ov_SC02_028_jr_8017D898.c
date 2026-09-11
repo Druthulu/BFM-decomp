@@ -5470,10 +5470,9 @@ void func_80182060(void *a0)
     p = &D_801D3100;
     /* Zero-byte second set of `p` — blinds sched.c's reg_known_value alias
      * oracle so `*p = nc0` anti-depends on the D_801D3101/2 loads.  See header. */
-    __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     c0 = *p;
     if (c0 < 0xFF) {
-        nc0 = c0 + 0x10;
+        do { nc0 = c0 + 0x10; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
         *p = nc0;
         c1 = D_801D3101;
         c2 = D_801D3102;

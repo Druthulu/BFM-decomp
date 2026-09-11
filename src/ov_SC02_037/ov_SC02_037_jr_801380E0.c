@@ -943,33 +943,32 @@ void func_801397B0(s32 arg0)
 
 extern unsigned char D_801841D8[];
 
-void func_80139BE0(s32 a0)
+void func_80139BE0(int param_1)
 {
+
+    extern unsigned char D_801841D8[];
     int v;
 
-    if ((*(unsigned int *)(a0 + 8) & 0x2000) == 0) {
-        int t = *(unsigned char *)(a0 + 0x22) & 0x60;
-        int h = *(unsigned short *)(a0 + 0x18);
-        unsigned int idx;
+    if ((*(unsigned int *)(param_1 + 8) & 0x2000) == 0) {
+        short t = *(unsigned char *)(param_1 + 0x22) & 0x60;
+        int h = *(unsigned short *)(param_1 + 0x18);
 
-        __asm__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        idx = (unsigned char)t;
         if (h < 7) {
             if (h >= 2) {
-                v = D_801841D8[idx >> 5];
+                v = D_801841D8[((unsigned char)t) >> 5];
             } else {
                 v = D_801841D8[0];
             }
         } else {
             v = D_801841D8[0];
         }
-        *(short *)(a0 + 0x2e) = 3;
-        *(short *)(a0 + 0x2c) = v;
+        *(short *)(param_1 + 0x2e) = 3;
+        *(short *)(param_1 + 0x2c) = v;
     }
-    *(short *)(a0 + 0x34) = *(short *)(a0 + 0x2c) * 6;
+    *(short *)(param_1 + 0x34) = *(short *)(param_1 + 0x2c) * 6;
     {
-        int x = *(short *)(a0 + 0x2e);
-        *(short *)(a0 + 0x36) = x * 12 + (x - 1) * 2;
+        int x = *(short *)(param_1 + 0x2e);
+        *(short *)(param_1 + 0x36) = x * 12 + (x - 1) * 2;
     }
 }
 

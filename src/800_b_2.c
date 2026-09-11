@@ -4765,12 +4765,12 @@ s32 func_800324A4(u32 arg0, u8 *p, u32 flags, s32 arg3) {
     s32 minp;
     s32 maxp;
     s32 pr;
-    u32 x;
+    u16 x;
     /* t: keeps the raw incoming arg0 in $a0 so the "srl $t4, $a0, 16" that
      * feeds the y spill reads $a0 and not $fp.  Without it cse collapses
      * x into the parameter pseudo, the shift reads the callee-saved home and
      * the $s7/$fp pair flips (v <-> arg0) -- 9 diffs.  Emits no instruction. */
-    register u32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 t;
     u16 y;
     s32 v;
     u8 old;

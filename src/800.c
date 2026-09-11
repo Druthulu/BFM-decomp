@@ -8906,7 +8906,7 @@ void func_8001BC6C(s32 a0, s32 a1)
     short *p1 = (short *)a0;
     u8 *p;
     u32 *ot;
-    register u32 color __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 color;
     short f0;
     u32 tag;
     u32 c;
@@ -8954,9 +8954,9 @@ void func_8001BC6C(s32 a0, s32 a1)
     *(u8 *)(p + 3) = 5;
     *(u32 *)(p + 4) = code | 0xE1000000;
     *(u8 *)(p + 0xB) = 100;
+    *(u32 *)(p + 8) = color;
     *(u32 *)(p + 0xC) = ((u32)y1 << 16) | (u32)x1;
     *(u32 *)(p + 0x10) = (u32)(((s32)((u32)f1 << 16) >> 8) | (s32)t0);
-    *(u32 *)(p + 8) = color;
     *(u32 *)(p + 0x14) = ((u32)f3 << 16) | (u32)f2;
     ((PTag_8001BC6C *)p)->addr = ((PTag_8001BC6C *)(ot + 1))->addr;
     D_800A5E60 = p + 0x18;
@@ -11171,7 +11171,7 @@ void func_8001EA14(Ent_EA14 *p)
     u16 ux, uy;
     s32 cl;
     s32 xs;
-    register s32 vv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s16 vv;
     u32 uyx;
     u32 t;
     u8 c8;

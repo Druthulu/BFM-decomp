@@ -8,7 +8,7 @@ extern void func_800D20C0(void *a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);
 extern void func_80169584(s32 param_1);
 void func_80169408(s32 a0) {
-    register s32 s2 __asm__("$18") = a0;  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers1)
+    s32 s2 = a0;
     s32 s1;
     s16 v10[4];   /* sp+0x10 SVECTOR */
     s16 out[4];   /* sp+0x18 SVECTOR */
@@ -24,7 +24,7 @@ void func_80169408(s32 a0) {
         v10[0] = 0;
         v10[1] = 0;
         v10[2] = 2;
-        ApplyMatrixSV(m, v10, v10);
+        ((void (*)(void *, void *, void *))ApplyMatrixSV)(m, v10, v10);
         *(u16 *)(s2 + 0x12) = v10[0];
         *(u16 *)(s2 + 0x16) = v10[1];
         *(u16 *)(s2 + 0x1A) = v10[2];
@@ -35,6 +35,6 @@ void func_80169408(s32 a0) {
         func_800D23D0(out);
         RotMatrixYXZ(out, (void *)s1);
     }
-    func_80169584(s2);
+    do { func_80169584(s2); } while (0);
     *(u16 *)(s2 + 0x2) = *(u16 *)(s2 + 0x2) + 1;
 }

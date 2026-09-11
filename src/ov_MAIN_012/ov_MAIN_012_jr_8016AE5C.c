@@ -3540,14 +3540,15 @@ extern void func_80146C3C(u8*);
 
 
 s32 func_8016C49C(s32 param_1_arg) {
-
     extern s32 D_8011D030;
     extern s32 VectorNormalSS(void *, void *);
-    extern short func_8016CF04(s32, s32);
+    extern s32 VectorNormalSS(void *, void *);
+    extern void func_8001CD9C(s32, void *);
+    extern void func_8016CF04(s32, s32);
     extern u8 D_80184810[];
     extern u8 D_801848D0;
 
-    register u16 *param_1 __asm__("$17") = ((u16 *)param_1_arg);  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus6)
+    u16 *param_1 = ((u16 *)param_1_arg);
     int iVar5;
     int iVar6;
     u16 sv[4];
@@ -3596,9 +3597,9 @@ s32 func_8016C49C(s32 param_1_arg) {
         if (iVar5b == 0) {
             return;
         }
-        ((void(*)(s32, void *))func_8001CD9C)(iVar5b, D_80184810);
+        func_8001CD9C(iVar5b, D_80184810);
         *(u32 *)(iVar5b + 4) |= 0x50000000;
-        uVar2 = rand();
+        uVar2 = ((int(*)())rand)();
         sv[0] = (uVar2 & 0x7f) * 8 - 0x80;
         sv[1] = ((uVar2 & 0x7f00) >> 4) - 0x400;
         sv[2] = 0;
@@ -3617,7 +3618,7 @@ s32 func_8016C49C(s32 param_1_arg) {
         *(int *)(param_1 + 0x16) = 0;
         sVar1 = param_1[1] + 1;
     }
-    param_1[1] = sVar1;
+    do { param_1[1] = sVar1; } while (0);
 }
 
 

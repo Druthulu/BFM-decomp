@@ -134,7 +134,7 @@ extern s32 D_801F8704;
 extern u16 D_801F885C;
 
 void func_801A0400(s32 arg0) {
-    register s32 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 *p;
     s32 v0;
     s32 v1;
     s32 r6;
@@ -277,7 +277,7 @@ void func_801A0400(s32 arg0) {
         *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
         break;
     case 10:
-        p = &D_801F8734;
+        do { p = &D_801F8734; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
         func_8013240C((s32) p);
         d10 = D_801AFBB8;
         q10 = 0x70 / d10;

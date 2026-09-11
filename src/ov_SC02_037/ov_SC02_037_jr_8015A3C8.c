@@ -8756,7 +8756,6 @@ extern void func_80149350(s32 arg0);
 
 
 void func_8016A290(s32 param_1, void *param_2, void *param_3) {
-
     extern u16 D_800B99DA;
     extern s32 D_801269A4;
     extern s32 D_801269A8;
@@ -8766,9 +8765,8 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
 
     struct Fr_8016A290 fr;
     u8 *p;
-    s32 i;
-    s32 t;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus2)
+    u16 i;
+    u16 t;
     s32 flags;
     s32 iVar3;
 
@@ -8796,7 +8794,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.pos[1] = D_801269A8 - fr.center.y;
     fr.pos[2] = D_801269AC - fr.center.z;
     ApplyTransposeMatrixLV(fr.mtx, fr.pos, fr.pos);
-    fr.diff.z = -((s32(*)(s32, s32))ratan2)(fr.pos[0], fr.pos[1]);
+    fr.diff.z = -ratan2(fr.pos[0], fr.pos[1]);
     RotMatrixYXZ(&fr.diff, fr.mtx);
 
     fr.v[3].z = 0;
@@ -8837,7 +8835,7 @@ L1:
         fr.v[3].y = (s8)*p--;
         func_80017758(fr.v, fr.mtx);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L1;
 
     fr.v[3].y = 0;
@@ -8861,7 +8859,7 @@ L2:
             p += 2;
         }
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 4) goto L2;
 
     p += 2;
@@ -8878,7 +8876,7 @@ L3:
         fr.v[3].z = (s8)*p++;
         func_80017758(fr.v, fr.mtx);
         t = i + 1;
-        i = t + zr;
+        i = t + 0;
         if ((s16)t < 2) goto L3;
 }
 

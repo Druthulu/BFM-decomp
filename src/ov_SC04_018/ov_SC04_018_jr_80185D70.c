@@ -3053,14 +3053,14 @@ extern void func_80178CBC(s32*, s32);
 
 void func_80185D70(void *a0) {
     void *s2 = a0;
-    register u8 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *p;
     void *s0;
     s32 v0;
     s16 v1;
 
+    p = D_80078E78;
     v0 = func_80029504();
     v1 = *(s16 *)((s32)s2 + 0x70);
-    p = D_80078E78;
     s0 = D_801B89D0[v1];
     v1 -= 8;
     switch (v1) {

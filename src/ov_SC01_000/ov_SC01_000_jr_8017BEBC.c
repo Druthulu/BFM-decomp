@@ -3072,7 +3072,7 @@ extern s32 D_801A5770;
 
 void func_8017D490(void)
 {
-    register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 v;
     u16 *q0;
     u16 *q1;
     s32 *r0;
@@ -3081,8 +3081,8 @@ void func_8017D490(void)
     s32 *r3;
     u8 *p;
 
-    v = func_800149E0(0);
     p = D_80126948;
+    v = func_800149E0(0);
     if ((D_801A585C < 0xE) && (v & 0x840)) {
         func_800D1724((s32)D_8018263C);
         D_801A585C = 0xF;

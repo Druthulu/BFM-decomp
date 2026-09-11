@@ -4006,7 +4006,7 @@ void func_8017F348(s32 arg0) {
     s16 ad;
     u16 *tbl1;
     s16 *tbl2;
-    register s32 snd __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 snd;
     s16 st;
     s32 idx;
     s16 dist;
@@ -4076,7 +4076,7 @@ void func_8017F348(s32 arg0) {
         }
     }
     if (*(s16 *)(arg0 + 0x84) != 0) {
-        ((void (*)(s32))func_8002D4C8)(4);
+        ((void (*)(s32 arg0, s32 arg1))func_8002D4C8)(4, snd);
         *(s16 *)(arg0 + 0x84) = 0;
     }
 }

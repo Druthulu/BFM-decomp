@@ -264,7 +264,8 @@ void func_80189324(s32 a0) {
     s32 dx, dz;
     s32 x;
     s32 v1;
-    register void *s1_ptr __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    void *s1_ptr;
+    s32 tmp0;
 
     idx = (*(u16 *)(a0 + 0x70) & 0xF00) >> 8;
 
@@ -302,7 +303,8 @@ void func_80189324(s32 a0) {
     p = &d;
     r = r & 0x1F;
     dx = *(s16 *)(a0 + 0x6);
-    dz = *(s16 *)(a0 + 0x88);
+    tmp0 = a0 + 0x88;
+    dz = *(s16 *)tmp0;
     *(s32 *)(a0 + 0x1C) = r + 0x28;
 
     p->vy = 0;

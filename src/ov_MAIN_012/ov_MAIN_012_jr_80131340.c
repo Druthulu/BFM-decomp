@@ -2204,33 +2204,30 @@ extern int func_80134A74(int, s16, s16, int);
 
 int func_80135168(u16 arg0, u16 *p1, u16 *p2)
 {
-
+    extern s16 *D_8017E918;
     extern int D_80184120;
     extern u16 D_80184130;
-    /* [T48] moved from FILE scope into the two consumers: a file-scope decl of these symbols
-       forces every LATER function in this TU to agree with it, which blocks a byte-true
-       pointer-typed decl in func_80135260. Declaration-only move; R22 is the arbiter. */
-    extern u8 D_8017E914;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §100); the whole-binary byte-gate is the arbiter. */
     extern u8 D_8017E910;
-    extern s16 *D_8017E918;
+    extern u8 D_8017E914;
     extern u8 D_8017E91C;
-    register s16 *pb0 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus1)
-    register s16 *pac __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus1)
-    register s16 *pb8 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus1)
+    s16 *pb0;
+    s16 *pac;
+    s16 *pb8;
     u16 *pb4;
-    u16 a, b;
+    u16 ax, bx, ay, by, az, bz;
     int a1v, a2v, d94;
 
     pb0 = (*(s16 * *)&D_8017E914);
-    __asm__ __volatile__("" : : "r"(pb0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus1)
 
-    a = p2[0]; pac = (*(s16 * *)&D_8017E910); pb0[0] = a; b = p1[0]; pb8 = (*(s16 * *)&D_8017E91C); pac[0] = b; pb8[0] = a - b;
-    a = p2[1]; pb0[1] = a; b = p1[1]; pac[1] = b; pb8[1] = a - b;
-    a = p2[2]; pb0[2] = a; b = p1[2]; pac[2] = b; pb8[2] = a - b;
+    ax = p2[0]; pac = (*(s16 * *)&D_8017E910); pb0[0] = ax; bx = p1[0]; pb8 = (*(s16 * *)&D_8017E91C); pac[0] = bx; pb8[0] = ax - bx;
+    ay = p2[1]; pb0[1] = ay; by = p1[1]; pac[1] = by; pb8[1] = ay - by;
+    az = p2[2]; pb0[2] = az; bz = p1[2]; pac[2] = bz; pb8[2] = az - bz;
 
     a1v = pac[0]; a2v = pac[2]; d94 = D_80184120;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus1)
-    D_80184130 = 0;
+    ((H16 *)&D_80184130)->h = 0;
     if (func_80134A74(arg0, a1v, a2v, d94)) {
         pb4 = (*(u16 * *)&D_8017E918);
         p2[0] = pb4[0];

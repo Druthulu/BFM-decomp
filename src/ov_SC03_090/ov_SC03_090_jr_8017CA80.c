@@ -3012,11 +3012,11 @@ void func_8017D960(s32 arg0)
         box[4].vx = mn; box[4].vy = my;
         box[5].vx = mx; box[5].vy = my;
         box[6].vx = mn; box[6].vy = my;
-        box[7].vx = mx; box[7].vy = my;
         wy = wz >> 16;
         box[0].vz = wz;
         box[1].vz = wz;
         box[4].vz = wz;
+        box[7].vx = mx; box[7].vy = my;
         box[5].vz = wz;
         box[2].vz = wy;
         box[3].vz = wy;
@@ -3111,7 +3111,6 @@ void func_8017D960(s32 arg0)
                                         else if (tmpxy[2].vy < mny) mny = tmpxy[2].vy;
                                         if (my >= -0x6E && mny < 0x6F) {
                                             s32 za, zb;
-                                            __asm__ __volatile__ ("" :: "r" (mny));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
                                             if (g.sz0 > g.sz1) { za = g.sz0; if (za < g.sz2) za = g.sz2; }
                                             else { za = g.sz1; if (za < g.sz2) za = g.sz2; }
                                             g.opz = za;

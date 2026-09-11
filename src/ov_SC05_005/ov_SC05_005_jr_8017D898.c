@@ -4023,8 +4023,7 @@ void func_801804C0(s32 param_1) {
     v0 = *(s16 *)(v0 + 0x30);
     a2 = v1 * v0;
     v0 = a2 >> 12;
-    v1 = v0;
-    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    do { v1 = v0; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     if ((s16)v0 <= 0) {
         v1 = 1;
     }

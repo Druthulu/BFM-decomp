@@ -4268,8 +4268,7 @@ void func_801803E4(s32 param_1) {
         }
         val = *(u16 *)(param_1 + 0xF8) - 1;
     }
-    *(u16 *)(param_1 + 0xF8) = (u16)val;
-    __asm__ ("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    do { *(u16 *)(param_1 + 0xF8) = (u16)val; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
     v0 = *(s32 *)(param_1 + 0x64);
     h = *(s16 *)(v0 + 0xFA);

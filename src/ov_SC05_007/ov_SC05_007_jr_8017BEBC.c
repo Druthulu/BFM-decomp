@@ -3322,7 +3322,7 @@ extern void func_80146C3C();
 void func_8017DCAC(a0)
 void *a0;
 {
-    register s32 self __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 self;
     s32 obj;
 
     self = (s32)a0;
@@ -3332,7 +3332,7 @@ void *a0;
     } else {
         *(s32 *)(self + 0x14) += -0x8000;
         *(s32 *)(self + 0x8) += *(s32 *)(self + 0x14);
-        *(u16 *)(obj + 0x18) += 0x500;
+        do { *(u16 *)(obj + 0x18) += 0x500; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
         if (*(s32 *)(self + 0x2C) == 0) {
             *(u16 *)(obj + 0x1A) += 0x300;
         } else {

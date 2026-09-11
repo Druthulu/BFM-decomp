@@ -5167,7 +5167,7 @@ typedef struct {
 
 void func_8017F53C(s32 arg0)
 {
-    register s32 param_1 __asm__("$16") = arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 param_1 = arg0;
     s32 ret;
     s32 handle;
     s32 cnt;
@@ -5175,7 +5175,7 @@ void func_8017F53C(s32 arg0)
     Stk bx;
     Stk b2;
 
-    ret = ((s32 (*)(void))func_8012C1B8)();
+    do { ret = ((s32 (*)(void))func_8012C1B8)(); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     handle = ret;
     *(s32 *)((s8 *)param_1 + 0x20) = ret;
     if (ret == 0) {
