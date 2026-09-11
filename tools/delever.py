@@ -3515,6 +3515,60 @@ def duplicate_join_statement(text, tu, fn, d_, max_sites=12):
     return out
 
 
+def return_preincrement(text, tu, fn, d_):
+    """[(description, candidate text)] — R40: `return x + 1;` (x a local) → `return ++x;`.
+
+    T7 agents e2 (func_800348A8) and e16 (func_800331D4), P36 S104: a loop counter whose only exit use is `return i + 1`
+    loses an `allocno_compare` race (`global.c:587-603`, refs weighted by loop depth `flow.c:2067`) to a loop pointer; the
+    pre-increment adds refs, and combine folds `i = i + 1; $v0 = i` back into one `addiu` — zero bytes."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^(\s*)return\s+([A-Za-z_]\w*)\s*([-+])\s*1\s*;\s*$", masked[i])
+        if m:
+            cand = list(lines)
+            cand[i] = f"{m.group(1)}return {m.group(3) * 2}{m.group(2)};"
+            out.append((f"return-preinc {m.group(3) * 2}{m.group(2)} @{i + 1}", "\n".join(cand)))
+    return out
+
+
+def swap_if_else_arms(text, tu, fn, d_, max_sites=12):
+    """[(description, candidate text)] — R41: an `if (C) { A } else { B }` rewritten `if (!(C)) { B } else { A }`, one site
+    at a time.
+
+    T7 agent e16 (func_800336A8, P36 S104): the arm ORDER decides which block falls through and which one reorg's delay-slot
+    filler can steal from (`update_block` reorg.c:2233, `mark_target_live_regs` :2696-2704, `fill_eager_delay_slots` :3368);
+    swapping the arms closed a barrier class the generators never reached (they never swap arms). One compile per site."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^(\s*)if\s*\((.*)\)\s*\{\s*$", masked[i])
+        if not m or masked[i].count("(") != masked[i].count(")"):
+            continue
+        depth, j, e = 0, i, None
+        while j < hi:
+            depth += masked[j].count("{") - masked[j].count("}")
+            if depth == 1 and j > i and re.match(r"^\s*\}\s*else\s*\{\s*$", masked[j]):
+                e = j
+            if depth == 0 and j > i:
+                break
+            j += 1
+        if e is None or j >= hi or not re.match(r"^\s*\}\s*$", masked[j]):
+            continue
+        ind = m.group(1)
+        C = lines[i][masked[i].index("(") + 1:m.end(2)]
+        nc = _invert(C) or f"!({C.strip()})"
+        cand = lines[:i] + [f"{ind}if ({nc}) {{"] + lines[e + 1:j] + [f"{ind}}} else {{"] + lines[i + 1:e] + [f"{ind}}}"] + lines[j + 1:]
+        out.append((f"swap-arms @{i + 1}", "\n".join(cand)))
+        if len(out) >= max_sites:
+            break
+    return out
+
+
 def return_constants(text, tu, fn, d_):
     """[(description, candidate text)] — R37: a result local `r = 0; if (A) r = (B); return r;` (or with `{ }`) written as
     `if (A && B) return 1; return 0;` — and the nested form `if (A) { if (B) return 1; } return 0;`.
@@ -3784,7 +3838,7 @@ def named_ports(tu, fn, max_donors=6):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39", "R40", "R41")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3943,6 +3997,12 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R36" in fam:
         for desc, cand in merge_set_chains(text, tu, fn, d_):
             out.append(("R36", desc, cand))
+    if "R40" in fam:
+        for desc, cand in return_preincrement(text, tu, fn, d_):
+            out.append(("R40", desc, cand))
+    if "R41" in fam:
+        for desc, cand in swap_if_else_arms(text, tu, fn, d_):
+            out.append(("R41", desc, cand))
     if "R39" in fam:
         for desc, cand in duplicate_join_statement(text, tu, fn, d_):
             out.append(("R39", desc, cand))
