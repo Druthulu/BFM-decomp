@@ -83,7 +83,9 @@ def one(e, fams, label):
                 cands = [("R27", d, c) for d, c in dl.named_ports(e["tu"], e["fn"])]
             else:
                 cands = dl.recipe_candidates(body, "src/fx/regen.c", e["fn"], [], cap=None,
-                                             families=tuple(f for f in fams if f != "R27"))
+                                             families=tuple(f for f in fams if f not in ("R27", "R28")))
+                if "R28" in fams:                            # R28 reads the tree's pins from the REAL unit
+                    cands += [("R28", d, c) for d, c in dl.merge_pinned_twins(e["tu"], e["fn"], body)]
         except Exception as x:                               # a generator crash is a finding, not a silent skip (R43)
             return dict(e, verdict="GEN-ERROR", err=str(x)[:160], tried=tried)
         for rec, desc, cand in cands:

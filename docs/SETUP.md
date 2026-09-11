@@ -1824,6 +1824,18 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   do-while|dead-init` marker is a KEPT fake (sotn-decomp's STYLE.md rule), not an orphan and not a lever —
   `lever_census` counts it apart ("marked ordinary-C fakes … NOT levers") and `--scrub` leaves it. Generator R7's do-while
   spelling now carries `// !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)`.
+- **Generators R28–R34 (`tools/delever.py`, S104 — each harvested from a T7 landing, each run against that agent's own start
+  text before shipping):** **R28 `merge_pinned_twins`** (d12: locals the TREE pins to one register are one variable — reads
+  the real TU; reproduces d12's 63 for the merges alone), **R29 `fold_store_temps`** (d15: a temp reused for several values
+  each stored once → direct stores and `LV |= K`; reproduces d15's single-move 4), **R31 `shift_operand_casts`** (d13:
+  `(s16)v >> N` at ONE shift; known-true 0), **R32 `compound_assignments`** (d5: `v = E; … L = L + v;` → `L += E;`, d8:
+  `v = F + 1; … F = v;` → `(F)++;` — the use count is scoped to the variable's own declaration; both known-true 0), **R33
+  `else_arm_assignments`** (d1: `x = A; if (C) x = B;` → an if/else with the non-simple value in the ELSE arm, the relational
+  inverted or `!(C)`; known-true 0), **R34 `merge_disjoint_locals`** (d12/d14/d19: two same-type locals with disjoint textual
+  spans merged — a single pair never closed those three alone (13 / 5 / 63): it is a MOVE for the engine's composition, not a
+  one-shot closer). The new generators mask the WHOLE text (`sc.mask_text(text).split("\n")`): a per-line mask leaves a block
+  comment's inner lines visible (R32's first known-true run counted a mention inside a comment). `delever_regen --families
+  R28 …` feeds R28 the real TU like R27.
 - **Generator R27 `named_ports` (`tools/delever.py`, S104; `delever_regen --families R27`)** — the SAME function already
   lever-free in another binary, ported. Donors: every definition of the name in `src/` (`named_definitions()`, one `git
   grep`, cached) with no `register`/`__asm__`/`!FAKE`, nearest line count first, ≤ 6 distinct texts. Symbol renaming by

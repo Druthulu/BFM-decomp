@@ -129,3 +129,21 @@
     - (d4) a marked `do { store; } while (0)` as a LOOP-note scheduling barrier (`sched.c:2058-2074`) — allowed, marked.
     - The `.sched` ready-list trace (`blocking insn N for 1 cycles`, the uid picked next) and `.lreg`'s `Register N in 16.`
       lines settled three of these where the allocation table misled.
+13. **S104's second wave (d10–d15), all at 0 with ZERO levers:**
+    - (d10) pins + a keepalive that reads variables BEFORE they are set + a dead `pad[N]` = a **register UNION**
+      `union { struct { s16 x, y; } v; s32 w; } a;` assigned field-wise and passed as `.w` (the field insert makes flow mark it
+      live from entry; `global.c:640-660`). Count the dead pseudos in `.lreg` against the target frame before accepting a pad.
+    - (d12) **two differently-named locals pinned to the SAME register are ONE original variable** the decompiler split — merge
+      them (rename the later to the earlier, delete its declaration), all pairs at once; a `$0` pin feeding `x = y + zr` means
+      delete the temp and use `y`.
+    - (d15) a temp reused for several values, each stored once (`.lreg`: "dies in N places", refused by `local-alloc.c:472`)
+      → store each value directly (`*m = E;`, `*m |= K;`). A PROLOGUE copy-order residual → a parameter's WIDTH: an `s16`
+      parameter's narrowing is emitted after all parameter copies (`function.c:3664-3676`); if a file-scope prototype fixes
+      the type, a first-declared `s16 v = aN;` local does the same.
+    - (d11) a sign-split range test (`if (v >= 0) { if (v >= K) goto L; } else { if (-v >= K) goto L; }`) → one condition with
+      a ternary per axis `(v >= 0 ? v < K : -v < K) && …` (cross-jump finds no match, `jump.c:2412`; cookbook §396(a), §314b);
+      never `abs()` — gcc's `abssi2` pattern differs.
+    - (d13) `lhu; sll 16; sra 16` vs the target's `lh` + one wrong shift → cast ONE operand at the shift: `(s16)t >> 6`
+      (`c-typeck.c:2418-2450` short_shift re-extends; cse folds that pair instead, `cse.c:5577-5667`); never the declaration.
+    - Copies of your class under OTHER names in other TUs close with the same text almost always — find them by grepping a
+      distinctive line and `--try` each (d7, d9, d11, d12, d13, d15 all did).
