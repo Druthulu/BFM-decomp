@@ -6590,26 +6590,20 @@ extern void func_8017CC2C(void);
 s32 func_80183058(s32 *a0) {
     s32 s1 = (s32)a0;
     void *s0;
-    s32 frame_pad[2];
     s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t3_tus1)
-    register s32 t4 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t3_tus1)
-    (void)&frame_pad;
+    s16 x;
+    s32 v1;
 
     s0 = (void *)aFC4C;
     func_8018B2F8((s32 *)s0, 1);
     func_8018B830(s0);
 
-    v0 = *(s16 *)(s1 + 0xF2);
-    v1 = v0;
-    __asm__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t3_tus1)
-    if (v0 < 0x60) {
-        v0 = v1 + 1;
+    x = *(s16 *)(s1 + 0xF2);
+    if (x < 0x60) {
+        *(s16 *)(s1 + 0xF2) = x + 1;
     } else {
-        v0 = v1 + 8;
+        *(s16 *)(s1 + 0xF2) = x + 8;
     }
-    *(s16 *)(s1 + 0xF2) = v0;
-    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t3_tus1)
 
     v0 = *(s16 *)(s1 + 0xF2);
     if (v0 >= 0x100) {
@@ -6623,9 +6617,8 @@ s32 func_80183058(s32 *a0) {
     if (v1 != 0xFF) {
         goto ret0;
     }
-    t4 = D_801EFD14;
-    if (t4 != 0) {
-        func_80189410();
+    if (D_801EFD14 != 0) {
+        ((void (*)(void *))func_80189410)((void *)D_801EFD14);  /* the callee is func_80189410(void *a0), defined in this TU */
         D_801EFD14 = 0;
     }
     func_8018B8C0((void *)aFC4C);
