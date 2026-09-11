@@ -5853,7 +5853,9 @@ extern s16 D_80126CBA;
 
 s32 *aF80184888(s32 *a0, s32 a1, s32 a2) __asm__("func_80184BAC");
 
-s32 *aF80184888(s32 *a0, s32 a1, s32 a2) {
+s32 *aF80184BAC(s32 *a0, s32 a1, s32 a2) __asm__("func_80184BAC");
+
+s32 *aF80184BAC(s32 *a0, s32 a1, s32 a2) {
     s32 sp10[4];
     s32 sp20;
     s16 *q;
