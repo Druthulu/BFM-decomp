@@ -1,0 +1,7 @@
+REMOVED  pin         $5     line 7917
+NEEDED   pin         $0     line 7918
+REMOVED  pin         $4     line 7919
+REMOVED  pin         $3     line 7928
+NEEDED   pin         $2     line 7929
+REMOVED  pin         $2     line 7937
+NEEDED   pin         $3     line 7938

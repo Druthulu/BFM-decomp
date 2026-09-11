@@ -1,0 +1,20 @@
+src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:func_80185574: score 16 (COUNT; mine 22 ins, target 22) — not yet
+  insert  mine[7:7] target[7:14]
+        7  --                                 | lw	v1,32(a1)
+        8  --                                 | lw	v0,220(a1)
+        9  --                                 | lhu	v1,24(v1)
+       10  --                                 | and	v0,v0,a0
+       11  --                                 | sw	v0,220(a1)
+       12  --                                 | j	7690 <func_80185574+0x50>
+       13  --                                 | sh	v1,256(a1)
+  replace mine[10:11] target[17:18]
+       10  and	v1,v1,a0                       | ori	v1,v1,0x80
+  replace mine[12:20] target[19:20]
+       12  j	7690 <func_80185574+0x50>        | sh	v0,260(a1)
+       13  sh	v0,256(a1)                      | --
+       14  lw	v1,32(a0)                       | --
+       15  lw	v0,220(a0)                      | --
+       16  lhu	v1,24(v1)                      | --
+       17  ori	v0,v0,0x80                     | --
+       18  sw	v0,220(a0)                      | --
+       19  sh	v1,260(a0)                      | --

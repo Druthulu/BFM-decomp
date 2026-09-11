@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 34 best 20 compiles 188 path R12 width t s32->u16 @6870 + R6 inline v0 @6923
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline v0 @6923 -> 20 [COUNT] (from 25)
+  R9 swap-stmts @6912 -> 22 [COUNT] (from 25)
+  R12 width v0 s32->u16 @6872 -> 24 [COUNT] (from 28)
+  R12 width v0 s32->s16 @6872 -> 24 [COUNT] (from 28)
+  R12 width t s32->u16 @6870 -> 25 [COUNT] (from 34)
+  R12 width a1 s32->u16 @6873 -> 25 [COUNT] (from 25)
+  R8 cse tmp0 @6907 -> 25 [COUNT] (from 25)
+  R18 bystander @6891->6894 -> 25 [COUNT] (from 25)
+  R7 block @6916 -> 25 [COUNT] (from 25)
+  R5 swap + @6923 -> 25 [COUNT] (from 25)
+  R9 swap-stmts @6903 -> 25 [COUNT] (from 25)
+  R2 decl-order 1,0 -> 25 [COUNT] (from 25)

@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 16 best 4 compiles 191 path R7 do-while @7732 + R8 temp tmp0 @7741
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @7741 -> 4 [REG] (from 6)
+  R7 do-while @7732 -> 6 [REG] (from 16)
+  R8 temp tmp0 @7743 -> 6 [REG] (from 6)
+  R5 swap & @7736 -> 6 [REG] (from 6)
+  R10 param-copy arg0 @7723 -> 6 [REG] (from 6)
+  R7 block @7744 -> 6 [REG] (from 6)
+  R9 swap-stmts @7744 -> 6 [COUNT] (from 6)
+  R8 base tmp0 @7743 -> 6 [REG] (from 6)
+  R7 do-while @7744 -> 6 [REG] (from 6)
+  R9 swap-stmts @7743 -> 6 [REG] (from 6)
+  R18 bystander @7725->7728 -> 6 [REG] (from 6)
+  R7 block @7743 -> 6 [REG] (from 6)
