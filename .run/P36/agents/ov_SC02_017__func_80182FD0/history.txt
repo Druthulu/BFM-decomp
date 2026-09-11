@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 10 best 2 compiles 188 path R7 do-while @6002
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @6002 -> 2 [COUNT] (from 10)
+  R8 hoist tmp0 @6001 -> 2 [COUNT] (from 2)
+  R18 bystander @5991->5993 -> 2 [COUNT] (from 2)
+  R7 block @5999 -> 2 [COUNT] (from 2)
+  R9 swap-stmts @6006 -> 2 [COUNT] (from 2)
+  R10 param-copy param @5980 -> 2 [COUNT] (from 2)
+  R6 inline v0 @6022 -> 2 [COUNT] (from 2)
+  R8 hoist tmp0 @6006 -> 2 [COUNT] (from 2)
+  R7 do-while @5999 -> 2 [COUNT] (from 2)
+  R8 temp tmp0 @6013 -> 2 [COUNT] (from 2)
+  R18 bystander @5999->6001 -> 2 [COUNT] (from 2)
+  R7 block @6001 -> 2 [COUNT] (from 2)

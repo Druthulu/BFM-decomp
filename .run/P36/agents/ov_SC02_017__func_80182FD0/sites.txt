@@ -1,0 +1,4 @@
+REMOVED  pin         $3     line 6171
+NEEDED   keepalive          line 6199
+NEEDED   keepalive          line 6205
+NEEDED   cast        volatile s32 * line 6220

@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 29 best 29 compiles 184 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width rv s32->u16 @5348 -> 29 [COUNT] (from 29)
+  R8 temp tmp0 @5378 -> 29 [COUNT] (from 29)
+  R18 bystander @5361->5363 -> 29 [COUNT] (from 29)
+  R7 block @5390 -> 29 [COUNT] (from 29)
+  R10 param-copy arg0 @5349 -> 29 [COUNT] (from 29)
+  R4 decl-move g 3->0 -> 29 [COUNT] (from 29)
+  R12 width rv s32->s16 @5348 -> 29 [COUNT] (from 29)
+  R8 base tmp0 @5378 -> 29 [COUNT] (from 29)
+  R7 do-while @5390 -> 29 [COUNT] (from 29)
+  R4 decl-move g 3->1 -> 29 [COUNT] (from 29)
+  R12 width rv s32->u8 @5348 -> 29 [COUNT] (from 29)
+  R7 block @5378 -> 29 [COUNT] (from 29)

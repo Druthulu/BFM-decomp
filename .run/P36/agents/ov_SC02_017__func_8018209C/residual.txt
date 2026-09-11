@@ -1,0 +1,44 @@
+src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:func_8018209C: score 29 (COUNT; mine 122 ins, target 129) — not yet
+  register pairs (mine -> target, count): v0->a3 x11
+  replace mine[8:12] target[8:12]
+        8  lui	v0,0x0                         | lui	a3,0x0
+        9  addiu	v0,v0,0                      | addiu	a3,a3,0
+       10  lw	t4,0(v0)                        | lw	t4,0(a3)
+       11  lw	t5,4(v0)                        | lw	t5,4(a3)
+  replace mine[14:17] target[14:17]
+       14  lw	t4,8(v0)                        | lw	t4,8(a3)
+       15  lw	t5,12(v0)                       | lw	t5,12(a3)
+       16  lw	t6,16(v0)                       | lw	t6,16(a3)
+  replace mine[20:22] target[20:22]
+       20  lw	t4,20(v0)                       | lw	t4,20(a3)
+       21  lw	t5,24(v0)                       | lw	t5,24(a3)
+  replace mine[23:24] target[23:24]
+       23  lw	t6,28(v0)                       | lw	t6,28(a3)
+  replace mine[41:43] target[41:43]
+       41  bnez	v0,433c <func_8018209C+0x1d4> | bnez	v0,4358 <func_8018209C+0x1f0>
+       42  nop                                | move	v0,zero
+  replace mine[58:59] target[58:59]
+       58  j	4310 <func_8018209C+0x1a8>       | j	4324 <func_8018209C+0x1bc>
+  replace mine[62:63] target[62:63]
+       62  bnez	v0,4310 <func_8018209C+0x1a8> | bnez	v0,4324 <func_8018209C+0x1bc>
+  replace mine[88:90] target[88:90]
+       88  bnez	v0,433c <func_8018209C+0x1d4> | bnez	v0,4358 <func_8018209C+0x1f0>
+       89  nop                                | move	v0,zero
+  replace mine[96:98] target[96:98]
+       96  beqz	v0,433c <func_8018209C+0x1d4> | beqz	v0,4358 <func_8018209C+0x1f0>
+       97  nop                                | move	v0,zero
+  replace mine[100:101] target[100:106]
+      100  bgez	v0,4304 <func_8018209C+0x19c> | bltz	v0,4314 <func_8018209C+0x1ac>
+      101  --                                 | nop
+      102  --                                 | slti	v0,v0,141
+      103  --                                 | beqz	v0,4358 <func_8018209C+0x1f0>
+      104  --                                 | move	v0,zero
+      105  --                                 | j	4324 <func_8018209C+0x1bc>
+  replace mine[104:106] target[109:111]
+      104  beqz	v0,433c <func_8018209C+0x1d4> | beqz	v0,4358 <func_8018209C+0x1f0>
+      105  nop                                | move	v0,zero
+  replace mine[113:114] target[118:120]
+      113  bnez	v1,433c <func_8018209C+0x1d4> | bnez	v1,4358 <func_8018209C+0x1f0>
+      114  --                                 | li	v0,1
+  insert  mine[117:117] target[123:124]
+      117  --                                 | li	v0,1

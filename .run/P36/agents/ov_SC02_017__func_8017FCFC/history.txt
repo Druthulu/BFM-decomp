@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 10 best 2 compiles 184 path R6 inline t @3779 + R12 width u s32->u16 @3760
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width u s32->u16 @3760 -> 2 [MIXED] (from 6)
+  R6 inline t @3779 -> 6 [COUNT] (from 10)
+  R12 width u s32->u16 @3760 -> 6 [COUNT] (from 10)
+  R12 width k s32->u16 @3762 -> 6 [COUNT] (from 6)
+  R6 inline t @3789 -> 6 [COUNT] (from 6)
+  R8 temp tmp0 @3788 -> 6 [COUNT] (from 6)
+  R7 block @3790 -> 6 [COUNT] (from 6)
+  R9 swap-stmts @3777 -> 6 [COUNT] (from 6)
+  R10 param-copy a0 @3764 -> 6 [COUNT] (from 6)
+  R4 decl-move u 1->0 -> 6 [COUNT] (from 6)
+  R6 inline p @3778 -> 6 [COUNT] (from 6)
+  R8 base tmp0 @3788 -> 6 [COUNT] (from 6)

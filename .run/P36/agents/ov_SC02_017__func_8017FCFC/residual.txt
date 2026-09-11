@@ -1,0 +1,16 @@
+src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:func_8017FCFC: score 10 (COUNT; mine 79 ins, target 80) — not yet
+  replace mine[7:10] target[7:11]
+        7  beqz	v0,1df4 <func_8017FCFC+0x2c>  | beqz	v0,1df8 <func_8017FCFC+0x30>
+        8  addiu	v0,v0,-1                     | move	v1,v0
+        9  j	1eec <func_8017FCFC+0x124>       | addiu	v0,v1,-1
+       10  --                                 | j	1ef0 <func_8017FCFC+0x128>
+  insert  mine[23:23] target[24:26]
+       23  --                                 | lui	s1,0x0
+       24  --                                 | addiu	s1,s1,0
+  delete  mine[26:28] target[29:29]
+       26  lui	s1,0x0                         | --
+       27  addiu	s1,s1,0                      | --
+  replace mine[31:32] target[32:33]
+       31  j	1eec <func_8017FCFC+0x124>       | j	1ef0 <func_8017FCFC+0x128>
+  replace mine[54:55] target[55:56]
+       54  j	1eec <func_8017FCFC+0x124>       | j	1ef0 <func_8017FCFC+0x128>

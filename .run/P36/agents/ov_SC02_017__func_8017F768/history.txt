@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 13 best 13 compiles 184 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @3552->3554 -> 13 [COUNT] (from 13)
+  R7 block @3585 -> 13 [COUNT] (from 13)
+  R17 const-split @3556->3559 (0x71 into the 0 run) -> 13 [COUNT] (from 13)
+  R9 swap-stmts @3582 -> 13 [COUNT] (from 13)
+  R2 decl-order 1,0 -> 13 [COUNT] (from 13)
+  R18 bystander @3554->3548 -> 13 [COUNT] (from 13)
+  R9 swap-stmts @3549 -> 13 [COUNT] (from 13)
+  R8 hoist tmp0 @3565 -> 13 [COUNT] (from 13)
+  R18 bystander @3554->3549 -> 13 [COUNT] (from 13)
+  R7 block @3582 -> 13 [COUNT] (from 13)
+  R18 bystander @3554->3550 -> 13 [COUNT] (from 13)
+  R8 hoist tmp0 @3587 -> 13 [COUNT] (from 13)
