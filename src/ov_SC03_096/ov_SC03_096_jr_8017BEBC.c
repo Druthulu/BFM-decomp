@@ -3904,64 +3904,33 @@ void func_8017EE6C(void *a0) {
 
     s16 *p = (s16 *)&D_80126B58;
     s32 flag;
-    s32 cond;
-
-    __asm__ __volatile__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
 
     flag = 0;
-    if (*(s16 *)((char *)a0 + 0x70) == 2) {
-        goto CASE2;
-    }
-    if (*(s16 *)((char *)a0 + 0x70) < 3) {
-        goto CASE01;
-    }
-    if (*(s16 *)((char *)a0 + 0x70) == 3) {
-        goto CASE3;
-    }
-    goto TAIL;
-
-CASE01:
-    if (*(s16 *)((char *)a0 + 0x70) < 0) {
-        goto TAIL;
-    }
-    if (*(s16 *)&D_80126B66 < *(s16 *)((char *)a0 + 0xE)) {
-        cond = *(s16 *)((char *)a0 + 0xE) + D_80192A40[*(s16 *)((char *)a0 + 0x70)] < *(s16 *)&D_80126B66;
-        goto CHECK;
-    }
-    goto TAIL;
-
-CASE2:
-    if (*(s16 *)&D_80126B66 > *(s16 *)((char *)a0 + 0xE)) {
-        cond = *(s16 *)&D_80126B66 < *(s16 *)((char *)a0 + 0xE) + D_80192A44;
-        goto CHECK;
-    }
-    goto TAIL;
-
-CASE3:
-    if (*(s16 *)&D_80126B62 > *(s16 *)((char *)a0 + 0xA)) {
-        if (*(s16 *)&D_80126B62 < *(s16 *)((char *)a0 + 0xA) + D_80192A46) {
-            goto SUCCESS;
+    switch (*(s16 *)((char *)a0 + 0x70)) {
+    case 0:
+    case 1:
+        if (*(s16 *)&D_80126B66 < *(s16 *)((char *)a0 + 0xE) &&
+            *(s16 *)((char *)a0 + 0xE) + D_80192A40[*(s16 *)((char *)a0 + 0x70)] < *(s16 *)&D_80126B66) {
+            flag = 1;
         }
-    }
-    {
-        s16 base = p[3];
-        s16 posx = *(s16 *)((char *)a0 + 0x6);
-        if (base < posx) {
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-            cond = posx + D_80192A42[*(s16 *)((char *)a0 + 0x70)] < base;
-            goto CHECK;
+        break;
+    case 2:
+        if (*(s16 *)&D_80126B66 > *(s16 *)((char *)a0 + 0xE) &&
+            *(s16 *)&D_80126B66 < *(s16 *)((char *)a0 + 0xE) + D_80192A44) {
+            flag = 1;
         }
+        break;
+    case 3:
+        if (*(s16 *)&D_80126B62 > *(s16 *)((char *)a0 + 0xA) &&
+            *(s16 *)&D_80126B62 < *(s16 *)((char *)a0 + 0xA) + D_80192A46) {
+            flag = 1;
+        } else if (p[3] < *(s16 *)((char *)a0 + 0x6) &&
+                   *(s16 *)((char *)a0 + 0x6) + D_80192A42[*(s16 *)((char *)a0 + 0x70)] < p[3]) {
+            flag = 1;
+        }
+        break;
     }
-    goto TAIL;
 
-CHECK:
-    if (!cond) {
-        goto TAIL;
-    }
-SUCCESS:
-    flag = 1;
-
-TAIL:
     if (flag != 0 && D_8019A7D0 == 0) {
         func_8017F2A4(0x12F);
         ((void (*)(void *))func_8017F01C)(a0);
