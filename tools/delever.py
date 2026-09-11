@@ -2726,7 +2726,7 @@ def merge_walked_pointers(text, tu, fn, d_):
 
     def assigns(name):
         n = re.escape(name)
-        a = re.compile(r"(?<![\w.>])%s\s*(?:=(?!=)|\+=|-=|\+\+|--)|(?:\+\+|--)\s*%s\b" % (n, n))
+        a = re.compile(r"(?<![\w.>)])%s\s*(?:=(?!=)|\+=|-=|\+\+|--)|(?:\+\+|--)\s*%s\b" % (n, n))  # `)`: a store through a cast pointer is not a set of it (S105 f7)
         return [i for i in range(lo, hi) if a.search(masked[i])]
 
     def fmt(k):
@@ -2737,60 +2737,60 @@ def merge_walked_pointers(text, tu, fn, d_):
         qn = re.escape(q)
         if re.search(r"(?<!&)&(?!&)\s*%s\b" % qn, "\n".join(masked[lo:hi])):
             continue
-        init, steps = None, []
-        ok = True
+        init_line, steps, ok = None, [], True
         for i in assigns(q):
             st = _step_of(masked[i], q)
             if st is not None:
                 steps.append((i, st))
                 continue
-            s = masked[i].strip()
-            m = (re.match(r"^%s\s*=\s*([A-Za-z_]\w*)\s*([+-])\s*%s\s*;$" % (qn, _INT), s)
-                 or re.match(r"^%s\s*=\s*&\s*([A-Za-z_]\w*)\s*\[\s*(-?)\s*%s\s*\]\s*;$" % (qn, _INT), s)
-                 or re.match(r"^%s\s*=\s*([A-Za-z_]\w*)\s*;$()()" % qn, s))
-            if init is None and (not m or m.group(1) not in ptrs or m.group(1) == q):
-                # S105 f2 (func_80038838): `q = (T *)arg0 + 0x1B;` beside `p = (T *)arg0 + 0x1A;` — the same BASE
-                # expression at two offsets is `q = p + (c1 - c2)` in all but spelling; the lockstep test still applies
-                m2 = re.match(r"^%s\s*=\s*(.+?)\s*(?:([+-])\s*%s)?\s*;$" % (qn, _INT), s)
-                if m2:
-                    E, sign, k = " ".join(m2.group(1).split()), m2.group(2), m2.group(3)
-                    c1 = (int(k, 0) if k else 0) * (-1 if sign == "-" else 1)
-                    for p2, (p2i, p2t) in ptrs.items():
-                        if p2 == q or p2t != qt:
-                            continue
-                        for j in assigns(p2):
-                            m3 = re.match(r"^%s\s*=\s*(.+?)\s*(?:([+-])\s*%s)?\s*;$" % (re.escape(p2), _INT), masked[j].strip())
-                            if m3 and " ".join(m3.group(1).split()) == E and j < i and _step_of(masked[j], p2) is None:
-                                c2 = (int(m3.group(3), 0) if m3.group(3) else 0) * (-1 if m3.group(2) == "-" else 1)
-                                m, p_base, K_ = True, p2, c1 - c2
-                                break
-                        if m is True:
-                            break
-                if m is not True:
-                    ok = False
-                    break
-                init = (i, p_base, K_)
-                continue
-            if init is not None or not m:
+            if init_line is not None:
                 ok = False
                 break
-            p, sign, k = m.group(1), m.group(2), m.group(3)
-            init = (i, p, (int(k, 0) if k else 0) * (-1 if sign == "-" else 1))
-        if not ok or init is None or not steps:
+            init_line = i
+        if not ok or init_line is None or not steps:
             continue
-        ii, p, K = init
-        if ptrs[p][1] != qt:
+        s = masked[init_line].strip()
+        m2 = re.match(r"^%s\s*=\s*(.+?)\s*(?:([+-])\s*%s)?\s*;$" % (qn, _INT), s)
+        if not m2:
             continue
-        psteps = []
-        for i in assigns(p):
-            st = _step_of(masked[i], p)
-            if st is not None:
-                psteps.append(st)
-            elif i > ii:
-                ok = False                                   # p re-seated after q was derived from it: not lockstep
+        E, sign, k = " ".join(m2.group(1).split()), m2.group(2), m2.group(3)
+        c1 = (int(k, 0) if k else 0) * (-1 if sign == "-" else 1)
+        # the bases q may merge into, in order: the pointer local E itself (`q = p + K`, `q = &p[K]`, `q = p`), then every
+        # pointer local initialised from the SAME base expression at another offset (S105 f2/f7: `a1 = arg0 + 0x1B` beside
+        # `a3 = arg0 + 0x1A`; `fp = prim + 0x2E` beside `pp = prim + 0xC` — R22 had taken `prim` as the base and stopped)
+        cands = []
+        mb = re.match(r"^&\s*([A-Za-z_]\w*)\s*\[\s*(-?)\s*(%s)\s*\]$" % _INT, E)
+        if mb and not k:
+            E, c1 = mb.group(1), int(mb.group(3), 0) * (-1 if mb.group(2) else 1)
+        if E in ptrs and E != q:
+            cands.append((E, c1, init_line))
+        for p2, (p2i, p2t) in ptrs.items():
+            if p2 == q or p2 == E:
+                continue
+            for j in assigns(p2):
+                m3 = re.match(r"^%s\s*=\s*(.+?)\s*(?:([+-])\s*%s)?\s*;$" % (re.escape(p2), _INT), masked[j].strip())
+                if m3 and " ".join(m3.group(1).split()) == E and j < init_line and _step_of(masked[j], p2) is None:
+                    c2 = (int(m3.group(3), 0) if m3.group(3) else 0) * (-1 if m3.group(2) == "-" else 1)
+                    cands.append((p2, c1 - c2, init_line))
+                    break
+        chosen = None
+        for p, K, ii in cands:
+            if ptrs[p][1] != qt:
+                continue
+            psteps, ok2 = [], True
+            for i in assigns(p):
+                st = _step_of(masked[i], p)
+                if st is not None:
+                    psteps.append(st)
+                elif i > ii:
+                    ok2 = False                              # p re-seated after q was derived from it: not lockstep
+                    break
+            if ok2 and sorted(psteps) == sorted(st for _, st in steps):
+                chosen = (p, K, ii)
                 break
-        if not ok or sorted(psteps) != sorted(st for _, st in steps):
+        if chosen is None:
             continue
+        p, K, ii = chosen
         drop = {qi, ii} | {i for i, _ in steps}
         base = p if K == 0 else f"({p} + {fmt(K)})"
         cand = list(lines)
@@ -3700,7 +3700,7 @@ def counter_derived_pointer(text, tu, fn, d_):
 
     def assigns(name):
         n = re.escape(name)
-        a = re.compile(r"(?<![\w.>])%s\s*(?:=(?!=)|\+=|-=|\+\+|--)|(?:\+\+|--)\s*%s\b" % (n, n))
+        a = re.compile(r"(?<![\w.>)])%s\s*(?:=(?!=)|\+=|-=|\+\+|--)|(?:\+\+|--)\s*%s\b" % (n, n))  # `)`: a store through a cast pointer is not a set of it (S105 f7)
         return [i for i in range(lo, hi) if a.search(masked[i])]
 
     def block_of(si):
@@ -5618,6 +5618,30 @@ def selftest():
             "((void (*)(int, void *))func_8FFFFFF0)(a, b);" not in t25["argtrim func_8FFFFFF0 3->2 cast @2"]:
         fail(f"R25 must re-issue the call at the real arity: {t25!r}")
     _defs.pop("func_8FFFFFF0", None)
+
+    # R22, the base choice + the cast-store blind spot (S105 f7, func_8017FD14; known-true: alone it reproduces the agent's
+    # close, 37 -> 0): `fp = prim + 0x2E` beside `pp = prim + 0xC` — the literal base `prim` does not step, the same-base sibling
+    # `pp` does; and `*(u16 *)fp = v;` had been read as an ASSIGNMENT to fp (the `)` before the name) and refused the merge.
+    PFIX = ("void func_80100000(void) {\n"
+            "    u8 *pp;\n"
+            "    u8 *prim;\n"
+            "    u8 *fp;\n"
+            "    s32 i;\n"
+            "    prim = (u8 *)func_80010A08(0x9C);\n"
+            "    pp = prim + 0xC;\n"
+            "    fp = prim + 0x2E;\n"
+            "    for (i = 0; i < 4; i++) {\n"
+            "        fp[-0x1F] = 8;\n"
+            "        *(u16 *)fp = *(u16 *)(pp + 2);\n"
+            "        pp += 0x24;\n"
+            "        fp += 0x24;\n"
+            "    }\n"
+            "}")
+    p22 = dict(merge_walked_pointers(PFIX, "src/fx/p.c", "func_80100000",
+                                     next(r for r in sc.scan_text(PFIX, "src/fx/p.c", shared_defs=None) if r["form"] == "def")))
+    if sorted(p22) != ["merge-ptr fp into pp+34"] or "pp[3] = 8;" not in p22["merge-ptr fp into pp+34"] \
+            or "*(u16 *)(pp + 34) = *(u16 *)(pp + 2);" not in p22["merge-ptr fp into pp+34"]:
+        fail(f"R22 must merge onto the SAME-BASE sibling that steps in lockstep and read a cast store as a use, got {p22!r}")
 
     # R44, the counter-derived pointer (T7 agents e21 S104 + f2 S105; known-true: alone it reproduces e21's close of
     # func_80037EA0 at 0 from 33, and on f2's func_80038838 start text scores the agent's "loop 2 alone" 18; composed with
