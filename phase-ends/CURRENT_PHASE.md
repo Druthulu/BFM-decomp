@@ -1827,6 +1827,24 @@ accumulate here as the phase produces them.**
   3 MATCH row(s) banked`. R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 13,083 pin/asm sites,
   13,083 marked !FAKE, 0 UNMARKED — OK` (13,842 → 13,083; commit `e984e5822`'s message typed "14,xxx" for the start figure — a placeholder that should never have been committed, R66/R85; recorded here rather than amended, P5c).
 
+- **S104 (2026-09-10, Opus 5 1M, `/effort high`) — the open.** Tree clean at `b27c987ba`; calibration `177/177` identical;
+  baseline snapshot 7,428 objects; census `5,097 … 0 UNMARKED — OK`. Drew's four dispositions recorded (decisions §S104, read
+  against sotn-decomp's tree; milestone amended). The `&D_800AF648` `$4` population measured from `lever_sites.jsonl`: 40 pins in
+  39 functions left (c52 counted 111; the R26 regen took the rest). The residue: **1,020 classes / 1,638 bodies — 912 singletons,
+  104 of 2–9 copies, 1 of 10–99, 3 of ≥100** (the three are the structs phase's by (c)/(d): `func_80157D20` 132, `func_8013CF68`
+  134, `func_80178970` 127). **The free sweep first (Drew: "sweeps with the new tooling on all remaining funcs before an agent
+  touches them"):** `delever_regen --families R2 … R26` over all 1,020 classes — the first launch on 14 THREADS made zero compiles
+  in five minutes (R18 emits 1,000+ texts for one body; R19 rebuilds a 29 s signature table per thread, all under the GIL) → the tool
+  now forks worker PROCESSES after warming both caches and appends each judged class to `s104_all.jsonl` as it lands; relaunched
+  `-j 26`: two R12 width MATCHes in the first minute (`func_801E8A80` md_SC04_027 ×4, `func_8018AEE8` ov_SC03_001 ×4). **Scrub defect
+  fixed:** `lever_census.walk_file` defaults to the tree's cross-file macro table (`tree_asm_macros()`) for every out-of-census
+  caller — known-true `func_80165CA0.h:32` no longer an orphan, control (launder removed) still `[32]`, census unchanged. **Agents
+  d1–d5 launched (5 = Drew's cap), each on a class the sweep had judged and not closed:** d1 `func_80185960` ov_SC04_011 ×10 (sweep
+  best 9), d2 `func_80166F58` ov_MAIN_012 ×6 (4; the 125-copy SC04_011 class is banked lever-free in
+  `src/shared/ov/func_80166F58__3728db8a.h` — a naive splice COMPILE-ERRORs, so d2 ports it), d3 `func_8017FB4C` ov_SC06_014 ×4 (4),
+  d4 `func_80182358` ov_SC04_007 ×4 (5), d5 `func_801837E8` ov_SC05_018 ×4 (5). METHOD_S103.md gained the S104 section (steps 8–11:
+  do-while marked per sotn, the minimum-lever fallback, the structs question, start from the sweep's best).
+
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10, refreshed at the session's end): T0–T6 ☑, **T7 RUNNING**. 24,119 → **5,097 sites** this session (−19,022); 56 agent draws; generators **R22–R26**; `delever_regen` + `delever --port-scan`; **the MINIMUM-LEVER pivot** (four 130-copy classes now carry 1-2 marked levers instead of 4-34); R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK, exit 0 (5,097 marked, 0 UNMARKED, 0 orphans) · the session's last commit follows
 
 ### LATE S103 — READ THIS FIRST (it supersedes §0-§2 below where they differ)

@@ -1,0 +1,840 @@
+=== lever-free bodies in ov_SC04_007 sharing a callee or global with func_80182358 (91 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8017D7D4 (src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:3562) shares 2: D_80126B58 func_8002D4C8 ---
+void func_8017D7D4(void) {
+    func_8014BCEC((s32)&D_80126B58, 0x5);
+    func_8014BD24((s32)&D_80126B58, 0x270F);
+    func_8002D4C8(0xBFE, 0);
+}
+
+--- func_80147364 (src/shared/ov/func_80147364.h:9) shares 2: D_80126B58 func_8002D4C8 ---
+void aF80147364(u16 param_1, u16 param_2) {
+    s32 sp10[2];
+    s32 *p = &D_80126B58;
+    if (currentLocationId == 0x308d) {
+        ((void (*)(void *, void *))func_80015978)(p + 1, sp10);
+        ((void (*)(void *, s32, s32))aF8012E5CC)(sp10, param_1, param_2);
+    } else {
+        func_8002D4C8(param_1, param_2);
+    }
+}
+
+--- func_80144B9C (src/shared/ov/func_80144B9C.h:159) shares 2: D_80126B58 func_8002D4C8 ---
+void func_80144B9C(void) {
+    P10 *p10 = (P10 *)D_80126B58;
+    P14 *p14 = (P14 *)D_80078E78;
+    register u8 *p = D_800AF630;
+    P18 *p18 = (P18 *)D_800AE6A8;
+    P1C *p1C = (P1C *)D_80126948;
+    HDR *hdr;
+    ENT *ent;
+    s32 tbl;
+    s16 i;
+    void (*calltmp)(void);
+    s32 flag;
+
+    func_80019018();
+    func_80018E78();
+    if (p18->f8 == 0) {
+        hdr = (HDR *)func_801457A4(*(s16 *)(p + 0xA3D8));
+        p18->f16 = 0;
+        flag = 1;
+        D_8011DB14 = p14->f3A;
+        D_8011DB1C = p14->f3E;
+        D_80128150 = 100;
+        func_8002AB64();
+    } else {
+        hdr = (HDR *)func_801457A4(*(s16 *)(p + 0xA3D8));
+        flag = 0;
+    }
+    p18->f1C = hdr->fC8;
+    tbl = hdr->fC8;
+    if (p18->f16 == 0xFF) {
+        ent = &D_80078E50;
+    } else {
+        ent = (ENT *)*(s32 *)(p18->f16 * 4 + tbl);
+    }
+    p18->fC = ent->f8;
+    p18->f14 = 0;
+    p10->f4D = 0;
+    if (ent->fC != (s32)D_8010F5C8) {
+        p10->f198 = ent->fC;
+    }
+    if (*(s16 *)(p + 0xA3DA) == 0x1000 && *(s16 *)(p + 0xA3DC) == 0x1000) {
+        p10->f6 = p10->f88 = p10->f90 = p18->f20;
+        p10->fA = p10->f8A = p10->f92 = p18->f22;
+        p10->fE = p10->f8C = p10->f94 = p18->f24;
+        p10->f20->f12 = p18->f26;
+        p18->f18 = 0;
+    } else {
+        p10->f6 = p10->f88 = p10->f90 = ent->f10;
+        p10->fA = p10->f8A = p10->f92 = ent->f12;
+        p10->fE = p10->f8C = p10->f94 = ent->f14;
+        p10->f20->f12 = ent->f16;
+    }
+    p10->f154 = p10->f15C = p10->f6;
+    p10->f156 = p10->f15E = p10->fA;
+    p10->f158 = p10->f160 = p10->fE;
+    func_80015978((void *)((s32)p10 + 4), D_80126DB0);
+    D_80126DB6 = p10->f20->f12;
+    if (*(s16 *)(p + 0xA3DA) == 0x1000 &&
+        (*(s16 *)(p + 0xA3DC) == 0x1000 || *(s16 *)(p + 0xA3DC) == 0x2000) && flag == 0) {
+        ent->f18();
+        func_8012A1BC();
+    } else {
+        if (*(s16 *)(p + 0xA3DA) == 0x1000 && *(s16 *)(p + 0xA3DC) == 0x3000) {
+            p1C->fA0 = ent->f3;
+        } else {
+            p1C->fA0 = 0;
+        }
+        ent->f18();
+    }
+    if (*(s16 *)(p + 0xA3D8) == 0x3069) {
+        p1C->fA0 = ent->f3;
+    }
+    D_801151D4 = (s32)p1C;
+    func_8002850C(hdr->f0, hdr->f2, hdr->f4);
+    D_800A5E88 = hdr->f6;
+    D_800A5E8C = hdr->f8;
+    D_800A5E90 = hdr->fA;
+    D_800A5E94 = hdr->fC;
+    D_800A5E95 = hdr->fD;
+    D_800A5E96 = hdr->fE;
+    func_80028620(0, &D_800A5E88);
+    D_800A5E98 = hdr->f10;
+    D_800A5E9C = hdr->f12;
+    D_800A5EA0 = hdr->f14;
+    D_800A5EA4 = hdr->f16;
+    D_800A5EA5 = hdr->f17;
+    D_800A5EA6 = hdr->f18;
+    func_80028620(1, &D_800A5E98);
+    D_800A5EA8 = hdr->f1A;
+    D_800A5EAC = hdr->f1C;
+    D_800A5EB0 = hdr->f1E;
+    D_800A5EB4 = hdr->f20;
+    D_800A5EB5 = hdr->f21;
+    D_800A5EB6 = hdr->f22;
+    func_80028620(2, &D_800A5EA8);
+    func_80129398();
+    D_800B9AAC = hdr->f24;
+    D_800B9B00 = hdr->f26;
+    D_800B9AC4 = hdr->f28;
+    D_800B9B18 = hdr->f2C;
+    D_800B9AC8 = hdr->f30;
+    D_800B9B1C = hdr->f34;
+    D_800B9AB2 = hdr->f38;
+    D_800B9B06 = hdr->f3A;
+    D_800B9AB6 = hdr->f3C;
+    D_800B9B0A = hdr->f3E;
+    D_800B9ABC = hdr->f40[0];
+    D_800B9ABD = hdr->f40[1];
+    D_800B9ABE = hdr->f40[2];
+    D_800B9B10 = hdr->f40[3];
+    D_800B9B11 = hdr->f40[4];
+    D_800B9B12 = hdr->f40[5];
+    D_800B9ABF = hdr->f40[6];
+    D_800B9AC0 = hdr->f40[7];
+    D_800B9AC1 = hdr->f40[8];
+    D_800B9B13 = hdr->f40[9];
+    D_800B9B14 = hdr->f40[10];
+    D_800B9B15 = hdr->f40[11];
+    func_8012944C();
+    p10->fB0 = hdr->f4C;
+    p10->fCC = hdr->f50;
+    p10->f1E8 = hdr->f54;
+    p10->f1F0 = hdr->f58;
+    D_80126728 = hdr->f5C;
+    D_8011DB08 = hdr->f60;
+    D_80126AEC = hdr->f64;
+    p10->f19C = (s32)hdr + 0x68;
+    func_801336E8(hdr->f88, hdr->f8C, hdr->f90);
+    func_8013B83C(hdr->f94, hdr->f98, hdr->f9C);
+    func_8013B568(hdr->fA8);
+    func_800D02C0(hdr->fD4);
+    func_80011E84(hdr->fD8);
+    for (i = 0; i < 8; i++) {
+        D_801151F0[i] = *(u8 *)((s32)hdr + i + 0xAC);
+    }
+    D_801274C8 = hdr->fB4;
+    D_801274CC = hdr->fB8;
+    D_801274D0 = hdr->fBC;
+    D_801274D4 = hdr->fC0;
+    D_801270B8 = hdr->fC4;
+    D_80127520 = hdr->fC4;
+    D_801151D8 = 0;
+    D_8011DB28 = 0;
+    calltmp = ent->f20;
+    calltmp();
+    func_8013D3D4(hdr->fA0, hdr->fA4);
+    func_8002D4C8(0x1E, 0);
+    if (p18->f8 == 0) {
+        D_80078E50 = *ent;
+    }
+    p18->f4 = (s32)&D_80078E50;
+    p18->f8 = p18->f8 & 0x7F000000;
+    if (func_800CF854() != 0) {
+        func_8001C14C();
+        func_8012A110();
+    }
+}
+
+--- func_80178D40 (src/ov_SC04_007/ov_SC04_007_jr_80178D40.c:2638) shares 2: D_80126B58 func_8002D4C8 ---
+s32 func_80178D40(s32 arg0, s32 arg1)
+{
+    extern void func_80179B28(s32);
+    extern s32 func_80137614(s32, s32, s32);
+    extern void func_8012F214(void *, void *, void *);
+    extern void func_8012F40C(void *, void *);
+    extern void func_80179D30(void *);
+    extern void func_80179D78(void *);
+    extern void func_80179EA0(void *);
+    extern void func_80179DCC(s32);
+    extern void func_80179DF8(void);
+    extern void func_80179E1C(s32);
+    extern void func_80179E48(s32);
+    extern void func_80179E74(s32);
+    extern void func_80179EE8(s32);
+    extern void func_80179F14(s32, s32);
+    extern void func_80179F44(void);
+    extern void func_80179F6C(s32);
+    extern void func_80179F98(s32);
+    extern void func_80179FEC(s32);
+    extern void func_8017A040(s32);
+    extern void func_8017A094(s32);
+    extern void func_8017A0C4(s32);
+    extern void func_8017A0F4(void);
+    extern void func_8017A11C(void);
+    extern void func_8017A144(s32);
+    extern void func_8017A180(void);
+    extern void func_8017A1A8(void);
+    extern void func_8017A1D0(void);
+    extern void func_8017A1F8(void);
+    extern void func_8017A220(void);
+    extern void func_8017A248(void);
+    extern void func_8017A270(void);
+    extern void func_8017A298(void);
+    extern void func_8017A2C0(void);
+    extern void func_8017A2E8(void);
+    extern void func_8017A310(void);
+    extern void func_8017A338(void);
+    extern void func_8017A360(void);
+    extern void func_8017A388(void);
+    extern void func_8017A3B0(void);
+    extern void func_8017A3D8(void);
+    extern void func_8017AD0C(s32);
+    extern void func_8017B238(void *, s32);
+    extern void func_8017B614(void *, s32);
+    extern void func_8017B7A8(void *);
+    extern void func_8017B824(void);
+    extern void func_8017B880(void);
+    extern void func_8017B940(void *);
+    extern void func_8017BA3C(void *, s32);
+    extern void func_8017BB34(void *, s32);
+    extern void func_8012A828(void *, s32);
+    extern s32 func_8012B8A4(void *);
+    extern void func_8012E88C(void *);
+    extern void func_8012E8A8(void *);
+    extern void func_8001AAD0(s32, s32);
+    extern s32 D_801B4D64;
+    extern s32 D_801B5178;
+    extern s16 D_801B517C;
+    extern s16 D_801B5180;
+    extern s16 D_801B5184;
+    extern s16 D_801B5188;
+    extern s32 D_801B5190;
+    extern s32 D_801B5194;
+    extern s32 D_801B51A4;
+    extern s16 D_801B51A8;
+    extern s16 D_801B51AC;
+    extern s32 D_801B51B0;
+    extern s32 D_801B51B8;
+    extern s32 D_801B51BC[10];
+    extern s32 D_801B5A30;
+    extern s16 D_801B5AE8;
+    extern s32 D_801B5B14;
+
+
+    SV3_80178D40 v10, v18, v20, v28, v30, v38, v40, v48;
+    s32 out50[2];
+    SV3_80178D40 v58, v60;
+    Actor_80178D40 *pv = &(*(Actor_80178D40*)&D_80126B58);
+    s32 i5b, i5c, fp5b, fp5c;
+    s32 *q5b, *q5c, *p5c, *r5c;
+    s16 *g = &D_801B5AE8;
+
+    switch (((Cmd_80178D40 *)arg1)->op) {
+    case 1:
+        func_80179B28(D_801B5178);
+        D_801B5178 = func_80137614(((Cmd_80178D40 *)arg1)->a.w, D_801B5184, D_801B5188 ? 0x48 : 0x40);
+        (*(s16*)&D_801B5B8C) = 2;
+        break;
+    case 0:
+        func_80179B28(D_801B5178);
+        D_801B5178 = func_80137614(((Cmd_80178D40 *)arg1)->a.w, D_801B517C, D_801B5180 ? 0x48 : 0x40);
+        (*(s16*)&D_801B5B8C) = 1;
+        break;
+    case 0x45:
+        ((void (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Actor_80178D40 *)arg0));
+        if (D_801B5A30 != 0) {
+            func_80179B28(D_801B5178);
+            D_801B5178 = func_80137614(((Actor_80178D40 *)arg0)->unkDC[1], D_801B517C, D_801B5180 ? 0x48 : 0x40);
+            (*(s16*)&D_801B5B8C) = 1;
+        } else {
+            (*(s16*)&D_801B5B8C) = 3;
+        }
+        break;
+    case 0x32:
+        func_80179B28(D_801B5178);
+        D_801B5178 = func_80137614(((Actor_80178D40 *)arg0)->unkDC[((Cmd_80178D40 *)arg1)->a.w], D_801B517C,
+                                   D_801B5180 ? 0x48 : 0x40);
+        (*(s16*)&D_801B5B8C) = 1;
+        break;
+    case 2:
+        func_80179B28(D_801B5178);
+        if (D_801B5190 != 0) {
+            D_801B4D60 = D_801B5190;
+            D_801B5190 = 0;
+            (*(s16*)&D_801B5B8C) = 3;
+            return;
+        }
+        (*(s16*)&D_801B5B8C) = 6;
+        break;
+    case 6:
+        func_80179DF8();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 3:
+        v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        v10.vy = 0;
+        v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        func_80179D30(&v10);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 4:
+        v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        v10.vy = 0;
+        v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        func_8012F214(((Actor_80178D40 *)arg0), &v10, &v18);
+        func_80179D30(&v18);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x4C:
+        func_80179D78((void *)((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x4D:
+        v10.vx = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f0;
+        v10.vy = 0;
+        v10.vz = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f4;
+        func_8012F214(((Actor_80178D40 *)arg0), &v10, &v18);
+        v18.pad = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f6;
+        func_80179D78(&v18);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x15:
+        v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        v10.vy = 0;
+        v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        func_8012F214(((Actor_80178D40 *)arg0)->unkD4, &v10, &v18);
+        func_80179D30(&v18);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 5:
+        func_80179DCC(((Cmd_80178D40 *)arg1)->a.h[0]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 7:
+        func_80179E1C(((Cmd_80178D40 *)arg1)->a.h[0]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 8:
+        func_80179E74(((Cmd_80178D40 *)arg1)->a.h[0]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 9:
+        v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        v10.vy = 0;
+        v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        func_80179EA0(&v10);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0xA:
+        v10.vx = ((Actor_80178D40 *)arg0)->unk6;
+        v10.vy = ((Actor_80178D40 *)arg0)->unkA;
+        v10.vz = ((Actor_80178D40 *)arg0)->unkE;
+        func_80179EA0(&v10);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x16: {
+        Actor_80178D40 *p = ((Actor_80178D40 *)arg0)->unkD4;
+        v10.vx = p->unk6;
+        v10.vy = p->unkA;
+        v10.vz = p->unkE;
+        func_80179EA0(&v10);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    }
+    case 0xB:
+        func_8017A0F4();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0xC:
+        func_8017A11C();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0xD:
+        func_8017A180();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0xE:
+        func_8017A1A8();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x10:
+        func_8017A1D0();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x46:
+        func_8017A1F8();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x59:
+        func_8017A220();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x5A:
+        func_8017A248();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x49:
+        func_8017A144(((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x47:
+        func_8017A270();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x17:
+        func_80179EE8(((Cmd_80178D40 *)arg1)->a.h[0]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x18:
+        func_80179F14(((Cmd_80178D40 *)arg1)->a.h[0], ((Cmd_80178D40 *)arg1)->a.h[1]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x19:
+        func_80179F6C(((Cmd_80178D40 *)arg1)->a.h[0]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x1A:
+        func_80179F98(((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x51:
+        func_8017A040(((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x1B:
+        D_801B51B0 = ((Cmd_80178D40 *)arg1)->a.w;
+        func_80179F44();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x1C:
+        func_8017A338();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x52:
+        func_8017A360();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x1D:
+        func_8017A388();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x3B:
+        func_8017A094(((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x3C:
+        func_8017A0C4(((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0xF:
+    case 0x3F:
+        (*(s16*)&D_801B5B8C) = 4;
+        D_801B4D64 = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x3E:
+        (*(s16*)&D_801B5B8C) = 5;
+        D_801B51A4 = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x40:
+        D_801B51A4 = (s32)func_8017A3B0;
+        (*(s16*)&D_801B5B8C) = 5;
+        break;
+    case 0x23:
+        func_8012A828(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x31:
+        func_8012A828(((Actor_80178D40 *)arg0), ((Actor_80178D40 *)arg0)->unkDC[((Cmd_80178D40 *)arg1)->a.w]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x24:
+        (*(s16*)&D_801B5B8C) = 3;
+        ((Actor_80178D40 *)arg0)->unk20->unk12 = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x25:
+        g[0] = 1;
+        g[2] = ((Actor_80178D40 *)arg0)->unk20->unk12 + ((Cmd_80178D40 *)arg1)->a.uh[0];
+        g[1] = 0x1E;
+        (*(s16*)&D_801B5B8C) = 3;
+        g[3] = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        break;
+    case 0x48:
+        g[0] = 1;
+        g[2] = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        g[1] = 0x1E;
+        (*(s16*)&D_801B5B8C) = 3;
+        g[3] = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        break;
+    case 0x26:
+        g[0] = 1;
+        g[2] = func_8012B8A4(((Actor_80178D40 *)arg0));
+        g[1] = 0x1E;
+        (*(s16*)&D_801B5B8C) = 3;
+        g[3] = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x3D:
+        ((void(*)(void *, s32))func_8012E8E0)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x27:
+        g[0] = 2;
+        g[4] = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        (*(s16*)&D_801B5B8C) = 3;
+        g[1] = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        break;
+    case 0x4F:
+        g[5] = 1;
+        g[0] = 3;
+        g[6] = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        (*(s16*)&D_801B5B8C) = 3;
+        g[7] = ((Actor_80178D40 *)arg0)->unkA;
+        g[8] = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        g[1] = 0x10;
+        g[3] = 4;
+        /* fallthrough */
+    case 0x28:
+        g[5] = 0;
+        g[0] = 3;
+        g[6] = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        (*(s16*)&D_801B5B8C) = 3;
+        g[7] = ((Actor_80178D40 *)arg0)->unkA;
+        g[8] = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        g[1] = 0x10;
+        g[3] = 4;
+        break;
+    case 0x29:
+        v20.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        v20.vy = ((Actor_80178D40 *)arg0)->unkA;
+        v20.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        func_8012F214(((Actor_80178D40 *)arg0), &v20, &v28);
+        g[5] = 0;
+        g[0] = 3;
+        *(SV3_80178D40 *)(g + 6) = v28;
+        g[1] = 0x10;
+        g[3] = 4;
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x50:
+        v30.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        v30.vy = ((Actor_80178D40 *)arg0)->unkA;
+        v30.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        func_8012F214(((Actor_80178D40 *)arg0), &v30, &v38);
+        g[5] = 1;
+        g[0] = 3;
+        *(SV3_80178D40 *)(g + 6) = v38;
+        g[1] = 0x10;
+        g[3] = 4;
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x2A:
+        g[0] = 4;
+        (*(s16*)&D_801B5B8C) = 3;
+        g[1] = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x1E:
+        func_8017B238(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x21:
+        func_8017BA3C(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        func_8017B238(((Actor_80178D40 *)arg0), (s32)&D_801B5194);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x54:
+        func_8017BB34(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        func_8017B238(((Actor_80178D40 *)arg0), (s32)&D_801B5194);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x1F:
+        func_8017B614(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x22:
+        func_8017BA3C(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        func_8017B614(((Actor_80178D40 *)arg0), (s32)&D_801B5194);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x55:
+        func_8017BB34(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        func_8017B614(((Actor_80178D40 *)arg0), (s32)&D_801B5194);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x20:
+        func_8017B7A8(((Actor_80178D40 *)arg0));
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x4E:
+        D_801B51B8 = ((Cmd_80178D40 *)arg1)->a.w;
+        func_8017B940(((Actor_80178D40 *)arg0));
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x57:
+        func_8017B824();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x58:
+        func_8017B880();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x2B:
+        (*(s16*)&D_801B5B8C) = 3;
+        ((Actor_80178D40 *)arg0)->unk2 = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x2C:
+        (*(s16*)&D_801B5B8C) = 3;
+        ((Actor_80178D40 *)arg0)->unk34 = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x2D:
+        (*(s16*)&D_801B5B8C) = 3;
+        ((Actor_80178D40 *)arg0)->unkD8 = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x2F:
+        (*(s16*)&D_801B5B8C) = 3;
+        ((Actor_80178D40 *)arg0)->unk10A = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x2E:
+        (*(s16*)&D_801B5B8C) = 3;
+        ((Actor_80178D40 *)arg0)->unkF8 = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x11:
+        func_8017A298();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x12:
+        func_8017A2C0();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x13:
+        func_8017A2E8();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x14:
+        func_8017A310();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x33: {
+        void (*f)(Actor_80178D40 *) = (void (*)(Actor_80178D40 *))((Cmd_80178D40 *)arg1)->a.w;
+        D_801B5B14 = (s32)&((Cmd_80178D40 *)arg1)[1];
+        f(((Actor_80178D40 *)arg0));
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    }
+    case 0x30:
+        if (((Cmd_80178D40 *)arg1)->a.w == 0) {
+            func_8012E8A8(((Actor_80178D40 *)arg0));
+            (*(s16*)&D_801B5B8C) = 3;
+        } else {
+            func_8012E88C(((Actor_80178D40 *)arg0));
+            (*(s16*)&D_801B5B8C) = 3;
+        }
+        break;
+    case 0x4A:
+        ((void(*)())func_80175414)();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x4B:
+        func_80175454();
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x34:
+        (*(s16*)&D_801B5B8C) = 3;
+        D_801B4D60 = ((Cmd_80178D40 *)arg1)->a.w;
+        return;
+    case 0x35:
+        D_801B5190 = (s32)&((Cmd_80178D40 *)arg1)[1];
+        (*(s16*)&D_801B5B8C) = 3;
+        D_801B4D60 = ((Cmd_80178D40 *)arg1)->a.w;
+        return;
+    case 0x36:
+        (*(s16*)&D_801B5B8C) = 3;
+        D_801B4D60 += 8;
+        if (((s32 (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Actor_80178D40 *)arg0)) == 0) {
+            break;
+        }
+        D_801B4D60 = *(s32 *)(D_801B4D60 + 4);
+        return;
+    case 0x37:
+        (*(s16*)&D_801B5B8C) = 3;
+        D_801B517C = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        D_801B5180 = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        break;
+    case 0x38:
+        (*(s16*)&D_801B5B8C) = 3;
+        D_801B5184 = ((Cmd_80178D40 *)arg1)->a.uh[0];
+        D_801B5188 = ((Cmd_80178D40 *)arg1)->a.uh[1];
+        break;
+    case 0x39: {
+        s32 w1, w2;
+        v40.vx = ((Actor_80178D40 *)arg0)->unk6;
+        v40.vy = ((Actor_80178D40 *)arg0)->unkA;
+        v40.vz = ((Actor_80178D40 *)arg0)->unkE;
+        v48.vx = pv->unk6;
+        v48.vy = pv->unkA;
+        v48.vz = pv->unkE;
+        func_8012F40C(out50, &v40);
+        w1 = out50[0];
+        func_8012F40C(out50, &v48);
+        w2 = out50[0];
+        (*(s16*)&D_801B5B8C) = 3;
+        D_801B517C = w1;
+        D_801B5180 = (s16)w1 >= (s16)w2;
+        break;
+    }
+    case 0x3A: {
+        s32 w1, w2;
+        v58.vx = ((Actor_80178D40 *)arg0)->unk6;
+        v58.vy = ((Actor_80178D40 *)arg0)->unkA;
+        v58.vz = ((Actor_80178D40 *)arg0)->unkE;
+        v60.vx = pv->unk6;
+        v60.vy = pv->unkA;
+        v60.vz = pv->unkE;
+        func_8012F40C(out50, &v58);
+        w1 = out50[0];
+        func_8012F40C(out50, &v60);
+        w2 = out50[0];
+        (*(s16*)&D_801B5B8C) = 3;
+        D_801B5184 = w2;
+        D_801B5188 = (s16)w1 < (s16)w2;
+        break;
+    }
+    case 0x41:
+        ((void(*)(s32, s32))func_8002D4C8)(((Cmd_80178D40 *)arg1)->a.uh[0], ((Cmd_80178D40 *)arg1)->a.uh[1]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x42:
+        func_8017AD0C(((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x43:
+        D_801B51A4 = (s32)func_8017A3D8;
+        D_801B51AC = 0;
+        (*(s16*)&D_801B5B8C) = 5;
+        D_801B51A8 = ((Cmd_80178D40 *)arg1)->a.w;
+        break;
+    case 0x44:
+        func_8001AAD0(((Cmd_80178D40 *)arg1)->a.h[0], ((Cmd_80178D40 *)arg1)->a.h[1]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x53:
+        func_80179E48(((Cmd_80178D40 *)arg1)->a.h[0]);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x56:
+        func_80179FEC(((Cmd_80178D40 *)arg1)->a.w);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    L5B_found:
+        fp5b = ((Cmd_80178D40 *)arg1)->a.w;
+        *q5b = fp5b;
+        ((void (*)(Actor_80178D40 *))fp5b)(((Actor_80178D40 *)arg0));
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    case 0x5B:
+        i5b = 0;
+        q5b = D_801B51BC;
+        do {
+            i5b++;
+            if (*q5b == 0) {
+                goto L5B_found;
+            }
+            q5b++;
+        } while (i5b < 10);
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    L5C_found1:
+        *q5c = 0;
+        goto L5C_join;
+    case 0x5C:
+        i5c = 0;
+        if (((Cmd_80178D40 *)arg1)->a.w != 0) {
+            fp5c = ((Cmd_80178D40 *)arg1)->a.w;
+            q5c = D_801B51BC;
+            do {
+                if (*q5c == fp5c) {
+                    goto L5C_found1;
+                }
+                i5c++;
+                q5c++;
+            } while (i5c < 10);
+        L5C_join:
+            if (i5c != 10) {
+                (*(s16*)&D_801B5B8C) = 3;
+                break;
+            }
+            i5c = 0;
+            do {
+                p5c = &D_801B51BC[i5c];
+                if (*p5c != 0) {
+                    goto L5C_found2;
+                }
+                i5c++;
+            } while (i5c < 10);
+            (*(s16*)&D_801B5B8C) = 3;
+            break;
+        L5C_found2:
+            *p5c = 0;
+            goto L5D;
+        }
+        r5c = D_801B51BC;
+        do {
+            i5c++;
+            if (*r5c != 0) {
+                *r5c = 0;
+                goto L5D;
+            }
+            r5c++;
+        } while (i5c < 10);
+        /* fallthrough */
+    case 0x5D:
+    L5D:
+        (*(s16*)&D_801B5B8C) = 3;
+        break;
+    default:
+        break;
+    }
+Lend:
+    D_801B4D60 += 8;
+}
+
+--- func_8014AD7C (src/shared/ov/func_8014AD7C.h:5) shares 1: D_80126B58 ---
+void func_8014AD7C(s32 a0) {
+    func_8014ADA8((s32)&D_80126B58, a0);
+}
+
+--- func_8014B12C (src/shared/ov/func_8014B12C.h:5) shares 1: D_80126B58 ---
+void func_8014B12C(void) {
+    func_8014B154(&D_80126B58);
+}
+

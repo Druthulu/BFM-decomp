@@ -1,0 +1,34 @@
+src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c:func_8017FB4C: score 22 (REG-caller; mine 66 ins, target 66) — not yet
+  register pairs (mine -> target, count): v1->v0 x16, v0->v1 x11, a0->v1 x4
+  replace mine[10:12] target[10:12]
+       10  lui	v0,0x0                         | lui	v1,0x0
+       11  lw	v0,0(v0)                        | lw	v1,0(v1)
+  replace mine[13:14] target[13:14]
+       13  beqz	v0,3d70 <func_8017FB4C+0xe0>  | beqz	v1,3d70 <func_8017FB4C+0xe0>
+  replace mine[15:19] target[15:19]
+       15  lhu	v1,18(s2)                      | lhu	v0,18(s2)
+       16  lw	v0,32(v0)                       | lw	v1,32(v1)
+       17  addiu	v1,v1,2048                   | addiu	v0,v0,2048
+       18  lhu	v0,18(v0)                      | lhu	v1,18(v1)
+  replace mine[20:23] target[20:23]
+       20  andi	v0,v0,0x400                   | andi	v1,v1,0x400
+       21  beqz	v0,3d2c <func_8017FB4C+0x9c>  | beqz	v1,3d2c <func_8017FB4C+0x9c>
+       22  andi	s0,v1,0xfff                   | andi	s0,v0,0xfff
+  replace mine[31:32] target[31:32]
+       31  sra	a0,v1,0x10                     | sra	v1,v1,0x10
+  replace mine[33:37] target[33:37]
+       33  sra	v1,v0,0x10                     | sra	v0,v0,0x10
+       34  slt	v1,v1,a0                       | slt	v0,v0,v1
+       35  bnez	v1,3d6c <func_8017FB4C+0xdc>  | bnez	v0,3d6c <func_8017FB4C+0xdc>
+       36  li	v1,3072                         | li	v0,3072
+  replace mine[38:39] target[38:39]
+       38  li	v1,1024                         | li	v0,1024
+  replace mine[47:48] target[47:48]
+       47  sra	a0,v1,0x10                     | sra	v1,v1,0x10
+  replace mine[49:53] target[49:53]
+       49  sra	v1,v0,0x10                     | sra	v0,v0,0x10
+       50  slt	v1,v1,a0                       | slt	v0,v0,v1
+       51  bnez	v1,3d6c <func_8017FB4C+0xdc>  | bnez	v0,3d6c <func_8017FB4C+0xdc>
+       52  li	v1,2048                         | li	v0,2048
+  replace mine[55:56] target[55:56]
+       55  sh	v1,18(s2)                       | sh	v0,18(s2)

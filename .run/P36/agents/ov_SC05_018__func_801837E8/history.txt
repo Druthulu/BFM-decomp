@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 5 best 4 compiles 323 path R8 temp tmp0 @6624 + R9 swap-stmts @6625
+s7: verdict NO-MATCH start 5 best 4 compiles 557 path R8 temp tmp0 @6621 + R9 swap-stmts @6622
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @6622 -> 4 [COUNT] (from 5)
+  R8 temp tmp1 @6615 -> 4 [COUNT] (from 4)
+  R7 block @6615 -> 4 [COUNT] (from 4)
+  R5 swap + @6611 -> 4 [COUNT] (from 4)
+  R10 param-copy a0 @6574 -> 4 [COUNT] (from 4)
+  R8 base tmp1 @6615 -> 4 [COUNT] (from 4)
+  R7 do-while @6615 -> 4 [COUNT] (from 4)
+  R5 swap + @6625 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @6623 -> 4 [COUNT] (from 4)
+  R12 width tmp0 u16->u8 @6573 -> 4 [COUNT] (from 4)
+  R8 temp tmp1 @6623 -> 4 [COUNT] (from 4)
+  R7 block @6622 -> 4 [COUNT] (from 4)

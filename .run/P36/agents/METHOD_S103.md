@@ -91,3 +91,17 @@
    in C clothing and is NOT a close — the phase's rule is *ban the silence, not the lever*; and a body whose improvements
    are compensating errors is reported, not claimed. A plain `volatile` that the body did not already carry is also a lever.
 7. `--try … --keep` keeps the candidate object and prints its path as the LAST line of the output. Write `PACK/body.c` and `PACK/mechanism.md` EARLY and keep them current. All scratch under `PACK/scratch/`.
+
+## S104 additions (Drew's rulings of 2026-09-10 — they bind every agent from S104 on)
+8. **`do { … } while (0)` and a dead initialiser** stay allowed as ordinary C (sotn-decomp keeps them the same way), but a new one
+   carries `// !FAKE: do-while — <the pass it steers, file:line>` on its line (sotn's `docs/STYLE.md` rule). Prefer a body without.
+   The identically-zero-term refusal (step 6) is unchanged.
+9. **If the bytes will not close in plain C, deliver the MINIMUM-LEVER body**: the best honest plain-C text plus only the one or two
+   levers it cannot do without, each marked `// !FAKE: <kind> <where> — <pass, file:line> (P36 S104 <agent id> minimum-lever)`, and
+   `--try` it to 0. That banks now; the marked levers go to the STRUCTS phase. Report the count before → after.
+10. **Structs question (Drew: "struct work is likely the missing piece to getting the C shape right without pins").** In
+    `mechanism.md` add (g): would giving a pointer/global a STRUCT type (field accesses instead of `*(T *)(p + K)` casts) plausibly
+    change the pass decision that keeps your lever? Say which struct, which fields, and why (`expr.c:4568-4577` aggregate accesses vs
+    scalar stores in `sched.c`/`cse.c` is the known channel). If you can test it on bytes with a body-local struct declaration, do.
+11. The free sweep already ran every generator family (R2–R26) on your class: its best candidate is named in your brief (the path
+    under `.run/P36/regen/s104_all/`) — start from whichever of it and `body_free.c` scores lower.

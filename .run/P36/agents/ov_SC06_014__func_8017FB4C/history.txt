@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 22 best 5 compiles 329 path R6 inline v0 @4562 + R6 inline p @4558
+s7: verdict NO-MATCH start 22 best 5 compiles 567 path R6 inline v0 @4560 + R6 inline p @4556
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline p @4556 -> 5 [REG] (from 10)
+  R4 decl-move v0 4->0 -> 5 [REG] (from 5)
+  R8 temp tmp0 @4554 -> 5 [REG] (from 5)
+  R7 block @4555 -> 5 [REG] (from 5)
+  R4 decl-move v0 4->1 -> 5 [REG] (from 5)
+  R8 base tmp0 @4554 -> 5 [REG] (from 5)
+  R12 width s0 s32->s16 @4551 -> 5 [REG] (from 5)
+  R4 decl-move v0 4->2 -> 5 [REG] (from 5)
+  R7 block @4554 -> 5 [REG] (from 5)
+  R4 decl-move v0 4->3 -> 5 [REG] (from 5)
+  R8 base tmp0 @4559 -> 5 [REG] (from 5)
+  R7 do-while @4554 -> 5 [REG] (from 5)

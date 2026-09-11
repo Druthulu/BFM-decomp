@@ -1,0 +1,7 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: plumbing
+// @stuck: none — MATCH (41 ins, relocation-masked); frame needed a 0x30 address-taken local
+// @class: schedule
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @class: regalloc-order
+// @stuck: none — MATCH
