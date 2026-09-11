@@ -3702,24 +3702,19 @@ void func_80181F40(s32 param_1)
             if (a2 != 0) {
                 if ((a2 & 0x1000000) != 0) {
                     s32 a1 = a2 & 0xFEFFFFFF;
-                    register u32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+                    u32 v0;
                     u32 a0;
-                    u32 v1a;
-                    u32 v1b;
-                    u32 v0b;
                     u32 v1;
 
                     *(u16 *)(param_1 + 0x102) = *(u16 *)(a1 + 0x66);
 
                     v0 = *(u32 *)(a1 + 0x60);
-                    a0 = *(u8 *)(a1 + 0x61);
-                    v1a = (v0 & 0xF) << 8;
-                    a0 = a0 | v1a;
-                    v1b = ((s32)v0 >> 16) & 0xFF;
-                    v0b = (v0 & 0xF0) << 4;
-                    v1 = v1b | v0b;
-                    *(u16 *)(param_1 + 0x104) = (u16)a0;
-                    *(u16 *)(param_1 + 0x106) = (u16)v1;
+                    a0 = *(u8 *)(a1 + 0x61) | ((v0 & 0xF) << 8);
+                    v1 = (((s32)v0 >> 16) & 0xFF) | ((v0 & 0xF0) << 4);
+                    do {  // !FAKE: do-while — flow counts the stores' refs at loop depth 2 (flow.c mark_used_regs, reg_n_refs += loop_depth), which lifts a0's quantity over a1's in qty_compare_1 (local-alloc.c:1598); its LOOP notes also keep sched1 from moving the 0x104 store above v1's or (sched.c:2053-2074), so w's quantity ties the (w & 0xF) one at 13333 and wins on qty number (P36 S104 e5 minimum-lever)
+                        *(u16 *)(param_1 + 0x104) = a0;
+                        *(u16 *)(param_1 + 0x106) = v1;
+                    } while (0);
 
                     *(s16 *)(param_1 + 0xFC) = (s8)*(u8 *)(a1 + 0x63);
                     *(s16 *)(param_1 + 0xFE) = (s8)*(u8 *)(a1 + 0x64);
