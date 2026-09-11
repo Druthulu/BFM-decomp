@@ -5846,61 +5846,45 @@ void func_8003350C(s32 arg0, s32 arg1) {
 /* TU decls (src/800.c): `extern u16 D_800A46E8[];`, `extern void func_800335B8(s32, s32);` */
 extern u16 D_800A46E8[];
 
-void func_800335B8(s32 a0, s32 a1) {
+void func_800335B8(s32 a0, s32 flags) {
     u8 *e = (u8 *)D_800A46E8 + a0 * 0x54;
     u8 *p;
-    s32 a2;
-    s32 v1;
-    s32 t0;
+    u8 *rec;
+    s32 n;
+    s32 i;
+    u16 val = flags;
 
     if ((*(u16 *)e & 0x3F) != 1) {
         return;
     }
 
-    /* copy-fence: keeps the `addu $t0,$a1,$zero` param copy alive (cse would
-       otherwise propagate $a1 into branch 2's `andi $a1,$t0,0x7F`). */
-    t0 = a1;
-    __asm__ ("" : "=r"(t0) : "0"(t0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-
-    if (a1 & 0x1000) {
-        v1 = 0;
-        a2 = *(u16 *)(e + 0xC);
-        a1 = a1 & 0x7F;
-        t0 = 1;
+    if (flags & 0x1000) {
+        n = *(u16 *)(e + 0xC);
         p = (u8 *)D_800A46E8 + 0x2A0;
-        for (; v1 < 8; v1++, p += 0x54) {
-            u8 *rec;
-            if (a2 == 0) {
+        for (i = 0; i < 8; i++) {
+            if (n == 0) {
                 return;
             }
-            if (*(u8 *)(e + v1 + 0xE) != 0) {
-                /* copy-fence: materialises the target's in-loop
-                   `addu $v0,$a0,$zero` (reorg then steals it for the
-                   beqz delay slot). Walking pointer, NOT p + v1*0x54,
-                   so loop strength reduction still owns $a0. */
-                rec = p;
-                __asm__ ("" : "=r"(rec) : "0"(rec));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-                a2--;
-                *(u16 *)(rec + 0x48) = a1;
-                *(u8 *)(rec + 0x4F) = t0;
+            if ((e + i)[0xE] != 0) {
+                rec = p + i * 0x54;
+                n--;
+                *(u16 *)(rec + 0x48) = flags & 0x7F;
+                rec[0x4F] = 1;
             }
         }
-    } else if (a1 & 0x2000) {
-        a2 = *(u16 *)(e + 0xC);
-        v1 = 0;
-        a1 = t0 & 0x7F;
+    } else if (flags & 0x2000) {
+        n = *(u16 *)(e + 0xC);
         p = (u8 *)D_800A46E8 + 0x2A0;
-        for (; v1 < 8; v1++) {
-            u8 *rec;
-            if (a2 == 0) {
+        for (i = 0; i < 8; i++) {
+            if (n == 0) {
                 return;
             }
-            if (*(u8 *)(e + v1 + 0xE) != 0) {
-                rec = p + v1 * 0x54;
-                if (*(u8 *)(rec + 0x35) != 0) {
-                    *(u8 *)(rec + 0x53) = a1;
+            if ((e + i)[0xE] != 0) {
+                rec = p + i * 0x54;
+                if (rec[0x35] != 0) {
+                    rec[0x53] = val & 0x7F;
                 }
-                a2--;
+                n--;
             }
         }
     }
