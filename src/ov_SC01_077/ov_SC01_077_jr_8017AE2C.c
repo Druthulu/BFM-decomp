@@ -5523,7 +5523,6 @@ void func_8017FD14(void *a0)
     u8 *base;
     u8 *pp;
     u8 *prim;
-    register u8 *fp __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
     void *av;
 
     av = a0;
@@ -5561,29 +5560,27 @@ void func_8017FD14(void *a0)
 
         tags[0] = (s32)(prim + 0xC);
         pp = prim + 0xC;
-        fp = prim + 0x2E;
         tags[1] = (s32)(prim + 0x30);
         tags[2] = (s32)(prim + 0x54);
         tags[3] = (s32)(prim + 0x78);
         do {
-            *(u32 *)(fp - 0x1E) = pal[D_8018AA0C[i]];
-            *(u32 *)(fp - 0x16) = pal[D_8018AA0D[i]];
-            *(u32 *)(fp - 0x0E) = pal[D_8018AA0E[i]];
+            *(u32 *)(pp + 0x04) = pal[D_8018AA0C[i]];
+            *(u32 *)(pp + 0x0C) = pal[D_8018AA0D[i]];
+            *(u32 *)(pp + 0x14) = pal[D_8018AA0E[i]];
             v1 = pal[D_8018AA0F[i]];
-            fp[-0x1F] = 8;
-            fp[-0x1B] = 0x3A;
-            *(u32 *)(fp - 0x06) = v1;
-            *(u16 *)(fp - 0x1A) = *(u16 *)(base + 0x18 + D_8018A9EC[i] * 2);
-            *(u16 *)(fp - 0x12) = *(u16 *)(base + 0x18 + D_8018A9ED[i] * 2);
-            *(u16 *)(fp - 0x0A) = *(u16 *)(base + 0x18 + D_8018A9EE[i] * 2);
-            *(u16 *)(fp - 0x02) = *(u16 *)(base + 0x18 + D_8018A9EF[i] * 2);
-            *(u16 *)(fp - 0x18) = *(u16 *)(base + 0x28 + D_8018A9FC[i] * 2);
-            *(u16 *)(fp - 0x10) = *(u16 *)(base + 0x28 + D_8018A9FD[i] * 2);
-            *(u16 *)(fp - 0x08) = *(u16 *)(base + 0x28 + D_8018A9FE[i] * 2);
-            *(u16 *)fp = *(u16 *)(base + 0x28 + D_8018A9FF[i] * 2);
+            pp[0x03] = 8;
+            pp[0x07] = 0x3A;
+            *(u32 *)(pp + 0x1C) = v1;
+            *(u16 *)(pp + 0x08) = *(u16 *)(base + 0x18 + D_8018A9EC[i] * 2);
+            *(u16 *)(pp + 0x10) = *(u16 *)(base + 0x18 + D_8018A9ED[i] * 2);
+            *(u16 *)(pp + 0x18) = *(u16 *)(base + 0x18 + D_8018A9EE[i] * 2);
+            *(u16 *)(pp + 0x20) = *(u16 *)(base + 0x18 + D_8018A9EF[i] * 2);
+            *(u16 *)(pp + 0x0A) = *(u16 *)(base + 0x28 + D_8018A9FC[i] * 2);
+            *(u16 *)(pp + 0x12) = *(u16 *)(base + 0x28 + D_8018A9FD[i] * 2);
+            *(u16 *)(pp + 0x1A) = *(u16 *)(base + 0x28 + D_8018A9FE[i] * 2);
+            *(u16 *)(pp + 0x22) = *(u16 *)(base + 0x28 + D_8018A9FF[i] * 2);
             AddPrim(ot, pp);
             pp += 0x24;
-            fp += 0x24;
             i += 4;
         } while (i < 0x10);
         AddPrim(ot, prim);
