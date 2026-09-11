@@ -2860,8 +2860,10 @@ def split_reused_locals(text, tu, fn, d_):
                 semi = mb.find(";", p)
                 if semi < 0 or re.search(r"(?<![\w.>])%s\b" % re.escape(v), mb[p + len(v):semi]):
                     return None
-                if before and not before.endswith((";", "{", "}")):
+                if before and not before.endswith((";", "{", "}")) and \
+                        not re.search(r"(?:\bcase\s+[^;:?]+|\bdefault\s*):$", before):
                     return None                              # inside an expression, or a brace-less `if (c) v = E;`
+                    # (a `case K:` / `default:` label IS a statement boundary — S104 d22: R23 never split func_801861FC's `t`)
                 defs.append(p)
         if len(defs) < 2 or occ[0] != defs[0]:
             return None
@@ -3348,6 +3350,79 @@ def _loop_between(masked, i, j):
     return any(re.match(r"^\s*(?:for|while|do)\b", masked[k]) for k in range(i, j + 1))
 
 
+def drop_param_copies(text, tu, fn, d_):
+    """[(description, candidate text)] — R35: a parameter copy `T x = argN;` (or `x = argN;` as the first use) deleted and
+    `argN` used everywhere instead.
+
+    T7 agents d24 (func_8018003C ×4) and d17 (func_80181DAC ×4), P36 S104: a copy of a parameter that lives past the
+    parameter's last use becomes the canonical register in cse (`make_regs_eqv`, `cse.c:846-862`), which re-routes later
+    reads through it — two callee-saved registers where the target has one, and tails that cross-jump could have merged now
+    load `$a0` differently (`jump.c:2371`). Only a copy that is never reassigned, of a parameter never reassigned after it."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    head = " ".join(masked[d_["line"] - 1:lo + 2])
+    pm = re.search(r"\b%s\s*\(([^)]*)\)" % re.escape(fn), head)
+    if not pm:
+        return []
+    params = [re.findall(r"([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*$", p_.strip())[0] for p_ in pm.group(1).split(",")
+              if re.findall(r"([A-Za-z_]\w*)\s*$", p_.strip()) and p_.strip() not in ("void", "")]
+    out = []
+    for i in range(lo, hi):
+        m = re.match(r"^\s*(?:(?:[A-Za-z_]\w*\s*\**\s+)+)?\**\s*([A-Za-z_]\w*)\s*=\s*(?:\([^()]*\)\s*)?([A-Za-z_]\w*)\s*;\s*$",
+                     masked[i])
+        if not m or m.group(2) not in params or m.group(1) in params:
+            continue
+        x, a = m.group(1), m.group(2)
+        body = "\n".join(masked[i + 1:hi])
+        assign = r"(?<![=!<>])\b%s\s*(?:[-+*/%%&|^]|<<|>>)?=(?!=)|(?:\+\+|--)\s*%s\b|\b%s\s*(?:\+\+|--)"
+        if re.search(assign % ((re.escape(x),) * 3), body) or re.search(assign % ((re.escape(a),) * 3), body):
+            continue
+        cand = list(lines)
+        is_decl = bool(re.match(r"^\s*[A-Za-z_]\w*[\w\s]*\**\s*%s\s*=" % re.escape(x), masked[i])) and \
+            not re.match(r"^\s*%s\s*=" % re.escape(x), masked[i])
+        cand[i] = None
+        if not is_decl:
+            cm = [sc.mask_text(l) if l is not None else "" for l in cand]
+            _drop_single_decl(cand, cm, lo, hi, x)
+        cand = [re.sub(r"\b%s\b" % re.escape(x), a, l) if l is not None and k > i else l for k, l in enumerate(cand)]
+        out.append((f"drop-param-copy {x}->{a} @{i + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
+def merge_set_chains(text, tu, fn, d_):
+    """[(description, candidate text)] — R36: a local set twice in a row, `x = A; x += B;` / `x = A; x = x + B;`, written as
+    one assignment `x = A + B;` (the operator kept).
+
+    T7 agent d25 (func_8017E060 ×3, P36 S104) and S103 c35: combine folds every use of such a pseudo into its consumers but
+    zeroes its ref count only when its set count reaches 0 (`combine.c:2305-2337`; `i2dest_in_i2src` skips the i2 update,
+    `:1394`), so the dead pseudo keeps refs, gets no register, and reload hands it a stack slot (`reload1.c:2327-2352`) — a
+    FRAME-ONLY residual: every instruction equal, the frame 8 bytes larger."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for i in range(lo, hi - 1):
+        a = re.match(r"^(\s*)([A-Za-z_]\w*)\s*=\s*(.+);\s*$", masked[i])
+        if not a or not simple_stmt(masked[i]):
+            continue
+        x = a.group(2)
+        A = lines[i][lines[i].index("=") + 1:].rsplit(";", 1)[0].strip()
+        for j in range(i + 1, min(i + 4, hi)):      # up to two lines between that do not mention x (d25: `new_var = r;`)
+            m1 = re.match(r"^\s*%s\s*([-+|&^])=\s*(.+);\s*$" % re.escape(x), masked[j])
+            m2 = re.match(r"^\s*%s\s*=\s*%s\s*([-+|&^])\s*(.+);\s*$" % (re.escape(x), re.escape(x)), masked[j])
+            m = m1 or m2
+            if m or re.search(r"\b%s\b" % re.escape(x), masked[j]) or not simple_stmt(masked[j]):
+                break
+        if not m or re.search(r"\b%s\b" % re.escape(x), m.group(2)):
+            continue
+        B = lines[j][m.start(2):m.end(2)]
+        cand = list(lines)
+        cand[i], cand[j] = None, f"{a.group(1)}{x} = {A} {m.group(1)} {B};"
+        out.append((f"merge-set-chain {x} @{i + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
 def merge_pinned_twins(tu, fn, free_text):
     """[(description, candidate text)] — R28: locals the TREE pins to the same hard register, merged into one variable.
 
@@ -3565,7 +3640,7 @@ def named_ports(tu, fn, max_donors=6):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3718,6 +3793,12 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R33" in fam:
         for desc, cand in else_arm_assignments(text, tu, fn, d_):
             out.append(("R33", desc, cand))
+    if "R35" in fam:
+        for desc, cand in drop_param_copies(text, tu, fn, d_):
+            out.append(("R35", desc, cand))
+    if "R36" in fam:
+        for desc, cand in merge_set_chains(text, tu, fn, d_):
+            out.append(("R36", desc, cand))
     if "R34" in fam:
         for desc, cand in merge_disjoint_locals(text, tu, fn, d_):
             out.append(("R34", desc, cand))

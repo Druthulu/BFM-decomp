@@ -1835,7 +1835,10 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   spans merged — a single pair never closed those three alone (13 / 5 / 63): it is a MOVE for the engine's composition, not a
   one-shot closer). The new generators mask the WHOLE text (`sc.mask_text(text).split("\n")`): a per-line mask leaves a block
   comment's inner lines visible (R32's first known-true run counted a mention inside a comment). `delever_regen --families
-  R28 …` feeds R28 the real TU like R27.
+  R28 …` feeds R28 the real TU like R27. **Then (S104, from d22/d24/d25):** **R23 accepts a `case K:` / `default:` label as a
+  statement boundary** (it had refused d22's `t` after `case 2:`; known-true `split t into 2` → 0); **R35 `drop_param_copies`**
+  (`T x = argN;` never reassigned → `argN` used; d24's start 36 → 23 — its close was joint); **R36 `merge_set_chains`** (`x = A;
+  [≤2 unrelated lines] x += B;` → one assignment; d25's frame-only residual; known-true 0).
 - **Generator R27 `named_ports` (`tools/delever.py`, S104; `delever_regen --families R27`)** — the SAME function already
   lever-free in another binary, ported. Donors: every definition of the name in `src/` (`named_definitions()`, one `git
   grep`, cached) with no `register`/`__asm__`/`!FAKE`, nearest line count first, ≤ 6 distinct texts. Symbol renaming by
