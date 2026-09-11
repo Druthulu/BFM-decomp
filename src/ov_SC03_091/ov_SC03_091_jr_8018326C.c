@@ -4719,8 +4719,6 @@ s32 aF8018632C(s32 a0) {
     extern u16 D_80126B62;
     extern u8 D_801A61DC[];
 
-    s32 ent;
-    s32 p;
     s32 h;
     s32 h2;
     s32 ret;
@@ -4731,28 +4729,23 @@ s32 aF8018632C(s32 a0) {
     s32 d;
     u16 arr[3];
 
-    ent = a0;
-    p = *(s32 *)(ent + 0x20);
-    h = *(s16 *)(p + 0x18);
-    __asm__("" : "=r"(h) : "0"(h));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-    ret = ((s32 (*)(s32))func_8012BE54)(ent);
-    s0 = h >> 8;
+    h = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18);
+    ret = ((s32 (*)(s32))func_8012BE54)(a0);
+    s0 = (s16)h >> 8;
     if (ret > s0 * s0) {
         return 0;
     }
-    v = *(s16 *)(ent + 0xA);
-    h2 = *(s16 *)(*(s32 *)(ent + 0x20) + 0x1A);
-    __asm__ __volatile__("" : "=r"(h2) : "0"(h2));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    v = *(s16 *)(a0 + 0xA);
+    h2 = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A);
     g = *(s16 *)&D_80126B62;
-    r = h2 >> 6;
+    r = (s16)h2 >> 6;
     d = v - g;
     if (d >= 0 ? r < d : r < g - v) {
         return 0;
     }
-    a0 = 1;
-    arr[0] = *(u16 *)(ent + 0x6);
-    arr[1] = *(u16 *)(ent + 0xA);
-    arr[2] = *(u16 *)(ent + 0xE);
+    arr[0] = *(u16 *)(a0 + 0x6);
+    arr[1] = *(u16 *)(a0 + 0xA);
+    arr[2] = *(u16 *)(a0 + 0xE);
     func_8012F568(1, 0x4201, 0, 0x1C, (s32)arr, (s32)D_801A61DC);
 }
 
