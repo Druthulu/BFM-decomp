@@ -2630,11 +2630,12 @@ void func_800385C0(s16 a0)
     extern u8 D_800C6E2A[];
     extern u8 D_800B9ED2[];
     extern u8 D_800B9ED3[];
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register u8 *v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — the parameter is a full s32 in the original (PROMOTE_PROTOTYPES narrowing, function.c:3664-3676); a SIGNATURE change, parked (P36 S105 f2 minimum-lever)
+    u8 *v1;
     s32 a1;
 
-    for (a1 = 0, v1 = D_800C6E2A; a1 < 0x10; a1++, v1 += 0x60) {
+    for (a1 = 0; a1 < 0x10; a1++) {
+        v1 = &D_800C6E2A[a1 * 0x60];
         if (v1[2] != 0 && *(s16 *)(*(s32 *)(v1 - 0xA) + 0x1F0) == a0v) {
             v1[2] = 0;
             v1[0] = 0;
