@@ -4506,7 +4506,6 @@ void func_8017FB10(s32 a0)
 {
     SV4 in;
     SV4 out;
-    s16 v1;
     u16 uStack_c;
 
     if (*(u16 *)(a0 + 0x34) == 0) {
@@ -4534,13 +4533,8 @@ void func_8017FB10(s32 a0)
 
     *(s32 *)(a0 + 0xdc) = *(s32 *)(a0 + 0x14);
     if ((((s32 (*)(s32))func_8012CBCC)(a0)) & 0x6000) {
-        register s32 negdc __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-        negdc = -*(s32 *)(a0 + 0xdc);
-        v1 = *(u16 *)(a0 + 0xac);
-        v1 -= 1;
-        *(s16 *)(a0 + 0xac) = v1;
-        *(s32 *)(a0 + 0x14) = negdc;
-        if (v1 == 0) {
+        *(s32 *)(a0 + 0x14) = -*(s32 *)(a0 + 0xdc);
+        if (--*(s16 *)(a0 + 0xac) == 0) {
             func_8012C218((void *)a0);
         }
     }
