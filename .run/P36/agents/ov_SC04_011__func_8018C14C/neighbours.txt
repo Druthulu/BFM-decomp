@@ -1,0 +1,25 @@
+=== THIS FUNCTION'S OWN HEADER (func_8018C14C, line 13398) — read it in full ===
+/* Second-pass repair notes (SCHEDULE-REORDER, sched2 LUID tie-break).
+ *   - `ent` must be a SECOND pseudo tied to $a0 (the call argument), not the $s0
+ *     parameter copy: the tail's stores address off $a0 while the 0x6 store uses
+ *     $s0.  `(s32)a0 + zr` with zr pinned to $0 defeats copy-propagation and emits
+ *     the target's `addu $a0,$s0,$zero` for free (dropping it costs 1 ins).
+ *   - The two zero-byte `__asm__ volatile("")` fences are the actual lever.  The
+ *     residual was NOT reachable by statement order: gcc-2.7.2 sched2 ranks by
+ *     priority, then potential-hazard, then LUID (= sched1's OUTPUT order), so no
+ *     source permutation (~4000 byte-tested) could flip `lw 0xC4` vs `lhu 0x12(sp)`
+ *     or sink the `ori` past the `li 1`.  Fencing the block splits it into three
+ *     scheduling regions, which pins those three groups in source order.
+ *   - `one` is split out of the 0xC0 store so the `li 1` and the `sb` can land 3
+ *     slots apart (the fence would otherwise hold them adjacent).
+ * Byte-verified MATCH (69 ins) with tools/match_one.py.
+ */
+
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: schedule
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+/* @class: instruction-scheduling (SOLVED — natural statement order)
+// @class: loose-typing
+// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)

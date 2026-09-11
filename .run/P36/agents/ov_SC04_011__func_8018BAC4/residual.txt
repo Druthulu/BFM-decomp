@@ -1,0 +1,43 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_8018BAC4: score 35 (COUNT; mine 32 ins, target 32) — not yet
+  register pairs (mine -> target, count): v1->a0 x4, v0->v1 x4
+  replace mine[0:3] target[0:3]
+        0  lui	v1,0x0                         | lui	a0,0x0
+        1  addiu	v1,v1,0                      | addiu	a0,a0,0
+        2  lbu	v0,0(v1)                       | lbu	v1,0(a0)
+  replace mine[4:6] target[4:6]
+        4  beqz	v0,e658 <func_8018BAC4+0x28>  | beqz	v1,e658 <func_8018BAC4+0x28>
+        5  addiu	v0,v0,-24                    | addiu	v0,v1,-24
+  insert  mine[7:7] target[7:13]
+        7  --                                 | move	v1,v0
+        8  --                                 | move	v1,zero
+        9  --                                 | sb	v1,0(a0)
+       10  --                                 | lui	a0,0x0
+       11  --                                 | addiu	a0,a0,0
+       12  --                                 | lbu	v1,0(a0)
+  replace mine[8:13] target[14:23]
+        8  move	v0,zero                       | beqz	v1,e680 <func_8018BAC4+0x50>
+        9  sb	v0,0(v1)                        | addiu	v0,v1,-24
+       10  lui	v1,0x0                         | bgez	v0,e67c <func_8018BAC4+0x4c>
+       11  addiu	v1,v1,0                      | move	v1,v0
+       12  lbu	v0,0(v1)                       | move	v1,zero
+       13  --                                 | sb	v1,0(a0)
+       14  --                                 | lui	a0,0x0
+       15  --                                 | addiu	a0,a0,0
+       16  --                                 | lbu	v1,0(a0)
+  replace mine[14:16] target[24:26]
+       14  beqz	v0,e680 <func_8018BAC4+0x50>  | beqz	v1,e6a8 <func_8018BAC4+0x78>
+       15  addiu	v0,v0,-24                    | addiu	v0,v1,-13
+  replace mine[17:30] target[27:30]
+       17  nop                                | move	v1,v0
+       18  move	v0,zero                       | move	v1,zero
+       19  sb	v0,0(v1)                        | sb	v1,0(a0)
+       20  lui	v1,0x0                         | --
+       21  addiu	v1,v1,0                      | --
+       22  lbu	v0,0(v1)                       | --
+       23  nop                                | --
+       24  beqz	v0,e6a8 <func_8018BAC4+0x78>  | --
+       25  addiu	v0,v0,-13                    | --
+       26  bgez	v0,e6a4 <func_8018BAC4+0x74>  | --
+       27  nop                                | --
+       28  move	v0,zero                       | --
+       29  sb	v0,0(v1)                        | --

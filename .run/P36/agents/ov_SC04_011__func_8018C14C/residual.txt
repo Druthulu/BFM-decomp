@@ -1,0 +1,15 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_8018C14C: score 9 (COUNT; mine 69 ins, target 69) — not yet
+  register pairs (mine -> target, count): a0->s0 x1
+  delete  mine[36:37] target[36:36]
+       36  lw	v1,196(s0)                      | --
+  replace mine[39:40] target[38:39]
+       39  sh	v0,6(a0)                        | sh	v0,6(s0)
+  insert  mine[41:41] target[40:44]
+       41  --                                 | lw	v1,196(a0)
+       42  --                                 | sh	v0,10(a0)
+       43  --                                 | li	v0,1
+       44  --                                 | lhu	a1,20(sp)
+  delete  mine[42:45] target[45:45]
+       42  sh	v0,10(a0)                       | --
+       43  lhu	a1,20(sp)                      | --
+       44  li	v0,1                            | --

@@ -1,0 +1,29 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_8018BAC4 (2 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8018BA9C (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:13064) shares 3: D_801EFEA0 D_801EFEA1 D_801EFEA2 ---
+void func_8018BA9C(void) {
+    D_801EFEA0[0] = 0xF0;
+    D_801EFEA1 = 0xF0;
+    D_801EFEA2 = 0x80;
+}
+
+--- func_8018B948 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:13011) shares 1: D_801EFEA0 ---
+s32 func_8018B948(void) {
+    s32 obj;
+    u8 *ptr;
+
+    obj = func_8012C194();
+    if (obj) {
+        ptr = D_801EFEA0;
+        func_8001CD9C(obj, ptr);
+
+        *(u16 *)(obj + 0x2C) = 0xC010;
+        *(u32 *)(obj + 0x4) |= 0x50000000;
+
+        func_800233CC((void *)ptr, 0x40);
+
+        *(Blk4_8018B948 *)ptr = D_801ED9B4;
+    }
+
+    return obj;
+}
+

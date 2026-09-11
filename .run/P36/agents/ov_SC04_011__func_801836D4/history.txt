@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 14 best 12 compiles 182 path R12 width t16 s16->u8 @7065 + R9 swap-stmts @7090
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @7090 -> 12 [COUNT] (from 13)
+  R12 width t16 s16->u8 @7065 -> 13 [COUNT] (from 14)
+  R8 temp tmp0 @7083 -> 13 [COUNT] (from 13)
+  R7 block @7078 -> 13 [COUNT] (from 13)
+  R5 swap ^ @7102 -> 13 [COUNT] (from 13)
+  R10 param-copy a0 @7067 -> 13 [COUNT] (from 13)
+  R2 decl-order 1,0 -> 13 [COUNT] (from 13)
+  R4 decl-move b 1->0 -> 13 [COUNT] (from 13)
+  R8 base tmp0 @7083 -> 13 [COUNT] (from 13)
+  R7 do-while @7078 -> 13 [COUNT] (from 13)
+  R9 swap-stmts @7083 -> 13 [COUNT] (from 13)
+  R10 param-copy a1 @7067 -> 13 [COUNT] (from 13)

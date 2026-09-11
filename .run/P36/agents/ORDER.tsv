@@ -1,5 +1,5 @@
 rank	fn	alias	copies	best	needed	kinds	regs	tu
-511	func_8002AF70	main	1	2	3	instruction,launder,pin	$16	src/800.c
-499	func_8002AAB4	main	1	17	4	pin	$17,$18,$2,$3	src/800.c
-107	func_80015608	main	1	25	4	pin	$20,$22,$3	src/800.c
-4	func_8001BBBC	main	1	None	4	launder,pin	$2,$3,$8	src/800.c
+295	func_8018C14C	ov_SC04_011	1	5	2	barrier,pin	$0	src/ov_SC04_011/ov_SC04_011_jr_8017D494.c
+286	func_8018BAC4	ov_SC04_011	1	9	2	pin	$3	src/ov_SC04_011/ov_SC04_011_jr_8017D494.c
+110	func_801836D4	ov_SC04_011	1	12	2	pin	$2,$3	src/ov_SC04_011/ov_SC04_011_jr_8017D494.c
+73	func_80180B24	ov_SC04_011	1	14	3	launder		src/ov_SC04_011/ov_SC04_011_jr_8017D494.c

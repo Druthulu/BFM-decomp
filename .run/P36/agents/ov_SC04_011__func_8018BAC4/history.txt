@@ -1,0 +1,15 @@
+s5: verdict NO-MATCH start 35 best 9 compiles 184 path R12 width r s32->u16 @13086
+s7: verdict NO-MATCH start 35 best 9 compiles 536 path R12 width r s32->u16 @13080
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width r s32->u16 @13080 -> 9 [REG] (from 35)
+  R12 width r s32->s16 @13080 -> 9 [REG] (from 35)
+  R12 width r s32->u8 @13080 -> 9 [REG] (from 35)
+  R8 temp tmp0 @13095 -> 9 [REG] (from 9)
+  R7 block @13083 -> 9 [REG] (from 9)
+  R2 decl-order 1,0 -> 9 [REG] (from 9)
+  R4 decl-move r 2->0 -> 9 [REG] (from 9)
+  R8 temp tmp0 @13106 -> 9 [REG] (from 9)
+  R12 width t s32->s16 @13079 -> 9 [REG] (from 9)
+  R7 do-while @13083 -> 9 [REG] (from 9)
+  R4 decl-move r 2->1 -> 9 [REG] (from 9)
+  R8 temp tmp0 @13084 -> 9 [REG] (from 9)

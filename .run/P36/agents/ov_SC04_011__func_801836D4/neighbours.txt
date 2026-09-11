@@ -1,0 +1,27 @@
+=== THIS FUNCTION'S OWN HEADER (func_801836D4, line 7055) — read it in full ===
+/* func_801836D4 — ov_SC04_011 (second-pass repair, MATCH 60/60)
+ *
+ * Residual cracked (was WIDTH/hardreg-pin-defeats-sign-extend, 10/60):
+ *   1) lhu-vs-lh: the "target" field must be read into an *SImode* local
+ *      (s32 tw = *(s16*)...) so RTL gets (sign_extend:SI (mem:HI)) -> `lh`.
+ *      Declaring it s16 makes it an HImode pseudo, whose movhi load is `lhu`.
+ *      The HImode-ness the xor needs is then re-introduced by an explicit
+ *      (s16) copy, NOT by the load's type.
+ *   2) the missing `addu $a1,$v0,$zero`: it is the SI->HI truncating copy
+ *      tw -> t16.  Unpinned, local-alloc coalesces the two pseudos and the
+ *      copy vanishes; pinning tw to $2 and t16 to $5 forces it to survive.
+ *   3) `xor` destination: with t16 dead after the xor, gcc reuses $a1 for the
+ *      result.  A third pin (xr on $2) puts it back in $v0.
+ * `xr` must stay s16 so fold narrows (diff ^ t16) to an HImode xor — that is
+ * what keeps the raw `xor` + `sll 16` pair instead of an sll/sra sign-extend
+ * of diff.
+ */
+
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: schedule
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+/* @class: instruction-scheduling (SOLVED — natural statement order)
+// @class: loose-typing
+// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)

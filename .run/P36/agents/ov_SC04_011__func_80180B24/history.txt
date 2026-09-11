@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 36 best 14 compiles 184 path R5 swap + @4869 + R9 swap-stmts @4860
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @4860 -> 14 [COUNT] (from 16)
+  R7 do-while @4859 -> 14 [COUNT] (from 16)
+  R7 do-while @4860 -> 14 [COUNT] (from 16)
+  R9 swap-stmts @4861 -> 15 [COUNT] (from 16)
+  R5 swap + @4869 -> 16 [COUNT] (from 36)
+  R9 swap-stmts @4860 -> 16 [COUNT] (from 36)
+  R6 inline tb @4858 -> 16 [COUNT] (from 16)
+  R7 block @4862 -> 16 [COUNT] (from 16)
+  R9 swap-stmts @4859 -> 16 [COUNT] (from 16)
+  R6 inline tc @4870 -> 16 [COUNT] (from 16)
+  R7 block @4861 -> 16 [COUNT] (from 16)
+  R6 inline ta @4857 -> 16 [COUNT] (from 16)

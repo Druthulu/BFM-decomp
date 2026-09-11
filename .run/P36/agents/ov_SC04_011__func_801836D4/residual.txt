@@ -1,0 +1,29 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_801836D4: score 14 (COUNT; mine 59 ins, target 60) — not yet
+  register pairs (mine -> target, count): a1->v1 x6, a1->v0 x3
+  replace mine[14:15] target[14:15]
+       14  j	6314 <func_801836D4+0xd4>        | j	6318 <func_801836D4+0xd8>
+  replace mine[19:20] target[19:20]
+       19  j	6314 <func_801836D4+0xd4>        | j	6318 <func_801836D4+0xd8>
+  replace mine[22:23] target[22:23]
+       22  lhu	a1,6(a1)                       | lhu	v1,6(a1)
+  replace mine[24:25] target[24:25]
+       24  subu	v1,v0,a1                      | subu	v1,v0,v1
+  replace mine[26:27] target[26:27]
+       26  lh	a1,236(a0)                      | lh	v0,236(a0)
+  replace mine[30:31] target[30:31]
+       30  lhu	a1,10(a1)                      | lhu	v1,10(a1)
+  replace mine[32:33] target[32:33]
+       32  subu	v1,v0,a1                      | subu	v1,v0,v1
+  replace mine[34:35] target[34:35]
+       34  lh	a1,238(a0)                      | lh	v0,238(a0)
+  replace mine[38:39] target[38:39]
+       38  lhu	a1,14(a1)                      | lhu	v1,14(a1)
+  replace mine[40:41] target[40:41]
+       40  subu	v1,v0,a1                      | subu	v1,v0,v1
+  replace mine[42:43] target[42:43]
+       42  lh	a1,240(a0)                      | lh	v0,240(a0)
+  replace mine[44:45] target[44:46]
+       44  beqz	a1,630c <func_801836D4+0xcc>  | beqz	v0,6310 <func_801836D4+0xd0>
+       45  --                                 | move	a1,v0
+  replace mine[51:52] target[52:53]
+       51  j	6320 <func_801836D4+0xe0>        | j	6324 <func_801836D4+0xe4>

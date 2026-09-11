@@ -1,0 +1,101 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_8018C14C (59 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80144A98 (src/shared/ov/func_80144A98.h:6) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_80144A98(u8 *a0) {
+    s32 v0;
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+    } else {
+        func_8001C214(v0, 0);
+        *(s16 *)(a0 + 0x2) = 1;
+    }
+}
+
+--- func_801320D8 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:1915) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_801320D8(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8019095C;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_801321B0 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:1962) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_801321B0(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8019097C;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_8013221C (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:1988) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_8013221C(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8019098C;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_8018CA98 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:13858) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_8018CA98(void *a0)
+{
+    s32 v0;
+
+    v0 = func_8012C1B8();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    func_8001C214(v0, (s32)D_801E1AF4);
+    func_8012AD50(a0);
+}
+
+--- func_80132144 (src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c:1933) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+s32 func_80132144(s32 param_1)
+{
+    extern int D_8019096C;
+
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(((int)param_1) + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(((int)param_1));
+    } else {
+        ((void(*)(int, int))func_8001C214)(v0, 0);
+        *(int *)(((int)param_1) + 0x58) = (int)&D_8019096C;
+        *(short *)(((int)param_1) + 0x5c) = 0x80;
+        *(unsigned short *)(((int)param_1) + 2) += 1;
+    }
+}
+

@@ -1,0 +1,251 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_80180B24 (105 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80180F30 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:4971) shares 10: D_80194470 D_801EFD20 func_8002D4C8 func_8012BEE8 func_801833D4 func_80183564 func_801837C4 func_80183880 func_80183A28 func_80183BAC ---
+void func_80180F30(s32 s2)
+{
+    s32 v0;
+    s32 v1;
+    s32 s1;
+    s32 *s0;
+
+    if ((*(u16 *)(s2 + 0x34) < 4)) {
+        if (((s32 (*)(int, int))func_801833D4)(s2, 0x30) != 0) {
+            switch (*(u16 *)(s2 + 0x34)) {
+            case 0:
+                *(s16 *)(s2 + 0x84) = 0;
+                /* fallthrough */
+            case 1:
+                v1 = *(u16 *)(s2 + 0xF4) + 1;
+                *(u16 *)(s2 + 0xF4) = v1;
+                func_80183564(s2, (s16 *)(D_80194490 + (((v1 << 16) >> 13))));
+                *(u16 *)(s2 + 0x34) = *(u16 *)(s2 + 0x34) + 1;
+                break;
+            case 2:
+                func_8018A018(D_801EFCA4);
+                *(s16 *)(s2 + 0xF2) = 0x20;
+                func_80183564(s2, (s16 *)D_80194470);
+                *(u16 *)(s2 + 0x34) = *(u16 *)(s2 + 0x34) + 1;
+                func_8012C588(0x3D8, s2);
+                break;
+            case 3:
+                ((void (*)(s32))func_801837C4)(s2);
+                ((void (*)(s32))func_80183BAC)(s2);
+                *(u16 *)(s2 + 0x100) = 0;
+                *(s32 *)(s2 + 0x1C) = 8;
+                *(u16 *)(s2 + 0x34) = *(u16 *)(s2 + 0x34) + 1;
+                func_801861D4(s2);
+                break;
+            }
+        } else {
+            func_80183A28((u8 *)s2);
+            if (*(u16 *)(s2 + 0x34) == 1) {
+                v0 = *(u16 *)(s2 + 0x84) + 1;
+                *(s16 *)(s2 + 0x84) = v0;
+                if (((v0 << 16) >> 16) == 0x50) {
+                    func_8002D4C8(0x992, 0);
+                }
+            }
+        }
+    } else {
+        func_80183880(s2);
+        func_80185960(0, (u16 *)(*(s32 *)(aFC4C[D_801EFD20] + 0x20) + 0x14), 0x40);
+        switch (*(u16 *)(s2 + 0x34)) {
+        case 4:
+            if (((s32 (*)(u8 *))func_8012BEE8)((u8 *)s2) != 0) {
+                *(s16 *)(s2 + 0xF2) = 0xC0;
+                s1 = 0x10;
+                s0 = D_801EFCE8;
+                do {
+                    ((void (*)(s32))func_80189D38)(*s0++);
+                    s1++;
+                } while (s1 < 0x14);
+                *(u16 *)(s2 + 0x34) = 5;
+            }
+            break;
+        case 5:
+            if (*(s16 *)(s2 + 0xF2) == 0) {
+                func_801811D0((s32 *)s2);
+            }
+            break;
+        }
+    }
+    if (*(s16 *)(s2 + 0xF2) != 0) {
+        if ((*(u16 *)(s2 + 0xF2) & 0xF) == 0) {
+            func_8013C9C4(D_80190B88);
+        }
+        *(u16 *)(s2 + 0xF2) = *(u16 *)(s2 + 0xF2) - 1;
+    }
+}
+
+--- func_80181948 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5378) shares 5: D_801EFD20 D_801EFD40 func_801833D4 func_80183564 func_80183A28 ---
+void func_80181948(s32 a0) {
+    s32 pad[2];
+    u16 g = D_801EFD20;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+    case 1:
+        if (((s32 (*)(int, int))func_801833D4)((int)a0, 0) != 0) {
+            switch (*(u16 *)(a0 + 0x34)) {
+            case 0:
+                if ((D_801EFD40 & 0x400) == 0) {
+                    func_80189188(D_801EFD14);
+                    func_80189270(D_801EFD14);
+                    D_801EFD40 |= 0x400;
+                    if (D_801EFD18 != 0) {
+                        func_801439C0(D_801EFD18);
+                        D_801EFD18 = 0;
+                    }
+                } else {
+                    func_80189270(D_801EFD14);
+                }
+                *(u16 *)(a0 + 0xF4) = 0;
+                func_80183564(a0, D_801944D8);
+                func_8013C9C4(D_80190B88);
+                *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+                return;
+            case 1:
+                *(u16 *)(a0 + 6) = 0;
+                *(u16 *)(a0 + 0xE) = 0;
+                *(u16 *)(a0 + 0xA) = 0;
+                func_80186300(a0, D_801DF06C, 0);
+                *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+                return;
+            }
+        } else {
+            func_80183A28((u8 *)a0);
+        }
+        return;
+    case 2:
+        if (*(s16 *)(a0 + 0x98) != 0) {
+            return;
+        }
+        D_801EFD20 = 0xD;
+        D_801EFD40 &= 0xFFDF;
+        func_80184CCC(a0, D_80194C14);
+        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        return;
+    case 3:
+        func_80184DB8(g);
+        if (func_80184F4C() != 0) {
+            func_80181B30(a0);
+            func_80184840();
+        }
+        return;
+    }
+}
+
+--- func_80181868 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5316) shares 4: D_801EFD20 D_801EFD40 func_80183564 func_80183BD0 ---
+void func_80181868(u8 *self) {
+    s32 obj;
+    s32 vp;
+
+    obj = aFC4C[D_801EFD20];
+    if (!(D_801EFD40 & 0x400)) {
+        D_801EFD18 = func_80188E00(obj, D_801944D0);
+    }
+    vp = *(s32 *)(obj + 0x20);
+    *(s16 *)(obj + 6) = 0x500;
+    *(s16 *)(obj + 0xA) = -0xD88;
+    *(s16 *)(obj + 0xE) = 0x1980;
+    *(s16 *)(vp + 0x12) = 0;
+    vp = *(s32 *)(obj + 0x20);
+    *(s16 *)(vp + 0x10) = 0x380;
+    *(s16 *)(self + 0xFE) = 0x380;
+    func_80186710();
+    func_80183BD0(self);
+    D_801EFD40 = D_801EFD40 & 0xFFF7;
+    func_80183564((s32)self, (s16 *)D_801944D0);
+    func_80186BD8();
+    func_8012AD44((s32 *)self, 7);
+}
+
+--- func_801807CC (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:4629) shares 4: D_801EFD20 func_8002D4C8 func_8012BEE8 func_80183880 ---
+s32 func_801807CC(void *param)
+{
+    s32 obj;
+    s16 x;
+    s16 y;
+    void *self;
+
+    self = param;
+    obj = aFC4C[D_801EFD20];
+    x = *(u16 *)(*(s32 *)(obj + 0x20) + 0x12) & 0xFFF;
+    if (x >= 0x800) {
+        x |= 0xF000;
+    }
+    func_80183880((s32)self);
+    y = *(u16 *)(*(s32 *)(obj + 0x20) + 0x12) & 0xFFF;
+    if (y >= 0x800) {
+        y |= 0xF000;
+    }
+    if ((x < -0x200 && -0x201 < y) || (-0x200 < x && y < -0x1FF)) {
+        func_8002D4C8(0x9C3, 0);
+    }
+    func_80185960(0, (u16 *)(*(s32 *)(obj + 0x20) + 0x14), 0xFFC0);
+    if (((s32 (*)(s32))func_8012BEE8)((s32)self) != 0) {
+        return !*(s16 *)(*(s32 *)(obj + 0x20) + 0x14);
+    }
+    return 0;
+}
+
+--- func_80181220 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5081) shares 4: func_8002D4C8 func_801833D4 func_80183564 func_80183A28 ---
+void func_80181220(s32 a0) {
+    s32 s0;
+    u8 *s1;
+    s32 v0;
+    u16 state;
+    s16 t;
+    s16 buf[3];
+
+    s0 = a0;
+    s1 = (u8 *)&aB58_80181220[0];
+
+    v0 = ((s32 (*)(int, int))func_801833D4)((int)s0, 0);
+    if (v0 != 0) {
+        state = *(u16 *)(s0 + 0x34);
+        switch (state) {
+        case 0:
+        case 2:
+            if (*(s16 *)(s0 + 0xF2) != 0) {
+                func_80181390(s0);
+            } else {
+                buf[0] = *(u16 *)(s1 + 0x6);
+                buf[1] = *(u16 *)(s1 + 0xA) - 0x50;
+                buf[2] = *(u16 *)(s1 + 0xE);
+                func_80183564(s0, buf);
+                *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            }
+            break;
+        case 1:
+        case 3: {
+            u16 idx = (u16)((*(u16 *)(s0 + 0xF4) + 1) & 1);
+            *(u16 *)(s0 + 0xF4) = idx;
+            func_80183564(s0, D_801944A8[idx]);
+            *(u16 *)(s0 + 0x34) = (u16)((*(u16 *)(s0 + 0x34) + 1) & 3);
+            func_8002D4C8(0x992, 0);
+            break;
+        }
+        default:
+            break;
+        }
+    } else {
+        func_80183A28((u8 *)s0);
+    }
+
+    t = *(s16 *)(s0 + 0xF2);
+    if (t == 0) {
+        if (*(s16 *)(s1 + 0xE) >= 0xA01) {
+            if (*(s16 *)(s1 + 0xA) >= -0x73F) {
+                *(s16 *)(s0 + 0xF2) = t + 1;
+            }
+        }
+    }
+}
+
+--- func_80180714 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:4590) shares 3: func_8012BEE8 func_801833D4 func_80183A28 ---
+void func_80180714(u8 *a0) {
+    func_801833D4((int)a0, -64);
+    func_80183A28(a0);
+    func_8012BEE8(a0);
+}
+

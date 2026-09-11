@@ -1,0 +1,44 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_80180B24: score 36 (COUNT; mine 215 ins, target 215) — not yet
+  register pairs (mine -> target, count): v0->v1 x3, v1->v0 x1
+  replace mine[104:105] target[104:106]
+      104  lhu	v1,52(s0)                      | lhu	v1,242(s0)
+      105  --                                 | lhu	a2,52(s0)
+  insert  mine[106:106] target[107:109]
+      106  --                                 | addiu	v1,v1,1
+      107  --                                 | addiu	a2,a2,1
+  insert  mine[107:107] target[110:123]
+      107  --                                 | sh	v1,242(s0)
+      108  --                                 | jal	0 <func_8017D494>
+      109  --                                 | sh	a2,52(s0)
+      110  --                                 | j	38f8 <func_80180B24+0x268>
+      111  --                                 | move	a0,s0
+      112  --                                 | lhu	a0,52(s0)
+      113  --                                 | lui	v0,0x0
+      114  --                                 | lhu	v0,0(v0)
+      115  --                                 | lhu	v1,244(s0)
+      116  --                                 | addiu	a0,a0,1
+      117  --                                 | andi	v0,v0,0xfffe
+      118  --                                 | lui	at,0x0
+      119  --                                 | sh	v0,0(at)
+  delete  mine[109:125] target[125:125]
+      109  sh	v1,52(s0)                       | --
+      110  addiu	v0,v0,1                      | --
+      111  jal	0 <func_8017D494>              | --
+      112  sh	v0,242(s0)                      | --
+      113  j	38f8 <func_80180B24+0x268>       | --
+      114  move	a0,s0                         | --
+      115  lui	v0,0x0                         | --
+      116  lhu	v0,0(v0)                       | --
+      117  lhu	v1,242(s0)                     | --
+      118  lhu	a0,52(s0)                      | --
+      119  andi	v0,v0,0xfffe                  | --
+      120  andi	v1,v1,0x1                     | --
+      121  lui	at,0x0                         | --
+      122  sh	v0,0(at)                        | --
+      123  lhu	v0,244(s0)                     | --
+      124  addiu	a0,a0,1                      | --
+  replace mine[126:128] target[126:128]
+      126  addiu	v0,v0,1                      | andi	v0,v0,0x1
+      127  addu	v0,v0,v1                      | addu	v1,v1,v0
+  replace mine[129:130] target[129:130]
+      129  sh	v0,244(s0)                      | sh	v1,244(s0)

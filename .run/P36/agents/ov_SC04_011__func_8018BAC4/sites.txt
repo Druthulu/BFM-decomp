@@ -1,0 +1,7 @@
+REMOVED  pin         $4     line 13286
+REMOVED  pin         $2     line 13287
+NEEDED   pin         $3     line 13288
+NEEDED   pin         $3     line 13289
+REMOVED  cast        volatile u8 * line 13292
+REMOVED  cast        volatile u8 * line 13303
+REMOVED  cast        volatile u8 * line 13314
