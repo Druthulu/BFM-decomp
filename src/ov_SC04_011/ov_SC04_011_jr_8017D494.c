@@ -15818,7 +15818,6 @@ void func_8018EBCC(s32 a0) {
     Rec_8018B23C_8018EBCC *p;
     s32 x;
     s32 y;
-    s32 ang;
 
     q = D_800A5E60;
 
@@ -15844,13 +15843,7 @@ void func_8018EBCC(s32 a0) {
     *(s16 *)(sv + 4) = 0;
     *(s16 *)(sv + 2) = 0;
     *(s16 *)(sv + 0) = p->f0;
-    {
-        void *svp = sv;
-        void *outp = out;
-        ApplyMatrixSV(m, svp, outp);
-        __asm__ __volatile__("" : "=r"(svp));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t3_tus1)
-        __asm__ __volatile__("" : "=r"(outp));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t3_tus1)
-    }
+    ApplyMatrixSV(m, sv, out);
 
     *(s16 *)(q + 0x8) = x + ((s16)out[0] >> 1) * 3;
     *(s16 *)(q + 0xA) = y + ((s16)out[1] >> 1) * 3;
@@ -15861,18 +15854,14 @@ void func_8018EBCC(s32 a0) {
     y = y + out[1];
     *(s16 *)(q + 0x12) = y;
 
-    ang = -0x400;
     if (p->f0 & 1) {
-        ang = 0x400;
+        RotMatrixZ(0x400, m);
+    } else {
+        RotMatrixZ(-0x400, m);
     }
-    RotMatrixZ(ang, m);
 
     *(s16 *)(sv + 0) = 2;
-    {
-        /* lever C: sp+0x10 IS &m, but spelled so cse cannot fold it to $s4 */
-        register u8 *spr __asm__("$29");  // !FAKE: pin $29 — NEEDED DIFFERS (P36 rung B t3_tus1)
-        ApplyMatrixSV(spr + 0x10, sv, out);
-    }
+    ApplyMatrixSV(m, sv, out);
 
     *(s16 *)(q + 0x10) = *(u16 *)(q + 0x10) + out[0];
     *(s16 *)(q + 0x12) = *(u16 *)(q + 0x12) + out[1];
