@@ -2793,43 +2793,22 @@ extern s16 D_801F8882;
 extern s16 D_801F8884;
 
 void func_801A4258(void) {
-    s32 pad[6];
     s16 *p;
-    register s32 t __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 u __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 sum __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 q;
-
-    (void)&pad;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     p = &D_801F8870;
 
-    t = *p;
-    if (t != D_801F8878) {
-        u = t + zr;
-        sum = u + (u16)D_801F8880;
-        q = (u32)sum >> 7;
-        *p = (s16)sum;
-        D_801F8744[0] = (u8)q;
+    if (*p != D_801F8878) {
+        *p += (u16)D_801F8880;
+        D_801F8744[0] = *p >> 7;
     }
 
-    t = D_801F8872;
-    if (t != D_801F887A) {
-        u = t + zr;
-        sum = u + (u16)D_801F8882;
-        q = (u32)sum >> 7;
-        D_801F8872 = (s16)sum;
-        D_801F8744[1] = (u8)q;
+    if (D_801F8872 != D_801F887A) {
+        D_801F8872 += (u16)D_801F8882;
+        D_801F8744[1] = D_801F8872 >> 7;
     }
 
-    t = D_801F8874;
-    if (t != D_801F887C) {
-        u = t + zr;
-        sum = u + (u16)D_801F8884;
-        q = (u32)sum >> 7;
-        D_801F8874 = (s16)sum;
-        D_801F8744[2] = (u8)q;
+    if (D_801F8874 != D_801F887C) {
+        D_801F8874 += (u16)D_801F8884;
+        D_801F8744[2] = D_801F8874 >> 7;
     }
 }
 
