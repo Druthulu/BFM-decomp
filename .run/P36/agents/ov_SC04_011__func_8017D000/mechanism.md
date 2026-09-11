@@ -10,6 +10,12 @@ No lever-free copy existed elsewhere: `git grep` finds no other definition that 
 `related.txt` listed no port candidate (the only `func_8017D000` in `src/shared/ov/` is an unrelated function with the same
 overlay address).
 
+**Class propagation, checked by `--try` (function-level, score 0 in every one):** `body.c`, with its identifiers mapped
+token by token from each copy's own tree text (`scratch/port.py`, which refuses any difference that is not an identifier),
+scores 0 in all nine other copies: ov_SC02_005 `func_8017C41C`, ov_SC03_014 `func_80183130`, and `func_8017C43C` in
+ov_SC03_028, ov_SC03_105, ov_SC05_010, ov_SC06_016, ov_SC06_029, ov_SC06_030 and ov_SC07_002. The ported texts are in
+`scratch/port/<overlay>__<fn>.c`. These scores are for the function only; the whole-object gate is still the bank's job.
+
 ## (a) The residual in one sentence
 
 COUNT 296 vs 293. There were three independent defects. (1) In the `== 0xB` arm, `f` and `v` had swapped registers and

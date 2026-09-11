@@ -3052,7 +3052,51 @@ def trim_arguments(text, tu, fn, d_):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25")
+def alias_repeated_addresses(text, tu, fn, d_):
+    """[(description, candidate text)] — R26: a symbol whose ADDRESS is passed to calls more than once, the later
+    occurrences given a body-local asm-label alias of the same symbol.
+
+    T7 agent c45 (func_80183E3C / func_80183A2C, P36 S103): each constant address argument goes into its own pseudo
+    (`calls.c:1654-1664`) and cse then MERGES the two, because it hashes and compares symbol names by string pointer
+    (`cse.c:1937-1939`, `:2107-2108`); the merged pseudo lives across a call, takes `$s0`, and every later register shifts —
+    the `$a0` pin was faking the target's separate `la $a0` per call. A declaration with an asm label gets a freshly
+    allocated name string (`varasm.c:479-486`), so cse treats it as a different value; the relocation still names SYM, so
+    the bytes are the target's. 136 `&D_800AF648` pin sites carry this exact shape. The alias is a class-E declaration
+    (deferred to the types phase by Drew's gate-1 scope decision), not an asm statement. The alias is declared `u8`: only
+    its address is used, and the byte oracle judges every candidate."""
+    lines = text.split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    masked = [sc.mask_text(l) for l in lines]
+    occ = collections.defaultdict(list)                  # SYM -> [(line, column of the '&')]
+    for i in range(lo, hi):
+        if is_decl_line(masked[i].strip()) or masked[i].lstrip().startswith("extern"):
+            continue
+        for m in re.finditer(r"&\s*((?:D|g)_[0-9A-Fa-f]{8})\b", masked[i]):
+            # any use of the address in a statement: a call argument, or `r4 = &SYM; f(r4);` (c45's start text)
+            occ[m.group(1)].append((i, m.start(), m.end()))
+    out = []
+    open_brace = next((i for i in range(lo - 1, hi) if "{" in masked[i]), None)
+    if open_brace is None:
+        return out
+    for sym, sites in occ.items():
+        if len(sites) < 2:
+            continue
+        alias = f"{sym}_b"
+        if re.search(r"\b%s\b" % re.escape(alias), text):
+            continue
+        decl = f"    extern u8 {alias} __asm__(\"{sym}\");"
+        for tag, sel in (("second", sites[1:2]), ("all-later", sites[1:])):
+            if tag == "all-later" and len(sites) < 3:
+                continue
+            cand = list(lines)
+            for i, a, b in sorted(sel, key=lambda t: (t[0], -t[1])):
+                cand[i] = cand[i][:a] + "&" + alias + cand[i][b:]
+            cand.insert(open_brace + 1, decl)
+            out.append((f"alias-address {sym} {tag}", "\n".join(cand)))
+    return out
+
+
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3190,6 +3234,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R25" in fam:
         for desc, cand in trim_arguments(text, tu, fn, d_):
             out.append(("R25", desc, cand))
+    if "R26" in fam:
+        for desc, cand in alias_repeated_addresses(text, tu, fn, d_):
+            out.append(("R26", desc, cand))
     if blocks and "R7" in fam:                            # last: one candidate per statement, so the targeted recipes go first
         for desc, cand in block_wraps(text, tu, fn, d_):
             out.append(("R7", desc, cand))
@@ -3441,6 +3488,61 @@ def remap_body(ex_before, ex_after, sib_before):
         if m.setdefault(x, y) != y:
             return None, f"`{x}` maps to both `{m[x]}` and `{y}` — not one class"
     return lc.NORM_SYM.sub(lambda mm: m.get(mm.group(0), mm.group(0)), ex_after), None
+
+
+def port_scan(apply=False, label="port"):
+    """--port-scan [--apply]: carry every banked reshape onto residue bodies of the same CLASS that live under OTHER NAMES
+    (the same code at another address in another overlay).
+
+    S103: agent c43 closed func_80182F8C / func_80182490 in ov_SC03_111 and `--propagate` found 0 siblings for classes
+    of 7 copies — the other six copies of each are func_80181C24 / func_80181128 and friends in ov_SC03_107/112/113/117/118
+    and ov_SC05_004: same text, other addresses, other names, and a census class key the ledger's key does not equal. A
+    remap port banked 12 of 12. 105 residue classes carry members under different names. This mode indexes every banked
+    chain by (address-token count, line count) of its extern-stripped before-text, and for each member of such a class
+    whose extern-stripped text is the same class, remaps the banked after-text onto it (`remap_body`); `--apply` banks each
+    through `apply_body_core` (the per-object gate) — the one writer."""
+    import delever_search as ds
+    rows = load_ledger()
+    ex = ds.exemplars(include_done=True)
+    mixed = [e for e in ex if len({m["fn"] for m in e["members"]}) > 1]
+    chains = collections.defaultdict(list)
+    for r in rows:
+        if r.get("verdict") == "LEVER-FREE" and r.get("after_text") and r.get("before_text"):
+            chains[(r["tu"], r["fn"])].append(r)
+
+    def sig(t):
+        st, _ = _strip_externs(t)
+        return len(lc.NORM_SYM.findall(st)), st.count("\n")
+    idx = collections.defaultdict(list)
+    for k, ch in chains.items():
+        idx[sig(ch[0]["before_text"])].append((k, ch[0]["before_text"], ch[-1]["after_text"]))
+    cache, found, ok, bad = {}, [], 0, 0
+    for e in mixed:
+        for m in e["members"]:
+            raw = cache.setdefault(m["tu"], (REPO / m["tu"]).read_text(errors="surrogateescape"))
+            d = next((x for x in sc.scan_text(raw, m["tu"], shared_defs=None) if x["form"] == "def" and x["name"] == m["fn"]), None)
+            if d is None:
+                continue
+            ls = line_starts(raw)
+            b = raw[ls[d["line"] - 1]:ls[d["end"]]]
+            sb, sext = _strip_externs(b)
+            for k, ebf, after in idx.get(sig(b), []):
+                eb, _ = _strip_externs(ebf)
+                if lc.norm_hash(sc.mask_text(eb)) != lc.norm_hash(sc.mask_text(sb)):
+                    continue
+                body, why = remap_body(eb, after, sb)
+                if body is None:
+                    continue
+                found.append((m["tu"], m["fn"], k))
+                if apply:
+                    okk, line = apply_body_core(m["tu"], m["fn"], body, label, "E", source=f"port-scan:{k[0]}:{k[1]}")
+                    print(f"  {line[:180]}", flush=True)
+                    ok += okk
+                    bad += not okk
+                break
+    print(f"delever --port-scan: {len(mixed)} residue class(es) with members under different names; {len(found)} member "
+          f"bod(ies) remap cleanly from a banked reshape" + (f"; {ok} banked, {bad} refused" if apply else " (read-only)"))
+    return 0
 
 
 def propagate(a):
@@ -4307,6 +4409,20 @@ def selftest():
         fail(f"R25 must re-issue the call at the real arity: {t25!r}")
     _defs.pop("func_8FFFFFF0", None)
 
+    # R26, the address alias (T7 agent c45, S103; known-true: on func_80183E3C's start text R26's "second" candidate
+    # scores 0 from 38 — the agent's close, reproduced by the generator alone)
+    AAF = ("void func_80100000(void) {\n"
+           "    { void *r4; r4 = &D_800AF648; func_8004914C(r4); }\n"
+           "    { void *r4; r4 = &D_800AF648; func_800491AC(r4); }\n"
+           "}")
+    a26 = dict(alias_repeated_addresses(AAF, "src/fx/a.c", "func_80100000",
+                                        next(r for r in sc.scan_text(AAF, "src/fx/a.c", shared_defs=None) if r["form"] == "def")))
+    if sorted(a26) != ["alias-address D_800AF648 second"]:
+        fail(f"R26 must alias the second use of a repeated address (and offer no all-later form for two uses): {sorted(a26)}")
+    elif 'extern u8 D_800AF648_b __asm__("D_800AF648");' not in a26["alias-address D_800AF648 second"] or \
+            "r4 = &D_800AF648_b;" not in a26["alias-address D_800AF648 second"]:
+        fail(f"R26 must declare the alias and use it at the second site: {a26!r}")
+
     # every family recipe_candidates dispatches must be in ALL_FAMILIES (S103: R25 was dispatched but missing from the
     # tuple — a string edit matched nothing — and delever_regen refused `--families R25` while the selftest, which calls
     # the generator directly, stayed green; the MIXED/OTHER classes would have silently never offered it)
@@ -4540,6 +4656,8 @@ def main():
     ap.add_argument("--scrub", action="store_true", help="remove orphan !FAKE markers (a marker whose site is gone), byte-judged per file")
     ap.add_argument("--propagate", nargs=2, metavar=("TU", "FN"),
                     help="give every RESIDUE sibling of this banked body's class the same shape, with its own addresses")
+    ap.add_argument("--port-scan", action="store_true",
+                    help="carry banked reshapes onto residue bodies of the same class under OTHER names (read-only; --apply banks)")
     ap.add_argument("--recipes", action="store_true",
                     help="rung R: the cookbook's byte-neutral shape recipes tried mechanically on every RESIDUE body")
     ap.add_argument("--cap", type=int, default=60, help="--recipes: candidates tried per body (each is one compile)")
@@ -4566,6 +4684,8 @@ def main():
         sys.exit(status())
     if a.scrub:
         sys.exit(scrub(a))
+    if a.port_scan:
+        sys.exit(port_scan(apply=a.apply, label=a.label or "port"))
     if a.propagate:
         if not a.label:
             sys.exit("delever --propagate: --label is required (R48)")

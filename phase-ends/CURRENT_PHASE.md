@@ -1704,6 +1704,33 @@ accumulate here as the phase produces them.**
   comment was refuted. METHOD note: for a cross-jump residual, find which label survives in `.jump2`, yours and the tree's.
 - **S103 — the first MINIMUM-LEVER draw: c46 on `func_80177B5C`** (c19's plain body at 2; goal: 0 with the fewest marked
   levers, ideally one, instead of 23 per copy × 132).
+- **S103 — the FIRST MINIMUM-LEVER BANK: c46 `func_80177B5C` at 0 with ONE marked launder (was 23 levers/copy), 133
+  bodies** (`apply-body … allow_residue`; `--propagate: 132 of 132 sibling(s) banked` — "the exemplar keeps 1 marked
+  lever(s), so its siblings may too"). The launder is a second set of `w`, so sched1 stops launching the p[2] `or` at its
+  store (`birthing_insn_p`, `sched.c:2469`) and sched2's equal-priority tie keeps the target's order; its single-lever table
+  (18 rows) shows every pin scores 2+ (registers were already right). Minimum-lever draws running: c47 func_8013D9B0,
+  c48 func_80140958, c49 func_8013F350, c50 func_80136824, c51 func_8012E364.
+- **S103 — c43 `func_80182F8C` (0) + its sibling `func_80182490` (0, from c43's whole-TU text) banked; propagate found 0
+  siblings for 7-copy classes — the copies are CROSS-ADDRESS (the same code as func_80181C24 / func_80181128 at other
+  addresses in ov_SC03_107/112/113/117/118 and ov_SC05_004; the census's class key ≠ the ledger's).** A remap port banked
+  12 of 12 (after a first attempt paired the classes crosswise — refused at the remap, nothing written). 105 residue
+  classes (422 bodies) have members under different names → **`delever.py --port-scan [--apply]`**: indexes every banked
+  chain by the (token count, line count) of its extern-stripped before-text and remaps onto every other-named member of
+  the same class, gated; runs: `7 … remap cleanly; 4 banked, 3 refused` and `2 …; 1 banked, 1 refused`. **c43's
+  `func_80185578` needs a SIGNATURE change** (`void` → `s32`: it returns 0/1 and a keepalive faked the `$v0` writes) —
+  types-phase inheritance with its whole-TU proof; c43 also refuted a related.txt pointer I relayed (a same-address
+  function in another overlay was a different function) → related.txt now requires shared symbols and a comparable size.
+- **S103 — c44 `func_8017D000` (33 → 0; 9/9) + `func_8018F02C` (24 → 0; 5/5); c45 `func_80183A2C` (30 → 0; 14/14) +
+  `func_80183E3C` (38 → 0; 9/9); c37 `func_8017D494` (10 → 0) + its 43 CROSS-ADDRESS copies (the "§45-B live-length
+  slider" class — 34 inline + 9 shared headers, all banked through the gate).** c44: `u8 v` (no birthing boost for a
+  SUBREG destination), an offset address named as a pointer local (find_best_addr folds a non-register address with no
+  cost test, `cse.c:2659`), and the P_TAG bitfield link. c45: a body-local `extern u8 D_800AF648_b __asm__("D_800AF648");`
+  alias for the second use of the same address (cse compares symbol names by pointer, `cse.c:1937-1939`; an asm-label
+  declaration gets a fresh name string, `varasm.c:479-486`) — **harvested as generator R26 `alias_repeated_addresses`,
+  known-true: on func_80183E3C's start text its "second" candidate scores 0 from 38** — and `vol` computed in place so it
+  is multi-set (no birthing boost). c37: an integer-priority TIE in `allocno_compare` (498 = 498) split by a +1 live-length
+  shift — `zc = za;` gives it in natural C (the tree's empty asm was that +1); `func_8015FBE0` was already banked by the
+  R19 cast regen.
 - **S103 — WHERE THE RESIDUE IS (measured at 12,003 sites): ~70% of the remaining lever weight sits in 9 classes of
   ≥100 copies, every one already read by an agent with a written reading** (approx. copies × sites/body:
   func_8013D9B0 125×34 — c17 15 plain, the GTE-macro question; func_80177B5C 132×23 — c19 2, one `or` late;

@@ -18,7 +18,6 @@ s16 n;
   extern Env_80140958 D_800AE7BC[];
   Prim4 *p;
   s16 t;
-  s16 size;
   s32 c3;
 u16 *a;
 u16 *b;
@@ -63,8 +62,7 @@ u32 mhi;
           ot = func_80140D68(ot, p, i, D_801917BC[c[0] & 7], t);
           if (((i == 2) && ((*((s16 *) (c + 9))) == 1)) && ((*((s16 *) (c + 12))) != 0))
           {
-            size = 8;
-            ot = func_80140D68(ot, p, 2, size, ((*((s16 *) (c + 12))) & 0xF) * 2);
+            ot = func_80140D68(ot, p, 2, 8, ((*((s16 *) (c + 12))) & 0xF) * 2);
           }
         }
       }
@@ -78,9 +76,10 @@ u32 mhi;
           s32 k;
           s32 t3v;
           u8 *q = ((u8 *) ot) + 0x14;
-          t3v = m * 4;
-          k = m;
+          register s16 size __asm__("$2");  // !FAKE: pin $2 size — a hard-reg set is may_not_optimize, so loop.c (scan_loop, loop.c:649) keeps the in-loop li 8 (P36 S103 c48 minimum-lever)
           j = 0;
+          k = m;
+          t3v = m * 4;
           pb = (u16 *) (&D_800B9A02);
           m24 = 0xFFFFFF;
           mhi = 0xFF000000;
@@ -125,6 +124,7 @@ u32 w;
             }
             q += 0x14;
             ot += 5;
+            __asm__ __volatile__("" :: "r"(j));  // !FAKE: keepalive j — +3 depth-3 refs so allocno_compare (global.c:604) ranks j above k and j takes $a2 (P36 S103 c48 minimum-lever)
           }
 
         }

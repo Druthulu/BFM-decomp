@@ -2793,7 +2793,6 @@ void func_8017EB7C(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -2983,16 +2982,17 @@ void func_8017EB7C(s32 arg0)
                                             if (((PolyF4 *)pkt)->y3 < mny) mny = ((PolyF4 *)pkt)->y3;
                                             else if (my < ((PolyF4 *)pkt)->y3) my = ((PolyF4 *)pkt)->y3;
                                             if (my >= -0x78 && mny < 0x79) {
-                                                s32 za, zb;
+                                                s32 za, zb, zc;
                                                 u32 *otp;
                                                 zb = g.sz2;
                                                 if (zb < g.sz3) zb = g.sz3;
                                                 za = g.sz0;
                                                 if (za < g.sz1) za = g.sz1;
-                                                if (za < zb) za = zb;
-                                                g.opz = za;
+                                                zc = za;
+                                                if (zc < zb) zc = zb;
+                                                g.opz = zc;
                                                 ((PolyF4 *)pkt)->rgbc = prim->w0;
-                                                otp = (u32 *)(((za >> 2) << 2) + ot);
+                                                otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 pkt += 0x18;
@@ -5625,7 +5625,7 @@ void func_80183130(void *a0) {
     s32 t;
 
     s16 *p;
-    void *w;
+    s16 *r;
 
     if (cur != lo) {
         if (lo < cur) {
@@ -5662,8 +5662,7 @@ void func_80183130(void *a0) {
 
     if (*(s16 *)((s32)a0 + 0xFC) == 0xB) {
         s32 f = *(s32 *)((s32)a0 + 0x1C);
-        s32 v = -(f & 1) & 0xC0;
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
+        u8 v = -(f & 1) & 0xC0;
         f = f + 1;
         *(s32 *)((s32)a0 + 0x1C) = f;
         D_801EABC9 = v;
@@ -5691,15 +5690,16 @@ void func_80183130(void *a0) {
         u16 bs;
         s32 x;
         s16 y;
+        s16 *s;
         t = (c - h) * 255 / h;
         q = &D_801EABC5;
-        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
         bs = (u16)D_801EABA0;
         x = bs + hw;
         y = x - 4;
         D_801EABCD = 0xFF;
         *q = 0xFF;
-        *(s16 *)(q + 0xF) = x;
+        s = (s16 *)(q + 0xF);
+        *s = x;
         D_801EABDC = bs + c;
         D_801EABA8 = x;
         D_801EABE4 = y;
@@ -5707,17 +5707,15 @@ void func_80183130(void *a0) {
         D_801EABEC = bs + c - 4;
         D_801EAC00 = -t;
         D_801EABF8 = -t;
-        func_800176F0(q + 0xF);
+        func_800176F0(s);
     }
 
     p = &D_801EAC20;
-    __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-    D_801EAC10 = *(u16 *)((s32)p - 0x18) + (u16)D_8018F76C;
+    r = p - 0xC;
+    D_801EAC10 = *(u16 *)r + (u16)D_8018F76C;
     *p = D_801EAC10 - 4;
-    w = (void *)((s32)p - 0x80);
-    p = (s16 *)((s32)p - 0x18);
-    func_800176F0(w);
-    func_800176F0(p);
+    func_800176F0(p - 0x40);
+    func_800176F0(r);
 }
 
 

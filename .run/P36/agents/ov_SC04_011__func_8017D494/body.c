@@ -265,16 +265,17 @@ void func_8017D494(s32 arg0)
                                             if (((PolyF4 *)pkt)->y3 < mny) mny = ((PolyF4 *)pkt)->y3;
                                             else if (my < ((PolyF4 *)pkt)->y3) my = ((PolyF4 *)pkt)->y3;
                                             if (my >= -0x78 && mny < 0x79) {
-                                                s32 za, zb;
+                                                s32 za, zb, zc;
                                                 u32 *otp;
                                                 zb = g.sz2;
                                                 if (zb < g.sz3) zb = g.sz3;
                                                 za = g.sz0;
                                                 if (za < g.sz1) za = g.sz1;
-                                                if (za < zb) za = zb;
-                                                g.opz = za;
+                                                zc = za;
+                                                if (zc < zb) zc = zb;
+                                                g.opz = zc;
                                                 ((PolyF4 *)pkt)->rgbc = prim->w0;
-                                                otp = (u32 *)(((za >> 2) << 2) + ot);
+                                                otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 pkt += 0x18;

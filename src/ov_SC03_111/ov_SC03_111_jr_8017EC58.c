@@ -2806,7 +2806,6 @@ void func_8017EC58(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -2996,16 +2995,17 @@ void func_8017EC58(s32 arg0)
                                             if (((PolyF4 *)pkt)->y3 < mny) mny = ((PolyF4 *)pkt)->y3;
                                             else if (my < ((PolyF4 *)pkt)->y3) my = ((PolyF4 *)pkt)->y3;
                                             if (my >= -0x78 && mny < 0x79) {
-                                                s32 za, zb;
+                                                s32 za, zb, zc;
                                                 u32 *otp;
                                                 zb = g.sz2;
                                                 if (zb < g.sz3) zb = g.sz3;
                                                 za = g.sz0;
                                                 if (za < g.sz1) za = g.sz1;
-                                                if (za < zb) za = zb;
-                                                g.opz = za;
+                                                zc = za;
+                                                if (zc < zb) zc = zb;
+                                                g.opz = zc;
                                                 ((PolyF4 *)pkt)->rgbc = prim->w0;
-                                                otp = (u32 *)(((za >> 2) << 2) + ot);
+                                                otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 pkt += 0x18;
@@ -4647,13 +4647,10 @@ void func_80182490(s32 a0)
         p[0] = t;
     }
 
-    if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
-          q[1] = q[1] | 0x80000000; }
+    if (*(u32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) & 0x80000000) {
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
     } else {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
-        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
-            *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) &= ~0x80000000;
     }
 
     *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
@@ -4775,8 +4772,6 @@ void func_80182490(s32 a0)
         *(s16 *)(a0 + 0xA) = out[1];
         *(s16 *)(a0 + 0xE) = out[2];
     }
-    { s32 pad[2]; }   /* LEVER 1: frame pad. INNER-BLOCK + LAST is load-bearing --
-                         a function-scope decl takes 0x28 and evicts flag to 0x30 */
 }
 
 
@@ -5063,13 +5058,10 @@ void func_80182F8C(s32 a0)
         p[0] = t;
     }
 
-    if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
-          q[1] = q[1] | 0x80000000; }
+    if (*(u32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) & 0x80000000) {
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
     } else {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
-        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
-            *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) &= ~0x80000000;
     }
 
     *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
@@ -5104,8 +5096,6 @@ void func_80182F8C(s32 a0)
         *(s16 *)(a0 + 0xA) = out[1];
         *(s16 *)(a0 + 0xE) = out[2];
     }
-    { s32 pad[2]; }   /* LEVER 1: frame pad -- matches func_80186B78's byte-verified 8-byte
-                         trailing dead local (docs/matching-cookbook.md §136 L6). */
 }
 
 

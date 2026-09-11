@@ -4134,29 +4134,30 @@ void func_80188440(s32 a0) {
         L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+        /* The target loads &D_800AF648 afresh (lui/addiu $a0) for EACH call.  The
+         * second call names the object through a second declaration of the same
+         * symbol: its SYMBOL_REF string is a different pointer, so cse does not
+         * unify the two address pseudos into one callee-saved register. */
+        func_8004914C(&D_800AF648);
+        {
+            extern u8 D_800AF648_b __asm__("D_800AF648");
+            func_800491AC(&D_800AF648_b);
+        }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
             s32 x = (s16)L.sxy[0];
-            register s32 ax __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-            s32 vol;
-            ax = x;
-            if (x < 0) {
-                ax = -x;
+            s32 vol = x;
+            if (vol < 0) {
+                vol = -vol;
             }
-            vol = ((0xA0 - ax) * 0x7F) / 0xA0;
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+            vol = ((0xA0 - vol) * 0x7F) / 0xA0;
             x = (x + 0xA0) / 0x14;
             if (x == 0x10) {
                 x = 0xF;
             }
             x = x << 8;
-            {
-                s32 flg = 0x3000;
-                func_8002D4C8(0xA9B, ((vol | flg) | x) & 0xFFFF);
-            }
+            func_8002D4C8(0xA9B, (vol | (0x3000 | x)) & 0xFFFF);
         }
     }
 }

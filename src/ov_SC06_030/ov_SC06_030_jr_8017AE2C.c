@@ -3638,7 +3638,7 @@ void func_8017C43C(void *a0) {
     s32 t;
 
     s16 *p;
-    void *w;
+    s16 *r;
 
     if (cur != lo) {
         if (lo < cur) {
@@ -3675,8 +3675,7 @@ void func_8017C43C(void *a0) {
 
     if (*(s16 *)((s32)a0 + 0xFC) == 0xB) {
         s32 f = *(s32 *)((s32)a0 + 0x1C);
-        s32 v = -(f & 1) & 0xC0;
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+        u8 v = -(f & 1) & 0xC0;
         f = f + 1;
         *(s32 *)((s32)a0 + 0x1C) = f;
         D_801B9E89 = v;
@@ -3704,15 +3703,16 @@ void func_8017C43C(void *a0) {
         u16 bs;
         s32 x;
         s16 y;
+        s16 *s;
         t = (c - h) * 255 / h;
         q = &D_801B9E85;
-        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
         bs = (u16)D_801B9E60;
         x = bs + hw;
         y = x - 4;
         D_801B9E8D = 0xFF;
         *q = 0xFF;
-        *(s16 *)(q + 0xF) = x;
+        s = (s16 *)(q + 0xF);
+        *s = x;
         D_801B9E9C = bs + c;
         D_801B9E68 = x;
         D_801B9EA4 = y;
@@ -3720,17 +3720,15 @@ void func_8017C43C(void *a0) {
         D_801B9EAC = bs + c - 4;
         D_801B9EC0 = -t;
         D_801B9EB8 = -t;
-        func_800176F0(q + 0xF);
+        func_800176F0(s);
     }
 
     p = &D_801B9EE0;
-    __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
-    D_801B9ED0 = *(u16 *)((s32)p - 0x18) + (u16)D_80185858;
+    r = p - 0xC;
+    D_801B9ED0 = *(u16 *)r + (u16)D_80185858;
     *p = D_801B9ED0 - 4;
-    w = (void *)((s32)p - 0x80);
-    p = (s16 *)((s32)p - 0x18);
-    func_800176F0(w);
-    func_800176F0(p);
+    func_800176F0(p - 0x40);
+    func_800176F0(r);
 }
 
 

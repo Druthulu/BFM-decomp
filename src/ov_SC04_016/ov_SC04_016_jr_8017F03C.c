@@ -3121,8 +3121,6 @@ void func_8017F8A8(void *a0)
     u8 *pkb;
     s32 d;
     u32 *otp;
-    register u32 tv __asm__("$3");       /* §137 pin — see header */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 tv2 __asm__("$4");      /* §137 pin — see header */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
 
     u8 *rotm;
 
@@ -3220,24 +3218,21 @@ void func_8017F8A8(void *a0)
 
             /* addPrim(otp, pkt); addPrim(otp, p1); */
             otp = (u32 *)((idx << 2) + ot);
-            tv = RW32(pkt);
-            RW32(pkt) = (tv & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
-            RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
-            tv = RW32(p1);
-            RW32(p1) = (tv & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
+            ((P_TAG *)pkt)->addr = ((P_TAG *)otp)->addr;
+            ((P_TAG *)otp)->addr = (u32)pkt;
+            ((P_TAG *)p1)->addr = ((P_TAG *)otp)->addr;
 
             pkb = D_800A5E60;
             p2 = pkb + 0x30;
             D_800A5E60 = p2;
-            RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)p1 & 0xFFFFFF);
+            ((P_TAG *)otp)->addr = (u32)p1;
 
             if (t2 != 0) {
                 D_800A5E60 = pkb + 0x38;
                 *(u8 *)(p2 + 3) = 1;
                 RW32(p2 + 4) = ((flags >> 23) & 0x60) | 0xE1000000;
-                tv2 = RW32(p2);
-                RW32(p2) = (tv2 & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
-                RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)p2 & 0xFFFFFF);
+                ((P_TAG *)p2)->addr = ((P_TAG *)otp)->addr;
+                ((P_TAG *)otp)->addr = (u32)p2;
             }
         }
     }

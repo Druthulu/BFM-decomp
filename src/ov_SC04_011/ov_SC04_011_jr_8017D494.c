@@ -2787,7 +2787,6 @@ void func_8017D494(s32 arg0)
         gte_rtps();
         gte_stsxy(&sxy[3]);
         gte_ldv3c(&box[4]);
-        __asm__ volatile ("");   /* §45-B live-length slider: +1 static insn splits the 228/230 allocno-priority tie (498/498 -> 497/498) */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t3_tus1)
         gte_rtpt();
         gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
         gte_ldv0(&box[7]);
@@ -2977,16 +2976,17 @@ void func_8017D494(s32 arg0)
                                             if (((PolyF4 *)pkt)->y3 < mny) mny = ((PolyF4 *)pkt)->y3;
                                             else if (my < ((PolyF4 *)pkt)->y3) my = ((PolyF4 *)pkt)->y3;
                                             if (my >= -0x78 && mny < 0x79) {
-                                                s32 za, zb;
+                                                s32 za, zb, zc;
                                                 u32 *otp;
                                                 zb = g.sz2;
                                                 if (zb < g.sz3) zb = g.sz3;
                                                 za = g.sz0;
                                                 if (za < g.sz1) za = g.sz1;
-                                                if (za < zb) za = zb;
-                                                g.opz = za;
+                                                zc = za;
+                                                if (zc < zb) zc = zb;
+                                                g.opz = zc;
                                                 ((PolyF4 *)pkt)->rgbc = prim->w0;
-                                                otp = (u32 *)(((za >> 2) << 2) + ot);
+                                                otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 pkt += 0x18;
@@ -16015,8 +16015,6 @@ void func_8018F02C(void *a0)
     u8 *pkb;
     s32 d;
     u32 *otp;
-    register u32 tv __asm__("$3");       /* §137 pin — see header */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t3_tus1)
-    register u32 tv2 __asm__("$4");      /* §137 pin — see header */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t3_tus1)
 
     u8 *rotm;
 
@@ -16114,24 +16112,21 @@ void func_8018F02C(void *a0)
 
             /* addPrim(otp, pkt); addPrim(otp, p1); */
             otp = (u32 *)((idx << 2) + ot);
-            tv = RW32(pkt);
-            RW32(pkt) = (tv & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
-            RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
-            tv = RW32(p1);
-            RW32(p1) = (tv & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
+            ((P_TAG *)pkt)->addr = ((P_TAG *)otp)->addr;
+            ((P_TAG *)otp)->addr = (u32)pkt;
+            ((P_TAG *)p1)->addr = ((P_TAG *)otp)->addr;
 
             pkb = D_800A5E60;
             p2 = pkb + 0x30;
             D_800A5E60 = p2;
-            RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)p1 & 0xFFFFFF);
+            ((P_TAG *)otp)->addr = (u32)p1;
 
             if (t2 != 0) {
                 D_800A5E60 = pkb + 0x38;
                 *(u8 *)(p2 + 3) = 1;
                 RW32(p2 + 4) = ((flags >> 23) & 0x60) | 0xE1000000;
-                tv2 = RW32(p2);
-                RW32(p2) = (tv2 & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
-                RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)p2 & 0xFFFFFF);
+                ((P_TAG *)p2)->addr = ((P_TAG *)otp)->addr;
+                ((P_TAG *)otp)->addr = (u32)p2;
             }
         }
     }

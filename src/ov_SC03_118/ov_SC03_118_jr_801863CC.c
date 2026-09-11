@@ -3260,13 +3260,10 @@ void func_80186B78(s32 a0)
         p[0] = t;
     }
 
-    if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-          q[1] = q[1] | 0x80000000; }
+    if (*(u32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) & 0x80000000) {
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
     } else {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
-            *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) &= ~0x80000000;
     }
 
     *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
@@ -3303,8 +3300,8 @@ void func_80186B78(s32 a0)
             (func_8004787C(*(s16 *)(a0 + 0x108)) >> 6);
 
         func_80049CAC(*(s32 *)(a0 + 0x20) + 0x10, *(s32 *)(a0 + 0x20) + 0x34);
-        gte_SetRotMatrix_m((s32 *)(*(s32 *)(a0 + 0x20) + 0x34));  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte2)
-        gte_SetTransMatrix_m((s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34));  // !FAKE: gte via gte_SetTransMatrix_m — memory beyond Sony's `gte_SetTransMatrix` (P36 T5 gte2)
+        gte_SetRotMatrix((s32 *)(*(s32 *)(a0 + 0x20) + 0x34));
+        gte_SetTransMatrix((s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34));
 
         p = *(s16 **)(a0 + 0xD0);
         sv[0] = 0;
@@ -3338,8 +3335,8 @@ void func_80186B78(s32 a0)
                 *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) + (d << 4);
 
             func_80049CAC(*(s32 *)(a0 + 0x20) + 0x10, *(s32 *)(a0 + 0x20) + 0x34);
-            gte_SetRotMatrix_m((s32 *)(*(s32 *)(a0 + 0x20) + 0x34));  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte2)
-            gte_SetTransMatrix_m((s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34));  // !FAKE: gte via gte_SetTransMatrix_m — memory beyond Sony's `gte_SetTransMatrix` (P36 T5 gte2)
+            gte_SetRotMatrix((s32 *)(*(s32 *)(a0 + 0x20) + 0x34));
+            gte_SetTransMatrix((s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34));
 
             p = *(s16 **)(a0 + 0xD0);
             sv[0] = 0;
@@ -3375,8 +3372,8 @@ void func_80186B78(s32 a0)
             *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) + 0xC00;
 
         func_80049CAC(*(s32 *)(a0 + 0x20) + 0x10, *(s32 *)(a0 + 0x20) + 0x34);
-        gte_SetRotMatrix_m((s32 *)(*(s32 *)(a0 + 0x20) + 0x34));  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte2)
-        gte_SetTransMatrix_m((s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34));  // !FAKE: gte via gte_SetTransMatrix_m — memory beyond Sony's `gte_SetTransMatrix` (P36 T5 gte2)
+        gte_SetRotMatrix((s32 *)(*(s32 *)(a0 + 0x20) + 0x34));
+        gte_SetTransMatrix((s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34));
 
         p = *(s16 **)(a0 + 0xD0);
         sv[0] = 0;
@@ -3388,8 +3385,6 @@ void func_80186B78(s32 a0)
         *(s16 *)(a0 + 0xA) = out[1];
         *(s16 *)(a0 + 0xE) = out[2];
     }
-    { s32 pad[2]; }   /* LEVER 1: frame pad. INNER-BLOCK + LAST is load-bearing --
-                         a function-scope decl takes 0x28 and evicts flag to 0x30 */
 }
 
 
@@ -3679,13 +3674,10 @@ void func_80187674(s32 a0)
         p[0] = t;
     }
 
-    if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
-        { register s32 *q __asm__("$3"); q = *(s32 **)(a0 + 0x20);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-          q[1] = q[1] | 0x80000000; }
+    if (*(u32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) & 0x80000000) {
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
     } else {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) =
-            *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) &= ~0x80000000;
     }
 
     *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
@@ -3720,8 +3712,6 @@ void func_80187674(s32 a0)
         *(s16 *)(a0 + 0xA) = out[1];
         *(s16 *)(a0 + 0xE) = out[2];
     }
-    { s32 pad[2]; }   /* LEVER 1: frame pad -- matches func_80186B78's byte-verified 8-byte
-                         trailing dead local (docs/matching-cookbook.md §136 L6). */
 }
 
 

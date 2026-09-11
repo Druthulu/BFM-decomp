@@ -41,6 +41,11 @@ argument" and c3/c12, detected by the DELAY-SLOT symptom instead of a missing mo
 Nothing else tried; the mechanical search (history.txt: blocks, do-whiles, temps, 1,295 compiles) could not reach it
 because none of its moves changes a call's argument list.
 
+## (e2) Note: banked concurrently
+While this agent worked, commit 321b540e7 (R19 cast-arity regen / propagation) landed the same move in the tree —
+`((void (**)(s32 *))D_80180A1C)[*(u16 *)param_1](param_1);`, barrier gone. This body (the declared table type, no cast)
+still scores 0 against the updated TU; the two agree on the mechanism.
+
 ## (f) Where the method fell short
 Not at all — METHOD_S103 §3 bullets 1 and c3/c12 name this exactly. What would have made it instant: the pack's
 `related.txt` showed func_8015FF20 calling `D_80180A1C[*(u16 *)param_1](param_1)`; a pack-builder check that diffs the
