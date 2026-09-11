@@ -415,11 +415,26 @@ def global_asm_macros(files):
 
 
 PRELUDE = "src/shared/engine_prelude.h"
+_TREE_NAMES = None
+
+
+def tree_asm_macros():
+    """`global_asm_macros` over the census's whole file set, cached per process — the table every caller OUTSIDE the census needs.
+    S103: `delever --scrub` walked `src/shared/ov/func_80165CA0.h` alone, read its `ENGINE_SHB(v)` launder (defined in the prelude)
+    as no site at all, and deleted a live `!FAKE` marker (the census then reported UNMARKED 1). Same table, same verdict (R34)."""
+    global _TREE_NAMES
+    if _TREE_NAMES is None:
+        aliases, dirs = sc.fleet_and_dirs()
+        tu_aliases, headers, _ = enumerate_files(aliases, dirs)
+        _TREE_NAMES = global_asm_macros(list(tu_aliases) + list(headers))
+    return _TREE_NAMES
 
 
 def walk_file(raw, rel, is_header, global_names=None):
     """One file. Returns dict(sites=[...], defs=[...], macro_defs=[...], tokens=dict(raw, live, macro_block, comment_dead, unclassified),
-    unclassified=[...])."""
+    unclassified=[...]). `global_names=None` means the TREE's cross-file macro table (`tree_asm_macros`) — never an empty one."""
+    if global_names is None:
+        global_names = tree_asm_macros()
     masked = sc.mask_text(raw)
     raw_lines = raw.split("\n")
     m_lines = masked.split("\n")

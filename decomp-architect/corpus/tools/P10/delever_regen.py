@@ -22,7 +22,7 @@ with its best candidate, and the candidate texts under `.run/P36/regen/<label>/`
 `delever.apply_body_core` (the whole-object gate, rung E) and `delever --propagate`. It is a tree writer: never while a
 sweep or another bank runs (the S102 two-writer rule). Follow it with the R22 fleet run like any bank.
 """
-import argparse, concurrent.futures as cf, csv, json, os, pathlib, re, subprocess, sys, time
+import argparse, concurrent.futures as cf, csv, json, multiprocessing, os, pathlib, re, subprocess, sys, time
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
@@ -110,12 +110,24 @@ def run(a):
     OUT.mkdir(parents=True, exist_ok=True)
     print(f"delever_regen: {len(ex)} residue class(es), families {' '.join(fams)}, -j{a.jobs}, label {label}", flush=True)
     rows, n, t0 = [], 0, time.time()
-    with cf.ThreadPoolExecutor(max_workers=a.jobs) as pool:
+    # Candidate generation is CPU-bound Python (R18 can emit 1,000+ texts for one body; R19's signature table costs ~29 s
+    # once) — worker PROCESSES, forked after the shared caches are warm. S104: an all-families pass on 14 THREADS sat on
+    # the GIL for five minutes without a single compile, every thread rebuilding the same signature table.
+    ds.sites_by_body()
+    if "R19" in fams:
+        dl.real_signatures()
+    with cf.ProcessPoolExecutor(max_workers=a.jobs, mp_context=multiprocessing.get_context("fork")) as pool:
         futs = {pool.submit(one, e, fams, label): e for e in ex}
+        # one line per judged class AS IT LANDS (R55): the agent lane draws only classes this pass has already judged
+        # and not closed — the free sweep precedes the agent on every function (Drew, S104)
+        live = open(OUT / f"{label}.jsonl", "w")
         for f in cf.as_completed(futs):
             r = f.result()
             rows.append(r)
             n += 1
+            live.write(json.dumps({k: r.get(k) for k in ("verdict", "alias", "fn", "tu", "copies", "score", "cls", "family",
+                                                          "desc", "start", "path", "tried", "err")}) + "\n")
+            live.flush()
             if r["verdict"] == "MATCH":
                 print(f"  MATCH {r['alias']}__{r['fn']} ({r['copies']} copies) {r['family']} {r['desc']} from {r['start']} "
                       f"-> {r['path']}", flush=True)
