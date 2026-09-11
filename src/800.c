@@ -19267,21 +19267,23 @@ s32 func_80029CD4(s32 a0) {
 extern s32 func_8002A4FC(s32 a0);
 
 s32 func_80029D3C(void) {
-    register s32 n __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 n __asm__("$4");  // !FAKE: pin $4 — the function's own MISSING PARAMETER `s32 n` (assign_parms, function.c:3679; the caller ov_SC07_002 func_80185FB0 pins $4 = D_8011DB1A); parked as a SIGNATURE change, see scratch/patch_signature.c (P36 S105 f1 minimum-lever)
+    s32 s0 = n;
     s32 p;
     s32 q;
-    s32 ret;
 
-    s0 = n;
     if (s0 <= 0) {
-        ret = 0;
-    } else {
-        p = func_8002A4FC(s0) * 60;
-        q = s0 - s0 * p / 4800;
-        ret = q > 0 ? q : 1;
+        return 0;
     }
-    return ret;
+    /* func_8002A4FC reads no argument (its body is `return *(u16 *)(D_800638FE + D_80078EEC * 16)`); every overlay
+     * caller already calls it `(void)`. Passing `s0` here emits the `move a0,s0` the target does not have (its jal
+     * delay slot is a nop). */
+    p = ((s32 (*)(void))func_8002A4FC)() * 60;
+    q = s0 - s0 * p / 4800;
+    if (q <= 0) {
+        q = 1;
+    }
+    return q;
 }
 
 extern s32 func_8002A9DC(void);
