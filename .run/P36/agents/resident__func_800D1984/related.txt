@@ -1,0 +1,1 @@
+=== lever-free bodies in resident sharing a callee or global with func_800D1984 (0 found; top 6 by shared symbols) — read them for the SHAPE ===

@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 23 best 1 compiles 183 path R18 bystander @4107->4103 + R12 width n s32->u16 @4098
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width n s32->u16 @4098 -> 1 [OTHER] (from 4)
+  R12 width n s32->u16 @4098 -> 1 [OTHER] (from 4)
+  R12 width n s32->u16 @4098 -> 1 [OTHER] (from 4)
+  R18 bystander @4107->4103 -> 4 [COUNT] (from 23)
+  R18 bystander @4107->4104 -> 4 [COUNT] (from 23)
+  R9 swap-stmts @4106 -> 4 [COUNT] (from 23)
+  R8 hoist tmp0 @4124 -> 4 [COUNT] (from 4)
+  R7 block @4129 -> 4 [COUNT] (from 4)
+  R5 swap + @4133 -> 4 [COUNT] (from 4)
+  R10 param-copy a0 @4101 -> 4 [COUNT] (from 4)
+  R4 decl-move lvl 3->0 -> 4 [COUNT] (from 4)
+  R8 hoist tmp0 @4122 -> 4 [COUNT] (from 4)

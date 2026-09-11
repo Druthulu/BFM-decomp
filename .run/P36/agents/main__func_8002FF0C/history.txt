@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 27 best 23 compiles 191 path R7 block @2953 + R18 bystander @2956->2959
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @2956->2959 -> 23 [COUNT] (from 27)
+  R8 base-shared tmp0 @2954 -> 26 [COUNT] (from 27)
+  R8 temp tmp1 @2979 -> 26 [COUNT] (from 26)
+  R7 block @2969 -> 26 [COUNT] (from 26)
+  R5 swap + @2982 -> 26 [COUNT] (from 26)
+  R9 swap-stmts @2969 -> 26 [COUNT] (from 26)
+  R8 base tmp1 @2979 -> 26 [COUNT] (from 26)
+  R5 swap + @2955 -> 26 [COUNT] (from 26)
+  R8 hoist tmp1 @2981 -> 26 [COUNT] (from 26)
+  R7 block @2971 -> 26 [COUNT] (from 26)
+  R6 inline w @2982 -> 26 [COUNT] (from 26)
+  R8 hoist tmp1 @2955 -> 26 [COUNT] (from 26)

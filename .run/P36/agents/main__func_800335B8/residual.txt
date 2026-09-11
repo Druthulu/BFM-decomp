@@ -1,0 +1,16 @@
+src/800_b_2.c:func_800335B8: score 8 (COUNT; mine 59 ins, target 60) — not yet
+  register pairs (mine -> target, count): a1->t0 x1
+  replace mine[11:12] target[11:13]
+       11  bne	v0,v1,6de0 <func_800335B8+0xe4> | bne	v0,v1,6de4 <func_800335B8+0xe8>
+       12  --                                 | move	t0,a1
+  replace mine[18:19] target[19:20]
+       18  addiu	a0,a0,751                    | addiu	a0,a0,672
+  replace mine[24:25] target[25:26]
+       24  nop                                | move	v0,a0
+  replace mine[26:28] target[27:29]
+       26  sh	a1,-7(a0)                       | sh	a1,72(v0)
+       27  sb	t0,0(a0)                        | sb	t0,79(v0)
+  replace mine[32:33] target[33:34]
+       32  j	6de0 <func_800335B8+0xe4>        | j	6de4 <func_800335B8+0xe8>
+  replace mine[39:40] target[40:41]
+       39  andi	a1,a1,0x7f                    | andi	a1,t0,0x7f

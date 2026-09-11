@@ -1,0 +1,17 @@
+--- func_800322A8 (line 4559) ---
+/* SECOND-PASS LEVER (sched.md S13, the bb0 head-skip escape).  A first pass got
+ * to 3-off with a pure prologue-schedule residual: sched2 emitted
+ * `sw s5 / move s5 / srl` where the target has `srl / sw s5 / move s5`.
+ * Cause (read off the -dS dumps, not guessed): sched.c:3189-3213 pins the
+ * LEADING RUN of `pseudo = hard-arg-reg` param copies out of sched1's pool, so
+ * the a2->flags copy always kept a LOWER LUID than the `srl`; at sched2's T-15
+ * all three candidates tie at priority 1 and rank_for_schedule falls through to
+ * the LUID tie-break (2.7.2 sched.c:2428, highest LUID picked first = placed
+ * last), which put the srl last of the three.
+ * Fix: take the third parameter through a BODY-LOCAL copy declared AFTER
+ * `y = arg0 >> 16`.  The head copy `pseudo = $a2` becomes a nop-move at reload
+ * (local-alloc ties the once-used incoming pseudo to $a2) and the REAL
+ * `move s5,a2` materialises at its statement position, where the S2 birthing
+ * boost sinks it below the srl -- giving it the HIGHER LUID.  sched2 then picks
+ * it first, `sw s5` follows on the potential-hazard rule, and the srl lands at
+ * position 3.  Do NOT reorder `flags = arg2;` above `y = arg0 >> 16;`. */

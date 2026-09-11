@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 24 best 4 compiles 186 path R9 swap-stmts @469
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @469 -> 4 [COUNT] (from 24)
+  R12 width slot int->u16 @458 -> 4 [COUNT] (from 4)
+  R14 param-width arg0 s32->s16 @449 -> 4 [COUNT] (from 4)
+  R8 temp tmp0 @465 -> 4 [COUNT] (from 4)
+  R7 block @465 -> 4 [COUNT] (from 4)
+  R10 param-copy arg0 @459 -> 4 [COUNT] (from 4)
+  R2 decl-order 0,2,1 -> 4 [COUNT] (from 4)
+  R4 decl-move v 1->0 -> 4 [COUNT] (from 4)
+  R12 width slot int->s16 @458 -> 4 [COUNT] (from 4)
+  R14 param-width arg0 s32->u16 @449 -> 4 [COUNT] (from 4)
+  R8 base tmp0 @465 -> 4 [COUNT] (from 4)
+  R7 do-while @465 -> 4 [COUNT] (from 4)

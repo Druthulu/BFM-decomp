@@ -1,0 +1,15 @@
+s3: verdict BUDGET start 96 best 13 compiles 400 path R7 do-while @2971 + R7 do-while @3020
+s3b: verdict BUDGET start 96 best 13 compiles 400 path R7 do-while @2971 + R7 do-while @3020
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @3020 -> 13 [COUNT] (from 16)
+  R7 do-while @3020 -> 13 [COUNT] (from 16)
+  R7 block @3052 -> 13 [COUNT] (from 13)
+  R5 swap + @3028 -> 13 [COUNT] (from 13)
+  R9 swap-stmts @3052 -> 13 [COUNT] (from 13)
+  R10 param-alias s1->a0 @2954 -> 13 [COUNT] (from 13)
+  R2 decl-order 1,0 -> 13 [COUNT] (from 13)
+  R7 block @3012 -> 13 [COUNT] (from 13)
+  R7 block @3014 -> 13 [COUNT] (from 13)
+  R9 swap-stmts @3053 -> 13 [COUNT] (from 13)
+  R7 block @3018 -> 13 [COUNT] (from 13)
+  R7 do-while @3018 -> 13 [COUNT] (from 13)

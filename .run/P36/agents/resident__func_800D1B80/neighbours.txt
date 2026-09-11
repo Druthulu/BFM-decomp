@@ -1,0 +1,41 @@
+=== THIS FUNCTION'S OWN HEADER (func_800D1B80, line 848) — read it in full ===
+/* func_800D1B80:
+ *   s0 = arg0 (struct ptr, callee-saved: live across the indirect call)
+ *   v0 = arg0->[0xC]                  lw    -- the fn ptr
+ *   if (v0() != 0) {                  jalr v0 ; bnez v0
+ *       a0 = s0                       addu $a0,$s0,$zero  (branch delay slot)
+ *       arg0[0x14] = arg0[0x14] + 1;  lbu s0 / addiu / sb A0   <-- note the base
+ *       return DsMix(arg0);           jal DsMix (sb in the delay slot)
+ *   }
+ *   return 0;                         j .L800D1BC4 ; addu v0,zero,zero (delay)
+ *
+ * TWO LEVERS (both byte-required):
+ *
+ * 1. BLOCK LAYOUT — `if (cond != 0) { body; return DsMix(..); } return 0;`
+ *    NOT the early-exit `if (cond == 0) return 0;` spelling.  The two are
+ *    semantically identical but NOT byte-identical: the early-exit form sinks the
+ *    return-0 block to the end (beqz + a trailing `j` = 23 ins).  The target puts
+ *    the return-0 block INLINE before the body (bnez + `j` to the shared epilogue
+ *    = 22 ins), which is what the `if (x != 0) {...} return 0;` shape expands to.
+ *
+ * 2. THE sb BASE IS $a0, NOT $s0 (regalloc map RC-12, the $0-ADD OPAQUE COPY).
+ *    The load reads $s0 but the store reads $a0 => the original RTL had a SECOND
+ *    pointer pseudo `p`, born before the lbu (so it conflicts with arg0 and cannot
+ *    tie to $s0), used for the store and passed to DsMix -- local-alloc's hard-reg
+ *    *suggestion* then grants it $a0 and the `a0 = p` arg copy self-deletes, leaving
+ *    `addu $a0,$s0,$zero` as the copy itself.  A plain `u8 *p = arg0;` will NOT
+ *    survive: cse2 canon (cse.c:826 make_regs_eqv) copy-propagates it away and the
+ *    store reverts to $s0 (verified: 4 separate plain-C spellings all did exactly
+ *    that).  `p = arg0 + zr` with zr pinned to $0 is a (plus reg (reg 0)) -- not a
+ *    reg-reg set, so no canon and no qty merge -- and assembles to the byte-identical
+ *    `addu $a0,$s0,$zero`.  $0 is fixed, so there are no regs_explicitly_used /
+ *    bad_spill_regs side channels (RC-5) as a real-register pin would have.
+ *
+ * DsMix is declared K&R-unprototyped ON PURPOSE: the asm proves the call passes
+ * arg0 in $a0, but resident.c defines `s32 DsMix(void)` (a custom 2-line wrapper
+ * that ignores the arg -- docs/psyq-worklist.md).  An `extern s32 DsMix(u8 *)`
+ * prototype would be a conflicting-types error against that definition; the empty-
+ * paren declaration is C89-compatible with a (void) definition (cc1 exit 0, silent)
+ * and still emits the $a0 argument setup.
+ */
+

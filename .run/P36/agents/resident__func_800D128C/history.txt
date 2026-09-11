@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 46 best 15 compiles 191 path R9 swap-stmts @297 + R12 width sel s32->u16 @248
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width sel s32->u16 @248 -> 15 [COUNT] (from 26)
+  R12 width sel s32->s16 @248 -> 15 [COUNT] (from 26)
+  R12 width sel s32->u8 @248 -> 15 [COUNT] (from 26)
+  R12 width sel s32->u16 @248 -> 15 [COUNT] (from 26)
+  R12 width sel s32->s16 @248 -> 15 [COUNT] (from 26)
+  R12 width sel s32->u8 @248 -> 15 [COUNT] (from 26)
+  R12 width sel s32->u16 @248 -> 19 [COUNT] (from 30)
+  R12 width sel s32->s16 @248 -> 19 [COUNT] (from 30)
+  R12 width sel s32->u8 @248 -> 19 [COUNT] (from 30)
+  R9 swap-stmts @402 -> 21 [COUNT] (from 26)
+  R9 swap-stmts @402 -> 21 [COUNT] (from 26)
+  R9 swap-stmts @419 -> 22 [COUNT] (from 26)

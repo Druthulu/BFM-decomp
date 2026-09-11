@@ -1,0 +1,74 @@
+=== lever-free bodies in resident sharing a callee or global with func_800D1658 (19 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800D11F0 (src/resident/resident_jr_800D00E4.c:1183) shares 2: func_800291A0 func_800291B4 ---
+s32 func_800D11F0(s32 arg0) {
+    s32 s1 = arg0 & 0xFF;
+    s32 s2 = s1 + 0x2F;
+    s32 s0 = func_800291B4(s2) & 0xFF;
+    s32 v0;
+    s32 r;
+
+    if (s0 == 0) {
+        return 0;
+    }
+
+    v0 = (s16)func_800291DC(s1 * 2 + 0x14);
+    r = (s16)func_800D128C(s0, (s16)((u16)D_80078EAC - v0));
+    if (r > 0) {
+        func_800291A0(s2, 0);
+    }
+    return r;
+}
+
+--- func_800D10EC (src/resident/resident_jr_800D00E4.c:1126) shares 2: func_800291A0 func_800291B4 ---
+void func_800D10EC(void) {
+    s16 i;
+    Struct80078E78 *p = &D_80078E78;
+
+    for (i = 0; i < 0xC; i++) {
+        s32 v1;
+        s32 idx;
+        s32 s0;
+        s32 j;
+
+        v1 = func_800291B4(i + 0x2F) & 0xFF;
+        if (v1 == 0) {
+            continue;
+        }
+        idx = v1 * 0xC;
+        s0 = (&D_8010EDF0)[idx];
+        if (s0 == 0) {
+            continue;
+        }
+        j = i * 2 + 0x14;
+        {
+            s32 r = (s16)func_800291DC(j);   /* sign-extend FIRST (sll/sra scheduled early) */
+            s32 f = p->field_0x34;            /* then load the field (lh between sll and sra) */
+            if (f - r < s0) {
+                continue;
+            }
+        }
+        func_800291A0(i + 0x2F, (&D_8010EDF1)[idx]);
+        func_800291C8(j, D_80078EAC);
+    }
+}
+
+--- func_800D0FE0 (src/resident/resident_jr_800D00E4.c:1001) shares 1: func_800291A0 ---
+void func_800D0FE0(s32 arg0) {
+    func_800291A0(arg0, 0);
+}
+
+--- func_800D1028 (src/resident/resident_jr_800D00E4.c:1027) shares 1: func_800291B4 ---
+s32 func_800D1028(void) {
+    return (s16)func_800D1078(func_800291B4() & 0xff);
+}
+
+--- func_800D1078 (src/resident/resident_jr_800D00E4.c:1041) shares 1: D_8010EDEC ---
+s32 func_800D1078(u8 arg0) {
+    return *(s16 *)((u8 *)&D_8010EDEC + arg0 * 0xC);
+}
+
+--- func_800D109C (src/resident/resident_jr_800D00E4.c:1051) shares 1: func_800291B4 ---
+s32 func_800D109C(void) {
+    return (s16)func_800D10C8(func_800291B4() & 0xff);
+}
+

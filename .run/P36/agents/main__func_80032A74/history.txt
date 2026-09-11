@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 11 best 11 compiles 186 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline vv @5560 -> 11 [COUNT] (from 11)
+  R18 bystander @5401->5404 -> 11 [COUNT] (from 11)
+  R7 block @5506 -> 11 [COUNT] (from 11)
+  R18 bystander @5401->5405 -> 11 [COUNT] (from 11)
+  R7 do-while @5506 -> 11 [COUNT] (from 11)
+  R18 bystander @5401->5406 -> 11 [COUNT] (from 11)
+  R7 block @5563 -> 11 [COUNT] (from 11)
+  R5 swap * @5537 -> 11 [COUNT] (from 11)
+  R18 bystander @5402->5405 -> 11 [COUNT] (from 11)
+  R7 do-while @5563 -> 11 [COUNT] (from 11)
+  R18 bystander @5402->5406 -> 11 [COUNT] (from 11)
+  R7 block @5473 -> 11 [COUNT] (from 11)

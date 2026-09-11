@@ -1,0 +1,27 @@
+--- func_8018423C (line 4327) ---
+/* Four LOAD-BEARING details, each worth 1-2 instructions (Opus, S70y):
+ *
+ * 1. `tmp` is DECLARED AND UNUSED ON PURPOSE. The locals region is 0x20..0x3F
+ *    (frame 0x58 = 0x20 outgoing args + 0x20 locals + 5 saved regs), i.e. FOUR
+ *    8-byte slots, and `out` sits at 0x38 -- so a fourth aggregate must be
+ *    declared third to consume 0x30..0x37. expand_decl assigns slots upward
+ *    from STARTING_FRAME_OFFSET in declaration order regardless of use.
+ *    Deleting `tmp` moves `out` to 0x30 and shrinks the frame to 0x50.
+ *
+ * 2. `vec.f2 = 0;` BEFORE `vec.f0 = 0;`, and both AFTER `pos.f2`. The two
+ *    `sh $zero` are the sched1 filler for the 0xE load-use gap; source order
+ *    is what puts 0x2C ahead of 0x28 (§3-T2). The reversed order was the
+ *    final 2-instruction residual.
+ *
+ * 3. `s32 r` with an EXPLICIT (s16) cast on the value, not `s16 r`. A `s16 r`
+ *    defers the sll/sra 16 pair to the USE, which lands it after the second
+ *    rand() where it coalesces straight into $a1 (-1 instruction). Casting at
+ *    the definition puts sll/sra before/in the jal delay slot, keeps the value
+ *    in the call-saved $s0 and re-materialises `addu $a1, $s0, $zero`.
+ *
+ * 4. `k++, step += 0x10` as the for-increment (k FIRST), and `j = i;` as the
+ *    last statement of a do/while, not `if (i >= 3) break; j = i;`. The latter
+ *    orders the test ahead of the copy, so reorg fills the back-branch delay
+ *    slot with `addu $v1,$s0,$zero` instead of duplicating `addiu $s0,$v1,1`
+ *    from the loop head (-1 instruction).
+ */

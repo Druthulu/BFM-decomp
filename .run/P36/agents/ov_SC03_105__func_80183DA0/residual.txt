@@ -1,0 +1,40 @@
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:func_80183DA0: score 23 (COUNT; mine 79 ins, target 82) — not yet
+  register pairs (mine -> target, count): a1->s1 x4, a3->a2 x4, a2->a1 x2
+  replace mine[0:1] target[0:1]
+        0  addiu	sp,sp,-40                    | addiu	sp,sp,-48
+  replace mine[2:3] target[2:4]
+        2  sw	ra,36(sp)                       | sw	ra,40(sp)
+        3  --                                 | sw	s1,36(sp)
+  replace mine[17:18] target[18:19]
+       17  li	a1,7                            | li	s1,7
+  replace mine[21:22] target[22:23]
+       21  j	21dc <func_80183DA0+0xc0>        | j	21e0 <func_80183DA0+0xc4>
+  replace mine[30:31] target[31:32]
+       30  sra	a2,v0,0x10                     | sra	a1,v0,0x10
+  replace mine[34:35] target[35:36]
+       34  j	21bc <func_80183DA0+0xa0>        | j	21c0 <func_80183DA0+0xa4>
+  replace mine[42:44] target[43:45]
+       42  mfhi	a3                            | mfhi	a2
+       43  sra	v1,a3,0x7                      | sra	v1,a2,0x7
+  replace mine[45:47] target[46:48]
+       45  j	21dc <func_80183DA0+0xc0>        | j	21e0 <func_80183DA0+0xc4>
+       46  subu	s0,a2,v1                      | subu	s0,a1,v1
+  replace mine[55:57] target[56:58]
+       55  mfhi	a3                            | mfhi	a2
+       56  sra	v0,a3,0x3                      | sra	v0,a2,0x3
+  replace mine[58:60] target[59:62]
+       58  addu	a1,a1,v0                      | addu	v0,s1,v0
+       59  sll	v0,a1,0x10                     | move	s1,v0
+       60  --                                 | sll	v0,v0,0x10
+  replace mine[63:65] target[65:67]
+       63  j	222c <func_80183DA0+0x110>       | j	2234 <func_80183DA0+0x118>
+       64  move	a1,zero                       | move	s1,zero
+  replace mine[67:68] target[69:70]
+       67  li	a1,15                           | li	s1,15
+  replace mine[69:70] target[71:72]
+       69  sll	a1,a1,0x8                      | sll	a1,s1,0x8
+  replace mine[74:75] target[76:78]
+       74  lw	ra,36(sp)                       | lw	ra,40(sp)
+       75  --                                 | lw	s1,36(sp)
+  replace mine[76:77] target[79:80]
+       76  addiu	sp,sp,40                     | addiu	sp,sp,48

@@ -1,0 +1,89 @@
+src/resident/resident_jr_800D128C.c:func_800D128C: score 46 (COUNT; mine 238 ins, target 243) — not yet
+  register pairs (mine -> target, count): s1->v1 x1
+  replace mine[14:15] target[14:15]
+       14  beqz	v0,2ac <func_800D128C+0x2ac>  | beqz	v0,2bc <func_800D128C+0x2bc>
+  replace mine[27:28] target[27:28]
+       27  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[30:31] target[30:31]
+       30  j	278 <func_800D128C+0x278>        | j	288 <func_800D128C+0x288>
+  delete  mine[33:34] target[33:33]
+       33  j	260 <func_800D128C+0x260>        | --
+  insert  mine[35:35] target[34:38]
+       35  --                                 | jal	0 <func_800D128C>
+       36  --                                 | li	a2,1
+       37  --                                 | j	2c0 <func_800D128C+0x2c0>
+       38  --                                 | li	s0,150
+  replace mine[39:40] target[42:43]
+       39  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[44:45] target[47:48]
+       44  j	9c <func_800D128C+0x9c>          | j	a8 <func_800D128C+0xa8>
+  replace mine[50:51] target[53:54]
+       50  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[56:57] target[59:60]
+       56  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[62:63] target[65:66]
+       62  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[65:66] target[68:69]
+       65  j	1b8 <func_800D128C+0x1b8>        | j	1c8 <func_800D128C+0x1c8>
+  replace mine[68:69] target[71:72]
+       68  j	120 <func_800D128C+0x120>        | j	12c <func_800D128C+0x12c>
+  replace mine[75:76] target[78:79]
+       75  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[78:79] target[81:82]
+       78  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  delete  mine[80:81] target[83:83]
+       80  j	268 <func_800D128C+0x268>        | --
+  insert  mine[82:82] target[84:86]
+       82  --                                 | j	2c0 <func_800D128C+0x2c0>
+       83  --                                 | li	s0,150
+  replace mine[95:96] target[99:100]
+       95  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[101:102] target[105:106]
+      101  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[106:107] target[110:111]
+      106  j	1fc <func_800D128C+0x1fc>        | j	20c <func_800D128C+0x20c>
+  replace mine[112:113] target[116:117]
+      112  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[118:119] target[122:123]
+      118  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[121:122] target[125:126]
+      121  j	218 <func_800D128C+0x218>        | j	228 <func_800D128C+0x228>
+  replace mine[127:128] target[131:132]
+      127  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[130:131] target[134:135]
+      130  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[136:137] target[140:141]
+      136  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[142:143] target[146:147]
+      142  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[148:149] target[152:153]
+      148  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[154:155] target[158:159]
+      154  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[160:161] target[164:165]
+      160  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[166:167] target[170:171]
+      166  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[169:170] target[173:174]
+      169  j	2b0 <func_800D128C+0x2b0>        | j	2c0 <func_800D128C+0x2c0>
+  replace mine[172:173] target[176:178]
+      172  sltiu	v0,s1,9                      | move	v1,s1
+      173  --                                 | sltiu	v0,v1,9
+  replace mine[174:175] target[179:180]
+      174  sll	v0,s1,0x2                      | sll	v0,v1,0x2
+  replace mine[181:182] target[186:187]
+      181  j	378 <func_800D128C+0x378>        | j	38c <func_800D128C+0x38c>
+  replace mine[189:190] target[194:195]
+      189  j	380 <func_800D128C+0x380>        | j	394 <func_800D128C+0x394>
+  replace mine[194:195] target[199:200]
+      194  j	37c <func_800D128C+0x37c>        | j	390 <func_800D128C+0x390>
+  replace mine[199:200] target[204:205]
+      199  j	37c <func_800D128C+0x37c>        | j	390 <func_800D128C+0x390>
+  replace mine[204:205] target[209:210]
+      204  j	37c <func_800D128C+0x37c>        | j	390 <func_800D128C+0x390>
+  replace mine[209:210] target[214:215]
+      209  j	37c <func_800D128C+0x37c>        | j	390 <func_800D128C+0x390>
+  replace mine[215:216] target[220:221]
+      215  j	37c <func_800D128C+0x37c>        | j	390 <func_800D128C+0x390>
+  replace mine[220:221] target[225:226]
+      220  j	37c <func_800D128C+0x37c>        | j	390 <func_800D128C+0x390>

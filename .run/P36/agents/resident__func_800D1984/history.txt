@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 1 best 1 compiles 43 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline fp @695 -> 1 [REG] (from 1)
+  R8 hoist tmp0 @698 -> 1 [REG] (from 1)
+  R7 block @698 -> 1 [REG] (from 1)
+  R7 do-while @698 -> 1 [REG] (from 1)
+  R7 block @697 -> 1 [REG] (from 1)
+  R7 do-while @697 -> 1 [REG] (from 1)
+  R7 block @695 -> 1 [REG] (from 1)
+  R7 do-while @695 -> 1 [REG] (from 1)
+  R8 hoist tmp0 @697 -> 1 [REG] (from 1)
+  R7 block @697 -> 1 [REG] (from 1)
+  R7 do-while @697 -> 1 [REG] (from 1)
+  R7 block @696 -> 1 [REG] (from 1)

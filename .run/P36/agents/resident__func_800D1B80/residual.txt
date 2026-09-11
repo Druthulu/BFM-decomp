@@ -1,0 +1,4 @@
+src/resident/resident_jr_800D128C.c:func_800D1B80: score 1 (REG-mixed; mine 22 ins, target 22) — not yet
+  register pairs (mine -> target, count): s0->a0 x1
+  replace mine[16:17] target[16:17]
+       16  sb	v0,20(s0)                       | sb	v0,20(a0)

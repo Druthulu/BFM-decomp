@@ -1,0 +1,5 @@
+REMOVED  pin         $20    line 5310
+REMOVED  pin         $19    line 5311
+NEEDED   pin         $18    line 5312
+REMOVED  pin         $17    line 5313
+REMOVED  pin         $16    line 5314

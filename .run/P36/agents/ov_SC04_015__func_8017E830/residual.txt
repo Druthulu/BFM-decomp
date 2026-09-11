@@ -1,0 +1,26 @@
+src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:func_8017E830: score 18 (COUNT; mine 96 ins, target 96) — not yet
+  register pairs (mine -> target, count): v1->v0 x2, a0->v1 x1
+  replace mine[40:46] target[40:42]
+       40  lui	a1,0x80                        | lui	v1,0x80
+       41  ori	a1,a1,0x8080                   | ori	v1,v1,0x8080
+       42  andi	v1,s4,0x3f                    | --
+       43  sll	v1,v1,0x2                      | --
+       44  move	a0,v1                         | --
+       45  addiu	v1,v1,16                     | --
+  insert  mine[50:50] target[46:52]
+       50  --                                 | sw	v1,4(s0)
+       51  --                                 | sb	v0,7(s0)
+       52  --                                 | andi	v0,s4,0x3f
+       53  --                                 | sll	v0,v0,0x2
+       54  --                                 | move	v1,v0
+       55  --                                 | addiu	v0,v0,16
+  replace mine[51:54] target[53:54]
+       51  sw	a1,4(s0)                        | sb	v1,12(s0)
+       52  sb	v0,7(s0)                        | --
+       53  sb	a0,12(s0)                       | --
+  replace mine[55:56] target[55:56]
+       55  sb	v1,20(s0)                       | sb	v0,20(s0)
+  replace mine[57:58] target[57:58]
+       57  sb	a0,28(s0)                       | sb	v1,28(s0)
+  replace mine[59:60] target[59:60]
+       59  sb	v1,36(s0)                       | sb	v0,36(s0)

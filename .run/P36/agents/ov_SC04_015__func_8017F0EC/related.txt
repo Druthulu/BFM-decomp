@@ -1,0 +1,94 @@
+=== lever-free bodies in ov_SC04_015 sharing a callee or global with func_8017F0EC (70 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8017F018 (src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:5272) shares 8: D_80126B5E D_80126B62 D_80126B66 D_801C8B64 D_801C8B66 D_801C8B68 func_800132BC func_8012F568 ---
+void func_8017F018(s32 a0) {
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern u16 D_801C8B64;
+    extern u16 D_801C8B66;
+    extern u16 D_801C8B68;
+    extern s32 func_800132BC(void *a0, void *a1);
+    extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    u16 sp18[3];
+    u16 *ptr;
+
+    sp18[0] = D_80126B5E;
+    sp18[1] = D_80126B62;
+    sp18[2] = D_80126B66;
+    if (func_800132BC(sp18, (void *)a0) < 0x401) {
+        ptr = &D_801C8B64;
+        ptr[0] = sp18[0] - *(u16 *)((s32)a0 + 0);
+        D_801C8B66 = sp18[1] - *(u16 *)((s32)a0 + 2);
+        D_801C8B68 = sp18[2] - *(u16 *)((s32)a0 + 4);
+        VectorNormalSS(ptr, ptr);
+        func_8012F568(1, 0x4201, 0, 4, a0, (s32)ptr);
+    }
+}
+
+--- func_8012D664 (src/ov_SC04_015/ov_SC04_015_jr_8012ACE0.c:555) shares 5: D_80126B5E D_80126B62 D_80126B66 func_800132BC func_8012F568 ---
+int func_8012D664(int arg0, int arg1, int arg2) {
+    extern int func_8012F568();
+    extern int D_80184874;
+
+    struct S8012D664_8012D664 s;
+    int ret;
+    int t;
+
+    s.a = (*(unsigned short*)&D_80126B5E);
+    s.b = (*(unsigned short*)&D_80126B62) - 0x40;
+    s.c = (*(unsigned short*)&D_80126B66);
+    ret = ((int(*)())func_800132BC)(arg0, &s);
+    t = arg1 + 0x20;
+    if (ret < t * t) {
+        func_8012F568(1, 1, 0, arg2, arg0, &D_80184874);
+        return 1;
+    }
+    return 0;
+}
+
+--- func_8012BE54 (src/shared/ov/func_8012BE54.h:7) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_8012BE54(s32 a0) {
+    u16 sp[3];
+    sp[0] = D_80126B5E;
+    sp[1] = D_80126B62;
+    sp[2] = D_80126B66;
+    func_8012BE98(a0, sp);
+}
+
+--- func_80136DFC (src/shared/ov/func_80136DFC.h:9) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_80136DFC(void) {
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xA, (*(s16 *)&D_80126B5E), 0x110, 0x3C, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xB, (*(s16 *)&D_80126B62), 0x110, 0x44, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xC, (*(s16 *)&D_80126B66), 0x110, 0x4C, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xD, *(s16 *)((s32)D_80126B78 + 0x12), 0x110, 0x54, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xE, D_80126CC4, 0x110, 0x5C, 4, 0);
+}
+
+--- func_8012A048 (src/shared/ov/func_8012A048.h:9) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_8012A048(void *a0, s32 a1, u8 a2) {
+    *(s32 *)((s32)a0 + 0x0) = a1;
+    *(u8 *)((s32)a0 + 0x4) = a2;
+    *(s32 *)((s32)a0 + 0x9C) = 0;
+    *(s16 *)((s32)a0 + 0xA0) = 0;
+    *(s16 *)((s32)a0 + 0xA2) = 0;
+    D_80126940 = D_80126B5E;
+    D_80126942 = D_80126B62;
+    D_80126944 = D_80126B66;
+}
+
+--- func_8018207C (src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:7693) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+s32 func_8018207C(void *a0) {
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    s16 out[3];
+    s16 in[3];
+
+    in[0] = D_80126B5E;
+    in[1] = D_80126B62;
+    in[2] = D_80126B66;
+    func_8012F2E8((s32)a0, (s32)in, (s32)out);
+    return func_8012CB64((s32)out, -0x80, 0x80, -0x60, 0);
+}
+

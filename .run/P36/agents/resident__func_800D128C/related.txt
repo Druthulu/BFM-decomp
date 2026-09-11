@@ -1,0 +1,50 @@
+=== lever-free bodies in resident sharing a callee or global with func_800D128C (11 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800D0C48 (src/resident/resident_jr_800D00E4.c:737) shares 1: func_8002D4C8 ---
+void func_800D0C48(u16 arg0) {
+    func_8002D4C8(1, arg0);
+    resLoad_lastId = 0;
+}
+
+--- func_800D0C74 (src/resident/resident_jr_800D00E4.c:753) shares 1: func_8002D4C8 ---
+void func_800D0C74(u16 arg0) {
+    func_8002D4C8(1, arg0);
+    func_8001B34C();
+}
+
+--- func_800D2624 (src/resident/resident_jr_800D128C.c:1486) shares 1: func_8002D4C8 ---
+void func_800D2624(void) {
+    D_800B9A13 = 0;
+    func_8002D4C8(0x15, 0);
+}
+
+--- func_800D0CA0 (src/resident/resident_jr_800D00E4.c:771) shares 1: func_8002D4C8 ---
+void func_800D0CA0(u16 arg0) {
+    func_8002D4C8(1, arg0);
+    resLoad_lastId = 0;
+    D_801151F8 = 3;
+    D_80127500 = 3;
+}
+
+--- func_800CF864 (src/resident/resident.c:573) shares 1: D_80126B58 ---
+s32 func_800CF864(void) {
+    if (currentLocationId == 0x3069) {
+        return 1;
+    }
+    if (D_80126B58 == 0x1A) {
+        return 1;
+    }
+    return func_800CF8B4();
+}
+
+--- func_800D1B10 (src/resident/resident_jr_800D128C.c:796) shares 1: func_8002D4C8 ---
+s32 func_800D1B10(u8 *arg0) {
+    func_80029124(0x119, 0);
+    func_8002D4C8(4, 0x448);
+    func_8002D4C8(4, 0x449);
+    func_8002D4C8(4, 0x8ED);
+    D_800B9A10 = 0;
+    arg0[0x15] = 0;
+    arg0[0x14] = arg0[0x14] + 1;
+    return 0;
+}
+

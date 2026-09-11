@@ -1,0 +1,19 @@
+src/800_b_2.c:func_80032A74: score 11 (COUNT; mine 422 ins, target 422) — not yet
+  register pairs (mine -> target, count): v1->v0 x4
+  insert  mine[189:189] target[189:190]
+      189  --                                 | sw	v1,20(s0)
+  delete  mine[191:192] target[192:192]
+      191  sw	v1,20(s0)                       | --
+  replace mine[249:252] target[249:252]
+      249  addu	v1,v1,v0                      | addu	v0,v1,v0
+      250  addiu	v1,v1,-15360                 | addiu	v0,v0,-15360
+      251  subu	a1,a1,v1                      | subu	a1,a1,v0
+  insert  mine[349:349] target[349:350]
+      349  --                                 | ori	v0,v0,0x9f
+  delete  mine[350:353] target[351:351]
+      350  lui	v1,0x0                         | --
+      351  lh	v1,0(v1)                        | --
+      352  ori	v0,v0,0x9f                     | --
+  insert  mine[356:356] target[354:356]
+      356  --                                 | lui	v1,0x0
+      357  --                                 | lh	v1,0(v1)

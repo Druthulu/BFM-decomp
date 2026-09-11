@@ -1,0 +1,16 @@
+s5: verdict NO-MATCH start 56 best 56 compiles 184 path 
+s7: verdict NO-MATCH start 56 best 56 compiles 550 path 
+s9: verdict NO-MATCH start 56 best 56 compiles 248 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width p s32->u16 @5336 -> 56 [COUNT] (from 56)
+  R8 hoist tmp0 @5356 -> 56 [COUNT] (from 56)
+  R7 block @5356 -> 56 [COUNT] (from 56)
+  R10 param-copy a0 @5339 -> 56 [COUNT] (from 56)
+  R12 width p s32->s16 @5336 -> 56 [COUNT] (from 56)
+  R12 width p s32->u8 @5336 -> 56 [COUNT] (from 56)
+  R8 hoist tmp0 @5357 -> 56 [COUNT] (from 56)
+  R7 block @5344 -> 56 [COUNT] (from 56)
+  R12 width t s32->u16 @5337 -> 56 [COUNT] (from 56)
+  R7 do-while @5344 -> 56 [COUNT] (from 56)
+  R12 width t s32->s16 @5337 -> 56 [COUNT] (from 56)
+  R8 hoist tmp0 @5358 -> 56 [COUNT] (from 56)

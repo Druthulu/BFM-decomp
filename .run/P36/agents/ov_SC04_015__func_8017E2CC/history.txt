@@ -1,0 +1,15 @@
+s5: verdict NO-MATCH start 14 best 13 compiles 182 path R6 inline v0 @4737
+s7: verdict NO-MATCH start 14 best 13 compiles 547 path R6 inline v0 @4737
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline v0 @4737 -> 13 [MIXED] (from 14)
+  R2 decl-order 1,0 -> 13 [MIXED] (from 13)
+  R4 decl-move v1 2->0 -> 13 [MIXED] (from 13)
+  R7 block @4769 -> 13 [MIXED] (from 13)
+  R8 hoist tmp0 @4770 -> 13 [MIXED] (from 13)
+  R4 decl-move v1 2->1 -> 13 [MIXED] (from 13)
+  R6 inline v1 @4770 -> 13 [MIXED] (from 13)
+  R7 do-while @4769 -> 13 [MIXED] (from 13)
+  R8 hoist tmp0 @4737 -> 13 [MIXED] (from 13)
+  R4 decl-move v0 3->0 -> 13 [MIXED] (from 13)
+  R6 inline v1 @4737 -> 13 [REG] (from 13)
+  R7 block @4767 -> 13 [MIXED] (from 13)

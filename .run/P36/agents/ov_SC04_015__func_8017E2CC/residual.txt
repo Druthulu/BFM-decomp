@@ -1,0 +1,20 @@
+src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:func_8017E2CC: score 14 (MIXED; mine 134 ins, target 134) — not yet
+  register pairs (mine -> target, count): v0->v1 x10, a1->v0 x6, a1->v1 x2
+  replace mine[33:39] target[33:39]
+       33  subu	a1,v0,v1                      | subu	v0,v0,v1
+       34  sll	v0,a1,0x7                      | sll	v1,v0,0x7
+       35  subu	v1,v0,a1                      | subu	v1,v1,v0
+       36  bgez	v1,353c <func_8017E2CC+0x9c>  | bgez	v1,3544 <func_8017E2CC+0xa4>
+       37  move	a1,v1                         | sra	a1,v1,0x9
+       38  addiu	a1,v1,511                    | addiu	v1,v1,511
+  replace mine[40:41] target[40:41]
+       40  sra	a1,a1,0x9                      | sra	a1,v1,0x9
+  replace mine[112:118] target[112:118]
+      112  subu	a1,v0,v1                      | subu	v0,v0,v1
+      113  sll	v0,a1,0x7                      | sll	v1,v0,0x7
+      114  subu	v0,v0,a1                      | subu	v1,v1,v0
+      115  bgez	v0,3680 <func_8017E2CC+0x1e0> | bgez	v1,3680 <func_8017E2CC+0x1e0>
+      116  sra	a1,v0,0x9                      | sra	a1,v1,0x9
+      117  addiu	v0,v0,511                    | addiu	v1,v1,511
+  replace mine[119:120] target[119:120]
+      119  sra	a1,v0,0x9                      | sra	a1,v1,0x9

@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 26 best 22 compiles 168 path R7 do-while @5737 + R7 do-while @5758
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @5758 -> 22 [COUNT] (from 26)
+  R7 do-while @5738 -> 22 [COUNT] (from 26)
+  R7 do-while @5762 -> 22 [COUNT] (from 26)
+  R12 width code s32->u16 @5733 -> 26 [COUNT] (from 26)
+  R8 hoist tmp0 @5735 -> 26 [COUNT] (from 26)
+  R7 block @5752 -> 26 [COUNT] (from 26)
+  R5 swap + @5737 -> 26 [COUNT] (from 26)
+  R10 param-copy arg0 @5734 -> 26 [COUNT] (from 26)
+  R12 width code s32->s16 @5733 -> 26 [COUNT] (from 26)
+  R6 inline code @5738 -> 26 [COUNT] (from 26)
+  R8 temp tmp0 @5738 -> 26 [COUNT] (from 26)
+  R5 swap + @5748 -> 26 [COUNT] (from 26)

@@ -1,0 +1,2 @@
+src/resident/resident_jr_800D128C.c
+func_800D128C

@@ -1,0 +1,16 @@
+s5: verdict NO-MATCH start 23 best 23 compiles 192 path 
+s7: verdict NO-MATCH start 23 best 23 compiles 560 path 
+s9: verdict NO-MATCH start 23 best 23 compiles 253 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline v0 @5272 -> 23 [COUNT] (from 23)
+  R8 temp tmp0 @5221 -> 23 [COUNT] (from 23)
+  R7 block @5221 -> 23 [COUNT] (from 23)
+  R17 const-split @5272->5269 (0x7FFF into the 0 run) -> 23 [COUNT] (from 23)
+  R10 param-alias s4->a0 @5220 -> 23 [COUNT] (from 23)
+  R4 decl-move s2 2->0 -> 23 [COUNT] (from 23)
+  R6 inline v0 @5262 -> 23 [COUNT] (from 23)
+  R8 base tmp0 @5221 -> 23 [COUNT] (from 23)
+  R7 do-while @5221 -> 23 [COUNT] (from 23)
+  R17 const-split @5272->5270 (0x7FFF into the 0 run) -> 23 [COUNT] (from 23)
+  R10 param-copy a0 @5219 -> 23 [COUNT] (from 23)
+  R4 decl-move s2 2->1 -> 23 [COUNT] (from 23)

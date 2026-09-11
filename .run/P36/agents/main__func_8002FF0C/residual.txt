@@ -1,0 +1,42 @@
+src/800_b_2.c:func_8002FF0C: score 27 (COUNT; mine 162 ins, target 166) — not yet
+  register pairs (mine -> target, count): v0->v1 x1, a0->v0 x1
+  replace mine[10:11] target[10:11]
+       10  bnez	v0,3828 <func_8002FF0C+0x1d8> | bnez	v0,3838 <func_8002FF0C+0x1e8>
+  replace mine[26:27] target[26:27]
+       26  beqz	v1,3710 <func_8002FF0C+0xc0>  | beqz	v1,3714 <func_8002FF0C+0xc4>
+  replace mine[32:34] target[32:34]
+       32  beq	v1,v0,370c <func_8002FF0C+0xbc> | beq	v1,v0,3710 <func_8002FF0C+0xc0>
+       33  li	v0,-1                           | li	v1,-1
+  replace mine[36:37] target[36:42]
+       36  lh	v1,0(at)                        | lh	v0,0(at)
+       37  --                                 | nop
+       38  --                                 | sll	v0,v0,0x2
+       39  --                                 | lui	at,0x0
+       40  --                                 | addu	at,at,v0
+       41  --                                 | sh	v1,0(at)
+  delete  mine[43:47] target[48:48]
+       43  sll	v1,v1,0x2                      | --
+       44  lui	at,0x0                         | --
+       45  addu	at,at,v1                      | --
+       46  sh	v0,0(at)                        | --
+  insert  mine[79:79] target[80:83]
+       79  --                                 | lui	at,0x0
+       80  --                                 | addu	at,at,s0
+       81  --                                 | sw	s3,0(at)
+  replace mine[82:85] target[86:87]
+       82  lui	at,0x0                         | nop
+       83  addu	at,at,s0                      | --
+       84  sw	s3,0(at)                        | --
+  replace mine[100:101] target[102:103]
+      100  sra	a0,v0,0x10                     | sra	v0,v0,0x10
+  replace mine[102:103] target[104:105]
+      102  beq	a0,s1,3808 <func_8002FF0C+0x1b8> | beq	v0,s1,3818 <func_8002FF0C+0x1c8>
+  insert  mine[104:104] target[106:108]
+      104  --                                 | lui	a0,0x0
+      105  --                                 | lh	a0,0(a0)
+  replace mine[113:114] target[117:118]
+      113  j	38b4 <func_8002FF0C+0x264>       | j	38c4 <func_8002FF0C+0x274>
+  replace mine[126:127] target[130:131]
+      126  j	386c <func_8002FF0C+0x21c>       | j	387c <func_8002FF0C+0x22c>
+  replace mine[130:131] target[134:135]
+      130  j	386c <func_8002FF0C+0x21c>       | j	387c <func_8002FF0C+0x22c>

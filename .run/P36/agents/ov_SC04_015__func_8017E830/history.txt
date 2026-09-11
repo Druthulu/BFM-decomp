@@ -1,0 +1,16 @@
+s5: verdict NO-MATCH start 18 best 6 compiles 189 path R7 do-while @4931
+s7: verdict NO-MATCH start 18 best 5 compiles 558 path R9 swap-stmts @4934 + R9 swap-stmts @4933
+s9: verdict NO-MATCH start 18 best 5 compiles 251 path R9 swap-stmts @4936 + R9 swap-stmts @4935
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @4935 -> 5 [COUNT] (from 16)
+  R7 do-while @4933 -> 6 [ORDER] (from 18)
+  R18 bystander @4920->4922 -> 6 [ORDER] (from 6)
+  R7 block @4922 -> 6 [ORDER] (from 6)
+  R8 temp tmp0 @4919 -> 6 [ORDER] (from 6)
+  R12 width x_lo s32->u16 @4916 -> 6 [ORDER] (from 6)
+  R10 param-copy a0 @4917 -> 6 [ORDER] (from 6)
+  R18 bystander @4920->4923 -> 6 [ORDER] (from 6)
+  R8 base tmp0 @4919 -> 6 [ORDER] (from 6)
+  R12 width x_lo s32->s16 @4916 -> 6 [ORDER] (from 6)
+  R18 bystander @4920->4924 -> 6 [ORDER] (from 6)
+  R8 hoist tmp0 @4923 -> 6 [ORDER] (from 6)

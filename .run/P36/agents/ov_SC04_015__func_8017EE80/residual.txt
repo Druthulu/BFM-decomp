@@ -1,0 +1,38 @@
+src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:func_8017EE80: score 23 (COUNT; mine 106 ins, target 102) — not yet
+  register pairs (mine -> target, count): s5->s4 x3, s4->s2 x1
+  replace mine[0:4] target[0:1]
+        0  addiu	sp,sp,-72                    | addiu	sp,sp,-64
+        1  sw	s5,60(sp)                       | --
+        2  move	s5,a0                         | --
+        3  sw	ra,64(sp)                       | --
+  insert  mine[5:5] target[2:4]
+        5  --                                 | move	s4,a0
+        6  --                                 | sw	ra,60(sp)
+  replace mine[9:10] target[8:9]
+        9  lh	v0,112(s5)                      | lh	v0,112(s4)
+  replace mine[16:19] target[15:17]
+       16  beqz	s3,41d4 <func_8017EE80+0x180> | beqz	s3,41c8 <func_8017EE80+0x174>
+       17  addiu	s4,s3,6                      | addiu	s2,s3,6
+       18  addiu	s2,s3,4                      | --
+  replace mine[66:67] target[64:65]
+       66  lhu	v0,-2(s2)                      | lhu	v0,-4(s2)
+  replace mine[69:71] target[67:69]
+       69  lhu	v0,0(s2)                       | lhu	v0,-2(s2)
+       70  sw	s5,16(s0)                       | sw	s4,16(s0)
+  replace mine[75:77] target[73:75]
+       75  lhu	v0,-2(s2)                      | lhu	v0,-4(s2)
+       76  move	a1,s5                         | move	a1,s4
+  replace mine[78:79] target[76:77]
+       78  lhu	v1,0(s2)                       | lhu	v1,-2(s2)
+  replace mine[89:90] target[87:88]
+       89  lh	v1,0(s4)                        | lh	v1,0(s2)
+  replace mine[91:92] target[89:90]
+       91  beq	v1,v0,41d4 <func_8017EE80+0x180> | beq	v1,v0,41c8 <func_8017EE80+0x174>
+  replace mine[93:95] target[91:92]
+       93  addiu	s4,s4,8                      | j	4098 <func_8017EE80+0x44>
+       94  j	40a0 <func_8017EE80+0x4c>        | --
+  replace mine[96:98] target[93:94]
+       96  lw	ra,64(sp)                       | lw	ra,60(sp)
+       97  lw	s5,60(sp)                       | --
+  replace mine[103:104] target[99:100]
+      103  addiu	sp,sp,72                     | addiu	sp,sp,64
