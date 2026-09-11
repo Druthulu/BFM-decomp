@@ -5361,7 +5361,6 @@ void func_80032A74(Slot54 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
     u32 qq;
     s32 tb;
     u32 d;
-    register s32 base __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     u16 t16;
     s32 t8;
     s32 t32;
@@ -5459,8 +5458,7 @@ void func_80032A74(Slot54 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
             t32 = REC->unk10;
             ch->unk4F = 0;
             ch->unk4E = 0x85;
-            ch->unk14 = t32;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            *(s32 *)((u8 *)ch + 0x14) = t32;
             vol = REC->unk06;
             if (D_800A4F1E != 0) {
                 vol *= 0x70;
@@ -5495,11 +5493,11 @@ void func_80032A74(Slot54 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
             }
             {
                 u16 u18 = vo->unk18;
-                base = (u18 & 0xFF00) + (s8)u18 * 2;
+                vv = (u18 & 0xFF00) + (s8)u18 * 2;
             }
-            base -= 0x3C00;
+            vv -= 0x3C00;
             d = ch->unk24;
-            d -= base;
+            d -= vv;
             if (d >= 0x5300) {
                 vo->unk14 = 0x3FFF;
             } else {
@@ -5540,10 +5538,9 @@ void func_80032A74(Slot54 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
                 vo->unk0A = vv;
             }
             ch->unk52 = pan;
-            vo->unk0C = 0;
-            vo->unk0E = 0;
-            vo->unk04 = 0x6009F;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            *(u16 *)((u8 *)vo + 0xC) = 0;
+            *(u16 *)((u8 *)vo + 0xE) = 0;
+            *(s32 *)((u8 *)vo + 4) = 0x6009F;
             if (D_800A4EF6 > REC->unk0A) {
                 func_8002F064(1, vo->unk00);
             } else {
