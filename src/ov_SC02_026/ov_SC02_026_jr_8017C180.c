@@ -3202,60 +3202,49 @@ extern s32 func_8012AD50(void *a0);
 
 void func_8017DAB8(s32 a0)
 {
-
+    s32 s0;
     extern u16 D_801A429C[];
     extern u8 D_801A428C;
     extern u8 D_801A427C;
+
     if ((*(s32 *)(a0 + 0x20) = ((s32 (*)(void))func_8012C1B8)()) == 0) {
         func_8012CAE4((void *)a0);
         return;
     }
 
     if ((func_80029178((s32)D_801A429C[*(s16 *)(a0 + 0x70)]) & 0xFF) != 0) {
-        s32 s0 = *(s32 *)(a0 + 0xDC);
+        s0 = *(s32 *)(a0 + 0xDC);
         if (s0 != 0) {
             s32 a1 = *(s32 *)(s0 + 0x4);
             if (a1 != 0) {
                 func_8001C214(*(s32 *)(a0 + 0x20), a1);
                 if (*(s32 *)(s0 + 0xC) != 0) {
-                    s32 v1 = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4);
-                    v1 |= 0x1000000;
-                    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) = v1;
+                    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) |= 0x1000000;
                 }
             }
         }
         func_8012AD50((void *)a0);
-        goto tail;
-    }
-
-    {
-        register s32 s0 __asm__("$16") = *(s32 *)(a0 + 0xDC);  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-        register s32 flag __asm__("$2") = 1;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    } else {
+        s0 = *(s32 *)(a0 + 0xDC);
         if (s0 != 0) {
             s32 a1 = *(s32 *)s0;
             if (a1 != 0) {
                 func_8001C214(*(s32 *)(a0 + 0x20), a1);
                 if (*(s32 *)(s0 + 0xC) != 0) {
-                    s32 v1 = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4);
-                    v1 |= 0x1000000;
-                    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) = v1;
+                    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) |= 0x1000000;
                 }
-                flag = 1;
             }
         }
-        *(u8 *)(a0 + 0xC0) = flag;
+        *(u8 *)(a0 + 0xC0) = 1;
+        *(s32 *)(a0 + 0xBC) = (s32)&D_801A428C;
+        *(s32 *)(a0 + 0x58) = (s32)&D_801A427C | 0x40000000;
+        *(u16 *)(a0 + 0x5C) = 0x8800;
+        *(s32 *)(a0 + 0xB4) = 0;
+        *(u8 *)(a0 + 0xC1) = 0;
+        *(u16 *)(a0 + 0xAE) = 0x7FFF;
+        *(u8 *)(a0 + 0x75) = 0;
+        *(s32 *)(a0 + 0xC4) |= 0x2;
     }
-
-    *(s32 *)(a0 + 0xBC) = (s32)&D_801A428C;
-    *(s32 *)(a0 + 0x58) = (s32)&D_801A427C | 0x40000000;
-    *(u16 *)(a0 + 0x5C) = 0x8800;
-    *(s32 *)(a0 + 0xB4) = 0;
-    *(u8 *)(a0 + 0xC1) = 0;
-    *(u16 *)(a0 + 0xAE) = 0x7FFF;
-    *(u8 *)(a0 + 0x75) = 0;
-    *(s32 *)(a0 + 0xC4) |= 0x2;
-
-tail:
     func_8012AD50((void *)a0);
 }
 

@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 8 best 7 compiles 325 path R12 width h s32->u16 @6444
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width h s32->u16 @6444 -> 7 [COUNT] (from 8)
+  R8 temp tmp0 @6456 -> 7 [COUNT] (from 7)
+  R7 block @6456 -> 7 [COUNT] (from 7)
+  R6 inline p @6455 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @6456 -> 7 [COUNT] (from 7)
+  R7 do-while @6456 -> 7 [COUNT] (from 7)
+  R6 inline ret @6457 -> 7 [COUNT] (from 7)
+  R8 temp tmp0 @6455 -> 7 [COUNT] (from 7)
+  R7 block @6455 -> 7 [COUNT] (from 7)
+  R9 swap-stmts @6457 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @6455 -> 7 [COUNT] (from 7)
+  R7 do-while @6455 -> 7 [COUNT] (from 7)
