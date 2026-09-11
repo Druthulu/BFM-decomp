@@ -2165,36 +2165,41 @@ void func_801A34FC(s32 arg0, u16 *arg1) {
 
 s32 func_801A3594(void *a0) {
     s16 buf[12];
-    register u16 b __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    u16 a;
     s16 diff;
     s16 v1;
-    register s32 tw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s16 t16;
     s16 xr;
 
     v1 = *(s16 *)((s32)a0 + 0x106);
     switch (v1) {
-    case 0:
-        a = *(u16 *)((s32)a0 + 0xE8);
-        b = *(u16 *)((s32)a0 + 0x6);
-        diff = a - b;
+    case 0: {
+        s32 tw;
+
+        diff = *(u16 *)((s32)a0 + 0xE8) - *(u16 *)((s32)a0 + 0x6);
         buf[0] = diff;
         tw = *(s16 *)((s32)a0 + 0xEC);
+        t16 = tw;
+        if (tw == 0) {
+            return 1;
+        }
         break;
-    case 1:
-        a = *(u16 *)((s32)a0 + 0xEA);
-        b = *(u16 *)((s32)a0 + 0xE);
-        diff = a - b;
+    }
+    case 1: {
+        s32 tw;
+
+        diff = *(u16 *)((s32)a0 + 0xEA) - *(u16 *)((s32)a0 + 0xE);
         buf[1] = diff;
         tw = *(s16 *)((s32)a0 + 0xEE);
+        t16 = tw;
+        if (tw == 0) {
+            return 1;
+        }
         break;
+    }
     default:
         goto default_case;
     }
 
-    if (tw == 0) goto ret1;
-    t16 = tw;
     if (diff == 0) goto ret1;
     xr = diff ^ t16;
     if (xr >= 0) goto default_case;
