@@ -4852,18 +4852,12 @@ void func_80184CA8(s32 a0) {
                 rnd = rand();
                 t = *(s16 *)(a0 + 0x2C);
                 base = *(s16 *)(a0 + 0x34);
-                /* Two levers in ONE zero-byte asm.
-                   (1) combine expands sign_extend(lh) into ashift/ashiftrt and
-                       merges it with the outer >>7, so the natural spelling
-                       always emits lhu+sll,16+sra,23 (3 ins). The re-tie breaks
-                       the i2->i3 chain, leaving the target's lh + sra,7 (2 ins).
-                   (2) naming `base` as an extra INPUT makes the 0x34 load a
-                       predecessor of the fence, so sched1 must place it before
-                       the fence -- i.e. into the lh 0x2C load-delay slot, which
-                       is exactly where the target has `lh $s1,0x34($s0)`.
-                       Without it that slot is a nop and the function is 116 ins. */
-                __asm__("" : "=r"(t) : "0"(t), "r"(base));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B tus10)
-                rem = rnd % (t >> 7);
+                /* `(s16)t >> 7`, not `t >> 7` (P36 S104 e32, replacing a 2-input launder):
+                   with the cast at the shift, c-typeck's short_shift re-extends the value and
+                   cse folds that pair into the `lh`, leaving the target's lh + sra,7; written
+                   `t >> 7`, combine merges the load's sign extension with the shift into
+                   lhu + sll,16 + sra,23.  The 0x34 load then fills the lh delay slot by itself. */
+                rem = rnd % ((s16)t >> 7);
                 if (rand() & 1) {
                     result = base + rem;
                 } else {
