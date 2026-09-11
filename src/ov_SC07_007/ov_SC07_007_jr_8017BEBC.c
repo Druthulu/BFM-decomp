@@ -5262,14 +5262,15 @@ void func_8017F584(s32 a0) {
     s32 *ptr;
     s32 *p2;
     s32 fn;
-    register s32 comp __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 cmp1;
+    s32 cmp2;
 
     ((s32 (*)(s32, void *, s32))func_80180FA4)(this, (void *)&D_80187298, 1);
     if (func_80181334(this, 0) != 0) {
-        comp = (s32)func_801825C4;
+        cmp1 = (s32)func_801825C4;
         ptr = (s32 *)&D_801C7808;
         for (i = 0; i < 4; i++) {
-            if (*ptr == comp) {
+            if (*ptr == cmp1) {
                 func_8017E234(ptr);
             }
             ptr = (s32 *)((char *)ptr + 0x18);
@@ -5286,10 +5287,10 @@ void func_8017F584(s32 a0) {
         }
     }
     if (func_80181280(this) != 0) {
-        comp = (s32)func_80182600;
+        cmp2 = (s32)func_80182600;
         ptr = (s32 *)&D_801C7808;
         for (i = 0; i < 4; i++) {
-            if (*ptr == comp) {
+            if (*ptr == cmp2) {
                 func_8017E234(ptr);
             }
             ptr = (s32 *)((char *)ptr + 0x18);
