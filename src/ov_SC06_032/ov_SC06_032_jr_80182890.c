@@ -5279,9 +5279,9 @@ void func_80185F4C(s32 a0, s32 a1, s32 a2, s32 a3)
 
     local = D_800AE620;
     e = func_8012C658((s16)a1, (s16)a2, a0);
+    do { } while (0);  // !FAKE: do-while — its NOTE_INSN_LOOP_END ends cse1's extended block (cse.c:8054), so m below is not folded onto the struct copy's address pseudo (cse.c:846-862) and is set AFTER e's copy: sched1 then ranks it last by LUID (sched.c:2428) (P36 S104 e5 minimum-lever)
+    m = &local;
     if (e != 0) {
-        __asm__("" : "=r"(e) : "0"(e));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        m = &local;
         *(u16 *)(e + 0xA) = *(u16 *)(e + 0xA) - 0x80;
         RotMatrixY((s16)a3, m);
         func_800484EC((s32)m, (s32)&D_801BEF1C, (s32)vec);
