@@ -8253,7 +8253,9 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
-void func_80187CBC(s32 arg0) {
+s32 aF80188B64(s32 arg0) __asm__("func_80187CBC");
+
+s32 aF80188B64(s32 arg0) {
     s32 rv;
     s32 buf1[2];
     s32 buf2[2];
@@ -8266,7 +8268,7 @@ void func_80187CBC(s32 arg0) {
         func_8012F568(1, 0x201, *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12), 0x23, (s32)buf2, (s32)D_801152A8);
         rv = 1;
     }
-    __asm__ __volatile__("" : "=r"(rv) : "0"(rv));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    return rv;
 }
 
 
