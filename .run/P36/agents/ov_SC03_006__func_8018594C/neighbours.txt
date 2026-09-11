@@ -1,0 +1,57 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: regalloc-order — simplified sibling of matched func_8017B614.
+// @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
+// @class: struct
+// @stuck: none — MATCH (74 ins)
+// @class: regalloc-order + T1 memcpy-builtin→call re-crack
+// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+// @class: struct
+// @stuck: none — MATCH (62 ins)
+// @class: struct
+// @stuck: none — MATCH (65 ins)
+// @class: regalloc-order
+// @stuck: pending self-check — register order param=$s2 counter=$s1 ptr=$s0
+// @class: plumbing
+// @stuck: none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
+// @class: plumbing
+// @stuck: none — MATCH expected (simple short-increment + guarded call)
+// @class: regalloc-order
+// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+// @class: plumbing
+// @stuck: none — MATCH (41 ins, relocation-masked); frame needed a 0x30 address-taken local
+// @class: plumbing
+// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: regalloc-order
+// @stuck: none — MATCH
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @class: straight-derive
+// @stuck: none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @class: regalloc (WIDTH/li!=addu -> MATCH)
+// @stuck: none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @class: plumbing
+// @stuck: none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out
+// @class: schedule
+// @stuck: none — MATCH (44 ins). Two §3-T4 branch-polarity inversions: outer if(param_2>=iVar2) makes the func_8018B1B4 else-block fall-through; inner if(param_3>=iVar2) return 0 makes the func_8012A828 body fall-through. No pins needed — natural $s1/$s0/$s2 alloc matched.
+// @class: plumbing
+// @stuck: none — MATCH (straightforward; callee sigs canonical from overlay)
+// @class: plumbing
+// @stuck: none — MATCH (clean if/else, sh into delay slot of func_8001CA88 call)
+// @class: plumbing
+// @stuck: none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)

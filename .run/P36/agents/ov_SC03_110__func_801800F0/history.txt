@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 15 best 15 compiles 325 path 
+s7: verdict NO-MATCH start 15 best 15 compiles 559 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @2977 -> 15 [COUNT] (from 15)
+  R8 base tmp0 @2977 -> 15 [COUNT] (from 15)
+  R7 block @2997 -> 15 [COUNT] (from 15)
+  R8 temp tmp0 @2976 -> 15 [COUNT] (from 15)
+  R7 do-while @2997 -> 15 [COUNT] (from 15)
+  R8 base tmp0 @2976 -> 15 [COUNT] (from 15)
+  R7 block @2976 -> 15 [COUNT] (from 15)
+  R8 hoist tmp0 @2978 -> 15 [COUNT] (from 15)
+  R7 block @2978 -> 15 [COUNT] (from 15)
+  R8 temp tmp0 @2975 -> 15 [COUNT] (from 15)
+  R8 base tmp0 @2975 -> 15 [COUNT] (from 15)
+  R18 bystander @2984->2986 -> 15 [COUNT] (from 15)

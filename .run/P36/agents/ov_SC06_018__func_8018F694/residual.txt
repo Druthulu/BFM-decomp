@@ -1,0 +1,10 @@
+src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:func_8018F694: score 5 (COUNT; mine 480 ins, target 478) — not yet
+  replace mine[33:34] target[33:34]
+       33  lhu	v0,0(s3)                       | lh	a1,0(s3)
+  delete  mine[35:37] target[35:35]
+       35  sll	s2,v0,0x10                     | --
+       36  sra	a1,s2,0x10                     | --
+  replace mine[75:76] target[73:74]
+       75  sra	s2,s2,0x16                     | sra	s2,a1,0x6
+  replace mine[465:466] target[463:464]
+      465  bnez	v0,7c2c <func_8018F694+0x84>  | bnez	v0,7c2c <func_8018F694+0x84>

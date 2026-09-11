@@ -1,0 +1,4 @@
+REMOVED  pin         $16    line 9859
+NEEDED   pin         $18    line 9860
+NEEDED   pin         $3     line 9863
+NEEDED   instruction move   line 9875

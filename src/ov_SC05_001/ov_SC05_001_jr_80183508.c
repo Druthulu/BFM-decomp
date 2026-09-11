@@ -3079,63 +3079,36 @@ void func_80183A30(s32 param_1)
     *(s16 *)(sp20 + 0x18) = *(s16 *)(sp20 + 0x1C) = (ret >> 3) + 0xE00;
     *(s16 *)(sp20 + 0x1A) = (ret >> 1) + 0x800;
 
-    if ((func_8012CBF4(param_1) & 0x2000) == 0) {
-        goto TAIL;
-    }
-    *(s16 *)(param_1 + 2) = 1;
-    func_80143B6C(param_1, 1);
+    if (func_8012CBF4(param_1) & 0x2000) {
+        *(s16 *)(param_1 + 2) = 1;
+        func_80143B6C(param_1, 1);
 
-    in.vx = *(u16 *)(param_1 + 6);
-    in.vy = *(u16 *)(param_1 + 0xA);
-    in.vz = *(u16 *)(param_1 + 0xE);
-    ((void (*)())func_8012EFB8)(&in, &out);
+        in.vx = *(u16 *)(param_1 + 6);
+        in.vy = *(u16 *)(param_1 + 0xA);
+        in.vz = *(u16 *)(param_1 + 0xE);
+        ((void (*)())func_8012EFB8)(&in, &out);
 
-    /* Both `__asm__ __volatile__("")` below are LOAD-BEARING zero-byte
-     * cross-jump barriers (cookbook §5a): without them find_cross_jump
-     * tail-merges the two sign arms of each |v| < K test (slti+beqz suffix)
-     * and the function comes out 11 instructions short.
-     * Their PLACEMENT differs on purpose (§5a addendum / reorg stop_search_p):
-     *   - vx block: after the inner `goto`, where the target leaves both delay
-     *     slots as nop, so halting the eager scan costs nothing;
-     *   - vy block: INSIDE the inner `if`, before the `goto`. The vy block's
-     *     join label begins with the division's `lui $v0,0xB60B`, which reorg
-     *     steals into both incoming branch delay slots; a barrier sitting
-     *     between the `beqz` and the `j` blocks that fall-through scan and
-     *     yields `beqz TAIL / nop / j CONT / lui` instead of the target's
-     *     `bnez CONT / lui / j TAIL / nop`. */
-    if (out.vx >= 0) {
-        if (out.vx >= 0xB5) {
-            goto TAIL;
-        }
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-    } else {
-        if (-out.vx >= 0xB5) {
-            goto TAIL;
-        }
-    }
-    if (out.vy >= 0) {
-        if (out.vy >= 0x8D) {
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-            goto TAIL;
-        }
-    } else {
-        if (-out.vy >= 0x8D) {
-            goto TAIL;
+        /* |vx| < 0xB5 && |vy| < 0x8D, spelled as the two sign-split tests the
+         * target carries (a ternary, not abs(): gcc folds `v >= 0 ? v : -v`
+         * into abssi2).  A ternary CONDITION gives each arm its own
+         * `slt; bnez BODY; j TAIL` (expr.c do_jump COND_EXPR), which
+         * cross-jump cannot merge; reorg then flips the vx arm, whose delay
+         * slot stayed empty, to `beqz TAIL; j CONT` (reorg.c:3821). */
+        if ((out.vx >= 0 ? out.vx < 0xB5 : -out.vx < 0xB5)
+            && (out.vy >= 0 ? out.vy < 0x8D : -out.vy < 0x8D)) {
+            /* `t` must be s16, not s32: the target sign-extends once (sll/sra 16) for
+             * both clamp tests and keeps the RAW value in $a1 (`addu $a1,$v0,$zero`).
+             * With an s32 temp gcc coalesces the two and drops that move (-1 ins). */
+            t = (out.vx * 64) / 180 + 0x40;
+            if (t < 0) {
+                t = 0;
+            } else if (t >= 0x80) {
+                t = 0x7F;
+            }
+            func_8002D4C8(0x832, (t | 0x2000) & 0xFFFF);
         }
     }
 
-    /* `t` must be s16, not s32: the target sign-extends once (sll/sra 16) for
-     * both clamp tests and keeps the RAW value in $a1 (`addu $a1,$v0,$zero`).
-     * With an s32 temp gcc coalesces the two and drops that move (-1 ins). */
-    t = (out.vx * 64) / 180 + 0x40;
-    if (t < 0) {
-        t = 0;
-    } else if (t >= 0x80) {
-        t = 0x7F;
-    }
-    func_8002D4C8(0x832, (t | 0x2000) & 0xFFFF);
-
-TAIL:
     *(s32 *)(param_1 + 0xE4) += 1;
 }
 

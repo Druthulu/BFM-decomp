@@ -1,0 +1,11 @@
+--- func_8018035C (line 3105) ---
+/* func_8018035C — ov_SC03_110 / ov_SC03_110_jr_8017FBC8
+ * 196 ins + a 5-entry compiler jump table (jtbl_801A0D90).
+ * Body is byte-correct in isolation AND in its real TU (rtu probe: MATCH 196/196).
+ * The 5 emitted .rodata words resolve to 801803BC/80180460/8018052C/80180588/801805AC,
+ * i.e. exactly the target's jtbl_801A0D90 entries; the surplus 6th word spimdisasm ran
+ * into that dlabel is not ours (§131 — the `sltiu 5` is ground truth; the planner clamps it).
+ * REMAINING BLOCKER IS THE CARVE, NOT THE C: jtbl_801A0D90 is still raw asm in
+ * asm/ov_SC03_110/data/tail18.data.s, so this needs the gate-time §8a tail carve
+ * (jtbl_carve --probe verdict: "tail — standard §8a carve at gate time", NOT plan-refused).
+ * House style per the TU neighbour func_8018076C: block-scope externs + the cast call sites. */

@@ -1,0 +1,2 @@
+NEEDED   barrier            line 3009
+NEEDED   barrier            line 3017

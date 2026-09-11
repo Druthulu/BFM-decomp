@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 34 best 21 compiles 332 path R7 do-while @3365 + R8 hoist tmp0 @3390 + R9 swap-stmts @3392
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @3392 -> 21 [COUNT] (from 22)
+  R8 hoist tmp0 @3391 -> 21 [COUNT] (from 26)
+  R8 hoist tmp0 @3390 -> 22 [COUNT] (from 27)
+  R12 width tmp0 s32->u16 @3360 -> 22 [COUNT] (from 22)
+  R7 block @3367 -> 22 [COUNT] (from 22)
+  R9 swap-stmts @3367 -> 22 [COUNT] (from 22)
+  R10 param-copy a0 @3361 -> 22 [COUNT] (from 22)
+  R4 decl-move s1 3->0 -> 22 [COUNT] (from 22)
+  R12 width tmp0 s32->s16 @3360 -> 22 [COUNT] (from 22)
+  R14 param-width a0 s32->u16 @3350 -> 22 [COUNT] (from 22)
+  R10 param-alias s3->a0 @3362 -> 22 [COUNT] (from 22)
+  R4 decl-move s1 3->1 -> 22 [COUNT] (from 22)

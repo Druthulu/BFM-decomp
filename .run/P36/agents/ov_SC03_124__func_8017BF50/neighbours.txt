@@ -1,0 +1,42 @@
+=== THIS FUNCTION'S OWN HEADER (func_8017BF50, line 3340) — read it in full ===
+/* $16-$19 are pinned: without them gcc's strength reduction splits the `s1` store
+ * base into TWO induction variables (base+0x18 with offsets -4/0, plus base+0x1C),
+ * burning an extra callee-saved reg and growing the frame to 0x48. s4 must stay
+ * UNPINNED -- a pin collapses `$v0 = $s4 + 1; $s4 = $v0` into `addiu $s4,$s4,1` and
+ * then sign-extends from $s4, losing the target's `addu $s4,$v0,$zero` + sll/sra on
+ * $v0 at the loop join. It still lands in $20 naturally once $16-$19 are taken.
+ */
+
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: regalloc-order — simplified sibling of matched func_8017B614.
+// @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
+// @class: struct
+// @stuck: none — MATCH (74 ins)
+// @class: regalloc-order + T1 memcpy-builtin→call re-crack
+// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+// @class: struct
+// @stuck: none — MATCH (62 ins)
+// @class: struct
+// @stuck: none — MATCH (65 ins)
+// @class: regalloc-order
+// @stuck: pending self-check — register order param=$s2 counter=$s1 ptr=$s0
+// @class: plumbing
+// @stuck: none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
+// @class: plumbing
+// @stuck: none — MATCH expected (simple short-increment + guarded call)
+// @class: regalloc-order
+// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+// @class: plumbing
+// @stuck: none — MATCH (41 ins, relocation-masked); frame needed a 0x30 address-taken local
+// @class: plumbing
+// @stuck: none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)

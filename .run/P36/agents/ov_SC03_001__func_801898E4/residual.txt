@@ -1,0 +1,113 @@
+src/ov_SC03_001/ov_SC03_001_jr_80189030.c:func_801898E4: score 63 (COUNT; mine 610 ins, target 611) — not yet
+  register pairs (mine -> target, count): a0->a2 x38, s1->a0 x11, a2->a3 x10, a2->a0 x4, s5->s1 x2, a0->v1 x2
+  replace mine[132:133] target[132:133]
+      132  li	s5,130                          | li	s1,130
+  replace mine[136:137] target[136:137]
+      136  lbu	s1,0(v0)                       | lbu	a0,0(v0)
+  replace mine[138:140] target[138:140]
+      138  sll	v0,s1,0x1                      | sll	v0,a0,0x1
+      139  addu	v0,v0,s1                      | addu	v0,v0,a0
+  replace mine[143:144] target[143:144]
+      143  lw	a0,0(at)                        | lw	a2,0(at)
+  replace mine[149:150] target[149:150]
+      149  lbu	a2,0(a0)                       | lbu	a3,0(a2)
+  replace mine[151:152] target[151:152]
+      151  beqz	a2,b40 <func_801898E4+0x28c>  | beqz	a3,b40 <func_801898E4+0x28c>
+  replace mine[153:155] target[153:155]
+      153  addiu	a0,a0,1                      | addiu	a2,a2,1
+      154  sb	a2,0(a1)                        | sb	a3,0(a1)
+  replace mine[156:158] target[156:158]
+      156  lbu	v0,0(a0)                       | lbu	v0,0(a2)
+      157  addiu	a0,a0,1                      | addiu	a2,a2,1
+  replace mine[159:160] target[159:160]
+      159  lbu	a2,0(a0)                       | lbu	a3,0(a2)
+  replace mine[161:162] target[161:162]
+      161  bnez	a2,b18 <func_801898E4+0x264>  | bnez	a3,b18 <func_801898E4+0x264>
+  replace mine[167:168] target[167:168]
+      167  move	a0,a1                         | move	v1,a1
+  replace mine[173:175] target[173:175]
+      173  sll	v0,s1,0x1                      | sll	v0,a0,0x1
+      174  addu	v0,v0,s1                      | addu	v0,v0,a0
+  replace mine[191:193] target[191:193]
+      191  sll	v0,s1,0x1                      | sll	v0,a0,0x1
+      192  addu	v0,v0,s1                      | addu	v0,v0,a0
+  replace mine[198:201] target[198:201]
+      198  subu	v0,v0,a0                      | subu	v0,v0,v1
+      199  sll	v0,s1,0x1                      | sll	v0,a0,0x1
+      200  addu	v0,v0,s1                      | addu	v0,v0,a0
+  replace mine[241:242] target[241:242]
+      241  sb	s5,0(a1)                        | sb	s1,0(a1)
+  replace mine[296:297] target[296:297]
+      296  bne	v1,v0,1000 <func_801898E4+0x74c> | bne	v1,v0,1004 <func_801898E4+0x750>
+  replace mine[298:299] target[298:299]
+      298  beqz	s3,f40 <func_801898E4+0x68c>  | beqz	s3,f44 <func_801898E4+0x690>
+  replace mine[304:305] target[304:305]
+      304  lbu	s1,0(v0)                       | lbu	a0,0(v0)
+  replace mine[306:307] target[306:307]
+      306  sll	v0,s1,0x3                      | sll	v0,a0,0x3
+  replace mine[309:310] target[309:310]
+      309  lw	a0,0(at)                        | lw	a2,0(at)
+  replace mine[315:316] target[315:316]
+      315  lbu	a2,0(a0)                       | lbu	a3,0(a2)
+  replace mine[317:318] target[317:318]
+      317  beqz	a2,dd8 <func_801898E4+0x524>  | beqz	a3,dd8 <func_801898E4+0x524>
+  replace mine[319:321] target[319:321]
+      319  addiu	a0,a0,1                      | addiu	a2,a2,1
+      320  sb	a2,0(a1)                        | sb	a3,0(a1)
+  replace mine[322:324] target[322:324]
+      322  lbu	v0,0(a0)                       | lbu	v0,0(a2)
+      323  addiu	a0,a0,1                      | addiu	a2,a2,1
+  replace mine[325:326] target[325:326]
+      325  lbu	a2,0(a0)                       | lbu	a3,0(a2)
+  replace mine[327:328] target[327:328]
+      327  bnez	a2,db0 <func_801898E4+0x4fc>  | bnez	a3,db0 <func_801898E4+0x4fc>
+  insert  mine[329:329] target[329:330]
+      329  --                                 | move	s1,a0
+  replace mine[387:388] target[388:389]
+      387  j	f24 <func_801898E4+0x670>        | j	f28 <func_801898E4+0x674>
+  replace mine[398:399] target[399:400]
+      398  j	f1c <func_801898E4+0x668>        | j	f20 <func_801898E4+0x66c>
+  replace mine[417:418] target[418:419]
+      417  bnez	v0,d6c <func_801898E4+0x4b8>  | bnez	v0,d6c <func_801898E4+0x4b8>
+  replace mine[461:462] target[462:463]
+      461  j	ff8 <func_801898E4+0x744>        | j	ffc <func_801898E4+0x748>
+  replace mine[481:482] target[482:483]
+      481  lw	a0,0(v0)                        | lw	a2,0(v0)
+  replace mine[484:487] target[485:488]
+      484  sll	a2,v0,0x2                      | sll	a0,v0,0x2
+      485  lbu	v0,0(a0)                       | lbu	v0,0(a2)
+      486  addu	a1,a2,s0                      | addu	a1,a0,s0
+  replace mine[488:489] target[489:490]
+      488  lbu	v0,1(a0)                       | lbu	v0,1(a2)
+  replace mine[497:498] target[498:499]
+      497  addu	a1,a2,v0                      | addu	a1,a0,v0
+  replace mine[503:504] target[504:505]
+      503  lw	a0,0(at)                        | lw	a2,0(at)
+  replace mine[505:506] target[506:507]
+      505  lbu	v0,0(a0)                       | lbu	v0,0(a2)
+  replace mine[509:510] target[510:511]
+      509  addiu	a0,a0,1                      | addiu	a2,a2,1
+  replace mine[512:514] target[513:515]
+      512  lbu	v0,0(a0)                       | lbu	v0,0(a2)
+      513  addiu	a0,a0,1                      | addiu	a2,a2,1
+  replace mine[515:516] target[516:517]
+      515  lbu	v0,0(a0)                       | lbu	v0,0(a2)
+  replace mine[519:520] target[520:521]
+      519  j	10ec <func_801898E4+0x838>       | j	10f0 <func_801898E4+0x83c>
+  replace mine[524:525] target[525:526]
+      524  addu	a0,a2,s4                      | addu	a0,a0,s4
+  replace mine[548:551] target[549:552]
+      548  lui	a0,0x0                         | lui	a2,0x0
+      549  lw	a0,0(a0)                        | lw	a2,0(a2)
+      550  j	1164 <func_801898E4+0x8b0>       | j	1168 <func_801898E4+0x8b4>
+  replace mine[554:555] target[555:556]
+      554  lw	a0,0(v0)                        | lw	a2,0(v0)
+  replace mine[556:557] target[557:558]
+      556  lbu	v0,0(a0)                       | lbu	v0,0(a2)
+  replace mine[560:561] target[561:562]
+      560  addiu	a0,a0,1                      | addiu	a2,a2,1
+  replace mine[563:565] target[564:566]
+      563  lbu	v0,0(a0)                       | lbu	v0,0(a2)
+      564  addiu	a0,a0,1                      | addiu	a2,a2,1
+  replace mine[566:567] target[567:568]
+      566  lbu	v0,0(a0)                       | lbu	v0,0(a2)

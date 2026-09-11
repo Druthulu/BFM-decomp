@@ -1,0 +1,21 @@
+src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c:func_801800F0: score 15 (COUNT; mine 86 ins, target 96) — not yet
+  replace mine[20:21] target[20:21]
+       20  beqz	v0,658 <func_801800F0+0x130>  | beqz	v0,680 <func_801800F0+0x158>
+  replace mine[38:39] target[38:44]
+       38  bgez	v0,5cc <func_801800F0+0xa4>   | bltz	v0,5dc <func_801800F0+0xb4>
+       39  --                                 | nop
+       40  --                                 | slti	v0,v0,181
+       41  --                                 | beqz	v0,680 <func_801800F0+0x158>
+       42  --                                 | nop
+       43  --                                 | j	5ec <func_801800F0+0xc4>
+  replace mine[42:43] target[47:48]
+       42  beqz	v0,658 <func_801800F0+0x130>  | beqz	v0,680 <func_801800F0+0x158>
+  replace mine[46:47] target[51:57]
+       46  bgez	v0,5ec <func_801800F0+0xc4>   | bltz	v0,610 <func_801800F0+0xe8>
+       47  --                                 | nop
+       48  --                                 | slti	v0,v0,141
+       49  --                                 | bnez	v0,620 <func_801800F0+0xf8>
+       50  --                                 | lui	v0,0xb60b
+       51  --                                 | j	680 <func_801800F0+0x158>
+  replace mine[67:68] target[77:78]
+       67  j	648 <func_801800F0+0x120>        | j	670 <func_801800F0+0x148>

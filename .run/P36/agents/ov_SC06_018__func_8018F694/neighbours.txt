@@ -1,0 +1,28 @@
+=== THIS FUNCTION'S OWN HEADER (func_8018F694, line 8430) — read it in full ===
+// @class: other
+// @stuck: none — MATCH (478 ins, relocation-masked byte-identical)
+
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: struct
+// @stuck: none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
+// @class: branch-polarity
+// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// @class: struct
+// @stuck: none — §136c SIBLING-FIRST. Near-twin (byte-identical template) = func_80186160 in
+// @class: loose-typing
+// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
+// @class: regalloc-order
+// @stuck: none -- see match_one output.
+// @class: regalloc-order
+// @stuck: none -- see match_one output.
+// @class: regalloc-order
+// @stuck: none — MATCH (277 ins). p pinned $s1; e/spawn-ptr coalesce $s0; counter $s2; const2 hoisted $s3.
+ * @class: regalloc-order
+ * @stuck: none — MATCH (248 ins), iteration 2.
+ * @class: regalloc-order
+ * @class: regalloc-order
+ * @stuck: none — MATCH (170 ins), iteration 3.  Body was E188 verbatim on
+// @class: none
+// @stuck: none — MATCH (397/397 ins, match_one + rtu_match).
+// @class: other
+// @stuck: none — MATCH (478 ins, relocation-masked byte-identical)

@@ -1,0 +1,134 @@
+=== lever-free bodies in ov_SC03_124 sharing a callee or global with func_8017BF50 (6 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80132EF4 (src/shared/ov/func_80132EF4.h:5) shares 1: func_8012913C ---
+s32 func_80132EF4(s32 a0, s32 a1) {
+    s32 s0 = func_8012913C(a1 & 0xFFFF);
+    if (s0 != 0) {
+        func_80129350(s0, a0);
+    }
+    return s0;
+}
+
+--- func_801290DC (src/shared/ov/func_801290DC.h:4) shares 1: func_8012913C ---
+u8 *func_801290DC(s32 a0, u8 *a1) {
+    u8 *v1 = func_8012913C(a0 & 0xFFFF);
+    if (v1 != 0) {
+        *(u16 *)(v1 + 0x6) = *(u16 *)(a1 + 0x0);
+        *(u16 *)(v1 + 0xA) = *(u16 *)(a1 + 0x2);
+        *(u16 *)(v1 + 0xE) = *(u16 *)(a1 + 0x4);
+    }
+    return v1;
+}
+
+--- func_8013E4B4 (src/shared/ov/func_8013E4B4.h:6) shares 1: func_8012C750 ---
+void func_8013E4B4(void) {
+    u8 *s0;
+    Ent *p;
+    s32 i;
+    s0 = D_801274C8;
+    if (s0 != 0) {
+        if (*(u16 *)(s0 + 6) != 0) {
+            do {
+                func_8012C750(s0);
+                s0 += 0x14;
+            } while (*(u16 *)(s0 + 6) != 0);
+        }
+    }
+    s0 = (u8 *)D_801274CC;
+    if (s0 != 0) {
+        p = (Ent *)(s0 + 6);
+        for (i = 0; p[i].guard != 0; i++) {
+            p[i].field &= 0x7FFF;
+        }
+    }
+}
+
+--- func_80189818 (src/ov_SC03_124/ov_SC03_124_jr_80188544.c:3888) shares 1: func_8012913C ---
+void func_80189818(s32 param_1, s32 param_2)
+{
+    int s3;
+    unsigned short s0;
+    int s1;
+    s16 v0;
+    int iVar3;
+
+    s0 = D_801D529C[*(short *)(param_1 + 0xfc)];
+    s3 = param_2;
+    if (((short *)D_801D529C)[*(short *)(param_1 + 0xfc)] == 0) {
+        *(short *)(param_1 + 0xfc) = 0;
+        s0 = D_801D529C[0];
+    }
+    *(short *)(param_1 + 0xfc) = *(short *)(param_1 + 0xfc) + 1;
+    v0 = (rand() & 3) * 0x400 + 0x1800;
+    s1 = (v0 - 0x1000) * 0x20;
+    iVar3 = ((int (*)(int))func_8012913C)(4);
+    if (iVar3 != 0) {
+        *(short *)(iVar3 + 6) = s3;
+        *(short *)(iVar3 + 0xa) = s0;
+        *(short *)(iVar3 + 0xe) = 0;
+        *(int *)(iVar3 + 0x10) = s1;
+        *(short *)(iVar3 + 0x2c) = (v0);
+    }
+}
+
+--- func_80143640 (src/shared/ov/func_80143640.h:5) shares 1: func_8012913C ---
+void func_80143640(s32 a0, s32 a1, s32 a2, s32 a3) {
+    u8 *s0;
+    s32 r;
+    s32 d0, d1, d2;
+    s32 t;
+    s32 pad[6];
+    (void)pad;
+    if ((*(u16 *)(a0 + 0) & (s16)((1 << a3) - 1)) == 0) {
+        s0 = func_8012913C(0x22);
+        if (s0 != 0) {
+            r = rand();
+            d0 = *(s16 *)(a2 + 0);
+            *(s16 *)(s0 + 6) = (*(u16 *)(a1 + 0) + (r % (d0 << 1))) - d0;
+            r = rand();
+            d1 = *(s16 *)(a2 + 2);
+            *(s16 *)(s0 + 0xA) = (*(u16 *)(a1 + 2) + (r % (d1 << 1))) - d1;
+            r = rand();
+            d2 = *(s16 *)(a2 + 4);
+            t = *(u16 *)(a1 + 4);
+            *(s32 *)(s0 + 0x18) = 0;
+            *(s32 *)(s0 + 0x14) = 0;
+            *(s32 *)(s0 + 0x10) = 0;
+            *(s16 *)(s0 + 0xE) = (t + (r % (d2 << 1))) - d2;
+            *(s16 *)(s0 + 0x34) = *(u16 *)(a1 + 6);
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = 0xC008;
+        }
+    }
+    *(u16 *)(a0 + 0) += 1;
+}
+
+--- func_801437D8 (src/shared/ov/func_801437D8.h:5) shares 1: func_8012913C ---
+void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3) {
+    u8 *s0;
+    s32 r;
+    s32 d0, d1, d2;
+    s32 t;
+    s32 pad[6];
+    (void)pad;
+    if ((*(u16 *)(a0 + 0) & (s16)((1 << a3) - 1)) == 0) {
+        s0 = func_8012913C(0x23);
+        if (s0 != 0) {
+            r = rand();
+            d0 = *(s16 *)(a2 + 0);
+            *(s16 *)(s0 + 6) = (*(u16 *)(a1 + 0) + (r % (d0 << 1))) - d0;
+            r = rand();
+            d1 = *(s16 *)(a2 + 2);
+            *(s16 *)(s0 + 0xA) = (*(u16 *)(a1 + 2) + (r % (d1 << 1))) - d1;
+            r = rand();
+            d2 = *(s16 *)(a2 + 4);
+            t = *(u16 *)(a1 + 4);
+            *(s32 *)(s0 + 0x18) = 0;
+            *(s32 *)(s0 + 0x14) = 0;
+            *(s32 *)(s0 + 0x10) = 0;
+            *(s16 *)(s0 + 0xE) = (t + (r % (d2 << 1))) - d2;
+            *(s16 *)(s0 + 0x34) = *(u16 *)(a1 + 6);
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = 0xC008;
+        }
+    }
+    *(u16 *)(a0 + 0) += 1;
+}
+

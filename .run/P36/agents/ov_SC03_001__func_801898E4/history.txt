@@ -1,0 +1,15 @@
+g6b: verdict NO-MATCH start 63 best 24 compiles 316 path R12 width b s32->u16 @3511 + R4 decl-move count 10->0 + R12 width b u16->s16 @3512
+s7: verdict NO-MATCH start 63 best 24 compiles 538 path R12 width b s32->s16 @3511
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width b s32->s16 @3511 -> 24 [REG] (from 63)
+  R2 decl-order 0,1,3,2 -> 24 [REG] (from 24)
+  R4 decl-move count 10->0 -> 24 [REG] (from 24)
+  R8 temp tmp0 @3601 -> 24 [REG] (from 24)
+  R18 bystander @3576->3574 -> 24 [REG] (from 24)
+  R12 width count s32->u16 @3517 -> 24 [REG] (from 24)
+  R7 block @3555 -> 24 [REG] (from 24)
+  R9 swap-stmts @3593 -> 24 [REG] (from 24)
+  R2 decl-order 0,2,1,3 -> 24 [REG] (from 24)
+  R4 decl-move count 10->1 -> 24 [REG] (from 24)
+  R8 base tmp0 @3601 -> 24 [REG] (from 24)
+  R12 width count s32->s16 @3517 -> 24 [REG] (from 24)

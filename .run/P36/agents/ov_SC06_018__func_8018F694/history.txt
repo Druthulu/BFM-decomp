@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 5 best 2 compiles 335 path R12 width t s32->u16 @8454
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width t s32->u16 @8454 -> 2 [OTHER] (from 5)
+  R12 width t s32->u8 @8454 -> 2 [OTHER] (from 5)
+  R7 block @8457 -> 2 [OTHER] (from 2)
+  R12 width c s32->u16 @8454 -> 2 [OTHER] (from 2)
+  R5 swap + @8494 -> 2 [OTHER] (from 2)
+  R6 inline z @8487 -> 2 [OTHER] (from 2)
+  R12 width c s32->s16 @8454 -> 2 [OTHER] (from 2)
+  R5 swap + @8499 -> 2 [OTHER] (from 2)
+  R7 block @8458 -> 2 [OTHER] (from 2)
+  R9 swap-stmts @8459 -> 2 [OTHER] (from 2)
+  R5 swap + @8502 -> 2 [OTHER] (from 2)
+  R8 hoist tmp0 @8489 -> 2 [OTHER] (from 2)
