@@ -2503,11 +2503,8 @@ void func_801A3B18(s32 param_1)
     s32 flag;             /* sp+0x50 */
     s32 v0;
     s32 amt;
-    s32 d;
-    s32 e;
-    s32 ang;
-    s32 mag;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    s16 ang;
+    s16 mag;
     s32 *p;
     /* D_800AE620 is the shared 32-byte matrix global; this TU already declares it
      * later as `extern Mtx32_801A90D8 D_800AE620;` (md_SC07_004.c:1569). Declared
@@ -2537,21 +2534,20 @@ void func_801A3B18(s32 param_1)
     sv2.vz = (u16)D_80126B66;
 
     p = D_80126B58;
-    d = func_8012B70C((s16 *)&sv, (s16 *)&sv2) -
-        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
-    e = d & 0xFFF;
-    ang = e + zr;
-    if (e >= 0x800) {
-        ang = e | 0xF000;
+    ang = (func_8012B70C((s16 *)&sv, (s16 *)&sv2) -
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12)) & 0xFFF;
+    if (ang >= 0x800) {
+        ang |= 0xF000;
     }
-    mag = ang + zr;
-    if ((s16)ang < 0) {
+    if (ang < 0) {
         mag = -ang;
+    } else {
+        mag = ang;
     }
 
     v0 = ((s32 (*)(s32))func_8012BE54)(param_1);
 
-    if (func_8014CB8C() == 0 && v0 <= 0x23FFF && (s16)mag < 0x200 &&
+    if (func_8014CB8C() == 0 && v0 <= 0x23FFF && mag < 0x200 &&
         func_8017267C(p) == 0) {
         if (D_801F8864 > -0x1E0000) {
             D_801F8864 -= 0xC000;
