@@ -3523,13 +3523,11 @@ extern s32 rand(void);
 
 void func_8017E9CC(s32 arg0) {
     s32 v0;
-    register s32 flag __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
 
     func_8017EEFC(arg0, 0xD, 0, &D_80195614);
-    flag = D_8019F708;
-    *(s32 *)(arg0 + 0x1C) = 0x11;
+    ((s32 *)arg0)[7] = 0x11;
 
-    if (flag == 1) {
+    if (D_8019F708 == 1) {
         extern u16 D_80126B5E;
         extern u16 D_80126B66;
 
