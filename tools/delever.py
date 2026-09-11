@@ -3423,6 +3423,58 @@ def merge_set_chains(text, tu, fn, d_):
     return out
 
 
+def return_constants(text, tu, fn, d_):
+    """[(description, candidate text)] — R37: a result local `r = 0; if (A) r = (B); return r;` (or with `{ }`) written as
+    `if (A && B) return 1; return 0;` — and the nested form `if (A) { if (B) return 1; } return 0;`.
+
+    T7 agent d27 (func_80184B94 + three copies + the shared header func_8013E448.h ×141, P36 S104): the result pseudo
+    `r = 0` was hoisted by sched1 above the call-result copy and took `$a1`, costing a final `move v0,a1`. With constant
+    returns jump1's store-flag works on the hard `$v0` (`jump.c:1140-1210`, the `x = b; if (…) x = a` hoist `:700-760`),
+    which sched1 must keep after the copy. Only when `r` has exactly these three mentions; its declaration goes."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    out = []
+    for k in range(lo, hi):
+        rm = re.match(r"^(\s*)return\s+([A-Za-z_]\w*)\s*;\s*$", masked[k])
+        if not rm:
+            continue
+        ind, r = rm.group(1), rm.group(2)
+        hits = [i for i in range(lo, hi) if re.search(r"\b%s\b" % re.escape(r), masked[i])]
+        decl = [i for i in hits if re.match(r"^\s*[A-Za-z_][\w\s]*\**\s*%s\s*;\s*$" % re.escape(r), masked[i])]
+        use = [i for i in hits if i not in decl]
+        z = next((i for i in use if re.match(r"^\s*%s\s*=\s*0\s*;\s*$" % re.escape(r), masked[i])), None)
+        if z is None:
+            continue
+        rest = [i for i in use if i not in (z, k)]
+        # `if (A) r = (B);` on one line, or `if (A) {` / `r = (B);` / `}`
+        span = None
+        if len(rest) == 1:
+            i = rest[0]
+            m1 = re.match(r"^\s*if\s*\((.*)\)\s*\{?\s*%s\s*=\s*(.+?);\s*\}?\s*$" % re.escape(r), masked[i])
+            if m1 and masked[i].count("(") == masked[i].count(")"):
+                span = (i, i, lines[i][masked[i].index("(") + 1:m1.end(1)], lines[i][m1.start(2):m1.end(2)])
+            elif i >= 1 and re.match(r"^\s*if\s*\((.*)\)\s*\{\s*$", masked[i - 1]) and re.match(r"^\s*\}\s*$", masked[i + 1]):
+                m2 = re.match(r"^\s*%s\s*=\s*(.+?);\s*$" % re.escape(r), masked[i])
+                mc = re.match(r"^\s*if\s*\((.*)\)\s*\{\s*$", masked[i - 1])
+                if m2 and mc:
+                    span = (i - 1, i + 1, lines[i - 1][mc.start(1):mc.end(1)], lines[i][m2.start(1):m2.end(1)])
+        if not span or not (z < span[0] and span[1] < k):
+            continue
+        a, b = span[2].strip(), span[3].strip()
+        if b.startswith("(") and b.endswith(")"):
+            b = b[1:-1].strip()
+        for tag, new in (("and", [f"{ind}if (({a}) && ({b})) {{", f"{ind}    return 1;", f"{ind}}}", f"{ind}return 0;"]),
+                         ("nested", [f"{ind}if ({a}) {{", f"{ind}    if ({b}) {{", f"{ind}        return 1;", f"{ind}    }}",
+                                     f"{ind}}}", f"{ind}return 0;"])):
+            cand = list(lines)
+            for x in [z] + list(range(span[0], span[1] + 1)) + decl:
+                cand[x] = None
+            cand[k] = "\n".join(new)
+            out.append((f"return-constants {r} {tag} @{k + 1}", "\n".join(l for l in cand if l is not None)))
+    return out
+
+
 def merge_pinned_twins(tu, fn, free_text):
     """[(description, candidate text)] — R28: locals the TREE pins to the same hard register, merged into one variable.
 
@@ -3640,7 +3692,7 @@ def named_ports(tu, fn, max_donors=6):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -3799,6 +3851,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R36" in fam:
         for desc, cand in merge_set_chains(text, tu, fn, d_):
             out.append(("R36", desc, cand))
+    if "R37" in fam:
+        for desc, cand in return_constants(text, tu, fn, d_):
+            out.append(("R37", desc, cand))
     if "R34" in fam:
         for desc, cand in merge_disjoint_locals(text, tu, fn, d_):
             out.append(("R34", desc, cand))
