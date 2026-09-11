@@ -2934,18 +2934,21 @@ typedef struct {
 
 void func_80181C84(s32 a0)
 {
-    /* LOAD-BEARING pins: without them the entity lands in $s2 and the loop counter in $s1
-     * (measured, 40 rows). $s2=i, $s3=n, and q pinned to $v1 -- unpinned, local-alloc gives
-     * q=$a0 / (r%q)=$v1, the exact inverse of the target in BOTH div loops (20 rows). */
+    /* LOAD-BEARING (P36 S104 e32, replacing the $s2/$v1 pins): case 7 and case 8 each carry their
+     * OWN copy of the 0x34/0x1C/0x102/0xE0 tail (no shared label) -- the extra references raise the
+     * entity's allocno_compare priority above `i` (global.c:594-607), so the entity takes $s1 and `i`
+     * $s2; post-reload cross-jump (jump.c:2371) re-merges the two tails, so the bytes keep one copy.
+     * `q` is declared inside each `if (p != 0)` block: a q shared by the two div loops is a global
+     * allocno that conflicts with the unused-remainder pseudo of `0x1C0 / n` in $v1; a per-block q is
+     * local and takes $v1 itself. */
     s32 s1;
     Local_80181C84 local;
     u8 *b58;
     u16 tE;
     u16 t34;
     u16 t34b;
-    register s32 i __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 i;
     s32 n;
-    register s32 q __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
     s32 r;
     s32 p;
     s32 tA;
@@ -3017,6 +3020,7 @@ void func_80181C84(s32 a0)
             for (i = 0; i < n; i++) {
                 p = ((s32 (*)(void *, s16, s32))func_80183D38)((void *)s1, 0, 0);
                 if (p != 0) {
+                    s32 q;
                     r = rand();
                     q = 0x1C0 / n;
                     /* LOAD-BEARING: load 0x6 BEFORE storing 0xA (they may alias, so gcc will
@@ -3043,6 +3047,7 @@ void func_80181C84(s32 a0)
             for (i = 0; i < n; i++) {
                 p = ((s32 (*)(void *, s16, s32))func_80183D38)((void *)s1, 0, 0);
                 if (p != 0) {
+                    s32 q;
                     r = rand();
                     q = 0x1C0 / n;
                     /* LOAD-BEARING: load 0x6 BEFORE storing 0xA (they may alias, so gcc will
@@ -3066,23 +3071,22 @@ void func_80181C84(s32 a0)
     case 7:
         *(u16 *)(s1 + 0x102) = *(u16 *)(s1 + 0x102) - 0x20;
         if ((s16)*(u16 *)(s1 + 0x102) < 0) {
-            goto lShared;
+            t34b = *(u16 *)(s1 + 0x34) + 1;
+            *(s32 *)(s1 + 0x1C) = 0x10;
+            *(u16 *)(s1 + 0x102) = 0;
+            *(s32 *)(s1 + 0xE0) = *(s32 *)(s1 + 0xE0) | 0x10;
+            *(u16 *)(s1 + 0x34) = t34b;
         }
         break;
     case 8:
         *(u16 *)(s1 + 0x102) = *(u16 *)(s1 + 0x102) + 0x20;
-        if ((s16)*(u16 *)(s1 + 0x102) <= 0) {
-            break;
+        if ((s16)*(u16 *)(s1 + 0x102) > 0) {
+            t34b = *(u16 *)(s1 + 0x34) + 1;
+            *(s32 *)(s1 + 0x1C) = 0x10;
+            *(u16 *)(s1 + 0x102) = 0;
+            *(s32 *)(s1 + 0xE0) = *(s32 *)(s1 + 0xE0) | 0x10;
+            *(u16 *)(s1 + 0x34) = t34b;
         }
-    lShared:
-        /* LOAD-BEARING: a SEPARATE temp from case 0's t34 (sharing one kills case 0's coalesce),
-         * and the 0x34 load must HEAD the block -- it is a branch target, so reorg cannot
-         * speculate a load into case 8's blez delay slot, which is why the target has a nop. */
-        t34b = *(u16 *)(s1 + 0x34) + 1;
-        *(s32 *)(s1 + 0x1C) = 0x10;
-        *(u16 *)(s1 + 0x102) = 0;
-        *(s32 *)(s1 + 0xE0) = *(s32 *)(s1 + 0xE0) | 0x10;
-        *(u16 *)(s1 + 0x34) = t34b;
         break;
     case 9:
     case 10:

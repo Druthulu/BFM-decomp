@@ -1,0 +1,1 @@
+UNSTRIPPABLE [('launder', 5283, 'launder with 2 inputs')]
