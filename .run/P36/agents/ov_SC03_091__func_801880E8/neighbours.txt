@@ -1,0 +1,5 @@
+--- func_80187F94 (line 5966) ---
+/* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),
+ * a1 = s16[3] offset vector, a2 = mode passed through to func_8012CEB0.
+ * Same family as func_8012CC88 (src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c etc) but the
+ * position-integration step is a real call to func_8012931C instead of being inlined. */

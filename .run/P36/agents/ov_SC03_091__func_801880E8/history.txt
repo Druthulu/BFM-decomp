@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 51 best 29 compiles 181 path R9 swap-stmts @6124 + R18 bystander @6121->6125
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @6121->6125 -> 29 [COUNT] (from 36)
+  R18 bystander @6121->6124 -> 30 [COUNT] (from 36)
+  R18 bystander @6121->6125 -> 30 [COUNT] (from 37)
+  R9 swap-stmts @6121 -> 33 [COUNT] (from 36)
+  R18 bystander @6122->6120 -> 33 [COUNT] (from 36)
+  R18 bystander @6122->6125 -> 33 [COUNT] (from 36)
+  R18 bystander @6121->6124 -> 33 [COUNT] (from 37)
+  R9 swap-stmts @6124 -> 36 [COUNT] (from 51)
+  R7 block @6120 -> 36 [COUNT] (from 36)
+  R10 param-copy param_1 @6113 -> 36 [COUNT] (from 36)
+  R7 do-while @6120 -> 36 [COUNT] (from 36)
+  R10 param-copy arg1 @6113 -> 36 [COUNT] (from 36)

@@ -1,0 +1,15 @@
+src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:func_8018632C: score 8 (COUNT; mine 56 ins, target 54) — not yet
+  replace mine[7:8] target[7:8]
+        7  lhu	s0,24(v0)                      | lh	s0,24(v0)
+  replace mine[9:11] target[9:10]
+        9  sll	s0,s0,0x10                     | sra	s0,s0,0x8
+       10  sra	s0,s0,0x18                     | --
+  replace mine[14:15] target[13:14]
+       14  bnez	v0,3188 <func_8018632C+0xc8>  | bnez	v0,3180 <func_8018632C+0xc0>
+  replace mine[18:19] target[17:18]
+       18  lhu	v0,26(v0)                      | lh	v0,26(v0)
+  replace mine[21:23] target[20:21]
+       21  sll	v0,v0,0x10                     | sra	a0,v0,0x6
+       22  sra	a0,v0,0x16                     | --
+  replace mine[28:29] target[26:27]
+       28  j	314c <func_8018632C+0x8c>        | j	3144 <func_8018632C+0x84>

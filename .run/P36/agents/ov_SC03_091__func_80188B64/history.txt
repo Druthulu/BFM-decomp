@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 4 best 4 compiles 142 path 
+s7: verdict NO-MATCH start 4 best 4 compiles 160 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width rv s32->u16 @6675 -> 4 [COUNT] (from 4)
+  R8 temp tmp0 @6684 -> 4 [COUNT] (from 4)
+  R7 block @6685 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @6684 -> 4 [COUNT] (from 4)
+  R10 param-copy arg0 @6678 -> 4 [COUNT] (from 4)
+  R12 width rv s32->s16 @6675 -> 4 [COUNT] (from 4)
+  R8 base tmp0 @6684 -> 4 [COUNT] (from 4)
+  R7 do-while @6685 -> 4 [COUNT] (from 4)
+  R12 width rv s32->u8 @6675 -> 4 [COUNT] (from 4)
+  R7 block @6682 -> 4 [COUNT] (from 4)
+  R7 do-while @6682 -> 4 [COUNT] (from 4)
+  R7 block @6684 -> 4 [COUNT] (from 4)

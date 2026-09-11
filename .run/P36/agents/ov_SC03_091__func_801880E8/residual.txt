@@ -1,0 +1,58 @@
+src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:func_801880E8: score 51 (COUNT; mine 60 ins, target 54) — not yet
+  insert  mine[3:3] target[3:4]
+        3  --                                 | sw	ra,92(sp)
+  insert  mine[4:4] target[5:11]
+        4  --                                 | sw	s0,80(sp)
+        5  --                                 | lw	a2,44(s1)
+        6  --                                 | nop
+        7  --                                 | lhu	v0,0(a2)
+        8  --                                 | nop
+        9  --                                 | beqz	v0,4f34 <func_801880E8+0xb8>
+  replace mine[5:12] target[12:30]
+        5  sw	ra,92(sp)                       | lui	a1,0x0
+        6  sw	s0,80(sp)                       | addiu	a1,a1,0
+        7  lw	a1,44(s1)                       | lw	v0,0(a1)
+        8  nop                                | lw	v1,4(a1)
+        9  lhu	v0,0(a1)                       | lw	a0,8(a1)
+       10  nop                                | sw	v0,32(sp)
+       11  beqz	v0,4f4c <func_801880E8+0xd0>  | sw	v1,36(sp)
+       12  --                                 | sw	a0,40(sp)
+       13  --                                 | lw	v0,12(a1)
+       14  --                                 | lw	v1,16(a1)
+       15  --                                 | lw	a0,20(a1)
+       16  --                                 | sw	v0,44(sp)
+       17  --                                 | sw	v1,48(sp)
+       18  --                                 | sw	a0,52(sp)
+       19  --                                 | lw	v0,24(a1)
+       20  --                                 | lw	v1,28(a1)
+       21  --                                 | sw	v0,56(sp)
+       22  --                                 | sw	v1,60(sp)
+  delete  mine[13:37] target[31:31]
+       13  lui	v0,0x0                         | --
+       14  lw	v0,0(v0)                        | --
+       15  lui	v1,0x0                         | --
+       16  lw	v1,4(v1)                        | --
+       17  lui	a2,0x0                         | --
+       18  lw	a2,8(a2)                        | --
+       19  sw	v0,32(sp)                       | --
+       20  lui	v0,0x0                         | --
+       21  lw	v0,12(v0)                       | --
+       22  sw	v1,36(sp)                       | --
+       23  lui	v1,0x0                         | --
+       24  lw	v1,16(v1)                       | --
+       25  sw	a2,40(sp)                       | --
+       26  lui	a2,0x0                         | --
+       27  lw	a2,20(a2)                       | --
+       28  sw	v0,44(sp)                       | --
+       29  lui	v0,0x0                         | --
+       30  lw	v0,24(v0)                       | --
+       31  sw	v1,48(sp)                       | --
+       32  lui	v1,0x0                         | --
+       33  lw	v1,28(v1)                       | --
+       34  addiu	a1,a1,4                      | --
+       35  sw	a2,52(sp)                       | --
+       36  sw	v0,56(sp)                       | --
+  replace mine[38:39] target[32:33]
+       38  sw	v1,60(sp)                       | addiu	a1,a2,4
+  replace mine[50:51] target[44:45]
+       50  j	4f50 <func_801880E8+0xd4>        | j	4f38 <func_801880E8+0xbc>

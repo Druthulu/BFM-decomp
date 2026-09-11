@@ -1,0 +1,6 @@
+src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:func_80185730: score 3 (MIXED; mine 52 ins, target 52) — not yet
+  register pairs (mine -> target, count): v0->v1 x2, s3->v0 x1
+  replace mine[41:44] target[41:44]
+       41  lw	v0,32(sp)                       | lw	v1,32(sp)
+       42  nop                                | move	v0,s3
+       43  sw	v0,0(s3)                        | sw	v1,0(v0)

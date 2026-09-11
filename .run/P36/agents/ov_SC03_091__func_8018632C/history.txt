@@ -1,0 +1,15 @@
+s5: verdict NO-MATCH start 8 best 8 compiles 190 path 
+s7: verdict NO-MATCH start 8 best 7 compiles 562 path R6 inline p @4790 + R8 temp tmp0 @4789 + R12 width h s32->u16 @4778
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width h s32->u16 @4778 -> 7 [COUNT] (from 8)
+  R12 width h s32->u16 @4778 -> 7 [COUNT] (from 8)
+  R12 width h s32->u16 @4778 -> 7 [COUNT] (from 8)
+  R6 inline p @4790 -> 8 [COUNT] (from 8)
+  R8 temp tmp0 @4790 -> 8 [COUNT] (from 8)
+  R18 bystander @4805->4808 -> 8 [COUNT] (from 8)
+  R7 block @4790 -> 8 [COUNT] (from 8)
+  R8 base tmp0 @4790 -> 8 [COUNT] (from 8)
+  R7 do-while @4790 -> 8 [COUNT] (from 8)
+  R8 temp tmp0 @4791 -> 8 [COUNT] (from 8)
+  R7 block @4791 -> 8 [COUNT] (from 8)
+  R8 base tmp0 @4791 -> 8 [COUNT] (from 8)

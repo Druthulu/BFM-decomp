@@ -1,0 +1,5 @@
+REMOVED  decl-body          line 6221
+REMOVED  pin         $5     line 6230
+NEEDED   pin         $2     line 6231
+NEEDED   launder            line 6232
+NEEDED   keepalive          line 6239

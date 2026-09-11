@@ -1,0 +1,8 @@
+src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:func_80188B64: score 4 (COUNT; mine 42 ins, target 45) — not yet
+  replace mine[25:26] target[25:26]
+       25  beqz	v0,5988 <func_80188B64+0x90>  | bnez	v0,596c <func_80188B64+0x74>
+  insert  mine[27:27] target[27:29]
+       27  --                                 | j	5994 <func_80188B64+0x9c>
+       28  --                                 | move	v0,zero
+  insert  mine[36:36] target[38:39]
+       36  --                                 | li	v0,1
