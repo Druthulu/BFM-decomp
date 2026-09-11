@@ -4765,21 +4765,10 @@ s32 func_80181294(s32 arg0) {
     if (*(s32 *)(arg0 + 0x1C) % 10 == 0) {
         sp10[1] = D_8018E40A;
         for (i = 0; i < 5; i++) {
-            register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
             t = rand() % 80;
-            if ((rand() & 1) == 0) {
-                v = -t;
-            } else {
-                v = t;
-            }
-            sp10[0] = v;
+            sp10[0] = ((rand() & 1) == 0) ? -t : t;
             t2 = rand() % 16;
-            if ((rand() & 1) == 0) {
-                v = -t2 + 0x40;
-            } else {
-                v = t2 + 0x40;
-            }
-            sp10[2] = v;
+            sp10[2] = ((rand() & 1) == 0) ? -t2 + 0x40 : t2 + 0x40;
             ((void (*)(s32, void *, s32))func_8017DC70)(arg0, sp10, 1);
         }
         func_8002D4C8(0xBA0, 0);
