@@ -3513,11 +3513,10 @@ extern u16 D_80126B5E;
 extern u16 D_80126B66;
 
 void func_80191A78(s32 arg0) {
-    register s32 r __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 r;
     u16 t;
     s32 d0;
     s32 d1;
-    register s32 e __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
 
     *(u16 *)(arg0 + 0xE8) = (*(u8 *)(arg0 + 0xC2) << 4) + 0x100;
     switch (*(u16 *)(arg0 + 0x34)) {
@@ -3550,8 +3549,8 @@ void func_80191A78(s32 arg0) {
         d1 = *(s16 *)&D_80126B66 - *(s16 *)(arg0 + 0xE);
         if (d0 * d0 + d1 * d1 < 0x40000) {
             *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
-            e = *(s32 *)(arg0 + 0x6C);
-            *(u16 *)(e + 0x34) = *(u16 *)(e + 0x34) + 1;
+            r = *(s32 *)(arg0 + 0x6C);
+            *(u16 *)(r + 0x34) = *(u16 *)(r + 0x34) + 1;
         }
         break;
     case 3:
@@ -3559,8 +3558,8 @@ void func_80191A78(s32 arg0) {
         if (*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) == 0) {
             *(u16 *)(arg0 + 0xAE) = 0;
             *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
-            e = *(s32 *)(arg0 + 0xCC);
-            *(u16 *)(e + 0x34) = *(u16 *)(e + 0x34) + 1;
+            r = *(s32 *)(arg0 + 0xCC);
+            *(u16 *)(r + 0x34) = *(u16 *)(r + 0x34) + 1;
             func_8002D4C8(0xAD5, 0);
         }
         break;

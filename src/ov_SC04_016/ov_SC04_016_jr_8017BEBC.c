@@ -3960,7 +3960,7 @@ void func_8017E960(s32 param_1, s32 param_2, s32 *param_3)
 {
     s32 dx, dy, dz;
     s32 ax, az;
-    register s32 ay __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 ay;
 
     dx = *(s16 *)(param_2 + 2) - *(s16 *)(param_1 + 2);
     dy = *(s16 *)(param_2 + 6) - *(s16 *)(param_1 + 6);
@@ -3970,8 +3970,9 @@ void func_8017E960(s32 param_1, s32 param_2, s32 *param_3)
     if (dx < 0) {
         ax = -dx;
     }
-    ay = dy;
-    if (dy < 0) {
+    if (dy >= 0) {
+        ay = dy;
+    } else {
         ay = -dy;
     }
     az = dz;

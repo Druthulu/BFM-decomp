@@ -5775,15 +5775,13 @@ void func_8018047C(int param_1)
             if (2 <= *(unsigned short *)(param_1 + 0x34)) {
                 ((void (*)(int))func_8017F694)(param_1);
             } else {
-                register int cnt __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
                 if (*(unsigned short *)(param_1 + 0x34) == 0) {
                     func_8002D4C8(0x487, 0);
                 }
-                cnt = *(unsigned short *)(param_1 + 0x34) + 1;
                 *(int *)(param_1 + 0xdc) = 0x4000000;
                 *(unsigned short *)(param_1 + 0x5c) = *(unsigned short *)(param_1 + 0x5c) | 0xcc00;
                 *(int *)(param_1 + 0xe0) = -(*(int *)(param_1 + 0xe0) >> 1);
-                *(unsigned short *)(param_1 + 0x34) = cnt;
+                (*(unsigned short *)(param_1 + 0x34))++;
             }
         }
     }

@@ -49,10 +49,8 @@ void func_80166438(u8 *a0) {
     }
     func_80128EA8((s32)s0, (s32)(a0 + 0x24), (s32)D_800D3888);
     {
-        register s32 r asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
-        r = *(u16 *)(a0 + 2) + 1;
         *(u16 *)(a0 + 0x16) = *(s32 *)(a0 + 0x2C);
-        *(u16 *)(a0 + 2) = r;
+        (*(u16 *)(a0 + 2))++;
     }
     func_801665B4((s32)a0);
     return;
