@@ -188,3 +188,34 @@
       SUBREG copy survives, `local-alloc.c:1003-1007`); a hand-rolled `if (v < 0) v += 2^k-1; v >>= k;` is `v / 2^k`.
     - A `(void)` function whose first act reads a pinned `$a0`–`$a3` TAKES A PARAMETER; a narrow parameter the bytes use as s32
       IS s32; a store through another symbol of the same address is identical only after LINKING — all three are parked.
+17. **S105's landings (f1 `src/800.c`, f2 `src/800_c.c` — 8 of 8 at 0: 5 plain C, 3 minimum-lever):**
+    - (f2) **the LOOP FAMILY decides most COUNT residuals; the target says which biv it is:** the walked pointer's step emitted BEFORE
+      the counter's `i++` = a counter-derived giv → `p = (T *)base + i * K;` at the loop top (**generator R44**; e21's law); AFTER
+      `i++` = the pointer is its own biv, a RECORD base with no offset-0 access → `rec = SYM - OFF; rec[OFF ± k]` with OFF the
+      textually LAST access's offset (`record_giv` prepends, `loop.c:4421`; the biv is eliminated, `loop.c:4035`). A lone address giv
+      is never worth reducing (`-dL` benefit 2 per op, `add_cost` 2), a combined pair always is. A second derived pointer from the
+      same base (`a1 = arg0 + 0x1B` beside `a3 = arg0 + 0x1A`) merges as `a3[c + 1]` (**R22 extended**).
+    - (f1) read the target's PREHEADER giv init: it reads the parameter register while the copy lives elsewhere → walk the
+      PARAMETER itself; it reads the register the pointer lives in → walk a LOCAL COPY (`record_initial` `loop.c:6327`,
+      `valid_initial_value_p` `:4120`: a biv whose initial value is the hard `$a0` gets its giv init off `$a0`).
+    - (f1) an OT-link `(A & 0xFF000000) | (B & 0xFFFFFF)` addPrim pair (in main: three witnesses in one TU; 256 files carry the
+      mask pair) is the libgpu **P_TAG BITFIELD** store — body-local `typedef struct { u32 addr : 24; u32 len : 8; } PTag;` and
+      `p->addr = ot[k].addr; ot[k].addr = (u32)p;` with the slot expression repeated in both halves as the macro does:
+      `store_fixed_bit_field` (`expmed.c:556-706`) gives one set-once pseudo per value where the hand mask spelling reuses a temp
+      that dies 4× (`local-alloc.c:472`) and goes global. Not a regex generator — a whole-body respelling; try it FIRST in main.
+    - (f1) a `$aN` pin feeding a call whose delay slot the target leaves `nop`: read the CALLEE's body — if it never reads `$aN`,
+      call it `(void)` through a body-local cast; when the pin IS the function's own parameter (`assign_parms`, `function.c:3679`),
+      it is a SIGNATURE change → minimum-lever bank with the patch in `scratch/`, parked.
+    - (f2) a `$a0`↔`$aK` permutation between a pointer parameter and an entry-block byte value used across a `switch` (`move aK,a0`
+      at entry, `move a0,aK` before calls): the switch value is a NARROW `s16` local (its HImode block-local load takes `$4` in
+      local-alloc; the SImode subreg copy survives cse `cse.c:7440-7460`; the parameter loses its `$a0` preference in
+      `prune_preferences` `global.c:845-860`) — `u16`/`u8` do NOT work; pair with the per-case split of a multi-case temp (d7).
+    - (f2) a narrow `s16` parameter the target treats as `s32` (PROMOTE_PROTOTYPES narrowing at entry, `function.c:3664-3676`) is a
+      signature change: minimum-lever bank with ONE marked `$4` pin, patch in `scratch/`.
+    - (f1) a local-alloc PRIORITY contest (`qty_compare`, `local-alloc.c:1579`; `tools/localalloc_sim.py`) where the losing temp
+      already has every ref its instructions allow and cannot be born later (a multi-set temp's load is priority 1 and sched1's
+      hazard tie-break lifts it above every store, `sched.c:2620-2690`; a set-once one sinks into the load-latency gap) → bank the
+      minimum-lever body with that ONE pin marked; two `$sN` pins on narrow parameter copies stored after a call with a too-small
+      frame → move the copies ABOVE the call (`global.c:925-990`: the copies cross the call, take `$s`, the parameters spill).
+    - The `addu %0,$zero,$zero` instruction is `x = 0;` (the table knows it now); every remaining UNSTRIPPABLE pack is a one-off
+      instruction (`mult` with no output, a 3-word block copy, `nop; addiu`) — strip it by hand from `body_tree.c`.
