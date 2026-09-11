@@ -1,0 +1,36 @@
+src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:func_80184754: score 22 (COUNT; mine 72 ins, target 73) — not yet
+  register pairs (mine -> target, count): t0->t1 x10, t1->t0 x7, a0->t0 x2
+  insert  mine[1:1] target[1:2]
+        1  --                                 | move	t0,a0
+  replace mine[2:5] target[3:6]
+        2  lw	t0,100(a0)                      | lw	t1,100(t0)
+        3  lh	v1,252(a0)                      | lh	v1,252(t0)
+        4  lh	v0,54(t0)                       | lh	v0,54(t1)
+  replace mine[7:8] target[8:9]
+        7  move	t1,a0                         | nop
+  replace mine[10:11] target[11:12]
+       10  j	6930 <func_80184754+0x110>       | j	6934 <func_80184754+0x114>
+  replace mine[12:13] target[13:14]
+       12  lw	v0,28(t0)                       | lw	v0,28(t1)
+  replace mine[24:25] target[25:26]
+       24  j	6930 <func_80184754+0x110>       | j	6934 <func_80184754+0x114>
+  replace mine[26:30] target[27:31]
+       26  lw	v0,4(t0)                        | lw	v0,4(t1)
+       27  lw	v1,32(t1)                       | lw	v1,32(t0)
+       28  sw	v0,4(t1)                        | sw	v0,4(t0)
+       29  lw	v0,8(t0)                        | lw	v0,8(t1)
+  replace mine[31:33] target[32:34]
+       31  sw	v0,8(t1)                        | sw	v0,8(t0)
+       32  lw	v0,12(t0)                       | lw	v0,12(t1)
+  replace mine[34:36] target[35:37]
+       34  sw	v0,12(t1)                       | sw	v0,12(t0)
+       35  lw	v0,32(t0)                       | lw	v0,32(t1)
+  replace mine[45:47] target[46:48]
+       45  lw	v1,32(t1)                       | lw	v1,32(t0)
+       46  lw	v0,32(t0)                       | lw	v0,32(t1)
+  replace mine[56:58] target[57:59]
+       56  lw	v0,32(t0)                       | lw	v0,32(t1)
+       57  lw	v1,32(t1)                       | lw	v1,32(t0)
+  replace mine[61:63] target[62:64]
+       61  lw	v0,32(t0)                       | lw	v0,32(t1)
+       62  lw	v1,32(t1)                       | lw	v1,32(t0)

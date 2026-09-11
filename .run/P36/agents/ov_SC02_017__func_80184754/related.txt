@@ -1,0 +1,61 @@
+=== lever-free bodies in ov_SC02_017 sharing a callee or global with func_80184754 (34 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801846B8 (src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:7037) shares 4: D_801CC38C D_801CCE84 D_801EFA68 func_80132288 ---
+void func_801846B8(void *arg0)
+{
+    s32 s1 = (s32)arg0;
+    s32 *p;
+    s32 v0;
+
+    do { v0 = ((s32 (*)(void))func_8012C1B8)(); } while (0);
+    *(s32 *)(s1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(s32))func_8012CAE4)(s1);
+    } else {
+        p = &D_801CCE84;
+        ((void (*)(s32, s32))func_8001C214)(v0, (s32)p);
+        *(u16 *)(s1 + 0xFC) = *(u16 *)(*(s32 *)(s1 + 0x64) + 0x36);
+        *(u16 *)(s1 + 0x2) = 1;
+        ((void (*)(s32, void *))func_8012A828)(s1, aD8018A800);
+        ((void (*)(s32 *, s32 *, s32))func_80132288)(&D_801EFA68, &D_801CC38C, *p);
+    }
+}
+
+--- func_8017D038 (src/ov_SC02_017/ov_SC02_017_jr_8017AE2C.c:4045) shares 1: func_8012C218 ---
+    void func_8017D038(void) {
+        ((void (*)(void))func_8012C218)();
+    }
+
+--- func_80188F20 (src/ov_SC02_017/ov_SC02_017_jr_80186C64.c:4908) shares 1: func_8012C218 ---
+    s32 func_80188F20(void * arg0)
+    {
+        *(short *)((char *)arg0 + 0x2) = 2;
+        ((void (*)(s32 *))func_8012C218)(*(s32 **)((char *)arg0 + 0xcc));
+    }
+
+--- func_801439C0 (src/shared/ov/func_801439C0.h:5) shares 1: func_8012C218 ---
+void func_801439C0(u8 *a0) {
+    if (a0 != 0) {
+        func_80016714(*(void **)(a0 + 0xCC), 0x38);
+        func_8012C218(a0);
+    }
+}
+
+--- func_80180590 (src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:4128) shares 1: func_8012C218 ---
+void func_80180590(void *arg0) {
+    if (*(s32 *)((s32)arg0 + 0xCC) != 0) {
+        func_8012C218(*(void **)((s32)arg0 + 0xCC));
+    }
+    func_8012C218(arg0);
+}
+
+--- func_80142778 (src/shared/ov/func_80142778.h:4) shares 1: func_8012C218 ---
+void func_80142778(u8 *a1) {
+    u8 *a0 = *(u8 **)(a1 + 0x20);
+    *(u16 *)(a0 + 0x18) = *(u16 *)(a0 + 0x18) - 0x800;
+    *(u16 *)(a0 + 0x1A) = *(u16 *)(a0 + 0x1A) - 0x800;
+    *(u16 *)(a1 + 0xA) = *(u16 *)(a1 + 0xA) + 0x10;
+    if (*(s16 *)(a0 + 0x18) <= 0) {
+        func_8012C218(a1);
+    }
+}
+

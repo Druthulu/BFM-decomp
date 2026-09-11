@@ -1,0 +1,10 @@
+src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:func_80186770: score 4 (REG-caller; mine 230 ins, target 230) — not yet
+  register pairs (mine -> target, count): v1->a2 x4, a2->v1 x3
+  replace mine[72:73] target[72:73]
+       72  lw	a2,32(s0)                       | lw	v1,32(s0)
+  replace mine[74:75] target[74:75]
+       74  lhu	v1,18(a2)                      | lhu	a2,18(v1)
+  replace mine[77:78] target[77:78]
+       77  addu	v1,v1,v0                      | addu	a2,a2,v0
+  replace mine[79:80] target[79:80]
+       79  sh	v1,18(a2)                       | sh	a2,18(v1)

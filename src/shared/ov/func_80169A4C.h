@@ -15,15 +15,13 @@ s32 func_80169A4C(s32 a0, s32 a1) {
     s32 m5;   /* -5 -> $v1 */
     s32 p5;   /* 5  -> $v0 */
     q = buf + 0x58;
-    __asm__("" : : "r"(q));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
     m5 = -5;
-    __asm__("" : : "r"(m5));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
+    *(s16 *)(buf + 0x08) = m5;   /* 0x18 */
     p5 = 5;
     *(s16 *)(buf + 0x18) = p5;   /* 0x28 */
     *(s16 *)(buf + 0x10) = p5;   /* 0x20 */
     *(s16 *)(buf + 0x1a) = p5;   /* 0x2A */
     *(s16 *)(buf + 0x0a) = p5;   /* 0x1A */
-    *(s16 *)(buf + 0x08) = m5;   /* 0x18 */
     *(s16 *)(buf + 0x00) = m5;   /* 0x10 */
     *(s16 *)(buf + 0x12) = m5;   /* 0x22 */
     *(s16 *)(buf + 0x02) = m5;   /* 0x12 */

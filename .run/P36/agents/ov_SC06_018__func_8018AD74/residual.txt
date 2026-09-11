@@ -1,0 +1,9 @@
+src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:func_8018AD74: score 5 (COUNT; mine 60 ins, target 60) — not yet
+  insert  mine[29:29] target[29:30]
+       29  --                                 | jal	0 <func_80187AEC>
+  replace mine[30:31] target[31:33]
+       30  jal	0 <func_80187AEC>              | move	s0,v0
+       31  --                                 | beqz	s0,335c <func_8018AD74+0xd4>
+  delete  mine[32:34] target[34:34]
+       32  move	s0,v0                         | --
+       33  beqz	s0,335c <func_8018AD74+0xd4>  | --

@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 4 best 4 compiles 188 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R5 swap + @8656 -> 4 [REG] (from 4)
+  R10 param-copy param_1 @8620 -> 4 [REG] (from 4)
+  R7 block @8650 -> 4 [REG] (from 4)
+  R8 base tmp0 @8644 -> 4 [REG] (from 4)
+  R9 swap-stmts @8643 -> 4 [REG] (from 4)
+  R6 inline nv @8656 -> 4 [REG] (from 4)
+  R8 temp tmp0 @8655 -> 4 [REG] (from 4)
+  R7 block @8649 -> 4 [REG] (from 4)
+  R6 inline v @8623 -> 4 [REG] (from 4)
+  R8 base tmp0 @8655 -> 4 [REG] (from 4)
+  R8 hoist tmp0 @8656 -> 4 [REG] (from 4)
+  R7 block @8644 -> 4 [REG] (from 4)

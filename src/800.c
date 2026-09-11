@@ -12740,13 +12740,12 @@ void func_80020DA4(s32 a0, s32 a1) {
     hi2 = *(s16 *)(addr2 + 2);
     m2 = hi0 * hi2;
     p1 = src[1] & 0xFFF;
-    __asm__("" : "=r"(p1) : "0"(p1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     addr1 = (p1 << 2) + tbl;
     lo0 = (s16)e0;
     lo1 = *(s16 *)addr1;
     m3 = lo0 * lo1;
     e1 = *(s32 *)addr1;
-    hi1 = e1 >> 16;
+    do { hi1 = e1 >> 16; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     m4 = hi2 * hi1;
     p_ab = m3 >> 12;
     m5 = p_ab * hi2;
@@ -12759,7 +12758,6 @@ void func_80020DA4(s32 a0, s32 a1) {
     m11 = hi1 * hi0;
     p1v = m1 >> 12;
     m12 = p1v * lo1;
-    __asm__("" : "=r"(e1) : "0"(e1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     dst[6] = -e1;
     dst[0] = m4 >> 12;
     dst[3] = m8 >> 12;

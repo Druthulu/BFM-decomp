@@ -1,0 +1,8 @@
+src/800_c.c:func_80036FB0: score 4 (COUNT; mine 20 ins, target 21) — not yet
+  insert  mine[0:0] target[0:1]
+        0  --                                 | addiu	sp,sp,-8
+  replace mine[3:5] target[4:5]
+        3  blez	v0,1d88 <func_80036FB0+0x48>  | blez	v0,1d88 <func_80036FB0+0x48>
+        4  nop                                | --
+  insert  mine[18:18] target[18:19]
+       18  --                                 | addiu	sp,sp,8

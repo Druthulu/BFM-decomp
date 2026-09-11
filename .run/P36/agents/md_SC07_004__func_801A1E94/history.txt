@@ -1,0 +1,15 @@
+g6b: verdict NO-MATCH start 14 best 1 compiles 312 path R12 width p s32->u16 @1187
+s8: verdict NO-MATCH start 14 best 1 compiles 246 path R12 width p s32->u16 @1187
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width p s32->u16 @1187 -> 1 [OTHER] (from 14)
+  R12 width p s32->u8 @1187 -> 1 [OTHER] (from 14)
+  R12 width param_1 s32->u16 @1186 -> 1 [OTHER] (from 14)
+  R12 width param_1 s32->u8 @1186 -> 1 [OTHER] (from 14)
+  R4 decl-move param_1 0->1 -> 1 [OTHER] (from 1)
+  R7 block @1191 -> 1 [OTHER] (from 1)
+  R8 temp tmp0 @1194 -> 1 [OTHER] (from 1)
+  R9 swap-stmts @1191 -> 1 [OTHER] (from 1)
+  R12 width param_1 s32->u16 @1186 -> 1 [OTHER] (from 1)
+  R18 bystander @1193->1191 -> 1 [OTHER] (from 1)
+  R4 decl-move param_1 0->2 -> 1 [OTHER] (from 1)
+  R8 base tmp0 @1194 -> 1 [OTHER] (from 1)

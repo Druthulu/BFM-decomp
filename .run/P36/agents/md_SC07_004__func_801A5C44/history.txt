@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 15 best 1 compiles 184 path R12 width s0 s32->u16 @3902
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width s0 s32->u16 @3902 -> 1 [OTHER] (from 15)
+  R5 swap + @3911 -> 1 [OTHER] (from 1)
+  R7 block @3907 -> 1 [OTHER] (from 1)
+  R8 temp tmp0 @3907 -> 1 [OTHER] (from 1)
+  R9 swap-stmts @3907 -> 1 [OTHER] (from 1)
+  R12 width a0 s32->u16 @3901 -> 1 [OTHER] (from 1)
+  R5 swap + @3913 -> 1 [OTHER] (from 1)
+  R6 inline temp @3910 -> 1 [OTHER] (from 1)
+  R8 base tmp0 @3907 -> 1 [OTHER] (from 1)
+  R12 width a0 s32->s16 @3901 -> 1 [OTHER] (from 1)
+  R18 bystander @3907->3910 -> 1 [OTHER] (from 1)
+  R6 inline temp @3912 -> 1 [OTHER] (from 1)

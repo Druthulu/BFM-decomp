@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 1 best 1 compiles 191 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @7975 -> 1 [OTHER] (from 1)
+  R8 temp tmp0 @7975 -> 1 [OTHER] (from 1)
+  R10 param-copy a0 @7962 -> 1 [OTHER] (from 1)
+  R8 base tmp0 @7975 -> 1 [OTHER] (from 1)
+  R7 block @7974 -> 1 [OTHER] (from 1)
+  R8 temp tmp0 @7974 -> 1 [OTHER] (from 1)
+  R7 do-while @7974 -> 1 [OTHER] (from 1)
+  R8 base tmp0 @7974 -> 1 [OTHER] (from 1)
+  R18 bystander @7969->7971 -> 1 [OTHER] (from 1)
+  R7 block @7976 -> 1 [OTHER] (from 1)
+  R8 base-shared tmp0 @7974 -> 1 [OTHER] (from 1)
+  R7 do-while @7976 -> 1 [OTHER] (from 1)

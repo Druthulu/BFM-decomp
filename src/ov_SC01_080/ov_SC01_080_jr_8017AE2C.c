@@ -4576,8 +4576,8 @@ void func_8017E724(s32 param_1)
 {
     s16 arr[3];
     s32 a;
-    register s32 cur __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 ang __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 cur;
+    s32 ang;
     s32 d;
     s32 d2;
     s32 t;
@@ -4589,9 +4589,9 @@ void func_8017E724(s32 param_1)
     cur = (a + 0x400) & 0xFFF;
     base = &D_80126B58;
     d2 = (*(u16 *)((s32)D_80126B78 + 0x12) - cur) & 0xFFF;
+    rot = func_80047948(d2) / 32;
     ang = cur;
     cur = a;
-    rot = func_80047948(d2) / 32;
     *(s16 *)(param_1 + 0x2E) = -(func_8004787C(ang) * rot) / 4096;
     *(s16 *)(param_1 + 0x32) = -(func_80047948(ang) * rot) / 4096;
 

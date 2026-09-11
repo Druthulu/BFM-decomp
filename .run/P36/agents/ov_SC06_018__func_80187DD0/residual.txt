@@ -1,0 +1,15 @@
+src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:func_80187DD0: score 10 (REG-caller; mine 174 ins, target 174) — not yet
+  register pairs (mine -> target, count): v0->v1 x10, v1->v0 x8
+  replace mine[37:38] target[37:38]
+       37  lw	v1,96(a1)                       | lw	v0,96(a1)
+  replace mine[39:47] target[39:47]
+       39  andi	v0,v1,0xf                     | andi	v1,v0,0xf
+       40  sll	v0,v0,0x8                      | sll	v1,v1,0x8
+       41  or	a0,a0,v0                        | or	a0,a0,v1
+       42  sra	v0,v1,0x10                     | sra	v1,v0,0x10
+       43  andi	v0,v0,0xff                    | andi	v1,v1,0xff
+       44  andi	v1,v1,0xf0                    | andi	v0,v0,0xf0
+       45  sll	v1,v1,0x4                      | sll	v0,v0,0x4
+       46  or	v0,v0,v1                        | or	v1,v1,v0
+  replace mine[48:49] target[48:49]
+       48  sh	v0,262(t0)                      | sh	v1,262(t0)

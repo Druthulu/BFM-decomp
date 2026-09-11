@@ -1,0 +1,24 @@
+src/md_SC07_004/md_SC07_004.c:func_801A1E94: score 14 (COUNT; mine 41 ins, target 42) — not yet
+  register pairs (mine -> target, count): s1->s0 x6, s0->s1 x2
+  replace mine[2:4] target[2:6]
+        2  lui	s0,0x0                         | move	s0,a0
+        3  addiu	s0,s0,0                      | sw	s1,20(sp)
+        4  --                                 | lui	s1,0x0
+        5  --                                 | addiu	s1,s1,0
+  replace mine[5:7] target[7:8]
+        5  sw	s1,20(sp)                       | lw	a0,32(s0)
+        6  lw	a0,32(s1)                       | --
+  replace mine[8:9] target[9:10]
+        8  move	a1,s0                         | move	a1,s1
+  replace mine[11:12] target[12:13]
+       11  lw	a2,0(s0)                        | lw	a2,0(s1)
+  replace mine[16:17] target[17:18]
+       16  move	a0,s1                         | move	a0,s0
+  replace mine[18:19] target[19:20]
+       18  sh	v0,10(s1)                       | sh	v0,10(s0)
+  replace mine[21:23] target[22:24]
+       21  sh	v0,14(s1)                       | sh	v0,14(s0)
+       22  move	a0,s1                         | move	a0,s0
+  replace mine[26:28] target[27:29]
+       26  sw	v0,212(s1)                      | sw	v0,212(s0)
+       27  move	a0,s1                         | move	a0,s0

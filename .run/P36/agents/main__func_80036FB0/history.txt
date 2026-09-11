@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 4 best 4 compiles 213 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @1627 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @1626 -> 4 [COUNT] (from 4)
+  R10 param-copy arg0 @1617 -> 4 [COUNT] (from 4)
+  R7 do-while @1627 -> 4 [COUNT] (from 4)
+  R10 param-copy arg1 @1617 -> 4 [COUNT] (from 4)
+  R7 block @1626 -> 4 [COUNT] (from 4)
+  R7 do-while @1626 -> 4 [COUNT] (from 4)
+  R7 block @1624 -> 4 [COUNT] (from 4)
+  R7 do-while @1624 -> 4 [COUNT] (from 4)
+  R7 block @1619 -> 4 [COUNT] (from 4)
+  R7 do-while @1619 -> 4 [COUNT] (from 4)
+  R7 block @1620 -> 4 [COUNT] (from 4)

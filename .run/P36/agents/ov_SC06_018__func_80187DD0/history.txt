@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 10 best 2 compiles 187 path R5 swap | @3131 + R6 inline a0 @3128
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline a0 @3128 -> 2 [REG] (from 8)
+  R6 inline a0 @3127 -> 6 [MIXED] (from 9)
+  R6 inline a0 @3128 -> 6 [MIXED] (from 9)
+  R5 swap | @3131 -> 8 [REG] (from 10)
+  R8 temp tmp0 @3123 -> 8 [REG] (from 8)
+  R5 swap | @3128 -> 8 [REG] (from 8)
+  R18 bystander @3128->3131 -> 8 [REG] (from 8)
+  R7 block @3123 -> 8 [REG] (from 8)
+  R9 swap-stmts @3125 -> 8 [REG] (from 8)
+  R6 inline v1a @3127 -> 8 [REG] (from 8)
+  R8 base tmp0 @3123 -> 8 [REG] (from 8)
+  R18 bystander @3132->3129 -> 8 [REG] (from 8)

@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 2 best 2 compiles 325 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @2669 -> 2 [REG] (from 2)
+  R14 param-width arg0 s16->s32 @2632 -> 2 [REG] (from 2)
+  R7 block @2644 -> 2 [REG] (from 2)
+  R4 decl-move raw 0->1 -> 2 [REG] (from 2)
+  R8 base tmp0 @2669 -> 2 [REG] (from 2)
+  R14 param-width arg0 s16->u16 @2632 -> 2 [REG] (from 2)
+  R4 decl-move raw 0->2 -> 2 [REG] (from 2)
+  R7 block @2645 -> 2 [REG] (from 2)
+  R4 decl-move raw 0->3 -> 2 [REG] (from 2)
+  R4 decl-move raw 0->4 -> 2 [REG] (from 2)
+  R7 block @2646 -> 2 [REG] (from 2)
+  R9 swap-stmts @2648 -> 2 [REG] (from 2)

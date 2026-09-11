@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 16 best 2 compiles 326 path R7 do-while @1799
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @1799 -> 2 [ORDER] (from 16)
+  R9 swap-stmts @1788 -> 2 [ORDER] (from 2)
+  R7 block @1788 -> 2 [ORDER] (from 2)
+  R10 param-copy idx @1781 -> 2 [ORDER] (from 2)
+  R7 block @1789 -> 2 [ORDER] (from 2)
+  R12 width one s32->u16 @1779 -> 2 [ORDER] (from 2)
+  R7 block @1795 -> 2 [ORDER] (from 2)
+  R12 width one s32->s16 @1779 -> 2 [ORDER] (from 2)
+  R9 swap-stmts @1801 -> 2 [ORDER] (from 2)
+  R12 width one s32->u8 @1779 -> 2 [ORDER] (from 2)
+  R9 swap-stmts @1808 -> 2 [ORDER] (from 2)
+  R7 block @1796 -> 2 [ORDER] (from 2)

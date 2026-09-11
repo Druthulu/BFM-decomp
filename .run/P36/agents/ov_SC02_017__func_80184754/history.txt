@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 22 best 8 compiles 184 path R7 do-while @7124
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @7124 -> 8 [COUNT] (from 22)
+  R7 block @7122 -> 8 [COUNT] (from 8)
+  R8 base-shared tmp0 @7122 -> 8 [COUNT] (from 8)
+  R7 block @7123 -> 8 [COUNT] (from 8)
+  R7 do-while @7123 -> 8 [COUNT] (from 8)
+  R7 block @7125 -> 8 [COUNT] (from 8)
+  R7 do-while @7125 -> 8 [COUNT] (from 8)
+  R7 block @7112 -> 8 [COUNT] (from 8)
+  R8 temp tmp0 @7121 -> 8 [COUNT] (from 8)
+  R7 do-while @7112 -> 8 [COUNT] (from 8)
+  R8 base tmp0 @7121 -> 8 [COUNT] (from 8)
+  R7 block @7121 -> 8 [COUNT] (from 8)

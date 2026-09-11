@@ -1,0 +1,25 @@
+src/800_c.c:func_80037144: score 16 (COUNT; mine 123 ins, target 124) — not yet
+  register pairs (mine -> target, count): v1->v0 x1
+  replace mine[17:18] target[17:18]
+       17  beqz	v0,20a0 <func_80037144+0x1cc> | beqz	v0,20a4 <func_80037144+0x1d0>
+  insert  mine[19:19] target[19:21]
+       19  --                                 | lui	v0,0x0
+       20  --                                 | addiu	v0,v0,0
+  insert  mine[20:20] target[22:25]
+       20  --                                 | lui	at,0x0
+       21  --                                 | addu	at,at,a1
+       22  --                                 | sw	v0,0(at)
+  replace mine[42:45] target[47:50]
+       42  lw	v1,0(at)                        | lw	v0,0(at)
+       43  lui	v0,0x0                         | lui	at,0x0
+       44  addiu	v0,v0,0                      | sw	v0,0(at)
+  replace mine[50:55] target[55:56]
+       50  lui	at,0x0                         | nop
+       51  sw	v1,0(at)                        | --
+       52  lui	at,0x0                         | --
+       53  addu	at,at,a1                      | --
+       54  sw	v1,8(at)                        | --
+  replace mine[73:74] target[74:75]
+       73  j	2040 <func_80037144+0x16c>       | j	2044 <func_80037144+0x170>
+  replace mine[79:80] target[80:81]
+       79  j	2020 <func_80037144+0x14c>       | j	2024 <func_80037144+0x150>

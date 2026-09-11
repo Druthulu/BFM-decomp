@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 5 best 2 compiles 176 path R18 bystander @5393->5397
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @5393->5397 -> 2 [COUNT] (from 5)
+  R18 bystander @5393->5398 -> 2 [COUNT] (from 5)
+  R18 bystander @5393->5399 -> 2 [COUNT] (from 5)
+  R7 block @5390 -> 2 [COUNT] (from 2)
+  R7 block @5391 -> 2 [COUNT] (from 2)
+  R7 block @5393 -> 2 [COUNT] (from 2)
+  R7 block @5394 -> 2 [COUNT] (from 2)
+  R7 block @5395 -> 2 [COUNT] (from 2)
+  R7 block @5396 -> 2 [COUNT] (from 2)
+  R7 block @5397 -> 2 [COUNT] (from 2)
+  R7 block @5398 -> 2 [COUNT] (from 2)
+  R7 block @5390 -> 2 [COUNT] (from 2)

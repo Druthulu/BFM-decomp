@@ -1,0 +1,9 @@
+src/800_b_2.c:func_80035210: score 4 (REG-caller; mine 24 ins, target 24) — not yet
+  register pairs (mine -> target, count): v0->v1 x6
+  replace mine[12:14] target[12:14]
+       12  lui	v0,0x0                         | lui	v1,0x0
+       13  lw	v0,0(v0)                        | lw	v1,0(v1)
+  replace mine[15:16] target[15:16]
+       15  addu	v0,v0,s1                      | addu	v1,v1,s1
+  replace mine[17:18] target[17:18]
+       17  sw	v0,0(at)                        | sw	v1,0(at)

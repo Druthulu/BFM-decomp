@@ -3594,8 +3594,8 @@ void func_80185B54(void *arg0) {
     extern short D_80192864;
     extern short D_8019286C;
     extern short D_80192874;
-    register s32 tc __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 p68 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 tc;
+    s32 p68;
     s32 tt;
     void *s0 = arg0;
 
@@ -3630,8 +3630,7 @@ void func_80185B54(void *arg0) {
     after:
         p68 = *(s32 *)((char *)s0 + 0x68);
         *(s16 *)(p68 + 0xC) = 32767;
-        tt = func_801788B8((s32)s0, (s32)&func_801856A8);
-        *(s32 *)((char *)s0 + 0xD4) = tt;
+        tt = *(s32 *)((char *)s0 + 0xD4) = func_801788B8((s32)s0, (s32)&func_801856A8);
         func_8012E8E0(tt, (s32)&D_80192864);
     }
 }

@@ -3567,8 +3567,7 @@ void func_8017E3A0(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4, s32 arg5)
         prim[6] = arg4;
         prim[4] = 0;
     }
-    prim[5] = 0;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+    do { prim[5] = 0; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     mlo = 0xFFFFFF;
     ((u16 *)prim)[5] = a1;
     mhi = 0xFF000000;

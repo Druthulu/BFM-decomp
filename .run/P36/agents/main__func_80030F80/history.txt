@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 19 best 5 compiles 329 path R6 inline mask @3755
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline mask @3755 -> 5 [ORDER] (from 19)
+  R7 block @3744 -> 5 [ORDER] (from 5)
+  R6 inline dsp @3752 -> 5 [ORDER] (from 5)
+  R8 temp tmp0 @3744 -> 5 [ORDER] (from 5)
+  R5 swap + @3808 -> 5 [ORDER] (from 5)
+  R7 do-while @3744 -> 5 [ORDER] (from 5)
+  R8 base tmp0 @3744 -> 5 [ORDER] (from 5)
+  R5 swap + @3811 -> 5 [ORDER] (from 5)
+  R9 swap-stmts @3737 -> 5 [ORDER] (from 5)
+  R7 block @3742 -> 5 [ORDER] (from 5)
+  R7 do-while @3742 -> 5 [ORDER] (from 5)
+  R9 swap-stmts @3734 -> 5 [ORDER] (from 5)

@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 9 best 9 compiles 302 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R10 param-copy arg0 @7069 -> 9 [REG] (from 9)
+  R7 block @7082 -> 9 [REG] (from 9)
+  R9 swap-stmts @7082 -> 9 [MIXED] (from 9)
+  R7 do-while @7082 -> 9 [REG] (from 9)
+  R7 block @7071 -> 9 [REG] (from 9)
+  R7 do-while @7071 -> 9 [REG] (from 9)
+  R7 block @7072 -> 9 [REG] (from 9)
+  R7 block @7075 -> 9 [REG] (from 9)
+  R7 block @7083 -> 9 [REG] (from 9)
+  R7 do-while @7083 -> 9 [REG] (from 9)
+  R7 block @7070 -> 9 [REG] (from 9)
+  R7 block @7073 -> 9 [REG] (from 9)

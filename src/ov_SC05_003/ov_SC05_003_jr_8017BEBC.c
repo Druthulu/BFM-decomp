@@ -4178,13 +4178,13 @@ void func_8017F4FC(void *a0) {
         }
 
         {
-            register u16 t88 __asm__("$2") = *(u16 *)(s0 + 0x88);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-            register u16 t8A __asm__("$3") = *(u16 *)(s0 + 0x8A);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+            u16 t88 = *(u16 *)(s0 + 0x88);
+            u16 t8A = *(u16 *)(s0 + 0x8A);
             *(s16 *)(s0 + 0xDE) = 0;
             *(s16 *)(s0 + 0xAA) = 0;
-            *(u16 *)(s0 + 0xE) = *(u16 *)(s0 + 0x8C);
             *(u16 *)(s0 + 0x6) = t88;
             *(u16 *)(s0 + 0xA) = t8A;
+            *(u16 *)(s0 + 0xE) = *(u16 *)(s0 + 0x8C);
             func_8012A828(s0, (s32)&D_801A410C);
         }
         func_8012B2CC(s0);

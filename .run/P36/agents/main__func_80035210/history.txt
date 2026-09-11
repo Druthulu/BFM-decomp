@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 4 best 4 compiles 170 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline v1 @7522 -> 4 [REG] (from 4)
+  R10 param-copy a0 @7521 -> 4 [REG] (from 4)
+  R7 block @7523 -> 4 [REG] (from 4)
+  R6 inline v1 @7525 -> 4 [REG] (from 4)
+  R10 param-copy a1 @7521 -> 4 [REG] (from 4)
+  R7 block @7524 -> 4 [REG] (from 4)
+  R7 block @7522 -> 4 [REG] (from 4)
+  R7 block @7525 -> 4 [REG] (from 4)
+  R7 do-while @7525 -> 4 [REG] (from 4)
+  R7 block @7526 -> 4 [REG] (from 4)
+  R6 inline v1 @7524 -> 4 [REG] (from 4)
+  R10 param-copy a0 @7521 -> 4 [REG] (from 4)

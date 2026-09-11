@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 5 best 1 compiles 318 path R12 width var_a0 s32->u16 @5914 + R8 temp tmp0 @5930 + R12 width tmp0 s16->u16 @5916
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width tmp0 s16->u16 @5916 -> 1 [OTHER] (from 4)
+  R12 width var_a0 s32->u16 @5914 -> 4 [COUNT] (from 5)
+  R6 inline var_fe @5931 -> 4 [COUNT] (from 4)
+  R8 temp tmp0 @5930 -> 4 [COUNT] (from 4)
+  R7 block @5930 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @5930 -> 4 [COUNT] (from 4)
+  R8 base tmp0 @5930 -> 4 [COUNT] (from 4)
+  R7 do-while @5930 -> 4 [COUNT] (from 4)
+  R8 temp tmp0 @5937 -> 4 [COUNT] (from 4)
+  R7 block @5937 -> 4 [COUNT] (from 4)
+  R9 swap-stmts @5931 -> 4 [COUNT] (from 4)
+  R8 base tmp0 @5937 -> 4 [COUNT] (from 4)

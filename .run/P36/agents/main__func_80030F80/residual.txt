@@ -1,0 +1,35 @@
+src/800_b_2.c:func_80030F80: score 19 (COUNT; mine 341 ins, target 343) — not yet
+  replace mine[25:26] target[25:26]
+       25  beqz	v0,4b84 <func_80030F80+0x4c0> | beqz	v0,4b8c <func_80030F80+0x4c8>
+  replace mine[35:36] target[35:36]
+       35  bnez	v0,4bcc <func_80030F80+0x508> | bnez	v0,4bd4 <func_80030F80+0x510>
+  replace mine[46:47] target[46:47]
+       46  j	4bd0 <func_80030F80+0x50c>       | j	4bd8 <func_80030F80+0x514>
+  replace mine[53:54] target[53:54]
+       53  j	4838 <func_80030F80+0x174>       | j	4840 <func_80030F80+0x17c>
+  replace mine[60:61] target[60:61]
+       60  beq	v1,v0,481c <func_80030F80+0x158> | beq	v1,v0,4824 <func_80030F80+0x160>
+  replace mine[64:65] target[64:65]
+       64  beqz	v1,47f4 <func_80030F80+0x130> | beqz	v1,47fc <func_80030F80+0x138>
+  replace mine[66:67] target[66:67]
+       66  j	4838 <func_80030F80+0x174>       | j	4840 <func_80030F80+0x17c>
+  replace mine[69:71] target[69:74]
+       69  bne	v1,v0,4838 <func_80030F80+0x174> | bne	v1,v0,4840 <func_80030F80+0x17c>
+       70  sll	v0,a0,0x2                      | move	a0,zero
+       71  --                                 | lhu	v0,0(s0)
+       72  --                                 | nop
+       73  --                                 | sll	v0,v0,0x2
+  delete  mine[73:74] target[76:76]
+       73  move	a0,zero                       | --
+  replace mine[84:85] target[86:87]
+       84  j	4838 <func_80030F80+0x174>       | j	4840 <func_80030F80+0x17c>
+  replace mine[137:138] target[139:140]
+      137  j	4908 <func_80030F80+0x244>       | j	4910 <func_80030F80+0x24c>
+  replace mine[251:252] target[253:254]
+      251  j	4ad8 <func_80030F80+0x414>       | j	4ae0 <func_80030F80+0x41c>
+  replace mine[267:268] target[269:270]
+      267  j	4b04 <func_80030F80+0x440>       | j	4b0c <func_80030F80+0x448>
+  replace mine[302:303] target[304:305]
+      302  j	4bcc <func_80030F80+0x508>       | j	4bd4 <func_80030F80+0x510>
+  replace mine[326:327] target[328:329]
+      326  bnez	v0,471c <func_80030F80+0x58>  | bnez	v0,471c <func_80030F80+0x58>

@@ -1,0 +1,9 @@
+src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:func_8018B9D4: score 5 (MIXED; mine 81 ins, target 81) — not yet
+  register pairs (mine -> target, count): v1->v0 x2, v0->v1 x2, v1->a0 x1
+  replace mine[38:42] target[38:42]
+       38  lh	v1,234(s1)                      | lh	v0,234(s1)
+       39  lh	v0,254(s1)                      | lh	v1,254(s1)
+       40  nop                                | move	a0,v0
+       41  slt	v0,v1,v0                       | slt	v0,v0,v1
+  replace mine[43:44] target[43:44]
+       43  addiu	v0,v1,64                     | addiu	v0,a0,64
