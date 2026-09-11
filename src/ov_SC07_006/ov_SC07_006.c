@@ -1541,12 +1541,12 @@ void func_8012E364(s32 arg0_)
     extern s32 D_801F4D70;
     extern s32 D_801F4D74;
     s32 arg0;
-    register s32 prev __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    register u16 flags __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 prev;
+    register u16 flags __asm__("$2");  // !FAKE: pin $2 — holds $2 across the D_801F4D70 chain, so the $2 suggestion d's pin gives v (local-alloc.c:1822) fails in block_alloc's suggested-reg pass (:1472) (P36 S103 c51 minimum-lever)
     s32 a;
     s32 diff;
     s32 v;
-    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 d __asm__("$2");  // !FAKE: pin $2 — combine_regs (local-alloc.c:1722) otherwise ties d into v, which dies at the abs: abssi2 dest==src arm, nop for move (P36 S103 c51 minimum-lever)
     s32 spd;
     s32 e1;
     s32 e2;
@@ -1570,18 +1570,17 @@ void func_8012E364(s32 arg0_)
     }
 
     prev = D_801F4D74;
-    e1 = *(s32 *)(arg0 + 0x20);
+    e1 = ((s32 *)arg0)[8];
     v = D_801F4D70 - prev + spd;
     D_801F4D74 = spd;
     flags = *(u16 *)(e1 + 0x2C);
     D_801F4D70 = v;
     *(u16 *)(e1 + 0x2C) = flags | 0x10;
-
-    e2 = *(s32 *)(arg0 + 0x20);
+    e2 = ((s32 *)arg0)[8];
     d = __builtin_abs(v);
     *(s16 *)(e2 + 0x1C) = d;
     *(s16 *)(e2 + 0x18) = d;
-    *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = 0x1000;
+    *(s16 *)(((s32 *)arg0)[8] + 0x1A) = 0x1000;
 }
 
 
@@ -1791,7 +1790,7 @@ s32 *func_8012F40C(s32 *param_1, s32 param_2) {
     /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it into a third
        callee-saved register. */
-    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }
     { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
     RotTransPers(param_2, &sxy, &p, &flag);
     if (flag < 0) {
@@ -1822,7 +1821,7 @@ s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
     sxy = 0;
     /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it. */
-    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }
     { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
     ((s32 (*)(void *, s32 *, s32 *, s32 *))RotTransPers)(pv, &sxy, &p, &flag);
     if (flag < 0) {

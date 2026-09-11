@@ -4360,7 +4360,7 @@ void func_8017F430(s32 param_1)
             L.rv[0] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48);
             L.rv[1] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C);
             L.rv[2] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x50);
-            { void *r4; r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+            { void *r4; r4 = &D_800AF648; func_8004914C(r4); }
             { void *r4; r4 = &D_800AF648_b; func_800491AC(r4); }
             RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
@@ -5874,7 +5874,7 @@ void func_8018192C(s32 a0) {
         L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { void *r4; r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+        { void *r4; r4 = &D_800AF648; func_8004914C(r4); }
         { void *r4; r4 = &D_800AF648_b; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
@@ -5997,7 +5997,7 @@ L_B:
     L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
     L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
     L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-    { void *r4; r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    { void *r4; r4 = &D_800AF648; func_8004914C(r4); }
     { void *r4; r4 = &D_800AF648_b; func_800491AC(r4); }
     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
     if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF

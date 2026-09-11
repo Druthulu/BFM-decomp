@@ -1772,6 +1772,15 @@ accumulate here as the phase produces them.**
   texts that still carried the old marker comments; `delever.py --scrub` (which refuses a dirty tree, H4) runs on the
   committed tree next. **Open for the census:** dead `pad_[N]` frame-padding locals are unmarked levers (c33/c34/c43/c53
   each deleted one) — count them.
+- **S103 — the session's last steps.** `delever.py --scrub` on the committed tree: `46 orphan marker(s) removed in 20
+  file(s); 0 file(s) refused` — **one of them was NOT an orphan**: `src/shared/ov/func_80165CA0.h:32`'s marker sits on an
+  `ENGINE_SHB(v)` launder the census counts as a site but the scrub's orphan test does not recognise; the census then
+  reported `UNMARKED 1` (exit 1) and the marker was restored by hand (the file is back to HEAD). **Scrub defect to fix
+  next session:** its site test must use the census's site walker (R34/R57). **c51: `func_8012E364` at 0 with TWO marked
+  `$2` pins (was 3; 134 bodies)** — the tree's third pin replaced by a typed index read `((s32 *)arg0)[8]` (a struct
+  access drops the load's dependence on the scalar store, `expr.c:4568-4577` / `sched.c:858-863`); three separate
+  local-alloc defects in one block, no single lever reaches 0 (its table: none 25, best single 13). Final R22 `check-all:
+  218 passed, 0 failed of 218`; **`lever_census --check: 5,097 pin/asm sites, 5,097 marked !FAKE, 0 UNMARKED — OK` (exit 0)**.
 - **S103 — WHERE THE RESIDUE IS (measured at 12,003 sites): ~70% of the remaining lever weight sits in 9 classes of
   ≥100 copies, every one already read by an agent with a written reading** (approx. copies × sites/body:
   func_8013D9B0 125×34 — c17 15 plain, the GTE-macro question; func_80177B5C 132×23 — c19 2, one `or` late;
@@ -1794,12 +1803,13 @@ accumulate here as the phase produces them.**
   3 MATCH row(s) banked`. R22 `check-all: 218 passed, 0 failed of 218`; `lever_census --check: 13,083 pin/asm sites,
   13,083 marked !FAKE, 0 UNMARKED — OK` (13,842 → 13,083; commit `e984e5822`'s message typed "14,xxx" for the start figure — a placeholder that should never have been committed, R66/R85; recorded here rather than amended, P5c).
 
-## 🛑 SESSION CHECKPOINT — S103 (2026-09-10, refreshed at the session's end): T0–T6 ☑, **T7 RUNNING**. 24,119 → **5,376 sites** this session (−18,743); 56 agent draws; generators **R22–R26**; `delever_regen` + `delever --port-scan`; **the MINIMUM-LEVER pivot** (four 130-copy classes now carry 1-2 marked levers instead of 4-34); R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK (5,376 marked, 0 UNMARKED) · `lever_progress --check` OK (53 milestones) · last full commit `baac1f851`
+## 🛑 SESSION CHECKPOINT — S103 (2026-09-10, refreshed at the session's end): T0–T6 ☑, **T7 RUNNING**. 24,119 → **5,097 sites** this session (−19,022); 56 agent draws; generators **R22–R26**; `delever_regen` + `delever --port-scan`; **the MINIMUM-LEVER pivot** (four 130-copy classes now carry 1-2 marked levers instead of 4-34); R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK, exit 0 (5,097 marked, 0 UNMARKED, 0 orphans) · the session's last commit follows
 
 ### LATE S103 — READ THIS FIRST (it supersedes §0-§2 below where they differ)
 - **Drew ended agent drawing at 89% context: "no more agents this session. let the current ones finish."** At that
   moment three agents were running — **c51** `func_8012E364` (minimum-lever), **c53** `func_80182A2C` + `func_80185C04` +
-  `func_80181234` (ov_SC06_010), **c55** `func_8018226C` + `func_8017FA18` — and the **R26 regen** `s103_r26b` (read-only;
+  `func_80181234` (ov_SC06_010), **c55** `func_8018226C` + `func_8017FA18` — and the **R26 regen** `s103_r26b`. **ALL OF THEM
+  LANDED AND ARE BANKED AND COMMITTED — nothing is in flight.** (The regen was read-only;
   `.run/P36/regen/s103_r26b.tsv`; bank its MATCH rows with `tools/delever_regen.py --bank .run/P36/regen/s103_r26b.tsv`).
   Whatever is unbanked when you read this: each agent's `PACK/body.c` is in its pack — `--try` it, bank a 0 with
   `apply_body_core` (+ `allow_residue=True` when it keeps MARKED minimum-lever levers), then `--propagate`, then

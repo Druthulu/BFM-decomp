@@ -73,14 +73,14 @@
  "classes": {
   "A": {
    "bodies": 1771,
-   "distinct_bodies": 815,
+   "distinct_bodies": 814,
    "file_scope": 0,
-   "in_bodies": 2932,
+   "in_bodies": 2798,
    "kinds": {
-    "pin": 2932
+    "pin": 2798
    },
-   "marked": 2932,
-   "sites": 2932,
+   "marked": 2798,
+   "sites": 2798,
    "tus": 1142,
    "unmarked": 0
   },
@@ -149,7 +149,7 @@
   },
   "F": {
    "bodies": 428,
-   "distinct_bodies": 28,
+   "distinct_bodies": 27,
    "file_scope": 0,
    "in_bodies": 445,
    "kinds": {
@@ -207,9 +207,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6786,
-   "live": 16144,
+   "live": 16010,
    "macro_block": 194,
-   "raw": 23124
+   "raw": 22990
   },
   "attribute": {
    "comment_dead": 0,
@@ -225,9 +225,9 @@
   },
   "register": {
    "comment_dead": 8580,
-   "live": 2982,
+   "live": 2848,
    "macro_block": 18,
-   "raw": 11580
+   "raw": 11446
   },
   "volatile": {
    "comment_dead": 2610,
@@ -237,7 +237,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 28.0,
+ "elapsed_s": 28.5,
  "generated": "2026-09-10",
  "gte_levers": {
   "direct": 362,
@@ -248,15 +248,15 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "0ef49b515",
+ "head": "94520756e",
  "headers": 3181,
  "levers_AB": {
   "asm": 2299,
   "bodies": 2569,
-  "distinct_bodies": 1098,
-  "marked": 5231,
-  "pins": 2932,
-  "sites": 5231,
+  "distinct_bodies": 1097,
+  "marked": 5097,
+  "pins": 2798,
+  "sites": 5097,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -374,49 +374,8 @@
   "total": 314
  },
  "orphan_markers": {
-  "count": 45,
-  "sample": [
-   "src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:7498",
-   "src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:6002",
-   "src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:7283",
-   "src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:5476",
-   "src/ov_SC03_100/ov_SC03_100_jr_8017D898.c:5011",
-   "src/ov_SC03_104/ov_SC03_104_jr_80186538.c:4284",
-   "src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:4320",
-   "src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:5325",
-   "src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:5898",
-   "src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:6020",
-   "src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:6127",
-   "src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:6315",
-   "src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:6517",
-   "src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:7087",
-   "src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:8625",
-   "src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:8748",
-   "src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:4363",
-   "src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:5877",
-   "src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:6000",
-   "src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:7885",
-   "src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:8078",
-   "src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:6105",
-   "src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:6228",
-   "src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:7883",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:5670",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:6186",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:6309",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:6413",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:6604",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:6806",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:7976",
-   "src/ov_SC06_032/ov_SC06_032_jr_80182890.c:7411",
-   "src/ov_SC06_032/ov_SC06_032_jr_80182890.c:7534",
-   "src/ov_SC06_032/ov_SC06_032_jr_80182890.c:9130",
-   "src/ov_SC06_032/ov_SC06_032_jr_80182890.c:10691",
-   "src/ov_SC06_032/ov_SC06_032_jr_80182890.c:10884",
-   "src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c:4916",
-   "src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c:5039",
-   "src/ov_SC06_033/ov_SC06_033_jr_80186574.c:5701",
-   "src/ov_SC06_033/ov_SC06_033_jr_80186574.c:5894"
-  ]
+  "count": 0,
+  "sample": []
  },
  "per_tu_asm_macro_definitions": {
   "by_kind": {
@@ -453,7 +412,7 @@
    "$29": 13,
    "$3": 247,
    "$4": 542,
-   "$5": 542,
+   "$5": 408,
    "$6": 73,
    "$7": 41,
    "$8": 36,
@@ -464,16 +423,16 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 2932,
+  "sites": 2798,
   "sp": 13,
   "spelling": {
-   "__asm__": 2889,
+   "__asm__": 2755,
    "asm": 43
   },
   "volatile_qualified": 3,
   "zero": 106
  },
- "src_stamp": "5bbe20cf0868a53b",
+ "src_stamp": "91f6fcf107c94bcd",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
@@ -485,8 +444,8 @@
    "resident": 10,
    "shared": 175
   },
-  "copies_in_multi": 5081,
-  "distinct_bodies": 1398,
+  "copies_in_multi": 5082,
+  "distinct_bodies": 1397,
   "multi_copy_classes": 185
  },
  "verbatim_excluded": {
