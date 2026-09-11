@@ -10268,31 +10268,21 @@ void func_801AEB94(void)
     s32 i; /* $s1 */
     s32 p; /* $s2 */
     s32 loc[8];
-    s32 a0v, a1v;
 
     p = (s32)D_801F8EA0;
     func_80049CAC(p + 0x10, (s32)loc);
 
-    a0v = (s32)loc;
-    __asm__ __volatile__("" : "=r"(a0v) : "0"(a0v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-    a1v = p + 8;
-    __asm__ __volatile__("" : "=r"(a1v) : "0"(a1v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-
-    q = p + 0x18;
     loc[5] = *(s16 *)p;
     loc[6] = (s16)D_801F8EA2;
-    i = 0;
     loc[7] = (s16)D_801F8EA4;
-    func_80020F34(a0v, a1v);
+    func_80020F34((s32)loc, p + 8);
 
-    do {
+    q = p + 0x18;
+    for (i = 0; i < 0x20; i++, q += 0x24) {
         if (*(u16 *)q != 0) {
-            s32 b0 = p;
-            func_801AEC38(b0, q, (s32)loc);
+            func_801AEC38(p, q, (s32)loc);
         }
-        i++;
-        q += 0x24;
-    } while (i < 0x20);
+    }
 }
 
 
