@@ -3423,14 +3423,14 @@ void func_8017DDE0(void *arg0) {
     /* §17a-1: the fleet canonical for these callees is the NO-PROTOTYPE form,
      * with the intended signature applied AT THE CALL SITE. A concrete prototype
      * here collides with the sibling decls -> `conflicting types for ...`.
-     * func_8017DF74 is defined later in this very TU as (s32, s32) and is called
-     * here with one argument — () keeps that C89-compatible. */
+     * func_8017DF74 is defined later in this very TU as (s32, s32) and takes the
+     * group base as its second argument (P36 S104 e17). */
     extern void func_8017DF74();
     extern void func_80146C3C();
     s32 cnt2;
     s32 i;
     s32 j;
-    register s32 base __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 base;
     s32 p;
     s32 vel;
     s32 pos;
@@ -3439,10 +3439,7 @@ void func_8017DDE0(void *arg0) {
 
     cnt2 = 0;
     for (i = 0; i < 8; i++) {
-        {
-            register s32 sym __asm__("$2") = (s32)((u8 *)D_801DCCA8);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-            base = sym + i * 0x1D0;
-        }
+        base = (s32)&D_801DCCA8[i];
         if (*(s16 *)(base) == 0) {
             *(s32 *)(base + 0xC) = *(s32 *)(base + 0xC) + 0x10000;
         }
@@ -3477,7 +3474,7 @@ void func_8017DDE0(void *arg0) {
                 break;
             }
         }
-        func_8017DF74(arg0);
+        func_8017DF74(arg0, base);
     }
     if (cnt2 == 0x80) {
         ((void (*)(u8 *))func_80146C3C)(arg0);
