@@ -1966,7 +1966,43 @@ accumulate here as the phase produces them.**
   of 218`** (84 s) → baseline snapshot at `0076a9d2e` → `lever_census --check: 4,132 pin/asm sites, 4,132 marked !FAKE, 0 UNMARKED — OK`
   (exit 0) → `lever_progress --snapshot` (4,152 → **4,132**; 2,217 pins + 1,915 asm in 2,027 bodies).
 
-## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,152 sites** this session (−945); ~105 agent draws (d1–d39, e1–e38, ALL landed and banked — nothing in flight); ~220 classes closed at 0, nearly all with ZERO levers; generators **R27–R43**; R22 `check-all: 218 passed, 0 failed of 218` at `765704ca5` | `lever_census --check` exit 0 (4,152 marked, 0 UNMARKED, 0 orphans)
+## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, LIVE — refreshed at every landing): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,132 sites** so far; f2 landed (4/4), f1 + f3 IN FLIGHT; generator **R44** + the R22 `&&` blind-spot fix; R22 `check-all: 218 passed, 0 failed of 218` at `0076a9d2e` | `lever_census --check` exit 0 (4,132 marked, 0 UNMARKED, 0 orphans)
+
+### 0. How to use this block — READ THIS FIRST
+A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S105 runs at `/effort high` on Opus 5 1M;
+every agent on Opus) and executes §2. **Drew's cap is TWO concurrent agents (S105 open).** What may be in flight when this is read:
+**f1** (`src/800.c`: func_80016638, func_80029D3C, func_80025504, func_80015D4C) and **f3** (`src/md_SC07_004/md_SC07_004.c`:
+func_801AEB94, func_801A4258, func_801AADA8, func_801ADF5C, func_801AB21C). A dead session's agents leave `body.c` + `mechanism.md` in
+`.run/P36/agents/<alias>__<fn>/` (R67): `--try` each `body.c`; a 0 banks via `.run/P36/s105/bank_list.sh` (one line per body
+`TU FN FILE LABEL MSG`; a `*minlever*` label adds `--allow-residue`); anything else is a reading to record. Briefs for the NEXT draws are
+written and their packs built: `.run/P36/s105/BRIEF_f4.md` (ov_SC04_011_jr_8017D494, 5 classes), `BRIEF_f5.md` (ov_SC02_005, 7),
+`BRIEF_f6.md` (ov_SC07_007, 6) — launch each as a general-purpose Agent whose prompt names the brief file (the f1/f3 prompts are the
+pattern). First commands:
+```
+git log --oneline -1 && git status --short | grep -v '^??' | wc -l
+.venv/bin/python tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 ov_SC03_014 main -j 16   # after EVERY commit
+.venv/bin/python .run/P36/s105/pick.py 12          # the drawable classes by TU (616 at the open; parked + drawn skipped)
+```
+
+### 1. THE OPERATING PROCEDURE (S104's §1 holds; S105 deltas)
+- Cap TWO. Every landing: `--try` each body (+ `grep -c '__asm__\|register\|FAKE\|volatile'`) → launch the next brief → bank via
+  `.run/P36/s105/bank_list.sh` → harvest (generator + known-true on the agent's start text + selftest + SETUP row + `FAMILIES`) → regen
+  pass of the new family (`--exclude` every fn an agent holds) → `--bank` → commit → R22 → `--snapshot-baseline` → census (EXIT CODE)
+  → `lever_progress --snapshot` → log entry → commit.
+- The free sweep is SPENT: every residue class has been judged by every family R2–R44 (S105 `s105_r43_*`, `s105_r44r22`).
+
+### 2. NEXT
+1. Land f1/f3 (§0) → launch f4, f5, f6 in turn (two at a time) → then draw the next TUs from `pick.py` (ov_SC01_077 6 cls, then the
+   5-class TUs), one brief per TU, 4–7 classes each, skipping ARG-ONLY (`$4`–`$7`-only pins = the missing-parameter shape → structs phase)
+   and the park list (S104 §2.4 + f2's func_800385C0 signature change).
+2. The 21 UNSTRIPPABLE classes (`.run/P36/s105/unstrippable.json`: 6 comment-boundary strips, 6 macro-carried launders, 5 instructions
+   with no C spelling, 3 multi-output launders) need an agent to strip by hand from `body_tree.c` — draw them last, with that note.
+3. T9 owes (unchanged): the stale `LOAD-BEARING CONSTRUCTS` header comments; cookbook §197-A / §396(a); plus S105's R22 `&&` finding.
+
+### 3–7. S104's §3–§7 hold. S105 additions: `.run/P36/s105/` (pick.py + pick.json, the briefs, bank_list.sh, banks_N.txt, r22_*.log,
+kt44_*/kt22_* known-true candidates, unstrippable.json); `.run/P36/regen/s105_*`.
+
+## (superseded) SESSION CHECKPOINT — S104 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,152 sites** this session (−945); ~105 agent draws (d1–d39, e1–e38, ALL landed and banked — nothing in flight); ~220 classes closed at 0, nearly all with ZERO levers; generators **R27–R43**; R22 `check-all: 218 passed, 0 failed of 218` at `765704ca5` | `lever_census --check` exit 0 (4,152 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S104 ran at `/effort high` on
