@@ -3431,59 +3431,27 @@ extern void func_801292C8(u8 *a0);
 
 void func_80187CE8(s32 arg0)
 {
-    register s32 s1 __asm__("$17") = arg0;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 s0;
-    s32 v0;
-    s32 v1;
-    s32 a0;
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 obj;
+    s32 v;
+    s32 timer;
 
-    /* Load velocity components */
-    v0 = *(s32 *)(s1 + 0x10);
-    v1 = *(s32 *)(s1 + 0x2C);
-    a1 = *(s32 *)(s1 + 0x30);
-    a2 = *(s32 *)(s1 + 0x34);
-
-    /* Load s0 pointer from offset 0x20 */
-    s0 = *(s32 *)(s1 + 0x20);
-
-    /* Add velocity to position at 0x10 */
-    v0 = v0 + v1;
-    *(s32 *)(s1 + 0x10) = v0;
-
-    /* Load and add velocity to positions at 0x14 and 0x18 */
-    v0 = *(s32 *)(s1 + 0x14);
-    v1 = *(s32 *)(s1 + 0x18);
-    v0 = v0 + a1;
-    v1 = v1 + a2;
-    *(s32 *)(s1 + 0x14) = v0;
-    *(s32 *)(s1 + 0x18) = v1;
-
-    /* Call update function */
-    ((void (*)(void))func_8012931C)();
-
-    /* Opaque copy s0 -> a0: RC-12 $0-add so cse cannot fold the later
-       lhu (which the target keeps reading from $s0) onto this copy. */
-    a0 = s0 + zr;
-
-    /* Update value at offset 0x1A (target reads this via $s0, not $a0) */
-    v0 = *(u16 *)(s0 + 0x1A);
-    v0 = v0 - 0x100;
-    *(u16 *)(a0 + 0x1A) = (u16)v0;
-    *(u16 *)(a0 + 0x18) = (u16)v0;
-
-    /* Call func_80128ED8 and branch on result */
-    if (func_80128ED8(a0, (s32 *)(s1 + 0x24)) != 0) {
-        func_801292C8((u8 *)s1);
+    obj = *(s32 *)(arg0 + 0x20);
+    *(s32 *)(arg0 + 0x10) += *(s32 *)(arg0 + 0x2C);
+    *(s32 *)(arg0 + 0x14) += *(s32 *)(arg0 + 0x30);
+    *(s32 *)(arg0 + 0x18) += *(s32 *)(arg0 + 0x34);
+    func_8012931C((struct vec *)arg0);
+    v = *(u16 *)(obj + 0x1A) - 0x100;
+    *(u16 *)(obj + 0x1A) = v;
+    *(u16 *)(obj + 0x18) = v;
+    if (func_80128ED8(obj, (s32 *)(arg0 + 0x24)) != 0) {
+        func_801292C8((u8 *)arg0);
     } else {
-        v0 = *(s32 *)(s1 + 0x1C);
-        if (v0 != 0) {
-            v0--;
-            *(s32 *)(s1 + 0x1C) = v0;
-            if (v0 == 0) {
-                func_801292C8((u8 *)s1);
+        timer = *(s32 *)(arg0 + 0x1C);
+        if (timer != 0) {
+            timer--;
+            *(s32 *)(arg0 + 0x1C) = timer;
+            if (timer == 0) {
+                func_801292C8((u8 *)arg0);
             }
         }
     }
