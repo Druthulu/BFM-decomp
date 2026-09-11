@@ -1046,7 +1046,6 @@ u16 *e;
 u16 *pb;
 u32 m24;
 u32 mhi;
-register s32 eight __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus2)
   if (i < n)
   {
     c3 = 3;
@@ -1097,7 +1096,7 @@ register s32 eight __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung
           s32 k;
           s32 t3v;
           u8 *q = ((u8 *) ot) + 0x14;
-          s16 y;
+          register s16 size __asm__("$2");  // !FAKE: pin $2 size — a hard reg is may_not_optimize (loop.c:596), so scan_loop (loop.c:649) cannot hoist the in-loop li 8 (P36 S103 c48 minimum-lever)
           j = 0;
           k = m;
           t3v = m * 4;                  /* [L3] explicit, must sit before the 3 constants */
@@ -1113,7 +1112,7 @@ register s32 eight __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung
                 continue;
               }
               q[-7] = 0x30;
-              y = (*e) - 4;
+              *((s16 *) (q - 10)) = (*e) - 4;
             }
             else
             {
@@ -1123,27 +1122,29 @@ register s32 eight __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung
                 continue;
               }
               q[-7] = 0x38;
-              y = (*e) + 3;
+              *((s16 *) (q - 10)) = (*e) + 3;
             }
-            *((s16 *) (q - 10)) = y;
-__asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus2)
             *((u32 *) ot) = 0x4000000;
             q[-8] = 0x78;
             *((u32 *) (q - 0x10)) = 0x64808080;
             *((s16 *) (q - 6)) = 0x4056;
             *((s16 *) (q - 0xC)) = (D_80194474 + ((u16) *((u16 *) (((u8 *) D_8011516A) + t3v)))) + 0x4A;
-            eight = 8;
-            *((s16 *) (q - 2)) = eight;
-            *((s16 *) (q - 4)) = eight;
+            size = 8;
+            *((s16 *) (q - 2)) = size;
+            *((s16 *) (q - 4)) = size;
             *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
             {
-register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus2)
+u32 *op;
+u32 w;
               op = D_800AE7BC[*pb].ot;
-              op[2] = (op[2] & mhi) | (((u32) ot) & m24);
+              w = op[2];
+              w &= mhi;
+              w |= ((u32) ot) & m24;
+              op[2] = w;
             }
             q += 0x14;
             ot += 5;
-            __asm__ volatile("" :: "r"(j));   /* [L2] zero code, +1 ref on j */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus2)
+            __asm__ __volatile__("" :: "r"(j));  // !FAKE: keepalive j — +3 depth-3 refs so allocno_compare (global.c:587-609) ranks j 14/76 over k 13/75 and j takes $a2 (P36 S103 c48 minimum-lever)
           }
 
         }

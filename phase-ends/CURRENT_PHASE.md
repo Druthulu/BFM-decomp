@@ -1750,6 +1750,17 @@ accumulate here as the phase produces them.**
   `delever_regen` crashed mid-R26 (`IndexError` in `site_edits`): the census's site lines no longer fit files a bank had
   changed during the pass — it now refuses such a class as STALE-SITES instead of dying (R43); R26 reruns after a census
   refresh. R22 after c49/c50: `check-all: 218 passed, 0 failed of 218`.
+- **S103 — c48: `func_80140958` at 0 with TWO marked levers (133 bodies)**, every piece of unmarked steering gone (c13's
+  dead initialiser, c29's shared constant): a `$2` pin on the in-loop 8 (a hard register is `may_not_optimize`,
+  `loop.c:596`, so `scan_loop` cannot hoist it) and the tree's `j` keepalive (+3 depth-3 refs: j 14/76 over k 13/75,
+  `global.c:587-609`); no single lever reaches 0 (10 / 39). **c52: the four ov_SC06_010 `$4`-pin classes
+  (func_8018315C, func_80184394, func_801848A4, func_80184EFC) CLOSED by ONE move — the R26 address alias, first try —
+  16 + 4 bodies**; c52 counted 111 more `&D_800AF648` pins of that exact shape in the tree (93 followed by the paired
+  `func_800491AC` call) — the R26 regen reruns on a fresh census. **c47 banked** (133 of 133 siblings, two marked GTE asm
+  statements each). **c56 ported c47's text to ov_MAIN_012's class — 7 of 7 copies score 0.** **c54:** `func_8017B238`
+  (ov_SC07_006) ported from ov_SC04_011's lever-free copy (symbols only, first try); `func_801651B8` had already been
+  banked by the extern-variant re-propagation after its pack was built (the pack builder should re-score before issuing).
+  R22 after c47/c48/c52: `check-all: 218 passed, 0 failed of 218`.
 - **S103 — WHERE THE RESIDUE IS (measured at 12,003 sites): ~70% of the remaining lever weight sits in 9 classes of
   ≥100 copies, every one already read by an agent with a written reading** (approx. copies × sites/body:
   func_8013D9B0 125×34 — c17 15 plain, the GTE-macro question; func_80177B5C 132×23 — c19 2, one `or` late;

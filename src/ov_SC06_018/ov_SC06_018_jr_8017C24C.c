@@ -5319,6 +5319,7 @@ void func_80180AB4(s32 a0)
 
     extern s32  D_801151D4;
     extern u8 D_800AF648;
+    extern u8 D_800AF648_b __asm__("D_800AF648");
 
     /* L5: slot offsets are exact only through ONE struct — plain array locals
        get 8-byte-rounded slots and pushed z/flag to 0x28/0x2C (measured). */
@@ -5377,8 +5378,8 @@ void func_80180AB4(s32 a0)
         L.rv[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         L.rv[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.rv[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+        func_8004914C(&D_800AF648);
+        func_800491AC(&D_800AF648_b);
         RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                       && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
@@ -6056,6 +6057,7 @@ void func_80181CEC(s32 a0)
 
     extern void (*D_801AD4E0[])(void);
     extern u8 D_800AF648;
+    extern u8 D_800AF648_b __asm__("D_800AF648");
     struct {
         s16 v[3];    /* sp+0x10 */
         s16 pad1;    /* sp+0x16 */
@@ -6118,8 +6120,8 @@ void func_80181CEC(s32 a0)
                     L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
                     L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
                     L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-                    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-                    { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+                    func_8004914C(&D_800AF648);
+                    func_800491AC(&D_800AF648_b);
                     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
                     if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                                     && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
@@ -6250,6 +6252,7 @@ void func_801821FC(s32 a0) {
     extern void func_8002AC00(s32 arg0);
     extern void func_8002A04C(s32 arg0);
     extern u8 D_800AF648;
+    extern u8 D_800AF648_b __asm__("D_800AF648");
 
     u16 v10[4];   /* sp+0x10 */
     s16 v18[4];   /* sp+0x18 */
@@ -6306,8 +6309,8 @@ void func_801821FC(s32 a0) {
         v18[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         v18[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         v18[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+        func_8004914C(&D_800AF648);
+        func_800491AC(&D_800AF648_b);
         RotTransPers((s32)v18, (s32)&sxy, &z, &flag);
         if (flag >= 0 && (u32)((*(u16 *)&sxy + 0xEF) & 0xFFFF) < 0x1DF
                       && (u32)((*((u16 *)&sxy + 1) + 0xB3) & 0xFFFF) < 0x167) {
@@ -6453,6 +6456,8 @@ void func_80182854(s32 a0) {
     extern s32 D_801151D4;
 
     extern u8 D_800AF648;
+
+    extern u8 D_800AF648_b __asm__("D_800AF648");
     extern void func_8002AC00(s32 arg0);
 
     struct {
@@ -6505,8 +6510,8 @@ void func_80182854(s32 a0) {
         L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+        func_8004914C(&D_800AF648);
+        func_800491AC(&D_800AF648_b);
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                         && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {

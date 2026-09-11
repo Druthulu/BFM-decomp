@@ -1,129 +1,112 @@
-# func_80140958 (src/ov_SC04_011/ov_SC04_011_jr_80140608.c), T7 agent c29, S103
+# func_80140958 (src/ov_SC04_011/ov_SC04_011_jr_80140608.c), T7 agent c48, S103 (minimum-lever)
 
-c13's files are preserved in `scratch/prev_body.c` and `scratch/prev_mechanism.md`. All my scratch (candidates, spliced
-TUs, dumps, helpers `t.sh` / `jk.sh` / `mk.sh`) is in `scratch/c29/`.
+c29's files are kept as `scratch/c29_body.c` / `scratch/c29_mechanism.md`; c13's as `scratch/prev_body.c` /
+`scratch/prev_mechanism.md`. All my candidates, spliced TUs and dumps are in `scratch/c48/` (`gen.py` builds every
+variant from `tmpl.c`, `t.sh <body> [tag]` scores one and dumps it).
 
-**Status: NOT CLOSED. Score 4 (260/260, class ORDER), the same as c13's.** The difference is that the dead initializer
-c13 used for the loop constant is gone. `body.c` contains no pin, no asm, no added volatile, no invented zero term and
-no dead store. The remaining 4 points are the pre-loop order `sll t3 / move a3 / move a2` against the target's
-`move a2 / move a3 / sll t3`. Section (b2) argues that no honest spelling of this function can reach that order and
-still allocate correctly. It is an argument from the passes, checked on bytes wherever I could.
+**Status: SCORE 0 (260/260, byte-identical) with TWO marked levers. The tree carried 4 NEEDED levers (11 marked in all).**
+No unmarked steering is left: c13's dead initialiser and c29's shared `size` (one variable for two unrelated 8s) are
+both gone. The body is `body_free.c` with three plain-C moves and the two levers below.
 
-## (a) The residual in one sentence
-With c13's order (`t3v = m*4; k = m; j = 0;`) the registers match and the three pre-loop instructions come out reversed.
-With the tree's order (`j = 0; k = m; t3v = m*4;`, `scratch/c29/s1o.c`) the order matches and j and k swap `$a2`/`$a3`
-(score 10).
+## The two levers kept (the body's lines)
+```
+register s16 size __asm__("$2");  // !FAKE: pin $2 size — a hard reg is may_not_optimize (loop.c:596), so scan_loop (loop.c:649) cannot hoist the in-loop li 8 (P36 S103 c48 minimum-lever)
+__asm__ __volatile__("" :: "r"(j));  // !FAKE: keepalive j — +3 depth-3 refs so allocno_compare (global.c:587-609) ranks j 14/76 over k 13/75 and j takes $a2 (P36 S103 c48 minimum-lever)
+```
+The pin is the tree's own `eight` pin, moved into the inner block and narrowed to `s16`. The keepalive is the tree's
+`[L2]`, in the same place (the last statement of the inner loop body).
 
-## (b1) Problem 1, the loop constant 8: SOLVED without a dead store (proven on bytes)
-**Move:** `size` becomes a function-scope `s16`. It feeds the third call's fourth argument, where the tree has a
-literal 8: `size = 8; ot = func_80140D68(ot, p, 2, size, ...);`. The loop keeps `size = 8;` before the two stores.
-Both assignments are read in the source.
+## Plain-C moves (the three defects solved without a lever, from c13 and c29, all unchanged)
+1. The y store goes inside each arm (`*(s16 *)(q - 10) = *e - 4;` / `*e + 3;`), with no join store. jump2's
+   cross-jump (`find_cross_jump`, jump.c:2371) re-merges the two stores into the target's `j 620`. This replaces the
+   tree's `memory` barrier.
+2. addPrim is written as a read-modify-write through one local: `w = op[2]; w &= mhi; w |= (u32)ot & m24; op[2] = w;`.
+   The multi-set temp gets no birthing boost in sched1 (sched.c:2469-2540). This replaces the tree's `$4` pin on `op`.
+3. The pre-loop order is the tree's `j = 0; k = m; t3v = m * 4;`. This is the target's output order.
 
-**Mechanism:**
-- `scan_loop` only moves a set that satisfies one of three conditions (loop.c:681-690).
-  - Case (1) is `reg_in_basic_block_p`, which needs `regno_first_uid[reg] == this insn` (loop.c:1068). It fails,
-    because `reg_scan` (regclass.c:1760) records the outer `size = 8` as the first reference.
-  - Case (2) needs a non-user variable. `size` is a user variable.
-  - Case (3) needs the set to be executed on every iteration. The set sits after the `j == 0` branch (`maybe_never`).
-  So the set is not a movable, and the `.loop` dump lists none for it (`scratch/c29/dumps_s1`).
-- cse1 folds the constant into the call argument (`li a3,8`, the same bytes). That leaves the outer set dead, and flow
-  deletes it. At flow time `size` lives in one block and dies once, so it is a local-alloc qty (local-alloc.c:472).
-  Its density beats the two x-coordinate temps, so it takes `$v0`, as in the target. This is the same end state c13
-  reached through a dead initializer. Here the source statement is live.
-- Control `scratch/c29/s0.c` (the same body without the outer use) scores 26: loop.c hoists the set, since
-  `threshold*savings*lifetime = 58*1*2 = 116 >= 74 insns` (loop.c:1631).
-- An equivalent spelling shares `size` with the mask test just before the loop instead:
-  `size = 8; if ((m == i) && ((b[-2] & size) != 0))` (`scratch/c29/s2.c`, also 4).
-- **Honesty note for the coordinator:** this is a named constant shared by two unrelated 8s (the call's x offset `dx`,
-  and the sprite's w/h). It is not dead code and not a zero term, but its reason to exist is the loop.c decision. I
-  count it as a variable reuse in the sense of c18/c11. Reject it if the phase reads it as steering.
+## Single-lever table (every other move as in body.c; `--try` scores)
+| lever set | pre-loop order | the 8 | score |
+|---|---|---|---|
+| none | tree (j,k,t3v) | literal | 49 (261 ins) |
+| none | c13 (t3v,k,j) | literal | 43 (261 ins) |
+| keepalive j only | tree | literal | 39 (261: the 8 is hoisted) |
+| keepalive j only | c13 | literal | 43 |
+| pin $2 size only | tree | pinned | 10 (j/k swap a2/a3) |
+| pin $2 size only | c13 | pinned | 4 (ORDER: 3 pre-loop insns reversed) |
+| pin $6 j only | tree | literal | 43 (259 ins: the increment changes) |
+| launder size only, volatile `"=r"(size) : "0"(8)` | tree / c13 | laundered | 28 / 22 (261 ins: the asm blocks sched) |
+| launder size only, non-volatile `"=r"(size) : "0"(size)` | tree | laundered | 35 |
+| **pin $2 size + keepalive j** | **tree** | **pinned** | **0** |
+| pin $2 size + keepalive j | c13 | pinned | 4 (order) |
+| pin $2 size + pin $6 j | tree | pinned | 13 (258 ins) |
+| volatile launder + keepalive j | tree | laundered | 18 |
+| one asm doing both (`"=r"(size) : "0"(8), "r"(j)`) | tree | laundered | 18 |
+| *keepalive j + c13's dead `s16 size = 0;`* | tree | var | *0, but the dead store is steering* |
+| *keepalive j + c29's shared `size`* | tree | var | *0, but the shared variable is steering* |
 
-## (b2) Problem 2, the pre-loop order: why it will not close without raising j's weight
-Four facts, each read in the source and checked on dumps:
-1. **sched1 rewrites the live lengths that global.c uses** (sched.c:4947, `reg_live_length = sched_reg_live_length`).
-   The priorities therefore follow the OUTPUT order. `s1`: output t3v,k,j gives j 11/73 and k 11/74. `s1o`: output
-   j,k,t3v gives j 11/75 and k 13/74. Whichever of j/k is emitted first lives one insn longer.
-2. **In output order j,k,t3v, the pass order forces k to 13 refs.**
-   - The three are independent leaves. `rank_for_schedule` (sched.c:2385) ties them by LUID, so the source order is
-     the output order. The only exception is a producer with an in-block consumer, which `adjust_priority` /
-     `birthing_insn_p` (sched.c:2507/2469) pulls up to just before that consumer.
-   - So `t3v` comes after `k = m` in the source. cse then makes k the canonical register of m's class, because k lives
-     past the block and its last use is later (`make_regs_eqv`, cse.c:826-862). That turns `t3v = m*4` into `k<<2`:
-     +2 refs at depth 2.
-   - The target's `sll t3,v1,2` does not contradict this. reorg rewrote it: `sll t3,a3,2` follows the copy
-     `move a3,v1` directly, and reorg.c:3466-3488 substitutes the copy's source (the tree's `.dbr` dump shows the
-     rewrite).
-3. **j has 11 refs in any natural spelling:** `j = 0` (+2), the `j == 0` test (+3), and the increment's use and set
-   (+3 +3).
-   - The exit test reads the SImode increment temp, not j. cse folds the paradoxical `(subreg:SI j)` through
-     `j = (subreg:HI tmp)` (cse.c:4842-4866).
-   - A use of j in arm A is folded away before flow, because arm A knows `(sign_extend j) == 0` from the branch.
-     Checked with `D_80115140[k] == j` (`v5.c`: still 11 refs).
-   - A second `if (j != 0)` test is threaded away before flow (`e2.c`: still 11). `switch` changes the code
-     (`e1.c` 29, `e1b.c` 35).
-   - A duplicated increment-and-test tail (goto form, `g5.c`) does give j 17 refs. But cross-jump does not re-merge
-     it, and everything shifts (55/267).
-4. **`allocno_compare` (global.c:587-609)** then gives j `floor_log2(11)*11/75` = 4400 against k `3*13/74` = 5270.
-   k is allocated first and takes `$a2`, the lowest free register. Pass 0 of `find_reg` does not help: every
-   call-used register is in `regs_used_so_far` from the start (global.c:352-355), so pass 0 only restricts
-   callee-saved registers.
+So no single lever reaches 0. Each of the two remaining defects is a separate pass decision, and neither lever
+touches the other's pass. Candidates: `scratch/c48/v_*.c`, `w_*.c`.
 
-   So j must be allocated first, which needs j ≥ 14 refs; the tree's `[L2]` keepalive is exactly +3. The alternative
-   is to keep k off `$a2` another way.
+## The two paths (why each needs its own lever)
+### Path 1: the constant 8 (loop.c invariant motion)
+- The target keeps `li v0,8; sh v0,2(a1); sh v0,0(a1)` inside the inner loop.
+- `scan_loop` (loop.c:681-690) moves a set when one of three cases holds:
+  - (1) `reg_in_basic_block_p`, which needs `regno_first_uid == this set` and the last use in the same block;
+  - (2) the register is not a user variable;
+  - (3) the set is always executed.
+- `move_movables` (loop.c:1631) then moves it if `threshold * savings * lifetime >= insn_count`.
+  - Here `threshold = 2 * (1 + 28) = 58`, `savings = n_times_used = n_times_set = 1` (loop.c:598), and the lifetime is
+    2 (a set and two stores).
+  - That gives 116 ≥ 74, so the 8 is hoisted. The `.loop` dump says `Insn 476: regno 240 (life 2) ... moved to 609`,
+    and it is then hoisted out of the outer loop too.
+  - The other in-loop constants (0x30, 0x38, 0x78, 0x4056) stay in the loop only because each has one use (life 1:
+    58 < 74).
+- So the 8 stays only in two situations:
+  - It is a hard register (`may_not_optimize`, loop.c:596). That is the pin.
+  - It is a user variable whose first mention at `reg_scan` time is an EARLIER insn that is gone before flow, so that
+    local-alloc still sees it as a one-block qty and gives it `$v0`. The earlier insn can be a dead set (c13) or a use
+    that cse folds (c29).
+- I found no honest source of such an earlier mention. The sprite's w/h has no other meaning in this function:
+  the call's `dx` 8, the `b[-2] & 8` flag bit and the `& 7` masks are all unrelated.
+- The routes that rule out anything short of the pin, each checked on bytes or in the source:
+  - Every literal spelling is hoisted.
+  - A set in both arms is a global allocno and loses `$v0` (c13 s3, 18).
+  - A set before the `j == 0` branch is case (3) and is hoisted.
+  - A launder changes the schedule (18-35).
 
-**The second way, tried and 1 point short (`scratch/c29/f1c.c`, score 1):**
-- (i) k becomes a function-scope variable that also carries the first call's fourth argument
-  (`k = D_801917AC[a[3] & 7]; ot = func_80140D68(ot, &D_8019124C[i], i, k, 0);`). k is then live where `$a2` holds
-  that call's third argument, so it conflicts with `$a2` and copy-prefers `$a3`. It gets `$a3` whatever its priority.
-- On its own this scores 8 (`f1s.c`). `expand_preferences` (global.c:781) copies k's `$a3` preference to m, because
-  m dies at the copy `k = m`. m is allocated first and loads straight into `$a3` (`lhu a3`, and the move disappears).
-- (ii) `k = (u16) m;` keeps k out of m's cse class, so `t3v` reads m, m no longer dies at the copy, and nothing
-  spreads. Order and all registers now match. The one remaining difference is `andi a3,v1,0xffff` where the target has
-  `move a3,v1`.
-- Nothing removes that `andi`. combine only simplifies an insn together with an in-block feeder through LOG_LINKS,
-  and m is set in another block. cse does not track nonzero bits.
-- Every spelling that yields a plain SImode copy puts k back into m's class. I tried a `u16` intermediate (`f1u.c`,
-  8): cse folds `(subreg:HI m)` through m's `(zero_extend (mem:HI))` equivalence.
-- Both (i) and (ii) are compiler-steering in spirit, and the result still does not match. **This is a reading, not a
-  close.**
+### Path 2: j vs k in global.c
+- In the target's output order j is born first, and sched1 overwrites the live lengths with the output order
+  (sched.c:4947). The result is j 11/75 against k 13/74 (k is 13 because cse makes k the head of m's class,
+  cse.c:826-862, so `t3v` reads k).
+- `allocno_compare` gives j 4400 and k 5270, so k is allocated first and takes `$a2`.
+- If `t3v` reads m, k has 11 refs. j would still lose, 11/75 against 11/74, because it lives one insn longer.
+  It would need 12 refs.
+- j's natural count is 11. A use in arm A is folded by cse before flow, and the exit test reads the SImode increment
+  temp (both shown by c13/c29).
+- The keepalive adds exactly one depth-3 ref, which gives j 14/76 = 5526 against k 13/75 = 5200 (read from
+  `alloc_table.py v_pin8ka`, proven on bytes).
+- c13's order (`t3v` first, j last) gets the allocation right but the 3-instruction order wrong (4) with or without
+  the keepalive (`w_c13_pin8ka` 4).
 
-## (c) Moves in body.c (on top of c13's)
-1. `size` is function-scope; `size = 8;` feeds the third call's fourth argument; c13's dead `s16 size = 0;` is deleted.
-2. c13's order `t3v = m * 4; k = m; j = 0;` is kept, so the allocation is right and the 3-insn order is wrong (score 4).
+## Proven vs not proven
+- Proven on bytes: every score in the table, and the priorities 5526/5200 (v_pin8ka) and 4400/5270 (v_pin8).
+- Proven from the loop dump: the hoist and the life-1 retention.
+- Not proven: that NO honest C gives j a 12th ref or gives the 8 an honest earlier mention. That is an argument from
+  the passes, plus c13's and c29's ~60 failed spellings, not an exhaustive search.
 
-## (d) Generator proposals
-- **Hoisted constant (solved class):** when the target materialises a constant inside a loop and yours hoists it (an
-  extra `li` before the loop, every temp after it shifted by one), give the constant a function-scope variable and use
-  that variable as the source of an existing earlier use of the same literal (a call argument or a mask) above the loop.
-  - loop.c's `regno_first_uid` test then fails on the in-loop set.
-  - cse1 folds the earlier use back to the literal and flow deletes that set, so the in-loop set is still a one-block
-    local.
-  - Try every earlier occurrence of the literal. Report it as a shared-constant reuse, not as a plain spelling change.
-- **Order-versus-allocation trade on independent preheader leaves (diagnostic):** before searching, compute which leaf
-  the target emits first. If that register must also win `allocno_compare` against a partner with more refs, report
-  the class "needs a ref-weight lever". The live length follows the output order (sched.c:4947), so no reordering can
-  fix it. This saves the ~20-spelling search that c13 and I both ran.
+## Generator proposal
+When a body closes only with a steering-in-C-clothing construct, emit the equivalent standard lever instead and count it:
+- **Loop-hoist class (a constant hoisted out of a loop: extra `li` in the preheader, temps shifted):** a dead
+  initialiser or a shared named constant that defeats `reg_in_basic_block_p` maps to ONE `register T v __asm__("$N")`
+  pin, with N the target's register for the in-loop `li`.
+- **Priority class (a register swap between two globals whose `allocno_compare` gap is under one depth-weighted
+  ref):** maps to ONE keepalive on the loser, at the deepest loop level.
+- Always score each lever alone before combining. Here the table shows they are independent, so the minimum is their
+  sum.
 
-## (e) What did not work (byte evidence, scratch/c29/)
-`s0` 26 (no outer use: 8 hoisted) · `s3` 18 (`size = 8` in both arms: global allocno) · `n1` 70 (everything written in
-the loop, as a natural sprite macro would: masks hoisted out of the outer loop) · `n2` 13 (`D_8011516A[m]` in the loop:
-loop.c hoists the index to the preheader end, and cse2 canonicalises it to k) · `o1`/`s1o` 10 (tree order: j/k swap) ·
-`e1`/`e1b` 29/35 (switch) · `e2`/`v5` 10 (extra j tests or uses folded before flow) · `f2`/`f3` 17 (k reused at the
-second call too: the second call's temps shift) · `f1s` 8 (m coalesces into `$a3`) · `f1u` 8 · `f1c` 1 (`andi` for
-`move`) · `g5` 55.
-
-## (f) Where the method fell short
-1. `--try` changed under me mid-run: it now compiles into a per-call directory and removes it. My first `t.sh` copied
-   the stale shared scratch TU, and two of my dumps (`n2`/`o1`) were of the wrong candidate until I switched to
-   `--keep`. A dump helper should take its TU from `--keep`'s printed path (the current `scratch/c29/t.sh` does).
-2. Two model facts that the brief's tools do not surface cost the most time:
-   - sched1 overwrites `reg_live_length`, so the alloc table's live column already reflects the output order.
-   - `regs_used_so_far` starts with every call-used register.
-
-   Both belong in the alloc_table header.
-3. `expand_preferences` spreading a copy preference through a dying copy is invisible in `alloc_table.py`, because it
-   prints the pre-spread `.greg` preferences. m showed "prefers a3" only in the `.greg` dump. A column for
-   "preference inherited via copy" would have explained `f1s` immediately.
-
-Paths: `body.c` (score 4), `mechanism.md` (this file). Candidates are in `scratch/c29/*.c` and dumps in
-`scratch/c29/dumps_<tag>/`.
+## Where the method fell short
+- The brief's lever kinds have no counted form for "first mention deleted before flow" (a dead store or a folded use).
+  Those constructs are exactly what the pin replaces. It would help to list them in METHOD_S103 as known C-clothing
+  for the loop.c case-(1) test.
+- gcc 2.7.2 rejects `"+r"` constraints ("output operand constraint contains `+'"). A launder must be written
+  `"=r"(x) : "0"(x)`. That belongs in the lever-form list.
