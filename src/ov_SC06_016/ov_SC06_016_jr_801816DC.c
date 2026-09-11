@@ -3075,14 +3075,13 @@ void func_80181998(s32 param_1)
         v = cnt * 7;
         p = *(s32 *)(param_1 + 0x20);
         v = v << 8;
+        *(u16 *)(p + 0x1A) = v;
+        *(u16 *)(p + 0x18) = v;
     } else {
         p = *(s32 *)(param_1 + 0x20);
-        v = 0x3800;
+        *(u16 *)(p + 0x1A) = 0x3800;
+        *(u16 *)(p + 0x18) = 0x3800;
     }
-    do { *(u16 *)(p + 0x1A) = v; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
-    *(u16 *)(p + 0x18) = v;
-    /* §194-A one-way fence: without it sched2 hoists func_80129350's two
-     * argument copies above the pair of sh stores. */
     func_80129350(param_1, s2);
     *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
     *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = 0;
