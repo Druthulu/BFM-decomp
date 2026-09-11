@@ -1684,6 +1684,16 @@ accumulate here as the phase produces them.**
   dead initialiser but through ONE variable holding two unrelated 8s (flagged by the agent itself as steering); the
   pre-loop order unclosable without raising `j`'s weight (sched1 rewrites `reg_live_length`, `sched.c:4947`; k 5270 vs j
   4400, `global.c:587-609`).
+- **S103 — c38: `func_80180EDC` (ov_SC04_015, 3 → 0; 7/7) and `func_8018431C` (ov_SC03_104, 4 → 0; 7/7); c40:
+  `func_80185DD8` (ov_SC06_018, 7 → 0; 5/5) and `func_80184854` (ov_SC03_002, 11 → 0; 7/7) CLOSED.** c38: a local that
+  carried a pointer to a join took a dying argument register's preference (`expand_preferences`, `global.c:781-821`) —
+  the store written in each arm (cross-jump re-merges it); a single-set `la` launched low by sched1
+  (`birthing_insn_p`, `sched.c:2469/2489`) — its store moved to the head of the run (sched2 re-sorts the independent
+  stores, `sched.c:2616/2657-2670`). c40: a `?:` inside the branch condition (`do_jump`'s COND_EXPR, `expr.c:9124`)
+  gives each arm its own compare so jump's inversion (`jump.c:1737-1782`) and the cross-jump (`:2371`) find nothing to
+  merge; and a hand-rotated `if … do … while` written as a real `for` loop, whose `NOTE_INSN_LOOP_VTOP`
+  (`jump.c:2306`) makes reorg's `mostly_true_jump` predict taken (`reorg.c:1364-1372`) and fill the slot from the target.
+  Tools: `cc1_dumps_tu.sh` gains `-dd` (`.dbr`); METHOD notes `--keep`'s path is the LAST output line.
 - **S103 — packs for the next tier: `delever_pack --build --min-copies 5` → `64 packs under .run/P36/agents; ORDER.tsv
   written`** (the head-only ORDER kept as `ORDER_head.tsv`). The head (≥100 copies) is down to classes with honest
   readings; the tier below has several classes at a mechanical best of 1-2 — agents now take TWO small classes each.

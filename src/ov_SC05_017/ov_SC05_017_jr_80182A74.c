@@ -4457,23 +4457,12 @@ void func_80184870(void *a0, s32 a1, s32 a2)
 {
 
     extern u8 D_80078EB1;
-    s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
-    v0 = D_80078EB1;
-    if (!(v0 < a1)) {
-        if (v0 < a2) {
-            v0 = 1;
-            v1 = *(s32 *)((s32)a0 + 0xCC);
-        } else {
-            v1 = *(s32 *)((s32)a0 + 0xCC);
-            v0 = 2;
-        }
+    if (D_80078EB1 >= a1 && D_80078EB1 < a2) {
+        *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 1;
     } else {
-        v1 = *(s32 *)((s32)a0 + 0xCC);
-        v0 = 2;
+        *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2;
     }
-    *(s32 *)(v1 + 0xB0) = v0;
 }
 
 

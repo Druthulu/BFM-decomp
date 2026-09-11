@@ -4679,20 +4679,17 @@ void func_8018A5F4(void *a0)
         *(u16 *)(s1 + 0x18) = 0x2000;
         *(u8 *)(s1 + 0x27) = b;
     } else {
-        register u8 *dptr __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-
         func_8001CF00(s1);
-        dptr = D_801CBBE0;
+        *(u32 *)(s1 + 0x20) = (s32)D_801CBBE0;
         *(u16 *)(s1 + 0x28) = 0x300;
         *(u16 *)(s1 + 0x2A) = 0x110;
         *(u8 *)(s1 + 0x27) = 0x78;
-        *(u32 *)(s1 + 0x20) = (s32)dptr;
         *(u16 *)(s1 + 0x10) = 0x400;
         *(u16 *)(s1 + 0x1A) = 0x800;
         *(u16 *)(s1 + 0x18) = 0x800;
 
         if ((*(u16 *)(s2 + 0x70) & 3) == 0) {
-            func_800233CC(dptr, 0x80);
+            func_800233CC(D_801CBBE0, 0x80);
         }
 
         {
