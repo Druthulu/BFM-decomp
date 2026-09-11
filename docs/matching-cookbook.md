@@ -37755,3 +37755,52 @@ register is busy in the original and free in mine, which is a liveness the sourc
 draws it nor strips those sites from its seed; it had been searching for a reload that the cast it removed produces. And the
 head is where the number is: after four runs the next 64 classes by copies carry 498 bodies, while the ~65 head classes that did not
 close hold ~8,000 — each is worth a reading (`--explain --path` on its best moves) and a generator, not a wider tail pass.
+
+## §456 — The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and launders (Phase 36 T7)
+
+Every entry below was byte-proven on at least one banked body in S104 (the agent, the pass and the `file:line` are in that
+pack's `mechanism.md` under `.run/P36/agents/<alias>__<fn>/`; METHOD_S103.md steps 12–16 carry the same list with the ids).
+The pattern across the session: a decompiler-shaped body forces a lever because of ONE spelling decision; the original's
+natural C removes it. Try these in order on a residual before any register lever.
+
+**Register residuals (local-alloc / global.c).**
+- One value per temp: a local that dies in several places is refused by local-alloc (`local-alloc.c:472`) and goes global —
+  substitute in place, split, or declare per block / per switch case (generators R23, R29). The INVERSE also closes: two locals
+  the tree pins to one register are one variable (R28), a late local reusing an earlier-dead one lands in its register (R34).
+- Call-result temps of one type across cases → one function-scope variable (many refs, short live length outrank the self pointer).
+- A block with exactly THREE quantities is allocated in BIRTH order, not sorted (`local-alloc.c:1486-1507`; `tools/localalloc_sim.py`
+  models it): add or remove a quantity (a compound assignment, an inlined re-read) to flip it (R32).
+- An integer-truncated `allocno_compare` TIE (`global.c:594-607`, ties by allocno number; `tools/alloc_table.py` flags `TIE`):
+  duplicate the statement after an if/else join into both arms — one insn of live length splits it and cross-jump re-merges (R39).
+- A parameter copy `T x = argN;` deleted (R35) or moved to a later plain statement; `return ++i;` for a counter's refs (R40);
+  a call passed at its REAL arity (the extra arg costs 0 bytes — jump2 deletes the no-op copy, `jump.c:425-462`) (R19).
+- Widths: an `s16`/`u16`/`u8` local for a value used narrow keeps a SUBREG copy cse cannot fold (`cse.c:7440-7474`); a cast at
+  ONE shift, `(s16)t >> N` (R31); joint widths on several locals at once.
+- A walked pointer stepped alongside another → indexed by the counter (`record_giv` `loop.c:4341`, `combine_givs` `:5494`);
+  a load split from its update `T = LOAD; … P = T + X;`; a twice-set pointer `p = &D; p += x;` as one expression (R36 — the
+  frame-only residual: combine leaves the ref count, reload gives a slot, `combine.c:2305-2337`, `reload1.c:2327-2352`).
+- A named derived pointer `q = p - k` that cse keeps as a REGISTER address (`find_best_addr`, `cse.c:2656-2721`) — the `la` lever.
+
+**Order / count residuals (cse, sched, jump, reorg).**
+- A goto chain → structured C (if/else, `||`, `switch`, `for` with `break`/`continue`, a shared tail written out per site): a
+  label between a store and its tail blocks jump1's if-conversion (`jump.c:805`/`:1019`), cross-jump re-merges duplicated tails
+  (`jump.c:2371`) at zero bytes, a rotated loop's `NOTE_INSN_LOOP_VTOP` flips reorg's `mostly_true_jump` (`reorg.c:1364-1372`).
+  The reverse exists too: a do-while as a backward goto loop when the target shows NO loop optimisation (`loop.c:352-361`).
+- `x = a; if (c) x = f(a);` → if/else with the non-simple value in the ELSE arm (jump1 re-merges a reg/const else, `jump.c:739-741`) (R33).
+- A result local `r = 0; if (A) r = (B); return r;` → `if (A && B) return 1; return 0;` (jump1's store-flag on the hard `$v0`) (R37).
+- A store in EACH arm when the target reloads a global after it (cse forwards only within a block, `cse.c:7358-7369`, `:8039`)
+  or when sched1 treats two symbols as non-aliasing; each arm's store BEFORE its counter; the if/else arms swapped for reorg's
+  delay-slot steal (R41); a statement moved several positions down its block (R42).
+- A sign test whose arms set/clear bit 31 → `& 0x80000000` (the mask's `lui` fills the slot, `reorg.c:2799`; the dead AND's slot
+  is what a pad faked) (R43). A hand-expanded `if (v < 0) v += 2^k-1; v >>= k;` is `v / 2^k` (R38); `(b << k) - b` is `b * (2^k-1)`.
+- Set counts steer three passes: a second identical assignment demotes sched1's birthing boost (`sched.c:2469-2545`), keeps a
+  constant off REG_EQUIV's doubled live length (`local-alloc.c:1016-1064`), and keeps loop.c from hoisting (`loop.c:705`).
+- Struct/array spelling decides sched's alias test (`expr.c:4568-4577` → `sched.c:817-861`): a cast byte-offset store is
+  scalar, an indexed/field access is aggregate — pick per access group; GTE scratch words gathered into one local struct; a
+  16-byte copy loop as ONE struct assignment (`expand_block_move`, `mips.c:2330ff`).
+- Sony's GTE macros replace hand-flattened GTE asm blocks; parameters straight into the macros (reload's spill register).
+
+**Signals that a close is NOT plain C (park it, structs phase):** a `(void)` function whose first act reads a pinned `$a0`–`$a3`
+takes a parameter; a `void` function whose final keepalive reads `v0` returns it; a narrow parameter the bytes use as s32 is
+s32; a store through another symbol of the same address is identical only after LINKING. Refused as closes: an invented
+always-false condition, a dead store kept only to steer a pass, a pointer alias invented only to dodge cse.
