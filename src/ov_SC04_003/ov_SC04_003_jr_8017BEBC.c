@@ -5371,53 +5371,30 @@ extern s32 func_80180E34(s32, s32, u16);
 
 s32 func_80180D50(s32 arg0) {
     extern u8 D_801202A0[];
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     u8 *pe;
-    u8 *ps;
-    s16 *ca;
-    s16 *cb;
-    u16 state;
     u16 t;
     s32 count;
 
     pe = D_801202A0;
-    count = 0;
-    ps = pe + 4;
-    do {
-        if ((s32) pe == arg0) {
-            goto next;
+    for (count = 0; count < 0x60; count++, pe += 0x10C) {
+        if ((s32)pe == arg0) {
+            continue;
         }
-        state = *(u16 *) pe;
-        ca = (s16 *) ((s32) arg0 + zr);
-        if (state == 0x1FC) {
-            goto b1fc;
+        switch (*(u16 *)pe) {
+        case 0x1FC:
+            t = (*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) * 9u) >> 9;
+            if (((s32 (*)(s16 *, s16 *, s32))func_80180E34)((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
+                return (s32)pe;
+            }
+            break;
+        case 0x239:
+            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + *(s16 *)(*(s32 *)(pe + 0x20) + 0x18)) >> 6;
+            if (((s32 (*)(s16 *, s16 *, s32))func_80180E34)((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
+                return (s32)pe;
+            }
+            break;
         }
-        cb = (s16 *) ((s32) ps + zr);
-        if (state == 0x239) {
-            goto b239;
-        }
-        goto next;
-
-    b1fc:
-        cb = (s16 *) ((s32) ps + zr);
-        t = (*(s16 *) (*(s32 *) (arg0 + 0x20) + 0x18) * 9u) >> 9;
-        goto call;
-
-    b239:
-        t = (u32) (*(s16 *) (*(s32 *) (arg0 + 0x20) + 0x18) + *(s16 *) (*(s32 *) (ps + 0x1C) + 0x18)) >> 6;
-        /* fall through */
-    call:
-        if (((s32 (*)(s16 *, s16 *, s32))func_80180E34)(ca, cb, t) == 0) {
-            goto next;
-        }
-        __asm__ __volatile__("" :: "r"(pe));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-        return (s32) pe;
-
-    next:
-        count++;
-        ps += 0x10C;
-        pe += 0x10C;
-    } while (count < 0x60);
+    }
     return 0;
 }
 
