@@ -1694,6 +1694,16 @@ accumulate here as the phase produces them.**
   merge; and a hand-rotated `if … do … while` written as a real `for` loop, whose `NOTE_INSN_LOOP_VTOP`
   (`jump.c:2306`) makes reorg's `mostly_true_jump` predict taken (`reorg.c:1364-1372`) and fill the slot from the target.
   Tools: `cc1_dumps_tu.sh` gains `-dd` (`.dbr`); METHOD notes `--keep`'s path is the LAST output line.
+- **S103 — c42: `func_80186A8C` (ov_SC03_091, 8 → 0; 4/4) and `func_80182058` (ov_SC03_001, 10 → 0; 4/4) CLOSED —
+  both through jump2's cross-jump in ways METHOD did not yet list.** func_80186A8C: the `- 0x4000` folded into both arms
+  of the sign pick and `t` passed bare — `t` set in two blocks takes `$5` by copy preference, and cross-jump merges the two
+  identical arm tails into the target's single join instruction (argument registers load in order on MIPS,
+  `calls.c:1860-1881`); func_80182058: the case failures sent to one labelled `return 0` — cross-jump lowers its match
+  threshold for a block at a label (`jump.c:2406-2410`) or right after a conditional jump past it (`:2516-2519`), so which
+  block SURVIVES the merge is decided by where the labels are; the tree's "load-bearing zero-byte cross-jump barrier"
+  comment was refuted. METHOD note: for a cross-jump residual, find which label survives in `.jump2`, yours and the tree's.
+- **S103 — the first MINIMUM-LEVER draw: c46 on `func_80177B5C`** (c19's plain body at 2; goal: 0 with the fewest marked
+  levers, ideally one, instead of 23 per copy × 132).
 - **S103 — WHERE THE RESIDUE IS (measured at 12,003 sites): ~70% of the remaining lever weight sits in 9 classes of
   ≥100 copies, every one already read by an agent with a written reading** (approx. copies × sites/body:
   func_8013D9B0 125×34 — c17 15 plain, the GTE-macro question; func_80177B5C 132×23 — c19 2, one `or` late;

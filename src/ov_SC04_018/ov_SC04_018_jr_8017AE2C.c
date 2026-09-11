@@ -7371,11 +7371,6 @@ s32 func_801825BC(void *a0)
     u16 st;
 
     if (func_8012BD14(*(s32 *)((s32)a0 + 0x64)) > 0x4000) {
-        /* LOAD-BEARING zero-byte cross-jump barrier (cookbook §5a).
-         * Without it gcc's find_cross_jump merges this `move v0,0; j epi`
-         * tail with the identical case-2 failure tail -> 58 ins instead of
-         * 60, and the case-2 `beq` then loses its delay-slot fill. */
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
         return 0;
     }
 
@@ -7386,13 +7381,13 @@ s32 func_801825BC(void *a0)
         *(s16 *)((s32)p + 0x2) = 8;
         break;
     case 2:
-        if (*(u16 *)((s32)p + 0x34) != 1) {
-            return 0;
+        if (*(u16 *)((s32)p + 0x34) == 1) {
+            goto hit;
         }
-        goto hit;
+        goto fail;
     case 4:
         if (*(u16 *)((s32)p + 0x34) != 0) {
-            return 0;
+            goto fail;
         }
     hit:
         D_801E7020 = st;
@@ -7400,6 +7395,9 @@ s32 func_801825BC(void *a0)
         *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 10;
         break;
     default:
+    fail:   /* the case-2/case-4 failures share this one `return 0`: a return
+             * falling out of a conditional (as the first one does) is what
+             * jump2's cross-jump would merge the early return into */
         return 0;
     }
 

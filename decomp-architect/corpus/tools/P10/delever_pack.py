@@ -100,12 +100,17 @@ def related_bodies(tu, fn, target_text, alias, top=6, max_lines=600):
         for r in recs:
             if r.get("form") == "def" and r.get("name") == fn:
                 body = txt[ls[r["line"] - 1]:ls[r["end"]]] if r["end"] < len(ls) else txt[ls[r["line"] - 1]:]
-                if "!FAKE" not in body and "__asm__ __volatile__" not in body:
+                # SAME NAME IS NOT SAME FUNCTION: overlays reuse addresses (S103, agent c43 — the func_80185578 listed
+                # here from ov_SC03_014 was a one-line different function). Evidence required: a shared callee/global
+                # and a comparable size.
+                n_t, n_b = target_text.count("\n") or 1, body.count("\n") or 1
+                shares = (set(SYM.findall(body)) - {fn}) & want
+                if "!FAKE" not in body and "__asm__ __volatile__" not in body and shares and 0.6 <= n_b / n_t <= 1.6:
                     same.append((rel, r["line"], body))
                 break
     head = []
     for rel, line, body in same:
-        head += [f"=== {fn} ALREADY LEVER-FREE in {rel}:{line} — a variant of your function: port it (R71) ===", body.rstrip(), ""]
+        head += [f"=== {fn} ALREADY LEVER-FREE in {rel}:{line} — same name, shares symbols and size: PROBABLY a variant; diff it before porting (R71) ===", body.rstrip(), ""]
     seen, out = set(), head + [f"=== lever-free bodies in {alias} sharing a callee or global with {fn} "
                          f"({len(cands)} found; top {top} by shared symbols) — read them for the SHAPE ==="]
     for _, n, name, rel, line, shared, body in cands:

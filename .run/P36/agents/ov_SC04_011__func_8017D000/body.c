@@ -35,7 +35,7 @@ void func_8017D000(void *a0) {
     s32 t;
 
     s16 *p;
-    void *w;
+    s16 *r;
 
     if (cur != lo) {
         if (lo < cur) {
@@ -72,7 +72,7 @@ void func_8017D000(void *a0) {
 
     if (*(s16 *)((s32)a0 + 0xFC) == 0xB) {
         s32 f = *(s32 *)((s32)a0 + 0x1C);
-        s32 v = -(f & 1) & 0xC0;
+        u8 v = -(f & 1) & 0xC0;
         f = f + 1;
         *(s32 *)((s32)a0 + 0x1C) = f;
         D_801EED51 = v;
@@ -100,6 +100,7 @@ void func_8017D000(void *a0) {
         u16 bs;
         s32 x;
         s16 y;
+        s16 *s;
         t = (c - h) * 255 / h;
         q = &D_801EED4D;
         bs = (u16)D_801EED28;
@@ -107,7 +108,8 @@ void func_8017D000(void *a0) {
         y = x - 4;
         D_801EED55 = 0xFF;
         *q = 0xFF;
-        *(s16 *)(q + 0xF) = x;
+        s = (s16 *)(q + 0xF);
+        *s = x;
         D_801EED64 = bs + c;
         D_801EED30 = x;
         D_801EED6C = y;
@@ -115,14 +117,13 @@ void func_8017D000(void *a0) {
         D_801EED74 = bs + c - 4;
         D_801EED88 = -t;
         D_801EED80 = -t;
-        func_800176F0(q + 0xF);
+        func_800176F0(s);
     }
 
     p = &D_801EEDA8;
-    D_801EED98 = *(u16 *)((s32)p - 0x18) + (u16)D_80193E88;
+    r = p - 0xC;
+    D_801EED98 = *(u16 *)r + (u16)D_80193E88;
     *p = D_801EED98 - 4;
-    w = (void *)((s32)p - 0x80);
-    p = (s16 *)((s32)p - 0x18);
-    func_800176F0(w);
-    func_800176F0(p);
+    func_800176F0(p - 0x40);
+    func_800176F0(r);
 }

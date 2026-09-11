@@ -6,7 +6,7 @@ Same 230 instructions; at both `func_8012B178(a0, t - 0x4000)` sites the target 
 COUNT: 230 = 230, nothing missing — a pure ORDER residual of two insns, twice.
 
 ## (b) The passes and decisions (read, then proven on dumps `scratch/dumps_free`, `scratch/dumps_v1`)
-* `calls.c:1879-1889` (gcc-2.7.2): MIPS has no `PUSH_ROUNDING`, so `PUSH_ARGS_REVERSED` is NOT defined (`calls.c:38-44`); the
+* `calls.c:1860-1881` (gcc-2.7.2): MIPS has no `PUSH_ROUNDING`, so `PUSH_ARGS_REVERSED` is NOT defined (`calls.c:38-44`); the
   hard-register loads are emitted in argument order, `$4 = a0` then `$5 = value` (dumps_free `fn.rtl` insns 163, 165).
 * combine (`can_combine_p`, `combine.c:880-930`): the separate `av = t - 0x4000` insn (160) is folded into the `$5 = av`
   arg-move (165), which sits AFTER `$4 = a0` — so the subtract becomes the last insn before the call (dumps_free `fn.combine`).

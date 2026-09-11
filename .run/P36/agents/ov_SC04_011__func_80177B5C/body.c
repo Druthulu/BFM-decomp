@@ -33,6 +33,7 @@ s16 y;
     u32 c;
     u16 bb;
     u32 c0;
+    u32 w;
 
     mk1 = 0xFFFFFF;
     cc1 = 0x74808080;
@@ -50,10 +51,12 @@ s16 y;
     yt = y;
     c0 = yt + 1;
     c0 <<= 16;
+    w = c0 | x1;
+    __asm__("" : "=r"(w) : "0"(w)); // !FAKE: launder w — sched1 launches a single-set p[2] value right before its store (birthing_insn_p, sched.c:2469) and sched2 ties the or/ori at equal priority and falls back to sched1's order (sched.c:2385); the asm's second set of w keeps it ahead of the cl chain, no plain spelling reorders them (S103 c19) (P36 S103 c46 minimum-lever)
     c = v << 6;
     c |= 0x4016;
     cl = c << 16;
-    p[2] = c0 | x1;
+    p[2] = w;
     p[3] = cl | 0x1800;
     p += 5;
     p[0] = (((u32)(p - 5)) & mk1) | ca;

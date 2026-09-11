@@ -6876,15 +6876,11 @@ void func_80185BE4(s32 a0) {
         s32 t;
         s32 r;
         if (ang >= 0) {
-            t = -(ang << 4);
+            t = -(ang << 4) - 0x4000;
         } else {
-            t = ang << 4;
+            t = (ang << 4) - 0x4000;
         }
-        {
-            register s32 av __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-            av = t - 0x4000;
-            func_8012B178(a0, av);
-        }
+        func_8012B178(a0, t);
         r = ((s32 (*)(s32))func_8012CBA4)(a0);
         if (r & 0x8000) {
             *(u16 *)(a0 + 0x34) = 2;
@@ -6921,15 +6917,11 @@ void func_80185BE4(s32 a0) {
         *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
             *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + d;
         if (ang >= 0) {
-            t = -(ang << 4);
+            t = -(ang << 4) - 0x4000;
         } else {
-            t = ang << 4;
+            t = (ang << 4) - 0x4000;
         }
-        {
-            register s32 av __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-            av = t - 0x4000;
-            func_8012B178(a0, av);
-        }
+        func_8012B178(a0, t);
         if ((((s32 (*)(s32))func_8012CBA4)(a0) & 0x2000) == 0) {
             func_8012ADE4((u8 *)a0);
             *(u16 *)(a0 + 0x34) = 2;
