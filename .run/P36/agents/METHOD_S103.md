@@ -241,3 +241,33 @@
       (every 4-subset of five levers scored 2, every 3-subset ≥ 4, ~470 bodies) → bank minimum-lever with the markers carrying the
       pass. Structs lead: 4-byte `(x, y)` locals would make those constants SUBREG stores (no boost).
     - `tools/localalloc_sim.py` raises IndexError when the uid is not inside the block — feed it an insn uid from the block.
+19. **S105 f4 (`ov_SC04_011_jr_8017D494`, 5 of 5 plain C) and f5 (`ov_SC02_005_jr_8018EA04`, 7 of 7 plain C):**
+    - (f4) **`lh` + `move vX,vY` in the target = combine's narrow-load + sign-extend PARALLEL split** (`combine.c:1893-1918`, "we
+      need both registers … split into a load followed by a register-register copy"), reached only when the `s16` local is loaded
+      DIRECTLY from memory and set ONCE (a multi-set local is refused, `combine.c:1905-1911`, `reg_nonzero_bits` under LOAD_EXTEND_OP;
+      a `u = t` copy hits cse's paradoxical-SUBREG fold `cse.c:4836-4870`). One single-set `s16` per axis. Three of five packs; and
+      the tree's `frame_pad[N]` / "§333 aggregate" fillers were the dead shift temps' slots (8 bytes per site, `combine.c:2306` +
+      `reload1.c:2331`) — DELETE the pad whenever this rule applies. A `$0` pin faking the copy (`v1 = v0 + zr`) is the same shape.
+    - (f4) a `u16` counter TIED in `qty_compare_1` with a symbol (two tied pseudos HI+SI, 7 refs) wins by qty number where the
+      target's symbol takes `v0` → re-declare the counter `s32` (one pseudo, 5 refs); `localalloc_sim.py` shows the tie.
+    - (f4) a `$aN` pin on a global loaded right before an UNPROTOTYPED call = a missing call argument: read the callee's definition
+      (`grep -n 'fn(' src -r`) and pass it through a body-local cast (R19); the tail `j; li v0,1` vs `move v0,zero` residual follows
+      from it (reorg fills the slot from the fall-through's `lw a0`, `reorg.c:3320-3420`). A barrier between a store fed by an if/else
+      and its reload → one store per arm (the reload lands in a new cse block; cross-jump re-merges the two `sh` in jump2).
+    - (f4) a `$4–$7` "pre-copy" pin on a parameter used early and copied late → `s16` copies of the parameters at the top and the
+      early result computed on the copy (cse's paradoxical-SUBREG fold routes `-y` to the parameter pseudo, which then keeps `a1`;
+      the `s16` result is a SUBREG destination `birthing_insn_p` rejects, so the neg lands in the `bnez` slot).
+    - (f5) **derived-pointer store (generator R45):** `s0[K] = 0` with `s0 = &SYM` known to cse → `lui $at; sw $zero,K($at)` — cse
+      pass 1 FOLDS `(plus s0 K)` to the constant first (`find_best_addr`, `cse.c:2622-2740`, `:2653`); the pointer the function
+      already passes to the call, `p = &s0[K]`, born BEFORE the store and stored through: zero instructions added; the `$s0/$s1` swaps
+      beside the count hunks are the base's ref count (`alloc_table` 5 refs / 1785 → 7 / 2413, `global.c:594-610`) and vanish with it.
+    - (f5) **set-once chain (generator R46):** `v &= 0x1F; v -= K; DST = v;` sets ONE pseudo several times → no `birthing_insn_p`
+      boost → the chain is emitted at the block TOP ahead of the boosted `la`/`li`; `DST = (v & 0x1F) - K;` gives every temp one set
+      and the LUID tie-break (`sched.c:2428`) puts it after the independent setups. The exact INVERSE of step 18's multi-set trick:
+      the `.sched` priority column (`7f000001` vs `1`) says which direction a body needs.
+    - (f5) a `$2` pin on a result local assigned a ternary/if-else of constants → two `return <const>;` statements
+      (`expand_value_return` `stmt.c:2505-2528` writes the hard `$v0`; the taken arm's constant is the delay slot — try both orders).
+    - (f5) `neighbours.txt` empty ≠ no neighbour: read the TU around the function — a lever-free sibling of the same byte shape
+      (func_8018FAE0, func_8018FC38 which even spells the record as a struct) closed packs 4–7 on the first `--try` each.
+    - The strip must not leave a READ of the pinned variable (`-a1v` after `register a1v __asm__("$5")` is gone): the free body's
+      score is garbage until the argument is restored (f4 pack 5's "best 13" was measured on an uninitialised local).

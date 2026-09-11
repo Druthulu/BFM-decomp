@@ -1999,18 +1999,41 @@ accumulate here as the phase produces them.**
   cannot reach — not a new generator. R22 (`.run/P36/s105/r22_c.log`) **`check-all: 218 passed, 0 failed of 218`** (83 s) → baseline at
   `cadb6cacc` → `lever_census --check: 4,111 pin/asm sites, 4,111 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,125 → **4,111**).
 
-## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, LIVE — refreshed at every landing): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,111 sites** so far; f1–f3 landed (13/13), f4 + f5 IN FLIGHT; generator **R44** + the R22 `&&` blind-spot fix; R22 `check-all: 218 passed, 0 failed of 218` at `cadb6cacc` | `lever_census --check` exit 0 (4,111 marked, 0 UNMARKED, 0 orphans)
+- **S105 — f4 and f5 landed: 12 of 12 at 0, ALL plain C, zero levers; generators R45 + R46; R22 218/218; 4,111 → 4,077 sites.**
+  f4 (`ov_SC04_011_jr_8017D494`, ≈366k tokens, 42 min): `func_801835B0` 3 → 0, `func_8018315C` 5 → 0, `func_80183058` 15 → 0 — three
+  of five by **combine's narrow-load + sign-extend split** (`combine.c:1893-1918`: an `s16` local loaded DIRECTLY and set ONCE gives the
+  target's `lh` + `move`; the tree's `frame_pad[N]`/"§333 aggregate" fillers were the dead shift temps' slots, deleted); `func_80182BBC`
+  7 → 0 (a `u16` counter tied in `qty_compare_1` with a symbol → `s32`; `localalloc_sim` 0 mismatches); `func_80183058` also carried a
+  `$4` pin that was a MISSING CALL ARGUMENT (the callee `func_80189410(void *)` defined in the same TU); `func_8018489C` 19 → 0 (`s16`
+  parameter copies at the top, the early result on the copy; the sweep's "best 13" had been measured on a free body reading the
+  stripped `a1v` uninitialised — a strip that leaves a read of the pinned variable is an instrument gap, noted). f5 (`ov_SC02_005_jr_8018EA04`,
+  ≈152k tokens, 10 min — the cheapest batch of the session): two mechanisms cover the whole TU — **the derived-pointer store** (cse
+  pass 1 folds `(plus s0 K)` to the constant, `find_best_addr` `cse.c:2622-2740`; `p = &s0[K]` born before the store, stored through,
+  passed to the call — four bodies, the `$s0/$s1` swaps were the base's ref count) and **the set-once chain** (`DST = (v & 0x1F) - K;`
+  — a multi-set temp loses sched1's birthing boost, `sched.c:2468-2546`; the INVERSE of f3's multi-set trick, the `.sched` priority
+  column decides — three bodies); `func_801900B0` by two `return <const>;`; packs 4–7 each closed on the first `--try` from the TU's
+  lever-free sibling `func_8018FAE0`. `bank_list.sh`: `IDENTICAL … KEPT` ×12 (`a59914878`…`d49b4fc37`, `855743df1`…`bbe6bee42`). f6
+  (`ov_SC07_007`, 6 classes) and f7 (`ov_SC01_077`, 6) launched into the slots first. **Harvest (R16): generators R45
+  `derived_pointer_store`** (known-true ALONE 0 on func_8018F944 from 4; the ALL form 0 on func_8018FEA0 from 16 — an index-regex
+  defect caught by the selftest on the way: `_INT` matched the digit in `s0`) **and R46 `set_once_chain`** (the ALL form 0 on
+  func_8018FA34 from 6; the singles 2 / 4 = the agent's own numbers; a refusal when the temp is read after the store); selftest cases
+  with a negative control, `delever --selftest: OK`, SETUP rows, `FAMILIES` (R45 in COUNT, R46 in ORDER first). Regen `s105_r45r46`:
+  `604 of 604 classes judged in 27 s — MATCH 0, BEST 44` — the shapes were TU-local; 0 free banks, honestly. METHOD step 19
+  (f4/f5's nine readings). R22 (`.run/P36/s105/r22_d.log`) **`check-all: 218 passed, 0 failed of 218`** (82 s) → baseline at
+  `4a503fce1` → `lever_census --check: 4,077 pin/asm sites, 4,077 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,111 → **4,077**;
+  2,188 pins + 1,889 asm in 2,009 bodies). **Session so far: 25 of 25 drawn classes at 0 (21 plain C, 4 minimum-lever), 4,152 → 4,077.**
+
+## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, LIVE — refreshed at every landing): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,077 sites** so far; f1–f5 landed (25/25), f6 + f7 IN FLIGHT; generators **R44–R46** + the R22 `&&` blind-spot fix; R22 `check-all: 218 passed, 0 failed of 218` at `4a503fce1` | `lever_census --check` exit 0 (4,077 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S105 runs at `/effort high` on Opus 5 1M;
 every agent on Opus) and executes §2. **Drew's cap is TWO concurrent agents (S105 open).** What may be in flight when this is read:
-**f4** (`src/ov_SC04_011/ov_SC04_011_jr_8017D494.c`: func_801835B0, func_8018315C, func_80182BBC, func_80183058, func_8018489C) and
-**f5** (`src/ov_SC02_005/ov_SC02_005_jr_8018EA04.c`: func_8018F944, func_801900B0, func_8018FA34, func_8018FB8C, func_8018FCE4,
-func_8018FEA0, func_8018F72C). A dead session's agents leave `body.c` + `mechanism.md` in
+**f6** (`src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c`: func_8018122C, func_80180FA4, func_8017F584, func_80181F4C, func_80182184,
+func_8017DFB8) and **f7** (`src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c`: func_8017EB2C, func_8017EF50, func_8017F5BC, func_80180590,
+func_8017FD14, func_8017F114). A dead session's agents leave `body.c` + `mechanism.md` in
 `.run/P36/agents/<alias>__<fn>/` (R67): `--try` each `body.c`; a 0 banks via `.run/P36/s105/bank_list.sh` (one line per body
 `TU FN FILE LABEL MSG`; a `*minlever*` label adds `--allow-residue`); anything else is a reading to record. Briefs for the NEXT draws are
-written and their packs built: `.run/P36/s105/BRIEF_f6.md` (ov_SC07_007, 6 classes), `BRIEF_f7.md` (ov_SC01_077, 6), `BRIEF_f8.md`
-(ov_SC02_005_jr_80185E80, 5); `.run/P36/s105/mkbrief.py <id> <tu>` builds the packs + brief for any TU of `pick.json` — launch each as a general-purpose Agent whose prompt names the brief file (the f1/f3 prompts are the
+written and their packs built: `.run/P36/s105/BRIEF_f8.md` (ov_SC02_005_jr_80185E80, 5 classes); `.run/P36/s105/mkbrief.py <id> <tu>` builds the packs + brief for any TU of `pick.json` — launch each as a general-purpose Agent whose prompt names the brief file (the f1/f3 prompts are the
 pattern). First commands:
 ```
 git log --oneline -1 && git status --short | grep -v '^??' | wc -l
@@ -2023,10 +2046,10 @@ git log --oneline -1 && git status --short | grep -v '^??' | wc -l
   `.run/P36/s105/bank_list.sh` → harvest (generator + known-true on the agent's start text + selftest + SETUP row + `FAMILIES`) → regen
   pass of the new family (`--exclude` every fn an agent holds) → `--bank` → commit → R22 → `--snapshot-baseline` → census (EXIT CODE)
   → `lever_progress --snapshot` → log entry → commit.
-- The free sweep is SPENT: every residue class has been judged by every family R2–R44 (S105 `s105_r43_*`, `s105_r44r22`).
+- The free sweep is SPENT: every residue class has been judged by every family R2–R46 (S105 `s105_r43_*`, `s105_r44r22`, `s105_r45r46`).
 
 ### 2. NEXT
-1. Land f4/f5 (§0) → launch f6, f7, f8 in turn (two at a time) → then draw the next TUs from `pick.py` (ov_SC01_077 6 cls, then the
+1. Land f6/f7 (§0) → launch f8, then `mkbrief.py f9 <next TU>` … (two at a time) → then draw the next TUs from `pick.py` (ov_SC01_077 6 cls, then the
    5-class TUs), one brief per TU, 4–7 classes each, skipping ARG-ONLY (`$4`–`$7`-only pins = the missing-parameter shape → structs phase)
    and the park list (S104 §2.4 + f2's func_800385C0 signature change).
 2. The 21 UNSTRIPPABLE classes (`.run/P36/s105/unstrippable.json`: 6 comment-boundary strips, 6 macro-carried launders, 5 instructions
