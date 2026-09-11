@@ -2088,7 +2088,6 @@ void func_800377D8(u8 arg0) {
     s32 ptr;
     s32 nxt;
     u16 *pCnt;
-    s32 cnt;
 
     if (arg0 != 1) goto err;
     if (func_80043994(D_800762A0, 3) == 0) goto err;
@@ -2105,17 +2104,13 @@ void func_800377D8(u8 arg0) {
             D_80076250[gD_80076294 * 16] = 2;
             goto err;
         }
-        {
-        register s32 rnxt __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-        s32 rcnt;
         pCnt = &hD_80076240;
-        rnxt = gD_80076228 + 0x800;
-        rcnt = *pCnt + 1;
-        *pCnt = rcnt;
-        gD_80076228 = rnxt;
-        if ((s16)rcnt != 0xE) {
+        nxt = gD_80076228;
+        nxt += 0x800;
+        (*pCnt)++;
+        gD_80076228 = nxt;
+        if ((s16)*pCnt != 0xE) {
             return;
-        }
         }
         if (D_80076248[gD_80076294].unk00 & 0x1000) {
             D_80076250[gD_80076294 * 16] = 1;
@@ -2124,13 +2119,13 @@ void func_800377D8(u8 arg0) {
             if (idx < 5 && (&D_80076251)[idx * 16] != 0) {
                 if (D_80076248[idx].unk00 & 0x2000) {
                     gD_80076243 = 1;
-                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+                    D_80076298 = 0;
+                    hD_80076240 = 0;
                 } else {
                     gD_80076243 = 2;
+                    D_80076298 = 0;
+                    hD_80076240 = 0;
                 }
-                D_80076298 = 0;
-                hD_80076240 = 0;
-                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                 gD_80076228 = D_80076244[gD_80076294].unk00;
                 gD_80076238 = D_80076244[gD_80076294].unk08;
                 return;
@@ -2178,12 +2173,13 @@ void func_800377D8(u8 arg0) {
             if (idx < 5 && (&D_80076251)[idx * 16] != 0) {
                 if (D_80076248[idx].unk00 & 0x2000) {
                     gD_80076243 = 1;
+                    D_80076298 = 0;
+                    hD_80076240 = 0;
                 } else {
                     gD_80076243 = 2;
+                    D_80076298 = 0;
+                    hD_80076240 = 0;
                 }
-                D_80076298 = 0;
-                hD_80076240 = 0;
-                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                 gD_80076228 = D_80076244[gD_80076294].unk00;
                 gD_80076238 = D_80076244[gD_80076294].unk08;
                 return;
