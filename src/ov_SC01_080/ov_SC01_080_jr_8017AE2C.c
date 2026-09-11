@@ -7253,16 +7253,12 @@ void func_8018230C(s32 arg0) {
         if (c < *(s32 *)(arg0 + 0x1C) - 0x10) {
             break;
         }
-        w = D_8018A304 + D_8018A306 * c;
         bp = base;
-        {
-            register u16 z __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
-            base[0] = *(u16 *)(arg0 + 6);
-            base[1] = *(u16 *)(arg0 + 0xA);
-            z = *(u16 *)(arg0 + 0xE);
-            base[2] = z;
-            base[1] = base[1] - D_8018A302 * c;
-        }
+        base[0] = *(u16 *)(arg0 + 6);
+        base[1] = *(u16 *)(arg0 + 0xA);
+        base[2] = *(u16 *)(arg0 + 0xE);
+        base[1] = base[1] - D_8018A302 * c;
+        w = D_8018A304 + D_8018A306 * c;
         for (i = 0, ang = 0; i < 16; i++, ang += 0x100) {
             func_8012B0B4((unsigned int *)buf, ang, w);
             d = buf[0];
