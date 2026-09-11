@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 16 best 2 compiles 193 path R12 width param_1 s32->u16 @5856 + R9 swap-stmts @5862
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @5862 -> 2 [COUNT] (from 4)
+  R9 swap-stmts @5862 -> 2 [COUNT] (from 4)
+  R9 swap-stmts @5862 -> 3 [COUNT] (from 5)
+  R14 param-width arg0 s32->u8 @5854 -> 3 [MIXED] (from 5)
+  R12 width param_1 s32->u16 @5856 -> 4 [COUNT] (from 16)
+  R12 width param_1 s32->u8 @5856 -> 4 [COUNT] (from 16)
+  R14 param-width arg0 s32->s16 @5854 -> 4 [COUNT] (from 4)
+  R6 inline v0 @5872 -> 4 [COUNT] (from 4)
+  R8 base-shared tmp0 @5862 -> 4 [COUNT] (from 4)
+  R3 init-split param_1 -> 4 [COUNT] (from 4)
+  R7 block @5861 -> 4 [COUNT] (from 4)
+  R2 decl-order 1,0 -> 4 [COUNT] (from 4)

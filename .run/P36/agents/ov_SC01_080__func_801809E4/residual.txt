@@ -1,0 +1,38 @@
+src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:func_801809E4: score 21 (COUNT; mine 220 ins, target 220) — not yet
+  register pairs (mine -> target, count): s3->s2 x9, s2->s3 x9
+  replace mine[46:48] target[46:47]
+       46  li	s3,25                           | li	s3,255
+       47  li	s2,255                          | --
+  insert  mine[49:49] target[48:49]
+       49  --                                 | li	s2,25
+  replace mine[54:56] target[54:56]
+       54  sh	s3,0(a0)                        | sh	s2,0(a0)
+       55  sh	s2,44(a0)                       | sh	s3,44(a0)
+  replace mine[76:77] target[76:77]
+       76  li	s2,511                          | li	s3,511
+  replace mine[78:79] target[78:79]
+       78  li	s3,25                           | li	s2,25
+  replace mine[84:86] target[84:86]
+       84  sh	s3,0(a0)                        | sh	s2,0(a0)
+       85  sh	s2,44(a0)                       | sh	s3,44(a0)
+  replace mine[106:107] target[106:107]
+      106  li	s2,1023                         | li	s3,1023
+  replace mine[108:109] target[108:109]
+      108  li	s3,25                           | li	s2,25
+  replace mine[114:116] target[114:116]
+      114  sh	s3,0(a0)                        | sh	s2,0(a0)
+      115  sh	s2,44(a0)                       | sh	s3,44(a0)
+  replace mine[140:141] target[140:141]
+      140  li	s2,1023                         | li	s3,1023
+  replace mine[142:143] target[142:143]
+      142  li	s3,25                           | li	s2,25
+  replace mine[148:150] target[148:150]
+      148  sh	s3,0(a0)                        | sh	s2,0(a0)
+      149  sh	s2,44(a0)                       | sh	s3,44(a0)
+  replace mine[176:177] target[176:177]
+      176  li	s2,-31745                       | li	s3,-31745
+  replace mine[178:179] target[178:179]
+      178  li	s3,25                           | li	s2,25
+  replace mine[184:186] target[184:186]
+      184  sh	s3,0(a0)                        | sh	s2,0(a0)
+      185  sh	s2,44(a0)                       | sh	s3,44(a0)

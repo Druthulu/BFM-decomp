@@ -1,0 +1,36 @@
+src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:func_80181D98: score 23 (COUNT; mine 113 ins, target 113) — not yet
+  register pairs (mine -> target, count): s1->s0 x7, s0->s1 x6
+  insert  mine[1:1] target[1:5]
+        1  --                                 | sw	s1,36(sp)
+        2  --                                 | lui	s1,0x0
+        3  --                                 | addiu	s1,s1,0
+        4  --                                 | sw	ra,40(sp)
+  replace mine[2:7] target[6:7]
+        2  lui	s0,0x0                         | lw	v1,0(s1)
+        3  addiu	s0,s0,0                      | --
+        4  sw	ra,40(sp)                       | --
+        5  sw	s1,36(sp)                       | --
+        6  lw	v1,0(s0)                        | --
+  replace mine[21:22] target[21:22]
+       21  sw	a0,0(s0)                        | sw	a0,0(s1)
+  replace mine[32:33] target[32:33]
+       32  sw	v1,0(s0)                        | sw	v1,0(s1)
+  replace mine[68:71] target[68:71]
+       68  addiu	s0,s0,60                     | addiu	s1,s1,60
+       69  lui	s1,0x0                         | lui	s0,0x0
+       70  addiu	s1,s1,0                      | addiu	s0,s0,0
+  replace mine[78:79] target[78:79]
+       78  lw	v0,0(s0)                        | lw	v0,0(s1)
+  replace mine[88:89] target[88:89]
+       88  lh	a1,2(s1)                        | lh	a1,2(s0)
+  replace mine[94:96] target[94:96]
+       94  lhu	v0,0(s1)                       | lhu	v0,0(s0)
+       95  sw	s0,204(v1)                      | sw	s1,204(v1)
+  replace mine[99:100] target[99:101]
+       99  sw	v0,0(s0)                        | sw	v0,0(s1)
+      100  --                                 | addiu	s0,s0,4
+  delete  mine[101:102] target[102:102]
+      101  addiu	s0,s0,4                      | --
+  replace mine[103:105] target[103:105]
+      103  lh	v1,0(s1)                        | lh	v1,0(s0)
+      104  lhu	a0,0(s1)                       | lhu	a0,0(s0)

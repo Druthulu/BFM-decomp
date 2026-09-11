@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 21 best 21 compiles 191 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @6139 -> 21 [COUNT] (from 21)
+  R7 block @6174 -> 21 [COUNT] (from 21)
+  R8 base tmp0 @6139 -> 21 [COUNT] (from 21)
+  R7 do-while @6174 -> 21 [COUNT] (from 21)
+  R7 block @6159 -> 21 [COUNT] (from 21)
+  R7 do-while @6159 -> 21 [COUNT] (from 21)
+  R7 block @6209 -> 21 [COUNT] (from 21)
+  R8 temp tmp0 @6154 -> 21 [COUNT] (from 21)
+  R7 do-while @6209 -> 21 [COUNT] (from 21)
+  R8 base tmp0 @6154 -> 21 [COUNT] (from 21)
+  R7 block @6205 -> 21 [COUNT] (from 21)
+  R8 temp tmp0 @6169 -> 21 [COUNT] (from 21)

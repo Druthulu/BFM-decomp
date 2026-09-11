@@ -1,0 +1,25 @@
+src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:func_80180598: score 16 (COUNT; mine 50 ins, target 47) — not yet
+  register pairs (mine -> target, count): s2->s0 x7
+  replace mine[3:5] target[3:4]
+        3  sw	ra,28(sp)                       | sw	ra,24(sp)
+        4  sw	s2,24(sp)                       | --
+  replace mine[8:11] target[7:9]
+        8  move	s2,s0                         | bnez	v0,57a0 <func_80180598+0x34>
+        9  bnez	s1,57a8 <func_80180598+0x3c>  | sw	v0,32(s0)
+       10  sw	s1,32(s0)                       | --
+  replace mine[13:14] target[11:12]
+       13  j	5818 <func_80180598+0xac>        | j	5810 <func_80180598+0xa4>
+  replace mine[26:31] target[24:29]
+       26  move	a0,s2                         | move	a0,s0
+       27  sw	zero,8(s2)                      | sw	zero,8(s0)
+       28  lh	v0,10(s2)                       | lh	v0,10(s0)
+       29  sw	zero,12(s2)                     | sw	zero,12(s0)
+       30  sw	zero,4(s2)                      | sw	zero,4(s0)
+  replace mine[33:34] target[31:32]
+       33  lw	a0,32(s2)                       | lw	a0,32(s0)
+  replace mine[39:40] target[37:38]
+       39  lhu	v0,2(s2)                       | lhu	v0,2(s0)
+  replace mine[42:45] target[40:42]
+       42  sh	v0,2(s2)                        | sh	v0,2(s0)
+       43  lw	ra,28(sp)                       | lw	ra,24(sp)
+       44  lw	s2,24(sp)                       | --

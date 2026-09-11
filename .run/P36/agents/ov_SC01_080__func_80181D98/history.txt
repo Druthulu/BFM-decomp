@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 23 best 21 compiles 186 path R9 swap-stmts @7047
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @7047 -> 21 [COUNT] (from 23)
+  R7 block @7034 -> 21 [COUNT] (from 21)
+  R9 swap-stmts @7034 -> 21 [COUNT] (from 21)
+  R4 decl-move t 1->0 -> 21 [COUNT] (from 21)
+  R7 do-while @7034 -> 21 [COUNT] (from 21)
+  R9 swap-stmts @7042 -> 21 [COUNT] (from 21)
+  R4 decl-move t 1->2 -> 21 [COUNT] (from 21)
+  R7 block @7045 -> 21 [COUNT] (from 21)
+  R9 swap-stmts @7033 -> 21 [COUNT] (from 21)
+  R4 decl-move t 1->3 -> 21 [COUNT] (from 21)
+  R7 do-while @7045 -> 21 [COUNT] (from 21)
+  R4 decl-move t 1->4 -> 21 [COUNT] (from 21)

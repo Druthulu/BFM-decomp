@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 6 best 6 compiles 190 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @7274 -> 6 [REG] (from 6)
+  R10 param-copy arg0 @7263 -> 6 [REG] (from 6)
+  R7 block @7271 -> 6 [REG] (from 6)
+  R9 swap-stmts @7270 -> 6 [REG] (from 6)
+  R6 inline z @7276 -> 6 [REG] (from 6)
+  R8 base tmp0 @7274 -> 6 [REG] (from 6)
+  R5 swap + @7283 -> 6 [REG] (from 6)
+  R8 temp tmp0 @7264 -> 6 [REG] (from 6)
+  R5 swap + @7285 -> 6 [REG] (from 6)
+  R7 block @7270 -> 6 [REG] (from 6)
+  R9 swap-stmts @7264 -> 6 [REG] (from 6)
+  R8 base tmp0 @7264 -> 6 [REG] (from 6)

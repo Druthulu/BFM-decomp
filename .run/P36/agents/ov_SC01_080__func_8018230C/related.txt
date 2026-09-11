@@ -1,0 +1,74 @@
+=== lever-free bodies in ov_SC01_080 sharing a callee or global with func_8018230C (21 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80130858 (src/shared/ov/func_80130858.h:6) shares 1: func_8012BEE8 ---
+void func_80130858(s32 a0) {
+    func_8012AD80(a0);
+    if (func_8012BEE8(a0)) {
+        func_801319E0(a0);
+    }
+}
+
+--- func_80142740 (src/shared/ov/func_80142740.h:5) shares 1: func_8012BEE8 ---
+void func_80142740(int param_1)
+{
+    if (((int (*)(void))func_8012BEE8)() != 0) {
+        ((void (*)(int))func_8012AD50)(param_1);
+    }
+}
+
+--- func_8012F7B4 (src/shared/ov/func_8012F7B4.h:6) shares 1: func_8012BEE8 ---
+void func_8012F7B4(s32 a0) {
+    if (*(s32 *)(a0 + 0xB4) & 4) {
+        func_8012BEE8(a0);
+        if (*(s32 *)(a0 + 0x1C) == 1) {
+            if (func_80131A34(a0, 8) == 0) {
+                func_80131A34(a0, 0x20);
+            }
+        }
+    }
+    func_80131CA8(a0, 7);
+}
+
+--- func_80142D38 (src/shared/ov/func_80142D38.h:4) shares 1: func_8012BEE8 ---
+s32 func_80142D38(s32 *a0) {
+    if (func_8012BEE8((s32)a0) == 1) {
+        return 1;
+    }
+    if (a0[0x1C / 4] & 1) {
+        ((s32 *)a0[0x20 / 4])[1] |= 0x80000000;
+    } else {
+        ((s32 *)a0[0x20 / 4])[1] &= 0x7FFFFFFF;
+    }
+    return 0;
+}
+
+--- func_8012FF98 (src/shared/ov/func_8012FF98.h:7) shares 1: func_8012BEE8 ---
+void func_8012FF98(u8 *a0) {
+    if (*(s32 *)(a0 + 0xB4) & 0x20) {
+        s32 p = *(s32 *)(a0 + 0x20);
+        if (p != 0) {
+            *(u32 *)(p + 4) ^= 0x80000000;
+        }
+        if (func_8012BEE8((s32)a0)) {
+            func_80130D48((s32)a0);
+            func_801319E0((s32)a0);
+        }
+    }
+    func_80131CA8((int)a0, 0x10);
+}
+
+--- func_801301E8 (src/shared/ov/func_801301E8.h:7) shares 1: func_8012BEE8 ---
+void func_801301E8(u8 *a0) {
+    if (*(s32 *)(a0 + 0xB4) & 0x2000) {
+        if (*(u8 *)(a0 + 0xC3) != 0) {
+            if (*(u16 *)(a0 + 0x72) & 0x4000) {
+                func_80130D48((s32)a0);
+                func_801319E0((s32)a0);
+            }
+        } else if (func_8012BEE8((s32)a0) != 0) {
+            func_80130D48((s32)a0);
+            func_801319E0((s32)a0);
+        }
+    }
+    func_80131CA8((int)a0, 0x26);
+}
+
