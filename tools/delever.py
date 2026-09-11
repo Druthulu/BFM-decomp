@@ -3126,13 +3126,20 @@ def shift_operand_casts(text, tu, fn, d_):
     masked = sc.mask_text(text).split("\n")          # whole-text: a block comment's inner lines are masked too
     lo, hi = d_["line"], d_["end"] - 1
     out = []
+    sites = []
     for i in range(lo, hi):
         for m in re.finditer(r"(?<![\w)\]\.>])([A-Za-z_]\w*)\s*>>\s*(0x[0-9A-Fa-f]+|\d+)", masked[i]):
+            sites.append((i, m))
             for T in ("s16", "s8"):
                 cand = list(lines)
                 l = cand[i]
                 cand[i] = l[:m.start(1)] + f"({T}){m.group(1)}" + l[m.end(1):]
                 out.append((f"shift-cast ({T}){m.group(1)} >> {m.group(2)} @{i + 1}", "\n".join(cand)))
+    if len(sites) > 1:            # S104 d39 (func_80185484 ×3): BOTH shifts needed the cast; one site alone scored 5 / 4
+        cand = list(lines)
+        for i, m in sorted(sites, key=lambda t: (t[0], -t[1].start(1))):
+            cand[i] = cand[i][:m.start(1)] + f"(s16){m.group(1)}" + cand[i][m.end(1):]
+        out.append((f"shift-cast (s16) at all {len(sites)} shifts", "\n".join(cand)))
     return out
 
 
@@ -3374,6 +3381,8 @@ def drop_param_copies(text, tu, fn, d_):
         if not m or m.group(2) not in params or m.group(1) in params:
             continue
         x, a = m.group(1), m.group(2)
+        cm_ = re.search(r"=\s*(\([^()]*\))\s*%s\s*;" % re.escape(a), masked[i])
+        repl = f"({cm_.group(1)}{a})" if cm_ else a       # S104 d38: a CAST copy `T *p = (T *)a1;` → `((T *)a1)` at each use
         body = "\n".join(masked[i + 1:hi])
         assign = r"(?<![=!<>])\b%s\s*(?:[-+*/%%&|^]|<<|>>)?=(?!=)|(?:\+\+|--)\s*%s\b|\b%s\s*(?:\+\+|--)"
         if re.search(assign % ((re.escape(x),) * 3), body) or re.search(assign % ((re.escape(a),) * 3), body):
@@ -3385,8 +3394,8 @@ def drop_param_copies(text, tu, fn, d_):
         if not is_decl:
             cm = [sc.mask_text(l) if l is not None else "" for l in cand]
             _drop_single_decl(cand, cm, lo, hi, x)
-        cand = [re.sub(r"\b%s\b" % re.escape(x), a, l) if l is not None and k > i else l for k, l in enumerate(cand)]
-        out.append((f"drop-param-copy {x}->{a} @{i + 1}", "\n".join(l for l in cand if l is not None)))
+        cand = [re.sub(r"\b%s\b" % re.escape(x), lambda _m: repl, l) if l is not None and k > i else l for k, l in enumerate(cand)]
+        out.append((f"drop-param-copy {x}->{repl} @{i + 1}", "\n".join(l for l in cand if l is not None)))
     return out
 
 
@@ -3524,12 +3533,12 @@ def named_definitions():
     """{name: [(file, line)]} — every definition-looking line of a `func_XXXXXXXX` in src/ (.c and shared .h), cached once."""
     global _NAMED_DEFS
     if _NAMED_DEFS is None:
-        r = subprocess.run(["git", "grep", "-nE", r"^[A-Za-z_][^;]*\bfunc_[0-9A-Fa-f]{8}[[:space:]]*\([^;]*$", "--", "src/*.c", "src/*.h"],
+        r = subprocess.run(["git", "grep", "-nE", r"^[A-Za-z_][^;]*\bfunc_[0-9A-Fa-f]{8}(_body)?[[:space:]]*\([^;]*$", "--", "src/*.c", "src/*.h"],
                            cwd=REPO, capture_output=True, text=True, errors="surrogateescape")
         idx = collections.defaultdict(list)
         for ln in r.stdout.splitlines():
             f, n, t = ln.split(":", 2)
-            for m in re.finditer(r"\b(func_[0-9A-Fa-f]{8})\s*\(", t):
+            for m in re.finditer(r"\b(func_[0-9A-Fa-f]{8})(?:_body)?\s*\(", t):   # `func_X_body(` = an asm-label definition (S104)
                 idx[m.group(1)].append((f, int(n)))
                 break
         _NAMED_DEFS = dict(idx)
