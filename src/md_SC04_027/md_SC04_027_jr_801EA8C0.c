@@ -246,9 +246,13 @@ void func_801EAB04(void) {
     s32 v;
 
     r = func_80029504();
-    v = ((u32)(r - 0xC8) < 0x64) ? 0 :
-        ((r < 0x12C) ? 1 :
-         (((func_80029178(0xFA) & 0xFF) == 0) ? ({ __asm__ __volatile__("" ::: "memory"); 1; }) : 0));  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    if ((u32)(r - 0xC8) < 0x64) {
+        v = 0;
+    } else if (r < 0x12C || (func_80029178(0xFA) & 0xFF) == 0) {
+        v = 1;
+    } else {
+        v = 0;
+    }
     if (v) {
         *(s32 *)(D_801E7AAC + 4) = (s32)&D_801EBE24;
     } else {

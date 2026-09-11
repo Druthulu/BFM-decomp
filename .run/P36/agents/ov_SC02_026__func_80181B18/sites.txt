@@ -1,0 +1,4 @@
+REMOVED  pin         $16    line 6055
+NEEDED   pin         $17    line 6056
+NEEDED   barrier            line 6063
+NEEDED   pin         $3     line 6105

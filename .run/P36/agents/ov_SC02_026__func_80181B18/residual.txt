@@ -1,0 +1,68 @@
+src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:func_80181B18: score 43 (COUNT; mine 108 ins, target 108) — not yet
+  register pairs (mine -> target, count): s0->s1 x21, s1->s0 x14, v0->v1 x4, v1->v0 x2
+  insert  mine[1:1] target[1:4]
+        1  --                                 | sw	s1,20(sp)
+        2  --                                 | move	s1,a0
+        3  --                                 | sw	ra,24(sp)
+  replace mine[2:6] target[5:6]
+        2  move	s0,a0                         | lhu	s0,52(s1)
+        3  sw	ra,24(sp)                       | --
+        4  sw	s1,20(sp)                       | --
+        5  lhu	s1,52(s0)                      | --
+  replace mine[7:9] target[7:9]
+        7  beq	s1,v0,5a2c <func_80181B18+0x94> | beq	s0,v0,5a2c <func_80181B18+0x94>
+        8  slti	v0,s1,2                       | slti	v0,s0,2
+  replace mine[11:12] target[11:12]
+       11  beqz	s1,59f0 <func_80181B18+0x58>  | beqz	s0,59f0 <func_80181B18+0x58>
+  replace mine[16:17] target[16:17]
+       16  beq	s1,v0,5a58 <func_80181B18+0xc0> | beq	s0,v0,5a58 <func_80181B18+0xc0>
+  replace mine[18:19] target[18:19]
+       18  beq	s1,v0,5ad4 <func_80181B18+0x13c> | beq	s0,v0,5ad4 <func_80181B18+0x13c>
+  replace mine[23:24] target[23:24]
+       23  move	a0,s0                         | move	a0,s1
+  replace mine[27:29] target[27:29]
+       27  move	a0,s0                         | move	a0,s1
+       28  lhu	v0,52(s0)                      | lhu	v0,52(s1)
+  replace mine[32:33] target[32:33]
+       32  sh	v0,52(s0)                       | sh	v0,52(s1)
+  replace mine[34:35] target[34:35]
+       34  move	a0,s0                         | move	a0,s1
+  replace mine[38:39] target[38:39]
+       38  move	a0,s0                         | move	a0,s1
+  replace mine[42:43] target[42:43]
+       42  lhu	v0,52(s0)                      | lhu	v0,52(s1)
+  replace mine[44:45] target[44:45]
+       44  sw	s1,28(s0)                       | sw	s0,28(s1)
+  replace mine[47:50] target[47:50]
+       47  sh	v0,52(s0)                       | sh	v0,52(s1)
+       48  lw	a0,28(s0)                       | lw	a0,28(s1)
+       49  lw	s1,32(s0)                       | lw	s0,32(s1)
+  replace mine[58:60] target[58:60]
+       58  sh	v0,28(s1)                       | sh	v0,28(s0)
+       59  sh	v0,24(s1)                       | sh	v0,24(s0)
+  replace mine[66:68] target[66:68]
+       66  sh	v1,26(s1)                       | sh	v1,26(s0)
+       67  lw	v0,28(s0)                       | lw	v0,28(s1)
+  replace mine[70:71] target[70:71]
+       70  sw	v0,28(s0)                       | sw	v0,28(s1)
+  replace mine[74:76] target[74:76]
+       74  lhu	v0,52(s0)                      | lhu	v0,52(s1)
+       75  sw	v1,28(s0)                       | sw	v1,28(s1)
+  replace mine[78:81] target[78:81]
+       78  sh	v0,52(s0)                       | sh	v0,52(s1)
+       79  lw	a0,28(s0)                       | lw	a0,28(s1)
+       80  lw	s1,32(s0)                       | lw	s0,32(s1)
+  replace mine[84:90] target[84:90]
+       84  sll	v0,a0,0xc                      | sll	v1,a0,0xc
+       85  sra	v0,v0,0xc                      | sra	v1,v1,0xc
+       86  li	v1,8192                         | li	v0,8192
+       87  subu	v0,v1,v0                      | subu	v0,v0,v1
+       88  sh	v0,28(s1)                       | sh	v0,28(s0)
+       89  sh	v0,24(s1)                       | sh	v0,24(s0)
+  replace mine[93:95] target[93:95]
+       93  sh	v0,26(s1)                       | sh	v0,26(s0)
+       94  lw	v0,28(s0)                       | lw	v0,28(s1)
+  replace mine[97:98] target[97:98]
+       97  sw	v0,28(s0)                       | sw	v0,28(s1)
+  replace mine[101:102] target[101:102]
+      101  sh	v0,2(s0)                        | sh	v0,2(s1)

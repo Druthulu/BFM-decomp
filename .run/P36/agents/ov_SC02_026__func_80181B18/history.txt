@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 43 best 1 compiles 335 path R8 base-shared tmp0 @5961 + R7 do-while @5942 + R7 do-while @5986
+s7: verdict NO-MATCH start 43 best 1 compiles 571 path R8 base-shared tmp0 @5950 + R7 do-while @5931 + R7 do-while @5975
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @5975 -> 1 [OTHER] (from 5)
+  R7 do-while @5973 -> 4 [ORDER] (from 8)
+  R7 do-while @5931 -> 5 [MIXED] (from 43)
+  R4 decl-move ent 1->0 -> 5 [MIXED] (from 5)
+  R6 inline lo @5974 -> 5 [MIXED] (from 5)
+  R7 block @5975 -> 5 [MIXED] (from 5)
+  R8 hoist tmp1 @5974 -> 5 [MIXED] (from 5)
+  R10 param-alias ent->a0 @5930 -> 5 [MIXED] (from 5)
+  R4 decl-move ent 1->2 -> 5 [MIXED] (from 5)
+  R6 inline w @5980 -> 5 [MIXED] (from 5)
+  R8 temp tmp1 @5971 -> 5 [MIXED] (from 5)
+  R10 param-copy a0 @5929 -> 5 [MIXED] (from 5)
