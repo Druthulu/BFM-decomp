@@ -709,10 +709,10 @@ s32 func_801F03C0(s32 ot, u8 *s, s16 c) {
     u8  sp18[72];
     s32 sp60[5];
     s32 sp78[8];
-    s32 flag;
+    s16 flag;
     s32 dim;
     s32 dim2;
-    register s32 dim3 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 dim3;
     s32 t;
     s16 i;
     s16 k;

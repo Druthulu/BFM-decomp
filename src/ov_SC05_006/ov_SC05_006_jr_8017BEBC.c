@@ -4409,11 +4409,11 @@ void func_8017EFA4(void *a0)
     extern u16 D_80126B62;
     extern u16 D_80126B66;
 
-    register s32 *tbl __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 *tbl;
     s32 v0;
     s32 v1;
     s32 a1;
-    s32 s1;
+    s16 s1;
 
     tbl = *(s32 **)(*(s32 *)((s32)a0 + 0x64) + 0xDC);
 

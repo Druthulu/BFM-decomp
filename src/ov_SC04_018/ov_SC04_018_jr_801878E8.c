@@ -3481,7 +3481,7 @@ s32 func_80188428(void) {
     s32 flags;
     s32 pad;
     s16 effectVal;
-    s32 byteVal;
+    s16 byteVal;
     s16 changed;
     u16 *p;
     u8 *pcur;
@@ -3492,7 +3492,6 @@ s32 func_80188428(void) {
     u8 bb;
     u8 m;
     s16 d;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
 
     changed = 0;
     flags = func_80014ED4(0);
@@ -3511,7 +3510,7 @@ s32 func_80188428(void) {
             return ret & -(ret2 != 0);
         }
     } else if (flags & 0x10) {
-        pad = byteVal + zr;
+        pad = byteVal + 0;
         if (pad < 7) {
             return -1;
         }
@@ -3601,7 +3600,7 @@ s32 func_80188428(void) {
 
         if (changed != 0) {
             func_8002D4C8(0x45A, 0);
-            if (byteVal + zr == 0xC) {
+            if (byteVal + 0 == 0xC) {
                 D_8011514E = 0;
                 D_80115143 = 0;
                 func_80186E24();
