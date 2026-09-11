@@ -123,6 +123,8 @@
   Drew's word). (d) "the types phase" in S102–S103's checkpoints is NOT a new phase — it is the **structs phase**, the third in
   Drew's Gen3 order (dedup → pins → structs → names; R95's canonical type layer is its core); the signature changes
   (`func_8017FC5C`, `func_80180200`, `func_80185578`, `func_80157D20`, `func_80168828`) go there with their ready patches.
+- **S105 (2026-09-11), Drew, at the session open: *"high effort set. max concurrent agents is now 2"*** → the T7 agent lane runs at
+  most TWO agents at once from S105 on (was five, S103).
 - **S98 (2026-09-09), Drew, mid-T3:** *"dont start ultra code wave for reshaping without my direct approval."* → **T7's reshaping waves (Ultracode) start ONLY on Drew's direct approval in the session that would run them** — the R27 toggle is necessary, not sufficient; the T6 recipe/permuter rungs and the mechanical campaign are not waves and proceed under P3.
 
 ## Rules at gate 1 (P10)
@@ -1919,6 +1921,17 @@ accumulate here as the phase produces them.**
   func_80035210 (a return type), func_801805EC (an invented cse-dodging alias; its struct close is link-only), func_800301C8's
   struct close (link-only; banked with a marked do-while), func_80185D44 / func_80015608 / func_8001BBBC (near-misses, one lever
   or lever-free at 2/6). R22 after every batch (r22_h…l): `check-all: 218 passed, 0 failed of 218`; census **4,272** (exit 0).
+
+- **S105 (2026-09-11, Opus 5 1M, `/effort high`) — the open.** Session-start protocol at low effort; Drew: `/effort high`, agent cap
+  **2**. Tree clean at `44d449270` (a stray empty file `7` at the repo root deleted — a shell-redirect typo); calibration `177/177 objects
+  byte-identical untouched; twin checks 32 (0 mismatch); positive control DIFFERS on build/src/800.o; 2.2 s — OK`; the baseline
+  snapshot stands at `765704ca5` (7,428 objects; no `src/` change since). The four untracked pack dirs (`ov_SC02_005__func_80185214`,
+  `ov_SC03_107__func_8017BEBC`, `ov_SC05_008__func_80182560`, `ov_SC06_024__func_8017FCFC`) are built-never-drawn packs (no `body.c`).
+  **The picker written as a file this time** (`.run/P36/s105/pick.py` → `pick.json`; the S104 checkpoint's "picker in the log" was
+  never in the log): `645 residue classes; parked 24; drawn-pack 5; drawable 616 in 307 TUs (arg-only pins 84)` — the S104 figure
+  "~330" was a narrower filter it did not record (R41). Biggest TUs: `src/800.c` 26 classes, `src/800_c.c` 12, `md_SC07_004` 11,
+  `ov_SC04_011_jr_8017D494` 11. **R43 has never been run as a regen pass** (no `.run/P36/regen/*.log` names it; R42 was the last) —
+  the free sweep owed before any draw: R43 on the two TUs to be drawn first, then the whole residue with the drawn functions excluded.
 
 ## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,152 sites** this session (−945); ~105 agent draws (d1–d39, e1–e38, ALL landed and banked — nothing in flight); ~220 classes closed at 0, nearly all with ZERO levers; generators **R27–R43**; R22 `check-all: 218 passed, 0 failed of 218` at `765704ca5` | `lever_census --check` exit 0 (4,152 marked, 0 UNMARKED, 0 orphans)
 
