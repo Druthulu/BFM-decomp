@@ -69,7 +69,7 @@
  },
  "binaries": 218,
  "cfake_markers": {
-  "count": 50,
+  "count": 52,
   "sample": [
    "src/800.c:12543",
    "src/800_b_2.c:2948",
@@ -115,15 +115,15 @@
  },
  "classes": {
   "A": {
-   "bodies": 1343,
-   "distinct_bodies": 512,
+   "bodies": 1340,
+   "distinct_bodies": 509,
    "file_scope": 0,
-   "in_bodies": 2179,
+   "in_bodies": 2172,
    "kinds": {
-    "pin": 2179
+    "pin": 2172
    },
-   "marked": 2179,
-   "sites": 2179,
+   "marked": 2172,
+   "sites": 2172,
    "tus": 1075,
    "unmarked": 0
   },
@@ -250,9 +250,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6781,
-   "live": 15016,
+   "live": 15009,
    "macro_block": 194,
-   "raw": 21991
+   "raw": 21984
   },
   "attribute": {
    "comment_dead": 0,
@@ -268,9 +268,9 @@
   },
   "register": {
    "comment_dead": 8574,
-   "live": 2229,
+   "live": 2222,
    "macro_block": 18,
-   "raw": 10821
+   "raw": 10814
   },
   "volatile": {
    "comment_dead": 2607,
@@ -280,7 +280,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 22.0,
+ "elapsed_s": 22.5,
  "generated": "2026-09-11",
  "gte_levers": {
   "direct": 357,
@@ -291,15 +291,15 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "d85a4e387",
+ "head": "4bca24866",
  "headers": 3181,
  "levers_AB": {
   "asm": 1886,
-  "bodies": 2003,
-  "distinct_bodies": 697,
-  "marked": 4065,
-  "pins": 2179,
-  "sites": 4065,
+  "bodies": 2000,
+  "distinct_bodies": 694,
+  "marked": 4058,
+  "pins": 2172,
+  "sites": 4058,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -438,14 +438,14 @@
    "$0": 54,
    "$10": 10,
    "$11": 5,
-   "$12": 9,
-   "$13": 6,
+   "$12": 8,
+   "$13": 5,
    "$14": 5,
    "$15": 1,
-   "$16": 77,
-   "$17": 29,
+   "$16": 75,
+   "$17": 28,
    "$18": 26,
-   "$19": 17,
+   "$19": 16,
    "$2": 757,
    "$20": 7,
    "$21": 5,
@@ -455,7 +455,7 @@
    "$3": 159,
    "$4": 490,
    "$5": 375,
-   "$6": 60,
+   "$6": 59,
    "$7": 25,
    "$8": 23,
    "$9": 21,
@@ -464,29 +464,29 @@
    "a1": 2,
    "v0": 2
   },
-  "sites": 2179,
+  "sites": 2172,
   "sp": 0,
   "spelling": {
-   "__asm__": 2156,
+   "__asm__": 2149,
    "asm": 23
   },
   "volatile_qualified": 0,
   "zero": 54
  },
- "src_stamp": "38f4f9771c81f665",
+ "src_stamp": "96584aa5c5fa03e6",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 5768,
+  "bodies": 5765,
   "by_kind": {
    "main": 124,
    "md": 105,
-   "ov": 5374,
+   "ov": 5371,
    "resident": 6,
    "shared": 159
   },
   "copies_in_multi": 4849,
-  "distinct_bodies": 1029,
+  "distinct_bodies": 1026,
   "multi_copy_classes": 110
  },
  "verbatim_excluded": {

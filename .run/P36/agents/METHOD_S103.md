@@ -292,3 +292,25 @@
     - The ORDER of a block's independent constant stores sets a birthing load's LIFE (`schedule_select`, `sched.c:2614-2660`: the
       load is "blocked for 1 cycle" behind every store issued the cycle before) and so its `qty_compare_1` rank — permute the stores;
       the sched1 trace, not the allocation table, is the instrument (36 of 120 orders close, exactly those with the 0xdc store first).
+21. **S105 f6 (`ov_SC07_007_jr_8017BEBC`, 6 of 6 at 0: 1 plain C, 2 zero-pin with a marked do-while, 3 minimum-lever):**
+    - A local assigned a CONSTANT in ≥2 blocks that outranks a parameter copy: `update_equiv_regs` (`local-alloc.c:1049-1064`)
+      DOUBLES the live length of a set-once REG_EQUIV-constant pseudo — split it into one set-once local per block at the original
+      statement position (never inline the constant: loop hoisting reorders the `lui/addiu`).
+    - The do-while ref-weight tell: the loser needs EXACTLY +1 flow-time ref (`flow.c:2067`) on a statement that does not mention
+      the winner (two parameters with 2 refs each → 5000 vs 3333 → +1 → a tie the lower allocno wins); a real callee argument does the
+      same when one exists — never a fake argument (`func_801812BC` is really `(void)`).
+    - A `$4–$7` pin copied once before the first call while all the callers cast to a WIDER arity = the function's own parameter N
+      (`assign_parms`, `function.c:3620-3679`): signature patch parked, minimum-lever body passing it to the callees that take it.
+    - `qty_compare_1` contests whose births/deaths are FIXED by sched1's backward LUID tie-breaks (`sched.c:3160-3260`) and refs by the
+      bytes (14/226 = 1858 vs 13/222 = 1756) are "unreachable by priority": print both knobs from `localalloc_sim.py`; a loop-weight
+      lever only works after the point where the target sinks its frame adjust, else it costs a `nop`.
+    - P_TAG bitfield READS (not only the stores, step 17): the 0xFFFFFF mask pseudo gets 7 refs (`expmed.c:556-706`) and takes the
+      target's register; and a pointer used for all-but-the-first access of a symbol → use it for the first too (combine folds the
+      constant into `(mem (plus reg symbol))` and orphans the plus pseudo → the target's extra 8-byte slot, `reload1.c:2331`: the pad
+      shrinks by two words).
+    - A parameter reused as a later pointer + a `$sN` ROTATION among block-local temps: split the roles (parameter used directly,
+      the pointer a block-local record base) — local-alloc allocates block-local quantities BEFORE the global parameter (allocation
+      ORDER, not priority; the alloc table wants a "local vs global" column). A base with MIXED `sw K($sN)` / `lui $at` stores is a
+      cse-opaque base beside own-symbol scalars — `find_best_addr` folds `(plus p K)` via `equiv_constant` before any cost compare
+      whenever `p ≡ symbol` and the block has no ebb boundary: unreachable in plain C, mark the `la`. A tail `addiu s0,s0,32; move
+      a1,s0` needs a CALL_INSN between the add and the arg copy or combine folds them (`combine.c:929`).

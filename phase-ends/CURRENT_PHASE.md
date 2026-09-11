@@ -2047,13 +2047,27 @@ accumulate here as the phase produces them.**
   by their id so they pickup where they left off"* → both RESUMED by SendMessage to their ids** (R67 held: f6 had `body.c` +
   `mechanism.md` on disk for 5 of its 6 packs, f8 for 2 of 5 — nothing lost). No new draws (Drew's earlier word).
 
-## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, LIVE — refreshed at every landing): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,065 sites** so far; f1–f5 + f7 landed (31/31), f6 + f8 IN FLIGHT — **Drew: no new agents after these**; generators **R44–R46** + the R22 `&&` blind-spot fix; R22 `check-all: 218 passed, 0 failed of 218` at `d85a4e387` | `lever_census --check` exit 0 (4,065 marked, 0 UNMARKED, 0 orphans)
+- **S105 — f6 landed (resumed after the limit cut): 6 of 6 at 0 (1 plain C, 2 zero-pin with a marked do-while, 3 minimum-lever), R22
+  218/218; 4,065 → 4,058 sites.** f6 (`ov_SC07_007_jr_8017BEBC`, ≈485k tokens): `func_8017F584` 13 → 0 (a twice-set constant local split
+  set-once per block — `update_equiv_regs` doubles a REG_EQUIV constant's live length, `local-alloc.c:1049-1064`), `func_8018122C` 7 → 0
+  with one marked do-while (a +1 flow-time ref breaks a 5000-vs-3333 `allocno_compare` tie; the fake-argument alternative refused —
+  the callee is really `(void)`; 1 pin → 0), `func_80182184` 30 → 0 with one marked do-while (P_TAG bitfield READS give the mask pseudo
+  7 refs; the OT base used for every read shrinks the pad by two words — the tree's "+1 insn" claim refuted; 3 pins → 0),
+  `func_80180FA4` 7 → 0 only as a THREE-parameter function (all 17 callers cast to 3 args; patch in the pack, PARKED) → minimum-lever
+  2 → 1, `func_80181F4C` 29 → 0 only with its `$8` pin (`qty_compare_1` 1858 vs 1756 with births fixed by the bytes) → PROVEN 1 → 1,
+  `func_8017DFB8` 32 → 0 with 3 of its 4 levers (the `$16` pin off by splitting the parameter's and the pointer's roles — allocation
+  ORDER, block-locals before the global parameter; the `la` is a cse-opaque base beside own-symbol scalars, `find_best_addr` via
+  `equiv_constant`; the `addiu` needs a CALL_INSN between the add and the arg copy, `combine.c:929`) → 4 → 3. `bank_list.sh`:
+  `IDENTICAL … KEPT` ×6 (`bd461c81b`…`4bca24866`). METHOD step 21. R22 (`.run/P36/s105/r22_f.log`) **`check-all: 218 passed, 0 failed of
+  218`** (88 s) → baseline at `4bca24866` → `lever_census --check: 4,058 pin/asm sites, 4,058 marked !FAKE, 0 UNMARKED — OK` (exit 0)
+  → snapshot (4,065 → **4,058**). f8 still in flight (resumed); nothing else drawn.
+
+## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, LIVE — refreshed at every landing): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,058 sites** so far; f1–f7 landed (37/37), f8 IN FLIGHT (resumed after a limit cut) — **Drew: no new agents after it**; generators **R44–R46** + the R22 `&&` blind-spot fix; R22 `check-all: 218 passed, 0 failed of 218` at `4bca24866` | `lever_census --check` exit 0 (4,058 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S105 runs at `/effort high` on Opus 5 1M;
 every agent on Opus) and executes §2. **Drew's cap is TWO concurrent agents (S105 open).** What may be in flight when this is read:
-**f6** (`src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c`: func_8018122C, func_80180FA4, func_8017F584, func_80181F4C, func_80182184,
-func_8017DFB8) and **f8** (`src/ov_SC02_005/ov_SC02_005_jr_80185E80.c`: func_8018622C, func_80186424, func_8018A6A0, func_8018CA74,
+**f8** (`src/ov_SC02_005/ov_SC02_005_jr_80185E80.c`: func_8018622C, func_80186424, func_8018A6A0, func_8018CA74,
 func_8018D270). **Drew (S105, mid-turn): no new agents after these — let them finish.** A dead session's agents leave `body.c` + `mechanism.md` in
 `.run/P36/agents/<alias>__<fn>/` (R67): `--try` each `body.c`; a 0 banks via `.run/P36/s105/bank_list.sh` (one line per body
 `TU FN FILE LABEL MSG`; a `*minlever*` label adds `--allow-residue`); anything else is a reading to record. Briefs for the NEXT draws are
