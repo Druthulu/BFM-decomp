@@ -7617,23 +7617,24 @@ void func_801AB21C(s32 a0, s32 a1, s32 a2, s32 a3)
     p->y2 = p->y3 = 120;
     idx = a0 & 0xFFFF;
     if (idx != 0) {
-        u32 m24 = 0x00FFFFFF;
-        u32 mFF = 0xFF000000;
-        register s32 i4 __asm__("$6") = idx * 4;  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
-        register u32 pv __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-        pv = *(u32 *)p;
-        *(u32 *)p = (pv & mFF) | (*(u32 *)(i4 + D_800A651C[D_800B9A02].a) & m24);
+        s32 i4 = idx * 4;
+        u32 tag;
+        /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
+        tag = *(u32 *)p;
+        tag &= 0xFF000000;
+        tag |= *(u32 *)(i4 + D_800A651C[D_800B9A02].a) & 0xFFFFFF;
+        *(u32 *)p = tag;
         i4 += D_800A651C[D_800B9A02].a;
-        *(u32 *)i4 = (*(u32 *)i4 & mFF) | ((u32)p & m24);
+        *(u32 *)i4 = (*(u32 *)i4 & 0xFF000000) | ((u32)p & 0xFFFFFF);
         func_80016638(&D_800A6518[D_800B9A02 * 20], idx, 1);
     } else {
-        u32 m24 = 0x00FFFFFF;
-        register u32 pv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-        pv = *(u32 *)p;
-        *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800AE7BC[D_800B9A02].a & m24);
-        __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
+        u32 tag;
+        tag = *(u32 *)p;
+        tag &= 0xFF000000;
+        tag |= *(u32 *)D_800AE7BC[D_800B9A02].a & 0xFFFFFF;
+        *(u32 *)p = tag;
         ot = (u32 *)D_800AE7BC[D_800B9A02].a;
-        *ot = (*ot & 0xFF000000) | ((u32)p & m24);
+        *ot = (*ot & 0xFF000000) | ((u32)p & 0xFFFFFF);
         func_80016638(&D_800AE7B8[D_800B9A02 * 20], 0, 1);
     }
 }
