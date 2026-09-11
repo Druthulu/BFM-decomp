@@ -3898,7 +3898,7 @@ void func_8017EB78(s32 a0) {
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017EBA0(void *param) {
-    register s32 snd __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 snd;
     s32 vol;
     s32 vp;
     s32 count;
@@ -3914,15 +3914,17 @@ void func_8017EBA0(void *param) {
             *(s16 *)((s32)param + 0xAE) = -9;
             count = *(u16 *)(vp + 0xFC) + 1;
             vol = 0;
+            *(u16 *)(vp + 0xFC) = count;
+            func_8002D4C8(snd, vol);
         } else {
             vp = *(s32 *)((char *)param + 0x64);
             *(u16 *)((s32)param + 0x2) = 2;
             *(s16 *)((s32)param + 0xAE) = -5;
             count = *(u16 *)(vp + 0xFC) - 1;
             vol = 0;
+            *(u16 *)(vp + 0xFC) = count;
+            func_8002D4C8(snd, vol);
         }
-        *(u16 *)(vp + 0xFC) = count;
-        func_8002D4C8(snd, vol);
         *(u8 *)((s32)param + 0xC1) = 0;
     } else {
         *(u16 *)((s32)param + 0x5C) = 0x8000;

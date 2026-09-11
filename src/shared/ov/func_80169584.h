@@ -8,9 +8,9 @@ void func_80169584(s32 param_1) {
     s32 s0;   /* param_1 + 0x38, held across both calls */
     *(s16 *)(buf + 0x00) = 7;     /* 0x10 = local_68 */
     *(s16 *)(buf + 0x18) = -7;    /* 0x28 = local_50 */
-    *(s16 *)(buf + 0x0a) = 2;     /* 0x1A = local_5e */
     *(s16 *)(buf + 0x10) = 0;     /* 0x20 = local_58 */
     *(s16 *)(buf + 0x08) = 0;     /* 0x18 = local_60 */
+    *(s16 *)(buf + 0x0a) = 2;     /* 0x1A = local_5e */
     *(s16 *)(buf + 0x1a) = 0;     /* 0x2A = local_4e */
     *(s16 *)(buf + 0x02) = 0;     /* 0x12 = local_66 */
     *(s16 *)(buf + 0x12) = -2;    /* 0x22 = local_56 */
