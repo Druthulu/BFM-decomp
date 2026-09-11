@@ -6051,11 +6051,7 @@ void func_800336A8(Req336A8 *arg)
             m = m >> 14;
         }
         n = ch->unk35;
-        if (n == 0) {
-            v = m;
-            vo->unk0A = v;
-            vo->unk08 = v;
-        } else {
+        if (n != 0) {
             if (arg->unk38 != 0) {
                 n += arg->unk38;
                 if (n >= 0x42) {
@@ -6069,9 +6065,6 @@ void func_800336A8(Req336A8 *arg)
             }
             ch->unk52 = n;
             if (D_800A4F19 != 0) {
-                /* zero-byte dbr fence: ASM_INPUT stops reorg's fallthrough trial scan
-                 * (stop_search_p), so the beqz above keeps its `nop` delay slot. */
-                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                 v = (m * D_8007319E[n]) >> 14;
                 vo->unk0A = v;
                 q = D_8007319E + 1;
@@ -6082,6 +6075,10 @@ void func_800336A8(Req336A8 *arg)
                 vo->unk0A = v;
                 vo->unk08 = v;
             }
+        } else {
+            v = m;
+            vo->unk0A = v;
+            vo->unk08 = v;
         }
         vo->unk40 = ch->unk0A;
         if (vo->unk44 != 0) {
