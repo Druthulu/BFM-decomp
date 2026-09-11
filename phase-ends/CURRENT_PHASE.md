@@ -16,6 +16,8 @@
 1. `tools/lever_census.py --check --strict` → **0 register pins, 0 asm statements** outside the one GTE header, the byte-needed
    `volatile`/`register` counted and unmarked, the counts published in `docs/progress.json` / the README block with the dated
    snapshot, the coverage assertion green; `tools/verbatim_check.py --strict` unchanged (the five 1998 routines untouched).
+   **Amended S104 (Drew, 2026-09-10; decisions §S104):** a site T7 cannot close now stays a MARKED minimum-lever site, counted
+   in the published split and named for the structs phase — "0" is the structs phase's finish line, not this phase's gate.
 2. The ledger names, for every site, the rung and the instrument that judged it (REMOVED / REWRITTEN / NEEDED-kept / the wave that
    reshaped it) — R65-style attribution.
 3. `make clean && make extract-all JOBS=16 && make check-all JOBS=16` → `check-all: 218 passed, 0 failed of 218` (R22);
@@ -99,6 +101,28 @@
 - **S103 (2026-09-10), Drew: *"max concurrent agents is 5, leave the ones you have running, but maintain max of 5
   concurrent agents from now on."*** → the T7 agent lane runs at most FIVE agents at once (six were running when he said
   it; they finish, and no new one launches until fewer than five are live).
+- **S104 (2026-09-10), Drew, on S103's four open questions:** *"your 4 questions i dont know enough to answer theese. 1. we can
+  leave it in for now and come back later and fix them. we should check sotn decomp and see what they do here, 2, i dont know. i
+  believe we decided on leaving GTE for now and cominb back later. 3, all sites are redcusable to C, the 1998 devs wrote it in C
+  right?. anything we can't hit now, we come back to durnig struct work because that is likely the missing peice to egetting the C
+  shape right without pins. 4, huuh? a new phase for types?. for all 4 questions, search the sotn decomp"* → read from sotn-decomp's
+  tree (R106; shallow clone `tools/reference/sotn-decomp` @ `6cbc55a`, 2026-09-11, ignored; X2 — data): **its PSX C carries 0
+  `register … asm` pins and 0 asm statements** (all 31 asm statements in `src/` are Saturn/PSP or data directives) across 2,987 C
+  files — **it keeps 3,101 `INCLUDE_ASM` stubs instead**; its fakes are ordinary C marked by `docs/STYLE.md`'s rule *"A fake should
+  be commented with an `// !FAKE:` above or to the side of the code"* — `do { … } while (0)` (e.g. `st/nz0/gaibon.c:563` "do-while
+  needed on PSX but not PSP", `libc/sprintf.c:129` `} while (0); // FAKE`, `dra/5087C.c:476` "temp variables, meaningless
+  self-assigns, and do-while(0)"), `if (prim && prim) { // !FAKE`, `volatile u32 pad; // !FAKE:`; its GTE ops are ONE header
+  (`include/psxsdk/libgte.h`, 44 `gte_*` macros, `__asm__ volatile`) that **adds 7 macros Sony's `inline_c.h` does not have**, three
+  of them three-op load forms (`gte_SetRGBfifo`: three `lwc2`; `gte_SetIR123`/`gte_SetMAC123`/`gte_SetRii`: three `mtc2`/`ctc2`, no
+  clobber). **Dispositions:** (a) `do { } while (0)` and the dead-initialiser cousin STAY as ordinary C for now, marked `// !FAKE:`
+  per sotn's rule, not a census lever class; revisit later (Drew). (b) GTE deferred — T5 as planned, and when it runs, sotn is the
+  precedent that a project-local macro (a respelled `gte_stORGB`, a three-op load) belongs in the one GTE header. (c) **Every site
+  is reducible to C** (Drew: the 1998 code was C, and sotn shows a PSX decomp with zero pins); a site T7 cannot close now stays a
+  MARKED minimum-lever site, counted, and is carried to the **structs phase** (the missing piece is likely the struct shape) — the
+  phase's milestone "0 pins, 0 asm" is amended to "every surviving site marked, counted, and named for the structs phase" (P5d, on
+  Drew's word). (d) "the types phase" in S102–S103's checkpoints is NOT a new phase — it is the **structs phase**, the third in
+  Drew's Gen3 order (dedup → pins → structs → names; R95's canonical type layer is its core); the signature changes
+  (`func_8017FC5C`, `func_80180200`, `func_80185578`, `func_80157D20`, `func_80168828`) go there with their ready patches.
 - **S98 (2026-09-09), Drew, mid-T3:** *"dont start ultra code wave for reshaping without my direct approval."* → **T7's reshaping waves (Ultracode) start ONLY on Drew's direct approval in the session that would run them** — the R27 toggle is necessary, not sufficient; the T6 recipe/permuter rungs and the mechanical campaign are not waves and proceed under P3.
 
 ## Rules at gate 1 (P10)
