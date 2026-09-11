@@ -3882,43 +3882,43 @@ extern void func_80039DEC();  /* no-proto (§376/§495): the definition is K&R w
 
 void func_80039F50(u8 **a0, s16 a1)
 {
-    u8 **pvVar4; /* $a3 */
     u8 *pbVar3;
-    register s32 bVar1 __asm__("$4"); /* $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s16 bVar1; /* the opcode byte: a HImode local, not s32 — see the P36 S105 f2 mechanism note */
     u8 bVar2;
-    register u8 *pbVar5 __asm__("$2"); /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     u8 bVar6;
 
-    pvVar4 = a0;
-    pbVar3 = *pvVar4;
-    *pvVar4 = pbVar3 + 1;
+    pbVar3 = *a0;
+    *a0 = pbVar3 + 1;
     bVar1 = *pbVar3;
-    *pvVar4 = pbVar3 + 2;
+    *a0 = pbVar3 + 2;
     bVar2 = pbVar3[1];
 
     switch (bVar1) {
     case 6:
-        func_80039C70(pvVar4, a1, bVar2);
+        func_80039C70(a0, a1, bVar2);
         break;
-    case 7:
-        pbVar5 = (u8 *)pvVar4 + a1 * 0x1A;
+    case 7: {
+        u8 *pbVar5 = (u8 *)a0 + a1 * 0x1A;
         pbVar5[0x1B] = bVar2;
         break;
+    }
     case 8:
         break;
-    case 0xA:
-        pbVar5 = (u8 *)pvVar4 + a1 * 0x1A;
+    case 0xA: {
+        u8 *pbVar5 = (u8 *)a0 + a1 * 0x1A;
         pbVar5[0x1E] = bVar2;
         break;
-    case 0x62:
-        pbVar5 = (u8 *)pvVar4 + a1 * 0x1A;
+    }
+    case 0x62: {
+        u8 *pbVar5 = (u8 *)a0 + a1 * 0x1A;
         bVar6 = pbVar5[0x21];
         pbVar5[0x20] = bVar2;
         pbVar5[0x22] = bVar2 + 1;
         pbVar5[0x21] = bVar6 | 2;
         break;
+    }
     case 0x63:
-        func_80039DEC(pvVar4, a1, bVar2);
+        func_80039DEC(a0, a1, bVar2);
         break;
     }
 }
