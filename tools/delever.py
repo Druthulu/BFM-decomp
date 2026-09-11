@@ -1506,7 +1506,7 @@ def block_wraps(text, tu, fn, d_):
         if not simple_stmt(s):
             continue
         stmt = raw_line.strip()
-        for tag, spelling in (("block", f"{indent}{{ {stmt} }}"), ("do-while", f"{indent}do {{ {stmt} }} while (0);")):
+        for tag, spelling in (("block", f"{indent}{{ {stmt} }}"), ("do-while", f"{indent}do {{ {stmt} }} while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)")):
             cand = list(lines)
             cand[i] = spelling
             out.append((f"{tag} @{i + 1}", "\n".join(cand)))

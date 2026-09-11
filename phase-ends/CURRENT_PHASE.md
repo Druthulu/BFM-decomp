@@ -1844,6 +1844,24 @@ accumulate here as the phase produces them.**
   `src/shared/ov/func_80166F58__3728db8a.h` — a naive splice COMPILE-ERRORs, so d2 ports it), d3 `func_8017FB4C` ov_SC06_014 ×4 (4),
   d4 `func_80182358` ov_SC04_007 ×4 (5), d5 `func_801837E8` ov_SC05_018 ×4 (5). METHOD_S103.md gained the S104 section (steps 8–11:
   do-while marked per sotn, the minimum-lever fallback, the structs question, start from the sweep's best).
+- **S104 — the first landings: d1–d10 ALL at 0; nine with ZERO levers, d4 with one marked do-while.** d1 `func_80185960` (if/else,
+  non-simple value in the ELSE arm, `jump.c:739-741`; 10 bodies), d2 `func_80166F58` MAIN_012 (the banked SC04_011 header ported +
+  a re-extended short copy; 8), d3 `func_8017FB4C` (goto chain → structured if/else, a flag test reordered for a `sched.c:2428`
+  tie-break; 4), d4 `func_80182358` (a marked `do { store; } while (0)` LOOP-note barrier; 4), d5 `func_801837E8` (a hoisted temp
+  folded into `+=`: local-alloc's three-quantity order is by BIRTH, `local-alloc.c:1486-1507`; 4), d6 `func_8017B614` SC07_010
+  (ported from ov_SC01_000; 8), d7 `func_80181B18` (locals declared per switch case, `local-alloc.c:2101-2106`; 6 + ports), d8
+  `func_80186440` (`(*(u16 *)(p + 2))++`: a SUBREG destination fails `birthing_insn_p`; 4), d9 `func_801F2348` (a goto chain → a
+  structured `||`; 3 + 4 sibling ports), **d10 `func_8017EF88` + `func_8017F040` (3 pins + 2 keepalives + a do-while + a dead
+  pad → REGISTER UNIONS `{ struct { s16 x, y; } v; s32 w; }` — the first proof case of Drew's struct hypothesis: a field insert
+  makes flow mark the union live from entry, `global.c:640-660`; 5)**. Sweep banks: 5 classes + 12 siblings. R22 `check-all:
+  218 passed, 0 failed of 218`; census 5,097 → 4,963 → **4,928**. **Generator R27 `named_ports`** (d2/d6's port made mechanical:
+  the two ORIGINAL objects' relocation sequences paired in order, file-scope externs carried, the target's return type): 511 of
+  1,010 residue classes have a lever-free same-name donor; probe 4/24 at the first candidate; the R27 pass over the residue is
+  running (13 MATCH in its first 330). **R97 correction:** commit `830650946` wrote "census … 0 unmarked" from the output line
+  while `lever_census --check` EXITED 1 on four ORPHAN markers — d4's marked do-while and its three ports; the census now counts a
+  marker on a kept ordinary-C fake apart (Drew's ruling (a), sotn's rule) and exits 0 (`4,928 … 0 UNMARKED — OK`, exit 0, 4
+  marked ordinary-C fakes); R7's do-while now carries the marker. **Open for T9:** the tree's `LOAD-BEARING CONSTRUCTS` header
+  comments (232 files) still describe levers their banked bodies no longer have (e.g. `func_8017EF88`'s) — a stale-comment pass.
 
 ## 🛑 SESSION CHECKPOINT — S103 (2026-09-10, refreshed at the session's end): T0–T6 ☑, **T7 RUNNING**. 24,119 → **5,097 sites** this session (−19,022); 56 agent draws; generators **R22–R26**; `delever_regen` + `delever --port-scan`; **the MINIMUM-LEVER pivot** (four 130-copy classes now carry 1-2 marked levers instead of 4-34); R22 `check-all: 218 passed, 0 failed of 218` at every bank | `lever_census --check` OK, exit 0 (5,097 marked, 0 UNMARKED, 0 orphans) · the session's last commit follows
 

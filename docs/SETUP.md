@@ -1820,6 +1820,10 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   classes the pass has judged and not closed. An ALL-families pass (`--families R2 … R26`, `-j 26`) costs ~1.8 s per `--try`
   and 100–370 candidates per head class; it closed an R12 class in its first minute, so re-running the old families on a
   moved tree is not redundant.
+- **Marked ordinary-C fakes (S104, Drew's ruling (a)):** a `// !FAKE:` on a `do { … } while (0)` line or a `!FAKE:
+  do-while|dead-init` marker is a KEPT fake (sotn-decomp's STYLE.md rule), not an orphan and not a lever —
+  `lever_census` counts it apart ("marked ordinary-C fakes … NOT levers") and `--scrub` leaves it. Generator R7's do-while
+  spelling now carries `// !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)`.
 - **Generator R27 `named_ports` (`tools/delever.py`, S104; `delever_regen --families R27`)** — the SAME function already
   lever-free in another binary, ported. Donors: every definition of the name in `src/` (`named_definitions()`, one `git
   grep`, cached) with no `register`/`__asm__`/`!FAKE`, nearest line count first, ≤ 6 distinct texts. Symbol renaming by

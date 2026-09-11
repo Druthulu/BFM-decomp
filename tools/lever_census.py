@@ -81,6 +81,7 @@ MIPS_REG_NAMES = {"zero", "at", "v0", "v1", "a0", "a1", "a2", "a3", "t0", "t1", 
 GTE_MNEMONICS = {"lwc2", "swc2", "mtc2", "mfc2", "ctc2", "cfc2", "cop2", "rtps", "rtpt", "nclip", "ncds", "nccs", "ncdt", "ncct",
                  "ncs", "nct", "cdp", "cc", "dpcs", "dpct", "dpcl", "intpl", "sqr", "op", "gpf", "gpl", "avsz3", "avsz4", "mvmva"}
 FAKE_MARK = "!FAKE:"
+C_FAKE_RX = re.compile(r"while\s*\(\s*0\s*\)|!FAKE:\s*(?:do-while|dead-init)")
 NON_LEVER_KINDS = {"gte", "verbatim-body", "gte-unsigned"}   # Sony's coprocessor idiom; a manifest-listed hand-asm routine — censused, never a lever
 GTE_LEVER_KIND = "gte-lever"        # a GTE op whose clobbers exceed its canonical's (a `_m`/`_v` variant macro, or a direct statement): a steer
 GTE_VARIANT_NAME = re.compile(r"(_m|_v[0-9a-f]{4})$")
@@ -708,10 +709,15 @@ def walk_file(raw, rel, is_header, global_names=None):
     # orphan markers: a `// !FAKE:` line with no class A/B site on it, and none on the line below either (unless that line carries its own
     # marker) — a stale honesty claim (a marked site later removed or rewritten; the delever tool consumes a trailing marker, --scrub cleans)
     ab_lines = {s["line"] for s in sites if s["cls"] in "AB"}
+    # a marker on a KEPT ordinary-C fake — `do { … } while (0)` or a dead initialiser — is Drew's S104 ruling (a) and
+    # sotn-decomp's STYLE.md rule: the fake stays as C and carries `// !FAKE:`. Counted apart; never an orphan, never a lever.
+    cfake = [ln for ln, l in enumerate(raw_lines, start=1) if FAKE_MARK in l and C_FAKE_RX.search(l)]
     orphans = [ln for ln, l in enumerate(raw_lines, start=1)
-               if FAKE_MARK in l and ln not in ab_lines and not (ln + 1 in ab_lines and FAKE_MARK not in raw_line(ln + 1))]
+               if FAKE_MARK in l and ln not in ab_lines and not (ln + 1 in ab_lines and FAKE_MARK not in raw_line(ln + 1))
+               and ln not in cfake]
     return dict(rel=rel, sites=sites, defs=[dict(name=d["name"], line=d["line"], end=d["end"], nhash=d["nhash"], nlines=d["nlines"]) for d in defs],
-                macro_defs=mdefs, coverage=cov, live_tokens=live_tokens, roled=len(roles), unclassified=unclassified, orphan_markers=orphans)
+                macro_defs=mdefs, coverage=cov, live_tokens=live_tokens, roled=len(roles), unclassified=unclassified, orphan_markers=orphans,
+                cfake_markers=cfake)
 
 
 def _walk_worker(args):
@@ -819,6 +825,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
     # attribute aliases, exclude the verbatim bodies, gather
     sites, defs_all, mdefs_all, unclassified = [], [], [], []
     orphan_all = []
+    cfake_all = []
     cov_total = {k: collections.Counter() for k in TOKEN_CLASSES}
     verbatim_sites = 0
     verbatim_fns = set()
@@ -859,6 +866,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
             mdefs_all.append(dict(md, tu=rel))
         unclassified.extend(r["unclassified"])
         orphan_all.extend(f"{rel}:{ln}" for ln in r.get("orphan_markers", ()))
+        cfake_all.extend(f"{rel}:{ln}" for ln in r.get("cfake_markers", ()))
         for k, c in r["coverage"].items():
             cov_total[k].update(c)
     coverage = {k: dict(v) for k, v in cov_total.items()}
@@ -903,6 +911,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
         generated=time.strftime("%Y-%m-%d"), binaries=len(aliases), tus=len(tu_aliases), headers=len(headers),
         head=git_head(), src_stamp=src_stamp(),
         orphan_markers=dict(count=len(orphan_all), sample=orphan_all[:40]),
+        cfake_markers=dict(count=len(cfake_all), sample=cfake_all[:40]),
         coverage=coverage, coverage_ok=cov_ok, unclassified=len(unclassified),
         verbatim_excluded=dict(sites=verbatim_sites, functions=len(verbatim_fns), manifest_rows=len(verb)),
         classes=classes,
@@ -1020,6 +1029,8 @@ def render(s):
     L.append(f"  THE PHASE'S NUMBER (pins + asm statements, GTE excluded): {ab['sites']:,} sites in {ab['bodies']:,} bodies "
              f"({ab['distinct_bodies']:,} distinct) · marked !FAKE {ab['marked']:,} · UNMARKED {ab['unmarked']:,}")
     L.append(f"  orphan !FAKE markers (no pin/asm site on the line nor below): {s.get('orphan_markers', {}).get('count', 0)}")
+    L.append(f"  marked ordinary-C fakes kept by Drew's S104 ruling (a) (`do {{ }} while (0)`, dead initialisers; NOT levers): "
+             f"{s.get('cfake_markers', {}).get('count', 0)}")
     g = s.get("gte_levers", {})
     if g:
         L.append(f"  GTE levers (clobbers beyond the canonical macro's): {g['sites']:,} sites ({g['via_macro']:,} via a variant macro, {g['direct']:,} direct) · "
