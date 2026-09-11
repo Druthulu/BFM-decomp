@@ -13984,42 +13984,29 @@ extern void func_8018B0B0(void *a0, void *a1, void *a2, u32 a3);
 extern Blk8 D_801ED9AC[];
 
 void func_8018CCB8(s32 arg0) {
-    s32 s0;
-    s32 ptr;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t3_tus1)
-    s32 v1;
-    s32 v1_sign;
+    s32 a0;
+    s32 a1;
+    u16 val;
     Blk8 sp10;
-
-    s0 = arg0;
 
     sp10 = D_801ED9AC[0];
 
     func_8012AD80(arg0);
 
-    ptr = *(s32 *)(s0 + 0x20);
-    v1 = *(u16 *)(s0 + 0x106);
-    v0 = *(u16 *)(ptr + 0x10);
-    v0 = v0 + v1;
-    *(u16 *)(ptr + 0x10) = (u16)v0;
+    a0 = *(s32 *)(arg0 + 0x20);
+    *(u16 *)(a0 + 0x10) = *(u16 *)(a0 + 0x10) + (*(u16 *)(arg0 + 0x106));
 
-    ptr = *(s32 *)(s0 + 0x20);
-    v1 = *(u16 *)(s0 + 0x108);
-    v0 = *(u16 *)(ptr + 0x14);
-    v0 = v0 + v1;
-    *(u16 *)(ptr + 0x14) = (u16)v0;
+    a1 = *(s32 *)(arg0 + 0x20);
+    val = *(u16 *)(arg0 + 0x108);
+    *(u16 *)(a1 + 0x14) = *(u16 *)(a1 + 0x14) + val;
 
-    v0 = *(s32 *)(s0 + 0x1C);
-    if ((v0 & 0x3) == 0) {
+    if ((*(s32 *)(arg0 + 0x1C) & 0x3) == 0) {
         func_8018B0B0((void *)arg0, &sp10, (void *)0, 8);
     }
 
-    v0 = *(s32 *)(s0 + 0x1C);
-    v1_sign = *(s16 *)(s0 + 0xA);
-    v0++;
-    *(s32 *)(s0 + 0x1C) = v0;
+    *(s32 *)(arg0 + 0x1C) = *(s32 *)(arg0 + 0x1C) + 1;
 
-    if (v1_sign >= -0x77F) {
+    if (*(s16 *)(arg0 + 0xA) >= -0x77F) {
         func_8012C218((void *)arg0);
     }
 }
