@@ -4407,26 +4407,18 @@ extern s32 func_800132BC(s32 a0, s32 a1);
 
 s32 func_8017F080(u16 *param_1) {
     s32 x = *(u16 *)((s32)param_1 + 6);
+    s32 ret;
     if ((u32)(x - 0x31) < 2) {
         return 1;
     }
     if ((x & 0xFFFF) == 0x33 || (x & 0xFFFF) == 0x27B) {
         return 1;
     }
-    {
-        register s32 ret __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
-        register s32 lim __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
-        s32 res;
-        s32 hi;
-        ret = func_800132BC((s32)&D_80126CAC, (s32)param_1);
-        lim = D_801274D8;
-        res = 0;
-        if (lim < ret) {
-            hi = D_801274DC;
-            res = ret < hi;
-        }
-        return res;
+    ret = func_800132BC((s32)&D_80126CAC, (s32)param_1);
+    if (D_801274D8 < ret && ret < D_801274DC) {
+        return 1;
     }
+    return 0;
 }
 
 
