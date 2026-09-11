@@ -2750,9 +2750,8 @@ s32 func_800387C0(void *arg0) {
 void func_80038838(void *arg0)
 {
     unsigned char *a3;
-    register unsigned char *a1 asm("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
     unsigned char *v1;
-    register unsigned char *v0 asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    unsigned char *v0;
     int a2;
     int v0_c;
     int const1;
@@ -2763,16 +2762,15 @@ void func_80038838(void *arg0)
     a2 = 0;
     const1 = 0x40;
     const2 = 0x7F;
-    a1 = (unsigned char *)arg0 + 0x1B;
 
     do {
         v1 = a3 + 0x9;
         v0_c = 0xF;
         a3[0x0] = a2;
-        *(unsigned short *)(a1 + 0x1) = const1;
-        a1[0x3] = const1;
-        a1[0x6] = 0;
-        a1[0x0] = const2;
+        *(unsigned short *)(a3 + 0x2) = const1;
+        a3[0x4] = const1;
+        a3[0x7] = 0;
+        a3[0x1] = const2;
 
         do {
             v1[0x0] = 0;
@@ -2781,17 +2779,15 @@ void func_80038838(void *arg0)
         } while (v0_c >= 0);
 
         a2++;
-        a1 += 0x1A;
         a3 += 0x1A;
     } while (a2 < 0x10);
 
     a2 = 0;
     const3 = 0x4000;
-    v0 = (unsigned char *)arg0;
     do {
+        v0 = (unsigned char *)arg0 + a2 * 8;
         v0[0x18] = 0;
         *(unsigned short *)(v0 + 0x12) = const3;
-        v0 += 0x8;
         a2++;
     } while (a2 <= 0);
 
