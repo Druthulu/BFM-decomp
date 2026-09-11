@@ -219,3 +219,25 @@
       frame → move the copies ABOVE the call (`global.c:925-990`: the copies cross the call, take `$s`, the parameters spill).
     - The `addu %0,$zero,$zero` instruction is `x = 0;` (the table knows it now); every remaining UNSTRIPPABLE pack is a one-off
       instruction (`mult` with no output, a 3-word block copy, `nop; addiu`) — strip it by hand from `body_tree.c`.
+18. **S105 f3 (`md_SC07_004`, 5 of 5 at 0: 4 plain C, 1 minimum-lever PROVEN at its 5 levers):**
+    - **The multi-set chain:** a MULTI-SET pseudo loses sched1's birthing boost (`sched.c:2477-2490`) → its load rises to the block
+      top → a longer life → a LOWER `qty_compare_1` rank (`local-alloc.c:1598`) → it takes the later register. So a load-once /
+      use-once read-modify-write value (an addPrim half, a masked field update) is spelled as COMPOUND UPDATES ON ONE VARIABLE
+      (`tag = *p; tag &= 0xFF000000; tag |= x & 0xFFFFFF; *p = tag;`), declared in the INNERMOST block (a function-scope one goes
+      global, `flow.c:2058-2061`, score 31 vs 0); the mask constants inlined. Closed two of five here and explains a third's ceiling
+      (d8 covers only the width side of `birthing_insn_p`). In a MODULE TU the P_TAG bitfield spelling (step 17) scores 41 — an
+      in-struct store sets only `writes->nonscalar` (`cse.c:7564-7577`) and the `lhu` reloads vanish; f1's main-side success needed
+      the varying-address read. Try both; the bytes choose.
+    - A 16-bit field value copied through a `$0` pin, tested, stored back with a byte of the sum → `if (F != G) { F += (u16)S;
+      D[i] = F >> 7; }` on the FIELD (combine's HImode subreg copy is invisible to `optimize_reg_copy_1`, `local-alloc.c:1004-1006`);
+      the frame's extra words are combine-orphan shift temps with stack slots (`.lreg` "ST_REGS or none", `reload1.c:2331-2352`),
+      never a `pad[N]` — count the orphans against the target frame before accepting a pad (e8/e27/f3: three bodies in one TU).
+    - ORDER residual where the target's loop inits (`move sN,zero` / `addiu sN,base,K`) sit AFTER a preceding call's argument setup:
+      move the inits after the call (sched1's LUID tie-break, `sched.c:2384-2428`; the init pseudos cross the loop's call so
+      `sched.c:1732` adds no anti-dependence) — R18 moves only within a block; a generator "move a loop-init across the preceding call"
+      would reach it.
+    - A constant-holder permutation whose `li`s sit one store-group EARLIER than their first use = REUSED temporaries in the
+      original (multi-death holders → global, `global.c:945-990`) that keep the store order only with barriers: unreachable set-once
+      (every 4-subset of five levers scored 2, every 3-subset ≥ 4, ~470 bodies) → bank minimum-lever with the markers carrying the
+      pass. Structs lead: 4-byte `(x, y)` locals would make those constants SUBREG stores (no boost).
+    - `tools/localalloc_sim.py` raises IndexError when the uid is not inside the block — feed it an insn uid from the block.
