@@ -12441,13 +12441,7 @@ void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3)
     s32 i;
     u32 w;
     s16 v;
-    MH h2;
-    MH h3;
-    register MTX_80020248 *m3 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 pad[4];
 
-    h2.p = a2;
-    h3.p = a3;
     i = 0;
     rm = D_80074818;
     while (*a0 != 0) {
@@ -12455,7 +12449,7 @@ void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3)
         case 0:
             local[0] = a1[3].h;
             w = *(u32 *)&a1[3];
-            local[1] = a1[3].b1 | ((w & 0xF) << 8);
+            local[1] = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
             local[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
             func_80020DA4((s32)local, (s32)&lm);
             func_80012558((s32)&lm, 0x800);
@@ -12466,7 +12460,7 @@ void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3)
         case 1:
             local[0] = a1[3].h;
             w = *(u32 *)&a1[3];
-            local[1] = a1[3].b1 | ((w & 0xF) << 8);
+            local[1] = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
             local[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
             func_80020DA4((s32)local, (s32)&lm);
             lm.t[0] = a1->t[0];
@@ -12505,8 +12499,7 @@ void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3)
             }
             break;
         }
-        m3 = h2.p;
-        gte_SetRotMatrix(m3);
+        gte_SetRotMatrix(a2);
         gte_ldclmv(&lm.m[0][0]);
         gte_rtir();
         gte_stclmv(&rm->m[0][0]);
@@ -12516,8 +12509,7 @@ void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3)
         gte_ldclmv(&lm.m[0][2]);
         gte_rtir();
         gte_stclmv(&rm->m[0][2]);
-        m3 = h3.p;
-        gte_SetRotMatrix(m3);
+        gte_SetRotMatrix(a3);
         gte_ldclmv(&lm.m[0][0]);
         gte_rtir();
         gte_stclmv(&rm[0x40].m[0][0]);
@@ -12527,7 +12519,7 @@ void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3)
         gte_ldclmv(&lm.m[0][2]);
         gte_rtir();
         gte_stclmv(&rm[0x40].m[0][2]);
-        gte_SetTransMatrix(m3);
+        gte_SetTransMatrix(a3);
         gte_ldlv0(&lm.t[0]);
         gte_rtv0tr();
         gte_stlvnl(&rm[0x40].t[0]);
