@@ -4854,13 +4854,12 @@ void func_8017EB2C(int param_1, int param_2)
     }
     if (p != 0) {
         int t;
-        s32 d;
-        register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+        s32 d, r;
         t = rand();
         s1 = t - (t / 256) * 256;
-        r = rand() % 640;
+        r = rand();
         d = (s32)*(u16 *)(base + 0xe) - 0x140;
-        d += r;
+        d += r % 640;
         *(s16 *)(p + 0xe) = d;
         if ((param_2 & 1) != 0) {
             *(s16 *)(p + 6) = s1 + 0x7a;
