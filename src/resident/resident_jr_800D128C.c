@@ -240,12 +240,15 @@ extern void func_8002D4C8(s32, s32);
 extern u16 D_80126B58;
 
 s32 func_800D128C(s32 arg0, s32 arg1) {
-    s32 ret = 3;
+    s16 ret = 3;
     s32 flag = 1;
     s32 id = 0;
     s32 obj = (s32)&D_80126B58;
     s32 val;
-    s32 sel;
+    /* func_8014BB24 under a second declaration: cross-jump compares call targets by the
+     * symbol-name POINTER (rtx_renumbered_equal_p, jump.c:3991-3992), so case 117's call stays
+     * apart from case 1's (METHOD step 3 declaration alias; same bytes, same relocation). */
+    extern void func_8014BB24_alt(s32, s32, s32) __asm__("func_8014BB24");
 
     switch ((u8)arg0) {
     case 9:
@@ -259,9 +262,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
         break;
     case 1:
         func_8014BB24(obj, 0x96, 1);
-        __asm__ __volatile__("");           /* §5a cross-jump barrier — load-bearing */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
-        val = 0x96;
-        break;
+        goto set96;
     case 2:
         func_8014BCC0(obj, 5);
         ret = 4;
@@ -273,7 +274,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
     case 3:
         func_8014BCC0(obj, 0x19);
         ret = 5;
-        goto lab1334;                        /* §162: the backward j is a source goto */
+        goto lab1334;
     case 17:
         func_8014BCC0(obj, 5);
         ret = 4;
@@ -313,7 +314,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
         ret = 7;
         /* fallthrough */
     case 16:
-        __asm__ __volatile__("" ::: "memory");  /* §5a barrier — MUST differ from case 1's */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
+    set96:
         val = 0x96;
         break;
     case 107:
@@ -376,9 +377,8 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
         val = 0xC8;
         break;
     case 117:
-        func_8014BB24(obj, 0xC8, 1);
-        val = 0x96;
-        break;
+        func_8014BB24_alt(obj, 0xC8, 1);
+        goto set96;
     case 118:
         func_8014BB24(obj, 0xFA, 1);
         /* fallthrough */
@@ -398,9 +398,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
         break;
     }
 
-    sel = ret;
-    __asm__ __volatile__("" : "=r"(sel) : "0"(sel));  /* keeps `addu $v1,$s1,$zero` alive */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-    switch (sel) {
+    switch (ret) {
     case 0:
         id = 0x45F;
         flag = 0;
