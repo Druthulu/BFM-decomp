@@ -8580,7 +8580,6 @@ void func_80186770(s32 param_1)
     struct { s32 vx, vy, vz, pad; } vec;
     s32 v;
     s32 d;
-    s32 b178arg;
     void *target;
 
     switch (*(u16 *)(param_1 + 0x34)) {
@@ -8612,16 +8611,8 @@ void func_80186770(s32 param_1)
         break;
     case 1:
         v = func_8012B8E4(param_1, 6);
-        b178arg = D_801D619C;
-        {
-            u16 *pp;
-            register s32 nv __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus8)
-
-            pp = (u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
-            nv = *pp + v;
-            *pp = nv;
-        }
-        func_8012B178(param_1, b178arg);
+        (*(u16 **)(param_1 + 0x20))[9] += v;
+        func_8012B178(param_1, D_801D619C);
         d = ((s32 (*)(s32))func_8012CBA4)(param_1);
         if ((d & 0x1000) != 0) {
             func_80131E00(param_1, 0x12);
