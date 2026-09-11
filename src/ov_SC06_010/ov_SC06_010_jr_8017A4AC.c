@@ -6438,9 +6438,6 @@ extern void func_8017CAD4(s32*, s32*, s32);
 
 s32 func_80180A88(void)
 {
-    register s16 *p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
-    s16 *q;
-
     switch (D_801B2BF4) {
     case 0:
         func_8013C0F8(D_801968BC);
@@ -6506,54 +6503,128 @@ s32 func_80180A88(void)
         D_801B2BF4++;
         break;
     case 1:
-        *(p = &D_801B25CC) = func_8017F098(0) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_801968BC,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B2624) = func_8017F098(1) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_80197BE0,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B267C) = func_8017F098(2) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_80199164,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B26D4) = func_8017F098(3) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_8019A9D8,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B272C) = func_8017F098(4) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_8019C68C,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B2784) = func_8017F098(5) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_8019F570,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B27DC) = func_8017F098(6) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_801A0044,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B2834) = func_8017F098(7) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_801A0A18,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B288C) = func_8017F098(8) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_801A13EC,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B28E4) = func_8017F098(9) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_801A1FC0,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B293C) = func_8017F098(0xA) + 0xB00;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_801A2C24,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
-        *(p = &D_801B2994) = func_8017F098(0xB) + 0x700;
-        ((void (*)(s32 *, s32 *))func_80049CAC)((s32 *)(p - 2), (s32 *)(p - 0x28));
-        ((void (*)(s32 *, s32 *, s32 *))func_8017CAD4)((s32 *)D_801B2C10, (s32 *)D_801A3B38,
-                      (s32)(q = (s16 *)p - 0x2A, (*(s32 *)((s16 *)p - 0x2A) = 0), (s32)q));
+        /* one block-scoped `p` per object: each dies once, so local-alloc takes it (into $s0) before
+         * the shared &D_801B2C10 pseudo; a single function-scope `p` dies 12 times and loses $s0. */
+        {
+            s16 *p = &D_801B25CC;
+            s32 *obj;
+
+            *p = func_8017F098(0) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_801968BC, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B2624;
+            s32 *obj;
+
+            *p = func_8017F098(1) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_80197BE0, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B267C;
+            s32 *obj;
+
+            *p = func_8017F098(2) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_80199164, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B26D4;
+            s32 *obj;
+
+            *p = func_8017F098(3) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_8019A9D8, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B272C;
+            s32 *obj;
+
+            *p = func_8017F098(4) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_8019C68C, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B2784;
+            s32 *obj;
+
+            *p = func_8017F098(5) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_8019F570, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B27DC;
+            s32 *obj;
+
+            *p = func_8017F098(6) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_801A0044, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B2834;
+            s32 *obj;
+
+            *p = func_8017F098(7) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_801A0A18, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B288C;
+            s32 *obj;
+
+            *p = func_8017F098(8) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_801A13EC, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B28E4;
+            s32 *obj;
+
+            *p = func_8017F098(9) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_801A1FC0, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B293C;
+            s32 *obj;
+
+            *p = func_8017F098(0xA) + 0xB00;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_801A2C24, (s32)obj);
+        }
+        {
+            s16 *p = &D_801B2994;
+            s32 *obj;
+
+            *p = func_8017F098(0xB) + 0x700;
+            func_80049CAC((s32)(p - 2), (s32)(p - 0x28));
+            obj = (s32 *)(p - 0x2A);
+            *obj = 0;
+            func_8017CAD4((s32 *)D_801B2C10, (s32 *)D_801A3B38, (s32)obj);
+        }
         break;
     }
 }
