@@ -2945,9 +2945,10 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
         if (v1 != 0 && v1 != D_80064D4A[a0 * 12]) {
             t = *(s16 *)((u8 *)D_800A4648 + i);
             *(s16 *)((u8 *)D_800C532A + t * 4) = -1;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-            *(s16 *)((u8 *)D_800A4644 + i) = 0;
-            *(s16 *)((u8 *)D_800A4648 + i) = 0;
+            do {  // !FAKE: do-while — sched1 LOOP-note barrier, sched.c:2058-2074: keeps the zero stores after the D_800C532A store (the Rsc24 field spelling D_800A4640[b].unk04/.unk08 needs none; identical only after linking) (P36 S104 e31 minimum-lever)
+                *(s16 *)((u8 *)D_800A4644 + i) = 0;
+                *(s16 *)((u8 *)D_800A4648 + i) = 0;
+            } while (0);
         }
         idx24 = (b * 3) << 3;
         if (D_800A4650[idx24] == 0) {
@@ -2961,8 +2962,9 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
         *(s16 *)((u8 *)D_800A4640 + idx24) = a0;
         D_800A46D0 = a0;
         D_800A46BC = a1;
-        *(s32 *)((u8 *)D_800A464C + idx24) = a1;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        do {  // !FAKE: do-while — sched1 LOOP-note barrier, sched.c:2058-2074: keeps the D_800A464C store ahead of the D_80064D4E load (the field spelling *(s32 *)&D_800A4640[b].unk0C needs none; identical only after linking) (P36 S104 e31 minimum-lever)
+            *(s32 *)((u8 *)D_800A464C + idx24) = a1;
+        } while (0);
         if (D_80064D4E[j12] != 0) {
             D_800A4EF6 = D_80064D4E[j12];
         }
@@ -2971,8 +2973,9 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
         base = (u8 *)q - 0x96;
         w = idx24 + base;
         *(s16 *)(w + 0xA) = r;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-        if (r == -1 || func_800419B0(D_800A46D2) == -1) {
+        /* read through a struct-typed pointer: expand forces the constant address into a pseudo (explow.c
+           memory_address), so cse does not forward the `D_800A46D2 = r` store and the value is re-read */
+        if (r == -1 || func_800419B0(((struct { s16 v; } *)&D_800A46D2)->v) == -1) {
             D_800A4650[idx24] = 1;
             return 1;
         }
