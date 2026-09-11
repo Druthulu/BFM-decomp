@@ -1,0 +1,98 @@
+=== lever-free bodies in main sharing a callee or global with func_800348A8 (14 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800342E8 (src/800_b_2.c:6726) shares 1: D_800A46E8 ---
+void func_800342E8(u8 *a0, s32 a1) {
+    u32 t = a1 * 84 + (u32)D_800A46E8;
+    *(u8 *)(t + (u32)a0 + 0x3A) = 0;
+}
+
+--- func_800347C8 (src/800_b_2.c:7019) shares 1: D_800A46E8 ---
+void func_800347C8(s32 arg0) {
+    Sl *e;
+    s32 i;
+
+    e = (Sl *)D_800A46E8;
+    for (i = 0; i < 8; i++, e++) {
+        if (e->state == 5 && e->id == (s16)arg0 &&
+            ((arg0 >> 16) == 0 || (arg0 >> 16) == e->group)) {
+            e->active = 1;
+        }
+    }
+}
+
+--- func_80031D70 (src/800_b_2.c:4322) shares 1: D_800A46E8 ---
+void func_80031D70(void) {
+    extern u16 D_800A46E8[];
+    extern void func_8003350C(s32 a0, s32 a1);
+    u16 *p;
+    s32 i;
+
+    p = D_800A46E8;
+    i = 0;
+    do {
+        if (((*p & 0x3F) == 1) && (*(u8 *)(p + 5) != 0)) {
+            func_8003350C(i, 0);
+        }
+        i += 1;
+        p += 0x2A;
+    } while (i < 8);
+}
+
+--- func_80031E94 (src/800_b_2.c:4363) shares 1: D_800A46E8 ---
+void func_80031E94(void) {
+    extern u16 D_800A46E8[];
+    extern void func_80034A9C(void *a0);
+    u16 *p;
+    s32 i;
+
+    p = D_800A46E8;
+    i = 0;
+    do {
+        if ((*p & 0x3F) != 1 && (*p & 0x3F) == 5) {
+            func_80034A9C(p);
+        }
+        i += 1;
+        p += 0x2A;
+    } while (i < 8);
+}
+
+--- func_80033324 (src/800_b_2.c:5768) shares 1: D_800A46E8 ---
+void func_80033324(s32 a0, s32 a1) {
+    u8 *e = (u8 *)D_800A46E8 + a1 * 0x54;
+    u16 t;
+
+    if ((*(u16 *)e & 0x3F) == 1) {
+        *(u8 *)(e + a0 + 0xE) = 0;
+        t = *(u16 *)(e + 0xC) - 1;
+        *(u16 *)(e + 0xC) = t;
+        if (t != 0) {
+            return;
+        }
+        if (*(u8 *)(e + 0xA) != 5) {
+            *(u8 *)(e + 0xA) = 0;
+            *(u16 *)e = 0;
+        }
+    }
+}
+
+--- func_80031FC8 (src/800_b_2.c:4406) shares 1: D_800A46E8 ---
+void func_80031FC8(void) {
+    extern u16 D_800A46E8[];
+    extern void func_80034B0C(s32 a0);
+    u16 *p;
+    s32 i;
+
+    p = D_800A46E8;
+    i = 0;
+    do {
+        switch (*p & 0x3F) {
+        case 1:
+            break;
+        case 5:
+            func_80034B0C((s32)p);
+            break;
+        }
+        i += 1;
+        p += 0x2A;
+    } while (i < 8);
+}
+

@@ -1,0 +1,37 @@
+=== lever-free bodies in main sharing a callee or global with func_80035210 (2 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_800351E8 (src/800_b_2.c:7503) shares 1: D_80076218 ---
+s32 func_800351E8(s32 arg0)
+{
+    D_80076218 = arg0;
+    return arg0 & -((u32)(arg0 - 0x1010) <= 0x7EFF0);
+}
+
+--- func_8002FC64 (src/800_b_2.c:2743) shares 1: func_8003C498 ---
+int   func_8002FC64(int nbytes, u32 *src)
+{
+    s32 s2 = nbytes;
+    u32 *s1 = src;
+    s32 *s0;
+    s32 result;
+
+    if (D_8006AEF4 & 1) {
+        if (func_8003C4F0(0) == 0) {
+            func_80037D74();
+            return 0;
+        }
+    }
+
+    s0 = (s32 *)(&D_800A46C8);
+    result = ((s32 (*)(s32))func_8003C498)(*s0);
+
+    if (result != 0) {
+        SpuWrite((s32)s1, s2);
+        *s0 += s2;
+        D_8006AEF4 |= 1;
+        return 1;
+    }
+
+    func_80037D74();
+    return 0;
+}
+
