@@ -4304,45 +4304,28 @@ extern s32 D_800A5EB0;
 
 void func_8018FA34(s32 *a0)
 {
-    s32 v0;
     s32 *s0;
     s32 *s1;
-    /* Pin the 2nd func_80028620's first-arg (0) to its hard call reg so it
-     * materializes as a real SET (survives cse/const-prop), and pair it with
-     * the zero-byte scheduling barriers below. Without these, gcc-2.7.2's
-     * sched1 sinks the independent addr-calc / const-0 arg-setup PAST the
-     * rand()-result andi/addiu chain (S2-adjacent "class3 tie" residual,
-     * cookbook §25 / gcc-2.7.2-map/sched.md S1/S6); the target schedules
-     * each independent op BEFORE the dependent chain that follows it. */
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v0;
 
     s1 = a0;
-    v0 = rand();
-    s0 = (s32 *)&D_800A5E88;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    v0 &= 0x1F;
-    v0 -= 0x10;
-    s0[0] = v0;
+    s0 = &D_800A5E88;
 
     v0 = rand();
-    a0v = 0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    v0 &= 0x1F;
-    v0 -= 0x14;
-    D_800A5E90 = v0;
+    s0[0] = (v0 & 0x1F) - 0x10;
 
-    func_80028620(a0v, s0);
+    v0 = rand();
+    D_800A5E90 = (v0 & 0x1F) - 0x14;
 
-    if (D_801270C8 != 0xA) {
-        return;
+    func_80028620(0, s0);
+
+    if (D_801270C8 == 0xA) {
+        *(s16 *)((u8 *)s1 + 2) = 5;
+        D_800A5EA0 = 0xE;
+        func_80028620(1, (void *)((u8 *)s0 + 0x10));
+        D_800A5EB0 = -0xA;
+        func_80028620(2, (void *)((u8 *)s0 + 0x20));
     }
-
-    *(s16 *)((u8 *)s1 + 0x2) = 0x5;
-    D_800A5EA0 = 0xE;
-    func_80028620(1, &s0[4]);
-
-    D_800A5EB0 = -0xA;
-    func_80028620(2, &s0[8]);
 }
 
 
