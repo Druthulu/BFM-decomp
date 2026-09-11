@@ -13422,16 +13422,17 @@ void func_8018C14C(void *a0)
 
     *(s16 *)((s32)a0 + 0x6) = v[0];
     {
-        register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t3_tus2)
+        register s32 zr __asm__("$0");  // !FAKE: pin $0 ent — keeps ent a second pseudo; a plain copy is merged into the parameter by cse2 (make_regs_eqv cse.c:846-862) and the stores revert to $s0 (P36 S104 e30 minimum-lever)
         s32 ent = (s32)a0 + zr;
         s32 v2;
         s32 t1;
         s32 one;
 
-        *(s16 *)(ent + 0xA) = v[1];
-        t1 = *(u32 *)(ent + 0xC4);
+        do {  // !FAKE: do-while — LOOP notes split sched1 (sched.c:2058-2074) so the li 1 / ori stay below the 0xC4 load, replacing an asm barrier (P36 S104 e30 minimum-lever)
+            *(s16 *)(ent + 0xA) = v[1];
+            t1 = *(u32 *)(ent + 0xC4);
+        } while (0);
         one = 1;
-        __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t3_tus2)
         t1 |= 2;
         v2 = v[2];
         *(u8 *)(ent + 0xC0) = one;
