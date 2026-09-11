@@ -5726,7 +5726,6 @@ extern void func_8012ADE4(s32);
 } while (0)
 
 void func_8017FAAC(EntFAAC *s0) {
-    s32 pad[4];
     s32 q = s0->f6 * s0->f6;
     s32 r = (s0->fA + 0x482) * (s0->fA + 0x482);
 
@@ -5739,8 +5738,33 @@ void func_8017FAAC(EntFAAC *s0) {
     }
 
     if (s0->f0 != 0) {
-        COPY_TO_FAAC(s0->fCC, s0->fFC);  // !FAKE: barrier via COPY_TO_FAAC — REFUSED macro-carried barrier: the lever is inside `#define COPY_TO_FAAC` with real code around it (T5) (P36 rung B tus7)
-        COPY_TO_FAAC(s0->fD0, s0->fFE);  // !FAKE: barrier via COPY_TO_FAAC — REFUSED macro-carried barrier: the lever is inside `#define COPY_TO_FAAC` with real code around it (T5) (P36 rung B tus7)
+        SubFAAC *d;
+
+        d = s0->fCC;
+        d->f8 = s0->f6;
+        d->fA = s0->fA;
+        d->fC = s0->fE;
+        d->f10 = s0->f20->f10;
+        d->f12 = s0->f20->f12 + s0->fFC;
+        d->f14 = s0->f20->f14;
+        if (s0->f20->f4 & 0x80000000) {
+            d->f4 |= 0x80000000;
+        } else {
+            d->f4 &= 0x7FFFFFFF;
+        }
+
+        d = s0->fD0;
+        d->f8 = s0->f6;
+        d->fA = s0->fA;
+        d->fC = s0->fE;
+        d->f10 = s0->f20->f10;
+        d->f12 = s0->f20->f12 + s0->fFE;
+        d->f14 = s0->f20->f14;
+        if (s0->f20->f4 & 0x80000000) {
+            d->f4 |= 0x80000000;
+        } else {
+            d->f4 &= 0x7FFFFFFF;
+        }
     }
 }
 
