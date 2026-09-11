@@ -3569,6 +3569,35 @@ def swap_if_else_arms(text, tu, fn, d_, max_sites=12):
     return out
 
 
+def move_statement_far(text, tu, fn, d_, max_dist=6, cap=120):
+    """[(description, candidate text)] — R42: one simple statement moved DOWN past 2..max_dist following simple statements of
+    the same block (R9 only exchanges neighbours).
+
+    T7 agent e19 (func_8018230C, P36 S104): `w = D + D * c;` moved below four `base[]` statements let sched1 put its `addu`
+    inside z's range (26..30 → 24..30), dropping z below base[1] in `qty_compare_1` (`local-alloc.c:1598`); the header's
+    "@stuck: every source-order permutation was INERT" had only permuted neighbours. e19 counted this gap in three of its
+    four closes. The byte oracle judges every candidate (a move past a dependent statement changes the program and simply
+    does not score)."""
+    lines = text.split("\n")
+    masked = sc.mask_text(text).split("\n")
+    lo, hi = d_["line"], d_["end"] - 1
+    ok = lambda i: simple_stmt(masked[i]) and not is_decl_line(masked[i].strip()) and not re.match(
+        r"^\s*(?:return|goto|break|continue|case|default)\b", masked[i]) and masked[i].strip().endswith(";")
+    out = []
+    for i in range(lo, hi):
+        if not ok(i):
+            continue
+        j = i + 1
+        while j < hi and j - i <= max_dist and ok(j):
+            if j - i >= 2:
+                cand = lines[:i] + lines[i + 1:j + 1] + [lines[i]] + lines[j + 1:]
+                out.append((f"move-far @{i + 1} below @{j + 1}", "\n".join(cand)))
+                if len(out) >= cap:
+                    return out
+            j += 1
+    return out
+
+
 def return_constants(text, tu, fn, d_):
     """[(description, candidate text)] — R37: a result local `r = 0; if (A) r = (B); return r;` (or with `{ }`) written as
     `if (A && B) return 1; return 0;` — and the nested form `if (A) { if (B) return 1; } return 0;`.
@@ -3838,7 +3867,7 @@ def named_ports(tu, fn, max_donors=6):
     return out
 
 
-ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39", "R40", "R41")
+ALL_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26", "R27", "R28", "R29", "R31", "R32", "R33", "R34", "R35", "R36", "R37", "R38", "R39", "R40", "R41", "R42")
 RUNG_R_FAMILIES = ("R2", "R3", "R4", "R5", "R6", "R7")     # the free sweep's set (R8/R9 are the search engine's until measured)
 
 
@@ -4000,6 +4029,9 @@ def recipe_candidates(text, tu, fn, names, limit=24, rng=None, cap=40, blocks=Tr
     if "R40" in fam:
         for desc, cand in return_preincrement(text, tu, fn, d_):
             out.append(("R40", desc, cand))
+    if "R42" in fam:
+        for desc, cand in move_statement_far(text, tu, fn, d_):
+            out.append(("R42", desc, cand))
     if "R41" in fam:
         for desc, cand in swap_if_else_arms(text, tu, fn, d_):
             out.append(("R41", desc, cand))
