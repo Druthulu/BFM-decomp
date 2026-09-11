@@ -3803,30 +3803,27 @@ extern u16 D_800AF7CE;
 extern void func_80016224(s32 a0, s32 a1);
 
 s32 func_800167F0(s32 arg0) {
-    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 x = arg0 + zr;
-    u8 *s0 = D_800AF630;
+    u16 x = arg0;
+    u8 *base = D_800AF630;
     s32 mask = arg0 & 3;
     u32 raw;
-    u32 a0;
-    u32 v0;
+    u32 v;
+    u32 level;
 
     if (mask == 0) {
-        v1 = D_80062BA0[D_800B9A18];
+        D_800AF7CE += D_80062BA0[D_800B9A18];
     } else {
-        v1 = D_80062BA0[mask];
+        D_800AF7CE += D_80062BA0[mask];
     }
-    D_800AF7CE = D_800AF7CE + v1;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    raw = *(u16 *)&s0[0x19E];
-    a0 = raw + zr;
-    if (a0 >= 0xFFU) {
-        a0 = 0xFF;
+    raw = *(u16 *)(base + 0x19E);
+    if (raw >= 0xFF) {
+        v = 0xFF;
+    } else {
+        v = raw;
     }
-    v0 = ((x & 0xFFFFU) < 4U) ? 0xFF - a0 : a0;
-    func_80016224(v0 & 0xFF, 0);
-    return *(u16 *)&s0[0x19E] >= 0xFF;
+    level = (x < 4) ? 0xFF - v : v;
+    func_80016224(level & 0xFF, 0);
+    return *(u16 *)(base + 0x19E) >= 0xFF;
 }
 
 extern u16 D_800AF7CE;
@@ -3871,30 +3868,27 @@ extern u16 D_800AF7CE;
 extern void func_80016450(s32 a0, s32 a1);
 
 s32 func_80016978(s32 arg0) {
-    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 x = arg0 + zr;
-    u8 *s0 = D_800AF630;
+    u16 x = arg0;
+    u8 *base = D_800AF630;
     s32 mask = arg0 & 3;
     u32 raw;
-    u32 a0;
-    u32 v0;
+    u32 v;
+    u32 level;
 
     if (mask == 0) {
-        v1 = D_80062BA0[D_800B9A18];
+        D_800AF7CE += D_80062BA0[D_800B9A18];
     } else {
-        v1 = D_80062BA0[mask];
+        D_800AF7CE += D_80062BA0[mask];
     }
-    D_800AF7CE = D_800AF7CE + v1;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    raw = *(u16 *)&s0[0x19E];
-    a0 = raw + zr;
-    if (a0 >= 0xFFU) {
-        a0 = 0xFF;
+    raw = *(u16 *)(base + 0x19E);
+    if (raw >= 0xFF) {
+        v = 0xFF;
+    } else {
+        v = raw;
     }
-    v0 = ((x & 0xFFFFU) < 4U) ? 0xFF - a0 : a0;
-    func_80016450(v0 & 0xFF, 0);
-    return *(u16 *)&s0[0x19E] >= 0xFF;
+    level = (x < 4) ? 0xFF - v : v;
+    func_80016450(level & 0xFF, 0);
+    return *(u16 *)(base + 0x19E) >= 0xFF;
 }
 
 void func_80016A3C(void *arg0)
