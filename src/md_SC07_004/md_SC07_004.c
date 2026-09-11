@@ -9047,23 +9047,12 @@ void func_801AD068(void *arg0) {
         func_80016714(*(void **)((u8 *)arg0 + 0xD0), 0x38);
         func_8012C218(arg0);
     } else {
-        /* target keeps this guard value in $v1; unpinned it lands in $a0 (5 mismatches) */
-        register s32 v1 __asm__("$3") = *(s32 *)((u8 *)arg0 + 0x1C);  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+        s32 v1 = *(s32 *)((u8 *)arg0 + 0x1C);
         s32 t;      /* address-taken => lives in 0x10($sp); every assignment is a real store */
         s32 *p;
 
         if (v1 < 15) {
-            s32 v0;
-
-            /* arms textually swapped vs. the natural reading so gcc emits the real
-               `j .L801AD0D8` + delay slot instead of a delay-slot-fused shortcut */
-            if (v1 >= 12) {
-                v0 = 0xF - v1;
-                v0 = v0 << 5;
-            } else {
-                v0 = v1 << 3;
-            }
-            func_80016450(v0 & 0xF8, 1);
+            func_80016450((v1 >= 12 ? (0xF - v1) << 5 : v1 << 3) & 0xF8, 1);
         }
 
         *(u16 *)((u8 *)*(void **)((u8 *)arg0 + 0x20) + 0x18) += 0x1C0;
