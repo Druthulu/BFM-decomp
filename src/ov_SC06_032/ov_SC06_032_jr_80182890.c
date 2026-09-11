@@ -11228,7 +11228,6 @@ void func_8018F3E4(void)
 
     for (i = 0; i < 32; i++, bp++) {
         t = bp->tm;
-        __asm__ __volatile__ ("" : "=r" (t) : "0" (t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         if (t != 0) {
             gte_ldv0(&bp->vx);
             gte_rtps();
@@ -11239,7 +11238,7 @@ void func_8018F3E4(void)
                 (u16) (sxy.vy + 0x180) < 0x301 &&
                 (u32) (otz - 0x10) < 0x1000) {
                 z = otz - 0x10;
-                c = t >> 6;
+                c = (s16)t >> 6;
                 d = (t * 3) >> 8;
                 otp = (PTag_8018F694 *) ((z << 2) + (s32) ot);
 
