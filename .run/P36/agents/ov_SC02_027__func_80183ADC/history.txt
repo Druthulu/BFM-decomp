@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 4 best 2 compiles 184 path R14 param-width a0 s32->u16 @6407 + R9 swap-stmts @6431
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @6431 -> 2 [COUNT] (from 3)
+  R9 swap-stmts @6431 -> 2 [COUNT] (from 3)
+  R14 param-width a0 s32->u16 @6407 -> 3 [COUNT] (from 4)
+  R14 param-width a0 s32->u8 @6407 -> 3 [COUNT] (from 4)
+  R9 swap-stmts @6431 -> 3 [COUNT] (from 4)
+  R7 block @6442 -> 3 [COUNT] (from 3)
+  R10 param-copy a0 @6422 -> 3 [COUNT] (from 3)
+  R7 do-while @6442 -> 3 [COUNT] (from 3)
+  R8 base tmp0 @6435 -> 3 [COUNT] (from 3)
+  R7 block @6439 -> 3 [COUNT] (from 3)
+  R8 temp tmp0 @6432 -> 3 [COUNT] (from 3)
+  R8 base tmp0 @6432 -> 3 [COUNT] (from 3)

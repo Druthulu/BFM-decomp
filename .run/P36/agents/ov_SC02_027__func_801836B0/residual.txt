@@ -1,0 +1,4 @@
+src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:func_801836B0: score 2 (OTHER; mine 27 ins, target 27) — not yet
+  replace mine[6:8] target[6:8]
+        6  beqz	v0,5e4c <func_801836B0+0x34>  | beqz	v0,5e48 <func_801836B0+0x30>
+        7  move	a0,s0                         | nop

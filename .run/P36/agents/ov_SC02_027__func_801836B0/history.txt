@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 2 best 2 compiles 93 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @6200 -> 2 [OTHER] (from 2)
+  R9 swap-stmts @6200 -> 2 [COUNT] (from 2)
+  R7 do-while @6200 -> 2 [OTHER] (from 2)
+  R7 block @6201 -> 2 [OTHER] (from 2)
+  R7 do-while @6201 -> 2 [OTHER] (from 2)
+  R7 block @6202 -> 2 [OTHER] (from 2)
+  R7 do-while @6202 -> 2 [OTHER] (from 2)
+  R7 block @6204 -> 2 [OTHER] (from 2)
+  R7 do-while @6204 -> 2 [OTHER] (from 2)
+  R7 block @6206 -> 2 [OTHER] (from 2)
+  R7 do-while @6206 -> 2 [OTHER] (from 2)
+  R7 block @6207 -> 2 [OTHER] (from 2)

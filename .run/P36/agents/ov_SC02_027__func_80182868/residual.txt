@@ -1,0 +1,11 @@
+src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:func_80182868: score 5 (COUNT; mine 120 ins, target 119) — not yet
+  delete  mine[5:6] target[5:5]
+        5  move	a0,v0                         | --
+  replace mine[10:11] target[9:10]
+       10  j	519c <func_80182868+0x1cc>       | j	5198 <func_80182868+0x1c8>
+  replace mine[15:16] target[14:15]
+       15  nop                                | move	a0,v0
+  replace mine[35:36] target[34:35]
+       35  j	506c <func_80182868+0x9c>        | j	5068 <func_80182868+0x98>
+  replace mine[101:102] target[100:101]
+      101  j	5178 <func_80182868+0x1a8>       | j	5174 <func_80182868+0x1a4>

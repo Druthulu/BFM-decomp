@@ -1,0 +1,130 @@
+=== lever-free bodies in ov_SC02_027 sharing a callee or global with func_80183ADC (81 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80181F38 (src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:5094) shares 4: func_8001C214 func_80029178 func_8012C1B8 func_8012CAE4 ---
+void func_80181F38(s32 a0)
+{
+    s32 s0;
+
+    if ((*(s32 *)(a0 + 0x20) = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+
+    if ((func_80029178((s32)D_801AB580[*(s16 *)(a0 + 0x70)]) & 0xFF) != 0) {
+        s0 = *(s32 *)(a0 + 0xDC);
+        if (s0 != 0) {
+            s32 a1 = *(s32 *)(s0 + 0x4);
+            if (a1 != 0) {
+                func_8001C214(*(s32 *)(a0 + 0x20), a1);
+                if (*(s32 *)(s0 + 0xC) != 0) {
+                    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) |= 0x1000000;
+                }
+            }
+        }
+        func_8012AD50((void *)a0);
+    } else {
+        s0 = *(s32 *)(a0 + 0xDC);
+        if (s0 != 0) {
+            s32 a1 = *(s32 *)s0;
+            if (a1 != 0) {
+                func_8001C214(*(s32 *)(a0 + 0x20), a1);
+                if (*(s32 *)(s0 + 0xC) != 0) {
+                    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) |= 0x1000000;
+                }
+            }
+        }
+        *(u8 *)(a0 + 0xC0) = 1;
+        *(s32 *)(a0 + 0xBC) = (s32)&D_801AB570;
+        *(s32 *)(a0 + 0x58) = (s32)&D_801AB560 | 0x40000000;
+        *(u16 *)(a0 + 0x5C) = 0x8800;
+        *(s32 *)(a0 + 0xB4) = 0;
+        *(u8 *)(a0 + 0xC1) = 0;
+        *(u16 *)(a0 + 0xAE) = 0x7FFF;
+        *(u8 *)(a0 + 0x75) = 0;
+        *(s32 *)(a0 + 0xC4) |= 0x2;
+    }
+    func_8012AD50((void *)a0);
+}
+
+--- func_80144A98 (src/shared/ov/func_80144A98.h:6) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_80144A98(u8 *a0) {
+    s32 v0;
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+    } else {
+        func_8001C214(v0, 0);
+        *(s16 *)(a0 + 0x2) = 1;
+    }
+}
+
+--- func_801320D8 (src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c:1913) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_801320D8(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8018B770;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_801321B0 (src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c:1960) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_801321B0(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8018B790;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_8013221C (src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c:1986) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+void func_8013221C(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_8018B7A0;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
+--- func_80132144 (src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c:1931) shares 3: func_8001C214 func_8012C1B8 func_8012CAE4 ---
+s32 func_80132144(s32 param_1)
+{
+    extern int D_8018B780;
+
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(((int)param_1) + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(((int)param_1));
+    } else {
+        ((void(*)(int, int))func_8001C214)(v0, 0);
+        *(int *)(((int)param_1) + 0x58) = (int)&D_8018B780;
+        *(short *)(((int)param_1) + 0x5c) = 0x80;
+        *(unsigned short *)(((int)param_1) + 2) += 1;
+    }
+}
+

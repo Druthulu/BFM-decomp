@@ -1,0 +1,14 @@
+void func_801836B0(void *arg0)
+{
+    if (*(s16 *)((s32)arg0 + 0xFE) != 0) {
+        func_80178D18();
+        *(s16 *)((s32)arg0 + 0xFE) = 0;
+        *(s16 *)((s32)arg0 + 0x102) = 0;
+    }
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    ((void (*)(void *, s32))func_8012AD44)(arg0, 3);
+    if (*(s16 *)((s32)arg0 + 0xFC) == 0) {
+        *(u16 *)((s32)arg0 + 0x34) = 2;
+        *(s32 *)((s32)arg0 + 0x1C) = 0x40;
+    }
+}

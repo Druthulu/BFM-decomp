@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 7 best 7 compiles 189 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @4021 -> 7 [COUNT] (from 7)
+  R7 block @4021 -> 7 [COUNT] (from 7)
+  R9 swap-stmts @4032 -> 7 [COUNT] (from 7)
+  R6 inline t @4031 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @4021 -> 7 [COUNT] (from 7)
+  R8 base-shared tmp0 @4021 -> 7 [COUNT] (from 7)
+  R7 block @4025 -> 7 [COUNT] (from 7)
+  R8 temp tmp0 @4025 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @4025 -> 7 [COUNT] (from 7)
+  R7 block @4019 -> 7 [COUNT] (from 7)
+  R7 block @4032 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @4036 -> 7 [COUNT] (from 7)

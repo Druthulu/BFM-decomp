@@ -1,0 +1,56 @@
+=== lever-free bodies in ov_SC02_027 sharing a callee or global with func_801805EC (29 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80181740 (src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:4760) shares 2: D_80126B78 func_8012F14C ---
+void func_80181740(void *a0)
+{
+    SV_80181740 vec1;
+    SV_80181740 vec2;
+    s32 obj;
+
+    obj = *(s32 *)((s32)a0 + 0x64);
+    if (*(s16 *)((s32)a0 + 0xFE) != *(s16 *)(obj + 0x36))
+        goto reject;
+    if (*(s16 *)(obj + 0xFC) > *(s16 *)((s32)a0 + 0xFC))
+        goto ok;
+reject:
+    func_8012C218(a0);
+    return;
+ok:
+    func_8012F214(obj, *(s32 *)((s32)a0 + 0xDC), (s32)&vec1);
+    *(u16 *)((s32)a0 + 0x6) = vec1.x;
+    *(u16 *)((s32)a0 + 0xA) = vec1.y;
+    *(u16 *)((s32)a0 + 0xE) = vec1.z;
+    func_8012F14C((s32)D_80126B78 + 0x34, (s32)D_8018F458, (s32)&vec1);
+    func_8012F14C((s32)D_80126B78 + 0x34, (s32)(D_8018F458 + 8), (s32)&vec2);
+    if (func_80135888(*(s32 *)((s32)a0 + 0x20), *(s32 *)((s32)a0 + 0x58), (s32)&vec1, (s32)&vec2) != 0) {
+        func_8012F568(1, 0x4201, *(s16 *)(*(s32 *)(obj + 0x20) + 0x12), 0x1C, (s32)&vec2, (s32)D_801152A8);
+    }
+}
+
+--- func_801484B0 (src/shared/ov/func_801484B0.h:5) shares 1: D_80126B78 ---
+void func_801484B0(s32 a0, s32 a1) {
+    func_801485B8(*(s32 *)((s32)D_80126B78 + 0x20) - 0x10, a0, a1);
+}
+
+--- func_80148534 (src/shared/ov/func_80148534.h:5) shares 1: D_80126B78 ---
+void func_80148534(s32 a0, s32 a1) {
+    func_801485B8(*(s32 *)((s32)D_80126B78 + 0x20) - 0x8, a0, a1);
+}
+
+--- func_80149350 (src/shared/ov/func_80149350.h:4) shares 1: func_8012F14C ---
+void func_80149350(s32 arg0) {
+    ((void (*)())func_8012F14C)(*(s32 *)(arg0 + 0x20) + 0x34);
+}
+
+--- func_80172310 (src/shared/ov/func_80172310.h:6) shares 1: D_80126B78 ---
+void func_80172310(u8 *a0) {
+    func_80172358((u8 *)&D_80126B58, a0);
+    *(u16 *)((u8 *)D_80126B78 + 0x12) = *(u16 *)(a0 + 6);
+}
+
+--- func_80149544 (src/shared/ov/func_80149544.h:5) shares 1: func_8012F14C ---
+void func_80149544(s32 arg0, s32 arg1, s32 arg2) {
+    s32 sp10[2];
+    ((void(*)(s32,s32,s32))func_8012F14C)(*(s32 *)(arg0 + 0x20) + 0x34, arg1, (s32)sp10);
+    func_8012EF70((s32)sp10, arg2);
+}
+

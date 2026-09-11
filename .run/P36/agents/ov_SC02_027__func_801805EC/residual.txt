@@ -1,0 +1,14 @@
+src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:func_801805EC: score 7 (COUNT; mine 67 ins, target 68) — not yet
+  register pairs (mine -> target, count): a2->v0 x4
+  replace mine[25:27] target[25:27]
+       25  lui	a2,0x0                         | lui	v0,0x0
+       26  lw	a2,0(a2)                        | lw	v0,0(v0)
+  replace mine[28:29] target[28:29]
+       28  lhu	a0,18(a2)                      | lhu	a0,18(v0)
+  replace mine[33:34] target[33:35]
+       33  lhu	v0,18(a2)                      | lui	v0,0x0
+       34  --                                 | lw	v0,0(v0)
+  replace mine[35:36] target[36:37]
+       35  nop                                | lhu	v0,18(v0)
+  replace mine[47:48] target[48:49]
+       47  j	2e4c <func_801805EC+0xf8>        | j	2e50 <func_801805EC+0xfc>
