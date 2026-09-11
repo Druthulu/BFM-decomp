@@ -5253,7 +5253,7 @@ extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8017E5C8(s32 a0);
 
 void func_8018574C(void *a0) {
-    register s32 s0 __asm__("$16") = (s32)a0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 s0 = (s32)a0;
     s32 rnd;
     s32 t;
     s32 base;
@@ -5265,8 +5265,9 @@ void func_8018574C(void *a0) {
     rnd = rand();
     t = *(s16 *)(s0 + 0xC);
     base = *(s16 *)(s0 + 0x14);
-    __asm__("" : "=r"(t) : "0"(t), "r"(base));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B tus10)
-    rem = rnd % (t >> 7);
+    /* `(s16)t >> 7` (P36 S104 e32): the cast at the shift keeps the target's lh + sra,7;
+       `t >> 7` lets combine fold the load's sign extension into lhu + sll,16 + sra,23. */
+    rem = rnd % ((s16)t >> 7);
     if (rand() & 1) {
         result = base + rem;
     } else {
