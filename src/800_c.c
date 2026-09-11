@@ -2838,40 +2838,37 @@ void func_80038958(void) {
     u8 *a3;
     u8 *a2;
     s32 a1;
-    register u8 *a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *rec;
     s32 t0;
-    s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 c;
+    s32 b;
+    s32 h;
+    u8 *p;
+    s32 off;
 
     a3 = D_800762B0;
     a2 = D_800762B4;
     a1 = 0;
     t0 = 3;
-    a0 = D_800C6E2A;
+    rec = D_800C6E2A - 0x5A; /* the 0x60-byte channel record base (D_800C6DD0): every field at its own offset, no offset-0 access — P36 S105 f2 */
 
     while (a1 < 0x10) {
-        v0 = *a3;
-        if (v0 == 0 || v0 == t0) {
+        c = *a3;
+        if (c == 0 || c == t0) {
             if (*a2 == 0) {
-                v0 = *a0;
-                a0[1] = 0;
-                if (v0 != 0) {
-                    v0 = *(s16 *)(a0 - 0x54);
-                    v1 = v0 << 1;
-                    v1 = v1 + v0;
-                    v1 = v1 << 2;
-                    v1 = v1 + v0;
-                    v0 = *(s32 *)(a0 - 0xA);
-                    v1 = v1 << 1;
-                    v0 = v0 + v1;
-                    v0 = v0 + a1;
-                    *(u8 *)(v0 + 0x23) = 0;
-                    a0[0] = 0;
+                b = rec[0x5A];
+                rec[0x5B] = 0;
+                if (b != 0) {
+                    h = *(s16 *)(rec + 6);
+                    p = *(u8 **)(rec + 0x50);
+                    off = h * 26;
+                    *(u8 *)(p + off + a1 + 0x23) = 0;
+                    rec[0x5A] = 0;
                 }
             }
         }
         a1++;
-        a0 += 0x60;
+        rec += 0x60;
         a3++;
         a2++;
     }
