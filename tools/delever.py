@@ -3492,11 +3492,16 @@ def duplicate_join_statement(text, tu, fn, d_, max_sites=12):
     masked = sc.mask_text(text).split("\n")
     lo, hi = d_["line"], d_["end"] - 1
     out = []
-    for k in range(lo + 1, hi):
-        if not re.match(r"^\s*\}\s*$", masked[k - 1]) or not simple_stmt(masked[k]) or is_decl_line(masked[k].strip()):
+    for c in range(lo, hi - 1):
+        if not re.match(r"^\s*\}\s*$", masked[c]):
             continue
-        # find the matching `if (…) {` … `} else {` … `}` that closes at k-1
-        depth, j, else_at = 0, k - 1, None
+        k = c + 1
+        while k < hi and not masked[k].strip():         # blank lines between the join and the statement (S104 e24)
+            k += 1
+        if k >= hi or not simple_stmt(masked[k]) or is_decl_line(masked[k].strip()):
+            continue
+        # find the matching `if (…) {` … `} else {` … `}` that closes at c
+        depth, j, else_at = 0, c, None
         while j >= lo:
             depth += masked[j].count("}") - masked[j].count("{")
             if re.match(r"^\s*\}\s*else\s*\{\s*$", masked[j]) and depth == 1:
@@ -3507,9 +3512,15 @@ def duplicate_join_statement(text, tu, fn, d_, max_sites=12):
         if else_at is None or j < lo or not re.match(r"^\s*if\s*\(", masked[j]):
             continue
         ind = lines[else_at][:len(lines[else_at]) - len(lines[else_at].lstrip())] + "    "
-        stmt = lines[k].strip()
-        cand = lines[:else_at] + [ind + stmt] + [lines[else_at]] + lines[else_at + 1:k - 1] + [ind + stmt, lines[k - 1]] + lines[k + 1:]
-        out.append((f"dup-join {stmt[:24]} @{k + 1}", "\n".join(cand)))
+        # the first 1..3 simple statements after the join (S104 e24 func_80180E24: a STORE PAIR had to move together)
+        n = 0
+        while n < 3 and k + n < hi and simple_stmt(masked[k + n]) and not is_decl_line(masked[k + n].strip()) \
+                and not re.match(r"^\s*(?:return|goto|break|continue)\b", masked[k + n]):
+            n += 1
+            stmts = [lines[x].strip() for x in range(k, k + n)]
+            cand = (lines[:else_at] + [ind + t for t in stmts] + [lines[else_at]] + lines[else_at + 1:c]
+                    + [ind + t for t in stmts] + [lines[c]] + lines[c + 1:k] + lines[k + n:])
+            out.append((f"dup-join ×{n} {stmts[0][:24]} @{k + 1}", "\n".join(cand)))
         if len(out) >= max_sites:
             break
     return out
