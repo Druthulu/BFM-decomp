@@ -6688,10 +6688,9 @@ extern void *D_801EFD1C;
 s32 func_8018315C(s32 *a0) {
     s32 s0;
     s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t3_tus1)
-    s32 frame_pad[2];
+    s16 x;
+    s16 y;
     extern int func_8001AAA0(void);
-    (void)&frame_pad;
 
     s0 = (s32)a0;
 
@@ -6731,13 +6730,11 @@ s32 func_8018315C(s32 *a0) {
         }
     }
 
-    v0 = *(s16 *)(s0 + 0xF2);
-    if (v0 != 0) {
-        register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t3_tus1)
-        v1 = v0 + zr;
-        v0 = v1 - 2;
-        *(s16 *)(s0 + 0xF2) = v0;
-        if ((s16)v0 < 0) {
+    x = *(s16 *)(s0 + 0xF2);
+    if (x != 0) {
+        y = x - 2;
+        *(s16 *)(s0 + 0xF2) = y;
+        if (y < 0) {
             *(s16 *)(s0 + 0xF2) = 0;
         }
         v0 = *(s16 *)(s0 + 0xF2);
