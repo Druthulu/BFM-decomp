@@ -221,19 +221,11 @@ s32 func_801EAA7C(void) {
     x = func_80029504();
     if ((u32)(x - 200) < 100) {
         t = 0;
-        goto join;
-    }
-    if (x < 300) {
+    } else if (x < 300 || (func_80029178(250) & 0xFF) == 0) {
         t = 1;
-        goto join;
-    }
-    if (func_80029178(250) & 0xFF) {
+    } else {
         t = 0;
-        goto join;
     }
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-    t = 1;
-join:
     if (t != 0) {
         p = D_801E7AAC;
         v = (s32)&D_801EBD50;
