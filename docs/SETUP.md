@@ -1820,6 +1820,7 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   classes the pass has judged and not closed. An ALL-families pass (`--families R2 … R26`, `-j 26`) costs ~1.8 s per `--try`
   and 100–370 candidates per head class; it closed an R12 class in its first minute, so re-running the old families on a
   moved tree is not redundant.
+- **`tools/alloc_table.py` prints the INTEGER priority (S104)** — `global.c:594-603` stores it in a `register int` (truncated) and breaks ties by allocno number (`:607`); equal integers are flagged `TIE`. The float column hid e12/e14's closes (245.6 vs 245.2). Known-true: e14's `func_8017BEBC` lever-free dumps show the two `&g.sz` pseudos at 245 TIE.
 - **`delever_pack.related_bodies` for main (S104):** main's units are `src/800*.c`, not `src/main/` — the search now falls back to the target TU's directory; every main pack's `related.txt` had been empty (e3: the answers were same-TU siblings sharing a global). Known-true: `func_80036FB0`'s pack now lists 7 bodies sharing `D_8006AEE8`/`D_80078F10`.
 - **Marked ordinary-C fakes (S104, Drew's ruling (a)):** a `// !FAKE:` on a `do { … } while (0)` line or a `!FAKE:
   do-while|dead-init` marker is a KEPT fake (sotn-decomp's STYLE.md rule), not an orphan and not a lever —

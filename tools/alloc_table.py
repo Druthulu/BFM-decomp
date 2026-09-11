@@ -77,12 +77,15 @@ def main():
         order = [int(x) for x in mo.group(2).split()]
     rows = []
     for n, r in regs.items():
-        pri = (math.floor(math.log2(r["refs"])) * r["refs"] / r["live"]) * 10000 if r["refs"] > 0 and r["live"] > 0 else 0
+        # global.c:594-603 stores the priority in a `register int` — TRUNCATED — and breaks a tie by allocno number (:607).
+        # S104 e12/e14: two closes hinged on ties the old float column hid (245.6 vs 245.2 are both 245).
+        pri = int((math.floor(math.log2(r["refs"])) * r["refs"] / r["live"]) * 10000) if r["refs"] > 0 and r["live"] > 0 else 0
         rows.append((pri, n, r))
     rows.sort(key=lambda x: (-x[0], x[1]))
     print(f"alloc_table {fn} ({tag}): {len(regs)} pseudo(s) in the .lreg table"
           + (f"; .greg order: {' '.join(str(x) for x in order)}" if order else "; .greg printed no order line"))
     print(f"  {'pseudo':>7} {'hard':>5} {'pri':>10} {'refs':>5} {'live':>5} {'blk':>5}  prefs / notes")
+    tied = {p_ for p_, c in __import__("collections").Counter(p_ for p_, _n, _r in rows).items() if c > 1 and p_ > 0}
     for pri, n, r in rows:
         h = hard.get(n)
         hn = NAMES.get(h, str(h)) if h is not None else "-"
@@ -93,7 +96,9 @@ def main():
             hardconf = [NAMES[x] for x in conf[n] if x in NAMES]      # the HARD regs it may not take
             if hardconf:
                 note = f"conflicts {','.join(hardconf)}  " + note
-        print(f"  r{n:<6} {hn:>5} {pri:10.1f} {r['refs']:5d} {r['live']:5d} {str(r['block']):>5}  {note}")
+        if pri in tied:
+            note = "TIE (lower allocno wins, global.c:607)  " + note
+        print(f"  r{n:<6} {hn:>5} {pri:10d} {r['refs']:5d} {r['live']:5d} {str(r['block']):>5}  {note}")
     # R32: the order line over-approximates the allocnos; anything it names that this table lacks is a SILENT GAP
     missing = [x for x in order if x not in regs]
     if missing:
