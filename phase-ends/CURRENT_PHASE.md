@@ -1879,6 +1879,18 @@ accumulate here as the phase produces them.**
   DIFFERS refused, 3 re-score misses). R22 after every batch: `check-all: 218 passed, 0 failed of 218` (r22_a/b/c logs). Census
   4,928 → **4,732** (`0 UNMARKED — OK`, exit 0). Agents d20–d24 launched on the triple-judged residue (see the checkpoint).
 
+- **S104 — the fourth wave: d21–d28 at 0 with ZERO levers; d29 PARKED (a signature change).** d21 `func_8018179C` (one
+  function-scope result variable + a three-quantity block, 7 bodies incl. d28's `func_8017F0F4` — d28 was relayed d21's port and
+  confirmed it), d22 `func_801861FC` (one variable per switch case; 4), d23 `func_80181864` (a loop-local `next` + stores before
+  counters; 7), d24 `func_8018003C` (a parameter copy deleted; 4), d25 `func_8017E060` (a twice-set pointer as one expression —
+  a frame-only residual; 3), d26 `func_8017FB10` (store first + a pre-decrement test; 7), d27 `func_80184B94` (return constants,
+  not a pinned result; 3 + a two-pin sibling + **the shared header `func_8013E448.h`, IDENTICAL on 141 objects**). **d29
+  `func_80188DF4` ×6 closes only as `void` → `s32` with the TU's prototype changed** (the keepalive faked `return v0;`) — parked
+  for the STRUCTS phase per Drew's (d), patches in its pack. Generators: **R23 accepts a `case`/`default` label** (known-true 0),
+  **R35 `drop_param_copies`**, **R36 `merge_set_chains`** (known-true 0 after allowing two unrelated lines between). R22 `check-all:
+  218 passed, 0 failed of 218` (r22_d); census **4,661** (exit 0). The R23/R34/R35/R36 pass `s104_new4` is running (16 MATCH at
+  650/915); agents d20, d30–d33 in flight.
+
 ## 🛑 SESSION CHECKPOINT — S104 (2026-09-10): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,732 sites** this session; 24 agent draws, **19 landed, ALL at 0** (18 with zero levers, d4 one marked do-while); generators **R27–R34**; the census counts kept ordinary-C fakes apart; R22 `check-all: 218 passed, 0 failed of 218` after every batch | `lever_census --check` exit 0 (4,732 marked, 0 UNMARKED, 0 orphans, 4 marked ordinary-C fakes)
 
 ### 0. How to use this block

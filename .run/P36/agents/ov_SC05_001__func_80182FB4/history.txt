@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 34 best 13 compiles 335 path R7 do-while @7473 + R6 inline ret @7472
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline ret @7472 -> 13 [COUNT] (from 31)
+  R6 inline arg1 @7479 -> 13 [COUNT] (from 13)
+  R8 temp tmp0 @7471 -> 13 [COUNT] (from 13)
+  R7 block @7491 -> 13 [COUNT] (from 13)
+  R5 swap + @7471 -> 13 [COUNT] (from 13)
+  R9 swap-stmts @7476 -> 13 [COUNT] (from 13)
+  R10 param-copy param_1 @7415 -> 13 [COUNT] (from 13)
+  R8 base tmp0 @7471 -> 13 [COUNT] (from 13)
+  R7 do-while @7491 -> 13 [COUNT] (from 13)
+  R9 swap-stmts @7496 -> 13 [COUNT] (from 13)
+  R12 width uVar2 s32->u8 @7413 -> 13 [COUNT] (from 13)
+  R6 inline ptr2 @7496 -> 13 [COUNT] (from 13)

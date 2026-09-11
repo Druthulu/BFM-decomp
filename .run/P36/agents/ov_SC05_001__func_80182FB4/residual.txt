@@ -1,0 +1,55 @@
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:func_80182FB4: score 34 (COUNT; mine 212 ins, target 214) — not yet
+  register pairs (mine -> target, count): a1->a0 x2, v0->v1 x2, v1->v0 x2
+  replace mine[13:14] target[13:14]
+       13  j	742c <func_80182FB4+0x334>       | j	7434 <func_80182FB4+0x33c>
+  replace mine[33:34] target[33:34]
+       33  j	73e4 <func_80182FB4+0x2ec>       | j	73ec <func_80182FB4+0x2f4>
+  replace mine[36:37] target[36:37]
+       36  beq	v1,v0,730c <func_80182FB4+0x214> | beq	v1,v0,7314 <func_80182FB4+0x21c>
+  replace mine[38:39] target[38:39]
+       38  beq	v1,v0,734c <func_80182FB4+0x254> | beq	v1,v0,7354 <func_80182FB4+0x25c>
+  replace mine[40:41] target[40:41]
+       40  j	73e4 <func_80182FB4+0x2ec>       | j	73ec <func_80182FB4+0x2f4>
+  replace mine[59:60] target[59:60]
+       59  beq	v1,v0,7368 <func_80182FB4+0x270> | beq	v1,v0,7370 <func_80182FB4+0x278>
+  replace mine[61:62] target[61:62]
+       61  beqz	v0,72c8 <func_80182FB4+0x1d0> | beqz	v0,72d0 <func_80182FB4+0x1d8>
+  replace mine[66:67] target[66:67]
+       66  bnez	v0,73e0 <func_80182FB4+0x2e8> | bnez	v0,73e8 <func_80182FB4+0x2f0>
+  replace mine[85:86] target[85:86]
+       85  bnez	v0,72e8 <func_80182FB4+0x1f0> | bnez	v0,72f0 <func_80182FB4+0x1f8>
+  replace mine[87:88] target[87:88]
+       87  j	72e8 <func_80182FB4+0x1f0>       | j	72f0 <func_80182FB4+0x1f8>
+  replace mine[94:98] target[94:98]
+       94  lw	a1,32(s0)                       | lw	a0,32(s0)
+       95  li	a0,4096                         | nop
+       96  lhu	v1,18(a1)                      | lhu	v1,18(a0)
+       97  subu	a2,a0,s1                      | nop
+  replace mine[99:104] target[99:108]
+       99  bgez	a2,7290 <func_80182FB4+0x198> | li	v0,4096
+      100  sh	v1,18(a1)                       | subu	v0,v0,s1
+      101  addiu	a2,s1,-4096                  | bgez	v0,7298 <func_80182FB4+0x1a0>
+      102  sll	a2,a2,0x4                      | sh	v1,18(a0)
+      103  negu	a2,a2                         | addiu	v0,s1,-4096
+      104  --                                 | sll	v0,v0,0x4
+      105  --                                 | negu	v0,v0
+      106  --                                 | addiu	a1,v0,-16384
+      107  --                                 | jal	0 <func_8017BEBC>
+  delete  mine[105:107] target[109:109]
+      105  jal	0 <func_8017BEBC>              | --
+      106  addiu	a1,a2,-16384                 | --
+  replace mine[118:122] target[120:124]
+      118  lw	v0,32(s0)                       | lw	v1,32(s0)
+      119  li	v1,2                            | li	v0,2
+      120  sh	v1,52(s0)                       | sh	v0,52(s0)
+      121  lh	v0,18(v0)                       | lh	v0,18(v1)
+  replace mine[124:125] target[126:127]
+      124  j	73e0 <func_80182FB4+0x2e8>       | j	73e8 <func_80182FB4+0x2f0>
+  replace mine[131:132] target[133:134]
+      131  j	73e0 <func_80182FB4+0x2e8>       | j	73e8 <func_80182FB4+0x2f0>
+  replace mine[147:148] target[149:150]
+      147  j	73e0 <func_80182FB4+0x2e8>       | j	73e8 <func_80182FB4+0x2f0>
+  replace mine[158:159] target[160:161]
+      158  j	742c <func_80182FB4+0x334>       | j	7434 <func_80182FB4+0x33c>
+  replace mine[168:169] target[170:171]
+      168  j	73e0 <func_80182FB4+0x2e8>       | j	73e8 <func_80182FB4+0x2f0>

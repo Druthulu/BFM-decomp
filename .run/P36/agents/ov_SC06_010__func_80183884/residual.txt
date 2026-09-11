@@ -1,0 +1,1 @@
+UNSTRIPPABLE [('pin', 8375, 'token mismatch at src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:8375: expected `register`')]

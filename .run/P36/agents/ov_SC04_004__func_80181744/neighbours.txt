@@ -1,0 +1,47 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: regalloc-order — simplified sibling of matched func_8017B614.
+// @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
+// @class: struct
+// @stuck: none — MATCH (74 ins)
+// @class: regalloc-order + T1 memcpy-builtin→call re-crack
+// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+// @class: struct
+// @stuck: none — MATCH (62 ins)
+// @class: struct
+// @stuck: none — MATCH (65 ins)
+// @class: regalloc-order
+// @stuck: pending self-check — register order param=$s2 counter=$s1 ptr=$s0
+// @class: plumbing
+// @stuck: none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
+// @class: plumbing
+// @stuck: none — MATCH expected (simple short-increment + guarded call)
+// @class: regalloc-order
+// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+// @class: plumbing
+// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @class: schedule
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @class: struct
+// @stuck: none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
+// @class: schedule
+// @stuck: none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
+// @class: other
+// @stuck: none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
+// @class: plumbing
+// @stuck: none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out
+// @class: schedule
+// @stuck: none — MATCH (44 ins). Two §3-T4 branch-polarity inversions: outer if(param_2>=iVar2) makes the func_8018352C else-block fall-through; inner if(param_3>=iVar2) return 0 makes the func_8012A828 body fall-through. No pins needed — natural $s1/$s0/$s2 alloc matched.
+// @class: plumbing
+// @stuck: none — MATCH (straightforward; callee sigs canonical from overlay)
+// @class: plumbing
+// @stuck: none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)

@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 14 best 8 compiles 317 path R12 width v0 s32->s16 @6701 + R5 swap + @6736 + R6 inline v0 @6704
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline v0 @6704 -> 8 [COUNT] (from 9)
+  R5 swap + @6736 -> 9 [COUNT] (from 11)
+  R12 width sum s32->u16 @6702 -> 9 [COUNT] (from 9)
+  R8 temp tmp0 @6735 -> 9 [COUNT] (from 9)
+  R7 block @6704 -> 9 [COUNT] (from 9)
+  R10 param-copy a0 @6703 -> 9 [COUNT] (from 9)
+  R4 decl-move v0 1->0 -> 9 [COUNT] (from 9)
+  R12 width sum s32->s16 @6702 -> 9 [COUNT] (from 9)
+  R8 base tmp0 @6735 -> 9 [COUNT] (from 9)
+  R4 decl-move v0 1->2 -> 9 [COUNT] (from 9)
+  R7 block @6733 -> 9 [COUNT] (from 9)
+  R8 temp tmp0 @6736 -> 9 [COUNT] (from 9)

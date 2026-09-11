@@ -1,0 +1,2 @@
+src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c
+func_8017DD70

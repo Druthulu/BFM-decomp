@@ -164,3 +164,18 @@
       (`record_giv` `loop.c:4341`, `combine_givs` `:5494`). A `$0` pin on `y = x + zr` → declare `y` at the proven width.
     - Enumerating cheap spellings (d14: 365 bodies in ~3 min through `--try`) beats reasoning when the residual is a
       register permutation; `alloc_table.py` explains afterwards.
+15. **S104's fourth wave (d21–d29), all at 0 with ZERO levers:**
+    - (d27) a pinned RESULT local `r = 0; if (A) r = (B); return r;` → **return constants** `if (A && B) return 1; return 0;`:
+      jump1's store-flag works on the hard `$v0` (`jump.c:1140-1210`), which pins the order after the call-result copy.
+    - (d26) `v = *p; v -= 1; *p = v; if (v == 0)` → `if (--*p == 0)` (fewer refs for `qty_compare`, `local-alloc.c:1579`) and an
+      independent sibling store moved BEFORE it (`sched.c:2425-2428` tie-break).
+    - (d21) per-case call-result temps of one type → ONE function-scope variable (many refs over a short live length outrank
+      the self pointer, `global.c:594-607`); a block with exactly 3 quantities is allocated in BIRTH order — add or remove a
+      quantity (`local-alloc.c:1486-1500`).
+    - (d22) a variable set in two switch cases → one variable per case (flow marks the shared one global, `flow.c:2058-2061`).
+    - (d23) arms ending in the same store: the store BEFORE the counter (cross-jump keeps them apart); a list walk that reuses a
+      long-lived variable as its `next` → a loop-local `next`.
+    - (d24) `T x = argN;` at the top → delete, use `argN`. (d25) a FRAME-only residual (frame 8 bytes larger) → a local set twice
+      (`p = &D; p += x;`) written as one expression (`combine.c:2305-2337`, `reload1.c:2327-2352`).
+    - (d29) a `void` function whose last statement is a keepalive of `v0` RETURNS it — `s32` + `return X;` + the TU's `extern`
+      prototype changed: a SIGNATURE change, parked for the STRUCTS phase (Drew S104 (d)); report it, do not expect it banked.

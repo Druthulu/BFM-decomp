@@ -1,0 +1,9 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: plumbing
+// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @class: straight-derive
+// @stuck: none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @class: regalloc (WIDTH/li!=addu -> MATCH)
+// @stuck: none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).

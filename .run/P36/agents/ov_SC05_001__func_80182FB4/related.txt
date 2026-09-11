@@ -1,0 +1,692 @@
+=== lever-free bodies in ov_SC05_001 sharing a callee or global with func_80182FB4 (67 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80183508 (src/ov_SC05_001/ov_SC05_001_jr_80183508.c:2839) shares 6: func_8012B178 func_8012B23C func_8012CBA4 func_80131E00 func_80143B6C func_80184580 ---
+void func_80183508(s32 param_1)
+{
+    extern void func_80184580(void *a0);
+    extern s32 func_8012CBF4(s32 a0);
+    extern s32 func_8012CBA4(s32 a0);
+    extern s32 func_8012CBCC(s32 a0);
+    extern s32 func_8012D624(s32 a0, s32 a1, s32 a2);
+    extern void func_8012B2CC(s32 a0);
+    extern void func_8012B178(s32 a0, s32 a1);
+    extern void func_8012B23C(s32 a0);
+    extern s32 func_80143B6C(s32 a0, s32 a1);
+    extern void func_80131E00(s32 a0, s32 a1);
+    extern u16 D_80126B96;
+    extern s16 D_80126B9A;
+
+    s32 iVar1;
+    s16 cond;
+
+    if (*(s16 *)(param_1 + 0xa) >= 0x10) {
+        func_80184580((void *)param_1);
+        return;
+    }
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        iVar1 = func_8012CBF4(param_1);
+        if ((iVar1 & 0xff) == 0x1a) {
+            goto EXIT_808B4;
+        }
+        if ((iVar1 & 0x4000) != 0) {
+            goto STATE4;
+        }
+        if (func_8012D624(param_1, 0x20, 5) == 1) {
+            D_80126B96 = 0x11;
+            D_80126B9A = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
+            *(s32 *)(param_1 + 0x48) = 0x18000;
+            *(u16 *)(param_1 + 0x34) += 1;
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+                *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + 0x800;
+            func_8012B2CC(param_1);
+            func_8012B178(param_1, 0xFFF00000);
+            goto TAIL;
+        }
+        if (*(s32 *)(param_1 + 0x14) < 0) {
+            /* the barrier keeps [0xa] live across the [0xfe] load so local-alloc
+             * hands it $v0 (see the header note); without it the two lh regs swap. */
+            s32 ta = *(s16 *)(param_1 + 0xa);
+            cond = ta < *(s16 *)(param_1 + 0xfe);
+        } else {
+            cond = *(s16 *)(param_1 + 0xa) > *(s16 *)(param_1 + 0xfe);
+        }
+        if (cond) {
+            *(s32 *)(param_1 + 0x48) = 0x18000;
+            *(u16 *)(param_1 + 0x34) += 1;
+        }
+        *(s32 *)(param_1 + 0x1c) += 1;
+        goto TAIL;
+
+    case 1:
+        iVar1 = func_8012CBF4(param_1);
+        if ((iVar1 & 0xff) == 0x1a) {
+            goto EXIT_808B4;
+        }
+        if ((iVar1 & 0x2000) != 0) {
+            *(u16 *)(param_1 + 0x34) += 1;
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
+            *(s32 *)(param_1 + 0x1c) = 0;
+            goto TAIL;
+        }
+        if ((iVar1 & 0x4000) == 0) {
+            goto L_B88;
+        }
+        goto STATE4;
+
+    case 2:
+        *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 0x10) * 15 / 16;
+        *(s32 *)(param_1 + 0x18) = *(s32 *)(param_1 + 0x18) * 15 / 16;
+        iVar1 = func_8012CBA4(param_1);
+        if ((iVar1 & 0xff) == 0x1a) {
+            goto EXIT_808B4;
+        }
+        if ((iVar1 & 0x6000) == 0) {
+            *(s32 *)(param_1 + 0x1c) = 0;
+            *(u16 *)(param_1 + 0x34) += 1;
+            goto TAIL;
+        }
+        if (*(s32 *)(param_1 + 0x1c) % 3 == 0) {
+            func_80143B6C(param_1, 1);
+        }
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (*(s32 *)(param_1 + 0x1c) < 0x10) {
+            goto TAIL;
+        }
+        goto SET_HIT;
+
+    case 3:
+        iVar1 = func_8012CBCC(param_1);
+        if ((iVar1 & 0xff) == 0x1a) {
+            goto EXIT_808B4;
+        }
+        if ((iVar1 & 0x4000) == 0) {
+            goto L_AF8;
+        }
+    STATE4:
+        func_8012B23C(param_1);
+        *(u16 *)(param_1 + 0x34) = 4;
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
+        goto TAIL;
+    L_AF8:
+        if ((iVar1 & 0x2000) == 0) {
+            goto L_B88;
+        }
+        *(s16 *)(param_1 + 2) = 1;
+        func_80143B6C(param_1, 1);
+        goto TAIL;
+
+    case 4:
+        if (*(s32 *)(param_1 + 0x1c) % 3 == 0) {
+            func_80143B6C(param_1, 1);
+        }
+        iVar1 = func_8012CBA4(param_1);
+        if ((iVar1 & 0xff) != 0x1a) {
+            goto L_B78;
+        }
+    EXIT_808B4:
+        func_80184580((void *)param_1);
+        return;
+    L_B78:
+        if ((iVar1 & 0x2000) == 0) {
+            goto L_B88;
+        }
+    SET_HIT:
+        *(s16 *)(param_1 + 2) = 1;
+        goto TAIL;
+    L_B88:
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (*(s32 *)(param_1 + 0x1c) >= 0x3c) {
+            func_80131E00(param_1, 0xd);
+        }
+    }
+TAIL:
+    if (0x100000 < *(s32 *)(param_1 + 0x14)) {
+        *(s32 *)(param_1 + 0x14) = 0x100000;
+    }
+}
+
+--- func_8018330C (src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:7576) shares 5: func_8004787C func_8012ADE4 func_8012B178 func_8012CBA4 func_80184580 ---
+void func_8018330C(s32 param_1)
+{
+    extern void func_80184580(s32 a0);
+    extern s32 func_8012BDBC(s32 a0, s32 a1);
+    extern void func_8012B178(s32 a0, s32 a1);
+    extern s32 func_8012CBA4(s32 a0);
+    extern void func_8012ADE4(u8 *a0);
+
+    s32 dist;
+    s32 angle;
+    s32 iVar1;
+    s32 a1;
+
+    if (*(s16 *)(param_1 + 0xa) >= 0x10) {
+        func_80184580(param_1);
+        goto end;
+    }
+
+    dist = func_8012BCCC(param_1);
+    if (func_8012BDBC(param_1, 0x400) == 0) {
+        *(s16 *)(param_1 + 2) = 1;
+        goto end;
+    }
+    if (dist > 0x24000) {
+        *(s16 *)(param_1 + 2) = 1;
+        goto end;
+    }
+    if (dist < 0x4001) {
+        *(s16 *)(param_1 + 2) = 4;
+        goto end;
+    }
+
+    angle = func_8004787C((*(s32 *)(param_1 + 0xe4) << 7) & 0x780);
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1a) = (angle >> 1) + 0x800;
+    iVar1 = func_8012B8E4(param_1, 0xa);
+    {
+        s32 ptr = *(s32 *)(param_1 + 0x20);
+        s32 v = *(u16 *)(ptr + 0x12) + iVar1;
+        *(u16 *)(ptr + 0x12) = v;
+        if (0x1000 - angle >= 0) {
+            a1 = 0xFFFF0000 - ((0x1000 - angle) << 7);
+        } else {
+            a1 = 0xFFFF0000 - ((angle - 0x1000) << 7);
+        }
+    }
+    func_8012B178(param_1, a1);
+    iVar1 = func_8012CBA4(param_1);
+    if ((iVar1 & 0x6000) == 0) {
+        func_8012ADE4((u8 *)param_1);
+    }
+    *(s32 *)(param_1 + 0xe4) += 1;
+
+end:
+    return;
+}
+
+--- func_801840AC (src/ov_SC05_001/ov_SC05_001_jr_80183508.c:3420) shares 5: func_8012B23C func_8012CBA4 func_80131E00 func_80143B6C func_80184580 ---
+void func_801840AC(s32 param_1) {
+    extern void func_80184580(s32);
+    extern s32 func_8018466C();
+    extern void func_8012DBD0(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32 func_8012CC64(s32 a0, void *a1);
+    extern s32 func_8012CC1C(s32 a0, void *a1);
+    extern s32 func_8012CBA4(s32 a0);
+    extern void func_8012B23C(s32 a0);
+    extern void func_80131C78(s32 a0);
+    extern s32 func_80143B6C(s32 a0, s32 a1);
+    extern void func_80131E00(s32 a0, s32 a1);
+    extern s32 D_801AE3A8;
+
+    u8 bVar1;
+    s32 uVar3;
+    s32 pad[2];
+
+    if (0xf < *(s16 *)(param_1 + 0xa)) {
+        ((void (*)(void *))func_80184580)((void *)param_1);
+        return;
+    }
+
+    if ((*(s32 *)(param_1 + 0x10) != 0) || (*(s32 *)(param_1 + 0x18) != 0)) {
+        func_8012DBD0(param_1, 0x50,
+                      *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + 0x800, 0x1D);
+    }
+
+    bVar1 = *(u8 *)(param_1 + 0xc2);
+    switch (bVar1) {
+    case 0:
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) -= 0x100;
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (0x28 < *(s32 *)(param_1 + 0x1c)) {
+            goto LAB_80180730;
+        }
+        uVar3 = func_8012CC64(param_1, &D_801AE3A8);
+        if ((uVar3 & 0x4000) != 0) {
+            goto LAB_80180644;
+        }
+        if ((uVar3 & 0x2000) != 0) {
+            if ((uVar3 & 0xff) == 0x1a) {
+                goto LAB_8018066C;
+            }
+            *(u8 *)(param_1 + 0xc2) = 2;
+            func_80143B6C(param_1, 1);
+            *(s32 *)(param_1 + 0x14) = 0xFFF30000;
+            *(s32 *)(param_1 + 0x1c) = 0;
+        }
+        goto LAB_80180740;
+
+    case 2: {
+        s32 saved14;
+
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) -= 0x100;
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (0x28 < *(s32 *)(param_1 + 0x1c)) {
+            goto LAB_80180730;
+        }
+        saved14 = *(s32 *)(param_1 + 0x14);
+        uVar3 = func_8012CC64(param_1, &D_801AE3A8);
+        if ((uVar3 & 0x4000) != 0) {
+            goto LAB_80180644;
+        }
+        if ((uVar3 & 0x2000) != 0) {
+            if ((uVar3 & 0xff) == 0x1a) {
+                goto LAB_8018066C;
+            }
+            func_80143B6C(param_1, 1);
+            *(s32 *)(param_1 + 0x14) = saved14;
+            *(u8 *)(param_1 + 0xc2) = 3;
+            *(s32 *)(param_1 + 0x1c) = 0;
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
+        }
+        goto LAB_80180740;
+    }
+
+    case 3:
+        *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 0x10) * 15 / 16;
+        *(s32 *)(param_1 + 0x18) = *(s32 *)(param_1 + 0x18) * 15 / 16;
+        if ((*(u8 *)(param_1 + 0xc3) & 1) == 0) {
+            goto CASE3_CC64;
+        }
+        uVar3 = func_8012CC1C(param_1, &D_801AE3A8);
+        if ((uVar3 & 0x6000) != 0) {
+            goto CASE3_TAIL;
+        }
+        goto LAB_80180730;
+
+    CASE3_CC64:
+        uVar3 = func_8012CC64(param_1, &D_801AE3A8);
+        if ((uVar3 & 0x4000) == 0) {
+            goto CASE3_NO4000;
+        }
+    LAB_80180644:
+        func_8012B23C(param_1);
+        *(u8 *)(param_1 + 0xc2) = 4;
+        goto LAB_80180740;
+
+    CASE3_NO4000:
+        if ((uVar3 & 0x2000) == 0) {
+            goto CASE3_TAIL;
+        }
+        if ((uVar3 & 0xff) != 0x1a) {
+            goto CASE3_SETFLAG;
+        }
+    LAB_8018066C:
+        ((void (*)(void *))func_80184580)((void *)param_1);
+        return;
+
+    CASE3_SETFLAG:
+        *(u8 *)(param_1 + 0xc3) = *(u8 *)(param_1 + 0xc3) | 1;
+
+    CASE3_TAIL:
+        if ((*(u32 *)(param_1 + 0x1c) & 3) == 3) {
+            func_80143B6C(param_1, 1);
+        }
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (*(s32 *)(param_1 + 0x1c) < 0x11) {
+            goto LAB_80180740;
+        }
+        if ((uVar3 & 0x6000) == 0) {
+            goto LAB_80180730;
+        }
+        goto CASE34_TAIL;
+
+    case 4:
+        uVar3 = func_8012CBA4(param_1);
+        if ((uVar3 & 0x2000) == 0) {
+            goto CASE4_COUNTER;
+        }
+
+    CASE34_TAIL:
+        func_80131C78(param_1);
+        goto LAB_80180740;
+
+    CASE4_COUNTER:
+        if ((*(u32 *)(param_1 + 0x1c) & 3) == 3) {
+            func_80143B6C(param_1, 1);
+        }
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (*(s32 *)(param_1 + 0x1c) < 0x3d) {
+            goto LAB_80180740;
+        }
+        goto LAB_80180730;
+
+    default:
+        goto LAB_80180740;
+    }
+
+LAB_80180730:
+    func_80131E00(param_1, 0xd);
+    return;
+
+LAB_80180740:
+    func_8018466C(param_1);
+    return;
+}
+
+--- func_80181AE0 (src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:6398) shares 4: func_8012B178 func_8012B608 func_8012BD3C func_8012BEE8 ---
+void func_80181AE0(s32 a0) {
+    s32 r;
+
+    if (func_8012BD3C(a0, 0x400, 0x20000) == 1) {
+        if (func_8012BCCC(a0) < 0x3001) {
+            *(s16 *)(a0 + 2) = 8;
+        } else {
+            r = func_8012B8E4(a0, 8);
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += r;
+            func_8012B178(a0, *(s32 *)(a0 + 0xE8));
+            ((s32 (*)(s32, s32))func_80182BAC)(a0, 0);
+            if (func_801829B0(a0) != 0 && func_8012BEE8(a0) != 0) {
+                ((s32 (*)(s32))func_80182908)(a0);
+            }
+        }
+    } else {
+        r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), *(s32 *)(a0 + 0xE0), 0xA);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += r;
+        func_8012B178(a0, *(s32 *)(a0 + 0xE8));
+        ((s32 (*)(s32, s32))func_80182BAC)(a0, 0);
+        if (func_801829B0(a0) != 0 && func_8012BEE8(a0) != 0) {
+            ((s32 (*)(s32))func_80182908)(a0);
+        }
+    }
+}
+
+--- func_80131340 (src/ov_SC05_001/ov_SC05_001_jr_8012ACE0.c:1432) shares 4: func_8012B23C func_8012CBA4 func_80131E00 func_80143B6C ---
+void func_80131340(s32 a0)
+{
+    /* 8-byte, align-2 vector: align < 4 is what makes the assignments unaligned
+     * (lwl/lwr + swl/swr) block moves. Block-scope so the body stays self-contained
+     * for the dedup_propagate lift (§28-#1) and cannot collide with the TU's `M8`. */
+    struct V8 {
+        u16 vx, vy, vz, pad;
+    };
+    extern struct V8 D_80185F20;
+    /* BLOCK-scope, mirroring the already-matched func_801312D0's decl at TU L1619: the
+     * later DEFINE_func_80131AC8() (TU L1964, AFTER this slot) redeclares func_80131CF4
+     * with the stale 1-arg engine_core canonical. A file-scope `extern int
+     * func_80131CF4(int,int);` here is a HARD `conflicting types` against it (cc1 rc=33,
+     * measured); block-scope goes out of scope before that macro and compiles clean. */
+    extern int func_80131CF4(int, int);
+
+    struct V8 sp10;
+    struct V8 sp18;
+    struct V8 sp20;
+    struct V8 sp28;
+    s32 temp;
+    s32 var_a1;
+
+    if (*(s16 *)(a0 + 0xA) >= 0x10) {
+        func_801319E0(a0);
+        return;
+    }
+
+    temp = func_80131CF4(*(s32 *)(a0 + 0xBC), 0x2E);
+    if (temp != 0) {
+        sp10.vz = 0;
+        sp10.vx = 0;
+        sp10.vy = temp;
+    } else {
+        sp10 = D_80185F20;
+    }
+
+    if (*(s32 *)(a0 + 0x10) != 0 || *(s32 *)(a0 + 0x18) != 0) {
+        var_a1 = func_80131CF4(*(s32 *)(a0 + 0xBC), 0x19);
+        if (var_a1 == 0) {
+            var_a1 = 0x50;
+        }
+        func_8012DBD0(a0, var_a1,
+                      *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x800, 0x1D);
+    }
+
+    switch (*(u8 *)(a0 + 0xC2)) {
+    case 0:
+    case 1:
+        if (*(s32 *)(a0 + 0xC4) & 4) {
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) -= 0x100;
+        }
+        *(s32 *)(a0 + 0x1C) += 1;
+        if (*(s32 *)(a0 + 0x1C) >= 0x3D) {
+            func_80131E00(a0, 0xD);
+            return;
+        }
+        if (*(u8 *)(a0 + 0xC2) == 0) {
+            *(u8 *)(a0 + 0xC2) = 1;
+            sp18.vx = *(u16 *)(a0 + 0x3A);
+            sp18.vy = *(u16 *)(a0 + 0x3E);
+            sp18.vz = *(u16 *)(a0 + 0x42);
+            sp20 = sp18;
+            sp20.vx += sp10.vx;
+            sp20.vy += sp10.vy;
+            sp20.vz += sp10.vz;
+            sp28 = sp20; /* load-bearing dead aggregate copy — gcc-2.7.2 has no aggregate DSE */
+            func_8012CEB0((s32)&sp18, (s32)&sp20, 1);
+            sp20.vx -= sp10.vx;
+            sp20.vy -= sp10.vy;
+            sp20.vz -= sp10.vz;
+            *(u16 *)(a0 + 0x3A) = sp20.vx;
+            *(u16 *)(a0 + 0x3E) = sp20.vy;
+            *(u16 *)(a0 + 0x42) = sp20.vz;
+            *(u16 *)(a0 + 0x6) = sp20.vx;
+            *(u16 *)(a0 + 0xA) = sp20.vy;
+            *(u16 *)(a0 + 0xE) = sp20.vz;
+        }
+        D_801B4890 = ((s32 (*)(s32, s32))func_8012CC64)(a0, (s32)&sp10);
+        if (D_801B4890 & 0x8000) {
+            *(s32 *)(a0 + 0x18) = 0;
+            *(s32 *)(a0 + 0x10) = 0;
+        }
+        if (D_801B4890 & 0x4000) {
+            func_8012B23C(a0);
+            *(u8 *)(a0 + 0xC2) = 4;
+        } else if (D_801B4890 & 0x2000) {
+            if (func_80131D68(a0, D_801B4890) == 1) {
+                return;
+            }
+            *(u8 *)(a0 + 0xC2) = 2;
+            func_80143B6C(a0, 1);
+            *(s32 *)(a0 + 0x14) = 0xFFF30000;
+            *(s32 *)(a0 + 0x1C) = 0;
+        } else if (D_801B4890 & 0x8000) {
+            *(u8 *)(a0 + 0xC2) = 2;
+            *(s32 *)(a0 + 0x1C) = 0;
+            *(s32 *)(a0 + 0x18) = 0;
+            *(s32 *)(a0 + 0x10) = 0;
+        }
+        break;
+
+    case 2:
+        if (*(s32 *)(a0 + 0xC4) & 4) {
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) -= 0x100;
+        }
+        *(s32 *)(a0 + 0x1C) += 1;
+        if (*(s32 *)(a0 + 0x1C) >= 0x3D) {
+            func_80131E00(a0, 0xD);
+            return;
+        }
+        D_801B4894 = *(s32 *)(a0 + 0x14);
+        D_801B4890 = ((s32 (*)(s32, s32))func_8012CC64)(a0, (s32)&sp10);
+        if (D_801B4890 & 0x8000) {
+            *(s32 *)(a0 + 0x18) = 0;
+            *(s32 *)(a0 + 0x10) = 0;
+        }
+        if (D_801B4890 & 0x4000) {
+            func_8012B23C(a0);
+            *(u8 *)(a0 + 0xC2) = 4;
+        } else if (D_801B4890 & 0x2000) {
+            if (func_80131D68(a0, D_801B4890) == 1) {
+                return;
+            }
+            func_80143B6C(a0, 1);
+            /* MUST precede the 0x1C/0xC2 stores — see the header note on the /3 block. */
+            *(s32 *)(a0 + 0x14) = (-D_801B4894) / 3;
+            *(s32 *)(a0 + 0x1C) = 0;
+            *(u8 *)(a0 + 0xC2) = 3;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+        } else if (D_801B4890 & 0x8000) {
+            *(u8 *)(a0 + 0xC2) = 3;
+            *(s32 *)(a0 + 0x1C) = 0;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            *(s32 *)(a0 + 0x18) = 0;
+            *(s32 *)(a0 + 0x10) = 0;
+        }
+        break;
+
+    case 3:
+        *(s32 *)(a0 + 0x10) = *(s32 *)(a0 + 0x10) * 15 / 16;
+        *(s32 *)(a0 + 0x18) = *(s32 *)(a0 + 0x18) * 15 / 16;
+        if (*(u8 *)(a0 + 0xC3) & 1) {
+            D_801B4890 = ((s32 (*)(s32))func_8012CBA4)(a0);
+            if (D_801B4890 & 0x8000) {
+                *(s32 *)(a0 + 0x18) = 0;
+                *(s32 *)(a0 + 0x10) = 0;
+            }
+            if (func_80131D68(a0, D_801B4890) == 1) {
+                return;
+            }
+            if (!(D_801B4890 & 0x6000)) {
+                func_80131E00(a0, 0xD);
+                return;
+            }
+        } else {
+            D_801B4890 = ((s32 (*)(s32))func_8012CBF4)(a0);
+            if (D_801B4890 & 0x8000) {
+                *(s32 *)(a0 + 0x18) = 0;
+                *(s32 *)(a0 + 0x10) = 0;
+            }
+            if (D_801B4890 & 0x4000) {
+                func_8012B23C(a0);
+                *(u8 *)(a0 + 0xC2) = 4;
+                break;
+            } else if (D_801B4890 & 0x2000) {
+                if (func_80131D68(a0, D_801B4890) == 1) {
+                    return;
+                }
+                *(u8 *)(a0 + 0xC3) |= 1;
+            } else if (D_801B4890 & 0x8000) {
+                *(s32 *)(a0 + 0x18) = 0;
+                *(s32 *)(a0 + 0x10) = 0;
+            }
+        }
+        if ((*(s32 *)(a0 + 0x1C) & 3) == 3) {
+            func_80143B6C(a0, 1);
+        }
+        *(s32 *)(a0 + 0x1C) += 1;
+        if (*(s32 *)(a0 + 0x1C) < 0x11) {
+            break;
+        }
+        if (!(D_801B4890 & 0x6000)) {
+            func_80131E00(a0, 0xD);
+            return;
+        }
+        /* polarity MUST match case 4's — see the cross-jump note in the header. */
+        if (*(s16 *)(a0 + 0x76) <= 0) {
+            func_80131E00(a0, 6);
+        } else {
+            func_80131C78(a0);
+        }
+        break;
+
+    case 4:
+        D_801B4890 = ((s32 (*)(s32))func_8012CBA4)(a0);
+        if (D_801B4890 & 0x8000) {
+            *(s32 *)(a0 + 0x18) = 0;
+            *(s32 *)(a0 + 0x10) = 0;
+        }
+        if (D_801B4890 & 0x2000) {
+            if (func_80131D68(a0, D_801B4890) == 1) {
+                return;
+            }
+            if (*(s16 *)(a0 + 0x76) <= 0) {
+                func_80131E00(a0, 6);
+            } else {
+                func_80131C78(a0);
+            }
+        } else {
+            if ((*(s32 *)(a0 + 0x1C) & 3) == 3) {
+                func_80143B6C(a0, 1);
+            }
+            *(s32 *)(a0 + 0x1C) += 1;
+            if (*(s32 *)(a0 + 0x1C) >= 0x3D) {
+                func_80131E00(a0, 0xD);
+                return;
+            }
+        }
+        break;
+    }
+
+    func_80131CA8(a0, 0x2F);
+}
+
+--- func_801829B0 (src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:7129) shares 3: func_8012ADE4 func_8012CBA4 func_80131E00 ---
+s32 func_801829B0(s32 arg0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains
+       every LATER function in this TU, which blocks a byte-true decl of a different
+       type.  Declaration-only move (cookbook §103). */
+    extern u8 D_801202A0[];
+    extern s32 func_8012CBA4(s32 a0);          /* TU spelling, :5685 */
+    extern void func_80131E00(s32 a0, s32 a1); /* TU spelling, :5692 */
+    extern void func_8012ADE4(u8 *a0);         /* TU spelling, :5688 */
+    extern void func_80182CE8();         /* TU spelling, :5107 */
+    extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);  /* sibling-TU house form */
+    extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+    extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
+    extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+
+    SVEC_29B0 in;
+    SVEC_29B0 out;
+    SVEC_29B0 buf;
+    s32 v;
+    s32 d;
+    s32 i;
+    u8 *p;
+    u16 px, pz;
+    u32 *bp;
+
+    v = func_8012CBA4(arg0);
+    if ((v & 0xFF) == 2) {
+        func_80131E00(arg0, 0x12);
+        return 0;
+    }
+    if ((v & 0xFF) == 0x1A) {
+        func_80182CE8(arg0);
+        return 0;
+    lose:
+        func_8012ADE4((u8 *)arg0);
+        return 1;
+    }
+    if ((v & 0x2000) == 0) {
+        func_8012ADE4((u8 *)arg0);
+    }
+    *(s32 *)(arg0 + 0xDC) &= ~0x40;
+    if (*(s32 *)(arg0 + 0x14) > 0xFFFFF) {
+        *(s32 *)(arg0 + 0x14) = 0x100000;
+    }
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++, p += 0x10C) {
+        if (*(u16 *)p != 0 && *(s32 *)(p + 0x58) != 0 && arg0 != (s32)p) {
+            if (((s32 (*)(s32, s32))func_8012BC60)(arg0 + 4, (s32)(p + 4)) < 0x2400) {
+                bp = (u32 *)&buf;
+                func_8012B0B4(bp,
+                              func_8012B6D4((s16 *)(arg0 + 4), (s16 *)(p + 4)), 0x61);
+                d = *(s32 *)&buf;
+                px = *(u16 *)(p + 6);
+                out.vx = px;
+                out.vy = *(u16 *)(p + 0xA);
+                pz = *(u16 *)(p + 0xE);
+                out.vz = pz;
+                out.vx = px + d;
+                out.vz = pz + (d >> 16);
+                in.vx = *(u16 *)(arg0 + 0x3A);
+                in.vy = *(u16 *)(arg0 + 0x3E);
+                in.vz = *(u16 *)(arg0 + 0x42);
+                if ((func_8012CEB0((s32)&in, (s32)&out, 0) & 0x2000) == 0) {
+                    goto lose;
+                }
+                *(s16 *)(arg0 + 6) = out.vx;
+                *(s16 *)(arg0 + 0xA) = out.vy;
+                *(s16 *)(arg0 + 0xE) = out.vz;
+                break;
+            }
+        }
+    }
+    return 1;
+}
+
