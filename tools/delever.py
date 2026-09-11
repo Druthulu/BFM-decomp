@@ -260,6 +260,8 @@ def instruction_to_c(inner, indent):
         if len(refs) != 3:
             return None
         if refs[2] in ("$zero", "$0"):
+            if refs[1] in ("$zero", "$0"):
+                return f"{indent}{out_expr} = 0;"           # `addu %0,$zero,$zero` (S105: ov_SC02_005 func_8018FB8C)
             in1 = resolve(refs[1])
             return None if in1 is None else f"{indent}{out_expr} = {in1};"
         in1, in2 = resolve(refs[1]), resolve(refs[2])
