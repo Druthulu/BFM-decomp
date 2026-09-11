@@ -8255,7 +8255,9 @@ extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
 s32 aF80188B64(s32 arg0) __asm__("func_80187CBC");
 
-s32 aF80188B64(s32 arg0) {
+s32 aF80187CBC(s32 arg0) __asm__("func_80187CBC");
+
+s32 aF80187CBC(s32 arg0) {
     s32 rv;
     s32 buf1[2];
     s32 buf2[2];
