@@ -1944,6 +1944,28 @@ accumulate here as the phase produces them.**
   tree body). Packs and briefs f3 (`md_SC07_004`, 5 classes) and f4 (`ov_SC04_011_jr_8017D494`, 5 classes) are built and wait for
   the next free slots.
 
+- **S105 — f2 landed: 4 of 4 at 0 (3 plain C, 1 minimum-lever), harvested as R44 + an R22 blind spot, 3 free banks, R22 218/218;
+  4,152 → 4,132 sites.** f2 (`src/800_c.c`, ≈284k tokens, 28 min): `func_80039F50` 34 → 0 (an `s16` switch value whose block-local
+  HImode load takes `$4` in local-alloc + the multi-case pointer temp split per case — d7/R12 joint), `func_80038838` 21 → 0 (loop 1: the
+  second derived pointer deleted, its stores as `a3` offsets; loop 2: `v0 = (u8 *)arg0 + a2 * 8` at the loop top — e21's counter-derived
+  giv; each half alone 3 / 18), `func_80038958` 37 → 0 (the record-base spelling `rec = D_800C6E2A - 0x5A; rec[0x5A ± k]`, no offset-0
+  access, so the giv reduces onto the textually last access and the biv is eliminated, `loop.c:4035`; the product NAMED to defeat
+  `expand_binop`'s operand swap, `optabs.c:411-414`), `func_800385C0` 15 → 0 only as `s16 a0` → `s32 a0` (PROMOTE_PROTOTYPES narrowing,
+  `function.c:3664-3676`; a SIGNATURE change — patch in its pack, PARKED for the structs phase) — **banked minimum-lever at 0 with ONE marked
+  `$4` pin (2 → 1)**. Every body `--try` 0 before the bank; `.run/P36/s105/bank_list.sh` (the S104 script with `--allow-residue` on a
+  `*minlever` label): `apply-body … IDENTICAL … KEPT` ×4, commits `9e8508ab6`, `05008f605`, `17f2d5b10`, `e4fdd3c8f`. f3 (`md_SC07_004`,
+  5 classes) launched into the slot before the bank. **Harvest (R16): generator R44 `counter_derived_pointer`** (e21 + f2's move: a
+  walked pointer re-derived from the loop's up-counter, `p = (T *)(BASE) + i * K;` at the loop top; known-true ALONE 0 on e21's
+  func_80037EA0 start text from 33, and f2's measured 18 on func_80038838's loop 2; composed with R22 → f2's 0); **R22 extended** to two
+  pointers derived from one base at two offsets (f2's loop 1, alone 3 = the agent's number); **and a blind spot since S103: R22's `&p`
+  refusal matched the `&&` OPERATOR** (`… != 0 && p[0]`), so every body that tested its pointer with `&&` was silently never offered R22
+  (R44 inherited it and showed it on e21's text: 0 candidates) — fixed `(?<!&)&(?!&)`, selftest cases for both + the down-counter and
+  `i = 2` controls; `delever --selftest: OK`; SETUP row; R44 in every `FAMILIES` order. Regen `s105_r44r22`: `632 of 632 classes judged
+  in 18 s — MATCH 3, BEST 44` → `--bank: 3 of 3 MATCH row(s) banked` (`func_800CFB3C` R22, **`src/shared/ov/func_8014A2E4.h` R44
+  IDENTICAL on 141 objects**, `func_80180FF4` R44; `0076a9d2e`). R22 (`.run/P36/s105/r22_a.log`) **`check-all: 218 passed, 0 failed
+  of 218`** (84 s) → baseline snapshot at `0076a9d2e` → `lever_census --check: 4,132 pin/asm sites, 4,132 marked !FAKE, 0 UNMARKED — OK`
+  (exit 0) → `lever_progress --snapshot` (4,152 → **4,132**; 2,217 pins + 1,915 asm in 2,027 bodies).
+
 ## 🛑 SESSION CHECKPOINT — S104 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING**. 5,097 → **4,152 sites** this session (−945); ~105 agent draws (d1–d39, e1–e38, ALL landed and banked — nothing in flight); ~220 classes closed at 0, nearly all with ZERO levers; generators **R27–R43**; R22 `check-all: 218 passed, 0 failed of 218` at `765704ca5` | `lever_census --check` exit 0 (4,152 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
