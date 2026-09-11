@@ -61,6 +61,13 @@ def starts(e):
     bp = ds.RUN / "bodies" / f"{e['alias']}__{e['fn']}.c"
     if bp.exists():
         out.append(("best", bp.read_text(errors="surrogateescape")))
+    # an AGENT's lever-free near-miss (S104 e22, func_8017C954: the sweep had only ever seen the 632 free body; re-running
+    # the families on the agent's improved 28 body found the finisher in one pass — 1,655 candidates, two at 0)
+    ap = REPO / ".run" / "P36" / "agents" / f"{e['alias']}__{e['fn']}" / "body.c"
+    if ap.exists():
+        t = ap.read_text(errors="surrogateescape")
+        if not re.search(r"__asm__|\bregister\b[^;]*\$", t) and all(t != x for _n, x in out):
+            out.append(("agent", t))
     return out
 
 
