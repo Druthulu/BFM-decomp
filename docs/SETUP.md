@@ -1814,3 +1814,9 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   tree and spends its budget on the old families first. Starting texts: the lever-free body and the engine's best text;
   scorer: `delever_search --try --body`; one worker per class (the scorer's scratch dir is per function). Run it after
   EVERY harvest that adds or widens a family, excluding the functions agents hold. First run (S103, R22+R23): see the log.
+  **S104:** workers are forked PROCESSES after `sites_by_body()` and (with R19) `real_signatures()` are warm — on threads an
+  all-families pass sat on the GIL for five minutes with zero compiles (R18 emits 1,000+ texts for one body; R19's table is
+  ~29 s once). Each judged class is appended to **`.run/P36/regen/<L>.jsonl` as it lands** — the agent lane draws only
+  classes the pass has judged and not closed. An ALL-families pass (`--families R2 … R26`, `-j 26`) costs ~1.8 s per `--try`
+  and 100–370 candidates per head class; it closed an R12 class in its first minute, so re-running the old families on a
+  moved tree is not redundant.
