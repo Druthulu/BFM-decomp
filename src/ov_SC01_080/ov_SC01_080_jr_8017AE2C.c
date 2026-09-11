@@ -6273,7 +6273,6 @@ void func_80180D54(s32 param_1) {
     u16 sp10[6];
     u16 *p0;
     u16 *p1;
-    register s16 mask __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus7)
     s16 i;
     u8 *p;
     u8 *q;
@@ -6291,6 +6290,8 @@ void func_80180D54(s32 param_1) {
     cnt = *(s32 *)(param_1 + 0x1C);
     D_801C7540 = sp10[5] - 0x400;
     if (cnt != 0) {
+        s16 mask;
+
         *(s32 *)(param_1 + 0x1C) = cnt - 1;
         mask = 0x3FF;
         i = 0;
@@ -6309,7 +6310,8 @@ void func_80180D54(s32 param_1) {
         } while (i <= 0);
     } else if (D_80127188 < 4) {
         if ((D_800B99DA & 1) == 0) {
-            mask = 0x3FF;
+            s16 mask = 0x3FF;
+
             i = 0;
             do {
                 p = func_801291C0();
@@ -6334,6 +6336,9 @@ void func_80180D54(s32 param_1) {
         *(u16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
     }
 }
+
+
+extern void (*D_8018A22C[])(void);
 
 
 extern void (*D_8018A22C[])(void);
