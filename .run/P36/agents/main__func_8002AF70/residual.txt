@@ -1,0 +1,33 @@
+src/800.c:func_8002AF70: score 27 (COUNT; mine 39 ins, target 39) — not yet
+  delete  mine[1:3] target[1:1]
+        1  sw	s0,16(sp)                       | --
+        2  move	s0,a0                         | --
+  replace mine[4:6] target[2:3]
+        4  lui	s1,0x0                         | move	s1,a0
+        5  addiu	s1,s1,0                      | --
+  replace mine[8:9] target[5:9]
+        8  move	a0,s1                         | sw	s0,16(sp)
+        9  --                                 | lui	s0,0x0
+       10  --                                 | addiu	s0,s0,0
+       11  --                                 | move	a0,s0
+  replace mine[12:21] target[12:23]
+       12  addiu	a2,s0,720                    | addiu	a2,s1,720
+       13  lw	v0,0(s0)                        | lw	v0,0(s1)
+       14  lw	v1,4(s0)                        | lw	v1,4(s1)
+       15  lw	a0,8(s0)                        | lw	a0,8(s1)
+       16  lw	a1,12(s0)                       | lw	a1,12(s1)
+       17  sw	v0,0(s1)                        | sw	v0,0(s0)
+       18  sw	v1,4(s1)                        | sw	v1,4(s0)
+       19  sw	a0,8(s1)                        | sw	a0,8(s0)
+       20  sw	a1,12(s1)                       | sw	a1,12(s0)
+       21  --                                 | addiu	s1,s1,16
+       22  --                                 | bne	s1,a2,18bb4 <func_8002AF70+0x34>
+  replace mine[22:30] target[24:30]
+       22  bne	s0,a2,18bb4 <func_8002AF70+0x34> | lw	v0,0(s1)
+       23  addiu	s1,s1,16                     | lw	v1,4(s1)
+       24  lw	v0,0(s0)                        | lw	a0,8(s1)
+       25  lw	v1,4(s0)                        | sw	v0,0(s0)
+       26  lw	a0,8(s0)                        | sw	v1,4(s0)
+       27  sw	v0,0(s1)                        | sw	a0,8(s0)
+       28  sw	v1,4(s1)                        | --
+       29  sw	a0,8(s1)                        | --

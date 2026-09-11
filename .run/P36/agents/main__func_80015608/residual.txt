@@ -1,0 +1,68 @@
+src/800.c:func_80015608: score 50 (COUNT; mine 87 ins, target 86) — not yet
+  register pairs (mine -> target, count): s6->s5 x1, s4->s3 x1, s5->v1 x1
+  replace mine[0:12] target[0:12]
+        0  addiu	sp,sp,-72                    | addiu	sp,sp,-64
+        1  sw	s6,56(sp)                       | sw	s5,44(sp)
+        2  move	s6,a1                         | move	s5,a1
+        3  sw	s5,52(sp)                       | sw	s6,48(sp)
+        4  sw	ra,68(sp)                       | sw	ra,60(sp)
+        5  sw	s8,64(sp)                       | sw	s8,56(sp)
+        6  sw	s7,60(sp)                       | sw	s7,52(sp)
+        7  sw	s4,48(sp)                       | sw	s4,40(sp)
+        8  sw	s3,44(sp)                       | sw	s3,36(sp)
+        9  sw	s2,40(sp)                       | sw	s2,32(sp)
+       10  sw	s1,36(sp)                       | sw	s1,28(sp)
+       11  sw	s0,32(sp)                       | sw	s0,24(sp)
+  replace mine[18:19] target[18:19]
+       18  subu	s4,v1,v0                      | subu	s3,v1,v0
+  replace mine[26:28] target[26:29]
+       26  li	s5,8                            | li	s6,8
+       27  li	s5,16                           | li	s6,16
+       28  --                                 | andi	v1,s6,0xff
+  replace mine[29:30] target[30:31]
+       29  bne	s5,v0,3298 <func_80015608+0x80> | bne	v1,v0,329c <func_80015608+0x84>
+  insert  mine[32:32] target[33:34]
+       32  --                                 | lbu	v0,0(s2)
+  replace mine[34:38] target[36:38]
+       34  lbu	v0,0(s2)                       | beqz	v0,3334 <func_80015608+0x11c>
+       35  lui	a2,0x300                       | lui	s4,0x300
+       36  beqz	v0,3338 <func_80015608+0x120> | --
+       37  sw	a2,24(sp)                       | --
+  delete  mine[43:45] target[43:43]
+       43  lui	s3,0xff                        | --
+       44  ori	s3,s3,0xffff                   | --
+  replace mine[46:48] target[44:47]
+       46  andi	v0,s4,0xffff                  | andi	v0,s3,0xffff
+       47  addu	s4,s5,s4                      | addu	s3,s6,s3
+       48  --                                 | or	v0,v0,s8
+  replace mine[49:50] target[48:49]
+       49  or	v0,v0,s8                        | andi	a1,s7,0xffff
+  delete  mine[54:55] target[53:53]
+       54  andi	a1,s7,0xffff                  | --
+  insert  mine[56:56] target[54:56]
+       56  --                                 | lui	v1,0xff
+       57  --                                 | ori	v1,v1,0xffff
+  insert  mine[60:60] target[60:61]
+       60  --                                 | lw	v0,0(s5)
+  replace mine[61:65] target[62:65]
+       61  lw	v0,0(s6)                        | and	v0,v0,v1
+       62  lw	a2,24(sp)                       | or	v0,v0,s4
+       63  and	v0,v0,s3                       | and	v1,s1,v1
+       64  or	v0,v0,a2                        | --
+  replace mine[66:68] target[66:67]
+       66  and	v0,s1,s3                       | sw	v1,0(s5)
+       67  sw	v0,0(s6)                        | --
+  replace mine[70:71] target[69:70]
+       70  bnez	v0,32d0 <func_80015608+0xb8>  | bnez	v0,32c8 <func_80015608+0xb0>
+  replace mine[74:85] target[73:84]
+       74  lw	ra,68(sp)                       | lw	ra,60(sp)
+       75  lw	s8,64(sp)                       | lw	s8,56(sp)
+       76  lw	s7,60(sp)                       | lw	s7,52(sp)
+       77  lw	s6,56(sp)                       | lw	s6,48(sp)
+       78  lw	s5,52(sp)                       | lw	s5,44(sp)
+       79  lw	s4,48(sp)                       | lw	s4,40(sp)
+       80  lw	s3,44(sp)                       | lw	s3,36(sp)
+       81  lw	s2,40(sp)                       | lw	s2,32(sp)
+       82  lw	s1,36(sp)                       | lw	s1,28(sp)
+       83  lw	s0,32(sp)                       | lw	s0,24(sp)
+       84  addiu	sp,sp,72                     | addiu	sp,sp,64

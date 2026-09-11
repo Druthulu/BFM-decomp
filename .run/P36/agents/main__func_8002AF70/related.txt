@@ -1,0 +1,45 @@
+=== lever-free bodies in main sharing a callee or global with func_8002AF70 (13 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8001903C (src/800.c:5919) shares 1: func_80016714 ---
+void func_8001903C(void) {
+    func_80016714(&D_800747C0, 8);
+}
+
+--- func_80029094 (src/800.c:18822) shares 1: func_80016714 ---
+void func_80029094(void) {
+    func_80016714(D_800BA2B8, 0x60);
+}
+
+--- func_80029218 (src/800.c:18904) shares 1: func_80016714 ---
+void func_80029218(void) {
+    func_80016714(&D_800AE6A8, 0x3C);
+}
+
+--- func_8002941C (src/800.c:18992) shares 1: func_80016714 ---
+void func_8002941C(void) {
+    func_80016714(D_800A6588, 0x2);
+}
+
+--- func_800141F0 (src/800.c:1424) shares 1: func_80016714 ---
+void func_800141F0(void) {
+    func_80059234(0);
+    func_800594CC(0);
+    func_80059658(0);
+    func_80016714(&D_800BA118, 0x98);
+    func_800142C8();
+}
+
+--- func_8002B00C (src/800.c:20324) shares 1: D_80075CC0 ---
+void func_8002B00C(void *dest) {
+    Blk16 *d = (Blk16 *)dest;
+    Blk16 *s = D_80075CC0;
+    Blk16 *end = s + (0x2D0 / 0x10);
+
+    do {
+        *d = *s;
+        s++;
+        d++;
+    } while (s != end);
+
+    *(Blk12 *)d = *(Blk12 *)s;
+}
+

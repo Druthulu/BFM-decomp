@@ -1,0 +1,1 @@
+UNSTRIPPABLE [('<comment>', 0, 'a stripped lever line opened or closed a block comment')]

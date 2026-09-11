@@ -1,0 +1,214 @@
+=== lever-free bodies in main sharing a callee or global with func_80015608 (14 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80015760 (src/800.c:2582) shares 4: D_800A5E60 D_800AF7BC D_800AF7BE func_80015908 ---
+void func_80015760(Obj_80015760 *obj, s32 *ot)
+{
+    s32 x0;
+    s16 y0;
+    s32 flags;
+    u32 value;
+    u32 digits;
+    s32 count;
+    u8 digitCount;
+    u8 width;
+    u32 code;
+    u32 len;
+    u32 color;
+    u32 yWord;
+    s32 *pkt;
+
+    x0 = obj->x - (D_800AF7BC >> 1);
+    flags = obj->flags;
+    y0 = obj->y - (D_800AF7BE >> 1);
+    value = obj->value;
+    count = flags & 0xF;
+    digitCount = count;
+    if (count == 0) {
+        digitCount = 8;
+    }
+    if (flags & 0x40) {
+        digits = func_80015A74(value);
+    } else {
+        digits = value;
+    }
+    width = 8;
+    if (flags & 0x80) {
+        width = 0x10;
+    }
+    if (width == 8) {
+        code = 0x74000000;
+        len = 0x03000000;
+    } else {
+        code = 0x7C000000;
+        len = 0x03000000;
+    }
+    pkt = (s32 *)D_800A5E60;
+    if (digitCount != 0) {
+        color = code | 0x00808080;
+        yWord = y0 << 16;
+        do {
+            u32 xLow;
+            u32 idx;
+            s32 tile;
+            u16 *uv;
+            u32 clut;
+            u32 mask;
+            u32 tag;
+
+            xLow = (u16)x0;
+            x0 = width + x0;
+            idx = (digits >> ((digitCount - 1) << 2)) & 0xF;
+            tile = D_80062B78[idx];
+            pkt[1] = color;
+            digitCount--;
+            pkt[2] = xLow | yWord;
+            uv = func_80015908(tile, (u16)flags);
+            clut = 0x40560000;
+            pkt[3] = *uv | clut;
+            mask = 0x00FFFFFF;
+            tag = *ot & mask;
+            tag |= len;
+            pkt[0] = tag;
+            mask &= (u32)pkt;
+            *ot = mask;
+            pkt += 4;
+        } while (digitCount != 0);
+    }
+    D_800A5E60 = (u8 *)pkt;
+}
+
+--- func_800145EC (src/800.c:1644) shares 2: D_800AF7BC D_800AF7BE ---
+void func_800145EC(s32 mode) {
+    extern void func_800525DC(s32 w, s32 h, s32 mode2, s32 a3, s32 st);
+    extern void func_80053178(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_80059234(s32);
+    extern void func_80053218(void);
+    extern void func_80014774(void);
+    extern void func_800147B8(void);
+    extern u8 D_80062A3C[];
+    extern u8 D_80062A3E[];
+    extern u8 D_80062A40[];
+    extern u16 D_800AF7BC;
+    extern u16 D_800AF7BE;
+    extern u16 D_800AF7C0;
+    s32 off;
+
+    off = (mode & 0xFFFF) * 6;
+
+    D_800AF7BC = *(u16 *) (D_80062A3C + off);
+    D_800AF7BE = *(u16 *) (D_80062A3E + off);
+    D_800AF7C0 = *(u16 *) (D_80062A40 + off);
+
+    func_800525DC(D_800AF7BC, D_800AF7BE, D_800AF7C0 | 4, 0, 0);
+
+    if (D_800AF7BE == 0x1E0) {
+        func_80053178(0, 0, 0, 0);
+    } else {
+        func_80053178(0, D_800AF7BE, 0, 0);
+    }
+
+    func_80059234(1);
+    func_80053218();
+    func_80014774();
+    func_800147B8();
+}
+
+--- func_800146B0 (src/800.c:1679) shares 2: D_800AF7BC D_800AF7BE ---
+void func_800146B0(s32 mode) {
+    extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
+    extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_80059234(s32);
+    extern void func_80053218(void);
+    extern void func_80014774(void);
+    extern void func_800147B8(void);
+    extern u8 D_80062A3C[];
+    extern u8 D_80062A3E[];
+    extern u8 D_80062A40[];
+    extern u16 D_800AF7BC;
+    extern u16 D_800AF7BE;
+    extern u16 D_800AF7C0;
+    s32 off;
+
+    off = (mode & 0xFFFF) * 6;
+
+    D_800AF7BC = *(u16 *) (D_80062A3C + off);
+    D_800AF7BE = *(u16 *) (D_80062A3E + off);
+    D_800AF7C0 = *(u16 *) (D_80062A40 + off);
+
+    GsInitGraph2(D_800AF7BC, D_800AF7BE, D_800AF7C0 | 4, 0, 0);
+
+    if (D_800AF7BE == 0x1E0) {
+        func_80053EEC(0, 0, 0, 0);
+    } else {
+        func_80053EEC(0, D_800AF7BE, 0, 0);
+    }
+
+    func_80059234(1);
+    func_80053218();
+    func_80014774();
+    func_800147B8();
+}
+
+--- func_800147B8 (src/800.c:1750) shares 2: D_800AF7BC D_800AF7BE ---
+void func_800147B8(void) {
+    s32 raw_h = D_800AF7BE;
+    u8 *base = D_800AF630;
+    s32 h_offset = raw_h;
+    u16 halfW;
+    u16 halfH;
+    s16 h;
+
+    if (h_offset == 0x1E0) {
+        h_offset = 0;
+    }
+
+    func_80058A4C(base + 0x38, 0, 0xA, D_800AF7BC, D_800AF7BE - 0x14);
+    SetDefDispEnv(base + 0x14C, 0, 0, D_800AF7BC, D_800AF7BE);
+    func_80058A4C(base + 0x94, 0, h_offset + 0xA, D_800AF7BC, D_800AF7BE - 0x14);
+    SetDefDispEnv(base + 0x160, 0, h_offset, D_800AF7BC, D_800AF7BE);
+
+    halfW = D_800AF7BC >> 1;
+    halfH = D_800AF7BE >> 1;
+    D_800AF672 = halfH;
+    D_800AF670 = halfW;
+    D_800AF6CC = halfW;
+
+    h = (D_800AF7BE == 0xF0) ? 0x168 : 0xF0;
+
+    D_800AF6D6 = 0x100;
+    D_800AF6D4 = 0x100;
+    D_800AF67A = 0x100;
+    D_800AF678 = 0x100;
+    D_800AF6CE = h;
+    D_800AF6DA = 0;
+    D_800AF67E = 0;
+    D_800AF6DC = 1;
+    D_800AF680 = 1;
+
+    func_80014960();
+}
+
+--- func_8001BB60 (src/800.c:8625) shares 1: D_800A5E60 ---
+void func_8001BB60(void)
+{
+    s32 i;
+
+    D_80074808 = (s32)D_800A5E60;
+    for (i = 0; i < 30; i++) {
+        func_8001BBBC(0, i * 8, 0);
+    }
+    D_8007480C = 0;
+}
+
+--- func_80010A08 (src/boot.c:415) shares 1: D_800A5E60 ---
+s32 func_80010A08(s32 arg0) {
+    register u8 *p;
+    s32 old;
+    s32 q;
+
+    p = D_800AF630;
+    q = (arg0 + 3) / 4;
+    old = D_800A5E60;
+    D_800A5E60 += q << 2;
+    return old;
+}
+

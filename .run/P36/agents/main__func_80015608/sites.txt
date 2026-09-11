@@ -1,0 +1,5 @@
+NEEDED   pin         $22    line 2737
+NEEDED   pin         $3     line 2738
+REMOVED  pin         $3     line 2739
+NEEDED   pin         $20    line 2746
+NEEDED   pin         $3     line 2747

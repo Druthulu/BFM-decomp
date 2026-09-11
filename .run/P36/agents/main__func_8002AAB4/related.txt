@@ -1,0 +1,89 @@
+=== lever-free bodies in main sharing a callee or global with func_8002AAB4 (13 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80029FE4 (src/800.c:19441) shares 4: func_8002A26C func_8002A4B8 func_8002A728 func_8002A998 ---
+s32 func_80029FE4(void) {
+    s32 a;
+    s32 b;
+    s32 c;
+    s32 d;
+
+    a = func_8002A26C();
+    b = func_8002A4B8();
+    c = func_8002A728();
+    d = func_8002A998();
+    return (a + b + c + d) / 4;
+}
+
+--- func_8002A670 (src/800.c:19782) shares 1: func_8002A728 ---
+s32 func_8002A670(void) {
+    s32 s0;
+
+    if (func_8002AA00(func_8002A728() + 1) != 0) {
+        s0 = func_8002A738();
+        return s0 == func_8002A748();
+    } else {
+        return 0;
+    }
+}
+
+--- func_8002A544 (src/800.c:19733) shares 1: func_8002A728 ---
+s32 func_8002A544(s32 arg0) {
+    s32 idx;
+
+    if (func_8002A5C4(arg0) != 0) {
+        idx = func_8002A728();
+        func_8016E918(3, (s16) (D_80063902[idx][0] - D_80063902[idx - 1][0]));
+        func_8002D4C8(0xB2C, 0);
+        func_8002AAAC();
+        return 1;
+    }
+    return 0;
+}
+
+--- func_8002A7B4 (src/800.c:19859) shares 1: func_8002A998 ---
+s32 func_8002A7B4(s32 a0) {
+    s32 id;
+
+    if (func_8002A834(a0) != 0) {
+        id = func_8002A998();
+        func_8016E918(2, (s16) (D_80063906[id].unk00 - D_80063906[id - 1].unk00));
+        func_8002D4C8(0xB2C, 0);
+        func_8002AAAC();
+        return 1;
+    }
+    return 0;
+}
+
+--- func_8002A088 (src/800.c:19473) shares 1: func_8002A26C ---
+s32 func_8002A088(s32 arg0) {
+    s32 i;
+    s32 off;
+
+    if (func_8002A108() != 0) {
+        i = func_8002A26C();
+        off = i * 16;
+        i = (i - 1) * 16;
+        func_8016E918(0, *(u16 *)(D_800638FA + off) - *(u16 *)(D_800638FA + i));
+        func_8002D4C8(0xB2C, 0);
+        func_8002AAAC();
+        return 1;
+    }
+    return 0;
+}
+
+--- func_8002A2D4 (src/800.c:19601) shares 1: func_8002A4B8 ---
+s32 func_8002A2D4(s32 a0) {
+    s32 i;
+    s32 off;
+
+    if (func_8002A354(a0) != 0) {
+        i = func_8002A4B8();
+        off = i * 16;
+        i = (i - 1) * 16;
+        func_8016E918(1, *(u16 *)(D_800638FE + off) - *(u16 *)(D_800638FE + i));
+        func_8002D4C8(0xB2C, 0);
+        func_8002AAAC();
+        return 1;
+    }
+    return 0;
+}
+

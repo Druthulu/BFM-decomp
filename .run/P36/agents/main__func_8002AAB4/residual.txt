@@ -1,0 +1,28 @@
+src/800.c:func_8002AAB4: score 18 (COUNT; mine 44 ins, target 44) — not yet
+  register pairs (mine -> target, count): a0->v1 x8, v1->a0 x5, s2->s0 x2
+  insert  mine[7:7] target[7:9]
+        7  --                                 | move	s0,v0
+        8  --                                 | jal	0 <func_800123F0>
+  replace mine[8:9] target[10:11]
+        8  jal	0 <func_800123F0>              | jal	0 <func_800123F0>
+  replace mine[10:15] target[12:15]
+       10  jal	0 <func_800123F0>              | addu	s0,s0,s2
+       11  move	s0,v0                         | addu	s0,s0,s1
+       12  addu	s2,s2,s1                      | addu	v0,s0,v0
+       13  addu	s2,s2,s0                      | --
+       14  addu	v0,v0,s2                      | --
+  replace mine[18:21] target[18:21]
+       18  lui	a0,0x0                         | lui	v1,0x0
+       19  addiu	a0,a0,0                      | addiu	v1,v1,0
+       20  lw	v1,0(a0)                        | lw	a0,0(v1)
+  replace mine[22:26] target[22:26]
+       22  beqz	v1,18750 <func_8002AAB4+0x8c> | beqz	a0,18750 <func_8002AAB4+0x8c>
+       23  sra	s2,v0,0x2                      | sra	s0,v0,0x2
+       24  addiu	a1,a0,4                      | addiu	a1,v1,4
+       25  slt	v0,s2,v1                       | slt	v0,s0,a0
+  replace mine[27:28] target[27:28]
+       27  addiu	a0,a0,8                      | addiu	v1,v1,8
+  replace mine[31:32] target[31:32]
+       31  lw	v1,0(a0)                        | lw	a0,0(v1)
+  replace mine[33:34] target[33:34]
+       33  bnez	v1,18728 <func_8002AAB4+0x64> | bnez	a0,18728 <func_8002AAB4+0x64>

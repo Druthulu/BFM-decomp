@@ -1,0 +1,7 @@
+REMOVED  pin         $16    line 22058
+NEEDED   pin         $17    line 22059
+NEEDED   pin         $18    line 22060
+NEEDED   pin         $2     line 22061
+NEEDED   pin         $3     line 22062
+REMOVED  register           line 22063
+REMOVED  register           line 22064

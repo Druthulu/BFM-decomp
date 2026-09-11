@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 27 best 2 compiles 147 path R7 do-while @20570
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @20570 -> 2 [ORDER] (from 27)
+  R18 bystander @20582->20584 -> 2 [ORDER] (from 2)
+  R4 decl-move dest 2->0 -> 2 [ORDER] (from 2)
+  R7 block @20572 -> 2 [ORDER] (from 2)
+  R5 swap + @20573 -> 2 [ORDER] (from 2)
+  R4 decl-move dest 2->1 -> 2 [ORDER] (from 2)
+  R9 swap-stmts @20577 -> 2 [ORDER] (from 2)
+  R7 do-while @20572 -> 2 [ORDER] (from 2)
+  R4 decl-move dest 2->3 -> 2 [ORDER] (from 2)
+  R7 block @20573 -> 2 [ORDER] (from 2)
+  R7 block @20576 -> 2 [ORDER] (from 2)
+  R7 do-while @20576 -> 2 [ORDER] (from 2)

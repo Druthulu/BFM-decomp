@@ -1,0 +1,5 @@
+REMOVED  pin         $17    line 22330
+REMOVED  pin         $18    line 22331
+NEEDED   pin         $16    line 22332
+NEEDED   instruction lui    line 22335
+NEEDED   launder            line 22350

@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 18 best 17 compiles 191 path R6 inline s0 @20310
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline s0 @20310 -> 17 [COUNT] (from 18)
+  R7 do-while @20310 -> 17 [COUNT] (from 18)
+  R7 block @20323 -> 17 [COUNT] (from 17)
+  R5 swap + @20311 -> 17 [COUNT] (from 17)
+  R2 decl-order 0,1,3,2 -> 17 [COUNT] (from 17)
+  R4 decl-move s1 1->0 -> 17 [COUNT] (from 17)
+  R8 hoist tmp0 @20311 -> 17 [COUNT] (from 17)
+  R5 swap + @20310 -> 17 [COUNT] (from 17)
+  R2 decl-order 0,2,1,3 -> 17 [COUNT] (from 17)
+  R4 decl-move s1 1->5 -> 17 [COUNT] (from 17)
+  R6 inline s0 @20310 -> 17 [COUNT] (from 17)
+  R7 block @20311 -> 17 [COUNT] (from 17)

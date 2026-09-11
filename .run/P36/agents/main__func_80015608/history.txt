@@ -1,0 +1,15 @@
+s3: verdict BUDGET start 50 best 25 compiles 400 path R6 inline code @2648 + R16 const-holder new_var2=0x40560000 x1 + R14 param-width arg1 s32->u16 @2621
+s3b: verdict BUDGET start 50 best 25 compiles 400 path R6 inline code @2648 + R16 const-holder new_var2=0x40560000 x1 + R14 param-width arg1 s32->u16 @2621
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R14 param-width arg1 s32->u16 @2621 -> 25 [COUNT] (from 27)
+  R14 param-width arg1 s32->u8 @2621 -> 25 [COUNT] (from 27)
+  R14 param-width arg1 s32->u16 @2621 -> 25 [COUNT] (from 27)
+  R14 param-width arg1 s32->u8 @2621 -> 25 [COUNT] (from 27)
+  R16 const-holder new_var2=0x40560000 x1 -> 27 [COUNT] (from 29)
+  R16 const-holder new_var2=0x40560000 x1 -> 27 [COUNT] (from 29)
+  R8 hoist tmp0 @2664 -> 27 [COUNT] (from 27)
+  R7 block @2669 -> 27 [COUNT] (from 27)
+  R10 param-copy arg0 @2638 -> 27 [COUNT] (from 27)
+  R2 decl-order 0,1,3,2 -> 27 [COUNT] (from 27)
+  R4 decl-move blockSize 4->0 -> 27 [COUNT] (from 27)
+  R5 swap + @2666 -> 27 [COUNT] (from 27)
