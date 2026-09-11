@@ -1,0 +1,12 @@
+src/md_SC07_004/md_SC07_004.c:func_801AD068: score 5 (REG-caller; mine 95 ins, target 95) — not yet
+  register pairs (mine -> target, count): a0->v1 x5
+  replace mine[17:18] target[17:18]
+       17  lw	a0,28(s0)                       | lw	v1,28(s0)
+  replace mine[19:20] target[19:20]
+       19  slti	v0,a0,15                      | slti	v0,v1,15
+  replace mine[21:22] target[21:22]
+       21  slti	v0,a0,12                      | slti	v0,v1,12
+  replace mine[24:25] target[24:25]
+       24  subu	v0,v0,a0                      | subu	v0,v0,v1
+  replace mine[27:28] target[27:28]
+       27  sll	v0,a0,0x3                      | sll	v0,v1,0x3

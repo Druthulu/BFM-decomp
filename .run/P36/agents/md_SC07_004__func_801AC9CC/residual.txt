@@ -1,0 +1,18 @@
+src/md_SC07_004/md_SC07_004.c:func_801AC9CC: score 10 (COUNT; mine 48 ins, target 47) — not yet
+  replace mine[0:2] target[0:2]
+        0  addiu	sp,sp,-48                    | addiu	sp,sp,-40
+        1  sw	s0,40(sp)                       | sw	s0,32(sp)
+  replace mine[3:4] target[3:4]
+        3  sw	ra,44(sp)                       | sw	ra,36(sp)
+  replace mine[21:22] target[21:22]
+       21  nop                                | lhu	a3,48(s0)
+  replace mine[23:24] target[23:24]
+       23  move	a3,v0                         | addiu	a0,sp,16
+  delete  mine[25:26] target[25:25]
+       25  addiu	a0,sp,16                     | --
+  replace mine[36:37] target[35:36]
+       36  j	c838 <func_801AC9CC+0x9c>        | j	c834 <func_801AC9CC+0x98>
+  replace mine[43:46] target[42:45]
+       43  lw	ra,44(sp)                       | lw	ra,36(sp)
+       44  lw	s0,40(sp)                       | lw	s0,32(sp)
+       45  addiu	sp,sp,48                     | addiu	sp,sp,40

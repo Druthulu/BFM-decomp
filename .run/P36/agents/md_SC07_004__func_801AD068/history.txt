@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 5 best 5 compiles 190 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @9081 -> 5 [REG] (from 5)
+  R18 bystander @9120->9122 -> 5 [REG] (from 5)
+  R10 param-copy arg0 @9079 -> 5 [REG] (from 5)
+  R7 block @9095 -> 5 [REG] (from 5)
+  R8 base tmp0 @9081 -> 5 [REG] (from 5)
+  R7 do-while @9095 -> 5 [REG] (from 5)
+  R7 block @9096 -> 5 [REG] (from 5)
+  R8 temp tmp0 @9080 -> 5 [REG] (from 5)
+  R7 do-while @9096 -> 5 [REG] (from 5)
+  R8 base tmp0 @9080 -> 5 [REG] (from 5)
+  R7 block @9082 -> 5 [REG] (from 5)
+  R7 do-while @9082 -> 5 [REG] (from 5)
