@@ -6800,7 +6800,7 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
     Rec12 *rec;
     u8 *q;
     s16 *pa;
-    register s32 idx __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 idx;
     s32 ret;
     s32 i;
     s32 j;
@@ -6825,9 +6825,9 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
     }
 
     idx = func_800348A8(arg0);
-    ret = idx;
     if (idx != 0) {
-        idx = ret - 1;
+        ret = idx;
+        idx--;
         e = (Snd54 *)((u8 *)D_800A46E8 + idx * 0x54);
         if (flags & 0x1000) {
             e->unk1C[0].unk06 = 1;
@@ -6847,17 +6847,14 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
         func_80034650(e, 0);
     } else {
         idx = func_8003310C(rec->unk04);
-        ret = idx;
         if (idx == 0) {
             return 0;
         }
-        idx = ret - 1;
+        ret = idx;
+        idx--;
         e = (Snd54 *)((u8 *)D_800A46E8 + idx * 0x54);
     }
 
-    /* dbr fence (zero-byte, non-volatile asm -> reorg stop_search_p): keeps the
-     * `j .L800344B4` delay slot a nop; without it reorg eagerly steals + duplicates
-     * the merge block's first store. */
     e->unk37 = rec->unk08;
     e->unk34 = b1;
     e->unk0C = rec->unk00;
@@ -6887,8 +6884,6 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
         e->unk1A = 0x5F;
     }
     e->unk36 = 0;
-    /* sched fence: without it the two stores (memory-unit users) sink below the
-     * whole loop preheader (potential_hazard beats the LUID tie-break). */
 
     pa = &e->unk1C[0].unk00;
     for (i = 0; i < 3; i++, pa = (s16 *)((u8 *)pa + 8)) {
