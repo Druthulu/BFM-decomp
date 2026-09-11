@@ -1,0 +1,46 @@
+src/800.c:func_80021174: score 34 (COUNT; mine 67 ins, target 68) — not yet
+  register pairs (mine -> target, count): a2->a3 x11
+  replace mine[4:5] target[4:5]
+        4  j	ee84 <func_80021174+0x100>       | j	ee88 <func_80021174+0x104>
+  replace mine[6:10] target[6:10]
+        6  lui	a2,0x0                         | lui	a3,0x0
+        7  addiu	a2,a2,0                      | addiu	a3,a3,0
+        8  lw	t4,0(a2)                        | lw	t4,0(a3)
+        9  lw	t5,4(a2)                        | lw	t5,4(a3)
+  replace mine[12:15] target[12:15]
+       12  lw	t4,8(a2)                        | lw	t4,8(a3)
+       13  lw	t5,12(a2)                       | lw	t5,12(a3)
+       14  lw	t6,16(a2)                       | lw	t6,16(a3)
+  replace mine[18:20] target[18:20]
+       18  lw	t4,20(a2)                       | lw	t4,20(a3)
+       19  lw	t5,24(a2)                       | lw	t5,24(a3)
+  replace mine[21:22] target[21:22]
+       21  lw	t6,28(a2)                       | lw	t6,28(a3)
+  replace mine[45:54] target[45:48]
+       45  bltz	v0,ee80 <func_80021174+0xfc>  | bgez	v0,ee48 <func_80021174+0xc4>
+       46  sll	v0,a0,0x10                     | sll	v1,a0,0x10
+       47  sra	a1,v0,0x10                     | j	ee88 <func_80021174+0x104>
+       48  lh	v1,0(sp)                        | --
+       49  negu	v0,a1                         | --
+       50  slt	v0,v0,v1                       | --
+       51  beqz	v0,ee80 <func_80021174+0xfc>  | --
+       52  slt	v0,a1,v1                       | --
+       53  bnez	v0,ee84 <func_80021174+0x100> | --
+  insert  mine[55:55] target[49:57]
+       55  --                                 | sra	a2,v1,0x10
+       56  --                                 | lh	a1,0(sp)
+       57  --                                 | negu	v1,a2
+       58  --                                 | slt	v1,v1,a1
+       59  --                                 | beqz	v1,ee88 <func_80021174+0x104>
+       60  --                                 | move	v0,zero
+       61  --                                 | slt	v1,a2,a1
+       62  --                                 | bnez	v1,ee88 <func_80021174+0x104>
+  replace mine[57:60] target[59:63]
+       57  negu	v0,a0                         | negu	v1,a0
+       58  slt	v0,v0,a1                       | slt	v1,v1,a1
+       59  beqz	v0,ee80 <func_80021174+0xfc>  | beqz	v1,ee88 <func_80021174+0x104>
+       60  --                                 | nop
+  delete  mine[61:62] target[64:64]
+       61  j	ee84 <func_80021174+0x100>       | --
+  delete  mine[63:64] target[65:65]
+       63  move	v0,zero                       | --

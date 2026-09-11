@@ -1,0 +1,13 @@
+src/800.c:func_80014DEC: score 9 (REG-caller; mine 14 ins, target 14) — not yet
+  register pairs (mine -> target, count): v1->v0 x10, v0->v1 x4
+  replace mine[2:9] target[2:9]
+        2  addu	v1,v0,a0                      | addu	v0,v0,a0
+        3  sll	v0,v1,0x2                      | sll	v0,v0,0x2
+        4  subu	v1,v0,a0                      | subu	v0,v0,a0
+        5  sll	v1,v1,0x2                      | sll	v0,v0,0x2
+        6  lui	v0,0x0                         | lui	v1,0x0
+        7  addiu	v0,v0,0                      | addiu	v1,v1,0
+        8  addu	v1,v1,v0                      | addu	v0,v0,v1
+  replace mine[10:12] target[10:12]
+       10  addu	v1,v1,a1                      | addu	v0,v0,a1
+       11  lbu	v0,50(v1)                      | lbu	v0,50(v0)

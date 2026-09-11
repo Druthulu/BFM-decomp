@@ -1,0 +1,16 @@
+src/800.c:func_80020598: score 9 (REG-caller; mine 292 ins, target 292) — not yet
+  register pairs (mine -> target, count): v1->t0 x9
+  replace mine[193:194] target[193:194]
+      193  lw	v1,64(sp)                       | lw	t0,64(sp)
+  replace mine[195:197] target[195:197]
+      195  lw	t4,0(v1)                        | lw	t4,0(t0)
+      196  lw	t5,4(v1)                        | lw	t5,4(t0)
+  replace mine[199:202] target[199:202]
+      199  lw	t4,8(v1)                        | lw	t4,8(t0)
+      200  lw	t5,12(v1)                       | lw	t5,12(t0)
+      201  lw	t6,16(v1)                       | lw	t6,16(t0)
+  replace mine[253:255] target[253:255]
+      253  lw	t4,20(v1)                       | lw	t4,20(t0)
+      254  lw	t5,24(v1)                       | lw	t5,24(t0)
+  replace mine[256:257] target[256:257]
+      256  lw	t6,28(v1)                       | lw	t6,28(t0)

@@ -1,0 +1,37 @@
+src/800.c:func_80015208: score 23 (COUNT; mine 53 ins, target 59) — not yet
+  register pairs (mine -> target, count): v1->a0 x3, a0->v1 x3
+  insert  mine[0:0] target[0:1]
+        0  --                                 | addiu	sp,sp,-24
+  replace mine[2:4] target[3:6]
+        2  addiu	sp,sp,-24                    | lui	a1,0x0
+        3  bnez	v0,2edc <func_80015208+0xc4>  | addiu	a1,a1,0
+        4  --                                 | bnez	v0,2ef4 <func_80015208+0xdc>
+  replace mine[5:7] target[7:9]
+        5  lui	v1,0x0                         | lui	a0,0x0
+        6  lbu	v1,0(v1)                       | lbu	a0,0(a0)
+  replace mine[8:9] target[10:11]
+        8  bne	v1,v0,2edc <func_80015208+0xc4> | bne	a0,v0,2ef4 <func_80015208+0xdc>
+  replace mine[10:12] target[12:14]
+       10  lui	a0,0x0                         | lui	v1,0x0
+       11  lbu	a0,0(a0)                       | lbu	v1,0(v1)
+  replace mine[13:14] target[15:16]
+       13  bne	a0,v1,2edc <func_80015208+0xc4> | bne	v1,a0,2ef4 <func_80015208+0xdc>
+  replace mine[18:19] target[20:21]
+       18  beq	v0,a0,2edc <func_80015208+0xc4> | beq	v0,v1,2ef4 <func_80015208+0xdc>
+  replace mine[27:28] target[29:30]
+       27  j	2edc <func_80015208+0xc4>        | j	2ef4 <func_80015208+0xdc>
+  replace mine[32:34] target[34:36]
+       32  bnez	v0,2edc <func_80015208+0xc4>  | bnez	v0,2ef4 <func_80015208+0xdc>
+       33  nop                                | li	v1,2048
+  insert  mine[38:38] target[40:43]
+       38  --                                 | bne	v0,v1,2ec4 <func_80015208+0xac>
+       39  --                                 | move	v0,zero
+       40  --                                 | li	v0,1
+  replace mine[39:40] target[44:45]
+       39  nop                                | li	v0,1
+  replace mine[43:47] target[48:53]
+       43  bnez	v0,2edc <func_80015208+0xc4>  | bnez	v0,2ef4 <func_80015208+0xdc>
+       44  nop                                | li	v0,1
+       45  lui	at,0x1                         | lui	at,0x1
+       46  sb	a0,-23579(at)                   | addu	at,a1,at
+       47  --                                 | sb	v0,-23579(at)

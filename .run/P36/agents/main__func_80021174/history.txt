@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 34 best 29 compiles 312 path R12 width lim s32->u16 @12917
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width lim s32->u16 @12917 -> 29 [COUNT] (from 34)
+  R12 width lim s32->u8 @12917 -> 29 [COUNT] (from 34)
+  R12 width ret s32->u16 @12919 -> 29 [COUNT] (from 29)
+  R6 inline ret @12952 -> 29 [COUNT] (from 29)
+  R7 block @12925 -> 29 [COUNT] (from 29)
+  R4 decl-move ret 3->0 -> 29 [COUNT] (from 29)
+  R12 width ret s32->s16 @12919 -> 29 [COUNT] (from 29)
+  R6 inline p_a3 @12924 -> 29 [COUNT] (from 29)
+  R7 do-while @12925 -> 29 [COUNT] (from 29)
+  R10 param-copy a1 @12920 -> 29 [COUNT] (from 29)
+  R4 decl-move ret 3->1 -> 29 [COUNT] (from 29)
+  R12 width ret s32->u8 @12919 -> 29 [COUNT] (from 29)

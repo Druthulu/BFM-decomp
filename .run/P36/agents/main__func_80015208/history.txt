@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 23 best 17 compiles 188 path R12 width v s32->s16 @2412
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width v s32->s16 @2412 -> 17 [COUNT] (from 23)
+  R6 inline v @2451 -> 17 [COUNT] (from 23)
+  R7 block @2442 -> 17 [COUNT] (from 17)
+  R9 swap-stmts @2415 -> 17 [COUNT] (from 17)
+  R6 inline base @2416 -> 17 [COUNT] (from 17)
+  R7 do-while @2442 -> 17 [COUNT] (from 17)
+  R6 inline mask @2439 -> 17 [COUNT] (from 17)
+  R7 block @2416 -> 17 [COUNT] (from 17)
+  R12 width flag0 u8->s32 @2411 -> 17 [COUNT] (from 17)
+  R12 width flag0 u8->u16 @2411 -> 17 [COUNT] (from 17)
+  R6 inline flag0 @2415 -> 17 [COUNT] (from 17)
+  R7 block @2444 -> 17 [COUNT] (from 17)

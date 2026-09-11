@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 9 best 9 compiles 317 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline m3 @12519 -> 9 [REG] (from 9)
+  R12 width v s16->s32 @12454 -> 9 [REG] (from 9)
+  R7 block @12515 -> 9 [REG] (from 9)
+  R4 decl-move m3 8->0 -> 9 [REG] (from 9)
+  R12 width v s16->u16 @12454 -> 9 [REG] (from 9)
+  R4 decl-move m3 8->1 -> 9 [REG] (from 9)
+  R10 param-copy a2 @12459 -> 9 [REG] (from 9)
+  R7 block @12536 -> 9 [REG] (from 9)
+  R4 decl-move m3 8->2 -> 9 [REG] (from 9)
+  R8 hoist tmp0 @12492 -> 9 [REG] (from 9)
+  R5 swap | @12480 -> 9 [REG] (from 9)
+  R10 param-copy a3 @12459 -> 9 [REG] (from 9)
