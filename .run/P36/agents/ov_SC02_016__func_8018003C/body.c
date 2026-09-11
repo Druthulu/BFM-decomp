@@ -2,6 +2,7 @@ void func_8018003C(s32 arg0)
 {
     s32 obj;
     s32 v;
+    s32 timer;
 
     obj = *(s32 *)(arg0 + 0x20);
     *(s32 *)(arg0 + 0x10) += *(s32 *)(arg0 + 0x2C);
@@ -14,11 +15,11 @@ void func_8018003C(s32 arg0)
     if (func_80128ED8(obj, (s32 *)(arg0 + 0x24)) != 0) {
         func_801292C8((u8 *)arg0);
     } else {
-        v = *(s32 *)(arg0 + 0x1C);
-        if (v != 0) {
-            v--;
-            *(s32 *)(arg0 + 0x1C) = v;
-            if (v == 0) {
+        timer = *(s32 *)(arg0 + 0x1C);
+        if (timer != 0) {
+            timer--;
+            *(s32 *)(arg0 + 0x1C) = timer;
+            if (timer == 0) {
                 func_801292C8((u8 *)arg0);
             }
         }

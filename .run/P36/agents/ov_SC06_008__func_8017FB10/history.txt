@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 8 best 2 compiles 323 path R9 swap-stmts @4550
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @4550 -> 2 [ORDER] (from 8)
+  R9 swap-stmts @4551 -> 2 [ORDER] (from 2)
+  R7 block @4554 -> 2 [ORDER] (from 2)
+  R6 inline negdc @4548 -> 2 [ORDER] (from 2)
+  R8 temp tmp0 @4549 -> 2 [ORDER] (from 2)
+  R10 param-copy a0 @4521 -> 2 [ORDER] (from 2)
+  R7 do-while @4554 -> 2 [ORDER] (from 2)
+  R8 base tmp0 @4549 -> 2 [ORDER] (from 2)
+  R12 width uStack_c u16->s16 @4520 -> 2 [ORDER] (from 2)
+  R7 block @4552 -> 2 [ORDER] (from 2)
+  R8 base-shared tmp0 @4549 -> 2 [ORDER] (from 2)
+  R9 swap-stmts @4548 -> 2 [ORDER] (from 2)
