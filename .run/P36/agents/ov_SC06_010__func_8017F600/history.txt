@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 18 best 18 compiles 191 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @5681 -> 18 [COUNT] (from 18)
+  R7 block @5682 -> 18 [COUNT] (from 18)
+  R10 param-copy param_1 @5600 -> 18 [COUNT] (from 18)
+  R6 inline q @5661 -> 18 [COUNT] (from 18)
+  R8 base tmp0 @5681 -> 18 [COUNT] (from 18)
+  R7 do-while @5682 -> 18 [COUNT] (from 18)
+  R8 temp tmp0 @5664 -> 18 [COUNT] (from 18)
+  R7 block @5681 -> 18 [COUNT] (from 18)
+  R5 swap + @5648 -> 18 [COUNT] (from 18)
+  R8 base tmp0 @5664 -> 18 [COUNT] (from 18)
+  R7 do-while @5681 -> 18 [COUNT] (from 18)
+  R5 swap + @5647 -> 18 [COUNT] (from 18)

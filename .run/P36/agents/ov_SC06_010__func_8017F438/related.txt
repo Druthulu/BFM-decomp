@@ -1,0 +1,49 @@
+=== lever-free bodies in ov_SC06_010 sharing a callee or global with func_8017F438 (32 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80141C0C (src/ov_SC06_010/ov_SC06_010_jr_80140608.c:1546) shares 1: func_8002D4C8 ---
+void func_80141C0C(s32 param_1)
+{
+    func_8002D4C8(*(u16 *)(&D_80187D44 + (((param_1 << 16) >> 15) + (u32)D_80115110) * 2), 0);
+}
+
+--- func_801821FC (src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:7407) shares 1: func_8002D4C8 ---
+void func_801821FC(void *a0) {
+    func_8002D4C8(0xB32, 0);
+    ((void (*)(void *))func_80181234)(a0);
+}
+
+--- func_80145BF8 (src/shared/ov/func_80145BF8.h:7) shares 1: func_8002D4C8 ---
+void func_80145BF8(void) {
+    func_8002D4C8(0x21, func_80028FBC() & 0xFFFF);
+    func_8002D4C8(0x22, func_80029000() & 0xFFFF);
+    func_8002D4C8(func_80028D9C() == 0 ? 0xC : 0xB, 0);
+}
+
+--- func_801710DC (src/shared/ov/func_801710DC.h:7) shares 1: func_8002D4C8 ---
+void func_801710DC(u8 * arg0)
+{
+    ((M2C_UNK (*)(u16, u16))func_8002D4C8)(D_8011F738, D_8011F73A);
+    ((M2C_UNK (*)(s32))func_80171928)(arg0);
+}
+
+--- func_80131AC8 (src/shared/ov/func_80131AC8.h:5) shares 1: func_8002D4C8 ---
+s32 func_80131AC8(void *a0) {
+    s32 s0 = func_80131CF4(*(s32 *)((u8 *)a0 + 0xBC)) & 0xFFFF;
+    if (s0 != 0) {
+        func_8002D4C8(s0, 0);
+        return s0;
+    }
+    return 0;
+}
+
+--- func_80147364 (src/shared/ov/func_80147364.h:9) shares 1: func_8002D4C8 ---
+void aF80147364(u16 param_1, u16 param_2) {
+    s32 sp10[2];
+    s32 *p = &D_80126B58;
+    if (currentLocationId == 0x308d) {
+        ((void (*)(void *, void *))func_80015978)(p + 1, sp10);
+        ((void (*)(void *, s32, s32))aF8012E5CC)(sp10, param_1, param_2);
+    } else {
+        func_8002D4C8(param_1, param_2);
+    }
+}
+

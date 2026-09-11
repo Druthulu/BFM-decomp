@@ -1,0 +1,8 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_8017F024: score 5 (COUNT; mine 30 ins, target 29) — not yet
+  replace mine[15:17] target[15:17]
+       15  beqz	v0,4bdc <func_8017F024+0x64>  | beqz	v0,4bd8 <func_8017F024+0x60>
+       16  lui	a0,0x8000                      | move	a0,s0
+  replace mine[20:23] target[20:22]
+       20  nop                                | lui	a1,0x8000
+       21  or	v1,v1,a0                        | or	v1,v1,a1
+       22  move	a0,s0                         | --

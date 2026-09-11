@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 5 best 5 compiles 121 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width self s32->u16 @5333 -> 5 [COUNT] (from 5)
+  R6 inline self @5337 -> 5 [COUNT] (from 5)
+  R8 temp tmp0 @5338 -> 5 [COUNT] (from 5)
+  R7 block @5339 -> 5 [COUNT] (from 5)
+  R10 param-alias self->a0 @5337 -> 5 [COUNT] (from 5)
+  R4 decl-move p 0->1 -> 5 [COUNT] (from 5)
+  R6 inline p @5338 -> 5 [COUNT] (from 5)
+  R8 base tmp0 @5338 -> 5 [COUNT] (from 5)
+  R18 bystander @5337->5340 -> 5 [COUNT] (from 5)
+  R9 swap-stmts @5337 -> 5 [COUNT] (from 5)
+  R10 param-copy a0 @5334 -> 5 [COUNT] (from 5)
+  R12 width self s32->u8 @5333 -> 5 [COUNT] (from 5)

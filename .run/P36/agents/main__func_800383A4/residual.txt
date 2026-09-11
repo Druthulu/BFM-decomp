@@ -1,0 +1,1 @@
+UNSTRIPPABLE [('instruction', 2555, 'instruction `sll` has no C spelling in the table')]

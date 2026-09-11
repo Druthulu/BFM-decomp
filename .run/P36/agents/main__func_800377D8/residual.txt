@@ -1,0 +1,69 @@
+src/800_c.c:func_800377D8: score 42 (COUNT; mine 314 ins, target 316) — not yet
+  register pairs (mine -> target, count): v0->v1 x5, v1->v0 x2
+  replace mine[5:6] target[5:6]
+        5  bne	s1,v0,29f8 <func_800377D8+0x490> | bne	s1,v0,2a00 <func_800377D8+0x498>
+  replace mine[12:13] target[12:13]
+       12  beqz	v0,29f8 <func_800377D8+0x490> | beqz	v0,2a00 <func_800377D8+0x498>
+  replace mine[20:21] target[20:21]
+       20  bne	v0,v1,29f8 <func_800377D8+0x490> | bne	v0,v1,2a00 <func_800377D8+0x498>
+  replace mine[26:27] target[26:27]
+       26  beq	v1,v0,277c <func_800377D8+0x214> | beq	v1,v0,2784 <func_800377D8+0x21c>
+  replace mine[32:33] target[32:33]
+       32  j	2a38 <func_800377D8+0x4d0>       | j	2a40 <func_800377D8+0x4d8>
+  replace mine[35:36] target[35:36]
+       35  beq	v1,v0,2810 <func_800377D8+0x2a8> | beq	v1,v0,2818 <func_800377D8+0x2b0>
+  replace mine[37:38] target[37:38]
+       37  j	2a38 <func_800377D8+0x4d0>       | j	2a40 <func_800377D8+0x4d8>
+  replace mine[43:44] target[43:44]
+       43  beqz	v0,29f8 <func_800377D8+0x490> | beqz	v0,2a00 <func_800377D8+0x498>
+  replace mine[66:67] target[66:67]
+       66  j	29f8 <func_800377D8+0x490>       | j	2a00 <func_800377D8+0x498>
+  replace mine[70:78] target[70:78]
+       70  lhu	v0,0(a0)                       | lui	v0,0x0
+       71  lui	v1,0x0                         | lw	v0,0(v0)
+       72  lw	v1,0(v1)                        | lhu	v1,0(a0)
+       73  addiu	v0,v0,1                      | addiu	v0,v0,2048
+       74  addiu	v1,v1,2048                   | addiu	v1,v1,1
+       75  sh	v0,0(a0)                        | sh	v1,0(a0)
+       76  sll	v0,v0,0x10                     | sll	v1,v1,0x10
+       77  sra	v0,v0,0x10                     | sra	v1,v1,0x10
+  replace mine[79:82] target[79:82]
+       79  sw	v1,0(at)                        | sw	v0,0(at)
+       80  li	v1,14                           | li	v0,14
+       81  bne	v0,v1,2a38 <func_800377D8+0x4d0> | bne	v1,v0,2a40 <func_800377D8+0x4d8>
+  replace mine[92:93] target[92:93]
+       92  beqz	v0,276c <func_800377D8+0x204> | beqz	v0,2774 <func_800377D8+0x20c>
+  replace mine[105:106] target[105:106]
+      105  beqz	v0,2750 <func_800377D8+0x1e8> | beqz	v0,2758 <func_800377D8+0x1f0>
+  replace mine[111:112] target[111:112]
+      111  beqz	v0,2750 <func_800377D8+0x1e8> | beqz	v0,2758 <func_800377D8+0x1f0>
+  replace mine[118:119] target[118:119]
+      118  bnez	v0,2930 <func_800377D8+0x3c8> | beqz	v0,2948 <func_800377D8+0x3e0>
+  replace mine[120:121] target[120:123]
+      120  j	2940 <func_800377D8+0x3d8>       | lui	at,0x0
+      121  --                                 | sb	a0,0(at)
+      122  --                                 | j	2950 <func_800377D8+0x3e8>
+  replace mine[127:128] target[129:130]
+      127  j	2a30 <func_800377D8+0x4c8>       | j	2a38 <func_800377D8+0x4d0>
+  replace mine[131:132] target[133:134]
+      131  j	2a38 <func_800377D8+0x4d0>       | j	2a40 <func_800377D8+0x4d8>
+  replace mine[168:169] target[170:171]
+      168  j	2a38 <func_800377D8+0x4d0>       | j	2a40 <func_800377D8+0x4d8>
+  replace mine[244:245] target[246:247]
+      244  j	2948 <func_800377D8+0x3e0>       | j	2950 <func_800377D8+0x3e8>
+  insert  mine[248:248] target[250:254]
+      248  --                                 | lui	at,0x0
+      249  --                                 | sb	zero,0(at)
+      250  --                                 | lui	at,0x0
+      251  --                                 | sh	zero,0(at)
+  delete  mine[258:262] target[264:264]
+      258  lui	at,0x0                         | --
+      259  sb	zero,0(at)                      | --
+      260  lui	at,0x0                         | --
+      261  sh	zero,0(at)                      | --
+  replace mine[266:267] target[268:269]
+      266  j	2a38 <func_800377D8+0x4d0>       | j	2a40 <func_800377D8+0x4d8>
+  replace mine[273:274] target[275:276]
+      273  j	2a30 <func_800377D8+0x4c8>       | j	2a38 <func_800377D8+0x4d0>
+  replace mine[290:291] target[292:293]
+      290  j	2a38 <func_800377D8+0x4d0>       | j	2a40 <func_800377D8+0x4d8>

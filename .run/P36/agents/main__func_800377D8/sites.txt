@@ -1,0 +1,5 @@
+NEEDED   pin         $2     line 2129
+REMOVED  pin         $3     line 2130
+NEEDED   barrier            line 2147
+NEEDED   barrier            line 2153
+NEEDED   barrier            line 2206

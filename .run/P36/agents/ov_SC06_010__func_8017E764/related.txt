@@ -1,0 +1,103 @@
+=== lever-free bodies in ov_SC06_010 sharing a callee or global with func_8017E764 (129 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8012D664 (src/ov_SC06_010/ov_SC06_010_jr_8012ACE0.c:555) shares 4: D_80126B5E D_80126B62 D_80126B66 func_8012F568 ---
+int func_8012D664(int arg0, int arg1, int arg2) {
+    extern int func_8012F568();
+    extern int D_80186D2C;
+
+    struct S8012D664_8012D664 s;
+    int ret;
+    int t;
+
+    s.a = (*(unsigned short*)&D_80126B5E);
+    s.b = (*(unsigned short*)&D_80126B62) - 0x40;
+    s.c = (*(unsigned short*)&D_80126B66);
+    ret = ((int(*)())func_800132BC)(arg0, &s);
+    t = arg1 + 0x20;
+    if (ret < t * t) {
+        func_8012F568(1, 1, 0, arg2, arg0, &D_80186D2C);
+        return 1;
+    }
+    return 0;
+}
+
+--- func_8012E138 (src/shared/ov/func_8012E138.h:10) shares 4: D_80126B5E D_80126B62 D_80126B66 func_80135888 ---
+void func_8012E138(int model) {
+    struct Cam8012E138 cam;
+    int bufB[2];
+    int bufA[2];
+    int m;
+    short s;
+    cam.a = D_80126B5E;
+    cam.b = D_80126B62;
+    cam.c = D_80126B66;
+    func_8012F038(*(int *)(model + 0x20) + 0x34, &cam, bufA);
+    m = *(int *)(model + 0x20);
+    if (m != 0) {
+        int mm;
+        func_80049CAC(m + 0x10, m + 0x34);
+        mm = *(int *)(model + 0x20);
+        s = *(u16 *)(model + 6) + *(u16 *)(model + 0x50);
+        *(u16 *)(mm + 8) = s;
+        *(int *)(mm + 0x48) = s;
+        s = *(u16 *)(model + 0xA) + *(u16 *)(model + 0x52);
+        *(u16 *)(mm + 0xA) = s;
+        *(int *)(mm + 0x4C) = s;
+        s = *(u16 *)(model + 0xE) + *(u16 *)(model + 0x54);
+        *(u16 *)(mm + 0xC) = s;
+        *(u16 *)(mm + 0x2C) = *(u16 *)(mm + 0x2C) | 1;
+        *(int *)(mm + 0x50) = s;
+    }
+    func_8012F14C(*(int *)(model + 0x20) + 0x34, bufA, bufB);
+    if (func_80135888(*(int *)(model + 0x20), *(int *)(model + 0x58), bufB, &cam)) {
+        D_80126B5E = cam.a;
+        D_80126B62 = cam.b;
+        D_80126B66 = cam.c;
+    }
+}
+
+--- func_8012BE54 (src/shared/ov/func_8012BE54.h:7) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_8012BE54(s32 a0) {
+    u16 sp[3];
+    sp[0] = D_80126B5E;
+    sp[1] = D_80126B62;
+    sp[2] = D_80126B66;
+    func_8012BE98(a0, sp);
+}
+
+--- func_80136DFC (src/shared/ov/func_80136DFC.h:9) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_80136DFC(void) {
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xA, (*(s16 *)&D_80126B5E), 0x110, 0x3C, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xB, (*(s16 *)&D_80126B62), 0x110, 0x44, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xC, (*(s16 *)&D_80126B66), 0x110, 0x4C, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xD, *(s16 *)((s32)D_80126B78 + 0x12), 0x110, 0x54, 4, 0);
+    ((void (*)(s32, s32, s32, s32, s32, s32))func_800153CC)(0xE, D_80126CC4, 0x110, 0x5C, 4, 0);
+}
+
+--- func_8012A048 (src/shared/ov/func_8012A048.h:9) shares 3: D_80126B5E D_80126B62 D_80126B66 ---
+void func_8012A048(void *a0, s32 a1, u8 a2) {
+    *(s32 *)((s32)a0 + 0x0) = a1;
+    *(u8 *)((s32)a0 + 0x4) = a2;
+    *(s32 *)((s32)a0 + 0x9C) = 0;
+    *(s16 *)((s32)a0 + 0xA0) = 0;
+    *(s16 *)((s32)a0 + 0xA2) = 0;
+    D_80126940 = D_80126B5E;
+    D_80126942 = D_80126B62;
+    D_80126944 = D_80126B66;
+}
+
+--- func_8012DF34 (src/shared/ov/func_8012DF34.h:7) shares 3: D_801152A8 func_8012F568 func_80135888 ---
+s32 func_8012DF34(s32 a0, s32 a1, s32 a2) {
+    s32 s0 = a2;
+    s32 *p = &D_80126B58;
+    if (a0 != 0) {
+        if (*(s16 *)(a0 + 0xAA) != 0) {
+            return 0;
+        }
+    }
+    if (func_80135888(*(s32 *)((s32)p + 0x20), *(s32 *)((s32)p + 0x38), a1, s0) != 0) {
+        func_8012F568(1, 1, 0, 0xA, s0, (s32)D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+

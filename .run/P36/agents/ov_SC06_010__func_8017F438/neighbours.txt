@@ -1,0 +1,81 @@
+--- func_8017F10C (line 5381) ---
+/* func_8017F10C -- ov_SC06_010, TU ov_SC06_010_jr_8017A4AC.c (91 ins).
+ *
+ * RTP_SND positional-sound sibling of aF8017EF54 / func_80181AD8 in this same
+ * TU: project the parent entity's world position (a0+0x20 -> +0x48/+0x4C/+0x50)
+ * with RotTransPers, gate on the screen X/Y window, then play sound id `a1`
+ * with a pan taken from screen X and a volume that here falls off with DEPTH
+ * (D_80126B66 - (a0->0xE - 0x680)) rather than with |screen X| as in the twins.
+ *
+ * THREE byte-proven levers (each ablated against this .s):
+ *  1. `d` and the volume are ONE C variable.  The distance `d` ($a1 at
+ *     8017F1E0) and the divided volume ($a1 at 8017F21C) share a register:
+ *     spelling them as two locals (`s32 d` + `s32 av`) gives `d` -> $a0
+ *     (global_alloc's first free reg) AND reverses the two magic-multiply
+ *     chains, because a separate `av` dies at the end of the block while the
+ *     `bne` keeps the /0x1E chain on the critical path.  Reusing `d` extends
+ *     its allocno over the $a0-clobbering tail, which both forces $a1 and
+ *     lifts the /0x900 chain's priority -- 18 mismatched -> MATCH.
+ *     (An `__asm__("" : "=r"(av) : "0"(av))` launder buys the schedule alone,
+ *     but then leaves `d` on $a0: 4 residual.  The one-variable form is the
+ *     real shape.)
+ *  2. §164-75: `D_80126B66 - (field - 0x680)` written inline lets fold
+ *     re-associate the constant onto the LOAD's register (`addiu $v0,$v0,0x680`
+ *     + swapped subu operands).  The `t` statement boundary pins it.
+ *  3. The a1 -> $s2 parameter copy is scheduled LAST in the prologue block
+ *     (8017F15C, after `addu $a0,$s0,$zero`), not into the second lw's load
+ *     delay.  A plain `func_8002D4C8(a1 & 0xFFFF, ...)` puts that copy in the
+ *     earliest slot (6 residual, entry window); pinning the carrier to $s2 and
+ *     assigning it right before the first call reproduces the target order.
+ */
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: regalloc-order — simplified sibling of matched func_8017B614.
+// @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
+// @class: struct
+// @stuck: none — MATCH (74 ins)
+// @class: regalloc-order + T1 memcpy-builtin→call re-crack
+// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+// @class: struct
+// @stuck: none — MATCH (62 ins)
+// @class: struct
+// @stuck: none — MATCH (65 ins)
+// @class: regalloc-order
+// @stuck: pending self-check — register order param=$s2 counter=$s1 ptr=$s0
+// @class: plumbing
+// @stuck: none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
+// @class: plumbing
+// @stuck: none — MATCH expected (simple short-increment + guarded call)
+// @class: regalloc-order
+// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+// @class: regalloc-order
+// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801B203C + idx*0x40 (materialize form, arg to callees).
+// @class: regalloc-order
+// @stuck: none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
+// @class: schedule
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @class: regalloc-order
+// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+// @class: regalloc-order
+// @stuck: none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
+// @class: schedule
+// @stuck: none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
+//   @class: plumbing
+//   @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+// @class: schedule
+// @stuck: none — MATCH; success-block placed last via `goto big` (bnez forward into epilogue), single cae4 merge kept
+// @class: plumbing
+// @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+// @class: struct
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH. Two levers: (1) split rand()-result into its own var (shared iVar1 forced an extra move a0,v0); (2) reorder decrement before sp[0] to group the two lhu loads as target's scheduler does; (3) materialize &D_80126B96 via a local u16* to CSE the address (lui+addiu once) instead of %hi/%lo split-per-access.

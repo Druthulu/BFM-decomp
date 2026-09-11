@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 42 best 19 compiles 186 path R7 do-while @2132
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @2132 -> 19 [COUNT] (from 42)
+  R12 width cnt s32->u16 @2111 -> 19 [COUNT] (from 19)
+  R8 hoist tmp0 @2133 -> 19 [COUNT] (from 19)
+  R7 block @2205 -> 19 [COUNT] (from 19)
+  R10 param-copy arg0 @2112 -> 19 [COUNT] (from 19)
+  R12 width cnt s32->s16 @2111 -> 19 [COUNT] (from 19)
+  R9 swap-stmts @2151 -> 19 [COUNT] (from 19)
+  R12 width cnt s32->u8 @2111 -> 19 [COUNT] (from 19)
+  R18 bystander @2152->2150 -> 19 [COUNT] (from 19)
+  R12 width nxt s32->u16 @2109 -> 19 [COUNT] (from 19)
+  R7 block @2150 -> 19 [COUNT] (from 19)
+  R12 width nxt s32->s16 @2109 -> 19 [COUNT] (from 19)

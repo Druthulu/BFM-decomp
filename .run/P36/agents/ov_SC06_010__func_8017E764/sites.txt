@@ -1,0 +1,2 @@
+NEEDED   pin         $3     line 5306
+NEEDED   cast        volatile u16 * line 5309

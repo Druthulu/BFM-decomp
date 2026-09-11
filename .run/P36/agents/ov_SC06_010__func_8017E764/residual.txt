@@ -1,0 +1,10 @@
+src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:func_8017E764: score 6 (COUNT; mine 438 ins, target 438) — not yet
+  insert  mine[85:85] target[85:86]
+       85  --                                 | move	s4,zero
+  replace mine[86:87] target[87:89]
+       86  move	s4,zero                       | lui	v1,0x0
+       87  --                                 | addiu	v1,v1,0
+  replace mine[88:91] target[90:91]
+       88  lui	v0,0x0                         | lhu	v0,0(v1)
+       89  addiu	v0,v0,0                      | --
+       90  lhu	v0,0(v0)                       | --
