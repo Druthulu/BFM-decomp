@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 14 best 12 compiles 320 path R9 swap-stmts @4369
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @4369 -> 12 [REG] (from 14)
+  R10 param-copy param_1 @4351 -> 12 [REG] (from 12)
+  R7 block @4367 -> 12 [REG] (from 12)
+  R9 swap-stmts @4352 -> 12 [REG] (from 12)
+  R2 decl-order 0,2,1 -> 12 [REG] (from 12)
+  R4 decl-move la 0->3 -> 12 [REG] (from 12)
+  R10 param-copy param_2 @4351 -> 12 [REG] (from 12)
+  R7 do-while @4367 -> 12 [REG] (from 12)
+  R2 decl-order 1,0,2 -> 12 [REG] (from 12)
+  R4 decl-move la 0->4 -> 12 [REG] (from 12)
+  R10 param-copy param_3 @4351 -> 12 [REG] (from 12)
+  R7 block @4352 -> 12 [REG] (from 12)

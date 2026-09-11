@@ -1,0 +1,5 @@
+NEEDED   pin         $8     line 4447
+NEEDED   pin         $7     line 4448
+NEEDED   pin         $3     line 4449
+NEEDED   keepalive          line 4458
+NEEDED   keepalive          line 4474

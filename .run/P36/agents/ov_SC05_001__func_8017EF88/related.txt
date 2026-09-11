@@ -1,0 +1,1 @@
+=== lever-free bodies in ov_SC05_001 sharing a callee or global with func_8017EF88 (0 found; top 6 by shared symbols) — read them for the SHAPE ===

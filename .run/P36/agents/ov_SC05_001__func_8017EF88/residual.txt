@@ -1,0 +1,24 @@
+src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:func_8017EF88: score 14 (REG-caller; mine 46 ins, target 46) — not yet
+  register pairs (mine -> target, count): t0->t1 x6, t1->t3 x2, a3->t4 x2, v1->t2 x2, v0->t0 x2, v1->a3 x2, a3->v1 x2
+  replace mine[2:3] target[2:3]
+        2  lh	t0,0(a2)                        | lh	t1,0(a2)
+  replace mine[5:7] target[5:7]
+        5  move	t1,v0                         | move	t3,v0
+        6  slt	v0,t0,v0                       | slt	v0,t1,v0
+  replace mine[8:9] target[8:9]
+        8  move	a3,t0                         | move	t4,t1
+  replace mine[11:13] target[11:13]
+       11  move	v1,v0                         | move	t2,v0
+       12  slt	v0,v0,t0                       | slt	v0,v0,t1
+  replace mine[21:22] target[21:22]
+       21  move	t0,a2                         | move	t1,a2
+  replace mine[30:33] target[30:33]
+       30  andi	v0,t1,0xffff                  | andi	t0,t3,0xffff
+       31  andi	v1,v1,0xffff                  | andi	a3,t2,0xffff
+       32  andi	a3,a3,0xffff                  | andi	v1,t4,0xffff
+  replace mine[35:38] target[35:38]
+       35  sll	a2,t0,0x10                     | sll	a2,t1,0x10
+       36  or	a0,v0,a0                        | or	a0,t0,a0
+       37  or	a1,v1,a1                        | or	a1,a3,a1
+  replace mine[39:40] target[39:40]
+       39  or	a2,a3,a2                        | or	a2,v1,a2
