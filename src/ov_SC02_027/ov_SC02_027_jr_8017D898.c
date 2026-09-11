@@ -6409,13 +6409,13 @@ void func_80183ADC(s32 a0)
     s32 v0;
     s32 temp;
 
-    if ((*(s32 *)((s32)a0 + 0x20) = v0 = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
         func_8012CAE4(a0);
         return;
     }
 
-    /* §67: pin v0 against hoisting past the store */
-    __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     func_8001C214(v0, (s32)&D_801AD2B8);
 
     *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x1A) = 0x1000;
