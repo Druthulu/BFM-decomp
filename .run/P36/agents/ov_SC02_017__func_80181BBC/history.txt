@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 9 best 4 compiles 188 path R12 width v1 s32->u16 @5119 + R8 cse tmp0 @5127
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 cse tmp0 @5127 -> 4 [COUNT] (from 8)
+  R6 inline v1 @5127 -> 7 [REG] (from 9)
+  R8 temp tmp0 @5127 -> 7 [REG] (from 9)
+  R8 temp tmp0 @5130 -> 7 [REG] (from 7)
+  R10 param-alias s0->a0 @5122 -> 7 [REG] (from 7)
+  R7 block @5127 -> 7 [REG] (from 7)
+  R4 decl-move a0_2 3->0 -> 7 [REG] (from 7)
+  R6 inline v0 @5128 -> 7 [REG] (from 7)
+  R8 base tmp0 @5130 -> 7 [REG] (from 7)
+  R10 param-copy a0 @5121 -> 7 [REG] (from 7)
+  R4 decl-move a0_2 3->1 -> 7 [REG] (from 7)
+  R8 temp tmp0 @5136 -> 7 [REG] (from 7)

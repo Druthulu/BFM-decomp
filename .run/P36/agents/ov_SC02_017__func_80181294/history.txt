@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 10 best 9 compiles 191 path R8 hoist tmp0 @4776 + R12 width tmp0 s32->u16 @4747
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width tmp0 s32->u16 @4747 -> 9 [COUNT] (from 10)
+  R12 width tmp0 s32->u8 @4747 -> 9 [COUNT] (from 10)
+  R8 hoist tmp0 @4776 -> 10 [COUNT] (from 10)
+  R7 block @4771 -> 10 [COUNT] (from 10)
+  R10 param-copy arg0 @4747 -> 10 [COUNT] (from 10)
+  R8 hoist tmp0 @4774 -> 10 [COUNT] (from 10)
+  R7 do-while @4771 -> 10 [COUNT] (from 10)
+  R8 hoist tmp0 @4767 -> 10 [COUNT] (from 10)
+  R7 block @4780 -> 10 [COUNT] (from 10)
+  R7 do-while @4780 -> 10 [COUNT] (from 10)
+  R7 block @4776 -> 10 [COUNT] (from 10)
+  R8 temp tmp0 @4785 -> 10 [COUNT] (from 10)

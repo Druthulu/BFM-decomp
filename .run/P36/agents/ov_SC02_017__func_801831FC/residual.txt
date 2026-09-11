@@ -1,0 +1,10 @@
+src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:func_801831FC: score 6 (REG-caller; mine 62 ins, target 62) — not yet
+  register pairs (mine -> target, count): v1->v0 x8
+  replace mine[38:40] target[38:40]
+       38  subu	v1,v1,v0                      | subu	v0,v1,v0
+       39  bgez	v1,5370 <func_801831FC+0xa8>  | bgez	v0,5370 <func_801831FC+0xa8>
+  replace mine[41:45] target[41:45]
+       41  addiu	v1,v1,2047                   | addiu	v0,v0,2047
+       42  sra	v1,v1,0xb                      | sra	v0,v0,0xb
+       43  bgez	v1,5380 <func_801831FC+0xb8>  | bgez	v0,5380 <func_801831FC+0xb8>
+       44  move	a1,v1                         | move	a1,v0

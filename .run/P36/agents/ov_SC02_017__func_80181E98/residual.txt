@@ -1,0 +1,18 @@
+src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:func_80181E98: score 11 (COUNT; mine 124 ins, target 129) — not yet
+  replace mine[41:42] target[41:42]
+       41  bnez	v0,4140 <func_80181E98+0x1dc> | bnez	v0,4154 <func_80181E98+0x1f0>
+  replace mine[58:59] target[58:59]
+       58  j	410c <func_80181E98+0x1a8>       | j	4120 <func_80181E98+0x1bc>
+  replace mine[62:63] target[62:63]
+       62  bnez	v0,410c <func_80181E98+0x1a8> | bnez	v0,4120 <func_80181E98+0x1bc>
+  replace mine[88:89] target[88:89]
+       88  bnez	v0,4140 <func_80181E98+0x1dc> | bnez	v0,4154 <func_80181E98+0x1f0>
+  replace mine[96:97] target[96:97]
+       96  beqz	v0,4140 <func_80181E98+0x1dc> | beqz	v0,4154 <func_80181E98+0x1f0>
+  replace mine[100:101] target[100:106]
+      100  bgez	v0,4100 <func_80181E98+0x19c> | bltz	v0,4110 <func_80181E98+0x1ac>
+      101  --                                 | nop
+      102  --                                 | slti	v0,v0,141
+      103  --                                 | beqz	v0,4154 <func_80181E98+0x1f0>
+      104  --                                 | move	v0,zero
+      105  --                                 | j	4120 <func_80181E98+0x1bc>

@@ -1,0 +1,18 @@
+src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:func_80181294: score 10 (COUNT; mine 191 ins, target 192) — not yet
+  register pairs (mine -> target, count): v1->v0 x3
+  replace mine[55:56] target[55:56]
+       55  bne	a0,v0,3618 <func_80181294+0x2b8> | bne	a0,v0,361c <func_80181294+0x2bc>
+  replace mine[77:79] target[77:79]
+       77  move	v1,s0                         | move	v0,s0
+       78  negu	v1,s0                         | negu	v0,s0
+  replace mine[80:81] target[80:81]
+       80  sh	v1,16(sp)                       | sh	v0,16(sp)
+  delete  mine[91:92] target[91:91]
+       91  addiu	v1,s0,64                     | --
+  replace mine[93:95] target[92:96]
+       93  addiu	v1,v0,64                     | j	34dc <func_80181294+0x17c>
+       94  sh	v1,20(sp)                       | addiu	v0,v0,64
+       95  --                                 | addiu	v0,s0,64
+       96  --                                 | sh	v0,20(sp)
+  replace mine[101:102] target[102:103]
+      101  bnez	v0,3454 <func_80181294+0xf4>  | bnez	v0,3454 <func_80181294+0xf4>

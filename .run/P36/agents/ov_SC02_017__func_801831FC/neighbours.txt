@@ -1,0 +1,15 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @class: straight-derive
+// @stuck: none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @class: regalloc (WIDTH/li!=addu -> MATCH)
+// @stuck: none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).
+// @class: plumbing
+// @stuck: none — MATCH (52 ins), iteration 1. Keys: (1) §3-T4 — Ghidra inverted the arms; the
