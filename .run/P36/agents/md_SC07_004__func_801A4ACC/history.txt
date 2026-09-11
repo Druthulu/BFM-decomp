@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 54 best 24 compiles 190 path R6 inline a0_ @3257
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline a0_ @3257 -> 24 [REG] (from 54)
+  R2 decl-order 1,0 -> 24 [REG] (from 24)
+  R4 decl-move s0 0->2 -> 24 [REG] (from 24)
+  R8 temp tmp0 @3297 -> 24 [REG] (from 24)
+  R7 block @3311 -> 24 [REG] (from 24)
+  R10 param-alias s0->a0 @3226 -> 24 [REG] (from 24)
+  R4 decl-move s0 0->3 -> 24 [REG] (from 24)
+  R7 do-while @3311 -> 24 [REG] (from 24)
+  R10 param-copy a0 @3225 -> 24 [REG] (from 24)
+  R4 decl-move s0 0->4 -> 24 [REG] (from 24)
+  R8 temp tmp0 @3352 -> 24 [REG] (from 24)
+  R7 block @3282 -> 24 [REG] (from 24)

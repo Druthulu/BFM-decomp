@@ -1,0 +1,22 @@
+--- func_801A3798 (line 2330) ---
+/* Three zero-byte levers carry this body; all three are load-bearing (single-axis A/B'd):
+ *
+ *  1. `y = arg1 + zr` with `zr` pinned to $0 (§36 "$0-add opaque copy").  The target keeps
+ *     TWO callee-saved registers holding arg1 ($s2 = the parameter home, $s1 = a copy born
+ *     after the jal).  A plain `y = arg1;` is head-promoted by cse.c make_regs_eqv and the
+ *     copy vanishes (LENGTH-DRIFT -1, and $s0/$s1 instead of $s0/$s1/$s2).
+ *  2. The non-volatile re-tie `__asm__("" : "=r"(y) : "0"(y))` gives `y` a second RTL SET,
+ *     which kills the sched1 birthing boost on the copy and emits it BEFORE the call's
+ *     return-value copy — so dbr steals `addu $a0,$v0,$zero` for the bltz delay slot
+ *     instead of the arg1 copy (§47-addendum / §34 reg_n_sets==2).
+ *  3. `goto ret0` instead of `return 0` after the func_80132288 tail.  With an in-block
+ *     `return 0` the tail block's rare_destination flips and reorg refuses to steal
+ *     `addiu $v0,$zero,3` into the `bnez $v0` delay slot (an unfillable +1 nop).  Routing
+ *     the exit through one shared `ret0:` tail restores the fill (§16 / §3-B shared-ret0).
+ *
+ * `t <<= 16; v1 = t >> 16;` (rather than `v1 = (s16)t;`) makes the sll reuse $v0 in place,
+ * which is what stops dbr from sinking `sh $v0,0xE6($s0)` into the bltz delay slot.
+ */
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: loose-typing
+// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)

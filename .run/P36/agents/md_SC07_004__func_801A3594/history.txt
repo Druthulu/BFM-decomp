@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 11 best 7 compiles 188 path R6 inline a @2179 + R7 do-while @2186
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @2186 -> 7 [COUNT] (from 9)
+  R2 decl-order 1,0 -> 7 [COUNT] (from 11)
+  R4 decl-move b 1->2 -> 7 [COUNT] (from 11)
+  R4 decl-move b 1->3 -> 7 [COUNT] (from 11)
+  R4 decl-move b 1->4 -> 7 [COUNT] (from 11)
+  R4 decl-move b 1->5 -> 7 [COUNT] (from 11)
+  R4 decl-move b 1->6 -> 7 [COUNT] (from 11)
+  R6 inline a @2186 -> 9 [COUNT] (from 11)
+  R6 inline a @2179 -> 9 [COUNT] (from 11)
+  R12 width xr s16->s32 @2174 -> 9 [COUNT] (from 9)
+  R8 temp tmp0 @2176 -> 9 [COUNT] (from 9)
+  R7 block @2181 -> 9 [COUNT] (from 9)

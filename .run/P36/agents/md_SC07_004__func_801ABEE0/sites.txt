@@ -1,0 +1,4 @@
+REMOVED  pin         $16    line 8292
+NEEDED   pin         $17    line 8293
+REMOVED  pin         $18    line 8294
+NEEDED   pin         $17    line 8312

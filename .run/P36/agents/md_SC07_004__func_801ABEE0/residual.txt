@@ -1,0 +1,49 @@
+src/md_SC07_004/md_SC07_004.c:func_801ABEE0: score 29 (MIXED; mine 70 ins, target 70) — not yet
+  register pairs (mine -> target, count): s1->s0 x18, s0->s1 x4, v1->s1 x4, a0->v1 x3
+  replace mine[1:3] target[1:3]
+        1  sw	s1,28(sp)                       | sw	s0,24(sp)
+        2  move	s1,a0                         | move	s0,a0
+  replace mine[5:8] target[5:8]
+        5  sw	s0,24(sp)                       | sw	s1,28(sp)
+        6  lw	s0,204(s1)                      | lw	s1,204(s0)
+        7  lw	s2,208(s1)                      | lw	s2,208(s0)
+  replace mine[10:11] target[10:11]
+       10  lhu	v0,6(s1)                       | lhu	v0,6(s0)
+  replace mine[12:14] target[12:14]
+       12  sh	v0,8(s0)                        | sh	v0,8(s1)
+       13  lhu	v0,10(s1)                      | lhu	v0,10(s0)
+  replace mine[15:17] target[15:17]
+       15  sh	v0,10(s0)                       | sh	v0,10(s1)
+       16  lhu	v0,14(s1)                      | lhu	v0,14(s0)
+  replace mine[18:20] target[18:20]
+       18  sh	v0,12(s0)                       | sh	v0,12(s1)
+       19  lh	a0,10(s1)                       | lh	v1,10(s0)
+  replace mine[21:22] target[21:22]
+       21  slti	v0,a0,-512                    | slti	v0,v1,-512
+  replace mine[24:25] target[24:25]
+       24  sh	v0,10(s1)                       | sh	v0,10(s0)
+  replace mine[26:27] target[26:27]
+       26  move	a0,s1                         | move	a0,s0
+  replace mine[31:32] target[31:32]
+       31  lw	v1,204(s2)                      | lw	s1,204(s2)
+  replace mine[33:35] target[33:35]
+       33  beqz	v1,bd48 <func_801ABEE0+0x98>  | beqz	s1,bd48 <func_801ABEE0+0x98>
+       34  addiu	v0,a0,1280                   | addiu	v0,v1,1280
+  replace mine[36:39] target[36:39]
+       36  sh	v0,26(v1)                       | sh	v0,26(s1)
+       37  sh	v0,24(v1)                       | sh	v0,24(s1)
+       38  lw	v0,28(s1)                       | lw	v0,28(s0)
+  replace mine[41:42] target[41:42]
+       41  sw	v0,28(s1)                       | sw	v0,28(s0)
+  replace mine[46:48] target[46:48]
+       46  move	a0,s1                         | move	a0,s0
+       47  lw	a0,204(s1)                      | lw	a0,204(s0)
+  replace mine[49:50] target[49:50]
+       49  addiu	a1,s1,240                    | addiu	a1,s0,240
+  replace mine[51:53] target[51:53]
+       51  move	a0,s1                         | move	a0,s0
+       52  lh	v0,132(s1)                      | lh	v0,132(s0)
+  replace mine[57:58] target[57:58]
+       57  sh	v0,132(s1)                      | sh	v0,132(s0)
+  replace mine[60:61] target[60:61]
+       60  move	a0,s1                         | move	a0,s0

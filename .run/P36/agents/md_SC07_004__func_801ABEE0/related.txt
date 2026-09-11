@@ -1,0 +1,127 @@
+=== lever-free bodies in md_SC07_004 sharing a callee or global with func_801ABEE0 (18 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801ABFF8 (src/md_SC07_004/md_SC07_004.c:8296) shares 2: func_80128ED8 func_801A9378 ---
+void func_801ABFF8(void *arg0) {
+    s32 s1;
+    s16 val;
+
+    s1 = *(s32 *)((char *)arg0 + 0xCC);
+    func_80128ED8(s1, (s32 *)((char *)arg0 + 0xF0));
+
+    val = *(s16 *)((char *)s1 + 0x1A);
+    if (val >= 0x1801) {
+        *(s16 *)((char *)s1 + 0x1A) = val - 0x400;
+    }
+
+    if (func_8012BEE8((s32)arg0) != 0) {
+        ((void (*)(s32, s32))func_801A9454)((s32)arg0, 0x10);
+        func_80016714(*(void **)((char *)arg0 + 0xCC), 0x38);
+        func_8012C218(arg0);
+        if (--D_801F8E98 == 0) {
+            func_8002D4C8(4, 0xABD);
+        }
+    } else {
+        if ((*(s32 *)((char *)arg0 + 0x1C) & 7) == 0) {
+            ((void (*)(s32, s32))func_801A9454)((s32)arg0, 0);
+        }
+        func_801A9378(arg0);
+    }
+}
+
+--- func_801A9674 (src/md_SC07_004/md_SC07_004.c:6427) shares 2: func_80128ED8 func_8012AD80 ---
+void func_801A9674(void *a0) {
+    void *s0 = a0;
+    void *s1;
+    void *s2;
+    s32 s3;
+    s32 sq0;
+    s32 sq1;
+
+    s1 = *(void **)((s32)s0 + 0xCC);
+    s2 = *(void **)((s32)s0 + 0xD0);
+
+    func_80128ED8((s32)s1, (s32 *)((s32)s0 + 0xF0));
+
+    *(u8 *)((s32)s1 + 0x27) = (u8)D_801B070C[*(s16 *)((s32)s0 + 0xF4)];
+
+    func_8012AD80((s32)s0);
+
+    *(s16 *)((s32)s1 + 0x8) = *(u16 *)((s32)s0 + 0x6);
+    *(s16 *)((s32)s1 + 0xA) = *(u16 *)((s32)s0 + 0xA);
+    *(s16 *)((s32)s1 + 0xC) = *(u16 *)((s32)s0 + 0xE);
+
+    if (*(s16 *)((s32)s0 + 0xFE) != 0) {
+        s3 = 0x30;
+        *(s16 *)((s32)s1 + 0x18) = (*(s16 *)((s32)s0 + 0xA) + 0x1400) * 2;
+        *(s16 *)((s32)s1 + 0x1A) = (0x1000 - *(s16 *)((s32)s0 + 0xA)) * 6;
+    } else {
+        s3 = 0x18;
+    }
+
+    if (*(s16 *)((s32)s0 + 0xA) >= -0x200) {
+        sq0 = *(s16 *)((s32)s0 + 0x6) * *(s16 *)((s32)s0 + 0x6);
+        sq1 = *(s16 *)((s32)s0 + 0xE) * *(s16 *)((s32)s0 + 0xE);
+        *(s16 *)((s32)s0 + 0xA) = -0x200;
+        if (sq0 + sq1 > 0xFFFFF) {
+            func_801A9954(s0);
+            return;
+        }
+        func_801A9810(s0);
+    } else {
+        if (*(s16 *)((s32)s0 + 0xFE) != 0 && s2 != NULL) {
+            s1 = *(void **)((s32)s2 + 0xCC);
+            if (s1 != NULL) {
+                s32 v = (*(s16 *)((s32)s0 + 0xA) + 0x500) * 40;
+                *(s16 *)((s32)s1 + 0x1A) = v;
+                *(s16 *)((s32)s1 + 0x18) = v;
+            }
+        }
+    }
+    func_801A9908(s0, s3);
+}
+
+--- func_801A9F5C (src/md_SC07_004/md_SC07_004.c:6790) shares 1: func_8012AD80 ---
+void func_801A9F5C(void *arg0) {
+    *(s32 *)((s32)arg0 + 0x1C) = 0x40;
+    func_801AA0B4(arg0);
+    func_8012AD80((s32)arg0);
+    func_8012AD80((s32)arg0);
+    func_8012AD44((s32 *)arg0, 2);
+}
+
+--- func_801ABBA4 (src/md_SC07_004/md_SC07_004.c:8086) shares 1: func_8012AD80 ---
+void func_801ABBA4(void *arg0) {
+    if (func_8012BEE8((s32)arg0) != 0) {
+        if (*(void **)((u8 *)arg0 + 0xCC) != NULL) {
+            func_8017E5D4(*(void **)((u8 *)arg0 + 0xCC));
+        }
+        func_8012C218(arg0);
+    } else {
+        func_8012AD80(arg0);
+    }
+}
+
+--- func_801AE6D4 (src/md_SC07_004/md_SC07_004.c:10103) shares 1: func_8012AD80 ---
+void func_801AE6D4(void *arg0) {
+    if (func_8012BEE8((s32)arg0) != 0) {
+        func_8012C218(arg0);
+    } else {
+        func_8012AD80((s32)arg0);
+        if (*(s16 *)((u8 *)arg0 + 0x70) == 0) {
+            func_8012B414((s32)arg0);
+        }
+    }
+}
+
+--- func_801AC234 (src/md_SC07_004/md_SC07_004.c:8380) shares 1: func_80128ED8 ---
+void func_801AC234(void *a0)
+{
+    extern void func_801292C8(u8 *a0);
+    extern void func_8012931C(struct vec *a0);
+
+    func_8012931C((struct vec *)a0);
+    if (func_80128ED8(*(s32 *)((char *)a0 + 0x20), (s32 *)((char *)a0 + 0x24)) != 0 ||
+        (*(s16 *)((char *)a0 + 0x2C) != 2 && *(s16 *)((char *)a0 + 0xA) >= -0x200)) {
+        func_801292C8((u8 *)a0);
+    }
+}
+

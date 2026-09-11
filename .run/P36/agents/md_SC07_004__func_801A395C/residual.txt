@@ -1,0 +1,13 @@
+src/md_SC07_004/md_SC07_004.c:func_801A395C: score 7 (COUNT; mine 26 ins, target 29) — not yet
+  replace mine[5:6] target[5:6]
+        5  beq	v0,a1,3788 <func_801A395C+0x5c> | bne	v0,a1,3750 <func_801A395C+0x24>
+  insert  mine[7:7] target[7:9]
+        7  --                                 | j	3794 <func_801A395C+0x68>
+        8  --                                 | li	v0,1
+  replace mine[13:14] target[15:16]
+       13  j	377c <func_801A395C+0x50>        | j	3784 <func_801A395C+0x58>
+  replace mine[20:22] target[22:24]
+       20  bnez	v0,3788 <func_801A395C+0x5c>  | bnez	v0,3794 <func_801A395C+0x68>
+       21  nop                                | move	v0,zero
+  insert  mine[23:23] target[25:26]
+       23  --                                 | li	v0,1

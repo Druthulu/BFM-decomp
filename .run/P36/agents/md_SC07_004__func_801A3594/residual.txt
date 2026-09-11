@@ -1,0 +1,21 @@
+src/md_SC07_004/md_SC07_004.c:func_801A3594: score 11 (COUNT; mine 35 ins, target 36) — not yet
+  register pairs (mine -> target, count): v1->v0 x4, v0->v1 x4, a0->v0 x2
+  replace mine[7:8] target[7:8]
+        7  j	33e4 <func_801A3594+0x80>        | j	33e8 <func_801A3594+0x84>
+  replace mine[9:11] target[9:11]
+        9  lhu	v1,232(a0)                     | lhu	v0,232(a0)
+       10  lhu	v0,6(a0)                       | lhu	v1,6(a0)
+  replace mine[12:13] target[12:13]
+       12  subu	v1,v1,v0                      | subu	v1,v0,v1
+  replace mine[14:15] target[14:15]
+       14  lh	a0,236(a0)                      | lh	v0,236(a0)
+  replace mine[17:19] target[17:19]
+       17  lhu	v1,234(a0)                     | lhu	v0,234(a0)
+       18  lhu	v0,14(a0)                      | lhu	v1,14(a0)
+  replace mine[20:21] target[20:21]
+       20  subu	v1,v1,v0                      | subu	v1,v0,v1
+  replace mine[22:23] target[22:23]
+       22  lh	a0,238(a0)                      | lh	v0,238(a0)
+  replace mine[24:25] target[24:26]
+       24  beqz	a0,33e0 <func_801A3594+0x7c>  | beqz	v0,33e4 <func_801A3594+0x80>
+       25  --                                 | move	a0,v0

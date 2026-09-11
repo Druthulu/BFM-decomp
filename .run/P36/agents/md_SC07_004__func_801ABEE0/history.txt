@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 29 best 9 compiles 188 path R18 bystander @8279->8283
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @8279->8283 -> 9 [COUNT] (from 29)
+  R18 bystander @8279->8284 -> 9 [COUNT] (from 29)
+  R18 bystander @8279->8285 -> 9 [COUNT] (from 29)
+  R12 width v1 s16->s32 @8274 -> 9 [COUNT] (from 9)
+  R8 temp tmp0 @8283 -> 9 [COUNT] (from 9)
+  R7 block @8283 -> 9 [COUNT] (from 9)
+  R4 decl-move ptr1 1->0 -> 9 [COUNT] (from 9)
+  R8 base tmp0 @8283 -> 9 [COUNT] (from 9)
+  R7 do-while @8283 -> 9 [COUNT] (from 9)
+  R4 decl-move ptr1 1->2 -> 9 [COUNT] (from 9)
+  R8 base-shared tmp0 @8283 -> 9 [COUNT] (from 9)
+  R7 block @8293 -> 9 [COUNT] (from 9)

@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 7 best 7 compiles 190 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R8 temp tmp0 @2398 -> 7 [COUNT] (from 7)
+  R7 block @2415 -> 7 [COUNT] (from 7)
+  R10 param-copy a0 @2396 -> 7 [COUNT] (from 7)
+  R12 width overshot s32->s16 @2395 -> 7 [COUNT] (from 7)
+  R8 base tmp0 @2398 -> 7 [COUNT] (from 7)
+  R7 do-while @2415 -> 7 [COUNT] (from 7)
+  R9 swap-stmts @2397 -> 7 [COUNT] (from 7)
+  R10 param-copy a1 @2396 -> 7 [COUNT] (from 7)
+  R7 block @2412 -> 7 [COUNT] (from 7)
+  R9 swap-stmts @2414 -> 7 [COUNT] (from 7)
+  R7 do-while @2412 -> 7 [COUNT] (from 7)
+  R7 block @2398 -> 7 [COUNT] (from 7)
