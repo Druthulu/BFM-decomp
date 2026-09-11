@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 26 best 11 compiles 189 path R10 param-copy prim @18179
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R10 param-copy prim @18179 -> 11 [COUNT] (from 26)
+  R14 param-width unused s32->s16 @18175 -> 11 [COUNT] (from 11)
+  R8 hoist tmp0 @18234 -> 11 [COUNT] (from 11)
+  R7 block @18232 -> 11 [COUNT] (from 11)
+  R10 param-copy src @18180 -> 11 [COUNT] (from 11)
+  R14 param-width unused s32->u16 @18175 -> 11 [COUNT] (from 11)
+  R7 do-while @18232 -> 11 [COUNT] (from 11)
+  R10 param-copy vb @18180 -> 11 [COUNT] (from 11)
+  R14 param-width unused s32->u8 @18175 -> 11 [COUNT] (from 11)
+  R8 hoist tmp0 @18239 -> 11 [COUNT] (from 11)
+  R7 block @18234 -> 11 [COUNT] (from 11)
+  R10 param-copy prim @18180 -> 11 [COUNT] (from 11)

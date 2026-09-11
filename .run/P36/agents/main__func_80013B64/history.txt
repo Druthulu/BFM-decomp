@@ -1,0 +1,14 @@
+s6: verdict NO-MATCH start 10 best 6 compiles 181 path R12 width v1 s32->u16 @1232
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width v1 s32->u16 @1232 -> 6 [MIXED] (from 10)
+  R12 width v1 s32->s16 @1232 -> 6 [MIXED] (from 10)
+  R4 decl-move v0p 5->0 -> 6 [MIXED] (from 6)
+  R7 block @1249 -> 6 [MIXED] (from 6)
+  R10 param-copy param_1 @1235 -> 6 [MIXED] (from 6)
+  R14 param-width param_1 s32->s16 @1226 -> 6 [MIXED] (from 6)
+  R4 decl-move v0p 5->1 -> 6 [MIXED] (from 6)
+  R7 do-while @1249 -> 6 [MIXED] (from 6)
+  R9 swap-stmts @1246 -> 6 [MIXED] (from 6)
+  R10 param-copy param_2 @1235 -> 6 [MIXED] (from 6)
+  R14 param-width param_1 s32->u16 @1226 -> 6 [MIXED] (from 6)
+  R4 decl-move v0p 5->2 -> 6 [MIXED] (from 6)

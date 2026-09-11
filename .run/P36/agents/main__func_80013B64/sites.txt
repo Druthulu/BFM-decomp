@@ -1,0 +1,4 @@
+REMOVED  pin         $3     line 1309
+NEEDED   pin         $2     line 1310
+NEEDED   barrier            line 1318
+NEEDED   barrier            line 1322

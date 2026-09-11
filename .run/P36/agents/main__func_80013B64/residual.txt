@@ -1,0 +1,17 @@
+src/800.c:func_80013B64: score 10 (COUNT; mine 102 ins, target 102) — not yet
+  register pairs (mine -> target, count): v1->v0 x3
+  insert  mine[17:17] target[17:18]
+       17  --                                 | negu	v1,s0
+  insert  mine[20:20] target[21:23]
+       20  --                                 | sh	v0,64(sp)
+       21  --                                 | addiu	v0,sp,48
+  delete  mine[21:24] target[24:24]
+       21  negu	s0,s0                         | --
+       22  addiu	v1,sp,48                     | --
+       23  sh	s0,50(sp)                       | --
+  replace mine[25:26] target[25:26]
+       25  sh	v0,64(sp)                       | sh	v1,50(sp)
+  replace mine[40:43] target[40:43]
+       40  lhu	t4,0(v1)                       | lhu	t4,0(v0)
+       41  lhu	t5,6(v1)                       | lhu	t5,6(v0)
+       42  lhu	t6,12(v1)                      | lhu	t6,12(v0)

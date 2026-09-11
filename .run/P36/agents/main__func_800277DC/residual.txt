@@ -1,0 +1,74 @@
+src/800.c:func_800277DC: score 51 (COUNT; mine 124 ins, target 116) — not yet
+  register pairs (mine -> target, count): t3->t1 x3, t6->t3 x2, t7->t5 x1, t9->t7 x1, t8->t6 x1, s1->t9 x1, s0->t8 x1
+  replace mine[0:7] target[0:5]
+        0  addiu	sp,sp,-32                    | addiu	sp,sp,-24
+        1  lw	t2,48(sp)                       | lw	t2,40(sp)
+        2  sw	s1,28(sp)                       | lw	t9,44(sp)
+        3  lw	s1,52(sp)                       | lw	t8,48(sp)
+        4  sw	s0,24(sp)                       | beqz	t2,155b0 <func_800277DC+0x1c4>
+        5  lw	s0,56(sp)                       | --
+        6  beqz	t2,155c8 <func_800277DC+0x1dc> | --
+  replace mine[8:20] target[6:16]
+        8  addiu	t7,sp,4                      | addiu	t5,sp,4
+        9  addiu	t9,sp,8                      | addiu	t7,sp,8
+       10  addiu	t8,sp,12                     | addiu	t6,sp,12
+       11  lui	t6,0xff                        | lui	t3,0xff
+       12  ori	t6,t6,0xffff                   | ori	t3,t3,0xffff
+       13  addiu	t5,a0,3                      | addiu	t0,a0,3
+       14  addiu	t3,a3,4                      | addiu	t1,a3,4
+       15  addiu	t0,a0,16                     | lhu	a0,17(t0)
+       16  addiu	t1,a3,28                     | lhu	v1,19(t0)
+       17  lhu	a0,4(t0)                       | lhu	v0,21(t0)
+       18  lhu	v1,6(t0)                       | --
+       19  lhu	v0,8(t0)                       | --
+  replace mine[35:36] target[31:32]
+       35  lw	v0,-12(t0)                      | lw	v0,1(t0)
+  replace mine[37:39] target[33:35]
+       37  sw	v0,-16(t1)                      | sw	v0,8(t1)
+       38  lw	v0,-8(t0)                       | lw	v0,5(t0)
+  replace mine[40:42] target[36:38]
+       40  sw	v0,-8(t1)                       | sw	v0,16(t1)
+       41  lw	v0,-4(t0)                       | lw	v0,9(t0)
+  replace mine[43:44] target[39:40]
+       43  sw	v0,0(t1)                        | sw	v0,24(t1)
+  replace mine[50:51] target[46:47]
+       50  bnez	v0,155b4 <func_800277DC+0x1c8> | bnez	v0,155a0 <func_800277DC+0x1b4>
+  replace mine[55:56] target[51:52]
+       55  swc2	$24,0(t7)                     | swc2	$24,0(t5)
+  replace mine[58:59] target[54:55]
+       58  blez	v0,155b4 <func_800277DC+0x1c8> | blez	v0,155a0 <func_800277DC+0x1b4>
+  replace mine[69:71] target[65:67]
+       69  swc2	$17,0(t9)                     | swc2	$17,0(t7)
+       70  swc2	$18,0(t8)                     | swc2	$18,0(t6)
+  replace mine[79:80] target[75:76]
+       79  j	15534 <func_800277DC+0x148>      | j	15524 <func_800277DC+0x138>
+  replace mine[88:89] target[84:85]
+       88  j	15564 <func_800277DC+0x178>      | j	15554 <func_800277DC+0x168>
+  replace mine[93:98] target[89:93]
+       93  swc2	$7,0(t7)                      | swc2	$7,0(t5)
+       94  addiu	t1,t1,32                     | lw	v1,13(t0)
+       95  lw	v1,0(t0)                        | lbu	v0,0(t0)
+       96  lbu	v0,0(t5)                       | and	v1,v1,t3
+       97  and	v1,v1,t6                       | --
+  replace mine[100:101] target[95:96]
+      100  sw	v1,0(t3)                        | sw	v1,0(t1)
+  replace mine[102:104] target[97:99]
+      102  addiu	t3,t3,32                     | addiu	t1,t1,32
+      103  srav	a0,a0,s1                      | srav	a0,a0,t9
+  replace mine[105:106] target[100:101]
+      105  addu	a0,s0,a0                      | addu	a0,t8,a0
+  replace mine[108:109] target[103:104]
+      108  and	v1,v1,t6                       | and	v1,v1,t3
+  replace mine[110:111] target[105:106]
+      110  and	v0,a3,t6                       | and	v0,a3,t3
+  insert  mine[114:114] target[109:111]
+      114  --                                 | addiu	t2,t2,-1
+      115  --                                 | bnez	t2,15420 <func_800277DC+0x34>
+  delete  mine[115:118] target[112:112]
+      115  addiu	t2,t2,-1                     | --
+      116  bnez	t2,15430 <func_800277DC+0x44> | --
+      117  addiu	t5,t5,28                     | --
+  replace mine[119:122] target[113:114]
+      119  lw	s1,28(sp)                       | addiu	sp,sp,24
+      120  lw	s0,24(sp)                       | --
+      121  addiu	sp,sp,32                     | --

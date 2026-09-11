@@ -1,26 +1,26 @@
 lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclassified 0 · verbatim excluded 13 fn / 14 sites (manifest 13)
-  coverage asm       raw  22293 = live  15317 + macro-block   194 + comment/dead  6782
-  coverage register  raw  10978 = live   2387 + macro-block    18 + comment/dead  8573
+  coverage asm       raw  22285 = live  15309 + macro-block   194 + comment/dead  6782
+  coverage register  raw  10975 = live   2384 + macro-block    18 + comment/dead  8573
   coverage volatile  raw   4372 = live   1685 + macro-block    82 + comment/dead  2605
   coverage builtin   raw    599 = live    445 + macro-block     0 + comment/dead   154
   coverage attribute raw     76 = live     76 + macro-block     0 + comment/dead     0
   class  sites  in-bodies  file-scope  bodies  distinct  TUs  marked  unmarked   kinds
-  A pins         2337      2337          0    1453       617  1082    2337         0   {'pin': 2337}
-  B asm         11338     11325         13    4695       755  1428    2525      8813   {'gte': 6346, 'gte-lever': 451, 'barrier': 316, 'gte-unsigned': 270, 'launder': 691, 'instruction': 229, 'asm-body': 13, 'keepalive': 340, 'verbatim-body': 2682}
+  A pins         2334      2334          0    1450       614  1082    2334         0   {'pin': 2334}
+  B asm         11333     11320         13    4691       751  1428    2520      8813   {'gte': 6346, 'gte-lever': 451, 'barrier': 315, 'gte-unsigned': 270, 'launder': 687, 'instruction': 229, 'asm-body': 13, 'keepalive': 340, 'verbatim-body': 2682}
   C volatile     1589      1437        152     495        94   609      14      1575   {'decl-body': 58, 'decl-file': 152, 'cast': 1377, 'param': 2}
   D register       50        50          0      47        47     6       0        50   {'register': 50}
   E asm-label    7788      1364       6424    1096       157  2090       0      7788   {'asm-label': 7788}
   F builtin       445       445          0     428        27   302       0       445   {'builtin': 445}
   G attribute      76         1         75       1         1    40       0        76   {'attribute': 76}
-  UNION A–D: 5,899 bodies · 1,153 distinct (addresses normalized) · 117 multi-copy classes holding 4,863 bodies · by kind {'ov': 5460, 'main': 151, 'md': 117, 'shared': 161, 'resident': 10}
-  THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 4,377 sites in 2,140 bodies (827 distinct) · marked !FAKE 4,377 · UNMARKED 0
+  UNION A–D: 5,895 bodies · 1,149 distinct (addresses normalized) · 117 multi-copy classes holding 4,863 bodies · by kind {'main': 147, 'ov': 5460, 'shared': 161, 'md': 117, 'resident': 10}
+  THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 4,369 sites in 2,136 bodies (823 distinct) · marked !FAKE 4,369 · UNMARKED 0
   orphan !FAKE markers (no pin/asm site on the line nor below): 0
   marked ordinary-C fakes kept by Drew's S104 ruling (a) (`do { } while (0)`, dead initialisers; NOT levers): 44
   GTE levers (clobbers beyond the canonical macro's): 451 sites (94 via a variant macro, 357 direct) · marked 451 · UNMARKED 0 · unsigned GTE statements 270
   per-TU asm macro definitions outside the GTE header: 314 {'gte': 150, 'launder': 154, 'instruction': 9, 'barrier': 1} (GTE variants 64)
-  pins: 2,337 · $0 64 · $sp 13 · with initializer 213 · volatile-qualified 0 · bare-name 15 · spellings {'__asm__': 2308, 'asm': 29}
+  pins: 2,334 · $0 64 · $sp 13 · with initializer 213 · volatile-qualified 0 · bare-name 15 · spellings {'__asm__': 2305, 'asm': 29}
   whole-body asm routines in C shells, manifest PERMANENT (hand asm, NOT levers): 22 routines · 2,682 sites (2,660 private copies + 22 shared headers); asm-bodies NOT permanent (levers): 13 site(s) ['func_8001E378:DECOMPILE-NOW', 'func_80020F34:DECOMPILE-NOW', 'func_800249F0:DECOMPILE-NOW', 'func_80025CBC:DECOMPILE-NOW', 'func_80026514:UNCERTAIN', 'func_800268D0:UNCERTAIN', 'func_80027058:DECOMPILE-NOW', 'func_80027200:DECOMPILE-NOW', 'func_800CBA44:DECOMPILE-NOW', 'func_8017D810:DECOMPILE-NOW', 'func_8017E26C:UNCERTAIN', 'func_80184440:DECOMPILE-NOW', 'func_801A3BCC:DECOMPILE-NOW']
-  asm kinds: {'asm-body/direct': 13, 'barrier/direct': 314, 'barrier/via-macro': 2, 'gte/direct': 198, 'gte/via-macro': 6148, 'gte-lever/direct': 357, 'gte-lever/via-macro': 94, 'gte-unsigned/direct': 270, 'instruction/direct': 207, 'instruction/via-macro': 22, 'keepalive/direct': 340, 'launder/direct': 649, 'launder/via-macro': 42, 'verbatim-body/direct': 2682}
+  asm kinds: {'asm-body/direct': 13, 'barrier/direct': 313, 'barrier/via-macro': 2, 'gte/direct': 198, 'gte/via-macro': 6148, 'gte-lever/direct': 357, 'gte-lever/via-macro': 94, 'gte-unsigned/direct': 270, 'instruction/direct': 207, 'instruction/via-macro': 22, 'keepalive/direct': 340, 'launder/direct': 645, 'launder/via-macro': 42, 'verbatim-body/direct': 2682}
   instruction mnemonics: {'la': 139, 'addu': 23, 'addiu': 22, 'RTP_SND': 22, '.section': 7, 'lui': 4, 'lh': 3, 'and': 2, 'mult': 1, 'mfhi': 1, 'sll': 1, 'li': 1, 'lw': 1, 'nop': 1, 'srl': 1}
   gte mnemonics: {'gte_ldv0': 758, 'gte_stlvnl': 593, 'gte_stsxy': 448, 'gte_rtps': 439, 'gte_stflg': 415, 'gte_rtpt': 352, 'gte_SetRotMatrix': 252, 'gte_stsxy3': 236, 'gte_SetTransMatrix': 231, 'gte_rtv0tr': 228, 'gte_ldv3c': 184, 'gte_ldv3': 177, 'gte_stsv': 161, 'lwc2': 158, 'gte_stsz4': 149, 'gte_stsz3': 147, 'gte_stszotz': 134, 'gte_dpcl': 134, 'gte_stclmv': 111, 'gte_stsxy3_f3': 111, 'gte_nclip': 108, 'gte_stopz': 108, 'gte_stsxy3c': 108, 'gte_stsxy3_ft3': 79, 'gte_rtir': 78, 'gte_ldclmv': 75, 'gte_avsz4': 56, 'gte_stotz': 52, 'gte_ldrgb': 30, 'gte_nccs': 25}
   asm-bearing macro definitions: 314 (20 names, 3 with >1 text) kinds {'gte': 150, 'launder': 154, 'instruction': 9, 'barrier': 1}
@@ -29,4 +29,4 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
     src/shared/ov/func_80178004.h pins                   got 8      expected 26  N-A
     ov_SC03_006 func_80184034 bare-name pins             got 0      expected 3  N-A
     engine_prelude.h asm sites (a macro definition only) got 0      expected 0  OK
-  elapsed 26.0 s
+  elapsed 26.9 s

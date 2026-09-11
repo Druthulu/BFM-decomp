@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 51 best 49 compiles 189 path R7 do-while @18046 + R7 do-while @18045
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @18045 -> 49 [COUNT] (from 50)
+  R7 do-while @18046 -> 50 [COUNT] (from 51)
+  R6 inline psz0 @18057 -> 50 [COUNT] (from 50)
+  R18 bystander @18058->18061 -> 50 [COUNT] (from 50)
+  R7 block @18056 -> 50 [COUNT] (from 50)
+  R9 swap-stmts @18056 -> 50 [COUNT] (from 50)
+  R2 decl-order 1,0 -> 50 [COUNT] (from 50)
+  R6 inline shiftAmt @18045 -> 50 [COUNT] (from 50)
+  R18 bystander @18059->18056 -> 50 [COUNT] (from 50)
+  R7 do-while @18056 -> 50 [COUNT] (from 50)
+  R5 swap & @18107 -> 50 [COUNT] (from 50)
+  R9 swap-stmts @18057 -> 50 [COUNT] (from 50)

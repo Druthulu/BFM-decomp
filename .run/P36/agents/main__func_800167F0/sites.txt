@@ -1,0 +1,3 @@
+NEEDED   pin         $0     line 4002
+NEEDED   pin         $3     line 4003
+NEEDED   barrier     memory line 4017
