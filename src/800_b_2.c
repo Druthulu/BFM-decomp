@@ -5820,27 +5820,22 @@ extern u16 D_800A46E8[];
 extern void func_80030D80(Ent30D80 *arg0, s16 arg1);
 
 void func_8003350C(s32 arg0, s32 arg1) {
-    register Ent30D80 *p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 t __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
     u8 *base;
     u8 *e;
     s32 off;
+    Ent30D80 *p;
     s32 i;
 
     off = arg0 * 0x54;
     base = (u8 *)D_800A46E8;
     e = base + off;
-    i = 0;
-    t = arg1 << 16;
     p = (Ent30D80 *)(base + 0x2A0);
-    __asm__ ("" :: "r"(base));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-    for (; i < 8; i++, p++) {
-        u8 *q = e + i;
-        if (q[0xE] != 0) {
-            q[0xE] = 0;
-            p->unk40 = 0;
-            if (p->unk4E != 0) {
-                func_80030D80(p, t >> 16);
+    for (i = 0; i < 8; i++) {
+        if ((e + i)[0xE] != 0) {
+            (e + i)[0xE] = 0;
+            p[i].unk40 = 0;
+            if (p[i].unk4E != 0) {
+                func_80030D80(&p[i], arg1);
             }
         }
     }
