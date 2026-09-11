@@ -4809,9 +4809,6 @@ void func_80180B24(s32 s0)
     extern void func_80183BD0(u8 *a0);
     struct Ent_80180B24 *p;
     s32 a;
-    s32 ta;
-    s32 tb;
-    s32 tc;
     s32 s1;
     s32 s3;
     s16 x;
@@ -4848,27 +4845,22 @@ void func_80180B24(s32 s0)
     if (((s32 (*)(int, int))func_801833D4)((int)s0, 0) != 0) {
         switch (*(u16 *)(s0 + 0x34)) {
         case 0:
-            /* §49-variant/§30#3: zero-byte re-ties set reg_n_sets=2, killing sched1's
-             * birthing_insn_p LAUNCH_PRIORITY boost that glued each add to its store;
-             * yields the target's load*3 / add*3 / store*3 order. */
-            ta = *(u16 *)(s0 + 0xF4) + 1;
-            tb = *(u16 *)(s0 + 0xF2) + 1;
-            __asm__("" : "=r"(ta) : "0"(ta));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t3_tus1)
-            __asm__("" : "=r"(tb) : "0"(tb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t3_tus1)
-            *(u16 *)(s0 + 0xF4) = ta;
-            *(u16 *)(s0 + 0xF2) = tb;
-            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            /* Post-increments on the u16 fields: the add's destination is a SUBREG of the
+             * field's HImode value, so sched1's birthing_insn_p (sched.c:2477-2490) gives the
+             * adds no LAUNCH_PRIORITY boost and the target's load*3 / add*3 / store*3 order
+             * falls out (was two zero-byte asm re-ties). */
+            p->unkF4++;
+            p->unkF2++;
+            p->unk34++;
             func_8002D4C8(0x992, 0);
             break;
         case 1:
             /* struct-member spelling (MEM_IN_STRUCT_P) on the s0 fields defeats the false
-             * alias against the D_801EFD40 store. */
+             * alias against the D_801EFD40 store; unk34++ as a post-increment (no asm). */
             D_801EFD40 = D_801EFD40 & 0xFFFE;
             a = p->unkF4 + 1;
             p->unkF4 = a + (p->unkF2 & 1);
-            tc = p->unk34 + 1;
-            __asm__("" : "=r"(tc) : "0"(tc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t3_tus1)
-            p->unk34 = tc;
+            p->unk34++;
             break;
         case 2:
             if (*(s16 *)(s0 + 0x76) == 0) {
