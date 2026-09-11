@@ -1,0 +1,4 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_80188A30: score 2 (COUNT; mine 36 ins, target 37) — not yet
+  replace mine[17:18] target[17:19]
+       17  beqz	v0,b618 <func_80188A30+0x7c>  | beqz	v0,b61c <func_80188A30+0x80>
+       18  --                                 | nop

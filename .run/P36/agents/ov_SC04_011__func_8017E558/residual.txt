@@ -1,0 +1,75 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_8017E558: score 53 (COUNT; mine 99 ins, target 101) — not yet
+  register pairs (mine -> target, count): a1->a2 x23, a3->t0 x8, a2->a3 x4, s0->a1 x3, s1->s0 x3, s0->s1 x2
+  insert  mine[3:3] target[3:7]
+        3  --                                 | sw	s0,16(sp)
+        4  --                                 | move	s0,zero
+        5  --                                 | sw	s2,24(sp)
+        6  --                                 | move	s2,zero
+  delete  mine[5:10] target[9:9]
+        5  sw	s2,24(sp)                       | --
+        6  move	s2,zero                       | --
+        7  sw	s0,16(sp)                       | --
+        8  lui	s0,0x0                         | --
+        9  addiu	s0,s0,0                      | --
+  replace mine[11:12] target[10:14]
+       11  lh	v0,0(s0)                        | lui	v0,0x0
+       12  --                                 | addiu	v0,v0,0
+       13  --                                 | addu	a1,s1,v0
+       14  --                                 | lh	v0,0(a1)
+  replace mine[14:16] target[16:18]
+       14  move	a3,zero                       | move	t0,zero
+       15  lw	v0,12(s0)                       | lw	v0,12(a1)
+  replace mine[18:22] target[20:24]
+       18  sw	v0,12(s0)                       | sw	v0,12(a1)
+       19  li	a2,16                           | li	a3,16
+       20  addu	a1,s0,a2                      | addu	a2,a1,a3
+       21  lh	v1,0(a1)                        | lh	v1,0(a2)
+  replace mine[29:31] target[31:33]
+       29  j	11f8 <func_8017E558+0x134>       | j	1200 <func_8017E558+0x13c>
+       30  addiu	a3,a3,1                      | addiu	t0,t0,1
+  replace mine[34:39] target[36:41]
+       34  j	11f8 <func_8017E558+0x134>       | j	1200 <func_8017E558+0x13c>
+       35  addiu	a3,a3,1                      | addiu	t0,t0,1
+       36  lw	a0,12(a1)                       | lw	a0,12(a2)
+       37  lw	v0,16(a1)                       | lw	v0,16(a2)
+       38  lw	v1,20(a1)                       | lw	v1,20(a2)
+  replace mine[40:41] target[42:43]
+       40  lhu	v0,2(a1)                       | lhu	v0,2(a2)
+  replace mine[42:43] target[44:45]
+       42  sw	v1,20(a1)                       | sw	v1,20(a2)
+  replace mine[44:45] target[46:47]
+       44  sw	a0,12(a1)                       | sw	a0,12(a2)
+  replace mine[46:47] target[48:49]
+       46  sh	v0,2(a1)                        | sh	v0,2(a2)
+  replace mine[51:52] target[53:54]
+       51  lhu	v0,0(a1)                       | lhu	v0,0(a2)
+  replace mine[54:58] target[56:60]
+       54  sh	v0,0(a1)                        | sh	v0,0(a2)
+       55  lhu	v0,4(a1)                       | lhu	v0,4(a2)
+       56  lhu	a0,6(a1)                       | lhu	a0,6(a2)
+       57  lhu	v1,10(a1)                      | lhu	v1,10(a2)
+  replace mine[60:65] target[62:67]
+       60  sh	v0,4(a1)                        | sh	v0,4(a2)
+       61  j	11f4 <func_8017E558+0x130>       | j	11fc <func_8017E558+0x138>
+       62  sh	v1,10(a1)                       | sh	v1,10(a2)
+       63  lhu	v0,4(a1)                       | lhu	v0,4(a2)
+       64  lw	v1,24(a1)                       | lw	v1,24(a2)
+  replace mine[67:68] target[69:70]
+       67  sh	v0,4(a1)                        | sh	v0,4(a2)
+  replace mine[69:72] target[71:74]
+       69  sw	v1,24(a1)                       | sw	v1,24(a2)
+       70  lhu	v0,0(a1)                       | lhu	v0,0(a2)
+       71  sw	zero,24(a1)                     | sw	zero,24(a2)
+  replace mine[73:78] target[75:80]
+       73  j	11f4 <func_8017E558+0x130>       | j	11fc <func_8017E558+0x138>
+       74  sh	v0,0(a1)                        | sh	v0,0(a2)
+       75  addiu	s1,s1,1                      | addiu	s0,s0,1
+       76  addiu	a3,a3,1                      | addiu	t0,t0,1
+       77  slti	v0,a3,16                      | slti	v0,t0,16
+  replace mine[79:80] target[81:82]
+       79  addiu	a2,a2,28                     | addiu	a3,a3,28
+  replace mine[84:86] target[86:88]
+       84  bnez	v0,10f0 <func_8017E558+0x2c>  | bnez	v0,10ec <func_8017E558+0x28>
+       85  addiu	s0,s0,464                    | addiu	s1,s1,464
+  replace mine[87:88] target[89:90]
+       87  bne	s1,v0,1230 <func_8017E558+0x16c> | bne	s0,v0,1238 <func_8017E558+0x174>

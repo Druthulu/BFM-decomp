@@ -1,0 +1,16 @@
+s5: verdict NO-MATCH start 17 best 3 compiles 183 path R12 width v1_sign s32->u16 @13962 + R7 do-while @13987
+s7: verdict NO-MATCH start 17 best 2 compiles 549 path R12 width v0 s32->s16 @13953
+s9: verdict NO-MATCH start 17 best 2 compiles 244 path R12 width v0 s32->s16 @13953
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R12 width v0 s32->s16 @13953 -> 2 [COUNT] (from 17)
+  R6 inline v1_sign @13979 -> 2 [COUNT] (from 2)
+  R8 temp tmp0 @13978 -> 2 [COUNT] (from 2)
+  R18 bystander @13959->13961 -> 2 [COUNT] (from 2)
+  R7 block @13975 -> 2 [COUNT] (from 2)
+  R5 swap + @13970 -> 2 [COUNT] (from 2)
+  R9 swap-stmts @13978 -> 2 [COUNT] (from 2)
+  R10 param-alias s0->a0 @13957 -> 2 [COUNT] (from 2)
+  R4 decl-move v0 2->0 -> 2 [COUNT] (from 2)
+  R6 inline v0 @13973 -> 2 [COUNT] (from 2)
+  R8 base tmp0 @13978 -> 2 [COUNT] (from 2)
+  R7 do-while @13975 -> 2 [COUNT] (from 2)

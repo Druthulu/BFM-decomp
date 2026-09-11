@@ -53,7 +53,7 @@
   },
   "kinds": {
    "asm-body/direct": 13,
-   "barrier/direct": 327,
+   "barrier/direct": 326,
    "barrier/via-macro": 2,
    "gte-lever/direct": 357,
    "gte-lever/via-macro": 94,
@@ -72,6 +72,8 @@
  "cfake_markers": {
   "count": 41,
   "sample": [
+   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7487",
+   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:10291",
    "src/800.c:12732",
    "src/md_SC07_003/md_SC07_003.c:3577",
    "src/md_SC07_004/md_SC07_004.c:280",
@@ -93,8 +95,6 @@
    "src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:10069",
    "src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:9323",
    "src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:6630",
-   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7487",
-   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:10290",
    "src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5814",
    "src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c:4815",
    "src/ov_SC05_005/ov_SC05_005_jr_8017D898.c:4026",
@@ -116,26 +116,26 @@
  },
  "classes": {
   "A": {
-   "bodies": 1478,
-   "distinct_bodies": 642,
+   "bodies": 1475,
+   "distinct_bodies": 639,
    "file_scope": 0,
-   "in_bodies": 2370,
+   "in_bodies": 2367,
    "kinds": {
-    "pin": 2370
+    "pin": 2367
    },
-   "marked": 2370,
-   "sites": 2370,
+   "marked": 2367,
+   "sites": 2367,
    "tus": 1083,
    "unmarked": 0
   },
   "B": {
-   "bodies": 4711,
-   "distinct_bodies": 770,
+   "bodies": 4710,
+   "distinct_bodies": 769,
    "file_scope": 13,
-   "in_bodies": 11342,
+   "in_bodies": 11341,
    "kinds": {
     "asm-body": 13,
-    "barrier": 329,
+    "barrier": 328,
     "gte": 6337,
     "gte-lever": 451,
     "gte-unsigned": 270,
@@ -144,8 +144,8 @@
     "launder": 700,
     "verbatim-body": 2682
    },
-   "marked": 2555,
-   "sites": 11355,
+   "marked": 2554,
+   "sites": 11354,
    "tus": 1428,
    "unmarked": 8800
   },
@@ -251,9 +251,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6782,
-   "live": 15377,
+   "live": 15373,
    "macro_block": 194,
-   "raw": 22353
+   "raw": 22349
   },
   "attribute": {
    "comment_dead": 0,
@@ -268,10 +268,10 @@
    "raw": 599
   },
   "register": {
-   "comment_dead": 8576,
-   "live": 2420,
+   "comment_dead": 8575,
+   "live": 2417,
    "macro_block": 18,
-   "raw": 11014
+   "raw": 11010
   },
   "volatile": {
    "comment_dead": 2606,
@@ -281,7 +281,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 25.4,
+ "elapsed_s": 22.8,
  "generated": "2026-09-11",
  "gte_levers": {
   "direct": 357,
@@ -292,15 +292,15 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "08541f3c1",
+ "head": "02baadce9",
  "headers": 3181,
  "levers_AB": {
-  "asm": 2066,
-  "bodies": 2187,
-  "distinct_bodies": 873,
-  "marked": 4436,
-  "pins": 2370,
-  "sites": 4436,
+  "asm": 2065,
+  "bodies": 2183,
+  "distinct_bodies": 869,
+  "marked": 4432,
+  "pins": 2367,
+  "sites": 4432,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -434,7 +434,7 @@
  },
  "pins": {
   "bare_name": 15,
-  "init": 221,
+  "init": 220,
   "registers": {
    "$0": 64,
    "$10": 10,
@@ -443,11 +443,11 @@
    "$13": 6,
    "$14": 5,
    "$15": 1,
-   "$16": 98,
+   "$16": 97,
    "$17": 40,
    "$18": 32,
-   "$19": 22,
-   "$2": 815,
+   "$19": 21,
+   "$2": 814,
    "$20": 7,
    "$21": 6,
    "$22": 3,
@@ -467,29 +467,29 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 2370,
+  "sites": 2367,
   "sp": 13,
   "spelling": {
-   "__asm__": 2340,
+   "__asm__": 2337,
    "asm": 30
   },
   "volatile_qualified": 0,
   "zero": 64
  },
- "src_stamp": "c99f4d2663088e3a",
+ "src_stamp": "d8af63b6932c3d95",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 5937,
+  "bodies": 5933,
   "by_kind": {
    "main": 157,
    "md": 117,
-   "ov": 5492,
+   "ov": 5488,
    "resident": 10,
    "shared": 161
   },
   "copies_in_multi": 4865,
-  "distinct_bodies": 1190,
+  "distinct_bodies": 1186,
   "multi_copy_classes": 118
  },
  "verbatim_excluded": {

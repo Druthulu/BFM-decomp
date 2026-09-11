@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 53 best 27 compiles 190 path R6 inline sym @3174 + R7 do-while @3177
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 do-while @3177 -> 27 [REG] (from 34)
+  R12 width life u16->u8 @3168 -> 28 [COUNT] (from 34)
+  R6 inline sym @3174 -> 34 [REG] (from 53)
+  R8 temp tmp0 @3191 -> 34 [REG] (from 34)
+  R5 swap + @3193 -> 34 [MIXED] (from 34)
+  R18 bystander @3183->3186 -> 34 [REG] (from 34)
+  R10 param-copy arg0 @3170 -> 34 [REG] (from 34)
+  R12 width life u16->s32 @3168 -> 34 [REG] (from 34)
+  R7 block @3180 -> 34 [REG] (from 34)
+  R5 swap + @3186 -> 34 [REG] (from 34)
+  R12 width life u16->s16 @3168 -> 34 [REG] (from 34)
+  R7 do-while @3180 -> 34 [REG] (from 34)

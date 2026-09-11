@@ -1,0 +1,25 @@
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:func_8018CCB8: score 17 (MIXED; mine 53 ins, target 53) — not yet
+  register pairs (mine -> target, count): v1->v0 x14, v0->v1 x8
+  replace mine[18:20] target[18:20]
+       18  lhu	v0,262(s0)                     | lhu	v1,262(s0)
+       19  lhu	v1,16(a0)                      | lhu	v0,16(a0)
+  replace mine[21:23] target[21:23]
+       21  addu	v1,v1,v0                      | addu	v0,v0,v1
+       22  sh	v1,16(a0)                       | sh	v0,16(a0)
+  replace mine[24:26] target[24:26]
+       24  lhu	v0,264(s0)                     | lhu	v1,264(s0)
+       25  lhu	v1,20(a0)                      | lhu	v0,20(a0)
+  replace mine[27:30] target[27:30]
+       27  addu	v1,v1,v0                      | addu	v0,v0,v1
+       28  sh	v1,20(a0)                       | sh	v0,20(a0)
+       29  lw	v1,28(s0)                       | lw	v0,28(s0)
+  replace mine[31:33] target[31:33]
+       31  andi	v0,v1,0x3                     | andi	v0,v0,0x3
+       32  bnez	v0,f8c4 <func_8018CCB8+0xa0>  | bnez	v0,f8c0 <func_8018CCB8+0x9c>
+  replace mine[39:45] target[39:45]
+       39  lw	v1,28(s0)                       | lw	v0,28(s0)
+       40  lh	v0,10(s0)                       | lh	v1,10(s0)
+       41  addiu	v1,v1,1                      | addiu	v0,v0,1
+       42  slti	v0,v0,-1919                   | slti	v1,v1,-1919
+       43  bnez	v0,f8e0 <func_8018CCB8+0xbc>  | bnez	v1,f8e0 <func_8018CCB8+0xbc>
+       44  sw	v1,28(s0)                       | sw	v0,28(s0)

@@ -1,0 +1,168 @@
+=== lever-free bodies in ov_SC04_011 sharing a callee or global with func_80188A30 (4 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_8012D5E4 (src/shared/ov/func_8012D5E4.h:5) shares 2: D_80126B98 func_8012DEB8 ---
+s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3) {
+    if (func_8012DEB8(a0, a1, a2) != 0) {
+        D_80126B98 = a3;
+        return 1;
+    }
+    return 0;
+}
+
+--- func_8012F568 (src/shared/ov/func_8012F568.h:10) shares 1: D_80126B98 ---
+void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
+{
+    do { memcpy(&D_80126C38, param_5, 8); } while (0);
+    memcpy(&D_80126C40, param_6, 8);
+    D_80126B96 = param_2;
+    D_80126B9A = param_3;
+    D_80126B98 = param_4;
+    D_80126B94 = D_80126B94 | param_1;
+}
+
+--- func_80181EA0 (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5672) shares 1: D_801F161E ---
+void func_80181EA0(s32 a0) {
+    /* §T6-3/§2329 self-contained lift unit — every extern spelled exactly as the
+       destination TU spells it: func_8012AD44 L4510/L4745, D_801EFD40 L5300,
+       func_80184CCC L5203 (unprototyped, §183 cast-at-call), D_80194C3C L5652.
+       D_801F161E is undeclared in the TU — typed by access width (sh -> u16). */
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern void func_80184CCC();
+    extern u16 D_801EFD40;
+    extern u16 D_801F161E;
+    extern u8 D_80194C3C[];
+
+    struct Ent_80181EA0 *e = (struct Ent_80181EA0 *)a0;
+
+    func_80184CCC((s32)a0, (s32)D_80194C3C);
+
+    e->unk1C = 0x18;
+    e->unkF2 = 5;
+    D_801F161E = 0;
+    D_801EFD40 = (D_801EFD40 & 0xFFFE) | 2;
+
+    func_8012AD44((s32 *)a0, 9);
+}
+
+--- func_8012D714 (src/shared/ov/func_8012D714.h:4) shares 1: func_8012DEB8 ---
+s32 func_8012D714(s32 param_1, u32 param_2) {
+    u16 a[3];
+    u16 b[3];
+    u32 base;
+    base = (*(u32 *)(param_1 + 0x58) & 0xFFFFFFF) | 0x80000000;
+    if (param_2 & 1) {
+        a[0] = *(u16 *)(base + 4);
+        a[1] = *(u16 *)(base + 8);
+        a[2] = *(u16 *)(base + 0xC);
+        b[0] = *(u16 *)(base + 6);
+        b[1] = *(u16 *)(base + 8);
+        b[2] = *(u16 *)(base + 0xC);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 4);
+        a[1] = *(u16 *)(base + 0xA);
+        a[2] = *(u16 *)(base + 0xC);
+        b[0] = *(u16 *)(base + 6);
+        b[1] = *(u16 *)(base + 0xA);
+        b[2] = *(u16 *)(base + 0xC);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 4);
+        a[1] = *(u16 *)(base + 8);
+        a[2] = *(u16 *)(base + 0xE);
+        b[0] = *(u16 *)(base + 6);
+        b[1] = *(u16 *)(base + 8);
+        b[2] = *(u16 *)(base + 0xE);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 4);
+        a[1] = *(u16 *)(base + 0xA);
+        a[2] = *(u16 *)(base + 0xE);
+        b[0] = *(u16 *)(base + 6);
+        b[1] = *(u16 *)(base + 0xA);
+        b[2] = *(u16 *)(base + 0xE);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+    }
+    if (param_2 & 2) {
+        a[0] = *(u16 *)(base + 4);
+        a[1] = *(u16 *)(base + 8);
+        a[2] = *(u16 *)(base + 0xC);
+        b[0] = *(u16 *)(base + 4);
+        b[1] = *(u16 *)(base + 0xA);
+        b[2] = *(u16 *)(base + 0xC);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 4);
+        a[1] = *(u16 *)(base + 8);
+        a[2] = *(u16 *)(base + 0xE);
+        b[0] = *(u16 *)(base + 4);
+        b[1] = *(u16 *)(base + 0xA);
+        b[2] = *(u16 *)(base + 0xE);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 6);
+        a[1] = *(u16 *)(base + 8);
+        a[2] = *(u16 *)(base + 0xC);
+        b[0] = *(u16 *)(base + 6);
+        b[1] = *(u16 *)(base + 0xA);
+        b[2] = *(u16 *)(base + 0xC);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 6);
+        a[1] = *(u16 *)(base + 8);
+        a[2] = *(u16 *)(base + 0xE);
+        b[0] = *(u16 *)(base + 6);
+        b[1] = *(u16 *)(base + 0xA);
+        b[2] = *(u16 *)(base + 0xE);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+    }
+    if (param_2 & 4) {
+        a[0] = *(u16 *)(base + 4);
+        a[1] = *(u16 *)(base + 8);
+        a[2] = *(u16 *)(base + 0xC);
+        b[0] = *(u16 *)(base + 4);
+        b[1] = *(u16 *)(base + 8);
+        b[2] = *(u16 *)(base + 0xE);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 4);
+        a[1] = *(u16 *)(base + 0xA);
+        a[2] = *(u16 *)(base + 0xC);
+        b[0] = *(u16 *)(base + 4);
+        b[1] = *(u16 *)(base + 0xA);
+        b[2] = *(u16 *)(base + 0xE);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 6);
+        a[1] = *(u16 *)(base + 8);
+        a[2] = *(u16 *)(base + 0xC);
+        b[0] = *(u16 *)(base + 6);
+        b[1] = *(u16 *)(base + 8);
+        b[2] = *(u16 *)(base + 0xE);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+        a[0] = *(u16 *)(base + 6);
+        a[1] = *(u16 *)(base + 0xA);
+        a[2] = *(u16 *)(base + 0xC);
+        b[0] = *(u16 *)(base + 6);
+        b[1] = *(u16 *)(base + 0xA);
+        b[2] = *(u16 *)(base + 0xE);
+        if (((s32 (*)(s32, void *, void *))func_8012DEB8)(param_1, a, b) != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
