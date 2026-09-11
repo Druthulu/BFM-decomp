@@ -5148,11 +5148,11 @@ void func_80185DAC(s32 target, u16 *cur, s32 step)
     } else {
         diff = t | 0xF000;
     }
-    mag = diff;
-    if ((s16)diff < 0) {
+    if ((s16)diff >= 0) {
+        mag = diff;
+    } else {
         mag = -diff;
     }
-    __asm__ __volatile__("" : "=r"(diff) : "0"(diff) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     if ((s16)mag > (u16)step) {
         if ((s16)diff < 0) {
             *cur = *cur - step;
