@@ -3109,14 +3109,11 @@ void func_8017E330(Actor_8017E330 *a0) {
              * `lw 0x20($s0)` sits between them); the zero-byte re-tie with a
              * "memory" clobber supplies the write.  Byte-exact, emits nothing. */
             t = p->f20->rot.x;
-            __asm__("" : "=r"(t) : "0"(t) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            a0->f20->rot.x = t >> 3;
+            a0->f20->rot.x = (s16)t >> 3;
             t = p->f20->rot.y;
-            __asm__("" : "=r"(t) : "0"(t) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            a0->f20->rot.y = t >> 3;
+            a0->f20->rot.y = (s16)t >> 3;
             t = p->f20->rot.z;
-            __asm__("" : "=r"(t) : "0"(t) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            a0->f20->rot.z = t >> 3;
+            a0->f20->rot.z = (s16)t >> 3;
         } else {
             a0->f06 = v.x;
             a0->f0A = v.y;
@@ -3216,14 +3213,11 @@ void func_8017E550(Actor_8017E550 *a0) {
             a0->f0A = v.y;
             a0->f0E = v.z;
             t = p->f20->rot.x;
-            __asm__("" : "=r"(t) : "0"(t) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            a0->f20->rot.x = t >> 3;
+            a0->f20->rot.x = (s16)t >> 3;
             t = p->f20->rot.y;
-            __asm__("" : "=r"(t) : "0"(t) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            a0->f20->rot.y = t >> 3;
+            a0->f20->rot.y = (s16)t >> 3;
             t = p->f20->rot.z;
-            __asm__("" : "=r"(t) : "0"(t) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            a0->f20->rot.z = t >> 3;
+            a0->f20->rot.z = (s16)t >> 3;
         } else {
             a0->f06 = v.x;
             a0->f0A = v.y;
@@ -4433,7 +4427,6 @@ extern s16 D_80185870[];
 extern s32 D_801858A8[];
 
 void func_801800B8(void *a0) {
-    Ctl801800B8 *ctl = (Ctl801800B8 *)a0;
     Cmd801800B8 *p;
     u8 *obj;
     s32 t;
@@ -4441,7 +4434,7 @@ void func_801800B8(void *a0) {
 
     func_801802E0((s32 *)a0);
 
-    u = ctl->unk0C;
+    u = ((Ctl801800B8 *)a0)->unk0C;
     t = D_801861F0[(*(u16 *)((u8 *)D_801F8118 + 2)) * 5];
     D_801F80A4 = 0;
     D_801F8084 = 0;
@@ -4451,16 +4444,16 @@ void func_801800B8(void *a0) {
         D_801F809C = t;
     }
 
-    do { func_8017F5D0(); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
+    func_8017F5D0();
 
-    D_801F8090 = ctl->unk10;
-    func_80180E68(ctl->unk04, ctl->unk10);
+    D_801F8090 = ((Ctl801800B8 *)a0)->unk10;
+    func_80180E68(((Ctl801800B8 *)a0)->unk04, ((Ctl801800B8 *)a0)->unk10);
 
-    D_801F8AEC = ctl->unk08;
+    D_801F8AEC = ((Ctl801800B8 *)a0)->unk08;
 
     func_80129CF8();
 
-    p = ctl->cmds;
+    p = ((Ctl801800B8 *)a0)->cmds;
     while (p->kind != -1) {
         obj = D_801F80AC[p->kind];
         switch (p->cmd) {

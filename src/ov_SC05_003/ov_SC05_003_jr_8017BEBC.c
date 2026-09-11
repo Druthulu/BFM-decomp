@@ -5650,8 +5650,7 @@ s32 func_80181720(void *arg0) {
     }
 
     h = *(s16 *)(*(s32 *)((s32)arg0 + 0x20) + 0x18);
-    __asm__("" : "=r"(h) : "0"(h));   /* §197-A re-tie: keeps lh + sra 7 */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-    r = h >> 7;
+    r = (s16)h >> 7;
     raw[0] = *(u16 *)((s32)arg0 + 0x6);
     raw[1] = *(u16 *)((s32)arg0 + 0xA);
     raw[2] = *(u16 *)((s32)arg0 + 0xE);
