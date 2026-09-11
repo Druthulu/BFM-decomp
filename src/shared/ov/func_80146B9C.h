@@ -4,25 +4,22 @@ extern u16 D_8011DA28;
 s32 func_80146B9C(void * arg0)
 {
     u8 *p;
-    register u8 *q __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
     u8 *end;
     p = (u8 *)&D_8011DA28;
     end = p - 0x9F8;
     if ((u32)p >= (u32)end) {
-        q = p + 0x30;
         do {
             if (*(u16 *)p == 0) {
-                *(s32 *)(q + 0x4) = *(s32 *)((u8 *)arg0 + 0x8);
+                *(s32 *)(p + 52) = *(s32 *)((u8 *)arg0 + 0x8);
                 *(s16 *)p = *(u16 *)((u8 *)arg0 + 0x0);
-                *(s16 *)(q - 0x2A) = *(u16 *)((u8 *)arg0 + 0x2);
-                *(s16 *)(q - 0x26) = *(u16 *)((u8 *)arg0 + 0x4);
-                *(s16 *)(q - 0x22) = *(u16 *)((u8 *)arg0 + 0x6);
-                *(s32 *)(q - 0x4) = *(s32 *)((u8 *)arg0 + 0xC);
-                *(s32 *)(q + 0x0) = *(s32 *)((u8 *)arg0 + 0x10);
+                *(s16 *)(p + 6) = *(u16 *)((u8 *)arg0 + 0x2);
+                *(s16 *)(p + 10) = *(u16 *)((u8 *)arg0 + 0x4);
+                *(s16 *)(p + 14) = *(u16 *)((u8 *)arg0 + 0x6);
+                *(s32 *)(p + 44) = *(s32 *)((u8 *)arg0 + 0xC);
+                *(s32 *)(p + 48) = *(s32 *)((u8 *)arg0 + 0x10);
                 return (s32)p;
             }
             p -= 0x58;
-            q -= 0x58;
         } while ((u32)p >= (u32)end);
     }
     return 0;
