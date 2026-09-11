@@ -5117,16 +5117,18 @@ void func_8017E764(s32 param_1)
     }
 
     ent = D_801202A0;
+    i = 0;
     pos[0] = *(u16 *)(param_1 + 6);
     {
-        register u16 *vp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
-        u16 t;
-        vp = (u16 *)&D_80126B66;
-        t = *(volatile u16 *)vp;
+        u16 tt;
+        /* `val` is the loop's table-value temp reused here (both live in $v1 in the target): its second set keeps
+         * this address load from sched1's birthing priority (sched.c:2469-2545), so it is scheduled above the pos[0]
+         * store and global-alloc gives it $v1 (P36 S104 e26). */
+        val = (s32)&D_80126B66;
+        tt = *(volatile u16 *)val;  /* a byte-needed volatile, kept as ordinary C (gate-1 decision 3): a volatile MEM fails combine's recog (combine.c:491 init_recog_no_volatile, recog.c:807), so the address stays in a register (la + lhu 0(reg)) (P36 S104 e26 minimum-lever) */
         pos[1] = *(u16 *)(param_1 + 0xA);
-        pos[2] = t + 8;
+        pos[2] = tt + 8;
     }
-    i = 0;
     np = (u16 *)D_801152A8;
     t = (ratan2(*(s16 *)&D_80126B62 - *(s16 *)(param_1 + 0xA),
                 *(s16 *)&D_80126B5E - *(s16 *)(param_1 + 6)) - 0x400) & 0xFFF;
