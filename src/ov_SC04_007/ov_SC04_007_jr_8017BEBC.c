@@ -6634,10 +6634,8 @@ s32 func_80182358(s32 a0, u16 a1) {
     sp10[1] = *(u16 *)(a0 + 0xA);
     sp10[2] = *(u16 *)(a0 + 0xE);
     ((void (*)(s16 *, s16 *))func_8012EFB8)(sp10, sp18);
-    sp18[2] = 0;
-    __asm__("" : "=r"(pan) : "0"(pan));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-
     v = sp18[0];
+    do { sp18[2] = 0; } while (0);  // !FAKE: do-while — sched1 LOOP-note barrier keeps the sh after the lh so no mem-unit stall pulls vol=0x7F past the jal (sched.c:2058-2074, schedule_select :2616) (P36 S104 d4)
     if (v < 0) v = -v;
     if (v >= 0xA0) return 0;
 
