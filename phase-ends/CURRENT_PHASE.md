@@ -2043,6 +2043,10 @@ accumulate here as the phase produces them.**
   **Drew (mid-turn): *"dont start any new agents at this time. let the current ones finish"*** → no draw after f8; f6 and f8 finish and are
   banked; the session then checkpoints.
 
+- **S105 — the session limit cut f6 and f8 (HTTP 429, "resets 3:50pm America/Denver"); Drew: *"limit reset, resume the 2 failed agents
+  by their id so they pickup where they left off"* → both RESUMED by SendMessage to their ids** (R67 held: f6 had `body.c` +
+  `mechanism.md` on disk for 5 of its 6 packs, f8 for 2 of 5 — nothing lost). No new draws (Drew's earlier word).
+
 ## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, LIVE — refreshed at every landing): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,065 sites** so far; f1–f5 + f7 landed (31/31), f6 + f8 IN FLIGHT — **Drew: no new agents after these**; generators **R44–R46** + the R22 `&&` blind-spot fix; R22 `check-all: 218 passed, 0 failed of 218` at `d85a4e387` | `lever_census --check` exit 0 (4,065 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
