@@ -4104,14 +4104,16 @@ extern void func_800D0C48(s32 arg);
 extern u8 D_801D4306;
 
 void func_8018291C(void) {
-    u8 *p = &D_801D4306;
+    u8 *p;
+    u8 *q;
+    u8 *r;
 
-    asm("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-
+    p = &D_801D4306;
+    do { q = p - 2; r = p - 1; } while (0);  // !FAKE: do-while — its NOTE_INSN_LOOP_END ends cse1's block before the uses (cse.c:8054-8056, ignored after_loop), so cse2 not cse1 rewrites *q/*r to p-relative (find_best_addr cse.c:2711-2721) (P36 S104 e12 minimum-lever)
     if (*p < 0xF8) {
         *p += 4;
-        p[-2] += 6;
-        p[-1] += 6;
+        *q += 6;
+        *r += 6;
     }
 }
 
