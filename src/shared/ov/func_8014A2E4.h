@@ -5,11 +5,11 @@ extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 s32 func_8014A2E4(s32 a0) {
     s32 a0v;
     u32 i;
-    register u8 *p __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+    u8 *p;
     a0v = a0;
     i = 0;
-    p = D_801202A0;
     do {
+        p = (u8 *)(D_801202A0) + i * 0x10c;
         if (*(u16 *)(p + 0x0) != 0
             && (*(u16 *)(p + 0x5C) & 0x8000)
             && *(s16 *)(p + 0xAA) != 0
@@ -17,7 +17,6 @@ s32 func_8014A2E4(s32 a0) {
             return (s32)p;
         }
         i++;
-        p += 0x10C;
     } while (i < 0x60);
     return 0;
 }

@@ -3813,7 +3813,7 @@ extern void *D_801B9F10;
 
 void func_80180FF4(void *param_1)
 {
-    register void *arg0 __asm__("$19") = param_1;  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
+    void *arg0 = param_1;
     u8 *p;
     s32 i;
     s32 best;
@@ -3822,18 +3822,9 @@ void func_80180FF4(void *param_1)
 
     best = 0x7FFFFFFF;
     i = 0;
-    p = D_801202A0;
     D_801B9F10 = 0;
     for (; i < 0x60; i++) {
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        p = (u8 *)(D_801202A0) + i * 0x10c;
         if (*(u16 *)p == 0x26E) {
             t = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
             if (t < best) {
@@ -3841,7 +3832,6 @@ void func_80180FF4(void *param_1)
                 D_801B9F10 = p;
             }
         }
-        p += 0x10C;
     }
     *(s16 *)((s32)arg0 + 0x208) = 0;
     func_80015978((s32)arg0 + 4, sp10);
