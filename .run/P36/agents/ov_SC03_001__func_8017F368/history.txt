@@ -1,0 +1,15 @@
+g6: verdict NO-MATCH start 51 best 41 compiles 330 path R8 hoist tmp0 @5210 + R8 cse tmp1 @5213
+s7: verdict NO-MATCH start 51 best 40 compiles 563 path R8 cse tmp0 @5210 + R8 hoist tmp1 @5210 + R9 swap-stmts @5211
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R9 swap-stmts @5211 -> 40 [COUNT] (from 41)
+  R8 cse tmp0 @5210 -> 41 [COUNT] (from 51)
+  R12 width attr u16->s32 @5184 -> 41 [COUNT] (from 41)
+  R6 inline type2 @5199 -> 41 [COUNT] (from 41)
+  R18 bystander @5195->5197 -> 41 [COUNT] (from 41)
+  R7 block @5197 -> 41 [COUNT] (from 41)
+  R5 swap + @5210 -> 41 [COUNT] (from 41)
+  R4 decl-move dst 20->0 -> 41 [COUNT] (from 41)
+  R12 width attr u16->s16 @5184 -> 41 [COUNT] (from 41)
+  R8 hoist tmp1 @5210 -> 41 [COUNT] (from 41)
+  R5 swap + @5211 -> 41 [COUNT] (from 41)
+  R10 param-copy a1 @5194 -> 41 [COUNT] (from 41)

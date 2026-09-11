@@ -1,0 +1,23 @@
+src/ov_SC03_001/ov_SC03_001_jr_80189030.c:func_80189030: score 13 (REG-callee; mine 557 ins, target 557) — not yet
+  register pairs (mine -> target, count): s0->s1 x10, s1->s0 x6
+  replace mine[211:212] target[211:212]
+      211  lw	s0,0(v0)                        | lw	s1,0(v0)
+  replace mine[213:214] target[213:214]
+      213  move	s1,zero                       | move	s0,zero
+  replace mine[215:217] target[215:217]
+      215  lbu	a0,0(s0)                       | lbu	a0,0(s1)
+      216  addiu	s0,s0,1                      | addiu	s1,s1,1
+  replace mine[221:222] target[221:222]
+      221  addiu	v0,s1,1                      | addiu	v0,s0,1
+  replace mine[224:225] target[224:225]
+      224  move	s1,v0                         | move	s0,v0
+  replace mine[253:255] target[253:255]
+      253  lui	s0,0x0                         | lui	s1,0x0
+      254  lw	s0,0(s0)                        | lw	s1,0(s1)
+  replace mine[256:259] target[256:259]
+      256  move	s1,zero                       | move	s0,zero
+      257  lbu	a0,0(s0)                       | lbu	a0,0(s1)
+      258  addiu	s0,s0,1                      | addiu	s1,s1,1
+  replace mine[263:265] target[263:265]
+      263  addiu	v0,s1,1                      | addiu	v0,s0,1
+      264  move	s1,v0                         | move	s0,v0

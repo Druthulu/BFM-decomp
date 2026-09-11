@@ -1,0 +1,70 @@
+src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c:func_8017F368: score 51 (COUNT; mine 253 ins, target 250) — not yet
+  register pairs (mine -> target, count): a3->a1 x4, s1->a0 x1
+  replace mine[12:13] target[12:13]
+       12  andi	s1,v0,0xff                    | andi	a0,v0,0xff
+  replace mine[15:16] target[15:16]
+       15  sll	v1,s1,0x5                      | move	s1,a0
+  replace mine[19:20] target[19:20]
+       19  j	490c <func_8017F368+0x3d0>       | j	4900 <func_8017F368+0x3c4>
+  insert  mine[21:21] target[21:22]
+       21  --                                 | sll	v1,a0,0x5
+  replace mine[24:29] target[25:28]
+       24  move	t0,zero                       | move	a3,zero
+       25  addiu	a0,a2,4                      | addiu	a1,a2,4
+       26  addiu	a3,sp,80                     | addiu	a0,sp,80
+       27  addiu	a1,sp,84                     | --
+       28  addiu	t0,t0,1                      | --
+  insert  mine[31:31] target[30:35]
+       31  --                                 | addiu	a3,a3,1
+       32  --                                 | addu	v0,v0,v1
+       33  --                                 | sh	v0,0(a0)
+       34  --                                 | lhu	v0,2(s0)
+       35  --                                 | lhu	v1,-2(a1)
+  replace mine[33:37] target[37:41]
+       33  sh	v0,0(a3)                        | sh	v0,2(a0)
+       34  lhu	v0,2(s0)                       | lhu	v0,4(s0)
+       35  lhu	v1,-2(a0)                      | lhu	v1,0(a1)
+       36  addiu	a3,a3,8                      | addiu	a1,a1,8
+  replace mine[38:41] target[42:45]
+       38  sh	v0,-2(a1)                       | sh	v0,4(a0)
+       39  lhu	v0,4(s0)                       | slti	v0,a3,4
+       40  lhu	v1,0(a0)                       | bnez	v0,45ac <func_8017F368+0x70>
+  delete  mine[42:47] target[46:46]
+       42  addu	v0,v0,v1                      | --
+       43  sh	v0,0(a1)                        | --
+       44  slti	v0,t0,4                       | --
+       45  bnez	v0,45ac <func_8017F368+0x70>  | --
+       46  addiu	a1,a1,8                      | --
+  replace mine[66:67] target[65:66]
+       66  blez	v0,490c <func_8017F368+0x3d0> | blez	v0,4900 <func_8017F368+0x3c4>
+  replace mine[71:72] target[70:71]
+       71  bltz	v0,490c <func_8017F368+0x3d0> | bltz	v0,4900 <func_8017F368+0x3c4>
+  replace mine[74:75] target[73:74]
+       74  beqz	v0,490c <func_8017F368+0x3d0> | beqz	v0,4900 <func_8017F368+0x3c4>
+  replace mine[79:84] target[78:81]
+       79  move	t0,zero                       | move	a3,zero
+       80  addiu	a0,a2,4                      | addiu	a1,a2,4
+       81  addiu	a3,sp,112                    | addiu	a0,sp,112
+       82  addiu	a1,sp,116                    | --
+       83  addiu	t0,t0,1                      | --
+  insert  mine[86:86] target[83:88]
+       86  --                                 | addiu	a3,a3,1
+       87  --                                 | addu	v0,v0,v1
+       88  --                                 | sh	v0,0(a0)
+       89  --                                 | lhu	v0,2(s0)
+       90  --                                 | lhu	v1,-2(a1)
+  replace mine[88:92] target[90:94]
+       88  sh	v0,0(a3)                        | sh	v0,2(a0)
+       89  lhu	v0,2(s0)                       | lhu	v0,4(s0)
+       90  lhu	v1,-2(a0)                      | lhu	v1,0(a1)
+       91  addiu	a3,a3,8                      | addiu	a1,a1,8
+  replace mine[93:96] target[95:98]
+       93  sh	v0,-2(a1)                       | sh	v0,4(a0)
+       94  lhu	v0,4(s0)                       | slti	v0,a3,4
+       95  lhu	v1,0(a0)                       | bnez	v0,4680 <func_8017F368+0x144>
+  delete  mine[97:102] target[99:99]
+       97  addu	v0,v0,v1                      | --
+       98  sh	v0,0(a1)                        | --
+       99  slti	v0,t0,4                       | --
+      100  bnez	v0,4688 <func_8017F368+0x14c> | --
+      101  addiu	a1,a1,8                      | --

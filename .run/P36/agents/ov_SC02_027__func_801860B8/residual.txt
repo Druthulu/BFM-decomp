@@ -1,0 +1,22 @@
+src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:func_801860B8: score 15 (MIXED; mine 76 ins, target 76) — not yet
+  register pairs (mine -> target, count): v0->v1 x9, v1->a1 x4, v1->v0 x4, v1->a0 x3
+  replace mine[52:54] target[52:54]
+       52  lui	v1,0x0                         | lui	a1,0x0
+       53  lw	v1,0(v1)                        | lw	a1,0(a1)
+  replace mine[55:57] target[55:57]
+       55  lui	v0,0x0                         | lui	v1,0x0
+       56  lw	v0,0(v0)                        | lw	v1,0(v1)
+  replace mine[59:62] target[59:62]
+       59  subu	v0,v0,v1                      | subu	v1,v1,a1
+       60  lhu	v1,44(a0)                      | lhu	v0,44(a0)
+       61  addu	v0,v0,a2                      | addu	v1,v1,a2
+  replace mine[63:69] target[63:69]
+       63  sw	v0,0(at)                        | sw	v1,0(at)
+       64  ori	v1,v1,0x10                     | ori	v0,v0,0x10
+       65  sh	v1,44(a0)                       | sh	v0,44(a0)
+       66  lw	v1,32(a3)                       | lw	a0,32(a3)
+       67  bgez	v0,8938 <func_801860B8+0x118> | bgez	v1,8938 <func_801860B8+0x118>
+       68  nop                                | move	v0,v1
+  replace mine[70:72] target[70:72]
+       70  sh	v0,28(v1)                       | sh	v0,28(a0)
+       71  sh	v0,24(v1)                       | sh	v0,24(a0)

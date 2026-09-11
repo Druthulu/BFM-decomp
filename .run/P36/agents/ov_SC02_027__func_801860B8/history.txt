@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 15 best 11 compiles 323 path R6 inline flags @7894
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R6 inline flags @7894 -> 11 [COUNT] (from 15)
+  R9 swap-stmts @7894 -> 11 [COUNT] (from 15)
+  R12 width tail s32->u16 @7868 -> 11 [COUNT] (from 11)
+  R8 temp tmp0 @7896 -> 11 [COUNT] (from 11)
+  R7 block @7898 -> 11 [COUNT] (from 11)
+  R9 swap-stmts @7898 -> 11 [COUNT] (from 11)
+  R10 param-alias arg0->arg0_ @7870 -> 11 [COUNT] (from 11)
+  R12 width tail s32->s16 @7868 -> 11 [COUNT] (from 11)
+  R8 base tmp0 @7896 -> 11 [COUNT] (from 11)
+  R7 do-while @7898 -> 11 [COUNT] (from 11)
+  R10 param-copy arg0_ @7869 -> 11 [COUNT] (from 11)
+  R8 temp tmp0 @7890 -> 11 [COUNT] (from 11)

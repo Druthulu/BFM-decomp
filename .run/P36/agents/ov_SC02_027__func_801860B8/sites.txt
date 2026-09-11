@@ -1,0 +1,4 @@
+REMOVED  pin         $7     line 8105
+NEEDED   pin         $5     line 8106
+NEEDED   pin         $2     line 8107
+NEEDED   pin         $2     line 8111

@@ -1,0 +1,14 @@
+g6b: verdict NO-MATCH start 13 best 13 compiles 320 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @3259 -> 13 [REG] (from 13)
+  R7 do-while @3259 -> 13 [REG] (from 13)
+  R9 swap-stmts @3265 -> 13 [REG] (from 13)
+  R7 block @3234 -> 13 [REG] (from 13)
+  R8 temp tmp0 @3210 -> 13 [REG] (from 13)
+  R7 do-while @3234 -> 13 [REG] (from 13)
+  R7 block @3237 -> 13 [REG] (from 13)
+  R9 swap-stmts @3278 -> 13 [REG] (from 13)
+  R7 do-while @3237 -> 13 [REG] (from 13)
+  R7 block @3240 -> 13 [REG] (from 13)
+  R7 do-while @3240 -> 13 [REG] (from 13)
+  R9 swap-stmts @3200 -> 13 [REG] (from 13)
