@@ -4512,7 +4512,6 @@ void func_8017FCA8(s32 a0)
     s16 clamped;
     s16 va;
     s16 vb;
-    register s32 sc __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
 
     cur = *(PosFCA8 *) D_80126940;
     ret = func_8012E544(0x306);
@@ -4535,8 +4534,8 @@ void func_8017FCA8(s32 a0)
         *(s16 *) (a0 + 0x20) = va;
         vb = ((clamped * 111) / 0x300) - 0x70;
         *(s16 *) (a0 + 0x30) = vb;
-        sc = ((clamped * 800) / 0x300) + 0x190;
-        *(s32 *) (a0 + 0x14) = (s16) sc;
+        ret = ((clamped * 800) / 0x300) + 0x190;
+        *(s32 *) (a0 + 0x14) = (s16) ret;
     } else {
         target = *(PosFCA8 *) D_80126940;
     }
@@ -6234,13 +6233,12 @@ extern void func_80182038(s32 param_1);
 extern void func_8018247C(void);
 
 void func_80182DF0(s32 arg0) {
-    register s32 s0 __asm__("$16") = arg0;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
 
-    *(s16 *)(s0 + 0x52) = (rand() & 3) * 2 - 3;
-    if (func_8012BEE8(s0) != 0) {
-        func_80182038(s0);
+    *(s16 *)(arg0 + 0x52) = (rand() & 3) * 2 - 3;
+    if (func_8012BEE8(arg0) != 0) {
+        func_80182038(arg0);
     }
-    ((void (*)(s32))func_8018247C)(s0);
+    ((void (*)(s32))func_8018247C)(arg0);
 }
 
 

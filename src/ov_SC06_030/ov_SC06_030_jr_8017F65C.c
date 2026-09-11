@@ -3704,8 +3704,7 @@ void func_80180DCC(void *a0)
     void *s3 = a0;
     void *s2;
     void *p;
-    s32 v1;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 v0;
     s32 bits;
     s32 s0;
     s32 s1;
@@ -3725,9 +3724,9 @@ void func_80180DCC(void *a0)
     }
     s1 = func_80012A60(s0, 0x400);
     v0 = func_80012A60(s0, 0xC00);
-    v1 = (s16)s1;
+    bits = (s16)s1;
     v0 = (s16)v0;
-    v0 = (v0 < v1);
+    v0 = (v0 < bits);
     if (v0 != 0) {
         goto TRUE1;
     }
@@ -3739,9 +3738,9 @@ TRUE1:
 ELSE:
     s1 = func_80012A60(s0, 0);
     v0 = func_80012A60(s0, 0x800);
-    v1 = (s16)s1;
+    bits = (s16)s1;
     v0 = (s16)v0;
-    v0 = (v0 < v1);
+    v0 = (v0 < bits);
     if (v0 != 0) {
         goto TRUE2;
     }

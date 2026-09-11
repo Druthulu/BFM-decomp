@@ -2838,7 +2838,7 @@ extern void func_80181D3C(void *a0);
 void func_80181D78(s32 a0) {
     s32 r;
     s32 r2;
-    register s32 *self __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 *self, *self2, *self3;
     u16 arr[6];
 
     extern s32 rand(void);
@@ -2947,8 +2947,8 @@ void func_80181D78(s32 a0) {
         func_801821B4((s32)a0);
         return;
     case 6:
-        self = (s32 *)(a0 + 4);
-        r = func_8012B6D4((s16 *)self, (s16 *)(*(s32 *)(a0 + 0x64) + 4));
+        self2 = (s32 *)(a0 + 4);
+        r = func_8012B6D4((s16 *)self2, (s16 *)(*(s32 *)(a0 + 0x64) + 4));
         r2 = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), r, 8);
         *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += r2;
         func_8012B178((s32)a0, (s32)0xFFFA0000);
@@ -2962,8 +2962,8 @@ void func_80181D78(s32 a0) {
         *(s32 *)(a0 + 0x1C) = 0x10;
         break;
     case 7:
-        self = (s32 *)(a0 + 4);
-        r = func_8012B6D4((s16 *)self, (s16 *)(*(s32 *)(a0 + 0x64) + 4));
+        self3 = (s32 *)(a0 + 4);
+        r = func_8012B6D4((s16 *)self3, (s16 *)(*(s32 *)(a0 + 0x64) + 4));
         r2 = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), r, 8);
         *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += r2;
         func_8012B178((s32)a0, (s32)0xFFFA0000);

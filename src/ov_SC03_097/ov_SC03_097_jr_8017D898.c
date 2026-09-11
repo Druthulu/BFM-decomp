@@ -3287,8 +3287,7 @@ extern u16 func_80148800(s32 *a0);
 void func_8017F304(s32 a0) {
     Blk8_80126940_8017D6D0_8017F48C sp10;
     u8 t;
-    register s16 lo __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    s16 hi;
+    s16 lo;
 
     if (func_80148800(&D_80126B58) & 3) {
         t = (*(u8 *)(a0 + 5) + 1) & 1;
@@ -3302,9 +3301,9 @@ void func_8017F304(s32 a0) {
     if (sp10.v[0] < lo) {
         sp10.v[0] = lo;
     }
-    hi = -0x10c0;
-    if (sp10.v[0] > hi) {
-        sp10.v[0] = hi;
+    lo = -0x10c0;
+    if (sp10.v[0] > lo) {
+        sp10.v[0] = lo;
     }
     func_8017F53C(a0, sp10.v);
 }

@@ -3433,9 +3433,8 @@ s32 a0;
     s16 s0;
     s32 obj;
     s32 ang0;
-    s32 ang1;
     s32 x;
-    register s32 m1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 m1;
     s32 m2;
     s16 d;
     s32 q;
@@ -3494,11 +3493,11 @@ L474:
     }
     x = ratan2(-*(s16 *)(a0 + 0xE), *(s16 *)(a0 + 6)) - 0x400;
     m2 = x & 0xFFF;
-    ang1 = m2;
+    m1 = m2;
     if (x & 0x800) {
-        ang1 = m2 | 0xF000;
+        m1 = m2 | 0xF000;
     }
-    x = ang1 - ang0;
+    x = m1 - ang0;
     m2 = x & 0xFFF;
     d = m2;
     if (x & 0x800) {

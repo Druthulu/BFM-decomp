@@ -3589,9 +3589,8 @@ extern s32 D_801E1158;
 void func_8017E1F0(s32 param_)
 {
     s32 s1;
-    register s32 ent __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 i __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 k;
+    s32 ent;
+    s32 i;
     struct {
         s16 m[16];
         s16 out[4];
@@ -3658,10 +3657,10 @@ void func_8017E1F0(s32 param_)
         frm.f07 = 0x7FFF;
         *(u16 *)(s1 + 0x108) = 0;
         func_8012EC04(s1, tmp, (s32 *)frm.m);
-        k = 0;
-        while (k < 4) {
-            func_8012F14C((s32)frm.m, (s32)&D_80193448[k * 4], (s32)frm.out);
-            frm.idx = k;
+        i = 0;
+        while (i < 4) {
+            func_8012F14C((s32)frm.m, (s32)&D_80193448[i * 4], (s32)frm.out);
+            frm.idx = i;
             frm.ax = frm.out[0];
             frm.ay = frm.out[1];
             frm.az = frm.out[2];
@@ -3675,7 +3674,7 @@ void func_8017E1F0(s32 param_)
                 *(s16 *)(ent + 0xA) = frm.out[1];
                 *(s16 *)(ent + 0xE) = frm.out[2];
             }
-            k++;
+            i++;
         }
         func_8002D4C8(0x953, 0);
         cnt = *(s32 *)(s1 + 0xE0) + 1;
@@ -5002,29 +5001,27 @@ extern u8 D_801936C8[];
 
 void func_801809A8(s32 a0)
 {
-    s32 s0 = a0;
     s32 v1;
 
     if (func_8012C354(a0, &D_80193688) != 0) {
-        *(u8 *)(s0 + 0xC0) = 1;
-        *(s32 *)(s0 + 0xB4) = -1;
-        *(s16 *)(s0 + 0xAE) = -1;
-        *(u8 *)(s0 + 0x75) = 8;
-        func_8012A828(s0, &D_801936C8);
-        __asm__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        if (*(s16 *)(s0 + 0x70) != 0) {
-            *(s16 *)(s0 + 2) = 4;
+        *(u8 *)(a0 + 0xC0) = 1;
+        *(s32 *)(a0 + 0xB4) = -1;
+        *(s16 *)(a0 + 0xAE) = -1;
+        *(u8 *)(a0 + 0x75) = 8;
+        func_8012A828(a0, &D_801936C8);
+        if (*(s16 *)(a0 + 0x70) != 0) {
+            *(s16 *)(a0 + 2) = 4;
         } else {
-            *(s16 *)(s0 + 2) = 1;
-            *(u32 *)(*(s32 *)(s0 + 0x20) + 4) |= 0x80000000;
-            func_8012B2CC(s0);
-            v1 = func_8012C658(0x346, 1, s0);
+            *(s16 *)(a0 + 2) = 1;
+            *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
+            func_8012B2CC(a0);
+            v1 = func_8012C658(0x346, 1, a0);
             if (v1 != 0) {
                 *(s16 *)(v1 + 6) = -0x660;
                 *(s16 *)(v1 + 0xA) = -0x682;
                 *(s16 *)(v1 + 0xE) = 0x80;
             }
-            v1 = func_8012C658(0x346, 1, s0);
+            v1 = func_8012C658(0x346, 1, a0);
             if (v1 != 0) {
                 *(s16 *)(v1 + 6) = -0xA60;
                 *(s16 *)(v1 + 0xA) = -0x882;

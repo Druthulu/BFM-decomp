@@ -3897,12 +3897,11 @@ extern s8 D_801B42D8;
 void func_801826F0(s32 *param_1)
 {
   int new_var;
-register s32 p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+s32 p;
 s32 r;
-  p = (s32) (&D_801B42D8);
   r = param_1[0x2c / 4];
   new_var = r;
-  p += new_var;
+  p = (s32) (&D_801B42D8) + new_var;
   *((s8 *) p) = 0;
   ((void (*)(void)) func_80146C3C)();
 }

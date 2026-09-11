@@ -3950,8 +3950,7 @@ void func_80189F24(s16 *arg0, s32 arg1)
     u8 sp10[4];
     s32 size;
     s32 prod;
-    register s32 h __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 w;
+    s32 h;
 
     if (D_801E67A0[D_800B99DA & 0xF] == 0) {
         size = 0x60;
@@ -3961,10 +3960,10 @@ void func_80189F24(s16 *arg0, s32 arg1)
 
     arg1++;
     prod = size * arg1;
-    w = prod / 32;
-    h = w / 2;
-    sp10[0] = w;
-    sp10[1] = w;
+    size = prod / 32;
+    h = size / 2;
+    sp10[0] = size;
+    sp10[1] = size;
     sp10[2] = h;
     sp10[3] = 0;
 

@@ -3749,7 +3749,6 @@ void func_8017E71C(void *a0) {
         if (s1 != 0) {
             s32 sx;
             s32 pan;
-            s32 vol;
 
             v[0] = *(u16 *)(s0 + 0x6);
             v[1] = *(u16 *)(s0 + 0xA);
@@ -3759,15 +3758,14 @@ void func_8017E71C(void *a0) {
             sx = (s16)*(u16 *)&sxy;
             pan = (sx + 0xA0) / 0x14;
             if (sx < 0) {
-                vol = (sx >> 1) + 0x7F;
+                v1 = (sx >> 1) + 0x7F;
             } else {
-                vol = 0x7F - (sx >> 1);
+                v1 = 0x7F - (sx >> 1);
             }
             if ((u32)(pan & 0xFFFF) < 0x10) {
-                s32 row = vol - 0x2F;
-                __asm__("" : "=r"(row) : "0"(row));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                s32 row = v1 - 0x2F;
                 if ((u32)(row & 0xFFFF) < 0x51) {
-                func_8002D4C8(s1, (vol | 0x3000 | (pan << 8)) & 0xFFFF);
+                func_8002D4C8(s1, (v1 | 0x3000 | (pan << 8)) & 0xFFFF);
                 }
             }
         }

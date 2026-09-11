@@ -7598,13 +7598,12 @@ void CdReadSectorReadyCB(u8 reason) {
     XRECT dead;
     u32 *q;
     XRECT *r;
-    register s32 i __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 i;
     s32 n, pos, res, b;
     s32 tmp;
     s32 k80;
     s32 one;
     s32 dst;
-    s32 cnt;
     s32 dst4;
 
     if (reason != 1) goto endReason;
@@ -7753,8 +7752,8 @@ void CdReadSectorReadyCB(u8 reason) {
         break;
     case 4:
         if (p->words < 0x801) {
-            cnt = (p->words + 3) / 4;
-            func_80043994(lzss_sectorStagingBuf, cnt);
+            i = (p->words + 3) / 4;
+            func_80043994(lzss_sectorStagingBuf, i);
             if (func_8002FC64(p->words, lzss_sectorStagingBuf) == 0) goto stageFail;
             p->count++;
             if (p->flags != 0) goto phaseDone;

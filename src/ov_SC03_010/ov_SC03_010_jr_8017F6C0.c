@@ -2981,8 +2981,7 @@ extern void func_8012CAE4(void *a0);
 
 void func_8017F920(s32 a0) {
     s32 v0;
-    s32 v1;
-    register s32 addr __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 addr;
 
     addr = (s32)&D_8019C7EC;
     *(s32 *)(a0 + 0x78) = addr;
@@ -3006,8 +3005,8 @@ void func_8017F920(s32 a0) {
         *(s32 *)(a0 + 0x58) = D_8019C7F4 | 0x60000000;
     }
 
-    v1 = *(s32 *)(a0 + 0x20);
-    *(s32 *)(v1 + 0x4) |= 0x8040;
+    addr = *(s32 *)(a0 + 0x20);
+    *(s32 *)(addr + 0x4) |= 0x8040;
     *(u16 *)(a0 + 0x5C) = 0xCC00;
     func_8012A828(a0, (void *)&D_8019D200);
 

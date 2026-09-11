@@ -694,7 +694,7 @@ extern s32 func_8004787C(s32 a0);
 
 void func_80183790(s32 a0) {
     s32 sum1;
-    register s32 sum2 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 sum2;
     s32 frac;
     s32 threshold;
     s32 ret;
@@ -707,8 +707,7 @@ void func_80183790(s32 a0) {
 
     sum1 = D_801C7748 + D_8018ABA4;
     frac = sum1 & 0xFFF;
-    sum2 = D_801C774A;
-    sum2 += D_8018ABA6;
+    sum2 = D_801C774A + D_8018ABA6;
 
     threshold = -(sum1 * 1536) / 12288 - 0x22;
 
