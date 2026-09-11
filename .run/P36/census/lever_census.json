@@ -5,7 +5,6 @@
   "gte_mnemonics": {
    "gte_SetRotMatrix": 249,
    "gte_SetTransMatrix": 229,
-   "gte_avsz3": 25,
    "gte_avsz4": 56,
    "gte_dpcl": 134,
    "gte_ldclmv": 72,
@@ -13,6 +12,7 @@
    "gte_ldv0": 757,
    "gte_ldv3": 177,
    "gte_ldv3c": 184,
+   "gte_nccs": 25,
    "gte_nclip": 108,
    "gte_rtir": 75,
    "gte_rtps": 437,
@@ -72,12 +72,9 @@
  "cfake_markers": {
   "count": 33,
   "sample": [
-   "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5534",
-   "src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5814",
-   "src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3335",
+   "src/md_SC07_004/md_SC07_004.c:280",
    "src/800.c:12748",
    "src/md_SC07_003/md_SC07_003.c:3577",
-   "src/md_SC07_004/md_SC07_004.c:280",
    "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:3570",
    "src/ov_SC01_009/ov_SC01_009_jr_8017E590.c:4271",
    "src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c:3979",
@@ -87,6 +84,7 @@
    "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:5464",
    "src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:7554",
    "src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:5080",
+   "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5534",
    "src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c:3108",
    "src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c:3796",
    "src/ov_SC03_121/ov_SC03_121_jr_8017E1D0.c:4568",
@@ -97,8 +95,10 @@
    "src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:6630",
    "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7487",
    "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:10290",
+   "src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5814",
    "src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c:4815",
    "src/ov_SC05_005/ov_SC05_005_jr_8017D898.c:4026",
+   "src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3335",
    "src/ov_SC05_018/ov_SC05_018_jr_8017D604.c:4942",
    "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8485",
    "src/ov_SC06_016/ov_SC06_016_jr_801816DC.c:3082",
@@ -109,15 +109,15 @@
  },
  "classes": {
   "A": {
-   "bodies": 1497,
-   "distinct_bodies": 660,
+   "bodies": 1494,
+   "distinct_bodies": 657,
    "file_scope": 0,
-   "in_bodies": 2394,
+   "in_bodies": 2391,
    "kinds": {
-    "pin": 2394
+    "pin": 2391
    },
-   "marked": 2394,
-   "sites": 2394,
+   "marked": 2391,
+   "sites": 2391,
    "tus": 1085,
    "unmarked": 0
   },
@@ -244,9 +244,9 @@
  "coverage": {
   "asm": {
    "comment_dead": 6782,
-   "live": 15415,
+   "live": 15412,
    "macro_block": 194,
-   "raw": 22391
+   "raw": 22388
   },
   "attribute": {
    "comment_dead": 0,
@@ -262,9 +262,9 @@
   },
   "register": {
    "comment_dead": 8576,
-   "live": 2444,
+   "live": 2441,
    "macro_block": 18,
-   "raw": 11038
+   "raw": 11035
   },
   "volatile": {
    "comment_dead": 2606,
@@ -274,7 +274,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 31.9,
+ "elapsed_s": 23.1,
  "generated": "2026-09-11",
  "gte_levers": {
   "direct": 362,
@@ -285,15 +285,15 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "4de2fb06a",
+ "head": "335d4249e",
  "headers": 3181,
  "levers_AB": {
   "asm": 2079,
-  "bodies": 2210,
-  "distinct_bodies": 895,
-  "marked": 4473,
-  "pins": 2394,
-  "sites": 4473,
+  "bodies": 2207,
+  "distinct_bodies": 892,
+  "marked": 4470,
+  "pins": 2391,
+  "sites": 4470,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -429,7 +429,7 @@
   "bare_name": 15,
   "init": 221,
   "registers": {
-   "$0": 70,
+   "$0": 68,
    "$10": 10,
    "$11": 5,
    "$12": 9,
@@ -447,7 +447,7 @@
    "$23": 6,
    "$25": 1,
    "$29": 13,
-   "$3": 192,
+   "$3": 191,
    "$4": 505,
    "$5": 387,
    "$6": 62,
@@ -460,29 +460,29 @@
    "v0": 2,
    "v1": 3
   },
-  "sites": 2394,
+  "sites": 2391,
   "sp": 13,
   "spelling": {
-   "__asm__": 2364,
+   "__asm__": 2361,
    "asm": 30
   },
   "volatile_qualified": 0,
-  "zero": 70
+  "zero": 68
  },
- "src_stamp": "0cb0031b13c003c8",
+ "src_stamp": "f78756d9b936ea6b",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 5955,
+  "bodies": 5953,
   "by_kind": {
    "main": 159,
-   "md": 119,
+   "md": 117,
    "ov": 5506,
    "resident": 10,
    "shared": 161
   },
   "copies_in_multi": 4867,
-  "distinct_bodies": 1207,
+  "distinct_bodies": 1205,
   "multi_copy_classes": 119
  },
  "verbatim_excluded": {

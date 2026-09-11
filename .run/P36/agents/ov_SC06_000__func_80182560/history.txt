@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 2 best 2 compiles 61 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R18 bystander @7240->7242 -> 2 [COUNT] (from 2)
+  R7 block @7240 -> 2 [COUNT] (from 2)
+  R9 swap-stmts @7242 -> 2 [COUNT] (from 2)
+  R10 param-copy arg0 @7240 -> 2 [COUNT] (from 2)
+  R7 block @7242 -> 2 [COUNT] (from 2)
+  R7 block @7243 -> 2 [COUNT] (from 2)
+  R7 block @7244 -> 2 [COUNT] (from 2)
+  R7 block @7241 -> 2 [COUNT] (from 2)
+  R10 param-copy arg0 @7240 -> 2 [COUNT] (from 2)
+  R9 swap-stmts @7242 -> 2 [COUNT] (from 2)
+  R7 block @7242 -> 2 [COUNT] (from 2)
+  R7 block @7243 -> 2 [COUNT] (from 2)

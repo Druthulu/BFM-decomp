@@ -1,0 +1,60 @@
+=== lever-free bodies in ov_SC06_000 sharing a callee or global with func_80184A68 (3 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801850E4 (src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:9149) shares 1: D_801AECC5 ---
+void func_801850E4(void) {
+    u8 *p = &D_801AECC4;
+    if (*p < 0x60U) {
+        *p += 4;
+    }
+    if (D_801AECC5 < 0xC0U) {
+        D_801AECC5 += 4;
+    }
+    if (D_801AECC6 < 0xC0U) {
+        D_801AECC6 += 4;
+    }
+}
+
+--- func_801851CC (src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:9188) shares 1: D_801AECC5 ---
+void func_801851CC(s32 arg0) {
+    u8 *q;
+    s32 p = *(s32 *)(arg0 + 0x20);
+    if (*(s16 *)(p + 0x18) >= 0x801) {
+        *(s16 *)(p + 0x18) = *(s16 *)(p + 0x18) - 0x200;
+    }
+    if (*(s16 *)(p + 0x1A) >= 0x801) {
+        *(s16 *)(p + 0x1A) = *(s16 *)(p + 0x1A) - 0x200;
+    }
+    q = &D_801AECC5;
+    if (*q >= 0xC1) {
+        *q -= 4;
+        D_801AECC4 -= 6;
+        D_801AECC6 -= 4;
+    }
+}
+
+--- func_80185264 (src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:9210) shares 1: D_801AECC5 ---
+void func_80185264(s32 a0) {
+    s32 a1 = *(s32 *)(a0 + 0x20);
+    s32 cnt;
+    u8 t;
+
+    if (*(s16 *)(a1 + 0x18) >= 0x801) {
+        *(s16 *)(a1 + 0x18) = *(s16 *)(a1 + 0x18) - 0x200;
+    }
+    if (*(s16 *)(a1 + 0x1A) >= 0x801) {
+        *(s16 *)(a1 + 0x1A) = *(s16 *)(a1 + 0x1A) - 0x200;
+    }
+
+    cnt = *(s32 *)(a0 + 0x1C) + 1;
+    *(s32 *)(a0 + 0x1C) = cnt;
+
+    if (cnt & 0x10) {
+        t = ((cnt & 0xF) >> 1) + 9;
+    } else {
+        t = 16 - ((cnt & 0xF) >> 1);
+    }
+
+    D_801AECC4 = t * 6;
+    D_801AECC5 = t * 12;
+    D_801AECC6 = t * 12;
+}
+

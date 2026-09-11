@@ -1,0 +1,186 @@
+=== lever-free bodies in ov_SC06_000 sharing a callee or global with func_8017E35C (29 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_80187B34 (src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:11376) shares 3: D_800A5E60 D_800A6610 D_800B9A02 ---
+void func_80187B34(void *a0)
+{
+    extern u8 D_800AF648;
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+    extern void RotMatrixZ(s32 a0, void *a1);
+
+    u8 stk[0x60];                        /* sp+0x10 .. sp+0x6F */
+    u32 flags;
+    u32 idx;
+    u32 ot;
+    u32 t2;
+    u8 *pkt;
+    u8 *p1;
+    u8 *p2;
+    u8 *pkb;
+    s32 d;
+    u32 *otp;
+
+    u8 *rotm;
+
+    flags = *(u32 *)((s32)a0 + 4);
+    rotm = &D_800AF648;
+
+    gte_SetRotMatrix(rotm);
+    gte_SetTransMatrix(rotm);
+    gte_ldv0((s32)a0 + 8);
+    gte_rtps();
+    gte_stsxy(stk);
+    gte_stflg(stk + 0x48);
+    gte_stsz(stk + 0x4c);
+    gte_stszotz(stk + 0x50);
+
+    if ((*(u32 *)(stk + 0x48) & 0xFFFFEFFF) == 0) {
+        idx = *(s32 *)(stk + 0x50) + 1;
+        ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        {
+            u16 flags2 = *(u16 *)((s32)a0 + 0x2c);
+            if ((flags2 & 0xC000) != 0) {
+                if ((flags2 & 0xC000) == 0xC000) {
+                    idx = idx - (flags2 & 0xFFF);
+                    if ((s32)idx < 0) idx = 0;
+                } else {
+                    idx = idx + (flags2 & 0xFFF);
+                }
+            }
+        }
+
+        if (idx < 0x1000) {
+            d = (s32)&stk[0x08];
+
+            *(u16 *)(stk + 0x08) = *(u16 *)((s32)a0 + 0x18);
+            *(u16 *)(stk + 0x0a) = 0;
+            *(u16 *)(stk + 0x0c) = 0;
+            *(u16 *)(stk + 0x0e) = 0;
+            *(u16 *)(stk + 0x10) = *(u16 *)((s32)a0 + 0x18);
+            *(u16 *)(stk + 0x12) = 0;
+            *(u16 *)(stk + 0x14) = 0;
+            *(u16 *)(stk + 0x16) = 0;
+            *(u16 *)(stk + 0x18) = 0x1000;
+            *(u32 *)(stk + 0x24) = 0;
+            *(u32 *)(stk + 0x20) = 0;
+            *(u32 *)(stk + 0x1c) = 0;
+
+            RotMatrixZ(*(s16 *)((s32)a0 + 0x14), (void *)d);
+            gte_SetRotMatrix((void *)d);
+            gte_SetTransMatrix((void *)d);
+
+            *(u16 *)(stk + 0x28) = 0x20;
+            *(u16 *)(stk + 0x2a) = 0;
+            *(s16 *)(stk + 0x2c) = (s16)*(u32 *)(stk + 0x4c);
+            gte_ldv0(stk + 0x28);
+            gte_rtps();
+            gte_stsxy(stk + 0x54);
+
+            d = (u16)((s16)(RD16(stk + 0x54)) >> 3);
+            d |= (s32)((s16)(RD16(stk + 0x56)) >> 3) << 16;
+
+            pkt = D_800A5E60;
+            p1 = pkt + 0x18;
+            *(u8 *)(pkt + 0x3) = 5;
+            *(u8 *)(pkt + 0x7) = 0x28;
+            *(u8 *)(p1 + 0x3) = 5;
+            t2 = flags & 0x40000000;
+            *(u8 *)(p1 + 0x7) = 0x28;
+            if (t2 != 0) {
+                *(u8 *)(pkt + 0x7) = *(u8 *)(pkt + 0x7) | 2;
+                *(u8 *)(p1 + 0x7) = *(u8 *)(p1 + 0x7) | 2;
+            }
+            *(u8 *)(pkt + 0x4) = *(u8 *)((s32)a0 + 0x24);
+            *(u8 *)(pkt + 0x5) = *(u8 *)((s32)a0 + 0x25);
+            *(u8 *)(pkt + 0x6) = *(u8 *)((s32)a0 + 0x26);
+            *(u8 *)(p1 + 0x4) = *(u8 *)((s32)a0 + 0x24);
+            *(u8 *)(p1 + 0x5) = *(u8 *)((s32)a0 + 0x25);
+            *(u8 *)(p1 + 0x6) = *(u8 *)((s32)a0 + 0x26);
+
+            *(s16 *)(pkt + 0x8) = RD16(stk) + RD16(stk + 0x54);
+            *(s16 *)(pkt + 0xa) = RD16(stk + 0x02) + RD16(stk + 0x56);
+            *(s16 *)(pkt + 0xc) = RD16(stk) - (d >> 16);
+            *(s16 *)(pkt + 0xe) = RD16(stk + 0x02) + d;
+            *(s16 *)(pkt + 0x10) = RD16(stk) + (d >> 16);
+            *(s16 *)(pkt + 0x12) = RD16(stk + 0x02) - d;
+            *(s16 *)(pkt + 0x14) = RD16(stk) - RD16(stk + 0x54);
+            *(s16 *)(pkt + 0x16) = RD16(stk + 0x02) - RD16(stk + 0x56);
+            *(s16 *)(p1 + 0x8) = RD16(stk) - RD16(stk + 0x56);
+            *(s16 *)(p1 + 0xa) = RD16(stk + 0x02) + RD16(stk + 0x54);
+            *(s16 *)(p1 + 0xc) = RD16(stk) - d;
+            *(s16 *)(p1 + 0xe) = RD16(stk + 0x02) - (d >> 16);
+            *(s16 *)(p1 + 0x10) = RD16(stk) + d;
+            *(s16 *)(p1 + 0x12) = RD16(stk + 0x02) + (d >> 16);
+            *(s16 *)(p1 + 0x14) = RD16(stk) + RD16(stk + 0x56);
+            *(s16 *)(p1 + 0x16) = RD16(stk + 0x02) - RD16(stk + 0x54);
+
+            /* addPrim(otp, pkt); addPrim(otp, p1); */
+            otp = (u32 *)((idx << 2) + ot);
+            ((P_TAG *)pkt)->addr = ((P_TAG *)otp)->addr;
+            ((P_TAG *)otp)->addr = (u32)pkt;
+            ((P_TAG *)p1)->addr = ((P_TAG *)otp)->addr;
+
+            pkb = D_800A5E60;
+            p2 = pkb + 0x30;
+            D_800A5E60 = p2;
+            ((P_TAG *)otp)->addr = (u32)p1;
+
+            if (t2 != 0) {
+                D_800A5E60 = pkb + 0x38;
+                *(u8 *)(p2 + 3) = 1;
+                RW32(p2 + 4) = ((flags >> 23) & 0x60) | 0xE1000000;
+                ((P_TAG *)p2)->addr = ((P_TAG *)otp)->addr;
+                ((P_TAG *)otp)->addr = (u32)p2;
+            }
+        }
+    }
+}
+
+--- func_80175668 (src/shared/ov/func_80175668.h:5) shares 1: D_800B9A02 ---
+void func_80175668(void) {
+    func_801757E0(D_800B9A02);
+}
+
+--- func_80175624 (src/shared/ov/func_80175624.h:5) shares 1: D_800B9A02 ---
+void func_80175624(void *a0) {
+    func_801757A0(D_800B9A02);
+    *((u8 *)a0 + 1) = *((u8 *)a0 + 1) + 1;
+}
+
+--- func_801417F8 (src/shared/ov/func_801417F8.h:9) shares 1: D_800B9A02 ---
+void func_801417F8(void) {
+    if (D_800B9A15 == 0 || D_800B9A16 != 0) {
+        if (D_80115114 == (u16)(D_800B9A02 ^ 1)) {
+            func_800D2624();
+        } else {
+            D_80115112 += 1;
+        }
+    }
+}
+
+--- func_80141B90 (src/shared/ov/func_80141B90.h:10) shares 1: D_800B9A02 ---
+void func_80141B90(void)
+{
+  volatile char pad;
+  D_801151D0 = ((s32 *) D_801151C8)[*((u16 *) (&D_800B9A02))];
+  ((void (*)(s32, s32))func_8013FAF8)(2, 3);
+  if (D_80115116 == 0)
+  {
+    *((s8 *) (&D_800B9A15)) = 0;
+    D_80115112 = D_80115112 + 1;
+  }
+}
+
+--- func_8012E28C (src/shared/ov/func_8012E28C.h:9) shares 1: D_800B9A02 ---
+void func_8012E28C(s32 arg0, s32 arg1) {
+    void *temp_v0;
+    s32 temp_v1;
+    s32 base;
+    if (arg0 > 0) {
+        base = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (arg0 * 4);
+        temp_v0 = func_80010A08(0xC);
+        temp_v1 = GetTPage(0, arg1, 0, 0);
+        func_8005A600((s32)temp_v0, 0, 0, (u16)temp_v1, 0);
+        AddPrim(base, temp_v0);
+    }
+}
+

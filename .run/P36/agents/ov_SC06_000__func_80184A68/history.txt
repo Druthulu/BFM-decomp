@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 9 best 9 compiles 38 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @8819 -> 9 [COUNT] (from 9)
+  R9 swap-stmts @8821 -> 9 [COUNT] (from 9)
+  R7 do-while @8819 -> 9 [COUNT] (from 9)
+  R7 block @8821 -> 9 [COUNT] (from 9)
+  R7 do-while @8821 -> 9 [COUNT] (from 9)
+  R7 block @8823 -> 9 [COUNT] (from 9)
+  R7 block @8822 -> 9 [COUNT] (from 9)
+  R9 swap-stmts @8821 -> 9 [COUNT] (from 9)
+  R7 block @8821 -> 9 [COUNT] (from 9)
+  R7 do-while @8821 -> 9 [COUNT] (from 9)
+  R7 block @8823 -> 9 [COUNT] (from 9)
+  R7 block @8822 -> 9 [COUNT] (from 9)

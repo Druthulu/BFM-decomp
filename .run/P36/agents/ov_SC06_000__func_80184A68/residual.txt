@@ -1,0 +1,13 @@
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:func_80184A68: score 9 (COUNT; mine 20 ins, target 16) — not yet
+  replace mine[5:6] target[5:6]
+        5  beqz	v0,9c84 <func_80184A68+0x48>  | beqz	v0,9c74 <func_80184A68+0x38>
+  replace mine[8:12] target[8:10]
+        8  lui	v0,0x0                         | lbu	v0,-1(a0)
+        9  lbu	v0,-1(v0)                      | lbu	v1,1(a0)
+       10  lui	v1,0x0                         | --
+       11  lbu	v1,1(v1)                       | --
+  replace mine[14:18] target[12:14]
+       14  lui	at,0x0                         | sb	v0,-1(a0)
+       15  sb	v0,-1(at)                       | sb	v1,1(a0)
+       16  lui	at,0x0                         | --
+       17  sb	v1,1(at)                        | --

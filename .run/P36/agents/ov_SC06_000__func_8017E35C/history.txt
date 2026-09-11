@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 58 best 48 compiles 185 path R14 param-width arg0 s32->s16 @4779
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R14 param-width arg0 s32->s16 @4779 -> 48 [COUNT] (from 58)
+  R18 bystander @4828->4830 -> 48 [COUNT] (from 48)
+  R7 block @4842 -> 48 [COUNT] (from 48)
+  R9 swap-stmts @4838 -> 48 [COUNT] (from 48)
+  R7 block @4838 -> 48 [COUNT] (from 48)
+  R5 swap + @4913 -> 48 [COUNT] (from 48)
+  R5 swap + @4914 -> 48 [COUNT] (from 48)
+  R7 block @4866 -> 48 [COUNT] (from 48)
+  R5 swap + @4916 -> 48 [COUNT] (from 48)
+  R9 swap-stmts @4831 -> 48 [COUNT] (from 48)
+  R7 do-while @4866 -> 48 [COUNT] (from 48)
+  R5 swap + @4927 -> 48 [COUNT] (from 48)

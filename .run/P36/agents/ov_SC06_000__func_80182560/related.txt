@@ -1,0 +1,52 @@
+=== lever-free bodies in ov_SC06_000 sharing a callee or global with func_80182560 (7 found; top 6 by shared symbols) — read them for the SHAPE ===
+--- func_801824D4 (src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:7208) shares 2: D_8019FD8C D_801AEC60 ---
+void func_801824D4(void *a0) {
+    func_8013C0F8(&D_8019FD8C);
+    func_8013C0F8(&D_80197B60);
+    func_8017EF08((s32)&D_801AEBB0);
+    func_8017EF08((s32)&D_801AEC08);
+    D_801AEAFC = 0x1310000;
+    D_801AEC60 = 0;
+    ((struct { u8 pad[2]; u16 f; } *)a0)->f += 1;
+    *(s16 *)((s32)a0 + 0xE0) = 1;
+}
+
+--- func_8013BD34 (src/ov_SC06_000/ov_SC06_000_o0c.c:951) shares 1: D_801B20E0 ---
+void func_8013BD34(s32 a0) {
+
+    extern s32 D_801B20E0;
+    func_8013BD74(&D_801B20E0, a0);
+}
+
+--- func_8013C938 (src/ov_SC06_000/ov_SC06_000_o0c.c:1036) shares 1: D_801B20E0 ---
+void func_8013C938(void) {
+
+    extern s32 D_801B20E0;
+    D_801B20E0 = 1;
+}
+
+--- func_8013C964 (src/ov_SC06_000/ov_SC06_000_o0c.c:1044) shares 1: D_801B20E0 ---
+void func_8013C964(void) {
+
+    extern s32 D_801B20E0;
+    D_801B20E0 = 0;
+}
+
+--- func_801825D8 (src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:7241) shares 1: D_801AEAFE ---
+s16 func_801825D8(void) {
+
+    extern s16 D_801AEAFE;
+    return D_801AEAFE;
+}
+
+--- func_801825E8 (src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:7248) shares 1: D_801AEC60 ---
+s32 func_801825E8(void) {
+    extern s32 D_801AEC60;
+
+    if (D_801AEC60 < 2) {
+        D_801AEC60 = 1;
+        return 0;
+    }
+    return 1;
+}
+

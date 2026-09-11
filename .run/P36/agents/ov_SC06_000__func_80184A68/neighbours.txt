@@ -1,0 +1,39 @@
+--- every @class/@stuck/@crack note in this translation unit ---
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: regalloc-order — simplified sibling of matched func_8017B614.
+// @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
+// @class: struct
+// @stuck: none — MATCH (74 ins)
+// @class: regalloc-order + T1 memcpy-builtin→call re-crack
+// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// @class: plumbing
+// @stuck: none — MATCH
+// @class: schedule
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+// @class: struct
+// @stuck: none — MATCH (62 ins)
+// @class: struct
+// @stuck: none — MATCH (65 ins)
+// @class: regalloc-order
+// @stuck: pending self-check — register order param=$s2 counter=$s1 ptr=$s0
+// @class: plumbing
+// @stuck: none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
+// @class: plumbing
+// @stuck: none — MATCH expected (simple short-increment + guarded call)
+// @class: regalloc-order
+// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+ * @class: schedule (LENGTH-DRIFT/-1)
+ * @stuck: none — MATCH 50/50 (match_one AND rtu_match), iteration 2.
+// @class: plumbing
+// @stuck: none — MATCH (41 ins, relocation-masked); frame needed a 0x30 address-taken local
+// @class: plumbing
+// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @class: struct
+// @stuck: none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
+// @class: loose-typing
+// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)

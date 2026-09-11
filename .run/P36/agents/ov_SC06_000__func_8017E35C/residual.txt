@@ -1,0 +1,98 @@
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:func_8017E35C: score 58 (COUNT; mine 720 ins, target 719) — not yet
+  register pairs (mine -> target, count): s6->s5 x2, s5->s6 x2
+  replace mine[14:15] target[14:15]
+       14  bnez	v0,403c <func_8017E35C+0xb0c> | bnez	v0,4038 <func_8017E35C+0xb08>
+  replace mine[36:38] target[36:41]
+       36  lw	s4,8(a0)                        | lw	s8,8(a0)
+       37  nop                                | lw	t9,16(a0)
+       38  --                                 | blez	s8,4030 <func_8017E35C+0xb00>
+       39  --                                 | addu	s7,v0,v1
+       40  --                                 | addiu	s4,sp,160
+  replace mine[39:45] target[42:44]
+       39  lw	t9,16(a0)                       | addiu	s5,sp,236
+       40  blez	s4,4034 <func_8017E35C+0xb04> | addiu	s6,sp,240
+       41  addu	s7,v0,v1                      | --
+       42  addiu	s8,sp,160                    | --
+       43  addiu	s6,sp,236                    | --
+       44  addiu	s5,sp,240                    | --
+  replace mine[137:138] target[136:137]
+      137  bnez	v0,4018 <func_8017E35C+0xae8> | bnez	v0,401c <func_8017E35C+0xaec>
+  replace mine[145:146] target[144:145]
+      145  j	3784 <func_8017E35C+0x254>       | j	3780 <func_8017E35C+0x250>
+  replace mine[154:155] target[153:154]
+      154  j	37ac <func_8017E35C+0x27c>       | j	37a8 <func_8017E35C+0x278>
+  replace mine[164:165] target[163:164]
+      164  j	37d4 <func_8017E35C+0x2a4>       | j	37d0 <func_8017E35C+0x2a0>
+  replace mine[175:176] target[174:175]
+      175  j	37fc <func_8017E35C+0x2cc>       | j	37f8 <func_8017E35C+0x2c8>
+  replace mine[184:185] target[183:184]
+      184  j	3824 <func_8017E35C+0x2f4>       | j	3820 <func_8017E35C+0x2f0>
+  replace mine[194:195] target[193:194]
+      194  j	384c <func_8017E35C+0x31c>       | j	3848 <func_8017E35C+0x318>
+  replace mine[211:212] target[210:211]
+      211  bnez	v0,4018 <func_8017E35C+0xae8> | bnez	v0,401c <func_8017E35C+0xaec>
+  replace mine[215:216] target[214:215]
+      215  beqz	v0,4018 <func_8017E35C+0xae8> | beqz	v0,401c <func_8017E35C+0xaec>
+  replace mine[223:224] target[222:223]
+      223  j	38bc <func_8017E35C+0x38c>       | j	38b8 <func_8017E35C+0x388>
+  replace mine[232:233] target[231:232]
+      232  j	38e4 <func_8017E35C+0x3b4>       | j	38e0 <func_8017E35C+0x3b0>
+  replace mine[242:243] target[241:242]
+      242  j	390c <func_8017E35C+0x3dc>       | j	3908 <func_8017E35C+0x3d8>
+  replace mine[253:254] target[252:253]
+      253  j	3934 <func_8017E35C+0x404>       | j	3930 <func_8017E35C+0x400>
+  replace mine[262:263] target[261:262]
+      262  j	395c <func_8017E35C+0x42c>       | j	3958 <func_8017E35C+0x428>
+  replace mine[272:273] target[271:272]
+      272  j	3984 <func_8017E35C+0x454>       | j	3980 <func_8017E35C+0x450>
+  replace mine[289:290] target[288:289]
+      289  bnez	v0,4018 <func_8017E35C+0xae8> | bnez	v0,401c <func_8017E35C+0xaec>
+  replace mine[293:294] target[292:293]
+      293  beqz	v0,4018 <func_8017E35C+0xae8> | beqz	v0,401c <func_8017E35C+0xaec>
+  replace mine[299:300] target[298:299]
+      299  beqz	s4,4018 <func_8017E35C+0xae8> | beqz	s4,401c <func_8017E35C+0xaec>
+  replace mine[336:342] target[335:343]
+      336  lwc2	$0,0(s8)                      | lw	s4,264(sp)
+      337  lwc2	$1,4(s8)                      | nop
+      338  lwc2	$2,8(s8)                      | lwc2	$0,0(s4)
+      339  lwc2	$3,12(s8)                     | lwc2	$1,4(s4)
+      340  lwc2	$4,16(s8)                     | lwc2	$2,8(s4)
+      341  lwc2	$5,20(s8)                     | lwc2	$3,12(s4)
+      342  --                                 | lwc2	$4,16(s4)
+      343  --                                 | lwc2	$5,20(s4)
+  replace mine[380:382] target[381:383]
+      380  swc2	$17,0(s6)                     | swc2	$17,0(s5)
+      381  swc2	$18,0(s5)                     | swc2	$18,0(s6)
+  replace mine[391:392] target[392:393]
+      391  j	3b5c <func_8017E35C+0x62c>       | j	3b60 <func_8017E35C+0x630>
+  replace mine[401:402] target[402:403]
+      401  j	3b94 <func_8017E35C+0x664>       | j	3b98 <func_8017E35C+0x668>
+  replace mine[426:427] target[427:428]
+      426  j	3be8 <func_8017E35C+0x6b8>       | j	3bec <func_8017E35C+0x6bc>
+  replace mine[436:437] target[437:438]
+      436  j	3c20 <func_8017E35C+0x6f0>       | j	3c24 <func_8017E35C+0x6f4>
+  replace mine[460:461] target[461:462]
+      460  j	3c6c <func_8017E35C+0x73c>       | j	3c70 <func_8017E35C+0x740>
+  replace mine[494:495] target[495:496]
+      494  j	3fd4 <func_8017E35C+0xaa4>       | j	3fd8 <func_8017E35C+0xaa8>
+  replace mine[521:522] target[522:523]
+      521  j	3d64 <func_8017E35C+0x834>       | j	3d68 <func_8017E35C+0x838>
+  replace mine[531:532] target[532:533]
+      531  j	3d9c <func_8017E35C+0x86c>       | j	3da0 <func_8017E35C+0x870>
+  replace mine[547:548] target[548:549]
+      547  j	3dcc <func_8017E35C+0x89c>       | j	3dd0 <func_8017E35C+0x8a0>
+  replace mine[557:558] target[558:559]
+      557  j	3e04 <func_8017E35C+0x8d4>       | j	3e08 <func_8017E35C+0x8d8>
+  replace mine[576:578] target[577:579]
+      576  swc2	$16,0(s6)                     | swc2	$16,0(s5)
+      577  swc2	$17,0(s5)                     | swc2	$17,0(s6)
+  replace mine[588:589] target[589:590]
+      588  j	3e80 <func_8017E35C+0x950>       | j	3e84 <func_8017E35C+0x954>
+  replace mine[610:611] target[611:612]
+      610  j	3ed8 <func_8017E35C+0x9a8>       | j	3edc <func_8017E35C+0x9ac>
+  replace mine[696:697] target[697:698]
+      696  bnez	v0,39e8 <func_8017E35C+0x4b8> | bnez	v0,39e4 <func_8017E35C+0x4b4>
+  replace mine[700:703] target[701:702]
+      700  lw	s4,264(sp)                      | slt	v0,s3,s8
+      701  nop                                | --
+      702  slt	v0,s3,s4                       | --

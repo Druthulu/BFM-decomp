@@ -1,0 +1,14 @@
+s5: verdict NO-MATCH start 2 best 2 compiles 144 path 
+best-scoring single candidates of the last trace (move -> score [residual class]):
+  R7 block @7321 -> 2 [COUNT] (from 2)
+  R9 swap-stmts @7323 -> 2 [COUNT] (from 2)
+  R7 block @7323 -> 2 [COUNT] (from 2)
+  R7 block @7324 -> 2 [COUNT] (from 2)
+  R7 block @7325 -> 2 [COUNT] (from 2)
+  R18 bystander @7321->7323 -> 2 [COUNT] (from 2)
+  R7 block @7326 -> 2 [COUNT] (from 2)
+  R7 do-while @7326 -> 2 [COUNT] (from 2)
+  R7 block @7327 -> 2 [COUNT] (from 2)
+  R7 do-while @7327 -> 2 [COUNT] (from 2)
+  R7 block @7328 -> 2 [COUNT] (from 2)
+  R7 do-while @7328 -> 2 [COUNT] (from 2)
