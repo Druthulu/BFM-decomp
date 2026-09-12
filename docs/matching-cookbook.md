@@ -20625,6 +20625,12 @@ so the open question is attribution only.
 
 ### §197-A — A NARROW SIGNED MEMORY READ FEEDING A CONSTANT `>>` LOSES ITS `lh`, AND THE CURE IS AN ASM RE-TIE (attribution CONTESTED: cse vs combine)
 
+> ⚠ **THE CURE IS SUPERSEDED — PLAIN C REACHES IT (Phase 36 S104 d13, S105; nine bodies banked lever-free).** "Do not chase it
+> with casts" was wrong: cast ONE operand AT THE SHIFT — `(s16)t >> 6` — and never the declaration. `c-typeck.c:2418-2450`'s
+> short-shift rule re-extends the operand and cse folds THAT pair (`cse.c:5577-5667`) instead of the load's, giving `lh ; sra N`
+> with no asm. The narrow-load split of combine (`combine.c:1893-1918`, cookbook §457) is the same family: an `s16` local loaded
+> DIRECTLY and set ONCE keeps its `lh` + `move`. The asm re-tie below is now a marked lever, not a cure.
+
 **TARGET SHAPE / DIAGNOSTIC TELL (both verifiers agree, byte-probed twice).** The target has
 `lh $r,K(base)` followed — with no intervening write of `$r` — by `sra $r,$r,N` with `0 < N < 16`.
 You have `lhu $r,K(base) ; sll $r,$r,16 ; sra $r,$r,16+N`: **LENGTH-DRIFT +1**, and your `sra` count
@@ -37867,6 +37873,11 @@ constant store moved above the nearest two-register-value store so the holder's 
 target variable (`expand_divmod` puts quotient and remainder in a named pseudo, `expmed.c:2787`). A global read as a
 one-element array with chained stores (`note_mem_written`, `cse.c:7539-7580`). Two `return <const>;` statements for a pinned
 result. A goto bottom-test loop as a structured `while`. Loop inits moved after the preceding call (sched1's LUID tie-break).
+
+**The header-note tags after Phase 36.** The drafters' `@stuck:` notes above 30,138 functions whose levers came off are retagged
+`@unstuck(P36):` (comment-only, 2,693 files, R22 218/218) — the claim stands as history, the tag says the bytes refuted it; a live
+`@stuck:` sits only above a function that still carries a marked lever (622 at the close). A `@crack:` note names a spelling that
+closed; the ledger (`.run/P36/delever/ledger.jsonl`) is the record of which rung judged which site.
 
 **The do-while tell.** Both marked do-while closes this session were reference-weight levers with the same arithmetic: the
 loser needs EXACTLY +1 flow-time ref (`flow.c:2067`) on a statement that does not mention the winner; a real callee argument

@@ -53,55 +53,55 @@
 - **§195-G** — §NEW — TWO ARMS CALLING THE SAME CALLEE MERGE INTO ONE `jal` UNLESS EACH ARM'S OWN CODE CONSUMES THE RESULT: the C dial that keeps two call sites apart is WHERE the consumer test lives, and the branch SENSE you spell it with is byte-inert (jump.c:1737 canonicalises it)  <sub>L20107</sub>
 - **§195-J** — GTE / PsyQ op CALL-vs-INLINE is a PER-SITE SOURCE FACT, not a TU style — both forms coexist in one TU (measured in 2 TUs), and the tell is the target's own opcodes (`lwc2`/`sqr`/`swc2` vs `jal`), not the sibling. Costs -8 ins on func_8018505C. Corollary: the game's inline `sqr` macro emits TWO hazard nops, the SDK's `Square0` body emits ONE — so the inline form is provably not `Square0` inlined (a second instance of §187's SDK-vs-game GTE nop divergence).  <sub>L20267</sub>
 - **§195-N** — In a call-bearing chain of N≥2 `if (f(...)) return 1;` tests closed by `return 0;`, the LAST test must stay in STATEMENT form — the value form (`return f() != 0;` / `? 1 : 0` / `!!f()`) costs +1 `j` and empties the other N−1 delay slots. The cause is REORG block placement, not jump.c's `delete_jump`.  <sub>L20464</sub>
-- **§197-B** — A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_code` CHANNEL (the non-EQ complement of §165-03) — and a front-end-opaque mask on EITHER compare is a pure-C dial that keeps the target's second branch  <sub>L20664</sub>
-- **§199-F** — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)  <sub>L21024</sub>
-- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21078</sub>
-- **§201-C** — §X — A CALL'S OWN DELAY SLOT AND THE UPSTREAM CONDITIONAL BRANCH'S SLOT COMPETE FOR ONE INSN (the call's argument copy), AND ONE STATEMENT'S POSITION RELATIVE TO THE CALL DECIDES BOTH — the residual is visible at the BRANCH, not at the call  <sub>L21315</sub>
-- **§204-A** — A COMPARE THAT APPEARS BOTH IN A BRANCH'S DELAY SLOT AND AGAIN ON THE FALL-THROUGH IS A JOIN WITH TWO INCOMING EDGES: THE TWO GUARDS ARE SEQUENTIAL `if`s, NEVER `if/else if`  <sub>L21611</sub>
-- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22419</sub>
-- **§221** — A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22823</sub>
-- **§223** — READING A `jal` DELAY SLOT: the value in it was produced BEFORE the call, so it is NEVER that call's return (P31 S58)  <sub>L22881</sub>
-- **§224** — CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31 S58)  <sub>L22943</sub>
-- **§232** — WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23225</sub>
-- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23725</sub>
-- **§247** — TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b)  <sub>L23877</sub>
-- **§224** — addendum (P31 S58b) — CROSS-JUMP MERGES *CALLS*, AND THE DELAY SLOT IS THE DISCRIMINATOR  <sub>L24564</sub>
-- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24931</sub>
-- **ADD-4** — → §225-3/-4 addendum — THE MIRROR ROW: VALUE-RETURN IN THE *TAKEN* ARM + TRAILING BARE `return 0`  <sub>L25163</sub>
-- **ADD-5** — → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TRAILING `else`  <sub>L25177</sub>
-- **ADD-5** — → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON THE SHIFTED COPY, RAW STAYS LIVE — AND THE HALFWORD-ABS SHAPE NEEDS NO RITUAL  <sub>L25415</sub>
-- **ADDENDUM** — to §224 — CROSS-JUMP: THE DUPLICATE CAN BE A PLAIN STORE, NOT ONLY A CALL  <sub>L26008</sub>
-- **ADDENDUM** — to §172a — RE-READING MEMORY (NOT NAMING A TEMP) IS WHAT KEEPS AN INCREMENT'S DELAY-SLOT FILL ALIVE  <sub>L26308</sub>
-- **ADDENDUM** — to §225 / §256 — A GOTO TO A SHARED SET-POINT PREVENTS IF-CONVERSION FROM COLLAPSING A LATER BRANCH TEST  <sub>L26339</sub>
-- **§277** — RETURN-TAIL C SPELLING PICKS THE DELAY-SLOT-FILL vs TRAILING-MOVE TOPOLOGY, AND A NARROWER SECOND VARIABLE KEEPS TWO PSEUDOS INSTEAD OF ONE (P31 S60; `func_801846F0` ov_SC03_104, `func_801A44C4` md_SC07_004, both byte-proven)  <sub>L26565</sub>
-- **ADDENDUM** — to §22 (`volatile`-qualified-global reload lever, cookbook ~L1922) — for a NON-constant, same-address double RMW, a plain memory clobber beats `volatile`, and `volatile` actively breaks a delay-slot fill  <sub>L27230</sub>
-- **ADDENDUM** — to §220 — REFERENCING THE RAW PARAMETER (NO NAMED COPY, NOT EVEN A PIN) LETS THE CALLEE-SAVED SPILL LAND IN THE FIRST CALL'S OWN DELAY SLOT  <sub>L27484</sub>
-- **ADDENDUM** — to §252 — a `>=0`/`<0` split on an unconditionally-decremented value needs the POSTFIX operator INSIDE the branch condition, not a prior statement  <sub>L27542</sub>
-- **ADDENDUM** — to §20's cross-jump EXPLOIT bullet (func_8017E360, ov_SC05_007 — wave dg)  <sub>L27836</sub>
-- **ADDENDUM** — §NNN — sharpens §55a / §164-37 / §165-28 (switch-vs-tree cluster): A SHAPE THAT LOOKS LIKE A SWITCH DISPATCH CAN BE PLAIN NESTED `if`s WHOSE SHARED BODY WAS TRIPLICATED BY THE SOURCE AND THEN CROSS-JUMP-MERGED BACK DOWN  <sub>L28227</sub>
-- **§285** — PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE FOLLOWING if/else DESTRUCTIVELY REUSE THE SAME DESTINATION REGISTER FOR THEIR BITWISE RESULT (byte-proven; `func_801811F0`, ov_SC03_102, independently rediscovered across waves di/dj) (P31 S60; waves #, byte-proven)  <sub>L29082</sub>
-- **§286** — FOLD A STATEMENT'S SIDE EFFECT INTO A COMMA-EXPRESSION IN AN ARGUMENT POSITION TO PLACE ITS RTL RELATIVE TO A CALL'S OWN DELAY SLOT (P31 S60/dj; `func_80180A88`, ov_SC06_010, byte-proven 411/411) (P31 S60; waves #, byte-proven)  <sub>L29086</sub>
-- **§291** — THE DELAY-SLOT FALSE-VALUE: A CONDITIONAL BRANCH'S ZERO ARM MUST BE A FALL-THROUGH-ADJACENT BLOCK ENDING IN AN EXPLICIT JUMP, OR REORG CANNOT MATERIALIZE IT INSIDE THE BRANCH'S OWN DELAY SLOT (P31 S60; waves #, byte-proven)  <sub>L29106</sub>
-- **ADDENDUM** — to §253 — SECOND byte-proven card (upgrade from single-observation), and the placement face: postfix-in-condition parks the RMW store in the branch delay slot  <sub>L29340</sub>
-- **§306** — A HAZARD `nop` IN FRONT OF A DIV-RESULT STORE IS A STATEMENT-ORDER DEFECT: THE INDEPENDENT TRAILING STATEMENT MUST BE WRITTEN *BEFORE* THE DIVISION-CONSUMING ONE (P31 S62 T4; byte-proven func_8017E7D0)  <sub>L29878</sub>
-- **§308** — A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if` SO cse FOLDS IT TO AN UNCONDITIONAL JUMP *AFTER* jump1's WINDOW HAS CLOSED (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L29987</sub>
-- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30016</sub>
-- **§309** — A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD ONTO `$sp` UNLESS THE `if` SURVIVES jump1 AS A BARRIER-PRECEDED DIAMOND (P31 S63 t5e-t5i; byte-proven func_801812AC)  <sub>L30050</sub>
-- **§311** — A JOIN-BLOCK STORE CAN SWALLOW AN ARM'S LOAD-DELAY `nop`: WHEN ONE ARM'S VALUE COMES FROM A LOAD, DUPLICATE THE STORE INTO BOTH ARMS (P31 S64 t5j-t5m; byte-proven func_8017D7E0)  <sub>L30121</sub>
-- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30245</sub>
-- **Addendum** — A §5a BARRIER SITS IN REORG'S FILL WINDOW TOO, SO ITS SIDE OF THE INNER `goto` IS CHOSEN P (func_80181D08)  <sub>L30493</sub>
-- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30595</sub>
-- **Addendum** — REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8)  <sub>L30634</sub>
-- **Addendum** — LENGTH-DRIFT nop clears when offset math precedes the symbol launder (func_80039B20)  <sub>L30638</sub>
-- **Addendum** — Return-0 statement order: extra j+move vs delay-slot fusion (func_8018BB50)  <sub>L30725</sub>
-- **§331** — OPEN GAP: NO LEVER ELIMINATES AN *UNWANTED DUPLICATE* COPY AT A BRANCH-TARGET BLOCK HEAD (P31 S67; main/func_80013154, closeness 12, NOT solved)  <sub>L31063</sub>
-- **§332** — THE maspsx `la`-IN-A-DELAY-SLOT GAP: gcc EMITS A SYMBOLIC ADDRESS LOAD AS ONE ATOMIC length-2 INSN, SO IT CAN NEVER FILL A JUMP DELAY SLOT — 6 FUNCTIONS FLEET-WIDE, NONE BANKABLE FROM C (P31 S67; byte-traced main/func_80062144, func_8005DBD8)  <sub>L31075</sub>
-- **§336** — THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump` WALKS BACKWARD FROM THE CONVERGING JUMP (P31 S67; byte-proven ov_SC05_001/func_80183C9C)  <sub>L31153</sub>
-- **§339** — A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE `beq`s IS A **COUNT TELL** FOR A THIRD CASE NODE (P31 S67; byte-proven ov_SC02_005/func_80190538, 197 ins)  <sub>L31185</sub>
-- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31326</sub>
-- **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31842</sub>
-- **§396g** — ★★ — A GUARD LADDER'S RUNGS MUST STAY SYMMETRIC OR `reorg.c` LOSES ITS BRANCH REDIRECT (P31 S69; byte-proven ov_SC03_028/func_80184C90, 92 ins)  <sub>L32822</sub>
-- **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33958</sub>
+- **§197-B** — A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_code` CHANNEL (the non-EQ complement of §165-03) — and a front-end-opaque mask on EITHER compare is a pure-C dial that keeps the target's second branch  <sub>L20670</sub>
+- **§199-F** — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)  <sub>L21030</sub>
+- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21084</sub>
+- **§201-C** — §X — A CALL'S OWN DELAY SLOT AND THE UPSTREAM CONDITIONAL BRANCH'S SLOT COMPETE FOR ONE INSN (the call's argument copy), AND ONE STATEMENT'S POSITION RELATIVE TO THE CALL DECIDES BOTH — the residual is visible at the BRANCH, not at the call  <sub>L21321</sub>
+- **§204-A** — A COMPARE THAT APPEARS BOTH IN A BRANCH'S DELAY SLOT AND AGAIN ON THE FALL-THROUGH IS A JOIN WITH TWO INCOMING EDGES: THE TWO GUARDS ARE SEQUENTIAL `if`s, NEVER `if/else if`  <sub>L21617</sub>
+- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22425</sub>
+- **§221** — A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22829</sub>
+- **§223** — READING A `jal` DELAY SLOT: the value in it was produced BEFORE the call, so it is NEVER that call's return (P31 S58)  <sub>L22887</sub>
+- **§224** — CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31 S58)  <sub>L22949</sub>
+- **§232** — WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23231</sub>
+- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23731</sub>
+- **§247** — TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b)  <sub>L23883</sub>
+- **§224** — addendum (P31 S58b) — CROSS-JUMP MERGES *CALLS*, AND THE DELAY SLOT IS THE DISCRIMINATOR  <sub>L24570</sub>
+- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24937</sub>
+- **ADD-4** — → §225-3/-4 addendum — THE MIRROR ROW: VALUE-RETURN IN THE *TAKEN* ARM + TRAILING BARE `return 0`  <sub>L25169</sub>
+- **ADD-5** — → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TRAILING `else`  <sub>L25183</sub>
+- **ADD-5** — → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON THE SHIFTED COPY, RAW STAYS LIVE — AND THE HALFWORD-ABS SHAPE NEEDS NO RITUAL  <sub>L25421</sub>
+- **ADDENDUM** — to §224 — CROSS-JUMP: THE DUPLICATE CAN BE A PLAIN STORE, NOT ONLY A CALL  <sub>L26014</sub>
+- **ADDENDUM** — to §172a — RE-READING MEMORY (NOT NAMING A TEMP) IS WHAT KEEPS AN INCREMENT'S DELAY-SLOT FILL ALIVE  <sub>L26314</sub>
+- **ADDENDUM** — to §225 / §256 — A GOTO TO A SHARED SET-POINT PREVENTS IF-CONVERSION FROM COLLAPSING A LATER BRANCH TEST  <sub>L26345</sub>
+- **§277** — RETURN-TAIL C SPELLING PICKS THE DELAY-SLOT-FILL vs TRAILING-MOVE TOPOLOGY, AND A NARROWER SECOND VARIABLE KEEPS TWO PSEUDOS INSTEAD OF ONE (P31 S60; `func_801846F0` ov_SC03_104, `func_801A44C4` md_SC07_004, both byte-proven)  <sub>L26571</sub>
+- **ADDENDUM** — to §22 (`volatile`-qualified-global reload lever, cookbook ~L1922) — for a NON-constant, same-address double RMW, a plain memory clobber beats `volatile`, and `volatile` actively breaks a delay-slot fill  <sub>L27236</sub>
+- **ADDENDUM** — to §220 — REFERENCING THE RAW PARAMETER (NO NAMED COPY, NOT EVEN A PIN) LETS THE CALLEE-SAVED SPILL LAND IN THE FIRST CALL'S OWN DELAY SLOT  <sub>L27490</sub>
+- **ADDENDUM** — to §252 — a `>=0`/`<0` split on an unconditionally-decremented value needs the POSTFIX operator INSIDE the branch condition, not a prior statement  <sub>L27548</sub>
+- **ADDENDUM** — to §20's cross-jump EXPLOIT bullet (func_8017E360, ov_SC05_007 — wave dg)  <sub>L27842</sub>
+- **ADDENDUM** — §NNN — sharpens §55a / §164-37 / §165-28 (switch-vs-tree cluster): A SHAPE THAT LOOKS LIKE A SWITCH DISPATCH CAN BE PLAIN NESTED `if`s WHOSE SHARED BODY WAS TRIPLICATED BY THE SOURCE AND THEN CROSS-JUMP-MERGED BACK DOWN  <sub>L28233</sub>
+- **§285** — PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE FOLLOWING if/else DESTRUCTIVELY REUSE THE SAME DESTINATION REGISTER FOR THEIR BITWISE RESULT (byte-proven; `func_801811F0`, ov_SC03_102, independently rediscovered across waves di/dj) (P31 S60; waves #, byte-proven)  <sub>L29088</sub>
+- **§286** — FOLD A STATEMENT'S SIDE EFFECT INTO A COMMA-EXPRESSION IN AN ARGUMENT POSITION TO PLACE ITS RTL RELATIVE TO A CALL'S OWN DELAY SLOT (P31 S60/dj; `func_80180A88`, ov_SC06_010, byte-proven 411/411) (P31 S60; waves #, byte-proven)  <sub>L29092</sub>
+- **§291** — THE DELAY-SLOT FALSE-VALUE: A CONDITIONAL BRANCH'S ZERO ARM MUST BE A FALL-THROUGH-ADJACENT BLOCK ENDING IN AN EXPLICIT JUMP, OR REORG CANNOT MATERIALIZE IT INSIDE THE BRANCH'S OWN DELAY SLOT (P31 S60; waves #, byte-proven)  <sub>L29112</sub>
+- **ADDENDUM** — to §253 — SECOND byte-proven card (upgrade from single-observation), and the placement face: postfix-in-condition parks the RMW store in the branch delay slot  <sub>L29346</sub>
+- **§306** — A HAZARD `nop` IN FRONT OF A DIV-RESULT STORE IS A STATEMENT-ORDER DEFECT: THE INDEPENDENT TRAILING STATEMENT MUST BE WRITTEN *BEFORE* THE DIVISION-CONSUMING ONE (P31 S62 T4; byte-proven func_8017E7D0)  <sub>L29884</sub>
+- **§308** — A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if` SO cse FOLDS IT TO AN UNCONDITIONAL JUMP *AFTER* jump1's WINDOW HAS CLOSED (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L29993</sub>
+- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30022</sub>
+- **§309** — A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD ONTO `$sp` UNLESS THE `if` SURVIVES jump1 AS A BARRIER-PRECEDED DIAMOND (P31 S63 t5e-t5i; byte-proven func_801812AC)  <sub>L30056</sub>
+- **§311** — A JOIN-BLOCK STORE CAN SWALLOW AN ARM'S LOAD-DELAY `nop`: WHEN ONE ARM'S VALUE COMES FROM A LOAD, DUPLICATE THE STORE INTO BOTH ARMS (P31 S64 t5j-t5m; byte-proven func_8017D7E0)  <sub>L30127</sub>
+- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30251</sub>
+- **Addendum** — A §5a BARRIER SITS IN REORG'S FILL WINDOW TOO, SO ITS SIDE OF THE INNER `goto` IS CHOSEN P (func_80181D08)  <sub>L30499</sub>
+- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30601</sub>
+- **Addendum** — REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8)  <sub>L30640</sub>
+- **Addendum** — LENGTH-DRIFT nop clears when offset math precedes the symbol launder (func_80039B20)  <sub>L30644</sub>
+- **Addendum** — Return-0 statement order: extra j+move vs delay-slot fusion (func_8018BB50)  <sub>L30731</sub>
+- **§331** — OPEN GAP: NO LEVER ELIMINATES AN *UNWANTED DUPLICATE* COPY AT A BRANCH-TARGET BLOCK HEAD (P31 S67; main/func_80013154, closeness 12, NOT solved)  <sub>L31069</sub>
+- **§332** — THE maspsx `la`-IN-A-DELAY-SLOT GAP: gcc EMITS A SYMBOLIC ADDRESS LOAD AS ONE ATOMIC length-2 INSN, SO IT CAN NEVER FILL A JUMP DELAY SLOT — 6 FUNCTIONS FLEET-WIDE, NONE BANKABLE FROM C (P31 S67; byte-traced main/func_80062144, func_8005DBD8)  <sub>L31081</sub>
+- **§336** — THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump` WALKS BACKWARD FROM THE CONVERGING JUMP (P31 S67; byte-proven ov_SC05_001/func_80183C9C)  <sub>L31159</sub>
+- **§339** — A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE `beq`s IS A **COUNT TELL** FOR A THIRD CASE NODE (P31 S67; byte-proven ov_SC02_005/func_80190538, 197 ins)  <sub>L31191</sub>
+- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31332</sub>
+- **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31848</sub>
+- **§396g** — ★★ — A GUARD LADDER'S RUNGS MUST STAY SYMMETRIC OR `reorg.c` LOSES ITS BRANCH REDIRECT (P31 S69; byte-proven ov_SC03_028/func_80184C90, 92 ins)  <sub>L32828</sub>
+- **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33964</sub>
 
 ### instruction scheduling  (100)
 
@@ -139,72 +139,72 @@
 - **§194-K** — Blind sched1's alias oracle with a second SET of a pointer pseudo — the first zero-byte, non-volatile, dependence-CREATING lever (corrects §167-05's "volatile is the only door"; fourth consumer of reg_n_sets)  <sub>L19489</sub>
 - **§194-N** — §193-D's C dial is misstated: the lever is a SURVIVING CODE_LABEL (a label with a real incoming edge), not "a label between the block and the call" — a bare label, or a `goto L; L:` pair whose target is the next active insn, is deleted by jump1 (jump.c:663-669 → delete_insn → jump.c:3458-3461, and jump.c:243 for the bare case) long before sched1/local-alloc, and costs exactly zero bytes  <sub>L19673</sub>
 - **§195-D** — §195 — `masked_diff.mask_for` returns 0 for EVERY `j`/`jal` word, so an internal `j` destination is invisible to match_one, the permuter scorer AND every similarity tier: a control-flow semantic error (which calls execute) surfaces as a 1-instruction residual mislabelled `DELAY-SLOT / profile=schedule`, or as an outright false MATCH  <sub>L19929</sub>
-- **§199-A** — §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui`/`ori` is a SCHEDULE fact, not a source fact — and the separator is the BIRTHING BOOST, not a "priority floor" (§189-A's split-timing half survives; its "no statement order / no pin" absolute and the candidate's own forward-scheduler narrative both fall)  <sub>L20763</sub>
-- **§199-F** — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)  <sub>L21024</sub>
-- **§205** — THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy that no local, no pin and no statement reorder will move (P31 S56)  <sub>L22102</sub>
-- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22419</sub>
-- **§219** — COMPOUND `+=`, FULL ASSIGNMENT, AND AN EXPLICIT TEMP ARE THREE DIFFERENT SCHEDULES OF ONE READ-MODIFY-WRITE (P31 S58)  <sub>L22756</sub>
-- **§30** — addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual with one edit  <sub>L23261</sub>
-- **§165-40** — addendum (P31 S58) — the barrier goes at the COPY SITE, not inside the region it protects  <sub>L23293</sub>
-- **§239** — TWO-STATEMENT INTEGER-SPACE MATERIALISATION REORDERS `la` vs `sll`; AND THE PLUS-TREE OPERAND ORDER (P31 S58b)  <sub>L23605</sub>
-- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23725</sub>
-- **§245** — THE CALL'S ARGUMENT LIST IS A SCHEDULING SLOT (P31 S58b)  <sub>L23790</sub>
-- **§211** — addendum (P31 S58b) — INIT PLACEMENT: FIVE MORE DIALS BEYOND THE GUARD HOIST  <sub>L24320</sub>
-- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24931</sub>
-- **ADD-8** — → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)  <sub>L25207</sub>
-- **ADDENDUM** — to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTER-OFFSET FIELD  <sub>L26073</sub>
-- **§281** — GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, the source must not (P31 S60; wave cf, func_80180FB4, ov_SC03_111, byte-proven)  <sub>L26994</sub>
-- **§NNN** — A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AND SCHED1 DOES THE INTERLEAVING (P31 S60; `func_80180FB4`, ov_SC03_111, byte-proven)  <sub>L26995</sub>
-- **§282** — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)  <sub>L27040</sub>
-- **§NNN** — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)  <sub>L27041</sub>
-- **ADDENDUM** — to §195-N — a GNU statement-expression slider must sit INSIDE the conditional arm's value position, not as a post-hoc barrier, to block the store-flag transform on a ternary chain  <sub>L27311</sub>
-- **ADDENDUM** — §NNN — sharpens §167-13's boundary: CHAINING TWO IDENTICAL SIDE-BY-SIDE STORES INTO ONE C ASSIGNMENT STATEMENT IS A MID-BLOCK SCHEDULING-PRIORITY DIAL, NOT ONLY A STORE-ORDER SPELLING  <sub>L28264</sub>
-- **§284** — COMBINE CAN REASSOCIATE TWO SEQUENTIAL BITWISE-AND MASKS INTO ONE AGAINST THE PRE-MASK VALUE; AN ASM IN/OUT FENCE RIGHT AFTER THE FIRST MASK BLOCKS IT (P31, wave dd, `func_8018087C`, ov_SC04_020, byte-proven) (P31 S60; waves #, byte-proven)  <sub>L29078</sub>
-- **§298** — THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUPLICATED STATEMENTS, NOT A HOISTED POST-SWITCH STATEMENT (P31 S61; waves g0e/g0f, `func_80181B68`, ov_SC06_016, byte-proven 68/68)  <sub>L29546</sub>
-- **§299** — TWO INDEPENDENT EXTRACTION CHAINS EMIT CONTIGUOUSLY INSIDE ONE EXPRESSION; ONLY A STATEMENT BOUNDARY MAKES THE SCHEDULER INTERLEAVE THEM (P31 S61; wave m0a, `func_8003A404`, main, byte-proven 8/8)  <sub>L29571</sub>
-- **§307** — THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHEDULER-INTERNAL, AND NO SOURCE ORDER REACHES IT (P31 S63; byte-evidenced NEGATIVE result, main wave)  <sub>L29943</sub>
-- **§309** — A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD ONTO `$sp` UNLESS THE `if` SURVIVES jump1 AS A BARRIER-PRECEDED DIAMOND (P31 S63 t5e-t5i; byte-proven func_801812AC)  <sub>L30050</sub>
-- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30245</sub>
-- **Addendum** — A §5a BARRIER SITS IN REORG'S FILL WINDOW TOO, SO ITS SIDE OF THE INNER `goto` IS CHOSEN P (func_80181D08)  <sub>L30493</sub>
-- **Addendum** — Loop sentinel wrongly hoisted out of a call-containing loop (func_801835B0)  <sub>L30497</sub>
-- **Addendum** — REGALLOC-PERM: one memory-clobber barrier insufficient — stack two (func_80182D1C)  <sub>L30527</sub>
-- **Addendum** — A plain global-RMW triplet is a fillable scheduling window too — zero drift, and the fille (func_800CB058)  <sub>L30537</sub>
-- **Addendum** — Shared arithmetic that CONSUMES the selected value cannot be hoisted above the `if` — narr (func_80183DA0)  <sub>L30541</sub>
-- **Addendum** — Truncating assign must be the lazy `||` operand, not hoisted (func_80012B58)  <sub>L30564</sub>
-- **Addendum** — WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538)  <sub>L30576</sub>
-- **Addendum** — REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8)  <sub>L30634</sub>
-- **Addendum** — Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0)  <sub>L30751</sub>
-- **Addendum** — §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo (func_8017E464)  <sub>L30765</sub>
-- **§336** — THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump` WALKS BACKWARD FROM THE CONVERGING JUMP (P31 S67; byte-proven ov_SC05_001/func_80183C9C)  <sub>L31153</sub>
-- **§340** — §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be sched.c's ALIAS ORACLE emitting a FALSE true-dependence; source order chooses its DIRECTION (P31 S67; byte-proven ov_SC03_107/func_8017CF48, 10 -> 0 in one compile, zero bytes)  <sub>L31213</sub>
-- **§341** — AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S67; byte-proven ov_SC03_006/func_801823B8, last 4 ins)  <sub>L31247</sub>
-- **§349** — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)  <sub>L31418</sub>
-- **§350** — A ZERO-BYTE RE-TIE SETS `reg_n_sets=2`, WHICH KILLS sched1's `birthing_insn_p` LAUNCH_PRIORITY BOOST — THE MECHANISM BEHIND "MY ADDS ARE GLUED TO THEIR STORES" (P31 S67; byte-proven ov_SC04_011/func_80180B24, 215 ins)  <sub>L31439</sub>
-- **§352** — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)  <sub>L31490</sub>
-- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31641</sub>
-- **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31842</sub>
-- **§373** — ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)  <sub>L31981</sub>
-- **§3-2.** — A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE  <sub>L32001</sub>
-- **§3-3.** — HARD FACT FOR THE SCHEDULING MAP — an `asm` ALWAYS has priority 1  <sub>L32014</sub>
-- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32168</sub>
-- **§381** — THE `insn_count` HOIST THRESHOLD IS A DIAL YOU CAN READ WITH `cc1 -dL` (P31 S69; four independent uses in one wave)  <sub>L32220</sub>
-- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32313</sub>
-- **§393** — ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P31 S69; byte-proven ov_SC02_017/func_8017FCFC)  <sub>L32547</sub>
-- **§3-B.** — THE SCHEDULER DIALS (the dominant residual family this wave)  <sub>L33112</sub>
-- **§424** — ★★★ — EQUAL-PRIORITY STORES COME OUT **REVERSED**: sched1's LUID tie picks the LAST statement first (P31 S71; byte-proven `ov_SC07_006/func_801890FC`, 387 ins)  <sub>L33811</sub>
-- **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33958</sub>
-- **§430** — ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)  <sub>L34077</sub>
-- **§3-A.** — `reg_n_sets` IS A ONE-LINE SCHEDULING DIAL — `t = t + 1;` vs `*p = t + 1` (CONFIRMED: `ov_SC03_105:func_80180ABC`, 257 ins, banked from closeness 250)  <sub>L34950</sub>
-- **CORRECTION** — to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND  <sub>L35186</sub>
-- **§460** — `-dS` PRINTS THE SCHEDULER'S READY LIST WITH PRIORITIES. STOP INFERRING IT FROM RTL ORDER.  <sub>L35226</sub>
-- **§465** — THE ASPSX SLOT-HOP: A GAP OUR REORDER SUBSTITUTE CANNOT CLOSE (`main:func_8005F830`)  <sub>L35288</sub>
-- **§464** — FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH)  <sub>L35332</sub>
-- **§470** — FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18)  <sub>L35441</sub>
-- **§472** — 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL  <sub>L35493</sub>
-- **§475** — THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24`  <sub>L35585</sub>
-- **§476** — 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 ins → MATCH)  <sub>L35616</sub>
-- **§482** — ★★★ — TWO INDEPENDENT RE-TIES, ORDERED: WHEN ONE BARRIER FIXES ONE RESIDUAL AND CREATES THE OTHER (P31 S77, `main:func_8006252C`, 30 ins → MATCH)  <sub>L35936</sub>
-- **§456** — The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and launders (Phase 36 T7)  <sub>L37759</sub>
+- **§199-A** — §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui`/`ori` is a SCHEDULE fact, not a source fact — and the separator is the BIRTHING BOOST, not a "priority floor" (§189-A's split-timing half survives; its "no statement order / no pin" absolute and the candidate's own forward-scheduler narrative both fall)  <sub>L20769</sub>
+- **§199-F** — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)  <sub>L21030</sub>
+- **§205** — THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy that no local, no pin and no statement reorder will move (P31 S56)  <sub>L22108</sub>
+- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22425</sub>
+- **§219** — COMPOUND `+=`, FULL ASSIGNMENT, AND AN EXPLICIT TEMP ARE THREE DIFFERENT SCHEDULES OF ONE READ-MODIFY-WRITE (P31 S58)  <sub>L22762</sub>
+- **§30** — addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual with one edit  <sub>L23267</sub>
+- **§165-40** — addendum (P31 S58) — the barrier goes at the COPY SITE, not inside the region it protects  <sub>L23299</sub>
+- **§239** — TWO-STATEMENT INTEGER-SPACE MATERIALISATION REORDERS `la` vs `sll`; AND THE PLUS-TREE OPERAND ORDER (P31 S58b)  <sub>L23611</sub>
+- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23731</sub>
+- **§245** — THE CALL'S ARGUMENT LIST IS A SCHEDULING SLOT (P31 S58b)  <sub>L23796</sub>
+- **§211** — addendum (P31 S58b) — INIT PLACEMENT: FIVE MORE DIALS BEYOND THE GUARD HOIST  <sub>L24326</sub>
+- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24937</sub>
+- **ADD-8** — → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)  <sub>L25213</sub>
+- **ADDENDUM** — to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTER-OFFSET FIELD  <sub>L26079</sub>
+- **§281** — GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, the source must not (P31 S60; wave cf, func_80180FB4, ov_SC03_111, byte-proven)  <sub>L27000</sub>
+- **§NNN** — A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AND SCHED1 DOES THE INTERLEAVING (P31 S60; `func_80180FB4`, ov_SC03_111, byte-proven)  <sub>L27001</sub>
+- **§282** — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)  <sub>L27046</sub>
+- **§NNN** — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)  <sub>L27047</sub>
+- **ADDENDUM** — to §195-N — a GNU statement-expression slider must sit INSIDE the conditional arm's value position, not as a post-hoc barrier, to block the store-flag transform on a ternary chain  <sub>L27317</sub>
+- **ADDENDUM** — §NNN — sharpens §167-13's boundary: CHAINING TWO IDENTICAL SIDE-BY-SIDE STORES INTO ONE C ASSIGNMENT STATEMENT IS A MID-BLOCK SCHEDULING-PRIORITY DIAL, NOT ONLY A STORE-ORDER SPELLING  <sub>L28270</sub>
+- **§284** — COMBINE CAN REASSOCIATE TWO SEQUENTIAL BITWISE-AND MASKS INTO ONE AGAINST THE PRE-MASK VALUE; AN ASM IN/OUT FENCE RIGHT AFTER THE FIRST MASK BLOCKS IT (P31, wave dd, `func_8018087C`, ov_SC04_020, byte-proven) (P31 S60; waves #, byte-proven)  <sub>L29084</sub>
+- **§298** — THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUPLICATED STATEMENTS, NOT A HOISTED POST-SWITCH STATEMENT (P31 S61; waves g0e/g0f, `func_80181B68`, ov_SC06_016, byte-proven 68/68)  <sub>L29552</sub>
+- **§299** — TWO INDEPENDENT EXTRACTION CHAINS EMIT CONTIGUOUSLY INSIDE ONE EXPRESSION; ONLY A STATEMENT BOUNDARY MAKES THE SCHEDULER INTERLEAVE THEM (P31 S61; wave m0a, `func_8003A404`, main, byte-proven 8/8)  <sub>L29577</sub>
+- **§307** — THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHEDULER-INTERNAL, AND NO SOURCE ORDER REACHES IT (P31 S63; byte-evidenced NEGATIVE result, main wave)  <sub>L29949</sub>
+- **§309** — A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD ONTO `$sp` UNLESS THE `if` SURVIVES jump1 AS A BARRIER-PRECEDED DIAMOND (P31 S63 t5e-t5i; byte-proven func_801812AC)  <sub>L30056</sub>
+- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30251</sub>
+- **Addendum** — A §5a BARRIER SITS IN REORG'S FILL WINDOW TOO, SO ITS SIDE OF THE INNER `goto` IS CHOSEN P (func_80181D08)  <sub>L30499</sub>
+- **Addendum** — Loop sentinel wrongly hoisted out of a call-containing loop (func_801835B0)  <sub>L30503</sub>
+- **Addendum** — REGALLOC-PERM: one memory-clobber barrier insufficient — stack two (func_80182D1C)  <sub>L30533</sub>
+- **Addendum** — A plain global-RMW triplet is a fillable scheduling window too — zero drift, and the fille (func_800CB058)  <sub>L30543</sub>
+- **Addendum** — Shared arithmetic that CONSUMES the selected value cannot be hoisted above the `if` — narr (func_80183DA0)  <sub>L30547</sub>
+- **Addendum** — Truncating assign must be the lazy `||` operand, not hoisted (func_80012B58)  <sub>L30570</sub>
+- **Addendum** — WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538)  <sub>L30582</sub>
+- **Addendum** — REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8)  <sub>L30640</sub>
+- **Addendum** — Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0)  <sub>L30757</sub>
+- **Addendum** — §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo (func_8017E464)  <sub>L30771</sub>
+- **§336** — THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump` WALKS BACKWARD FROM THE CONVERGING JUMP (P31 S67; byte-proven ov_SC05_001/func_80183C9C)  <sub>L31159</sub>
+- **§340** — §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be sched.c's ALIAS ORACLE emitting a FALSE true-dependence; source order chooses its DIRECTION (P31 S67; byte-proven ov_SC03_107/func_8017CF48, 10 -> 0 in one compile, zero bytes)  <sub>L31219</sub>
+- **§341** — AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S67; byte-proven ov_SC03_006/func_801823B8, last 4 ins)  <sub>L31253</sub>
+- **§349** — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)  <sub>L31424</sub>
+- **§350** — A ZERO-BYTE RE-TIE SETS `reg_n_sets=2`, WHICH KILLS sched1's `birthing_insn_p` LAUNCH_PRIORITY BOOST — THE MECHANISM BEHIND "MY ADDS ARE GLUED TO THEIR STORES" (P31 S67; byte-proven ov_SC04_011/func_80180B24, 215 ins)  <sub>L31445</sub>
+- **§352** — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)  <sub>L31496</sub>
+- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31647</sub>
+- **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31848</sub>
+- **§373** — ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)  <sub>L31987</sub>
+- **§3-2.** — A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE  <sub>L32007</sub>
+- **§3-3.** — HARD FACT FOR THE SCHEDULING MAP — an `asm` ALWAYS has priority 1  <sub>L32020</sub>
+- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32174</sub>
+- **§381** — THE `insn_count` HOIST THRESHOLD IS A DIAL YOU CAN READ WITH `cc1 -dL` (P31 S69; four independent uses in one wave)  <sub>L32226</sub>
+- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32319</sub>
+- **§393** — ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P31 S69; byte-proven ov_SC02_017/func_8017FCFC)  <sub>L32553</sub>
+- **§3-B.** — THE SCHEDULER DIALS (the dominant residual family this wave)  <sub>L33118</sub>
+- **§424** — ★★★ — EQUAL-PRIORITY STORES COME OUT **REVERSED**: sched1's LUID tie picks the LAST statement first (P31 S71; byte-proven `ov_SC07_006/func_801890FC`, 387 ins)  <sub>L33817</sub>
+- **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33964</sub>
+- **§430** — ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)  <sub>L34083</sub>
+- **§3-A.** — `reg_n_sets` IS A ONE-LINE SCHEDULING DIAL — `t = t + 1;` vs `*p = t + 1` (CONFIRMED: `ov_SC03_105:func_80180ABC`, 257 ins, banked from closeness 250)  <sub>L34956</sub>
+- **CORRECTION** — to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND  <sub>L35192</sub>
+- **§460** — `-dS` PRINTS THE SCHEDULER'S READY LIST WITH PRIORITIES. STOP INFERRING IT FROM RTL ORDER.  <sub>L35232</sub>
+- **§465** — THE ASPSX SLOT-HOP: A GAP OUR REORDER SUBSTITUTE CANNOT CLOSE (`main:func_8005F830`)  <sub>L35294</sub>
+- **§464** — FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH)  <sub>L35338</sub>
+- **§470** — FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18)  <sub>L35447</sub>
+- **§472** — 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL  <sub>L35499</sub>
+- **§475** — THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24`  <sub>L35591</sub>
+- **§476** — 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 ins → MATCH)  <sub>L35622</sub>
+- **§482** — ★★★ — TWO INDEPENDENT RE-TIES, ORDERED: WHEN ONE BARRIER FIXES ONE RESIDUAL AND CREATES THE OTHER (P31 S77, `main:func_8006252C`, 30 ins → MATCH)  <sub>L35942</sub>
+- **§456** — The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and launders (Phase 36 T7)  <sub>L37765</sub>
 
 ### register allocation & pins  (140)
 
@@ -272,82 +272,82 @@
 - **§194-N** — §193-D's C dial is misstated: the lever is a SURVIVING CODE_LABEL (a label with a real incoming edge), not "a label between the block and the call" — a bare label, or a `goto L; L:` pair whose target is the next active insn, is deleted by jump1 (jump.c:663-669 → delete_insn → jump.c:3458-3461, and jump.c:243 for the bare case) long before sched1/local-alloc, and costs exactly zero bytes  <sub>L19673</sub>
 - **§195-B** — A CALL_INSN does not start a basic block in gcc-2.7.2 — so a call-crossing temp can be a LOCAL-alloc quantity (the missing precondition under §48-A2 / §52 / regalloc.md K8)  <sub>L19839</sub>
 - **§195-F** — fold-const.c:4825 canonicalises a `?:` whose THEN arm is zero (or constant against a non-constant ELSE) by inverting the condition and swapping the arms — so a ternary's written arm order is byte-inert there, and `c ? 0 : X` is unspellable: it always compiles as `!c ? X : 0`  <sub>L20055</sub>
-- **§197-C** — Fix A1 (operand order) cannot move a commutative destination whose .greg conflict set already contains BOTH operand hard registers — split the accumulate so the destination IS the load's pseudo  <sub>L20692</sub>
-- **§199-A** — §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui`/`ori` is a SCHEDULE fact, not a source fact — and the separator is the BIRTHING BOOST, not a "priority floor" (§189-A's split-timing half survives; its "no statement order / no pin" absolute and the candidate's own forward-scheduler narrative both fall)  <sub>L20763</sub>
-- **§199-B** — A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent pins as "obviously load-bearing" is the one carrying the signal, and the partial sweep returns a FLAT residual that reads as proof of order-invariance  <sub>L20812</sub>
-- **§199-E** — §189-A BOUNDED AND CORRECTED — the discriminator is INSN_PRIORITY, not "is the interloper a constant": an insn between a `lui`/`ori` pair proves NOTHING about the source spelling unless it TIES the `ori` on priority, and on the pinned `-mcpu=3000` triple a dependent load never does  <sub>L20965</sub>
-- **§205** — THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy that no local, no pin and no statement reorder will move (P31 S56)  <sub>L22102</sub>
-- **§208** — TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity owns the REGISTER SPLIT, not just the load count (P31 S58)  <sub>L22247</sub>
-- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22419</sub>
-- **§215** — PIN ECONOMY: the twin's pins are NOT part of the shape, and §17's "pin every call-crossing value" is over-broad (P31 S58)  <sub>L22605</sub>
-- **§220** — THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and place the save-copy AFTER the first call (P31 S58)  <sub>L22783</sub>
-- **§221** — A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22823</sub>
-- **§30** — addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual with one edit  <sub>L23261</sub>
-- **§244** — `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC (P31 S58b)  <sub>L23755</sub>
-- **§248** — SPLIT THE LOAD FROM THE ARITHMETIC: A FUSED `g + K` DENIES THE CALLEE-SAVED REGISTER ITS DIRECT HOME (P31 S58b)  <sub>L23911</sub>
-- **§253** — POSTFIX `++` vs `+= 1` PICKS A DIFFERENT SCRATCH REGISTER **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24057</sub>
-- **§254** — THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24071</sub>
-- **§215** — addendum (P31 S58b) — PIN ECONOMY, PART 2: NINE REFINEMENTS  <sub>L24428</sub>
-- **§223** — addendum (P31 S58b) — FIVE MORE CONFIRMATIONS, AND THE CONSTANT-IN-`$v0` CASE  <sub>L24540</sub>
-- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24931</sub>
-- **ADD-8** — → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)  <sub>L25207</sub>
-- **§268** — A `register __asm__` PIN ON A CALL-CLOBBERED REGISTER IS HONORED EXACTLY WHEN THE PINNED RANGE CROSSES NO CALL (P31 S59c; three A/B'd cards, unifying §257-2's two)  <sub>L25289</sub>
-- **ADD-6** — → §220-addendum — THE FOURTH FACE: WHEN THE NAMED COPY ITSELF BUYS THE EXTRA CALLEE-SAVED, PIN THE COPY TO `$16`  <sub>L25431</sub>
-- **ADD-7** — → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE POSITION; NAME IT TO PIN THE PROLOGUE INIT ORDER  <sub>L25447</sub>
-- **ADDENDUM** — to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save  <sub>L25747</sub>
-- **ADDENDUM** — to §136d-1 (RC-12, the `$0`-add / opaque-copy family) — two symptoms beyond "compare reads the wrong register"  <sub>L25785</sub>
-- **ADDENDUM** — to §164-64 — AN EMPTY CLOBBER ON AN ARGUMENT REGISTER CAN BE THE DELIBERATE FIX, NOT JUST THE ACCIDENTAL BUG  <sub>L26042</sub>
-- **§275** — THE LEFTOVER-REGISTER READ  <sub>L26416</sub>
-- **§NNN** — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)  <sub>L26927</sub>
-- **ADDENDUM** — to §176-B2 — in a micro-function with no long/short lifetime asymmetry, BOTH contending pseudos need their own hard-register pin  <sub>L27368</sub>
-- **ADDENDUM** — to §220 — REFERENCING THE RAW PARAMETER (NO NAMED COPY, NOT EVEN A PIN) LETS THE CALLEE-SAVED SPILL LAND IN THE FIRST CALL'S OWN DELAY SLOT  <sub>L27484</sub>
-- **ADDENDUM** — to §215 — FIFTH SHAPE: reused mask constants across two call-free merge sites each get their own whole-function hard-register pin, and a shared sub-expression at the second site must be its own statement  <sub>L27569</sub>
-- **ADDENDUM** — to §194-B (func_8017EB34, ov_SC03_117 — wave dk; distinct from the §74 co-pinning finding on the SAME function below)  <sub>L27977</sub>
-- **ADDENDUM** — §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED HALFWORD IS A SIGNED-TEMP WIDTH TELL OUTSIDE ANY SWITCH/RANGE-TEST CONTEXT  <sub>L28297</sub>
-- **§285** — PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE FOLLOWING if/else DESTRUCTIVELY REUSE THE SAME DESTINATION REGISTER FOR THEIR BITWISE RESULT (byte-proven; `func_801811F0`, ov_SC03_102, independently rediscovered across waves di/dj) (P31 S60; waves #, byte-proven)  <sub>L29082</sub>
-- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29090</sub>
-- **§288** — A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES THE FIXED REGISTER'S SAVE/RESTORE, AND THE ASSIGNMENT'S SOURCE POSITION CONTROLS WHERE THE VALUE MATERIALIZES (P31; `func_80186530`, ov_SC02_017, byte-proven, match_one MATCH re-verified) (P31 S60; waves #, byte-proven)  <sub>L29094</sub>
-- **§290** — A SINGLE STRENGTH-REDUCED GIV CAN DRIVE STORES TO SEVERAL DISTINCT RELOCATABLE SYMBOLS, EACH KEEPING ITS OWN `%hi`/`%lo` ANCHOR (P31 S60; waves #, byte-proven)  <sub>L29102</sub>
-- **ADDENDUM** — to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator  <sub>L29272</sub>
-- **ADDENDUM** — to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction births the induction register at loop.c's own insertion point  <sub>L29317</sub>
-- **§310** — A TWO-OPERAND `subu`'s DESTINATION TIES ONLY TO THE OPERAND THAT IS BLOCK-LOCAL: SHARE *ONE* SIDE ACROSS BLOCKS TO CHOOSE WHICH OPERAND'S REGISTER IT LANDS IN (P31 S64 t5j-t5m; byte-proven func_8017F578)  <sub>L30090</sub>
-- **§312** — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)  <sub>L30163</sub>
-- **Addendum** — §312 addendum — naming the compare's dest is the vehicle, the hard-reg pin on that name is (func_80184A68)  <sub>L30465</sub>
-- **Addendum** — subu/sh dest reuses a pinned operand's dying register (func_8017F498)  <sub>L30469</sub>
-- **Addendum** — Addendum to §312 — the compare's named destination must itself carry a hard register: nami (func_80184A68)  <sub>L30485</sub>
-- **Addendum** — REGALLOC-PERM: one memory-clobber barrier insufficient — stack two (func_80182D1C)  <sub>L30527</sub>
-- **REFUTED** — claim — Dead call-arg register address-fold: no C-level lever found (func_8017ECAC)  <sub>L30545</sub>
-- **Addendum** — REGALLOC-PERM: the store reads the narrow copy's register — split the one narrow local by  (func_801838CC)  <sub>L30630</sub>
-- **Addendum** — REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8)  <sub>L30634</sub>
-- **§319** — N TEXTUALLY DUPLICATED `return v;` TAILS PUT THE LAST `or` AND THE RETURN-REGISTER MOVE IN ONE BASIC BLOCK, SO combine FOLDS THEM AND YOU ARE EXACTLY −1; A `goto done;` JOIN WITH REAL INCOMING EDGES RESTORES THE SEPARATE `addu $v0,$a0,$zero` (P31 S66 round4; byte-proven func_801809F0)  <sub>L30675</sub>
-- **Addendum** — LENGTH-DRIFT −1 on a coalesced-away copy: a CALLER-SAVED SOURCE pin can resurrect it, boun (func_8017D72C)  <sub>L30718</sub>
-- **Addendum** — The dying-pinned-register reuse on a sign-extend chain: route every later read through a s (func_80186868)  <sub>L30747</sub>
-- **Addendum** — Register-pinned helper pointer local regresses closeness; use plain local (func_80013CFC)  <sub>L30761</sub>
-- **§325** — REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s-OCCUPANT THAT STEALS THE ARGUMENT ALLOCNO'S REGISTER — PIN THE ARGUMENT-DERIVED LOCAL, NOT THE CONSTANT (P31 S67; byte-proven ov_SC03_119/func_80184F18, 153 ins)  <sub>L30991</sub>
-- **§329** — fold-const NARROWS `(int)s16_var & 0xFFF` ONTO THE *RAW HImode PSEUDO*, BREAKING THE SIGN-EXTEND/MASK REGISTER TIE — A ZERO-BYTE WIDENING TEMP RESTORES IT (P31 S67; byte-proven ov_SC01_084/func_80183244, 157 ins)  <sub>L31038</sub>
-- **§334** — A RELOAD SPILL SLOT IS ROUNDED TO `BIGGEST_ALIGNMENT` (8B), SO ONE SPILLED 4-BYTE PSEUDO CAN GROW THE FRAME BY 16 (P31 S67; byte-proven ov_SC05_008/func_8017DF68, 82 -> 53 residual)  <sub>L31133</sub>
-- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31261</sub>
-- **§344** — RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINNING THE COUNTER KILLS LSR ENTIRELY (P31 S67; byte-proven ov_SC03_121/func_80180E64, 222 ins)  <sub>L31300</sub>
-- **§347** — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)  <sub>L31346</sub>
-- **§365** — PIN **BOTH** MASKS OR NEITHER (P31 S68; ov_SC01_000/func_8017E594, 357 ins)  <sub>L31752</sub>
-- **§368** — ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)  <sub>L31796</sub>
-- **§373** — ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)  <sub>L31981</sub>
-- **§3-2.** — A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE  <sub>L32001</sub>
-- **§374** — A `register … __asm__("$30")` RESERVATION IS **NOT HONOURED** BY `move_movables` (P31 S68; main/func_80015608, 86 ins)  <sub>L32030</sub>
-- **§375** — AN `$a0`-`$a3` PIN USED LATE RELOCATES AN **EARLIER** OUTGOING-CALL USE OF THAT REGISTER (P31 S68; main/func_8005F0C8, 88 ins)  <sub>L32046</sub>
-- **§3-C.** — REGISTER ALLOCATION FROM C, WITHOUT PINS  <sub>L33128</sub>
-- **§410** — ★★★ — COPY THEN ACCUMULATE ON THE COPY: resolving the birthing-boost vs register-allocation dilemma (P31 S71; byte-proven `ov_SC04_015/func_8017EB78`, 98 ins)  <sub>L33357</sub>
-- **§417** — ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `cse` SKIP-BLOCKS MERGE (P31 S71; byte-proven `ov_SC03_013/func_8017E6F4`, 182 ins)  <sub>L33609</sub>
-- **§419** — ★★★ — WHEN A PIN IS IMPOSSIBLE, WIN THE local-alloc DENSITY CONTEST INSTEAD (P31 S71; byte-proven `ov_SC01_000/func_8017DD04`, 297 ins)  <sub>L33662</sub>
-- **§467** — GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT  <sub>L35360</sub>
-- **§469** — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)  <sub>L35418</sub>
-- **§471** — A LAUNDER'S REAL COST IS AN ALLOCNO, AND `$t0` IS RELOAD'S (`main:func_80032A74`, 408 → 12)  <sub>L35469</sub>
-- **§476** — 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 ins → MATCH)  <sub>L35616</sub>
-- **§463** — 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED  <sub>L35681</sub>
-- **§478** — 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT  <sub>L35791</sub>
-- **§499** — ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)  <sub>L36752</sub>
-- **§501** — ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)  <sub>L37151</sub>
-- **§456** — The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and launders (Phase 36 T7)  <sub>L37759</sub>
+- **§197-C** — Fix A1 (operand order) cannot move a commutative destination whose .greg conflict set already contains BOTH operand hard registers — split the accumulate so the destination IS the load's pseudo  <sub>L20698</sub>
+- **§199-A** — §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui`/`ori` is a SCHEDULE fact, not a source fact — and the separator is the BIRTHING BOOST, not a "priority floor" (§189-A's split-timing half survives; its "no statement order / no pin" absolute and the candidate's own forward-scheduler narrative both fall)  <sub>L20769</sub>
+- **§199-B** — A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent pins as "obviously load-bearing" is the one carrying the signal, and the partial sweep returns a FLAT residual that reads as proof of order-invariance  <sub>L20818</sub>
+- **§199-E** — §189-A BOUNDED AND CORRECTED — the discriminator is INSN_PRIORITY, not "is the interloper a constant": an insn between a `lui`/`ori` pair proves NOTHING about the source spelling unless it TIES the `ori` on priority, and on the pinned `-mcpu=3000` triple a dependent load never does  <sub>L20971</sub>
+- **§205** — THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy that no local, no pin and no statement reorder will move (P31 S56)  <sub>L22108</sub>
+- **§208** — TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity owns the REGISTER SPLIT, not just the load count (P31 S58)  <sub>L22253</sub>
+- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22425</sub>
+- **§215** — PIN ECONOMY: the twin's pins are NOT part of the shape, and §17's "pin every call-crossing value" is over-broad (P31 S58)  <sub>L22611</sub>
+- **§220** — THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and place the save-copy AFTER the first call (P31 S58)  <sub>L22789</sub>
+- **§221** — A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22829</sub>
+- **§30** — addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual with one edit  <sub>L23267</sub>
+- **§244** — `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC (P31 S58b)  <sub>L23761</sub>
+- **§248** — SPLIT THE LOAD FROM THE ARITHMETIC: A FUSED `g + K` DENIES THE CALLEE-SAVED REGISTER ITS DIRECT HOME (P31 S58b)  <sub>L23917</sub>
+- **§253** — POSTFIX `++` vs `+= 1` PICKS A DIFFERENT SCRATCH REGISTER **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24063</sub>
+- **§254** — THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24077</sub>
+- **§215** — addendum (P31 S58b) — PIN ECONOMY, PART 2: NINE REFINEMENTS  <sub>L24434</sub>
+- **§223** — addendum (P31 S58b) — FIVE MORE CONFIRMATIONS, AND THE CONSTANT-IN-`$v0` CASE  <sub>L24546</sub>
+- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24937</sub>
+- **ADD-8** — → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)  <sub>L25213</sub>
+- **§268** — A `register __asm__` PIN ON A CALL-CLOBBERED REGISTER IS HONORED EXACTLY WHEN THE PINNED RANGE CROSSES NO CALL (P31 S59c; three A/B'd cards, unifying §257-2's two)  <sub>L25295</sub>
+- **ADD-6** — → §220-addendum — THE FOURTH FACE: WHEN THE NAMED COPY ITSELF BUYS THE EXTRA CALLEE-SAVED, PIN THE COPY TO `$16`  <sub>L25437</sub>
+- **ADD-7** — → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE POSITION; NAME IT TO PIN THE PROLOGUE INIT ORDER  <sub>L25453</sub>
+- **ADDENDUM** — to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save  <sub>L25753</sub>
+- **ADDENDUM** — to §136d-1 (RC-12, the `$0`-add / opaque-copy family) — two symptoms beyond "compare reads the wrong register"  <sub>L25791</sub>
+- **ADDENDUM** — to §164-64 — AN EMPTY CLOBBER ON AN ARGUMENT REGISTER CAN BE THE DELIBERATE FIX, NOT JUST THE ACCIDENTAL BUG  <sub>L26048</sub>
+- **§275** — THE LEFTOVER-REGISTER READ  <sub>L26422</sub>
+- **§NNN** — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)  <sub>L26933</sub>
+- **ADDENDUM** — to §176-B2 — in a micro-function with no long/short lifetime asymmetry, BOTH contending pseudos need their own hard-register pin  <sub>L27374</sub>
+- **ADDENDUM** — to §220 — REFERENCING THE RAW PARAMETER (NO NAMED COPY, NOT EVEN A PIN) LETS THE CALLEE-SAVED SPILL LAND IN THE FIRST CALL'S OWN DELAY SLOT  <sub>L27490</sub>
+- **ADDENDUM** — to §215 — FIFTH SHAPE: reused mask constants across two call-free merge sites each get their own whole-function hard-register pin, and a shared sub-expression at the second site must be its own statement  <sub>L27575</sub>
+- **ADDENDUM** — to §194-B (func_8017EB34, ov_SC03_117 — wave dk; distinct from the §74 co-pinning finding on the SAME function below)  <sub>L27983</sub>
+- **ADDENDUM** — §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED HALFWORD IS A SIGNED-TEMP WIDTH TELL OUTSIDE ANY SWITCH/RANGE-TEST CONTEXT  <sub>L28303</sub>
+- **§285** — PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE FOLLOWING if/else DESTRUCTIVELY REUSE THE SAME DESTINATION REGISTER FOR THEIR BITWISE RESULT (byte-proven; `func_801811F0`, ov_SC03_102, independently rediscovered across waves di/dj) (P31 S60; waves #, byte-proven)  <sub>L29088</sub>
+- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29096</sub>
+- **§288** — A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES THE FIXED REGISTER'S SAVE/RESTORE, AND THE ASSIGNMENT'S SOURCE POSITION CONTROLS WHERE THE VALUE MATERIALIZES (P31; `func_80186530`, ov_SC02_017, byte-proven, match_one MATCH re-verified) (P31 S60; waves #, byte-proven)  <sub>L29100</sub>
+- **§290** — A SINGLE STRENGTH-REDUCED GIV CAN DRIVE STORES TO SEVERAL DISTINCT RELOCATABLE SYMBOLS, EACH KEEPING ITS OWN `%hi`/`%lo` ANCHOR (P31 S60; waves #, byte-proven)  <sub>L29108</sub>
+- **ADDENDUM** — to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator  <sub>L29278</sub>
+- **ADDENDUM** — to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction births the induction register at loop.c's own insertion point  <sub>L29323</sub>
+- **§310** — A TWO-OPERAND `subu`'s DESTINATION TIES ONLY TO THE OPERAND THAT IS BLOCK-LOCAL: SHARE *ONE* SIDE ACROSS BLOCKS TO CHOOSE WHICH OPERAND'S REGISTER IT LANDS IN (P31 S64 t5j-t5m; byte-proven func_8017F578)  <sub>L30096</sub>
+- **§312** — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)  <sub>L30169</sub>
+- **Addendum** — §312 addendum — naming the compare's dest is the vehicle, the hard-reg pin on that name is (func_80184A68)  <sub>L30471</sub>
+- **Addendum** — subu/sh dest reuses a pinned operand's dying register (func_8017F498)  <sub>L30475</sub>
+- **Addendum** — Addendum to §312 — the compare's named destination must itself carry a hard register: nami (func_80184A68)  <sub>L30491</sub>
+- **Addendum** — REGALLOC-PERM: one memory-clobber barrier insufficient — stack two (func_80182D1C)  <sub>L30533</sub>
+- **REFUTED** — claim — Dead call-arg register address-fold: no C-level lever found (func_8017ECAC)  <sub>L30551</sub>
+- **Addendum** — REGALLOC-PERM: the store reads the narrow copy's register — split the one narrow local by  (func_801838CC)  <sub>L30636</sub>
+- **Addendum** — REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8)  <sub>L30640</sub>
+- **§319** — N TEXTUALLY DUPLICATED `return v;` TAILS PUT THE LAST `or` AND THE RETURN-REGISTER MOVE IN ONE BASIC BLOCK, SO combine FOLDS THEM AND YOU ARE EXACTLY −1; A `goto done;` JOIN WITH REAL INCOMING EDGES RESTORES THE SEPARATE `addu $v0,$a0,$zero` (P31 S66 round4; byte-proven func_801809F0)  <sub>L30681</sub>
+- **Addendum** — LENGTH-DRIFT −1 on a coalesced-away copy: a CALLER-SAVED SOURCE pin can resurrect it, boun (func_8017D72C)  <sub>L30724</sub>
+- **Addendum** — The dying-pinned-register reuse on a sign-extend chain: route every later read through a s (func_80186868)  <sub>L30753</sub>
+- **Addendum** — Register-pinned helper pointer local regresses closeness; use plain local (func_80013CFC)  <sub>L30767</sub>
+- **§325** — REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s-OCCUPANT THAT STEALS THE ARGUMENT ALLOCNO'S REGISTER — PIN THE ARGUMENT-DERIVED LOCAL, NOT THE CONSTANT (P31 S67; byte-proven ov_SC03_119/func_80184F18, 153 ins)  <sub>L30997</sub>
+- **§329** — fold-const NARROWS `(int)s16_var & 0xFFF` ONTO THE *RAW HImode PSEUDO*, BREAKING THE SIGN-EXTEND/MASK REGISTER TIE — A ZERO-BYTE WIDENING TEMP RESTORES IT (P31 S67; byte-proven ov_SC01_084/func_80183244, 157 ins)  <sub>L31044</sub>
+- **§334** — A RELOAD SPILL SLOT IS ROUNDED TO `BIGGEST_ALIGNMENT` (8B), SO ONE SPILLED 4-BYTE PSEUDO CAN GROW THE FRAME BY 16 (P31 S67; byte-proven ov_SC05_008/func_8017DF68, 82 -> 53 residual)  <sub>L31139</sub>
+- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31267</sub>
+- **§344** — RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINNING THE COUNTER KILLS LSR ENTIRELY (P31 S67; byte-proven ov_SC03_121/func_80180E64, 222 ins)  <sub>L31306</sub>
+- **§347** — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)  <sub>L31352</sub>
+- **§365** — PIN **BOTH** MASKS OR NEITHER (P31 S68; ov_SC01_000/func_8017E594, 357 ins)  <sub>L31758</sub>
+- **§368** — ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)  <sub>L31802</sub>
+- **§373** — ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)  <sub>L31987</sub>
+- **§3-2.** — A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE  <sub>L32007</sub>
+- **§374** — A `register … __asm__("$30")` RESERVATION IS **NOT HONOURED** BY `move_movables` (P31 S68; main/func_80015608, 86 ins)  <sub>L32036</sub>
+- **§375** — AN `$a0`-`$a3` PIN USED LATE RELOCATES AN **EARLIER** OUTGOING-CALL USE OF THAT REGISTER (P31 S68; main/func_8005F0C8, 88 ins)  <sub>L32052</sub>
+- **§3-C.** — REGISTER ALLOCATION FROM C, WITHOUT PINS  <sub>L33134</sub>
+- **§410** — ★★★ — COPY THEN ACCUMULATE ON THE COPY: resolving the birthing-boost vs register-allocation dilemma (P31 S71; byte-proven `ov_SC04_015/func_8017EB78`, 98 ins)  <sub>L33363</sub>
+- **§417** — ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `cse` SKIP-BLOCKS MERGE (P31 S71; byte-proven `ov_SC03_013/func_8017E6F4`, 182 ins)  <sub>L33615</sub>
+- **§419** — ★★★ — WHEN A PIN IS IMPOSSIBLE, WIN THE local-alloc DENSITY CONTEST INSTEAD (P31 S71; byte-proven `ov_SC01_000/func_8017DD04`, 297 ins)  <sub>L33668</sub>
+- **§467** — GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT  <sub>L35366</sub>
+- **§469** — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)  <sub>L35424</sub>
+- **§471** — A LAUNDER'S REAL COST IS AN ALLOCNO, AND `$t0` IS RELOAD'S (`main:func_80032A74`, 408 → 12)  <sub>L35475</sub>
+- **§476** — 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 ins → MATCH)  <sub>L35622</sub>
+- **§463** — 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED  <sub>L35687</sub>
+- **§478** — 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT  <sub>L35797</sub>
+- **§499** — ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)  <sub>L36758</sub>
+- **§501** — ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)  <sub>L37157</sub>
+- **§456** — The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and launders (Phase 36 T7)  <sub>L37765</sub>
 
 ### CSE / redundancy / rematerialization  (50)
 
@@ -365,42 +365,42 @@
 - **§195-I** — §145(b) AMENDED — the pointer-bump `addiu` is saved by cse, not combine: ANY second SET of a pseudo in the address's equivalence chain (in-place `p += K`, §145(b)'s `p = r;` copy, or an asm re-tie) kills the fold; the pass is cse and the gate is `invalidate`'s `reg_tick++`  <sub>L20202</sub>
 - **§195-L** — The cse store-re-seed does not cross a JOIN LABEL: per-arm stores + a join read keep the reload that one join store deletes (bounds §193-E BOUND 1/BOUND 3 with §48-B's EBB boundary)  <sub>L20363</sub>
 - **§197-A** — A NARROW SIGNED MEMORY READ FEEDING A CONSTANT `>>` LOSES ITS `lh`, AND THE CURE IS AN ASM RE-TIE (attribution CONTESTED: cse vs combine)  <sub>L20626</sub>
-- **§197-B** — A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_code` CHANNEL (the non-EQ complement of §165-03) — and a front-end-opaque mask on EITHER compare is a pure-C dial that keeps the target's second branch  <sub>L20664</sub>
-- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20905</sub>
-- **§201-E** — §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in the printed stream; a foreign store moved between the pair in C source is a real lever, and `volatile` is not always the better one  <sub>L21413</sub>
-- **§204-D** — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED  <sub>L21808</sub>
-- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23725</sub>
-- **§244** — `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC (P31 S58b)  <sub>L23755</sub>
-- **ADD-1** — → §257-8 addendum — THE INTERPOSED ASM'S `__volatile__` IS A PER-SHAPE DIAL, AND THE "NO-OUTPUT ASM IS IMPLICITLY VOLATILE" LORE IS BYTE-FALSE IN gcc-2.7.2  <sub>L25358</sub>
-- **ADDENDUM** — to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTER-OFFSET FIELD  <sub>L26073</sub>
-- **ADDENDUM** — to §211 — AN IN-LOOP ACCUMULATOR WANTS A CLOSED-FORM EXPRESSION WHEN THE TARGET REMATERIALISES ITS CONSTANT AFTER EVERY CALL  <sub>L26381</sub>
-- **§276** — MIXED ADDRESS-EXPRESSION SPELLING FOR ADJACENT RELOCATABLE SYMBOLS IS A CSE-UNIFICATION DIAL, NOT JUST A BYTE-ENCODING CHOICE (P31 S60; `func_80180FE8`, ov_SC06_006, byte-proven)  <sub>L26456</sub>
-- **§NNN** — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)  <sub>L26927</sub>
-- **ADDENDUM** — to §22 (`volatile`-qualified-global reload lever, cookbook ~L1922) — for a NON-constant, same-address double RMW, a plain memory clobber beats `volatile`, and `volatile` actively breaks a delay-slot fill  <sub>L27230</sub>
-- **§302** — A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO DERIVE EACH FROM THE BYTES (P31 S62 T2; five reds healed in one session, 5/5, +39 held banks)  <sub>L29723</sub>
-- **§308** — A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if` SO cse FOLDS IT TO AN UNCONDITIONAL JUMP *AFTER* jump1's WINDOW HAS CLOSED (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L29987</sub>
-- **§317** — A NARROW STRUCT-FIELD STORE TURNS A *LIVE SImode VARIABLE* INTO A `li`: convert.c's TRUNCATION-DISTRIBUTION MINTS A HImode COPY, AND cse REWRITES THAT COPY'S SOURCE TO THE EQUIVALENT CONSTANT (P31 S66; byte-proven func_8017EF94)  <sub>L30348</sub>
-- **Addendum** — Addendum to §167-12 — the single-operand volatile keepalive, re-confirmed at a gated MATCH (func_8017F498)  <sub>L30489</sub>
-- **REFUTED** — claim — REFUTED — the `j`-slot store is an ASPSX macro-expansion hop, not a cse split; maspsx hard (func_8005DBD8)  <sub>L30593</sub>
-- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30595</sub>
-- **Addendum** — Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0)  <sub>L30751</sub>
-- **§326** — DEFEATING ADDRESS-CSE: SPELL TWO READS OF THE SAME HALFWORD DIFFERENTLY AND GCC CANNOT SHARE THE ADDRESS (P31 S67; byte-proven ov_SC01_077/func_8017FAAC, 154 ins)  <sub>L31004</sub>
-- **§327** — A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT AND DROPS THE `andi` (P31 S67; byte-proven ov_SC02_039/func_8017EC34, 154 ins)  <sub>L31013</sub>
-- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31028</sub>
-- **§345** — A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS combine AND DEGRADES `lh` INTO `lhu+sll+sra` (P31 S67; byte-proven ov_SC01_084/func_80181A7C)  <sub>L31316</sub>
-- **§349** — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)  <sub>L31418</sub>
-- **§351** — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)  <sub>L31460</sub>
-- **§352** — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)  <sub>L31490</sub>
-- **§368** — ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)  <sub>L31796</sub>
-- **§373** — ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)  <sub>L31981</sub>
-- **§3-1.** — DEAD-RESET CSE-BREAKER — the zero-footprint replacement for a §195-I asm re-tie  <sub>L31983</sub>
-- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32313</sub>
-- **§417** — ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `cse` SKIP-BLOCKS MERGE (P31 S71; byte-proven `ov_SC03_013/func_8017E6F4`, 182 ins)  <sub>L33609</sub>
-- **§432** — ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)  <sub>L34221</sub>
-- **§461** — LAUNDERING AN INVARIANT CAN BE THE DEFECT, AND "RESIDUAL A" DOES NOT GENERALIZE PAST ONE BINARY OP  <sub>L35258</sub>
-- **§464** — FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH)  <sub>L35332</sub>
-- **§470** — FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18)  <sub>L35441</sub>
-- **§475** — THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24`  <sub>L35585</sub>
+- **§197-B** — A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_code` CHANNEL (the non-EQ complement of §165-03) — and a front-end-opaque mask on EITHER compare is a pure-C dial that keeps the target's second branch  <sub>L20670</sub>
+- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20911</sub>
+- **§201-E** — §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in the printed stream; a foreign store moved between the pair in C source is a real lever, and `volatile` is not always the better one  <sub>L21419</sub>
+- **§204-D** — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED  <sub>L21814</sub>
+- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23731</sub>
+- **§244** — `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC (P31 S58b)  <sub>L23761</sub>
+- **ADD-1** — → §257-8 addendum — THE INTERPOSED ASM'S `__volatile__` IS A PER-SHAPE DIAL, AND THE "NO-OUTPUT ASM IS IMPLICITLY VOLATILE" LORE IS BYTE-FALSE IN gcc-2.7.2  <sub>L25364</sub>
+- **ADDENDUM** — to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTER-OFFSET FIELD  <sub>L26079</sub>
+- **ADDENDUM** — to §211 — AN IN-LOOP ACCUMULATOR WANTS A CLOSED-FORM EXPRESSION WHEN THE TARGET REMATERIALISES ITS CONSTANT AFTER EVERY CALL  <sub>L26387</sub>
+- **§276** — MIXED ADDRESS-EXPRESSION SPELLING FOR ADJACENT RELOCATABLE SYMBOLS IS A CSE-UNIFICATION DIAL, NOT JUST A BYTE-ENCODING CHOICE (P31 S60; `func_80180FE8`, ov_SC06_006, byte-proven)  <sub>L26462</sub>
+- **§NNN** — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)  <sub>L26933</sub>
+- **ADDENDUM** — to §22 (`volatile`-qualified-global reload lever, cookbook ~L1922) — for a NON-constant, same-address double RMW, a plain memory clobber beats `volatile`, and `volatile` actively breaks a delay-slot fill  <sub>L27236</sub>
+- **§302** — A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO DERIVE EACH FROM THE BYTES (P31 S62 T2; five reds healed in one session, 5/5, +39 held banks)  <sub>L29729</sub>
+- **§308** — A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if` SO cse FOLDS IT TO AN UNCONDITIONAL JUMP *AFTER* jump1's WINDOW HAS CLOSED (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L29993</sub>
+- **§317** — A NARROW STRUCT-FIELD STORE TURNS A *LIVE SImode VARIABLE* INTO A `li`: convert.c's TRUNCATION-DISTRIBUTION MINTS A HImode COPY, AND cse REWRITES THAT COPY'S SOURCE TO THE EQUIVALENT CONSTANT (P31 S66; byte-proven func_8017EF94)  <sub>L30354</sub>
+- **Addendum** — Addendum to §167-12 — the single-operand volatile keepalive, re-confirmed at a gated MATCH (func_8017F498)  <sub>L30495</sub>
+- **REFUTED** — claim — REFUTED — the `j`-slot store is an ASPSX macro-expansion hop, not a cse split; maspsx hard (func_8005DBD8)  <sub>L30599</sub>
+- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30601</sub>
+- **Addendum** — Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0)  <sub>L30757</sub>
+- **§326** — DEFEATING ADDRESS-CSE: SPELL TWO READS OF THE SAME HALFWORD DIFFERENTLY AND GCC CANNOT SHARE THE ADDRESS (P31 S67; byte-proven ov_SC01_077/func_8017FAAC, 154 ins)  <sub>L31010</sub>
+- **§327** — A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT AND DROPS THE `andi` (P31 S67; byte-proven ov_SC02_039/func_8017EC34, 154 ins)  <sub>L31019</sub>
+- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31034</sub>
+- **§345** — A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS combine AND DEGRADES `lh` INTO `lhu+sll+sra` (P31 S67; byte-proven ov_SC01_084/func_80181A7C)  <sub>L31322</sub>
+- **§349** — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)  <sub>L31424</sub>
+- **§351** — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)  <sub>L31466</sub>
+- **§352** — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)  <sub>L31496</sub>
+- **§368** — ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)  <sub>L31802</sub>
+- **§373** — ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)  <sub>L31987</sub>
+- **§3-1.** — DEAD-RESET CSE-BREAKER — the zero-footprint replacement for a §195-I asm re-tie  <sub>L31989</sub>
+- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32319</sub>
+- **§417** — ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `cse` SKIP-BLOCKS MERGE (P31 S71; byte-proven `ov_SC03_013/func_8017E6F4`, 182 ins)  <sub>L33615</sub>
+- **§432** — ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)  <sub>L34227</sub>
+- **§461** — LAUNDERING AN INVARIANT CAN BE THE DEFECT, AND "RESIDUAL A" DOES NOT GENERALIZE PAST ONE BINARY OP  <sub>L35264</sub>
+- **§464** — FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH)  <sub>L35338</sub>
+- **§470** — FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18)  <sub>L35447</sub>
+- **§475** — THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24`  <sub>L35591</sub>
 
 ### loops & induction variables  (50)
 
@@ -418,42 +418,42 @@
 - **§179-E** — A `>2*MAX_MOVE_BYTES` BLOCK COPY IS A **STRUCT ASSIGNMENT**, NOT A HAND LOOP  <sub>L17551</sub>
 - **§179-F** — PINNING A LOOP-WALKED POINTER IS A TOTAL OFF-SWITCH FOR STRENGTH REDUCTION  <sub>L17577</sub>
 - **§194-C** — A CALLER-SAVED loop counter proves its live range crosses ZERO calls — so it cannot share a pseudo with any value LIVE ACROSS a call (but it may freely share one with values that merely sit between calls)  <sub>L19099</sub>
-- **§204-B** — A LOOP COUNT THAT ARRIVES ON THE STACK IS DECREMENTED IN PLACE: a fresh counter local can cost a real `move` AND permute the whole callee-saved file  <sub>L21686</sub>
-- **§204-D** — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED  <sub>L21808</sub>
-- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22419</sub>
-- **§246** — THREE-LIVE-VALUE SCAN LOOPS WANT ADDRESS-FROM-INDEX; AND TWO SYMBOLS CAN SHARE ONE giv (P31 S58b)  <sub>L23837</sub>
-- **ADD-7** — → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE POSITION; NAME IT TO PIN THE PROLOGUE INIT ORDER  <sub>L25447</sub>
-- **ADD-8** — → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST-PLUS GIVES SERIALIZATION *AND* DISPLACEMENT FOLDING  <sub>L25460</sub>
-- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26104</sub>
-- **ADDENDUM** — to §211 — AN IN-LOOP ACCUMULATOR WANTS A CLOSED-FORM EXPRESSION WHEN THE TARGET REMATERIALISES ITS CONSTANT AFTER EVERY CALL  <sub>L26381</sub>
-- **§279** — A `do/while (p < end)` LOOP UNDER AN ENTRY GUARD: the guard decides the compare, not the loop (P31 S60; wave cf, func_8017F2A4, ov_SC03_096, byte-proven)  <sub>L26926</sub>
-- **§NNN** — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)  <sub>L26927</sub>
-- **§NNN** — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)  <sub>L26961</sub>
-- **§282** — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)  <sub>L27040</sub>
-- **§NNN** — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)  <sub>L27041</sub>
-- **§290** — A SINGLE STRENGTH-REDUCED GIV CAN DRIVE STORES TO SEVERAL DISTINCT RELOCATABLE SYMBOLS, EACH KEEPING ITS OWN `%hi`/`%lo` ANCHOR (P31 S60; waves #, byte-proven)  <sub>L29102</sub>
-- **ADDENDUM** — to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction births the induction register at loop.c's own insertion point  <sub>L29317</sub>
-- **ADDENDUM** — to the L1800 anchor-steer bullet — a DERIVED-POINTER local silently flips the merged giv's anchor END  <sub>L29361</sub>
-- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29503</sub>
-- **§312** — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)  <sub>L30163</sub>
-- **Addendum** — Loop sentinel wrongly hoisted out of a call-containing loop (func_801835B0)  <sub>L30497</sub>
-- **§325** — REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s-OCCUPANT THAT STEALS THE ARGUMENT ALLOCNO'S REGISTER — PIN THE ARGUMENT-DERIVED LOCAL, NOT THE CONSTANT (P31 S67; byte-proven ov_SC03_119/func_80184F18, 153 ins)  <sub>L30991</sub>
-- **§344** — RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINNING THE COUNTER KILLS LSR ENTIRELY (P31 S67; byte-proven ov_SC03_121/func_80180E64, 222 ins)  <sub>L31300</sub>
-- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31326</sub>
-- **§347** — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)  <sub>L31346</sub>
-- **§348** — THE BASE SPELLING PICKS THE ADDRESSING MODE: A SYMBOL GIVES THE 3-INSN `lui/%lo` FORM, A POINTER VARIABLE GIVES THE 2-INSN `addu/lw` FORM (P31 S67; byte-proven ov_SC07_007/func_80182184, 264 -> 30 on this row alone)  <sub>L31401</sub>
-- **§349** — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)  <sub>L31418</sub>
-- **§354** — THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `strength_reduce` DECLINES (P31 S68; byte-proven ov_SC03_105/func_801824CC, 320 ins, 201 → 5 → 0)  <sub>L31546</sub>
-- **§357** — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)  <sub>L31593</sub>
-- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31641</sub>
-- **§366** — ★★ — `group_case_nodes` MERGES **STACKED CONSECUTIVE** CASE LABELS: GIVE EVERY CASE ITS OWN BODY (P31 S68; ov_SC01_001/func_8017EC28, **first-try MATCH 360/360**, 96/96 relocs audited)  <sub>L31761</sub>
-- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32313</sub>
-- **§386** — ★★★ — A BYTE LOAD ON THE **BIV** BASE WAS BORN IN THE COMBINE PASS: SPELL IT AS A SHIFT-MASK, NEVER A DEREF (P31 S69; byte-proven main/func_80020598, 292 ins, escalation 1 → 0)  <sub>L32339</sub>
-- **§393** — ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P31 S69; byte-proven ov_SC02_017/func_8017FCFC)  <sub>L32547</sub>
-- **§418** — ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNFOLDED (P31 S71; byte-proven `ov_SC04_016/func_8017DF8C`, 184 ins, 32 → 0 in seven compiles)  <sub>L33636</sub>
-- **§430** — ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)  <sub>L34077</sub>
-- **§472** — 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL  <sub>L35493</sub>
-- **§501** — ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)  <sub>L37151</sub>
+- **§204-B** — A LOOP COUNT THAT ARRIVES ON THE STACK IS DECREMENTED IN PLACE: a fresh counter local can cost a real `move` AND permute the whole callee-saved file  <sub>L21692</sub>
+- **§204-D** — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED  <sub>L21814</sub>
+- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22425</sub>
+- **§246** — THREE-LIVE-VALUE SCAN LOOPS WANT ADDRESS-FROM-INDEX; AND TWO SYMBOLS CAN SHARE ONE giv (P31 S58b)  <sub>L23843</sub>
+- **ADD-7** — → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE POSITION; NAME IT TO PIN THE PROLOGUE INIT ORDER  <sub>L25453</sub>
+- **ADD-8** — → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST-PLUS GIVES SERIALIZATION *AND* DISPLACEMENT FOLDING  <sub>L25466</sub>
+- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26110</sub>
+- **ADDENDUM** — to §211 — AN IN-LOOP ACCUMULATOR WANTS A CLOSED-FORM EXPRESSION WHEN THE TARGET REMATERIALISES ITS CONSTANT AFTER EVERY CALL  <sub>L26387</sub>
+- **§279** — A `do/while (p < end)` LOOP UNDER AN ENTRY GUARD: the guard decides the compare, not the loop (P31 S60; wave cf, func_8017F2A4, ov_SC03_096, byte-proven)  <sub>L26932</sub>
+- **§NNN** — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)  <sub>L26933</sub>
+- **§NNN** — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)  <sub>L26967</sub>
+- **§282** — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)  <sub>L27046</sub>
+- **§NNN** — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)  <sub>L27047</sub>
+- **§290** — A SINGLE STRENGTH-REDUCED GIV CAN DRIVE STORES TO SEVERAL DISTINCT RELOCATABLE SYMBOLS, EACH KEEPING ITS OWN `%hi`/`%lo` ANCHOR (P31 S60; waves #, byte-proven)  <sub>L29108</sub>
+- **ADDENDUM** — to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction births the induction register at loop.c's own insertion point  <sub>L29323</sub>
+- **ADDENDUM** — to the L1800 anchor-steer bullet — a DERIVED-POINTER local silently flips the merged giv's anchor END  <sub>L29367</sub>
+- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29509</sub>
+- **§312** — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)  <sub>L30169</sub>
+- **Addendum** — Loop sentinel wrongly hoisted out of a call-containing loop (func_801835B0)  <sub>L30503</sub>
+- **§325** — REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s-OCCUPANT THAT STEALS THE ARGUMENT ALLOCNO'S REGISTER — PIN THE ARGUMENT-DERIVED LOCAL, NOT THE CONSTANT (P31 S67; byte-proven ov_SC03_119/func_80184F18, 153 ins)  <sub>L30997</sub>
+- **§344** — RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINNING THE COUNTER KILLS LSR ENTIRELY (P31 S67; byte-proven ov_SC03_121/func_80180E64, 222 ins)  <sub>L31306</sub>
+- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31332</sub>
+- **§347** — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)  <sub>L31352</sub>
+- **§348** — THE BASE SPELLING PICKS THE ADDRESSING MODE: A SYMBOL GIVES THE 3-INSN `lui/%lo` FORM, A POINTER VARIABLE GIVES THE 2-INSN `addu/lw` FORM (P31 S67; byte-proven ov_SC07_007/func_80182184, 264 -> 30 on this row alone)  <sub>L31407</sub>
+- **§349** — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)  <sub>L31424</sub>
+- **§354** — THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `strength_reduce` DECLINES (P31 S68; byte-proven ov_SC03_105/func_801824CC, 320 ins, 201 → 5 → 0)  <sub>L31552</sub>
+- **§357** — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)  <sub>L31599</sub>
+- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31647</sub>
+- **§366** — ★★ — `group_case_nodes` MERGES **STACKED CONSECUTIVE** CASE LABELS: GIVE EVERY CASE ITS OWN BODY (P31 S68; ov_SC01_001/func_8017EC28, **first-try MATCH 360/360**, 96/96 relocs audited)  <sub>L31767</sub>
+- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32319</sub>
+- **§386** — ★★★ — A BYTE LOAD ON THE **BIV** BASE WAS BORN IN THE COMBINE PASS: SPELL IT AS A SHIFT-MASK, NEVER A DEREF (P31 S69; byte-proven main/func_80020598, 292 ins, escalation 1 → 0)  <sub>L32345</sub>
+- **§393** — ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P31 S69; byte-proven ov_SC02_017/func_8017FCFC)  <sub>L32553</sub>
+- **§418** — ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNFOLDED (P31 S71; byte-proven `ov_SC04_016/func_8017DF8C`, 184 ins, 32 → 0 in seven compiles)  <sub>L33642</sub>
+- **§430** — ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)  <sub>L34083</sub>
+- **§472** — 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL  <sub>L35499</sub>
+- **§501** — ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)  <sub>L37157</sub>
 
 ### structs, block moves & memcpy  (92)
 
@@ -506,49 +506,49 @@
 - **§195-F** — fold-const.c:4825 canonicalises a `?:` whose THEN arm is zero (or constant against a non-constant ELSE) by inverting the condition and swapping the arms — so a ternary's written arm order is byte-inert there, and `c ? 0 : X` is unspellable: it always compiles as `!c ? X : 0`  <sub>L20055</sub>
 - **§195-G** — §NEW — TWO ARMS CALLING THE SAME CALLEE MERGE INTO ONE `jal` UNLESS EACH ARM'S OWN CODE CONSUMES THE RESULT: the C dial that keeps two call sites apart is WHERE the consumer test lives, and the branch SENSE you spell it with is byte-inert (jump.c:1737 canonicalises it)  <sub>L20107</sub>
 - **§195-K** — At -O2 the §18 array-of-struct lever is a FRAME lever, not a length lever — but only when the N reads carry DISTINCT index expressions; with a SHARED index §18's +2-instruction residual is still alive at -O2 (the submitted "memory-loaded narrow index" precondition and unconditional length-neutrality are both falsified)  <sub>L20311</sub>
-- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20905</sub>
-- **§199-F** — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)  <sub>L21024</sub>
-- **§204-D** — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED  <sub>L21808</sub>
-- **§225** — THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58)  <sub>L22979</sub>
-- **§30** — addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual with one edit  <sub>L23261</sub>
-- **§249** — THE SELF-ASSIGN, THE DEAD RE-ASSIGN, AND THE `+ zr` COPY: THREE WAYS TO MAKE A DELETED INSTRUCTION REAL (P31 S58b)  <sub>L23935</sub>
-- **§30** — addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-ONE  <sub>L24203</sub>
-- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24931</sub>
-- **ADD-8** — → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)  <sub>L25207</sub>
-- **ADD-11** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25238</sub>
-- **ADD-4** — → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAME IT **AND** STORE **INSIDE** THE ARM  <sub>L25398</sub>
-- **ADD-10** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25489</sub>
-- **ADDENDUM** — to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save  <sub>L25747</sub>
-- **ADDENDUM** — to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTER-OFFSET FIELD  <sub>L26073</sub>
-- **§281** — GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, the source must not (P31 S60; wave cf, func_80180FB4, ov_SC03_111, byte-proven)  <sub>L26994</sub>
-- **§NNN** — A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AND SCHED1 DOES THE INTERLEAVING (P31 S60; `func_80180FB4`, ov_SC03_111, byte-proven)  <sub>L26995</sub>
-- **§NNN** — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)  <sub>L27041</sub>
-- **§285** — PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE FOLLOWING if/else DESTRUCTIVELY REUSE THE SAME DESTINATION REGISTER FOR THEIR BITWISE RESULT (byte-proven; `func_801811F0`, ov_SC03_102, independently rediscovered across waves di/dj) (P31 S60; waves #, byte-proven)  <sub>L29082</sub>
-- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29090</sub>
-- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29503</sub>
-- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30016</sub>
-- **§312** — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)  <sub>L30163</sub>
-- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30245</sub>
-- **§315** — ALL-CONSTANT AGGREGATE FILL: THE EMISSION ORDER IS SHARED-LITERAL GROUPS × DESCENDING INDEX, WITH PAIRED SUB-FIELDS INTERLEAVED (P31 S66; ⚠ **UNPROVEN** — `func_80185214`, gate-REFUSED draft, closeness 32→5, never MATCHed)  <sub>L30277</sub>
-- **§316** — A GUARD CHAIN THAT GATES A SUCCESS BLOCK ROUTES ITS FAILING GUARDS TO A LABEL **BEFORE** THE FLAG TEST, NOT TO THE EPILOGUE: THE RESIDUAL IS IMM-OFFSET-ONLY AT AN EXACTLY EQUAL INSTRUCTION COUNT (P31 S66; byte-proven func_80180284)  <sub>L30314</sub>
-- **§317** — A NARROW STRUCT-FIELD STORE TURNS A *LIVE SImode VARIABLE* INTO A `li`: convert.c's TRUNCATION-DISTRIBUTION MINTS A HImode COPY, AND cse REWRITES THAT COPY'S SOURCE TO THE EQUIVALENT CONSTANT (P31 S66; byte-proven func_8017EF94)  <sub>L30348</sub>
-- **Addendum** — WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538)  <sub>L30576</sub>
-- **Addendum** — Masked-OR field-merge plateaus at close=10; bitfield store clears it (func_8017FD64)  <sub>L30704</sub>
-- **§321** — FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SCOPE IS A WARNING (P31 S66; byte-proven func_80180728, func_8017F9F8, func_8017E07C)  <sub>L30849</sub>
-- **§335** — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)  <sub>L31144</sub>
-- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31326</sub>
-- **§351** — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)  <sub>L31460</sub>
-- **§357** — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)  <sub>L31593</sub>
-- **§364** — ★ — THE libgpu `P_TAG` BITFIELD SPELLING IS **OPT-LEVEL DEPENDENT** (P31 S68; two functions, opposite verdicts, same session)  <sub>L31738</sub>
-- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32168</sub>
-- **§391** — ★★ — A BYTE-ALIGNED STRUCT COPIES IN FOUR INSTRUCTIONS, A WORD-ALIGNED ONE IN TWO (P31 S69)  <sub>L32492</sub>
-- **§395** — ★★★ — FIVE NARROWING/PLACEMENT LEVERS FROM ONE 91-INSTRUCTION CRACK (P31 S69; byte-proven ov_SC06_018/func_80189E60, warm start 32 off → MATCH 91/91)  <sub>L32615</sub>
-- **§418** — ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNFOLDED (P31 S71; byte-proven `ov_SC04_016/func_8017DF8C`, 184 ins, 32 → 0 in seven compiles)  <sub>L33636</sub>
-- **§425** — ★★★ — `sb` ALIASES SCALAR GLOBALS WHILE `sh`/`sw` STRUCT STORES DO NOT, AND TWO MORE ALIAS/BOOST RULES (P31 S71; `md_MAIN_003/func_800CF3E8`, 467 of 469 ins, all four byte-verified from `-dS`/`-dR`/`-dl`/`-dr`)  <sub>L33833</sub>
-- **§442** — ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LIKE A CODEGEN WALL (P31 S75; `reconcile_tu`, 344 ins unblocked)  <sub>L34651</sub>
-- **§468** — THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERAND ORDER  <sub>L35384</sub>
-- **§469** — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)  <sub>L35418</sub>
-- **§497** — ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S FALSE "CONFLICTING BODIES" REFUSAL (P32 T1b; ov_SC02_017 `func_80186C64` isolation)  <sub>L36699</sub>
+- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20911</sub>
+- **§199-F** — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)  <sub>L21030</sub>
+- **§204-D** — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED  <sub>L21814</sub>
+- **§225** — THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58)  <sub>L22985</sub>
+- **§30** — addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual with one edit  <sub>L23267</sub>
+- **§249** — THE SELF-ASSIGN, THE DEAD RE-ASSIGN, AND THE `+ zr` COPY: THREE WAYS TO MAKE A DELETED INSTRUCTION REAL (P31 S58b)  <sub>L23941</sub>
+- **§30** — addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-ONE  <sub>L24209</sub>
+- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24937</sub>
+- **ADD-8** — → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)  <sub>L25213</sub>
+- **ADD-11** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25244</sub>
+- **ADD-4** — → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAME IT **AND** STORE **INSIDE** THE ARM  <sub>L25404</sub>
+- **ADD-10** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25495</sub>
+- **ADDENDUM** — to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save  <sub>L25753</sub>
+- **ADDENDUM** — to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTER-OFFSET FIELD  <sub>L26079</sub>
+- **§281** — GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, the source must not (P31 S60; wave cf, func_80180FB4, ov_SC03_111, byte-proven)  <sub>L27000</sub>
+- **§NNN** — A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AND SCHED1 DOES THE INTERLEAVING (P31 S60; `func_80180FB4`, ov_SC03_111, byte-proven)  <sub>L27001</sub>
+- **§NNN** — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)  <sub>L27047</sub>
+- **§285** — PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE FOLLOWING if/else DESTRUCTIVELY REUSE THE SAME DESTINATION REGISTER FOR THEIR BITWISE RESULT (byte-proven; `func_801811F0`, ov_SC03_102, independently rediscovered across waves di/dj) (P31 S60; waves #, byte-proven)  <sub>L29088</sub>
+- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29096</sub>
+- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29509</sub>
+- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30022</sub>
+- **§312** — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)  <sub>L30169</sub>
+- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30251</sub>
+- **§315** — ALL-CONSTANT AGGREGATE FILL: THE EMISSION ORDER IS SHARED-LITERAL GROUPS × DESCENDING INDEX, WITH PAIRED SUB-FIELDS INTERLEAVED (P31 S66; ⚠ **UNPROVEN** — `func_80185214`, gate-REFUSED draft, closeness 32→5, never MATCHed)  <sub>L30283</sub>
+- **§316** — A GUARD CHAIN THAT GATES A SUCCESS BLOCK ROUTES ITS FAILING GUARDS TO A LABEL **BEFORE** THE FLAG TEST, NOT TO THE EPILOGUE: THE RESIDUAL IS IMM-OFFSET-ONLY AT AN EXACTLY EQUAL INSTRUCTION COUNT (P31 S66; byte-proven func_80180284)  <sub>L30320</sub>
+- **§317** — A NARROW STRUCT-FIELD STORE TURNS A *LIVE SImode VARIABLE* INTO A `li`: convert.c's TRUNCATION-DISTRIBUTION MINTS A HImode COPY, AND cse REWRITES THAT COPY'S SOURCE TO THE EQUIVALENT CONSTANT (P31 S66; byte-proven func_8017EF94)  <sub>L30354</sub>
+- **Addendum** — WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538)  <sub>L30582</sub>
+- **Addendum** — Masked-OR field-merge plateaus at close=10; bitfield store clears it (func_8017FD64)  <sub>L30710</sub>
+- **§321** — FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SCOPE IS A WARNING (P31 S66; byte-proven func_80180728, func_8017F9F8, func_8017E07C)  <sub>L30855</sub>
+- **§335** — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)  <sub>L31150</sub>
+- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31332</sub>
+- **§351** — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)  <sub>L31466</sub>
+- **§357** — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)  <sub>L31599</sub>
+- **§364** — ★ — THE libgpu `P_TAG` BITFIELD SPELLING IS **OPT-LEVEL DEPENDENT** (P31 S68; two functions, opposite verdicts, same session)  <sub>L31744</sub>
+- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32174</sub>
+- **§391** — ★★ — A BYTE-ALIGNED STRUCT COPIES IN FOUR INSTRUCTIONS, A WORD-ALIGNED ONE IN TWO (P31 S69)  <sub>L32498</sub>
+- **§395** — ★★★ — FIVE NARROWING/PLACEMENT LEVERS FROM ONE 91-INSTRUCTION CRACK (P31 S69; byte-proven ov_SC06_018/func_80189E60, warm start 32 off → MATCH 91/91)  <sub>L32621</sub>
+- **§418** — ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNFOLDED (P31 S71; byte-proven `ov_SC04_016/func_8017DF8C`, 184 ins, 32 → 0 in seven compiles)  <sub>L33642</sub>
+- **§425** — ★★★ — `sb` ALIASES SCALAR GLOBALS WHILE `sh`/`sw` STRUCT STORES DO NOT, AND TWO MORE ALIAS/BOOST RULES (P31 S71; `md_MAIN_003/func_800CF3E8`, 467 of 469 ins, all four byte-verified from `-dS`/`-dR`/`-dl`/`-dr`)  <sub>L33839</sub>
+- **§442** — ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LIKE A CODEGEN WALL (P31 S75; `reconcile_tu`, 344 ins unblocked)  <sub>L34657</sub>
+- **§468** — THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERAND ORDER  <sub>L35390</sub>
+- **§469** — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)  <sub>L35424</sub>
+- **§497** — ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S FALSE "CONFLICTING BODIES" REFUSAL (P32 T1b; ov_SC02_017 `func_80186C64` isolation)  <sub>L36705</sub>
 
 ### types, signedness & load/store width  (98)
 
@@ -599,57 +599,57 @@
 - **§194-H** — §164-29's WAR fence runs again at SCHED2 ON HARD REGISTERS: an in-place `v &= K` before a branch fences the store that reads v, and when TWO independent stores compete for the one delay slot the fence picks the winner at ZERO length drift (a WIDTH/sh!=sw swap, not a nop). Corrects §167-42's reconstruction (pseudo arm → hard-reg arm) and supplies its first re-runnable A/B.  <sub>L19356</sub>
 - **§194-I** — §16N+2's magic-per-odd-part ladder has exactly one broken row — read the divisor arithmetically instead: d = round(2^(32 + post_shift) / magic_read_as_unsigned)  <sub>L19394</sub>
 - **§197-A** — A NARROW SIGNED MEMORY READ FEEDING A CONSTANT `>>` LOSES ITS `lh`, AND THE CURE IS AN ASM RE-TIE (attribution CONTESTED: cse vs combine)  <sub>L20626</sub>
-- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20905</sub>
-- **§201-D** — THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER `get_narrower` STRIPS WIDENING CONVERSIONS — NEVER BY A PROVABLE RANGE. AN `& 0xFF` IS NOT A CONVERSION, SO IT NEVER FLIPS THE MAGIC; A DECLARED-UNSIGNED LOCAL *OR* A NARROWING CAST WRITTEN AT THE DIVIDE BOTH DO.  <sub>L21366</sub>
-- **§203** — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)  <sub>L21531</sub>
-- **§204-E** — `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of 1,210  <sub>L21883</sub>
-- **§218** — A NARROW TYPE AT THE ABI BOUNDARY COSTS AN IN-PLACE `sll/sra` PAIR — on the RETURN as well as on the PARAMETER (P31 S58)  <sub>L22727</sub>
-- **§220** — THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and place the save-copy AFTER the first call (P31 S58)  <sub>L22783</sub>
-- **§227** — TYPE THE SOURCE BY THE **LOAD** WIDTH, NOT BY THE STORE WIDTH (P31 S58)  <sub>L23063</sub>
-- **§234** — CONSTANT MATERIALISATION: THE STORE LVALUE'S SIGNEDNESS PICKS `addiu` vs `li`/`ori` (P31 S58b)  <sub>L23361</sub>
-- **§237** — THE CAST-AT-CALL-SITE DECISION TABLE: WHAT §17a-1 FIXES, WHAT IT CANNOT, AND THE FOUR ESCAPES (P31 S58b)  <sub>L23510</sub>
-- **§242** — `*k` vs `<<n`, AND `/2^n` vs `>>n`: EXPRESSION SPELLING OWNS THE LOAD WIDTH AND THE ROUNDING CHAIN (P31 S58b)  <sub>L23697</sub>
-- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23725</sub>
-- **§251** — IMMEDIATE-SPELLING TRIGGERS: `+= 0xFF`, FULL-WIDTH `~K`, AND THE TWO-OR SPLIT (P31 S58b)  <sub>L24014</sub>
-- **ADD-5** — → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TRAILING `else`  <sub>L25177</sub>
-- **ADD-2** — → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE  <sub>L25371</sub>
-- **ADD-5** — → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON THE SHIFTED COPY, RAW STAYS LIVE — AND THE HALFWORD-ABS SHAPE NEEDS NO RITUAL  <sub>L25415</sub>
-- **ADD-8** — → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST-PLUS GIVES SERIALIZATION *AND* DISPLACEMENT FOLDING  <sub>L25460</sub>
-- **ADDENDUM** — to §179-C — the `.type NAME, @function` requirement  <sub>L25644</sub>
-- **ADDENDUM** — to §134 — a typedef defined BELOW the splice point is stripped anyway  <sub>L25691</sub>
-- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26104</sub>
-- **ADDENDUM** — to §172b-4 — THE PLAIN CAST-DIVISION ALREADY PRODUCES THE PATTERN; DON'T HAND-ROLL THE BIAS, AND KEEP THE OPERAND WIDE  <sub>L26196</sub>
-- **§280** — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)  <sub>L26960</sub>
-- **§NNN** — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)  <sub>L26961</sub>
-- **ADDENDUM** — to §21 — the `bltz`+`slti` (or N-separate-compares) signed-range-split bullet is now CONFIRMED on three independent functions, and generalizes beyond `lbu`/u8  <sub>L27161</sub>
-- **ADDENDUM** — to §202 — the DEF-SIDE ALIAS also resolves a function-vs-DATA-symbol identifier clash, not only a function-vs-function prototype clash  <sub>L27207</sub>
-- **ADDENDUM** — §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED HALFWORD IS A SIGNED-TEMP WIDTH TELL OUTSIDE ANY SWITCH/RANGE-TEST CONTEXT  <sub>L28297</sub>
-- **§288** — A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES THE FIXED REGISTER'S SAVE/RESTORE, AND THE ASSIGNMENT'S SOURCE POSITION CONTROLS WHERE THE VALUE MATERIALIZES (P31; `func_80186530`, ov_SC02_017, byte-proven, match_one MATCH re-verified) (P31 S60; waves #, byte-proven)  <sub>L29094</sub>
-- **§292** — DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPLICIT (K&R) DECLARATION CAN SILENTLY REPROTOTYPE THE SIBLING'S OWN CALL SITE (P31 S60; waves #, byte-proven)  <sub>L29110</sub>
-- **ADDENDUM** — to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator  <sub>L29272</sub>
-- **ADDENDUM** — to §31's asm→layout inference — TWO WIDTH-PAIR DISCRIMINATORS (same offset, different widths)  <sub>L29384</sub>
-- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29503</sub>
-- **§318** — A UNARY MINUS STORED BACK INTO THE SAME HALFWORD IS COMPUTED IN HImode, SO ITS LOAD IS `lhu`; AN INLINE `(s32)` CAST IS PROVABLY INERT AND ONLY A NAMED SImode LOCAL BUYS `lh` (P31 S66; `func_8018568C`, ov_SC03_028 — **`match_one`-only, NOT byte-gated**)  <sub>L30382</sub>
-- **Addendum** — Reversed-operand sltu then xori 1 means unsigned less-or-equal (func_8017D948)  <sub>L30509</sub>
-- **Addendum** — WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538)  <sub>L30576</sub>
-- **Addendum** — Static local_type blocker survives typedef removal — it's textual (func_801588CC)  <sub>L30619</sub>
-- **§320** — THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 S66; byte-proven func_800CCBC0, func_800D30D0, func_800D2A24)  <sub>L30790</sub>
-- **§321** — FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SCOPE IS A WARNING (P31 S66; byte-proven func_80180728, func_8017F9F8, func_8017E07C)  <sub>L30849</sub>
-- **§323** — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)  <sub>L30900</sub>
-- **§327** — A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT AND DROPS THE `andi` (P31 S67; byte-proven ov_SC02_039/func_8017EC34, 154 ins)  <sub>L31013</sub>
-- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31028</sub>
-- **§335** — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)  <sub>L31144</sub>
-- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31261</sub>
-- **§345** — A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS combine AND DEGRADES `lh` INTO `lhu+sll+sra` (P31 S67; byte-proven ov_SC01_084/func_80181A7C)  <sub>L31316</sub>
-- **§351** — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)  <sub>L31460</sub>
-- **§378** — ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE (P31 S69; byte-proven ov_SC04_010/func_8017D6CC)  <sub>L32118</sub>
-- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32168</sub>
-- **§392** — ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH  <sub>L32506</sub>
-- **§422** — ★★ — QImode ARITHMETIC VIA `(u8)(x - K)`, AND `flag ^ 1` NEEDS ITS OWN TEMP (P31 S71; byte-proven `resident/func_800D06E8`, 344 ins)  <sub>L33764</sub>
-- **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33784</sub>
-- **§481** — ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S77, `main:func_8001FC08`, 400 ins)  <sub>L35905</sub>
-- **§496** — ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TYPEDEF (P32 T1a; byte-proven, resident `func_800D128C` isolation)  <sub>L36665</sub>
-- **§497** — ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S FALSE "CONFLICTING BODIES" REFUSAL (P32 T1b; ov_SC02_017 `func_80186C64` isolation)  <sub>L36699</sub>
+- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20911</sub>
+- **§201-D** — THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER `get_narrower` STRIPS WIDENING CONVERSIONS — NEVER BY A PROVABLE RANGE. AN `& 0xFF` IS NOT A CONVERSION, SO IT NEVER FLIPS THE MAGIC; A DECLARED-UNSIGNED LOCAL *OR* A NARROWING CAST WRITTEN AT THE DIVIDE BOTH DO.  <sub>L21372</sub>
+- **§203** — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)  <sub>L21537</sub>
+- **§204-E** — `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of 1,210  <sub>L21889</sub>
+- **§218** — A NARROW TYPE AT THE ABI BOUNDARY COSTS AN IN-PLACE `sll/sra` PAIR — on the RETURN as well as on the PARAMETER (P31 S58)  <sub>L22733</sub>
+- **§220** — THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and place the save-copy AFTER the first call (P31 S58)  <sub>L22789</sub>
+- **§227** — TYPE THE SOURCE BY THE **LOAD** WIDTH, NOT BY THE STORE WIDTH (P31 S58)  <sub>L23069</sub>
+- **§234** — CONSTANT MATERIALISATION: THE STORE LVALUE'S SIGNEDNESS PICKS `addiu` vs `li`/`ori` (P31 S58b)  <sub>L23367</sub>
+- **§237** — THE CAST-AT-CALL-SITE DECISION TABLE: WHAT §17a-1 FIXES, WHAT IT CANNOT, AND THE FOUR ESCAPES (P31 S58b)  <sub>L23516</sub>
+- **§242** — `*k` vs `<<n`, AND `/2^n` vs `>>n`: EXPRESSION SPELLING OWNS THE LOAD WIDTH AND THE ROUNDING CHAIN (P31 S58b)  <sub>L23703</sub>
+- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23731</sub>
+- **§251** — IMMEDIATE-SPELLING TRIGGERS: `+= 0xFF`, FULL-WIDTH `~K`, AND THE TWO-OR SPLIT (P31 S58b)  <sub>L24020</sub>
+- **ADD-5** — → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TRAILING `else`  <sub>L25183</sub>
+- **ADD-2** — → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE  <sub>L25377</sub>
+- **ADD-5** — → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON THE SHIFTED COPY, RAW STAYS LIVE — AND THE HALFWORD-ABS SHAPE NEEDS NO RITUAL  <sub>L25421</sub>
+- **ADD-8** — → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST-PLUS GIVES SERIALIZATION *AND* DISPLACEMENT FOLDING  <sub>L25466</sub>
+- **ADDENDUM** — to §179-C — the `.type NAME, @function` requirement  <sub>L25650</sub>
+- **ADDENDUM** — to §134 — a typedef defined BELOW the splice point is stripped anyway  <sub>L25697</sub>
+- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26110</sub>
+- **ADDENDUM** — to §172b-4 — THE PLAIN CAST-DIVISION ALREADY PRODUCES THE PATTERN; DON'T HAND-ROLL THE BIAS, AND KEEP THE OPERAND WIDE  <sub>L26202</sub>
+- **§280** — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)  <sub>L26966</sub>
+- **§NNN** — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)  <sub>L26967</sub>
+- **ADDENDUM** — to §21 — the `bltz`+`slti` (or N-separate-compares) signed-range-split bullet is now CONFIRMED on three independent functions, and generalizes beyond `lbu`/u8  <sub>L27167</sub>
+- **ADDENDUM** — to §202 — the DEF-SIDE ALIAS also resolves a function-vs-DATA-symbol identifier clash, not only a function-vs-function prototype clash  <sub>L27213</sub>
+- **ADDENDUM** — §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED HALFWORD IS A SIGNED-TEMP WIDTH TELL OUTSIDE ANY SWITCH/RANGE-TEST CONTEXT  <sub>L28303</sub>
+- **§288** — A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES THE FIXED REGISTER'S SAVE/RESTORE, AND THE ASSIGNMENT'S SOURCE POSITION CONTROLS WHERE THE VALUE MATERIALIZES (P31; `func_80186530`, ov_SC02_017, byte-proven, match_one MATCH re-verified) (P31 S60; waves #, byte-proven)  <sub>L29100</sub>
+- **§292** — DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPLICIT (K&R) DECLARATION CAN SILENTLY REPROTOTYPE THE SIBLING'S OWN CALL SITE (P31 S60; waves #, byte-proven)  <sub>L29116</sub>
+- **ADDENDUM** — to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator  <sub>L29278</sub>
+- **ADDENDUM** — to §31's asm→layout inference — TWO WIDTH-PAIR DISCRIMINATORS (same offset, different widths)  <sub>L29390</sub>
+- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29509</sub>
+- **§318** — A UNARY MINUS STORED BACK INTO THE SAME HALFWORD IS COMPUTED IN HImode, SO ITS LOAD IS `lhu`; AN INLINE `(s32)` CAST IS PROVABLY INERT AND ONLY A NAMED SImode LOCAL BUYS `lh` (P31 S66; `func_8018568C`, ov_SC03_028 — **`match_one`-only, NOT byte-gated**)  <sub>L30388</sub>
+- **Addendum** — Reversed-operand sltu then xori 1 means unsigned less-or-equal (func_8017D948)  <sub>L30515</sub>
+- **Addendum** — WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538)  <sub>L30582</sub>
+- **Addendum** — Static local_type blocker survives typedef removal — it's textual (func_801588CC)  <sub>L30625</sub>
+- **§320** — THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 S66; byte-proven func_800CCBC0, func_800D30D0, func_800D2A24)  <sub>L30796</sub>
+- **§321** — FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SCOPE IS A WARNING (P31 S66; byte-proven func_80180728, func_8017F9F8, func_8017E07C)  <sub>L30855</sub>
+- **§323** — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)  <sub>L30906</sub>
+- **§327** — A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT AND DROPS THE `andi` (P31 S67; byte-proven ov_SC02_039/func_8017EC34, 154 ins)  <sub>L31019</sub>
+- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31034</sub>
+- **§335** — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)  <sub>L31150</sub>
+- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31267</sub>
+- **§345** — A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS combine AND DEGRADES `lh` INTO `lhu+sll+sra` (P31 S67; byte-proven ov_SC01_084/func_80181A7C)  <sub>L31322</sub>
+- **§351** — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)  <sub>L31466</sub>
+- **§378** — ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE (P31 S69; byte-proven ov_SC04_010/func_8017D6CC)  <sub>L32124</sub>
+- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32174</sub>
+- **§392** — ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH  <sub>L32512</sub>
+- **§422** — ★★ — QImode ARITHMETIC VIA `(u8)(x - K)`, AND `flag ^ 1` NEEDS ITS OWN TEMP (P31 S71; byte-proven `resident/func_800D06E8`, 344 ins)  <sub>L33770</sub>
+- **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33790</sub>
+- **§481** — ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S77, `main:func_8001FC08`, 400 ins)  <sub>L35911</sub>
+- **§496** — ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TYPEDEF (P32 T1a; byte-proven, resident `func_800D128C` isolation)  <sub>L36671</sub>
+- **§497** — ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S FALSE "CONFLICTING BODIES" REFUSAL (P32 T1b; ov_SC02_017 `func_80186C64` isolation)  <sub>L36705</sub>
 
 ### declarations, prototypes & K&R  (122)
 
@@ -723,58 +723,58 @@
 - **§195-G** — §NEW — TWO ARMS CALLING THE SAME CALLEE MERGE INTO ONE `jal` UNLESS EACH ARM'S OWN CODE CONSUMES THE RESULT: the C dial that keeps two call sites apart is WHERE the consumer test lives, and the branch SENSE you spell it with is byte-inert (jump.c:1737 canonicalises it)  <sub>L20107</sub>
 - **§195-H** — §165-27g — ON A FIXED-SYMBOL GLOBAL, `extern T D[];` + `D[0]` IS THE CSE RELOAD DIAL, AT ZERO ADDRESSING COST, AND THE ELEMENT COUNT IS INERT (§165-27's `T v[2]` CAVEAT IS A LOCAL-FRAME FACT AND DOES NOT TRANSFER)  <sub>L20155</sub>
 - **§196** — PUT ON THE CARD WHAT THE TREE ALREADY KNOWS: the fleet's declaration consensus (P31 S54)  <sub>L20557</sub>
-- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20905</sub>
-- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21078</sub>
-- **§200** — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P31 S55)  <sub>L21144</sub>
-- **§201-A** — §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definition" is usually another overlay's function, and the card ranks it ABOVE the destination TU  <sub>L21203</sub>
-- **§201-D** — THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER `get_narrower` STRIPS WIDENING CONVERSIONS — NEVER BY A PROVABLE RANGE. AN `& 0xFF` IS NOT A CONVERSION, SO IT NEVER FLIPS THE MAGIC; A DECLARED-UNSIGNED LOCAL *OR* A NARROWING CAST WRITTEN AT THE DIVIDE BOTH DO.  <sub>L21366</sub>
-- **§202** — THE ALIAS CARRIES A DEFINITION, NOT JUST A DECLARATION: the DEF-SIDE-RETURN wall (P31 S56)  <sub>L21494</sub>
-- **§204-C** — WHEN A LOCAL BUFFER'S ADDRESS IS PASSED TO A CALL, ITS SIZE IS A FACT ABOUT THE CALLEE'S BODY, NOT ABOUT THE CALL SITE: grep the callee's proven definition and count the stores through the pointer parameter before you declare the local  <sub>L21750</sub>
-- **§204-E** — `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of 1,210  <sub>L21883</sub>
-- **§208** — TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity owns the REGISTER SPLIT, not just the load count (P31 S58)  <sub>L22247</sub>
-- **§214** — THE BANKED TWIN MAY BE A MACRO, A DELETED `.s`, OR A SEMANTIC INVERSE — six ways a ≥0.9 similarity lies (P31 S58)  <sub>L22559</sub>
-- **§216** — DISTINCT ADJACENT SCALARS vs ONE ARRAY: one `lui` per access is the tell, and the array decl is UNUSABLE (P31 S58)  <sub>L22661</sub>
-- **§220** — THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and place the save-copy AFTER the first call (P31 S58)  <sub>L22783</sub>
-- **§224** — CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31 S58)  <sub>L22943</sub>
-- **§236** — THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS THE GATE (P31 S58b)  <sub>L23431</sub>
-- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23725</sub>
-- **§250** — `%hi/%lo` vs `lw`: THE EXTERN'S ARRAY-vs-SCALAR SHAPE DECIDES ADDRESS MATERIALISATION (P31 S58b)  <sub>L23977</sub>
-- **§214** — addendum (P31 S58b) — FOUR MORE WAYS A HIGH-SIMILARITY TWIN LIES  <sub>L24392</sub>
-- **§226** — addendum (P31 S58b) — THE FRAME CATALOGUE: SEVEN MORE LEVERS, AND SLOT ORDER IS DECLARATION ORDER  <sub>L24621</sub>
-- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24931</sub>
-- **ADD-10** — → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS AN OUTGOING-ARGUMENT MATERIALISATION  <sub>L25229</sub>
-- **ADD-2** — → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE  <sub>L25371</sub>
-- **§272** — The `(void)`-decl + empty-call wall: K&R the DEFINITION, not just the decls (P31 S59)  <sub>L25603</sub>
-- **ADDENDUM** — to §20 — a global declared as `T *` may itself BE the array base, not a pointer to dereference  <sub>L25824</sub>
-- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26104</sub>
-- **§280** — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)  <sub>L26960</sub>
-- **ADDENDUM** — to §202 — the DEF-SIDE ALIAS also resolves a function-vs-DATA-symbol identifier clash, not only a function-vs-function prototype clash  <sub>L27207</sub>
-- **ADDENDUM** — §NNN — sharpens §37/§124 (unspecified-parameter-list family): DERIVE A CALLEE'S ARITY LOWER BOUND FROM ITS OWN `.s` STACK-ARGUMENT READS, NOT FROM ANY SINGLE CALL SITE  <sub>L28330</sub>
-- **§288** — A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES THE FIXED REGISTER'S SAVE/RESTORE, AND THE ASSIGNMENT'S SOURCE POSITION CONTROLS WHERE THE VALUE MATERIALIZES (P31; `func_80186530`, ov_SC02_017, byte-proven, match_one MATCH re-verified) (P31 S60; waves #, byte-proven)  <sub>L29094</sub>
-- **§292** — DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPLICIT (K&R) DECLARATION CAN SILENTLY REPROTOTYPE THE SIBLING'S OWN CALL SITE (P31 S60; waves #, byte-proven)  <sub>L29110</sub>
-- **Addendum** — Counter zero in the DECLARATION slot, empty for-init — the prologue SHIFT-DRIFT/+K face of (func_8018275C)  <sub>L30729</sub>
-- **§324** — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)  <sub>L30953</sub>
-- **§333** — FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL IS A REAL DIAL (P31 S67; three independent byte-proven instances in one wave)  <sub>L31119</sub>
-- **§335** — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)  <sub>L31144</sub>
-- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31261</sub>
-- **§343** — `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT JUST THE WINNER (P31 S67; measured on func_8012BD14 / func_8012D624 / func_80143C74)  <sub>L31278</sub>
-- **§347** — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)  <sub>L31346</sub>
-- **§343-addendum** — SECOND INSTANCE OF THE WRONG-MAJORITY DECL (same function)  <sub>L31394</sub>
-- **§354** — THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `strength_reduce` DECLINES (P31 S68; byte-proven ov_SC03_105/func_801824CC, 320 ins, 201 → 5 → 0)  <sub>L31546</sub>
-- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31641</sub>
-- **§367** — RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main)  <sub>L31781</sub>
-- **§378b** — ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P31 S69, all four measured the same day)  <sub>L32576</sub>
-- **§378c** — ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S69)  <sub>L32726</sub>
-- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32839</sub>
-- **§415** — ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT (P31 S71; byte-proven `ov_SC04_011/func_80180B24`, 215 ins)  <sub>L33551</sub>
-- **§437** — ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)  <sub>L34425</sub>
-- **§447** — ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)  <sub>L34858</sub>
-- **§467** — GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT  <sub>L35360</sub>
-- **§468** — THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERAND ORDER  <sub>L35384</sub>
-- **§477** — ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77)  <sub>L35717</sub>
-- **§481** — ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S77, `main:func_8001FC08`, 400 ins)  <sub>L35905</sub>
-- **§487** — ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WALL" BAND IS LIBPAD 4.2.1 (P31 S78)  <sub>L36154</sub>
-- **§495** — ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT WAS THE ASSEMBLY, AND A GATE THAT DROPPED A BANK ON EXIT 0  <sub>L36624</sub>
+- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20911</sub>
+- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21084</sub>
+- **§200** — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P31 S55)  <sub>L21150</sub>
+- **§201-A** — §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definition" is usually another overlay's function, and the card ranks it ABOVE the destination TU  <sub>L21209</sub>
+- **§201-D** — THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER `get_narrower` STRIPS WIDENING CONVERSIONS — NEVER BY A PROVABLE RANGE. AN `& 0xFF` IS NOT A CONVERSION, SO IT NEVER FLIPS THE MAGIC; A DECLARED-UNSIGNED LOCAL *OR* A NARROWING CAST WRITTEN AT THE DIVIDE BOTH DO.  <sub>L21372</sub>
+- **§202** — THE ALIAS CARRIES A DEFINITION, NOT JUST A DECLARATION: the DEF-SIDE-RETURN wall (P31 S56)  <sub>L21500</sub>
+- **§204-C** — WHEN A LOCAL BUFFER'S ADDRESS IS PASSED TO A CALL, ITS SIZE IS A FACT ABOUT THE CALLEE'S BODY, NOT ABOUT THE CALL SITE: grep the callee's proven definition and count the stores through the pointer parameter before you declare the local  <sub>L21756</sub>
+- **§204-E** — `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of 1,210  <sub>L21889</sub>
+- **§208** — TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity owns the REGISTER SPLIT, not just the load count (P31 S58)  <sub>L22253</sub>
+- **§214** — THE BANKED TWIN MAY BE A MACRO, A DELETED `.s`, OR A SEMANTIC INVERSE — six ways a ≥0.9 similarity lies (P31 S58)  <sub>L22565</sub>
+- **§216** — DISTINCT ADJACENT SCALARS vs ONE ARRAY: one `lui` per access is the tell, and the array decl is UNUSABLE (P31 S58)  <sub>L22667</sub>
+- **§220** — THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and place the save-copy AFTER the first call (P31 S58)  <sub>L22789</sub>
+- **§224** — CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31 S58)  <sub>L22949</sub>
+- **§236** — THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS THE GATE (P31 S58b)  <sub>L23437</sub>
+- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23731</sub>
+- **§250** — `%hi/%lo` vs `lw`: THE EXTERN'S ARRAY-vs-SCALAR SHAPE DECIDES ADDRESS MATERIALISATION (P31 S58b)  <sub>L23983</sub>
+- **§214** — addendum (P31 S58b) — FOUR MORE WAYS A HIGH-SIMILARITY TWIN LIES  <sub>L24398</sub>
+- **§226** — addendum (P31 S58b) — THE FRAME CATALOGUE: SEVEN MORE LEVERS, AND SLOT ORDER IS DECLARATION ORDER  <sub>L24627</sub>
+- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24937</sub>
+- **ADD-10** — → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS AN OUTGOING-ARGUMENT MATERIALISATION  <sub>L25235</sub>
+- **ADD-2** — → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE  <sub>L25377</sub>
+- **§272** — The `(void)`-decl + empty-call wall: K&R the DEFINITION, not just the decls (P31 S59)  <sub>L25609</sub>
+- **ADDENDUM** — to §20 — a global declared as `T *` may itself BE the array base, not a pointer to dereference  <sub>L25830</sub>
+- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26110</sub>
+- **§280** — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)  <sub>L26966</sub>
+- **ADDENDUM** — to §202 — the DEF-SIDE ALIAS also resolves a function-vs-DATA-symbol identifier clash, not only a function-vs-function prototype clash  <sub>L27213</sub>
+- **ADDENDUM** — §NNN — sharpens §37/§124 (unspecified-parameter-list family): DERIVE A CALLEE'S ARITY LOWER BOUND FROM ITS OWN `.s` STACK-ARGUMENT READS, NOT FROM ANY SINGLE CALL SITE  <sub>L28336</sub>
+- **§288** — A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES THE FIXED REGISTER'S SAVE/RESTORE, AND THE ASSIGNMENT'S SOURCE POSITION CONTROLS WHERE THE VALUE MATERIALIZES (P31; `func_80186530`, ov_SC02_017, byte-proven, match_one MATCH re-verified) (P31 S60; waves #, byte-proven)  <sub>L29100</sub>
+- **§292** — DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPLICIT (K&R) DECLARATION CAN SILENTLY REPROTOTYPE THE SIBLING'S OWN CALL SITE (P31 S60; waves #, byte-proven)  <sub>L29116</sub>
+- **Addendum** — Counter zero in the DECLARATION slot, empty for-init — the prologue SHIFT-DRIFT/+K face of (func_8018275C)  <sub>L30735</sub>
+- **§324** — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)  <sub>L30959</sub>
+- **§333** — FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL IS A REAL DIAL (P31 S67; three independent byte-proven instances in one wave)  <sub>L31125</sub>
+- **§335** — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)  <sub>L31150</sub>
+- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31267</sub>
+- **§343** — `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT JUST THE WINNER (P31 S67; measured on func_8012BD14 / func_8012D624 / func_80143C74)  <sub>L31284</sub>
+- **§347** — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)  <sub>L31352</sub>
+- **§343-addendum** — SECOND INSTANCE OF THE WRONG-MAJORITY DECL (same function)  <sub>L31400</sub>
+- **§354** — THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `strength_reduce` DECLINES (P31 S68; byte-proven ov_SC03_105/func_801824CC, 320 ins, 201 → 5 → 0)  <sub>L31552</sub>
+- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31647</sub>
+- **§367** — RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main)  <sub>L31787</sub>
+- **§378b** — ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P31 S69, all four measured the same day)  <sub>L32582</sub>
+- **§378c** — ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S69)  <sub>L32732</sub>
+- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32845</sub>
+- **§415** — ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT (P31 S71; byte-proven `ov_SC04_011/func_80180B24`, 215 ins)  <sub>L33557</sub>
+- **§437** — ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)  <sub>L34431</sub>
+- **§447** — ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)  <sub>L34864</sub>
+- **§467** — GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT  <sub>L35366</sub>
+- **§468** — THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERAND ORDER  <sub>L35390</sub>
+- **§477** — ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77)  <sub>L35723</sub>
+- **§481** — ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S77, `main:func_8001FC08`, 400 ins)  <sub>L35911</sub>
+- **§487** — ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WALL" BAND IS LIBPAD 4.2.1 (P31 S78)  <sub>L36160</sub>
+- **§495** — ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT WAS THE ASSEMBLY, AND A GATE THAT DROPPED A BANK ON EXIT 0  <sub>L36630</sub>
 
 ### jump tables & switches  (72)
 
@@ -807,49 +807,49 @@
 - **§161** — THE RETRY-WAVE HARVEST: a jump table indexed from zero, and two allocator traps (P30 S47)  <sub>L11007</sub>
 - **§179-F** — PINNING A LOOP-WALKED POINTER IS A TOTAL OFF-SWITCH FOR STRENGTH REDUCTION  <sub>L17577</sub>
 - **§188** — 🔴 THE `jr $ra` + `addiu $sp` TAIL IS AN **ASSEMBLER** ARTIFACT, NOT A FRAME SHAPE  <sub>L18221</sub>
-- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20905</sub>
-- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21078</sub>
-- **§206** — THE JTBL-CARVE DRAFTING IDIOM: the bounds check is the entry count, and an EMPTY case owns a slot (P31 S56)  <sub>L22157</sub>
-- **§222** — SWITCH vs IF-CHAIN, PART 3: source arm order IS emission order, a leading EMPTY case buys the median split, and a 2-way dispatch with a shared post-block is a `switch` (P31 S58)  <sub>L22839</sub>
-- **§232** — WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23225</sub>
-- **§256** — GOTOS IN THE TARGET'S BLOCK ORDER REPRODUCE SWITCH PLACEMENT WITHOUT SWITCH'S SIDE EFFECTS (P31 S58b)  <sub>L24118</sub>
-- **§222** — addendum (P31 S58b) — IF-CHAIN vs SWITCH: THREE MORE DISCRIMINATORS  <sub>L24522</sub>
-- **§260-A** — STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day)  <sub>L24817</sub>
-- **ADDENDUM** — to §8 — WHEN `INCLUDE_RODATA` NEEDS A STANDALONE `.s` YOU CAN'T CREATE, CARRY THE FRAGMENT AS A FILE-SCOPE `__asm__` BLOB  <sub>L26226</sub>
-- **ADDENDUM** — §NNN — sharpens §55a / §164-37 / §165-28 (switch-vs-tree cluster): A SHAPE THAT LOOKS LIKE A SWITCH DISPATCH CAN BE PLAIN NESTED `if`s WHOSE SHARED BODY WAS TRIPLICATED BY THE SOURCE AND THEN CROSS-JUMP-MERGED BACK DOWN  <sub>L28227</sub>
-- **ADDENDUM** — §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED HALFWORD IS A SIGNED-TEMP WIDTH TELL OUTSIDE ANY SWITCH/RANGE-TEST CONTEXT  <sub>L28297</sub>
-- **§295** — THE KERNEL-TRAP STUB: §81's jr-DETECTOR WITHOUT A TABLE IS A PsyQ SYSCALL TRAMPOLINE — ROUTE TO §265, NEVER INTO THE CARVE CHAIN (P31 S61; wave m0a, 9 cards byte-proven; resolves §182's held cluster)  <sub>L29405</sub>
-- **§298** — THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUPLICATED STATEMENTS, NOT A HOISTED POST-SWITCH STATEMENT (P31 S61; waves g0e/g0f, `func_80181B68`, ov_SC06_016, byte-proven 68/68)  <sub>L29546</sub>
-- **§302** — A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO DERIVE EACH FROM THE BYTES (P31 S62 T2; five reds healed in one session, 5/5, +39 held banks)  <sub>L29723</sub>
-- **§304** — SELF-DEFINING RODATA: WHEN A FUNCTION'S `.s` IS THE ONLY OWNER OF THE DATA IT REFERENCES, THE C BODY MUST DEFINE IT (P31 S62 T3; byte-proven md_MAIN_011/func_800D04F4)  <sub>L29803</sub>
-- **§305** — "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE (P31 S62 T3; 28 resolver drafts autopsied 28/28)  <sub>L29826</sub>
-- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30016</sub>
-- **REFUTED** — claim — REFUTED: a block shared across TWO switch statements is ordinary forward cross_jump, not a (func_8001B0D4)  <sub>L30642</sub>
-- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30644</sub>
-- **§322** — A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS FREE: RUN THE REAL PLANNER WHEN THE PLANNER IS PURE (P31 S67; measured, 96 of 159 open jtbl functions)  <sub>L30870</sub>
-- **§338** — `jtbl_carve._sltiu_bounds` MISREADS A NON-SWITCH `sltiu` AS A BOUNDS CHECK, OVER-SPANNING THE TABLE (P31 S67; ov_SC06_022/func_80185B80, byte-diagnosed)  <sub>L31175</sub>
-- **§339** — A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE `beq`s IS A **COUNT TELL** FOR A THIRD CASE NODE (P31 S67; byte-proven ov_SC02_005/func_80190538, 197 ins)  <sub>L31185</sub>
-- **§362** — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)  <sub>L31686</sub>
-- **§371** — ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP THAT FOLLOWS (P31 S68; byte-proven md_MAIN_003, func_800D0D6C 345 ins)  <sub>L31894</sub>
-- **§384** — ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE BANK (P31 S69; measured twice, cost one destroyed match)  <sub>L32263</sub>
-- **§387** — ★★ — **SPLIT-FOLD DISPATCH CLOBBER**: one switch case needs a reload, another must keep the fold (P31 S69; byte-proven main/func_80030F80, 343 ins, escalation 3 → 0)  <sub>L32365</sub>
-- **§322b** — ★★★ — THE CARVE CLASS IS COMPLETABLE, AND EVERY WORKTREE `CARVE-REFUSED` WAS AN INSTRUMENT VERDICT (P31 S69, Fable-3 audit; byte-proven end-to-end)  <sub>L32671</sub>
-- **§3-A.** — THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A)  <sub>L33102</sub>
-- **§412** — ★★★ — §323 CARVE BLOCKER 2 WAS A REGEX THAT COULD NOT SEE PAST `__attribute__` (P31 S71)  <sub>L33428</sub>
-- **§426** — ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING SINCE PHASE 7 (P31 S72; 3 of the 11 "PROVEN gate-rejects" banked byte-identical in 14 s)  <sub>L33859</sub>
-- **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33958</sub>
-- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34126</sub>
-- **§433** — ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)  <sub>L34189</sub>
-- **§435** — ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", NOT "IS IT ZERO" (P31 S74; four overlays split, all byte-identical, CARVE-BLOCKED class emptied fleet-wide)  <sub>L34311</sub>
-- **§437** — ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)  <sub>L34425</sub>
-- **§440** — ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTEAD OF ISOLATING (P31 S74; 6 banked, resident included)  <sub>L34580</sub>
-- **§444** — ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WAS WRONG (P31 S75)  <sub>L34733</sub>
-- **§446** — ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)  <sub>L34811</sub>
-- **§447** — ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)  <sub>L34858</sub>
-- **§3-B.** — A SINGLE-SET LOCAL'S VALUE IS VISIBLE AT A SWITCH JOIN, AND THAT ERASES A ZERO-EXTENSION (CONFIRMED: `ov_SC03_105:func_801806F8`, 241 ins, banked from closeness 235)  <sub>L34979</sub>
-- **§3-D.** — AN OFFLINE JTBL-RODATA PLACEMENT AUDIT (CLAIMED: `md_MAIN_034:func_800CB00C` — did NOT bank, and that is the point)  <sub>L35012</sub>
-- **§491** — ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLONE — AND THREE TOOL GAPS THE BANKS EXPOSED  <sub>L36350</sub>
-- **§498** — ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT'S EXIT CODE: HOW A BYTE-CORRECT DRAFT WAS BOOKED "DIFF" (P32 T1a; resident `func_800D128C` BANKED 243 ins after two instrument fixes)  <sub>L36722</sub>
+- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20911</sub>
+- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21084</sub>
+- **§206** — THE JTBL-CARVE DRAFTING IDIOM: the bounds check is the entry count, and an EMPTY case owns a slot (P31 S56)  <sub>L22163</sub>
+- **§222** — SWITCH vs IF-CHAIN, PART 3: source arm order IS emission order, a leading EMPTY case buys the median split, and a 2-way dispatch with a shared post-block is a `switch` (P31 S58)  <sub>L22845</sub>
+- **§232** — WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23231</sub>
+- **§256** — GOTOS IN THE TARGET'S BLOCK ORDER REPRODUCE SWITCH PLACEMENT WITHOUT SWITCH'S SIDE EFFECTS (P31 S58b)  <sub>L24124</sub>
+- **§222** — addendum (P31 S58b) — IF-CHAIN vs SWITCH: THREE MORE DISCRIMINATORS  <sub>L24528</sub>
+- **§260-A** — STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day)  <sub>L24823</sub>
+- **ADDENDUM** — to §8 — WHEN `INCLUDE_RODATA` NEEDS A STANDALONE `.s` YOU CAN'T CREATE, CARRY THE FRAGMENT AS A FILE-SCOPE `__asm__` BLOB  <sub>L26232</sub>
+- **ADDENDUM** — §NNN — sharpens §55a / §164-37 / §165-28 (switch-vs-tree cluster): A SHAPE THAT LOOKS LIKE A SWITCH DISPATCH CAN BE PLAIN NESTED `if`s WHOSE SHARED BODY WAS TRIPLICATED BY THE SOURCE AND THEN CROSS-JUMP-MERGED BACK DOWN  <sub>L28233</sub>
+- **ADDENDUM** — §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED HALFWORD IS A SIGNED-TEMP WIDTH TELL OUTSIDE ANY SWITCH/RANGE-TEST CONTEXT  <sub>L28303</sub>
+- **§295** — THE KERNEL-TRAP STUB: §81's jr-DETECTOR WITHOUT A TABLE IS A PsyQ SYSCALL TRAMPOLINE — ROUTE TO §265, NEVER INTO THE CARVE CHAIN (P31 S61; wave m0a, 9 cards byte-proven; resolves §182's held cluster)  <sub>L29411</sub>
+- **§298** — THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUPLICATED STATEMENTS, NOT A HOISTED POST-SWITCH STATEMENT (P31 S61; waves g0e/g0f, `func_80181B68`, ov_SC06_016, byte-proven 68/68)  <sub>L29552</sub>
+- **§302** — A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO DERIVE EACH FROM THE BYTES (P31 S62 T2; five reds healed in one session, 5/5, +39 held banks)  <sub>L29729</sub>
+- **§304** — SELF-DEFINING RODATA: WHEN A FUNCTION'S `.s` IS THE ONLY OWNER OF THE DATA IT REFERENCES, THE C BODY MUST DEFINE IT (P31 S62 T3; byte-proven md_MAIN_011/func_800D04F4)  <sub>L29809</sub>
+- **§305** — "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE (P31 S62 T3; 28 resolver drafts autopsied 28/28)  <sub>L29832</sub>
+- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30022</sub>
+- **REFUTED** — claim — REFUTED: a block shared across TWO switch statements is ordinary forward cross_jump, not a (func_8001B0D4)  <sub>L30648</sub>
+- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30650</sub>
+- **§322** — A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS FREE: RUN THE REAL PLANNER WHEN THE PLANNER IS PURE (P31 S67; measured, 96 of 159 open jtbl functions)  <sub>L30876</sub>
+- **§338** — `jtbl_carve._sltiu_bounds` MISREADS A NON-SWITCH `sltiu` AS A BOUNDS CHECK, OVER-SPANNING THE TABLE (P31 S67; ov_SC06_022/func_80185B80, byte-diagnosed)  <sub>L31181</sub>
+- **§339** — A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE `beq`s IS A **COUNT TELL** FOR A THIRD CASE NODE (P31 S67; byte-proven ov_SC02_005/func_80190538, 197 ins)  <sub>L31191</sub>
+- **§362** — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)  <sub>L31692</sub>
+- **§371** — ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP THAT FOLLOWS (P31 S68; byte-proven md_MAIN_003, func_800D0D6C 345 ins)  <sub>L31900</sub>
+- **§384** — ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE BANK (P31 S69; measured twice, cost one destroyed match)  <sub>L32269</sub>
+- **§387** — ★★ — **SPLIT-FOLD DISPATCH CLOBBER**: one switch case needs a reload, another must keep the fold (P31 S69; byte-proven main/func_80030F80, 343 ins, escalation 3 → 0)  <sub>L32371</sub>
+- **§322b** — ★★★ — THE CARVE CLASS IS COMPLETABLE, AND EVERY WORKTREE `CARVE-REFUSED` WAS AN INSTRUMENT VERDICT (P31 S69, Fable-3 audit; byte-proven end-to-end)  <sub>L32677</sub>
+- **§3-A.** — THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A)  <sub>L33108</sub>
+- **§412** — ★★★ — §323 CARVE BLOCKER 2 WAS A REGEX THAT COULD NOT SEE PAST `__attribute__` (P31 S71)  <sub>L33434</sub>
+- **§426** — ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING SINCE PHASE 7 (P31 S72; 3 of the 11 "PROVEN gate-rejects" banked byte-identical in 14 s)  <sub>L33865</sub>
+- **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33964</sub>
+- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34132</sub>
+- **§433** — ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)  <sub>L34195</sub>
+- **§435** — ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", NOT "IS IT ZERO" (P31 S74; four overlays split, all byte-identical, CARVE-BLOCKED class emptied fleet-wide)  <sub>L34317</sub>
+- **§437** — ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)  <sub>L34431</sub>
+- **§440** — ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTEAD OF ISOLATING (P31 S74; 6 banked, resident included)  <sub>L34586</sub>
+- **§444** — ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WAS WRONG (P31 S75)  <sub>L34739</sub>
+- **§446** — ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)  <sub>L34817</sub>
+- **§447** — ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)  <sub>L34864</sub>
+- **§3-B.** — A SINGLE-SET LOCAL'S VALUE IS VISIBLE AT A SWITCH JOIN, AND THAT ERASES A ZERO-EXTENSION (CONFIRMED: `ov_SC03_105:func_801806F8`, 241 ins, banked from closeness 235)  <sub>L34985</sub>
+- **§3-D.** — AN OFFLINE JTBL-RODATA PLACEMENT AUDIT (CLAIMED: `md_MAIN_034:func_800CB00C` — did NOT bank, and that is the point)  <sub>L35018</sub>
+- **§491** — ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLONE — AND THREE TOOL GAPS THE BANKS EXPOSED  <sub>L36356</sub>
+- **§498** — ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT'S EXIT CODE: HOW A BYTE-CORRECT DRAFT WAS BOOKED "DIFF" (P32 T1a; resident `func_800D128C` BANKED 243 ins after two instrument fixes)  <sub>L36728</sub>
 
 ### optimisation level (-O0/-O2)  (26)
 
@@ -866,19 +866,19 @@
 - **§127a** — §71 (sibling-first) is the strongest `-O0` lever, and it beats the index  <sub>L8415</sub>
 - **§132** — The `JR-PAIR-IN-ONE-O0-OBJECT` "wall" was TWO instrument defects: a merged-double span the carve could not see, and a truncated object no rule deleted (P30 S29, `func_8013B83C` + `func_8013BD74`)  <sub>L8608</sub>
 - **§195-K** — At -O2 the §18 array-of-struct lever is a FRAME lever, not a length lever — but only when the N reads carry DISTINCT index expressions; with a SHARED index §18's +2-instruction residual is still alive at -O2 (the submitted "memory-loaded narrow index" precondition and unconditional length-neutrality are both falsified)  <sub>L20311</sub>
-- **§261** — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)  <sub>L24853</sub>
-- **§261a** — THE -O0 FRAME-RELOAD GRAMMAR: reload COUNT disambiguates the C spelling (P31 S59, byte-proven)  <sub>L24879</sub>
-- **§265** — THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BODY (P31 S59b; two banked cards, two in-tree precedents)  <sub>L25022</sub>
-- **ADDENDUM** — to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the index being constant  <sub>L29174</sub>
-- **ADDENDUM** — to §261a — FOUR MORE -O0 DIALS BEYOND THE RELOAD COUNT (boot.c + md_MAIN_011/003, wave m0a/g0a/g0f, byte-proven)  <sub>L29202</sub>
-- **Addendum** — Addendum to §261a — the -O0 increment-operator copy also fires on the POINTER LOCAL itself (func_8001212C)  <sub>L30477</sub>
-- **Addendum** — Addendum to §164-XX/§165-06 — at -O0 a bare local IS a memory lvalue, so the increment ope (func_8001212C)  <sub>L30481</sub>
-- **§362** — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)  <sub>L31686</sub>
-- **§388** — ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 S69; main/func_80011380 proved a C-level WALL at 6)  <sub>L32388</sub>
-- **§466** — `main` (509 ins, -O0): ADDRESS CONTEXT EMITS `mult` INDEX-FIRST  <sub>L35314</sub>
-- **§474** — A *PROVED* C-LEVEL FLOOR: `split_tree` + `stupid.c` (-O0), from `main:func_80011380`  <sub>L35548</sub>
-- **§486** — ★★★ — CARVING AN `-O0` ISLAND IN **main**: FIVE COUPLED PIECES, AND THE TWO THAT ANNOUNCE THEMSELVES (P31 S77)  <sub>L36109</sub>
-- **§492** — ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS  <sub>L36396</sub>
+- **§261** — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)  <sub>L24859</sub>
+- **§261a** — THE -O0 FRAME-RELOAD GRAMMAR: reload COUNT disambiguates the C spelling (P31 S59, byte-proven)  <sub>L24885</sub>
+- **§265** — THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BODY (P31 S59b; two banked cards, two in-tree precedents)  <sub>L25028</sub>
+- **ADDENDUM** — to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the index being constant  <sub>L29180</sub>
+- **ADDENDUM** — to §261a — FOUR MORE -O0 DIALS BEYOND THE RELOAD COUNT (boot.c + md_MAIN_011/003, wave m0a/g0a/g0f, byte-proven)  <sub>L29208</sub>
+- **Addendum** — Addendum to §261a — the -O0 increment-operator copy also fires on the POINTER LOCAL itself (func_8001212C)  <sub>L30483</sub>
+- **Addendum** — Addendum to §164-XX/§165-06 — at -O0 a bare local IS a memory lvalue, so the increment ope (func_8001212C)  <sub>L30487</sub>
+- **§362** — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)  <sub>L31692</sub>
+- **§388** — ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 S69; main/func_80011380 proved a C-level WALL at 6)  <sub>L32394</sub>
+- **§466** — `main` (509 ins, -O0): ADDRESS CONTEXT EMITS `mult` INDEX-FIRST  <sub>L35320</sub>
+- **§474** — A *PROVED* C-LEVEL FLOOR: `split_tree` + `stupid.c` (-O0), from `main:func_80011380`  <sub>L35554</sub>
+- **§486** — ★★★ — CARVING AN `-O0` ISLAND IN **main**: FIVE COUPLED PIECES, AND THE TWO THAT ANNOUNCE THEMSELVES (P31 S77)  <sub>L36115</sub>
+- **§492** — ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS  <sub>L36402</sub>
 
 ### family propagation & sweeps  (123)
 
@@ -972,39 +972,39 @@
 - **§193-E** — A varying-address (pointer) load is re-emitted once per CSE-LIVE INTERVAL, and naming it in a C local is the only C-level lever over that count — no store SPELLING has any reach  <sub>L18697</sub>
 - **§194-E** — The wave card's `exemplar` is the TARGET ITSELF on 42/73 wave-U and 36/71 wave-T cards — a construction consequence of `atlas.py:657` (exemplar = max-nins OPEN member) meeting `build_wave_atlas.py:166` (one card per gid); and the shipped §193-A `seed_ref` is same-binary on 0/51, so no card field can ever name a destination-TU sibling  <sub>L19203</sub>
 - **§195-E** — A 0/1 materialised at a JOIN immediately before the controlling `beqz`/`bnez` proves the source NAMED the condition — a truth expression in an `if`'s controlling position reaches `do_jump`, which has no value path  <sub>L19997</sub>
-- **§199-B** — A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent pins as "obviously load-bearing" is the one carrying the signal, and the partial sweep returns a FLAT residual that reads as proof of order-invariance  <sub>L20812</sub>
-- **§203** — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)  <sub>L21531</sub>
-- **§225** — THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58)  <sub>L22979</sub>
-- **§30** — addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-ONE  <sub>L24203</sub>
-- **§3-1a.** — The §266 sweep — every solo-lever A/B run for this batch  <sub>L25530</sub>
-- **ADDENDUM** — to §179-D (GTE macro reference family) — `gte_SetRotMatrix`/`gte_SetTransMatrix` bodies  <sub>L25721</sub>
-- **ADDENDUM** — to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save  <sub>L25747</sub>
-- **ADDENDUM** — to §136d-1 (RC-12, the `$0`-add / opaque-copy family) — two symptoms beyond "compare reads the wrong register"  <sub>L25785</sub>
-- **§282** — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)  <sub>L27040</sub>
-- **ADDENDUM** — to the zero-byte-asm-slider family (§47 / §148-C / §153) (func_800CB874, md_MAIN_040 — wave dj; open tension with a more cautious dm-wave card — see closing)  <sub>L27959</sub>
-- **ADDENDUM** — the zero-emission-asm family gains a REF-SLIDER PLACEMENT LAW and a paired RESTORER (func_800CB900, md_MAIN_026)  <sub>L28169</sub>
-- **ADDENDUM** — §NNN — sharpens §37/§124 (unspecified-parameter-list family): DERIVE A CALLEE'S ARITY LOWER BOUND FROM ITS OWN `.s` STACK-ARGUMENT READS, NOT FROM ANY SINGLE CALL SITE  <sub>L28330</sub>
-- **ADDENDUM** — to §199-F family (func_8017EFB0, ov_SC02_021, wave cu)  <sub>L28482</sub>
-- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29090</sub>
-- **ADDENDUM** — to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the index being constant  <sub>L29174</sub>
-- **§296** — THE FRAME CHECK OUTRANKS THE ATLAS LEVER: READ PROLOGUE/EPILOGUE BEFORE DRAFTING ANY C — A REAL TELL CAN LIVE INSIDE AN UNREACHABLE FRAGMENT (P31 S61; wave m0a, 16 cards byte-proven; extends §179-C)  <sub>L29460</sub>
-- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29503</sub>
-- **§307** — THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHEDULER-INTERNAL, AND NO SOURCE ORDER REACHES IT (P31 S63; byte-evidenced NEGATIVE result, main wave)  <sub>L29943</sub>
-- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30016</sub>
-- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30245</sub>
-- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30644</sub>
-- **§323** — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)  <sub>L30900</sub>
-- **§341** — AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S67; byte-proven ov_SC03_006/func_801823B8, last 4 ins)  <sub>L31247</sub>
-- **§355** — A REMAPPED SIBLING'S **SOURCE BIAS IS NOT ITS EMITTED BIAS** — DO NOT HAND-SHIFT OFFSETS TO MATCH THE ASM (P31 S68; byte-proven ov_SC07_007/func_8013DD68, 187/187 in 2 iterations)  <sub>L31564</sub>
-- **§368** — ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)  <sub>L31796</sub>
-- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32168</sub>
-- **§396** — ★★★ — SIX LEVERS FROM THE S69 SINGLETON ROUND, INCLUDING ONE THAT ONLY A `COND_EXPR` REACHES (P31 S69)  <sub>L32741</sub>
-- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32839</sub>
-- **§3-B.** — THE SCHEDULER DIALS (the dominant residual family this wave)  <sub>L33112</sub>
-- **§408** — ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P31 S71; 0 MATCH / 14 applied, 0 / 210)  <sub>L33213</sub>
-- **§420** — ★★★ — A MULTI-CLUSTER SYMBOL REBASE, AND THE BARE-NAME DEDUP THAT HID THREE QUARTERS OF IT (P31 S71; 4 banked in 57 s)  <sub>L33696</sub>
-- **§421** — ★★★ — A `la $tN` + `addiu` PAIR CAN BE A **RELOAD** ARTIFACT THAT NO C SPELLING REACHES (P31 S71; byte-proven `md_SC07_003/func_801A293C`, 313 ins, 6 → 0)  <sub>L33733</sub>
-- **§446** — ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)  <sub>L34811</sub>
+- **§199-B** — A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent pins as "obviously load-bearing" is the one carrying the signal, and the partial sweep returns a FLAT residual that reads as proof of order-invariance  <sub>L20818</sub>
+- **§203** — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)  <sub>L21537</sub>
+- **§225** — THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58)  <sub>L22985</sub>
+- **§30** — addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-ONE  <sub>L24209</sub>
+- **§3-1a.** — The §266 sweep — every solo-lever A/B run for this batch  <sub>L25536</sub>
+- **ADDENDUM** — to §179-D (GTE macro reference family) — `gte_SetRotMatrix`/`gte_SetTransMatrix` bodies  <sub>L25727</sub>
+- **ADDENDUM** — to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save  <sub>L25753</sub>
+- **ADDENDUM** — to §136d-1 (RC-12, the `$0`-add / opaque-copy family) — two symptoms beyond "compare reads the wrong register"  <sub>L25791</sub>
+- **§282** — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)  <sub>L27046</sub>
+- **ADDENDUM** — to the zero-byte-asm-slider family (§47 / §148-C / §153) (func_800CB874, md_MAIN_040 — wave dj; open tension with a more cautious dm-wave card — see closing)  <sub>L27965</sub>
+- **ADDENDUM** — the zero-emission-asm family gains a REF-SLIDER PLACEMENT LAW and a paired RESTORER (func_800CB900, md_MAIN_026)  <sub>L28175</sub>
+- **ADDENDUM** — §NNN — sharpens §37/§124 (unspecified-parameter-list family): DERIVE A CALLEE'S ARITY LOWER BOUND FROM ITS OWN `.s` STACK-ARGUMENT READS, NOT FROM ANY SINGLE CALL SITE  <sub>L28336</sub>
+- **ADDENDUM** — to §199-F family (func_8017EFB0, ov_SC02_021, wave cu)  <sub>L28488</sub>
+- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29096</sub>
+- **ADDENDUM** — to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the index being constant  <sub>L29180</sub>
+- **§296** — THE FRAME CHECK OUTRANKS THE ATLAS LEVER: READ PROLOGUE/EPILOGUE BEFORE DRAFTING ANY C — A REAL TELL CAN LIVE INSIDE AN UNREACHABLE FRAGMENT (P31 S61; wave m0a, 16 cards byte-proven; extends §179-C)  <sub>L29466</sub>
+- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29509</sub>
+- **§307** — THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHEDULER-INTERNAL, AND NO SOURCE ORDER REACHES IT (P31 S63; byte-evidenced NEGATIVE result, main wave)  <sub>L29949</sub>
+- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30022</sub>
+- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30251</sub>
+- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30650</sub>
+- **§323** — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)  <sub>L30906</sub>
+- **§341** — AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S67; byte-proven ov_SC03_006/func_801823B8, last 4 ins)  <sub>L31253</sub>
+- **§355** — A REMAPPED SIBLING'S **SOURCE BIAS IS NOT ITS EMITTED BIAS** — DO NOT HAND-SHIFT OFFSETS TO MATCH THE ASM (P31 S68; byte-proven ov_SC07_007/func_8013DD68, 187/187 in 2 iterations)  <sub>L31570</sub>
+- **§368** — ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)  <sub>L31802</sub>
+- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32174</sub>
+- **§396** — ★★★ — SIX LEVERS FROM THE S69 SINGLETON ROUND, INCLUDING ONE THAT ONLY A `COND_EXPR` REACHES (P31 S69)  <sub>L32747</sub>
+- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32845</sub>
+- **§3-B.** — THE SCHEDULER DIALS (the dominant residual family this wave)  <sub>L33118</sub>
+- **§408** — ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P31 S71; 0 MATCH / 14 applied, 0 / 210)  <sub>L33219</sub>
+- **§420** — ★★★ — A MULTI-CLUSTER SYMBOL REBASE, AND THE BARE-NAME DEDUP THAT HID THREE QUARTERS OF IT (P31 S71; 4 banked in 57 s)  <sub>L33702</sub>
+- **§421** — ★★★ — A `la $tN` + `addiu` PAIR CAN BE A **RELOAD** ARTIFACT THAT NO C SPELLING REACHES (P31 S71; byte-proven `md_SC07_003/func_801A293C`, 313 ins, 6 → 0)  <sub>L33739</sub>
+- **§446** — ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)  <sub>L34817</sub>
 
 ### integration / TU plumbing  (89)
 
@@ -1053,50 +1053,50 @@
 - **§185** — EDIT THE SIDE THAT IS CHEAP TO VERIFY, AND CHECK A TU RETYPE AT ITS USE SITES  <sub>L18105</sub>
 - **§194-E** — The wave card's `exemplar` is the TARGET ITSELF on 42/73 wave-U and 36/71 wave-T cards — a construction consequence of `atlas.py:657` (exemplar = max-nins OPEN member) meeting `build_wave_atlas.py:166` (one card per gid); and the shipped §193-A `seed_ref` is same-binary on 0/51, so no card field can ever name a destination-TU sibling  <sub>L19203</sub>
 - **§195-J** — GTE / PsyQ op CALL-vs-INLINE is a PER-SITE SOURCE FACT, not a TU style — both forms coexist in one TU (measured in 2 TUs), and the tell is the target's own opcodes (`lwc2`/`sqr`/`swc2` vs `jal`), not the sibling. Costs -8 ins on func_8018505C. Corollary: the game's inline `sqr` macro emits TWO hazard nops, the SDK's `Square0` body emits ONE — so the inline form is provably not `Square0` inlined (a second instance of §187's SDK-vs-game GTE nop divergence).  <sub>L20267</sub>
-- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20905</sub>
-- **§200** — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P31 S55)  <sub>L21144</sub>
-- **§201-A** — §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definition" is usually another overlay's function, and the card ranks it ABOVE the destination TU  <sub>L21203</sub>
-- **§203** — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)  <sub>L21531</sub>
-- **§210** — THE SINGLE-BIT MASK IN A BOOLEAN TAIL: `andi K ; sltu $zero,v` vs `srl n ; andi 1` is a STATEMENT-SHAPE dial, not an operator choice (P31 S58)  <sub>L22373</sub>
-- **ADD-2** — → §42a addendum — A SHARED CONSTANT *NAMED IN A LOCAL* ACROSS A `jal` IS AN ISO→TU DRIFT HAZARD; WRITE BARE LITERALS  <sub>L25141</sub>
-- **ADD-3** — → §236, item 10 — THE UN-DELETED `INCLUDE_ASM` STUB IS A DUPLICATE DEFINITION  <sub>L25153</sub>
-- **ADD-2** — → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE  <sub>L25371</sub>
-- **§273** — A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59)  <sub>L25623</sub>
-- **ADDENDUM** — to §134 — a typedef defined BELOW the splice point is stripped anyway  <sub>L25691</sub>
-- **ADDENDUM** — to §8 — WHEN `INCLUDE_RODATA` NEEDS A STANDALONE `.s` YOU CAN'T CREATE, CARRY THE FRAGMENT AS A FILE-SCOPE `__asm__` BLOB  <sub>L26226</sub>
-- **§280** — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)  <sub>L26960</sub>
-- **§NNN** — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)  <sub>L26961</sub>
-- **ADDENDUM** — to §199-G — A `default:` LABEL GROUPED ONTO THE LAST CASE REMOVES THE `j default` TAIL, EVEN THOUGH THE 2-NODE HEADER STAYS ALL-POSITIVE  <sub>L27415</sub>
-- **§301** — AN INTERNAL `j` CARRIES `R_MIPS_26 .text`: rtu/match_one "MATCH" COULD NOT SEE WHICH LABEL A `j` TAKES — FIXED (`jrel`), AND THE TWO DRAFT SHAPES IT HID (P31 S62 T1; byte-proven 2/2, negative-controlled over 3,297 stubs)  <sub>L29675</sub>
-- **Addendum** — Reversed-operand sltu then xori 1 means unsigned less-or-equal (func_8017D948)  <sub>L30509</sub>
-- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30595</sub>
-- **§320** — THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 S66; byte-proven func_800CCBC0, func_800D30D0, func_800D2A24)  <sub>L30790</sub>
-- **§323** — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)  <sub>L30900</sub>
-- **§324** — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)  <sub>L30953</sub>
-- **§337** — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)  <sub>L31161</sub>
-- **§356** — MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured over 47 stored drafts)  <sub>L31578</sub>
-- **§362** — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)  <sub>L31686</sub>
-- **§367** — RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main)  <sub>L31781</sub>
-- **§376** — ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT THE **TU** (P31 S69; measured 0/28)  <sub>L32059</sub>
-- **§378** — ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE (P31 S69; byte-proven ov_SC04_010/func_8017D6CC)  <sub>L32118</sub>
-- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32313</sub>
-- **§378c** — ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S69)  <sub>L32726</sub>
-- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32839</sub>
-- **§3-D.** — INTEGRATION IS STILL THE BOTTLENECK, AND THE TU IS THE AUTHORITY  <sub>L33144</sub>
-- **§415** — ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT (P31 S71; byte-proven `ov_SC04_011/func_80180B24`, 215 ins)  <sub>L33551</sub>
-- **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33784</sub>
-- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34126</sub>
-- **§435** — ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", NOT "IS IT ZERO" (P31 S74; four overlays split, all byte-identical, CARVE-BLOCKED class emptied fleet-wide)  <sub>L34311</sub>
-- **§437** — ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)  <sub>L34425</sub>
-- **§440** — ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTEAD OF ISOLATING (P31 S74; 6 banked, resident included)  <sub>L34580</sub>
-- **§442** — ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LIKE A CODEGEN WALL (P31 S75; `reconcile_tu`, 344 ins unblocked)  <sub>L34651</sub>
-- **§477** — ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77)  <sub>L35717</sub>
-- **§492** — ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS  <sub>L36396</sub>
-- **§493** — ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER AND THE MAIN GATE (P31 S79 #8)  <sub>L36424</sub>
-- **§494** — ★★★ — TEN BANKS FROM ONE-AGENT-PER-FUNCTION DRAFTING (P31 S79/S80 #9): THE IDIOMS, THE PLUMBING, AND THE THREE WAYS AN AGENT'S "MATCH" WAS NOT ONE  <sub>L36484</sub>
-- **§496** — ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TYPEDEF (P32 T1a; byte-proven, resident `func_800D128C` isolation)  <sub>L36665</sub>
-- **§453** — ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DEFECTS THAT SHAPED IT (P35 S94–S96)  <sub>L37555</sub>
-- **§457** — The lever-removal move catalog, S105: eight TU batches, 42 of 42 at 0 (Phase 36 T7)  <sub>L37808</sub>
+- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20911</sub>
+- **§200** — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P31 S55)  <sub>L21150</sub>
+- **§201-A** — §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definition" is usually another overlay's function, and the card ranks it ABOVE the destination TU  <sub>L21209</sub>
+- **§203** — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)  <sub>L21537</sub>
+- **§210** — THE SINGLE-BIT MASK IN A BOOLEAN TAIL: `andi K ; sltu $zero,v` vs `srl n ; andi 1` is a STATEMENT-SHAPE dial, not an operator choice (P31 S58)  <sub>L22379</sub>
+- **ADD-2** — → §42a addendum — A SHARED CONSTANT *NAMED IN A LOCAL* ACROSS A `jal` IS AN ISO→TU DRIFT HAZARD; WRITE BARE LITERALS  <sub>L25147</sub>
+- **ADD-3** — → §236, item 10 — THE UN-DELETED `INCLUDE_ASM` STUB IS A DUPLICATE DEFINITION  <sub>L25159</sub>
+- **ADD-2** — → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE  <sub>L25377</sub>
+- **§273** — A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59)  <sub>L25629</sub>
+- **ADDENDUM** — to §134 — a typedef defined BELOW the splice point is stripped anyway  <sub>L25697</sub>
+- **ADDENDUM** — to §8 — WHEN `INCLUDE_RODATA` NEEDS A STANDALONE `.s` YOU CAN'T CREATE, CARRY THE FRAGMENT AS A FILE-SCOPE `__asm__` BLOB  <sub>L26232</sub>
+- **§280** — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)  <sub>L26966</sub>
+- **§NNN** — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)  <sub>L26967</sub>
+- **ADDENDUM** — to §199-G — A `default:` LABEL GROUPED ONTO THE LAST CASE REMOVES THE `j default` TAIL, EVEN THOUGH THE 2-NODE HEADER STAYS ALL-POSITIVE  <sub>L27421</sub>
+- **§301** — AN INTERNAL `j` CARRIES `R_MIPS_26 .text`: rtu/match_one "MATCH" COULD NOT SEE WHICH LABEL A `j` TAKES — FIXED (`jrel`), AND THE TWO DRAFT SHAPES IT HID (P31 S62 T1; byte-proven 2/2, negative-controlled over 3,297 stubs)  <sub>L29681</sub>
+- **Addendum** — Reversed-operand sltu then xori 1 means unsigned less-or-equal (func_8017D948)  <sub>L30515</sub>
+- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30601</sub>
+- **§320** — THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 S66; byte-proven func_800CCBC0, func_800D30D0, func_800D2A24)  <sub>L30796</sub>
+- **§323** — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)  <sub>L30906</sub>
+- **§324** — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)  <sub>L30959</sub>
+- **§337** — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)  <sub>L31167</sub>
+- **§356** — MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured over 47 stored drafts)  <sub>L31584</sub>
+- **§362** — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)  <sub>L31692</sub>
+- **§367** — RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main)  <sub>L31787</sub>
+- **§376** — ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT THE **TU** (P31 S69; measured 0/28)  <sub>L32065</sub>
+- **§378** — ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE (P31 S69; byte-proven ov_SC04_010/func_8017D6CC)  <sub>L32124</sub>
+- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32319</sub>
+- **§378c** — ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S69)  <sub>L32732</sub>
+- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32845</sub>
+- **§3-D.** — INTEGRATION IS STILL THE BOTTLENECK, AND THE TU IS THE AUTHORITY  <sub>L33150</sub>
+- **§415** — ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT (P31 S71; byte-proven `ov_SC04_011/func_80180B24`, 215 ins)  <sub>L33557</sub>
+- **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33790</sub>
+- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34132</sub>
+- **§435** — ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", NOT "IS IT ZERO" (P31 S74; four overlays split, all byte-identical, CARVE-BLOCKED class emptied fleet-wide)  <sub>L34317</sub>
+- **§437** — ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)  <sub>L34431</sub>
+- **§440** — ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTEAD OF ISOLATING (P31 S74; 6 banked, resident included)  <sub>L34586</sub>
+- **§442** — ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LIKE A CODEGEN WALL (P31 S75; `reconcile_tu`, 344 ins unblocked)  <sub>L34657</sub>
+- **§477** — ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77)  <sub>L35723</sub>
+- **§492** — ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS  <sub>L36402</sub>
+- **§493** — ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER AND THE MAIN GATE (P31 S79 #8)  <sub>L36430</sub>
+- **§494** — ★★★ — TEN BANKS FROM ONE-AGENT-PER-FUNCTION DRAFTING (P31 S79/S80 #9): THE IDIOMS, THE PLUMBING, AND THE THREE WAYS AN AGENT'S "MATCH" WAS NOT ONE  <sub>L36490</sub>
+- **§496** — ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TYPEDEF (P32 T1a; byte-proven, resident `func_800D128C` isolation)  <sub>L36671</sub>
+- **§453** — ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DEFECTS THAT SHAPED IT (P35 S94–S96)  <sub>L37561</sub>
+- **§457** — The lever-removal move catalog, S105: eight TU batches, 42 of 42 at 0 (Phase 36 T7)  <sub>L37814</sub>
 
 ### build graph, splat & the harness  (219)
 
@@ -1240,85 +1240,85 @@
 - **§195-M** — Frame `vars` is a SEQUENTIAL bump-allocation, not a flat sum: §193-I's CEIL(aggregate,8) term and §165-03/§167-06's 8×orphan term are the SAME frame_offset walk at two different compiler stages, and each stage re-CEILs frame_offset to 8 before it allocates  <sub>L20415</sub>
 - **§195-REJECTED** — what this harvest did NOT bank (recorded so it is not re-derived)  <sub>L20511</sub>
 - **§197** — THE WAVE-W HARVEST (P31 S54): 68 index_gap reports -> 4 laws, 3 rejected, 41 already-covered  <sub>L20612</sub>
-- **§199** — THE WAVE-X HARVEST (P31 S54/S55): 63 index_gap reports -> 7 laws, 2 rejected, 56 already-covered  <sub>L20752</sub>
-- **§199-C** — A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's negate_variant — but whether you ever SEE the neg is decided by COMBINE, and for an EVEN |K| it never disappears  <sub>L20857</sub>
-- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20905</sub>
-- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21078</sub>
-- **§201** — THE WAVE-Y HARVEST (P31 S55): 67 gap reports -> 5 laws, 8 rejected, 53 already-covered  <sub>L21193</sub>
-- **§204** — THE WAVE-Z HARVEST (P31 S56): 82 gap reports -> 5 laws, 16 rejected, 30 already-covered  <sub>L21592</sub>
-- **§207** — THE WAVE ab–ag HARVEST (P31 S58): 278 byte-banked notes → 25 laws, 103 self-reported no-gap  <sub>L22226</sub>
-- **§233** — THE WAVE aa–bg HARVEST (P31 S58b): 1,101 byte-banked notes → 24 new laws, 21 addenda, ~700 already-covered  <sub>L23317</sub>
-- **§236** — THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS THE GATE (P31 S58b)  <sub>L23431</sub>
-- **§247** — TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b)  <sub>L23877</sub>
-- **§254** — THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24071</sub>
-- **§259** — THE DISCARD LEDGER FOR THE aa–bg HARVEST (P31 S58b): WHAT WAS MINED AND REJECTED, AND WHY  <sub>L24728</sub>
-- **§260-A** — STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day)  <sub>L24817</sub>
-- **§261** — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)  <sub>L24853</sub>
-- **§267** — ADDENDA HARVESTED FROM WAVES at/bh/bk/bl (P31 S59b)  <sub>L25124</sub>
-- **ADD-9** — → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED SCALAR NEIGHBOR IS DEAD-STORED  <sub>L25219</sub>
-- **§269** — ADDENDA HARVESTED FROM WAVES ax/bm (P31 S59c)  <sub>L25343</sub>
-- **§271** — Ordinal IMM pairing: text order is NOT emission order; emit CANDIDATES, let the oracle pick (P31 S59)  <sub>L25581</sub>
-- **§273** — A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59)  <sub>L25623</sub>
-- **§274** — ADDENDA HARVESTED FROM 18 WAVES (P31 S60): 315 candidates, 255 already covered, 21 sharpenings, 3 new laws  <sub>L25638</sub>
-- **§278** — ADDENDA HARVESTED FROM WAVE cf (P31 S60): 34 candidates, 13 already covered, 8 sharpenings, 4 new laws  <sub>L26629</sub>
-- **§283** — ADDENDA HARVESTED FROM THE 36-WAVE BATCH (P31 S60): 1,216 candidates, 859 already covered, 46 sharpenings, 9 new laws  <sub>L27125</sub>
-- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29090</sub>
-- **§293** — THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND THE LOAD-BEARING ONE IS "THE BASELINE, NOT THE SIBLINGS" (P31 S61; byte-proven on 15 binaries in one night)  <sub>L29113</sub>
-- **§294** — ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2): 99 candidates, 52 covered, 15 notes → 10 addenda, 29 notes → 5 new laws (§295–§299), 3 refuted  <sub>L29163</sub>
-- **§303** — MODULE ISLAND TABLES: DERIVE THE PADS AT BUILD TIME, PEEL NOTHING — THE §154-A/§260 "island-pads"/"island-blocked" WALLS DISSOLVE (P31 S62 T3a; byte-proven md_SC03_076 func_801F0A9C + func_801F0F28, sha 9a165e36…)  <sub>L29767</sub>
-- **§305** — "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE (P31 S62 T3; 28 resolver drafts autopsied 28/28)  <sub>L29826</sub>
-- **§313** — A RECOVERY STAGE THAT REWRITES THE DRAFT IS PART OF THE MEASUREMENT: GATE THE RAW DRAFT FIRST, THE REWRITE ONLY AS A FALLBACK (P31 S65 t5r-recovery; byte-proven func_8017BEBC, 246 ins)  <sub>L30189</sub>
-- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30245</sub>
-- **§315** — ALL-CONSTANT AGGREGATE FILL: THE EMISSION ORDER IS SHARED-LITERAL GROUPS × DESCENDING INDEX, WITH PAIRED SUB-FIELDS INTERLEAVED (P31 S66; ⚠ **UNPROVEN** — `func_80185214`, gate-REFUSED draft, closeness 32→5, never MATCHed)  <sub>L30277</sub>
-- **§316** — A GUARD CHAIN THAT GATES A SUCCESS BLOCK ROUTES ITS FAILING GUARDS TO A LABEL **BEFORE** THE FLAG TEST, NOT TO THE EPILOGUE: THE RESIDUAL IS IMM-OFFSET-ONLY AT AN EXACTLY EQUAL INSTRUCTION COUNT (P31 S66; byte-proven func_80180284)  <sub>L30314</sub>
-- **§318** — A UNARY MINUS STORED BACK INTO THE SAME HALFWORD IS COMPUTED IN HImode, SO ITS LOAD IS `lhu`; AN INLINE `(s32)` CAST IS PROVABLY INERT AND ONLY A NAMED SImode LOCAL BUYS `lh` (P31 S66; `func_8018568C`, ov_SC03_028 — **`match_one`-only, NOT byte-gated**)  <sub>L30382</sub>
-- **Addendum** — Addendum to §167-12 — the single-operand volatile keepalive, re-confirmed at a gated MATCH (func_8017F498)  <sub>L30489</sub>
-- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30644</sub>
-- **§323a** — R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GREEN (P31 S67)  <sub>L30930</sub>
-- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31028</sub>
-- **§332a** — MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67, measured)  <sub>L31100</sub>
-- **§333** — FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL IS A REAL DIAL (P31 S67; three independent byte-proven instances in one wave)  <sub>L31119</sub>
-- **§337** — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)  <sub>L31161</sub>
-- **§340** — §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be sched.c's ALIAS ORACLE emitting a FALSE true-dependence; source order chooses its DIRECTION (P31 S67; byte-proven ov_SC03_107/func_8017CF48, 10 -> 0 in one compile, zero bytes)  <sub>L31213</sub>
-- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31326</sub>
-- **§353** — USE `-fno-thread-jumps` AS AN **ORACLE** TO PROVE A RESIDUAL IS thread_jumps, THEN LAUNDER THE *VALUE* TO KEEP A DEAD RE-TEST (P31 S67; byte-proven ov_SC01_008/func_8017EC68, 279 ins)  <sub>L31523</sub>
-- **§357** — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)  <sub>L31593</sub>
-- **§358** — (sharpens §333) — AN **UNREFERENCED** FIXED-SIZE AGGREGATE LOCAL IS LOAD-BEARING (P31 S68; same function)  <sub>L31602</sub>
-- **§371** — ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP THAT FOLLOWS (P31 S68; byte-proven md_MAIN_003, func_800D0D6C 345 ins)  <sub>L31894</sub>
-- **§383** — TWO TOOLCHAIN FACTS THE PACKS DID NOT CARRY (P31 S69)  <sub>L32248</sub>
-- **§388** — ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 S69; main/func_80011380 proved a C-level WALL at 6)  <sub>L32388</sub>
-- **§392** — ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH  <sub>L32506</sub>
-- **§332b** — ★★★ — THE §332 "WALLS" ARE A PER-OBJECT ASSEMBLER MODE, NOT A C LIMIT — 6 CLOSE AS REAL C (P31 S69, Fable-3)  <sub>L32706</sub>
-- **§405** — ★★★ — THE S70 WAVE HARVEST: 130 agents, 113 MATCH, and the laws they brought back  <sub>L33096</sub>
-- **§3-A.** — THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A)  <sub>L33102</sub>
-- **§414** — ★★★ — `parallel_gate` ON `main` IS A FALSE PASS, AND THE RULE WAS ALREADY WRITTEN DOWN (P31 S71)  <sub>L33514</sub>
-- **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33784</sub>
-- **§426** — ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING SINCE PHASE 7 (P31 S72; 3 of the 11 "PROVEN gate-rejects" banked byte-identical in 14 s)  <sub>L33859</sub>
-- **§427** — ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFACT BEFORE ANYTHING REBUILDS OVER IT (P31 S72)  <sub>L33939</sub>
-- **§436** — ★★★ — TWO TOOLS THAT READ THE WRONG SOURCE OF TRUTH, AND THE SHAPE THEY SHARE (P31 S74; both fixed + negative-controlled)  <sub>L34368</sub>
-- **§444** — ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WAS WRONG (P31 S75)  <sub>L34733</sub>
-- **§446** — ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)  <sub>L34811</sub>
-- **§447** — ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)  <sub>L34858</sub>
-- **§449** — ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one correction to §439)  <sub>L34945</sub>
-- **ADDENDUM** — to §265 (P31 S76) — THE PROSE GUARD DID NOT HOLD. IT IS A GATE REFUSAL NOW.  <sub>L35141</sub>
-- **CORRECTION** — to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND  <sub>L35186</sub>
-- **§478** — 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT  <sub>L35791</sub>
-- **§483** — ★★★ — THE S77w WAVE HARVEST: SIX LEVERS, FOUR FROM BANKED (BYTE-PROVEN) BODIES  <sub>L35971</sub>
-- **§484** — ★★★ — "NO SINGLE NOLOAD BASE" IS NOT "UNLINKABLE": ASK WHETHER THE `.bss` OFFSETS ARE DISJOINT (P31 S77)  <sub>L36027</sub>
-- **§485** — ★★★ — THE PLACEMENT MAP WAS PARSING A PRETTY-PRINTER: 25 PsyQ OBJECTS WERE INVISIBLE, NOT ABSENT (P31 S77)  <sub>L36073</sub>
-- **§487** — ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WALL" BAND IS LIBPAD 4.2.1 (P31 S78)  <sub>L36154</sub>
-- **§488** — ★★ — THE "GAME CODE" GAPS BETWEEN LIBRARY BLOCKS WERE LIBRARY OBJECTS: 13 SUBSEGS → LINKED, EXACT-TILED, ZERO TOKENS (P31 S78)  <sub>L36206</sub>
-- **§489** — ★★★ — SCATTERED `.bss` IS A PARTITION PROBLEM: SPLIT THE SECTION INTO PER-BASE PIECES AT LINK-PREPARE (P31 S78 #4; closes the §9.1 exclusion class 3/3)  <sub>L36246</sub>
-- **§490** — ★★★ — THE "WALL" BAND WAS A LIBRARY VERSION AWAY: LIBPAD 4.2.1 + LIBAPI 4.2 FOUND, THE WHOLE 0x8005CE18–0x8005FC68 BAND + THE APICARD REGION LINKED FROM REAL OBJECTS (P31 S79 #13/#5)  <sub>L36304</sub>
-- **§491** — ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLONE — AND THREE TOOL GAPS THE BANKS EXPOSED  <sub>L36350</sub>
-- **§492** — ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS  <sub>L36396</sub>
-- **§493** — ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER AND THE MAIN GATE (P31 S79 #8)  <sub>L36424</sub>
-- **§495** — ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT WAS THE ASSEMBLY, AND A GATE THAT DROPPED A BANK ON EXIT 0  <sub>L36624</sub>
-- **§498** — ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT'S EXIT CODE: HOW A BYTE-CORRECT DRAFT WAS BOOKED "DIFF" (P32 T1a; resident `func_800D128C` BANKED 243 ins after two instrument fixes)  <sub>L36722</sub>
-- **§499** — ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)  <sub>L36752</sub>
-- **§500** — ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MATCH / 9 NEAR / 2 FAIL, every closer, two NEW named gcc mechanisms, and the wave-process defects  <sub>L36793</sub>
-- **§453** — ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DEFECTS THAT SHAPED IT (P35 S94–S96)  <sub>L37555</sub>
-- **§455** — Rung G, the guided search: score the object, classify the residual, compose the moves (Phase 36 S101)  <sub>L37686</sub>
+- **§199** — THE WAVE-X HARVEST (P31 S54/S55): 63 index_gap reports -> 7 laws, 2 rejected, 56 already-covered  <sub>L20758</sub>
+- **§199-C** — A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's negate_variant — but whether you ever SEE the neg is decided by COMBINE, and for an EVEN |K| it never disappears  <sub>L20863</sub>
+- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20911</sub>
+- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21084</sub>
+- **§201** — THE WAVE-Y HARVEST (P31 S55): 67 gap reports -> 5 laws, 8 rejected, 53 already-covered  <sub>L21199</sub>
+- **§204** — THE WAVE-Z HARVEST (P31 S56): 82 gap reports -> 5 laws, 16 rejected, 30 already-covered  <sub>L21598</sub>
+- **§207** — THE WAVE ab–ag HARVEST (P31 S58): 278 byte-banked notes → 25 laws, 103 self-reported no-gap  <sub>L22232</sub>
+- **§233** — THE WAVE aa–bg HARVEST (P31 S58b): 1,101 byte-banked notes → 24 new laws, 21 addenda, ~700 already-covered  <sub>L23323</sub>
+- **§236** — THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS THE GATE (P31 S58b)  <sub>L23437</sub>
+- **§247** — TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b)  <sub>L23883</sub>
+- **§254** — THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24077</sub>
+- **§259** — THE DISCARD LEDGER FOR THE aa–bg HARVEST (P31 S58b): WHAT WAS MINED AND REJECTED, AND WHY  <sub>L24734</sub>
+- **§260-A** — STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day)  <sub>L24823</sub>
+- **§261** — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)  <sub>L24859</sub>
+- **§267** — ADDENDA HARVESTED FROM WAVES at/bh/bk/bl (P31 S59b)  <sub>L25130</sub>
+- **ADD-9** — → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED SCALAR NEIGHBOR IS DEAD-STORED  <sub>L25225</sub>
+- **§269** — ADDENDA HARVESTED FROM WAVES ax/bm (P31 S59c)  <sub>L25349</sub>
+- **§271** — Ordinal IMM pairing: text order is NOT emission order; emit CANDIDATES, let the oracle pick (P31 S59)  <sub>L25587</sub>
+- **§273** — A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59)  <sub>L25629</sub>
+- **§274** — ADDENDA HARVESTED FROM 18 WAVES (P31 S60): 315 candidates, 255 already covered, 21 sharpenings, 3 new laws  <sub>L25644</sub>
+- **§278** — ADDENDA HARVESTED FROM WAVE cf (P31 S60): 34 candidates, 13 already covered, 8 sharpenings, 4 new laws  <sub>L26635</sub>
+- **§283** — ADDENDA HARVESTED FROM THE 36-WAVE BATCH (P31 S60): 1,216 candidates, 859 already covered, 46 sharpenings, 9 new laws  <sub>L27131</sub>
+- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29096</sub>
+- **§293** — THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND THE LOAD-BEARING ONE IS "THE BASELINE, NOT THE SIBLINGS" (P31 S61; byte-proven on 15 binaries in one night)  <sub>L29119</sub>
+- **§294** — ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2): 99 candidates, 52 covered, 15 notes → 10 addenda, 29 notes → 5 new laws (§295–§299), 3 refuted  <sub>L29169</sub>
+- **§303** — MODULE ISLAND TABLES: DERIVE THE PADS AT BUILD TIME, PEEL NOTHING — THE §154-A/§260 "island-pads"/"island-blocked" WALLS DISSOLVE (P31 S62 T3a; byte-proven md_SC03_076 func_801F0A9C + func_801F0F28, sha 9a165e36…)  <sub>L29773</sub>
+- **§305** — "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE (P31 S62 T3; 28 resolver drafts autopsied 28/28)  <sub>L29832</sub>
+- **§313** — A RECOVERY STAGE THAT REWRITES THE DRAFT IS PART OF THE MEASUREMENT: GATE THE RAW DRAFT FIRST, THE REWRITE ONLY AS A FALLBACK (P31 S65 t5r-recovery; byte-proven func_8017BEBC, 246 ins)  <sub>L30195</sub>
+- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30251</sub>
+- **§315** — ALL-CONSTANT AGGREGATE FILL: THE EMISSION ORDER IS SHARED-LITERAL GROUPS × DESCENDING INDEX, WITH PAIRED SUB-FIELDS INTERLEAVED (P31 S66; ⚠ **UNPROVEN** — `func_80185214`, gate-REFUSED draft, closeness 32→5, never MATCHed)  <sub>L30283</sub>
+- **§316** — A GUARD CHAIN THAT GATES A SUCCESS BLOCK ROUTES ITS FAILING GUARDS TO A LABEL **BEFORE** THE FLAG TEST, NOT TO THE EPILOGUE: THE RESIDUAL IS IMM-OFFSET-ONLY AT AN EXACTLY EQUAL INSTRUCTION COUNT (P31 S66; byte-proven func_80180284)  <sub>L30320</sub>
+- **§318** — A UNARY MINUS STORED BACK INTO THE SAME HALFWORD IS COMPUTED IN HImode, SO ITS LOAD IS `lhu`; AN INLINE `(s32)` CAST IS PROVABLY INERT AND ONLY A NAMED SImode LOCAL BUYS `lh` (P31 S66; `func_8018568C`, ov_SC03_028 — **`match_one`-only, NOT byte-gated**)  <sub>L30388</sub>
+- **Addendum** — Addendum to §167-12 — the single-operand volatile keepalive, re-confirmed at a gated MATCH (func_8017F498)  <sub>L30495</sub>
+- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30650</sub>
+- **§323a** — R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GREEN (P31 S67)  <sub>L30936</sub>
+- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31034</sub>
+- **§332a** — MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67, measured)  <sub>L31106</sub>
+- **§333** — FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL IS A REAL DIAL (P31 S67; three independent byte-proven instances in one wave)  <sub>L31125</sub>
+- **§337** — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)  <sub>L31167</sub>
+- **§340** — §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be sched.c's ALIAS ORACLE emitting a FALSE true-dependence; source order chooses its DIRECTION (P31 S67; byte-proven ov_SC03_107/func_8017CF48, 10 -> 0 in one compile, zero bytes)  <sub>L31219</sub>
+- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31332</sub>
+- **§353** — USE `-fno-thread-jumps` AS AN **ORACLE** TO PROVE A RESIDUAL IS thread_jumps, THEN LAUNDER THE *VALUE* TO KEEP A DEAD RE-TEST (P31 S67; byte-proven ov_SC01_008/func_8017EC68, 279 ins)  <sub>L31529</sub>
+- **§357** — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)  <sub>L31599</sub>
+- **§358** — (sharpens §333) — AN **UNREFERENCED** FIXED-SIZE AGGREGATE LOCAL IS LOAD-BEARING (P31 S68; same function)  <sub>L31608</sub>
+- **§371** — ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP THAT FOLLOWS (P31 S68; byte-proven md_MAIN_003, func_800D0D6C 345 ins)  <sub>L31900</sub>
+- **§383** — TWO TOOLCHAIN FACTS THE PACKS DID NOT CARRY (P31 S69)  <sub>L32254</sub>
+- **§388** — ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 S69; main/func_80011380 proved a C-level WALL at 6)  <sub>L32394</sub>
+- **§392** — ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH  <sub>L32512</sub>
+- **§332b** — ★★★ — THE §332 "WALLS" ARE A PER-OBJECT ASSEMBLER MODE, NOT A C LIMIT — 6 CLOSE AS REAL C (P31 S69, Fable-3)  <sub>L32712</sub>
+- **§405** — ★★★ — THE S70 WAVE HARVEST: 130 agents, 113 MATCH, and the laws they brought back  <sub>L33102</sub>
+- **§3-A.** — THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A)  <sub>L33108</sub>
+- **§414** — ★★★ — `parallel_gate` ON `main` IS A FALSE PASS, AND THE RULE WAS ALREADY WRITTEN DOWN (P31 S71)  <sub>L33520</sub>
+- **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33790</sub>
+- **§426** — ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING SINCE PHASE 7 (P31 S72; 3 of the 11 "PROVEN gate-rejects" banked byte-identical in 14 s)  <sub>L33865</sub>
+- **§427** — ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFACT BEFORE ANYTHING REBUILDS OVER IT (P31 S72)  <sub>L33945</sub>
+- **§436** — ★★★ — TWO TOOLS THAT READ THE WRONG SOURCE OF TRUTH, AND THE SHAPE THEY SHARE (P31 S74; both fixed + negative-controlled)  <sub>L34374</sub>
+- **§444** — ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WAS WRONG (P31 S75)  <sub>L34739</sub>
+- **§446** — ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)  <sub>L34817</sub>
+- **§447** — ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)  <sub>L34864</sub>
+- **§449** — ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one correction to §439)  <sub>L34951</sub>
+- **ADDENDUM** — to §265 (P31 S76) — THE PROSE GUARD DID NOT HOLD. IT IS A GATE REFUSAL NOW.  <sub>L35147</sub>
+- **CORRECTION** — to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND  <sub>L35192</sub>
+- **§478** — 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT  <sub>L35797</sub>
+- **§483** — ★★★ — THE S77w WAVE HARVEST: SIX LEVERS, FOUR FROM BANKED (BYTE-PROVEN) BODIES  <sub>L35977</sub>
+- **§484** — ★★★ — "NO SINGLE NOLOAD BASE" IS NOT "UNLINKABLE": ASK WHETHER THE `.bss` OFFSETS ARE DISJOINT (P31 S77)  <sub>L36033</sub>
+- **§485** — ★★★ — THE PLACEMENT MAP WAS PARSING A PRETTY-PRINTER: 25 PsyQ OBJECTS WERE INVISIBLE, NOT ABSENT (P31 S77)  <sub>L36079</sub>
+- **§487** — ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WALL" BAND IS LIBPAD 4.2.1 (P31 S78)  <sub>L36160</sub>
+- **§488** — ★★ — THE "GAME CODE" GAPS BETWEEN LIBRARY BLOCKS WERE LIBRARY OBJECTS: 13 SUBSEGS → LINKED, EXACT-TILED, ZERO TOKENS (P31 S78)  <sub>L36212</sub>
+- **§489** — ★★★ — SCATTERED `.bss` IS A PARTITION PROBLEM: SPLIT THE SECTION INTO PER-BASE PIECES AT LINK-PREPARE (P31 S78 #4; closes the §9.1 exclusion class 3/3)  <sub>L36252</sub>
+- **§490** — ★★★ — THE "WALL" BAND WAS A LIBRARY VERSION AWAY: LIBPAD 4.2.1 + LIBAPI 4.2 FOUND, THE WHOLE 0x8005CE18–0x8005FC68 BAND + THE APICARD REGION LINKED FROM REAL OBJECTS (P31 S79 #13/#5)  <sub>L36310</sub>
+- **§491** — ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLONE — AND THREE TOOL GAPS THE BANKS EXPOSED  <sub>L36356</sub>
+- **§492** — ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS  <sub>L36402</sub>
+- **§493** — ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER AND THE MAIN GATE (P31 S79 #8)  <sub>L36430</sub>
+- **§495** — ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT WAS THE ASSEMBLY, AND A GATE THAT DROPPED A BANK ON EXIT 0  <sub>L36630</sub>
+- **§498** — ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT'S EXIT CODE: HOW A BYTE-CORRECT DRAFT WAS BOOKED "DIFF" (P32 T1a; resident `func_800D128C` BANKED 243 ins after two instrument fixes)  <sub>L36728</sub>
+- **§499** — ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)  <sub>L36758</sub>
+- **§500** — ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MATCH / 9 NEAR / 2 FAIL, every closer, two NEW named gcc mechanisms, and the wave-process defects  <sub>L36799</sub>
+- **§453** — ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DEFECTS THAT SHAPED IT (P35 S94–S96)  <sub>L37561</sub>
+- **§455** — Rung G, the guided search: score the object, classify the residual, compose the moves (Phase 36 S101)  <sub>L37692</sub>
 
 ### process, measurement & doctrine  (143)
 
@@ -1410,61 +1410,61 @@
 - **§194-A** — A zero-byte scheduling fence goes AFTER the defining statement to make that computation emit FIRST in its block — and the barrier predicate is `volatile`-or-colon-less, not the `"memory"` clobber (COMPLEMENTS §165-40; does not refute it)  <sub>L18995</sub>
 - **§194-D** — Declared width of a computed-value local is a sched1 dial (count-neutral) — a replication + attribution correction of §165-17, NOT a new argument-register law  <sub>L19162</sub>
 - **§195-J** — GTE / PsyQ op CALL-vs-INLINE is a PER-SITE SOURCE FACT, not a TU style — both forms coexist in one TU (measured in 2 TUs), and the tell is the target's own opcodes (`lwc2`/`sqr`/`swc2` vs `jal`), not the sibling. Costs -8 ins on func_8018505C. Corollary: the game's inline `sqr` macro emits TWO hazard nops, the SDK's `Square0` body emits ONE — so the inline form is provably not `Square0` inlined (a second instance of §187's SDK-vs-game GTE nop divergence).  <sub>L20267</sub>
-- **§201-E** — §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in the printed stream; a foreign store moved between the pair in C source is a real lever, and `volatile` is not always the better one  <sub>L21413</sub>
-- **§230** — THE ANCHOR PROBE: with `%hi`/`%lo` masked, the surviving `addiu` deltas tell you which assignment was written first **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23169</sub>
-- **§257** — THE DEAD-END LEDGER (P31 S58b): ELEVEN LEVERS THAT MEASURED NULL OR BACKFIRED  <sub>L24155</sub>
-- **§194-B** — / §209 addendum (P31 S58b) — TWO MORE INSTANCES, AND THE BOUND IS NOW REFUTED FOUR WAYS  <sub>L24224</sub>
-- **§266** — THE INERT-RIDER LAW: A LEVER IS ONLY CITABLE WHEN ITS SOLO REMOVAL BREAKS THE MATCH (P31 S59b; measured 4-of-8 on this batch)  <sub>L25084</sub>
-- **ADD-4** — → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAME IT **AND** STORE **INSIDE** THE ARM  <sub>L25398</sub>
-- **ADD-9** — → §255 "AND CASE-BODY PLACEMENT" bound / §222-addendum-3 — ON A LARGE SPARSE TREE, BODIES FOLLOW **SOURCE** ORDER (measured by a one-word probe)  <sub>L25475</sub>
-- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26104</sub>
-- **What** — I could not verify  <sub>L27078</sub>
-- **ADDENDUM** — to §164-75 — the fold-reassociation law also fires at a variable's INITIALIZER, not only a later expression  <sub>L27135</sub>
-- **What** — I could not verify  <sub>L27652</sub>
-- **ADDENDUM** — to §153 / §236-5 (func_801A419C, md_SC07_003 — waves di and dl, corroborating; refutes a contradicted dj-wave card)  <sub>L27869</sub>
-- **What** — I could not verify  <sub>L28109</sub>
-- **ADDENDUM** — to §174 Law 4 (func_8017E9A8, ov_SC06_015)  <sub>L28129</sub>
-- **ADDENDUM** — the zero-emission-asm family gains a REF-SLIDER PLACEMENT LAW and a paired RESTORER (func_800CB900, md_MAIN_026)  <sub>L28169</sub>
-- **What** — I could not verify  <sub>L28667</sub>
-- **What** — I could not verify  <sub>L28973</sub>
-- **§293** — THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND THE LOAD-BEARING ONE IS "THE BASELINE, NOT THE SIBLINGS" (P31 S61; byte-proven on 15 binaries in one night)  <sub>L29113</sub>
-- **§294** — ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2): 99 candidates, 52 covered, 15 notes → 10 addenda, 29 notes → 5 new laws (§295–§299), 3 refuted  <sub>L29163</sub>
-- **§313** — A RECOVERY STAGE THAT REWRITES THE DRAFT IS PART OF THE MEASUREMENT: GATE THE RAW DRAFT FIRST, THE REWRITE ONLY AS A FALLBACK (P31 S65 t5r-recovery; byte-proven func_8017BEBC, 246 ins)  <sub>L30189</sub>
-- **REFUTED** — claim — REFUTED — the `j`-slot store is an ASPSX macro-expansion hop, not a cse split; maspsx hard (func_8005DBD8)  <sub>L30593</sub>
-- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30595</sub>
-- **REFUTED** — claim — REFUTED: a block shared across TWO switch statements is ordinary forward cross_jump, not a (func_8001B0D4)  <sub>L30642</sub>
-- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30644</sub>
-- **Addendum** — §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo (func_8017E464)  <sub>L30765</sub>
-- **§322** — A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS FREE: RUN THE REAL PLANNER WHEN THE PLANNER IS PURE (P31 S67; measured, 96 of 159 open jtbl functions)  <sub>L30870</sub>
-- **§323a** — R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GREEN (P31 S67)  <sub>L30930</sub>
-- **§324** — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)  <sub>L30953</sub>
-- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31028</sub>
-- **§332a** — MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67, measured)  <sub>L31100</sub>
-- **§337** — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)  <sub>L31161</sub>
-- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31261</sub>
-- **§343** — `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT JUST THE WINNER (P31 S67; measured on func_8012BD14 / func_8012D624 / func_80143C74)  <sub>L31278</sub>
-- **§352** — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)  <sub>L31490</sub>
-- **§356** — MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured over 47 stored drafts)  <sub>L31578</sub>
-- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31641</sub>
-- **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31842</sub>
-- **§376** — ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT THE **TU** (P31 S69; measured 0/28)  <sub>L32059</sub>
-- **§384** — ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE BANK (P31 S69; measured twice, cost one destroyed match)  <sub>L32263</sub>
-- **§378b** — ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P31 S69, all four measured the same day)  <sub>L32576</sub>
-- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32839</sub>
-- **§3-E.** — WHAT THE AGENTS REFUTED  <sub>L33152</sub>
-- **§408** — ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P31 S71; 0 MATCH / 14 applied, 0 / 210)  <sub>L33213</sub>
-- **§411** — ★★★ — THE PACK MUST CARRY THAT FUNCTION'S OWN HISTORY (P31 S71; measured 38/39 vs 124/131)  <sub>L33390</sub>
-- **§428a** — ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE CAUSE (P31 S72; `main/func_8001B0D4`, NEAR/53 -> MATCH; **my first answer here was WRONG and is kept below as the refutation**)  <sub>L33996</sub>
-- **§430** — ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)  <sub>L34077</sub>
-- **§439** — ★★ — LEVER SET FROM THE S74 WAVE (each entry is one measured crack, not a hypothesis)  <sub>L34559</sub>
-- **§449** — ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one correction to §439)  <sub>L34945</sub>
-- **§3-C.** — CORRECTION TO §439 — `sll 16; srl 16` LANDS *AFTER* THE CALL, AND WORKS FOR A KNOWN CONSTANT  <sub>L34994</sub>
-- **§469** — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)  <sub>L35418</sub>
-- **§473** — 🔴 §265's "HANDWRITTEN" VERDICT FOR `ov_SC07_002:func_8017DC80` IS REFUTED (324 → 89)  <sub>L35523</sub>
-- **§463** — 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED  <sub>L35681</sub>
-- **§479** — ★★★ — WHERE THE PERMUTER ACTUALLY PAYS: A MEASURED YIELD CURVE (P31 S77, 8 candidates)  <sub>L35811</sub>
-- **§501** — ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)  <sub>L37151</sub>
-- **§454a** — the recipe rung's real shape: replication, not discovery (S99, measured)  <sub>L37671</sub>
+- **§201-E** — §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in the printed stream; a foreign store moved between the pair in C source is a real lever, and `volatile` is not always the better one  <sub>L21419</sub>
+- **§230** — THE ANCHOR PROBE: with `%hi`/`%lo` masked, the surviving `addiu` deltas tell you which assignment was written first **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23175</sub>
+- **§257** — THE DEAD-END LEDGER (P31 S58b): ELEVEN LEVERS THAT MEASURED NULL OR BACKFIRED  <sub>L24161</sub>
+- **§194-B** — / §209 addendum (P31 S58b) — TWO MORE INSTANCES, AND THE BOUND IS NOW REFUTED FOUR WAYS  <sub>L24230</sub>
+- **§266** — THE INERT-RIDER LAW: A LEVER IS ONLY CITABLE WHEN ITS SOLO REMOVAL BREAKS THE MATCH (P31 S59b; measured 4-of-8 on this batch)  <sub>L25090</sub>
+- **ADD-4** — → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAME IT **AND** STORE **INSIDE** THE ARM  <sub>L25404</sub>
+- **ADD-9** — → §255 "AND CASE-BODY PLACEMENT" bound / §222-addendum-3 — ON A LARGE SPARSE TREE, BODIES FOLLOW **SOURCE** ORDER (measured by a one-word probe)  <sub>L25481</sub>
+- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26110</sub>
+- **What** — I could not verify  <sub>L27084</sub>
+- **ADDENDUM** — to §164-75 — the fold-reassociation law also fires at a variable's INITIALIZER, not only a later expression  <sub>L27141</sub>
+- **What** — I could not verify  <sub>L27658</sub>
+- **ADDENDUM** — to §153 / §236-5 (func_801A419C, md_SC07_003 — waves di and dl, corroborating; refutes a contradicted dj-wave card)  <sub>L27875</sub>
+- **What** — I could not verify  <sub>L28115</sub>
+- **ADDENDUM** — to §174 Law 4 (func_8017E9A8, ov_SC06_015)  <sub>L28135</sub>
+- **ADDENDUM** — the zero-emission-asm family gains a REF-SLIDER PLACEMENT LAW and a paired RESTORER (func_800CB900, md_MAIN_026)  <sub>L28175</sub>
+- **What** — I could not verify  <sub>L28673</sub>
+- **What** — I could not verify  <sub>L28979</sub>
+- **§293** — THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND THE LOAD-BEARING ONE IS "THE BASELINE, NOT THE SIBLINGS" (P31 S61; byte-proven on 15 binaries in one night)  <sub>L29119</sub>
+- **§294** — ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2): 99 candidates, 52 covered, 15 notes → 10 addenda, 29 notes → 5 new laws (§295–§299), 3 refuted  <sub>L29169</sub>
+- **§313** — A RECOVERY STAGE THAT REWRITES THE DRAFT IS PART OF THE MEASUREMENT: GATE THE RAW DRAFT FIRST, THE REWRITE ONLY AS A FALLBACK (P31 S65 t5r-recovery; byte-proven func_8017BEBC, 246 ins)  <sub>L30195</sub>
+- **REFUTED** — claim — REFUTED — the `j`-slot store is an ASPSX macro-expansion hop, not a cse split; maspsx hard (func_8005DBD8)  <sub>L30599</sub>
+- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30601</sub>
+- **REFUTED** — claim — REFUTED: a block shared across TWO switch statements is ordinary forward cross_jump, not a (func_8001B0D4)  <sub>L30648</sub>
+- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30650</sub>
+- **Addendum** — §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo (func_8017E464)  <sub>L30771</sub>
+- **§322** — A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS FREE: RUN THE REAL PLANNER WHEN THE PLANNER IS PURE (P31 S67; measured, 96 of 159 open jtbl functions)  <sub>L30876</sub>
+- **§323a** — R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GREEN (P31 S67)  <sub>L30936</sub>
+- **§324** — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)  <sub>L30959</sub>
+- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31034</sub>
+- **§332a** — MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67, measured)  <sub>L31106</sub>
+- **§337** — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)  <sub>L31167</sub>
+- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31267</sub>
+- **§343** — `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT JUST THE WINNER (P31 S67; measured on func_8012BD14 / func_8012D624 / func_80143C74)  <sub>L31284</sub>
+- **§352** — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)  <sub>L31496</sub>
+- **§356** — MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured over 47 stored drafts)  <sub>L31584</sub>
+- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31647</sub>
+- **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31848</sub>
+- **§376** — ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT THE **TU** (P31 S69; measured 0/28)  <sub>L32065</sub>
+- **§384** — ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE BANK (P31 S69; measured twice, cost one destroyed match)  <sub>L32269</sub>
+- **§378b** — ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P31 S69, all four measured the same day)  <sub>L32582</sub>
+- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32845</sub>
+- **§3-E.** — WHAT THE AGENTS REFUTED  <sub>L33158</sub>
+- **§408** — ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P31 S71; 0 MATCH / 14 applied, 0 / 210)  <sub>L33219</sub>
+- **§411** — ★★★ — THE PACK MUST CARRY THAT FUNCTION'S OWN HISTORY (P31 S71; measured 38/39 vs 124/131)  <sub>L33396</sub>
+- **§428a** — ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE CAUSE (P31 S72; `main/func_8001B0D4`, NEAR/53 -> MATCH; **my first answer here was WRONG and is kept below as the refutation**)  <sub>L34002</sub>
+- **§430** — ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)  <sub>L34083</sub>
+- **§439** — ★★ — LEVER SET FROM THE S74 WAVE (each entry is one measured crack, not a hypothesis)  <sub>L34565</sub>
+- **§449** — ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one correction to §439)  <sub>L34951</sub>
+- **§3-C.** — CORRECTION TO §439 — `sll 16; srl 16` LANDS *AFTER* THE CALL, AND WORKS FOR A KNOWN CONSTANT  <sub>L35000</sub>
+- **§469** — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)  <sub>L35424</sub>
+- **§473** — 🔴 §265's "HANDWRITTEN" VERDICT FOR `ov_SC07_002:func_8017DC80` IS REFUTED (324 → 89)  <sub>L35529</sub>
+- **§463** — 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED  <sub>L35687</sub>
+- **§479** — ★★★ — WHERE THE PERMUTER ACTUALLY PAYS: A MEASURED YIELD CURVE (P31 S77, 8 candidates)  <sub>L35817</sub>
+- **§501** — ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)  <sub>L37157</sub>
+- **§454a** — the recipe rung's real shape: replication, not discovery (S99, measured)  <sub>L37677</sub>
 
 ### (unbucketed — title matched no symptom vocabulary)  (338)
 
@@ -1662,150 +1662,150 @@
 - **Three** — defects in one call path; the overlay slates that carry most of the wave work were being waved through  <sub>L18406</sub>
 - **§194-F** — `if ((*p = v = f()) == 0)` is an expand-time pseudo SPLITTER (store_expr's `want_value && MEM` path), not a fold — it partitions one value between local_alloc and global_alloc. BOUNDS §21's L1872 bullet, whose stated direction is byte-wrong on 3 of 4 instances, and CLOSES the control §167-37 asked for.  <sub>L19240</sub>
 - **§194-L** — §88b and §189-E are BOTH half-wrong, but not the way the candidate says: the compare-constant shape is a 2-D lookup (cmp_info ROW × constant-in-window), and naming matters on OPPOSITE sides of the window for the GE/LT rows vs the GT/LE rows  <sub>L19567</sub>
-- **§197-REJECTED** — §197-REJECTED  <sub>L20737</sub>
-- **§199-REJECTED** — §199-REJECTED  <sub>L21133</sub>
-- **§201-B** — In a narrowed PLUS/MINUS/AND/IOR/XOR expression the destination pointee is INERT — the sign of the materialized constant is decided by an OR over the UNWIDENED operands (convert.c trunc1), which bounds §1841 to direct constant stores  <sub>L21235</sub>
-- **§201-REJECTED** — eight, the session's highest  <sub>L21469</sub>
-- **§204-CONFIRMED** — 30 reports that the index already answered  <sub>L21935</sub>
-- **§204-REJECTED** — sixteen, twice the previous record  <sub>L22029</sub>
-- **§209** — THE NARROW LOCAL IS A DIAL IN TWO OPPOSITE DIRECTIONS, AND §194-B's "≥2 `sh` STORES" BOUND IS BYTE-WRONG (P31 S58)  <sub>L22296</sub>
-- **§212** — THE WALKING CURSOR IS COUNTABLE: `*wp++` emits one `addiu` PER STORE, `wp[0..2]` emits one (P31 S58)  <sub>L22478</sub>
-- **§213** — INDEPENDENT SAME-BASE STORES: THE EMISSION ORDER IS A PERMUTATION OF SOURCE ORDER, AND THE PERMUTATION IS NOT ALWAYS THE IDENTITY (P31 S58)  <sub>L22523</sub>
-- **§217** — DECODING A CALL'S STACK ARGUMENT SLOTS: `sw` at `0x10`/`0x14`/`0x18` are params 5/6/7 **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22701</sub>
-- **§226** — FRAME PADS: FOUR WAYS §162i1/§2429's DEAD-LOCAL LEVER MISFIRES (P31 S58)  <sub>L23022</sub>
-- **§228** — READING THE DIVIDE, PART N: the off-by-one compare is `% K == 1`, and three more discriminators (P31 S58)  <sub>L23083</sub>
-- **§229** — THE ADDRESS IS A VALUE: NAMING IT MOVES THE `lui`/`addiu` PAIR — AND §L14410 SAYS THE OPPOSITE FOR A REASON (P31 S58)  <sub>L23120</sub>
-- **§231** — TRANSCRIPTION AND SEMANTIC-READ HYGIENE: six ways the listing misleads (P31 S58)  <sub>L23184</sub>
-- **§194-B** — addendum (P31 S58) — BOUND 2 is byte-wrong; see §209 Direction A  <sub>L23281</sub>
-- **§176-B** — addendum (P31 S58) — the misdiagnosis direction  <sub>L23287</sub>
-- **§164-63** — addendum (P31 S58) — the interposed asm works when the SECOND value is an ordinary assignment  <sub>L23302</sub>
-- **§193-A** — / §194-E addendum (P31 S58) — where the twin's body actually lives  <sub>L23311</sub>
-- **§235** — THE PHANTOM SYMBOL: A MASKED `MATCH` CAN CARRY A RELOCATION THAT DOES NOT EXIST (P31 S58b)  <sub>L23402</sub>
-- **§238** — SAME NAME, DIFFERENT FUNCTION: THE OVERLAY-HOMONYM TRAP (P31 S58b)  <sub>L23565</sub>
-- **§240** — `A + K + B`: WRITE THE CONSTANT **BETWEEN** THE TWO RUNTIME TERMS (P31 S58b)  <sub>L23639</sub>
-- **§241** — THE FOLDED SIGN-EXTEND-AND-SCALE: `sll 16 ; sra (16 − log2 scale)` (P31 S58b)  <sub>L23668</sub>
-- **§252** — THE GUARDED PRE-DECREMENT: `(x != 0) && (--x == 0)` (P31 S58b)  <sub>L24036</sub>
-- **§255** — THE EMPTY CASE, PART 2: FOUR TREE SHAPES IT BUYS (P31 S58b)  <sub>L24083</sub>
-- **§258** — ADDENDA TO EXISTING SECTIONS (P31 S58b)  <sub>L24198</sub>
-- **§202** — addendum (P31 S58b) — THE DEF-SIDE ALIAS ALSO CLEARS A RETURN+PARAM DOUBLE CONFLICT  <sub>L24247</sub>
-- **§205** — addendum (P31 S58b) — CHAINED ASSIGNMENT: N≥3 IS INNERMOST-FIRST, AND THE TEXT MIRRORS EMISSION  <sub>L24258</sub>
-- **§208** — addendum (P31 S58b) — IT SCALES TO SIX SITES, AND IT HAS AN EXACT INVERSE  <sub>L24275</sub>
-- **§210** — addendum (P31 S58b) — THREE CONFIRMED SPELLINGS OF THE BOOLEAN TAIL  <sub>L24304</sub>
-- **§213** — addendum (P31 S58b) — THREE MORE PERMUTATION LAWS FOR INDEPENDENT SAME-BASE STORES  <sub>L24363</sub>
-- **§217** — CROSS-CONFIRMED (P31 S58b) — AND THE INCOMING HOME SLOT IS THE MIRROR  <sub>L24480</sub>
-- **§220** — addendum (P31 S58b) — THE PARAMETER, NOT A COPY (SEVEN CARDS)  <sub>L24497</sub>
-- **§225** — addendum (P31 S58b) — THE GUARD-CLAUSE FINGERPRINT, AND THREE MORE SHAPES  <sub>L24594</sub>
-- **§229** — addendum (P31 S58b) — NAME IT **INSIDE** THE ARM  <sub>L24666</sub>
-- **§230** — CROSS-CONFIRMED (P31 S58b)  <sub>L24677</sub>
-- **§231** — addendum (P31 S58b) — FOUR MORE WAYS THE LISTING MISLEADS  <sub>L24686</sub>
-- **§232** — CROSS-CONFIRMED (P31 S58b)  <sub>L24717</sub>
-- **§260** — THE §154-A LEADING-ISLAND SPLIT: ONE CONFIG LINE, AND THE ISLAND PEELS FROM THE END (P31 S59, byte-proven)  <sub>L24767</sub>
-- **§262** — A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59)  <sub>L24901</sub>
-- **§264** — FOUR TELLS-LANE C RECIPES, EACH DRIVEN TO MATCH (P31 S59)  <sub>L24972</sub>
-- **ADD-1** — → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION  <sub>L25132</sub>
-- **ADD-6** — → §172b-1 / §264 addendum — SHIFT-AS-TEST: `(x << 16) != 0` TESTS THE LOW HALF WITHOUT TRUNCATING THE PSEUDO  <sub>L25186</sub>
-- **ADD-7** — → §256 addendum — THE SINGLE-GUARD GOTO: THEN-BLOCK OUT OF LINE AT THE TAIL  <sub>L25195</sub>
-- **ADD-3** — → §238 addendum — TWO BINARIES CAN EACH DEFINE THE SAME `func_` NAME WITH DIFFERENT BYTES, AND NO GENERATED REPORT SHOWS IT  <sub>L25385</sub>
-- **§270** — The A-prop 0-bank anatomy: a byte-correct body still needs FOUR layers to agree (P31 S59)  <sub>L25563</sub>
-- **ADDENDUM** — to §1-I5  <sub>L25853</sub>
-- **ADDENDUM** — to §164-51  <sub>L25918</sub>
-- **ADDENDUM** — to §176-F5  <sub>L25934</sub>
-- **ADDENDUM** — to §225  <sub>L25963</sub>
-- **ADDENDUM** — to §229 — A POINTER'S NUMBER OF USES DECIDES WHETHER ITS ADDRESS FOLDS OR SURVIVES A CALL  <sub>L26151</sub>
-- **ADDENDUM** — to §226 — A DEAD LOCAL SCOPED TO A NESTED BLOCK BUYS A MID-FUNCTION `addiu sp` PAIR, NOT A FRAME-SIZE CHANGE  <sub>L26269</sub>
-- **ADDENDUM** — to §74 (func_800D0E30, resident)  <sub>L26637</sub>
-- **ADDENDUM** — to §172b-4 (func_80185054, ov_SC03_097)  <sub>L26673</sub>
-- **ADDENDUM** — to §265 (func_8017DC80, ov_SC07_002)  <sub>L26711</sub>
-- **ADDENDUM** — to §17 (func_800CB794, md_MAIN_036)  <sub>L26750</sub>
-- **ADDENDUM** — to §162p (func_8017C120, ov_MAIN_012)  <sub>L26798</sub>
-- **ADDENDUM** — to §20 (~L1947) (func_80186AD0, ov_SC06_032)  <sub>L26832</sub>
-- **ADDENDUM** — to §164-56 (func_8017F644, ov_SC04_005)  <sub>L26862</sub>
-- **ADDENDUM** — to §237 (func_8017F7FC, ov_SC03_092)  <sub>L26897</sub>
-- **ADDENDUM** — to §195-E — a goto-ladder's STORES must sit AT the labels, after the gotos, not inline before them  <sub>L27249</sub>
-- **Harness-defect** — flags  <sub>L27723</sub>
-- **ADDENDUM** — to §167-40 (func_8017E2CC, ov_SC04_015 — wave dg)  <sub>L27816</sub>
-- **ADDENDUM** — to §87 (func_801815F4 ov_SC06_032; corroborating func_801840DC ov_SC05_017, func_80189C68 ov_SC03_006 — wave dg)  <sub>L27850</sub>
-- **ADDENDUM** — to §263 (func_801E83AC, md_SC04_029 — wave dj)  <sub>L27889</sub>
-- **ADDENDUM** — to §265 (func_8017D878, ov_SC03_107 — wave dj; corroborated by a REJECTED, contradicted card in wave dm — see closing)  <sub>L27903</sub>
-- **ADDENDUM** — to §6 (func_801811F0, ov_SC03_102 — waves dj and dl, corroborated by a self-reported "nothing new" dm-wave card)  <sub>L27917</sub>
-- **ADDENDUM** — to §195-G (func_80183BB0, ov_SC05_001 — wave dj)  <sub>L27931</sub>
-- **ADDENDUM** — to §74 (func_8017EB34, ov_SC03_117 — counter/clamp variant; wave dj, corroborated by dk/dl/dm cards on the same function)  <sub>L28009</sub>
-- **ADDENDUM** — §37 — merged into the §153/§236-5 entry above (func_801A419C, wave dl)  <sub>L28029</sub>
-- **ADDENDUM** — §6 — merged into the §6 entry above (func_801811F0, wave dl)  <sub>L28037</sub>
-- **ADDENDUM** — to §238 (func_80182CB4, ov_SC02_000 — wave dl)  <sub>L28045</sub>
-- **ADDENDUM** — to §137a (func_801684B4, ov_MAIN_012; corroborated independently by func_80189E68, func_8017FF9C, func_801822B4, func_8018DA8C — wave dl)  <sub>L28063</sub>
-- **ADDENDUM** — to §8c / §88d (func_8016AB6C, ov_MAIN_012 — wave dm)  <sub>L28079</sub>
-- **ADDENDUM** — to §73 / §30#2 (func_800D1984, resident — wave dm)  <sub>L28093</sub>
-- **From** — ck + cl + cm  <sub>L28221</sub>
-- **ADDENDUM** — to §5a (func_80181F74, ov_SC03_112, wave cn)  <sub>L28363</sub>
-- **ADDENDUM** — to §265 (func_8017E26C, ov_SC04_016, wave cn)  <sub>L28413</sub>
-- **ADDENDUM** — to §42b (func_8018247C, ov_SC07_002, waves cu + cw)  <sub>L28451</sub>
-- **ADDENDUM** — to §195-E (func_800CFC1C, md_MAIN_003, wave cv)  <sub>L28537</sub>
-- **ADDENDUM** — to §215 addendum (func_800CB2C8, md_MAIN_033, waves cv + cw)  <sub>L28582</sub>
-- **ADDENDUM** — to §236 item 4 (func_8017D268, ov_SC04_006, wave cw)  <sub>L28638</sub>
-- **Harness-defect** — flags (not idioms — flagged for the operator)  <sub>L28699</sub>
-- **ADDENDUM** — to §250 (func_8017D7CC, ov_SC03_115 — cx/cy/cz/dr)  <sub>L28740</sub>
-- **ADDENDUM** — to §225 (func_8017E190, ov_SC03_115 — cx/cy/cz)  <sub>L28785</sub>
-- **ADDENDUM** — to §45-A (func_8017F6A4, ov_SC02_016 — cy/cz)  <sub>L28838</sub>
-- **ADDENDUM** — to §249 (func_80182ED4, ov_SC04_004 — dp/dr/dt)  <sub>L28882</sub>
-- **ADDENDUM** — to §199-A (func_801816FC, ov_SC02_005 — dp/dr/dt)  <sub>L28927</sub>
-- **Harness-defect** — flags  <sub>L29016</sub>
-- **§289** — an array local's address-taken base keeps every element's store alive, even though only one pointer escapes (`func_80189EFC`, ov_SC04_011) (P31 S60; waves #, byte-proven)  <sub>L29098</sub>
-- **ADDENDUM** — to §264-3 — the explicit entry copy's BOUND: required exactly when the RAW value must outlive the call that consumes only the PROMOTED value  <sub>L29252</sub>
-- **ADDENDUM** — to §276 — the SHARE direction: spell the second adjacent symbol RELATIVE to force ONE anchor  <sub>L29284</sub>
-- **ADDENDUM** — to §31's density-dummy dial (L2460/L2497) — the dose is TWO refs, and the dummy must sit where the loser is live-through  <sub>L29300</sub>
-- **§300** — S61 DISTILL BATCH NOTES (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2 · m0b)  <sub>L29606</sub>
-- **§306a** — T4 DISTILL ADDENDA (P31 S62; four byte-proven refinements to existing laws, verified against the book by an independent verifier; each names its parent §)  <sub>L29905</sub>
-- **Addendum** — §148-A2 addendum — the empty-asm insn_count dial (N bare `__asm__("")` = exactly +N real i (func_801835B0)  <sub>L30457</sub>
-- **Addendum** — Chained *2*2 array index folds to one copy;sll, not two (func_80011380)  <sub>L30513</sub>
-- **Addendum** — Last if-arm's nested if un-fuses the whole preceding chain (func_8017FE88)  <sub>L30533</sub>
-- **Addendum** — Orphan sh triplet to $sp is a write-only local array (func_8017F274)  <sub>L30626</sub>
-- **RETRIEVAL** — FAILURES this round (not new knowledge — a RETRIEVAL defect)  <sub>L30660</sub>
-- **Addendum** — Integer-space address arithmetic is a THIRD no-movable spelling, and a distant `SYM[0]` re (func_8017D89C)  <sub>L30708</sub>
-- **RETRIEVAL** — FAILURES this round  <sub>L30769</sub>
-- **§323b** — A SCRIPT THAT PARSES argv AT IMPORT CANNOT BE SHARED; EXTRACT THE PREDICATE, DO NOT COPY IT (P31 S67)  <sub>L30939</sub>
-- **§330** — THE NEIGHBOUR-SHAPE LEVER IS THE CHEAPEST FIRST MOVE, AND IT IS UNDER-USED (P31 S67; four independent instances in one 20-function wave)  <sub>L31046</sub>
-- **§347-addendum** — A THIRD INSTANCE, AND THE SHARPEST STATEMENT OF THE RULE (md_MAIN_025/func_800CB300, 243 ins)  <sub>L31376</sub>
-- **§359** — (§43-adjacent) — SPELL A SIGN-WIDEN AS AN EXPLICIT TWO-STEP, FUNCTION-SCOPED TEMP (P31 S68; byte-proven main/func_80012B58, 69 ins, 58 → 3 → 0)  <sub>L31612</sub>
-- **§360** — THE "COMPILER FOUND A SHORTER EQUIVALENT THAN THE TARGET" PAIR (P31 S68; main/func_800241C0, 68 ins, 68 → 19)  <sub>L31625</sub>
-- **§363** — ★★ — THE OVERLAY-LAYOUT ASSUMPTION IS A SYSTEMIC BUG CLASS, AND `main` IS THE EXCEPTION THAT FINDS IT (P31 S68; six instances, four of them in one session)  <sub>L31709</sub>
-- **§369** — REUSE THE **COMPARE CONSTANT'S OWN VARIABLE** FOR A MASK THAT KEEPS COALESCING (P31 S68; md_SC07_004/func_801AEC38, 365 ins)  <sub>L31826</sub>
-- **§372** — ★★★ — THE **COPY-CAPTURE PAIR**, AND THE ONE ZERO-BYTE EDIT THAT DEFEATS BOTH (P31 S68; byte-proven main/func_8003491C, 78 ins, fable escalation closed 5 → 0)  <sub>L31943</sub>
-- **CROSS-REFERENCE** — TO §370 — checked and found INAPPLICABLE here, which is the point  <sub>L32022</sub>
-- **§377** — THREE HARNESS DEFECTS FOUND IN ONE GATING SESSION, ALL "A CONFIDENT NUMBER ABOUT A SMALLER WORLD" (P31 S69)  <sub>L32101</sub>
-- **§380** — ★★★ — **A SECOND SET OF A PSEUDO DISQUALIFIES IT FROM `move_movables`** (P31 S69; main/func_800215F4, 465 ins, closeness 106 → 59 → 39)  <sub>L32199</sub>
-- **§382** — TWO FOLD REASSOCIATIONS THAT NEED THEIR OWN STATEMENT (P31 S69)  <sub>L32236</sub>
-- **§389** — ★★★ — `h_norm` IS BLIND TO INDEXED-GLOBAL RELOCS, SO FREE WORK BECOMES AN INVISIBLE SINGLETON (P31 S69; 31 stubs / 4,811 ins recovered, 8 banked same day)  <sub>L32413</sub>
-- **§390** — ★★★ — MINIMUM DISTANCE IS NOT MINIMUM WORK; RANK TWIN CANDIDATES BY EFFORT, AND FILTER LOOKALIKES BY RATIO (P31 S69; byte-proven ov_SC01_077/func_80184D50, banked)  <sub>L32454</sub>
-- **§394** — ★★ — TWO ALIGN-1 ACCESSES IN ONE FUNCTION RESERVE A PHANTOM STACK SLOT (P31 S69; ov_SC02_005/func_80180610)  <sub>L32564</sub>
-- **§314b** — ★★ — TWO ABS-RANGE GUARDS IN ONE FUNCTION NEED **DIFFERENT SPELLINGS** (P31 S69; byte-proven ov_SC04_002/func_8018691C, 111 ins)  <sub>L32649</sub>
-- **§397** — ★★★ — RE-RUN THE TWIN SCAN AFTER EVERY EXEMPLAR BANK; A CLUSTER SIBLING IS FREE THE MOMENT ITS EXEMPLAR LANDS (P31 S69; ~250k tokens spent proving it the expensive way)  <sub>L32789</sub>
-- **§398b** — ★★ — NAMING A SUB-EXPRESSION IN A LOCAL CHANGES WHICH PSEUDO SURVIVES; INLINE IT AT BOTH USE SITES (P31 S69; byte-proven ov_SC03_028/func_80183264, 93 ins)  <sub>L32869</sub>
-- **§399** — ★★★ — FOUR LEVERS FROM THE FINAL S69 ROUND (P31 S69; each byte-proven, none previously in the cookbook)  <sub>L32896</sub>
-- **§400** — ★★ — A BASELINE CHECK THAT CONFLATES "ABSENT EVERYWHERE" WITH "CHANGED UNDER US" SILENTLY DROPS NEW FILES (P31 S69; 8 files, one session)  <sub>L32936</sub>
-- **§401** — §401  <sub>L32971</sub>
-- **§402** — §402  <sub>L33004</sub>
-- **§403** — §403  <sub>L33028</sub>
-- **§404** — §404  <sub>L33060</sub>
-- **§406** — ★★ — THE PROLOGUE-WEAVE CLASS IS MECHANICAL AND LARGE (134 open stubs)  <sub>L33162</sub>
-- **§407** — ★★ — LATE-WAVE ADDENDA TO §405 (the last agents in)  <sub>L33184</sub>
-- **§409** — ★★★ — THE S71 JOURNAL-FUELLED WAVE: 100% FIRST-PASS MATCH, AND THE NINE LAWS IT BROUGHT BACK (P31 S71)  <sub>L33265</sub>
-- **§3-The** — nine laws this wave produced  <sub>L33292</sub>
-- **§413** — ★★★ — DIFFICULTY IS THE RESIDUAL CLASS, NOT `nins` — ROUTE THE MODEL TIER OFF HISTORY (P31 S71, Drew)  <sub>L33477</sub>
-- **§416** — ★★ — FOUR LEVERS FROM THE S71 OVERNIGHT LANE, none of which the cookbook held (P31 S71)  <sub>L33576</sub>
-- **§429** — ★★★ — EVERY HELD POINTER NEEDS ITS OWN LOCAL, AND A NEGATIVE-DISPLACEMENT BYTE STORE NEEDS ONE OF ITS OWN (P31 S72; `main/CdReadStateMachine`, MATCH 385/385)  <sub>L34044</sub>
-- **§434** — ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)  <sub>L34263</sub>
-- **§438** — ★★★ — THE SAME-ADDRESS LEAD IS NOW SIZE-FILTERED: A HOMONYM IS WORSE THAN NO TWIN (P31 S74; ~12 of ~60 cards carried one)  <sub>L34532</sub>
-- **§441** — ★★ — THREE MORE INSTRUMENT DEFECTS FROM THE SAME SESSION, ALL OF WHICH BLAME THE SUBJECT (P31 S74)  <sub>L34621</sub>
-- **§443** — ★★ — A DERIVED DEPENDENCY MUST BE PROVISIONED BY *EVERY* PROVISIONER, AND WE HAVE TWO (P31 S69 → S74, the same defect twice)  <sub>L34706</sub>
-- **§445** — ★★ — `make clean BINARY=<x>` IS FLEET-WIDE: THE VARIABLE IS ACCEPTED AND IGNORED (P31 S75)  <sub>L34782</sub>
-- **§448** — ★★★ — ASSEMBLY POSING AS C: 154 GAME FUNCTIONS THE REPORTS COUNTED AS DONE (P31 S75)  <sub>L34902</sub>
-- **§450** — ★★★ — REGENERATING A TARGET `.s` FOR A FUNCTION THAT IS NO LONGER A STUB (P31 S75; 146 functions unblocked, two silent defects caught by ONE cross-check)  <sub>L35025</sub>
-- **§451** — ★★★ — YOUR EVIDENCE HAS MORE THAN ONE SOURCE, AND THE ONE YOU QUERY IS PROBABLY THE WORSE ONE (P31 S75; 37 functions reclassified, 122 ins banked from one word)  <sub>L35066</sub>
-- **§452** — ★★★ — NOT EVERY VERBATIM BODY IS UNDECOMPILED WORK, AND §448'S HEADLINE OVERSTATED IT (P31 S75; 10-function burst, 0 banks, and the negative result is the finding)  <sub>L35104</sub>
-- **§462** — FOUR LEVERS FROM `main:func_80024054` (91 ins, 74/53/32 → 4)  <sub>L35644</sub>
-- **§480** — 🔴 — A STATIC BLOCKER CLASS THAT THE REAL PIPELINE ALREADY REMOVES IS A PHANTOM  <sub>L35890</sub>
-- **§454** — Rung D and rung R: taking a lever off a body that still has to compile to the same bytes (Phase 36 T6)  <sub>L37604</sub>
+- **§197-REJECTED** — §197-REJECTED  <sub>L20743</sub>
+- **§199-REJECTED** — §199-REJECTED  <sub>L21139</sub>
+- **§201-B** — In a narrowed PLUS/MINUS/AND/IOR/XOR expression the destination pointee is INERT — the sign of the materialized constant is decided by an OR over the UNWIDENED operands (convert.c trunc1), which bounds §1841 to direct constant stores  <sub>L21241</sub>
+- **§201-REJECTED** — eight, the session's highest  <sub>L21475</sub>
+- **§204-CONFIRMED** — 30 reports that the index already answered  <sub>L21941</sub>
+- **§204-REJECTED** — sixteen, twice the previous record  <sub>L22035</sub>
+- **§209** — THE NARROW LOCAL IS A DIAL IN TWO OPPOSITE DIRECTIONS, AND §194-B's "≥2 `sh` STORES" BOUND IS BYTE-WRONG (P31 S58)  <sub>L22302</sub>
+- **§212** — THE WALKING CURSOR IS COUNTABLE: `*wp++` emits one `addiu` PER STORE, `wp[0..2]` emits one (P31 S58)  <sub>L22484</sub>
+- **§213** — INDEPENDENT SAME-BASE STORES: THE EMISSION ORDER IS A PERMUTATION OF SOURCE ORDER, AND THE PERMUTATION IS NOT ALWAYS THE IDENTITY (P31 S58)  <sub>L22529</sub>
+- **§217** — DECODING A CALL'S STACK ARGUMENT SLOTS: `sw` at `0x10`/`0x14`/`0x18` are params 5/6/7 **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22707</sub>
+- **§226** — FRAME PADS: FOUR WAYS §162i1/§2429's DEAD-LOCAL LEVER MISFIRES (P31 S58)  <sub>L23028</sub>
+- **§228** — READING THE DIVIDE, PART N: the off-by-one compare is `% K == 1`, and three more discriminators (P31 S58)  <sub>L23089</sub>
+- **§229** — THE ADDRESS IS A VALUE: NAMING IT MOVES THE `lui`/`addiu` PAIR — AND §L14410 SAYS THE OPPOSITE FOR A REASON (P31 S58)  <sub>L23126</sub>
+- **§231** — TRANSCRIPTION AND SEMANTIC-READ HYGIENE: six ways the listing misleads (P31 S58)  <sub>L23190</sub>
+- **§194-B** — addendum (P31 S58) — BOUND 2 is byte-wrong; see §209 Direction A  <sub>L23287</sub>
+- **§176-B** — addendum (P31 S58) — the misdiagnosis direction  <sub>L23293</sub>
+- **§164-63** — addendum (P31 S58) — the interposed asm works when the SECOND value is an ordinary assignment  <sub>L23308</sub>
+- **§193-A** — / §194-E addendum (P31 S58) — where the twin's body actually lives  <sub>L23317</sub>
+- **§235** — THE PHANTOM SYMBOL: A MASKED `MATCH` CAN CARRY A RELOCATION THAT DOES NOT EXIST (P31 S58b)  <sub>L23408</sub>
+- **§238** — SAME NAME, DIFFERENT FUNCTION: THE OVERLAY-HOMONYM TRAP (P31 S58b)  <sub>L23571</sub>
+- **§240** — `A + K + B`: WRITE THE CONSTANT **BETWEEN** THE TWO RUNTIME TERMS (P31 S58b)  <sub>L23645</sub>
+- **§241** — THE FOLDED SIGN-EXTEND-AND-SCALE: `sll 16 ; sra (16 − log2 scale)` (P31 S58b)  <sub>L23674</sub>
+- **§252** — THE GUARDED PRE-DECREMENT: `(x != 0) && (--x == 0)` (P31 S58b)  <sub>L24042</sub>
+- **§255** — THE EMPTY CASE, PART 2: FOUR TREE SHAPES IT BUYS (P31 S58b)  <sub>L24089</sub>
+- **§258** — ADDENDA TO EXISTING SECTIONS (P31 S58b)  <sub>L24204</sub>
+- **§202** — addendum (P31 S58b) — THE DEF-SIDE ALIAS ALSO CLEARS A RETURN+PARAM DOUBLE CONFLICT  <sub>L24253</sub>
+- **§205** — addendum (P31 S58b) — CHAINED ASSIGNMENT: N≥3 IS INNERMOST-FIRST, AND THE TEXT MIRRORS EMISSION  <sub>L24264</sub>
+- **§208** — addendum (P31 S58b) — IT SCALES TO SIX SITES, AND IT HAS AN EXACT INVERSE  <sub>L24281</sub>
+- **§210** — addendum (P31 S58b) — THREE CONFIRMED SPELLINGS OF THE BOOLEAN TAIL  <sub>L24310</sub>
+- **§213** — addendum (P31 S58b) — THREE MORE PERMUTATION LAWS FOR INDEPENDENT SAME-BASE STORES  <sub>L24369</sub>
+- **§217** — CROSS-CONFIRMED (P31 S58b) — AND THE INCOMING HOME SLOT IS THE MIRROR  <sub>L24486</sub>
+- **§220** — addendum (P31 S58b) — THE PARAMETER, NOT A COPY (SEVEN CARDS)  <sub>L24503</sub>
+- **§225** — addendum (P31 S58b) — THE GUARD-CLAUSE FINGERPRINT, AND THREE MORE SHAPES  <sub>L24600</sub>
+- **§229** — addendum (P31 S58b) — NAME IT **INSIDE** THE ARM  <sub>L24672</sub>
+- **§230** — CROSS-CONFIRMED (P31 S58b)  <sub>L24683</sub>
+- **§231** — addendum (P31 S58b) — FOUR MORE WAYS THE LISTING MISLEADS  <sub>L24692</sub>
+- **§232** — CROSS-CONFIRMED (P31 S58b)  <sub>L24723</sub>
+- **§260** — THE §154-A LEADING-ISLAND SPLIT: ONE CONFIG LINE, AND THE ISLAND PEELS FROM THE END (P31 S59, byte-proven)  <sub>L24773</sub>
+- **§262** — A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59)  <sub>L24907</sub>
+- **§264** — FOUR TELLS-LANE C RECIPES, EACH DRIVEN TO MATCH (P31 S59)  <sub>L24978</sub>
+- **ADD-1** — → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION  <sub>L25138</sub>
+- **ADD-6** — → §172b-1 / §264 addendum — SHIFT-AS-TEST: `(x << 16) != 0` TESTS THE LOW HALF WITHOUT TRUNCATING THE PSEUDO  <sub>L25192</sub>
+- **ADD-7** — → §256 addendum — THE SINGLE-GUARD GOTO: THEN-BLOCK OUT OF LINE AT THE TAIL  <sub>L25201</sub>
+- **ADD-3** — → §238 addendum — TWO BINARIES CAN EACH DEFINE THE SAME `func_` NAME WITH DIFFERENT BYTES, AND NO GENERATED REPORT SHOWS IT  <sub>L25391</sub>
+- **§270** — The A-prop 0-bank anatomy: a byte-correct body still needs FOUR layers to agree (P31 S59)  <sub>L25569</sub>
+- **ADDENDUM** — to §1-I5  <sub>L25859</sub>
+- **ADDENDUM** — to §164-51  <sub>L25924</sub>
+- **ADDENDUM** — to §176-F5  <sub>L25940</sub>
+- **ADDENDUM** — to §225  <sub>L25969</sub>
+- **ADDENDUM** — to §229 — A POINTER'S NUMBER OF USES DECIDES WHETHER ITS ADDRESS FOLDS OR SURVIVES A CALL  <sub>L26157</sub>
+- **ADDENDUM** — to §226 — A DEAD LOCAL SCOPED TO A NESTED BLOCK BUYS A MID-FUNCTION `addiu sp` PAIR, NOT A FRAME-SIZE CHANGE  <sub>L26275</sub>
+- **ADDENDUM** — to §74 (func_800D0E30, resident)  <sub>L26643</sub>
+- **ADDENDUM** — to §172b-4 (func_80185054, ov_SC03_097)  <sub>L26679</sub>
+- **ADDENDUM** — to §265 (func_8017DC80, ov_SC07_002)  <sub>L26717</sub>
+- **ADDENDUM** — to §17 (func_800CB794, md_MAIN_036)  <sub>L26756</sub>
+- **ADDENDUM** — to §162p (func_8017C120, ov_MAIN_012)  <sub>L26804</sub>
+- **ADDENDUM** — to §20 (~L1947) (func_80186AD0, ov_SC06_032)  <sub>L26838</sub>
+- **ADDENDUM** — to §164-56 (func_8017F644, ov_SC04_005)  <sub>L26868</sub>
+- **ADDENDUM** — to §237 (func_8017F7FC, ov_SC03_092)  <sub>L26903</sub>
+- **ADDENDUM** — to §195-E — a goto-ladder's STORES must sit AT the labels, after the gotos, not inline before them  <sub>L27255</sub>
+- **Harness-defect** — flags  <sub>L27729</sub>
+- **ADDENDUM** — to §167-40 (func_8017E2CC, ov_SC04_015 — wave dg)  <sub>L27822</sub>
+- **ADDENDUM** — to §87 (func_801815F4 ov_SC06_032; corroborating func_801840DC ov_SC05_017, func_80189C68 ov_SC03_006 — wave dg)  <sub>L27856</sub>
+- **ADDENDUM** — to §263 (func_801E83AC, md_SC04_029 — wave dj)  <sub>L27895</sub>
+- **ADDENDUM** — to §265 (func_8017D878, ov_SC03_107 — wave dj; corroborated by a REJECTED, contradicted card in wave dm — see closing)  <sub>L27909</sub>
+- **ADDENDUM** — to §6 (func_801811F0, ov_SC03_102 — waves dj and dl, corroborated by a self-reported "nothing new" dm-wave card)  <sub>L27923</sub>
+- **ADDENDUM** — to §195-G (func_80183BB0, ov_SC05_001 — wave dj)  <sub>L27937</sub>
+- **ADDENDUM** — to §74 (func_8017EB34, ov_SC03_117 — counter/clamp variant; wave dj, corroborated by dk/dl/dm cards on the same function)  <sub>L28015</sub>
+- **ADDENDUM** — §37 — merged into the §153/§236-5 entry above (func_801A419C, wave dl)  <sub>L28035</sub>
+- **ADDENDUM** — §6 — merged into the §6 entry above (func_801811F0, wave dl)  <sub>L28043</sub>
+- **ADDENDUM** — to §238 (func_80182CB4, ov_SC02_000 — wave dl)  <sub>L28051</sub>
+- **ADDENDUM** — to §137a (func_801684B4, ov_MAIN_012; corroborated independently by func_80189E68, func_8017FF9C, func_801822B4, func_8018DA8C — wave dl)  <sub>L28069</sub>
+- **ADDENDUM** — to §8c / §88d (func_8016AB6C, ov_MAIN_012 — wave dm)  <sub>L28085</sub>
+- **ADDENDUM** — to §73 / §30#2 (func_800D1984, resident — wave dm)  <sub>L28099</sub>
+- **From** — ck + cl + cm  <sub>L28227</sub>
+- **ADDENDUM** — to §5a (func_80181F74, ov_SC03_112, wave cn)  <sub>L28369</sub>
+- **ADDENDUM** — to §265 (func_8017E26C, ov_SC04_016, wave cn)  <sub>L28419</sub>
+- **ADDENDUM** — to §42b (func_8018247C, ov_SC07_002, waves cu + cw)  <sub>L28457</sub>
+- **ADDENDUM** — to §195-E (func_800CFC1C, md_MAIN_003, wave cv)  <sub>L28543</sub>
+- **ADDENDUM** — to §215 addendum (func_800CB2C8, md_MAIN_033, waves cv + cw)  <sub>L28588</sub>
+- **ADDENDUM** — to §236 item 4 (func_8017D268, ov_SC04_006, wave cw)  <sub>L28644</sub>
+- **Harness-defect** — flags (not idioms — flagged for the operator)  <sub>L28705</sub>
+- **ADDENDUM** — to §250 (func_8017D7CC, ov_SC03_115 — cx/cy/cz/dr)  <sub>L28746</sub>
+- **ADDENDUM** — to §225 (func_8017E190, ov_SC03_115 — cx/cy/cz)  <sub>L28791</sub>
+- **ADDENDUM** — to §45-A (func_8017F6A4, ov_SC02_016 — cy/cz)  <sub>L28844</sub>
+- **ADDENDUM** — to §249 (func_80182ED4, ov_SC04_004 — dp/dr/dt)  <sub>L28888</sub>
+- **ADDENDUM** — to §199-A (func_801816FC, ov_SC02_005 — dp/dr/dt)  <sub>L28933</sub>
+- **Harness-defect** — flags  <sub>L29022</sub>
+- **§289** — an array local's address-taken base keeps every element's store alive, even though only one pointer escapes (`func_80189EFC`, ov_SC04_011) (P31 S60; waves #, byte-proven)  <sub>L29104</sub>
+- **ADDENDUM** — to §264-3 — the explicit entry copy's BOUND: required exactly when the RAW value must outlive the call that consumes only the PROMOTED value  <sub>L29258</sub>
+- **ADDENDUM** — to §276 — the SHARE direction: spell the second adjacent symbol RELATIVE to force ONE anchor  <sub>L29290</sub>
+- **ADDENDUM** — to §31's density-dummy dial (L2460/L2497) — the dose is TWO refs, and the dummy must sit where the loser is live-through  <sub>L29306</sub>
+- **§300** — S61 DISTILL BATCH NOTES (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2 · m0b)  <sub>L29612</sub>
+- **§306a** — T4 DISTILL ADDENDA (P31 S62; four byte-proven refinements to existing laws, verified against the book by an independent verifier; each names its parent §)  <sub>L29911</sub>
+- **Addendum** — §148-A2 addendum — the empty-asm insn_count dial (N bare `__asm__("")` = exactly +N real i (func_801835B0)  <sub>L30463</sub>
+- **Addendum** — Chained *2*2 array index folds to one copy;sll, not two (func_80011380)  <sub>L30519</sub>
+- **Addendum** — Last if-arm's nested if un-fuses the whole preceding chain (func_8017FE88)  <sub>L30539</sub>
+- **Addendum** — Orphan sh triplet to $sp is a write-only local array (func_8017F274)  <sub>L30632</sub>
+- **RETRIEVAL** — FAILURES this round (not new knowledge — a RETRIEVAL defect)  <sub>L30666</sub>
+- **Addendum** — Integer-space address arithmetic is a THIRD no-movable spelling, and a distant `SYM[0]` re (func_8017D89C)  <sub>L30714</sub>
+- **RETRIEVAL** — FAILURES this round  <sub>L30775</sub>
+- **§323b** — A SCRIPT THAT PARSES argv AT IMPORT CANNOT BE SHARED; EXTRACT THE PREDICATE, DO NOT COPY IT (P31 S67)  <sub>L30945</sub>
+- **§330** — THE NEIGHBOUR-SHAPE LEVER IS THE CHEAPEST FIRST MOVE, AND IT IS UNDER-USED (P31 S67; four independent instances in one 20-function wave)  <sub>L31052</sub>
+- **§347-addendum** — A THIRD INSTANCE, AND THE SHARPEST STATEMENT OF THE RULE (md_MAIN_025/func_800CB300, 243 ins)  <sub>L31382</sub>
+- **§359** — (§43-adjacent) — SPELL A SIGN-WIDEN AS AN EXPLICIT TWO-STEP, FUNCTION-SCOPED TEMP (P31 S68; byte-proven main/func_80012B58, 69 ins, 58 → 3 → 0)  <sub>L31618</sub>
+- **§360** — THE "COMPILER FOUND A SHORTER EQUIVALENT THAN THE TARGET" PAIR (P31 S68; main/func_800241C0, 68 ins, 68 → 19)  <sub>L31631</sub>
+- **§363** — ★★ — THE OVERLAY-LAYOUT ASSUMPTION IS A SYSTEMIC BUG CLASS, AND `main` IS THE EXCEPTION THAT FINDS IT (P31 S68; six instances, four of them in one session)  <sub>L31715</sub>
+- **§369** — REUSE THE **COMPARE CONSTANT'S OWN VARIABLE** FOR A MASK THAT KEEPS COALESCING (P31 S68; md_SC07_004/func_801AEC38, 365 ins)  <sub>L31832</sub>
+- **§372** — ★★★ — THE **COPY-CAPTURE PAIR**, AND THE ONE ZERO-BYTE EDIT THAT DEFEATS BOTH (P31 S68; byte-proven main/func_8003491C, 78 ins, fable escalation closed 5 → 0)  <sub>L31949</sub>
+- **CROSS-REFERENCE** — TO §370 — checked and found INAPPLICABLE here, which is the point  <sub>L32028</sub>
+- **§377** — THREE HARNESS DEFECTS FOUND IN ONE GATING SESSION, ALL "A CONFIDENT NUMBER ABOUT A SMALLER WORLD" (P31 S69)  <sub>L32107</sub>
+- **§380** — ★★★ — **A SECOND SET OF A PSEUDO DISQUALIFIES IT FROM `move_movables`** (P31 S69; main/func_800215F4, 465 ins, closeness 106 → 59 → 39)  <sub>L32205</sub>
+- **§382** — TWO FOLD REASSOCIATIONS THAT NEED THEIR OWN STATEMENT (P31 S69)  <sub>L32242</sub>
+- **§389** — ★★★ — `h_norm` IS BLIND TO INDEXED-GLOBAL RELOCS, SO FREE WORK BECOMES AN INVISIBLE SINGLETON (P31 S69; 31 stubs / 4,811 ins recovered, 8 banked same day)  <sub>L32419</sub>
+- **§390** — ★★★ — MINIMUM DISTANCE IS NOT MINIMUM WORK; RANK TWIN CANDIDATES BY EFFORT, AND FILTER LOOKALIKES BY RATIO (P31 S69; byte-proven ov_SC01_077/func_80184D50, banked)  <sub>L32460</sub>
+- **§394** — ★★ — TWO ALIGN-1 ACCESSES IN ONE FUNCTION RESERVE A PHANTOM STACK SLOT (P31 S69; ov_SC02_005/func_80180610)  <sub>L32570</sub>
+- **§314b** — ★★ — TWO ABS-RANGE GUARDS IN ONE FUNCTION NEED **DIFFERENT SPELLINGS** (P31 S69; byte-proven ov_SC04_002/func_8018691C, 111 ins)  <sub>L32655</sub>
+- **§397** — ★★★ — RE-RUN THE TWIN SCAN AFTER EVERY EXEMPLAR BANK; A CLUSTER SIBLING IS FREE THE MOMENT ITS EXEMPLAR LANDS (P31 S69; ~250k tokens spent proving it the expensive way)  <sub>L32795</sub>
+- **§398b** — ★★ — NAMING A SUB-EXPRESSION IN A LOCAL CHANGES WHICH PSEUDO SURVIVES; INLINE IT AT BOTH USE SITES (P31 S69; byte-proven ov_SC03_028/func_80183264, 93 ins)  <sub>L32875</sub>
+- **§399** — ★★★ — FOUR LEVERS FROM THE FINAL S69 ROUND (P31 S69; each byte-proven, none previously in the cookbook)  <sub>L32902</sub>
+- **§400** — ★★ — A BASELINE CHECK THAT CONFLATES "ABSENT EVERYWHERE" WITH "CHANGED UNDER US" SILENTLY DROPS NEW FILES (P31 S69; 8 files, one session)  <sub>L32942</sub>
+- **§401** — §401  <sub>L32977</sub>
+- **§402** — §402  <sub>L33010</sub>
+- **§403** — §403  <sub>L33034</sub>
+- **§404** — §404  <sub>L33066</sub>
+- **§406** — ★★ — THE PROLOGUE-WEAVE CLASS IS MECHANICAL AND LARGE (134 open stubs)  <sub>L33168</sub>
+- **§407** — ★★ — LATE-WAVE ADDENDA TO §405 (the last agents in)  <sub>L33190</sub>
+- **§409** — ★★★ — THE S71 JOURNAL-FUELLED WAVE: 100% FIRST-PASS MATCH, AND THE NINE LAWS IT BROUGHT BACK (P31 S71)  <sub>L33271</sub>
+- **§3-The** — nine laws this wave produced  <sub>L33298</sub>
+- **§413** — ★★★ — DIFFICULTY IS THE RESIDUAL CLASS, NOT `nins` — ROUTE THE MODEL TIER OFF HISTORY (P31 S71, Drew)  <sub>L33483</sub>
+- **§416** — ★★ — FOUR LEVERS FROM THE S71 OVERNIGHT LANE, none of which the cookbook held (P31 S71)  <sub>L33582</sub>
+- **§429** — ★★★ — EVERY HELD POINTER NEEDS ITS OWN LOCAL, AND A NEGATIVE-DISPLACEMENT BYTE STORE NEEDS ONE OF ITS OWN (P31 S72; `main/CdReadStateMachine`, MATCH 385/385)  <sub>L34050</sub>
+- **§434** — ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)  <sub>L34269</sub>
+- **§438** — ★★★ — THE SAME-ADDRESS LEAD IS NOW SIZE-FILTERED: A HOMONYM IS WORSE THAN NO TWIN (P31 S74; ~12 of ~60 cards carried one)  <sub>L34538</sub>
+- **§441** — ★★ — THREE MORE INSTRUMENT DEFECTS FROM THE SAME SESSION, ALL OF WHICH BLAME THE SUBJECT (P31 S74)  <sub>L34627</sub>
+- **§443** — ★★ — A DERIVED DEPENDENCY MUST BE PROVISIONED BY *EVERY* PROVISIONER, AND WE HAVE TWO (P31 S69 → S74, the same defect twice)  <sub>L34712</sub>
+- **§445** — ★★ — `make clean BINARY=<x>` IS FLEET-WIDE: THE VARIABLE IS ACCEPTED AND IGNORED (P31 S75)  <sub>L34788</sub>
+- **§448** — ★★★ — ASSEMBLY POSING AS C: 154 GAME FUNCTIONS THE REPORTS COUNTED AS DONE (P31 S75)  <sub>L34908</sub>
+- **§450** — ★★★ — REGENERATING A TARGET `.s` FOR A FUNCTION THAT IS NO LONGER A STUB (P31 S75; 146 functions unblocked, two silent defects caught by ONE cross-check)  <sub>L35031</sub>
+- **§451** — ★★★ — YOUR EVIDENCE HAS MORE THAN ONE SOURCE, AND THE ONE YOU QUERY IS PROBABLY THE WORSE ONE (P31 S75; 37 functions reclassified, 122 ins banked from one word)  <sub>L35072</sub>
+- **§452** — ★★★ — NOT EVERY VERBATIM BODY IS UNDECOMPILED WORK, AND §448'S HEADLINE OVERSTATED IT (P31 S75; 10-function burst, 0 banks, and the negative result is the finding)  <sub>L35110</sub>
+- **§462** — FOUR LEVERS FROM `main:func_80024054` (91 ins, 74/53/32 → 4)  <sub>L35650</sub>
+- **§480** — 🔴 — A STATIC BLOCKER CLASS THAT THE REAL PIPELINE ALREADY REMOVES IS A PHANTOM  <sub>L35896</sub>
+- **§454** — Rung D and rung R: taking a lever off a body that still has to compile to the same bytes (Phase 36 T6)  <sub>L37610</sub>
 
 
 ## All sections, in order
@@ -2441,550 +2441,550 @@
 - **§196** — PUT ON THE CARD WHAT THE TREE ALREADY KNOWS: the fleet's declaration consensus (P31 S54)  <sub>L20557</sub>
 - **§197** — THE WAVE-W HARVEST (P31 S54): 68 index_gap reports -> 4 laws, 3 rejected, 41 already-covered  <sub>L20612</sub>
 - **§197-A** — A NARROW SIGNED MEMORY READ FEEDING A CONSTANT `>>` LOSES ITS `lh`, AND THE CURE IS AN ASM RE-TIE (attribution CONTESTED: cse vs combine)  <sub>L20626</sub>
-- **§197-B** — A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_code` CHANNEL (the non-EQ complement of §165-03) — and a front-end-opaque mask on EITHER compare is a pure-C dial that keeps the target's second branch  <sub>L20664</sub>
-- **§197-C** — Fix A1 (operand order) cannot move a commutative destination whose .greg conflict set already contains BOTH operand hard registers — split the accumulate so the destination IS the load's pseudo  <sub>L20692</sub>
-- **§197-REJECTED** — §197-REJECTED  <sub>L20737</sub>
-- **§199** — THE WAVE-X HARVEST (P31 S54/S55): 63 index_gap reports -> 7 laws, 2 rejected, 56 already-covered  <sub>L20752</sub>
-- **§199-A** — §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui`/`ori` is a SCHEDULE fact, not a source fact — and the separator is the BIRTHING BOOST, not a "priority floor" (§189-A's split-timing half survives; its "no statement order / no pin" absolute and the candidate's own forward-scheduler narrative both fall)  <sub>L20763</sub>
-- **§199-B** — A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent pins as "obviously load-bearing" is the one carrying the signal, and the partial sweep returns a FLAT residual that reads as proof of order-invariance  <sub>L20812</sub>
-- **§199-C** — A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's negate_variant — but whether you ever SEE the neg is decided by COMBINE, and for an EVEN |K| it never disappears  <sub>L20857</sub>
-- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20905</sub>
-- **§199-E** — §189-A BOUNDED AND CORRECTED — the discriminator is INSN_PRIORITY, not "is the interloper a constant": an insn between a `lui`/`ori` pair proves NOTHING about the source spelling unless it TIES the `ori` on priority, and on the pinned `-mcpu=3000` triple a dependent load never does  <sub>L20965</sub>
-- **§199-F** — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)  <sub>L21024</sub>
-- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21078</sub>
-- **§199-REJECTED** — §199-REJECTED  <sub>L21133</sub>
-- **§200** — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P31 S55)  <sub>L21144</sub>
-- **§201** — THE WAVE-Y HARVEST (P31 S55): 67 gap reports -> 5 laws, 8 rejected, 53 already-covered  <sub>L21193</sub>
-- **§201-A** — §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definition" is usually another overlay's function, and the card ranks it ABOVE the destination TU  <sub>L21203</sub>
-- **§201-B** — In a narrowed PLUS/MINUS/AND/IOR/XOR expression the destination pointee is INERT — the sign of the materialized constant is decided by an OR over the UNWIDENED operands (convert.c trunc1), which bounds §1841 to direct constant stores  <sub>L21235</sub>
-- **§201-C** — §X — A CALL'S OWN DELAY SLOT AND THE UPSTREAM CONDITIONAL BRANCH'S SLOT COMPETE FOR ONE INSN (the call's argument copy), AND ONE STATEMENT'S POSITION RELATIVE TO THE CALL DECIDES BOTH — the residual is visible at the BRANCH, not at the call  <sub>L21315</sub>
-- **§201-D** — THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER `get_narrower` STRIPS WIDENING CONVERSIONS — NEVER BY A PROVABLE RANGE. AN `& 0xFF` IS NOT A CONVERSION, SO IT NEVER FLIPS THE MAGIC; A DECLARED-UNSIGNED LOCAL *OR* A NARROWING CAST WRITTEN AT THE DIVIDE BOTH DO.  <sub>L21366</sub>
-- **§201-E** — §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in the printed stream; a foreign store moved between the pair in C source is a real lever, and `volatile` is not always the better one  <sub>L21413</sub>
-- **§201-REJECTED** — eight, the session's highest  <sub>L21469</sub>
-- **§202** — THE ALIAS CARRIES A DEFINITION, NOT JUST A DECLARATION: the DEF-SIDE-RETURN wall (P31 S56)  <sub>L21494</sub>
-- **§203** — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)  <sub>L21531</sub>
-- **§204** — THE WAVE-Z HARVEST (P31 S56): 82 gap reports -> 5 laws, 16 rejected, 30 already-covered  <sub>L21592</sub>
-- **§204-A** — A COMPARE THAT APPEARS BOTH IN A BRANCH'S DELAY SLOT AND AGAIN ON THE FALL-THROUGH IS A JOIN WITH TWO INCOMING EDGES: THE TWO GUARDS ARE SEQUENTIAL `if`s, NEVER `if/else if`  <sub>L21611</sub>
-- **§204-B** — A LOOP COUNT THAT ARRIVES ON THE STACK IS DECREMENTED IN PLACE: a fresh counter local can cost a real `move` AND permute the whole callee-saved file  <sub>L21686</sub>
-- **§204-C** — WHEN A LOCAL BUFFER'S ADDRESS IS PASSED TO A CALL, ITS SIZE IS A FACT ABOUT THE CALLEE'S BODY, NOT ABOUT THE CALL SITE: grep the callee's proven definition and count the stores through the pointer parameter before you declare the local  <sub>L21750</sub>
-- **§204-D** — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED  <sub>L21808</sub>
-- **§204-E** — `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of 1,210  <sub>L21883</sub>
-- **§204-CONFIRMED** — 30 reports that the index already answered  <sub>L21935</sub>
-- **§204-REJECTED** — sixteen, twice the previous record  <sub>L22029</sub>
-- **§205** — THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy that no local, no pin and no statement reorder will move (P31 S56)  <sub>L22102</sub>
-- **§206** — THE JTBL-CARVE DRAFTING IDIOM: the bounds check is the entry count, and an EMPTY case owns a slot (P31 S56)  <sub>L22157</sub>
-- **§207** — THE WAVE ab–ag HARVEST (P31 S58): 278 byte-banked notes → 25 laws, 103 self-reported no-gap  <sub>L22226</sub>
-- **§208** — TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity owns the REGISTER SPLIT, not just the load count (P31 S58)  <sub>L22247</sub>
-- **§209** — THE NARROW LOCAL IS A DIAL IN TWO OPPOSITE DIRECTIONS, AND §194-B's "≥2 `sh` STORES" BOUND IS BYTE-WRONG (P31 S58)  <sub>L22296</sub>
-- **§210** — THE SINGLE-BIT MASK IN A BOOLEAN TAIL: `andi K ; sltu $zero,v` vs `srl n ; andi 1` is a STATEMENT-SHAPE dial, not an operator choice (P31 S58)  <sub>L22373</sub>
-- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22419</sub>
-- **§212** — THE WALKING CURSOR IS COUNTABLE: `*wp++` emits one `addiu` PER STORE, `wp[0..2]` emits one (P31 S58)  <sub>L22478</sub>
-- **§213** — INDEPENDENT SAME-BASE STORES: THE EMISSION ORDER IS A PERMUTATION OF SOURCE ORDER, AND THE PERMUTATION IS NOT ALWAYS THE IDENTITY (P31 S58)  <sub>L22523</sub>
-- **§214** — THE BANKED TWIN MAY BE A MACRO, A DELETED `.s`, OR A SEMANTIC INVERSE — six ways a ≥0.9 similarity lies (P31 S58)  <sub>L22559</sub>
-- **§215** — PIN ECONOMY: the twin's pins are NOT part of the shape, and §17's "pin every call-crossing value" is over-broad (P31 S58)  <sub>L22605</sub>
-- **§216** — DISTINCT ADJACENT SCALARS vs ONE ARRAY: one `lui` per access is the tell, and the array decl is UNUSABLE (P31 S58)  <sub>L22661</sub>
-- **§217** — DECODING A CALL'S STACK ARGUMENT SLOTS: `sw` at `0x10`/`0x14`/`0x18` are params 5/6/7 **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22701</sub>
-- **§218** — A NARROW TYPE AT THE ABI BOUNDARY COSTS AN IN-PLACE `sll/sra` PAIR — on the RETURN as well as on the PARAMETER (P31 S58)  <sub>L22727</sub>
-- **§219** — COMPOUND `+=`, FULL ASSIGNMENT, AND AN EXPLICIT TEMP ARE THREE DIFFERENT SCHEDULES OF ONE READ-MODIFY-WRITE (P31 S58)  <sub>L22756</sub>
-- **§220** — THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and place the save-copy AFTER the first call (P31 S58)  <sub>L22783</sub>
-- **§221** — A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22823</sub>
-- **§222** — SWITCH vs IF-CHAIN, PART 3: source arm order IS emission order, a leading EMPTY case buys the median split, and a 2-way dispatch with a shared post-block is a `switch` (P31 S58)  <sub>L22839</sub>
-- **§223** — READING A `jal` DELAY SLOT: the value in it was produced BEFORE the call, so it is NEVER that call's return (P31 S58)  <sub>L22881</sub>
-- **§224** — CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31 S58)  <sub>L22943</sub>
-- **§225** — THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58)  <sub>L22979</sub>
-- **§226** — FRAME PADS: FOUR WAYS §162i1/§2429's DEAD-LOCAL LEVER MISFIRES (P31 S58)  <sub>L23022</sub>
-- **§227** — TYPE THE SOURCE BY THE **LOAD** WIDTH, NOT BY THE STORE WIDTH (P31 S58)  <sub>L23063</sub>
-- **§228** — READING THE DIVIDE, PART N: the off-by-one compare is `% K == 1`, and three more discriminators (P31 S58)  <sub>L23083</sub>
-- **§229** — THE ADDRESS IS A VALUE: NAMING IT MOVES THE `lui`/`addiu` PAIR — AND §L14410 SAYS THE OPPOSITE FOR A REASON (P31 S58)  <sub>L23120</sub>
-- **§230** — THE ANCHOR PROBE: with `%hi`/`%lo` masked, the surviving `addiu` deltas tell you which assignment was written first **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23169</sub>
-- **§231** — TRANSCRIPTION AND SEMANTIC-READ HYGIENE: six ways the listing misleads (P31 S58)  <sub>L23184</sub>
-- **§232** — WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23225</sub>
-- **§30** — addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual with one edit  <sub>L23261</sub>
-- **§194-B** — addendum (P31 S58) — BOUND 2 is byte-wrong; see §209 Direction A  <sub>L23281</sub>
-- **§176-B** — addendum (P31 S58) — the misdiagnosis direction  <sub>L23287</sub>
-- **§165-40** — addendum (P31 S58) — the barrier goes at the COPY SITE, not inside the region it protects  <sub>L23293</sub>
-- **§164-63** — addendum (P31 S58) — the interposed asm works when the SECOND value is an ordinary assignment  <sub>L23302</sub>
-- **§193-A** — / §194-E addendum (P31 S58) — where the twin's body actually lives  <sub>L23311</sub>
-- **§233** — THE WAVE aa–bg HARVEST (P31 S58b): 1,101 byte-banked notes → 24 new laws, 21 addenda, ~700 already-covered  <sub>L23317</sub>
-- **§234** — CONSTANT MATERIALISATION: THE STORE LVALUE'S SIGNEDNESS PICKS `addiu` vs `li`/`ori` (P31 S58b)  <sub>L23361</sub>
-- **§235** — THE PHANTOM SYMBOL: A MASKED `MATCH` CAN CARRY A RELOCATION THAT DOES NOT EXIST (P31 S58b)  <sub>L23402</sub>
-- **§236** — THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS THE GATE (P31 S58b)  <sub>L23431</sub>
-- **§237** — THE CAST-AT-CALL-SITE DECISION TABLE: WHAT §17a-1 FIXES, WHAT IT CANNOT, AND THE FOUR ESCAPES (P31 S58b)  <sub>L23510</sub>
-- **§238** — SAME NAME, DIFFERENT FUNCTION: THE OVERLAY-HOMONYM TRAP (P31 S58b)  <sub>L23565</sub>
-- **§239** — TWO-STATEMENT INTEGER-SPACE MATERIALISATION REORDERS `la` vs `sll`; AND THE PLUS-TREE OPERAND ORDER (P31 S58b)  <sub>L23605</sub>
-- **§240** — `A + K + B`: WRITE THE CONSTANT **BETWEEN** THE TWO RUNTIME TERMS (P31 S58b)  <sub>L23639</sub>
-- **§241** — THE FOLDED SIGN-EXTEND-AND-SCALE: `sll 16 ; sra (16 − log2 scale)` (P31 S58b)  <sub>L23668</sub>
-- **§242** — `*k` vs `<<n`, AND `/2^n` vs `>>n`: EXPRESSION SPELLING OWNS THE LOAD WIDTH AND THE ROUNDING CHAIN (P31 S58b)  <sub>L23697</sub>
-- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23725</sub>
-- **§244** — `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC (P31 S58b)  <sub>L23755</sub>
-- **§245** — THE CALL'S ARGUMENT LIST IS A SCHEDULING SLOT (P31 S58b)  <sub>L23790</sub>
-- **§246** — THREE-LIVE-VALUE SCAN LOOPS WANT ADDRESS-FROM-INDEX; AND TWO SYMBOLS CAN SHARE ONE giv (P31 S58b)  <sub>L23837</sub>
-- **§247** — TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b)  <sub>L23877</sub>
-- **§248** — SPLIT THE LOAD FROM THE ARITHMETIC: A FUSED `g + K` DENIES THE CALLEE-SAVED REGISTER ITS DIRECT HOME (P31 S58b)  <sub>L23911</sub>
-- **§249** — THE SELF-ASSIGN, THE DEAD RE-ASSIGN, AND THE `+ zr` COPY: THREE WAYS TO MAKE A DELETED INSTRUCTION REAL (P31 S58b)  <sub>L23935</sub>
-- **§250** — `%hi/%lo` vs `lw`: THE EXTERN'S ARRAY-vs-SCALAR SHAPE DECIDES ADDRESS MATERIALISATION (P31 S58b)  <sub>L23977</sub>
-- **§251** — IMMEDIATE-SPELLING TRIGGERS: `+= 0xFF`, FULL-WIDTH `~K`, AND THE TWO-OR SPLIT (P31 S58b)  <sub>L24014</sub>
-- **§252** — THE GUARDED PRE-DECREMENT: `(x != 0) && (--x == 0)` (P31 S58b)  <sub>L24036</sub>
-- **§253** — POSTFIX `++` vs `+= 1` PICKS A DIFFERENT SCRATCH REGISTER **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24057</sub>
-- **§254** — THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24071</sub>
-- **§255** — THE EMPTY CASE, PART 2: FOUR TREE SHAPES IT BUYS (P31 S58b)  <sub>L24083</sub>
-- **§256** — GOTOS IN THE TARGET'S BLOCK ORDER REPRODUCE SWITCH PLACEMENT WITHOUT SWITCH'S SIDE EFFECTS (P31 S58b)  <sub>L24118</sub>
-- **§257** — THE DEAD-END LEDGER (P31 S58b): ELEVEN LEVERS THAT MEASURED NULL OR BACKFIRED  <sub>L24155</sub>
-- **§258** — ADDENDA TO EXISTING SECTIONS (P31 S58b)  <sub>L24198</sub>
-- **§30** — addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-ONE  <sub>L24203</sub>
-- **§194-B** — / §209 addendum (P31 S58b) — TWO MORE INSTANCES, AND THE BOUND IS NOW REFUTED FOUR WAYS  <sub>L24224</sub>
-- **§202** — addendum (P31 S58b) — THE DEF-SIDE ALIAS ALSO CLEARS A RETURN+PARAM DOUBLE CONFLICT  <sub>L24247</sub>
-- **§205** — addendum (P31 S58b) — CHAINED ASSIGNMENT: N≥3 IS INNERMOST-FIRST, AND THE TEXT MIRRORS EMISSION  <sub>L24258</sub>
-- **§208** — addendum (P31 S58b) — IT SCALES TO SIX SITES, AND IT HAS AN EXACT INVERSE  <sub>L24275</sub>
-- **§210** — addendum (P31 S58b) — THREE CONFIRMED SPELLINGS OF THE BOOLEAN TAIL  <sub>L24304</sub>
-- **§211** — addendum (P31 S58b) — INIT PLACEMENT: FIVE MORE DIALS BEYOND THE GUARD HOIST  <sub>L24320</sub>
-- **§213** — addendum (P31 S58b) — THREE MORE PERMUTATION LAWS FOR INDEPENDENT SAME-BASE STORES  <sub>L24363</sub>
-- **§214** — addendum (P31 S58b) — FOUR MORE WAYS A HIGH-SIMILARITY TWIN LIES  <sub>L24392</sub>
-- **§215** — addendum (P31 S58b) — PIN ECONOMY, PART 2: NINE REFINEMENTS  <sub>L24428</sub>
-- **§217** — CROSS-CONFIRMED (P31 S58b) — AND THE INCOMING HOME SLOT IS THE MIRROR  <sub>L24480</sub>
-- **§220** — addendum (P31 S58b) — THE PARAMETER, NOT A COPY (SEVEN CARDS)  <sub>L24497</sub>
-- **§222** — addendum (P31 S58b) — IF-CHAIN vs SWITCH: THREE MORE DISCRIMINATORS  <sub>L24522</sub>
-- **§223** — addendum (P31 S58b) — FIVE MORE CONFIRMATIONS, AND THE CONSTANT-IN-`$v0` CASE  <sub>L24540</sub>
-- **§224** — addendum (P31 S58b) — CROSS-JUMP MERGES *CALLS*, AND THE DELAY SLOT IS THE DISCRIMINATOR  <sub>L24564</sub>
-- **§225** — addendum (P31 S58b) — THE GUARD-CLAUSE FINGERPRINT, AND THREE MORE SHAPES  <sub>L24594</sub>
-- **§226** — addendum (P31 S58b) — THE FRAME CATALOGUE: SEVEN MORE LEVERS, AND SLOT ORDER IS DECLARATION ORDER  <sub>L24621</sub>
-- **§229** — addendum (P31 S58b) — NAME IT **INSIDE** THE ARM  <sub>L24666</sub>
-- **§230** — CROSS-CONFIRMED (P31 S58b)  <sub>L24677</sub>
-- **§231** — addendum (P31 S58b) — FOUR MORE WAYS THE LISTING MISLEADS  <sub>L24686</sub>
-- **§232** — CROSS-CONFIRMED (P31 S58b)  <sub>L24717</sub>
-- **§259** — THE DISCARD LEDGER FOR THE aa–bg HARVEST (P31 S58b): WHAT WAS MINED AND REJECTED, AND WHY  <sub>L24728</sub>
-- **§260** — THE §154-A LEADING-ISLAND SPLIT: ONE CONFIG LINE, AND THE ISLAND PEELS FROM THE END (P31 S59, byte-proven)  <sub>L24767</sub>
-- **§260-A** — STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day)  <sub>L24817</sub>
-- **§261** — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)  <sub>L24853</sub>
-- **§261a** — THE -O0 FRAME-RELOAD GRAMMAR: reload COUNT disambiguates the C spelling (P31 S59, byte-proven)  <sub>L24879</sub>
-- **§262** — A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59)  <sub>L24901</sub>
-- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24931</sub>
-- **§264** — FOUR TELLS-LANE C RECIPES, EACH DRIVEN TO MATCH (P31 S59)  <sub>L24972</sub>
-- **§265** — THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BODY (P31 S59b; two banked cards, two in-tree precedents)  <sub>L25022</sub>
-- **§266** — THE INERT-RIDER LAW: A LEVER IS ONLY CITABLE WHEN ITS SOLO REMOVAL BREAKS THE MATCH (P31 S59b; measured 4-of-8 on this batch)  <sub>L25084</sub>
-- **§267** — ADDENDA HARVESTED FROM WAVES at/bh/bk/bl (P31 S59b)  <sub>L25124</sub>
-- **ADD-1** — → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION  <sub>L25132</sub>
-- **ADD-2** — → §42a addendum — A SHARED CONSTANT *NAMED IN A LOCAL* ACROSS A `jal` IS AN ISO→TU DRIFT HAZARD; WRITE BARE LITERALS  <sub>L25141</sub>
-- **ADD-3** — → §236, item 10 — THE UN-DELETED `INCLUDE_ASM` STUB IS A DUPLICATE DEFINITION  <sub>L25153</sub>
-- **ADD-4** — → §225-3/-4 addendum — THE MIRROR ROW: VALUE-RETURN IN THE *TAKEN* ARM + TRAILING BARE `return 0`  <sub>L25163</sub>
-- **ADD-5** — → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TRAILING `else`  <sub>L25177</sub>
-- **ADD-6** — → §172b-1 / §264 addendum — SHIFT-AS-TEST: `(x << 16) != 0` TESTS THE LOW HALF WITHOUT TRUNCATING THE PSEUDO  <sub>L25186</sub>
-- **ADD-7** — → §256 addendum — THE SINGLE-GUARD GOTO: THEN-BLOCK OUT OF LINE AT THE TAIL  <sub>L25195</sub>
-- **ADD-8** — → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)  <sub>L25207</sub>
-- **ADD-9** — → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED SCALAR NEIGHBOR IS DEAD-STORED  <sub>L25219</sub>
-- **ADD-10** — → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS AN OUTGOING-ARGUMENT MATERIALISATION  <sub>L25229</sub>
-- **ADD-11** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25238</sub>
-- **§268** — A `register __asm__` PIN ON A CALL-CLOBBERED REGISTER IS HONORED EXACTLY WHEN THE PINNED RANGE CROSSES NO CALL (P31 S59c; three A/B'd cards, unifying §257-2's two)  <sub>L25289</sub>
-- **§269** — ADDENDA HARVESTED FROM WAVES ax/bm (P31 S59c)  <sub>L25343</sub>
-- **ADD-1** — → §257-8 addendum — THE INTERPOSED ASM'S `__volatile__` IS A PER-SHAPE DIAL, AND THE "NO-OUTPUT ASM IS IMPLICITLY VOLATILE" LORE IS BYTE-FALSE IN gcc-2.7.2  <sub>L25358</sub>
-- **ADD-2** — → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE  <sub>L25371</sub>
-- **ADD-3** — → §238 addendum — TWO BINARIES CAN EACH DEFINE THE SAME `func_` NAME WITH DIFFERENT BYTES, AND NO GENERATED REPORT SHOWS IT  <sub>L25385</sub>
-- **ADD-4** — → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAME IT **AND** STORE **INSIDE** THE ARM  <sub>L25398</sub>
-- **ADD-5** — → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON THE SHIFTED COPY, RAW STAYS LIVE — AND THE HALFWORD-ABS SHAPE NEEDS NO RITUAL  <sub>L25415</sub>
-- **ADD-6** — → §220-addendum — THE FOURTH FACE: WHEN THE NAMED COPY ITSELF BUYS THE EXTRA CALLEE-SAVED, PIN THE COPY TO `$16`  <sub>L25431</sub>
-- **ADD-7** — → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE POSITION; NAME IT TO PIN THE PROLOGUE INIT ORDER  <sub>L25447</sub>
-- **ADD-8** — → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST-PLUS GIVES SERIALIZATION *AND* DISPLACEMENT FOLDING  <sub>L25460</sub>
-- **ADD-9** — → §255 "AND CASE-BODY PLACEMENT" bound / §222-addendum-3 — ON A LARGE SPARSE TREE, BODIES FOLLOW **SOURCE** ORDER (measured by a one-word probe)  <sub>L25475</sub>
-- **ADD-10** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25489</sub>
-- **§3-1a.** — The §266 sweep — every solo-lever A/B run for this batch  <sub>L25530</sub>
-- **§270** — The A-prop 0-bank anatomy: a byte-correct body still needs FOUR layers to agree (P31 S59)  <sub>L25563</sub>
-- **§271** — Ordinal IMM pairing: text order is NOT emission order; emit CANDIDATES, let the oracle pick (P31 S59)  <sub>L25581</sub>
-- **§272** — The `(void)`-decl + empty-call wall: K&R the DEFINITION, not just the decls (P31 S59)  <sub>L25603</sub>
-- **§273** — A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59)  <sub>L25623</sub>
-- **§274** — ADDENDA HARVESTED FROM 18 WAVES (P31 S60): 315 candidates, 255 already covered, 21 sharpenings, 3 new laws  <sub>L25638</sub>
-- **ADDENDUM** — to §179-C — the `.type NAME, @function` requirement  <sub>L25644</sub>
-- **ADDENDUM** — to §134 — a typedef defined BELOW the splice point is stripped anyway  <sub>L25691</sub>
-- **ADDENDUM** — to §179-D (GTE macro reference family) — `gte_SetRotMatrix`/`gte_SetTransMatrix` bodies  <sub>L25721</sub>
-- **ADDENDUM** — to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save  <sub>L25747</sub>
-- **ADDENDUM** — to §136d-1 (RC-12, the `$0`-add / opaque-copy family) — two symptoms beyond "compare reads the wrong register"  <sub>L25785</sub>
-- **ADDENDUM** — to §20 — a global declared as `T *` may itself BE the array base, not a pointer to dereference  <sub>L25824</sub>
-- **ADDENDUM** — to §1-I5  <sub>L25853</sub>
-- **ADDENDUM** — to §164-51  <sub>L25918</sub>
-- **ADDENDUM** — to §176-F5  <sub>L25934</sub>
-- **ADDENDUM** — to §225  <sub>L25963</sub>
-- **ADDENDUM** — to §224 — CROSS-JUMP: THE DUPLICATE CAN BE A PLAIN STORE, NOT ONLY A CALL  <sub>L26008</sub>
-- **ADDENDUM** — to §164-64 — AN EMPTY CLOBBER ON AN ARGUMENT REGISTER CAN BE THE DELIBERATE FIX, NOT JUST THE ACCIDENTAL BUG  <sub>L26042</sub>
-- **ADDENDUM** — to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTER-OFFSET FIELD  <sub>L26073</sub>
-- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26104</sub>
-- **ADDENDUM** — to §229 — A POINTER'S NUMBER OF USES DECIDES WHETHER ITS ADDRESS FOLDS OR SURVIVES A CALL  <sub>L26151</sub>
-- **ADDENDUM** — to §172b-4 — THE PLAIN CAST-DIVISION ALREADY PRODUCES THE PATTERN; DON'T HAND-ROLL THE BIAS, AND KEEP THE OPERAND WIDE  <sub>L26196</sub>
-- **ADDENDUM** — to §8 — WHEN `INCLUDE_RODATA` NEEDS A STANDALONE `.s` YOU CAN'T CREATE, CARRY THE FRAGMENT AS A FILE-SCOPE `__asm__` BLOB  <sub>L26226</sub>
-- **ADDENDUM** — to §226 — A DEAD LOCAL SCOPED TO A NESTED BLOCK BUYS A MID-FUNCTION `addiu sp` PAIR, NOT A FRAME-SIZE CHANGE  <sub>L26269</sub>
-- **ADDENDUM** — to §172a — RE-READING MEMORY (NOT NAMING A TEMP) IS WHAT KEEPS AN INCREMENT'S DELAY-SLOT FILL ALIVE  <sub>L26308</sub>
-- **ADDENDUM** — to §225 / §256 — A GOTO TO A SHARED SET-POINT PREVENTS IF-CONVERSION FROM COLLAPSING A LATER BRANCH TEST  <sub>L26339</sub>
-- **ADDENDUM** — to §211 — AN IN-LOOP ACCUMULATOR WANTS A CLOSED-FORM EXPRESSION WHEN THE TARGET REMATERIALISES ITS CONSTANT AFTER EVERY CALL  <sub>L26381</sub>
-- **§275** — THE LEFTOVER-REGISTER READ  <sub>L26416</sub>
-- **§276** — MIXED ADDRESS-EXPRESSION SPELLING FOR ADJACENT RELOCATABLE SYMBOLS IS A CSE-UNIFICATION DIAL, NOT JUST A BYTE-ENCODING CHOICE (P31 S60; `func_80180FE8`, ov_SC06_006, byte-proven)  <sub>L26456</sub>
-- **§277** — RETURN-TAIL C SPELLING PICKS THE DELAY-SLOT-FILL vs TRAILING-MOVE TOPOLOGY, AND A NARROWER SECOND VARIABLE KEEPS TWO PSEUDOS INSTEAD OF ONE (P31 S60; `func_801846F0` ov_SC03_104, `func_801A44C4` md_SC07_004, both byte-proven)  <sub>L26565</sub>
-- **§278** — ADDENDA HARVESTED FROM WAVE cf (P31 S60): 34 candidates, 13 already covered, 8 sharpenings, 4 new laws  <sub>L26629</sub>
-- **ADDENDUM** — to §74 (func_800D0E30, resident)  <sub>L26637</sub>
-- **ADDENDUM** — to §172b-4 (func_80185054, ov_SC03_097)  <sub>L26673</sub>
-- **ADDENDUM** — to §265 (func_8017DC80, ov_SC07_002)  <sub>L26711</sub>
-- **ADDENDUM** — to §17 (func_800CB794, md_MAIN_036)  <sub>L26750</sub>
-- **ADDENDUM** — to §162p (func_8017C120, ov_MAIN_012)  <sub>L26798</sub>
-- **ADDENDUM** — to §20 (~L1947) (func_80186AD0, ov_SC06_032)  <sub>L26832</sub>
-- **ADDENDUM** — to §164-56 (func_8017F644, ov_SC04_005)  <sub>L26862</sub>
-- **ADDENDUM** — to §237 (func_8017F7FC, ov_SC03_092)  <sub>L26897</sub>
-- **§279** — A `do/while (p < end)` LOOP UNDER AN ENTRY GUARD: the guard decides the compare, not the loop (P31 S60; wave cf, func_8017F2A4, ov_SC03_096, byte-proven)  <sub>L26926</sub>
-- **§NNN** — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)  <sub>L26927</sub>
-- **§280** — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)  <sub>L26960</sub>
-- **§NNN** — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)  <sub>L26961</sub>
-- **§281** — GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, the source must not (P31 S60; wave cf, func_80180FB4, ov_SC03_111, byte-proven)  <sub>L26994</sub>
-- **§NNN** — A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AND SCHED1 DOES THE INTERLEAVING (P31 S60; `func_80180FB4`, ov_SC03_111, byte-proven)  <sub>L26995</sub>
-- **§282** — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)  <sub>L27040</sub>
-- **§NNN** — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)  <sub>L27041</sub>
-- **What** — I could not verify  <sub>L27078</sub>
-- **§283** — ADDENDA HARVESTED FROM THE 36-WAVE BATCH (P31 S60): 1,216 candidates, 859 already covered, 46 sharpenings, 9 new laws  <sub>L27125</sub>
-- **ADDENDUM** — to §164-75 — the fold-reassociation law also fires at a variable's INITIALIZER, not only a later expression  <sub>L27135</sub>
-- **ADDENDUM** — to §21 — the `bltz`+`slti` (or N-separate-compares) signed-range-split bullet is now CONFIRMED on three independent functions, and generalizes beyond `lbu`/u8  <sub>L27161</sub>
-- **ADDENDUM** — to §202 — the DEF-SIDE ALIAS also resolves a function-vs-DATA-symbol identifier clash, not only a function-vs-function prototype clash  <sub>L27207</sub>
-- **ADDENDUM** — to §22 (`volatile`-qualified-global reload lever, cookbook ~L1922) — for a NON-constant, same-address double RMW, a plain memory clobber beats `volatile`, and `volatile` actively breaks a delay-slot fill  <sub>L27230</sub>
-- **ADDENDUM** — to §195-E — a goto-ladder's STORES must sit AT the labels, after the gotos, not inline before them  <sub>L27249</sub>
-- **ADDENDUM** — to §195-N — a GNU statement-expression slider must sit INSIDE the conditional arm's value position, not as a post-hoc barrier, to block the store-flag transform on a ternary chain  <sub>L27311</sub>
-- **ADDENDUM** — to §176-B2 — in a micro-function with no long/short lifetime asymmetry, BOTH contending pseudos need their own hard-register pin  <sub>L27368</sub>
-- **ADDENDUM** — to §199-G — A `default:` LABEL GROUPED ONTO THE LAST CASE REMOVES THE `j default` TAIL, EVEN THOUGH THE 2-NODE HEADER STAYS ALL-POSITIVE  <sub>L27415</sub>
-- **ADDENDUM** — to §220 — REFERENCING THE RAW PARAMETER (NO NAMED COPY, NOT EVEN A PIN) LETS THE CALLEE-SAVED SPILL LAND IN THE FIRST CALL'S OWN DELAY SLOT  <sub>L27484</sub>
-- **ADDENDUM** — to §252 — a `>=0`/`<0` split on an unconditionally-decremented value needs the POSTFIX operator INSIDE the branch condition, not a prior statement  <sub>L27542</sub>
-- **ADDENDUM** — to §215 — FIFTH SHAPE: reused mask constants across two call-free merge sites each get their own whole-function hard-register pin, and a shared sub-expression at the second site must be its own statement  <sub>L27569</sub>
-- **What** — I could not verify  <sub>L27652</sub>
-- **Harness-defect** — flags  <sub>L27723</sub>
-- **ADDENDUM** — to §167-40 (func_8017E2CC, ov_SC04_015 — wave dg)  <sub>L27816</sub>
-- **ADDENDUM** — to §20's cross-jump EXPLOIT bullet (func_8017E360, ov_SC05_007 — wave dg)  <sub>L27836</sub>
-- **ADDENDUM** — to §87 (func_801815F4 ov_SC06_032; corroborating func_801840DC ov_SC05_017, func_80189C68 ov_SC03_006 — wave dg)  <sub>L27850</sub>
-- **ADDENDUM** — to §153 / §236-5 (func_801A419C, md_SC07_003 — waves di and dl, corroborating; refutes a contradicted dj-wave card)  <sub>L27869</sub>
-- **ADDENDUM** — to §263 (func_801E83AC, md_SC04_029 — wave dj)  <sub>L27889</sub>
-- **ADDENDUM** — to §265 (func_8017D878, ov_SC03_107 — wave dj; corroborated by a REJECTED, contradicted card in wave dm — see closing)  <sub>L27903</sub>
-- **ADDENDUM** — to §6 (func_801811F0, ov_SC03_102 — waves dj and dl, corroborated by a self-reported "nothing new" dm-wave card)  <sub>L27917</sub>
-- **ADDENDUM** — to §195-G (func_80183BB0, ov_SC05_001 — wave dj)  <sub>L27931</sub>
-- **ADDENDUM** — to the zero-byte-asm-slider family (§47 / §148-C / §153) (func_800CB874, md_MAIN_040 — wave dj; open tension with a more cautious dm-wave card — see closing)  <sub>L27959</sub>
-- **ADDENDUM** — to §194-B (func_8017EB34, ov_SC03_117 — wave dk; distinct from the §74 co-pinning finding on the SAME function below)  <sub>L27977</sub>
-- **ADDENDUM** — to §74 (func_8017EB34, ov_SC03_117 — counter/clamp variant; wave dj, corroborated by dk/dl/dm cards on the same function)  <sub>L28009</sub>
-- **ADDENDUM** — §37 — merged into the §153/§236-5 entry above (func_801A419C, wave dl)  <sub>L28029</sub>
-- **ADDENDUM** — §6 — merged into the §6 entry above (func_801811F0, wave dl)  <sub>L28037</sub>
-- **ADDENDUM** — to §238 (func_80182CB4, ov_SC02_000 — wave dl)  <sub>L28045</sub>
-- **ADDENDUM** — to §137a (func_801684B4, ov_MAIN_012; corroborated independently by func_80189E68, func_8017FF9C, func_801822B4, func_8018DA8C — wave dl)  <sub>L28063</sub>
-- **ADDENDUM** — to §8c / §88d (func_8016AB6C, ov_MAIN_012 — wave dm)  <sub>L28079</sub>
-- **ADDENDUM** — to §73 / §30#2 (func_800D1984, resident — wave dm)  <sub>L28093</sub>
-- **What** — I could not verify  <sub>L28109</sub>
-- **ADDENDUM** — to §174 Law 4 (func_8017E9A8, ov_SC06_015)  <sub>L28129</sub>
-- **ADDENDUM** — the zero-emission-asm family gains a REF-SLIDER PLACEMENT LAW and a paired RESTORER (func_800CB900, md_MAIN_026)  <sub>L28169</sub>
-- **From** — ck + cl + cm  <sub>L28221</sub>
-- **ADDENDUM** — §NNN — sharpens §55a / §164-37 / §165-28 (switch-vs-tree cluster): A SHAPE THAT LOOKS LIKE A SWITCH DISPATCH CAN BE PLAIN NESTED `if`s WHOSE SHARED BODY WAS TRIPLICATED BY THE SOURCE AND THEN CROSS-JUMP-MERGED BACK DOWN  <sub>L28227</sub>
-- **ADDENDUM** — §NNN — sharpens §167-13's boundary: CHAINING TWO IDENTICAL SIDE-BY-SIDE STORES INTO ONE C ASSIGNMENT STATEMENT IS A MID-BLOCK SCHEDULING-PRIORITY DIAL, NOT ONLY A STORE-ORDER SPELLING  <sub>L28264</sub>
-- **ADDENDUM** — §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED HALFWORD IS A SIGNED-TEMP WIDTH TELL OUTSIDE ANY SWITCH/RANGE-TEST CONTEXT  <sub>L28297</sub>
-- **ADDENDUM** — §NNN — sharpens §37/§124 (unspecified-parameter-list family): DERIVE A CALLEE'S ARITY LOWER BOUND FROM ITS OWN `.s` STACK-ARGUMENT READS, NOT FROM ANY SINGLE CALL SITE  <sub>L28330</sub>
-- **ADDENDUM** — to §5a (func_80181F74, ov_SC03_112, wave cn)  <sub>L28363</sub>
-- **ADDENDUM** — to §265 (func_8017E26C, ov_SC04_016, wave cn)  <sub>L28413</sub>
-- **ADDENDUM** — to §42b (func_8018247C, ov_SC07_002, waves cu + cw)  <sub>L28451</sub>
-- **ADDENDUM** — to §199-F family (func_8017EFB0, ov_SC02_021, wave cu)  <sub>L28482</sub>
-- **ADDENDUM** — to §195-E (func_800CFC1C, md_MAIN_003, wave cv)  <sub>L28537</sub>
-- **ADDENDUM** — to §215 addendum (func_800CB2C8, md_MAIN_033, waves cv + cw)  <sub>L28582</sub>
-- **ADDENDUM** — to §236 item 4 (func_8017D268, ov_SC04_006, wave cw)  <sub>L28638</sub>
-- **What** — I could not verify  <sub>L28667</sub>
-- **Harness-defect** — flags (not idioms — flagged for the operator)  <sub>L28699</sub>
-- **ADDENDUM** — to §250 (func_8017D7CC, ov_SC03_115 — cx/cy/cz/dr)  <sub>L28740</sub>
-- **ADDENDUM** — to §225 (func_8017E190, ov_SC03_115 — cx/cy/cz)  <sub>L28785</sub>
-- **ADDENDUM** — to §45-A (func_8017F6A4, ov_SC02_016 — cy/cz)  <sub>L28838</sub>
-- **ADDENDUM** — to §249 (func_80182ED4, ov_SC04_004 — dp/dr/dt)  <sub>L28882</sub>
-- **ADDENDUM** — to §199-A (func_801816FC, ov_SC02_005 — dp/dr/dt)  <sub>L28927</sub>
-- **What** — I could not verify  <sub>L28973</sub>
-- **Harness-defect** — flags  <sub>L29016</sub>
-- **§284** — COMBINE CAN REASSOCIATE TWO SEQUENTIAL BITWISE-AND MASKS INTO ONE AGAINST THE PRE-MASK VALUE; AN ASM IN/OUT FENCE RIGHT AFTER THE FIRST MASK BLOCKS IT (P31, wave dd, `func_8018087C`, ov_SC04_020, byte-proven) (P31 S60; waves #, byte-proven)  <sub>L29078</sub>
-- **§285** — PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE FOLLOWING if/else DESTRUCTIVELY REUSE THE SAME DESTINATION REGISTER FOR THEIR BITWISE RESULT (byte-proven; `func_801811F0`, ov_SC03_102, independently rediscovered across waves di/dj) (P31 S60; waves #, byte-proven)  <sub>L29082</sub>
-- **§286** — FOLD A STATEMENT'S SIDE EFFECT INTO A COMMA-EXPRESSION IN AN ARGUMENT POSITION TO PLACE ITS RTL RELATIVE TO A CALL'S OWN DELAY SLOT (P31 S60/dj; `func_80180A88`, ov_SC06_010, byte-proven 411/411) (P31 S60; waves #, byte-proven)  <sub>L29086</sub>
-- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29090</sub>
-- **§288** — A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES THE FIXED REGISTER'S SAVE/RESTORE, AND THE ASSIGNMENT'S SOURCE POSITION CONTROLS WHERE THE VALUE MATERIALIZES (P31; `func_80186530`, ov_SC02_017, byte-proven, match_one MATCH re-verified) (P31 S60; waves #, byte-proven)  <sub>L29094</sub>
-- **§289** — an array local's address-taken base keeps every element's store alive, even though only one pointer escapes (`func_80189EFC`, ov_SC04_011) (P31 S60; waves #, byte-proven)  <sub>L29098</sub>
-- **§290** — A SINGLE STRENGTH-REDUCED GIV CAN DRIVE STORES TO SEVERAL DISTINCT RELOCATABLE SYMBOLS, EACH KEEPING ITS OWN `%hi`/`%lo` ANCHOR (P31 S60; waves #, byte-proven)  <sub>L29102</sub>
-- **§291** — THE DELAY-SLOT FALSE-VALUE: A CONDITIONAL BRANCH'S ZERO ARM MUST BE A FALL-THROUGH-ADJACENT BLOCK ENDING IN AN EXPLICIT JUMP, OR REORG CANNOT MATERIALIZE IT INSIDE THE BRANCH'S OWN DELAY SLOT (P31 S60; waves #, byte-proven)  <sub>L29106</sub>
-- **§292** — DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPLICIT (K&R) DECLARATION CAN SILENTLY REPROTOTYPE THE SIBLING'S OWN CALL SITE (P31 S60; waves #, byte-proven)  <sub>L29110</sub>
-- **§293** — THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND THE LOAD-BEARING ONE IS "THE BASELINE, NOT THE SIBLINGS" (P31 S61; byte-proven on 15 binaries in one night)  <sub>L29113</sub>
-- **§294** — ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2): 99 candidates, 52 covered, 15 notes → 10 addenda, 29 notes → 5 new laws (§295–§299), 3 refuted  <sub>L29163</sub>
-- **ADDENDUM** — to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the index being constant  <sub>L29174</sub>
-- **ADDENDUM** — to §261a — FOUR MORE -O0 DIALS BEYOND THE RELOAD COUNT (boot.c + md_MAIN_011/003, wave m0a/g0a/g0f, byte-proven)  <sub>L29202</sub>
-- **ADDENDUM** — to §264-3 — the explicit entry copy's BOUND: required exactly when the RAW value must outlive the call that consumes only the PROMOTED value  <sub>L29252</sub>
-- **ADDENDUM** — to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator  <sub>L29272</sub>
-- **ADDENDUM** — to §276 — the SHARE direction: spell the second adjacent symbol RELATIVE to force ONE anchor  <sub>L29284</sub>
-- **ADDENDUM** — to §31's density-dummy dial (L2460/L2497) — the dose is TWO refs, and the dummy must sit where the loser is live-through  <sub>L29300</sub>
-- **ADDENDUM** — to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction births the induction register at loop.c's own insertion point  <sub>L29317</sub>
-- **ADDENDUM** — to §253 — SECOND byte-proven card (upgrade from single-observation), and the placement face: postfix-in-condition parks the RMW store in the branch delay slot  <sub>L29340</sub>
-- **ADDENDUM** — to the L1800 anchor-steer bullet — a DERIVED-POINTER local silently flips the merged giv's anchor END  <sub>L29361</sub>
-- **ADDENDUM** — to §31's asm→layout inference — TWO WIDTH-PAIR DISCRIMINATORS (same offset, different widths)  <sub>L29384</sub>
-- **§295** — THE KERNEL-TRAP STUB: §81's jr-DETECTOR WITHOUT A TABLE IS A PsyQ SYSCALL TRAMPOLINE — ROUTE TO §265, NEVER INTO THE CARVE CHAIN (P31 S61; wave m0a, 9 cards byte-proven; resolves §182's held cluster)  <sub>L29405</sub>
-- **§296** — THE FRAME CHECK OUTRANKS THE ATLAS LEVER: READ PROLOGUE/EPILOGUE BEFORE DRAFTING ANY C — A REAL TELL CAN LIVE INSIDE AN UNREACHABLE FRAGMENT (P31 S61; wave m0a, 16 cards byte-proven; extends §179-C)  <sub>L29460</sub>
-- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29503</sub>
-- **§298** — THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUPLICATED STATEMENTS, NOT A HOISTED POST-SWITCH STATEMENT (P31 S61; waves g0e/g0f, `func_80181B68`, ov_SC06_016, byte-proven 68/68)  <sub>L29546</sub>
-- **§299** — TWO INDEPENDENT EXTRACTION CHAINS EMIT CONTIGUOUSLY INSIDE ONE EXPRESSION; ONLY A STATEMENT BOUNDARY MAKES THE SCHEDULER INTERLEAVE THEM (P31 S61; wave m0a, `func_8003A404`, main, byte-proven 8/8)  <sub>L29571</sub>
-- **§300** — S61 DISTILL BATCH NOTES (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2 · m0b)  <sub>L29606</sub>
-- **§301** — AN INTERNAL `j` CARRIES `R_MIPS_26 .text`: rtu/match_one "MATCH" COULD NOT SEE WHICH LABEL A `j` TAKES — FIXED (`jrel`), AND THE TWO DRAFT SHAPES IT HID (P31 S62 T1; byte-proven 2/2, negative-controlled over 3,297 stubs)  <sub>L29675</sub>
-- **§302** — A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO DERIVE EACH FROM THE BYTES (P31 S62 T2; five reds healed in one session, 5/5, +39 held banks)  <sub>L29723</sub>
-- **§303** — MODULE ISLAND TABLES: DERIVE THE PADS AT BUILD TIME, PEEL NOTHING — THE §154-A/§260 "island-pads"/"island-blocked" WALLS DISSOLVE (P31 S62 T3a; byte-proven md_SC03_076 func_801F0A9C + func_801F0F28, sha 9a165e36…)  <sub>L29767</sub>
-- **§304** — SELF-DEFINING RODATA: WHEN A FUNCTION'S `.s` IS THE ONLY OWNER OF THE DATA IT REFERENCES, THE C BODY MUST DEFINE IT (P31 S62 T3; byte-proven md_MAIN_011/func_800D04F4)  <sub>L29803</sub>
-- **§305** — "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE (P31 S62 T3; 28 resolver drafts autopsied 28/28)  <sub>L29826</sub>
-- **§306** — A HAZARD `nop` IN FRONT OF A DIV-RESULT STORE IS A STATEMENT-ORDER DEFECT: THE INDEPENDENT TRAILING STATEMENT MUST BE WRITTEN *BEFORE* THE DIVISION-CONSUMING ONE (P31 S62 T4; byte-proven func_8017E7D0)  <sub>L29878</sub>
-- **§306a** — T4 DISTILL ADDENDA (P31 S62; four byte-proven refinements to existing laws, verified against the book by an independent verifier; each names its parent §)  <sub>L29905</sub>
-- **§307** — THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHEDULER-INTERNAL, AND NO SOURCE ORDER REACHES IT (P31 S63; byte-evidenced NEGATIVE result, main wave)  <sub>L29943</sub>
-- **§308** — A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if` SO cse FOLDS IT TO AN UNCONDITIONAL JUMP *AFTER* jump1's WINDOW HAS CLOSED (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L29987</sub>
-- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30016</sub>
-- **§309** — A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD ONTO `$sp` UNLESS THE `if` SURVIVES jump1 AS A BARRIER-PRECEDED DIAMOND (P31 S63 t5e-t5i; byte-proven func_801812AC)  <sub>L30050</sub>
-- **§310** — A TWO-OPERAND `subu`'s DESTINATION TIES ONLY TO THE OPERAND THAT IS BLOCK-LOCAL: SHARE *ONE* SIDE ACROSS BLOCKS TO CHOOSE WHICH OPERAND'S REGISTER IT LANDS IN (P31 S64 t5j-t5m; byte-proven func_8017F578)  <sub>L30090</sub>
-- **§311** — A JOIN-BLOCK STORE CAN SWALLOW AN ARM'S LOAD-DELAY `nop`: WHEN ONE ARM'S VALUE COMES FROM A LOAD, DUPLICATE THE STORE INTO BOTH ARMS (P31 S64 t5j-t5m; byte-proven func_8017D7E0)  <sub>L30121</sub>
-- **§312** — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)  <sub>L30163</sub>
-- **§313** — A RECOVERY STAGE THAT REWRITES THE DRAFT IS PART OF THE MEASUREMENT: GATE THE RAW DRAFT FIRST, THE REWRITE ONLY AS A FALLBACK (P31 S65 t5r-recovery; byte-proven func_8017BEBC, 246 ins)  <sub>L30189</sub>
-- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30245</sub>
-- **§315** — ALL-CONSTANT AGGREGATE FILL: THE EMISSION ORDER IS SHARED-LITERAL GROUPS × DESCENDING INDEX, WITH PAIRED SUB-FIELDS INTERLEAVED (P31 S66; ⚠ **UNPROVEN** — `func_80185214`, gate-REFUSED draft, closeness 32→5, never MATCHed)  <sub>L30277</sub>
-- **§316** — A GUARD CHAIN THAT GATES A SUCCESS BLOCK ROUTES ITS FAILING GUARDS TO A LABEL **BEFORE** THE FLAG TEST, NOT TO THE EPILOGUE: THE RESIDUAL IS IMM-OFFSET-ONLY AT AN EXACTLY EQUAL INSTRUCTION COUNT (P31 S66; byte-proven func_80180284)  <sub>L30314</sub>
-- **§317** — A NARROW STRUCT-FIELD STORE TURNS A *LIVE SImode VARIABLE* INTO A `li`: convert.c's TRUNCATION-DISTRIBUTION MINTS A HImode COPY, AND cse REWRITES THAT COPY'S SOURCE TO THE EQUIVALENT CONSTANT (P31 S66; byte-proven func_8017EF94)  <sub>L30348</sub>
-- **§318** — A UNARY MINUS STORED BACK INTO THE SAME HALFWORD IS COMPUTED IN HImode, SO ITS LOAD IS `lhu`; AN INLINE `(s32)` CAST IS PROVABLY INERT AND ONLY A NAMED SImode LOCAL BUYS `lh` (P31 S66; `func_8018568C`, ov_SC03_028 — **`match_one`-only, NOT byte-gated**)  <sub>L30382</sub>
-- **Addendum** — §148-A2 addendum — the empty-asm insn_count dial (N bare `__asm__("")` = exactly +N real i (func_801835B0)  <sub>L30457</sub>
-- **Addendum** — §312 addendum — naming the compare's dest is the vehicle, the hard-reg pin on that name is (func_80184A68)  <sub>L30465</sub>
-- **Addendum** — subu/sh dest reuses a pinned operand's dying register (func_8017F498)  <sub>L30469</sub>
-- **Addendum** — Addendum to §261a — the -O0 increment-operator copy also fires on the POINTER LOCAL itself (func_8001212C)  <sub>L30477</sub>
-- **Addendum** — Addendum to §164-XX/§165-06 — at -O0 a bare local IS a memory lvalue, so the increment ope (func_8001212C)  <sub>L30481</sub>
-- **Addendum** — Addendum to §312 — the compare's named destination must itself carry a hard register: nami (func_80184A68)  <sub>L30485</sub>
-- **Addendum** — Addendum to §167-12 — the single-operand volatile keepalive, re-confirmed at a gated MATCH (func_8017F498)  <sub>L30489</sub>
-- **Addendum** — A §5a BARRIER SITS IN REORG'S FILL WINDOW TOO, SO ITS SIDE OF THE INNER `goto` IS CHOSEN P (func_80181D08)  <sub>L30493</sub>
-- **Addendum** — Loop sentinel wrongly hoisted out of a call-containing loop (func_801835B0)  <sub>L30497</sub>
-- **Addendum** — Reversed-operand sltu then xori 1 means unsigned less-or-equal (func_8017D948)  <sub>L30509</sub>
-- **Addendum** — Chained *2*2 array index folds to one copy;sll, not two (func_80011380)  <sub>L30513</sub>
-- **Addendum** — REGALLOC-PERM: one memory-clobber barrier insufficient — stack two (func_80182D1C)  <sub>L30527</sub>
-- **Addendum** — Last if-arm's nested if un-fuses the whole preceding chain (func_8017FE88)  <sub>L30533</sub>
-- **Addendum** — A plain global-RMW triplet is a fillable scheduling window too — zero drift, and the fille (func_800CB058)  <sub>L30537</sub>
-- **Addendum** — Shared arithmetic that CONSUMES the selected value cannot be hoisted above the `if` — narr (func_80183DA0)  <sub>L30541</sub>
-- **REFUTED** — claim — Dead call-arg register address-fold: no C-level lever found (func_8017ECAC)  <sub>L30545</sub>
-- **Addendum** — Truncating assign must be the lazy `||` operand, not hoisted (func_80012B58)  <sub>L30564</sub>
-- **Addendum** — WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538)  <sub>L30576</sub>
-- **REFUTED** — claim — REFUTED — the `j`-slot store is an ASPSX macro-expansion hop, not a cse split; maspsx hard (func_8005DBD8)  <sub>L30593</sub>
-- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30595</sub>
-- **Addendum** — Static local_type blocker survives typedef removal — it's textual (func_801588CC)  <sub>L30619</sub>
-- **Addendum** — Orphan sh triplet to $sp is a write-only local array (func_8017F274)  <sub>L30626</sub>
-- **Addendum** — REGALLOC-PERM: the store reads the narrow copy's register — split the one narrow local by  (func_801838CC)  <sub>L30630</sub>
-- **Addendum** — REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8)  <sub>L30634</sub>
-- **Addendum** — LENGTH-DRIFT nop clears when offset math precedes the symbol launder (func_80039B20)  <sub>L30638</sub>
-- **REFUTED** — claim — REFUTED: a block shared across TWO switch statements is ordinary forward cross_jump, not a (func_8001B0D4)  <sub>L30642</sub>
-- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30644</sub>
-- **RETRIEVAL** — FAILURES this round (not new knowledge — a RETRIEVAL defect)  <sub>L30660</sub>
-- **§319** — N TEXTUALLY DUPLICATED `return v;` TAILS PUT THE LAST `or` AND THE RETURN-REGISTER MOVE IN ONE BASIC BLOCK, SO combine FOLDS THEM AND YOU ARE EXACTLY −1; A `goto done;` JOIN WITH REAL INCOMING EDGES RESTORES THE SEPARATE `addu $v0,$a0,$zero` (P31 S66 round4; byte-proven func_801809F0)  <sub>L30675</sub>
-- **Addendum** — Masked-OR field-merge plateaus at close=10; bitfield store clears it (func_8017FD64)  <sub>L30704</sub>
-- **Addendum** — Integer-space address arithmetic is a THIRD no-movable spelling, and a distant `SYM[0]` re (func_8017D89C)  <sub>L30708</sub>
-- **Addendum** — LENGTH-DRIFT −1 on a coalesced-away copy: a CALLER-SAVED SOURCE pin can resurrect it, boun (func_8017D72C)  <sub>L30718</sub>
-- **Addendum** — Return-0 statement order: extra j+move vs delay-slot fusion (func_8018BB50)  <sub>L30725</sub>
-- **Addendum** — Counter zero in the DECLARATION slot, empty for-init — the prologue SHIFT-DRIFT/+K face of (func_8018275C)  <sub>L30729</sub>
-- **Addendum** — The dying-pinned-register reuse on a sign-extend chain: route every later read through a s (func_80186868)  <sub>L30747</sub>
-- **Addendum** — Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0)  <sub>L30751</sub>
-- **Addendum** — Register-pinned helper pointer local regresses closeness; use plain local (func_80013CFC)  <sub>L30761</sub>
-- **Addendum** — §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo (func_8017E464)  <sub>L30765</sub>
-- **RETRIEVAL** — FAILURES this round  <sub>L30769</sub>
-- **§320** — THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 S66; byte-proven func_800CCBC0, func_800D30D0, func_800D2A24)  <sub>L30790</sub>
-- **§321** — FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SCOPE IS A WARNING (P31 S66; byte-proven func_80180728, func_8017F9F8, func_8017E07C)  <sub>L30849</sub>
-- **§322** — A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS FREE: RUN THE REAL PLANNER WHEN THE PLANNER IS PURE (P31 S67; measured, 96 of 159 open jtbl functions)  <sub>L30870</sub>
-- **§323** — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)  <sub>L30900</sub>
-- **§323a** — R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GREEN (P31 S67)  <sub>L30930</sub>
-- **§323b** — A SCRIPT THAT PARSES argv AT IMPORT CANNOT BE SHARED; EXTRACT THE PREDICATE, DO NOT COPY IT (P31 S67)  <sub>L30939</sub>
-- **§324** — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)  <sub>L30953</sub>
-- **§325** — REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s-OCCUPANT THAT STEALS THE ARGUMENT ALLOCNO'S REGISTER — PIN THE ARGUMENT-DERIVED LOCAL, NOT THE CONSTANT (P31 S67; byte-proven ov_SC03_119/func_80184F18, 153 ins)  <sub>L30991</sub>
-- **§326** — DEFEATING ADDRESS-CSE: SPELL TWO READS OF THE SAME HALFWORD DIFFERENTLY AND GCC CANNOT SHARE THE ADDRESS (P31 S67; byte-proven ov_SC01_077/func_8017FAAC, 154 ins)  <sub>L31004</sub>
-- **§327** — A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT AND DROPS THE `andi` (P31 S67; byte-proven ov_SC02_039/func_8017EC34, 154 ins)  <sub>L31013</sub>
-- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31028</sub>
-- **§329** — fold-const NARROWS `(int)s16_var & 0xFFF` ONTO THE *RAW HImode PSEUDO*, BREAKING THE SIGN-EXTEND/MASK REGISTER TIE — A ZERO-BYTE WIDENING TEMP RESTORES IT (P31 S67; byte-proven ov_SC01_084/func_80183244, 157 ins)  <sub>L31038</sub>
-- **§330** — THE NEIGHBOUR-SHAPE LEVER IS THE CHEAPEST FIRST MOVE, AND IT IS UNDER-USED (P31 S67; four independent instances in one 20-function wave)  <sub>L31046</sub>
-- **§331** — OPEN GAP: NO LEVER ELIMINATES AN *UNWANTED DUPLICATE* COPY AT A BRANCH-TARGET BLOCK HEAD (P31 S67; main/func_80013154, closeness 12, NOT solved)  <sub>L31063</sub>
-- **§332** — THE maspsx `la`-IN-A-DELAY-SLOT GAP: gcc EMITS A SYMBOLIC ADDRESS LOAD AS ONE ATOMIC length-2 INSN, SO IT CAN NEVER FILL A JUMP DELAY SLOT — 6 FUNCTIONS FLEET-WIDE, NONE BANKABLE FROM C (P31 S67; byte-traced main/func_80062144, func_8005DBD8)  <sub>L31075</sub>
-- **§332a** — MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67, measured)  <sub>L31100</sub>
-- **§333** — FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL IS A REAL DIAL (P31 S67; three independent byte-proven instances in one wave)  <sub>L31119</sub>
-- **§334** — A RELOAD SPILL SLOT IS ROUNDED TO `BIGGEST_ALIGNMENT` (8B), SO ONE SPILLED 4-BYTE PSEUDO CAN GROW THE FRAME BY 16 (P31 S67; byte-proven ov_SC05_008/func_8017DF68, 82 -> 53 residual)  <sub>L31133</sub>
-- **§335** — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)  <sub>L31144</sub>
-- **§336** — THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump` WALKS BACKWARD FROM THE CONVERGING JUMP (P31 S67; byte-proven ov_SC05_001/func_80183C9C)  <sub>L31153</sub>
-- **§337** — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)  <sub>L31161</sub>
-- **§338** — `jtbl_carve._sltiu_bounds` MISREADS A NON-SWITCH `sltiu` AS A BOUNDS CHECK, OVER-SPANNING THE TABLE (P31 S67; ov_SC06_022/func_80185B80, byte-diagnosed)  <sub>L31175</sub>
-- **§339** — A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE `beq`s IS A **COUNT TELL** FOR A THIRD CASE NODE (P31 S67; byte-proven ov_SC02_005/func_80190538, 197 ins)  <sub>L31185</sub>
-- **§340** — §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be sched.c's ALIAS ORACLE emitting a FALSE true-dependence; source order chooses its DIRECTION (P31 S67; byte-proven ov_SC03_107/func_8017CF48, 10 -> 0 in one compile, zero bytes)  <sub>L31213</sub>
-- **§341** — AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S67; byte-proven ov_SC03_006/func_801823B8, last 4 ins)  <sub>L31247</sub>
-- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31261</sub>
-- **§343** — `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT JUST THE WINNER (P31 S67; measured on func_8012BD14 / func_8012D624 / func_80143C74)  <sub>L31278</sub>
-- **§344** — RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINNING THE COUNTER KILLS LSR ENTIRELY (P31 S67; byte-proven ov_SC03_121/func_80180E64, 222 ins)  <sub>L31300</sub>
-- **§345** — A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS combine AND DEGRADES `lh` INTO `lhu+sll+sra` (P31 S67; byte-proven ov_SC01_084/func_80181A7C)  <sub>L31316</sub>
-- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31326</sub>
-- **§347** — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)  <sub>L31346</sub>
-- **§347-addendum** — A THIRD INSTANCE, AND THE SHARPEST STATEMENT OF THE RULE (md_MAIN_025/func_800CB300, 243 ins)  <sub>L31376</sub>
-- **§343-addendum** — SECOND INSTANCE OF THE WRONG-MAJORITY DECL (same function)  <sub>L31394</sub>
-- **§348** — THE BASE SPELLING PICKS THE ADDRESSING MODE: A SYMBOL GIVES THE 3-INSN `lui/%lo` FORM, A POINTER VARIABLE GIVES THE 2-INSN `addu/lw` FORM (P31 S67; byte-proven ov_SC07_007/func_80182184, 264 -> 30 on this row alone)  <sub>L31401</sub>
-- **§349** — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)  <sub>L31418</sub>
-- **§350** — A ZERO-BYTE RE-TIE SETS `reg_n_sets=2`, WHICH KILLS sched1's `birthing_insn_p` LAUNCH_PRIORITY BOOST — THE MECHANISM BEHIND "MY ADDS ARE GLUED TO THEIR STORES" (P31 S67; byte-proven ov_SC04_011/func_80180B24, 215 ins)  <sub>L31439</sub>
-- **§351** — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)  <sub>L31460</sub>
-- **§352** — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)  <sub>L31490</sub>
-- **§353** — USE `-fno-thread-jumps` AS AN **ORACLE** TO PROVE A RESIDUAL IS thread_jumps, THEN LAUNDER THE *VALUE* TO KEEP A DEAD RE-TEST (P31 S67; byte-proven ov_SC01_008/func_8017EC68, 279 ins)  <sub>L31523</sub>
-- **§354** — THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `strength_reduce` DECLINES (P31 S68; byte-proven ov_SC03_105/func_801824CC, 320 ins, 201 → 5 → 0)  <sub>L31546</sub>
-- **§355** — A REMAPPED SIBLING'S **SOURCE BIAS IS NOT ITS EMITTED BIAS** — DO NOT HAND-SHIFT OFFSETS TO MATCH THE ASM (P31 S68; byte-proven ov_SC07_007/func_8013DD68, 187/187 in 2 iterations)  <sub>L31564</sub>
-- **§356** — MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured over 47 stored drafts)  <sub>L31578</sub>
-- **§357** — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)  <sub>L31593</sub>
-- **§358** — (sharpens §333) — AN **UNREFERENCED** FIXED-SIZE AGGREGATE LOCAL IS LOAD-BEARING (P31 S68; same function)  <sub>L31602</sub>
-- **§359** — (§43-adjacent) — SPELL A SIGN-WIDEN AS AN EXPLICIT TWO-STEP, FUNCTION-SCOPED TEMP (P31 S68; byte-proven main/func_80012B58, 69 ins, 58 → 3 → 0)  <sub>L31612</sub>
-- **§360** — THE "COMPILER FOUND A SHORTER EQUIVALENT THAN THE TARGET" PAIR (P31 S68; main/func_800241C0, 68 ins, 68 → 19)  <sub>L31625</sub>
-- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31641</sub>
-- **§362** — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)  <sub>L31686</sub>
-- **§363** — ★★ — THE OVERLAY-LAYOUT ASSUMPTION IS A SYSTEMIC BUG CLASS, AND `main` IS THE EXCEPTION THAT FINDS IT (P31 S68; six instances, four of them in one session)  <sub>L31709</sub>
-- **§364** — ★ — THE libgpu `P_TAG` BITFIELD SPELLING IS **OPT-LEVEL DEPENDENT** (P31 S68; two functions, opposite verdicts, same session)  <sub>L31738</sub>
-- **§365** — PIN **BOTH** MASKS OR NEITHER (P31 S68; ov_SC01_000/func_8017E594, 357 ins)  <sub>L31752</sub>
-- **§366** — ★★ — `group_case_nodes` MERGES **STACKED CONSECUTIVE** CASE LABELS: GIVE EVERY CASE ITS OWN BODY (P31 S68; ov_SC01_001/func_8017EC28, **first-try MATCH 360/360**, 96/96 relocs audited)  <sub>L31761</sub>
-- **§367** — RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main)  <sub>L31781</sub>
-- **§368** — ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)  <sub>L31796</sub>
-- **§369** — REUSE THE **COMPARE CONSTANT'S OWN VARIABLE** FOR A MASK THAT KEEPS COALESCING (P31 S68; md_SC07_004/func_801AEC38, 365 ins)  <sub>L31826</sub>
-- **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31842</sub>
-- **§371** — ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP THAT FOLLOWS (P31 S68; byte-proven md_MAIN_003, func_800D0D6C 345 ins)  <sub>L31894</sub>
-- **§372** — ★★★ — THE **COPY-CAPTURE PAIR**, AND THE ONE ZERO-BYTE EDIT THAT DEFEATS BOTH (P31 S68; byte-proven main/func_8003491C, 78 ins, fable escalation closed 5 → 0)  <sub>L31943</sub>
-- **§373** — ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)  <sub>L31981</sub>
-- **§3-1.** — DEAD-RESET CSE-BREAKER — the zero-footprint replacement for a §195-I asm re-tie  <sub>L31983</sub>
-- **§3-2.** — A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE  <sub>L32001</sub>
-- **§3-3.** — HARD FACT FOR THE SCHEDULING MAP — an `asm` ALWAYS has priority 1  <sub>L32014</sub>
-- **CROSS-REFERENCE** — TO §370 — checked and found INAPPLICABLE here, which is the point  <sub>L32022</sub>
-- **§374** — A `register … __asm__("$30")` RESERVATION IS **NOT HONOURED** BY `move_movables` (P31 S68; main/func_80015608, 86 ins)  <sub>L32030</sub>
-- **§375** — AN `$a0`-`$a3` PIN USED LATE RELOCATES AN **EARLIER** OUTGOING-CALL USE OF THAT REGISTER (P31 S68; main/func_8005F0C8, 88 ins)  <sub>L32046</sub>
-- **§376** — ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT THE **TU** (P31 S69; measured 0/28)  <sub>L32059</sub>
-- **§377** — THREE HARNESS DEFECTS FOUND IN ONE GATING SESSION, ALL "A CONFIDENT NUMBER ABOUT A SMALLER WORLD" (P31 S69)  <sub>L32101</sub>
-- **§378** — ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE (P31 S69; byte-proven ov_SC04_010/func_8017D6CC)  <sub>L32118</sub>
-- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32168</sub>
-- **§380** — ★★★ — **A SECOND SET OF A PSEUDO DISQUALIFIES IT FROM `move_movables`** (P31 S69; main/func_800215F4, 465 ins, closeness 106 → 59 → 39)  <sub>L32199</sub>
-- **§381** — THE `insn_count` HOIST THRESHOLD IS A DIAL YOU CAN READ WITH `cc1 -dL` (P31 S69; four independent uses in one wave)  <sub>L32220</sub>
-- **§382** — TWO FOLD REASSOCIATIONS THAT NEED THEIR OWN STATEMENT (P31 S69)  <sub>L32236</sub>
-- **§383** — TWO TOOLCHAIN FACTS THE PACKS DID NOT CARRY (P31 S69)  <sub>L32248</sub>
-- **§384** — ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE BANK (P31 S69; measured twice, cost one destroyed match)  <sub>L32263</sub>
-- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32313</sub>
-- **§386** — ★★★ — A BYTE LOAD ON THE **BIV** BASE WAS BORN IN THE COMBINE PASS: SPELL IT AS A SHIFT-MASK, NEVER A DEREF (P31 S69; byte-proven main/func_80020598, 292 ins, escalation 1 → 0)  <sub>L32339</sub>
-- **§387** — ★★ — **SPLIT-FOLD DISPATCH CLOBBER**: one switch case needs a reload, another must keep the fold (P31 S69; byte-proven main/func_80030F80, 343 ins, escalation 3 → 0)  <sub>L32365</sub>
-- **§388** — ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 S69; main/func_80011380 proved a C-level WALL at 6)  <sub>L32388</sub>
-- **§389** — ★★★ — `h_norm` IS BLIND TO INDEXED-GLOBAL RELOCS, SO FREE WORK BECOMES AN INVISIBLE SINGLETON (P31 S69; 31 stubs / 4,811 ins recovered, 8 banked same day)  <sub>L32413</sub>
-- **§390** — ★★★ — MINIMUM DISTANCE IS NOT MINIMUM WORK; RANK TWIN CANDIDATES BY EFFORT, AND FILTER LOOKALIKES BY RATIO (P31 S69; byte-proven ov_SC01_077/func_80184D50, banked)  <sub>L32454</sub>
-- **§391** — ★★ — A BYTE-ALIGNED STRUCT COPIES IN FOUR INSTRUCTIONS, A WORD-ALIGNED ONE IN TWO (P31 S69)  <sub>L32492</sub>
-- **§392** — ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH  <sub>L32506</sub>
-- **§393** — ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P31 S69; byte-proven ov_SC02_017/func_8017FCFC)  <sub>L32547</sub>
-- **§394** — ★★ — TWO ALIGN-1 ACCESSES IN ONE FUNCTION RESERVE A PHANTOM STACK SLOT (P31 S69; ov_SC02_005/func_80180610)  <sub>L32564</sub>
-- **§378b** — ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P31 S69, all four measured the same day)  <sub>L32576</sub>
-- **§395** — ★★★ — FIVE NARROWING/PLACEMENT LEVERS FROM ONE 91-INSTRUCTION CRACK (P31 S69; byte-proven ov_SC06_018/func_80189E60, warm start 32 off → MATCH 91/91)  <sub>L32615</sub>
-- **§314b** — ★★ — TWO ABS-RANGE GUARDS IN ONE FUNCTION NEED **DIFFERENT SPELLINGS** (P31 S69; byte-proven ov_SC04_002/func_8018691C, 111 ins)  <sub>L32649</sub>
-- **§322b** — ★★★ — THE CARVE CLASS IS COMPLETABLE, AND EVERY WORKTREE `CARVE-REFUSED` WAS AN INSTRUMENT VERDICT (P31 S69, Fable-3 audit; byte-proven end-to-end)  <sub>L32671</sub>
-- **§332b** — ★★★ — THE §332 "WALLS" ARE A PER-OBJECT ASSEMBLER MODE, NOT A C LIMIT — 6 CLOSE AS REAL C (P31 S69, Fable-3)  <sub>L32706</sub>
-- **§378c** — ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S69)  <sub>L32726</sub>
-- **§396** — ★★★ — SIX LEVERS FROM THE S69 SINGLETON ROUND, INCLUDING ONE THAT ONLY A `COND_EXPR` REACHES (P31 S69)  <sub>L32741</sub>
-- **§397** — ★★★ — RE-RUN THE TWIN SCAN AFTER EVERY EXEMPLAR BANK; A CLUSTER SIBLING IS FREE THE MOMENT ITS EXEMPLAR LANDS (P31 S69; ~250k tokens spent proving it the expensive way)  <sub>L32789</sub>
-- **§396g** — ★★ — A GUARD LADDER'S RUNGS MUST STAY SYMMETRIC OR `reorg.c` LOSES ITS BRANCH REDIRECT (P31 S69; byte-proven ov_SC03_028/func_80184C90, 92 ins)  <sub>L32822</sub>
-- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32839</sub>
-- **§398b** — ★★ — NAMING A SUB-EXPRESSION IN A LOCAL CHANGES WHICH PSEUDO SURVIVES; INLINE IT AT BOTH USE SITES (P31 S69; byte-proven ov_SC03_028/func_80183264, 93 ins)  <sub>L32869</sub>
-- **§399** — ★★★ — FOUR LEVERS FROM THE FINAL S69 ROUND (P31 S69; each byte-proven, none previously in the cookbook)  <sub>L32896</sub>
-- **§400** — ★★ — A BASELINE CHECK THAT CONFLATES "ABSENT EVERYWHERE" WITH "CHANGED UNDER US" SILENTLY DROPS NEW FILES (P31 S69; 8 files, one session)  <sub>L32936</sub>
-- **§401** — §401  <sub>L32971</sub>
-- **§402** — §402  <sub>L33004</sub>
-- **§403** — §403  <sub>L33028</sub>
-- **§404** — §404  <sub>L33060</sub>
-- **§405** — ★★★ — THE S70 WAVE HARVEST: 130 agents, 113 MATCH, and the laws they brought back  <sub>L33096</sub>
-- **§3-A.** — THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A)  <sub>L33102</sub>
-- **§3-B.** — THE SCHEDULER DIALS (the dominant residual family this wave)  <sub>L33112</sub>
-- **§3-C.** — REGISTER ALLOCATION FROM C, WITHOUT PINS  <sub>L33128</sub>
-- **§3-D.** — INTEGRATION IS STILL THE BOTTLENECK, AND THE TU IS THE AUTHORITY  <sub>L33144</sub>
-- **§3-E.** — WHAT THE AGENTS REFUTED  <sub>L33152</sub>
-- **§406** — ★★ — THE PROLOGUE-WEAVE CLASS IS MECHANICAL AND LARGE (134 open stubs)  <sub>L33162</sub>
-- **§407** — ★★ — LATE-WAVE ADDENDA TO §405 (the last agents in)  <sub>L33184</sub>
-- **§408** — ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P31 S71; 0 MATCH / 14 applied, 0 / 210)  <sub>L33213</sub>
-- **§409** — ★★★ — THE S71 JOURNAL-FUELLED WAVE: 100% FIRST-PASS MATCH, AND THE NINE LAWS IT BROUGHT BACK (P31 S71)  <sub>L33265</sub>
-- **§3-The** — nine laws this wave produced  <sub>L33292</sub>
-- **§410** — ★★★ — COPY THEN ACCUMULATE ON THE COPY: resolving the birthing-boost vs register-allocation dilemma (P31 S71; byte-proven `ov_SC04_015/func_8017EB78`, 98 ins)  <sub>L33357</sub>
-- **§411** — ★★★ — THE PACK MUST CARRY THAT FUNCTION'S OWN HISTORY (P31 S71; measured 38/39 vs 124/131)  <sub>L33390</sub>
-- **§412** — ★★★ — §323 CARVE BLOCKER 2 WAS A REGEX THAT COULD NOT SEE PAST `__attribute__` (P31 S71)  <sub>L33428</sub>
-- **§413** — ★★★ — DIFFICULTY IS THE RESIDUAL CLASS, NOT `nins` — ROUTE THE MODEL TIER OFF HISTORY (P31 S71, Drew)  <sub>L33477</sub>
-- **§414** — ★★★ — `parallel_gate` ON `main` IS A FALSE PASS, AND THE RULE WAS ALREADY WRITTEN DOWN (P31 S71)  <sub>L33514</sub>
-- **§415** — ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT (P31 S71; byte-proven `ov_SC04_011/func_80180B24`, 215 ins)  <sub>L33551</sub>
-- **§416** — ★★ — FOUR LEVERS FROM THE S71 OVERNIGHT LANE, none of which the cookbook held (P31 S71)  <sub>L33576</sub>
-- **§417** — ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `cse` SKIP-BLOCKS MERGE (P31 S71; byte-proven `ov_SC03_013/func_8017E6F4`, 182 ins)  <sub>L33609</sub>
-- **§418** — ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNFOLDED (P31 S71; byte-proven `ov_SC04_016/func_8017DF8C`, 184 ins, 32 → 0 in seven compiles)  <sub>L33636</sub>
-- **§419** — ★★★ — WHEN A PIN IS IMPOSSIBLE, WIN THE local-alloc DENSITY CONTEST INSTEAD (P31 S71; byte-proven `ov_SC01_000/func_8017DD04`, 297 ins)  <sub>L33662</sub>
-- **§420** — ★★★ — A MULTI-CLUSTER SYMBOL REBASE, AND THE BARE-NAME DEDUP THAT HID THREE QUARTERS OF IT (P31 S71; 4 banked in 57 s)  <sub>L33696</sub>
-- **§421** — ★★★ — A `la $tN` + `addiu` PAIR CAN BE A **RELOAD** ARTIFACT THAT NO C SPELLING REACHES (P31 S71; byte-proven `md_SC07_003/func_801A293C`, 313 ins, 6 → 0)  <sub>L33733</sub>
-- **§422** — ★★ — QImode ARITHMETIC VIA `(u8)(x - K)`, AND `flag ^ 1` NEEDS ITS OWN TEMP (P31 S71; byte-proven `resident/func_800D06E8`, 344 ins)  <sub>L33764</sub>
-- **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33784</sub>
-- **§424** — ★★★ — EQUAL-PRIORITY STORES COME OUT **REVERSED**: sched1's LUID tie picks the LAST statement first (P31 S71; byte-proven `ov_SC07_006/func_801890FC`, 387 ins)  <sub>L33811</sub>
-- **§425** — ★★★ — `sb` ALIASES SCALAR GLOBALS WHILE `sh`/`sw` STRUCT STORES DO NOT, AND TWO MORE ALIAS/BOOST RULES (P31 S71; `md_MAIN_003/func_800CF3E8`, 467 of 469 ins, all four byte-verified from `-dS`/`-dR`/`-dl`/`-dr`)  <sub>L33833</sub>
-- **§426** — ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING SINCE PHASE 7 (P31 S72; 3 of the 11 "PROVEN gate-rejects" banked byte-identical in 14 s)  <sub>L33859</sub>
-- **§427** — ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFACT BEFORE ANYTHING REBUILDS OVER IT (P31 S72)  <sub>L33939</sub>
-- **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33958</sub>
-- **§428a** — ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE CAUSE (P31 S72; `main/func_8001B0D4`, NEAR/53 -> MATCH; **my first answer here was WRONG and is kept below as the refutation**)  <sub>L33996</sub>
-- **§429** — ★★★ — EVERY HELD POINTER NEEDS ITS OWN LOCAL, AND A NEGATIVE-DISPLACEMENT BYTE STORE NEEDS ONE OF ITS OWN (P31 S72; `main/CdReadStateMachine`, MATCH 385/385)  <sub>L34044</sub>
-- **§430** — ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)  <sub>L34077</sub>
-- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34126</sub>
-- **§433** — ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)  <sub>L34189</sub>
-- **§432** — ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)  <sub>L34221</sub>
-- **§434** — ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)  <sub>L34263</sub>
-- **§435** — ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", NOT "IS IT ZERO" (P31 S74; four overlays split, all byte-identical, CARVE-BLOCKED class emptied fleet-wide)  <sub>L34311</sub>
-- **§436** — ★★★ — TWO TOOLS THAT READ THE WRONG SOURCE OF TRUTH, AND THE SHAPE THEY SHARE (P31 S74; both fixed + negative-controlled)  <sub>L34368</sub>
-- **§437** — ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)  <sub>L34425</sub>
-- **§438** — ★★★ — THE SAME-ADDRESS LEAD IS NOW SIZE-FILTERED: A HOMONYM IS WORSE THAN NO TWIN (P31 S74; ~12 of ~60 cards carried one)  <sub>L34532</sub>
-- **§439** — ★★ — LEVER SET FROM THE S74 WAVE (each entry is one measured crack, not a hypothesis)  <sub>L34559</sub>
-- **§440** — ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTEAD OF ISOLATING (P31 S74; 6 banked, resident included)  <sub>L34580</sub>
-- **§441** — ★★ — THREE MORE INSTRUMENT DEFECTS FROM THE SAME SESSION, ALL OF WHICH BLAME THE SUBJECT (P31 S74)  <sub>L34621</sub>
-- **§442** — ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LIKE A CODEGEN WALL (P31 S75; `reconcile_tu`, 344 ins unblocked)  <sub>L34651</sub>
-- **§443** — ★★ — A DERIVED DEPENDENCY MUST BE PROVISIONED BY *EVERY* PROVISIONER, AND WE HAVE TWO (P31 S69 → S74, the same defect twice)  <sub>L34706</sub>
-- **§444** — ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WAS WRONG (P31 S75)  <sub>L34733</sub>
-- **§445** — ★★ — `make clean BINARY=<x>` IS FLEET-WIDE: THE VARIABLE IS ACCEPTED AND IGNORED (P31 S75)  <sub>L34782</sub>
-- **§446** — ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)  <sub>L34811</sub>
-- **§447** — ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)  <sub>L34858</sub>
-- **§448** — ★★★ — ASSEMBLY POSING AS C: 154 GAME FUNCTIONS THE REPORTS COUNTED AS DONE (P31 S75)  <sub>L34902</sub>
-- **§449** — ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one correction to §439)  <sub>L34945</sub>
-- **§3-A.** — `reg_n_sets` IS A ONE-LINE SCHEDULING DIAL — `t = t + 1;` vs `*p = t + 1` (CONFIRMED: `ov_SC03_105:func_80180ABC`, 257 ins, banked from closeness 250)  <sub>L34950</sub>
-- **§3-B.** — A SINGLE-SET LOCAL'S VALUE IS VISIBLE AT A SWITCH JOIN, AND THAT ERASES A ZERO-EXTENSION (CONFIRMED: `ov_SC03_105:func_801806F8`, 241 ins, banked from closeness 235)  <sub>L34979</sub>
-- **§3-C.** — CORRECTION TO §439 — `sll 16; srl 16` LANDS *AFTER* THE CALL, AND WORKS FOR A KNOWN CONSTANT  <sub>L34994</sub>
-- **§3-D.** — AN OFFLINE JTBL-RODATA PLACEMENT AUDIT (CLAIMED: `md_MAIN_034:func_800CB00C` — did NOT bank, and that is the point)  <sub>L35012</sub>
-- **§450** — ★★★ — REGENERATING A TARGET `.s` FOR A FUNCTION THAT IS NO LONGER A STUB (P31 S75; 146 functions unblocked, two silent defects caught by ONE cross-check)  <sub>L35025</sub>
-- **§451** — ★★★ — YOUR EVIDENCE HAS MORE THAN ONE SOURCE, AND THE ONE YOU QUERY IS PROBABLY THE WORSE ONE (P31 S75; 37 functions reclassified, 122 ins banked from one word)  <sub>L35066</sub>
-- **§452** — ★★★ — NOT EVERY VERBATIM BODY IS UNDECOMPILED WORK, AND §448'S HEADLINE OVERSTATED IT (P31 S75; 10-function burst, 0 banks, and the negative result is the finding)  <sub>L35104</sub>
-- **ADDENDUM** — to §265 (P31 S76) — THE PROSE GUARD DID NOT HOLD. IT IS A GATE REFUSAL NOW.  <sub>L35141</sub>
-- **CORRECTION** — to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND  <sub>L35186</sub>
-- **§460** — `-dS` PRINTS THE SCHEDULER'S READY LIST WITH PRIORITIES. STOP INFERRING IT FROM RTL ORDER.  <sub>L35226</sub>
-- **§461** — LAUNDERING AN INVARIANT CAN BE THE DEFECT, AND "RESIDUAL A" DOES NOT GENERALIZE PAST ONE BINARY OP  <sub>L35258</sub>
-- **§465** — THE ASPSX SLOT-HOP: A GAP OUR REORDER SUBSTITUTE CANNOT CLOSE (`main:func_8005F830`)  <sub>L35288</sub>
-- **§466** — `main` (509 ins, -O0): ADDRESS CONTEXT EMITS `mult` INDEX-FIRST  <sub>L35314</sub>
-- **§464** — FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH)  <sub>L35332</sub>
-- **§467** — GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT  <sub>L35360</sub>
-- **§468** — THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERAND ORDER  <sub>L35384</sub>
-- **§469** — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)  <sub>L35418</sub>
-- **§470** — FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18)  <sub>L35441</sub>
-- **§471** — A LAUNDER'S REAL COST IS AN ALLOCNO, AND `$t0` IS RELOAD'S (`main:func_80032A74`, 408 → 12)  <sub>L35469</sub>
-- **§472** — 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL  <sub>L35493</sub>
-- **§473** — 🔴 §265's "HANDWRITTEN" VERDICT FOR `ov_SC07_002:func_8017DC80` IS REFUTED (324 → 89)  <sub>L35523</sub>
-- **§474** — A *PROVED* C-LEVEL FLOOR: `split_tree` + `stupid.c` (-O0), from `main:func_80011380`  <sub>L35548</sub>
-- **§475** — THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24`  <sub>L35585</sub>
-- **§476** — 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 ins → MATCH)  <sub>L35616</sub>
-- **§462** — FOUR LEVERS FROM `main:func_80024054` (91 ins, 74/53/32 → 4)  <sub>L35644</sub>
-- **§463** — 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED  <sub>L35681</sub>
-- **§477** — ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77)  <sub>L35717</sub>
-- **§478** — 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT  <sub>L35791</sub>
-- **§479** — ★★★ — WHERE THE PERMUTER ACTUALLY PAYS: A MEASURED YIELD CURVE (P31 S77, 8 candidates)  <sub>L35811</sub>
-- **§480** — 🔴 — A STATIC BLOCKER CLASS THAT THE REAL PIPELINE ALREADY REMOVES IS A PHANTOM  <sub>L35890</sub>
-- **§481** — ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S77, `main:func_8001FC08`, 400 ins)  <sub>L35905</sub>
-- **§482** — ★★★ — TWO INDEPENDENT RE-TIES, ORDERED: WHEN ONE BARRIER FIXES ONE RESIDUAL AND CREATES THE OTHER (P31 S77, `main:func_8006252C`, 30 ins → MATCH)  <sub>L35936</sub>
-- **§483** — ★★★ — THE S77w WAVE HARVEST: SIX LEVERS, FOUR FROM BANKED (BYTE-PROVEN) BODIES  <sub>L35971</sub>
-- **§484** — ★★★ — "NO SINGLE NOLOAD BASE" IS NOT "UNLINKABLE": ASK WHETHER THE `.bss` OFFSETS ARE DISJOINT (P31 S77)  <sub>L36027</sub>
-- **§485** — ★★★ — THE PLACEMENT MAP WAS PARSING A PRETTY-PRINTER: 25 PsyQ OBJECTS WERE INVISIBLE, NOT ABSENT (P31 S77)  <sub>L36073</sub>
-- **§486** — ★★★ — CARVING AN `-O0` ISLAND IN **main**: FIVE COUPLED PIECES, AND THE TWO THAT ANNOUNCE THEMSELVES (P31 S77)  <sub>L36109</sub>
-- **§487** — ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WALL" BAND IS LIBPAD 4.2.1 (P31 S78)  <sub>L36154</sub>
-- **§488** — ★★ — THE "GAME CODE" GAPS BETWEEN LIBRARY BLOCKS WERE LIBRARY OBJECTS: 13 SUBSEGS → LINKED, EXACT-TILED, ZERO TOKENS (P31 S78)  <sub>L36206</sub>
-- **§489** — ★★★ — SCATTERED `.bss` IS A PARTITION PROBLEM: SPLIT THE SECTION INTO PER-BASE PIECES AT LINK-PREPARE (P31 S78 #4; closes the §9.1 exclusion class 3/3)  <sub>L36246</sub>
-- **§490** — ★★★ — THE "WALL" BAND WAS A LIBRARY VERSION AWAY: LIBPAD 4.2.1 + LIBAPI 4.2 FOUND, THE WHOLE 0x8005CE18–0x8005FC68 BAND + THE APICARD REGION LINKED FROM REAL OBJECTS (P31 S79 #13/#5)  <sub>L36304</sub>
-- **§491** — ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLONE — AND THREE TOOL GAPS THE BANKS EXPOSED  <sub>L36350</sub>
-- **§492** — ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS  <sub>L36396</sub>
-- **§493** — ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER AND THE MAIN GATE (P31 S79 #8)  <sub>L36424</sub>
-- **§494** — ★★★ — TEN BANKS FROM ONE-AGENT-PER-FUNCTION DRAFTING (P31 S79/S80 #9): THE IDIOMS, THE PLUMBING, AND THE THREE WAYS AN AGENT'S "MATCH" WAS NOT ONE  <sub>L36484</sub>
-- **§495** — ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT WAS THE ASSEMBLY, AND A GATE THAT DROPPED A BANK ON EXIT 0  <sub>L36624</sub>
-- **§496** — ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TYPEDEF (P32 T1a; byte-proven, resident `func_800D128C` isolation)  <sub>L36665</sub>
-- **§497** — ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S FALSE "CONFLICTING BODIES" REFUSAL (P32 T1b; ov_SC02_017 `func_80186C64` isolation)  <sub>L36699</sub>
-- **§498** — ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT'S EXIT CODE: HOW A BYTE-CORRECT DRAFT WAS BOOKED "DIFF" (P32 T1a; resident `func_800D128C` BANKED 243 ins after two instrument fixes)  <sub>L36722</sub>
-- **§499** — ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)  <sub>L36752</sub>
-- **§500** — ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MATCH / 9 NEAR / 2 FAIL, every closer, two NEW named gcc mechanisms, and the wave-process defects  <sub>L36793</sub>
-- **§501** — ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)  <sub>L37151</sub>
-- **§453** — ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DEFECTS THAT SHAPED IT (P35 S94–S96)  <sub>L37555</sub>
-- **§454** — Rung D and rung R: taking a lever off a body that still has to compile to the same bytes (Phase 36 T6)  <sub>L37604</sub>
-- **§454a** — the recipe rung's real shape: replication, not discovery (S99, measured)  <sub>L37671</sub>
-- **§455** — Rung G, the guided search: score the object, classify the residual, compose the moves (Phase 36 S101)  <sub>L37686</sub>
-- **§456** — The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and launders (Phase 36 T7)  <sub>L37759</sub>
-- **§457** — The lever-removal move catalog, S105: eight TU batches, 42 of 42 at 0 (Phase 36 T7)  <sub>L37808</sub>
+- **§197-B** — A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_code` CHANNEL (the non-EQ complement of §165-03) — and a front-end-opaque mask on EITHER compare is a pure-C dial that keeps the target's second branch  <sub>L20670</sub>
+- **§197-C** — Fix A1 (operand order) cannot move a commutative destination whose .greg conflict set already contains BOTH operand hard registers — split the accumulate so the destination IS the load's pseudo  <sub>L20698</sub>
+- **§197-REJECTED** — §197-REJECTED  <sub>L20743</sub>
+- **§199** — THE WAVE-X HARVEST (P31 S54/S55): 63 index_gap reports -> 7 laws, 2 rejected, 56 already-covered  <sub>L20758</sub>
+- **§199-A** — §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui`/`ori` is a SCHEDULE fact, not a source fact — and the separator is the BIRTHING BOOST, not a "priority floor" (§189-A's split-timing half survives; its "no statement order / no pin" absolute and the candidate's own forward-scheduler narrative both fall)  <sub>L20769</sub>
+- **§199-B** — A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent pins as "obviously load-bearing" is the one carrying the signal, and the partial sweep returns a FLAT residual that reads as proof of order-invariance  <sub>L20818</sub>
+- **§199-C** — A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's negate_variant — but whether you ever SEE the neg is decided by COMBINE, and for an EVEN |K| it never disappears  <sub>L20863</sub>
+- **§199-D** — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`  <sub>L20911</sub>
+- **§199-E** — §189-A BOUNDED AND CORRECTED — the discriminator is INSN_PRIORITY, not "is the interloper a constant": an insn between a `lui`/`ori` pair proves NOTHING about the source spelling unless it TIES the `ori` on priority, and on the pinned `-mcpu=3000` triple a dependent load never does  <sub>L20971</sub>
+- **§199-F** — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)  <sub>L21030</sub>
+- **§199-G** — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity  <sub>L21084</sub>
+- **§199-REJECTED** — §199-REJECTED  <sub>L21139</sub>
+- **§200** — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P31 S55)  <sub>L21150</sub>
+- **§201** — THE WAVE-Y HARVEST (P31 S55): 67 gap reports -> 5 laws, 8 rejected, 53 already-covered  <sub>L21199</sub>
+- **§201-A** — §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definition" is usually another overlay's function, and the card ranks it ABOVE the destination TU  <sub>L21209</sub>
+- **§201-B** — In a narrowed PLUS/MINUS/AND/IOR/XOR expression the destination pointee is INERT — the sign of the materialized constant is decided by an OR over the UNWIDENED operands (convert.c trunc1), which bounds §1841 to direct constant stores  <sub>L21241</sub>
+- **§201-C** — §X — A CALL'S OWN DELAY SLOT AND THE UPSTREAM CONDITIONAL BRANCH'S SLOT COMPETE FOR ONE INSN (the call's argument copy), AND ONE STATEMENT'S POSITION RELATIVE TO THE CALL DECIDES BOTH — the residual is visible at the BRANCH, not at the call  <sub>L21321</sub>
+- **§201-D** — THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER `get_narrower` STRIPS WIDENING CONVERSIONS — NEVER BY A PROVABLE RANGE. AN `& 0xFF` IS NOT A CONVERSION, SO IT NEVER FLIPS THE MAGIC; A DECLARED-UNSIGNED LOCAL *OR* A NARROWING CAST WRITTEN AT THE DIVIDE BOTH DO.  <sub>L21372</sub>
+- **§201-E** — §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in the printed stream; a foreign store moved between the pair in C source is a real lever, and `volatile` is not always the better one  <sub>L21419</sub>
+- **§201-REJECTED** — eight, the session's highest  <sub>L21475</sub>
+- **§202** — THE ALIAS CARRIES A DEFINITION, NOT JUST A DECLARATION: the DEF-SIDE-RETURN wall (P31 S56)  <sub>L21500</sub>
+- **§203** — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)  <sub>L21537</sub>
+- **§204** — THE WAVE-Z HARVEST (P31 S56): 82 gap reports -> 5 laws, 16 rejected, 30 already-covered  <sub>L21598</sub>
+- **§204-A** — A COMPARE THAT APPEARS BOTH IN A BRANCH'S DELAY SLOT AND AGAIN ON THE FALL-THROUGH IS A JOIN WITH TWO INCOMING EDGES: THE TWO GUARDS ARE SEQUENTIAL `if`s, NEVER `if/else if`  <sub>L21617</sub>
+- **§204-B** — A LOOP COUNT THAT ARRIVES ON THE STACK IS DECREMENTED IN PLACE: a fresh counter local can cost a real `move` AND permute the whole callee-saved file  <sub>L21692</sub>
+- **§204-C** — WHEN A LOCAL BUFFER'S ADDRESS IS PASSED TO A CALL, ITS SIZE IS A FACT ABOUT THE CALLEE'S BODY, NOT ABOUT THE CALL SITE: grep the callee's proven definition and count the stores through the pointer parameter before you declare the local  <sub>L21756</sub>
+- **§204-D** — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED  <sub>L21814</sub>
+- **§204-E** — `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of 1,210  <sub>L21889</sub>
+- **§204-CONFIRMED** — 30 reports that the index already answered  <sub>L21941</sub>
+- **§204-REJECTED** — sixteen, twice the previous record  <sub>L22035</sub>
+- **§205** — THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy that no local, no pin and no statement reorder will move (P31 S56)  <sub>L22108</sub>
+- **§206** — THE JTBL-CARVE DRAFTING IDIOM: the bounds check is the entry count, and an EMPTY case owns a slot (P31 S56)  <sub>L22163</sub>
+- **§207** — THE WAVE ab–ag HARVEST (P31 S58): 278 byte-banked notes → 25 laws, 103 self-reported no-gap  <sub>L22232</sub>
+- **§208** — TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity owns the REGISTER SPLIT, not just the load count (P31 S58)  <sub>L22253</sub>
+- **§209** — THE NARROW LOCAL IS A DIAL IN TWO OPPOSITE DIRECTIONS, AND §194-B's "≥2 `sh` STORES" BOUND IS BYTE-WRONG (P31 S58)  <sub>L22302</sub>
+- **§210** — THE SINGLE-BIT MASK IN A BOOLEAN TAIL: `andi K ; sltu $zero,v` vs `srl n ; andi 1` is a STATEMENT-SHAPE dial, not an operator choice (P31 S58)  <sub>L22379</sub>
+- **§211** — HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips the counter/pointer register pair (P31 S58)  <sub>L22425</sub>
+- **§212** — THE WALKING CURSOR IS COUNTABLE: `*wp++` emits one `addiu` PER STORE, `wp[0..2]` emits one (P31 S58)  <sub>L22484</sub>
+- **§213** — INDEPENDENT SAME-BASE STORES: THE EMISSION ORDER IS A PERMUTATION OF SOURCE ORDER, AND THE PERMUTATION IS NOT ALWAYS THE IDENTITY (P31 S58)  <sub>L22529</sub>
+- **§214** — THE BANKED TWIN MAY BE A MACRO, A DELETED `.s`, OR A SEMANTIC INVERSE — six ways a ≥0.9 similarity lies (P31 S58)  <sub>L22565</sub>
+- **§215** — PIN ECONOMY: the twin's pins are NOT part of the shape, and §17's "pin every call-crossing value" is over-broad (P31 S58)  <sub>L22611</sub>
+- **§216** — DISTINCT ADJACENT SCALARS vs ONE ARRAY: one `lui` per access is the tell, and the array decl is UNUSABLE (P31 S58)  <sub>L22667</sub>
+- **§217** — DECODING A CALL'S STACK ARGUMENT SLOTS: `sw` at `0x10`/`0x14`/`0x18` are params 5/6/7 **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22707</sub>
+- **§218** — A NARROW TYPE AT THE ABI BOUNDARY COSTS AN IN-PLACE `sll/sra` PAIR — on the RETURN as well as on the PARAMETER (P31 S58)  <sub>L22733</sub>
+- **§219** — COMPOUND `+=`, FULL ASSIGNMENT, AND AN EXPLICIT TEMP ARE THREE DIFFERENT SCHEDULES OF ONE READ-MODIFY-WRITE (P31 S58)  <sub>L22762</sub>
+- **§220** — THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and place the save-copy AFTER the first call (P31 S58)  <sub>L22789</sub>
+- **§221** — A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L22829</sub>
+- **§222** — SWITCH vs IF-CHAIN, PART 3: source arm order IS emission order, a leading EMPTY case buys the median split, and a 2-way dispatch with a shared post-block is a `switch` (P31 S58)  <sub>L22845</sub>
+- **§223** — READING A `jal` DELAY SLOT: the value in it was produced BEFORE the call, so it is NEVER that call's return (P31 S58)  <sub>L22887</sub>
+- **§224** — CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31 S58)  <sub>L22949</sub>
+- **§225** — THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58)  <sub>L22985</sub>
+- **§226** — FRAME PADS: FOUR WAYS §162i1/§2429's DEAD-LOCAL LEVER MISFIRES (P31 S58)  <sub>L23028</sub>
+- **§227** — TYPE THE SOURCE BY THE **LOAD** WIDTH, NOT BY THE STORE WIDTH (P31 S58)  <sub>L23069</sub>
+- **§228** — READING THE DIVIDE, PART N: the off-by-one compare is `% K == 1`, and three more discriminators (P31 S58)  <sub>L23089</sub>
+- **§229** — THE ADDRESS IS A VALUE: NAMING IT MOVES THE `lui`/`addiu` PAIR — AND §L14410 SAYS THE OPPOSITE FOR A REASON (P31 S58)  <sub>L23126</sub>
+- **§230** — THE ANCHOR PROBE: with `%hi`/`%lo` masked, the surviving `addiu` deltas tell you which assignment was written first **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23175</sub>
+- **§231** — TRANSCRIPTION AND SEMANTIC-READ HYGIENE: six ways the listing misleads (P31 S58)  <sub>L23190</sub>
+- **§232** — WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(single observation — not yet cross-confirmed)** (P31 S58)  <sub>L23231</sub>
+- **§30** — addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual with one edit  <sub>L23267</sub>
+- **§194-B** — addendum (P31 S58) — BOUND 2 is byte-wrong; see §209 Direction A  <sub>L23287</sub>
+- **§176-B** — addendum (P31 S58) — the misdiagnosis direction  <sub>L23293</sub>
+- **§165-40** — addendum (P31 S58) — the barrier goes at the COPY SITE, not inside the region it protects  <sub>L23299</sub>
+- **§164-63** — addendum (P31 S58) — the interposed asm works when the SECOND value is an ordinary assignment  <sub>L23308</sub>
+- **§193-A** — / §194-E addendum (P31 S58) — where the twin's body actually lives  <sub>L23317</sub>
+- **§233** — THE WAVE aa–bg HARVEST (P31 S58b): 1,101 byte-banked notes → 24 new laws, 21 addenda, ~700 already-covered  <sub>L23323</sub>
+- **§234** — CONSTANT MATERIALISATION: THE STORE LVALUE'S SIGNEDNESS PICKS `addiu` vs `li`/`ori` (P31 S58b)  <sub>L23367</sub>
+- **§235** — THE PHANTOM SYMBOL: A MASKED `MATCH` CAN CARRY A RELOCATION THAT DOES NOT EXIST (P31 S58b)  <sub>L23408</sub>
+- **§236** — THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS THE GATE (P31 S58b)  <sub>L23437</sub>
+- **§237** — THE CAST-AT-CALL-SITE DECISION TABLE: WHAT §17a-1 FIXES, WHAT IT CANNOT, AND THE FOUR ESCAPES (P31 S58b)  <sub>L23516</sub>
+- **§238** — SAME NAME, DIFFERENT FUNCTION: THE OVERLAY-HOMONYM TRAP (P31 S58b)  <sub>L23571</sub>
+- **§239** — TWO-STATEMENT INTEGER-SPACE MATERIALISATION REORDERS `la` vs `sll`; AND THE PLUS-TREE OPERAND ORDER (P31 S58b)  <sub>L23611</sub>
+- **§240** — `A + K + B`: WRITE THE CONSTANT **BETWEEN** THE TWO RUNTIME TERMS (P31 S58b)  <sub>L23645</sub>
+- **§241** — THE FOLDED SIGN-EXTEND-AND-SCALE: `sll 16 ; sra (16 − log2 scale)` (P31 S58b)  <sub>L23674</sub>
+- **§242** — `*k` vs `<<n`, AND `/2^n` vs `>>n`: EXPRESSION SPELLING OWNS THE LOAD WIDTH AND THE ROUNDING CHAIN (P31 S58b)  <sub>L23703</sub>
+- **§243** — SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P31 S58b)  <sub>L23731</sub>
+- **§244** — `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC (P31 S58b)  <sub>L23761</sub>
+- **§245** — THE CALL'S ARGUMENT LIST IS A SCHEDULING SLOT (P31 S58b)  <sub>L23796</sub>
+- **§246** — THREE-LIVE-VALUE SCAN LOOPS WANT ADDRESS-FROM-INDEX; AND TWO SYMBOLS CAN SHARE ONE giv (P31 S58b)  <sub>L23843</sub>
+- **§247** — TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b)  <sub>L23883</sub>
+- **§248** — SPLIT THE LOAD FROM THE ARITHMETIC: A FUSED `g + K` DENIES THE CALLEE-SAVED REGISTER ITS DIRECT HOME (P31 S58b)  <sub>L23917</sub>
+- **§249** — THE SELF-ASSIGN, THE DEAD RE-ASSIGN, AND THE `+ zr` COPY: THREE WAYS TO MAKE A DELETED INSTRUCTION REAL (P31 S58b)  <sub>L23941</sub>
+- **§250** — `%hi/%lo` vs `lw`: THE EXTERN'S ARRAY-vs-SCALAR SHAPE DECIDES ADDRESS MATERIALISATION (P31 S58b)  <sub>L23983</sub>
+- **§251** — IMMEDIATE-SPELLING TRIGGERS: `+= 0xFF`, FULL-WIDTH `~K`, AND THE TWO-OR SPLIT (P31 S58b)  <sub>L24020</sub>
+- **§252** — THE GUARDED PRE-DECREMENT: `(x != 0) && (--x == 0)` (P31 S58b)  <sub>L24042</sub>
+- **§253** — POSTFIX `++` vs `+= 1` PICKS A DIFFERENT SCRATCH REGISTER **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24063</sub>
+- **§254** — THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-confirmed)** (P31 S58b)  <sub>L24077</sub>
+- **§255** — THE EMPTY CASE, PART 2: FOUR TREE SHAPES IT BUYS (P31 S58b)  <sub>L24089</sub>
+- **§256** — GOTOS IN THE TARGET'S BLOCK ORDER REPRODUCE SWITCH PLACEMENT WITHOUT SWITCH'S SIDE EFFECTS (P31 S58b)  <sub>L24124</sub>
+- **§257** — THE DEAD-END LEDGER (P31 S58b): ELEVEN LEVERS THAT MEASURED NULL OR BACKFIRED  <sub>L24161</sub>
+- **§258** — ADDENDA TO EXISTING SECTIONS (P31 S58b)  <sub>L24204</sub>
+- **§30** — addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-ONE  <sub>L24209</sub>
+- **§194-B** — / §209 addendum (P31 S58b) — TWO MORE INSTANCES, AND THE BOUND IS NOW REFUTED FOUR WAYS  <sub>L24230</sub>
+- **§202** — addendum (P31 S58b) — THE DEF-SIDE ALIAS ALSO CLEARS A RETURN+PARAM DOUBLE CONFLICT  <sub>L24253</sub>
+- **§205** — addendum (P31 S58b) — CHAINED ASSIGNMENT: N≥3 IS INNERMOST-FIRST, AND THE TEXT MIRRORS EMISSION  <sub>L24264</sub>
+- **§208** — addendum (P31 S58b) — IT SCALES TO SIX SITES, AND IT HAS AN EXACT INVERSE  <sub>L24281</sub>
+- **§210** — addendum (P31 S58b) — THREE CONFIRMED SPELLINGS OF THE BOOLEAN TAIL  <sub>L24310</sub>
+- **§211** — addendum (P31 S58b) — INIT PLACEMENT: FIVE MORE DIALS BEYOND THE GUARD HOIST  <sub>L24326</sub>
+- **§213** — addendum (P31 S58b) — THREE MORE PERMUTATION LAWS FOR INDEPENDENT SAME-BASE STORES  <sub>L24369</sub>
+- **§214** — addendum (P31 S58b) — FOUR MORE WAYS A HIGH-SIMILARITY TWIN LIES  <sub>L24398</sub>
+- **§215** — addendum (P31 S58b) — PIN ECONOMY, PART 2: NINE REFINEMENTS  <sub>L24434</sub>
+- **§217** — CROSS-CONFIRMED (P31 S58b) — AND THE INCOMING HOME SLOT IS THE MIRROR  <sub>L24486</sub>
+- **§220** — addendum (P31 S58b) — THE PARAMETER, NOT A COPY (SEVEN CARDS)  <sub>L24503</sub>
+- **§222** — addendum (P31 S58b) — IF-CHAIN vs SWITCH: THREE MORE DISCRIMINATORS  <sub>L24528</sub>
+- **§223** — addendum (P31 S58b) — FIVE MORE CONFIRMATIONS, AND THE CONSTANT-IN-`$v0` CASE  <sub>L24546</sub>
+- **§224** — addendum (P31 S58b) — CROSS-JUMP MERGES *CALLS*, AND THE DELAY SLOT IS THE DISCRIMINATOR  <sub>L24570</sub>
+- **§225** — addendum (P31 S58b) — THE GUARD-CLAUSE FINGERPRINT, AND THREE MORE SHAPES  <sub>L24600</sub>
+- **§226** — addendum (P31 S58b) — THE FRAME CATALOGUE: SEVEN MORE LEVERS, AND SLOT ORDER IS DECLARATION ORDER  <sub>L24627</sub>
+- **§229** — addendum (P31 S58b) — NAME IT **INSIDE** THE ARM  <sub>L24672</sub>
+- **§230** — CROSS-CONFIRMED (P31 S58b)  <sub>L24683</sub>
+- **§231** — addendum (P31 S58b) — FOUR MORE WAYS THE LISTING MISLEADS  <sub>L24692</sub>
+- **§232** — CROSS-CONFIRMED (P31 S58b)  <sub>L24723</sub>
+- **§259** — THE DISCARD LEDGER FOR THE aa–bg HARVEST (P31 S58b): WHAT WAS MINED AND REJECTED, AND WHY  <sub>L24734</sub>
+- **§260** — THE §154-A LEADING-ISLAND SPLIT: ONE CONFIG LINE, AND THE ISLAND PEELS FROM THE END (P31 S59, byte-proven)  <sub>L24773</sub>
+- **§260-A** — STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day)  <sub>L24823</sub>
+- **§261** — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)  <sub>L24859</sub>
+- **§261a** — THE -O0 FRAME-RELOAD GRAMMAR: reload COUNT disambiguates the C spelling (P31 S59, byte-proven)  <sub>L24885</sub>
+- **§262** — A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59)  <sub>L24907</sub>
+- **§263** — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)  <sub>L24937</sub>
+- **§264** — FOUR TELLS-LANE C RECIPES, EACH DRIVEN TO MATCH (P31 S59)  <sub>L24978</sub>
+- **§265** — THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BODY (P31 S59b; two banked cards, two in-tree precedents)  <sub>L25028</sub>
+- **§266** — THE INERT-RIDER LAW: A LEVER IS ONLY CITABLE WHEN ITS SOLO REMOVAL BREAKS THE MATCH (P31 S59b; measured 4-of-8 on this batch)  <sub>L25090</sub>
+- **§267** — ADDENDA HARVESTED FROM WAVES at/bh/bk/bl (P31 S59b)  <sub>L25130</sub>
+- **ADD-1** — → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION  <sub>L25138</sub>
+- **ADD-2** — → §42a addendum — A SHARED CONSTANT *NAMED IN A LOCAL* ACROSS A `jal` IS AN ISO→TU DRIFT HAZARD; WRITE BARE LITERALS  <sub>L25147</sub>
+- **ADD-3** — → §236, item 10 — THE UN-DELETED `INCLUDE_ASM` STUB IS A DUPLICATE DEFINITION  <sub>L25159</sub>
+- **ADD-4** — → §225-3/-4 addendum — THE MIRROR ROW: VALUE-RETURN IN THE *TAKEN* ARM + TRAILING BARE `return 0`  <sub>L25169</sub>
+- **ADD-5** — → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TRAILING `else`  <sub>L25183</sub>
+- **ADD-6** — → §172b-1 / §264 addendum — SHIFT-AS-TEST: `(x << 16) != 0` TESTS THE LOW HALF WITHOUT TRUNCATING THE PSEUDO  <sub>L25192</sub>
+- **ADD-7** — → §256 addendum — THE SINGLE-GUARD GOTO: THEN-BLOCK OUT OF LINE AT THE TAIL  <sub>L25201</sub>
+- **ADD-8** — → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)  <sub>L25213</sub>
+- **ADD-9** — → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED SCALAR NEIGHBOR IS DEAD-STORED  <sub>L25225</sub>
+- **ADD-10** — → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS AN OUTGOING-ARGUMENT MATERIALISATION  <sub>L25235</sub>
+- **ADD-11** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25244</sub>
+- **§268** — A `register __asm__` PIN ON A CALL-CLOBBERED REGISTER IS HONORED EXACTLY WHEN THE PINNED RANGE CROSSES NO CALL (P31 S59c; three A/B'd cards, unifying §257-2's two)  <sub>L25295</sub>
+- **§269** — ADDENDA HARVESTED FROM WAVES ax/bm (P31 S59c)  <sub>L25349</sub>
+- **ADD-1** — → §257-8 addendum — THE INTERPOSED ASM'S `__volatile__` IS A PER-SHAPE DIAL, AND THE "NO-OUTPUT ASM IS IMPLICITLY VOLATILE" LORE IS BYTE-FALSE IN gcc-2.7.2  <sub>L25364</sub>
+- **ADD-2** — → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE  <sub>L25377</sub>
+- **ADD-3** — → §238 addendum — TWO BINARIES CAN EACH DEFINE THE SAME `func_` NAME WITH DIFFERENT BYTES, AND NO GENERATED REPORT SHOWS IT  <sub>L25391</sub>
+- **ADD-4** — → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAME IT **AND** STORE **INSIDE** THE ARM  <sub>L25404</sub>
+- **ADD-5** — → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON THE SHIFTED COPY, RAW STAYS LIVE — AND THE HALFWORD-ABS SHAPE NEEDS NO RITUAL  <sub>L25421</sub>
+- **ADD-6** — → §220-addendum — THE FOURTH FACE: WHEN THE NAMED COPY ITSELF BUYS THE EXTRA CALLEE-SAVED, PIN THE COPY TO `$16`  <sub>L25437</sub>
+- **ADD-7** — → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE POSITION; NAME IT TO PIN THE PROLOGUE INIT ORDER  <sub>L25453</sub>
+- **ADD-8** — → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST-PLUS GIVES SERIALIZATION *AND* DISPLACEMENT FOLDING  <sub>L25466</sub>
+- **ADD-9** — → §255 "AND CASE-BODY PLACEMENT" bound / §222-addendum-3 — ON A LARGE SPARSE TREE, BODIES FOLLOW **SOURCE** ORDER (measured by a one-word probe)  <sub>L25481</sub>
+- **ADD-10** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25495</sub>
+- **§3-1a.** — The §266 sweep — every solo-lever A/B run for this batch  <sub>L25536</sub>
+- **§270** — The A-prop 0-bank anatomy: a byte-correct body still needs FOUR layers to agree (P31 S59)  <sub>L25569</sub>
+- **§271** — Ordinal IMM pairing: text order is NOT emission order; emit CANDIDATES, let the oracle pick (P31 S59)  <sub>L25587</sub>
+- **§272** — The `(void)`-decl + empty-call wall: K&R the DEFINITION, not just the decls (P31 S59)  <sub>L25609</sub>
+- **§273** — A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59)  <sub>L25629</sub>
+- **§274** — ADDENDA HARVESTED FROM 18 WAVES (P31 S60): 315 candidates, 255 already covered, 21 sharpenings, 3 new laws  <sub>L25644</sub>
+- **ADDENDUM** — to §179-C — the `.type NAME, @function` requirement  <sub>L25650</sub>
+- **ADDENDUM** — to §134 — a typedef defined BELOW the splice point is stripped anyway  <sub>L25697</sub>
+- **ADDENDUM** — to §179-D (GTE macro reference family) — `gte_SetRotMatrix`/`gte_SetTransMatrix` bodies  <sub>L25727</sub>
+- **ADDENDUM** — to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save  <sub>L25753</sub>
+- **ADDENDUM** — to §136d-1 (RC-12, the `$0`-add / opaque-copy family) — two symptoms beyond "compare reads the wrong register"  <sub>L25791</sub>
+- **ADDENDUM** — to §20 — a global declared as `T *` may itself BE the array base, not a pointer to dereference  <sub>L25830</sub>
+- **ADDENDUM** — to §1-I5  <sub>L25859</sub>
+- **ADDENDUM** — to §164-51  <sub>L25924</sub>
+- **ADDENDUM** — to §176-F5  <sub>L25940</sub>
+- **ADDENDUM** — to §225  <sub>L25969</sub>
+- **ADDENDUM** — to §224 — CROSS-JUMP: THE DUPLICATE CAN BE A PLAIN STORE, NOT ONLY A CALL  <sub>L26014</sub>
+- **ADDENDUM** — to §164-64 — AN EMPTY CLOBBER ON AN ARGUMENT REGISTER CAN BE THE DELIBERATE FIX, NOT JUST THE ACCIDENTAL BUG  <sub>L26048</sub>
+- **ADDENDUM** — to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTER-OFFSET FIELD  <sub>L26079</sub>
+- **ADDENDUM** — to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECLARED TYPE, AND MOVE THE CAST INTO THE LOOP BODY  <sub>L26110</sub>
+- **ADDENDUM** — to §229 — A POINTER'S NUMBER OF USES DECIDES WHETHER ITS ADDRESS FOLDS OR SURVIVES A CALL  <sub>L26157</sub>
+- **ADDENDUM** — to §172b-4 — THE PLAIN CAST-DIVISION ALREADY PRODUCES THE PATTERN; DON'T HAND-ROLL THE BIAS, AND KEEP THE OPERAND WIDE  <sub>L26202</sub>
+- **ADDENDUM** — to §8 — WHEN `INCLUDE_RODATA` NEEDS A STANDALONE `.s` YOU CAN'T CREATE, CARRY THE FRAGMENT AS A FILE-SCOPE `__asm__` BLOB  <sub>L26232</sub>
+- **ADDENDUM** — to §226 — A DEAD LOCAL SCOPED TO A NESTED BLOCK BUYS A MID-FUNCTION `addiu sp` PAIR, NOT A FRAME-SIZE CHANGE  <sub>L26275</sub>
+- **ADDENDUM** — to §172a — RE-READING MEMORY (NOT NAMING A TEMP) IS WHAT KEEPS AN INCREMENT'S DELAY-SLOT FILL ALIVE  <sub>L26314</sub>
+- **ADDENDUM** — to §225 / §256 — A GOTO TO A SHARED SET-POINT PREVENTS IF-CONVERSION FROM COLLAPSING A LATER BRANCH TEST  <sub>L26345</sub>
+- **ADDENDUM** — to §211 — AN IN-LOOP ACCUMULATOR WANTS A CLOSED-FORM EXPRESSION WHEN THE TARGET REMATERIALISES ITS CONSTANT AFTER EVERY CALL  <sub>L26387</sub>
+- **§275** — THE LEFTOVER-REGISTER READ  <sub>L26422</sub>
+- **§276** — MIXED ADDRESS-EXPRESSION SPELLING FOR ADJACENT RELOCATABLE SYMBOLS IS A CSE-UNIFICATION DIAL, NOT JUST A BYTE-ENCODING CHOICE (P31 S60; `func_80180FE8`, ov_SC06_006, byte-proven)  <sub>L26462</sub>
+- **§277** — RETURN-TAIL C SPELLING PICKS THE DELAY-SLOT-FILL vs TRAILING-MOVE TOPOLOGY, AND A NARROWER SECOND VARIABLE KEEPS TWO PSEUDOS INSTEAD OF ONE (P31 S60; `func_801846F0` ov_SC03_104, `func_801A44C4` md_SC07_004, both byte-proven)  <sub>L26571</sub>
+- **§278** — ADDENDA HARVESTED FROM WAVE cf (P31 S60): 34 candidates, 13 already covered, 8 sharpenings, 4 new laws  <sub>L26635</sub>
+- **ADDENDUM** — to §74 (func_800D0E30, resident)  <sub>L26643</sub>
+- **ADDENDUM** — to §172b-4 (func_80185054, ov_SC03_097)  <sub>L26679</sub>
+- **ADDENDUM** — to §265 (func_8017DC80, ov_SC07_002)  <sub>L26717</sub>
+- **ADDENDUM** — to §17 (func_800CB794, md_MAIN_036)  <sub>L26756</sub>
+- **ADDENDUM** — to §162p (func_8017C120, ov_MAIN_012)  <sub>L26804</sub>
+- **ADDENDUM** — to §20 (~L1947) (func_80186AD0, ov_SC06_032)  <sub>L26838</sub>
+- **ADDENDUM** — to §164-56 (func_8017F644, ov_SC04_005)  <sub>L26868</sub>
+- **ADDENDUM** — to §237 (func_8017F7FC, ov_SC03_092)  <sub>L26903</sub>
+- **§279** — A `do/while (p < end)` LOOP UNDER AN ENTRY GUARD: the guard decides the compare, not the loop (P31 S60; wave cf, func_8017F2A4, ov_SC03_096, byte-proven)  <sub>L26932</sub>
+- **§NNN** — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)  <sub>L26933</sub>
+- **§280** — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)  <sub>L26966</sub>
+- **§NNN** — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)  <sub>L26967</sub>
+- **§281** — GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, the source must not (P31 S60; wave cf, func_80180FB4, ov_SC03_111, byte-proven)  <sub>L27000</sub>
+- **§NNN** — A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AND SCHED1 DOES THE INTERLEAVING (P31 S60; `func_80180FB4`, ov_SC03_111, byte-proven)  <sub>L27001</sub>
+- **§282** — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)  <sub>L27046</sub>
+- **§NNN** — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)  <sub>L27047</sub>
+- **What** — I could not verify  <sub>L27084</sub>
+- **§283** — ADDENDA HARVESTED FROM THE 36-WAVE BATCH (P31 S60): 1,216 candidates, 859 already covered, 46 sharpenings, 9 new laws  <sub>L27131</sub>
+- **ADDENDUM** — to §164-75 — the fold-reassociation law also fires at a variable's INITIALIZER, not only a later expression  <sub>L27141</sub>
+- **ADDENDUM** — to §21 — the `bltz`+`slti` (or N-separate-compares) signed-range-split bullet is now CONFIRMED on three independent functions, and generalizes beyond `lbu`/u8  <sub>L27167</sub>
+- **ADDENDUM** — to §202 — the DEF-SIDE ALIAS also resolves a function-vs-DATA-symbol identifier clash, not only a function-vs-function prototype clash  <sub>L27213</sub>
+- **ADDENDUM** — to §22 (`volatile`-qualified-global reload lever, cookbook ~L1922) — for a NON-constant, same-address double RMW, a plain memory clobber beats `volatile`, and `volatile` actively breaks a delay-slot fill  <sub>L27236</sub>
+- **ADDENDUM** — to §195-E — a goto-ladder's STORES must sit AT the labels, after the gotos, not inline before them  <sub>L27255</sub>
+- **ADDENDUM** — to §195-N — a GNU statement-expression slider must sit INSIDE the conditional arm's value position, not as a post-hoc barrier, to block the store-flag transform on a ternary chain  <sub>L27317</sub>
+- **ADDENDUM** — to §176-B2 — in a micro-function with no long/short lifetime asymmetry, BOTH contending pseudos need their own hard-register pin  <sub>L27374</sub>
+- **ADDENDUM** — to §199-G — A `default:` LABEL GROUPED ONTO THE LAST CASE REMOVES THE `j default` TAIL, EVEN THOUGH THE 2-NODE HEADER STAYS ALL-POSITIVE  <sub>L27421</sub>
+- **ADDENDUM** — to §220 — REFERENCING THE RAW PARAMETER (NO NAMED COPY, NOT EVEN A PIN) LETS THE CALLEE-SAVED SPILL LAND IN THE FIRST CALL'S OWN DELAY SLOT  <sub>L27490</sub>
+- **ADDENDUM** — to §252 — a `>=0`/`<0` split on an unconditionally-decremented value needs the POSTFIX operator INSIDE the branch condition, not a prior statement  <sub>L27548</sub>
+- **ADDENDUM** — to §215 — FIFTH SHAPE: reused mask constants across two call-free merge sites each get their own whole-function hard-register pin, and a shared sub-expression at the second site must be its own statement  <sub>L27575</sub>
+- **What** — I could not verify  <sub>L27658</sub>
+- **Harness-defect** — flags  <sub>L27729</sub>
+- **ADDENDUM** — to §167-40 (func_8017E2CC, ov_SC04_015 — wave dg)  <sub>L27822</sub>
+- **ADDENDUM** — to §20's cross-jump EXPLOIT bullet (func_8017E360, ov_SC05_007 — wave dg)  <sub>L27842</sub>
+- **ADDENDUM** — to §87 (func_801815F4 ov_SC06_032; corroborating func_801840DC ov_SC05_017, func_80189C68 ov_SC03_006 — wave dg)  <sub>L27856</sub>
+- **ADDENDUM** — to §153 / §236-5 (func_801A419C, md_SC07_003 — waves di and dl, corroborating; refutes a contradicted dj-wave card)  <sub>L27875</sub>
+- **ADDENDUM** — to §263 (func_801E83AC, md_SC04_029 — wave dj)  <sub>L27895</sub>
+- **ADDENDUM** — to §265 (func_8017D878, ov_SC03_107 — wave dj; corroborated by a REJECTED, contradicted card in wave dm — see closing)  <sub>L27909</sub>
+- **ADDENDUM** — to §6 (func_801811F0, ov_SC03_102 — waves dj and dl, corroborated by a self-reported "nothing new" dm-wave card)  <sub>L27923</sub>
+- **ADDENDUM** — to §195-G (func_80183BB0, ov_SC05_001 — wave dj)  <sub>L27937</sub>
+- **ADDENDUM** — to the zero-byte-asm-slider family (§47 / §148-C / §153) (func_800CB874, md_MAIN_040 — wave dj; open tension with a more cautious dm-wave card — see closing)  <sub>L27965</sub>
+- **ADDENDUM** — to §194-B (func_8017EB34, ov_SC03_117 — wave dk; distinct from the §74 co-pinning finding on the SAME function below)  <sub>L27983</sub>
+- **ADDENDUM** — to §74 (func_8017EB34, ov_SC03_117 — counter/clamp variant; wave dj, corroborated by dk/dl/dm cards on the same function)  <sub>L28015</sub>
+- **ADDENDUM** — §37 — merged into the §153/§236-5 entry above (func_801A419C, wave dl)  <sub>L28035</sub>
+- **ADDENDUM** — §6 — merged into the §6 entry above (func_801811F0, wave dl)  <sub>L28043</sub>
+- **ADDENDUM** — to §238 (func_80182CB4, ov_SC02_000 — wave dl)  <sub>L28051</sub>
+- **ADDENDUM** — to §137a (func_801684B4, ov_MAIN_012; corroborated independently by func_80189E68, func_8017FF9C, func_801822B4, func_8018DA8C — wave dl)  <sub>L28069</sub>
+- **ADDENDUM** — to §8c / §88d (func_8016AB6C, ov_MAIN_012 — wave dm)  <sub>L28085</sub>
+- **ADDENDUM** — to §73 / §30#2 (func_800D1984, resident — wave dm)  <sub>L28099</sub>
+- **What** — I could not verify  <sub>L28115</sub>
+- **ADDENDUM** — to §174 Law 4 (func_8017E9A8, ov_SC06_015)  <sub>L28135</sub>
+- **ADDENDUM** — the zero-emission-asm family gains a REF-SLIDER PLACEMENT LAW and a paired RESTORER (func_800CB900, md_MAIN_026)  <sub>L28175</sub>
+- **From** — ck + cl + cm  <sub>L28227</sub>
+- **ADDENDUM** — §NNN — sharpens §55a / §164-37 / §165-28 (switch-vs-tree cluster): A SHAPE THAT LOOKS LIKE A SWITCH DISPATCH CAN BE PLAIN NESTED `if`s WHOSE SHARED BODY WAS TRIPLICATED BY THE SOURCE AND THEN CROSS-JUMP-MERGED BACK DOWN  <sub>L28233</sub>
+- **ADDENDUM** — §NNN — sharpens §167-13's boundary: CHAINING TWO IDENTICAL SIDE-BY-SIDE STORES INTO ONE C ASSIGNMENT STATEMENT IS A MID-BLOCK SCHEDULING-PRIORITY DIAL, NOT ONLY A STORE-ORDER SPELLING  <sub>L28270</sub>
+- **ADDENDUM** — §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED HALFWORD IS A SIGNED-TEMP WIDTH TELL OUTSIDE ANY SWITCH/RANGE-TEST CONTEXT  <sub>L28303</sub>
+- **ADDENDUM** — §NNN — sharpens §37/§124 (unspecified-parameter-list family): DERIVE A CALLEE'S ARITY LOWER BOUND FROM ITS OWN `.s` STACK-ARGUMENT READS, NOT FROM ANY SINGLE CALL SITE  <sub>L28336</sub>
+- **ADDENDUM** — to §5a (func_80181F74, ov_SC03_112, wave cn)  <sub>L28369</sub>
+- **ADDENDUM** — to §265 (func_8017E26C, ov_SC04_016, wave cn)  <sub>L28419</sub>
+- **ADDENDUM** — to §42b (func_8018247C, ov_SC07_002, waves cu + cw)  <sub>L28457</sub>
+- **ADDENDUM** — to §199-F family (func_8017EFB0, ov_SC02_021, wave cu)  <sub>L28488</sub>
+- **ADDENDUM** — to §195-E (func_800CFC1C, md_MAIN_003, wave cv)  <sub>L28543</sub>
+- **ADDENDUM** — to §215 addendum (func_800CB2C8, md_MAIN_033, waves cv + cw)  <sub>L28588</sub>
+- **ADDENDUM** — to §236 item 4 (func_8017D268, ov_SC04_006, wave cw)  <sub>L28644</sub>
+- **What** — I could not verify  <sub>L28673</sub>
+- **Harness-defect** — flags (not idioms — flagged for the operator)  <sub>L28705</sub>
+- **ADDENDUM** — to §250 (func_8017D7CC, ov_SC03_115 — cx/cy/cz/dr)  <sub>L28746</sub>
+- **ADDENDUM** — to §225 (func_8017E190, ov_SC03_115 — cx/cy/cz)  <sub>L28791</sub>
+- **ADDENDUM** — to §45-A (func_8017F6A4, ov_SC02_016 — cy/cz)  <sub>L28844</sub>
+- **ADDENDUM** — to §249 (func_80182ED4, ov_SC04_004 — dp/dr/dt)  <sub>L28888</sub>
+- **ADDENDUM** — to §199-A (func_801816FC, ov_SC02_005 — dp/dr/dt)  <sub>L28933</sub>
+- **What** — I could not verify  <sub>L28979</sub>
+- **Harness-defect** — flags  <sub>L29022</sub>
+- **§284** — COMBINE CAN REASSOCIATE TWO SEQUENTIAL BITWISE-AND MASKS INTO ONE AGAINST THE PRE-MASK VALUE; AN ASM IN/OUT FENCE RIGHT AFTER THE FIRST MASK BLOCKS IT (P31, wave dd, `func_8018087C`, ov_SC04_020, byte-proven) (P31 S60; waves #, byte-proven)  <sub>L29084</sub>
+- **§285** — PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE FOLLOWING if/else DESTRUCTIVELY REUSE THE SAME DESTINATION REGISTER FOR THEIR BITWISE RESULT (byte-proven; `func_801811F0`, ov_SC03_102, independently rediscovered across waves di/dj) (P31 S60; waves #, byte-proven)  <sub>L29088</sub>
+- **§286** — FOLD A STATEMENT'S SIDE EFFECT INTO A COMMA-EXPRESSION IN AN ARGUMENT POSITION TO PLACE ITS RTL RELATIVE TO A CALL'S OWN DELAY SLOT (P31 S60/dj; `func_80180A88`, ov_SC06_010, byte-proven 411/411) (P31 S60; waves #, byte-proven)  <sub>L29092</sub>
+- **§287** — A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE COMBINED STRUCT, NOT SEPARATE LOCALS OR A REGISTER PIN (P31 S60/dj; `func_8017D104`, ov_SC06_027, byte-proven 47/47) (P31 S60; waves #, byte-proven)  <sub>L29096</sub>
+- **§288** — A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES THE FIXED REGISTER'S SAVE/RESTORE, AND THE ASSIGNMENT'S SOURCE POSITION CONTROLS WHERE THE VALUE MATERIALIZES (P31; `func_80186530`, ov_SC02_017, byte-proven, match_one MATCH re-verified) (P31 S60; waves #, byte-proven)  <sub>L29100</sub>
+- **§289** — an array local's address-taken base keeps every element's store alive, even though only one pointer escapes (`func_80189EFC`, ov_SC04_011) (P31 S60; waves #, byte-proven)  <sub>L29104</sub>
+- **§290** — A SINGLE STRENGTH-REDUCED GIV CAN DRIVE STORES TO SEVERAL DISTINCT RELOCATABLE SYMBOLS, EACH KEEPING ITS OWN `%hi`/`%lo` ANCHOR (P31 S60; waves #, byte-proven)  <sub>L29108</sub>
+- **§291** — THE DELAY-SLOT FALSE-VALUE: A CONDITIONAL BRANCH'S ZERO ARM MUST BE A FALL-THROUGH-ADJACENT BLOCK ENDING IN AN EXPLICIT JUMP, OR REORG CANNOT MATERIALIZE IT INSIDE THE BRANCH'S OWN DELAY SLOT (P31 S60; waves #, byte-proven)  <sub>L29112</sub>
+- **§292** — DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPLICIT (K&R) DECLARATION CAN SILENTLY REPROTOTYPE THE SIBLING'S OWN CALL SITE (P31 S60; waves #, byte-proven)  <sub>L29116</sub>
+- **§293** — THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND THE LOAD-BEARING ONE IS "THE BASELINE, NOT THE SIBLINGS" (P31 S61; byte-proven on 15 binaries in one night)  <sub>L29119</sub>
+- **§294** — ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2): 99 candidates, 52 covered, 15 notes → 10 addenda, 29 notes → 5 new laws (§295–§299), 3 refuted  <sub>L29169</sub>
+- **ADDENDUM** — to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the index being constant  <sub>L29180</sub>
+- **ADDENDUM** — to §261a — FOUR MORE -O0 DIALS BEYOND THE RELOAD COUNT (boot.c + md_MAIN_011/003, wave m0a/g0a/g0f, byte-proven)  <sub>L29208</sub>
+- **ADDENDUM** — to §264-3 — the explicit entry copy's BOUND: required exactly when the RAW value must outlive the call that consumes only the PROMOTED value  <sub>L29258</sub>
+- **ADDENDUM** — to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator  <sub>L29278</sub>
+- **ADDENDUM** — to §276 — the SHARE direction: spell the second adjacent symbol RELATIVE to force ONE anchor  <sub>L29290</sub>
+- **ADDENDUM** — to §31's density-dummy dial (L2460/L2497) — the dose is TWO refs, and the dummy must sit where the loser is live-through  <sub>L29306</sub>
+- **ADDENDUM** — to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction births the induction register at loop.c's own insertion point  <sub>L29323</sub>
+- **ADDENDUM** — to §253 — SECOND byte-proven card (upgrade from single-observation), and the placement face: postfix-in-condition parks the RMW store in the branch delay slot  <sub>L29346</sub>
+- **ADDENDUM** — to the L1800 anchor-steer bullet — a DERIVED-POINTER local silently flips the merged giv's anchor END  <sub>L29367</sub>
+- **ADDENDUM** — to §31's asm→layout inference — TWO WIDTH-PAIR DISCRIMINATORS (same offset, different widths)  <sub>L29390</sub>
+- **§295** — THE KERNEL-TRAP STUB: §81's jr-DETECTOR WITHOUT A TABLE IS A PsyQ SYSCALL TRAMPOLINE — ROUTE TO §265, NEVER INTO THE CARVE CHAIN (P31 S61; wave m0a, 9 cards byte-proven; resolves §182's held cluster)  <sub>L29411</sub>
+- **§296** — THE FRAME CHECK OUTRANKS THE ATLAS LEVER: READ PROLOGUE/EPILOGUE BEFORE DRAFTING ANY C — A REAL TELL CAN LIVE INSIDE AN UNREACHABLE FRAGMENT (P31 S61; wave m0a, 16 cards byte-proven; extends §179-C)  <sub>L29466</sub>
+- **§297** — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)  <sub>L29509</sub>
+- **§298** — THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUPLICATED STATEMENTS, NOT A HOISTED POST-SWITCH STATEMENT (P31 S61; waves g0e/g0f, `func_80181B68`, ov_SC06_016, byte-proven 68/68)  <sub>L29552</sub>
+- **§299** — TWO INDEPENDENT EXTRACTION CHAINS EMIT CONTIGUOUSLY INSIDE ONE EXPRESSION; ONLY A STATEMENT BOUNDARY MAKES THE SCHEDULER INTERLEAVE THEM (P31 S61; wave m0a, `func_8003A404`, main, byte-proven 8/8)  <sub>L29577</sub>
+- **§300** — S61 DISTILL BATCH NOTES (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2 · m0b)  <sub>L29612</sub>
+- **§301** — AN INTERNAL `j` CARRIES `R_MIPS_26 .text`: rtu/match_one "MATCH" COULD NOT SEE WHICH LABEL A `j` TAKES — FIXED (`jrel`), AND THE TWO DRAFT SHAPES IT HID (P31 S62 T1; byte-proven 2/2, negative-controlled over 3,297 stubs)  <sub>L29681</sub>
+- **§302** — A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO DERIVE EACH FROM THE BYTES (P31 S62 T2; five reds healed in one session, 5/5, +39 held banks)  <sub>L29729</sub>
+- **§303** — MODULE ISLAND TABLES: DERIVE THE PADS AT BUILD TIME, PEEL NOTHING — THE §154-A/§260 "island-pads"/"island-blocked" WALLS DISSOLVE (P31 S62 T3a; byte-proven md_SC03_076 func_801F0A9C + func_801F0F28, sha 9a165e36…)  <sub>L29773</sub>
+- **§304** — SELF-DEFINING RODATA: WHEN A FUNCTION'S `.s` IS THE ONLY OWNER OF THE DATA IT REFERENCES, THE C BODY MUST DEFINE IT (P31 S62 T3; byte-proven md_MAIN_011/func_800D04F4)  <sub>L29809</sub>
+- **§305** — "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE (P31 S62 T3; 28 resolver drafts autopsied 28/28)  <sub>L29832</sub>
+- **§306** — A HAZARD `nop` IN FRONT OF A DIV-RESULT STORE IS A STATEMENT-ORDER DEFECT: THE INDEPENDENT TRAILING STATEMENT MUST BE WRITTEN *BEFORE* THE DIVISION-CONSUMING ONE (P31 S62 T4; byte-proven func_8017E7D0)  <sub>L29884</sub>
+- **§306a** — T4 DISTILL ADDENDA (P31 S62; four byte-proven refinements to existing laws, verified against the book by an independent verifier; each names its parent §)  <sub>L29911</sub>
+- **§307** — THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHEDULER-INTERNAL, AND NO SOURCE ORDER REACHES IT (P31 S63; byte-evidenced NEGATIVE result, main wave)  <sub>L29949</sub>
+- **§308** — A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if` SO cse FOLDS IT TO AN UNCONDITIONAL JUMP *AFTER* jump1's WINDOW HAS CLOSED (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L29993</sub>
+- **§308a** — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)  <sub>L30022</sub>
+- **§309** — A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD ONTO `$sp` UNLESS THE `if` SURVIVES jump1 AS A BARRIER-PRECEDED DIAMOND (P31 S63 t5e-t5i; byte-proven func_801812AC)  <sub>L30056</sub>
+- **§310** — A TWO-OPERAND `subu`'s DESTINATION TIES ONLY TO THE OPERAND THAT IS BLOCK-LOCAL: SHARE *ONE* SIDE ACROSS BLOCKS TO CHOOSE WHICH OPERAND'S REGISTER IT LANDS IN (P31 S64 t5j-t5m; byte-proven func_8017F578)  <sub>L30096</sub>
+- **§311** — A JOIN-BLOCK STORE CAN SWALLOW AN ARM'S LOAD-DELAY `nop`: WHEN ONE ARM'S VALUE COMES FROM A LOAD, DUPLICATE THE STORE INTO BOTH ARMS (P31 S64 t5j-t5m; byte-proven func_8017D7E0)  <sub>L30127</sub>
+- **§312** — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)  <sub>L30169</sub>
+- **§313** — A RECOVERY STAGE THAT REWRITES THE DRAFT IS PART OF THE MEASUREMENT: GATE THE RAW DRAFT FIRST, THE REWRITE ONLY AS A FALLBACK (P31 S65 t5r-recovery; byte-proven func_8017BEBC, 246 ins)  <sub>L30195</sub>
+- **§314** — AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES ALL COMPILE BYTE-IDENTICAL, AND NONE REACHES A TARGET THAT SINKS THE NEGATIVE ARM INTO AN OUT-OF-LINE BLOCK (P31 S65; UNPROVEN, gate-refused draft func_80181720)  <sub>L30251</sub>
+- **§315** — ALL-CONSTANT AGGREGATE FILL: THE EMISSION ORDER IS SHARED-LITERAL GROUPS × DESCENDING INDEX, WITH PAIRED SUB-FIELDS INTERLEAVED (P31 S66; ⚠ **UNPROVEN** — `func_80185214`, gate-REFUSED draft, closeness 32→5, never MATCHed)  <sub>L30283</sub>
+- **§316** — A GUARD CHAIN THAT GATES A SUCCESS BLOCK ROUTES ITS FAILING GUARDS TO A LABEL **BEFORE** THE FLAG TEST, NOT TO THE EPILOGUE: THE RESIDUAL IS IMM-OFFSET-ONLY AT AN EXACTLY EQUAL INSTRUCTION COUNT (P31 S66; byte-proven func_80180284)  <sub>L30320</sub>
+- **§317** — A NARROW STRUCT-FIELD STORE TURNS A *LIVE SImode VARIABLE* INTO A `li`: convert.c's TRUNCATION-DISTRIBUTION MINTS A HImode COPY, AND cse REWRITES THAT COPY'S SOURCE TO THE EQUIVALENT CONSTANT (P31 S66; byte-proven func_8017EF94)  <sub>L30354</sub>
+- **§318** — A UNARY MINUS STORED BACK INTO THE SAME HALFWORD IS COMPUTED IN HImode, SO ITS LOAD IS `lhu`; AN INLINE `(s32)` CAST IS PROVABLY INERT AND ONLY A NAMED SImode LOCAL BUYS `lh` (P31 S66; `func_8018568C`, ov_SC03_028 — **`match_one`-only, NOT byte-gated**)  <sub>L30388</sub>
+- **Addendum** — §148-A2 addendum — the empty-asm insn_count dial (N bare `__asm__("")` = exactly +N real i (func_801835B0)  <sub>L30463</sub>
+- **Addendum** — §312 addendum — naming the compare's dest is the vehicle, the hard-reg pin on that name is (func_80184A68)  <sub>L30471</sub>
+- **Addendum** — subu/sh dest reuses a pinned operand's dying register (func_8017F498)  <sub>L30475</sub>
+- **Addendum** — Addendum to §261a — the -O0 increment-operator copy also fires on the POINTER LOCAL itself (func_8001212C)  <sub>L30483</sub>
+- **Addendum** — Addendum to §164-XX/§165-06 — at -O0 a bare local IS a memory lvalue, so the increment ope (func_8001212C)  <sub>L30487</sub>
+- **Addendum** — Addendum to §312 — the compare's named destination must itself carry a hard register: nami (func_80184A68)  <sub>L30491</sub>
+- **Addendum** — Addendum to §167-12 — the single-operand volatile keepalive, re-confirmed at a gated MATCH (func_8017F498)  <sub>L30495</sub>
+- **Addendum** — A §5a BARRIER SITS IN REORG'S FILL WINDOW TOO, SO ITS SIDE OF THE INNER `goto` IS CHOSEN P (func_80181D08)  <sub>L30499</sub>
+- **Addendum** — Loop sentinel wrongly hoisted out of a call-containing loop (func_801835B0)  <sub>L30503</sub>
+- **Addendum** — Reversed-operand sltu then xori 1 means unsigned less-or-equal (func_8017D948)  <sub>L30515</sub>
+- **Addendum** — Chained *2*2 array index folds to one copy;sll, not two (func_80011380)  <sub>L30519</sub>
+- **Addendum** — REGALLOC-PERM: one memory-clobber barrier insufficient — stack two (func_80182D1C)  <sub>L30533</sub>
+- **Addendum** — Last if-arm's nested if un-fuses the whole preceding chain (func_8017FE88)  <sub>L30539</sub>
+- **Addendum** — A plain global-RMW triplet is a fillable scheduling window too — zero drift, and the fille (func_800CB058)  <sub>L30543</sub>
+- **Addendum** — Shared arithmetic that CONSUMES the selected value cannot be hoisted above the `if` — narr (func_80183DA0)  <sub>L30547</sub>
+- **REFUTED** — claim — Dead call-arg register address-fold: no C-level lever found (func_8017ECAC)  <sub>L30551</sub>
+- **Addendum** — Truncating assign must be the lazy `||` operand, not hoisted (func_80012B58)  <sub>L30570</sub>
+- **Addendum** — WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538)  <sub>L30582</sub>
+- **REFUTED** — claim — REFUTED — the `j`-slot store is an ASPSX macro-expansion hop, not a cse split; maspsx hard (func_8005DBD8)  <sub>L30599</sub>
+- **§NNN** — REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE JUMP IS **ASSEMBLER** MACRO-EXPANSION, NOT A cse SPLIT — OUR PIPELINE CANNOT EMIT IT FROM ANY C, AND THE +1 IS A `maspsx` GAP (P31 S66 round2, `func_8005DBD8`, byte-probed)  <sub>L30601</sub>
+- **Addendum** — Static local_type blocker survives typedef removal — it's textual (func_801588CC)  <sub>L30625</sub>
+- **Addendum** — Orphan sh triplet to $sp is a write-only local array (func_8017F274)  <sub>L30632</sub>
+- **Addendum** — REGALLOC-PERM: the store reads the narrow copy's register — split the one narrow local by  (func_801838CC)  <sub>L30636</sub>
+- **Addendum** — REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8)  <sub>L30640</sub>
+- **Addendum** — LENGTH-DRIFT nop clears when offset math precedes the symbol launder (func_80039B20)  <sub>L30644</sub>
+- **REFUTED** — claim — REFUTED: a block shared across TWO switch statements is ordinary forward cross_jump, not a (func_8001B0D4)  <sub>L30648</sub>
+- **§NNN** — REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cross_jump`, NOT A SHAPE C CANNOT REACH — §164-11 ALREADY BANKS IT FROM PLAIN NESTED SWITCHES (P31 S66 round3, `func_8001B0D4`; ⚠ **UNPROVEN** — gate-REFUSED draft, closeness 68→45, never MATCHed)  <sub>L30650</sub>
+- **RETRIEVAL** — FAILURES this round (not new knowledge — a RETRIEVAL defect)  <sub>L30666</sub>
+- **§319** — N TEXTUALLY DUPLICATED `return v;` TAILS PUT THE LAST `or` AND THE RETURN-REGISTER MOVE IN ONE BASIC BLOCK, SO combine FOLDS THEM AND YOU ARE EXACTLY −1; A `goto done;` JOIN WITH REAL INCOMING EDGES RESTORES THE SEPARATE `addu $v0,$a0,$zero` (P31 S66 round4; byte-proven func_801809F0)  <sub>L30681</sub>
+- **Addendum** — Masked-OR field-merge plateaus at close=10; bitfield store clears it (func_8017FD64)  <sub>L30710</sub>
+- **Addendum** — Integer-space address arithmetic is a THIRD no-movable spelling, and a distant `SYM[0]` re (func_8017D89C)  <sub>L30714</sub>
+- **Addendum** — LENGTH-DRIFT −1 on a coalesced-away copy: a CALLER-SAVED SOURCE pin can resurrect it, boun (func_8017D72C)  <sub>L30724</sub>
+- **Addendum** — Return-0 statement order: extra j+move vs delay-slot fusion (func_8018BB50)  <sub>L30731</sub>
+- **Addendum** — Counter zero in the DECLARATION slot, empty for-init — the prologue SHIFT-DRIFT/+K face of (func_8018275C)  <sub>L30735</sub>
+- **Addendum** — The dying-pinned-register reuse on a sign-extend chain: route every later read through a s (func_80186868)  <sub>L30753</sub>
+- **Addendum** — Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0)  <sub>L30757</sub>
+- **Addendum** — Register-pinned helper pointer local regresses closeness; use plain local (func_80013CFC)  <sub>L30767</sub>
+- **Addendum** — §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo (func_8017E464)  <sub>L30771</sub>
+- **RETRIEVAL** — FAILURES this round  <sub>L30775</sub>
+- **§320** — THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 S66; byte-proven func_800CCBC0, func_800D30D0, func_800D2A24)  <sub>L30796</sub>
+- **§321** — FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SCOPE IS A WARNING (P31 S66; byte-proven func_80180728, func_8017F9F8, func_8017E07C)  <sub>L30855</sub>
+- **§322** — A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS FREE: RUN THE REAL PLANNER WHEN THE PLANNER IS PURE (P31 S67; measured, 96 of 159 open jtbl functions)  <sub>L30876</sub>
+- **§323** — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)  <sub>L30906</sub>
+- **§323a** — R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GREEN (P31 S67)  <sub>L30936</sub>
+- **§323b** — A SCRIPT THAT PARSES argv AT IMPORT CANNOT BE SHARED; EXTRACT THE PREDICATE, DO NOT COPY IT (P31 S67)  <sub>L30945</sub>
+- **§324** — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)  <sub>L30959</sub>
+- **§325** — REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s-OCCUPANT THAT STEALS THE ARGUMENT ALLOCNO'S REGISTER — PIN THE ARGUMENT-DERIVED LOCAL, NOT THE CONSTANT (P31 S67; byte-proven ov_SC03_119/func_80184F18, 153 ins)  <sub>L30997</sub>
+- **§326** — DEFEATING ADDRESS-CSE: SPELL TWO READS OF THE SAME HALFWORD DIFFERENTLY AND GCC CANNOT SHARE THE ADDRESS (P31 S67; byte-proven ov_SC01_077/func_8017FAAC, 154 ins)  <sub>L31010</sub>
+- **§327** — A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT AND DROPS THE `andi` (P31 S67; byte-proven ov_SC02_039/func_8017EC34, 154 ins)  <sub>L31019</sub>
+- **§328** — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)  <sub>L31034</sub>
+- **§329** — fold-const NARROWS `(int)s16_var & 0xFFF` ONTO THE *RAW HImode PSEUDO*, BREAKING THE SIGN-EXTEND/MASK REGISTER TIE — A ZERO-BYTE WIDENING TEMP RESTORES IT (P31 S67; byte-proven ov_SC01_084/func_80183244, 157 ins)  <sub>L31044</sub>
+- **§330** — THE NEIGHBOUR-SHAPE LEVER IS THE CHEAPEST FIRST MOVE, AND IT IS UNDER-USED (P31 S67; four independent instances in one 20-function wave)  <sub>L31052</sub>
+- **§331** — OPEN GAP: NO LEVER ELIMINATES AN *UNWANTED DUPLICATE* COPY AT A BRANCH-TARGET BLOCK HEAD (P31 S67; main/func_80013154, closeness 12, NOT solved)  <sub>L31069</sub>
+- **§332** — THE maspsx `la`-IN-A-DELAY-SLOT GAP: gcc EMITS A SYMBOLIC ADDRESS LOAD AS ONE ATOMIC length-2 INSN, SO IT CAN NEVER FILL A JUMP DELAY SLOT — 6 FUNCTIONS FLEET-WIDE, NONE BANKABLE FROM C (P31 S67; byte-traced main/func_80062144, func_8005DBD8)  <sub>L31081</sub>
+- **§332a** — MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67, measured)  <sub>L31106</sub>
+- **§333** — FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL IS A REAL DIAL (P31 S67; three independent byte-proven instances in one wave)  <sub>L31125</sub>
+- **§334** — A RELOAD SPILL SLOT IS ROUNDED TO `BIGGEST_ALIGNMENT` (8B), SO ONE SPILLED 4-BYTE PSEUDO CAN GROW THE FRAME BY 16 (P31 S67; byte-proven ov_SC05_008/func_8017DF68, 82 -> 53 residual)  <sub>L31139</sub>
+- **§335** — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)  <sub>L31150</sub>
+- **§336** — THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump` WALKS BACKWARD FROM THE CONVERGING JUMP (P31 S67; byte-proven ov_SC05_001/func_80183C9C)  <sub>L31159</sub>
+- **§337** — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)  <sub>L31167</sub>
+- **§338** — `jtbl_carve._sltiu_bounds` MISREADS A NON-SWITCH `sltiu` AS A BOUNDS CHECK, OVER-SPANNING THE TABLE (P31 S67; ov_SC06_022/func_80185B80, byte-diagnosed)  <sub>L31181</sub>
+- **§339** — A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE `beq`s IS A **COUNT TELL** FOR A THIRD CASE NODE (P31 S67; byte-proven ov_SC02_005/func_80190538, 197 ins)  <sub>L31191</sub>
+- **§340** — §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be sched.c's ALIAS ORACLE emitting a FALSE true-dependence; source order chooses its DIRECTION (P31 S67; byte-proven ov_SC03_107/func_8017CF48, 10 -> 0 in one compile, zero bytes)  <sub>L31219</sub>
+- **§341** — AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S67; byte-proven ov_SC03_006/func_801823B8, last 4 ins)  <sub>L31253</sub>
+- **§342** — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)  <sub>L31267</sub>
+- **§343** — `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT JUST THE WINNER (P31 S67; measured on func_8012BD14 / func_8012D624 / func_80143C74)  <sub>L31284</sub>
+- **§344** — RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINNING THE COUNTER KILLS LSR ENTIRELY (P31 S67; byte-proven ov_SC03_121/func_80180E64, 222 ins)  <sub>L31306</sub>
+- **§345** — A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS combine AND DEGRADES `lh` INTO `lhu+sll+sra` (P31 S67; byte-proven ov_SC01_084/func_80181A7C)  <sub>L31322</sub>
+- **§346** — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)  <sub>L31332</sub>
+- **§347** — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)  <sub>L31352</sub>
+- **§347-addendum** — A THIRD INSTANCE, AND THE SHARPEST STATEMENT OF THE RULE (md_MAIN_025/func_800CB300, 243 ins)  <sub>L31382</sub>
+- **§343-addendum** — SECOND INSTANCE OF THE WRONG-MAJORITY DECL (same function)  <sub>L31400</sub>
+- **§348** — THE BASE SPELLING PICKS THE ADDRESSING MODE: A SYMBOL GIVES THE 3-INSN `lui/%lo` FORM, A POINTER VARIABLE GIVES THE 2-INSN `addu/lw` FORM (P31 S67; byte-proven ov_SC07_007/func_80182184, 264 -> 30 on this row alone)  <sub>L31407</sub>
+- **§349** — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)  <sub>L31424</sub>
+- **§350** — A ZERO-BYTE RE-TIE SETS `reg_n_sets=2`, WHICH KILLS sched1's `birthing_insn_p` LAUNCH_PRIORITY BOOST — THE MECHANISM BEHIND "MY ADDS ARE GLUED TO THEIR STORES" (P31 S67; byte-proven ov_SC04_011/func_80180B24, 215 ins)  <sub>L31445</sub>
+- **§351** — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)  <sub>L31466</sub>
+- **§352** — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)  <sub>L31496</sub>
+- **§353** — USE `-fno-thread-jumps` AS AN **ORACLE** TO PROVE A RESIDUAL IS thread_jumps, THEN LAUNDER THE *VALUE* TO KEEP A DEAD RE-TEST (P31 S67; byte-proven ov_SC01_008/func_8017EC68, 279 ins)  <sub>L31529</sub>
+- **§354** — THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `strength_reduce` DECLINES (P31 S68; byte-proven ov_SC03_105/func_801824CC, 320 ins, 201 → 5 → 0)  <sub>L31552</sub>
+- **§355** — A REMAPPED SIBLING'S **SOURCE BIAS IS NOT ITS EMITTED BIAS** — DO NOT HAND-SHIFT OFFSETS TO MATCH THE ASM (P31 S68; byte-proven ov_SC07_007/func_8013DD68, 187/187 in 2 iterations)  <sub>L31570</sub>
+- **§356** — MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured over 47 stored drafts)  <sub>L31584</sub>
+- **§357** — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)  <sub>L31599</sub>
+- **§358** — (sharpens §333) — AN **UNREFERENCED** FIXED-SIZE AGGREGATE LOCAL IS LOAD-BEARING (P31 S68; same function)  <sub>L31608</sub>
+- **§359** — (§43-adjacent) — SPELL A SIGN-WIDEN AS AN EXPLICIT TWO-STEP, FUNCTION-SCOPED TEMP (P31 S68; byte-proven main/func_80012B58, 69 ins, 58 → 3 → 0)  <sub>L31618</sub>
+- **§360** — THE "COMPILER FOUND A SHORTER EQUIVALENT THAN THE TARGET" PAIR (P31 S68; main/func_800241C0, 68 ins, 68 → 19)  <sub>L31631</sub>
+- **§361** — ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)  <sub>L31647</sub>
+- **§362** — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)  <sub>L31692</sub>
+- **§363** — ★★ — THE OVERLAY-LAYOUT ASSUMPTION IS A SYSTEMIC BUG CLASS, AND `main` IS THE EXCEPTION THAT FINDS IT (P31 S68; six instances, four of them in one session)  <sub>L31715</sub>
+- **§364** — ★ — THE libgpu `P_TAG` BITFIELD SPELLING IS **OPT-LEVEL DEPENDENT** (P31 S68; two functions, opposite verdicts, same session)  <sub>L31744</sub>
+- **§365** — PIN **BOTH** MASKS OR NEITHER (P31 S68; ov_SC01_000/func_8017E594, 357 ins)  <sub>L31758</sub>
+- **§366** — ★★ — `group_case_nodes` MERGES **STACKED CONSECUTIVE** CASE LABELS: GIVE EVERY CASE ITS OWN BODY (P31 S68; ov_SC01_001/func_8017EC28, **first-try MATCH 360/360**, 96/96 relocs audited)  <sub>L31767</sub>
+- **§367** — RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main)  <sub>L31787</sub>
+- **§368** — ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)  <sub>L31802</sub>
+- **§369** — REUSE THE **COMPARE CONSTANT'S OWN VARIABLE** FOR A MASK THAT KEEPS COALESCING (P31 S68; md_SC07_004/func_801AEC38, 365 ins)  <sub>L31832</sub>
+- **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31848</sub>
+- **§371** — ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP THAT FOLLOWS (P31 S68; byte-proven md_MAIN_003, func_800D0D6C 345 ins)  <sub>L31900</sub>
+- **§372** — ★★★ — THE **COPY-CAPTURE PAIR**, AND THE ONE ZERO-BYTE EDIT THAT DEFEATS BOTH (P31 S68; byte-proven main/func_8003491C, 78 ins, fable escalation closed 5 → 0)  <sub>L31949</sub>
+- **§373** — ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)  <sub>L31987</sub>
+- **§3-1.** — DEAD-RESET CSE-BREAKER — the zero-footprint replacement for a §195-I asm re-tie  <sub>L31989</sub>
+- **§3-2.** — A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE  <sub>L32007</sub>
+- **§3-3.** — HARD FACT FOR THE SCHEDULING MAP — an `asm` ALWAYS has priority 1  <sub>L32020</sub>
+- **CROSS-REFERENCE** — TO §370 — checked and found INAPPLICABLE here, which is the point  <sub>L32028</sub>
+- **§374** — A `register … __asm__("$30")` RESERVATION IS **NOT HONOURED** BY `move_movables` (P31 S68; main/func_80015608, 86 ins)  <sub>L32036</sub>
+- **§375** — AN `$a0`-`$a3` PIN USED LATE RELOCATES AN **EARLIER** OUTGOING-CALL USE OF THAT REGISTER (P31 S68; main/func_8005F0C8, 88 ins)  <sub>L32052</sub>
+- **§376** — ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT THE **TU** (P31 S69; measured 0/28)  <sub>L32065</sub>
+- **§377** — THREE HARNESS DEFECTS FOUND IN ONE GATING SESSION, ALL "A CONFIDENT NUMBER ABOUT A SMALLER WORLD" (P31 S69)  <sub>L32107</sub>
+- **§378** — ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE (P31 S69; byte-proven ov_SC04_010/func_8017D6CC)  <sub>L32124</sub>
+- **§379** — ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)  <sub>L32174</sub>
+- **§380** — ★★★ — **A SECOND SET OF A PSEUDO DISQUALIFIES IT FROM `move_movables`** (P31 S69; main/func_800215F4, 465 ins, closeness 106 → 59 → 39)  <sub>L32205</sub>
+- **§381** — THE `insn_count` HOIST THRESHOLD IS A DIAL YOU CAN READ WITH `cc1 -dL` (P31 S69; four independent uses in one wave)  <sub>L32226</sub>
+- **§382** — TWO FOLD REASSOCIATIONS THAT NEED THEIR OWN STATEMENT (P31 S69)  <sub>L32242</sub>
+- **§383** — TWO TOOLCHAIN FACTS THE PACKS DID NOT CARRY (P31 S69)  <sub>L32254</sub>
+- **§384** — ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE BANK (P31 S69; measured twice, cost one destroyed match)  <sub>L32269</sub>
+- **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32319</sub>
+- **§386** — ★★★ — A BYTE LOAD ON THE **BIV** BASE WAS BORN IN THE COMBINE PASS: SPELL IT AS A SHIFT-MASK, NEVER A DEREF (P31 S69; byte-proven main/func_80020598, 292 ins, escalation 1 → 0)  <sub>L32345</sub>
+- **§387** — ★★ — **SPLIT-FOLD DISPATCH CLOBBER**: one switch case needs a reload, another must keep the fold (P31 S69; byte-proven main/func_80030F80, 343 ins, escalation 3 → 0)  <sub>L32371</sub>
+- **§388** — ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 S69; main/func_80011380 proved a C-level WALL at 6)  <sub>L32394</sub>
+- **§389** — ★★★ — `h_norm` IS BLIND TO INDEXED-GLOBAL RELOCS, SO FREE WORK BECOMES AN INVISIBLE SINGLETON (P31 S69; 31 stubs / 4,811 ins recovered, 8 banked same day)  <sub>L32419</sub>
+- **§390** — ★★★ — MINIMUM DISTANCE IS NOT MINIMUM WORK; RANK TWIN CANDIDATES BY EFFORT, AND FILTER LOOKALIKES BY RATIO (P31 S69; byte-proven ov_SC01_077/func_80184D50, banked)  <sub>L32460</sub>
+- **§391** — ★★ — A BYTE-ALIGNED STRUCT COPIES IN FOUR INSTRUCTIONS, A WORD-ALIGNED ONE IN TWO (P31 S69)  <sub>L32498</sub>
+- **§392** — ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH  <sub>L32512</sub>
+- **§393** — ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P31 S69; byte-proven ov_SC02_017/func_8017FCFC)  <sub>L32553</sub>
+- **§394** — ★★ — TWO ALIGN-1 ACCESSES IN ONE FUNCTION RESERVE A PHANTOM STACK SLOT (P31 S69; ov_SC02_005/func_80180610)  <sub>L32570</sub>
+- **§378b** — ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P31 S69, all four measured the same day)  <sub>L32582</sub>
+- **§395** — ★★★ — FIVE NARROWING/PLACEMENT LEVERS FROM ONE 91-INSTRUCTION CRACK (P31 S69; byte-proven ov_SC06_018/func_80189E60, warm start 32 off → MATCH 91/91)  <sub>L32621</sub>
+- **§314b** — ★★ — TWO ABS-RANGE GUARDS IN ONE FUNCTION NEED **DIFFERENT SPELLINGS** (P31 S69; byte-proven ov_SC04_002/func_8018691C, 111 ins)  <sub>L32655</sub>
+- **§322b** — ★★★ — THE CARVE CLASS IS COMPLETABLE, AND EVERY WORKTREE `CARVE-REFUSED` WAS AN INSTRUMENT VERDICT (P31 S69, Fable-3 audit; byte-proven end-to-end)  <sub>L32677</sub>
+- **§332b** — ★★★ — THE §332 "WALLS" ARE A PER-OBJECT ASSEMBLER MODE, NOT A C LIMIT — 6 CLOSE AS REAL C (P31 S69, Fable-3)  <sub>L32712</sub>
+- **§378c** — ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S69)  <sub>L32732</sub>
+- **§396** — ★★★ — SIX LEVERS FROM THE S69 SINGLETON ROUND, INCLUDING ONE THAT ONLY A `COND_EXPR` REACHES (P31 S69)  <sub>L32747</sub>
+- **§397** — ★★★ — RE-RUN THE TWIN SCAN AFTER EVERY EXEMPLAR BANK; A CLUSTER SIBLING IS FREE THE MOMENT ITS EXEMPLAR LANDS (P31 S69; ~250k tokens spent proving it the expensive way)  <sub>L32795</sub>
+- **§396g** — ★★ — A GUARD LADDER'S RUNGS MUST STAY SYMMETRIC OR `reorg.c` LOSES ITS BRANCH REDIRECT (P31 S69; byte-proven ov_SC03_028/func_80184C90, 92 ins)  <sub>L32828</sub>
+- **§398** — ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)  <sub>L32845</sub>
+- **§398b** — ★★ — NAMING A SUB-EXPRESSION IN A LOCAL CHANGES WHICH PSEUDO SURVIVES; INLINE IT AT BOTH USE SITES (P31 S69; byte-proven ov_SC03_028/func_80183264, 93 ins)  <sub>L32875</sub>
+- **§399** — ★★★ — FOUR LEVERS FROM THE FINAL S69 ROUND (P31 S69; each byte-proven, none previously in the cookbook)  <sub>L32902</sub>
+- **§400** — ★★ — A BASELINE CHECK THAT CONFLATES "ABSENT EVERYWHERE" WITH "CHANGED UNDER US" SILENTLY DROPS NEW FILES (P31 S69; 8 files, one session)  <sub>L32942</sub>
+- **§401** — §401  <sub>L32977</sub>
+- **§402** — §402  <sub>L33010</sub>
+- **§403** — §403  <sub>L33034</sub>
+- **§404** — §404  <sub>L33066</sub>
+- **§405** — ★★★ — THE S70 WAVE HARVEST: 130 agents, 113 MATCH, and the laws they brought back  <sub>L33102</sub>
+- **§3-A.** — THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A)  <sub>L33108</sub>
+- **§3-B.** — THE SCHEDULER DIALS (the dominant residual family this wave)  <sub>L33118</sub>
+- **§3-C.** — REGISTER ALLOCATION FROM C, WITHOUT PINS  <sub>L33134</sub>
+- **§3-D.** — INTEGRATION IS STILL THE BOTTLENECK, AND THE TU IS THE AUTHORITY  <sub>L33150</sub>
+- **§3-E.** — WHAT THE AGENTS REFUTED  <sub>L33158</sub>
+- **§406** — ★★ — THE PROLOGUE-WEAVE CLASS IS MECHANICAL AND LARGE (134 open stubs)  <sub>L33168</sub>
+- **§407** — ★★ — LATE-WAVE ADDENDA TO §405 (the last agents in)  <sub>L33190</sub>
+- **§408** — ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P31 S71; 0 MATCH / 14 applied, 0 / 210)  <sub>L33219</sub>
+- **§409** — ★★★ — THE S71 JOURNAL-FUELLED WAVE: 100% FIRST-PASS MATCH, AND THE NINE LAWS IT BROUGHT BACK (P31 S71)  <sub>L33271</sub>
+- **§3-The** — nine laws this wave produced  <sub>L33298</sub>
+- **§410** — ★★★ — COPY THEN ACCUMULATE ON THE COPY: resolving the birthing-boost vs register-allocation dilemma (P31 S71; byte-proven `ov_SC04_015/func_8017EB78`, 98 ins)  <sub>L33363</sub>
+- **§411** — ★★★ — THE PACK MUST CARRY THAT FUNCTION'S OWN HISTORY (P31 S71; measured 38/39 vs 124/131)  <sub>L33396</sub>
+- **§412** — ★★★ — §323 CARVE BLOCKER 2 WAS A REGEX THAT COULD NOT SEE PAST `__attribute__` (P31 S71)  <sub>L33434</sub>
+- **§413** — ★★★ — DIFFICULTY IS THE RESIDUAL CLASS, NOT `nins` — ROUTE THE MODEL TIER OFF HISTORY (P31 S71, Drew)  <sub>L33483</sub>
+- **§414** — ★★★ — `parallel_gate` ON `main` IS A FALSE PASS, AND THE RULE WAS ALREADY WRITTEN DOWN (P31 S71)  <sub>L33520</sub>
+- **§415** — ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT (P31 S71; byte-proven `ov_SC04_011/func_80180B24`, 215 ins)  <sub>L33557</sub>
+- **§416** — ★★ — FOUR LEVERS FROM THE S71 OVERNIGHT LANE, none of which the cookbook held (P31 S71)  <sub>L33582</sub>
+- **§417** — ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `cse` SKIP-BLOCKS MERGE (P31 S71; byte-proven `ov_SC03_013/func_8017E6F4`, 182 ins)  <sub>L33615</sub>
+- **§418** — ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNFOLDED (P31 S71; byte-proven `ov_SC04_016/func_8017DF8C`, 184 ins, 32 → 0 in seven compiles)  <sub>L33642</sub>
+- **§419** — ★★★ — WHEN A PIN IS IMPOSSIBLE, WIN THE local-alloc DENSITY CONTEST INSTEAD (P31 S71; byte-proven `ov_SC01_000/func_8017DD04`, 297 ins)  <sub>L33668</sub>
+- **§420** — ★★★ — A MULTI-CLUSTER SYMBOL REBASE, AND THE BARE-NAME DEDUP THAT HID THREE QUARTERS OF IT (P31 S71; 4 banked in 57 s)  <sub>L33702</sub>
+- **§421** — ★★★ — A `la $tN` + `addiu` PAIR CAN BE A **RELOAD** ARTIFACT THAT NO C SPELLING REACHES (P31 S71; byte-proven `md_SC07_003/func_801A293C`, 313 ins, 6 → 0)  <sub>L33739</sub>
+- **§422** — ★★ — QImode ARITHMETIC VIA `(u8)(x - K)`, AND `flag ^ 1` NEEDS ITS OWN TEMP (P31 S71; byte-proven `resident/func_800D06E8`, 344 ins)  <sub>L33770</sub>
+- **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33790</sub>
+- **§424** — ★★★ — EQUAL-PRIORITY STORES COME OUT **REVERSED**: sched1's LUID tie picks the LAST statement first (P31 S71; byte-proven `ov_SC07_006/func_801890FC`, 387 ins)  <sub>L33817</sub>
+- **§425** — ★★★ — `sb` ALIASES SCALAR GLOBALS WHILE `sh`/`sw` STRUCT STORES DO NOT, AND TWO MORE ALIAS/BOOST RULES (P31 S71; `md_MAIN_003/func_800CF3E8`, 467 of 469 ins, all four byte-verified from `-dS`/`-dR`/`-dl`/`-dr`)  <sub>L33839</sub>
+- **§426** — ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING SINCE PHASE 7 (P31 S72; 3 of the 11 "PROVEN gate-rejects" banked byte-identical in 14 s)  <sub>L33865</sub>
+- **§427** — ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFACT BEFORE ANYTHING REBUILDS OVER IT (P31 S72)  <sub>L33945</sub>
+- **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33964</sub>
+- **§428a** — ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE CAUSE (P31 S72; `main/func_8001B0D4`, NEAR/53 -> MATCH; **my first answer here was WRONG and is kept below as the refutation**)  <sub>L34002</sub>
+- **§429** — ★★★ — EVERY HELD POINTER NEEDS ITS OWN LOCAL, AND A NEGATIVE-DISPLACEMENT BYTE STORE NEEDS ONE OF ITS OWN (P31 S72; `main/CdReadStateMachine`, MATCH 385/385)  <sub>L34050</sub>
+- **§430** — ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)  <sub>L34083</sub>
+- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34132</sub>
+- **§433** — ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)  <sub>L34195</sub>
+- **§432** — ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)  <sub>L34227</sub>
+- **§434** — ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)  <sub>L34269</sub>
+- **§435** — ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", NOT "IS IT ZERO" (P31 S74; four overlays split, all byte-identical, CARVE-BLOCKED class emptied fleet-wide)  <sub>L34317</sub>
+- **§436** — ★★★ — TWO TOOLS THAT READ THE WRONG SOURCE OF TRUTH, AND THE SHAPE THEY SHARE (P31 S74; both fixed + negative-controlled)  <sub>L34374</sub>
+- **§437** — ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)  <sub>L34431</sub>
+- **§438** — ★★★ — THE SAME-ADDRESS LEAD IS NOW SIZE-FILTERED: A HOMONYM IS WORSE THAN NO TWIN (P31 S74; ~12 of ~60 cards carried one)  <sub>L34538</sub>
+- **§439** — ★★ — LEVER SET FROM THE S74 WAVE (each entry is one measured crack, not a hypothesis)  <sub>L34565</sub>
+- **§440** — ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTEAD OF ISOLATING (P31 S74; 6 banked, resident included)  <sub>L34586</sub>
+- **§441** — ★★ — THREE MORE INSTRUMENT DEFECTS FROM THE SAME SESSION, ALL OF WHICH BLAME THE SUBJECT (P31 S74)  <sub>L34627</sub>
+- **§442** — ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LIKE A CODEGEN WALL (P31 S75; `reconcile_tu`, 344 ins unblocked)  <sub>L34657</sub>
+- **§443** — ★★ — A DERIVED DEPENDENCY MUST BE PROVISIONED BY *EVERY* PROVISIONER, AND WE HAVE TWO (P31 S69 → S74, the same defect twice)  <sub>L34712</sub>
+- **§444** — ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WAS WRONG (P31 S75)  <sub>L34739</sub>
+- **§445** — ★★ — `make clean BINARY=<x>` IS FLEET-WIDE: THE VARIABLE IS ACCEPTED AND IGNORED (P31 S75)  <sub>L34788</sub>
+- **§446** — ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)  <sub>L34817</sub>
+- **§447** — ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)  <sub>L34864</sub>
+- **§448** — ★★★ — ASSEMBLY POSING AS C: 154 GAME FUNCTIONS THE REPORTS COUNTED AS DONE (P31 S75)  <sub>L34908</sub>
+- **§449** — ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one correction to §439)  <sub>L34951</sub>
+- **§3-A.** — `reg_n_sets` IS A ONE-LINE SCHEDULING DIAL — `t = t + 1;` vs `*p = t + 1` (CONFIRMED: `ov_SC03_105:func_80180ABC`, 257 ins, banked from closeness 250)  <sub>L34956</sub>
+- **§3-B.** — A SINGLE-SET LOCAL'S VALUE IS VISIBLE AT A SWITCH JOIN, AND THAT ERASES A ZERO-EXTENSION (CONFIRMED: `ov_SC03_105:func_801806F8`, 241 ins, banked from closeness 235)  <sub>L34985</sub>
+- **§3-C.** — CORRECTION TO §439 — `sll 16; srl 16` LANDS *AFTER* THE CALL, AND WORKS FOR A KNOWN CONSTANT  <sub>L35000</sub>
+- **§3-D.** — AN OFFLINE JTBL-RODATA PLACEMENT AUDIT (CLAIMED: `md_MAIN_034:func_800CB00C` — did NOT bank, and that is the point)  <sub>L35018</sub>
+- **§450** — ★★★ — REGENERATING A TARGET `.s` FOR A FUNCTION THAT IS NO LONGER A STUB (P31 S75; 146 functions unblocked, two silent defects caught by ONE cross-check)  <sub>L35031</sub>
+- **§451** — ★★★ — YOUR EVIDENCE HAS MORE THAN ONE SOURCE, AND THE ONE YOU QUERY IS PROBABLY THE WORSE ONE (P31 S75; 37 functions reclassified, 122 ins banked from one word)  <sub>L35072</sub>
+- **§452** — ★★★ — NOT EVERY VERBATIM BODY IS UNDECOMPILED WORK, AND §448'S HEADLINE OVERSTATED IT (P31 S75; 10-function burst, 0 banks, and the negative result is the finding)  <sub>L35110</sub>
+- **ADDENDUM** — to §265 (P31 S76) — THE PROSE GUARD DID NOT HOLD. IT IS A GATE REFUSAL NOW.  <sub>L35147</sub>
+- **CORRECTION** — to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND  <sub>L35192</sub>
+- **§460** — `-dS` PRINTS THE SCHEDULER'S READY LIST WITH PRIORITIES. STOP INFERRING IT FROM RTL ORDER.  <sub>L35232</sub>
+- **§461** — LAUNDERING AN INVARIANT CAN BE THE DEFECT, AND "RESIDUAL A" DOES NOT GENERALIZE PAST ONE BINARY OP  <sub>L35264</sub>
+- **§465** — THE ASPSX SLOT-HOP: A GAP OUR REORDER SUBSTITUTE CANNOT CLOSE (`main:func_8005F830`)  <sub>L35294</sub>
+- **§466** — `main` (509 ins, -O0): ADDRESS CONTEXT EMITS `mult` INDEX-FIRST  <sub>L35320</sub>
+- **§464** — FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH)  <sub>L35338</sub>
+- **§467** — GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT  <sub>L35366</sub>
+- **§468** — THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERAND ORDER  <sub>L35390</sub>
+- **§469** — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)  <sub>L35424</sub>
+- **§470** — FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18)  <sub>L35447</sub>
+- **§471** — A LAUNDER'S REAL COST IS AN ALLOCNO, AND `$t0` IS RELOAD'S (`main:func_80032A74`, 408 → 12)  <sub>L35475</sub>
+- **§472** — 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL  <sub>L35499</sub>
+- **§473** — 🔴 §265's "HANDWRITTEN" VERDICT FOR `ov_SC07_002:func_8017DC80` IS REFUTED (324 → 89)  <sub>L35529</sub>
+- **§474** — A *PROVED* C-LEVEL FLOOR: `split_tree` + `stupid.c` (-O0), from `main:func_80011380`  <sub>L35554</sub>
+- **§475** — THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24`  <sub>L35591</sub>
+- **§476** — 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 ins → MATCH)  <sub>L35622</sub>
+- **§462** — FOUR LEVERS FROM `main:func_80024054` (91 ins, 74/53/32 → 4)  <sub>L35650</sub>
+- **§463** — 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED  <sub>L35687</sub>
+- **§477** — ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77)  <sub>L35723</sub>
+- **§478** — 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT  <sub>L35797</sub>
+- **§479** — ★★★ — WHERE THE PERMUTER ACTUALLY PAYS: A MEASURED YIELD CURVE (P31 S77, 8 candidates)  <sub>L35817</sub>
+- **§480** — 🔴 — A STATIC BLOCKER CLASS THAT THE REAL PIPELINE ALREADY REMOVES IS A PHANTOM  <sub>L35896</sub>
+- **§481** — ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S77, `main:func_8001FC08`, 400 ins)  <sub>L35911</sub>
+- **§482** — ★★★ — TWO INDEPENDENT RE-TIES, ORDERED: WHEN ONE BARRIER FIXES ONE RESIDUAL AND CREATES THE OTHER (P31 S77, `main:func_8006252C`, 30 ins → MATCH)  <sub>L35942</sub>
+- **§483** — ★★★ — THE S77w WAVE HARVEST: SIX LEVERS, FOUR FROM BANKED (BYTE-PROVEN) BODIES  <sub>L35977</sub>
+- **§484** — ★★★ — "NO SINGLE NOLOAD BASE" IS NOT "UNLINKABLE": ASK WHETHER THE `.bss` OFFSETS ARE DISJOINT (P31 S77)  <sub>L36033</sub>
+- **§485** — ★★★ — THE PLACEMENT MAP WAS PARSING A PRETTY-PRINTER: 25 PsyQ OBJECTS WERE INVISIBLE, NOT ABSENT (P31 S77)  <sub>L36079</sub>
+- **§486** — ★★★ — CARVING AN `-O0` ISLAND IN **main**: FIVE COUPLED PIECES, AND THE TWO THAT ANNOUNCE THEMSELVES (P31 S77)  <sub>L36115</sub>
+- **§487** — ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WALL" BAND IS LIBPAD 4.2.1 (P31 S78)  <sub>L36160</sub>
+- **§488** — ★★ — THE "GAME CODE" GAPS BETWEEN LIBRARY BLOCKS WERE LIBRARY OBJECTS: 13 SUBSEGS → LINKED, EXACT-TILED, ZERO TOKENS (P31 S78)  <sub>L36212</sub>
+- **§489** — ★★★ — SCATTERED `.bss` IS A PARTITION PROBLEM: SPLIT THE SECTION INTO PER-BASE PIECES AT LINK-PREPARE (P31 S78 #4; closes the §9.1 exclusion class 3/3)  <sub>L36252</sub>
+- **§490** — ★★★ — THE "WALL" BAND WAS A LIBRARY VERSION AWAY: LIBPAD 4.2.1 + LIBAPI 4.2 FOUND, THE WHOLE 0x8005CE18–0x8005FC68 BAND + THE APICARD REGION LINKED FROM REAL OBJECTS (P31 S79 #13/#5)  <sub>L36310</sub>
+- **§491** — ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLONE — AND THREE TOOL GAPS THE BANKS EXPOSED  <sub>L36356</sub>
+- **§492** — ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS  <sub>L36402</sub>
+- **§493** — ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER AND THE MAIN GATE (P31 S79 #8)  <sub>L36430</sub>
+- **§494** — ★★★ — TEN BANKS FROM ONE-AGENT-PER-FUNCTION DRAFTING (P31 S79/S80 #9): THE IDIOMS, THE PLUMBING, AND THE THREE WAYS AN AGENT'S "MATCH" WAS NOT ONE  <sub>L36490</sub>
+- **§495** — ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT WAS THE ASSEMBLY, AND A GATE THAT DROPPED A BANK ON EXIT 0  <sub>L36630</sub>
+- **§496** — ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TYPEDEF (P32 T1a; byte-proven, resident `func_800D128C` isolation)  <sub>L36671</sub>
+- **§497** — ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S FALSE "CONFLICTING BODIES" REFUSAL (P32 T1b; ov_SC02_017 `func_80186C64` isolation)  <sub>L36705</sub>
+- **§498** — ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT'S EXIT CODE: HOW A BYTE-CORRECT DRAFT WAS BOOKED "DIFF" (P32 T1a; resident `func_800D128C` BANKED 243 ins after two instrument fixes)  <sub>L36728</sub>
+- **§499** — ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)  <sub>L36758</sub>
+- **§500** — ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MATCH / 9 NEAR / 2 FAIL, every closer, two NEW named gcc mechanisms, and the wave-process defects  <sub>L36799</sub>
+- **§501** — ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)  <sub>L37157</sub>
+- **§453** — ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DEFECTS THAT SHAPED IT (P35 S94–S96)  <sub>L37561</sub>
+- **§454** — Rung D and rung R: taking a lever off a body that still has to compile to the same bytes (Phase 36 T6)  <sub>L37610</sub>
+- **§454a** — the recipe rung's real shape: replication, not discovery (S99, measured)  <sub>L37677</sub>
+- **§455** — Rung G, the guided search: score the object, classify the residual, compose the moves (Phase 36 S101)  <sub>L37692</sub>
+- **§456** — The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and launders (Phase 36 T7)  <sub>L37765</sub>
+- **§457** — The lever-removal move catalog, S105: eight TU batches, 42 of 42 at 0 (Phase 36 T7)  <sub>L37814</sub>
 
 
 ---
@@ -3628,547 +3628,547 @@ Notes routinely quote that as a section id. This table resolves it. Grep bait: `
 | L20557 | §196 | PUT ON THE CARD WHAT THE TREE ALREADY KNOWS: the fleet's declaration consensus (P31 S54) |
 | L20612 | §197 | THE WAVE-W HARVEST (P31 S54): 68 index_gap reports -> 4 laws, 3 rejected, 41 already-cover |
 | L20626 | §197-A | A NARROW SIGNED MEMORY READ FEEDING A CONSTANT `>>` LOSES ITS `lh`, AND THE CURE IS AN ASM |
-| L20664 | §197-B | A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_c |
-| L20692 | §197-C | Fix A1 (operand order) cannot move a commutative destination whose .greg conflict set alre |
-| L20737 | §197-REJECTED | §197-REJECTED |
-| L20752 | §199 | THE WAVE-X HARVEST (P31 S54/S55): 63 index_gap reports -> 7 laws, 2 rejected, 56 already-c |
-| L20763 | §199-A | §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui |
-| L20812 | §199-B | A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent  |
-| L20857 | §199-C | A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's negate_variant — but whether you ever S |
-| L20905 | §199-D | A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is |
-| L20965 | §199-E | §189-A BOUNDED AND CORRECTED — the discriminator is INSN_PRIORITY, not "is the interloper  |
-| L21024 | §199-F | §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN ` |
-| L21078 | §199-G | At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positiv |
-| L21133 | §199-REJECTED | §199-REJECTED |
-| L21144 | §200 | THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P3 |
-| L21193 | §201 | THE WAVE-Y HARVEST (P31 S55): 67 gap reports -> 5 laws, 8 rejected, 53 already-covered |
-| L21203 | §201-A | §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definit |
-| L21235 | §201-B | In a narrowed PLUS/MINUS/AND/IOR/XOR expression the destination pointee is INERT — the sig |
-| L21315 | §201-C | §X — A CALL'S OWN DELAY SLOT AND THE UPSTREAM CONDITIONAL BRANCH'S SLOT COMPETE FOR ONE IN |
-| L21366 | §201-D | THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER |
-| L21413 | §201-E | §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in t |
-| L21469 | §201-REJECTED | eight, the session's highest |
-| L21494 | §202 | THE ALIAS CARRIES A DEFINITION, NOT JUST A DECLARATION: the DEF-SIDE-RETURN wall (P31 S56) |
-| L21531 | §203 | A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56) |
-| L21592 | §204 | THE WAVE-Z HARVEST (P31 S56): 82 gap reports -> 5 laws, 16 rejected, 30 already-covered |
-| L21611 | §204-A | A COMPARE THAT APPEARS BOTH IN A BRANCH'S DELAY SLOT AND AGAIN ON THE FALL-THROUGH IS A JO |
-| L21686 | §204-B | A LOOP COUNT THAT ARRIVES ON THE STACK IS DECREMENTED IN PLACE: a fresh counter local can  |
-| L21750 | §204-C | WHEN A LOCAL BUFFER'S ADDRESS IS PASSED TO A CALL, ITS SIZE IS A FACT ABOUT THE CALLEE'S B |
-| L21808 | §204-D | A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.fie |
-| L21883 | §204-E | `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of  |
-| L21935 | §204-CONFIRMED | 30 reports that the index already answered |
-| L22029 | §204-REJECTED | sixteen, twice the previous record |
-| L22102 | §205 | THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy t |
-| L22157 | §206 | THE JTBL-CARVE DRAFTING IDIOM: the bounds check is the entry count, and an EMPTY case owns |
-| L22226 | §207 | THE WAVE ab–ag HARVEST (P31 S58): 278 byte-banked notes → 25 laws, 103 self-reported no-ga |
-| L22247 | §208 | TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity own |
-| L22296 | §209 | THE NARROW LOCAL IS A DIAL IN TWO OPPOSITE DIRECTIONS, AND §194-B's "≥2 `sh` STORES" BOUND |
-| L22373 | §210 | THE SINGLE-BIT MASK IN A BOOLEAN TAIL: `andi K ; sltu $zero,v` vs `srl n ; andi 1` is a ST |
-| L22419 | §211 | HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips  |
-| L22478 | §212 | THE WALKING CURSOR IS COUNTABLE: `*wp++` emits one `addiu` PER STORE, `wp[0..2]` emits one |
-| L22523 | §213 | INDEPENDENT SAME-BASE STORES: THE EMISSION ORDER IS A PERMUTATION OF SOURCE ORDER, AND THE |
-| L22559 | §214 | THE BANKED TWIN MAY BE A MACRO, A DELETED `.s`, OR A SEMANTIC INVERSE — six ways a ≥0.9 si |
-| L22605 | §215 | PIN ECONOMY: the twin's pins are NOT part of the shape, and §17's "pin every call-crossing |
-| L22661 | §216 | DISTINCT ADJACENT SCALARS vs ONE ARRAY: one `lui` per access is the tell, and the array de |
-| L22701 | §217 | DECODING A CALL'S STACK ARGUMENT SLOTS: `sw` at `0x10`/`0x14`/`0x18` are params 5/6/7 **(s |
-| L22727 | §218 | A NARROW TYPE AT THE ABI BOUNDARY COSTS AN IN-PLACE `sll/sra` PAIR — on the RETURN as well |
-| L22756 | §219 | COMPOUND `+=`, FULL ASSIGNMENT, AND AN EXPLICIT TEMP ARE THREE DIFFERENT SCHEDULES OF ONE  |
-| L22783 | §220 | THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and pla |
-| L22823 | §221 | A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **( |
-| L22839 | §222 | SWITCH vs IF-CHAIN, PART 3: source arm order IS emission order, a leading EMPTY case buys  |
-| L22881 | §223 | READING A `jal` DELAY SLOT: the value in it was produced BEFORE the call, so it is NEVER t |
-| L22943 | §224 | CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31  |
-| L22979 | §225 | THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58) |
-| L23022 | §226 | FRAME PADS: FOUR WAYS §162i1/§2429's DEAD-LOCAL LEVER MISFIRES (P31 S58) |
-| L23063 | §227 | TYPE THE SOURCE BY THE **LOAD** WIDTH, NOT BY THE STORE WIDTH (P31 S58) |
-| L23083 | §228 | READING THE DIVIDE, PART N: the off-by-one compare is `% K == 1`, and three more discrimin |
-| L23120 | §229 | THE ADDRESS IS A VALUE: NAMING IT MOVES THE `lui`/`addiu` PAIR — AND §L14410 SAYS THE OPPO |
-| L23169 | §230 | THE ANCHOR PROBE: with `%hi`/`%lo` masked, the surviving `addiu` deltas tell you which ass |
-| L23184 | §231 | TRANSCRIPTION AND SEMANTIC-READ HYGIENE: six ways the listing misleads (P31 S58) |
-| L23225 | §232 | WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(sing |
-| L23261 | §30 | addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual w |
-| L23281 | §194-B | addendum (P31 S58) — BOUND 2 is byte-wrong; see §209 Direction A |
-| L23287 | §176-B | addendum (P31 S58) — the misdiagnosis direction |
-| L23293 | §165-40 | addendum (P31 S58) — the barrier goes at the COPY SITE, not inside the region it protects |
-| L23302 | §164-63 | addendum (P31 S58) — the interposed asm works when the SECOND value is an ordinary assignm |
-| L23311 | §193-A | / §194-E addendum (P31 S58) — where the twin's body actually lives |
-| L23317 | §233 | THE WAVE aa–bg HARVEST (P31 S58b): 1,101 byte-banked notes → 24 new laws, 21 addenda, ~700 |
-| L23361 | §234 | CONSTANT MATERIALISATION: THE STORE LVALUE'S SIGNEDNESS PICKS `addiu` vs `li`/`ori` (P31 S |
-| L23402 | §235 | THE PHANTOM SYMBOL: A MASKED `MATCH` CAN CARRY A RELOCATION THAT DOES NOT EXIST (P31 S58b) |
-| L23431 | §236 | THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS TH |
-| L23510 | §237 | THE CAST-AT-CALL-SITE DECISION TABLE: WHAT §17a-1 FIXES, WHAT IT CANNOT, AND THE FOUR ESCA |
-| L23565 | §238 | SAME NAME, DIFFERENT FUNCTION: THE OVERLAY-HOMONYM TRAP (P31 S58b) |
-| L23605 | §239 | TWO-STATEMENT INTEGER-SPACE MATERIALISATION REORDERS `la` vs `sll`; AND THE PLUS-TREE OPER |
-| L23639 | §240 | `A + K + B`: WRITE THE CONSTANT **BETWEEN** THE TWO RUNTIME TERMS (P31 S58b) |
-| L23668 | §241 | THE FOLDED SIGN-EXTEND-AND-SCALE: `sll 16 ; sra (16 − log2 scale)` (P31 S58b) |
-| L23697 | §242 | `*k` vs `<<n`, AND `/2^n` vs `>>n`: EXPRESSION SPELLING OWNS THE LOAD WIDTH AND THE ROUNDI |
-| L23725 | §243 | SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P |
-| L23755 | §244 | `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC ( |
-| L23790 | §245 | THE CALL'S ARGUMENT LIST IS A SCHEDULING SLOT (P31 S58b) |
-| L23837 | §246 | THREE-LIVE-VALUE SCAN LOOPS WANT ADDRESS-FROM-INDEX; AND TWO SYMBOLS CAN SHARE ONE giv (P3 |
-| L23877 | §247 | TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b) |
-| L23911 | §248 | SPLIT THE LOAD FROM THE ARITHMETIC: A FUSED `g + K` DENIES THE CALLEE-SAVED REGISTER ITS D |
-| L23935 | §249 | THE SELF-ASSIGN, THE DEAD RE-ASSIGN, AND THE `+ zr` COPY: THREE WAYS TO MAKE A DELETED INS |
-| L23977 | §250 | `%hi/%lo` vs `lw`: THE EXTERN'S ARRAY-vs-SCALAR SHAPE DECIDES ADDRESS MATERIALISATION (P31 |
-| L24014 | §251 | IMMEDIATE-SPELLING TRIGGERS: `+= 0xFF`, FULL-WIDTH `~K`, AND THE TWO-OR SPLIT (P31 S58b) |
-| L24036 | §252 | THE GUARDED PRE-DECREMENT: `(x != 0) && (--x == 0)` (P31 S58b) |
-| L24057 | §253 | POSTFIX `++` vs `+= 1` PICKS A DIFFERENT SCRATCH REGISTER **(single observation — not yet  |
-| L24071 | §254 | THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-conf |
-| L24083 | §255 | THE EMPTY CASE, PART 2: FOUR TREE SHAPES IT BUYS (P31 S58b) |
-| L24118 | §256 | GOTOS IN THE TARGET'S BLOCK ORDER REPRODUCE SWITCH PLACEMENT WITHOUT SWITCH'S SIDE EFFECTS |
-| L24155 | §257 | THE DEAD-END LEDGER (P31 S58b): ELEVEN LEVERS THAT MEASURED NULL OR BACKFIRED |
-| L24198 | §258 | ADDENDA TO EXISTING SECTIONS (P31 S58b) |
-| L24203 | §30 | addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-O |
-| L24224 | §194-B | / §209 addendum (P31 S58b) — TWO MORE INSTANCES, AND THE BOUND IS NOW REFUTED FOUR WAYS |
-| L24247 | §202 | addendum (P31 S58b) — THE DEF-SIDE ALIAS ALSO CLEARS A RETURN+PARAM DOUBLE CONFLICT |
-| L24258 | §205 | addendum (P31 S58b) — CHAINED ASSIGNMENT: N≥3 IS INNERMOST-FIRST, AND THE TEXT MIRRORS EMI |
-| L24275 | §208 | addendum (P31 S58b) — IT SCALES TO SIX SITES, AND IT HAS AN EXACT INVERSE |
-| L24304 | §210 | addendum (P31 S58b) — THREE CONFIRMED SPELLINGS OF THE BOOLEAN TAIL |
-| L24320 | §211 | addendum (P31 S58b) — INIT PLACEMENT: FIVE MORE DIALS BEYOND THE GUARD HOIST |
-| L24363 | §213 | addendum (P31 S58b) — THREE MORE PERMUTATION LAWS FOR INDEPENDENT SAME-BASE STORES |
-| L24392 | §214 | addendum (P31 S58b) — FOUR MORE WAYS A HIGH-SIMILARITY TWIN LIES |
-| L24428 | §215 | addendum (P31 S58b) — PIN ECONOMY, PART 2: NINE REFINEMENTS |
-| L24480 | §217 | CROSS-CONFIRMED (P31 S58b) — AND THE INCOMING HOME SLOT IS THE MIRROR |
-| L24497 | §220 | addendum (P31 S58b) — THE PARAMETER, NOT A COPY (SEVEN CARDS) |
-| L24522 | §222 | addendum (P31 S58b) — IF-CHAIN vs SWITCH: THREE MORE DISCRIMINATORS |
-| L24540 | §223 | addendum (P31 S58b) — FIVE MORE CONFIRMATIONS, AND THE CONSTANT-IN-`$v0` CASE |
-| L24564 | §224 | addendum (P31 S58b) — CROSS-JUMP MERGES *CALLS*, AND THE DELAY SLOT IS THE DISCRIMINATOR |
-| L24594 | §225 | addendum (P31 S58b) — THE GUARD-CLAUSE FINGERPRINT, AND THREE MORE SHAPES |
-| L24621 | §226 | addendum (P31 S58b) — THE FRAME CATALOGUE: SEVEN MORE LEVERS, AND SLOT ORDER IS DECLARATIO |
-| L24666 | §229 | addendum (P31 S58b) — NAME IT **INSIDE** THE ARM |
-| L24677 | §230 | CROSS-CONFIRMED (P31 S58b) |
-| L24686 | §231 | addendum (P31 S58b) — FOUR MORE WAYS THE LISTING MISLEADS |
-| L24717 | §232 | CROSS-CONFIRMED (P31 S58b) |
-| L24728 | §259 | THE DISCARD LEDGER FOR THE aa–bg HARVEST (P31 S58b): WHAT WAS MINED AND REJECTED, AND WHY |
-| L24767 | §260 | THE §154-A LEADING-ISLAND SPLIT: ONE CONFIG LINE, AND THE ISLAND PEELS FROM THE END (P31 S |
-| L24817 | §260-A | STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day |
-| L24853 | §261 | THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59) |
-| L24879 | §261a | THE -O0 FRAME-RELOAD GRAMMAR: reload COUNT disambiguates the C spelling (P31 S59, byte-pro |
-| L24901 | §262 | A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59) |
-| L24931 | §263 | A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCH |
-| L24972 | §264 | FOUR TELLS-LANE C RECIPES, EACH DRIVEN TO MATCH (P31 S59) |
-| L25022 | §265 | THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BO |
-| L25084 | §266 | THE INERT-RIDER LAW: A LEVER IS ONLY CITABLE WHEN ITS SOLO REMOVAL BREAKS THE MATCH (P31 S |
-| L25124 | §267 | ADDENDA HARVESTED FROM WAVES at/bh/bk/bl (P31 S59b) |
-| L25132 | ADD-1 | → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION |
-| L25141 | ADD-2 | → §42a addendum — A SHARED CONSTANT *NAMED IN A LOCAL* ACROSS A `jal` IS AN ISO→TU DRIFT H |
-| L25153 | ADD-3 | → §236, item 10 — THE UN-DELETED `INCLUDE_ASM` STUB IS A DUPLICATE DEFINITION |
-| L25163 | ADD-4 | → §225-3/-4 addendum — THE MIRROR ROW: VALUE-RETURN IN THE *TAKEN* ARM + TRAILING BARE `re |
-| L25177 | ADD-5 | → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TR |
-| L25186 | ADD-6 | → §172b-1 / §264 addendum — SHIFT-AS-TEST: `(x << 16) != 0` TESTS THE LOW HALF WITHOUT TRU |
-| L25195 | ADD-7 | → §256 addendum — THE SINGLE-GUARD GOTO: THEN-BLOCK OUT OF LINE AT THE TAIL |
-| L25207 | ADD-8 | → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6) |
-| L25219 | ADD-9 | → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED |
-| L25229 | ADD-10 | → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS A |
-| L25238 | ADD-11 | → Cross-confirmation card block (per §259's standing instruction: confirmation, not news) |
-| L25289 | §268 | A `register __asm__` PIN ON A CALL-CLOBBERED REGISTER IS HONORED EXACTLY WHEN THE PINNED R |
-| L25343 | §269 | ADDENDA HARVESTED FROM WAVES ax/bm (P31 S59c) |
-| L25358 | ADD-1 | → §257-8 addendum — THE INTERPOSED ASM'S `__volatile__` IS A PER-SHAPE DIAL, AND THE "NO-O |
-| L25371 | ADD-2 | → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HA |
-| L25385 | ADD-3 | → §238 addendum — TWO BINARIES CAN EACH DEFINE THE SAME `func_` NAME WITH DIFFERENT BYTES, |
-| L25398 | ADD-4 | → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAM |
-| L25415 | ADD-5 | → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON |
-| L25431 | ADD-6 | → §220-addendum — THE FOURTH FACE: WHEN THE NAMED COPY ITSELF BUYS THE EXTRA CALLEE-SAVED, |
-| L25447 | ADD-7 | → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE |
-| L25460 | ADD-8 | → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST |
-| L25475 | ADD-9 | → §255 "AND CASE-BODY PLACEMENT" bound / §222-addendum-3 — ON A LARGE SPARSE TREE, BODIES  |
-| L25489 | ADD-10 | → Cross-confirmation card block (per §259's standing instruction: confirmation, not news) |
-| L25530 | §3-1a. | The §266 sweep — every solo-lever A/B run for this batch |
-| L25563 | §270 | The A-prop 0-bank anatomy: a byte-correct body still needs FOUR layers to agree (P31 S59) |
-| L25581 | §271 | Ordinal IMM pairing: text order is NOT emission order; emit CANDIDATES, let the oracle pic |
-| L25603 | §272 | The `(void)`-decl + empty-call wall: K&R the DEFINITION, not just the decls (P31 S59) |
-| L25623 | §273 | A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59) |
-| L25638 | §274 | ADDENDA HARVESTED FROM 18 WAVES (P31 S60): 315 candidates, 255 already covered, 21 sharpen |
-| L25644 | ADDENDUM | to §179-C — the `.type NAME, @function` requirement |
-| L25691 | ADDENDUM | to §134 — a typedef defined BELOW the splice point is stripped anyway |
-| L25721 | ADDENDUM | to §179-D (GTE macro reference family) — `gte_SetRotMatrix`/`gte_SetTransMatrix` bodies |
-| L25747 | ADDENDUM | to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save |
-| L25785 | ADDENDUM | to §136d-1 (RC-12, the `$0`-add / opaque-copy family) — two symptoms beyond "compare reads |
-| L25824 | ADDENDUM | to §20 — a global declared as `T *` may itself BE the array base, not a pointer to derefer |
-| L25853 | ADDENDUM | to §1-I5 |
-| L25918 | ADDENDUM | to §164-51 |
-| L25934 | ADDENDUM | to §176-F5 |
-| L25963 | ADDENDUM | to §225 |
-| L26008 | ADDENDUM | to §224 — CROSS-JUMP: THE DUPLICATE CAN BE A PLAIN STORE, NOT ONLY A CALL |
-| L26042 | ADDENDUM | to §164-64 — AN EMPTY CLOBBER ON AN ARGUMENT REGISTER CAN BE THE DELIBERATE FIX, NOT JUST  |
-| L26073 | ADDENDUM | to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTE |
-| L26104 | ADDENDUM | to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECL |
-| L26151 | ADDENDUM | to §229 — A POINTER'S NUMBER OF USES DECIDES WHETHER ITS ADDRESS FOLDS OR SURVIVES A CALL |
-| L26196 | ADDENDUM | to §172b-4 — THE PLAIN CAST-DIVISION ALREADY PRODUCES THE PATTERN; DON'T HAND-ROLL THE BIA |
-| L26226 | ADDENDUM | to §8 — WHEN `INCLUDE_RODATA` NEEDS A STANDALONE `.s` YOU CAN'T CREATE, CARRY THE FRAGMENT |
-| L26269 | ADDENDUM | to §226 — A DEAD LOCAL SCOPED TO A NESTED BLOCK BUYS A MID-FUNCTION `addiu sp` PAIR, NOT A |
-| L26308 | ADDENDUM | to §172a — RE-READING MEMORY (NOT NAMING A TEMP) IS WHAT KEEPS AN INCREMENT'S DELAY-SLOT F |
-| L26339 | ADDENDUM | to §225 / §256 — A GOTO TO A SHARED SET-POINT PREVENTS IF-CONVERSION FROM COLLAPSING A LAT |
-| L26381 | ADDENDUM | to §211 — AN IN-LOOP ACCUMULATOR WANTS A CLOSED-FORM EXPRESSION WHEN THE TARGET REMATERIAL |
-| L26416 | §275 | THE LEFTOVER-REGISTER READ |
-| L26456 | §276 | MIXED ADDRESS-EXPRESSION SPELLING FOR ADJACENT RELOCATABLE SYMBOLS IS A CSE-UNIFICATION DI |
-| L26565 | §277 | RETURN-TAIL C SPELLING PICKS THE DELAY-SLOT-FILL vs TRAILING-MOVE TOPOLOGY, AND A NARROWER |
-| L26629 | §278 | ADDENDA HARVESTED FROM WAVE cf (P31 S60): 34 candidates, 13 already covered, 8 sharpenings |
-| L26637 | ADDENDUM | to §74 (func_800D0E30, resident) |
-| L26673 | ADDENDUM | to §172b-4 (func_80185054, ov_SC03_097) |
-| L26711 | ADDENDUM | to §265 (func_8017DC80, ov_SC07_002) |
-| L26750 | ADDENDUM | to §17 (func_800CB794, md_MAIN_036) |
-| L26798 | ADDENDUM | to §162p (func_8017C120, ov_MAIN_012) |
-| L26832 | ADDENDUM | to §20 (~L1947) (func_80186AD0, ov_SC06_032) |
-| L26862 | ADDENDUM | to §164-56 (func_8017F644, ov_SC04_005) |
-| L26897 | ADDENDUM | to §237 (func_8017F7FC, ov_SC03_092) |
-| L26926 | §279 | A `do/while (p < end)` LOOP UNDER AN ENTRY GUARD: the guard decides the compare, not the l |
-| L26927 | §NNN | A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: T |
-| L26960 | §280 | THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, |
-| L26961 | §NNN | A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TE |
-| L26994 | §281 | GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, t |
-| L26995 | §NNN | A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AN |
-| L27040 | §282 | gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no h |
-| L27041 | §NNN | WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS |
-| L27078 | What | I could not verify |
-| L27125 | §283 | ADDENDA HARVESTED FROM THE 36-WAVE BATCH (P31 S60): 1,216 candidates, 859 already covered, |
-| L27135 | ADDENDUM | to §164-75 — the fold-reassociation law also fires at a variable's INITIALIZER, not only a |
-| L27161 | ADDENDUM | to §21 — the `bltz`+`slti` (or N-separate-compares) signed-range-split bullet is now CONFI |
-| L27207 | ADDENDUM | to §202 — the DEF-SIDE ALIAS also resolves a function-vs-DATA-symbol identifier clash, not |
-| L27230 | ADDENDUM | to §22 (`volatile`-qualified-global reload lever, cookbook ~L1922) — for a NON-constant, s |
-| L27249 | ADDENDUM | to §195-E — a goto-ladder's STORES must sit AT the labels, after the gotos, not inline bef |
-| L27311 | ADDENDUM | to §195-N — a GNU statement-expression slider must sit INSIDE the conditional arm's value  |
-| L27368 | ADDENDUM | to §176-B2 — in a micro-function with no long/short lifetime asymmetry, BOTH contending ps |
-| L27415 | ADDENDUM | to §199-G — A `default:` LABEL GROUPED ONTO THE LAST CASE REMOVES THE `j default` TAIL, EV |
-| L27484 | ADDENDUM | to §220 — REFERENCING THE RAW PARAMETER (NO NAMED COPY, NOT EVEN A PIN) LETS THE CALLEE-SA |
-| L27542 | ADDENDUM | to §252 — a `>=0`/`<0` split on an unconditionally-decremented value needs the POSTFIX ope |
-| L27569 | ADDENDUM | to §215 — FIFTH SHAPE: reused mask constants across two call-free merge sites each get the |
-| L27652 | What | I could not verify |
-| L27723 | Harness-defect | flags |
-| L27816 | ADDENDUM | to §167-40 (func_8017E2CC, ov_SC04_015 — wave dg) |
-| L27836 | ADDENDUM | to §20's cross-jump EXPLOIT bullet (func_8017E360, ov_SC05_007 — wave dg) |
-| L27850 | ADDENDUM | to §87 (func_801815F4 ov_SC06_032; corroborating func_801840DC ov_SC05_017, func_80189C68  |
-| L27869 | ADDENDUM | to §153 / §236-5 (func_801A419C, md_SC07_003 — waves di and dl, corroborating; refutes a c |
-| L27889 | ADDENDUM | to §263 (func_801E83AC, md_SC04_029 — wave dj) |
-| L27903 | ADDENDUM | to §265 (func_8017D878, ov_SC03_107 — wave dj; corroborated by a REJECTED, contradicted ca |
-| L27917 | ADDENDUM | to §6 (func_801811F0, ov_SC03_102 — waves dj and dl, corroborated by a self-reported "noth |
-| L27931 | ADDENDUM | to §195-G (func_80183BB0, ov_SC05_001 — wave dj) |
-| L27959 | ADDENDUM | to the zero-byte-asm-slider family (§47 / §148-C / §153) (func_800CB874, md_MAIN_040 — wav |
-| L27977 | ADDENDUM | to §194-B (func_8017EB34, ov_SC03_117 — wave dk; distinct from the §74 co-pinning finding  |
-| L28009 | ADDENDUM | to §74 (func_8017EB34, ov_SC03_117 — counter/clamp variant; wave dj, corroborated by dk/dl |
-| L28029 | ADDENDUM | §37 — merged into the §153/§236-5 entry above (func_801A419C, wave dl) |
-| L28037 | ADDENDUM | §6 — merged into the §6 entry above (func_801811F0, wave dl) |
-| L28045 | ADDENDUM | to §238 (func_80182CB4, ov_SC02_000 — wave dl) |
-| L28063 | ADDENDUM | to §137a (func_801684B4, ov_MAIN_012; corroborated independently by func_80189E68, func_80 |
-| L28079 | ADDENDUM | to §8c / §88d (func_8016AB6C, ov_MAIN_012 — wave dm) |
-| L28093 | ADDENDUM | to §73 / §30#2 (func_800D1984, resident — wave dm) |
-| L28109 | What | I could not verify |
-| L28129 | ADDENDUM | to §174 Law 4 (func_8017E9A8, ov_SC06_015) |
-| L28169 | ADDENDUM | the zero-emission-asm family gains a REF-SLIDER PLACEMENT LAW and a paired RESTORER (func_ |
-| L28221 | From | ck + cl + cm |
-| L28227 | ADDENDUM | §NNN — sharpens §55a / §164-37 / §165-28 (switch-vs-tree cluster): A SHAPE THAT LOOKS LIKE |
-| L28264 | ADDENDUM | §NNN — sharpens §167-13's boundary: CHAINING TWO IDENTICAL SIDE-BY-SIDE STORES INTO ONE C  |
-| L28297 | ADDENDUM | §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED  |
-| L28330 | ADDENDUM | §NNN — sharpens §37/§124 (unspecified-parameter-list family): DERIVE A CALLEE'S ARITY LOWE |
-| L28363 | ADDENDUM | to §5a (func_80181F74, ov_SC03_112, wave cn) |
-| L28413 | ADDENDUM | to §265 (func_8017E26C, ov_SC04_016, wave cn) |
-| L28451 | ADDENDUM | to §42b (func_8018247C, ov_SC07_002, waves cu + cw) |
-| L28482 | ADDENDUM | to §199-F family (func_8017EFB0, ov_SC02_021, wave cu) |
-| L28537 | ADDENDUM | to §195-E (func_800CFC1C, md_MAIN_003, wave cv) |
-| L28582 | ADDENDUM | to §215 addendum (func_800CB2C8, md_MAIN_033, waves cv + cw) |
-| L28638 | ADDENDUM | to §236 item 4 (func_8017D268, ov_SC04_006, wave cw) |
-| L28667 | What | I could not verify |
-| L28699 | Harness-defect | flags (not idioms — flagged for the operator) |
-| L28740 | ADDENDUM | to §250 (func_8017D7CC, ov_SC03_115 — cx/cy/cz/dr) |
-| L28785 | ADDENDUM | to §225 (func_8017E190, ov_SC03_115 — cx/cy/cz) |
-| L28838 | ADDENDUM | to §45-A (func_8017F6A4, ov_SC02_016 — cy/cz) |
-| L28882 | ADDENDUM | to §249 (func_80182ED4, ov_SC04_004 — dp/dr/dt) |
-| L28927 | ADDENDUM | to §199-A (func_801816FC, ov_SC02_005 — dp/dr/dt) |
-| L28973 | What | I could not verify |
-| L29016 | Harness-defect | flags |
-| L29078 | §284 | COMBINE CAN REASSOCIATE TWO SEQUENTIAL BITWISE-AND MASKS INTO ONE AGAINST THE PRE-MASK VAL |
-| L29082 | §285 | PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE  |
-| L29086 | §286 | FOLD A STATEMENT'S SIDE EFFECT INTO A COMMA-EXPRESSION IN AN ARGUMENT POSITION TO PLACE IT |
-| L29090 | §287 | A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE |
-| L29094 | §288 | A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES |
-| L29098 | §289 | an array local's address-taken base keeps every element's store alive, even though only on |
-| L29102 | §290 | A SINGLE STRENGTH-REDUCED GIV CAN DRIVE STORES TO SEVERAL DISTINCT RELOCATABLE SYMBOLS, EA |
-| L29106 | §291 | THE DELAY-SLOT FALSE-VALUE: A CONDITIONAL BRANCH'S ZERO ARM MUST BE A FALL-THROUGH-ADJACEN |
-| L29110 | §292 | DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPL |
-| L29113 | §293 | THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND T |
-| L29163 | §294 | ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · |
-| L29174 | ADDENDUM | to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the in |
-| L29202 | ADDENDUM | to §261a — FOUR MORE -O0 DIALS BEYOND THE RELOAD COUNT (boot.c + md_MAIN_011/003, wave m0a |
-| L29252 | ADDENDUM | to §264-3 — the explicit entry copy's BOUND: required exactly when the RAW value must outl |
-| L29272 | ADDENDUM | to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator |
-| L29284 | ADDENDUM | to §276 — the SHARE direction: spell the second adjacent symbol RELATIVE to force ONE anch |
-| L29300 | ADDENDUM | to §31's density-dummy dial (L2460/L2497) — the dose is TWO refs, and the dummy must sit w |
-| L29317 | ADDENDUM | to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction birt |
-| L29340 | ADDENDUM | to §253 — SECOND byte-proven card (upgrade from single-observation), and the placement fac |
-| L29361 | ADDENDUM | to the L1800 anchor-steer bullet — a DERIVED-POINTER local silently flips the merged giv's |
-| L29384 | ADDENDUM | to §31's asm→layout inference — TWO WIDTH-PAIR DISCRIMINATORS (same offset, different widt |
-| L29405 | §295 | THE KERNEL-TRAP STUB: §81's jr-DETECTOR WITHOUT A TABLE IS A PsyQ SYSCALL TRAMPOLINE — ROU |
-| L29460 | §296 | THE FRAME CHECK OUTRANKS THE ATLAS LEVER: READ PROLOGUE/EPILOGUE BEFORE DRAFTING ANY C — A |
-| L29503 | §297 | ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX S |
-| L29546 | §298 | THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUP |
-| L29571 | §299 | TWO INDEPENDENT EXTRACTION CHAINS EMIT CONTIGUOUSLY INSIDE ONE EXPRESSION; ONLY A STATEMEN |
-| L29606 | §300 | S61 DISTILL BATCH NOTES (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2 · m0b) |
-| L29675 | §301 | AN INTERNAL `j` CARRIES `R_MIPS_26 .text`: rtu/match_one "MATCH" COULD NOT SEE WHICH LABEL |
-| L29723 | §302 | A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO |
-| L29767 | §303 | MODULE ISLAND TABLES: DERIVE THE PADS AT BUILD TIME, PEEL NOTHING — THE §154-A/§260 "islan |
-| L29803 | §304 | SELF-DEFINING RODATA: WHEN A FUNCTION'S `.s` IS THE ONLY OWNER OF THE DATA IT REFERENCES,  |
-| L29826 | §305 | "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE  |
-| L29878 | §306 | A HAZARD `nop` IN FRONT OF A DIV-RESULT STORE IS A STATEMENT-ORDER DEFECT: THE INDEPENDENT |
-| L29905 | §306a | T4 DISTILL ADDENDA (P31 S62; four byte-proven refinements to existing laws, verified again |
-| L29943 | §307 | THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHED |
-| L29987 | §308 | A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if |
-| L30016 | §308a | A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j`  |
-| L30050 | §309 | A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD |
-| L30090 | §310 | A TWO-OPERAND `subu`'s DESTINATION TIES ONLY TO THE OPERAND THAT IS BLOCK-LOCAL: SHARE *ON |
-| L30121 | §311 | A JOIN-BLOCK STORE CAN SWALLOW AN ARM'S LOAD-DELAY `nop`: WHEN ONE ARM'S VALUE COMES FROM  |
-| L30163 | §312 | A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALR |
-| L30189 | §313 | A RECOVERY STAGE THAT REWRITES THE DRAFT IS PART OF THE MEASUREMENT: GATE THE RAW DRAFT FI |
-| L30245 | §314 | AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES  |
-| L30277 | §315 | ALL-CONSTANT AGGREGATE FILL: THE EMISSION ORDER IS SHARED-LITERAL GROUPS × DESCENDING INDE |
-| L30314 | §316 | A GUARD CHAIN THAT GATES A SUCCESS BLOCK ROUTES ITS FAILING GUARDS TO A LABEL **BEFORE** T |
-| L30348 | §317 | A NARROW STRUCT-FIELD STORE TURNS A *LIVE SImode VARIABLE* INTO A `li`: convert.c's TRUNCA |
-| L30382 | §318 | A UNARY MINUS STORED BACK INTO THE SAME HALFWORD IS COMPUTED IN HImode, SO ITS LOAD IS `lh |
-| L30457 | Addendum | §148-A2 addendum — the empty-asm insn_count dial (N bare `__asm__("")` = exactly +N real i |
-| L30465 | Addendum | §312 addendum — naming the compare's dest is the vehicle, the hard-reg pin on that name is |
-| L30469 | Addendum | subu/sh dest reuses a pinned operand's dying register (func_8017F498) |
-| L30477 | Addendum | Addendum to §261a — the -O0 increment-operator copy also fires on the POINTER LOCAL itself |
-| L30481 | Addendum | Addendum to §164-XX/§165-06 — at -O0 a bare local IS a memory lvalue, so the increment ope |
-| L30485 | Addendum | Addendum to §312 — the compare's named destination must itself carry a hard register: nami |
-| L30489 | Addendum | Addendum to §167-12 — the single-operand volatile keepalive, re-confirmed at a gated MATCH |
-| L30493 | Addendum | A §5a BARRIER SITS IN REORG'S FILL WINDOW TOO, SO ITS SIDE OF THE INNER `goto` IS CHOSEN P |
-| L30497 | Addendum | Loop sentinel wrongly hoisted out of a call-containing loop (func_801835B0) |
-| L30509 | Addendum | Reversed-operand sltu then xori 1 means unsigned less-or-equal (func_8017D948) |
-| L30513 | Addendum | Chained *2*2 array index folds to one copy;sll, not two (func_80011380) |
-| L30527 | Addendum | REGALLOC-PERM: one memory-clobber barrier insufficient — stack two (func_80182D1C) |
-| L30533 | Addendum | Last if-arm's nested if un-fuses the whole preceding chain (func_8017FE88) |
-| L30537 | Addendum | A plain global-RMW triplet is a fillable scheduling window too — zero drift, and the fille |
-| L30541 | Addendum | Shared arithmetic that CONSUMES the selected value cannot be hoisted above the `if` — narr |
-| L30545 | REFUTED | claim — Dead call-arg register address-fold: no C-level lever found (func_8017ECAC) |
-| L30564 | Addendum | Truncating assign must be the lazy `||` operand, not hoisted (func_80012B58) |
-| L30576 | Addendum | WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538) |
-| L30593 | REFUTED | claim — REFUTED — the `j`-slot store is an ASPSX macro-expansion hop, not a cse split; mas |
-| L30595 | §NNN | REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE |
-| L30619 | Addendum | Static local_type blocker survives typedef removal — it's textual (func_801588CC) |
-| L30626 | Addendum | Orphan sh triplet to $sp is a write-only local array (func_8017F274) |
-| L30630 | Addendum | REGALLOC-PERM: the store reads the narrow copy's register — split the one narrow local by  |
-| L30634 | Addendum | REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8) |
-| L30638 | Addendum | LENGTH-DRIFT nop clears when offset math precedes the symbol launder (func_80039B20) |
-| L30642 | REFUTED | claim — REFUTED: a block shared across TWO switch statements is ordinary forward cross_jum |
-| L30644 | §NNN | REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cro |
-| L30660 | RETRIEVAL | FAILURES this round (not new knowledge — a RETRIEVAL defect) |
-| L30675 | §319 | N TEXTUALLY DUPLICATED `return v;` TAILS PUT THE LAST `or` AND THE RETURN-REGISTER MOVE IN |
-| L30704 | Addendum | Masked-OR field-merge plateaus at close=10; bitfield store clears it (func_8017FD64) |
-| L30708 | Addendum | Integer-space address arithmetic is a THIRD no-movable spelling, and a distant `SYM[0]` re |
-| L30718 | Addendum | LENGTH-DRIFT −1 on a coalesced-away copy: a CALLER-SAVED SOURCE pin can resurrect it, boun |
-| L30725 | Addendum | Return-0 statement order: extra j+move vs delay-slot fusion (func_8018BB50) |
-| L30729 | Addendum | Counter zero in the DECLARATION slot, empty for-init — the prologue SHIFT-DRIFT/+K face of |
-| L30747 | Addendum | The dying-pinned-register reuse on a sign-extend chain: route every later read through a s |
-| L30751 | Addendum | Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0) |
-| L30761 | Addendum | Register-pinned helper pointer local regresses closeness; use plain local (func_80013CFC) |
-| L30765 | Addendum | §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo |
-| L30769 | RETRIEVAL | FAILURES this round |
-| L30790 | §320 | THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 |
-| L30849 | §321 | FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SC |
-| L30870 | §322 | A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS  |
-| L30900 | §323 | CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE |
-| L30930 | §323a | R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GRE |
-| L30939 | §323b | A SCRIPT THAT PARSES argv AT IMPORT CANNOT BE SHARED; EXTRACT THE PREDICATE, DO NOT COPY I |
-| L30953 | §324 | THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITH |
-| L30991 | §325 | REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s |
-| L31004 | §326 | DEFEATING ADDRESS-CSE: SPELL TWO READS OF THE SAME HALFWORD DIFFERENTLY AND GCC CANNOT SHA |
-| L31013 | §327 | A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT A |
-| L31028 | §328 | THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INT |
-| L31038 | §329 | fold-const NARROWS `(int)s16_var & 0xFFF` ONTO THE *RAW HImode PSEUDO*, BREAKING THE SIGN- |
-| L31046 | §330 | THE NEIGHBOUR-SHAPE LEVER IS THE CHEAPEST FIRST MOVE, AND IT IS UNDER-USED (P31 S67; four  |
-| L31063 | §331 | OPEN GAP: NO LEVER ELIMINATES AN *UNWANTED DUPLICATE* COPY AT A BRANCH-TARGET BLOCK HEAD ( |
-| L31075 | §332 | THE maspsx `la`-IN-A-DELAY-SLOT GAP: gcc EMITS A SYMBOLIC ADDRESS LOAD AS ONE ATOMIC lengt |
-| L31100 | §332a | MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67 |
-| L31119 | §333 | FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL  |
-| L31133 | §334 | A RELOAD SPILL SLOT IS ROUNDED TO `BIGGEST_ALIGNMENT` (8B), SO ONE SPILLED 4-BYTE PSEUDO C |
-| L31144 | §335 | AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCES |
-| L31153 | §336 | THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump |
-| L31161 | §337 | THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-T |
-| L31175 | §338 | `jtbl_carve._sltiu_bounds` MISREADS A NON-SWITCH `sltiu` AS A BOUNDS CHECK, OVER-SPANNING  |
-| L31185 | §339 | A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE |
-| L31213 | §340 | §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be |
-| L31247 | §341 | AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S |
-| L31261 | §342 | A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER |
-| L31278 | §343 | `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT |
-| L31300 | §344 | RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINN |
-| L31316 | §345 | A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS co |
-| L31326 | §346 | `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) |
-| L31346 | §347 | LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEV |
-| L31376 | §347-addendum | A THIRD INSTANCE, AND THE SHARPEST STATEMENT OF THE RULE (md_MAIN_025/func_800CB300, 243 i |
-| L31394 | §343-addendum | SECOND INSTANCE OF THE WRONG-MAJORITY DECL (same function) |
-| L31401 | §348 | THE BASE SPELLING PICKS THE ADDRESSING MODE: A SYMBOL GIVES THE 3-INSN `lui/%lo` FORM, A P |
-| L31418 | §349 | RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILL |
-| L31439 | §350 | A ZERO-BYTE RE-TIE SETS `reg_n_sets=2`, WHICH KILLS sched1's `birthing_insn_p` LAUNCH_PRIO |
-| L31460 | §351 | `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS |
-| L31490 | §352 | ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE  |
-| L31523 | §353 | USE `-fno-thread-jumps` AS AN **ORACLE** TO PROVE A RESIDUAL IS thread_jumps, THEN LAUNDER |
-| L31546 | §354 | THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `s |
-| L31564 | §355 | A REMAPPED SIBLING'S **SOURCE BIAS IS NOT ITS EMITTED BIAS** — DO NOT HAND-SHIFT OFFSETS T |
-| L31578 | §356 | MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured  |
-| L31593 | §357 | ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-pro |
-| L31602 | §358 | (sharpens §333) — AN **UNREFERENCED** FIXED-SIZE AGGREGATE LOCAL IS LOAD-BEARING (P31 S68; |
-| L31612 | §359 | (§43-adjacent) — SPELL A SIGN-WIDEN AS AN EXPLICIT TWO-STEP, FUNCTION-SCOPED TEMP (P31 S68 |
-| L31625 | §360 | THE "COMPILER FOUND A SHORTER EQUIVALENT THAN THE TARGET" PAIR (P31 S68; main/func_800241C |
-| L31641 | §361 | ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULIN |
-| L31686 | §362 | TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 |
-| L31709 | §363 | ★★ — THE OVERLAY-LAYOUT ASSUMPTION IS A SYSTEMIC BUG CLASS, AND `main` IS THE EXCEPTION TH |
-| L31738 | §364 | ★ — THE libgpu `P_TAG` BITFIELD SPELLING IS **OPT-LEVEL DEPENDENT** (P31 S68; two function |
-| L31752 | §365 | PIN **BOTH** MASKS OR NEITHER (P31 S68; ov_SC01_000/func_8017E594, 357 ins) |
-| L31761 | §366 | ★★ — `group_case_nodes` MERGES **STACKED CONSECUTIVE** CASE LABELS: GIVE EVERY CASE ITS OW |
-| L31781 | §367 | RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main) |
-| L31796 | §368 | ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_1 |
-| L31826 | §369 | REUSE THE **COMPARE CONSTANT'S OWN VARIABLE** FOR A MASK THAT KEEPS COALESCING (P31 S68; m |
-| L31842 | §370 | ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/fun |
-| L31894 | §371 | ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP T |
-| L31943 | §372 | ★★★ — THE **COPY-CAPTURE PAIR**, AND THE ONE ZERO-BYTE EDIT THAT DEFEATS BOTH (P31 S68; by |
-| L31981 | §373 | ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `a |
-| L31983 | §3-1. | DEAD-RESET CSE-BREAKER — the zero-footprint replacement for a §195-I asm re-tie |
-| L32001 | §3-2. | A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE |
-| L32014 | §3-3. | HARD FACT FOR THE SCHEDULING MAP — an `asm` ALWAYS has priority 1 |
-| L32022 | CROSS-REFERENCE | TO §370 — checked and found INAPPLICABLE here, which is the point |
-| L32030 | §374 | A `register … __asm__("$30")` RESERVATION IS **NOT HONOURED** BY `move_movables` (P31 S68; |
-| L32046 | §375 | AN `$a0`-`$a3` PIN USED LATE RELOCATES AN **EARLIER** OUTGOING-CALL USE OF THAT REGISTER ( |
-| L32059 | §376 | ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT T |
-| L32101 | §377 | THREE HARNESS DEFECTS FOUND IN ONE GATING SESSION, ALL "A CONFIDENT NUMBER ABOUT A SMALLER |
-| L32118 | §378 | ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE ( |
-| L32168 | §379 | ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CA |
-| L32199 | §380 | ★★★ — **A SECOND SET OF A PSEUDO DISQUALIFIES IT FROM `move_movables`** (P31 S69; main/fun |
-| L32220 | §381 | THE `insn_count` HOIST THRESHOLD IS A DIAL YOU CAN READ WITH `cc1 -dL` (P31 S69; four inde |
-| L32236 | §382 | TWO FOLD REASSOCIATIONS THAT NEED THEIR OWN STATEMENT (P31 S69) |
-| L32248 | §383 | TWO TOOLCHAIN FACTS THE PACKS DID NOT CARRY (P31 S69) |
-| L32263 | §384 | ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE |
-| L32313 | §385 | ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init prehead |
-| L32339 | §386 | ★★★ — A BYTE LOAD ON THE **BIV** BASE WAS BORN IN THE COMBINE PASS: SPELL IT AS A SHIFT-MA |
-| L32365 | §387 | ★★ — **SPLIT-FOLD DISPATCH CLOBBER**: one switch case needs a reload, another must keep th |
-| L32388 | §388 | ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 |
-| L32413 | §389 | ★★★ — `h_norm` IS BLIND TO INDEXED-GLOBAL RELOCS, SO FREE WORK BECOMES AN INVISIBLE SINGLE |
-| L32454 | §390 | ★★★ — MINIMUM DISTANCE IS NOT MINIMUM WORK; RANK TWIN CANDIDATES BY EFFORT, AND FILTER LOO |
-| L32492 | §391 | ★★ — A BYTE-ALIGNED STRUCT COPIES IN FOUR INSTRUCTIONS, A WORD-ALIGNED ONE IN TWO (P31 S69 |
-| L32506 | §392 | ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH |
-| L32547 | §393 | ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P |
-| L32564 | §394 | ★★ — TWO ALIGN-1 ACCESSES IN ONE FUNCTION RESERVE A PHANTOM STACK SLOT (P31 S69; ov_SC02_0 |
-| L32576 | §378b | ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P |
-| L32615 | §395 | ★★★ — FIVE NARROWING/PLACEMENT LEVERS FROM ONE 91-INSTRUCTION CRACK (P31 S69; byte-proven  |
-| L32649 | §314b | ★★ — TWO ABS-RANGE GUARDS IN ONE FUNCTION NEED **DIFFERENT SPELLINGS** (P31 S69; byte-prov |
-| L32671 | §322b | ★★★ — THE CARVE CLASS IS COMPLETABLE, AND EVERY WORKTREE `CARVE-REFUSED` WAS AN INSTRUMENT |
-| L32706 | §332b | ★★★ — THE §332 "WALLS" ARE A PER-OBJECT ASSEMBLER MODE, NOT A C LIMIT — 6 CLOSE AS REAL C  |
-| L32726 | §378c | ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S6 |
-| L32741 | §396 | ★★★ — SIX LEVERS FROM THE S69 SINGLETON ROUND, INCLUDING ONE THAT ONLY A `COND_EXPR` REACH |
-| L32789 | §397 | ★★★ — RE-RUN THE TWIN SCAN AFTER EVERY EXEMPLAR BANK; A CLUSTER SIBLING IS FREE THE MOMENT |
-| L32822 | §396g | ★★ — A GUARD LADDER'S RUNGS MUST STAY SYMMETRIC OR `reorg.c` LOSES ITS BRANCH REDIRECT (P3 |
-| L32839 | §398 | ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT  |
-| L32869 | §398b | ★★ — NAMING A SUB-EXPRESSION IN A LOCAL CHANGES WHICH PSEUDO SURVIVES; INLINE IT AT BOTH U |
-| L32896 | §399 | ★★★ — FOUR LEVERS FROM THE FINAL S69 ROUND (P31 S69; each byte-proven, none previously in  |
-| L32936 | §400 | ★★ — A BASELINE CHECK THAT CONFLATES "ABSENT EVERYWHERE" WITH "CHANGED UNDER US" SILENTLY  |
-| L32971 | §401 | §401 |
-| L33004 | §402 | §402 |
-| L33028 | §403 | §403 |
-| L33060 | §404 | §404 |
-| L33096 | §405 | ★★★ — THE S70 WAVE HARVEST: 130 agents, 113 MATCH, and the laws they brought back |
-| L33102 | §3-A. | THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A) |
-| L33112 | §3-B. | THE SCHEDULER DIALS (the dominant residual family this wave) |
-| L33128 | §3-C. | REGISTER ALLOCATION FROM C, WITHOUT PINS |
-| L33144 | §3-D. | INTEGRATION IS STILL THE BOTTLENECK, AND THE TU IS THE AUTHORITY |
-| L33152 | §3-E. | WHAT THE AGENTS REFUTED |
-| L33162 | §406 | ★★ — THE PROLOGUE-WEAVE CLASS IS MECHANICAL AND LARGE (134 open stubs) |
-| L33184 | §407 | ★★ — LATE-WAVE ADDENDA TO §405 (the last agents in) |
-| L33213 | §408 | ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P3 |
-| L33265 | §409 | ★★★ — THE S71 JOURNAL-FUELLED WAVE: 100% FIRST-PASS MATCH, AND THE NINE LAWS IT BROUGHT BA |
-| L33292 | §3-The | nine laws this wave produced |
-| L33357 | §410 | ★★★ — COPY THEN ACCUMULATE ON THE COPY: resolving the birthing-boost vs register-allocatio |
-| L33390 | §411 | ★★★ — THE PACK MUST CARRY THAT FUNCTION'S OWN HISTORY (P31 S71; measured 38/39 vs 124/131) |
-| L33428 | §412 | ★★★ — §323 CARVE BLOCKER 2 WAS A REGEX THAT COULD NOT SEE PAST `__attribute__` (P31 S71) |
-| L33477 | §413 | ★★★ — DIFFICULTY IS THE RESIDUAL CLASS, NOT `nins` — ROUTE THE MODEL TIER OFF HISTORY (P31 |
-| L33514 | §414 | ★★★ — `parallel_gate` ON `main` IS A FALSE PASS, AND THE RULE WAS ALREADY WRITTEN DOWN (P3 |
-| L33551 | §415 | ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT  |
-| L33576 | §416 | ★★ — FOUR LEVERS FROM THE S71 OVERNIGHT LANE, none of which the cookbook held (P31 S71) |
-| L33609 | §417 | ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `c |
-| L33636 | §418 | ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNF |
-| L33662 | §419 | ★★★ — WHEN A PIN IS IMPOSSIBLE, WIN THE local-alloc DENSITY CONTEST INSTEAD (P31 S71; byte |
-| L33696 | §420 | ★★★ — A MULTI-CLUSTER SYMBOL REBASE, AND THE BARE-NAME DEDUP THAT HID THREE QUARTERS OF IT |
-| L33733 | §421 | ★★★ — A `la $tN` + `addiu` PAIR CAN BE A **RELOAD** ARTIFACT THAT NO C SPELLING REACHES (P |
-| L33764 | §422 | ★★ — QImode ARITHMETIC VIA `(u8)(x - K)`, AND `flag ^ 1` NEEDS ITS OWN TEMP (P31 S71; byte |
-| L33784 | §423 | ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE- |
-| L33811 | §424 | ★★★ — EQUAL-PRIORITY STORES COME OUT **REVERSED**: sched1's LUID tie picks the LAST statem |
-| L33833 | §425 | ★★★ — `sb` ALIASES SCALAR GLOBALS WHILE `sh`/`sw` STRUCT STORES DO NOT, AND TWO MORE ALIAS |
-| L33859 | §426 | ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING |
-| L33939 | §427 | ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFAC |
-| L33958 | §428 | ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; |
-| L33996 | §428a | ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE C |
-| L34044 | §429 | ★★★ — EVERY HELD POINTER NEEDS ITS OWN LOCAL, AND A NEGATIVE-DISPLACEMENT BYTE STORE NEEDS |
-| L34077 | §430 | ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this  |
-| L34126 | §431 | ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE |
-| L34189 | §433 | ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` I |
-| L34221 | §432 | ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S |
-| L34263 | §434 | ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; |
-| L34311 | §435 | ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", |
-| L34368 | §436 | ★★★ — TWO TOOLS THAT READ THE WRONG SOURCE OF TRUTH, AND THE SHAPE THEY SHARE (P31 S74; bo |
-| L34425 | §437 | ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern |
-| L34532 | §438 | ★★★ — THE SAME-ADDRESS LEAD IS NOW SIZE-FILTERED: A HOMONYM IS WORSE THAN NO TWIN (P31 S74 |
-| L34559 | §439 | ★★ — LEVER SET FROM THE S74 WAVE (each entry is one measured crack, not a hypothesis) |
-| L34580 | §440 | ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTE |
-| L34621 | §441 | ★★ — THREE MORE INSTRUMENT DEFECTS FROM THE SAME SESSION, ALL OF WHICH BLAME THE SUBJECT ( |
-| L34651 | §442 | ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LI |
-| L34706 | §443 | ★★ — A DERIVED DEPENDENCY MUST BE PROVISIONED BY *EVERY* PROVISIONER, AND WE HAVE TWO (P31 |
-| L34733 | §444 | ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WA |
-| L34782 | §445 | ★★ — `make clean BINARY=<x>` IS FLEET-WIDE: THE VARIABLE IS ACCEPTED AND IGNORED (P31 S75) |
-| L34811 | §446 | ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU D |
-| L34858 | §447 | ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31  |
-| L34902 | §448 | ★★★ — ASSEMBLY POSING AS C: 154 GAME FUNCTIONS THE REPORTS COUNTED AS DONE (P31 S75) |
-| L34945 | §449 | ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one corr |
-| L34950 | §3-A. | `reg_n_sets` IS A ONE-LINE SCHEDULING DIAL — `t = t + 1;` vs `*p = t + 1` (CONFIRMED: `ov_ |
-| L34979 | §3-B. | A SINGLE-SET LOCAL'S VALUE IS VISIBLE AT A SWITCH JOIN, AND THAT ERASES A ZERO-EXTENSION ( |
-| L34994 | §3-C. | CORRECTION TO §439 — `sll 16; srl 16` LANDS *AFTER* THE CALL, AND WORKS FOR A KNOWN CONSTA |
-| L35012 | §3-D. | AN OFFLINE JTBL-RODATA PLACEMENT AUDIT (CLAIMED: `md_MAIN_034:func_800CB00C` — did NOT ban |
-| L35025 | §450 | ★★★ — REGENERATING A TARGET `.s` FOR A FUNCTION THAT IS NO LONGER A STUB (P31 S75; 146 fun |
-| L35066 | §451 | ★★★ — YOUR EVIDENCE HAS MORE THAN ONE SOURCE, AND THE ONE YOU QUERY IS PROBABLY THE WORSE  |
-| L35104 | §452 | ★★★ — NOT EVERY VERBATIM BODY IS UNDECOMPILED WORK, AND §448'S HEADLINE OVERSTATED IT (P31 |
-| L35141 | ADDENDUM | to §265 (P31 S76) — THE PROSE GUARD DID NOT HOLD. IT IS A GATE REFUSAL NOW. |
-| L35186 | CORRECTION | to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND |
-| L35226 | §460 | `-dS` PRINTS THE SCHEDULER'S READY LIST WITH PRIORITIES. STOP INFERRING IT FROM RTL ORDER. |
-| L35258 | §461 | LAUNDERING AN INVARIANT CAN BE THE DEFECT, AND "RESIDUAL A" DOES NOT GENERALIZE PAST ONE B |
-| L35288 | §465 | THE ASPSX SLOT-HOP: A GAP OUR REORDER SUBSTITUTE CANNOT CLOSE (`main:func_8005F830`) |
-| L35314 | §466 | `main` (509 ins, -O0): ADDRESS CONTEXT EMITS `mult` INDEX-FIRST |
-| L35332 | §464 | FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH) |
-| L35360 | §467 | GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT |
-| L35384 | §468 | THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERA |
-| L35418 | §469 | THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed) |
-| L35441 | §470 | FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18) |
-| L35469 | §471 | A LAUNDER'S REAL COST IS AN ALLOCNO, AND `$t0` IS RELOAD'S (`main:func_80032A74`, 408 → 12 |
-| L35493 | §472 | 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL |
-| L35523 | §473 | 🔴 §265's "HANDWRITTEN" VERDICT FOR `ov_SC07_002:func_8017DC80` IS REFUTED (324 → 89) |
-| L35548 | §474 | A *PROVED* C-LEVEL FLOOR: `split_tree` + `stupid.c` (-O0), from `main:func_80011380` |
-| L35585 | §475 | THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24` |
-| L35616 | §476 | 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 in |
-| L35644 | §462 | FOUR LEVERS FROM `main:func_80024054` (91 ins, 74/53/32 → 4) |
-| L35681 | §463 | 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED |
-| L35717 | §477 | ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77) |
-| L35791 | §478 | 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT |
-| L35811 | §479 | ★★★ — WHERE THE PERMUTER ACTUALLY PAYS: A MEASURED YIELD CURVE (P31 S77, 8 candidates) |
-| L35890 | §480 | 🔴 — A STATIC BLOCKER CLASS THAT THE REAL PIPELINE ALREADY REMOVES IS A PHANTOM |
-| L35905 | §481 | ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S |
-| L35936 | §482 | ★★★ — TWO INDEPENDENT RE-TIES, ORDERED: WHEN ONE BARRIER FIXES ONE RESIDUAL AND CREATES TH |
-| L35971 | §483 | ★★★ — THE S77w WAVE HARVEST: SIX LEVERS, FOUR FROM BANKED (BYTE-PROVEN) BODIES |
-| L36027 | §484 | ★★★ — "NO SINGLE NOLOAD BASE" IS NOT "UNLINKABLE": ASK WHETHER THE `.bss` OFFSETS ARE DISJ |
-| L36073 | §485 | ★★★ — THE PLACEMENT MAP WAS PARSING A PRETTY-PRINTER: 25 PsyQ OBJECTS WERE INVISIBLE, NOT  |
-| L36109 | §486 | ★★★ — CARVING AN `-O0` ISLAND IN **main**: FIVE COUPLED PIECES, AND THE TWO THAT ANNOUNCE  |
-| L36154 | §487 | ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WA |
-| L36206 | §488 | ★★ — THE "GAME CODE" GAPS BETWEEN LIBRARY BLOCKS WERE LIBRARY OBJECTS: 13 SUBSEGS → LINKED |
-| L36246 | §489 | ★★★ — SCATTERED `.bss` IS A PARTITION PROBLEM: SPLIT THE SECTION INTO PER-BASE PIECES AT L |
-| L36304 | §490 | ★★★ — THE "WALL" BAND WAS A LIBRARY VERSION AWAY: LIBPAD 4.2.1 + LIBAPI 4.2 FOUND, THE WHO |
-| L36350 | §491 | ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLON |
-| L36396 | §492 | ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER  |
-| L36424 | §493 | ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER  |
-| L36484 | §494 | ★★★ — TEN BANKS FROM ONE-AGENT-PER-FUNCTION DRAFTING (P31 S79/S80 #9): THE IDIOMS, THE PLU |
-| L36624 | §495 | ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT  |
-| L36665 | §496 | ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TY |
-| L36699 | §497 | ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S F |
-| L36722 | §498 | ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT' |
-| L36752 | §499 | ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT ( |
-| L36793 | §500 | ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MA |
-| L37151 | §501 | ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABI |
-| L37555 | §453 | ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DE |
-| L37604 | §454 | Rung D and rung R: taking a lever off a body that still has to compile to the same bytes ( |
-| L37671 | §454a | the recipe rung's real shape: replication, not discovery (S99, measured) |
-| L37686 | §455 | Rung G, the guided search: score the object, classify the residual, compose the moves (Pha |
-| L37759 | §456 | The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and l |
-| L37808 | §457 | The lever-removal move catalog, S105: eight TU batches, 42 of 42 at 0 (Phase 36 T7) |
+| L20670 | §197-B | A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_c |
+| L20698 | §197-C | Fix A1 (operand order) cannot move a commutative destination whose .greg conflict set alre |
+| L20743 | §197-REJECTED | §197-REJECTED |
+| L20758 | §199 | THE WAVE-X HARVEST (P31 S54/S55): 63 index_gap reports -> 7 laws, 2 rejected, 56 already-c |
+| L20769 | §199-A | §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui |
+| L20818 | §199-B | A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent  |
+| L20863 | §199-C | A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's negate_variant — but whether you ever S |
+| L20911 | §199-D | A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is |
+| L20971 | §199-E | §189-A BOUNDED AND CORRECTED — the discriminator is INSN_PRIORITY, not "is the interloper  |
+| L21030 | §199-F | §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN ` |
+| L21084 | §199-G | At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positiv |
+| L21139 | §199-REJECTED | §199-REJECTED |
+| L21150 | §200 | THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P3 |
+| L21199 | §201 | THE WAVE-Y HARVEST (P31 S55): 67 gap reports -> 5 laws, 8 rejected, 53 already-covered |
+| L21209 | §201-A | §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definit |
+| L21241 | §201-B | In a narrowed PLUS/MINUS/AND/IOR/XOR expression the destination pointee is INERT — the sig |
+| L21321 | §201-C | §X — A CALL'S OWN DELAY SLOT AND THE UPSTREAM CONDITIONAL BRANCH'S SLOT COMPETE FOR ONE IN |
+| L21372 | §201-D | THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER |
+| L21419 | §201-E | §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in t |
+| L21475 | §201-REJECTED | eight, the session's highest |
+| L21500 | §202 | THE ALIAS CARRIES A DEFINITION, NOT JUST A DECLARATION: the DEF-SIDE-RETURN wall (P31 S56) |
+| L21537 | §203 | A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56) |
+| L21598 | §204 | THE WAVE-Z HARVEST (P31 S56): 82 gap reports -> 5 laws, 16 rejected, 30 already-covered |
+| L21617 | §204-A | A COMPARE THAT APPEARS BOTH IN A BRANCH'S DELAY SLOT AND AGAIN ON THE FALL-THROUGH IS A JO |
+| L21692 | §204-B | A LOOP COUNT THAT ARRIVES ON THE STACK IS DECREMENTED IN PLACE: a fresh counter local can  |
+| L21756 | §204-C | WHEN A LOCAL BUFFER'S ADDRESS IS PASSED TO A CALL, ITS SIZE IS A FACT ABOUT THE CALLEE'S B |
+| L21814 | §204-D | A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.fie |
+| L21889 | §204-E | `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of  |
+| L21941 | §204-CONFIRMED | 30 reports that the index already answered |
+| L22035 | §204-REJECTED | sixteen, twice the previous record |
+| L22108 | §205 | THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy t |
+| L22163 | §206 | THE JTBL-CARVE DRAFTING IDIOM: the bounds check is the entry count, and an EMPTY case owns |
+| L22232 | §207 | THE WAVE ab–ag HARVEST (P31 S58): 278 byte-banked notes → 25 laws, 103 self-reported no-ga |
+| L22253 | §208 | TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity own |
+| L22302 | §209 | THE NARROW LOCAL IS A DIAL IN TWO OPPOSITE DIRECTIONS, AND §194-B's "≥2 `sh` STORES" BOUND |
+| L22379 | §210 | THE SINGLE-BIT MASK IN A BOOLEAN TAIL: `andi K ; sltu $zero,v` vs `srl n ; andi 1` is a ST |
+| L22425 | §211 | HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips  |
+| L22484 | §212 | THE WALKING CURSOR IS COUNTABLE: `*wp++` emits one `addiu` PER STORE, `wp[0..2]` emits one |
+| L22529 | §213 | INDEPENDENT SAME-BASE STORES: THE EMISSION ORDER IS A PERMUTATION OF SOURCE ORDER, AND THE |
+| L22565 | §214 | THE BANKED TWIN MAY BE A MACRO, A DELETED `.s`, OR A SEMANTIC INVERSE — six ways a ≥0.9 si |
+| L22611 | §215 | PIN ECONOMY: the twin's pins are NOT part of the shape, and §17's "pin every call-crossing |
+| L22667 | §216 | DISTINCT ADJACENT SCALARS vs ONE ARRAY: one `lui` per access is the tell, and the array de |
+| L22707 | §217 | DECODING A CALL'S STACK ARGUMENT SLOTS: `sw` at `0x10`/`0x14`/`0x18` are params 5/6/7 **(s |
+| L22733 | §218 | A NARROW TYPE AT THE ABI BOUNDARY COSTS AN IN-PLACE `sll/sra` PAIR — on the RETURN as well |
+| L22762 | §219 | COMPOUND `+=`, FULL ASSIGNMENT, AND AN EXPLICIT TEMP ARE THREE DIFFERENT SCHEDULES OF ONE  |
+| L22789 | §220 | THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and pla |
+| L22829 | §221 | A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **( |
+| L22845 | §222 | SWITCH vs IF-CHAIN, PART 3: source arm order IS emission order, a leading EMPTY case buys  |
+| L22887 | §223 | READING A `jal` DELAY SLOT: the value in it was produced BEFORE the call, so it is NEVER t |
+| L22949 | §224 | CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31  |
+| L22985 | §225 | THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58) |
+| L23028 | §226 | FRAME PADS: FOUR WAYS §162i1/§2429's DEAD-LOCAL LEVER MISFIRES (P31 S58) |
+| L23069 | §227 | TYPE THE SOURCE BY THE **LOAD** WIDTH, NOT BY THE STORE WIDTH (P31 S58) |
+| L23089 | §228 | READING THE DIVIDE, PART N: the off-by-one compare is `% K == 1`, and three more discrimin |
+| L23126 | §229 | THE ADDRESS IS A VALUE: NAMING IT MOVES THE `lui`/`addiu` PAIR — AND §L14410 SAYS THE OPPO |
+| L23175 | §230 | THE ANCHOR PROBE: with `%hi`/`%lo` masked, the surviving `addiu` deltas tell you which ass |
+| L23190 | §231 | TRANSCRIPTION AND SEMANTIC-READ HYGIENE: six ways the listing misleads (P31 S58) |
+| L23231 | §232 | WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(sing |
+| L23267 | §30 | addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual w |
+| L23287 | §194-B | addendum (P31 S58) — BOUND 2 is byte-wrong; see §209 Direction A |
+| L23293 | §176-B | addendum (P31 S58) — the misdiagnosis direction |
+| L23299 | §165-40 | addendum (P31 S58) — the barrier goes at the COPY SITE, not inside the region it protects |
+| L23308 | §164-63 | addendum (P31 S58) — the interposed asm works when the SECOND value is an ordinary assignm |
+| L23317 | §193-A | / §194-E addendum (P31 S58) — where the twin's body actually lives |
+| L23323 | §233 | THE WAVE aa–bg HARVEST (P31 S58b): 1,101 byte-banked notes → 24 new laws, 21 addenda, ~700 |
+| L23367 | §234 | CONSTANT MATERIALISATION: THE STORE LVALUE'S SIGNEDNESS PICKS `addiu` vs `li`/`ori` (P31 S |
+| L23408 | §235 | THE PHANTOM SYMBOL: A MASKED `MATCH` CAN CARRY A RELOCATION THAT DOES NOT EXIST (P31 S58b) |
+| L23437 | §236 | THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS TH |
+| L23516 | §237 | THE CAST-AT-CALL-SITE DECISION TABLE: WHAT §17a-1 FIXES, WHAT IT CANNOT, AND THE FOUR ESCA |
+| L23571 | §238 | SAME NAME, DIFFERENT FUNCTION: THE OVERLAY-HOMONYM TRAP (P31 S58b) |
+| L23611 | §239 | TWO-STATEMENT INTEGER-SPACE MATERIALISATION REORDERS `la` vs `sll`; AND THE PLUS-TREE OPER |
+| L23645 | §240 | `A + K + B`: WRITE THE CONSTANT **BETWEEN** THE TWO RUNTIME TERMS (P31 S58b) |
+| L23674 | §241 | THE FOLDED SIGN-EXTEND-AND-SCALE: `sll 16 ; sra (16 − log2 scale)` (P31 S58b) |
+| L23703 | §242 | `*k` vs `<<n`, AND `/2^n` vs `>>n`: EXPRESSION SPELLING OWNS THE LOAD WIDTH AND THE ROUNDI |
+| L23731 | §243 | SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P |
+| L23761 | §244 | `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC ( |
+| L23796 | §245 | THE CALL'S ARGUMENT LIST IS A SCHEDULING SLOT (P31 S58b) |
+| L23843 | §246 | THREE-LIVE-VALUE SCAN LOOPS WANT ADDRESS-FROM-INDEX; AND TWO SYMBOLS CAN SHARE ONE giv (P3 |
+| L23883 | §247 | TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b) |
+| L23917 | §248 | SPLIT THE LOAD FROM THE ARITHMETIC: A FUSED `g + K` DENIES THE CALLEE-SAVED REGISTER ITS D |
+| L23941 | §249 | THE SELF-ASSIGN, THE DEAD RE-ASSIGN, AND THE `+ zr` COPY: THREE WAYS TO MAKE A DELETED INS |
+| L23983 | §250 | `%hi/%lo` vs `lw`: THE EXTERN'S ARRAY-vs-SCALAR SHAPE DECIDES ADDRESS MATERIALISATION (P31 |
+| L24020 | §251 | IMMEDIATE-SPELLING TRIGGERS: `+= 0xFF`, FULL-WIDTH `~K`, AND THE TWO-OR SPLIT (P31 S58b) |
+| L24042 | §252 | THE GUARDED PRE-DECREMENT: `(x != 0) && (--x == 0)` (P31 S58b) |
+| L24063 | §253 | POSTFIX `++` vs `+= 1` PICKS A DIFFERENT SCRATCH REGISTER **(single observation — not yet  |
+| L24077 | §254 | THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-conf |
+| L24089 | §255 | THE EMPTY CASE, PART 2: FOUR TREE SHAPES IT BUYS (P31 S58b) |
+| L24124 | §256 | GOTOS IN THE TARGET'S BLOCK ORDER REPRODUCE SWITCH PLACEMENT WITHOUT SWITCH'S SIDE EFFECTS |
+| L24161 | §257 | THE DEAD-END LEDGER (P31 S58b): ELEVEN LEVERS THAT MEASURED NULL OR BACKFIRED |
+| L24204 | §258 | ADDENDA TO EXISTING SECTIONS (P31 S58b) |
+| L24209 | §30 | addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-O |
+| L24230 | §194-B | / §209 addendum (P31 S58b) — TWO MORE INSTANCES, AND THE BOUND IS NOW REFUTED FOUR WAYS |
+| L24253 | §202 | addendum (P31 S58b) — THE DEF-SIDE ALIAS ALSO CLEARS A RETURN+PARAM DOUBLE CONFLICT |
+| L24264 | §205 | addendum (P31 S58b) — CHAINED ASSIGNMENT: N≥3 IS INNERMOST-FIRST, AND THE TEXT MIRRORS EMI |
+| L24281 | §208 | addendum (P31 S58b) — IT SCALES TO SIX SITES, AND IT HAS AN EXACT INVERSE |
+| L24310 | §210 | addendum (P31 S58b) — THREE CONFIRMED SPELLINGS OF THE BOOLEAN TAIL |
+| L24326 | §211 | addendum (P31 S58b) — INIT PLACEMENT: FIVE MORE DIALS BEYOND THE GUARD HOIST |
+| L24369 | §213 | addendum (P31 S58b) — THREE MORE PERMUTATION LAWS FOR INDEPENDENT SAME-BASE STORES |
+| L24398 | §214 | addendum (P31 S58b) — FOUR MORE WAYS A HIGH-SIMILARITY TWIN LIES |
+| L24434 | §215 | addendum (P31 S58b) — PIN ECONOMY, PART 2: NINE REFINEMENTS |
+| L24486 | §217 | CROSS-CONFIRMED (P31 S58b) — AND THE INCOMING HOME SLOT IS THE MIRROR |
+| L24503 | §220 | addendum (P31 S58b) — THE PARAMETER, NOT A COPY (SEVEN CARDS) |
+| L24528 | §222 | addendum (P31 S58b) — IF-CHAIN vs SWITCH: THREE MORE DISCRIMINATORS |
+| L24546 | §223 | addendum (P31 S58b) — FIVE MORE CONFIRMATIONS, AND THE CONSTANT-IN-`$v0` CASE |
+| L24570 | §224 | addendum (P31 S58b) — CROSS-JUMP MERGES *CALLS*, AND THE DELAY SLOT IS THE DISCRIMINATOR |
+| L24600 | §225 | addendum (P31 S58b) — THE GUARD-CLAUSE FINGERPRINT, AND THREE MORE SHAPES |
+| L24627 | §226 | addendum (P31 S58b) — THE FRAME CATALOGUE: SEVEN MORE LEVERS, AND SLOT ORDER IS DECLARATIO |
+| L24672 | §229 | addendum (P31 S58b) — NAME IT **INSIDE** THE ARM |
+| L24683 | §230 | CROSS-CONFIRMED (P31 S58b) |
+| L24692 | §231 | addendum (P31 S58b) — FOUR MORE WAYS THE LISTING MISLEADS |
+| L24723 | §232 | CROSS-CONFIRMED (P31 S58b) |
+| L24734 | §259 | THE DISCARD LEDGER FOR THE aa–bg HARVEST (P31 S58b): WHAT WAS MINED AND REJECTED, AND WHY |
+| L24773 | §260 | THE §154-A LEADING-ISLAND SPLIT: ONE CONFIG LINE, AND THE ISLAND PEELS FROM THE END (P31 S |
+| L24823 | §260-A | STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day |
+| L24859 | §261 | THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59) |
+| L24885 | §261a | THE -O0 FRAME-RELOAD GRAMMAR: reload COUNT disambiguates the C spelling (P31 S59, byte-pro |
+| L24907 | §262 | A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59) |
+| L24937 | §263 | A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCH |
+| L24978 | §264 | FOUR TELLS-LANE C RECIPES, EACH DRIVEN TO MATCH (P31 S59) |
+| L25028 | §265 | THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BO |
+| L25090 | §266 | THE INERT-RIDER LAW: A LEVER IS ONLY CITABLE WHEN ITS SOLO REMOVAL BREAKS THE MATCH (P31 S |
+| L25130 | §267 | ADDENDA HARVESTED FROM WAVES at/bh/bk/bl (P31 S59b) |
+| L25138 | ADD-1 | → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION |
+| L25147 | ADD-2 | → §42a addendum — A SHARED CONSTANT *NAMED IN A LOCAL* ACROSS A `jal` IS AN ISO→TU DRIFT H |
+| L25159 | ADD-3 | → §236, item 10 — THE UN-DELETED `INCLUDE_ASM` STUB IS A DUPLICATE DEFINITION |
+| L25169 | ADD-4 | → §225-3/-4 addendum — THE MIRROR ROW: VALUE-RETURN IN THE *TAKEN* ARM + TRAILING BARE `re |
+| L25183 | ADD-5 | → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TR |
+| L25192 | ADD-6 | → §172b-1 / §264 addendum — SHIFT-AS-TEST: `(x << 16) != 0` TESTS THE LOW HALF WITHOUT TRU |
+| L25201 | ADD-7 | → §256 addendum — THE SINGLE-GUARD GOTO: THEN-BLOCK OUT OF LINE AT THE TAIL |
+| L25213 | ADD-8 | → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6) |
+| L25225 | ADD-9 | → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED |
+| L25235 | ADD-10 | → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS A |
+| L25244 | ADD-11 | → Cross-confirmation card block (per §259's standing instruction: confirmation, not news) |
+| L25295 | §268 | A `register __asm__` PIN ON A CALL-CLOBBERED REGISTER IS HONORED EXACTLY WHEN THE PINNED R |
+| L25349 | §269 | ADDENDA HARVESTED FROM WAVES ax/bm (P31 S59c) |
+| L25364 | ADD-1 | → §257-8 addendum — THE INTERPOSED ASM'S `__volatile__` IS A PER-SHAPE DIAL, AND THE "NO-O |
+| L25377 | ADD-2 | → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HA |
+| L25391 | ADD-3 | → §238 addendum — TWO BINARIES CAN EACH DEFINE THE SAME `func_` NAME WITH DIFFERENT BYTES, |
+| L25404 | ADD-4 | → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAM |
+| L25421 | ADD-5 | → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON |
+| L25437 | ADD-6 | → §220-addendum — THE FOURTH FACE: WHEN THE NAMED COPY ITSELF BUYS THE EXTRA CALLEE-SAVED, |
+| L25453 | ADD-7 | → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE |
+| L25466 | ADD-8 | → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST |
+| L25481 | ADD-9 | → §255 "AND CASE-BODY PLACEMENT" bound / §222-addendum-3 — ON A LARGE SPARSE TREE, BODIES  |
+| L25495 | ADD-10 | → Cross-confirmation card block (per §259's standing instruction: confirmation, not news) |
+| L25536 | §3-1a. | The §266 sweep — every solo-lever A/B run for this batch |
+| L25569 | §270 | The A-prop 0-bank anatomy: a byte-correct body still needs FOUR layers to agree (P31 S59) |
+| L25587 | §271 | Ordinal IMM pairing: text order is NOT emission order; emit CANDIDATES, let the oracle pic |
+| L25609 | §272 | The `(void)`-decl + empty-call wall: K&R the DEFINITION, not just the decls (P31 S59) |
+| L25629 | §273 | A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59) |
+| L25644 | §274 | ADDENDA HARVESTED FROM 18 WAVES (P31 S60): 315 candidates, 255 already covered, 21 sharpen |
+| L25650 | ADDENDUM | to §179-C — the `.type NAME, @function` requirement |
+| L25697 | ADDENDUM | to §134 — a typedef defined BELOW the splice point is stripped anyway |
+| L25727 | ADDENDUM | to §179-D (GTE macro reference family) — `gte_SetRotMatrix`/`gte_SetTransMatrix` bodies |
+| L25753 | ADDENDUM | to §82 — struct copies must stay MEMBER-WISE, not block-moved, to match a spill-slot save |
+| L25791 | ADDENDUM | to §136d-1 (RC-12, the `$0`-add / opaque-copy family) — two symptoms beyond "compare reads |
+| L25830 | ADDENDUM | to §20 — a global declared as `T *` may itself BE the array base, not a pointer to derefer |
+| L25859 | ADDENDUM | to §1-I5 |
+| L25924 | ADDENDUM | to §164-51 |
+| L25940 | ADDENDUM | to §176-F5 |
+| L25969 | ADDENDUM | to §225 |
+| L26014 | ADDENDUM | to §224 — CROSS-JUMP: THE DUPLICATE CAN BE A PLAIN STORE, NOT ONLY A CALL |
+| L26048 | ADDENDUM | to §164-64 — AN EMPTY CLOBBER ON AN ARGUMENT REGISTER CAN BE THE DELIBERATE FIX, NOT JUST  |
+| L26079 | ADDENDUM | to §244 — THE COMPILER BARRIER, NOT `volatile`, BLOCKS A STORE→LOAD HOIST THROUGH A POINTE |
+| L26110 | ADDENDUM | to §172b-1 — TWO PLACEMENT DIALS THE PROMOTION LAW DOESN'T NAME: NARROW THE COUNTER'S DECL |
+| L26157 | ADDENDUM | to §229 — A POINTER'S NUMBER OF USES DECIDES WHETHER ITS ADDRESS FOLDS OR SURVIVES A CALL |
+| L26202 | ADDENDUM | to §172b-4 — THE PLAIN CAST-DIVISION ALREADY PRODUCES THE PATTERN; DON'T HAND-ROLL THE BIA |
+| L26232 | ADDENDUM | to §8 — WHEN `INCLUDE_RODATA` NEEDS A STANDALONE `.s` YOU CAN'T CREATE, CARRY THE FRAGMENT |
+| L26275 | ADDENDUM | to §226 — A DEAD LOCAL SCOPED TO A NESTED BLOCK BUYS A MID-FUNCTION `addiu sp` PAIR, NOT A |
+| L26314 | ADDENDUM | to §172a — RE-READING MEMORY (NOT NAMING A TEMP) IS WHAT KEEPS AN INCREMENT'S DELAY-SLOT F |
+| L26345 | ADDENDUM | to §225 / §256 — A GOTO TO A SHARED SET-POINT PREVENTS IF-CONVERSION FROM COLLAPSING A LAT |
+| L26387 | ADDENDUM | to §211 — AN IN-LOOP ACCUMULATOR WANTS A CLOSED-FORM EXPRESSION WHEN THE TARGET REMATERIAL |
+| L26422 | §275 | THE LEFTOVER-REGISTER READ |
+| L26462 | §276 | MIXED ADDRESS-EXPRESSION SPELLING FOR ADJACENT RELOCATABLE SYMBOLS IS A CSE-UNIFICATION DI |
+| L26571 | §277 | RETURN-TAIL C SPELLING PICKS THE DELAY-SLOT-FILL vs TRAILING-MOVE TOPOLOGY, AND A NARROWER |
+| L26635 | §278 | ADDENDA HARVESTED FROM WAVE cf (P31 S60): 34 candidates, 13 already covered, 8 sharpenings |
+| L26643 | ADDENDUM | to §74 (func_800D0E30, resident) |
+| L26679 | ADDENDUM | to §172b-4 (func_80185054, ov_SC03_097) |
+| L26717 | ADDENDUM | to §265 (func_8017DC80, ov_SC07_002) |
+| L26756 | ADDENDUM | to §17 (func_800CB794, md_MAIN_036) |
+| L26804 | ADDENDUM | to §162p (func_8017C120, ov_MAIN_012) |
+| L26838 | ADDENDUM | to §20 (~L1947) (func_80186AD0, ov_SC06_032) |
+| L26868 | ADDENDUM | to §164-56 (func_8017F644, ov_SC04_005) |
+| L26903 | ADDENDUM | to §237 (func_8017F7FC, ov_SC03_092) |
+| L26932 | §279 | A `do/while (p < end)` LOOP UNDER AN ENTRY GUARD: the guard decides the compare, not the l |
+| L26933 | §NNN | A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: T |
+| L26966 | §280 | THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, |
+| L26967 | §NNN | A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TE |
+| L27000 | §281 | GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, t |
+| L27001 | §NNN | A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AN |
+| L27046 | §282 | gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no h |
+| L27047 | §NNN | WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS |
+| L27084 | What | I could not verify |
+| L27131 | §283 | ADDENDA HARVESTED FROM THE 36-WAVE BATCH (P31 S60): 1,216 candidates, 859 already covered, |
+| L27141 | ADDENDUM | to §164-75 — the fold-reassociation law also fires at a variable's INITIALIZER, not only a |
+| L27167 | ADDENDUM | to §21 — the `bltz`+`slti` (or N-separate-compares) signed-range-split bullet is now CONFI |
+| L27213 | ADDENDUM | to §202 — the DEF-SIDE ALIAS also resolves a function-vs-DATA-symbol identifier clash, not |
+| L27236 | ADDENDUM | to §22 (`volatile`-qualified-global reload lever, cookbook ~L1922) — for a NON-constant, s |
+| L27255 | ADDENDUM | to §195-E — a goto-ladder's STORES must sit AT the labels, after the gotos, not inline bef |
+| L27317 | ADDENDUM | to §195-N — a GNU statement-expression slider must sit INSIDE the conditional arm's value  |
+| L27374 | ADDENDUM | to §176-B2 — in a micro-function with no long/short lifetime asymmetry, BOTH contending ps |
+| L27421 | ADDENDUM | to §199-G — A `default:` LABEL GROUPED ONTO THE LAST CASE REMOVES THE `j default` TAIL, EV |
+| L27490 | ADDENDUM | to §220 — REFERENCING THE RAW PARAMETER (NO NAMED COPY, NOT EVEN A PIN) LETS THE CALLEE-SA |
+| L27548 | ADDENDUM | to §252 — a `>=0`/`<0` split on an unconditionally-decremented value needs the POSTFIX ope |
+| L27575 | ADDENDUM | to §215 — FIFTH SHAPE: reused mask constants across two call-free merge sites each get the |
+| L27658 | What | I could not verify |
+| L27729 | Harness-defect | flags |
+| L27822 | ADDENDUM | to §167-40 (func_8017E2CC, ov_SC04_015 — wave dg) |
+| L27842 | ADDENDUM | to §20's cross-jump EXPLOIT bullet (func_8017E360, ov_SC05_007 — wave dg) |
+| L27856 | ADDENDUM | to §87 (func_801815F4 ov_SC06_032; corroborating func_801840DC ov_SC05_017, func_80189C68  |
+| L27875 | ADDENDUM | to §153 / §236-5 (func_801A419C, md_SC07_003 — waves di and dl, corroborating; refutes a c |
+| L27895 | ADDENDUM | to §263 (func_801E83AC, md_SC04_029 — wave dj) |
+| L27909 | ADDENDUM | to §265 (func_8017D878, ov_SC03_107 — wave dj; corroborated by a REJECTED, contradicted ca |
+| L27923 | ADDENDUM | to §6 (func_801811F0, ov_SC03_102 — waves dj and dl, corroborated by a self-reported "noth |
+| L27937 | ADDENDUM | to §195-G (func_80183BB0, ov_SC05_001 — wave dj) |
+| L27965 | ADDENDUM | to the zero-byte-asm-slider family (§47 / §148-C / §153) (func_800CB874, md_MAIN_040 — wav |
+| L27983 | ADDENDUM | to §194-B (func_8017EB34, ov_SC03_117 — wave dk; distinct from the §74 co-pinning finding  |
+| L28015 | ADDENDUM | to §74 (func_8017EB34, ov_SC03_117 — counter/clamp variant; wave dj, corroborated by dk/dl |
+| L28035 | ADDENDUM | §37 — merged into the §153/§236-5 entry above (func_801A419C, wave dl) |
+| L28043 | ADDENDUM | §6 — merged into the §6 entry above (func_801811F0, wave dl) |
+| L28051 | ADDENDUM | to §238 (func_80182CB4, ov_SC02_000 — wave dl) |
+| L28069 | ADDENDUM | to §137a (func_801684B4, ov_MAIN_012; corroborated independently by func_80189E68, func_80 |
+| L28085 | ADDENDUM | to §8c / §88d (func_8016AB6C, ov_MAIN_012 — wave dm) |
+| L28099 | ADDENDUM | to §73 / §30#2 (func_800D1984, resident — wave dm) |
+| L28115 | What | I could not verify |
+| L28135 | ADDENDUM | to §174 Law 4 (func_8017E9A8, ov_SC06_015) |
+| L28175 | ADDENDUM | the zero-emission-asm family gains a REF-SLIDER PLACEMENT LAW and a paired RESTORER (func_ |
+| L28227 | From | ck + cl + cm |
+| L28233 | ADDENDUM | §NNN — sharpens §55a / §164-37 / §165-28 (switch-vs-tree cluster): A SHAPE THAT LOOKS LIKE |
+| L28270 | ADDENDUM | §NNN — sharpens §167-13's boundary: CHAINING TWO IDENTICAL SIDE-BY-SIDE STORES INTO ONE C  |
+| L28303 | ADDENDUM | §NNN — sharpens §162a3/§60b: A `sll $v0,16 / sltiu $v0,1` ZERO-TEST OF A JUST-DECREMENTED  |
+| L28336 | ADDENDUM | §NNN — sharpens §37/§124 (unspecified-parameter-list family): DERIVE A CALLEE'S ARITY LOWE |
+| L28369 | ADDENDUM | to §5a (func_80181F74, ov_SC03_112, wave cn) |
+| L28419 | ADDENDUM | to §265 (func_8017E26C, ov_SC04_016, wave cn) |
+| L28457 | ADDENDUM | to §42b (func_8018247C, ov_SC07_002, waves cu + cw) |
+| L28488 | ADDENDUM | to §199-F family (func_8017EFB0, ov_SC02_021, wave cu) |
+| L28543 | ADDENDUM | to §195-E (func_800CFC1C, md_MAIN_003, wave cv) |
+| L28588 | ADDENDUM | to §215 addendum (func_800CB2C8, md_MAIN_033, waves cv + cw) |
+| L28644 | ADDENDUM | to §236 item 4 (func_8017D268, ov_SC04_006, wave cw) |
+| L28673 | What | I could not verify |
+| L28705 | Harness-defect | flags (not idioms — flagged for the operator) |
+| L28746 | ADDENDUM | to §250 (func_8017D7CC, ov_SC03_115 — cx/cy/cz/dr) |
+| L28791 | ADDENDUM | to §225 (func_8017E190, ov_SC03_115 — cx/cy/cz) |
+| L28844 | ADDENDUM | to §45-A (func_8017F6A4, ov_SC02_016 — cy/cz) |
+| L28888 | ADDENDUM | to §249 (func_80182ED4, ov_SC04_004 — dp/dr/dt) |
+| L28933 | ADDENDUM | to §199-A (func_801816FC, ov_SC02_005 — dp/dr/dt) |
+| L28979 | What | I could not verify |
+| L29022 | Harness-defect | flags |
+| L29084 | §284 | COMBINE CAN REASSOCIATE TWO SEQUENTIAL BITWISE-AND MASKS INTO ONE AGAINST THE PRE-MASK VAL |
+| L29088 | §285 | PRE-INITIALIZING A VARIABLE WITH A SHARED CONSTANT BEFORE A BRANCH MAKES BOTH ARMS OF THE  |
+| L29092 | §286 | FOLD A STATEMENT'S SIDE EFFECT INTO A COMMA-EXPRESSION IN AN ARGUMENT POSITION TO PLACE IT |
+| L29096 | §287 | A STACK-FRAME HOLE BELOW TWO ADDRESS-TAKEN AGGREGATE LOCALS IS A LEADING PAD MEMBER OF ONE |
+| L29100 | §288 | A REGISTER PIN DECLARED UNINITIALIZED AND ASSIGNED ONLY AT ITS LATE, SOLE USE STILL FORCES |
+| L29104 | §289 | an array local's address-taken base keeps every element's store alive, even though only on |
+| L29108 | §290 | A SINGLE STRENGTH-REDUCED GIV CAN DRIVE STORES TO SEVERAL DISTINCT RELOCATABLE SYMBOLS, EA |
+| L29112 | §291 | THE DELAY-SLOT FALSE-VALUE: A CONDITIONAL BRANCH'S ZERO ARM MUST BE A FALL-THROUGH-ADJACEN |
+| L29116 | §292 | DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPL |
+| L29119 | §293 | THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND T |
+| L29169 | §294 | ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · |
+| L29180 | ADDENDUM | to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the in |
+| L29208 | ADDENDUM | to §261a — FOUR MORE -O0 DIALS BEYOND THE RELOAD COUNT (boot.c + md_MAIN_011/003, wave m0a |
+| L29258 | ADDENDUM | to §264-3 — the explicit entry copy's BOUND: required exactly when the RAW value must outl |
+| L29278 | ADDENDUM | to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator |
+| L29290 | ADDENDUM | to §276 — the SHARE direction: spell the second adjacent symbol RELATIVE to force ONE anch |
+| L29306 | ADDENDUM | to §31's density-dummy dial (L2460/L2497) — the dose is TWO refs, and the dummy must sit w |
+| L29323 | ADDENDUM | to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction birt |
+| L29346 | ADDENDUM | to §253 — SECOND byte-proven card (upgrade from single-observation), and the placement fac |
+| L29367 | ADDENDUM | to the L1800 anchor-steer bullet — a DERIVED-POINTER local silently flips the merged giv's |
+| L29390 | ADDENDUM | to §31's asm→layout inference — TWO WIDTH-PAIR DISCRIMINATORS (same offset, different widt |
+| L29411 | §295 | THE KERNEL-TRAP STUB: §81's jr-DETECTOR WITHOUT A TABLE IS A PsyQ SYSCALL TRAMPOLINE — ROU |
+| L29466 | §296 | THE FRAME CHECK OUTRANKS THE ATLAS LEVER: READ PROLOGUE/EPILOGUE BEFORE DRAFTING ANY C — A |
+| L29509 | §297 | ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX S |
+| L29552 | §298 | THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUP |
+| L29577 | §299 | TWO INDEPENDENT EXTRACTION CHAINS EMIT CONTIGUOUSLY INSIDE ONE EXPRESSION; ONLY A STATEMEN |
+| L29612 | §300 | S61 DISTILL BATCH NOTES (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2 · m0b) |
+| L29681 | §301 | AN INTERNAL `j` CARRIES `R_MIPS_26 .text`: rtu/match_one "MATCH" COULD NOT SEE WHICH LABEL |
+| L29729 | §302 | A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO |
+| L29773 | §303 | MODULE ISLAND TABLES: DERIVE THE PADS AT BUILD TIME, PEEL NOTHING — THE §154-A/§260 "islan |
+| L29809 | §304 | SELF-DEFINING RODATA: WHEN A FUNCTION'S `.s` IS THE ONLY OWNER OF THE DATA IT REFERENCES,  |
+| L29832 | §305 | "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE  |
+| L29884 | §306 | A HAZARD `nop` IN FRONT OF A DIV-RESULT STORE IS A STATEMENT-ORDER DEFECT: THE INDEPENDENT |
+| L29911 | §306a | T4 DISTILL ADDENDA (P31 S62; four byte-proven refinements to existing laws, verified again |
+| L29949 | §307 | THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHED |
+| L29993 | §308 | A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if |
+| L30022 | §308a | A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j`  |
+| L30056 | §309 | A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD |
+| L30096 | §310 | A TWO-OPERAND `subu`'s DESTINATION TIES ONLY TO THE OPERAND THAT IS BLOCK-LOCAL: SHARE *ON |
+| L30127 | §311 | A JOIN-BLOCK STORE CAN SWALLOW AN ARM'S LOAD-DELAY `nop`: WHEN ONE ARM'S VALUE COMES FROM  |
+| L30169 | §312 | A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALR |
+| L30195 | §313 | A RECOVERY STAGE THAT REWRITES THE DRAFT IS PART OF THE MEASUREMENT: GATE THE RAW DRAFT FI |
+| L30251 | §314 | AN IF/ELSE-IF ABS-RANGE CHECK'S C SPELLING IS INERT: FOUR STRUCTURALLY DIFFERENT REWRITES  |
+| L30283 | §315 | ALL-CONSTANT AGGREGATE FILL: THE EMISSION ORDER IS SHARED-LITERAL GROUPS × DESCENDING INDE |
+| L30320 | §316 | A GUARD CHAIN THAT GATES A SUCCESS BLOCK ROUTES ITS FAILING GUARDS TO A LABEL **BEFORE** T |
+| L30354 | §317 | A NARROW STRUCT-FIELD STORE TURNS A *LIVE SImode VARIABLE* INTO A `li`: convert.c's TRUNCA |
+| L30388 | §318 | A UNARY MINUS STORED BACK INTO THE SAME HALFWORD IS COMPUTED IN HImode, SO ITS LOAD IS `lh |
+| L30463 | Addendum | §148-A2 addendum — the empty-asm insn_count dial (N bare `__asm__("")` = exactly +N real i |
+| L30471 | Addendum | §312 addendum — naming the compare's dest is the vehicle, the hard-reg pin on that name is |
+| L30475 | Addendum | subu/sh dest reuses a pinned operand's dying register (func_8017F498) |
+| L30483 | Addendum | Addendum to §261a — the -O0 increment-operator copy also fires on the POINTER LOCAL itself |
+| L30487 | Addendum | Addendum to §164-XX/§165-06 — at -O0 a bare local IS a memory lvalue, so the increment ope |
+| L30491 | Addendum | Addendum to §312 — the compare's named destination must itself carry a hard register: nami |
+| L30495 | Addendum | Addendum to §167-12 — the single-operand volatile keepalive, re-confirmed at a gated MATCH |
+| L30499 | Addendum | A §5a BARRIER SITS IN REORG'S FILL WINDOW TOO, SO ITS SIDE OF THE INNER `goto` IS CHOSEN P |
+| L30503 | Addendum | Loop sentinel wrongly hoisted out of a call-containing loop (func_801835B0) |
+| L30515 | Addendum | Reversed-operand sltu then xori 1 means unsigned less-or-equal (func_8017D948) |
+| L30519 | Addendum | Chained *2*2 array index folds to one copy;sll, not two (func_80011380) |
+| L30533 | Addendum | REGALLOC-PERM: one memory-clobber barrier insufficient — stack two (func_80182D1C) |
+| L30539 | Addendum | Last if-arm's nested if un-fuses the whole preceding chain (func_8017FE88) |
+| L30543 | Addendum | A plain global-RMW triplet is a fillable scheduling window too — zero drift, and the fille |
+| L30547 | Addendum | Shared arithmetic that CONSUMES the selected value cannot be hoisted above the `if` — narr |
+| L30551 | REFUTED | claim — Dead call-arg register address-fold: no C-level lever found (func_8017ECAC) |
+| L30570 | Addendum | Truncating assign must be the lazy `||` operand, not hoisted (func_80012B58) |
+| L30582 | Addendum | WIDTH sh!=lhu residual: hoist a sibling field's load first (func_80182538) |
+| L30599 | REFUTED | claim — REFUTED — the `j`-slot store is an ASPSX macro-expansion hop, not a cse split; mas |
+| L30601 | §NNN | REFUTED: A `sw %lo(SYM)($at)` IN A JUMP'S DELAY SLOT WITH ITS `lui $at` STRANDED ABOVE THE |
+| L30625 | Addendum | Static local_type blocker survives typedef removal — it's textual (func_801588CC) |
+| L30632 | Addendum | Orphan sh triplet to $sp is a write-only local array (func_8017F274) |
+| L30636 | Addendum | REGALLOC-PERM: the store reads the narrow copy's register — split the one narrow local by  |
+| L30640 | Addendum | REGALLOC-PERM store in a cross-jump shared tail defeats §137's barrier (func_8017EDE8) |
+| L30644 | Addendum | LENGTH-DRIFT nop clears when offset math precedes the symbol launder (func_80039B20) |
+| L30648 | REFUTED | claim — REFUTED: a block shared across TWO switch statements is ordinary forward cross_jum |
+| L30650 | §NNN | REFUTED: A CODE BLOCK SHARED BY TWO *DIFFERENT* SWITCH STATEMENTS IS ORDINARY FORWARD `cro |
+| L30666 | RETRIEVAL | FAILURES this round (not new knowledge — a RETRIEVAL defect) |
+| L30681 | §319 | N TEXTUALLY DUPLICATED `return v;` TAILS PUT THE LAST `or` AND THE RETURN-REGISTER MOVE IN |
+| L30710 | Addendum | Masked-OR field-merge plateaus at close=10; bitfield store clears it (func_8017FD64) |
+| L30714 | Addendum | Integer-space address arithmetic is a THIRD no-movable spelling, and a distant `SYM[0]` re |
+| L30724 | Addendum | LENGTH-DRIFT −1 on a coalesced-away copy: a CALLER-SAVED SOURCE pin can resurrect it, boun |
+| L30731 | Addendum | Return-0 statement order: extra j+move vs delay-slot fusion (func_8018BB50) |
+| L30735 | Addendum | Counter zero in the DECLARATION slot, empty for-init — the prologue SHIFT-DRIFT/+K face of |
+| L30753 | Addendum | The dying-pinned-register reuse on a sign-extend chain: route every later read through a s |
+| L30757 | Addendum | Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0) |
+| L30767 | Addendum | Register-pinned helper pointer local regresses closeness; use plain local (func_80013CFC) |
+| L30771 | Addendum | §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo |
+| L30775 | RETRIEVAL | FAILURES this round |
+| L30796 | §320 | THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 |
+| L30855 | §321 | FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SC |
+| L30876 | §322 | A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS  |
+| L30906 | §323 | CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE |
+| L30936 | §323a | R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GRE |
+| L30945 | §323b | A SCRIPT THAT PARSES argv AT IMPORT CANNOT BE SHARED; EXTRACT THE PREDICATE, DO NOT COPY I |
+| L30959 | §324 | THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITH |
+| L30997 | §325 | REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s |
+| L31010 | §326 | DEFEATING ADDRESS-CSE: SPELL TWO READS OF THE SAME HALFWORD DIFFERENTLY AND GCC CANNOT SHA |
+| L31019 | §327 | A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT A |
+| L31034 | §328 | THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INT |
+| L31044 | §329 | fold-const NARROWS `(int)s16_var & 0xFFF` ONTO THE *RAW HImode PSEUDO*, BREAKING THE SIGN- |
+| L31052 | §330 | THE NEIGHBOUR-SHAPE LEVER IS THE CHEAPEST FIRST MOVE, AND IT IS UNDER-USED (P31 S67; four  |
+| L31069 | §331 | OPEN GAP: NO LEVER ELIMINATES AN *UNWANTED DUPLICATE* COPY AT A BRANCH-TARGET BLOCK HEAD ( |
+| L31081 | §332 | THE maspsx `la`-IN-A-DELAY-SLOT GAP: gcc EMITS A SYMBOLIC ADDRESS LOAD AS ONE ATOMIC lengt |
+| L31106 | §332a | MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67 |
+| L31125 | §333 | FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL  |
+| L31139 | §334 | A RELOAD SPILL SLOT IS ROUNDED TO `BIGGEST_ALIGNMENT` (8B), SO ONE SPILLED 4-BYTE PSEUDO C |
+| L31150 | §335 | AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCES |
+| L31159 | §336 | THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump |
+| L31167 | §337 | THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-T |
+| L31181 | §338 | `jtbl_carve._sltiu_bounds` MISREADS A NON-SWITCH `sltiu` AS A BOUNDS CHECK, OVER-SPANNING  |
+| L31191 | §339 | A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE |
+| L31219 | §340 | §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be |
+| L31253 | §341 | AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S |
+| L31267 | §342 | A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER |
+| L31284 | §343 | `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT |
+| L31306 | §344 | RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINN |
+| L31322 | §345 | A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS co |
+| L31332 | §346 | `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) |
+| L31352 | §347 | LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEV |
+| L31382 | §347-addendum | A THIRD INSTANCE, AND THE SHARPEST STATEMENT OF THE RULE (md_MAIN_025/func_800CB300, 243 i |
+| L31400 | §343-addendum | SECOND INSTANCE OF THE WRONG-MAJORITY DECL (same function) |
+| L31407 | §348 | THE BASE SPELLING PICKS THE ADDRESSING MODE: A SYMBOL GIVES THE 3-INSN `lui/%lo` FORM, A P |
+| L31424 | §349 | RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILL |
+| L31445 | §350 | A ZERO-BYTE RE-TIE SETS `reg_n_sets=2`, WHICH KILLS sched1's `birthing_insn_p` LAUNCH_PRIO |
+| L31466 | §351 | `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS |
+| L31496 | §352 | ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE  |
+| L31529 | §353 | USE `-fno-thread-jumps` AS AN **ORACLE** TO PROVE A RESIDUAL IS thread_jumps, THEN LAUNDER |
+| L31552 | §354 | THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `s |
+| L31570 | §355 | A REMAPPED SIBLING'S **SOURCE BIAS IS NOT ITS EMITTED BIAS** — DO NOT HAND-SHIFT OFFSETS T |
+| L31584 | §356 | MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured  |
+| L31599 | §357 | ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-pro |
+| L31608 | §358 | (sharpens §333) — AN **UNREFERENCED** FIXED-SIZE AGGREGATE LOCAL IS LOAD-BEARING (P31 S68; |
+| L31618 | §359 | (§43-adjacent) — SPELL A SIGN-WIDEN AS AN EXPLICIT TWO-STEP, FUNCTION-SCOPED TEMP (P31 S68 |
+| L31631 | §360 | THE "COMPILER FOUND A SHORTER EQUIVALENT THAN THE TARGET" PAIR (P31 S68; main/func_800241C |
+| L31647 | §361 | ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULIN |
+| L31692 | §362 | TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 |
+| L31715 | §363 | ★★ — THE OVERLAY-LAYOUT ASSUMPTION IS A SYSTEMIC BUG CLASS, AND `main` IS THE EXCEPTION TH |
+| L31744 | §364 | ★ — THE libgpu `P_TAG` BITFIELD SPELLING IS **OPT-LEVEL DEPENDENT** (P31 S68; two function |
+| L31758 | §365 | PIN **BOTH** MASKS OR NEITHER (P31 S68; ov_SC01_000/func_8017E594, 357 ins) |
+| L31767 | §366 | ★★ — `group_case_nodes` MERGES **STACKED CONSECUTIVE** CASE LABELS: GIVE EVERY CASE ITS OW |
+| L31787 | §367 | RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main) |
+| L31802 | §368 | ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_1 |
+| L31832 | §369 | REUSE THE **COMPARE CONSTANT'S OWN VARIABLE** FOR A MASK THAT KEEPS COALESCING (P31 S68; m |
+| L31848 | §370 | ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/fun |
+| L31900 | §371 | ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP T |
+| L31949 | §372 | ★★★ — THE **COPY-CAPTURE PAIR**, AND THE ONE ZERO-BYTE EDIT THAT DEFEATS BOTH (P31 S68; by |
+| L31987 | §373 | ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `a |
+| L31989 | §3-1. | DEAD-RESET CSE-BREAKER — the zero-footprint replacement for a §195-I asm re-tie |
+| L32007 | §3-2. | A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE |
+| L32020 | §3-3. | HARD FACT FOR THE SCHEDULING MAP — an `asm` ALWAYS has priority 1 |
+| L32028 | CROSS-REFERENCE | TO §370 — checked and found INAPPLICABLE here, which is the point |
+| L32036 | §374 | A `register … __asm__("$30")` RESERVATION IS **NOT HONOURED** BY `move_movables` (P31 S68; |
+| L32052 | §375 | AN `$a0`-`$a3` PIN USED LATE RELOCATES AN **EARLIER** OUTGOING-CALL USE OF THAT REGISTER ( |
+| L32065 | §376 | ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT T |
+| L32107 | §377 | THREE HARNESS DEFECTS FOUND IN ONE GATING SESSION, ALL "A CONFIDENT NUMBER ABOUT A SMALLER |
+| L32124 | §378 | ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE ( |
+| L32174 | §379 | ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CA |
+| L32205 | §380 | ★★★ — **A SECOND SET OF A PSEUDO DISQUALIFIES IT FROM `move_movables`** (P31 S69; main/fun |
+| L32226 | §381 | THE `insn_count` HOIST THRESHOLD IS A DIAL YOU CAN READ WITH `cc1 -dL` (P31 S69; four inde |
+| L32242 | §382 | TWO FOLD REASSOCIATIONS THAT NEED THEIR OWN STATEMENT (P31 S69) |
+| L32254 | §383 | TWO TOOLCHAIN FACTS THE PACKS DID NOT CARRY (P31 S69) |
+| L32269 | §384 | ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE |
+| L32319 | §385 | ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init prehead |
+| L32345 | §386 | ★★★ — A BYTE LOAD ON THE **BIV** BASE WAS BORN IN THE COMBINE PASS: SPELL IT AS A SHIFT-MA |
+| L32371 | §387 | ★★ — **SPLIT-FOLD DISPATCH CLOBBER**: one switch case needs a reload, another must keep th |
+| L32394 | §388 | ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 |
+| L32419 | §389 | ★★★ — `h_norm` IS BLIND TO INDEXED-GLOBAL RELOCS, SO FREE WORK BECOMES AN INVISIBLE SINGLE |
+| L32460 | §390 | ★★★ — MINIMUM DISTANCE IS NOT MINIMUM WORK; RANK TWIN CANDIDATES BY EFFORT, AND FILTER LOO |
+| L32498 | §391 | ★★ — A BYTE-ALIGNED STRUCT COPIES IN FOUR INSTRUCTIONS, A WORD-ALIGNED ONE IN TWO (P31 S69 |
+| L32512 | §392 | ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH |
+| L32553 | §393 | ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P |
+| L32570 | §394 | ★★ — TWO ALIGN-1 ACCESSES IN ONE FUNCTION RESERVE A PHANTOM STACK SLOT (P31 S69; ov_SC02_0 |
+| L32582 | §378b | ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P |
+| L32621 | §395 | ★★★ — FIVE NARROWING/PLACEMENT LEVERS FROM ONE 91-INSTRUCTION CRACK (P31 S69; byte-proven  |
+| L32655 | §314b | ★★ — TWO ABS-RANGE GUARDS IN ONE FUNCTION NEED **DIFFERENT SPELLINGS** (P31 S69; byte-prov |
+| L32677 | §322b | ★★★ — THE CARVE CLASS IS COMPLETABLE, AND EVERY WORKTREE `CARVE-REFUSED` WAS AN INSTRUMENT |
+| L32712 | §332b | ★★★ — THE §332 "WALLS" ARE A PER-OBJECT ASSEMBLER MODE, NOT A C LIMIT — 6 CLOSE AS REAL C  |
+| L32732 | §378c | ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S6 |
+| L32747 | §396 | ★★★ — SIX LEVERS FROM THE S69 SINGLETON ROUND, INCLUDING ONE THAT ONLY A `COND_EXPR` REACH |
+| L32795 | §397 | ★★★ — RE-RUN THE TWIN SCAN AFTER EVERY EXEMPLAR BANK; A CLUSTER SIBLING IS FREE THE MOMENT |
+| L32828 | §396g | ★★ — A GUARD LADDER'S RUNGS MUST STAY SYMMETRIC OR `reorg.c` LOSES ITS BRANCH REDIRECT (P3 |
+| L32845 | §398 | ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT  |
+| L32875 | §398b | ★★ — NAMING A SUB-EXPRESSION IN A LOCAL CHANGES WHICH PSEUDO SURVIVES; INLINE IT AT BOTH U |
+| L32902 | §399 | ★★★ — FOUR LEVERS FROM THE FINAL S69 ROUND (P31 S69; each byte-proven, none previously in  |
+| L32942 | §400 | ★★ — A BASELINE CHECK THAT CONFLATES "ABSENT EVERYWHERE" WITH "CHANGED UNDER US" SILENTLY  |
+| L32977 | §401 | §401 |
+| L33010 | §402 | §402 |
+| L33034 | §403 | §403 |
+| L33066 | §404 | §404 |
+| L33102 | §405 | ★★★ — THE S70 WAVE HARVEST: 130 agents, 113 MATCH, and the laws they brought back |
+| L33108 | §3-A. | THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A) |
+| L33118 | §3-B. | THE SCHEDULER DIALS (the dominant residual family this wave) |
+| L33134 | §3-C. | REGISTER ALLOCATION FROM C, WITHOUT PINS |
+| L33150 | §3-D. | INTEGRATION IS STILL THE BOTTLENECK, AND THE TU IS THE AUTHORITY |
+| L33158 | §3-E. | WHAT THE AGENTS REFUTED |
+| L33168 | §406 | ★★ — THE PROLOGUE-WEAVE CLASS IS MECHANICAL AND LARGE (134 open stubs) |
+| L33190 | §407 | ★★ — LATE-WAVE ADDENDA TO §405 (the last agents in) |
+| L33219 | §408 | ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P3 |
+| L33271 | §409 | ★★★ — THE S71 JOURNAL-FUELLED WAVE: 100% FIRST-PASS MATCH, AND THE NINE LAWS IT BROUGHT BA |
+| L33298 | §3-The | nine laws this wave produced |
+| L33363 | §410 | ★★★ — COPY THEN ACCUMULATE ON THE COPY: resolving the birthing-boost vs register-allocatio |
+| L33396 | §411 | ★★★ — THE PACK MUST CARRY THAT FUNCTION'S OWN HISTORY (P31 S71; measured 38/39 vs 124/131) |
+| L33434 | §412 | ★★★ — §323 CARVE BLOCKER 2 WAS A REGEX THAT COULD NOT SEE PAST `__attribute__` (P31 S71) |
+| L33483 | §413 | ★★★ — DIFFICULTY IS THE RESIDUAL CLASS, NOT `nins` — ROUTE THE MODEL TIER OFF HISTORY (P31 |
+| L33520 | §414 | ★★★ — `parallel_gate` ON `main` IS A FALSE PASS, AND THE RULE WAS ALREADY WRITTEN DOWN (P3 |
+| L33557 | §415 | ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT  |
+| L33582 | §416 | ★★ — FOUR LEVERS FROM THE S71 OVERNIGHT LANE, none of which the cookbook held (P31 S71) |
+| L33615 | §417 | ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `c |
+| L33642 | §418 | ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNF |
+| L33668 | §419 | ★★★ — WHEN A PIN IS IMPOSSIBLE, WIN THE local-alloc DENSITY CONTEST INSTEAD (P31 S71; byte |
+| L33702 | §420 | ★★★ — A MULTI-CLUSTER SYMBOL REBASE, AND THE BARE-NAME DEDUP THAT HID THREE QUARTERS OF IT |
+| L33739 | §421 | ★★★ — A `la $tN` + `addiu` PAIR CAN BE A **RELOAD** ARTIFACT THAT NO C SPELLING REACHES (P |
+| L33770 | §422 | ★★ — QImode ARITHMETIC VIA `(u8)(x - K)`, AND `flag ^ 1` NEEDS ITS OWN TEMP (P31 S71; byte |
+| L33790 | §423 | ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE- |
+| L33817 | §424 | ★★★ — EQUAL-PRIORITY STORES COME OUT **REVERSED**: sched1's LUID tie picks the LAST statem |
+| L33839 | §425 | ★★★ — `sb` ALIASES SCALAR GLOBALS WHILE `sh`/`sw` STRUCT STORES DO NOT, AND TWO MORE ALIAS |
+| L33865 | §426 | ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING |
+| L33945 | §427 | ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFAC |
+| L33964 | §428 | ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; |
+| L34002 | §428a | ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE C |
+| L34050 | §429 | ★★★ — EVERY HELD POINTER NEEDS ITS OWN LOCAL, AND A NEGATIVE-DISPLACEMENT BYTE STORE NEEDS |
+| L34083 | §430 | ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this  |
+| L34132 | §431 | ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE |
+| L34195 | §433 | ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` I |
+| L34227 | §432 | ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S |
+| L34269 | §434 | ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; |
+| L34317 | §435 | ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", |
+| L34374 | §436 | ★★★ — TWO TOOLS THAT READ THE WRONG SOURCE OF TRUTH, AND THE SHAPE THEY SHARE (P31 S74; bo |
+| L34431 | §437 | ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern |
+| L34538 | §438 | ★★★ — THE SAME-ADDRESS LEAD IS NOW SIZE-FILTERED: A HOMONYM IS WORSE THAN NO TWIN (P31 S74 |
+| L34565 | §439 | ★★ — LEVER SET FROM THE S74 WAVE (each entry is one measured crack, not a hypothesis) |
+| L34586 | §440 | ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTE |
+| L34627 | §441 | ★★ — THREE MORE INSTRUMENT DEFECTS FROM THE SAME SESSION, ALL OF WHICH BLAME THE SUBJECT ( |
+| L34657 | §442 | ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LI |
+| L34712 | §443 | ★★ — A DERIVED DEPENDENCY MUST BE PROVISIONED BY *EVERY* PROVISIONER, AND WE HAVE TWO (P31 |
+| L34739 | §444 | ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WA |
+| L34788 | §445 | ★★ — `make clean BINARY=<x>` IS FLEET-WIDE: THE VARIABLE IS ACCEPTED AND IGNORED (P31 S75) |
+| L34817 | §446 | ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU D |
+| L34864 | §447 | ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31  |
+| L34908 | §448 | ★★★ — ASSEMBLY POSING AS C: 154 GAME FUNCTIONS THE REPORTS COUNTED AS DONE (P31 S75) |
+| L34951 | §449 | ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one corr |
+| L34956 | §3-A. | `reg_n_sets` IS A ONE-LINE SCHEDULING DIAL — `t = t + 1;` vs `*p = t + 1` (CONFIRMED: `ov_ |
+| L34985 | §3-B. | A SINGLE-SET LOCAL'S VALUE IS VISIBLE AT A SWITCH JOIN, AND THAT ERASES A ZERO-EXTENSION ( |
+| L35000 | §3-C. | CORRECTION TO §439 — `sll 16; srl 16` LANDS *AFTER* THE CALL, AND WORKS FOR A KNOWN CONSTA |
+| L35018 | §3-D. | AN OFFLINE JTBL-RODATA PLACEMENT AUDIT (CLAIMED: `md_MAIN_034:func_800CB00C` — did NOT ban |
+| L35031 | §450 | ★★★ — REGENERATING A TARGET `.s` FOR A FUNCTION THAT IS NO LONGER A STUB (P31 S75; 146 fun |
+| L35072 | §451 | ★★★ — YOUR EVIDENCE HAS MORE THAN ONE SOURCE, AND THE ONE YOU QUERY IS PROBABLY THE WORSE  |
+| L35110 | §452 | ★★★ — NOT EVERY VERBATIM BODY IS UNDECOMPILED WORK, AND §448'S HEADLINE OVERSTATED IT (P31 |
+| L35147 | ADDENDUM | to §265 (P31 S76) — THE PROSE GUARD DID NOT HOLD. IT IS A GATE REFUSAL NOW. |
+| L35192 | CORRECTION | to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND |
+| L35232 | §460 | `-dS` PRINTS THE SCHEDULER'S READY LIST WITH PRIORITIES. STOP INFERRING IT FROM RTL ORDER. |
+| L35264 | §461 | LAUNDERING AN INVARIANT CAN BE THE DEFECT, AND "RESIDUAL A" DOES NOT GENERALIZE PAST ONE B |
+| L35294 | §465 | THE ASPSX SLOT-HOP: A GAP OUR REORDER SUBSTITUTE CANNOT CLOSE (`main:func_8005F830`) |
+| L35320 | §466 | `main` (509 ins, -O0): ADDRESS CONTEXT EMITS `mult` INDEX-FIRST |
+| L35338 | §464 | FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH) |
+| L35366 | §467 | GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT |
+| L35390 | §468 | THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERA |
+| L35424 | §469 | THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed) |
+| L35447 | §470 | FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18) |
+| L35475 | §471 | A LAUNDER'S REAL COST IS AN ALLOCNO, AND `$t0` IS RELOAD'S (`main:func_80032A74`, 408 → 12 |
+| L35499 | §472 | 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL |
+| L35529 | §473 | 🔴 §265's "HANDWRITTEN" VERDICT FOR `ov_SC07_002:func_8017DC80` IS REFUTED (324 → 89) |
+| L35554 | §474 | A *PROVED* C-LEVEL FLOOR: `split_tree` + `stupid.c` (-O0), from `main:func_80011380` |
+| L35591 | §475 | THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24` |
+| L35622 | §476 | 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 in |
+| L35650 | §462 | FOUR LEVERS FROM `main:func_80024054` (91 ins, 74/53/32 → 4) |
+| L35687 | §463 | 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED |
+| L35723 | §477 | ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77) |
+| L35797 | §478 | 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT |
+| L35817 | §479 | ★★★ — WHERE THE PERMUTER ACTUALLY PAYS: A MEASURED YIELD CURVE (P31 S77, 8 candidates) |
+| L35896 | §480 | 🔴 — A STATIC BLOCKER CLASS THAT THE REAL PIPELINE ALREADY REMOVES IS A PHANTOM |
+| L35911 | §481 | ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S |
+| L35942 | §482 | ★★★ — TWO INDEPENDENT RE-TIES, ORDERED: WHEN ONE BARRIER FIXES ONE RESIDUAL AND CREATES TH |
+| L35977 | §483 | ★★★ — THE S77w WAVE HARVEST: SIX LEVERS, FOUR FROM BANKED (BYTE-PROVEN) BODIES |
+| L36033 | §484 | ★★★ — "NO SINGLE NOLOAD BASE" IS NOT "UNLINKABLE": ASK WHETHER THE `.bss` OFFSETS ARE DISJ |
+| L36079 | §485 | ★★★ — THE PLACEMENT MAP WAS PARSING A PRETTY-PRINTER: 25 PsyQ OBJECTS WERE INVISIBLE, NOT  |
+| L36115 | §486 | ★★★ — CARVING AN `-O0` ISLAND IN **main**: FIVE COUPLED PIECES, AND THE TWO THAT ANNOUNCE  |
+| L36160 | §487 | ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WA |
+| L36212 | §488 | ★★ — THE "GAME CODE" GAPS BETWEEN LIBRARY BLOCKS WERE LIBRARY OBJECTS: 13 SUBSEGS → LINKED |
+| L36252 | §489 | ★★★ — SCATTERED `.bss` IS A PARTITION PROBLEM: SPLIT THE SECTION INTO PER-BASE PIECES AT L |
+| L36310 | §490 | ★★★ — THE "WALL" BAND WAS A LIBRARY VERSION AWAY: LIBPAD 4.2.1 + LIBAPI 4.2 FOUND, THE WHO |
+| L36356 | §491 | ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLON |
+| L36402 | §492 | ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER  |
+| L36430 | §493 | ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER  |
+| L36490 | §494 | ★★★ — TEN BANKS FROM ONE-AGENT-PER-FUNCTION DRAFTING (P31 S79/S80 #9): THE IDIOMS, THE PLU |
+| L36630 | §495 | ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT  |
+| L36671 | §496 | ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TY |
+| L36705 | §497 | ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S F |
+| L36728 | §498 | ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT' |
+| L36758 | §499 | ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT ( |
+| L36799 | §500 | ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MA |
+| L37157 | §501 | ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABI |
+| L37561 | §453 | ★★★ — ONE SOURCE PER UNIQUE FUNCTION: THE INCLUDE-AT-SITE SHARE, ITS GATE, AND THE FOUR DE |
+| L37610 | §454 | Rung D and rung R: taking a lever off a body that still has to compile to the same bytes ( |
+| L37677 | §454a | the recipe rung's real shape: replication, not discovery (S99, measured) |
+| L37692 | §455 | Rung G, the guided search: score the object, classify the residual, compose the moves (Pha |
+| L37765 | §456 | The lever-removal move catalog: what the S104 agents found under ~205 pins, barriers and l |
+| L37814 | §457 | The lever-removal move catalog, S105: eight TU batches, 42 of 42 at 0 (Phase 36 T7) |
