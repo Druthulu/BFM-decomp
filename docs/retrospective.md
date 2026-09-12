@@ -151,3 +151,41 @@ things that pay once; keep the perishable *why* in a decision log written during
 hand-offs to be replayed; and keep the game's bytes out of the repository from the first commit. The rest — the 218
 binaries, the 363,214 functions, the 4,000 commits — follows from those, at a cost that is mostly the diagnosis of
 one's own instruments.
+
+## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–37; advanced at the end of every session)
+
+*From `PhaseEnd_Phase35.md` and `PhaseEnd_Phase36.md` (their "what we believed, what failed, what we would do sooner" sections) and
+decision log "P35", "P36 S99/S101/S104/S105", "P37 S106". Same four questions as §1–§4, for the work that began when the bytes were done.*
+
+**What we believed, and what was true.** (P35) That sotn writes duplicate functions explicitly, so ~12,000 duplicate copies were the normal
+end state — read from its tree, sotn shares stage code once by an include; the belief rested on one remembered parenthetical (→ R106).
+(P36) That the pins would come off mechanically because Phase 32's last four had — the strip took 37 % of the sites and freed 20 % of the
+bodies; the rest were 1,803 distinct shapes, each a reading of a compiler pass. That the permuter and a recipe sweep would discover shapes —
+they replicate (134/134 on a known shape) and discover nothing (0/300). That "one agent at a time" meant an empty slot between agents — it
+meant learning between landings; six of eight hours had no agent running the first night. That every generator's NO-CANDIDATE was a property
+of the population — one generator was refusing three ways for two sessions, found only when an agent's close was run back through it. That
+the pins were codegen — the biggest single class was a wrong DECLARATION (16,759 repaired free). (P37) That types were a comprehension lever
+and struct-ification byte-neutral — the charter carried Phase 17's drafting measurement into a claim about spelling; the compiler map in the
+same tree said the opposite, and a 165-body probe measured it: 91 % neutral, the rest a per-access dial.
+
+**What failed, and why it looked right.** A session died at 91 % context with 35 minutes of state only in its transcript, after refreshing
+its checkpoint five times — two bank commits inside a task had no log line (→ R101). A tool's restore path was `git checkout`, which wiped
+the previous batch's uncommitted shares and returned green (→ R102). Two permuter campaigns scored against a disassembly that was not a
+target — 24 wrong words from `move` versus `or` — and every candidate read 28 for a byte-identical body (→ R110). Nine burst agents shared one
+scratch object and two scored another agent's function (→ R111). A ledger's "done" was by text hash, so 379 owed bodies passed as done
+(→ R114). The harness's low-memory guard killed an unattended batch cycle mid-apply with 22 GB free (→ R115). And, this generation's own
+lesson about instruments: the layout audit against cc1 began with 4,498 rejections of 5,295 definitions and ended at 0 — five of the causes
+were the probe's own, two were the engine's — the reading order that R40 prescribes, run again.
+
+**What it cost.** P35: three sessions (one a recovery) and ~2.5 h of gates; no model tokens beyond the coordinator and three gate-1 agents.
+P36: nine sessions, 575 commits, ~200 agent draws, roughly 15–20 M agent tokens — the mechanical rungs took 37 % of the sites for ~20
+CPU-hours and no tokens, the search another 6 % for ~5 CPU-hours, the agents the rest, at 1 close per agent rising to 4–7 as the TU batch and
+the method file matured. P37 so far: one session; four reconnaissance agents (~1 M tokens) and a fleet census that runs in 3.5 minutes.
+
+**What we would do sooner.** Read the target project's TREE before setting a policy on its precedent. Make every commit that advances a task
+carry its log line, and checkpoint before any long wait past ~85 % context. Price a residue by distinct SHAPES, never by bodies. Put a
+known-true case — the tree's own body scoring 0 — in front of every scorer before any campaign. Run every generator on an agent's start text
+at every landing. Bucket the residue by what it needs at every wave close, as the stop-rule's input. And for a types phase: probe the
+spelling on the bytes on the first day (six minutes for 165 bodies) before designing the engine — it corrected the charter, fixed the rewrite
+table five times, and proved the oracle needs a linked-relocation mode before a single global block was rewritten. In one line, the
+generation's rule so far: *the byte gate is still the only judge, and after 100 % it judges spelling.*

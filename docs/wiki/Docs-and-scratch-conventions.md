@@ -14,6 +14,7 @@ durable result it produced goes into one of these files, and the note is archive
 |---|---|---|
 | A compiler idiom proven on the bytes (the residual, the mechanism, the lever, the byte proof) | a numbered section of `docs/matching-cookbook.md`, and its symptom index `docs/cookbook-index.md` (regenerated, never edited) | R16 — consult the knowledge base before a match, feed the lesson back after |
 | A strategic pivot: what was believed, what failed, the measurement, the hindsight | an entry in `docs/decision-log.md`, written while fresh | R31 |
+| The post-100 % story (Gen3): the narrative of the readability phases | `docs/story.md` §10 and `docs/retrospective.md` §7, advanced at the END OF EVERY SESSION from that session's decision-log entry; `tools/timeline.py` draws the lever and readability series as the chart's lower panel | the owner's rule, 2026-09-12 |
 | A late discovery that would have sped up an earlier phase — what it is, when it was found, when it *could* have been found, what it would have saved | `docs/accelerators.md` | the ledger a future project starts from |
 | A procedure people run | a runbook — `docs/wave-playbook.md` for the matching campaign, `docs/public-flip-runbook.md` for the publication; a superseded runbook carries a banner at the top and is then archived | R21 for the ops reference |
 | An environment or tool fact (a version, a flag, a hook, a row per tool) | `docs/SETUP.md`, in the same change as the tool | R21 |

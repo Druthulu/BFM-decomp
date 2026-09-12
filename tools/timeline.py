@@ -94,22 +94,58 @@ def phase_ends():
     return out
 
 
+def gen3_series():
+    """The post-100 % debts by date (the day's last row): levers = class A+B sites (docs/lever-progress.tsv, P36 →);
+    casts = raw pointer-cast dereferences — the four-form census count when a row has it, else the one-form regex count
+    (docs/readability-progress.tsv, P36 S102 →); decls = lying call declarations. Read by column NAME (the TSVs grow)."""
+    out = {}
+    lp = REPO / "docs" / "lever-progress.tsv"
+    if lp.exists():
+        lines = [l for l in lp.read_text().splitlines() if l.strip()]
+        cols = lines[0].split("\t")
+        for l in lines[1:]:
+            v = dict(zip(cols, l.split("\t")))
+            if v.get("date") and v.get("sites_AB", "").isdigit():
+                out.setdefault(v["date"], {})["levers"] = int(v["sites_AB"])
+    rp = REPO / "docs" / "readability-progress.tsv"
+    if rp.exists():
+        lines = [l for l in rp.read_text().splitlines() if l.strip()]
+        cols = lines[0].split("\t")
+        for l in lines[1:]:
+            v = dict(zip(cols, l.split("\t")))
+            if not v.get("date"):
+                continue
+            casts = v.get("deref_all") or v.get("raw_casts")
+            if casts and casts.isdigit():
+                out.setdefault(v["date"], {})["casts"] = int(casts)
+                out[v["date"]]["casts_form"] = "four forms" if v.get("deref_all") else "one form"
+            if v.get("narrow_decls", "").isdigit():
+                out.setdefault(v["date"], {})["decls"] = int(v["narrow_decls"])
+    return out
+
+
 def build():
     fleet, _ = history("docs/progress.fleet.md", parse_fleet)
     mainr, _ = history("docs/progress.md", parse_main)
+    g3 = gen3_series()
     commits = {}
     for ln in git("log", "--format=%cs", "main").splitlines():
         commits[ln] = commits.get(ln, 0) + 1
     pe = phase_ends()
-    dates = sorted(set(fleet) | set(mainr))
+    dates = sorted(set(fleet) | set(mainr) | set(g3))
     rows = []
+    last_fleet = {}
     for date in dates:
-        f = fleet.get(date, {})
+        f = fleet.get(date) or last_fleet          # a Gen3-only day carries the fleet's standing numbers (100 % since P32)
+        if fleet.get(date):
+            last_fleet = fleet[date]
         m = mainr.get(date, {})
+        g = g3.get(date, {})
         rows.append({"date": date, "commits": commits.get(date, 0), "phase_end": pe.get(date, []),
                      "binaries": f.get("binaries"), "fn": f.get("fn"), "instr": f.get("instr"), "distinct": f.get("distinct"),
                      "main": f.get("main"), "main_included": f.get("main_included"), "stubs": f.get("stubs"),
-                     "main_real": m.get("real"), "main_stubs": m.get("stubs"), "main_matchable": m.get("matchable")})
+                     "main_real": m.get("real"), "main_stubs": m.get("stubs"), "main_matchable": m.get("matchable"),
+                     "levers": g.get("levers"), "casts": g.get("casts"), "casts_form": g.get("casts_form"), "decls": g.get("decls")})
     return rows
 
 
@@ -143,14 +179,21 @@ def render_md(rows):
              f"  totals. What the rows show across that step: {step_note}.",
              "- The **binaries** column is the fleet denominator: 136 → 140 (2026-07-15, the disc audit) → 213 (P30's module",
              "  onboarding) → 218 (P32, the last five payloads).",
+             "- **After 100 % (Gen3, Phase 35 →) the axes change:** the match metrics stay at 100.0 % and the story moves to the two",
+             "  debts the readability phases pay down — **levers** (register pins + asm statements, `docs/lever-progress.tsv`, Phase 36 →)",
+             "  and **raw casts** (pointer-cast dereferences, `docs/readability-progress.tsv`; the one-form regex count until the",
+             "  Phase-37 census's four-form count takes over on 2026-09-12 — the step up on that day is the counting, not the code).",
+             "  The chart's lower panel draws them.",
              "",
-             "| Date | Commits | Phase closed (version) | Binaries | fn-count | instr-weighted | distinct code | main game code | Stubs | main REAL / matchable |",
-             "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|"]
+             "| Date | Commits | Phase closed (version) | Binaries | fn-count | instr-weighted | distinct code | main game code | Stubs | main REAL / matchable | levers | raw casts |",
+             "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for r in rows:
         ph = ", ".join(f"P{p} (v{v})" for p, v in r["phase_end"]) or ""
         mr = f"{r['main_real']} / {r['main_matchable']}" if r["main_real"] is not None and r["main_matchable"] else "—"
+        lv = f"{r['levers']:,}" if r.get("levers") is not None else "—"
+        cs = f"{r['casts']:,}" if r.get("casts") is not None else "—"
         lines.append(f"| {r['date']} | {r['commits']} | {ph} | {r['binaries'] or '—'} | {pct(r['fn'])} | {pct(r['instr'])} | "
-                     f"{pct(r['distinct'])} | {pct(r['main']) if r['main'] else '—'} | {r['stubs'] if r['stubs'] is not None else '—'} | {mr} |")
+                     f"{pct(r['distinct'])} | {pct(r['main']) if r['main'] else '—'} | {r['stubs'] if r['stubs'] is not None else '—'} | {mr} | {lv} | {cs} |")
     lines += ["", f"{len(rows)} dated rows · phase ticks from the {sum(len(v) for v in phase_ends().values())} PhaseEnds · "
                   "the chart: `docs/story-timeline.svg`.", ""]
     return "\n".join(lines)
@@ -158,6 +201,8 @@ def render_md(rows):
 
 def render_svg(rows):
     W, H, L, R, T, B = 1000, 430, 60, 20, 30, 70
+    g3 = [r for r in rows if r.get("levers") is not None or r.get("casts") is not None]
+    H_TOTAL = H + (260 if g3 else 0)
     d0 = dt.date.fromisoformat(rows[0]["date"]); d1 = dt.date.fromisoformat(rows[-1]["date"])
     span = max((d1 - d0).days, 1)
     x = lambda date: L + (dt.date.fromisoformat(date) - d0).days / span * (W - L - R)
@@ -170,8 +215,8 @@ def render_svg(rows):
         lx, ly = pts[-1]
         return (f'<polyline fill="none" stroke="{color}" stroke-width="2" points="{path}"/>'
                 f'<text x="{L + 10}" y="{yoff}" font-size="12" fill="{color}">{label}</text>')
-    out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="sans-serif">',
-           f'<rect width="{W}" height="{H}" fill="white"/>',
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H_TOTAL}" viewBox="0 0 {W} {H_TOTAL}" font-family="sans-serif">',
+           f'<rect width="{W}" height="{H_TOTAL}" fill="white"/>',
            f'<text x="{W/2:.0f}" y="18" text-anchor="middle" font-size="14" font-weight="bold">BFM-decomp — matched percentage over time (from the committed digests)</text>']
     for p in (0, 25, 50, 75, 100):
         out.append(f'<line x1="{L}" y1="{y(p):.1f}" x2="{W-R}" y2="{y(p):.1f}" stroke="#ddd"/>'
@@ -198,7 +243,34 @@ def render_svg(rows):
     out.append(poly("instr", "#1f77b4", "instruction-weighted (all binaries)", H - B - 8))
     out.append(poly("distinct", "#2ca02c", "distinct code (each body once)", H - B - 22))
     out.append(poly("fn", "#999", "function count", H - B - 36))
-    out.append(f'<text x="{W-R}" y="{H-4}" text-anchor="end" font-size="10" fill="#777">generated by tools/timeline.py — keyed by date</text>')
+    if g3:
+        # the lower panel: after 100 %, the two debts, each as a share of its own first measurement (so both fit one axis)
+        T2, B2 = H + 30, H_TOTAL - 40
+        y2 = lambda p: T2 + (1 - p / 100.0) * (B2 - T2)
+        gd0 = dt.date.fromisoformat(g3[0]["date"]); gd1 = dt.date.fromisoformat(g3[-1]["date"])
+        gspan = max((gd1 - gd0).days, 1)
+        x2 = lambda date: L + (dt.date.fromisoformat(date) - gd0).days / gspan * (W - L - R)
+        out.append(f'<text x="{W/2:.0f}" y="{H + 16}" text-anchor="middle" font-size="14" font-weight="bold">After 100 % — the Gen3 debts, as a share of their first measurement (levers: Phase 36 →; raw casts: the readability series)</text>')
+        for p in (0, 25, 50, 75, 100):
+            out.append(f'<line x1="{L}" y1="{y2(p):.1f}" x2="{W-R}" y2="{y2(p):.1f}" stroke="#ddd"/>'
+                       f'<text x="{L-6}" y="{y2(p)+4:.1f}" text-anchor="end" font-size="11" fill="#555">{p}%</text>')
+        for r in g3:
+            for ph, ver in r["phase_end"]:
+                xx = x2(r["date"])
+                out.append(f'<line x1="{xx:.1f}" y1="{B2}" x2="{xx:.1f}" y2="{B2-8}" stroke="#888"/>'
+                           f'<text x="{xx:.1f}" y="{B2+14}" text-anchor="middle" font-size="10" fill="#333">P{ph}</text>')
+        for key, color, label, yoff in (("levers", "#d62728", "register pins + asm statements (the lever series)", B2 - 8),
+                                        ("casts", "#9467bd", "raw pointer-cast dereferences (the readability series; the 2026-09-12 step = the four-form count)", B2 - 22)):
+            pts = [(r["date"], r[key]) for r in g3 if r.get(key) is not None]
+            if len(pts) < 1:
+                continue
+            base = pts[0][1] or 1
+            path = " ".join(f"{x2(d):.1f},{y2(100.0 * v / base):.1f}" for d, v in pts)
+            out.append(f'<polyline fill="none" stroke="{color}" stroke-width="2" points="{path}"/>'
+                       f'<text x="{L + 10}" y="{yoff}" font-size="12" fill="{color}">{label}: {pts[0][1]:,} → {pts[-1][1]:,}</text>')
+        for d, v in [(r["date"], r["levers"]) for r in g3 if r.get("levers") is not None][-1:]:
+            out.append(f'<text x="{x2(d) - 4:.1f}" y="{y2(100.0 * v / ([r["levers"] for r in g3 if r.get("levers") is not None][0] or 1)) - 6:.1f}" text-anchor="end" font-size="10" fill="#d62728">{v:,}</text>')
+    out.append(f'<text x="{W-R}" y="{H_TOTAL-4}" text-anchor="end" font-size="10" fill="#777">generated by tools/timeline.py — keyed by date</text>')
     out.append("</svg>")
     return "\n".join(out) + "\n"
 

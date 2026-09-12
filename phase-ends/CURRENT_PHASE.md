@@ -88,7 +88,9 @@
 - ☐ **T8** (xHigh) — The gates: `type_census --check` in `make tools-health`; `attribution_check` folded into `lever_census --check`; the
   close snapshots published; the canonical types into the Ghidra programs (`ExportAnnotations` type rows) with `ghidra_rebuild --proof` PASS.
 - ☐ **T9** (xHigh) — The record: cookbook § (incl. the §396(a) correction with its bytes), decision log P37, accelerators, SETUP rows, the
-  wiki, the Gen3 pages, the series rendered, tool-index + kit corpus, `doc_links --strict`, tools-health OK.
+  wiki, the Gen3 pages, the series rendered, tool-index + kit corpus, `doc_links --strict`, tools-health OK; **the post-100 % story** —
+  `docs/story.md` §10 ("After 100 %") and `docs/retrospective.md` §7 brought to the phase's close, `tools/timeline.py`'s lower panel (the lever
+  and readability series) regenerated (added 2026-09-12 on Drew's word; the per-session step is in the checkpoint procedure).
 - ☐ **T10** (Max) — Close: R22 218/218; tools-health OK; PhaseEnd_Phase37.md + DIGEST §0/§2/§3 + this log archived (R19) + kit corpus;
   left uncommitted for Drew's close commit; v2.3.0.
 
@@ -110,6 +112,12 @@
   waiver). Then: *"there is no tag and release, just push the last phaseend as a normal commit"* → the local `v2.2.0` tag deleted (no tags or
   releases at phase closes — the PhaseEnd 🛑 blocks drop their `git tag` lines from T10 on) and `git push origin 79b2f6f15:main` run on his
   word (a second one-off waiver; R6 unchanged for everything else — Drew pushes).
+- **S106, after the checkpoint (Drew):** *"we are documenting our story about this post 100% work correct?"* → the record showed the story and the
+  retrospective ended at Phase 33 and the timeline's axes read 100 % forever; recommended and approved (*"agreed. do it now and update checkpoint
+  memory to do this at the end of each session"*): `docs/story.md` §10 "After 100 %" + `docs/retrospective.md` §7 written from the record (P35–P37
+  so far), `tools/timeline.py` extended with the lever and readability series as a lower panel + two columns, the rule in the wiki conventions page,
+  T9 amended, and **the checkpoint procedure gains a step: advance §10/§7 + regenerate the timeline at the end of EVERY session** (the memory
+  `checkpoint-current-phase-before-pause` updated).
 - **Gate 1, after T0 (Drew):** *"insted of our phase plan, should we analyze every single func, and group together all the funcs that need a
   struct that share, so we can build a final struct map of all needed structs?"* → Drew asked, he did not propose (*"i wasn't suggesting we do it. im not the expert you are. I was asking you"*); Claude's answer and
   recommendation: yes — not instead of the plan, it is T1's clustering made a first-class deliverable, and it lets T4's canonical prototypes carry the mapped parameter types in one pass (order: census → **map** →
@@ -274,7 +282,10 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 ## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑** (baseline · the type census + the struct map · the probe) — 🛑 **T3 NEXT (the tools: `restruct.py`'s full form + the linked-relocation oracle + `struct_layout.py` + the canonical type writer; Max for the design, xHigh to finish)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` (no `src/` byte changed since) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15`
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
-is what S106 knew and the next session must not re-derive.**
+is what S106 knew and the next session must not re-derive.** **The checkpoint procedure (every session end, Drew 2026-09-12):** bank the
+record (cookbook / decision log / accelerators / SETUP / stale assertions), **advance the post-100 % story — `docs/story.md` §10 and
+`docs/retrospective.md` §7 from the session's decision-log entry — and regenerate `tools/timeline.py`** (its lower panel draws the lever and
+readability series), then rewrite this block, commit, recap (R18).
 
 1. **Where we are.** Phase 37 (the structs phase) opened 2026-09-11 in S106 (plan mode, Max; three Explore agents + one Plan agent at gate 1).
    Drew's four decisions: **grind to zero** on raw casts, lying declarations and levers (each "zero" defined in the plan's §"What zero
