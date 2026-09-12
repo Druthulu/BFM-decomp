@@ -4805,7 +4805,7 @@ void func_80180454(s32 a0) {
 
 
 extern void func_8016EE94(s32 a0, s32 a1);
-    extern char func_801804D4[];
+    extern void func_801804D4(void *a0);
     void func_801804AC(void) {
         ((void (*)(char *, unsigned int))func_8016EE94)(func_801804D4, 0x1000000);
     }
@@ -4813,8 +4813,7 @@ extern void func_8016EE94(s32 a0, s32 a1);
 
 
 
-void aF801804D4(void *a0) __asm__("func_801804D4");
-void aF801804D4(void *a0)
+void func_801804D4(void *a0)
 {
 
     extern void (*D_8019452C[])(void);

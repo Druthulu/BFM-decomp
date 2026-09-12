@@ -552,6 +552,16 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   R22 (`.run/P37/baseline/r22_t4_ua11.log`): **`check-all: 218 passed, 0 failed of 218`** (`wall=80.82 s`, exit 0). Alias-defined functions:
   **129 of 149 back / 20 kept.**
 
+- **S108 — `t4_ua12` (the last 10 kept): `1 back under their real name / 9 kept · 4 files written`** (`func_801804D4` — `extern char
+  func_801804D4[];`, the empty-array form of the data declaration, now in the regex) → R22 (`r22_t4_ua12.log`) **`check-all: 218 passed, 0 failed
+  of 218`** (`wall=89.17 s`). Alias-defined functions: **130 of 149 back / 19 kept** = 10 jr-merge DIFFERS (the file-layout phase's) + 5 arity
+  + 4 `conflicting types`. The arity trace read (`func_80162CCC`, defined in the shared header `func_80162CCC.h`, called short from
+  `func_80164DB0.h:5`): the same header raised the same error three times and the ladder never escalated — its "second arity caller" test
+  counts DISTINCT files (`sum(1 for (f, k) in tried …)` over a Counter's keys), so one file's repeated error never reaches "every declaration
+  `()`" nor the K&R-style definition, which is what this shape needs (the definition's own prototype is in scope before the short call).
+  The 4 `conflicting types` are a return-type lie (`func_80150480`: defined `void (void)`, a shared body declares `s32 (s32)` and USES the
+  result) — a definition-side signature question for step (d)'s `--callee … --body`, not the unalias ladder's.
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D36` on 0695fb78c: 300 files (TUs; 1088 drawable) · 27 declaration units: 16 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 1 __builtin_abs → abs / 10 kept · compiles 2
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

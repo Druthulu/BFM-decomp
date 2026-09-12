@@ -2851,7 +2851,7 @@ extern void func_8017FA0C(void);
 extern void (*D_801944E8[])(void);
 extern void func_80180380(void *a0);
 extern void func_801804AC(void);
-extern void aF801804D4();
+extern void func_801804D4(void *a0);
 extern void func_80180A7C(void);
 extern void func_80180AA4(void *a0);
 extern void func_80180AE0(void *a0);

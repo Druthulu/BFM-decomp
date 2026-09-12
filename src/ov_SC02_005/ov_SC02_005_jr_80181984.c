@@ -2809,7 +2809,7 @@ extern void func_8018016C(s32 a0);
 extern s32 func_801801DC(void *a0);
 extern void (*D_801944E8[])(void);
 extern void func_801804AC(void);
-extern void aF801804D4();
+extern void func_801804D4(void *a0);
 extern void func_80180510(void *a0);
 extern s16 D_801944F0[][10];
 extern void func_80180574(u8 *a0);
