@@ -4898,33 +4898,39 @@ extern void func_8001CD9C(s32 a0, void *a1);
 
 void func_80180AE8(void *arg0)
 {
+    typedef struct {
+        u8 pad00[4];
+        u32 flags;               /* 0x04 */
+        u8 pad08[0x10];
+        u16 f18, f1A;            /* 0x18 */
+        u8 pad1C[2];
+        u16 f1E;                 /* 0x1E */
+        u8 pad20[0xC];
+        s16 f2C;                 /* 0x2C */
+    } Ent_80180AE8;
     extern s32 func_8017EEA4();
     Rec_80180AE8 *rec;
-    s32 ent;
-    register u32 bits __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 col;
+    Ent_80180AE8 *ent;
+
 
     rec = &D_80185FA0[*(s16 *)((s32)arg0 + 0x4C)];
     if (*(u8 *)rec == 0) {
         func_8017F258();
         return;
     }
-    ent = func_8012C194();
-    *(s32 *)((s32)arg0 + 8) = ent;
-    if (ent != 0) {
+    ent = (Ent_80180AE8 *)func_8012C194();
+    *(Ent_80180AE8 **)((s32)arg0 + 8) = ent;
+    if (ent != NULL) {
         func_8017F4C0((void *)((s32)arg0 + 0xC), rec->f02, 0);
-        func_8001CD9C(ent, (void *)((s32)arg0 + 0xC));
-        bits = *(u32 *)(ent + 4);
-        col = D_80185F9C;
-        *(u16 *)(ent + 0x18) = 0;
-        *(u16 *)(ent + 0x1A) = 0;
-        bits |= 0xD0000000;
-        *(u32 *)(ent + 4) = bits;
-        *(s16 *)(ent + 0x2C) = col;
+        func_8001CD9C((s32)ent, (void *)((s32)arg0 + 0xC));
+        ent->f18 = 0;
+        ent->f1A = 0;
+        ent->flags |= 0xD0000000;
+        ent->f2C = D_80185F9C;
         if (rec->mode == 1) {
-            *(u16 *)(ent + 0x1E) = rec->f0A;
+            ent->f1E = rec->f0A;
         } else {
-            *(u16 *)(ent + 0x1E) = 0;
+            ent->f1E = 0;
         }
         *(u16 *)((s32)arg0 + 4) = 0;
         *(u16 *)((s32)arg0 + 6) = 0;
