@@ -91,5 +91,6 @@
 | 2026-09-07 | 61 | P33 (v1.32.0) | 218 | 100.0% | 100.0% | 100.0% | 100.0% | 0 | — |
 | 2026-09-08 | 76 | P33.5 (v1.32.1), P34 (v2.0.0), P35 (v2.1.0) | 218 | 100.0% | 100.0% | 100.0% | 100.0% | 0 | — |
 | 2026-09-09 | 64 |  | 218 | 100.0% | 100.0% | 100.0% | 100.0% | 0 | — |
+| 2026-09-11 | 359 |  | 218 | 100.0% | 100.0% | 100.0% | 100.0% | 0 | — |
 
-75 dated rows · phase ticks from the 36 PhaseEnds · the chart: `docs/story-timeline.svg`.
+76 dated rows · phase ticks from the 36 PhaseEnds · the chart: `docs/story-timeline.svg`.
