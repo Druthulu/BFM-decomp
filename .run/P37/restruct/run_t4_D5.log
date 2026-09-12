@@ -1,0 +1,494 @@
+restruct --plan D: 300 of 3878 TUs with lying declarations · 13385 callees
+10:44:34 apply t4_D5 rung D: 300 files, control src/ov_SC03_124/ov_SC03_124_jr_80188544.c IDENTICAL (0.08 s), calibration 42d9cf570
+10:44:35   src/ov_MAIN_012/ov_MAIN_012_jr_8017CA18.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:35   src/ov_MAIN_012/ov_MAIN_012_jr_8017C3BC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:35   src/ov_MAIN_012/ov_MAIN_012_jr_8017CF3C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:36   src/ov_SC04_015/ov_SC04_015_jr_801820DC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:36   src/ov_SC07_000/ov_SC07_000_jr_8017F8B8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:36   src/ov_SC06_025/ov_SC06_025_jr_8017EEC4.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:36   src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:37   src/ov_SC02_037/ov_SC02_037_jr_801789AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:37   src/ov_SC03_124/ov_SC03_124_jr_80188544.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:37   src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:37   src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:37   src/ov_SC03_107/ov_SC03_107_jr_801789AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:38   src/ov_SC07_006/ov_SC07_006_jr_80183814.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:38   src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:38   src/ov_SC07_006/ov_SC07_006_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:38   src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:39   src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:39   src/ov_SC07_006/ov_SC07_006_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:39   src/ov_SC06_018/ov_SC06_018_jr_8018FF98.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:39   src/ov_SC02_037/ov_SC02_037_jr_8016AB6C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:40   src/ov_MAIN_012/ov_MAIN_012_jr_8016AB6C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:40   src/ov_SC05_018/ov_SC05_018_jr_8017D604.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:40   src/ov_SC06_032/ov_SC06_032_jr_8018FCE8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:41   src/ov_SC06_032/ov_SC06_032_jr_80182890.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:41   src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:41   src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:41   src/ov_SC06_032/ov_SC06_032_jr_801919A0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:41   src/ov_SC06_018/ov_SC06_018_jr_80186270.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:41   src/ov_SC06_016/ov_SC06_016_jr_801816DC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_SC06_032/ov_SC06_032_jr_801902EC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_SC07_006/ov_SC07_006_jr_801789AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_SC03_107/ov_SC03_107_jr_80171B4C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_SC02_037/ov_SC02_037_jr_80171B4C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_MAIN_012/ov_MAIN_012_jr_80171B4C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_SC03_118/ov_SC03_118_o0d.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:42   src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC06_022/ov_SC06_022_jr_80184A28.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC03_092/ov_SC03_092_jr_8017FE88.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC03_124/ov_SC03_124_jr_80185C98.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC03_124/ov_SC03_124_jr_80187010.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC06_033/ov_SC06_033_jr_8018BCD4.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:43   src/ov_SC06_033/ov_SC06_033_jr_8018C2D8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:44   src/ov_SC07_006/ov_SC07_006_jr_80179B74.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:44   src/ov_SC06_024/ov_SC06_024_jr_80186F00.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:44   src/ov_SC06_033/ov_SC06_033_jr_80184CF8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:44   src/ov_SC06_033/ov_SC06_033_jr_801836FC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:44   src/ov_SC06_033/ov_SC06_033_jr_80186574.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:44   src/ov_SC04_018/ov_SC04_018_jr_8018CC40.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:44   src/ov_SC04_018/ov_SC04_018_jr_80186570.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:44   src/ov_SC04_018/ov_SC04_018_jr_801878E8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:45   src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:45   src/ov_SC05_018/ov_SC05_018_jr_80185754.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:45   src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:45   src/ov_SC05_017/ov_SC05_017_jr_8018C694.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:45   src/ov_SC03_124/ov_SC03_124_jr_80185498.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:45   src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:46   src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:46   src/ov_SC05_017/ov_SC05_017_jr_80186270.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:46   src/ov_SC04_008/ov_SC04_008_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:46   src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:46   src/ov_SC05_017/ov_SC05_017_jr_80185A70.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC05_017/ov_SC05_017_jr_801875E8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC04_018/ov_SC04_018_jr_80185D70.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC05_019/ov_SC05_019_jr_8017D5C0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC04_021/ov_SC04_021_jr_8017D5C0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC06_029/ov_SC06_029_jr_8017C954.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC05_017/ov_SC05_017_jr_801808D4.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:47   src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:48   src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:48   src/ov_SC02_017/ov_SC02_017_jr_80186C64.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:48   src/ov_SC03_124/ov_SC03_124_jr_80181B44.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:48   src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:49   src/ov_SC03_097/ov_SC03_097_jr_8017D898.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:49   src/ov_SC03_011/ov_SC03_011_jr_8017C730.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:49   src/ov_SC03_001/ov_SC03_001_jr_8018631C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:50   src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:50   src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:50   src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_012/ov_SC04_012_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC04_012/ov_SC04_012_jr_8017A4AC.c:1866: parse error before 
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_010/ov_SC04_010_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC04_010/ov_SC04_010_jr_8017AE2C.c:1866: parse error before 
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC04_015/ov_SC04_015_jr_8017A4AC.c:1866: parse error before 
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_012/ov_SC04_012_jr_80178D40.c:1710: parse error before `*' | src/ov_SC04_012/ov_SC04_012_jr_80178D40.c:1866: parse error before 
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC04_016/ov_SC04_016_jr_8017A4AC.c:1866: parse error before 
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_80178D40.c:1710: parse error before `*' | src/ov_SC04_015/ov_SC04_015_jr_80178D40.c:1866: parse error before 
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC04_016/ov_SC04_016_jr_8017AE2C.c:1866: parse error before 
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_012/ov_SC04_012_jr_8017AE2C.c:1706: parse error before `*' | src/ov_SC04_012/ov_SC04_012_jr_8017AE2C.c:1862: parse error before 
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_80178D40.c:1710: parse error before `*' | src/ov_SC04_016/ov_SC04_016_jr_80178D40.c:1866: parse error before 
+10:44:51   src/ov_SC04_012/ov_SC04_012_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:51     unit 5: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_80178D40.c:1710: parse error before `*' | src/ov_SC04_020/ov_SC04_020_jr_80178D40.c:1866: parse error before 
+10:44:52   src/ov_SC04_015/ov_SC04_015_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:52   src/ov_SC04_010/ov_SC04_010_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:52     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_8017A4AC.c:1866: parse error before 
+10:44:52   src/ov_SC04_016/ov_SC04_016_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:52   src/ov_SC04_016/ov_SC04_016_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:53   src/ov_SC04_012/ov_SC04_012_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:53   src/ov_SC04_015/ov_SC04_015_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:53     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80178D40.c:1710: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_80178D40.c:1866: parse error before 
+10:44:53     unit 5: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC04_020/ov_SC04_020_jr_8017A4AC.c:1866: parse error before 
+10:44:53   src/ov_SC04_016/ov_SC04_016_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:54   src/ov_SC04_012/ov_SC04_012_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:54   src/ov_SC04_020/ov_SC04_020_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:54     unit 5: COMPILE-ERROR src/ov_SC04_021/ov_SC04_021_jr_80178D40.c:1710: parse error before `*' | src/ov_SC04_021/ov_SC04_021_jr_80178D40.c:1866: parse error before 
+10:44:54     unit 5: COMPILE-ERROR src/ov_SC04_021/ov_SC04_021_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC04_021/ov_SC04_021_jr_8017A4AC.c:1866: parse error before 
+10:44:54     unit 5: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8017AE2C.c:1705: parse error before `*' | src/ov_SC04_020/ov_SC04_020_jr_8017AE2C.c:1860: parse error before 
+10:44:54   src/ov_SC04_021/ov_SC04_021_jr_8017A4AC.c: IDENTICAL · rows 7 · compiles 9 · 1.0 s · canon 6 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:54   src/ov_SC04_021/ov_SC04_021_jr_80178D40.c: IDENTICAL · rows 7 · compiles 9 · 1.5 s · canon 6 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:55     unit 5: COMPILE-ERROR src/ov_SC05_000/ov_SC05_000_jr_8017A4AC.c:1708: parse error before `*' | src/ov_SC05_000/ov_SC05_000_jr_8017A4AC.c:1864: parse error before 
+10:44:55   src/ov_SC04_020/ov_SC04_020_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:55     unit 5: COMPILE-ERROR src/ov_SC05_000/ov_SC05_000_jr_80178D40.c:1708: parse error before `*' | src/ov_SC05_000/ov_SC05_000_jr_80178D40.c:1864: parse error before 
+10:44:55   src/ov_SC04_018/ov_SC04_018_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 30 · 3.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:55     unit 5: COMPILE-ERROR src/ov_SC04_021/ov_SC04_021_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC04_021/ov_SC04_021_jr_8017AE2C.c:1866: parse error before 
+10:44:55     unit 5: COMPILE-ERROR src/ov_SC05_000/ov_SC05_000_jr_8017AE2C.c:1708: parse error before `*' | src/ov_SC05_000/ov_SC05_000_jr_8017AE2C.c:1864: parse error before 
+10:44:55     unit 5: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_001/ov_SC05_001_jr_8017A4AC.c:1866: parse error before 
+10:44:56     unit 5: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_001/ov_SC05_001_jr_8017AE2C.c:1866: parse error before 
+10:44:56     unit 5: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_001/ov_SC05_001_jr_80178D40.c:1866: parse error before 
+10:44:56   src/ov_SC05_000/ov_SC05_000_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:56     unit 5: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_002/ov_SC05_002_jr_8017A4AC.c:1866: parse error before 
+10:44:56   src/ov_SC04_021/ov_SC04_021_jr_8017AE2C.c: IDENTICAL · rows 7 · compiles 9 · 1.8 s · canon 6 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:56   src/ov_SC04_020/ov_SC04_020_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:56     unit 5: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_002/ov_SC05_002_jr_80178D40.c:1866: parse error before 
+10:44:56   src/ov_SC04_018/ov_SC04_018_jr_80178D40.c: IDENTICAL · rows 13 · compiles 30 · 3.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:57     unit 5: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_002/ov_SC05_002_jr_8017AE2C.c:1866: parse error before 
+10:44:57   src/ov_SC05_000/ov_SC05_000_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:57   src/ov_SC05_001/ov_SC05_001_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:57   src/ov_SC05_000/ov_SC05_000_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:58   src/ov_SC05_001/ov_SC05_001_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:58     unit 5: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_003/ov_SC05_003_jr_8017AE2C.c:1866: parse error before 
+10:44:58     unit 5: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_003/ov_SC05_003_jr_8017A4AC.c:1866: parse error before 
+10:44:58   src/ov_SC05_001/ov_SC05_001_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:58   src/ov_SC05_002/ov_SC05_002_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:58     unit 5: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_003/ov_SC05_003_jr_80178D40.c:1866: parse error before 
+10:44:59     unit 5: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_004/ov_SC05_004_jr_8017A4AC.c:1866: parse error before 
+10:44:59   src/ov_SC05_002/ov_SC05_002_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.3 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:59   src/ov_SC05_002/ov_SC05_002_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:44:59     unit 5: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_004/ov_SC05_004_jr_80178D40.c:1866: parse error before 
+10:44:59     unit 5: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_004/ov_SC05_004_jr_8017AE2C.c:1866: parse error before 
+10:44:59     unit 5: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_005/ov_SC05_005_jr_8017A4AC.c:1866: parse error before 
+10:44:59     unit 5: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_005/ov_SC05_005_jr_80178D40.c:1866: parse error before 
+10:44:59   src/ov_SC05_003/ov_SC05_003_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:00   src/ov_SC05_003/ov_SC05_003_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:00     unit 5: COMPILE-ERROR src/ov_SC05_006/ov_SC05_006_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_006/ov_SC05_006_jr_8017A4AC.c:1866: parse error before 
+10:45:00   src/ov_SC05_004/ov_SC05_004_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:00     unit 5: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_8017AE2C.c:1706: parse error before `*' | src/ov_SC05_005/ov_SC05_005_jr_8017AE2C.c:1861: parse error before 
+10:45:00     unit 5: COMPILE-ERROR src/ov_SC05_006/ov_SC05_006_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_006/ov_SC05_006_jr_80178D40.c:1866: parse error before 
+10:45:00   src/ov_SC05_003/ov_SC05_003_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:00     unit 5: COMPILE-ERROR src/ov_SC05_006/ov_SC05_006_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_006/ov_SC05_006_jr_8017AE2C.c:1866: parse error before 
+10:45:01   src/ov_SC05_004/ov_SC05_004_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:01   src/ov_SC05_004/ov_SC05_004_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:01   src/ov_SC05_005/ov_SC05_005_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:01     unit 5: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_007/ov_SC05_007_jr_8017A4AC.c:1866: parse error before 
+10:45:02   src/ov_SC05_006/ov_SC05_006_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:02     unit 5: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_007/ov_SC05_007_jr_80178D40.c:1866: parse error before 
+10:45:02     unit 5: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_007/ov_SC05_007_jr_8017AE2C.c:1866: parse error before 
+10:45:02   src/ov_SC05_005/ov_SC05_005_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:02   src/ov_SC05_006/ov_SC05_006_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:02     unit 5: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_008/ov_SC05_008_jr_8017A4AC.c:1866: parse error before 
+10:45:03     unit 5: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_008/ov_SC05_008_jr_80178D40.c:1866: parse error before 
+10:45:03   src/ov_SC05_005/ov_SC05_005_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:03   src/ov_SC05_006/ov_SC05_006_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:03     unit 5: COMPILE-ERROR src/ov_SC05_009/ov_SC05_009_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_009/ov_SC05_009_jr_8017A4AC.c:1866: parse error before 
+10:45:03     unit 5: COMPILE-ERROR src/ov_SC05_009/ov_SC05_009_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_009/ov_SC05_009_jr_80178D40.c:1866: parse error before 
+10:45:03   src/ov_SC05_007/ov_SC05_007_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:03     unit 5: COMPILE-ERROR src/ov_SC05_009/ov_SC05_009_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_009/ov_SC05_009_jr_8017AE2C.c:1866: parse error before 
+10:45:04   src/ov_SC05_007/ov_SC05_007_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:04     unit 5: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_010/ov_SC05_010_jr_8017A4AC.c:1866: parse error before 
+10:45:04   src/ov_SC05_009/ov_SC05_009_jr_8017A4AC.c: IDENTICAL · rows 9 · compiles 11 · 1.1 s · canon 8 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:04     unit 5: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_010/ov_SC05_010_jr_80178D40.c:1866: parse error before 
+10:45:04   src/ov_SC05_007/ov_SC05_007_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:04   src/ov_SC05_008/ov_SC05_008_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:04   src/ov_SC05_017/ov_SC05_017_jr_801828EC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:05   src/ov_SC05_009/ov_SC05_009_jr_80178D40.c: IDENTICAL · rows 9 · compiles 11 · 1.5 s · canon 8 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:05     unit 5: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017AE2C.c:1709: parse error before `*' | src/ov_SC05_010/ov_SC05_010_jr_8017AE2C.c:1865: parse error before 
+10:45:05   src/ov_SC05_008/ov_SC05_008_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:05   src/ov_SC05_009/ov_SC05_009_jr_8017AE2C.c: IDENTICAL · rows 9 · compiles 11 · 1.5 s · canon 8 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:05     unit 5: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_011/ov_SC05_011_jr_80178D40.c:1866: parse error before 
+10:45:05     unit 5: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_011/ov_SC05_011_jr_8017A4AC.c:1866: parse error before 
+10:45:05     unit 5: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_011/ov_SC05_011_jr_8017AE2C.c:1866: parse error before 
+10:45:06   src/ov_SC05_010/ov_SC05_010_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:06     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_8017A4AC.c:1866: parse error before 
+10:45:06     unit 5: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_018/ov_SC05_018_jr_8017A4AC.c:1866: parse error before 
+10:45:06     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_80178D40.c:1866: parse error before 
+10:45:06   src/ov_SC05_010/ov_SC05_010_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:06     unit 5: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_018/ov_SC05_018_jr_80178D40.c:1866: parse error before 
+10:45:06   src/ov_SC05_011/ov_SC05_011_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:06   src/ov_SC05_010/ov_SC05_010_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:07     unit 5: COMPILE-ERROR src/ov_SC05_019/ov_SC05_019_jr_80178D40.c:1710: parse error before `*' | src/ov_SC05_019/ov_SC05_019_jr_80178D40.c:1866: parse error before 
+10:45:07   src/ov_SC05_011/ov_SC05_011_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:07     unit 5: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_8017AE2C.c:1705: parse error before `*' | src/ov_SC05_018/ov_SC05_018_jr_8017AE2C.c:1860: parse error before 
+10:45:07     unit 5: COMPILE-ERROR src/ov_SC05_019/ov_SC05_019_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC05_019/ov_SC05_019_jr_8017A4AC.c:1866: parse error before 
+10:45:07   src/ov_SC05_011/ov_SC05_011_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:07   src/ov_SC05_019/ov_SC05_019_jr_80178D40.c: IDENTICAL · rows 7 · compiles 9 · 1.1 s · canon 6 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:08   src/ov_SC05_017/ov_SC05_017_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:08   src/ov_SC05_018/ov_SC05_018_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:08   src/ov_SC05_019/ov_SC05_019_jr_8017A4AC.c: IDENTICAL · rows 7 · compiles 9 · 1.1 s · canon 6 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:08   src/ov_SC05_017/ov_SC05_017_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:09     unit 5: COMPILE-ERROR src/ov_SC05_019/ov_SC05_019_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC05_019/ov_SC05_019_jr_8017AE2C.c:1866: parse error before 
+10:45:09   src/ov_SC05_018/ov_SC05_018_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:09     unit 5: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_000/ov_SC06_000_jr_8017A4AC.c:1866: parse error before 
+10:45:09     unit 5: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_000/ov_SC06_000_jr_80178D40.c:1866: parse error before 
+10:45:09     unit 5: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_006/ov_SC06_006_jr_8017A4AC.c:1866: parse error before 
+10:45:09   src/ov_SC05_019/ov_SC05_019_jr_8017AE2C.c: IDENTICAL · rows 7 · compiles 9 · 1.7 s · canon 6 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:09     unit 5: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_006/ov_SC06_006_jr_80178D40.c:1866: parse error before 
+10:45:09     unit 5: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_008/ov_SC06_008_jr_8017A4AC.c:1866: parse error before 
+10:45:09     unit 5: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_006/ov_SC06_006_jr_8017AE2C.c:1866: parse error before 
+10:45:09   src/ov_SC05_018/ov_SC05_018_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:10     unit 5: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_008/ov_SC06_008_jr_80178D40.c:1866: parse error before 
+10:45:10     unit 5: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_008/ov_SC06_008_jr_8017AE2C.c:1866: parse error before 
+10:45:10   src/ov_SC06_000/ov_SC06_000_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:10     unit 5: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_010/ov_SC06_010_jr_80178D40.c:1866: parse error before 
+10:45:10     unit 5: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_011/ov_SC06_011_jr_80178D40.c:1866: parse error before 
+10:45:10     unit 5: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_011/ov_SC06_011_jr_8017A4AC.c:1866: parse error before 
+10:45:10   src/ov_SC06_006/ov_SC06_006_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:11   src/ov_SC06_000/ov_SC06_000_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.3 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:11   src/ov_SC06_008/ov_SC06_008_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:11   src/ov_SC06_006/ov_SC06_006_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:11   src/ov_SC06_006/ov_SC06_006_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:12   src/ov_SC06_008/ov_SC06_008_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:12     unit 5: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_011/ov_SC06_011_jr_8017AE2C.c:1866: parse error before 
+10:45:12   src/ov_SC06_008/ov_SC06_008_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:12     unit 5: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_013/ov_SC06_013_jr_8017A4AC.c:1866: parse error before 
+10:45:12   src/ov_SC06_011/ov_SC06_011_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:12     unit 5: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_013/ov_SC06_013_jr_80178D40.c:1866: parse error before 
+10:45:13   src/ov_SC06_010/ov_SC06_010_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:13   src/ov_SC06_011/ov_SC06_011_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:13     unit 5: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_013/ov_SC06_013_jr_8017AE2C.c:1866: parse error before 
+10:45:13     unit 5: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_014/ov_SC06_014_jr_8017A4AC.c:1866: parse error before 
+10:45:13     unit 5: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_014/ov_SC06_014_jr_8017AE2C.c:1866: parse error before 
+10:45:13     unit 5: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_014/ov_SC06_014_jr_80178D40.c:1866: parse error before 
+10:45:13   src/ov_SC06_011/ov_SC06_011_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:13     unit 5: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_015/ov_SC06_015_jr_8017A4AC.c:1866: parse error before 
+10:45:14   src/ov_SC06_013/ov_SC06_013_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:14     unit 5: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_015/ov_SC06_015_jr_80178D40.c:1866: parse error before 
+10:45:14     unit 5: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_015/ov_SC06_015_jr_8017AE2C.c:1866: parse error before 
+10:45:14     unit 5: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_016/ov_SC06_016_jr_8017A4AC.c:1866: parse error before 
+10:45:14   src/ov_SC06_013/ov_SC06_013_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:14     unit 5: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_016/ov_SC06_016_jr_80178D40.c:1866: parse error before 
+10:45:14   src/ov_SC06_013/ov_SC06_013_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:15   src/ov_SC06_014/ov_SC06_014_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:15   src/ov_SC06_014/ov_SC06_014_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:15   src/ov_SC06_015/ov_SC06_015_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:15     unit 5: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_8017AE2C.c:1709: parse error before `*' | src/ov_SC06_016/ov_SC06_016_jr_8017AE2C.c:1865: parse error before 
+10:45:15   src/ov_SC06_014/ov_SC06_014_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:16   src/ov_SC06_016/ov_SC06_016_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:16     unit 5: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_020/ov_SC06_020_jr_80178D40.c:1866: parse error before 
+10:45:16   src/ov_SC06_015/ov_SC06_015_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:16   src/ov_SC06_015/ov_SC06_015_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:16     unit 5: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_020/ov_SC06_020_jr_8017A4AC.c:1866: parse error before 
+10:45:17     unit 5: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_020/ov_SC06_020_jr_8017AE2C.c:1866: parse error before 
+10:45:17   src/ov_SC06_016/ov_SC06_016_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:17     unit 5: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_022/ov_SC06_022_jr_8017A4AC.c:1866: parse error before 
+10:45:17     unit 5: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_022/ov_SC06_022_jr_8017AE2C.c:1866: parse error before 
+10:45:17     unit 5: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_022/ov_SC06_022_jr_80178D40.c:1866: parse error before 
+10:45:17   src/ov_SC06_016/ov_SC06_016_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:17     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_8017A4AC.c:1866: parse error before 
+10:45:17   src/ov_SC06_020/ov_SC06_020_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:17     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_80178D40.c:1866: parse error before 
+10:45:18     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_8017AE2C.c:1866: parse error before 
+10:45:18   src/ov_SC06_020/ov_SC06_020_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:18     unit 5: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_025/ov_SC06_025_jr_8017A4AC.c:1866: parse error before 
+10:45:18     unit 5: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_025/ov_SC06_025_jr_80178D40.c:1866: parse error before 
+10:45:18   src/ov_SC06_022/ov_SC06_022_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:18   src/ov_SC06_020/ov_SC06_020_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:19   src/ov_SC06_022/ov_SC06_022_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:19   src/ov_SC06_022/ov_SC06_022_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:19     unit 5: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_025/ov_SC06_025_jr_8017AE2C.c:1866: parse error before 
+10:45:19   src/ov_SC06_024/ov_SC06_024_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:20   src/ov_SC06_024/ov_SC06_024_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:20     unit 5: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_027/ov_SC06_027_jr_8017A4AC.c:1866: parse error before 
+10:45:20     unit 5: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_027/ov_SC06_027_jr_80178D40.c:1866: parse error before 
+10:45:20   src/ov_SC06_025/ov_SC06_025_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:20   src/ov_SC06_024/ov_SC06_024_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:20     unit 5: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_029/ov_SC06_029_jr_8017A4AC.c:1866: parse error before 
+10:45:20     unit 5: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_027/ov_SC06_027_jr_8017AE2C.c:1866: parse error before 
+10:45:21   src/ov_SC06_025/ov_SC06_025_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:21   src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:21     unit 5: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8017AE2C.c:1709: parse error before `*' | src/ov_SC06_029/ov_SC06_029_jr_8017AE2C.c:1865: parse error before 
+10:45:21     unit 5: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_030/ov_SC06_030_jr_8017A4AC.c:1866: parse error before 
+10:45:21   src/ov_SC06_025/ov_SC06_025_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:21     unit 5: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8017AE2C.c:1709: parse error before `*' | src/ov_SC06_030/ov_SC06_030_jr_8017AE2C.c:1865: parse error before 
+10:45:21   src/ov_SC06_027/ov_SC06_027_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:21     unit 5: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_032/ov_SC06_032_jr_8017A4AC.c:1866: parse error before 
+10:45:22   src/ov_SC06_029/ov_SC06_029_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:22     unit 5: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_032/ov_SC06_032_jr_80178D40.c:1866: parse error before 
+10:45:22   src/ov_SC06_027/ov_SC06_027_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:22     unit 5: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_032/ov_SC06_032_jr_8017AE2C.c:1866: parse error before 
+10:45:22   src/ov_SC06_027/ov_SC06_027_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:22     unit 5: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_8017A4AC.c:1866: parse error before 
+10:45:23   src/ov_SC06_030/ov_SC06_030_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:23     unit 5: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_80178D40.c:1866: parse error before 
+10:45:23   src/ov_SC06_029/ov_SC06_029_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:23   src/ov_SC06_032/ov_SC06_032_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:23     unit 5: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC07_000/ov_SC07_000_jr_8017A4AC.c:1866: parse error before 
+10:45:23     unit 5: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_8017AE2C.c:1866: parse error before 
+10:45:23   src/ov_SC06_030/ov_SC06_030_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:24     unit 5: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_80178D40.c:1710: parse error before `*' | src/ov_SC07_000/ov_SC07_000_jr_80178D40.c:1866: parse error before 
+10:45:24   src/ov_SC06_032/ov_SC06_032_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:24     unit 5: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC07_000/ov_SC07_000_jr_8017AE2C.c:1866: parse error before 
+10:45:24   src/ov_SC06_032/ov_SC06_032_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:24   src/ov_SC06_033/ov_SC06_033_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:24     unit 5: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_80178D40.c:1710: parse error before `*' | src/ov_SC07_001/ov_SC07_001_jr_80178D40.c:1866: parse error before 
+10:45:25     unit 5: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC07_001/ov_SC07_001_jr_8017A4AC.c:1866: parse error before 
+10:45:25   src/ov_SC06_033/ov_SC06_033_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:25     unit 5: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC07_001/ov_SC07_001_jr_8017AE2C.c:1866: parse error before 
+10:45:25   src/ov_SC07_000/ov_SC07_000_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:25   src/ov_SC06_033/ov_SC06_033_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:25     unit 5: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_80178D40.c:1710: parse error before `*' | src/ov_SC07_002/ov_SC07_002_jr_80178D40.c:1866: parse error before 
+10:45:26   src/ov_SC07_000/ov_SC07_000_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:26     unit 5: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC07_002/ov_SC07_002_jr_8017A4AC.c:1866: parse error before 
+10:45:26   src/ov_SC07_000/ov_SC07_000_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:26     unit 5: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_8017AE2C.c:1709: parse error before `*' | src/ov_SC07_002/ov_SC07_002_jr_8017AE2C.c:1865: parse error before 
+10:45:26   src/ov_SC01_077/ov_SC01_077_jr_80182268.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:26   src/ov_SC03_001/ov_SC03_001_jr_80188830.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:26   src/ov_SC03_001/ov_SC03_001_jr_80189030.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:26     unit 5: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_8017A4AC.c:1709: parse error before `*' | src/ov_SC07_008/ov_SC07_008_jr_8017A4AC.c:1865: parse error before 
+10:45:27   src/ov_SC07_001/ov_SC07_001_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:27   src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:27   src/ov_SC07_001/ov_SC07_001_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:27     unit 5: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_80178D40.c:1709: parse error before `*' | src/ov_SC07_008/ov_SC07_008_jr_80178D40.c:1865: parse error before 
+10:45:27   src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:27     unit 5: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_8017AE2C.c:1709: parse error before `*' | src/ov_SC07_008/ov_SC07_008_jr_8017AE2C.c:1865: parse error before 
+10:45:27   src/ov_SC07_001/ov_SC07_001_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:27   src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:27   src/ov_SC04_020/ov_SC04_020_jr_8017D604.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:27   src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:28     unit 5: COMPILE-ERROR src/ov_SC07_009/ov_SC07_009_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC07_009/ov_SC07_009_jr_8017A4AC.c:1866: parse error before 
+10:45:28     unit 5: COMPILE-ERROR src/ov_SC07_009/ov_SC07_009_jr_80178D40.c:1710: parse error before `*' | src/ov_SC07_009/ov_SC07_009_jr_80178D40.c:1866: parse error before 
+10:45:28   src/ov_SC03_125/ov_SC03_125_jr_8017D604.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:28   src/ov_SC07_002/ov_SC07_002_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:28   src/ov_SC07_002/ov_SC07_002_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:28   src/ov_SC07_002/ov_SC07_002_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:29   src/ov_SC07_008/ov_SC07_008_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:29   src/ov_SC03_001/ov_SC03_001_jr_801870B0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:29   src/ov_SC07_008/ov_SC07_008_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:29   src/ov_SC07_008/ov_SC07_008_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:30     unit 5: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8017A4AC.c:1710: parse error before `*' | src/ov_SC06_018/ov_SC06_018_jr_8017A4AC.c:1866: parse error before 
+10:45:30   src/ov_SC07_009/ov_SC07_009_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:30   src/ov_SC03_029/ov_SC03_029_jr_80186A34.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:30   src/ov_SC04_016/ov_SC04_016_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:30     unit 5: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c:1866: parse error before 
+10:45:30   src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:31   src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:31     unit 5: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_80178D40.c:1710: parse error before `*' | src/ov_SC06_018/ov_SC06_018_jr_80178D40.c:1866: parse error before 
+10:45:31   src/ov_SC07_009/ov_SC07_009_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:31   src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:31   src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:31   src/ov_SC06_024/ov_SC06_024_jr_80183B3C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:31     unit 5: COMPILE-ERROR src/ov_SC01_000/ov_SC01_000_jr_80171B4C.c:1715: parse error before `*' | src/ov_SC01_000/ov_SC01_000_jr_80171B4C.c:1892: parse error before 
+10:45:31   src/ov_SC06_029/ov_SC06_029_jr_801898CC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:31   src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:32   src/ov_SC06_018/ov_SC06_018_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:32   src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:32     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1811: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:1979: parse error before 
+10:45:33   src/ov_SC06_018/ov_SC06_018_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:33   src/ov_SC01_077/ov_SC01_077_jr_80180B64.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:33   src/ov_SC01_000/ov_SC01_000_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:33     unit 19: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_8015444C.c:544: conflicting types for `D_800B9A02' | src/ov_SC07_011/ov_SC07_011_jr_8015444C.c:535: previous 
+10:45:33     unit 6: COMPILE-ERROR src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:1946: parse error before `*' | src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:3279: parse error before 
+10:45:33     unit 5: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC01_001/ov_SC01_001_jr_80171B4C.c:1890: parse error before 
+10:45:33   src/ov_SC07_011/ov_SC07_011_jr_8015444C.c: IDENTICAL · rows 20 · compiles 22 · 2.3 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:34     unit 5: COMPILE-ERROR src/ov_SC01_004/ov_SC01_004_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC01_004/ov_SC01_004_jr_80171B4C.c:1890: parse error before 
+10:45:34     unit 5: COMPILE-ERROR src/ov_SC01_009/ov_SC01_009_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC01_009/ov_SC01_009_jr_80171B4C.c:1890: parse error before 
+10:45:34     unit 5: COMPILE-ERROR src/ov_SC01_008/ov_SC01_008_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC01_008/ov_SC01_008_jr_80171B4C.c:1890: parse error before 
+10:45:34     unit 5: COMPILE-ERROR src/ov_SC01_074/ov_SC01_074_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC01_074/ov_SC01_074_jr_80171B4C.c:1890: parse error before 
+10:45:34     unit 5: COMPILE-ERROR src/ov_SC01_080/ov_SC01_080_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC01_080/ov_SC01_080_jr_80171B4C.c:1890: parse error before 
+10:45:34   src/ov_SC01_077/ov_SC01_077_jr_801734BC.c: IDENTICAL · rows 12 · compiles 14 · 2.8 s · canon 11 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:34     unit 5: COMPILE-ERROR src/ov_SC01_084/ov_SC01_084_jr_80171B4C.c:1714: parse error before `*' | src/ov_SC01_084/ov_SC01_084_jr_80171B4C.c:1891: parse error before 
+10:45:34     unit 18: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_8015444C.c:544: conflicting types for `D_800B9A02' | src/ov_SC07_007/ov_SC07_007_jr_8015444C.c:535: previous 
+10:45:34     unit 5: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c:1890: parse error before 
+10:45:34   src/ov_SC07_007/ov_SC07_007_jr_8015444C.c: IDENTICAL · rows 19 · compiles 21 · 1.7 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:35   src/ov_SC01_001/ov_SC01_001_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:35   src/ov_SC01_009/ov_SC01_009_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:35   src/ov_SC01_004/ov_SC01_004_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:35   src/ov_SC01_008/ov_SC01_008_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:35   src/ov_SC01_074/ov_SC01_074_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:36   src/ov_SC01_080/ov_SC01_080_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:36   src/ov_SC01_084/ov_SC01_084_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:36     unit 5: COMPILE-ERROR src/ov_SC02_004/ov_SC02_004_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_004/ov_SC02_004_jr_80171B4C.c:1890: parse error before 
+10:45:36     unit 5: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_80171B4C.c:1711: parse error before `*' | src/ov_SC02_000/ov_SC02_000_jr_80171B4C.c:1888: parse error before 
+10:45:36     unit 17: COMPILE-ERROR src/ov_SC07_010/../shared/ov/func_8016AE5C__te4eb1475.h:8: too few arguments to function `func_8016B234' | src/ov_SC07_010/../shared/ov/func
+10:45:37     unit 5: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_80171B4C.c:1715: parse error before `*' | src/ov_SC02_005/ov_SC02_005_jr_80171B4C.c:1892: parse error before 
+10:45:37     unit 5: COMPILE-ERROR src/ov_SC02_015/ov_SC02_015_jr_80171B4C.c:1711: parse error before `*' | src/ov_SC02_015/ov_SC02_015_jr_80171B4C.c:1888: parse error before 
+10:45:37     unit 5: COMPILE-ERROR src/ov_SC02_011/ov_SC02_011_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_011/ov_SC02_011_jr_80171B4C.c:1890: parse error before 
+10:45:37     unit 5: COMPILE-ERROR src/ov_SC02_016/ov_SC02_016_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_016/ov_SC02_016_jr_80171B4C.c:1890: parse error before 
+10:45:37     unit 5: COMPILE-ERROR src/ov_SC02_017/ov_SC02_017_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_017/ov_SC02_017_jr_80171B4C.c:1890: parse error before 
+10:45:37   src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 30 · 3.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:37     unit 5: COMPILE-ERROR src/ov_SC02_021/ov_SC02_021_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_021/ov_SC02_021_jr_80171B4C.c:1890: parse error before 
+10:45:37     unit 19: COMPILE-ERROR src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c:3663: too few arguments to function `func_8016E778' | src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c: A
+10:45:37   src/ov_SC02_004/ov_SC02_004_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:37     unit 5: COMPILE-ERROR src/ov_SC02_027/ov_SC02_027_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_027/ov_SC02_027_jr_80171B4C.c:1890: parse error before 
+10:45:38   src/ov_SC07_010/ov_SC07_010_jr_8016AE5C.c: IDENTICAL · rows 20 · compiles 22 · 6.0 s · canon 17 promoted 0 K&R 2 aliases 0 abs 0 kept 3
+10:45:38     unit 5: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_026/ov_SC02_026_jr_80171B4C.c:1890: parse error before 
+10:45:38   src/ov_SC02_005/ov_SC02_005_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:38   src/ov_SC02_011/ov_SC02_011_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:38   src/ov_SC02_015/ov_SC02_015_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:38   src/ov_SC02_016/ov_SC02_016_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:39     unit 5: COMPILE-ERROR src/ov_SC02_028/ov_SC02_028_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_028/ov_SC02_028_jr_80171B4C.c:1890: parse error before 
+10:45:39   src/ov_SC02_017/ov_SC02_017_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:39   src/ov_SC03_001/ov_SC03_001_jr_80184DDC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:39   src/ov_SC02_000/ov_SC02_000_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 30 · 3.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:39   src/ov_SC03_001/ov_SC03_001_jr_80184F64.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:39   src/ov_SC02_021/ov_SC02_021_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:39     unit 5: COMPILE-ERROR src/ov_SC02_031/ov_SC02_031_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_031/ov_SC02_031_jr_80171B4C.c:1890: parse error before 
+10:45:40   src/ov_SC02_027/ov_SC02_027_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:40     unit 5: COMPILE-ERROR src/ov_SC02_035/ov_SC02_035_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_035/ov_SC02_035_jr_80171B4C.c:1890: parse error before 
+10:45:40   src/ov_SC02_026/ov_SC02_026_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:40     unit 5: COMPILE-ERROR src/ov_SC02_039/ov_SC02_039_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_039/ov_SC02_039_jr_80171B4C.c:1890: parse error before 
+10:45:40     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_80171B4C.c:1890: parse error before 
+10:45:40   src/ov_SC02_028/ov_SC02_028_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:40     unit 5: COMPILE-ERROR src/ov_SC02_041/ov_SC02_041_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC02_041/ov_SC02_041_jr_80171B4C.c:1890: parse error before 
+10:45:41     unit 5: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_002/ov_SC03_002_jr_80171B4C.c:1890: parse error before 
+10:45:41   src/ov_SC02_031/ov_SC02_031_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:41     unit 5: COMPILE-ERROR src/ov_SC03_003/ov_SC03_003_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_003/ov_SC03_003_jr_80171B4C.c:1890: parse error before 
+10:45:41   src/ov_SC02_035/ov_SC02_035_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:41     unit 5: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_006/ov_SC03_006_jr_80171B4C.c:1890: parse error before 
+10:45:41     unit 5: COMPILE-ERROR src/ov_SC03_007/ov_SC03_007_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_007/ov_SC03_007_jr_80171B4C.c:1890: parse error before 
+10:45:42   src/ov_SC02_039/ov_SC02_039_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:42     unit 5: COMPILE-ERROR src/ov_SC03_010/ov_SC03_010_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_010/ov_SC03_010_jr_80171B4C.c:1890: parse error before 
+10:45:42     unit 5: COMPILE-ERROR src/ov_SC03_011/ov_SC03_011_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_011/ov_SC03_011_jr_80171B4C.c:1890: parse error before 
+10:45:42   src/ov_SC03_001/ov_SC03_001_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:42     unit 5: COMPILE-ERROR src/ov_SC03_012/ov_SC03_012_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_012/ov_SC03_012_jr_80171B4C.c:1890: parse error before 
+10:45:42   src/ov_SC02_041/ov_SC02_041_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:42   src/ov_SC03_002/ov_SC03_002_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:43   src/ov_SC03_003/ov_SC03_003_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:43     unit 5: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_013/ov_SC03_013_jr_80171B4C.c:1890: parse error before 
+10:45:43   src/ov_SC03_006/ov_SC03_006_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:43   src/ov_SC03_007/ov_SC03_007_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:43   src/ov_SC03_011/ov_SC03_011_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:44   src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:44     unit 5: COMPILE-ERROR src/ov_SC03_023/ov_SC03_023_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_023/ov_SC03_023_jr_80171B4C.c:1890: parse error before 
+10:45:44   src/ov_SC03_012/ov_SC03_012_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:44   src/ov_SC03_010/ov_SC03_010_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:44     unit 5: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_024/ov_SC03_024_jr_80171B4C.c:1890: parse error before 
+10:45:44     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_028/ov_SC03_028_jr_80171B4C.c:1890: parse error before 
+10:45:44     unit 5: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_029/ov_SC03_029_jr_80171B4C.c:1890: parse error before 
+10:45:44     unit 5: COMPILE-ERROR src/ov_SC03_014/ov_SC03_014_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_014/ov_SC03_014_jr_80171B4C.c:1890: parse error before 
+10:45:44     unit 5: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_030/ov_SC03_030_jr_80171B4C.c:1890: parse error before 
+10:45:44   src/ov_SC03_013/ov_SC03_013_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:45     unit 5: COMPILE-ERROR src/ov_SC03_031/ov_SC03_031_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_031/ov_SC03_031_jr_80171B4C.c:1890: parse error before 
+10:45:45     unit 5: COMPILE-ERROR src/ov_SC03_089/ov_SC03_089_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_089/ov_SC03_089_jr_80171B4C.c:1890: parse error before 
+10:45:45   src/ov_SC03_023/ov_SC03_023_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:45     unit 5: COMPILE-ERROR src/ov_SC03_090/ov_SC03_090_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_090/ov_SC03_090_jr_80171B4C.c:1890: parse error before 
+10:45:45   src/ov_SC03_024/ov_SC03_024_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:45     unit 5: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_092/ov_SC03_092_jr_80171B4C.c:1890: parse error before 
+10:45:45     unit 5: COMPILE-ERROR src/ov_SC03_091/ov_SC03_091_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_091/ov_SC03_091_jr_80171B4C.c:1890: parse error before 
+10:45:45   src/ov_SC03_028/ov_SC03_028_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:46   src/ov_SC03_030/ov_SC03_030_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:46   src/ov_SC03_029/ov_SC03_029_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:46   src/ov_SC03_031/ov_SC03_031_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:46     unit 5: COMPILE-ERROR src/ov_SC03_093/ov_SC03_093_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_093/ov_SC03_093_jr_80171B4C.c:1890: parse error before 
+10:45:46   src/ov_SC03_089/ov_SC03_089_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:47   src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:45:47     unit 5: COMPILE-ERROR src/ov_SC03_094/ov_SC03_094_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_094/ov_SC03_094_jr_80171B4C.c:1890: parse error before 
+10:45:47   src/ov_SC03_014/ov_SC03_014_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 30 · 3.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:47     unit 5: COMPILE-ERROR src/ov_SC03_095/ov_SC03_095_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_095/ov_SC03_095_jr_80171B4C.c:1890: parse error before 
+10:45:47   src/ov_SC03_092/ov_SC03_092_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:47   src/ov_SC03_090/ov_SC03_090_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:47     unit 5: COMPILE-ERROR src/ov_SC03_096/ov_SC03_096_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_096/ov_SC03_096_jr_80171B4C.c:1890: parse error before 
+10:45:47   src/ov_SC03_091/ov_SC03_091_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:48     unit 5: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_097/ov_SC03_097_jr_80171B4C.c:1890: parse error before 
+10:45:48     unit 5: COMPILE-ERROR src/ov_SC03_098/ov_SC03_098_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_098/ov_SC03_098_jr_80171B4C.c:1890: parse error before 
+10:45:48     unit 5: COMPILE-ERROR src/ov_SC03_099/ov_SC03_099_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_099/ov_SC03_099_jr_80171B4C.c:1890: parse error before 
+10:45:48   src/ov_SC03_093/ov_SC03_093_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:48     unit 5: COMPILE-ERROR src/ov_SC03_100/ov_SC03_100_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_100/ov_SC03_100_jr_80171B4C.c:1890: parse error before 
+10:45:49   src/ov_SC03_094/ov_SC03_094_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:49   src/ov_SC03_095/ov_SC03_095_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:49     unit 5: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_101/ov_SC03_101_jr_80171B4C.c:1890: parse error before 
+10:45:49   src/ov_SC03_096/ov_SC03_096_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:49     unit 5: COMPILE-ERROR src/ov_SC03_103/ov_SC03_103_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_103/ov_SC03_103_jr_80171B4C.c:1890: parse error before 
+10:45:49     unit 5: COMPILE-ERROR src/ov_SC03_102/ov_SC03_102_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_102/ov_SC03_102_jr_80171B4C.c:1890: parse error before 
+10:45:49   src/ov_SC03_097/ov_SC03_097_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:49     unit 5: COMPILE-ERROR src/ov_SC03_104/ov_SC03_104_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_104/ov_SC03_104_jr_80171B4C.c:1890: parse error before 
+10:45:49   src/ov_SC03_098/ov_SC03_098_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:49   src/ov_SC03_099/ov_SC03_099_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:50     unit 5: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_80171B4C.c:1713: parse error before `*' | src/ov_SC03_105/ov_SC03_105_jr_80171B4C.c:1890: parse error before 
+10:45:50   src/ov_SC03_100/ov_SC03_100_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:50   src/ov_SC03_101/ov_SC03_101_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:50   src/ov_SC03_102/ov_SC03_102_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.6 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:50   src/ov_SC03_103/ov_SC03_103_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:50   src/ov_SC03_104/ov_SC03_104_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:50   src/ov_SC03_105/ov_SC03_105_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 1.3 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:45:50 restruct: batch t4_D5 rung D — 300 files (TUs; 3878 drawable) · 2618 declaration units: 2213 canonical / 0 promoted / 2 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 189 kept · compiles 2851 in 76 s wall · final 300/300 identical · written 187 files
+t4_D5 wall=253.70 s
+exit=0
