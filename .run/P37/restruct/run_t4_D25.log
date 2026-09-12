@@ -1,0 +1,788 @@
+restruct --plan D: 300 of 3681 TUs with lying declarations · 8637 callees
+15:30:32 apply t4_D25 rung D: 300 files, control src/ov_SC03_124/ov_SC03_124_jr_80188544.c IDENTICAL (0.08 s), calibration d8dc045e9
+15:30:40     unit 5: COMPILE-ERROR src/ov_SC03_023/ov_SC03_023_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_023/../shared/ov/func_80168BDC.h:3: prev
+15:30:41     unit 5: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_030/../shared/ov/func_80168BDC.h:3: prev
+15:30:41     unit 5: COMPILE-ERROR src/ov_SC03_012/ov_SC03_012_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_012/../shared/ov/func_80168BDC.h:3: prev
+15:30:41     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_028/../shared/ov/func_80168BDC.h:3: prev
+15:30:41     unit 5: COMPILE-ERROR src/ov_SC03_089/ov_SC03_089_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_089/../shared/ov/func_80168BDC.h:3: prev
+15:30:42     unit 5: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_029/../shared/ov/func_80168BDC.h:3: prev
+15:30:42     unit 5: COMPILE-ERROR src/ov_SC03_090/ov_SC03_090_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_090/../shared/ov/func_80168BDC.h:3: prev
+15:30:42     unit 5: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_013/../shared/ov/func_80168BDC.h:3: prev
+15:30:42     unit 7: COMPILE-ERROR src/ov_SC03_023/ov_SC03_023_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_023/../shared/ov/func_80168A88.h:3: prev
+15:30:42     unit 5: COMPILE-ERROR src/ov_SC03_031/ov_SC03_031_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_031/../shared/ov/func_80168BDC.h:3: prev
+15:30:42     unit 5: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_024/../shared/ov/func_80168BDC.h:3: prev
+15:30:42     unit 7: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_030/../shared/ov/func_80168A88.h:3: prev
+15:30:42     unit 7: COMPILE-ERROR src/ov_SC03_012/ov_SC03_012_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_012/../shared/ov/func_80168A88.h:3: prev
+15:30:42     unit 7: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_028/../shared/ov/func_80168A88.h:3: prev
+15:30:42     unit 7: COMPILE-ERROR src/ov_SC03_089/ov_SC03_089_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_089/../shared/ov/func_80168A88.h:3: prev
+15:30:43     unit 7: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_029/../shared/ov/func_80168A88.h:3: prev
+15:30:43     unit 7: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_013/../shared/ov/func_80168A88.h:3: prev
+15:30:43     unit 7: COMPILE-ERROR src/ov_SC03_090/ov_SC03_090_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_090/../shared/ov/func_80168A88.h:3: prev
+15:30:43     unit 7: COMPILE-ERROR src/ov_SC03_031/ov_SC03_031_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_031/../shared/ov/func_80168A88.h:3: prev
+15:30:43     unit 7: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_024/../shared/ov/func_80168A88.h:3: prev
+15:30:43     unit 10: COMPILE-ERROR src/ov_SC03_023/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_023/ov_SC03_023_jr_8015C32C.c: 
+15:30:44     unit 10: COMPILE-ERROR src/ov_SC03_030/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_030/ov_SC03_030_jr_8015C32C.c: 
+15:30:44     unit 10: COMPILE-ERROR src/ov_SC03_012/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_012/ov_SC03_012_jr_8015C32C.c: 
+15:30:44     unit 10: COMPILE-ERROR src/ov_SC03_028/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_028/ov_SC03_028_jr_8015C32C.c: 
+15:30:44     unit 10: COMPILE-ERROR src/ov_SC03_089/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_089/ov_SC03_089_jr_8015C32C.c: 
+15:30:44     unit 10: COMPILE-ERROR src/ov_SC03_029/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_029/ov_SC03_029_jr_8015C32C.c: 
+15:30:45     unit 10: COMPILE-ERROR src/ov_SC03_090/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_090/ov_SC03_090_jr_8015C32C.c: 
+15:30:45     unit 10: COMPILE-ERROR src/ov_SC03_013/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_013/ov_SC03_013_jr_8015C32C.c: 
+15:30:45     unit 10: COMPILE-ERROR src/ov_SC03_031/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_031/ov_SC03_031_jr_8015C32C.c: 
+15:30:45     unit 10: COMPILE-ERROR src/ov_SC03_024/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_024/ov_SC03_024_jr_8015C32C.c: 
+15:30:46     unit 5: COMPILE-ERROR src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_014/../shared/ov/func_80168BDC.h:3: prev
+15:30:49     unit 7: COMPILE-ERROR src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_014/../shared/ov/func_80168A88.h:3: prev
+15:30:50   src/ov_SC03_124/ov_SC03_124_jr_80188544.c: UNCHANGED · rows 55 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:30:52     unit 27: COMPILE-ERROR src/ov_SC03_023/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_023/ov_SC03_023_jr_8015C32C.c: A
+15:30:52     unit 27: COMPILE-ERROR src/ov_SC03_030/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_030/ov_SC03_030_jr_8015C32C.c: A
+15:30:52     unit 27: COMPILE-ERROR src/ov_SC03_012/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_012/ov_SC03_012_jr_8015C32C.c: A
+15:30:52     unit 27: COMPILE-ERROR src/ov_SC03_028/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_028/ov_SC03_028_jr_8015C32C.c: A
+15:30:52     unit 27: COMPILE-ERROR src/ov_SC03_089/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_089/ov_SC03_089_jr_8015C32C.c: A
+15:30:53     unit 10: COMPILE-ERROR src/ov_SC03_014/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c: 
+15:30:53     unit 27: COMPILE-ERROR src/ov_SC03_029/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_029/ov_SC03_029_jr_8015C32C.c: A
+15:30:53     unit 27: COMPILE-ERROR src/ov_SC03_013/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_013/ov_SC03_013_jr_8015C32C.c: A
+15:30:53     unit 29: COMPILE-ERROR src/ov_SC03_023/ov_SC03_023_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_023/ov_SC03_023_jr_8015C32C.c: A
+15:30:53     unit 27: COMPILE-ERROR src/ov_SC03_031/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_031/ov_SC03_031_jr_8015C32C.c: A
+15:30:53     unit 29: COMPILE-ERROR src/ov_SC03_012/ov_SC03_012_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_012/ov_SC03_012_jr_8015C32C.c: A
+15:30:53     unit 29: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_030/ov_SC03_030_jr_8015C32C.c: A
+15:30:53     unit 27: COMPILE-ERROR src/ov_SC03_090/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_090/ov_SC03_090_jr_8015C32C.c: A
+15:30:53     unit 27: COMPILE-ERROR src/ov_SC03_024/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_024/ov_SC03_024_jr_8015C32C.c: A
+15:30:54     unit 29: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_028/ov_SC03_028_jr_8015C32C.c: A
+15:30:54     unit 29: COMPILE-ERROR src/ov_SC03_089/ov_SC03_089_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_089/ov_SC03_089_jr_8015C32C.c: A
+15:30:54     unit 5: COMPILE-ERROR src/ov_SC03_091/ov_SC03_091_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_091/../shared/ov/func_80168BDC.h:3: prev
+15:30:54     unit 29: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_029/ov_SC03_029_jr_8015C32C.c: A
+15:30:54     unit 29: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_013/ov_SC03_013_jr_8015C32C.c: A
+15:30:54     unit 29: COMPILE-ERROR src/ov_SC03_031/ov_SC03_031_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_031/ov_SC03_031_jr_8015C32C.c: A
+15:30:54     unit 29: COMPILE-ERROR src/ov_SC03_090/ov_SC03_090_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_090/ov_SC03_090_jr_8015C32C.c: A
+15:30:55     unit 29: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_024/ov_SC03_024_jr_8015C32C.c: A
+15:30:55     unit 7: COMPILE-ERROR src/ov_SC03_091/ov_SC03_091_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_091/../shared/ov/func_80168A88.h:3: prev
+15:30:55   src/ov_SC03_023/ov_SC03_023_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:56   src/ov_SC03_012/ov_SC03_012_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.5 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:56   src/ov_SC03_030/ov_SC03_030_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:57   src/ov_SC03_089/ov_SC03_089_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:58   src/ov_SC03_029/ov_SC03_029_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:58   src/ov_SC03_028/ov_SC03_028_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:59     unit 10: COMPILE-ERROR src/ov_SC03_091/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_091/ov_SC03_091_jr_8015C32C.c: 
+15:30:59   src/ov_SC03_031/ov_SC03_031_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:59   src/ov_SC03_013/ov_SC03_013_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:59   src/ov_SC03_090/ov_SC03_090_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:30:59   src/ov_SC03_024/ov_SC03_024_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:02     unit 5: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_092/../shared/ov/func_80168BDC.h:3: prev
+15:31:05     unit 7: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_092/../shared/ov/func_80168A88.h:3: prev
+15:31:06     unit 5: COMPILE-ERROR src/ov_SC03_094/ov_SC03_094_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_094/../shared/ov/func_80168BDC.h:3: prev
+15:31:06     unit 5: COMPILE-ERROR src/ov_SC03_093/ov_SC03_093_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_093/../shared/ov/func_80168BDC.h:3: prev
+15:31:06     unit 10: COMPILE-ERROR src/ov_SC03_092/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_092/ov_SC03_092_jr_8015C32C.c: 
+15:31:07     unit 5: COMPILE-ERROR src/ov_SC03_098/ov_SC03_098_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_098/../shared/ov/func_80168BDC.h:3: prev
+15:31:07     unit 7: COMPILE-ERROR src/ov_SC03_094/ov_SC03_094_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_094/../shared/ov/func_80168A88.h:3: prev
+15:31:07     unit 5: COMPILE-ERROR src/ov_SC03_099/ov_SC03_099_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_099/../shared/ov/func_80168BDC.h:3: prev
+15:31:07     unit 5: COMPILE-ERROR src/ov_SC03_096/ov_SC03_096_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_096/../shared/ov/func_80168BDC.h:3: prev
+15:31:07     unit 5: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_097/../shared/ov/func_80168BDC.h:3: prev
+15:31:07     unit 7: COMPILE-ERROR src/ov_SC03_093/ov_SC03_093_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_093/../shared/ov/func_80168A88.h:3: prev
+15:31:07     unit 5: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_101/../shared/ov/func_80168BDC.h:3: prev
+15:31:07     unit 5: COMPILE-ERROR src/ov_SC03_100/ov_SC03_100_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_100/../shared/ov/func_80168BDC.h:3: prev
+15:31:07     unit 5: COMPILE-ERROR src/ov_SC03_095/ov_SC03_095_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_095/../shared/ov/func_80168BDC.h:3: prev
+15:31:08     unit 7: COMPILE-ERROR src/ov_SC03_098/ov_SC03_098_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_098/../shared/ov/func_80168A88.h:3: prev
+15:31:08     unit 7: COMPILE-ERROR src/ov_SC03_099/ov_SC03_099_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_099/../shared/ov/func_80168A88.h:3: prev
+15:31:08     unit 7: COMPILE-ERROR src/ov_SC03_096/ov_SC03_096_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_096/../shared/ov/func_80168A88.h:3: prev
+15:31:08     unit 7: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_097/../shared/ov/func_80168A88.h:3: prev
+15:31:08     unit 10: COMPILE-ERROR src/ov_SC03_094/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_094/ov_SC03_094_jr_8015C32C.c: 
+15:31:08     unit 7: COMPILE-ERROR src/ov_SC03_100/ov_SC03_100_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_100/../shared/ov/func_80168A88.h:3: prev
+15:31:08     unit 7: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_101/../shared/ov/func_80168A88.h:3: prev
+15:31:08     unit 7: COMPILE-ERROR src/ov_SC03_095/ov_SC03_095_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_095/../shared/ov/func_80168A88.h:3: prev
+15:31:08     unit 27: COMPILE-ERROR src/ov_SC03_091/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_091/ov_SC03_091_jr_8015C32C.c: A
+15:31:09     unit 10: COMPILE-ERROR src/ov_SC03_093/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_093/ov_SC03_093_jr_8015C32C.c: 
+15:31:09     unit 10: COMPILE-ERROR src/ov_SC03_099/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_099/ov_SC03_099_jr_8015C32C.c: 
+15:31:10     unit 10: COMPILE-ERROR src/ov_SC03_098/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_098/ov_SC03_098_jr_8015C32C.c: 
+15:31:10     unit 29: COMPILE-ERROR src/ov_SC03_091/ov_SC03_091_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_091/ov_SC03_091_jr_8015C32C.c: A
+15:31:10     unit 10: COMPILE-ERROR src/ov_SC03_096/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_096/ov_SC03_096_jr_8015C32C.c: 
+15:31:10     unit 10: COMPILE-ERROR src/ov_SC03_097/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_097/ov_SC03_097_jr_8015C32C.c: 
+15:31:10     unit 10: COMPILE-ERROR src/ov_SC03_100/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_100/ov_SC03_100_jr_8015C32C.c: 
+15:31:10     unit 10: COMPILE-ERROR src/ov_SC03_101/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_101/ov_SC03_101_jr_8015C32C.c: 
+15:31:10     unit 10: COMPILE-ERROR src/ov_SC03_095/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_095/ov_SC03_095_jr_8015C32C.c: 
+15:31:11     unit 27: COMPILE-ERROR src/ov_SC03_014/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c: A
+15:31:11   src/ov_SC03_091/ov_SC03_091_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:14     unit 27: COMPILE-ERROR src/ov_SC03_092/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_092/ov_SC03_092_jr_8015C32C.c: A
+15:31:14     unit 29: COMPILE-ERROR src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c: A
+15:31:15     unit 29: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_092/ov_SC03_092_jr_8015C32C.c: A
+15:31:15     unit 27: COMPILE-ERROR src/ov_SC03_094/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_094/ov_SC03_094_jr_8015C32C.c: A
+15:31:16     unit 5: COMPILE-ERROR src/ov_SC03_102/ov_SC03_102_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_102/../shared/ov/func_80168BDC.h:3: prev
+15:31:16     unit 27: COMPILE-ERROR src/ov_SC03_093/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_093/ov_SC03_093_jr_8015C32C.c: A
+15:31:17     unit 29: COMPILE-ERROR src/ov_SC03_094/ov_SC03_094_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_094/ov_SC03_094_jr_8015C32C.c: A
+15:31:17   src/ov_SC03_092/ov_SC03_092_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.0 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:17     unit 27: COMPILE-ERROR src/ov_SC03_098/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_098/ov_SC03_098_jr_8015C32C.c: A
+15:31:17     unit 27: COMPILE-ERROR src/ov_SC03_099/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_099/ov_SC03_099_jr_8015C32C.c: A
+15:31:17     unit 7: COMPILE-ERROR src/ov_SC03_102/ov_SC03_102_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_102/../shared/ov/func_80168A88.h:3: prev
+15:31:17     unit 27: COMPILE-ERROR src/ov_SC03_097/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_097/ov_SC03_097_jr_8015C32C.c: A
+15:31:17     unit 29: COMPILE-ERROR src/ov_SC03_093/ov_SC03_093_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_093/ov_SC03_093_jr_8015C32C.c: A
+15:31:17     unit 27: COMPILE-ERROR src/ov_SC03_096/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_096/ov_SC03_096_jr_8015C32C.c: A
+15:31:17     unit 27: COMPILE-ERROR src/ov_SC03_101/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_101/ov_SC03_101_jr_8015C32C.c: A
+15:31:17     unit 27: COMPILE-ERROR src/ov_SC03_100/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_100/ov_SC03_100_jr_8015C32C.c: A
+15:31:18     unit 27: COMPILE-ERROR src/ov_SC03_095/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_095/ov_SC03_095_jr_8015C32C.c: A
+15:31:18   src/ov_SC03_014/ov_SC03_014_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 70 · 32.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:18     unit 29: COMPILE-ERROR src/ov_SC03_098/ov_SC03_098_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_098/ov_SC03_098_jr_8015C32C.c: A
+15:31:18     unit 29: COMPILE-ERROR src/ov_SC03_099/ov_SC03_099_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_099/ov_SC03_099_jr_8015C32C.c: A
+15:31:18     unit 29: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_097/ov_SC03_097_jr_8015C32C.c: A
+15:31:18     unit 29: COMPILE-ERROR src/ov_SC03_096/ov_SC03_096_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_096/ov_SC03_096_jr_8015C32C.c: A
+15:31:19     unit 10: COMPILE-ERROR src/ov_SC03_102/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_102/ov_SC03_102_jr_8015C32C.c: 
+15:31:19     unit 29: COMPILE-ERROR src/ov_SC03_100/ov_SC03_100_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_100/ov_SC03_100_jr_8015C32C.c: A
+15:31:19     unit 29: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_101/ov_SC03_101_jr_8015C32C.c: A
+15:31:19   src/ov_SC03_094/ov_SC03_094_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:20     unit 29: COMPILE-ERROR src/ov_SC03_095/ov_SC03_095_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_095/ov_SC03_095_jr_8015C32C.c: A
+15:31:20   src/ov_SC03_093/ov_SC03_093_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:22   src/ov_SC03_099/ov_SC03_099_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:22   src/ov_SC03_098/ov_SC03_098_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:22   src/ov_SC03_096/ov_SC03_096_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:22   src/ov_SC03_097/ov_SC03_097_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:23   src/ov_SC03_101/ov_SC03_101_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.3 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:23     unit 5: COMPILE-ERROR src/ov_SC03_103/ov_SC03_103_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_103/../shared/ov/func_80168BDC.h:3: prev
+15:31:23   src/ov_SC03_100/ov_SC03_100_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:23   src/ov_SC03_095/ov_SC03_095_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.1 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:25     unit 5: COMPILE-ERROR src/ov_SC03_104/ov_SC03_104_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_104/../shared/ov/func_80168BDC.h:3: prev
+15:31:25     unit 25: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_8015444C.c:619: conflicting types for `D_800B9A02' | src/ov_SC03_107/ov_SC03_107_jr_8015444C.c:608: previous 
+15:31:25     unit 7: COMPILE-ERROR src/ov_SC03_103/ov_SC03_103_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_103/../shared/ov/func_80168A88.h:3: prev
+15:31:25   src/ov_SC03_107/ov_SC03_107_jr_8015444C.c: IDENTICAL · rows 31 · compiles 28 · 2.9 s · canon 25 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+15:31:26     unit 5: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_105/../shared/ov/func_80168BDC.h:3: prev
+15:31:26     unit 7: COMPILE-ERROR src/ov_SC03_104/ov_SC03_104_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_104/../shared/ov/func_80168A88.h:3: prev
+15:31:28     unit 7: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_105/../shared/ov/func_80168A88.h:3: prev
+15:31:29     unit 10: COMPILE-ERROR src/ov_SC03_103/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_103/ov_SC03_103_jr_8015C32C.c: 
+15:31:29     unit 10: COMPILE-ERROR src/ov_SC03_104/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_104/ov_SC03_104_jr_8015C32C.c: 
+15:31:30     unit 10: COMPILE-ERROR src/ov_SC03_105/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_105/ov_SC03_105_jr_8015C32C.c: 
+15:31:30     unit 5: COMPILE-ERROR src/ov_SC03_109/ov_SC03_109_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_109/../shared/ov/func_80168BDC.h:3: prev
+15:31:30     unit 27: COMPILE-ERROR src/ov_SC03_102/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_102/ov_SC03_102_jr_8015C32C.c: A
+15:31:31     unit 5: COMPILE-ERROR src/ov_SC03_110/ov_SC03_110_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_110/../shared/ov/func_80168BDC.h:3: prev
+15:31:31     unit 5: COMPILE-ERROR src/ov_SC03_113/ov_SC03_113_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_113/../shared/ov/func_80168BDC.h:3: prev
+15:31:31     unit 5: COMPILE-ERROR src/ov_SC03_108/ov_SC03_108_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_108/../shared/ov/func_80168BDC.h:3: prev
+15:31:31     unit 7: COMPILE-ERROR src/ov_SC03_109/ov_SC03_109_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_109/../shared/ov/func_80168A88.h:3: prev
+15:31:31     unit 5: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_112/../shared/ov/func_80168BDC.h:3: prev
+15:31:32     unit 5: COMPILE-ERROR src/ov_SC03_115/ov_SC03_115_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_115/../shared/ov/func_80168BDC.h:3: prev
+15:31:32     unit 5: COMPILE-ERROR src/ov_SC03_111/ov_SC03_111_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC03_111/../shared/ov/func_80168BDC.h:3: prev
+15:31:32     unit 29: COMPILE-ERROR src/ov_SC03_102/ov_SC03_102_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_102/ov_SC03_102_jr_8015C32C.c: A
+15:31:32     unit 5: COMPILE-ERROR src/ov_SC03_114/ov_SC03_114_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_114/../shared/ov/func_80168BDC.h:3: prev
+15:31:32     unit 7: COMPILE-ERROR src/ov_SC03_110/ov_SC03_110_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_110/../shared/ov/func_80168A88.h:3: prev
+15:31:32     unit 7: COMPILE-ERROR src/ov_SC03_113/ov_SC03_113_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_113/../shared/ov/func_80168A88.h:3: prev
+15:31:32     unit 7: COMPILE-ERROR src/ov_SC03_108/ov_SC03_108_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_108/../shared/ov/func_80168A88.h:3: prev
+15:31:33     unit 7: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_112/../shared/ov/func_80168A88.h:3: prev
+15:31:33     unit 7: COMPILE-ERROR src/ov_SC03_115/ov_SC03_115_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_115/../shared/ov/func_80168A88.h:3: prev
+15:31:33     unit 7: COMPILE-ERROR src/ov_SC03_114/ov_SC03_114_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_114/../shared/ov/func_80168A88.h:3: prev
+15:31:33     unit 7: COMPILE-ERROR src/ov_SC03_111/ov_SC03_111_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC03_111/../shared/ov/func_80168A88.h:3: prev
+15:31:33     unit 10: COMPILE-ERROR src/ov_SC03_109/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_109/ov_SC03_109_jr_8015C32C.c: 
+15:31:33     unit 10: COMPILE-ERROR src/ov_SC03_110/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_110/ov_SC03_110_jr_8015C32C.c: 
+15:31:34     unit 10: COMPILE-ERROR src/ov_SC03_113/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_113/ov_SC03_113_jr_8015C32C.c: 
+15:31:34   src/ov_SC03_102/ov_SC03_102_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.5 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:34     unit 10: COMPILE-ERROR src/ov_SC03_108/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_108/ov_SC03_108_jr_8015C32C.c: 
+15:31:34     unit 10: COMPILE-ERROR src/ov_SC03_115/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_115/ov_SC03_115_jr_8015C32C.c: 
+15:31:34     unit 10: COMPILE-ERROR src/ov_SC03_112/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_112/ov_SC03_112_jr_8015C32C.c: 
+15:31:35     unit 10: COMPILE-ERROR src/ov_SC03_114/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_114/ov_SC03_114_jr_8015C32C.c: 
+15:31:35     unit 10: COMPILE-ERROR src/ov_SC03_111/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_111/ov_SC03_111_jr_8015C32C.c: 
+15:31:36     unit 27: COMPILE-ERROR src/ov_SC03_103/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_103/ov_SC03_103_jr_8015C32C.c: A
+15:31:37     unit 27: COMPILE-ERROR src/ov_SC03_104/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_104/ov_SC03_104_jr_8015C32C.c: A
+15:31:37     unit 29: COMPILE-ERROR src/ov_SC03_103/ov_SC03_103_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_103/ov_SC03_103_jr_8015C32C.c: A
+15:31:37     unit 27: COMPILE-ERROR src/ov_SC03_105/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_105/ov_SC03_105_jr_8015C32C.c: A
+15:31:38     unit 5: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_116/../shared/ov/func_80168BDC.h:3: prev
+15:31:38     unit 29: COMPILE-ERROR src/ov_SC03_104/ov_SC03_104_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_104/ov_SC03_104_jr_8015C32C.c: A
+15:31:38     unit 29: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_105/ov_SC03_105_jr_8015C32C.c: A
+15:31:39     unit 7: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_116/../shared/ov/func_80168A88.h:3: prev
+15:31:39   src/ov_SC03_103/ov_SC03_103_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:41   src/ov_SC03_104/ov_SC03_104_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.0 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:41   src/ov_SC03_105/ov_SC03_105_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.4 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:41     unit 27: COMPILE-ERROR src/ov_SC03_109/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_109/ov_SC03_109_jr_8015C32C.c: A
+15:31:41     unit 10: COMPILE-ERROR src/ov_SC03_116/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_116/ov_SC03_116_jr_8015C32C.c: 
+15:31:42     unit 27: COMPILE-ERROR src/ov_SC03_113/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_113/ov_SC03_113_jr_8015C32C.c: A
+15:31:42     unit 27: COMPILE-ERROR src/ov_SC03_108/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_108/ov_SC03_108_jr_8015C32C.c: A
+15:31:43     unit 27: COMPILE-ERROR src/ov_SC03_110/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_110/ov_SC03_110_jr_8015C32C.c: A
+15:31:43     unit 29: COMPILE-ERROR src/ov_SC03_109/ov_SC03_109_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_109/ov_SC03_109_jr_8015C32C.c: A
+15:31:43     unit 27: COMPILE-ERROR src/ov_SC03_115/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_115/ov_SC03_115_jr_8015C32C.c: A
+15:31:43     unit 27: COMPILE-ERROR src/ov_SC03_112/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_112/ov_SC03_112_jr_8015C32C.c: A
+15:31:43     unit 29: COMPILE-ERROR src/ov_SC03_108/ov_SC03_108_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_108/ov_SC03_108_jr_8015C32C.c: A
+15:31:43     unit 29: COMPILE-ERROR src/ov_SC03_113/ov_SC03_113_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_113/ov_SC03_113_jr_8015C32C.c: A
+15:31:44     unit 27: COMPILE-ERROR src/ov_SC03_111/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_111/ov_SC03_111_jr_8015C32C.c: A
+15:31:44     unit 27: COMPILE-ERROR src/ov_SC03_114/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_114/ov_SC03_114_jr_8015C32C.c: A
+15:31:44     unit 5: COMPILE-ERROR src/ov_SC03_117/ov_SC03_117_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_117/../shared/ov/func_80168BDC.h:3: prev
+15:31:44     unit 29: COMPILE-ERROR src/ov_SC03_110/ov_SC03_110_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_110/ov_SC03_110_jr_8015C32C.c: A
+15:31:44     unit 29: COMPILE-ERROR src/ov_SC03_115/ov_SC03_115_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_115/ov_SC03_115_jr_8015C32C.c: A
+15:31:44     unit 29: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_112/ov_SC03_112_jr_8015C32C.c: A
+15:31:45     unit 29: COMPILE-ERROR src/ov_SC03_114/ov_SC03_114_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_114/ov_SC03_114_jr_8015C32C.c: A
+15:31:45     unit 29: COMPILE-ERROR src/ov_SC03_111/ov_SC03_111_jr_8015C32C.c:2369: too few arguments to function `func_8016EE40' | src/ov_SC03_111/ov_SC03_111_jr_8015C32C.c: A
+15:31:45   src/ov_SC03_109/ov_SC03_109_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.3 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:45     unit 7: COMPILE-ERROR src/ov_SC03_117/ov_SC03_117_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_117/../shared/ov/func_80168A88.h:3: prev
+15:31:46     unit 5: COMPILE-ERROR src/ov_SC03_121/ov_SC03_121_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_121/../shared/ov/func_80168BDC.h:3: prev
+15:31:46   src/ov_SC03_113/ov_SC03_113_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:46   src/ov_SC03_108/ov_SC03_108_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.1 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:48   src/ov_SC03_110/ov_SC03_110_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.1 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:48   src/ov_SC03_115/ov_SC03_115_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.4 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:48     unit 10: COMPILE-ERROR src/ov_SC03_117/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_117/ov_SC03_117_jr_8015C32C.c: 
+15:31:48     unit 7: COMPILE-ERROR src/ov_SC03_121/ov_SC03_121_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_121/../shared/ov/func_80168A88.h:3: prev
+15:31:49   src/ov_SC03_114/ov_SC03_114_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:49   src/ov_SC03_111/ov_SC03_111_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:49   src/ov_SC03_112/ov_SC03_112_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:52     unit 5: COMPILE-ERROR src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_118/../shared/ov/func_80168BDC.h:3: prev
+15:31:52     unit 10: COMPILE-ERROR src/ov_SC03_121/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_121/ov_SC03_121_jr_8015C32C.c: 
+15:31:53     unit 5: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_124/../shared/ov/func_80168BDC.h:3: prev
+15:31:53     unit 27: COMPILE-ERROR src/ov_SC03_116/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_116/ov_SC03_116_jr_8015C32C.c: A
+15:31:53     unit 5: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC03_125/../shared/ov/func_80168BDC.h:3: prev
+15:31:54     unit 5: COMPILE-ERROR src/ov_SC03_126/ov_SC03_126_jr_8015C32C.c:3462: conflicting types for `func_800D2318' | src/ov_SC03_126/../shared/ov/func_80168BDC.h:3: prev
+15:31:54     unit 7: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_124/../shared/ov/func_80168A88.h:3: prev
+15:31:54     unit 29: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_116/ov_SC03_116_jr_8015C32C.c: A
+15:31:54     unit 7: COMPILE-ERROR src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_118/../shared/ov/func_80168A88.h:3: prev
+15:31:54     unit 7: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC03_125/../shared/ov/func_80168A88.h:3: prev
+15:31:55     unit 7: COMPILE-ERROR src/ov_SC03_126/ov_SC03_126_jr_8015C32C.c:3391: conflicting types for `func_80146C3C' | src/ov_SC03_126/../shared/ov/func_80168A88.h:3: prev
+15:31:55     unit 5: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_003/../shared/ov/func_80168BDC.h:3: prev
+15:31:55     unit 5: COMPILE-ERROR src/ov_SC04_005/ov_SC04_005_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_005/../shared/ov/func_80168BDC.h:3: prev
+15:31:55     unit 5: COMPILE-ERROR src/ov_SC04_000/ov_SC04_000_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_000/../shared/ov/func_80168BDC.h:3: prev
+15:31:55     unit 5: COMPILE-ERROR src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_004/../shared/ov/func_80168BDC.h:3: prev
+15:31:55     unit 5: COMPILE-ERROR src/ov_SC04_002/ov_SC04_002_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_002/../shared/ov/func_80168BDC.h:3: prev
+15:31:55     unit 10: COMPILE-ERROR src/ov_SC03_124/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_124/ov_SC03_124_jr_8015C32C.c: 
+15:31:56     unit 10: COMPILE-ERROR src/ov_SC03_125/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_125/ov_SC03_125_jr_8015C32C.c: 
+15:31:56   src/ov_SC03_116/ov_SC03_116_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:31:56     unit 10: COMPILE-ERROR src/ov_SC03_126/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_126/ov_SC03_126_jr_8015C32C.c: 
+15:31:56     unit 7: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_003/../shared/ov/func_80168A88.h:3: prev
+15:31:56     unit 7: COMPILE-ERROR src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_004/../shared/ov/func_80168A88.h:3: prev
+15:31:56     unit 7: COMPILE-ERROR src/ov_SC04_000/ov_SC04_000_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_000/../shared/ov/func_80168A88.h:3: prev
+15:31:57     unit 7: COMPILE-ERROR src/ov_SC04_002/ov_SC04_002_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_002/../shared/ov/func_80168A88.h:3: prev
+15:31:57     unit 7: COMPILE-ERROR src/ov_SC04_005/ov_SC04_005_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_005/../shared/ov/func_80168A88.h:3: prev
+15:31:58     unit 27: COMPILE-ERROR src/ov_SC03_117/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_117/ov_SC03_117_jr_8015C32C.c: A
+15:31:58     unit 10: COMPILE-ERROR src/ov_SC03_118/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c: 
+15:31:58     unit 10: COMPILE-ERROR src/ov_SC04_003/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_003/ov_SC04_003_jr_8015C32C.c: 
+15:31:58     unit 10: COMPILE-ERROR src/ov_SC04_000/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_000/ov_SC04_000_jr_8015C32C.c: 
+15:31:58     unit 10: COMPILE-ERROR src/ov_SC04_004/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: 
+15:31:58     unit 10: COMPILE-ERROR src/ov_SC04_005/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_005/ov_SC04_005_jr_8015C32C.c: 
+15:31:58     unit 10: COMPILE-ERROR src/ov_SC04_002/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_002/ov_SC04_002_jr_8015C32C.c: 
+15:31:59     unit 29: COMPILE-ERROR src/ov_SC03_117/ov_SC03_117_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_117/ov_SC03_117_jr_8015C32C.c: A
+15:32:00     unit 27: COMPILE-ERROR src/ov_SC03_121/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_121/ov_SC03_121_jr_8015C32C.c: A
+15:32:00     unit 5: COMPILE-ERROR src/ov_SC04_006/ov_SC04_006_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_006/../shared/ov/func_80168BDC.h:3: prev
+15:32:01   src/ov_SC03_117/ov_SC03_117_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.3 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:01     unit 29: COMPILE-ERROR src/ov_SC03_121/ov_SC03_121_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_121/ov_SC03_121_jr_8015C32C.c: A
+15:32:01     unit 7: COMPILE-ERROR src/ov_SC04_006/ov_SC04_006_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_006/../shared/ov/func_80168A88.h:3: prev
+15:32:03     unit 10: COMPILE-ERROR src/ov_SC04_006/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_006/ov_SC04_006_jr_8015C32C.c: 
+15:32:03   src/ov_SC03_121/ov_SC03_121_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.4 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:03     unit 27: COMPILE-ERROR src/ov_SC03_124/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_124/ov_SC03_124_jr_8015C32C.c: A
+15:32:04     unit 27: COMPILE-ERROR src/ov_SC03_126/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_126/ov_SC03_126_jr_8015C32C.c: A
+15:32:04     unit 27: COMPILE-ERROR src/ov_SC03_125/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_125/ov_SC03_125_jr_8015C32C.c: A
+15:32:05     unit 29: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_124/ov_SC03_124_jr_8015C32C.c: A
+15:32:05     unit 29: COMPILE-ERROR src/ov_SC03_126/../shared/ov/func_8015EA3C__cadf3ee3.h:27: too few arguments to function `func_8016EE40' | src/ov_SC03_126/ov_SC03_126_jr_80
+15:32:05     unit 5: COMPILE-ERROR src/ov_SC04_007/ov_SC04_007_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_007/../shared/ov/func_80168BDC.h:3: prev
+15:32:05     unit 29: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_125/ov_SC03_125_jr_8015C32C.c: A
+15:32:06     unit 27: COMPILE-ERROR src/ov_SC04_004/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: A
+15:32:06     unit 27: COMPILE-ERROR src/ov_SC04_003/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_003/ov_SC04_003_jr_8015C32C.c: A
+15:32:06     unit 27: COMPILE-ERROR src/ov_SC04_000/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_000/ov_SC04_000_jr_8015C32C.c: A
+15:32:06     unit 27: COMPILE-ERROR src/ov_SC04_005/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_005/ov_SC04_005_jr_8015C32C.c: A
+15:32:06     unit 27: COMPILE-ERROR src/ov_SC04_002/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_002/ov_SC04_002_jr_8015C32C.c: A
+15:32:06     unit 7: COMPILE-ERROR src/ov_SC04_007/ov_SC04_007_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_007/../shared/ov/func_80168A88.h:3: prev
+15:32:07   src/ov_SC03_124/ov_SC03_124_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.4 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:07     unit 29: COMPILE-ERROR src/ov_SC04_000/ov_SC04_000_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_000/ov_SC04_000_jr_8015C32C.c: A
+15:32:07     unit 29: COMPILE-ERROR src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: A
+15:32:07     unit 29: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_003/ov_SC04_003_jr_8015C32C.c: A
+15:32:07   src/ov_SC03_126/ov_SC03_126_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:08     unit 5: COMPILE-ERROR src/ov_SC04_008/ov_SC04_008_jr_8015C32C.c:4115: conflicting types for `func_800D2318' | src/ov_SC04_008/../shared/ov/func_80168BDC.h:3: prev
+15:32:08     unit 29: COMPILE-ERROR src/ov_SC04_005/ov_SC04_005_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_005/ov_SC04_005_jr_8015C32C.c: A
+15:32:08     unit 29: COMPILE-ERROR src/ov_SC04_002/ov_SC04_002_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_002/ov_SC04_002_jr_8015C32C.c: A
+15:32:08   src/ov_SC03_125/ov_SC03_125_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.4 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:08   src/ov_SC04_008/ov_SC04_008_jr_801734BC.c: IDENTICAL · rows 30 · compiles 2 · 0.4 s · canon 30 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:32:08     unit 10: COMPILE-ERROR src/ov_SC04_007/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_007/ov_SC04_007_jr_8015C32C.c: 
+15:32:09     unit 7: COMPILE-ERROR src/ov_SC04_008/ov_SC04_008_jr_8015C32C.c:4044: conflicting types for `func_80146C3C' | src/ov_SC04_008/../shared/ov/func_80168A88.h:3: prev
+15:32:11   src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:11   src/ov_SC04_000/ov_SC04_000_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:11   src/ov_SC04_003/ov_SC04_003_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:11   src/ov_SC04_005/ov_SC04_005_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:11   src/ov_SC04_002/ov_SC04_002_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.5 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:12     unit 10: COMPILE-ERROR src/ov_SC04_008/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_008/ov_SC04_008_jr_8015C32C.c: 
+15:32:14     unit 27: COMPILE-ERROR src/ov_SC04_006/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_006/ov_SC04_006_jr_8015C32C.c: A
+15:32:14     unit 5: COMPILE-ERROR src/ov_SC04_009/ov_SC04_009_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_009/../shared/ov/func_80168BDC.h:3: prev
+15:32:15     unit 5: COMPILE-ERROR src/ov_SC04_010/ov_SC04_010_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_010/../shared/ov/func_80168BDC.h:3: prev
+15:32:15     unit 5: COMPILE-ERROR src/ov_SC04_012/ov_SC04_012_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_012/../shared/ov/func_80168BDC.h:3: prev
+15:32:15     unit 29: COMPILE-ERROR src/ov_SC04_006/ov_SC04_006_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_006/ov_SC04_006_jr_8015C32C.c: A
+15:32:15     unit 7: COMPILE-ERROR src/ov_SC04_009/ov_SC04_009_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_009/../shared/ov/func_80168A88.h:3: prev
+15:32:15     unit 27: COMPILE-ERROR src/ov_SC03_118/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c: A
+15:32:16     unit 7: COMPILE-ERROR src/ov_SC04_010/ov_SC04_010_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_010/../shared/ov/func_80168A88.h:3: prev
+15:32:16     unit 7: COMPILE-ERROR src/ov_SC04_012/ov_SC04_012_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_012/../shared/ov/func_80168A88.h:3: prev
+15:32:16     unit 5: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_020/../shared/ov/func_80168BDC.h:3: prev
+15:32:17     unit 5: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_016/../shared/ov/func_80168BDC.h:3: prev
+15:32:17     unit 10: COMPILE-ERROR src/ov_SC04_009/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_009/ov_SC04_009_jr_8015C32C.c: 
+15:32:17     unit 5: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC04_015/../shared/ov/func_80168BDC.h:3: prev
+15:32:17   src/ov_SC04_006/ov_SC04_006_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.1 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:18     unit 5: COMPILE-ERROR src/ov_SC04_021/ov_SC04_021_jr_8015C32C.c:3462: conflicting types for `func_800D2318' | src/ov_SC04_021/../shared/ov/func_80168BDC.h:3: prev
+15:32:18     unit 7: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_020/../shared/ov/func_80168A88.h:3: prev
+15:32:18     unit 10: COMPILE-ERROR src/ov_SC04_010/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_010/ov_SC04_010_jr_8015C32C.c: 
+15:32:18     unit 10: COMPILE-ERROR src/ov_SC04_012/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_012/ov_SC04_012_jr_8015C32C.c: 
+15:32:18     unit 29: COMPILE-ERROR src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c: A
+15:32:18     unit 7: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_016/../shared/ov/func_80168A88.h:3: prev
+15:32:18     unit 7: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC04_015/../shared/ov/func_80168A88.h:3: prev
+15:32:19     unit 27: COMPILE-ERROR src/ov_SC04_007/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_007/ov_SC04_007_jr_8015C32C.c: A
+15:32:19     unit 7: COMPILE-ERROR src/ov_SC04_021/ov_SC04_021_jr_8015C32C.c:3391: conflicting types for `func_80146C3C' | src/ov_SC04_021/../shared/ov/func_80168A88.h:3: prev
+15:32:19     unit 10: COMPILE-ERROR src/ov_SC04_020/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_020/ov_SC04_020_jr_8015C32C.c: 
+15:32:20     unit 10: COMPILE-ERROR src/ov_SC04_015/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_015/ov_SC04_015_jr_8015C32C.c: 
+15:32:20     unit 29: COMPILE-ERROR src/ov_SC04_007/ov_SC04_007_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_007/ov_SC04_007_jr_8015C32C.c: A
+15:32:20     unit 10: COMPILE-ERROR src/ov_SC04_016/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_016/ov_SC04_016_jr_8015C32C.c: 
+15:32:20     unit 27: COMPILE-ERROR src/ov_SC04_008/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_008/ov_SC04_008_jr_8015C32C.c: A
+15:32:20     unit 10: COMPILE-ERROR src/ov_SC04_021/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_021/ov_SC04_021_jr_8015C32C.c: 
+15:32:21     unit 5: COMPILE-ERROR src/ov_SC05_000/ov_SC05_000_jr_8015C32C.c:5790: conflicting types for `func_800D2318' | src/ov_SC05_000/../shared/ov/func_80168BDC.h:3: prev
+15:32:21     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:5794: conflicting types for `func_800D2318' | src/ov_SC04_018/../shared/ov/func_80168BDC.h:3: prev
+15:32:21     unit 29: COMPILE-ERROR src/ov_SC04_008/../shared/ov/func_8015EA3C__47c5b5e8.h:27: too few arguments to function `func_8016EE40' | src/ov_SC04_008/ov_SC04_008_jr_80
+15:32:21   src/ov_SC03_118/ov_SC03_118_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 70 · 32.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:22     unit 7: COMPILE-ERROR src/ov_SC05_000/ov_SC05_000_jr_8015C32C.c:5715: conflicting types for `func_80146C3C' | src/ov_SC05_000/../shared/ov/func_80168A88.h:3: prev
+15:32:22   src/ov_SC04_007/ov_SC04_007_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:24     unit 7: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:5719: conflicting types for `func_80146C3C' | src/ov_SC04_018/../shared/ov/func_80168A88.h:3: prev
+15:32:24   src/ov_SC04_008/ov_SC04_008_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:24     unit 10: COMPILE-ERROR src/ov_SC05_000/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_000/ov_SC05_000_jr_8015C32C.c: 
+15:32:25     unit 27: COMPILE-ERROR src/ov_SC04_009/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_009/ov_SC04_009_jr_8015C32C.c: A
+15:32:26     unit 27: COMPILE-ERROR src/ov_SC04_012/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_012/ov_SC04_012_jr_8015C32C.c: A
+15:32:26     unit 27: COMPILE-ERROR src/ov_SC04_010/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_010/ov_SC04_010_jr_8015C32C.c: A
+15:32:26     unit 5: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_001/../shared/ov/func_80168BDC.h:3: prev
+15:32:26     unit 29: COMPILE-ERROR src/ov_SC04_009/ov_SC04_009_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_009/ov_SC04_009_jr_8015C32C.c: A
+15:32:27     unit 5: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_002/../shared/ov/func_80168BDC.h:3: prev
+15:32:27     unit 29: COMPILE-ERROR src/ov_SC04_012/ov_SC04_012_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_012/ov_SC04_012_jr_8015C32C.c: A
+15:32:27     unit 29: COMPILE-ERROR src/ov_SC04_010/ov_SC04_010_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_010/ov_SC04_010_jr_8015C32C.c: A
+15:32:27     unit 10: COMPILE-ERROR src/ov_SC04_018/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c: 
+15:32:27     unit 7: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_001/../shared/ov/func_80168A88.h:3: prev
+15:32:28     unit 27: COMPILE-ERROR src/ov_SC04_015/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_015/ov_SC04_015_jr_8015C32C.c: A
+15:32:28     unit 27: COMPILE-ERROR src/ov_SC04_020/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_020/ov_SC04_020_jr_8015C32C.c: A
+15:32:28     unit 7: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_002/../shared/ov/func_80168A88.h:3: prev
+15:32:28     unit 5: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_003/../shared/ov/func_80168BDC.h:3: prev
+15:32:28     unit 27: COMPILE-ERROR src/ov_SC04_016/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_016/ov_SC04_016_jr_8015C32C.c: A
+15:32:28   src/ov_SC04_009/ov_SC04_009_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.1 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:29     unit 29: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_015/ov_SC04_015_jr_8015C32C.c: A
+15:32:29     unit 10: COMPILE-ERROR src/ov_SC05_001/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_001/ov_SC05_001_jr_8015C32C.c: 
+15:32:29     unit 29: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_020/ov_SC04_020_jr_8015C32C.c: A
+15:32:29   src/ov_SC04_012/ov_SC04_012_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:29     unit 27: COMPILE-ERROR src/ov_SC04_021/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_021/ov_SC04_021_jr_8015C32C.c: A
+15:32:29   src/ov_SC04_010/ov_SC04_010_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:29     unit 7: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_003/../shared/ov/func_80168A88.h:3: prev
+15:32:30     unit 29: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_016/ov_SC04_016_jr_8015C32C.c: A
+15:32:30     unit 29: COMPILE-ERROR src/ov_SC04_021/../shared/ov/func_8015EA3C__cadf3ee3.h:27: too few arguments to function `func_8016EE40' | src/ov_SC04_021/ov_SC04_021_jr_80
+15:32:30     unit 10: COMPILE-ERROR src/ov_SC05_002/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_002/ov_SC05_002_jr_8015C32C.c: 
+15:32:32   src/ov_SC04_020/ov_SC04_020_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:32   src/ov_SC04_015/ov_SC04_015_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:32     unit 10: COMPILE-ERROR src/ov_SC05_003/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_003/ov_SC05_003_jr_8015C32C.c: 
+15:32:33     unit 27: COMPILE-ERROR src/ov_SC05_000/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_000/ov_SC05_000_jr_8015C32C.c: A
+15:32:33   src/ov_SC04_016/ov_SC04_016_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.3 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:34   src/ov_SC04_021/ov_SC04_021_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:35     unit 29: COMPILE-ERROR src/ov_SC05_000/ov_SC05_000_jr_8015C32C.c:2366: too few arguments to function `func_8016EE40' | src/ov_SC05_000/ov_SC05_000_jr_8015C32C.c: A
+15:32:35   src/ov_SC05_009/ov_SC05_009_jr_801734BC.c: IDENTICAL · rows 30 · compiles 2 · 0.3 s · canon 30 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:32:35     unit 5: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_004/../shared/ov/func_80168BDC.h:3: prev
+15:32:36     unit 5: COMPILE-ERROR src/ov_SC05_006/ov_SC05_006_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_006/../shared/ov/func_80168BDC.h:3: prev
+15:32:36     unit 5: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_005/../shared/ov/func_80168BDC.h:3: prev
+15:32:36     unit 7: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_004/../shared/ov/func_80168A88.h:3: prev
+15:32:37   src/ov_SC05_000/ov_SC05_000_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:37     unit 5: COMPILE-ERROR src/ov_SC05_009/ov_SC05_009_jr_8015C32C.c:4115: conflicting types for `func_800D2318' | src/ov_SC05_009/../shared/ov/func_80168BDC.h:3: prev
+15:32:37     unit 5: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_008/../shared/ov/func_80168BDC.h:3: prev
+15:32:37     unit 5: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_007/../shared/ov/func_80168BDC.h:3: prev
+15:32:37     unit 7: COMPILE-ERROR src/ov_SC05_006/ov_SC05_006_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_006/../shared/ov/func_80168A88.h:3: prev
+15:32:37     unit 7: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_005/../shared/ov/func_80168A88.h:3: prev
+15:32:38     unit 10: COMPILE-ERROR src/ov_SC05_004/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_004/ov_SC05_004_jr_8015C32C.c: 
+15:32:39     unit 7: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_008/../shared/ov/func_80168A88.h:3: prev
+15:32:39     unit 7: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_007/../shared/ov/func_80168A88.h:3: prev
+15:32:39     unit 7: COMPILE-ERROR src/ov_SC05_009/ov_SC05_009_jr_8015C32C.c:4044: conflicting types for `func_80146C3C' | src/ov_SC05_009/../shared/ov/func_80168A88.h:3: prev
+15:32:39     unit 27: COMPILE-ERROR src/ov_SC05_001/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_001/ov_SC05_001_jr_8015C32C.c: A
+15:32:39     unit 10: COMPILE-ERROR src/ov_SC05_005/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_005/ov_SC05_005_jr_8015C32C.c: 
+15:32:39     unit 5: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_010/../shared/ov/func_80168BDC.h:3: prev
+15:32:39     unit 10: COMPILE-ERROR src/ov_SC05_006/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_006/ov_SC05_006_jr_8015C32C.c: 
+15:32:40     unit 27: COMPILE-ERROR src/ov_SC05_002/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_002/ov_SC05_002_jr_8015C32C.c: A
+15:32:40     unit 29: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_001/ov_SC05_001_jr_8015C32C.c: A
+15:32:40     unit 10: COMPILE-ERROR src/ov_SC05_009/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_009/ov_SC05_009_jr_8015C32C.c: 
+15:32:40     unit 10: COMPILE-ERROR src/ov_SC05_008/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_008/ov_SC05_008_jr_8015C32C.c: 
+15:32:40     unit 10: COMPILE-ERROR src/ov_SC05_007/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_007/ov_SC05_007_jr_8015C32C.c: 
+15:32:40     unit 7: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_010/../shared/ov/func_80168A88.h:3: prev
+15:32:41     unit 27: COMPILE-ERROR src/ov_SC05_003/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_003/ov_SC05_003_jr_8015C32C.c: A
+15:32:41     unit 29: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_002/ov_SC05_002_jr_8015C32C.c: A
+15:32:41     unit 5: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_011/../shared/ov/func_80168BDC.h:3: prev
+15:32:42     unit 29: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_003/ov_SC05_003_jr_8015C32C.c: A
+15:32:42     unit 10: COMPILE-ERROR src/ov_SC05_010/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_010/ov_SC05_010_jr_8015C32C.c: 
+15:32:42   src/ov_SC05_001/ov_SC05_001_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:43     unit 7: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_011/../shared/ov/func_80168A88.h:3: prev
+15:32:44   src/ov_SC05_002/ov_SC05_002_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.1 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:45   src/ov_SC05_003/ov_SC05_003_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.4 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:45     unit 27: COMPILE-ERROR src/ov_SC04_018/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c: A
+15:32:45     unit 10: COMPILE-ERROR src/ov_SC05_011/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_011/ov_SC05_011_jr_8015C32C.c: 
+15:32:47     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_017/../shared/ov/func_80168BDC.h:3: prev
+15:32:47     unit 27: COMPILE-ERROR src/ov_SC05_004/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_004/ov_SC05_004_jr_8015C32C.c: A
+15:32:47     unit 27: COMPILE-ERROR src/ov_SC05_006/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_006/ov_SC05_006_jr_8015C32C.c: A
+15:32:47     unit 29: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c: A
+15:32:47     unit 27: COMPILE-ERROR src/ov_SC05_005/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_005/ov_SC05_005_jr_8015C32C.c: A
+15:32:48     unit 5: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC05_018/../shared/ov/func_80168BDC.h:3: prev
+15:32:48     unit 7: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_017/../shared/ov/func_80168A88.h:3: prev
+15:32:48     unit 29: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_004/ov_SC05_004_jr_8015C32C.c: A
+15:32:49     unit 5: COMPILE-ERROR src/ov_SC05_019/ov_SC05_019_jr_8015C32C.c:3462: conflicting types for `func_800D2318' | src/ov_SC05_019/../shared/ov/func_80168BDC.h:3: prev
+15:32:49     unit 29: COMPILE-ERROR src/ov_SC05_006/ov_SC05_006_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_006/ov_SC05_006_jr_8015C32C.c: A
+15:32:49     unit 27: COMPILE-ERROR src/ov_SC05_008/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_008/ov_SC05_008_jr_8015C32C.c: A
+15:32:49     unit 27: COMPILE-ERROR src/ov_SC05_009/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_009/ov_SC05_009_jr_8015C32C.c: A
+15:32:49     unit 29: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_005/ov_SC05_005_jr_8015C32C.c: A
+15:32:49     unit 27: COMPILE-ERROR src/ov_SC05_007/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_007/ov_SC05_007_jr_8015C32C.c: A
+15:32:49     unit 7: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC05_018/../shared/ov/func_80168A88.h:3: prev
+15:32:50     unit 7: COMPILE-ERROR src/ov_SC05_019/ov_SC05_019_jr_8015C32C.c:3391: conflicting types for `func_80146C3C' | src/ov_SC05_019/../shared/ov/func_80168A88.h:3: prev
+15:32:50     unit 29: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_008/ov_SC05_008_jr_8015C32C.c: A
+15:32:50     unit 10: COMPILE-ERROR src/ov_SC05_017/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_017/ov_SC05_017_jr_8015C32C.c: 
+15:32:50     unit 29: COMPILE-ERROR src/ov_SC05_009/../shared/ov/func_8015EA3C__47c5b5e8.h:27: too few arguments to function `func_8016EE40' | src/ov_SC05_009/ov_SC05_009_jr_80
+15:32:50     unit 29: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_007/ov_SC05_007_jr_8015C32C.c: A
+15:32:50   src/ov_SC05_004/ov_SC05_004_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:51     unit 27: COMPILE-ERROR src/ov_SC05_010/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_010/ov_SC05_010_jr_8015C32C.c: A
+15:32:51   src/ov_SC05_006/ov_SC05_006_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:51     unit 10: COMPILE-ERROR src/ov_SC05_018/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_018/ov_SC05_018_jr_8015C32C.c: 
+15:32:52   src/ov_SC04_018/ov_SC04_018_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 70 · 32.4 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:52   src/ov_SC05_005/ov_SC05_005_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:52     unit 10: COMPILE-ERROR src/ov_SC05_019/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC05_019/ov_SC05_019_jr_8015C32C.c: 
+15:32:52     unit 29: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_010/ov_SC05_010_jr_8015C32C.c: A
+15:32:54   src/ov_SC05_009/ov_SC05_009_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.3 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:54   src/ov_SC05_008/ov_SC05_008_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:54     unit 27: COMPILE-ERROR src/ov_SC05_011/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_011/ov_SC05_011_jr_8015C32C.c: A
+15:32:55   src/ov_SC05_007/ov_SC05_007_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:57     unit 29: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_011/ov_SC05_011_jr_8015C32C.c: A
+15:32:57   src/ov_SC05_010/ov_SC05_010_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.0 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:58     unit 5: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_000/../shared/ov/func_80168BDC.h:3: prev
+15:32:58     unit 5: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_006/../shared/ov/func_80168BDC.h:3: prev
+15:32:59   src/ov_SC05_011/ov_SC05_011_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.0 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:32:59     unit 5: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_010/../shared/ov/func_80168BDC.h:3: prev
+15:33:00     unit 5: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_008/../shared/ov/func_80168BDC.h:3: prev
+15:33:00     unit 5: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_011/../shared/ov/func_80168BDC.h:3: prev
+15:33:00     unit 7: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_006/../shared/ov/func_80168A88.h:3: prev
+15:33:00     unit 7: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_000/../shared/ov/func_80168A88.h:3: prev
+15:33:01     unit 5: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_013/../shared/ov/func_80168BDC.h:3: prev
+15:33:01     unit 7: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_010/../shared/ov/func_80168A88.h:3: prev
+15:33:01     unit 7: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_008/../shared/ov/func_80168A88.h:3: prev
+15:33:01     unit 5: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_014/../shared/ov/func_80168BDC.h:3: prev
+15:33:01     unit 7: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_011/../shared/ov/func_80168A88.h:3: prev
+15:33:01     unit 5: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_015/../shared/ov/func_80168BDC.h:3: prev
+15:33:01     unit 27: COMPILE-ERROR src/ov_SC05_017/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_017/ov_SC05_017_jr_8015C32C.c: A
+15:33:01     unit 10: COMPILE-ERROR src/ov_SC06_006/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_006/ov_SC06_006_jr_8015C32C.c: 
+15:33:01     unit 10: COMPILE-ERROR src/ov_SC06_000/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_000/ov_SC06_000_jr_8015C32C.c: 
+15:33:02     unit 27: COMPILE-ERROR src/ov_SC05_018/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_018/ov_SC05_018_jr_8015C32C.c: A
+15:33:02     unit 7: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_013/../shared/ov/func_80168A88.h:3: prev
+15:33:02     unit 7: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_014/../shared/ov/func_80168A88.h:3: prev
+15:33:02     unit 7: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_015/../shared/ov/func_80168A88.h:3: prev
+15:33:02     unit 10: COMPILE-ERROR src/ov_SC06_010/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_010/ov_SC06_010_jr_8015C32C.c: 
+15:33:02     unit 10: COMPILE-ERROR src/ov_SC06_008/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_008/ov_SC06_008_jr_8015C32C.c: 
+15:33:02     unit 29: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_017/ov_SC05_017_jr_8015C32C.c: A
+15:33:02     unit 10: COMPILE-ERROR src/ov_SC06_011/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_011/ov_SC06_011_jr_8015C32C.c: 
+15:33:03     unit 27: COMPILE-ERROR src/ov_SC05_019/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC05_019/ov_SC05_019_jr_8015C32C.c: A
+15:33:03     unit 29: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC05_018/ov_SC05_018_jr_8015C32C.c: A
+15:33:03     unit 5: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_016/../shared/ov/func_80168BDC.h:3: prev
+15:33:03     unit 10: COMPILE-ERROR src/ov_SC06_013/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_013/ov_SC06_013_jr_8015C32C.c: 
+15:33:03     unit 10: COMPILE-ERROR src/ov_SC06_014/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_014/ov_SC06_014_jr_8015C32C.c: 
+15:33:04     unit 29: COMPILE-ERROR src/ov_SC05_019/../shared/ov/func_8015EA3C__cadf3ee3.h:27: too few arguments to function `func_8016EE40' | src/ov_SC05_019/ov_SC05_019_jr_80
+15:33:04     unit 10: COMPILE-ERROR src/ov_SC06_015/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_015/ov_SC06_015_jr_8015C32C.c: 
+15:33:04   src/ov_SC05_017/ov_SC05_017_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:04     unit 7: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_016/../shared/ov/func_80168A88.h:3: prev
+15:33:06   src/ov_SC05_018/ov_SC05_018_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.4 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:06   src/ov_SC05_019/ov_SC05_019_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.5 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:06     unit 10: COMPILE-ERROR src/ov_SC06_016/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_016/ov_SC06_016_jr_8015C32C.c: 
+15:33:07   src/ov_SC06_018/ov_SC06_018_jr_801789AC.c: IDENTICAL · rows 30 · compiles 2 · 0.2 s · canon 30 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:07   src/ov_SC06_018/ov_SC06_018_jr_80178D40.c: IDENTICAL · rows 30 · compiles 2 · 0.2 s · canon 29 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:08   src/ov_SC06_018/ov_SC06_018_jr_8017A4AC.c: IDENTICAL · rows 30 · compiles 2 · 0.2 s · canon 29 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:09   src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c: IDENTICAL · rows 30 · compiles 2 · 0.2 s · canon 29 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:09     unit 5: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_018/../shared/ov/func_80168BDC.h:3: prev
+15:33:10     unit 27: COMPILE-ERROR src/ov_SC06_006/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_006/ov_SC06_006_jr_8015C32C.c: A
+15:33:11     unit 27: COMPILE-ERROR src/ov_SC06_000/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_000/ov_SC06_000_jr_8015C32C.c: A
+15:33:11     unit 7: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_018/../shared/ov/func_80168A88.h:3: prev
+15:33:11     unit 27: COMPILE-ERROR src/ov_SC06_010/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_010/ov_SC06_010_jr_8015C32C.c: A
+15:33:11     unit 27: COMPILE-ERROR src/ov_SC06_008/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_008/ov_SC06_008_jr_8015C32C.c: A
+15:33:11     unit 27: COMPILE-ERROR src/ov_SC06_011/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_011/ov_SC06_011_jr_8015C32C.c: A
+15:33:11     unit 29: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_006/ov_SC06_006_jr_8015C32C.c: A
+15:33:12     unit 29: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_000/ov_SC06_000_jr_8015C32C.c: A
+15:33:12     unit 29: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_010/ov_SC06_010_jr_8015C32C.c: A
+15:33:12     unit 10: COMPILE-ERROR src/ov_SC06_018/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_018/ov_SC06_018_jr_8015C32C.c: 
+15:33:12     unit 5: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_020/../shared/ov/func_80168BDC.h:3: prev
+15:33:13     unit 29: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_008/ov_SC06_008_jr_8015C32C.c: A
+15:33:13     unit 29: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_011/ov_SC06_011_jr_8015C32C.c: A
+15:33:13     unit 5: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_022/../shared/ov/func_80168BDC.h:3: prev
+15:33:13     unit 27: COMPILE-ERROR src/ov_SC06_014/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_014/ov_SC06_014_jr_8015C32C.c: A
+15:33:13     unit 27: COMPILE-ERROR src/ov_SC06_015/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_015/ov_SC06_015_jr_8015C32C.c: A
+15:33:13     unit 27: COMPILE-ERROR src/ov_SC06_013/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_013/ov_SC06_013_jr_8015C32C.c: A
+15:33:14   src/ov_SC06_006/ov_SC06_006_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.5 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:14     unit 7: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_020/../shared/ov/func_80168A88.h:3: prev
+15:33:14   src/ov_SC06_000/ov_SC06_000_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:15     unit 29: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_015/ov_SC06_015_jr_8015C32C.c: A
+15:33:15     unit 7: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_022/../shared/ov/func_80168A88.h:3: prev
+15:33:15     unit 29: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_014/ov_SC06_014_jr_8015C32C.c: A
+15:33:15     unit 29: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_013/ov_SC06_013_jr_8015C32C.c: A
+15:33:15   src/ov_SC06_010/ov_SC06_010_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:16   src/ov_SC06_011/ov_SC06_011_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:16   src/ov_SC06_008/ov_SC06_008_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:16     unit 27: COMPILE-ERROR src/ov_SC06_016/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_016/ov_SC06_016_jr_8015C32C.c: A
+15:33:17     unit 10: COMPILE-ERROR src/ov_SC06_020/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_020/ov_SC06_020_jr_8015C32C.c: 
+15:33:18     unit 10: COMPILE-ERROR src/ov_SC06_022/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_022/ov_SC06_022_jr_8015C32C.c: 
+15:33:18     unit 29: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_016/ov_SC06_016_jr_8015C32C.c: A
+15:33:19   src/ov_SC06_014/ov_SC06_014_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:19   src/ov_SC06_015/ov_SC06_015_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:19   src/ov_SC06_013/ov_SC06_013_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.1 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:21     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_024/../shared/ov/func_80168BDC.h:3: prev
+15:33:21   src/ov_SC06_016/ov_SC06_016_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.0 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:22     unit 5: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_025/../shared/ov/func_80168BDC.h:3: prev
+15:33:23     unit 5: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_027/../shared/ov/func_80168BDC.h:3: prev
+15:33:23     unit 7: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_024/../shared/ov/func_80168A88.h:3: prev
+15:33:23     unit 7: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_025/../shared/ov/func_80168A88.h:3: prev
+15:33:23     unit 5: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_029/../shared/ov/func_80168BDC.h:3: prev
+15:33:23     unit 5: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_030/../shared/ov/func_80168BDC.h:3: prev
+15:33:24     unit 7: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_027/../shared/ov/func_80168A88.h:3: prev
+15:33:24     unit 27: COMPILE-ERROR src/ov_SC06_018/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_018/ov_SC06_018_jr_8015C32C.c: A
+15:33:24     unit 10: COMPILE-ERROR src/ov_SC06_024/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_024/ov_SC06_024_jr_8015C32C.c: 
+15:33:24     unit 5: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_032/../shared/ov/func_80168BDC.h:3: prev
+15:33:25     unit 7: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_029/../shared/ov/func_80168A88.h:3: prev
+15:33:25     unit 7: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_030/../shared/ov/func_80168A88.h:3: prev
+15:33:25     unit 5: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC07_000/../shared/ov/func_80168BDC.h:3: prev
+15:33:25     unit 10: COMPILE-ERROR src/ov_SC06_025/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_025/ov_SC06_025_jr_8015C32C.c: 
+15:33:25     unit 5: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC06_033/../shared/ov/func_80168BDC.h:3: prev
+15:33:25     unit 29: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_018/ov_SC06_018_jr_8015C32C.c: A
+15:33:25     unit 5: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC07_001/../shared/ov/func_80168BDC.h:3: prev
+15:33:25     unit 7: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_032/../shared/ov/func_80168A88.h:3: prev
+15:33:25     unit 10: COMPILE-ERROR src/ov_SC06_027/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_027/ov_SC06_027_jr_8015C32C.c: 
+15:33:26     unit 7: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC07_000/../shared/ov/func_80168A88.h:3: prev
+15:33:26     unit 7: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC06_033/../shared/ov/func_80168A88.h:3: prev
+15:33:26     unit 10: COMPILE-ERROR src/ov_SC06_029/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_029/ov_SC06_029_jr_8015C32C.c: 
+15:33:26     unit 10: COMPILE-ERROR src/ov_SC06_030/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_030/ov_SC06_030_jr_8015C32C.c: 
+15:33:26     unit 7: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC07_001/../shared/ov/func_80168A88.h:3: prev
+15:33:27     unit 27: COMPILE-ERROR src/ov_SC06_022/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_022/ov_SC06_022_jr_8015C32C.c: A
+15:33:27     unit 10: COMPILE-ERROR src/ov_SC06_032/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_032/ov_SC06_032_jr_8015C32C.c: 
+15:33:27     unit 27: COMPILE-ERROR src/ov_SC06_020/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_020/ov_SC06_020_jr_8015C32C.c: A
+15:33:27   src/ov_SC06_018/ov_SC06_018_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.8 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:27     unit 10: COMPILE-ERROR src/ov_SC07_000/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC07_000/ov_SC07_000_jr_8015C32C.c: 
+15:33:28     unit 10: COMPILE-ERROR src/ov_SC06_033/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC06_033/ov_SC06_033_jr_8015C32C.c: 
+15:33:28     unit 10: COMPILE-ERROR src/ov_SC07_001/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC07_001/ov_SC07_001_jr_8015C32C.c: 
+15:33:28     unit 29: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_022/ov_SC06_022_jr_8015C32C.c: A
+15:33:28     unit 29: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_020/ov_SC06_020_jr_8015C32C.c: A
+15:33:31   src/ov_SC06_022/ov_SC06_022_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:31   src/ov_SC06_020/ov_SC06_020_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.6 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:32     unit 5: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC07_002/../shared/ov/func_80168BDC.h:3: prev
+15:33:33     unit 27: COMPILE-ERROR src/ov_SC06_024/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_024/ov_SC06_024_jr_8015C32C.c: A
+15:33:33     unit 27: COMPILE-ERROR src/ov_SC06_025/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_025/ov_SC06_025_jr_8015C32C.c: A
+15:33:33     unit 7: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC07_002/../shared/ov/func_80168A88.h:3: prev
+15:33:34     unit 29: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_024/ov_SC06_024_jr_8015C32C.c: A
+15:33:34     unit 27: COMPILE-ERROR src/ov_SC06_027/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_027/ov_SC06_027_jr_8015C32C.c: A
+15:33:34     unit 29: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_025/ov_SC06_025_jr_8015C32C.c: A
+15:33:35     unit 27: COMPILE-ERROR src/ov_SC06_030/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_030/ov_SC06_030_jr_8015C32C.c: A
+15:33:35     unit 10: COMPILE-ERROR src/ov_SC07_002/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC07_002/ov_SC07_002_jr_8015C32C.c: 
+15:33:35     unit 27: COMPILE-ERROR src/ov_SC06_029/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_029/ov_SC06_029_jr_8015C32C.c: A
+15:33:35     unit 29: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_027/ov_SC06_027_jr_8015C32C.c: A
+15:33:36     unit 5: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_8015C32C.c:5793: conflicting types for `func_800D2318' | src/ov_SC07_008/../shared/ov/func_80168BDC.h:3: prev
+15:33:36     unit 27: COMPILE-ERROR src/ov_SC06_032/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_032/ov_SC06_032_jr_8015C32C.c: A
+15:33:36     unit 5: COMPILE-ERROR src/ov_SC07_009/ov_SC07_009_jr_8015C32C.c:5792: conflicting types for `func_800D2318' | src/ov_SC07_009/../shared/ov/func_80168BDC.h:3: prev
+15:33:36     unit 27: COMPILE-ERROR src/ov_SC06_033/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC06_033/ov_SC06_033_jr_8015C32C.c: A
+15:33:37   src/ov_SC06_024/ov_SC06_024_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.3 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:37     unit 29: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_029/ov_SC06_029_jr_8015C32C.c: A
+15:33:37     unit 27: COMPILE-ERROR src/ov_SC07_000/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC07_000/ov_SC07_000_jr_8015C32C.c: A
+15:33:37     unit 29: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_030/ov_SC06_030_jr_8015C32C.c: A
+15:33:37   src/ov_SC06_025/ov_SC06_025_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.3 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:37     unit 7: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_8015C32C.c:5718: conflicting types for `func_80146C3C' | src/ov_SC07_008/../shared/ov/func_80168A88.h:3: prev
+15:33:37     unit 29: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_032/ov_SC06_032_jr_8015C32C.c: A
+15:33:38     unit 7: COMPILE-ERROR src/ov_SC07_009/ov_SC07_009_jr_8015C32C.c:5717: conflicting types for `func_80146C3C' | src/ov_SC07_009/../shared/ov/func_80168A88.h:3: prev
+15:33:38     unit 27: COMPILE-ERROR src/ov_SC07_001/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC07_001/ov_SC07_001_jr_8015C32C.c: A
+15:33:38   src/ov_SC01_000/ov_SC01_000_jr_80171B4C.c: IDENTICAL · rows 29 · compiles 2 · 0.2 s · canon 29 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:38     unit 29: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC06_033/ov_SC06_033_jr_8015C32C.c: A
+15:33:38     unit 29: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC07_000/ov_SC07_000_jr_8015C32C.c: A
+15:33:39   src/ov_SC01_000/ov_SC01_000_jr_801734BC.c: IDENTICAL · rows 29 · compiles 2 · 0.3 s · canon 29 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:39   src/ov_SC06_027/ov_SC06_027_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:40     unit 29: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC07_001/ov_SC07_001_jr_8015C32C.c: A
+15:33:40     unit 10: COMPILE-ERROR src/ov_SC07_008/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC07_008/ov_SC07_008_jr_8015C32C.c: 
+15:33:40     unit 10: COMPILE-ERROR src/ov_SC07_009/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8' | src/ov_SC07_009/ov_SC07_009_jr_8015C32C.c: 
+15:33:41   src/ov_SC06_030/ov_SC06_030_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.3 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:41   src/ov_SC06_029/ov_SC06_029_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.5 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:43   src/ov_SC06_032/ov_SC06_032_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:43   src/ov_SC06_033/ov_SC06_033_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.1 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:44   src/ov_SC01_001/ov_SC01_001_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:44   src/ov_SC07_000/ov_SC07_000_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:44   src/ov_SC01_004/ov_SC01_004_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:44   src/ov_SC01_001/ov_SC01_001_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.5 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:45   src/ov_SC01_004/ov_SC01_004_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.6 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:45   src/ov_SC07_001/ov_SC07_001_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 16.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:47   src/ov_SC01_008/ov_SC01_008_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:48   src/ov_SC01_008/ov_SC01_008_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:48   src/ov_SC01_009/ov_SC01_009_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:49   src/ov_SC01_005/ov_SC01_005_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 4 · 0.5 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:49     unit 27: COMPILE-ERROR src/ov_SC07_002/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC07_002/ov_SC07_002_jr_8015C32C.c: A
+15:33:49   src/ov_SC01_005/ov_SC01_005_jr_801734BC.c: IDENTICAL · rows 28 · compiles 4 · 0.7 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:49   src/ov_SC01_009/ov_SC01_009_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.5 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:49   src/ov_SC01_074/ov_SC01_074_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:50   src/ov_SC01_074/ov_SC01_074_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.5 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:50   src/ov_SC01_080/ov_SC01_080_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:50   src/ov_SC01_080/ov_SC01_080_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:51     unit 29: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC07_002/ov_SC07_002_jr_8015C32C.c: A
+15:33:53   src/ov_SC01_084/ov_SC01_084_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:53   src/ov_SC01_084/ov_SC01_084_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:53   src/ov_SC02_004/ov_SC02_004_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:54   src/ov_SC02_000/ov_SC02_000_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 4 · 0.5 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:54     unit 27: COMPILE-ERROR src/ov_SC07_008/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC07_008/ov_SC07_008_jr_8015C32C.c: A
+15:33:54   src/ov_SC02_000/ov_SC02_000_jr_801734BC.c: IDENTICAL · rows 28 · compiles 4 · 0.9 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:55   src/ov_SC02_005/ov_SC02_005_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:55   src/ov_SC02_004/ov_SC02_004_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.6 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:55   src/ov_SC07_002/ov_SC07_002_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 17.2 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:33:55   src/ov_SC02_005/ov_SC02_005_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.6 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:55     unit 27: COMPILE-ERROR src/ov_SC07_009/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC07_009/ov_SC07_009_jr_8015C32C.c: A
+15:33:56   src/ov_SC02_011/ov_SC02_011_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.5 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:56   src/ov_SC02_011/ov_SC02_011_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:56     unit 29: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC07_008/ov_SC07_008_jr_8015C32C.c: A
+15:33:57     unit 29: COMPILE-ERROR src/ov_SC07_009/ov_SC07_009_jr_8015C32C.c:2368: too few arguments to function `func_8016EE40' | src/ov_SC07_009/ov_SC07_009_jr_8015C32C.c: A
+15:33:58     unit 29: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:560: conflicting types for `D_800B9A02' | src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:550: previous 
+15:33:59   src/ov_SC02_016/ov_SC02_016_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:59   src/ov_SC02_016/ov_SC02_016_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:59   src/ov_SC02_017/ov_SC02_017_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:59   src/ov_SC02_015/ov_SC02_015_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.5 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:33:59     unit 29: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:560: conflicting types for `D_800B9A02' | src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:550: previous 
+15:34:00   src/ov_SC02_017/ov_SC02_017_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:00   src/ov_SC07_008/ov_SC07_008_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.9 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:34:00   src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c: IDENTICAL · rows 30 · compiles 32 · 8.5 s · canon 29 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+15:34:00   src/ov_SC02_015/ov_SC02_015_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:01   src/ov_SC07_009/ov_SC07_009_jr_8015C32C.c: IDENTICAL · rows 30 · compiles 35 · 15.7 s · canon 25 promoted 0 K&R 4 aliases 0 abs 0 kept 5
+15:34:01   src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c: IDENTICAL · rows 30 · compiles 32 · 8.2 s · canon 29 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+15:34:02   src/ov_SC02_021/ov_SC02_021_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:02   src/ov_SC02_021/ov_SC02_021_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.1 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:04   src/ov_SC02_026/ov_SC02_026_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:04   src/ov_SC02_031/ov_SC02_031_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:04   src/ov_SC02_028/ov_SC02_028_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:05   src/ov_SC02_027/ov_SC02_027_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:05   src/ov_SC02_027/ov_SC02_027_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:06   src/ov_SC02_026/ov_SC02_026_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:06   src/ov_SC02_028/ov_SC02_028_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:07   src/ov_SC02_035/ov_SC02_035_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:07   src/ov_SC02_035/ov_SC02_035_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:07   src/ov_SC02_031/ov_SC02_031_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:08   src/ov_SC02_039/ov_SC02_039_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.1 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:08   src/ov_SC02_039/ov_SC02_039_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:09   src/ov_SC02_041/ov_SC02_041_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:10   src/ov_SC02_041/ov_SC02_041_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:11   src/ov_SC03_001/ov_SC03_001_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:11   src/ov_SC03_002/ov_SC03_002_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:11   src/ov_SC03_003/ov_SC03_003_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:11   src/ov_SC03_002/ov_SC03_002_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:12   src/ov_SC03_001/ov_SC03_001_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.1 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:13   src/ov_SC03_006/ov_SC03_006_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:13   src/ov_SC03_003/ov_SC03_003_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:13   src/ov_SC03_006/ov_SC03_006_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:14   src/ov_SC03_007/ov_SC03_007_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:15   src/ov_SC03_007/ov_SC03_007_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.6 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:16   src/ov_SC03_010/ov_SC03_010_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:16   src/ov_SC03_012/ov_SC03_012_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:17   src/ov_SC03_012/ov_SC03_012_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:17   src/ov_SC03_010/ov_SC03_010_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:17   src/ov_SC03_011/ov_SC03_011_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:18   src/ov_SC03_011/ov_SC03_011_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:18   src/ov_SC03_013/ov_SC03_013_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:19   src/ov_SC03_013/ov_SC03_013_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:20   src/ov_SC03_014/ov_SC03_014_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 4 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:20   src/ov_SC03_023/ov_SC03_023_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:21   src/ov_SC03_014/ov_SC03_014_jr_801734BC.c: IDENTICAL · rows 28 · compiles 4 · 0.6 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:21   src/ov_SC03_023/ov_SC03_023_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:22   src/ov_SC03_024/ov_SC03_024_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:23   src/ov_SC03_024/ov_SC03_024_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:23   src/ov_SC03_028/ov_SC03_028_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:23   src/ov_SC03_028/ov_SC03_028_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:23   src/ov_SC03_029/ov_SC03_029_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:24   src/ov_SC03_029/ov_SC03_029_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:24   src/ov_SC03_030/ov_SC03_030_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:25   src/ov_SC03_030/ov_SC03_030_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:26   src/ov_SC03_031/ov_SC03_031_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:26   src/ov_SC03_031/ov_SC03_031_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:27   src/ov_SC03_089/ov_SC03_089_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:28   src/ov_SC03_090/ov_SC03_090_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:28   src/ov_SC03_089/ov_SC03_089_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:28   src/ov_SC03_091/ov_SC03_091_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:28   src/ov_SC03_092/ov_SC03_092_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:29   src/ov_SC03_091/ov_SC03_091_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:29   src/ov_SC03_090/ov_SC03_090_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:30   src/ov_SC03_092/ov_SC03_092_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:30   src/ov_SC03_093/ov_SC03_093_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:31   src/ov_SC03_093/ov_SC03_093_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:32   src/ov_SC03_094/ov_SC03_094_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:32   src/ov_SC03_094/ov_SC03_094_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:33   src/ov_SC03_095/ov_SC03_095_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:34   src/ov_SC03_095/ov_SC03_095_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:34   src/ov_SC03_097/ov_SC03_097_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:34   src/ov_SC03_096/ov_SC03_096_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:35   src/ov_SC03_096/ov_SC03_096_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:35   src/ov_SC03_097/ov_SC03_097_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:35   src/ov_SC03_098/ov_SC03_098_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:36   src/ov_SC03_098/ov_SC03_098_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:36   src/ov_SC03_099/ov_SC03_099_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:38   src/ov_SC03_099/ov_SC03_099_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:38   src/ov_SC03_100/ov_SC03_100_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:38   src/ov_SC03_100/ov_SC03_100_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:39   src/ov_SC03_102/ov_SC03_102_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:39   src/ov_SC03_101/ov_SC03_101_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:40   src/ov_SC03_101/ov_SC03_101_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:41   src/ov_SC03_102/ov_SC03_102_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:41   src/ov_SC03_103/ov_SC03_103_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:41   src/ov_SC03_103/ov_SC03_103_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:42   src/ov_SC03_104/ov_SC03_104_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:43   src/ov_SC03_104/ov_SC03_104_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:43   src/ov_SC03_105/ov_SC03_105_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:44   src/ov_SC03_109/ov_SC03_109_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:45   src/ov_SC03_109/ov_SC03_109_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:45   src/ov_SC03_108/ov_SC03_108_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:45   src/ov_SC03_108/ov_SC03_108_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:45   src/ov_SC03_105/ov_SC03_105_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:46   src/ov_SC03_110/ov_SC03_110_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:47   src/ov_SC03_110/ov_SC03_110_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:47   src/ov_SC03_111/ov_SC03_111_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:48   src/ov_SC03_111/ov_SC03_111_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:48   src/ov_SC03_112/ov_SC03_112_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:49   src/ov_SC03_112/ov_SC03_112_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:49   src/ov_SC03_113/ov_SC03_113_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:50   src/ov_SC03_115/ov_SC03_115_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:50   src/ov_SC03_113/ov_SC03_113_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:51   src/ov_SC03_114/ov_SC03_114_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:52   src/ov_SC03_114/ov_SC03_114_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.8 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:52   src/ov_SC03_116/ov_SC03_116_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:53   src/ov_SC03_115/ov_SC03_115_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.5 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:53   src/ov_SC03_117/ov_SC03_117_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:54   src/ov_SC03_116/ov_SC03_116_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:54   src/ov_SC03_117/ov_SC03_117_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:55   src/ov_SC03_118/ov_SC03_118_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 4 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:56   src/ov_SC03_121/ov_SC03_121_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:56   src/ov_SC03_121/ov_SC03_121_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:56   src/ov_SC03_124/ov_SC03_124_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:58   src/ov_SC03_118/ov_SC03_118_jr_801734BC.c: IDENTICAL · rows 28 · compiles 4 · 0.7 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:58   src/ov_SC03_124/ov_SC03_124_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:58   src/ov_SC03_125/ov_SC03_125_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:59   src/ov_SC04_000/ov_SC04_000_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:59   src/ov_SC04_000/ov_SC04_000_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:34:59   src/ov_SC03_125/ov_SC03_125_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:00   src/ov_SC04_002/ov_SC04_002_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:01   src/ov_SC04_002/ov_SC04_002_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:01   src/ov_SC04_003/ov_SC04_003_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:01   src/ov_SC04_003/ov_SC04_003_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:01   src/ov_SC04_004/ov_SC04_004_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:02   src/ov_SC04_004/ov_SC04_004_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:03   src/ov_SC04_006/ov_SC04_006_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:03   src/ov_SC04_005/ov_SC04_005_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:04   src/ov_SC04_005/ov_SC04_005_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:04   src/ov_SC04_007/ov_SC04_007_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:05   src/ov_SC04_006/ov_SC04_006_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:05   src/ov_SC04_007/ov_SC04_007_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:06   src/ov_SC04_009/ov_SC04_009_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:07   src/ov_SC04_009/ov_SC04_009_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:07   src/ov_SC04_010/ov_SC04_010_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:07   src/ov_SC04_010/ov_SC04_010_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:08   src/ov_SC04_011/ov_SC04_011_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.1 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:09   src/ov_SC04_011/ov_SC04_011_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:09   src/ov_SC04_012/ov_SC04_012_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:09   src/ov_SC04_012/ov_SC04_012_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:10   src/ov_SC04_015/ov_SC04_015_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:10   src/ov_SC04_015/ov_SC04_015_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:11   src/ov_SC04_016/ov_SC04_016_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:12   src/ov_SC04_016/ov_SC04_016_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:12   src/ov_SC04_020/ov_SC04_020_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:12   src/ov_SC04_018/ov_SC04_018_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 4 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:14   src/ov_SC04_018/ov_SC04_018_jr_801734BC.c: IDENTICAL · rows 28 · compiles 4 · 0.7 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:14   src/ov_SC04_020/ov_SC04_020_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:14   src/ov_SC05_000/ov_SC05_000_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:15   src/ov_SC05_000/ov_SC05_000_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:15   src/ov_SC05_001/ov_SC05_001_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:16   src/ov_SC05_002/ov_SC05_002_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.1 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:16   src/ov_SC05_001/ov_SC05_001_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:17   src/ov_SC05_002/ov_SC05_002_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:17   src/ov_SC05_003/ov_SC05_003_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:18   src/ov_SC05_004/ov_SC05_004_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:18   src/ov_SC05_003/ov_SC05_003_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:18   src/ov_SC05_004/ov_SC05_004_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:19   src/ov_SC05_005/ov_SC05_005_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:20   src/ov_SC05_005/ov_SC05_005_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:20   src/ov_SC05_007/ov_SC05_007_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:21   src/ov_SC05_006/ov_SC05_006_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:21   src/ov_SC05_006/ov_SC05_006_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:22   src/ov_SC05_007/ov_SC05_007_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:22   src/ov_SC05_008/ov_SC05_008_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:22   src/ov_SC05_008/ov_SC05_008_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:23   src/ov_SC05_010/ov_SC05_010_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.2 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:24   src/ov_SC05_011/ov_SC05_011_jr_80171B4C.c: IDENTICAL · rows 28 · compiles 2 · 0.1 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:24   src/ov_SC05_010/ov_SC05_010_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:24   src/ov_SC05_011/ov_SC05_011_jr_801734BC.c: IDENTICAL · rows 28 · compiles 2 · 0.3 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+15:35:24 restruct: batch t4_D25 rung D — 300 files (TUs; 3681 drawable) · 8577 declaration units: 8094 canonical / 0 promoted / 384 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 483 kept · compiles 3977 in 292 s wall · final 300/300 identical · written 299 files
+t4_D25 wall=479.61 s
+exit=0
