@@ -219,7 +219,7 @@ extern void func_800190AC(void);
 extern void func_8012956C(void);
 extern void func_8016E95C(void);
 extern void func_801754A8(void);
-extern void func_8013BC7C(void);
+extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
 extern void func_801379FC(void);
 extern void func_8001212C(void);
@@ -540,7 +540,7 @@ void func_80128FAC(u16 *arg0) {
 
 
 
-extern void func_801299C8();
+extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 extern void func_80015B6C(s32, s16, s32, s16, s32, s32, s32, s32, s32, s32);
 extern void GsSortBg(s32 *, void *, u16, s32 *);
 extern void GsSortFastBg(s32 *, void *, u16, s32 *);
@@ -829,7 +829,7 @@ extern void func_8012AAAC(void *arg0);
 #include "../shared/ov/func_8012AAAC__t6631232b.h"
 
 
-extern void func_8012AAAC();
+extern void func_8012AAAC(void *arg0);
 
 void func_8012ACA0(void *arg0) {
 
@@ -1576,7 +1576,7 @@ void func_8012E364(s32 arg0_)
     D_801F4D70 = v;
     *(u16 *)(e1 + 0x2C) = flags | 0x10;
     e2 = ((s32 *)arg0)[8];
-    d = __builtin_abs(v);
+    d = abs(v);
     *(s16 *)(e2 + 0x1C) = d;
     *(s16 *)(e2 + 0x18) = d;
     *(s16 *)(((s32 *)arg0)[8] + 0x1A) = 0x1000;
@@ -1851,7 +1851,7 @@ s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
-extern void func_80131170();
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F828(int param_1)
@@ -1872,7 +1872,7 @@ void func_8012F828(int param_1)
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
-extern void func_80131170();
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F8C8(int param_1)

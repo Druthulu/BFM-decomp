@@ -23,7 +23,7 @@ void func_800CAE44(void *a0) {
 }
 
 
-extern void func_800CAEC0();
+extern void func_800CAEC0(s32 a0);
 #include "../shared/slot_800CAE08/func_800CAE88__3eeb9c91.h"
 
 
@@ -108,7 +108,7 @@ extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
 extern void func_8001CB00(s32 a0, void *a1, s32 a2, s32 a3);
 extern void func_80149374(s32 a0, s32 a1);
 extern void func_8014964C(s32 a0, s32 a1);
-extern void func_800CB620();
+extern void func_800CB620(s32 arg0);
 extern void func_80146CA0(void *a0);
 extern s32 func_800CB600();
 extern u8 D_800CBEA0[];
@@ -397,7 +397,7 @@ void func_800CBA74(int param_1)
 typedef struct { s32 w[4]; } Blk_800CBAD0;
 
 void func_800CBAD0(s32 a0) {
-    extern void func_800CB8A0();
+    extern void func_800CB8A0(void *a0);
 
     s32 s;
     s32 v;
@@ -425,7 +425,7 @@ L_inc:
 
 void func_800CBBA0(void *a0) {
     typedef struct { s32 w[4]; } S16;
-    extern void func_800CB8A0();
+    extern void func_800CB8A0(void *a0);
     s32 a1;
     s32 n;
     s32 m;
@@ -452,7 +452,7 @@ void func_800CBBA0(void *a0) {
 
 
 void func_800CBC7C(s32 param_1) {
-    extern void func_800CB8A0();
+    extern void func_800CB8A0(void *a0);
     extern s32 rand(void);
     s32 iVar2;
     s32 iVar3;
@@ -488,7 +488,7 @@ LAB_800CBCFC:
 
 
 void func_800CBD78(s32 param_1) {
-    extern void func_800CB8A0();
+    extern void func_800CB8A0(void *a0);
     s16 var;
 
     var = *(u16 *)(param_1 + 0x28) - 0x100;
@@ -504,7 +504,7 @@ void func_800CBD78(s32 param_1) {
 
 typedef struct { s32 w[4]; } Struct16;
 
-extern void func_800CB8A0();
+extern void func_800CB8A0(void *a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 void func_800CBDD0(s32 a0) {

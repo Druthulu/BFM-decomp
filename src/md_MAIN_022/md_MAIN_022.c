@@ -18,7 +18,7 @@ void func_800CAE34(void *a0) {
 }
 
 
-extern void func_800CAEB0();
+extern void func_800CAEB0(void *a0);
 #include "../shared/slot_800CAE08/func_800CAE78__3873a7ac.h"
 
 
@@ -125,7 +125,7 @@ void func_800CB10C(void *a0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBCA8[])(void *);
     extern void func_800CB3D0();
-    extern void func_800CB3F0();
+    extern void func_800CB3F0(void *a0);
     extern void func_800CB4AC();
 
     if (D_80078EC1 != 4) {

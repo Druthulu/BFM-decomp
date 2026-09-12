@@ -1371,8 +1371,8 @@ extern u8  D_800A46BA;
 extern u8  D_800A4F1A;
 extern s32 func_80034CF0(u8 *);
 extern void func_80034DFC(short);
-extern s32 func_80035270();    /* §376: def returns s32 and takes (s32) */
-extern void func_800359B0();   /* §376: def takes (s32) */
+extern s32 func_80035270(s32 arg0);    /* §376: def returns s32 and takes (s32) */
+extern void func_800359B0(s32 arg0);   /* §376: def takes (s32) */
 extern void func_80036D24(void);
 extern void func_80036FB0(s32, s32);
 
@@ -1499,7 +1499,7 @@ extern s16 D_800A4EF8;
 extern s32 func_80034CF0(u8 *);
 extern void func_80034DFC(s16);
 extern s32 func_8003EDE8(s32, s32, s32);
-extern s32 func_80035C4C();    /* §376: def returns s32 and takes (s32) */
+extern s32 func_80035C4C(s32 arg0);    /* §376: def returns s32 and takes (s32) */
 extern void func_80036F98(void);
 extern void func_8003602C(s32);   /* §376: the definition takes s32 (the use is address-taken and already cast) */
 extern void func_80036FB0(s32, s32);
@@ -3872,7 +3872,7 @@ void func_80039F14(u8 *arg0, s16 arg1, u8 arg2) {
 }
 
 extern void func_80039C70(u8 *arg0, s16 arg1, s16 arg2);   /* §376: matches the definition */
-extern void func_80039DEC();  /* no-proto (§376/§495): the definition is K&R with narrow params — a narrow-typed prototype is incompatible */
+extern void func_80039DEC(void * a0, int a1, int a2);  /* no-proto (§376/§495): the definition is K&R with narrow params — a narrow-typed prototype is incompatible */
 
 void func_80039F50(u8 **a0, s16 a1)
 {

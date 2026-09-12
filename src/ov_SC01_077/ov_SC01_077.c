@@ -10,7 +10,7 @@
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8012B4B8();                        /* match-first, arity 1 */
+extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
@@ -169,8 +169,8 @@ extern Rec12 D_80187484[];
 extern Rec9 D_8018744C[];
 extern u8 D_801DAA78;  /* canonical (§8d); Rec9 block-move via cast-at-use */
 
-extern void func_8013DBE4();
-extern void func_8013D9B0();
+extern void func_8013DBE4(int param_1);
+extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
 extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
@@ -278,7 +278,7 @@ void func_8013CB84(void) {
 
 void func_8013CF68()
 {
-    extern void func_80028620();
+    extern void func_80028620(s32 a0, void *a1);
     extern u8 D_800A5E94[];
     extern s32 D_800A5E8C;
     extern s32 D_800A5E90;
@@ -327,7 +327,7 @@ extern s32 D_801D9598;
 extern s32 D_801D9580;
 extern s32 D_801D959C;
 extern s32 D_801D958C;
-extern void func_8013D9B0();
+extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
 
 void func_8013D064(void)
 {
@@ -352,7 +352,7 @@ void func_8013D064(void)
     return;
 }
 
-extern void func_8013D9B0();
+extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
 extern s32 D_801D958C;
 
 s32 func_8013D13C(void) {
@@ -1742,7 +1742,7 @@ s32 func_8013F350(void) {
 
 extern void  func_80140E6C(void);
 extern void  func_80140F00(void);
-extern s32  *func_80140958();
+extern s32 * func_80140958(s32 * ot, int i, int n);
 extern int   func_80141100(int);
 extern s16   func_8014168C(s16);
 extern s32   func_8013FFD8(s16, s32, s32 *);

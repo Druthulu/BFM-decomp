@@ -10,7 +10,7 @@
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8012B4B8();                        /* match-first, arity 1 */
+extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
@@ -549,7 +549,7 @@ extern void func_80129248(s16 a0);
 
 extern s32 D_801D9484;
 
-extern void func_801299C8();
+extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 extern void func_80015B6C(s32, s16, s32, s16, s32, s32, s32, s32, s32, s32);
 extern void GsSortBg(s32 *, void *, u16, s32 *);
 extern void GsSortFastBg(s32 *, void *, u16, s32 *);
@@ -933,7 +933,7 @@ extern void func_8012AAAC(void *arg0);
 #include "../shared/ov/func_8012AAAC__t6631232b.h"
 
 
-extern void func_8012AAAC();
+extern void func_8012AAAC(void *arg0);
 extern M2C_UNK D_80186E48;
 
 void func_8012ACA0(void *arg0) {

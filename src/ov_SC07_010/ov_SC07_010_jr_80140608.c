@@ -16,8 +16,8 @@ extern void func_8013CAE8(void);
 extern void func_8013CB20(void);
 extern void func_8013CB5C(void);
 extern s16 currentLocationId;
-extern void func_8013DBE4();
-extern void func_8013D9B0();
+extern void func_8013DBE4(int param_1);
+extern void func_8013D9B0(int param_1);
 extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
@@ -26,7 +26,7 @@ extern void func_8013CF68();
 extern void func_8013D064(void);
 extern s32 func_8013D13C(void);
 extern void func_8013D164(void);
-extern void func_8013D53C();
+extern void func_8013D53C(void *arg0v);
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013D3D4(int param_1, int param_2);
@@ -1343,7 +1343,7 @@ void func_80143458(s32 param_1)
 }
 
 
-extern void func_8014358C();
+extern void func_8014358C();  // K&R: 0 of 1 args (P37 rung D t4_D35)
 extern void func_8012931C(struct vec *a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);

@@ -244,10 +244,10 @@ void func_800CB370(void *arg0) {
 
 
 void func_800CB3CC(void *arg0) {
-    extern void func_800D2318(void);
+    extern void func_800D2318();  // K&R: 0 of 1 args (P37 rung D t4_D35)
     extern void RotMatrixYXZ();
     extern void ApplyMatrixSV();
-    extern void func_800D1FC8();
+    extern void func_800D1FC8(void *arg0, int arg1);
     extern s32 func_800D21C4();
     extern void func_80128EA8();
     extern void func_80146C3C();

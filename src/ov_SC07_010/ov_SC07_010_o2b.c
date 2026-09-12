@@ -138,8 +138,8 @@ void func_8013CB5C(void) {
 
 extern s16 currentLocationId;
 
-extern void func_8013DBE4();
-extern void func_8013D9B0();
+extern void func_8013DBE4(int param_1);
+extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
 extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
@@ -243,7 +243,7 @@ void func_8013CB84(void) {
 
 void func_8013CF68()
 {
-    extern void func_80028620();
+    extern void func_80028620(s32 a0, void *a1);
     extern u8 D_800A5E94[];
     extern s32 D_800A5E8C;
     extern s32 D_800A5E90;
@@ -290,7 +290,7 @@ void func_8013CF68()
 // @class: schedule
 // @unstuck(P36): testing if/else-if with ==2 placed as the else (tail) block
 
-extern void func_8013D9B0();
+extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
 
 void func_8013D064(void)
 {
@@ -322,7 +322,7 @@ void func_8013D064(void)
 
 
 
-extern void func_8013D9B0();
+extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
 
 s32 func_8013D13C(void) {
 
@@ -430,7 +430,7 @@ void func_8013D330(void) {
 
 
 
-extern void func_8013D53C();
+extern void func_8013D53C();  // K&R: 0 of 1 args (P37 rung D t4_D35)
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
@@ -1285,7 +1285,7 @@ s32 func_8013EE10() {
     extern s16 D_80183338;
     extern s16 D_8018333A;
     extern unsigned char D_8018333C;
-    extern E4 aD80115188[] __asm__("D_80115188");
+    extern E4 D_80115188[];
     extern E4 D_80115168[];
     extern unsigned short D_80115118;
 
@@ -1300,7 +1300,7 @@ s32 func_8013EE10() {
     func_8013FAF8(0, 5);
     for (i = 0; i < 5; i++) {
         s32 t = D_80115168[i].f0 * 3 >> 2;
-        aD80115188[i].f0 = t;
+        D_80115188[i].f0 = t;
         D_80115168[i].f0 = D_80115168[i].f0 - t;
     }
     r = &D_8018333A;
@@ -1345,7 +1345,7 @@ void func_8013EF88(void)
     extern u16 D_80115118;
     extern s16 D_800B9A02;
     extern s32 D_801151D0;
-    extern E4  aD80115188[] __asm__("D_80115188");
+    extern E4 D_80115188[];
     extern E4  D_80115168[];
     extern u16 D_80115124;
     extern u16 D_80115114;
@@ -1363,8 +1363,8 @@ void func_8013EF88(void)
             D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)D_800B9A02 * 4);
             func_8013FAF8(0, 5);
             for (i = 0; i < 5; i++) {
-                s32 t = aD80115188[i].f0 * 3;
-                aD80115188[i].f0 = t;
+                s32 t = D_80115188[i].f0 * 3;
+                D_80115188[i].f0 = t;
                 D_80115168[i].f0 = D_80115168[i].f0 + t;
             }
             if (D_80115118 < 3) {

@@ -686,7 +686,7 @@ extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
 extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_80146CA0(void *a0);
 extern void func_800CDBD4();
-extern void func_800CDBF4();
+extern void func_800CDBF4();  // K&R: 0 of 1 args (P37 rung D t4_D35)
 
 extern u8 D_800CE068[];
 extern u8 D_800CE08C[];
@@ -714,8 +714,8 @@ void func_800CDAB4(s32 *param_1) {
 }
 
 
-extern void func_800CDBF4();
-extern void func_800CDCA8();
+extern void func_800CDBF4();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+extern void func_800CDCA8(void *arg0);
 void func_800CDBA4(s32 a0) {
     func_800CDBF4();
     ((void (*)(s32))func_800CDCA8)(a0);

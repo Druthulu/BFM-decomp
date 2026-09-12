@@ -234,7 +234,7 @@ extern s16 func_8012A79C(s16 *a0, s16 *a1);
 extern s16 func_8012A758(void);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_8012A7D4(void *arg0, void *arg1);
-extern void func_8012AAAC();
+extern void func_8012AAAC(void *arg0);
 extern void func_8012A828(s32 a0, void * a1);
 extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
@@ -720,7 +720,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 
 // @class: plumbing
 // @stuck: none — MATCH (pending gate)
-extern void func_80131170();
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern unsigned char D_8017F5E8[];
 
@@ -730,7 +730,7 @@ extern unsigned char D_8017F5E8[];
 #include "../shared/ov/func_8012F87C.h"
 
 
-extern void func_80131170(s32 a0, s32 a1, s32 a2);
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern u8 D_8017F5F4[];
 
@@ -955,7 +955,7 @@ extern s32 func_80143B6C(s32 a0, s32 a1);
 extern void func_8012B23C(s32 a0);
 extern void func_8012CBA4(s32 a0);
 extern void func_8012CBF4(s32 a0);
-extern void func_80131E00();
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 

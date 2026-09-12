@@ -35,7 +35,7 @@ void func_800CAEB4(void *a0) {
 }
 
 
-extern void func_800CAF30();
+extern void func_800CAF30(u8 *a0);
 void func_800CAEF8(void *a0) {
     func_800CAF30(a0);
     *(u8 *)((s32)a0 + 0x197) += 1;
@@ -44,7 +44,7 @@ void func_800CAEF8(void *a0) {
 
 extern s32 func_80165910(void);
 extern void func_801655E4(s32 a0);
-extern void func_800CAFB4();
+extern void func_800CAFB4(void *arg);
 
 void func_800CAF30(u8 *a0) {
     if (func_80165910() == 0) {
