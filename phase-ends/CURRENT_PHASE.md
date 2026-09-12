@@ -6,7 +6,9 @@
 > Drew's stop rule **grind to zero** on all three volume counters (raw casts, lying declarations, levers), each "zero" defined honestly in
 > the plan's §"What zero means". Names are placeholders + cited evidence (`Unkstruct_<addr>`, `unk<HEX>`); meaning-naming is Phase 38.
 > The approved plan is reproduced VERBATIM at the end of this file (§"Approved plan"). **Baseline HEAD at open: `79b2f6f15`** (the
-> Phase-36 close commit, v2.2.0 — made by Claude on Drew's word "you commit the last phase end", a one-off R6 waiver; the push is Drew's).
+> Phase-36 close commit — made by Claude on Drew's word "you commit the last phase end" and pushed on his word "just push the last
+> phaseend as a normal commit", two one-off R6 waivers; **no tag, no release** at phase closes — Drew, S106; the PhaseEnd blocks'
+> `git tag` lines are retired from T10 on).
 > **R22 obligation:** every batch that touches `src/` is followed by the clean fleet run (218/218) before its commit — this phase changes
 > no byte, ever. **Rules ratified at gate 1 by the plan approval: R107–R117** (the PhaseEnd_Phase36 candidates (a)–(k); Drew may still
 > veto any of them — say so and the DIGEST entry is amended).
@@ -40,22 +42,29 @@
 
 ## Tasks (plan order; one commit each; ☐ → ☑ with the verify line quoted in the log)
 
-- ☑ **T0** (S106; the commit carrying this line) — Precondition, baseline and the phase file: the P36 close commit `79b2f6f15` + tag `v2.2.0` (done, this
-  session, on Drew's word); R22 clean fleet at the open `extract-all: 217 extracted, 0 failed of 217 (+ main, serial)` · `check-all: 218
+- ☑ **T0** (S106; the commit carrying this line) — Precondition, baseline and the phase file: the P36 close commit `79b2f6f15` (done and pushed this
+  session, on Drew's word; the `v2.2.0` tag created then DELETED — no tags/releases at closes, Drew); R22 clean fleet at the open `extract-all: 217 extracted, 0 failed of 217 (+ main, serial)` · `check-all: 218
   passed, 0 failed of 218` · `real 1m25.976s` · exit 0 (`.run/P37/baseline/r22_t0.log`, HEAD `db212f167` — the close commit adds no
   build input); `delever_oracle --recipes` `4284 recipes captured in 14.6 s at -j16; errors 0` · `--snapshot-baseline` `7428 object(s)
   under .run/P36/delever/baseline at db212f167` · `--calibrate main md_SC07_004 ov_SC02_005 ov_SC04_011: 147/147 objects byte-identical
   untouched; twin checks 0 (0 mismatch); positive control DIFFERS on build/src/800.o; 2.3 s — OK` (main 0.108 s/object, ov 0.15–0.16,
   md_SC07_004 0.504) (`.run/P37/baseline/oracle_t0.log`); `.gitignore` P37 allowlist (by-contents, R84; `git check-ignore` verified: logs
   and `.tsv` tracked, `.o` ignored); this file. Verify at the commit: `git status` clean.
-- ☐ **T1** (xHigh; the layout/cluster model reviewed at Max) — `tools/type_census.py`: definitions with o32 layouts + duplicate classes +
+- ☐ **T1** (xHigh; the layout/cluster model reviewed at Max) — `tools/type_census.py` + **the struct map** (added at gate 1 on Drew's
+  question, P5d — his "Yes — T1 delivers the map"): definitions with o32 layouts + duplicate classes +
   VARIANT camps + dead names; cast sites in all four forms + `M2C_FIELD` with base class/offset/width/sign/load-store; the declaration
   layer (definitions K&R-read, in-scope declarations per TU, the lying set, multi-spelled callees, aliases, builtins, attributes); the P36
   inheritance in ONE file (`.run/P37/census/parked.tsv`) and the func_8013D9B0 `gte-unsigned` inconsistency resolved; coverage (R32) vs
   the raw regex totals; controls (the player block's live-verified fields, MATRIX vs MATRIX_L48, one TU-CONFLICT diagnostic); `progress.py`
   `types` block + README sentence; `readability_progress` learns the uncounted forms; dictionary + SETUP rows; `lever_census`'s stale
-  controls re-keyed. Verify: `type_census: <D> definitions (<L> layouts, <C> duplicate classes, <V> variant camps) · <S> cast sites in <B>
-  bodies over <K> bases (<F> forms, coverage OK) · <Y> lying declarations / <Q> callees · controls 4/4`.
+  controls re-keyed. **The struct map** (`.run/P37/census/struct_map.json` + the rendered `docs/struct-map.md`, generated — R75): every
+  function analysed, every cast site assigned to a base, bases clustered into the types the fleet needs — membership (which functions,
+  which parameter/global), the evidence class per merge (same `D_` base · call-graph argument flow · dedup-registry identity · allocator
+  return · signature-only, which never merges alone), each type's layout from the union of its sites' (offset, width, sign), its site
+  coverage (how many of the 412k it explains — the campaign's leverage order), and every conflict (two incompatible layouts on one base →
+  two types or a union); consumed by T2's sampling, T4's typed prototypes and T5/T6. Verify: `type_census: <D> definitions (<L> layouts, <C> duplicate classes, <V> variant camps) · <S> cast sites in <B>
+  bodies over <K> bases (<F> forms, coverage OK) · <Y> lying declarations / <Q> callees · controls 4/4` and `struct_map: <T> types over <K> bases explain <S'>/<S> sites (<p> %); <U>
+  unassigned bases; <C> conflicts`.
 - ☐ **T2** (Max) — The probe: (i) struct spelling on ~150 bodies over the top bases (identical / differing / closing under S+A / residual
   by pass); (ii) the canonical prototype per TU on ~300 TUs (free / byte-changing / refused, causes) + the 24 parked patches as the known-true
   set; (iii) the definition fold on 20 TUs; seconds per object, objects per header edit. Prices T4–T7 with denominators (R41). Verify: the
@@ -64,7 +73,8 @@
   selftest + known-true no-op + negative controls), `tools/struct_layout.py`, the canonical type files' writer (final style; one file per
   symbol space), the reinterpret macros in `include/common.h`, `tools/restruct_cycle.sh` (detached, R115). The Plan agent's stress-test
   lands here as design notes. Verify: selftest; the calibration line; one batch on one overlay end-to-end with R22 green.
-- ☐ **T4** (xHigh; unattended cycles) — The declaration layer over the fleet by symbol space (rung D): canonical prototypes where free, the
+- ☐ **T4** (xHigh; unattended cycles) — The declaration layer over the fleet by symbol space (rung D): canonical prototypes where free — carrying the struct map's
+  parameter types (`Unkstruct_X *a0`, not `s32 a0`) in the same pass —, the
   free repairs, the 24 parked signature changes with their callers, the 51 TU-CONFLICT rows, class E aliases, `__builtin_abs`, K&R sites
   marked and counted apart, the "carried decl layer" banners deleted. R22 every 2 batches; one commit per batch. **Rules check (P6) after T4.**
 - ☐ **T5** (Max for the head types; xHigh to run) — Struct unification (rung L): one canonical definition per layout in the final style,
@@ -96,8 +106,15 @@
   they were the banking lever (§236), the width lever, and — P36's finding — a codegen lever through `MEM_IN_STRUCT_P`. A canonical type
   layer growing from the first bank (sotn's shape) was achievable and is the kit's day-one rule. The T2 probe puts the number on it (how much
   of the 4,010 the struct hypothesis closes) → the decision log (R31).
-- **Gate 1, after the plan approval:** *"you commit the last phase end"* → Claude made the Phase-36 close commit `79b2f6f15` and the local
-  `v2.2.0` tag (a one-off R6 waiver for the close commit; R6 unchanged: Drew pushes).
+- **Gate 1, after the plan approval:** *"you commit the last phase end"* → Claude made the Phase-36 close commit `79b2f6f15` (a one-off R6
+  waiver). Then: *"there is no tag and release, just push the last phaseend as a normal commit"* → the local `v2.2.0` tag deleted (no tags or
+  releases at phase closes — the PhaseEnd 🛑 blocks drop their `git tag` lines from T10 on) and `git push origin 79b2f6f15:main` run on his
+  word (a second one-off waiver; R6 unchanged for everything else — Drew pushes).
+- **Gate 1, after T0 (Drew):** *"insted of our phase plan, should we analyze every single func, and group together all the funcs that need a
+  struct that share, so we can build a final struct map of all needed structs?"* → not instead of the plan — it is T1's clustering made a
+  first-class deliverable, and it lets T4's canonical prototypes carry the mapped parameter types in one pass (order: census → **map** →
+  probe → tools → declarations-with-types → unification → casts). AskUserQuestion: **"Yes — T1 delivers the map"** (P5d, a deliverable added
+  to T1; the task order unchanged).
 
 ## Rules at gate 1 (P10)
 
@@ -137,7 +154,14 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   (`.run/P37/baseline/oracle_t0.log`). `.gitignore` P37 block inserted before the outreach block (by-contents form); `git check-ignore -v`:
   `r22_t0.log`/`oracle_t0.log` → `!/.run/P37/baseline/*.log`, `census/parked.tsv` → `!/.run/P37/census/*.tsv`, a `.o` → ignored.
 
-## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, LIVE — refreshed at every task close): gate 1 APPROVED, **T0 ☑** (baseline + oracle + allowlist + this file, committed) — 🛑 **T1 NEXT (the type census, xHigh; its layout/cluster model at Max)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` | the P36 close is committed `79b2f6f15` + tag `v2.2.0`, **NOT PUSHED**
+- **S106 — T0 committed `0a55cb0fd`** (this file, `.gitignore`, the two baseline logs, the recalibrated `calibration.json`); tree clean.
+- **S106 — the close pushed.** Drew: *"there is no tag and release, just push the last phaseend as a normal commit"* → `git tag -d v2.2.0`
+  (0 `v2*` tags remain — none ever existed for v2.0.0/v2.1.0 either); `git push origin 79b2f6f15:main` → `db212f167..79b2f6f15 main`;
+  `origin/main` = the close commit; local main 1 ahead (T0).
+- **S106 — gate-1 adjustment (P5d): T1 delivers the struct map.** Drew's question + "Yes — T1 delivers the map"; the T1 task line, T4's
+  typed prototypes and the decisions above updated; committed as the next log commit.
+
+## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, LIVE — refreshed at every task close): gate 1 APPROVED, **T0 ☑** (baseline + oracle + allowlist + this file, committed) — 🛑 **T1 NEXT (the type census, xHigh; its layout/cluster model at Max)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` | the P36 close `79b2f6f15` is committed AND PUSHED (`origin/main`); no tag (Drew: no tags/releases at closes); T0 `0a55cb0fd` local
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits.**
 
@@ -145,7 +169,8 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
    zero** (raw casts, lying declarations, levers — the plan's §"What zero means" defines each honestly); **placeholders + cited evidence**
    for every type/field name; **T7 = the P36 agent lane at Drew's cap, started only on his word**; **the full canonical declaration layer**.
    R107–R117 ratified. T0's baseline and oracle calibration are done (the log entry above has every verify line). T0 is committed (this file, `.gitignore`, `.run/P37/baseline/*.log`, the recalibrated `.run/P36/delever/calibration.json`).
-   NEXT = **T1 — the type census `tools/type_census.py`** at xHigh (its layout/cluster model at Max).
+   NEXT = **T1 — the type census `tools/type_census.py` + THE STRUCT MAP** (`.run/P37/census/struct_map.json` + `docs/struct-map.md`)
+   at xHigh (its layout/cluster model at Max) — added to T1 on Drew's word after T0 (P5d); T4's prototypes carry the map's parameter types.
 2. **What the next session must know before T1.** (a) The population table in the approved plan below is a gate-1 grep census — T1
    re-derives every number with a self-asserting tool (R32/R37) and its verify line is the plan's. (b) The four cast forms: `*(T *)(…)`
    (411,850, the readability regex `tools/readability_progress.py:31`), `*(T *)ident` (26,279), `((T *)e)[i]` (14,491), `M2C_FIELD(`
