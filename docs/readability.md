@@ -8,6 +8,7 @@
 | date | label | commit | lying declarations | of which `()` | of which `(void)` | in a pinned body | raw cast derefs | struct member reads |
 |---|---|---|---:|---:|---:|---:|---:|---:|
 | 2026-09-10 | P36 S102 — after the 16,759 free declaration repairs | `51028a78d` | 94001 | 86701 | 7300 | 461 | 414148 | 173286 |
+| 2026-09-11 | P36 close | `7a7f78e25` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a
