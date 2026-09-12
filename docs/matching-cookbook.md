@@ -37804,3 +37804,70 @@ natural C removes it. Try these in order on a residual before any register lever
 takes a parameter; a `void` function whose final keepalive reads `v0` returns it; a narrow parameter the bytes use as s32 is
 s32; a store through another symbol of the same address is identical only after LINKING. Refused as closes: an invented
 always-false condition, a dead store kept only to steer a pass, a pointer alias invented only to dodge cse.
+
+## §457 — The lever-removal move catalog, S105: eight TU batches, 42 of 42 at 0 (Phase 36 T7)
+
+**Context.** Phase 36 S105 (2026-09-11) ran the T7 agent lane at Drew's cap of two, one agent per translation unit with 4–7
+residue classes each (`src/800.c`, `src/800_c.c`, `md_SC07_004`, `ov_SC04_011_jr_8017D494`, `ov_SC02_005` ×2, `ov_SC07_007`,
+`ov_SC01_077`). Every drawn class closed at 0: 32 in plain C with zero levers, 2 with only a marked `do { } while (0)`, 8
+minimum-lever (three of them parked SIGNATURE changes with their patches). 4,152 → 4,046 sites. The full readings are
+`.run/P36/agents/METHOD_S103.md` steps 17–22 and each pack's `mechanism.md`; this section is the byte-proven catalog.
+
+**The loop family (four of the eight TUs).** The target says which biv a walked pointer is: its step emitted BEFORE the
+counter's `i++` = a counter-derived giv → `p = (T *)base + i * K;` at the loop top (**generator R44**; the direct `(mem (reg
+biv))` is never a giv, `loop.c:4196`, so the biv cannot be eliminated and the body walks two registers); AFTER `i++` = the
+pointer is its own biv, a RECORD base with no offset-0 access → `rec = SYM - OFF; rec[OFF ± k]` with OFF the textually LAST
+access's offset (`record_giv` prepends, `loop.c:4421`; the biv is eliminated, `:4035`). A lone address giv is never worth
+reducing (`-dL`: benefit 2 per op, `add_cost` 2); a combined pair always is. A second pointer derived from the same base at
+another offset merges as `p[c + K]` (**R22**, which S105 found refusing bodies for three unrelated reasons — `&&` read as
+`&p`, the literal base tried instead of the same-base sibling that steps, `*(T *)q = v` read as a set of `q`). Read the
+target's PREHEADER giv init: it reads the parameter register while the copy lives elsewhere → walk the parameter itself;
+it reads the pointer's own register → walk a local copy (`record_initial`, `loop.c:6327`). An offset-0 read through a
+secondary pointer `q = p + K` makes a THIRD stepped register — spell every access off the real biv.
+
+**cse's address fold (R45).** `s0[K] = 0` with `s0 = &SYM` known → `lui $at; sw $zero,K($at)`: pass 1 folds `(plus s0 K)`
+to the constant first (`find_best_addr`, `cse.c:2622-2740`, `:2653`); the pointer the function passes to the call,
+`p = &s0[K]`, born BEFORE the store and stored through, costs zero instructions, and the `$s0/$s1` swaps beside the count
+hunks are the base's ref count (`global.c:594-610`). Its opposite: a base with MIXED `sw K($sN)` / `lui $at` stores is a
+cse-opaque base beside own-symbol scalars — `find_best_addr` folds via `equiv_constant` whenever `p ≡ symbol` and the block
+has no ebb boundary; unreachable in plain C (the `la` stays, marked).
+
+**sched1's birthing boost, both directions.** A pseudo set ONCE is a `birthing_insn_p` (`sched.c:2468-2546`) and is launched
+at its consumer; a MULTI-set one is not and rises to the block top with a longer life and a lower `qty_compare_1` rank
+(`local-alloc.c:1598`). So: a load-once/use-once read-modify-write value wants COMPOUND UPDATES ON ONE VARIABLE declared in
+the innermost block (`tag = *p; tag &= M; tag |= x; *p = tag;` — step 18); a chain `v &= 0x1F; v -= K; DST = v;` wants ONE
+EXPRESSION (`DST = (v & 0x1F) - K;`, **R46**). The `.sched` priority column (`7f000001` vs `1`) says which direction a body
+needs; the byte oracle decides.
+
+**combine's narrow-load split.** `lh` + `move vX,vY` in the target is `combine.c:1893-1918` ("we need both registers … split
+into a load followed by a register-register copy"), reached only when the `s16` local is loaded DIRECTLY from memory and set
+ONCE (a multi-set local is refused, `:1905-1911`; a `u = t` copy hits cse's paradoxical-SUBREG fold `cse.c:4836-4870`). The
+tree's `frame_pad[N]` / "§333 aggregate" fillers were the dead shift temps' stack slots (8 bytes per site, `combine.c:2306` +
+`reload1.c:2331`) — delete the pad whenever this applies.
+
+**Local-alloc arithmetic that is not a search.** `find_free_reg` (`local-alloc.c:2073-2160`) takes the LOWEST register free
+over [birth, death): a pin whose register lies above the block's first free one is unreachable by any priority order —
+minimum-lever, with the pass on the marker. `update_equiv_regs` (`:1049-1064`) DOUBLES the live length of a set-once
+REG_EQUIV-constant pseudo: a constant local set in ≥2 blocks that outranks a parameter copy is split set-once per block. A
+`u16` counter TIED with a symbol wins by qty number → `s32`. A block with exactly THREE local quantities is allocated in
+BIRTH order (`:1486-1500`). `tools/localalloc_sim.py` settled every such contest this session (0 mismatches).
+
+**The parameter shapes.** A `$4–$7` pin copied once before the first call while every caller casts to a wider arity = the
+function's own parameter N (`assign_parms`, `function.c:3620-3679`) — a signature change: patch in the pack, minimum-lever
+bank with the one pin (func_80029D3C, func_80180FA4); a narrow `s16` parameter the bytes use as `s32` (PROMOTE_PROTOTYPES,
+`function.c:3664-3676`) — the same (func_800385C0). A `$aN` pin on a value loaded right before a call the TU declares
+NARROWER than the definition = a dropped argument, restored through a body-local cast (R19; three bodies). A `$aN` pin
+feeding a call whose delay slot the target leaves `nop`: the callee never reads `$aN` — call it `(void)` through a cast.
+
+**Smaller moves, each 0 on its body.** The libgpu P_TAG bitfield for OT-link mask pairs, stores AND reads (`store_fixed_bit_field`,
+`expmed.c:556-706`: one set-once pseudo per value; the mask pseudo gets 7 refs on reads) — in main; in a module TU the same
+spelling scored 41 (an in-struct store sets only `writes->nonscalar`) — try both. Per-arm store / per-arm call (c6's mechanism,
+four bodies). Copy-first after a call (cse's `(set REG0 REG1)` swap, `cse.c:7440-7474`). The store-straddle: one identical
+constant store moved above the nearest two-register-value store so the holder's range overlaps v0/v1. `y += c % K` with no
+target variable (`expand_divmod` puts quotient and remainder in a named pseudo, `expmed.c:2787`). A global read as a
+one-element array with chained stores (`note_mem_written`, `cse.c:7539-7580`). Two `return <const>;` statements for a pinned
+result. A goto bottom-test loop as a structured `while`. Loop inits moved after the preceding call (sched1's LUID tie-break).
+
+**The do-while tell.** Both marked do-while closes this session were reference-weight levers with the same arithmetic: the
+loser needs EXACTLY +1 flow-time ref (`flow.c:2067`) on a statement that does not mention the winner; a real callee argument
+does it when one exists — never a fake one.
