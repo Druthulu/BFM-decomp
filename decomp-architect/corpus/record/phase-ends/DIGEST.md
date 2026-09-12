@@ -46,7 +46,15 @@ Three sessions (S94–S96) / 48 commits: every shared body one plain-C header un
 8.8 MB macro header gone), the five twins from one source directory, the same-address backlog 1,099 classes / 4,755 copies → 51 ledgered
 / 160, a new `h_text` registry tier for 38 byte-variant functions, S1 a tools-health gate with a second oracle, 14 macro-era tools frozen +
 4 retired behind a guard, the published counts corrected (+459 functions; REAL 360,744 → 350,533 with EMPTY up the same). R96–R99 ratified;
-candidates (a)–(g) proposed. **Gen3 continues at Phase 36 — pins off** (Drew's order dedup → pins → structs → names). The open paragraph:
+candidates (a)–(g) proposed. **Phase 36 CLOSED 2026-09-11 (v2.2.0; `PhaseEnd_Phase36.md`) — Gen3's second phase, LEVERS OFF to the measured floor:** nine sessions
+(S97–S105) / 575 commits; the census found **53,234** compiler-forcing sites (37,720 register pins + 15,514 asm statements) in 15,679
+bodies; a byte oracle on the build's own recipes, a mechanical strip (−37 %), one GTE header for 9,102 per-TU macro definitions, recipes, a
+permuter rung, an object-scored guided search and ~200 agent readings of gcc 2.7.2's source (one per class, then one per TU; 56 of 56 in
+the last session) took them to **4,010** (−92.5 %), every survivor marked with its pass and its instrument, 218/218 at every step; the
+milestone AMENDED at S104 by Drew (the unclosed sites named for the structs phase: signatures with patches, struct types, a carve, one GTE
+spelling, 1,548 singleton sites); 16,759 lying call declarations repaired; the lever and readability series published; the doctrine "ban
+the silence, not the lever". R100–R106 ratified; candidates (a)–(k) proposed. **Gen3 continues at Phase 37 — the structs phase.** The
+Phase-35 open paragraph:
 *Phase 35 OPEN (2026-09-08, S94; gate 1 in plan mode at Max)*
 Drew set the Gen3 order dedup → pins → structs → names (one phase each, planned one at a time). The phase converts the 3,516 distinct
 `DEFINE_func_` macro bodies (5,147 define lines) into per-function plain-C headers under `src/shared/<space>/` included at each member's
@@ -207,6 +215,19 @@ sites → 2,215 headers, 213/213 binaries and 4,121/4,121 objects byte-identical
 defects fixed at their cause; T5b the `h_text` tier (38 classes / 2,030 sites); T6 14 frozen / 4 retired / the guard; T7 S1 strict + C2c/C2d
 in tools-health, the digest corrected; T8 the record (wiki, cookbook §453, decision log). Close: R22 218/218; S1 10,180/10,180, 0
 violations; fleet clean-run 157 s → 84–90 s. Rules: R96–R99 ratified; candidates (a)–(g).
+
+**P36 (2026-09-11, v2.2.0) LEVERS OFF — every compiler-forcing construct out of the matched C, to its measured floor.** 9 sessions
+(S97–S105) / 575 commits. T1 the self-asserting lever census: 53,234 sites (37,720 pins + 15,514 asm) in 15,679 bodies, 2,227 distinct; T1b
+44 whole-body assembly routines inside C shells (22 per-overlay stack-switch trampolines + 8 Sony renderers PERMANENT/SDK, 11 DECOMPILE-NOW,
+3 UNCERTAIN) — the manifest 5 → 49 rows; T2 the oracle (4,284 recipes by `make -n -W`, in-place compiles, whole-object equality, 177/177
+calibration) + a 283-body probe; T3 `delever.py` + the cycle; T4 the mechanical strip in 15 batches → 33,625 (−36.8 %); T5 `include/
+gte_inline.h` (50 macros for 9,102 definitions; 629/699 `"memory"` variants byte-neutral); T6 rung R (134/134 on a known shape, 0/300 on
+unknown) and rung D (5/16; two prior campaigns had scored a disassembly, §454); S101 rung G, the object-scored guided search (33,427 →
+30,358, no tokens; lane B's residual→move map); T7 the agent lane — S102 (→ 24,119; the call-signature turn: 16,759 lying declarations
+repaired; the baseline snapshot; the burst of 20), S103 (→ 5,097; 56 draws; `delever_regen`; the minimum-lever pivot), S104 (→ 4,152; ~105
+draws in TU batches; Drew's four rulings read against sotn-decomp; the milestone amended), S105 (→ 4,010; 56/56 closes; generators
+R44–R46; R22 found blind three ways; caps 2 → 1 → none); T8 the census rung in tools-health + attribution 4,026/4,026; T9 the record
+(cookbook §454–§457, METHOD steps 1–25, 30,138 stale `@stuck:` notes retagged). Rules: R100–R106 ratified; candidates (a)–(k).
 
 ## 3. Every rule, in full (transcribe these at session start; P/G/H/X are in PROJECT_CONTEXT.md)
 - **R1 — H1 relaxed while private.** ROM-derived content (`asm/`, `assets/`, `extracted/`, decompressed `.CD`) MAY be
@@ -401,6 +422,26 @@ never from its last line; a step that hands a file to a third party is proven th
 before the owner's browser session, and the proving tool writes the paste; what a public tree carries is decided before the flip, and a
 retired document gets its Archive-index row and is deleted in the same commit).
 
+**R100–R106 — RATIFIED at Phase 36 gate 1 (Drew, 2026-09-09; the PhaseEnd_Phase35 candidates (a)–(g), operated through P35):**
+- **R100 — A shared body has exactly one source; a duplicate copy is a defect the health chain asserts, and its count is published with
+  its rule.** The P35 invariant (S1), a `tools-health` gate; 1,099 classes / 4,755 copies → 51 / 160, every remainder ledgered.
+- **R101 — Every commit that advances a task — an intra-task bank included — carries its log line and the 🛑 headline; a checkpoint older
+  than HEAD is a dead session's checkpoint.** S94 died at 91 % with two bank commits carrying no log line.
+- **R102 — A tool that restores files restores from its own snapshot, never `git checkout` on a tree it did not commit.** `share_body`'s
+  first bisect wiped ~50 uncommitted sites and returned green.
+- **R103 — A failure-cause extractor is negative-controlled against the compiler's real message forms, not against the word "error".**
+  gcc 2.7.2 prints errors without it and exits 33; 254 of 303 rejection lines read "Error 33".
+- **R104 — Build the disagreeing oracle before the batch runs, and measure its disagreement before believing either side** (R34 operated).
+- **R105 — A registry lists a member only after the gate has spoken for it; a listed member whose site does not share is a defect the
+  check names.** 788 members were extended wholesale; 317 were private after the run.
+- **R106 — A policy taken on a remembered precedent is a belief — read the target project's tree.** The 2026-09-02 dedup deferral
+  rested on one parenthetical; sotn's tree said the opposite.
+**Phase 36 proposed candidates (a)–(k) for Phase 37 gate 1** (the table in `PhaseEnd_Phase36.md` §Rules: ban the silence, not the
+lever; a generator ships with a negative-control corpus and reports its refusal reasons; run every registered family on the agent's start
+text at every landing; a scorer's target is the tree's own bytes, never a disassembly; scratch keyed by the unit of work; a gate's baseline
+is a snapshot; a lever's marker names its pass and its instrument; a ledger's "done" is per body; an unattended run is detached; a marked
+ordinary-C fake is counted apart and an invented construct is never banked; a "stalling?" question is answered with the residue bucketed).
+
 **R96–R99 — RATIFIED at Phase 35 gate 1 (Drew, 2026-09-08; the PhaseEnd_Phase34 candidates (a)–(d), operated through P34):**
 - **R96 — A scratch prune is an instrument change:** every tool that writes under a pruned tree is re-run before the prune is called
   done. `cdecl --audit` wrote its probe under the pruned `.run/audit/`; the refusal read as four parser defects (P34 run 1 of the close chain).
@@ -426,6 +467,9 @@ the OpenRouter-era `automation-runbook.md` is archived) · `docs/effort-map.md` 
 `docs/disc-ledger.md` · `docs/backlog.md` (near-miss ledger) · `docs/gen3-handoff.md` + `docs/gen3-standards.md` (Gen3) ·
 `docs/tool-index.md` (every tool keyed by
 the need it answers; generated) · **Phase 35:** `docs/wiki/The-dedup-engine.md` (the shared-source model), `tools/share_census.py` (the S1
-census and gate), `tools/share_body.py` (the share tool), `config/dedup_exceptions.tsv` (the ledger), cookbook §453 · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–81, G1–67; its wiki page
+census and gate), `tools/share_body.py` (the share tool), `config/dedup_exceptions.tsv` (the ledger), cookbook §453 · **Phase 36:** `docs/levers.md` + `docs/lever-progress.tsv` (the lever series), `docs/readability.md` + `docs/readability-progress.tsv`
+(the readability series), `tools/lever_census.py` (the census, a tools-health rung), `tools/delever.py` (the engine + the generator registry
+R2–R46), `tools/delever_search.py --try` (the agents' scorer), `.run/P36/agents/METHOD_S103.md` (the agents' method), cookbook §454–§457,
+`include/gte_inline.h`, `config/verbatim_manifest.json` (49 rows) · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–81, G1–67; its wiki page
 `docs/wiki/Start-a-new-decomp-project.md`; `make kit-corpus` regenerates, tools-health asserts) · `config/wave_exclude.txt` (pinned walls) · `config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/`
 (scratch; allowlisted subtrees are tracked — e.g. `.run/P32/t3/` drafts/ledger; the rules are on the conventions page).

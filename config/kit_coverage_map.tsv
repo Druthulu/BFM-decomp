@@ -58,3 +58,10 @@ rule	R98	DK-81	a third-party hand-off file is proven through that party's own to
 rule	R99	DK-81	the public tree's contents decided before the flip; a retired document gets its Archive-index row and is deleted in the same commit — DK-81 fact (2) IS this rule
 accelerator	P36 S99	DK-61	the search harness whose target was a disassembly — a known-true case (a body the tree already matches) read before any verdict; DK-61
 accelerator	P36 S105	DK-69	a generator's refusals are an unaudited population — the tests that pass by construction; a negative-control corpus per generator; DK-69
+rule	R100	DK-64	one source per shared function, a duplicate a defect the health chain asserts — the dedup shape of DK-64 (readability at bank time) and the S1 gate; RECORD carries the P35 PhaseEnd
+rule	R101	DK-59	every task-advancing commit carries its log line and the checkpoint headline — DK-59 (the checkpoint is written to be replayed): a checkpoint older than HEAD is a dead session's
+rule	R102	DK-66	a tool restores from its own snapshot, never git checkout on a tree it did not commit — DK-66 (the restore path is part of the instrument)
+rule	R103	DK-69	a failure-cause extractor is negative-controlled against the compiler's real message forms — DK-69 (the tests that pass by construction)
+rule	R104	DK-9	build the disagreeing oracle before the batch runs and measure the disagreement first — DK-9 (the differential-oracle harness) with DK-61's known-true case
+rule	R105	DK-70	a registry lists a member only after the gate spoke for it; a listed member whose site does not share is a named defect — DK-70 (the health suite asserts the work was done)
+rule	R106	DK-71	a policy taken on a remembered precedent is a belief — read the target project's tree — DK-71 (what earns belief)
