@@ -4,8 +4,9 @@ extern void func_8017196C(s32 *a0, s8 a1);   /* == DEFINE_func_8017196C's own si
 extern void func_80147060(u8 *a0);
 extern void func_801511A8(u8 *a0);
 extern void func_80148634(void *a0);
-void aF8016F0E4(u8 *p) __asm__("func_8016F0E4");
-void aF8016F0E4(u8 *p) {
+void func_8016F0E4(p)
+    u8 *p;
+{
     extern s16 D_80078EB4;                       /* fleet-canonical spelling; see the &-cast below */
     extern u8 D_800B9A17;
     *(s32 *)(p + 0x1F8) = 0;

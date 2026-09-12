@@ -2737,7 +2737,7 @@ extern u8 D_801D5454, D_801D5455, D_801D5456, D_801D5458, D_801D5459, D_801D545A
 extern int D_801D545C;
 extern void func_8017E6D8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, struct PW8017E6D8 *h);
 extern void func_8017ED80(void *param_1);
-extern void aF8017EF54();
+extern void func_8017EF54();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern s32  func_8012C588(s32 a0, s32 a1);
 extern u8 * func_8012913C(s32 arg0);
 extern void func_8017EB8C(s32);

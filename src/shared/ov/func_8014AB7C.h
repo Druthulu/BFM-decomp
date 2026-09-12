@@ -1,6 +1,6 @@
 /* func_8014AB7C — shared body (overlay slot 0x80128158, h_exact d8ca0051). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80162CCC();
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern s32 D_8011F9D0;
 void func_8014AB7C(s32 arg0) {
     u8 *p;

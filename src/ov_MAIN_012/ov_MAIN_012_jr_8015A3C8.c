@@ -1454,7 +1454,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC();
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_8014AC10(s32 arg0);
@@ -6531,7 +6531,7 @@ void func_801647A4(int param_1) {
 #include "../shared/ov/func_80164864.h"
 
 
-extern void func_80162CCC();
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern void func_80164ACC(s32 a0);
 
 // @class: regalloc-order — wave-3 real-TU crack (§42a); cracked at Max.

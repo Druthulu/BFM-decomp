@@ -3936,9 +3936,9 @@ void func_8017ED80(void *param_1)
  * move (a no-prototype escape is illegal once a param promotes), so the DEFINITION gets a
  * private C identifier and binds the emitted symbol with a GNU asm label. Zero blast radius:
  * the TU's declaration never meets the definition, and the emitted symbol is unchanged. */
-void aF8017EF54(s32 a0) __asm__("func_8017EF54");
 
-void aF8017EF54(s32 a0)
+void func_8017EF54(a0)
+    s32 a0;
 {
     extern void func_8004914C(void *a0);
     extern void func_800491AC(void *a0);
@@ -4389,7 +4389,7 @@ void func_8017F8CC(s32 a0)
 
 
 extern s32 D_8019C93C[];
-extern void func_8017EF54();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 void func_8017F9FC(s32 a0)
 {
@@ -4556,7 +4556,7 @@ void func_8017FD48(void *a0) {
 }
 
 
-extern void func_8017EF54();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
     void func_8017FD80(s32 *param) {
         *(s16 *)(*(s32 *)((char *)param + 0x20) + 0x10) = 0xE00;
         func_8017EF54();
@@ -4565,7 +4565,7 @@ extern void func_8017EF54();  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 
 
-extern void func_8017EF54();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
     void func_8017FDA8(s32 arg0) {
         s32 temp_v1 = *(s32 *)(arg0 + 0x20);
         *(s16 *)(temp_v1 + 0x10) += 0x20;
@@ -4574,7 +4574,7 @@ extern void func_8017EF54();  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 
 extern void func_80131E00(int, int);
-extern void func_8017EF54();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 void func_8017FDDC(a0)
 s32 a0;
@@ -4592,7 +4592,7 @@ s32 a0;
 
 extern int func_80143C74(short*, int);
 extern s32 rand(void);
-extern void func_8017EF54();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 void func_8017FE28(s32 a0)
 {

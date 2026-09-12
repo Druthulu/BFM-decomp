@@ -3973,7 +3973,7 @@ void func_8016ED6C(void) {
 #include "../shared/ov/func_8016F094.h"
 
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern void func_80165770(void);
 void aF8016F0AC(void) __asm__("func_8016F0AC");
 #include "../shared/ov/func_8016F0AC.h"

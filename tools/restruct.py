@@ -1954,7 +1954,7 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             scope.update(inc.get(rel, []))          # its includers: their own declarations of the real name must agree with the header's
     proto_rx_a = re.compile(AF_PROTO_RX_T.format(name=aname))
     proto_rx_r = re.compile(DECL_RX_T.format(name=re.escape(real)))
-    data_decl_rx = re.compile(r"(?<![\w.])extern\s+((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*[\s*]*)\b" + re.escape(real) + r"\s*;")
+    data_decl_rx = re.compile(r"(?<![\w.])extern\s+((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*[\s*]*)\b" + re.escape(real) + r"\s*(?:\[\s*\])?\s*;")
     m_ = 0 if params == "void" else len(sl._split_top(params, ","))
     kr_files = set()          # files whose calls pass another count: their declarations stay `()` (K&R) with the marker
 
@@ -2136,7 +2136,9 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                     cause = f"{bad} passes another argument count even against a K&R-style definition — KEPT"
                     log(f"unalias {aname}: {cause}")
                     break
-            elif sum(1 for (f_, k_) in tried if k_ == "arity") >= 2:
+            elif sum(n_ for (f_, k_), n_ in tried.items() if k_ == "arity") >= 2:
+                # a second arity ERROR (the same file again counts: t4_ua10/12 — one shared body raised the same error three times and the
+                # ladder never escalated, because this test counted distinct files)
                 kr_files.update(f_ for f_ in scope if f_ not in hoist and f_ not in non_member_files)
                 log(f"unalias {aname}: a second arity caller ({bad}) — every declaration of the unit goes `()` (K&R, marked); re-judging")
             else:

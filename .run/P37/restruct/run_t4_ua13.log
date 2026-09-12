@@ -1,0 +1,41 @@
+17:40:03 unalias aF80161208 -> func_80161208: `void func_80161208(void *a0)` defined in src/shared/ov/func_80161208.h; 171 files (152 alias prototypes, 2518 real-name declarations, 0 renames)
+17:40:16 unalias aF80161208: src/shared/ov/func_8015E288.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+17:40:34 unalias aF80161208: a second arity caller (src/shared/ov/func_80160C28.h) — every declaration of the unit goes `()` (K&R, marked); re-judging
+17:40:53 unalias aF80161208: src/shared/ov/func_80165BFC.h still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+17:41:13 unalias aF80161208: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:4060: void value not ignored as it ought to be
+src/ov_MAIN_012/../shared/ov/func_8015E288.h:15: void value not ignored as it ought to be
+src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:4360: void value not ignored as it ought to be
+src/ov_MAIN_012/../shared/ov/fun — nothing written
+17:41:29 unalias aF80162CCC -> func_80162CCC: `void func_80162CCC(u8 *a0)` defined in src/shared/ov/func_80162CCC.h; 145 files (134 alias prototypes, 153 real-name declarations, 0 renames)
+17:41:44 unalias aF80162CCC: src/shared/ov/func_80164DB0.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+17:42:05 unalias aF80162CCC: a second arity caller (src/shared/ov/func_80164DB0.h) — every declaration of the unit goes `()` (K&R, marked); re-judging
+17:42:28 unalias aF80162CCC: src/shared/ov/func_80164DB0.h still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+17:42:45 unalias aF80162CCC: IDENTICAL on every recipe (288 objects, 116.1 s) — 145 files written
+17:42:56 unalias aF8016BF50: src/shared/ov/func_8016BD78__d6afde15.h declares func_8016BF50 for non-member binaries ['ov_SC03_126', 'ov_SC04_021', 'ov_SC05_019'] — its declaration is hoisted into 3 includers
+17:42:56 unalias aF8016BF50: src/shared/ov/func_8016BBE0__5db18f2a.h declares func_8016BF50 for non-member binaries ['ov_SC03_126', 'ov_SC04_021', 'ov_SC05_019'] — its declaration is hoisted into 3 includers
+17:42:56 unalias aF8016BF50: src/shared/ov/func_8016BEA0__0a1f8b82.h declares func_8016BF50 for non-member binaries ['ov_SC03_126', 'ov_SC04_021', 'ov_SC05_019'] — its declaration is hoisted into 3 includers
+17:42:56 unalias aF8016BF50 -> func_8016BF50: `s32 func_8016BF50(s32 param)` defined in src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c; 10 files (4 alias prototypes, 12 real-name declarations, 3 renames)
+17:42:57 unalias aF8016BF50: src/shared/ov/func_8016BCC0__04061c8b.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+17:42:57 unalias aF8016BF50: a second arity caller (src/shared/ov/func_8016BCC0__04061c8b.h) — every declaration of the unit goes `()` (K&R, marked); re-judging
+17:42:58 unalias aF8016BF50: src/shared/ov/func_8016BCC0__04061c8b.h still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+17:42:58 unalias aF8016BF50: COMPILE-ERROR src/ov_SC03_126/../shared/ov/func_8016BCC0__04061c8b.h:9: too few arguments to function `func_8016BF50'
+src/ov_SC03_126/ov_SC03_126_jr_8016AB6C.c:2077: conflicting types for `func_8016BF50'
+src/ov_SC03_126/ov_SC03_126_jr_8016AB6C.c:2059: previous declaration of `func_8016BF50'
+src/ov_SC03_126/../sha — nothing written
+17:43:13 unalias aF8016F0E4 -> func_8016F0E4: `void func_8016F0E4(u8 *p)` defined in src/shared/ov/func_8016F0E4.h; 20 files (11 alias prototypes, 19 real-name declarations, 0 renames)
+17:43:21 unalias aF8016F0E4: src/shared/ov/func_8016F4C4.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+17:43:33 unalias aF8016F0E4: a second arity caller (src/shared/ov/func_8016F4C4.h) — every declaration of the unit goes `()` (K&R, marked); re-judging
+17:43:45 unalias aF8016F0E4: src/shared/ov/func_8016F4C4.h still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+17:43:54 unalias aF8016F0E4: IDENTICAL on every recipe (296 objects, 54.2 s) — 20 files written
+17:44:06 unalias aF8017EF54 -> func_8017EF54: `void func_8017EF54(s32 a0)` defined in src/ov_SC06_008/ov_SC06_008_jr_8017C294.c; 9 files (9 alias prototypes, 5 real-name declarations, 5 renames)
+17:44:07 unalias aF8017EF54: src/ov_SC06_008/ov_SC06_008_jr_8017C294.c passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+17:44:07 unalias aF8017EF54: a second arity caller (src/ov_SC06_008/ov_SC06_008_jr_8017C294.c) — every declaration of the unit goes `()` (K&R, marked); re-judging
+17:44:08 unalias aF8017EF54: src/ov_SC06_008/ov_SC06_008_jr_8017C294.c still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+17:44:09 unalias aF8017EF54: src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c differs under every prototype form — left untouched (its declaration is load-bearing); re-judging without it
+17:44:10 unalias aF8017EF54: src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c differs under every prototype form — left untouched (its declaration is load-bearing); re-judging without it
+17:44:10 unalias aF8017EF54: src/ov_SC06_022/ov_SC06_022_jr_80184A28.c differs under every prototype form — left untouched (its declaration is load-bearing); re-judging without it
+17:44:11 unalias aF8017EF54: src/ov_SC06_024/ov_SC06_024_jr_80186F00.c differs under every prototype form — left untouched (its declaration is load-bearing); re-judging without it
+17:44:11 unalias aF8017EF54: src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c differs under every prototype form — left untouched (its declaration is load-bearing); re-judging without it
+17:44:12 unalias aF8017EF54: IDENTICAL on every recipe (4 objects, 0.6 s) — 4 files written
+17:44:12 restruct: unalias t4_ua13 — 5 alias-defined functions: 3 back under their real name / 2 kept · 169 files written
+exit=0

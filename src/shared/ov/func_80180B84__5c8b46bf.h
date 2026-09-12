@@ -3,7 +3,7 @@
 extern void func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_80146CA0(void *a0);
-extern void func_80162CCC();
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern u16 D_800DF2E0;
 extern s32 D_8018F510;
 extern s32 D_8018F56C[];

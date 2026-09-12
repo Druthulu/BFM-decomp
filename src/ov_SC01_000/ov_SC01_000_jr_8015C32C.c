@@ -407,7 +407,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_80016714(void *a0, s32 a1);
@@ -3986,7 +3986,6 @@ void func_80162870(s32 param_1) {
 #include "../shared/ov/func_80162CC4.h"
 
 extern void func_80016714(void *a0, s32 a1);
-void aF80162CCC(u8 *a0) __asm__("func_80162CCC");
 #include "../shared/ov/func_80162CCC.h"
 
 

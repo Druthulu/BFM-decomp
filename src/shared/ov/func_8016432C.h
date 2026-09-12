@@ -5,7 +5,7 @@ extern s32 func_80146E98(s32 a0);
 extern void func_801553C0(s32 a0);
 extern void func_80147364(u16 param_1, u16 param_2);
 extern void func_80147324(s32 arg0);
-extern void func_80162CCC();
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 void func_8016432C(s32 a0) {
     s32 s1 = a0;
     s32 s0 = *(s32 *)(s1 + 0x4C);
