@@ -2107,13 +2107,24 @@ accumulate here as the phase produces them.**
   4,032 pin/asm sites, 4,032 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,044 → **4,032**). **Session: 48 of 48 drawn classes
   at 0.** New parked-by-name: func_80180A54 (signature), func_80186CE0 (carve: one record table for `D_801AFBD8..EC`).
 
-## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,032 sites** this session (−120); 9 TU batches f1–f9, **48 of 48 drawn classes at 0** (35 plain C, 3 do-while-only, 10 minimum-lever incl. 4 parked signature changes + 1 parked carve), ALL banked — **f10 (ov_SC06_006, 4 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `c2455f5d3` | `lever_census --check` exit 0 (4,032 marked, 0 UNMARKED, 0 orphans)
+- **S105 (cont.) — f10 landed: 4 of 4 plain C, zero levers — three of them TYPE changes; R22 218/218; 4,032 → 4,026.** f10
+  (`ov_SC06_006_jr_8017DB90`, ≈325k tokens, 39 min): `func_80180AE8` 4 → 0 (a body-local struct type for the entity pointer — `mem/s`
+  field stores drop sched's anti-dependence, `sched.c:845-866` / `expr.c:4873-4888`; ~1,000 raw-pointer spellings had best 2),
+  `func_8017E078` 16 → 0 (`((w >> 8) & 0xFF)` for a byte read beside the word — combine's `make_extraction`; the main siblings' spelling;
+  pad deleted), `func_80180FE8` 17 → 0 (a struct-typed CAST of the laundered global base; launder + `$7` pin → 0), `func_8017E734` 21 → 0
+  (the byte and its table index as one variable + the difference in its own then-block). `bank_list.sh`: `IDENTICAL … KEPT` ×4
+  (`d89dc0c47`…`ff22c1fba`). f11 (`ov_SC06_018`, 4 classes) launched first. METHOD step 24 — **the structs question before statement
+  enumeration** (three of four closes were types: Drew's struct hypothesis proven again, now on a location overlay's entity pointer). R22
+  (`.run/P36/s105/r22_j.log`) **`check-all: 218 passed, 0 failed of 218`** (82 s) → baseline at `ff22c1fba` → `lever_census --check: 4,026
+  pin/asm sites, 4,026 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,032 → **4,026**). **Session: 52 of 52 drawn classes at 0.**
+
+## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,026 sites** this session (−126); 10 TU batches f1–f10, **52 of 52 drawn classes at 0** (39 plain C, 3 do-while-only, 10 minimum-lever incl. 4 parked signature changes + 1 parked carve), ALL banked — **f11 (ov_SC06_018, 4 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `ff22c1fba` | `lever_census --check` exit 0 (4,026 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S105 ran at `/effort high` on Opus 5 1M;
 every agent on Opus) and executes §2. **Drew's cap is ONE agent at a time** (his last retune, after the S105 close: "continue here. max
-concurrent agents of 1 now"). What may be in flight when this is read: **f10** (`src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c`, 4 classes —
-`BRIEF_f10.md` names them) — a dead session's agent leaves `body.c` +
+concurrent agents of 1 now"). What may be in flight when this is read: **f11** (`src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c`, 4 classes —
+`BRIEF_f11.md` names them); `BRIEF_f12.md` (ov_SC07_002, 3 classes) is built and waits — a dead session's agent leaves `body.c` +
 `mechanism.md` in its packs (R67): `--try` each, bank a 0, record the rest. The session limit cut two agents mid-run and Drew had them RESUMED by SendMessage to their ids (R67 held —
 every deliverable was on disk); an agent id survives a limit cut within a session, and an agent of a DEAD session is relaunched from
 its pack. The next draws: `mkbrief.py f11 <tu>` on the 6-class TUs of `pick.py` (ov_SC06_018, ov_SC07_002, ov_SC03_090, ov_SC06_032; `src/800.c`
@@ -2137,7 +2148,7 @@ git log --oneline -1 && git status --short | grep -v '^??' | wc -l
 - The free sweep is SPENT: every residue class has been judged by every family R2–R46 (S105 `s105_r43_*`, `s105_r44r22`, `s105_r45r46`).
 
 ### 2. NEXT
-1. Cap ONE: after f10 lands, `mkbrief.py f11 <next TU>` from `pick.py`'s order (the 5-class TUs:
+1. Cap ONE: after f11 lands launch f12, then `mkbrief.py f13 <next TU>` from `pick.py`'s order (the 5-class TUs:
    ov_SC03_090, ov_SC06_018, ov_SC06_032, ov_SC07_002, then the 4-class ones), skipping ARG-ONLY (`$4`–`$7`-only pins = the
    missing-parameter shape → structs phase) and the park list (S104 §2.4 + S105's four signature changes func_800385C0, func_80029D3C, func_80180FA4, func_80180A54 and
    the carve change func_80186CE0 — patches in their packs; add them to `pick.py`'s PARK set).

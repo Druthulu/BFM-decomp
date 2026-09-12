@@ -354,3 +354,20 @@
     - Two of six closed by grepping the TU for a distinctive constant and porting the lever-free sibling's spelling verbatim
       (`related.txt` had neither) — R71 first, tables second. `--try TU FN FILE` WITHOUT `--body` scores a spliced whole TU: that is
       how a prototype/signature change is tested read-only.
+24. **S105 f10 (`ov_SC06_006_jr_8017DB90`, 4 of 4 plain C, zero levers) — THREE of four were TYPE changes no statement generator reaches:**
+    - A pointer whose block mixes pointer STORES with a global LOAD: raw-pointer stores are scalar varying MEMs, so `anti_dependence`
+      (`sched.c:845-866`, `memrefs_conflict_p` `:614`) pins every load above every store and the boosted `lui` lands beside its
+      consumer (the constant out-ranks the flags load in `qty_compare_1`); a body-local STRUCT type with `mem/s` field accesses
+      (`expr.c:4873-4888`) drops the edge, the `lui` rises, the ranks flip. ~1,000 raw-pointer spellings had best 2.
+    - A laundered global base `p = &SYM`: cast it to a body-local struct (`pa = (Shake *)&D_801F8A10;`) and read fields — cse never
+      replaces a plain REG address (cost 1) with the symbol (cost 2, `find_best_addr` `cse.c:2622-2740`, `mips.c:1600`), so offset-0
+      reads stay `lh 0(rBase)` without a launder while `(plus p 2)` folds absolute; the target's RE-READ after pointer stores is
+      `note_mem_written` → `invalidate_memory` (`cse.c:1707-1715`) invalidating only `in_struct` entries.
+    - `p[k]` read beside `w = *(u32 *)p` and OR-ed with a piece of `w` → `((w >> 8k) & 0xFF)`: combine's `make_extraction` (MEM
+      case) folds it to the same `lbu`, the orphaned shift temp supplies the 8-byte frame — delete the pad beside it (the `src/800.c`
+      siblings spell it this way; R71 across ALL of `src/`).
+    - A delay-slot ALU insn built from the compare's own operands whose destination is "wrong" through the following block →
+      `if (c) { d = E; goto L; }` (the difference in its own then-block becomes a global pseudo; reorg fills the slot from it); and
+      d12 as a two-statement rule (`n = byte; n = tbl[n]; n -= 1;` — the one-statement form loads into a temp). `if (X - Y > 0)` is
+      NOT folded to `X > Y` by gcc 2.7.2 — a probe for "the difference is computed before the branch".
+    - **Ask the (g) structs question BEFORE enumerating statement orders whenever a block mixes pointer stores and a global load.**
