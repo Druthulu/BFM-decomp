@@ -3307,33 +3307,18 @@ void func_8018A6A0(s32 a0, u16 *a1)
     vec0[2] = 0;
     vec0[0] = 0;
     vec0[1] = counter = *s1;
-
-    goto test;
-body:
-    puVar = func_8012913C(0xC);
-    if (puVar != 0) {
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
-            "lwc2 $0, 0(%0)\n"
-            "lwc2 $1, 4(%0)\n"
-            "nop\n"
-            "nop\n"
-            "mvmva 1, 0, 0, 0, 0\n"
-            : : "r"(vec0) : "memory");
-        gte_stlvnl(res);
-        gte_stflg(&flags);
-        *(u16 *)(puVar + 6) = (u16)res[0];
-        *(u16 *)(puVar + 0xA) = (u16)res[1];
-        *(u16 *)(puVar + 0xE) = (u16)(res[2] - 8);
-    }
-    {
-        register u16 tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-        counter = vec0[1];
-        tmp = *(u16 *)(s1 + 2);
-        counter += tmp;
-        vec0[1] = counter;
-    }
-test:
-    if ((s16)counter < *(s16 *)(s1 + 1)) goto body;
+    while ((s16)counter < *(s16 *)(s1 + 1)) {
+        puVar = func_8012913C(0xC);
+        if (puVar != 0) {
+            gte_ldv0(vec0);
+            gte_rtv0tr();
+            gte_stlvnl(res);
+            gte_stflg(&flags);
+            *(u16 *)(puVar + 6) = (u16)res[0];
+            *(u16 *)(puVar + 0xA) = (u16)res[1];
+            *(u16 *)(puVar + 0xE) = (u16)(res[2] - 8);
+        }
+    counter = vec0[1] + s1[2]; vec0[1] = counter; }
 }
 
 
