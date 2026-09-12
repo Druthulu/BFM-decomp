@@ -196,7 +196,7 @@ void func_80183558(s32 a0) {
 }
 
 
-extern void func_8018452C();
+extern void func_8018452C();  // K&R: 0/1 of 1 args (P37 rung D t4_D32)
     void func_8018360C(short *param) {
         param[1] = 0xB;
         func_8018452C();
@@ -212,7 +212,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern void *D_80195144;
 
 void func_80183630(s32 a0) {
-    extern s32 func_801845F4();
+    extern s32 func_801845F4();  // K&R: 0 of 1 args (P37 rung D t4_D32)
     extern void func_8018487C(s32 a0);
     extern s32 func_80183954(s32 a0);
     extern s32 func_80183B30(s32 a0, s32 a1);
@@ -226,7 +226,7 @@ void func_80183630(s32 a0) {
     extern void func_8012B200(u8 *a0);
     extern void func_8012AD80(s32 a0);
     extern void func_8012B260(u8 *a0);
-    extern void func_8018452C();
+    extern void func_8018452C();  // K&R: 0/1 of 1 args (P37 rung D t4_D32)
     extern s32 D_801955F0;
     extern u8 D_801F3EFC[];
     extern u8 D_801F3FA4[];
@@ -351,7 +351,7 @@ extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012ADE4(u8 *a0);
 extern void func_8012B260(u8 *a0);
 extern void func_8017C294(s32 a0, s16 *a1, s16 a2);
-extern s32 func_80183C2C();
+extern s32 func_80183C2C(s32 param_1, s32 param_2, u32 param_3);
 
 s32 func_80183994(s32 a0, s32 a1) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
@@ -442,7 +442,7 @@ s32 func_80183B30(s32 param_1, s32 param_2)
 }
 
 
-extern s32 func_801840C0();
+extern s32 func_801840C0(s32 a0, s32 a1, s32 a2, s32 a3);
 
 s32 func_80183C2C(s32 param_1, s32 param_2, u32 param_3)
 {
@@ -1610,8 +1610,7 @@ s32 func_80185548(s32 param_1) {
      * hard error, and the cast-at-use `*(s32 *)&D_80126B5C` form makes gcc force_reg the
      * constant address (+ CSE'd `la` pseudos). The alias gives a real s32 object at the same
      * assembler symbol, so every access stays a direct lw/sw. */
-    extern s32 gVecX __asm__("D_80126B5C");
-    extern s32 gVecY __asm__("D_80126B60");
+    extern s32 D_80126B5C;
     extern s32 gVecZ __asm__("D_80126B64");
     extern s32 D_80126B58;
     extern void func_8012AD80(s32 a0);
@@ -1628,21 +1627,21 @@ s32 func_80185548(s32 param_1) {
 
     func_8012AD80(param_1);
     if (*(u8 *)(param_1 + 0x74) != 0) {
-        in[0] = gVecX;
-        in[1] = gVecY;
+        in[0] = D_80126B5C;
+        in[1] = D_80126B60;
         in[2] = gVecZ;
         func_8012F0BC((s32 *)(*(s32 *)(param_1 + 0x20) + 0x34), in, tmp);
         func_8012B2CC(param_1);
         func_8012F1A4((s32 *)(*(s32 *)(param_1 + 0x20) + 0x34), (s32)tmp, out);
-        gVecX = out[0];
-        gVecY = out[1];
+        D_80126B5C = out[0];
+        D_80126B60 = out[1];
         gVecZ = out[2];
-        *(s16 *)(buf + 0) = *((u16 *)&gVecX + 1);
-        *(s16 *)(buf + 2) = *((u16 *)&gVecY + 1);
+        *(s16 *)(buf + 0) = *((u16 *)&D_80126B5C + 1);
+        *(s16 *)(buf + 2) = *((u16 *)&D_80126B60 + 1);
         *(s16 *)(buf + 4) = *((u16 *)&gVecZ + 1);
         if ((func_80133784(1, base + 0x88, (s32)buf) & 0x8000) != 0) {
-            gVecX = in[0];
-            gVecY = in[1];
+            D_80126B5C = in[0];
+            D_80126B60 = in[1];
             gVecZ = in[2];
         }
     }
@@ -2027,7 +2026,7 @@ extern void func_8013CABC(void);
 extern void func_80186728(void *a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_80186070(s32 a0);
-extern s32 func_80185FA0();
+extern s32 func_80185FA0(s32 param_1);
 extern int func_80178970(void);
 extern s32 func_80188114(void);
 extern s32 D_801EB520;
@@ -2500,7 +2499,7 @@ void func_801867BC(void *a0) {
 
 // @class: struct
 // @unstuck(P36): none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
-extern void func_80186818();
+extern void func_80186818(s32 *a0);
 extern void (*D_80195D18[])(int);
 
 void func_801867CC(int param_1)
@@ -3168,7 +3167,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012BF4C(s32 *a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
 extern void func_80187654(u8*);
-extern void func_80187724();
+extern void func_80187724(u8 *a0, u8 *a1);
 extern u16 D_800B99DA;
 extern BlockData D_801E9E34;
 
@@ -3800,7 +3799,7 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 #include "common.h"
 
-extern void func_8002A04C(void);
+extern s32 func_8002A04C();  // K&R: 0 of 1 args (P37 rung D t4_D32)
 extern void func_8012C098(void *param_1);
 
 void func_801883EC(s32 a0) {
@@ -4228,7 +4227,7 @@ s32 arg0;
 
 
 extern void func_80188DC8(void*);
-extern void func_80188DF4();
+extern void func_80188DF4(s32 arg0, s32 arg1, s32 arg2, void *arg3);
 extern short D_801D4494;
 
 void func_80188D80(s32 a0) {

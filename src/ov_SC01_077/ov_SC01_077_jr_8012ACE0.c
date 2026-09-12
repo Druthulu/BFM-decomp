@@ -10,7 +10,7 @@
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8012B4B8();                        /* match-first, arity 1 */
+extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
@@ -276,7 +276,7 @@ extern s16 func_8012A79C(s16 *a0, s16 *a1);
 extern s16 func_8012A758(void);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_8012A7D4(void *arg0, void *arg1);
-extern void func_8012AAAC();
+extern void func_8012AAAC(void *arg0);
 extern void func_8012A828(s32 a0, void * a1);
 extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
@@ -702,7 +702,7 @@ extern u8 D_800D3918[];
 
 
 int func_8012D664(int arg0, int arg1, int arg2) {
-    extern int func_8012F568();
+    extern void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
     extern int D_80186E58;
 
     struct S8012D664_8012D664 s;
@@ -729,7 +729,7 @@ int func_8012D664(int arg0, int arg1, int arg2) {
 #include "../shared/ov/func_8012D714.h"
 
 
-extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
 extern void func_8014C978(void);
 extern M2C_UNK D_80186E60;
 extern M2C_UNK D_80186E68;
@@ -950,7 +950,7 @@ void func_8012E364(s32 arg0_)
     D_801D9498 = v;
     *(u16 *)(e1 + 0x2C) = flags | 0x10;
     e2 = ((s32 *)arg0)[8];
-    d = __builtin_abs(v);
+    d = abs(v);
     *(s16 *)(e2 + 0x1C) = d;
     *(s16 *)(e2 + 0x18) = d;
     *(s16 *)(((s32 *)arg0)[8] + 0x1A) = 0x1000;
@@ -1208,7 +1208,7 @@ extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
-extern void func_80131170();
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern unsigned char D_80186E8C[];
 
@@ -1224,7 +1224,7 @@ void func_8012F828(int param_1)
 
 #include "../shared/ov/func_8012F87C.h"
 
-extern void func_80131170(s32 a0, s32 a1, s32 a2);
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern u8 D_80186E98[];
 
@@ -1721,7 +1721,7 @@ extern s32 func_80143B6C(s32 a0, s32 a1);
 extern void func_8012B23C(s32 a0);
 extern void func_8012CBA4(s32 a0);
 extern void func_8012CBF4(s32 a0);
-extern void func_80131E00();
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 
@@ -2616,7 +2616,7 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     extern u8 D_801870B8;
     extern u16 D_801D9500;
     extern s16 D_801D94FC;
-    extern s32 func_80133CD4();
+    extern s32 func_80133CD4(int arg0, s16 * cmd, s16 * base, s32 * arr);
 
     Map_80133AB0 *map = (Map_80133AB0 *)arg3;
     u16 *pA = (*(u16 * *)&D_801870B0);
@@ -2749,8 +2749,8 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s16 D_801152AC;
     extern u16 D_801152AE;
     extern u8  D_801152B0;
-    extern s32 func_80134310();
-    extern s32 func_8013435C();
+    extern s32 func_80134310(Vec3s *a0, Vec3s *a1, s32 a2);
+    extern s32 func_8013435C(s16 *a0, s16 *a1, s32 a2, s16 *a3);
 
     s16 *s3 = ((ElemK *)base)[cmd[1]].e;
     s32 s6 = arr[cmd[2]];
