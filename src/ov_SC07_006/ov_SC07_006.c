@@ -272,7 +272,7 @@ s32 func_801288B0(void) {
 }
 
 
-extern s32 func_80128998(void);
+extern int func_80128998(int arg0);
 
 // @class: remat
 // @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
@@ -295,7 +295,7 @@ int func_801288E8(int arg0)
 }
 
 
-extern s32 func_80128998(void);
+extern int func_80128998(int arg0);
 
 // @class: remat
 // @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x5e store AND arg5; writing D_800C7C60=0x5e directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
@@ -325,8 +325,7 @@ int func_80128940(int arg0)
 
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
-int aF80128998(int arg0) __asm__("func_80128998");
-int aF80128998(int arg0)
+int func_80128998(int arg0)
 {
 
     extern int D_800C7C60;

@@ -6,6 +6,7 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
+extern s32 func_80128998(void);
 #include "../shared/ov/func_8012ACE0__226dc4ac.h"
 
 #include "../shared/ov/func_8012AD44.h"

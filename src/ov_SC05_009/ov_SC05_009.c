@@ -38,6 +38,7 @@ extern void (*D_8017ED5C[])(void);
 
 #include "../shared/ov/func_801282EC.h"
 
+extern s32 func_80128998(void);
 #include "../shared/ov/func_8012832C.h"
 
 #include "../shared/ov/func_80128420.h"

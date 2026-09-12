@@ -57,6 +57,7 @@ void func_80128288(void) {
 #include "../shared/ov/func_801282EC.h"
 
 
+extern s32 func_80128998(void);
 #include "../shared/ov/func_8012832C.h"
 
 

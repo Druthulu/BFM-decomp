@@ -32,7 +32,6 @@ extern void func_80010E14(void);
 extern s16 currentLocationId;
 extern s32 func_80029504(void);
 extern s32 func_800CF854(s32);
-extern s32 func_80128998(void);
 extern s32 func_801289F0(void);
 extern s32 func_801288E8(s32);
 extern s32 func_80128940(s32);

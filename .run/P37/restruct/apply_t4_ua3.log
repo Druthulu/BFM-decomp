@@ -1,0 +1,62 @@
+12:29:16 unalias aF80128998: src/shared/ov/func_8012832C.h declares func_80128998 for non-member binaries ['ov_MAIN_012', 'ov_SC01_000', 'ov_SC01_001', 'ov_SC01_004'] — its declaration is hoisted into 136 includers
+12:29:16 unalias aF80128998: src/shared/ov/func_8012ACE0__226dc4ac.h declares func_80128998 for non-member binaries ['ov_SC03_118'] — its declaration is hoisted into 1 includers
+12:29:17 unalias aF80128998 -> func_80128998: `int func_80128998(int arg0)` defined in src/ov_SC07_006/ov_SC07_006.c; 136 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+12:29:18 unalias aF80128998: IDENTICAL on every recipe (143 objects, 17.9 s) — 136 files written
+12:29:33 unalias aF80131CA8 -> func_80131CA8: `s32 func_80131CA8(int a0)` defined in src/shared/ov/func_80131CA8.h; 235 files (191 alias prototypes, 696 real-name declarations, 0 renames)
+12:29:42 unalias aF80131CA8: src/shared/ov/func_8012F5F4.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:29:53 unalias aF80131CA8: src/shared/ov/func_8012F68C.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:30:05 unalias aF80131CA8: src/shared/ov/func_8012F75C.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:30:16 unalias aF80131CA8: src/shared/ov/func_8012F7B4.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:30:27 unalias aF80131CA8: src/ov_MAIN_012/ov_MAIN_012.c — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:30:39 unalias aF80131CA8: src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:30:50 unalias aF80131CA8: src/shared/ov/func_80131E38.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:31:02 unalias aF80131CA8: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_80131E38.h:10: too many arguments to function `func_80131CA8'
+src/ov_MAIN_012/../shared/ov/func_80131E7C.h:14: too many arguments to function `func_80131CA8'
+src/ov_MAIN_012/../shared/ov/func_80131AC8.h: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c: At to — nothing written
+12:31:17 unalias aF80131CF4 -> func_80131CF4: `s32 func_80131CF4(s32 *a0, s32 a1)` defined in src/shared/ov/func_80131CF4.h; 196 files (55 alias prototypes, 452 real-name declarations, 0 renames)
+12:31:25 unalias aF80131CF4: src/shared/ov/func_80131AC8.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:31:36 unalias aF80131CF4: src/shared/ov/func_80131CA8.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:31:48 unalias aF80131CF4: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_80131CA8.h:6: too few arguments to function `func_80131CF4'
+src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_8013 — nothing written
+12:32:01 unalias aF801376E8: src/shared/ov/func_801376C8.h declares func_801376E8 for non-member binaries ['ov_MAIN_012', 'ov_SC01_000', 'ov_SC01_001', 'ov_SC01_004'] — its declaration is hoisted into 136 includers
+12:32:03 unalias aF801376E8 -> func_801376E8: `void * func_801376E8(int a0, int a1)` defined in src/ov_SC07_006/ov_SC07_006_jr_80135D20.c; 190 files (54 alias prototypes, 64 real-name declarations, 1 renames)
+12:32:06 unalias aF801376E8: src/shared/ov/func_801376E8.h declares func_801376E8 another way — joining the unit (canonical); re-judging
+12:32:11 unalias aF801376E8: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_801376E8.h:3: conflicting types for `func_801376E8'
+src/ov_MAIN_012/ov_MAIN_012_jr_80135EB0.c:1224: previous declaration of `func_801376E8'
+src/ov_MAIN_012/../shared/ov/func_801376E8.h: At top level: [build/src/ov_MAIN_012/ov_MAIN_012_jr_80135EB0.o] — nothing written
+12:32:25 unalias aF801412A8 -> func_801412A8: `Prim_1412A8 * func_801412A8(Prim_1412A8 *out, int a1, int a2, int a3, u16 a4, u16 a5)` defined in src/shared/ov/func_801412A8.h; 173 files (37 alias prototypes, 172 real-name declarations, 0 renames)
+12:32:29 unalias aF801412A8: src/ov_MAIN_012/ov_MAIN_012_jr_8013F350.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:32:35 unalias aF801412A8: src/shared/ov/func_801412A8.h declares func_801412A8 another way — joining the unit (canonical); re-judging
+12:32:41 unalias aF801412A8: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_801412A8.h:4: conflicting types for `func_801412A8'
+src/ov_MAIN_012/../shared/ov/func_801412A8.h:4: An argument type that has a default promotion
+src/ov_MAIN_012/../shared/ov/func_801412A8.h:4: can't match an empty parameter name list declaration.
+src/ov_MAIN_012/ov — nothing written
+12:32:59 unalias aF801466F0 -> func_801466F0: `void func_801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7, s32 sp8)` defined in src/shared/ov/func_801466F0.h; 172 files (67 alias prototypes, 460 real-name declarations, 0 renames)
+12:33:15 unalias aF801466F0: src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:33:36 unalias aF801466F0: src/ov_SC01_000/ov_SC01_000_jr_8015C32C.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:33:56 unalias aF801466F0: src/ov_SC01_001/ov_SC01_001_jr_8015C32C.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:34:16 unalias aF801466F0: src/ov_SC01_004/ov_SC01_004_jr_8015C32C.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:34:37 unalias aF801466F0: src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:34:57 unalias aF801466F0: src/ov_SC01_008/ov_SC01_008_jr_8015C32C.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:35:18 unalias aF801466F0: src/ov_SC01_009/ov_SC01_009_jr_8015C32C.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:35:38 unalias aF801466F0: src/ov_SC01_074/ov_SC01_074_jr_8015C32C.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:35:58 unalias aF801466F0: src/ov_SC01_077/ov_SC01_077_after.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:36:21 unalias aF801466F0: src/shared/ov/func_801466F0.h declares func_801466F0 another way — joining the unit (canonical); re-judging
+12:36:43 unalias aF801466F0: COMPILE-ERROR src/ov_SC01_077/../shared/ov/func_801466F0.h:6: conflicting types for `func_801466F0'
+src/ov_SC01_077/../shared/ov/func_801466F0.h:6: An argument type that has a default promotion
+src/ov_SC01_077/../shared/ov/func_801466F0.h:6: can't match an empty parameter name list declaration.
+src/ov_SC01_077/ov — nothing written
+12:37:05 unalias aF80146A6C -> func_80146A6C: `void func_80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)` defined in src/shared/ov/func_80146A6C.h; 643 files (170 alias prototypes, 1573 real-name declarations, 0 renames)
+12:37:35 unalias aF80146A6C: src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:38:18 unalias aF80146A6C: src/shared/ov/func_80146A6C.h declares func_80146A6C another way — joining the unit (canonical); re-judging
+12:39:02 unalias aF80146A6C: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_80146A6C.h:4: conflicting types for `func_80146A6C'
+src/ov_MAIN_012/../shared/ov/func_80146A6C.h:4: An argument type that has a default promotion
+src/ov_MAIN_012/../shared/ov/func_80146A6C.h:4: can't match an empty parameter name list declaration.
+src/ov_MAIN_012/.. — nothing written
+12:39:21 unalias aF8014C4AC -> func_8014C4AC: `s32 func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, int a4)` defined in src/shared/ov/func_8014C4AC.h; 447 files (170 alias prototypes, 444 real-name declarations, 3 renames)
+12:39:35 unalias aF8014C4AC: src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c — differs: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:39:54 unalias aF8014C4AC: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] — nothing written

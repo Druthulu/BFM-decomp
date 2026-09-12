@@ -1856,6 +1856,7 @@ def unalias_function(aname, label, calib_id, log, pool=None):
         return {t.split("/")[1] for t in tus if t.count("/") >= 2}
     members = bins(inc.get(def_file, [])) if def_file.endswith(".h") else bins([def_file])
     real_decl_rx = re.compile(DECL_RX_T.format(name=re.escape(real)))
+    hoist, non_member_files = {}, set()
     for f in list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h")):
         rel = f.relative_to(REPO).as_posix()
         if rel in scope:
@@ -1870,9 +1871,12 @@ def unalias_function(aname, label, calib_id, log, pool=None):
         if rel.startswith("src/shared/") and rel.endswith(".h") and real_decl_rx.search(dl.same_len_mask(t)):
             others = bins(inc.get(rel, [])) - members
             if others:
-                log(f"unalias {aname}: REFUSED — {rel} declares {real} for non-member binaries {sorted(others)[:4]} (the declaration must leave the shared header first)")
-                return [dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=rel, unit="unalias:" + real, callee=real, alias=aname,
-                             verdict="UNALIAS-REFUSED", cause=f"shared header declares {real} for non-member binaries {sorted(others)[:6]}", sites=[])], "REFUSED", []
+                # the header declares the real name for binaries where that address is ANOTHER function: the declaration is HOISTED out of the
+                # header into every includer (the same text, before the #include — byte-neutral by construction); the members' copies then
+                # go canonical with the unit, the non-members keep the hoisted text (their own function's prototype is theirs to settle)
+                hoist[rel] = sorted(inc.get(rel, []))
+                non_member_files.update(t_ for t_ in inc.get(rel, []) if t_.split("/")[1] not in members)
+                log(f"unalias {aname}: {rel} declares {real} for non-member binaries {sorted(others)[:4]} — its declaration is hoisted into {len(hoist[rel])} includers")
             scope.add(rel)
             scope.update(inc.get(rel, []))          # its includers: their own declarations of the real name must agree with the header's
     proto_rx_a = re.compile(AF_PROTO_RX_T.format(name=aname))
@@ -1880,8 +1884,29 @@ def unalias_function(aname, label, calib_id, log, pool=None):
     m_ = 0 if params == "void" else len(sl._split_top(params, ","))
     kr_files = set()          # files whose calls pass another count: their declarations stay `()` (K&R) with the marker
 
-    def build(kr_files):
+    def kr_head():
+        """`RET real(a, b, c)\n    u16 a;\n    s32 b; …` — the definition spelled K&R-style with its narrow parameter types in the block."""
+        parts = [x.strip() for x in sl._split_top(params, ",")] if params != "void" else []
+        names, decls = [], []
+        for x in parts:
+            mm = PARAM_DECL.match(x)
+            if not mm:
+                return None
+            names.append(mm.group(3))
+            decls.append(f"    {sl._norm_type(mm.group(1))} {mm.group(2)}{mm.group(3)};")
+        return f"{ret} {real}({', '.join(names)})\n" + "\n".join(decls) + ("\n" if decls else "")
+    promoted = promoted_params(params)
+    canon_promoted = f"extern {ret} {real}({promoted});"
+
+    def build(kr_files, mode="ansi"):
         files, per_file = {}, {}
+        decl_canon = canon if mode == "ansi" else canon_promoted
+        # the hoisted declaration text per header (its first declaration line of the real name, verbatim)
+        hoisted_text = {}
+        for h in hoist:
+            ht = (REPO / h).read_text(errors="surrogateescape")
+            hm = real_decl_rx.search(dl.same_len_mask(ht))
+            hoisted_text[h] = ht[hm.start():hm.end()] if hm else None
         for rel in sorted(scope):
             text = (REPO / rel).read_text(errors="surrogateescape")
             masked = dl.same_len_mask(text)
@@ -1892,7 +1917,24 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                 counts = call_arg_counts(masked, real, []) + call_arg_counts(masked, aname, [])
                 decl_text = f"extern {ret} {real}();  {KR_MARK} {'/'.join(str(c) for c in sorted(set(counts))) or '?'} of {m_} args (P37 unalias {label})"
             else:
-                decl_text = canon
+                decl_text = decl_canon
+            if rel in hoist:
+                # the header loses its declaration line(s) of the real name (hoisted into the includers below)
+                for m in real_decl_rx.finditer(masked):
+                    le = masked.find("\n", m.end())
+                    edits.append((m.start(), (le + 1) if le >= 0 and masked[m.end():le].strip() == "" else m.end(), ""))
+                    spans.append((m.start(), m.end()))
+            for h, incs in hoist.items():
+                if rel in incs and hoisted_text.get(h) and not real_decl_rx.search(masked):
+                    im = re.search(r"(?m)^[ \t]*#include\s*\"[^\"]*" + re.escape(pathlib.Path(h).name) + r"\"", masked)
+                    if im:
+                        edits.append((im.start(), im.start(), hoisted_text[h] + "\n"))
+            if rel in non_member_files:
+                # a non-member includer: the hoisted text only — its own declarations of the real name are not this unit's to change
+                if edits:
+                    files[rel] = compose_text(text, sorted(edits))
+                    per_file[rel] = dict(alias_decls=0, real_decls=0, renames=0, kr=False, hoisted=True)
+                continue
             if rel == def_file:
                 # the definition head: `RET aF(params) [K&R block] {` -> `RET real(params_ansi) {`
                 m = None
@@ -1900,7 +1942,8 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                     if mm.group(2) == aname:
                         m = mm
                         break
-                edits.append((m.start(), m.end() - 1, f"{ret} {real}({params})\n"))
+                head_text = f"{ret} {real}({params})\n" if mode == "ansi" else (kr_head() or f"{ret} {real}({params})\n")
+                edits.append((m.start(), m.end() - 1, head_text))
                 spans.append((m.start(), m.end()))
             for m in proto_rx_a.finditer(masked):
                 if any(a <= m.start() < b for (a, b) in spans):
@@ -1929,30 +1972,65 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             files[rel] = compose_text(text, sorted(edits))
             per_file[rel] = dict(alias_decls=n_decl_a, real_decls=n_decl_r, renames=n_calls, kr=kr)
         return files, per_file
+    mode = "ansi"
     try:
-        files, per_file = build(kr_files)
+        files, per_file = build(kr_files, mode)
     except Refuse as ex:
         return [dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=def_file, unit="unalias:" + real, callee=real,
                      verdict="UNALIAS-REFUSED", err=f"overlapping edits: {ex}", sites=[])], "REFUSED", []
     log(f"unalias {aname} -> {real}: `{ret} {real}({params})` defined in {def_file}; {len(files)} files ({sum(v['alias_decls'] for v in per_file.values())} alias "
         f"prototypes, {sum(v['real_decls'] for v in per_file.values())} real-name declarations, {sum(v['renames'] for v in per_file.values())} renames)")
     r = judge_files(files, "ua" + hashlib.sha1(aname.encode()).hexdigest()[:6], pool=pool)
-    # the K&R fallback: a file whose calls pass another count keeps `()` + the marker; re-judged (bounded)
-    for _ in range(12):
-        if r["verdict"] != "COMPILE-ERROR" or not re.search(r"too (few|many) arguments to function `" + re.escape(real) + "'", r["err"]):
+    if r["verdict"] in ("DIFFERS", "COMPILE-ERROR") and promoted != params and kr_head():
+        # a NARROW parameter in the definition: the callers were compiled against the promoted form (their declarations already say
+        # `s32`, their bytes carry no narrowing) — the 1998 source was K&R: the definition spelled K&R-style with its narrow types in the
+        # block, every prototype the default-promoted form. The oracle decides (the entry narrowing is the same code either way).
+        mode = "promoted"
+        log(f"unalias {aname}: {r['verdict']} under the exact types ({params}) — the definition has narrow parameters: trying the K&R-style definition + promoted prototypes ({promoted})")
+        files, per_file = build(kr_files, mode)
+        r = judge_files(files, "ua" + hashlib.sha1((aname + "p").encode()).hexdigest()[:6], pool=pool)
+    # the fallbacks, bounded: (a) `too few/many arguments` at F — F's calls pass another count: F's declaration and the in-scope headers
+    # F includes keep `()` + the marker (a K&R site); (b) `conflicting types`/`previous declaration` at F outside the unit — F declares the
+    # real name another way while a header it includes went canonical: F joins the unit; (c) DIFFERS on F's object — the canonical
+    # prototype's conversions move F's bytes (a narrow parameter the original called without a prototype): F goes K&R like (a)
+    _, by_src_all, _ = recipes()
+    obj_to_src = {r_["obj"]: r_["src"] for rs_ in by_src_all.values() for r_ in rs_}
+    seen_bad = set()
+    for _ in range(16):
+        v, err = r["verdict"], r["err"]
+        bad = None
+        if v == "COMPILE-ERROR":
+            fm = (re.search(r"(src/[^\s:]+):\d+: too (?:few|many) arguments to function `" + re.escape(real) + "'", err)
+                  or re.search(r"(src/[^\s:]+):\d+: conflicting types for `" + re.escape(real) + "'", err)
+                  or re.search(r"(src/[^\s:]+):\d+: previous declaration of `" + re.escape(real) + "'", err))
+            if fm:
+                bad = os.path.normpath(fm.group(1))
+                kind = "arity" if "arguments" in fm.group(0) else "conflict"
+        elif v == "DIFFERS":
+            om = re.search(r"\[(build/\S+\.o)\]", err)
+            if om and om.group(1) in obj_to_src:
+                bad, kind = obj_to_src[om.group(1)], "differs"
+        if bad is None or bad in seen_bad:
             break
-        fm = re.search(r"(src/[^\s:]+):\d+: too (?:few|many) arguments to function `" + re.escape(real) + "'", r["err"])
-        if not fm:
+        seen_bad.add(bad)
+        if bad not in scope:
+            scope.add(bad)
+        if kind in ("arity", "differs"):
+            kr_files.add(bad)
+            for h in headers_of(bad):
+                if h in scope and h != def_file and h not in hoist:
+                    kr_files.add(h)
+            log(f"unalias {aname}: {bad} — {kind}: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging")
+        else:
+            log(f"unalias {aname}: {bad} declares {real} another way — joining the unit (canonical); re-judging")
+        try:
+            files, per_file = build(kr_files, mode)
+        except Refuse as ex:
+            r = dict(verdict="REFUSED", err=f"overlapping edits: {ex}", compiles=0, seconds=0.0, linked=[])
             break
-        bad = os.path.normpath(fm.group(1))
-        if bad in kr_files or bad not in scope:
-            break
-        kr_files.add(bad)
-        log(f"unalias {aname}: {bad} calls {real} with another argument count — its declaration stays `()` (a K&R site, marked); re-judging")
-        files, per_file = build(kr_files)
-        r = judge_files(files, "ua" + hashlib.sha1((aname + str(len(kr_files))).encode()).hexdigest()[:6], pool=pool)
+        r = judge_files(files, "ua" + hashlib.sha1((aname + str(len(seen_bad))).encode()).hexdigest()[:6], pool=pool)
     rows = [dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=rel, unit="unalias:" + real, callee=real, alias=aname,
-                 signature=f"{ret} {real}({params})", definition=(rel == def_file), **per_file[rel],
+                 signature=f"{ret} {real}({params})", mode=mode, definition=(rel == def_file), **per_file[rel],
                  verdict=("UNALIAS-DONE" if r["verdict"] == "IDENTICAL" else "UNALIAS-KEPT"), err=r["err"][:300], nhash_before=None, nhash_after=None, sites=[])
             for rel in files]
     if r["verdict"] == "IDENTICAL":
