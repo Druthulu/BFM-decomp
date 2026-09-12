@@ -3141,7 +3141,7 @@ void func_80183F6C(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (135/135 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (135/135 ins, match_one confirmed)
 
 
 extern s32 func_8012C354(s32 a0, void *a1);

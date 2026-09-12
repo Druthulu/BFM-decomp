@@ -3060,7 +3060,7 @@ void func_8017D604(s32 arg0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)
+// @unstuck(P36): none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)
 
 extern void func_8017E870(void *arg0);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);

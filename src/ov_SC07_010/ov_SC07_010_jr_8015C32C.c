@@ -1594,7 +1594,7 @@ void func_8015C714(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (match_one 88/88); fn-ptr-array dispatch, top-level if/else needed branch-polarity invert (small block falls through, big block at L854)
+// @unstuck(P36): none — MATCH (match_one 88/88); fn-ptr-array dispatch, top-level if/else needed branch-polarity invert (small block falls through, big block at L854)
 
 extern s32 func_80161B18(void *a0);
 extern s32 func_80161B84(void *a0);
@@ -1659,7 +1659,7 @@ void func_8015C7E4(u16 *param_1)
 
 
 // @class: struct
-// @stuck: none — dispatch + control flow on a single callee-saved param; expect MATCH
+// @unstuck(P36): none — dispatch + control flow on a single callee-saved param; expect MATCH
 
 extern s32 func_80149FB0(s32 a0);
 extern void func_80147AD4(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -1699,7 +1699,7 @@ void func_8015C944(int param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (goto forces the func_80161240 block to the function tail; bnez-to-end layout vs early-return fall-through)
+// @unstuck(P36): none — MATCH (goto forces the func_80161240 block to the function tail; bnez-to-end layout vs early-return fall-through)
 
 
 extern s32 func_80149FB0(s32 a0);
@@ -1917,7 +1917,7 @@ extern void func_80146CA0(void *a0);
 extern void func_80154274(s32 *a0, s32 a1);
 
 // @class: regalloc-order
-// @stuck: none — MATCH (uVar1 pinned $s3, uVar5 pinned $s1; param_1->s2, iVar4->s0 fall out)
+// @unstuck(P36): none — MATCH (uVar1 pinned $s3, uVar5 pinned $s1; param_1->s2, iVar4->s0 fall out)
 
 
 void func_8015D01C(int param_1)
@@ -1958,7 +1958,7 @@ void func_8015D01C(int param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH (pending gate)
+// @unstuck(P36): none — MATCH (pending gate)
 
 extern s32 func_80149FB0(s32 a0);
 extern void func_8014FA04(s32 a0);
@@ -2074,7 +2074,7 @@ void func_8015D1B8(s32 *a0)
 
 
 // @class: regalloc-order
-// @stuck: pinning a0->$s1 and buffer-ptr->$s0; body copy already matches
+// @unstuck(P36): pinning a0->$s1 and buffer-ptr->$s0; body copy already matches
 extern void func_80013F3C(s32 a0);
 extern void func_80012558(s32 a0, s32 a1);
 extern void func_800126C4(s32 a0, s32 a1);
@@ -2099,7 +2099,7 @@ void func_8015D380(s32 a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 extern void func_801553C0(s32 a0);
@@ -2148,7 +2148,7 @@ s32 func_8015D4E8(s16 *a0) {
 
 
 // @class: loose-typing
-// @stuck: none — MATCH (field 0xb8 compared as u16 == 0x8000, not s16 == -0x8000)
+// @unstuck(P36): none — MATCH (field 0xb8 compared as u16 == 0x8000, not s16 == -0x8000)
 
 extern s32 func_80161B18(void *a0);
 extern s32 func_80161B84(void *a0);
@@ -2327,7 +2327,7 @@ extern void func_8015F89C(void *arg0);
 extern void func_8015F9A4(void *arg0);
 
 // @class: struct
-// @stuck: none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
+// @unstuck(P36): none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
 
 extern int func_8015DD74(int);
 extern void func_80147078(s32 *a0, s16 a1);
@@ -2359,7 +2359,7 @@ void func_8015DBD4(void *arg0) {
 
 
 // @class: other
-// @stuck: none — MATCH (proxy gate)
+// @unstuck(P36): none — MATCH (proxy gate)
 
 extern void func_80149374(s32 a0, s32 a1);
 
@@ -2415,7 +2415,7 @@ extern void func_8015F89C(void *arg0);
 extern void func_8015F9A4(void *arg0);
 
 // @class: struct
-// @stuck: none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
+// @unstuck(P36): none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
 
 extern int func_8015E0D4(int);
 extern void func_80147078(s32 *a0, s16 a1);
@@ -2447,7 +2447,7 @@ void func_8015DF34(void *arg0) {
 
 
 // @class: other
-// @stuck: none — MATCH (proxy gate)
+// @unstuck(P36): none — MATCH (proxy gate)
 
 extern void func_80149374(s32 a0, s32 a1);
 
@@ -2504,7 +2504,7 @@ s32 func_8015E1B8(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (pending whole-binary gate); fn-ptr table folds %lo via extern array, 0x234 single word store
+// @unstuck(P36): none — MATCH (pending whole-binary gate); fn-ptr table folds %lo via extern array, 0x234 single word store
 
 
 extern void func_8015E40C(s32 a0);
@@ -2542,7 +2542,7 @@ void func_8015E344(u16 *param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH (pending whole-binary gate); s16 v[3] array forces all 3 locals addressable (reload-from-stack), u16* psVar1 → lhu null/flag check
+// @unstuck(P36): none — MATCH (pending whole-binary gate); s16 v[3] array forces all 3 locals addressable (reload-from-stack), u16* psVar1 → lhu null/flag check
 
 
 extern void func_80149350(s32 arg0);
@@ -2586,7 +2586,7 @@ void func_8015E588(void) {
 
 
 // @class: struct
-// @stuck: none — MATCH (clean -O2 reconstruction; table-of-fnptr indexed by param_1[0])
+// @unstuck(P36): none — MATCH (clean -O2 reconstruction; table-of-fnptr indexed by param_1[0])
 
 
 extern s32 func_80161208();
@@ -2771,7 +2771,7 @@ s32 func_8015EE08(s32 a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (straight STUB call sequence; param saved to $s0 across calls)
+// @unstuck(P36): none — MATCH (straight STUB call sequence; param saved to $s0 across calls)
 
 extern void func_8014CBF8(void *a0);
 extern void func_801474EC(s32 *a0);
@@ -3183,7 +3183,7 @@ void func_8015FBE0(s32 *param_1)
 extern void func_801599A4(void *a0);
 
 // @class: struct
-// @stuck: none — MATCH (indexed fn-ptr table call + byte-offset struct stores; mirrors sibling func_801599A4 idiom)
+// @unstuck(P36): none — MATCH (indexed fn-ptr table call + byte-offset struct stores; mirrors sibling func_801599A4 idiom)
 
 
 extern void func_8016007C(s32 a0);
@@ -3214,7 +3214,7 @@ void func_8015FCC8(void *param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple 3-call sequence with global table index
+// @unstuck(P36): none — MATCH expected; simple 3-call sequence with global table index
 
 
 extern void func_80147324(s32 arg0);
@@ -3236,7 +3236,7 @@ void func_8015FD74(int param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH expected (fn-ptr-table dispatch + ushort struct fields)
+// @unstuck(P36): none — MATCH expected (fn-ptr-table dispatch + ushort struct fields)
 
 
 extern void func_80147078(s32 *a0, s16 a1);
@@ -3510,7 +3510,7 @@ void func_8016084C(s32 *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (function-pointer table folds %lo via extern array indexed by halfword)
+// @unstuck(P36): none — MATCH (function-pointer table folds %lo via extern array indexed by halfword)
 
 
 
@@ -3540,7 +3540,7 @@ void func_80160920(unsigned short *param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH (pending byte-gate); function-pointer table %lo-fold via extern array
+// @unstuck(P36): none — MATCH (pending byte-gate); function-pointer table %lo-fold via extern array
 
 
 extern u16 func_801487F4(s32 *a0);
@@ -3597,7 +3597,7 @@ s32 func_80160B34(s32 a0) {
 extern void func_8015DBD4(void *arg0);
 
 // @class: struct
-// @stuck: none — MATCH (mirrors byte-matched func_8015DBD4 in same overlay; dispatch via D_8018465C + func_80147078/func_80159B70 tail, func_80161208 else)
+// @unstuck(P36): none — MATCH (mirrors byte-matched func_8015DBD4 in same overlay; dispatch via D_8018465C + func_80147078/func_80159B70 tail, func_80161208 else)
 
 extern u16 func_80148800(s32 *a0);
 extern void func_80147078(s32 *a0, s16 a1);
@@ -3663,7 +3663,7 @@ void func_80160EA4(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern void func_80149020(s32 *a0);
 extern void func_80147078(s32 *a0, s16 a1);
@@ -3747,7 +3747,7 @@ s32 aF8016130C(void *a0, s32 a1) __asm__("func_8016130C");
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 #include "../shared/ov/func_80161374.h"
@@ -3780,7 +3780,7 @@ s32 aF8016130C(void *a0, s32 a1) __asm__("func_8016130C");
 
 
 // @class: other
-// @stuck: first draft — plain if-chain over the flag bits
+// @unstuck(P36): first draft — plain if-chain over the flag bits
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8015BF48(s32 *a0);
@@ -3807,7 +3807,7 @@ extern s32 ratan2(s32 x, s32 y);
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_80161888.h"
 
@@ -3873,7 +3873,7 @@ void func_80161C24(int param_1, int param_2)
 
 
 // @class: struct
-// @stuck: none — MATCH (indexed-global %lo-fold via extern u16 array, §18)
+// @unstuck(P36): none — MATCH (indexed-global %lo-fold via extern u16 array, §18)
 
 extern void func_80147324(s32 arg0);
 
@@ -3890,7 +3890,7 @@ void func_80161C98(int param_1, u32 param_2)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (20 ins)
+// @unstuck(P36): none — MATCH (20 ins)
 // DECAY AXIS: return type. The stored draft declared `s32 func_80161CD0(...)` with no
 // return statement. That kept $v0 live-out at the epilogue, so gcc-2.7.2's delayed-branch
 // pass refused to speculatively fill the second `beqz $v0` delay slot from the fall-through
@@ -3943,7 +3943,7 @@ void aF80161CD0(int param_1, unsigned int param_2)
 
 
 // @class: struct
-// @stuck: none — MATCH (indexed-global %lo-fold via extern u16 array, §18)
+// @unstuck(P36): none — MATCH (indexed-global %lo-fold via extern u16 array, §18)
 
 extern void func_80147324(s32 arg0);
 
@@ -3963,7 +3963,7 @@ void func_80161D20(int param_1, u32 param_2)
 
 
 // @class: other
-// @stuck: none — MATCH (short-circuit && chain; reused 0x80FFFFFF mask const, andi-0xFF on callee ret)
+// @unstuck(P36): none — MATCH (short-circuit && chain; reused 0x80FFFFFF mask const, andi-0xFF on callee ret)
 
 extern s32 func_80029178(s32 arg);
 extern void func_80029124(s32, s32);
@@ -4079,7 +4079,7 @@ void func_80161E08(s32 param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (do-while scan over 3-entry global; increments placed AFTER the call so p++ schedules between load and jal, i++ into the delay slot)
+// @unstuck(P36): none — MATCH (do-while scan over 3-entry global; increments placed AFTER the call so p++ schedules between load and jal, i++ into the delay slot)
 
 extern void func_800291C8(s32, s32);
 extern void func_80016714(void *a0, s32 a1);
@@ -4161,7 +4161,7 @@ s32 func_801621CC(s32 arg0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 extern void func_80029124(s32, s32);
 extern void func_800291C8(s32, s32);
 extern void func_80016714(void *a0, s32 a1);
@@ -4296,7 +4296,7 @@ s32 func_80162438(s32 _unused0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (do-while scan over 3-entry global; increments placed AFTER the call so p++ schedules between load and jal, i++ into the delay slot)
+// @unstuck(P36): none — MATCH (do-while scan over 3-entry global; increments placed AFTER the call so p++ schedules between load and jal, i++ into the delay slot)
 
 extern void func_800291C8(s32, s32);
 extern void func_80016714(void *a0, s32 a1);
@@ -4326,7 +4326,7 @@ void func_80162760(void)
 
 
 // @class: struct
-// @stuck: none — MATCH (19 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (19 ins, relocation-masked)
 //
 // Tiny dispatcher: byte count at D_8011F750 (offset 0 of a 0x58-byte ctl struct;
 // cf. func_801627C0 which calls func_80016714(&D_8011F750, 0x58)). If nonzero,
@@ -4371,7 +4371,7 @@ void func_80162834(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (stub: alloc + global init + two calls; $s0 holds param_1 across calls)
+// @unstuck(P36): none — MATCH (stub: alloc + global init + two calls; $s0 holds param_1 across calls)
 
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80162968(s32 a0);
@@ -4483,7 +4483,7 @@ void aF80162CCC(u8 *a0) __asm__("func_80162CCC");
 
 
 // @class: struct
-// @stuck: none — MATCH (21 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (21 ins, relocation-masked)
 
 
 s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
@@ -4501,7 +4501,7 @@ s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
 
 
 // @class: struct
-// @stuck: none — MATCH (unaligned 8-byte memcpy from global into stack buffer, then forward to callee)
+// @unstuck(P36): none — MATCH (unaligned 8-byte memcpy from global into stack buffer, then forward to callee)
 
 
 extern void *memcpy(void *dst, const void *src, unsigned int n);
@@ -4721,7 +4721,7 @@ void func_80164410(void) {
 
 
 // @class: struct
-// @stuck: none — MATCH expected (fn-ptr table dispatch via u16 idx, $s0 holds *(s32*)(p+0x20) across the call)
+// @unstuck(P36): none — MATCH expected (fn-ptr table dispatch via u16 idx, $s0 holds *(s32*)(p+0x20) across the call)
 
 extern void func_80162D28(s32 *a0);
 
@@ -4741,7 +4741,7 @@ void func_80164744(s32 param_1)
 
 
 // @class: other
-// @stuck: none — MATCH (relocation-masked); key was `if (iVar1 != 0) { big } else { func_80164930 }` (non-zero case first → beqz, not bnez)
+// @unstuck(P36): none — MATCH (relocation-masked); key was `if (iVar1 != 0) { big } else { func_80164930 }` (non-zero case first → beqz, not bnez)
 
 extern void func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
@@ -4954,7 +4954,7 @@ void func_80164EA4(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
   /* stride 0x10 */
 
@@ -4997,7 +4997,7 @@ void func_80164EE0(int param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH (30 ins)
+// @unstuck(P36): none — MATCH (30 ins)
 //
 // Unaligned slot-fill: loop over 8 slots (0x10 stride) of a global table,
 // fill the first free one (field @0xC == 0). Two unaligned block copies from
@@ -5029,7 +5029,7 @@ s32 func_80165140(s32 param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (pins $s2/$s1/$s0 + zero-code barrier hoists $a0 copy into beqz delay slot)
+// @unstuck(P36): none — MATCH (pins $s2/$s1/$s0 + zero-code barrier hoists $a0 copy into beqz delay slot)
 
 extern void func_80165240(void *param_1, void *param_2, void *param_3);
 
@@ -5099,7 +5099,7 @@ void func_80165240(void *param_1, void *param_2, void *param_3)
 
 
 // @class: struct
-// @stuck: none — MATCH (54 ins)
+// @unstuck(P36): none — MATCH (54 ins)
 
 extern u8 func_80165658(s32 a0, s32 a1);
 extern void func_800CAE0C(s32 a0);
@@ -5136,7 +5136,7 @@ void func_801654A8(s32 arg0)
 
 
 // @class: struct
-// @stuck: none — MATCH (function-pointer-array dispatch; & 0x80 branch + & 0x7f index fold)
+// @unstuck(P36): none — MATCH (function-pointer-array dispatch; & 0x80 branch + & 0x7f index fold)
 
 extern void func_80165B28(void *a0);
 
@@ -6032,7 +6032,7 @@ extern int func_80029178(int);
 
 
 // @class: schedule
-// @stuck: none — MATCH. The between-loops f1/f2 store-swap (0x55/0x56) is fixed by writing f2's assign first, then the chained `buf[0x44] = buf[0x45] = buf[0x45] << 1;` — the chain keeps f1's read first (read order fixed by -0x12 in $v0) while emitting f2's store (0x56) ahead of the f1/f0 pair (0x55,0x54). 173/173.
+// @unstuck(P36): none — MATCH. The between-loops f1/f2 store-swap (0x55/0x56) is fixed by writing f2's assign first, then the chained `buf[0x44] = buf[0x45] = buf[0x45] << 1;` — the chain keeps f1's read first (read order fixed by -0x12 in $v0) while emitting f2's store (0x56) ahead of the f1/f0 pair (0x55,0x54). 173/173.
 
 extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
 
@@ -6565,7 +6565,7 @@ void func_80169F00(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected; simple straight-line + single branch, one call-crossing local in $s0)
+// @unstuck(P36): none — MATCH (expected; simple straight-line + single branch, one call-crossing local in $s0)
 
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);

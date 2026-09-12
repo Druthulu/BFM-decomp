@@ -86,7 +86,7 @@ void func_80128288(void) {
 #include "../shared/ov/func_801285D4.h"
 
 // @class: other
-// @stuck: none — MATCH (handwritten inline-asm scratchpad-stack-switch wrapper; manages its own frame, no trailing .set reorder)
+// @unstuck(P36): none — MATCH (handwritten inline-asm scratchpad-stack-switch wrapper; manages its own frame, no trailing .set reorder)
 /*
  * HANDWRITTEN scratchpad-stack-switch wrapper (same idiom as the byte-proven
  * func_8014ED28 / func_8014F1F4 siblings). Temporarily repoints $sp into the
@@ -152,7 +152,7 @@ void func_801285E4(void)
 #include "../shared/ov/func_80128678.h"
 
 // @class: other
-// @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper w/ branch)
+// @unstuck(P36): none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper w/ branch)
 /*
  * HANDWRITTEN scratchpad-stack-switch dispatcher (same idiom as func_80128564 /
  * the func_8014ED28 family): repoints $sp into the D-cache scratchpad stack held
@@ -211,7 +211,7 @@ void func_80128714(void) {
 
 
 // @class: remat
-// @stuck: none — MATCH (62 ins). D_801DAAC0 read needed the address REMATERIALIZED
+// @unstuck(P36): none — MATCH (62 ins). D_801DAAC0 read needed the address REMATERIALIZED
 //   (lui;addiu;lw 0(reg), not the folded lui;lw %lo) AND pinned to $a0. volatile forces the
 //   remat; register __asm__("$4") forces the a0 allocation (gcc otherwise picks v0). Both levers
 //   required — pin-alone folds, volatile-alone lands in v0.
@@ -282,7 +282,7 @@ s32 func_801288B0(void) {
 }
 
 // @class: remat
-// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 extern int D_800C7C60;
 extern int *D_800C7C64;
@@ -302,7 +302,7 @@ int func_801288E8(int arg0)
 
 
 // @class: remat
-// @stuck: none — MATCH (pointer-var forces single materialization of &D_800C7C60, reused as store base + arg5)
+// @unstuck(P36): none — MATCH (pointer-var forces single materialization of &D_800C7C60, reused as store base + arg5)
 
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern int D_800C7C60;
@@ -321,7 +321,7 @@ s32 func_80128940(s32 _arg0)
 
 
 // @class: remat
-// @stuck: none — MATCH. &D_800C7C60 must be CSE'd once (pointer local `p`) so the same reg feeds the *p=13 store AND arg5; writing D_800C7C60=13 directly emits a 2nd address materialization (+1 ins).
+// @unstuck(P36): none — MATCH. &D_800C7C60 must be CSE'd once (pointer local `p`) so the same reg feeds the *p=13 store AND arg5; writing D_800C7C60=13 directly emits a 2nd address materialization (+1 ins).
 
 extern int D_800C7C60;
 extern int *D_800C7C64;
@@ -466,7 +466,7 @@ s32 func_80128CFC(s32 arg0) {
 #include "../shared/ov/func_80128D60.h"
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 #include "../shared/ov/func_80128DB4.h"
 
 
@@ -537,7 +537,7 @@ extern void func_80129248(s16 a0);
 #include "../shared/ov/func_8012943C.h"
 
 // @class: schedule
-// @stuck: none — MATCH (72 ins)
+// @unstuck(P36): none — MATCH (72 ins)
 
 #include "../shared/ov/func_8012944C.h"
 
@@ -640,7 +640,7 @@ void func_8012956C(void) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (158 ins, match_one relocation-masked)
+// @unstuck(P36): none — MATCH (158 ins, match_one relocation-masked)
 //
 // Levers that landed it (2 iterations, 56 mismatched -> MATCH):
 //  1. §43 K&R s16-param definition: `void f(a0,a1,a2) s16 a0; s16 a1; u8 *a2;` reproduces the
@@ -742,7 +742,7 @@ void func_8012A048(void *a0, s32 a1, u8 a2);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (78 ins, relocation-masked). Register pins ($2-$5 reused for
+// @unstuck(P36): none — MATCH (78 ins, relocation-masked). Register pins ($2-$5 reused for
 //   the D_x200-x20C words then the D_x220-x226 halfwords; $6-$10 held across for the
 //   D_x228/x22A/x294/x298/x29A tail) force the frameless 9-deep allocation the default
 //   -O2 pre-reload scheduler otherwise blows to a 3-reg spill (all 720 stmt orders spill
@@ -837,7 +837,7 @@ void func_8012A048(void *a0, s32 a1, u8 a2);
 
 
 // @class: schedule
-// @stuck: none — MATCH (125 ins). Round-3 re-verification 2026-07-27: relocs resolved
+// @unstuck(P36): none — MATCH (125 ins). Round-3 re-verification 2026-07-27: relocs resolved
 //         mechanically (7/7 jal, 8/8 j, 2/2 hi-lo) and the 50-word jtbl diffed 50/50 against
 //         tail2.data.s; all 3 levers refuted-as-variants. The only residual is the §81 jr/jtbl
 //         BANKING floor (symcheck MISSING jtbl_801D7FB0 is a jr false positive — gcc emits its own

@@ -253,7 +253,7 @@ extern void func_8012ACA0(void *arg0);
 
 
 // @class: iv-combine
-// @stuck: none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
+// @unstuck(P36): none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
       /* 8-byte element, cmd @ +4 */
     /* list ptr @ +0x90 */
 
@@ -396,7 +396,7 @@ void func_8012BF4C(s32 *a0, s32 a1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
+// @unstuck(P36): none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
 //   dst+0x36 assumed non-aliasing the global) AND folds %lo per-access — target instead RELOADS
 //   and keeps &(*(u16 *)&D_801270C4) in one reg. Fix = pin a `u16*` to $v1 (register asm "$3"), read via
 //   `*(volatile u16*)pc` (defeats CSE -> 2 loads) but STORE via plain `*pc` (non-volatile store
@@ -548,7 +548,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 #include "../shared/ov/func_8012D624.h"
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 
@@ -593,7 +593,7 @@ s32 func_8012DB84(void)
 #include "../shared/ov/func_8012DBD0.h"
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 
@@ -621,7 +621,7 @@ s32 func_8012DDA4()
 
 
 // @class: plumbing
-// @stuck: none — MATCH (35/35 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (35/35 ins, relocation-masked)
 
 
 s32 func_8012DE2C(s32 a0) {
@@ -808,7 +808,7 @@ void func_8012E364(s32 arg0_)
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 #include "../shared/ov/func_8012E5CC.h"
 
 
@@ -831,7 +831,7 @@ void func_8012E364(s32 arg0_)
 
 
 // @class: other
-// @stuck: none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
+// @unstuck(P36): none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
 
 extern void func_8016AA50(int, int);
 extern void func_8016B428(int);
@@ -871,7 +871,7 @@ void func_8012E9C0(int param_1)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (93 ins)
+// @unstuck(P36): none — MATCH (93 ins)
 
 
 extern void func_80049CAC(s32 a0, s32 a1);
@@ -904,7 +904,7 @@ s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
 
 
 // @class: other
-// @stuck: none — MATCH (33 ins, match_one verified)
+// @unstuck(P36): none — MATCH (33 ins, match_one verified)
 
 #include "../shared/ov/func_8012F038.h"
 
@@ -913,7 +913,7 @@ s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
 
 
 // @class: plumbing
-// @stuck: none — MATCH (clone of confirmed func_8012F214 template; passthrough a0)
+// @unstuck(P36): none — MATCH (clone of confirmed func_8012F214 template; passthrough a0)
 #include "../shared/ov/func_8012F14C.h"
 
 
@@ -930,7 +930,7 @@ s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
 
 
 // @class: remat
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_8012F40C.h"
 
@@ -949,7 +949,7 @@ s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
 
 
 // @class: plumbing
-// @stuck: none — MATCH (pending gate)
+// @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170();
 extern void func_80131CA8();
 extern unsigned char D_8017EDB0[];
@@ -991,7 +991,7 @@ void func_8012F8C8(u8* arg0) {
 #include "../shared/ov/func_8012FCA4.h"
 
 // @class: schedule
-// @stuck: none — MATCH (57 ins), byte-exact via rtu_match on the real TU.
+// @unstuck(P36): none — MATCH (57 ins), byte-exact via rtu_match on the real TU.
 // ROOT CAUSE of the prior 3-off "irreducible schedule-steal": the wave-2 draft had the WRONG ARITY for
 //   func_80131B14. It cast the call to (int,int) and passed (param_1, 0x1C), which forced `li a1,0x1C` to be
 //   func_80131B14's OWN arg. That premise made the beqz-delay `li a1,0x1C` / jal-delay `move a0,s0` look like an
@@ -1109,7 +1109,7 @@ void func_80130D0C(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
+// @unstuck(P36): none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
 extern s32 rand(void);
 extern u8 D_80078E78[];
 extern u16 D_80078EB2;
@@ -1258,7 +1258,7 @@ void func_80130D48(s32 arg0)
 
 
 // @class: loop-guard
-// @stuck: none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
+// @unstuck(P36): none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
 //   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))func_8012BCCC)(p) <= 0x8FFF)`
 //   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
 //   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
@@ -1312,7 +1312,7 @@ tail:
 
 
 // @class: struct
-// @stuck: none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)
+// @unstuck(P36): none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)
 
    /* size 8, alignment 1 -> unaligned copy */
 
@@ -1337,7 +1337,7 @@ s32 func_801312D0(s32 param_1, void *param_2)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (424/424). Verified TWICE: match_one 424/424 standalone AND 424/424
+// @unstuck(P36): none — MATCH (424/424). Verified TWICE: match_one 424/424 standalone AND 424/424
 //   relocation-masked through the REAL src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c at the
 //   func_80131340 slot (L1635) with every DEFINE_ macro expanded (cpp -> cc1 -> maspsx
 //   --expand-div -> as, exit 0, zero `conflicting types`).
@@ -1680,7 +1680,7 @@ void func_80131340(s32 a0)
 #include "../shared/ov/func_80131AC8.h"
 
 // @class: regalloc-order
-// @stuck: none — MATCH (89 ins). Reconcile: TU canonical decl is `void func_80131B14(void)`
+// @unstuck(P36): none — MATCH (89 ins). Reconcile: TU canonical decl is `void func_80131B14(void)`
 //   (ov_SC01_077_a.c L1676/L1756; callers cast to (void(*)(int)) when passing p), so the def MUST be
 //   (void) or cc1 hard-errors `conflicting types` (exit 33). §42c lever #6: capture incoming $a0 into a
 //   NORMAL pseudo (`register u8 *a0v __asm__("$4"); u8 *p = a0v;`) so p gets a callee-saved home ($s0).
@@ -1905,7 +1905,7 @@ void func_80132018(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1952,7 +1952,7 @@ s32 func_80132144(s32 param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1978,7 +1978,7 @@ void func_801321B0(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -2124,7 +2124,7 @@ void func_8013221C(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern s32 D_801A83A8;
 extern s32 D_801A83AC[];
@@ -2500,7 +2500,7 @@ ret1:
 #include "../shared/ov/func_8013435C.h"
 
 // @class: schedule
-// @stuck: none — MATCH (83 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (83 ins, relocation-masked)
 
 
 
@@ -2605,7 +2605,7 @@ s32 func_80134510(s32 param) {
 
 
 // @class: regalloc-order
-// @stuck: 26-mismatch near-miss (structure fully matches: while-loop test-first via j-to-bottom-test, s0=puVar7/s1=cnt/s2=scan/s3=iVar8/s4=iVar9/s5=uVar3/s6=uVar10, a1=param/a0=cc/a3=0x8000 pinned, both range-persist copies present, mult+GPU-index+call all byte-correct). Residual = 4 instances of ONE gcc-2.7.2 regalloc/copy-prop tie-break: target computes a preserved-then-masked value in $v0 and reads $v0 for the mask (`subu $v0; addu $persist,$v0; andi $v0,$v0`), gcc here reads the persist reg (`andi $v0,$t0`). (1) range-check-1 andi reads $t0 not $v0; (2) range-check-2 andi reads $a0 not $v0; (3) `hi=uVar1&0x8000` folds into $a0 — target computes in $v0 + copies to $a0 in the branch-delay (same-block copy, gcc coalesces mine); (4) loop-test `cnt&0xffff` folds to direct `andi $v0,$s1` — target copies `addu $v0,$s1` first. Splitting the value into compare-temp + persist-var produces the copy but gcc forward-propagates the copy DEST into the mask; persist-after-compare kills the copy; explicit `register __asm__` pins fold the whole expr chain into the pinned reg; `=r/0` barriers force bad materialization. Also minor: while-loop header-copy adds a `beqz s1` entry guard vs target `j`, and a2/a3 call-arg setup order. Permuter can't run (register __asm__ pins rejected by pycparser). Genuinely compiler-internal — hand-finish or accept as ceiling.
+// @unstuck(P36): 26-mismatch near-miss (structure fully matches: while-loop test-first via j-to-bottom-test, s0=puVar7/s1=cnt/s2=scan/s3=iVar8/s4=iVar9/s5=uVar3/s6=uVar10, a1=param/a0=cc/a3=0x8000 pinned, both range-persist copies present, mult+GPU-index+call all byte-correct). Residual = 4 instances of ONE gcc-2.7.2 regalloc/copy-prop tie-break: target computes a preserved-then-masked value in $v0 and reads $v0 for the mask (`subu $v0; addu $persist,$v0; andi $v0,$v0`), gcc here reads the persist reg (`andi $v0,$t0`). (1) range-check-1 andi reads $t0 not $v0; (2) range-check-2 andi reads $a0 not $v0; (3) `hi=uVar1&0x8000` folds into $a0 — target computes in $v0 + copies to $a0 in the branch-delay (same-block copy, gcc coalesces mine); (4) loop-test `cnt&0xffff` folds to direct `andi $v0,$s1` — target copies `addu $v0,$s1` first. Splitting the value into compare-temp + persist-var produces the copy but gcc forward-propagates the copy DEST into the mask; persist-after-compare kills the copy; explicit `register __asm__` pins fold the whole expr chain into the pinned reg; `=r/0` barriers force bad materialization. Also minor: while-loop header-copy adds a `beqz s1` entry guard vs target `j`, and a2/a3 call-arg setup order. Permuter can't run (register __asm__ pins rejected by pycparser). Genuinely compiler-internal — hand-finish or accept as ceiling.
 
 
 s32 func_801345F8(s32 arg)
@@ -2664,7 +2664,7 @@ s32 func_801345F8(s32 arg)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (162 ins). iv pinned to $4 (a0) forces move+delay-slot negu; divisor-temp forces divisor-first schedule (load-delay nop). Globals declared pointer-typed (SVec_801347A0*/s16*) so %lo folds per-use instead of &sym address-CSE into callee regs.
+// @unstuck(P36): none — MATCH (162 ins). iv pinned to $4 (a0) forces move+delay-slot negu; divisor-temp forces divisor-first schedule (load-delay nop). Globals declared pointer-typed (SVec_801347A0*/s16*) so %lo folds per-use instead of &sym address-CSE into callee regs.
 #include "common.h"
 
 
@@ -2875,7 +2875,7 @@ block_14:
 #include "../shared/ov/func_80134FB8.h"
 
 // @class: plumbing
-// @stuck: MATCH (89 ins). To BANK: retype D_8017EFD4 + D_8017EFD0 (u8 -> s16*) in sibling func_80135168's externs (src/ov_SC01_077/ov_SC01_077_a.c ~L1879); they hold pointers double-referenced across a call, so only a 4-byte/pointer decl folds %lo (u8 &-cast CSE's the address into a saved reg). Retype is byte-NEUTRAL for the sibling (verified: identical objdump bytes u8 vs s16*).
+// @unstuck(P36): MATCH (89 ins). To BANK: retype D_8017EFD4 + D_8017EFD0 (u8 -> s16*) in sibling func_80135168's externs (src/ov_SC01_077/ov_SC01_077_a.c ~L1879); they hold pointers double-referenced across a call, so only a 4-byte/pointer decl folds %lo (u8 &-cast CSE's the address into a saved reg). Retype is byte-NEUTRAL for the sibling (verified: identical objdump bytes u8 vs s16*).
 
 
 
@@ -2936,7 +2936,7 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
 
 
 // @class: schedule
-// @stuck: none — MATCH (62 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (62 ins, relocation-masked)
 
 
 extern s16 *D_8017EFD8;

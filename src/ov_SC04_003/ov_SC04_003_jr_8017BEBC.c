@@ -2916,7 +2916,7 @@ void func_8017D308(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -5703,7 +5703,7 @@ void func_80181454(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
+// @unstuck(P36): none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
 //   holds it in $a0 across the case stores (else it reloads/`lh` per case, +3 ins); (2) declare the
 //   `in` struct BEFORE `out[2]` so in@sp+0x10 / out@sp+0x20; (3) the 0x14 word is written via
 //   `*(s32*)&in.lo = D_80126B60` then the high short RMW'd `in.hi -= 0x20` (memory lhu/sh, not reg);
@@ -5833,7 +5833,7 @@ void func_80181708(s32 param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
+// @unstuck(P36): none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
 
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B23C(s32 a0);
@@ -5883,7 +5883,7 @@ void func_801817E8(int param_1)
 
 
 // @class: other
-// @stuck: none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
+// @unstuck(P36): none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);

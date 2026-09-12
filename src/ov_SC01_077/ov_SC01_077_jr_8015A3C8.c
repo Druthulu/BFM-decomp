@@ -1486,7 +1486,7 @@ s32 arg0;
 #include "../shared/ov/func_8015ABD4.h"
 
 // @class: plumbing
-// @stuck: none — MATCH (param held in $s0 across 3 calls; lhu 0x16E; &D_8018914C arg)
+// @unstuck(P36): none — MATCH (param held in $s0 across 3 calls; lhu 0x16E; &D_8018914C arg)
 extern void func_80154150(s32 a0, s32 a1);
 extern void func_80146DB8(s32 *a0, s32 *a1);
 extern s32 func_80161CD0(s32 a0, s32 a1);

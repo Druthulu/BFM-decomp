@@ -2031,7 +2031,7 @@ extern void func_80154ED8(s32 a0, s32 a1);
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-struct stride-8 base materialize + addu, %lo folded into addiu)
+// @unstuck(P36): none — MATCH (array-of-struct stride-8 base materialize + addu, %lo folded into addiu)
 
 extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_800183E0(s32 a0);
@@ -2072,7 +2072,7 @@ void func_801550FC(s32 arg0)
 
 
 // @class: struct
-// @stuck: none — MATCH expected; decrement persists as separate addiu in delay slot
+// @unstuck(P36): none — MATCH expected; decrement persists as separate addiu in delay slot
 
 
 s32 func_80155458(s32 param_1)

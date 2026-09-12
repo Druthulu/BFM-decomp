@@ -908,7 +908,7 @@ extern void func_80154ED8(s32 a0, s32 a1);
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-struct stride-8 base materialize + addu, %lo folded into addiu)
+// @unstuck(P36): none — MATCH (array-of-struct stride-8 base materialize + addu, %lo folded into addiu)
 
 extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_800183E0(s32 a0);
@@ -934,7 +934,7 @@ extern ImgRect8 D_801810A4[];
 
 
 // @class: struct
-// @stuck: none — MATCH expected; decrement persists as separate addiu in delay slot
+// @unstuck(P36): none — MATCH expected; decrement persists as separate addiu in delay slot
 
 extern int (*D_801810E4[])(void);
 
@@ -1062,7 +1062,7 @@ s32 aF80156600(void) __asm__("func_80156600");
 
 
 // @class: struct
-// @stuck: none — MATCH expected; D_8011520C indexed by param_2 (byte) folds %lo; D_8018154C indexed halfword folds %lo
+// @unstuck(P36): none — MATCH expected; D_8011520C indexed by param_2 (byte) folds %lo; D_8018154C indexed halfword folds %lo
 extern unsigned char D_8011520C[];
 extern unsigned short D_8018154C[];
 extern void func_80147324(s32 arg0);
@@ -1108,7 +1108,7 @@ void func_80157544(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (scalar global store + two sequential calls, param_1 saved across)
+// @unstuck(P36): none — MATCH expected (scalar global store + two sequential calls, param_1 saved across)
 
 extern int D_8018E848;
 extern void func_80147078(s32 *a0, s16 a1);
@@ -1125,7 +1125,7 @@ extern void func_801578C0(s32 a0);
 
 
 // @class: struct
-// @stuck: none — MATCH expected (fnptr-table %lo-fold via extern array + global counter decrement + two saved-param calls)
+// @unstuck(P36): none — MATCH expected (fnptr-table %lo-fold via extern array + global counter decrement + two saved-param calls)
 
 extern void (*D_80181584[])(void);
 extern int D_8018E848;
@@ -1139,7 +1139,7 @@ extern void func_80159B3C(void *a0);
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected); STUB: param_1 held in $s0 across calls, u8 store of 9 before func_80154274
+// @unstuck(P36): none — MATCH (expected); STUB: param_1 held in $s0 across calls, u8 store of 9 before func_80154274
 
 extern void func_80156648(s32 *a0);
 extern void func_80154274(s32 *a0, s32 a1);
@@ -1158,7 +1158,7 @@ extern u8 D_80181564;
 
 
 // @class: other
-// @stuck: none — MATCH (76 ins). Body is byte-identical with a plain transcription; the only
+// @unstuck(P36): none — MATCH (76 ins). Body is byte-identical with a plain transcription; the only
 //   delta was frame size: target frame is 0x30 (saves at 0x20/0x24/0x28), not 0x20. Target reserves
 //   a 16-byte UNREFERENCED stack local (no sp refs anywhere in the body) — gcc-2.7.2 does NOT
 //   dead-strip an aggregate local even at -O2, so a dead `int frame_pad[4]` reproduces vars=16
@@ -1259,7 +1259,7 @@ extern void (*D_801815CC[])(void);
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected); straight-line call sequence with two stores scheduled into jal delay slots
+// @unstuck(P36): none — MATCH (expected); straight-line call sequence with two stores scheduled into jal delay slots
 
 extern void func_80154274(s32 *a0, s32 a1);
 extern void func_80154A74(s32 a0, s32 a1);

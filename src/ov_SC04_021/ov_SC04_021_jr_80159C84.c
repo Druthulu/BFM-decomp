@@ -1157,7 +1157,7 @@ extern void func_80159BE4(s32 arg0);
 
 
 // @class: other
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 /* scalar typedefs stripped for in-TU splice (§8e) */
 extern unsigned char D_80181878;  /* canonical; address-only use */

@@ -1218,7 +1218,7 @@ s32 func_8013F350(void) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (312/312, relocation-masked)
+// @unstuck(P36): none — MATCH (312/312, relocation-masked)
 
 
 

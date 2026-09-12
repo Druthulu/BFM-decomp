@@ -4125,7 +4125,7 @@ void func_80188BF8(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
+// @unstuck(P36): none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
 //          spliced into src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c (whole-TU cc1 -O2 clean,
 //          masked structured_diff 0/276).
 // Keys: (1) the first func_8012C218 call gets a NOP delay slot because reload_cse_regs deletes the
@@ -4704,7 +4704,7 @@ void func_801898EC(s32 param_1, void *param_2, void *param_3, s32 param_4) {
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
 // @class: branch-polarity
-// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// @unstuck(P36): none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
 // "branch TO the then-arm, fall through to the else", so the source condition is
 // `d < 0x800` (the bnez sense read off the target opcode), NOT Ghidra's inverted
 // arm order. The wrong polarity also cost one instruction (match_one printed
@@ -5504,7 +5504,7 @@ void func_8018ABF0(void *a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
+// @unstuck(P36): none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
 
 
 extern int func_8004787C(int);
@@ -5723,7 +5723,7 @@ void func_8018AE3C(s32 a0)
 // around line 5283) is an already-MATCHED sibling (126 ins) with a documented byte-exact
 // idiom set (its comment, verbatim):
 //   @class: plumbing
-//   @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+//   @unstuck(P36): none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
 //     lbu-loaded byte stays full-width and gcc omits the per-compare `andi 0xff`; (2) uninitialized
 //     `int unaff_s1` -> $s1 (live-from-entry across func_8002D4C8); (3) func_8016AA50 takes TWO args
 //     (param_1, unaff_s1) — a1=unaff_s1 arg-setup is reused by the preceding subtraction and a0=s0
@@ -5798,7 +5798,7 @@ void func_8018B240(int param_1)
 
 
 // @class: schedule
-// @stuck: none — MATCH; success-block placed last via `goto big` (bnez forward into epilogue), single cae4 merge kept
+// @unstuck(P36): none — MATCH; success-block placed last via `goto big` (bnez forward into epilogue), single cae4 merge kept
 
 extern int  func_8012C354();
 extern void func_800599B8();
@@ -6438,7 +6438,7 @@ void func_8018C074(s32 a0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+// @unstuck(P36): none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
 //   lbu-loaded byte stays full-width and gcc omits the per-compare `andi 0xff`; (2) uninitialized
 //   `int unaff_s1` -> $s1 (live-from-entry across func_8002D4C8); (3) func_8016AA50 takes TWO args
 //   (param_1, unaff_s1) — a1=unaff_s1 arg-setup is reused by the preceding subtraction and a0=s0
@@ -6665,7 +6665,7 @@ void func_8018C584(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern int rand(void);
 extern int func_80143C74(short *, int);
@@ -6929,7 +6929,7 @@ void func_8018D020(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH. Two levers: (1) split rand()-result into its own var (shared iVar1 forced an extra move a0,v0); (2) reorder decrement before sp[0] to group the two lhu loads as target's scheduler does; (3) materialize &D_80126B96 via a local u16* to CSE the address (lui+addiu once) instead of %hi/%lo split-per-access.
+// @unstuck(P36): none — MATCH. Two levers: (1) split rand()-result into its own var (shared iVar1 forced an extra move a0,v0); (2) reorder decrement before sp[0] to group the two lhu loads as target's scheduler does; (3) materialize &D_80126B96 via a local u16* to CSE the address (lui+addiu once) instead of %hi/%lo split-per-access.
 
 
 

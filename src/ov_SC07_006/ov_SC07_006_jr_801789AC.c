@@ -3336,7 +3336,7 @@ extern void func_8017435C(void);
 extern void func_801746A4(void);
 
 // @class: struct
-// @stuck: none — MATCH (pointer var forces &(*(int *)&D_8018DD48) into $s0, reused for store + arg-0xC)
+// @unstuck(P36): none — MATCH (pointer var forces &(*(int *)&D_8018DD48) into $s0, reused for store + arg-0xC)
 
 
 
@@ -3358,7 +3358,7 @@ s32 func_80178B18(s32 param_1, s32 param_2)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (pending verify)
+// @unstuck(P36): none — MATCH (pending verify)
 
 s32 func_80178B70(s32 param_1, s32 param_2)
 {
@@ -3379,7 +3379,7 @@ s32 func_80178B70(s32 param_1, s32 param_2)
 extern void func_80016714(void *a0, s32 a1);
 
 // @class: other
-// @stuck: none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
+// @unstuck(P36): none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
 
 
 

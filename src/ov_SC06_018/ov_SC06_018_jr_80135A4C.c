@@ -621,7 +621,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 /* ==== end §8b carried decl layer ==== */
 
 // @class: schedule
-// @stuck: none — MATCH (181 ins, relocation-masked; also rtu_match MATCH in ov_SC06_018_jr_8012ACE0)
+// @unstuck(P36): none — MATCH (181 ins, relocation-masked; also rtu_match MATCH in ov_SC06_018_jr_8012ACE0)
 //
 // Load-bearing idioms (do NOT "clean up"):
 //  * frame_pad[8]  -> the target frame is 0x58 with only s0-s7+ra saved; 32 B of dead

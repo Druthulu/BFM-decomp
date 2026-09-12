@@ -352,7 +352,7 @@ typedef struct Bar {
 #include "../shared/ov/func_8013C360.h"
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 #include "common.h"
 
 typedef struct {

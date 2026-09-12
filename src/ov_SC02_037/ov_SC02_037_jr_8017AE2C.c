@@ -3780,7 +3780,7 @@ extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 void func_8017B0E4(int param_1, int param_2)
@@ -3826,7 +3826,7 @@ extern void func_8012A018(s32 a, s32 b);
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017B238;
 
 // @class: regalloc-order — simplified sibling of matched func_8017B614.
-// @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
+// @unstuck(P36): none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
 // (unaligned lwl/lwr/swl/swr), ZERO memcpy-symbol reference, so the TU's `extern memcpy`
 // (which turned the old draft's memcpy into a CALL -> DIFF 64) can't drift this.
 // $16 pin + in-place re-tie keeps param_2 in $a1 until the >=0xB branch, then $s0 for loads.
@@ -3874,7 +3874,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
 
 // @class: struct
-// @stuck: none — MATCH (74 ins)
+// @unstuck(P36): none — MATCH (74 ins)
 
       /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
          /* 16-byte stride array element */
@@ -3969,7 +3969,7 @@ s32 func_8017B490(s32 param)
 extern void func_8012A018(s32 a, s32 b);
 
 // @class: regalloc-order + T1 memcpy-builtin→call re-crack
-// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// @unstuck(P36): 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
 // param_2 in $a1 until the branch, then $s0 for the loads). Block-moves are align-1 struct-assigns
 // (u8[8]) so they lower via emit_block_move (movstrsi/move_by_pieces) with ZERO memcpy-symbol
 // reference — TU-independent, so the sibling TU's `extern memcpy` (which disables the builtin and
@@ -4034,7 +4034,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 
@@ -4088,7 +4088,7 @@ void func_8017B824(void) {
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 
@@ -4131,7 +4131,7 @@ s32 func_8017B8E8(s32 src) {
 
 
 // @class: struct
-// @stuck: none — MATCH (63 ins)
+// @unstuck(P36): none — MATCH (63 ins)
 
 
 
@@ -4187,7 +4187,7 @@ typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
 
 
 // @class: struct
-// @stuck: none — MATCH (62 ins)
+// @unstuck(P36): none — MATCH (62 ins)
 
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
@@ -4279,7 +4279,7 @@ s32 func_8017BB34(s32 param_1, s32 param_2)
 
 
 // @class: regalloc-order
-// @stuck: pending self-check — register order param=$s2 counter=$s1 ptr=$s0
+// @unstuck(P36): pending self-check — register order param=$s2 counter=$s1 ptr=$s0
 
 
 void func_8017BC38(int param_1)
@@ -4304,7 +4304,7 @@ void func_8017BC38(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
+// @unstuck(P36): none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
 
 extern void func_8017B0E4(int, int);
 
@@ -4322,7 +4322,7 @@ void func_8017BCA0(int param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (simple short-increment + guarded call)
+// @unstuck(P36): none — MATCH expected (simple short-increment + guarded call)
 
 
 extern void func_8017B0E4(int, int);
@@ -4345,7 +4345,7 @@ void func_8017BCF4(int param_1)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+// @unstuck(P36): none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
 
 extern void func_8017B0E4(int, int);
 extern void func_8012A4BC(void);
@@ -4991,7 +4991,7 @@ void func_8017CD10(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @unstuck(P36): none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
 #include "../shared/ov/func_8017CD9C__85f5930d.h"
 

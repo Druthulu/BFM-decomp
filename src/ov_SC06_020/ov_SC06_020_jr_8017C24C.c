@@ -2880,7 +2880,7 @@ void func_8017D4A0(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -3169,7 +3169,7 @@ void func_8017DB70(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (135/135 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (135/135 ins, match_one confirmed)
 
 
 extern s32 func_8012C354(s32, s32);
@@ -4298,7 +4298,7 @@ extern void func_8012A828(s32, void*);
 
 
 // @class: schedule
-// @stuck: none — MATCH (181 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (181 ins, relocation-masked)
 
 
 
@@ -4761,7 +4761,7 @@ void func_8017FF48(s32 a0) {
 
 /* func_801800C8 (ov_SC06_018_jr_8017C24C) — MATCH 198/198, relocation-masked.
  * @class: regalloc-copy + schedule
- * @stuck: none. Three load-bearing idioms:
+ * @unstuck(P36): none. Three load-bearing idioms:
  *  1. ONE shared scratch `t` for all three `sll 16` compares. Three separate temps let
  *     local-alloc TIE the short temp to `iVar1` (no `addu $s1,$v0,$zero` at all, 197 ins);
  *     the shared `t` conflicts with `iVar1` so the copy survives.

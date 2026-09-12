@@ -2655,7 +2655,7 @@ s32 func_801789AC(s32 arg0)
 }
 
 // @class: struct
-// @stuck: none — MATCH (pointer var forces &(*(int *)&D_80182400) into $s0, reused for store + arg-0xC)
+// @unstuck(P36): none — MATCH (pointer var forces &(*(int *)&D_80182400) into $s0, reused for store + arg-0xC)
 
 
 
@@ -2664,7 +2664,7 @@ s32 func_801789AC(s32 arg0)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (pending verify)
+// @unstuck(P36): none — MATCH (pending verify)
 
 #include "../shared/ov/func_80178B70__c7303e83.h"
 
@@ -2673,7 +2673,7 @@ s32 func_801789AC(s32 arg0)
 #include "../shared/ov/func_80178BB8.h"
 
 // @class: other
-// @stuck: none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
+// @unstuck(P36): none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
 
 
 

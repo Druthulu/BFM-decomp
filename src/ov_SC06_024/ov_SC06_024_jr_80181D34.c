@@ -3926,7 +3926,7 @@ void func_8018386C(void *arg0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+// @unstuck(P36): none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
 
 extern code_fn D_801AC64C[];
 

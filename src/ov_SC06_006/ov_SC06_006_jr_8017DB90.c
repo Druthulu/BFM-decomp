@@ -3668,7 +3668,7 @@ u32 func_8017ED24(u32 param_1, u32 param_2)
  *     function grows to 117 ins.  fix_arity_callers cannot help — it strips parameter
  *     lists, and this conflict is on the RETURN axis.  So alias the definition.
  *
- * @stuck: none — match_one MATCH (116/116) AND recover_integration --probe-only
+ * @unstuck(P36): none — match_one MATCH (116/116) AND recover_integration --probe-only
  *   reports `static: none / real cc1 MATCH 116 ins` compiling inside the real TU.
  */
 extern s32 rand(void);
@@ -3743,7 +3743,7 @@ void aF8017EEA4(void *arg)
  * func_8012E28C(depth, record->f0).
  *
  * @class: was LENGTH-DRIFT (-2) -> REGALLOC-PERM -> sched1 store-order
- * @stuck: none — MATCH (121 ins), byte-exact (relocation-masked) under match_one.
+ * @unstuck(P36): none — MATCH (121 ins), byte-exact (relocation-masked) under match_one.
  *
  * LEVERS (each re-scored by removing it):
  *  1. `tr = a.r; tr += b.r;` — NOT `tr = a.r + b.r;`.  This is the whole crack.
@@ -5562,7 +5562,7 @@ void func_80181658(void *a0)
 
 
 // @class: loose-typing
-// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
+// @unstuck(P36): none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
 
 extern int rand(void);
 extern int func_80181CB8(short *pos, int a1, int a2);

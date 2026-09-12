@@ -3504,7 +3504,7 @@ void func_801809D4(void *a0) {
  * signed-magic is the target's 0x5397829D >> 9).
  *
  * @class: schedule
- * @stuck: none -- MATCH. The only residual (8 ins, ADDRESSING/lui!=andi) was the `andi $s1,$v0,0xFFF`
+ * @unstuck(P36): none -- MATCH. The only residual (8 ins, ADDRESSING/lui!=andi) was the `andi $s1,$v0,0xFFF`
  *   scheduling AFTER the two `lhu`s instead of before them, which then cost $v0/$v1 to $v1/$a2 in
  *   the argument block. Statement order is INVARIANT here: all 24 permutations of the four
  *   statements in that window were brute-forced (cookbook-index L25) and every A-first order gave
@@ -3932,7 +3932,7 @@ void func_80181470(void *a0, s32 a1)
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_80188B68[])();

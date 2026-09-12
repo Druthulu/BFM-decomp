@@ -3156,7 +3156,7 @@ void func_80181394(void *arg0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+// @unstuck(P36): none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
 
 extern code_fn D_801AD508[];
 
@@ -3493,7 +3493,7 @@ void func_80181A94(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (135/135 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (135/135 ins, match_one confirmed)
 
 
 extern s32 func_8012C354(s32 a0, void *a1);

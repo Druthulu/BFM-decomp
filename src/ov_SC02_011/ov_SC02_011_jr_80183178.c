@@ -2499,7 +2499,7 @@ void func_801867BC(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
+// @unstuck(P36): none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
 extern void func_80186818();
 extern void (*D_80195D18[])(int);
 
@@ -3458,7 +3458,7 @@ void func_80187CE8(s32 arg0)
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_80195FD8[])();
@@ -3660,7 +3660,7 @@ s32 func_80188168(void)
 
 
 // @class: remat
-// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x18 store AND arg5; writing D_800C7C60=0x18 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x18 store AND arg5; writing D_800C7C60=0x18 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 extern int D_800C7C60;
 extern int *D_800C7C64;

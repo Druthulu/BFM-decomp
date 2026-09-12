@@ -769,7 +769,7 @@ extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 
 // @class: other
-// @stuck: none — MATCH (100 ins)
+// @unstuck(P36): none — MATCH (100 ins)
 // Levers (gcc-2.7.2 switch dispatch-tree reconstruction — the Ghidra if-chain is a DECOMPILER
 // ARTIFACT, not source; transliterating it floors at 49-off):
 //  1. `beq`-forward-to-body + a lone median `slt` split == a real gcc switch tree, not an if-chain.
@@ -805,7 +805,7 @@ extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3);
 #include "../shared/ov/func_80138B88.h"
 
 // @class: struct
-// @stuck: none — MATCH (match_one: MATCH 20 ins)
+// @unstuck(P36): none — MATCH (match_one: MATCH 20 ins)
 
 extern void (*D_80187120[])(void);
 
@@ -997,7 +997,7 @@ s32 func_80138C60(s32 arg0)
 #include "../shared/ov/func_80139788.h"
 
 // @class: struct
-// @stuck: none — MATCH (89 ins). GsSPRITE build (twin func_80139680). Levers: (1) two loads per
+// @unstuck(P36): none — MATCH (89 ins). GsSPRITE build (twin func_80139680). Levers: (1) two loads per
 // D_80187164 addr — signed *(s16*) for tpage, unsigned *(u16*) for u/v — placed at their natural
 // program points (buf stores interposed) so gcc can't CSE-merge them; (2) s32 temps t2/t0 force lh
 // (defeat mask-driven lh->lhu narrow that would srl-reassociate the shift); (3) hi/lo temps pin the
@@ -1174,7 +1174,7 @@ s32 func_80139BE0(int param_1)
 #include "../shared/ov/func_8013A250.h"
 
 // @class: regalloc-order
-// @stuck: none — MATCH; p=&D_80127524 pointer idiom + memory barrier forces *p reload for call arg
+// @unstuck(P36): none — MATCH; p=&D_80127524 pointer idiom + memory barrier forces *p reload for call arg
 #include "../shared/ov/func_8013A2BC.h"
 
 
@@ -1262,7 +1262,7 @@ struct S8013A4C4;
 #include "../shared/ov/func_8013AB54.h"
 
 // @class: schedule
-// @stuck: none — MATCH (122 ins). GTE lerp+mvmva loop. Two levers: (1) flat `extern s16`
+// @unstuck(P36): none — MATCH (122 ins). GTE lerp+mvmva loop. Two levers: (1) flat `extern s16`
 //   source arrays indexed [2*i]/[2*i+1] force 4 separate walking IVs (t2/t3/t4/t5) instead of
 //   one shared offset-IV + symbol(reg) addressing; (2) INVERTED-arm if/else
 //   `if (flag<0) out3=-tbl; else out3=tbl;` gives the target's bgez polarity + reload-per-arm

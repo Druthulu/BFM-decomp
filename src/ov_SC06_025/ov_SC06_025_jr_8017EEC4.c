@@ -6491,7 +6491,7 @@ void func_801839F0(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801B1BE4 + idx*0x40 (materialize form, arg to callees).
+// @unstuck(P36): none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801B1BE4 + idx*0x40 (materialize form, arg to callees).
 
 extern void func_801465C0(void);
 extern void func_8001CD9C(int, void*);

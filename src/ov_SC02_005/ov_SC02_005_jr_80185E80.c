@@ -4587,7 +4587,7 @@ void func_8018C274(void *a0) {
 
 #include "common.h"
 
-// @stuck: none — MATCH (42 ins), iteration 1, rtu_match clean.
+// @unstuck(P36): none — MATCH (42 ins), iteration 1, rtu_match clean.
 // Saturating add of a 3-byte RGB triple by a signed delta.
 // Idioms: (1) `s8` by-value param => entry `sll/sra 24` for the sign test only;
 //   combine folds the extension back out of `~a1`/`-a1`/`a0[i]+a1` because every

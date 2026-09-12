@@ -2704,7 +2704,7 @@ reset_both:
 }
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 void func_8017B0E4(int param_1, int param_2)
@@ -2746,7 +2746,7 @@ void func_8017B1D8(void) {
 
 
 // @class: regalloc-order — simplified sibling of matched func_8017B614.
-// @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
+// @unstuck(P36): none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
 // (unaligned lwl/lwr/swl/swr), ZERO memcpy-symbol reference, so the TU's `extern memcpy`
 // (which turned the old draft's memcpy into a CALL -> DIFF 64) can't drift this.
 // $16 pin + in-place re-tie keeps param_2 in $a1 until the >=0xB branch, then $s0 for loads.
@@ -2792,7 +2792,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
 
 // @class: struct
-// @stuck: none — MATCH (74 ins)
+// @unstuck(P36): none — MATCH (74 ins)
 
       /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
          /* 16-byte stride array element */
@@ -2883,7 +2883,7 @@ s32 func_8017B490(s32 param)
 
 
 // @class: regalloc-order + T1 memcpy-builtin→call re-crack
-// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// @unstuck(P36): 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
 // param_2 in $a1 until the branch, then $s0 for the loads). Block-moves are align-1 struct-assigns
 // (u8[8]) so they lower via emit_block_move (movstrsi/move_by_pieces) with ZERO memcpy-symbol
 // reference — TU-independent, so the sibling TU's `extern memcpy` (which disables the builtin and
@@ -2944,7 +2944,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern s32 D_80114F30;
 extern s32 D_80114F34;
@@ -3000,7 +3000,7 @@ void func_8017B824(void) {
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern s16 D_801D4214;
 extern s16 D_801D4216;
@@ -3028,7 +3028,7 @@ void func_8017B880(void)
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 /* 16-byte unaligned block copy from param to two adjacent align-1 globals.
    src[0..7] -> (*(S8_8017B8E8 *)&D_801D41FC), src[8..15] -> (*(S8_8017B8E8 *)&D_801D41F4) (source order).
@@ -3045,7 +3045,7 @@ s32 func_8017B8E8(s32 src) {
 
 
 // @class: struct
-// @stuck: none — MATCH (63 ins)
+// @unstuck(P36): none — MATCH (63 ins)
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
@@ -3096,7 +3096,7 @@ void func_8017B940(void)
 
 
 // @class: struct
-// @stuck: none — MATCH (62 ins)
+// @unstuck(P36): none — MATCH (62 ins)
 
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
@@ -3143,7 +3143,7 @@ void func_8017BA3C(s32 param_1, s32 param_2)
 
 
 // @class: struct
-// @stuck: none — MATCH (65 ins)
+// @unstuck(P36): none — MATCH (65 ins)
 #include "common.h"
 
 
@@ -3183,7 +3183,7 @@ s32 func_8017BB34(s32 param_1, s32 param_2)
 
 
 // @class: regalloc-order
-// @stuck: pending self-check — register order param=$s2 counter=$s1 ptr=$s0
+// @unstuck(P36): pending self-check — register order param=$s2 counter=$s1 ptr=$s0
 
 extern void (*D_801D41CC[10])(int);
 
@@ -3208,7 +3208,7 @@ void func_8017BC38(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
+// @unstuck(P36): none — MATCH (expected); short-typed global increment + signed compare, store-2 on overflow
 
 extern void func_8017B0E4(int, int);
 extern s16 D_801D4184;
@@ -3226,7 +3226,7 @@ void func_8017BCA0(int param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (simple short-increment + guarded call)
+// @unstuck(P36): none — MATCH expected (simple short-increment + guarded call)
 
 extern s16 D_801D4184;
 extern s16 D_801D47D8;
@@ -3249,7 +3249,7 @@ void func_8017BCF4(int param_1)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+// @unstuck(P36): none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
 
 extern void func_8017B0E4(int, int);
 extern void func_8012A4BC(void);
@@ -4284,7 +4284,7 @@ void *a1;
  * callee-saved register.
  *
  * @class: schedule (LENGTH-DRIFT/-1)
- * @stuck: none — MATCH 50/50 (match_one AND rtu_match), iteration 2.
+ * @unstuck(P36): none — MATCH 50/50 (match_one AND rtu_match), iteration 2.
  * THE CRACK (one edit): the TRAILING reload `if (*p == 0)` was being hoisted by
  * sched2 up past the third block move, where the swl/swr pair covered its load
  * delay — costing exactly the one `nop` the target keeps (49 vs 50 ins,
@@ -5388,7 +5388,7 @@ void func_8017F200(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (41 ins, relocation-masked); frame needed a 0x30 address-taken local
+// @unstuck(P36): none — MATCH (41 ins, relocation-masked); frame needed a 0x30 address-taken local
 
 extern s32 func_800D222C(s32 a0, void *a1, s32 a2);
 extern s32 func_8001CF30(void *a0);

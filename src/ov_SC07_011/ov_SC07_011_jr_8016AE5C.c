@@ -2662,7 +2662,7 @@ void func_8016B4BC(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern int func_8016B9F8(int);
@@ -2715,7 +2715,7 @@ success:
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern s32 func_8016B9F8(s32 param_1);
 extern void func_8016B984(void *a0);
@@ -2768,7 +2768,7 @@ LOOP:
 
 
 // @class: schedule
-// @stuck: none — MATCH (94/94 ins, match_one relocation-masked)
+// @unstuck(P36): none — MATCH (94/94 ins, match_one relocation-masked)
 //
 // Exemplar of the 138-member h_seq family. The whole crack was ONE statement-order
 // lever in the tail: the target's post-func_80015978 fix-up runs
@@ -2846,7 +2846,7 @@ void func_8016B6BC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (statement order: compute puVar2 base before puVar3 table lookup so param*0x40+base schedule into prologue, leaving the 0x2c load-delay nop)
+// @unstuck(P36): none — MATCH (statement order: compute puVar2 base before puVar3 table lookup so param*0x40+base schedule into prologue, leaving the 0x2c load-delay nop)
 extern void func_801465C0(void);
 extern void func_8001CD9C(int, void *);
 extern void func_800233CC(void *, unsigned short);
@@ -2890,7 +2890,7 @@ extern void func_80146C3C(u8*);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (result is func_8012EFB8's return saved in $s0 across the func_80015954 call; the save-move fills the 2nd call's delay slot. func_80015954's return is discarded.)
+// @unstuck(P36): none — MATCH (result is func_8012EFB8's return saved in $s0 across the func_80015954 call; the save-move fills the 2nd call's delay slot. func_80015954's return is discarded.)
 
 extern void func_8012EFB8(s32 a0);
 extern void func_80015954(s32 a0, s32 a1);
@@ -2930,7 +2930,7 @@ extern void func_801465C0(void);
 extern void func_80146C3C(u8*);
 
 // @class: plumbing
-// @stuck: none — MATCH (56 ins, match_one relocation-masked)
+// @unstuck(P36): none — MATCH (56 ins, match_one relocation-masked)
 
 
 
@@ -3008,7 +3008,7 @@ extern void func_8016BF50(s32);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 // @class: struct
-// @stuck: none — MATCH (74 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (74 ins, relocation-masked)
 
 
 
@@ -3058,7 +3058,7 @@ extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 s32 func_8016BEA0(s32 param_1)
 {
@@ -3250,7 +3250,7 @@ void func_8016C188(s32 param)
 
 
 // @class: schedule
-// @stuck: none — MATCH (44 ins; pins $s0/$s1 + hoist call-arg into a temp so its load fills the buf-store delay slot)
+// @unstuck(P36): none — MATCH (44 ins; pins $s0/$s1 + hoist call-arg into a temp so its load fills the buf-store delay slot)
 
 extern void func_80149350(s32 arg0);
 extern void func_80015954(s32 a0, s32 a1);
@@ -3305,7 +3305,7 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 extern void func_80146C3C(u8*);
 
 // @class: regalloc-order
-// @stuck: none — MATCH (172/172, relocation-masked)
+// @unstuck(P36): none — MATCH (172/172, relocation-masked)
 
 
 
@@ -3900,7 +3900,7 @@ void func_8016D984(s32 *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
+// @unstuck(P36): none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
 extern void func_8016DBD8(u8 *a0);
 
 void func_8016DA30(int param_1)
@@ -3914,7 +3914,7 @@ void func_8016DA30(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (clean if/else, one call-crossing local; bnez polarity = if(iVar1==0) fall-through)
+// @unstuck(P36): none — MATCH (clean if/else, one call-crossing local; bnez polarity = if(iVar1==0) fall-through)
 
 extern void func_801465C0(void);
 extern void func_80146C3C(u8*);
@@ -4223,7 +4223,7 @@ void func_8016E728(u8 *a0) {
 extern s32 func_80017DC4(void *a0, void *a1);
 
 // @class: regalloc-order
-// @stuck: none — MATCH (74 ins); register pin $s2 forces &prim into a saved reg (§17)
+// @unstuck(P36): none — MATCH (74 ins); register pin $s2 forces &prim into a saved reg (§17)
 
                  /* 0x08 */
      /* 0x20 */
@@ -4278,7 +4278,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
 
 
 // @class: struct
-// @stuck: none — MATCH (36/36 ins, match_one relocation-masked)
+// @unstuck(P36): none — MATCH (36/36 ins, match_one relocation-masked)
 
 
 
@@ -4301,7 +4301,7 @@ s32 func_8016E95C() {
 
 
 /* @class: regalloc (non-coalescing delay-slot copy) + sched (load-temp hoist)
- * @stuck: none — MATCH (53/53 ins, match_one AND rtu_match in the real TU).
+ * @unstuck(P36): none — MATCH (53/53 ins, match_one AND rtu_match in the real TU).
  *
  * Two levers, both from the cookbook:
  *
@@ -4368,7 +4368,7 @@ void func_8016E9EC(u8 *p)
 
 
 // @class: struct
-// @stuck: none — MATCH (31/31 ins, match_one verified)
+// @unstuck(P36): none — MATCH (31/31 ins, match_one verified)
 
 extern void func_8016EC0C(s32 a0, s32 a1);
 
@@ -4391,7 +4391,7 @@ void func_8016EAC0(Wave *param_1)
 
 
 // @class: loose-typing
-// @stuck: none — MATCH (u8 v + 0xFF emits addiu 0xFF; v-1 would emit -1/0xffff)
+// @unstuck(P36): none — MATCH (u8 v + 0xFF emits addiu 0xFF; v-1 would emit -1/0xffff)
 
 extern void func_8016EC0C(s32 a0, s32 a1);
 
@@ -4413,7 +4413,7 @@ void func_8016EB3C(s32 p) {
 
 
 // @class: struct
-// @stuck: none — MATCH (25 ins). %lo-fold via extern u16 D_80181A40[]; predecrement emitted as +0xFF (u8 promote→sb low byte), not -1.
+// @unstuck(P36): none — MATCH (25 ins). %lo-fold via extern u16 D_80181A40[]; predecrement emitted as +0xFF (u8 promote→sb low byte), not -1.
 
 
 extern void func_8016EC0C(s32 a0, s32 a1);
@@ -4564,7 +4564,7 @@ void func_8016ED6C(void) {
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern s16 currentLocationId;
 

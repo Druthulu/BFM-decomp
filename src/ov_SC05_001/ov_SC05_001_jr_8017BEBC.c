@@ -3091,7 +3091,7 @@ void func_8017CE14(void *a0)
 
 
 // @class: plumbing
-// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @unstuck(P36): none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
 extern void func_8017D0F8(int);
 
@@ -6282,7 +6282,7 @@ extern s32 func_8012B8E4(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 
 // @class: straight-derive
-// @stuck: none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
+// @unstuck(P36): none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
 //
 // Two things that could have been mis-read off the target asm:
 //
@@ -6718,7 +6718,7 @@ void func_80182258(void *a0)
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)
-// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @unstuck(P36): none - MATCH (41 ins), match_one + rtu_match.
 // Three levers, in the order they mattered:
 //  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
 //     join block, not two multiplies in the source. The C selects the
@@ -6773,7 +6773,7 @@ void func_80182354(s32 *a0) {
 
 
 // @class: regalloc (WIDTH/li!=addu -> MATCH)
-// @stuck: none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).
+// @unstuck(P36): none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).
 // Three levers, in the order they mattered:
 //
 //  1) The join block indexes every field off $a0, not $s0: the target COPIES the entity into $a0

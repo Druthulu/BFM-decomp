@@ -3599,7 +3599,7 @@ void func_80186344(s32 a0) {
 
 /* func_801864C4 (ov_SC06_018_jr_8017C24C) — MATCH 198/198, relocation-masked.
  * @class: regalloc-copy + schedule
- * @stuck: none. Three load-bearing idioms:
+ * @unstuck(P36): none. Three load-bearing idioms:
  *  1. ONE shared scratch `t` for all three `sll 16` compares. Three separate temps let
  *     local-alloc TIE the short temp to `iVar1` (no `addu $s1,$v0,$zero` at all, 197 ins);
  *     the shared `t` conflicts with `iVar1` so the copy survives.

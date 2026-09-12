@@ -135,7 +135,7 @@ extern void func_8014607C(void);
 extern void func_8014ED28(s32 _arg0);
 
 // @class: other
-// @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper w/ branch)
+// @unstuck(P36): none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper w/ branch)
 /*
  * HANDWRITTEN scratchpad-stack-switch dispatcher (same idiom as func_80128564 /
  * the func_8014ED28 family): repoints $sp into the D-cache scratchpad stack held
@@ -198,7 +198,7 @@ void func_80128714(void) {
 
 
 // @class: remat
-// @stuck: none — MATCH (62 ins). D_80190490 read needed the address REMATERIALIZED
+// @unstuck(P36): none — MATCH (62 ins). D_80190490 read needed the address REMATERIALIZED
 //   (lui;addiu;lw 0(reg), not the folded lui;lw %lo) AND pinned to $a0. volatile forces the
 //   remat; register __asm__("$4") forces the a0 allocation (gcc otherwise picks v0). Both levers
 //   required — pin-alone folds, volatile-alone lands in v0.
@@ -275,7 +275,7 @@ s32 func_801288B0(void) {
 extern s32 func_80128998(void);
 
 // @class: remat
-// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
@@ -298,7 +298,7 @@ int func_801288E8(int arg0)
 extern s32 func_80128998(void);
 
 // @class: remat
-// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x5e store AND arg5; writing D_800C7C60=0x5e directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x5e store AND arg5; writing D_800C7C60=0x5e directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
@@ -320,7 +320,7 @@ int func_80128940(int arg0)
 
 
 // @class: remat
-// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0xd store AND arg5; writing D_800C7C60=0xd directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0xd store AND arg5; writing D_800C7C60=0xd directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
@@ -634,7 +634,7 @@ void func_8012956C(void) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (158 ins, match_one relocation-masked)
+// @unstuck(P36): none — MATCH (158 ins, match_one relocation-masked)
 //
 // Levers that landed it (2 iterations, 56 mismatched -> MATCH):
 //  1. §43 K&R s16-param definition: `void f(a0,a1,a2) s16 a0; s16 a1; u8 *a2;` reproduces the
@@ -741,7 +741,7 @@ u8 *arg2;
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (78 ins, relocation-masked). Register pins ($2-$5 reused for
+// @unstuck(P36): none — MATCH (78 ins, relocation-masked). Register pins ($2-$5 reused for
 //   the D_x200-x20C words then the D_x220-x226 halfwords; $6-$10 held across for the
 //   D_x228/x22A/x294/x298/x29A tail) force the frameless 9-deep allocation the default
 //   -O2 pre-reload scheduler otherwise blows to a 3-reg spill (all 720 stmt orders spill
@@ -851,7 +851,7 @@ void func_8012ACA0(void *arg0) {
 
 
 // @class: iv-combine
-// @stuck: none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
+// @unstuck(P36): none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
       /* 8-byte element, cmd @ +4 */
     /* list ptr @ +0x90 */
 
@@ -1052,7 +1052,7 @@ void func_8012BF4C(s32 *a0, s32 a1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
+// @unstuck(P36): none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
 //   dst+0x36 assumed non-aliasing the global) AND folds %lo per-access — target instead RELOADS
 //   and keeps &(*(u16 *)&D_801270C4) in one reg. Fix = pin a `u16*` to $v1 (register asm "$3"), read via
 //   `*(volatile u16*)pc` (defeats CSE -> 2 loads) but STORE via plain `*pc` (non-volatile store
@@ -1275,7 +1275,7 @@ s32 func_8012DB84(void)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 
@@ -1305,7 +1305,7 @@ s32 func_8012DDA4(void) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (35/35 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (35/35 ins, relocation-masked)
 
 
 s32 func_8012DE2C(s32 a0) {
@@ -1531,7 +1531,7 @@ void func_8012E364(s32 arg0_)
 
 
 // @class: other
-// @stuck: none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
+// @unstuck(P36): none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
 
 extern void func_8016AA50(int, int);
 extern void func_8016B428(int);
@@ -1572,7 +1572,7 @@ void func_8012E9C0(int param_1)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (93 ins)
+// @unstuck(P36): none — MATCH (93 ins)
 
 
 extern void func_80049CAC(s32 a0, s32 a1);
@@ -1633,7 +1633,7 @@ s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
 
 
 // @class: remat
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_8012F40C.h"
 
@@ -1657,7 +1657,7 @@ s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
 
 
 // @class: plumbing
-// @stuck: none — MATCH (pending gate)
+// @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170();
 extern void func_80131CA8();
 
@@ -1678,7 +1678,7 @@ void func_8012F828(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (pending gate)
+// @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170();
 extern void func_80131CA8();
 
@@ -1711,7 +1711,7 @@ void func_8012F8C8(int param_1)
 
 
 // @class: schedule
-// @stuck: none — MATCH (57 ins), byte-exact via rtu_match on the real TU.
+// @unstuck(P36): none — MATCH (57 ins), byte-exact via rtu_match on the real TU.
 // ROOT CAUSE of the prior 3-off "irreducible schedule-steal": the wave-2 draft had the WRONG ARITY for
 //   func_80131B14. It cast the call to (int,int) and passed (param_1, 0x1C), which forced `li a1,0x1C` to be
 //   func_80131B14's OWN arg. That premise made the beqz-delay `li a1,0x1C` / jal-delay `move a0,s0` look like an
@@ -1863,7 +1863,7 @@ void func_80130D0C(s32 a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
+// @unstuck(P36): none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
 extern s32 rand(void);
 extern u8 D_80078E78[];
 extern u16 D_80078EB2;
@@ -2019,7 +2019,7 @@ extern void func_80131B14(void);
 
 
 // @class: loop-guard
-// @stuck: none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
+// @unstuck(P36): none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
 //   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))func_8012BCCC)(p) <= 0x8FFF)`
 //   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
 //   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
@@ -2074,7 +2074,7 @@ tail:
 
 
 // @class: struct
-// @stuck: none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)
+// @unstuck(P36): none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)
 
    /* size 8, alignment 1 -> unaligned copy */
 

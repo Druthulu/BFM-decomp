@@ -3699,7 +3699,7 @@ extern void func_801746A4(void);
 
 
 // @class: struct
-// @stuck: none — MATCH (pointer var forces &(*(int *)&D_80187548) into $s0, reused for store + arg-0xC)
+// @unstuck(P36): none — MATCH (pointer var forces &(*(int *)&D_80187548) into $s0, reused for store + arg-0xC)
 
 
 
@@ -3721,7 +3721,7 @@ s32 func_80178B18(s32 param_1, s32 param_2)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (pending verify)
+// @unstuck(P36): none — MATCH (pending verify)
 
 s32 func_80178B70(s32 param_1, s32 param_2)
 {
@@ -3742,7 +3742,7 @@ s32 func_80178B70(s32 param_1, s32 param_2)
 extern void func_80016714(void *a0, s32 a1);
 
 // @class: other
-// @stuck: none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
+// @unstuck(P36): none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
 
 
 
@@ -4568,7 +4568,7 @@ Lend:
 
 
 // @class: schedule
-// @stuck: none — MATCH (111 ins). symcheck: data syms CLEAN (D_801C9238/D_801C963C, 0 INVENTED); its lone MISSING is jtbl_801D8F9C, the COMPILER-emitted table ($L17 -> .rdata) — banking needs the §8a/§8e rodata-island flip (35 entries, .align 3), not a source-side ref.
+// @unstuck(P36): none — MATCH (111 ins). symcheck: data syms CLEAN (D_801C9238/D_801C963C, 0 INVENTED); its lone MISSING is jtbl_801D8F9C, the COMPILER-emitted table ($L17 -> .rdata) — banking needs the §8a/§8e rodata-island flip (35 entries, .align 3), not a source-side ref.
 /* func_80179B74 (ov_SC01_077) — command-queue WRITER: copies the opcode + its
  * operand halfwords from *p into the 0x200-entry ring D_801C9238 at write index
  * D_801C963C.  Mirror of the reader func_8017A4AC (same ring, read index D_801DA710).
@@ -4797,7 +4797,7 @@ s32 func_8017A3B0(void) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 extern int func_800D0CA0(int);

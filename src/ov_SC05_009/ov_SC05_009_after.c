@@ -10,7 +10,7 @@
 
 
 // @class: schedule
-// @stuck: none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_80180FFC block defeats the tail-merge of the two identical D_80180FFC loads; barrier emits zero bytes, load-bearing)
+// @unstuck(P36): none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_80180FFC block defeats the tail-merge of the two identical D_80180FFC loads; barrier emits zero bytes, load-bearing)
 
 extern s32 func_80029504(void);
 extern void func_800D185C(u8 *a0);
@@ -31,7 +31,7 @@ extern u8 D_80180F00;
 
 
 // @class: other
-// @stuck: none — MATCH (62 ins). Sibling func_80145934 (byte-matched, same shape) is the template. Tail is default-then-conditional-override (matches asm .L80145AEC), and a §5a cross-jump barrier prevents the two identical D_8018108C loads (>=0x6A4 and >=0x384) from being tail-merged.
+// @unstuck(P36): none — MATCH (62 ins). Sibling func_80145934 (byte-matched, same shape) is the template. Tail is default-then-conditional-override (matches asm .L80145AEC), and a §5a cross-jump barrier prevents the two identical D_8018108C loads (>=0x6A4 and >=0x384) from being tail-merged.
 
 extern s32 func_80029504(void);
 extern void func_800D185C(u8 *a0);
@@ -56,7 +56,7 @@ extern u8 D_80181020;
 #include "../shared/ov/func_80145C54.h"
 
 // @class: struct
-// @stuck: 2 residuals — (1) target RELOADS global ptr D_80126B78 before each of its 5 field accesses (f28/f18/f1a/f1c/f2c); gcc-2.7.2 CSEs the single pointer load in every clean-C form I tried (int-cast, (s8*)/(s32) M2C_FIELD, struct*), keeping ONE load. volatile forces reloads but hoists them + leaves delay-slot nops the target fills (target is NOT volatile). (2) frame 0x20 not 0x18: target reserves an unused 8-byte stack local @0x10 (address-taken local — reproduced, but every code-free escape optimizes away and a visible escape corrupts the func_80145EE8(0) arg). Structure/order/values/callees all match; only the alias-driven reload chain + the phantom frame local remain. Family exemplar (~130 overlays).
+// @unstuck(P36): 2 residuals — (1) target RELOADS global ptr D_80126B78 before each of its 5 field accesses (f28/f18/f1a/f1c/f2c); gcc-2.7.2 CSEs the single pointer load in every clean-C form I tried (int-cast, (s8*)/(s32) M2C_FIELD, struct*), keeping ONE load. volatile forces reloads but hoists them + leaves delay-slot nops the target fills (target is NOT volatile). (2) frame 0x20 not 0x18: target reserves an unused 8-byte stack local @0x10 (address-taken local — reproduced, but every code-free escape optimizes away and a visible escape corrupts the func_80145EE8(0) arg). Structure/order/values/callees all match; only the alias-driven reload chain + the phantom frame local remain. Family exemplar (~130 overlays).
 
 
 
@@ -66,7 +66,7 @@ extern u8 D_80181020;
 
 
 // @class: schedule
-// @stuck: branch layout — 3-way dispatch on param_1; trying switch form
+// @unstuck(P36): branch layout — 3-way dispatch on param_1; trying switch form
 
 extern s32 func_80029178(s32 arg);
 extern void func_80146014(s32 a0);
@@ -140,7 +140,7 @@ void func_8014607C(void)
 
 
 // @class: struct
-// @stuck: none — MATCH (fnptr-table idiom: D_801805B4[u8 idx](&arg))
+// @unstuck(P36): none — MATCH (fnptr-table idiom: D_801805B4[u8 idx](&arg))
 extern void (*D_801805B4[])(void *);
 extern u8 D_80126BA4;
 
@@ -439,7 +439,7 @@ s32 aF80146AFC(void *arg0) __asm__("func_80146AFC");
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (71 ins). switch binary-tree; s1 angle = pin-source-of-copy ($5 temp + retie); 2nd-block double-load + 0x80-clobber via $v1/$v0/$a0 pins + lazy hi-pin reusing dead c80 reg
+// @unstuck(P36): none — MATCH (71 ins). switch binary-tree; s1 angle = pin-source-of-copy ($5 temp + retie); 2nd-block double-load + 0x80-clobber via $v1/$v0/$a0 pins + lazy hi-pin reusing dead c80 reg
 
 extern s32 ratan2(s32 a0, s32 a1);
 
@@ -480,7 +480,7 @@ extern s32 ratan2(s32 a0, s32 a1);
 
 
 // @class: schedule
-// @stuck: none — MATCH (68 ins)
+// @unstuck(P36): none — MATCH (68 ins)
 extern s32 ratan2(s32 a0, s32 a1);
 
 #include "../shared/ov/func_80148D44__667065fa.h"
@@ -581,7 +581,7 @@ extern s32 ratan2(s32, s32);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (34 ins). param_2 pinned to $s0; the two stack out-bufs (in@0x10,
+// @unstuck(P36): none — MATCH (34 ins). param_2 pinned to $s0; the two stack out-bufs (in@0x10,
 //   mid@0x20,out@0x18) would be HOISTED into $s1 across call1 (frame 0x38, +s1 save) — break
 //   that with a per-use CSE-break barrier (`__asm__("":"=r"(p):"0"(p))`) on &in, mid(call1),
 //   mid(call2) so each rematerializes `addiu reg,$sp,off` (frame 0x30, only $s0 saved). The
@@ -651,7 +651,7 @@ extern s32 ratan2(s32, s32);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (38 ins)
+// @unstuck(P36): none — MATCH (38 ins)
 extern s32 D_8018067C[];
 extern u8 D_80078E78[];
 extern s16 currentLocationId;
@@ -661,7 +661,7 @@ extern s16 currentLocationId;
 
 
 // @class: struct
-// @stuck: none — MATCH (90 ins). Keys: (1) single Loc struct pins the 0x10..0x25 stack
+// @unstuck(P36): none — MATCH (90 ins). Keys: (1) single Loc struct pins the 0x10..0x25 stack
 //   region (frame 0x40) for the func_8012F14C/func_80135260 out-params; (2) loop is a
 //   while(1) with the 6 checks &&-chained in the loop CONDITION + the "found" block AFTER
 //   the loop (fall-through) so the success path is a forward j .L8014A190 — matches the
@@ -919,7 +919,7 @@ extern s32 func_8014C5FC(s32 a0, s32 a1, void *a2);
 
 
 // @class: schedule
-// @stuck: none — MATCH (match_one 91/91)
+// @unstuck(P36): none — MATCH (match_one 91/91)
 //
 // Levers used (all byte-gated on ov_SC07_006):
 //  1. §struct  8-byte alignment-1 struct copy `*(M8_8014C6F4*)(a+0x164) = *(M8_8014C6F4*)(p+0x10)`
@@ -1148,7 +1148,7 @@ void func_8014D738(void)
 extern void func_8012AAAC(void *arg0);
 
 // @class: schedule
-// @stuck: none — MATCH (304/304), symcheck SYMS-OK 12/12, and the whole-TU cc1 stage now compiles CLEAN
+// @unstuck(P36): none — MATCH (304/304), symcheck SYMS-OK 12/12, and the whole-TU cc1 stage now compiles CLEAN
 //
 // ══════════════════════════════════════════════════════════════════════════════
 // SESSION-22 RE-DERIVATION + THE ROOT-CAUSE FIX FOR THE "ASSEMBLER-STAGE" FAILURE
@@ -1443,7 +1443,7 @@ void func_8014E934(s32 _arg0)
 
 
 // @class: other
-// @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper; no trailing .set reorder — that adds a stray epilogue nop)
+// @unstuck(P36): none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper; no trailing .set reorder — that adds a stray epilogue nop)
 /*
  * HANDWRITTEN scratchpad-stack-switch wrapper: temporarily repoints $sp into the
  * D-cache scratchpad stack held at *(0x1F8003FC), calls func_8014ED80, stashes the
@@ -1555,7 +1555,7 @@ s32 func_8014F468(void)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (22 ins, relocation-masked). Handwritten scratchpad-stack-switch
+// @unstuck(P36): none — MATCH (22 ins, relocation-masked). Handwritten scratchpad-stack-switch
 //         wrapper, full inline asm like DEFINE_func_80155FF8. NOTE: do NOT write an explicit
 //         "nop" after "jal func_8014F74C" — maspsx --aspsx-version=2.56 auto-fills the jal
 //         delay slot with a nop; an explicit one yields a double-nop (+1 ins). %hi/%lo must be
@@ -1600,7 +1600,7 @@ int func_8014F6F4(void) {
 
 
 // @class: other
-// @stuck: none — MATCH (full inline-asm $sp-switch trampoline w/ 0x40000 guard, jal func_8014FA70, stash D_801958EC; maspsx auto-fills jal delay slot)
+// @unstuck(P36): none — MATCH (full inline-asm $sp-switch trampoline w/ 0x40000 guard, jal func_8014FA70, stash D_801958EC; maspsx auto-fills jal delay slot)
 
 extern s32 func_8014FA70(s32 a0);
 extern s32 D_801958EC;
@@ -1641,7 +1641,7 @@ void func_8014FA04(s32 a0)
 #include "../shared/ov/func_8014FA70.h"
 
 // @class: other
-// @stuck: none — MATCH (22 ins, relocation-masked). Handwritten scratchpad-stack-switch
+// @unstuck(P36): none — MATCH (22 ins, relocation-masked). Handwritten scratchpad-stack-switch
 //   trampoline: byte-identical to the matched in-TU sibling func_8014F6F4 (line ~2005),
 //   differing ONLY in the callee (func_8014FC18 vs func_8014F74C). Full inline asm manages
 //   its own frame; both the callee and the D_801958EC global live inside the asm, so NO C
@@ -1888,7 +1888,7 @@ void func_80150A70(s32 a0)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
+// @unstuck(P36): none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
 
 
 #include "../shared/ov/func_80150B28__74650617.h"
@@ -2102,7 +2102,7 @@ extern void (*D_8018081C[])(void);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (67 ins)
+// @unstuck(P36): none — MATCH (67 ins)
 
 
 extern void func_80146E90(s32 *a0, s32 a1);

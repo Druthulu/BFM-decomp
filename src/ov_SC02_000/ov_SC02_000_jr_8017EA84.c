@@ -2734,7 +2734,7 @@ extern s32 func_8017E958(s32 param_1, s32 param_2);
 
 
 // @class: struct
-// @stuck: none — big state machine (5-state switch), modeled on the exact call/loop/field idioms
+// @unstuck(P36): none — big state machine (5-state switch), modeled on the exact call/loop/field idioms
 //   already byte-proven in this same TU (func_8017E404 / func_8017E51C / func_8017E958).
 
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
@@ -3242,7 +3242,7 @@ void func_8017EA84(s32 a0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple param-survives-call store sequence
+// @unstuck(P36): none — MATCH expected; simple param-survives-call store sequence
 
 extern void func_8012A828(s32 a0, void *a1);
 extern char D_801A668C[];
@@ -3258,7 +3258,7 @@ void func_8017F5A0(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; param_1 survives call in $s0 naturally (single global allocno)
+// @unstuck(P36): none — MATCH expected; param_1 survives call in $s0 naturally (single global allocno)
 
 extern void func_8012A828(s32 a0, void *a1);
 extern s32 D_801A72C4;
@@ -3272,7 +3272,7 @@ void func_8017F5E4(s32 param_1) {
 
 
 // @class: jtbl-carve + switch binary-tree
-// @stuck: none — MATCH 201/201, reloc_identity AGREE (24 relocs).
+// @unstuck(P36): none — MATCH 201/201, reloc_identity AGREE (24 relocs).
 //   jtbl_801E69EC (asm/ov_SC02_000/data/tail18.data.s) = [F7D0, F830, F904, F858, F8B8].
 //   Entry 2 aims at the switch-end label, which is ALSO the out-of-range (sltiu 5) target
 //   => `case 2: break;` written literally and NO `default:` clause (cookbook §206.2/§206.3).

@@ -3434,7 +3434,7 @@ Lend:
 #include "../shared/ov/func_80179B28.h"
 
 // @class: schedule
-// @stuck: none — MATCH (111 ins). symcheck: data syms CLEAN (D_801DA310/D_801DA714, 0 INVENTED); its lone MISSING is jtbl_801D8F9C, the COMPILER-emitted table ($L17 -> .rdata) — banking needs the §8a/§8e rodata-island flip (35 entries, .align 3), not a source-side ref.
+// @unstuck(P36): none — MATCH (111 ins). symcheck: data syms CLEAN (D_801DA310/D_801DA714, 0 INVENTED); its lone MISSING is jtbl_801D8F9C, the COMPILER-emitted table ($L17 -> .rdata) — banking needs the §8a/§8e rodata-island flip (35 entries, .align 3), not a source-side ref.
 /* func_80179B74 (ov_SC01_077) — command-queue WRITER: copies the opcode + its
  * operand halfwords from *p into the 0x200-entry ring D_801DA310 at write index
  * D_801DA714.  Mirror of the reader func_8017A4AC (same ring, read index D_801DA710).
@@ -3626,7 +3626,7 @@ s32 func_8017A3B0(void) {
 }
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern short D_801DA754;
 extern short D_801DA750;

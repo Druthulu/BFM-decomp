@@ -4440,7 +4440,7 @@ void func_80180320(s32 param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -6775,7 +6775,7 @@ void func_801832B4(void) {
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+// @unstuck(P36): none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
 
 extern code_fn D_8019466C[];
 
@@ -16080,7 +16080,7 @@ void func_8018F02C(void *a0)
 
 
 // @class: loose-typing
-// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
+// @unstuck(P36): none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
 
 extern int rand(void);
 extern int func_8018F68C(short *pos, int a1, int a2);

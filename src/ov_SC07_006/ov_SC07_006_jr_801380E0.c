@@ -956,7 +956,7 @@ done:
 
 
 // @class: struct
-// @stuck: none — MATCH (match_one: MATCH 20 ins)
+// @unstuck(P36): none — MATCH (match_one: MATCH 20 ins)
 
 
 void func_80138BE0(int p)
@@ -1023,7 +1023,7 @@ s32 func_80138C60(s32 arg0)
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 /* func_80138DE0 — advance the text cursor by 1 or 2 after emitting a glyph.
  *
  * Key levers (both required; the body itself is a plain if/else-if):

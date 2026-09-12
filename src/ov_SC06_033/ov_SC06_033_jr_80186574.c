@@ -3382,7 +3382,7 @@ void func_80187114(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
+// @unstuck(P36): none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
 //          spliced into src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c (whole-TU cc1 -O2 clean,
 //          masked structured_diff 0/276).
 // Keys: (1) the first func_8012C218 call gets a NOP delay slot because reload_cse_regs deletes the
@@ -3971,7 +3971,7 @@ void func_80187E08(s32 a0, void *a1, void *a2, s32 a3) {
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
 // @class: branch-polarity
-// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// @unstuck(P36): none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
 // "branch TO the then-arm, fall through to the else", so the source condition is
 // `d < 0x800` (the bnez sense read off the target opcode), NOT Ghidra's inverted
 // arm order. The wrong polarity also cost one instruction (match_one printed
@@ -4599,7 +4599,7 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80134510(s32 arg);
 
 // @class: regalloc-order
-// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (145/145 ins, match_one confirmed)
 
 
 
@@ -4675,7 +4675,7 @@ extern void func_8012C218(void *a0);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
+// @unstuck(P36): none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
 //   (natural alloc put the short loop-counter in $s1); (2) block2's guarded dest via a test-temp
 //   `td=load; if(td){dest=td; ...}` forces the range-split `lw $a1; addu $s3,$a1,$0` the target has;
 //   (3) counter is `short i` do-while (keeps the `addu $s2,$v0,$0` raw-copy + sll16/sra16 compare);
@@ -5235,7 +5235,7 @@ void func_801895AC(void *arg) {
 // convention: void func_80189390(void *)).
 //
 // @class: regalloc-order
-// @stuck: none -- see match_one output.
+// @unstuck(P36): none -- see match_one output.
 
 extern void func_8016AA50(s32, s32);
 extern s32 func_8016B428(s32);
@@ -5315,7 +5315,7 @@ void func_80189B9C(void *arg) {
 // convention: void func_80189390(void *)).
 //
 // @class: regalloc-order
-// @stuck: none -- see match_one output.
+// @unstuck(P36): none -- see match_one output.
 
 extern void func_8016AA50(s32, s32);
 extern s32 func_8016B428(s32);
@@ -5382,7 +5382,7 @@ void func_80189D30(void *arg) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (277 ins). p pinned $s1; e/spawn-ptr coalesce $s0; counter $s2; const2 hoisted $s3.
+// @unstuck(P36): none — MATCH (277 ins). p pinned $s1; e/spawn-ptr coalesce $s0; counter $s2; const2 hoisted $s3.
 //   Key lever: dec-block written as AND form `if (q!=0 && p60!=0){compute}else{dec=p60}` (compute as
 //   fall-through) — the OR/De-Morgan form inverted the 2nd branch (bnez v1) and drifted +1 ins.
 
@@ -5553,7 +5553,7 @@ void func_80189EC4(void *arg) {
  * on $s0, loop counter $s2, the hoisted constant 2 on $s3.
  *
  * @class: regalloc-order
- * @stuck: none — MATCH (248 ins), iteration 2.
+ * @unstuck(P36): none — MATCH (248 ins), iteration 2.
  *   ONLY residual on iteration 1 was REGALLOC-PERM/$v1>$a0: the 2nd and 3rd
  *   func_8012C658 results landed in $v1 where the target has $a0 (block 1 was
  *   already right).  LEVER: the three spawn pointers are ONE function-scope
@@ -5930,7 +5930,7 @@ typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018AAF4;   /* == engine_type
  * on $s0, loop counter $s2, the hoisted constant 2 on $s3.
  *
  * @class: regalloc-order
- * @stuck: none — MATCH (170 ins), iteration 3.  Body was E188 verbatim on
+ * @unstuck(P36): none — MATCH (170 ins), iteration 3.  Body was E188 verbatim on
  *   iteration 1; both residuals were in the 12-insn 0x64 hand-off tail:
  *   (1) `-0xA` stored through a `u16 *` folds to the unsigned 0xFFF6 and emits
  *       `ori $v0,$zero,0xfff6`; the target's `addiu $v0,$zero,-0xA` needs the

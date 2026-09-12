@@ -2134,7 +2134,7 @@ S801563EC *func_801563EC(u16 idx) {
 
 
 // @class: struct
-// @stuck: none — MATCH expected; D_8011520C indexed by param_2 (byte) folds %lo; D_80185EE0 indexed halfword folds %lo
+// @unstuck(P36): none — MATCH expected; D_8011520C indexed by param_2 (byte) folds %lo; D_80185EE0 indexed halfword folds %lo
 extern void func_80147324(s32 arg0);
 
 void func_80156A1C(s32 param_1, s32 param_2)
@@ -2248,7 +2248,7 @@ void func_80157808(s32 *a0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected); STUB: param_1 held in $s0 across calls, u8 store of 9 before func_80154274
+// @unstuck(P36): none — MATCH (expected); STUB: param_1 held in $s0 across calls, u8 store of 9 before func_80154274
 
 extern void func_80156648(s32 *a0);
 extern void func_80154274(s32 *a0, s32 a1);
@@ -2279,7 +2279,7 @@ void func_801578C0(s32 param_1)
 
 
 // @class: other
-// @stuck: none — MATCH (76 ins). Body is byte-identical with a plain transcription; the only
+// @unstuck(P36): none — MATCH (76 ins). Body is byte-identical with a plain transcription; the only
 //   delta was frame size: target frame is 0x30 (saves at 0x20/0x24/0x28), not 0x20. Target reserves
 //   a 16-byte UNREFERENCED stack local (no sp refs anywhere in the body) — gcc-2.7.2 does NOT
 //   dead-strip an aggregate local even at -O2, so a dead `int frame_pad[4]` reproduces vars=16
@@ -2445,7 +2445,7 @@ void func_80157FC4(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected); straight-line call sequence with two stores scheduled into jal delay slots
+// @unstuck(P36): none — MATCH (expected); straight-line call sequence with two stores scheduled into jal delay slots
 
 extern void func_80154274(s32 *a0, s32 a1);
 extern void func_80154A74(s32 a0, s32 a1);
@@ -2497,7 +2497,7 @@ void func_8015824C(void *a0) {
 
 
 // @class: other
-// @stuck: none — MATCH (branch-polarity invert on both dispatch ifs + goto block-order to put the v1!=0/L508 paths as fallthrough; phantom 0x10 frame via address-taken frame_pad[4] + (void)& — zero code)
+// @unstuck(P36): none — MATCH (branch-polarity invert on both dispatch ifs + goto block-order to put the v1!=0/L508 paths as fallthrough; phantom 0x10 frame via address-taken frame_pad[4] + (void)& — zero code)
 
 extern void func_8014CBF8(void *a0);
 extern void func_801474EC(s32 *a0);
@@ -2569,7 +2569,7 @@ LAB_80158528:
 
 
 // @class: loose-typing
-// @stuck: none — MATCH (87 ins, match_one) + symcheck SYMS-OK (17 symbols agree); same file also
+// @unstuck(P36): none — MATCH (87 ins, match_one) + symcheck SYMS-OK (17 symbols agree); same file also
 //         MATCHes verbatim against ov_SC03_099 and ov_SC06_008 (sibling asm bodies are identical)
 
 /* func_80158638 @ 0x80158638 — ov_SC01_077 / ov_SC01_077_jr_80154C24 (87 ins).
@@ -2604,7 +2604,7 @@ void func_80158794(void) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (3 scalar global stores + byte store + 6 calls, source order)
+// @unstuck(P36): none — MATCH expected (3 scalar global stores + byte store + 6 calls, source order)
 
 extern void func_80147084(s32 *a0);
 extern void func_80147098(s32 *a0);
@@ -2633,7 +2633,7 @@ void func_8015879C(s32 param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (STUB: 3 global stores + byte store + 5 calls in source order)
+// @unstuck(P36): none — MATCH (STUB: 3 global stores + byte store + 5 calls in source order)
 
 extern void func_80147084(s32 *a0);
 extern void func_80147098(s32 *a0);
@@ -2670,7 +2670,7 @@ void func_80158880(s32 *param) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (122 ins). switch (D_801C8580) over jtbl_801C7CC4, 9 arms, arm 0 empty.
+// @unstuck(P36): none — MATCH (122 ins). switch (D_801C8580) over jtbl_801C7CC4, 9 arms, arm 0 empty.
 //
 // Integration note (§8b, the lesson recorded above func_80158638 in this same file):
 // a previous attempt was already byte-correct in isolation but carried a file-local
@@ -2811,7 +2811,7 @@ void func_80158BB0(void *arg0) {
 
 
 // @class: other
-// @stuck: none — MATCH (signed %11 magic + word-array %lo fold; ((void (*)(int))func_80146CA0)(param_1) reuses $a0 for the 0x198 store in its jal delay slot)
+// @unstuck(P36): none — MATCH (signed %11 magic + word-array %lo fold; ((void (*)(int))func_80146CA0)(param_1) reuses $a0 for the 0x198 store in its jal delay slot)
 
 
 extern int rand(void);
@@ -2838,7 +2838,7 @@ void func_80158F00(int param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (51 ins). Key: func_801594E8 takes a 2nd arg = sVar1 (the (short)func_80159464
+// @unstuck(P36): none — MATCH (51 ins). Key: func_801594E8 takes a 2nd arg = sVar1 (the (short)func_80159464
 //        return). $a1 is set by sra BEFORE the beqz and stays live into the jal, so the value is used
 //        twice (branch test + arg2) — that 2nd use is what keeps the sll;sra (gcc folds sll;sra;beqz
 //        -> sll;beqz otherwise). Also: branch-polarity invert (!=0 -> 594E8 fall-through, else 767C);

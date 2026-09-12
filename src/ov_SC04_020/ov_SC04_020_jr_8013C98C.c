@@ -1083,7 +1083,7 @@ void func_8013CF68()
 
 
 // @class: schedule
-// @stuck: testing if/else-if with ==2 placed as the else (tail) block
+// @unstuck(P36): testing if/else-if with ==2 placed as the else (tail) block
 
 extern s32 D_801BB138;
 extern s32 D_801BB120;
@@ -1190,7 +1190,7 @@ void func_8013D178(void) {
 
 
 // @class: other
-// @stuck: none — MATCH (three step-toward-target byte clamps + word store)
+// @unstuck(P36): none — MATCH (three step-toward-target byte clamps + word store)
 
 extern u8 D_801BC73A;
 extern u8 D_801BC7AE;
@@ -1217,7 +1217,7 @@ void func_8013D330(void) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
+// @unstuck(P36): none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
 
 extern u8 D_80078E78[];
 
@@ -1542,7 +1542,7 @@ void func_8013D9B0(int param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH (match_one 97/97). Two levers: (1) offset-first pointer arith
+// @unstuck(P36): none — MATCH (match_one 97/97). Two levers: (1) offset-first pointer arith
 //   `(int*)(param_1*12 + (int)D_801BB118)` makes the addu `offset+base` (dest=v0) so x/y/z
 //   load into a0/a1/a2 and each global loads LATE into v1 (base-first gave addu dest=v1 →
 //   global hoisted into a0, shifting x/y/z to a1/a2/a3). (2) the clamp must be NESTED
@@ -1629,7 +1629,7 @@ void func_8013DBE4(int param_1)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf_8013DD68 0x68 -> frame 0xA0.
+// @unstuck(P36): none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf_8013DD68 0x68 -> frame 0xA0.
 
               /* 0x5C copy unit, align 4 */
   /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
@@ -1775,7 +1775,7 @@ void func_8013E5E8(void)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (90 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (90 ins, relocation-masked)
 
 extern u8 D_80078EC0;
 extern u16 D_8011511A;
@@ -1832,7 +1832,7 @@ void func_8013E6AC(void) {
 #include "../shared/ov/func_8013E814.h"
 
 // @class: plumbing
-// @stuck: none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the D_8011511A read above the prologue, reproduced by -O2)
+// @unstuck(P36): none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the D_8011511A read above the prologue, reproduced by -O2)
 
 void func_8013E83C() {
     extern void func_80141C0C(int);
@@ -1887,7 +1887,7 @@ void func_8013E83C() {
 
 
 // @class: schedule
-// @stuck: none — MATCH (63 ins). The idx-32+ residual was a THIRD held base pointer for the
+// @unstuck(P36): none — MATCH (63 ins). The idx-32+ residual was a THIRD held base pointer for the
 // D_80115188 store: the draft's `((Cell*)&D_80115188)[i].v = v` allocates a pointer, so gcc kept
 // three bases (D_80115110/D_801846EC/D_80115188) and buried the branch-delay `sll` (i<<16 carry)
 // under the extra store. Switching to the sibling func_8013E6AC's relocation-masked form
@@ -1937,7 +1937,7 @@ loop:
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (sVar2 pinned to $v0 forces in-place sll/sra sign-ext scratch)
+// @unstuck(P36): none — MATCH (sVar2 pinned to $v0 forces in-place sll/sra sign-ext scratch)
 
 
 extern s32 func_80141C50(void);
@@ -2020,7 +2020,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern unsigned char *func_80141CA4(void);
 
 // @class: struct
-// @stuck: none — MATCH (94 ins, relocation-masked). Keys: (1) §18 array-of-STRUCT fold
+// @unstuck(P36): none — MATCH (94 ins, relocation-masked). Keys: (1) §18 array-of-STRUCT fold
 //   `typedef struct{s32 f0;} E4; extern E4 arr[]; arr[i].f0` defeats gcc's base-CSE/loop-hoist so each
 //   global-array access stays a per-access `lui %hi; addu idx; lw/sw %lo(sym)($at)` (a plain `s32 arr[];
 //   arr[i]` HOISTS the base into a reg → wrong). (2) §21 global-RMW: the conditional `D_801846C6` bump and
@@ -2151,7 +2151,7 @@ void func_8013EF88(void)
 
 
 // @class: struct
-// @stuck: none — MATCH expected (u16* base materialization for read+write, %lo-folded single-access globals)
+// @unstuck(P36): none — MATCH expected (u16* base materialization for read+write, %lo-folded single-access globals)
 
 
 extern unsigned short D_80115118;

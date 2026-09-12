@@ -5412,7 +5412,7 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 
 // @class: struct
-// @stuck: none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
+// @unstuck(P36): none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
 extern void func_801891E8();
 extern void (*D_80191BD4[])(int);
 
@@ -5761,7 +5761,7 @@ s32 func_801899AC(void *a0, s32 *p) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);

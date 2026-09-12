@@ -3069,7 +3069,7 @@ extern void func_80182E30(short *param_1);
 /* ==== end §8b carried decl layer ==== */
 
 // @class: struct
-// @stuck: none — MATCH (85 ins, relocation-masked). Two switch-codegen levers:
+// @unstuck(P36): none — MATCH (85 ins, relocation-masked). Two switch-codegen levers:
 //   (1) inner switch needs a JUMP TABLE but cases 0,1,2,3 share a label => gcc
 //       group_case_nodes folds them to one range (count 2), total count 4 <
 //       CASE_VALUES_THRESHOLD 5 => decision TREE. Adding explicit `case 4:`/`case 6:`
@@ -3144,7 +3144,7 @@ void func_80182E7C(s32 param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (param in $s0 across call, stores in source order)
+// @unstuck(P36): none — MATCH expected (param in $s0 across call, stores in source order)
 
 extern void func_80130740(void *a0, u16 *a1);
 extern unsigned char D_8018AB8C[];
@@ -3160,7 +3160,7 @@ void func_80182FD0(int param)
 }
 
 // @class: plumbing
-// @stuck: none — MATCH expected (simple struct-field init + two calls, natural schedule)
+// @unstuck(P36): none — MATCH expected (simple struct-field init + two calls, natural schedule)
 
 extern void func_8012A828(s32, void *);
 extern void func_8002D4C8(s32, s32);

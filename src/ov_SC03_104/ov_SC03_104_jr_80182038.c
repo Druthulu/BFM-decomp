@@ -4093,7 +4093,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+// @unstuck(P36): none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
 
 extern code_fn D_8019CA44[];
 

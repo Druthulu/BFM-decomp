@@ -1196,7 +1196,7 @@ void func_80158BB0(void *arg0) {
 
 
 // @class: other
-// @stuck: none — MATCH (signed %11 magic + word-array %lo fold; ((void (*)(int))func_80146CA0)(param_1) reuses $a0 for the 0x198 store in its jal delay slot)
+// @unstuck(P36): none — MATCH (signed %11 magic + word-array %lo fold; ((void (*)(int))func_80146CA0)(param_1) reuses $a0 for the 0x198 store in its jal delay slot)
 
 extern s32 D_801A9A44;
 extern s32 D_8018389C[];
@@ -1222,7 +1222,7 @@ void func_80158F00(int param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (51 ins). Key: func_801594E8 takes a 2nd arg = sVar1 (the (short)func_80159464
+// @unstuck(P36): none — MATCH (51 ins). Key: func_801594E8 takes a 2nd arg = sVar1 (the (short)func_80159464
 //        return). $a1 is set by sra BEFORE the beqz and stays live into the jal, so the value is used
 //        twice (branch test + arg2) — that 2nd use is what keeps the sll;sra (gcc folds sll;sra;beqz
 //        -> sll;beqz otherwise). Also: branch-polarity invert (!=0 -> 594E8 fall-through, else 767C);
@@ -1363,7 +1363,7 @@ void func_80159698(void *a0) {
 
 
 // @class: iv-combine
-// @stuck: none — MATCH (97 ins). Recipe: $s0=base=&(*(u8 *)&D_800AF630) hoisted at top; loop1 = for(p=base+0x65A8;
+// @unstuck(P36): none — MATCH (97 ins). Recipe: $s0=base=&(*(u8 *)&D_800AF630) hoisted at top; loop1 = for(p=base+0x65A8;
 //   p<base+0x9DA8;p+=0xe) p[1]|=... (the +4 field-offset store folds into the reduced IV -> gcc emits the
 //   -4 loop-inversion guard + reuses END for END+4). BOTHER: loop2 needs ab=&D_800AFAE8 POST-guard as a
 //   shared base for A=ab+1,B=ab+0x22 -> a for-loop hoists it PRE-guard (fold or perm); the fix is a manual
@@ -1537,7 +1537,7 @@ void func_80159B70(void *a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (40 ins). Duplicate func_80154A74(arg0,K) into BOTH branch arms (not a
+// @unstuck(P36): none — MATCH (40 ins). Duplicate func_80154A74(arg0,K) into BOTH branch arms (not a
 //         single shared-join call): forces gcc to cross-jump the jal while keeping per-arm
 //         `addu $a0,$s0` setup + a `nop` join delay slot, matching the 40-ins layout. Branch
 //         polarity: write `if (flag & 0x200 != 0){5,0x1C} else {4,0x11}` to get the `beqz`.

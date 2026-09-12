@@ -3080,7 +3080,7 @@ extern void func_80183AA8(int param_1);
 /* ==== end §8b carried decl layer ==== */
 
 // @class: regalloc-order
-// @stuck: none — MATCH (mask pinned $a1/$5 + p pinned $v0/$2; switch w/ distributed func_8012C218 tail via dup calls + cross-jump merge)
+// @unstuck(P36): none — MATCH (mask pinned $a1/$5 + p pinned $v0/$2; switch w/ distributed func_8012C218 tail via dup calls + cross-jump merge)
 
 extern s32 func_8012BEE8(s32 a0);
 extern void func_80130D48(s32 a0);

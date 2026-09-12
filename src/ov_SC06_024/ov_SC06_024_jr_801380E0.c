@@ -718,7 +718,7 @@ extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 
 // @class: struct
-// @stuck: none — MATCH (match_one: MATCH 20 ins)
+// @unstuck(P36): none — MATCH (match_one: MATCH 20 ins)
 
 extern void (*D_8018FDF4[])(void);
 

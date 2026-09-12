@@ -3483,7 +3483,7 @@ void func_8018868C(s32 arg0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
+// @unstuck(P36): none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
 //          spliced into src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c (whole-TU cc1 -O2 clean,
 //          masked structured_diff 0/276).
 // Keys: (1) the first func_8012C218 call gets a NOP delay slot because reload_cse_regs deletes the
@@ -4112,7 +4112,7 @@ void func_80189380(s32 a0, void *a1, void *a2, s32 a3) {
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
 // @class: branch-polarity
-// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// @unstuck(P36): none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
 // "branch TO the then-arm, fall through to the else", so the source condition is
 // `d < 0x800` (the bnez sense read off the target opcode), NOT Ghidra's inverted
 // arm order. The wrong polarity also cost one instruction (match_one printed
@@ -5431,7 +5431,7 @@ void func_8018AE64(s32 param_1) {
 
 
 // @class: struct
-// @stuck: none — §136c SIBLING-FIRST. Near-twin (byte-identical template) = func_80186160 in
+// @unstuck(P36): none — §136c SIBLING-FIRST. Near-twin (byte-identical template) = func_80186160 in
 //   src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c (same jr_8017C24C base overlay TU, still
 //   nonmatching); the two differ only in the per-overlay D_ table symbol (D_801CD498 here vs
 //   D_801BEF4C there). RotMatrixY/func_8012AD44 canonical decl forms lifted from
@@ -6765,7 +6765,7 @@ void func_8018CD04(void *a0)
 
 
 // @class: loose-typing
-// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
+// @unstuck(P36): none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
 
 extern int rand(void);
 extern int func_8018D364(short *pos, int a1, int a2);
@@ -7400,7 +7400,7 @@ void func_8018D870(void *arg) {
 // convention: void func_8018D654(void *)).
 //
 // @class: regalloc-order
-// @stuck: none -- see match_one output.
+// @unstuck(P36): none -- see match_one output.
 
 extern void func_8016AA50(s32, s32);
 extern s32 func_8016B428(s32);
@@ -7479,7 +7479,7 @@ void func_8018DE60(void *arg) {
 // convention: void func_8018D654(void *)).
 //
 // @class: regalloc-order
-// @stuck: none -- see match_one output.
+// @unstuck(P36): none -- see match_one output.
 
 extern void func_8016AA50(s32, s32);
 extern s32 func_8016B428(s32);
@@ -7543,7 +7543,7 @@ void func_8018DFF4(void *arg) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (277 ins). p pinned $s1; e/spawn-ptr coalesce $s0; counter $s2; const2 hoisted $s3.
+// @unstuck(P36): none — MATCH (277 ins). p pinned $s1; e/spawn-ptr coalesce $s0; counter $s2; const2 hoisted $s3.
 //   Key lever: dec-block written as AND form `if (q!=0 && p60!=0){compute}else{dec=p60}` (compute as
 //   fall-through) — the OR/De-Morgan form inverted the 2nd branch (bnez v1) and drifted +1 ins.
 
@@ -7714,7 +7714,7 @@ void func_8018E188(void *arg) {
  * on $s0, loop counter $s2, the hoisted constant 2 on $s3.
  *
  * @class: regalloc-order
- * @stuck: none — MATCH (248 ins), iteration 2.
+ * @unstuck(P36): none — MATCH (248 ins), iteration 2.
  *   ONLY residual on iteration 1 was REGALLOC-PERM/$v1>$a0: the 2nd and 3rd
  *   func_8012C658 results landed in $v1 where the target has $a0 (block 1 was
  *   already right).  LEVER: the three spawn pointers are ONE function-scope
@@ -8090,7 +8090,7 @@ void func_8018E9BC(void *arg) {
  * on $s0, loop counter $s2, the hoisted constant 2 on $s3.
  *
  * @class: regalloc-order
- * @stuck: none — MATCH (170 ins), iteration 3.  Body was E188 verbatim on
+ * @unstuck(P36): none — MATCH (170 ins), iteration 3.  Body was E188 verbatim on
  *   iteration 1; both residuals were in the 12-insn 0x64 hand-off tail:
  *   (1) `-0xA` stored through a `u16 *` folds to the unsigned 0xFFF6 and emits
  *       `ori $v0,$zero,0xfff6`; the target's `addiu $v0,$zero,-0xA` needs the
@@ -8472,7 +8472,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
 
 
 // @class: other
-// @stuck: none — MATCH (478 ins, relocation-masked byte-identical)
+// @unstuck(P36): none — MATCH (478 ins, relocation-masked byte-identical)
 
 
 

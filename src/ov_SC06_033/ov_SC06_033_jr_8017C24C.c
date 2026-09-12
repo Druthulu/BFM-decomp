@@ -3120,7 +3120,7 @@ void func_8017D7E0(s32 param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -3887,7 +3887,7 @@ void func_8017EAC8(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801D05BC + idx*0x40 (materialize form, arg to callees).
+// @unstuck(P36): none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801D05BC + idx*0x40 (materialize form, arg to callees).
 
 extern void func_801465C0(void);
 extern void func_8001CD9C(int, void*);
@@ -4125,7 +4125,7 @@ void func_8017EE4C(s32 param_1) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
+// @unstuck(P36): none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
 //   blocks the (r&0x1f)-16 reassoc that materialized -0x10 via `li 0xfff0` (+1 ins); (2) inline the one-shot
 //   r0_00+1 stsv arg so it stays a $v0 temp instead of stealing a saved reg from the reused pSVar6.
 
@@ -4239,7 +4239,7 @@ void func_8017EFB0(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
 
 
 // @class: schedule
-// @stuck: none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
+// @unstuck(P36): none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
 
 
 extern int func_8004787C(int);
@@ -4458,7 +4458,7 @@ void func_8017F53C(s32 a0)
 // around line 5283) is an already-MATCHED sibling (126 ins) with a documented byte-exact
 // idiom set (its comment, verbatim):
 //   @class: plumbing
-//   @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+//   @unstuck(P36): none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
 //     lbu-loaded byte stays full-width and gcc omits the per-compare `andi 0xff`; (2) uninitialized
 //     `int unaff_s1` -> $s1 (live-from-entry across func_8002D4C8); (3) func_8016AA50 takes TWO args
 //     (param_1, unaff_s1) — a1=unaff_s1 arg-setup is reused by the preceding subtraction and a0=s0
@@ -4533,7 +4533,7 @@ void func_8017F940(int param_1)
 
 
 // @class: schedule
-// @stuck: none — MATCH; success-block placed last via `goto big` (bnez forward into epilogue), single cae4 merge kept
+// @unstuck(P36): none — MATCH; success-block placed last via `goto big` (bnez forward into epilogue), single cae4 merge kept
 
 extern int  func_8012C354();
 extern void func_800599B8();
@@ -5174,7 +5174,7 @@ void func_80180774(s32 a0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+// @unstuck(P36): none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
 //   lbu-loaded byte stays full-width and gcc omits the per-compare `andi 0xff`; (2) uninitialized
 //   `int unaff_s1` -> $s1 (live-from-entry across func_8002D4C8); (3) func_8016AA50 takes TWO args
 //   (param_1, unaff_s1) — a1=unaff_s1 arg-setup is reused by the preceding subtraction and a0=s0
@@ -5401,7 +5401,7 @@ void func_80180C84(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern int rand(void);
 extern int func_80143C74(short *, int);
@@ -5666,7 +5666,7 @@ void func_80181720(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH. Two levers: (1) split rand()-result into its own var (shared iVar1 forced an extra move a0,v0); (2) reorder decrement before sp[0] to group the two lhu loads as target's scheduler does; (3) materialize &D_80126B96 via a local u16* to CSE the address (lui+addiu once) instead of %hi/%lo split-per-access.
+// @unstuck(P36): none — MATCH. Two levers: (1) split rand()-result into its own var (shared iVar1 forced an extra move a0,v0); (2) reorder decrement before sp[0] to group the two lhu loads as target's scheduler does; (3) materialize &D_80126B96 via a local u16* to CSE the address (lui+addiu once) instead of %hi/%lo split-per-access.
 
 
 
@@ -6206,7 +6206,7 @@ void func_80182488(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (135/135 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (135/135 ins, match_one confirmed)
 
 
 extern s32 func_8012C354(s32 a0, void *a1);

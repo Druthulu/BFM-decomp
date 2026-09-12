@@ -2928,7 +2928,7 @@ void func_8017D4DC(s32 arg0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -3481,7 +3481,7 @@ void func_8017E1F0(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801D4F2C + idx*0x40 (materialize form, arg to callees).
+// @unstuck(P36): none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801D4F2C + idx*0x40 (materialize form, arg to callees).
 
 extern void func_801465C0(void);
 extern void func_8001CD9C(int, void*);
@@ -3688,7 +3688,7 @@ void func_8017E56C(void) {
 }
 
 // @class: regalloc-order
-// @stuck: none — MATCH (89 ins). Blk8(align1) struct copies + array indexing (IV-base regalloc)
+// @unstuck(P36): none — MATCH (89 ins). Blk8(align1) struct copies + array indexing (IV-base regalloc)
 #include "common.h"
 
 
@@ -3727,7 +3727,7 @@ void func_8017E574(s32 param_1) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
+// @unstuck(P36): none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
 //   blocks the (r&0x1f)-16 reassoc that materialized -0x10 via `li 0xfff0` (+1 ins); (2) inline the one-shot
 //   r0_00+1 stsv arg so it stays a $v0 temp instead of stealing a saved reg from the reused pSVar6.
 
@@ -4970,7 +4970,7 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80134510(s32 arg);
 
 // @class: regalloc-order
-// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (145/145 ins, match_one confirmed)
 
 
 
@@ -5046,7 +5046,7 @@ extern void func_8012C218(void *a0);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
+// @unstuck(P36): none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
 //   (natural alloc put the short loop-counter in $s1); (2) block2's guarded dest via a test-temp
 //   `td=load; if(td){dest=td; ...}` forces the range-split `lw $a1; addu $s3,$a1,$0` the target has;
 //   (3) counter is `short i` do-while (keeps the `addu $s2,$v0,$0` raw-copy + sll16/sra16 compare);
@@ -5158,7 +5158,7 @@ void func_80180868(void *a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
+// @unstuck(P36): none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
 
 
 extern int func_8004787C(int);
@@ -5377,7 +5377,7 @@ void func_80180AB4(s32 a0)
 // around line 5283) is an already-MATCHED sibling (126 ins) with a documented byte-exact
 // idiom set (its comment, verbatim):
 //   @class: plumbing
-//   @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+//   @unstuck(P36): none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
 //     lbu-loaded byte stays full-width and gcc omits the per-compare `andi 0xff`; (2) uninitialized
 //     `int unaff_s1` -> $s1 (live-from-entry across func_8002D4C8); (3) func_8016AA50 takes TWO args
 //     (param_1, unaff_s1) — a1=unaff_s1 arg-setup is reused by the preceding subtraction and a0=s0
@@ -5451,7 +5451,7 @@ void func_80180EB8(int param_1)
 
 
 // @class: schedule
-// @stuck: none — MATCH; success-block placed last via `goto big` (bnez forward into epilogue), single cae4 merge kept
+// @unstuck(P36): none — MATCH; success-block placed last via `goto big` (bnez forward into epilogue), single cae4 merge kept
 
 extern int  func_8012C354();
 extern void func_800599B8();
@@ -6092,7 +6092,7 @@ void func_80181CEC(s32 a0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+// @unstuck(P36): none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
 //   lbu-loaded byte stays full-width and gcc omits the per-compare `andi 0xff`; (2) uninitialized
 //   `int unaff_s1` -> $s1 (live-from-entry across func_8002D4C8); (3) func_8016AA50 takes TWO args
 //   (param_1, unaff_s1) — a1=unaff_s1 arg-setup is reused by the preceding subtraction and a0=s0
@@ -6317,7 +6317,7 @@ void func_801821FC(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern int rand(void);
 extern int func_80143C74(short *, int);
@@ -6516,7 +6516,7 @@ void func_80182854(s32 a0) {
 
 
 // @class: other
-// @stuck: none — MATCH (132 ins). Blocker was gcc reassociating `mem - 0x20 + masked`
+// @unstuck(P36): none — MATCH (132 ins). Blocker was gcc reassociating `mem - 0x20 + masked`
 //   into `mem + (masked - 0x20)` and CSE-hoisting the shared -0x20 (as 0xffe0/ori) into the
 //   freed s0, which then filled the jal func_8004787C delay slot. Fix: split `mem - 0x20`
 //   into its own temp so addiu -0x20 stays on the memory operand at each of the two sites.
@@ -6585,7 +6585,7 @@ void func_80182C98(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH. Two levers: (1) split rand()-result into its own var (shared iVar1 forced an extra move a0,v0); (2) reorder decrement before sp[0] to group the two lhu loads as target's scheduler does; (3) materialize &D_80126B96 via a local u16* to CSE the address (lui+addiu once) instead of %hi/%lo split-per-access.
+// @unstuck(P36): none — MATCH. Two levers: (1) split rand()-result into its own var (shared iVar1 forced an extra move a0,v0); (2) reorder decrement before sp[0] to group the two lhu loads as target's scheduler does; (3) materialize &D_80126B96 via a local u16* to CSE the address (lui+addiu once) instead of %hi/%lo split-per-access.
 
 
 
@@ -7113,7 +7113,7 @@ void func_80183A00(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (135/135 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (135/135 ins, match_one confirmed)
 
 extern Elem52_801B5094 D_801B5094[];
 extern u8 D_801B522C[];
@@ -8208,7 +8208,7 @@ extern void func_8012A828(s32, void*);
 
 
 // @class: schedule
-// @stuck: none — MATCH (181 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (181 ins, relocation-masked)
 
 
 
@@ -8395,7 +8395,7 @@ void func_80185944(s32 p) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (168/168). $s4/$s5 pins for base+&local28; s32 sVar1 for single lh;
+// @unstuck(P36): none — MATCH (168/168). $s4/$s5 pins for base+&local28; s32 sVar1 for single lh;
 //          inverted if for bnez; sp20[3] array so 3 stores survive DSE; fresh-pseudo c=coord in
 //          the else so gcc keeps s2v as the commutative addu's first operand (§10 A1 via pseudo order).
 
@@ -8675,7 +8675,7 @@ void func_80185DD8(s32 a0) {
 
 /* func_80185F58 (ov_SC06_018_jr_8017C24C) — MATCH 198/198, relocation-masked.
  * @class: regalloc-copy + schedule
- * @stuck: none. Three load-bearing idioms:
+ * @unstuck(P36): none. Three load-bearing idioms:
  *  1. ONE shared scratch `t` for all three `sll 16` compares. Three separate temps let
  *     local-alloc TIE the short temp to `iVar1` (no `addu $s1,$v0,$zero` at all, 197 ins);
  *     the shared `t` conflicts with `iVar1` so the copy survives.

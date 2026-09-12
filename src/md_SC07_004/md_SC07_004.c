@@ -10685,7 +10685,7 @@ void func_801AF368(void *a0)
 
 
 // @class: loose-typing
-// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
+// @unstuck(P36): none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
 
 extern int rand(void);
 extern int func_801AF9C8(short *pos, int a1, int a2);

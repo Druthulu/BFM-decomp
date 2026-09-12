@@ -3106,7 +3106,7 @@ extern void func_801866B0(s32 param_1);
 
 
 // @class: inlined-helper (cookbook §82.1)
-// @stuck: none — MATCH (238/238 ins, match_one confirmed, symbol order verified)
+// @unstuck(P36): none — MATCH (238/238 ins, match_one confirmed, symbol order verified)
 // Key: region 1 re-materialises `addiu $aN,$sp,0x88` / `...,0x90` at call sites SEPARATED BY A
 //   `jal`. Per §82.1 (`&X` for any non-first local always makes a pseudo and CSE always merges
 //   two of them; expr.c:6260 ADDR_EXPR -> force_operand(...,NULL)), that duplication is only

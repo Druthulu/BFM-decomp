@@ -4129,7 +4129,7 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 
 // @class: struct
-// @stuck: none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
+// @unstuck(P36): none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
 extern void func_801829E4();
 extern void (*D_8018E134[])(int);
 

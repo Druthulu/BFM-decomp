@@ -12,7 +12,7 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
   E asm-label    7802      1370       6432    1100       161  2090       0      7802   {'asm-label': 7802}
   F builtin       445       445          0     428        27   302       0       445   {'builtin': 445}
   G attribute      76         1         75       1         1    40       0        76   {'attribute': 76}
-  UNION A–D: 5,746 bodies · 1,007 distinct (addresses normalized) · 110 multi-copy classes holding 4,849 bodies · by kind {'ov': 5352, 'main': 124, 'md': 105, 'shared': 159, 'resident': 6}
+  UNION A–D: 5,746 bodies · 1,007 distinct (addresses normalized) · 110 multi-copy classes holding 4,849 bodies · by kind {'ov': 5352, 'shared': 159, 'main': 124, 'md': 105, 'resident': 6}
   THE PHASE'S NUMBER (pins + asm statements, GTE excluded): 4,010 sites in 1,980 bodies (674 distinct) · marked !FAKE 4,010 · UNMARKED 0
   orphan !FAKE markers (no pin/asm site on the line nor below): 0
   marked ordinary-C fakes kept by Drew's S104 ruling (a) (`do { } while (0)`, dead initialisers; NOT levers): 53
@@ -29,4 +29,4 @@ lever_census: 218 binaries · 4,121 TUs + 3,181 headers · coverage OK · unclas
     src/shared/ov/func_80178004.h pins                   got 8      expected 26  N-A
     ov_SC03_006 func_80184034 bare-name pins             got 0      expected 3  N-A
     engine_prelude.h asm sites (a macro definition only) got 0      expected 0  OK
-  elapsed 22.0 s
+  elapsed 22.5 s

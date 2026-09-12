@@ -5379,7 +5379,7 @@ void func_80182414(void) {
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_8018E5FC[])();
@@ -5485,7 +5485,7 @@ void func_80182670(void) {
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_8018E60C[])();
@@ -5804,7 +5804,7 @@ void func_80182EB0(s32 arg0)
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_8018E90C[])();
@@ -7165,7 +7165,7 @@ extern u8 D_801D29A8;
 extern u8 D_801D5AD4[];
 
 // @class: straight-derive
-// @stuck: none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
+// @unstuck(P36): none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
 //
 // Two things that could have been mis-read off the target asm:
 //
@@ -7571,7 +7571,7 @@ void func_80185574(s32 arg0) {
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)
-// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @unstuck(P36): none - MATCH (41 ins), match_one + rtu_match.
 // Three levers, in the order they mattered:
 //  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
 //     join block, not two multiplies in the source. The C selects the
@@ -7627,7 +7627,7 @@ void func_80185670(s32 *a0) {
 #include "common.h"
 
 // @class: regalloc (WIDTH/li!=addu -> MATCH)
-// @stuck: none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).
+// @unstuck(P36): none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).
 // Three levers, in the order they mattered:
 //
 //  1) The join block indexes every field off $a0, not $s0: the target COPIES the entity into $a0
@@ -7745,7 +7745,7 @@ void func_801857C4(s32 a0)
 #include "common.h"
 
 // @class: plumbing
-// @stuck: none — MATCH (52 ins), iteration 1. Keys: (1) §3-T4 — Ghidra inverted the arms; the
+// @unstuck(P36): none — MATCH (52 ins), iteration 1. Keys: (1) §3-T4 — Ghidra inverted the arms; the
 //   target's `beqz $v0,.L8018589C` means the (flags&2)!=0 arm FALLS THROUGH, so write
 //   `if (*(s32*)(p+0xDC) & 2) {A} else {B}`; (2) the 0x5C zero-store is unconditional (it sits in
 //   the beqz delay slot), so it is the FIRST statement, above the if; (3) both `*(s32*)(p+0x20)`

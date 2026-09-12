@@ -1207,7 +1207,7 @@ extern void func_80159BE4(s32 arg0);
 /* ==== end §8b carried decl layer ==== */
 
 // @class: other
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 /* (draft's standalone scalar typedefs stripped — the TU's common.h set is in scope; §8e splice) */
 
 /* draft decl dropped — carried TU decl in scope (§8e splice reconcile) */
@@ -1438,7 +1438,7 @@ void func_8015A264(void *a0)
 #include "../shared/ov/func_8015A2A0.h"
 
 // @class: other
-// @stuck: none — MATCH (60 ins). switch() gives signed slti pivot; per-case duplicated call gives per-case a0 setup + nop jal delay
+// @unstuck(P36): none — MATCH (60 ins). switch() gives signed slti pivot; per-case duplicated call gives per-case a0 setup + nop jal delay
 
 extern int D_8018912C;
 

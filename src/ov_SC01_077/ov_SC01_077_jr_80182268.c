@@ -3070,7 +3070,7 @@ void func_801822FC(void *a0) {
 }
 
 // @class: other
-// @stuck: none — MATCH (26 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (26 ins, match_one confirmed)
 extern void func_8012A828(int, void *);
 extern void func_8012B2CC(int);
 extern void func_8012B23C(int);
@@ -3092,7 +3092,7 @@ void func_80182338(int param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (straight-line stores + 4 calls; delay-slot 0x2 store of 6 schedules into first jal)
+// @unstuck(P36): none — MATCH expected (straight-line stores + 4 calls; delay-slot 0x2 store of 6 schedules into first jal)
 
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012B2CC(s32 a0);
@@ -3120,7 +3120,7 @@ void func_801823A0(int param_1)
 }
 
 // @class: plumbing
-// @stuck: none — MATCH expected (straight-line stores + 5 calls; sibling func_801823A0 is the matched twin)
+// @unstuck(P36): none — MATCH expected (straight-line stores + 5 calls; sibling func_801823A0 is the matched twin)
 
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012B2CC(s32 a0);
@@ -3154,7 +3154,7 @@ void func_80182420(int param_1)
 }
 
 // @class: plumbing
-// @stuck: none — MATCH (181 ins). switch(bVar1) dispatch; counters as *p+=1;if(*p<K) (store-to-load
+// @unstuck(P36): none — MATCH (181 ins). switch(bVar1) dispatch; counters as *p+=1;if(*p<K) (store-to-load
 //   CSE keeps value in $v0, nop in branch delay); *p = *p*15/16 in-place (no temp → immediate store);
 //   C3&1 if inverted (!= 0 puts CBA4 inline / CBF4 out-of-line); gcc reuses $s2(==2) for the ==2 compare.
 
@@ -3257,7 +3257,7 @@ void func_801824D0(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (30 ins)
+// @unstuck(P36): none — MATCH (30 ins)
 
 extern unsigned char D_801B0908[];
 
@@ -3281,7 +3281,7 @@ void func_801827A4(int param_1)
 }
 
 // @class: struct
-// @stuck: none — MATCH (76 ins). jtbl forced via explicit case 4/6 (count>=5 over MIPS tablejump threshold); case-5 block placed between if-block and default via goto so the if-block emits j default w/ e2=0 in the delay slot
+// @unstuck(P36): none — MATCH (76 ins). jtbl forced via explicit case 4/6 (count>=5 over MIPS tablejump threshold); case-5 block placed between if-block and default via goto so the if-block emits j default w/ e2=0 in the delay slot
 
 extern s32 func_8012CBA4(s32);
 extern int func_8012BEE8(int a0);
@@ -3355,7 +3355,7 @@ void func_80182968(void) {
 }
 
 // @class: loose-typing
-// @stuck: none — MATCH (0x5c store must be unsigned short so 0xaa10 stays +43536 → ori, not addiu/sign-extend)
+// @unstuck(P36): none — MATCH (0x5c store must be unsigned short so 0xaa10 stays +43536 → ori, not addiu/sign-extend)
 
 extern void func_8012A828(int, void *);
 extern s32 D_801B0D50;
@@ -3373,7 +3373,7 @@ void func_80182988(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (param_1 lives in $s0 across the call; a0 reused as first arg)
+// @unstuck(P36): none — MATCH expected (param_1 lives in $s0 across the call; a0 reused as first arg)
 
 extern void func_8012A828(s32 a0, void *a1);
 extern unsigned char D_801B0E48[];
@@ -3508,7 +3508,7 @@ lab_ab0:
 
 
 // @class: schedule
-// @stuck: none — MATCH (101 ins). Inner-switch break-to-shared-tail must be written as
+// @unstuck(P36): none — MATCH (101 ins). Inner-switch break-to-shared-tail must be written as
 //         duplicated `func_8012C218(p); return;` in BOTH case 3/7 and case 4 so gcc cross-jumps
 //         them into the shared E14 tail (trampoline `j E14`+addu for 3/7, fall-through+early-addu
 //         for 4). A single break/after-switch call folds the table directly to E14 and misses by 2.
@@ -3572,7 +3572,7 @@ void func_80182C9C(int p)
 
 
 // @class: loose-typing
-// @stuck: none — MATCH (unsigned short store @0x5c forces ori vs li/addiu for 0xaa10)
+// @unstuck(P36): none — MATCH (unsigned short store @0x5c forces ori vs li/addiu for 0xaa10)
 
 extern int D_801B06E8;
 extern void func_8012A828(s32 a0, void *a1);

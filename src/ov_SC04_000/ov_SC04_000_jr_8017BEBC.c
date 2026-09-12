@@ -3738,7 +3738,7 @@ void func_8017DC2C(void *a0)
 
 
 // @class: plumbing
-// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @unstuck(P36): none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
 extern void func_8017DF10(int);
 

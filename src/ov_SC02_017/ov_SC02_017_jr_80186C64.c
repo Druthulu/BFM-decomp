@@ -3874,7 +3874,7 @@ void func_80187A68(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
+// @unstuck(P36): none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
 //   holds it in $a0 across the case stores (else it reloads/`lh` per case, +3 ins); (2) declare the
 //   `in` struct BEFORE `out[2]` so in@sp+0x10 / out@sp+0x20; (3) the 0x14 word is written via
 //   `*(s32*)&in.lo = D_80126B60` then the high short RMW'd `in.hi -= 0x20` (memory lhu/sh, not reg);
@@ -4004,7 +4004,7 @@ void func_80187CA0(s32 param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
+// @unstuck(P36): none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
 
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B23C(s32 a0);
@@ -4054,7 +4054,7 @@ void func_80187D80(int param_1)
 
 
 // @class: other
-// @stuck: none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
+// @unstuck(P36): none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -4143,7 +4143,7 @@ void func_8018800C(s32 arg0) {
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)
-// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @unstuck(P36): none - MATCH (41 ins), match_one + rtu_match.
 // Three levers, in the order they mattered:
 //  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
 //     join block, not two multiplies in the source. The C selects the
@@ -4231,7 +4231,7 @@ void func_80188104(s32 param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out
+// @unstuck(P36): none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out
 extern void func_8012A828(s32 a0, void *a1);
 extern void D_801E9CCC;
 
@@ -4269,7 +4269,7 @@ void func_80188240(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (44 ins). Two §3-T4 branch-polarity inversions: outer if(param_2>=iVar2) makes the func_80188330 else-block fall-through; inner if(param_3>=iVar2) return 0 makes the func_8012A828 body fall-through. No pins needed — natural $s1/$s0/$s2 alloc matched.
+// @unstuck(P36): none — MATCH (44 ins). Two §3-T4 branch-polarity inversions: outer if(param_2>=iVar2) makes the func_80188330 else-block fall-through; inner if(param_3>=iVar2) return 0 makes the func_8012A828 body fall-through. No pins needed — natural $s1/$s0/$s2 alloc matched.
 extern s32 func_8012BCCC(s32 a0);
 extern void func_80188330(s32 param_1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -4300,7 +4300,7 @@ s32 func_80188280(s32 param_1, s32 param_2, s32 param_3) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (straightforward; callee sigs canonical from overlay)
+// @unstuck(P36): none — MATCH (straightforward; callee sigs canonical from overlay)
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_80142414(s32 a0, s16 a1);
 extern u8 D_801E9E6C;
@@ -4387,7 +4387,7 @@ void func_801884BC(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (clean if/else, sh into delay slot of func_8001CA88 call)
+// @unstuck(P36): none — MATCH (clean if/else, sh into delay slot of func_8001CA88 call)
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -4550,7 +4550,7 @@ void func_80188800(s32 param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)
+// @unstuck(P36): none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)
 
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
@@ -5135,7 +5135,7 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80134510(s32 arg);
 
 // @class: regalloc-order
-// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (145/145 ins, match_one confirmed)
 
 
 
@@ -5211,7 +5211,7 @@ extern void func_8012C218(void *a0);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
+// @unstuck(P36): none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
 //   (natural alloc put the short loop-counter in $s1); (2) block2's guarded dest via a test-temp
 //   `td=load; if(td){dest=td; ...}` forces the range-split `lw $a1; addu $s3,$a1,$0` the target has;
 //   (3) counter is `short i` do-while (keeps the `addu $s2,$v0,$0` raw-copy + sll16/sra16 compare);

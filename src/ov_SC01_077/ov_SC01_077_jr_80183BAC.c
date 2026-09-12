@@ -3080,7 +3080,7 @@ extern void func_80183AA8(int param_1);
 /* ==== end §8b carried decl layer ==== */
 
 // @class: struct
-// @stuck: switch jump-table dispatch (jtbl_801D9420); verifying case grouping 0,1,2,5,6/3,7/4 emits the target table + tail
+// @unstuck(P36): switch jump-table dispatch (jtbl_801D9420); verifying case grouping 0,1,2,5,6/3,7/4 emits the target table + tail
 #include "common.h"
 
 extern void func_8012AD80(s32 a0);

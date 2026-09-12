@@ -4761,7 +4761,7 @@ s32 func_8018AE50(void *a0, s32 *p) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);

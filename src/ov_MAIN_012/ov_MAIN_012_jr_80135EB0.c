@@ -608,7 +608,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 
 
 // @class: struct
-// @stuck: none — MATCH (289 ins). symcheck: only the cosmetic jtbl_801D81B8 floor (§8 carve).
+// @unstuck(P36): none — MATCH (289 ins). symcheck: only the cosmetic jtbl_801D81B8 floor (§8 carve).
 //
 // func_80135EB0 — h_seq family exemplar (x138 across the overlay fleet). Levers that made it:
 //  1. m2 (the y-axis mask) MUST be the if/else form, NOT `m2=0x10; if (a8<=t3) m2=...`.
@@ -1051,7 +1051,7 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
+// @unstuck(P36): none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
 //   global-short RMW `+=`. Writing it via a cast `*(u16*)&SYM = *(u16*)&SYM + x` makes gcc CSE
 //   the address into a base reg (base-reuse) for ALL three — but the target only base-reuses
 //   D_80126720 (a SCHEDULER artifact: its addr-lui fills the load-delay slot after the pb4[4]
@@ -1227,7 +1227,7 @@ s32 aF80137614(s32 a0, s32 a1, s32 a2) __asm__("func_80137614");
 
 
 /* @class: plumbing (globals-around-two-calls)
- * @stuck: none — MATCH (51 ins).
+ * @unstuck(P36): none — MATCH (51 ins).
  *
  * RECONCILE (§37/§124 ASM-LABEL ALIAS) — no TU / header edit required.
  *   Gate error: ov_SC01_077_jr_80135D20.c:1415: conflicting types for `func_801376E8'
@@ -1318,7 +1318,7 @@ void func_801378F0(void) {
 
 
 // @class: remat
-// @stuck: target CSEs &D_801269F0 once for load+call arg; force via local pointer
+// @unstuck(P36): target CSEs &D_801269F0 once for load+call arg; force via local pointer
 extern void func_80138BE0(int p);
 
 void func_80137B80(void) {
@@ -1340,7 +1340,7 @@ void func_80137B80(void) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &D_801269F0 held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
+// @unstuck(P36): none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &D_801269F0 held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
 
 
 extern void func_801392FC();

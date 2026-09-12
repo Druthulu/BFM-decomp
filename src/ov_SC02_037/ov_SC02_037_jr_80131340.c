@@ -542,7 +542,7 @@ extern s32 func_801312D0(s32 param_1, void *param_2);
 
 
 // @class: plumbing
-// @stuck: none — MATCH (424/424). Verified TWICE: match_one 424/424 standalone AND 424/424
+// @unstuck(P36): none — MATCH (424/424). Verified TWICE: match_one 424/424 standalone AND 424/424
 //   relocation-masked through the REAL src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c at the
 //   func_80131340 slot (L1635) with every DEFINE_ macro expanded (cpp -> cc1 -> maspsx
 //   --expand-div -> as, exit 0, zero `conflicting types`).
@@ -883,7 +883,7 @@ extern s32 func_8016B428(s32);
             typedef struct { s8 c[8]; } Blk8_80131B14;
 
 // @class: regalloc-order
-// @stuck: none — MATCH (89 ins). Reconcile: TU canonical decl is `void func_80131B14(void)`
+// @unstuck(P36): none — MATCH (89 ins). Reconcile: TU canonical decl is `void func_80131B14(void)`
 //   (ov_SC01_077_a.c L1676/L1756; callers cast to (void(*)(int)) when passing p), so the def MUST be
 //   (void) or cc1 hard-errors `conflicting types` (exit 33). §42c lever #6: capture incoming $a0 into a
 //   NORMAL pseudo (`register u8 *a0v __asm__("$4"); u8 *p = a0v;`) so p gets a callee-saved home ($s0).
@@ -1121,7 +1121,7 @@ void func_801320D0(void) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1148,7 +1148,7 @@ void func_801320D8(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1175,7 +1175,7 @@ void func_80132144(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1202,7 +1202,7 @@ void func_801321B0(int param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1362,7 +1362,7 @@ void func_8013277C(void) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern void func_80136BC4(s32 a0);
 
@@ -1751,7 +1751,7 @@ ret1:
 
 
 // @class: schedule
-// @stuck: none — MATCH (83 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (83 ins, relocation-masked)
 
 
 
@@ -1859,7 +1859,7 @@ s32 func_80134510(s32 param) {
 
 
 // @class: regalloc-order
-// @stuck: 26-mismatch near-miss (structure fully matches: while-loop test-first via j-to-bottom-test, s0=puVar7/s1=cnt/s2=scan/s3=iVar8/s4=iVar9/s5=uVar3/s6=uVar10, a1=param/a0=cc/a3=0x8000 pinned, both range-persist copies present, mult+GPU-index+call all byte-correct). Residual = 4 instances of ONE gcc-2.7.2 regalloc/copy-prop tie-break: target computes a preserved-then-masked value in $v0 and reads $v0 for the mask (`subu $v0; addu $persist,$v0; andi $v0,$v0`), gcc here reads the persist reg (`andi $v0,$t0`). (1) range-check-1 andi reads $t0 not $v0; (2) range-check-2 andi reads $a0 not $v0; (3) `hi=uVar1&0x8000` folds into $a0 — target computes in $v0 + copies to $a0 in the branch-delay (same-block copy, gcc coalesces mine); (4) loop-test `cnt&0xffff` folds to direct `andi $v0,$s1` — target copies `addu $v0,$s1` first. Splitting the value into compare-temp + persist-var produces the copy but gcc forward-propagates the copy DEST into the mask; persist-after-compare kills the copy; explicit `register __asm__` pins fold the whole expr chain into the pinned reg; `=r/0` barriers force bad materialization. Also minor: while-loop header-copy adds a `beqz s1` entry guard vs target `j`, and a2/a3 call-arg setup order. Permuter can't run (register __asm__ pins rejected by pycparser). Genuinely compiler-internal — hand-finish or accept as ceiling.
+// @unstuck(P36): 26-mismatch near-miss (structure fully matches: while-loop test-first via j-to-bottom-test, s0=puVar7/s1=cnt/s2=scan/s3=iVar8/s4=iVar9/s5=uVar3/s6=uVar10, a1=param/a0=cc/a3=0x8000 pinned, both range-persist copies present, mult+GPU-index+call all byte-correct). Residual = 4 instances of ONE gcc-2.7.2 regalloc/copy-prop tie-break: target computes a preserved-then-masked value in $v0 and reads $v0 for the mask (`subu $v0; addu $persist,$v0; andi $v0,$v0`), gcc here reads the persist reg (`andi $v0,$t0`). (1) range-check-1 andi reads $t0 not $v0; (2) range-check-2 andi reads $a0 not $v0; (3) `hi=uVar1&0x8000` folds into $a0 — target computes in $v0 + copies to $a0 in the branch-delay (same-block copy, gcc coalesces mine); (4) loop-test `cnt&0xffff` folds to direct `andi $v0,$s1` — target copies `addu $v0,$s1` first. Splitting the value into compare-temp + persist-var produces the copy but gcc forward-propagates the copy DEST into the mask; persist-after-compare kills the copy; explicit `register __asm__` pins fold the whole expr chain into the pinned reg; `=r/0` barriers force bad materialization. Also minor: while-loop header-copy adds a `beqz s1` entry guard vs target `j`, and a2/a3 call-arg setup order. Permuter can't run (register __asm__ pins rejected by pycparser). Genuinely compiler-internal — hand-finish or accept as ceiling.
 
 
 s32 func_801345F8(s32 arg)
@@ -2197,7 +2197,7 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
 
 
 // @class: schedule
-// @stuck: none — MATCH (62 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (62 ins, relocation-masked)
 
 
 

@@ -5424,7 +5424,7 @@ void func_80186984(void *a0) {
 
 
 // @class: iv-combine
-// @stuck: none — MATCH (49 ins). gcc folds (v0+0x1800)-0x1000 -> v0+0x800; re-tie barrier on the WORKING reg v0 (NOT a saved local) forces the target chain v0=base+0x1800; s2=copy; v0-=0x1000; s1=v0<<5. NO register pins (pins re-trigger the lhu/lh dual-load CSE collapse and shrink the frame; natural alloc gives s0-s3 + frame 0x38).
+// @unstuck(P36): none — MATCH (49 ins). gcc folds (v0+0x1800)-0x1000 -> v0+0x800; re-tie barrier on the WORKING reg v0 (NOT a saved local) forces the target chain v0=base+0x1800; s2=copy; v0-=0x1000; s1=v0<<5. NO register pins (pins re-trigger the lhu/lh dual-load CSE collapse and shrink the frame; natural alloc gives s0-s3 + frame 0x38).
 extern int rand(void);
 extern u8 *func_8012913C(s32 a0);
 
@@ -5468,7 +5468,7 @@ void func_80186A84(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern void func_801869C0(s32, s32);
 extern s32 func_8012AD50(void *a0);
@@ -5500,7 +5500,7 @@ void func_80186AC0(int param_1) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (param_1 naturally lands in $s0 across the call, mirrors sibling func_80184AEC)
+// @unstuck(P36): none — MATCH (param_1 naturally lands in $s0 across the call, mirrors sibling func_80184AEC)
 
 extern s32 func_8012BEE8(s32 a0);
 extern void func_801869C0(s32, s32);
@@ -5515,7 +5515,7 @@ void func_80186BA8(s32 arg0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected)
+// @unstuck(P36): none — MATCH (expected)
 extern void func_8001CB00(int param_1, void *src, int len, int n);
 
 extern unsigned char D_801E4D78;

@@ -2357,7 +2357,7 @@ extern s32 D_801151D4;
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (param pins $s1/$s0 reversed; s32 param_2 keeps the & 0xFF as a separate andi, I2)
+// @unstuck(P36): none — MATCH (param pins $s1/$s0 reversed; s32 param_2 keeps the & 0xFF as a separate andi, I2)
 
 #include "../shared/ov/func_80171C64.h"
 
@@ -2390,7 +2390,7 @@ extern s32  ratan2(s32 a0, s32 a1);   /* ratan2 */
 #include "../shared/ov/func_80172358.h"
 
 // @class: plumbing
-// @stuck: none — MATCH (simple stub: 3 calls, 1 store; s0/s1 hold the two call-crossing params)
+// @unstuck(P36): none — MATCH (simple stub: 3 calls, 1 store; s0/s1 hold the two call-crossing params)
 
 #include "../shared/ov/func_801723C4.h"
 
@@ -2447,7 +2447,7 @@ extern s32  ratan2(s32 a0, s32 a1);   /* ratan2 */
 #include "../shared/ov/func_801726C4.h"
 
 // @class: plumbing
-// @stuck: none — MATCH expected (stub: 3 global stores + tail call)
+// @unstuck(P36): none — MATCH expected (stub: 3 global stores + tail call)
 
 #include "../shared/ov/func_801726D0.h"
 
@@ -2494,7 +2494,7 @@ s32 func_801729F0(void *a0) {
 }
 
 // @class: plumbing
-// @stuck: none — MATCH expected (simple STUB: save arg across call, two halfword stores, 3 calls)
+// @unstuck(P36): none — MATCH expected (simple STUB: save arg across call, two halfword stores, 3 calls)
 
 #include "../shared/ov/func_80172A2C.h"
 
@@ -2582,7 +2582,7 @@ s32 func_80173078(void *a0) {
 }
 
 // @class: plumbing
-// @stuck: none — MATCH expected (STUB: 4 sequential calls, param saved in $s0)
+// @unstuck(P36): none — MATCH expected (STUB: 4 sequential calls, param saved in $s0)
 
 #include "../shared/ov/func_801730B4.h"
 

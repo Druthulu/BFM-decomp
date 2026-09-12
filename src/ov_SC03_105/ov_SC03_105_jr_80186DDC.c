@@ -3839,7 +3839,7 @@ void func_80188114(s32 param_1)
 
 
 
-// @stuck: none — MATCH (42 ins), iteration 1, rtu_match clean.
+// @unstuck(P36): none — MATCH (42 ins), iteration 1, rtu_match clean.
 // Saturating add of a 3-byte RGB triple by a signed delta.
 // Idioms: (1) `s8` by-value param => entry `sll/sra 24` for the sign test only;
 //   combine folds the extension back out of `~a1`/`-a1`/`a0[i]+a1` because every
@@ -4517,7 +4517,7 @@ s32 func_80189308(void *a0, s32 *p) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+// @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);

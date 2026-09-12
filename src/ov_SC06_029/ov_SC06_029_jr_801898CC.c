@@ -4824,7 +4824,7 @@ void func_8018B574(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801E19A4 + idx*0x40 (materialize form, arg to callees).
+// @unstuck(P36): none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801E19A4 + idx*0x40 (materialize form, arg to callees).
 
 extern void func_801465C0(void);
 extern void func_8001CD9C(int, void*);
@@ -5288,7 +5288,7 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80134510(s32 arg);
 
 // @class: regalloc-order
-// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (145/145 ins, match_one confirmed)
 
 
 
@@ -5364,7 +5364,7 @@ extern void func_8012C218(void *a0);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
+// @unstuck(P36): none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
 //   (natural alloc put the short loop-counter in $s1); (2) block2's guarded dest via a test-temp
 //   `td=load; if(td){dest=td; ...}` forces the range-split `lw $a1; addu $s3,$a1,$0` the target has;
 //   (3) counter is `short i` do-while (keeps the `addu $s2,$v0,$0` raw-copy + sll16/sra16 compare);

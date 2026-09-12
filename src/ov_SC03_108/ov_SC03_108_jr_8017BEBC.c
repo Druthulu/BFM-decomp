@@ -3029,7 +3029,7 @@ void func_8017D764(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+// @unstuck(P36): none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
 
 
 extern void func_8012B2CC(s32);

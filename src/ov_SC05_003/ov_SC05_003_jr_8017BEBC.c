@@ -3083,7 +3083,7 @@ void func_8017DC94(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (41 ins, relocation-masked); frame needed a 0x30 address-taken local
+// @unstuck(P36): none — MATCH (41 ins, relocation-masked); frame needed a 0x30 address-taken local
 
 extern s32 func_800D222C(s32 a0, void *a1, s32 a2);
 extern s32 func_8001CF30(void *a0);
@@ -3301,7 +3301,7 @@ void func_8017E130(void *a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -3704,7 +3704,7 @@ void func_8017EC00(s32 arg0) {
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)
-// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @unstuck(P36): none - MATCH (41 ins), match_one + rtu_match.
 // Three levers, in the order they mattered:
 //  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
 //     join block, not two multiplies in the source. The C selects the

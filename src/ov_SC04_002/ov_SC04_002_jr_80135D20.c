@@ -624,7 +624,7 @@ extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (match_one 100/100 + rtu_match real-TU); needs the PAIRED //@EDIT on ((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)(return s16->s32 + `s32 result;`->`s16 result;`, whole-TU byte-neutral, verified) + one $s1 pin on `flag`
+// @unstuck(P36): none — MATCH (match_one 100/100 + rtu_match real-TU); needs the PAIRED //@EDIT on ((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)(return s16->s32 + `s32 result;`->`s16 result;`, whole-TU byte-neutral, verified) + one $s1 pin on `flag`
 //@EDIT s16 ((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)||s32 ((s32 (*)(void *, s32, s16 *, s16 *))func_80135480)(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 //@EDIT     s32 result;||    s16 result;
 
@@ -729,7 +729,7 @@ elsepath:
 
 
 // @class: struct
-// @stuck: none — MATCH (289 ins). symcheck: only the cosmetic jtbl_801D81B8 floor (§8 carve).
+// @unstuck(P36): none — MATCH (289 ins). symcheck: only the cosmetic jtbl_801D81B8 floor (§8 carve).
 //
 // func_80135EB0 — h_seq family exemplar (x138 across the overlay fleet). Levers that made it:
 //  1. m2 (the y-axis mask) MUST be the if/else form, NOT `m2=0x10; if (a8<=t3) m2=...`.
@@ -985,7 +985,7 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
 
 
 // @class: regalloc-order — per-location family member of ov_SC01_077 exemplar func_801365B8 (x134).
-// @stuck: none — MATCH expected; identical structure, only the 4 data ptrs differ (AC/B0/B4/B8 -> B64/68/6C/70).
+// @unstuck(P36): none — MATCH expected; identical structure, only the 4 data ptrs differ (AC/B0/B4/B8 -> B64/68/6C/70).
 
 // D_80188980/68/70 file-scope `extern u8` holding pointers -> read via *(T**)&sym (§42c-2).
 // D_80188988 file-scope `extern s16*` -> use directly. D_80126720 file-scope `extern u8[]`
@@ -1158,7 +1158,7 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
+// @unstuck(P36): none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
 //   global-short RMW `+=`. Writing it via a cast `*(u16*)&SYM = *(u16*)&SYM + x` makes gcc CSE
 //   the address into a base reg (base-reuse) for ALL three — but the target only base-reuses
 //   D_80126720 (a SCHEDULER artifact: its addr-lui fills the load-delay slot after the pb4[4]
@@ -1224,7 +1224,7 @@ void func_80136C54(void)
 
 
 // @class: struct
-// @stuck: none — MATCH (28 ins). 10-byte 1-aligned struct copy (S10_80136C90{char s[10]}) from global D_801BEB18 into a stack buffer, then func_8001534C(0,&buf,0x78,0x10,0,0). gcc emits the block move as 2 unaligned words (lwl/lwr+swl/swr) + 2 bytes (lb/sb).
+// @unstuck(P36): none — MATCH (28 ins). 10-byte 1-aligned struct copy (S10_80136C90{char s[10]}) from global D_801BEB18 into a stack buffer, then func_8001534C(0,&buf,0x78,0x10,0,0). gcc emits the block move as 2 unaligned words (lwl/lwr+swl/swr) + 2 bytes (lb/sb).
 
 
 s32 func_80136C90()
@@ -1318,7 +1318,7 @@ s32 aF80137614(s32 a0, s32 a1, s32 a2) __asm__("func_80137614");
 
 
 /* @class: plumbing (globals-around-two-calls)
- * @stuck: none — MATCH (51 ins).
+ * @unstuck(P36): none — MATCH (51 ins).
  *
  * RECONCILE (§37/§124 ASM-LABEL ALIAS) — no TU / header edit required.
  *   Gate error: ov_SC01_077_jr_80135D20.c:1415: conflicting types for `func_801376E8'
@@ -1412,7 +1412,7 @@ void func_801378F0(void) {
 
 
 // @class: remat
-// @stuck: target CSEs &D_801269F0 once for load+call arg; force via local pointer
+// @unstuck(P36): target CSEs &D_801269F0 once for load+call arg; force via local pointer
 extern s32 D_80127548[];
 extern int D_801889F0;
 extern int D_801269F0;
@@ -1432,7 +1432,7 @@ void func_80137B80(void) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &D_801269F0 held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
+// @unstuck(P36): none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &D_801269F0 held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
 
 extern unsigned char D_80126A0E;
 extern short D_80126A0A;

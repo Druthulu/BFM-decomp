@@ -3159,7 +3159,7 @@ void func_8017FF68(s32 param_1)
 #include "common.h"
 
 // @class: dispatch-topology
-// @stuck: none — MATCH (111/111 ins, match_one confirmed), 2nd compile.
+// @unstuck(P36): none — MATCH (111/111 ins, match_one confirmed), 2nd compile.
 //
 // Levers that carry the byte match:
 //  (1) §2 of func_8018270C / §250 — the two `func_80028620` record bases are bound by

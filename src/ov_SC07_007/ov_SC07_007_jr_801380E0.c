@@ -682,7 +682,7 @@ extern s32 func_80029178(s32 arg);
 
 
 // @class: struct
-// @stuck: none — MATCH (match_one: MATCH 20 ins)
+// @unstuck(P36): none — MATCH (match_one: MATCH 20 ins)
 
 
 void func_80138BE0(int p)

@@ -3801,7 +3801,7 @@ void func_801824F0(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801B42EC + idx*0x40 (materialize form, arg to callees).
+// @unstuck(P36): none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801B42EC + idx*0x40 (materialize form, arg to callees).
 
 extern void func_801465C0(void);
 extern void func_8001CD9C(int, void*);
@@ -4764,7 +4764,7 @@ s32 aF8018A224(param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
+// @unstuck(P36): none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
 //   holds it in $a0 across the case stores (else it reloads/`lh` per case, +3 ins); (2) declare the
 //   `in` struct BEFORE `out[2]` so in@sp+0x10 / out@sp+0x20; (3) the 0x14 word is written via
 //   `*(s32*)&in.lo = D_80126B60` then the high short RMW'd `in.hi -= 0x20` (memory lhu/sh, not reg);
@@ -4894,7 +4894,7 @@ void func_80183C88(s32 param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
+// @unstuck(P36): none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
 
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B23C(s32 a0);
@@ -4944,7 +4944,7 @@ void func_80183D68(int param_1)
 
 
 // @class: other
-// @stuck: none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
+// @unstuck(P36): none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -5081,7 +5081,7 @@ extern void func_8012C218(void *a0);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
+// @unstuck(P36): none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
 //   (natural alloc put the short loop-counter in $s1); (2) block2's guarded dest via a test-temp
 //   `td=load; if(td){dest=td; ...}` forces the range-split `lw $a1; addu $s3,$a1,$0` the target has;
 //   (3) counter is `short i` do-while (keeps the `addu $s2,$v0,$0` raw-copy + sll16/sra16 compare);

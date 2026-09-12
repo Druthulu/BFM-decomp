@@ -3604,7 +3604,7 @@ s32 func_8017496C(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (pins $s2=D_80126B5E, $s1=D_80126B66 + Buf_c1 struct local; ported from the banked ov_SC01_000 exemplar)
+// @unstuck(P36): none — MATCH (pins $s2=D_80126B5E, $s1=D_80126B66 + Buf_c1 struct local; ported from the banked ov_SC01_000 exemplar)
 
 
 
@@ -3619,7 +3619,7 @@ s32 func_8017496C(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (27 ins) via func-ptr array fold extern void(*D_8018DA84[])()
+// @unstuck(P36): none — MATCH (27 ins) via func-ptr array fold extern void(*D_8018DA84[])()
 
 
 void func_80174BF4(void * arg0)
@@ -3646,7 +3646,7 @@ void func_80174BF4(void * arg0)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (123 ins)
+// @unstuck(P36): none — MATCH (123 ins)
 //
 // Sibling of func_801749C8 (already banked in this same TU, ~line 8640): identical 8-call
 // clamp/approach prologue and identical trailing MATRIX+SVECTOR / func_8012F14C rotate.
@@ -3748,7 +3748,7 @@ void func_80175184(s32* arg0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
+// @unstuck(P36): none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
 
 extern void func_80146CA0(void *a0);
 
@@ -3780,7 +3780,7 @@ s32 func_80175268(s32 param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH (67 ins). Base pointer `p=&D_8011F7A8` shares $t0 for offset-0
+// @unstuck(P36): none — MATCH (67 ins). Base pointer `p=&D_8011F7A8` shares $t0 for offset-0
 // store + p+0x48 struct-assign dest + p+0xE0 call arg; field stores 1/6/0xC..0x16 are
 // separate globals (LO_SUM); 152-byte struct assign -> gcc block-move (16B loop + 8B tail);
 // &D_800B9A02 held in $s0 across the calls via an explicit `s16 *q` pointer local
@@ -3803,7 +3803,7 @@ s32 func_80175268(s32 param_1)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (37 ins, relocation-masked proxy)
+// @unstuck(P36): none — MATCH (37 ins, relocation-masked proxy)
 
 
 
@@ -4958,7 +4958,7 @@ void func_80178438(u16 *arg0) {
 
 
 // @class: regalloc-order
-// @stuck: sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
+// @unstuck(P36): sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
 
 extern void func_80019064(void *a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);

@@ -1438,7 +1438,7 @@ s32 arg0;
 
 
 // @class: plumbing
-// @stuck: none — MATCH (param held in $s0 across 3 calls; lhu 0x16E; &D_801832D0 arg)
+// @unstuck(P36): none — MATCH (param held in $s0 across 3 calls; lhu 0x16E; &D_801832D0 arg)
 extern void func_80154150(s32 a0, s32 a1);
 extern void func_80146DB8(s32 *a0, s32 *a1);
 extern s32 func_80161CD0(s32 a0, s32 a1);

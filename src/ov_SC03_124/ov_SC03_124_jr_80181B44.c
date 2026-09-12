@@ -4474,7 +4474,7 @@ void func_80183E08(void)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern u32 D_801E1C60;
 extern u16 D_80190740[];

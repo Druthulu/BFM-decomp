@@ -3088,7 +3088,7 @@ void func_8017CE14(void *a0)
 
 
 // @class: plumbing
-// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @unstuck(P36): none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
 extern void func_8017D0F8(int);
 
@@ -4221,7 +4221,7 @@ void func_8017EB74(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 

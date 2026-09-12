@@ -3880,7 +3880,7 @@ void func_8017DF48(void *a0)
 
 
 // @class: plumbing
-// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+// @unstuck(P36): none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
 extern void func_8017E22C(int);
 
@@ -4942,7 +4942,7 @@ void func_8017FD38(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -5666,7 +5666,7 @@ void func_80180B04(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801C100C + idx*0x40 (materialize form, arg to callees).
+// @unstuck(P36): none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801C100C + idx*0x40 (materialize form, arg to callees).
 
 extern void func_801465C0(void);
 extern void func_8001CD9C(int, void*);
@@ -5904,7 +5904,7 @@ void func_80180E88(s32 param_1) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
+// @unstuck(P36): none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
 //   blocks the (r&0x1f)-16 reassoc that materialized -0x10 via `li 0xfff0` (+1 ins); (2) inline the one-shot
 //   r0_00+1 stsv arg so it stays a $v0 temp instead of stealing a saved reg from the reused pSVar6.
 
@@ -8089,7 +8089,7 @@ void func_80183F24(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
+// @unstuck(P36): none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
 //   holds it in $a0 across the case stores (else it reloads/`lh` per case, +3 ins); (2) declare the
 //   `in` struct BEFORE `out[2]` so in@sp+0x10 / out@sp+0x20; (3) the 0x14 word is written via
 //   `*(s32*)&in.lo = D_80126B60` then the high short RMW'd `in.hi -= 0x20` (memory lhu/sh, not reg);
@@ -8221,7 +8221,7 @@ void func_801841D8(s32 param_1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
+// @unstuck(P36): none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))func_8012F214)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
 
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B23C(s32 a0);
@@ -8271,7 +8271,7 @@ void func_801842B8(int param_1)
 
 
 // @class: other
-// @stuck: none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
+// @unstuck(P36): none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -8317,7 +8317,7 @@ void func_80184430(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out
+// @unstuck(P36): none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out
 extern void func_8012A828(s32 a0, void *a1);
 extern void D_801B10C4;
 
@@ -8387,7 +8387,7 @@ void func_801845B4(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (44 ins). Two §3-T4 branch-polarity inversions: outer if(param_2>=iVar2) makes the func_801846B4 else-block fall-through; inner if(param_3>=iVar2) return 0 makes the func_8012A828 body fall-through. No pins needed — natural $s1/$s0/$s2 alloc matched.
+// @unstuck(P36): none — MATCH (44 ins). Two §3-T4 branch-polarity inversions: outer if(param_2>=iVar2) makes the func_801846B4 else-block fall-through; inner if(param_3>=iVar2) return 0 makes the func_8012A828 body fall-through. No pins needed — natural $s1/$s0/$s2 alloc matched.
 extern s32 func_8012BCCC(s32 a0);
 extern void func_801846B4(s32 param_1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -8418,7 +8418,7 @@ s32 func_80184604(s32 param_1, s32 param_2, s32 param_3) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (straightforward; callee sigs canonical from overlay)
+// @unstuck(P36): none — MATCH (straightforward; callee sigs canonical from overlay)
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_80142414(s32 a0, s16 a1);
 extern u8 D_801B1264;
@@ -8757,7 +8757,7 @@ void func_80184DC8(s32 param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)
+// @unstuck(P36): none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)
 
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
@@ -10022,7 +10022,7 @@ s32 func_801867A0(s32 a0) {
 #include "common.h"
 
 // @class: schedule
-// @stuck: none — MATCH (111/111 ins).  Four levers, all needed:
+// @unstuck(P36): none — MATCH (111/111 ins).  Four levers, all needed:
 //  (1) §393 BIRTHING BOOST — the zero-byte re-tie `__asm__("" : "=r"(pan) : "0"(pan));` gives `pan`
 //      an extra set.  Without it gcc births `li $s2,0x7F` AFTER the first jal instead of pairing it
 //      with its own `sw $s2,0x38($sp)` at prologue index 4/5, and the $v0/$v1 pair for the arg0 copy

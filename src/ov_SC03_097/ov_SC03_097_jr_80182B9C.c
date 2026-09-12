@@ -4103,7 +4103,7 @@ s32 a0;
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
 // @class: branch-polarity
-// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// @unstuck(P36): none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
 // "branch TO the then-arm, fall through to the else", so the source condition is
 // `d < 0x800` (the bnez sense read off the target opcode), NOT Ghidra's inverted
 // arm order. The wrong polarity also cost one instruction (match_one printed

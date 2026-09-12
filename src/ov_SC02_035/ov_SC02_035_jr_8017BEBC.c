@@ -2887,7 +2887,7 @@ void func_8017D130(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -3011,7 +3011,7 @@ void func_8017D3F4(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+// @unstuck(P36): none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
 
 extern code_fn D_801949F0[];
 
@@ -3118,7 +3118,7 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 
 // @class: none — MATCH (46 ins), iteration 1. rtu_match MATCH too.
-// @stuck: none.
+// @unstuck(P36): none.
 // Derivation was pure OPCODE-WIDTH reading (no cookbook section needed beyond
 // §3-T4 for the two branch senses):
 //   * 0x108 `lh`/`sh`      -> s16 counter.
@@ -3156,7 +3156,7 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 
 // @class: none — MATCH (46 ins), iteration 1. rtu_match MATCH too.
-// @stuck: none.
+// @unstuck(P36): none.
 // Derivation was pure OPCODE-WIDTH reading (no cookbook section needed beyond
 // §3-T4 for the two branch senses):
 //   * 0x108 `lh`/`sh`      -> s16 counter.

@@ -253,7 +253,7 @@ extern void func_8012ACA0(void *arg0);
 
 
 // @class: iv-combine
-// @stuck: none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
+// @unstuck(P36): none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
       /* 8-byte element, cmd @ +4 */
     /* list ptr @ +0x90 */
 
@@ -396,7 +396,7 @@ void func_8012BF4C(s32 *a0, s32 a1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
+// @unstuck(P36): none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
 //   dst+0x36 assumed non-aliasing the global) AND folds %lo per-access — target instead RELOADS
 //   and keeps &(*(u16 *)&D_801270C4) in one reg. Fix = pin a `u16*` to $v1 (register asm "$3"), read via
 //   `*(volatile u16*)pc` (defeats CSE -> 2 loads) but STORE via plain `*pc` (non-volatile store
@@ -455,7 +455,7 @@ extern void  func_80016714(void *a0, s32 a1);
 #include "../shared/ov/func_8012D624.h"
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 
@@ -478,7 +478,7 @@ extern M2C_UNK D_8017F5C4;
 #include "../shared/ov/func_8012DBD0.h"
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 
 
@@ -488,7 +488,7 @@ extern M2C_UNK D_8017F5C4;
 
 
 // @class: plumbing
-// @stuck: none — MATCH (35/35 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (35/35 ins, relocation-masked)
 
 
 #include "../shared/ov/func_8012DE2C__d811cfb5.h"

@@ -2561,7 +2561,7 @@ s32 func_8017496C(void *a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (105 ins). Keys: (1) single-buffer struct for the func_80049CAC/func_8012F14C
+// @unstuck(P36): none — MATCH (105 ins). Keys: (1) single-buffer struct for the func_80049CAC/func_8012F14C
 //   out-params (local_2c..local_14 are fields of ONE stack buffer, not separate scalars — else gcc
 //   DCEs the unread ones + overlaps the buffer -> wrong 0x40 frame); (2) $s2/$s1 pins for iVar5/iVar4
 //   (call-crossing saved regs); (3) load D_80126B66 as RAW u16 (lhu) with (s16) sext at each USE —
@@ -2577,7 +2577,7 @@ s32 func_8017496C(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (27 ins) via func-ptr array fold extern void(*D_8018E338[])()
+// @unstuck(P36): none — MATCH (27 ins) via func-ptr array fold extern void(*D_8018E338[])()
 
 extern void (*D_8018E338[])();
 
@@ -2648,7 +2648,7 @@ void func_80175184(s32* arg0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
+// @unstuck(P36): none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
 
 extern u8 D_80078EC0;
 extern void (*D_8018E350[])(s32);
@@ -2687,7 +2687,7 @@ s32 func_80175268(s32 param_1)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (37 ins, relocation-masked proxy)
+// @unstuck(P36): none — MATCH (37 ins, relocation-masked proxy)
 
 
 
@@ -3037,7 +3037,7 @@ void func_80175DA8(param_1)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (327/327 ins, match_one MATCH; symcheck SYMS-OK 18 symbols)
+// @unstuck(P36): none — MATCH (327/327 ins, match_one MATCH; symcheck SYMS-OK 18 symbols)
 //
 // STRUCTURE (byte-derived, all verified against the .s):
 //   $s3=st=&D_8011F7A8 (int base), $s1=st+0x48 (cach), $s2=st+0xE0 (flag), $s5=&(*(u8 *)D_80078E78) (src), $s4=param.
@@ -3761,7 +3761,7 @@ s16 idx;
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_80177EA4.h"
 
@@ -3797,7 +3797,7 @@ void func_80178438(u16 *arg0) {
 
 
 // @class: regalloc-order
-// @stuck: sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
+// @unstuck(P36): sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
 
 extern void func_80019064(void *a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);

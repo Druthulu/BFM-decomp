@@ -3932,7 +3932,7 @@ void func_8017F010(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)
+// @unstuck(P36): none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)
 
 extern void func_8017F428(void *arg0);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
@@ -4066,7 +4066,7 @@ extern void func_80139914(s32 a0);
 
 
 // @class: plumbing
-// @stuck: none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
+// @unstuck(P36): none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
 
 extern void func_8016F0E4(void);
 extern void func_80165770(void);
@@ -4099,7 +4099,7 @@ void func_8017F394(void *a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (expected); simple call + conditional u8 increment
+// @unstuck(P36): none — MATCH (expected); simple call + conditional u8 increment
 
 extern s32 func_80171B4C(s32 a0, s32 a1);
 

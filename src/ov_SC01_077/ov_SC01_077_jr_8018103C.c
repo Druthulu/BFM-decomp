@@ -3044,7 +3044,7 @@ extern s32 func_80180F10(s32 param_1, s32 param_2);
 
 
 // @class: struct
-// @stuck: none — big state machine (5-state switch), modeled on the exact call/loop/field idioms
+// @unstuck(P36): none — big state machine (5-state switch), modeled on the exact call/loop/field idioms
 //   already byte-proven in this same TU (func_801809BC / func_8017E51C / func_80180F10).
 
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
@@ -3645,7 +3645,7 @@ void func_80181948(s32 a0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected; simple param-survives-call store sequence
+// @unstuck(P36): none — MATCH expected; simple param-survives-call store sequence
 
 extern void func_8012A828(s32 a0, void *a1);
 extern char D_801B0118[];
@@ -3659,7 +3659,7 @@ void func_80181B58(int param_1)
 }
 
 // @class: plumbing
-// @stuck: none — MATCH expected; param_1 survives call in $s0 naturally (single global allocno)
+// @unstuck(P36): none — MATCH expected; param_1 survives call in $s0 naturally (single global allocno)
 
 extern void func_8012A828(s32 a0, void *a1);
 extern s32 D_801B0D50;

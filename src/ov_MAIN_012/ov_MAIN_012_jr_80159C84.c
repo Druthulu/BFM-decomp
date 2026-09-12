@@ -2170,7 +2170,7 @@ extern void func_80159BE4(s32 arg0);
 extern s32 func_80149FB0(s32 a0);
 
 // @class: other
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 /* (draft's standalone scalar typedefs stripped — the TU's common.h set is in scope; §8e splice) */
 
 /* draft decl dropped — carried TU decl in scope (§8e splice reconcile) */
@@ -2409,7 +2409,7 @@ void func_8015A264(void *a0) {
 
 
 // @class: other
-// @stuck: none — MATCH (60 ins). switch() gives signed slti pivot; per-case duplicated call gives per-case a0 setup + nop jal delay
+// @unstuck(P36): none — MATCH (60 ins). switch() gives signed slti pivot; per-case duplicated call gives per-case a0 setup + nop jal delay
 
 
 extern void func_80146DB8(s32 *a0, s32 *a1);

@@ -4074,7 +4074,7 @@ s32 arg0;
 
 
 // @class: struct
-// @stuck: none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
+// @unstuck(P36): none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
 //          spliced into src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c (whole-TU cc1 -O2 clean,
 //          masked structured_diff 0/276).
 // Keys: (1) the first func_8012C218 call gets a NOP delay slot because reload_cse_regs deletes the
@@ -4659,7 +4659,7 @@ void func_801834F0(s32 a0, void *a1, void *a2, s32 a3) {
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
 // @class: branch-polarity
-// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// @unstuck(P36): none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
 // "branch TO the then-arm, fall through to the else", so the source condition is
 // `d < 0x800` (the bnez sense read off the target opcode), NOT Ghidra's inverted
 // arm order. The wrong polarity also cost one instruction (match_one printed
@@ -5298,7 +5298,7 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80134510(s32 arg);
 
 // @class: regalloc-order
-// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (145/145 ins, match_one confirmed)
 
 
 
@@ -5374,7 +5374,7 @@ extern void func_8012C218(void *a0);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
+// @unstuck(P36): none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
 //   (natural alloc put the short loop-counter in $s1); (2) block2's guarded dest via a test-temp
 //   `td=load; if(td){dest=td; ...}` forces the range-split `lw $a1; addu $s3,$a1,$0` the target has;
 //   (3) counter is `short i` do-while (keeps the `addu $s2,$v0,$0` raw-copy + sll16/sra16 compare);

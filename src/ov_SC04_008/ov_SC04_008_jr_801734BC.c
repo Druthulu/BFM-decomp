@@ -2542,7 +2542,7 @@ s32 func_80174888(void *a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (105 ins). Keys: (1) single-buffer struct for the func_80049CAC/func_8012F14C
+// @unstuck(P36): none — MATCH (105 ins). Keys: (1) single-buffer struct for the func_80049CAC/func_8012F14C
 //   out-params (local_2c..local_14 are fields of ONE stack buffer, not separate scalars — else gcc
 //   DCEs the unread ones + overlaps the buffer -> wrong 0x40 frame); (2) $s2/$s1 pins for iVar5/iVar4
 //   (call-crossing saved regs); (3) load D_80126B66 as RAW u16 (lhu) with (s16) sext at each USE —
@@ -2558,7 +2558,7 @@ s32 func_80174888(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (27 ins) via func-ptr array fold extern void(*D_8018213C[])()
+// @unstuck(P36): none — MATCH (27 ins) via func-ptr array fold extern void(*D_8018213C[])()
 
 extern void (*D_8018213C[])();
 
@@ -2606,7 +2606,7 @@ extern s32 func_80175268(s32);
 
 
 // @class: struct
-// @stuck: none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
+// @unstuck(P36): none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
 
 extern u8 D_80078EC0;
 extern void (*D_80182154[])(s32);
@@ -2633,7 +2633,7 @@ extern u8 D_80078EC0;
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (37 ins, relocation-masked proxy)
+// @unstuck(P36): none — MATCH (37 ins, relocation-masked proxy)
 
 
 
@@ -2764,7 +2764,7 @@ extern void func_800183E0(s32 a0);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (327/327 ins, match_one MATCH; symcheck SYMS-OK 18 symbols)
+// @unstuck(P36): none — MATCH (327/327 ins, match_one MATCH; symcheck SYMS-OK 18 symbols)
 //
 // STRUCTURE (byte-derived, all verified against the .s):
 //   $s3=st=&D_8011F7A8 (int base), $s1=st+0x48 (cach), $s2=st+0xE0 (flag), $s5=&(*(u8 *)D_80078E78) (src), $s4=param.
@@ -2841,7 +2841,7 @@ extern s32   func_8005A600(s32, s32, s32, s32, s32);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 #include "../shared/ov/func_801778A8.h"
 
 
@@ -2913,7 +2913,7 @@ extern s32   func_8005A600(s32, s32, s32, s32, s32);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_80177EA4.h"
 

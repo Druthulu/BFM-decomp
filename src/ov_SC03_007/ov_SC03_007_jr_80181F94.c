@@ -3089,7 +3089,7 @@ void func_801821D0(s32 param_1) {
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)
-// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// @unstuck(P36): none - MATCH (41 ins), match_one + rtu_match.
 // Three levers, in the order they mattered:
 //  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
 //     join block, not two multiplies in the source. The C selects the
@@ -3177,7 +3177,7 @@ void func_801822C8(s32 param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out
+// @unstuck(P36): none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out
 extern void func_8012A828(s32 a0, void *a1);
 extern void D_801CAB58;
 
@@ -3251,7 +3251,7 @@ s32 func_801824A8(s32 s0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (straightforward; callee sigs canonical from overlay)
+// @unstuck(P36): none — MATCH (straightforward; callee sigs canonical from overlay)
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_80142414(s32 a0, s16 a1);
 extern u8 D_801CACF8;
@@ -3527,7 +3527,7 @@ void func_80182AFC(s32 param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)
+// @unstuck(P36): none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)
 
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
@@ -3595,7 +3595,7 @@ void func_80182BFC(s32 a0)
 
 
 // @class: struct
-// @stuck: none — MATCH expected (folded %lo via extern array decay; a0 carries iVar2 into func_8001C214)
+// @unstuck(P36): none — MATCH expected (folded %lo via extern array decay; a0 carries iVar2 into func_8001C214)
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);

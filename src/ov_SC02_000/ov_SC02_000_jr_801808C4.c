@@ -18,7 +18,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (param in $s0 across call, stores in source order)
+// @unstuck(P36): none — MATCH expected (param in $s0 across call, stores in source order)
 
 extern void func_80130740(void *a0, u16 *a1);
 extern unsigned char D_8018E78C[];
@@ -36,7 +36,7 @@ void func_80180A18(int param)
 
 
 // @class: plumbing
-// @stuck: none — MATCH expected (simple struct-field init + two calls, natural schedule)
+// @unstuck(P36): none — MATCH expected (simple struct-field init + two calls, natural schedule)
 
 extern void func_8012A828(s32, void *);
 extern void func_8002D4C8(s32, s32);

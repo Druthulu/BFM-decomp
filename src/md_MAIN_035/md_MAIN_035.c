@@ -146,7 +146,7 @@ void func_800CB108(s32 *a0) {
 
 
 // @class: other
-// @stuck: none — MATCH (proxy gate)
+// @unstuck(P36): none — MATCH (proxy gate)
 
 extern void func_80149374(s32 a0, s32 a1);
 

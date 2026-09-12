@@ -3071,7 +3071,7 @@ extern void func_80181B9C(s32 param_1);
 /* ==== end §8b carried decl layer ==== */
 
 // @class: struct
-// @stuck: none — MATCH (switch on entity state at 0x34, inner jtbl on (s8)(u70>>8))
+// @unstuck(P36): none — MATCH (switch on entity state at 0x34, inner jtbl on (s8)(u70>>8))
 
 extern void func_8012CBCC(int);
 extern int  func_8012BEE8(int);

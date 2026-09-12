@@ -2115,7 +2115,7 @@ lout:
 
 
 // @class: other
-// @stuck: none — MATCH (85 ins, .text 0x154 = target size exactly). No lever needed; a straight
+// @unstuck(P36): none — MATCH (85 ins, .text 0x154 = target size exactly). No lever needed; a straight
 //         structural transcription matched on the FIRST derivation. symcheck's lone MISSING
 //         jtbl_801D8BE8 is the §81 jr/jtbl FALSE POSITIVE (gcc emits its own 8-word .rodata table
 //         with section-relative R_MIPS_32s, so the splat name can never appear in the draft's
@@ -2278,7 +2278,7 @@ void func_8016B4BC(void *a0) {
 }
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern int func_8016B9F8(int);
@@ -2328,7 +2328,7 @@ success:
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern s32 func_8016B9F8(s32 param_1);
 extern void func_8016B984(void *a0);
@@ -2378,7 +2378,7 @@ LOOP:
 }
 
 // @class: schedule
-// @stuck: none — MATCH (94/94 ins, match_one relocation-masked)
+// @unstuck(P36): none — MATCH (94/94 ins, match_one relocation-masked)
 //
 // Exemplar of the 138-member h_seq family. The whole crack was ONE statement-order
 // lever in the tail: the target's post-func_80015978 fix-up runs
@@ -2454,7 +2454,7 @@ void func_8016B6BC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (statement order: compute puVar2 base before puVar3 table lookup so param*0x40+base schedule into prologue, leaving the 0x2c load-delay nop)
+// @unstuck(P36): none — MATCH (statement order: compute puVar2 base before puVar3 table lookup so param*0x40+base schedule into prologue, leaving the 0x2c load-delay nop)
 extern void func_801465C0(void);
 extern void func_8001CD9C(int, void *);
 extern void func_800233CC(void *, unsigned short);
@@ -2490,7 +2490,7 @@ int func_8016B834(int param_1, int param_2) {
 #include "../shared/ov/func_8016B984.h"
 
 // @class: regalloc-order
-// @stuck: none — MATCH (result is func_8012EFB8's return saved in $s0 across the func_80015954 call; the save-move fills the 2nd call's delay slot. func_80015954's return is discarded.)
+// @unstuck(P36): none — MATCH (result is func_8012EFB8's return saved in $s0 across the func_80015954 call; the save-move fills the 2nd call's delay slot. func_80015954's return is discarded.)
 
 extern s32 D_801D9A88;
 extern void func_8012EFB8(s32 a0);
@@ -2520,7 +2520,7 @@ void func_8016BBA4(void *a0) {
 }
 
 // @class: plumbing
-// @stuck: none — MATCH (56 ins, match_one relocation-masked)
+// @unstuck(P36): none — MATCH (56 ins, match_one relocation-masked)
 
 
 
@@ -2595,7 +2595,7 @@ void func_8016BCC0(void *arg0) {
 }
 
 // @class: struct
-// @stuck: none — MATCH (74 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (74 ins, relocation-masked)
 
 
 
@@ -2637,7 +2637,7 @@ s32 func_8016BD78(s32 param_1)
 
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 s32 func_8016BEA0(s32 param_1)
 {
@@ -2675,7 +2675,7 @@ void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3) {
 }
 
 // @class: struct
-// @stuck: none — MATCH (95 ins). Keys: (1) 4-byte unaligned copies via `struct{char b[4];}`
+// @unstuck(P36): none — MATCH (95 ins). Keys: (1) 4-byte unaligned copies via `struct{char b[4];}`
 //   assignment -> lwl/lwr/swl/swr with reload; (2) 0x40-byte stack buffer `buf` (Mtx padded to
 //   0x40, not 0x20) sets the frame to 0x70 and lands v1/v2 at sp+0x50/0x58; (3) func_80017714(a4)
 //   takes param_5 as an arg -> gcc materializes `addu $a0,$s0,$zero` and stores the 4 zeros via $a0.
@@ -2797,7 +2797,7 @@ void func_8016C188(s32 param)
 }
 
 // @class: schedule
-// @stuck: none — MATCH (44 ins; pins $s0/$s1 + hoist call-arg into a temp so its load fills the buf-store delay slot)
+// @unstuck(P36): none — MATCH (44 ins; pins $s0/$s1 + hoist call-arg into a temp so its load fills the buf-store delay slot)
 
 extern void func_80149350(s32 arg0);
 extern void func_80015954(s32 a0, s32 a1);
@@ -2839,7 +2839,7 @@ void func_8016C2C4(s32 param)
 #include "../shared/ov/func_8016C374.h"
 
 // @class: regalloc-order
-// @stuck: none — MATCH (172/172, relocation-masked)
+// @unstuck(P36): none — MATCH (172/172, relocation-masked)
 
 
 
@@ -2988,7 +2988,7 @@ void func_8016C998(s32 param_1)
 
 
 // @class: struct
-// @stuck: none — MATCH (byte-matched sibling idiom func_80131EEC, table-dispatch via jalr)
+// @unstuck(P36): none — MATCH (byte-matched sibling idiom func_80131EEC, table-dispatch via jalr)
 #include "common.h"
 
 extern void (*D_80189D8C[])(void);
@@ -3316,7 +3316,7 @@ void func_8016D428(void *a0) {
 #include "../shared/ov/func_8016D5EC.h"
 
 // @class: other
-// @stuck: none — MATCH (expected): short-return truthiness via sll16+bnez, param saved in $s0 across call
+// @unstuck(P36): none — MATCH (expected): short-return truthiness via sll16+bnez, param saved in $s0 across call
 #include "../shared/ov/func_8016D64C.h"
 
 extern unsigned char D_801D9C20[];
@@ -3362,7 +3362,7 @@ void func_8016D688(int param_1)
 #include "../shared/ov/func_8016DA04.h"
 
 // @class: struct
-// @stuck: none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
+// @unstuck(P36): none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
 extern void func_8016DBD8(u8 *a0);
 extern void (*D_80189E18[])(int);
 
@@ -3373,7 +3373,7 @@ void func_8016DA30(int param_1)
 }
 
 // @class: plumbing
-// @stuck: none — MATCH (clean if/else, one call-crossing local; bnez polarity = if(iVar1==0) fall-through)
+// @unstuck(P36): none — MATCH (clean if/else, one call-crossing local; bnez polarity = if(iVar1==0) fall-through)
 
 extern void func_801465C0(void);
 extern void func_80146C3C(void);
@@ -3405,14 +3405,14 @@ void func_8016DA7C(s32 param_1)
 }
 
 // @class: loop-guard
-// @stuck: none — MATCH (branch-polarity invert §3-T4: call on fall-through, block in else)
+// @unstuck(P36): none — MATCH (branch-polarity invert §3-T4: call on fall-through, block in else)
 
 #include "../shared/ov/func_8016DB34.h"
 
 #include "../shared/ov/func_8016DBD8.h"
 
 // @class: schedule
-// @stuck: none — MATCH (161 ins, relocation-masked). Keys: (1) mirror sibling func_8017BEF8 coord-transform idiom (16-byte Work struct {in x,y,z,xpad @0x20; out vx,vy,vz,vpad @0x28} -> frame 0x48, in@sp+0x20/out@sp+0x28); (2) SHORT loop counter i shared across all 3 loops defeats shift-IV strength reduction; (3) loop-2 = check-first/increment-after (like loop-1) keeps search key 0x11 in $a0 (reused as the func_80146A6C a0 arg) instead of spilling to $a1; (4) place loop-3 counter reset i=0 AFTER func_800D23D0 (not before func_80146A6C(0x11)) so it schedules as $s1-reset last, not first; (5) inverted final branch (if r!=0 {loops} else fall to ddb0/func_80146C3C) matches beqz; node-alloc block mirrors sibling func_8016DA7C.
+// @unstuck(P36): none — MATCH (161 ins, relocation-masked). Keys: (1) mirror sibling func_8017BEF8 coord-transform idiom (16-byte Work struct {in x,y,z,xpad @0x20; out vx,vy,vz,vpad @0x28} -> frame 0x48, in@sp+0x20/out@sp+0x28); (2) SHORT loop counter i shared across all 3 loops defeats shift-IV strength reduction; (3) loop-2 = check-first/increment-after (like loop-1) keeps search key 0x11 in $a0 (reused as the func_80146A6C a0 arg) instead of spilling to $a1; (4) place loop-3 counter reset i=0 AFTER func_800D23D0 (not before func_80146A6C(0x11)) so it schedules as $s1-reset last, not first; (5) inverted final branch (if r!=0 {loops} else fall to ddb0/func_80146C3C) matches beqz; node-alloc block mirrors sibling func_8016DA7C.
 #include "common.h"
 
 
@@ -3509,7 +3509,7 @@ void func_8016DF20(void *a0) {
 }
 
 // @class: regalloc-order
-// @stuck: none — MATCH (156 ins). Split iVar8 live-range (top-load->else $s3, func_801465C0
+// @unstuck(P36): none — MATCH (156 ins). Split iVar8 live-range (top-load->else $s3, func_801465C0
 //   result pinned $s1 for the then-branch, reusing the dead loop counter). sVar1 merge-phi
 //   wanted $v0: a scheduling barrier before `sVar1=4` stops the constant hoisting into the
 //   param_1[7] load-delay slot (fixes the count/nop), and pinning the then-branch 0x10 temp
@@ -3623,12 +3623,12 @@ extern void func_8016E778();
 #include "../shared/ov/func_8016E728.h"
 
 // @class: plumbing
-// @stuck: none — MATCH (build-word spread + 3-halfword buffer, two stack addrs passed)
+// @unstuck(P36): none — MATCH (build-word spread + 3-halfword buffer, two stack addrs passed)
 
 #include "../shared/ov/func_8016E778.h"
 
 // @class: regalloc-order
-// @stuck: none — MATCH (74 ins); register pin $s2 forces &prim into a saved reg (§17)
+// @unstuck(P36): none — MATCH (74 ins); register pin $s2 forces &prim into a saved reg (§17)
 
                  /* 0x08 */
      /* 0x20 */
@@ -3688,7 +3688,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
 #include "../shared/ov/func_8016E918.h"
 
 // @class: struct
-// @stuck: none — MATCH (36/36 ins, match_one relocation-masked)
+// @unstuck(P36): none — MATCH (36/36 ins, match_one relocation-masked)
 
 
 
@@ -3710,7 +3710,7 @@ s32 func_8016E95C() {
 #include "common.h"
 
 /* @class: regalloc (non-coalescing delay-slot copy) + sched (load-temp hoist)
- * @stuck: none — MATCH (53/53 ins, match_one AND rtu_match in the real TU).
+ * @unstuck(P36): none — MATCH (53/53 ins, match_one AND rtu_match in the real TU).
  *
  * Two levers, both from the cookbook:
  *
@@ -3775,7 +3775,7 @@ void func_8016E9EC(u8 *p)
 
 
 // @class: struct
-// @stuck: none — MATCH (31/31 ins, match_one verified)
+// @unstuck(P36): none — MATCH (31/31 ins, match_one verified)
 
 extern u16 D_80189EDC[];
 extern void func_8016EC0C(s32 a0, s32 a1);
@@ -3795,7 +3795,7 @@ void func_8016EAC0(Wave *param_1)
 }
 
 // @class: loose-typing
-// @stuck: none — MATCH (u8 v + 0xFF emits addiu 0xFF; v-1 would emit -1/0xffff)
+// @unstuck(P36): none — MATCH (u8 v + 0xFF emits addiu 0xFF; v-1 would emit -1/0xffff)
 
 extern u8 D_80189ECC[];
 extern void func_8016EC0C(s32 a0, s32 a1);
@@ -3814,7 +3814,7 @@ void func_8016EB3C(s32 p) {
 }
 
 // @class: struct
-// @stuck: none — MATCH (25 ins). %lo-fold via extern u16 D_80189EDC[]; predecrement emitted as +0xFF (u8 promote→sb low byte), not -1.
+// @unstuck(P36): none — MATCH (25 ins). %lo-fold via extern u16 D_80189EDC[]; predecrement emitted as +0xFF (u8 promote→sb low byte), not -1.
 
 extern u16 D_80189EDC[];
 
@@ -3835,7 +3835,7 @@ void func_8016EBA8(u8 *param_1)
 }
 
 // @class: loop-structure + sched2-LUID
-// @stuck: none — MATCH (88/88, match_one AND rtu_match on ov_SC01_077_jr_8016AB6C)
+// @unstuck(P36): none — MATCH (88/88, match_one AND rtu_match on ov_SC01_077_jr_8016AB6C)
 //
 // INTEGRATION NOTE: the definition MUST be `void`-returning, so the four in-TU canonical-sig
 // decls `extern s32 func_8016EC0C(s32 a0, s32 a1);` (line 12 + the §8b carried decls at ~3768,
@@ -3948,7 +3948,7 @@ void func_8016EC0C(s32 a0, s32 a1)
 #include "../shared/ov/func_8016F094.h"
 
 // @class: plumbing
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_8016F0AC.h"
 
@@ -3991,7 +3991,7 @@ void func_8016EC0C(s32 a0, s32 a1)
 #include "../shared/ov/func_8016F1AC.h"
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern s32 D_80189EF8;
 extern s32 D_80126B58;
@@ -4060,7 +4060,7 @@ s32 func_8016F1C4(void) {
 #include "../shared/ov/func_8016F494.h"
 
 // @class: plumbing
-// @stuck: none — MATCH expected (param crosses first call into $s0, passed to 2nd callee)
+// @unstuck(P36): none — MATCH expected (param crosses first call into $s0, passed to 2nd callee)
 
 #include "../shared/ov/func_8016F4C4.h"
 
@@ -4404,7 +4404,7 @@ void func_80170D68(void *a0) {
 #include "../shared/ov/func_80170DA4.h"
 
 // @class: plumbing
-// @stuck: none — expecting MATCH (u8 mask via andi 0xFF, if/else picks data extern)
+// @unstuck(P36): none — expecting MATCH (u8 mask via andi 0xFF, if/else picks data extern)
 
 #include "../shared/ov/func_80170DE0.h"
 

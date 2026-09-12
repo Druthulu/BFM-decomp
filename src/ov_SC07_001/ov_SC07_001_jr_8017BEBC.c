@@ -2994,7 +2994,7 @@ void func_8017DDD4(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @unstuck(P36): none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -4500,7 +4500,7 @@ void func_80180850(void *a0) {
 
 
 // @class: loop-invariant sign-extension order
-// @stuck: none — MATCH (104 ins, match_one).
+// @unstuck(P36): none — MATCH (104 ins, match_one).
 //   The whole residual was a 4-instruction REGALLOC-PERM in the loop preheader:
 //   the two hoisted `sll/sra 16` pairs (sign-extending `base` and `limit`) came out
 //   in the wrong order, taking $s5/$s4 with them. -dS shows BOTH sign-extensions are

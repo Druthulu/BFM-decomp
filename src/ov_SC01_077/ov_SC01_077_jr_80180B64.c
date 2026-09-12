@@ -3042,7 +3042,7 @@ extern void func_80180AD4(s32 a0);
 /* ==== end §8b carried decl layer ==== */
 
 // @class: struct
-// @stuck: none — MATCH (75 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (75 ins, relocation-masked)
 #include "common.h"
 
 extern int rand(void);

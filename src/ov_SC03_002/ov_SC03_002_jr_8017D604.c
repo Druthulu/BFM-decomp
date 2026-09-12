@@ -3387,7 +3387,7 @@ void func_8017EBD0(void *a0) {
 
 
 // @class: struct + regalloc(local-alloc density)
-// @stuck: none — MATCH (186 ins, relocation-masked)
+// @unstuck(P36): none — MATCH (186 ins, relocation-masked)
 //
 //   WHAT IT IS: a screen-space line walker. It steps `cur.vx` by 0x40 per iteration
 //   from p0 towards p1, linearly interpolating vy/vz, and for each step transforms the
@@ -4122,7 +4122,7 @@ s32 func_8017FCD0(void *a0)
 
 
 // @class: plumbing
-// @stuck: none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)
+// @unstuck(P36): none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)
 
 extern void func_80180144(void *arg0);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);

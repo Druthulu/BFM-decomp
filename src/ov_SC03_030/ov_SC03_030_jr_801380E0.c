@@ -721,7 +721,7 @@ extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 
 // @class: struct
-// @stuck: none — MATCH (match_one: MATCH 20 ins)
+// @unstuck(P36): none — MATCH (match_one: MATCH 20 ins)
 
 extern void (*D_80182450[])(void);
 
@@ -999,7 +999,7 @@ s32 func_80139BE0(int param_1)
 #include "../shared/ov/func_8013AB54.h"
 
 // @class: schedule
-// @stuck: none — MATCH (122 ins). GTE lerp+mvmva loop. Two levers: (1) flat `extern s16`
+// @unstuck(P36): none — MATCH (122 ins). GTE lerp+mvmva loop. Two levers: (1) flat `extern s16`
 //   source arrays indexed [2*i]/[2*i+1] force 4 separate walking IVs (t2/t3/t4/t5) instead of
 //   one shared offset-IV + symbol(reg) addressing; (2) INVERTED-arm if/else
 //   `if (flag<0) out3=-tbl; else out3=tbl;` gives the target's bgez polarity + reload-per-arm

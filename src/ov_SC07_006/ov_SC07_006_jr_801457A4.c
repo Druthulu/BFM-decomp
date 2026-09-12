@@ -1031,7 +1031,7 @@ void func_801458E0(void) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_8018C944 block defeats the tail-merge of the two identical D_8018C944 loads; barrier emits zero bytes, load-bearing)
+// @unstuck(P36): none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_8018C944 block defeats the tail-merge of the two identical D_8018C944 loads; barrier emits zero bytes, load-bearing)
 
 extern s32 func_80029504(void);
 extern void func_800D185C(u8 *a0);
@@ -1086,7 +1086,7 @@ void func_80145934(void) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_8018C9D4 block defeats the tail-merge of the two identical D_8018C9D4 loads; barrier emits zero bytes, load-bearing)
+// @unstuck(P36): none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_8018C9D4 block defeats the tail-merge of the two identical D_8018C9D4 loads; barrier emits zero bytes, load-bearing)
 
 extern s32 func_80029504(void);
 extern void func_800D185C(u8 *a0);
@@ -1252,7 +1252,7 @@ void func_80145CEC(void) {
 
 
 // @class: schedule
-// @stuck: branch layout — 3-way dispatch on param_1; trying switch form
+// @unstuck(P36): branch layout — 3-way dispatch on param_1; trying switch form
 
 extern s32 func_80029178(s32 arg);
 extern void func_80146014(s32 a0);
@@ -1359,7 +1359,7 @@ void func_8014607C(void)
 
 
 // @class: struct
-// @stuck: none — MATCH (fnptr-table idiom: D_8018BEFC[u8 idx](&arg))
+// @unstuck(P36): none — MATCH (fnptr-table idiom: D_8018BEFC[u8 idx](&arg))
 
 void func_80146360(void)
 {
@@ -1372,7 +1372,7 @@ void func_80146360(void)
 
 
 // @class: struct
-// @stuck: none — MATCH (101 ins); also byte-verified spliced into the real ov_SC07_006 TU
+// @unstuck(P36): none — MATCH (101 ins); also byte-verified spliced into the real ov_SC07_006 TU
 /* func_801463A0 — ov_SC07_006 / ov_SC07_006_jr_80140608 (cross-overlay family reach 138).
  *
  * Byte-verified twice: `match_one` in isolation AND spliced into a scratch copy of
@@ -1432,14 +1432,14 @@ void func_80146360(void)
 #include "../shared/ov/func_801466F0.h"
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 #include "common.h"
 
 #include "../shared/ov/func_80146750.h"
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_8014680C.h"
 
@@ -1660,7 +1660,7 @@ void func_80146F58(s32 a0, s32 a1) {
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 #include "common.h"
 
 #include "../shared/ov/func_80147364.h"
@@ -1775,7 +1775,7 @@ void func_80146F58(s32 a0, s32 a1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_801483E8.h"
 
@@ -1836,7 +1836,7 @@ void func_80146F58(s32 a0, s32 a1) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (71 ins). switch binary-tree; s1 angle = pin-source-of-copy ($5 temp + retie); 2nd-block double-load + 0x80-clobber via $v1/$v0/$a0 pins + lazy hi-pin reusing dead c80 reg
+// @unstuck(P36): none — MATCH (71 ins). switch binary-tree; s1 angle = pin-source-of-copy ($5 temp + retie); 2nd-block double-load + 0x80-clobber via $v1/$v0/$a0 pins + lazy hi-pin reusing dead c80 reg
 
 extern s32 ratan2(s32 a0, s32 a1);
 
@@ -1915,7 +1915,7 @@ int func_80148AFC(void *a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (68 ins)
+// @unstuck(P36): none — MATCH (68 ins)
 extern s32 ratan2(s32 a0, s32 a1);
 
 s32 func_80148D44(void) {
@@ -2293,7 +2293,7 @@ void func_80149FA8(void) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (38 ins)
+// @unstuck(P36): none — MATCH (38 ins)
 extern s16 currentLocationId;
 
 s32 func_80149FB0(s32 a0) {
@@ -2334,7 +2334,7 @@ s32 func_80149FB0(s32 a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (exact sibling ov_SC07_010_jr_80140608.c: Loc struct layout + s0 asm barrier)
+// @unstuck(P36): none — MATCH (exact sibling ov_SC07_010_jr_80140608.c: Loc struct layout + s0 asm barrier)
 
 
 
@@ -2374,7 +2374,7 @@ extern void func_8014A1B0(s32 a0, s32 a1);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "../shared/ov/func_8014A51C.h"
 
@@ -2692,7 +2692,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (match_one 91/91)
+// @unstuck(P36): none — MATCH (match_one 91/91)
 //
 // Levers used (all byte-gated on ov_SC07_006):
 //  1. §struct  8-byte alignment-1 struct copy `*(M8_8014C6F4*)(a+0x164) = *(M8_8014C6F4*)(p+0x10)`
@@ -2987,7 +2987,7 @@ void func_8014D04C(void) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (93/93). BANK NOTE: the in-TU DEFINE_func_8014D0A4() macro
+// @unstuck(P36): none — MATCH (93/93). BANK NOTE: the in-TU DEFINE_func_8014D0A4() macro
 //   (engine_core.h:9511, instantiated at ov_SC07_006_jr_80140608.c:3607) forward-declares
 //   `extern s32 func_8014D12C(s32 a0, void *a1, void *a2);` — a `void` return conflicts with
 //   this def, which MUST return s32 (the target sets $v0 = 0/1: addu v0,zero,zero x2 +
@@ -3038,7 +3038,7 @@ void func_8014D3E0(s32 a0) {
 
 
 // @class: schedule
-// @stuck: none — MATCH (goto forces the &&-body out of line; the success path as the
+// @unstuck(P36): none — MATCH (goto forces the &&-body out of line; the success path as the
 //         if(call!=0){...} THEN-block makes ret0 the inline fall-through; psVar3-first compare)
 // Bankable variant: uses the CANONICAL func_80135A4C decl (engine_core.h:11555) verbatim and
 // casts the ARGUMENTS at the call site — no redeclaration, no function-pointer cast.
@@ -3056,7 +3056,7 @@ void func_8014D3E0(s32 a0) {
 
 
 // @class: other
-// @stuck: first draft — untested
+// @unstuck(P36): first draft — untested
 
 #include "common.h"
 
@@ -3099,7 +3099,7 @@ void func_8014D738(void)
 extern void func_8012AAAC(void *arg0);
 
 // @class: schedule
-// @stuck: none — MATCH (304/304), symcheck SYMS-OK 12/12, and the whole-TU cc1 stage now compiles CLEAN
+// @unstuck(P36): none — MATCH (304/304), symcheck SYMS-OK 12/12, and the whole-TU cc1 stage now compiles CLEAN
 //
 // ══════════════════════════════════════════════════════════════════════════════
 // SESSION-22 RE-DERIVATION + THE ROOT-CAUSE FIX FOR THE "ASSEMBLER-STAGE" FAILURE
@@ -3680,7 +3680,7 @@ void func_8014F1F4(void)
 
 
 // @class: def-side return-type wall (cookbook §30 #2)
-// @stuck: none — MATCH (32 ins) standalone; banks after the §30#2 widen described below.
+// @unstuck(P36): none — MATCH (32 ins) standalone; banks after the §30#2 widen described below.
 //
 // SHAPE (read straight off the asm):
 //   guard  : `lw $v0,0x44($a0)` & 0x40000 -> bnez to the epilogue.
@@ -3808,7 +3808,7 @@ void aF8014F6F4(void)
 
 
 // @class: other
-// @stuck: none — MATCH (full inline-asm $sp-switch trampoline w/ 0x40000 guard, jal func_8014FA70, stash D_801F4EF4; maspsx auto-fills jal delay slot)
+// @unstuck(P36): none — MATCH (full inline-asm $sp-switch trampoline w/ 0x40000 guard, jal func_8014FA70, stash D_801F4EF4; maspsx auto-fills jal delay slot)
 
 extern s32 func_8014FA70(s32 a0);
 
@@ -3920,7 +3920,7 @@ void func_8014FCFC(void)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 #include "common.h"
 
@@ -4146,7 +4146,7 @@ void func_80150A70(s32 a0)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
+// @unstuck(P36): none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
 
 
 void func_80150B28(int param_1) {
@@ -4468,7 +4468,7 @@ void func_80152370(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (67 ins)
+// @unstuck(P36): none — MATCH (67 ins)
 
 extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_80019064(void *a0);
@@ -4780,7 +4780,7 @@ void func_80153320(void *a0) {
 
 
 // @class: struct
-// @stuck: none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
+// @unstuck(P36): none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
 extern void func_80019064(void *a0);
 
 void func_80153CCC(S80153CCC *a0) {
@@ -4801,7 +4801,7 @@ void func_80153CCC(S80153CCC *a0) {
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (33/33)
+// @unstuck(P36): none — MATCH (33/33)
 
 extern void func_80147324(s32 arg0);
 extern void func_80154274(s32 *a0, s32 a1);

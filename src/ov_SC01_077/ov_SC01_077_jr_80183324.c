@@ -3436,7 +3436,7 @@ void func_80183A70(s32 arg0) {
 }
 
 // @class: plumbing
-// @stuck: none — MATCH expected (clean structural stub)
+// @unstuck(P36): none — MATCH expected (clean structural stub)
 
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);

@@ -2743,7 +2743,7 @@ extern void func_801814F0(int param_1);
 
 
 // @class: struct
-// @stuck: none — MATCH (clean switch + jtbl; orchestrator owns jtbl/rodata migration)
+// @unstuck(P36): none — MATCH (clean switch + jtbl; orchestrator owns jtbl/rodata migration)
 
 extern void func_80130D48(s32 a0);
 extern void func_8012C098(void *param_1);
@@ -3191,7 +3191,7 @@ void func_801825E0(s32 a0) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
+// @unstuck(P36): none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
 
 extern void func_8016F0E4(void);
 extern void func_80165770(void);

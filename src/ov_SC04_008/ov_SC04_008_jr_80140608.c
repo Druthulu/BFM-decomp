@@ -925,7 +925,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 
 // @class: iv-combine
-// @stuck: none — MATCH (89 ins). Sequential struct fields fed from a running source
+// @unstuck(P36): none — MATCH (89 ins). Sequential struct fields fed from a running source
 //         pointer compile to fixed offsets when written base[0..n]; the target advances
 //         the pointer, so use post-increment `*p++` for EVERY field (gcc drops the dead
 //         final increment, yielding the "increment N-2 then offset 0/2" tail).
@@ -995,7 +995,7 @@ extern s32 *func_80140D68(s32 *, Prim4 *, s32, s32, s32);
 
 
 // @class: struct
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern unsigned char D_80078E7F;
 extern unsigned char D_80078E7E;
@@ -1011,7 +1011,7 @@ extern void func_800D2D10(int, int, void *, int);
 
 
 // @class: plumbing
-// @stuck: none — MATCH (128/128 ins, match_one confirmed)
+// @unstuck(P36): none — MATCH (128/128 ins, match_one confirmed)
 
 extern short D_80115128;
 extern u8 D_8017FA68;
@@ -1041,7 +1041,7 @@ extern int func_80029FD4(void);
 
 
 // @class: other
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern short D_80115128;
 extern unsigned short D_80115172;
@@ -1221,7 +1221,7 @@ extern s32  func_800D0EC4(void);
 
 
 // @class: struct
-// @stuck: none — MATCH expected (indexed u16 global: (s16)param_1*2 + D_80115110, *2 array stride)
+// @unstuck(P36): none — MATCH expected (indexed u16 global: (s16)param_1*2 + D_80115110, *2 array stride)
 
 extern u16 D_80115110;
 extern u8 D_8017FE18;
@@ -1240,7 +1240,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 
 // @class: struct
-// @stuck: none — MATCH (58 ins). STRUCT branch reconstruction + 3 levers: (1) §3-T4 branch-polarity
+// @unstuck(P36): none — MATCH (58 ins). STRUCT branch reconstruction + 3 levers: (1) §3-T4 branch-polarity
 //   invert in the ==0 arm so the func_8012C218 cold path sinks to the tail; (2) *(volatile int*) on
 //   the two extra param_1[0x32] reloads to defeat gcc CSE (gcc reloads via register reuse, not a store);
 //   (3) param_1[0x7e] pinned to $v1 (register __asm__("$3")) + an input-only scheduling barrier
@@ -1260,7 +1260,7 @@ extern void (*D_8017FEF8[])(void);
 
 
 // @class: schedule
-// @stuck: none — MATCH expected; CAE4 block fallthrough, AD50 block goto-tail
+// @unstuck(P36): none — MATCH expected; CAE4 block fallthrough, AD50 block goto-tail
 
 extern void func_8012C1B8(void);
 extern s32 func_8012C1DC(s32 a0);
@@ -1284,7 +1284,7 @@ extern s32 D_8017FEDC;
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_8017FF0C[])();
@@ -1298,7 +1298,7 @@ extern void (*D_8017FF0C[])();
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_8017FF28[])();
@@ -1308,7 +1308,7 @@ extern void (*D_8017FF28[])();
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_801800F8[])();
@@ -1318,7 +1318,7 @@ extern void (*D_801800F8[])();
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
 extern u16 D_801270C0;
 extern void (*D_801801B0[])();
@@ -1328,7 +1328,7 @@ extern void (*D_801801B0[])();
 
 
 // @class: struct
-// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @unstuck(P36): none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 // @reconcile: func_80142A80 is DEFINED later in this TU as `void func_80142A80(void)`.
 //   The uc2 draft declared it `extern void func_80142A80(int)` -> conflicting types.
 //   Escape §17a-1/§20: conform the declaration to the TU's, cast at the use site
@@ -1341,7 +1341,7 @@ extern void func_80142A80(void);
 
 
 // @class: struct
-// @stuck: none — MATCH (packed-word struct -> lwl/lwr unaligned copy; union byte[] -> $sp-direct lbu; branch-polarity invert -> beqz)
+// @unstuck(P36): none — MATCH (packed-word struct -> lwl/lwr unaligned copy; union byte[] -> $sp-direct lbu; branch-polarity invert -> beqz)
 
 extern u16 D_800B99D8;
 extern struct packed_word D_801903DC;
@@ -1387,7 +1387,7 @@ void func_80142A80(void)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (combined store-assign `*(p)=v0=call()` keeps test/store on $v0, copy to $s0 for the else)
+// @unstuck(P36): none — MATCH (combined store-assign `*(p)=v0=call()` keeps test/store on $v0, copy to $s0 for the else)
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1402,7 +1402,7 @@ extern int D_8017FF00;
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1416,7 +1416,7 @@ extern unsigned char D_8017FF1C[];
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH
+// @unstuck(P36): none — MATCH
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1434,7 +1434,7 @@ extern void func_80142B2C(void *arg0);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (38 ins). $16=param pin; explicit $17 copy of the call result
+// @unstuck(P36): none — MATCH (38 ins). $16=param pin; explicit $17 copy of the call result
 //         survives across func_8001CA1C while $v0 serves the pre-call store/test;
 //         store BEFORE the s1 copy so the store keeps $v0 (not the saved copy).
 
@@ -1456,7 +1456,7 @@ extern unsigned char D_80180168[];
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (memcpy unaligned copy; $s0 survivor pinned, store-before-copy keeps $v0 for early store/branch)
+// @unstuck(P36): none — MATCH (memcpy unaligned copy; $s0 survivor pinned, store-before-copy keeps $v0 for early store/branch)
 
 
 extern void *memcpy(void *, const void *, u32);
@@ -1513,7 +1513,7 @@ void func_801431E8(s32 param_1) {
 
 
 // @class: plumbing
-// @stuck: none — MATCH (pending gate)
+// @unstuck(P36): none — MATCH (pending gate)
 
 extern u8 D_800D387C[];
 extern u32 D_801802C0[];
@@ -1527,7 +1527,7 @@ extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 
 
 // @class: plumbing
-// @stuck: none — MATCH (pending gate)
+// @unstuck(P36): none — MATCH (pending gate)
 
 
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
@@ -1577,7 +1577,7 @@ extern void (*D_801803FC[])(void);
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (80 ins, relocation-masked). iVar2/iVar3 pinned $s1/$s2; sVar4 is an
+// @unstuck(P36): none — MATCH (80 ins, relocation-masked). iVar2/iVar3 pinned $s1/$s2; sVar4 is an
 //   int set BEFORE the call so it naturally takes callee-saved $s3; chained assignment
 //   a=b=c=sVar4 materializes the value once (the addu $v0,$s3,$zero move) + delay-slot store.
 
@@ -1614,7 +1614,7 @@ void func_80144054(void *a0) {
 
 
 // @class: regalloc-order
-// @stuck: 154/154 ins structural match (callees/consts/ctrl-flow/stack/GPU-packet all byte-correct); residual 25 = caller-saved temp-reg coalescing in the final ring-vertex block (target reuses dead $s0=iVar3 for iVar3-(iVar4>>6) subu where gcc reuses iVar4>>6's reg; iVar4 mflo -> $a3 vs target $v0) + 2-ins schedule swap of giv-increment vs iVar2*4 -> permuter grinder territory (§27 step-5)
+// @unstuck(P36): 154/154 ins structural match (callees/consts/ctrl-flow/stack/GPU-packet all byte-correct); residual 25 = caller-saved temp-reg coalescing in the final ring-vertex block (target reuses dead $s0=iVar3 for iVar3-(iVar4>>6) subu where gcc reuses iVar4>>6's reg; iVar4 mflo -> $a3 vs target $v0) + 2-ins schedule swap of giv-increment vs iVar2*4 -> permuter grinder territory (§27 step-5)
 
  /* 0x14 stride */
 
@@ -1624,7 +1624,7 @@ void func_80144054(void *a0) {
 extern void func_8012C218(void *a0);
 
 // @class: struct
-// @stuck: none — MATCH (relocation-masked match_one); fn-ptr dispatch table + 0x1c counter, sibling idiom (func_801427EC/func_80143B30)
+// @unstuck(P36): none — MATCH (relocation-masked match_one); fn-ptr dispatch table + 0x1c counter, sibling idiom (func_801427EC/func_80143B30)
 
 extern void (*D_80180460[])();
 
@@ -1662,7 +1662,7 @@ extern s32 D_801803F0;
 
 
 // @class: struct
-// @stuck: none — MATCH (65 ins, match_one). Levers: uVar2/$2 + addr/$3 pins; split (uVar2&0xFFFFFFF) into addr then (addr|0x80000000)+8 deref; %hi/%lo of 0x80000008 via plain 0x80000000+8 (match_one masks the target's D_80000008 reloc, real bytes identical); v1/3 magic-divide; gv+fv reassoc (field-0x30 in own temp) loads field first
+// @unstuck(P36): none — MATCH (65 ins, match_one). Levers: uVar2/$2 + addr/$3 pins; split (uVar2&0xFFFFFFF) into addr then (addr|0x80000000)+8 deref; %hi/%lo of 0x80000008 via plain 0x80000000+8 (match_one masks the target's D_80000008 reloc, real bytes identical); v1/3 magic-divide; gv+fv reassoc (field-0x30 in own temp) loads field first
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);

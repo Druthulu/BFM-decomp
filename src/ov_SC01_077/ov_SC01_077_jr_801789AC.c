@@ -2724,7 +2724,7 @@ extern int func_80178970(void);
 /* ==== end §8b carried decl layer ==== */
 
 // @class: other
-// @stuck: none — MATCH (91 ins). Verified mechanically: .text=364B=91 ins=0x16C (the target's exact
+// @unstuck(P36): none — MATCH (91 ins). Verified mechanically: .text=364B=91 ins=0x16C (the target's exact
 //         size, so NOT a §83a length-drift), 16 named relocs at the target's exact offsets, 8 internal
 //         `j` relocs at the target's exact offsets, and gcc's own 6-word .rodata table decoded and
 //         diffed 6/6 against jtbl_801D8E0C. symcheck's lone MISSING (jtbl_801D8E0C) is the §81
@@ -2877,7 +2877,7 @@ s32 func_801789AC(s32 arg0)
 
 
 // @class: struct
-// @stuck: none — MATCH (pointer var forces &(*(int *)&D_8018A458) into $s0, reused for store + arg-0xC)
+// @unstuck(P36): none — MATCH (pointer var forces &(*(int *)&D_8018A458) into $s0, reused for store + arg-0xC)
 
 
 
@@ -2897,7 +2897,7 @@ s32 func_80178B18(s32 param_1, s32 param_2)
 
 
 // @class: regalloc-order
-// @stuck: none — MATCH (pending verify)
+// @unstuck(P36): none — MATCH (pending verify)
 
 s32 func_80178B70(s32 param_1, s32 param_2)
 {
@@ -2918,7 +2918,7 @@ void func_80178CBC(s32 a0, s32 a1);
 #include "../shared/ov/func_80178BB8.h"
 
 // @class: other
-// @stuck: none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
+// @unstuck(P36): none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
 
 
 

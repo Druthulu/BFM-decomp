@@ -622,7 +622,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 
 
 // @class: regalloc-order
-// @stuck: none -- MATCH (113 ins, relocation-masked)
+// @unstuck(P36): none -- MATCH (113 ins, relocation-masked)
 //
 // Levers used (all byte-gated by match_one):
 //  * frame 0x50: an unused BLKmode local (s32 pad_[8]) reserves the 32 bytes of
