@@ -5,3 +5,5 @@ cycle: batch t4_D3 committed 4741f6cba — restruct: batch t4_D3 rung D — 300 
 log: t4_D4
 cycle: batch t4_D4 committed 42d9cf570 — restruct: batch t4_D4 rung D — 300 files (TUs; 3878 drawable) · 2941 declaration units: 2549 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 213 kept · compiles 3277 in 92 s wall · final 300/300 identical · written 214 files | check-all: 218 passed, 0 failed of 218
 log: t4_D5
+cycle: batch t4_D5 committed cebc2a3c4 — restruct: batch t4_D5 rung D — 300 files (TUs; 3878 drawable) · 2618 declaration units: 2213 canonical / 0 promoted / 2 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 189 kept · compiles 2851 in 76 s wall · final 300/300 identical · written 187 files | check-all: 218 passed, 0 failed of 218
+log: t4_D6

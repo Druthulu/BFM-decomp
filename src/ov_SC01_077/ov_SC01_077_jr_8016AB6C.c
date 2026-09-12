@@ -275,11 +275,11 @@ extern void func_8014856C(s32 a0, s32 a1);
 extern void func_801485B8(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80148634(void *a0);
 extern u8 D_800B9A64;
-extern s32 func_80014DC0();
-extern s32 func_80014D68();
-extern s32 func_80014D94();
-extern s32 func_80014CF8();
-extern void func_800120DC();
+extern u8 func_80014DC0(u32 a0);
+extern u16 func_80014D68(u32 a0);
+extern s32 func_80014D94(s32 a0);
+extern u8 func_80014CF8(u32 a0, u32 a1);
+extern void func_800120DC(u16 *arg0, u16 *arg1);
 extern s32 func_800CF8B4();
 extern u16 func_801487F4(s32 *a0);
 extern u16 func_80148800(s32 *a0);
@@ -397,7 +397,7 @@ extern void func_80157510(s32 *a0);
 extern void func_80149BAC(s32 *a0);
 extern s32 func_80029178(s32 a0);
 extern s32 func_80149C08(s32 arg0);
-extern void func_801577C8();
+extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
 extern void func_80157D20(void);
 extern void func_80149CB4(void);
@@ -1179,7 +1179,7 @@ extern void func_80159968(void *a0);
 extern void func_801598E0(u8 *a0);
 extern void (*D_801891AC[])(void *);
 extern void (*D_801891B8[])(void *);
-extern void func_80159A20();
+extern void func_80159A20(unsigned char *param_1);
 extern void func_801599E0(void *a0);
 extern void func_80159A18(void);
 extern void func_80159BE4(s32);
@@ -1239,7 +1239,7 @@ extern s32 D_800D4ED4;
 extern u8 D_800D4F8C[];
 extern s32 D_800D4A9C;
 extern s32 D_800D4B48;
-extern s32 func_8015AE2C();
+extern s32 func_8015AE2C(s32 arg0);
 extern int func_8015B6F4(int param_1);
 extern s32 func_8014A51C(int param_1);
 extern void func_8015BD8C(s32 *a0);
@@ -1293,7 +1293,7 @@ extern s32 func_8015CCB0(void);
 extern s32 func_801725E0(u8 *a0);
 extern s32 func_8015CCD0(s32 param_1);
 extern void func_8015CF24(s32 a0);
-extern void func_8015D01C();
+extern void func_8015D01C(int param_1);
 extern void func_8015CF58(s32 *param_1);
 extern void func_8015CFC0(s32 *a0);
 extern void (*D_8018938C[])(void);
@@ -1494,7 +1494,7 @@ extern void func_80160D10(void *arg0);
 extern void func_80160DEC(u8 *a0);
 extern void func_80160F00();
 extern void func_80160E3C(s32 *a0);
-extern void func_80160EA4();
+extern void func_80160EA4(int param_1);
 extern void func_80160E70(s32 *a0);
 extern void func_80160EA4(int param_1);
 extern void func_80160EE0(void);
@@ -1783,7 +1783,7 @@ extern s32 func_80166654(s16 *a0);
 extern s32 func_80017758(void *a0, void *a1);
 extern u8 D_801D97E8[];
 extern s32 func_80166690(s32 param_1, s32 param_2);
-extern s32 func_80166994();
+extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern s32 func_80167540(s32 arg0);
 extern s32 (*D_80189AEC[])();
@@ -1814,11 +1814,11 @@ extern u8 D_80189AB0[];
 extern u8 D_80189A80[];
 extern u8 D_80189A81[];
 extern void func_801681FC(s32 param_1);
-extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
 extern s32 func_80166690(s32 a0, s32 a1);
 extern void func_80168328(s32 arg0);
-s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3);
+s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 s32 func_80166690(s32 a0, s32 a1);
 extern void func_801683D8(s32 a0);
 extern u8 D_80189ABC[];
@@ -2183,7 +2183,7 @@ lout:
 
 #include "common.h"
 
-extern void func_8016B234();
+extern void func_8016B234();  // K&R: ? of 1 args (P37 rung D t4_D6)
 extern void func_800D22E4(s32 a0);
 
 #include "../shared/ov/func_8016AE5C__te4eb1475.h"
@@ -2684,7 +2684,7 @@ void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3) {
 
 
 void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4) {
-    extern void func_80017714();
+    extern void func_80017714(void *arg0);
     extern s32 D_80189D64;
     extern s32 D_80189D6C;
     extern s32 D_80189D74;
@@ -3614,7 +3614,7 @@ void func_8016E5B8(void *a0) {
 
 #include "../shared/ov/func_8016E5F4.h"
 
-extern void func_8016E778();
+extern void func_8016E778();  // K&R: ? of 1 args (P37 rung D t4_D6)
 
 #include "../shared/ov/func_8016E688.h"
 
