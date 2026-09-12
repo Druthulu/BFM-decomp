@@ -11,6 +11,7 @@
 | 2026-09-10 | P36 S102 — after the 16,759 free declaration repairs | `51028a78d` | 94001 | 86701 | 7300 | 461 | 414148 | 173286 | **—** | — | — | — | — | — |
 | 2026-09-11 | P36 close | `7a7f78e25` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **—** | — | — | — | — | — |
 | 2026-09-11 | P37 T1 — the type census (four forms, definitions, the map) | `23fc5d215` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **503016** | 36681 | 7261 (1179 / 5995) | 525 | 206 / 2789 | 18760 (99.2 %) |
+| 2026-09-12 | P37 T2 — the census after the audit's parser fixes (attributes, dead guards) | `da26c05d6` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **503016** | 36681 | 7255 (1179 / 5989) | 527 | 206 / 2823 | 18760 (99.2 %) |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a

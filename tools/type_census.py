@@ -97,7 +97,7 @@ def scalar_of(t):
 # ----------------------------------------------------------------------------------------------------------------------
 DEF_START = re.compile(r"(?<![\w.])(typedef\s+)?(struct|union|enum)\s*([A-Za-z_]\w*)?\s*(__attribute__\s*\(\([^)]*\)\)\s*)?\{")
 FWD_DECL = re.compile(r"(?<![\w.])(struct|union|enum)\s+([A-Za-z_]\w*)\s*;")
-ATTR_RX = re.compile(r"__attribute__\s*\(\((.*?)\)\)")
+ATTR_RX = re.compile(r"__attribute__\s*\(\(((?:[^()]|\([^()]*\))*)\)\)")     # nested parens: aligned(4), packed
 
 def _match_brace(text, open_idx):
     depth = 0
@@ -222,12 +222,14 @@ def parse_struct_body(body, consts=None):
         i = stmt_end + 1
         if not stmt:
             continue
+        fattrs = " ".join(ATTR_RX.findall(stmt))
         stmt = ATTR_RX.sub("", stmt)
         base_type, decls = _split_declarators(stmt)
         if base_type is None:
             continue
         for (nm, stars, dims, bits) in decls:
-            fields.append(dict(name=nm, type=base_type, stars=stars, dims=[_eval_dim(d, consts) for d in dims], bits=bits, nested=None))
+            fields.append(dict(name=nm, type=base_type, stars=stars, dims=[_eval_dim(d, consts) for d in dims], bits=bits, nested=None,
+                               attrs=fattrs or None))
     return fields
 
 class Resolver:
@@ -314,8 +316,12 @@ class Resolver:
                     d = d or 0
                     fleaves = [(k * fsz + o, w, s) for k in range(d) for (o, w, s) in fleaves]
                     fsz = fsz * d
+            fa = f.get("attrs") or ""
+            ma = re.search(r"aligned\s*\(\s*(\d+)\s*\)", fa)
             if packed:
                 fal = 1
+            if ma:
+                fal = max(fal, int(ma.group(1)))
             if f.get("bits") is not None:
                 # bitfields: pack into the base type's storage unit; an anonymous `s16 : 16` is a pad of the base width
                 w = fsz or 4
@@ -592,7 +598,7 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
         inner, close = _paren_body(masked, open_idx)
         ln, d = fn_ctx(m.start())
         rec = dict(form="P", tu=rel, fn=(d["name"] if d else None), line=ln, ctype=_norm_type(m.group(1) + " " + m.group(2)),
-                   stars=len(m.group(2)))
+                   stars=len(m.group(2)), pos=m.start(), end=(close + 1 if inner is not None else m.end()))
         if inner is None:
             rec.update(bclass="other", base=None, off=0, text="UNBALANCED", refused="unbalanced parens")
         else:
@@ -615,7 +621,7 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
             bclass = classify("global" if base.startswith("D_") else "func" if base.startswith("func_") else "ident", base, d)
         rec = dict(form="I", tu=rel, fn=(d["name"] if d else None), line=ln, ctype=_norm_type(m.group(1) + " " + m.group(2)),
                    stars=len(m.group(2)), base=base, bclass=bclass, off=0, inner_cast=None, index=None, stride=None,
-                   text=("&" if amp else "") + base, access=_store_kind(_after(masked, m.end())))
+                   text=("&" if amp else "") + base, access=_store_kind(_after(masked, m.end())), pos=m.start(), end=m.end())
         sites.append(rec)
     # X: ((T *)e)[i]
     for m in FORM_X.finditer(masked):
@@ -630,7 +636,7 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
         rec = dict(form="X", tu=rel, fn=(d["name"] if d else None), line=ln, ctype=_norm_type(m.group(1) + " " + m.group(2)),
                    stars=len(m.group(2)), text=b["text"], base=b.get("base"), bclass=b["bclass"], off=b.get("off", 0),
                    inner_cast=b.get("inner_cast"), index=(idx[:60] if idx else None), stride=None,
-                   access=_store_kind(_after(masked, (j + 1) if j != -1 else m.end())))
+                   access=_store_kind(_after(masked, (j + 1) if j != -1 else m.end())), pos=m.start(), end=((j + 1) if j != -1 else m.end()))
         k = _int(idx) if idx else None
         if k is not None:
             w = scalar_of(rec["ctype"].rstrip("* ").strip()) if rec["stars"] == 1 else (4, "p")
@@ -643,7 +649,7 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
         raw_counts["M"] += 1
         inner, close = _paren_body(masked, m.end() - 1)
         ln, d = fn_ctx(m.start())
-        rec = dict(form="M", tu=rel, fn=(d["name"] if d else None), line=ln)
+        rec = dict(form="M", tu=rel, fn=(d["name"] if d else None), line=ln, pos=m.start(), end=(close + 1 if inner is not None else m.end()))
         if inner is None:
             rec.update(ctype=None, stars=0, base=None, bclass="other", off=0, text="UNBALANCED", refused="unbalanced parens")
         else:
@@ -668,7 +674,7 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
         inner, close = _paren_body(masked, open_idx)
         ln, d = fn_ctx(m.start())
         rec = dict(form="A", tu=rel, fn=(d["name"] if d else None), line=ln, ctype=_norm_type(m.group(1) + " " + m.group(2)),
-                   stars=len(m.group(2)))
+                   stars=len(m.group(2)), pos=m.start(), end=(close + 1 if inner is not None else m.end()))
         if inner is None:
             rec.update(bclass="other", base=None, off=0, text="UNBALANCED", refused="unbalanced parens")
         else:
@@ -686,7 +692,7 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
         rec = dict(form="C", tu=rel, fn=(d["name"] if d else None), line=ln, ctype=_norm_type(m.group(1) + " " + m.group(2)),
                    stars=len(m.group(2)), text=b["text"], base=b.get("base"), bclass=b["bclass"], off=b.get("off", 0),
                    inner_cast=b.get("inner_cast"), index=b.get("index"), stride=None, member=m.group(4),
-                   access=_store_kind(_after(masked, m.end())))
+                   access=_store_kind(_after(masked, m.end())), pos=m.start(), end=m.end())
         sites.append(rec)
     for r in sites:
         # the ACCESSED type is the cast's pointee: `(u16 *)` dereferenced -> u16; `(T **)` -> a pointer
@@ -771,7 +777,7 @@ def find_decls_and_flows(masked, rel, defs, span_of_line, line_of):
         s0 = line_starts[d["line"] - 1]
         s1 = line_starts[d["end"]] - 1 if d["end"] < len(line_starts) else len(masked)
         d["nhash"] = lc.norm_hash(masked[s0:s1])          # func_/D_ addresses masked: the Phase-35 normalized-text identity
-        fndefs.append(dict(tu=rel, fn=d["name"], line=d["line"], ret=ret, params=re.sub(r"\s+", " ", inner).strip(), pnames=pnames,
+        fndefs.append(dict(tu=rel, fn=d["name"], line=d["line"], fn_end=d["end"], ret=ret, params=re.sub(r"\s+", " ", inner).strip(), pnames=pnames,
                            arity=len(pnames) if pnames else (0 if inner.strip() in ("", "void") else len(_split_top(inner, ","))),
                            kr=kr, nhash=d["nhash"], text_hash=d.get("text_hash")))
     for m in EXTERN_FN.finditer(masked):
@@ -860,8 +866,34 @@ def find_decls_and_flows(masked, rel, defs, span_of_line, line_of):
 # ----------------------------------------------------------------------------------------------------------------------
 # the per-file walker
 # ----------------------------------------------------------------------------------------------------------------------
+GUARD_DEAD = re.compile(r"^[ \t]*#[ \t]*ifndef[ \t]+BFM_ENGINE_TYPES_H\b.*$", re.M)
+
+def _blank_dead_guards(masked, raw, rel=""):
+    """`#ifndef BFM_ENGINE_TYPES_H … #endif` blocks are the standalone (match_one) form of a shared type — inert in a TU that includes
+    the canonical header (27 blocks in 21 files at P37 T1); the preprocessor drops them, so the census must too. The ranges are read
+    from the RAW text (share_census.mask_text blanks every directive line), then blanked in the masked text."""
+    if rel in CANON_HEADERS or ("engine_prelude.h" not in raw and "engine_types.h" not in raw):
+        return masked                  # the canonical header's own guard is not a dead block
+    rl, ml = raw.split("\n"), masked.split("\n")
+    if len(rl) != len(ml):
+        return masked
+    depth = 0
+    for i, ln in enumerate(rl):
+        st = ln.strip()
+        if depth == 0:
+            if GUARD_DEAD.match(ln):
+                depth = 1
+                ml[i] = ""
+            continue
+        if st.startswith("#") and re.match(r"#\s*if", st):
+            depth += 1
+        elif st.startswith("#") and re.match(r"#\s*endif", st):
+            depth -= 1
+        ml[i] = ""
+    return "\n".join(ml)
+
 def walk_file(raw, rel):
-    masked = sc.mask_text(raw)
+    masked = _blank_dead_guards(sc.mask_text(raw), raw, rel)
     line_of = lambda idx: masked.count("\n", 0, idx) + 1
     recs = sc.scan_text(raw, rel, shared_defs=None)
     defs = [r for r in recs if r["form"] == "def"]
@@ -1187,6 +1219,12 @@ def build_struct_map(results, tu_aliases, space_of_tu, shared_fn_header, sites_a
                           merges=dict(uf.merges_of.get(root, collections.Counter())),
                           suspect=(len(layout) > 200 or (layout and max(o for (o, _, _, _) in layout) > 0x2000) or len(conflicts) >= 20)))
     types.sort(key=lambda t: -t["sites"])
+    root_of_type = {t["id"]: t["name"] for t in types}
+    for s in sites_all:
+        n = s.get("node")
+        if n:
+            r = uf.find(n)
+            s["type"] = root_of_type.get(r)
     return types, uf
 
 def nested_target(text):
@@ -1567,6 +1605,14 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
         with (out / "sites.jsonl").open("w") as fh:
             for s in sites_all:
                 fh.write(json.dumps(s) + "\n")
+        # the body -> base -> type index the rewrite engine reads (ignored; regenerable)
+        idx = collections.defaultdict(lambda: collections.defaultdict(lambda: dict(type=None, sites=0)))
+        for s in sites_all:
+            if s.get("type") and s.get("fn"):
+                e = idx[s["tu"] + "|" + s["fn"]][s["bclass"] + ":" + str(s["base"])]
+                e["type"] = s["type"]
+                e["sites"] += 1
+        (out / "body_base_type.json").write_text(json.dumps(idx))
     txt = render(summary, dup_layout_classes, variants, types)
     (out / "type_census.txt").write_text(txt)
     render_struct_map_md(summary, types, REPO / "docs" / "struct-map.md")

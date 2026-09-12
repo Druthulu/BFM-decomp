@@ -1,36 +1,36 @@
 {
  "summary": {
-  "head": "23fc5d215",
+  "head": "da26c05d6",
   "src_stamp": "ab7aba1c21c89889",
-  "tool_stamp": "da30900472",
-  "when": "2026-09-12T05:44:31Z",
+  "tool_stamp": "9870539c77",
+  "when": "2026-09-12T07:20:21Z",
   "files": 7305,
   "tus": 4121,
   "headers": 3181,
   "functions": 99130,
   "definitions": {
-   "total": 7261,
+   "total": 7255,
    "enums": 0,
    "canon": 1179,
-   "in_c_file_scope": 4091,
+   "in_c_file_scope": 4085,
    "in_c_block_scope": 1904,
    "in_shared_fn_headers": 63,
    "in_include": 0,
    "other_headers": 24,
-   "distinct_names": 3109,
-   "distinct_layouts": 525,
-   "unknown_layout": 2,
+   "distinct_names": 3143,
+   "distinct_layouts": 527,
+   "unknown_layout": 0,
    "dup_layout_classes": 206,
-   "dup_layout_names": 2789,
+   "dup_layout_names": 2823,
    "dup_tier1": 122,
    "dup_tier2": 84,
    "layout_twin_classes": 46,
-   "layout_twin_names": 1844,
-   "exact_classes": 588,
-   "exact_copies": 4469,
-   "variant_names": 39,
+   "layout_twin_names": 1867,
+   "exact_classes": 585,
+   "exact_copies": 4460,
+   "variant_names": 40,
    "dead_canon_names": 141,
-   "shadowed_canon_names": 75,
+   "shadowed_canon_names": 74,
    "typedef_aliases": 1781,
    "forward_decls": 157
   },
@@ -285,7 +285,7 @@
   "decls": {
    "fn_definitions": 99130,
    "kr_definitions": 1889,
-   "extern_fn_decls": 4279365,
+   "extern_fn_decls": 4279362,
    "extern_data_decls": 1078837,
    "declared_fn_names": 12139,
    "multi_spelled_callees": 3870,
@@ -299,7 +299,7 @@
     "abs": 144
    },
    "attributes": {
-    "packed": 64,
+    "packed": 63,
     "aligned": 12
    },
    "lying": 98648,
@@ -937,9 +937,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 59.9,
-   "decls_s": 189.8,
-   "total_s": 198.8
+   "walk_s": 61.0,
+   "decls_s": 188.3,
+   "total_s": 197.6
   }
  },
  "dup_layout_classes": [
@@ -1049,9 +1049,9 @@
    "lhash": "1146b31f105c",
    "size": 32,
    "n_names": 170,
-   "n_defs": 278,
+   "n_defs": 277,
    "canon": 18,
-   "in_c": 259,
+   "in_c": 258,
    "names": [
     "M32_8017F154",
     "M32_80188094",
@@ -1099,7 +1099,7 @@
   {
    "lhash": "8d605044e3bf:f5e18b",
    "size": 8,
-   "n_names": 152,
+   "n_names": 153,
    "n_defs": 341,
    "canon": 0,
    "in_c": 0,
@@ -1113,6 +1113,7 @@
     "Pt_80187940_80180D24",
     "SV_80181740",
     "Tbl8_8017D898",
+    "V",
     "V4",
     "V4_80146AFC",
     "V4_8014A738",
@@ -1142,8 +1143,7 @@
     "V4_8017FAC0_801847B8",
     "V4_8017FAC0_80186118",
     "V4_8017FD58",
-    "V4_8017FD58_8017D6B8",
-    "V4_8017FD58_8017D9A0"
+    "V4_8017FD58_8017D6B8"
    ],
    "tier": 1
   },
@@ -1201,12 +1201,13 @@
   {
    "lhash": "4cc70dd1aeae:opaque",
    "size": 4,
-   "n_names": 102,
+   "n_names": 111,
    "n_defs": 0,
    "canon": 0,
    "in_c": 0,
    "names": [
     "B4",
+    "B4_80165140",
     "B4_8017F154",
     "B4_80181970",
     "B4_80181ABC",
@@ -1218,10 +1219,15 @@
     "B4_8018570C",
     "B4_80185C00",
     "B4_80186938",
+    "B4_8018750C",
     "B4_80188094",
     "B4_8018A860",
     "B4_8018A8E8",
+    "B4_8018AD9C",
+    "B4_8018C334",
     "B4_8018E1F0",
+    "B4_8018EDB0",
+    "B4_8018F060",
     "B4_CB578",
     "BYTES_800CFAD0",
     "Blk4",
@@ -1239,13 +1245,7 @@
     "Blk4_8017DF40_801E9DF8",
     "Blk4_8017DF40_801EFC58",
     "Blk4_8017DF40_801F1738",
-    "Blk4_8017E808",
-    "Blk4_8017EBCC",
-    "Blk4_8017FE90",
-    "Blk4_801800E0",
-    "Blk4_80180518",
-    "Blk4_801815D4",
-    "Blk4_80181EDC"
+    "Blk4_8017E808"
    ],
    "tier": 2
   },
@@ -1303,13 +1303,23 @@
   {
    "lhash": "b53d46e36006:opaque",
    "size": 8,
-   "n_names": 72,
+   "n_names": 82,
    "n_defs": 0,
    "canon": 0,
    "in_c": 0,
    "names": [
     "B8",
     "B8_17F474",
+    "B8_80165140",
+    "B8_801851A8",
+    "B8_801851A8_80182D18",
+    "B8_801851A8_80184E84",
+    "B8_801851A8_80185D2C",
+    "B8_8018750C",
+    "B8_8018AD9C",
+    "B8_8018C334",
+    "B8_8018EDB0",
+    "B8_8018F060",
     "B8_801AEB04",
     "B8_CB578",
     "Blk8",
@@ -1337,17 +1347,7 @@
     "Blk8_80181940",
     "Blk8_801827C4",
     "Blk8_80182844",
-    "Blk8_80182B08",
-    "Blk8_80182BDC",
-    "Blk8_80183084",
-    "Blk8_801838C8",
-    "Blk8_801838EC",
-    "Blk8_80183DEC",
-    "Blk8_8018495C",
-    "Blk8_801859DC",
-    "Blk8_80185E28",
-    "Blk8_80186594",
-    "Blk8_80186594_8017E72C"
+    "Blk8_80182B08"
    ],
    "tier": 2
   },
@@ -1456,11 +1456,12 @@
   {
    "lhash": "6c480babe175:opaque",
    "size": 8,
-   "n_names": 58,
+   "n_names": 59,
    "n_defs": 0,
    "canon": 0,
    "in_c": 0,
    "names": [
+    "Bc8_80180E0C",
     "CdFileLoc",
     "Cmd_801805C8",
     "M8_8016B6BC",
@@ -1499,8 +1500,7 @@
     "Struct_8017E784",
     "Struct_8017EA6C",
     "Struct_8017EC78",
-    "Struct_8017F380",
-    "Struct_8017F87C"
+    "Struct_8017F380"
    ],
    "tier": 2
   },
@@ -1556,6 +1556,57 @@
    "tier": 2
   },
   {
+   "lhash": "8d605044e3bf:opaque",
+   "size": 8,
+   "n_names": 54,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Args_80182194",
+    "Blk8",
+    "Blk8017FD54",
+    "Blk8_801A6AD0",
+    "Blk8_801AD914",
+    "Blk8_801E0764",
+    "Blk8_801E076C",
+    "Blk_80178D40",
+    "DBlock_8019F04C",
+    "D_801D0630_s",
+    "DataBlock",
+    "Data_t",
+    "Data_t_80181CE0",
+    "Data_t_80182704",
+    "Data_t_801829CC",
+    "Data_t_801829F0",
+    "Data_t_80183DE4",
+    "Data_t_80184294",
+    "Data_t_80184A40",
+    "Data_t_80186848",
+    "Data_t_8018767C",
+    "Data_t_80189320",
+    "Data_t_80189454",
+    "Data_t_80189AA0",
+    "Data_t_80189D04",
+    "Data_t_8018A948",
+    "Ent8_80188",
+    "Entry8_801A5D68",
+    "Rec8_801863EC",
+    "Rec8_801A57E8",
+    "SC05_F3E4_Tbl8",
+    "SV4U",
+    "SVec",
+    "SVec_801347A0",
+    "Stride8_u16_80182868",
+    "Stride8_u16_80182868_80180970",
+    "Tbl8_801AFF3C",
+    "Tbl_80181574",
+    "Tbl_80184F18",
+    "U16x4"
+   ],
+   "tier": 2
+  },
+  {
    "lhash": "846e0acadd6a",
    "size": 8,
    "n_names": 53,
@@ -1603,57 +1654,6 @@
     "Blob8_80189B30",
     "Blob8_8018A47C",
     "Blob8_8018A47C_8017D2B0"
-   ],
-   "tier": 2
-  },
-  {
-   "lhash": "8d605044e3bf:opaque",
-   "size": 8,
-   "n_names": 52,
-   "n_defs": 0,
-   "canon": 0,
-   "in_c": 0,
-   "names": [
-    "Args_80182194",
-    "Blk8",
-    "Blk8017FD54",
-    "Blk8_801A6AD0",
-    "Blk8_801AD914",
-    "Blk8_801E0764",
-    "Blk8_801E076C",
-    "Blk_80178D40",
-    "D_801D0630_s",
-    "Data_t",
-    "Data_t_80181CE0",
-    "Data_t_80182704",
-    "Data_t_801829CC",
-    "Data_t_801829F0",
-    "Data_t_80183DE4",
-    "Data_t_80184294",
-    "Data_t_80184A40",
-    "Data_t_80186848",
-    "Data_t_8018767C",
-    "Data_t_80189320",
-    "Data_t_80189454",
-    "Data_t_80189AA0",
-    "Data_t_80189D04",
-    "Data_t_8018A948",
-    "Ent8_80188",
-    "Entry8_801A5D68",
-    "Rec8_801863EC",
-    "Rec8_801A57E8",
-    "SC05_F3E4_Tbl8",
-    "SV4U",
-    "SVec",
-    "SVec_801347A0",
-    "Stride8_u16_80182868",
-    "Stride8_u16_80182868_80180970",
-    "Tbl8_801AFF3C",
-    "Tbl_80181574",
-    "Tbl_80184F18",
-    "U16x4",
-    "UAlign8",
-    "UAlign8_80181F40"
    ],
    "tier": 2
   },
@@ -2340,6 +2340,31 @@
    "tier": 2
   },
   {
+   "lhash": "0aaa0c2b3635",
+   "size": 8,
+   "n_names": 14,
+   "n_defs": 18,
+   "canon": 1,
+   "in_c": 17,
+   "names": [
+    "Blk8",
+    "Blk8_801800F8",
+    "Block8_80181600",
+    "Block8_80184C74",
+    "Block8_80184F98",
+    "Block8_80185B1C",
+    "BlockData",
+    "DRM",
+    "DR_MODE",
+    "E8_8018E450",
+    "Pair8",
+    "S8",
+    "U8x",
+    "Unaligned8"
+   ],
+   "tier": 1
+  },
+  {
    "lhash": "5b156b6f1fb8",
    "size": 16,
    "n_names": 14,
@@ -2570,6 +2595,28 @@
    "tier": 2
   },
   {
+   "lhash": "a2e73cdb49a3",
+   "size": 4,
+   "n_names": 11,
+   "n_defs": 174,
+   "canon": 5,
+   "in_c": 163,
+   "names": [
+    "Align1W_801AD068",
+    "Cnt",
+    "Cnt_80187DE4",
+    "E4",
+    "PW8017C290",
+    "PW8017E6D8",
+    "PW8017E72C",
+    "S70",
+    "W32",
+    "packed_word",
+    "vecr"
+   ],
+   "tier": 1
+  },
+  {
    "lhash": "a0f7100333b8:opaque",
    "size": 4,
    "n_names": 11,
@@ -2700,27 +2747,6 @@
     "Blk027_80181304"
    ],
    "tier": 2
-  },
-  {
-   "lhash": "a2e73cdb49a3",
-   "size": 4,
-   "n_names": 10,
-   "n_defs": 174,
-   "canon": 5,
-   "in_c": 163,
-   "names": [
-    "Cnt",
-    "Cnt_80187DE4",
-    "E4",
-    "PW8017C290",
-    "PW8017E6D8",
-    "PW8017E72C",
-    "S70",
-    "W32",
-    "packed_word",
-    "vecr"
-   ],
-   "tier": 1
   },
   {
    "lhash": "666ed5ae32a1",
@@ -3227,22 +3253,6 @@
     "Drm_80188C04",
     "Drm_8018B028",
     "Drm_8018BED0"
-   ],
-   "tier": 1
-  },
-  {
-   "lhash": "0aaa0c2b3635",
-   "size": 8,
-   "n_names": 5,
-   "n_defs": 18,
-   "canon": 1,
-   "in_c": 17,
-   "names": [
-    "DRM",
-    "DR_MODE",
-    "E8_8018E450",
-    "Pair8",
-    "S8"
    ],
    "tier": 1
   },
@@ -3782,6 +3792,20 @@
    "tier": 1
   },
   {
+   "lhash": "c80fac242f04",
+   "size": 32,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Mat801A8E34",
+    "Mat_80183C9C",
+    "Mtx_A8CE0"
+   ],
+   "tier": 2
+  },
+  {
    "lhash": "927525df50d4",
    "size": 16,
    "n_names": 3,
@@ -4266,19 +4290,6 @@
    "tier": 1
   },
   {
-   "lhash": "b8ea8cce0a40",
-   "size": 20,
-   "n_names": 2,
-   "n_defs": 2,
-   "canon": 0,
-   "in_c": 2,
-   "names": [
-    "MZ",
-    "Stk"
-   ],
-   "tier": 1
-  },
-  {
    "lhash": "5b8ad54bc29f",
    "size": 24,
    "n_names": 2,
@@ -4420,19 +4431,6 @@
     "S34_801A1470"
    ],
    "tier": 1
-  },
-  {
-   "lhash": "c80fac242f04",
-   "size": 32,
-   "n_names": 2,
-   "n_defs": 3,
-   "canon": 0,
-   "in_c": 3,
-   "names": [
-    "Mat801A8E34",
-    "Mat_80183C9C"
-   ],
-   "tier": 2
   },
   {
    "lhash": "ac91ae2d8aa0:opaque",
@@ -4916,6 +4914,19 @@
    "tier": 2
   },
   {
+   "lhash": "f9ac75d6d838",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Slot",
+    "Slot_80165140"
+   ],
+   "tier": 1
+  },
+  {
    "lhash": "375b5247305e",
    "size": 40,
    "n_names": 2,
@@ -5085,7 +5096,7 @@
   {
    "lhash": "8d605044e3bf",
    "size": 8,
-   "n_names": 276,
+   "n_names": 279,
    "n_defs": 626,
    "canon": 153,
    "in_c": 470,
@@ -5104,8 +5115,10 @@
     "Blk_80178D40",
     "COL_8001EFE0",
     "D24D0_Rect",
+    "DBlock_8019F04C",
     "DVEC_80183534",
     "D_801D0630_s",
+    "DataBlock",
     "Data_t",
     "Data_t_80181CE0",
     "Data_t_80182704",
@@ -5127,9 +5140,7 @@
     "Pt_8017D87C",
     "Pt_80187940",
     "Pt_80187940_80180D24",
-    "QB_80185B04",
-    "Q_8018562C",
-    "Rec8_801863EC"
+    "QB_80185B04"
    ],
    "tier": 3,
    "camps": [
@@ -5178,19 +5189,20 @@
     "Blk8_801E0764",
     "Blk8_801E076C",
     "Blk_80178D40",
-    "D_801D0630_s",
-    "Data_t"
+    "DBlock_8019F04C",
+    "D_801D0630_s"
    ]
   },
   {
    "lhash": "4cc70dd1aeae",
    "size": 4,
-   "n_names": 143,
+   "n_names": 152,
    "n_defs": 194,
    "canon": 75,
    "in_c": 119,
    "names": [
     "B4",
+    "B4_80165140",
     "B4_8017F154",
     "B4_80181970",
     "B4_80181ABC",
@@ -5202,10 +5214,15 @@
     "B4_8018570C",
     "B4_80185C00",
     "B4_80186938",
+    "B4_8018750C",
     "B4_80188094",
     "B4_8018A860",
     "B4_8018A8E8",
+    "B4_8018AD9C",
+    "B4_8018C334",
     "B4_8018E1F0",
+    "B4_8018EDB0",
+    "B4_8018F060",
     "B4_CB578",
     "BYTES_800CFAD0",
     "Blk4",
@@ -5223,13 +5240,7 @@
     "Blk4_8017DF40_801E9DF8",
     "Blk4_8017DF40_801EFC58",
     "Blk4_8017DF40_801F1738",
-    "Blk4_8017E808",
-    "Blk4_8017EBCC",
-    "Blk4_8017FE90",
-    "Blk4_801800E0",
-    "Blk4_80180518",
-    "Blk4_801815D4",
-    "Blk4_80181EDC"
+    "Blk4_8017E808"
    ],
    "tier": 3,
    "camps": [
@@ -5248,6 +5259,7 @@
    ],
    "opaque_names": [
     "B4",
+    "B4_80165140",
     "B4_8017F154",
     "B4_80181970",
     "B4_80181ABC",
@@ -5255,17 +5267,16 @@
     "B4_80183AF8",
     "B4_80183F3C",
     "B4_80184774",
-    "B4_80185458",
-    "B4_8018570C"
+    "B4_80185458"
    ]
   },
   {
    "lhash": "b85caab442ac",
    "size": 32,
    "n_names": 133,
-   "n_defs": 171,
+   "n_defs": 170,
    "canon": 72,
-   "in_c": 99,
+   "in_c": 98,
    "names": [
     "ARG_80187714",
     "B20",
@@ -5422,13 +5433,23 @@
   {
    "lhash": "b53d46e36006",
    "size": 8,
-   "n_names": 74,
+   "n_names": 84,
    "n_defs": 146,
    "canon": 22,
    "in_c": 124,
    "names": [
     "B8",
     "B8_17F474",
+    "B8_80165140",
+    "B8_801851A8",
+    "B8_801851A8_80182D18",
+    "B8_801851A8_80184E84",
+    "B8_801851A8_80185D2C",
+    "B8_8018750C",
+    "B8_8018AD9C",
+    "B8_8018C334",
+    "B8_8018EDB0",
+    "B8_8018F060",
     "B8_801AEB04",
     "B8_CB578",
     "Blk8",
@@ -5456,17 +5477,7 @@
     "Blk8_80181940",
     "Blk8_801827C4",
     "Blk8_80182844",
-    "Blk8_80182B08",
-    "Blk8_80182BDC",
-    "Blk8_80183084",
-    "Blk8_801838C8",
-    "Blk8_801838EC",
-    "Blk8_80183DEC",
-    "Blk8_8018495C",
-    "Blk8_801859DC",
-    "Blk8_80185E28",
-    "Blk8_80186594",
-    "Blk8_80186594_8017E72C"
+    "Blk8_80182B08"
    ],
    "tier": 3,
    "camps": [
@@ -5480,14 +5491,14 @@
    "opaque_names": [
     "B8",
     "B8_17F474",
-    "B8_801AEB04",
-    "B8_CB578",
-    "Blk8",
-    "Blk8L",
-    "Blk8_8017B238",
-    "Blk8_8017B238_8017B238",
-    "Blk8_8017B614",
-    "Blk8_8017CF48"
+    "B8_80165140",
+    "B8_801851A8",
+    "B8_801851A8_80182D18",
+    "B8_801851A8_80184E84",
+    "B8_801851A8_80185D2C",
+    "B8_8018750C",
+    "B8_8018AD9C",
+    "B8_8018C334"
    ]
   },
   {
@@ -5644,11 +5655,12 @@
   {
    "lhash": "6c480babe175",
    "size": 8,
-   "n_names": 58,
-   "n_defs": 79,
+   "n_names": 59,
+   "n_defs": 78,
    "canon": 27,
-   "in_c": 52,
+   "in_c": 51,
    "names": [
+    "Bc8_80180E0C",
     "CdFileLoc",
     "Cmd_801805C8",
     "M8_8016B6BC",
@@ -5687,8 +5699,7 @@
     "Struct_8017E784",
     "Struct_8017EA6C",
     "Struct_8017EC78",
-    "Struct_8017F380",
-    "Struct_8017F87C"
+    "Struct_8017F380"
    ],
    "tier": 3,
    "camps": [
@@ -5697,6 +5708,7 @@
     []
    ],
    "opaque_names": [
+    "Bc8_80180E0C",
     "CdFileLoc",
     "Cmd_801805C8",
     "M8_8016B6BC",
@@ -5705,17 +5717,16 @@
     "Pair8_8017DDC4_8018034C",
     "Pair8_8017DDC4_80180F08",
     "Pair8_8017DDC4_80182244",
-    "Pair8_8017DDC4_80182244_8017DAB8",
-    "Pair8_8017DDC4_80182244_8017E72C"
+    "Pair8_8017DDC4_80182244_8017DAB8"
    ]
   },
   {
    "lhash": "5f4b599a9ffa",
    "size": 20,
    "n_names": 55,
-   "n_defs": 85,
+   "n_defs": 82,
    "canon": 13,
-   "in_c": 72,
+   "in_c": 69,
    "names": [
     "Blk20_8017D110",
     "Blk8018057C",
@@ -7060,6 +7071,10 @@
    4
   ],
   [
+   "Blk8",
+   4
+  ],
+  [
    "St",
    4
   ],
@@ -7070,10 +7085,6 @@
   [
    "V8",
    4
-  ],
-  [
-   "Blk8",
-   3
   ],
   [
    "Vec8",
@@ -7193,6 +7204,10 @@
   ],
   [
    "Quad",
+   2
+  ],
+  [
+   "Slot",
    2
   ],
   [
@@ -7355,6 +7370,7 @@
   "B",
   "B16",
   "B16_80185634",
+  "B4",
   "Bar",
   "Blk152",
   "Blk16",
@@ -7366,6 +7382,7 @@
   "Blk8_80126940_8017D6D0",
   "Blk8_80126940_8017E01C",
   "Blk8_80126940_8017FC98",
+  "Block4",
   "CdFileLoc",
   "E4",
   "E_13BD74",
@@ -7381,7 +7398,6 @@
   "Gs_80078E78",
   "M8",
   "MATRIX",
-  "MATRIX_80188114",
   "MTX",
   "Mtx",
   "Mtx8_8017DE10_8017E710",
@@ -7397,7 +7413,6 @@
   "S",
   "S10_80136C90",
   "S16",
-  "S80126B38",
   "S80143BDC",
   "S80190C84",
   "SV3",
@@ -7425,8 +7440,7 @@
   "XFT4",
   "XPart",
   "XPrim",
-  "XSV2",
-  "sprite8"
+  "XSV2"
  ],
  "refused": []
 }
