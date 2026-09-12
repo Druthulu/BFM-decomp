@@ -162,6 +162,9 @@ Two subtleties the census hides:
   it to the decompiler produced identical bytes (`docs/struct-core-pivot.md`): the compiler does not care what you call
   a field. That is good news for Gen3 — struct-ification is byte-neutral by construction *as long as the layout and
   the access widths are right* — and it is why every such edit still goes through the gate.
+  *Corrected 2026-09-12 (Phase 37 T2): in gcc 2.7.2 the SPELLING moves bytes — a member/array access carries `MEM_IN_STRUCT_P`, a cast on a
+  sum does not, and the scheduler's alias escape and cse read that flag; a 165-body probe was byte-neutral on 90.6 % and a per-site
+  minimal kept-cast set closed the rest (cookbook §458, `docs/decision-log.md` P37 S106). The gate is the arbiter, per access.*
 
 ## 5. Levers Gen3 inherits
 

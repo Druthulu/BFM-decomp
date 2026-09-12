@@ -800,8 +800,15 @@ data symbols; 3,558 of 4,287 C files carve splits; no formatter configuration; a
 ```
 provenance: BFM gen3-standards (2026-09-07) + gen3-handoff §2.2; the sotn-decomp style guide read as data
 
-### DK-65 — Types are a banking lever and a width lever, not a byte lever
-- **Kernel:** a type name never moves a byte — the compiler does not care what a field is called — and the source
+### DK-65 — Types are a banking lever and a width lever — and, in gcc 2.7.2, a struct MEMBER is a scheduling lever too
+- **Correction (source project, Phase 37 T2, 2026-09-12):** the kernel below was written from Phase 17's measurement, which tested a
+  decompiler's drafting with a struct in context — not the spelling of a matched body. On the bytes, `*(T *)(p + k)` and `p->f` are NOT
+  the same code in gcc 2.7.2: a member/array access carries `MEM_IN_STRUCT_P` (`expr.c:4568-4577`, `:4888`), a cast on a sum does not, and
+  the scheduler's alias escape (`sched.c:837-865`) and cse's kill table read that flag. A struct-spelling probe on 165 matched bodies was
+  byte-neutral on 90.6 % and moved instructions on the rest; a per-site minimal kept-cast set closed every one. So: a canonical type
+  layer still pays as a banking and width lever from the first bank — and it must be introduced under the byte gate, per access, never by
+  a blanket rewrite that assumes neutrality. The name still moves nothing; the SPELLING can.
+- **Kernel (as first written):** a type name never moves a byte — the compiler does not care what a field is called — and the source
   project measured exactly that early, correctly, and then drew the wrong second conclusion: that types could wait until
   after 100%. Read the other way, its record says types are the largest *banking* lever it underweighted. Banking, not
   cracking, was the bottleneck, and a large share of gate failures were declaration conflicts — a signed halfword against

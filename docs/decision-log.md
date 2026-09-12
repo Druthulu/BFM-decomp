@@ -3813,3 +3813,42 @@ packs (21 classes: comment-boundary strips, macro-carried launders, one-off inst
 pack-builder gap an agent works around from `body_tree.c` — fix the six comment-boundary strips in the tool, draw the rest
 with the note. (4) The three parked signature changes of this session join the structs phase's list with ready patches;
 none of them needed a new mechanism to read.
+
+## P37 S106 (2026-09-11/12) — the structs phase opens: struct spelling moves bytes, and the plan is built on that
+
+**Context/belief.** The Gen3 charter and `docs/gen3-handoff.md` §4 carried Phase 17's verdict forward — "types are a comprehension lever,
+not a byte lever: struct-ification is byte-neutral by construction as long as the layout and the access widths are right" — and
+`include/common.h:28-30` says `M2C_FIELD(p,t,o)` has "identical codegen to `p->field`". Phase 36 had found, one agent at a time, that the
+last third of its lever residue was signatures, structs, carves and one GTE spelling; its evidence (d10's register union, a18's
+`extern u16 X[]`, f10's body-local structs, f3's `s16[3]` arrays) said the struct spelling was the MISSING piece.
+**What the gate-1 reading found.** The claim is false in gcc 2.7.2 and the tree already knew it (cookbook §30/§351/§379/§469,
+`docs/gcc-2.7.2-map/cse_expr.md` §4): `*(T*)(p+k)` gets no `MEM_IN_STRUCT_P`, `p->f`/`q[k]`/`*(Blk*)p` do, and `sched.c:830-865`'s
+alias escape and cse's kill table read that flag. Phase 17 had measured m2c DRAFTING with a struct in context (0/10/2 on a
+structural-miss sample), not member-vs-cast spelling in a matched body — and the project generalised it into "types can wait". A Plan
+agent's stress-test then corrected four more premises before any tool ran: caller bytes DO depend on a narrow prototype's widths in both
+directions (`c-typeck.c:1740` converts to the parameter type, then re-promotes); a whole-object oracle says DIFFERS on a correct
+global-block edit because the relocation SPELLING changes while the linked bytes are identical (proven: f3's `D_801F8870[3]`, object
+DIFFERS, `make build BINARY=md_SC07_004` byte-identical); a function's identity is never its bare name (6,415 names carry more than one
+body text); and "one definition per layout" is too strong (`{s16 ×4}` carries 177 names, some genuinely different types) — a duplicate is
+same layout AND identical meaningful member names, an opaque copy block, or flow evidence.
+**The decisions (Drew, gate 1).** Grind to zero on raw casts, lying declarations and levers, with each "zero" defined so it is honest and
+reachable (reinterpret macros/unions for the genuine reinterpretations; byte-proven K&R sites counted apart; legitimate GTE sequences as
+project-local macros in the one header); placeholder names + cited evidence only; the P36 agent lane at his cap, started on his word; the
+full canonical declaration layer. After T0 he asked whether the phase should first analyse every function and build a map of every needed
+struct — my answer: yes, as T1's deliverable (the struct map), because it makes "zero casts" a checkable statement and lets T4's prototypes
+carry the parameter types in one pass; he approved. Also: no tags or releases at phase closes (the `v2.2.0` tag deleted; the P36 close
+pushed as a normal commit on his word).
+**What the census and the probe then measured (T1/T2).** 503,016 raw dereferences in four forms (the readability series' regex saw one,
+411,850 over raw text) + 18,912 address-of + 36,681 typed cast-member accesses that are already COMPONENT_REFs; 7,255 struct definitions
+(5,995 inside `.c` files) over 527 layouts; a `--strict` lever finish line of 4,010 + 6,717 direct GTE statements + 314 per-TU macros.
+Rung 1 (body-local `((T *)base)->unkK`) is byte-neutral on 126/139 judged bodies; the 13 DIFFERS are the `/s` asymmetry between a
+converted pointer base and the body's bare fixed globals, and a per-site greedy (rung S2) closes all 13 with 27 of 716 sites kept as
+casts — **the `/s` flag is a dial the original set per ACCESS, so a uniform conversion is the first rung and a per-site minimal kept-cast
+set is the second, before any agent.** The definition's ANSI signature is a free declaration for 92.6 % of (TU, callee) pairs with zero
+DIFFERS; the refusals are arity contradictions (K&R sites) and multi-spelled callees. The layout engine agrees with cc1 on 5,283
+definitions after the audit found two real gaps in it.
+**Hindsight (the better path).** (1) Re-read the compiler map before restating a Phase-17 verdict in a charter: the `/s` model was in
+the tree's own documents for two months while the handoff said "byte-neutral". (2) Price a struct campaign by a byte probe on the tree
+(one afternoon) before designing the engine — the probe fixed the rewrite table five times. (3) Build the disagreeing oracle for the new
+question BEFORE the campaign (R104): the relocation-spelling control took one binary build to settle and would otherwise have read every
+global-block conversion as a failure.

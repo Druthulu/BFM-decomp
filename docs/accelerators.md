@@ -962,3 +962,19 @@ regen pass reports its refusal REASONS as a histogram (`&p`, `no base`, `re-seat
 defect, not a property of the population (R32's "assert your coverage" for generators); (3) when an agent closes with a move
 a generator claims to make, run the generator on the agent's START text before the bank — the cheapest instrument check in
 the loop, and this session it paid three times.
+
+## P37 S106 (2026-09-12) — the Plan agent's stress-test before the fleet run, and an audit's rejections that were the probe's
+
+Four premises of the approved plan were corrected by a Plan agent reading the compiler source and the P36 packs BEFORE `type_census.py`
+ran on the fleet (the relocation-spelling oracle blind spot, function identity by body hash, the sixth site form `((T *)p)->f`, duplicates
+by layout + evidence) — each would otherwise have surfaced as a wrong number in a committed census. The struct map's clustering then went
+through four rounds against the classic over-merge (one cluster of 297,668 sites): typed-use parameters only, a width-conflict veto,
+single-source locals, positive shared evidence (≥1 common offset, the callee's map ≥2 offsets) — each rule measured by the biggest cluster's
+size. The layout audit against cc1 started at 4,498 rejections of 5,295 and ended at 0 of 5,283: five were the probe's (the environment
+lacked the canonical header; typedefs out of order; block-scope typedefs hoisted; a shared scratch name raced across workers; dead
+`#ifndef BFM_ENGINE_TYPES_H` blocks), two were the engine's (nested-paren attributes, per-field `aligned(N)`).
+**What would have been sooner:** (1) a struct-spelling probe on 150 bodies (6 min) as the FIRST thing in a types phase — it priced the
+campaign and rewrote the rewrite table five times; (2) rung S2 (leave-one-out, then cumulative revert) as the second rung of any
+per-site spelling campaign — 13/13 DIFFERS closed at ≤2n+1 compiles, no agent; (3) read every rejection message of a new audit before
+believing any (R40 for audits): 4,498 → 9 → 0 with two real findings along the way; (4) unique scratch names per probe (R111) — the
+cross-address copies produce IDENTICAL probe bodies, and a hash-keyed scratch file raced.

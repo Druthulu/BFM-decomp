@@ -64,7 +64,7 @@ wrongly."* To that the project adds four rules of its own, because its code was 
 **The one invariant.** Every Gen3 edit is gated exactly like a match was: the per-binary check for every binary a change
 touches, and the clean fleet run after anything that touches a shared body, a shared header or the executable. A rename
 is a symbol-file change mirrored into Ghidra by the headless script, never a hand edit of assembly. A shared body is one
-source and up to 138 binaries, so the gate runs on all of them. Types are a comprehension lever, not a byte lever — the
+source and up to 138 binaries, so the gate runs on all of them. Types are a comprehension lever, not a byte lever — the *(Corrected 2026-09-12, Phase 37 T2: the struct SPELLING does move bytes in gcc 2.7.2 through `MEM_IN_STRUCT_P` — byte-neutral on 90.6 % of a 165-body probe, the rest closed per site; the gate decides every access. Cookbook §458.)*
 compiler does not care what a field is called — which is exactly why struct work is safe and exactly why it still goes
 through the gate.
 

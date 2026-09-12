@@ -37882,3 +37882,22 @@ closed; the ledger (`.run/P36/delever/ledger.jsonl`) is the record of which rung
 **The do-while tell.** Both marked do-while closes this session were reference-weight levers with the same arithmetic: the
 loser needs EXACTLY +1 flow-time ref (`flow.c:2067`) on a statement that does not mention the winner; a real callee argument
 does it when one exists — never a fake one.
+
+## §458 — Struct spelling is a per-access dial: the T2 probe's byte evidence (Phase 37 S106)
+
+**The fact.** In gcc 2.7.2 `*(T *)(p + k)` is a MEM without `MEM_IN_STRUCT_P`; `((S *)p)->f`, `p->f`, `q[k]` (typed `q`) and `*(Blk *)p`
+carry it (`expr.c:4568-4577`, `:4888`); `sched.c:837-865` lets a `/s` varying-address non-QImode access pass a non-`/s` FIXED-address one,
+and cse's kill table differs by `/s` (`docs/gcc-2.7.2-map/cse_expr.md` §4). So converting a cast to a member is a byte edit.
+**The measurement (`tools/restruct.py --probe`, 165 bodies, seed 37).** Rung 1 — every raw cast on ONE base of a body → `((P37S *)base)->unkK`
+with the type built from the struct map — is IDENTICAL on 126/139 judged bodies (716 sites moved); the 13 DIFFERS are COUNT/ORDER
+residuals, never a register change. Rung S2 — leave one site as a cast, else revert cumulatively in source order and minimise — closes
+13/13 with 27 casts kept.
+**The byte-read exemplar: `func_801814AC` (ov_SC05_010, `src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:3030`).** Six `D_801C7E30`-based sites
+(`*(u16 *)(D_801C7E30 + 0x34) = 0; … + 2) = 9; *(u8 *)(… + 0xC2) = 0xE; var = D_801C7E30; …`). Every site a member EXCEPT the `+0x34` store →
+IDENTICAL. That store a member → the next statement's reload of the pointer global (`lui/lw D_801C7E30`, fixed, non-`/s`) hoists above the
+store (`/s`, varying): `nop; sh zero,52(v0); lui …` becomes `lui …; sh zero,52(v0)`. The pointer global itself read as a struct member
+(`((struct { S *p; } *)&D_801C7E30)->p` — both sides `/s`, they conflict, the order is kept) fixes that store — and moves a `li v0,10`
+belonging to the `param_1 + 0x1C` store elsewhere. The original therefore set `/s` per access; there is no uniform spelling of this body.
+**The rule.** Convert uniformly first (rung 1), then find the minimal kept-cast set (S2), then hand the kept casts to the readings (which
+side of each pair the original spelled scalar — a walked pointer, a reinterpretation, a cached global). A kept cast is not a fake: it is the
+original's spelling until a reading proves otherwise, counted and ledgered with its pass (SCHED-ALIAS here). Related: §30, §351, §379, §469.

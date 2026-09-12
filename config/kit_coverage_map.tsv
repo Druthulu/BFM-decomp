@@ -65,3 +65,4 @@ rule	R103	DK-69	a failure-cause extractor is negative-controlled against the com
 rule	R104	DK-9	build the disagreeing oracle before the batch runs and measure the disagreement first — DK-9 (the differential-oracle harness) with DK-61's known-true case
 rule	R105	DK-70	a registry lists a member only after the gate spoke for it; a listed member whose site does not share is a named defect — DK-70 (the health suite asserts the work was done)
 rule	R106	DK-71	a policy taken on a remembered precedent is a belief — read the target project's tree — DK-71 (what earns belief)
+accelerator	P37 S106	DK-65	a stress-test before the fleet run and an audit's rejections read before believed: the struct-spelling byte finding corrects DK-65 (per-access spelling under the gate); the probe-first order and the known-true discipline are DK-61; DK-65
