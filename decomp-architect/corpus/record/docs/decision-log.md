@@ -3748,3 +3748,68 @@ rest for free — the harvest→toolify gate at the granularity of one crack.
 `--explain` on one body and a line of the compiler's source, and every hour of wider search bought less than the previous one. The
 engine's real value was not the search but the SCORE — a distance that turns a stall into a named shape — and the instrument that
 prints it. Build that on day one of a de-lever campaign, before any search.
+
+## P36 S104 (2026-09-10/11) — Drew's four rulings read against sotn, the sweep-before-agent rule, and the TU-batch lane
+
+**Context/belief.** S103 ended with four open questions (do-while as a lever? the GTE header? proven-irreducible sites? the
+signature changes?) and a residue of 5,097 sites in ~1,020 classes, 912 of them singletons. **Drew (2026-09-10):** "search the
+sotn decomp" for all four. Read from sotn-decomp's tree (a shallow clone under the ignored `tools/reference/`, X2 — data): 0
+register pins and 0 asm statements in its PSX C across 2,987 files (it keeps 3,101 `INCLUDE_ASM` stubs instead); its fakes are
+ordinary C marked `// !FAKE:` by `docs/STYLE.md`; one GTE header with seven project-local macros Sony never had. **Rulings:**
+(a) `do { } while (0)` and dead initialisers stay as marked ordinary C — a census class apart, never an orphan, never a lever;
+(b) GTE stays T5 and sotn is the precedent for a project-local macro; (c) every site is reducible to C — an unclosed site stays
+marked and goes to the STRUCTS phase (the milestone amended: "0" is that phase's line); (d) "the types phase" IS the structs
+phase; signature changes go there. **The sweep-before-agent rule (Drew):** "are we running sweeps with the new tooling on all
+remaining funcs … before an agent touches them?" — from then on an agent draws only classes every current generator pass has
+judged and not closed.
+
+**What failed and why it looked right.** (1) The first all-families regen ran on THREADS and sat on the GIL for five minutes
+with zero compiles — R18 emits 1,000+ texts per body, R19 rebuilds a 29 s table per thread; processes forked after warming the
+caches fixed it. (2) A `census && next` chain read the census's last line as OK while it had exited 1 on four orphan markers
+(commit `830650946`, R97 again). (3) A pack-builder bug had left every MAIN pack's `related.txt` empty (main's units are
+`src/800*.c`, not `src/main/`) — three main closes came from same-TU siblings the agents had to find by hand. (4) A lever strip
+that deleted a line opening a block comment left the start text as invalid C; the sweeps read the class as UNSCORED — seven
+classes named by a refusal now. (5) The float priority column in `alloc_table` hid the integer ties gcc actually breaks by
+allocno number (`global.c:594-607`); two closes hinged on them. (6) The agent-start regen "closed" 14 of 27 — every one already
+closed by its agent or PARKED (it had started from d20's marked invented-branch body): a marked body is never a start text.
+
+**The pivot.** With the ≥100-copy head worked, the residue is singletons: the lane became **TU batches** — one agent takes 3–4
+classes of ONE translation unit with that TU's closed mechanisms in its brief. Nearly every batch closed everything it took;
+`ov_SC02_017_jr_8017DF34.c` reached 0 lever sites. The moves are a small catalog (METHOD steps 12–16; cookbook §456): one value
+per temp, calls at their real arity, parameter copies deleted, narrow widths, stores in each arm, walked pointers → indexed
+loops, goto chains → structured C, `& 0x80000000` sign tests, struct/array spellings where sched's alias test decides. Seventeen
+generator families (R27–R43) were harvested, each run against its agent's own start text, then across the residue.
+
+**Measurement.** 5,097 → 4,223 sites; ~105 draws, ~205 classes at 0 (nearly all zero-lever), five bodies with a marked
+do-while; the all-families sweep 74 MATCH over 1,020 classes (20,821 s); R27 25 of 995; the newer families 4–16 each.
+
+**Hindsight (the better path).** The sweep-before-agent rule and the TU-batch brief should have been the lane from T7's first
+draw: the "closed mechanisms of this TU" are the strongest lead an agent gets, and the free sweep is the cheapest reviewer of an
+agent's near-miss. Two structural gaps remain for tooling: a goto-chain → structured-C rewriter (about one close in five), and
+a link-aware scorer (six parked closes are identical only after linking).
+
+## P36 S105 (2026-09-11) — the TU-batch lane at a cap of two: 42 of 42 at 0, and the generators audited by the agents' own closes
+
+**Context/belief.** S104 closed with 4,152 sites in ~645 classes (912 singletons at its open) and the belief that the free
+sweep was spent — every family R2–R42 had judged every class. Drew set the agent cap to two at the session's open (from five)
+and later, mid-turn, ended drawing ("dont start any new agents at this time. let the current ones finish"); a session-limit
+cut killed the last two agents and Drew had them resumed by id.
+**What happened.** Eight TU batches (f1–f8; one agent per translation unit, 4–7 classes each, the TU's landed `mechanism.md`s
+in the brief): **42 of 42 drawn classes closed at 0** — 32 plain C with zero levers, 2 with only a marked `do { } while (0)`,
+8 minimum-lever (3 of them parked SIGNATURE changes with their patches, 3 pins proven unreachable by local-alloc arithmetic,
+2 at the tree's own levers with the pass now on the markers). 4,152 → 4,046 sites, every batch gated 218/218; ≈3.1M agent
+tokens for 42 classes / ~106 bodies. Five generators harvested (R44 counter-derived pointer, R45 derived-pointer store, R46
+set-once chain, R22 extended twice) — and **the generators were audited by the closes:** R22 was found blind three ways
+(`&&` read as `&p`, the literal base tried instead of the stepping sibling, a cast store read as a set), each fix banking a
+shared header IDENTICAL on 141 objects. The free sweep was NOT spent: it was refusing.
+**The pivot that held, restated.** The cap of two did not slow the number — the lane's throughput is bounded by the
+coordinator's landing loop (verify → bank → harvest → regen → gate → log), not by agent concurrency; two agents kept it
+saturated. The TU batch is the right unit: the agent's second through seventh closes in a TU come from its first reading
+(f5: seven bodies, two mechanisms, 10 minutes).
+**Hindsight (the better path).** (1) Run every generator on the agent's START text at every landing where the agent's move
+is one the registry claims — the cheapest instrument check in the loop, and it paid three times this session (accelerators
+P36 S105). (2) The regen should report refusal REASONS as a histogram; a dominating reason is a defect. (3) The unstrippable
+packs (21 classes: comment-boundary strips, macro-carried launders, one-off instructions, multi-output launders) are a
+pack-builder gap an agent works around from `body_tree.c` — fix the six comment-boundary strips in the tool, draw the rest
+with the note. (4) The three parked signature changes of this session join the structs phase's list with ready patches;
+none of them needed a new mechanism to read.

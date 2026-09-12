@@ -314,3 +314,24 @@
       cse-opaque base beside own-symbol scalars — `find_best_addr` folds `(plus p K)` via `equiv_constant` before any cost compare
       whenever `p ≡ symbol` and the block has no ebb boundary: unreachable in plain C, mark the `la`. A tail `addiu s0,s0,32; move
       a1,s0` needs a CALL_INSN between the add and the arg copy or combine folds them (`combine.c:929`).
+22. **S105 f8 (`ov_SC02_005_jr_80185E80`, 5 of 5 plain C, zero levers):**
+    - A goto-form BOTTOM-TEST loop with a caller-saved swap between the counter's reload and its increment → a structured `while`:
+      jump.c's `duplicate_loop_exit_test` copies the test to the loop end so the sum feeds it in one block, `combine_regs` ties the
+      reload into the sum's quantity, and the post-reload cross-jump merges the two test copies into the target's `j` with the `sh` in
+      its slot; the goto form can never reach it (the counter crosses the join label). Try STRUCTURED FIRST for any goto loop.
+    - The target RELOADS a global between consecutive pointer stores (a barrier lever): cse's `note_mem_written` → `invalidate_memory`
+      (`cse.c:7539-7580`, `:1701-1720`) — a pointer store sets only `nonscalar`, and an ARRAY-element load of the global is `/s` and dies
+      at the first store; declare the global as a one-element array (a body-local alias when the file-scope extern disagrees), read
+      `sym[0]`, and group the stores sharing one load as a chained assignment `outer = inner = v;`. `volatile` scores 12 (wrong
+      registers); a bare-register store address folds back to PLUS by `find_best_addr`.
+    - A `$4–$7` pin on a parameter copy + a global assigned INTO the parameter later → a fresh local for the global (jump2 deletes
+      the parameter's `$4` copy tie otherwise); R71's sibling port found it on the first `--try`.
+    - A `$5` pin whose value is loaded right before a call the TU declares NARROWER than `src/800.c` defines = a dropped call argument
+      (R19; grep the definition and count parameters); the neighbouring v0/v1 swap vanished with it — the block dropped to exactly
+      THREE local quantities and `block_alloc`'s unrolled 3-qty sort (`local-alloc.c:1486-1500`) allocates in BIRTH order.
+    - **Copy-first:** a `$2` pin on a call result copied to a callee-saved local → make the copy the FIRST statement after the call
+      (cse's `(set REG0 REG1)` swap, `cse.c:7440-7474`: `move s1,v0; bnez v0; sw v0`; with the store first `optimize_reg_copy_1` folds
+      the copy). **Store-straddle:** a constant holder in `v0` (mine) vs `$aN` (target) with a load hoisted over the stores → move one of
+      the identical constant stores ABOVE the nearest preceding two-register-value store (`la|lui|or`) so the holder's live range
+      overlaps v0/v1 and `find_free_reg` gives it `a1` (sched1 keeps equal-priority constant stores in source order); 240 adjacent
+      permutations all scored 6 — R9/R18 are inert here, the straddle closed in every try.

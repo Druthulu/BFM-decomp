@@ -946,3 +946,19 @@ REFUSES what still disagrees.
 single-set temp inlined at its use — both one-line source changes that a recipe generator reproduces in ONE compile, and that keep the
 source readable, where banking the permuter's own pycparser-reprinted body would trade a lever for a readability regression in a phase
 whose whole purpose is readability.
+
+## P36 S105 (2026-09-11) — a generator's REFUSALS are an unaudited population: R22 was blind three ways for two sessions
+
+`merge_walked_pointers` (R22, S103) had closed 5 classes and been run over the residue four times, and every one of its
+NO-CANDIDATE verdicts was believed. S105's agents closed three bodies by exactly R22's move — and the generator, run on
+their start texts, produced nothing. Three independent defects: the `&p` refusal regex matched the `&&` OPERATOR (every body
+that tested its pointer with `&&` was silently skipped); the merge tried only the LITERAL base of `q = E + c1` (a pointer
+that never steps) and stopped instead of the same-base sibling that does; and the assigns scan read `*(u16 *)q = v;` as an
+assignment to `q`. Each fix was a one-line regex, each was found only because an agent's close was run back through the
+generator (the known-true discipline), and the re-run banked two shared headers IDENTICAL on 141 objects each.
+**What would have been sooner:** (1) every generator ships with a NEGATIVE-CONTROL corpus — a few real residue bodies where the
+move is known to apply (from an agent's close) — and the selftest asserts it fires on them, not only on a fixture; (2) a
+regen pass reports its refusal REASONS as a histogram (`&p`, `no base`, `re-seated`), because a reason that dominates is a
+defect, not a property of the population (R32's "assert your coverage" for generators); (3) when an agent closes with a move
+a generator claims to make, run the generator on the agent's START text before the bank — the cheapest instrument check in
+the loop, and this session it paid three times.

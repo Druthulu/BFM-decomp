@@ -3787,3 +3787,29 @@ do-while; the all-families sweep 74 MATCH over 1,020 classes (20,821 s); R27 25 
 draw: the "closed mechanisms of this TU" are the strongest lead an agent gets, and the free sweep is the cheapest reviewer of an
 agent's near-miss. Two structural gaps remain for tooling: a goto-chain → structured-C rewriter (about one close in five), and
 a link-aware scorer (six parked closes are identical only after linking).
+
+## P36 S105 (2026-09-11) — the TU-batch lane at a cap of two: 42 of 42 at 0, and the generators audited by the agents' own closes
+
+**Context/belief.** S104 closed with 4,152 sites in ~645 classes (912 singletons at its open) and the belief that the free
+sweep was spent — every family R2–R42 had judged every class. Drew set the agent cap to two at the session's open (from five)
+and later, mid-turn, ended drawing ("dont start any new agents at this time. let the current ones finish"); a session-limit
+cut killed the last two agents and Drew had them resumed by id.
+**What happened.** Eight TU batches (f1–f8; one agent per translation unit, 4–7 classes each, the TU's landed `mechanism.md`s
+in the brief): **42 of 42 drawn classes closed at 0** — 32 plain C with zero levers, 2 with only a marked `do { } while (0)`,
+8 minimum-lever (3 of them parked SIGNATURE changes with their patches, 3 pins proven unreachable by local-alloc arithmetic,
+2 at the tree's own levers with the pass now on the markers). 4,152 → 4,046 sites, every batch gated 218/218; ≈3.1M agent
+tokens for 42 classes / ~106 bodies. Five generators harvested (R44 counter-derived pointer, R45 derived-pointer store, R46
+set-once chain, R22 extended twice) — and **the generators were audited by the closes:** R22 was found blind three ways
+(`&&` read as `&p`, the literal base tried instead of the stepping sibling, a cast store read as a set), each fix banking a
+shared header IDENTICAL on 141 objects. The free sweep was NOT spent: it was refusing.
+**The pivot that held, restated.** The cap of two did not slow the number — the lane's throughput is bounded by the
+coordinator's landing loop (verify → bank → harvest → regen → gate → log), not by agent concurrency; two agents kept it
+saturated. The TU batch is the right unit: the agent's second through seventh closes in a TU come from its first reading
+(f5: seven bodies, two mechanisms, 10 minutes).
+**Hindsight (the better path).** (1) Run every generator on the agent's START text at every landing where the agent's move
+is one the registry claims — the cheapest instrument check in the loop, and it paid three times this session (accelerators
+P36 S105). (2) The regen should report refusal REASONS as a histogram; a dominating reason is a defect. (3) The unstrippable
+packs (21 classes: comment-boundary strips, macro-carried launders, one-off instructions, multi-output launders) are a
+pack-builder gap an agent works around from `body_tree.c` — fix the six comment-boundary strips in the tool, draw the rest
+with the note. (4) The three parked signature changes of this session join the structs phase's list with ready patches;
+none of them needed a new mechanism to read.
