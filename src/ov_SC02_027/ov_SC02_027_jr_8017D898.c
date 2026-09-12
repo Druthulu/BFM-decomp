@@ -4196,7 +4196,7 @@ typedef struct {
 void func_80180A54(void *a0, s32 a1, s32 a2)
 {
     extern u8 D_801DA130[];
-    register u32 *v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 *v0 __asm__("$2");  // !FAKE: pin $2 — the function RETURNS the slot (`void *` signature, expand_value_return stmt.c:2505; the TU's extern is `void`) (P36 S105 f9 minimum-lever)
     u8 *base;
     Sub_80180A54 *e;
     s32 i;
@@ -4221,7 +4221,7 @@ void func_80180A54(void *a0, s32 a1, s32 a2)
     }
     v0 = 0;
 epilogue:
-    __asm__("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : : "r"(v0));  // !FAKE: keepalive — the return value's use (flow.c insn_dead_p deletes a dead hard-reg set) (P36 S105 f9 minimum-lever)
     return;
 }
 
