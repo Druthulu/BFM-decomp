@@ -6957,7 +6957,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern s32 func_8017E960(s32 param_1);
 extern void func_8017E888(s32 arg0);
-extern void func_8017E9CC(s32);
+extern s32 func_8017E9CC(s32 a0);
 extern void func_8017EB04(s32 a0);
 
 void func_8017DEA0(s32 a0) {
@@ -7070,7 +7070,7 @@ void func_8017E110(s32 a0) {
 
 
 extern s32 func_8012BEE8(s32 arg);
-    extern void func_8017E9CC(s32 arg);
+    extern s32 func_8017E9CC(s32 a0);
     void func_8017E154(s32 arg0) {
         if (!func_8012BEE8(arg0)) {
             func_8017E9CC(arg0);
@@ -7099,7 +7099,7 @@ void func_8017E1B4(void *a0)
 
 
 extern void func_8017E888(s32 arg0);
-extern void func_8017E9CC(s32);
+extern s32 func_8017E9CC(s32 a0);
 
 void func_8017E1E4(s32 arg0) {
     if (*(s32 *)(arg0 + 0x1C) == *(s32 *)(arg0 + 0x1C) / 5 * 5) {
@@ -7143,7 +7143,7 @@ void func_8017E270(s32 param_1) {
 
 
 extern void func_8017E888(s32 arg0);
-extern void func_8017E9CC(s32);
+extern s32 func_8017E9CC(s32 a0);
 
 void func_8017E328(s32 a0) {
     s32 v1;
@@ -7535,9 +7535,9 @@ extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
  * under a private C name carrying the real assembler name, and the existing void decls
  * stay valid for the callers. Same idiom as `extern void aF80137030(...) __asm__(...)`
  * already in ov_SC03_099/ov_SC06_008, applied to a DEFINITION rather than a decl. */
-s32 aF8018280C(s32 a0) __asm__("func_8017E9CC");
 
-s32 aF8018280C(s32 a0) {
+s32 func_8017E9CC(s32 a0)
+{
     extern u16 D_80126B62;
     s16 diff[3];
     s16 pointA[3];

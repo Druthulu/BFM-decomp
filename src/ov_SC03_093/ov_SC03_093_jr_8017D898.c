@@ -4594,7 +4594,7 @@ extern s32 rand(void);
 extern void func_80181F88(s32 a0, s32 a1);
 extern void func_8012CBF4(s32 a0);
 extern void func_80182288(s16 *a0, s32 a1);
-extern void func_80181ED4(s32 a0);
+extern s32 func_80181ED4(s32 arg0);
 
 void func_8018171C(s32 a0) {
     s16 sp10[3];
@@ -4907,8 +4907,8 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_801152A8[];
 
-s32 aF80183910(s32 arg0) __asm__("func_80181ED4");
-s32 aF80183910(s32 arg0) {
+s32 func_80181ED4(s32 arg0)
+{
     extern s32 *D_80126B78;
     extern u8 D_801A469C[];
     extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);

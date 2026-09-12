@@ -4210,7 +4210,7 @@ extern void func_8012CC1C(s32 arg0, s32 arg1);      /* fleet-canonical void; $v0
 extern s32 func_8017F400(s32 a0);
 extern void func_8017F538(s32 a0, s32 a1);
 extern void func_8017F47C(s32 a0);
-extern void func_8017F390(s32 a0);
+extern s32 func_8017F390(s32 param_1);
 extern void func_8017F5DC(s32 a0);
 
 void func_8017F17C(s32 a0) {
@@ -4292,9 +4292,9 @@ extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
 extern u16 D_80126B96;
 extern s16 D_80126B9A;
 
-s32 aF801869C0(s32 param_1) __asm__("func_8017F390");
 
-s32 aF801869C0(s32 param_1) {
+s32 func_8017F390(s32 param_1)
+{
     s32 p;
     u16 val;
 

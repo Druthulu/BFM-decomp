@@ -9093,9 +9093,8 @@ extern s32 func_80178BF8(void);
 /* §124 asm-label alias: TU decl layer carries `extern void func_80184350(void*)`
  * (L9106, used address-only by banked func_801840E4), so a plain-name s32
  * definition is "conflicting types". Alias per ov_SC03_001_jr_801870B0.c L3309. */
-s32 aF80184350(void *arg0) __asm__("func_80184350");
 
-s32 aF80184350(void *arg0)
+s32 func_80184350(void *arg0)
 {
     void *s0 = arg0;
 

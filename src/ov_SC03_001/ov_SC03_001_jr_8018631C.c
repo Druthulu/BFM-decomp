@@ -3287,7 +3287,7 @@ void func_80186758(void * arg0) {
 void func_801867A8(void *a0) {
     extern short D_801929E8;
     extern short D_801929F0;
-    extern void func_80186828(void);
+    extern s32 func_80186828(void *a0);
     if (func_8018727C(a0, &D_801929F0) != 0) {
         if (func_8018766C(11, 23) != 0) {
             *(s16 *)((char *)a0 + 2) = 1;
@@ -3305,9 +3305,8 @@ extern void func_80172710(void);
 extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
 extern s32 func_80178BF8();
 
-s32 aF80186828(void *a0) __asm__("func_80186828");
 
-s32 aF80186828(void *a0)
+s32 func_80186828(void *a0)
 {
     void *s0 = a0;
     void **v0p;

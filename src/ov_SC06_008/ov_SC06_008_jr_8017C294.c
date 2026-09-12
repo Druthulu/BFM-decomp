@@ -3835,9 +3835,9 @@ s32 func_8017EC48(s32 param_1, s32 param_2)
 
 /* TU declares func_8017ED80 as void(void) (S35 self-axis) but the asm takes
  * $a0 as a pointer parameter — bind through a private C name. */
-extern void aF8017ED80(void *param_1) __asm__("func_8017ED80");
 
-void aF8017ED80(void *param_1) {
+void func_8017ED80(void *param_1)
+{
     u8 *a0 = (u8 *)param_1;
     s32 iVar2;
 
@@ -3946,7 +3946,7 @@ void aF8017EF54(s32 a0)
     extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
     extern u8   D_800AF648;
     extern u8   D_800AF648_b __asm__("D_800AF648");
-    extern void func_8017ED80(void *a0);
+    extern void func_8017ED80(void *param_1);
     struct {
         s16 v[3];    /* sp+0x10 */
         s16 pad1;    /* sp+0x16 */
@@ -3999,7 +3999,7 @@ extern s32  rand(void);
 extern s32  VectorNormalSS(void *a0, void *a1);
 extern s32  func_8012C588(s32 a0, s32 a1);
 extern u8  *func_8012913C();
-extern void func_8017ED80(void);
+extern void func_8017ED80(void *param_1);
 
 void func_8017F100(s32 a0)
 {
@@ -4548,7 +4548,7 @@ s32 a0;
 
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
-extern void func_8017ED80(void);
+extern void func_8017ED80(void *param_1);
 
 void func_8017FD48(void *a0) {
     func_8002D4C8(0xB32, 0);
@@ -4615,7 +4615,7 @@ void func_8017FE28(s32 a0)
 }
 
 
-extern void func_8017ED80(void);
+extern void func_8017ED80(void *param_1);
     void func_8017FF14(s32 *a0) {
         *(s32 *)((s32)a0 + 0x10) = *(s32 *)((s32)a0 + 0x10) >> 1;
         *(s32 *)((s32)a0 + 0x18) = *(s32 *)((s32)a0 + 0x18) >> 1;
@@ -4623,7 +4623,7 @@ extern void func_8017ED80(void);
     }
 
 
-extern void func_8017ED80(void);
+extern void func_8017ED80(void *param_1);
     void func_8017FF48(s32 a0) {
         s32 v0;
         v0 = 0xc;
@@ -4640,7 +4640,7 @@ void func_8017FF74(s32 a0)
     extern void func_8012CBF4(s32 a0);
     extern void func_80131C78(s32 a0);
     extern void func_80131E00(int a0, int a1);
-    extern void func_8017ED80(void);
+    extern void func_8017ED80(void *param_1);
     s16 field_a;
     s32 result;
 

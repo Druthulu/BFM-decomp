@@ -5870,7 +5870,7 @@ extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8012CAE4(void *a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern void func_8012A828(s32, void *);
-extern void func_801904BC(void);
+extern s32 func_801904BC(void *param_1);
 
 extern u8 D_801E8554[];
 extern u8 D_801E38A0[];
@@ -6039,10 +6039,8 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
  * `conflicting types` clash with the fleet's `extern void func_801904BC(void);` used elsewhere
  * in this TU as a state-handler function pointer. */
 
-s32 aF801904E0() __asm__("func_801904BC");
 
-s32 aF801904E0(param_1)
-    void *param_1;
+s32 func_801904BC(void *param_1)
 {
     MATRIX m;
     s32 obj;
