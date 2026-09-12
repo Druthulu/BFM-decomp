@@ -537,10 +537,9 @@ extern s32 func_801312D0(s32 param_1, void *param_2);
 extern void func_8002A04C(s32 a0);
 extern void func_801319E0(s32 arg0);
 extern void func_8012A828(s32 a0, void *a1);
-extern s32 func_80131CF4(s32 a0);
+extern s32 func_80131CF4();  // K&R: 0/1 of 2 args (P37 unalias t4_ua6)
 extern void func_80019064(void *a0);
 extern s32 aF80131CA8();
-extern s32 aF80131CF4();
 extern int func_80131D68(int a0, int a1);
 extern void func_80131E38(u8 *a0);
 extern void func_80131E7C(s32 a0);

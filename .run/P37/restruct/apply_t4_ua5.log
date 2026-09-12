@@ -1,0 +1,12 @@
+12:46:14 unalias aF80131CA8 -> func_80131CA8: `s32 func_80131CA8(int a0)` defined in src/shared/ov/func_80131CA8.h; 235 files (191 alias prototypes, 696 real-name declarations, 0 renames)
+12:46:23 unalias aF80131CA8: src/shared/ov/func_8012F5F4.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:46:35 unalias aF80131CA8: src/shared/ov/func_8012F68C.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:46:46 unalias aF80131CA8: src/shared/ov/func_8012F75C.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:46:58 unalias aF80131CA8: src/shared/ov/func_8012F7B4.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:47:09 unalias aF80131CA8: src/ov_MAIN_012/ov_MAIN_012.c — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:47:21 unalias aF80131CA8: src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:47:32 unalias aF80131CA8: src/shared/ov/func_80131E38.h — arity: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+12:47:43 unalias aF80131CA8: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_80131E38.h:10: too many arguments to function `func_80131CA8'
+src/ov_MAIN_012/../shared/ov/func_80131E7C.h:14: too many arguments to function `func_80131CA8'
+src/ov_MAIN_012/../shared/ov/func_80131AC8.h: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c: At to — nothing written

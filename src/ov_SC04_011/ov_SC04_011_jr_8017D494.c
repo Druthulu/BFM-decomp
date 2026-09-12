@@ -6779,7 +6779,7 @@ void func_801832B4(void) {
 
 extern code_fn D_8019466C[];
 
-extern s32 func_80183E20(s32 a0);
+extern void func_80183E20(void *a0);
 
 void func_801832DC(int param_1)
 {
@@ -7376,8 +7376,8 @@ void func_80183DF8(void) {
    func_80183E20(s32);` (L5706) and declares D_801EFD24 `extern s32` (L7727);
    both spellings conflict with the byte-true body (void(void*), u16 counter),
    so bind private identifiers to the same symbols -- zero declaration surface. */
-void aF80183E20(void *a0) __asm__("func_80183E20");
-void aF80183E20(void *a0) {
+void func_80183E20(void *a0)
+{
     extern u16 D_801EFD40;
     extern u16 D_801EFD24;
     u16 flags;

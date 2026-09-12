@@ -621,7 +621,7 @@ extern s32 func_801312D0(s32 param_1, void *param_2);
 
 void func_80131340(s32 a0)
 {
-    extern int func_80131CF4(int, int);
+    extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
     extern s32 D_801C83D0;
     extern s32 D_801C83D4;
     extern struct V8_80131340 D_801840C4;
@@ -975,7 +975,7 @@ void func_80131B14(void) {
  * a full preprocess+cc1 of the spliced TU: diagnostic-free apart from
  * pre-existing warnings).
  */
-extern s32 func_80131CF4(s32 a0);
+extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
 
 s32 aF80131CA8(int a0) __asm__("func_80131CA8");
 

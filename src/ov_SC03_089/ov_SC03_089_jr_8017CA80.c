@@ -5380,7 +5380,7 @@ extern s32 rand(void);
 
 void func_801841E8(s32 a0)
 {
-    extern void func_80184BAC(s32 out, s32 a1, s32 a2);
+    extern s32 * func_80184BAC(s32 *a0, s32 a1, s32 a2);
     extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
     extern void func_8012B178(s32 a0, s32 a1);
     extern void func_8012CBF4(s32 a0);
@@ -5445,7 +5445,7 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B2CC(s32 a0);
-extern void func_80184BAC(s32 out, s32 a1, s32 a2);
+extern s32 * func_80184BAC(s32 *a0, s32 a1, s32 a2);
 
 void func_801843E4(a0)
 s32 a0;
@@ -5514,7 +5514,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012B2CC(s32 a0);
 extern s32  func_8012B77C(s32 out, s32 from, s32 to);
-extern void func_80184BAC(s32 out, s32 a1, s32 a2);
+extern s32 * func_80184BAC(s32 *a0, s32 a1, s32 a2);
 extern s32  func_80184B80(s32 arg0);
 
 void func_801844C8(s32 a0) {
@@ -5853,9 +5853,9 @@ extern s16 D_80126CBA;
 
 extern s32 * func_80184888(s32 *a0, s32 a1, s32 a2);
 
-s32 *aF80184BAC(s32 *a0, s32 a1, s32 a2) __asm__("func_80184BAC");
 
-s32 *aF80184BAC(s32 *a0, s32 a1, s32 a2) {
+s32 * func_80184BAC(s32 *a0, s32 a1, s32 a2)
+{
     s32 sp10[4];
     s32 sp20;
     s16 *q;

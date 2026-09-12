@@ -3283,6 +3283,7 @@ void * arg0;
 
 
 
+extern void func_80183E20(void *arg0);
 #include "../shared/ov/func_80184460__8a34c855.h"
 
 

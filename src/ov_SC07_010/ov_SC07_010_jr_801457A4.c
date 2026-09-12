@@ -3011,6 +3011,7 @@ void aF80150480(void)
 #include "../shared/ov/func_80150528.h"
 
 
+extern s32 func_801506A4();
 #include "../shared/ov/func_801505FC.h"
 
 
@@ -3021,8 +3022,7 @@ extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
 
 
 
-s32 aF801506A4(s32 arg0, s32 arg1) __asm__("func_801506A4");
-s32 aF801506A4(s32 arg0, s32 arg1)
+s32 func_801506A4(s32 arg0, s32 arg1)
 {
 
     extern s16 D_80078EB4;

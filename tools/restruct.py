@@ -1898,9 +1898,12 @@ def unalias_function(aname, label, calib_id, log, pool=None):
     promoted = promoted_params(params)
     canon_promoted = f"extern {ret} {real}({promoted});"
 
+    promoted_files = set()    # pure callers whose bytes carry NO narrowing: the default-promoted prototype (a K&R-era call against a narrow definition)
+
     def build(kr_files, mode="ansi"):
+        """mode 'ansi': the definition's exact head; 'krdef': the definition spelled K&R-style (its own types in the block — the last resort
+        when callers pass another argument count and the definition is visible to them)."""
         files, per_file = {}, {}
-        decl_canon = canon if mode == "ansi" else canon_promoted
         # the hoisted declaration text per header (its first declaration line of the real name, verbatim)
         hoisted_text = {}
         for h in hoist:
@@ -1916,8 +1919,10 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             if kr:
                 counts = call_arg_counts(masked, real, []) + call_arg_counts(masked, aname, [])
                 decl_text = f"extern {ret} {real}();  {KR_MARK} {'/'.join(str(c) for c in sorted(set(counts))) or '?'} of {m_} args (P37 unalias {label})"
+            elif rel in promoted_files:
+                decl_text = canon_promoted
             else:
-                decl_text = decl_canon
+                decl_text = canon
             if rel in hoist:
                 # the header loses its declaration line(s) of the real name (hoisted into the includers below)
                 for m in real_decl_rx.finditer(masked):
@@ -1936,7 +1941,7 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                     per_file[rel] = dict(alias_decls=0, real_decls=0, renames=0, kr=False, hoisted=True)
                 continue
             if rel == def_file:
-                # the definition head: `RET aF(params) [K&R block] {` -> `RET real(params_ansi) {`
+                # the definition head: `RET aF(params) [K&R block] {` -> `RET real(params) {` (or the K&R-style head under 'krdef')
                 m = None
                 for mm in AF_DEF_RX.finditer(masked):
                     if mm.group(2) == aname:
@@ -1970,7 +1975,7 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             if not edits:
                 continue
             files[rel] = compose_text(text, sorted(edits))
-            per_file[rel] = dict(alias_decls=n_decl_a, real_decls=n_decl_r, renames=n_calls, kr=kr)
+            per_file[rel] = dict(alias_decls=n_decl_a, real_decls=n_decl_r, renames=n_calls, kr=kr, promoted=(rel in promoted_files))
         return files, per_file
     mode = "ansi"
     try:
@@ -1981,24 +1986,20 @@ def unalias_function(aname, label, calib_id, log, pool=None):
     log(f"unalias {aname} -> {real}: `{ret} {real}({params})` defined in {def_file}; {len(files)} files ({sum(v['alias_decls'] for v in per_file.values())} alias "
         f"prototypes, {sum(v['real_decls'] for v in per_file.values())} real-name declarations, {sum(v['renames'] for v in per_file.values())} renames)")
     r = judge_files(files, "ua" + hashlib.sha1(aname.encode()).hexdigest()[:6], pool=pool)
-    if r["verdict"] in ("DIFFERS", "COMPILE-ERROR") and promoted != params and kr_head():
-        # a NARROW parameter in the definition: the callers were compiled against the promoted form (their declarations already say
-        # `s32`, their bytes carry no narrowing) — the 1998 source was K&R: the definition spelled K&R-style with its narrow types in the
-        # block, every prototype the default-promoted form. The oracle decides (the entry narrowing is the same code either way).
-        mode = "promoted"
-        log(f"unalias {aname}: {r['verdict']} under the exact types ({params}) — the definition has narrow parameters: trying the K&R-style definition + promoted prototypes ({promoted})")
-        files, per_file = build(kr_files, mode)
-        r = judge_files(files, "ua" + hashlib.sha1((aname + "p").encode()).hexdigest()[:6], pool=pool)
-    # the fallbacks, bounded: (a) `too few/many arguments` at F — F's calls pass another count: F's declaration and the in-scope headers
-    # F includes keep `()` + the marker (a K&R site); (b) `conflicting types`/`previous declaration` at F outside the unit — F declares the
-    # real name another way while a header it includes went canonical: F joins the unit; (c) DIFFERS on F's object — the canonical
-    # prototype's conversions move F's bytes (a narrow parameter the original called without a prototype): F goes K&R like (a)
+    # THE FALLBACKS (per file, bounded; the definition keeps its exact ANSI head unless the last resort):
+    #   DIFFERS at a PURE caller F (no definition in its includes): F's callers carry no narrowing -> the promoted prototype; still DIFFERS -> `()`.
+    #   DIFFERS at a MEMBER TU (the definition visible): its callers' bytes disagree with the definition's head in one TU — the original was
+    #     separate translation units (a jr merge): KEPT, cause named.
+    #   `too few/many arguments` at F: F (and the in-scope headers it includes) go `()` + the marker; a second such file -> every declaration
+    #     of the unit goes `()`; still an arity error (the definition's head is what the TU sees) -> the definition spelled K&R-style (krdef).
+    #   `conflicting types` / `previous declaration` at F outside the unit: F joins the unit (canonical).
     _, by_src_all, _ = recipes()
     obj_to_src = {r_["obj"]: r_["src"] for rs_ in by_src_all.values() for r_ in rs_}
-    seen_bad = set()
-    for _ in range(16):
+    tried = collections.Counter()
+    cause = None
+    for _ in range(20):
         v, err = r["verdict"], r["err"]
-        bad = None
+        bad, kind = None, None
         if v == "COMPILE-ERROR":
             fm = (re.search(r"(src/[^\s:]+):\d+: too (?:few|many) arguments to function `" + re.escape(real) + "'", err)
                   or re.search(r"(src/[^\s:]+):\d+: conflicting types for `" + re.escape(real) + "'", err)
@@ -2010,17 +2011,48 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             om = re.search(r"\[(build/\S+\.o)\]", err)
             if om and om.group(1) in obj_to_src:
                 bad, kind = obj_to_src[om.group(1)], "differs"
-        if bad is None or bad in seen_bad:
+        if bad is None:
             break
-        seen_bad.add(bad)
+        tried[(bad, kind)] += 1
+        if tried[(bad, kind)] > 3:
+            break
         if bad not in scope:
             scope.add(bad)
-        if kind in ("arity", "differs"):
-            kr_files.add(bad)
-            for h in headers_of(bad):
-                if h in scope and h != def_file and h not in hoist:
-                    kr_files.add(h)
-            log(f"unalias {aname}: {bad} — {kind}: its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging")
+        members_of_bad = def_file == bad or def_file in headers_of(bad)
+        if kind == "differs":
+            if members_of_bad:
+                cause = f"the callers in {bad} disagree with the definition's head inside one TU (a jr merge of separate original units) — KEPT"
+                log(f"unalias {aname}: {cause}")
+                break
+            if bad not in promoted_files and bad not in kr_files:
+                promoted_files.add(bad)
+                log(f"unalias {aname}: {bad} differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging")
+            elif bad not in kr_files:
+                kr_files.add(bad)
+                log(f"unalias {aname}: {bad} still differs — `()` (K&R, marked) for this file; re-judging")
+            else:
+                cause = f"{bad} differs under every prototype form — KEPT"
+                log(f"unalias {aname}: {cause}")
+                break
+        elif kind == "arity":
+            all_kr = all(f_ in kr_files for f_ in scope if f_ != def_file and f_ not in hoist and f_ not in non_member_files)
+            if all_kr:
+                if mode == "ansi" and kr_head():
+                    mode = "krdef"
+                    log(f"unalias {aname}: {bad} still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging")
+                else:
+                    cause = f"{bad} passes another argument count even against a K&R-style definition — KEPT"
+                    log(f"unalias {aname}: {cause}")
+                    break
+            elif sum(1 for (f_, k_) in tried if k_ == "arity") >= 2:
+                kr_files.update(f_ for f_ in scope if f_ != def_file and f_ not in hoist and f_ not in non_member_files)
+                log(f"unalias {aname}: a second arity caller ({bad}) — every declaration of the unit goes `()` (K&R, marked); re-judging")
+            else:
+                kr_files.add(bad)
+                for h in headers_of(bad):
+                    if h in scope and h != def_file and h not in hoist:
+                        kr_files.add(h)
+                log(f"unalias {aname}: {bad} passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging")
         else:
             log(f"unalias {aname}: {bad} declares {real} another way — joining the unit (canonical); re-judging")
         try:
@@ -2028,10 +2060,10 @@ def unalias_function(aname, label, calib_id, log, pool=None):
         except Refuse as ex:
             r = dict(verdict="REFUSED", err=f"overlapping edits: {ex}", compiles=0, seconds=0.0, linked=[])
             break
-        r = judge_files(files, "ua" + hashlib.sha1((aname + str(len(seen_bad))).encode()).hexdigest()[:6], pool=pool)
+        r = judge_files(files, "ua" + hashlib.sha1((aname + str(sum(tried.values()))).encode()).hexdigest()[:6], pool=pool)
     rows = [dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=rel, unit="unalias:" + real, callee=real, alias=aname,
                  signature=f"{ret} {real}({params})", mode=mode, definition=(rel == def_file), **per_file[rel],
-                 verdict=("UNALIAS-DONE" if r["verdict"] == "IDENTICAL" else "UNALIAS-KEPT"), err=r["err"][:300], nhash_before=None, nhash_after=None, sites=[])
+                 verdict=("UNALIAS-DONE" if r["verdict"] == "IDENTICAL" else "UNALIAS-KEPT"), cause=cause, err=r["err"][:300], nhash_before=None, nhash_after=None, sites=[])
             for rel in files]
     if r["verdict"] == "IDENTICAL":
         for rel, text in files.items():

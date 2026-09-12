@@ -20,7 +20,7 @@ extern s32 func_8015EE08(s32 a0);                        /* match-first, arity 1
 extern s32 func_8015F7D4(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80160B34(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80165140(s32 a0);                        /* match-first, arity 1 */
-extern s32 func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_80161CD0(int param_1, unsigned int param_2);                /* match-first, arity 2 */
 extern s32 func_80175268(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_801809BC(s32 a0, s32 a1);                /* match-first, arity 2 */
@@ -1204,7 +1204,7 @@ extern u8 D_800D48DC;
 extern s32 func_8015AB7C(s32 a0);
 extern s32 D_8011F9C4;
 extern s32 func_8015ABD4(s32 a0, s32 a1, s32 a2);
-extern s32 func_80161CD0(s32 a0, s32 a1);
+extern void func_80161CD0(int param_1, unsigned int param_2);
 extern M2C_UNK D_8018914C;
 extern void func_8015AC48(s32 arg0);
 extern void func_8015AC90(s32 a0);
@@ -3684,9 +3684,8 @@ extern int func_800CF8B4();
 extern void func_80147324(int arg0);
 extern unsigned short D_80189604;
 
-void aF80161CD0(int param_1, unsigned int param_2) __asm__("func_80161CD0");
 
-void aF80161CD0(int param_1, unsigned int param_2)
+void func_80161CD0(int param_1, unsigned int param_2)
 {
     if (param_2 < 8) {
         if (func_800CF8B4() != 0) {

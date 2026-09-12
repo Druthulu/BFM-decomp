@@ -2264,6 +2264,7 @@ s32 func_80150480(s32 _arg0)
 
 #include "../shared/ov/func_80150528.h"
 
+extern s32 func_801506A4();
 #include "../shared/ov/func_801505FC.h"
 
 

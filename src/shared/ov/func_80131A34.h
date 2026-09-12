@@ -3,7 +3,7 @@
 extern void func_8012A828(s32 a0, void *a1);
 s32 func_80131A34(s32 a0, s32 a1)
 {
-    extern s32 func_80131CF4(s32);
+    extern s32 func_80131CF4();  // K&R: 1 of 2 args (P37 unalias t4_ua6)
     void *p;
     p = (void *)((int (*)(int, int))func_80131CF4)(*(s32 *)(a0 + 0xBC), a1);
     if (p != 0) {

@@ -528,10 +528,9 @@ extern s32 func_801312D0(s32 param_1, void *param_2);
 extern void func_8002A04C(s32 a0);
 extern void func_801319E0(s32 arg0);
 extern void func_8012A828(s32 a0, void *a1);
-extern s32 func_80131CF4(s32 a0);
+extern s32 func_80131CF4();  // K&R: 0/1 of 2 args (P37 unalias t4_ua6)
 extern void func_80019064(void *a0);
 extern s32 aF80131CA8();
-extern s32 aF80131CF4();
 extern int func_80131D68(int a0, int a1);
 extern void func_80131E38(u8 *a0);
 extern void func_80131E7C(s32 a0);
@@ -1905,7 +1904,7 @@ extern short func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern short func_8002A748(void);
 extern short func_8002A738(void);
-extern int func_801412A8(int, int, int, int, int, int);
+extern Prim_1412A8 * func_801412A8(Prim_1412A8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
 
 int func_80141100(int param_1)
 {

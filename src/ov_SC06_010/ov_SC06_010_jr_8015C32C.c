@@ -1151,7 +1151,7 @@ extern u8 D_800D48DC;
 extern s32 func_8015AB7C(s32 a0);
 extern s32 D_8011F9C4;
 extern s32 func_8015ABD4(s32 a0, s32 a1, s32 a2);
-extern s32 func_80161CD0(s32 a0, s32 a1);
+extern void func_80161CD0(int param_1, unsigned int param_2);
 extern M2C_UNK D_80189020;
 extern void func_8015AC48(s32 arg0);
 extern void func_8015AC90(s32 a0);
@@ -3496,9 +3496,8 @@ void func_80161C98(int param_1, u32 param_2)
 extern int func_800CF8B4();
 extern void func_80147324(int arg0);
 
-void aF80161CD0(int param_1, unsigned int param_2) __asm__("func_80161CD0");
 
-void aF80161CD0(int param_1, unsigned int param_2)
+void func_80161CD0(int param_1, unsigned int param_2)
 {
 
     extern unsigned short D_801894D8;

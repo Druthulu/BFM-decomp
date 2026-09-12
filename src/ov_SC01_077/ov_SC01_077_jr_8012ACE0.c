@@ -1619,7 +1619,7 @@ tail:
 
 s32 func_801312D0(s32 param_1, void *param_2)
 {
-    extern int func_80131CF4(int, int);
+    extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
     extern M8 D_80186FD4;
 
     int iVar5;
@@ -1742,7 +1742,7 @@ void func_80131340(s32 a0)
      * with the stale 1-arg engine_core canonical. A file-scope `extern int
      * func_80131CF4(int,int);` here is a HARD `conflicting types` against it (cc1 rc=33,
      * measured); block-scope goes out of scope before that macro and compiles clean. */
-    extern int func_80131CF4(int, int);
+    extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
 
     struct V8 sp10;
     struct V8 sp18;
@@ -2077,7 +2077,7 @@ void func_80131B14(void) {
  * a full preprocess+cc1 of the spliced TU: diagnostic-free apart from
  * pre-existing warnings).
  */
-extern s32 func_80131CF4(s32 a0);
+extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
 
 s32 aF80131CA8(int a0) __asm__("func_80131CA8");
 

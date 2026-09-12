@@ -1159,7 +1159,7 @@ extern short func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern short func_8002A748(void);
 extern short func_8002A738(void);
-extern int func_801412A8(int, int, int, int, int, int);
+extern Prim_1412A8 * func_801412A8(Prim_1412A8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
 
 int func_80141100(int param_1)
 {
