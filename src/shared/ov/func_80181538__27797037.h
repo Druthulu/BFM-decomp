@@ -1318,7 +1318,7 @@ extern void func_8015EFD8(s32 *a0);
 extern void func_8015F048(s32 a0);
 extern void func_8015F080(s32 a0);
 extern s32 D_80062BE8;
-extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
+extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern s32 func_80161208(void);
 extern void func_8015F118(void *a0);
 extern void func_8015F260(s32 *a0);

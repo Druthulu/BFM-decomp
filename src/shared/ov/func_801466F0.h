@@ -2,9 +2,16 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u16 *func_80146750(u16 *param_1);
 extern u16 *func_8014680C(short *param_1);
-extern void aF801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7, s32 sp8)
-    __asm__("func_801466F0");
-void aF801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7, s32 sp8) {
+void func_801466F0(a0, a1, a2, a3, sp5, sp6, sp7, sp8)
+    u16 a0;
+    s32 a1;
+    u16 a2;
+    u16 a3;
+    u16 sp5;
+    s32 sp6;
+    s32 sp7;
+    s32 sp8;
+{
     Rec801466F0 rec;
     rec.unk0 = a0;
     rec.unk8 = a1;

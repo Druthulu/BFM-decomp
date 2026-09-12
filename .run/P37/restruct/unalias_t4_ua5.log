@@ -1,0 +1,16 @@
+restruct --apply: src/ is dirty — commit, or `tools/restruct.py --restore` if a batch is in flight (R42/R102):
+ M src/ov_MAIN_012/ov_MAIN_012_jr_8015444C.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_801549F8.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_801594E8.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_80159C84.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_8016AB6C.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_80171B4C.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_8017C3BC.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_8017CA18.c
+ M src/ov_MAIN_012/ov_MAIN_012_jr_8017CF3C.c
+ M src/ov_SC01_
+unalias exit=$?

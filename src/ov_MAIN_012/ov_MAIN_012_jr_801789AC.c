@@ -1260,8 +1260,6 @@ extern s32 func_80146608(s32 a0, s32 a1, s32 a2, s32 a3, s16 arg9, s32 arg10, s3
 extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern u16 *func_80146750(u16 *param_1);
 extern u16 *func_8014680C(short *param_1);
-extern void aF801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7, s32 sp8) __asm__("func_801466F0");
-extern void aF801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern unsigned short D_8011FD10;
 extern int D_8011FA1C;
 extern unsigned short D_8011F9D6;
@@ -2461,7 +2459,7 @@ extern void func_8015F76C(s32 *a0);
 extern s32 func_8015F7D4(s32 a0);
 extern void func_8015F7A0(s32 *arg0);
 extern void func_8015F810(s32 *a0);
-extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
+extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern void func_80147078(s32 *, s16);
 extern void func_80159B70(void *);
 extern void func_8015F89C(void *arg0);

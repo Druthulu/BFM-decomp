@@ -392,8 +392,7 @@ void func_80146360(void)
 
 #include "../shared/ov/func_80146608.h"
 
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
-                          s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 
 #include "../shared/ov/func_801466B4.h"
 
