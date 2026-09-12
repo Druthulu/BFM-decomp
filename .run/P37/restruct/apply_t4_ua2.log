@@ -1,0 +1,374 @@
+11:45:48 unalias aF800301A4 -> func_800301A4: `s32 func_800301A4(void)` defined in src/800_b_2.c; 1 files (1 alias prototypes, 3 real-name declarations, 0 renames)
+11:45:48 unalias aF800301A4: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+11:46:01 unalias aF800CCBC0 -> func_800CCBC0: `s32 func_800CCBC0(void)` defined in src/md_MAIN_047/md_MAIN_047.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+11:46:02 unalias aF800CCBC0: IDENTICAL on every recipe (1 objects, 0.0 s) — 1 files written
+11:46:15 unalias aF800D1984 -> func_800D1984: `s32 func_800D1984(u8 *arg0)` defined in src/resident/resident_jr_800D128C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+11:46:15 unalias aF800D1984: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+11:46:28 unalias aF800D2F88 -> func_800D2F88: `u32 func_800D2F88(void)` defined in src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c; 1 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+11:46:28 unalias aF800D2F88: src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c calls func_800D2F88 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:46:28 unalias aF800D2F88: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+11:46:41 unalias aF800D30D0 -> func_800D30D0: `s32 func_800D30D0(char *arg0)` defined in src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c; 1 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+11:46:41 unalias aF800D30D0: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+11:46:54 unalias aF80128998: REFUSED — src/shared/ov/func_8012832C.h declares func_80128998 for non-member binaries ['ov_MAIN_012', 'ov_SC01_000', 'ov_SC01_001', 'ov_SC01_004'] (the declaration must leave the shared header first)
+11:47:10 unalias aF80131CA8 -> func_80131CA8: `s32 func_80131CA8(int a0)` defined in src/shared/ov/func_80131CA8.h; 235 files (191 alias prototypes, 696 real-name declarations, 0 renames)
+11:47:18 unalias aF80131CA8: src/shared/ov/func_8012F5F4.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:47:29 unalias aF80131CA8: src/shared/ov/func_8012F68C.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:47:41 unalias aF80131CA8: src/shared/ov/func_8012F75C.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:47:52 unalias aF80131CA8: src/shared/ov/func_8012F7B4.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:48:03 unalias aF80131CA8: src/ov_MAIN_012/ov_MAIN_012.c calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:48:14 unalias aF80131CA8: src/shared/ov/func_8012F87C.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:48:25 unalias aF80131CA8: src/shared/ov/func_8012F91C.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:48:36 unalias aF80131CA8: src/shared/ov/func_8012F968.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:48:47 unalias aF80131CA8: src/shared/ov/func_8012FB54.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:48:58 unalias aF80131CA8: src/shared/ov/func_8012FC30.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:49:09 unalias aF80131CA8: src/shared/ov/func_8012FCA4.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:49:20 unalias aF80131CA8: src/shared/ov/func_8012FDA8.h calls func_80131CA8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:49:31 unalias aF80131CA8: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_8012FE70.h:11: too many arguments to function `func_80131CA8'
+src/ov_MAIN_012/../shared/ov/func_8012FE70.h:18: too many arguments to function `func_80131CA8'
+src/ov_MAIN_012/../shared/ov/func_8012FF00.h:9: too many arguments to function `func_80131CA8'
+src/ov_MAIN_0 — nothing written
+11:49:47 unalias aF80131CF4 -> func_80131CF4: `s32 func_80131CF4(s32 *a0, s32 a1)` defined in src/shared/ov/func_80131CF4.h; 196 files (55 alias prototypes, 452 real-name declarations, 0 renames)
+11:49:55 unalias aF80131CF4: src/shared/ov/func_80131AC8.h calls func_80131CF4 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:50:06 unalias aF80131CF4: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_80131CA8.h:6: too few arguments to function `func_80131CF4'
+src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_8013 — nothing written
+11:50:20 unalias aF80137614 -> func_80137614: `s32 func_80137614(s32 a0, s32 a1, s32 a2)` defined in src/shared/ov/func_80137614.h; 191 files (189 alias prototypes, 57 real-name declarations, 0 renames)
+11:50:22 unalias aF80137614: IDENTICAL on every recipe (196 objects, 24.4 s) — 191 files written
+11:50:35 unalias aF801376E8: REFUSED — src/shared/ov/func_801376C8.h declares func_801376E8 for non-member binaries ['ov_MAIN_012', 'ov_SC01_000', 'ov_SC01_001', 'ov_SC01_004'] (the declaration must leave the shared header first)
+11:50:50 unalias aF801412A8 -> func_801412A8: `Prim_1412A8 * func_801412A8(Prim_1412A8 *out, int a1, int a2, int a3, u16 a4, u16 a5)` defined in src/shared/ov/func_801412A8.h; 173 files (37 alias prototypes, 172 real-name declarations, 0 renames)
+11:50:54 unalias aF801412A8: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_8013F350.o] — nothing written
+11:51:11 unalias aF801466F0 -> func_801466F0: `void func_801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7, s32 sp8)` defined in src/shared/ov/func_801466F0.h; 172 files (67 alias prototypes, 460 real-name declarations, 0 renames)
+11:51:27 unalias aF801466F0: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.o] — nothing written
+11:51:50 unalias aF80146A6C -> func_80146A6C: `void func_80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)` defined in src/shared/ov/func_80146A6C.h; 643 files (170 alias prototypes, 1573 real-name declarations, 0 renames)
+11:52:19 unalias aF80146A6C: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] — nothing written
+11:52:35 unalias aF80146AFC -> func_80146AFC: `s32 func_80146AFC(void *arg0)` defined in src/shared/ov/func_80146AFC.h; 174 files (170 alias prototypes, 206 real-name declarations, 0 renames)
+11:52:40 unalias aF80146AFC: IDENTICAL on every recipe (178 objects, 61.3 s) — 174 files written
+11:52:58 unalias aF80147364 -> func_80147364: `void func_80147364(u16 param_1, u16 param_2)` defined in src/shared/ov/func_80147364.h; 182 files (34 alias prototypes, 316 real-name declarations, 0 renames)
+11:53:08 unalias aF80147364: IDENTICAL on every recipe (316 objects, 111.8 s) — 182 files written
+11:53:26 unalias aF8014C4AC -> func_8014C4AC: `s32 func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, int a4)` defined in src/shared/ov/func_8014C4AC.h; 447 files (170 alias prototypes, 444 real-name declarations, 3 renames)
+11:53:39 unalias aF8014C4AC: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] — nothing written
+11:53:54 unalias aF8014E5B4 -> func_8014E5B4: `s32 func_8014E5B4(s32 a0, void *a1, void *a2)` defined in src/shared/ov/func_8014E5B4.h; 173 files (170 alias prototypes, 36 real-name declarations, 3 renames)
+11:54:00 unalias aF8014E5B4: IDENTICAL on every recipe (178 objects, 61.2 s) — 173 files written
+11:54:13 unalias aF8014F6F4: REFUSED — src/shared/ov/func_80181538__27797037.h declares func_8014F6F4 for non-member binaries ['ov_SC02_000'] (the declaration must leave the shared header first)
+11:54:26 unalias aF80150480: REFUSED — src/shared/ov/func_80181538__27797037.h declares func_80150480 for non-member binaries ['ov_SC02_000'] (the declaration must leave the shared header first)
+11:54:38 unalias aF801506A4: REFUSED — src/shared/ov/func_80163764.h declares func_801506A4 for non-member binaries ['ov_MAIN_012', 'ov_SC01_000', 'ov_SC01_001', 'ov_SC01_004'] (the declaration must leave the shared header first)
+11:54:55 unalias aF80161208 -> func_80161208: `void func_80161208(void *a0)` defined in src/shared/ov/func_80161208.h; 171 files (152 alias prototypes, 2518 real-name declarations, 0 renames)
+11:55:08 unalias aF80161208: src/shared/ov/func_8015E288.h calls func_80161208 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:55:24 unalias aF80161208: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:4065: void value not ignored as it ought to be
+src/ov_MAIN_012/../shared/ov/func_8015E288.h:15: too few arguments to function `func_80161208'
+src/ov_MAIN_012/../shared/ov/func_8015E288.h:15: void value not ignored as it ought to be
+src/ov_MAIN_012/ov_MAIN_01 — nothing written
+11:55:40 unalias aF8016130C -> func_8016130C: `s32 func_8016130C(void *a0, s32 a1)` defined in src/shared/ov/func_8016130C.h; 155 files (152 alias prototypes, 169 real-name declarations, 0 renames)
+11:55:45 unalias aF8016130C: IDENTICAL on every recipe (160 objects, 55.1 s) — 155 files written
+11:56:01 unalias aF8016191C -> func_8016191C: `int func_8016191C(int param_1, unsigned int param_2)` defined in src/shared/ov/func_8016191C.h; 19 files (16 alias prototypes, 18 real-name declarations, 0 renames)
+11:56:06 unalias aF8016191C: IDENTICAL on every recipe (160 objects, 56.1 s) — 19 files written
+11:56:19 unalias aF80161CD0: REFUSED — src/shared/ov/func_80181538__27797037.h declares func_80161CD0 for non-member binaries ['ov_SC02_000'] (the declaration must leave the shared header first)
+11:56:36 unalias aF80162CCC -> func_80162CCC: `void func_80162CCC(u8 *a0)` defined in src/shared/ov/func_80162CCC.h; 145 files (134 alias prototypes, 153 real-name declarations, 0 renames)
+11:56:51 unalias aF80162CCC: src/shared/ov/func_80164DB0.h calls func_80162CCC with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:57:10 unalias aF80162CCC: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_80164DB0.h:5: too few arguments to function `func_80162CCC'
+src/ov_MAIN_012/../shared/ov/func_801650C4.h:10: too few arguments to function `func_80162CCC'
+src/ov_MAIN_012/../shared/ov/func_8016345C.h: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c: At top l — nothing written
+11:57:22 unalias aF8016BF50: REFUSED — src/shared/ov/func_8016BD78__d6afde15.h declares func_8016BF50 for non-member binaries ['ov_SC03_126', 'ov_SC04_021', 'ov_SC05_019'] (the declaration must leave the shared header first)
+11:57:39 unalias aF8016F0E4 -> func_8016F0E4: `void func_8016F0E4(u8 *p)` defined in src/shared/ov/func_8016F0E4.h; 20 files (11 alias prototypes, 19 real-name declarations, 0 renames)
+11:57:46 unalias aF8016F0E4: src/shared/ov/func_8016F4C4.h calls func_8016F0E4 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:57:57 unalias aF8016F0E4: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_8016F4C4.h:7: too few arguments to function `func_8016F0E4'
+src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c: At top level:
+src/ov_MAIN_012/../shared/ov/func_8016C83C.h: At top level:
+src/ov_MAIN_012/../shared/ov/func_80170B90.h: At top level: [build/src/ov_MAIN_012/ov_MAI — nothing written
+11:58:11 unalias aF8017C078 -> func_8017C078: `void func_8017C078(void *a0)` defined in src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+11:58:11 unalias aF8017C078: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3357: `func_8017C078' redeclared as different kind of symbol
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3348: previous declaration of `func_8017C078'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c: At top level: [build/src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.o] — nothing written
+11:58:25 unalias aF8017C150 -> func_8017C150: `void func_8017C150(void *a0)` defined in src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+11:58:25 unalias aF8017C150: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3397: `func_8017C150' redeclared as different kind of symbol
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3388: previous declaration of `func_8017C150'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c: At top level: [build/src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.o] — nothing written
+11:58:39 unalias aF8017D5E4 -> func_8017D5E4: `void func_8017D5E4(void *param_1)` defined in src/ov_SC04_009/ov_SC04_009_jr_8017BEBC.c; 1 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+11:58:39 unalias aF8017D5E4: src/ov_SC04_009/ov_SC04_009_jr_8017BEBC.c calls func_8017D5E4 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:58:39 unalias aF8017D5E4: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+11:58:52 unalias aF8017D77C -> func_8017D77C: `void func_8017D77C(void *arg0)` defined in src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c; 9 files (9 alias prototypes, 0 real-name declarations, 0 renames)
+11:58:52 unalias aF8017D77C: IDENTICAL on every recipe (9 objects, 0.9 s) — 9 files written
+11:59:06 unalias aF8017D8AC -> func_8017D8AC: `void func_8017D8AC(s32 param_1)` defined in src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+11:59:06 unalias aF8017D8AC: src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c calls func_8017D8AC with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:59:06 unalias aF8017D8AC: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:3649: too few arguments to function `func_8017D8AC'
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: At top level: [build/src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.o] — nothing written
+11:59:19 unalias aF8017D9F0 -> func_8017D9F0: `void func_8017D9F0(s32 param_1)` defined in src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+11:59:20 unalias aF8017D9F0: src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c calls func_8017D9F0 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:59:20 unalias aF8017D9F0: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c:3767: too few arguments to function `func_8017D9F0' [build/src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.o] — nothing written
+11:59:33 unalias aF8017DBEC -> func_8017DBEC: `void func_8017DBEC(void *a0, u8 *a1)` defined in src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+11:59:33 unalias aF8017DBEC: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+11:59:47 unalias aF8017DD2C -> func_8017DD2C: `void func_8017DD2C(s32 param_1)` defined in src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+11:59:47 unalias aF8017DD2C: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:00:00 unalias aF8017DD50 -> func_8017DD50: `void func_8017DD50(void *a0)` defined in src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+12:00:00 unalias aF8017DD50: COMPILE-ERROR src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c:3363: `func_8017DD50' redeclared as different kind of symbol
+src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c:3354: previous declaration of `func_8017DD50'
+src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c: At top level:
+src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c: At top le — nothing written
+12:00:13 unalias aF8017DDE0 -> func_8017DDE0: `void func_8017DDE0(void *a0)` defined in src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+12:00:14 unalias aF8017DDE0: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3366: `func_8017DDE0' redeclared as different kind of symbol
+src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3357: previous declaration of `func_8017DDE0'
+src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: At top level: [build/src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.o] — nothing written
+12:00:27 unalias aF8017E05C -> func_8017E05C: `s32 func_8017E05C(void *a0)` defined in src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c; 1 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+12:00:27 unalias aF8017E05C: src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c calls func_8017E05C with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:00:27 unalias aF8017E05C: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:00:40 unalias aF8017E1B4 -> func_8017E1B4: `void func_8017E1B4(void)` defined in src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c; 9 files (9 alias prototypes, 9 real-name declarations, 0 renames)
+12:00:41 unalias aF8017E1B4: src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c calls func_8017E1B4 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:00:41 unalias aF8017E1B4: IDENTICAL on every recipe (9 objects, 0.9 s) — 9 files written
+12:00:55 unalias aF8017E3F0 -> func_8017E3F0: `void func_8017E3F0(s32 param_1)` defined in src/ov_SC03_011/ov_SC03_011_jr_8017C730.c; 6 files (6 alias prototypes, 7 real-name declarations, 1 renames)
+12:00:55 unalias aF8017E3F0: src/ov_SC03_011/ov_SC03_011_jr_8017C730.c calls func_8017E3F0 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:00:56 unalias aF8017E3F0: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:3584: conflicting types for `func_8017E3F0'
+src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:3539: previous declaration of `func_8017E3F0'
+src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: At top level:
+src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: At top level: [build/src/o — nothing written
+12:01:10 unalias aF8017E464 -> func_8017E464: `void func_8017E464(void *a0)` defined in src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+12:01:11 unalias aF8017E464: COMPILE-ERROR src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:5096: `func_8017E464' redeclared as different kind of symbol
+src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:5087: previous declaration of `func_8017E464'
+src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c: At top level:
+src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c: At top le — nothing written
+12:01:24 unalias aF8017E5C4 -> func_8017E5C4: `s32 func_8017E5C4(s32 param_1)` defined in src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:01:24 unalias aF8017E5C4: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:01:39 unalias aF8017E5D0 -> func_8017E5D0: `void func_8017E5D0(void *a0)` defined in src/ov_SC06_011/ov_SC06_011_jr_8017BEBC.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+12:01:39 unalias aF8017E5D0: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:01:54 unalias aF8017EA70 -> func_8017EA70: `s32 func_8017EA70(s32 arg0)` defined in src/ov_SC03_115/ov_SC03_115_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:01:54 unalias aF8017EA70: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:02:09 unalias aF8017EBB8 -> func_8017EBB8: `s32 func_8017EBB8(s32 a0, s32 a1)` defined in src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c; 1 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+12:02:09 unalias aF8017EBB8: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:02:24 unalias aF8017EBCC -> func_8017EBCC: `void func_8017EBCC(s32 a0)` defined in src/ov_SC03_117/ov_SC03_117_jr_8017E6EC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:02:24 unalias aF8017EBCC: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:02:40 unalias aF8017ED54 -> func_8017ED54: `void func_8017ED54(s32 param_1)` defined in src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:02:40 unalias aF8017ED54: src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c calls func_8017ED54 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:02:40 unalias aF8017ED54: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c:4470: too few arguments to function `func_8017ED54'
+src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: At top level:
+src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: At top level: [build/src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.o] — nothing written
+12:02:55 unalias aF8017ED64 -> func_8017ED64: `void func_8017ED64(u16 *r, s16 *m)` defined in src/ov_SC03_108/ov_SC03_108_jr_8017BEBC.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:02:55 unalias aF8017ED64: IDENTICAL on every recipe (2 objects, 0.2 s) — 2 files written
+12:03:10 unalias aF8017ED80 -> func_8017ED80: `void func_8017ED80(void *param_1)` defined in src/ov_SC06_008/ov_SC06_008_jr_8017C294.c; 13 files (20 alias prototypes, 6 real-name declarations, 7 renames)
+12:03:10 unalias aF8017ED80: DIFFERS [build/src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.o] — nothing written
+12:03:23 unalias aF8017EDDC -> func_8017EDDC: `s32 func_8017EDDC(void *a0)` defined in src/ov_SC03_092/ov_SC03_092_jr_8017AE2C.c; 2 files (2 alias prototypes, 3 real-name declarations, 0 renames)
+12:03:24 unalias aF8017EDDC: IDENTICAL on every recipe (2 objects, 0.2 s) — 2 files written
+12:03:37 unalias aF8017EEA4 -> func_8017EEA4: `void func_8017EEA4(void *arg)` defined in src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:03:37 unalias aF8017EEA4: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:03:52 unalias aF8017EF54 -> func_8017EF54: `void func_8017EF54(s32 a0)` defined in src/ov_SC06_008/ov_SC06_008_jr_8017C294.c; 9 files (9 alias prototypes, 5 real-name declarations, 5 renames)
+12:03:52 unalias aF8017EF54: src/ov_SC06_008/ov_SC06_008_jr_8017C294.c calls func_8017EF54 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:03:53 unalias aF8017EF54: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:4561: too few arguments to function `func_8017EF54'
+src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:4587: too few arguments to function `func_8017EF54'
+src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: At top level:
+src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: At top level — nothing written
+12:04:08 unalias aF8017F020 -> func_8017F020: `s32 func_8017F020(s32 arg0)` defined in src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:04:08 unalias aF8017F020: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:04:23 unalias aF8017F1A0 -> func_8017F1A0: `s32 func_8017F1A0(void *param_1)` defined in src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:04:23 unalias aF8017F1A0: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:04:37 unalias aF8017F24C -> func_8017F24C: `s32 func_8017F24C(void *a0)` defined in src/ov_SC04_020/ov_SC04_020_jr_8017D604.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:04:37 unalias aF8017F24C: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:04:52 unalias aF8017F374 -> func_8017F374: `void func_8017F374(u16 *r, s16 *m)` defined in src/ov_SC03_010/ov_SC03_010_jr_8017C730.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:04:52 unalias aF8017F374: IDENTICAL on every recipe (2 objects, 0.1 s) — 2 files written
+12:05:06 unalias aF8017F448 -> func_8017F448: `void func_8017F448(u16 *r, s16 *m)` defined in src/ov_SC05_005/ov_SC05_005_jr_8017D898.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:05:06 unalias aF8017F448: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:05:21 unalias aF8017F630 -> func_8017F630: `void func_8017F630(s32 param_1)` defined in src/ov_SC02_016/ov_SC02_016_jr_8017DC70.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:05:21 unalias aF8017F630: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:05:36 unalias aF8017F6F8 -> func_8017F6F8: `void func_8017F6F8(u16 *r, s16 *m)` defined in src/ov_SC03_112/ov_SC03_112_jr_8017C294.c; 3 files (3 alias prototypes, 3 real-name declarations, 0 renames)
+12:05:36 unalias aF8017F6F8: IDENTICAL on every recipe (3 objects, 0.2 s) — 3 files written
+12:05:49 unalias aF8017F8C4 -> func_8017F8C4: `void func_8017F8C4(void)` defined in src/ov_SC03_002/ov_SC03_002_jr_8017D604.c; 5 files (5 alias prototypes, 5 real-name declarations, 0 renames)
+12:05:50 unalias aF8017F8C4: src/ov_SC03_002/ov_SC03_002_jr_8017D604.c calls func_8017F8C4 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:05:50 unalias aF8017F8C4: IDENTICAL on every recipe (5 objects, 0.4 s) — 5 files written
+12:06:03 unalias aF8017FA98 -> func_8017FA98: `void * func_8017FA98(void *arg0)` defined in src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:06:03 unalias aF8017FA98: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:06:16 unalias aF80180030 -> func_80180030: `s32 func_80180030(void *a0, s32 a1)` defined in src/ov_SC06_029/ov_SC06_029_jr_8017C954.c; 3 files (3 alias prototypes, 3 real-name declarations, 0 renames)
+12:06:17 unalias aF80180030: IDENTICAL on every recipe (3 objects, 0.4 s) — 3 files written
+12:06:32 unalias aF801800F4 -> func_801800F4: `void func_801800F4(void *arg0)` defined in src/ov_SC04_020/ov_SC04_020_jr_8017D604.c; 2 files (2 alias prototypes, 0 real-name declarations, 0 renames)
+12:06:32 unalias aF801800F4: IDENTICAL on every recipe (2 objects, 0.2 s) — 2 files written
+12:06:48 unalias aF80180148 -> func_80180148: `void func_80180148(u16 *r, s16 *m)` defined in src/ov_SC03_013/ov_SC03_013_jr_8017FAA8.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:06:48 unalias aF80180148: IDENTICAL on every recipe (2 objects, 0.1 s) — 2 files written
+12:07:03 unalias aF801804D4 -> func_801804D4: `void func_801804D4(void *a0)` defined in src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c; 4 files (4 alias prototypes, 0 real-name declarations, 0 renames)
+12:07:03 unalias aF801804D4: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:4817: `func_801804D4' redeclared as different kind of symbol
+src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:4808: previous declaration of `func_801804D4'
+src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c: At top level: [build/src/ov_SC02_005/ov_SC02_005_jr_8017CF90.o] — nothing written
+12:07:16 unalias aF801806A8 -> func_801806A8: `void func_801806A8(void *arg0)` defined in src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c; 2 files (2 alias prototypes, 0 real-name declarations, 0 renames)
+12:07:17 unalias aF801806A8: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:07:32 unalias aF801806FC -> func_801806FC: `s32 func_801806FC(void *a0)` defined in src/ov_SC02_027/ov_SC02_027_jr_8017D898.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:07:32 unalias aF801806FC: IDENTICAL on every recipe (1 objects, 0.3 s) — 1 files written
+12:07:46 unalias aF80180810 -> func_80180810: `void func_80180810(s32 arg)` defined in src/ov_SC03_102/ov_SC03_102_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:07:46 unalias aF80180810: IDENTICAL on every recipe (1 objects, 0.3 s) — 1 files written
+12:08:00 unalias aF80180850 -> func_80180850: `void func_80180850(void *arg0)` defined in src/ov_SC03_125/ov_SC03_125_jr_8017D604.c; 2 files (2 alias prototypes, 0 real-name declarations, 0 renames)
+12:08:01 unalias aF80180850: IDENTICAL on every recipe (2 objects, 0.2 s) — 2 files written
+12:08:13 unalias aF80180944 -> func_80180944: `void func_80180944(void *a0)` defined in src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c; 3 files (3 alias prototypes, 0 real-name declarations, 0 renames)
+12:08:14 unalias aF80180944: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:4389: `func_80180944' redeclared as different kind of symbol
+src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:4380: previous declaration of `func_80180944' [build/src/ov_SC03_024/ov_SC03_024_jr_8017DF84.o] — nothing written
+12:08:28 unalias aF80180AC0 -> func_80180AC0: `void func_80180AC0(void *a0, u8 *a1)` defined in src/ov_SC03_002/ov_SC03_002_jr_8017D604.c; 5 files (5 alias prototypes, 5 real-name declarations, 0 renames)
+12:08:28 unalias aF80180AC0: IDENTICAL on every recipe (5 objects, 0.4 s) — 5 files written
+12:08:42 unalias aF80180B5C -> func_80180B5C: `void func_80180B5C(void *arg0)` defined in src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c; 9 files (9 alias prototypes, 9 real-name declarations, 0 renames)
+12:08:42 unalias aF80180B5C: IDENTICAL on every recipe (9 objects, 0.9 s) — 9 files written
+12:08:57 unalias aF80180C0C -> func_80180C0C: `s32 func_80180C0C(s32 a0, s32 a1, s32 a2)` defined in src/ov_SC05_005/ov_SC05_005_jr_8017D898.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:08:57 unalias aF80180C0C: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:09:12 unalias aF80180CC8 -> func_80180CC8: `s32 func_80180CC8(void *arg0)` defined in src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:09:12 unalias aF80180CC8: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:09:27 unalias aF80181048 -> func_80181048: `s32 func_80181048(void *a0, void *a1)` defined in src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c; 1 files (1 alias prototypes, 42 real-name declarations, 0 renames)
+12:09:27 unalias aF80181048: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:09:42 unalias aF8018115C -> func_8018115C: `void func_8018115C(u16 *r, s16 *m)` defined in src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:09:42 unalias aF8018115C: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:09:55 unalias aF80181164 -> func_80181164: `void func_80181164(void *a0)` defined in src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:09:55 unalias aF80181164: src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c calls func_80181164 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:09:55 unalias aF80181164: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c:4283: too few arguments to function `func_80181164' [build/src/ov_SC06_030/ov_SC06_030_jr_8017F65C.o] — nothing written
+12:10:08 unalias aF80181328 -> func_80181328: `s32 func_80181328(s32 arg0)` defined in src/ov_SC02_027/ov_SC02_027_jr_8017D898.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:10:08 unalias aF80181328: IDENTICAL on every recipe (1 objects, 0.3 s) — 1 files written
+12:10:21 unalias aF801814F4 -> func_801814F4: `s32 func_801814F4(s32 arg0, s32 arg1)` defined in src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:10:21 unalias aF801814F4: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:10:35 unalias aF8018166C -> func_8018166C: `s32 func_8018166C(void *arg0)` defined in src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:10:35 unalias aF8018166C: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:10:49 unalias aF801816C8 -> func_801816C8: `s32 func_801816C8(void *a0)` defined in src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:10:49 unalias aF801816C8: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:11:03 unalias aF8018183C -> func_8018183C: `s32 func_8018183C(void *a0)` defined in src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c; 2 files (2 alias prototypes, 3 real-name declarations, 0 renames)
+12:11:03 unalias aF8018183C: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:11:16 unalias aF80181940 -> func_80181940: `void func_80181940(void)` defined in src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+12:11:17 unalias aF80181940: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:6839: `func_80181940' redeclared as different kind of symbol
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:6831: previous declaration of `func_80181940'
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c: At top level:
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c: At top le — nothing written
+12:11:29 unalias aF80181990 -> func_80181990: `s32 func_80181990(void *a0)` defined in src/ov_SC03_002/ov_SC03_002_jr_801815AC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:11:30 unalias aF80181990: IDENTICAL on every recipe (1 objects, 0.0 s) — 1 files written
+12:11:43 unalias aF80181B50 -> func_80181B50: `void func_80181B50(void)` defined in src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c; 3 files (3 alias prototypes, 3 real-name declarations, 0 renames)
+12:11:43 unalias aF80181B50: src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c calls func_80181B50 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:11:43 unalias aF80181B50: IDENTICAL on every recipe (3 objects, 0.3 s) — 3 files written
+12:11:56 unalias aF80181CFC -> func_80181CFC: `s32 func_80181CFC(s32 arg0, s32 arg1)` defined in src/ov_SC03_098/ov_SC03_098_jr_8017D898.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:11:56 unalias aF80181CFC: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:12:09 unalias aF80181F74 -> func_80181F74: `void func_80181F74(void)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:12:09 unalias aF80181F74: src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c calls func_80181F74 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:12:10 unalias aF80181F74: IDENTICAL on every recipe (1 objects, 0.4 s) — 1 files written
+12:12:22 unalias aF8018271C -> func_8018271C: `s32 * func_8018271C(s32 *a0, s32 a1, s32 a2)` defined in src/ov_SC03_104/ov_SC03_104_jr_80182038.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:12:22 unalias aF8018271C: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:12:35 unalias aF801827A0 -> func_801827A0: `s32 func_801827A0(s32 a0)` defined in src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:12:35 unalias aF801827A0: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:12:48 unalias aF8018280C -> func_8017E9CC: `s32 func_8017E9CC(s32 a0)` defined in src/ov_SC03_107/ov_SC03_107_jr_801789AC.c; 5 files (5 alias prototypes, 4 real-name declarations, 4 renames)
+12:12:48 unalias aF8018280C: DIFFERS [build/src/ov_SC03_112/ov_SC03_112_jr_8017C294.o] — nothing written
+12:13:01 unalias aF80182B34 -> func_80182B34: `s32 func_80182B34(void *a0)` defined in src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:13:01 unalias aF80182B34: IDENTICAL on every recipe (2 objects, 0.2 s) — 2 files written
+12:13:14 unalias aF801831D0 -> func_801831D0: `s32 func_801831D0(void)` defined in src/ov_SC03_118/ov_SC03_118_o0d.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:13:14 unalias aF801831D0: IDENTICAL on every recipe (2 objects, 0.1 s) — 1 files written
+12:13:27 unalias aF80183264 -> func_80183264: `void func_80183264(s32 *a0, s32 a1)` defined in src/ov_SC03_002/ov_SC03_002_jr_80181D78.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:13:27 unalias aF80183264: IDENTICAL on every recipe (2 objects, 0.1 s) — 2 files written
+12:13:39 unalias aF801832FC -> func_801832FC: `void func_801832FC(void *arg0)` defined in src/ov_SC05_018/ov_SC05_018_jr_8017D604.c; 2 files (2 alias prototypes, 0 real-name declarations, 0 renames)
+12:13:40 unalias aF801832FC: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:13:52 unalias aF8018353C -> func_8018353C: `s32 func_8018353C(s32 a0, s16 a1)` defined in src/ov_SC06_020/ov_SC06_020_jr_80180B04.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:13:52 unalias aF8018353C: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:14:05 unalias aF80183910 -> func_80181ED4: `s32 func_80181ED4(s32 arg0)` defined in src/ov_SC03_093/ov_SC03_093_jr_8017D898.c; 3 files (3 alias prototypes, 1 real-name declarations, 2 renames)
+12:14:05 unalias aF80183910: DIFFERS [build/src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.o] — nothing written
+12:14:18 unalias aF801839A8 -> func_801839A8: `void func_801839A8(void *arg0)` defined in src/ov_SC03_124/ov_SC03_124_jr_80181B44.c; 5 files (5 alias prototypes, 0 real-name declarations, 0 renames)
+12:14:18 unalias aF801839A8: IDENTICAL on every recipe (5 objects, 0.4 s) — 5 files written
+12:14:31 unalias aF80183E20: REFUSED — src/shared/ov/func_80184460__8a34c855.h declares func_80183E20 for non-member binaries ['ov_SC04_018'] (the declaration must leave the shared header first)
+12:14:44 unalias aF801840DC -> func_801840DC: `s32 func_801840DC(void *a0)` defined in src/ov_SC05_017/ov_SC05_017_jr_80182A74.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:14:44 unalias aF801840DC: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:14:56 unalias aF80184170 -> func_80184170: `s32 func_80184170(s32 a0, s16 a1)` defined in src/ov_SC06_032/ov_SC06_032_jr_80182890.c; 4 files (4 alias prototypes, 4 real-name declarations, 0 renames)
+12:14:57 unalias aF80184170: IDENTICAL on every recipe (4 objects, 0.5 s) — 4 files written
+12:15:09 unalias aF80184350 -> func_80184350: `s32 func_80184350(void *arg0)` defined in src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c; 2 files (2 alias prototypes, 1 real-name declarations, 1 renames)
+12:15:10 unalias aF80184350: DIFFERS [build/src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.o] — nothing written
+12:15:22 unalias aF80184358 -> func_80184358: `s32 func_80184358(void *param_1)` defined in src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:15:22 unalias aF80184358: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:15:35 unalias aF801843E0 -> func_801843E0: `void func_801843E0(s32 *a0, s32 a1)` defined in src/ov_SC03_124/ov_SC03_124_jr_80181B44.c; 6 files (6 alias prototypes, 11 real-name declarations, 1 renames)
+12:15:35 unalias aF801843E0: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80182A74.c:4135: conflicting types for `func_801843E0'
+src/ov_SC05_017/ov_SC05_017_jr_80182A74.c:4095: previous declaration of `func_801843E0'
+src/ov_SC05_017/ov_SC05_017_jr_80182A74.c: At top level: [build/src/ov_SC05_017/ov_SC05_017_jr_80182A74.o] — nothing written
+12:15:48 unalias aF801844A8 -> func_801844A8: `void func_801844A8(void *a0)` defined in src/ov_SC05_018/ov_SC05_018_jr_8017D604.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:15:48 unalias aF801844A8: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:16:00 unalias aF80184590 -> func_80184590: `s32 func_80184590(s32 arg0, s32 arg1)` defined in src/ov_SC05_018/ov_SC05_018_jr_8017D604.c; 2 files (2 alias prototypes, 8 real-name declarations, 0 renames)
+12:16:01 unalias aF80184590: IDENTICAL on every recipe (2 objects, 0.2 s) — 2 files written
+12:16:13 unalias aF8018469C -> func_8018469C: `void func_8018469C(s32 *a0, s32 a1)` defined in src/ov_SC05_018/ov_SC05_018_jr_8017D604.c; 2 files (2 alias prototypes, 8 real-name declarations, 0 renames)
+12:16:13 unalias aF8018469C: IDENTICAL on every recipe (2 objects, 0.2 s) — 2 files written
+12:16:26 unalias aF80184888 -> func_80184888: `s32 * func_80184888(s32 *a0, s32 a1, s32 a2)` defined in src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c; 2 files (2 alias prototypes, 3 real-name declarations, 0 renames)
+12:16:26 unalias aF80184888: IDENTICAL on every recipe (2 objects, 0.5 s) — 2 files written
+12:16:39 unalias aF801848DC -> func_8018739C: `s32 func_8018739C(void *a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_801870B0.c; 25 files (25 alias prototypes, 2 real-name declarations, 9 renames)
+12:16:40 unalias aF801848DC: DIFFERS [build/src/ov_SC03_002/ov_SC03_002_jr_80181D78.o] — nothing written
+12:16:52 unalias aF80184B44 -> func_80184B44: `s32 func_80184B44(void)` defined in src/ov_SC05_017/ov_SC05_017_jr_80182A74.c; 6 files (6 alias prototypes, 21 real-name declarations, 0 renames)
+12:16:53 unalias aF80184B44: IDENTICAL on every recipe (6 objects, 0.5 s) — 6 files written
+12:17:05 unalias aF80184BAC: REFUSED — src/shared/ov/func_80183838__66d459f2.h declares func_80184BAC for non-member binaries ['ov_SC04_018'] (the declaration must leave the shared header first)
+12:17:17 unalias aF80184BFC -> func_80184BFC: `s32 func_80184BFC(s32 arg0)` defined in src/ov_SC03_097/ov_SC03_097_jr_80182B9C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:17:17 unalias aF80184BFC: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:17:30 unalias aF80184DD0 -> func_80184DD0: `s32 func_80184DD0(void)` defined in src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c; 6 files (6 alias prototypes, 10 real-name declarations, 0 renames)
+12:17:30 unalias aF80184DD0: src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c calls func_80184DD0 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:17:30 unalias aF80184DD0: IDENTICAL on every recipe (12 objects, 1.1 s) — 6 files written
+12:17:43 unalias aF801856A8 -> func_801856A8: `s32 func_801856A8(void *a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_80184F64.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:17:43 unalias aF801856A8: IDENTICAL on every recipe (2 objects, 0.1 s) — 2 files written
+12:17:56 unalias aF80185730 -> func_80185730: `s32 * func_80185730(s32 *a0, s32 a1, s32 a2)` defined in src/ov_SC03_091/ov_SC03_091_jr_8018326C.c; 1 files (1 alias prototypes, 3 real-name declarations, 0 renames)
+12:17:56 unalias aF80185730: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:18:08 unalias aF8018584C -> func_8018584C: `void func_8018584C(s32 a0)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:18:09 unalias aF8018584C: IDENTICAL on every recipe (1 objects, 0.4 s) — 1 files written
+12:18:21 unalias aF80185AF0 -> func_80185AF0: `s32 func_80185AF0(s32 arg0)` defined in src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:18:22 unalias aF80185AF0: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:18:34 unalias aF80185B48 -> func_80185B48: `s32 func_80185B48(s32 a0)` defined in src/ov_SC03_007/ov_SC03_007_jr_80183894.c; 1 files (1 alias prototypes, 12 real-name declarations, 0 renames)
+12:18:34 unalias aF80185B48: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:18:47 unalias aF80185D3C -> func_80185D3C: `s32 func_80185D3C(void *a0, s16 a1)` defined in src/ov_SC03_007/ov_SC03_007_jr_80183894.c; 1 files (1 alias prototypes, 4 real-name declarations, 0 renames)
+12:18:47 unalias aF80185D3C: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:19:00 unalias aF80185EEC -> func_801889AC: `void func_801889AC(s32 a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_80188830.c; 23 files (23 alias prototypes, 4 real-name declarations, 8 renames)
+12:19:00 unalias aF80185EEC: DIFFERS [build/src/ov_SC03_002/ov_SC03_002_jr_8018431C.o] — nothing written
+12:19:12 unalias aF80185F88 -> func_80185F88: `s32 func_80185F88(s32 a0)` defined in src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c; 2 files (2 alias prototypes, 4 real-name declarations, 0 renames)
+12:19:13 unalias aF80185F88: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:19:25 unalias aF8018632C -> func_8018632C: `s32 func_8018632C(s32 a0)` defined in src/ov_SC03_091/ov_SC03_091_jr_8018326C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:19:25 unalias aF8018632C: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:19:38 unalias aF801866D4 -> func_801866D4: `void func_801866D4(void)` defined in src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:19:38 unalias aF801866D4: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:19:51 unalias aF80186828 -> func_80186828: `s32 func_80186828(void *a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_8018631C.c; 2 files (2 alias prototypes, 1 real-name declarations, 1 renames)
+12:19:51 unalias aF80186828: DIFFERS [build/src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.o] — nothing written
+12:20:03 unalias aF801869C0 -> func_8017F390: `s32 func_8017F390(s32 param_1)` defined in src/ov_SC02_026/ov_SC02_026_jr_8017C180.c; 2 files (2 alias prototypes, 1 real-name declarations, 1 renames)
+12:20:04 unalias aF801869C0: DIFFERS [build/src/ov_SC02_027/ov_SC02_027_jr_8017D898.o] — nothing written
+12:20:17 unalias aF801873A4 -> func_801873A4: `s32 func_801873A4(s32 param_1)` defined in src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:20:17 unalias aF801873A4: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:20:29 unalias aF80187454 -> func_80187454: `void func_80187454(void *arg0)` defined in src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:20:29 unalias aF80187454: src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c calls func_80187454 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:20:29 unalias aF80187454: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+12:20:42 unalias aF80187460 -> func_80187460: `s32 func_80187460(s32 a0, s16 a1)` defined in src/ov_SC06_022/ov_SC06_022_jr_80184A28.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:20:42 unalias aF80187460: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:20:54 unalias aF8018771C -> func_8018771C: `s32 func_8018771C(s32 arg0, s32 arg1)` defined in src/ov_SC03_091/ov_SC03_091_jr_8018326C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:20:55 unalias aF8018771C: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:21:07 unalias aF801877C0 -> func_801877C0: `s32 func_801877C0(void)` defined in src/ov_SC03_001/ov_SC03_001_jr_801870B0.c; 5 files (5 alias prototypes, 11 real-name declarations, 0 renames)
+12:21:07 unalias aF801877C0: IDENTICAL on every recipe (5 objects, 0.3 s) — 5 files written
+12:21:20 unalias aF80187CBC -> func_80187CBC: `s32 func_80187CBC(s32 arg0)` defined in src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c; 1 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+12:21:20 unalias aF80187CBC: IDENTICAL on every recipe (1 objects, 0.3 s) — 1 files written
+12:21:32 unalias aF80187E54 -> func_80187E54: `s32 func_80187E54(s32 a0, s16 a1)` defined in src/ov_SC06_033/ov_SC06_033_jr_80186574.c; 4 files (4 alias prototypes, 4 real-name declarations, 0 renames)
+12:21:32 unalias aF80187E54: IDENTICAL on every recipe (4 objects, 0.4 s) — 4 files written
+12:21:45 unalias aF80188B64 -> func_80188B64: `s32 func_80188B64(s32 arg0)` defined in src/ov_SC03_091/ov_SC03_091_jr_8018326C.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:21:45 unalias aF80188B64: IDENTICAL on every recipe (2 objects, 0.5 s) — 2 files written
+12:21:58 unalias aF80188C0C -> func_80188C0C: `s32 func_80188C0C(s32 a0, s16 a1)` defined in src/ov_SC02_000/ov_SC02_000_jr_80187B40.c; 2 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+12:21:58 unalias aF80188C0C: IDENTICAL on every recipe (4 objects, 0.5 s) — 2 files written
+12:22:10 unalias aF801893CC -> func_801893CC: `s32 func_801893CC(s32 a0, s16 a1)` defined in src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:22:10 unalias aF801893CC: IDENTICAL on every recipe (2 objects, 0.2 s) — 2 files written
+12:22:23 unalias aF80189694 -> func_80189694: `void func_80189694(void)` defined in src/ov_SC03_105/ov_SC03_105_jr_80186DDC.c; 2 files (2 alias prototypes, 2 real-name declarations, 0 renames)
+12:22:23 unalias aF80189694: IDENTICAL on every recipe (2 objects, 0.1 s) — 2 files written
+12:22:36 unalias aF80189938 -> func_80189938: `s32 func_80189938(s32 a0, s16 a1)` defined in src/ov_SC06_024/ov_SC06_024_jr_80186F00.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:22:36 unalias aF80189938: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+12:22:48 unalias aF80189C68 -> func_80189C68: `s32 func_80189C68(s32 *arg0)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:22:49 unalias aF80189C68: IDENTICAL on every recipe (1 objects, 0.4 s) — 1 files written
+12:23:02 unalias aF8018A224 -> func_8018F390: `s32 func_8018F390(void *param_1)` defined in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c; 32 files (32 alias prototypes, 1 real-name declarations, 29 renames)
+12:23:03 unalias aF8018A224: DIFFERS [build/src/ov_SC02_016/ov_SC02_016_jr_801810C8.o] — nothing written
+12:23:16 unalias aF8018A860 -> func_8018A8E8: `void func_8018A8E8(s32 a0, s16 *a1, u8 *a2, u8 *a3)` defined in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c; 21 files (21 alias prototypes, 2 real-name declarations, 12 renames)
+12:23:16 unalias aF8018A860: DIFFERS [build/src/ov_SC02_028/ov_SC02_028_jr_8017D898.o] — nothing written
+12:23:29 unalias aF8018AFD0 -> func_8018B058: `void func_8018B058(s32 a0, s32 a1, s32 a2)` defined in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c; 21 files (21 alias prototypes, 2 real-name declarations, 12 renames)
+12:23:30 unalias aF8018AFD0: DIFFERS [build/src/ov_SC02_011/ov_SC02_011_jr_80188E3C.o] — nothing written
+12:23:43 unalias aF8018B1DC -> func_8018B1DC: `void func_8018B1DC(void)` defined in src/ov_SC03_028/ov_SC03_028_jr_801887A8.c; 1 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+12:23:43 unalias aF8018B1DC: DIFFERS [build/src/ov_SC03_028/ov_SC03_028_jr_801887A8.o] — nothing written
+12:23:55 unalias aF8018B20C -> func_8018B20C: `void func_8018B20C(void)` defined in src/ov_SC06_029/ov_SC06_029_jr_801898CC.c; 2 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+12:23:55 unalias aF8018B20C: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+12:24:08 unalias aF8018BA4C -> func_8018BA4C: `void func_8018BA4C(s32 a0)` defined in src/ov_SC06_032/ov_SC06_032_jr_80182890.c; 1 files (1 alias prototypes, 5 real-name declarations, 0 renames)
+12:24:08 unalias aF8018BA4C: src/ov_SC06_032/ov_SC06_032_jr_80182890.c calls func_8018BA4C with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+12:24:09 unalias aF8018BA4C: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_80182890.c:9335: too few arguments to function `func_8018BA4C'
+src/ov_SC06_032/ov_SC06_032_jr_80182890.c:9360: too few arguments to function `func_8018BA4C'
+src/ov_SC06_032/ov_SC06_032_jr_80182890.c: At top level:
+src/ov_SC06_032/ov_SC06_032_jr_80182890.c: At top level — nothing written
+12:24:21 unalias aF8018C118 -> func_8018C118: `void func_8018C118(void *a0)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+12:24:22 unalias aF8018C118: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14624: `func_8018C118' redeclared as different kind of symbol
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14615: previous declaration of `func_8018C118'
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: At top level:
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: At top  — nothing written
+12:24:34 unalias aF8018C2CC -> func_8018C2CC: `void func_8018C2CC(void *a0)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+12:24:35 unalias aF8018C2CC: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14699: `func_8018C2CC' redeclared as different kind of symbol
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14690: previous declaration of `func_8018C2CC'
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: At top level:
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: At top  — nothing written
+12:24:47 unalias aF8018CB18 -> func_80186F88: `s32 func_80186F88(void *a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_8018631C.c; 21 files (21 alias prototypes, 6 real-name declarations, 8 renames)
+12:24:48 unalias aF8018CB18: DIFFERS [build/src/ov_SC03_002/ov_SC03_002_jr_8018431C.o] — nothing written
+12:25:00 unalias aF801904E0 -> func_801904BC: `s32 func_801904BC(void *param_1)` defined in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c; 7 files (7 alias prototypes, 1 real-name declarations, 6 renames)
+12:25:00 unalias aF801904E0: DIFFERS [build/src/ov_SC03_092/ov_SC03_092_jr_80181694.o] — nothing written
+12:25:12 unalias aF801A93F4 -> func_801A93F4: `s32 func_801A93F4(void *a0)` defined in src/md_SC07_004/md_SC07_004.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+12:25:13 unalias aF801A93F4: IDENTICAL on every recipe (1 objects, 0.3 s) — 1 files written
+12:25:13 restruct: unalias t4_ua2 — 148 alias-defined functions: 98 back under their real name / 50 kept · 1074 files written

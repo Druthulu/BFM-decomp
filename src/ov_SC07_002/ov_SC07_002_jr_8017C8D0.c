@@ -8919,8 +8919,7 @@ extern void func_80146C3C(void);
 extern void func_80017254(void *a0);
 extern void func_800176F0(void *a0);
 
-void aF801866D4(void) __asm__("func_801866D4");
-void aF801866D4(void)
+void func_801866D4(void)
 {
 
     extern u8 D_80198AA8[];

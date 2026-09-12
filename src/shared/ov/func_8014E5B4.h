@@ -1,7 +1,6 @@
 /* func_8014E5B4 — shared body (overlay slot 0x80128158, h_exact 4ed201dc). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 aF8014E5B4(s32 a0, void *a1, void *a2) __asm__("func_8014E5B4");
-s32 aF8014E5B4(s32 a0, void *a1, void *a2)
+s32 func_8014E5B4(s32 a0, void *a1, void *a2)
 {
     extern u8 D_801202A0[];
     u8 *p;

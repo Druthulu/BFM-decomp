@@ -4701,7 +4701,7 @@ L_end:
 
 extern u8 D_801202A0[];
 extern s32 rand(void);
-extern void func_80180030(void *a0, s32 a1);
+extern s32 func_80180030(void *a0, s32 a1);
 
 /* Frame note (byte-load-bearing): the target frame is 0x58 = 0x10 outgoing-args
  * + 0x20 locals + 0x28 saved regs, with `pool` at sp+0x10 and `have` at sp+0x18.
@@ -4782,8 +4782,7 @@ extern s32 D_801DDB2C[5];
  * 87 ins — byte-tested). The alias defines under a different C identifier and binds
  * the emitted symbol back to func_80180030; the caller discards the return, so it is
  * byte-neutral for the caller (§30#2 / §136f-2 in-TU precedent aF8018B20C). */
-s32 aF80180030(void *a0, s32 a1) __asm__("func_80180030");
-s32 aF80180030(void *a0, s32 a1)
+s32 func_80180030(void *a0, s32 a1)
 {
     u8 idxArr[4];
     s32 valArr[4];
@@ -5301,7 +5300,7 @@ extern s32 func_8018B1E0(s32 arg);
     }
 
 
-extern s32 func_8018B20C(void);
+extern void func_8018B20C(void);
     void func_80180EE8(void) {
         func_8018B20C();
     }

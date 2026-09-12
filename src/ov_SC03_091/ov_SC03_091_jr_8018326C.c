@@ -4165,9 +4165,9 @@ extern s16 D_80126CBA;
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 extern s32 func_801858AC();
 
-s32 *aF80185730(s32 *a0, s32 a1, s32 a2) __asm__("func_80185730");
 
-s32 *aF80185730(s32 *a0, s32 a1, s32 a2) {
+s32 * func_80185730(s32 *a0, s32 a1, s32 a2)
+{
     s32 sp10[4];
     s32 sp20;
     s16 *q;
@@ -4662,7 +4662,7 @@ void func_80186140(s32 a0)
 extern s32  func_8012BEE8(s32 a0);
 extern s32 func_8004787C(s32 a0);
 extern void func_8012C218(void *a0);
-extern void func_8018632C(s32 a0);
+extern s32 func_8018632C(s32 a0);
 
 void func_801861FC(s32 ent) {
     s32 t;
@@ -4711,9 +4711,9 @@ void func_801861FC(s32 ent) {
  * epilogue). A plain `s32 func_8018632C` definition would be a
  * conflicting-types error against TU:4782, so define under a distinct C
  * name bound to the emitted symbol. */
-s32 aF8018632C(s32 a0) __asm__("func_8018632C");
 
-s32 aF8018632C(s32 a0) {
+s32 func_8018632C(s32 a0)
+{
     extern void func_8012BE54(s32 a0);
     extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern u16 D_80126B62;
@@ -5111,7 +5111,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012B030(u8 *a0);
 extern s32 rand(void);
 extern void func_801877EC(s32 a0);
-extern void func_8018771C(s32 a0, s32 a1);
+extern s32 func_8018771C(s32 arg0, s32 arg1);
 
 void func_80186A8C(s32 a0) {
 
@@ -5586,9 +5586,9 @@ extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
  * fill reorg only permits when $v0 is live-out, §162f1). A plain `s32
  * func_8018771C` definition would be a conflicting-types error against TU:5199,
  * so define under a distinct C name bound to the emitted symbol. */
-s32 aF8018771C(s32 arg0, s32 arg1) __asm__("func_8018771C");
 
-s32 aF8018771C(s32 arg0, s32 arg1) {
+s32 func_8018771C(s32 arg0, s32 arg1)
+{
     s32 buf1[2];
     s32 buf2[2];
     s32 a1v;
@@ -6237,7 +6237,7 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern void func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80188C18(s32 a0);
-extern void func_80188B64(s32 a0);
+extern s32 func_80188B64(s32 arg0);
 
 void func_8018848C(s32 a0)
 {
@@ -6336,7 +6336,7 @@ extern s32  func_8012B77C(s32 out, s32 from, s32 to);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80188B0C(s32 a0, s32 a1);
-extern void func_80188B64(s32 a0);
+extern s32 func_80188B64(s32 arg0);
 extern void func_80188C18(s32 a0);
 
 void func_80188660(s32 a0) {
@@ -6559,9 +6559,9 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
-s32 aF80188B64(s32 arg0) __asm__("func_80188B64");
 
-s32 aF80188B64(s32 arg0) {
+s32 func_80188B64(s32 arg0)
+{
     s32 rv;
     s32 buf1[2];
     s32 buf2[2];

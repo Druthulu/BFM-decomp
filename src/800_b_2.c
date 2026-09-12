@@ -2662,7 +2662,7 @@ void func_8002FAE0(void) {
 
 
 
-extern void func_800301A4(void);
+extern s32 func_800301A4(void);
 extern int  func_80037CD8(void *arg);
 extern void func_80031A98(void);
 extern void func_8002EC10(void);
@@ -3003,8 +3003,8 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
 extern u8  D_8006AEF4;
 extern s16 D_800A46CC;
 
-s32 aF800301A4(void) __asm__("func_800301A4");
-s32 aF800301A4(void) {
+s32 func_800301A4(void)
+{
     u8 t;
 
     t = D_8006AEF4;
@@ -3047,7 +3047,7 @@ extern u8    D_8006AEF4;
 extern s32 (*D_8006AA14[])(void);
 extern s32   SsVabOpenHeadSticky();
 
-extern void func_800301A4(void);
+extern s32 func_800301A4(void);
 extern void func_80031A98(void);
 extern int  func_80037CD8(void *arg);
 extern void func_800415A8(s32);
@@ -3145,7 +3145,7 @@ int func_800301C8(int entry, s32 a1, s32 a2) {
     }
 }
 
-extern void func_800301A4(void);
+extern s32 func_800301A4(void);
 extern s32 func_80037CD8(void *arg);
 extern s16 D_800A46CC;
 extern u8 D_8006AEF4;

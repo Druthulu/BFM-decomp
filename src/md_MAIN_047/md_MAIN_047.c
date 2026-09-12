@@ -45,9 +45,9 @@ void func_800CCB84(void *a0) {
  * epilogue). Bind the real body to a private C name aliased to the same
  * link symbol so the TU's void declaration never conflicts with this
  * definition's true s32 return type. */
-s32 aF800CCBC0(void) __asm__("func_800CCBC0");
 
-s32 aF800CCBC0(void) {
+s32 func_800CCBC0(void)
+{
     typedef struct { s16 vx, vy, vz, pad; } SVEC;
     typedef struct { u8 r, g, b, cd; } CVEC;
     typedef struct { SVEC v0, v1, v2, v3; CVEC c0, c1, c2, c3; s32 tag; } Prim;
@@ -333,7 +333,7 @@ void func_800CD4D0(void *arg0) {
 void func_800CD58C(void *arg0) {
     extern u8 D_800CD6E0[];
     extern void func_80016714(void *a0, s32 a1);
-    extern void func_800CCBC0(void);
+    extern s32 func_800CCBC0(void);
 
     if (*(s32 *)((s32)arg0 + 0x2C) != 0) {
         func_800CCDE8(arg0, 1, 0x37);

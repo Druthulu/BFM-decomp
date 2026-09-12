@@ -2948,7 +2948,7 @@ void func_8017EAEC(s32 a0) {
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void func_8017F448(void *a0, void *a1);
+extern void func_8017F448(u16 *r, s16 *m);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 
 void func_8017EC98(s32 param_1, s32 param_2, s16 *param_3) {
@@ -3320,8 +3320,7 @@ void func_8017F2E8(s32 param_1, s32 *param_2)
 
 
 
-void aF8017F448(u16 *r, s16 *m) __asm__("func_8017F448");
-void aF8017F448(u16 *r, s16 *m)
+void func_8017F448(u16 *r, s16 *m)
 {
     s16 cx;
     s16 sx;
@@ -3698,7 +3697,7 @@ void func_8017FD44(s32 a0) {
 
 
 typedef struct { s16 h[3]; } SV3L;
-extern void func_80180C0C(s16 *a0);
+extern s32 func_80180C0C(s32 a0, s32 a1, s32 a2);
 extern void func_80180F3C(void *a0);
 extern s32 func_801809F0();
 extern void func_8012C218(void *a0);
@@ -4343,9 +4342,9 @@ struct vec;
 extern void func_8012AD80(struct vec *a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
-s32 aF80180C0C(s32 a0, s32 a1, s32 a2) __asm__("func_80180C0C");
 
-s32 aF80180C0C(s32 a0, s32 a1, s32 a2) {
+s32 func_80180C0C(s32 a0, s32 a1, s32 a2)
+{
     u16 sp10[4];
     u16 sp18[4];
     s32 v0;

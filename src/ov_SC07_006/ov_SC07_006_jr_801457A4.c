@@ -1456,7 +1456,7 @@ void func_80146360(void)
 #include "../shared/ov/func_801469C8.h"
 
 
-extern void func_80146AFC(void*);
+extern s32 func_80146AFC(void *arg0);
 void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("func_80146A6C");
 #include "../shared/ov/func_80146A6C.h"
 
@@ -1513,7 +1513,6 @@ extern s32 func_80146B9C(void * arg0);
  */
 
 
-s32 aF80146AFC(void *arg0) __asm__("func_80146AFC");
 
 #include "../shared/ov/func_80146AFC.h"
 
@@ -1639,14 +1638,14 @@ void func_80146F58(s32 a0, s32 a1) {
 
 
 /* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
-    extern void func_80147364(u16, u16);
+    extern void func_80147364(u16 param_1, u16 param_2);
     void func_80147300(u16 arg0) {
         func_80147364(arg0, 0);
     }  /* dedup: shared engine-core @0x80147300 (src/shared) */
 
 
 /* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
-    extern void func_80147364(u16, u16);
+    extern void func_80147364(u16 param_1, u16 param_2);
     extern void *D_8012707C;
     void func_80147324(s32 arg0) {
         s32 temp_a0;
@@ -2194,7 +2193,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80015978(s32 a0, s32 *a1);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_80147364(u16, u16);
+extern void func_80147364(u16 param_1, u16 param_2);
 extern s32 func_800CCF28(s32 a0);
 extern u16 *func_80146750(u16 *param_1);
 extern s16 currentLocationId;
@@ -2747,7 +2746,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 
 /* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
     extern u16 func_8014CA70(s32 a0, s32 a1);
-    extern void func_80147364(u16, u16);
+    extern void func_80147364(u16 param_1, u16 param_2);
     extern void *D_8012707C;
     s32 func_8014CA14(s32 a0, s32 a1) {
         u16 x = func_8014CA70(a0, a1);
@@ -2768,7 +2767,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 
 /* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
     extern u16 func_8014CAE4(s32 *a0, s32 a1);
-    extern void func_80147364(u16, u16);
+    extern void func_80147364(u16 param_1, u16 param_2);
     extern void *D_8012707C;
 #include "../shared/ov/func_8014CA88.h"
 
@@ -3529,7 +3528,7 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 /* §37/§124 asm-label alias: the fleet canon declares this `extern void` (engine_core.h:13392,
  * inside DEFINE_func_8014E48C()); the byte-true body must return s32. Aliasing the C name
  * sidesteps the RETURN-axis conflict with no header edit. This line MUST travel with the body. */
-s32 aF8014E5B4(s32 a0, void *a1, void *a2) __asm__("func_8014E5B4");
+extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 
 #include "../shared/ov/func_8014E5B4.h"
 

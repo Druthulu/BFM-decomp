@@ -2884,7 +2884,7 @@ extern void func_80183918(void *arg0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80183BE4(void);
 extern void func_80183CF0(void *arg0);
-extern void aF801839A8();
+extern void func_801839A8(void *arg0);
 extern void func_80017714(void *);
 extern u32 D_801E1C60;
 extern u16 D_80190740[];

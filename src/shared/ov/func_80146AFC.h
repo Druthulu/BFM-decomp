@@ -1,7 +1,6 @@
 /* func_80146AFC — shared body (overlay slot 0x80128158, h_exact ee1ca268). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 aF80146AFC(void *arg0) __asm__("func_80146AFC");
-s32 aF80146AFC(void *arg0)
+s32 func_80146AFC(void *arg0)
 {
     u8 *p;
     register u8 *q __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)

@@ -408,7 +408,15 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   objects (139 s)**, 337 files written; R22 (`r22_t4_ua1.log`) **`check-all: 218 passed, 0 failed of 218`**. The cycle was stopped by pid after D12
   (empty); `--unalias ALL` for the other 148 next, then the D cycle again (argcheck now sees the real-name callers).
 
-## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑** (baseline · the census + map · the probe · THE ENGINE) — 🛑 **T4 NEXT (the declaration layer over the fleet by symbol space — rung D in unattended cycles; xHigh) — and FIRST the P6 rules check (four tasks complete)** | R22 `check-all: 218 passed, 0 failed of 218` at `42a57f576`+`common.h` (`r22_t3c.log`; the close commit adds no build input) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (6 commits ahead: `0a55cb0fd` … this one — Drew pushes, R6) | last unit `t4_ua1` (unalias func_8012EFB8, 337 files, 478 objects IDENTICAL), R22 218/218 — T4 in progress (S107)
+- **S107 — T4 unalias sweep `t4_ua2` (`--unalias ALL`, detached):** `restruct: unalias t4_ua2 — 148 alias-defined functions: 98 back under their
+  real name / 50 kept · 1074 files written` (592 distinct files) → R22 (`r22_t4_ua2.log`) **`check-all: 218 passed, 0 failed of 218`**. The 50
+  kept, bucketed by cause (R117): 18 DIFFERS (one caller object each — the lying prototype is load-bearing there, half of them in `ov_MAIN_012`),
+  12 `conflicting types` (a TU outside the unit's file set declares the real name another way while a header it includes went canonical), 11
+  `too few/many arguments` (a caller passing another count sees a shared header's canonical prototype — the K&R fallback must mark the
+  HEADER), 9 REFUSED (a shared header declares the real name for non-member binaries: the declaration must be hoisted into the includers
+  first). Three fallbacks to add, then the 50 re-run.
+
+## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑** (baseline · the census + map · the probe · THE ENGINE) — 🛑 **T4 NEXT (the declaration layer over the fleet by symbol space — rung D in unattended cycles; xHigh) — and FIRST the P6 rules check (four tasks complete)** | R22 `check-all: 218 passed, 0 failed of 218` at `42a57f576`+`common.h` (`r22_t3c.log`; the close commit adds no build input) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (6 commits ahead: `0a55cb0fd` … this one — Drew pushes, R6) | last unit `t4_ua2` (unalias ALL: 98/148 back under their real names, 592 files), R22 218/218 — T4 in progress (S107)
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
 is what S107 knew and the next session must not re-derive.** **The checkpoint procedure (every session end, Drew 2026-09-12):** bank the

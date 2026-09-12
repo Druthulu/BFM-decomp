@@ -3678,9 +3678,8 @@ extern void func_8017F258();
 extern u8 D_80185FA0_recs[] __asm__("D_80185FA0");
 extern u8 D_80185F94[];
 
-void aF8017EEA4(void *arg) __asm__("func_8017EEA4");
 
-void aF8017EEA4(void *arg)
+void func_8017EEA4(void *arg)
 {
     typedef struct { u8 b[4]; } Blk4;
     typedef struct { u8 b[8]; } Blk8;

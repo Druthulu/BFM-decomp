@@ -4638,7 +4638,7 @@ void func_80189454(void *a0) {
 }
 
 
-extern s32 func_80189694(void);
+extern void func_80189694(void);
     void func_80189654(void) {
         func_80189694();
     }
@@ -4654,8 +4654,7 @@ extern void func_80146C3C(void);
 extern void func_80017254(void *a0);
 extern void func_800176F0(void *a0);
 
-void aF80189694(void) __asm__("func_80189694");
-void aF80189694(void)
+void func_80189694(void)
 {
 
     extern u8 D_8018F398[];

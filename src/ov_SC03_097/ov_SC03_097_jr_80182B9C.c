@@ -3659,7 +3659,7 @@ extern s32 rand(void);
 extern void func_80184CB0(s32 a0, s32 a1);
 extern void func_8012CBF4(s32 a0);
 extern void func_80184FB0(s16 *a0, s32 a1);
-extern void func_80184BFC(s32 a0);
+extern s32 func_80184BFC(s32 arg0);
 
 void func_80184444(s32 a0) {
     s16 sp10[3];
@@ -3949,9 +3949,9 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
  * takes a private C identifier and binds the emitted symbol with a GNU asm label.
  * Zero blast radius: the TU's declaration never meets the definition, and the emitted
  * symbol is unchanged. */
-s32 aF80184BFC(s32 arg0) __asm__("func_80184BFC");
 
-s32 aF80184BFC(s32 arg0) {
+s32 func_80184BFC(s32 arg0)
+{
 
     extern s32 *D_80126B78;
     extern u8 D_8019EABC[];

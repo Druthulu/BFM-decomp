@@ -5851,7 +5851,7 @@ typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4;
 
 extern s16 D_80126CBA;
 
-s32 *aF80184888(s32 *a0, s32 a1, s32 a2) __asm__("func_80184BAC");
+extern s32 * func_80184888(s32 *a0, s32 a1, s32 a2);
 
 s32 *aF80184BAC(s32 *a0, s32 a1, s32 a2) __asm__("func_80184BAC");
 

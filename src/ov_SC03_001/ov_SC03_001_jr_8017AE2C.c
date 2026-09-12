@@ -4112,7 +4112,7 @@ extern u8 D_80078E78[];
 extern u8 D_800AF630[];
 extern s32 func_8004787C(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_8017E1B4(void *a0);
+extern void func_8017E1B4();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 extern void func_8017E2C0(void *arg0);
 
 void func_8017DF78(void *arg0)
@@ -4213,8 +4213,7 @@ extern void func_8017E204(void *arg0);
 
 
 
-void aF8017E1B4(void) __asm__("func_8017E1B4");
-void aF8017E1B4(void)
+void func_8017E1B4(void)
 {
 
     extern Ent_8017D6EC D_801EE888[];
@@ -6201,8 +6200,7 @@ extern void func_80187750(s32);
 extern void func_80187994(s32, s32, s32, s32);
 
 
-void aF80180B5C(void *arg0) __asm__("func_80180B5C");
-void aF80180B5C(void *arg0)
+void func_80180B5C(void *arg0)
 {
 
     extern short D_801919AC;
@@ -6313,7 +6311,7 @@ extern s32 func_80029178(s32 arg);
 
 
 extern s32 func_80180AC4(s32 a0);
-extern s32 func_80180B5C(void *a0);
+extern void func_80180B5C(void *arg0);
 void func_80180DD8(int param_1)
 {
     if (((int (*)(void))func_80180AC4)() != 0) {
@@ -6700,7 +6698,7 @@ extern void func_80187778(s32 *a0, s32 a1);
 extern s32 func_801788B8(s32 a0, s32 a1);
 extern short D_80191B3C;
 extern s32 D_80191B44;
-extern void func_8018166C(void *);
+extern s32 func_8018166C(void *arg0);
 
 void func_801815A0(void *arg0) {
     void *s0 = arg0;
@@ -6746,9 +6744,8 @@ extern void func_80172710(void);
 extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
 extern s32 func_80178BF8();
 
-s32 aF8018166C(void *arg0) __asm__("func_8018166C");
 
-s32 aF8018166C(void *arg0)
+s32 func_8018166C(void *arg0)
 {
     if (*(u16 *)(*(s32 *)((char *)arg0 + 0x64) + 2) != 3) {
         return 0;

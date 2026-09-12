@@ -4346,7 +4346,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012B030(u8 *a0);
 extern s32 rand(void);
 extern void func_80181DCC(s32 a0);
-extern void func_80181CFC(s32 a0, s32 a1);
+extern s32 func_80181CFC(s32 arg0, s32 arg1);
 
 void func_8018106C(s32 a0) {
 
@@ -4804,8 +4804,8 @@ extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
  * s32. Define under the private C name aF80181CFC with an __asm__ label
  * binding the real symbol -- no in-TU conflicting-types error, emitted
  * symbol unchanged, sibling TUs unaffected. */
-s32 aF80181CFC(s32 arg0, s32 arg1) __asm__("func_80181CFC");
-s32 aF80181CFC(s32 arg0, s32 arg1) {
+s32 func_80181CFC(s32 arg0, s32 arg1)
+{
     s32 buf1[2];
     s32 buf2[2];
 

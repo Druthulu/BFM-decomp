@@ -10,7 +10,7 @@ void func_80163C2C(s32 param_1) {
     extern void func_80162FC0(s32 *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146E90(s32 *a0, s32 a1);
-    extern void func_80147364();
+    extern void func_80147364(u16 param_1, u16 param_2);
     extern void func_80146CA0(void *a0);
     extern u16 func_80156370(u16 param_1);
     extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param_5);

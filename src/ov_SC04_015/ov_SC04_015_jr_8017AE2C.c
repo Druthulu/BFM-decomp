@@ -4331,8 +4331,8 @@ void func_8017DB70(void *a0) {
 
 
 
-extern void func_8017DBEC(s32 a0, s32 a1);
-extern void func_8017DD2C(void *a0);
+extern void func_8017DBEC(void *a0, u8 *a1);
+extern void func_8017DD2C(s32 param_1);
 void func_8017DBAC(s32 arg0)
 {
   volatile unsigned char new_var;
@@ -4354,8 +4354,7 @@ extern u16 func_801487F4(s32 *a0);
 extern u16 func_80148800(s32 *a0);
 extern s32 func_80012A60(s32 a0, s32 a1);
 
-void aF8017DBEC(void *a0, u8 *a1) __asm__("func_8017DBEC");
-void aF8017DBEC(void *a0, u8 *a1)
+void func_8017DBEC(void *a0, u8 *a1)
 {
 
     extern s32 D_80126B58;
@@ -4418,8 +4417,7 @@ extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
-void aF8017DD2C(s32 param_1) __asm__("func_8017DD2C");
-void aF8017DD2C(s32 param_1)
+void func_8017DD2C(s32 param_1)
 {
     extern s16 D_80126940;
     extern s16 D_80126942;
@@ -6299,8 +6297,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_801808E4(void);
 extern void func_801809F0(void *arg0);
 
-void aF801806A8(void *arg0) __asm__("func_801806A8");
-void aF801806A8(void *arg0)
+void func_801806A8(void *arg0)
 {
 
     extern u8 D_80078EB1;

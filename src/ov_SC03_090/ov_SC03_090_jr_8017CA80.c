@@ -5357,7 +5357,7 @@ extern s32 rand(void);
 
 void func_80183EC4(s32 a0)
 {
-    extern void func_80184888(s32 out, s32 a1, s32 a2);
+    extern s32 * func_80184888(s32 *a0, s32 a1, s32 a2);
     extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
     extern void func_8012B178(s32 a0, s32 a1);
     extern void func_8012CBF4(s32 a0);
@@ -5420,7 +5420,7 @@ void func_80184060(s32 a0)
 
 extern s32 *D_80126B78;
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
-extern void func_80184888(s32 out, s32 a1, s32 a2);
+extern s32 * func_80184888(s32 *a0, s32 a1, s32 a2);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -5490,7 +5490,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012B2CC(s32 a0);
 extern s32  func_8012B77C(s32 out, s32 from, s32 to);
-extern void func_80184888(s32 out, s32 a1, s32 a2);
+extern s32 * func_80184888(s32 *a0, s32 a1, s32 a2);
 extern s32  func_8018485C(s32 arg0);
 
 void func_801841A4(s32 a0) {
@@ -5816,9 +5816,9 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 
 extern s16 D_80126CBA;
 
-s32 *aF80184888(s32 *a0, s32 a1, s32 a2) __asm__("func_80184888");
 
-s32 *aF80184888(s32 *a0, s32 a1, s32 a2) {
+s32 * func_80184888(s32 *a0, s32 a1, s32 a2)
+{
     s32 sp10[4];
     s32 sp20;
     s16 *q;
@@ -7919,7 +7919,7 @@ extern u8 D_800D3918[];
 extern s16 D_801152B0;
 extern void func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80187D70(s32 a0);
-extern void func_80187CBC(s32 a0);
+extern s32 func_80187CBC(s32 arg0);
 
 void func_801875E4(s32 a0)
 {
@@ -8015,7 +8015,7 @@ extern s32  func_8012B77C(s32 out, s32 from, s32 to);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80187C64(s32 a0, s32 a1);
-extern void func_80187CBC(s32 a0);
+extern s32 func_80187CBC(s32 arg0);
 extern void func_80187D70(s32 a0);
 
 void func_801877B8(s32 a0) {
@@ -8255,11 +8255,11 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
-s32 aF80188B64(s32 arg0) __asm__("func_80187CBC");
+extern s32 func_80188B64(s32 arg0);
 
-s32 aF80187CBC(s32 arg0) __asm__("func_80187CBC");
 
-s32 aF80187CBC(s32 arg0) {
+s32 func_80187CBC(s32 arg0)
+{
     s32 rv;
     s32 buf1[2];
     s32 buf2[2];

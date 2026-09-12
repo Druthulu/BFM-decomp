@@ -2872,13 +2872,12 @@ extern void func_8017F330(s32 param_1);
 extern void func_8017F970(s32 arg0);
 extern void func_8017F984(s32 arg0);
 extern void func_8017F9C0(s32 param_1);
-extern void func_80180030(void *a0, s32 a1);
+extern s32 func_80180030(void *a0, s32 a1);
 extern void func_8017FE58(void *fp, s32 count);
 extern void * func_80185C6C(s32 a0, s32 a1); /* TU idiom: calls go through a (s32,s32) fn-ptr cast */
 extern s32 func_80013478(s32 a0, s32 a1);
 extern void (*D_80190218[])(void);
 extern s32 D_801DDB2C[5];
-extern s32 aF80180030();
 extern void func_80180198(s32 a0);
 extern void * func_80185C6C(s32 a0, s32 a1);
 extern void func_801856A4(s32 *a0, s32 a1); /* §183 SIGNATURE-adopted-TU */

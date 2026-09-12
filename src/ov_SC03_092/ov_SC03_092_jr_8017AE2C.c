@@ -4705,7 +4705,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
 extern void func_8012C218(void *a0);
 extern s32  func_801788B8(s32 a0, s32 a1);
-extern void func_8017EDDC(void);
+extern s32 func_8017EDDC(void *a0);
 
 extern u8   D_80188A28[];
 extern u8   D_8018502C[];
@@ -4881,10 +4881,8 @@ extern void func_8012BE54(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
 
-s32 aF8017EDDC() __asm__("func_8017EDDC");
 
-s32 aF8017EDDC(a0)
-    void *a0;
+s32 func_8017EDDC(void *a0)
 {
     if (((s32 (*)(s32))func_8012BE54)(*(s32 *)((s32)a0 + 0x64)) >= 0x2401) {
         return 0;
@@ -4914,7 +4912,7 @@ void func_8017EE40(s32 *a0)
 }
 
 
-extern void func_8017EDDC(void);
+extern s32 func_8017EDDC(void *a0);
 extern u16 D_80188B60[];
 extern u16 D_80188B62[];
 extern u16 D_80188B64[];

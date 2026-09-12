@@ -2753,7 +2753,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012B2CC(s32 a0);
 extern s32  func_8012B77C(s32 out, s32 from, s32 to);
-extern void func_8018271C(s32 out, s32 a1, s32 a2);
+extern s32 * func_8018271C(s32 *a0, s32 a1, s32 a2);
 extern s32  func_801826F0(s32 arg0);
 
 void func_80182038(s32 a0) {
@@ -3092,9 +3092,9 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 
 extern s16 D_80126CBA;
 
-s32 *aF8018271C(s32 *a0, s32 a1, s32 a2) __asm__("func_8018271C");
 
-s32 *aF8018271C(s32 *a0, s32 a1, s32 a2) {
+s32 * func_8018271C(s32 *a0, s32 a1, s32 a2)
+{
     s32 sp10[4];
     s32 sp20;
     s16 *q;

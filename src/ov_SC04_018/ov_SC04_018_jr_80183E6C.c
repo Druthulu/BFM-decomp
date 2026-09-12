@@ -2855,7 +2855,7 @@ extern void func_80184ED4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8018042C(s32 a0);
 extern void (*D_801919C4[])(void);
 extern void func_8018048C(void *a0);
-extern s32 func_80184DD0(s32 a0);
+extern s32 func_80184DD0();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 extern s32 D_80191918[];
 extern void func_80180504(s32 a0);
 extern s32 func_80180544(Ent_8017BFE0_80180544 *param_1);
@@ -3152,7 +3152,7 @@ void func_80184130(void *a0) {
 
 
 
-extern s32 func_80184DD0(s32 a0);
+extern s32 func_80184DD0();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 
 void func_8018416C(s32 a0) {
 
@@ -3163,7 +3163,7 @@ void func_8018416C(s32 a0) {
 
 
 
-extern s32 func_80184DD0(s32 a0);
+extern s32 func_80184DD0();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 
 void func_801841AC(s32 a0) {
 
@@ -3174,7 +3174,7 @@ void func_801841AC(s32 a0) {
 
 
 
-extern s32 func_80184DD0(s32 a0);
+extern s32 func_80184DD0();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 
 void func_801841EC(s32 a0) {
 
@@ -3834,8 +3834,7 @@ s32 func_80184D5C(void) {
 
 extern s32 func_80029504(void);
 
-s32 aF80184DD0(void) __asm__("func_80184DD0");
-s32 aF80184DD0(void)
+s32 func_80184DD0(void)
 {
     s32 v0 = func_80029504();
 

@@ -8164,7 +8164,7 @@ extern s32 func_8012C354(s32 a0, s32 a1);
 extern void func_8012A828(s32, void*);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
-extern void func_80184358(s32 p);
+extern s32 func_80184358(void *param_1);
 
 void func_80184274(s32 a0) {
 
@@ -8208,10 +8208,8 @@ extern void func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
 
-s32 aF80184358() __asm__("func_80184358");
 
-s32 aF80184358(param_1)
-    void *param_1;
+s32 func_80184358(void *param_1)
 {
     if (((s32 (*)(s32))func_8012BD14)(*(s32 *)((s32)param_1 + 0x64)) > 0x1000) {
         return 0;

@@ -1,6 +1,6 @@
 /* func_8014AD30 — shared body (overlay slot 0x80128158, h_exact a1e0a452). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80146AFC(void *a0);
+extern s32 func_80146AFC(void *arg0);
 void func_8014AD30(s32 a0, u16 *a1, s32 a2, s32 a3) {
     struct S_8014AD30 sp;
     s16 b = a1[0];

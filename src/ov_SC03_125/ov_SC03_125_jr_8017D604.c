@@ -4499,8 +4499,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80180A8C(void);
 extern void func_80180B98(void *arg0);
 
-void aF80180850(void *arg0) __asm__("func_80180850");
-void aF80180850(void *arg0)
+void func_80180850(void *arg0)
 {
 
     extern u8 D_80078EB1;

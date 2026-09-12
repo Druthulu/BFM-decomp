@@ -3800,8 +3800,7 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
 /* §37/§124 SELF-axis: the TU declares `extern void func_8017E5D0(void);` (L3765) but the
    byte-true definition takes a pointer. Define under a private C name bound to the real
    symbol so both live in one TU — zero blast radius on every caller. */
-extern void aF8017E5D0(void *a0) __asm__("func_8017E5D0");
-void aF8017E5D0(void *a0)
+void func_8017E5D0(void *a0)
 {
     extern u8 D_800AF648;
 

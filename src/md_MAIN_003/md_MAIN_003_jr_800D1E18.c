@@ -686,7 +686,7 @@ void func_800D2C88(void) {
 }
 
 
-extern void func_800D2F88(s32 a0, s32 a1);
+extern u32 func_800D2F88();  // K&R: 0/2 of 0 args (P37 unalias t4_ua2)
 extern s32 func_800D30B8(void);
 
 s32 func_800D2CA8(s32 a0, s32 a1) {
@@ -777,7 +777,7 @@ extern s32 *D_800DB63C;
 extern s32 *D_800DB640;
 extern s32 *D_800DB66C;
 extern s32 *D_800DB644;
-extern void func_800D2F88(s32 a0, s32 a1);
+extern u32 func_800D2F88();  // K&R: 0/2 of 0 args (P37 unalias t4_ua2)
 
 void func_800D2E64(s32 a0, s32 a1) {
     u32 s0;
@@ -816,10 +816,9 @@ void func_800D2EF8(s32 a0, s32 a1) {
 
 
 extern s32 *D_800DB670;
-extern void func_800D30D0(char *a0);
+extern s32 func_800D30D0(char *arg0);
 
-u32 aF800D2F88(void) __asm__("func_800D2F88");
-u32 aF800D2F88(void)
+u32 func_800D2F88(void)
 {
     volatile int count = 0x100000;
     while (*(*(u32 **)&D_800DB670) & 0x20000000) {
@@ -833,7 +832,7 @@ u32 aF800D2F88(void)
 
 
 extern s32 *D_800DB650;
-extern void func_800D30D0(char *a0);
+extern s32 func_800D30D0(char *arg0);
 
 u32 func_800D3020(void)
 {
@@ -892,9 +891,9 @@ __asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` bloc
  * func_800D30D0(char *a0);` twice (its two callers).  The body really does
  * return 0 in $v0, so define it under an alias -- the same lever the TU
  * already uses for aF800D2F88 -- instead of fighting the void prototype. */
-s32 aF800D30D0(char *arg0) __asm__("func_800D30D0");
 
-s32 aF800D30D0(char *arg0) {
+s32 func_800D30D0(char *arg0)
+{
     s32 ret;
     s32 s0;
 

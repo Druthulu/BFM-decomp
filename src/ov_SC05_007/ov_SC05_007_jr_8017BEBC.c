@@ -3704,7 +3704,7 @@ typedef struct {
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-extern void func_8017F020(s32 a0);
+extern s32 func_8017F020(s32 arg0);
 extern void func_8017EF48(s32 arg0);
 extern void func_8017F08C(s32);
 extern void func_8017F1C4(s32 a0);
@@ -4260,8 +4260,8 @@ void func_8017EF48(s32 arg0) {
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_8019292C[];
 
-s32 aF8017F020(s32 arg0) __asm__("func_8017F020");
-s32 aF8017F020(s32 arg0) {
+s32 func_8017F020(s32 arg0)
+{
     if (*(s32 *)(arg0 + 0xDC) & 1) {
         return 0;
     }

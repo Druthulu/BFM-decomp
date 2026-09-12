@@ -3652,9 +3652,9 @@ extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
 
-s32 aF80188C0C(s32 a0, s16 a1) __asm__("func_80188C0C");
 
-s32 aF80188C0C(s32 a0, s16 a1) {
+s32 func_80188C0C(s32 a0, s16 a1)
+{
     u8 *obj;
     u8 *prim;
 

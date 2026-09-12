@@ -3,7 +3,7 @@
 extern void func_80015978(s32 a0, s32 *a1);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_80147364();
+extern void func_80147364(u16 param_1, u16 param_2);
 extern s32 func_800CCF28(s32 a0);
 extern u16 *func_80146750(u16 *param_1);
 extern u8 D_80126B5C;

@@ -1250,7 +1250,7 @@ extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 
-s32 aF80137614(s32 a0, s32 a1, s32 a2) __asm__("func_80137614");
+extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 
 #include "../shared/ov/func_80137614.h"
 

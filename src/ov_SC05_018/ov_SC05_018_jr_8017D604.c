@@ -5095,7 +5095,7 @@ s32 func_801815AC(void *arg)
 }
 
 
-extern void func_80184590(s32 arg0, s32 arg1);
+extern s32 func_80184590(s32 arg0, s32 arg1);
     void func_80181648(void) {
         func_80184590(0x7, 0x16);
     }
@@ -5117,7 +5117,7 @@ extern void func_8012E8A8(u8 *arg0);
 extern void func_8012E88C(s32);
 extern void func_80181648(void);
 extern s32 D_8018AA24;
-extern void func_8018469C(void *a0, s32 a1);
+extern void func_8018469C(s32 *a0, s32 a1);
 
 void func_801816A4(void *arg0) {
     s32 s0 = (s32)arg0;
@@ -5205,7 +5205,7 @@ void func_80181840(void *arg0) {
     extern void func_80178CBC(s32 arg0, s32 arg1);
     extern int func_80178970(void);
     extern void func_80178D18(void);
-    extern void func_8018469C(void *a0, s32 a1);
+    extern void func_8018469C(s32 *a0, s32 a1);
     extern s16 D_8018AAE4;
     extern s32 D_8018AA24;
 
@@ -5569,7 +5569,7 @@ s32 func_80181EEC(void *a0)
 }
 
 
-extern void func_8018469C(void *a0, s32 a1);
+extern void func_8018469C(s32 *a0, s32 a1);
     extern short D_8018AD84;
     void func_80182018(short *a0) {
         *(short *)((char *)a0 + 0x2) = 0x4;
@@ -5612,7 +5612,7 @@ void func_801820E8(void *a0)
     extern s32 func_801855C4(s32);
     extern s32 func_80184988(s32);
     extern void func_801848B8(s32, s32, s32, s32);
-    extern void func_8018469C(void *, s32);
+    extern void func_8018469C(s32 *a0, s32 a1);
     extern void func_80178CBC(s32, s32);
     extern s32 func_801789AC(s32);
     extern void func_80178D18();
@@ -5700,7 +5700,7 @@ void func_801822CC() {
 }
 
 
-extern void func_80184590(s32, s32);
+extern s32 func_80184590(s32 arg0, s32 arg1);
 
 void func_80182304(void *arg0) {
     *(s32 *)(*(s32 *)((s32)arg0 + 0xCC) + 0xB0) = 2;
@@ -5718,7 +5718,7 @@ void func_80182384(void *arg0) {
     extern void func_80178CBC(s32 arg0, s32 arg1);
     extern int func_80178970(void);
     extern void func_80178D18(void);
-    extern void func_8018469C(void *a0, s32 a1);
+    extern void func_8018469C(s32 *a0, s32 a1);
     extern short D_8018AD84;
     extern short D_8018AE34;
 
@@ -5739,8 +5739,8 @@ void func_80182384(void *arg0) {
 }
 
 
-extern void func_80184590(s32, s32);
-extern void func_8018469C(void *a0, s32 a1);
+extern s32 func_80184590(s32 arg0, s32 arg1);
+extern void func_8018469C(s32 *a0, s32 a1);
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern int func_80178970(void);
 extern void func_80178D18(void);
@@ -5777,7 +5777,7 @@ void func_80182420(void *arg0) {
 
 
 extern s32 func_801841A0(void *a0, void *a1);
-extern void func_8018469C(void *a0, s32 a1);
+extern void func_8018469C(s32 *a0, s32 a1);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_80181EEC(void *a0);
 
@@ -6309,8 +6309,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80183538(void);
 extern void func_80183644(void *arg0);
 
-void aF801832FC(void *arg0) __asm__("func_801832FC");
-void aF801832FC(void *arg0)
+void func_801832FC(void *arg0)
 {
 
     extern u8 D_80078EB1;
@@ -6845,7 +6844,7 @@ extern void func_8012A828(void);
 extern void func_8012E88C(s32);
 extern void func_8012E8E0(s32, s32);
 extern void func_8012E8A8(u8 *a0);
-extern void func_80184590(s32, s32);
+extern s32 func_80184590(s32 arg0, s32 arg1);
 extern s32  func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_80183F28(void *a0);
 
@@ -6988,7 +6987,7 @@ s32 func_80183F28_body(void *a0)
  * §3-T4: target branch is `beqz $v0, ret` => the C condition is `!= 0`
  * (the sibling's is `bnez` => `== 0`; polarity is read off the opcode). */
 
-extern void func_80184590(s32, s32);
+extern s32 func_80184590(s32 arg0, s32 arg1);
 extern void func_80183B90(void *arg0);
 
 void func_80183F9C(void *arg0) {
@@ -7004,7 +7003,7 @@ void func_80183F9C(void *arg0) {
  * across the jal, so it lands in $s0 and comes back out as $a0.
  * §3-T4: target branch is `bnez $v0, ret` => the C condition is `== 0`. */
 
-extern void func_80184590(s32, s32);
+extern s32 func_80184590(s32 arg0, s32 arg1);
 extern void func_80183C2C(void * arg0);
 
 void func_80183FDC(void *arg0) {
@@ -7311,7 +7310,7 @@ s32 func_80184344(s32 a0) {
 
 
 extern s32 func_80184344(s32 arg);
-extern void func_801844A8(s32 arg);
+extern void func_801844A8(void *a0);
 
 void func_80184474(void *a0) {
     *(s32 *)((char *)a0 + 0xe0) = func_80184344((s32)a0);
@@ -7324,8 +7323,7 @@ void func_80184474(void *a0) {
 
 
 
-void aF801844A8(void *a0) __asm__("func_801844A8");
-void aF801844A8(void *a0)
+void func_801844A8(void *a0)
 {
 
     extern u16 D_80078EAC;
@@ -7378,8 +7376,7 @@ void func_80184554(void *a0, s32 a1, s32 a2)
 
 
 
-s32 aF80184590(s32 arg0, s32 arg1) __asm__("func_80184590");
-s32 aF80184590(s32 arg0, s32 arg1)
+s32 func_80184590(s32 arg0, s32 arg1)
 {
 
     extern u8 D_80078EB1;
@@ -7459,8 +7456,7 @@ void func_80184694(void *a0) {
 extern void func_8012E8A8(u8 *a0);
 extern void func_8012E8E0(s32 a0, s32 a1);
 
-void aF8018469C(s32 *a0, s32 a1) __asm__("func_8018469C");
-void aF8018469C(s32 *a0, s32 a1)
+void func_8018469C(s32 *a0, s32 a1)
 {
     func_8012E8A8((u8 *)a0);
     *(s16 *)((s32)a0 + 0x98) = 0;

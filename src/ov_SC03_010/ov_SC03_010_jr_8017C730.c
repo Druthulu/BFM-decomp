@@ -3336,7 +3336,7 @@ void func_8017E088(s32 arg0) {
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void func_8017F374(void *a0, void *a1);
+extern void func_8017F374(u16 *r, s16 *m);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 
 void func_8017E1EC(s32 param_1, s32 param_2, s16 *param_3) {
@@ -4088,8 +4088,7 @@ void func_8017F214(s32 param_1, s32 *param_2)
 
 
 
-void aF8017F374(u16 *r, s16 *m) __asm__("func_8017F374");
-void aF8017F374(u16 *r, s16 *m)
+void func_8017F374(u16 *r, s16 *m)
 {
     s16 cx;
     s16 sx;

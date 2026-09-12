@@ -3604,7 +3604,7 @@ void func_8017DED8(void *a0) {
 }
 
 
-extern s32 func_8017E05C();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern s32 func_8017E05C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua2)  // K&R: 0 of 1 args (P37 rung D t4_D2)
     void func_8017DF30(void) {
         func_8017E05C();
     }
@@ -3641,7 +3641,7 @@ void func_8017DF50(void *arg0) {
 
 
 extern void func_80171A34(s32 *a0, s8 a1);
-extern s32 func_8017E05C();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern s32 func_8017E05C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua2)  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 void func_8017E008(void *a0) {
     if (((s32 (*)(void))func_8017E05C)() == 0) {
@@ -3658,9 +3658,9 @@ void func_8017E054(void) {
 extern void func_8017E100(void);
 void func_8017E18C();
 
-s32 aF8017E05C(void *a0) __asm__("func_8017E05C");
 
-s32 aF8017E05C(void *a0) {
+s32 func_8017E05C(void *a0)
+{
     extern void func_80146E90(s32 *a0, s32 a1);
     extern void func_80154150(s32 a0, s32 a1);
     extern void func_80171A34(s32 *a0, s8 a1);

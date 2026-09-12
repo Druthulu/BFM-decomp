@@ -6826,7 +6826,7 @@ extern u8 D_80078E78[];
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8004787C(s32 a0);
-extern void func_80181F74(void *a0);
+extern void func_80181F74();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 extern void func_80182080(void *a0);
 
 void func_80181D38(s32 *arg0)
@@ -6916,8 +6916,7 @@ extern void func_80181FC4(void *arg0);
 
 
 
-void aF80181F74(void) __asm__("func_80181F74");
-void aF80181F74(void)
+void func_80181F74(void)
 {
 
     extern Ent_8017D6EC D_801F7618[];
@@ -9272,7 +9271,7 @@ extern s32 func_8012BCCC(s32 a0);
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern s32 func_8018584C(s32 a0);
+extern void func_8018584C(s32 a0);
 
 void func_80185120(void *a0)
 {
@@ -9675,9 +9674,8 @@ void func_801856A0(s32 a0) {
 /* DEF-SIDE ALIAS (§37/§124, §136f#2): TU declares `extern s32 func_8018584C(s32)`
  * (TU:8796) and both callers discard the result; the real definition is
  * effectively VOID (nothing carried out in $v0 — §42d#1 inverse rule). */
-void aF8018584C(s32 a0) __asm__("func_8018584C");
 
-void aF8018584C(s32 a0)
+void func_8018584C(s32 a0)
 {
     extern u8 D_801C5A48[];
     extern u8 D_801C5A50[];
@@ -12400,7 +12398,7 @@ typedef struct {
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-extern void func_80189C68(s32 a0);
+extern s32 func_80189C68(s32 *arg0);
 extern void func_80189B3C(s32 a0);
 extern s32 func_80189CD4();  // K&R: 0 of 1 args (P37 rung D t4_D2)
 extern void func_80189E1C(s32 a0);
@@ -12933,9 +12931,8 @@ void func_80189B3C(s32 a0) {
 }
 
 
-s32 aF80189C68(s32 *arg0) __asm__("func_80189C68");
 
-s32 aF80189C68(s32 *arg0)
+s32 func_80189C68(s32 *arg0)
 {
     extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
     extern s32 D_801D2B7C[];

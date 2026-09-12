@@ -4261,7 +4261,7 @@ extern void func_8012CC1C(s32 arg0, s32 arg1);      /* fleet-canonical void; $v0
 extern s32 func_80187414(void *a0);
 extern void func_8018754C(s32 a0, s32 a1);
 extern void func_80187490(s32 a0);
-extern void func_801873A4(s32 a0);
+extern s32 func_801873A4(s32 param_1);
 extern void func_801875F0(s32 a0);
 
 void func_80187190(s32 a0) {
@@ -4341,9 +4341,9 @@ extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
 extern u16 D_80126B96;
 extern s16 D_80126B9A;
 
-s32 aF801873A4(s32 param_1) __asm__("func_801873A4");
 
-s32 aF801873A4(s32 param_1) {
+s32 func_801873A4(s32 param_1)
+{
     s32 p;
     u16 val;
 
@@ -4358,7 +4358,7 @@ s32 aF801873A4(s32 param_1) {
 }
 
 
-extern void func_80187454(void);
+extern void func_80187454();  // K&R: 0/1 of 1 args (P37 unalias t4_ua2)
 
 s32 func_80187414(void *a0) {
     u8 *a0_byte = (u8 *)a0;
@@ -4382,9 +4382,9 @@ extern void func_8012C218(void *a0);
  * pointer in $a0 (sw $s0 / addu $s0,$a0,$zero prologue). Neither side can move, so the
  * definition gets a private C identifier and binds the emitted symbol with a GNU asm
  * label. Same class as banked func_8017EF54 (ov_SC06_008_jr_8017C294.c:4152). */
-void aF80187454(void *arg0) __asm__("func_80187454");
 
-void aF80187454(void *arg0) {
+void func_80187454(void *arg0)
+{
     func_8002D59C(4, 0x64E, *(u16 *)((char *)arg0 + 0x104));
     func_8012C218(arg0);
 }

@@ -2790,7 +2790,7 @@ extern void func_801292C8(u8 *a0);
 extern void func_8012B200(u8 *a0);
 extern void func_801824A0(int a0);
 extern void func_80182550(void *arg0);
-extern void func_801831D0(void);
+extern s32 func_801831D0(void);
 extern void func_80182570(void);
 extern void func_8013CAE8(void);
 extern void func_80182590(void);
@@ -2879,9 +2879,9 @@ extern void func_801830C4(void *a0);
 extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern u8 D_800AF068;
 
-s32 aF801831D0(void) __asm__("func_801831D0");
 
-s32 aF801831D0(void) {
+s32 func_801831D0(void)
+{
     s32 ret;
 
     ret = func_8001ABBC(0, 0, &D_800AF068, 0, 0);

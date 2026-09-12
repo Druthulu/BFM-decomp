@@ -3960,7 +3960,7 @@ extern s32 func_8012BC60(void *a0, void *a1);
 extern s32 func_8012B864(s32 a0);
 extern s32 func_8012BD14(s32 a0);
 extern void func_8012B200(u8 *a0);
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_80185A24(s32 a0);
 extern unsigned char D_8018C750[];
@@ -4121,8 +4121,8 @@ extern void func_8012B200(u8 *a0);
 extern s32 func_8012B8E4(s32 a0, s32 a1);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void func_8012CBA4(s32 a0);
-extern void func_80185B48(s32 a0);
-extern void func_80185D3C(void *a0, s32 a1);
+extern s32 func_80185B48(s32 a0);
+extern s32 func_80185D3C(void *a0, s16 a1);
 extern s32 func_80185DD8(void);
 extern unsigned char D_8018C700[];
 extern unsigned char D_8018C750[];
@@ -4220,7 +4220,7 @@ zero:
 
 #include "common.h"
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
@@ -4335,7 +4335,7 @@ extern s32 D_80126B64;
 extern void (*D_8018C728)(s32);
 extern unsigned char D_8018C700[];
 extern unsigned char D_8018C7DC[];
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern void func_80185E68(s32 a0);
 extern void func_80185E3C(void *a0);
 extern void func_8012AD80(s32 a0);
@@ -4425,7 +4425,7 @@ s32 func_80185230(void) {
 
 #include "common.h"
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012B864(s32 a0);
 extern void func_8012B2CC(s32 a0);
@@ -4496,7 +4496,7 @@ void func_801854A4(s32 a0) {
 
 #include "common.h"
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern s16 func_80185B20(s32 a0);
 extern s32 func_8012BE54(s32 a0);
 extern s32 func_8012B864(s32 a0);
@@ -4711,7 +4711,7 @@ void func_80185948(s16 *a0) {
 
 extern void func_8012CBA4(s32 a0);
 extern void func_8012ADE4(u8 *a0);
-extern void func_80185D3C(void *a0, s32 a1);
+extern s32 func_80185D3C(void *a0, s16 a1);
 
 s32 func_80185A24(s32 arg0) {
     s32 ret;
@@ -4776,9 +4776,9 @@ extern void func_8016AA50(s32 param_1, s32 param_2);
  * result, but the target genuinely sets $v0 on every path — a definition's own signature has no
  * cast escape, so the definition takes a private C identifier bound to the real link name. The TU
  * is left untouched; no rebuild risk to its other functions. */
-s32 aF80185B48(s32 a0) __asm__("func_80185B48");
 
-s32 aF80185B48(s32 a0) {
+s32 func_80185B48(s32 a0)
+{
 
     /* House style of this TU: per-function block-scope externs (cf. func_801848BC). */
     extern void func_8012B200(u8 *a0);
@@ -4874,9 +4874,9 @@ s32 aF80185B48(s32 a0) {
 }
 
 
-s32 aF80185D3C(void *a0, s16 a1) __asm__("func_80185D3C");
 
-s32 aF80185D3C(void *a0, s16 a1) {
+s32 func_80185D3C(void *a0, s16 a1)
+{
     s32 ret = 0;
     s16 x;
     s16 f;
@@ -5032,7 +5032,7 @@ extern void func_8012B14C(s32 a0, s32 a1);
 
 void func_80186074(void *a0) {
     s32 sp10[3];
-    extern void func_80185D3C(void *a0, s32 a1);
+    extern s32 func_80185D3C(void *a0, s16 a1);
     extern void func_80185E3C(void *a0);
     s32 t;
 
@@ -5059,7 +5059,7 @@ void func_8018611C(void *a0) {
     extern s32 func_8012CBCC(s32 a0);
     extern void func_8012B200(u8 *a0);
     extern void func_8012A828(s32 a0, void *a1);
-    extern void func_80185D3C(void *a0, s32 a1);
+    extern s32 func_80185D3C(void *a0, s16 a1);
     extern void func_80185E3C(void *a0);
     extern void (*D_8018C678[])(void);
     s32 t;
@@ -5092,7 +5092,7 @@ void func_8018611C(void *a0) {
 
 #include "common.h"
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
 extern s32 func_8012BD14(s32 a0);
 extern void func_80185E30(void *a0);
@@ -5133,7 +5133,7 @@ void func_80186200(s32 a0) {
 
 #include "common.h"
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
 extern void func_8012AD80(s32 a0);
 
@@ -5173,7 +5173,7 @@ void func_80186310(s32 a0) {
 }
 
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern void func_80185E68(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_80185E30(void *a0);
@@ -5217,7 +5217,7 @@ void func_80186408(s32 a0) {
 
 #include "common.h"
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern s16 func_80185B20(s32 a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8012B200(u8 *a0);
@@ -5239,7 +5239,7 @@ void func_801864D8(s32 a0) {
 
 #include "common.h"
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8012AD80(s32 a0);
 
@@ -5287,7 +5287,7 @@ extern s32 func_80185230(void);
 
 #include "common.h"
 
-extern void func_80185B48(s32 a0);
+extern s32 func_80185B48(s32 a0);
 extern void func_80185E68(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_80185E30(void *a0);

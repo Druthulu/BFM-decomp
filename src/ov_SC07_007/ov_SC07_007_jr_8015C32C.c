@@ -1123,7 +1123,7 @@ extern s32 func_801472C8(struct S *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
-extern void func_80147364(u16, s32);
+extern void func_80147364(u16 param_1, u16 param_2);
 extern void func_80147300(u16 arg0);
 extern void func_80147324(s32 arg0);
 extern void func_801473EC(s32 *a0);
@@ -4266,7 +4266,7 @@ void func_801610FC(void) {
 
 
 extern s32 func_801612B8(void *a0, s32 a1);
-extern void func_8016130C(void*, s32);
+extern s32 func_8016130C(void *a0, s32 a1);
 void aF80161208(void *a0) __asm__("func_80161208");
 #include "../shared/ov/func_80161208.h"
 
@@ -4313,7 +4313,6 @@ extern void func_8015BF48(s32*);
  * src/shared/engine_core.h:3781 to `extern s32 func_8016130C(void *a0, s32 a1);`
  * and rename back to the plain name — byte-identical either way.) */
 
-s32 aF8016130C(void *a0, s32 a1) __asm__("func_8016130C");
 
 #include "../shared/ov/func_8016130C.h"
 

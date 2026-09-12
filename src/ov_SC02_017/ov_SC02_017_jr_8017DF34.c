@@ -3853,7 +3853,7 @@ extern void func_8012B2CC(s32 a0);
 extern s32 D_8018E204[];
 extern void (*D_8018E264[])(void);
 extern void (*D_8018E254[])(void);
-extern void func_8018183C(void);
+extern s32 func_8018183C(void *a0);
 
 void func_8017FF48(int param_1) {
     s32 v0;
@@ -3907,7 +3907,7 @@ extern void func_8012CC40(s32 arg0, s32 arg1);
 /* not declared anywhere in the TU */
 extern void func_80180410(s32 a0, s32 a1, s32 a2);
 extern s32 func_801804A8(s32 a0, s32 a1, s32 a2);
-extern void func_8018183C(void);
+extern s32 func_8018183C(void *a0);
 
 extern s32 D_8018E28C;      /* address-taken only */
 extern s32 D_8018E204[];
@@ -4942,9 +4942,8 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
  * anyway. The real definition takes an argument and returns a value, and a definition's own
  * signature has no cast escape, so it binds a private identifier to the link name and the TU's
  * address-taking call site keeps compiling unchanged. */
-s32 aF8018183C(void *a0) __asm__("func_8018183C");
 
-s32 aF8018183C(void *a0)
+s32 func_8018183C(void *a0)
 {
     u8 *p;
     s32 matrix[8];
@@ -7330,7 +7329,7 @@ void func_8018501C(s32 a0)
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-extern void func_80185AF0(s32 a0);
+extern s32 func_80185AF0(s32 arg0);
 extern void func_801859C4(s32 a0);
 extern s32 func_80185B5C();   /* RETYPED P31 S54: the asm reads $a0 and sets $v0 on every exit;  // K&R: 0 of 1 args (P37 rung D t4_D1)
                               * unspecified params keep every existing call site legal (C89 6.5.4.3). */
@@ -7851,8 +7850,8 @@ void func_801859C4(s32 arg0) {
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern char D_801D0DA8;
 
-s32 aF80185AF0(s32 arg0) __asm__("func_80185AF0");
-s32 aF80185AF0(s32 arg0) {
+s32 func_80185AF0(s32 arg0)
+{
     if (*(s32 *)(arg0 + 0xDC) & 1) {
         return 0;
     }
@@ -8058,9 +8057,9 @@ extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_8012ADE4(u8 *a0);
 
-s32 aF80185F88(s32 a0) __asm__("func_80185F88");
 
-s32 aF80185F88(s32 a0) {
+s32 func_80185F88(s32 a0)
+{
     extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
     extern u8  D_801202A0[];
     u8 *p;
@@ -8244,7 +8243,7 @@ extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012CBA4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
-extern void func_80185F88(s32 a0);
+extern s32 func_80185F88(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_80186500(short*);
 extern s32 D_801D6198;
@@ -8401,7 +8400,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012CBA4(s32);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern void func_80185F88(s32 a0);
+extern s32 func_80185F88(s32 a0);
 extern s32 func_80143B6C(s32 a0, s32 a1);
 extern void func_80186C38(s32 a0, s32 a1);
 extern void Square0(s32 *a0, s32 *a1);

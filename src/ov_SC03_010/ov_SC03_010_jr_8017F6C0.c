@@ -2754,7 +2754,7 @@ extern void func_8017F1B0(s32 a0, void *a1, void *a2);
 extern void func_8017E1EC(s32 param_1, s32 param_2, s16 *param_3);
 extern void func_8017E088(s32 arg0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void func_8017F374(void *a0, void *a1);
+extern void func_8017F374(u16 *r, s16 *m);
 extern u16 D_80126B96;
 extern s16 D_80126B98;
 extern u16 D_80183C68[];
@@ -2827,7 +2827,6 @@ extern void func_8017F14C(u8 *a0);
 extern s32 func_8017F1A8(void);
 extern void func_8017F214(s32 param_1, s32 *param_2);
 extern void func_8017F214(s32 param_1, s32 *param_2);
-extern void aF8017F374();
 extern s16 func_8017F558(u32 a0);
 extern s32 func_8017F614(u32 a0v);
 /* ==== end §8b carried decl layer ==== */

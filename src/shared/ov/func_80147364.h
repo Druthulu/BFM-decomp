@@ -5,8 +5,8 @@ extern s32 D_80126B58;
 extern void func_80015978(s32, s32*);
 extern s32 aF8012E5CC(s32, s32, s32) __asm__("func_8012E5CC");
 extern void func_8002D4C8(s32 a0, s32 a1);
-void aF80147364(u16 param_1, u16 param_2) __asm__("func_80147364");
-void aF80147364(u16 param_1, u16 param_2) {
+void func_80147364(u16 param_1, u16 param_2)
+{
     s32 sp10[2];
     s32 *p = &D_80126B58;
     if (currentLocationId == 0x308d) {

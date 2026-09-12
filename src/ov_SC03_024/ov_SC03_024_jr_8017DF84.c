@@ -5089,7 +5089,7 @@ extern u8 D_80078E78[];
 extern u8 D_800AF630[];
 extern s32 func_8004787C(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_80181B50(void *arg0);
+extern void func_80181B50();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 extern void func_80181C5C(void *arg0);
 
 
@@ -5181,8 +5181,7 @@ extern void func_80181BA0(void *arg0);
 
 
 
-void aF80181B50(void) __asm__("func_80181B50");
-void aF80181B50(void)
+void func_80181B50(void)
 {
 
     extern Ent_8017D6EC D_801C12C0[];

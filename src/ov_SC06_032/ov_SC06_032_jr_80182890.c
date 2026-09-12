@@ -2766,7 +2766,7 @@ extern u8 D_801BE1F8[];
 extern void func_80181014(s32 a0);
 extern void func_80182288(s32 a0, s32 a1);
 extern void func_80181D1C(s32 param_1);
-extern s32 func_80184170(s32 a0, s32 a1);
+extern s32 func_80184170(s32 a0, s16 a1);
 extern s32 func_80181FF4(s32 p);
 extern s32 func_8012CEB0(void *a0, void *a1, s32 a2);
 extern s32 func_800132BC(void *a0, void *a1);
@@ -3966,8 +3966,7 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 // lands in the branch delay slot and is SHARED by both arms; the correct polarity
 // puts `addiu $v1,$zero,0x1000` there and each arm gets its own sll/sra.
 // a1 is an ANSI s16 param (sign-extended at each use, once per arm) — not K&R §43.
-s32 aF80184170(s32 a0, s16 a1) __asm__("func_80184170");
-s32 aF80184170(s32 a0, s16 a1)
+s32 func_80184170(s32 a0, s16 a1)
 {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.

@@ -4216,7 +4216,7 @@ void func_8017EAEC(s32 param_1)
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void func_8018115C(void *a0, void *a1);
+extern void func_8018115C(u16 *r, s16 *m);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 
 void func_8017EC3C(s32 param_1, s32 param_2, s16 *param_3) {
@@ -5953,8 +5953,7 @@ void func_80180FFC(s32 param_1, s32 *param_2)
 
 
 
-void aF8018115C(u16 *r, s16 *m) __asm__("func_8018115C");
-void aF8018115C(u16 *r, s16 *m)
+void func_8018115C(u16 *r, s16 *m)
 {
     s16 cx;
     s16 sx;
@@ -6478,7 +6477,7 @@ typedef struct {
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-extern void func_801827A0(s32 a0);
+extern s32 func_801827A0(s32 a0);
 extern void func_801826C8(s32 a0);
 extern void func_8018280C(s32);
 extern void func_80182944(s32 a0);
@@ -7003,9 +7002,9 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
  * result), but the bytes return s32 (both early exits fill $v0 with 0, success
  * falls through addiu $v0,$zero,1).  §138: asm-label alias on the DEFINITION,
  * so the existing caller-side decl stays untouched. */
-s32 aF801827A0(s32 a0) __asm__("func_801827A0");
 
-s32 aF801827A0(s32 a0) {
+s32 func_801827A0(s32 a0)
+{
     extern u8 D_801A8FA8[];
 
     if ((*(s32 *)(a0 + 0xDC) & 1) != 0) {

@@ -2722,7 +2722,7 @@ extern void (*D_801884EC[])(void);
 extern void func_8017E1DC(void *a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_8017E300(s32 param_1, s16 *param_2);
-extern void func_8017EBCC(void);
+extern void func_8017EBCC(s32 a0);
 extern void func_8012AD44(s32 *param_1, s16 param_2);
 extern void (*D_8018868C)(void *);
 extern void func_8017E6A0(s32 param_1);
@@ -2974,9 +2974,9 @@ extern s16 D_801CE2D8[];
 /* §202 DEF-SIDE ALIAS: this TU's carried decl layer declares
  * `extern void func_8017EBCC(void);` above the splice point (live no-arg callers in
  * ov_SC03_117_jr_8017BEBC.c), while the body must take $a0. The alias keeps both. */
-void aF8017EBCC(s32 a0) __asm__("func_8017EBCC");
 
-void aF8017EBCC(s32 a0) {
+void func_8017EBCC(s32 a0)
+{
     u8 *p;
     u8 *q;
     s32 i;

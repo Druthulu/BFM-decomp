@@ -3524,7 +3524,7 @@ void func_8017F4DC(s32 arg0)
 }
 
 
-extern void func_8017F630(void *a0);
+extern void func_8017F630(s32 param_1);
     void func_8017F600(s32 *param) {
         if (*(u16 *)((char *)param + 0x2) == 0) {
             ((void (*)(void))func_8017F630)();
@@ -3547,9 +3547,9 @@ extern u8 D_80188104[];
  * Defining under the private identifier aF8017F630 bound with __asm__("func_8017F630")
  * leaves the TU's declaration and its call site untouched; the linker sees one symbol.
  */
-void aF8017F630(s32 param_1) __asm__("func_8017F630");
 
-void aF8017F630(s32 param_1) {
+void func_8017F630(s32 param_1)
+{
     s32 v0;
     s32 v1;
 

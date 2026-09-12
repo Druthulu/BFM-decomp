@@ -3812,7 +3812,7 @@ void func_8018001C(void *a0) {
 
 
 
-extern void func_801806FC(void * arg0);
+extern s32 func_801806FC(void *a0);
     void func_80180058(s32 arg0) {
         s32 temp_s0 = arg0;
         ((void (*)(void))func_801806FC)();
@@ -4045,8 +4045,7 @@ extern void func_80013350(s32 a0, void *a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern u8 D_80126B5C;
 
-s32 aF801806FC(void *a0) __asm__("func_801806FC");
-s32 aF801806FC(void *a0)
+s32 func_801806FC(void *a0)
 {
     s32 v1;
 
@@ -4401,7 +4400,7 @@ void func_80180B3C(s32 a0)
 
 // @class: struct
 // @unstuck(P36): none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
-extern void func_80181328(u8 *a0);
+extern s32 func_80181328(s32 arg0);
 extern void (*D_8018F2E8[])(int);
 
 void func_80180FE0(int param_1)
@@ -4574,9 +4573,9 @@ extern void func_8012E8A8(u8 *a0);
  * emitted symbol `func_80181328` while the C identifiers never collide.
  * Blast radius 0 — no TU / header edit (cf. the §237-escape-2 card, whose stale
  * void self-decls were left by already-banked callers in the same way). */
-s32 aF80181328(s32 arg0) __asm__("func_80181328");
 
-s32 aF80181328(s32 arg0) {
+s32 func_80181328(s32 arg0)
+{
     struct {
         long long head;
         s16 v[4];

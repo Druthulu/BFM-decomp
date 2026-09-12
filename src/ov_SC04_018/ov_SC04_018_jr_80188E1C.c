@@ -2816,7 +2816,7 @@ extern short D_801B65B8;
 extern void func_8018034C(void *arg0);
 extern void (*D_801919C4[])(void);
 extern void func_8018048C(void *a0);
-extern s32 func_80184DD0(s32 a0);
+extern s32 func_80184DD0(void);
 extern s32 D_80191918[];
 extern void func_80180504(s32 a0);
 extern s32 func_80180544(Ent_8017BFE0_80180544 *param_1);
@@ -2987,7 +2987,6 @@ extern void func_80184CB0(void *a0);
 extern void func_8012E8A8(u8 *a0);
 extern s32 func_80184D00(void);
 extern s32 func_80184D5C(void);
-extern s32 aF80184DD0();
 extern s32 func_80184E44(void);
 extern void func_80184EA0(s32 entity);
 extern void func_8012B200(u8 *a0);
@@ -5262,7 +5261,7 @@ void func_8018BE38(void *a0) {
 
 extern s32 func_80029504(void);
 extern s32 func_80184D00(void);
-extern s32 func_80184DD0(s32 a0);
+extern s32 func_80184DD0(void);
 
 void func_8018BE74(s32 a0) {
 

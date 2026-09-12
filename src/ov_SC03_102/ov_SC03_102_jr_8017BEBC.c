@@ -3934,7 +3934,7 @@ int func_801807C0(int param_1)
 }
 
 
-extern s32 func_80180810(s32 arg);
+extern void func_80180810(s32 arg);
     void func_801807F0(void *arg) {
         func_80180810((s32)arg);
     }
@@ -3949,8 +3949,8 @@ extern s16 D_80197280[];
 extern s16 D_80197400[];
 extern void func_80180964(void *a0, s32 a1);
 
-void aF80180810(s32 arg) __asm__("func_80180810");
-void aF80180810(s32 arg) {
+void func_80180810(s32 arg)
+{
     switch (D_801B9B9C) {
     case 0:
         D_801B9960 = 1;

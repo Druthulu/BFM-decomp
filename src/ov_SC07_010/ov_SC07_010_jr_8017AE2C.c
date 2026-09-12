@@ -4045,7 +4045,7 @@ void func_8017D85C(s32 *a0) {
 
 extern s32 func_80171A88(s32 a0);
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_8017EBB8(void *a0, void *a1);
+extern s32 func_8017EBB8(s32 a0, s32 a1);
 extern void func_80147324(s32 a0);
 extern void func_8014706C(void *a0);
 extern void func_801542A4(s32 *a0, s32 a1);
@@ -4122,7 +4122,7 @@ void func_8017D9CC(u8 *a0) {
 
 extern void func_80147324(s32 a0);
 extern void func_8013C9C4(void *a0);
-extern void func_8017EBB8(void *a0, void *a1);
+extern s32 func_8017EBB8(s32 a0, s32 a1);
 extern void func_8017F5FC(s16);
 extern s32 func_80171990(u8 *a0);
 extern u8 D_80185B70[];
@@ -4841,8 +4841,8 @@ extern u8 D_801A7D00[];
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern void func_80015954(s32 a0, s32 a1);
 
-s32 aF8017EBB8(s32 a0, s32 a1) __asm__("func_8017EBB8");
-s32 aF8017EBB8(s32 a0, s32 a1) {
+s32 func_8017EBB8(s32 a0, s32 a1)
+{
     s32 i = 0;
     s32 one = 1;
     u8 *p = D_801A7D00;

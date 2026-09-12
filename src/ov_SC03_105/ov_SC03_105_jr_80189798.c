@@ -2792,12 +2792,11 @@ extern void (*D_8018F490[])(void);
 extern void func_80189418(void *a0);
 extern void func_8001CBDC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80189454(void *a0);
-extern s32 func_80189694(void);
+extern void func_80189694(void);
 extern void func_80189654(void);
 extern void func_80189674(void);
 extern void func_80017254(void *a0);
 extern void func_800176F0(void *a0);
-extern void aF80189694();
 extern void (*D_801B68D0[])(void);
 extern void func_8018975C(void *a0);
 /* ==== end §8b carried decl layer ==== */

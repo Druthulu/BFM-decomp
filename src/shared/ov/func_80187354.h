@@ -3,7 +3,7 @@
 extern s32 D_8018F424[3];
 extern s32 D_8018F430[];
 extern s16 D_8018F3E4[];
-extern void func_80188C0C();
+extern s32 func_80188C0C(s32 a0, s16 a1);
 void func_80187354(s32 a0) {
     s16 buf[3];
     s16 vec[3];

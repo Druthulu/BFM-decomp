@@ -6258,9 +6258,9 @@ extern s32 rand(void);
  * (md_SC07_004.c:5645, written for caller func_801ABEE0), but the body provably
  * returns s0 (beqz delay slot holds `addu $v0,$s0,$zero`, §162f1) — a void
  * definition loses that slot (near 9 / 23 ins). Private C name, same symbol. */
-s32 aF801A93F4(void *a0) __asm__("func_801A93F4");
 
-s32 aF801A93F4(void *a0) {
+s32 func_801A93F4(void *a0)
+{
     s32 s0;
 
     s0 = func_80132EF4(a0, 0x2D);
@@ -8165,7 +8165,7 @@ extern void func_8012AD80(s32 a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801A9270(void *a0);
 extern void func_801A9378(void *a0);
-extern void func_801A93F4(void *a0);
+extern s32 func_801A93F4(void *a0);
 extern void func_801AA60C(s32 param_1, s32 param_2);
 
 void func_801ABEE0(void *a0) {

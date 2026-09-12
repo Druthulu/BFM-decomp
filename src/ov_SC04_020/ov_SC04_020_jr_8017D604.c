@@ -3556,9 +3556,8 @@ extern s32 func_80178BF8();
 extern void func_80172710(void);
 extern s32 func_801810B8(void);
 
-s32 aF8017F24C(void *a0) __asm__("func_8017F24C");
 
-s32 aF8017F24C(void *a0)
+s32 func_8017F24C(void *a0)
 {
     void *p;
     u16 st;
@@ -4112,8 +4111,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80180330(void);
 extern void func_8018043C(void *arg0);
 
-void aF801800F4(void *arg0) __asm__("func_801800F4");
-void aF801800F4(void *arg0)
+void func_801800F4(void *arg0)
 {
 
     extern u8 D_80078EB1;

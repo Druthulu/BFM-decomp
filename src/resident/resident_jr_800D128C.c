@@ -660,7 +660,7 @@ typedef struct {
 
 extern void func_800D1F58(void);
 extern void func_801285D4(void);
-extern void func_800D1984(S800D1938 *arg0);
+extern s32 func_800D1984(u8 *arg0);
 
 s32 func_800D1938(S800D1938 *arg0) {
     func_800D1F58();
@@ -671,9 +671,9 @@ s32 func_800D1938(S800D1938 *arg0) {
     return 0;
 }
 
-s32 aF800D1984(u8 *arg0) __asm__("func_800D1984");
 
-s32 aF800D1984(u8 *arg0) {
+s32 func_800D1984(u8 *arg0)
+{
     extern s32 func_800D19DC();
     s32 (*fp)(u8 *);
 

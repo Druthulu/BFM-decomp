@@ -3787,7 +3787,7 @@ extern u8 D_80078E78[];
 extern u8 D_800AF630[];
 extern s32 func_8004787C(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_8017F8C4(void *arg0);
+extern void func_8017F8C4();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 extern void func_8017F9D0(void *arg0);
 
 /* same shape as the TU's own Ent_8017D6EC_8017F5F8 (TU:3319-3325), own name to avoid
@@ -3882,8 +3882,7 @@ extern void func_8017F914(void *arg0);
 
 
 
-void aF8017F8C4(void) __asm__("func_8017F8C4");
-void aF8017F8C4(void)
+void func_8017F8C4(void)
 {
 
     extern Ent_8017D6EC D_801CB920[];
@@ -4668,7 +4667,7 @@ void func_801809C8(void *a0) {
 }
 
 
-extern void func_80180AC0(s32 a0, s32 a1);
+extern void func_80180AC0(void *a0, u8 *a1);
     extern void func_80180C00(s32 arg0);
     void func_80180A04(s32 param_1) {
         func_80180AC0(param_1, param_1 + 0xa0);
@@ -4708,8 +4707,7 @@ extern u16 func_801487F4(s32 *a0);
 extern u16 func_80148800(s32 *a0);
 extern s32 func_80012A60(s32 a0, s32 a1);
 
-void aF80180AC0(void *a0, u8 *a1) __asm__("func_80180AC0");
-void aF80180AC0(void *a0, u8 *a1)
+void func_80180AC0(void *a0, u8 *a1)
 {
 
     extern s32 D_80126B58;
