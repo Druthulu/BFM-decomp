@@ -50,8 +50,8 @@
   untouched; twin checks 0 (0 mismatch); positive control DIFFERS on build/src/800.o; 2.3 s — OK` (main 0.108 s/object, ov 0.15–0.16,
   md_SC07_004 0.504) (`.run/P37/baseline/oracle_t0.log`); `.gitignore` P37 allowlist (by-contents, R84; `git check-ignore` verified: logs
   and `.tsv` tracked, `.o` ignored); this file. Verify at the commit: `git status` clean.
-- ☐ **T1** (xHigh; the layout/cluster model reviewed at Max) — `tools/type_census.py` + **the struct map** (added at gate 1 on Drew's
-  question, P5d — his "Yes — T1 delivers the map"): definitions with o32 layouts + duplicate classes +
+- ☐ **T1** (xHigh; the layout/cluster model reviewed at Max) — `tools/type_census.py` + **the struct map** (added after T0 — Drew asked, Claude recommended,
+  Drew approved "Yes — T1 delivers the map"; P5d): definitions with o32 layouts + duplicate classes +
   VARIANT camps + dead names; cast sites in all four forms + `M2C_FIELD` with base class/offset/width/sign/load-store; the declaration
   layer (definitions K&R-read, in-scope declarations per TU, the lying set, multi-spelled callees, aliases, builtins, attributes); the P36
   inheritance in ONE file (`.run/P37/census/parked.tsv`) and the func_8013D9B0 `gte-unsigned` inconsistency resolved; coverage (R32) vs
@@ -111,8 +111,8 @@
   releases at phase closes — the PhaseEnd 🛑 blocks drop their `git tag` lines from T10 on) and `git push origin 79b2f6f15:main` run on his
   word (a second one-off waiver; R6 unchanged for everything else — Drew pushes).
 - **Gate 1, after T0 (Drew):** *"insted of our phase plan, should we analyze every single func, and group together all the funcs that need a
-  struct that share, so we can build a final struct map of all needed structs?"* → not instead of the plan — it is T1's clustering made a
-  first-class deliverable, and it lets T4's canonical prototypes carry the mapped parameter types in one pass (order: census → **map** →
+  struct that share, so we can build a final struct map of all needed structs?"* → Drew asked, he did not propose (*"i wasn't suggesting we do it. im not the expert you are. I was asking you"*); Claude's answer and
+  recommendation: yes — not instead of the plan, it is T1's clustering made a first-class deliverable, and it lets T4's canonical prototypes carry the mapped parameter types in one pass (order: census → **map** →
   probe → tools → declarations-with-types → unification → casts). AskUserQuestion: **"Yes — T1 delivers the map"** (P5d, a deliverable added
   to T1; the task order unchanged).
 
