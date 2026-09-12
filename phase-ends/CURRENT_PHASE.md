@@ -73,11 +73,25 @@
   56/56 at 0. The residue is bucketed and named for the structs phase (the S105 status entry): 1,548 drawable sites in 472 singleton-heavy
   classes, 691 parked (signatures + proven-irreducible heads), ~1,150 minimum-lever survivors in five head classes, 450 GTE variants,
   94 arg-only pins. Milestone item 1 as AMENDED (S104): every survivor marked, counted, attributed.
-- ☐ **T8** — The gate: `// !FAKE:` markers from the ledger mid-campaign; `lever_census --check` in `make tools-health` (0 UNMARKED);
-  `--strict` at close (0 pins, 0 asm outside the GTE header, manifest unchanged); `progress.py` final split. Verify: `lever_census --check
-  --strict: pins 0, asm 0, volatile-needed <v>, register-needed <r> — OK`; tools-health OK.
-- ☐ **T9** — The record (cookbook §, decision log P36, accelerators, SETUP rows, wiki, gen3 snapshots, tool-index, kit corpus,
-  `doc_links --strict` 0/0, tools-health OK).
+- ☑ **T8** (S105) — The gate: `lever_census --selftest` + `--check -j 16 --quiet` wired into `make tools-health` after `verbatim_check
+  --strict` (`b3369d027`; `--strict` = the structs phase's finish line by the S104 amendment); `make tools-health` **OK on run 4**
+  (`.run/P36/s105/tools_health_t8d.log`: `lever_census --check: 4,010 pin/asm sites, 4,010 marked !FAKE, 0 UNMARKED — OK`; S1 10,180/10,180;
+  sdk-dual OK; verbatim strict OK; kit_coverage OK) — runs 1–3 red on the day's own record: three docs without a Reference-index row
+  (`lever-progress.tsv`, `readability.md`, `readability-progress.tsv` — rows added), a kit_lint LEAK (the `delever_regen` dictionary row
+  named generator families as bare `R22 R23` tokens — reworded), two accelerator entries uncited (P36 S99 → DK-61, P36 S105 → DK-69).
+  Published (R75): README line 30 `Levers off (Phase 36, snapshot 2026-09-11): 2,141 register pins and 1,869 asm statements remain in
+  1,980 functions (674 distinct bodies), 4,010 of them marked` + `docs/progress.json` `counts.levers`. **Attribution (milestone item 2):**
+  `.run/P36/s105/attribution_check.py` → `4026 counted lever sites, 4026 attributed {rung B 2,620 · S103 933 · T5 450 · S105 22 · S104 1},
+  0 without an instrument` (at 4,026; the 16 sites f11 removed since carried rung-B markers). `verbatim_check --strict` unchanged.
+- ☑ **T9** (S105) — The record: cookbook **§457** (the S105 move catalog; the `@unstuck(P36)` tag) + **§197-A superseded** (the plain-C
+  cure: cast at the shift, nine bodies); `docs/decision-log.md` P36 S99/S101/S104/S105 (R31); `docs/accelerators.md` P36 S99/S101/S105;
+  SETUP rows for every tool change (R44–R46, the R22 fixes, the instruction table, the strip fix, the tools-health rung); the Gen3 pages
+  date-stamped (`Where-the-project-goes-next` item 2 + the table row, `gen3-standards` §pins-off, `gen3-handoff` item 2); `docs/levers.md`
+  rendered at every snapshot (77+ rows); **30,138 stale `@stuck:` header notes above lever-free functions retagged `@unstuck(P36):` in
+  2,693 files** (comment-only; R22 `check-all: 218 passed, 0 failed of 218`, `.run/P36/s105/r22_l.log`; `fe4a62420`); `tool-index` + the
+  kit corpus regenerated (`tool_census --check: OK`, `kit_lint: OK`, `kit_coverage: OK`); `doc_links --strict: OK`. **Still owed by name
+  (carried to the PhaseEnd, not silently dropped):** the §396(a) asm claim named in the S104 checkpoint — the refuting body was not
+  identified in this session's context, so no correction was written (R14: a correction needs its bytes).
 - ☐ **T10** (Max) — Close: R22 218/218; tools-health OK; PhaseEnd_Phase36.md + DIGEST §0/§2/§3 + this log archived (R19) + kit corpus;
   left uncommitted for Drew's close commit; v2.2.0.
 
