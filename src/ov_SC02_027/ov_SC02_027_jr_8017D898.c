@@ -8356,21 +8356,18 @@ extern s32 func_8012BD14(s32 a0);
 extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
 
 void func_80186C0C(s32 a0) {
-    register s32 arg __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
     s32 vol;
     s32 ret;
     s32 t;
 
-    arg = a0;
-    __asm__("" :: "r"(arg));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     vol = 0x2F;
     ret = func_8012BD14(a0);
     if (ret <= 0x40000) {
-        t = *(s16 *)(*(s32 *)(arg + 0x20) + 0x1A) * 3 >> 9;
+        t = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) * 3 >> 9;
         t = t * t;
         vol = 127 - ret / ((0x40000 - t) / 80);
     }
-    func_8002D59C(0x64E, vol | 0x5000, *(u16 *)(arg + 0x104));
+    do { func_8002D59C(0x64E, vol | 0x5000, *(u16 *)(a0 + 0x104)); } while (0);  // !FAKE: do-while — flow.c:2067 loop-depth ref weight: vol 3->4 refs outranks a0 for $s0 (allocno_compare global.c:594-607) (P36 S105 f9)
 }
 
 
