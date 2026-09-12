@@ -11075,9 +11075,7 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     s32     otz;          /* 0xA0 */
     SVEC_8018EDB0 *src;
     s32 i, oz;
-    long *p0, *p1, *p2, *p3, *pfl;
     u8 *mb;
-    register long *pc __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
 
     func_8004914C((void *)(((s32 *)param_1)[8] + 0x34));
     func_800491AC((void *)(((s32 *)param_1)[8] + 0x34));
@@ -11104,21 +11102,105 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018EDB0 *)&pkt[2] = out[1];
     *(B8_8018EDB0 *)&pkt[4] = out[3];
     *(B8_8018EDB0 *)&pkt[6] = out[4];
-    DRAW();  // !FAKE: launder via DRAW — REFUSED macro-carried launder: the lever is inside `#define DRAW` with real code around it (T5) (P36 rung B tus9)
+    mb = (u8 *)&D_800AF630;
+    func_8004914C(mb + 0x18);
+    __asm__("" : "=r"(mb) : "0"(mb));  // !FAKE: launder mb between the two matrix calls — cse unifies the second `mb + 0x18` through the class of its constant value `(const (plus D_800AF630 24))`, cse.c:6766-6850 + :7195-7225, and combine then folds the symbol into the lone survivor; an unknown value after the first call keeps two adds off one call-crossing base (P36 S105 f11 minimum-lever)
+    func_800491AC(mb + 0x18);
+    {
+    long *p1 = (long *)&pkt[2];
+    long *p2 = (long *)&pkt[4];
+    long *p3 = (long *)&pkt[6];
+    long *pfl = &flag1;
+    long *p0 = (long *)&pkt[0];
+    gte_ldv3(p0, p1, p2);
+    gte_rtpt();
+    gte_stflg(pfl);
+    gte_stsxy3(p0, p1, p2);
+    gte_ldv0(p3);
+    gte_rtps();
+    gte_stflg(&flag2);
+    flag1 |= flag2;
+    gte_stsxy(p3);
+    }
+    gte_avsz4();
+    gte_stotz(&otz);
+    oz = otz;
+    *(s16 *)((u8 *)pkt + 4) = (s16)oz;
+    if (oz > 0 && flag1 >= 0 &&
+        !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
+            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+        func_80017254(&pkt[0]);
+    }
 
     /* face 1: verts 1,2,4,5 */
     *(B8_8018EDB0 *)&pkt[0] = out[1];
     *(B8_8018EDB0 *)&pkt[2] = out[2];
     *(B8_8018EDB0 *)&pkt[4] = out[4];
     *(B8_8018EDB0 *)&pkt[6] = out[5];
-    DRAW();  // !FAKE: launder via DRAW — REFUSED macro-carried launder: the lever is inside `#define DRAW` with real code around it (T5) (P36 rung B tus9)
+    mb = (u8 *)&D_800AF630;
+    func_8004914C(mb + 0x18);
+    __asm__("" : "=r"(mb) : "0"(mb));  // !FAKE: launder mb between the two matrix calls — cse unifies the second `mb + 0x18` through the class of its constant value `(const (plus D_800AF630 24))`, cse.c:6766-6850 + :7195-7225, and combine then folds the symbol into the lone survivor; an unknown value after the first call keeps two adds off one call-crossing base (P36 S105 f11 minimum-lever)
+    func_800491AC(mb + 0x18);
+    {
+    long *p1 = (long *)&pkt[2];
+    long *p2 = (long *)&pkt[4];
+    long *p3 = (long *)&pkt[6];
+    long *pfl = &flag1;
+    long *p0 = (long *)&pkt[0];
+    gte_ldv3(p0, p1, p2);
+    gte_rtpt();
+    gte_stflg(pfl);
+    gte_stsxy3(p0, p1, p2);
+    gte_ldv0(p3);
+    gte_rtps();
+    gte_stflg(&flag2);
+    flag1 |= flag2;
+    gte_stsxy(p3);
+    }
+    gte_avsz4();
+    gte_stotz(&otz);
+    oz = otz;
+    *(s16 *)((u8 *)pkt + 4) = (s16)oz;
+    if (oz > 0 && flag1 >= 0 &&
+        !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
+            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+        func_80017254(&pkt[0]);
+    }
 
     /* face 2: verts 2,0,5,3 */
     *(B8_8018EDB0 *)&pkt[0] = out[2];
     *(B8_8018EDB0 *)&pkt[2] = out[0];
     *(B8_8018EDB0 *)&pkt[4] = out[5];
     *(B8_8018EDB0 *)&pkt[6] = out[3];
-    DRAW();  // !FAKE: launder via DRAW — REFUSED macro-carried launder: the lever is inside `#define DRAW` with real code around it (T5) (P36 rung B tus9)
+    mb = (u8 *)&D_800AF630;
+    func_8004914C(mb + 0x18);
+    __asm__("" : "=r"(mb) : "0"(mb));  // !FAKE: launder mb between the two matrix calls — cse unifies the second `mb + 0x18` through the class of its constant value `(const (plus D_800AF630 24))`, cse.c:6766-6850 + :7195-7225, and combine then folds the symbol into the lone survivor; an unknown value after the first call keeps two adds off one call-crossing base (P36 S105 f11 minimum-lever)
+    func_800491AC(mb + 0x18);
+    {
+    long *p1 = (long *)&pkt[2];
+    long *p2 = (long *)&pkt[4];
+    long *p3 = (long *)&pkt[6];
+    long *pfl = &flag1;
+    long *p0 = (long *)&pkt[0];
+    gte_ldv3(p0, p1, p2);
+    gte_rtpt();
+    gte_stflg(pfl);
+    gte_stsxy3(p0, p1, p2);
+    gte_ldv0(p3);
+    gte_rtps();
+    gte_stflg(&flag2);
+    flag1 |= flag2;
+    gte_stsxy(p3);
+    }
+    gte_avsz4();
+    gte_stotz(&otz);
+    oz = otz;
+    *(s16 *)((u8 *)pkt + 4) = (s16)oz;
+    if (oz > 0 && flag1 >= 0 &&
+        !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
+            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+        func_80017254(&pkt[0]);
+    }
 }
 
 
