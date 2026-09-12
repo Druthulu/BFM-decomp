@@ -8384,9 +8384,9 @@ s32 a1;
 {
     s32 sp10[5];
     s32 obj;
-    register s32 w __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 w __asm__("$7");  // !FAKE: pin $7 — the 20-byte record copy is ONE movstrsi_internal insn in the original (mips.md:3587); its four temps are local-alloc SCRATCH qtys (v1,a0,a1,a3 around obj's a2), unreachable from scalar loads (P36 S105 f9 minimum-lever; plain C = scratch/s1.c, parked: one struct table for D_801AFBD8..E8)
     s32 x, y, z;
-    register s32 t __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 t __asm__("$3");  // !FAKE: pin $3 — the fifth word reuses the block move's first temp (output_block_move, mips.c:2444) (P36 S105 f9 minimum-lever)
 
     obj = (s32)a0;
     x = D_801AFBD8[a1 * 5];
@@ -8399,7 +8399,7 @@ s32 a1;
     sp10[3] = w;
     t = D_801AFBE8[a1 * 5];
     sp10[4] = t;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — the `nop` after the fifth `lw` is inside output_block_move's template (mips.c:2444), which the scheduler cannot fill (P36 S105 f9 minimum-lever)
     ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + *(u16 *)(obj + 6);
     ((u16 *)sp10)[1] = ((u16 *)sp10)[1] + *(u16 *)(obj + 0xA);
     ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + *(u16 *)(obj + 0xE);
