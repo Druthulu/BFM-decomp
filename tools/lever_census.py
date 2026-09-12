@@ -978,10 +978,13 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
 # the known-true bodies as they were at T1 (commit 357f8a1ed): a control holds only while the body's normalized text is the one the
 # count was made on — the campaign removes pins byte-identically, and a control that kept expecting them would fail on its own
 # staleness (batch tus7 of T4 removed func_80184034's three bare-name pins; the census then refused a correct tree)
+# re-keyed at P37 T1 (S106, 2026-09-12; R85): the P36 campaign changed all three bodies — counted again independently with the
+# gate-1 grep (`register [^;/]*__asm__\("\$?[a-z0-9]+"\)` over the masked body): 45 → 14, 26 → 8, and the bare-name control moved to
+# func_801896EC (2 bare-name pins; func_80184034's are gone). A control returns N-A the day its body changes again.
 CONTROL_NHASH = {
-    ("src/800.c", "func_800226C0"): "47f1042f0dda6f163009793a11ef16f405c29af1",
-    ("src/shared/ov/func_80178004.h", None): "90d67fb489780cf0ef81f1a7b4b4f74dfe3c782b",
-    ("src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c", "func_80184034"): "2dce73f8716c32324b1b3517f11bd03a4e9966af",
+    ("src/800.c", "func_800226C0"): "902372b4e3bf845f39f0b4d4bab7f2ab8ce47121",
+    ("src/shared/ov/func_80178004.h", None): "27524a8bf23911718b4082cd5cca7d971d8c9090",
+    ("src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c", "func_801896EC"): "140f5b7e434d93ebaaea89dbe65c1a702d233020",
 }
 
 
@@ -998,11 +1001,11 @@ def controls(sites, defs):
         return "OK" if got == want else "MISMATCH"
     out = []
     n = sum(1 for s in sites if s["tu"] == "src/800.c" and s["fn"] == "func_800226C0" and s["cls"] == "A")
-    out.append(("src/800.c func_800226C0 pins", n, 45, status(("src/800.c", "func_800226C0"), n, 45)))
+    out.append(("src/800.c func_800226C0 pins", n, 14, status(("src/800.c", "func_800226C0"), n, 14)))
     n = sum(1 for s in sites if s["tu"] == "src/shared/ov/func_80178004.h" and s["cls"] == "A")
-    out.append(("src/shared/ov/func_80178004.h pins", n, 26, status(("src/shared/ov/func_80178004.h", None), n, 26)))
-    n = sum(1 for s in sites if s["tu"] == "src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c" and s["fn"] == "func_80184034" and s["cls"] == "A")
-    out.append(("ov_SC03_006 func_80184034 bare-name pins", n, 3, status(("src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c", "func_80184034"), n, 3)))
+    out.append(("src/shared/ov/func_80178004.h pins", n, 8, status(("src/shared/ov/func_80178004.h", None), n, 8)))
+    n = sum(1 for s in sites if s["tu"] == "src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c" and s["fn"] == "func_801896EC" and s["cls"] == "A")
+    out.append(("ov_SC03_006 func_801896EC bare-name pins", n, 2, status(("src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c", "func_801896EC"), n, 2)))
     n = sum(1 for s in sites if s["tu"] == "src/shared/engine_prelude.h" and s["cls"] == "B")
     out.append(("engine_prelude.h asm sites (a macro definition only)", n, 0, "OK" if n == 0 else "MISMATCH"))
     return out
@@ -1185,13 +1188,18 @@ def main():
         ab = [x for x in sites if x["cls"] in "AB" and x["kind"] not in NON_LEVER_KINDS and x["tu"] != a.gte_header]
         un = [x for x in ab if not x["marked"]]
         if a.strict:
+            # P37 (S106): --strict reads its own words — "0 asm statements outside the GTE header" — so a DIRECT GTE statement in a body
+            # (kind gte / gte-unsigned: Sony's idiom spelled inline instead of as the header's macro call) is a violation here, while the
+            # --check headline keeps the P36 definition (the series' continuity). verbatim-body stays excluded by the manifest.
+            direct_gte = [x for x in sites if x["cls"] == "B" and x["kind"] in ("gte", "gte-unsigned") and x["tu"] != a.gte_header]
             pt = s.get("per_tu_asm_macro_definitions", {}).get("total", 0)
             gl = s.get("gte_levers", {}).get("sites", 0)
             print(f"lever_census --check --strict: pins {s['pins']['sites']}, asm {sum(1 for x in ab if x['cls'] == 'B' and x['kind'] != GTE_LEVER_KIND)}, "
-                  f"gte-levers {gl}, per-TU asm macro definitions {pt}, volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']} — "
-                  f"{'OK' if not ab and not pt else 'FAIL'}")
-            if ab or pt:
-                for x in ab[:10]:
+                  f"gte-levers {gl}, direct GTE statements in bodies {len(direct_gte)}, per-TU asm macro definitions {pt}, "
+                  f"volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']} — "
+                  f"{'OK' if not ab and not pt and not direct_gte else 'FAIL'}")
+            if ab or pt or direct_gte:
+                for x in (ab + direct_gte)[:10]:
                     print(f"  {x['tu']}:{x['line']} {x['fn']} {x['cls']}/{x['kind']} {x['detail']}")
                 rc = 1
         else:

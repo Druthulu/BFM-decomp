@@ -1,3 +1,4 @@
-date	label	commit	definitions	narrow_decls	callees	kr_empty	narrow	pinned_rows	pinned_bodies	raw_casts	struct_members
+date	label	commit	definitions	narrow_decls	callees	kr_empty	narrow	pinned_rows	pinned_bodies	raw_casts	struct_members	deref_all	form_P	form_I	form_X	form_M	addr_form	typed_cast_member	struct_defs	canon_defs	in_c_defs	distinct_layouts	dup_classes	dup_names	map_types	map_pct
 2026-09-10	P36 S102 — after the 16,759 free declaration repairs	51028a78d377b0ff8e0a12a86500ed2ae1f2346d	15626	94001	1564	86701	7300	461	314	414148	173286
 2026-09-11	P36 close	7a7f78e255ec3661992d12b5ceb1bd2ec2c1d680	15726	98648	1609	91357	7291	33	25	411850	177902
+2026-09-11	P37 T1 — the type census (four forms, definitions, the map)	23fc5d21592452084c7ae11fed1e98e0a40913a7	15726	98648	1609	91357	7291	33	25	411850	177902	503016	409007	60666	13800	19543	18912	36681	7261	1179	5995	525	206	2789	18760	99.2

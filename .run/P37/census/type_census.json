@@ -1,0 +1,7432 @@
+{
+ "summary": {
+  "head": "23fc5d215",
+  "src_stamp": "ab7aba1c21c89889",
+  "tool_stamp": "da30900472",
+  "when": "2026-09-12T05:44:31Z",
+  "files": 7305,
+  "tus": 4121,
+  "headers": 3181,
+  "functions": 99130,
+  "definitions": {
+   "total": 7261,
+   "enums": 0,
+   "canon": 1179,
+   "in_c_file_scope": 4091,
+   "in_c_block_scope": 1904,
+   "in_shared_fn_headers": 63,
+   "in_include": 0,
+   "other_headers": 24,
+   "distinct_names": 3109,
+   "distinct_layouts": 525,
+   "unknown_layout": 2,
+   "dup_layout_classes": 206,
+   "dup_layout_names": 2789,
+   "dup_tier1": 122,
+   "dup_tier2": 84,
+   "layout_twin_classes": 46,
+   "layout_twin_names": 1844,
+   "exact_classes": 588,
+   "exact_copies": 4469,
+   "variant_names": 39,
+   "dead_canon_names": 141,
+   "shadowed_canon_names": 75,
+   "typedef_aliases": 1781,
+   "forward_decls": 157
+  },
+  "casts": {
+   "by_form": {
+    "P": 409007,
+    "I": 60666,
+    "X": 13800,
+    "A": 18912,
+    "C": 36681,
+    "M": 19543
+   },
+   "raw_counts": {
+    "P": 409007,
+    "I": 60666,
+    "X": 13800,
+    "A": 18912,
+    "C": 36681,
+    "M": 19543
+   },
+   "coverage_ok": true,
+   "refused": 0,
+   "deref_total": 503016,
+   "addr_form": 18912,
+   "typed_cast_member": 36681,
+   "bodies": 69497,
+   "by_bclass": {
+    "local": 149915,
+    "param": 276860,
+    "global": 8860,
+    "gaddr": 40122,
+    "nested": 24076,
+    "ident": 156,
+    "other": 1678,
+    "addr-of": 1349
+   },
+   "by_width": {
+    "s4": 145167,
+    "u2": 142775,
+    "s2": 131818,
+    "u1": 43174,
+    "agg": 13472,
+    "p4": 12016,
+    "u4": 11165,
+    "s1": 3429
+   },
+   "readability_raw_regex": 411850,
+   "abs_casts": 0,
+   "top_bases": [
+    [
+     "param",
+     "a0",
+     92255
+    ],
+    [
+     "param",
+     "param_1",
+     81595
+    ],
+    [
+     "param",
+     "arg0",
+     67704
+    ],
+    [
+     "local",
+     "p",
+     18043
+    ],
+    [
+     "param",
+     "p",
+     11784
+    ],
+    [
+     "local",
+     "s0",
+     10368
+    ],
+    [
+     "local",
+     "cach",
+     8246
+    ],
+    [
+     "local",
+     "s1",
+     7137
+    ],
+    [
+     "local",
+     "buf",
+     7067
+    ],
+    [
+     "local",
+     "flag",
+     5453
+    ],
+    [
+     "nested",
+     "*(s32 *)(a0 + 0x20)",
+     5215
+    ],
+    [
+     "local",
+     "iVar2",
+     5160
+    ],
+    [
+     "local",
+     "dst",
+     4874
+    ],
+    [
+     "local",
+     "iVar1",
+     4836
+    ],
+    [
+     "local",
+     "iVar3",
+     4693
+    ],
+    [
+     "local",
+     "e",
+     3918
+    ],
+    [
+     "local",
+     "obj",
+     3678
+    ],
+    [
+     "local",
+     "cur",
+     3375
+    ],
+    [
+     "local",
+     "param_1",
+     2832
+    ],
+    [
+     "param",
+     "a1",
+     2667
+    ],
+    [
+     "local",
+     "base",
+     2632
+    ],
+    [
+     "local",
+     "src",
+     2599
+    ],
+    [
+     "local",
+     "L",
+     2261
+    ],
+    [
+     "local",
+     "ent",
+     2253
+    ],
+    [
+     "param",
+     "param_2",
+     2248
+    ],
+    [
+     "local",
+     "s2",
+     2188
+    ],
+    [
+     "local",
+     "s",
+     2167
+    ],
+    [
+     "param",
+     "arg1",
+     2030
+    ],
+    [
+     "nested",
+     "*(s32 *)(param_1 + 0x20)",
+     1967
+    ],
+    [
+     "local",
+     "iVar5",
+     1906
+    ],
+    [
+     "global",
+     "D_801151D4",
+     1896
+    ],
+    [
+     "param",
+     "p2",
+     1876
+    ],
+    [
+     "local",
+     "pv",
+     1847
+    ],
+    [
+     "local",
+     "self",
+     1818
+    ],
+    [
+     "local",
+     "r",
+     1787
+    ],
+    [
+     "local",
+     "puVar10",
+     1742
+    ],
+    [
+     "local",
+     "puVar1",
+     1730
+    ],
+    [
+     "local",
+     "st",
+     1729
+    ],
+    [
+     "local",
+     "v1",
+     1564
+    ],
+    [
+     "local",
+     "q",
+     1393
+    ]
+   ]
+  },
+  "decls": {
+   "fn_definitions": 99130,
+   "kr_definitions": 1889,
+   "extern_fn_decls": 4279365,
+   "extern_data_decls": 1078837,
+   "declared_fn_names": 12139,
+   "multi_spelled_callees": 3870,
+   "multi_body_names": 6415,
+   "data_symbols_declared": 55569,
+   "multi_typed_data_symbols": 18442,
+   "asm_label_aliases": 5749,
+   "asm_label_alias_names": 225,
+   "builtins": {
+    "memcpy": 301,
+    "abs": 144
+   },
+   "attributes": {
+    "packed": 64,
+    "aligned": 12
+   },
+   "lying": 98648,
+   "lying_callees": 1609,
+   "lying_kinds": {
+    "K&R-empty": 91357,
+    "narrow": 7291
+   }
+  },
+  "struct_map": {
+   "types": 18760,
+   "explained_sites": 498896,
+   "deref_sites": 503016,
+   "explained_pct": 99.2,
+   "unassigned_sites": 4120,
+   "conflicts": 729,
+   "suspect": 11,
+   "evidence": {
+    "param": 36550,
+    "assign": 14717,
+    "ret-of": 3410,
+    "arg": 10176,
+    "return": 1523,
+    "assign&": 1051,
+    "arg&": 270,
+    "field": 9623
+   },
+   "vetoed": {
+    "arg-conduit": 115291,
+    "ret-of-multisource": 6651,
+    "assign-multisource": 34545,
+    "arg&-conduit": 14516,
+    "field-multisource": 7008,
+    "ret-of": 683,
+    "assign&-multisource": 12499,
+    "arg&-no-overlap": 3455,
+    "assign": 347,
+    "arg-no-overlap": 43018,
+    "assign&": 69,
+    "arg": 182,
+    "return": 12,
+    "field": 3220
+   },
+   "singletons": 14706,
+   "multi_body": 4054,
+   "sites_in_multi_body": 441056,
+   "top": [
+    {
+     "name": "Unkstruct_800B5CB8",
+     "sites": 107598,
+     "bodies": 11186,
+     "size_hint": 268,
+     "fields": 134,
+     "conflicts": 50,
+     "sign_mixed": 55,
+     "merges": {
+      "arg&": 249,
+      "param": 9464,
+      "arg": 6960,
+      "assign": 7396,
+      "return": 712,
+      "ret-of": 1476,
+      "assign&": 18,
+      "field": 2617
+     },
+     "globals_at": [
+      "D_800B5CB8",
+      "D_800D3888",
+      "D_80181448"
+     ],
+     "globals_ptr": [
+      "D_8006386C",
+      "D_80074778",
+      "D_80074780"
+     ]
+    },
+    {
+     "name": "Unkstruct_80126B58",
+     "sites": 65397,
+     "bodies": 17047,
+     "size_hint": 588,
+     "fields": 175,
+     "conflicts": 50,
+     "sign_mixed": 60,
+     "merges": {
+      "assign&": 106,
+      "param": 2100,
+      "arg": 1086,
+      "assign": 41,
+      "field": 51
+     },
+     "globals_at": [
+      "D_80126B58"
+     ],
+     "globals_ptr": [
+      "D_80126B58"
+     ]
+    },
+    {
+     "name": "Unkstruct_8018E71C",
+     "sites": 6745,
+     "bodies": 396,
+     "size_hint": 16,
+     "fields": 7,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {
+      "assign&": 2,
+      "arg": 15,
+      "param": 18
+     },
+     "globals_at": [
+      "D_8018E71C"
+     ],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_dac960ce",
+     "sites": 4464,
+     "bodies": 124,
+     "size_hint": 588,
+     "fields": 13,
+     "conflicts": 0,
+     "sign_mixed": 2,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_0caecd54",
+     "sites": 4340,
+     "bodies": 124,
+     "size_hint": 254,
+     "fields": 23,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {
+      "param": 2,
+      "assign": 1,
+      "return": 1
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_f8ed2b9f",
+     "sites": 4061,
+     "bodies": 4061,
+     "size_hint": 535,
+     "fields": 1,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_a32b99a1",
+     "sites": 3936,
+     "bodies": 123,
+     "size_hint": 75,
+     "fields": 8,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_8e3dbe51",
+     "sites": 3930,
+     "bodies": 131,
+     "size_hint": 76,
+     "fields": 5,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_8014A1B0",
+     "sites": 3778,
+     "bodies": 542,
+     "size_hint": 254,
+     "fields": 13,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {
+      "field": 13,
+      "arg": 10,
+      "param": 10,
+      "return": 1
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80128EA8",
+     "sites": 3311,
+     "bodies": 632,
+     "size_hint": 56,
+     "fields": 18,
+     "conflicts": 0,
+     "sign_mixed": 13,
+     "merges": {
+      "field": 7,
+      "arg": 23,
+      "ret-of": 19,
+      "assign": 1,
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_ade2e8a0",
+     "sites": 3271,
+     "bodies": 196,
+     "size_hint": 164,
+     "fields": 26,
+     "conflicts": 3,
+     "sign_mixed": 9,
+     "merges": {
+      "param": 268,
+      "arg": 133
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_1fa9e810",
+     "sites": 3144,
+     "bodies": 131,
+     "size_hint": 73,
+     "fields": 3,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_30b21035",
+     "sites": 3100,
+     "bodies": 124,
+     "size_hint": 84,
+     "fields": 13,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80126948",
+     "sites": 2986,
+     "bodies": 832,
+     "size_hint": 164,
+     "fields": 34,
+     "conflicts": 0,
+     "sign_mixed": 10,
+     "merges": {
+      "arg&": 1,
+      "assign": 99,
+      "param": 6,
+      "arg": 14,
+      "assign&": 4
+     },
+     "globals_at": [
+      "D_80126948",
+      "D_80126E60"
+     ],
+     "globals_ptr": [
+      "D_80114EE8",
+      "D_801151D4",
+      "D_80126948"
+     ]
+    },
+    {
+     "name": "Unkstruct_adc0bee4",
+     "sites": 2646,
+     "bodies": 126,
+     "size_hint": 52,
+     "fields": 8,
+     "conflicts": 0,
+     "sign_mixed": 3,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_198fc7cc",
+     "sites": 2580,
+     "bodies": 129,
+     "size_hint": 56,
+     "fields": 16,
+     "conflicts": 3,
+     "sign_mixed": 1,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_801439FC",
+     "sites": 2489,
+     "bodies": 981,
+     "size_hint": 268,
+     "fields": 57,
+     "conflicts": 9,
+     "sign_mixed": 22,
+     "merges": {
+      "field": 102
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80130D48",
+     "sites": 2382,
+     "bodies": 587,
+     "size_hint": 100,
+     "fields": 25,
+     "conflicts": 6,
+     "sign_mixed": 3,
+     "merges": {
+      "field": 1,
+      "assign": 117
+     },
+     "globals_at": [],
+     "globals_ptr": [
+      "D_80072C84",
+      "D_80078E78"
+     ]
+    },
+    {
+     "name": "Unkstruct_ed8f1335",
+     "sites": 2356,
+     "bodies": 124,
+     "size_hint": 36,
+     "fields": 18,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_8016B4F8",
+     "sites": 2140,
+     "bodies": 535,
+     "size_hint": 48,
+     "fields": 5,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {
+      "param": 26,
+      "arg": 12
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80139C7C",
+     "sites": 2111,
+     "bodies": 265,
+     "size_hint": 68,
+     "fields": 14,
+     "conflicts": 0,
+     "sign_mixed": 3,
+     "merges": {
+      "param": 12,
+      "arg": 5
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_b047cdf2",
+     "sites": 2108,
+     "bodies": 124,
+     "size_hint": 32,
+     "fields": 6,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_2729e670",
+     "sites": 2091,
+     "bodies": 123,
+     "size_hint": 75,
+     "fields": 6,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_dd542e54",
+     "sites": 2016,
+     "bodies": 126,
+     "size_hint": 24,
+     "fields": 7,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_f49880fd",
+     "sites": 2000,
+     "bodies": 125,
+     "size_hint": 84,
+     "fields": 6,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    }
+   ]
+  },
+  "controls": {
+   "player_block_widths": {
+    "ok": true,
+    "detail": "D_80078E8C:4/4 D_80078EB2:2/2 D_80078EB4:2/2 D_80078EB6:2/2 D_80078EB8:2/2 [doc-disputed D_80078F08: code 4 vs actor-struct.md 2] [doc-disputed D_80078F0C: code 4 vs actor-struct.md 2]"
+   },
+   "matrix_layouts": {
+    "ok": true,
+    "detail": "MATRIX=32 MATRIX_L48=48"
+   },
+   "prim_layout_class": {
+    "ok": true,
+    "detail": "defs in 1192 files, 2 spellings, 1192/1192 in one layout (64 B)"
+   },
+   "tu_conflict_D_800A651C": {
+    "ok": true,
+    "detail": "s32:1202 | OtBlk[]:9 | OtBlk_80016450[]:8 | u8[]:8 | s32[][5]:6"
+   },
+   "ok": 4,
+   "n": 4
+  },
+  "global_blocks": {
+   "n": 2123,
+   "members": 14251,
+   "top": [
+    {
+     "base": "0x800cf10c",
+     "size": 52,
+     "members": 29,
+     "first": "D_800CF10C",
+     "last": "D_800CF13C",
+     "widths": {
+      "3": 2,
+      "1": 14,
+      "4": 3,
+      "2": 10
+     }
+    },
+    {
+     "base": "0x800a6580",
+     "size": 58,
+     "members": 27,
+     "first": "D_800A6580",
+     "last": "D_800A65B8",
+     "widths": {
+      "4": 2,
+      "2": 25
+     }
+    },
+    {
+     "base": "0x801998a4",
+     "size": 87,
+     "members": 24,
+     "first": "D_801998A4",
+     "last": "D_801998FA",
+     "widths": {
+      "4": 21,
+      "1": 3
+     }
+    },
+    {
+     "base": "0x80199840",
+     "size": 86,
+     "members": 23,
+     "first": "D_80199840",
+     "last": "D_80199895",
+     "widths": {
+      "4": 21,
+      "1": 2
+     }
+    },
+    {
+     "base": "0x801a9608",
+     "size": 80,
+     "members": 22,
+     "first": "D_801A9608",
+     "last": "D_801A9654",
+     "widths": {
+      "4": 18,
+      "2": 4
+     }
+    },
+    {
+     "base": "0x801ab708",
+     "size": 84,
+     "members": 21,
+     "first": "D_801AB708",
+     "last": "D_801AB758",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801b0df0",
+     "size": 75,
+     "members": 21,
+     "first": "D_801B0DF0",
+     "last": "D_801B0E3A",
+     "widths": {
+      "4": 18,
+      "1": 3
+     }
+    },
+    {
+     "base": "0x801b83a0",
+     "size": 78,
+     "members": 21,
+     "first": "D_801B83A0",
+     "last": "D_801B83ED",
+     "widths": {
+      "4": 19,
+      "1": 2
+     }
+    },
+    {
+     "base": "0x801b8710",
+     "size": 84,
+     "members": 21,
+     "first": "D_801B8710",
+     "last": "D_801B8760",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801c1e60",
+     "size": 84,
+     "members": 21,
+     "first": "D_801C1E60",
+     "last": "D_801C1EB0",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801c4278",
+     "size": 84,
+     "members": 21,
+     "first": "D_801C4278",
+     "last": "D_801C42C8",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801cb090",
+     "size": 84,
+     "members": 21,
+     "first": "D_801CB090",
+     "last": "D_801CB0E0",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801cf298",
+     "size": 82,
+     "members": 21,
+     "first": "D_801CF298",
+     "last": "D_801CF2E8",
+     "widths": {
+      "4": 20,
+      "2": 1
+     }
+    },
+    {
+     "base": "0x801e05a8",
+     "size": 81,
+     "members": 21,
+     "first": "D_801E05A8",
+     "last": "D_801E05F8",
+     "widths": {
+      "4": 20,
+      "1": 1
+     }
+    },
+    {
+     "base": "0x80190a20",
+     "size": 80,
+     "members": 20,
+     "first": "D_80190A20",
+     "last": "D_80190A6C",
+     "widths": {
+      "4": 20
+     }
+    }
+   ]
+  },
+  "parked": {
+   "classes": 24,
+   "bodies": 453,
+   "sites": 691,
+   "needs": {
+    "signature": 13,
+    "struct": 7,
+    "?": 4
+   },
+   "minimum_lever_banks": 22,
+   "path": ".run/P37/census/parked.tsv"
+  },
+  "timing": {
+   "walk_s": 59.9,
+   "decls_s": 189.8,
+   "total_s": 198.8
+  }
+ },
+ "dup_layout_classes": [
+  {
+   "lhash": "64533110def7:d75a25",
+   "size": 8,
+   "n_names": 293,
+   "n_defs": 488,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "GTESVec",
+    "GVec8",
+    "SIn_8017E95C",
+    "SV",
+    "SV180090",
+    "SV221A8",
+    "SV3_8012CC88",
+    "SV3_80178D40",
+    "SV3_8017E830",
+    "SV3_80180D48",
+    "SV3_801A4570",
+    "SV4_801749C8",
+    "SV83",
+    "SVEC",
+    "SVEC2",
+    "SVEC2_C59C",
+    "SVEC2_C59C_8017D9CC",
+    "SVEC2_C59C_8017DBEC",
+    "SVEC2_C59C_801865EC",
+    "SVEC2_C6F4",
+    "SVEC2_C974",
+    "SVEC2_C974_8017BA3C",
+    "SVEC2_C974_8017BA3C_80189F00",
+    "SVEC2_CF90",
+    "SVEC2_D538",
+    "SVEC2_DF98",
+    "SVEC8",
+    "SVEC80180FE4",
+    "SVEC8_80025818",
+    "SVEC8_80025EB8",
+    "SVEC8_80026128",
+    "SVEC8_800262D8",
+    "SVEC8_800CB1F8",
+    "SVEC8_800CB3C0",
+    "SVEC8_800CB5D0",
+    "SVEC8_800CB7BC",
+    "SVEC8_800CBA18",
+    "SVEC8_800CBE28",
+    "SVECTOR",
+    "SVECTOR2"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "64533110def7:opaque",
+   "size": 8,
+   "n_names": 202,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk8L",
+    "Blk8S16",
+    "Blk8U",
+    "Blk8_80126940",
+    "Blk8_80126940_8017D044",
+    "Blk8_80126940_8017D04C",
+    "Blk8_80126940_8017D07C",
+    "Blk8_80126940_8017D09C",
+    "Blk8_80126940_8017D130",
+    "Blk8_80126940_8017D168",
+    "Blk8_80126940_8017D1AC",
+    "Blk8_80126940_8017D1D8",
+    "Blk8_80126940_8017D1F0",
+    "Blk8_80126940_8017D208",
+    "Blk8_80126940_8017D20C",
+    "Blk8_80126940_8017D210",
+    "Blk8_80126940_8017D25C",
+    "Blk8_80126940_8017D268",
+    "Blk8_80126940_8017D2FC",
+    "Blk8_80126940_8017D308",
+    "Blk8_80126940_8017D344",
+    "Blk8_80126940_8017D348",
+    "Blk8_80126940_8017D388",
+    "Blk8_80126940_8017D3B0",
+    "Blk8_80126940_8017D3B8",
+    "Blk8_80126940_8017D3C0",
+    "Blk8_80126940_8017D458",
+    "Blk8_80126940_8017D474",
+    "Blk8_80126940_8017D4A0",
+    "Blk8_80126940_8017D4DC",
+    "Blk8_80126940_8017D508",
+    "Blk8_80126940_8017D524",
+    "Blk8_80126940_8017D590",
+    "Blk8_80126940_8017D5D0",
+    "Blk8_80126940_8017D5D8",
+    "Blk8_80126940_8017D630",
+    "Blk8_80126940_8017D634",
+    "Blk8_80126940_8017D654",
+    "Blk8_80126940_8017D670",
+    "Blk8_80126940_8017D6D0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "1146b31f105c",
+   "size": 32,
+   "n_names": 170,
+   "n_defs": 278,
+   "canon": 18,
+   "in_c": 259,
+   "names": [
+    "M32_8017F154",
+    "M32_80188094",
+    "MATRIX",
+    "MATRIX2",
+    "MATRIX2_8017CDF0",
+    "MATRIX_8001EFE0",
+    "MATRIX_8017D5C8",
+    "MATRIX_8017D5C8_8017D5C8",
+    "MATRIX_8017D5C8_8017EE98",
+    "MATRIX_8017D5C8_801814E4",
+    "MATRIX_8017DBC4",
+    "MATRIX_8017F98C",
+    "MATRIX_80181228",
+    "MATRIX_80182800",
+    "MATRIX_80187A30",
+    "MATRIX_80188114",
+    "MATRIX_8018985C",
+    "MATRIX_8018DA64",
+    "MATRIX_801EDED4",
+    "MATRIX_801EDED4_801E2B14",
+    "MATRIX_801EDED4_801E2B1C",
+    "MATRIX_801EDED4_801E5124",
+    "MATRIX_801EDED4_801E8054",
+    "MATRIX_801EDED4_801E805C",
+    "MATRIX_801EDED4_801EA664",
+    "MATRIX_801EDED4_801EDED4",
+    "MATRIX_801EDED4_801EF98C",
+    "MATRIX_801EDED4_801EF99C",
+    "MATRIX_801EDED4_801F04DC",
+    "MATRIX_801EDED4_801F1F94",
+    "MTX",
+    "MTX80180FE4",
+    "MTX_1A30",
+    "MTX_1A30_80184BFC",
+    "MTX_1A30_80185434",
+    "MTX_1A30_8018F734",
+    "MTX_8001FC08",
+    "MTX_80020248",
+    "MTX_800CB4E4",
+    "MTX_800CB910"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "8d605044e3bf:f5e18b",
+   "size": 8,
+   "n_names": 152,
+   "n_defs": 341,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk8_801807DC",
+    "Blk8_8018453C",
+    "COL_8001EFE0",
+    "MoveT",
+    "Pt_8017D87C",
+    "Pt_80187940",
+    "Pt_80187940_80180D24",
+    "SV_80181740",
+    "Tbl8_8017D898",
+    "V4",
+    "V4_80146AFC",
+    "V4_8014A738",
+    "V4_8014D820",
+    "V4_8015094C",
+    "V4_8017D73C",
+    "V4_8017E734",
+    "V4_8017FAC0",
+    "V4_8017FAC0_8017D420",
+    "V4_8017FAC0_8017D708",
+    "V4_8017FAC0_8017D914",
+    "V4_8017FAC0_8017E01C",
+    "V4_8017FAC0_8017E518",
+    "V4_8017FAC0_8017E974",
+    "V4_8017FAC0_8017EC9C",
+    "V4_8017FAC0_8017F134",
+    "V4_8017FAC0_8017F4A4",
+    "V4_8017FAC0_8017FA54",
+    "V4_8017FAC0_80181274",
+    "V4_8017FAC0_80181704",
+    "V4_8017FAC0_80181FA4",
+    "V4_8017FAC0_801822C8",
+    "V4_8017FAC0_8018277C",
+    "V4_8017FAC0_80182E4C",
+    "V4_8017FAC0_80183418",
+    "V4_8017FAC0_80183DD4",
+    "V4_8017FAC0_801847B8",
+    "V4_8017FAC0_80186118",
+    "V4_8017FD58",
+    "V4_8017FD58_8017D6B8",
+    "V4_8017FD58_8017D9A0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "b85caab442ac:opaque",
+   "size": 32,
+   "n_names": 129,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "B20",
+    "Blk20",
+    "Blk20_800CB68C",
+    "Blk20_8016DF5C",
+    "Blk20_8017E3F8",
+    "Blk20_80180B38",
+    "Blk20_80180B78",
+    "Blk20_80181260",
+    "Blk20_80181EE8",
+    "Blk20_80182D70",
+    "Blk20_8018454C",
+    "Blk20_80184694",
+    "Blk20_80187108",
+    "Blk20_80187714",
+    "Blk20_80188AF4",
+    "Blk20_8018A4C4",
+    "Blk20_8018AF88",
+    "Blk20_8018AF88_80186160",
+    "Blk32",
+    "Blk32L",
+    "Blk32L_80133298",
+    "Blk32_80017E8C",
+    "Blk32_8017ECD4",
+    "Blk32_8017F76C",
+    "Blk32_8017F76C_80186D9C",
+    "Blk32_8017F76C_80187780",
+    "Blk32_80180770",
+    "Blk32_80180908",
+    "Blk32_80180E8C",
+    "Blk32_80181708",
+    "Blk32_8018287C",
+    "Blk32_80183F10",
+    "Blk32_8018AA98",
+    "Blk32_8018AA98_80181BA8",
+    "Blk32_8018AA98_80181CF4",
+    "Blk32_8018AA98_80182254",
+    "Blk32_8018AA98_80183D30",
+    "Blk32_8018AA98_80183D30_80180450",
+    "Blk32_8018AA98_80183D30_801809B0",
+    "Blk32_8018AA98_80183D30_80183DEC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "4cc70dd1aeae:opaque",
+   "size": 4,
+   "n_names": 102,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "B4",
+    "B4_8017F154",
+    "B4_80181970",
+    "B4_80181ABC",
+    "B4_8018201C",
+    "B4_80183AF8",
+    "B4_80183F3C",
+    "B4_80184774",
+    "B4_80185458",
+    "B4_8018570C",
+    "B4_80185C00",
+    "B4_80186938",
+    "B4_80188094",
+    "B4_8018A860",
+    "B4_8018A8E8",
+    "B4_8018E1F0",
+    "B4_CB578",
+    "BYTES_800CFAD0",
+    "Blk4",
+    "Blk4_8017CE90",
+    "Blk4_8017CE90_8017CE90",
+    "Blk4_8017CE90_8017F32C",
+    "Blk4_8017CE90_8017F32C_80184FF0",
+    "Blk4_8017CE90_8017F32C_80184FF0_80187A9C",
+    "Blk4_8017CE90_8017F32C_80184FF0_80188134",
+    "Blk4_8017CE90_8017F32C_801869CC",
+    "Blk4_8017D5DC",
+    "Blk4_8017D7A0",
+    "Blk4_8017DF40",
+    "Blk4_8017DF40_801E48B8",
+    "Blk4_8017DF40_801E9DF8",
+    "Blk4_8017DF40_801EFC58",
+    "Blk4_8017DF40_801F1738",
+    "Blk4_8017E808",
+    "Blk4_8017EBCC",
+    "Blk4_8017FE90",
+    "Blk4_801800E0",
+    "Blk4_80180518",
+    "Blk4_801815D4",
+    "Blk4_80181EDC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "d46137d9e11f",
+   "size": 64,
+   "n_names": 91,
+   "n_defs": 1428,
+   "canon": 1,
+   "in_c": 1427,
+   "names": [
+    "Prim_8016E7C8",
+    "Prim_8016E7C8_8016B6BC",
+    "Prim_8016E7C8_8016B9F8",
+    "Prim_8016E7C8_8016C2C4",
+    "Prim_8016E7C8_8016CBC0",
+    "Prim_8016E7C8_8016E7C8",
+    "Prim_8016E7C8_8016EB3C",
+    "Prim_8016E7C8_8016EC0C",
+    "Prim_8016E7C8_8016F1C4",
+    "Prim_8016E7C8_80175DA8",
+    "Prim_8016E7C8_80176218",
+    "Prim_8016E7C8_80176734",
+    "Prim_8016E7C8_80177B5C",
+    "Prim_8016E7C8_80177DA8",
+    "Prim_8016E7C8_80178970",
+    "Prim_8016E7C8_8017BEF8",
+    "Prim_8016E7C8_8017CE7C",
+    "Prim_8016E7C8_8017D030",
+    "Prim_8016E7C8_8017D1E0",
+    "Prim_8016E7C8_8017D4B4",
+    "Prim_8016E7C8_8017D728",
+    "Prim_8016E7C8_8017D9CC",
+    "Prim_8016E7C8_8017DA64",
+    "Prim_8016E7C8_8017DBEC",
+    "Prim_8016E7C8_8017DEA0",
+    "Prim_8016E7C8_8017DFB0",
+    "Prim_8016E7C8_8017E470",
+    "Prim_8016E7C8_8017E560",
+    "Prim_8016E7C8_8017E590",
+    "Prim_8016E7C8_8017E5B8",
+    "Prim_8016E7C8_8017E6F0",
+    "Prim_8016E7C8_8017EAB4",
+    "Prim_8016E7C8_8017EC6C",
+    "Prim_8016E7C8_8017F640",
+    "Prim_8016E7C8_8017F67C",
+    "Prim_8016E7C8_8017F6D8",
+    "Prim_8016E7C8_8017F6E8",
+    "Prim_8016E7C8_8017F8A0",
+    "Prim_8016E7C8_8017F9CC",
+    "Prim_8016E7C8_8017FBEC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "b53d46e36006:opaque",
+   "size": 8,
+   "n_names": 72,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "B8",
+    "B8_17F474",
+    "B8_801AEB04",
+    "B8_CB578",
+    "Blk8",
+    "Blk8L",
+    "Blk8_8017B238",
+    "Blk8_8017B238_8017B238",
+    "Blk8_8017B614",
+    "Blk8_8017CF48",
+    "Blk8_8017DAB8",
+    "Blk8_8017DAFC",
+    "Blk8_8017E224",
+    "Blk8_8017E6A4",
+    "Blk8_8017E72C",
+    "Blk8_8017EBCC",
+    "Blk8_80180040",
+    "Blk8_80180450",
+    "Blk8_80180970",
+    "Blk8_801809B0",
+    "Blk8_80180BFC",
+    "Blk8_801812AC",
+    "Blk8_80181324",
+    "Blk8_801813B0",
+    "Blk8_80181774",
+    "Blk8_80181824",
+    "Blk8_80181940",
+    "Blk8_801827C4",
+    "Blk8_80182844",
+    "Blk8_80182B08",
+    "Blk8_80182BDC",
+    "Blk8_80183084",
+    "Blk8_801838C8",
+    "Blk8_801838EC",
+    "Blk8_80183DEC",
+    "Blk8_8018495C",
+    "Blk8_801859DC",
+    "Blk8_80185E28",
+    "Blk8_80186594",
+    "Blk8_80186594_8017E72C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "8d605044e3bf:d75a25",
+   "size": 8,
+   "n_names": 63,
+   "n_defs": 211,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Ang_8017E95C",
+    "DVEC_80183534",
+    "SOut_8017E95C",
+    "SVEC",
+    "SVECTOR_8017C290",
+    "SVECTOR_8017E6D8",
+    "SVECTOR_8017E72C",
+    "SVEC_8017DF68",
+    "SVEC_8018AD9C",
+    "SVEC_8018EDB0",
+    "SVEC_8018F060",
+    "SV_80021284",
+    "SV_8017F154",
+    "SV_80188094",
+    "SV_801A1B28",
+    "SV_801A8990",
+    "SV_EA14",
+    "SVec_80183DA4",
+    "SVec_80184138",
+    "SXY_80181574",
+    "SXY_80184F18",
+    "Svec_80132F40",
+    "Sxy_8017DC24",
+    "Sxy_8017F6A8",
+    "Sxy_8018012C",
+    "Sxy_80185C0C",
+    "UV8",
+    "UVEC_8017F234",
+    "UVEC_8017F55C",
+    "UVEC_80182BD8",
+    "UVEC_8018F694",
+    "UV_80181394",
+    "UV_85810",
+    "UVec8",
+    "UVec_8017EA1C",
+    "UVec_8017EA1C_8017DA78",
+    "UVec_8017EA1C_8017DB34",
+    "UVec_8017EA1C_8017DD4C",
+    "UVec_8017EA1C_8017E064",
+    "UVec_8017EA1C_8017E2A8"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "65c3c6fd5cf3:e886d6",
+   "size": 4,
+   "n_names": 60,
+   "n_defs": 68,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "PTAG_85910",
+    "PTag",
+    "PTag293C",
+    "PTag_1412A8",
+    "PTag_8001BC6C",
+    "PTag_8001D3FC",
+    "PTag_80021284",
+    "PTag_80023570",
+    "PTag_80023BF0",
+    "PTag_800CF3E8",
+    "PTag_800D2650",
+    "PTag_800D27DC",
+    "PTag_800D29F8",
+    "PTag_80140D68",
+    "PTag_8017DD28",
+    "PTag_8017FD50",
+    "PTag_80180B3C",
+    "PTag_80181E04",
+    "PTag_801833F0",
+    "PTag_801843D8",
+    "PTag_801843D8_80183438",
+    "PTag_801843D8_80186DCC",
+    "PTag_801843D8_801879FC",
+    "PTag_8018478C",
+    "PTag_8018893C",
+    "PTag_80188C04",
+    "PTag_8018B028",
+    "PTag_8018B23C",
+    "PTag_8018B23C_8018234C",
+    "PTag_8018B23C_80182498",
+    "PTag_8018B23C_801829F8",
+    "PTag_8018B23C_801844D4",
+    "PTag_8018B23C_80184918",
+    "PTag_8018B23C_80185150",
+    "PTag_8018B23C_80185E34",
+    "PTag_8018B23C_801860E8",
+    "PTag_8018B23C_801865DC",
+    "PTag_8018B23C_80187314",
+    "PTag_8018B23C_8018B23C",
+    "PTag_8018B23C_8018B2C4"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "6c480babe175:opaque",
+   "size": 8,
+   "n_names": 58,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "CdFileLoc",
+    "Cmd_801805C8",
+    "M8_8016B6BC",
+    "Packed8",
+    "Pair8_8017DDC4",
+    "Pair8_8017DDC4_8018034C",
+    "Pair8_8017DDC4_80180F08",
+    "Pair8_8017DDC4_80182244",
+    "Pair8_8017DDC4_80182244_8017DAB8",
+    "Pair8_8017DDC4_80182244_8017E72C",
+    "Pair8_8017DDC4_80182244_80180040",
+    "Pair8_8017DDC4_80182244_80180040_8017FEA0",
+    "Pair8_8017DDC4_80182244_80180040_80180400",
+    "Pair8_8017DDC4_80182244_80180040_80180450",
+    "Pair8_8017DDC4_80182244_80180040_801809B0",
+    "Pair8_8017DDC4_80182244_80180040_8018383C",
+    "Pair8_8017DDC4_80182244_80180040_80183DEC",
+    "Pair8_8017DDC4_80182244_80180970",
+    "Pair8_8017DDC4_80182244_80180BFC",
+    "Pair8_8017DDC4_80182244_80181824",
+    "Pair8_8017DDC4_80182244_80186740",
+    "Pair8_8017DDC4_80182244_80187DE4",
+    "Pair8_8017DDC4_80186D9C",
+    "Pair8_8017DDC4_80187780",
+    "Pair_801B5E30",
+    "Pair_801B5E30_8017E9CC",
+    "Pair_801B5E30_8017EADC",
+    "Pair_801B5E30_8017F08C",
+    "Pair_801B5E30_80180AE4",
+    "Rec8",
+    "Rec_80189AEC",
+    "S80126B38",
+    "S80172C50",
+    "S_D2394B",
+    "Struct",
+    "Struct_8017E784",
+    "Struct_8017EA6C",
+    "Struct_8017EC78",
+    "Struct_8017F380",
+    "Struct_8017F87C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "d4b0395bb0af:opaque",
+   "size": 16,
+   "n_names": 54,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "B16",
+    "B16_8017CDE4",
+    "B16_80183ED8",
+    "B16_801841C8",
+    "B16_80185634",
+    "B16_801856E4",
+    "B16_80185794",
+    "B16_8018584C",
+    "B16_8018A758",
+    "B16_8018FC38",
+    "B16_local",
+    "Blk16",
+    "Blk16X",
+    "Blk16_8017ECD4",
+    "Blk16_80184328",
+    "Blk16_8018A1D8",
+    "Blk16_8018A4C4",
+    "Blk16_8018A8B8",
+    "Blk16_8018B13C",
+    "Blk16_8018B29C",
+    "Blk16_801E2F08",
+    "Blk16_956C",
+    "Blk16_E898",
+    "Blk_800CBAD0",
+    "CB4A4_V4",
+    "DStruct",
+    "LBlk16",
+    "M16",
+    "Q16",
+    "Quad",
+    "Quad_8018797C",
+    "Quad_8018797C_8017F26C",
+    "Quad_8018797C_8017FCD0",
+    "Quad_8018797C_80181A30",
+    "Quad_8018797C_80182B44",
+    "Rec16_8017DDC4",
+    "Rec16_8017DDC4_8018023C",
+    "Rec16_8017DDC4_8018034C",
+    "Rec16_8017DDC4_80180F08",
+    "Rec16_8017DDC4_801815C4"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "846e0acadd6a",
+   "size": 8,
+   "n_names": 53,
+   "n_defs": 363,
+   "canon": 15,
+   "in_c": 346,
+   "names": [
+    "B8014",
+    "Blk8",
+    "Blk8_8012C890",
+    "Blk8_8012C890_8017C348",
+    "Blk8_8012C890_8017C348_801E3540",
+    "Blk8_8012C890_8017C348_801E8A80",
+    "Blk8_8012C890_8017C348_801EE8E0",
+    "Blk8_8012C890_8017C348_801F03C0",
+    "Blk8_8012C890_801E2BC4",
+    "Blk8_8012C890_801E2CC0",
+    "Blk8_8012C890_801E8104",
+    "Blk8_8012C890_801E8200",
+    "Blk8_8012C890_801EDF64",
+    "Blk8_8012C890_801EE060",
+    "Blk8_8012C890_801EFA44",
+    "Blk8_8012C890_801EFB40",
+    "Blk8_8012E364",
+    "Blk8_8012EFB8",
+    "Blk8_8012FCC4",
+    "Blk8_80131170",
+    "Blk8_80131340",
+    "Blk8_80131B14",
+    "Blk8_80131CA8",
+    "Blk8_80131CF4",
+    "Blk8_80132F40",
+    "Blk8_80133CD4",
+    "Blk8_80134C20",
+    "Blk8_80135004",
+    "Blk8_80135260",
+    "Blk8_801463A0",
+    "Blk8_8017DC54",
+    "Blk8_8017DCF4",
+    "Blk8_8017FF80",
+    "Blk8_8018048C",
+    "Blk8_801828E4",
+    "Blob8_80187664",
+    "Blob8_801876B0",
+    "Blob8_80189B30",
+    "Blob8_8018A47C",
+    "Blob8_8018A47C_8017D2B0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "8d605044e3bf:opaque",
+   "size": 8,
+   "n_names": 52,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Args_80182194",
+    "Blk8",
+    "Blk8017FD54",
+    "Blk8_801A6AD0",
+    "Blk8_801AD914",
+    "Blk8_801E0764",
+    "Blk8_801E076C",
+    "Blk_80178D40",
+    "D_801D0630_s",
+    "Data_t",
+    "Data_t_80181CE0",
+    "Data_t_80182704",
+    "Data_t_801829CC",
+    "Data_t_801829F0",
+    "Data_t_80183DE4",
+    "Data_t_80184294",
+    "Data_t_80184A40",
+    "Data_t_80186848",
+    "Data_t_8018767C",
+    "Data_t_80189320",
+    "Data_t_80189454",
+    "Data_t_80189AA0",
+    "Data_t_80189D04",
+    "Data_t_8018A948",
+    "Ent8_80188",
+    "Entry8_801A5D68",
+    "Rec8_801863EC",
+    "Rec8_801A57E8",
+    "SC05_F3E4_Tbl8",
+    "SV4U",
+    "SVec",
+    "SVec_801347A0",
+    "Stride8_u16_80182868",
+    "Stride8_u16_80182868_80180970",
+    "Tbl8_801AFF3C",
+    "Tbl_80181574",
+    "Tbl_80184F18",
+    "U16x4",
+    "UAlign8",
+    "UAlign8_80181F40"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c1767d5293b8:opaque",
+   "size": 6,
+   "n_names": 51,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "D80190448_t",
+    "Pt6_8017D65C",
+    "ResMapCol",
+    "S6",
+    "S8012D664_8012D664",
+    "S845EC_out",
+    "SV3",
+    "SV3_801802D0",
+    "SV3_80181D44",
+    "SV3_80181D44_8017CEF4",
+    "SV3_80181D44_8017CEF4_8017DC20",
+    "SV3_80181D44_8017CEF4_8017E108",
+    "SV3_80181D44_8017CEF4_8017F634",
+    "SV3_80181D44_8017CEF4_8017F81C",
+    "SV3_80181D44_8017CEF4_8017FB1C",
+    "SV3_80181D44_8017CEF4_801814F4",
+    "SV3_80181D44_801821DC",
+    "SV3_80181D44_8018317C",
+    "SV3_80181D44_80185B70",
+    "SV3_8018287C",
+    "SV3_80182938",
+    "SV3_8018495C",
+    "SV3_80184C98",
+    "SV3_80184D50",
+    "SV3_80184E00",
+    "SV3_80184F48",
+    "SV3_80187654",
+    "SV3_801891E8",
+    "SV3_846B4",
+    "SV3x",
+    "SV3x_80180ACC",
+    "SV3x_80183E2C",
+    "SV3x_80184B30",
+    "SV3x_80184B30_80181D58",
+    "SV3x_80184B30_801822A0",
+    "SV3x_80184B30_8018241C",
+    "SV3x_80184B30_801829C4",
+    "SV3x_80184B30_801841E8",
+    "SV3x_80184B30_80184730",
+    "SV3x_80184B30_801848AC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "64533110def7:f5e18b",
+   "size": 8,
+   "n_names": 47,
+   "n_defs": 55,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Buf8_8017D4F0",
+    "PosT",
+    "Rec8T",
+    "Rot_8017E330",
+    "Rot_8017E550",
+    "Rot_8017E878",
+    "SVEC_80167AE0",
+    "SVEC_8016A290",
+    "SVEC_8016CBC0",
+    "SVec8017D67C",
+    "SVec801A5674",
+    "SVec_800CB3BC",
+    "SVec_801670E4",
+    "SVec_8017C910",
+    "SVec_8017C910_8017C910",
+    "SVec_8017C910_8017D728",
+    "SVec_8017C910_8017D7F0",
+    "SVec_8017C910_8017D9EC",
+    "SVec_8017C910_8017DB00",
+    "SVec_8017C910_8017E608",
+    "SVec_8017C910_8017E924",
+    "SVec_8017C910_8017EAE8",
+    "SVec_8017C910_801808E0",
+    "SVec_8017C910_80180E74",
+    "SVec_8017C910_80182A40",
+    "SVec_801809C4",
+    "SXY_801A8B64",
+    "Svec_801A6184",
+    "Svec_801A8494",
+    "Svec_801AEC38",
+    "Svec_A8CE0",
+    "V3_F428",
+    "V4_80185480",
+    "V8_8017D898",
+    "V8_8017DEBC",
+    "V8_80182E54",
+    "V8_80182E54_80183FF8",
+    "V8_8018487C",
+    "V8_8018487C_80185344",
+    "V8_80184F90"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "9568f57fb00f:opaque",
+   "size": 20,
+   "n_names": 45,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "OtBlk",
+    "OtBlk_80016450",
+    "OtBlk_80016450_80015F04",
+    "OtBlk_8017D3A0",
+    "OtBlk_8017D3F8",
+    "OtBlk_80180894",
+    "OtBlk_801809C4",
+    "OtBlk_80181A60",
+    "OtBlk_80182890_8018FB5C",
+    "OtBlk_80183DA4",
+    "OtBlk_80184138",
+    "OtBlk_80185B4C",
+    "OtBlk_8018A974",
+    "OtBlk_8018A974_8018AAF4",
+    "OtBlk_8018A974_8018BB48",
+    "OtBlk_8018A974_8018EB08",
+    "OtBlk_8018A974_8018EB08_8018A28C",
+    "OtBlk_8018A974_8018EB08_8018A28C_80183ED4",
+    "OtBlk_8018A974_8018EB08_8018A28C_80187DF8",
+    "OtBlk_8018A974_8018EB08_8018A28C_801887EC",
+    "OtBlk_8018A974_8018EB08_8018A28C_8018A2D0",
+    "OtBlk_8018A974_8018EB08_8018B1D8",
+    "OtBlk_8018A974_8018EB08_8018BCC4",
+    "OtBlk_8018A974_801AADA8",
+    "OtBlk_8018FE0C",
+    "Ot_80182A78",
+    "Ot_80182A78_8017EE80",
+    "Ot_80182A78_80180894",
+    "Ot_80182A78_801812FC",
+    "Ot_80182A78_801819E0",
+    "Ot_8018B23C",
+    "Ot_8018B23C_8018234C",
+    "Ot_8018B23C_80182498",
+    "Ot_8018B23C_801829F8",
+    "Ot_8018B23C_801844D4",
+    "Ot_8018B23C_80184918",
+    "Ot_8018B23C_80185150",
+    "Ot_8018B23C_80185E34",
+    "Ot_8018B23C_801860E8",
+    "Ot_8018B23C_801863B8"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "5f4b599a9ffa:opaque",
+   "size": 20,
+   "n_names": 44,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk20_8017D110",
+    "Buf8017BF34",
+    "Buf8017BF34_8017BF14",
+    "Buf8017BF34_8017BF34",
+    "Buf8017BF34_8017CAF8",
+    "Buf8017BF34_80182C28",
+    "Buf8017BF50",
+    "Buf8017BF50_8017BF50",
+    "Buf8017BF50_8017BF70",
+    "Buf8017BF50_8017C234",
+    "Loc_80180E10",
+    "LocalStruct",
+    "LocalStruct_8018A968",
+    "Local_80180ABC",
+    "Pkt_801861D8",
+    "Pkt_8018626C",
+    "Prim",
+    "Prim293C",
+    "Prim80180A38",
+    "PrimBE4",
+    "PrimF790",
+    "PrimSpec80182A6C",
+    "Prim_80180BDC",
+    "Rec",
+    "Rec8017F39C",
+    "S80143BDC",
+    "S80190C84",
+    "S80190C84L",
+    "S80190C84_8018483C",
+    "S80190C84_846B4",
+    "S845EC_in",
+    "Spawn801A143C",
+    "Sprite8_801861D8",
+    "St_8017D118",
+    "St_8017EDC4",
+    "St_80182784",
+    "St_80182784_801817E4",
+    "St_80182784_80185178",
+    "St_80182784_80185DA8",
+    "St_80182784_80185DA8_8018023C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "f3431cdc6e53",
+   "size": 32,
+   "n_names": 39,
+   "n_defs": 48,
+   "canon": 20,
+   "in_c": 28,
+   "names": [
+    "MATRIX_8016E7C8",
+    "MATRIX_8017C290",
+    "MATRIX_8017E6D8",
+    "MATRIX_8017E72C",
+    "MATRIX_c2",
+    "MB_8018562C",
+    "MB_80185764",
+    "MB_80185B04",
+    "MTX",
+    "MTX_139C8",
+    "MTX_801749C8",
+    "MTX_8017BB34",
+    "MTX_8017DE40",
+    "MTX_8017E4D8",
+    "MTX_8017EA48",
+    "MTX_8017FE38",
+    "MTX_8017FE38_80183FE0",
+    "MTX_8018256C",
+    "MTX_80182CB8",
+    "MTX_801836B8",
+    "MTX_L",
+    "MTX_L_8017BEBC",
+    "MTX_L_8017C180",
+    "MTX_L_8017C294",
+    "MTX_L_8017C558",
+    "MTX_L_8017CA80",
+    "MTX_L_8017CD9C",
+    "MTX_L_8017D0B8",
+    "MTX_L_8017D27C",
+    "MTX_L_8017D960",
+    "MTX_L_801811D4",
+    "MTX_L_80184B80",
+    "MtxDA34",
+    "MtxLocal",
+    "Mtx_800CD27C",
+    "Mtx_8018A180",
+    "Mtx_8018E8A0",
+    "Mtx_8018E8A0_80184FF0",
+    "Mtx_8018E8A0_801869CC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "4cc70dd1aeae:658da6",
+   "size": 4,
+   "n_names": 39,
+   "n_defs": 42,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "CLR_8016CBC0",
+    "CVEC",
+    "CV_80180228",
+    "CV_801837B0",
+    "CV_80187EE8",
+    "CVec4_8017C218",
+    "CVec4_8017C218_8017C218",
+    "CVec4_8017C218_8017D030",
+    "CVec4_8017C218_8017D0F8",
+    "CVec4_8017C218_8017D2F4",
+    "CVec4_8017C218_8017D408",
+    "CVec4_8017C218_8017DF10",
+    "CVec4_8017C218_8017E22C",
+    "CVec4_8017C218_8017E3F0",
+    "CVec4_8017C218_801801E8",
+    "CVec4_8017C218_8018077C",
+    "CVec4_8017C218_80182348",
+    "CVecDA34",
+    "CVecX",
+    "CVec_80186E9C",
+    "CVec_80186E9C_8018BCC4",
+    "Clr_8017C910",
+    "Clr_8017C910_8017C910",
+    "Clr_8017C910_8017D728",
+    "Clr_8017C910_8017D7F0",
+    "Clr_8017C910_8017D9EC",
+    "Clr_8017C910_8017DB00",
+    "Clr_8017C910_8017E608",
+    "Clr_8017C910_8017E924",
+    "Clr_8017C910_8017EAE8",
+    "Clr_8017C910_801808E0",
+    "Clr_8017C910_80180E74",
+    "Clr_8017C910_80182A40",
+    "Col4_8017D878",
+    "Col4_8017F2FC",
+    "Col4_8017F8BC",
+    "Col4_80181574",
+    "Cv_8017F074",
+    "Cv_8017FA2C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "d4b0395bb0af:d75a25",
+   "size": 16,
+   "n_names": 37,
+   "n_defs": 53,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "LV_801851A8",
+    "LV_801851A8_80182D18",
+    "LV_801851A8_80184E84",
+    "LV_801851A8_80185D2C",
+    "LVec1CDC",
+    "V32",
+    "V32_800CB910",
+    "V32_8017D7C0",
+    "V32_8017D7C0_8017F19C",
+    "V32_8017D7C0_8017F340",
+    "V32_8017D7C0_8017F65C",
+    "V32_80182D80",
+    "V32_80182D80_80181DE0",
+    "V32_80182D80_80185774",
+    "V32_80182D80_801863A4",
+    "VC221A8",
+    "VC_EA14",
+    "VEC_8001EFE0",
+    "VEC_80021284",
+    "VEC_801A1B28",
+    "Vec16_8018E8A0",
+    "Vec16_8018E8A0_80184FF0",
+    "Vec16_8018E8A0_801869CC",
+    "Vec32",
+    "Vec32_80188AF4",
+    "Vec32_8018AF58",
+    "Vec32_8018B058",
+    "Vec32_801A2400",
+    "Vec32_801A3180",
+    "Vec32_801A4FDC",
+    "Vec32_801A5094",
+    "Vec801A143C",
+    "Vec_8017DB0C",
+    "Vec_8017E024",
+    "Vec_8017E37C",
+    "Vec_8017EBE4",
+    "Vec_80190538"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "e3853bc52fd6",
+   "size": 20,
+   "n_names": 28,
+   "n_defs": 35,
+   "canon": 10,
+   "in_c": 25,
+   "names": [
+    "Env_1412A8",
+    "Env_800D2650",
+    "Env_800D27DC",
+    "Env_800D29F8",
+    "Env_80140958",
+    "Env_8017CA18",
+    "Env_8017DD28",
+    "Env_8017E804_80188F14",
+    "Env_8017EFA8",
+    "Env_8017EFA8_8017E7DC",
+    "Env_8017EFA8_8017E804",
+    "Env_8017EFA8_8017E93C",
+    "Env_8017EFA8_8017EFA8",
+    "Env_8017FD50",
+    "Env_8018893C",
+    "Env_8018BCD4",
+    "Env_8018C960",
+    "Env_8018C960_801895C8",
+    "Env_8018C960_80189BA0",
+    "Env_8018C960_80189EA0",
+    "Env_801E46A0",
+    "Env_801E9BE0",
+    "Env_801EFA40",
+    "Env_801F1520",
+    "Env_S40_8018B238",
+    "Env_S40_8018B238_80187EA0",
+    "Env_S40_8018B238_80188478",
+    "Env_S40_8018B238_80188778"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "a3d1be6495e4",
+   "size": 12,
+   "n_names": 22,
+   "n_defs": 22,
+   "canon": 22,
+   "in_c": 0,
+   "names": [
+    "Rec027",
+    "Rec027_8017BFEC",
+    "Rec027_8017C2B0",
+    "Rec027_8017C3C4",
+    "Rec027_8017C688",
+    "Rec027_8017CBB0",
+    "Rec027_8017CECC",
+    "Rec027_8017D1E8",
+    "Rec027_8017D3AC",
+    "Rec027_8017DA90",
+    "Rec027_80181304",
+    "Rec_8017C738",
+    "Rec_8017C738_8017C738",
+    "Rec_8017C738_8017C9FC",
+    "Rec_8017C738_8017CB10",
+    "Rec_8017C738_8017CDD4",
+    "Rec_8017C738_8017D2FC",
+    "Rec_8017C738_8017D618",
+    "Rec_8017C738_8017D934",
+    "Rec_8017C738_8017DAF8",
+    "Rec_8017C738_8017E1DC",
+    "Rec_8017C738_80181A50"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a0f7100333b8:a0f163",
+   "size": 4,
+   "n_names": 20,
+   "n_defs": 62,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "DVEC2_C59C",
+    "DVEC2_C59C_8017D9CC",
+    "DVEC2_C59C_8017DBEC",
+    "DVEC2_C59C_801865EC",
+    "DVEC2_C6F4",
+    "DVEC2_C974",
+    "DVEC2_C974_8017BA3C",
+    "DVEC2_C974_8017BA3C_80189F00",
+    "DVEC2_CF90",
+    "DVEC2_D538",
+    "DVEC2_DF98",
+    "DVEC80180FE4",
+    "DVECTOR2",
+    "DVECTOR2_8017CDF0",
+    "DV_8017EF94",
+    "DV_80180B3C",
+    "DVec35C",
+    "DVec_59F4",
+    "DVec_80180894",
+    "XDV2"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "2c6b87996aed",
+   "size": 268,
+   "n_names": 20,
+   "n_defs": 20,
+   "canon": 20,
+   "in_c": 0,
+   "names": [
+    "Ent_8017FD58",
+    "Ent_8017FD58_8017D6B8",
+    "Ent_8017FD58_8017D9A0",
+    "Ent_8017FD58_8017DBAC",
+    "Ent_8017FD58_8017E2B4",
+    "Ent_8017FD58_8017E7B0",
+    "Ent_8017FD58_8017EC0C",
+    "Ent_8017FD58_8017EF34",
+    "Ent_8017FD58_8017F3CC",
+    "Ent_8017FD58_8017F73C",
+    "Ent_8017FD58_8017FCEC",
+    "Ent_8017FD58_8018150C",
+    "Ent_8017FD58_8018199C",
+    "Ent_8017FD58_8018223C",
+    "Ent_8017FD58_80182560",
+    "Ent_8017FD58_80182A14",
+    "Ent_8017FD58_801830E4",
+    "Ent_8017FD58_8018406C",
+    "Ent_8017FD58_80184A50",
+    "Ent_8017FD58_801863B0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "31ae27c7fcb4",
+   "size": 2,
+   "n_names": 19,
+   "n_defs": 34,
+   "canon": 15,
+   "in_c": 14,
+   "names": [
+    "Bidx_8018B23C",
+    "Bidx_8018B23C_8018234C",
+    "Bidx_8018B23C_80182498",
+    "Bidx_8018B23C_801829F8",
+    "Bidx_8018B23C_801844D4",
+    "Bidx_8018B23C_80184918",
+    "Bidx_8018B23C_80185150",
+    "Bidx_8018B23C_80185E34",
+    "Bidx_8018B23C_801860E8",
+    "Bidx_8018B23C_801865DC",
+    "Bidx_8018B23C_80187314",
+    "Bidx_8018B23C_8018B23C",
+    "Bidx_8018B23C_8018B2C4",
+    "Bidx_8018B23C_8018EBCC",
+    "Ctr34",
+    "H16",
+    "H2",
+    "S16_800CF3E8",
+    "S34_80184A8C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "afc6a8e495a5:f5e18b",
+   "size": 8,
+   "n_names": 19,
+   "n_defs": 19,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Rec8_8017DDC4",
+    "Rec8_8017DDC4_8018023C",
+    "Rec8_8017DDC4_8018034C",
+    "Rec8_8017DDC4_8018034C_80180450",
+    "Rec8_8017DDC4_8018034C_801809B0",
+    "Rec8_8017DDC4_8018034C_80183DEC",
+    "Rec8_8017DDC4_80180F08",
+    "Rec8_8017DDC4_801815C4",
+    "Rec8_8017DDC4_801815C4_80185344",
+    "Rec8_8017DDC4_80181DCC",
+    "Rec8_8017DDC4_80182244",
+    "Rec8_8017DDC4_80186944",
+    "Rec8_8017DDC4_801877EC",
+    "Rec8_8018A390",
+    "Rec8_8018A390_8018523C",
+    "Rec8_8018A390_80185730",
+    "Rec8_8018A390_80186468",
+    "Rec8_8018A390_8018A390",
+    "Rec8_8018A390_8018FE94"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "00bfd8673c28",
+   "size": 32,
+   "n_names": 18,
+   "n_defs": 20,
+   "canon": 9,
+   "in_c": 11,
+   "names": [
+    "Panel_8017DD28",
+    "Panel_8017E978",
+    "Panel_8017E978_8017E1AC",
+    "Panel_8017E978_8017E1D4",
+    "Panel_8017E978_8017E30C",
+    "Panel_8017E978_8017E978",
+    "Panel_8017E978_801880E0",
+    "Panel_8017E978_801886B8",
+    "Panel_8017E978_801889B8",
+    "Panel_8017E978_8018B478",
+    "Panel_801E46A0",
+    "Panel_801E9BE0",
+    "Panel_801EFA40",
+    "Panel_801F1520",
+    "Panel_S40_8018B238",
+    "Panel_S40_8018B238_80187EA0",
+    "Panel_S40_8018B238_80188478",
+    "Panel_S40_8018B238_80188778"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ce8acea75f2c",
+   "size": 12,
+   "n_names": 17,
+   "n_defs": 97,
+   "canon": 8,
+   "in_c": 79,
+   "names": [
+    "Blk12",
+    "Prim",
+    "Prim126",
+    "Prim59C",
+    "PrimC59C",
+    "PrimC974",
+    "PrimCF90",
+    "PrimD538",
+    "PrimDF98",
+    "Prim_8017CD9C",
+    "Prim_8017CDF0",
+    "Prim_8017D174",
+    "Prim_8017DF84",
+    "Prim_8017FA5C",
+    "Prim_8017FB38",
+    "Prim_80180A64",
+    "XPrim"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "142564f85464:opaque",
+   "size": 4,
+   "n_names": 16,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "D_801D0660_s",
+    "Ent_80186AE4",
+    "P4",
+    "Pair4_801B02DC",
+    "Prim4_8017DD28",
+    "Prim4_801E46A0",
+    "Prim4_801E9BE0",
+    "Prim4_801EFA40",
+    "Prim4_801F1520",
+    "Rec4",
+    "S9E",
+    "U16x2",
+    "U16x2L",
+    "U16x2N",
+    "UV_80181574",
+    "UV_80184F18"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "245ecac205e6:e989c0",
+   "size": 12,
+   "n_names": 15,
+   "n_defs": 20,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "V32_801875E4",
+    "V32_801875E4_8018848C",
+    "V32_80187C64",
+    "V32_80188B0C",
+    "V3_800CB634",
+    "VEC32_801ADC40",
+    "VEC3L",
+    "VECTOR",
+    "Vec32_801AA004",
+    "Vec3_1818F8",
+    "Vec3_1887F8",
+    "Vec3_189324",
+    "Vec3_874E8",
+    "VecL_80184694",
+    "Vec_80187A04"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "92bd6306b11d",
+   "size": 12,
+   "n_names": 15,
+   "n_defs": 15,
+   "canon": 10,
+   "in_c": 3,
+   "names": [
+    "Blk12_80180BE0",
+    "Blk12_801854C4",
+    "Blk12_801854C4_80181830",
+    "Blk12_801854C4_80181CA0",
+    "Blk12_801854C4_801822F4",
+    "Blk12_801854C4_80183A70",
+    "Blk12_801854C4_80184BEC",
+    "Blk12_801854C4_80184EA8",
+    "Blk12_801854C4_801851C4",
+    "Blk12_801854C4_801854C4",
+    "Blk12_801854C4_80187F84",
+    "Blk12_80185E68",
+    "Blk12_820F8",
+    "Elm12",
+    "Rsc12"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "5b156b6f1fb8",
+   "size": 16,
+   "n_names": 14,
+   "n_defs": 14,
+   "canon": 14,
+   "in_c": 0,
+   "names": [
+    "P",
+    "P_801820E0",
+    "P_8018222C",
+    "P_8018278C",
+    "P_80184268",
+    "P_801846AC",
+    "P_80184EE4",
+    "P_80185BC8",
+    "P_80185E7C",
+    "P_80186370",
+    "P_801870A8",
+    "P_8018AFD0",
+    "P_8018B058",
+    "P_8018E960"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "9dd6d5ec3b52",
+   "size": 16,
+   "n_names": 14,
+   "n_defs": 14,
+   "canon": 14,
+   "in_c": 0,
+   "names": [
+    "Rec_8018B23C",
+    "Rec_8018B23C_8018234C",
+    "Rec_8018B23C_80182498",
+    "Rec_8018B23C_801829F8",
+    "Rec_8018B23C_801844D4",
+    "Rec_8018B23C_80184918",
+    "Rec_8018B23C_80185150",
+    "Rec_8018B23C_80185E34",
+    "Rec_8018B23C_801860E8",
+    "Rec_8018B23C_801865DC",
+    "Rec_8018B23C_80187314",
+    "Rec_8018B23C_8018B23C",
+    "Rec_8018B23C_8018B2C4",
+    "Rec_8018B23C_8018EBCC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "699932e6421d:2982ab",
+   "size": 52,
+   "n_names": 12,
+   "n_defs": 12,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Prim_8017C218",
+    "Prim_8017C218_8017C218",
+    "Prim_8017C218_8017D030",
+    "Prim_8017C218_8017D0F8",
+    "Prim_8017C218_8017D2F4",
+    "Prim_8017C218_8017D408",
+    "Prim_8017C218_8017DF10",
+    "Prim_8017C218_8017E22C",
+    "Prim_8017C218_8017E3F0",
+    "Prim_8017C218_801801E8",
+    "Prim_8017C218_8018077C",
+    "Prim_8017C218_80182348"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c3cfca554285",
+   "size": 52,
+   "n_names": 12,
+   "n_defs": 12,
+   "canon": 12,
+   "in_c": 0,
+   "names": [
+    "Ent_8017BFE0",
+    "Ent_8017BFE0_8017BFE0",
+    "Ent_8017BFE0_8017CDF8",
+    "Ent_8017BFE0_8017CEC0",
+    "Ent_8017BFE0_8017D0BC",
+    "Ent_8017BFE0_8017D1D0",
+    "Ent_8017BFE0_8017DCD8",
+    "Ent_8017BFE0_8017DFF4",
+    "Ent_8017BFE0_8017E1B8",
+    "Ent_8017BFE0_8017FFB0",
+    "Ent_8017BFE0_80180544",
+    "Ent_8017BFE0_80182110"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "2102c0155eb4",
+   "size": 36,
+   "n_names": 12,
+   "n_defs": 12,
+   "canon": 12,
+   "in_c": 0,
+   "names": [
+    "Ent_8017D6EC",
+    "Ent_8017D6EC_8017D6EC",
+    "Ent_8017D6EC_8017DEE8",
+    "Ent_8017D6EC_8017F5F8",
+    "Ent_8017D6EC_80180064",
+    "Ent_8017D6EC_80180618",
+    "Ent_8017D6EC_801807C0",
+    "Ent_8017D6EC_80181884",
+    "Ent_8017D6EC_8018326C",
+    "Ent_8017D6EC_80183918",
+    "Ent_8017F688",
+    "Ent_80181914"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "69ca975386b8",
+   "size": 32,
+   "n_names": 12,
+   "n_defs": 12,
+   "canon": 12,
+   "in_c": 0,
+   "names": [
+    "Prim_8017C910",
+    "Prim_8017C910_8017C910",
+    "Prim_8017C910_8017D728",
+    "Prim_8017C910_8017D7F0",
+    "Prim_8017C910_8017D9EC",
+    "Prim_8017C910_8017DB00",
+    "Prim_8017C910_8017E608",
+    "Prim_8017C910_8017E924",
+    "Prim_8017C910_8017EAE8",
+    "Prim_8017C910_801808E0",
+    "Prim_8017C910_80180E74",
+    "Prim_8017C910_80182A40"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "142564f85464:a0f163",
+   "size": 4,
+   "n_names": 11,
+   "n_defs": 11,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "DV_EA14",
+    "DVec_80021D38",
+    "DVec_80183DA4",
+    "DVec_80184138",
+    "Pt2_80180F98",
+    "Pt2_80182FD4",
+    "Pt2_80184370",
+    "Pt2_801887E8",
+    "Pt2_8018AC0C",
+    "Pt2_8018BAB4",
+    "XY_8001EFE0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "7db7d8817dcc",
+   "size": 4,
+   "n_names": 11,
+   "n_defs": 17,
+   "canon": 2,
+   "in_c": 15,
+   "names": [
+    "Blk4",
+    "Blk4_80029774",
+    "Blk4_8018048C",
+    "Blk4_801A40CC",
+    "Blk4_801A7358",
+    "Blk4_801AB8C0",
+    "Blk4_801AD31C",
+    "Blk4_fc",
+    "S4_800CD054",
+    "W",
+    "W_8016BFD0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ee4bbc1a9659",
+   "size": 2,
+   "n_names": 11,
+   "n_defs": 19,
+   "canon": 4,
+   "in_c": 14,
+   "names": [
+    "Flag_S40_8018B238",
+    "Flag_S40_8018B238_80187EA0",
+    "Flag_S40_8018B238_80188478",
+    "Flag_S40_8018B238_80188778",
+    "Hd4a4",
+    "Hd4a4_8017D47C",
+    "Hd4a4_8017D5DC",
+    "Hd4a4_8017DC48",
+    "S0E_80184828",
+    "Sub_8018A3FC",
+    "W16"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "245ecac205e6:opaque",
+   "size": 12,
+   "n_names": 11,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "MainSlot",
+    "Rec12",
+    "Rec12_801888F4",
+    "Rec801806C8_s",
+    "Rec80182744_s",
+    "Rec801944E8",
+    "S12_801AD700",
+    "S12_801AD914",
+    "S801563EC",
+    "S_80182618",
+    "Vec12_8017F370"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a0f7100333b8:opaque",
+   "size": 4,
+   "n_names": 11,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Prim4_8017E978",
+    "Prim4_8017E978_8017E1AC",
+    "Prim4_8017E978_8017E1D4",
+    "Prim4_8017E978_8017E30C",
+    "Prim4_8017E978_8017E978",
+    "Prim4_8017E978_801880E0",
+    "Prim4_8017E978_801886B8",
+    "Prim4_8017E978_801889B8",
+    "Prim4_8017E978_8018B478",
+    "Rec4_801891F4",
+    "UV_80185214"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "533d080f0739",
+   "size": 32,
+   "n_names": 11,
+   "n_defs": 32,
+   "canon": 4,
+   "in_c": 28,
+   "names": [
+    "Ft3_35C",
+    "PFT3_C59C",
+    "PFT3_C6F4",
+    "PFT3_C974",
+    "PFT3_CF90",
+    "PFT3_D538",
+    "PFT3_DF98",
+    "PolyFT3",
+    "PolyFT3_8017CDF0",
+    "PolyFT3_80180FE4",
+    "XFT3"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c66921efb8a6",
+   "size": 40,
+   "n_names": 11,
+   "n_defs": 32,
+   "canon": 4,
+   "in_c": 28,
+   "names": [
+    "Ft4_35C",
+    "PFT4_C59C",
+    "PFT4_C6F4",
+    "PFT4_C974",
+    "PFT4_CF90",
+    "PFT4_D538",
+    "PFT4_DF98",
+    "PolyFT4",
+    "PolyFT4_8017CDF0",
+    "PolyFT4_80180FE4",
+    "XFT4"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "69accad910ac",
+   "size": 8,
+   "n_names": 11,
+   "n_defs": 15,
+   "canon": 4,
+   "in_c": 11,
+   "names": [
+    "SV_80187A30",
+    "SVec",
+    "SVec_8017D1E0",
+    "SVec_8017DF84",
+    "SVec_8017F67C",
+    "SVec_8017F67C_80184FF0",
+    "SVec_8017F67C_80184FF0_80188134",
+    "SVec_8017F67C_801869CC",
+    "SVec_8017FA5C",
+    "SVec_8017FB38",
+    "SVec_80180A64"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "9c8d61900c8d",
+   "size": 56,
+   "n_names": 11,
+   "n_defs": 11,
+   "canon": 10,
+   "in_c": 1,
+   "names": [
+    "PRIM_8018FE20",
+    "Prim_8017DAC4",
+    "Prim_8017DAC4_8017DAC4",
+    "Prim_8017DAC4_8017E2C0",
+    "Prim_8017DAC4_8017F9D0",
+    "Prim_8017DAC4_8018043C",
+    "Prim_8017DAC4_801809F0",
+    "Prim_8017DAC4_80180B98",
+    "Prim_8017DAC4_80181C5C",
+    "Prim_8017DAC4_80183644",
+    "Prim_8017DAC4_80183CF0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "68c91496d82c",
+   "size": 108,
+   "n_names": 11,
+   "n_defs": 11,
+   "canon": 11,
+   "in_c": 0,
+   "names": [
+    "Blk027",
+    "Blk027_8017BFEC",
+    "Blk027_8017C2B0",
+    "Blk027_8017C3C4",
+    "Blk027_8017C688",
+    "Blk027_8017CBB0",
+    "Blk027_8017CECC",
+    "Blk027_8017D1E8",
+    "Blk027_8017D3AC",
+    "Blk027_8017DA90",
+    "Blk027_80181304"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a2e73cdb49a3",
+   "size": 4,
+   "n_names": 10,
+   "n_defs": 174,
+   "canon": 5,
+   "in_c": 163,
+   "names": [
+    "Cnt",
+    "Cnt_80187DE4",
+    "E4",
+    "PW8017C290",
+    "PW8017E6D8",
+    "PW8017E72C",
+    "S70",
+    "W32",
+    "packed_word",
+    "vecr"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "666ed5ae32a1",
+   "size": 268,
+   "n_names": 10,
+   "n_defs": 17,
+   "canon": 0,
+   "in_c": 17,
+   "names": [
+    "Ent_80188E10",
+    "Ent_80188E10_80182F80",
+    "Ent_80188E10_80183BB4",
+    "Ent_80188E10_80183ED4",
+    "Ent_80188E10_80186EA4",
+    "Ent_80188E10_80187898",
+    "Ent_80188E10_80187DF8",
+    "Ent_80188E10_801887EC",
+    "Ent_80188E10_8018937C",
+    "Ent_80188E10_8018A2D0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c1767d5293b8:a1c8d6",
+   "size": 6,
+   "n_names": 8,
+   "n_defs": 20,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "SV3_8017FAA8",
+    "Shake_80180FE8",
+    "Struct801AD7EC_Local",
+    "V3",
+    "V3_8017F4E4",
+    "V3_801812AC",
+    "Vec3_8016BFD0",
+    "Vec3s"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "03b738d15c44",
+   "size": 4,
+   "n_names": 8,
+   "n_defs": 9,
+   "canon": 3,
+   "in_c": 6,
+   "names": [
+    "VMask",
+    "W4",
+    "W_8018893C",
+    "W_8018BCD4",
+    "W_S40_8018B238",
+    "W_S40_8018B238_80187EA0",
+    "W_S40_8018B238_80188478",
+    "W_S40_8018B238_80188778"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c9d3ff70a851",
+   "size": 16,
+   "n_names": 8,
+   "n_defs": 12,
+   "canon": 0,
+   "in_c": 12,
+   "names": [
+    "Node_801E5AAC",
+    "Node_801F0E9C",
+    "Node_801F28E0",
+    "Tbl16_8018BDE4",
+    "Tbl16_8018BDE4_8017CEF4",
+    "Tbl16_8018BDE4_8017CEF4_80183FF8",
+    "Tbl16_8018BDE4_8018023C",
+    "Tbl16_8018BDE4_8018359C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "afc6a8e495a5:opaque",
+   "size": 8,
+   "n_names": 8,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk801539F8",
+    "Box",
+    "Box_80133784",
+    "Ent_8018A224",
+    "Foo_80134510",
+    "Foo_80134510_80134510",
+    "Rec_8017ECD4",
+    "Rec_EDC0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "6b2796e0dce1",
+   "size": 8,
+   "n_names": 7,
+   "n_defs": 7,
+   "canon": 0,
+   "in_c": 7,
+   "names": [
+    "GTEOutV",
+    "SV_80016A7C",
+    "SVec3_800173DC",
+    "SVec_80017168",
+    "V0_80017294",
+    "V16D78",
+    "V16F18"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "f39ecda931df:opaque",
+   "size": 12,
+   "n_names": 7,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Rec",
+    "UAlign12",
+    "UAlign12_80181F40",
+    "UAlign12_80182B74",
+    "UAlign12_80185E64",
+    "UAlign12_80186858",
+    "UAlign12_8018833C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ddfe48605de8",
+   "size": 28,
+   "n_names": 7,
+   "n_defs": 26,
+   "canon": 0,
+   "in_c": 26,
+   "names": [
+    "Cell126",
+    "Cell59C",
+    "CellC59C",
+    "CellC974",
+    "CellCF90",
+    "CellD538",
+    "CellDF98"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "702e111905f2",
+   "size": 20,
+   "n_names": 7,
+   "n_defs": 27,
+   "canon": 1,
+   "in_c": 26,
+   "names": [
+    "PF3_C59C",
+    "PF3_C6F4",
+    "PF3_C974",
+    "PF3_CF90",
+    "PF3_D538",
+    "PF3_DF98",
+    "PolyF3"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "d5fa08a17c88",
+   "size": 24,
+   "n_names": 7,
+   "n_defs": 27,
+   "canon": 1,
+   "in_c": 26,
+   "names": [
+    "PF4_C59C",
+    "PF4_C6F4",
+    "PF4_C974",
+    "PF4_CF90",
+    "PF4_D538",
+    "PF4_DF98",
+    "PolyF4"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "db33e2cfb9f1:3987cf",
+   "size": 8,
+   "n_names": 7,
+   "n_defs": 7,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "V8_80187968",
+    "V8_80187968_801804D8",
+    "V8_80187968_801807AC",
+    "V8_80187968_80181F18",
+    "V8_80187968_8018321C",
+    "V8_80187968_80183280",
+    "V8_80187968_80184194"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "5f9112725d5b",
+   "size": 16,
+   "n_names": 7,
+   "n_defs": 7,
+   "canon": 7,
+   "in_c": 0,
+   "names": [
+    "Src80172E20",
+    "StructB58",
+    "StructB58_8017FAFC",
+    "StructB58_80180730",
+    "StructB58_80183A20",
+    "StructB58_80184414",
+    "StructB58_80185EF8"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "b219fb31f5e8",
+   "size": 36,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 6,
+   "names": [
+    "G4_80017778",
+    "PG4_8017FD50",
+    "PG4_8018C960",
+    "PG4_8018C960_801895C8",
+    "PG4_8018C960_80189BA0",
+    "PG4_8018C960_80189EA0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "0029a68fa4fc:e70b14",
+   "size": 64,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Src_80180F98",
+    "Src_80182FD4",
+    "Src_80184370",
+    "Src_801887E8",
+    "Src_8018AC0C",
+    "Src_8018BAB4"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "f9ef43fbf4f3",
+   "size": 152,
+   "n_names": 6,
+   "n_defs": 13,
+   "canon": 1,
+   "in_c": 12,
+   "names": [
+    "Blk152",
+    "Blk152_8017DF40",
+    "Blk152_8017DF40_801E48B8",
+    "Blk152_8017DF40_801E9DF8",
+    "Blk152_8017DF40_801EFC58",
+    "Blk152_8017DF40_801F1738"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "245ecac205e6:cfa514",
+   "size": 12,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "S_AF634",
+    "S_AF634_80175820",
+    "S_AF634_80175820_80175820",
+    "S_AF634_801758FC",
+    "S_AF634_801759D8",
+    "S_AF634_80176144"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "5f4b599a9ffa:f015dc",
+   "size": 20,
+   "n_names": 6,
+   "n_defs": 7,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk8018057C",
+    "Blk801819B0",
+    "Blk80181A1C",
+    "Blk80182030",
+    "Blk801821E8",
+    "Blk80182634"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "ceca4ea3ade1:a1c8d6",
+   "size": 6,
+   "n_names": 6,
+   "n_defs": 8,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Pos800D20C0",
+    "Pos_8017DC24",
+    "Pos_8017F6A8",
+    "Pos_8018012C",
+    "Pos_80185C0C",
+    "Vec4h_8017FB08"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "ceca4ea3ade1:opaque",
+   "size": 6,
+   "n_names": 6,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Cam8012E138",
+    "SV3",
+    "Src_8013B598",
+    "Src_8013B598_8013B598",
+    "Src_8013B6A0",
+    "Src_8013B6A0_8013B6A0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "6f0428152b9e:c5b43c",
+   "size": 64,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Prim_8017F40C",
+    "Prim_8017F40C_8017DB28",
+    "Prim_8017F40C_8017DF74",
+    "Prim_8017F40C_8017E368",
+    "Prim_8017F40C_8017E6EC",
+    "Prim_8017F40C_8017E97C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "eaec0835ca48",
+   "size": 12,
+   "n_names": 6,
+   "n_defs": 8,
+   "canon": 3,
+   "in_c": 5,
+   "names": [
+    "Elem_8018F086",
+    "Entry8018F07C",
+    "Key12_8017DD64",
+    "TrailEntry",
+    "Vec",
+    "VecA"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "306fe4e56612",
+   "size": 40,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 5,
+   "in_c": 1,
+   "names": [
+    "Ft4_80180B3C",
+    "Ft4_801833F0",
+    "Ft4_8018478C",
+    "Ft4_80188C04",
+    "Ft4_8018B028",
+    "Ft4_8018BED0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "496827f3c5a0",
+   "size": 28,
+   "n_names": 6,
+   "n_defs": 21,
+   "canon": 0,
+   "in_c": 21,
+   "names": [
+    "SubRec_801EB5C8",
+    "SubRec_801EB5C8_8017D7EC",
+    "SubRec_801EB5C8_8017DC38",
+    "SubRec_801EB5C8_8017E02C",
+    "SubRec_801EB5C8_8017E3B0",
+    "SubRec_801EB5C8_8017E640"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "1064dd3564d8",
+   "size": 464,
+   "n_names": 6,
+   "n_defs": 21,
+   "canon": 0,
+   "in_c": 21,
+   "names": [
+    "GroupRec_801EB5C8",
+    "GroupRec_801EB5C8_8017D7EC",
+    "GroupRec_801EB5C8_8017DC38",
+    "GroupRec_801EB5C8_8017E02C",
+    "GroupRec_801EB5C8_8017E3B0",
+    "GroupRec_801EB5C8_8017E640"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "51be9f07fb92",
+   "size": 20,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 5,
+   "in_c": 1,
+   "names": [
+    "Ctl801800B8",
+    "S_AE7BC",
+    "S_AE7BC_80175820",
+    "S_AE7BC_80175820_80175820",
+    "S_AE7BC_801758FC",
+    "S_AE7BC_801759D8"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "453eb672a0e3",
+   "size": 16,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 5,
+   "names": [
+    "Entry_D_801949C8",
+    "Stride16_801BA59C",
+    "Stride16_801BA59C_8017DF5C",
+    "Stride16_801BA59C_8017EE0C",
+    "T16"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "64533110def7:42eab4",
+   "size": 8,
+   "n_names": 5,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Vtx_8016B6BC",
+    "Vtx_8017DC24",
+    "Vtx_8017F6A8",
+    "Vtx_8018012C",
+    "Vtx_80185C0C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "fef6227898bc",
+   "size": 16,
+   "n_names": 5,
+   "n_defs": 11,
+   "canon": 2,
+   "in_c": 9,
+   "names": [
+    "B16",
+    "B16x",
+    "Blk16",
+    "Prim_1412A8",
+    "St801D9204"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "59d779d0e67a:793c1d",
+   "size": 8,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Drm_801833F0",
+    "Drm_8018478C",
+    "Drm_80188C04",
+    "Drm_8018B028",
+    "Drm_8018BED0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "0aaa0c2b3635",
+   "size": 8,
+   "n_names": 5,
+   "n_defs": 18,
+   "canon": 1,
+   "in_c": 17,
+   "names": [
+    "DRM",
+    "DR_MODE",
+    "E8_8018E450",
+    "Pair8",
+    "S8"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "313fe9a920e0",
+   "size": 26,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 5,
+   "names": [
+    "A098Rec",
+    "Struct800D2E20",
+    "Struct800D2E6C",
+    "Struct800D3104",
+    "Struct800D3120"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "9865e09a793d",
+   "size": 3,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 5,
+   "names": [
+    "Blk3_8017D730",
+    "Blk3_801E40A8",
+    "Blk3_801E95E8",
+    "Blk3_801EF448",
+    "Blk3_801F0F28"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "81a57ef0eb8d",
+   "size": 32,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 1,
+   "in_c": 4,
+   "names": [
+    "Mat32",
+    "Mat32_8017F4E4",
+    "Mat32_8018741C",
+    "Mat32_80188B78",
+    "Mat32_801A4EBC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "9fb45259b19a",
+   "size": 20,
+   "n_names": 5,
+   "n_defs": 6,
+   "canon": 4,
+   "in_c": 2,
+   "names": [
+    "Part",
+    "Part35C",
+    "Part80180FE4",
+    "Part_8017CDF0",
+    "XPart"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "ab244e47ddd7:2982ab",
+   "size": 52,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Prim_8017FA2C",
+    "Prim_80183FE0",
+    "Prim_80183FE0_80183040",
+    "Prim_80183FE0_801869D4",
+    "Prim_80183FE0_80187604"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "6ef8724a7464",
+   "size": 20,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 4,
+   "in_c": 0,
+   "names": [
+    "F20T",
+    "Obj20_80178D40",
+    "S801593E4",
+    "Sub_80155800_80155800",
+    "Sub_8015CD20"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "8ae81f2c5478",
+   "size": 20,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 5,
+   "in_c": 0,
+   "names": [
+    "Rec20",
+    "Rec20_8017DF18",
+    "Rec20_8017DF18_8017DEF0",
+    "Rec20_8017DF18_8017E050",
+    "Rec20_8017DF18_8017E6BC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "65c3c6fd5cf3:02ce31",
+   "size": 4,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Ang2_8012B77C",
+    "Ang2_8012B77C_8012B77C",
+    "Ang2_8012B77C_80187180",
+    "Ang2_8012B77C_8018BFA8"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8d605044e3bf:94f981",
+   "size": 8,
+   "n_names": 4,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "D24D0_Rect",
+    "SpadRect_800184F0",
+    "XRECT",
+    "imgrect"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "a5b3b6c549ea",
+   "size": 32,
+   "n_names": 4,
+   "n_defs": 6,
+   "canon": 2,
+   "in_c": 4,
+   "names": [
+    "Blk32u",
+    "Entry",
+    "Entry_8016E95C",
+    "Quad"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a0f7100333b8:fd5a6b",
+   "size": 4,
+   "n_names": 4,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "DVec_8016B6BC",
+    "Hw4",
+    "Pair",
+    "Pair_8013AD38"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "5f4b599a9ffa:7b82c5",
+   "size": 20,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Msg_8018248C",
+    "Msg_8018248C_80180450",
+    "Msg_8018248C_801809B0",
+    "Msg_8018248C_80183DEC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8b02616e5c40",
+   "size": 52,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Prim34_80190174",
+    "Prim_801812AC",
+    "Prim_80188114",
+    "Prim_801A52DC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8955a8be0835",
+   "size": 8,
+   "n_names": 4,
+   "n_defs": 7,
+   "canon": 3,
+   "in_c": 4,
+   "names": [
+    "PTag_801AEC38",
+    "P_TAG",
+    "P_TAG_80137DD4",
+    "P_TAG_8013DD68"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "ce6951817871",
+   "size": 268,
+   "n_names": 4,
+   "n_defs": 136,
+   "canon": 0,
+   "in_c": 134,
+   "names": [
+    "Ent",
+    "EntD820",
+    "EntD820_8014D820",
+    "Ent_8014D820"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "fd623ac865b9",
+   "size": 28,
+   "n_names": 4,
+   "n_defs": 12,
+   "canon": 4,
+   "in_c": 8,
+   "names": [
+    "Ent_8013B6A0",
+    "Ent_8013B6A0_8013B6A0",
+    "Spr_8013B598",
+    "Spr_8013B598_8013B598"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "f5c2ab89f5a9",
+   "size": 16,
+   "n_names": 4,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 5,
+   "names": [
+    "Blk16A1",
+    "Entry16",
+    "Row_80186060",
+    "S16"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "3336997be720",
+   "size": 164,
+   "n_names": 4,
+   "n_defs": 6,
+   "canon": 2,
+   "in_c": 4,
+   "names": [
+    "BigCopy",
+    "Blk164",
+    "Blk_0xA4",
+    "copy00"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c6ea13d69cd3",
+   "size": 40,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Prim_8017DC24",
+    "Prim_8017F6A8",
+    "Prim_8018012C",
+    "Prim_80185C0C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "766bee63ace7",
+   "size": 72,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Prim_80182080",
+    "Quad_8017DABC",
+    "Quad_8017DB20",
+    "Quad_8017E0E4"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "f1dcb3a42fc8",
+   "size": 20,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 1,
+   "in_c": 3,
+   "names": [
+    "Rec_801825D8",
+    "Rec_80184FF8",
+    "S8012C658",
+    "S8017FF9C_sp"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "193af660478c",
+   "size": 12,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Pose_8017E330",
+    "Pose_8017E550",
+    "Pose_8017E878",
+    "St80180ACC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "6f8e2de2ffda",
+   "size": 20,
+   "n_names": 4,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 6,
+   "names": [
+    "buf_801840C0",
+    "buf_801873B0",
+    "buf_80187DA4",
+    "buf_80189888"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "3e4f4166f2b3",
+   "size": 36,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 2,
+   "in_c": 2,
+   "names": [
+    "A801593E4",
+    "Ent_80186E9C",
+    "Ent_80186E9C_8018BCC4",
+    "S126B58"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8944ddcbe454:opaque",
+   "size": 36,
+   "n_names": 3,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk36_800296F8",
+    "Blob36",
+    "SW20"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "0fb1d3def821:403b4a",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Face14_800CB5D0",
+    "Face2",
+    "FaceF4_800CB3C0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "142564f85464:fd5a6b",
+   "size": 4,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Poly12Pt",
+    "Pt_80015F04",
+    "XY221A8"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8d605044e3bf:4c7ee6",
+   "size": 8,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk8_8018A314",
+    "QB_80185B04",
+    "Q_8018562C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c1767d5293b8:e989c0",
+   "size": 6,
+   "n_names": 3,
+   "n_defs": 7,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "SV_801AA210",
+    "Svec3",
+    "UVec_8017DB64"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c2ba48790859",
+   "size": 1,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "W8",
+    "W8_",
+    "func_8002EE64_b"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "7b3adf8bd9e4",
+   "size": 84,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "F150Rec",
+    "F1ccRec",
+    "S54"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "245ecac205e6:a1c8d6",
+   "size": 12,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "SV4",
+    "VEC_8017DF28",
+    "Vec3_8017DF8C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "f39ecda931df:e998cb",
+   "size": 12,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Rec_80166690",
+    "Rec_80166690_80166690",
+    "Rec_8016CBC0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "ff66866c62b0",
+   "size": 4,
+   "n_names": 3,
+   "n_defs": 6,
+   "canon": 2,
+   "in_c": 4,
+   "names": [
+    "Ent_80183280",
+    "Ent_80183CF0",
+    "Ent_80183CF0_80183CF0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "b519bad67107:opaque",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Local_8017EE34",
+    "Local_80181C84",
+    "Local_801870E8"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "6f0428152b9e:d366eb",
+   "size": 64,
+   "n_names": 3,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Prim_80183F84",
+    "Prim_801A4680",
+    "Prim_801A4680_8017F668"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "927525df50d4",
+   "size": 16,
+   "n_names": 3,
+   "n_defs": 8,
+   "canon": 3,
+   "in_c": 5,
+   "names": [
+    "E_13BD74",
+    "E_13C08C",
+    "E_13C08C_8013C08C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c108edffc948",
+   "size": 52,
+   "n_names": 3,
+   "n_defs": 4,
+   "canon": 1,
+   "in_c": 3,
+   "names": [
+    "D_80195D74_Entry",
+    "Elem52_801B5094",
+    "S_8018AEB8"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "f94245c68571",
+   "size": 108,
+   "n_names": 3,
+   "n_defs": 5,
+   "canon": 2,
+   "in_c": 3,
+   "names": [
+    "S_8013BC7C",
+    "S_8013BC7C_8013BC7C",
+    "T68_8017FC44"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "33717af3314b",
+   "size": 40,
+   "n_names": 3,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 5,
+   "names": [
+    "FT4_801857A4",
+    "Ft4_80183DA4",
+    "Ft4_80184138"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8f99301f271e",
+   "size": 268,
+   "n_names": 3,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Cnt_8018E8A0",
+    "Cnt_8018E8A0_80184FF0",
+    "Cnt_8018E8A0_801869CC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c76809a9d652",
+   "size": 56,
+   "n_names": 3,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Prim_8018E8A0",
+    "Prim_8018E8A0_80184FF0",
+    "Prim_8018E8A0_801869CC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "631872411606",
+   "size": 56,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 1,
+   "in_c": 2,
+   "names": [
+    "PKT_80180228",
+    "PKT_801837B0",
+    "PKT_80187EE8"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "1dd90dc86138",
+   "size": 236,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 2,
+   "in_c": 1,
+   "names": [
+    "Ent80183F28",
+    "Ent80183F28_80183F28",
+    "Ent_80184058"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "aa66418d079c:f5e18b",
+   "size": 16,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Work_8017E330",
+    "Work_8017E550",
+    "Work_8017E878"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "43669d0a183b",
+   "size": 36,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Coord_8017E330",
+    "Coord_8017E550",
+    "Coord_8017E878"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "9ba0ae408dd4",
+   "size": 56,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Drv_8017E330",
+    "Drv_8017E550",
+    "Drv_8017E878"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "defdeb9d32fc",
+   "size": 56,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 2,
+   "in_c": 1,
+   "names": [
+    "Blk80078E78",
+    "Gs_80078E78",
+    "Gs_80078E78_80183D50"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "9dec8574d64e",
+   "size": 428,
+   "n_names": 3,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 0,
+   "names": [
+    "Actor4C",
+    "actor4c",
+    "actor4c_8015444C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "11315955abf5",
+   "size": 32,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Obj_8018A550",
+    "Obj_8018A550_801878A8",
+    "Obj_8018A550_8018A550"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "d919e4fe13ba",
+   "size": 52,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Ctl_8018A550",
+    "Ctl_8018A550_801878A8",
+    "Ctl_8018A550_8018A550"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "5c92835319e5",
+   "size": 16,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Rec_8018A550",
+    "Rec_8018A550_801878A8",
+    "Rec_8018A550_8018A550"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "26fea65ca12c",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "DispSlot_800184F0",
+    "DispSlot_800184F0_80014588"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "eefa450f0381",
+   "size": 24,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Face3",
+    "FaceGT4_800CB7BC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "f138a69b30cd:f292be",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "LineF2_80015F04",
+    "LineF2_80181A60"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "9c6e4b1a9e07",
+   "size": 24,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "F4_80016450",
+    "F4_801AB21C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c261a2c483d3:b85ac4",
+   "size": 40,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "LineG4",
+    "LineG4_80016C28"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c261a2c483d3:c91c09",
+   "size": 40,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Ft4",
+    "Ft4_800CBA18"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "f57d25747f4b",
+   "size": 4,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "UV16D78",
+    "UV16F18"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "b85caab442ac:1203f4",
+   "size": 32,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "MTX8_80185648",
+    "Oct_801852BC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8d605044e3bf:cfadf9",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "SV4R_801AAA6C",
+    "SV4_801AAB28"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8d605044e3bf:ef9222",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Row8_8018367C",
+    "Row8_8018367C_801811A4"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "4cc70dd1aeae:bf98b1",
+   "size": 4,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "C_8017DCC0",
+    "RGBC"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "400c14f38ee9:a3510d",
+   "size": 32,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Face20_800CBA18",
+    "Prim20"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "cd10d44bbfcc",
+   "size": 36,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "FaceGT4",
+    "FaceGT4_800CBE28"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "e78015bce7b7",
+   "size": 52,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "PktGT4",
+    "PktGT4_800CBE28"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "b1a4ba961858",
+   "size": 84,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "F150Slot",
+    "F1ccSlot"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "06c78d2eedc6",
+   "size": 32,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 1,
+   "names": [
+    "Blk28",
+    "C24"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "2e57efa3d051",
+   "size": 72,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Voice336A8",
+    "VoiceF80"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "4d3f0ba5faf2",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 1,
+   "names": [
+    "Buf80153978",
+    "Ramp388C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "344506cf1022",
+   "size": 48,
+   "n_names": 2,
+   "n_defs": 136,
+   "canon": 1,
+   "in_c": 134,
+   "names": [
+    "CdReq",
+    "MATRIX_L48"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "4a70ab65aff5",
+   "size": 4,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "FnEntry",
+    "RowC_80180CD0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "b8ea8cce0a40",
+   "size": 20,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "MZ",
+    "Stk"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "5b8ad54bc29f",
+   "size": 24,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Locs",
+    "Mat_CB6A0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "542b1eda7358",
+   "size": 64,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 2,
+   "in_c": 1,
+   "names": [
+    "Mtx",
+    "Mtx_8016BFD0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "7ffb740ef67d",
+   "size": 40,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 1,
+   "names": [
+    "B",
+    "Mtx40"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "0d582a24ea16",
+   "size": 152,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 1,
+   "names": [
+    "Fr_800CB3BC",
+    "Fr_801670E4"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "5b95bca7ba8c",
+   "size": 84,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 1,
+   "names": [
+    "Src_800CB658",
+    "Src_80167540"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "8353c1de6a85",
+   "size": 40,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "MtxBuf_800CD27C",
+    "MtxBuf_8018A180"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "699932e6421d:6183cf",
+   "size": 52,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Frame_80166690",
+    "Frame_80166690_80166690"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "99b59e3160d5",
+   "size": 10,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 2,
+   "in_c": 1,
+   "names": [
+    "S10",
+    "S10_80136C90"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a0f7100333b8:cdf8ac",
+   "size": 4,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Range_80189A70",
+    "Range_80189B1C"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "425f1d9c3446",
+   "size": 32,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Prim8017D67C",
+    "Prim801A5674"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "61568a95a4a8",
+   "size": 54,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Ent34",
+    "S34_801A1470"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c80fac242f04",
+   "size": 32,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Mat801A8E34",
+    "Mat_80183C9C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ac91ae2d8aa0:opaque",
+   "size": 28,
+   "n_names": 2,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "S800D22E4",
+    "vec"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "416a00ee0fb0",
+   "size": 28,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 2,
+   "in_c": 1,
+   "names": [
+    "E_3B7AC",
+    "E_3B7AC_8013B7AC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "069136f94521",
+   "size": 4,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 1,
+   "names": [
+    "Prim4",
+    "SpotDef_8018A278"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "58a962a3345f",
+   "size": 20,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 1,
+   "names": [
+    "D_87298",
+    "Rec801466F0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "82c6e3650290:6fe693",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Elem_8012ACE0",
+    "Elem_8012ACE0_8012ACE0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "82c6e3650290:opaque",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Gte8_8017F2FC",
+    "Rec_80180808"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "429d56779f18",
+   "size": 24,
+   "n_names": 2,
+   "n_defs": 13,
+   "canon": 1,
+   "in_c": 12,
+   "names": [
+    "Loc",
+    "Loc_8014A048"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "612981d95d84:4447d6",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Out_8017E910",
+    "Out_8017E910_8017E508"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "12fe36cd7e07",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Struct801E79D8",
+    "Struct801EF318"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "042b3b868d1c",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 1,
+   "in_c": 2,
+   "names": [
+    "MatEntry",
+    "MatEntry_80187B04"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a1efd3767cc1",
+   "size": 20,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Msg_80187050",
+    "Tmp80181CD0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "9bf9dbcce1cc",
+   "size": 6,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 1,
+   "names": [
+    "Vec3h",
+    "Vec3x16"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c6e867e46e6f",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "V16x4",
+    "Vec4s16_8018423C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "db33e2cfb9f1:d75a25",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "SV3_8012CC88",
+    "SV3_801808E8"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "1ee831be5408",
+   "size": 72,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Desc_80181574",
+    "Desc_80184F18"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "64db0612c4d4",
+   "size": 236,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Work_801832E0",
+    "Work_80183634"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "0ac6330ef243",
+   "size": 64,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Prim_80182800",
+    "Prim_8018DA64"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "08944be666a1",
+   "size": 20,
+   "n_names": 2,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Sub8017EBC4",
+    "Sub_80181BA0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "aa66418d079c:d9804b",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Box_80182BC8",
+    "Box_80184564"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "aa66418d079c:fd5a6b",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Pair16",
+    "Pair16_8017B368"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "aa66418d079c:opaque",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk16_80126940",
+    "Pos16_8018743C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "474e1fa40ab6",
+   "size": 156,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Actor_8017E550",
+    "Actor_8017E878"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ffa7660db10a",
+   "size": 40,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Quad_80186E9C",
+    "Quad_80186E9C_8018BCC4"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "808a1afecf18",
+   "size": 80,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Fr_80187368",
+    "Fr_8018C190"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "f22518ca2429",
+   "size": 268,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Ent_8018D3A4",
+    "Ent_8018D654"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "e816c568395a",
+   "size": 260,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Obj80180D84",
+    "St_8017E95C_r"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "d60a32e09c91",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "P8",
+    "S72"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "cc89b444f3c5",
+   "size": 256,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Ent",
+    "EntA"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "2816963b1259",
+   "size": 44,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Obj800D302C",
+    "Struct800D2FEC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "410bab0528f6",
+   "size": 20,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "S8014C010",
+    "S_8014AD30"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "c15c29cf79fb",
+   "size": 508,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "SubED80",
+    "SubF24C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "d97bdca0dba1:22ff66",
+   "size": 196,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk_8016CF04",
+    "Blk_8016CF04_8016CF04"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "43ae4b374f39",
+   "size": 92,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "DrawEnv",
+    "DrawEnv_8013DD68"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "64003f1eade0",
+   "size": 104,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Buf_8013DD68",
+    "Buf_c2"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "4bf2054e3688",
+   "size": 104,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Ent_80164930",
+    "Ent_80164930_80164930"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "3ed8f73077eb",
+   "size": 148,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Owner_8012ACE0",
+    "Owner_8012ACE0_8012ACE0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "0c137f25ac4b",
+   "size": 22,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "S0",
+    "S0_801347A0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "375b5247305e",
+   "size": 40,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Thing_80168828",
+    "Thing_80168828_80168828"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "53254525c0c2",
+   "size": 84,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Fr",
+    "Fr_80167AE0"
+   ],
+   "tier": 1
+  },
+  {
+   "lhash": "5eb78e970e7e",
+   "size": 236,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Ent_80183D50",
+    "Ent_80183D50_80183D50"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a579a7d634d5",
+   "size": 230,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Ent_80184264",
+    "Ent_80184264_80184264"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "bf68fb32debf",
+   "size": 20,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Unk8018F8C4",
+    "Unk8018F8C4_80184538"
+   ],
+   "tier": 2
+  }
+ ],
+ "layout_twins": [
+  {
+   "lhash": "64533110def7",
+   "size": 8,
+   "n_names": 551,
+   "n_defs": 821,
+   "canon": 177,
+   "in_c": 642,
+   "names": [
+    "Blk8L",
+    "Blk8S16",
+    "Blk8U",
+    "Blk8_80126940",
+    "Blk8_80126940_8017D044",
+    "Blk8_80126940_8017D04C",
+    "Blk8_80126940_8017D07C",
+    "Blk8_80126940_8017D09C",
+    "Blk8_80126940_8017D130",
+    "Blk8_80126940_8017D168",
+    "Blk8_80126940_8017D1AC",
+    "Blk8_80126940_8017D1D8",
+    "Blk8_80126940_8017D1F0",
+    "Blk8_80126940_8017D208",
+    "Blk8_80126940_8017D20C",
+    "Blk8_80126940_8017D210",
+    "Blk8_80126940_8017D25C",
+    "Blk8_80126940_8017D268",
+    "Blk8_80126940_8017D2FC",
+    "Blk8_80126940_8017D308",
+    "Blk8_80126940_8017D344",
+    "Blk8_80126940_8017D348",
+    "Blk8_80126940_8017D388",
+    "Blk8_80126940_8017D3B0",
+    "Blk8_80126940_8017D3B8",
+    "Blk8_80126940_8017D3C0",
+    "Blk8_80126940_8017D458",
+    "Blk8_80126940_8017D474",
+    "Blk8_80126940_8017D4A0",
+    "Blk8_80126940_8017D4DC",
+    "Blk8_80126940_8017D508",
+    "Blk8_80126940_8017D524",
+    "Blk8_80126940_8017D590",
+    "Blk8_80126940_8017D5D0",
+    "Blk8_80126940_8017D5D8",
+    "Blk8_80126940_8017D630",
+    "Blk8_80126940_8017D634",
+    "Blk8_80126940_8017D654",
+    "Blk8_80126940_8017D670",
+    "Blk8_80126940_8017D6D0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "GTESVec",
+     "GVec8",
+     "SIn_8017E95C",
+     "SV",
+     "SV180090",
+     "SV221A8"
+    ],
+    [
+     "Buf8_8017D4F0",
+     "PosT",
+     "Rec8T",
+     "Rot_8017E330",
+     "Rot_8017E550",
+     "Rot_8017E878"
+    ],
+    [
+     "Rect"
+    ],
+    [
+     "Pt_8017E1A8"
+    ],
+    [
+     "Vtx_8016B6BC",
+     "Vtx_8017DC24",
+     "Vtx_8017F6A8",
+     "Vtx_8018012C",
+     "Vtx_80185C0C"
+    ],
+    [
+     "S16x4"
+    ],
+    [
+     "Q_8017DF28"
+    ]
+   ],
+   "opaque_names": [
+    "Blk8L",
+    "Blk8S16",
+    "Blk8U",
+    "Blk8_80126940",
+    "Blk8_80126940_8017D044",
+    "Blk8_80126940_8017D04C",
+    "Blk8_80126940_8017D07C",
+    "Blk8_80126940_8017D09C",
+    "Blk8_80126940_8017D130",
+    "Blk8_80126940_8017D168"
+   ]
+  },
+  {
+   "lhash": "8d605044e3bf",
+   "size": 8,
+   "n_names": 276,
+   "n_defs": 626,
+   "canon": 153,
+   "in_c": 470,
+   "names": [
+    "Ang_8017E95C",
+    "Args_80182194",
+    "Blk8",
+    "Blk8017FD54",
+    "Blk8_801807DC",
+    "Blk8_8018453C",
+    "Blk8_8018A314",
+    "Blk8_801A6AD0",
+    "Blk8_801AD914",
+    "Blk8_801E0764",
+    "Blk8_801E076C",
+    "Blk_80178D40",
+    "COL_8001EFE0",
+    "D24D0_Rect",
+    "DVEC_80183534",
+    "D_801D0630_s",
+    "Data_t",
+    "Data_t_80181CE0",
+    "Data_t_80182704",
+    "Data_t_801829CC",
+    "Data_t_801829F0",
+    "Data_t_80183DE4",
+    "Data_t_80184294",
+    "Data_t_80184A40",
+    "Data_t_80186848",
+    "Data_t_8018767C",
+    "Data_t_80189320",
+    "Data_t_80189454",
+    "Data_t_80189AA0",
+    "Data_t_80189D04",
+    "Data_t_8018A948",
+    "Ent8_80188",
+    "Entry8_801A5D68",
+    "MoveT",
+    "Pt_8017D87C",
+    "Pt_80187940",
+    "Pt_80187940_80180D24",
+    "QB_80185B04",
+    "Q_8018562C",
+    "Rec8_801863EC"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "D24D0_Rect",
+     "SpadRect_800184F0",
+     "XRECT",
+     "imgrect"
+    ],
+    [
+     "Ang_8017E95C",
+     "DVEC_80183534",
+     "SOut_8017E95C",
+     "SVEC",
+     "SVECTOR_8017C290",
+     "SVECTOR_8017E6D8"
+    ],
+    [
+     "Blk8_801807DC",
+     "Blk8_8018453C",
+     "COL_8001EFE0",
+     "MoveT",
+     "Pt_8017D87C",
+     "Pt_80187940"
+    ],
+    [
+     "SV4R_801AAA6C",
+     "SV4_801AAB28"
+    ],
+    [
+     "Blk8_8018A314",
+     "QB_80185B04",
+     "Q_8018562C"
+    ],
+    [
+     "Row8_8018367C",
+     "Row8_8018367C_801811A4"
+    ]
+   ],
+   "opaque_names": [
+    "Args_80182194",
+    "Blk8",
+    "Blk8017FD54",
+    "Blk8_801A6AD0",
+    "Blk8_801AD914",
+    "Blk8_801E0764",
+    "Blk8_801E076C",
+    "Blk_80178D40",
+    "D_801D0630_s",
+    "Data_t"
+   ]
+  },
+  {
+   "lhash": "4cc70dd1aeae",
+   "size": 4,
+   "n_names": 143,
+   "n_defs": 194,
+   "canon": 75,
+   "in_c": 119,
+   "names": [
+    "B4",
+    "B4_8017F154",
+    "B4_80181970",
+    "B4_80181ABC",
+    "B4_8018201C",
+    "B4_80183AF8",
+    "B4_80183F3C",
+    "B4_80184774",
+    "B4_80185458",
+    "B4_8018570C",
+    "B4_80185C00",
+    "B4_80186938",
+    "B4_80188094",
+    "B4_8018A860",
+    "B4_8018A8E8",
+    "B4_8018E1F0",
+    "B4_CB578",
+    "BYTES_800CFAD0",
+    "Blk4",
+    "Blk4_8017CE90",
+    "Blk4_8017CE90_8017CE90",
+    "Blk4_8017CE90_8017F32C",
+    "Blk4_8017CE90_8017F32C_80184FF0",
+    "Blk4_8017CE90_8017F32C_80184FF0_80187A9C",
+    "Blk4_8017CE90_8017F32C_80184FF0_80188134",
+    "Blk4_8017CE90_8017F32C_801869CC",
+    "Blk4_8017D5DC",
+    "Blk4_8017D7A0",
+    "Blk4_8017DF40",
+    "Blk4_8017DF40_801E48B8",
+    "Blk4_8017DF40_801E9DF8",
+    "Blk4_8017DF40_801EFC58",
+    "Blk4_8017DF40_801F1738",
+    "Blk4_8017E808",
+    "Blk4_8017EBCC",
+    "Blk4_8017FE90",
+    "Blk4_801800E0",
+    "Blk4_80180518",
+    "Blk4_801815D4",
+    "Blk4_80181EDC"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "CLR_8016CBC0",
+     "CVEC",
+     "CV_80180228",
+     "CV_801837B0",
+     "CV_80187EE8",
+     "CVec4_8017C218"
+    ],
+    [
+     "C_8017DCC0",
+     "RGBC"
+    ]
+   ],
+   "opaque_names": [
+    "B4",
+    "B4_8017F154",
+    "B4_80181970",
+    "B4_80181ABC",
+    "B4_8018201C",
+    "B4_80183AF8",
+    "B4_80183F3C",
+    "B4_80184774",
+    "B4_80185458",
+    "B4_8018570C"
+   ]
+  },
+  {
+   "lhash": "b85caab442ac",
+   "size": 32,
+   "n_names": 133,
+   "n_defs": 171,
+   "canon": 72,
+   "in_c": 99,
+   "names": [
+    "ARG_80187714",
+    "B20",
+    "Blk20",
+    "Blk20_800CB68C",
+    "Blk20_8016DF5C",
+    "Blk20_8017E3F8",
+    "Blk20_80180B38",
+    "Blk20_80180B78",
+    "Blk20_80181260",
+    "Blk20_80181EE8",
+    "Blk20_80182D70",
+    "Blk20_8018454C",
+    "Blk20_80184694",
+    "Blk20_80187108",
+    "Blk20_80187714",
+    "Blk20_80188AF4",
+    "Blk20_8018A4C4",
+    "Blk20_8018AF88",
+    "Blk20_8018AF88_80186160",
+    "Blk32",
+    "Blk32L",
+    "Blk32L_80133298",
+    "Blk32_80017E8C",
+    "Blk32_8017ECD4",
+    "Blk32_8017F76C",
+    "Blk32_8017F76C_80186D9C",
+    "Blk32_8017F76C_80187780",
+    "Blk32_80180770",
+    "Blk32_80180908",
+    "Blk32_80180E8C",
+    "Blk32_80181708",
+    "Blk32_8018287C",
+    "Blk32_80183F10",
+    "Blk32_8018AA98",
+    "Blk32_8018AA98_80181BA8",
+    "Blk32_8018AA98_80181CF4",
+    "Blk32_8018AA98_80182254",
+    "Blk32_8018AA98_80183D30",
+    "Blk32_8018AA98_80183D30_80180450",
+    "Blk32_8018AA98_80183D30_801809B0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "RView"
+    ],
+    [
+     "ARG_80187714"
+    ],
+    [
+     "MTX8_80185648",
+     "Oct_801852BC"
+    ],
+    []
+   ],
+   "opaque_names": [
+    "B20",
+    "Blk20",
+    "Blk20_800CB68C",
+    "Blk20_8016DF5C",
+    "Blk20_8017E3F8",
+    "Blk20_80180B38",
+    "Blk20_80180B78",
+    "Blk20_80181260",
+    "Blk20_80181EE8",
+    "Blk20_80182D70"
+   ]
+  },
+  {
+   "lhash": "d4b0395bb0af",
+   "size": 16,
+   "n_names": 94,
+   "n_defs": 163,
+   "canon": 23,
+   "in_c": 140,
+   "names": [
+    "B16",
+    "B16_8017CDE4",
+    "B16_80183ED8",
+    "B16_801841C8",
+    "B16_80185634",
+    "B16_801856E4",
+    "B16_80185794",
+    "B16_8018584C",
+    "B16_8018A758",
+    "B16_8018FC38",
+    "B16_local",
+    "Blk16",
+    "Blk16X",
+    "Blk16_8017ECD4",
+    "Blk16_80184328",
+    "Blk16_8018A1D8",
+    "Blk16_8018A4C4",
+    "Blk16_8018A8B8",
+    "Blk16_8018B13C",
+    "Blk16_8018B29C",
+    "Blk16_801E2F08",
+    "Blk16_956C",
+    "Blk16_E898",
+    "Blk_800CBAD0",
+    "CB4A4_V4",
+    "DStruct",
+    "LBlk16",
+    "LV_801851A8",
+    "LV_801851A8_80182D18",
+    "LV_801851A8_80184E84",
+    "LV_801851A8_80185D2C",
+    "LVec1CDC",
+    "LineF2",
+    "M16",
+    "Q16",
+    "Quad",
+    "Quad_8018797C",
+    "Quad_8018797C_8017F26C",
+    "Quad_8018797C_8017FCD0",
+    "Quad_8018797C_80181A30"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Vec4_800128EC"
+    ],
+    [
+     "LV_801851A8",
+     "LV_801851A8_80182D18",
+     "LV_801851A8_80184E84",
+     "LV_801851A8_80185D2C",
+     "LVec1CDC",
+     "V32"
+    ],
+    [
+     "V32_800CB4E4"
+    ],
+    [],
+    [
+     "LineF2"
+    ],
+    []
+   ],
+   "opaque_names": [
+    "B16",
+    "B16_8017CDE4",
+    "B16_80183ED8",
+    "B16_801841C8",
+    "B16_80185634",
+    "B16_801856E4",
+    "B16_80185794",
+    "B16_8018584C",
+    "B16_8018A758",
+    "B16_8018FC38"
+   ]
+  },
+  {
+   "lhash": "b53d46e36006",
+   "size": 8,
+   "n_names": 74,
+   "n_defs": 146,
+   "canon": 22,
+   "in_c": 124,
+   "names": [
+    "B8",
+    "B8_17F474",
+    "B8_801AEB04",
+    "B8_CB578",
+    "Blk8",
+    "Blk8L",
+    "Blk8_8017B238",
+    "Blk8_8017B238_8017B238",
+    "Blk8_8017B614",
+    "Blk8_8017CF48",
+    "Blk8_8017DAB8",
+    "Blk8_8017DAFC",
+    "Blk8_8017E224",
+    "Blk8_8017E6A4",
+    "Blk8_8017E72C",
+    "Blk8_8017EBCC",
+    "Blk8_80180040",
+    "Blk8_80180450",
+    "Blk8_80180970",
+    "Blk8_801809B0",
+    "Blk8_80180BFC",
+    "Blk8_801812AC",
+    "Blk8_80181324",
+    "Blk8_801813B0",
+    "Blk8_80181774",
+    "Blk8_80181824",
+    "Blk8_80181940",
+    "Blk8_801827C4",
+    "Blk8_80182844",
+    "Blk8_80182B08",
+    "Blk8_80182BDC",
+    "Blk8_80183084",
+    "Blk8_801838C8",
+    "Blk8_801838EC",
+    "Blk8_80183DEC",
+    "Blk8_8018495C",
+    "Blk8_801859DC",
+    "Blk8_80185E28",
+    "Blk8_80186594",
+    "Blk8_80186594_8017E72C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "S8Blob"
+    ],
+    [
+     "PHdr_80189340"
+    ]
+   ],
+   "opaque_names": [
+    "B8",
+    "B8_17F474",
+    "B8_801AEB04",
+    "B8_CB578",
+    "Blk8",
+    "Blk8L",
+    "Blk8_8017B238",
+    "Blk8_8017B238_8017B238",
+    "Blk8_8017B614",
+    "Blk8_8017CF48"
+   ]
+  },
+  {
+   "lhash": "65c3c6fd5cf3",
+   "size": 4,
+   "n_names": 65,
+   "n_defs": 73,
+   "canon": 28,
+   "in_c": 45,
+   "names": [
+    "Ang2_8012B77C",
+    "Ang2_8012B77C_8012B77C",
+    "Ang2_8012B77C_80187180",
+    "Ang2_8012B77C_8018BFA8",
+    "PTAG_85910",
+    "PTag",
+    "PTag293C",
+    "PTag_1412A8",
+    "PTag_8001BC6C",
+    "PTag_8001D3FC",
+    "PTag_80021284",
+    "PTag_80023570",
+    "PTag_80023BF0",
+    "PTag_800CF3E8",
+    "PTag_800D2650",
+    "PTag_800D27DC",
+    "PTag_800D29F8",
+    "PTag_80140D68",
+    "PTag_8017DD28",
+    "PTag_8017FD50",
+    "PTag_80180B3C",
+    "PTag_80181E04",
+    "PTag_801833F0",
+    "PTag_801843D8",
+    "PTag_801843D8_80183438",
+    "PTag_801843D8_80186DCC",
+    "PTag_801843D8_801879FC",
+    "PTag_8018478C",
+    "PTag_8018893C",
+    "PTag_80188C04",
+    "PTag_8018B028",
+    "PTag_8018B23C",
+    "PTag_8018B23C_8018234C",
+    "PTag_8018B23C_80182498",
+    "PTag_8018B23C_801829F8",
+    "PTag_8018B23C_801844D4",
+    "PTag_8018B23C_80184918",
+    "PTag_8018B23C_80185150",
+    "PTag_8018B23C_80185E34",
+    "PTag_8018B23C_801860E8"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "PTAG_85910",
+     "PTag",
+     "PTag293C",
+     "PTag_1412A8",
+     "PTag_8001BC6C",
+     "PTag_8001D3FC"
+    ],
+    [
+     "Ang2_8012B77C",
+     "Ang2_8012B77C_8012B77C",
+     "Ang2_8012B77C_80187180",
+     "Ang2_8012B77C_8018BFA8"
+    ]
+   ],
+   "opaque_names": [
+    "Rot1CDC"
+   ]
+  },
+  {
+   "lhash": "c1767d5293b8",
+   "size": 6,
+   "n_names": 63,
+   "n_defs": 99,
+   "canon": 8,
+   "in_c": 90,
+   "names": [
+    "D80190448_t",
+    "Pt6_8017D65C",
+    "ResMapCol",
+    "S6",
+    "S8012D664_8012D664",
+    "S845EC_out",
+    "SV3",
+    "SV3L",
+    "SV3_8017FAA8",
+    "SV3_801802D0",
+    "SV3_80181D44",
+    "SV3_80181D44_8017CEF4",
+    "SV3_80181D44_8017CEF4_8017DC20",
+    "SV3_80181D44_8017CEF4_8017E108",
+    "SV3_80181D44_8017CEF4_8017F634",
+    "SV3_80181D44_8017CEF4_8017F81C",
+    "SV3_80181D44_8017CEF4_8017FB1C",
+    "SV3_80181D44_8017CEF4_801814F4",
+    "SV3_80181D44_801821DC",
+    "SV3_80181D44_8018317C",
+    "SV3_80181D44_80185B70",
+    "SV3_8018287C",
+    "SV3_80182938",
+    "SV3_8018495C",
+    "SV3_80184C98",
+    "SV3_80184D50",
+    "SV3_80184E00",
+    "SV3_80184F48",
+    "SV3_80187654",
+    "SV3_801891E8",
+    "SV3_846B4",
+    "SV3x",
+    "SV3x_80180ACC",
+    "SV3x_80183E2C",
+    "SV3x_80184B30",
+    "SV3x_80184B30_80181D58",
+    "SV3x_80184B30_801822A0",
+    "SV3x_80184B30_8018241C",
+    "SV3x_80184B30_801829C4",
+    "SV3x_80184B30_801841E8"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "SV3_8017FAA8",
+     "Shake_80180FE8",
+     "Struct801AD7EC_Local",
+     "V3",
+     "V3_8017F4E4",
+     "V3_801812AC"
+    ],
+    [
+     "SV_801AA210",
+     "Svec3",
+     "UVec_8017DB64"
+    ],
+    [
+     "SV3L"
+    ]
+   ],
+   "opaque_names": [
+    "D80190448_t",
+    "Pt6_8017D65C",
+    "ResMapCol",
+    "S6",
+    "S8012D664_8012D664",
+    "S845EC_out",
+    "SV3",
+    "SV3_801802D0",
+    "SV3_80181D44",
+    "SV3_80181D44_8017CEF4"
+   ]
+  },
+  {
+   "lhash": "6c480babe175",
+   "size": 8,
+   "n_names": 58,
+   "n_defs": 79,
+   "canon": 27,
+   "in_c": 52,
+   "names": [
+    "CdFileLoc",
+    "Cmd_801805C8",
+    "M8_8016B6BC",
+    "Packed8",
+    "Pair8_8017DDC4",
+    "Pair8_8017DDC4_8018034C",
+    "Pair8_8017DDC4_80180F08",
+    "Pair8_8017DDC4_80182244",
+    "Pair8_8017DDC4_80182244_8017DAB8",
+    "Pair8_8017DDC4_80182244_8017E72C",
+    "Pair8_8017DDC4_80182244_80180040",
+    "Pair8_8017DDC4_80182244_80180040_8017FEA0",
+    "Pair8_8017DDC4_80182244_80180040_80180400",
+    "Pair8_8017DDC4_80182244_80180040_80180450",
+    "Pair8_8017DDC4_80182244_80180040_801809B0",
+    "Pair8_8017DDC4_80182244_80180040_8018383C",
+    "Pair8_8017DDC4_80182244_80180040_80183DEC",
+    "Pair8_8017DDC4_80182244_80180970",
+    "Pair8_8017DDC4_80182244_80180BFC",
+    "Pair8_8017DDC4_80182244_80181824",
+    "Pair8_8017DDC4_80182244_80186740",
+    "Pair8_8017DDC4_80182244_80187DE4",
+    "Pair8_8017DDC4_80186D9C",
+    "Pair8_8017DDC4_80187780",
+    "Pair_801B5E30",
+    "Pair_801B5E30_8017E9CC",
+    "Pair_801B5E30_8017EADC",
+    "Pair_801B5E30_8017F08C",
+    "Pair_801B5E30_80180AE4",
+    "Rec8",
+    "Rec_80189AEC",
+    "S80126B38",
+    "S80172C50",
+    "S_D2394B",
+    "Struct",
+    "Struct_8017E784",
+    "Struct_8017EA6C",
+    "Struct_8017EC78",
+    "Struct_8017F380",
+    "Struct_8017F87C"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [],
+    []
+   ],
+   "opaque_names": [
+    "CdFileLoc",
+    "Cmd_801805C8",
+    "M8_8016B6BC",
+    "Packed8",
+    "Pair8_8017DDC4",
+    "Pair8_8017DDC4_8018034C",
+    "Pair8_8017DDC4_80180F08",
+    "Pair8_8017DDC4_80182244",
+    "Pair8_8017DDC4_80182244_8017DAB8",
+    "Pair8_8017DDC4_80182244_8017E72C"
+   ]
+  },
+  {
+   "lhash": "5f4b599a9ffa",
+   "size": 20,
+   "n_names": 55,
+   "n_defs": 85,
+   "canon": 13,
+   "in_c": 72,
+   "names": [
+    "Blk20_8017D110",
+    "Blk8018057C",
+    "Blk801819B0",
+    "Blk80181A1C",
+    "Blk80182030",
+    "Blk801821E8",
+    "Blk80182634",
+    "Buf8017BF34",
+    "Buf8017BF34_8017BF14",
+    "Buf8017BF34_8017BF34",
+    "Buf8017BF34_8017CAF8",
+    "Buf8017BF34_80182C28",
+    "Buf8017BF50",
+    "Buf8017BF50_8017BF50",
+    "Buf8017BF50_8017BF70",
+    "Buf8017BF50_8017C234",
+    "Loc_80180E10",
+    "LocalStruct",
+    "LocalStruct_8018A968",
+    "Local_80180ABC",
+    "Msg_8018248C",
+    "Msg_8018248C_80180450",
+    "Msg_8018248C_801809B0",
+    "Msg_8018248C_80183DEC",
+    "Pkt_801861D8",
+    "Pkt_8018626C",
+    "Prim",
+    "Prim293C",
+    "Prim80180A38",
+    "Prim801A2014",
+    "PrimBE4",
+    "PrimF790",
+    "PrimSpec80182A6C",
+    "Prim_80180BDC",
+    "Rec",
+    "Rec8017F39C",
+    "S80143BDC",
+    "S80190C84",
+    "S80190C84L",
+    "S80190C84_8018483C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim801A2014"
+    ],
+    [
+     "Blk8018057C",
+     "Blk801819B0",
+     "Blk80181A1C",
+     "Blk80182030",
+     "Blk801821E8",
+     "Blk80182634"
+    ],
+    [
+     "Msg_8018248C",
+     "Msg_8018248C_80180450",
+     "Msg_8018248C_801809B0",
+     "Msg_8018248C_80183DEC"
+    ]
+   ],
+   "opaque_names": [
+    "Blk20_8017D110",
+    "Buf8017BF34",
+    "Buf8017BF34_8017BF14",
+    "Buf8017BF34_8017BF34",
+    "Buf8017BF34_8017CAF8",
+    "Buf8017BF34_80182C28",
+    "Buf8017BF50",
+    "Buf8017BF50_8017BF50",
+    "Buf8017BF50_8017BF70",
+    "Buf8017BF50_8017C234"
+   ]
+  },
+  {
+   "lhash": "9568f57fb00f",
+   "size": 20,
+   "n_names": 45,
+   "n_defs": 61,
+   "canon": 20,
+   "in_c": 41,
+   "names": [
+    "OtBlk",
+    "OtBlk_80016450",
+    "OtBlk_80016450_80015F04",
+    "OtBlk_8017D3A0",
+    "OtBlk_8017D3F8",
+    "OtBlk_80180894",
+    "OtBlk_801809C4",
+    "OtBlk_80181A60",
+    "OtBlk_80182890_8018FB5C",
+    "OtBlk_80183DA4",
+    "OtBlk_80184138",
+    "OtBlk_80185B4C",
+    "OtBlk_8018A974",
+    "OtBlk_8018A974_8018AAF4",
+    "OtBlk_8018A974_8018BB48",
+    "OtBlk_8018A974_8018EB08",
+    "OtBlk_8018A974_8018EB08_8018A28C",
+    "OtBlk_8018A974_8018EB08_8018A28C_80183ED4",
+    "OtBlk_8018A974_8018EB08_8018A28C_80187DF8",
+    "OtBlk_8018A974_8018EB08_8018A28C_801887EC",
+    "OtBlk_8018A974_8018EB08_8018A28C_8018A2D0",
+    "OtBlk_8018A974_8018EB08_8018B1D8",
+    "OtBlk_8018A974_8018EB08_8018BCC4",
+    "OtBlk_8018A974_801AADA8",
+    "OtBlk_8018FE0C",
+    "Ot_80182A78",
+    "Ot_80182A78_8017EE80",
+    "Ot_80182A78_80180894",
+    "Ot_80182A78_801812FC",
+    "Ot_80182A78_801819E0",
+    "Ot_8018B23C",
+    "Ot_8018B23C_8018234C",
+    "Ot_8018B23C_80182498",
+    "Ot_8018B23C_801829F8",
+    "Ot_8018B23C_801844D4",
+    "Ot_8018B23C_80184918",
+    "Ot_8018B23C_80185150",
+    "Ot_8018B23C_80185E34",
+    "Ot_8018B23C_801860E8",
+    "Ot_8018B23C_801863B8"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [],
+    []
+   ],
+   "opaque_names": [
+    "OtBlk",
+    "OtBlk_80016450",
+    "OtBlk_80016450_80015F04",
+    "OtBlk_8017D3A0",
+    "OtBlk_8017D3F8",
+    "OtBlk_80180894",
+    "OtBlk_801809C4",
+    "OtBlk_80181A60",
+    "OtBlk_80182890_8018FB5C",
+    "OtBlk_80183DA4"
+   ]
+  },
+  {
+   "lhash": "a0f7100333b8",
+   "size": 4,
+   "n_names": 38,
+   "n_defs": 85,
+   "canon": 18,
+   "in_c": 67,
+   "names": [
+    "DVEC2_C59C",
+    "DVEC2_C59C_8017D9CC",
+    "DVEC2_C59C_8017DBEC",
+    "DVEC2_C59C_801865EC",
+    "DVEC2_C6F4",
+    "DVEC2_C974",
+    "DVEC2_C974_8017BA3C",
+    "DVEC2_C974_8017BA3C_80189F00",
+    "DVEC2_CF90",
+    "DVEC2_D538",
+    "DVEC2_DF98",
+    "DVEC80180FE4",
+    "DVECTOR2",
+    "DVECTOR2_8017CDF0",
+    "DV_8017EF94",
+    "DV_80180B3C",
+    "DVec35C",
+    "DVec_59F4",
+    "DVec_8016B6BC",
+    "DVec_80180894",
+    "Entry",
+    "Hw4",
+    "Pair",
+    "Pair_8013AD38",
+    "Prim4_8017E978",
+    "Prim4_8017E978_8017E1AC",
+    "Prim4_8017E978_8017E1D4",
+    "Prim4_8017E978_8017E30C",
+    "Prim4_8017E978_8017E978",
+    "Prim4_8017E978_801880E0",
+    "Prim4_8017E978_801886B8",
+    "Prim4_8017E978_801889B8",
+    "Prim4_8017E978_8018B478",
+    "Range_80189A70",
+    "Range_80189B1C",
+    "Rec4_801891F4",
+    "UV_80185214",
+    "XDV2"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "DVEC2_C59C",
+     "DVEC2_C59C_8017D9CC",
+     "DVEC2_C59C_8017DBEC",
+     "DVEC2_C59C_801865EC",
+     "DVEC2_C6F4",
+     "DVEC2_C974"
+    ],
+    [
+     "Range_80189A70",
+     "Range_80189B1C"
+    ],
+    [
+     "DVec_8016B6BC",
+     "Hw4",
+     "Pair",
+     "Pair_8013AD38"
+    ],
+    [
+     "Entry"
+    ]
+   ],
+   "opaque_names": [
+    "Prim4_8017E978",
+    "Prim4_8017E978_8017E1AC",
+    "Prim4_8017E978_8017E1D4",
+    "Prim4_8017E978_8017E30C",
+    "Prim4_8017E978_8017E978",
+    "Prim4_8017E978_801880E0",
+    "Prim4_8017E978_801886B8",
+    "Prim4_8017E978_801889B8",
+    "Prim4_8017E978_8018B478",
+    "Rec4_801891F4"
+   ]
+  },
+  {
+   "lhash": "245ecac205e6",
+   "size": 12,
+   "n_names": 35,
+   "n_defs": 50,
+   "canon": 9,
+   "in_c": 41,
+   "names": [
+    "MainSlot",
+    "Rec12",
+    "Rec12_801888F4",
+    "Rec801806C8_s",
+    "Rec80182744_s",
+    "Rec801944E8",
+    "S12_801AD700",
+    "S12_801AD914",
+    "S801563EC",
+    "SV4",
+    "S_80182618",
+    "S_AF634",
+    "S_AF634_80175820",
+    "S_AF634_80175820_80175820",
+    "S_AF634_801758FC",
+    "S_AF634_801759D8",
+    "S_AF634_80176144",
+    "V32_801875E4",
+    "V32_801875E4_8018848C",
+    "V32_80187C64",
+    "V32_80188B0C",
+    "V3_800CB634",
+    "VEC32_801ADC40",
+    "VEC3L",
+    "VECTOR",
+    "VEC_8017DF28",
+    "Vec12_8017F370",
+    "Vec32_801AA004",
+    "Vec3_1818F8",
+    "Vec3_1887F8",
+    "Vec3_189324",
+    "Vec3_8017DF8C",
+    "Vec3_874E8",
+    "VecL_80184694",
+    "Vec_80187A04"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "V32_801875E4",
+     "V32_801875E4_8018848C",
+     "V32_80187C64",
+     "V32_80188B0C",
+     "V3_800CB634",
+     "VEC32_801ADC40"
+    ],
+    [
+     "SV4",
+     "VEC_8017DF28",
+     "Vec3_8017DF8C"
+    ],
+    [],
+    [
+     "S_AF634",
+     "S_AF634_80175820",
+     "S_AF634_80175820_80175820",
+     "S_AF634_801758FC",
+     "S_AF634_801759D8",
+     "S_AF634_80176144"
+    ]
+   ],
+   "opaque_names": [
+    "MainSlot",
+    "Rec12",
+    "Rec12_801888F4",
+    "Rec801806C8_s",
+    "Rec80182744_s",
+    "Rec801944E8",
+    "S12_801AD700",
+    "S12_801AD914",
+    "S801563EC",
+    "S_80182618"
+   ]
+  },
+  {
+   "lhash": "142564f85464",
+   "size": 4,
+   "n_names": 31,
+   "n_defs": 35,
+   "canon": 7,
+   "in_c": 28,
+   "names": [
+    "DV_EA14",
+    "DVec_80021D38",
+    "DVec_80183DA4",
+    "DVec_80184138",
+    "D_801D0660_s",
+    "Ent_80186AE4",
+    "P4",
+    "Pair4_801B02DC",
+    "Poly12Pt",
+    "Prim4_8017DD28",
+    "Prim4_801E46A0",
+    "Prim4_801E9BE0",
+    "Prim4_801EFA40",
+    "Prim4_801F1520",
+    "Pt2_80180F98",
+    "Pt2_80182FD4",
+    "Pt2_80184370",
+    "Pt2_801887E8",
+    "Pt2_8018AC0C",
+    "Pt2_8018BAB4",
+    "Pt_80015F04",
+    "Rec4",
+    "S80153CCC",
+    "S9E",
+    "U16x2",
+    "U16x2L",
+    "U16x2N",
+    "UV_80181574",
+    "UV_80184F18",
+    "XY221A8",
+    "XY_8001EFE0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Poly12Pt",
+     "Pt_80015F04",
+     "XY221A8"
+    ],
+    [
+     "DV_EA14",
+     "DVec_80021D38",
+     "DVec_80183DA4",
+     "DVec_80184138",
+     "Pt2_80180F98",
+     "Pt2_80182FD4"
+    ],
+    [],
+    [
+     "S80153CCC"
+    ]
+   ],
+   "opaque_names": [
+    "D_801D0660_s",
+    "Ent_80186AE4",
+    "P4",
+    "Pair4_801B02DC",
+    "Prim4_8017DD28",
+    "Prim4_801E46A0",
+    "Prim4_801E9BE0",
+    "Prim4_801EFA40",
+    "Prim4_801F1520",
+    "Rec4"
+   ]
+  },
+  {
+   "lhash": "afc6a8e495a5",
+   "size": 8,
+   "n_names": 28,
+   "n_defs": 40,
+   "canon": 10,
+   "in_c": 30,
+   "names": [
+    "Blk801539F8",
+    "Box",
+    "Box_80133784",
+    "Ent_8018A224",
+    "Foo_80134510",
+    "Foo_80134510_80134510",
+    "Rec8_8017DDC4",
+    "Rec8_8017DDC4_8018023C",
+    "Rec8_8017DDC4_8018034C",
+    "Rec8_8017DDC4_8018034C_80180450",
+    "Rec8_8017DDC4_8018034C_801809B0",
+    "Rec8_8017DDC4_8018034C_80183DEC",
+    "Rec8_8017DDC4_80180F08",
+    "Rec8_8017DDC4_801815C4",
+    "Rec8_8017DDC4_801815C4_80185344",
+    "Rec8_8017DDC4_80181DCC",
+    "Rec8_8017DDC4_80182244",
+    "Rec8_8017DDC4_80186944",
+    "Rec8_8017DDC4_801877EC",
+    "Rec8_8018A390",
+    "Rec8_8018A390_8018523C",
+    "Rec8_8018A390_80185730",
+    "Rec8_8018A390_80186468",
+    "Rec8_8018A390_8018A390",
+    "Rec8_8018A390_8018FE94",
+    "Rec_8017ECD4",
+    "Rec_EDC0",
+    "SVEC_FD64"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "SVEC_FD64"
+    ],
+    [
+     "Rec8_8017DDC4",
+     "Rec8_8017DDC4_8018023C",
+     "Rec8_8017DDC4_8018034C",
+     "Rec8_8017DDC4_8018034C_80180450",
+     "Rec8_8017DDC4_8018034C_801809B0",
+     "Rec8_8017DDC4_8018034C_80183DEC"
+    ]
+   ],
+   "opaque_names": [
+    "Blk801539F8",
+    "Box",
+    "Box_80133784",
+    "Ent_8018A224",
+    "Foo_80134510",
+    "Foo_80134510_80134510",
+    "Rec_8017ECD4",
+    "Rec_EDC0"
+   ]
+  },
+  {
+   "lhash": "699932e6421d",
+   "size": 52,
+   "n_names": 17,
+   "n_defs": 17,
+   "canon": 15,
+   "in_c": 2,
+   "names": [
+    "Frame_80166690",
+    "Frame_80166690_80166690",
+    "Poly_8016CBC0",
+    "Prim",
+    "Prim_8017C218",
+    "Prim_8017C218_8017C218",
+    "Prim_8017C218_8017D030",
+    "Prim_8017C218_8017D0F8",
+    "Prim_8017C218_8017D2F4",
+    "Prim_8017C218_8017D408",
+    "Prim_8017C218_8017DF10",
+    "Prim_8017C218_8017E22C",
+    "Prim_8017C218_8017E3F0",
+    "Prim_8017C218_801801E8",
+    "Prim_8017C218_8018077C",
+    "Prim_8017C218_80182348",
+    "Str_8017DA50"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim"
+    ],
+    [
+     "Str_8017DA50"
+    ],
+    [
+     "Frame_80166690",
+     "Frame_80166690_80166690"
+    ],
+    [
+     "Poly_8016CBC0"
+    ],
+    [
+     "Prim_8017C218",
+     "Prim_8017C218_8017C218",
+     "Prim_8017C218_8017D030",
+     "Prim_8017C218_8017D0F8",
+     "Prim_8017C218_8017D2F4",
+     "Prim_8017C218_8017D408"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "ceca4ea3ade1",
+   "size": 6,
+   "n_names": 14,
+   "n_defs": 26,
+   "canon": 5,
+   "in_c": 21,
+   "names": [
+    "Cam183098",
+    "Cam8012E138",
+    "Col6_801A2E20",
+    "Pos800D20C0",
+    "Pos_8017DC24",
+    "Pos_8017F6A8",
+    "Pos_8018012C",
+    "Pos_80185C0C",
+    "SV3",
+    "Src_8013B598",
+    "Src_8013B598_8013B598",
+    "Src_8013B6A0",
+    "Src_8013B6A0_8013B6A0",
+    "Vec4h_8017FB08"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Col6_801A2E20"
+    ],
+    [
+     "Pos800D20C0",
+     "Pos_8017DC24",
+     "Pos_8017F6A8",
+     "Pos_8018012C",
+     "Pos_80185C0C",
+     "Vec4h_8017FB08"
+    ],
+    [
+     "Cam183098"
+    ]
+   ],
+   "opaque_names": [
+    "Cam8012E138",
+    "SV3",
+    "Src_8013B598",
+    "Src_8013B598_8013B598",
+    "Src_8013B6A0",
+    "Src_8013B6A0_8013B6A0"
+   ]
+  },
+  {
+   "lhash": "f39ecda931df",
+   "size": 12,
+   "n_names": 11,
+   "n_defs": 12,
+   "canon": 9,
+   "in_c": 3,
+   "names": [
+    "Rec",
+    "Rec12_EBB8",
+    "Rec_80166690",
+    "Rec_80166690_80166690",
+    "Rec_8016CBC0",
+    "UAlign12",
+    "UAlign12_80181F40",
+    "UAlign12_80182B74",
+    "UAlign12_80185E64",
+    "UAlign12_80186858",
+    "UAlign12_8018833C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Rec12_EBB8"
+    ],
+    [
+     "Rec_80166690",
+     "Rec_80166690_80166690",
+     "Rec_8016CBC0"
+    ]
+   ],
+   "opaque_names": [
+    "Rec",
+    "UAlign12",
+    "UAlign12_80181F40",
+    "UAlign12_80182B74",
+    "UAlign12_80185E64",
+    "UAlign12_80186858",
+    "UAlign12_8018833C"
+   ]
+  },
+  {
+   "lhash": "aa66418d079c",
+   "size": 16,
+   "n_names": 11,
+   "n_defs": 17,
+   "canon": 3,
+   "in_c": 13,
+   "names": [
+    "Blk16_80126940",
+    "Box_80182BC8",
+    "Box_80184564",
+    "Buf",
+    "Ent_801E650C",
+    "Pair16",
+    "Pair16_8017B368",
+    "Pos16_8018743C",
+    "Work_8017E330",
+    "Work_8017E550",
+    "Work_8017E878"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Ent_801E650C"
+    ],
+    [
+     "Work_8017E330",
+     "Work_8017E550",
+     "Work_8017E878"
+    ],
+    [
+     "Box_80182BC8",
+     "Box_80184564"
+    ],
+    [
+     "Pair16",
+     "Pair16_8017B368"
+    ],
+    [
+     "Buf"
+    ]
+   ],
+   "opaque_names": [
+    "Blk16_80126940",
+    "Pos16_8018743C"
+   ]
+  },
+  {
+   "lhash": "6f0428152b9e",
+   "size": 64,
+   "n_names": 9,
+   "n_defs": 11,
+   "canon": 6,
+   "in_c": 5,
+   "names": [
+    "Prim_8017F40C",
+    "Prim_8017F40C_8017DB28",
+    "Prim_8017F40C_8017DF74",
+    "Prim_8017F40C_8017E368",
+    "Prim_8017F40C_8017E6EC",
+    "Prim_8017F40C_8017E97C",
+    "Prim_80183F84",
+    "Prim_801A4680",
+    "Prim_801A4680_8017F668"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim_80183F84",
+     "Prim_801A4680",
+     "Prim_801A4680_8017F668"
+    ],
+    [
+     "Prim_8017F40C",
+     "Prim_8017F40C_8017DB28",
+     "Prim_8017F40C_8017DF74",
+     "Prim_8017F40C_8017E368",
+     "Prim_8017F40C_8017E6EC",
+     "Prim_8017F40C_8017E97C"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "db33e2cfb9f1",
+   "size": 8,
+   "n_names": 9,
+   "n_defs": 9,
+   "canon": 0,
+   "in_c": 9,
+   "names": [
+    "SV3_8012CC88",
+    "SV3_801808E8",
+    "V8_80187968",
+    "V8_80187968_801804D8",
+    "V8_80187968_801807AC",
+    "V8_80187968_80181F18",
+    "V8_80187968_8018321C",
+    "V8_80187968_80183280",
+    "V8_80187968_80184194"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "V8_80187968",
+     "V8_80187968_801804D8",
+     "V8_80187968_801807AC",
+     "V8_80187968_80181F18",
+     "V8_80187968_8018321C",
+     "V8_80187968_80183280"
+    ],
+    [
+     "SV3_8012CC88",
+     "SV3_801808E8"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "59d779d0e67a",
+   "size": 8,
+   "n_names": 7,
+   "n_defs": 7,
+   "canon": 5,
+   "in_c": 2,
+   "names": [
+    "DrMode_80021284",
+    "DrTpage",
+    "Drm_801833F0",
+    "Drm_8018478C",
+    "Drm_80188C04",
+    "Drm_8018B028",
+    "Drm_8018BED0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "DrTpage"
+    ],
+    [
+     "DrMode_80021284"
+    ],
+    [
+     "Drm_801833F0",
+     "Drm_8018478C",
+     "Drm_80188C04",
+     "Drm_8018B028",
+     "Drm_8018BED0"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "0029a68fa4fc",
+   "size": 64,
+   "n_names": 7,
+   "n_defs": 7,
+   "canon": 6,
+   "in_c": 1,
+   "names": [
+    "Poly12Obj",
+    "Src_80180F98",
+    "Src_80182FD4",
+    "Src_80184370",
+    "Src_801887E8",
+    "Src_8018AC0C",
+    "Src_8018BAB4"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Poly12Obj"
+    ],
+    [
+     "Src_80180F98",
+     "Src_80182FD4",
+     "Src_80184370",
+     "Src_801887E8",
+     "Src_8018AC0C",
+     "Src_8018BAB4"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "ab244e47ddd7",
+   "size": 52,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 6,
+   "names": [
+    "Prim_8017FA2C",
+    "Prim_80183FE0",
+    "Prim_80183FE0_80183040",
+    "Prim_80183FE0_801869D4",
+    "Prim_80183FE0_80187604",
+    "Q_8017DCC0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim_8017FA2C",
+     "Prim_80183FE0",
+     "Prim_80183FE0_80183040",
+     "Prim_80183FE0_801869D4",
+     "Prim_80183FE0_80187604"
+    ],
+    [
+     "Q_8017DCC0"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "c261a2c483d3",
+   "size": 40,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 0,
+   "in_c": 5,
+   "names": [
+    "Ft4",
+    "Ft4_800CBA18",
+    "LineG4",
+    "LineG4_80016C28",
+    "PktGT3"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "LineG4",
+     "LineG4_80016C28"
+    ],
+    [
+     "Ft4",
+     "Ft4_800CBA18"
+    ],
+    [
+     "PktGT3"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "82c6e3650290",
+   "size": 8,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 2,
+   "in_c": 3,
+   "names": [
+    "Elem_8012ACE0",
+    "Elem_8012ACE0_8012ACE0",
+    "Gte8_8017F2FC",
+    "Gte8_80181574",
+    "Rec_80180808"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Gte8_80181574"
+    ],
+    [
+     "Elem_8012ACE0",
+     "Elem_8012ACE0_8012ACE0"
+    ]
+   ],
+   "opaque_names": [
+    "Gte8_8017F2FC",
+    "Rec_80180808"
+   ]
+  },
+  {
+   "lhash": "8944ddcbe454",
+   "size": 36,
+   "n_names": 4,
+   "n_defs": 6,
+   "canon": 0,
+   "in_c": 6,
+   "names": [
+    "Blk36_800296F8",
+    "Blob36",
+    "G4",
+    "SW20"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "G4"
+    ],
+    []
+   ],
+   "opaque_names": [
+    "Blk36_800296F8",
+    "Blob36",
+    "SW20"
+   ]
+  },
+  {
+   "lhash": "0fb1d3def821",
+   "size": 20,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Face14_800CB5D0",
+    "Face2",
+    "FaceF4_800CB3C0",
+    "Prim"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Face14_800CB5D0",
+     "Face2",
+     "FaceF4_800CB3C0"
+    ],
+    [
+     "Prim"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "b519bad67107",
+   "size": 20,
+   "n_names": 4,
+   "n_defs": 12,
+   "canon": 0,
+   "in_c": 12,
+   "names": [
+    "Local_8017EE34",
+    "Local_80181C84",
+    "Local_801870E8",
+    "SV3L2"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "SV3L2"
+    ],
+    []
+   ],
+   "opaque_names": [
+    "Local_8017EE34",
+    "Local_80181C84",
+    "Local_801870E8"
+   ]
+  },
+  {
+   "lhash": "f138a69b30cd",
+   "size": 16,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 1,
+   "in_c": 2,
+   "names": [
+    "Blip_8018F694",
+    "LineF2_80015F04",
+    "LineF2_80181A60"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "LineF2_80015F04",
+     "LineF2_80181A60"
+    ],
+    [
+     "Blip_8018F694"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "355775b26f45",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "F3P_800CB1F8",
+    "F3_80017168",
+    "LineG2_80016A7C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "LineG2_80016A7C"
+    ],
+    [
+     "F3_80017168"
+    ],
+    [
+     "F3P_800CB1F8"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "25f49f5ba77e",
+   "size": 32,
+   "n_names": 3,
+   "n_defs": 4,
+   "canon": 1,
+   "in_c": 3,
+   "names": [
+    "Blk32_801898F4",
+    "Buf32",
+    "LineG3_80016B60"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "LineG3_80016B60"
+    ],
+    [],
+    [
+     "Buf32"
+    ]
+   ],
+   "opaque_names": [
+    "Blk32_801898F4"
+   ]
+  },
+  {
+   "lhash": "858542a6caf7",
+   "size": 28,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "FaceGT3",
+    "FaceT3",
+    "TPRIM_80025818"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "TPRIM_80025818"
+    ],
+    [
+     "FaceGT3"
+    ]
+   ],
+   "opaque_names": [
+    "FaceT3"
+   ]
+  },
+  {
+   "lhash": "400c14f38ee9",
+   "size": 32,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 0,
+   "in_c": 3,
+   "names": [
+    "Face20_800CBA18",
+    "Prim20",
+    "TPRIM_800275BC"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Face20_800CBA18",
+     "Prim20"
+    ],
+    [
+     "TPRIM_800275BC"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "decfa4933e51",
+   "size": 8,
+   "n_names": 3,
+   "n_defs": 4,
+   "canon": 0,
+   "in_c": 4,
+   "names": [
+    "Cmd801800B8",
+    "RES_8018209C",
+    "Rec8_801A026C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "RES_8018209C"
+    ],
+    [
+     "Cmd801800B8"
+    ]
+   ],
+   "opaque_names": [
+    "Rec8_801A026C"
+   ]
+  },
+  {
+   "lhash": "ac91ae2d8aa0",
+   "size": 28,
+   "n_names": 3,
+   "n_defs": 72,
+   "canon": 1,
+   "in_c": 61,
+   "names": [
+    "G3",
+    "S800D22E4",
+    "vec"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "G3"
+    ]
+   ],
+   "opaque_names": [
+    "S800D22E4",
+    "vec"
+   ]
+  },
+  {
+   "lhash": "d97bdca0dba1",
+   "size": 196,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Blk_8016CF04",
+    "Blk_8016CF04_8016CF04",
+    "Trail"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Blk_8016CF04",
+     "Blk_8016CF04_8016CF04"
+    ],
+    [
+     "Trail"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "241a3665d293",
+   "size": 40,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 1,
+   "in_c": 1,
+   "names": [
+    "Prim_8016B6BC",
+    "Src_80016B60"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Src_80016B60"
+    ],
+    [
+     "Prim_8016B6BC"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "9ac749ecf0eb",
+   "size": 52,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Src_80016C28",
+    "Src_80017778"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Src_80016C28"
+    ],
+    [
+     "Src_80017778"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "14018f91f8d9",
+   "size": 24,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "F4_80017294",
+    "PktF4_800CB3C0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "F4_80017294"
+    ],
+    [
+     "PktF4_800CB3C0"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "0bc2946999e5",
+   "size": 28,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "G3_800173DC",
+    "Prim1C_800CB5D0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "G3_800173DC"
+    ],
+    [
+     "Prim1C_800CB5D0"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "923553d9bdbc",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "Cell_EA14",
+    "RecDA34"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "RecDA34"
+    ],
+    [
+     "Cell_EA14"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "16c2a0529d6c",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 0,
+   "in_c": 2,
+   "names": [
+    "MH",
+    "TblEntry_80189854"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "MH"
+    ],
+    [
+     "TblEntry_80189854"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "dc04bfb9dfa0",
+   "size": 196,
+   "n_names": 2,
+   "n_defs": 3,
+   "canon": 1,
+   "in_c": 2,
+   "names": [
+    "Blk_8016CBC0",
+    "Trail"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Trail"
+    ],
+    [
+     "Blk_8016CBC0"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "978935850105",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 4,
+   "canon": 2,
+   "in_c": 2,
+   "names": [
+    "Bar",
+    "T3Reloc"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Bar"
+    ],
+    [
+     "T3Reloc"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "612981d95d84",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 8,
+   "canon": 0,
+   "in_c": 8,
+   "names": [
+    "Out_8017E910",
+    "Out_8017E910_8017E508"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Out_8017E910",
+     "Out_8017E910_8017E508"
+    ],
+    [],
+    []
+   ],
+   "opaque_names": []
+  }
+ ],
+ "variants": [
+  [
+   "Prim",
+   5
+  ],
+  [
+   "Rec",
+   4
+  ],
+  [
+   "St",
+   4
+  ],
+  [
+   "S",
+   4
+  ],
+  [
+   "V8",
+   4
+  ],
+  [
+   "Blk8",
+   3
+  ],
+  [
+   "Vec8",
+   3
+  ],
+  [
+   "Obj",
+   3
+  ],
+  [
+   "Ent",
+   3
+  ],
+  [
+   "Blk16",
+   2
+  ],
+  [
+   "CdReq",
+   2
+  ],
+  [
+   "Blk4",
+   2
+  ],
+  [
+   "Rec12",
+   2
+  ],
+  [
+   "W8_",
+   2
+  ],
+  [
+   "P_TAG",
+   2
+  ],
+  [
+   "Gs_80078E78",
+   2
+  ],
+  [
+   "S16",
+   2
+  ],
+  [
+   "W8",
+   2
+  ],
+  [
+   "Struct80078E78",
+   2
+  ],
+  [
+   "MTX",
+   2
+  ],
+  [
+   "Work",
+   2
+  ],
+  [
+   "SVEC",
+   2
+  ],
+  [
+   "Trail",
+   2
+  ],
+  [
+   "SV4",
+   2
+  ],
+  [
+   "V4",
+   2
+  ],
+  [
+   "B16",
+   2
+  ],
+  [
+   "Stk",
+   2
+  ],
+  [
+   "M8",
+   2
+  ],
+  [
+   "Blk8L",
+   2
+  ],
+  [
+   "W4",
+   2
+  ],
+  [
+   "SVec",
+   2
+  ],
+  [
+   "SV3_8012CC88",
+   2
+  ],
+  [
+   "Ent_801DFBF8",
+   2
+  ],
+  [
+   "B",
+   2
+  ],
+  [
+   "SV3",
+   2
+  ],
+  [
+   "Quad",
+   2
+  ],
+  [
+   "Vec",
+   2
+  ],
+  [
+   "S8",
+   2
+  ],
+  [
+   "Entry",
+   2
+  ]
+ ],
+ "dead": [
+  "A",
+  "Ang2_8012B77C",
+  "B",
+  "B4_8018A860",
+  "Bidx_8018B23C_8018B23C",
+  "Blk12_801854C4_801854C4",
+  "Blk32L",
+  "Blk32_8018AA98_8018AA98",
+  "Blob8",
+  "Buf_c2",
+  "CLR_8016CBC0",
+  "CV_801837B0",
+  "CVec4_8017C218",
+  "CVec4_8017C218_8017C218",
+  "CVec4_8017C218_8017D030",
+  "CVec4_8017C218_8017D0F8",
+  "CVec4_8017C218_8017D2F4",
+  "CVec4_8017C218_8017D408",
+  "CVec4_8017C218_8017DF10",
+  "CVec4_8017C218_8017E22C",
+  "CVec4_8017C218_8017E3F0",
+  "CVec4_8017C218_801801E8",
+  "CVec4_8017C218_8018077C",
+  "CVec4_8017C218_80182348",
+  "Clr_8017C910",
+  "Clr_8017C910_8017C910",
+  "Clr_8017C910_8017D728",
+  "Clr_8017C910_8017D7F0",
+  "Clr_8017C910_8017D9EC",
+  "Clr_8017C910_8017DB00",
+  "Clr_8017C910_8017E608",
+  "Clr_8017C910_8017E924",
+  "Clr_8017C910_8017EAE8",
+  "Clr_8017C910_801808E0",
+  "Clr_8017C910_80180E74",
+  "Clr_8017C910_80182A40",
+  "Ctl_8018A550_8018A550",
+  "DrawEnv",
+  "Elem_8012ACE0",
+  "Elem_8012ACE0_8012ACE0",
+  "Ent80183F28_80183F28",
+  "Ent_80183CF0_80183CF0",
+  "Ent_80183D50_80183D50",
+  "Ent_80184264_80184264",
+  "Env_8017EFA8_8017EFA8",
+  "Gs_80078E78_80183D50",
+  "LineF2_8018F694",
+  "Mat32_8018A390_8018A390",
+  "Mat32_8018B23C_8018B23C",
+  "Mat_80167540",
+  "Mtx8_8017C910_8017C910",
+  "Mtx8_8017C910_8017D728",
+  "Mtx8_8017D0BC",
+  "Obj20_80178D40",
+  "Obj_8018A550_8018A550",
+  "Ot_8018B23C_8018B23C",
+  "P",
+  "PTag_801833F0",
+  "PTag_8018478C",
+  "PTag_80188C04",
+  "PTag_8018B028",
+  "PTag_8018B23C_8018B23C",
+  "PTag_8018BED0",
+  "P_8018AFD0",
+  "Panel_8017E978_8017E978",
+  "Prim4_8017E978_8017E978",
+  "Prim_8017C910_8017C910",
+  "Prim_8017C910_8017D728",
+  "Prim_8017DAC4_8017DAC4",
+  "Prim_8017DF84",
+  "Prim_8017FA5C",
+  "Pt2_80180F98",
+  "Pt2_80182FD4",
+  "Pt2_80184370",
+  "Pt2_801887E8",
+  "Pt2_8018AC0C",
+  "Pt2_8018BAB4",
+  "Rec027",
+  "Rec027_8017BFEC",
+  "Rec027_8017C2B0",
+  "Rec027_8017C3C4",
+  "Rec027_8017C688",
+  "Rec027_8017CBB0",
+  "Rec027_8017CECC",
+  "Rec027_8017D1E8",
+  "Rec027_8017D3AC",
+  "Rec027_8017DA90",
+  "Rec027_80181304",
+  "Rec8_8018A390_8018A390",
+  "Rec_8018A550_8018A550",
+  "Rec_8018A6A4_8018A6A4",
+  "Rec_8018B23C_8018B23C",
+  "S",
+  "S126B58_inner",
+  "SVEC_80167AE0",
+  "SVEC_8016A290",
+  "SVEC_8016CBC0",
+  "SV_8017DAC4",
+  "SV_8017DAC4_8017DAC4",
+  "SV_8017DAC4_8017E2C0",
+  "SV_8017DAC4_8017F9D0",
+  "SV_8017DAC4_8018043C",
+  "SV_8017DAC4_801809F0",
+  "SV_8017DAC4_80180B98",
+  "SV_8017DAC4_80181C5C",
+  "SV_8017DAC4_80183644",
+  "SV_8017DAC4_80183CF0",
+  "SVec_801670E4",
+  "SVec_8017C910",
+  "SVec_8017C910_8017C910",
+  "SVec_8017C910_8017D728",
+  "SVec_8017C910_8017D7F0",
+  "SVec_8017C910_8017D9EC",
+  "SVec_8017C910_8017DB00",
+  "SVec_8017C910_8017E608",
+  "SVec_8017C910_8017E924",
+  "SVec_8017C910_8017EAE8",
+  "SVec_8017C910_801808E0",
+  "SVec_8017C910_80180E74",
+  "SVec_8017C910_80182A40",
+  "SVec_8017DF84",
+  "SVec_8017FA5C",
+  "S_AE7BC_80175820",
+  "S_AF634_80175820",
+  "S_AF634_80176144",
+  "Src_80167540",
+  "Sub20_1CDC",
+  "Sub2_80167540",
+  "Sub64_1CDC",
+  "SubA_8016A73C",
+  "SubB_8016A73C",
+  "Sub_80155800_80155800",
+  "TrailEntry",
+  "Unk8018F8C4_80184538",
+  "V4U",
+  "V4_8018ADA8",
+  "Vec3h",
+  "Vec4s_80184C28",
+  "Vtx_8016B6BC",
+  "W",
+  "actor4c"
+ ],
+ "shadow": [
+  "B",
+  "B16",
+  "B16_80185634",
+  "Bar",
+  "Blk152",
+  "Blk16",
+  "Blk20",
+  "Blk32",
+  "Blk32_8018AA98_80183D30",
+  "Blk8",
+  "Blk8_80126940_8017D20C",
+  "Blk8_80126940_8017D6D0",
+  "Blk8_80126940_8017E01C",
+  "Blk8_80126940_8017FC98",
+  "CdFileLoc",
+  "E4",
+  "E_13BD74",
+  "E_13C08C",
+  "E_3B7AC",
+  "Ent",
+  "Ent_8013B6A0",
+  "Ent_8013B83C",
+  "Ent_8016AB6C",
+  "Ent_801F7618",
+  "Env_800D29F8",
+  "Foo",
+  "Gs_80078E78",
+  "M8",
+  "MATRIX",
+  "MATRIX_80188114",
+  "MTX",
+  "Mtx",
+  "Mtx8_8017DE10_8017E710",
+  "Obj",
+  "Obj_8016AB6C",
+  "Ot_8018B23C",
+  "P_13BD74",
+  "P_TAG",
+  "Prim",
+  "Quad",
+  "RView",
+  "Rec12",
+  "S",
+  "S10_80136C90",
+  "S16",
+  "S80126B38",
+  "S80143BDC",
+  "S80190C84",
+  "SV3",
+  "SV3_8012CC88",
+  "SV4",
+  "SV4_8017B368",
+  "SVEC",
+  "SVECTOR",
+  "SVECTOR_8017F40C",
+  "SVec",
+  "SVec_8016AB6C",
+  "S_8013BC7C",
+  "Spr_8013B598",
+  "Src_8013B598",
+  "Src_8013B6A0",
+  "T3Reloc",
+  "Trail",
+  "V8",
+  "Vec3s",
+  "Vec8",
+  "W",
+  "W4",
+  "XDV2",
+  "XFT3",
+  "XFT4",
+  "XPart",
+  "XPrim",
+  "XSV2",
+  "sprite8"
+ ],
+ "refused": []
+}

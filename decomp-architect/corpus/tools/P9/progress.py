@@ -1173,6 +1173,26 @@ def fleet():
                     "hand_asm_routines_in_c_shells": _vb.get("routines"), "hand_asm_routine_sites": _vb.get("sites")}
     except Exception:
         _lev = None
+    # Phase 37 T1: the type census (tools/type_census.py) — the struct debt, the declaration debt and the struct map, published until 0 (R75)
+    _typ = None
+    try:
+        import json as _jt
+        _tj = ROOT / ".run/P37/census/type_census.json"
+        if _tj.exists():
+            _ts = _jt.loads(_tj.read_text())["summary"]
+            _d, _c, _dc, _sm = _ts["definitions"], _ts["casts"], _ts["decls"], _ts["struct_map"]
+            _typ = {"date": _ts.get("when", "")[:10], "head": _ts.get("head"),
+                    "what": "the structs phase's counters: raw pointer-cast dereferences in four forms (P *(T*)(…), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), "
+                            "struct definitions and their duplicate classes, lying call declarations, and the struct map's types (Phase 37 drives the first three to 0)",
+                    "raw_cast_sites": _c["deref_total"], "raw_cast_forms": _c["by_form"], "raw_cast_bodies": _c["bodies"],
+                    "address_of_sites": _c["addr_form"], "typed_cast_member_sites": _c["typed_cast_member"], "absolute_address_casts": _c["abs_casts"],
+                    "struct_definitions": _d["total"], "canonical_definitions": _d["canon"], "definitions_in_c_files": _d["in_c_file_scope"] + _d["in_c_block_scope"],
+                    "distinct_layouts": _d["distinct_layouts"], "duplicate_classes": _d["dup_layout_classes"], "duplicate_names": _d["dup_layout_names"],
+                    "variant_names": _d["variant_names"], "dead_canonical_names": _d["dead_canon_names"],
+                    "lying_declarations": _dc["lying"], "lying_callees": _dc["lying_callees"], "asm_label_aliases": _dc["asm_label_aliases"],
+                    "multi_spelled_callees": _dc["multi_spelled_callees"], "struct_map_types": _sm["types"], "struct_map_explained_pct": _sm["explained_pct"]}
+    except Exception:
+        _typ = None
     # Phase 35 T5b: the TEXT tier — groups keyed by one normalized text at one address whose bytes vary per binary (verbose members)
     _tg = [g for g in gs if g.get("tier") == "h_text"]
     return {
@@ -1201,7 +1221,7 @@ def fleet():
                    "text_tier_groups": len(_tg), "text_tier_instances": sum(len(g.get("members") or []) for g in _tg),
                    "deferred_same_address_texts": (_census.get("deferred_texts") or {}).get("texts"),
                    "deferred_same_address_copies": (_census.get("deferred_texts") or {}).get("sites"),
-                   "levers": _lev},
+                   "levers": _lev, "types": _typ},
         "corrections": [  # dated snapshots of published-number moves with their cause and the command that shows them (R75)
             {"date": "2026-09-08", "phase": "P35 T2", "metric": "fn_count.total", "delta": 7,
              "cause": "seven overlays including the whale header but never registered were counted by neither classify nor the registry fold", "command": "tools/progress.py --fleet"},
@@ -1210,7 +1230,11 @@ def fleet():
             {"date": "2026-09-08", "phase": "P35 T6", "metric": "counts.real_c_functions", "delta": -10211,
              "cause": "empty-bodied shared functions were folded into REAL under the macro form; the include form classifies them EMPTY (the instruction-weighted metrics are unchanged)", "command": "tools/progress.py --fleet"},
             {"date": "2026-09-09", "phase": "P36 T1b", "metric": "counts.verbatim_asm_bodies", "delta": 22,
-             "cause": "the §265 lane's IN-FUNCTION form (a whole routine as one __asm__ statement inside a C shell) was invisible to the file-scope detector behind the manifest: 22 scratchpad stack-switch trampolines (one private copy per overlay, 2,682 sites) are hand asm and are listed PERMANENT-VERBATIM; a 23rd asm-body is -O0 compiler output and is listed DECOMPILE-NOW", "command": "tools/lever_census.py; tools/verbatim_check.py"}],
+             "cause": "the §265 lane's IN-FUNCTION form (a whole routine as one __asm__ statement inside a C shell) was invisible to the file-scope detector behind the manifest: 22 scratchpad stack-switch trampolines (one private copy per overlay, 2,682 sites) are hand asm and are listed PERMANENT-VERBATIM; a 23rd asm-body is -O0 compiler output and is listed DECOMPILE-NOW", "command": "tools/lever_census.py; tools/verbatim_check.py"},
+            {"date": "2026-09-12", "phase": "P37 T1", "metric": "counts.types.raw_cast_sites", "delta": 91166,
+             "cause": "the readability series' regex counted one cast form (`*(T *)(`: 411,850 over raw text); the type census counts four dereference forms over comment-masked text — P 409,007 + I 60,666 (`*(T *)ident`, `*(T *)&D_x`) + X 13,800 (`((T *)e)[i]`) + M 19,543 (`M2C_FIELD`) = 503,016 — with a coverage assertion per form; 18,912 address-of casts and 36,681 typed cast-member accesses are counted apart", "command": "tools/type_census.py"},
+            {"date": "2026-09-12", "phase": "P37 T1", "metric": "counts.levers (--strict)", "delta": 6717,
+             "cause": "lever_census --strict now reads its own words: 6,717 direct GTE coprocessor asm statements in function bodies (Sony's idiom spelled inline instead of as the header's macro call; kinds gte/gte-unsigned, incl. func_8013D9B0's 268 unsigned respellings) are asm statements outside the GTE header — the P36 headline (--check, 4,010) keeps its definition for the series' continuity", "command": "tools/lever_census.py --check --strict"}],
         "per_binary": [{"binary": r['binary'], "real": r['real'], "shared": r['shared'], "linked": r['linked'],
                         "byte_identical": r['byteident'], "matchable": r['matchable'],
                         "instr_matched": (wm['per_bin'].get(r['binary'], [None, None])[0] if wm else None),
@@ -1282,7 +1306,14 @@ def readme_block(d):
                   f"{c['levers']['register_keyword_sites']:,} bare `register` keywords are censused; {c['levers']['gte_sites']:,} GTE coprocessor "
                   f"operations and {c['levers']['hand_asm_routines_in_c_shells']} whole-body assembly routines kept inside C shells "
                   f"({c['levers']['hand_asm_routine_sites']:,} sites; the original's scratchpad stack-switch trampolines, one copy per "
-                  f"overlay, listed in the verbatim manifest) are not levers and are excluded."] if c.get("levers") else []) + [
+                  f"overlay, listed in the verbatim manifest) are not levers and are excluded."] if c.get("levers") else []) + ([f"", f"Types (Phase 37, snapshot {c['types']['date']}): {c['types']['raw_cast_sites']:,} raw pointer-cast dereferences remain in "
+                  f"{c['types']['raw_cast_bodies']:,} functions (four forms; {c['types']['typed_cast_member_sites']:,} typed cast-member accesses and "
+                  f"{c['types']['address_of_sites']:,} address-of casts counted apart); {c['types']['struct_definitions']:,} struct definitions "
+                  f"({c['types']['canonical_definitions']:,} in the canonical header, {c['types']['definitions_in_c_files']:,} inside `.c` files) over "
+                  f"{c['types']['distinct_layouts']:,} distinct layouts, {c['types']['duplicate_classes']:,} duplicate classes covering "
+                  f"{c['types']['duplicate_names']:,} names; {c['types']['lying_declarations']:,} call declarations narrower than their callee's "
+                  f"definition over {c['types']['lying_callees']:,} callees; the struct map clusters the cast sites into {c['types']['struct_map_types']:,} "
+                  f"types by evidence ({c['types']['struct_map_explained_pct']} % of sites assigned)."] if c.get("types") else []) + [
             "", f"_Generated by `tools/progress.py --readme` from `docs/progress.json` — numbers are never typed by hand._",
             README_END]
     return "\n".join(out)

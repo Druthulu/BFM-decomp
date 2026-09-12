@@ -63,6 +63,38 @@
    "gte_sites": 6447,
    "hand_asm_routines_in_c_shells": 22,
    "hand_asm_routine_sites": 2682
+  },
+  "types": {
+   "date": "2026-09-12",
+   "head": "23fc5d215",
+   "what": "the structs phase's counters: raw pointer-cast dereferences in four forms (P *(T*)(\u2026), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), struct definitions and their duplicate classes, lying call declarations, and the struct map's types (Phase 37 drives the first three to 0)",
+   "raw_cast_sites": 503016,
+   "raw_cast_forms": {
+    "P": 409007,
+    "I": 60666,
+    "X": 13800,
+    "A": 18912,
+    "C": 36681,
+    "M": 19543
+   },
+   "raw_cast_bodies": 69497,
+   "address_of_sites": 18912,
+   "typed_cast_member_sites": 36681,
+   "absolute_address_casts": 0,
+   "struct_definitions": 7261,
+   "canonical_definitions": 1179,
+   "definitions_in_c_files": 5995,
+   "distinct_layouts": 525,
+   "duplicate_classes": 206,
+   "duplicate_names": 2789,
+   "variant_names": 39,
+   "dead_canonical_names": 141,
+   "lying_declarations": 98648,
+   "lying_callees": 1609,
+   "asm_label_aliases": 5749,
+   "multi_spelled_callees": 3870,
+   "struct_map_types": 18760,
+   "struct_map_explained_pct": 99.2
   }
  },
  "corrections": [
@@ -97,6 +129,22 @@
    "delta": 22,
    "cause": "the \u00a7265 lane's IN-FUNCTION form (a whole routine as one __asm__ statement inside a C shell) was invisible to the file-scope detector behind the manifest: 22 scratchpad stack-switch trampolines (one private copy per overlay, 2,682 sites) are hand asm and are listed PERMANENT-VERBATIM; a 23rd asm-body is -O0 compiler output and is listed DECOMPILE-NOW",
    "command": "tools/lever_census.py; tools/verbatim_check.py"
+  },
+  {
+   "date": "2026-09-12",
+   "phase": "P37 T1",
+   "metric": "counts.types.raw_cast_sites",
+   "delta": 91166,
+   "cause": "the readability series' regex counted one cast form (`*(T *)(`: 411,850 over raw text); the type census counts four dereference forms over comment-masked text \u2014 P 409,007 + I 60,666 (`*(T *)ident`, `*(T *)&D_x`) + X 13,800 (`((T *)e)[i]`) + M 19,543 (`M2C_FIELD`) = 503,016 \u2014 with a coverage assertion per form; 18,912 address-of casts and 36,681 typed cast-member accesses are counted apart",
+   "command": "tools/type_census.py"
+  },
+  {
+   "date": "2026-09-12",
+   "phase": "P37 T1",
+   "metric": "counts.levers (--strict)",
+   "delta": 6717,
+   "cause": "lever_census --strict now reads its own words: 6,717 direct GTE coprocessor asm statements in function bodies (Sony's idiom spelled inline instead of as the header's macro call; kinds gte/gte-unsigned, incl. func_8013D9B0's 268 unsigned respellings) are asm statements outside the GTE header \u2014 the P36 headline (--check, 4,010) keeps its definition for the series' continuity",
+   "command": "tools/lever_census.py --check --strict"
   }
  ],
  "per_binary": [

@@ -123,6 +123,7 @@ counted, not marked). E, F and G belong to the canonical type layer and are the 
 | 2026-09-11 | S105 f10 (4) | 2152 | 1874 | **4026** | 1985 | 679 | 450 | 314 | 1589 | 50 | 7802 | 445 | 76 | `ff22c1fba` |
 | 2026-09-11 | S105 f11 (4 + 4 copies) — T7 ENDS | 2141 | 1869 | **4010** | 1980 | 674 | 450 | 314 | 1589 | 50 | 7802 | 445 | 76 | `31cf8695f` |
 | 2026-09-11 | P36 close (T8/T9 done; the @unstuck retag) | 2141 | 1869 | **4010** | 1980 | 674 | 450 | 314 | 1589 | 50 | 7802 | 445 | 76 | `60c4bb1cc` |
+| 2026-09-11 | P37 T1 — the lever census re-keyed (controls) and --strict made literal; 4,010 unchanged | 2141 | 1869 | **4010** | 1980 | 674 | 450 | 314 | 1589 | 50 | 7802 | 445 | 76 | `23fc5d215` |
 
 ### The campaign — every batch, from the ledger (derived on every render)
 

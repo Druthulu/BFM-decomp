@@ -542,6 +542,7 @@ unsloth_compiled_cache/
 !/.run/P37/census/
 /.run/P37/census/*
 !/.run/P37/census/*.json
+/.run/P37/census/struct_map.json
 !/.run/P37/census/*.txt
 !/.run/P37/census/*.md
 !/.run/P37/census/*.tsv

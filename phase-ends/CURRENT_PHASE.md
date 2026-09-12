@@ -50,7 +50,7 @@
   untouched; twin checks 0 (0 mismatch); positive control DIFFERS on build/src/800.o; 2.3 s — OK` (main 0.108 s/object, ov 0.15–0.16,
   md_SC07_004 0.504) (`.run/P37/baseline/oracle_t0.log`); `.gitignore` P37 allowlist (by-contents, R84; `git check-ignore` verified: logs
   and `.tsv` tracked, `.o` ignored); this file. Verify at the commit: `git status` clean.
-- ☐ **T1** (xHigh; the layout/cluster model reviewed at Max) — `tools/type_census.py` + **the struct map** (added after T0 — Drew asked, Claude recommended,
+- ☑ **T1** (S106; the commit carrying this line) — `tools/type_census.py` + **the struct map** (added after T0 — Drew asked, Claude recommended,
   Drew approved "Yes — T1 delivers the map"; P5d): definitions with o32 layouts + duplicate classes +
   VARIANT camps + dead names; cast sites in all four forms + `M2C_FIELD` with base class/offset/width/sign/load-store; the declaration
   layer (definitions K&R-read, in-scope declarations per TU, the lying set, multi-spelled callees, aliases, builtins, attributes); the P36
@@ -161,33 +161,101 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 - **S106 — gate-1 adjustment (P5d): T1 delivers the struct map.** Drew's question + "Yes — T1 delivers the map"; the T1 task line, T4's
   typed prototypes and the decisions above updated; committed as the next log commit.
 
-## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, LIVE — refreshed at every task close): gate 1 APPROVED, **T0 ☑** (baseline + oracle + allowlist + this file, committed) — 🛑 **T1 NEXT (the type census, xHigh; its layout/cluster model at Max)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` | the P36 close `79b2f6f15` is committed AND PUSHED (`origin/main`); no tag (Drew: no tags/releases at closes); T0 `0a55cb0fd` local
+- **S106 — T1 design (X1).** One walker per file in worker processes (the masking and the function spans from `share_census`, the
+  cache/coverage pattern from `lever_census`) → definitions with o32 layouts (`Resolver`), six cast-site forms with base/offset/width/
+  sign/access, the declaration records, the flow edges; the parent computes duplicate tiers, coverage, controls, global blocks and the
+  struct map (union-find over evidence only). **The Plan agent's stress-test landed** (322k tokens; its design goes into T3's notes) and
+  corrected four premises before the fleet run: (1) a whole-object oracle says DIFFERS on a correct global-block edit because the
+  RELOCATION SPELLING changes (`D_80078EB4` → `g.hp`) while the linked bytes are identical — T3 needs a resolved-relocation mode
+  (control: `md_SC07_004`'s `D_801F8870[1]`) and a committed linker fragment for every new base symbol; (2) function identity is never
+  the bare name (6,415 names carry >1 body text) — the map keys a function by its body hash; (3) a sixth site form exists, `((T *)p)->f`
+  (36,681 sites: a COMPONENT_REF already, the readability MEMBER regex counts it as a member — it is the rewrite's rung 1, not a finished
+  member); (4) "one definition per layout" is too strong — `{s16 ×4}` carries 177 names, some genuinely different types (`Rect` vs
+  `SVECTOR`): a duplicate is same layout AND (identical meaningful member names | an opaque copy block | flow evidence); layout twins
+  without evidence are reported, not merged — **milestone item 1's "per layout" reads "per type" from here (a clarification for Drew,
+  not a scope change)**. Also from the agent: caller bytes DO depend on a narrow prototype's widths in both directions (the return axis
+  too: `extern u8 f(void)` makes the caller mask eagerly), and rung 1 (body-local `((Unk *)a0)->f`, no signature change, the same `/s`)
+  decouples the byte question from the declaration question — rung 2 (the typed signature) follows the declaration solver.
+- **S106 — T1 built.** `tools/type_census.py` (selftest 21/21 on a fixture with every form); five fleet runs to converge the map: run 1
+  a mega-cluster of 297,668 sites (Steensgaard's classic over-merge through untyped conduit parameters) and A/C sites counted against a
+  deref denominator (105 %); run 2 typed-use parameters + a width-conflict veto + nested bases → 173,025; run 3 the single-source rule
+  for locals + declared-type seeding of `AT:` nodes → 166,789 (the entity type: max offset 0x24C = `actor-struct.md`'s record size);
+  run 4 positive shared evidence required on inter-function edges (the callee's map structured ≥2 offsets, ≥1 offset in common) →
+  two large types (107,598 sites / 0x10C spanning 9,753 pointer globals — the cross-address copies of per-overlay globals, still partly
+  fused at low offsets; 65,397 sites / 0x24C with one instance global `D_80126B58`), their conflicts mostly same-width sign mixes (a
+  store's signedness leaves no byte), now counted apart from width conflicts; run 5 = the final numbers. **The map is a model with
+  stated rules and reported conflicts; T2 tests it on bytes, T5 refines it.**
+- **S106 — T1 verify lines (HEAD `23fc5d215`, 3 m 20 s at -j16).** `type_census: 7261 definitions (525 layouts, 206 duplicate classes,
+  39 variant camps) · 503016 cast sites in 69497 bodies over 8 base classes (4 forms + A, coverage OK) · 98648 lying declarations / 1609
+  callees · controls 4/4` · `struct_map: 18760 types over 18760 clusters explain 498896/503016 sites (99.2 %); 4120 unassigned sites; 729
+  types with conflicts`. DEFINITIONS: canonical header 1,179 · `.c` file-scope 4,091 · `.c` block-scope 1,904 · per-function shared headers
+  63 · other headers 24; 3,109 distinct names; duplicate tiers: 122 same-named + 84 opaque classes (2,789 names), 46 layout-twin classes /
+  1,844 names kept apart; 588 exact-text classes / 4,469 copies; 39 VARIANT names; 141 dead canonical names; 75 canonical names redefined
+  in `.c`. CAST SITES: **deref 503,016 = P 409,007 + I 60,666 + X 13,800 + M 19,543** (+ A 18,912 address-of; + C 36,681 typed cast-member)
+  in 69,497 bodies; coverage OK on all six forms; refused 0; the readability regex over raw text 411,850 (the 2,843 difference = casts
+  inside comments/strings/macro blocks); by base: param 276,860 · local 149,915 · gaddr 40,122 · nested 24,076 · global 8,860 · other 1,678;
+  by width: s4 145,167 · u2 142,775 · s2 131,818 · u1 43,174 · agg 13,472 · p4 12,016 · u4 11,165 · s1 3,429; top bases a0 92,255 ·
+  param_1 81,595 · arg0 67,704 (the first parameter 241,554 = 48 %). DECLARATIONS: 99,130 definitions (1,889 K&R) · 4,279,365 extern
+  function declarations over 12,139 names (3,870 spelled >1 way) · 6,415 names with >1 body text · 1,078,837 data externs over 55,569
+  symbols (18,442 typed >1 way) · asm-label aliases 5,749 (225 names) · builtins memcpy 301 / abs 144 · attributes packed 64 / aligned 12 ·
+  lying 98,648 / 1,609 callees (K&R-empty 91,357, narrow 7,291). GLOBAL BLOCKS: 2,123 runs of ≥4 adjacent scalar `D_` symbols (14,251
+  symbols). PARKED (P36): **24 classes / 453 bodies / 691 needed sites → `.run/P37/census/parked.tsv`**, needs {signature 13, struct 7,
+  ? 4}; 22 PARK names are minimum-lever banks. CONTROLS 4/4 (the doc dispute reported: `D_80078F08/0C` code 4 vs `actor-struct.md` 2 —
+  a T9 correction; the bytes side with the code). `lever_census`: controls re-keyed (14 / 8 / `func_801896EC` 2, each counted
+  independently) → 4/4 OK; `--check: 4,010 … 0 UNMARKED — OK`; **`--check --strict: pins 2141, asm 1419, gte-levers 450, direct GTE
+  statements in bodies 6717, per-TU asm macro definitions 314 … FAIL`** — `--strict` now reads its own words: a direct GTE coprocessor
+  statement in a body is an asm statement outside the GTE header (the P36 close excluded 6,447 `gte` + 270 `gte-unsigned` as Sony's
+  idiom; under decision 1 they are work — macro calls from the one header; `func_8013D9B0`'s 268 are among them, resolved this way).
+  Published (R75): `progress.py --json --readme` → `counts.types` + the README "Types (Phase 37, snapshot 2026-09-12)" sentence + two
+  dated `corrections` (the four-form count; `--strict`'s direct GTE statements); `progress.py --check` fresh; `readability_progress
+  --snapshot` (the TSV now read by column NAME; 16 census columns appended) → `503016 by the census's four forms (+36681 typed
+  cast-member, +18912 address-of) … 7261 struct definitions over 525 layouts (206 duplicate classes / 2789 names); the map: 18760 types
+  (99.2 % of sites)`; `lever_progress --snapshot` (79 milestones, 4,010 unchanged) → `--check OK`; `docs/struct-map.md` generated (200
+  types) + its Reference-index row; dictionary row + SETUP §P37 S106 (R87/R21); `make kit-corpus` → `tool_census --check: OK`;
+  `doc_links --strict: OK`; `kit_lint: OK`; `kit_coverage: OK`. Files: `.run/P37/census/{type_census.json,type_census.txt,struct_map_top.json,
+  parked.tsv}` tracked; `struct_map.json` (6.4 MB) and `sites.jsonl` (213 MB) regenerable, ignored.
+
+## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, LIVE — refreshed at every task close): gate 1 APPROVED, **T0 ☑ T1 ☑** (the type census + the struct map, committed) — 🛑 **T2 NEXT (the probe, Max)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` | the P36 close `79b2f6f15` is committed AND PUSHED (`origin/main`); no tag (Drew: no tags/releases at closes); T0 `0a55cb0fd` local
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits.**
 
 1. **Where we are.** Phase 37 (the structs phase) opened 2026-09-11 in S106 at Max. Gate 1 approved with Drew's four decisions: **grind to
    zero** (raw casts, lying declarations, levers — the plan's §"What zero means" defines each honestly); **placeholders + cited evidence**
    for every type/field name; **T7 = the P36 agent lane at Drew's cap, started only on his word**; **the full canonical declaration layer**.
-   R107–R117 ratified. T0's baseline and oracle calibration are done (the log entry above has every verify line). T0 is committed (this file, `.gitignore`, `.run/P37/baseline/*.log`, the recalibrated `.run/P36/delever/calibration.json`).
-   NEXT = **T1 — the type census `tools/type_census.py` + THE STRUCT MAP** (`.run/P37/census/struct_map.json` + `docs/struct-map.md`)
-   at xHigh (its layout/cluster model at Max) — added to T1 on Drew's word after T0 (P5d); T4's prototypes carry the map's parameter types.
-2. **What the next session must know before T1.** (a) The population table in the approved plan below is a gate-1 grep census — T1
-   re-derives every number with a self-asserting tool (R32/R37) and its verify line is the plan's. (b) The four cast forms: `*(T *)(…)`
-   (411,850, the readability regex `tools/readability_progress.py:31`), `*(T *)ident` (26,279), `((T *)e)[i]` (14,491), `M2C_FIELD(`
-   (19,542) — the last three are UNCOUNTED by the series today (R32 gap; T1 adds them with a dated `corrections` entry). (c) The 24 parked
-   P36 classes have NO list with reasons anywhere — the reasons are split across `phase-ends/logs/Phase36.md:2261-2267` and `:2197-2199`,
-   the bank lists' MSG column (`.run/P36/s105/banks_*.txt`), and each pack's `mechanism.md` headline; `.run/P36/s105/pick.py`'s PARK set (44
-   names) mixes parked classes with minimum-lever banks; patch files exist for 6 (`main__func_800385C0/scratch/signature.patch`,
+   R107–R117 ratified. T0 (baseline, oracle calibration, allowlist, this file) and T1 (the type census + the struct map; every verify
+   line in the log above) are committed. **NEXT = T2 — the probe (Max):** three stratified probes on the calibrated oracle — (i) struct
+   spelling on ~150 bodies over the top bases (identical / differing / closing under S+A / residual by pass), (ii) the canonical prototype
+   per TU on ~300 TUs + the 24 parked patches (`.run/P37/census/parked.tsv`) as the known-true set, (iii) the definition fold on 20 TUs —
+   plus the Plan agent's two probes: the layout engine audited against cc1 (the negative-array-size offsetof idiom over every definition;
+   0 errors) and the linked-relocation oracle mode's control (`md_SC07_004`'s `D_801F8870[1]`: IDENTICAL linked, DIFFERS whole-object).
+   T2 prices T4–T7 with denominators (R41). The probe drives a `restruct --try` for rung 1 only (body-local `((Unk *)a0)->unkK`) — the
+   Plan agent's "build first" order: layout engine + cc1 audit → linked oracle mode → census (done) → `--try`.
+2. **What the next session must know (T1's findings, for T2–T5).** (a) The phase's counters, re-derived by `tools/type_census.py` (coverage OK, controls 4/4): **503,016 raw dereferences** (P 409,007 +
+   I 60,666 + X 13,800 + M 19,543) in 69,497 bodies + 18,912 address-of + 36,681 typed cast-member (rung 1's form, counted apart);
+   7,261 struct definitions (1,179 canonical, 5,995 inside `.c`), 525 layouts, 206 duplicate classes (2,789 names; 46 layout-twin classes /
+   1,844 names are NOT duplicates without flow evidence), 39 VARIANT names, 141 dead canonical names; 98,648 lying declarations / 1,609
+   callees; 6,415 names with >1 body text (identity = body hash, never the name); **the lever finish line is 4,010 marked sites + 6,717
+   direct GTE statements in bodies + 314 per-TU asm macro definitions** (`lever_census --check --strict`, now literal). (b) The struct map
+   (`.run/P37/census/struct_map_top.json`, `docs/struct-map.md`): 18,760 types explain 99.2 % of the sites; the two largest — 107,598 sites /
+   0x10C over 9,753 pointer globals (partly fused at low offsets) and 65,397 sites / 0x24C with the instance global `D_80126B58` (the
+   actor record) — carry width conflicts the map reports; the map's merge rules are in SETUP §P37 S106; it is a MODEL — T2 tests it on
+   bytes (does the member spelling hold?) before T5 authors anything from it. (c) The Plan agent's four corrections (the log entry "T1
+   design"): the relocation-spelling oracle mode + linker fragment for base symbols (T3), body-hash identity (done), form C (done),
+   duplicates = layout + evidence (done; milestone item 1 reads "per type"). (d) Two doc corrections owed at T9: `actor-struct.md`'s
+   `s16` at +0x108/+0x10C (the code declares 4-byte fields; the bytes decide), and `include/common.h:28-30`'s "identical codegen to
+   `p->field`" for `M2C_FIELD` (false — the `/s` flag differs; `gen3-handoff.md:161-164` says the same). (e) The 24 parked
+   P36 classes are now ONE file, `.run/P37/census/parked.tsv` (fn, alias, tu, copies, sites, kinds, regs, needs {signature 13, struct 7, ? 4},
+   pack, patches, headline; 453 bodies / 691 needed sites; 22 more PARK names are minimum-lever banks) — generated by the census from the
+   P36 ledger + `pick.py`'s PARK set + each pack's `mechanism.md`; patch files exist for 6 (`main__func_800385C0/scratch/signature.patch`,
    `main__func_80029D3C/scratch/patch_signature.c`, `ov_SC07_007__func_80180FA4/scratch/signature_3args.patch`,
    `ov_SC02_027__func_80180A54/scratch/signature.patch`, `md_SC07_004__func_801A1E94/signature.diff`, `…__func_801A5C44/signature.diff`),
-   whole-TU scratch copies for 8 more; `func_80180200` has no pack (it lives in `ov_SC03_115__func_8017FC5C/`). (d) `func_8013D9B0`'s 268
-   markers are kind `gte-unsigned` (NON_LEVER) — OUTSIDE the 4,010 headline though the PhaseEnd lists it among the residue heads; T1 resolves
-   this on the bytes. (e) `lever_census`'s known-true controls: three of four return N-A (their T1 body hashes are stale) — re-key them (R85).
-   (f) The 4,010 reconcile exactly against the ledger: 1,637 drawable RESIDUE + 1,080 minimum-lever banks in PARK + 593 parked RESIDUE +
+   whole-TU scratch copies for 8 more; `func_80180200` has no pack (it lives in `ov_SC03_115__func_8017FC5C/`). (f) `func_8013D9B0`'s 268
+   markers (kind `gte-unsigned`) are now inside `--strict`'s direct-GTE count (resolved: they are asm statements outside the header, to
+   become macro calls). `lever_census`'s controls are re-keyed and 4/4 OK. (g) The 4,010 reconcile exactly against the ledger: 1,637 drawable RESIDUE + 1,080 minimum-lever banks in PARK + 593 parked RESIDUE +
    450 GTE clobber variants (`gte-lever`; 64 per-TU `_m` macro definitions, `gte_rt_m` 55) + 94 arg-only pins (83 classes) + 83 whose latest
    ledger row is a failed attempt (invisible to `pick.py`; `delever.py --redraw`) + 24 + 18 + 13 asm-body + 10 drawn + 8 file-scope.
-   (g) The §396(a) refuting body IS recorded: `.run/P36/agents/ov_SC03_110__func_801800F0/mechanism.md:64-70` (d11) — T9 writes the correction.
-   (h) The type tools' reach: `lift_types.py` scans only `src/ov_*/*.c` (line 49); `engine_types.h` is included by 3,818 TUs via
+   (h) The §396(a) refuting body IS recorded: `.run/P36/agents/ov_SC03_110__func_801800F0/mechanism.md:64-70` (d11) — T9 writes the correction.
+   (i) The type tools' reach: `lift_types.py` scans only `src/ov_*/*.c` (line 49); `engine_types.h` is included by 3,818 TUs via
    `engine_prelude.h` but by 0 of the 85 root `.c` and 12 of 87 `md_*`; `decl_repair.py` compares `.text/.rodata/.data` sections (the scratch
    path lands in the object) while `delever_oracle` compares whole objects compiled in place.
 3. **Environment.** `~/bfm-decomp` on ext4; `.venv/bin/python`; every build with `JOBS=16`/`-j`; the headless Ghidra MCP was started by
@@ -195,7 +263,8 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
    `ghidra/` (nothing does until T8; R23). The oracle's snapshot baseline: `.run/P36/delever/baseline/` (7,428 objects at `db212f167`, taken
    after the green R22 — R112). The Plan agent (tool design stress-test) may still be running or have reported: its report goes into T3's
    design notes; if it is lost, T3's design at Max re-derives it from the plan's §B questions.
-4. **Commands that work.** R22: `make clean && make extract-all JOBS=16 && make check-all JOBS=16` (≈86 s; read the exit code with
+4. **Commands that work.** Census: `.venv/bin/python tools/type_census.py -j 16 [--sites]` (≈3.5 min; `--selftest` 21/21; outputs under
+   `.run/P37/census/`; `docs/struct-map.md` regenerated). R22: `make clean && make extract-all JOBS=16 && make check-all JOBS=16` (≈86 s; read the exit code with
    `pipefail`). Oracle: `.venv/bin/python tools/delever_oracle.py --calibrate <aliases> -j 16` (147/147 in 2.3 s). Census (P36's, for the
    lever side): `.venv/bin/python tools/lever_census.py --check -j 16`. Series: `tools/readability_progress.py --snapshot <label>`,
    `tools/lever_progress.py --check`. Tools-health (foreground, ~8–15 min): `make tools-health`.
