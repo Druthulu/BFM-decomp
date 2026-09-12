@@ -2093,17 +2093,31 @@ accumulate here as the phase produces them.**
   `3d6111828` → `lever_census --check: 4,044 pin/asm sites, 4,044 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,046 → **4,044**).
   The other four (`func_8018F734`, `func_80185434`, `func_80181A30`, `func_80184BFC`) are now ordinary drawable classes.
 
-## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,044 sites** this session (−108); 8 TU batches f1–f8, **42 of 42 drawn classes at 0** (32 plain C, 2 do-while-only, 8 minimum-lever incl. 3 parked signature changes), ALL banked — **f9 (ov_SC02_027, 6 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `3d6111828` | `lever_census --check` exit 0 (4,044 marked, 0 UNMARKED, 0 orphans)
+- **S105 (cont.) — f9 landed: 6 of 6 at 0 (3 plain C, 1 do-while, 2 proven at their levers + PARKED); R22 218/218; 4,044 → 4,032.**
+  f9 (`ov_SC02_027_jr_8017D898`, ≈318k tokens, 39 min): `func_801810A0` 14 → 0 (the narrow-load split; the two barrier-faked empty
+  delay slots followed from the allocation; pad 5 → 2 words; 5 levers → 0), `func_8017F498` 15 → 0 (the constant holder declared per
+  arm), `func_80187D18` 31 → 0 on the first `--try` (the same-TU sibling `func_8018830C`'s spelling found by grepping the volume
+  formula: an address alias + the multi-set abs chain), `func_80186C0C` 14 → 0 with one marked do-while (a 3076-vs-3000 `allocno_compare`
+  gap only flow's loop weight can flip — sched1 REWRITES live lengths on the final stream, `sched.c:4911`), `func_80180A54` 8 → 0 only
+  as `void *func(...)` returning the slot (the caller discards it; patch in the pack) → PROVEN at its 2 levers, PARKED (signature),
+  `func_80186CE0` 9 → 0 only as a 20-byte STRUCT COPY (`expand_block_move`, `mips.c:2331`; relocations `D_801AFBD8+4` vs the carved
+  `D_801AFBDC` — identical after linking) → PROVEN at its 3 levers, PARKED (a carve change). `bank_list.sh`: `IDENTICAL … KEPT` ×6
+  (`41ab73ae6`…`c2455f5d3`). f10 (`ov_SC06_006`, 4 classes) launched into the single slot first. METHOD step 23. R22
+  (`.run/P36/s105/r22_i.log`) **`check-all: 218 passed, 0 failed of 218`** (87 s) → baseline at `c2455f5d3` → `lever_census --check:
+  4,032 pin/asm sites, 4,032 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,044 → **4,032**). **Session: 48 of 48 drawn classes
+  at 0.** New parked-by-name: func_80180A54 (signature), func_80186CE0 (carve: one record table for `D_801AFBD8..EC`).
+
+## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,032 sites** this session (−120); 9 TU batches f1–f9, **48 of 48 drawn classes at 0** (35 plain C, 3 do-while-only, 10 minimum-lever incl. 4 parked signature changes + 1 parked carve), ALL banked — **f10 (ov_SC06_006, 4 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `c2455f5d3` | `lever_census --check` exit 0 (4,032 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S105 ran at `/effort high` on Opus 5 1M;
 every agent on Opus) and executes §2. **Drew's cap is ONE agent at a time** (his last retune, after the S105 close: "continue here. max
-concurrent agents of 1 now"). What may be in flight when this is read: **f9** (`src/ov_SC02_027/ov_SC02_027_jr_8017D898.c`:
-func_80180A54, func_80186CE0, func_80186C0C, func_801810A0, func_8017F498, func_80187D18) — a dead session's agent leaves `body.c` +
+concurrent agents of 1 now"). What may be in flight when this is read: **f10** (`src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c`, 4 classes —
+`BRIEF_f10.md` names them) — a dead session's agent leaves `body.c` +
 `mechanism.md` in its packs (R67): `--try` each, bank a 0, record the rest. The session limit cut two agents mid-run and Drew had them RESUMED by SendMessage to their ids (R67 held —
 every deliverable was on disk); an agent id survives a limit cut within a session, and an agent of a DEAD session is relaunched from
-its pack. Briefs for the next draws are written and their packs built: `.run/P36/s105/BRIEF_f9.md` (ov_SC02_027_jr_8017D898, 6
-classes, 5 landed packs in that TU), `BRIEF_f10.md` (ov_SC06_006_jr_8017DB90, 4); `.run/P36/s105/mkbrief.py <id> <tu>` builds the
+its pack. The next draws: `mkbrief.py f11 <tu>` on the 6-class TUs of `pick.py` (ov_SC06_018, ov_SC07_002, ov_SC03_090, ov_SC06_032; `src/800.c`
+still has 22 classes, most of them ARG-ONLY — draw its non-arg ones as one batch); `.run/P36/s105/mkbrief.py <id> <tu>` builds the
 packs + brief for any TU of `pick.json` (regenerate `pick.json` first: `.venv/bin/python .run/P36/s105/pick.py 12`). Launch each as a
 general-purpose Agent whose prompt names the brief file, the two method files, the read-only rules and the report format (the f1–f8
 prompts in this session's transcript are the pattern; a paragraph of the previous landing's method notes goes in the prompt).
@@ -2123,10 +2137,10 @@ git log --oneline -1 && git status --short | grep -v '^??' | wc -l
 - The free sweep is SPENT: every residue class has been judged by every family R2–R46 (S105 `s105_r43_*`, `s105_r44r22`, `s105_r45r46`).
 
 ### 2. NEXT
-1. On Drew's word: launch f9 and f10 (two at a time), then `mkbrief.py f11 <next TU>` from `pick.py`'s order (the 5-class TUs:
+1. Cap ONE: after f10 lands, `mkbrief.py f11 <next TU>` from `pick.py`'s order (the 5-class TUs:
    ov_SC03_090, ov_SC06_018, ov_SC06_032, ov_SC07_002, then the 4-class ones), skipping ARG-ONLY (`$4`–`$7`-only pins = the
-   missing-parameter shape → structs phase) and the park list (S104 §2.4 + S105's three signature changes: func_800385C0,
-   func_80029D3C, func_80180FA4 — patches in their packs).
+   missing-parameter shape → structs phase) and the park list (S104 §2.4 + S105's four signature changes func_800385C0, func_80029D3C, func_80180FA4, func_80180A54 and
+   the carve change func_80186CE0 — patches in their packs; add them to `pick.py`'s PARK set).
 2. Per landing: `--try` each body + `grep -c '__asm__\|register\|FAKE\|volatile'` → next brief → `.run/P36/s105/bank_list.sh`
    (one line per body `TU FN FILE LABEL MSG`; a `*minlever*` label adds `--allow-residue`; a do-while-only body banks plain) → harvest
    (a generator with a known-true run on the AGENT'S START TEXT — and run the EXISTING generators on it too when the move is one they

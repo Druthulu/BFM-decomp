@@ -335,3 +335,22 @@
       the identical constant stores ABOVE the nearest preceding two-register-value store (`la|lui|or`) so the holder's live range
       overlaps v0/v1 and `find_free_reg` gives it `a1` (sched1 keeps equal-priority constant stores in source order); 240 adjacent
       permutations all scored 6 — R9/R18 are inert here, the straddle closed in every try.
+23. **S105 f9 (`ov_SC02_027_jr_8017D898`, 6 of 6 at 0: 3 plain C, 1 do-while, 2 proven at their levers and parked):**
+    - **sched1 REWRITES `reg_live_length` on the final stream** (`sched.c:4911-4930`): only flow's loop-weighted refs (`flow.c:2067`)
+      can flip an `allocno_compare` gap — every "+1 flow-time insn" spelling changes bytes; a <10 % gap between a parameter and a
+      local consumed by the final call's arguments is the do-while's exact tell (the sibling copies spell it that way too).
+    - A constant holder set PER ARM and consumed by an identical expression in both arms → declare it per arm (a function-scope one
+      is a global allocno pushed to `v1` by pass-0 exclusions, `global.c:945-990`; per arm it is a block-local quantity,
+      `local-alloc.c:2101`, and cross-jump re-merges the tail) — R23's sibling-arm constant-holder form, and it must stay `s16`.
+    - N ascending-register word loads + N stores with a `lw; nop; sw` leftover = a STRUCT ASSIGNMENT (`expand_block_move`,
+      `mips.c:2331-2360`, `movstrsi_internal`; the temps are priority-0 scratch quantities; `.lreg`'s REG_UNUSED hard-reg notes on a
+      single `parallel` name it). If the words are consecutive CARVED symbols the plain spelling is identical only after linking →
+      park as a carve change with the struct spelling in scratch.
+    - `move v0,<ptr>` in a j-to-epilogue slot + `move v0,zero` on the fall-through of a `void` function = a RETURN VALUE
+      (`expand_value_return`, `stmt.c:2505-2528`; a dead hard-reg set is deleted by flow) → signature change, patch parked.
+    - The narrow-load split (step 19) also empties the `beqz` delay slots that barriers had been faking (reorg's `opposite_needed`
+      changes with the allocation) — re-score WITHOUT the adjacent barriers after the split; shrink `pad[N]` by one 8-byte slot per
+      split site.
+    - Two of six closed by grepping the TU for a distinctive constant and porting the lever-free sibling's spelling verbatim
+      (`related.txt` had neither) — R71 first, tables second. `--try TU FN FILE` WITHOUT `--body` scores a spliced whole TU: that is
+      how a prototype/signature change is tested read-only.
