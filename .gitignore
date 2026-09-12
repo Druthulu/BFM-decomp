@@ -528,6 +528,55 @@ unsloth_compiled_cache/
 !/.run/P36/waves/*.txt
 !/.run/P36/waves/*.md
 
+# P37 (S106, 2026-09-12): the structs phase's evidence — the R22 baseline, oracle calibration and close logs, the type census
+# JSON/tables (+ parked.tsv), the three probes' tables, the restruct ledger and batch logs, the per-TU declaration judgements, the
+# agent packs and verdicts. Text only, nothing ROM-derived (no .o, no .s, no images). Contents form (R84).
+!/.run/P37/
+/.run/P37/*
+!/.run/P37/*.log
+!/.run/P37/*.md
+!/.run/P37/baseline/
+/.run/P37/baseline/*
+!/.run/P37/baseline/*.log
+!/.run/P37/baseline/*.txt
+!/.run/P37/census/
+/.run/P37/census/*
+!/.run/P37/census/*.json
+!/.run/P37/census/*.txt
+!/.run/P37/census/*.md
+!/.run/P37/census/*.tsv
+!/.run/P37/probe/
+/.run/P37/probe/*
+!/.run/P37/probe/*.log
+!/.run/P37/probe/*.txt
+!/.run/P37/probe/*.md
+!/.run/P37/probe/*.json
+!/.run/P37/probe/*.jsonl
+!/.run/P37/probe/*.py
+!/.run/P37/restruct/
+/.run/P37/restruct/*
+!/.run/P37/restruct/*.log
+!/.run/P37/restruct/*.json
+/.run/P37/restruct/inflight.json
+/.run/P37/restruct/includers_cache.json
+!/.run/P37/restruct/*.jsonl
+!/.run/P37/restruct/*.txt
+!/.run/P37/decls/
+/.run/P37/decls/*
+!/.run/P37/decls/*.log
+!/.run/P37/decls/*.json
+!/.run/P37/decls/*.jsonl
+!/.run/P37/decls/*.txt
+!/.run/P37/agents/
+/.run/P37/agents/*
+!/.run/P37/agents/*.md
+!/.run/P37/agents/*.tsv
+!/.run/P37/agents/*__func_*/
+/.run/P37/agents/*__func_*/*
+!/.run/P37/agents/*__func_*/*.txt
+!/.run/P37/agents/*__func_*/*.md
+!/.run/P37/agents/*__func_*/body*.c
+
 # Outreach drafts (P34 task 6, Drew's decision 2026-09-08): the notes to neighbouring projects were SENT (the Archipelago issue,
 # the decomp.me preset request, the tools post, the #ai reply); the drafts stay on the maintainer's machine and leave the tree
 # from here (no rewrite — they are in the published history). Contents form, R84.

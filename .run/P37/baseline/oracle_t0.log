@@ -1,0 +1,8 @@
+delever_oracle: 4284 recipes captured in 14.6 s at -j16; errors 0
+delever_oracle --snapshot-baseline: 7428 object(s) under .run/P36/delever/baseline at db212f167
+delever_oracle --calibrate main md_SC07_004 ov_SC02_005 ov_SC04_011: 147/147 objects byte-identical untouched; twin checks 0 (0 mismatch); positive control DIFFERS on build/src/800.o; 2.3 s — OK
+   main           85/85 identical, mean 0.108 s per object
+   md_SC07_004    1/1 identical, mean 0.504 s per object
+   ov_SC02_005    33/33 identical, mean 0.152 s per object
+   ov_SC04_011    28/28 identical, mean 0.163 s per object
+exit=0
