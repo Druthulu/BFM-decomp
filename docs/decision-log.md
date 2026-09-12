@@ -3852,3 +3852,35 @@ the tree's own documents for two months while the handoff said "byte-neutral". (
 (one afternoon) before designing the engine — the probe fixed the rewrite table five times. (3) Build the disagreeing oracle for the new
 question BEFORE the campaign (R104): the relocation-spelling control took one binary build to settle and would otherwise have read every
 global-block conversion as a failure.
+
+## P37 S107 (2026-09-12) — the engine built on the probe's facts; a linked oracle that is the build's own tail; a control that had rewritten build/
+**Context and belief.** T3 was to grow the T2 probe into the campaign engine on three facts T2 had put on the bytes: struct spelling is a
+per-access dial (rung S then a greedy kept-cast set), a definition's ANSI signature is a free declaration for 92.6 % of pairs, and a
+correct global-block edit can be whole-object DIFFERS while the linked bytes are identical. The brief also said T4's canonical prototypes
+would carry the struct map's parameter types in one pass, and that a new base symbol goes into a `-T` linker fragment.
+**What the build changed.** (1) *Sequencing:* a parameter cannot be typed `Unkstruct_X *` while its body still reads `*(T *)(a0 + k)` —
+pointer arithmetic would scale by `sizeof`. So T4 canonicalises WIDTHS and ARITY at the definition's current types; the typed signature
+is a per-callee unit S → T (type the base) → D in T6, after T5's types exist. Same work, honest order. (2) *The linked oracle is not a
+re-implementation:* rather than pair HI16/LO16 relocations myself, `judge_linked` runs the Makefile's own `ld/objcopy/trim` on the
+candidate object with every other object from the snapshot and compares SHA1 to `config/check.<alias>.sha` — 10 ms, and nothing of the
+linker's arithmetic can be wrong in my code (R110 applied to a linker). (3) *A new base symbol goes into the binary's splat symbol file,
+not a linker fragment* — R15 names one curated symbol source, splat already emits `undefined_syms_auto.txt` from it, and T8's Ghidra
+mirror reads it (a deviation from the brief, recorded). (4) *Style:* `unk<HEX>` for accessed-unknown fields and `u8 pad<HEX>[n]` for
+never-touched gaps — the distinction tells Phase 38 where there is nothing to name; the census asserts both names sit at their offset (the
+SYNC_FIELD equivalent needs no ledger).
+**What failed, and looked right.** The linked-mode control read `whole-object IDENTICAL` for the `p[1]` spelling of `func_801A4258` —
+which would have meant the finding of T2 was false. It was the instrument: T2's relocation control had run `make build BINARY=md_SC07_004`
+with the candidate in place, leaving a linked-identical but differently spelled object in `build/`, and my `--snapshot-baseline` refresh
+had copied it into the oracle's snapshot. A clean fleet run, a guarded re-snapshot (a changed object must reproduce from an untouched
+compile or the refresh is refused) and the control read as predicted. Then the first real batch sat at 0 % CPU for eleven minutes: the
+fleet walk's process pool was forked from inside a worker thread (a fork in a threaded process); and the selftest's inflight probe used the
+LIVE `inflight.json` and deleted the batch's snapshot (harmless only because R22 had already proven the files).
+**What it cost / bought.** One session; ~2,300 new lines of tool; three clean fleet runs. It bought: rung D on ov_SC04_011 — 258
+declaration units, 242 canonical + 8 K&R sites marked + 16 kept with legible causes (7 name a resident type the overlay cannot see, T5's;
+1 is a lying spelling inside a shared per-function header, the `--headers` mode's), 218/218 twice; the §458 body closing mechanically
+(S2 keeps one cast, recipe R1 closes it); a lever body whose six `gte_*_m` clobbers came off on the struct-spelled text (a P36 T5
+leftover — they come off alone too — worth a targeted regen before T6 visits the 450 GTE variants one body at a time).
+**Hindsight (the better path).** A control that builds a binary is a WRITER of `build/` — snapshot the oracle's baseline only from a clean
+fleet run, and make the snapshot refuse an object it cannot reproduce (done now; it should have been in T0's design). Compute every process
+pool before the first thread. A selftest's scratch is never a live path (R57). And read the sequencing of typed signatures off the compiler's
+pointer arithmetic before writing "in one pass" into a plan.

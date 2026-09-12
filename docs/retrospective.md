@@ -166,7 +166,10 @@ meant learning between landings; six of eight hours had no agent running the fir
 of the population — one generator was refusing three ways for two sessions, found only when an agent's close was run back through it. That
 the pins were codegen — the biggest single class was a wrong DECLARATION (16,759 repaired free). (P37) That types were a comprehension lever
 and struct-ification byte-neutral — the charter carried Phase 17's drafting measurement into a claim about spelling; the compiler map in the
-same tree said the opposite, and a 165-body probe measured it: 91 % neutral, the rest a per-access dial.
+same tree said the opposite, and a 165-body probe measured it: 91 % neutral, the rest a per-access dial. (P37 S107) That the declaration layer
+could carry the mapped parameter types "in one pass" — a parameter cannot be typed while its body still adds offsets to it (pointer
+arithmetic scales), so widths and arity come first and the typed signature is a per-callee unit after the sites are members. That a new base
+symbol wanted a linker fragment — the binary's splat symbol file is the one curated source (R15) and already feeds the link.
 
 **What failed, and why it looked right.** A session died at 91 % context with 35 minutes of state only in its transcript, after refreshing
 its checkpoint five times — two bank commits inside a task had no log line (→ R101). A tool's restore path was `git checkout`, which wiped
@@ -175,17 +178,25 @@ target — 24 wrong words from `move` versus `or` — and every candidate read 2
 scratch object and two scored another agent's function (→ R111). A ledger's "done" was by text hash, so 379 owed bodies passed as done
 (→ R114). The harness's low-memory guard killed an unattended batch cycle mid-apply with 22 GB free (→ R115). And, this generation's own
 lesson about instruments: the layout audit against cc1 began with 4,498 rejections of 5,295 definitions and ended at 0 — five of the causes
-were the probe's own, two were the engine's — the reading order that R40 prescribes, run again.
+were the probe's own, two were the engine's — the reading order that R40 prescribes, run again. (S107) The linked-mode control read
+"identical" for a spelling that differs — because a control the day before had run `make build` with a candidate in place and left its object
+in `build/`, and the snapshot refresh copied it in; the fix is a refresh that refuses what it cannot reproduce. A fleet walk's process pool
+forked from inside a worker thread deadlocked a batch at 0 % CPU with no message. A selftest's inflight probe used the live path and deleted
+a real batch's restore snapshot. And the first audit of the legacy type header read 1,013 violations, 987 of them the audit's own — it paired
+a trailing comment with the next field.
 
 **What it cost.** P35: three sessions (one a recovery) and ~2.5 h of gates; no model tokens beyond the coordinator and three gate-1 agents.
 P36: nine sessions, 575 commits, ~200 agent draws, roughly 15–20 M agent tokens — the mechanical rungs took 37 % of the sites for ~20
 CPU-hours and no tokens, the search another 6 % for ~5 CPU-hours, the agents the rest, at 1 close per agent rising to 4–7 as the TU batch and
-the method file matured. P37 so far: one session; four reconnaissance agents (~1 M tokens) and a fleet census that runs in 3.5 minutes.
+the method file matured. P37 so far: two sessions; four reconnaissance agents (~1 M tokens), a fleet census that runs in 3.5 minutes, and an
+engine of ~2,300 new lines built in one session with no agents — three clean fleet runs and two byte-gated batches on the way.
 
 **What we would do sooner.** Read the target project's TREE before setting a policy on its precedent. Make every commit that advances a task
 carry its log line, and checkpoint before any long wait past ~85 % context. Price a residue by distinct SHAPES, never by bodies. Put a
 known-true case — the tree's own body scoring 0 — in front of every scorer before any campaign. Run every generator on an agent's start text
 at every landing. Bucket the residue by what it needs at every wave close, as the stop-rule's input. And for a types phase: probe the
 spelling on the bytes on the first day (six minutes for 165 bodies) before designing the engine — it corrected the charter, fixed the rewrite
-table five times, and proved the oracle needs a linked-relocation mode before a single global block was rewritten. In one line, the
+table five times, and proved the oracle needs a linked-relocation mode before a single global block was rewritten. When a byte question
+has a linker in it, ask the linker (the build's own tail), never re-derive its arithmetic; snapshot an oracle's baseline only from a clean run
+and make the snapshot refuse what it cannot reproduce; compute every process pool before the first thread. In one line, the
 generation's rule so far: *the byte gate is still the only judge, and after 100 % it judges spelling.*

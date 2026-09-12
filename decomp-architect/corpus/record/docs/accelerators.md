@@ -978,3 +978,17 @@ campaign and rewrote the rewrite table five times; (2) rung S2 (leave-one-out, t
 per-site spelling campaign — 13/13 DIFFERS closed at ≤2n+1 compiles, no agent; (3) read every rejection message of a new audit before
 believing any (R40 for audits): 4,498 → 9 → 0 with two real findings along the way; (4) unique scratch names per probe (R111) — the
 cross-address copies produce IDENTICAL probe bodies, and a hash-keyed scratch file raced.
+
+## P37 S107 (2026-09-12) — the engine's first day
+1. **A byte oracle for "linked-identical" is the build's own link, not relocation arithmetic.** Copy the binary's linker script, point one
+   object at the candidate and the rest at a snapshot, run the Makefile's exact `ld`/`objcopy`/trim, compare the SHA1 the gate compares.
+   10 ms per judgement, zero re-implemented linker rules, and the same instrument the gate trusts (R110). Would have saved the T2 control's
+   full `make build` and every later "is this reloc spelling the same address" question.
+2. **A control that runs `make build` with a candidate in place has REWRITTEN `build/`** — and a snapshot refresh copies it. Snapshot only from
+   a clean fleet run, and let the refresh refuse any object that does not reproduce from an untouched compile (`--snapshot-baseline`'s guard).
+   One such object made the linked-mode control read the opposite of the truth for an hour.
+3. **Compute every process pool before the first worker thread exists.** A `ProcessPoolExecutor` forked from inside a `ThreadPoolExecutor`
+   worker deadlocked the first batch at 0 % CPU with no error; the fix was one call moved above the pool.
+4. **A selftest's scratch is never the tool's live path.** The inflight probe deleted a real batch's restore snapshot (R57).
+5. **Typed signatures come AFTER the body's sites are members** — pointer arithmetic scales. Plan the declaration layer as widths/arity first
+   and the typed form as a per-callee unit (sites → parameter type → callers) once the types exist.

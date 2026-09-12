@@ -26,8 +26,13 @@ typedef long long          s64;
 typedef double             f64;
 
 /* m2c --valid-syntax compat (Phase 16, cookbook §15) — the BYTE-FAITHFUL macros only.
- * M2C_FIELD(p,t,o) == *(t)((s8*)p+o): identical codegen to `p->field`, so m2c struct-heavy
- * output compiles AND byte-matches without a struct definition. The NON-faithful m2c macros
+ * M2C_FIELD(p,t,o) == *(t)((s8*)p+o): the same LOAD/STORE as `p->field` — but NOT always the
+ * same bytes: gcc 2.7.2 marks a member access MEM_IN_STRUCT_P (`/s`) and a cast on a sum not,
+ * and its scheduler's alias test reads that flag (sched.c:837-865; the Phase-37 T2 probe: 13 of
+ * 139 bodies move when a cast becomes a member — cookbook §458, §351). So m2c struct-heavy
+ * output compiles and USUALLY byte-matches without a struct definition; the structs phase
+ * replaces every M2C_FIELD with the member it stands for, byte-gated (P37, 2026-09-12 — this
+ * note corrected then; it used to claim "identical codegen"). The NON-faithful m2c macros
  * (M2C_ERROR/MULT_HI/CLZ/GTE/...) are deliberately left UNDEFINED: a draft using one fails to
  * compile = an early "not m2c-matchable, defer" signal (it could never byte-match anyway). */
 typedef s32 M2C_UNK;
@@ -40,6 +45,20 @@ typedef s64 M2C_UNK64;
 #ifndef NULL
 #define NULL ((void *)0)   /* m2c emits NULL for null pointers; byte-neutral (== 0) */
 #endif
+
+/* Reinterpretation macros (Phase 37 T3, 2026-09-12; sotn's common.h shape): the ONE place a
+ * value is read as another width or sign. `*(s16 *)&x` spelled LOH(x) is the same cast and the
+ * same bytes (proven by tools/restruct.py's macro probe: cc1's assembly for the macro and for
+ * the bare cast is identical) — but the census counts these apart as "reinterpret sites", so a
+ * genuine reinterpretation (a word read as two halves, a struct read as bytes) is never a raw
+ * pointer cast on a sum. The cast campaign (T6) may only spell a reinterpretation this way. */
+#define LOBU(x) (*(u8 *)&(x))
+#define LOH(x)  (*(s16 *)&(x))
+#define HIH(x)  (((s16 *)&(x))[1])
+#define LOHU(x) (*(u16 *)&(x))
+#define HIHU(x) (((u16 *)&(x))[1])
+#define LOW(x)  (*(s32 *)&(x))
+#define LOWU(x) (*(u32 *)&(x))
 
 #include "gte_inline.h"   /* Phase 36 T5: the GTE coprocessor macros, one definition each */
 #endif /* COMMON_H */

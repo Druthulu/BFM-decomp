@@ -37901,3 +37901,10 @@ belonging to the `param_1 + 0x1C` store elsewhere. The original therefore set `/
 **The rule.** Convert uniformly first (rung 1), then find the minimal kept-cast set (S2), then hand the kept casts to the readings (which
 side of each pair the original spelled scalar — a walked pointer, a reinterpretation, a cached global). A kept cast is not a fake: it is the
 original's spelling until a reading proves otherwise, counted and ledgered with its pass (SCHED-ALIAS here). Related: §30, §351, §379, §469.
+
+**Addendum (S107, T3 — the engine reproduces and closes it).** `tools/restruct.py --try … func_801814AC --base global:D_801C7E30 --recipes`:
+rung S DIFFERS (5 sites) → **S2 keeps exactly the `+0x34` store, 1 compile** → recipe **R1** (the pointer global itself read as a struct
+member, the site's own cast kept: `*(u16 *)((((struct { s32 p; } *)&D_801C7E30)->p) + 0x34) = 0;`) judges **IDENTICAL** on the S2 text —
+the body closes with members everywhere but that one site, and that site with both sides `/s`. The same recipe on the ORIGINAL text (every
+site a cast) is also IDENTICAL: the pointer read's `/s` is what the scheduler's escape needed, whichever side the store took. R1 is the first
+entry of the engine's recipe registry (R2 = a18's `extern T X[]`, R3 = f3's walked pointer); T6 runs the registry on every kept cast.

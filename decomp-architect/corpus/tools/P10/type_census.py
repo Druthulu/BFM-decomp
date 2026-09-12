@@ -55,322 +55,13 @@ TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10]
 CANON_HEADERS = ("src/shared/engine_types.h",)       # the canonical type files (T3/T5 add src/shared/main/types.h, the slots')
 
 # ----------------------------------------------------------------------------------------------------------------------
-# types and widths (o32)
+# types and widths (o32) — the layout engine lives in tools/struct_layout.py since T3 (shared with restruct.py and the writer,
+# R33: one layout per definition); the names are re-exported here so every consumer of `tc.Resolver` etc. keeps working
 # ----------------------------------------------------------------------------------------------------------------------
-SCALARS = {
-    "u8": (1, "u"), "s8": (1, "s"), "char": (1, "s"), "signed char": (1, "s"), "unsigned char": (1, "u"),
-    "u16": (2, "u"), "s16": (2, "s"), "short": (2, "s"), "unsigned short": (2, "u"), "signed short": (2, "s"),
-    "short int": (2, "s"), "unsigned short int": (2, "u"),
-    "u32": (4, "u"), "s32": (4, "s"), "int": (4, "s"), "unsigned": (4, "u"), "unsigned int": (4, "u"), "signed": (4, "s"),
-    "signed int": (4, "s"), "long": (4, "s"), "unsigned long": (4, "u"), "long int": (4, "s"), "unsigned long int": (4, "u"),
-    "uint": (4, "u"), "uint32_t": (4, "u"), "int32_t": (4, "s"), "uint16_t": (2, "u"), "int16_t": (2, "s"),
-    "uint8_t": (1, "u"), "int8_t": (1, "s"),
-    "u64": (8, "u"), "s64": (8, "s"), "long long": (8, "s"), "unsigned long long": (8, "u"),
-    "f32": (4, "f"), "float": (4, "f"), "f64": (8, "f"), "double": (8, "f"),
-    "M2C_UNK": (4, "s"), "M2C_UNK8": (1, "s"), "M2C_UNK16": (2, "s"), "M2C_UNK32": (4, "s"), "M2C_UNK64": (8, "s"),
-    "void": (0, "v"),
-}
-# PsyQ layouts the SDK headers fix (include/psyq/*.h) — sizes only; used when a cast names them and for the MATRIX control
-SDK_SIZES = {"MATRIX": 32, "SVECTOR": 8, "VECTOR": 16, "CVECTOR": 4, "DVECTOR": 4, "RECT": 8, "RECT32": 16,
-             "POLY_F3": 20, "POLY_F4": 24, "POLY_FT3": 32, "POLY_FT4": 40, "POLY_G3": 28, "POLY_G4": 36, "POLY_GT3": 40,
-             "POLY_GT4": 52, "LINE_F2": 16, "LINE_F3": 20, "LINE_F4": 24, "LINE_G2": 20, "LINE_G3": 28, "LINE_G4": 36,
-             "SPRT": 20, "SPRT_8": 16, "SPRT_16": 16, "TILE": 16, "TILE_1": 12, "TILE_8": 12, "TILE_16": 12,
-             "DR_TPAGE": 8, "DR_ENV": 64, "DRAWENV": 92, "DISPENV": 20, "TMD_PRIM": 60, "GsDOBJ2": 32, "GsCOORDINATE2": 80,
-             "GsRVIEW2": 36, "GsF_LIGHT": 16, "GsOT": 12, "GsOT_TAG": 4, "CdlLOC": 4, "CdlFILE": 20, "CdlFILTER": 4,
-             "CdlATV": 4, "CdlCB": 4}
+from struct_layout import (SCALARS, SDK_SIZES, DEF_START, FWD_DECL, ATTR_RX,        # noqa: E402,F401
+                           _norm_type, scalar_of, _match_brace, _split_top, _split_declarators, _eval_dim,
+                           parse_struct_body, Resolver, layout_hash, field_offsets, field_map, audit_definition)
 
-def _norm_type(t):
-    t = re.sub(r"\b(const|volatile|register|extern|static)\b", "", t)
-    return re.sub(r"\s+", " ", t).strip()
-
-def scalar_of(t):
-    """(width, sign) for a scalar/pointer type text; None for an aggregate or unknown name."""
-    t = _norm_type(t)
-    if t.endswith("*"):
-        return (4, "p")
-    if t in SCALARS:
-        return SCALARS[t]
-    return None
-
-# ----------------------------------------------------------------------------------------------------------------------
-# the definitions: parse `struct/union … { … }` bodies and compute o32 layouts
-# ----------------------------------------------------------------------------------------------------------------------
-DEF_START = re.compile(r"(?<![\w.])(typedef\s+)?(struct|union|enum)\s*([A-Za-z_]\w*)?\s*(__attribute__\s*\(\([^)]*\)\)\s*)?\{")
-FWD_DECL = re.compile(r"(?<![\w.])(struct|union|enum)\s+([A-Za-z_]\w*)\s*;")
-ATTR_RX = re.compile(r"__attribute__\s*\(\(((?:[^()]|\([^()]*\))*)\)\)")     # nested parens: aligned(4), packed
-
-def _match_brace(text, open_idx):
-    depth = 0
-    i = open_idx
-    n = len(text)
-    while i < n:
-        c = text[i]
-        if c == "{":
-            depth += 1
-        elif c == "}":
-            depth -= 1
-            if depth == 0:
-                return i
-        i += 1
-    return -1
-
-def _split_top(text, sep=";"):
-    """Split on `sep` at brace/paren depth 0."""
-    out, depth, cur = [], 0, []
-    for c in text:
-        if c in "{(":
-            depth += 1
-        elif c in "})":
-            depth -= 1
-        if c == sep and depth == 0:
-            out.append("".join(cur))
-            cur = []
-        else:
-            cur.append(c)
-    if "".join(cur).strip():
-        out.append("".join(cur))
-    return out
-
-def _split_declarators(decl):
-    """`type a, *b, c[4]` -> (type, [(name, stars, dims, bits)])"""
-    parts = _split_top(decl, ",")
-    if not parts:
-        return None, []
-    first = parts[0].strip()
-    # bitfield?  `s16 : 16` / `u8 x : 3`
-    mb = re.search(r":\s*(\d+)\s*$", first)
-    if mb:
-        left = first[:mb.start()].strip()
-        toks = left.split()
-        if len(toks) >= 2 and re.match(r"^[A-Za-z_]\w*$", toks[-1]) and toks[-1] not in SCALARS and toks[-2] not in ("struct", "union", "enum"):
-            return _norm_type(" ".join(toks[:-1])), [(toks[-1], 0, [], int(mb.group(1)))]
-        return _norm_type(left), [("", 0, [], int(mb.group(1)))]
-    # split the first part into type + declarator: the declarator is the trailing `*... name [dims]` or a function pointer
-    fp = re.match(r"^(.*?)\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\(.*\)\s*((?:\[[^\]]*\])*)$", first)
-    decls = []
-    if fp:
-        base_type = "void *"           # a function pointer is 4 bytes; the callee type is irrelevant to the layout
-        dims = re.findall(r"\[([^\]]*)\]", fp.group(3))
-        decls.append((fp.group(2), 1, dims, None))
-        for extra in parts[1:]:
-            e = extra.strip()
-            m2 = re.match(r"^(\**)\s*([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)$", e)
-            if m2:
-                decls.append((m2.group(2), len(m2.group(1)), re.findall(r"\[([^\]]*)\]", m2.group(3)), None))
-        return base_type, decls
-    m = re.match(r"^(.*?)\s*(\**)\s*([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*$", first, re.S)
-    if not m:
-        return _norm_type(first), []
-    base_type = _norm_type(m.group(1))
-    decls.append((m.group(3), len(m.group(2)), re.findall(r"\[([^\]]*)\]", m.group(4)), None))
-    for extra in parts[1:]:
-        e = extra.strip()
-        m2 = re.match(r"^(\**)\s*([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*(?::\s*(\d+))?$", e)
-        if m2:
-            decls.append((m2.group(2), len(m2.group(1)), re.findall(r"\[([^\]]*)\]", m2.group(3)),
-                          int(m2.group(4)) if m2.group(4) else None))
-    return base_type, decls
-
-def _eval_dim(d, consts):
-    d = d.strip()
-    if not d:
-        return None                      # flexible/unsized
-    try:
-        return int(eval(d, {"__builtins__": {}}, dict(consts)))   # hex, sums, `0x20-0x10`, sizeof-free; the tree's dims are literals
-    except Exception:
-        return None
-
-def parse_struct_body(body, consts=None):
-    """Fields of one struct/union body text (the text between the braces). Nested definitions are parsed recursively.
-    Returns [dict(name, type, stars, dims, bits, nested)] in order."""
-    fields = []
-    consts = consts or {}
-    i, n = 0, len(body)
-    while i < n:
-        # a nested struct/union body?
-        m = DEF_START.search(body, i)
-        stmt_end = body.find(";", i)
-        if m and (stmt_end == -1 or m.start() < stmt_end):
-            close = _match_brace(body, m.end() - 1)
-            if close == -1:
-                break
-            inner = body[m.end():close]
-            # the declarators after the nested body up to `;`
-            j = body.find(";", close)
-            tail = body[close + 1:j if j != -1 else n]
-            nested = dict(kind=m.group(2), tag=m.group(3), fields=parse_struct_body(inner, consts) if m.group(2) != "enum" else [],
-                          attrs=(m.group(4) or "") + " ".join(ATTR_RX.findall(tail)))
-            tail = ATTR_RX.sub("", tail).strip()
-            decls = []
-            if tail:
-                for part in _split_top(tail, ","):
-                    e = part.strip()
-                    m2 = re.match(r"^(\**)\s*([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*(?::\s*(\d+))?$", e)
-                    if m2:
-                        decls.append((m2.group(2), len(m2.group(1)), re.findall(r"\[([^\]]*)\]", m2.group(3)),
-                                      int(m2.group(4)) if m2.group(4) else None))
-            if not decls:
-                decls = [("", 0, [], None)]        # an anonymous member (a union inside a struct)
-            for (nm, stars, dims, bits) in decls:
-                fields.append(dict(name=nm, type=(m.group(2) + " " + (m.group(3) or "")).strip(), stars=stars,
-                                   dims=[_eval_dim(d, consts) for d in dims], bits=bits, nested=nested))
-            i = (j + 1) if j != -1 else n
-            continue
-        if stmt_end == -1:
-            break
-        stmt = body[i:stmt_end].strip()
-        i = stmt_end + 1
-        if not stmt:
-            continue
-        fattrs = " ".join(ATTR_RX.findall(stmt))
-        stmt = ATTR_RX.sub("", stmt)
-        base_type, decls = _split_declarators(stmt)
-        if base_type is None:
-            continue
-        for (nm, stars, dims, bits) in decls:
-            fields.append(dict(name=nm, type=base_type, stars=stars, dims=[_eval_dim(d, consts) for d in dims], bits=bits, nested=None,
-                               attrs=fattrs or None))
-    return fields
-
-class Resolver:
-    """Type name -> (size, align, leaves) under the o32 ABI. Scope: a TU's own definitions first, then the shared headers, then the SDK."""
-    def __init__(self, defs_by_name):
-        self.defs = defs_by_name          # name -> definition record (tag or typedef name)
-        self.cache = {}
-        self.stack = set()
-
-    def layout(self, type_text, stars=0, dims=(), bits=None):
-        """(size, align, leaves) of one field's type; leaves = [(off, width, sign)]; None when unknown."""
-        if stars:
-            sz, al, leaves = 4, 4, [(0, 4, "p")]
-        else:
-            t = _norm_type(type_text)
-            sc_ = scalar_of(t)
-            if sc_:
-                w, s = sc_
-                if w == 0:
-                    return None
-                sz, al, leaves = w, w, [(0, w, s)]
-            else:
-                r = self.resolve_name(t)
-                if r is None:
-                    return None
-                sz, al, leaves = r
-        for d in reversed(list(dims)):
-            if d is None:
-                d = 0
-            leaves = [(k * sz + off, w, s) for k in range(d) for (off, w, s) in leaves]
-            sz = sz * d
-        return sz, al, leaves
-
-    def resolve_name(self, name):
-        name = _norm_type(name)
-        if name in self.cache:
-            return self.cache[name]
-        if name in self.stack:
-            return None
-        d = self.defs.get(name)
-        if d is None:
-            m = re.match(r"^(struct|union|enum)\s+(\w+)$", name)
-            if m and m.group(1) == "enum":
-                return (4, 4, [(0, 4, "s")])
-            if m and m.group(2) in self.defs and self.defs[m.group(2)].get("kind") == m.group(1):
-                d = self.defs[m.group(2)]
-            elif name in SDK_SIZES:
-                sz = SDK_SIZES[name]
-                r = (sz, 4, [(0, 4, "s")] * (sz // 4) if sz % 4 == 0 else [(0, sz, "b")])
-                self.cache[name] = r
-                return r
-            else:
-                return None
-        if d.get("kind") == "enum":
-            return (4, 4, [(0, 4, "s")])
-        if d.get("alias_of"):               # `typedef T Name;` — a scalar/pointer alias or an alias of another aggregate
-            self.stack.add(name)
-            r = self.layout(d["alias_of"], d.get("alias_stars", 0), d.get("alias_dims", ()))
-            self.stack.discard(name)
-            self.cache[name] = r
-            return r
-        self.stack.add(name)
-        r = self.layout_of_fields(d["fields"], d["kind"], packed=("packed" in (d.get("attrs") or "")))
-        self.stack.discard(name)
-        self.cache[name] = r
-        return r
-
-    def layout_of_fields(self, fields, kind, packed=False):
-        off, maxal, leaves, size = 0, 1, [], 0
-        bit_off = 0
-        unknown = False
-        for f in fields:
-            if f.get("nested"):
-                nd = f["nested"]
-                r = self.layout_of_fields(nd["fields"], nd["kind"], packed=("packed" in (nd.get("attrs") or ""))) if nd["kind"] != "enum" else (4, 4, [(0, 4, "s")])
-            else:
-                r = self.layout(f["type"], f["stars"], f["dims"])
-            if r is None:
-                unknown = True
-                r = (0, 1, [])
-            fsz, fal, fleaves = r
-            if f.get("dims") and f["nested"]:
-                for d in reversed(f["dims"]):
-                    d = d or 0
-                    fleaves = [(k * fsz + o, w, s) for k in range(d) for (o, w, s) in fleaves]
-                    fsz = fsz * d
-            fa = f.get("attrs") or ""
-            ma = re.search(r"aligned\s*\(\s*(\d+)\s*\)", fa)
-            if packed:
-                fal = 1
-            if ma:
-                fal = max(fal, int(ma.group(1)))
-            if f.get("bits") is not None:
-                # bitfields: pack into the base type's storage unit; an anonymous `s16 : 16` is a pad of the base width
-                w = fsz or 4
-                if bit_off == 0:
-                    off = (off + fal - 1) // fal * fal
-                    unit_off = off
-                    self._unit = (unit_off, w)
-                unit_off, uw = self._unit
-                if bit_off + f["bits"] > uw * 8:
-                    off = unit_off + uw
-                    off = (off + fal - 1) // fal * fal
-                    unit_off = off
-                    self._unit = (unit_off, w)
-                    bit_off = 0
-                if f["name"]:
-                    leaves.append((unit_off, w, "bf"))
-                bit_off += f["bits"]
-                maxal = max(maxal, fal)
-                end = unit_off + w
-                if bit_off >= uw * 8:
-                    bit_off = 0
-                    off = end
-                else:
-                    off = unit_off
-                size = max(size, end)
-                if kind == "union":
-                    off = 0
-                continue
-            bit_off = 0
-            if kind == "union":
-                leaves.extend((0 + o, w, s) for (o, w, s) in fleaves)
-                size = max(size, fsz)
-                maxal = max(maxal, fal)
-                continue
-            off = (off + fal - 1) // fal * fal
-            leaves.extend((off + o, w, s) for (o, w, s) in fleaves)
-            off += fsz
-            size = max(size, off)
-            maxal = max(maxal, fal)
-        size = (size + maxal - 1) // maxal * maxal
-        if unknown:
-            return None
-        return size, maxal, sorted(set(leaves))
-
-def layout_hash(lay):
-    if lay is None:
-        return None
-    size, al, leaves = lay
-    return hashlib.sha1(json.dumps([size, leaves]).encode()).hexdigest()[:12]
 
 def find_definitions(masked, rel, span_of_line, line_of):
     """All struct/union/enum definitions and typedef aliases in one masked file. Records carry file, line, kind, tag, names, fields."""
@@ -1297,8 +988,9 @@ def spaces(tu_aliases):
         return "main" if not als or "main" in als else als[0]
     return space_of
 
-def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
-    t0 = time.time()
+def walk_all(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT):
+    """Every TU, shared header and include/ header walked (cached on (path, mtime, size, tool stamp)): returns dict(results{rel: walk},
+    tu_aliases, headers, inc, inc_tus, files). Shared with tools/restruct.py's rung D (the definitions index) — R33: one walk."""
     aliases, dirs = sc.fleet_and_dirs()
     tu_aliases, headers, orphans = lc.enumerate_files(aliases, dirs)
     if orphans:
@@ -1331,6 +1023,13 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     if use_cache:
         cache_p.parent.mkdir(parents=True, exist_ok=True)
         cache_p.write_text(json.dumps(new_cache))
+    return dict(results=results, tu_aliases=tu_aliases, headers=headers, inc=inc, inc_tus=inc_tus, files=files)
+
+
+def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
+    t0 = time.time()
+    w = walk_all(jobs, use_cache=use_cache, out_dir=out_dir)
+    results, tu_aliases, headers, inc, inc_tus, files = w["results"], w["tu_aliases"], w["headers"], w["inc"], w["inc_tus"], w["files"]
     t_walk = time.time() - t0
     space_of = spaces(tu_aliases)
     # ---- shared bodies: fn -> header (one function fleet-wide)

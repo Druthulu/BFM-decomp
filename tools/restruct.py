@@ -2774,6 +2774,38 @@ def _install_fixture(dirp):
     return tu.relative_to(REPO).as_posix(), hrel
 
 
+MACRO_PROBE_A = '''#include "common.h"
+extern s32 D_80078E00; extern u32 D_80078E04; extern s32 D_80078E08;
+s32 probe_a(void) { s16 a = LOH(D_80078E00); u16 b = LOHU(D_80078E04); s16 c = HIH(D_80078E08); u8 d = LOBU(D_80078E00); u16 e = HIHU(D_80078E04);
+  s32 f = LOW(D_80078E04); u32 g = LOWU(D_80078E00); return a + b + c + d + e + f + g; }
+'''
+MACRO_PROBE_B = '''#include "common.h"
+extern s32 D_80078E00; extern u32 D_80078E04; extern s32 D_80078E08;
+s32 probe_a(void) { s16 a = (*(s16 *)&(D_80078E00)); u16 b = (*(u16 *)&(D_80078E04)); s16 c = (((s16 *)&(D_80078E08))[1]); u8 d = (*(u8 *)&(D_80078E00)); u16 e = (((u16 *)&(D_80078E04))[1]);
+  s32 f = (*(s32 *)&(D_80078E04)); u32 g = (*(u32 *)&(D_80078E00)); return a + b + c + d + e + f + g; }
+'''
+
+
+def macro_probe():
+    """The reinterpret macros of include/common.h (LOBU/LOH/HIH/LOHU/HIHU/LOW/LOWU) produce cc1 assembly IDENTICAL to the bare casts they
+    spell — the proof the campaign rests on when it writes one (R110: the compiler's own output, not a belief). Returns True/False."""
+    import cdecl
+    d = RUN / "macro_probe"
+    d.mkdir(parents=True, exist_ok=True)
+    outs = []
+    for name, text in (("a", MACRO_PROBE_A), ("b", MACRO_PROBE_B)):
+        c = d / f"{name}.c"
+        c.write_text(text)
+        cpp = subprocess.run(cdecl.CPP + ["-Iinclude", str(c)], capture_output=True, text=True, cwd=REPO)
+        if cpp.returncode:
+            return False
+        r = subprocess.run([cdecl.CC1] + cdecl.CC1FLAGS + ["-o", "-"], input=cpp.stdout, capture_output=True, text=True, cwd=REPO)
+        if r.returncode:
+            return False
+        outs.append("\n".join(ln for ln in r.stdout.splitlines() if not ln.strip().startswith((".file", "#"))))
+    return bool(outs[0]) and outs[0] == outs[1] and outs[0].count("lh") >= 2
+
+
 def selftest(real=False):
     global JUDGE_STUB, DEFS_OVERRIDE, _canon, _map_cache, VISIBLE_OVERRIDE
     checks = []
@@ -2941,6 +2973,7 @@ def selftest(real=False):
             rn = judge_files({tu_r: raw_r.replace("\n}\n", "\n    __asm__(\"nop\");\n}\n", 1)}, "stneg")
             ok("[real] negative: a nop injected judges DIFFERS", rn["verdict"] == "DIFFERS", rn["verdict"])
         ok("[real] the linked-mode control (oracle --linked-control)", oracle.linked_control() == 0)
+        ok("[real] common.h's reinterpret macros == the bare casts on cc1's assembly", macro_probe())
     bad = [(n, note) for n, c, note in checks if not c]
     print(f"restruct --selftest{' --real' if real else ''}: {len(checks) - len(bad)}/{len(checks)} OK")
     for n, note in bad:

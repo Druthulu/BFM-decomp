@@ -1,7 +1,7 @@
 # The story — how Brave Fencer Musashi was decompiled in twelve weeks, by an AI agent under a written constitution
 
-> **What this is.** The narrative of the project from its first commit (2026-06-10) to the public flip (Phase 33,
-> September 2026), written for someone who wants to know what happened and why, in order. Every section names the record it
+> **What this is.** The narrative of the project from its first commit (2026-06-10) through the public flip (Phase 33,
+> September 2026) and into the work after 100 % (Gen3, Phase 35 →), written for someone who wants to know what happened and why, in order. Every section names the record it
 > was written from — a PhaseEnd (`phase-ends/`), a decision-log entry (`docs/decision-log.md`, cited by its dated heading),
 > a digest row (`docs/story-timeline.md`). The numbers are the repository's own (`docs/progress.json`, the timeline). The
 > analytical companion — what we believed, what failed, what it cost, what we would do sooner — is
@@ -170,7 +170,69 @@ revision, old hashes in historical documents replaced by inert tokens and mapped
 would have corrupted history), proven pair by pair, and force-pushed. This document, the retrospective, the wiki and the
 tooling releases are the last block; the visibility flip waits for GitHub to purge the old objects.
 
-## 10. By the numbers
+## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 2026-09-08 →)
+
+*From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `phase-ends/CURRENT_PHASE.md` (Phase 37), decision log "P35", "P36 S99/S101/S104/S105",
+"P37 S106", `docs/levers.md`, `docs/readability.md`. This chapter is advanced at the end of every session (the owner's rule, 2026-09-12); the
+numbers are the two Gen3 series'.*
+
+A hundred percent is a byte statement, not a code statement. The tree that rebuilt 218 binaries byte for byte was still the tree a machine had
+drafted at speed: every shared engine function lived as a macro instantiated per level, tens of thousands of register pins and inline-asm
+hints forced the compiler where a reading would have found the source shape, half a million memory accesses were raw pointer casts where the
+original had structures, and almost every function was still called `func_80xxxxxx`. The owner set the order of the third generation on
+2026-09-08 — dedup, then pins, then structs, then names, one phase each — with the standard read from sotn-decomp's style guide as data: a
+human maintainer's code, names only with evidence, fakes marked, nothing forced silently ([`docs/gen3-standards.md`](gen3-standards.md)).
+
+**Phase 35 (three sessions, 2026-09-08) made the code say each thing once.** The 3,516 macro bodies became 3,175 plain-C headers included at each
+site — sotn's own shape, read from its tree after a remembered precedent had said the opposite (decision log "P35"); the five identical-payload
+overlay twins were folded onto one source directory each; the same-address duplicate backlog fell from 4,755 copies to 160, each remainder
+ledgered with the compiler's diagnostic; and the invariant "one source per unique function" became a health-chain gate with a second,
+disagreeing oracle — which found 38 functions whose bytes vary per overlay through the declaration environment, a tier the first oracle could
+never have seen. One session died at 91 % context without a checkpoint and the next rebuilt its state from the transcript; the tool that did
+the sharing was caught making four kinds of mistake by its own gates.
+
+**Phase 36 (nine sessions, 2026-09-09 → 09-11) took the levers off.** A self-asserting census counted 53,234 compiler-forcing sites — 37,720
+register pins and 15,514 asm statements — in 15,679 matched bodies, and found on the way 44 whole-body assembly routines hiding inside C shells
+that the file-scope detector had never seen. The removal was a ladder: a byte oracle on the build's own recipes; a mechanical strip that took
+37 % of the sites with no understanding at all (they had never been load-bearing — a single compile at bank time would have refused them);
+one header for 9,102 per-unit GTE macro definitions; recipes; a permuter rung that could replicate a known shape 134 times but discover none;
+an object-scored guided search; and then some two hundred agent readings of gcc 2.7.2's own source, one agent per class and later one per
+translation unit, closing 56 of 56 in the last session. The biggest single class turned out not to be codegen at all: 16,759 call declarations
+that lied about their callee's arity, deleting an instruction the pin then faked, repaired free in an afternoon. The phase stopped at 4,010
+sites (−92.5 %), every survivor marked with the compiler pass that needs it and the instrument that judged it, because the last third of the
+residue was signatures, struct types, carved data and one GTE spelling — the next phase's material — and the owner amended the milestone from
+"zero" to "every survivor named for the structs phase". The doctrine it left for the next project's first day: *ban the silence, not the
+lever* ([`docs/levers.md`](levers.md) §5).
+
+**Phase 37 (open, 2026-09-11 →) is the structs phase**, and its first day changed what the charter believed. The handoff had carried Phase 17's
+verdict — types are a comprehension lever, struct-ification is byte-neutral — for two months while the tree's own compiler map said the
+opposite: in gcc 2.7.2 a struct member access carries a flag the scheduler and the common-subexpression pass read, and a cast on a pointer sum
+does not, so spelling a cast as a member can move instructions. The plan was built on that fact (every struct edit gated like a match), the
+owner chose the strictest stop rule again — grind the casts, the lying declarations and the levers to zero, each zero defined so it is
+honest — and the first two tasks measured the ground: a type census with a coverage assertion (503,016 raw dereferences in four forms, not
+the 411,850 one regex saw; 7,255 struct definitions, 6,000 of them hidden inside single files; the lever finish line 10,700 once inline GTE
+statements are counted), a struct map clustering every cast into the 18,760 types the code needs, and a byte probe that priced the campaign:
+rewriting casts as members leaves 91 % of functions untouched, a per-site fallback closes the rest keeping 27 casts in 716, and the
+definition's own signature is a free declaration in 93 % of cases with no surprises. The layout engine agrees with the real compiler on
+5,283 definitions. The engine that does this at fleet scale is the next task.
+
+The second day (2026-09-12) built that engine — and spent its first hour on an instrument that read the opposite of the truth. The
+byte oracle needed a second mode: a correct global-block edit can differ in the object while the linked binary is identical, because only
+the *spelling* of a relocation moved (`D_801F8872` versus `D_801F8870` plus two). Rather than re-implement the linker's arithmetic, the
+new mode runs the build's own linker on the candidate object against a snapshot of every other object and compares the same hash the gate
+compares — ten milliseconds, nothing of the linker's rules re-typed. Its known-true control then reported the two objects *identical*, which
+would have meant the previous day's finding was false. It was the snapshot: a control on the previous day had built the binary with the
+candidate in place, leaving a linked-identical but differently spelled object in the build directory, and the snapshot refresh had copied it
+into the oracle. A clean fleet run, and a refresh that now refuses any object it cannot reproduce from an untouched compile, put the control
+where the bytes said. The engine itself — struct spelling on every typed base of a function, the per-site fallback, the levers tried again on
+the struct-spelled text, a recipe registry seeded with the three shapes the record had already proved, the declaration solver, the definition
+folds — passed a fixture of forty-eight checks against a stub oracle and five against the real one, reproduced the exemplar of the previous
+day (one cast kept; a recipe then closed it), took six compiler hints off a function whose struct was already right, and ran its first real
+batch: the declarations of one overlay's twenty-seven files, 258 units, 242 made honest, eight marked as the original's own calling
+convention, sixteen kept with their reason written down — twice through the 218-binary gate, green both times. It also found, in passing,
+that a 78-megabyte ledger from the previous phase had been sitting in the public repository above GitHub's size warning for a day.
+
+## 11. By the numbers
 
 | | |
 |---|---|
@@ -181,6 +243,7 @@ tooling releases are the last block; the visibility flip waits for GitHub to pur
 | Instructions | 13,492,113 / 13,492,113 (100.0%); distinct code 5,820,205 / 5,820,205; main game code 45,150 / 45,150 |
 | Knowledge base | the matching cookbook (§1–§501 and sub-sections, 3.5 MB), the gcc-2.7.2 codegen map, 79 decision-log entries, 73 numbered rules (+ the constitution's 25) |
 | Tooling | ≈235 Python tools, 25 shell tools, 12 Ghidra scripts — the extractor, the byte gate, the dedup engine, the family engine, the atlas, the lanes, the rewrite package |
+| **After 100 % (Gen3, snapshot 2026-09-12)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers: 53,234 → 4,010 marked sites, +6,717 inline GTE statements counted from P37 (`docs/levers.md`) · struct debt: 503,016 raw dereferences in 69,497 functions, 7,255 struct definitions over 527 layouts, 98,648 lying declarations (`docs/readability.md`) · the chart's lower panel |
 
 *Every number above is generated or counted from the repository; the timeline behind the chart is
 [`docs/story-timeline.md`](story-timeline.md).*

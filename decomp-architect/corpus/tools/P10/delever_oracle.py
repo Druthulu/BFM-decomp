@@ -5,6 +5,8 @@
     tools/delever_oracle.py --calibrate ov_SC04_011 main  # compile every TU of the named binaries UNTOUCHED: 100 % object equality with build/,
                                                           # twin == primary, then the POSITIVE control (a nop injected -> DIFFERS); exit 1 otherwise
     tools/delever_oracle.py --status                      # is the calibration current for this HEAD / Makefile?
+    tools/delever_oracle.py --snapshot-baseline           # build/**/*.o + every binary's link inputs -> .run/P36/delever/baseline/ (after a GREEN check-all)
+    tools/delever_oracle.py --linked-control              # Phase 37 T3: the f3 known-true (reloc spelling: whole-object DIFFERS, linked IDENTICAL) + its negative
 
 THE QUESTION IT ANSWERS: "does this candidate text for TU X still produce the byte-identical object?" — and only that. The whole-binary
 gate (`make check BINARY=…`, and the clean fleet run, R22) remains the arbiter of every batch; this oracle is the inner loop that
@@ -22,6 +24,16 @@ HOW (the design settled at gate 1 + the plan agent's review, R57: the instrument
   * CALIBRATION (R39/R57): every sampled TU compiled untouched reproduces its object byte for byte; a twin's object equals its primary's;
     a deliberately altered body reports DIFFERS. `.run/P36/delever/calibration.json` records HEAD, the Makefile/config mtimes and the
     per-object seconds (the scheduler's cost model); an --apply of the de-lever tool refuses without a current calibration.
+  * THE LINKED MODE (Phase 37 T3, 2026-09-12 — the T2 finding (h)): a correct global-block edit can be whole-object DIFFERS while the
+    LINKED bytes are identical, because only the RELOCATION SPELLING changed (`D_801F8872` vs `D_801F8870`+2 resolve to one address;
+    the immediate field and the symbol differ in the .o). `judge_linked` therefore runs the build's OWN tail on the candidate object:
+    the binary's snapshot `.ld` with the one object pointed at the candidate and every other object at the snapshot's copy, the
+    Makefile's exact `ld … -T <undefined_syms> -T <undefined_funcs> [-T build/psyq/*_externals.ld] --no-check-sections`, `objcopy -O
+    binary`, the <=3-byte end-align trim, and SHA1 against config/check.<alias>.sha — nothing of HI16/LO16 pairing is re-implemented
+    (R110: the tree's own bytes through the build's own tail). ~0.3 s per judgement; run only AFTER a whole-object DIFFERS, when the
+    edit is flagged relocation-spelling or `reloc_only_diff` says the .text words agree modulo relocation operands. The snapshot
+    (`--snapshot-baseline`) therefore also carries every binary's link inputs (`_link/<alias>/`, `links.json`), so a clean fleet
+    rebuild can run beside a live linked judgement (R112).
 """
 import argparse
 import hashlib
@@ -44,6 +56,7 @@ SCRATCH = RUN / "obj"
 RECIPE_RE = re.compile(r"^set -o pipefail; (.*) -o (build/\S+\.o)$")
 SIGNAL_LINE = re.compile(r"^\s*\d+\s+(Aborted|Segmentation fault|Illegal instruction|Floating point exception|Bus error|Killed)[^\n]*", re.M)
 JOB_STATUS_LINE = re.compile(r"^(bash: line \d+: )?\s*\d+\s+(Done|Exit \d+)\b")
+CPP_CONTEXT_LINE = re.compile(r"^\s*(\d+\s*\|.*|\|\s*)$")            # modern cpp's source-context lines under a redefinition warning
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -168,7 +181,10 @@ def compile_obj(recipe, text=None, tag="x", write_path=None):
         # non-warning line (R103), then the tail
         errs = [ln for ln in r.stderr.splitlines()
                 if ln.strip() and not re.search(r"\bwarning:", ln, re.I) and not ln.startswith(("In file included", " " * 16))
-                and ": In function" not in ln and not JOB_STATUS_LINE.match(ln)]
+                and ": In function" not in ln and not JOB_STATUS_LINE.match(ln)
+                and not CPP_CONTEXT_LINE.match(ln) and ": note:" not in ln]        # cpp's `NNN | #define …` / `|` context + notes (P37 T3)
+        # gcc 2.7.2's `At top level:` is a PREFIX line; keep the message lines ahead of it in the cap
+        errs.sort(key=lambda ln: ln.rstrip().endswith("At top level:"))
         return None, dt, ("\n".join(errs[:8]) or r.stderr[-400:])
     data = out.read_bytes()
     try:
@@ -201,26 +217,222 @@ def baseline_path(obj):
 
 def snapshot_baseline():
     """Copy every object under `build/` into the snapshot. Run it after a GREEN `check-all` — the caller states that; this
-    records the HEAD it was taken at so a reader can tell what it is."""
+    records the HEAD it was taken at so a reader can tell what it is.
+
+    THE GUARD (T3, 2026-09-12): every object whose bytes CHANGE in the snapshot is re-derived — its TU compiled UNTOUCHED through
+    its own recipe must reproduce the new bytes — else the previous snapshot copy is restored and the refresh is REFUSED, naming
+    the object. Why: a `make build BINARY=x` run with a candidate in place (T2's relocation control) writes build/ with an object
+    that links identically but is not the tree's; a refresh then carried it into the snapshot, and the linked-mode control read
+    `IDENTICAL` for a spelling the tree does not have. build/ is a build product, the snapshot is an oracle input (R56/R112) —
+    the guard is what makes the second true."""
     import shutil, subprocess as sp
-    n = 0
+    n, changed = 0, []
     BASELINE.mkdir(parents=True, exist_ok=True)
     for src in sorted((REPO / "build").glob("**/*.o")):
         rel = src.relative_to(REPO / "build")
         dst = BASELINE / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         if not dst.exists() or dst.stat().st_mtime < src.stat().st_mtime or dst.stat().st_size != src.stat().st_size:
+            old = dst.read_bytes() if dst.exists() else None
+            new = src.read_bytes()
+            if old != new:
+                changed.append(("build/" + rel.as_posix(), old))
             shutil.copy2(src, dst)
         n += 1
+    refused = []
+    if changed:
+        by_obj = load_recipes()["recipes"]
+        for obj, old in changed:
+            r = by_obj.get(obj)
+            if r is None:
+                continue                      # asm/asset/psyq objects: no TU recipe to re-derive from
+            v, dt, err = judge(r, None, tag="snap")
+            if v != "IDENTICAL":
+                refused.append((obj, v, err[-120:]))
+                dst = BASELINE / obj[len("build/"):]
+                if old is not None:
+                    dst.write_bytes(old)
+                else:
+                    dst.unlink(missing_ok=True)
+    if refused:
+        print(f"delever_oracle --snapshot-baseline: REFUSED — {len(refused)} changed object(s) do not reproduce from an untouched compile "
+              f"of their TU (build/ is not the tree's; run the clean fleet gate first, R22/R56):")
+        for obj, v, err in refused:
+            print(f"   {obj}: {v} {err}")
+        return 0
     head = sp.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
-    (BASELINE / "TAKEN_AT.txt").write_text(f"{head}\n{n} objects\n")
-    print(f"delever_oracle --snapshot-baseline: {n} object(s) under {BASELINE.relative_to(REPO)} at {head[:9]}")
+    (BASELINE / "TAKEN_AT.txt").write_text(f"{head}\n{n} objects\n{len(changed)} changed since the previous snapshot\n")
+    table = snapshot_links()
+    ok = sum(1 for v in table.values() if not v.get("error") and v.get("ld_script_snap"))
+    print(f"delever_oracle --snapshot-baseline: {n} object(s) under {BASELINE.relative_to(REPO)} at {head[:9]}; link inputs for "
+          f"{ok}/{len(table)} binaries under {LINKDIR.relative_to(REPO)} (links.json)")
     return n
 
 
 def baseline_bytes(obj):
     p = baseline_path(obj)
     return p.read_bytes() if p.exists() else None
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# the linked mode (Phase 37 T3): the build's own link on the candidate object
+# ----------------------------------------------------------------------------------------------------------------------
+LINKDIR = BASELINE / "_link"
+LINKS = BASELINE / "links.json"
+_MAKE_QUERY = "__q:\n\t@echo \"$(BINARY)|$(LD)|$(OBJCOPY)|$(LD_SCRIPT)|$(UNDEF_SYMS)|$(UNDEF_FUNCS)|$(EXE)|$(CHECK_SHA)|$(OUT)\"\n"
+OBJ_IN_LD = re.compile(r'"?((?:build|asm|assets)/[^\s"()]+\.o)"?')
+
+
+def link_vars(alias):
+    """The Makefile's OWN link variables for one binary (R33: asked of make, never re-typed): dict(ld, objcopy, ld_script,
+    undef_syms, undef_funcs, exe, check_sha, out, syms_frags, exe_size). syms_frags = main's `-T build/psyq/*_externals.ld` list in
+    the Makefile's order, the files that exist (the recipe's `[ -f ]` tests); empty for every other binary (the ifeq skips them)."""
+    r = subprocess.run(["make", "-s", "-f", "Makefile", "-f", "-", f"BINARY={alias}", "__q"], cwd=REPO, input=_MAKE_QUERY,
+                       capture_output=True, text=True)
+    if r.returncode != 0 or "|" not in r.stdout:
+        raise RuntimeError(f"link_vars({alias}): make query failed rc={r.returncode}: {r.stderr.strip()[:200]}")
+    f = r.stdout.strip().splitlines()[-1].split("|")
+    d = dict(alias=f[0], ld=f[1], objcopy=f[2], ld_script=f[3], undef_syms=f[4], undef_funcs=f[5], exe=f[6], check_sha=f[7], out=f[8])
+    frags = []
+    if alias == "main":
+        mk = (REPO / "Makefile").read_text()
+        for m in re.finditer(r"^(\w+_SYMS)\s*:=\s*(build/psyq/\S+)\s*$", mk, re.M):
+            if (REPO / m.group(2)).exists():
+                frags.append(m.group(2))
+    d["syms_frags"] = frags
+    exe = REPO / d["exe"]
+    d["exe_size"] = exe.stat().st_size if exe.exists() else None
+    d["want_sha"] = (REPO / d["check_sha"]).read_text().split()[0] if (REPO / d["check_sha"]).exists() else None
+    return d
+
+
+def snapshot_links(aliases=None):
+    """Copy every binary's link inputs into the snapshot (`_link/<alias>/<basename>`; main's externals under `_link/psyq/`) and
+    write links.json. Called by snapshot_baseline; the .ld's object paths stay `build/…` — judge_linked redirects them."""
+    import shutil
+    dirs = src_dirs()
+    table = {}
+    for a in sorted(dirs):
+        if aliases and a not in aliases:
+            continue
+        try:
+            v = link_vars(a)
+        except RuntimeError as ex:
+            table[a] = dict(error=str(ex))
+            continue
+        dst = LINKDIR / a
+        dst.mkdir(parents=True, exist_ok=True)
+        for key in ("ld_script", "undef_syms", "undef_funcs"):
+            src = REPO / v[key]
+            if src.exists():
+                shutil.copy2(src, dst / pathlib.Path(v[key]).name)
+                v[key + "_snap"] = str((dst / pathlib.Path(v[key]).name).relative_to(REPO))
+        snap_frags = []
+        for fr in v["syms_frags"]:
+            (LINKDIR / "psyq").mkdir(parents=True, exist_ok=True)
+            shutil.copy2(REPO / fr, LINKDIR / "psyq" / pathlib.Path(fr).name)
+            snap_frags.append(str((LINKDIR / "psyq" / pathlib.Path(fr).name).relative_to(REPO)))
+        v["syms_frags_snap"] = snap_frags
+        table[a] = v
+    LINKS.write_text(json.dumps(dict(head=head(), stamp=config_stamp(), generated=time.strftime("%Y-%m-%d %H:%M"), links=table), indent=1) + "\n")
+    return table
+
+
+_links_cache = None
+
+
+def links():
+    """The snapshot's link table (alias -> link_vars + snapshot paths); refuses when the snapshot has none (R43)."""
+    global _links_cache
+    if _links_cache is None:
+        if not LINKS.exists():
+            raise RuntimeError("no links.json in the baseline snapshot — run `tools/delever_oracle.py --snapshot-baseline` after a GREEN check-all")
+        _links_cache = json.loads(LINKS.read_text())["links"]
+    return _links_cache
+
+
+def judge_linked(recipe, cand_bytes, tag="x"):
+    """(verdict, seconds, err) for a candidate OBJECT: the binary linked with this object in place of the recipe's, everything
+    else from the snapshot, through the Makefile's own ld/objcopy/trim, SHA1 against config/check.<alias>.sha. verdict in
+    IDENTICAL | DIFFERS | LINK-ERROR | NO-LINK-INPUTS."""
+    alias, obj = recipe["alias"], recipe["obj"]
+    lv = links().get(alias)
+    if not lv or lv.get("error") or not lv.get("ld_script_snap") or lv.get("exe_size") is None or not lv.get("want_sha"):
+        return "NO-LINK-INPUTS", 0.0, f"the snapshot carries no link inputs for {alias}"
+    flat = obj[len("build/"):].replace("/", "__")[:-2] + f".{tag}"
+    SCRATCH.mkdir(parents=True, exist_ok=True)
+    cand = SCRATCH / (flat + ".lnk.o")
+    ld_s = SCRATCH / (flat + ".ld")
+    elf = SCRATCH / (flat + ".elf")
+    binp = SCRATCH / (flat + ".bin")
+    t0 = time.time()
+    try:
+        cand.write_bytes(cand_bytes)
+        script = (REPO / lv["ld_script_snap"]).read_text()
+
+        def redirect(m):
+            path = m.group(1)
+            if path == obj:
+                return str(cand)
+            snap = BASELINE / path[len("build/"):] if path.startswith("build/") else None
+            return str(snap) if snap is not None and snap.exists() else path
+        script2 = OBJ_IN_LD.sub(redirect, script)
+        if str(cand) not in script2:
+            return "LINK-ERROR", time.time() - t0, f"{obj} is not named in {lv['ld_script_snap']}"
+        ld_s.write_text(script2)
+        cmd = [lv["ld"], "-T", str(ld_s)]
+        for key in ("undef_syms_snap", "undef_funcs_snap"):
+            if lv.get(key):
+                cmd += ["-T", lv[key]]
+        for fr in lv.get("syms_frags_snap", []):
+            cmd += ["-T", fr]
+        cmd += ["--no-check-sections", "-o", str(elf)]
+        r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
+        if r.returncode != 0:
+            errs = [ln for ln in r.stderr.splitlines() if ln.strip() and "warning" not in ln.lower()]
+            return "LINK-ERROR", time.time() - t0, "\n".join(errs[:6])[-400:]
+        r = subprocess.run([lv["objcopy"], "-O", "binary", str(elf), str(binp)], cwd=REPO, capture_output=True, text=True)
+        if r.returncode != 0:
+            return "LINK-ERROR", time.time() - t0, r.stderr[-300:]
+        data = binp.read_bytes()
+        d = len(data) - lv["exe_size"]
+        if 0 < d <= 3:
+            data = data[:lv["exe_size"]]          # the Makefile's shrink-only end-align trim
+        got = hashlib.sha1(data).hexdigest()
+        if got == lv["want_sha"]:
+            return "IDENTICAL", time.time() - t0, ""
+        return "DIFFERS", time.time() - t0, f"linked sha {got[:12]} != {lv['want_sha'][:12]} (size {len(data)} vs {lv['exe_size']})"
+    finally:
+        for p in (cand, ld_s, elf, binp):
+            try:
+                p.unlink()
+            except OSError:
+                pass
+
+
+def reloc_only_diff(cand_bytes, base_path, tag="x"):
+    """True when the two objects' .text instruction streams agree word for word under the relocation mask and differ only in
+    relocation OPERANDS (which symbol/addend a link-time field names) — the shape a global-block respelling produces, and the
+    cheap pre-check (~60 ms) before paying for a linked judgement. False on any masked-word or length difference."""
+    import masked_diff as md
+    SCRATCH.mkdir(parents=True, exist_ok=True)
+    tmp = SCRATCH / (hashlib.sha1(cand_bytes).hexdigest()[:12] + f".{tag}.ro.o")
+    tmp.write_bytes(cand_bytes)
+    try:
+        mine = md.insns_from_object(str(tmp))
+        tgt = md.insns_from_object(str(base_path))
+    finally:
+        tmp.unlink(missing_ok=True)
+    if not mine or not tgt or len(mine) != len(tgt):
+        return False
+    ops_differ = False
+    for c, t in zip(mine, tgt):
+        m = md.mask_for(t["word"], t["reloc_kind"])
+        if (c["word"] & m) != (t["word"] & m) or md._j_mismatch(c, t):
+            return False
+        if (c["reloc_op"] or "") != (t["reloc_op"] or "") or (c["word"] != t["word"]):
+            ops_differ = True
+    return ops_differ
 
 
 def judge(recipe, text, tag="x", write_path=None):
@@ -254,6 +466,51 @@ def judge_all(recipes, text, tag="x", write_path=None):
         if v != "IDENTICAL" and first is None:
             first = (v, err)
     return (first[0] if first else "IDENTICAL"), total, (first[1] if first else "")
+
+
+def linked_control():
+    """The linked mode's known-true and negative (R39/R110), on the T2 finding (h)'s own body — md_SC07_004 `func_801A4258`, whose
+    `s16` globals D_801F8870/72/74 are one array walked through a pointer in the original: spelling `D_801F8872` as `p[1]` changes
+    the relocation (`D_801F8870`+2 for `D_801F8872`+0) and NOTHING else, so the object DIFFERS and the linked binary is IDENTICAL;
+    `p[2]` for D_801F8872 (a wrong addend) must DIFFER in both. Exit 0 only when all four verdicts are as predicted."""
+    tu = "src/md_SC07_004/md_SC07_004.c"
+    recs = recipes_by_src(load_recipes()["recipes"]).get(tu, [])
+    if not recs:
+        print("linked-control: no recipe for", tu); return 1
+    r = recs[0]
+    path = REPO / tu
+    raw = path.read_text(errors="surrogateescape")
+    st = path.stat()
+    body_a = raw.index("void func_801A4258(void) {")
+    body_z = raw.index("\n}\n", body_a) + 3
+    body = raw[body_a:body_z]
+    if body.count("D_801F8872") != 3 or body.count("D_801F8874") != 3:
+        print("linked-control: the control body has changed shape (expected 3 mentions each of D_801F8872/D_801F8874)"); return 1
+    good = raw[:body_a] + body.replace("D_801F8872", "p[1]").replace("D_801F8874", "p[2]") + raw[body_z:]
+    bad = raw[:body_a] + body.replace("D_801F8872", "p[2]").replace("D_801F8874", "p[3]") + raw[body_z:]
+    base = baseline_bytes(r["obj"])
+    out, ok = [], True
+    try:
+        for name, text, want_whole, want_ro, want_link in (("known-true p[1]/p[2]", good, "DIFFERS", True, "IDENTICAL"),
+                                                          ("negative p[2]/p[3]", bad, "DIFFERS", True, "DIFFERS")):
+            data, dt, err = compile_obj(r, text, tag="lc")
+            restore = path.write_text(raw, errors="surrogateescape")
+            if data is None:
+                out.append(f"  {name}: COMPILE-ERROR {err[:120]}"); ok = False; continue
+            whole = "IDENTICAL" if data == base else "DIFFERS"
+            ro = reloc_only_diff(data, baseline_path(r["obj"]), tag="lc")
+            lv, dt2, lerr = judge_linked(r, data, tag="lc")
+            line = f"  {name}: whole-object {whole} · reloc-only {ro} · linked {lv} ({dt2:.2f} s){' ' + lerr if lerr else ''}"
+            good_row = (whole == want_whole and ro == want_ro and lv == want_link)
+            out.append(line + ("  ✓" if good_row else f"  ✗ expected {want_whole}/{want_ro}/{want_link}"))
+            ok = ok and good_row
+    finally:
+        path.write_text(raw, errors="surrogateescape")
+        os.utime(path, ns=(st.st_atime_ns, st.st_mtime_ns))
+    print("delever_oracle --linked-control (md_SC07_004 func_801A4258, the f3 shape):")
+    print("\n".join(out))
+    print("linked-control:", "OK" if ok else "FAIL")
+    return 0 if ok else 1
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -342,9 +599,12 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--snapshot-baseline", action="store_true",
                     help="copy build/**/*.o into the snapshot every score compares against (run after a GREEN check-all)")
+    ap.add_argument("--linked-control", action="store_true", help="the linked mode's known-true + negative on md_SC07_004 func_801A4258 (T3)")
     ap.add_argument("-j", "--jobs", type=int, default=16)
     a = ap.parse_args()
     RUN.mkdir(parents=True, exist_ok=True)
+    if a.linked_control:
+        sys.exit(linked_control())
     if a.snapshot_baseline:
         sys.exit(0 if snapshot_baseline() else 1)
     if a.status:

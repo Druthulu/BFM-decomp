@@ -216,6 +216,22 @@ rewriting casts as members leaves 91 % of functions untouched, a per-site fallba
 definition's own signature is a free declaration in 93 % of cases with no surprises. The layout engine agrees with the real compiler on
 5,283 definitions. The engine that does this at fleet scale is the next task.
 
+The second day (2026-09-12) built that engine — and spent its first hour on an instrument that read the opposite of the truth. The
+byte oracle needed a second mode: a correct global-block edit can differ in the object while the linked binary is identical, because only
+the *spelling* of a relocation moved (`D_801F8872` versus `D_801F8870` plus two). Rather than re-implement the linker's arithmetic, the
+new mode runs the build's own linker on the candidate object against a snapshot of every other object and compares the same hash the gate
+compares — ten milliseconds, nothing of the linker's rules re-typed. Its known-true control then reported the two objects *identical*, which
+would have meant the previous day's finding was false. It was the snapshot: a control on the previous day had built the binary with the
+candidate in place, leaving a linked-identical but differently spelled object in the build directory, and the snapshot refresh had copied it
+into the oracle. A clean fleet run, and a refresh that now refuses any object it cannot reproduce from an untouched compile, put the control
+where the bytes said. The engine itself — struct spelling on every typed base of a function, the per-site fallback, the levers tried again on
+the struct-spelled text, a recipe registry seeded with the three shapes the record had already proved, the declaration solver, the definition
+folds — passed a fixture of forty-eight checks against a stub oracle and five against the real one, reproduced the exemplar of the previous
+day (one cast kept; a recipe then closed it), took six compiler hints off a function whose struct was already right, and ran its first real
+batch: the declarations of one overlay's twenty-seven files, 258 units, 242 made honest, eight marked as the original's own calling
+convention, sixteen kept with their reason written down — twice through the 218-binary gate, green both times. It also found, in passing,
+that a 78-megabyte ledger from the previous phase had been sitting in the public repository above GitHub's size warning for a day.
+
 ## 11. By the numbers
 
 | | |
