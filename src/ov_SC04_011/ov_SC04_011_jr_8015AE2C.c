@@ -1512,7 +1512,7 @@ s32 arg0;
 
 #include "../shared/ov/func_8015B8F8.h"
 
-extern s32 func_8015AE2C();  // K&R: 1 of 1 args (P37 rung D t3d1)
+extern s32 func_8015AE2C();  // K&R: 1 of 1 args (P37 rung D t3d2)
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (271/271, pin-free, zero asm). The ONLY residual is DEF-SIDE plumbing, and it is now named exactly: the in-TU instantiation `DEFINE_func_8015BEE4()` (engine_core.h:1851-1855) expands to `extern s32 func_8015B950(s32 arg0);` INSIDE ov_SC01_077_jr_8015AE2C.c, ~14 lines BELOW this definition, so the 1-param def collides with a `(void)` prototype -> `conflicting types for func_8015B950` (.run/bank_func_8015B950.log). §73 PARAMS axis / T0. Surgical fix = §65b de-macroize that ONE instantiation (blast radius: this TU); the fleet-wide `(void)`->`()` header edit is §63 and must be R22-validated.

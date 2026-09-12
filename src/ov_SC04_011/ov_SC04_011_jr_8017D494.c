@@ -4680,7 +4680,7 @@ s32 func_80180930(u8 *a0) {
 
 
 extern u16 D_801EFD40;
-extern void func_801863D4();  // K&R: 0/1 of 1 args (P37 rung D t3d1)
+extern void func_801863D4();  // K&R: 0/1 of 1 args (P37 rung D t3d2)
 extern void func_8018637C(s32 a0, s32 a1);
 extern s32 D_801DECA4;
 
@@ -6798,7 +6798,7 @@ extern u16 D_801EFD40;
 extern s32 aFC4C[] __asm__("D_801EFC4C");
 extern u16 D_801EFD20;
 
-extern void func_801863D4();  // K&R: 0/1 of 1 args (P37 rung D t3d1)
+extern void func_801863D4();  // K&R: 0/1 of 1 args (P37 rung D t3d2)
 extern void func_801863B4(s32 a0);
 extern void func_80184ABC(s32 a0);
 /* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, s16 *). */
@@ -7096,7 +7096,7 @@ void func_801837C4(s32 a0, s32 a1) {
     extern u16 D_801EFD40;
     extern s32 aFC4C[] __asm__("D_801EFC4C");
     extern u16 D_801EFD20;
-    extern void func_801863D4();  // K&R: 0/1 of 1 args (P37 rung D t3d1)
+    extern void func_801863D4();  // K&R: 0/1 of 1 args (P37 rung D t3d2)
     extern void func_801863B4(s32 a0);
     extern void func_80184ABC(s32 a0);
     s32 v0;

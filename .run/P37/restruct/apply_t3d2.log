@@ -1,0 +1,37 @@
+09:44:43 apply t3d2 rung D: 26 files, control src/ov_SC04_011/ov_SC04_011_jr_8017D494.c IDENTICAL (0.46 s), calibration 21d2ccc14
+09:44:44   src/ov_SC04_011/ov_SC04_011_jr_80159C84.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:44   src/ov_SC04_011/ov_SC04_011_jr_801588CC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:44   src/ov_SC04_011/ov_SC04_011_jr_8015444C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:44   src/ov_SC04_011/ov_SC04_011_jr_8015A3C8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:44   src/ov_SC04_011/ov_SC04_011_jr_801789AC.c: UNCHANGED · rows 1 · compiles 1 · 0.1 s · canon 0 promoted 0 K&R 0 kept 1
+09:44:44   src/ov_SC04_011/ov_SC04_011_jr_8017A4AC.c: UNCHANGED · rows 1 · compiles 1 · 0.1 s · canon 0 promoted 0 K&R 0 kept 1
+09:44:44   src/ov_SC04_011/ov_SC04_011_jr_8013F350.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:44   src/ov_SC04_011/ov_SC04_011_jr_8013FFD8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_80154C24.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_o0c.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_80135888.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_80135A4C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_80140608.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_80135D20.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_80178D40.c: UNCHANGED · rows 1 · compiles 1 · 0.2 s · canon 0 promoted 0 K&R 0 kept 1
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c: UNCHANGED · rows 1 · compiles 1 · 0.2 s · canon 0 promoted 0 K&R 0 kept 1
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_801380E0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_80171B4C.c: UNCHANGED · rows 1 · compiles 1 · 0.2 s · canon 0 promoted 0 K&R 0 kept 1
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_8015AE2C.c: IDENTICAL · rows 1 · compiles 2 · 0.3 s · canon 0 promoted 0 K&R 1 kept 1
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_after.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 kept 0
+09:44:45   src/ov_SC04_011/ov_SC04_011_jr_801734BC.c: UNCHANGED · rows 1 · compiles 1 · 0.7 s · canon 0 promoted 0 K&R 0 kept 1
+09:44:45     unit 0: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1260: too few arguments to function `func_8013D53C' | src/ov_SC04_011/../shared/ov/func_8013EA54.h
+09:44:45     unit 1: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1124: too few arguments to function `func_8013D9B0' | src/ov_SC04_011/../shared/ov/func_8013EA54.h
+09:44:46   src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c: IDENTICAL · rows 2 · compiles 4 · 1.0 s · canon 0 promoted 0 K&R 2 kept 2
+09:44:46     unit 0: COMPILE-ERROR src/ov_SC04_011/../shared/ov/func_8016AE5C__te4eb1475.h:8: too few arguments to function `func_8016B234' | src/ov_SC04_011/../shared/ov/func
+09:44:46     unit 1: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c:2454: too few arguments to function `func_8016BF50' | src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c:24
+09:44:46   src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c: IDENTICAL · rows 2 · compiles 5 · 1.8 s · canon 0 promoted 0 K&R 2 kept 2
+09:44:47     unit 0: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c:5794: conflicting types for `func_800D2318' | src/ov_SC04_011/../shared/ov/func_80168BDC.h:3: prev
+09:44:47     unit 0: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:1708: parse error before `*' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:1864: parse error before 
+09:44:47     unit 1: COMPILE-ERROR src/ov_SC04_011/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c: A
+09:44:47     unit 1: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:6821: too few arguments to function `func_801863D4' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:71
+09:44:48   src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c: IDENTICAL · rows 2 · compiles 5 · 2.8 s · canon 0 promoted 0 K&R 2 kept 2
+09:44:48     unit 2: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:16593: parse error before `*' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: At top level: | src/ov_
+09:44:49   src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: IDENTICAL · rows 3 · compiles 5 · 4.4 s · canon 0 promoted 0 K&R 1 kept 3
+09:44:49 restruct: batch t3d2 rung D — 26 files (TUs; 26 drawable) · 16 declaration units: 0 canonical / 0 promoted / 8 K&R marked / 16 kept · compiles 27 in 5 s wall · final 26/26 identical · written 5 files

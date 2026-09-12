@@ -321,7 +321,15 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   LIVE `inflight.json` and deleted batch t3d1's snapshot (now a scratch path — the batch's files were already proven by R22, so nothing was lost).
   `.gitignore`: the argcheck cache excluded. This commit = the bank (R42): the 27 TUs, the tools, the evidence.
 
-## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑** (baseline · the type census + the struct map · the probe) — 🛑 **T3 NEXT (the tools: `restruct.py`'s full form + the linked-relocation oracle + `struct_layout.py` + the canonical type writer; Max for the design, xHigh to finish)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` (no `src/` byte changed since) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` | last batch `t3d1` (rung D, ov_SC04_011): 242 canonical / 6 K&R / 16 kept, R22 218/218 — T3 in progress (S107)
+- **S107 — T3 batch `t3d2` (the redraw of the 16 kept units, `--redraw DECL-KEPT`, after the cause reader learned cpp's context lines and
+  the all-`()` arity candidate):** `restruct: batch t3d2 rung D — 26 files … 16 declaration units: 0 canonical / 0 promoted / 8 K&R marked / 16
+  kept · compiles 27 in 5 s wall · final 26/26 identical · written 5 files` (two more K&R sites closed by the all-`()` form; the causes now read
+  `conflicting types for func_800D2318 … prev: shared/ov/func_80168BDC.h:3` — a per-function shared header carries the lying spelling, rung D's
+  `--headers` mode — and `parse error before '*'` = the prototype names a type the TU cannot see, T5's). R22 (`.run/P37/baseline/r22_t3d2.log`)
+  **`check-all: 218 passed, 0 failed of 218`** (110 s, exit 0). Fixed after the run: a K&R-marked unit (every declaration `()` + the marker) is
+  settled and no longer drawn by a redraw (t3d2 re-labelled three already-marked units — comment churn only, byte-neutral).
+
+## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑** (baseline · the type census + the struct map · the probe) — 🛑 **T3 NEXT (the tools: `restruct.py`'s full form + the linked-relocation oracle + `struct_layout.py` + the canonical type writer; Max for the design, xHigh to finish)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` (no `src/` byte changed since) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` | last batch `t3d2` (rung D redraw, ov_SC04_011): 8 K&R marked / 16 kept, R22 218/218 — T3 in progress (S107)
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
 is what S106 knew and the next session must not re-derive.** **The checkpoint procedure (every session end, Drew 2026-09-12):** bank the

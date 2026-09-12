@@ -1430,6 +1430,10 @@ def d_units(tu, text, callees=None):
         rets = {r for (_, _, _, _, r, _) in decls}
         if canon == {params_n} and rets == {ret}:
             continue
+        # a byte-proven K&R site already stands: every declaration `()` and marked `// K&R:` on its line — settled, not drawn again
+        ls_ = dl.line_starts(masked)
+        if all(p.strip() == "" and KR_MARK in text[ls_[ln - 1]:(ls_[ln] - 1 if ln < len(ls_) else len(text))] for (_, _, ln, _, _, p) in decls):
+            continue
         units.append(dict(callee=callee, decls=decls, ret=ret, ansi=params_n, promoted=promoted_params(params_n), defn_tu=cands[0][0],
                           kr_def=cands[0][3], ambiguous=None))
     return units

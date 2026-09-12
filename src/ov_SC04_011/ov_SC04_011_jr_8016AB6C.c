@@ -2009,7 +2009,7 @@ lout:
 
 
 
-extern void func_8016B234();  // K&R: ? of 1 args (P37 rung D t3d1)
+extern void func_8016B234();  // K&R: ? of 1 args (P37 rung D t3d2)
 extern void func_800D22E4(s32 a0);
 
 #include "../shared/ov/func_8016AE5C__te4eb1475.h"
@@ -2364,7 +2364,7 @@ void func_8016BBA4(void *a0) {
 
 s32 func_8016BBE0(s32 param_1) {
     extern void func_8016BF34(void *a0);
-    extern void func_8016BF50(s32);
+    extern s32 func_8016BF50();  // K&R: 0/1 of 1 args (P37 rung D t3d2)
     extern void func_8001CF00(s32);
     extern M2C_UNK D_801EE104;
     extern u8 D_801EE105;
@@ -2439,7 +2439,7 @@ void func_8016BCC0(void *arg0) {
 
 s32 func_8016BD78(s32 param_1)
 {
-    extern void func_8016BF50(void);
+    extern s32 func_8016BF50();  // K&R: 0/1 of 1 args (P37 rung D t3d2)
     extern u8 D_801EE105;
     extern u8 D_801EE106;
     extern u8 D_801EE109;
@@ -2480,7 +2480,7 @@ s32 func_8016BD78(s32 param_1)
 
 s32 func_8016BEA0(s32 param_1)
 {
-    extern void func_8016BF50(void);
+    extern s32 func_8016BF50();  // K&R: 0/1 of 1 args (P37 rung D t3d2)
 
     int iVar2;
     unsigned short uVar1;

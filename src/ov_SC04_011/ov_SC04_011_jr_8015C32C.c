@@ -335,7 +335,7 @@ extern void func_80149864(void);
 extern s16 currentLocationId;
 extern s32 func_8016F1AC(void);
 extern s32 func_80149884(void);
-extern void func_80160B00();  // K&R: ? of 1 args (P37 rung D t3d1)
+extern void func_80160B00();  // K&R: ? of 1 args (P37 rung D t3d2)
 extern void func_801498C0(void);
 extern s32 func_80149AA8(s32 *a0);
 extern s32 func_80149B54(s32 *a0);
@@ -5791,7 +5791,7 @@ void func_80169B80(void *a0) {
 
 
 
-extern void func_800D2318(void);
+extern void func_800D2318();  // K&R: 0 of 1 args (P37 rung D t3d2)
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
