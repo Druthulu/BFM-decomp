@@ -40,7 +40,9 @@ wrongly."* To that the project adds four rules of its own, because its code was 
 1. **Every name carries evidence** — a string, a cross-reference chain, the debug menu, a live-RAM datapoint, a community
    label with provenance — recorded the way addresses are. A model may propose a name; it may never assert one.
 2. **Every register pin goes**, or stays with a `// !FAKE:` line naming the residual. The count is a published metric until
-   it is zero.
+   it is zero — *Phase 36 (2026-09-09 → 2026-09-11): 53,234 register pins and asm statements → 4,010, every survivor marked with the
+   compiler pass that needs it and the instrument that judged it; the rest is the structs phase's (see [levers.md](../levers.md) and
+   cookbook §457).*
 3. **Shared engine functions live as C, not as macros** — *done at Phase 35 (2026-09-08): one plain-C header per shared body under `src/shared/`, included at each site; see [The dedup engine](The-dedup-engine.md)* — the dedup engine's macro bodies become `.c` files per system,
    byte-neutrally, proven per family.
 4. **Types come from the code, names from observation** — structure from the access patterns the compiler locked into the
@@ -54,7 +56,7 @@ wrongly."* To that the project adds four rules of its own, because its code was 
 | Raw address casts `*(T *)0x80…` | 143 | the last of a class the type-lift tools already handle |
 | Distinct `D_80xxxxxx` data symbols | 61,898 | most are fields of a handful of structures the engine indexes |
 | Distinct `func_80xxxxxx` names | 16,335 | across 4,287 C files |
-| Register-pin declarations | 43,925 | `grep -rhoE 'register [^;/]*__asm__\("\$?[a-z0-9]+"\)' src --include=*.c --include=*.h \| wc -l`; 43,857 in the `"$reg"` form, 68 in the bare form |
+| Register-pin declarations | ~~43,925~~ **2,141** (+ 1,869 asm statements; Phase 36, 2026-09-11) | `tools/lever_census.py --check`; 37,720 pins + 15,514 asm statements at the phase's own census (2026-09-09) → 4,010 sites in 1,980 functions, all `// !FAKE:`-marked with their pass; the series is `docs/lever-progress.tsv` |
 | Shared bodies living as macros | ~~5,147~~ **0** (Phase 35, 2026-09-08) | every shared body is one plain-C header under `src/shared/`, included at its sites; 3,173 registry groups; see [The dedup engine](The-dedup-engine.md) |
 | Struct definitions | 1,232 | many drafter-invented variants of one type |
 | Curated names in the symbol files | 1,083 | the names the build already knows |

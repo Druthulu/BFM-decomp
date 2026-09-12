@@ -98,6 +98,8 @@ The order, each step gated by the 218 hashes and each sized by a probe before it
 
 1. **Pins off** — mechanical, batched by function family (`tools/alloc_table.py` + `tools/cc1_dumps_tu.sh` name the
    allocation order; the P32 recipes in cookbook §501 show the reshaping); publish the count as it falls.
+   *Phase 36 (2026-09-09 → 2026-09-11): 53,234 → 4,010 sites (−92.5 %), 218/218 at every step; the rungs and their yields are in
+   `docs/levers.md`, the moves in cookbook §454–§457; the 4,010 survivors are marked with their pass and named for the structs phase.*
 2. **Macro bodies → shared C files** — one family first, measured, then the rest; the carve-split file layout regrouped by
    system where the linker script permits.
 3. **Struct unification** — cluster the 1,232 definitions by access pattern (`tools/lift_types.py` knows the collision classes),

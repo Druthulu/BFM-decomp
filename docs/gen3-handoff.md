@@ -30,7 +30,11 @@ Stated at the Phase-33 plan: *casts → structs, pins off, names.* Concretely:
    a type; every `D_80xxxxxx` that is a field of a known structure becomes `actor->field`.
 2. **Register pins off.** Every `register … __asm__("$N")` that a banked body still carries is removed and the body
    re-gated; Phase 32's finding is that the pins were symptoms — every one on the last four functions came off
-   byte-identical once the source *shape* was right (cookbook §501-E/P, R73).
+   byte-identical once the source *shape* was right (cookbook §501-E/P, R73). *Done to its measured floor at Phase 36
+   (2026-09-11): 53,234 → 4,010 sites, 37 % by mechanical strip, the rest by a guided search and one-agent-per-TU readings;
+   the survivors are marked with their pass, attributed to their instrument, and bucketed for the structs phase — 691 sites in
+   parked signature/carve changes, ~1,150 in five proven head classes, 450 GTE clobber variants, 94 missing-parameter pins,
+   1,548 drawable singletons (`docs/levers.md`, cookbook §457, the Phase-36 PhaseEnd).*
 3. **Names.** `func_80xxxxxx` / `D_80xxxxxx` → meaningful names, curated in the symbol files and mirrored into
    Ghidra (G6, R15) — never edited in generated assembly.
 
