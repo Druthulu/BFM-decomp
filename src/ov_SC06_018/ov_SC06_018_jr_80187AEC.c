@@ -4967,13 +4967,11 @@ void func_8018A688(void *arg) {
     u8 *p = (u8 *)arg;
     s32 q = *(s32 *)(p + 0x78);
     s32 cc = *(s32 *)(p + 0xCC);
-    f64 frame_pad;
     s32 dec;
-    s32 t;
     s32 i;
     s32 n;
+    s16 t;
 
-    __asm__ volatile("" : : "m"(frame_pad));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     if (q != 0) {
         dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
         if (dec < 1) {
@@ -4982,19 +4980,15 @@ void func_8018A688(void *arg) {
     }
     if (*(s16 *)(p + 0x76) != 0) {
         func_8016AA50((s32)p, dec);
-        t = *(u16 *)(p + 0x76) - dec;
-        *(u16 *)(p + 0x76) = t;
-        if ((s16)t < 0) {
-            *(u16 *)(p + 0x76) = 0;
+        t = *(s16 *)(p + 0x76) - dec;
+        *(s16 *)(p + 0x76) = t;
+        if (t < 0) {
+            *(s16 *)(p + 0x76) = 0;
         }
-        i = 0;
         *(u16 *)(p + 0x10A) = rand() & 0x3F0;
         n = (rand() & 3) + 1;
-        if (n != 0) {
-            do {
-                func_8012C658(0x304, i + 0x10, (s32)p);
-                i++;
-            } while (i < n);
+        for (i = 0; i < n; i++) {
+            func_8012C658(0x304, i + 0x10, (s32)p);
         }
     }
     *(u8 *)(p + 0xC1) = 1;
