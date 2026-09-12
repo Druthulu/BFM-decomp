@@ -1,2 +1,9 @@
 cycle: batch t4_D21 wrote no file — restruct: batch t4_D21 rung D — 300 files (TUs; 3877 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 259 s wall · final 300/300 identical · written 0 files
 log: t4_D21
+cycle: batch t4_D21 committed a6ea4252f — restruct: batch t4_D21 rung D — 300 files (TUs; 3877 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 259 s wall · final 300/300 identical · written 0 files | check-all: 218 passed, 0 failed of 218
+cycle: batch t4_D22 — restruct exited non-zero
+KeyboardInterrupt
+Command terminated by signal 2
+t4_D22 wall=133.02 s
+exit=130
+cycle exit=1

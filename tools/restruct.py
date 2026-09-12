@@ -1321,7 +1321,14 @@ def defs_visible(tu):
             pass
     files = [tu] + sorted(h for h in headers_of(tu) if h in results)
     for d_ in sorted(dirs):
-        files += [rel for rel in _files_in_dir(d_) if rel != tu]
+        for rel in _files_in_dir(d_):
+            if rel == tu:
+                continue
+            # the sibling TU AND the shared headers it includes: since P35 every shared body is a header included by ONE member TU of
+            # the binary, so a definition visible to a sibling is a definition this binary links (t4_D21: 10,495 "external" rows were
+            # func_80147514-shaped — defined in src/shared/ov/, included by the binary's *_after.c, invisible here)
+            files.append(rel)
+            files += sorted(h for h in headers_of(rel) if h in results)
     out = collections.defaultdict(list)
     seen = set()
     for rel in files:

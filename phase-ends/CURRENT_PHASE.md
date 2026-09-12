@@ -460,6 +460,24 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_D21`** (`.run/P37/restruct/run_t4_D21.log`, `batch_t4_D21.json`): `restruct: batch t4_D21 rung D — 300 files (TUs; 3877 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 259 s wall · final 300/300 identical · written 0 files` → R22 (`.run/P37/baseline/r22_t4_D21.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=87.91 s`) → census `(census skipped)`.
 
+- **S108 — T4 batch `t4_D21` = the DECL-NONE test: FAILED the test, and the failure was the INSTRUMENT (R40).** `restruct: batch t4_D21 rung D —
+  300 files (TUs; 3877 drawable) · 0 declaration units … compiles 0 in 259 s wall · final 300/300 identical · written 0 files` → R22 `check-all:
+  218 passed, 0 failed of 218` → committed `a6ea4252f` by the cycle (0 files; 11,885 `DECL-NONE` rows: 10,495 "no visible definition (external
+  to this TU's binary…)", 1,387 "already canonical", 3 K&R). Read against the tree (R14): `func_80147514` — DECL-NONE in all 300 TUs — is
+  defined in `src/shared/ov/func_80147514.h`, included by the binary's own `ov_SC05_000_after.c`. **`defs_visible` indexed the sibling TUs'
+  bodies but not the shared headers the siblings include — and since P35 every shared body IS such a header, so a binary's own shared
+  functions read as external.** The class was invisible to D1–D20 too (before the DECL-NONE settling those callees were silently not units,
+  never touched — the lying declarations of shared-header-defined functions across the fleet are still owed). Fixed at the cause: a sibling
+  TU's headers join the index (`defs_visible`); known-true: the three sample callees now resolve to their `src/shared/ov/*.h` definitions
+  with units, `skipped {}`. **My own race on the way (recorded, not repeated):** I sent `kill -INT` to the D22 judge and ran `--restore`
+  8 s later while the judge was still unwinding (it honours the SIGINT only after its in-flight units — ~2 min); the restore consumed
+  `inflight.json` and dropped 1,321 rows, the judge then wrote 6 more files and 197 rows with no tool-side restore left. Recovery: the 6
+  files (declaration rewrites only, IDENTICAL-judged, but a killed batch's unbanked candidate text) reverted to HEAD by an operator
+  `git checkout` — stated here (R102 governs tools; R42's banked work is not at issue) — and the 197 orphan rows dropped (`ledger.jsonl` 48,114
+  → 47,917; `--check-ledger` 0 violations; `git diff src` empty). **Gotcha for the checkpoint: after `kill -INT`, WAIT for the judge's exit
+  (`ps`) before `--restore`.** Because `DECL-NONE` is a DONE verdict, D21's 300 TUs are settled on the blindness: the cycle relaunched with
+  `REDRAW="DECL-NONE"` (batches 22–40) so every such pair is drawn again — the genuinely external ones re-settle at zero compiles.
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D21` on 5cbf06f84: 300 files (TUs; 3877 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
