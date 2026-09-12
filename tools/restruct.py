@@ -2033,9 +2033,10 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             elif bad not in kr_files:
                 kr_files.add(bad)
                 log(f"unalias {aname}: {bad} still differs — `()` (K&R, marked) for this file; re-judging")
-            elif bad not in untouched_files and not re.search(r"(?<![\w.])" + re.escape(aname) + r"\b", (REPO / bad).read_text(errors="surrogateescape")):
-                # a pure caller whose bytes need a prototype none of the three forms spells: its declaration is left exactly as it is (the
-                # unit lands without it; rung D records the load-bearing lie as DECL-KEPT on its own pass)
+            elif bad not in untouched_files:
+                # a pure caller whose bytes need a prototype none of the three forms spells: its text is left exactly as it is — its own
+                # `aF… __asm__("func_X")` prototype (if any) still binds to the same symbol, so the unit lands without it; rung D records
+                # the load-bearing lie as DECL-KEPT on its own pass
                 untouched_files.add(bad)
                 log(f"unalias {aname}: {bad} differs under every prototype form — left untouched (its declaration is load-bearing); re-judging without it")
             else:

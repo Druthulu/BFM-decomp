@@ -3190,8 +3190,9 @@ extern u8 D_8018F853[];
 /* §37/§124 SELF-axis: the TU declares `extern void func_8017D8AC(void);` (called with zero
    args at func_8017E51C) while the byte-true definition takes an s32. Define under a private
    C name bound to the real symbol. */
-extern void aF8017D8AC(s32 param_1) __asm__("func_8017D8AC");
-void aF8017D8AC(s32 param_1) {
+void func_8017D8AC(param_1)
+    s32 param_1;
+{
     /* single raw local block; sp+0x18 .. sp+0x5B (verified via the outgoing-arg-area rounded
      * to 8 for func_8005A600's 5th argument, matching the sibling family's identical frame). */
     u8 buf[0x44];
@@ -3643,7 +3644,7 @@ s32 arg0;
 
 
 
-extern void func_8017D8AC(void);
+extern void func_8017D8AC();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
     void func_8017E51C(s32 arg0) {
         s32 temp_v0;
         func_8017D8AC();

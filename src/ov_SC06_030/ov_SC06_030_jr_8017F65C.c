@@ -3878,9 +3878,9 @@ s32 param_1;
  * C identifier aF80181164 with __asm__("func_80181164"): the identifiers
  * never collide, the emitted symbol is unchanged, and the body stays the
  * byte-verified one (match_one MATCH, 265/265). */
-void aF80181164(void *a0) __asm__("func_80181164");
 
-void aF80181164(void *a0)
+void func_80181164(a0)
+    void *a0;
 {
     extern u8   D_801B4CA4[];
     extern u32  D_801B4CAC[];
@@ -4278,7 +4278,7 @@ void func_80181D50(void *a0) {
 }
 
 
-extern void func_80181164();  // K&R: 0 of 1 args (P37 rung D t4_D3)
+extern void func_80181164();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)  // K&R: 0 of 1 args (P37 rung D t4_D3)
     void func_80181DD4(s32 arg0) {
         s32 temp_v0;
         func_80181164();

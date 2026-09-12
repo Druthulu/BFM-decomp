@@ -8722,9 +8722,9 @@ void aF8017ED80(void *param_1) {
  * void(void) for its callers while the real definition takes s32 in $a0. */
 extern void aF8017ED80(void *param_1) __asm__("func_8018B878");
 
-void aF8018BA4C(s32 a0) __asm__("func_8018BA4C");
 
-void aF8018BA4C(s32 a0)
+void func_8018BA4C(a0)
+    s32 a0;
 {
     extern void func_8004914C(void *a0);
     extern void func_800491AC(void *a0);
@@ -9190,7 +9190,7 @@ extern s32 D_801CA8BC[];
 extern s32 func_8012C044(s32 a0);
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C098(void *a0);
-extern void func_8018BA4C(void);
+extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
 
 void func_8018C4F4(s32 a0)
 {
@@ -9330,7 +9330,7 @@ void func_8018C840(void *a0) {
 
 
 
-extern void func_8018BA4C(void);
+extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
     void func_8018C878(s32 *param) {
         *(s16 *)(*(s32 *)((char *)param + 0x20) + 0x10) = 0xE00;
         func_8018BA4C();
@@ -9339,7 +9339,7 @@ extern void func_8018BA4C(void);
 
 
 
-extern void func_8018BA4C(void);
+extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
     void func_8018C8A0(s32 arg0) {
         s32 temp_v1 = *(s32 *)(arg0 + 0x20);
         *(s16 *)(temp_v1 + 0x10) += 0x20;
@@ -9348,7 +9348,7 @@ extern void func_8018BA4C(void);
 
 
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern void func_8018BA4C(void);
+extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
 
 void func_8018C8D4(s32 a0)
 {
@@ -9366,7 +9366,7 @@ void func_8018C8D4(s32 a0)
 
 extern int func_80143C74(short*, int);
 extern s32 rand(void);
-extern void func_8018BA4C(void);
+extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
 
 void func_8018C920(s32 a0)
 {

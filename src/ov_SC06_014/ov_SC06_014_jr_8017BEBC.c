@@ -4012,8 +4012,9 @@ extern u8 D_80199E63[];
 
 /* §37/§124 SELF-axis: the TU declares `extern void func_8017ED54(void);` (L3910) while the
    byte-true definition takes an s32. Define under a private C name bound to the real symbol. */
-extern void aF8017ED54(s32 param_1) __asm__("func_8017ED54");
-void aF8017ED54(s32 param_1) {
+void func_8017ED54(param_1)
+    s32 param_1;
+{
     /* single raw local block; sp+0x18 .. sp+0x5B (verified via the outgoing-arg-area rounded
      * to 8 for func_8005A600's 5th argument, matching the sibling family's identical frame). */
     u8 buf[0x44];
@@ -4464,7 +4465,7 @@ void func_8017F940(s32 arg0) {
 }
 
 
-extern void func_8017ED54(void);
+extern void func_8017ED54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
     void func_8017F9C4(s32 *a0) {
         s32 *p = a0;
         func_8017ED54();
