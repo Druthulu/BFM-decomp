@@ -10,7 +10,7 @@
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8012B4B8();                        /* match-first, arity 1 */
+extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
@@ -151,20 +151,20 @@ void func_80145A2C(void) {
 
 
 s32 func_80145CEC() {
-    extern int func_80016714();
-    extern int func_8001C320();
-    extern int func_801552F4();
-    extern int func_80147084();
-    extern int func_80147098();
-    extern int func_801470AC();
-    extern int func_80149210();
+    extern void func_80016714(void *ptr, s32 len);
+    extern void func_8001C320(s32 a0, s32 a1);
+    extern void func_801552F4(s32 a0);
+    extern void func_80147084(s32 *a0);
+    extern void func_80147098(s32 *a0);
+    extern void func_801470AC(s32 *a0);
+    extern void func_80149210(s32 a0, s32 a1);
     extern int func_8014BE9C();
     extern int func_8016533C();
     extern int func_801627C0();
     extern int func_80162AF4();
     extern int func_80165C78();
-    extern int func_801468C8();
-    extern int func_80145EE8();
+    extern u8 * func_801468C8(s32 arg0, u8 arg1);
+    extern void func_80145EE8(s32 param_1);
     extern int func_8014C968();
     extern int func_8014C6D0();
     extern int func_80165938();
@@ -2557,7 +2557,7 @@ void func_8014F1F4(void)
 // @unstuck(P36): none — MATCH (handwritten scratchpad-stack-switch sequencer; byte-proven DEFINE_func_8014CCB4 precedent. Do NOT write an explicit nop in the jal delay slot: maspsx 2.56 reorders the following lui %hi into the slot and re-emits the nop, so an explicit one is a redundant +1 ins.)
 #include "common.h"
 
-extern s32 func_8014F4C0();
+extern s32 func_8014F4C0(s32 arg0);
 
 s32 func_8014F468(void)
 {
@@ -2641,7 +2641,7 @@ s32 func_8014F468(void)
  * restores $sp and returns the stored value. Manipulating $sp is not expressible in
  * C; full inline asm (manages its own frame). */
 
-extern int func_8014F74C();
+extern int func_8014F74C(s32 arg0);
 
 int func_8014F6F4(void) {
     __asm__ __volatile__(
@@ -2850,7 +2850,7 @@ s32 func_80150480(s32 _arg0)
 
 #include "../shared/ov/func_80150528.h"
 
-extern s32 func_801506A4();
+extern s32 func_801506A4(s32 arg0, s32 arg1);
 #include "../shared/ov/func_801505FC.h"
 
 

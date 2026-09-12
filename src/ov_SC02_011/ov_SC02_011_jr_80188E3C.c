@@ -342,7 +342,7 @@ void func_801894E0(void *a0) {
 
 
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-extern void func_80188DF4();
+extern void func_80188DF4(s32 arg0, s32 arg1, s32 arg2, void *arg3);
 extern void func_8012A828(s32 a0, void *a1);
 
 extern short D_801D3B74;
@@ -474,9 +474,9 @@ void func_8018974C(s32 a0) {
 
 #include "common.h"
 
-extern void func_8002A04C(void);
+extern s32 func_8002A04C();  // K&R: 0 of 1 args (P37 rung D t4_D31)
 extern void func_8012CBF4(s32);
-extern void func_8012C098(void);
+extern void func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D31)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80188554(s32 a0);
 
@@ -873,7 +873,7 @@ s32 func_8018A184(void) {
 #include "common.h"
 
 extern void func_8012A418(void);
-extern void func_8012A598(void);
+extern void func_8012A598();  // K&R: 0 of 1 args (P37 rung D t4_D31)
 extern void func_8012A018(s32, s32);
 
 extern s32 D_80126954;
@@ -2026,7 +2026,7 @@ void func_8018B2C4(s32 a0) {
 
 extern void func_80013F3C(s32 a0);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
-extern void func_8018B60C();
+extern void func_8018B60C(s32 param_1, s32 *param_2);
 
 void func_8018B5A8(s32 a0, void *a1, void *a2) {
     s32 m[8];
@@ -2277,7 +2277,7 @@ s32 func_8018BA0C(u32 a0v)
 }
 
 
-extern void func_8012C098(void);
+extern void func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D31)
     void func_8018BAB8(void) {
         func_8012C098();
     }
@@ -2401,7 +2401,7 @@ void func_8018BCB4(s32 *a0) {
 
 
 extern s32 func_8012BEE8(s32 a0);
-extern void func_80131E00();
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 void func_8018BCC4(s32 param_1) {
     s32 a;
@@ -2544,7 +2544,7 @@ s32 func_8018BF60(void *a0) {
 
 extern s32 (*D_801D6FBC[])(void);
 extern s32 func_8012C044(s32 a0);
-extern void func_8012C098(void);
+extern void func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D31)
 
 void func_8018BFBC(u16 *s0)
 {
@@ -3141,7 +3141,7 @@ void *a0;
 
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern void func_8012B178(s32 a0, s32 a1);
-extern s32 func_8018DAA8();
+extern s32 func_8018DAA8(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BCCC(s32 a0);
 
@@ -3319,7 +3319,7 @@ void func_8018CEB0(void *a0) {
 
 extern s32 func_8012B8E4(s32 a0, s32 a1);
 extern void func_8012B178(s32 a0, s32 a1);
-extern s32 func_8018DAA8();
+extern s32 func_8018DAA8(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BCCC(s32 a0);
 extern u8 D_800D3918[];
@@ -3372,7 +3372,7 @@ extern s32 func_8012BCCC(s32 a0);
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8018D720();
+extern void func_8018D720(void *param_1);
 
 void func_8018CFF4(void *a0)
 {
@@ -3558,7 +3558,7 @@ void func_8018D288(s32 param_1) {
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012CC64(s32 a0, s32 a1);
 extern void func_8012CBA4(s32 a0);
-extern void func_80131E00();
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_8012B23C(s32 a0);
 extern s32 func_80143B6C(s32 a0, s32 a1);
 
@@ -3856,8 +3856,8 @@ extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012B864(s32 a0);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixY(s32 a0, void *a1);
-extern s32 func_8018DDD0();
-extern s32 func_8018DE30();
+extern s32 func_8018DDD0(s32 a0);
+extern s32 func_8018DE30(void *a0, SVECTOR *a1);
 
 void func_8018D8B8(s32 a0) {
     s32 vec[3];                     /* sp+0x10 */
@@ -3949,7 +3949,7 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
 extern void func_8012CC1C(s32 arg0, s32 arg1);
-extern void func_80131E00(struct S80131E00*, s32);
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 s32 func_8018DAA8(s32 a0, s32 a1) {
     extern u8 D_801202A0[];
@@ -4013,7 +4013,7 @@ found:
 
 #include "common.h"
 
-extern void func_8002A04C(void);
+extern s32 func_8002A04C();  // K&R: 0 of 1 args (P37 rung D t4_D31)
 extern void func_8002AC00(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
 extern s32 func_801439C0(s32 a0);
@@ -4217,7 +4217,7 @@ void func_8018DF44(void *a0)
 #include "common.h"
 
 extern u16 D_801270C0;
-extern s32 func_8018E0AC();
+extern s32 func_8018E0AC();  // K&R: 0 of 1 args (P37 rung D t4_D31)
 extern void func_801292C8(u8 *a0);
 
 struct vec;

@@ -22,7 +22,7 @@ extern s32 D_800CC9EC;
 extern s32 D_800CC9F4;
 extern s32 D_800CCB18;
 extern s32 D_800A2B78;
-extern void func_800CB00C();
+extern void func_800CB00C(s32 arg0, s32 arg1, s32 arg2);
 
 /* func_800CAE88 -- two independent "blink" oscillators, then a tail call.
  *
@@ -865,7 +865,7 @@ void func_800CC16C(void *a0) {
 }
 
 
-extern void func_800CC1E8();
+extern void func_800CC1E8(s32 arg0);
 void func_800CC1B0(void *a0) {
     func_800CC1E8(a0);
     *(u8 *)((s32)a0 + 0x197) += 1;
@@ -1147,7 +1147,7 @@ extern void func_80013F3C(s32 a0);
 extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80020F34(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
-extern void func_80017714();
+extern void func_80017714(void *arg0);
 
 void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
     extern s32 D_800CCA3C;

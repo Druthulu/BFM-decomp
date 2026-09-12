@@ -22,7 +22,7 @@ extern void func_8001C044(void);
 extern void func_80015310(void);
 extern void func_8002D858(void);
 extern s32 func_800D1E18(void);
-extern void func_800CFB3C();
+extern void func_800CFB3C(u16 *arg0);
 extern void func_800118AC(void);
 extern void func_800CEF04(void);
 extern void func_8001A9F8(s32 a0);
@@ -37,7 +37,7 @@ extern void func_800D1E58(void);
 extern void func_800CFFEC(void);
 extern void func_800CF010(void);
 extern void func_800CF3E8(void);
-extern s32 func_800CFC1C();
+extern s32 func_800CFC1C(u16 *param_1);
 extern void func_800CF078(void);
 extern s32 func_800149E0(s32);
 extern s32 func_80014B10(s32);
@@ -127,14 +127,14 @@ extern u8 D_800EC9FC[];
 struct S_D2394;
 struct S_D2394B;
 extern void func_800D2394(struct S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, struct S_D2394B *a5);
-extern void func_800D2454();
+extern void func_800D2454(s32 a0, s32 a1, s32 *a2);
 extern void func_800D24D0();
-extern s32 func_800D2704();
+extern s32 func_800D2704(s32 a0, s32 a1);
 extern void func_800D298C();
-extern void func_800D2AA0();
-extern void func_800D2C0C();
+extern void func_800D2AA0(u8 *a0);
+extern void func_800D2C0C(s32 *a0, s32 a1);
 extern void func_800D2C88();
-extern void func_800D2D44();
+extern void func_800D2D44(s32 arg0);
 
 extern void func_800468FC(void);
 extern void func_8002D8D4(void);
@@ -330,12 +330,12 @@ void func_800D2394(S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, S_D2394B *a5) {
 
 #include "common.h"
 
-extern void func_800D2AA0();
-extern void func_800D2D44();
+extern void func_800D2AA0(u8 *a0);
+extern void func_800D2D44(s32 arg0);
 extern void StSetRing(s32 a0, s32 a1);
 extern void StSetStream();
 extern s32 D_800D946C;
-extern void func_800D2A24();
+extern void func_800D2A24(s32 a0);
 
 void func_800D2454(s32 a0, s32 a1, s32 *a2) {
     func_800D2AA0(0);
@@ -628,7 +628,7 @@ extern s32 D_800DB570[];
 extern s32 D_800DB52C;
 extern s32 D_800DB5B0;
 
-extern void func_800D2E64();
+extern void func_800D2E64(s32 a0, s32 a1);
 
 void *func_800D2B64(void *arg0) {
     void *base;
@@ -663,7 +663,7 @@ u16 func_800D2C00(s32 *a0) {
 }
 
 
-extern void func_800D2E64();
+extern void func_800D2E64(s32 a0, s32 a1);
 
 void func_800D2C0C(s32 *a0, s32 a1) {
     if (a1 & 1) {
@@ -680,7 +680,7 @@ void func_800D2C0C(s32 *a0, s32 a1) {
 }
 
 
-extern void func_800D2EF8();
+extern void func_800D2EF8();  // K&R: 0 of 2 args (P37 rung D t4_D31)
 void func_800D2C88(void) {
     func_800D2EF8();
 }
@@ -738,7 +738,7 @@ __asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` bloc
     ".section .text\n"
 );
 
-extern void func_800D2E64();
+extern void func_800D2E64(s32 a0, s32 a1);
 extern void func_8005C604();
 extern volatile s32 *aD800DB670 __asm__("D_800DB670");
 extern s32 *aD800DB644 __asm__("D_800DB644");
