@@ -303,6 +303,11 @@ tools-health:
 	# (cb2fb5e6d, 2026-09-09) turned CI red for a day while every local chain stayed green (R54: a guard that is not
 	# running locally is not a guard). Fix a GONE row with `tools/verbatim_check.py --update` (a one-row diff since S103).
 	$(VENV_PY) tools/verbatim_check.py --strict
+	# P36 T8: the lever census's self-test and its gate — every surviving register pin / asm statement outside the GTE header
+	# carries a `// !FAKE:` marker (0 UNMARKED) and no marker is an orphan; a marker on a kept ordinary-C fake (do-while,
+	# dead-init) is counted apart. `--strict` (0 pins, 0 asm) is the STRUCTS phase's finish line (Drew, S104), not this rung's.
+	$(VENV_PY) tools/lever_census.py --selftest
+	$(VENV_PY) tools/lever_census.py --check -j 16 --quiet
 	$(MAKE) --no-print-directory report BINARY=main
 	# AFTER report (which regenerates the digest), so this asserts the freshly-written digest agrees
 	# with the tree — and, on a tree whose digest was committed stale, says so instead of staying green.
