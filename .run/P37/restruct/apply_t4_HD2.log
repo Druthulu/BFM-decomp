@@ -1,0 +1,22 @@
+17:55:56 apply t4_HD2 rung D: 20 files, control src/shared/ov/func_8016B114.h IDENTICAL (0.16 s), calibration 436cfd8a1
+17:56:03   src/shared/ov/func_8016B114.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:03   src/shared/ov/func_8016D5EC.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8016D848.h: UNCHANGED · rows 2 · compiles 134 · 59.4 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+17:56:08   src/shared/ov/func_8016E728.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_80178B70__bfd16ca2.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_80178B70__c7303e83.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_80183754__243cfc61.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_80183814__7a31a7ed.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8018512C.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012944C.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012A828.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012A860.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012A8B0.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012A8E8.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012A988.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012CBA4.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012CBCC.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012CBF4.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012CC1C.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08   src/shared/ov/func_8012CC40.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:56:08 restruct: batch t4_HD2 rung D — 20 files (headers; 256 drawable) · 1 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 1 kept · compiles 134 in 12 s wall · final 20/20 identical · written 0 files
