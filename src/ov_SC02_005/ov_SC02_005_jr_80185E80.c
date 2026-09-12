@@ -224,45 +224,32 @@ void func_80186178(s32 *a0)
 extern MainStruct *D_801E43A4;
 
 void func_8018622C(MainStruct *a0) {
-    register MainStruct *a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
-    register SubStruct *v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    s32 a2;
-
-    a1 = a0;
-    a2 = 0x7FFFFFFF;
+    MainStruct *a1 = a0;
+    s32 a2 = 0x7FFFFFFF;
+    MainStruct *a0_reg;
+    MainStruct *v0;
+    SubStruct *v1;
+    s32 v2;
 
     v1 = a1->f_20;
-    v0 = v1->field_4;
-    v0 &= a2;
-    v1->field_4 = v0;
+    v1->field_4 &= a2;
 
-    v0 = (s32)a1->f_CC;
-    v1 = ((MainStruct *)v0)->f_20;
-    v0 = v1->field_4;
-    v0 &= a2;
-    v1->field_4 = v0;
+    v0 = (MainStruct *)a1->f_CC;
+    v1 = v0->f_20;
+    v1->field_4 &= a2;
 
-    v0 = (s32)a1->f_D0;
-    v1 = ((MainStruct *)v0)->f_20;
-    v0 = v1->field_4;
+    a0_reg = D_801E43A4;
 
-    a0 = D_801E43A4;
-    v0 &= a2;
-    v1->field_4 = v0;
+    v0 = (MainStruct *)a1->f_D0;
+    v0->f_20->field_4 &= a2;
 
-    v1 = (SubStruct *)a0->f_CC;
-    v0 = v1->field_4;
-    v0 &= a2;
-    v1->field_4 = v0;
+    v1 = (SubStruct *)a0_reg->f_CC;
+    v1->field_4 &= a2;
 
-    v0 = a1->f_E8;
-    if ((v0 & 0x2) == 0) {
-        v0 = (s32)a1->f_D4;
-        v1 = ((MainStruct *)v0)->f_20;
-        v0 = v1->field_4;
-        v0 &= a2;
-        v1->field_4 = v0;
+    v2 = a1->f_E8;
+    if ((v2 & 0x2) == 0) {
+        v0 = (MainStruct *)a1->f_D4;
+        v0->f_20->field_4 &= a2;
     }
 }
 
