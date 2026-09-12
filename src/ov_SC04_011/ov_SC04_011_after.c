@@ -123,20 +123,20 @@ void func_80145A2C(void) {
 
 
 s32 func_80145CEC() {
-    extern int func_80016714();
-    extern int func_8001C320();
+    extern void func_80016714(void *ptr, s32 len);
+    extern void func_8001C320(s32 a0, s32 a1);
     extern int func_801552F4();
-    extern int func_80147084();
-    extern int func_80147098();
-    extern int func_801470AC();
-    extern int func_80149210();
+    extern void func_80147084(s32 *a0);
+    extern void func_80147098(s32 *a0);
+    extern void func_801470AC(s32 *a0);
+    extern void func_80149210(s32 a0, s32 a1);
     extern int func_8014BE9C();
     extern int func_8016533C();
     extern int func_801627C0();
     extern int func_80162AF4();
     extern int func_80165C78();
-    extern int func_801468C8();
-    extern int func_80145EE8();
+    extern u8 * func_801468C8(s32 arg0, u8 arg1);
+    extern void func_80145EE8(s32 param_1);
     extern int func_8014C968();
     extern int func_8014C6D0();
     extern int func_80165938();
@@ -2022,7 +2022,7 @@ void func_8014F1F4(void)
 
 
 
-extern s32 func_8014F4C0();
+extern s32 func_8014F4C0(s32 arg0);
 
 s32 func_8014F468(void)
 {
@@ -2067,7 +2067,7 @@ s32 func_8014F468(void)
  * restores $sp and returns the stored value. Manipulating $sp is not expressible in
  * C; full inline asm (manages its own frame). */
 
-extern int func_8014F74C();
+extern int func_8014F74C(s32 arg0);
 
 int func_8014F6F4(void) {
     __asm__ __volatile__(

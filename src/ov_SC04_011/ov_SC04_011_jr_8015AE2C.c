@@ -243,11 +243,11 @@ extern void func_8014856C(s32 a0, s32 a1);
 extern void func_801485B8(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80148634(void *a0);
 extern u8 D_800B9A64;
-extern s32 func_80014DC0();
-extern s32 func_80014D68();
-extern s32 func_80014D94();
-extern s32 func_80014CF8();
-extern void func_800120DC();
+extern u8 func_80014DC0(u32 a0);
+extern u16 func_80014D68(u32 a0);
+extern s32 func_80014D94(s32 a0);
+extern u8 func_80014CF8(u32 a0, u32 a1);
+extern void func_800120DC(u16 *arg0, u16 *arg1);
 extern s32 func_800CF8B4();
 extern u16 func_801487F4(s32 *a0);
 extern u16 func_80148800(s32 *a0);
@@ -360,7 +360,7 @@ extern void func_80157510(s32 *a0);
 extern void func_80149BAC(s32 *a0);
 extern s32 func_80029178(s32 a0);
 extern s32 func_80149C08(s32 arg0);
-extern void func_801577C8();
+extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
 extern void func_80157D20(void);
 extern void func_80149CB4(void);
@@ -1198,7 +1198,7 @@ extern u16 func_801487F4(s32 *a0);
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_801619A4(s32 *a0);
 extern s32 func_80149C08(s32 a0);
-extern void func_801577C8();
+extern void func_801577C8(s32 arg0);
 extern s32 func_8015B6F4(s32 a0);
 extern s32 func_8015B7B4(s32 a0);
 extern void func_80154A74(s32 a0, s32 a1);
@@ -1512,7 +1512,7 @@ s32 arg0;
 
 #include "../shared/ov/func_8015B8F8.h"
 
-extern s32 func_8015AE2C();
+extern s32 func_8015AE2C();  // K&R: 1 of 1 args (P37 rung D t3d1)
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (271/271, pin-free, zero asm). The ONLY residual is DEF-SIDE plumbing, and it is now named exactly: the in-TU instantiation `DEFINE_func_8015BEE4()` (engine_core.h:1851-1855) expands to `extern s32 func_8015B950(s32 arg0);` INSIDE ov_SC01_077_jr_8015AE2C.c, ~14 lines BELOW this definition, so the 1-param def collides with a `(void)` prototype -> `conflicting types for func_8015B950` (.run/bank_func_8015B950.log). §73 PARAMS axis / T0. Surgical fix = §65b de-macroize that ONE instantiation (blast radius: this TU); the fleet-wide `(void)`->`()` header edit is §63 and must be R22-validated.

@@ -576,9 +576,10 @@ def apply_edits(raw, edits):
     return out
 
 
-def marker_edits(raw, ls, survivors, rung, label):
+def marker_edits(raw, ls, survivors, rung, label, phase="P36"):
     """End-of-line `// !FAKE:` insertions for the class A/B survivors (NEEDED / REFUSED / DEFERRED), one marker per line naming
-    every survivor on it; an existing marker on that line is replaced."""
+    every survivor on it; an existing marker on that line is replaced. `phase` names the campaign in the attribution tail
+    (`(P36 rung B tus3)`; Phase 37's struct-hypothesis rung writes `(P37 S+A <label>)` through the same function, R113)."""
     by_line = collections.defaultdict(list)
     for s, verdict, why in survivors:
         if s["kind"] in MARK_KINDS:
@@ -591,7 +592,7 @@ def marker_edits(raw, ls, survivors, rung, label):
         for s, verdict, why in items:
             what = f"{s['kind']}" + (f" {s['detail']}" if s.get("detail") and s.get("detail") != s.get("via") else "") + (f" via {s['via']}" if s.get("via") else "")
             parts.append(f"{what} — {verdict}" + (f" {why}" if why else ""))
-        text = f"{FAKE} " + "; ".join(parts) + f" (P36 {rung} {label})"
+        text = f"{FAKE} " + "; ".join(parts) + f" ({phase} {rung} {label})"
         k = line.find(FAKE)
         if k >= 0:
             j = k

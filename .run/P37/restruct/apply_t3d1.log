@@ -1,0 +1,62 @@
+09:13:57 apply t3d1 rung D: 27 files, control src/ov_SC04_011/ov_SC04_011_jr_8017D494.c IDENTICAL (0.39 s), calibration 775a3eafb
+09:27:34 apply t3d1 rung D: 27 files, control src/ov_SC04_011/ov_SC04_011_jr_8017D494.c IDENTICAL (0.51 s), calibration 775a3eafb
+09:27:37   src/ov_SC04_011/ov_SC04_011_jr_80159C84.c: IDENTICAL · rows 6 · compiles 2 · 0.5 s · canon 6 promoted 0 K&R 0 kept 0
+09:27:37   src/ov_SC04_011/ov_SC04_011_jr_801588CC.c: IDENTICAL · rows 6 · compiles 2 · 0.2 s · canon 6 promoted 0 K&R 0 kept 0
+09:27:38   src/ov_SC04_011/ov_SC04_011_jr_8015A3C8.c: IDENTICAL · rows 8 · compiles 2 · 0.2 s · canon 8 promoted 0 K&R 0 kept 0
+09:27:38     unit 5: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017A4AC.c:1710: parse error before `*'
+src/ov_SC04_011/ov_SC04_011_j
+09:27:38     unit 5: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_801789AC.c:1711: parse error before `*'
+src/ov_SC04_011/ov_SC04_011_j
+09:27:38   src/ov_SC04_011/ov_SC04_011_jr_8015444C.c: IDENTICAL · rows 6 · compiles 2 · 0.1 s · canon 6 promoted 0 K&R 0 kept 0
+09:27:38   src/ov_SC04_011/ov_SC04_011_jr_80154C24.c: IDENTICAL · rows 6 · compiles 2 · 0.3 s · canon 6 promoted 0 K&R 0 kept 0
+09:27:39     unit 5: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c:1708: parse error before `*'
+src/ov_SC04_011/ov_SC04_011_j
+09:27:39     unit 5: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_80178D40.c:1710: parse error before `*'
+src/ov_SC04_011/ov_SC04_011_j
+09:27:39     unit 6: COMPILE-ERROR src/ov_SC04_011/../shared/ov/func_8015BEC4.h:5: too few arguments to function `func_8015AE2C' [build
+09:27:39   src/ov_SC04_011/ov_SC04_011_jr_8013F350.c: IDENTICAL · rows 6 · compiles 2 · 0.1 s · canon 6 promoted 0 K&R 0 kept 0
+09:27:39     unit 5: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_80171B4C.c:1712: parse error before `*'
+src/ov_SC04_011/ov_SC04_011_j
+09:27:39   src/ov_SC04_011/ov_SC04_011_jr_8015AE2C.c: IDENTICAL · rows 7 · compiles 9 · 1.1 s · canon 6 promoted 0 K&R 1 kept 1
+09:27:39   src/ov_SC04_011/ov_SC04_011_jr_8013FFD8.c: IDENTICAL · rows 6 · compiles 2 · 0.2 s · canon 6 promoted 0 K&R 0 kept 0
+09:27:40   src/ov_SC04_011/ov_SC04_011_jr_8017A4AC.c: IDENTICAL · rows 13 · compiles 15 · 2.2 s · canon 12 promoted 0 K&R 0 kept 1
+09:27:40   src/ov_SC04_011/ov_SC04_011_jr_801789AC.c: IDENTICAL · rows 15 · compiles 17 · 1.9 s · canon 14 promoted 0 K&R 0 kept 1
+09:27:40   src/ov_SC04_011/ov_SC04_011_jr_80140608.c: IDENTICAL · rows 6 · compiles 2 · 0.4 s · canon 6 promoted 0 K&R 0 kept 0
+09:27:40     unit 5: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_801734BC.c:1713: parse error before `*'
+src/ov_SC04_011/ov_SC04_011_j
+09:27:40   src/ov_SC04_011/ov_SC04_011_o0c.c: IDENTICAL · rows 5 · compiles 2 · 0.2 s · canon 5 promoted 0 K&R 0 kept 0
+09:27:40     unit 6: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1260: too few arguments to function `func_8013D53C'
+src/ov
+09:27:40   src/ov_SC04_011/ov_SC04_011_jr_80135D20.c: IDENTICAL · rows 4 · compiles 2 · 0.3 s · canon 4 promoted 0 K&R 0 kept 0
+09:27:40   src/ov_SC04_011/ov_SC04_011_jr_80178D40.c: IDENTICAL · rows 13 · compiles 15 · 2.1 s · canon 12 promoted 0 K&R 0 kept 1
+09:27:41   src/ov_SC04_011/ov_SC04_011_jr_80135888.c: IDENTICAL · rows 4 · compiles 2 · 0.2 s · canon 4 promoted 0 K&R 0 kept 0
+09:27:41     unit 7: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1124: too few arguments to function `func_8013D9B0'
+src/ov
+09:27:41   src/ov_SC04_011/ov_SC04_011_jr_80135A4C.c: IDENTICAL · rows 4 · compiles 2 · 0.2 s · canon 4 promoted 0 K&R 0 kept 0
+09:27:41   src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 15 · 2.3 s · canon 12 promoted 0 K&R 0 kept 1
+09:27:41   src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c: IDENTICAL · rows 9 · compiles 11 · 1.9 s · canon 7 promoted 0 K&R 2 kept 2
+09:27:41   src/ov_SC04_011/ov_SC04_011_jr_80171B4C.c: IDENTICAL · rows 13 · compiles 15 · 2.4 s · canon 12 promoted 0 K&R 0 kept 1
+09:27:41   src/ov_SC04_011/ov_SC04_011_jr_801380E0.c: IDENTICAL · rows 4 · compiles 2 · 0.4 s · canon 4 promoted 0 K&R 0 kept 0
+09:27:41   src/ov_SC04_011/ov_SC04_011_jr_8012ACE0.c: IDENTICAL · rows 6 · compiles 2 · 0.7 s · canon 6 promoted 0 K&R 0 kept 0
+09:27:41   src/ov_SC04_011/ov_SC04_011_after.c: IDENTICAL · rows 10 · compiles 2 · 1.0 s · canon 10 promoted 0 K&R 0 kept 0
+09:27:41   src/ov_SC04_011/ov_SC04_011.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 kept 0
+09:27:42   src/ov_SC04_011/ov_SC04_011_jr_801734BC.c: IDENTICAL · rows 11 · compiles 13 · 3.1 s · canon 10 promoted 0 K&R 0 kept 1
+09:27:42     unit 11: COMPILE-ERROR src/ov_SC04_011/../shared/ov/func_8016AE5C__te4eb1475.h:8: too few arguments to function `func_8016B
+09:27:42     unit 5: COMPILE-ERROR  1546 | #define NULL 0
+      | 
+include/common.h:41: note: this is the location of the previous defi
+09:27:43     unit 12: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c:2454: too few arguments to function `func_8016BF50'
+src/ov
+09:27:43     unit 6: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:1708: parse error before `*'
+src/ov_SC04_011/ov_SC04_011_j
+09:27:43   src/ov_SC04_011/ov_SC04_011_jr_8016AB6C.c: IDENTICAL · rows 13 · compiles 15 · 4.5 s · canon 11 promoted 0 K&R 1 kept 2
+09:27:46     unit 13: COMPILE-ERROR  1546 | #define NULL 0
+      | 
+include/common.h:41: note: this is the location of the previous defi
+09:27:47   src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c: IDENTICAL · rows 15 · compiles 17 · 8.0 s · canon 13 promoted 0 K&R 1 kept 2
+09:27:56     unit 32: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: At top level:
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: 
+09:28:03     unit 46: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: At top level:
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: 
+09:28:05   src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: IDENTICAL · rows 47 · compiles 49 · 24.8 s · canon 44 promoted 0 K&R 1 kept 3
+09:28:05 restruct: batch t3d1 rung D — 27 files (TUs; 27 drawable) · 258 declaration units: 242 canonical / 0 promoted / 6 K&R marked / 16 kept · compiles 223 in 31 s wall · final 27/27 identical · written 27 files

@@ -559,6 +559,8 @@ unsloth_compiled_cache/
 /.run/P37/restruct/*
 !/.run/P37/restruct/*.log
 !/.run/P37/restruct/*.json
+# the argcheck rows cached on the src stamp — regenerable (a trailing comment on a pattern line is PART of the pattern: own line)
+/.run/P37/restruct/argcheck_cache.json
 /.run/P37/restruct/inflight.json
 /.run/P37/restruct/includers_cache.json
 !/.run/P37/restruct/*.jsonl

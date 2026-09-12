@@ -279,7 +279,49 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   probe tables above · the census re-run `type_census: 7255 definitions (527 layouts, 206 duplicate classes, 40 variant camps) · 503016
   cast sites … coverage OK … controls 4/4`; `readability_progress --snapshot` (a T2 row) + `progress.py --check` fresh.
 
-## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑** (baseline · the type census + the struct map · the probe) — 🛑 **T3 NEXT (the tools: `restruct.py`'s full form + the linked-relocation oracle + `struct_layout.py` + the canonical type writer; Max for the design, xHigh to finish)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` (no `src/` byte changed since) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15`
+- **S107 2026-09-12 — T3 in progress (Max design, the first bank).** Design stated (X1) and built: **`tools/struct_layout.py`** (the o32 layout
+  engine factored out of `type_census.py` — `Resolver`, `parse_struct_body`, `layout_hash`, `field_offsets`; new: `field_map`, `leaf_at`, the WRITER
+  `render_struct`/`entries_from_layout` in the final style — `/* 0xNN */` comments, `unk<HEX>` for accessed-unknown, `u8 pad<HEX>[n]` for
+  never-touched gaps, `// size = 0x..` — and the INVARIANT `audit_definition`: every `unk/pad<HEX>` at offset HEX, every comment = the computed
+  offset, the trailer = sizeof; selftest 9/9; `type_census.py` imports it — its selftest 21/21 unchanged; `walk_all()` factored out of
+  `run_census` for the engine). **`tools/delever_oracle.py`** gained the LINKED MODE: `link_vars` (the Makefile's own link variables per binary,
+  asked of make), `snapshot_links` (every binary's `.ld` + `undefined_*_auto.txt` + main's 11 `build/psyq/*_externals.ld` into the snapshot's
+  `_link/`, `links.json`), **`judge_linked`** (the candidate object linked by the build's own `ld/objcopy/trim` against the snapshot's other objects,
+  SHA1 vs `config/check.<alias>.sha` — ~10 ms), `reloc_only_diff` (the cheap pre-check: `.text` words equal under the mask, only relocation operands
+  differ), `--linked-control` (the f3 body `func_801A4258`: **`p[1]/p[2]` whole-object DIFFERS · reloc-only True · linked IDENTICAL ✓; the negative
+  `p[2]/p[3]` linked DIFFERS ✓**) — and a GUARD on `--snapshot-baseline`: a changed object must reproduce from an untouched compile or the refresh is
+  REFUSED. **The guard was needed the same hour:** the first control read `whole-object IDENTICAL` for the `p[1]` spelling because
+  `build/src/md_SC07_004/md_SC07_004.o` was NOT the tree's object — T2's relocation control had run `make build BINARY=md_SC07_004` with the
+  candidate in place (linked-identical, differently spelled relocs) and my refresh copied it into the snapshot (R56/R112). Fixed by the clean fleet
+  run (`.run/P37/baseline/r22_t3a.log`: `check-all: 218 passed, 0 failed of 218`, exit 0), a re-snapshot (`1 changed since the previous snapshot`) and
+  `--calibrate main md_SC07_004 ov_SC02_005 ov_SC04_011` → `147/147 … positive control DIFFERS … OK`. **`tools/restruct.py`** (2,900 lines; the T2
+  functions kept verbatim): the judge on a multi-file job (`judge_files`: whole-object, then linked when reloc-flagged or reloc-only), the ledger
+  `.run/P37/restruct/ledger.jsonl` keyed (rung, tu, unit, hash) with `--restore` from `inflight.json`, the shared ladder (all units at once, else
+  cumulative greedy — delever's rung-B shape), **rung S** on every typed base with the declared-type-aware spelling (`a1->unk4` / `D_x.unk4` / the cast
+  form), **S2** (greedy kept casts), **S+A** (delever's ladder on the struct-spelled text, `(P37 S+A …)` markers via `delever.marker_edits(phase=)`, stale
+  `_m` markers scrubbed), **X** (`pass_hint`: SCHED-ALIAS / CSE-KILL / WIDTH / ADDRESS-FOLD / ALIGNMENT / REGALLOC / OTHER), **R** (the registry: R1 the
+  pointer global as a struct member (§458), R2 `extern T X[]` (a18), R3 the walked pointer (f3, reloc-flagged)), **D** (every declaration of a callee →
+  the definition's ANSI signature > the width-promoted form > all-`()` + `// K&R: n of m args (P37 rung D <label>)`; the definitions index keyed by the
+  TU's visible files — own TU, its binary's dir, its headers, then main/resident — REFUSING when two definitions disagree; `--callee/--signature` for a
+  definition-side change judged on every declaring TU), **L** (folds with member renames by the offset map, REFUSED on an ambiguous member name),
+  `--write-types` (the writer's preview from the struct map), `--audit-types`, `--check-ledger`, `--try-file` (a real-oracle dry run, nothing written),
+  `--redraw`. **Selftest 48/48 (a stub oracle; every form, the no-op, S2's two paths, D's three verdicts, L, the three recipes, the ledger, the
+  inflight parser, negative controls) · `--real` 51/51** (calibration current; the tree's own text IDENTICAL; a nop DIFFERS; the linked control).
+  **Known-true on the bytes:** `--try … func_801814AC --base global:D_801C7E30 --recipes` → `DIFFERS · S2 IDENTICAL kept 1 (+0x34, 1 compile) ·
+  R1-ptr-global-member IDENTICAL (adopt)` — §458's body closes mechanically; `--try-file … func_8017E830` → **S IDENTICAL (2 members) · S+A LEVER-FREE:
+  6 `gte_rtv0tr_m` levers off, markers scrubbed, re-judged IDENTICAL, nothing written** (the T2 row says levers-off-alone was IDENTICAL too — a P36
+  `_m` leftover, not the struct hypothesis; the path is proven either way). **The end-to-end batch — rung D on ov_SC04_011 (`--apply --rung D
+  --batch 27 --only ov_SC04_011 --label t3d1 -j 12`):** `restruct: batch t3d1 rung D — 27 files (TUs; 27 drawable) · 258 declaration units: 242
+  canonical / 0 promoted / 6 K&R marked / 16 kept · compiles 223 in 31 s wall · final 27/27 identical · written 27 files` → R22
+  (`.run/P37/baseline/r22_t3d1.log`) **`check-all: 218 passed, 0 failed of 218`** (108 s, exit 0). The kept causes, read: `func_800D20C0` ×7 = the
+  prototype names `Pos800D20C0`, a type the overlay TU cannot see (T5's canonical file closes it); `too few arguments` = the K&R sites (marked);
+  `func_8016BF50` = a mix of `()` and truncated ANSI declarations (the all-`()` candidate added after this run). Three instrument findings on the
+  way, each fixed at its cause: the fleet walk (a process pool) forked from inside the worker threads and deadlocked the first run at 0 % CPU
+  (now computed before any thread exists); 1,889 K&R definitions re-masked per TU (now one mask per file); the selftest's inflight probe used the
+  LIVE `inflight.json` and deleted batch t3d1's snapshot (now a scratch path — the batch's files were already proven by R22, so nothing was lost).
+  `.gitignore`: the argcheck cache excluded. This commit = the bank (R42): the 27 TUs, the tools, the evidence.
+
+## 🛑 SESSION CHECKPOINT — S106 (2026-09-11/12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑** (baseline · the type census + the struct map · the probe) — 🛑 **T3 NEXT (the tools: `restruct.py`'s full form + the linked-relocation oracle + `struct_layout.py` + the canonical type writer; Max for the design, xHigh to finish)** | R22 `check-all: 218 passed, 0 failed of 218` at `db212f167` (no `src/` byte changed since) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` | last batch `t3d1` (rung D, ov_SC04_011): 242 canonical / 6 K&R / 16 kept, R22 218/218 — T3 in progress (S107)
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
 is what S106 knew and the next session must not re-derive.** **The checkpoint procedure (every session end, Drew 2026-09-12):** bank the
