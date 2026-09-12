@@ -2083,7 +2083,17 @@ accumulate here as the phase produces them.**
   6 classes: func_80180A54, func_80186CE0, func_80186C0C, func_801810A0, func_8017F498, func_80187D18; the TU's five landed packs in the
   brief). Calibration at `1feaff539`: `177/177 … OK`.
 
-## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,046 sites** this session (−106); 8 TU batches f1–f8, **42 of 42 drawn classes at 0** (32 plain C, 2 do-while-only, 8 minimum-lever incl. 3 parked signature changes), ALL banked — **f9 (ov_SC02_027, 6 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `36be9acef` | `lever_census --check` exit 0 (4,046 marked, 0 UNMARKED, 0 orphans)
+- **S105 (cont.) — while f9 runs: the comment-boundary strip fixed, six UNSTRIPPABLE classes strip, two bank free; R22 218/218;
+  4,046 → 4,044.** The six `<comment>` refusals were one shape: a lever line whose trailing `/* …` comment closes on the NEXT line, with
+  rung B's `// !FAKE:` marker appended INSIDE that open comment — the whole-line delete left a dangling `*/`. `whole_line_of` now refuses
+  such a line (the statement alone goes) and `tail_marker_edits` drops the marker inside the comment; all six strip with 0 orphan markers
+  (`5c8030119`; selftests OK; SETUP). Regen of EVERY family over the six: `6 of 6 classes judged in 553 s — MATCH 2` → `--bank: 2 of 2`
+  (`func_80185840` R15 sink, `func_8018009C` R9 swap; `3d6111828` — its first message typed the wrong families and was amended before
+  anything else touched the tree, R66). R22 (`.run/P36/s105/r22_h.log`) **`check-all: 218 passed, 0 failed of 218`** (82 s) → baseline at
+  `3d6111828` → `lever_census --check: 4,044 pin/asm sites, 4,044 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,046 → **4,044**).
+  The other four (`func_8018F734`, `func_80185434`, `func_80181A30`, `func_80184BFC`) are now ordinary drawable classes.
+
+## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,044 sites** this session (−108); 8 TU batches f1–f8, **42 of 42 drawn classes at 0** (32 plain C, 2 do-while-only, 8 minimum-lever incl. 3 parked signature changes), ALL banked — **f9 (ov_SC02_027, 6 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `3d6111828` | `lever_census --check` exit 0 (4,044 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S105 ran at `/effort high` on Opus 5 1M;
@@ -2122,8 +2132,8 @@ git log --oneline -1 && git status --short | grep -v '^??' | wc -l
    (a generator with a known-true run on the AGENT'S START TEXT — and run the EXISTING generators on it too when the move is one they
    claim: three R22 defects were found that way) → regen of the new family (`--exclude` every fn an agent holds) → `--bank` → commit →
    R22 (≈85 s) → `--snapshot-baseline` → census (EXIT CODE) → `lever_progress --snapshot` → log entry + METHOD step → commit.
-3. The 21 UNSTRIPPABLE classes (`.run/P36/s105/unstrippable.json`): six comment-boundary strips are a `lever_free_body` defect to fix
-   (strip the lever line but keep the comment); the rest are one-off instructions / macro-carried / multi-output launders — draw them
+3. The UNSTRIPPABLE classes (`.run/P36/s105/unstrippable.json`): the six comment-boundary ones are FIXED (two banked free, four now
+   drawable); the remaining 15 are one-off instructions / macro-carried / multi-output launders — draw them
    with the note "strip by hand from body_tree.c" (the `addu %0,$zero,$zero` form is in the table now).
 4. Regen ideas from the agents (not built): a refusal-reason histogram in `delever_regen`; a "local vs global" column in
    `alloc_table.py`; `--try` reporting a FRAME-size difference; a goto-chain → structured-C rewriter (still the biggest manual class).
