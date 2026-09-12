@@ -8456,7 +8456,7 @@ void func_80185648(u32 a0)
     extern u8 D_80194724[];
     extern u8 D_80194723[];
     extern void func_80049CAC(s32, s32);
-    extern void func_80184BAC(void *, void *);
+    extern void func_80184BAC(void *a0, void *a1);
     extern void func_801858DC(void *);
 
     s32 pad[8];   /* dead 0x20 slot — reproduces the target's frame gap */

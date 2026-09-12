@@ -2924,7 +2924,7 @@ extern void func_8018C5CC(void *a0);
 extern void (*D_801CA908[])(void);
 extern void func_8018C77C(void *a0);
 extern void func_8018C840(void *a0);
-extern void func_8018BA4C(void);
+extern void func_8018BA4C(s32 a0);
 extern void func_8018C878(s32 *param);
 extern void func_8018C8A0(s32 arg0);
 extern void func_8018CA0C(s32 *a0);

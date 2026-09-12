@@ -2988,7 +2988,7 @@ extern void func_801831D8(s32 *a0);
 extern void func_801836C0(s32 *a0);
 extern void func_8018370C(void * arg0);
 extern void func_8018375C(void *a0);
-extern s32 func_80184BAC(s32 a0, s32 a1);
+extern s32 func_80184BAC(s32 arg0, s32 arg1);
 extern short D_80192030;
 extern void func_80183838(s32 *a0);
 extern void func_80183890(void * arg0);
@@ -3287,7 +3287,7 @@ extern void func_80183E20(void *arg0);
 #include "../shared/ov/func_80184460__8a34c855.h"
 
 
-extern s32 func_80184BAC(s32 a0, s32 a1);
+extern s32 func_80184BAC(s32 arg0, s32 arg1);
 extern short D_8019224C;
 extern void func_80184CB8(s32*, s32);
 
@@ -3339,7 +3339,7 @@ void *arg0;
 
 
 extern s32 func_801847BC(void *a0, void *a1);
-extern s32 func_80184BAC(s32 a0, s32 a1);
+extern s32 func_80184BAC(s32 arg0, s32 arg1);
 extern void func_80184CB8(s32 *a0, s32 a1);
 extern s32 func_801788B8(s32 a0, s32 a1);
 extern s32 func_8018465C(a0);
