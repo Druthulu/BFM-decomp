@@ -4991,22 +4991,14 @@ extern s32 D_80196B68;
 extern s32 D_80196B58;
 extern s32 D_80196A60;
 
-void func_8018CA74(s32 param_1)
+void func_8018CA74(s32 d)
 {
-    register s32 d __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 obj __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
-    /* $a1 pin on the shared `1`: without it the const-1 pseudo and the 0xC4
-     * pseudo both land in $v0 (disjoint ranges after sched1), which pins the
-     * 0xC4 load below the two sb's in sched2. See notes in the wave report. */
-    register u8 one __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+    s32 obj;
     s32 ret;
-    s32 c4v;
-    u16 aev;
-    u16 f70v;
 
     ret = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(d + 0x20) = ret;
     obj = ret;
+    *(s32 *)(d + 0x20) = ret;
     if (ret == 0) {
         func_8012CAE4((void *)d);
         return;
@@ -5016,24 +5008,18 @@ void func_8018CA74(s32 param_1)
     *(s16 *)(obj + 0x1a) = 0x2800;
     *(s16 *)(obj + 0x18) = 0x2800;
     *(s32 *)(d + 0xbc) = (s32)&D_80196B68;
+    *(u8 *)(d + 0xc0) = 1;
     *(s32 *)(d + 0x58) = (s32)&D_80196B58 | 0x20000000;
-    c4v = *(s32 *)(d + 0xc4);
-    one = 1;
-    *(u8 *)(d + 0xc0) = one;
-    *(u8 *)(d + 0x75) = one;
+    *(u8 *)(d + 0x75) = 1;
     *(s32 *)(d + 0xb4) = 0;
     *(u8 *)(d + 0xc1) = 0;
-    *(s32 *)(d + 0xc4) = c4v | 2;
+    *(s32 *)(d + 0xc4) |= 2;
     *(s32 *)(*(s32 *)(d + 0x20) + 4) |= 0x50000000;
-    aev = *(u16 *)(d + 0xae);
     *(s16 *)(d + 0x5c) = 0;
-    aev |= 0xfffd;
-    *(s16 *)(d + 0xae) = (s16)aev;
+    *(u16 *)(d + 0xae) |= 0xfffd;
     func_8012A828(d, &D_80196A60);
-    f70v = *(u16 *)(d + 0x70);
     *(s16 *)(d + 0x98) = 1;
-    f70v &= 7;
-    *(s32 *)(d + 0x94) = f70v;
+    *(s32 *)(d + 0x94) = *(u16 *)(d + 0x70) & 7;
     func_8012AD50((void *)d);
 }
 
