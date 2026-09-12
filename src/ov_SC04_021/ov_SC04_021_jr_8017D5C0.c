@@ -257,11 +257,11 @@ extern void func_8014856C(s32 a0, s32 a1);
 extern void func_801485B8(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80148634(void *a0);
 extern u8 D_800B9A64;
-extern s32 func_80014DC0();
-extern s32 func_80014D68();
-extern s32 func_80014D94();
-extern s32 func_80014CF8();
-extern void func_800120DC();
+extern u8 func_80014DC0(u32 a0);
+extern u16 func_80014D68(u32 a0);
+extern s32 func_80014D94(s32 a0);
+extern u8 func_80014CF8(u32 a0, u32 a1);
+extern void func_800120DC(u16 *arg0, u16 *arg1);
 extern s32 func_800CF8B4();
 extern u16 func_801487F4(s32 *a0);
 extern u16 func_80148800(s32 *a0);
@@ -743,7 +743,7 @@ extern void func_80151878(void);
 extern void func_80153B58(s32 *a0);
 extern s32 func_80151880(s32 a0);
 extern s32 func_801518D8(s32 a0);
-extern s32 func_80151944(void);
+extern void func_80151944(void *a0);
 extern s32 func_80151924(void);
 extern void func_8014E934(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
@@ -1410,7 +1410,7 @@ extern void func_80160D10(void *arg0);
 extern void func_80160DEC(u8 *a0);
 extern void func_80160F00();
 extern void func_80160E3C(s32 *a0);
-extern void func_80160EA4();
+extern void func_80160EA4(void *a0);
 extern void func_80160E70(s32 *a0);
 extern void (*D_80181D20[])(void);
 extern void func_80160EA4(void *a0);
@@ -1743,7 +1743,7 @@ extern void func_80168A88(void);
 extern void (*D_8018227C[])(void);
 extern void func_80168AA8(void *a0);
 extern void func_80168AE4(s32 a0);
-extern void func_800D2318(void);
+extern void func_800D2318(s32 *p);
 extern void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void (*D_80182284[])(void);
 extern void func_80168D58(void *a0);
@@ -2591,7 +2591,7 @@ extern s32 func_8017A3B0(void);
 extern short D_8018F94C;
 extern short D_8018F948;
 extern int func_800D0CA0(int);
-extern int func_8001AAA0(void);
+extern void func_8001AAA0(s32 arg0);
 extern int func_800D0CE0(void);
 extern int func_8017A3D8(void);
 extern void func_80172310(u8*);
@@ -3022,12 +3022,12 @@ extern void (*D_80182F74[])(void);
 #include "../shared/ov/func_8017EF10__9bd78543.h"
 
 
-extern void func_8017EFA0();
+extern void func_8017EFA0();  // K&R: ? of 1 args (P37 rung D t4_D2)
 #include "../shared/ov/func_8017EF4C__34215dc7.h"
 
 
 
-extern void func_8017EFA0();
+extern void func_8017EFA0();  // K&R: ? of 1 args (P37 rung D t4_D2)
 extern s16 D_80126942;
 extern s16 D_80126944;
 

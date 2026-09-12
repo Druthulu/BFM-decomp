@@ -5714,12 +5714,12 @@ void func_80181F0C(s32 a0) {
     extern u8 D_80194C64[];
     extern u8 D_80194C8C[];
     extern s32 aFC4C[] __asm__("D_801EFC4C");
-    extern s32 aB58[] __asm__("D_80126B58");
+    extern s32 D_80126B58[];
 
     /* Hoisted base pointer -- this is what puts the lui/addiu %hi/%lo(D_80126B58) pair in a
        callee-saved reg at function ENTRY, above the switch (the TU's own idiom: func_80185A30
        L8144 `p58 = (s16 *)aB58;`, func_80184978 L7428 `outp = D_80126B58;`). */
-    s16 *p58 = (s16 *)aB58;
+    s16 *p58 = (s16 *)D_80126B58;
     u16 t;
 
     switch (*(u16 *)(a0 + 0x34)) {
@@ -7379,7 +7379,7 @@ void func_80183DF8(void) {
 void aF80183E20(void *a0) __asm__("func_80183E20");
 void aF80183E20(void *a0) {
     extern u16 D_801EFD40;
-    extern u16 aEFD24 __asm__("D_801EFD24");
+    extern u16 D_801EFD24;
     u16 flags;
     u16 cnt;
     s32 v0;
@@ -7395,10 +7395,10 @@ void aF80183E20(void *a0) {
             *(u16 *)((u8 *)a0 + 0x76) = 0;
         }
     }
-    cnt = aEFD24;
+    cnt = D_801EFD24;
     if (cnt != 0) {
         cnt = cnt - 1;
-        aEFD24 = cnt;
+        D_801EFD24 = cnt;
         if (cnt == 0) {
             func_80186AB8();
         }
@@ -7893,7 +7893,7 @@ extern s32 func_80184978(s32 a0, s32 a1, s32 a2);
 
 void func_8018489C(s32 arg0, s32 arg1, s32 arg2)
 {
-    extern u16 aEFD24 __asm__("D_801EFD24");
+    extern u16 D_801EFD24;
 
     s16 y = arg1;
     s16 z = arg2;
@@ -7902,7 +7902,7 @@ void func_8018489C(s32 arg0, s32 arg1, s32 arg2)
     s16 sp18[3];
     u8 *p;
 
-    if (aEFD24 == 0 && !(D_801EFD40 & 0x100)) {
+    if (D_801EFD24 == 0 && !(D_801EFD40 & 0x100)) {
         n = -y;
         p = D_801946AC + *(s16 *)(arg0 + 0x102) * 16;
         sp10[2] = *(u16 *)(p + 12);
@@ -8620,7 +8620,7 @@ void func_80185A18(s32 idx, s32 val)
 
 s16 func_80185A30(s32 param_1) {
     extern s32 aFC4C[] __asm__("D_801EFC4C");
-    extern s32 aB58[] __asm__("D_80126B58");
+    extern s32 D_80126B58[];
     extern s32 func_8012BE54(s32);
     extern s32 func_8012B6D4(s16 *a0, s16 *a1);
     s32 iVar5;
@@ -8630,7 +8630,7 @@ s16 func_80185A30(s32 param_1) {
     s16 *pE4;
 
     iVar5 = aFC4C[param_1];
-    p58 = (s16 *)aB58;
+    p58 = (s16 *)D_80126B58;
     iVar2 = func_8012BE54(iVar5);
     pE4 = (s16 *)(iVar5 + 0xE4);
     if (iVar2 < 0x4000) {
@@ -10482,35 +10482,35 @@ void func_80188094(s32 arg0) {
     typedef struct { s16 m[3][3]; s32 t[3]; } M32_80188094;     /* 0x20, align 4 */
     typedef struct { u16 vx, vy, vz, pad; } SV_80188094;        /* 8, align 2 */
 
-    extern M32_80188094 aAE620 __asm__("D_800AE620");
-    extern B4_80188094 aED994 __asm__("D_801ED994");
-    extern B4_80188094 aED9A0 __asm__("D_801ED9A0");
-    extern B4_80188094 aED9A4 __asm__("D_801ED9A4");
-    extern u8 aEFE60[] __asm__("D_801EFE60");
-    extern B4_80188094 aEFE64 __asm__("D_801EFE64");
-    extern B4_80188094 aEFEA4 __asm__("D_801EFEA4");
+    extern M32_80188094 D_800AE620;
+    extern B4_80188094 D_801ED994;
+    extern B4_80188094 D_801ED9A0;
+    extern B4_80188094 D_801ED9A4;
+    extern u8 D_801EFE60[];
+    extern B4_80188094 D_801EFE64;
+    extern B4_80188094 D_801EFEA4;
 
     M32_80188094 m;     /* sp+0x10 */
     SV_80188094 sv;     /* sp+0x30 */
     B4_80188094 blk;    /* sp+0x38 */
     s32 f;
 
-    m = aAE620;
-    blk = aED9A0;
+    m = D_800AE620;
+    blk = D_801ED9A0;
     f = *(u16 *)(arg0 + 0x2C) & 1;
-    func_8001CD9C(*(s32 *)(arg0 + 0x20), &aEFE60[f << 6]);
+    func_8001CD9C(*(s32 *)(arg0 + 0x20), &D_801EFE60[f << 6]);
     *(u32 *)(*(s32 *)(arg0 + 0x20) + 0x4) |= 0x50000000;
     *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x2C) = 0xC040;
     if (f == 0) {
-        func_800233CC(&aEFE60[0], 0x80);
-        *(B4_80188094 *)&aEFE60[0] = aED994;
-        aEFE64 = aED994;
+        func_800233CC(&D_801EFE60[0], 0x80);
+        *(B4_80188094 *)&D_801EFE60[0] = D_801ED994;
+        D_801EFE64 = D_801ED994;
         func_8018E6EC();
         func_8018E82C((void *)0, &blk, -8);
     } else {
-        func_800233CC(&aEFE60[0x40], 0x10);
-        *(B4_80188094 *)&aEFE60[0x40] = aED9A4;
-        aEFEA4 = aED994;
+        func_800233CC(&D_801EFE60[0x40], 0x10);
+        *(B4_80188094 *)&D_801EFE60[0x40] = D_801ED9A4;
+        D_801EFEA4 = D_801ED994;
         RotMatrixZ(rand() & 0xFFF, &m);
         sv.vx = 0xC0;
         sv.vz = 0;
@@ -11825,8 +11825,8 @@ void func_8018A0E0(s32 arg0)
      * assembler symbols without touching the TU's own decls. */
     typedef struct { s32 w[8]; } Mtx_8018A0E0;  /* 0x20, align 4 */
 
-    extern Mtx_8018A0E0 aAE620_8018A0E0 __asm__("D_800AE620");
-    extern u8 a194A68_8018A0E0[] __asm__("D_80194A68");
+    extern Mtx_8018A0E0 D_800AE620;
+    extern u8 D_80194A68[];
     extern void RotMatrixZ(s32 a0, void *a1);
     extern s32 func_80132EF4(s32 a0, s32 a1);
     extern void func_800484EC(s32 a0, s32 a1, s32 a2);
@@ -11835,13 +11835,13 @@ void func_8018A0E0(s32 arg0)
     s32 i;              /* s0 */
     s32 p;
 
-    m = aAE620_8018A0E0;
+    m = D_800AE620;
     RotMatrixZ(-0x200, &m);
     for (i = 0; i < 6; i++) {
         p = func_80132EF4(arg0, 0x22);
         if (p != 0) {
             *(s32 *)(p + 0x34) = 0x6002;
-            func_800484EC((s32)&m, (s32)a194A68_8018A0E0, p + 0x10);
+            func_800484EC((s32)&m, (s32)D_80194A68, p + 0x10);
         }
         RotMatrixZ(0x100, &m);
     }
@@ -13099,24 +13099,22 @@ void func_8018BAC4(void) {
 
 void func_8018BB44(void) {
     extern u8 sBB44_A0 __asm__("D_801EFEA0");
-    extern u8 sBB44_A1 __asm__("D_801EFEA1");
-    extern u8 sBB44_A2 __asm__("D_801EFEA2");
-    extern u8 sBB44_A3 __asm__("D_801EFEA3");
+    extern u8 D_801EFEA3;
     u8 *flag;
 
-    flag = &sBB44_A3;
+    flag = &D_801EFEA3;
     if (*flag == 0) {
         sBB44_A0 -= 3;
-        sBB44_A1 -= 5;
-        sBB44_A2 -= 7;
-        if (sBB44_A2 < 0x61) {
+        D_801EFEA1 -= 5;
+        D_801EFEA2 -= 7;
+        if (D_801EFEA2 < 0x61) {
             *flag = 1;
         }
     } else {
         sBB44_A0 += 3;
-        sBB44_A1 += 5;
-        sBB44_A2 += 7;
-        if (sBB44_A2 >= 0xE0) {
+        D_801EFEA1 += 5;
+        D_801EFEA2 += 7;
+        if (D_801EFEA2 >= 0xE0) {
             *flag = 0;
         }
     }

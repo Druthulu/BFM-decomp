@@ -1,0 +1,775 @@
+restruct --plan D: 300 of 3878 TUs with lying declarations · 16389 callees
+10:24:35 apply t4_D2 rung D: 300 files, control src/ov_SC03_124/ov_SC03_124_jr_80188544.c IDENTICAL (0.08 s), calibration dd21e7e26
+10:24:39   src/ov_SC03_124/ov_SC03_124_jr_80188544.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:24:40     unit 6: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_801919A0.c:1694: parse error before `*' | src/ov_SC06_032/ov_SC06_032_jr_801919A0.c:1850: parse error before 
+10:24:41     unit 6: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_801902EC.c:1705: parse error before `*' | src/ov_SC06_032/ov_SC06_032_jr_801902EC.c:1861: parse error before 
+10:24:41     unit 6: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_8017FE88.c:1725: parse error before `*' | src/ov_SC03_092/ov_SC03_092_jr_8017FE88.c:1880: parse error before 
+10:24:42     unit 6: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_80186270.c:1700: parse error before `*' | src/ov_SC06_018/ov_SC06_018_jr_80186270.c:1856: parse error before 
+10:24:42     unit 6: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:1701: parse error before `*' | src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:1854: parse error before 
+10:24:43     unit 18: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_801919A0.c:3309: parse error before `*' | src/ov_SC06_032/ov_SC06_032_jr_801919A0.c:3480: parse error before 
+10:24:43     unit 6: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:1703: parse error before `*' | src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:1859: parse error before 
+10:24:43     unit 6: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:1695: parse error before `*' | src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:1848: parse error before 
+10:24:43   src/ov_SC06_032/ov_SC06_032_jr_801902EC.c: IDENTICAL · rows 18 · compiles 20 · 3.3 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:24:43   src/ov_SC06_032/ov_SC06_032_jr_801919A0.c: IDENTICAL · rows 19 · compiles 21 · 3.2 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:24:44   src/ov_SC03_092/ov_SC03_092_jr_8017FE88.c: IDENTICAL · rows 20 · compiles 22 · 3.2 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:24:45   src/ov_SC06_018/ov_SC06_018_jr_80186270.c: IDENTICAL · rows 18 · compiles 20 · 2.9 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:24:46     unit 6: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:1769: parse error before `*' | src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:1926: parse error before 
+10:24:46     unit 8: COMPILE-ERROR src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:2520: parse error before `*' | src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:3848: parse error before 
+10:24:47     unit 6: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:1708: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:1863: parse error before 
+10:24:48     unit 19: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:7405: too few arguments to function `func_80182258' | src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:74
+10:24:48     unit 20: DIFFERS [build/src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.o]
+10:24:48     unit 6: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:1710: parse error before `*' | src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:1866: parse error before 
+10:24:48     unit 7: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:8179: too few arguments to function `func_800D2318' | src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:85
+10:24:48     unit 17: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:3009: too few arguments to function `func_801850CC' | src/ov_SC06_022/ov_SC06_022_jr_80184A28.c: A
+10:24:48     unit 6: COMPILE-ERROR src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:5155: too few arguments to function `func_8001E094' | src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c: A
+10:24:49     unit 6: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:1693: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:1846: parse error before 
+10:24:49   src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c: IDENTICAL · rows 21 · compiles 24 · 6.8 s · canon 18 promoted 0 K&R 1 aliases 0 abs 0 kept 3
+10:24:49     unit 21: COMPILE-ERROR src/ov_SC07_006/../shared/ov/func_8016AE5C__te4eb1475.h:8: too few arguments to function `func_8016B234' | src/ov_SC07_006/../shared/ov/func
+10:24:49     unit 18: DIFFERS [build/src/ov_SC06_022/ov_SC06_022_jr_80184A28.o]
+10:24:49     unit 7: COMPILE-ERROR src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:1700: parse error before `*' | src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:1853: parse error before 
+10:24:50     unit 20: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:6560: parse error before `SVEC_80183534' | src/ov_SC06_029/ov_SC06_029_jr_8017C954.c: At top level
+10:24:50     unit 7: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:8244: too few arguments to function `func_800D2318' | src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:86
+10:24:50     unit 23: COMPILE-ERROR src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c:563: conflicting types for `D_800B9A02' | src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c:553: previous 
+10:24:50   src/ov_SC06_022/ov_SC06_022_jr_80184A28.c: IDENTICAL · rows 19 · compiles 21 · 7.0 s · canon 16 promoted 0 K&R 1 aliases 0 abs 0 kept 3
+10:24:50   src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:24:50     unit 24: COMPILE-ERROR src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:4227: too few arguments to function `func_8016E778' | src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c: A
+10:24:51   src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c: IDENTICAL · rows 24 · compiles 26 · 6.6 s · canon 23 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:24:51   src/ov_SC03_107/ov_SC03_107_jr_801789AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:24:51     unit 25: COMPILE-ERROR src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:559: conflicting types for `D_800B9A02' | src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c:549: previous 
+10:24:51     unit 23: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:5662: conflicting types for `D_801904C6' | src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:5653: previou
+10:24:52   src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c: IDENTICAL · rows 26 · compiles 28 · 7.4 s · canon 22 promoted 0 K&R 2 aliases 0 abs 0 kept 4
+10:24:52     unit 24: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:5663: conflicting types for `D_801904CE' | src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:5654: previou
+10:24:52     unit 15: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:4562: too few arguments to function `func_8017EF54' | src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:45
+10:24:53     unit 6: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c:1702: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c:1858: parse error before 
+10:24:53   src/ov_SC06_029/ov_SC06_029_jr_8017C954.c: IDENTICAL · rows 25 · compiles 27 · 9.7 s · canon 21 promoted 0 K&R 0 aliases 0 abs 0 kept 4
+10:24:53     unit 17: DIFFERS [build/src/ov_SC06_008/ov_SC06_008_jr_8017C294.o]
+10:24:54     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8018CC40.c:1702: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_8018CC40.c:1857: parse error before 
+10:24:54     unit 17: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3043: too few arguments to function `func_801875A4' | src/ov_SC06_024/ov_SC06_024_jr_80186F00.c: A
+10:24:54     unit 27: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:4184: parse error before `Range_80189B1C' | src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:4211: parse 
+10:24:54   src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: IDENTICAL · rows 18 · compiles 21 · 6.6 s · canon 15 promoted 0 K&R 1 aliases 0 abs 0 kept 3
+10:24:55     unit 18: DIFFERS [build/src/ov_SC06_024/ov_SC06_024_jr_80186F00.o]
+10:24:55     unit 26: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_80159C84.c:636: conflicting types for `D_800B9A02' | src/ov_SC03_107/ov_SC03_107_jr_80159C84.c:624: previous 
+10:24:55     unit 6: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_80184CF8.c:1693: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_80184CF8.c:1849: parse error before 
+10:24:55   src/ov_SC03_107/ov_SC03_107_jr_80159C84.c: IDENTICAL · rows 27 · compiles 29 · 2.2 s · canon 26 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:24:55     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:1702: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:1857: parse error before 
+10:24:56   src/ov_SC06_024/ov_SC06_024_jr_80186F00.c: IDENTICAL · rows 19 · compiles 21 · 6.8 s · canon 16 promoted 0 K&R 1 aliases 0 abs 0 kept 3
+10:24:57     unit 30: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:3053: conflicting types for `D_8018F034' | src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:2995: previou
+10:24:57   src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:24:57   src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:24:57   src/ov_SC02_037/ov_SC02_037_jr_801789AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:24:57     unit 6: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8018BCD4.c:1706: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_8018BCD4.c:1862: parse error before 
+10:24:58   src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c: IDENTICAL · rows 22 · compiles 25 · 8.5 s · canon 20 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:24:58     unit 31: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:3054: conflicting types for `D_8018F03C' | src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:2996: previou
+10:24:58     unit 17: DIFFERS [build/src/ov_SC06_033/ov_SC06_033_jr_8017C24C.o]
+10:24:59   src/ov_SC02_000/ov_SC02_000_jr_80187B40.c: IDENTICAL · rows 32 · compiles 68 · 12.4 s · canon 28 promoted 0 K&R 0 aliases 0 abs 0 kept 4
+10:24:59   src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c: IDENTICAL · rows 18 · compiles 20 · 5.7 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:24:59   src/ov_SC04_015/ov_SC04_015_jr_801820DC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:24:59   src/ov_SC06_033/ov_SC06_033_jr_80184CF8.c: IDENTICAL · rows 17 · compiles 19 · 2.5 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:00   src/ov_SC04_018/ov_SC04_018_jr_8018CC40.c: IDENTICAL · rows 17 · compiles 38 · 3.3 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:00     unit 6: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c:1706: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c:1859: parse error before 
+10:25:01   src/ov_SC06_033/ov_SC06_033_jr_8018BCD4.c: IDENTICAL · rows 16 · compiles 18 · 2.0 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:02   src/ov_SC06_025/ov_SC06_025_jr_8017EEC4.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:25:03     unit 6: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:4667: too few arguments to function `func_8001E094' [build/src/ov_SC03_097/ov_SC03_097_jr_8017D898
+10:25:03     unit 5: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_80185754.c:1695: parse error before `*' | src/ov_SC05_018/ov_SC05_018_jr_80185754.c:1848: parse error before 
+10:25:03     unit 23: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:6149: too few arguments to function `func_801848DC' | src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:65
+10:25:03     unit 7: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:1708: parse error before `*' | src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:1861: parse error before 
+10:25:03     unit 5: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_801898CC.c:1849: parse error before `*' | src/ov_SC06_029/ov_SC06_029_jr_801898CC.c:2005: parse error before 
+10:25:03     unit 6: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8018C2D8.c:1706: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_8018C2D8.c:1862: parse error before 
+10:25:04     unit 16: DIFFERS [build/src/ov_SC06_033/ov_SC06_033_jr_8018D98C.o]
+10:25:04     unit 24: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:5746: too many arguments to function `func_80184DD0' | src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:6
+10:25:04     unit 17: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:4127: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c: At top level: | src/ov_S
+10:25:04     unit 6: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_80186574.c:1694: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_80186574.c:1850: parse error before 
+10:25:05   src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c: IDENTICAL · rows 17 · compiles 19 · 3.7 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:05     unit 30: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_MAIN_012/../shared/ov/func_8016345C.h
+10:25:05   src/ov_SC07_000/ov_SC07_000_jr_8017F8B8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:25:05     unit 18: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:4000: conflicting types for `D_801E770C' | src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:3981: previou
+10:25:06     unit 25: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_801594E8.c:636: conflicting types for `D_800B9A02' | src/ov_SC03_107/ov_SC03_107_jr_801594E8.c:624: previous 
+10:25:06     unit 19: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:4001: conflicting types for `D_801E7710' | src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:3982: previou
+10:25:06     unit 6: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:1708: parse error before `*' | src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:1861: parse error before 
+10:25:06   src/ov_SC03_107/ov_SC03_107_jr_801594E8.c: IDENTICAL · rows 26 · compiles 28 · 2.4 s · canon 25 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:06   src/ov_MAIN_012/ov_MAIN_012_jr_8017C3BC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:25:06   src/ov_MAIN_012/ov_MAIN_012_jr_8017CA18.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:25:06   src/ov_MAIN_012/ov_MAIN_012_jr_8017CF3C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:25:06   src/ov_SC06_033/ov_SC06_033_jr_8018C2D8.c: IDENTICAL · rows 15 · compiles 17 · 1.8 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:06   src/ov_SC05_018/ov_SC05_018_jr_80185754.c: IDENTICAL · rows 18 · compiles 20 · 2.2 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:07     unit 30: COMPILE-ERROR src/ov_SC02_037/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC02_037/../shared/ov/func_8016345C.h
+10:25:07   src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c: IDENTICAL · rows 20 · compiles 44 · 9.5 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 4
+10:25:08     unit 34: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:7196: conflicting types for `D_800AE620' | src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:278: previous
+10:25:09   src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c: IDENTICAL · rows 26 · compiles 60 · 19.4 s · canon 23 promoted 0 K&R 2 aliases 0 abs 0 kept 3
+10:25:09     unit 16: DIFFERS [build/src/ov_SC06_033/ov_SC06_033_jr_80186574.o]
+10:25:10     unit 35: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:635: conflicting types for `D_800B9A02' | src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:623: previous 
+10:25:10     unit 33: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:7255: conflicting types for `D_800AE620' | src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:291: previous
+10:25:11   src/ov_SC03_097/ov_SC03_097_jr_8017D898.c: IDENTICAL · rows 22 · compiles 25 · 5.3 s · canon 20 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:25:11   src/ov_SC06_033/ov_SC06_033_jr_80186574.c: IDENTICAL · rows 17 · compiles 19 · 4.3 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:11   src/ov_SC06_029/ov_SC06_029_jr_801898CC.c: IDENTICAL · rows 23 · compiles 25 · 3.4 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:11     unit 36: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:6260: parse error before `[' | src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:6263: `D_8018393C' undecl
+10:25:11     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8018C694.c:1697: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_8018C694.c:1850: parse error before 
+10:25:12     unit 6: COMPILE-ERROR src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c:1704: parse error before `*' | src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c:1859: parse error before 
+10:25:12     unit 6: COMPILE-ERROR src/ov_SC03_011/ov_SC03_011_jr_8017C730.c:1712: parse error before `*' | src/ov_SC03_011/ov_SC03_011_jr_8017C730.c:1868: parse error before 
+10:25:12     unit 34: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:649: conflicting types for `D_800B9A02' | src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:637: previous 
+10:25:12     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:1691: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:1844: parse error before 
+10:25:12     unit 37: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:6282: parse error before `[' | src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:6285: `D_8018393C' undecl
+10:25:13     unit 35: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:6301: parse error before `[' | src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:6304: `D_801C7E20' undecl
+10:25:13     unit 6: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_801836FC.c:1694: parse error before `*' | src/ov_SC06_033/ov_SC06_033_jr_801836FC.c:1850: parse error before 
+10:25:13     unit 6: COMPILE-ERROR src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c:1703: parse error before `*' | src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c:1858: parse error before 
+10:25:13     unit 16: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c:7437: too few arguments to function `func_80181234' | src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c: A
+10:25:13     unit 24: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_80159C84.c:635: conflicting types for `D_800B9A02' | src/ov_MAIN_012/ov_MAIN_012_jr_80159C84.c:623: previous 
+10:25:13     unit 36: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:6323: parse error before `[' | src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:6326: `D_801C7E20' undecl
+10:25:14   src/ov_MAIN_012/ov_MAIN_012_jr_80159C84.c: IDENTICAL · rows 25 · compiles 27 · 3.0 s · canon 24 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:14   src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c: IDENTICAL · rows 38 · compiles 41 · 21.6 s · canon 32 promoted 0 K&R 2 aliases 0 abs 0 kept 6
+10:25:14     unit 17: DIFFERS [build/src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.o]
+10:25:15   src/ov_SC05_017/ov_SC05_017_jr_8018C694.c: IDENTICAL · rows 17 · compiles 19 · 1.9 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:15     unit 17: COMPILE-ERROR src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c:3030: too few arguments to function `func_80180AF0' | src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c:32
+10:25:16     unit 18: COMPILE-ERROR src/ov_SC03_011/ov_SC03_011_jr_8017C730.c:3682: too few arguments to function `func_8017E3F0' | src/ov_SC03_011/ov_SC03_011_jr_8017C730.c: A
+10:25:16   src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c: IDENTICAL · rows 18 · compiles 21 · 8.4 s · canon 15 promoted 0 K&R 1 aliases 0 abs 0 kept 3
+10:25:17   src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c: IDENTICAL · rows 37 · compiles 40 · 21.3 s · canon 31 promoted 0 K&R 2 aliases 0 abs 0 kept 6
+10:25:17     unit 16: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:3811: conflicting types for `D_801ED56C' | src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:3792: previou
+10:25:17   src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c: IDENTICAL · rows 19 · compiles 21 · 3.4 s · canon 17 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:25:17     unit 15: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_801836FC.c:3145: conflicting types for `D_801C6B7C' | src/ov_SC06_033/ov_SC06_033_jr_801836FC.c:3116: previou
+10:25:17     unit 20: COMPILE-ERROR src/ov_SC03_011/ov_SC03_011_jr_8017C730.c:4358: too few arguments to function `func_8017F370' | src/ov_SC03_011/ov_SC03_011_jr_8017C730.c: A
+10:25:18     unit 17: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:3812: conflicting types for `D_801ED570' | src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:3793: previou
+10:25:18   src/ov_SC06_033/ov_SC06_033_jr_801836FC.c: IDENTICAL · rows 16 · compiles 18 · 2.5 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:18     unit 6: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_80186A34.c:1734: parse error before `*' | src/ov_SC03_029/ov_SC03_029_jr_80186A34.c:1890: parse error before 
+10:25:18   src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c: IDENTICAL · rows 18 · compiles 20 · 4.5 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 3
+10:25:19     unit 23: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_80159C84.c:649: conflicting types for `D_800B9A02' | src/ov_SC02_037/ov_SC02_037_jr_80159C84.c:637: previous 
+10:25:19     unit 23: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_801594E8.c:635: conflicting types for `D_800B9A02' | src/ov_MAIN_012/ov_MAIN_012_jr_801594E8.c:623: previous 
+10:25:19   src/ov_SC02_037/ov_SC02_037_jr_80159C84.c: IDENTICAL · rows 24 · compiles 26 · 2.4 s · canon 23 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:19   src/ov_MAIN_012/ov_MAIN_012_jr_801594E8.c: IDENTICAL · rows 24 · compiles 26 · 2.5 s · canon 23 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:20   src/ov_SC03_011/ov_SC03_011_jr_8017C730.c: IDENTICAL · rows 23 · compiles 26 · 5.5 s · canon 20 promoted 0 K&R 2 aliases 0 abs 0 kept 3
+10:25:20     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80186570.c:1702: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_80186570.c:1857: parse error before 
+10:25:20     unit 5: DIFFERS [build/src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.o]
+10:25:21     unit 5: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_80185C98.c:1694: parse error before `*' | src/ov_SC03_124/ov_SC03_124_jr_80185C98.c:1847: parse error before 
+10:25:21     unit 7: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c:1711: parse error before `*' | src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c:1867: parse error before 
+10:25:21     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_801878E8.c:1702: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_801878E8.c:1857: parse error before 
+10:25:21     unit 6: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c:1701: parse error before `*' | src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c:1857: parse error before 
+10:25:21     unit 18: COMPILE-ERROR src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c:5289: too few arguments to function `func_8017F9F4' | src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c: A
+10:25:21     unit 5: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_80187010.c:1694: parse error before `*' | src/ov_SC03_124/ov_SC03_124_jr_80187010.c:1847: parse error before 
+10:25:21   src/ov_SC03_029/ov_SC03_029_jr_80186A34.c: IDENTICAL · rows 21 · compiles 23 · 2.7 s · canon 20 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:22     unit 13: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_80185C98.c:3598: conflicting types for `D_8011511A' | src/ov_SC03_124/ov_SC03_124_jr_80185C98.c:3327: previou
+10:25:22     unit 22: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_801594E8.c:649: conflicting types for `D_800B9A02' | src/ov_SC02_037/ov_SC02_037_jr_801594E8.c:637: previous 
+10:25:22     unit 15: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_80185C98.c:3597: conflicting types for `D_800B9A02' | src/ov_SC03_124/ov_SC03_124_jr_80185C98.c:2440: previou
+10:25:22   src/ov_SC02_037/ov_SC02_037_jr_801594E8.c: IDENTICAL · rows 23 · compiles 25 · 2.5 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:22     unit 14: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80186570.c:3814: conflicting types for `D_8011511A' | src/ov_SC04_018/ov_SC04_018_jr_80186570.c:3540: previou
+10:25:23     unit 13: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_80187010.c:3645: conflicting types for `D_800B9A02' | src/ov_SC03_124/ov_SC03_124_jr_80187010.c:2985: previou
+10:25:23   src/ov_SC03_124/ov_SC03_124_jr_80185C98.c: IDENTICAL · rows 16 · compiles 18 · 2.3 s · canon 12 promoted 0 K&R 0 aliases 1 abs 0 kept 3
+10:25:23     unit 6: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8017D604.c:1702: parse error before `*' | src/ov_SC04_020/ov_SC04_020_jr_8017D604.c:1855: parse error before 
+10:25:23   src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c: IDENTICAL · rows 18 · compiles 21 · 2.8 s · canon 16 promoted 1 K&R 0 aliases 0 abs 0 kept 1
+10:25:23   src/ov_SC03_124/ov_SC03_124_jr_80187010.c: IDENTICAL · rows 14 · compiles 16 · 2.0 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:24     unit 6: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c:6666: too few arguments to function `func_8001C214' | src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c: A
+10:25:24     unit 23: COMPILE-ERROR src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c:7132: conflicting types for `D_800AE620' | src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c:7003: previou
+10:25:24     unit 16: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80186570.c:3813: conflicting types for `D_800B9A02' | src/ov_SC04_018/ov_SC04_018_jr_80186570.c:2460: previou
+10:25:24   src/ov_SC04_018/ov_SC04_018_jr_80186570.c: IDENTICAL · rows 17 · compiles 38 · 5.4 s · canon 13 promoted 0 K&R 0 aliases 1 abs 0 kept 3
+10:25:24     unit 24: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_801555F4.c:636: conflicting types for `D_800B9A02' | src/ov_SC03_107/ov_SC03_107_jr_801555F4.c:624: previous 
+10:25:24     unit 7: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c:1709: parse error before `*' | src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c:1865: parse error before 
+10:25:25   src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c: IDENTICAL · rows 24 · compiles 26 · 9.3 s · canon 21 promoted 0 K&R 1 aliases 0 abs 0 kept 3
+10:25:25     unit 9: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:1711: parse error before `*' | src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c:1867: parse error before 
+10:25:25   src/ov_SC03_107/ov_SC03_107_jr_801555F4.c: IDENTICAL · rows 25 · compiles 27 · 5.6 s · canon 24 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:25     unit 15: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_801878E8.c:3719: conflicting types for `D_800B9A02' | src/ov_SC04_018/ov_SC04_018_jr_801878E8.c:3329: previou
+10:25:25     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_801808D4.c:1694: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_801808D4.c:1847: parse error before 
+10:25:26   src/ov_SC04_018/ov_SC04_018_jr_801878E8.c: IDENTICAL · rows 16 · compiles 36 · 5.2 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:26   src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c: IDENTICAL · rows 20 · compiles 22 · 5.0 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:28     unit 19: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8017D604.c:3744: parse error before `*' [build/src/ov_SC04_020/ov_SC04_020_jr_8017D604.o]
+10:25:28   src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: IDENTICAL · rows 21 · compiles 23 · 3.3 s · canon 20 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:28     unit 20: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8017D604.c:5729: too few arguments to function `func_801826C8' | src/ov_SC04_020/ov_SC04_020_jr_8017D604.c:57
+10:25:28     unit 17: DIFFERS [build/src/ov_SC05_017/ov_SC05_017_jr_801808D4.o]
+10:25:28     unit 22: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_801549F8.c:635: conflicting types for `D_800B9A02' | src/ov_MAIN_012/ov_MAIN_012_jr_801549F8.c:623: previous 
+10:25:29     unit 6: COMPILE-ERROR src/ov_SC03_115/ov_SC03_115_jr_8017BEBC.c:1709: parse error before `*' | src/ov_SC03_115/ov_SC03_115_jr_8017BEBC.c:1862: parse error before 
+10:25:29     unit 6: COMPILE-ERROR src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c:1711: parse error before `*' | src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c:1867: parse error before 
+10:25:29   src/ov_MAIN_012/ov_MAIN_012_jr_801549F8.c: IDENTICAL · rows 23 · compiles 25 · 2.7 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:29   src/ov_SC04_020/ov_SC04_020_jr_8017D604.c: IDENTICAL · rows 21 · compiles 24 · 5.4 s · canon 18 promoted 0 K&R 1 aliases 0 abs 0 kept 3
+10:25:30   src/ov_SC05_017/ov_SC05_017_jr_801808D4.c: IDENTICAL · rows 20 · compiles 22 · 3.3 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:30     unit 22: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_801549F8.c:649: conflicting types for `D_800B9A02' | src/ov_SC02_037/ov_SC02_037_jr_801549F8.c:637: previous 
+10:25:30     unit 19: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c:4219: too many arguments to function `func_8017EAB0' | src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c:4
+10:25:30     unit 6: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_8017D604.c:1703: parse error before `*' | src/ov_SC03_125/ov_SC03_125_jr_8017D604.c:1856: parse error before 
+10:25:30   src/ov_SC02_037/ov_SC02_037_jr_801549F8.c: IDENTICAL · rows 23 · compiles 25 · 3.0 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:30     unit 22: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_801549F8.c:636: conflicting types for `D_800B9A02' | src/ov_SC03_107/ov_SC03_107_jr_801549F8.c:624: previous 
+10:25:31   src/ov_SC03_107/ov_SC03_107_jr_801549F8.c: IDENTICAL · rows 23 · compiles 25 · 2.6 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:31   src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c: IDENTICAL · rows 22 · compiles 24 · 7.2 s · canon 19 promoted 0 K&R 2 aliases 0 abs 0 kept 3
+10:25:32     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80186270.c:1694: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_80186270.c:1847: parse error before 
+10:25:32     unit 6: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:1711: parse error before `*' | src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c:1866: parse error before 
+10:25:33     unit 22: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c:635: conflicting types for `D_800B9A02' | src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c:623: previous 
+10:25:33     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8018631C.c:1694: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_8018631C.c:1847: parse error before 
+10:25:33   src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c: IDENTICAL · rows 23 · compiles 25 · 5.0 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:33     unit 22: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_801555F4.c:649: conflicting types for `D_800B9A02' | src/ov_SC02_037/ov_SC02_037_jr_801555F4.c:637: previous 
+10:25:34     unit 17: COMPILE-ERROR src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c:3533: parse error before `*' | src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c: At top level: [build/src
+10:25:34   src/ov_SC02_037/ov_SC02_037_jr_801555F4.c: IDENTICAL · rows 23 · compiles 25 · 4.8 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:34     unit 15: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80186270.c:3592: conflicting types for `D_8011511A' | src/ov_SC05_017/ov_SC05_017_jr_80186270.c:3321: previou
+10:25:34     unit 17: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80186270.c:3591: conflicting types for `D_800B9A02' | src/ov_SC05_017/ov_SC05_017_jr_80186270.c:2440: previou
+10:25:35   src/ov_SC03_115/ov_SC03_115_jr_8017BEBC.c: IDENTICAL · rows 20 · compiles 22 · 4.7 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:35     unit 18: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_8017D604.c:4129: parse error before `*' | src/ov_SC03_125/ov_SC03_125_jr_8017D604.c: At top level: | src/ov_S
+10:25:35   src/ov_SC05_017/ov_SC05_017_jr_80186270.c: IDENTICAL · rows 18 · compiles 20 · 2.8 s · canon 14 promoted 0 K&R 0 aliases 1 abs 0 kept 3
+10:25:35   src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c: IDENTICAL · rows 20 · compiles 22 · 5.6 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:36     unit 17: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8018631C.c:3198: too few arguments to function `func_8018739C' | src/ov_SC03_001/ov_SC03_001_jr_8018631C.c:33
+10:25:36     unit 5: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_80185498.c:1694: parse error before `*' | src/ov_SC03_124/ov_SC03_124_jr_80185498.c:1847: parse error before 
+10:25:36     unit 19: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_8017D604.c:6037: too few arguments to function `func_80182D1C' | src/ov_SC03_125/ov_SC03_125_jr_8017D604.c:60
+10:25:36     unit 22: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_801789AC.c:3337: too few arguments to function `func_80178BF8' | src/ov_SC07_011/ov_SC07_011_jr_801789AC.c:33
+10:25:36     unit 24: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_801789AC.c:565: conflicting types for `D_800B9A02' | src/ov_SC07_011/ov_SC07_011_jr_801789AC.c:555: previous 
+10:25:36   src/ov_SC03_001/ov_SC03_001_jr_8018631C.c: IDENTICAL · rows 18 · compiles 21 · 2.4 s · canon 16 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:25:37   src/ov_SC03_125/ov_SC03_125_jr_8017D604.c: IDENTICAL · rows 20 · compiles 23 · 5.6 s · canon 17 promoted 0 K&R 1 aliases 0 abs 0 kept 3
+10:25:37     unit 6: COMPILE-ERROR src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c:1709: parse error before `*' | src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c:1864: parse error before 
+10:25:37   src/ov_SC07_011/ov_SC07_011_jr_801789AC.c: IDENTICAL · rows 25 · compiles 28 · 3.4 s · canon 23 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:25:37     unit 7: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_8017AE2C.c:1893: parse error before `*' | src/ov_SC03_092/ov_SC03_092_jr_8017AE2C.c:2048: parse error before 
+10:25:37   src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: IDENTICAL · rows 19 · compiles 21 · 4.5 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:38     unit 5: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:1701: parse error before `*' | src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:1856: parse error before 
+10:25:38     unit 22: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_8017BEBC.c:562: conflicting types for `D_800B9A02' | src/ov_SC07_011/ov_SC07_011_jr_8017BEBC.c:552: previous 
+10:25:38   src/ov_SC03_124/ov_SC03_124_jr_80185498.c: IDENTICAL · rows 13 · compiles 15 · 1.9 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:39   src/ov_SC07_011/ov_SC07_011_jr_8017BEBC.c: IDENTICAL · rows 23 · compiles 25 · 4.1 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:39     unit 6: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8017BEBC.c:1711: parse error before `*' | src/ov_SC04_016/ov_SC04_016_jr_8017BEBC.c:1867: parse error before 
+10:25:40     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80185D70.c:1702: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_80185D70.c:1857: parse error before 
+10:25:40     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80185A70.c:1694: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_80185A70.c:1847: parse error before 
+10:25:40     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_801875E8.c:1694: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_801875E8.c:1847: parse error before 
+10:25:40     unit 6: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:1709: parse error before `*' | src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:1862: parse error before 
+10:25:41   src/ov_SC05_017/ov_SC05_017_jr_80185A70.c: IDENTICAL · rows 15 · compiles 17 · 1.6 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:41     unit 6: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c:1711: parse error before `*' | src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c:1865: parse error before 
+10:25:41     unit 7: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:1712: parse error before `*' | src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c:1868: parse error before 
+10:25:41   src/ov_SC04_018/ov_SC04_018_jr_80185D70.c: IDENTICAL · rows 14 · compiles 32 · 3.5 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:42     unit 15: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_801875E8.c:3643: conflicting types for `D_800B9A02' | src/ov_SC05_017/ov_SC05_017_jr_801875E8.c:2983: previou
+10:25:42     unit 7: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c:1712: parse error before `*' | src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c:1868: parse error before 
+10:25:42   src/ov_SC04_016/ov_SC04_016_jr_8017BEBC.c: IDENTICAL · rows 18 · compiles 20 · 3.5 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:42   src/ov_SC05_017/ov_SC05_017_jr_801875E8.c: IDENTICAL · rows 16 · compiles 18 · 2.2 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:42   src/ov_MAIN_012/ov_MAIN_012_jr_80171B4C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:25:43   src/ov_SC03_092/ov_SC03_092_jr_8017AE2C.c: IDENTICAL · rows 20 · compiles 22 · 5.0 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:43   src/ov_SC02_037/ov_SC02_037_jr_80171B4C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:25:44   src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: IDENTICAL · rows 19 · compiles 21 · 4.4 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:45     unit 15: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:5365: too few arguments to function `func_8017F454' | src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: A
+10:25:45   src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c: IDENTICAL · rows 19 · compiles 21 · 7.7 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:45   src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c: IDENTICAL · rows 18 · compiles 20 · 3.4 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:45     unit 17: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c:4517: too few arguments to function `func_8017FE50' | src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c:45
+10:25:46     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_801870B0.c:1694: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_801870B0.c:1847: parse error before 
+10:25:46   src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: IDENTICAL · rows 18 · compiles 20 · 3.9 s · canon 16 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:25:46     unit 7: COMPILE-ERROR src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c:7027: too few arguments to function `func_800D2318' | src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c:73
+10:25:46     unit 16: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:6344: too few arguments to function `func_80181228' | src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: A
+10:25:47     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_80188830.c:1697: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_80188830.c:1850: parse error before 
+10:25:47     unit 19: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c:3870: parse error before `[' | src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c:3882: `D_800AE620' undecl
+10:25:47     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c:1697: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c:1850: parse error before 
+10:25:47     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_80189030.c:1697: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_80189030.c:1850: parse error before 
+10:25:47   src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c: IDENTICAL · rows 20 · compiles 22 · 4.5 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:48     unit 21: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_801789AC.c:3334: too few arguments to function `func_80178BF8' | src/ov_SC07_007/ov_SC07_007_jr_801789AC.c:33
+10:25:48     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c:1714: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c:1867: parse error before 
+10:25:48     unit 23: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_801789AC.c:565: conflicting types for `D_800B9A02' | src/ov_SC07_007/ov_SC07_007_jr_801789AC.c:555: previous 
+10:25:49   src/ov_SC07_007/ov_SC07_007_jr_801789AC.c: IDENTICAL · rows 24 · compiles 27 · 2.7 s · canon 22 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:25:49   src/ov_SC03_107/ov_SC03_107_jr_80171B4C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:25:50   src/ov_SC03_001/ov_SC03_001_jr_801870B0.c: IDENTICAL · rows 18 · compiles 20 · 2.2 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:50     unit 22: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015444C.c:621: conflicting types for `D_800B9A02' | src/ov_MAIN_012/ov_MAIN_012_jr_8015444C.c:610: previous 
+10:25:50     unit 22: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8015444C.c:635: conflicting types for `D_800B9A02' | src/ov_SC02_037/ov_SC02_037_jr_8015444C.c:624: previous 
+10:25:50     unit 23: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_80179B74.c:565: conflicting types for `D_800B9A02' | src/ov_SC07_011/ov_SC07_011_jr_80179B74.c:555: previous 
+10:25:50   src/ov_MAIN_012/ov_MAIN_012_jr_8015444C.c: IDENTICAL · rows 23 · compiles 25 · 2.1 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:50     unit 22: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:12524: too few arguments to function `func_80189CD4' | src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: 
+10:25:50   src/ov_SC02_037/ov_SC02_037_jr_8015444C.c: IDENTICAL · rows 23 · compiles 25 · 2.1 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:50   src/ov_SC03_001/ov_SC03_001_jr_80188830.c: IDENTICAL · rows 17 · compiles 19 · 1.6 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:51     unit 17: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c:3781: conflicting types for `D_800B9A02' | src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c:3128: previou
+10:25:51   src/ov_SC07_011/ov_SC07_011_jr_80179B74.c: IDENTICAL · rows 24 · compiles 26 · 3.1 s · canon 23 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:51     unit 17: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_80189030.c:3734: conflicting types for `D_8011511A' | src/ov_SC03_001/ov_SC03_001_jr_80189030.c:3463: previou
+10:25:51     unit 23: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:13136: too many arguments to function `func_8018A168' | src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:
+10:25:52   src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c: IDENTICAL · rows 18 · compiles 20 · 2.1 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:25:52     unit 19: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_80189030.c:3733: conflicting types for `D_800B9A02' | src/ov_SC03_001/ov_SC03_001_jr_80189030.c:2444: previou
+10:25:52     unit 17: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c:3983: conflicting types for `D_801EF1EC' | src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c:3962: previou
+10:25:52   src/ov_SC03_001/ov_SC03_001_jr_80189030.c: IDENTICAL · rows 20 · compiles 22 · 2.8 s · canon 16 promoted 0 K&R 0 aliases 1 abs 0 kept 3
+10:25:52     unit 24: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:13138: too many arguments to function `func_8018A3D4' | src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:
+10:25:53     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_801828EC.c:1694: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_801828EC.c:1847: parse error before 
+10:25:53     unit 18: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c:3984: conflicting types for `D_801EF1F0' | src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c:3963: previou
+10:25:53     unit 5: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_80181B44.c:1691: parse error before `*' | src/ov_SC03_124/ov_SC03_124_jr_80181B44.c:1844: parse error before 
+10:25:53   src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c: IDENTICAL · rows 19 · compiles 21 · 3.0 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 3
+10:25:54     unit 5: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c:1702: parse error before `*' | src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c:1857: parse error before 
+10:25:54     unit 6: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:1710: parse error before `*' | src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:1864: parse error before 
+10:25:54     unit 7: COMPILE-ERROR src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c:1709: parse error before `*' | src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c:1862: parse error before 
+10:25:54     unit 22: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_8015444C.c:622: conflicting types for `D_800B9A02' | src/ov_SC03_107/ov_SC03_107_jr_8015444C.c:611: previous 
+10:25:55   src/ov_SC03_107/ov_SC03_107_jr_8015444C.c: IDENTICAL · rows 23 · compiles 25 · 2.1 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:55     unit 23: COMPILE-ERROR src/ov_SC07_006/../shared/ov/func_80160A74.h:9: too few arguments to function `func_80160B00' | src/ov_SC07_006/../shared/ov/func_8016345C.h
+10:25:55     unit 6: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:1705: parse error before `*' | src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:1861: parse error before 
+10:25:55   src/ov_SC05_017/ov_SC05_017_jr_801828EC.c: IDENTICAL · rows 16 · compiles 18 · 1.9 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:56   src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c: IDENTICAL · rows 13 · compiles 15 · 2.4 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:57     unit 15: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_80181B44.c:5392: too few arguments to function `func_80185614' | src/ov_SC03_124/ov_SC03_124_jr_80181B44.c:54
+10:25:57   src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: IDENTICAL · rows 28 · compiles 31 · 17.8 s · canon 21 promoted 0 K&R 5 aliases 1 abs 0 kept 6
+10:25:57     unit 6: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_80181D30.c:1718: parse error before `*' | src/ov_SC02_005/ov_SC02_005_jr_80181D30.c:1874: parse error before 
+10:25:58   src/ov_SC03_124/ov_SC03_124_jr_80181B44.c: IDENTICAL · rows 16 · compiles 19 · 4.0 s · canon 14 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:25:58   src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: IDENTICAL · rows 17 · compiles 19 · 3.3 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:25:59     unit 22: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_80179B74.c:565: conflicting types for `D_800B9A02' | src/ov_SC07_007/ov_SC07_007_jr_80179B74.c:555: previous 
+10:25:59     unit 5: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_80186B24.c:1758: parse error before `*' | src/ov_SC03_105/ov_SC03_105_jr_80186B24.c:1914: parse error before 
+10:25:59     unit 29: COMPILE-ERROR src/ov_SC07_006/../shared/ov/func_80168EC4.h:8: too few arguments to function `func_80168F40' | src/ov_SC07_006/../shared/ov/func_8016345C.h
+10:25:59   src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c: IDENTICAL · rows 15 · compiles 34 · 5.0 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:00     unit 6: COMPILE-ERROR src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:1708: parse error before `*' | src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:1863: parse error before 
+10:26:00     unit 6: COMPILE-ERROR src/ov_SC03_104/ov_SC03_104_jr_8017CA80.c:1709: parse error before `*' | src/ov_SC03_104/ov_SC03_104_jr_8017CA80.c:1864: parse error before 
+10:26:00   src/ov_SC07_007/ov_SC07_007_jr_80179B74.c: IDENTICAL · rows 23 · compiles 25 · 2.8 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:00     unit 5: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:1738: parse error before `*' | src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:1894: parse error before 
+10:26:00   src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:00     unit 30: COMPILE-ERROR src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c:560: conflicting types for `D_800B9A02' | src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c:550: previous 
+10:26:00     unit 18: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:4290: conflicting types for `D_801B5B88' | src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:4259: previou
+10:26:01     unit 17: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_80181D30.c:3625: too few arguments to function `func_80185764' [build/src/ov_SC02_005/ov_SC02_005_jr_80181D30
+10:26:01   src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c: IDENTICAL · rows 19 · compiles 21 · 4.4 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:26:01     unit 6: COMPILE-ERROR src/ov_SC04_000/ov_SC04_000_jr_801818E8.c:1700: parse error before `*' | src/ov_SC04_000/ov_SC04_000_jr_801818E8.c:1855: parse error before 
+10:26:01     unit 6: COMPILE-ERROR src/ov_SC04_008/ov_SC04_008_jr_8017AE2C.c:1705: parse error before `*' | src/ov_SC04_008/ov_SC04_008_jr_8017AE2C.c:1860: parse error before 
+10:26:02   src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c: IDENTICAL · rows 31 · compiles 34 · 15.0 s · canon 27 promoted 0 K&R 3 aliases 0 abs 0 kept 4
+10:26:03     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_80183B3C.c:1696: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_80183B3C.c:1852: parse error before 
+10:26:03   src/ov_SC02_005/ov_SC02_005_jr_80181D30.c: IDENTICAL · rows 22 · compiles 24 · 4.0 s · canon 20 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:03     unit 6: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c:1700: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c:1853: parse error before 
+10:26:03     unit 21: COMPILE-ERROR src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:5145: too few arguments to function `func_8017F2BC' | src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:51
+10:26:03     unit 15: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3591: too few arguments to function `func_801831E0' | src/ov_SC03_105/ov_SC03_105_jr_80181C84.c: A
+10:26:03   src/ov_SC03_105/ov_SC03_105_jr_80186B24.c: IDENTICAL · rows 21 · compiles 23 · 1.9 s · canon 20 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:04     unit 5: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_801867D0.c:1817: parse error before `*' | src/ov_SC06_029/ov_SC06_029_jr_801867D0.c:1973: parse error before 
+10:26:04     unit 16: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3968: too few arguments to function `func_80183CA4' | src/ov_SC03_105/ov_SC03_105_jr_80181C84.c: A
+10:26:04   src/ov_SC04_008/ov_SC04_008_jr_8017AE2C.c: IDENTICAL · rows 12 · compiles 14 · 2.5 s · canon 11 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:04     unit 18: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3240: parse error before `Vec4x16' | src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3327: parse error b
+10:26:05     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80182268.c:1814: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80182268.c:1982: parse error before 
+10:26:05   src/ov_SC03_104/ov_SC03_104_jr_8017CA80.c: IDENTICAL · rows 18 · compiles 20 · 5.1 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:06   src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c: IDENTICAL · rows 25 · compiles 27 · 6.9 s · canon 24 promoted 0 K&R 1 aliases 0 abs 0 kept 1
+10:26:06     unit 6: COMPILE-ERROR src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c:1713: parse error before `*' | src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c:1869: parse error before 
+10:26:06     unit 18: DIFFERS [build/src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.o]
+10:26:06     unit 13: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_801867D0.c:4301: too few arguments to function `func_8017C8E4' [build/src/ov_SC06_029/ov_SC06_029_jr_801867D0
+10:26:07     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c:1807: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c:1975: parse error before 
+10:26:07   src/ov_SC06_024/ov_SC06_024_jr_80183B3C.c: IDENTICAL · rows 17 · compiles 19 · 2.3 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:07   src/ov_SC04_000/ov_SC04_000_jr_801818E8.c: IDENTICAL · rows 23 · compiles 25 · 3.2 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:07   src/ov_SC03_105/ov_SC03_105_jr_80181C84.c: IDENTICAL · rows 22 · compiles 24 · 4.8 s · canon 18 promoted 0 K&R 2 aliases 0 abs 0 kept 4
+10:26:08     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_80184DDC.c:1695: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_80184DDC.c:1848: parse error before 
+10:26:09     unit 14: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80182268.c:3354: too few arguments to function `func_80182988' | src/ov_SC01_077/ov_SC01_077_jr_80182268.c: A
+10:26:09     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_80184F64.c:1694: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_80184F64.c:1847: parse error before 
+10:26:09     unit 6: COMPILE-ERROR src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:1707: parse error before `*' | src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:1862: parse error before 
+10:26:09   src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c: IDENTICAL · rows 20 · compiles 22 · 4.6 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:09   src/ov_SC01_077/ov_SC01_077_jr_80182268.c: IDENTICAL · rows 15 · compiles 17 · 2.1 s · canon 13 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:10   src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c: IDENTICAL · rows 24 · compiles 26 · 7.1 s · canon 17 promoted 0 K&R 0 aliases 5 abs 0 kept 2
+10:26:11   src/ov_SC06_029/ov_SC06_029_jr_801867D0.c: IDENTICAL · rows 20 · compiles 23 · 4.2 s · canon 18 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:11     unit 5: COMPILE-ERROR src/ov_SC03_007/ov_SC03_007_jr_80181F94.c:1719: parse error before `*' | src/ov_SC03_007/ov_SC03_007_jr_80181F94.c:1875: parse error before 
+10:26:11     unit 20: DIFFERS [build/src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.o]
+10:26:11     unit 6: COMPILE-ERROR src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c:1708: parse error before `*' | src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c:1861: parse error before 
+10:26:11     unit 21: COMPILE-ERROR src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c:3711: conflicting types for `D_800B9A02' | src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c:2472: previou
+10:26:12     unit 6: COMPILE-ERROR src/ov_SC03_103/ov_SC03_103_jr_8017C294.c:1708: parse error before `*' | src/ov_SC03_103/ov_SC03_103_jr_8017C294.c:1863: parse error before 
+10:26:12   src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c: IDENTICAL · rows 18 · compiles 20 · 3.6 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:12   src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c: IDENTICAL · rows 22 · compiles 24 · 3.9 s · canon 18 promoted 0 K&R 0 aliases 1 abs 0 kept 3
+10:26:13   src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:13   src/ov_SC03_001/ov_SC03_001_jr_80184DDC.c: IDENTICAL · rows 17 · compiles 19 · 2.2 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:13     unit 6: COMPILE-ERROR src/ov_SC04_021/ov_SC04_021_jr_8017D5C0.c:1712: parse error before `*' | src/ov_SC04_021/ov_SC04_021_jr_8017D5C0.c:1868: parse error before 
+10:26:13   src/ov_SC07_006/ov_SC07_006_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:13   src/ov_SC07_006/ov_SC07_006_jr_80183814.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:13   src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:13     unit 6: COMPILE-ERROR src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c:1712: parse error before `*' | src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c:1868: parse error before 
+10:26:14     unit 6: COMPILE-ERROR src/ov_SC05_019/ov_SC05_019_jr_8017D5C0.c:1712: parse error before `*' | src/ov_SC05_019/ov_SC05_019_jr_8017D5C0.c:1868: parse error before 
+10:26:14   src/ov_SC03_001/ov_SC03_001_jr_80184F64.c: IDENTICAL · rows 17 · compiles 19 · 2.5 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:14   src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:15     unit 10: COMPILE-ERROR src/ov_SC04_021/../shared/ov/func_8017EF4C__34215dc7.h:4: too few arguments to function `func_8017EFA0' | src/ov_SC04_021/../shared/ov/func_
+10:26:15     unit 10: COMPILE-ERROR src/ov_SC03_126/../shared/ov/func_8017EF4C__34215dc7.h:4: too few arguments to function `func_8017EFA0' | src/ov_SC03_126/ov_SC03_126_jr_801
+10:26:15   src/ov_SC04_021/ov_SC04_021_jr_8017D5C0.c: IDENTICAL · rows 11 · compiles 13 · 2.3 s · canon 9 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:15     unit 10: COMPILE-ERROR src/ov_SC05_019/../shared/ov/func_8017EF4C__34215dc7.h:4: too few arguments to function `func_8017EFA0' | src/ov_SC05_019/../shared/ov/func_
+10:26:15   src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c: IDENTICAL · rows 11 · compiles 13 · 2.2 s · canon 9 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:16     unit 5: COMPILE-ERROR src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:6047: too few arguments to function `func_8001E094' | src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c: A
+10:26:16   src/ov_SC05_019/ov_SC05_019_jr_8017D5C0.c: IDENTICAL · rows 11 · compiles 13 · 2.0 s · canon 9 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:16     unit 6: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_80181014.c:1692: parse error before `*' | src/ov_SC06_032/ov_SC06_032_jr_80181014.c:1848: parse error before 
+10:26:16   src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:16     unit 17: DIFFERS [build/src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.o]
+10:26:17     unit 6: COMPILE-ERROR src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:1699: parse error before `*' | src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:1852: parse error before 
+10:26:17     unit 6: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8017FCB0.c:1716: parse error before `*' | src/ov_SC02_000/ov_SC02_000_jr_8017FCB0.c:1873: parse error before 
+10:26:18   src/ov_SC03_007/ov_SC03_007_jr_80181F94.c: IDENTICAL · rows 22 · compiles 24 · 3.0 s · canon 21 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:18   src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c: IDENTICAL · rows 20 · compiles 22 · 4.1 s · canon 18 promoted 0 K&R 0 aliases 0 abs 1 kept 1
+10:26:19     unit 5: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c:1700: parse error before `*' | src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c:1853: parse error before 
+10:26:20     unit 6: COMPILE-ERROR src/ov_SC03_012/ov_SC03_012_jr_8017AE2C.c:1711: parse error before `*' | src/ov_SC03_012/ov_SC03_012_jr_8017AE2C.c:1867: parse error before 
+10:26:20     unit 6: COMPILE-ERROR src/ov_SC03_114/ov_SC03_114_jr_8017BEBC.c:1711: parse error before `*' | src/ov_SC03_114/ov_SC03_114_jr_8017BEBC.c:1867: parse error before 
+10:26:20     unit 19: DIFFERS [build/src/ov_SC03_103/ov_SC03_103_jr_8017C294.o]
+10:26:20     unit 5: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c:1866: parse error before 
+10:26:20     unit 17: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_80181014.c:3311: too few arguments to function `func_80181DDC' [build/src/ov_SC06_032/ov_SC06_032_jr_80181014
+10:26:20   src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c: IDENTICAL · rows 23 · compiles 25 · 7.4 s · canon 16 promoted 0 K&R 0 aliases 5 abs 0 kept 2
+10:26:20     unit 6: COMPILE-ERROR src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:1708: parse error before `*' | src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:1863: parse error before 
+10:26:21   src/ov_SC06_032/ov_SC06_032_jr_80181014.c: IDENTICAL · rows 18 · compiles 20 · 3.3 s · canon 16 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:21   src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:21     unit 5: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8018473C.c:1703: parse error before `*' | src/ov_SC05_010/ov_SC05_010_jr_8018473C.c:1859: parse error before 
+10:26:22   src/ov_SC02_000/ov_SC02_000_jr_8017FCB0.c: IDENTICAL · rows 17 · compiles 38 · 4.9 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:22     unit 5: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80182A74.c:1694: parse error before `*' | src/ov_SC05_017/ov_SC05_017_jr_80182A74.c:1847: parse error before 
+10:26:22     unit 1: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:6170: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:6189: void value not igno
+10:26:23   src/ov_SC03_103/ov_SC03_103_jr_8017C294.c: IDENTICAL · rows 25 · compiles 27 · 7.7 s · canon 18 promoted 0 K&R 0 aliases 5 abs 0 kept 2
+10:26:23   src/ov_SC03_114/ov_SC03_114_jr_8017BEBC.c: IDENTICAL · rows 17 · compiles 19 · 3.0 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:23     unit 5: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:1711: parse error before `*' | src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:1865: parse error before 
+10:26:24   src/ov_SC03_012/ov_SC03_012_jr_8017AE2C.c: IDENTICAL · rows 17 · compiles 19 · 3.8 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:24     unit 15: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c:5322: parse error before `*' | src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c: At top level: | src/ov_S
+10:26:24     unit 13: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8018473C.c:3785: too few arguments to function `func_8017ECE4' | src/ov_SC05_010/ov_SC05_010_jr_8018473C.c: A
+10:26:24     unit 6: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8017ECB4.c:1705: parse error before `*' | src/ov_SC07_000/ov_SC07_000_jr_8017ECB4.c:1861: parse error before 
+10:26:24     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80180B64.c:1800: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80180B64.c:1967: parse error before 
+10:26:24     unit 5: COMPILE-ERROR src/ov_SC03_011/ov_SC03_011_jr_80180B68.c:1718: parse error before `*' | src/ov_SC03_011/ov_SC03_011_jr_80180B68.c:1874: parse error before 
+10:26:25     unit 3: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7213: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7227: `D_800AE620' undecl
+10:26:25   src/ov_SC05_010/ov_SC05_010_jr_8018473C.c: IDENTICAL · rows 16 · compiles 19 · 3.6 s · canon 14 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:25     unit 5: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_80186DDC.c:1754: parse error before `*' | src/ov_SC03_105/ov_SC03_105_jr_80186DDC.c:1910: parse error before 
+10:26:25     unit 19: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c:6350: parse error before `*' | src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c: At top level: | src/ov_S
+10:26:26   src/ov_SC05_017/ov_SC05_017_jr_80182A74.c: IDENTICAL · rows 16 · compiles 18 · 3.0 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:26     unit 4: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7433: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7467: `D_800AE620' undecl
+10:26:27   src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c: IDENTICAL · rows 21 · compiles 24 · 9.4 s · canon 18 promoted 0 K&R 1 aliases 1 abs 0 kept 2
+10:26:27     unit 15: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:3609: too few arguments to function `func_8017E05C' | src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c: A
+10:26:27   src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c: IDENTICAL · rows 20 · compiles 22 · 6.5 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 3
+10:26:27     unit 21: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c:7016: too few arguments to function `func_8018739C' | src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c:72
+10:26:27   src/ov_SC06_018/ov_SC06_018_jr_8018FF98.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:27     unit 5: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:10904: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:10924: `D_800AE620' unde
+10:26:28   src/ov_SC05_018/ov_SC05_018_jr_8017D604.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:28   src/ov_SC06_032/ov_SC06_032_jr_80182890.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:28     unit 18: COMPILE-ERROR src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:7744: parse error before `*' | src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:7781: parse error before 
+10:26:28   src/ov_SC07_006/ov_SC07_006_jr_8017AE2C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:28   src/ov_SC01_077/ov_SC01_077_jr_80180B64.c: IDENTICAL · rows 14 · compiles 16 · 2.2 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:28   src/ov_SC07_000/ov_SC07_000_jr_8017ECB4.c: IDENTICAL · rows 16 · compiles 18 · 2.3 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:28   src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c: IDENTICAL · rows 16 · compiles 19 · 3.6 s · canon 14 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:29   src/ov_MAIN_012/ov_MAIN_012_jr_8016AB6C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:29   src/ov_SC03_011/ov_SC03_011_jr_80180B68.c: IDENTICAL · rows 17 · compiles 19 · 2.2 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:29   src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c: IDENTICAL · rows 23 · compiles 26 · 9.0 s · canon 21 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:29   src/ov_SC02_037/ov_SC02_037_jr_8016AB6C.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:30     unit 21: COMPILE-ERROR src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:8297: too few arguments to function `func_80186A70' | src/ov_SC02_027/ov_SC02_027_jr_8017D898.c: A
+10:26:30     unit 8: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:4789: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:4819: `D_80126B58' undecl
+10:26:31     unit 5: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_80183508.c:1700: parse error before `*' | src/ov_SC05_001/ov_SC05_001_jr_80183508.c:1855: parse error before 
+10:26:32     unit 5: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_80180CD0.c:1713: parse error before `*' | src/ov_SC06_022/ov_SC06_022_jr_80180CD0.c:1869: parse error before 
+10:26:32     unit 23: DIFFERS [build/src/ov_SC02_027/ov_SC02_027_jr_8017D898.o]
+10:26:32     unit 5: COMPILE-ERROR src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:1700: parse error before `*' | src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:1853: parse error before 
+10:26:32     unit 9: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5061: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5082: `D_80126B58' undecl
+10:26:33   src/ov_SC03_105/ov_SC03_105_jr_80186DDC.c: IDENTICAL · rows 20 · compiles 22 · 3.6 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:33     unit 5: COMPILE-ERROR src/ov_SC03_007/ov_SC03_007_jr_80183894.c:1723: parse error before `*' | src/ov_SC03_007/ov_SC03_007_jr_80183894.c:1879: parse error before 
+10:26:33     unit 10: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5161: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5182: `D_80126B58' undecl
+10:26:34     unit 5: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c:5900: too few arguments to function `func_8002A04C' | src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c: A
+10:26:34   src/ov_SC05_001/ov_SC05_001_jr_80183508.c: IDENTICAL · rows 17 · compiles 19 · 3.3 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:34   src/ov_SC06_022/ov_SC06_022_jr_80180CD0.c: IDENTICAL · rows 16 · compiles 18 · 3.0 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:34     unit 6: COMPILE-ERROR src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:6209: too few arguments to function `func_8001E094' | src/ov_SC02_028/ov_SC02_028_jr_8017D898.c: A
+10:26:34     unit 5: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_801813BC.c:1738: parse error before `*' | src/ov_SC03_105/ov_SC03_105_jr_801813BC.c:1894: parse error before 
+10:26:34     unit 6: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c:1709: parse error before `*' | src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c:1865: parse error before 
+10:26:34     unit 11: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5162: conflicting types for `D_80126B62' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:1790: previou
+10:26:34     unit 7: COMPILE-ERROR src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:1708: parse error before `*' | src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:1863: parse error before 
+10:26:34     unit 22: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_8017AE2C.c:568: conflicting types for `D_800B9A02' | src/ov_SC07_011/ov_SC07_011_jr_8017AE2C.c:558: previous 
+10:26:35   src/ov_SC07_011/ov_SC07_011_jr_8017AE2C.c: IDENTICAL · rows 23 · compiles 25 · 2.8 s · canon 22 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:36     unit 15: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_801813BC.c:3066: too many arguments to function `func_80183174' | src/ov_SC03_105/ov_SC03_105_jr_801813BC.c:3
+10:26:36     unit 5: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_80182BA0.c:1696: parse error before `*' | src/ov_SC03_125/ov_SC03_125_jr_80182BA0.c:1849: parse error before 
+10:26:36     unit 5: COMPILE-ERROR src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:1704: parse error before `*' | src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:1860: parse error before 
+10:26:36   src/ov_SC03_105/ov_SC03_105_jr_801813BC.c: IDENTICAL · rows 19 · compiles 21 · 1.7 s · canon 17 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:36     unit 13: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12791: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12801: `D_801ED994' unde
+10:26:37   src/ov_SC03_007/ov_SC03_007_jr_80183894.c: IDENTICAL · rows 19 · compiles 21 · 4.2 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:37     unit 6: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:1708: parse error before `*' | src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:1865: parse error before 
+10:26:38     unit 14: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12838: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12853: `D_801ED994' unde
+10:26:38   src/ov_SC02_027/ov_SC02_027_jr_8017D898.c: IDENTICAL · rows 31 · compiles 33 · 14.4 s · canon 20 promoted 0 K&R 1 aliases 6 abs 1 kept 4
+10:26:38     unit 5: COMPILE-ERROR src/ov_SC03_118/ov_SC03_118_jr_80183830.c:1703: parse error before `*' | src/ov_SC03_118/ov_SC03_118_jr_80183830.c:1859: parse error before 
+10:26:38     unit 5: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8018254C.c:1695: parse error before `*' | src/ov_SC04_020/ov_SC04_020_jr_8018254C.c:1848: parse error before 
+10:26:39   src/ov_SC03_125/ov_SC03_125_jr_80182BA0.c: IDENTICAL · rows 15 · compiles 17 · 2.0 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:39     unit 5: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c:1708: parse error before `*' | src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c:1864: parse error before 
+10:26:39   src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:39   src/ov_SC06_016/ov_SC06_016_jr_801816DC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:39     unit 6: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c:5142: too few arguments to function `func_8013B7AC' | src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c: A
+10:26:40   src/ov_SC04_020/ov_SC04_020_jr_8018254C.c: IDENTICAL · rows 15 · compiles 17 · 1.8 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:40     unit 5: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_8017D898.c:1708: parse error before `*' | src/ov_SC05_005/ov_SC05_005_jr_8017D898.c:1864: parse error before 
+10:26:40     unit 20: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c:6079: conflicting types for `D_800AE620' | src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c:5726: previou
+10:26:40     unit 19: COMPILE-ERROR src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:7684: conflicting types for `D_800AE620' | src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:6675: previou
+10:26:40     unit 5: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:1708: parse error before `*' | src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:1863: parse error before 
+10:26:41     unit 5: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_801839D0.c:1702: parse error before `*' | src/ov_SC06_016/ov_SC06_016_jr_801839D0.c:1856: parse error before 
+10:26:41     unit 18: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12792: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12801: incompatible type
+10:26:41   src/ov_SC02_028/ov_SC02_028_jr_8017D898.c: IDENTICAL · rows 21 · compiles 24 · 6.7 s · canon 19 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:41   src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c: IDENTICAL · rows 20 · compiles 22 · 9.2 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:26:42     unit 19: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12839: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12853: incompatible type
+10:26:42   src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c: IDENTICAL · rows 21 · compiles 24 · 7.2 s · canon 17 promoted 0 K&R 1 aliases 1 abs 0 kept 3
+10:26:42   src/ov_SC06_032/ov_SC06_032_jr_8018FCE8.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:42     unit 5: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_80184304.c:1695: parse error before `*' | src/ov_SC06_022/ov_SC06_022_jr_80184304.c:1851: parse error before 
+10:26:43     unit 20: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12793: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12802: incompatible type
+10:26:43     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_801867DC.c:1693: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_801867DC.c:1849: parse error before 
+10:26:43     unit 14: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_801839D0.c:2922: too few arguments to function `func_801830B4' [build/src/ov_SC06_016/ov_SC06_016_jr_801839D0
+10:26:43     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_80181D34.c:1696: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_80181D34.c:1852: parse error before 
+10:26:43     unit 15: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:4459: too few arguments to function `func_80185F8C' | src/ov_SC02_000/../shared/ov/func_80183754__
+10:26:44   src/ov_SC06_016/ov_SC06_016_jr_801839D0.c: IDENTICAL · rows 16 · compiles 19 · 2.1 s · canon 14 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:44     unit 21: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12840: parse error before `[' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12854: incompatible type
+10:26:44     unit 15: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c:4591: too many arguments to function `func_80181844' | src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c:4
+10:26:44   src/ov_SC03_118/ov_SC03_118_jr_80183830.c: IDENTICAL · rows 19 · compiles 42 · 6.0 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:44     unit 16: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:5651: too few arguments to function `func_80187480' | src/ov_SC02_000/../shared/ov/func_80183754__
+10:26:45   src/ov_SC06_022/ov_SC06_022_jr_80184304.c: IDENTICAL · rows 16 · compiles 18 · 1.7 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:45     unit 16: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c:4605: too many arguments to function `func_80181864' | src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c:4
+10:26:46   src/ov_SC03_014/ov_SC03_014_jr_801848E4.c: IDENTICAL · rows 17 · compiles 38 · 10.0 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:46   src/ov_SC05_005/ov_SC05_005_jr_8017D898.c: IDENTICAL · rows 19 · compiles 21 · 4.3 s · canon 18 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:47     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80183324.c:1807: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80183324.c:1975: parse error before 
+10:26:47   src/ov_SC06_024/ov_SC06_024_jr_801867DC.c: IDENTICAL · rows 17 · compiles 19 · 1.9 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:47     unit 18: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:4722: conflicting types for `D_8018F034' | src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:4135: previou
+10:26:47   src/ov_SC06_024/ov_SC06_024_jr_80181D34.c: IDENTICAL · rows 15 · compiles 17 · 2.8 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:47     unit 6: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80183324.c:3426: too few arguments to function `func_8012E364' [build/src/ov_SC01_077/ov_SC01_077_jr_80183324
+10:26:48     unit 25: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:6014: conflicting types for `D_801EFC4C' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:5824: previou
+10:26:48   src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c: IDENTICAL · rows 20 · compiles 22 · 6.1 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:48     unit 19: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:4723: conflicting types for `D_8018F03C' | src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:4136: previou
+10:26:49     unit 21: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_8017AE2C.c:568: conflicting types for `D_800B9A02' | src/ov_SC07_007/ov_SC07_007_jr_8017AE2C.c:558: previous 
+10:26:49     unit 5: COMPILE-ERROR src/ov_SC02_016/ov_SC02_016_jr_801810C8.c:1700: parse error before `*' | src/ov_SC02_016/ov_SC02_016_jr_801810C8.c:1856: parse error before 
+10:26:49   src/ov_SC07_007/ov_SC07_007_jr_8017AE2C.c: IDENTICAL · rows 22 · compiles 24 · 2.3 s · canon 21 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:49     unit 26: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:13101: conflicting types for `D_801EFEA0' | src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:13056: previ
+10:26:50   src/ov_SC02_000/ov_SC02_000_jr_8018173C.c: IDENTICAL · rows 20 · compiles 44 · 13.0 s · canon 15 promoted 0 K&R 2 aliases 0 abs 0 kept 5
+10:26:50   src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c: IDENTICAL · rows 20 · compiles 24 · 9.8 s · canon 15 promoted 0 K&R 3 aliases 1 abs 0 kept 4
+10:26:51     unit 15: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80183324.c:3363: too few arguments to function `func_80181F08' [build/src/ov_SC01_077/ov_SC01_077_jr_80183324
+10:26:51     unit 5: COMPILE-ERROR src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:1707: parse error before `*' | src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:1863: parse error before 
+10:26:51     unit 5: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_8018431C.c:1697: parse error before `*' | src/ov_SC03_002/ov_SC03_002_jr_8018431C.c:1850: parse error before 
+10:26:51     unit 5: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c:1696: parse error before `*' | src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c:1852: parse error before 
+10:26:51     unit 5: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:1711: parse error before `*' | src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:1865: parse error before 
+10:26:51     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_801887A8.c:1738: parse error before `*' | src/ov_SC03_028/ov_SC03_028_jr_801887A8.c:1894: parse error before 
+10:26:52   src/ov_SC01_077/ov_SC01_077_jr_80183324.c: IDENTICAL · rows 17 · compiles 20 · 2.8 s · canon 14 promoted 0 K&R 2 aliases 0 abs 0 kept 3
+10:26:52     unit 5: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_80181F74.c:1702: parse error before `*' | src/ov_SC03_112/ov_SC03_112_jr_80181F74.c:1858: parse error before 
+10:26:53     unit 5: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c:5229: too few arguments to function `func_8001E094' | src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c: A
+10:26:53   src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: IDENTICAL · rows 30 · compiles 32 · 24.9 s · canon 0 promoted 0 K&R 0 aliases 14 abs 0 kept 16
+10:26:53   src/ov_SC03_118/ov_SC03_118_o0d.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:26:53     unit 5: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_8017C294.c:1710: parse error before `*' | src/ov_SC03_112/ov_SC03_112_jr_8017C294.c:1863: parse error before 
+10:26:54     unit 6: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c:1710: parse error before `*' | src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c:1865: parse error before 
+10:26:54   src/ov_SC02_016/ov_SC02_016_jr_801810C8.c: IDENTICAL · rows 18 · compiles 20 · 3.4 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:54     unit 5: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_80183AE0.c:1702: parse error before `*' | src/ov_SC03_112/ov_SC03_112_jr_80183AE0.c:1858: parse error before 
+10:26:55   src/ov_SC03_002/ov_SC03_002_jr_8018431C.c: IDENTICAL · rows 17 · compiles 19 · 2.4 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:55   src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c: IDENTICAL · rows 16 · compiles 18 · 2.9 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:55     unit 16: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_80181F74.c:2890: too few arguments to function `func_80182708' | src/ov_SC03_112/ov_SC03_112_jr_80181F74.c:29
+10:26:56     unit 21: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_80171B4C.c:564: conflicting types for `D_800B9A02' | src/ov_SC07_011/ov_SC07_011_jr_80171B4C.c:554: previous 
+10:26:56   src/ov_SC03_028/ov_SC03_028_jr_801887A8.c: IDENTICAL · rows 18 · compiles 20 · 3.0 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:57   src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c: IDENTICAL · rows 17 · compiles 19 · 5.6 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:57   src/ov_SC03_112/ov_SC03_112_jr_80181F74.c: IDENTICAL · rows 18 · compiles 20 · 1.8 s · canon 16 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:57   src/ov_SC07_011/ov_SC07_011_jr_80171B4C.c: IDENTICAL · rows 22 · compiles 24 · 6.4 s · canon 21 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:26:58     unit 5: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:3801: too few arguments to function `func_8001E094' | src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c: A
+10:26:58     unit 5: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c:1710: parse error before `*' | src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c:1864: parse error before 
+10:26:58     unit 5: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_80182D08.c:1695: parse error before `*' | src/ov_SC06_022/ov_SC06_022_jr_80182D08.c:1851: parse error before 
+10:26:58     unit 6: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:1709: parse error before `*' | src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:1865: parse error before 
+10:26:58     unit 19: DIFFERS [build/src/ov_SC02_026/ov_SC02_026_jr_8017C180.o]
+10:26:59   src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c: IDENTICAL · rows 17 · compiles 20 · 5.2 s · canon 15 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:26:59   src/ov_SC03_112/ov_SC03_112_jr_80183AE0.c: IDENTICAL · rows 18 · compiles 20 · 2.5 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:00     unit 20: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:8278: conflicting types for `D_801AF930' | src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:8158: previou
+10:27:00     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80183AF0.c:1807: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80183AF0.c:1975: parse error before 
+10:27:00     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80183BAC.c:1807: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80183BAC.c:1975: parse error before 
+10:27:00     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_801789AC.c:1806: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_801789AC.c:1974: parse error before 
+10:27:00   src/ov_SC03_112/ov_SC03_112_jr_8017C294.c: IDENTICAL · rows 20 · compiles 22 · 4.6 s · canon 19 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:00     unit 21: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:8279: conflicting types for `D_801AF938' | src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:8159: previou
+10:27:01     unit 15: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_80182D08.c:3082: conflicting types for `D_801D42B0' | src/ov_SC06_022/ov_SC06_022_jr_80182D08.c:3050: previou
+10:27:01     unit 5: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_801815AC.c:1703: parse error before `*' | src/ov_SC03_002/ov_SC03_002_jr_801815AC.c:1856: parse error before 
+10:27:01   src/ov_SC06_022/ov_SC06_022_jr_80182D08.c: IDENTICAL · rows 16 · compiles 18 · 2.3 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:27:01   src/ov_SC01_077/ov_SC01_077_jr_80183AF0.c: IDENTICAL · rows 16 · compiles 18 · 1.3 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:02   src/ov_SC01_077/ov_SC01_077_jr_80183BAC.c: IDENTICAL · rows 16 · compiles 18 · 1.4 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:02     unit 16: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_801789AC.c:2892: too few arguments to function `func_80178BF8' | src/ov_SC01_077/ov_SC01_077_jr_801789AC.c:29
+10:27:02     unit 5: COMPILE-ERROR src/ov_SC03_010/ov_SC03_010_jr_8017F6C0.c:1710: parse error before `*' | src/ov_SC03_010/ov_SC03_010_jr_8017F6C0.c:1866: parse error before 
+10:27:02   src/ov_SC01_077/ov_SC01_077_jr_801789AC.c: IDENTICAL · rows 18 · compiles 21 · 1.8 s · canon 16 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:02     unit 5: COMPILE-ERROR src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c:1700: parse error before `*' | src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c:1853: parse error before 
+10:27:02     unit 24: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:8230: conflicting types for `D_801BB960' | src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:8194: previou
+10:27:02     unit 17: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:5282: parse error before `[' | src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:5293: subscripted value i
+10:27:03     unit 19: COMPILE-ERROR src/ov_SC07_010/ov_SC07_010_jr_801789AC.c:2795: too few arguments to function `func_80178BF8' | src/ov_SC07_010/ov_SC07_010_jr_801789AC.c:28
+10:27:03     unit 5: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_801830A8.c:1696: parse error before `*' | src/ov_SC03_024/ov_SC03_024_jr_801830A8.c:1852: parse error before 
+10:27:03     unit 5: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_801806F8.c:1716: parse error before `*' | src/ov_SC03_013/ov_SC03_013_jr_801806F8.c:1872: parse error before 
+10:27:03     unit 17: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_801815AC.c:3055: too few arguments to function `func_80182E88' [build/src/ov_SC03_002/ov_SC03_002_jr_801815AC
+10:27:03     unit 18: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:5398: parse error before `[' | src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:5414: subscripted value i
+10:27:03   src/ov_SC07_010/ov_SC07_010_jr_801789AC.c: IDENTICAL · rows 21 · compiles 24 · 2.4 s · canon 20 promoted 0 K&R 1 aliases 0 abs 0 kept 1
+10:27:03   src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c: IDENTICAL · rows 21 · compiles 23 · 4.5 s · canon 13 promoted 0 K&R 0 aliases 7 abs 0 kept 1
+10:27:04   src/ov_SC02_026/ov_SC02_026_jr_8017C180.c: IDENTICAL · rows 26 · compiles 28 · 9.8 s · canon 18 promoted 0 K&R 0 aliases 2 abs 1 kept 5
+10:27:04   src/ov_SC03_002/ov_SC03_002_jr_801815AC.c: IDENTICAL · rows 18 · compiles 21 · 2.1 s · canon 16 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:05   src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c: IDENTICAL · rows 19 · compiles 22 · 5.9 s · canon 15 promoted 0 K&R 1 aliases 0 abs 0 kept 4
+10:27:05     unit 5: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_801851B8.c:1701: parse error before `*' | src/ov_SC03_097/ov_SC03_097_jr_801851B8.c:1856: parse error before 
+10:27:05     unit 5: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_80181694.c:4672: too few arguments to function `func_8001E094' | src/ov_SC03_092/ov_SC03_092_jr_80181694.c: A
+10:27:06     unit 6: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_80181694.c:1702: parse error before `*' | src/ov_SC03_092/ov_SC03_092_jr_80181694.c:1857: parse error before 
+10:27:06   src/ov_SC03_010/ov_SC03_010_jr_8017F6C0.c: IDENTICAL · rows 18 · compiles 20 · 2.0 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:06     unit 20: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_80171B4C.c:564: conflicting types for `D_800B9A02' | src/ov_SC07_007/ov_SC07_007_jr_80171B4C.c:554: previous 
+10:27:06     unit 5: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_801817E0.c:1702: parse error before `*' | src/ov_SC03_112/ov_SC03_112_jr_801817E0.c:1858: parse error before 
+10:27:06     unit 5: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_80182BF8.c:1702: parse error before `*' | src/ov_SC03_112/ov_SC03_112_jr_80182BF8.c:1858: parse error before 
+10:27:06   src/ov_SC03_013/ov_SC03_013_jr_801806F8.c: IDENTICAL · rows 17 · compiles 19 · 2.2 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:07   src/ov_SC03_024/ov_SC03_024_jr_801830A8.c: IDENTICAL · rows 17 · compiles 19 · 2.2 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:07   src/ov_SC07_007/ov_SC07_007_jr_80171B4C.c: IDENTICAL · rows 21 · compiles 23 · 6.1 s · canon 20 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:07   src/ov_SC07_006/ov_SC07_006_jr_801789AC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:27:07   src/ov_SC03_097/ov_SC03_097_jr_801851B8.c: IDENTICAL · rows 14 · compiles 16 · 2.3 s · canon 12 promoted 0 K&R 0 aliases 1 abs 0 kept 1
+10:27:09   src/ov_SC07_010/ov_SC07_010_jr_80179B74.c: IDENTICAL · rows 20 · compiles 2 · 0.3 s · canon 20 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:27:09   src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c: IDENTICAL · rows 19 · compiles 21 · 4.1 s · canon 17 promoted 0 K&R 0 aliases 0 abs 1 kept 1
+10:27:09     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_801851E0.c:1693: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_801851E0.c:1849: parse error before 
+10:27:09   src/ov_SC03_112/ov_SC03_112_jr_801817E0.c: IDENTICAL · rows 17 · compiles 19 · 3.0 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:09     unit 5: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c:1697: parse error before `*' | src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c:1850: parse error before 
+10:27:10     unit 5: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:1702: parse error before `*' | src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:1858: parse error before 
+10:27:10     unit 5: COMPILE-ERROR src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c:1710: parse error before `*' | src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c:1866: parse error before 
+10:27:10     unit 5: COMPILE-ERROR src/ov_SC01_004/ov_SC01_004_jr_8017E5B8.c:1705: parse error before `*' | src/ov_SC01_004/ov_SC01_004_jr_8017E5B8.c:1861: parse error before 
+10:27:10   src/ov_SC03_112/ov_SC03_112_jr_80182BF8.c: IDENTICAL · rows 18 · compiles 20 · 3.3 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:10   src/ov_SC03_092/ov_SC03_092_jr_80181694.c: IDENTICAL · rows 17 · compiles 20 · 4.4 s · canon 14 promoted 0 K&R 1 aliases 1 abs 0 kept 2
+10:27:11     unit 5: COMPILE-ERROR src/ov_SC03_118/ov_SC03_118_jr_801863CC.c:1702: parse error before `*' | src/ov_SC03_118/ov_SC03_118_jr_801863CC.c:1858: parse error before 
+10:27:11     unit 5: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:1706: parse error before `*' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:1862: parse error before 
+10:27:11     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_8018103C.c:1800: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_8018103C.c:1967: parse error before 
+10:27:11     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80181BE4.c:1800: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80181BE4.c:1967: parse error before 
+10:27:11     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80181F08.c:1801: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80181F08.c:1968: parse error before 
+10:27:11     unit 15: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_801851E0.c:3269: conflicting types for `D_801D33F4' | src/ov_SC06_024/ov_SC06_024_jr_801851E0.c:3162: previou
+10:27:12     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c:1805: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c:1972: parse error before 
+10:27:12     unit 8: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:2512: parse error before `*' | src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:3836: parse error before 
+10:27:12   src/ov_SC01_004/ov_SC01_004_jr_8017E5B8.c: IDENTICAL · rows 15 · compiles 17 · 1.5 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:12   src/ov_SC06_024/ov_SC06_024_jr_801851E0.c: IDENTICAL · rows 16 · compiles 18 · 2.9 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:27:12   src/ov_SC01_077/ov_SC01_077_jr_80181BE4.c: IDENTICAL · rows 14 · compiles 16 · 1.0 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:13   src/ov_SC01_077/ov_SC01_077_jr_80181F08.c: IDENTICAL · rows 14 · compiles 16 · 1.1 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:13   src/ov_SC01_077/ov_SC01_077_jr_8018103C.c: IDENTICAL · rows 14 · compiles 16 · 1.8 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:13     unit 14: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4760: conflicting types for `D_80126B5E' | src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4755: previou
+10:27:14     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_801820DC.c:1800: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_801820DC.c:1967: parse error before 
+10:27:14     unit 5: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_80182E7C.c:1807: parse error before `*' | src/ov_SC01_077/ov_SC01_077_jr_80182E7C.c:1975: parse error before 
+10:27:14     unit 15: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4761: conflicting types for `D_80126B66' | src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4756: previou
+10:27:14     unit 15: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c:4646: too few arguments to function `func_80184004' | src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c: A
+10:27:14     unit 5: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_80185440.c:1703: parse error before `*' | src/ov_SC02_026/ov_SC02_026_jr_80185440.c:1859: parse error before 
+10:27:14     unit 14: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:4681: too few arguments to function `func_80182B00' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:49
+10:27:14     unit 5: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_8017FAA8.c:1715: parse error before `*' | src/ov_SC03_013/ov_SC03_013_jr_8017FAA8.c:1871: parse error before 
+10:27:14   src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c: IDENTICAL · rows 16 · compiles 18 · 5.0 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 3
+10:27:14   src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c: IDENTICAL · rows 15 · compiles 34 · 6.2 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:15   src/ov_SC01_077/ov_SC01_077_jr_801820DC.c: IDENTICAL · rows 14 · compiles 16 · 1.1 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:16   src/ov_SC01_077/ov_SC01_077_jr_80182E7C.c: IDENTICAL · rows 15 · compiles 17 · 1.8 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:16     unit 14: COMPILE-ERROR src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c:5825: too few arguments to function `func_8017F714' | src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c: A
+10:27:16   src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c: IDENTICAL · rows 17 · compiles 20 · 6.0 s · canon 15 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:17     unit 14: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_80185440.c:3078: conflicting types for `D_800A5E88' | src/ov_SC02_026/ov_SC02_026_jr_80185440.c:3052: previou
+10:27:17   src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c: IDENTICAL · rows 15 · compiles 18 · 4.8 s · canon 13 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:17     unit 19: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6362: parse error before `[' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6378: subscripted value i
+10:27:17     unit 20: COMPILE-ERROR src/ov_SC07_011/../shared/ov/func_8016AE5C__te4eb1475.h:8: too few arguments to function `func_8016B234' | src/ov_SC07_011/../shared/ov/func
+10:27:17   src/ov_SC03_118/ov_SC03_118_jr_801863CC.c: IDENTICAL · rows 16 · compiles 36 · 7.5 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:17     unit 15: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_80185440.c:3029: conflicting types for `D_800A5EA8' | src/ov_SC02_026/ov_SC02_026_jr_80185440.c:3008: previou
+10:27:18     unit 5: COMPILE-ERROR src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:1708: parse error before `*' | src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:1864: parse error before 
+10:27:18     unit 20: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6363: parse error before `[' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6380: subscripted value i
+10:27:18   src/ov_SC03_013/ov_SC03_013_jr_8017FAA8.c: IDENTICAL · rows 17 · compiles 19 · 2.0 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:18     unit 22: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:4215: too few arguments to function `func_8016E778' | src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c: A
+10:27:18     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_80185C14.c:1733: parse error before `*' | src/ov_SC03_028/ov_SC03_028_jr_80185C14.c:1889: parse error before 
+10:27:18     unit 20: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_80185440.c:2892: conflicting types for `D_801BB960' | src/ov_SC02_026/ov_SC02_026_jr_80185440.c:2889: previou
+10:27:18     unit 21: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6364: parse error before `[' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6408: `D_801F2A4C' undecl
+10:27:18     unit 5: COMPILE-ERROR src/ov_SC03_023/ov_SC03_023_jr_8017AE2C.c:1710: parse error before `*' | src/ov_SC03_023/ov_SC03_023_jr_8017AE2C.c:1866: parse error before 
+10:27:18     unit 5: COMPILE-ERROR src/ov_SC03_099/ov_SC03_099_jr_80182F24.c:1700: parse error before `*' | src/ov_SC03_099/ov_SC03_099_jr_80182F24.c:1855: parse error before 
+10:27:18     unit 5: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:1704: parse error before `*' | src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:1860: parse error before 
+10:27:18     unit 5: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_80182B9C.c:1701: parse error before `*' | src/ov_SC03_097/ov_SC03_097_jr_80182B9C.c:1856: parse error before 
+10:27:18     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c:1698: parse error before `*' | src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c:1854: parse error before 
+10:27:18   src/ov_SC02_026/ov_SC02_026_jr_80185440.c: IDENTICAL · rows 21 · compiles 23 · 2.8 s · canon 13 promoted 0 K&R 0 aliases 4 abs 0 kept 4
+10:27:19     unit 5: COMPILE-ERROR src/ov_SC03_100/ov_SC03_100_jr_80183C10.c:1700: parse error before `*' | src/ov_SC03_100/ov_SC03_100_jr_80183C10.c:1855: parse error before 
+10:27:19     unit 23: COMPILE-ERROR src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:560: conflicting types for `D_800B9A02' | src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c:550: previous 
+10:27:19     unit 22: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6365: parse error before `[' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c: At top level: | src/ov_S
+10:27:19     unit 5: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_801833CC.c:1702: parse error before `*' | src/ov_SC03_101/ov_SC03_101_jr_801833CC.c:1857: parse error before 
+10:27:19     unit 23: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6228: conflicting types for `D_801EDA34' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5414: previou
+10:27:19   src/ov_SC07_011/ov_SC07_011_jr_8016AE5C.c: IDENTICAL · rows 24 · compiles 26 · 7.7 s · canon 20 promoted 0 K&R 2 aliases 0 abs 0 kept 4
+10:27:20   src/ov_SC03_099/ov_SC03_099_jr_80182F24.c: IDENTICAL · rows 15 · compiles 17 · 1.2 s · canon 13 promoted 0 K&R 0 aliases 1 abs 0 kept 1
+10:27:20   src/ov_SC07_006/ov_SC07_006_jr_80179B74.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:27:20   src/ov_SC03_100/ov_SC03_100_jr_80183C10.c: IDENTICAL · rows 14 · compiles 16 · 1.5 s · canon 12 promoted 0 K&R 0 aliases 1 abs 0 kept 1
+10:27:21   src/ov_SC03_101/ov_SC03_101_jr_801833CC.c: IDENTICAL · rows 16 · compiles 18 · 1.4 s · canon 13 promoted 0 K&R 0 aliases 2 abs 0 kept 1
+10:27:21   src/ov_SC03_023/ov_SC03_023_jr_8017AE2C.c: IDENTICAL · rows 15 · compiles 17 · 3.2 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:21     unit 5: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_801803E0.c:1697: parse error before `*' | src/ov_SC06_020/ov_SC06_020_jr_801803E0.c:1853: parse error before 
+10:27:21     unit 14: COMPILE-ERROR src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:4217: too few arguments to function `func_8017DE40' | src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c: A
+10:27:21   src/ov_SC03_028/ov_SC03_028_jr_80185C14.c: IDENTICAL · rows 16 · compiles 18 · 2.7 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:22     unit 5: COMPILE-ERROR src/ov_SC04_000/ov_SC04_000_jr_8017BEBC.c:1708: parse error before `*' | src/ov_SC04_000/ov_SC04_000_jr_8017BEBC.c:1863: parse error before 
+10:27:22     unit 30: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6069: conflicting types for `D_801EDA44' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5825: previou
+10:27:22   src/ov_SC03_097/ov_SC03_097_jr_80182B9C.c: IDENTICAL · rows 16 · compiles 18 · 2.8 s · canon 14 promoted 0 K&R 0 aliases 0 abs 1 kept 1
+10:27:22     unit 31: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6070: conflicting types for `D_801EDA48' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5826: previou
+10:27:22   src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c: IDENTICAL · rows 16 · compiles 18 · 3.8 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:23     unit 5: COMPILE-ERROR src/ov_SC01_004/ov_SC01_004_jr_8017E3A0.c:1705: parse error before `*' | src/ov_SC01_004/ov_SC01_004_jr_8017E3A0.c:1861: parse error before 
+10:27:23     unit 32: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6071: conflicting types for `D_801EDA4C' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5827: previou
+10:27:23   src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c: IDENTICAL · rows 17 · compiles 19 · 5.8 s · canon 15 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:23   src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c: IDENTICAL · rows 16 · compiles 18 · 4.4 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:24     unit 33: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6072: conflicting types for `D_801EDA50' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5828: previou
+10:27:24     unit 5: COMPILE-ERROR src/ov_SC01_009/ov_SC01_009_jr_8018057C.c:1704: parse error before `*' | src/ov_SC01_009/ov_SC01_009_jr_8018057C.c:1860: parse error before 
+10:27:24     unit 34: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6073: conflicting types for `D_801EDA54' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5829: previou
+10:27:24   src/ov_SC06_020/ov_SC06_020_jr_801803E0.c: IDENTICAL · rows 15 · compiles 17 · 2.1 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:24     unit 5: COMPILE-ERROR src/ov_SC01_074/ov_SC01_074_jr_8017BE9C.c:1713: parse error before `*' | src/ov_SC01_074/ov_SC01_074_jr_8017BE9C.c:1869: parse error before 
+10:27:24     unit 5: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_80181984.c:1718: parse error before `*' | src/ov_SC02_005/ov_SC02_005_jr_80181984.c:1874: parse error before 
+10:27:24     unit 5: COMPILE-ERROR src/ov_SC01_084/ov_SC01_084_jr_8017F690.c:1707: parse error before `*' | src/ov_SC01_084/ov_SC01_084_jr_8017F690.c:1863: parse error before 
+10:27:25     unit 35: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6074: conflicting types for `D_801EDA58' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5830: previou
+10:27:25   src/ov_SC01_004/ov_SC01_004_jr_8017E3A0.c: IDENTICAL · rows 15 · compiles 17 · 1.8 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:25     unit 8: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:2512: parse error before `*' | src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:3836: parse error before 
+10:27:25     unit 36: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6075: conflicting types for `D_801EDA70' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5821: previou
+10:27:25     unit 5: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:1705: parse error before `*' | src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:1861: parse error before 
+10:27:25     unit 5: COMPILE-ERROR src/ov_SC02_028/ov_SC02_028_jr_801884D8.c:1704: parse error before `*' | src/ov_SC02_028/ov_SC02_028_jr_801884D8.c:1859: parse error before 
+10:27:25     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_80183A74.c:1733: parse error before `*' | src/ov_SC03_028/ov_SC03_028_jr_80183A74.c:1889: parse error before 
+10:27:26     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_801847E8.c:1733: parse error before `*' | src/ov_SC03_028/ov_SC03_028_jr_801847E8.c:1889: parse error before 
+10:27:26     unit 5: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:1708: parse error before `*' | src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:1864: parse error before 
+10:27:26   src/ov_SC04_000/ov_SC04_000_jr_8017BEBC.c: IDENTICAL · rows 17 · compiles 19 · 4.2 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:27   src/ov_SC02_005/ov_SC02_005_jr_80181984.c: IDENTICAL · rows 16 · compiles 18 · 1.2 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:27   src/ov_SC01_009/ov_SC01_009_jr_8018057C.c: IDENTICAL · rows 18 · compiles 20 · 2.8 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:27     unit 17: COMPILE-ERROR src/ov_SC01_074/ov_SC01_074_jr_8017BE9C.c:3856: parse error before `*' | src/ov_SC01_074/ov_SC01_074_jr_8017BE9C.c: At top level: [build/src
+10:27:27     unit 42: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6081: conflicting types for `D_801EDA88' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5833: previou
+10:27:28   src/ov_SC01_084/ov_SC01_084_jr_8017F690.c: IDENTICAL · rows 15 · compiles 17 · 2.9 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:28   src/ov_SC01_074/ov_SC01_074_jr_8017BE9C.c: IDENTICAL · rows 18 · compiles 20 · 3.0 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:27:28     unit 43: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6082: conflicting types for `D_801EDA8C' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5834: previou
+10:27:29     unit 14: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:3706: too few arguments to function `func_8017EDF8' | src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:38
+10:27:29   src/ov_SC03_028/ov_SC03_028_jr_80183A74.c: IDENTICAL · rows 15 · compiles 17 · 1.5 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:29     unit 44: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:6083: conflicting types for `D_801EDA90' | src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5835: previou
+10:27:29     unit 15: DIFFERS [build/src/ov_SC02_028/ov_SC02_028_jr_801884D8.o]
+10:27:29     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_80185864.c:1733: parse error before `*' | src/ov_SC03_028/ov_SC03_028_jr_80185864.c:1889: parse error before 
+10:27:29     unit 5: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_80184914.c:1733: parse error before `*' | src/ov_SC03_028/ov_SC03_028_jr_80184914.c:1889: parse error before 
+10:27:29   src/ov_SC03_028/ov_SC03_028_jr_801847E8.c: IDENTICAL · rows 15 · compiles 17 · 1.2 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:30     unit 19: COMPILE-ERROR src/ov_SC07_007/../shared/ov/func_8016AE5C__te4eb1475.h:8: too few arguments to function `func_8016B234' | src/ov_SC07_007/../shared/ov/func
+10:27:30   src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c: IDENTICAL · rows 45 · compiles 48 · 13.4 s · canon 15 promoted 0 K&R 1 aliases 13 abs 0 kept 17
+10:27:30   src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c: IDENTICAL · rows 17 · compiles 19 · 3.6 s · canon 15 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:31     unit 5: COMPILE-ERROR src/ov_SC03_108/ov_SC03_108_jr_8017F83C.c:1705: parse error before `*' | src/ov_SC03_108/ov_SC03_108_jr_8017F83C.c:1861: parse error before 
+10:27:31     unit 21: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:4215: too few arguments to function `func_8016E778' | src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c: A
+10:27:31     unit 5: COMPILE-ERROR src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:1703: parse error before `*' | src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:1859: parse error before 
+10:27:31     unit 22: COMPILE-ERROR src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:560: conflicting types for `D_800B9A02' | src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c:550: previous 
+10:27:31     unit 5: COMPILE-ERROR src/ov_SC03_109/ov_SC03_109_jr_8017C180.c:1711: parse error before `*' | src/ov_SC03_109/ov_SC03_109_jr_8017C180.c:1867: parse error before 
+10:27:31   src/ov_SC02_028/ov_SC02_028_jr_801884D8.c: IDENTICAL · rows 21 · compiles 23 · 3.8 s · canon 14 promoted 0 K&R 0 aliases 5 abs 0 kept 2
+10:27:32     unit 5: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_8017C8D0.c:1712: parse error before `*' | src/ov_SC03_105/ov_SC03_105_jr_8017C8D0.c:1868: parse error before 
+10:27:32   src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c: IDENTICAL · rows 13 · compiles 30 · 5.7 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:32   src/ov_SC07_007/ov_SC07_007_jr_8016AE5C.c: IDENTICAL · rows 23 · compiles 25 · 6.8 s · canon 19 promoted 0 K&R 2 aliases 0 abs 0 kept 4
+10:27:32   src/ov_SC03_028/ov_SC03_028_jr_80185864.c: IDENTICAL · rows 15 · compiles 17 · 1.7 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:33     unit 5: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8017F03C.c:1714: parse error before `*' | src/ov_SC04_016/ov_SC04_016_jr_8017F03C.c:1870: parse error before 
+10:27:33   src/ov_SC03_028/ov_SC03_028_jr_80184914.c: IDENTICAL · rows 15 · compiles 17 · 2.2 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:33     unit 5: COMPILE-ERROR src/ov_SC03_117/ov_SC03_117_jr_80181C80.c:1701: parse error before `*' | src/ov_SC03_117/ov_SC03_117_jr_80181C80.c:1856: parse error before 
+10:27:33   src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c: UNCHANGED · rows 0 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+10:27:34     unit 6: COMPILE-ERROR src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:1707: parse error before `*' | src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:1863: parse error before 
+10:27:35   src/ov_SC03_108/ov_SC03_108_jr_8017F83C.c: IDENTICAL · rows 17 · compiles 19 · 2.3 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:35     unit 5: COMPILE-ERROR src/ov_SC01_000/ov_SC01_000_jr_801789AC.c:1714: parse error before `*' | src/ov_SC01_000/ov_SC01_000_jr_801789AC.c:1871: parse error before 
+10:27:35     unit 5: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_8017BEBC.c:1707: parse error before `*' | src/ov_SC05_004/ov_SC05_004_jr_8017BEBC.c:1863: parse error before 
+10:27:35   src/ov_SC04_016/ov_SC04_016_jr_8017F03C.c: IDENTICAL · rows 13 · compiles 15 · 1.8 s · canon 12 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:35   src/ov_SC03_109/ov_SC03_109_jr_8017C180.c: IDENTICAL · rows 16 · compiles 18 · 2.5 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:35     unit 5: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c:1710: parse error before `*' | src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c:1863: parse error before 
+10:27:36     unit 5: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:1709: parse error before `*' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:1865: parse error before 
+10:27:36   src/ov_SC03_117/ov_SC03_117_jr_80181C80.c: IDENTICAL · rows 14 · compiles 16 · 2.9 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:36   src/ov_SC03_091/ov_SC03_091_jr_8018326C.c: IDENTICAL · rows 17 · compiles 19 · 4.7 s · canon 15 promoted 0 K&R 0 aliases 0 abs 1 kept 1
+10:27:37     unit 16: COMPILE-ERROR src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4206: too few arguments to function `func_8017F354' | src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: A
+10:27:37   src/ov_SC03_105/ov_SC03_105_jr_8017C8D0.c: IDENTICAL · rows 18 · compiles 20 · 4.7 s · canon 17 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:38     unit 5: COMPILE-ERROR src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:1713: parse error before `*' | src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:1869: parse error before 
+10:27:38     unit 14: COMPILE-ERROR src/ov_SC07_006/../shared/ov/func_8015BEC4.h:5: too few arguments to function `func_8015AE2C' [build/src/ov_SC07_006/ov_SC07_006_jr_8015B950
+10:27:38     unit 15: COMPILE-ERROR src/ov_SC07_006/ov_SC07_006_jr_8015B950.c:564: conflicting types for `D_800B9A02' | src/ov_SC07_006/ov_SC07_006_jr_8015B950.c:554: previous 
+10:27:38   src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: IDENTICAL · rows 17 · compiles 19 · 3.3 s · canon 15 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:38     unit 5: COMPILE-ERROR src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:1713: parse error before `*' | src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:1869: parse error before 
+10:27:38   src/ov_SC07_006/ov_SC07_006_jr_8015B950.c: IDENTICAL · rows 16 · compiles 18 · 2.0 s · canon 14 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:39     unit 5: COMPILE-ERROR src/ov_SC02_027/ov_SC02_027_jr_8018A564.c:1700: parse error before `*' | src/ov_SC02_027/ov_SC02_027_jr_8018A564.c:1855: parse error before 
+10:27:39   src/ov_SC01_000/ov_SC01_000_jr_801789AC.c: IDENTICAL · rows 17 · compiles 19 · 1.6 s · canon 16 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:39   src/ov_SC05_004/ov_SC05_004_jr_8017BEBC.c: IDENTICAL · rows 15 · compiles 17 · 3.0 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:39     unit 13: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:2972: too few arguments to function `func_8017DFAC' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c: A
+10:27:40     unit 5: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_80181D78.c:1703: parse error before `*' | src/ov_SC03_002/ov_SC03_002_jr_80181D78.c:1856: parse error before 
+10:27:40     unit 5: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_8017D604.c:1704: parse error before `*' | src/ov_SC03_002/ov_SC03_002_jr_8017D604.c:1857: parse error before 
+10:27:40     unit 14: COMPILE-ERROR src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:3289: parse error before `*' [build/src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.o]
+10:27:40     unit 5: COMPILE-ERROR src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:1711: parse error before `*' | src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:1867: parse error before 
+10:27:40     unit 5: COMPILE-ERROR src/ov_SC03_003/ov_SC03_003_jr_8017D5C0.c:1705: parse error before `*' | src/ov_SC03_003/ov_SC03_003_jr_8017D5C0.c:1861: parse error before 
+10:27:41   src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c: IDENTICAL · rows 16 · compiles 18 · 4.6 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:41     unit 16: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3839: conflicting types for `D_80126B5E' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:1790: previou
+10:27:41   src/ov_SC02_027/ov_SC02_027_jr_8018A564.c: IDENTICAL · rows 14 · compiles 16 · 1.7 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:41     unit 16: DIFFERS [build/src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.o]
+10:27:41     unit 17: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3840: conflicting types for `D_80126B62' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:1791: previou
+10:27:41     unit 6: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:1705: parse error before `*' | src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:1861: parse error before 
+10:27:41     unit 5: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_8017C730.c:1706: parse error before `*' | src/ov_SC03_013/ov_SC03_013_jr_8017C730.c:1862: parse error before 
+10:27:41   src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c: IDENTICAL · rows 17 · compiles 19 · 3.2 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:27:42     unit 5: COMPILE-ERROR src/ov_SC03_014/ov_SC03_014_o0c.c:1704: parse error before `*' | src/ov_SC03_014/ov_SC03_014_o0c.c:1860: parse error before `*' [build/src/o
+10:27:42     unit 17: COMPILE-ERROR src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:3684: conflicting types for `D_800B9A02' | src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:2472: previou
+10:27:42     unit 18: DIFFERS [build/src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.o]
+10:27:42   src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c: IDENTICAL · rows 18 · compiles 20 · 3.1 s · canon 14 promoted 0 K&R 0 aliases 1 abs 0 kept 3
+10:27:43     unit 19: DIFFERS [build/src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.o]
+10:27:43     unit 5: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8017DC70.c:1711: parse error before `*' | src/ov_SC03_029/ov_SC03_029_jr_8017DC70.c:1867: parse error before 
+10:27:43     unit 20: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:4254: conflicting types for `D_801C7E34' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3664: previou
+10:27:43     unit 13: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_8017D604.c:3366: parse error before `*' | src/ov_SC03_002/ov_SC03_002_jr_8017D604.c: At top level: [build/src
+10:27:43     unit 14: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_80181D78.c:4409: too few arguments to function `func_80184498' | src/ov_SC03_002/ov_SC03_002_jr_80181D78.c:44
+10:27:43     unit 15: COMPILE-ERROR src/ov_SC03_003/ov_SC03_003_jr_8017D5C0.c:3517: too few arguments to function `func_8017EFEC' [build/src/ov_SC03_003/ov_SC03_003_jr_8017D5C0
+10:27:43     unit 5: COMPILE-ERROR src/ov_SC03_102/ov_SC03_102_jr_801855D0.c:1701: parse error before `*' | src/ov_SC03_102/ov_SC03_102_jr_801855D0.c:1856: parse error before 
+10:27:43     unit 21: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3834: conflicting types for `D_801C7E50' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3667: previou
+10:27:43   src/ov_SC03_003/ov_SC03_003_jr_8017D5C0.c: IDENTICAL · rows 16 · compiles 18 · 2.5 s · canon 14 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:44   src/ov_SC03_002/ov_SC03_002_jr_80181D78.c: IDENTICAL · rows 15 · compiles 18 · 2.9 s · canon 13 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:44     unit 5: COMPILE-ERROR src/ov_SC03_031/ov_SC03_031_jr_8017DB5C.c:1712: parse error before `*' | src/ov_SC03_031/ov_SC03_031_jr_8017DB5C.c:1868: parse error before 
+10:27:44   src/ov_SC03_013/ov_SC03_013_jr_8017C730.c: IDENTICAL · rows 14 · compiles 16 · 2.6 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:44     unit 14: COMPILE-ERROR src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:7800: too few arguments to function `func_80183278' | src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:78
+10:27:44   src/ov_SC03_014/ov_SC03_014_o0c.c: IDENTICAL · rows 14 · compiles 32 · 2.5 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:44     unit 22: DIFFERS [build/src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.o]
+10:27:44   src/ov_SC03_002/ov_SC03_002_jr_8017D604.c: IDENTICAL · rows 16 · compiles 18 · 3.7 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+10:27:45   src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c: IDENTICAL · rows 15 · compiles 17 · 5.2 s · canon 13 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:46   src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c: IDENTICAL · rows 23 · compiles 25 · 5.8 s · canon 14 promoted 0 K&R 1 aliases 0 abs 0 kept 9
+10:27:46   src/ov_SC03_029/ov_SC03_029_jr_8017DC70.c: IDENTICAL · rows 14 · compiles 16 · 2.6 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:46     unit 5: COMPILE-ERROR src/ov_SC03_104/ov_SC03_104_jr_80189FE4.c:1701: parse error before `*' | src/ov_SC03_104/ov_SC03_104_jr_80189FE4.c:1856: parse error before 
+10:27:46   src/ov_SC03_102/ov_SC03_102_jr_801855D0.c: IDENTICAL · rows 16 · compiles 18 · 2.0 s · canon 14 promoted 0 K&R 0 aliases 1 abs 0 kept 1
+10:27:46     unit 5: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:1730: parse error before `*' | src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:1886: parse error before 
+10:27:46     unit 5: COMPILE-ERROR src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c:1706: parse error before `*' | src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c:1861: parse error before 
+10:27:47     unit 5: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_801789AC.c:1712: parse error before `*' | src/ov_SC01_001/ov_SC01_001_jr_801789AC.c:1869: parse error before 
+10:27:47     unit 5: COMPILE-ERROR src/ov_SC01_004/ov_SC01_004_jr_801789AC.c:1712: parse error before `*' | src/ov_SC01_004/ov_SC01_004_jr_801789AC.c:1869: parse error before 
+10:27:47     unit 5: COMPILE-ERROR src/ov_SC03_110/ov_SC03_110_jr_8017D898.c:1712: parse error before `*' | src/ov_SC03_110/ov_SC03_110_jr_8017D898.c:1867: parse error before 
+10:27:47   src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c: IDENTICAL · rows 15 · compiles 34 · 6.3 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:47   src/ov_SC03_104/ov_SC03_104_jr_80189FE4.c: IDENTICAL · rows 15 · compiles 17 · 2.1 s · canon 13 promoted 0 K&R 0 aliases 1 abs 0 kept 1
+10:27:48     unit 5: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_80180B04.c:1696: parse error before `*' | src/ov_SC06_020/ov_SC06_020_jr_80180B04.c:1852: parse error before 
+10:27:48     unit 5: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:1703: parse error before `*' | src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:1859: parse error before 
+10:27:48   src/ov_SC01_001/ov_SC01_001_jr_801789AC.c: IDENTICAL · rows 15 · compiles 17 · 1.3 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:48   src/ov_SC03_031/ov_SC03_031_jr_8017DB5C.c: IDENTICAL · rows 16 · compiles 18 · 3.9 s · canon 15 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:48     unit 5: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:1712: parse error before `*' | src/ov_SC01_005/ov_SC01_005_jr_801789AC.c:1869: parse error before 
+10:27:48     unit 14: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:2817: conflicting types for `D_80126B5E' | src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:1811: previou
+10:27:48   src/ov_SC01_004/ov_SC01_004_jr_801789AC.c: IDENTICAL · rows 15 · compiles 17 · 1.4 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:48     unit 15: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:2818: conflicting types for `D_80126B62' | src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:1812: previou
+10:27:48     unit 5: COMPILE-ERROR src/ov_SC01_008/ov_SC01_008_jr_801789AC.c:1712: parse error before `*' | src/ov_SC01_008/ov_SC01_008_jr_801789AC.c:1869: parse error before 
+10:27:48     unit 5: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_8017EB44.c:1705: parse error before `*' | src/ov_SC01_005/ov_SC01_005_jr_8017EB44.c:1861: parse error before 
+10:27:49   src/ov_SC05_010/ov_SC05_010_jr_80180F84.c: IDENTICAL · rows 16 · compiles 18 · 2.7 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 3
+10:27:49   src/ov_SC03_110/ov_SC03_110_jr_8017D898.c: IDENTICAL · rows 14 · compiles 16 · 3.0 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:49     unit 5: COMPILE-ERROR src/ov_SC01_074/ov_SC01_074_jr_801789AC.c:1712: parse error before `*' | src/ov_SC01_074/ov_SC01_074_jr_801789AC.c:1869: parse error before 
+10:27:49     unit 5: COMPILE-ERROR src/ov_SC01_009/ov_SC01_009_jr_801789AC.c:1712: parse error before `*' | src/ov_SC01_009/ov_SC01_009_jr_801789AC.c:1869: parse error before 
+10:27:49     unit 5: COMPILE-ERROR src/ov_SC01_080/ov_SC01_080_jr_801789AC.c:1712: parse error before `*' | src/ov_SC01_080/ov_SC01_080_jr_801789AC.c:1869: parse error before 
+10:27:49   src/ov_SC01_008/ov_SC01_008_jr_801789AC.c: IDENTICAL · rows 15 · compiles 17 · 1.2 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:50   src/ov_SC01_074/ov_SC01_074_jr_801789AC.c: IDENTICAL · rows 15 · compiles 17 · 1.1 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:50   src/ov_SC01_009/ov_SC01_009_jr_801789AC.c: IDENTICAL · rows 15 · compiles 17 · 1.2 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:50   src/ov_SC01_080/ov_SC01_080_jr_801789AC.c: IDENTICAL · rows 15 · compiles 17 · 0.9 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:50   src/ov_SC01_005/ov_SC01_005_jr_801789AC.c: IDENTICAL · rows 15 · compiles 34 · 2.4 s · canon 14 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:50   src/ov_SC01_005/ov_SC01_005_jr_8017EB44.c: IDENTICAL · rows 14 · compiles 32 · 2.4 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:50     unit 14: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3913: too few arguments to function `func_8017EFE0' | src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: A
+10:27:50   src/ov_SC06_020/ov_SC06_020_jr_80180B04.c: IDENTICAL · rows 14 · compiles 16 · 3.5 s · canon 13 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+10:27:51   src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: IDENTICAL · rows 15 · compiles 18 · 4.0 s · canon 13 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+10:27:51   src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c: IDENTICAL · rows 15 · compiles 17 · 6.9 s · canon 13 promoted 0 K&R 0 aliases 0 abs 1 kept 1
+10:27:51 restruct: batch t4_D2 rung D — 300 files (TUs; 3878 drawable) · 4995 declaration units: 4354 canonical / 1 promoted / 85 K&R marked / 84 aliases typed / 7 __builtin_abs → abs / 469 kept · compiles 5836 in 196 s wall · final 300/300 identical · written 264 files
+t4_D2 wall=372.03 s
+exit=0
