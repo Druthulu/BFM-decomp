@@ -3390,7 +3390,6 @@ void func_8017F498(s32 a0) {
     Blk8_80126940_8017D6D0_8017F498 sp10;
     u8 t;
     s16 lim;
-    register s16 mid __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
 
     if (func_80148800(&D_80126B58) & 3) {
         t = (*(u8 *)(a0 + 5) + 1) & 1;
@@ -3406,21 +3405,20 @@ void func_8017F498(s32 a0) {
         *(s32 *)(a0 + 0x14) = D_8018F0B0[*(u8 *)(a0 + 5)];
     } else {
         if (sp10.v[2] >= 0x1081) {
-            mid = -0x300;
+            s16 mid = -0x300;
             if (sp10.v[0] < mid) {
                 *(s16 *)(a0 + 0x2E) = mid - sp10.v[0];
             } else {
                 *(s16 *)(a0 + 0x2E) = 0;
             }
         } else {
-            mid = -0x340;
+            s16 mid = -0x340;
             if (sp10.v[0] < mid) {
                 *(s16 *)(a0 + 0x2E) = mid - sp10.v[0];
             } else {
                 *(s16 *)(a0 + 0x2E) = 0;
             }
         }
-        __asm__ __volatile__("" :: "r"(mid));   /* zero-byte: keep $a1 live past the subu */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
         if (sp10.v[2] >= 0x1241) {
             *(s32 *)(a0 + 0x14) = D_8018F0B0[*(u8 *)(a0 + 5)];
         } else {
