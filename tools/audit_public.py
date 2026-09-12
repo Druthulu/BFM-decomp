@@ -13,7 +13,9 @@ Four checks, each derived from something the repo already asserts (R33), never f
   2. ROM CONTENT — no tracked file's SHA1 is a known ROM-derived hash: every `sha1` in extracted/retail/manifest.jsonl
      (the manifest IS the list of ROM-derived artifacts), every binary's SHA1 in config/check.*.sha, and the redump
      Track-1 SHA1 (tools/bfm_extract/extract_exe.REDUMP_TRACK1_SHA1). A renamed copy is caught by content.
-  3. SIZE — no tracked file over 50 MiB (GitHub's warning threshold; nothing legitimately tracked is near it).
+  3. SIZE — no tracked file over 100 MiB (GitHub's HARD limit: a push with a larger file is rejected; 50 MiB is only its
+     warning). Raised from 50 MiB on 2026-09-12 (Drew, P37 S107) when the Phase-36 judgement ledger — our own tool's rows, no
+     ROM content — reached 78 MB and the cap alone turned the public CI red.
   4. CONTENT — no tracked TEXT file carries a long contiguous run of disassembly-shaped lines (an assembler listing, an
      objdump, a splat `/* ADDR HEX hex */` block, a glabel block): the class-3 case a path-and-hash audit cannot see —
      a notes file that pastes a function's instructions is ROM-derived even when the tracked C reproduces the bytes.
@@ -38,7 +40,8 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 PURGE = REPO / "tools" / "public_rewrite" / "purge_set.txt"
 UNTRACKED_AFTER = REPO / "tools" / "public_rewrite" / "untracked_after_rewrite.txt"
 MANIFEST = REPO / "extracted" / "retail" / "manifest.jsonl"
-SIZE_CAP = 50 * 1024 * 1024
+SIZE_CAP = 100 * 1024 * 1024
+SIZE_WARN = 80 * 1024 * 1024        # a tracked file this close to GitHub's hard limit is announced before a push can be rejected (R54)
 RUN_CAP = 64                      # contiguous disassembly-shaped lines that make a text file an offender
 DISASM_RES = [
     # asm-differ: `12: addiu      $sp, $sp, -0x40`, `44: nop`, `50: j          .L80133D40` (an operand-less mnemonic and a
@@ -147,6 +150,7 @@ def main(argv):
     u_prefixes, u_globs = read_rules(UNTRACKED_AFTER, "untracked-after-rewrite")
     hashes, n_manifest, n_checks = rom_hashes()
     offenders = []
+    warnings = []
     n_hashed = n_text = 0
     top_runs = []
     for rel in files:
@@ -161,7 +165,9 @@ def main(argv):
             continue
         size = p.stat().st_size
         if size > SIZE_CAP:
-            offenders.append((rel, f"{size:,} bytes > 50 MiB"))
+            offenders.append((rel, f"{size:,} bytes > 100 MiB"))
+        elif size > SIZE_WARN:
+            warnings.append((rel, f"{size:,} bytes — within 20 MiB of GitHub's 100 MiB hard limit"))
         if size == 0:                # the empty-file SHA1 is also a zero-length disc payload's (SC05/029/1.6) — not ROM bytes
             continue
         h = sha1_of(p)
@@ -179,14 +185,16 @@ def main(argv):
     print(f"audit_public: {len(files)} tracked paths, {n_hashed} files hashed against {len(hashes)} ROM hashes "
           f"({n_manifest} manifest rows + {n_checks} check.*.sha + redump), "
           f"{len(p_prefixes) + len(p_globs)} purge rules + {len(u_prefixes) + len(u_globs)} untracked-after-rewrite rules, "
-          f"cap 50 MiB; {n_text} text files scanned for disassembly runs (cap {RUN_CAP} lines), "
+          f"cap 100 MiB; {n_text} text files scanned for disassembly runs (cap {RUN_CAP} lines), "
           f"longest runs: {', '.join(f'{r} {p}' for r, p in top_runs[:3]) or 'none'}")
+    for rel, why in warnings:
+        print(f"  WARN {rel}: {why}")
     if offenders:
         for rel, why in offenders:
             print(f"  OFFENDER {rel}: {why}")
         print(f"audit_public: FAIL — {len(offenders)} offender(s) among {len(files)} tracked paths")
         return 1
-    print(f"audit_public: OK — 0 offenders among {len(files)} tracked paths")
+    print(f"audit_public: OK — 0 offenders among {len(files)} tracked paths" + (f" ({len(warnings)} size warning(s))" if warnings else ""))
     return 0
 
 

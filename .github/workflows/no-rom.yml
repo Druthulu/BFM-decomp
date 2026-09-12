@@ -4,7 +4,7 @@
 # original disc (`make check-all`, docs/verification.md). That needs the game disc, which is never in the repo
 # or in CI. So CI proves everything that does NOT need the disc:
 #   * audits   — the tracked tree is public-clean (tools/audit_public.py: no ROM-derived bytes, no purge path,
-#                nothing > 50 MiB), every source is text with portable includes, the verbatim-asm manifest has
+#                nothing > 100 MiB), every source is text with portable includes, the verbatim-asm manifest has
 #                no drift, the cookbook index / Ghidra roster / work-evidence self-tests are fresh, the LZSS
 #                decoder's unit tests pass, no stale symbol references;
 #   * compile-only — the committed C still compiles with the pinned vintage toolchain (gcc-2.7.2 cc1 from the
@@ -38,7 +38,7 @@ jobs:
           python-version: "3.12"
       - name: Python deps (the pinned venv set)
         run: python -m pip install --quiet -r requirements-python.txt
-      - name: audit_public — no ROM-derived bytes, no purge path, nothing > 50 MiB among tracked files
+      - name: audit_public — no ROM-derived bytes, no purge path, nothing > 100 MiB among tracked files
         run: python tools/audit_public.py
       - name: audit_text_sources — every source is text, every #include portable
         run: python tools/audit_text_sources.py

@@ -55,7 +55,7 @@ every scanner in the repository prints its denominator.
 
 [`.github/workflows/no-rom.yml`](../../.github/workflows/no-rom.yml) runs on every push and pull request without the
 disc: the tracked tree is public-clean ([`tools/audit_public.py`](../../tools/audit_public.py): no tracked file's hash
-appears in the ROM manifest or the contracts, no purge path, nothing over 50 MiB), every source is text with portable
+appears in the ROM manifest or the contracts, no purge path, nothing over 100 MiB), every source is text with portable
 includes, the verbatim manifest has no drift, the derived indexes are fresh, the LZSS decoder's unit tests pass, and
 every eligible translation unit compiles with the pinned `cc1` → maspsx → `as` and the Makefile's exact flags
 ([`tools/compile_only.py`](../../tools/compile_only.py): four representative binaries per PR, the whole fleet weekly).

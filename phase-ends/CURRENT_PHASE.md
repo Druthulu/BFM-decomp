@@ -355,6 +355,15 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   that push. Not touched (P36's evidence; a decision): recommendation below the checkpoint. Also: 19,343 stale scratch files under
   `.run/P36/delever/obj/` (ignored; hygiene, not correctness).
 
+- **S107 — Drew's decision on the red `no-rom` CI (the P36 ledger's size):** *"did we accidentally push rom info? or is that just a file >50
+  failing our test? if so, just relax the size gate to 100MB per github limit"* → evidence shown: `audit_public`'s checks 1 (purge paths), 2
+  (1,422 ROM-derived SHA1s vs 15,203 tracked files) and 4 (disassembly-shaped runs; longest 14 lines, cap 64) all CLEAN — only check 3 (SIZE)
+  fired; the ledger is 29,649 rows of our own tool's verdicts on our own C (0 eight-hex-digit words outside the hash fields). **No ROM content
+  was pushed.** The gate raised to GitHub's HARD limit: `tools/audit_public.py` `SIZE_CAP = 100 MiB` (+ a `WARN` above 80 MiB, so a file
+  approaching the limit is announced before a push can be rejected — R54), the docstring, `.github/workflows/no-rom.yml`, SETUP's row,
+  `docs/wiki/The-ROM-firewall.md` and `docs/wiki/Verification-and-progress.md` (the wiki's live copy needs Drew's sync). `audit_public: OK — 0
+  offenders among 15219 tracked paths`. (The ledger is 74.8 MiB today; P36's rows are frozen — only P37's S+A rows are appended to it.)
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑** (baseline · the census + map · the probe · THE ENGINE) — 🛑 **T4 NEXT (the declaration layer over the fleet by symbol space — rung D in unattended cycles; xHigh) — and FIRST the P6 rules check (four tasks complete)** | R22 `check-all: 218 passed, 0 failed of 218` at `42a57f576`+`common.h` (`r22_t3c.log`; the close commit adds no build input) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (6 commits ahead: `0a55cb0fd` … this one — Drew pushes, R6)
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
@@ -375,11 +384,7 @@ readability series), then rewrite this block, commit, recap (R18).
    because a parameter cannot be typed while its body still adds offsets to it (pointer arithmetic scales). **A session-start owed check: the P6
    rules check** (T0–T3 = four tasks) — re-read CLAUDE.md's rules and PROJECT_CONTEXT.md's, state "Rules check — re-read complete. Continuing with
    T4." Commits this session: `21d2ccc14` (T3 bank 1: the tools + batch t3d1), `42a57f576` (batch t3d2), then this checkpoint's commit (the T3
-   close: cycle script, macros, the record). **For Drew (found S107, untouched — a decision):** `tools/audit_public.py` is RED on HEAD:
-   `.run/P36/delever/ledger.jsonl` is tracked at 78,396,681 bytes (> the 50 MiB cap) since P36 S105 `31cf8695f` — the public CI's `no-rom` job has
-   been red since that push. Recommendation: freeze the P36 rows as `.run/P36/delever/ledger.p36.jsonl.gz` (tracked, ~6 MB), untrack the live
-   `ledger.jsonl` (ignored-but-present; `delever.py` keeps appending to it; `--status` learns to read both), one commit; tools-health must be OK
-   before any PhaseEnd. Also 19,343 stale scratch files under the ignored `.run/P36/delever/obj/` (hygiene).
+   close: cycle script, macros, the record). **Resolved S107 (Drew):** the red `no-rom` CI was the SIZE check alone — `.run/P36/delever/ledger.jsonl` (74.8 MiB, our own tool's rows, no ROM content; checks 1/2/4 clean) — and the gate is now GitHub's 100 MiB hard limit (`SIZE_CAP`, a WARN above 80 MiB); `audit_public: OK`. The two edited wiki pages await Drew's wiki sync. Also 19,343 stale scratch files under the ignored `.run/P36/delever/obj/` (hygiene).
 
 2. **The counters (T1, `tools/type_census.py`, coverage OK, controls 4/4; every verify line in the T1/T2 log entries).**
    Raw dereferences **503,016** = P `*(T *)(…)` 409,007 + I `*(T *)ident|&D_|0x80…` 60,666 + X `((T *)e)[i]` 13,800 + M `M2C_FIELD` 19,543,

@@ -129,7 +129,7 @@ Thumbs.db
 2. **The audit** — `tools/audit_public.py`, the first-push gate reused as CI. It refuses any tracked file under a purged
    path; any tracked file whose SHA1 appears in the ROM-hash set, which it *derives* from the extraction manifest, every
    per-binary contract and the disc's own track hash rather than from a typed list (rule R33); anything over GitHub's
-   50 MiB threshold; and, since Phase 33.5, any tracked text file with a long contiguous run of disassembly-shaped
+   100 MiB threshold (GitHub's hard limit; raised from its 50 MiB warning on 2026-09-12); and, since Phase 33.5, any tracked text file with a long contiguous run of disassembly-shaped
    lines (an assembler listing, an objdump, a splat `/* ADDR HEX */` block) — the class-3 case the path and hash checks
    cannot see. It asserts its own coverage (a missing manifest, zero contracts or a short manifest is a failure, rule
    R32), refuses rules it cannot interpret rather than mishandling them (R43), prints every count with its denominator
