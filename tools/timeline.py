@@ -199,10 +199,70 @@ def render_md(rows):
     return "\n".join(lines)
 
 
+KIND_RULES = (("T1 census", "the census (T1)"), ("T4 ", "mechanical strip — rung A/B (T4)"), ("T5 ", "the GTE header (T5)"),
+              ("T6 ", "recipes + permuter — rungs R/D (T6)"), ("S101 rung G", "the guided search — rung G (S101)"),
+              ("S102", "agents, one per class + the call-arity class (S102)"), ("S103", "agents, TU batches + regen (S103)"),
+              ("S104", "agents, TU batches (S104)"), ("S105", "agents, TU batches (S105)"), ("P36 close", "P36 close"), ("P37", "P37"))
+
+
+def kind_of(label):
+    for key, kind in KIND_RULES:
+        if label.startswith(key) or (key in label and key.startswith("S1")):
+            return kind
+    return "other"
+
+
+def lever_rows():
+    """Every increment of the lever series in order: the Phase-36 log's own census lines for T1, the T4 strip batches and the T5 GTE
+    batches (`THE PHASE'S NUMBER … N sites`, the instrument's words — the TSV began at T6), then every row of docs/lever-progress.tsv.
+    Returns [dict(date, label, sites, kind)]."""
+    out = []
+    log = REPO / "phase-ends" / "logs" / "Phase36.md"
+    if log.exists():
+        text = log.read_text()
+        m = re.search(r"THE PHASE'S NUMBER[^:]*: ([0-9,]+) sites", text)
+        if m:
+            out.append(dict(date="2026-09-09", label="T1 census (the instrument's first number)", sites=int(m.group(1).replace(",", "")), kind=kind_of("T1 census")))
+        seen = set()
+        for mm in re.finditer(r"- \*\*(2026-09-\d\d) — (T[45]) batch `([a-z_0-9]+)`\*\*[^\n]*?THE PHASE'S NUMBER \(pins \+ asm statements, GTE excluded\): ([0-9,]+) sites", text):
+            if mm.group(3) in seen:
+                continue
+            seen.add(mm.group(3))
+            out.append(dict(date=mm.group(1), label=f"{mm.group(2)} batch {mm.group(3)}", sites=int(mm.group(4).replace(",", "")), kind=kind_of(mm.group(2) + " ")))
+    lp = REPO / "docs" / "lever-progress.tsv"
+    if lp.exists():
+        lines = [l for l in lp.read_text().splitlines() if l.strip()]
+        cols = lines[0].split("\t")
+        for l in lines[1:]:
+            v = dict(zip(cols, l.split("\t")))
+            if v.get("date") and v.get("sites_AB", "").isdigit():
+                out.append(dict(date=v["date"], label=v["milestone"], sites=int(v["sites_AB"]), kind=kind_of(v["milestone"])))
+    return out
+
+
+def cast_rows():
+    """The raw-cast series as two INSTRUMENTS, never joined: the one-form regex count (readability rows before the census) and the
+    four-form census count (`deref_all`, 2026-09-12 →). [dict(date, label, value, form)]."""
+    out = []
+    rp = REPO / "docs" / "readability-progress.tsv"
+    if rp.exists():
+        lines = [l for l in rp.read_text().splitlines() if l.strip()]
+        cols = lines[0].split("\t")
+        for l in lines[1:]:
+            v = dict(zip(cols, l.split("\t")))
+            if not v.get("date"):
+                continue
+            if v.get("deref_all", "").isdigit():
+                out.append(dict(date=v["date"], label=v.get("label", ""), value=int(v["deref_all"]), form="four forms"))
+            elif v.get("raw_casts", "").isdigit():
+                out.append(dict(date=v["date"], label=v.get("label", ""), value=int(v["raw_casts"]), form="one form"))
+    return out
+
+
 def render_svg(rows):
     W, H, L, R, T, B = 1000, 430, 60, 20, 30, 70
     g3 = [r for r in rows if r.get("levers") is not None or r.get("casts") is not None]
-    H_TOTAL = H + (260 if g3 else 0)
+    H_TOTAL = H + (300 if (g3 or (REPO / "docs" / "lever-progress.tsv").exists()) else 0)
     d0 = dt.date.fromisoformat(rows[0]["date"]); d1 = dt.date.fromisoformat(rows[-1]["date"])
     span = max((d1 - d0).days, 1)
     x = lambda date: L + (dt.date.fromisoformat(date) - d0).days / span * (W - L - R)
@@ -243,33 +303,70 @@ def render_svg(rows):
     out.append(poly("instr", "#1f77b4", "instruction-weighted (all binaries)", H - B - 8))
     out.append(poly("distinct", "#2ca02c", "distinct code (each body once)", H - B - 22))
     out.append(poly("fn", "#999", "function count", H - B - 36))
-    if g3:
-        # the lower panel: after 100 %, the two debts, each as a share of its own first measurement (so both fit one axis)
-        T2, B2 = H + 30, H_TOTAL - 40
+    lv = lever_rows()
+    cs = cast_rows()
+    if lv or cs:
+        # the lower panel — EVERY increment of the lever series on an ordinal axis (one step per recorded batch/landing), the KIND of
+        # step marked where it changes; the raw casts as two instruments (the one-form regex count, then the four-form census), each as
+        # a share of its own first measurement — a redefinition is a new line, never a rise
+        T2, B2 = H + 34, H_TOTAL - 44
         y2 = lambda p: T2 + (1 - p / 100.0) * (B2 - T2)
-        gd0 = dt.date.fromisoformat(g3[0]["date"]); gd1 = dt.date.fromisoformat(g3[-1]["date"])
-        gspan = max((gd1 - gd0).days, 1)
-        x2 = lambda date: L + (dt.date.fromisoformat(date) - gd0).days / gspan * (W - L - R)
-        out.append(f'<text x="{W/2:.0f}" y="{H + 16}" text-anchor="middle" font-size="14" font-weight="bold">After 100 % — the Gen3 debts, as a share of their first measurement (levers: Phase 36 →; raw casts: the readability series)</text>')
+        n = max(len(lv), 2)
+        x2 = lambda i: L + i / (n - 1) * (W - L - R)
+        out.append(f'<text x="{W/2:.0f}" y="{H + 16}" text-anchor="middle" font-size="14" font-weight="bold">After 100 % — the Gen3 debts as a share of their first measurement (every lever increment; the two raw-cast instruments)</text>')
         for p in (0, 25, 50, 75, 100):
             out.append(f'<line x1="{L}" y1="{y2(p):.1f}" x2="{W-R}" y2="{y2(p):.1f}" stroke="#ddd"/>'
                        f'<text x="{L-6}" y="{y2(p)+4:.1f}" text-anchor="end" font-size="11" fill="#555">{p}%</text>')
-        for r in g3:
-            for ph, ver in r["phase_end"]:
-                xx = x2(r["date"])
-                out.append(f'<line x1="{xx:.1f}" y1="{B2}" x2="{xx:.1f}" y2="{B2-8}" stroke="#888"/>'
-                           f'<text x="{xx:.1f}" y="{B2+14}" text-anchor="middle" font-size="10" fill="#333">P{ph}</text>')
-        for key, color, label, yoff in (("levers", "#d62728", "register pins + asm statements (the lever series)", B2 - 8),
-                                        ("casts", "#9467bd", "raw pointer-cast dereferences (the readability series; the 2026-09-12 step = the four-form count)", B2 - 22)):
-            pts = [(r["date"], r[key]) for r in g3 if r.get(key) is not None]
-            if len(pts) < 1:
-                continue
-            base = pts[0][1] or 1
-            path = " ".join(f"{x2(d):.1f},{y2(100.0 * v / base):.1f}" for d, v in pts)
-            out.append(f'<polyline fill="none" stroke="{color}" stroke-width="2" points="{path}"/>'
-                       f'<text x="{L + 10}" y="{yoff}" font-size="12" fill="{color}">{label}: {pts[0][1]:,} → {pts[-1][1]:,}</text>')
-        for d, v in [(r["date"], r["levers"]) for r in g3 if r.get("levers") is not None][-1:]:
-            out.append(f'<text x="{x2(d) - 4:.1f}" y="{y2(100.0 * v / ([r["levers"] for r in g3 if r.get("levers") is not None][0] or 1)) - 6:.1f}" text-anchor="end" font-size="10" fill="#d62728">{v:,}</text>')
+        if lv:
+            base = lv[0]["sites"] or 1
+            path = " ".join(f"{x2(i):.1f},{y2(100.0 * r['sites'] / base):.1f}" for i, r in enumerate(lv))
+            # the kind markers: a dashed vertical at the first row of each kind, its label staggered near the top
+            k = 0
+            last_kind = None
+            for i, r in enumerate(lv):
+                if r["kind"] != last_kind:
+                    last_kind = r["kind"]
+                    xx = x2(i)
+                    yy = T2 + 10 + (k % 4) * 12
+                    m_ = re.search(r"\(([^)]+)\)$", r["kind"])
+                    lab = r["kind"] if xx < W - R - 130 else (m_.group(1) if m_ else r["kind"].split(" ")[0])
+                    out.append(f'<line x1="{xx:.1f}" y1="{T2}" x2="{xx:.1f}" y2="{B2}" stroke="#d62728" stroke-dasharray="2,3" opacity="0.6"/>'
+                               f'<text x="{xx + 3:.1f}" y="{yy}" font-size="9" fill="#a00">{lab}</text>')
+                    k += 1
+            # the date ticks where the day changes
+            last_date = None
+            for i, r in enumerate(lv):
+                if r["date"] != last_date:
+                    last_date = r["date"]
+                    out.append(f'<line x1="{x2(i):.1f}" y1="{B2}" x2="{x2(i):.1f}" y2="{B2 + 6}" stroke="#888"/>'
+                               f'<text x="{x2(i) + 2:.1f}" y="{B2 + 16}" font-size="9" fill="#333">{r["date"][5:]}</text>')
+            out.append(f'<polyline fill="none" stroke="#d62728" stroke-width="2" points="{path}"/>')
+            out.append(f'<text x="{x2(len(lv) - 1) - 4:.1f}" y="{y2(100.0 * lv[-1]["sites"] / base) - 6:.1f}" text-anchor="end" font-size="10" fill="#d62728">{lv[-1]["sites"]:,}</text>')
+            out.append(f'<text x="{W - R - 10}" y="{y2(58):.1f}" text-anchor="end" font-size="12" fill="#d62728">register pins + asm statements (the lever series, {len(lv)} increments): {lv[0]["sites"]:,} → {lv[-1]["sites"]:,}</text>')
+        if cs:
+            # placed at the lever step of the same day (the day's last), each instrument its own line and base
+            day_last = {}
+            for i, r in enumerate(lv):
+                day_last[r["date"]] = i
+            def xc(date):
+                if date in day_last:
+                    return x2(day_last[date])
+                later = [i for i, r in enumerate(lv) if r["date"] > date]
+                return x2(later[0]) if later else x2(n - 1)
+            for form, dash, yoff in (("one form", "5,4", y2(72)), ("four forms", "", y2(65))):
+                pts = [r for r in cs if r["form"] == form]
+                if not pts:
+                    continue
+                base_c = pts[0]["value"] or 1
+                path = " ".join(f"{xc(r['date']):.1f},{y2(100.0 * r['value'] / base_c):.1f}" for r in pts)
+                if len(pts) == 1:
+                    xx = xc(pts[0]["date"])
+                    path = f"{xx - 6:.1f},{y2(100.0):.1f} {xx + 6:.1f},{y2(100.0):.1f}"
+                    out.append(f'<circle cx="{xx:.1f}" cy="{y2(100.0):.1f}" r="4" fill="#9467bd"/>')
+                out.append(f'<polyline fill="none" stroke="#9467bd" stroke-width="2" stroke-dasharray="{dash}" points="{path}"/>')
+                what = ("raw pointer-cast dereferences — the one-form regex count (until the census, 2026-09-12)" if form == "one form"
+                        else "raw pointer-cast dereferences — the four-form census (2026-09-12 →; a new instrument, its own 100 %)")
+                out.append(f'<text x="{W - R - 10}" y="{yoff:.1f}" text-anchor="end" font-size="12" fill="#9467bd">{what}: {pts[0]["value"]:,} → {pts[-1]["value"]:,}</text>')
     out.append(f'<text x="{W-R}" y="{H_TOTAL-4}" text-anchor="end" font-size="10" fill="#777">generated by tools/timeline.py — keyed by date</text>')
     out.append("</svg>")
     return "\n".join(out) + "\n"

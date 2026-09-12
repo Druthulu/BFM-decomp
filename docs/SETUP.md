@@ -1786,6 +1786,13 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
 - **`tools/delever.py`** — `marker_edits(…, phase="P36")`: the attribution tail's phase is a parameter (`(P37 S+A <label>)`).
 - **`tools/type_census.py`** — `walk_all(jobs)` factored out of `run_census` (the cached fleet walk the engine's rung D shares).
 
+- **`tools/timeline.py` (lower panel, S107 on Drew's word):** the lever series is drawn as EVERY recorded increment on an ordinal axis —
+  the Phase-36 log's own census lines for T1 / the T4 strip batches / the T5 GTE batches (`lever_rows()` parses `phase-ends/logs/Phase36.md`;
+  the TSV began at T6) + every `docs/lever-progress.tsv` row — with a dashed marker and label where the KIND of step changes (`KIND_RULES`);
+  the raw casts are two instruments (`cast_rows()`: the one-form regex count, then the four-form census as its own 100 %), never joined.
+  Preview: `.venv/bin/python -c "import cairosvg; cairosvg.svg2png(url='docs/story-timeline.svg', write_to='<png>', output_width=1100)"`
+  (`cairosvg` installed in the venv 2026-09-12 for this; not a build input).
+
 ## Retired tools (`tools/sunset/`, Phase 33.5)
 
 *The rows below were moved out of the tool tables above when their tools were retired under the owner's criterion (superseded by a named

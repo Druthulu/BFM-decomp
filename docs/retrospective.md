@@ -198,5 +198,7 @@ at every landing. Bucket the residue by what it needs at every wave close, as th
 spelling on the bytes on the first day (six minutes for 165 bodies) before designing the engine — it corrected the charter, fixed the rewrite
 table five times, and proved the oracle needs a linked-relocation mode before a single global block was rewritten. When a byte question
 has a linker in it, ask the linker (the build's own tail), never re-derive its arithmetic; snapshot an oracle's baseline only from a clean run
-and make the snapshot refuse what it cannot reproduce; compute every process pool before the first thread. In one line, the
+and make the snapshot refuse what it cannot reproduce; compute every process pool before the first thread. Read a census's rows against the
+DEFINITIONS' names before pricing a campaign on them — a function defined under another name is a hole in the denominator, and a planner
+should count only the rows its engine can act on. In one line, the
 generation's rule so far: *the byte gate is still the only judge, and after 100 % it judges spelling.*

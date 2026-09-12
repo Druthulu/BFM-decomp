@@ -3884,3 +3884,20 @@ leftover — they come off alone too — worth a targeted regen before T6 visits
 fleet run, and make the snapshot refuse an object it cannot reproduce (done now; it should have been in T0's design). Compute every process
 pool before the first thread. A selftest's scratch is never a live path (R57). And read the sequencing of typed signatures off the compiler's
 pointer arithmetic before writing "in one pass" into a plan.
+
+## P37 S107 (2026-09-12, later) — the declaration layer meets the class argcheck could not see
+**Context and belief.** T4 was priced as one unattended session of rung D: ≈94k (TU, callee) pairs, 93 % mechanical. The first eleven
+batches did that part (17,000 declarations canonical, 1,300 K&R sites marked, 207 data aliases typed) — and then a batch drew 300 TUs for
+zero units. The remaining rows were a class the census had never modelled: functions DEFINED under an alias C name (`s32
+aF8012EFB8(param_1, param_2) __asm__("func_8012EFB8")`) because the fleet's declarations of their real name lied about the byte-true body;
+149 of them, 1,855 files, and their 3,529 real-name callers' lies were invisible to argcheck because no definition existed under the real
+name. **The pivot:** a `--unalias` unit — the definition back under its real name with its byte-true signature, one fleet-wide judged job
+— grown through five passes into a ladder of per-file prototype forms (exact / promoted / `()` / untouched) with the definition's head
+K&R-style as the last resort and a shared header's declaration hoisted into its includers where the header reached non-member binaries.
+**Why it looked right and what was true.** "Every function is a definition plus lying declarations" was the model; the truth added a
+third thing: the ORIGINAL's calling convention per caller — some callers pass more arguments than the body declares, some fewer, some
+narrow and some do not — and one TU can hold callers of both kinds because the jr carves merged separate original translation units.
+For those, no single-TU spelling exists; the file-layout phase's split is the fix, and the unit says so instead of forcing one.
+**What it cost.** ~4 h of the session in five unalias passes and two planner corrections; 120 of 149 landed; 29 named. **Sooner:** read
+the census's "lying declaration" rows against the DEFINITIONS' names before pricing — a definition under another name is a hole in the
+denominator, and the planner should have counted only rows the engine can act on from the first batch (`DECL-NONE` now settles them).

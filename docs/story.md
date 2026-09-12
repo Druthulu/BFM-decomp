@@ -232,6 +232,20 @@ batch: the declarations of one overlay's twenty-seven files, 258 units, 242 made
 convention, sixteen kept with their reason written down — twice through the 218-binary gate, green both times. It also found, in passing,
 that a 78-megabyte ledger from the previous phase had been sitting in the public repository above GitHub's size warning for a day.
 
+The afternoon ran the declaration layer over the whole tree, unattended, in batches of three hundred files, each followed by the
+218-binary gate and a commit: seventeen thousand function declarations made to say what their definitions say, thirteen hundred call sites
+recognised as the original's own calling convention and marked as such, two hundred data aliases given their real names. Then a batch came
+back empty, and the reason was a class nobody had modelled: a hundred and forty-nine functions whose bodies had been *defined* under an alias
+name — `aF8012EFB8` bound by an assembler label to `func_8012EFB8` — because the fleet's declarations of the real name had lied about them
+and the alias had been the drafter's way around the conflict. Their three and a half thousand callers had been invisible to the census that
+counts lying declarations, because it looked for a definition under the real name and found none. Putting each function back under its
+name turned out to need a small ladder of its own, learned one failure at a time across five passes: the exact prototype, the promoted one, a
+bare `()`, a caller left untouched because its lie is load-bearing, the definition itself spelled in the old K&R style when callers pass more
+arguments than its body declares, and a shared header's declaration lifted into the files that include it when the header reaches binaries
+where that address is a different function. A hundred and twenty landed; twenty-nine were named and left, most of them because a carved
+translation unit holds callers that disagree with the definition inside one file — the original was several files, and only the file-layout
+phase can say so.
+
 ## 11. By the numbers
 
 | | |

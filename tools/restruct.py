@@ -371,7 +371,7 @@ def judge_text(tu, text, tag):
 # the ledger (R48/R114: a unit is (rung, tu, unit, body hash); the latest row per unit is the verdict, R70) and the in-flight snapshot
 # ----------------------------------------------------------------------------------------------------------------------
 DONE_VERDICTS = {"IDENTICAL", "MEMBERS", "S2", "S+A", "UNCHANGED", "NO-SITE", "REFUSED", "KEPT-ALL", "DECL-CANON", "DECL-PROMOTED",
-                 "DECL-KEPT", "ALIAS-TYPED", "ALIAS-KEPT", "BUILTIN-ABS", "BUILTIN-KEPT", "UNALIAS-DONE", "UNALIAS-KEPT", "UNALIAS-REFUSED",
+                 "DECL-KEPT", "DECL-NONE", "ALIAS-TYPED", "ALIAS-KEPT", "BUILTIN-ABS", "BUILTIN-KEPT", "UNALIAS-DONE", "UNALIAS-KEPT", "UNALIAS-REFUSED",
                  "FOLDED", "FOLD-REFUSED", "NO-EDIT", "TYPE-NOT-CANONICAL", "TYPE-NOT-VISIBLE"}
 REDRAW_VERDICTS = {"COMBINATION-FAILED", "NO-RECIPE", "TOOL-ERROR"}
 
@@ -1413,9 +1413,11 @@ def call_arg_counts(masked, callee, decl_spans):
     return sorted(counts)
 
 
-def d_units(tu, text, callees=None):
+def d_units(tu, text, callees=None, skipped=None):
     """The TU's declaration units: [dict(callee, decls[(s,e,line,ext,ret,params)], ret, ansi, promoted, defn_tu, kr_def, ambiguous)] —
-    every callee with >=1 declaration whose spelling is not the canonical one."""
+    every callee with >=1 declaration whose spelling is not the canonical one. `skipped` (a dict) receives {callee: reason} for every
+    requested callee that yields NO unit — the planner's rows the engine cannot act on, settled in the ledger with that reason so a
+    batch never draws them again (t4_D21 drew 300 TUs for 0 units on exactly these)."""
     masked = dl.same_len_mask(text)
     vis = defs_visible(tu)
     names = set(callees) if callees else set(vis)
@@ -1423,10 +1425,16 @@ def d_units(tu, text, callees=None):
     for callee in sorted(names):
         cands = vis.get(callee)
         if not cands:
+            if skipped is not None:
+                al = _alias_of_real().get(callee)
+                skipped[callee] = (f"no visible definition — the body is still alias-defined as {al} (an UNALIAS-KEPT class)" if al
+                                   else "no visible definition (external to this TU's binary, or argcheck's alias-resolved row)")
             continue
         sigs = {(r, sl._norm_type(re.sub(r"\s+", " ", p))) for (_, r, p, _) in cands}
         decls = decl_sites(masked, callee)
         if not decls:
+            if skipped is not None:
+                skipped[callee] = "no declaration the engine's regex reads (a typedef'd pointer / a K&R-form the census counts)"
             continue
         if len(sigs) > 1:
             units.append(dict(callee=callee, decls=decls, ambiguous=sorted(sigs)[:4], defn_tu=cands[0][0]))
@@ -1436,10 +1444,14 @@ def d_units(tu, text, callees=None):
         canon = {sl._norm_type(re.sub(r"\s+", " ", p)) if p.strip() not in ("",) else "void" for (_, _, _, _, r, p) in decls}
         rets = {r for (_, _, _, _, r, _) in decls}
         if canon == {params_n} and rets == {ret}:
+            if skipped is not None:
+                skipped[callee] = "already canonical"
             continue
         # a byte-proven K&R site already stands: every declaration `()` and marked `// K&R:` on its line — settled, not drawn again
         ls_ = dl.line_starts(masked)
         if all(p.strip() == "" and KR_MARK in text[ls_[ln - 1]:(ls_[ln] - 1 if ln < len(ls_) else len(text))] for (_, _, ln, _, _, p) in decls):
+            if skipped is not None:
+                skipped[callee] = "a marked K&R site already"
             continue
         units.append(dict(callee=callee, decls=decls, ret=ret, ansi=params_n, promoted=promoted_params(params_n), defn_tu=cands[0][0],
                           kr_def=cands[0][3], ambiguous=None))
@@ -1552,8 +1564,15 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
     if not recs_for(tu) and JUDGE_STUB is None:
         out["final"] = "NO-RECIPE"
         return out
-    units = d_units(tu, raw, callees)
+    skipped = {}
+    units = d_units(tu, raw, callees, skipped=skipped if callees else None)
     masked = dl.same_len_mask(raw)
+    for callee, why in sorted(skipped.items()):
+        h_ = hashlib.sha1("|".join(f"{ln}:{r}:{p}" for (_, _, ln, _, r, p) in decl_sites(masked, callee)).encode()).hexdigest()[:12]
+        if ("D", tu, "decl:" + callee, h_) in done:
+            continue
+        rows.append(dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=tu, unit="decl:" + callee, callee=callee,
+                         header=is_hdr, nhash_before=h_, nhash_after=h_, verdict="DECL-NONE", cause=why, sites=[]))
     extra = e_units(tu, raw, masked) + b_units(tu, raw, masked)
 
     def unit_hash(u):
@@ -1576,6 +1595,7 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
         live.append(u)
     extra_live = [u for u in extra if ("D", tu, unit_key(u), unit_hash(u)) not in done and u["edits"]]
     out["units"] = len(live) + len(extra_live)
+    out["settled"] = len(skipped)
     if not live and not extra_live:
         out["final"] = "UNCHANGED"
         return out
@@ -1717,7 +1737,7 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
     return out
 
 
-def signature_change(callee, signature, label, calib_id, log, pool=None, body_file=None):
+def signature_change(callee, signature, label, calib_id, log, pool=None, body_file=None, all_defs=False, only_tu=None):
     """A DEFINITION-side change (`--callee F --signature "ret F(params)"`, or `--callee F --body FILE` — the pack's lever-free function text
     replaces the whole definition and the new signature is read from ITS head): the definition in its TU + every declaration of F in every
     TU of F's scope, ONE judged unit — every recipe IDENTICAL or nothing is written. Returns (rows, verdict, files_written)."""
@@ -1736,49 +1756,64 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
     w = walk()
     results = w["results"]
     def_files = [rel for rel, r in results.items() if r and any(f["fn"] == callee for f in r["fndefs"])]
-    if len(def_files) != 1:
-        sys.exit(f"restruct: {callee} has {len(def_files)} definitions ({def_files[:4]}) — a signature change needs exactly one (R43)")
+    if only_tu:
+        def_files = [d_ for d_ in def_files if d_ == only_tu]
+    if not def_files or (len(def_files) != 1 and not all_defs):
+        sys.exit(f"restruct: {callee} has {len(def_files)} definitions ({def_files[:4]}) — a signature change needs exactly one, or --all-defs "
+                 f"(the same body for every same-address copy) or --tu <TU> (R43)")
     def_tu = def_files[0]
     files = {}
-    dtext = (REPO / def_tu).read_text(errors="surrogateescape")
-    dmask = dl.same_len_mask(dtext)
-    fd = next(f for f in results[def_tu]["fndefs"] if f["fn"] == callee)
-    ls = dl.line_starts(dmask)
-    head_start = ls[fd["line"] - 1]
-    if body_text is not None:
-        # the WHOLE definition (its head line through its closing brace line) replaced by the pack's text
-        span_end = ls[fd["fn_end"]] if fd.get("fn_end") and fd["fn_end"] < len(ls) else len(dtext)
-        edits = [(head_start, span_end, body_text if body_text.endswith("\n") else body_text + "\n")]
-    else:
-        brace = dmask.find("{", head_start)
-        hm = re.search(r"([A-Za-z_][\w \t*]*?)\b" + re.escape(callee) + r"\s*\(([^{;]*)\)\s*(?=\{)", dmask[head_start:brace + 1])
-        if not hm:
-            sys.exit(f"restruct: cannot read {callee}'s definition head in {def_tu}:{fd['line']}")
-        edits = [(head_start + hm.start(1), head_start + hm.end(2) + 1, f"{ret} {callee}({params})")]
-    files[def_tu] = compose_text(dtext, edits)
+    for dtu in def_files:
+        dtext = (REPO / dtu).read_text(errors="surrogateescape")
+        dmask = dl.same_len_mask(dtext)
+        fd = next(f for f in results[dtu]["fndefs"] if f["fn"] == callee)
+        ls = dl.line_starts(dmask)
+        head_start = ls[fd["line"] - 1]
+        if body_text is not None:
+            # the WHOLE definition (its head line through its closing brace line) replaced by the pack's text
+            span_end = ls[fd["fn_end"]] if fd.get("fn_end") and fd["fn_end"] < len(ls) else len(dtext)
+            edits = [(head_start, span_end, body_text if body_text.endswith("\n") else body_text + "\n")]
+        else:
+            brace = dmask.find("{", head_start)
+            hm = re.search(r"([A-Za-z_][\w \t*]*?)\b" + re.escape(callee) + r"\s*\(([^{;]*)\)\s*(?=\{)", dmask[head_start:brace + 1])
+            if not hm:
+                sys.exit(f"restruct: cannot read {callee}'s definition head in {dtu}:{fd['line']}")
+            edits = [(head_start + hm.start(1), head_start + hm.end(2) + 1, f"{ret} {callee}({params})")]
+        files[dtu] = compose_text(dtext, edits)
+    # the declarations: every TU/header of the definitions' binaries (a same-address function is one function per binary); for a
+    # main/resident definition the whole fleet declares it
+    import corpus
+    def_bins = set()
+    for dtu in def_files:
+        for a_ in w["tu_aliases"].get(dtu, ()):
+            def_bins.add(a_)
+    fleet_wide = any(d_.count("/") == 1 or d_.startswith("src/resident/") or d_.startswith("src/shared/main") for d_ in def_files)
     n_decl = 0
     for rel, r in results.items():
-        if not r or rel == def_tu:
+        if not r:
             continue
-        if not any(e["name"] == callee for e in r.get("extern_fns", [])):
+        if not any(e["name"] == callee for e in r.get("extern_fns", [])) and rel not in files:
             continue
-        text = (REPO / rel).read_text(errors="surrogateescape")
+        if not fleet_wide and rel not in files:
+            rb = set(w["tu_aliases"].get(rel, ()))
+            if rel.startswith("src/shared/"):
+                rb = {t.split("/")[1] for t in dl.includers().get(rel, []) if t.count("/") >= 2}
+            if not rb or not rb <= def_bins:
+                if rb & def_bins:
+                    log(f"signature {callee}: {rel} reaches binaries outside the definitions' ({sorted(rb - def_bins)[:3]}) — left as is")
+                continue
+        text = files.get(rel) or (REPO / rel).read_text(errors="surrogateescape")
         ds_ = decl_sites(dl.same_len_mask(text), callee)
         if not ds_:
             continue
         files[rel] = compose_text(text, [(s, e, f"{'extern ' if ext else ''}{ret} {callee}({params});") for (s, e, ln, ext, r_, p) in ds_])
         n_decl += len(ds_)
-    # the definition TU's own declarations too
-    ds0 = decl_sites(dl.same_len_mask(files[def_tu]), callee)
-    if ds0:
-        files[def_tu] = compose_text(files[def_tu], [(s, e, f"{'extern ' if ext else ''}{ret} {callee}({params});") for (s, e, ln, ext, r_, p) in ds0])
-        n_decl += len(ds0)
-    log(f"signature {callee}: `{ret} {callee}({params})` — definition in {def_tu}, {n_decl} declarations in {len(files) - 1} other files")
+    log(f"signature {callee}: `{ret} {callee}({params})` — {len(def_files)} definition(s) in {def_files[:3]}, {n_decl} declarations in {len(files) - len(def_files)} other files")
     r = judge_files(files, "sig" + hashlib.sha1(callee.encode()).hexdigest()[:6], pool=pool)
     rows = []
     for rel in files:
         rows.append(dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=rel, unit="def:" + callee, callee=callee,
-                         signature=f"{ret} {callee}({params})", definition=(rel == def_tu), verdict=("DECL-CANON" if r["verdict"] == "IDENTICAL" else "REFUSED"),
+                         signature=f"{ret} {callee}({params})", definition=(rel in def_files), verdict=("DECL-CANON" if r["verdict"] == "IDENTICAL" else "REFUSED"),
                          err=r["err"][:200], nhash_before=None, nhash_after=None, sites=[]))
     if r["verdict"] == "IDENTICAL":
         for rel, text in files.items():
@@ -1799,6 +1834,16 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
 # ----------------------------------------------------------------------------------------------------------------------
 AF_DEF_RX = re.compile(r"(?m)^([A-Za-z_][\w \t*]*?)\b(aF[0-9A-F]{8})\s*\(([^;{)]*)\)\s*((?:\n[^{;\n]*;)*)\s*\{")
 AF_PROTO_RX_T = r"(?m)^[ \t]*(extern\s+)?([A-Za-z_][\w \t*]*?)\b{name}\s*\(([^;{{)]*)\)\s*(__asm__\s*\(\s*\"(\w+)\"\s*\))?\s*;[ \t]*\n?"
+
+
+_alias_real_cache = None
+
+
+def _alias_of_real():
+    global _alias_real_cache
+    if _alias_real_cache is None:
+        _alias_real_cache = {v["real"]: k for k, v in fn_alias_index().items()}
+    return _alias_real_cache
 
 
 def fn_alias_index():
@@ -2416,7 +2461,7 @@ def apply_batch(a):
         return 0
     if a.callee:
         pool = ThreadPoolExecutor(max_workers=a.jobs)
-        rows_, v, written = signature_change(a.callee, a.signature, a.label, calib_id, log, pool=pool, body_file=a.body)
+        rows_, v, written = signature_change(a.callee, a.signature, a.label, calib_id, log, pool=pool, body_file=a.body, all_defs=a.all_defs, only_tu=a.tu)
         pool.shutdown(wait=True)
         ledger_append(rows_)
         line = f"restruct: signature {a.callee} — {v} · {len(written)} files written"
@@ -3463,6 +3508,8 @@ def main():
     ap.add_argument("--callee", help="rung D: a DEFINITION-side signature change for this function (with --signature)")
     ap.add_argument("--signature", help='rung D: the new signature, e.g. "void func_800385C0(s32 a0)"')
     ap.add_argument("--body", help="rung D with --callee: a file whose function text REPLACES the definition (the signature is read from its head)")
+    ap.add_argument("--all-defs", action="store_true", help="rung D with --callee: apply the body/signature to EVERY same-address definition (copies of one function)")
+    ap.add_argument("--tu", help="rung D with --callee: restrict to the definition in this TU")
     ap.add_argument("--unalias", nargs="*", help="rung D: put alias-defined functions (aF<addr> __asm__(\"func_<addr>\")) back under their real names; names or ALL")
     ap.add_argument("--restore", action="store_true")
     ap.add_argument("--status", action="store_true")

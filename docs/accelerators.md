@@ -992,3 +992,9 @@ cross-address copies produce IDENTICAL probe bodies, and a hash-keyed scratch fi
 4. **A selftest's scratch is never the tool's live path.** The inflight probe deleted a real batch's restore snapshot (R57).
 5. **Typed signatures come AFTER the body's sites are members** — pointer arithmetic scales. Plan the declaration layer as widths/arity first
    and the typed form as a per-callee unit (sites → parameter type → callers) once the types exist.
+6. **A planner's denominator must be rows the engine can ACT on.** argcheck's "lying declaration" rows included callees with no visible
+   definition; the cycle re-drew 300 TUs for 0 units twice before every such row was settled in the ledger with its reason (`DECL-NONE`).
+7. **Stop a detached judge with SIGINT, never SIGTERM** — the in-place compile's `finally` restores the file only on an exception; and
+   `pkill -f` with a literal from your own command line kills your own shell (R79, hit again at 14:20).
+8. **A fallback ladder that re-judges hundreds of objects per step needs an escalation rule** (a second caller of the same kind → all
+   callers), or a 20-file chain costs 20 × 20 s per unit.
