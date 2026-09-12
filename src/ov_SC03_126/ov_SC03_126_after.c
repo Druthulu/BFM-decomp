@@ -1239,7 +1239,7 @@ extern s32 func_8014F24C(struct SubF24C *a0);
 
 
 
-extern s32 func_8014F4C0();
+extern s32 func_8014F4C0(s32 arg0);
 
 #include "../shared/ov/func_8014F468__fc2209a3.h"
 
@@ -1260,7 +1260,7 @@ extern s32 func_8014F4C0();
  * restores $sp and returns the stored value. Manipulating $sp is not expressible in
  * C; full inline asm (manages its own frame). */
 
-extern int func_8014F74C();
+extern int func_8014F74C(s32 arg0);
 
 #include "../shared/ov/func_8014F6F4__923dc24d.h"
 
@@ -1334,7 +1334,7 @@ extern void func_801504D8(u16 *a0);
 
 #include "../shared/ov/func_80150528.h"
 
-extern s32 func_801506A4();
+extern s32 func_801506A4(s32 arg0, s32 arg1);
 #include "../shared/ov/func_801505FC.h"
 
 

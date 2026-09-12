@@ -1521,7 +1521,7 @@ void func_8014F1F4(void)
 
 
 
-extern s32 func_8014F4C0();
+extern s32 func_8014F4C0(s32 arg0);
 
 s32 func_8014F468(void)
 {
@@ -1566,7 +1566,7 @@ s32 func_8014F468(void)
  * restores $sp and returns the stored value. Manipulating $sp is not expressible in
  * C; full inline asm (manages its own frame). */
 
-extern int func_8014F74C();
+extern int func_8014F74C(s32 arg0);
 
 int func_8014F6F4(void) {
     __asm__ __volatile__(
@@ -1764,7 +1764,7 @@ s32 func_80150480(s32 _arg0)
 
 #include "../shared/ov/func_80150528.h"
 
-extern s32 func_801506A4();
+extern s32 func_801506A4(s32 arg0, s32 arg1);
 #include "../shared/ov/func_801505FC.h"
 
 

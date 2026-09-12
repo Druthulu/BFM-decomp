@@ -234,7 +234,7 @@ extern s16 func_8012A79C(s16 *a0, s16 *a1);
 extern s16 func_8012A758(void);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_8012A7D4(void *arg0, void *arg1);
-extern void func_8012AAAC();
+extern void func_8012AAAC(void *arg0);
 extern void func_8012A828(s32 a0, void * a1);
 extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
@@ -789,7 +789,7 @@ void func_8012E364(s32 arg0_)
     D_801ED9D8 = v;
     *(u16 *)(e1 + 0x2C) = flags | 0x10;
     e2 = ((s32 *)arg0)[8];
-    d = __builtin_abs(v);
+    d = abs(v);
     *(s16 *)(e2 + 0x1C) = d;
     *(s16 *)(e2 + 0x18) = d;
     *(s16 *)(((s32 *)arg0)[8] + 0x1A) = 0x1000;
