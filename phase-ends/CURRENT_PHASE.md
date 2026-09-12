@@ -125,6 +125,8 @@
   (`func_8017FC5C`, `func_80180200`, `func_80185578`, `func_80157D20`, `func_80168828`) go there with their ready patches.
 - **S105 (2026-09-11), Drew, at the session open: *"high effort set. max concurrent agents is now 2"*** → the T7 agent lane runs at
   most TWO agents at once from S105 on (was five, S103).
+- **S105 (2026-09-11), Drew, resuming after the S105 close: *"continue here. max concurrent agents of 1 now"*** → the T7 agent lane
+  runs ONE agent at a time from here (was two).
 - **S98 (2026-09-09), Drew, mid-T3:** *"dont start ultra code wave for reshaping without my direct approval."* → **T7's reshaping waves (Ultracode) start ONLY on Drew's direct approval in the session that would run them** — the R27 toggle is necessary, not sufficient; the T6 recipe/permuter rungs and the mechanical campaign are not waves and proceed under P3.
 
 ## Rules at gate 1 (P10)
@@ -2077,13 +2079,18 @@ accumulate here as the phase produces them.**
   **SESSION TOTAL (R41): 42 of 42 drawn classes at 0 — 32 plain C, 2 do-while-only, 8 minimum-lever (3 parked signature changes);
   4,152 → 4,046 sites (−106) across 8 TU batches + 4 free regen banks; ≈3.1M agent tokens; every batch R22 218/218.**
 
-## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of TWO agents**. 4,152 → **4,046 sites** this session (−106); 8 TU batches f1–f8, **42 of 42 drawn classes at 0** (32 plain C, 2 do-while-only, 8 minimum-lever incl. 3 parked signature changes), ALL landed and banked — **nothing in flight**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `36be9acef` | `lever_census --check` exit 0 (4,046 marked, 0 UNMARKED, 0 orphans)
+- **S105 (continued, same session) — Drew: *"continue here. max concurrent agents of 1 now"* → cap ONE; f9 launched** (`ov_SC02_027_jr_8017D898`,
+  6 classes: func_80180A54, func_80186CE0, func_80186C0C, func_801810A0, func_8017F498, func_80187D18; the TU's five landed packs in the
+  brief). Calibration at `1feaff539`: `177/177 … OK`.
+
+## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,046 sites** this session (−106); 8 TU batches f1–f8, **42 of 42 drawn classes at 0** (32 plain C, 2 do-while-only, 8 minimum-lever incl. 3 parked signature changes), ALL banked — **f9 (ov_SC02_027, 6 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `36be9acef` | `lever_census --check` exit 0 (4,046 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
 A fresh session reads CLAUDE.md's load order, replays this block verbatim, confirms the effort (S105 ran at `/effort high` on Opus 5 1M;
-every agent on Opus) and executes §2. **NOTHING IS IN FLIGHT.** Drew's cap is TWO concurrent agents (S105 open); his last word this
-session was *"dont start any new agents at this time. let the current ones finish"* — they finished and are banked; **a new session
-draws only on his word.** The session limit cut two agents mid-run and Drew had them RESUMED by SendMessage to their ids (R67 held —
+every agent on Opus) and executes §2. **Drew's cap is ONE agent at a time** (his last retune, after the S105 close: "continue here. max
+concurrent agents of 1 now"). What may be in flight when this is read: **f9** (`src/ov_SC02_027/ov_SC02_027_jr_8017D898.c`:
+func_80180A54, func_80186CE0, func_80186C0C, func_801810A0, func_8017F498, func_80187D18) — a dead session's agent leaves `body.c` +
+`mechanism.md` in its packs (R67): `--try` each, bank a 0, record the rest. The session limit cut two agents mid-run and Drew had them RESUMED by SendMessage to their ids (R67 held —
 every deliverable was on disk); an agent id survives a limit cut within a session, and an agent of a DEAD session is relaunched from
 its pack. Briefs for the next draws are written and their packs built: `.run/P36/s105/BRIEF_f9.md` (ov_SC02_027_jr_8017D898, 6
 classes, 5 landed packs in that TU), `BRIEF_f10.md` (ov_SC06_006_jr_8017DB90, 4); `.run/P36/s105/mkbrief.py <id> <tu>` builds the
