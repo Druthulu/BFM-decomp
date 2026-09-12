@@ -22,7 +22,7 @@ void func_800CAE44(void *a0) {
 }
 
 
-extern void func_800CAEC0();
+extern void func_800CAEC0(void *arg0);
 #include "../shared/slot_800CAE08/func_800CAE88__3eeb9c91.h"
 
 
@@ -70,7 +70,7 @@ void func_800CAF68(void *arg0) {
 
 extern s32 func_8014C088(s32 a0, s32 a1);
 extern s32 func_80165A20(s32 a0);
-extern void func_800CB108();
+extern void func_800CB108();  // K&R: 0/1 of 1 args (P37 rung D t4_D34)
 
 void func_800CB010(void *arg0) {
     if (func_8014C088((s32)arg0, 0xB) == 0) {
@@ -82,7 +82,7 @@ void func_800CB010(void *arg0) {
 }
 
 
-extern void func_800CB108();
+extern void func_800CB108();  // K&R: 0/1 of 1 args (P37 rung D t4_D34)
 void func_800CB078(void) {
     func_800CB108();
 }
@@ -138,7 +138,7 @@ void func_800CB134(void *arg0) {
 
 
 void func_800CB190(void *arg0) {
-    extern void func_800CB5F4();
+    extern void func_800CB5F4(s32 a0);
     extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
     extern void func_80146E90(s32 *, s32);
     extern void func_80146CA0(void *);
@@ -228,7 +228,7 @@ void func_800CB278(s32 param_1)
 
 #include "common.h"
 
-extern void func_800CB5F4();
+extern void func_800CB5F4(s32 a0);
 
 void func_800CB3C0(void *arg0) {
     void *s0;
@@ -255,7 +255,7 @@ void func_800CB3C0(void *arg0) {
 
 
 void func_800CB470(void *arg0) {
-    extern void func_800CB5F4();
+    extern void func_800CB5F4(s32 a0);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146CA0(void *a0);
     extern u8 D_800CBBD8;
@@ -345,7 +345,7 @@ void func_800CB688(void *a0) {
 
 extern void func_80146CA0(void *a0);
 extern void func_800CB8C4(void *a0, void *a1);
-extern void func_800CB900();
+extern void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, void *twicep, s16 *angp);
 
 void func_800CB6E8(void *arg0) {
     s16 w;
@@ -369,7 +369,7 @@ void func_800CB77C(void *arg0) {
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146CA0(void *a0);
     extern void func_800CB8C4(void *a0, void *a1);
-    extern void func_800CB900();
+    extern void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, void *twicep, s16 *angp);
     s16 w;
     s32 pad[2];
 

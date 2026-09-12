@@ -1,0 +1,607 @@
+restruct --plan D: 300 of 1175 TUs with lying declarations · 2934 callees
+16:41:09 apply t4_D34 rung D: 300 files, control src/ov_SC03_124/ov_SC03_124_jr_80188544.c IDENTICAL (0.08 s), calibration 8f1a9619e
+16:41:11   src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c: UNCHANGED · rows 25 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:42:59   src/ov_SC06_025/ov_SC06_025_jr_8017EEC4.c: UNCHANGED · rows 24 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:00   src/ov_SC03_124/ov_SC03_124_jr_80185498.c: UNCHANGED · rows 16 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:00   src/ov_SC03_124/ov_SC03_124_jr_80188544.c: UNCHANGED · rows 55 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:01   src/ov_SC04_018/ov_SC04_018_jr_80185D70.c: UNCHANGED · rows 16 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:01   src/ov_SC04_015/ov_SC04_015_jr_801820DC.c: UNCHANGED · rows 26 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:02   src/ov_SC03_124/ov_SC03_124_jr_80185C98.c: UNCHANGED · rows 18 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:02   src/ov_SC07_000/ov_SC07_000_jr_8017F8B8.c: UNCHANGED · rows 23 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:03   src/ov_SC03_124/ov_SC03_124_jr_80187010.c: UNCHANGED · rows 18 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:03   src/ov_SC03_118/ov_SC03_118_o0d.c: UNCHANGED · rows 17 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:03   src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c: UNCHANGED · rows 17 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:04   src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c: UNCHANGED · rows 17 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:04   src/ov_SC04_018/ov_SC04_018_jr_80186570.c: UNCHANGED · rows 19 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:05   src/ov_SC04_018/ov_SC04_018_jr_801878E8.c: UNCHANGED · rows 18 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:05   src/ov_SC04_018/ov_SC04_018_jr_8018CC40.c: UNCHANGED · rows 19 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:06   src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c: UNCHANGED · rows 16 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:07   src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c: UNCHANGED · rows 16 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:08   src/ov_SC05_018/ov_SC05_018_jr_8017D604.c: UNCHANGED · rows 16 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:08   src/ov_SC03_092/ov_SC03_092_jr_8017FE88.c: UNCHANGED · rows 14 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:08   src/ov_SC05_017/ov_SC05_017_jr_80185A70.c: UNCHANGED · rows 13 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:09   src/ov_SC05_017/ov_SC05_017_jr_8018C694.c: UNCHANGED · rows 15 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:09   src/ov_SC05_017/ov_SC05_017_jr_801875E8.c: UNCHANGED · rows 13 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:09   src/ov_SC06_016/ov_SC06_016_jr_801816DC.c: UNCHANGED · rows 15 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:09   src/ov_SC05_017/ov_SC05_017_jr_80186270.c: UNCHANGED · rows 14 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:11   src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: UNCHANGED · rows 15 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:11   src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c: UNCHANGED · rows 13 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:11   src/ov_SC03_124/ov_SC03_124_jr_80181B44.c: UNCHANGED · rows 13 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:12   src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c: UNCHANGED · rows 12 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:13   src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c: UNCHANGED · rows 11 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:13   src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c: UNCHANGED · rows 12 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:13   src/ov_SC05_018/ov_SC05_018_jr_80185754.c: UNCHANGED · rows 11 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:14   src/ov_SC03_001/ov_SC03_001_jr_80188830.c: UNCHANGED · rows 10 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:14   src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c: UNCHANGED · rows 10 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:14   src/ov_SC05_017/ov_SC05_017_jr_801828EC.c: UNCHANGED · rows 11 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:14   src/ov_SC06_006/ov_SC06_006_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:14   src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c: UNCHANGED · rows 10 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:14   src/ov_SC03_001/ov_SC03_001_jr_80189030.c: UNCHANGED · rows 10 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:15   src/ov_SC05_017/ov_SC05_017_jr_801808D4.c: UNCHANGED · rows 10 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:15   src/ov_SC06_008/ov_SC06_008_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:15   src/ov_SC06_008/ov_SC06_008_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:16   src/ov_SC06_010/ov_SC06_010_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:16   src/ov_SC06_010/ov_SC06_010_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:16   src/ov_SC06_011/ov_SC06_011_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:16   src/ov_SC06_011/ov_SC06_011_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:16   src/ov_SC06_013/ov_SC06_013_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:16   src/ov_SC06_013/ov_SC06_013_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:16     unit 10: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_006/ov_SC06_006_jr_801380E0.c:615: previous 
+16:43:16   src/ov_SC06_006/ov_SC06_006_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:17   src/ov_SC06_014/ov_SC06_014_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:17   src/ov_SC06_014/ov_SC06_014_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:17   src/ov_SC06_015/ov_SC06_015_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:17   src/ov_SC06_015/ov_SC06_015_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:17     unit 10: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_008/ov_SC06_008_jr_801380E0.c:615: previous 
+16:43:17   src/ov_SC06_016/ov_SC06_016_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:17     unit 10: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_801380E0.c:628: conflicting types for `D_800B9A02' | src/ov_SC06_010/ov_SC06_010_jr_801380E0.c:618: previous 
+16:43:17   src/ov_SC06_008/ov_SC06_008_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:17   src/ov_SC06_010/ov_SC06_010_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:17     unit 10: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_011/ov_SC06_011_jr_801380E0.c:615: previous 
+16:43:18   src/ov_SC06_011/ov_SC06_011_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:18   src/ov_SC06_016/ov_SC06_016_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:18     unit 10: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_013/ov_SC06_013_jr_801380E0.c:615: previous 
+16:43:18   src/ov_SC06_020/ov_SC06_020_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:18   src/ov_SC06_020/ov_SC06_020_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:18   src/ov_SC06_013/ov_SC06_013_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:19     unit 10: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_014/ov_SC06_014_jr_801380E0.c:615: previous 
+16:43:19   src/ov_SC06_022/ov_SC06_022_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:19   src/ov_SC06_022/ov_SC06_022_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:19     unit 10: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_015/ov_SC06_015_jr_801380E0.c:615: previous 
+16:43:19   src/ov_SC06_014/ov_SC06_014_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:19   src/ov_SC06_015/ov_SC06_015_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:19   src/ov_SC06_024/ov_SC06_024_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:19   src/ov_SC06_025/ov_SC06_025_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:20   src/ov_SC06_024/ov_SC06_024_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:20     unit 10: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_016/ov_SC06_016_jr_801380E0.c:615: previous 
+16:43:20   src/ov_SC06_016/ov_SC06_016_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:20   src/ov_SC06_025/ov_SC06_025_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:20   src/ov_SC06_027/ov_SC06_027_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:20   src/ov_SC06_027/ov_SC06_027_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:20     unit 10: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_020/ov_SC06_020_jr_801380E0.c:615: previous 
+16:43:20   src/ov_SC06_020/ov_SC06_020_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:20     unit 10: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_022/ov_SC06_022_jr_801380E0.c:615: previous 
+16:43:21   src/ov_SC06_022/ov_SC06_022_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:21   src/ov_SC06_029/ov_SC06_029_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:21   src/ov_SC06_029/ov_SC06_029_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:21     unit 10: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_024/ov_SC06_024_jr_801380E0.c:615: previous 
+16:43:21   src/ov_SC06_024/ov_SC06_024_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.7 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:22   src/ov_SC06_029/ov_SC06_029_jr_801898CC.c: UNCHANGED · rows 10 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:22     unit 8: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_018/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:22   src/ov_SC06_030/ov_SC06_030_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:22     unit 10: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_025/ov_SC06_025_jr_801380E0.c:615: previous 
+16:43:22   src/ov_SC06_030/ov_SC06_030_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:22   src/ov_SC06_025/ov_SC06_025_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.7 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:22     unit 10: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_027/ov_SC06_027_jr_801380E0.c:615: previous 
+16:43:22     unit 0: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:5661: conflicting types for `D_801904C6' | src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:5652: previou
+16:43:22     unit 9: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_018/ov_SC06_018_jr_8012ACE0.c:1896: `D_80193B00' undecl
+16:43:22   src/ov_SC06_032/ov_SC06_032_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:22   src/ov_SC06_027/ov_SC06_027_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:23   src/ov_SC06_032/ov_SC06_032_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:23     unit 1: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:5662: conflicting types for `D_801904CE' | src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:5653: previou
+16:43:23   src/ov_SC06_029/ov_SC06_029_jr_8017C954.c: UNCHANGED · rows 12 · compiles 3 · 1.5 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:43:23     unit 10: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_029/ov_SC06_029_jr_801380E0.c:615: previous 
+16:43:23   src/ov_SC06_033/ov_SC06_033_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:23   src/ov_SC06_029/ov_SC06_029_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.8 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:23   src/ov_SC06_018/ov_SC06_018_jr_8012ACE0.c: IDENTICAL · rows 13 · compiles 13 · 4.3 s · canon 8 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:23   src/ov_SC06_033/ov_SC06_033_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:23   src/ov_SC07_000/ov_SC07_000_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:24   src/ov_SC07_000/ov_SC07_000_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:24   src/ov_SC07_001/ov_SC07_001_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:24     unit 10: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_030/ov_SC06_030_jr_801380E0.c:615: previous 
+16:43:24   src/ov_SC07_001/ov_SC07_001_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:24   src/ov_SC06_030/ov_SC06_030_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:24   src/ov_SC07_002/ov_SC07_002_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:24   src/ov_SC07_002/ov_SC07_002_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:24     unit 10: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_032/ov_SC06_032_jr_801380E0.c:615: previous 
+16:43:25   src/ov_SC06_032/ov_SC06_032_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.9 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:25   src/ov_SC07_007/ov_SC07_007_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:25   src/ov_SC07_007/ov_SC07_007_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:25     unit 10: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC06_033/ov_SC06_033_jr_801380E0.c:615: previous 
+16:43:25   src/ov_SC06_033/ov_SC06_033_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.9 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:25   src/ov_SC07_008/ov_SC07_008_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:26     unit 10: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_801380E0.c:627: conflicting types for `D_800B9A02' | src/ov_SC07_000/ov_SC07_000_jr_801380E0.c:617: previous 
+16:43:26   src/ov_SC07_008/ov_SC07_008_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:26   src/ov_SC07_000/ov_SC07_000_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.9 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:26   src/ov_SC07_009/ov_SC07_009_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:26   src/ov_SC07_009/ov_SC07_009_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:26     unit 10: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC07_001/ov_SC07_001_jr_801380E0.c:615: previous 
+16:43:26     unit 10: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC07_002/ov_SC07_002_jr_801380E0.c:615: previous 
+16:43:26   src/ov_SC07_001/ov_SC07_001_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.9 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:26   src/ov_SC07_002/ov_SC07_002_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.9 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:26   src/ov_SC07_011/ov_SC07_011_jr_80135888.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:27   src/ov_SC07_011/ov_SC07_011_jr_80135A4C.c: IDENTICAL · rows 10 · compiles 2 · 0.1 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:27   src/ov_SC01_000/ov_SC01_000_jr_8012ACE0.c: IDENTICAL · rows 10 · compiles 2 · 0.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 0
+16:43:27     unit 10: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC07_008/ov_SC07_008_jr_801380E0.c:615: previous 
+16:43:28   src/ov_SC07_008/ov_SC07_008_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:28     unit 10: COMPILE-ERROR src/ov_SC07_009/ov_SC07_009_jr_801380E0.c:625: conflicting types for `D_800B9A02' | src/ov_SC07_009/ov_SC07_009_jr_801380E0.c:615: previous 
+16:43:28   src/ov_SC07_009/ov_SC07_009_jr_801380E0.c: IDENTICAL · rows 11 · compiles 13 · 1.7 s · canon 10 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:43:31     unit 7: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC01_001/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:31     unit 7: COMPILE-ERROR src/ov_SC01_004/ov_SC01_004_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC01_004/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:31     unit 7: COMPILE-ERROR src/ov_SC01_008/ov_SC01_008_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC01_008/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:31     unit 8: COMPILE-ERROR src/ov_SC01_001/ov_SC01_001_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC01_001/ov_SC01_001_jr_8012ACE0.c:1894: `D_80183D84' undecl
+16:43:31     unit 8: COMPILE-ERROR src/ov_SC01_004/ov_SC01_004_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC01_004/ov_SC01_004_jr_8012ACE0.c:1894: `D_8017F748' undecl
+16:43:31     unit 7: COMPILE-ERROR src/ov_SC01_009/ov_SC01_009_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC01_009/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:32     unit 8: COMPILE-ERROR src/ov_SC01_008/ov_SC01_008_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC01_008/ov_SC01_008_jr_8012ACE0.c:1894: `D_8017FCBC' undecl
+16:43:32     unit 7: COMPILE-ERROR src/ov_SC01_080/ov_SC01_080_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC01_080/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:32     unit 7: COMPILE-ERROR src/ov_SC01_074/ov_SC01_074_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC01_074/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:32   src/ov_SC01_001/ov_SC01_001_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.4 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:32     unit 7: COMPILE-ERROR src/ov_SC01_084/ov_SC01_084_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC01_084/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:32     unit 8: COMPILE-ERROR src/ov_SC01_009/ov_SC01_009_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC01_009/ov_SC01_009_jr_8012ACE0.c:1894: `D_80182EA4' undecl
+16:43:32   src/ov_SC01_004/ov_SC01_004_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.4 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:32     unit 7: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_005/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:32     unit 8: COMPILE-ERROR src/ov_SC01_080/ov_SC01_080_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC01_080/ov_SC01_080_jr_8012ACE0.c:1894: `D_80183A84' undecl
+16:43:32     unit 8: COMPILE-ERROR src/ov_SC01_074/ov_SC01_074_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC01_074/ov_SC01_074_jr_8012ACE0.c:1894: `D_8017EB24' undecl
+16:43:32   src/ov_SC01_008/ov_SC01_008_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:33     unit 7: COMPILE-ERROR src/ov_SC02_004/ov_SC02_004_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_004/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:33     unit 8: COMPILE-ERROR src/ov_SC01_084/ov_SC01_084_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC01_084/ov_SC01_084_jr_8012ACE0.c:1894: `D_80186D78' undecl
+16:43:33     unit 7: COMPILE-ERROR src/ov_SC02_011/ov_SC02_011_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_011/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:33   src/ov_SC01_009/ov_SC01_009_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:33     unit 8: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_005/ov_SC02_005_jr_8012ACE0.c:1894: `D_80190E0C' undecl
+16:43:33   src/ov_SC01_080/ov_SC01_080_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:33   src/ov_SC01_074/ov_SC01_074_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:33     unit 8: COMPILE-ERROR src/ov_SC02_004/ov_SC02_004_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_004/ov_SC02_004_jr_8012ACE0.c:1894: `D_8017E208' undecl
+16:43:33   src/ov_SC01_084/ov_SC01_084_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.4 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:33     unit 8: COMPILE-ERROR src/ov_SC02_011/ov_SC02_011_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_011/ov_SC02_011_jr_8012ACE0.c:1894: `D_8019125C' undecl
+16:43:34   src/ov_SC02_005/ov_SC02_005_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:34   src/ov_SC02_011/ov_SC02_011_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:34   src/ov_SC02_004/ov_SC02_004_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:35     unit 7: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1875: parse error before `[' | src/ov_SC01_005/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:36     unit 7: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8012ACE0.c:1880: parse error before `[' | src/ov_SC02_000/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:36     unit 8: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1876: parse error before `[' | src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c:1887: `D_801828DC' undecl
+16:43:36     unit 7: COMPILE-ERROR src/ov_SC02_016/ov_SC02_016_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_016/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:36     unit 7: COMPILE-ERROR src/ov_SC02_015/ov_SC02_015_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_015/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:37     unit 7: COMPILE-ERROR src/ov_SC02_021/ov_SC02_021_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_021/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:37     unit 7: COMPILE-ERROR src/ov_SC02_017/ov_SC02_017_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_017/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:37     unit 8: COMPILE-ERROR src/ov_SC02_016/ov_SC02_016_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_016/ov_SC02_016_jr_8012ACE0.c:1894: `D_801849A8' undecl
+16:43:37     unit 8: COMPILE-ERROR src/ov_SC02_015/ov_SC02_015_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_015/ov_SC02_015_jr_8012ACE0.c:1894: `D_8017E770' undecl
+16:43:37     unit 8: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_8012ACE0.c:1881: parse error before `[' | src/ov_SC02_000/ov_SC02_000_jr_8012ACE0.c:1892: `D_8018B128' undecl
+16:43:37     unit 8: COMPILE-ERROR src/ov_SC02_021/ov_SC02_021_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_021/ov_SC02_021_jr_8012ACE0.c:1894: `D_8017FFF4' undecl
+16:43:37     unit 8: COMPILE-ERROR src/ov_SC02_017/ov_SC02_017_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_017/ov_SC02_017_jr_8012ACE0.c:1894: `D_8018AA00' undecl
+16:43:37   src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 24 · 9.1 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:37     unit 7: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_026/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:38   src/ov_SC02_016/ov_SC02_016_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:38   src/ov_SC02_015/ov_SC02_015_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:38     unit 7: COMPILE-ERROR src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_027/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:38     unit 7: COMPILE-ERROR src/ov_SC02_028/ov_SC02_028_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_028/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:38   src/ov_SC03_001/ov_SC03_001_jr_8018631C.c: UNCHANGED · rows 9 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:38     unit 8: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_026/ov_SC02_026_jr_8012ACE0.c:1894: `D_80186648' undecl
+16:43:38   src/ov_SC03_001/ov_SC03_001_jr_801870B0.c: UNCHANGED · rows 9 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:38   src/ov_SC02_017/ov_SC02_017_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:38   src/ov_SC02_021/ov_SC02_021_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:38     unit 7: COMPILE-ERROR src/ov_SC02_031/ov_SC02_031_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_031/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:39     unit 8: COMPILE-ERROR src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c:1894: `D_8018B76C' undecl
+16:43:39     unit 7: COMPILE-ERROR src/ov_SC02_039/ov_SC02_039_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC02_039/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:39     unit 8: COMPILE-ERROR src/ov_SC02_028/ov_SC02_028_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_028/ov_SC02_028_jr_8012ACE0.c:1894: `D_8018B970' undecl
+16:43:39     unit 7: COMPILE-ERROR src/ov_SC02_035/ov_SC02_035_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC02_035/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:39   src/ov_SC02_000/ov_SC02_000_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 24 · 9.4 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:39   src/ov_SC02_026/ov_SC02_026_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:39     unit 8: COMPILE-ERROR src/ov_SC02_031/ov_SC02_031_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_031/ov_SC02_031_jr_8012ACE0.c:1894: `D_8018519C' undecl
+16:43:39     unit 8: COMPILE-ERROR src/ov_SC02_039/ov_SC02_039_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC02_039/ov_SC02_039_jr_8012ACE0.c:1896: `D_8017F628' undecl
+16:43:39     unit 8: COMPILE-ERROR src/ov_SC02_035/ov_SC02_035_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC02_035/ov_SC02_035_jr_8012ACE0.c:1894: `D_801849FC' undecl
+16:43:39   src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:40   src/ov_SC02_028/ov_SC02_028_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:40   src/ov_SC02_031/ov_SC02_031_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:40   src/ov_SC02_035/ov_SC02_035_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:40   src/ov_SC02_039/ov_SC02_039_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:41     unit 7: COMPILE-ERROR src/ov_SC02_041/ov_SC02_041_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC02_041/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:42     unit 7: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC03_001/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:42     unit 8: COMPILE-ERROR src/ov_SC02_041/ov_SC02_041_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC02_041/ov_SC02_041_jr_8012ACE0.c:1896: `D_801852F8' undecl
+16:43:42     unit 8: COMPILE-ERROR src/ov_SC03_001/ov_SC03_001_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC03_001/ov_SC03_001_jr_8012ACE0.c:1894: `D_8018DA38' undecl
+16:43:42   src/ov_SC02_041/ov_SC02_041_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.4 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:43     unit 7: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_8012ACE0.c:1886: parse error before `[' | src/ov_SC03_002/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:43     unit 7: COMPILE-ERROR src/ov_SC03_003/ov_SC03_003_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_003/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:43   src/ov_SC03_001/ov_SC03_001_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:43     unit 7: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8012ACE0.c:1886: parse error before `[' | src/ov_SC03_006/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:43     unit 8: COMPILE-ERROR src/ov_SC03_002/ov_SC03_002_jr_8012ACE0.c:1887: parse error before `[' | src/ov_SC03_002/ov_SC03_002_jr_8012ACE0.c:1898: `D_80185A28' undecl
+16:43:43     unit 8: COMPILE-ERROR src/ov_SC03_003/ov_SC03_003_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_003/ov_SC03_003_jr_8012ACE0.c:1896: `D_8017F7F0' undecl
+16:43:44     unit 8: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8012ACE0.c:1887: parse error before `[' | src/ov_SC03_006/ov_SC03_006_jr_8012ACE0.c:1898: `D_8018CB0C' undecl
+16:43:44   src/ov_SC03_002/ov_SC03_002_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:44     unit 7: COMPILE-ERROR src/ov_SC03_011/ov_SC03_011_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_011/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:44   src/ov_SC03_003/ov_SC03_003_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:44     unit 7: COMPILE-ERROR src/ov_SC03_007/ov_SC03_007_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_007/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:44   src/ov_SC03_029/ov_SC03_029_jr_80186A34.c: UNCHANGED · rows 9 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:43:45     unit 7: COMPILE-ERROR src/ov_SC03_012/ov_SC03_012_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_012/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:45     unit 7: COMPILE-ERROR src/ov_SC03_010/ov_SC03_010_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_010/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:45   src/ov_SC03_006/ov_SC03_006_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:45     unit 8: COMPILE-ERROR src/ov_SC03_007/ov_SC03_007_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_007/ov_SC03_007_jr_8012ACE0.c:1896: `D_80187904' undecl
+16:43:45     unit 7: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_013/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:45     unit 8: COMPILE-ERROR src/ov_SC03_011/ov_SC03_011_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_011/ov_SC03_011_jr_8012ACE0.c:1896: `D_80181794' undecl
+16:43:45     unit 8: COMPILE-ERROR src/ov_SC03_012/ov_SC03_012_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_012/ov_SC03_012_jr_8012ACE0.c:1896: `D_8017E674' undecl
+16:43:45     unit 8: COMPILE-ERROR src/ov_SC03_010/ov_SC03_010_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_010/ov_SC03_010_jr_8012ACE0.c:1896: `D_80180424' undecl
+16:43:45     unit 7: COMPILE-ERROR src/ov_SC03_023/ov_SC03_023_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_023/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:46   src/ov_SC03_007/ov_SC03_007_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:46     unit 8: COMPILE-ERROR src/ov_SC03_013/ov_SC03_013_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_013/ov_SC03_013_jr_8012ACE0.c:1896: `D_8018145C' undecl
+16:43:46   src/ov_SC03_011/ov_SC03_011_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:46     unit 8: COMPILE-ERROR src/ov_SC03_023/ov_SC03_023_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_023/ov_SC03_023_jr_8012ACE0.c:1896: `D_8017F414' undecl
+16:43:46   src/ov_SC03_012/ov_SC03_012_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:46   src/ov_SC03_010/ov_SC03_010_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:47     unit 7: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_024/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:47   src/ov_SC03_013/ov_SC03_013_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:47     unit 7: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_028/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:47   src/ov_SC03_023/ov_SC03_023_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:47     unit 8: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_024/ov_SC03_024_jr_8012ACE0.c:1896: `D_80187438' undecl
+16:43:48     unit 8: COMPILE-ERROR src/ov_SC03_028/ov_SC03_028_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_028/ov_SC03_028_jr_8012ACE0.c:1896: `D_8018BF04' undecl
+16:43:48     unit 7: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_029/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:48   src/ov_SC03_024/ov_SC03_024_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:48   src/ov_SC03_028/ov_SC03_028_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:49     unit 8: COMPILE-ERROR src/ov_SC03_029/ov_SC03_029_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_029/ov_SC03_029_jr_8012ACE0.c:1896: `D_80187D3C' undecl
+16:43:49     unit 7: COMPILE-ERROR src/ov_SC03_031/ov_SC03_031_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_031/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:49     unit 7: COMPILE-ERROR src/ov_SC03_014/ov_SC03_014_jr_8012ACE0.c:1882: parse error before `[' | src/ov_SC03_014/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:49     unit 7: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_030/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:49   src/ov_SC03_029/ov_SC03_029_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:49     unit 8: COMPILE-ERROR src/ov_SC03_031/ov_SC03_031_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_031/ov_SC03_031_jr_8012ACE0.c:1896: `D_80182894' undecl
+16:43:50     unit 8: COMPILE-ERROR src/ov_SC03_030/ov_SC03_030_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_030/ov_SC03_030_jr_8012ACE0.c:1896: `D_80182378' undecl
+16:43:50     unit 7: COMPILE-ERROR src/ov_SC03_089/ov_SC03_089_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_089/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:50     unit 7: COMPILE-ERROR src/ov_SC03_090/ov_SC03_090_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_090/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:50     unit 8: COMPILE-ERROR src/ov_SC03_014/ov_SC03_014_jr_8012ACE0.c:1883: parse error before `[' | src/ov_SC03_014/ov_SC03_014_jr_8012ACE0.c:1894: `D_8018BA98' undecl
+16:43:50   src/ov_SC03_031/ov_SC03_031_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:50     unit 7: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_092/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:50   src/ov_SC03_030/ov_SC03_030_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:50     unit 8: COMPILE-ERROR src/ov_SC03_089/ov_SC03_089_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_089/ov_SC03_089_jr_8012ACE0.c:1896: `D_80189B90' undecl
+16:43:50     unit 7: COMPILE-ERROR src/ov_SC03_091/ov_SC03_091_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_091/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:51     unit 7: COMPILE-ERROR src/ov_SC03_093/ov_SC03_093_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_093/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:51     unit 8: COMPILE-ERROR src/ov_SC03_090/ov_SC03_090_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_090/ov_SC03_090_jr_8012ACE0.c:1896: `D_8018BFB4' undecl
+16:43:51     unit 8: COMPILE-ERROR src/ov_SC03_091/ov_SC03_091_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_091/ov_SC03_091_jr_8012ACE0.c:1896: `D_8018CE5C' undecl
+16:43:51     unit 8: COMPILE-ERROR src/ov_SC03_092/ov_SC03_092_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_092/ov_SC03_092_jr_8012ACE0.c:1896: `D_8018522C' undecl
+16:43:51   src/ov_SC03_089/ov_SC03_089_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:51     unit 7: COMPILE-ERROR src/ov_SC03_094/ov_SC03_094_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_094/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:51     unit 8: COMPILE-ERROR src/ov_SC03_093/ov_SC03_093_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_093/ov_SC03_093_jr_8012ACE0.c:1896: `D_80186404' undecl
+16:43:52   src/ov_SC03_090/ov_SC03_090_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:52   src/ov_SC03_092/ov_SC03_092_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:52   src/ov_SC03_091/ov_SC03_091_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:52     unit 8: COMPILE-ERROR src/ov_SC03_094/ov_SC03_094_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_094/ov_SC03_094_jr_8012ACE0.c:1896: `D_80187E00' undecl
+16:43:52   src/ov_SC03_014/ov_SC03_014_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 24 · 9.4 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:52     unit 7: COMPILE-ERROR src/ov_SC03_095/ov_SC03_095_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_095/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:52   src/ov_SC03_093/ov_SC03_093_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:53     unit 7: COMPILE-ERROR src/ov_SC03_096/ov_SC03_096_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_096/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:53     unit 8: COMPILE-ERROR src/ov_SC03_095/ov_SC03_095_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_095/ov_SC03_095_jr_8012ACE0.c:1896: `D_80181460' undecl
+16:43:53   src/ov_SC03_094/ov_SC03_094_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:53     unit 8: COMPILE-ERROR src/ov_SC03_096/ov_SC03_096_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_096/ov_SC03_096_jr_8012ACE0.c:1896: `D_80180FE0' undecl
+16:43:53   src/ov_SC03_095/ov_SC03_095_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:54     unit 7: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_097/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:54   src/ov_SC03_096/ov_SC03_096_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:54     unit 8: COMPILE-ERROR src/ov_SC03_097/ov_SC03_097_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_097/ov_SC03_097_jr_8012ACE0.c:1896: `D_801863C0' undecl
+16:43:55   src/ov_SC03_097/ov_SC03_097_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:55     unit 7: COMPILE-ERROR src/ov_SC03_098/ov_SC03_098_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_098/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:55     unit 7: COMPILE-ERROR src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_099/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:55     unit 7: COMPILE-ERROR src/ov_SC03_100/ov_SC03_100_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_100/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:56     unit 8: COMPILE-ERROR src/ov_SC03_098/ov_SC03_098_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_098/ov_SC03_098_jr_8012ACE0.c:1896: `D_8018584C' undecl
+16:43:56     unit 8: COMPILE-ERROR src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:1896: `D_8018394C' undecl
+16:43:56     unit 8: COMPILE-ERROR src/ov_SC03_100/ov_SC03_100_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_100/ov_SC03_100_jr_8012ACE0.c:1896: `D_80184E18' undecl
+16:43:56     unit 7: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_101/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:56   src/ov_SC03_098/ov_SC03_098_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:56   src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:57     unit 7: COMPILE-ERROR src/ov_SC03_104/ov_SC03_104_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_104/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:57     unit 7: COMPILE-ERROR src/ov_SC03_103/ov_SC03_103_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_103/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:57   src/ov_SC03_100/ov_SC03_100_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:57     unit 7: COMPILE-ERROR src/ov_SC03_102/ov_SC03_102_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_102/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:57     unit 8: COMPILE-ERROR src/ov_SC03_101/ov_SC03_101_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_101/ov_SC03_101_jr_8012ACE0.c:1896: `D_80183DF4' undecl
+16:43:57     unit 7: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_105/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:57     unit 8: COMPILE-ERROR src/ov_SC03_104/ov_SC03_104_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_104/ov_SC03_104_jr_8012ACE0.c:1896: `D_8018B1EC' undecl
+16:43:58     unit 8: COMPILE-ERROR src/ov_SC03_103/ov_SC03_103_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_103/ov_SC03_103_jr_8012ACE0.c:1896: `D_8018465C' undecl
+16:43:58     unit 7: COMPILE-ERROR src/ov_SC03_108/ov_SC03_108_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_108/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:58     unit 7: COMPILE-ERROR src/ov_SC03_109/ov_SC03_109_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_109/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:58     unit 8: COMPILE-ERROR src/ov_SC03_102/ov_SC03_102_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_102/ov_SC03_102_jr_8012ACE0.c:1896: `D_801866AC' undecl
+16:43:58     unit 8: COMPILE-ERROR src/ov_SC03_105/ov_SC03_105_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_105/ov_SC03_105_jr_8012ACE0.c:1896: `D_8018A874' undecl
+16:43:58   src/ov_SC03_101/ov_SC03_101_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:58   src/ov_SC03_104/ov_SC03_104_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:58     unit 8: COMPILE-ERROR src/ov_SC03_108/ov_SC03_108_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_108/ov_SC03_108_jr_8012ACE0.c:1896: `D_801811CC' undecl
+16:43:58     unit 8: COMPILE-ERROR src/ov_SC03_109/ov_SC03_109_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_109/ov_SC03_109_jr_8012ACE0.c:1896: `D_8017E878' undecl
+16:43:58     unit 7: COMPILE-ERROR src/ov_SC03_110/ov_SC03_110_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_110/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:58   src/ov_SC03_103/ov_SC03_103_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:59   src/ov_SC03_102/ov_SC03_102_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:59   src/ov_SC03_105/ov_SC03_105_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:59     unit 8: COMPILE-ERROR src/ov_SC03_110/ov_SC03_110_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_110/ov_SC03_110_jr_8012ACE0.c:1896: `D_80182298' undecl
+16:43:59     unit 7: COMPILE-ERROR src/ov_SC03_111/ov_SC03_111_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_111/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:43:59   src/ov_SC03_109/ov_SC03_109_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:43:59   src/ov_SC03_108/ov_SC03_108_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:00     unit 8: COMPILE-ERROR src/ov_SC03_111/ov_SC03_111_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_111/ov_SC03_111_jr_8012ACE0.c:1896: `D_80184E4C' undecl
+16:44:00   src/ov_SC03_110/ov_SC03_110_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:01   src/ov_SC03_111/ov_SC03_111_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:01     unit 7: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_112/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:01     unit 7: COMPILE-ERROR src/ov_SC03_113/ov_SC03_113_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_113/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:01     unit 7: COMPILE-ERROR src/ov_SC03_114/ov_SC03_114_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_114/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:01     unit 8: COMPILE-ERROR src/ov_SC03_112/ov_SC03_112_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_112/ov_SC03_112_jr_8012ACE0.c:1896: `D_80185C54' undecl
+16:44:02     unit 8: COMPILE-ERROR src/ov_SC03_113/ov_SC03_113_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_113/ov_SC03_113_jr_8012ACE0.c:1896: `D_80183304' undecl
+16:44:02     unit 8: COMPILE-ERROR src/ov_SC03_114/ov_SC03_114_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_114/ov_SC03_114_jr_8012ACE0.c:1896: `D_8017EF6C' undecl
+16:44:02     unit 7: COMPILE-ERROR src/ov_SC03_115/ov_SC03_115_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_115/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:02     unit 7: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_116/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:02   src/ov_SC03_112/ov_SC03_112_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:02   src/ov_SC03_113/ov_SC03_113_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:02     unit 7: COMPILE-ERROR src/ov_SC03_117/ov_SC03_117_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_117/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:02   src/ov_SC03_114/ov_SC03_114_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:03     unit 7: COMPILE-ERROR src/ov_SC03_121/ov_SC03_121_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_121/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:03     unit 8: COMPILE-ERROR src/ov_SC03_115/ov_SC03_115_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_115/ov_SC03_115_jr_8012ACE0.c:1896: `D_801809D8' undecl
+16:44:03     unit 8: COMPILE-ERROR src/ov_SC03_116/ov_SC03_116_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_116/ov_SC03_116_jr_8012ACE0.c:1896: `D_80182DDC' undecl
+16:44:03     unit 8: COMPILE-ERROR src/ov_SC03_117/ov_SC03_117_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_117/ov_SC03_117_jr_8012ACE0.c:1896: `D_80184DE8' undecl
+16:44:03     unit 7: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_124/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:03     unit 8: COMPILE-ERROR src/ov_SC03_121/ov_SC03_121_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_121/ov_SC03_121_jr_8012ACE0.c:1896: `D_801826B0' undecl
+16:44:03   src/ov_SC03_115/ov_SC03_115_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:03     unit 7: COMPILE-ERROR src/ov_SC04_000/ov_SC04_000_jr_8012ACE0.c:1886: parse error before `[' | src/ov_SC04_000/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:04     unit 7: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC03_125/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:04   src/ov_SC03_116/ov_SC03_116_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:04     unit 8: COMPILE-ERROR src/ov_SC03_124/ov_SC03_124_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_124/ov_SC03_124_jr_8012ACE0.c:1896: `D_8018B0DC' undecl
+16:44:04     unit 7: COMPILE-ERROR src/ov_SC04_002/ov_SC04_002_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_002/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:04   src/ov_SC03_117/ov_SC03_117_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:04   src/ov_SC03_121/ov_SC03_121_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:04     unit 8: COMPILE-ERROR src/ov_SC03_125/ov_SC03_125_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC03_125/ov_SC03_125_jr_8012ACE0.c:1896: `D_801842AC' undecl
+16:44:04     unit 8: COMPILE-ERROR src/ov_SC04_000/ov_SC04_000_jr_8012ACE0.c:1887: parse error before `[' | src/ov_SC04_000/ov_SC04_000_jr_8012ACE0.c:1898: `D_801837B0' undecl
+16:44:05     unit 8: COMPILE-ERROR src/ov_SC04_002/ov_SC04_002_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_002/ov_SC04_002_jr_8012ACE0.c:1896: `D_8018891C' undecl
+16:44:05     unit 7: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_003/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:05   src/ov_SC03_124/ov_SC03_124_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:05   src/ov_SC04_000/ov_SC04_000_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:05   src/ov_SC03_125/ov_SC03_125_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:05     unit 8: COMPILE-ERROR src/ov_SC04_003/ov_SC04_003_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_003/ov_SC04_003_jr_8012ACE0.c:1896: `D_801826B8' undecl
+16:44:06   src/ov_SC04_002/ov_SC04_002_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:06     unit 9: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8013FFD8.c:630: conflicting types for `D_800B9A02' | src/ov_SC04_011/ov_SC04_011_jr_8013FFD8.c:620: previous 
+16:44:06     unit 9: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8013F350.c:627: conflicting types for `D_800B9A02' | src/ov_SC04_011/ov_SC04_011_jr_8013F350.c:617: previous 
+16:44:06   src/ov_SC04_011/ov_SC04_011_jr_8013FFD8.c: IDENTICAL · rows 10 · compiles 12 · 0.8 s · canon 9 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:06     unit 9: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:622: conflicting types for `D_800B9A02' | src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:612: previous 
+16:44:06   src/ov_SC04_011/ov_SC04_011_jr_8013F350.c: IDENTICAL · rows 10 · compiles 12 · 1.0 s · canon 9 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:06   src/ov_SC04_003/ov_SC04_003_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:06     unit 10: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:2038: conflicting types for `D_80115188' | src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c:1787: previou
+16:44:06     unit 7: COMPILE-ERROR src/ov_SC04_004/ov_SC04_004_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_004/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:06   src/ov_SC04_011/ov_SC04_011_jr_8013C98C.c: IDENTICAL · rows 11 · compiles 13 · 1.6 s · canon 9 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:44:07     unit 7: COMPILE-ERROR src/ov_SC04_006/ov_SC04_006_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_006/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:07     unit 10: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_o0c.c:621: conflicting types for `D_800B9A02' | src/ov_SC04_011/ov_SC04_011_o0c.c:611: previous declaration of `
+16:44:07     unit 8: COMPILE-ERROR src/ov_SC04_004/ov_SC04_004_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_004/ov_SC04_004_jr_8012ACE0.c:1896: `D_80184BEC' undecl
+16:44:07     unit 7: COMPILE-ERROR src/ov_SC04_005/ov_SC04_005_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_005/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:07     unit 7: COMPILE-ERROR src/ov_SC04_007/ov_SC04_007_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_007/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:07   src/ov_SC04_011/ov_SC04_011_o0c.c: IDENTICAL · rows 11 · compiles 13 · 1.4 s · canon 9 promoted 0 K&R 0 aliases 1 abs 0 kept 1
+16:44:08     unit 8: COMPILE-ERROR src/ov_SC04_006/ov_SC04_006_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_006/ov_SC04_006_jr_8012ACE0.c:1896: `D_80180100' undecl
+16:44:08     unit 9: COMPILE-ERROR src/ov_SC04_011/ov_SC04_011_jr_80140608.c:625: conflicting types for `D_800B9A02' | src/ov_SC04_011/ov_SC04_011_jr_80140608.c:615: previous 
+16:44:08   src/ov_SC04_011/ov_SC04_011_jr_80140608.c: IDENTICAL · rows 10 · compiles 12 · 2.5 s · canon 9 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:08     unit 8: COMPILE-ERROR src/ov_SC04_007/ov_SC04_007_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_007/ov_SC04_007_jr_8012ACE0.c:1896: `D_801860B8' undecl
+16:44:08     unit 8: COMPILE-ERROR src/ov_SC04_005/ov_SC04_005_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_005/ov_SC04_005_jr_8012ACE0.c:1896: `D_80188020' undecl
+16:44:08     unit 7: COMPILE-ERROR src/ov_SC04_009/ov_SC04_009_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_009/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:08   src/ov_SC04_004/ov_SC04_004_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.2 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:09     unit 7: COMPILE-ERROR src/ov_SC04_010/ov_SC04_010_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_010/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:09   src/ov_SC04_006/ov_SC04_006_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.1 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:09   src/ov_SC04_007/ov_SC04_007_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:09     unit 8: COMPILE-ERROR src/ov_SC04_009/ov_SC04_009_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_009/ov_SC04_009_jr_8012ACE0.c:1896: `D_8017F01C' undecl
+16:44:09   src/ov_SC04_005/ov_SC04_005_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.2 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:09     unit 8: COMPILE-ERROR src/ov_SC04_010/ov_SC04_010_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_010/ov_SC04_010_jr_8012ACE0.c:1896: `D_8017E6C8' undecl
+16:44:10   src/ov_SC04_010/ov_SC04_010_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.1 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:10   src/ov_SC04_009/ov_SC04_009_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.3 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:11     unit 7: COMPILE-ERROR src/ov_SC04_012/ov_SC04_012_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_012/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:11     unit 7: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_016/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:11     unit 7: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_015/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:11     unit 8: COMPILE-ERROR src/ov_SC04_012/ov_SC04_012_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_012/ov_SC04_012_jr_8012ACE0.c:1896: `D_8017EB2C' undecl
+16:44:11     unit 7: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_020/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:12     unit 8: COMPILE-ERROR src/ov_SC04_016/ov_SC04_016_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_016/ov_SC04_016_jr_8012ACE0.c:1896: `D_80180528' undecl
+16:44:12     unit 8: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_015/ov_SC04_015_jr_8012ACE0.c:1896: `D_80184A64' undecl
+16:44:12     unit 7: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_001/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:12     unit 7: COMPILE-ERROR src/ov_SC05_000/ov_SC05_000_jr_8012ACE0.c:1886: parse error before `[' | src/ov_SC05_000/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:12   src/ov_SC04_012/ov_SC04_012_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:12     unit 8: COMPILE-ERROR src/ov_SC04_020/ov_SC04_020_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_020/ov_SC04_020_jr_8012ACE0.c:1896: `D_80183878' undecl
+16:44:12     unit 7: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_002/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:13   src/ov_SC04_016/ov_SC04_016_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:13     unit 8: COMPILE-ERROR src/ov_SC05_001/ov_SC05_001_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_001/ov_SC05_001_jr_8012ACE0.c:1896: `D_80185F94' undecl
+16:44:13     unit 8: COMPILE-ERROR src/ov_SC05_000/ov_SC05_000_jr_8012ACE0.c:1887: parse error before `[' | src/ov_SC05_000/ov_SC05_000_jr_8012ACE0.c:1898: `D_8017E7B8' undecl
+16:44:13   src/ov_SC04_015/ov_SC04_015_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:13   src/ov_SC04_020/ov_SC04_020_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:13     unit 8: COMPILE-ERROR src/ov_SC05_002/ov_SC05_002_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_002/ov_SC05_002_jr_8012ACE0.c:1896: `D_80180754' undecl
+16:44:13     unit 7: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_003/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:13     unit 7: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_004/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:13   src/ov_SC05_010/ov_SC05_010_jr_8018473C.c: UNCHANGED · rows 9 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:14   src/ov_SC05_001/ov_SC05_001_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:14   src/ov_SC05_002/ov_SC05_002_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:14     unit 8: COMPILE-ERROR src/ov_SC05_003/ov_SC05_003_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_003/ov_SC05_003_jr_8012ACE0.c:1896: `D_80182A8C' undecl
+16:44:14     unit 8: COMPILE-ERROR src/ov_SC05_004/ov_SC05_004_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_004/ov_SC05_004_jr_8012ACE0.c:1896: `D_80181B98' undecl
+16:44:14   src/ov_SC05_000/ov_SC05_000_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:15     unit 7: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_005/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:15     unit 7: COMPILE-ERROR src/ov_SC05_006/ov_SC05_006_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_006/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:15   src/ov_SC05_003/ov_SC05_003_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:15   src/ov_SC05_004/ov_SC05_004_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:15     unit 8: COMPILE-ERROR src/ov_SC05_006/ov_SC05_006_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_006/ov_SC05_006_jr_8012ACE0.c:1896: `D_8017F98C' undecl
+16:44:15     unit 8: COMPILE-ERROR src/ov_SC05_005/ov_SC05_005_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_005/ov_SC05_005_jr_8012ACE0.c:1896: `D_8018296C' undecl
+16:44:15   src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c: UNCHANGED · rows 9 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:16     unit 7: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC04_018/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:16   src/ov_SC05_006/ov_SC05_006_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:16   src/ov_SC05_005/ov_SC05_005_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:17     unit 7: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_007/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:17     unit 8: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC04_018/ov_SC04_018_jr_8012ACE0.c:1896: `D_8018D740' undecl
+16:44:17     unit 7: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_008/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:17     unit 8: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_007/ov_SC05_007_jr_8012ACE0.c:1896: `D_80180F88' undecl
+16:44:17     unit 7: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_010/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:18     unit 8: COMPILE-ERROR src/ov_SC05_008/ov_SC05_008_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_008/ov_SC05_008_jr_8012ACE0.c:1896: `D_80182EE0' undecl
+16:44:18     unit 7: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_011/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:18   src/ov_SC05_007/ov_SC05_007_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:18     unit 7: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_017/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:18     unit 8: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_010/ov_SC05_010_jr_8012ACE0.c:1896: `D_80188ECC' undecl
+16:44:18     unit 7: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC05_018/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:18     unit 7: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_8012ACE0.c:1886: parse error before `[' | src/ov_SC06_000/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:18     unit 8: COMPILE-ERROR src/ov_SC05_011/ov_SC05_011_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_011/ov_SC05_011_jr_8012ACE0.c:1896: `D_8017E244' undecl
+16:44:18   src/ov_SC04_018/ov_SC04_018_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 24 · 9.5 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:19   src/ov_SC05_008/ov_SC05_008_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:19     unit 8: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_017/ov_SC05_017_jr_8012ACE0.c:1896: `D_8018D704' undecl
+16:44:19     unit 8: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC05_018/ov_SC05_018_jr_8012ACE0.c:1896: `D_80186E60' undecl
+16:44:19     unit 8: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_8012ACE0.c:1887: parse error before `[' | src/ov_SC06_000/ov_SC06_000_jr_8012ACE0.c:1898: `D_801887B4' undecl
+16:44:19   src/ov_SC05_010/ov_SC05_010_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:19     unit 7: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_006/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:19   src/ov_SC05_011/ov_SC05_011_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:20   src/ov_SC05_018/ov_SC05_018_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:20     unit 7: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_008/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:20   src/ov_SC05_017/ov_SC05_017_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:20   src/ov_SC06_000/ov_SC06_000_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:20     unit 8: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_006/ov_SC06_006_jr_8012ACE0.c:1896: `D_801822D8' undecl
+16:44:20     unit 8: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_008/ov_SC06_008_jr_8012ACE0.c:1896: `D_80185D40' undecl
+16:44:20     unit 7: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_011/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:21     unit 7: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_010/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:21   src/ov_SC06_006/ov_SC06_006_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:21     unit 8: COMPILE-ERROR src/ov_SC06_011/ov_SC06_011_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_011/ov_SC06_011_jr_8012ACE0.c:1896: `D_8018097C' undecl
+16:44:21   src/ov_SC06_008/ov_SC06_008_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:21     unit 8: COMPILE-ERROR src/ov_SC06_010/ov_SC06_010_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_010/ov_SC06_010_jr_8012ACE0.c:1896: `D_80186F1C' undecl
+16:44:22   src/ov_SC06_011/ov_SC06_011_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:22   src/ov_SC06_010/ov_SC06_010_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.7 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:22     unit 7: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_013/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:23     unit 8: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_013/ov_SC06_013_jr_8012ACE0.c:1896: `D_8017F0F8' undecl
+16:44:23     unit 7: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_015/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:23     unit 7: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_014/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:23     unit 7: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_016/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:23     unit 7: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_020/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:23     unit 8: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_014/ov_SC06_014_jr_8012ACE0.c:1896: `D_8018045C' undecl
+16:44:23   src/ov_SC06_013/ov_SC06_013_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.6 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:23     unit 8: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_015/ov_SC06_015_jr_8012ACE0.c:1896: `D_8017EFB4' undecl
+16:44:24     unit 8: COMPILE-ERROR src/ov_SC06_016/ov_SC06_016_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_016/ov_SC06_016_jr_8012ACE0.c:1896: `D_801853C4' undecl
+16:44:24     unit 7: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_022/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:24     unit 7: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_025/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:24     unit 8: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_020/ov_SC06_020_jr_8012ACE0.c:1896: `D_80185588' undecl
+16:44:24     unit 7: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_024/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:24   src/ov_SC06_014/ov_SC06_014_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:25   src/ov_SC06_015/ov_SC06_015_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:25     unit 8: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_022/ov_SC06_022_jr_8012ACE0.c:1896: `D_8018D844' undecl
+16:44:25     unit 8: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_024/ov_SC06_024_jr_8012ACE0.c:1896: `D_8018FD1C' undecl
+16:44:25     unit 8: COMPILE-ERROR src/ov_SC06_025/ov_SC06_025_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_025/ov_SC06_025_jr_8012ACE0.c:1896: `D_801851C0' undecl
+16:44:25   src/ov_SC06_016/ov_SC06_016_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:25   src/ov_SC06_020/ov_SC06_020_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:25     unit 7: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_027/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:26     unit 7: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_029/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:26   src/ov_SC06_022/ov_SC06_022_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:26     unit 0: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_80182890.c:11337: conflicting types for `D_800A651C' | src/ov_SC06_032/ov_SC06_032_jr_80182890.c:11029: previ
+16:44:26   src/ov_SC06_024/ov_SC06_024_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.2 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:26     unit 8: COMPILE-ERROR src/ov_SC06_027/ov_SC06_027_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_027/ov_SC06_027_jr_8012ACE0.c:1896: `D_8017E500' undecl
+16:44:26   src/ov_SC06_025/ov_SC06_025_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:26     unit 7: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_030/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:26   src/md_SC07_003/md_SC07_003.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:26     unit 7: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_032/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:26   src/md_SC07_004/md_SC07_004.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:27     unit 8: COMPILE-ERROR src/ov_SC06_029/ov_SC06_029_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_029/ov_SC06_029_jr_8012ACE0.c:1896: `D_8018CA94' undecl
+16:44:27     unit 1: DIFFERS [build/src/ov_SC06_032/ov_SC06_032_jr_80182890.o]
+16:44:27   src/ov_SC06_032/ov_SC06_032_jr_80182890.c: UNCHANGED · rows 11 · compiles 3 · 2.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:44:27     unit 8: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_030/ov_SC06_030_jr_8012ACE0.c:1896: `D_80182384' undecl
+16:44:27     unit 8: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_032/ov_SC06_032_jr_8012ACE0.c:1896: `D_80193850' undecl
+16:44:27   src/ov_SC06_027/ov_SC06_027_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:28   src/ov_SC03_001/ov_SC03_001_jr_80184DDC.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:28   src/ov_SC03_001/ov_SC03_001_jr_80184F64.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:28     unit 0: COMPILE-ERROR src/ov_SC02_017/ov_SC02_017_jr_80186C64.c:5140: conflicting types for `D_8018A800' | src/ov_SC02_017/ov_SC02_017_jr_80186C64.c:2775: previou
+16:44:28   src/ov_SC06_029/ov_SC06_029_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:28   src/ov_SC03_097/ov_SC03_097_jr_801851B8.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:28   src/ov_SC03_097/ov_SC03_097_jr_8017D898.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:28   src/ov_SC03_100/ov_SC03_100_jr_80183C10.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:28     unit 1: COMPILE-ERROR src/ov_SC02_017/ov_SC02_017_jr_80186C64.c:3044: conflicting types for `D_801EF9FC' | src/ov_SC02_017/ov_SC02_017_jr_80186C64.c:3014: previou
+16:44:28   src/ov_SC06_030/ov_SC06_030_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:29   src/ov_SC06_032/ov_SC06_032_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:29     unit 0: DIFFERS [build/src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.o]
+16:44:29     unit 2: COMPILE-ERROR src/ov_SC02_017/ov_SC02_017_jr_80186C64.c:2919: conflicting types for `D_80126B5C' | src/ov_SC02_017/ov_SC02_017_jr_80186C64.c:2851: previou
+16:44:29   src/ov_SC02_017/ov_SC02_017_jr_80186C64.c: UNCHANGED · rows 11 · compiles 4 · 1.5 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 3
+16:44:29     unit 1: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:9496: conflicting types for `D_800A5E88' | src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:3205: previou
+16:44:30   src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:30   src/ov_SC03_125/ov_SC03_125_jr_80182BA0.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:30     unit 2: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:9468: conflicting types for `D_800A5E88' | src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:3205: previou
+16:44:30     unit 7: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC06_033/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:30     unit 7: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC07_002/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:30     unit 7: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8012ACE0.c:1886: parse error before `[' | src/ov_SC07_000/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:30   src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:30     unit 7: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC07_001/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:30     unit 3: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:9427: conflicting types for `D_800A5EA8' | src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:3207: previou
+16:44:30     unit 0: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_801789AC.c:6299: parse error before `[' | src/ov_SC03_107/ov_SC03_107_jr_801789AC.c:6364: aggregate value use
+16:44:31     unit 8: COMPILE-ERROR src/ov_SC06_033/ov_SC06_033_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC06_033/ov_SC06_033_jr_8012ACE0.c:1896: `D_80191D60' undecl
+16:44:31     unit 7: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC07_008/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:31   src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:31     unit 8: COMPILE-ERROR src/ov_SC07_000/ov_SC07_000_jr_8012ACE0.c:1887: parse error before `[' | src/ov_SC07_000/ov_SC07_000_jr_8012ACE0.c:1898: `D_80182BA8' undecl
+16:44:31     unit 8: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC07_002/ov_SC07_002_jr_8012ACE0.c:1896: `D_80186D14' undecl
+16:44:31     unit 7: COMPILE-ERROR src/ov_SC07_009/ov_SC07_009_jr_8012ACE0.c:1884: parse error before `[' | src/ov_SC07_009/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:31     unit 4: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:745: conflicting types for `D_800B9A02' | src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:733: previous 
+16:44:31     unit 8: COMPILE-ERROR src/ov_SC07_001/ov_SC07_001_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC07_001/ov_SC07_001_jr_8012ACE0.c:1896: `D_80181A58' undecl
+16:44:31   src/ov_SC05_017/ov_SC05_017_jr_80182A74.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:31     unit 8: COMPILE-ERROR src/ov_SC07_008/ov_SC07_008_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC07_008/ov_SC07_008_jr_8012ACE0.c:1896: `D_8017D82C' undecl
+16:44:31     unit 1: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_801789AC.c:727: conflicting types for `D_800B9A02' | src/ov_SC03_107/ov_SC03_107_jr_801789AC.c:715: previous 
+16:44:31   src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:32     unit 5: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:4031: conflicting types for `D_80114F24' | src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:329: previous
+16:44:32   src/ov_SC06_033/ov_SC06_033_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:32     unit 8: COMPILE-ERROR src/ov_SC07_009/ov_SC07_009_jr_8012ACE0.c:1885: parse error before `[' | src/ov_SC07_009/ov_SC07_009_jr_8012ACE0.c:1896: `D_8017E2D0' undecl
+16:44:32   src/ov_SC04_008/ov_SC04_008_jr_8012ACE0.c: IDENTICAL · rows 9 · compiles 2 · 0.6 s · canon 6 promoted 0 K&R 0 aliases 0 abs 1 kept 0
+16:44:32   src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c: UNCHANGED · rows 14 · compiles 7 · 3.8 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 6
+16:44:32   src/ov_SC07_000/ov_SC07_000_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:32     unit 2: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_801789AC.c:5335: conflicting types for `D_80114F24' | src/ov_SC03_107/ov_SC03_107_jr_801789AC.c:312: previous
+16:44:32   src/ov_SC03_107/ov_SC03_107_jr_801789AC.c: UNCHANGED · rows 11 · compiles 4 · 2.5 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 3
+16:44:32   src/ov_SC07_002/ov_SC07_002_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.1 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:32   src/ov_SC05_009/ov_SC05_009_jr_8012ACE0.c: IDENTICAL · rows 9 · compiles 2 · 0.7 s · canon 6 promoted 0 K&R 0 aliases 0 abs 1 kept 0
+16:44:32   src/ov_SC07_001/ov_SC07_001_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 5.0 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:32   src/ov_SC07_008/ov_SC07_008_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.9 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:33     unit 1: COMPILE-ERROR src/md_MAIN_026/md_MAIN_026.c:87: too few arguments to function `func_800CB108' | src/md_MAIN_026/md_MAIN_026.c: At top level: [build/src/md
+16:44:33   src/ov_SC07_009/ov_SC07_009_jr_8012ACE0.c: IDENTICAL · rows 12 · compiles 12 · 4.8 s · canon 7 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:33     unit 0: DIFFERS [build/src/ov_SC06_018/ov_SC06_018_jr_8017C24C.o]
+16:44:33   src/ov_SC06_018/ov_SC06_018_jr_8018FF98.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:33   src/ov_SC06_024/ov_SC06_024_jr_80183B3C.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:33   src/md_MAIN_026/md_MAIN_026.c: IDENTICAL · rows 7 · compiles 6 · 0.4 s · canon 3 promoted 0 K&R 1 aliases 0 abs 0 kept 1
+16:44:33   src/ov_SC06_018/ov_SC06_018_jr_80186270.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:33     unit 1: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:8201: conflicting types for `D_801CC358' | src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:8169: previou
+16:44:33   src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: UNCHANGED · rows 10 · compiles 3 · 1.4 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:44:34   src/ov_MAIN_012/ov_MAIN_012_jr_8017CA18.c: UNCHANGED · rows 8 · compiles 1 · 0.2 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:34     unit 0: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:730: conflicting types for `D_800B9A02' | src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:718: previous 
+16:44:34   src/ov_MAIN_012/ov_MAIN_012_jr_8017C3BC.c: UNCHANGED · rows 8 · compiles 1 · 0.2 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:34   src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c: UNCHANGED · rows 8 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:35     unit 1: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:5334: conflicting types for `D_80114F24' | src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:315: previous
+16:44:35   src/ov_MAIN_012/ov_MAIN_012_jr_80171B4C.c: UNCHANGED · rows 8 · compiles 1 · 0.4 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:35   src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c: UNCHANGED · rows 9 · compiles 3 · 0.7 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:44:35   src/ov_MAIN_012/ov_MAIN_012_jr_8017CF3C.c: UNCHANGED · rows 8 · compiles 1 · 0.2 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:35   src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c: UNCHANGED · rows 7 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:35   src/ov_SC02_037/ov_SC02_037_jr_80171B4C.c: UNCHANGED · rows 8 · compiles 1 · 0.4 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:35   src/ov_SC03_011/ov_SC03_011_jr_80180B68.c: UNCHANGED · rows 7 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:35   src/ov_SC02_037/ov_SC02_037_jr_801789AC.c: UNCHANGED · rows 8 · compiles 1 · 0.3 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:36   src/ov_SC03_107/ov_SC03_107_jr_80171B4C.c: UNCHANGED · rows 8 · compiles 1 · 0.4 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:36   src/ov_SC04_020/ov_SC04_020_jr_8018254C.c: UNCHANGED · rows 7 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:36     unit 6: COMPILE-ERROR src/ov_SC03_118/ov_SC03_118_jr_8012ACE0.c:1632: parse error before `[' | src/ov_SC03_118/../shared/ov/func_8012D3B4.h: At top level: | src/o
+16:44:36   src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: UNCHANGED · rows 7 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:36   src/ov_SC04_011/ov_SC04_011_jr_80135D20.c: IDENTICAL · rows 8 · compiles 2 · 0.2 s · canon 7 promoted 0 K&R 0 aliases 1 abs 0 kept 0
+16:44:37   src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c: UNCHANGED · rows 7 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:37     unit 7: COMPILE-ERROR src/ov_SC03_118/ov_SC03_118_jr_8012ACE0.c:1633: parse error before `[' | src/ov_SC03_118/ov_SC03_118_jr_8012ACE0.c:1644: `D_80189E94' undecl
+16:44:37   src/ov_SC06_024/ov_SC06_024_jr_80181D34.c: UNCHANGED · rows 7 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:37   src/ov_MAIN_012/ov_MAIN_012_jr_8016AB6C.c: UNCHANGED · rows 7 · compiles 1 · 0.1 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:37     unit 0: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4760: conflicting types for `D_80126B5E' | src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4755: previou
+16:44:37   src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c: UNCHANGED · rows 7 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:37   src/ov_SC07_010/ov_SC07_010_o0c.c: IDENTICAL · rows 7 · compiles 2 · 0.1 s · canon 7 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:38   src/ov_MAIN_012/ov_MAIN_012.c: IDENTICAL · rows 7 · compiles 2 · 0.4 s · canon 5 promoted 0 K&R 0 aliases 0 abs 1 kept 0
+16:44:38     unit 1: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4761: conflicting types for `D_80126B66' | src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4756: previou
+16:44:38   src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c: UNCHANGED · rows 9 · compiles 3 · 1.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:44:38   src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c: UNCHANGED · rows 7 · compiles 1 · 0.4 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:38   src/ov_SC03_118/ov_SC03_118_jr_8012ACE0.c: IDENTICAL · rows 11 · compiles 22 · 7.8 s · canon 6 promoted 0 K&R 0 aliases 0 abs 1 kept 2
+16:44:38     unit 0: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_80185440.c:3078: conflicting types for `D_800A5E88' | src/ov_SC02_026/ov_SC02_026_jr_80185440.c:3052: previou
+16:44:38   src/ov_SC02_005/ov_SC02_005_jr_8018EA04.c: UNCHANGED · rows 7 · compiles 1 · 0.2 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:39     unit 1: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_80185440.c:3029: conflicting types for `D_800A5EA8' | src/ov_SC02_026/ov_SC02_026_jr_80185440.c:3008: previou
+16:44:39     unit 2: COMPILE-ERROR src/ov_SC02_026/ov_SC02_026_jr_80185440.c:2892: conflicting types for `D_801BB960' | src/ov_SC02_026/ov_SC02_026_jr_80185440.c:2889: previou
+16:44:39   src/ov_SC03_011/ov_SC03_011_jr_8017C730.c: UNCHANGED · rows 6 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:39   src/ov_SC02_037/ov_SC02_037_jr_8016AB6C.c: UNCHANGED · rows 7 · compiles 1 · 0.1 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+16:44:39   src/ov_SC02_026/ov_SC02_026_jr_80185440.c: UNCHANGED · rows 9 · compiles 4 · 0.5 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 3
+16:44:39   src/ov_SC02_037/ov_SC02_037.c: IDENTICAL · rows 8 · compiles 2 · 0.5 s · canon 5 promoted 0 K&R 0 aliases 1 abs 1 kept 0
+16:44:39     unit 0: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:3053: conflicting types for `D_8018F034' | src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:2995: previou
+16:44:39   src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c: UNCHANGED · rows 6 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:39   src/ov_SC03_099/ov_SC03_099_jr_80182F24.c: UNCHANGED · rows 6 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:40     unit 1: COMPILE-ERROR src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:3054: conflicting types for `D_8018F03C' | src/ov_SC02_000/ov_SC02_000_jr_80187B40.c:2996: previou
+16:44:40   src/ov_SC03_101/ov_SC03_101_jr_801833CC.c: UNCHANGED · rows 6 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:40   src/ov_SC02_000/ov_SC02_000_jr_80187B40.c: UNCHANGED · rows 8 · compiles 6 · 1.5 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:44:40     unit 0: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c:4376: conflicting types for `D_800AE620' | src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c:309: previous
+16:44:40   src/ov_SC03_105/ov_SC03_105_jr_80186B24.c: UNCHANGED · rows 6 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:40   src/ov_SC03_115/ov_SC03_115_jr_8017BEBC.c: UNCHANGED · rows 6 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+16:44:40     unit 1: COMPILE-ERROR src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c:664: conflicting types for `D_800B9A02' | src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c:652: previous 
+16:44:40   src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c: UNCHANGED · rows 8 · compiles 3 · 1.2 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:44:40   src/ov_SC03_107/ov_SC03_107.c: IDENTICAL · rows 7 · compiles 2 · 0.5 s · canon 5 promoted 0 K&R 0 aliases 0 abs 1 kept 0
+16:44:41     unit 0: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:4316: conflicting types for `D_800AE620' | src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:296: previous
+16:44:41     unit 1: COMPILE-ERROR src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:651: conflicting types for `D_800B9A02' | src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c:639: previous 
+16:44:41   src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: UNCHANGED · rows 8 · compiles 3 · 1.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+16:44:41 restruct: batch t4_D34 rung D — 300 files (TUs; 1175 drawable) · 2076 declaration units: 1633 canonical / 0 promoted / 1 K&R marked / 3 aliases typed / 127 __builtin_abs → abs / 313 kept · compiles 2032 in 212 s wall · final 300/300 identical · written 204 files
+t4_D34 wall=386.39 s
+exit=0

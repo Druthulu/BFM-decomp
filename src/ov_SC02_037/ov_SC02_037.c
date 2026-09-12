@@ -215,7 +215,7 @@ extern void func_800190AC(void);
 extern void func_8012956C(void);
 extern s32 func_8016E95C();
 extern void func_801754A8(void);
-extern void func_8013BC7C();
+extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
 extern void func_801379FC(void);
 extern void func_8001212C(void);
@@ -445,11 +445,11 @@ extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 s32 func_80128CFC(s32 arg0) {
 
     extern s16 D_80183ECC[];
-    extern s32 aD801C7200_80128CFC __asm__("D_801C7200");
+    extern s32 D_801C7200;
     s16 idx = D_80183ECC[arg0];
 
     if (idx >= 0) {
-        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], aD801C7200_80128CFC, 0);
+        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_801C7200, 0);
     } else {
         return 1;
     }
@@ -529,7 +529,7 @@ void func_80128FAC(u16 *arg0) {
 
 
 
-extern void func_801299C8();
+extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 extern void func_80015B6C(s32, s16, s32, s16, s32, s32, s32, s32, s32, s32);
 extern void GsSortBg(s32 *, void *, u16, s32 *);
 extern void GsSortFastBg(s32 *, void *, u16, s32 *);
@@ -824,7 +824,7 @@ extern void func_8012AAAC(void *arg0);
 
 
 
-extern void func_8012AAAC();
+extern void func_8012AAAC(void *arg0);
 
 void func_8012ACA0(void *arg0) {
 
@@ -1479,7 +1479,7 @@ void func_8012E364(s32 arg0_)
     D_801C83C0 = v;
     *(u16 *)(e1 + 0x2C) = flags | 0x10;
     e2 = ((s32 *)arg0)[8];
-    d = __builtin_abs(v);
+    d = abs(v);
     *(s16 *)(e2 + 0x1C) = d;
     *(s16 *)(e2 + 0x18) = d;
     *(s16 *)(((s32 *)arg0)[8] + 0x1A) = 0x1000;
@@ -1647,7 +1647,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
-extern void func_80131170();
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F828(int param_1)
@@ -1668,7 +1668,7 @@ void func_8012F828(int param_1)
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
-extern void func_80131170();
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F8C8(int param_1)
@@ -2070,7 +2070,7 @@ tail:
 
 s32 func_801312D0(s32 param_1, void *param_2)
 {
-    extern s32 func_80131CF4(s32);
+    extern s32 func_80131CF4(s32 *a0, s32 a1);
     extern M8 D_801840C4;
 
     int iVar5;

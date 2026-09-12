@@ -234,7 +234,7 @@ extern s16 func_8012A79C(s16 *a0, s16 *a1);
 extern s16 func_8012A758(void);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_8012A7D4(void *arg0, void *arg1);
-extern void func_8012AAAC();
+extern void func_8012AAAC(void *arg0);
 extern void func_8012A828(s32 a0, void * a1);
 extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
@@ -674,7 +674,7 @@ void func_8012E364(s32 arg0_)
     D_80195768 = v;
     *(u16 *)(e1 + 0x2C) = flags | 0x10;
     e2 = ((s32 *)arg0)[8];
-    d = __builtin_abs(v);
+    d = abs(v);
     *(s16 *)(e2 + 0x1C) = d;
     *(s16 *)(e2 + 0x18) = d;
     *(s16 *)(((s32 *)arg0)[8] + 0x1A) = 0x1000;
@@ -808,7 +808,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
-extern void func_80131170();
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern unsigned char D_8017EE34[];
 
@@ -818,7 +818,7 @@ extern unsigned char D_8017EE34[];
 #include "../shared/ov/func_8012F87C.h"
 
 
-extern void func_80131170(s32 a0, s32 a1, s32 a2);
+extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern u8 D_8017EE40[];
 
@@ -1043,7 +1043,7 @@ extern s32 func_80143B6C(s32 a0, s32 a1);
 extern void func_8012B23C(s32 a0);
 extern void func_8012CBA4(s32 a0);
 extern void func_8012CBF4(s32 a0);
-extern void func_80131E00();
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 
@@ -1741,7 +1741,7 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     extern u8 D_8017F060;
     extern u16 D_801957D0;
     extern s16 D_801957CC;
-    extern s32 func_80133CD4();
+    extern s32 func_80133CD4(int arg0, s16 * cmd, s16 * base, s32 * arr);
 
     Map_80133AB0 *map = (Map_80133AB0 *)arg3;
     u16 *pA = (*(u16 * *)&D_8017F058);
@@ -1832,8 +1832,8 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s16 D_801152AC;
     extern u16 D_801152AE;
     extern u8  D_801152B0;
-    extern s32 func_80134310();
-    extern s32 func_8013435C();
+    extern s32 func_80134310(Vec3s *a0, Vec3s *a1, s32 a2);
+    extern s32 func_8013435C(s16 *a0, s16 *a1, s32 a2, s16 *a3);
 
     s16 *s3 = ((ElemK *)base)[cmd[1]].e;
     s32 s6 = arr[cmd[2]];

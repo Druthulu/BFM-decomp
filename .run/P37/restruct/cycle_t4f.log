@@ -21,3 +21,5 @@ cycle: batch t4_D31 committed 1b23b17af — restruct: batch t4_D31 rung D — 30
 log: t4_D32
 cycle: batch t4_D32 committed 69bd934de — restruct: batch t4_D32 rung D — 300 files (TUs; 1701 drawable) · 3273 declaration units: 2962 canonical / 0 promoted / 4 K&R marked / 126 aliases typed / 1 __builtin_abs → abs / 184 kept · compiles 1933 in 215 s wall · final 300/300 identical · written 268 files | check-all: 218 passed, 0 failed of 218
 log: t4_D33
+cycle: batch t4_D33 committed 8f1a9619e — restruct: batch t4_D33 rung D — 300 files (TUs; 1438 drawable) · 2723 declaration units: 2630 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 93 kept · compiles 1552 in 168 s wall · final 300/300 identical · written 263 files | check-all: 218 passed, 0 failed of 218
+log: t4_D34
