@@ -5063,15 +5063,11 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
     s32 ot;
     s32 depth4;
     u16 *bidx;
-    u32 mask1;
-    register s32 rgb __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 tag0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 tag;
 
-    rgb = arg2;
-    __asm__("" : "=r"(rgb) : "0"(rgb));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     temp_v0 = func_80010A08(0x10);
+    *(s32 *)((u8 *)temp_v0 + 4) = arg2;
     *(u8 *)((u8 *)temp_v0 + 3) = 3;
-    *(s32 *)((u8 *)temp_v0 + 4) = rgb;
     *(u8 *)((u8 *)temp_v0 + 7) = 0x42;
     func_8004914C(&D_800AF648);
     func_800491AC(&D_800AF648);
@@ -5079,15 +5075,15 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
     if ((temp_v0_2 > 0) && (sp14 >= 0) &&
         (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
         /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-        mask1 = 0xFFFFFF;
         bidx = (u16 *)&D_800B9A02;
         depth4 = temp_v0_2 * 4;
-        tag0 = *(u32 *)temp_v0;
-        *(u32 *)temp_v0 = (tag0 & 0xFF000000) |
-            (*(u32 *)(depth4 + D_800A651C[*bidx].a) & mask1);
+        tag = *(u32 *)temp_v0;
+        tag &= 0xFF000000;
+        tag |= *(u32 *)(depth4 + D_800A651C[*bidx].a) & 0xFFFFFF;
+        *(u32 *)temp_v0 = tag;
         ot = D_800A651C[*bidx].a;
         *(u32 *)(depth4 + ot) =
-            (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & mask1);
+            (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & 0xFFFFFF);
         func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
     }
 }
