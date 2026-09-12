@@ -371,3 +371,19 @@
       d12 as a two-statement rule (`n = byte; n = tbl[n]; n -= 1;` — the one-statement form loads into a temp). `if (X - Y > 0)` is
       NOT folded to `X > Y` by gcc 2.7.2 — a probe for "the difference is computed before the branch".
     - **Ask the (g) structs question BEFORE enumerating statement orders whenever a block mixes pointer stores and a global load.**
+25. **S105 f11 (`ov_SC06_018_jr_80187AEC`, 4 of 4 at 0 + four cross-overlay copies: 3 plain C, 1 minimum-lever 10 → 3) — the last T7 draw:**
+    - **R71 across ALL of `src/` closed three of four on the first `--try`** (`grep -rn '0x3F0' src/ | grep rand`; `grep -rln '+ 7) =
+      0x42' src/`): the twins were in OTHER overlays and a module (`md_SC07_004`); `related.txt` had none of them. Grep the whole tree
+      for a distinctive constant before any reading.
+    - A frame-only residual (+8) on the decompiler's `i = 0; if (n) do { … } while (i < n);` → `for (i = 0; i < n; i++)`: jump1
+      duplicates the entry test (`jump.c:2306`), combine folds it into the target's `beqz` and `distribute_notes` (`combine.c:10832`)
+      parks the orphan's REG_DEAD on a `(use)` → a stack slot. The tell: `.lreg` "used N times across 1 insns … ST_REGS or none".
+    - A `$sN` swap against a block-local holder: permute the PARAMETER'S store to the head of an independent store group (sched1's
+      LUID tie-break emits it right after the call-result copy, shortening the rival quantity into a `qty_compare_1` tie the lower
+      quantity wins). A launder beside a hard-reg pin can be COMPENSATING for the pin — ablate them together.
+    - An asm block with several address pointers (`DRAW()`-style GTE macros): per-block single-set pointer locals inside each face,
+      the block-move-copied one declared LAST — function-scope pointers are global allocnos (`find_reg`, `global.c:945-1010`), block-local
+      ones are local-alloc quantities ranked refs/(death−birth) and handed v0, v1, a0, a1, a2 in order; the keepalives were needed only
+      in the GLOBAL contest. "Which allocator?" before "which priority?". The one re-tie launder per face is cse's constant-class
+      unification of the second `mb + 0x18` (`cse.c:6766-6850`, `:7195-7225`) — a re-assignment is deleted (`cse.c:8718`), a do-while
+      ignored by cse2: irreducible, marked (f6's cse-opaque-base ruling).

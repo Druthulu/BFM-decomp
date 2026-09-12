@@ -67,9 +67,12 @@
 - ☑ **T6** — Rung R (mechanical shape recipes, each negative-controlled) and rung D (the permuter on the residue exemplars, time-boxed,
   16 workers; a score-0 applied through `delever --apply-body` and gated). Verify: `recipes: <k> of <r> NEEDED sites removed`;
   `permuter: <k> of <r> exemplars matched lever-free in <t> h`.
-- ☐ **T7** (Ultracode, prompted) — The reshaping waves to zero: wave → harvest → toolify (cookbook + rung R) → sweep → next draw; wave 1
-  ≈ 40–60 exemplars reported with yield and tokens per bank (R41); stop rule = residue 0. Rules check (P6) after wave 1 and every fourth
-  task thereafter.
+- ☑ **T7** (S101–S105; ended 2026-09-11 on Drew's word — "no more agents this phase") — The reshaping lane: rung G (the guided
+  search, 0 tokens) then the agent lane (S102 burst, S103 waves, S104/S105 TU batches at caps 5 → 2 → 1); the minimum-lever pivot; the
+  call-signature turn (16,759 lying declarations repaired); generators R15–R46. 34,091 (T6 close) → **4,010** sites; the last 56 draws
+  56/56 at 0. The residue is bucketed and named for the structs phase (the S105 status entry): 1,548 drawable sites in 472 singleton-heavy
+  classes, 691 parked (signatures + proven-irreducible heads), ~1,150 minimum-lever survivors in five head classes, 450 GTE variants,
+  94 arg-only pins. Milestone item 1 as AMENDED (S104): every survivor marked, counted, attributed.
 - ☐ **T8** — The gate: `// !FAKE:` markers from the ledger mid-campaign; `lever_census --check` in `make tools-health` (0 UNMARKED);
   `--strict` at close (0 pins, 0 asm outside the GTE header, manifest unchanged); `progress.py` final split. Verify: `lever_census --check
   --strict: pins 0, asm 0, volatile-needed <v>, register-needed <r> — OK`; tools-health OK.
@@ -2132,6 +2135,19 @@ accumulate here as the phase produces them.**
   increasingly TYPE changes (f10: three of four). Recommendation: close the phase now at the amended milestone rather than grind
   singletons — the structs phase closes much of the rest for free and is the missing piece for the parked third. **Drew confirmed.**
   T7 ends when f11 lands (no more agents this phase); then T8, T9, T10.
+
+- **S105 (cont.) — f11 landed, THE LAST T7 DRAW: 4 of 4 at 0 + four cross-overlay copies (3 plain C, 1 minimum-lever 10 → 3); R22
+  218/218; 4,026 → 4,010. T7 ☑ (ended on Drew's word).** f11 (`ov_SC06_018_jr_80187AEC`, ≈415k tokens, 49 min): `func_8018A688` 1 → 0 (the
+  decompiler's `if (n) do … while` as a `for` — a frame-only residual), `func_8018A974` and `func_8018FE0C` 3 → 0 each (the parameter's
+  store first + the multi-set tag chain — md_SC07_004's twin `func_801AADA8`, found by grepping ALL of `src/`, first `--try`), and the
+  same texts closing their pinned copies `func_80185B4C` (ov_SC06_032) and `func_8018BB48` (ov_SC06_033); `func_8018F060` (397 ins) 10 → 3
+  (per-block single-set pointer locals for the GTE asm block, the block-move-copied one last — "which allocator?" before "which
+  priority?"; the three surviving launders are cse's constant-class re-tie of `mb + 0x18`, proven irreducible) and its copies
+  `func_8018EDB0` (ov_SC06_032), `func_8018AD9C` (ov_SC06_033). `bank_list.sh`: `IDENTICAL … KEPT` ×8 (`4f382cb1d`…`31cf8695f`). METHOD
+  step 25. R22 (`.run/P36/s105/r22_k.log`) **`check-all: 218 passed, 0 failed of 218`** (84 s) → baseline at `31cf8695f` → `lever_census
+  --check: 4,010 pin/asm sites, 4,010 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot row "T7 ENDS" (4,026 → **4,010**; 2,141 pins +
+  1,869 asm in 1,980 bodies). **T7's final tally (R41): the phase's number 53,234 → 4,010 (−92.5 %); S105 alone 4,152 → 4,010 across 11
+  TU batches, 56 of 56 drawn classes at 0 (43 plain C, 3 do-while-only, 10 minimum-lever) + 8 cross-overlay copies + 6 regen banks.**
 
 ## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,026 sites** this session (−126); 10 TU batches f1–f10, **52 of 52 drawn classes at 0** (39 plain C, 3 do-while-only, 10 minimum-lever incl. 4 parked signature changes + 1 parked carve), ALL banked — **f11 (ov_SC06_018, 4 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `ff22c1fba` | `lever_census --check` exit 0 (4,026 marked, 0 UNMARKED, 0 orphans)
 
