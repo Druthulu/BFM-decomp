@@ -4460,18 +4460,17 @@ void func_801810A0(W_801810A0 *w) {
         s16 f0, f1, f2, f3, f4, f5, f6;
         u16 timer;
         s32 tbl;
-        s32 pad[5];
+        s32 pad[2]; /* frame accounting (P36 S105 f9): the 20-byte request + one 8-byte reload slot for the `cnt`
+                       split's orphan (combine.c:2306, reload1.c:2331) leave 8 bytes of the original's 64-byte frame
+                       unexplained; the tree's pad[5] covered the orphan too. pad[2] and pad[3] both give 0. */
     } L;
-    register s32 t asm("v0");  // !FAKE: pin v0 — NEEDED DIFFERS (P36 rung B tus9)
+    s16 cnt;
     s32 f;
-    register s32 u asm("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B tus9)
 
     if (func_8012BDBC((s32)w, 0x380)) {
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
         if (!func_8018152C((s32)w, 0x380)) {
             goto el;
         }
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
         *(s16 *)(w->f20 + 0x12) += func_8012B8E4((s32)w, 0x14);
         if (w->f34 == 0) {
             if (w->fFE == 0) {
@@ -4497,13 +4496,10 @@ void func_801810A0(W_801810A0 *w) {
         }
     } else {
 el:
-        t = w->fFC;
-        if (t != 0) {
+        cnt = w->fFC;
+        if (cnt != 0) {
             f = w->fFE;
-            u = t;
-            __asm__ __volatile__("" : : "r"(t));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-            t = u - 1;
-            w->fFC = t;
+            w->fFC = cnt - 1;
             w->f34 = 0;
             if (f != 0) {
                 w->fFE = 0;
