@@ -13,3 +13,5 @@ cycle: batch t4_D27 committed 526e9c915 — restruct: batch t4_D27 rung D — 30
 log: t4_D28
 cycle: batch t4_D28 committed 7efa3eafa — restruct: batch t4_D28 rung D — 300 files (TUs; 2805 drawable) · 6325 declaration units: 6316 canonical / 0 promoted / 2 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 9 kept · compiles 695 in 116 s wall · final 300/300 identical · written 295 files | check-all: 218 passed, 0 failed of 218
 log: t4_D29
+cycle: batch t4_D29 committed 3e7172e45 — restruct: batch t4_D29 rung D — 300 files (TUs; 2513 drawable) · 5566 declaration units: 4976 canonical / 0 promoted / 255 K&R marked / 14 aliases typed / 0 __builtin_abs → abs / 576 kept · compiles 4212 in 152 s wall · final 300/300 identical · written 282 files | check-all: 218 passed, 0 failed of 218
+log: t4_D30
