@@ -9331,23 +9331,23 @@ void func_80187D18(s32 a0) {
         v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        /* $a0-pinned scopes: rematerialise &D_800AF648 (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+        /* the target loads &D_800AF648 afresh (lui/addiu $a0) for EACH call: the second call names the
+         * object through a second declaration of the same symbol (its SYMBOL_REF string is a different
+         * pointer, so cse does not unify the two address pseudos into one callee-saved register) */
+        func_8004914C(&D_800AF648);
+        {
+            extern u8 D_800AF648_b __asm__("D_800AF648");
+            func_800491AC(&D_800AF648_b);
+        }
         RotTransPers((s32)v, (s32)&sxy, &z, &flag);
         if (flag >= 0 && (u32)((*(u16 *)&sxy + 0x9F) & 0xFFFF) < 0x13F
                       && (u32)((*((u16 *)&sxy + 1) + 0x77) & 0xFFFF) < 0xEF) {
-            s32 sx;                             /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-            s32 vol;
-            sx = (s16)*(u16 *)&sxy;
-            av = sx;
-            if (sx < 0) {
-                av = -sx;
+            s32 sx = (s16)*(u16 *)&sxy;         /* screen X, then REUSED as the pan field */
+            s32 vol = sx;
+            if (vol < 0) {
+                vol = -vol;
             }
-            vol = ((0xA0 - av) * 0x7F) / 0xA0;
-            /* lever 3: sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+            vol = ((0xA0 - vol) * 0x7F) / 0xA0;
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;
