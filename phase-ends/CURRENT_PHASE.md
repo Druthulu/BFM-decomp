@@ -446,6 +446,18 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   rise of the one-form regex count) and the red line had two points. Redrawn: every lever increment (95: the P36 log's T1/T4/T5 census lines +
   the TSV's rows) on an ordinal axis with a marker at each change of method; the raw casts as two instruments. `tools/timeline.py`, SETUP.
 
+- **S108 2026-09-12 — session start; T4 resumed (xHigh).** Session-start protocol (Drew: "xhigh set"). Step (a) launched per the checkpoint and
+  stopped at once: `cycle: the snapshot refresh FAILED/REFUSED` — `build/` held **0 objects** (S107's relaunched `t4_D21` was stopped after its
+  R22's `make clean`), and `--snapshot-baseline` had **stamped `TAKEN_AT.txt` with HEAD and "0 objects"** over the 7,428 objects of another
+  tree before returning 0 — a false "fresh" (R68: a helper must refuse an empty work list; the guard only re-derived CHANGED objects). Fixed at
+  the cause in `tools/delever_oracle.py`: the object count and the previous stamp's count are read BEFORE anything is written; an empty or
+  shrunken `build/` is `REFUSED — build/ holds 0 object(s), the previous snapshot 7428: … nothing written` (exit 1; negative-controlled on the
+  empty tree, stamp untouched). The stamp restored from the objects' own mtimes (14:12:24–14:13:11 = the D20 R22 build; `calibrate_t4_D21.log`
+  at 14:13:24 proves the D21 relaunch refreshed it at `f2b58011e`). Then R22 at HEAD (`.run/P37/baseline/r22_s108_pre.log`): `extract-all: 217
+  extracted, 0 failed of 217 (+ main, serial)` · **`check-all: 218 passed, 0 failed of 218`** · `wall=92.17 s` · exit 0 → `--snapshot-baseline`
+  `7428 object(s) … at f3b8af0ec … 0 changed since the previous snapshot` (the objects were the tree's) → `--calibrate … ok` → the D cycle
+  relaunched (`cycle_t4e.log`, batches 21–34).
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6)
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
