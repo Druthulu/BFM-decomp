@@ -147,8 +147,24 @@ def consume_marker(raw, m, e):
     le = len(raw) if le < 0 else le
     tail = raw[e:le]
     if m[e:le].strip() == "" and FAKE in tail:
+        if tail.count("/*") > tail.count("*/") and tail.find("/*") < tail.find(FAKE):
+            return e                 # the marker sits INSIDE a block comment that continues on the next line (S105): keep both
         return le
     return e
+
+
+def tail_marker_edits(raw, m, e):
+    """[(k, le, "")] deleting a `// !FAKE:` marker that sits INSIDE a block comment opened after the statement's end on the same line
+    (rung B appended markers at end-of-line without seeing the open `/*`); empty when consume_marker already took the tail."""
+    le = m.find("\n", e)
+    le = len(raw) if le < 0 else le
+    tail = raw[e:le]
+    k = tail.find(FAKE)
+    if k < 0 or not (tail.count("/*") > tail.count("*/") and tail.find("/*") < k):
+        return []
+    j = tail.rfind("//", 0, k)
+    start = e + (j if j >= 0 else k)
+    return [(start, le, "")]
 
 
 def whole_line_of(raw, m, indent_start, pos, e):
@@ -156,7 +172,13 @@ def whole_line_of(raw, m, indent_start, pos, e):
     if raw[indent_start:pos].strip() != "":
         return False
     w = ws_after(m, e)
-    return m[w:w + 1] == "\n"
+    if m[w:w + 1] != "\n":
+        return False
+    le = raw.find("\n", e)
+    tail = raw[e:le if le >= 0 else len(raw)]
+    # S105: a line whose trailing comment OPENS a block comment closed on a later line (`x; /* … \n … */`) must keep its tail —
+    # deleting the whole line left a dangling `*/` and six residue classes UNSTRIPPABLE
+    return tail.count("/*") <= tail.count("*/")
 
 
 def scrub_edits(raw, lines):
@@ -415,7 +437,7 @@ def site_edits(raw, m, ls, site, keep_register=False):
             if whole_line_of(raw, m, indent_start, pos, e):
                 edits = [(indent_start, ws_after(m, e) + 1, "")]
             else:
-                edits = [(pos, consume_marker(raw, m, e), "")]
+                edits = [(pos, consume_marker(raw, m, e), "")] + tail_marker_edits(raw, m, e)
             b0, b1 = ls[site["fn_line"] - 1], ls[site["fn_end"]] - 1
             body_m = m[b0:b1]
             if re.search(r"\b%s\s*(?:=(?!=)|\+\+|--|[-+*/&|^]=)" % re.escape(name), body_m) or re.search(r"(?:\+\+|--)\s*\b%s\b" % re.escape(name), body_m):
@@ -427,7 +449,7 @@ def site_edits(raw, m, ls, site, keep_register=False):
             return edits
         new = stmt if keep_register else re.sub(r"\bregister\b[ \t]*", "", stmt, count=1)
         new = PIN_CLAUSE.sub("", new)
-        return [(pos, consume_marker(raw, m, e), new)]
+        return [(pos, consume_marker(raw, m, e), new)] + tail_marker_edits(raw, m, e)
     if cls == "B" and kind in DEFERRED_KINDS:
         raise Refuse("asm-body: a whole routine in a C shell is T7's work (DEFERRED)")
     if cls == "B" and kind == lc.GTE_LEVER_KIND:
@@ -488,7 +510,7 @@ def site_edits(raw, m, ls, site, keep_register=False):
             raise Refuse("no statement end for the macro use")
         if whole_line_of(raw, m, indent_start, pos, e):
             return [(indent_start, ws_after(m, e) + 1, "")]
-        return [(pos, consume_marker(raw, m, e), "")]
+        return [(pos, consume_marker(raw, m, e), "")] + tail_marker_edits(raw, m, e)
     if cls == "B":
         if not ASM_HEAD.match(m, pos):
             raise Refuse(f"token mismatch at {site['tu']}:{site['line']}: expected an asm statement")
@@ -514,7 +536,7 @@ def site_edits(raw, m, ls, site, keep_register=False):
             raise Refuse(f"asm kind {kind} is not removable")
         if new == "" and whole_line_of(raw, m, indent_start, pos, e):
             return [(indent_start, ws_after(m, e) + 1, "")]
-        return [(pos, consume_marker(raw, m, e), new)]
+        return [(pos, consume_marker(raw, m, e), new)] + tail_marker_edits(raw, m, e)
     if cls == "C":
         if not m.startswith("volatile", pos):
             raise Refuse(f"token mismatch at {site['tu']}:{site['line']}: expected `volatile`")
