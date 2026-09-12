@@ -502,6 +502,12 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_D27`** (`.run/P37/restruct/run_t4_D27.log`, `batch_t4_D27.json`): `restruct: batch t4_D27 rung D — 300 files (TUs; 3100 drawable) · 6538 declaration units: 6495 canonical / 0 promoted / 39 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 43 kept · compiles 1555 in 127 s wall · final 300/300 identical · written 295 files` → R22 (`.run/P37/baseline/r22_t4_D27.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=86.19 s`) → census `(census skipped)`.
 
+- **S108 — `t4_D26` 7,264: 6,872 canonical / 353 K&R / 386 kept / 6 aliases (`3a9f96760`) · `t4_D27` 6,538: 6,495 / 39 / 43 (`526e9c915`)**, both
+  `final 300/300 identical`, R22 `218 passed, 0 failed of 218`. D27 (the first batch on `unit_call_counts`): 37 of 39 K&R causes now carry the
+  count and its header (`[0] (in shared/ov/func_8016D848.h, …)`); the 2 left at `[]` were a plain `if (func_80161B18() != 0) {` — the
+  counter's "definition head" test skipped any match whose LINE held a later `{`. Now a head is `) {` (whitespace only) or a K&R head
+  (`) int a; {`); known-true `[0]` on that TU, negative controls (an ANSI definition + calls → `[2]`, a K&R definition → `[]`), selftest 54/54.
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D27` on 3a9f96760: 300 files (TUs; 3100 drawable) · 6538 declaration units: 6495 canonical / 0 promoted / 39 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 43 kept · compi
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

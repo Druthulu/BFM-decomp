@@ -1412,9 +1412,11 @@ def call_arg_counts(masked, callee, decl_spans):
         inner, close = tc._paren_body(masked, m.end() - 1)
         if inner is None:
             continue
-        tail = masked[close + 1:close + 3]
-        if "{" in masked[close + 1:masked.find("\n", close) if masked.find("\n", close) != -1 else len(masked)] and not tail.strip().startswith((";", ",", ")")):
-            continue                                            # the definition's head
+        # the definition's head: `) {` (whitespace/newlines only) or a K&R head (`) int a; s32 b; {`). The first form of this test
+        # skipped any match whose LINE held a later `{` — `if (func_80161B18() != 0) {` read as a definition (t4_D27: `[]`, `? of 1 args`)
+        rest = masked[close + 1:close + 400]
+        if re.match(r"\s*\{", rest) or re.match(r"(\s*[A-Za-z_][\w\s*,\[\]]*;)+\s*\{", rest):
+            continue
         inner = inner.strip()
         counts.add(0 if inner in ("", "void") else len(sl._split_top(inner, ",")))
     return sorted(counts)
