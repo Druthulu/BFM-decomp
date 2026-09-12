@@ -953,7 +953,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170();
-extern void func_80131CA8();
+extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern unsigned char D_8017E5FC[];
 
 void func_8012F828(int param_1)
@@ -970,7 +970,7 @@ void func_8012F828(int param_1)
 
 
 extern void func_80131170(s32 a0, s32 a1, s32 a2);
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern u8 D_8017E608[];
 
 void func_8012F8C8(u8* arg0) {
@@ -1426,7 +1426,7 @@ extern void func_8012CBA4(s32 a0);
 extern void func_8012CBF4(s32 a0);
 extern void func_80131E00();
 extern void func_80131C78(s32 a0);
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 
 extern s32 D_801997D0;
 extern s32 D_801997D4;
@@ -1777,7 +1777,6 @@ void func_80131B14() {
  */
 extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
 
-s32 aF80131CA8(int a0) __asm__("func_80131CA8");
 
 #include "../shared/ov/func_80131CA8.h"
 

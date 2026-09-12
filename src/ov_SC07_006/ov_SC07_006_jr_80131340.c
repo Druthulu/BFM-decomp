@@ -408,7 +408,7 @@ extern void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s3
 extern void func_80131B14();
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 func_80131A34(s32, s32);
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern void func_8012F5F4(s32 arg0);
 extern void func_80131C78(s32 a0);
 extern void func_8012F68C(s32 arg0);
@@ -416,14 +416,14 @@ extern void func_8012F75C(s32 a0);
 extern s32 func_8012BEE8(s32);
 extern void func_8012F7B4(s32 a0);
 extern void func_80131170();
-extern void func_80131CA8();
+extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern void func_8012F828(int param_1);
 extern void func_80131340(s32 a0);
 extern void func_8012F87C(s32 a0);
 extern void func_8012F8C8(int param_1);
 extern void func_8012F91C(s32 a0);
 extern s32 func_80131A34(s32 a0, s32 a1);
-extern void func_80131CA8(s32 a0, s32 a1);
+extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern void func_8012F968(s32 param_1);
 extern void func_801319E0(s32 a0);
 extern s32 func_80143B6C(s32 a0, s32 a1);
@@ -457,7 +457,7 @@ extern void func_80130438(s32 a0);
 extern void func_801319E0(int);
 extern int func_80131D68(int, int);
 extern int func_8012BEE8(int);
-extern void func_80131CA8(int, int);
+extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern void func_80130514(int param_1);
 extern void func_801305CC(u8 *a0);
 extern void func_8012CBF4(s32);
@@ -570,7 +570,7 @@ extern void func_8012CBA4(s32 a0);
 extern void func_8012CBF4(s32 a0);
 extern void func_80131E00();
 extern void func_80131C78(s32 a0);
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 
 extern s32 D_801F4D80;
 extern s32 D_801F4D84;
@@ -928,7 +928,6 @@ void func_80131B14() {
  */
 extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
 
-s32 aF80131CA8(int a0) __asm__("func_80131CA8");
 
 #include "../shared/ov/func_80131CA8.h"
 

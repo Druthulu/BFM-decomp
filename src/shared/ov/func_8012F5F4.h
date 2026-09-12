@@ -3,7 +3,7 @@
 extern void func_80131B14();
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 func_80131A34(s32, s32);
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_8012F5F4(s32 arg0) {
     *(u8 *)(arg0 + 0xC1) = 1;
     if ((*(s32 *)(arg0 + 0xC4) & 2) != 0) {

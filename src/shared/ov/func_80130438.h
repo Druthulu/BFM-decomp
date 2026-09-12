@@ -5,7 +5,7 @@ extern void func_80143CD4(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_800CB0E8(s32 a0);
 extern s32 func_80131A34(s32 a0, s32 a1);
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 *D_80126B78;
 void func_80130438(s32 a0) {

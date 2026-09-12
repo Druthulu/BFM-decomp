@@ -1899,6 +1899,7 @@ def unalias_function(aname, label, calib_id, log, pool=None):
     canon_promoted = f"extern {ret} {real}({promoted});"
 
     promoted_files = set()    # pure callers whose bytes carry NO narrowing: the default-promoted prototype (a K&R-era call against a narrow definition)
+    untouched_files = set()   # pure callers that differ under every prototype form: left as they are (their lie is load-bearing — a rung-D KEPT row later)
 
     def build(kr_files, mode="ansi"):
         """mode 'ansi': the definition's exact head; 'krdef': the definition spelled K&R-style (its own types in the block — the last resort
@@ -1911,6 +1912,8 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             hm = real_decl_rx.search(dl.same_len_mask(ht))
             hoisted_text[h] = ht[hm.start():hm.end()] if hm else None
         for rel in sorted(scope):
+            if rel in untouched_files:
+                continue
             text = (REPO / rel).read_text(errors="surrogateescape")
             masked = dl.same_len_mask(text)
             edits, n_decl_a, n_decl_r, n_calls = [], 0, 0, 0
@@ -2030,12 +2033,17 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             elif bad not in kr_files:
                 kr_files.add(bad)
                 log(f"unalias {aname}: {bad} still differs — `()` (K&R, marked) for this file; re-judging")
+            elif bad not in untouched_files and not re.search(r"(?<![\w.])" + re.escape(aname) + r"\b", (REPO / bad).read_text(errors="surrogateescape")):
+                # a pure caller whose bytes need a prototype none of the three forms spells: its declaration is left exactly as it is (the
+                # unit lands without it; rung D records the load-bearing lie as DECL-KEPT on its own pass)
+                untouched_files.add(bad)
+                log(f"unalias {aname}: {bad} differs under every prototype form — left untouched (its declaration is load-bearing); re-judging without it")
             else:
                 cause = f"{bad} differs under every prototype form — KEPT"
                 log(f"unalias {aname}: {cause}")
                 break
         elif kind == "arity":
-            all_kr = all(f_ in kr_files for f_ in scope if f_ != def_file and f_ not in hoist and f_ not in non_member_files)
+            all_kr = all(f_ in kr_files for f_ in scope if f_ not in hoist and f_ not in non_member_files)
             if all_kr:
                 if mode == "ansi" and kr_head():
                     mode = "krdef"
@@ -2045,12 +2053,12 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                     log(f"unalias {aname}: {cause}")
                     break
             elif sum(1 for (f_, k_) in tried if k_ == "arity") >= 2:
-                kr_files.update(f_ for f_ in scope if f_ != def_file and f_ not in hoist and f_ not in non_member_files)
+                kr_files.update(f_ for f_ in scope if f_ not in hoist and f_ not in non_member_files)
                 log(f"unalias {aname}: a second arity caller ({bad}) — every declaration of the unit goes `()` (K&R, marked); re-judging")
             else:
-                kr_files.add(bad)
+                kr_files.add(bad)                    # the definition TU's own DECLARATIONS may go `()` too (its head is governed by `mode`)
                 for h in headers_of(bad):
-                    if h in scope and h != def_file and h not in hoist:
+                    if h in scope and h not in hoist:
                         kr_files.add(h)
                 log(f"unalias {aname}: {bad} passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging")
         else:

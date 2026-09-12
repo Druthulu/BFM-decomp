@@ -1,0 +1,269 @@
+13:07:33 unalias aF80131CA8 -> func_80131CA8: `s32 func_80131CA8(int a0)` defined in src/shared/ov/func_80131CA8.h; 235 files (191 alias prototypes, 696 real-name declarations, 0 renames)
+13:07:42 unalias aF80131CA8: src/shared/ov/func_8012F5F4.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:07:53 unalias aF80131CA8: a second arity caller (src/shared/ov/func_8012F68C.h) — every declaration of the unit goes `()` (K&R, marked); re-judging
+13:08:06 unalias aF80131CA8: src/shared/ov/func_80131E38.h still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+13:08:14 unalias aF80131CA8: IDENTICAL on every recipe (202 objects, 55.4 s) — 235 files written
+13:08:26 unalias aF801376E8: src/shared/ov/func_801376C8.h declares func_801376E8 for non-member binaries ['ov_MAIN_012', 'ov_SC01_000', 'ov_SC01_001', 'ov_SC01_004'] — its declaration is hoisted into 136 includers
+13:08:27 unalias aF801376E8 -> func_801376E8: `void * func_801376E8(int a0, int a1)` defined in src/ov_SC07_006/ov_SC07_006_jr_80135D20.c; 190 files (54 alias prototypes, 64 real-name declarations, 1 renames)
+13:08:31 unalias aF801376E8: src/shared/ov/func_801376E8.h declares func_801376E8 another way — joining the unit (canonical); re-judging
+13:08:36 unalias aF801376E8: src/shared/ov/func_801376E8.h declares func_801376E8 another way — joining the unit (canonical); re-judging
+13:08:41 unalias aF801376E8: src/shared/ov/func_801376E8.h declares func_801376E8 another way — joining the unit (canonical); re-judging
+13:08:47 unalias aF801376E8: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_801376E8.h:3: conflicting types for `func_801376E8'
+src/ov_MAIN_012/ov_MAIN_012_jr_80135EB0.c:1222: previous declaration of `func_801376E8'
+src/ov_MAIN_012/../shared/ov/func_801376E8.h: At top level: [build/src/ov_MAIN_012/ov_MAIN_012_jr_80135EB0.o] — nothing written
+13:09:13 unalias aF80146A6C -> func_80146A6C: `void func_80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)` defined in src/shared/ov/func_80146A6C.h; 643 files (170 alias prototypes, 1573 real-name declarations, 0 renames)
+13:09:47 unalias aF80146A6C: the callers in src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c disagree with the definition's head inside one TU (a jr merge of separate original units) — KEPT
+13:09:47 unalias aF80146A6C: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] — nothing written
+13:10:05 unalias aF8014C4AC -> func_8014C4AC: `s32 func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, int a4)` defined in src/shared/ov/func_8014C4AC.h; 447 files (170 alias prototypes, 444 real-name declarations, 3 renames)
+13:10:18 unalias aF8014C4AC: the callers in src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c disagree with the definition's head inside one TU (a jr merge of separate original units) — KEPT
+13:10:18 unalias aF8014C4AC: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] — nothing written
+13:10:30 unalias aF8014F6F4: src/shared/ov/func_80181538__27797037.h declares func_8014F6F4 for non-member binaries ['ov_SC02_000'] — its declaration is hoisted into 1 includers
+13:10:30 unalias aF8014F6F4: src/shared/ov/func_8014F3E8.h declares func_8014F6F4 for non-member binaries ['ov_MAIN_012', 'ov_SC01_000', 'ov_SC01_001', 'ov_SC01_004'] — its declaration is hoisted into 136 includers
+13:10:31 unalias aF8014F6F4: src/shared/ov/func_801808C4__088fcd06.h declares func_8014F6F4 for non-member binaries ['ov_SC02_000'] — its declaration is hoisted into 1 includers
+13:10:32 unalias aF8014F6F4 -> func_8014F6F4: `void func_8014F6F4(void)` defined in src/ov_SC07_006/ov_SC07_006_jr_801457A4.c; 141 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:10:40 unalias aF8014F6F4: src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:10:50 unalias aF8014F6F4: src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c still differs — `()` (K&R, marked) for this file; re-judging
+13:10:59 unalias aF8014F6F4: src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c differs under every prototype form — KEPT
+13:10:59 unalias aF8014F6F4: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o] — nothing written
+13:11:11 unalias aF80150480: src/shared/ov/func_80181538__27797037.h declares func_80150480 for non-member binaries ['ov_SC02_000'] — its declaration is hoisted into 1 includers
+13:11:11 unalias aF80150480: src/shared/ov/func_80150C48.h declares func_80150480 for non-member binaries ['ov_MAIN_012', 'ov_SC01_000', 'ov_SC01_001', 'ov_SC01_004'] — its declaration is hoisted into 136 includers
+13:11:11 unalias aF80150480: src/shared/ov/func_801808C4__088fcd06.h declares func_80150480 for non-member binaries ['ov_SC02_000'] — its declaration is hoisted into 1 includers
+13:11:13 unalias aF80150480 -> func_80150480: `void func_80150480(void)` defined in src/ov_SC07_006/ov_SC07_006_jr_801457A4.c; 141 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:11:18 unalias aF80150480: src/ov_SC07_006/ov_SC07_006_jr_801457A4.c declares func_80150480 another way — joining the unit (canonical); re-judging
+13:11:25 unalias aF80150480: src/ov_SC07_006/ov_SC07_006_jr_801457A4.c declares func_80150480 another way — joining the unit (canonical); re-judging
+13:11:33 unalias aF80150480: src/ov_SC07_006/ov_SC07_006_jr_801457A4.c declares func_80150480 another way — joining the unit (canonical); re-judging
+13:11:41 unalias aF80150480: COMPILE-ERROR       | ^
+src/ov_SC07_006/ov_SC07_006_jr_801457A4.c:4178: conflicting types for `func_80150480'
+src/ov_SC07_006/ov_SC07_006_jr_801457A4.c:3945: previous declaration of `func_80150480'
+{standard input}: Assembler messages:
+src/ov_SC07_006/../shared/ov/func_80146128.h: At top level:
+src/ov_SC07_006/.. — nothing written
+13:11:59 unalias aF80161208 -> func_80161208: `void func_80161208(void *a0)` defined in src/shared/ov/func_80161208.h; 171 files (152 alias prototypes, 2518 real-name declarations, 0 renames)
+13:12:14 unalias aF80161208: src/shared/ov/func_8015E288.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:12:32 unalias aF80161208: src/shared/ov/func_8015E288.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:12:49 unalias aF80161208: src/shared/ov/func_8015E288.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:13:07 unalias aF80161208: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:4060: void value not ignored as it ought to be
+src/ov_MAIN_012/../shared/ov/func_8015E288.h:15: too few arguments to function `func_80161208'
+src/ov_MAIN_012/../shared/ov/func_8015E288.h:15: void value not ignored as it ought to be
+src/ov_MAIN_012/ov_MAIN_01 — nothing written
+13:13:23 unalias aF80162CCC -> func_80162CCC: `void func_80162CCC(u8 *a0)` defined in src/shared/ov/func_80162CCC.h; 145 files (134 alias prototypes, 153 real-name declarations, 0 renames)
+13:13:40 unalias aF80162CCC: src/shared/ov/func_80164DB0.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:14:02 unalias aF80162CCC: src/shared/ov/func_80164DB0.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:14:22 unalias aF80162CCC: src/shared/ov/func_80164DB0.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:14:41 unalias aF80162CCC: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_80164DB0.h:5: too few arguments to function `func_80162CCC'
+src/ov_MAIN_012/../shared/ov/func_801650C4.h:10: too few arguments to function `func_80162CCC'
+src/ov_MAIN_012/../shared/ov/func_8016345C.h: At top level:
+src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c: At top l — nothing written
+13:14:53 unalias aF8016BF50: src/shared/ov/func_8016BD78__d6afde15.h declares func_8016BF50 for non-member binaries ['ov_SC03_126', 'ov_SC04_021', 'ov_SC05_019'] — its declaration is hoisted into 3 includers
+13:14:53 unalias aF8016BF50: src/shared/ov/func_8016BBE0__5db18f2a.h declares func_8016BF50 for non-member binaries ['ov_SC03_126', 'ov_SC04_021', 'ov_SC05_019'] — its declaration is hoisted into 3 includers
+13:14:53 unalias aF8016BF50: src/shared/ov/func_8016BEA0__0a1f8b82.h declares func_8016BF50 for non-member binaries ['ov_SC03_126', 'ov_SC04_021', 'ov_SC05_019'] — its declaration is hoisted into 3 includers
+13:14:53 unalias aF8016BF50 -> func_8016BF50: `s32 func_8016BF50(s32 param)` defined in src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c; 10 files (4 alias prototypes, 12 real-name declarations, 3 renames)
+13:14:54 unalias aF8016BF50: src/shared/ov/func_8016BCC0__04061c8b.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:14:54 unalias aF8016BF50: src/shared/ov/func_8016BCC0__04061c8b.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:14:55 unalias aF8016BF50: src/shared/ov/func_8016BCC0__04061c8b.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:14:55 unalias aF8016BF50: COMPILE-ERROR src/ov_SC03_126/../shared/ov/func_8016BCC0__04061c8b.h:9: too few arguments to function `func_8016BF50'
+src/ov_SC03_126/ov_SC03_126_jr_8016AB6C.c:2077: conflicting types for `func_8016BF50'
+src/ov_SC03_126/ov_SC03_126_jr_8016AB6C.c:2059: previous declaration of `func_8016BF50'
+src/ov_SC03_126/../sha — nothing written
+13:15:11 unalias aF8016F0E4 -> func_8016F0E4: `void func_8016F0E4(u8 *p)` defined in src/shared/ov/func_8016F0E4.h; 20 files (11 alias prototypes, 19 real-name declarations, 0 renames)
+13:15:19 unalias aF8016F0E4: src/shared/ov/func_8016F4C4.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:15:31 unalias aF8016F0E4: src/shared/ov/func_8016F4C4.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:15:44 unalias aF8016F0E4: src/shared/ov/func_8016F4C4.h passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:15:57 unalias aF8016F0E4: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_8016F4C4.h:7: too few arguments to function `func_8016F0E4'
+src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c: At top level:
+src/ov_MAIN_012/../shared/ov/func_8016C83C.h: At top level:
+src/ov_MAIN_012/../shared/ov/func_80170B90.h: At top level: [build/src/ov_MAIN_012/ov_MAI — nothing written
+13:16:11 unalias aF8017C078 -> func_8017C078: `void func_8017C078(void *a0)` defined in src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:16:12 unalias aF8017C078: src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c declares func_8017C078 another way — joining the unit (canonical); re-judging
+13:16:12 unalias aF8017C078: src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c declares func_8017C078 another way — joining the unit (canonical); re-judging
+13:16:12 unalias aF8017C078: src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c declares func_8017C078 another way — joining the unit (canonical); re-judging
+13:16:12 unalias aF8017C078: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3357: `func_8017C078' redeclared as different kind of symbol
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3348: previous declaration of `func_8017C078'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c: At top level: [build/src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.o] — nothing written
+13:16:25 unalias aF8017C150 -> func_8017C150: `void func_8017C150(void *a0)` defined in src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:16:25 unalias aF8017C150: src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c declares func_8017C150 another way — joining the unit (canonical); re-judging
+13:16:25 unalias aF8017C150: src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c declares func_8017C150 another way — joining the unit (canonical); re-judging
+13:16:26 unalias aF8017C150: src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c declares func_8017C150 another way — joining the unit (canonical); re-judging
+13:16:26 unalias aF8017C150: COMPILE-ERROR src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3397: `func_8017C150' redeclared as different kind of symbol
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c:3388: previous declaration of `func_8017C150'
+src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c: At top level: [build/src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.o] — nothing written
+13:16:38 unalias aF8017D8AC -> func_8017D8AC: `void func_8017D8AC(s32 param_1)` defined in src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+13:16:38 unalias aF8017D8AC: src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+13:16:39 unalias aF8017D8AC: src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c passes another argument count even against a K&R-style definition — KEPT
+13:16:39 unalias aF8017D8AC: COMPILE-ERROR src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c:3650: too few arguments to function `func_8017D8AC'
+src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: At top level: [build/src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.o] — nothing written
+13:16:51 unalias aF8017D9F0 -> func_8017D9F0: `void func_8017D9F0(s32 param_1)` defined in src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+13:16:51 unalias aF8017D9F0: src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+13:16:51 unalias aF8017D9F0: src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c passes another argument count even against a K&R-style definition — KEPT
+13:16:51 unalias aF8017D9F0: COMPILE-ERROR src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c:3768: too few arguments to function `func_8017D9F0'
+src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c: At top level: [build/src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.o] — nothing written
+13:17:03 unalias aF8017DD50 -> func_8017DD50: `void func_8017DD50(void *a0)` defined in src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:17:03 unalias aF8017DD50: src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c declares func_8017DD50 another way — joining the unit (canonical); re-judging
+13:17:03 unalias aF8017DD50: src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c declares func_8017DD50 another way — joining the unit (canonical); re-judging
+13:17:04 unalias aF8017DD50: src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c declares func_8017DD50 another way — joining the unit (canonical); re-judging
+13:17:04 unalias aF8017DD50: COMPILE-ERROR src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c:3363: `func_8017DD50' redeclared as different kind of symbol
+src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c:3354: previous declaration of `func_8017DD50'
+src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c: At top level:
+src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c: At top le — nothing written
+13:17:16 unalias aF8017DDE0 -> func_8017DDE0: `void func_8017DDE0(void *a0)` defined in src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:17:16 unalias aF8017DDE0: src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c declares func_8017DDE0 another way — joining the unit (canonical); re-judging
+13:17:17 unalias aF8017DDE0: src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c declares func_8017DDE0 another way — joining the unit (canonical); re-judging
+13:17:17 unalias aF8017DDE0: src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c declares func_8017DDE0 another way — joining the unit (canonical); re-judging
+13:17:17 unalias aF8017DDE0: COMPILE-ERROR src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3366: `func_8017DDE0' redeclared as different kind of symbol
+src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3357: previous declaration of `func_8017DDE0'
+src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: At top level: [build/src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.o] — nothing written
+13:17:31 unalias aF8017E3F0 -> func_8017E3F0: `void func_8017E3F0(s32 param_1)` defined in src/ov_SC03_011/ov_SC03_011_jr_8017C730.c; 6 files (6 alias prototypes, 7 real-name declarations, 1 renames)
+13:17:31 unalias aF8017E3F0: src/ov_SC03_011/ov_SC03_011_jr_8017C730.c passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:17:32 unalias aF8017E3F0: src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c declares func_8017E3F0 another way — joining the unit (canonical); re-judging
+13:17:33 unalias aF8017E3F0: src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c declares func_8017E3F0 another way — joining the unit (canonical); re-judging
+13:17:34 unalias aF8017E3F0: src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c declares func_8017E3F0 another way — joining the unit (canonical); re-judging
+13:17:34 unalias aF8017E3F0: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:3584: conflicting types for `func_8017E3F0'
+src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:3539: previous declaration of `func_8017E3F0'
+src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: At top level:
+src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: At top level: [build/src/o — nothing written
+13:17:48 unalias aF8017E464 -> func_8017E464: `void func_8017E464(void *a0)` defined in src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:17:49 unalias aF8017E464: src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c declares func_8017E464 another way — joining the unit (canonical); re-judging
+13:17:49 unalias aF8017E464: src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c declares func_8017E464 another way — joining the unit (canonical); re-judging
+13:17:50 unalias aF8017E464: src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c declares func_8017E464 another way — joining the unit (canonical); re-judging
+13:17:50 unalias aF8017E464: COMPILE-ERROR src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:5096: `func_8017E464' redeclared as different kind of symbol
+src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:5087: previous declaration of `func_8017E464'
+src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c: At top level:
+src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c: At top le — nothing written
+13:18:05 unalias aF8017ED54 -> func_8017ED54: `void func_8017ED54(s32 param_1)` defined in src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+13:18:05 unalias aF8017ED54: src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+13:18:05 unalias aF8017ED54: src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c passes another argument count even against a K&R-style definition — KEPT
+13:18:05 unalias aF8017ED54: COMPILE-ERROR src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c:4471: too few arguments to function `func_8017ED54'
+src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: At top level:
+src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: At top level:
+src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: At top level: [build/src/ov_SC06_014/ov_SC06_014_ — nothing written
+13:18:18 unalias aF8017ED80 -> func_8017ED80: `void func_8017ED80(void *param_1)` defined in src/ov_SC06_008/ov_SC06_008_jr_8017C294.c; 13 files (20 alias prototypes, 6 real-name declarations, 7 renames)
+13:18:18 unalias aF8017ED80: src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:18:19 unalias aF8017ED80: src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c still differs — `()` (K&R, marked) for this file; re-judging
+13:18:20 unalias aF8017ED80: src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c differs under every prototype form — KEPT
+13:18:20 unalias aF8017ED80: DIFFERS [build/src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.o] — nothing written
+13:18:32 unalias aF8017EF54 -> func_8017EF54: `void func_8017EF54(s32 a0)` defined in src/ov_SC06_008/ov_SC06_008_jr_8017C294.c; 9 files (9 alias prototypes, 5 real-name declarations, 5 renames)
+13:18:32 unalias aF8017EF54: src/ov_SC06_008/ov_SC06_008_jr_8017C294.c passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:18:33 unalias aF8017EF54: src/ov_SC06_008/ov_SC06_008_jr_8017C294.c passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:18:34 unalias aF8017EF54: src/ov_SC06_008/ov_SC06_008_jr_8017C294.c passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging
+13:18:35 unalias aF8017EF54: COMPILE-ERROR src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:4561: too few arguments to function `func_8017EF54'
+src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:4587: too few arguments to function `func_8017EF54'
+src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: At top level:
+src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: At top level — nothing written
+13:18:46 unalias aF801804D4 -> func_801804D4: `void func_801804D4(void *a0)` defined in src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c; 4 files (4 alias prototypes, 0 real-name declarations, 0 renames)
+13:18:46 unalias aF801804D4: src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c declares func_801804D4 another way — joining the unit (canonical); re-judging
+13:18:47 unalias aF801804D4: src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c declares func_801804D4 another way — joining the unit (canonical); re-judging
+13:18:47 unalias aF801804D4: src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c declares func_801804D4 another way — joining the unit (canonical); re-judging
+13:18:47 unalias aF801804D4: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:4817: `func_801804D4' redeclared as different kind of symbol
+src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:4808: previous declaration of `func_801804D4'
+src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c: At top level: [build/src/ov_SC02_005/ov_SC02_005_jr_8017CF90.o] — nothing written
+13:18:59 unalias aF80180944 -> func_80180944: `void func_80180944(void *a0)` defined in src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c; 3 files (3 alias prototypes, 0 real-name declarations, 0 renames)
+13:18:59 unalias aF80180944: src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c declares func_80180944 another way — joining the unit (canonical); re-judging
+13:19:00 unalias aF80180944: src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c declares func_80180944 another way — joining the unit (canonical); re-judging
+13:19:00 unalias aF80180944: src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c declares func_80180944 another way — joining the unit (canonical); re-judging
+13:19:00 unalias aF80180944: COMPILE-ERROR src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:4389: `func_80180944' redeclared as different kind of symbol
+src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:4380: previous declaration of `func_80180944' [build/src/ov_SC03_024/ov_SC03_024_jr_8017DF84.o] — nothing written
+13:19:12 unalias aF80181164 -> func_80181164: `void func_80181164(void *a0)` defined in src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+13:19:12 unalias aF80181164: src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+13:19:12 unalias aF80181164: src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c passes another argument count even against a K&R-style definition — KEPT
+13:19:12 unalias aF80181164: COMPILE-ERROR src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c:4284: too few arguments to function `func_80181164'
+src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c: At top level: [build/src/ov_SC06_030/ov_SC06_030_jr_8017F65C.o] — nothing written
+13:19:24 unalias aF80181940 -> func_80181940: `void func_80181940(void)` defined in src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:19:24 unalias aF80181940: src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c declares func_80181940 another way — joining the unit (canonical); re-judging
+13:19:25 unalias aF80181940: src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c declares func_80181940 another way — joining the unit (canonical); re-judging
+13:19:26 unalias aF80181940: src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c declares func_80181940 another way — joining the unit (canonical); re-judging
+13:19:26 unalias aF80181940: COMPILE-ERROR src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:6839: `func_80181940' redeclared as different kind of symbol
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:6831: previous declaration of `func_80181940'
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c: At top level:
+src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c: At top le — nothing written
+13:19:38 unalias aF8018280C -> func_8017E9CC: `s32 func_8017E9CC(s32 a0)` defined in src/ov_SC03_107/ov_SC03_107_jr_801789AC.c; 5 files (5 alias prototypes, 4 real-name declarations, 4 renames)
+13:19:38 unalias aF8018280C: src/ov_SC03_112/ov_SC03_112_jr_8017C294.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:19:39 unalias aF8018280C: src/ov_SC03_112/ov_SC03_112_jr_8017C294.c still differs — `()` (K&R, marked) for this file; re-judging
+13:19:39 unalias aF8018280C: src/ov_SC03_112/ov_SC03_112_jr_8017C294.c differs under every prototype form — KEPT
+13:19:39 unalias aF8018280C: DIFFERS [build/src/ov_SC03_112/ov_SC03_112_jr_8017C294.o] — nothing written
+13:19:51 unalias aF80183910 -> func_80181ED4: `s32 func_80181ED4(s32 arg0)` defined in src/ov_SC03_093/ov_SC03_093_jr_8017D898.c; 3 files (3 alias prototypes, 1 real-name declarations, 2 renames)
+13:19:51 unalias aF80183910: src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:19:51 unalias aF80183910: src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c still differs — `()` (K&R, marked) for this file; re-judging
+13:19:52 unalias aF80183910: src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c differs under every prototype form — KEPT
+13:19:52 unalias aF80183910: DIFFERS [build/src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.o] — nothing written
+13:20:03 unalias aF80184350 -> func_80184350: `s32 func_80184350(void *arg0)` defined in src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c; 2 files (2 alias prototypes, 1 real-name declarations, 1 renames)
+13:20:04 unalias aF80184350: src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:20:04 unalias aF80184350: src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c still differs — `()` (K&R, marked) for this file; re-judging
+13:20:04 unalias aF80184350: src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c differs under every prototype form — KEPT
+13:20:04 unalias aF80184350: DIFFERS [build/src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.o] — nothing written
+13:20:16 unalias aF801843E0 -> func_801843E0: `void func_801843E0(s32 *a0, s32 a1)` defined in src/ov_SC03_124/ov_SC03_124_jr_80181B44.c; 6 files (6 alias prototypes, 11 real-name declarations, 1 renames)
+13:20:16 unalias aF801843E0: src/ov_SC05_017/ov_SC05_017_jr_80182A74.c declares func_801843E0 another way — joining the unit (canonical); re-judging
+13:20:16 unalias aF801843E0: src/ov_SC05_017/ov_SC05_017_jr_80182A74.c declares func_801843E0 another way — joining the unit (canonical); re-judging
+13:20:17 unalias aF801843E0: src/ov_SC05_017/ov_SC05_017_jr_80182A74.c declares func_801843E0 another way — joining the unit (canonical); re-judging
+13:20:17 unalias aF801843E0: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80182A74.c:4135: conflicting types for `func_801843E0'
+src/ov_SC05_017/ov_SC05_017_jr_80182A74.c:4095: previous declaration of `func_801843E0'
+src/ov_SC05_017/ov_SC05_017_jr_80182A74.c: At top level: [build/src/ov_SC05_017/ov_SC05_017_jr_80182A74.o] — nothing written
+13:20:29 unalias aF801848DC -> func_8018739C: `s32 func_8018739C(void *a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_801870B0.c; 25 files (25 alias prototypes, 2 real-name declarations, 9 renames)
+13:20:30 unalias aF801848DC: src/ov_SC03_002/ov_SC03_002_jr_80181D78.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:20:31 unalias aF801848DC: src/ov_SC03_002/ov_SC03_002_jr_80181D78.c still differs — `()` (K&R, marked) for this file; re-judging
+13:20:32 unalias aF801848DC: src/ov_SC03_002/ov_SC03_002_jr_80181D78.c differs under every prototype form — KEPT
+13:20:32 unalias aF801848DC: DIFFERS [build/src/ov_SC03_002/ov_SC03_002_jr_80181D78.o] — nothing written
+13:20:44 unalias aF80185EEC -> func_801889AC: `void func_801889AC(s32 a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_80188830.c; 23 files (23 alias prototypes, 4 real-name declarations, 8 renames)
+13:20:44 unalias aF80185EEC: src/ov_SC03_002/ov_SC03_002_jr_8018431C.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:20:45 unalias aF80185EEC: src/ov_SC03_002/ov_SC03_002_jr_8018431C.c still differs — `()` (K&R, marked) for this file; re-judging
+13:20:46 unalias aF80185EEC: src/ov_SC03_002/ov_SC03_002_jr_8018431C.c differs under every prototype form — KEPT
+13:20:46 unalias aF80185EEC: DIFFERS [build/src/ov_SC03_002/ov_SC03_002_jr_8018431C.o] — nothing written
+13:20:58 unalias aF80186828 -> func_80186828: `s32 func_80186828(void *a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_8018631C.c; 2 files (2 alias prototypes, 1 real-name declarations, 1 renames)
+13:20:58 unalias aF80186828: src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:20:58 unalias aF80186828: src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c still differs — `()` (K&R, marked) for this file; re-judging
+13:20:59 unalias aF80186828: src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c differs under every prototype form — KEPT
+13:20:59 unalias aF80186828: DIFFERS [build/src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.o] — nothing written
+13:21:10 unalias aF801869C0 -> func_8017F390: `s32 func_8017F390(s32 param_1)` defined in src/ov_SC02_026/ov_SC02_026_jr_8017C180.c; 2 files (2 alias prototypes, 1 real-name declarations, 1 renames)
+13:21:11 unalias aF801869C0: src/ov_SC02_027/ov_SC02_027_jr_8017D898.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:21:12 unalias aF801869C0: src/ov_SC02_027/ov_SC02_027_jr_8017D898.c still differs — `()` (K&R, marked) for this file; re-judging
+13:21:12 unalias aF801869C0: src/ov_SC02_027/ov_SC02_027_jr_8017D898.c differs under every prototype form — KEPT
+13:21:12 unalias aF801869C0: DIFFERS [build/src/ov_SC02_027/ov_SC02_027_jr_8017D898.o] — nothing written
+13:21:25 unalias aF8018A224 -> func_8018F390: `s32 func_8018F390(void *param_1)` defined in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c; 32 files (32 alias prototypes, 1 real-name declarations, 29 renames)
+13:21:26 unalias aF8018A224: src/ov_SC02_016/ov_SC02_016_jr_801810C8.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:21:28 unalias aF8018A224: src/ov_SC02_016/ov_SC02_016_jr_801810C8.c still differs — `()` (K&R, marked) for this file; re-judging
+13:21:30 unalias aF8018A224: src/ov_SC02_016/ov_SC02_016_jr_801810C8.c differs under every prototype form — KEPT
+13:21:30 unalias aF8018A224: DIFFERS [build/src/ov_SC02_016/ov_SC02_016_jr_801810C8.o] — nothing written
+13:21:42 unalias aF8018A860 -> func_8018A8E8: `void func_8018A8E8(s32 a0, s16 *a1, u8 *a2, u8 *a3)` defined in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c; 21 files (21 alias prototypes, 2 real-name declarations, 12 renames)
+13:21:43 unalias aF8018A860: src/ov_SC02_028/ov_SC02_028_jr_8017D898.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:21:44 unalias aF8018A860: src/ov_SC02_028/ov_SC02_028_jr_8017D898.c still differs — `()` (K&R, marked) for this file; re-judging
+13:21:46 unalias aF8018A860: src/ov_SC02_028/ov_SC02_028_jr_8017D898.c differs under every prototype form — KEPT
+13:21:46 unalias aF8018A860: DIFFERS [build/src/ov_SC02_028/ov_SC02_028_jr_8017D898.o] — nothing written
+13:21:58 unalias aF8018AFD0 -> func_8018B058: `void func_8018B058(s32 a0, s32 a1, s32 a2)` defined in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c; 21 files (21 alias prototypes, 2 real-name declarations, 12 renames)
+13:21:59 unalias aF8018AFD0: the callers in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c disagree with the definition's head inside one TU (a jr merge of separate original units) — KEPT
+13:21:59 unalias aF8018AFD0: DIFFERS [build/src/ov_SC02_011/ov_SC02_011_jr_80188E3C.o] — nothing written
+13:22:11 unalias aF8018B1DC -> func_8018B1DC: `void func_8018B1DC(void)` defined in src/ov_SC03_028/ov_SC03_028_jr_801887A8.c; 1 files (1 alias prototypes, 2 real-name declarations, 0 renames)
+13:22:11 unalias aF8018B1DC: the callers in src/ov_SC03_028/ov_SC03_028_jr_801887A8.c disagree with the definition's head inside one TU (a jr merge of separate original units) — KEPT
+13:22:11 unalias aF8018B1DC: DIFFERS [build/src/ov_SC03_028/ov_SC03_028_jr_801887A8.o] — nothing written
+13:22:22 unalias aF8018BA4C -> func_8018BA4C: `void func_8018BA4C(s32 a0)` defined in src/ov_SC06_032/ov_SC06_032_jr_80182890.c; 1 files (1 alias prototypes, 5 real-name declarations, 0 renames)
+13:22:23 unalias aF8018BA4C: src/ov_SC06_032/ov_SC06_032_jr_80182890.c still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging
+13:22:24 unalias aF8018BA4C: src/ov_SC06_032/ov_SC06_032_jr_80182890.c passes another argument count even against a K&R-style definition — KEPT
+13:22:24 unalias aF8018BA4C: COMPILE-ERROR src/ov_SC06_032/ov_SC06_032_jr_80182890.c:9336: too few arguments to function `func_8018BA4C'
+src/ov_SC06_032/ov_SC06_032_jr_80182890.c:9361: too few arguments to function `func_8018BA4C'
+src/ov_SC06_032/ov_SC06_032_jr_80182890.c: At top level:
+src/ov_SC06_032/ov_SC06_032_jr_80182890.c: At top level — nothing written
+13:22:35 unalias aF8018C118 -> func_8018C118: `void func_8018C118(void *a0)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:22:36 unalias aF8018C118: src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c declares func_8018C118 another way — joining the unit (canonical); re-judging
+13:22:37 unalias aF8018C118: src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c declares func_8018C118 another way — joining the unit (canonical); re-judging
+13:22:38 unalias aF8018C118: src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c declares func_8018C118 another way — joining the unit (canonical); re-judging
+13:22:39 unalias aF8018C118: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14624: `func_8018C118' redeclared as different kind of symbol
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14615: previous declaration of `func_8018C118'
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: At top level:
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: At top  — nothing written
+13:22:51 unalias aF8018C2CC -> func_8018C2CC: `void func_8018C2CC(void *a0)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 0 real-name declarations, 0 renames)
+13:22:52 unalias aF8018C2CC: src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c declares func_8018C2CC another way — joining the unit (canonical); re-judging
+13:22:52 unalias aF8018C2CC: src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c declares func_8018C2CC another way — joining the unit (canonical); re-judging
+13:22:53 unalias aF8018C2CC: src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c declares func_8018C2CC another way — joining the unit (canonical); re-judging
+13:22:54 unalias aF8018C2CC: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14699: `func_8018C2CC' redeclared as different kind of symbol
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14690: previous declaration of `func_8018C2CC'
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: At top level:
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c: At top  — nothing written
+13:23:06 unalias aF8018CB18 -> func_80186F88: `s32 func_80186F88(void *a0)` defined in src/ov_SC03_001/ov_SC03_001_jr_8018631C.c; 21 files (21 alias prototypes, 6 real-name declarations, 8 renames)
+13:23:07 unalias aF8018CB18: src/ov_SC03_002/ov_SC03_002_jr_8018431C.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:23:07 unalias aF8018CB18: src/ov_SC03_002/ov_SC03_002_jr_8018431C.c still differs — `()` (K&R, marked) for this file; re-judging
+13:23:08 unalias aF8018CB18: src/ov_SC03_002/ov_SC03_002_jr_8018431C.c differs under every prototype form — KEPT
+13:23:08 unalias aF8018CB18: DIFFERS [build/src/ov_SC03_002/ov_SC03_002_jr_8018431C.o] — nothing written
+13:23:20 unalias aF801904E0 -> func_801904BC: `s32 func_801904BC(void *param_1)` defined in src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c; 7 files (7 alias prototypes, 1 real-name declarations, 6 renames)
+13:23:20 unalias aF801904E0: src/ov_SC03_092/ov_SC03_092_jr_80181694.c differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging
+13:23:21 unalias aF801904E0: src/ov_SC03_092/ov_SC03_092_jr_80181694.c still differs — `()` (K&R, marked) for this file; re-judging
+13:23:21 unalias aF801904E0: src/ov_SC03_092/ov_SC03_092_jr_80181694.c differs under every prototype form — KEPT
+13:23:21 unalias aF801904E0: DIFFERS [build/src/ov_SC03_092/ov_SC03_092_jr_80181694.o] — nothing written
+13:23:21 restruct: unalias t4_ua7 — 42 alias-defined functions: 1 back under their real name / 41 kept · 235 files written

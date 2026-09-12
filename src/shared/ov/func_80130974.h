@@ -3,7 +3,7 @@
 extern int func_8012BEE8(int);
 extern void func_80166244();
 extern void func_801319E0(int);
-extern void func_80131CA8(int, int);
+extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_80130974(int param_1) {
     short sVar1;
     if ((*(unsigned int *)(param_1 + 0xb4) & 0x8000) != 0) {

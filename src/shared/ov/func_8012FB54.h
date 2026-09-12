@@ -3,7 +3,7 @@
 extern void func_801319E0(s32 a0);
 extern s32 func_80143B6C(s32 a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_8012FB54(s32 a0) {
     s32 s0 = a0;
     s32 v1;

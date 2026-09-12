@@ -4,7 +4,7 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 extern void func_80131B14();
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern int  func_80131A34(int a0, int a1);
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_80130AF0(int param_1) {
     *(unsigned char *)(param_1 + 0xc1) = 0x13;
     if ((*(unsigned int *)(param_1 + 0xc4) & 2) != 0) {

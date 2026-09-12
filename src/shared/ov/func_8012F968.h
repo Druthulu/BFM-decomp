@@ -4,7 +4,7 @@ extern s32 D_801151D4;
 extern s32 func_8012B744(void *a0, void *a1);
 extern s32 func_80131A34(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
-extern void func_80131CA8(s32 a0, s32 a1);
+extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_8012F968(s32 param_1) {
     s32 iVar3;
     s32 iVar2;

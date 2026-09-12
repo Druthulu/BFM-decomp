@@ -3,7 +3,7 @@
 void func_8012FDA8(int param_1)
 {
     extern void func_8012CBF4(s32 a0);
-    extern void func_80131CA8(int a0, int a1);
+    extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
     extern void func_80131E00(struct S80131E00 *a0, s32 a1);
     int iVar1;
     unsigned int uVar2;

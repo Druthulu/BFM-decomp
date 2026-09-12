@@ -1666,7 +1666,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170();
-extern void func_80131CA8();
+extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F828(int param_1)
 {
@@ -1687,7 +1687,7 @@ void func_8012F828(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170();
-extern void func_80131CA8();
+extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F8C8(int param_1)
 {
@@ -1734,7 +1734,7 @@ void func_8012F8C8(int param_1)
 //   re-derive the CALLEE ARITY from the asm — a spurious extra register arg that is live across the call is what
 //   blocks reorg from sharing a downstream constant into a branch delay slot.)
 
-extern void func_80131CA8(int a0, int a1);
+extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131B14(void);
 extern s32 func_80131A34(s32, s32);
