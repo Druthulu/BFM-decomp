@@ -127,6 +127,12 @@
   most TWO agents at once from S105 on (was five, S103).
 - **S105 (2026-09-11), Drew, resuming after the S105 close: *"continue here. max concurrent agents of 1 now"*** → the T7 agent lane
   runs ONE agent at a time from here (was two).
+- **S105 (2026-09-11), Drew, on the status check ("feels like we are stalling out … are these grinding against those we need to do
+  structs/types for"): the residue was bucketed (1,548 drawable sites in 472 classes, 458 singletons; 691 parked; ~1,150 minimum-lever
+  survivors in five head classes; 450 GTE variants; 94 arg-only) and the recommendation was to close the phase at the amended milestone —
+  *"confirmed per your recommendation. wait for the last agent to finish, then do all the things and no more agents this phase."*** →
+  **T7 ENDS when f11 lands: no more agents this phase; then T8 → T9 → T10 and the close at ~4,000 sites, every survivor marked, ledgered
+  and named for the structs phase.**
 - **S98 (2026-09-09), Drew, mid-T3:** *"dont start ultra code wave for reshaping without my direct approval."* → **T7's reshaping waves (Ultracode) start ONLY on Drew's direct approval in the session that would run them** — the R27 toggle is necessary, not sufficient; the T6 recipe/permuter rungs and the mechanical campaign are not waves and proceed under P3.
 
 ## Rules at gate 1 (P10)
@@ -2118,6 +2124,15 @@ accumulate here as the phase produces them.**
   (`.run/P36/s105/r22_j.log`) **`check-all: 218 passed, 0 failed of 218`** (82 s) → baseline at `ff22c1fba` → `lever_census --check: 4,026
   pin/asm sites, 4,026 marked !FAKE, 0 UNMARKED — OK` (exit 0) → snapshot (4,032 → **4,026**). **Session: 52 of 52 drawn classes at 0.**
 
+- **S105 (cont.) — Drew's status check and the decision to close.** Asked "how many did we start with and how many are we down to":
+  53,234 → 4,026 (−92.4 %). Asked whether the lane is stalling: the residue bucketed from the ledger — **1,548 needed A/B sites drawable in
+  472 classes (458 singletons — the copy leverage is spent: ~3.3 sites per class, ~70k tokens and ~8 min each at cap 1)**, 691 in 24 parked
+  classes / 453 bodies (signature changes + the proven-irreducible heads), ~1,150 minimum-lever survivors in the five S103 head classes,
+  450 GTE clobber variants, 94 arg-only pins (the missing-parameter shape), 21 read-not-closed; and the last batches' closes were
+  increasingly TYPE changes (f10: three of four). Recommendation: close the phase now at the amended milestone rather than grind
+  singletons — the structs phase closes much of the rest for free and is the missing piece for the parked third. **Drew confirmed.**
+  T7 ends when f11 lands (no more agents this phase); then T8, T9, T10.
+
 ## 🛑 SESSION CHECKPOINT — S105 (2026-09-11, FINAL — the session's last commit follows this): T0–T6 ☑, **T7 RUNNING at Drew's cap of ONE agent (was two)**. 4,152 → **4,026 sites** this session (−126); 10 TU batches f1–f10, **52 of 52 drawn classes at 0** (39 plain C, 3 do-while-only, 10 minimum-lever incl. 4 parked signature changes + 1 parked carve), ALL banked — **f11 (ov_SC06_018, 4 classes) IN FLIGHT**; generators **R44–R46** + R22 fixed three ways (4 free banks, 3 of them shared headers on 141 objects); R22 `check-all: 218 passed, 0 failed of 218` at `ff22c1fba` | `lever_census --check` exit 0 (4,026 marked, 0 UNMARKED, 0 orphans)
 
 ### 0. How to use this block — READ THIS FIRST
@@ -2148,7 +2163,7 @@ git log --oneline -1 && git status --short | grep -v '^??' | wc -l
 - The free sweep is SPENT: every residue class has been judged by every family R2–R46 (S105 `s105_r43_*`, `s105_r44r22`, `s105_r45r46`).
 
 ### 2. NEXT
-1. Cap ONE: after f11 lands launch f12, then `mkbrief.py f13 <next TU>` from `pick.py`'s order (the 5-class TUs:
+1. **NO MORE AGENTS THIS PHASE (Drew, S105).** After f11 lands: bank → R22 → then T8 (the gate), T9 (the record), T10 (the PhaseEnd, Max) from `pick.py`'s order (the 5-class TUs:
    ov_SC03_090, ov_SC06_018, ov_SC06_032, ov_SC07_002, then the 4-class ones), skipping ARG-ONLY (`$4`–`$7`-only pins = the
    missing-parameter shape → structs phase) and the park list (S104 §2.4 + S105's four signature changes func_800385C0, func_80029D3C, func_80180FA4, func_80180A54 and
    the carve change func_80186CE0 — patches in their packs; add them to `pick.py`'s PARK set).
