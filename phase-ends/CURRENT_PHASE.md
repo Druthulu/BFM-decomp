@@ -486,6 +486,18 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_D25`** (`.run/P37/restruct/run_t4_D25.log`, `batch_t4_D25.json`): `restruct: batch t4_D25 rung D — 300 files (TUs; 3681 drawable) · 8577 declaration units: 8094 canonical / 0 promoted / 384 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 483 kept · compiles 3977 in 292 s wall · final 300/300 identical · written 299 files` → R22 (`.run/P37/baseline/r22_t4_D25.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=89.85 s`) → census `(census skipped)`.
 
+- **S108 — the D cycle after the fix (`cycle_t4f.log`, `REDRAW=DECL-NONE`):** `t4_D22` **10,185 units: 10,123 canonical / 47 K&R / 62 kept**
+  (`d09cadd4f`) · `t4_D23` 9,221: 9,170 / 28 / 51 (`f72340ff4`) · `t4_D24` 8,965: 8,788 / 133 / 177 (`d8dc045e9`) · `t4_D25` 8,577: 8,094 / 384 /
+  483 (`8ef6fc3a6`) — each `final 300/300 identical`, R22 `check-all: 218 passed, 0 failed of 218`. The kept causes bucketed (R117, D22–D25,
+  745 rows): K&R sites 592 (the calls pass fewer arguments — `func_80146C3C`, `func_801483E8`, `func_800D2318`, `func_80160B00`, `func_8016EE40`
+  at ~128 rows each = one per overlay, the same shape fleet-wide), `conflicting types` elsewhere in the TU 139, arity 6, other compile 8.
+  **306 of the K&R rows read "the calls pass `[]` arguments" / `? of N args`** — read on the bytes: the ANSI form was `COMPILE-ERROR
+  shared/ov/func_80161124.h:19: too few arguments to function 'func_801483E8'` — the call sits in a shared BODY the TU includes, which
+  `call_arg_counts` never scanned (the TU's own text has only a cast-pointer call). The verdict was right, the record blind: `unit_call_counts`
+  now unions the counts from every included shared body and the cause names the header (`(in shared/ov/func_80161124.h)`); known-true on that
+  unit `([0], ['src/shared/ov/func_80161124.h'])`; `--selftest 54/54 OK`. The D22–D25 rows keep their `[]`/`?` (settled K&R units are not redrawn;
+  the T4 close's census reads the markers, not the counts).
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D25` on d8dc045e9: 300 files (TUs; 3681 drawable) · 8577 declaration units: 8094 canonical / 0 promoted / 384 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 483 kept · com
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

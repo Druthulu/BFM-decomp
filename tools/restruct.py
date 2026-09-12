@@ -1420,6 +1420,24 @@ def call_arg_counts(masked, callee, decl_spans):
     return sorted(counts)
 
 
+def unit_call_counts(tu, masked, unit):
+    """(counts, where): the distinct argument counts every call in the TU's COMPILATION passes to the callee — the TU's own text plus
+    every shared body it includes — and the headers the counts came from. t4_D23 read `[]` for `func_801483E8` while the 0-argument call
+    that made the ANSI form a COMPILE-ERROR sat in shared/ov/func_80161124.h:19: the marker said `? of 1 args` for a known count."""
+    counts = set(call_arg_counts(masked, unit["callee"], [(s, e) for (s, e, *_) in unit["decls"]]))
+    where = []
+    results = walk()["results"]
+    for h in sorted(headers_of(tu)):
+        if h not in results or not h.endswith(".h") or not (REPO / h).exists():
+            continue
+        hm = dl.same_len_mask((REPO / h).read_text())
+        hc = call_arg_counts(hm, unit["callee"], [(s, e) for (s, e, *_) in decl_sites(hm, unit["callee"])])
+        if hc:
+            counts.update(hc)
+            where.append(h)
+    return sorted(counts), where
+
+
 def d_units(tu, text, callees=None, skipped=None):
     """The TU's declaration units: [dict(callee, decls[(s,e,line,ext,ret,params)], ret, ansi, promoted, defn_tu, kr_def, ambiguous)] —
     every callee with >=1 declaration whose spelling is not the canonical one. `skipped` (a dict) receives {callee: reason} for every
@@ -1665,13 +1683,14 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
                     rows.append(row)
                     continue
             if "too few arguments" in err or "too many arguments" in err:
-                counts = call_arg_counts(masked, u["callee"], [(s, e) for (s, e, *_) in u["decls"]])
+                counts, where = unit_call_counts(tu, masked, u)
                 marks = kr_marker_edits(raw, u, counts, label)
+                infrom = f" (in {', '.join(w.split('src/', 1)[-1] for w in where)})" if where else ""
                 empties = [d_ for d_ in u["decls"] if d_[5] == ""]
                 if empties and len(empties) == len(u["decls"]):
                     final_units.append((u, None, marks))
                     row["verdict"] = "DECL-KEPT"
-                    row["cause"] = f"K&R site: the calls pass {counts} arguments, the definition takes {u['ansi']} — kept `()`, marked"
+                    row["cause"] = f"K&R site: the calls pass {counts} arguments{infrom}, the definition takes {u['ansi']} — kept `()`, marked"
                     row["kr"] = True
                     out["kr"] += 1
                 else:
@@ -1683,7 +1702,7 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
                     if r3["verdict"] == "IDENTICAL":
                         final_units.append((u, "", marks))
                         row["verdict"] = "DECL-KEPT"
-                        row["cause"] = f"K&R site: the calls pass {counts} arguments, the definition takes {u['ansi']} — every declaration `()`, marked"
+                        row["cause"] = f"K&R site: the calls pass {counts} arguments{infrom}, the definition takes {u['ansi']} — every declaration `()`, marked"
                         row["kr"] = True
                         out["kr"] += 1
                     else:
