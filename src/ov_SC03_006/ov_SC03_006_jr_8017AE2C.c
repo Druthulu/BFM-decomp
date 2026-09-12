@@ -14612,7 +14612,7 @@ void func_8018C090(s32 a0, u16 *a1, s16 a2) {
 
 
 extern void func_80174684(void *);
-    extern s32 func_8018C118;
+    extern void func_8018C118(void *a0);
     void func_8018C0F0(void) {
         func_80174684(&func_8018C118);
     }
@@ -14620,8 +14620,7 @@ extern void func_80174684(void *);
 
 
 
-void aF8018C118(void *a0) __asm__("func_8018C118");
-void aF8018C118(void *a0)
+void func_8018C118(void *a0)
 {
 
     extern void (*D_801F2594[])(void);
@@ -14687,7 +14686,7 @@ void func_8018C29C(void) {
 }
 
 extern void func_80174684(void *);
-    extern s32 func_8018C2CC;
+    extern void func_8018C2CC(void *a0);
     void func_8018C2A4(void) {
         func_80174684(&func_8018C2CC);
     }
@@ -14695,8 +14694,7 @@ extern void func_80174684(void *);
 
 
 
-void aF8018C2CC(void *a0) __asm__("func_8018C2CC");
-void aF8018C2CC(void *a0)
+void func_8018C2CC(void *a0)
 {
 
     extern void (*D_801F25A4[])(void);

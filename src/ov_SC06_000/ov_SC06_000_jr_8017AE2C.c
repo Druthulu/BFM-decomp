@@ -6828,15 +6828,15 @@ s32 func_80181864(s32 _arg0)
 }
 
 
-extern s32 func_80181940;
+extern void func_80181940(void);
 extern void func_8012A568(void (*)(void));
 void func_80181918(void) {
     ((s32 (*)(s32 *))func_8012A568)(&func_80181940);
 }
 
 
-void aF80181940(void) __asm__("func_80181940");
-void aF80181940(void) {
+void func_80181940(void)
+{
     typedef struct { u8 b[8]; } Blk8_80181940;
     extern Blk8_80181940 D_8018C0F8;
     extern Blk8_80181940 D_801274E8;

@@ -2769,7 +2769,7 @@ extern void func_8018089C(s32 *a0);
 extern void func_801808E4(s32 param_1);
 extern void func_80180914(s32 a0);
 extern void func_8018091C(s32 a0);
-extern void aF80180944();
+extern void func_80180944(void *a0);
 extern void func_80147060(u8*);
 extern void func_80171A1C(u8*);
 extern void func_801809B8(u8*);

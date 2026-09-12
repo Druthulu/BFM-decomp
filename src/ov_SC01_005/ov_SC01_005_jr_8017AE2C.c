@@ -3345,7 +3345,7 @@ void func_8017BF00(s32 *a0) {
 #include "../shared/ov/func_8017C048__76785405.h"
 
 extern void func_80174684(void *);
-    extern s32 func_8017C078;
+    extern void func_8017C078(void *a0);
     void func_8017C050(void) {
         func_80174684(&func_8017C078);
     }
@@ -3353,8 +3353,7 @@ extern void func_80174684(void *);
 
 
 
-void aF8017C078(void *a0) __asm__("func_8017C078");
-void aF8017C078(void *a0)
+void func_8017C078(void *a0)
 {
 
     extern void (*D_80185E18[])(void);
@@ -3385,7 +3384,7 @@ void func_8017C0B4(s32 *a0) {
 #include "../shared/ov/func_8017C120__76785405.h"
 
 extern void func_80174684(void *);
-    extern s32 func_8017C150;
+    extern void func_8017C150(void *a0);
     void func_8017C128(void) {
         func_80174684(&func_8017C150);
     }
@@ -3393,8 +3392,7 @@ extern void func_80174684(void *);
 
 
 
-void aF8017C150(void *a0) __asm__("func_8017C150");
-void aF8017C150(void *a0)
+void func_8017C150(void *a0)
 {
 
     extern void (*D_80185E20[])(void);

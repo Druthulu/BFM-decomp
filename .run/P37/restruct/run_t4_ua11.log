@@ -1,0 +1,27 @@
+17:23:49 unalias aF8017C078 -> func_8017C078: `void func_8017C078(void *a0)` defined in src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+17:23:50 unalias aF8017C078: IDENTICAL on every recipe (2 objects, 0.1 s) — 1 files written
+17:24:01 unalias aF8017C150 -> func_8017C150: `void func_8017C150(void *a0)` defined in src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+17:24:01 unalias aF8017C150: IDENTICAL on every recipe (2 objects, 0.1 s) — 1 files written
+17:24:12 unalias aF8017DD50 -> func_8017DD50: `void func_8017DD50(void *a0)` defined in src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+17:24:12 unalias aF8017DD50: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+17:24:24 unalias aF8017DDE0 -> func_8017DDE0: `void func_8017DDE0(void *a0)` defined in src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+17:24:24 unalias aF8017DDE0: IDENTICAL on every recipe (1 objects, 0.1 s) — 1 files written
+17:24:35 unalias aF8017E464 -> func_8017E464: `void func_8017E464(void *a0)` defined in src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+17:24:35 unalias aF8017E464: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+17:24:48 unalias aF801804D4 -> func_801804D4: `void func_801804D4(void *a0)` defined in src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c; 4 files (4 alias prototypes, 0 real-name declarations, 0 renames)
+17:24:48 unalias aF801804D4: src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c declares func_801804D4 another way — joining the unit (canonical); re-judging
+17:24:48 unalias aF801804D4: src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c declares func_801804D4 another way — joining the unit (canonical); re-judging
+17:24:49 unalias aF801804D4: src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c declares func_801804D4 another way — joining the unit (canonical); re-judging
+17:24:49 unalias aF801804D4: COMPILE-ERROR src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:4817: `func_801804D4' redeclared as different kind of symbol
+src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:4808: previous declaration of `func_801804D4'
+src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c: At top level: [build/src/ov_SC02_005/ov_SC02_005_jr_8017CF90.o] — nothing written
+17:25:01 unalias aF80180944 -> func_80180944: `void func_80180944(void *a0)` defined in src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c; 3 files (3 alias prototypes, 1 real-name declarations, 0 renames)
+17:25:01 unalias aF80180944: IDENTICAL on every recipe (3 objects, 0.3 s) — 3 files written
+17:25:13 unalias aF80181940 -> func_80181940: `void func_80181940(void)` defined in src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+17:25:13 unalias aF80181940: IDENTICAL on every recipe (1 objects, 0.3 s) — 1 files written
+17:25:24 unalias aF8018C118 -> func_8018C118: `void func_8018C118(void *a0)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+17:25:25 unalias aF8018C118: IDENTICAL on every recipe (1 objects, 0.4 s) — 1 files written
+17:25:37 unalias aF8018C2CC -> func_8018C2CC: `void func_8018C2CC(void *a0)` defined in src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c; 1 files (1 alias prototypes, 1 real-name declarations, 0 renames)
+17:25:37 unalias aF8018C2CC: IDENTICAL on every recipe (1 objects, 0.4 s) — 1 files written
+17:25:37 restruct: unalias t4_ua11 — 10 alias-defined functions: 9 back under their real name / 1 kept · 11 files written
+exit=0

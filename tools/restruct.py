@@ -1954,6 +1954,7 @@ def unalias_function(aname, label, calib_id, log, pool=None):
             scope.update(inc.get(rel, []))          # its includers: their own declarations of the real name must agree with the header's
     proto_rx_a = re.compile(AF_PROTO_RX_T.format(name=aname))
     proto_rx_r = re.compile(DECL_RX_T.format(name=re.escape(real)))
+    data_decl_rx = re.compile(r"(?<![\w.])extern\s+((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*[\s*]*)\b" + re.escape(real) + r"\s*;")
     m_ = 0 if params == "void" else len(sl._split_top(params, ","))
     kr_files = set()          # files whose calls pass another count: their declarations stay `()` (K&R) with the marker
 
@@ -2033,6 +2034,15 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                 spans.append((m.start(), m.end()))
                 n_decl_a += 1
             for m in proto_rx_r.finditer(masked):
+                if any(a <= m.start() < b for (a, b) in spans):
+                    continue
+                edits.append((m.start(), m.end(), decl_text))
+                spans.append((m.start(), m.end()))
+                n_decl_r += 1
+            # a DATA declaration of the real name — `extern s32 func_X;` written by a drafter whose caller takes the function's address as
+            # a plain pointer (`f(&func_X)`) — becomes the prototype too: under the real name it is "redeclared as different kind of
+            # symbol" (t4_ua10: 11 of the 19 compile refusals; the `&func_X` use is a function designator's address, the same relocation)
+            for m in data_decl_rx.finditer(masked):
                 if any(a <= m.start() < b for (a, b) in spans):
                     continue
                 edits.append((m.start(), m.end(), decl_text))
@@ -2134,6 +2144,14 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                 for h in headers_of(bad):
                     if h in scope and h not in hoist:
                         kr_files.add(h)
+                if bad.endswith(".h"):
+                    # the short call is in a shared BODY: the declaration it sees is the INCLUDING TU's — those TUs (in the unit) go `()`
+                    # (t4_ua10: func_80162CCC/func_8016BF50/func_8016F0E4 — `too few arguments` at shared/ov/*.h, the header holds no
+                    # declaration to respell, three tries, KEPT)
+                    _, _, inc_ = recipes()
+                    for t_ in inc_.get(bad, ()):
+                        if t_ in scope and t_ not in non_member_files:
+                            kr_files.add(t_)
                 log(f"unalias {aname}: {bad} passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging")
         else:
             log(f"unalias {aname}: {bad} declares {real} another way — joining the unit (canonical); re-judging")

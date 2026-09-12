@@ -3351,7 +3351,7 @@ s32 func_8017DD20(void) {
 
 
 extern void func_80174684(void *);
-    extern s32 func_8017DD50;
+    extern void func_8017DD50(void *a0);
     void func_8017DD28(void) {
         func_80174684(&func_8017DD50);
     }
@@ -3359,8 +3359,7 @@ extern void func_80174684(void *);
 
 
 
-void aF8017DD50(void *a0) __asm__("func_8017DD50");
-void aF8017DD50(void *a0)
+void func_8017DD50(void *a0)
 {
 
     extern void (*D_80191A7C[])(void);

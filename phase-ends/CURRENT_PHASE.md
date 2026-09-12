@@ -537,6 +537,21 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   empty). **T4's latest-row-per-unit totals now: 93,391 canonical · 2,958 DECL-KEPT (K&R + causes) · 484 aliases typed · 1,723 alias-kept ·
   143 abs · 1 promoted · 2,667 DECL-NONE** (external callees + the 29 still-aliased functions' callers; step (b) next).
 
+- **S108 — step (b): `t4_ua10` (the 29 kept alias functions, `--apply --unalias … --label t4_ua10`; the checkpoint's command lacked `--apply`):
+  `29 alias-defined functions: 0 back under their real name / 29 kept · 0 files written`.** Bucketed from the run log (R117): **10 DIFFERS** (a
+  pure caller differs under every prototype form — the jr-merge class: `func_80146A6C` `func_8014C4AC` (ov_MAIN_012_jr_801458E0), `func_8014F6F4`
+  (ov_SC01_009_after), `func_801848DC`, `func_80185EEC`, `func_8018A224`, `func_8018A860`, `func_8018AFD0`, `func_8018B1DC`, `func_8018CB18` — the
+  file-layout phase's, as the checkpoint predicted); **10 "`func_X' redeclared as different kind of symbol"** — read on the tree: `extern s32
+  func_8017C078;` nine lines above the alias-defined body, a DATA declaration of the real name written by a drafter whose caller passes the
+  function's address as a plain pointer (`func_80174684(&func_8017C078)`); **5 `too few arguments`** at a shared BODY the TU includes
+  (`shared/ov/func_80164DB0.h:5` …) — the ladder marked the header `()` (it holds no declaration) three times and gave up; **4 `conflicting
+  types`**. Two ladder gaps closed in `unalias_function`: (1) a data-typed declaration of the real name (`extern <scalar> real;`) becomes the
+  unit's prototype (the `&real` use is a function designator's address — the same relocation); (2) a header-side arity error marks the
+  INCLUDING TUs in the unit K&R, not the header. **`t4_ua11` (the 10 redeclared): `9 back under their real name / 1 kept · 11 files written`**
+  — each IDENTICAL on every recipe; the kept one is `extern char func_801804D4[];` (the empty-array spelling, excluded by the first regex).
+  R22 (`.run/P37/baseline/r22_t4_ua11.log`): **`check-all: 218 passed, 0 failed of 218`** (`wall=80.82 s`, exit 0). Alias-defined functions:
+  **129 of 149 back / 20 kept.**
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D36` on 0695fb78c: 300 files (TUs; 1088 drawable) · 27 declaration units: 16 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 1 __builtin_abs → abs / 10 kept · compiles 2
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
