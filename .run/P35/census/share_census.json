@@ -29,14 +29,14 @@
   "copies": 11340,
   "instances": 30347
  },
- "duplicate_text_classes": 6398,
- "duplicate_text_sites": 17779,
- "elapsed_s": 22.6,
+ "duplicate_text_classes": 6396,
+ "duplicate_text_sites": 17778,
+ "elapsed_s": 26.4,
  "flags": {
   "ALIAS": 32,
   "E": 3826,
   "F": 54,
-  "PINS": 533,
+  "PINS": 62,
   "TWIN-COVERED": 3748,
   "TYPEDEF": 74
  },
