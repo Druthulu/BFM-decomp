@@ -1,0 +1,178 @@
+{
+ "label": "t4_HD1",
+ "rung": "D",
+ "generated": "2026-09-12 17:51",
+ "headers": true,
+ "batch": 20,
+ "only": null,
+ "files": 20,
+ "drawable_files": 276,
+ "wall_s": 72.4,
+ "calib": {
+  "head": "095fe75e2",
+  "stamp": "e34b6679685f"
+ },
+ "compiles": 1327,
+ "members": 0,
+ "kept": 3,
+ "skipped": 0,
+ "levers_off": 0,
+ "canon": 27,
+ "promoted": 0,
+ "kr": 0,
+ "alias": 0,
+ "builtin": 0,
+ "folded": 0,
+ "refused": 0,
+ "renames": 0,
+ "units": 30,
+ "bodies": 0,
+ "seconds": 455.4393723011017,
+ "rows": 210,
+ "written": 7,
+ "final_ok": 20,
+ "final_bad": 0,
+ "no_recipe": 0,
+ "per_file": [
+  {
+   "tu": "src/shared/ov/func_80181538__27797037.h",
+   "final": "IDENTICAL",
+   "written": true,
+   "rows": 94,
+   "compiles": 22
+  },
+  {
+   "tu": "src/shared/ov/func_801808C4__088fcd06.h",
+   "final": "IDENTICAL",
+   "written": true,
+   "rows": 61,
+   "compiles": 22
+  },
+  {
+   "tu": "src/shared/ov/func_80145CEC__05c7cfc4.h",
+   "final": "IDENTICAL",
+   "written": true,
+   "rows": 9,
+   "compiles": 4
+  },
+  {
+   "tu": "src/shared/ov/func_80145CEC__786de7de.h",
+   "final": "IDENTICAL",
+   "written": true,
+   "rows": 9,
+   "compiles": 6
+  },
+  {
+   "tu": "src/shared/ov/func_80148648.h",
+   "final": "IDENTICAL",
+   "written": true,
+   "rows": 5,
+   "compiles": 987
+  },
+  {
+   "tu": "src/shared/ov/func_8014CD80.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 3,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_80184A08__5f634e86.h",
+   "final": "IDENTICAL",
+   "written": true,
+   "rows": 3,
+   "compiles": 4
+  },
+  {
+   "tu": "src/shared/ov/func_8012ACE0__226dc4ac.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_801303A0.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_80130974.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_80133CD4__de6ea26c.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_8013A530.h",
+   "final": "IDENTICAL",
+   "written": true,
+   "rows": 2,
+   "compiles": 282
+  },
+  {
+   "tu": "src/shared/ov/func_8014AA28.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_8016432C.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_80166438.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_80168328.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_80168540.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_801685EC.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_80168EC4.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  },
+  {
+   "tu": "src/shared/ov/func_8016A08C.h",
+   "final": "UNCHANGED",
+   "written": false,
+   "rows": 2,
+   "compiles": 0
+  }
+ ]
+}

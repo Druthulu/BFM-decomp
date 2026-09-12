@@ -1,0 +1,28 @@
+restruct --plan D: 20 of 276 TUs with lying declarations · 210 callees
+17:50:09 apply t4_HD1 rung D: 20 files, control src/shared/ov/func_80181538__27797037.h IDENTICAL (0.04 s), calibration 095fe75e2
+17:50:30     unit 7: COMPILE-ERROR src/ov_SC02_000/../shared/ov/func_80181538__27797037.h:1691: parse error before `*' | src/ov_SC02_000/../shared/ov/func_80181538__27797037.h
+17:50:31   src/shared/ov/func_80181538__27797037.h: IDENTICAL · rows 94 · compiles 22 · 1.3 s · canon 8 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+17:50:32     unit 7: COMPILE-ERROR src/ov_SC02_000/../shared/ov/func_801808C4__088fcd06.h:1691: parse error before `*' | src/ov_SC02_000/../shared/ov/func_801808C4__088fcd06.h
+17:50:33   src/shared/ov/func_801808C4__088fcd06.h: IDENTICAL · rows 61 · compiles 22 · 1.2 s · canon 8 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+17:50:34   src/shared/ov/func_80145CEC__05c7cfc4.h: IDENTICAL · rows 9 · compiles 4 · 1.4 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:50:35   src/shared/ov/func_80145CEC__786de7de.h: IDENTICAL · rows 9 · compiles 6 · 2.0 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:50:57     unit 1: DIFFERS [build/src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.o]
+17:51:18   src/shared/ov/func_80148648.h: IDENTICAL · rows 5 · compiles 987 · 411.9 s · canon 4 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+17:51:18   src/shared/ov/func_8014CD80.h: UNCHANGED · rows 3 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:18   src/shared/ov/func_80184A08__5f634e86.h: IDENTICAL · rows 3 · compiles 4 · 0.6 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:18   src/shared/ov/func_8012ACE0__226dc4ac.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:18   src/shared/ov/func_801303A0.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:18   src/shared/ov/func_80130974.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:18   src/shared/ov/func_80133CD4__de6ea26c.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_8013A530.h: IDENTICAL · rows 2 · compiles 282 · 37.0 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_8014AA28.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_8016432C.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_80166438.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_80168328.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_80168540.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_801685EC.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_80168EC4.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22   src/shared/ov/func_8016A08C.h: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:51:22 restruct: batch t4_HD1 rung D — 20 files (headers; 276 drawable) · 30 declaration units: 27 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 3 kept · compiles 1327 in 72 s wall · final 20/20 identical · written 7 files
+t4_HD1 wall=125.72 s
+exit=0

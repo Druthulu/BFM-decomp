@@ -1,8 +1,8 @@
 /* func_8013A530 — shared body (overlay slot 0x80128158, h_exact 4ab0c4ef). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void *memcpy(void *, const void *, u32);
-extern void func_80015D4C();
-extern void func_80015F04();
+extern void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8);
+extern void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8);
 extern void func_8013AA24(s32 a0, s32 a1);
 void func_8013A530(int param_1)
 {

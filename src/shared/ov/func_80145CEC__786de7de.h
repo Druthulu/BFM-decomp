@@ -1,8 +1,8 @@
 /* func_80145CEC — shared body (overlay slot 0x80128158, h_exact 786de7de). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80145CEC() {
-    extern int func_80016714();
-    extern int func_8001C320();
+    extern void func_80016714(void *ptr, s32 len);
+    extern void func_8001C320(s32 a0, s32 a1);
     extern int func_801552F4();
     extern int func_80147084();
     extern int func_80147098();
