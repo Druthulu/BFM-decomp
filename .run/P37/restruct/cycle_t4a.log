@@ -11,3 +11,10 @@ cycle: batch t4_D6 committed 8f99ec5a2 — restruct: batch t4_D6 rung D — 300 
 log: t4_D7
 cycle: batch t4_D7 committed 4eeb4412f — restruct: batch t4_D7 rung D — 300 files (TUs; 3878 drawable) · 1566 declaration units: 1084 canonical / 0 promoted / 108 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 160 kept · compiles 1564 in 76 s wall · final 300/300 identical · written 103 files | check-all: 218 passed, 0 failed of 218
 log: t4_D8
+cycle: batch t4_D8 committed f1606cb4c — restruct: batch t4_D8 rung D — 300 files (TUs; 3878 drawable) · 1268 declaration units: 767 canonical / 0 promoted / 140 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 140 kept · compiles 1149 in 66 s wall · final 300/300 identical · written 70 files | check-all: 218 passed, 0 failed of 218
+cycle: batch t4_D9 — restruct exited non-zero
+11:08:42 restruct: batch t4_D9 rung D — 300 files (TUs; 3878 drawable) · 509 declaration units: 40 canonical / 0 promoted / 6 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 7 kept · compiles 58 in 37 s wall · final 299/300 identical · written 5 files
+Command exited with non-zero status 1
+t4_D9 wall=215.52 s
+exit=1
+cycle exit=1
