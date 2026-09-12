@@ -2930,9 +2930,8 @@ s32 func_8017DFEC(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 
 void func_8017E078(Key12_8017DD64 *dst, void *src, s32 idx) {
-    s32 pad[2];
     u8 *p;
-    register u32 w __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 w;
 
     if ((s32)src & 0x01000000) {
         p = (u8 *)(((s32)src & 0xFEFFFFFF) + idx * 8);
@@ -2940,7 +2939,7 @@ void func_8017E078(Key12_8017DD64 *dst, void *src, s32 idx) {
         dst->f2 = (s8)p[4];
         dst->f4 = (s8)p[5];
         w = *(u32 *)p;
-        dst->f8 = p[1] | ((w & 0xF) << 8);
+        dst->f8 = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
         dst->fA = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
         dst->f6 = *(u16 *)(p + 6);
     } else {
