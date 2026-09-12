@@ -3245,25 +3245,30 @@ typedef struct { u16 x, y, z, w; } V4_8017E734;
 
 void func_8017E734(void* a0)
 {
-    register s32 r __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 b __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 r;
+    s32 n;
     s32 p;
     s32 q;
+    s32 d;
 
-    if (*(u8 *)(a0 + 0x70) == 0) {
+
+    n = *(u8 *)(a0 + 0x70);
+    if (n == 0) {
         goto copy;
     }
     if (D_80185F7E < D_801F8084) {
         goto copy;
     }
     r = D_801F8084 % D_80185F78;
-    b = D_80185F80[*(u8 *)(a0 + 0x70)] - 1;
+    n = D_80185F80[n];
+    n -= 1;
     r -= 8;
-    r = b - r;
+    r = n - r;
     if (r < 0) {
         r = -r;
     }
     if (r < D_80185F7C) {
+        d = D_80185F7C - r;
         goto body;
     }
 copy:
@@ -3271,7 +3276,7 @@ copy:
         *(V4_8017E734 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x18);
     return;
 body:
-    p = (D_80185F7C - r) * D_80185F7A;
+    p = d * D_80185F7A;
     p = (p + 0x1000) * *(s16 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x18);
     q = *(s32 *)(a0 + 0x20);
     *(s16 *)(q + 0x1C) = (u32)p >> 12;
