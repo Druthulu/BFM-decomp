@@ -340,10 +340,10 @@ void func_80186424(s32 arg0)
 {
     if (*(u8 *)(arg0 + 0x74) != 0) {
         extern s32 gVecX __asm__("D_80126B5C");
+        extern s32 *aCam[] __asm__("D_80126B78");
         s32 in[4];
         s32 out[4];
         s32 tmp[4];
-        u16 h;
 
         in[0] = gVecX;
         in[1] = D_80126B60;
@@ -354,15 +354,9 @@ void func_80186424(s32 arg0)
         gVecX = out[0];
         D_80126B60 = out[1];
         D_80126B64 = out[2];
-        h = *((u16 *)&gVecX + 1);
-        *(u16 *)((s32)D_80126B78 + 8) = h;
-        *(s32 *)((s32)D_80126B78 + 0x48) = (s32)(s16)h;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
-        *(u16 *)((s32)D_80126B78 + 0xA) = D_80126B62;
-        *(s32 *)((s32)D_80126B78 + 0x4C) = (s32)(s16)D_80126B62;
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
-        *(u16 *)((s32)D_80126B78 + 0xC) = D_80126B66;
-        *(s32 *)((s32)D_80126B78 + 0x50) = (s32)(s16)D_80126B66;
+        *(s32 *)((s32)aCam[0] + 0x48) = *(s16 *)((s32)aCam[0] + 8) = *((u16 *)&gVecX + 1);
+        *(s32 *)((s32)aCam[0] + 0x4C) = *(s16 *)((s32)aCam[0] + 0xA) = D_80126B62;
+        *(s32 *)((s32)aCam[0] + 0x50) = *(s16 *)((s32)aCam[0] + 0xC) = D_80126B66;
     } else {
         func_80132784(arg0, *(s32 *)(arg0 + 0x64), *(u16 *)(arg0 + 0xFC));
     }
