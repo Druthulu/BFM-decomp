@@ -888,7 +888,7 @@ extern void func_80049CAC(s32 a0, s32 a1);
  * TWO pointers, so it conflicts on BOTH the return axis and the arity axis.
  * Aliasing the C name sidesteps both with no header edit and no codegen change.
  * This declaration MUST travel with the body. */
-s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 
 #include "../shared/ov/func_8012EFB8.h"
 

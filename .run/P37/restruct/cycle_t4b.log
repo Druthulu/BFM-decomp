@@ -3,3 +3,5 @@ cycle: batch t4_D9 committed 738115621 — restruct: batch t4_D9 rung D — 300 
 log: t4_D10
 cycle: batch t4_D10 committed 2f591071c — restruct: batch t4_D10 rung D — 300 files (TUs; 3878 drawable) · 528 declaration units: 55 canonical / 0 promoted / 4 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 8 kept · compiles 70 in 44 s wall · final 300/300 identical · written 3 files | check-all: 218 passed, 0 failed of 218
 log: t4_D11
+cycle: batch t4_D11 committed 37b832c4f — restruct: batch t4_D11 rung D — 300 files (TUs; 3877 drawable) · 16 declaration units: 16 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 2 in 26 s wall · final 300/300 identical · written 1 files | check-all: 218 passed, 0 failed of 218
+cycle: batch t4_D12 wrote no file — restruct: batch t4_D12 rung D — 300 files (TUs; 3877 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 26 s wall · final 300/300 identical · written 0 files

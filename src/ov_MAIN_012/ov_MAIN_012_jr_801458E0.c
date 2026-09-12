@@ -424,10 +424,9 @@ extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern s32 func_8002A4FC(s32 a0);
 extern s32 func_8012EECC(s32 a0);
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_8012EF34(s32 a0, s32 a1);
 extern void func_8012EF70(s32 a0, s32 a1);
-extern s32 aF8012EFB8();
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -2151,7 +2150,7 @@ s32 func_80148E54(s32 arg0) {
 
 
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 
 #include "../shared/ov/func_80149584.h"
 

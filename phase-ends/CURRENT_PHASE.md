@@ -386,7 +386,29 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_D11`** (`.run/P37/restruct/run_t4_D11.log`, `batch_t4_D11.json`): `restruct: batch t4_D11 rung D — 300 files (TUs; 3877 drawable) · 16 declaration units: 16 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 2 in 26 s wall · final 300/300 identical · written 1 files` → R22 (`.run/P37/baseline/r22_t4_D11.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=84.99 s`) → census `(census skipped)`.
 
-## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑** (baseline · the census + map · the probe · THE ENGINE) — 🛑 **T4 NEXT (the declaration layer over the fleet by symbol space — rung D in unattended cycles; xHigh) — and FIRST the P6 rules check (four tasks complete)** | R22 `check-all: 218 passed, 0 failed of 218` at `42a57f576`+`common.h` (`r22_t3c.log`; the close commit adds no build input) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (6 commits ahead: `0a55cb0fd` … this one — Drew pushes, R6) | last batch `t4_D11` on 2f591071c: 300 files (TUs; 3877 drawable) · 16 declaration units: 16 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 2 
+- **S107 — T4 in progress: the D cycles and the alias-defined-function class.** The detached cycle (`restruct_cycle.sh`, `CENSUS=0`) ran batches
+  `t4_D1`–`t4_D11` (300 TUs each after D1's 40): **≈17,000 declaration units canonical, ≈400 K&R sites marked, 207 asm-label data aliases typed,
+  10 `__builtin_abs` → `abs`, ≈1,300 kept with causes** (each batch: `final N/N identical`, R22 `218 passed, 0 failed of 218`, one commit —
+  `dd21e7e26`, `2dd78c3e4`, `4741f6cba`, `42d9cf570`, `cebc2a3c4`, `8f99ec5a2`, `4eeb4412f`, `f1606cb4c`, `738115621`, `2f591071c`, `37b832c4f`).
+  Two planner defects found from the batch numbers and fixed at their cause: (1) D9 stopped on `src/800.c` — a same-name data alias
+  (`extern u8 D_80078E7C __asm__("D_80078E7C")`) renamed uses inside the `_w` alias's `__asm__("D_80078E7C")` label → overlapping edits →
+  a file-level TOOL-ERROR; now a same-name alias is a declaration-only edit, use-renames skip every alias declaration span, and an overlap is a
+  unit REFUSAL (the batch restored, re-run, committed); (2) the planner re-drew settled TUs (their KEPT rows kept them ranked high: 300 files for
+  6 written at D9) — `plan_D` now skips TUs whose every lying callee has a DONE ledger row (`settled_units`; `--redraw` lifts it). D12 then drew
+  300 TUs for **0 units** and the disagreement was read (R34): argcheck's remaining rows are the **alias-defined functions** — `s32
+  aF8012EFB8(param_1, param_2) __asm__("func_8012EFB8")`, a body defined under an alias C name because the fleet's declarations of its real
+  name lied (`void (s32)` for a `s32 (void *, void *)` body); the callers declare/call `aF…`. **149 such functions (16 in shared headers,
+  47 K&R heads) over 1,855 files — and their 3,529 real-name callers' lies were invisible to argcheck (no definition under the real name).**
+  Built `--unalias`: the definition back under its real name with its byte-true ANSI signature (K&R heads promoted via `argcheck.kr_params`),
+  every alias prototype deleted, alias declarations/calls renamed, the real name's declarations canonical in the unit's scope = the definition's
+  includers + every file mentioning the alias + every shared header declaring the real name (REFUSED unless its includers ⊆ the members) + those
+  headers' includers; a per-file K&R fallback (`too few arguments` → that file keeps `extern s32 f();  // K&R: n of m args (P37 unalias …)`);
+  ONE judged job, IDENTICAL on every object or nothing written. **First unit `t4_ua1` — func_8012EFB8:** `337 files (194 alias prototypes, 375
+  real-name declarations, 0 renames)`, two shared headers K&R-marked (`func_8012EF34.h`, `func_8012EF70.h` pass 1 of 2 args), **IDENTICAL on 478
+  objects (139 s)**, 337 files written; R22 (`r22_t4_ua1.log`) **`check-all: 218 passed, 0 failed of 218`**. The cycle was stopped by pid after D12
+  (empty); `--unalias ALL` for the other 148 next, then the D cycle again (argcheck now sees the real-name callers).
+
+## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑** (baseline · the census + map · the probe · THE ENGINE) — 🛑 **T4 NEXT (the declaration layer over the fleet by symbol space — rung D in unattended cycles; xHigh) — and FIRST the P6 rules check (four tasks complete)** | R22 `check-all: 218 passed, 0 failed of 218` at `42a57f576`+`common.h` (`r22_t3c.log`; the close commit adds no build input) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (6 commits ahead: `0a55cb0fd` … this one — Drew pushes, R6) | last unit `t4_ua1` (unalias func_8012EFB8, 337 files, 478 objects IDENTICAL), R22 218/218 — T4 in progress (S107)
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
 is what S107 knew and the next session must not re-derive.** **The checkpoint procedure (every session end, Drew 2026-09-12):** bank the

@@ -455,10 +455,9 @@ extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern s32 func_8002A4FC(s32 a0);
 extern s32 func_8012EECC(s32 a0);
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_8012EF34(s32 a0, s32 a1);
 extern void func_8012EF70(s32 a0, s32 a1);
-extern s32 aF8012EFB8();
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -3127,7 +3126,7 @@ typedef struct {
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (result is func_8012EFB8's return saved in $s0 across the func_80015954 call; the save-move fills the 2nd call's delay slot. func_80015954's return is discarded.)
 
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80015954(s32 a0, s32 a1);
 
 s32 func_8016B9F8(s32 param_1)
@@ -3338,7 +3337,7 @@ void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3) {
 extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80013F3C(s32 a0);
 extern void func_80020F34(s32 a0, s32 a1);
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
 // @class: struct

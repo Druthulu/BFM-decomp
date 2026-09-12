@@ -1,0 +1,26 @@
+11:35:10 unalias aF8012EFB8 -> func_8012EFB8: `s32 func_8012EFB8(void * param_1, void * param_2)` defined in src/shared/ov/func_8012EFB8.h; 194 files (194 alias prototypes, 86 real-name declarations, 0 renames)
+11:35:18 unalias aF8012EFB8: COMPILE-ERROR src/ov_MAIN_012/ov_MAIN_012.c:1608: conflicting types for `func_8012EFB8'
+src/ov_MAIN_012/../shared/ov/func_8012EF70.h:3: previous declaration of `func_8012EFB8'
+{standard input}: Assembler messages:
+src/ov_MAIN_012/../shared/ov/func_8012D3B4.h: At top level:
+src/ov_MAIN_012/ov_MAIN_012.c: At top le — nothing written
+11:35:18 restruct: unalias t4_ua1 — 1 alias-defined functions: 0 back under their real name / 1 kept · 0 files written
+11:36:49 unalias aF8012EFB8 -> func_8012EFB8: `s32 func_8012EFB8(void * param_1, void * param_2)` defined in src/shared/ov/func_8012EFB8.h; 201 files (194 alias prototypes, 93 real-name declarations, 0 renames)
+11:37:07 unalias aF8012EFB8: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_8012EF34.h:7: too few arguments to function `func_8012EFB8'
+src/ov_MAIN_012/../shared/ov/func_8012EF70.h:7: too few arguments to function `func_8012EFB8'
+{standard input}: Assembler messages:
+src/ov_MAIN_012/../shared/ov/func_8012D3B4.h: At top level: [build/src/ov_ — nothing written
+11:37:07 restruct: unalias t4_ua1 — 1 alias-defined functions: 0 back under their real name / 1 kept · 0 files written
+11:38:13 unalias aF8012EFB8 -> func_8012EFB8: `s32 func_8012EFB8(void * param_1, void * param_2)` defined in src/shared/ov/func_8012EFB8.h; 201 files (194 alias prototypes, 93 real-name declarations, 0 renames)
+11:38:31 unalias aF8012EFB8: src/shared/ov/func_8012EF34.h calls func_8012EFB8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:38:52 unalias aF8012EFB8: src/shared/ov/func_8012EF70.h calls func_8012EFB8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:39:10 unalias aF8012EFB8: COMPILE-ERROR src/ov_SC07_006/../shared/ov/func_80149584.h:4: conflicting types for `func_8012EFB8'
+src/ov_SC07_006/ov_SC07_006_jr_801457A4.c:2108: previous declaration of `func_8012EFB8'
+src/ov_SC07_006/ov_SC07_006_jr_801457A4.c:2156: conflicting types for `func_8012EFB8'
+src/ov_SC07_006/../shared/ov/func_801495 — nothing written
+11:39:10 restruct: unalias t4_ua1 — 1 alias-defined functions: 0 back under their real name / 1 kept · 0 files written
+11:39:55 unalias aF8012EFB8 -> func_8012EFB8: `s32 func_8012EFB8(void * param_1, void * param_2)` defined in src/shared/ov/func_8012EFB8.h; 337 files (194 alias prototypes, 375 real-name declarations, 0 renames)
+11:40:11 unalias aF8012EFB8: src/shared/ov/func_8012EF34.h calls func_8012EFB8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:40:33 unalias aF8012EFB8: src/shared/ov/func_8012EF70.h calls func_8012EFB8 with another argument count — its declaration stays `()` (a K&R site, marked); re-judging
+11:40:51 unalias aF8012EFB8: IDENTICAL on every recipe (478 objects, 139.3 s) — 337 files written
+11:40:51 restruct: unalias t4_ua1 — 1 alias-defined functions: 1 back under their real name / 0 kept · 337 files written

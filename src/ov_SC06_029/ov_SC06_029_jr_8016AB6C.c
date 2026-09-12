@@ -322,7 +322,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80149584(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8014964C(s32 param_1, s32 param_2);
 extern s32 func_801496D4(void *a0);
@@ -2327,7 +2327,7 @@ int func_8016B834(int param_1, int param_2) {
 
 
 extern s32 D_801DBEA0;
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80015954(s32 a0, s32 a1);
 
 s32 func_8016B9F8(s32 param_1)

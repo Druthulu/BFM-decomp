@@ -2333,7 +2333,7 @@ extern void func_80146C3C(u8*);
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (result is func_8012EFB8's return saved in $s0 across the func_80015954 call; the save-move fills the 2nd call's delay slot. func_80015954's return is discarded.)
 
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80015954(s32 a0, s32 a1);
 
 s32 func_8016B9F8(s32 param_1)
@@ -2560,7 +2560,7 @@ void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3) {
 extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80013F3C(s32 a0);
 extern void func_80020F34(s32 a0, s32 a1);
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 //   assignment -> lwl/lwr/swl/swr with reload; (2) 0x40-byte stack buffer `buf` (Mtx padded to
 //   0x40, not 0x20) sets the frame to 0x70 and lands v1/v2 at sp+0x50/0x58; (3) func_80017714(a4)
@@ -3636,7 +3636,7 @@ void func_8016E5B8(void *a0) {
 
 
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_8012EFB8(s32 a0);
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80146C3C(u8*);
 extern void func_80015954(s32 a0, s32 a1);
 #include "../shared/ov/func_8016E5F4.h"
