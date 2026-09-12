@@ -526,6 +526,17 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_D36`** (`.run/P37/restruct/run_t4_D36.log`, `batch_t4_D36.json`): `restruct: batch t4_D36 rung D — 300 files (TUs; 1088 drawable) · 27 declaration units: 16 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 1 __builtin_abs → abs / 10 kept · compiles 25 in 176 s wall · final 300/300 identical · written 6 files` → R22 (`.run/P37/baseline/r22_t4_D36.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=82.92 s`) → census `(census skipped)`.
 
+- **S108 — the D cycle `t4_D22`–`t4_D36` DONE (step (a)); stopped at the D37 boundary.** Batches D28–D36 (`7efa3eafa` `3e7172e45` `5fe100dee`
+  `1b23b17af` `69bd934de` `8f1a9619e` `d680022d9` `0695fb78c` `79c6e935b`): 6,316 / 4,976 / 4,185 / 3,734 / 2,962 / 2,630 / 1,633 / 81 / 16 canonical,
+  each `final 300/300 identical` + R22 `check-all: 218 passed, 0 failed of 218`. D29's 576 kept reconciled against the ledger (R41): 255 K&R +
+  1 `conflicting types` + 320 `ALIAS-KEPT` "second typed view" (T6's aggregate class by design: `D_800B9A02` s16 vs u16 ×177, `D_80115188` s32
+  vs `E4[]` ×127). **The cycle's total (the ledger, D22–D36): 76,075 declarations canonical · 1,269 K&R sites marked · 277 data aliases typed ·
+  133 `__builtin_abs` → `abs` · 1,436 DECL-KEPT · 1,675 ALIAS-KEPT · 10,365 DECL-NONE, in 3,686 files, 15 batches.** Drawable TUs 3,877 → 1,088 and
+  flat from D35 (`REDRAW=DECL-NONE` keeps the genuinely external pairs drawable; D35/D36 yielded 81/16 units for ~3 min each) → the cycle's
+  shells killed at the D37 boundary, the D37 judge `kill -INT` during planning and WAITED for (exit in 6 s; nothing in flight; `git diff src`
+  empty). **T4's latest-row-per-unit totals now: 93,391 canonical · 2,958 DECL-KEPT (K&R + causes) · 484 aliases typed · 1,723 alias-kept ·
+  143 abs · 1 promoted · 2,667 DECL-NONE** (external callees + the 29 still-aliased functions' callers; step (b) next).
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D36` on 0695fb78c: 300 files (TUs; 1088 drawable) · 27 declaration units: 16 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 1 __builtin_abs → abs / 10 kept · compiles 2
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

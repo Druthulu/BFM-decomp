@@ -1,0 +1,51 @@
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/pathlib.py", line 488, in _str_normcase
+    return self._str_normcase_cached
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PosixPath' object has no attribute '_str_normcase_cached'. Did you mean: '_parts_normcase_cached'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/musashi/bfm-decomp/tools/restruct.py", line 3651, in <module>
+    main()
+  File "/home/musashi/bfm-decomp/tools/restruct.py", line 3616, in main
+    sys.exit(apply_batch(a))
+             ^^^^^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/restruct.py", line 2503, in apply_batch
+    plan, total = plan_D(a.headers, a.batch, a.only, settled_units(rows, a.redraw))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/restruct.py", line 2389, in plan_D
+    rows = argcheck.scan(defs, only_needed_argpins=False)              # ~2.4 min over the fleet: cached on the src stamp
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/argcheck.py", line 144, in scan
+    for s in lc.walk_file(txt, rel, rel.endswith(".h"))["sites"]:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/lever_census.py", line 438, in walk_file
+    global_names = tree_asm_macros()
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/lever_census.py", line 429, in tree_asm_macros
+    tu_aliases, headers, _ = enumerate_files(aliases, dirs)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/lever_census.py", line 753, in enumerate_files
+    for p in compile_only.tus_of(a, dirs):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/compile_only.py", line 71, in tus_of
+    if any(p.is_relative_to(n) for n in nested):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/musashi/bfm-decomp/tools/compile_only.py", line 71, in <genexpr>
+    if any(p.is_relative_to(n) for n in nested):
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 700, in is_relative_to
+    return other == self or other in self.parents
+                            ^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen _collections_abc>", line 1034, in __contains__
+  File "/usr/lib/python3.12/pathlib.py", line 522, in __eq__
+    return self._str_normcase == other._str_normcase and self._flavour is other._flavour
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 490, in _str_normcase
+    if _is_case_sensitive(self._flavour):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Command terminated by signal 2
+t4_D37 wall=29.22 s
