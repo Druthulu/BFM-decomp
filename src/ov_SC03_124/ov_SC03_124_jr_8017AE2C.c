@@ -5663,7 +5663,7 @@ void func_8018009C(s32 param_1)
             func_8012A828(param_1, (s32)&D_801D3BC4);
         }
         v0 = *(s32 *)(param_1 + 0x20);
-        __asm__ __volatile__(""); /* §5a cross-jump barrier, placed between the two tail  // !FAKE: barrier — NEEDED COMPILE-ERROR (P36 rung B tus7)
+         /* §5a cross-jump barrier, placed between the two tail  
                                       stores (not immediately before the jump) so reorg can
                                       still fill the branch delay slot with `a1 = 0xC00`;
                                       keeps this arm's tail distinct from case 0's identical
@@ -5674,8 +5674,8 @@ void func_8018009C(s32 param_1)
         if (*(s32 *)(param_1 + 0x90) != (s32)&D_801BEAF8) {
             func_8012A828(param_1, (s32)&D_801BEAF8);
         }
-        v0 = *(s32 *)(param_1 + 0x20);
         a1 = 0xC00;
+        v0 = *(s32 *)(param_1 + 0x20);
         goto common;
     case 3:
         t0 = *(s32 *)(param_1 + 0x90);

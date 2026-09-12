@@ -4814,7 +4814,6 @@ extern s32  func_80185C48(s32 a0, s32 a1);
 extern void func_8018623C(u16 arg0, u16 arg1);
 
 void func_80185840(s32 param_1) {
-    s16 r;
     s16 t;
     u32 val;
 
@@ -4825,12 +4824,11 @@ void func_80185840(s32 param_1) {
      * `li r,0x80` in a block AFTER the branch at register-allocation time, so r
      * does not conflict with the slt result and gets $v0 instead of $a0. */
     if (t >= 0x80) {
-        r = 0x80;
+        *(s16 *)(param_1 + 0xE0) = (0x80);
     } else {
-        r = t + *(u16 *)(param_1 + 0xE2);
+        *(s16 *)(param_1 + 0xE0) = (t + *(u16 *)(param_1 + 0xE2));
     }
-    *(s16 *)(param_1 + 0xE0) = r;
-    __asm__ __volatile__("");   /* cookbook §194-A: zero-byte sched fence — emits the  // !FAKE: barrier — NEEDED COMPILE-ERROR (P36 rung B tus10)
+       /* cookbook §194-A: zero-byte sched fence — emits the  
                                  * sh first in the join block, ahead of li 0x27D7D */
     D_801E8750 += 0x27D7D;
     val = (u32)D_801E8750 >> 16;
