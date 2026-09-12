@@ -1,52 +1,305 @@
 restruct --plan D: 300 of 3877 TUs with lying declarations · 11885 callees
-14:19:01 apply t4_D21 rung D: 300 files, control src/ov_SC03_124/ov_SC03_124_jr_80188544.c IDENTICAL (0.08 s), calibration f2b58011e
-Traceback (most recent call last):
-  File "/home/musashi/bfm-decomp/tools/restruct.py", line 2523, in apply_batch
-    results = list(ex.map(one, plan))
-              ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
-    yield _result_or_cancel(fs.pop())
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
-    return fut.result(timeout)
-           ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 451, in result
-    self._condition.wait(timeout)
-  File "/usr/lib/python3.12/threading.py", line 355, in wait
-    waiter.acquire()
-KeyboardInterrupt
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/musashi/bfm-decomp/tools/restruct.py", line 3623, in <module>
-    main()
-  File "/home/musashi/bfm-decomp/tools/restruct.py", line 3588, in main
-    sys.exit(apply_batch(a))
-             ^^^^^^^^^^^^^^
-  File "/home/musashi/bfm-decomp/tools/restruct.py", line 2522, in apply_batch
-    with ThreadPoolExecutor(max_workers=a.jobs) as ex:
-  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 647, in __exit__
-    self.shutdown(wait=True)
-  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 238, in shutdown
-    t.join()
-  File "/usr/lib/python3.12/threading.py", line 1147, in join
-    self._wait_for_tstate_lock()
-  File "/usr/lib/python3.12/threading.py", line 1167, in _wait_for_tstate_lock
-    if lock.acquire(block, timeout):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-KeyboardInterrupt
-Exception ignored in: <module 'threading' from '/usr/lib/python3.12/threading.py'>
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/threading.py", line 1592, in _shutdown
-    atexit_call()
-  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 31, in _python_exit
-    t.join()
-  File "/usr/lib/python3.12/threading.py", line 1147, in join
-    self._wait_for_tstate_lock()
-  File "/usr/lib/python3.12/threading.py", line 1167, in _wait_for_tstate_lock
-    if lock.acquire(block, timeout):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-KeyboardInterrupt: 
-Command terminated by signal 2
-t4_D21 wall=104.90 s
+14:46:58 apply t4_D21 rung D: 300 files, control src/ov_SC03_124/ov_SC03_124_jr_80188544.c IDENTICAL (0.08 s), calibration f3b8af0ec
+14:48:46   src/ov_SC07_006/ov_SC07_006_jr_8017BEBC.c: UNCHANGED · rows 58 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:47   src/ov_SC07_006/ov_SC07_006_jr_80183814.c: UNCHANGED · rows 58 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:48   src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c: UNCHANGED · rows 53 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:48   src/ov_MAIN_012/ov_MAIN_012_jr_8017C3BC.c: UNCHANGED · rows 53 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:49   src/ov_MAIN_012/ov_MAIN_012_jr_8017CA18.c: UNCHANGED · rows 53 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:49   src/ov_MAIN_012/ov_MAIN_012_jr_8017CF3C.c: UNCHANGED · rows 53 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:50   src/ov_SC02_037/ov_SC02_037_jr_801789AC.c: UNCHANGED · rows 53 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:54   src/ov_SC06_032/ov_SC06_032_jr_80182890.c: UNCHANGED · rows 53 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:54   src/ov_SC04_011/ov_SC04_011_jr_8017D494.c: UNCHANGED · rows 52 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:55   src/ov_SC07_006/ov_SC07_006_jr_801789AC.c: UNCHANGED · rows 52 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:56   src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c: UNCHANGED · rows 52 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:56   src/ov_SC07_006/ov_SC07_006_jr_80179B74.c: UNCHANGED · rows 52 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:57   src/ov_SC03_118/ov_SC03_118_o0d.c: UNCHANGED · rows 51 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:58   src/ov_SC05_018/ov_SC05_018_jr_8017D604.c: UNCHANGED · rows 51 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:59   src/ov_SC06_018/ov_SC06_018_jr_80186270.c: UNCHANGED · rows 51 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:48:59   src/ov_SC06_018/ov_SC06_018_jr_8018FF98.c: UNCHANGED · rows 51 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:00   src/ov_SC04_018/ov_SC04_018_jr_8018CC40.c: UNCHANGED · rows 50 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:00   src/ov_SC04_018/ov_SC04_018_jr_80186570.c: UNCHANGED · rows 50 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:03   src/ov_SC07_000/ov_SC07_000_jr_8017F8B8.c: UNCHANGED · rows 62 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:04   src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: UNCHANGED · rows 55 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:06   src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c: UNCHANGED · rows 55 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:07   src/ov_SC04_015/ov_SC04_015_jr_801820DC.c: UNCHANGED · rows 60 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:07   src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c: UNCHANGED · rows 55 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:09   src/ov_SC06_025/ov_SC06_025_jr_8017EEC4.c: UNCHANGED · rows 61 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:09   src/ov_SC07_006/ov_SC07_006_jr_8017AE2C.c: UNCHANGED · rows 56 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:10   src/ov_SC06_016/ov_SC06_016_jr_801816DC.c: UNCHANGED · rows 50 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:11   src/ov_SC03_107/ov_SC03_107_jr_801789AC.c: UNCHANGED · rows 54 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:14   src/ov_SC03_124/ov_SC03_124_jr_80188544.c: UNCHANGED · rows 89 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:14   src/ov_SC04_018/ov_SC04_018_jr_801878E8.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:15   src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c: UNCHANGED · rows 50 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:15   src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c: UNCHANGED · rows 54 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:16   src/ov_SC06_032/ov_SC06_032_jr_8018FCE8.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:17   src/ov_SC06_032/ov_SC06_032_jr_801902EC.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:17   src/ov_SC06_032/ov_SC06_032_jr_801919A0.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:18   src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:20   src/ov_SC06_024/ov_SC06_024_jr_80186F00.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:21   src/ov_SC06_022/ov_SC06_022_jr_80184A28.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:21   src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:21   src/ov_SC03_124/ov_SC03_124_jr_80185C98.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:22   src/ov_SC03_124/ov_SC03_124_jr_80187010.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:24   src/ov_SC06_033/ov_SC06_033_jr_80184CF8.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:24   src/ov_SC06_033/ov_SC06_033_jr_801836FC.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:24   src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c: UNCHANGED · rows 49 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:24   src/ov_SC03_092/ov_SC03_092_jr_8017FE88.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:25   src/ov_SC06_033/ov_SC06_033_jr_8018C2D8.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:27   src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:27   src/ov_SC06_033/ov_SC06_033_jr_8018BCD4.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:27   src/ov_SC06_033/ov_SC06_033_jr_80186574.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:28   src/ov_SC04_018/ov_SC04_018_jr_80185D70.c: UNCHANGED · rows 47 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:29   src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c: UNCHANGED · rows 47 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:29   src/ov_SC03_124/ov_SC03_124_jr_80185498.c: UNCHANGED · rows 46 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:30   src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c: UNCHANGED · rows 47 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:31   src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c: UNCHANGED · rows 47 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:31   src/ov_SC04_008/ov_SC04_008_jr_8017AE2C.c: UNCHANGED · rows 45 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:32   src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c: UNCHANGED · rows 45 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:33   src/ov_SC05_017/ov_SC05_017_jr_8018C694.c: UNCHANGED · rows 45 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:33   src/ov_SC04_021/ov_SC04_021_jr_8017D5C0.c: UNCHANGED · rows 45 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:33   src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c: UNCHANGED · rows 46 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:34   src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c: UNCHANGED · rows 45 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:34   src/ov_SC05_019/ov_SC05_019_jr_8017D5C0.c: UNCHANGED · rows 45 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:36   src/ov_MAIN_012/ov_MAIN_012_jr_8016AB6C.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:36   src/ov_SC06_029/ov_SC06_029_jr_8017C954.c: UNCHANGED · rows 45 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:37   src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c: UNCHANGED · rows 44 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:37   src/ov_SC05_017/ov_SC05_017_jr_80186270.c: UNCHANGED · rows 44 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:37   src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c: UNCHANGED · rows 44 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:38   src/ov_SC02_037/ov_SC02_037_jr_8016AB6C.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:38   src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c: UNCHANGED · rows 44 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:38   src/ov_SC03_107/ov_SC03_107_jr_80171B4C.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:40   src/ov_SC03_124/ov_SC03_124_jr_80181B44.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:40   src/ov_MAIN_012/ov_MAIN_012_jr_80171B4C.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:40   src/ov_SC07_006/ov_SC07_006_jr_80171B4C.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:40   src/ov_SC02_037/ov_SC02_037_jr_80171B4C.c: UNCHANGED · rows 48 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:41   src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c: UNCHANGED · rows 44 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:42   src/ov_SC05_017/ov_SC05_017_jr_801875E8.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:42   src/ov_SC05_017/ov_SC05_017_jr_80185A70.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:43   src/ov_SC05_018/ov_SC05_018_jr_80185754.c: UNCHANGED · rows 42 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:44   src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c: UNCHANGED · rows 42 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:45   src/ov_SC03_097/ov_SC03_097_jr_8017D898.c: UNCHANGED · rows 42 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:45   src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:46   src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: UNCHANGED · rows 42 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:46   src/ov_SC05_017/ov_SC05_017_jr_801828EC.c: UNCHANGED · rows 41 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:46   src/ov_SC01_077/ov_SC01_077_jr_80182268.c: UNCHANGED · rows 41 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:47   src/ov_SC04_016/ov_SC04_016_jr_8017BEBC.c: UNCHANGED · rows 41 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:48   src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: UNCHANGED · rows 41 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:48   src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c: UNCHANGED · rows 41 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:48   src/ov_SC01_077/ov_SC01_077_jr_80180B64.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:49   src/ov_SC06_015/ov_SC06_015_jr_8017BEBC.c: UNCHANGED · rows 41 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:49   src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:51   src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:51   src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:51   src/ov_SC03_001/ov_SC03_001_jr_80188830.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:52   src/ov_SC03_011/ov_SC03_011_jr_8017C730.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:52   src/ov_SC03_001/ov_SC03_001_jr_80189030.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:54   src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:54   src/ov_SC03_107/ov_SC03_107_jr_8016AE5C.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:54   src/ov_SC03_029/ov_SC03_029_jr_80186A34.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:55   src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:55   src/ov_SC07_006/ov_SC07_006_jr_8016AE5C.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:55   src/ov_SC02_037/ov_SC02_037_jr_8016AE5C.c: UNCHANGED · rows 43 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:56   src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:57   src/ov_SC06_029/ov_SC06_029_jr_801898CC.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:57   src/ov_SC05_017/ov_SC05_017_jr_801808D4.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:58   src/ov_SC06_024/ov_SC06_024_jr_80183B3C.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:58   src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:49:58   src/ov_SC03_115/ov_SC03_115_jr_8017BEBC.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:00   src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:00   src/ov_SC03_125/ov_SC03_125_jr_8017D604.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:00   src/ov_SC04_020/ov_SC04_020_jr_8017D604.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:01   src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:02   src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:02   src/ov_SC07_001/ov_SC07_001_jr_8017BEBC.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:03   src/ov_SC02_017/ov_SC02_017_jr_80186C64.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:03   src/ov_SC03_001/ov_SC03_001_jr_801870B0.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:04   src/ov_SC03_001/ov_SC03_001_jr_8018631C.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:04   src/ov_SC07_011/ov_SC07_011_jr_8017BEBC.c: UNCHANGED · rows 40 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:06   src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:06   src/ov_SC03_092/ov_SC03_092_jr_8017AE2C.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:06   src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:06   src/ov_SC07_000/ov_SC07_000_jr_8017ECB4.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:07   src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:08   src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:08   src/ov_SC03_104/ov_SC03_104_jr_8017CA80.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:08   src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:09   src/ov_SC03_001/ov_SC03_001_jr_80184F64.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:09   src/ov_SC03_001/ov_SC03_001_jr_80184DDC.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:10   src/ov_SC05_010/ov_SC05_010_jr_8018473C.c: UNCHANGED · rows 39 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:10   src/ov_SC03_097/ov_SC03_097_jr_801851B8.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:10   src/ov_SC03_125/ov_SC03_125_jr_80182BA0.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:11   src/ov_SC04_021/ov_SC04_021_jr_801789AC.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:11   src/ov_SC03_126/ov_SC03_126_jr_801789AC.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:13   src/ov_SC02_000/ov_SC02_000_jr_8017FCB0.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:13   src/ov_SC03_012/ov_SC03_012_jr_8017AE2C.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:13   src/ov_SC05_019/ov_SC05_019_jr_801789AC.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:13   src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:13   src/ov_SC05_017/ov_SC05_017_jr_80182A74.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:14   src/ov_SC06_022/ov_SC06_022_jr_80180CD0.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:14   src/ov_SC03_100/ov_SC03_100_jr_80183C10.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:15   src/ov_SC03_114/ov_SC03_114_jr_8017BEBC.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:15   src/ov_SC06_024/ov_SC06_024_jr_80181D34.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:15   src/ov_SC06_032/ov_SC06_032_jr_80181014.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:15   src/ov_SC07_007/ov_SC07_007_jr_801789AC.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:16   src/ov_SC03_011/ov_SC03_011_jr_80180B68.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:16   src/ov_SC07_011/ov_SC07_011_jr_801789AC.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:17   src/ov_SC07_007/ov_SC07_007_jr_80179B74.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:17   src/ov_SC03_126/ov_SC03_126_jr_8017A4AC.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:17   src/ov_SC07_011/ov_SC07_011_jr_80179B74.c: UNCHANGED · rows 38 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:19   src/ov_SC02_005/ov_SC02_005_jr_8018EA04.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:19   src/ov_SC03_103/ov_SC03_103_jr_8017C294.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:19   src/ov_SC04_020/ov_SC04_020_jr_8018254C.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:19   src/ov_SC03_126/ov_SC03_126_jr_80178D40.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:19   src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:20   src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:20   src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:21   src/ov_SC04_021/ov_SC04_021_jr_8017A4AC.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:21   src/ov_SC04_021/ov_SC04_021_jr_8017AE2C.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:21   src/ov_SC03_126/ov_SC03_126_jr_8017AE2C.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:21   src/ov_SC05_019/ov_SC05_019_jr_8017A4AC.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:22   src/ov_SC04_021/ov_SC04_021_jr_80178D40.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:23   src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:23   src/ov_SC05_019/ov_SC05_019_jr_80178D40.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:23   src/ov_SC06_022/ov_SC06_022_jr_80182D08.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:23   src/ov_SC06_016/ov_SC06_016_jr_801839D0.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:23   src/ov_SC05_019/ov_SC05_019_jr_8017AE2C.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:24   src/ov_SC06_022/ov_SC06_022_jr_80184304.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:25   src/ov_SC06_024/ov_SC06_024_jr_801867DC.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:25   src/ov_SC01_077/ov_SC01_077_jr_8018103C.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:26   src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c: UNCHANGED · rows 37 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:26   src/ov_SC01_077/ov_SC01_077_jr_80181BE4.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:26   src/ov_SC01_077/ov_SC01_077_jr_801820DC.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:26   src/ov_SC01_077/ov_SC01_077_jr_80181F08.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:26   src/ov_SC03_099/ov_SC03_099_jr_80182F24.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:28   src/ov_SC04_008/ov_SC04_008_jr_801789AC.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:28   src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:28   src/ov_SC02_000/ov_SC02_000_jr_80187B40.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:28   src/ov_SC04_016/ov_SC04_016_jr_8017F03C.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:28   src/ov_SC05_009/ov_SC05_009_jr_801789AC.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:29   src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:29   src/ov_SC02_026/ov_SC02_026_jr_80185440.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:29   src/ov_SC06_024/ov_SC06_024_jr_801851E0.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:29   src/ov_SC03_101/ov_SC03_101_jr_801833CC.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:30   src/ov_SC06_029/ov_SC06_029_jr_801867D0.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:31   src/ov_SC05_001/ov_SC05_001_jr_80183508.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:31   src/ov_SC03_105/ov_SC03_105_jr_80186B24.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:32   src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:32   src/ov_SC01_077/ov_SC01_077_jr_80183324.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:32   src/ov_SC07_006/ov_SC07_006_jr_8015B950.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:32   src/ov_SC01_004/ov_SC01_004_jr_8017E5B8.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:33   src/ov_SC01_077/ov_SC01_077_jr_80182E7C.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:33   src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:34   src/ov_SC01_077/ov_SC01_077_jr_80183BAC.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:34   src/ov_SC03_014/ov_SC03_014_jr_801848E4.c: UNCHANGED · rows 36 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:34   src/ov_SC01_077/ov_SC01_077_jr_80183AF0.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:35   src/ov_SC02_005/ov_SC02_005_jr_80181D30.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:35   src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:36   src/ov_SC03_024/ov_SC03_024_jr_801830A8.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:37   src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:39   src/ov_SC03_028/ov_SC03_028_jr_80185864.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:40   src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:40   src/ov_SC03_028/ov_SC03_028_jr_80185C14.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:39   src/ov_SC03_028/ov_SC03_028_jr_80184914.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:40   src/ov_SC03_028/ov_SC03_028_jr_801847E8.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:39   src/ov_SC03_028/ov_SC03_028_jr_80183A74.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:40   src/ov_SC03_023/ov_SC03_023_jr_8017AE2C.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:40   src/ov_SC03_028/ov_SC03_028_jr_801887A8.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:40   src/ov_SC03_092/ov_SC03_092_jr_80181694.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:41   src/ov_SC02_000/ov_SC02_000_jr_8018173C.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:43   src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:42   src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:43   src/ov_SC03_097/ov_SC03_097_jr_80182B9C.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:43   src/ov_SC03_105/ov_SC03_105_jr_80181C84.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:43   src/ov_SC03_118/ov_SC03_118_jr_801863CC.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:43   src/ov_SC04_008/ov_SC04_008_jr_8017A4AC.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:44   src/ov_SC03_117/ov_SC03_117_jr_80181C80.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:46   src/ov_SC04_000/ov_SC04_000_jr_801818E8.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:45   src/ov_SC03_093/ov_SC03_093_jr_801859DC.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:46   src/ov_SC05_009/ov_SC05_009_jr_8017AE2C.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:46   src/ov_SC06_020/ov_SC06_020_jr_801803E0.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:46   src/ov_SC05_009/ov_SC05_009_jr_8017A4AC.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:46   src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:46   src/ov_SC04_008/ov_SC04_008_jr_80178D40.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:47   src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:47   src/ov_SC01_004/ov_SC01_004_jr_8017E3A0.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:48   src/ov_SC05_009/ov_SC05_009_jr_80178D40.c: UNCHANGED · rows 35 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:48   src/ov_SC03_029/ov_SC03_029_jr_8017DC70.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:49   src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:49   src/ov_SC03_014/ov_SC03_014_o0c.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:49   src/ov_SC01_084/ov_SC01_084_jr_8017F690.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:50   src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:51   src/ov_SC02_016/ov_SC02_016_jr_801810C8.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:51   src/ov_SC03_007/ov_SC03_007_jr_80181F94.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:51   src/ov_SC02_028/ov_SC02_028_jr_801884D8.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:52   src/ov_SC03_007/ov_SC03_007_jr_80183894.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:52   src/ov_SC02_027/ov_SC02_027_jr_8018A564.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:52   src/ov_SC03_013/ov_SC03_013_jr_8017C730.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:52   src/ov_SC03_093/ov_SC03_093_jr_801825B8.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:54   src/ov_SC03_100/ov_SC03_100_jr_8017D898.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:54   src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:54   src/ov_SC03_104/ov_SC03_104_jr_80189FE4.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:55   src/ov_SC03_105/ov_SC03_105_jr_80186DDC.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:55   src/ov_SC03_105/ov_SC03_105_jr_801813BC.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:55   src/ov_SC03_110/ov_SC03_110_jr_8017D898.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:56   src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:56   src/ov_SC03_091/ov_SC03_091_jr_8017D898.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:57   src/ov_SC03_095/ov_SC03_095_jr_80180A38.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:57   src/ov_SC03_118/ov_SC03_118_jr_80183830.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:58   src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:58   src/ov_SC05_010/ov_SC05_010_jr_80180F84.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:58   src/ov_SC03_112/ov_SC03_112_jr_80183AE0.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:59   src/ov_SC05_004/ov_SC05_004_jr_8017BEBC.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:59   src/ov_SC06_020/ov_SC06_020_jr_80180B04.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:50:59   src/ov_SC05_005/ov_SC05_005_jr_8017D898.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:00   src/ov_SC07_007/ov_SC07_007_jr_8017AE2C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:00   src/ov_SC07_006/ov_SC07_006_jr_80159C84.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:00   src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:01   src/ov_SC07_006/ov_SC07_006_jr_801588CC.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:02   src/ov_SC03_126/ov_SC03_126_jr_80171B4C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:02   src/ov_SC07_011/ov_SC07_011_jr_8017AE2C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:02   src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:02   src/ov_SC04_021/ov_SC04_021_jr_80171B4C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:02   src/ov_SC01_077/ov_SC01_077_jr_801789AC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:03   src/ov_SC02_005/ov_SC02_005_jr_80181984.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:03   src/ov_SC05_019/ov_SC05_019_jr_80171B4C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:03   src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:04   src/ov_SC01_005/ov_SC01_005_jr_8017EB44.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:04   src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:05   src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:05   src/ov_SC02_021/ov_SC02_021_jr_8017ECFC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:05   src/ov_SC02_021/ov_SC02_021_jr_8017EB00.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:06   src/ov_SC02_026/ov_SC02_026_jr_8017C180.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:06   src/ov_SC02_004/ov_SC02_004_jr_8017AE2C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:06   src/ov_SC03_013/ov_SC03_013_jr_8017FAA8.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:06   src/ov_SC03_013/ov_SC03_013_jr_801806F8.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:07   src/ov_SC02_035/ov_SC02_035_jr_80183FD4.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:07   src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:08   src/ov_SC03_014/ov_SC03_014_o0d.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:08   src/ov_SC03_014/ov_SC03_014_jr_80184440.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:08   src/ov_SC03_090/ov_SC03_090_jr_8018B58C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:08   src/ov_SC03_089/ov_SC03_089_jr_80185E50.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:10   src/ov_SC03_002/ov_SC03_002_jr_8018431C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:10   src/ov_SC03_014/ov_SC03_014_jr_8017EB7C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:10   src/ov_SC03_089/ov_SC03_089_jr_80189168.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:10   src/ov_SC03_091/ov_SC03_091_jr_8018326C.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:10   src/ov_SC07_007/ov_SC07_007_jr_80171B4C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:11   src/ov_SC03_103/ov_SC03_103_jr_80183C34.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:11   src/ov_SC07_011/ov_SC07_011_jr_80171B4C.c: UNCHANGED · rows 34 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:12   src/ov_SC03_104/ov_SC03_104_jr_80186538.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:12   src/ov_SC03_112/ov_SC03_112_jr_801817E0.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:13   src/ov_SC03_112/ov_SC03_112_jr_80181F74.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:13   src/ov_SC03_102/ov_SC03_102_jr_8017BEBC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:13   src/ov_SC03_102/ov_SC03_102_jr_801855D0.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:13   src/ov_SC03_112/ov_SC03_112_jr_80182BF8.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:14   src/ov_SC03_117/ov_SC03_117_jr_8017E6EC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:15   src/ov_SC04_000/ov_SC04_000_jr_8017BEBC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:14   src/ov_SC03_109/ov_SC03_109_jr_8017C180.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:15   src/ov_SC05_004/ov_SC05_004_jr_8017F210.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:16   src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:16   src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:16   src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:17   src/ov_SC05_000/ov_SC05_000_jr_8017BEBC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:17   src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c: UNCHANGED · rows 33 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+14:51:17 restruct: batch t4_D21 rung D — 300 files (TUs; 3877 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 259 s wall · final 300/300 identical · written 0 files
+t4_D21 wall=303.31 s
+exit=0
