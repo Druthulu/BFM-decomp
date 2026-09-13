@@ -6700,7 +6700,7 @@ extern s32 func_8014CB0C(void);
 extern s32 rand(void);
 extern void func_801839C4(s32 a0, s32 a1);
 extern void func_8012CBF4(s32 a0);
-extern void func_80183CC4(s16 *a0, s32 a1);
+extern s32 func_80183CC4(s16 *a0, s32 a1);
 extern void func_80183910(s32 a0);
 
 void func_80183158(s32 a0) {
@@ -7109,7 +7109,7 @@ void func_80183B80(s32 arg0) {
 
 extern void func_8012CBF4(s32 a0);
 extern u16 D_800B99DA;
-extern void func_80183CC4(s16 *a0, s32 a1);
+extern s32 func_80183CC4(s16 *a0, s32 a1);
 
 s32 func_80183BA0(s32 a0) {
     s16 sp10[3];
@@ -7158,36 +7158,26 @@ s32 func_80183C44(s32 a0, s16 a1) {
 extern s16 D_801AE958;
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 
-void func_80183CC4(a0, a1)
-s16 *a0;
-s32 a1;
-{
+s32 func_80183CC4(s16 *a0, s32 a1) {
+    u8 *obj;
     u8 *sub;
-    register u8 *v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
 
-    v0 = func_801290DC(0x44, (u8 *)a0);
-    if (v0 != NULL) {
-        sub = *(u8 **)((s32)v0 + 0x20);
-        *(u32 *)((s32)sub + 0x20) = (u32)&D_801AE958;
-        *(u16 *)((s32)sub + 0x28) = 0x290;
-        *(u16 *)((s32)sub + 0x2A) = 0x1A0;
-        *(u8 *)((s32)sub + 0x27) = 0x70;
-        *(u16 *)((s32)sub + 0x1A) = 1;
-        *(u16 *)((s32)sub + 0x18) = 1;
-        *(u32 *)((s32)sub + 0x4) |= 0x50000000;
-        *(u32 *)((s32)v0 + 0x1C) = 1;
-        s0 = a1;
-        v1 = s0;
-        *(u32 *)((s32)v0 + 0x2C) = s0;
-        *(u8 *)((s32)sub + 0x26) = v1;
-        *(u8 *)((s32)sub + 0x25) = v1;
-        *(u8 *)((s32)sub + 0x24) = v1;
-    } else {
-        v0 = NULL;
+    obj = func_801290DC(0x44, (u8 *)a0);
+    if (obj == NULL) {
+        return 0;
     }
-    __asm__ volatile("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    sub = *(u8 **)(obj + 0x20);
+    *(u32 *)(sub + 0x20) = (u32)&D_801AE958;
+    *(u16 *)(sub + 0x28) = 0x290;
+    *(u16 *)(sub + 0x2A) = 0x1A0;
+    *(u8 *)(sub + 0x27) = 0x70;
+    *(u16 *)(sub + 0x1A) = 1;
+    *(u16 *)(sub + 0x18) = 1;
+    *(u32 *)(sub + 0x4) |= 0x50000000;
+    *(u32 *)(obj + 0x1C) = 1;
+    *(u32 *)(obj + 0x2C) = a1;
+    *(u8 *)(sub + 0x24) = *(u8 *)(sub + 0x25) = *(u8 *)(sub + 0x26) = a1;
+    return (s32)obj;
 }
 
 
