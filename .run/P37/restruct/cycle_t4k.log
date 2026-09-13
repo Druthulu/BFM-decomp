@@ -5,3 +5,6 @@ cycle: batch t4_D57 wrote no file — restruct: batch t4_D57 rung D — 145 file
 log: t4_D57
 cycle: batch t4_D57 committed 260e3c734 — restruct: batch t4_D57 rung D — 145 files (TUs; 145 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 133 s wall · final 145/145 identical · written 0 files | (no src change — the previous R22 stands)
 log: t4_D58
+cycle: batch t4_D58 committed 22915a697 — restruct: batch t4_D58 rung D — 145 files (TUs; 145 drawable) · 50 declaration units: 14 canonical / 0 promoted / 36 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 36 kept · compiles 128 in 131 s wall · final 145/145 identical · written 32 files | check-all: 218 passed, 0 failed of 218
+cycle: batch t4_D59 wrote no file — restruct: batch t4_D59 rung D — 115 files (TUs; 115 drawable) · 1 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 1 kept · compiles 1 in 129 s wall · final 115/115 identical · written 0 files
+log: t4_D59
