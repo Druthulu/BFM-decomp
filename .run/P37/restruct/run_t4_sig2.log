@@ -1,0 +1,8 @@
+18:10:38 signature func_80029D3C: `s32 func_80029D3C(s32 n)` — 1 definition(s) in ['src/800.c'], 2177 declarations in 2176 other files
+18:11:14 signature func_80029D3C: COMPILE-ERROR src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c:8778: too few arguments to function `func_80029D3C'
+src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c: At top level:
+src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c: At top — nothing written
+18:11:14 restruct: signature func_80029D3C — COMPILE-ERROR · 0 files written
+Command exited with non-zero status 1
+t4_sig2 wall=95.69 s
+exit=1
