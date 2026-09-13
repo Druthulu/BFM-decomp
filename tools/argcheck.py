@@ -43,7 +43,8 @@ import lever_census as lc
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 NAME = r"[A-Za-z_]\w*"
-DEF = re.compile(r"^[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(([^;{]*)\)\s*\{", re.M)
+DEF = re.compile(r"^[ \t]*[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(([^;{]*)\)\s*\{", re.M)   # leading blanks: 116 indented file-scope
+                                                                                              # definitions were invisible (P37 T4, 2026-09-12)
 DECL = re.compile(r"\bextern\s+[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(([^;)]*)\)\s*;")
 
 
@@ -93,12 +94,13 @@ def definitions():
         # receives, so a prototype cast built from it stays compatible with the definition.
         for m in KR_DEF.finditer(masked):
             name, names = m.group(1), [n.strip() for n in m.group(2).split(",")]
-            if name in ("if", "for", "while", "switch", "return", "sizeof") or name in out:
+            if name in ("if", "for", "while", "switch", "return", "sizeof"):
                 continue
             ptypes = kr_params(names, m.group(3))
             head = masked[m.start():m.start(1)].strip()
             out.setdefault(name, (len(names), ", ".join(ptypes), rel, head or "int"))
-            _ALL[name].append((len(names), ", ".join(ptypes), rel, head or "int"))
+            if (len(names), ", ".join(ptypes), rel) not in {(a_, p_, r_) for (a_, p_, r_, _) in _ALL[name]}:
+                _ALL[name].append((len(names), ", ".join(ptypes), rel, head or "int"))   # every definition, per binary (R48)
     return out
 
 

@@ -13,3 +13,6 @@ cycle: batch t4_D45 committed 265f2bcec — restruct: batch t4_D45 rung D — 30
 log: t4_D46
 cycle: batch t4_D46 committed b9a7791fe — restruct: batch t4_D46 rung D — 300 files (TUs; 585 drawable) · 266 declaration units: 263 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 3 kept · compiles 560 in 47 s wall · final 300/300 identical · written 263 files | check-all: 218 passed, 0 failed of 218
 log: t4_D47
+cycle: batch t4_D47 committed 2391ee628 — restruct: batch t4_D47 rung D — 285 files (TUs; 285 drawable) · 279 declaration units: 250 canonical / 0 promoted / 1 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 29 kept · compiles 553 in 46 s wall · final 285/285 identical · written 251 files | check-all: 218 passed, 0 failed of 218
+cycle: nothing drawable at t4_D48 — done
+cycle exit=0

@@ -693,6 +693,17 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_D47`** (`.run/P37/restruct/run_t4_D47.log`, `batch_t4_D47.json`): `restruct: batch t4_D47 rung D — 285 files (TUs; 285 drawable) · 279 declaration units: 250 canonical / 0 promoted / 1 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 29 kept · compiles 553 in 46 s wall · final 285/285 identical · written 251 files` → R22 (`.run/P37/baseline/r22_t4_D47.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=83.08 s`) → census `(census skipped)`.
 
+- **S108 — the D cycle `t4_D40`–`t4_D47` DONE (no REDRAW; `cycle_t4g.log`; "nothing drawable at t4_D48"):** 619 / 724 / 602 / 606 / 418 / 265 / 266 /
+  279 units → **3,489 canonical / 36 K&R marked / 290 kept** in 2,264 files (`25c70a009` `6cb573173` `1464eb4ce` `d2e43e4c3` `f5c7c1809` `265f2bcec`
+  `b9a7791fe` `2391ee628`), each `final N/N identical`, R22 `check-all: 218 passed, 0 failed of 218`. Census after it (`census_t4b.log`): **`2367 lying
+  declarations / 256 callees (+5082 K&R sites, +511 cross-binary apart) · controls 4/4`** — from 98,648 / 1,609 at T1. The 2,367 bucketed by ledger
+  verdict (R117), every one with a cause: 1,120 `parse error (type unknown to TU)` (T5's canonical types, then `--redraw DECL-KEPT`), 667 `no
+  visible definition` (settled BEFORE `defs_visible`'s fleet-unique level — redrawn next), 417 `conflicting types` (T5/T7), 116 "already
+  canonical" (read: `func_80189888` is defined INDENTED at file scope in ov_SC02_000 — `argcheck`'s `DEF` anchored at column 0 missed it and
+  compared against ov_SC06_024's 6-parameter body; fixed: leading blanks allowed, and the K&R loop now feeds `_ALL` regardless of `out` so
+  BOTH binaries resolve to their own), 13 syntax errors in `800.c`, 8+2 arity, 8 DECL-CANON, 2+2 compile, 2 bytes, 2 still-aliased.
+  `--redraw` keys gained the `VERDICT:cause-substring` form (`DECL-NONE:visible`) so a redraw lifts only the rows it means.
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D47` on b9a7791fe: 285 files (TUs; 285 drawable) · 279 declaration units: 250 canonical / 0 promoted / 1 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 29 kept · compiles 
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

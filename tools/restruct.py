@@ -2485,12 +2485,17 @@ def plan_D(headers, batch, only, settled=frozenset()):
 
 
 def settled_units(rows, redraw=()):
-    """{(tu, callee)} whose LATEST rung-D row is a DONE verdict not in `redraw` (R70: the last row is the verdict)."""
+    """{(tu, callee)} whose LATEST rung-D row is a DONE verdict not lifted by `redraw` (R70: the last row is the verdict). A redraw key is a
+    verdict (`DECL-KEPT`) or `VERDICT:cause-substring` (`DECL-NONE:no visible definition` — the 667 rows settled before defs_visible's
+    fleet-unique level; the plain `DECL-NONE` key redraws every "already canonical"/external pair too, the t4_D21–D36 REDRAW's cost)."""
     latest = {}
     for r in rows:
         if r.get("rung") == "D" and r.get("unit", "").startswith("decl:"):
-            latest[(r["tu"], r["callee"])] = r.get("verdict")
-    return {k for k, v in latest.items() if v in DONE_VERDICTS and v not in set(redraw)}
+            latest[(r["tu"], r["callee"])] = (r.get("verdict"), r.get("cause") or "")
+    keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in redraw]
+    def lifted(v, c):
+        return any(v == kv and (ks is None or ks in c) for kv, ks in keys)
+    return {k for k, (v, c) in latest.items() if v in DONE_VERDICTS and not lifted(v, c)}
 
 
 def plan_L(headers, batch, only):
