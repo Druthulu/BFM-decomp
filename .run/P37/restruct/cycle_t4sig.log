@@ -5,3 +5,5 @@ cycle: t4_sig2 committed 0366295e2 — restruct: signature func_80029D3C — COM
 log: t4_sig3
 cycle: t4_sig3 committed ee3419ff0 — restruct: signature func_80035210 — IDENTICAL · 1 files written | check-all: 218 passed, 0 failed of 218
 log: t4_sig4
+cycle: t4_sig4 committed 145d6a7cb — restruct: signature func_800384A8 — IDENTICAL · 2 files written | check-all: 218 passed, 0 failed of 218
+log: t4_sig5

@@ -1,0 +1,8 @@
+18:16:48 signature func_80183CC4: `s32 func_80183CC4(s16 *a0, s32 a1)` — 4 definition(s) in ['src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c', 'src/ov_SC03_029/ov_SC03_029_jr_8017FF7C.c', 'src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c'], 5 declarations in 3 other files
+18:16:49 signature func_80183CC4: COMPILE-ERROR src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:8227: `D_801AE958' undeclared (first use this function)
+src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:8227: (Each undeclared identifier is reported only once
+src/ — nothing written
+18:16:49 restruct: signature func_80183CC4 — COMPILE-ERROR · 0 files written
+Command exited with non-zero status 1
+t4_sig5 wall=43.72 s
+exit=1
