@@ -1,0 +1,6 @@
+18:24:29 signature func_801A1E94: `void func_801A1E94(s32 a0)` — 1 definition(s) in ['src/md_SC07_004/md_SC07_004.c'], 2 declarations in 0 other files
+18:24:30 signature func_801A1E94: COMPILE-ERROR src/md_SC07_004/md_SC07_004.c:4396: too few arguments to function `func_801A1E94'
+jtbl_rodata_pads --derive md_SC07_004: 0,0t1,0t1,0,0t1,0,0,0,0
+src/md_SC07_004/md_SC07_004.c: At top level:
+src/md_SC0 — nothing written
+18:24:30 restruct: signature func_801A1E94 — COMPILE-ERROR · 0 files written
