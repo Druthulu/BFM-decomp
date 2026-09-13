@@ -207,7 +207,7 @@ void func_800CB59C(s32 a0) {
 }
 
 
-    extern void func_80162CCC(void);
+    extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
     s32 func_800CB600(void)
 {
         func_80162CCC();

@@ -384,7 +384,7 @@ struct Entity_800CB658 {
 };
 
 extern s32 rand(void);
-extern void func_800CB3BC();
+extern void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 s32 func_800CB658(s32 arg0) {

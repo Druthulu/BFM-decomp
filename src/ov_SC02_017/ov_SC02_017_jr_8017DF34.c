@@ -4699,7 +4699,7 @@ void func_80181250(void *arg0) {
 #include "common.h"
 
 extern s32 rand(void);
-extern void func_8017DC70(s32 a0);
+extern void func_8017DC70(s32 a0, s16 *a1, s16 a2);
 extern void func_80143BDC(u16 *a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);

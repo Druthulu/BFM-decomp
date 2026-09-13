@@ -18,7 +18,7 @@ void func_800CAE34(void *a0) {
 }
 
 
-extern void func_800CAEB0();
+extern void func_800CAEB0(void *a0);
 #include "../shared/slot_800CAE08/func_800CAE78__3873a7ac.h"
 
 

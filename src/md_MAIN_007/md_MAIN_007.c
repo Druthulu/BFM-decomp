@@ -160,7 +160,7 @@ extern void func_800167B8(s32 a0);
 
 void func_800CF148(void) {
     // Redeclare with correct calling semantics
-    extern s32 func_800CF3B0(void);
+    extern s32 func_800CF3B0();  // K&R: 0/3 of 3 args (P37 rung D t4_D44)
     
     if (func_800CF3B0()) {
         return;
@@ -249,7 +249,7 @@ void func_800CF33C(void) {
 }
 
 
-extern s32 func_800CF3B0();
+extern s32 func_800CF3B0();  // K&R: 0/3 of 3 args (P37 rung D t4_D44)
 
 void func_800CF390(void *a0, void *a1, void *a2) {
     func_800CF3B0(a0, a1, a2);

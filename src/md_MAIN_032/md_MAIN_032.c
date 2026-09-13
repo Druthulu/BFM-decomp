@@ -63,7 +63,7 @@ void func_800CAF60(void *a0) {
 
 void func_800CAFD0(void *a0) {
     extern u8 D_8011F9D0[];
-    extern void func_80162CCC();
+    extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 rung D t4_D44)
     s32 i;
     u8 *ptr;
 
@@ -160,7 +160,7 @@ void func_800CB188(void *arg0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 rung D t4_D44)
 void func_800CB24C(void) {
     func_80162CCC();
 }

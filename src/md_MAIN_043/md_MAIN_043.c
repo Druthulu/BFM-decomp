@@ -300,7 +300,7 @@ void func_800CD054(void *a0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 void func_800CD1D4(void) {
     func_80162CCC();
 }
@@ -516,7 +516,7 @@ void func_800CD57C(void *arg0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 void func_800CD650(void) {
     func_80162CCC();
 }

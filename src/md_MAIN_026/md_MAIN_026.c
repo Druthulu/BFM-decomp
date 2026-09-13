@@ -170,7 +170,7 @@ extern void func_80146578(void);
 extern void func_8001CD9C(int a0, void *a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80146CA0(void *a0);
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 
 extern u8 D_800CBBD8;
 extern u8 D_800CBBD9;
@@ -291,7 +291,7 @@ void func_800CB470(void *arg0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 void func_800CB5D4(void) {
     func_80162CCC();
 }
@@ -392,7 +392,7 @@ void func_800CB77C(void *arg0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 void func_800CB8A4(void) {
     func_80162CCC();
 }

@@ -1100,7 +1100,7 @@ void func_800CC658(void *a0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 void func_800CC6A4(void) {
     func_80162CCC();
 }
