@@ -1,6 +1,7 @@
-date	label	commit	definitions	narrow_decls	callees	kr_empty	narrow	pinned_rows	pinned_bodies	raw_casts	struct_members	deref_all	form_P	form_I	form_X	form_M	addr_form	typed_cast_member	struct_defs	canon_defs	in_c_defs	distinct_layouts	dup_classes	dup_names	map_types	map_pct	kr_sites	kr_callees
+date	label	commit	definitions	narrow_decls	callees	kr_empty	narrow	pinned_rows	pinned_bodies	raw_casts	struct_members	deref_all	form_P	form_I	form_X	form_M	addr_form	typed_cast_member	struct_defs	canon_defs	in_c_defs	distinct_layouts	dup_classes	dup_names	map_types	map_pct	kr_sites	kr_callees	cross_binary	cross_callees
 2026-09-10	P36 S102 — after the 16,759 free declaration repairs	51028a78d377b0ff8e0a12a86500ed2ae1f2346d	15626	94001	1564	86701	7300	461	314	414148	173286
 2026-09-11	P36 close	7a7f78e255ec3661992d12b5ceb1bd2ec2c1d680	15726	98648	1609	91357	7291	33	25	411850	177902
 2026-09-11	P37 T1 — the type census (four forms, definitions, the map)	23fc5d21592452084c7ae11fed1e98e0a40913a7	15726	98648	1609	91357	7291	33	25	411850	177902	503016	409007	60666	13800	19543	18912	36681	7261	1179	5995	525	206	2789	18760	99.2
 2026-09-12	P37 T2 — the census after the audit's parser fixes (attributes, dead guards)	da26c05d674085afaa5727006efe6354acfc59ff	15726	98648	1609	91357	7291	33	25	411850	177902	503016	409007	60666	13800	19543	18912	36681	7255	1179	5989	527	206	2823	18760	99.2
 2026-09-12	t4	274223396dc7b5e7eedd8c8f96c82b0e80738c6a	15653	8830	950	2997	5833	13	10	411848	177902	503013	409006	60664	13800	19543	18912	36681	7255	1179	5989	527	206	2823	18741	99.2	5002	147
+2026-09-12	t4-close	bd7d32ec2316b2a150ad41b0ac9d6da3786dff92	16094	1796	76	1373	423	1	1	411820	177902	502985	408978	60664	13800	19543	18888	36681	7255	1179	5989	527	206	2823	18213	99.2	5262	199	418	96

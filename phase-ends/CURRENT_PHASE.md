@@ -81,10 +81,21 @@
   `r22_t3c.log` after the `common.h` macros). Deviations from the brief, recorded in the log: a new base symbol goes into the binary's splat
   symbol file (R15), not a `-T` fragment; T4 canonicalises widths/arity — the typed signature is T6's per-callee S → T → D unit (pointer
   arithmetic scales).
-- ☐ **T4** (xHigh; unattended cycles) — The declaration layer over the fleet by symbol space (rung D): canonical prototypes where free — carrying the struct map's
-  parameter types (`Unkstruct_X *a0`, not `s32 a0`) in the same pass —, the
-  free repairs, the 24 parked signature changes with their callers, the 51 TU-CONFLICT rows, class E aliases, `__builtin_abs`, K&R sites
-  marked and counted apart, the "carried decl layer" banners deleted. R22 every 2 batches; one commit per batch. **Rules check (P6) after T4.**
+- ☑ **T4** (S107–S108; xHigh; the commits `dd21e7e26`…`bd7d32ec2`, ~110 of them, each with its own `check-all: 218 passed, 0 failed of 218`) — The
+  declaration layer over the fleet (rung D): **≈107,000 (TU, callee) declaration units canonical** in three cycles (S107's D1–D20 ≈17,300; S108's
+  D22–D36 76,075, D40–D47 3,489, D49–D59 ≈7,500, the headers HD1–HD8 ≈230); **5,262 byte-proven K&R sites marked** `// K&R: n of m args (P37 …)`
+  and counted apart; 484 data aliases typed (1,723 second-typed-view aliases kept for T6); 143 `__builtin_abs` → `abs`; **133 of 149
+  alias-defined functions back under their real names** (16 kept by cause: 10 jr-merge, 5 return-type lies, 1); **10 of the 12 parked P36
+  signature bodies landed** (`func_80157D20` ×132 `--map-data`, `func_80029D3C` + 3 callers `--with`, `func_80188A30` `void`→`s32`, seven by
+  `--tu`/plain); the 51 TU-CONFLICT rows retried (`--retry-excepted`): 6 share, 45 re-ledgered with today's diagnostics; the 3,546 "carried decl
+  layer" banner blocks removed (21,274 comment lines). **Verify (the census at `bd7d32ec2`, `census_t4e.log`): `type_census: … 1796 lying
+  declarations / 76 callees (+5262 K&R sites, +418 cross-binary apart) · controls 4/4`** (98,648 / 1,609 at T1) · `lever_census --check: 3,730
+  pin/asm sites, 3,730 marked !FAKE, 0 UNMARKED — OK` (4,010 at T1) · `readability_progress --snapshot t4-close` + `--check OK` ·
+  `lever_progress --check OK` (81 milestones) · `progress.py --check` fresh · `share_census … 10,180 satisfied (45 excepted), 0 VIOLATION(S)` ·
+  R22 at the last src change `check-all: 218 passed, 0 failed of 218` (`r22_t4_ret1.log`). **The 1,796 by ledger verdict, every one with a
+  cause (R117):** 1,120 `parse error (type unknown to TU)` → T5; 417 `conflicting types elsewhere in TU` → T5/T7; ~130 the alias names of the 16
+  still-aliased functions → T7; 13 `syntax error` (`800.c`); 12 return-type lies; the rest arity/bytes singletons. Five census blind spots
+  repaired at their cause on the way (accelerators P37 S108). **Rules check (P6) after T4 — done at the close (below).**
 - ☐ **T5** (Max for the head types; xHigh to run) — Struct unification (rung L): one canonical definition per layout in the final style,
   VARIANT camps uniquified, dead names deleted, PsyQ layouts under Sony's names, the entity type and the player block authored, main + `md_*`
   onboarded. Verify: `type_census: 0 duplicate definitions …; 0 dead names; controls 4/4`; R22.
@@ -775,7 +786,13 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   only — T5's canonical data declarations); `gated 2/2 binaries green`, nothing written, its row refreshed. **Item (g) DONE: the 51 TU-CONFLICT
   rows → 45 (6 shared), every survivor carrying today's compiler line.** T4's remainder is now entirely ledgered by cause and owned by T5/T7.
 
-## 🛑 SESSION CHECKPOINT — S108 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐): steps (a)–(f) DONE, two owed items left** — 🛑 **T4 NEXT: (g) the 51 TU-CONFLICT rows retried through `share_body` (needs a `--retry-excepted` flag), (h) the 593 "no visible definition" rows read on one example; then the T4 ☑ line, the P6 rules check, T5 (Max for the head types); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `06615fe89` (every one of the session's ~40 gated commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_HD8` on 1e876b0ec: 57 files (headers; 57 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 i
+- **S108 — T4 CLOSED (☑; the task line carries its verify lines) and the P6 rules check: "Rules check — re-read complete. Continuing with T5."**
+  The close chain: `type_census` at HEAD (`census_t4e.log`) `1796 lying declarations / 76 callees (+5262 K&R sites, +418 cross-binary apart)` ·
+  `lever_census --check` 3,730 / 0 UNMARKED · `readability_progress --snapshot t4-close` (`1 in 1 pinned bodies` — from 33 in 25 at P36's close)
+  + `--check OK` · `lever_progress --snapshot` (81 milestones) + `--check OK` · `progress.py --json --readme` + `--check` fresh (README "Types
+  (Phase 37, snapshot 2026-09-13)"). T5 opens in a fresh session at **Max** (the checkpoint's item 1 says how).
+
+## 🛑 SESSION CHECKPOINT — S108 (2026-09-13 00:xx, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ T4 ☑ — the P6 rules check DONE** — 🛑 **T5 NEXT: struct unification (rung L) — Max for the head types' layouts and the naming of the canonical files, xHigh to run** | R22 `check-all: 218 passed, 0 failed of 218` at `926c7bafe` (the last src change; every gated commit of the session carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6)
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
 is what S108 knew and the next session must not re-derive.** **The checkpoint procedure (every session end, Drew 2026-09-12):** bank the
@@ -792,19 +809,17 @@ record (cookbook / decision log / accelerators / SETUP / stale assertions), **ad
    functions named for T7; (e) the 3,546 "carried decl layer" banner comment blocks removed (21,274 comment lines, 0 insertions); (f) the census
    + series published.** Every gated commit `check-all: 218 passed, 0 failed of 218`. The day's real story was FIVE instrument blind spots, each
    repaired at its cause (item 5 below; accelerators P37 S108). **T4's two owed items, in order:**
-   (g) **the 51 TU-CONFLICT rows of `config/dedup_exceptions.tsv`** (P35's ledger — declaration-environment conflicts the D work may have
-   dissolved: `D_800B9A02 undeclared`, `conflicting types for func_80146C3C`, …): `share_body --plan` reports `0 classes` for both buckets because
-   `plan_classes` skips `c["excepted"]` (`tools/share_body.py:173`) — add a **`--retry-excepted`** flag (the excepted classes re-enter the plan;
-   the ledger row is deleted only when the gate accepts the share), then `tools/share_body_cycle.sh` (unattended: batch → exit code → log →
-   commit → periodic clean fleet run) on `--bucket extend` then `new`; the rows the gate still rejects keep their (refreshed) diagnostic.
-   (h) **the 593 `DECL-NONE "no visible definition"` rows that survive the fleet-unique fallback** — read ONE on the tree (R14): take a row from
-   the bucketing script in the "final census" log entry (e.g. a `.c` TU, not a header), run `restruct.defs_visible(tu).get(callee)` and
-   `argcheck.resolve_definition(callee, tu, …)` side by side; the disagreement is one of: a name with 2+ bodies where argcheck picked the TU's
-   binary's definition but the engine's `_files_in_dir` did not see it (an indented definition? a `_jr_` file outside the alias dir?), or a
-   twin dir (`corpus.src_dir`). Fix at the cause, re-run `--redraw DECL-NONE:visible` (TUs then `HEADERS=1`), re-census. Then: **the T4 ☑ line**
-   (its verify lines: the final census line, `lever_census --check`, the bucketed remainder), **the P6 rules check** (the plan asks for one after
-   T4), and **T5 (Max for the head types)** — struct unification from the map (`--write-types --top 6` previews; `--audit-types`'s 26 legacy
-   `pad<SIZE>` names; the 1,120 `parse error` declarations close with `--redraw DECL-KEPT` once `Pos800D20C0`-class types are canonical).
+   **Items (g) and (h) were DONE in the same session (Drew's "continue"):** (h) the 593 rows were stale verdicts — `apply_batch` lifted the
+   engine's `done` set by verdict only; fixed, the redraw landed 196 canonical + 127 K&R (D58, HD7); (g) `share_body --retry-excepted` on the 51
+   ledgered classes: 6 share, 45 re-ledgered with today's diagnostics. **T4 is ☑ (its line in the task list carries every verify line). The P6
+   rules check was done at the close. NEXT = T5 (Max):** open with the plan's T5 text (rung L: one canonical definition per TYPE — "per layout"
+   reads "per type" since S106 — in the final style; VARIANT camps uniquified; dead names deleted; PsyQ layouts under Sony's names; the entity type
+   and the player block authored from the map; main + `md_*` onboarded to their canonical file), the engine's L rung + `--write-types` + `--audit-types`
+   (item 4 below), the T2 fold probe's lesson (an opaque-tier fold renames members — the fold rewrites accesses too), and the 1,120 `parse error`
+   declarations as the first free win once the types are visible (`--redraw DECL-KEPT`). **Before T5's first batch:** `--snapshot-baseline` after a green
+   R22 + `--calibrate`; `make kit-corpus` (the SETUP/cookbook edits) so `tool_census --check` is green; `make tools-health` at some point this phase
+   (not run since P36's close). Disk: 22 GB free after the S108 prune; `.run/P32/` (6.6 GB) and the rest of `.run/P36/` (6.5 GB) are the same
+   prunable class (gcc pass dumps + judge objects) when needed.
 
 2. **The counters at this checkpoint (`.run/P37/census/type_census.txt`, `census_t4c.log`; controls 4/4).** **`2171 lying declarations / 189
    callees (+5092 K&R sites, +418 cross-binary apart)`** — from 98,648 / 1,609 at T1 (S107's end: ≈81,000 by the ledger; S108's census steps

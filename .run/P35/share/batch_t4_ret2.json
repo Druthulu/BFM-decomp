@@ -1,0 +1,30 @@
+{
+ "classes": [
+  "250070c4bf1c7b79eaa294718f17e9d3eb438a6e"
+ ],
+ "refused": [],
+ "results": {
+  "ov_SC04_003": [
+   true,
+   "BYTE-IDENTICAL, obj A/B 28/28"
+  ],
+  "ov_SC04_006": [
+   true,
+   "BYTE-IDENTICAL, obj A/B 28/28 (after bisect: 0 classes kept, 1 rejected)"
+  ]
+ },
+ "registered": [],
+ "extended": {},
+ "rejected": [
+  "250070c4bf1c7b79eaa294718f17e9d3eb438a6e"
+ ],
+ "causes": {
+  "250070c4bf1c7b79eaa294718f17e9d3eb438a6e": [
+   "ov_SC04_006",
+   "src/ov_SC04_006/../shared/ov/func_8017D0FC__250070c4.h:4: `D_80126954' undeclared (first use this function)"
+  ]
+ },
+ "exemplars": {
+  "250070c4bf1c7b79eaa294718f17e9d3eb438a6e": "exemplar src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:2817 (majority text; texts 1), 1 private sites \u2192 include"
+ }
+}

@@ -29,27 +29,27 @@
   "copies": 11340,
   "instances": 30347
  },
- "duplicate_text_classes": 6396,
- "duplicate_text_sites": 17778,
- "elapsed_s": 24.7,
+ "duplicate_text_classes": 6392,
+ "duplicate_text_sites": 17764,
+ "elapsed_s": 23.8,
  "flags": {
-  "ALIAS": 32,
+  "ALIAS": 17,
   "E": 3826,
   "F": 54,
-  "PINS": 62,
+  "PINS": 57,
   "TWIN-COVERED": 3748,
   "TYPEDEF": 74
  },
  "ins_by_verdict": {
-  "A": 6980472,
-  "B": 477146,
+  "A": 7008108,
+  "B": 449510,
   "C": 538381,
   "D": 84080,
   "M": 126
  },
  "instances_by_verdict": {
-  "A": 236946,
-  "B": 26471,
+  "A": 237792,
+  "B": 25625,
   "C": 12712,
   "D": 4668,
   "M": 4
@@ -65,11 +65,11 @@
   "texts": 0
  },
  "same_vram_unregistered": {
-  "classes": 51,
-  "collapsible": 109,
-  "copies": 160,
-  "ins": 348670,
-  "instances": 6518,
+  "classes": 45,
+  "collapsible": 98,
+  "copies": 143,
+  "ins": 321034,
+  "instances": 5672,
   "twin_pending": 0,
   "twin_pending_instances": 0
  },
@@ -103,8 +103,8 @@
  "unaccounted": 0,
  "unresolved_names": 0,
  "verdicts": {
-  "A": 2833,
-  "B": 149,
+  "A": 2839,
+  "B": 143,
   "C": 5678,
   "D": 1518,
   "M": 2
