@@ -1,0 +1,8 @@
+18:25:21 signature func_801A5C44: `void func_801A5C44(s32 a0)` — 1 definition(s) in ['src/md_SC07_004/md_SC07_004.c'], 3 declarations in 0 other files
+18:25:22 signature func_801A5C44: COMPILE-ERROR src/md_SC07_004/md_SC07_004.c:4200: too few arguments to function `func_801A5C44'
+src/md_SC07_004/md_SC07_004.c:4687: too few arguments to function `func_801A5C44'
+jtbl_rodata_pads --derive md_SC07_00 — nothing written
+18:25:22 restruct: signature func_801A5C44 — COMPILE-ERROR · 0 files written
+Command exited with non-zero status 1
+t4_sig10 wall=40.95 s
+exit=1
