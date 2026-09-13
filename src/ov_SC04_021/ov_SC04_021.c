@@ -270,7 +270,7 @@ extern M2C_UNK D_8018D4FC;
 
 extern s32 D_8018E67C;
 
-extern void func_801299C8();
+extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 extern void func_80015B6C(s32, s16, s32, s16, s32, s32, s32, s32, s32, s32);
 extern void GsSortBg(s32 *, void *, u16, s32 *);
 extern void GsSortFastBg(s32 *, void *, u16, s32 *);
@@ -410,7 +410,7 @@ extern void func_8012AAAC(void *arg0);
 #include "../shared/ov/func_8012AAAC__8ccde920.h"
 
 
-extern void func_8012AAAC();
+extern void func_8012AAAC(void *arg0);
 extern M2C_UNK D_8017F5A4;
 
 #include "../shared/ov/func_8012ACA0__1d7a3eb2.h"

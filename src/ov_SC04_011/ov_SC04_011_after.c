@@ -125,7 +125,7 @@ void func_80145A2C(void) {
 s32 func_80145CEC() {
     extern void func_80016714(void *ptr, s32 len);
     extern void func_8001C320(s32 a0, s32 a1);
-    extern int func_801552F4();
+    extern void func_801552F4(s32 a0);
     extern void func_80147084(s32 *a0);
     extern void func_80147098(s32 *a0);
     extern void func_801470AC(s32 *a0);
@@ -2264,7 +2264,7 @@ s32 func_80150480(s32 _arg0)
 
 #include "../shared/ov/func_80150528.h"
 
-extern s32 func_801506A4();
+extern s32 func_801506A4(s32 arg0, s32 arg1);
 #include "../shared/ov/func_801505FC.h"
 
 

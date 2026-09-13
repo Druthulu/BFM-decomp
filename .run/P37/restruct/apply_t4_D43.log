@@ -1,0 +1,338 @@
+19:41:07 apply t4_D43 rung D: 300 files, control src/ov_SC04_010/ov_SC04_010_jr_801789AC.c IDENTICAL (0.04 s), calibration 1464eb4ce
+19:41:19   src/ov_SC04_010/ov_SC04_010_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:20   src/ov_SC04_012/ov_SC04_012.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:20   src/ov_SC04_010/ov_SC04_010_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:20   src/ov_SC04_010/ov_SC04_010_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:20   src/ov_SC04_011/ov_SC04_011_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:20   src/ov_SC04_011/ov_SC04_011_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:21   src/ov_SC04_011/ov_SC04_011_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.4 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:21   src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:21   src/ov_SC04_011/ov_SC04_011_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:21   src/ov_SC04_010/ov_SC04_010_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:21   src/ov_SC04_011/ov_SC04_011_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:22     unit 2: DIFFERS [build/src/ov_SC04_011/ov_SC04_011_after.o]
+19:41:22   src/ov_SC04_012/ov_SC04_012_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:22     unit 3: DIFFERS [build/src/ov_SC04_011/ov_SC04_011_after.o]
+19:41:22   src/ov_SC04_012/ov_SC04_012_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_015/ov_SC04_015_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.7 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_012/ov_SC04_012_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_012/ov_SC04_012_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_012/ov_SC04_012_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_012/ov_SC04_012_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_015/ov_SC04_015.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_015/ov_SC04_015_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_015/ov_SC04_015_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:23   src/ov_SC04_011/ov_SC04_011_after.c: IDENTICAL · rows 4 · compiles 6 · 2.5 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+19:41:23   src/ov_SC04_015/ov_SC04_015_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_015/ov_SC04_015_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_016/ov_SC04_016.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_015/ov_SC04_015_jr_801820DC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_016/ov_SC04_016_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_016/ov_SC04_016_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_016/ov_SC04_016_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_016/ov_SC04_016_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_016/ov_SC04_016_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:24   src/ov_SC04_016/ov_SC04_016_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:25   src/ov_SC04_018/ov_SC04_018.c: IDENTICAL · rows 2 · compiles 4 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:25   src/ov_SC04_018/ov_SC04_018_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 4 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:25     unit 1: COMPILE-ERROR src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:4227: too few arguments to function `func_8016F0E4' | src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c: A
+19:41:25     unit 2: DIFFERS [build/src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.o]
+19:41:25   src/ov_SC04_018/ov_SC04_018_jr_80185D70.c: IDENTICAL · rows 2 · compiles 4 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:25   src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c: IDENTICAL · rows 3 · compiles 6 · 1.5 s · canon 1 promoted 0 K&R 1 aliases 0 abs 0 kept 2
+19:41:26   src/ov_SC04_018/ov_SC04_018_jr_80178D40.c: IDENTICAL · rows 2 · compiles 4 · 0.4 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:26   src/ov_SC04_018/ov_SC04_018_jr_801789AC.c: IDENTICAL · rows 2 · compiles 4 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:26   src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c: IDENTICAL · rows 2 · compiles 4 · 0.4 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:26   src/ov_SC04_018/ov_SC04_018_jr_801734BC.c: IDENTICAL · rows 2 · compiles 4 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:26   src/ov_SC04_018/ov_SC04_018_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 4 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:26     unit 2: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80186570.c:3807: conflicting types for `D_8011511A' | src/ov_SC04_018/ov_SC04_018_jr_80186570.c:3533: previou
+19:41:26   src/ov_SC04_018/ov_SC04_018_jr_8018CC40.c: IDENTICAL · rows 2 · compiles 4 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:26     unit 2: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_801878E8.c:3712: conflicting types for `D_800B9A02' | src/ov_SC04_018/ov_SC04_018_jr_801878E8.c:3322: previou
+19:41:26   src/ov_SC04_020/ov_SC04_020.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:26     unit 3: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80186570.c:3806: conflicting types for `D_800B9A02' | src/ov_SC04_018/ov_SC04_018_jr_80186570.c:2455: previou
+19:41:26   src/ov_SC04_018/ov_SC04_018_jr_801878E8.c: IDENTICAL · rows 3 · compiles 10 · 1.0 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+19:41:27   src/ov_SC04_018/ov_SC04_018_jr_80186570.c: IDENTICAL · rows 4 · compiles 12 · 1.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+19:41:27   src/ov_SC04_020/ov_SC04_020_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:27   src/ov_SC04_020/ov_SC04_020_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:27   src/ov_SC04_020/ov_SC04_020_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:27   src/ov_SC04_020/ov_SC04_020_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:27   src/ov_SC04_020/ov_SC04_020_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:28   src/ov_SC04_020/ov_SC04_020_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:28   src/ov_SC04_020/ov_SC04_020_jr_8017D604.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:28     unit 2: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:3993: conflicting types for `D_801E770C' | src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:3974: previou
+19:41:28   src/ov_SC04_020/ov_SC04_020_jr_8018254C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:28     unit 3: COMPILE-ERROR src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:3994: conflicting types for `D_801E7710' | src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:3975: previou
+19:41:28   src/ov_SC04_021/ov_SC04_021.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC04_021/ov_SC04_021_jr_8015C32C.c: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c: IDENTICAL · rows 4 · compiles 12 · 2.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+19:41:29   src/ov_SC04_021/ov_SC04_021_jr_8015444C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC04_021/ov_SC04_021_jr_80154C24.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC04_021/ov_SC04_021_jr_8015AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC04_021/ov_SC04_021_jr_80159C84.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC04_021/ov_SC04_021_jr_801588CC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC04_021/ov_SC04_021_jr_8015A3C8.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC05_000/ov_SC05_000.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC04_021/ov_SC04_021_jr_8016AB6C.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:29   src/ov_SC05_000/ov_SC05_000_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_000/ov_SC05_000_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_000/ov_SC05_000_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_000/ov_SC05_000_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_000/ov_SC05_000_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_000/ov_SC05_000_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_000/ov_SC05_000_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_001/ov_SC05_001.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_001/ov_SC05_001_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_001/ov_SC05_001_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:30   src/ov_SC05_001/ov_SC05_001_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:31   src/ov_SC05_001/ov_SC05_001_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:31   src/ov_SC05_001/ov_SC05_001_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:31   src/ov_SC05_001/ov_SC05_001_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:31   src/ov_SC05_002/ov_SC05_002_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:32   src/ov_SC05_002/ov_SC05_002_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:32   src/ov_SC05_002/ov_SC05_002_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:32   src/ov_SC05_001/ov_SC05_001_jr_80183508.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:32   src/ov_SC05_002/ov_SC05_002.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:32   src/ov_SC05_002/ov_SC05_002_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:32   src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.4 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:32   src/ov_SC05_002/ov_SC05_002_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:32   src/ov_SC05_002/ov_SC05_002_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_003/ov_SC05_003.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_003/ov_SC05_003_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_003/ov_SC05_003_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_003/ov_SC05_003_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_003/ov_SC05_003_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_003/ov_SC05_003_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_003/ov_SC05_003_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:33   src/ov_SC05_004/ov_SC05_004.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:34   src/ov_SC05_004/ov_SC05_004_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:34   src/ov_SC05_004/ov_SC05_004_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:34   src/ov_SC05_004/ov_SC05_004_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:34   src/ov_SC05_004/ov_SC05_004_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:34   src/ov_SC05_004/ov_SC05_004_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:34   src/ov_SC05_004/ov_SC05_004_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_004/ov_SC05_004_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_004/ov_SC05_004_jr_8017F210.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_005/ov_SC05_005_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_005/ov_SC05_005_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_005/ov_SC05_005_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_005/ov_SC05_005.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_005/ov_SC05_005_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_005/ov_SC05_005_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:35   src/ov_SC05_005/ov_SC05_005_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:36   src/ov_SC05_006/ov_SC05_006_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:36   src/ov_SC05_006/ov_SC05_006.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:36   src/ov_SC05_006/ov_SC05_006_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_006/ov_SC05_006_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_007/ov_SC05_007.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_006/ov_SC05_006_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_006/ov_SC05_006_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_006/ov_SC05_006_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_006/ov_SC05_006_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_007/ov_SC05_007_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_007/ov_SC05_007_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:37   src/ov_SC05_007/ov_SC05_007_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_007/ov_SC05_007_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_007/ov_SC05_007_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_007/ov_SC05_007_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_008/ov_SC05_008.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_008/ov_SC05_008_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_008/ov_SC05_008_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_008/ov_SC05_008_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_008/ov_SC05_008_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:38   src/ov_SC05_008/ov_SC05_008_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:39   src/ov_SC05_009/ov_SC05_009.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:39   src/ov_SC05_009/ov_SC05_009_jr_8015444C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:39   src/ov_SC05_009/ov_SC05_009_jr_80154C24.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:39   src/ov_SC05_009/ov_SC05_009_jr_801588CC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:39   src/ov_SC05_009/ov_SC05_009_jr_80159C84.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:39   src/ov_SC05_009/ov_SC05_009_jr_8015AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:39   src/ov_SC05_009/ov_SC05_009_jr_8015C32C.c: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:40   src/ov_SC05_010/ov_SC05_010.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:40   src/ov_SC05_010/ov_SC05_010_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:40   src/ov_SC05_010/ov_SC05_010_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:40   src/ov_SC05_009/ov_SC05_009_jr_8016AB6C.c: IDENTICAL · rows 2 · compiles 2 · 0.4 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:40   src/ov_SC05_010/ov_SC05_010_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:40   src/ov_SC05_010/ov_SC05_010_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:41   src/ov_SC05_010/ov_SC05_010_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:41   src/ov_SC05_010/ov_SC05_010_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:41   src/ov_SC05_011/ov_SC05_011.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:41     unit 2: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:2812: conflicting types for `D_80126B5E' | src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:1806: previou
+19:41:41   src/ov_SC05_010/ov_SC05_010_jr_80181CDC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:41     unit 0: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:2956: too few arguments to function `func_80162CCC' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c: A
+19:41:41   src/ov_SC05_011/ov_SC05_011_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:41   src/ov_SC05_011/ov_SC05_011_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:41     unit 3: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:2813: conflicting types for `D_80126B62' | src/ov_SC05_010/ov_SC05_010_jr_80180F84.c:1807: previou
+19:41:41   src/ov_SC05_011/ov_SC05_011_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:41   src/ov_SC05_010/ov_SC05_010_jr_80180F84.c: IDENTICAL · rows 4 · compiles 6 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+19:41:42   src/ov_SC05_011/ov_SC05_011_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:42   src/ov_SC05_011/ov_SC05_011_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:42     unit 2: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3833: conflicting types for `D_80126B5E' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:1785: previou
+19:41:42   src/ov_SC05_011/ov_SC05_011_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:42     unit 3: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3834: conflicting types for `D_80126B62' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:1786: previou
+19:41:42   src/ov_SC05_011/ov_SC05_011_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:42     unit 4: DIFFERS [build/src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.o]
+19:41:42   src/ov_SC05_017/ov_SC05_017.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:42     unit 5: DIFFERS [build/src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.o]
+19:41:42   src/ov_SC05_017/ov_SC05_017_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:42   src/ov_SC05_017/ov_SC05_017_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:43     unit 6: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:4248: conflicting types for `D_801C7E34' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3658: previou
+19:41:43   src/ov_SC05_017/ov_SC05_017_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:43   src/ov_SC05_017/ov_SC05_017_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:43   src/ov_SC05_017/ov_SC05_017_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:43     unit 7: COMPILE-ERROR src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3828: conflicting types for `D_801C7E50' | src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c:3661: previou
+19:41:43     unit 8: DIFFERS [build/src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.o]
+19:41:43   src/ov_SC05_017/ov_SC05_017_jr_801828EC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:43   src/ov_SC05_017/ov_SC05_017_jr_801808D4.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:43   src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c: IDENTICAL · rows 9 · compiles 12 · 2.4 s · canon 1 promoted 0 K&R 1 aliases 0 abs 0 kept 8
+19:41:43     unit 1: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c:4127: too few arguments to function `func_8016F0E4' | src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c: A
+19:41:44   src/ov_SC05_017/ov_SC05_017_jr_80182A74.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:44   src/ov_SC05_017/ov_SC05_017_jr_80185A70.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:44   src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 5 · 1.1 s · canon 1 promoted 0 K&R 1 aliases 0 abs 0 kept 1
+19:41:44     unit 2: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80186270.c:3585: conflicting types for `D_8011511A' | src/ov_SC05_017/ov_SC05_017_jr_80186270.c:3314: previou
+19:41:44     unit 3: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80186270.c:3584: conflicting types for `D_800B9A02' | src/ov_SC05_017/ov_SC05_017_jr_80186270.c:2435: previou
+19:41:44   src/ov_SC05_017/ov_SC05_017_jr_8018C694.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:44     unit 2: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_801875E8.c:3636: conflicting types for `D_800B9A02' | src/ov_SC05_017/ov_SC05_017_jr_801875E8.c:2976: previou
+19:41:44   src/ov_SC05_018/ov_SC05_018_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:44   src/ov_SC05_017/ov_SC05_017_jr_80186270.c: IDENTICAL · rows 4 · compiles 6 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+19:41:45   src/ov_SC05_018/ov_SC05_018.c: IDENTICAL · rows 2 · compiles 2 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:45   src/ov_SC05_017/ov_SC05_017_jr_801875E8.c: IDENTICAL · rows 3 · compiles 5 · 0.9 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+19:41:45   src/ov_SC05_018/ov_SC05_018_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:45   src/ov_SC05_018/ov_SC05_018_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:45     unit 2: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:3804: conflicting types for `D_801ED56C' | src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:3785: previou
+19:41:45   src/ov_SC05_018/ov_SC05_018_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:45   src/ov_SC05_018/ov_SC05_018_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:45     unit 3: COMPILE-ERROR src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:3805: conflicting types for `D_801ED570' | src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:3786: previou
+19:41:46   src/ov_SC05_018/ov_SC05_018_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:46   src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c: IDENTICAL · rows 4 · compiles 6 · 1.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+19:41:46   src/ov_SC05_018/ov_SC05_018_jr_80185754.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:46   src/ov_SC05_019/ov_SC05_019_jr_8015444C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:46   src/ov_SC05_019/ov_SC05_019.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:46   src/ov_SC05_019/ov_SC05_019_jr_801588CC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:47   src/ov_SC05_019/ov_SC05_019_jr_80154C24.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:47   src/ov_SC05_019/ov_SC05_019_jr_80159C84.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:47   src/ov_SC05_019/ov_SC05_019_jr_8015A3C8.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:47     unit 1: COMPILE-ERROR src/ov_SC05_018/ov_SC05_018_jr_8017D604.c:3301: too few arguments to function `func_8016F0E4' | src/ov_SC05_018/ov_SC05_018_jr_8017D604.c: A
+19:41:47   src/ov_SC05_019/ov_SC05_019_jr_8015AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:47   src/ov_SC05_019/ov_SC05_019_jr_8015C32C.c: UNCHANGED · rows 2 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:47   src/ov_SC06_000/ov_SC06_000.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:47   src/ov_SC05_018/ov_SC05_018_jr_8017D604.c: IDENTICAL · rows 2 · compiles 5 · 1.4 s · canon 1 promoted 0 K&R 1 aliases 0 abs 0 kept 1
+19:41:47   src/ov_SC05_019/ov_SC05_019_jr_8016AB6C.c: IDENTICAL · rows 2 · compiles 2 · 0.4 s · canon 1 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:47   src/ov_SC06_000/ov_SC06_000_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_000/ov_SC06_000_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_000/ov_SC06_000_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_000/ov_SC06_000_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_000/ov_SC06_000_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_006/ov_SC06_006.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_006/ov_SC06_006_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_006/ov_SC06_006_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_006/ov_SC06_006_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:48   src/ov_SC06_006/ov_SC06_006_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:49   src/ov_SC06_006/ov_SC06_006_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:49   src/ov_SC06_006/ov_SC06_006_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:49   src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:49   src/ov_SC06_008/ov_SC06_008.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:49   src/ov_SC06_008/ov_SC06_008_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:49   src/ov_SC06_008/ov_SC06_008_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:49   src/ov_SC06_008/ov_SC06_008_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:49   src/ov_SC06_008/ov_SC06_008_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:50   src/ov_SC06_008/ov_SC06_008_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:50     unit 2: COMPILE-ERROR src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c:4889: conflicting types for `D_80185FA0' | src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c:3672: previou
+19:41:50   src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c: IDENTICAL · rows 3 · compiles 5 · 1.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+19:41:50   src/ov_SC06_008/ov_SC06_008_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:51   src/ov_SC06_010/ov_SC06_010.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:51   src/ov_SC06_010/ov_SC06_010_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:51   src/ov_SC06_010/ov_SC06_010_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:51   src/ov_SC06_010/ov_SC06_010_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:51   src/ov_SC06_010/ov_SC06_010_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:51   src/ov_SC06_011/ov_SC06_011.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:51     unit 2: DIFFERS [build/src/ov_SC06_008/ov_SC06_008_jr_8017C294.o]
+19:41:52   src/ov_SC06_011/ov_SC06_011_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:52   src/ov_SC06_008/ov_SC06_008_jr_8017C294.c: IDENTICAL · rows 3 · compiles 5 · 1.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+19:41:52   src/ov_SC06_011/ov_SC06_011_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:52   src/ov_SC06_011/ov_SC06_011_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:52   src/ov_SC06_011/ov_SC06_011_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:52   src/ov_SC06_011/ov_SC06_011_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:52   src/ov_SC06_011/ov_SC06_011_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:52   src/ov_SC06_013/ov_SC06_013.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:53     unit 2: DIFFERS [build/src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.o]
+19:41:53   src/ov_SC06_011/ov_SC06_011_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:53   src/ov_SC06_013/ov_SC06_013_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:53   src/ov_SC06_013/ov_SC06_013_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:53   src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c: IDENTICAL · rows 3 · compiles 5 · 1.4 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+19:41:53   src/ov_SC06_013/ov_SC06_013_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:53   src/ov_SC06_013/ov_SC06_013_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:53   src/ov_SC06_013/ov_SC06_013_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:53   src/ov_SC06_013/ov_SC06_013_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:53   src/ov_SC06_013/ov_SC06_013_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_014/ov_SC06_014.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_014/ov_SC06_014_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_014/ov_SC06_014_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_014/ov_SC06_014_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_014/ov_SC06_014_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_014/ov_SC06_014_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_014/ov_SC06_014_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_015/ov_SC06_015_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:54   src/ov_SC06_015/ov_SC06_015.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:55   src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:55   src/ov_SC06_015/ov_SC06_015_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:55   src/ov_SC06_015/ov_SC06_015_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:55   src/ov_SC06_015/ov_SC06_015_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.5 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:56   src/ov_SC06_015/ov_SC06_015_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:56   src/ov_SC06_015/ov_SC06_015_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:56   src/ov_SC06_016/ov_SC06_016_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:56   src/ov_SC06_016/ov_SC06_016_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:56   src/ov_SC06_016/ov_SC06_016_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:56   src/ov_SC06_016/ov_SC06_016.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:56   src/ov_SC06_016/ov_SC06_016_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:56   src/ov_SC06_016/ov_SC06_016_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:57   src/ov_SC06_016/ov_SC06_016_jr_801839D0.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:57   src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:57   src/ov_SC06_016/ov_SC06_016_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:57   src/ov_SC06_018/ov_SC06_018.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:57   src/ov_SC06_018/ov_SC06_018_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:57   src/ov_SC06_018/ov_SC06_018_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:57   src/ov_SC06_018/ov_SC06_018_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:57   src/ov_SC06_018/ov_SC06_018_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:58   src/ov_SC06_018/ov_SC06_018_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:58   src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:58   src/ov_SC06_018/ov_SC06_018_jr_8019059C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:58   src/ov_SC06_018/ov_SC06_018_jr_80191C50.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:58   src/ov_SC06_020/ov_SC06_020.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:58   src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c: IDENTICAL · rows 2 · compiles 2 · 0.4 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:59   src/ov_SC06_020/ov_SC06_020_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:59   src/ov_SC06_020/ov_SC06_020_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:59   src/ov_SC06_020/ov_SC06_020_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:59   src/ov_SC06_020/ov_SC06_020_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:59   src/ov_SC06_020/ov_SC06_020_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:41:59     unit 2: DIFFERS [build/src/ov_SC06_018/ov_SC06_018_jr_8017C24C.o]
+19:41:59   src/ov_SC06_020/ov_SC06_020_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:00     unit 3: COMPILE-ERROR src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:8195: conflicting types for `D_801CC358' | src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:8163: previou
+19:42:00   src/ov_SC06_020/ov_SC06_020_jr_801803E0.c: IDENTICAL · rows 2 · compiles 2 · 0.5 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:00   src/ov_SC06_020/ov_SC06_020_jr_80180B04.c: IDENTICAL · rows 2 · compiles 2 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:00     unit 2: COMPILE-ERROR src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:4284: conflicting types for `D_801B5B88' | src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c:4253: previou
+19:42:00   src/ov_SC06_022/ov_SC06_022_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:00   src/ov_SC06_022/ov_SC06_022.c: IDENTICAL · rows 2 · compiles 2 · 0.6 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:00   src/ov_SC06_020/ov_SC06_020_jr_8017C24C.c: IDENTICAL · rows 3 · compiles 5 · 1.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+19:42:00   src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c: IDENTICAL · rows 4 · compiles 6 · 2.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+19:42:01   src/ov_SC06_022/ov_SC06_022_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:01   src/ov_SC06_022/ov_SC06_022_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:01   src/ov_SC06_022/ov_SC06_022_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:01   src/ov_SC06_022/ov_SC06_022_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:01   src/ov_SC06_022/ov_SC06_022_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:01   src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02   src/ov_SC06_022/ov_SC06_022_jr_80180CD0.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02     unit 2: COMPILE-ERROR src/ov_SC06_022/ov_SC06_022_jr_80182D08.c:3076: conflicting types for `D_801D42B0' | src/ov_SC06_022/ov_SC06_022_jr_80182D08.c:3044: previou
+19:42:02   src/ov_SC06_024/ov_SC06_024.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02   src/ov_SC06_024/ov_SC06_024_jr_80171B4C.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02   src/ov_SC06_022/ov_SC06_022_jr_80182D08.c: IDENTICAL · rows 3 · compiles 5 · 0.5 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+19:42:02   src/ov_SC06_024/ov_SC06_024_jr_801789AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02   src/ov_SC06_024/ov_SC06_024_jr_801734BC.c: IDENTICAL · rows 2 · compiles 2 · 0.3 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02   src/ov_SC06_024/ov_SC06_024_jr_80178D40.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02   src/ov_SC06_024/ov_SC06_024_jr_8017AE2C.c: IDENTICAL · rows 2 · compiles 2 · 0.2 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02   src/ov_SC06_024/ov_SC06_024_jr_8017A4AC.c: IDENTICAL · rows 2 · compiles 2 · 0.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+19:42:02     unit 2: DIFFERS [build/src/ov_SC06_022/ov_SC06_022_jr_80184A28.o]
+19:42:03   src/ov_SC06_022/ov_SC06_022_jr_80184A28.c: IDENTICAL · rows 3 · compiles 5 · 1.1 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 1
+19:42:03     unit 2: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4754: conflicting types for `D_80126B5E' | src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4749: previou
+19:42:03     unit 3: COMPILE-ERROR src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4755: conflicting types for `D_80126B66' | src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4750: previou
+19:42:04   src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c: IDENTICAL · rows 4 · compiles 6 · 1.4 s · canon 2 promoted 0 K&R 0 aliases 0 abs 0 kept 2
+19:42:04 restruct: batch t4_D43 rung D — 300 files (TUs; 1485 drawable) · 606 declaration units: 570 canonical / 0 promoted / 4 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 36 kept · compiles 705 in 57 s wall · final 300/300 identical · written 297 files
