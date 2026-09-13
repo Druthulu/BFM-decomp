@@ -770,6 +770,11 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   failed of 218`** (`wall=82.36 s`); `share_census --check --strict-macros --strict-text` → `S1 … 10,180 satisfied (3,507 twin-covered, 45 excepted,
   3,801 deferred cross-address), 0 VIOLATION(S) — OK`.
 
+- **S108 — item (g), the new bucket: `share_body --apply --bucket new --retry-excepted --label t4_ret2`** — the one ledgered class
+  (`0x8017D0FC`, 2 instances) `REJECTED — ov_SC04_006: func_8017D0FC__250070c4.h:4: D_80126954 undeclared` (a datum declared in one member TU
+  only — T5's canonical data declarations); `gated 2/2 binaries green`, nothing written, its row refreshed. **Item (g) DONE: the 51 TU-CONFLICT
+  rows → 45 (6 shared), every survivor carrying today's compiler line.** T4's remainder is now entirely ledgered by cause and owned by T5/T7.
+
 ## 🛑 SESSION CHECKPOINT — S108 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐): steps (a)–(f) DONE, two owed items left** — 🛑 **T4 NEXT: (g) the 51 TU-CONFLICT rows retried through `share_body` (needs a `--retry-excepted` flag), (h) the 593 "no visible definition" rows read on one example; then the T4 ☑ line, the P6 rules check, T5 (Max for the head types); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `06615fe89` (every one of the session's ~40 gated commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_HD8` on 1e876b0ec: 57 files (headers; 57 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 i
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

@@ -1,0 +1,7 @@
+share_body: census 24 s · extend (registered-incomplete) 44 classes · new (unregistered same-vram) 1 classes / 1 private sites
+  [t4_ret2] 1 classes · 1 sites in 1 TUs · 0 new headers · gating 2 binaries
+  [t4_ret2] ov_SC04_006: class 250070c4bf REJECTED — src/ov_SC04_006/../shared/ov/func_8017D0FC__250070c4.h:4: `D_80126954' undeclared (first use this function)
+  [t4_ret2] retry: 1 previous ledger row(s) of 250070c4bf dropped — this run's verdict replaces them
+  [t4_ret2] gated 2/2 binaries green · registered 0 groups · extended 0 members · rejected classes 1
+share_body: done — 1 of 1 classes in 1 batch(es); see the ledger; 24 s
+exit=0
