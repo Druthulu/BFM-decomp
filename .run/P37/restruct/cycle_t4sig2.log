@@ -11,3 +11,6 @@ cycle: t4_sig10 committed 4ba23d0b9 — restruct: signature func_801A5C44 — CO
 log: t4_sig11
 cycle: t4_sig11 committed 8e34c1219 — restruct: signature func_8017FC5C — COMPILE-ERROR · 0 files written | (no src change)
 log: t4_sig12
+cycle: t4_sig12 committed c87d4e2fa — restruct: signature func_80157D20 — DIFFERS · 0 files written | (no src change)
+cycle: step (d) done
+cycle exit=0

@@ -1,0 +1,9 @@
+18:31:34 signature func_80157D20: src/shared/ov/func_80149CB4.h reaches binaries outside the definitions' (['ov_SC03_126', 'ov_SC04_008', 'ov_SC04_021']) — left as is
+18:31:35 signature func_80157D20: `void func_80157D20(void *param_1, s32 param_2)` — 133 definition(s) in ['src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c', 'src/ov_SC01_000/ov_SC01_000_jr_80154C24.c', 'src/ov_SC01_001/ov_SC01_001_jr_80154C24.c'], 2105 declarations in 1974 other files
+18:32:02 signature func_80157D20: COMPILE-ERROR src/ov_SC03_126/../shared/ov/func_80157D20__99380536.h:4: conflicting types for `func_80157D20'
+src/ov_SC03_126/ov_SC03_126_jr_80154C24.c:365: previous declaration of `func_80157D20'
+src/ov_SC03_126/. — nothing written
+18:32:02 restruct: signature func_80157D20 — COMPILE-ERROR · 0 files written
+Command exited with non-zero status 1
+t4_sig12b wall=90.30 s
+exit=1
