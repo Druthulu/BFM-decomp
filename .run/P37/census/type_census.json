@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "06615fe89",
-  "src_stamp": "9def359d3553fe7a",
+  "head": "7f02f5945",
+  "src_stamp": "80b9594f320b8937",
   "tool_stamp": "ac697cecc1",
-  "when": "2026-09-13T03:24:00Z",
+  "when": "2026-09-13T04:28:44Z",
   "files": 7305,
   "tus": 4121,
   "headers": 3181,
@@ -288,8 +288,8 @@
    "extern_fn_decls": 4279270,
    "extern_data_decls": 1078774,
    "declared_fn_names": 12088,
-   "multi_spelled_callees": 3814,
-   "multi_body_names": 6419,
+   "multi_spelled_callees": 3777,
+   "multi_body_names": 6418,
    "data_symbols_declared": 55548,
    "multi_typed_data_symbols": 18493,
    "asm_label_aliases": 5158,
@@ -302,59 +302,59 @@
     "packed": 63,
     "aligned": 12
    },
-   "lying": 2171,
-   "lying_callees": 189,
+   "lying": 1796,
+   "lying_callees": 76,
    "lying_kinds": {
-    "K&R-empty": 1654,
-    "narrow": 517
+    "K&R-empty": 1373,
+    "narrow": 423
    },
-   "kr_sites": 5092,
-   "kr_callees": 162,
+   "kr_sites": 5262,
+   "kr_callees": 199,
    "cross_binary": 418,
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 18730,
+   "types": 18741,
    "explained_sites": 498894,
    "deref_sites": 503013,
    "explained_pct": 99.2,
    "unassigned_sites": 4119,
-   "conflicts": 729,
+   "conflicts": 727,
    "suspect": 11,
    "evidence": {
     "param": 36486,
-    "arg": 10185,
-    "assign": 14663,
-    "return": 1524,
+    "assign": 14665,
     "ret-of": 3374,
-    "assign&": 1052,
+    "arg": 10173,
+    "return": 1524,
+    "assign&": 1050,
     "arg&": 270,
     "field": 9613
    },
    "vetoed": {
-    "arg&-conduit": 14628,
     "arg-conduit": 115288,
-    "arg-no-overlap": 39819,
-    "assign-multisource": 34568,
-    "assign&-multisource": 12501,
-    "field-multisource": 7008,
     "ret-of-multisource": 6686,
+    "assign-multisource": 34568,
+    "arg&-conduit": 14628,
+    "field-multisource": 7008,
     "ret-of": 679,
+    "assign&-multisource": 12501,
     "arg&-no-overlap": 3456,
-    "assign": 349,
-    "assign&": 67,
+    "assign": 347,
+    "arg-no-overlap": 43021,
+    "assign&": 69,
     "arg": 182,
     "return": 12,
     "field": 3224
    },
-   "singletons": 14670,
-   "multi_body": 4060,
-   "sites_in_multi_body": 441236,
+   "singletons": 14677,
+   "multi_body": 4064,
+   "sites_in_multi_body": 441229,
    "top": [
     {
      "name": "Unkstruct_800B5CB8",
-     "sites": 107600,
-     "bodies": 11189,
+     "sites": 107598,
+     "bodies": 11187,
      "size_hint": 268,
      "fields": 134,
      "conflicts": 50,
@@ -366,7 +366,7 @@
       "assign": 7400,
       "return": 713,
       "ret-of": 1477,
-      "assign&": 20,
+      "assign&": 18,
       "field": 2622
      },
      "globals_at": [
@@ -382,18 +382,18 @@
     },
     {
      "name": "Unkstruct_80126B58",
-     "sites": 65458,
-     "bodies": 17068,
+     "sites": 65397,
+     "bodies": 17047,
      "size_hint": 588,
-     "fields": 177,
+     "fields": 175,
      "conflicts": 50,
-     "sign_mixed": 62,
+     "sign_mixed": 60,
      "merges": {
       "assign&": 106,
-      "param": 2160,
-      "arg": 1117,
+      "param": 2100,
+      "arg": 1086,
       "assign": 43,
-      "field": 52
+      "field": 51
      },
      "globals_at": [
       "D_80126B58"
@@ -631,15 +631,15 @@
     },
     {
      "name": "Unkstruct_80130D48",
-     "sites": 2363,
-     "bodies": 585,
+     "sites": 2382,
+     "bodies": 587,
      "size_hint": 100,
-     "fields": 17,
-     "conflicts": 2,
+     "fields": 25,
+     "conflicts": 6,
      "sign_mixed": 3,
      "merges": {
       "field": 1,
-      "assign": 110
+      "assign": 112
      },
      "globals_at": [],
      "globals_ptr": [
@@ -762,8 +762,8 @@
    "n": 4
   },
   "global_blocks": {
-   "n": 2120,
-   "members": 14230,
+   "n": 2124,
+   "members": 14253,
    "top": [
     {
      "base": "0x800cf10c",
@@ -941,9 +941,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 40.9,
-   "decls_s": 191.6,
-   "total_s": 202.2
+   "walk_s": 37.5,
+   "decls_s": 189.4,
+   "total_s": 200.2
   }
  },
  "dup_layout_classes": [

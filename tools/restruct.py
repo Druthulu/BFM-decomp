@@ -2546,7 +2546,17 @@ def apply_batch(a):
     rows = load_ledger()
     done, latest = ledger_index(rows)
     if a.redraw:
-        done = {k for k in done if latest.get(k[:3]) not in set(a.redraw)}
+        # the same VERDICT[:cause-substring] keys as settled_units (the planner's side): the engine's `done` filter must lift the same
+        # rows, or a redrawn TU is drawn and then skipped as done — "rows 0" (t4_D49/D56 on the `DECL-NONE:visible` key)
+        vc = {}
+        for r in rows:
+            if r.get("rung") == "D" and r.get("unit"):
+                vc[(r["tu"], r["unit"])] = (r.get("verdict"), r.get("cause") or "")
+        keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in a.redraw]
+        def lifted(k):
+            v, c = vc.get((k[1], k[2]), (None, ""))
+            return any(v == kv and (ks is None or ks in c) for kv, ks in keys)
+        done = {k for k in done if not lifted(k)}
     log_p = RUN / f"apply_{a.label}.log"
     log_f = open(log_p, "a")
 

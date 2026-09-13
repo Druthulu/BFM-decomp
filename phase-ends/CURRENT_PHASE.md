@@ -745,6 +745,21 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_HD8`** (`.run/P37/restruct/run_t4_HD8.log`, `batch_t4_HD8.json`): `restruct: batch t4_HD8 rung D — 57 files (headers; 57 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 12 s wall · final 57/57 identical · written 0 files` → R22 (`.run/P37/baseline/r22_t4_HD8.log`) **`(no src change — the previous R22 stands)`** (``) → census `(census skipped)`.
 
+- **S108 (continued on Drew's "continue") — item (h) read and closed; the disk; item (g)'s tool.** The 593 "no visible definition" rows were
+  STALE VERDICTS, not a disagreement: the engine resolves every one now (`defs_visible('src/md_MAIN_013/md_MAIN_013.c')['func_80128EA8']` → the
+  shared header), but the first `DECL-NONE:visible` redraw had drawn its TUs and skipped every unit as done — `apply_batch` lifted the engine's
+  `done` set by VERDICT only (`latest.get(k[:3]) not in set(a.redraw)`), so the `VERDICT:cause` key lifted the planner's filter and not the
+  engine's ("rows 0" in D49/D56/D57). Fixed at the cause (the same key logic on both sides); the redraw again: `t4_D58` 50 units: 14 canonical /
+  36 K&R marked · 32 files (`22915a697`, R22 `218 passed, 0 failed of 218`) · `t4_D59` 1 kept · **`t4_HD7` 271 headers · 289 units: 182 canonical /
+  91 K&R marked / 107 kept · 159 files · 41,375 compiles in 1,381 s (`1e876b0ec`, R22 218/218)** · `t4_HD8` 0. Of the 593, 133 were the alias
+  NAMES `aF…` of the 16 still-aliased functions (T7's). Census (`census_t4d.log`): **`1796 lying declarations / 76 callees (+5262 K&R sites, +418
+  cross-binary apart) · controls 4/4`**. **The disk (Drew asked):** 254 MB free of 73 GB — `.run/` was 50 GB, **22 GB of it gcc pass dumps**
+  (`.sched2 .lreg .flow .greg .combine .cse …` from `cc1_dumps_tu.sh`) under `.run/P36/agents/`'s packs; the dump files deleted (every `.c`/`.md`/
+  `.txt` kept — step (d) read bodies from `scratch/`), the 45k stale judge objects in `.run/P36/delever/obj` too, `sudo fstrim /` → 10 GiB back to
+  the host; **22 GB free (70 %)**; still prunable, same class: `.run/P32/` 6.6 GB, the rest of `.run/P36/` 6.5 GB. **Item (g)'s tool:** `share_body
+  --retry-excepted` (a ledgered class re-enters the plan; before registration its old row is dropped — a share leaves no row, a rejection
+  re-ledgers with the fresh diagnostic); `--plan --retry-excepted`: **extend 50 classes · new 1 class** (0 / 0 without the flag).
+
 ## 🛑 SESSION CHECKPOINT — S108 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐): steps (a)–(f) DONE, two owed items left** — 🛑 **T4 NEXT: (g) the 51 TU-CONFLICT rows retried through `share_body` (needs a `--retry-excepted` flag), (h) the 593 "no visible definition" rows read on one example; then the T4 ☑ line, the P6 rules check, T5 (Max for the head types); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `06615fe89` (every one of the session's ~40 gated commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_HD8` on 1e876b0ec: 57 files (headers; 57 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 i
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
