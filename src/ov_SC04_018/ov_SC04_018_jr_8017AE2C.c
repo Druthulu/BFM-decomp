@@ -416,7 +416,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC(u8 * a0);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_80016714(void *a0, s32 a1);
@@ -1953,7 +1953,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D41)
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -4063,7 +4063,7 @@ void func_8017E038(void *a0) {
 
 
 extern void func_80175414(s32 _arg0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D41)
 extern void func_80165770(void);
 void func_8017E088(void *a0) {
     ((void (*)(void *))func_80175414)(a0);
@@ -4079,7 +4079,7 @@ void func_8017E088(void *a0) {
 #include "../shared/ov/func_8017E0FC__0e3d12a0.h"
 
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D41)
 void func_8017E110(void) {
     func_8016F0E4();
 }
@@ -5605,7 +5605,7 @@ extern void func_80178CBC(s32*, s32);
 
 extern s32 func_80029504(void);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
-extern s32 func_80180284();
+extern s32 func_80180284(void *a0);
 extern short D_8019181C;
 extern void func_8001C214(s32, s32);
 extern void func_8012C1B8(void);

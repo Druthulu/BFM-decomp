@@ -416,7 +416,7 @@ tail:
 
 
 extern void func_801662F4(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D41)
 void func_800CB7FC(s32 a0) {
     func_801662F4();
     ((void (*)(s32))func_80162CCC)(a0);
@@ -433,7 +433,7 @@ extern void func_80015978(s32, s32 *);
 extern s32 func_8012EF34(s32, s32);
 extern s32 func_80017DC4(void *, void *);
 extern void func_800CBA44();
-extern void func_800CBBF8();
+extern void func_800CBBF8(s32 *a0, s32 *a1);
 extern s32 func_80047948(s32);
 
 extern u8 D_800CC290[];
@@ -790,7 +790,7 @@ void func_800CBFE4(void) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D41)
 void func_800CC004(void) {
     func_80162CCC();
 }

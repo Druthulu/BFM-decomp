@@ -419,7 +419,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC(u8 * a0);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_80016714(void *a0, s32 a1);
@@ -1954,7 +1954,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4(u8 * p);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -3693,7 +3693,7 @@ void func_8017FD44(s32 a0) {
 typedef struct { s16 h[3]; } SV3L;
 extern s32 func_80180C0C(s32 a0, s32 a1, s32 a2);
 extern void func_80180F3C(void *a0);
-extern s32 func_801809F0();
+extern s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012C218(void *a0);
 extern void func_80180DF0(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -3759,7 +3759,7 @@ struct vecr { int _m; };
 
 extern void func_8012AD80(struct vec*);
 extern void func_80180F3C(void *a0);
-extern s32 func_801809F0();
+extern s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012C218(void *a0);
 
 void func_8017FF4C(s32 arg0) {
@@ -3831,7 +3831,7 @@ extern void func_8012C218(void *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80180F3C(void*);
 
-extern s32  func_801809F0();
+extern s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80180D4C(u8 *a0, u8 *a1, s32 a2);
 
 extern void func_8012B21C(void *a0);

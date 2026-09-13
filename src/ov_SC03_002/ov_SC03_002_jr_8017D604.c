@@ -416,7 +416,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC(u8 * a0);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_80016714(void *a0, s32 a1);
@@ -1947,7 +1947,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4(u8 * p);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -4297,7 +4297,7 @@ void func_80180180(s32 *a0) {
 
 
 extern void func_80175414(s32 _arg0);
-    extern void func_8016F0E4(void);
+    extern void func_8016F0E4(u8 * p);
     extern void func_80165770(void);
     void func_80180194(s32 arg0) {
         func_80175414(arg0);
@@ -4319,7 +4319,7 @@ void func_80180208(void *a0) {
     }
 
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4(u8 * p);
     void func_8018021C(void) {
         ((s32 (*)(void))func_8016F0E4)();
     }
@@ -5029,7 +5029,7 @@ void *a0;
  * (the sibling's is `bnez` => `== 0`; polarity is read off the opcode). */
 
 extern s32 func_80183158(s32 arg0, s32 arg1);
-extern void func_80180DF4();
+extern void func_80180DF4(void *arg0);
 
 void func_80181200(void *arg0) {
     if (func_80183158(9, 0x12) != 0) {

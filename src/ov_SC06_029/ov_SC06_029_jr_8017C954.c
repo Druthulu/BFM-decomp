@@ -412,7 +412,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC(u8 * a0);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_80016714(void *a0, s32 a1);
@@ -1949,7 +1949,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4(u8 * p);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -3857,7 +3857,7 @@ void func_8017E800(void *a0) {
 
 
 extern s32 ratan2(s32, s32);
-extern void func_8017E95C();
+extern void func_8017E95C(s32 param_1, s16 *param_2, s16 *param_3, s32 param_4);
 
 void func_8017E83C(s32 a0) {
     typedef struct { s16 v[4]; } Blk8_80126940_8017E8DC;
@@ -3878,7 +3878,7 @@ void func_8017E83C(s32 a0) {
 
 typedef struct { s16 v[4]; } Blk8_80126940_8017E8DC;
 
-extern void func_8017E95C();
+extern void func_8017E95C(s32 param_1, s16 *param_2, s16 *param_3, s32 param_4);
 
 void func_8017E8DC(s32 a0) {
     extern Blk8_80126940_8017E8DC D_80126940;
@@ -5700,7 +5700,7 @@ extern s32 func_8012C354(s32 a0, s32 a1);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
 extern void func_80181D94(s32 a0);
-extern s32 func_80182334();
+extern s32 func_80182334(s32 a0);
 extern D80190448_t D_80190448;
 
 void func_80181898(s32 param_1) {
