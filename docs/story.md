@@ -246,6 +246,29 @@ where that address is a different function. A hundred and twenty landed; twenty-
 translation unit holds callers that disagree with the definition inside one file — the original was several files, and only the file-layout
 phase can say so.
 
+The next day the declaration layer went to its floor, and the story of that day is the story of five things the instruments could not
+see. The morning's first batch drew three hundred files and found nothing to do; the reason was not the code but the engine's index,
+which had never looked inside the shared bodies a neighbouring file includes — and since the dedup phase every shared function lives in
+exactly such a body, so every level's own shared functions had read as foreign. One loop fixed it, and the next batch alone put ten
+thousand declarations right. Then the census itself turned out to be counting wrong: it identified a function by its bare name, and the
+game has more than six thousand names that stand for two or three different functions in different levels, so nearly three thousand
+correct declarations had been counted as lies. Then a regular expression anchored at the start of a line had missed every function
+definition that happened to be indented, and repairing it revealed ten thousand more declarations nobody had known were wrong. Each time,
+the number fell by thousands without a new idea, only a repaired instrument: ninety-eight thousand lying declarations at the phase's start,
+two thousand one hundred at the day's end, with five thousand more counted apart as the original's own calling convention — a caller
+passing fewer arguments than the function takes, proven on the bytes and marked in place — and four hundred as cross-binary calls the
+fleet cannot agree about.
+
+The parked signature changes from the levers phase landed the same day, and each taught something. The function whose pins had faked a
+missing argument in a hundred and thirty-two levels was one body over per-level data; renaming its data symbol to each level's own, by
+order of appearance, closed all of them in one judged unit and took two hundred and sixty-four pins off the count. Another needed its three
+zero-argument callers rewritten in the same unit as its definition — the pin had been the argument all along, and where the caller had
+compared a value before the call, spelling that value as a local put it exactly where the pin had forced it, in the first argument
+register. A third needed nothing but its return type: a function that falls off the end, declared to return an integer, keeps the
+compiler from stealing an instruction into a branch's delay slot. The levers count fell from four thousand and ten to three thousand seven
+hundred and thirty. One mistake of the day was mine: a restore run against a judge that had not yet finished stopping, which split a
+batch's bookkeeping — erased cleanly, and the rule written down: wait for the exit.
+
 ## 11. By the numbers
 
 | | |

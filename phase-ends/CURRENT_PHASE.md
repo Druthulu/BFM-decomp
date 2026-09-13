@@ -733,63 +733,51 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_D55`** (`.run/P37/restruct/run_t4_D55.log`, `batch_t4_D55.json`): `restruct: batch t4_D55 rung D — 207 files (TUs; 207 drawable) · 412 declaration units: 411 canonical / 0 promoted / 1 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 1 kept · compiles 414 in 38 s wall · final 207/207 identical · written 207 files` → R22 (`.run/P37/baseline/r22_t4_D55.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=84.48 s`) → census `(census skipped)`.
 
-## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D55` on 4293d0a84: 207 files (TUs; 207 drawable) · 412 declaration units: 411 canonical / 0 promoted / 1 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 1 kept · compiles 4
+## 🛑 SESSION CHECKPOINT — S108 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐): steps (a)–(f) DONE, two owed items left** — 🛑 **T4 NEXT: (g) the 51 TU-CONFLICT rows retried through `share_body` (needs a `--retry-excepted` flag), (h) the 593 "no visible definition" rows read on one example; then the T4 ☑ line, the P6 rules check, T5 (Max for the head types); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `06615fe89` (every one of the session's ~40 gated commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6)
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
-is what S107 knew and the next session must not re-derive.** **The checkpoint procedure (every session end, Drew 2026-09-12):** bank the
+is what S108 knew and the next session must not re-derive.** **The checkpoint procedure (every session end, Drew 2026-09-12):** bank the
 record (cookbook / decision log / accelerators / SETUP / stale assertions), **advance the post-100 % story — `docs/story.md` §10 and
 `docs/retrospective.md` §7 from the session's decision-log entry — and regenerate `tools/timeline.py`**, then rewrite this block, commit, recap (R18).
 
 1. **Where we are — and T4's exact resume.** Phase 37 (structs) opened 2026-09-11 (S106, gate 1: grind to zero on raw casts / lying declarations /
    levers; placeholders + cited evidence; T7 = the P36 agent lane on Drew's word; the full canonical declaration layer; R107–R117 ratified; no
-   tags at closes). S107 built T3 (the engine — the T3 ☑ line above) and ran T4 for ~4 h: **the rung-D fleet cycle** (`tools/restruct_cycle.sh`,
-   batches `t4_D1`–`t4_D20`: ≈17,300 declaration units canonical, 1,302 K&R sites marked, 207 data aliases typed, 10 `__builtin_abs` → `abs`,
-   1,522 kept with causes) and **the alias-defined-function class** (`--unalias`: 120 of 149 back under their real names, 29 kept — the S107
-   log entries "T4 in progress" / "unalias sweep" / "CHECKPOINTED" carry every number and cause). Drew's two rulings this session: the
-   `audit_public` size gate = GitHub's 100 MiB hard limit (the red CI was SIZE alone; no ROM content); "ready for T4, xHigh set".
-   **T4's remaining work, in order (each step = detached run → R22 → commit; the cycle script does all three):**
-   (a) **the D cycle again** — `setsid nohup bash -c 'LABEL_PREFIX=t4_ TASK=T4 CENSUS=0 tools/restruct_cycle.sh 21 34 300 D; echo "cycle exit=$?"'
-   > .run/P37/restruct/cycle_t4e.log 2>&1 &` — the first batch is the TEST of the `DECL-NONE` settling (a batch that draws 300 TUs for 0 units
-   means the planner still counts rows the engine cannot act on: read `work_file_D`'s `skipped` reasons in the ledger); the cycle stops itself
-   on "nothing drawable". (b) **the 29 kept alias functions once more** (`--unalias $(cat .run/P37/restruct/kept_ua9.txt) --label t4_ua10` after
-   regenerating the kept list from the ledger — the definition-TU `()` fix and the untouched-caller relaxation were added AFTER the last pass;
-   expect the "jr merge" 11 to stay: they are the file-layout phase's). (c) **the shared headers**: `--apply --rung D --headers --batch 20 --label
-   t4_H1` (230 headers with lying declarations; serial, each judged on every includer — ~35 s each on 141 includers; the `--headers` batches
-   through the cycle: `HEADERS=1 tools/restruct_cycle.sh 1 12 20 D`). (d) **the 13 parked signature bodies** — per class `--apply --rung D
-   --callee F --body <pack>/body.c [--all-defs] --label t4_sigN` then R22 + commit: func_800385C0 (`.run/P36/agents/main__func_800385C0/body.c`),
-   func_80029D3C (`scratch/patch_signature.c`), func_80035210 (`body.c`), func_800384A8 (`body.c`), func_80183CC4 (4 TU copies, `--all-defs`,
-   `body.c`), func_80185578 (`body.c`), func_80188DF4 (3 copies, `--all-defs`), func_80188A30 (`body_free.c`), func_801A1E94 / func_801A5C44
-   (`body.c`), func_8017FC5C (2 copies), func_80157D20 (132 TU copies + a variant header `func_80157D20__99380536.h` — `--all-defs`; the biggest);
-   SKIP func_80015608 and func_8013CF68 (not closed in P36). After each: the copies are identical → `tools/share_body.py --plan` may share them
-   (the 51 TU-CONFLICT rows of `config/dedup_exceptions.tsv`: re-plan with `share_body --bucket extend --plan` after the D work, share what the
-   gate accepts, delete the resolved rows). (e) **the 3,546 "carried decl layer" banner comment blocks**: comment-only removal (the two `/* ====
-   … carried decl layer … */` lines around each block; the declarations inside STAY), one R22, one commit. (f) **the census + series:**
-   `tools/type_census.py -j 16 --sites` (3.5 min) → `tools/readability_progress.py --snapshot t4` → `tools/progress.py --json --readme` →
-   the honest new lying-declarations number (the 3,529 real-name callers of the unaliased functions were invisible at T1); the T4 ☑ line with
-   its verify lines; **then the P6 rules check** (the plan asks for one after T4). Then T5 (Max for the head types).
+   tags at closes). S107 built T3 (the engine) and started T4; **S108 (this session, ~10 h, ~60 commits, xHigh) ran T4's six checkpoint steps
+   to their floor: (a) the D cycle — `t4_D22`–`t4_D36`, `t4_D40`–`t4_D47`, `t4_D49`–`t4_D55` (≈90,000 declarations canonical in total, 5,092 K&R
+   sites marked); (b) the alias-defined functions — 133 of 149 back under their real names, 16 kept by cause; (c) the shared headers — the
+   header plan is EMPTY (`0 of 0`); (d) the parked signature bodies — 10 of 12 landed (`func_80157D20` ×132 via `--map-data`, `func_80029D3C` +
+   its 3 callers via `--with`, `func_80188A30` `void`→`s32`, seven more), the `md_SC07_004` pair and the other same-address copies of four
+   functions named for T7; (e) the 3,546 "carried decl layer" banner comment blocks removed (21,274 comment lines, 0 insertions); (f) the census
+   + series published.** Every gated commit `check-all: 218 passed, 0 failed of 218`. The day's real story was FIVE instrument blind spots, each
+   repaired at its cause (item 5 below; accelerators P37 S108). **T4's two owed items, in order:**
+   (g) **the 51 TU-CONFLICT rows of `config/dedup_exceptions.tsv`** (P35's ledger — declaration-environment conflicts the D work may have
+   dissolved: `D_800B9A02 undeclared`, `conflicting types for func_80146C3C`, …): `share_body --plan` reports `0 classes` for both buckets because
+   `plan_classes` skips `c["excepted"]` (`tools/share_body.py:173`) — add a **`--retry-excepted`** flag (the excepted classes re-enter the plan;
+   the ledger row is deleted only when the gate accepts the share), then `tools/share_body_cycle.sh` (unattended: batch → exit code → log →
+   commit → periodic clean fleet run) on `--bucket extend` then `new`; the rows the gate still rejects keep their (refreshed) diagnostic.
+   (h) **the 593 `DECL-NONE "no visible definition"` rows that survive the fleet-unique fallback** — read ONE on the tree (R14): take a row from
+   the bucketing script in the "final census" log entry (e.g. a `.c` TU, not a header), run `restruct.defs_visible(tu).get(callee)` and
+   `argcheck.resolve_definition(callee, tu, …)` side by side; the disagreement is one of: a name with 2+ bodies where argcheck picked the TU's
+   binary's definition but the engine's `_files_in_dir` did not see it (an indented definition? a `_jr_` file outside the alias dir?), or a
+   twin dir (`corpus.src_dir`). Fix at the cause, re-run `--redraw DECL-NONE:visible` (TUs then `HEADERS=1`), re-census. Then: **the T4 ☑ line**
+   (its verify lines: the final census line, `lever_census --check`, the bucketed remainder), **the P6 rules check** (the plan asks for one after
+   T4), and **T5 (Max for the head types)** — struct unification from the map (`--write-types --top 6` previews; `--audit-types`'s 26 legacy
+   `pad<SIZE>` names; the 1,120 `parse error` declarations close with `--redraw DECL-KEPT` once `Pos800D20C0`-class types are canonical).
 
-2. **The counters (T1, `tools/type_census.py`, coverage OK, controls 4/4; every verify line in the T1/T2 log entries).**
-   Raw dereferences **503,016** = P `*(T *)(…)` 409,007 + I `*(T *)ident|&D_|0x80…` 60,666 + X `((T *)e)[i]` 13,800 + M `M2C_FIELD` 19,543,
-   in 69,497 bodies (+18,912 A address-of casts and +36,681 C `((T *)p)->f` typed cast-member accesses, counted apart — C is rung 1's own
-   form, already a COMPONENT_REF); by base: param 276,860 · local 149,915 · `&D_` 40,122 · nested 24,076 · `D_` by value 8,860 · other 1,678;
-   the first parameter (`a0`/`param_1`/`arg0`) 241,554 = 48 %. Definitions **7,255** (canonical header 1,179 · `.c` file-scope 4,085 ·
-   `.c` block-scope 1,904 · per-function shared headers 63 · other headers 24) over **527 layouts**; 206 duplicate classes / 2,789 names
-   (tier 1 same-named 122, tier 2 opaque 84; **46 layout-twin classes / 1,844 names are NOT duplicates without flow evidence** — milestone
-   item 1 reads "one definition per TYPE"); 40 VARIANT names; 141 dead canonical names; 75 canonical names redefined in `.c`.
-   Declarations: 99,130 definitions (1,889 K&R); 4,279,365 extern function declarations over 12,139 names (3,870 spelled >1 way);
-   **6,415 names carry >1 body text** (identity = body hash `F:<nhash>` / shared header `H:<path>` / external `X:<space>:<name>`, never the
-   name); 1,078,837 data externs over 55,569 symbols (18,442 typed >1 way); asm-label aliases 5,749 (225 names); builtins memcpy 301 / abs
-   144; attributes packed 64 / aligned 12; **lying declarations 98,648 over 1,609 callees** (K&R-empty 91,357, narrow 7,291).
-   **Levers (`lever_census --check --strict`, made literal at T1): 4,010 marked (2,141 pins + 1,869 asm) + 6,717 direct GTE asm statements
-   in bodies (kinds `gte`/`gte-unsigned`, incl. func_8013D9B0's 268) + 314 per-TU asm macro definitions** — the `--check` headline (4,010)
-   keeps the P36 definition for the series. Global blocks: 2,123 runs of ≥4 adjacent scalar `D_` symbols (14,251 symbols). The 24 parked
-   P36 classes with reasons: `.run/P37/census/parked.tsv` (453 bodies / 691 sites; needs: signature 13, struct 7, ? 4).
-   **The struct map** (`.run/P37/census/struct_map_top.json` tracked; `struct_map.json` 6.4 MB and `body_base_type.json` 11 MB ignored,
-   regenerable): 18,760 types explain 99.2 % of the deref sites; the two largest are `Unkstruct_800B5CB8` (107,598 sites / 0x10C over 9,753
-   pointer globals — partly fused at low offsets) and `Unkstruct_80126B58` (65,397 sites / 0x24C, one instance global — the actor record of
-   `docs/actor-struct.md`); merge rules in SETUP §P37 S106 (typed-use parameters; positive shared evidence ≥1 offset with the callee's map
-   ≥2 offsets; single-source locals; a width-conflict veto; `AT:`/`PTR:` global nodes seeded by the declared type; FLD nodes for pointer
-   fields). It is a MODEL: T2 tested it on bytes (below); T5 authors from it after T3's engine can judge every type per body.
+2. **The counters at this checkpoint (`.run/P37/census/type_census.txt`, `census_t4c.log`; controls 4/4).** **`2171 lying declarations / 189
+   callees (+5092 K&R sites, +418 cross-binary apart)`** — from 98,648 / 1,609 at T1 (S107's end: ≈81,000 by the ledger; S108's census steps
+   13,832 → 8,830 → 2,367 → 2,171, each an instrument repair). Definitions **7,255** (527 layouts, 206 duplicate classes, 40 variant camps);
+   cast sites **503,013** in 69,497 bodies (four forms + A; unchanged — T6's). **Levers `lever_census --check: 3,730 pin/asm sites, 3,730 marked,
+   0 UNMARKED`** (from 4,010; `--strict` still FAIL by design: the 6,717 direct GTE statements + 314 per-TU asm macros are T6/T7's). The
+   remainder of 2,171, by its ledger verdict (every row has one): 1,120 `DECL-KEPT parse error (type unknown to TU)` → T5; 593 `DECL-NONE no
+   visible definition` → item (h); 417 `DECL-KEPT conflicting types elsewhere in TU` → T5/T7; 13 `syntax error` in `800.c`; 12 `void value not
+   ignored` (a `void` definition whose callers use `$v0` — the return-type lie: `func_80161208`, `func_801376E8`, `func_80150480`, `func_8017E3F0`,
+   `func_801843E0`, … a definition-side `--callee --body` each, judged as one unit); 8+2 arity; 2 bytes; 2 DECL-CANON; 2 still-aliased. K&R sites
+   apart: 5,092 over 155 callees (`// K&R: n of m args (P37 …)` on each line); cross-binary apart: 418 over 147 callees. Alias-defined functions:
+   133 / 149 back; the 16 kept = 10 jr-merge DIFFERS (`func_80146A6C` `func_8014C4AC` `func_8014F6F4` `func_801848DC` `func_80185EEC` `func_8018A224`
+   `func_8018A860` `func_8018AFD0` `func_8018B1DC` `func_8018CB18` — the file-layout phase's) + 5 return-type lies (above) + `func_8016BF50`.
+   Series: `docs/levers.md` (80 milestones, `lever_progress --check OK`), `docs/readability.md` (`t4` row: 8,830 at `274223396` — re-snapshot
+   after (g)/(h) with the 2,171 line), `progress.json`/README fresh at the last publish (`progress.py --check`).
 
 3. **What T2 proved on the bytes (the design inputs for T3; the full tables are the T2 log entry and `.run/P37/probe/*.md`).**
    (a) **Rung 1** (body-local `((P37S_<hash> *)base)->unk<HEX>` with the type from the cluster layout; misaligned layout entries skipped;
@@ -867,38 +855,56 @@ record (cookbook / decision log / accelerators / SETUP / stale assertions), **ad
      `Unkstruct_80126B58` 146 fields / 28 overlaps + 1 misaligned — the overlaps are the map's width conflicts (T5: union vs split per offset).
      `--audit-types` on the legacy header: 26 violations, all legacy `pad<SIZE>` names → T5's rename list.
 
-5. **T4's instruments (all in `tools/restruct.py`; SETUP §P37 S107 needs a T4 paragraph — owed at the T4 close).** Rung D: `d_units` (the definitions
-   index = the TU's own file + its binary's dir + its headers + main/resident, REFUSING disagreeing definitions; `skipped` reasons → `DECL-NONE`
-   rows), `e_units` (class-E data aliases: `extern T aD_x __asm__("D_x")` → `extern T D_x;` + renamed uses; a same-name alias = declaration-only; a
-   conflicting typed view → ALIAS-KEPT "second typed view" — T6's aggregate), `b_units` (`__builtin_abs` → `abs`), the K&R marker `// K&R: n of m
-   args (P37 rung D <label>)`, the all-`()` arity candidate, the promoted candidate; **`plan_D`** skips TUs whose every lying callee is settled
-   (`settled_units`; `--redraw VERDICT` lifts it); the argcheck rows cached on the src stamp (`argcheck_cache.json`, 2.4 min to rebuild after any
-   `src/` change — the per-batch overhead). **`--unalias NAMES|ALL`** (`fn_alias_index`, `unalias_function`): the ladder in §1; rows
-   `UNALIAS-DONE/KEPT/REFUSED` with `mode` (ansi/krdef) and `cause`. **`--callee F --signature S | --body FILE [--all-defs] [--tu TU]`**
-   (`signature_change`): the body file's head is the signature; declarations scoped to the definitions' binaries (a shared header reaching other
-   binaries is left as is, logged). Cycle: `tools/restruct_cycle.sh START END BATCH D [ONLY]` with `LABEL_PREFIX= TASK= CENSUS=0 HEADERS=1
-   REDRAW=`. **Gotchas learned the hard way:** stop a detached judge with `kill -INT <python pid>` (the in-place compile restores in `finally`; a
-   TERM skips it), then `--restore`; never `pkill -f` a literal your own command line contains (exit 144, twice today); the walk's process pool
-   runs before any thread; the fallback ladder's per-file re-judge costs ~20 s × objects — the escalation rule bounds it.
+5. **The instruments changed this session (all committed; SETUP §P37 S108 has every option).** `tools/restruct.py`: `defs_visible` (+ the sibling
+   TUs' shared headers — the 10,495-row blindness; + the fleet-unique third level `_fleet_unique_defs`), `unit_call_counts` (arity from the TU AND
+   its included bodies; the definition-head test), `--unalias` (data-typed declaration of the real name → the prototype, incl. `extern char f[];`;
+   a header-side arity error marks the INCLUDING TUs; escalation counts attempts), `--callee --body` + **`--with REL=FILE`** (caller-body edits in
+   the same unit) + **`--map-data`** (per-copy `D_` renames; count mismatch refuses) + header-borne definitions excluded from `--all-defs`,
+   `--redraw VERDICT[:cause]`. `tools/argcheck.py`: `_ALL` + `resolve_definition` (per declaring binary; `cross_binary`), `kr_marked`, `DEF` with
+   leading blanks, the K&R loop always feeds `_ALL`. `tools/type_census.py` + `tools/readability_progress.py`: K&R and cross-binary counted APART
+   (`kr_sites`/`cross_binary` + callees; two TSV columns). `tools/delever_oracle.py --snapshot-baseline`: REFUSES an empty/shrunken `build/`.
+   `tools/restruct_cycle.sh`: no fleet run when `src/` is unchanged after a batch. One-off drivers (ignored, commands in the log):
+   `.run/P37/restruct/sig_cycle.sh` (entries list at its top; `--tu` fallback), `strip_banners.py`. **Known-true controls to re-run after any engine
+   change:** `restruct --selftest` (54) · `--selftest --real` · `type_census --selftest` (21) · `defs_visible('src/ov_SC05_000/ov_SC05_000_jr_8017BEBC.c')
+   ['func_80147514']` → the shared header · `defs_visible('src/md_MAIN_013/md_MAIN_013.c')['func_80128EA8']` → the fleet-unique header ·
+   `argcheck.resolve_definition('func_800CB8A4', 'src/md_MAIN_026/md_MAIN_026.c', …)` → its own `(void)` · `unit_call_counts` on
+   ov_SC01_077_jr_8015C32C.c / func_801483E8 → `([0], ['src/shared/ov/func_80161124.h'])` · `call_arg_counts` on ov_SC07_007_jr_8015B950.c /
+   func_80161B18 → `[0]`.
 
-6. **Files and artifacts.** Tools: `tools/struct_layout.py`, `tools/restruct.py` (~3,300 lines), `tools/restruct_cycle.sh`, `tools/delever_oracle.py`
-   (linked mode + guard), `tools/delever.py` (`marker_edits(phase=)`), `tools/type_census.py` (`walk_all`), `tools/audit_public.py` (100 MiB +
-   WARN 80), `include/common.h` (the reinterpret macros; the `M2C_FIELD` note). Evidence (tracked): `.run/P37/restruct/{ledger.jsonl (36,032
-   rows), batch_*.json, apply_*.log, run_*.log, cycle_*.log, kept_ua*.txt}`, `.run/P37/baseline/r22_*.log` (every gate). Ignored: `argcheck_cache.json`,
-   `selftest/`, `macro_probe/`, `types_preview/`, the snapshot `.run/P36/delever/baseline/` (7,428 objects + `_link/`, at `033076501` — refresh
-   after the next green R22 with `--snapshot-baseline`, then `--calibrate ov_SC04_011 md_SC07_004 main -j 16`; `--apply` refuses on a stale one).
-   Docs this session: SETUP **§P37 S107** (T3; T4's paragraph owed), dictionary rows, cookbook **§458 addendum**, decision log **P37 S107** ×2,
-   accelerators **P37 S107** (8 entries), story §10 + retrospective §7 advanced twice, the timeline regenerated (78 rows); the wiki pages
-   `The-ROM-firewall` / `Verification-and-progress` (100 MiB) await Drew's wiki sync. **Still owed at T9:** `docs/actor-struct.md` (+0x108/+0x10C
-   are 4-byte), the §396(a) correction; a `tools-health` run (RED only on the P36 ledger's size until this session's gate change — now OK on that
-   rung; not re-run this session).
+6. **Files and artifacts.** Evidence (tracked): `.run/P37/restruct/{ledger.jsonl, batch_*.json, apply_*.log, run_*.log, cycle_t4[e-j].log,
+   cycle_t4sig*.log, kept_ua*.txt, with_*.c/.h, body_func_80188A30_s32.c}`, `.run/P37/baseline/r22_*.log` (every gate), `.run/P37/census/
+   census_t4*.log` + `type_census.{json,txt}`. Ignored: `argcheck_cache.json`, `sig_cycle.sh`, `strip_banners.py`, the snapshot
+   `.run/P36/delever/baseline/` (7,428 objects + `_link/`; at the last batch's tree — refresh after the next green R22 with `--snapshot-baseline`,
+   then `--calibrate ov_SC04_011 ov_SC03_015 md_SC07_004 main -j 16`; `--apply` refuses on a stale one). Docs this session: accelerators **P37 S108**
+   (ten), decision log **P37 S108**, cookbook **§459**, SETUP **§P37 S108**, cookbook index (1,177), story §10 + retrospective §7 advanced, the
+   timeline regenerated (78 rows). **Still owed at T9:** `docs/actor-struct.md` (+0x108/+0x10C are 4-byte), the §396(a) correction, a
+   `tools-health` run (not re-run this session; the kit corpus will need `make kit-corpus` after the SETUP/cookbook edits — a `tool_census
+   --check`/`kit_coverage` red is expected until then), the dictionary rows for the new options (restruct/argcheck rows exist; no new tools).
 
-7. **Environment and commands.** `~/bfm-decomp` on ext4; `.venv/bin/python`; every build `JOBS=16`/`-j`. Ghidra MCP not needed until T8. R22:
-   `make clean && make extract-all JOBS=16 && make check-all JOBS=16` (≈100 s; read the exit code). Oracle: `tools/delever_oracle.py
-   --snapshot-baseline` (ONLY after a green R22) · `--calibrate ov_SC04_011 md_SC07_004 main -j 16`. Engine: `tools/restruct.py --plan --rung D
-   --batch 300` · `--apply --rung D --batch 300 --label L -j 12` · `--headers` · `--unalias …` · `--callee F --body FILE [--all-defs]` · `--restore`
-   · `--status` · `--selftest [--real]` (54 / 59). Health: `make tools-health` (foreground, 8–15 min), `tools/doc_links.py --strict`,
-   `tools/tool_census.py --check`, `make kit-corpus`, `tools/cookbook_index.py --check`. No harness task-list tool exists (R28 = this file's ☐/☑).
+7. **Environment, commands and the gotchas of this session.** `~/bfm-decomp` on ext4; `.venv/bin/python`; every build `JOBS=16`/`-j`. Ghidra MCP
+   not needed until T8. R22: `make clean && make extract-all JOBS=16 && make check-all JOBS=16` (≈90 s; read the exit code). Cycle: `setsid nohup
+   bash -c 'LABEL_PREFIX=t4_ TASK=T4 CENSUS=0 tools/restruct_cycle.sh START END 400 D; echo "cycle exit=$?"' > .run/P37/restruct/cycle_<x>.log 2>&1 &`
+   (+ `REDRAW="DECL-NONE:visible"` / `HEADERS=1 LABEL_PREFIX=t4_H`); it refreshes the snapshot + calibration itself when HEAD moved and stops on
+   "nothing drawable". Unalias: `--apply --unalias NAMES --label L -j 12` (`--apply` is required). Signature: `--apply --rung D --callee F --body
+   FILE [--all-defs [--map-data]] [--tu TU] [--with REL=FILE …] --label L -j 12`. **Gotchas:** (1) stop a judge with `kill -INT <pid>` and WAIT
+   for its exit (`ps`; ~2 min — it finishes its in-flight units) BEFORE `--restore`; a restore run early consumes `inflight.json` and the judge's
+   later writes have no tool-side restore (S108: 6 files reverted by hand, 197 orphan rows dropped). (2) `pgrep -f`/`pkill -f` never with a
+   literal your own command line contains (exit 144 — twice this session); bracket a character: `restruct_cycl[e]`. (3) Never edit
+   `CURRENT_PHASE.md` while a cycle is between its R22 and its commit (its python rewrites the file); check `ps` for `make` first. (4) A
+   `--snapshot-baseline` only after a GREEN clean fleet run (build/ is the tree's); it now refuses an empty build/. (5) `DECL-NONE` is a DONE
+   verdict: a settled row is redrawn only with `--redraw` — use the `VERDICT:cause` key, never bare `DECL-NONE` (it redraws every "already
+   canonical"/external pair: the t4_D21–D36 cost). (6) A "flat yield" is not "nothing drawable": bucket the remainder by ledger verdict before
+   stopping a cycle (the `md_*` modules were 3,700 never-judged pairs). (7) A pack's "one caller" is a claim: `grep -rnE '\bfunc_X\s*\(\s*\)' src`
+   before a signature unit.
+
+8. **T4's residue, by name, for T5/T7 (each with its cause in the ledger).** T7: the `md_SC07_004` pair `func_801A1E94`/`func_801A5C44` (the
+   zero-argument caller `func_801A6A18(void) { func_801A1E94(); }` passes its OWN incoming `$a0` — re-sign the caller one level up in the same
+   `--with` unit); the other same-address copies of `func_80185578` (ov_SC03_014), `func_80188DF4` (ov_SC02_011 — a caller passes MORE arguments;
+   ov_SC03_104), `func_8017FC5C` (ov_SC04_002 — a short caller), `func_80183CC4` (ov_SC03_006/029/090 — per-overlay data with 1/0/4 symbols vs the
+   pack's 1: per-copy bodies read against their bytes); the 5 return-type lies (`--callee F --body` with the `s32` head, callers in the unit);
+   `func_8016BF50`; the 10 jr-merge functions (the file-layout phase's, not T7's). T5: the 1,120 `parse error` declarations (types the TU cannot
+   see — canonical types, then `--redraw DECL-KEPT`); the 417 `conflicting types` (a second declaration elsewhere in the TU — most will fall to
+   the canonical files). T6: 1,723 `ALIAS-KEPT "second typed view"` data aliases (aggregates), 253 kept from S107.
 
 ## Approved plan (verbatim, gate 1 — 2026-09-11)
 
