@@ -1,0 +1,8 @@
+18:27:22 signature func_80157D20: src/shared/ov/func_80149CB4.h reaches binaries outside the definitions' (['ov_SC03_126', 'ov_SC04_008', 'ov_SC04_021']) — left as is
+18:27:23 signature func_80157D20: `void func_80157D20(void *param_1, s32 param_2)` — 133 definition(s) in ['src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c', 'src/ov_SC01_000/ov_SC01_000_jr_80154C24.c', 'src/ov_SC01_001/ov_SC01_001_jr_80154C24.c'], 2105 declarations in 1974 other files
+18:27:50 signature func_80157D20: DIFFERS linked: mipsel-linux-gnu-ld: /home/musashi/bfm-decomp/.run/P36/delever/obj/src__ov_MAIN_012__ov_MAIN_012_jr_801555F4.sig108d39.lnk.o: in function `func_80157D20':
+src/ov_MAIN_012/ov_MAIN_012_jr_801555 — nothing written
+18:27:50 restruct: signature func_80157D20 — DIFFERS · 0 files written
+Command exited with non-zero status 1
+t4_sig12 wall=85.59 s
+exit=1

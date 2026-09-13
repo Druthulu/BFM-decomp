@@ -9,3 +9,5 @@ cycle: t4_sig9 committed 7601eb870 — restruct: signature func_801A1E94 — COM
 log: t4_sig10
 cycle: t4_sig10 committed 4ba23d0b9 — restruct: signature func_801A5C44 — COMPILE-ERROR · 0 files written | (no src change)
 log: t4_sig11
+cycle: t4_sig11 committed 8e34c1219 — restruct: signature func_8017FC5C — COMPILE-ERROR · 0 files written | (no src change)
+log: t4_sig12
