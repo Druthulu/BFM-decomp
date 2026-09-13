@@ -415,7 +415,7 @@ tail:
 }
 
 
-extern void func_801662F4(void);
+extern void func_801662F4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D41)
 void func_800CB7FC(s32 a0) {
     func_801662F4();

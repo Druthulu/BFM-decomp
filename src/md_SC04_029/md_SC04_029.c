@@ -322,7 +322,7 @@ extern void func_80178CBC(s32 a0, s32 a1);
 extern void func_80174438(s32 a0);
 
 void func_801E83AC(void *param_1) {
-    extern s32 func_801789AC();
+    extern s32 func_801789AC();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     extern s32 D_801E8654;
 
     switch (*(u16 *)((s32)param_1 + 0x34)) {

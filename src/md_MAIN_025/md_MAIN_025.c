@@ -342,7 +342,7 @@ L6A8:
 
 extern void func_8016634C(void *a0);
 extern void func_80147364(u16 a0, s32 a1);
-extern void func_80162CCC();
+extern void func_80162CCC(u8 * a0);
 
 void func_800CB6CC(void *a0) {
     func_8016634C(a0);
@@ -354,7 +354,7 @@ void func_800CB6CC(void *a0) {
 #include "common.h"
 
 extern s32 func_80146E98(s32 a0);
-extern void func_80162CCC();
+extern void func_80162CCC(u8 * a0);
 
 void func_800CB708(void *a0) {
     if (func_80146E98((s32)a0) != 0) {
@@ -579,7 +579,7 @@ void func_800CBBA0(s32 param_1) {
 void func_800CBBF8(void) {
     extern s32 D_8011F9D0[];
     extern void func_80016714(s8 *a0, s32 a1);
-    extern void func_80162CCC(void);
+    extern void func_80162CCC(u8 * a0);
     u8 *p;
 
     for (p = (u8 *)&(*(s32 *)D_8011F9D0); p < (u8 *)&(*(s32 *)D_8011F9D0) + 0x820; p += 0x68) {

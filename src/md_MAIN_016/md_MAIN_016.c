@@ -44,7 +44,7 @@ s32 func_800CAE8C(s32 arg0)
 
 
 extern s32 D_80078EC8;
-extern void func_80165A20(void);
+extern s32 func_80165A20();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CAEF4(void) {
     if (D_80078EC8 == 0) {
@@ -57,7 +57,7 @@ void func_800CAF20(void) {
 }
 
 
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CAF28(void *arg0) {
 

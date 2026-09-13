@@ -128,7 +128,7 @@ extern s16 D_80126BC8;
 extern u16 D_800B99DA;
 
 s32 func_80146AB4(s32, void *, s32, s32, s32, s32, s32);
-void func_80146C3C(void *);
+void func_80146C3C(u8 *a0);
 void func_8002D4C8(s32, s32);
 
 void func_800CB0D0(St *arg0) {
@@ -195,7 +195,7 @@ void func_800CB2AC(void *a0)
     extern s16 D_80126B66;
     extern void RotMatrixY(s32, void *);
     extern void func_8012F14C(s32, s32, s32);
-    extern void func_80146C3C();
+    extern void func_80146C3C(u8 *a0);
 
     u8 *s1;
     u8 *p;

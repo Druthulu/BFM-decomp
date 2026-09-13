@@ -129,7 +129,7 @@ void func_800CB028(s32 a0) {
 }
 
 
-extern void func_80162FF4();
+extern void func_80162FF4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80162FC0(s32 *a0);
 extern s32 func_80146E98(s32 a0);
 extern s32 func_801638A0(u8 *a0, s32 a1);
@@ -205,7 +205,7 @@ void func_800CB2B4(s32 *a0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 void func_800CB338(void) {
     func_80162CCC();
 }
@@ -215,7 +215,7 @@ void func_800CB338(void) {
 
 void func_800CB358(void *param_1) {
     extern void (*D_800CB834[])(void);
-    extern void func_80146C3C();
+    extern void func_80146C3C(u8 *a0);
 
     if (*(u16 *)(*(s32 *)((s32)param_1 + 0x34)) == 0x26) {
         D_800CB834[*(u16 *)((s32)param_1 + 2)]();

@@ -81,7 +81,7 @@ void func_800CAFA8(void *a0) {
     extern s32 func_801465C0(void);
     extern void func_8001CC3C(void *, void *, s32, s32);
     extern void func_80128EA8(void *, void *, void *);
-    extern void func_80146C3C(void *);
+    extern void func_80146C3C(u8 *a0);
     extern void func_8001CD9C(void *, void *);
 
     s32 pad[6];
@@ -145,7 +145,7 @@ void func_800CB158(void *a0) {
     extern u8 D_800CB51D;
     extern u8 D_800CB51E;
     extern void func_800233CC(void *, u16);
-    extern void func_80146C3C(void *);
+    extern void func_80146C3C(u8 *a0);
 
     if (D_80078EC1 == 0x13) {
         if (*(s32 *)((s32)a0 + 0x1c) < 0x10) {
@@ -175,7 +175,7 @@ void func_800CB1EC(void *a0) {
     extern void RotMatrixY(s32 a0, void *a1);
     extern s32 func_80047948(s32 a0);
     extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
-    extern void func_80146C3C();
+    extern void func_80146C3C(u8 *a0);
 
     s16 out[3];
     Blk32_CB1EC buf;

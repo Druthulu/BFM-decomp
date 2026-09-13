@@ -22,7 +22,7 @@ extern void func_800CAEB0(void *a0);
 #include "../shared/slot_800CAE08/func_800CAE78__3873a7ac.h"
 
 
-extern void func_801655E4();
+extern void func_801655E4(s32 a0);
 void func_800CAEB0(void *a0) {
     func_801655E4(a0);
     *(u8 *)((s32)a0 + 0x197) += 1;
@@ -311,7 +311,7 @@ void func_800CB4AC(void) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CBD0C[])();
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB4F4(int param_1)
 {
@@ -328,7 +328,7 @@ void func_800CB4F4(int param_1)
 extern void *func_800D2294(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80146E90(s32 *a0, s32 a1);
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB550(void *a0) {
     extern u8 D_800CBCCC;
@@ -350,7 +350,7 @@ void func_800CB550(void *a0) {
 
 
 extern s32 func_80146E98(s32 a0);
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB5E4(void *a0) {
     s32 v0;
@@ -367,7 +367,7 @@ void func_800CB5E4(void *a0) {
 
 
 
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB630(void *arg0) {
 
@@ -495,7 +495,7 @@ void func_800CB944(s32 *a0) {
 
 
 extern void func_800CBAA4(s32 a0);
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CB9C0(void *a0) {
     s32 *s1 = *(s32 **)((s32)a0 + 0x20);
     func_800CBAA4((s32)a0);
@@ -510,7 +510,7 @@ void func_800CB9C0(void *a0) {
 
 extern void func_800D22E4(s32 a0);
 extern void func_800CBB38(void *a0, void *a1);
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CBA30(void *a0) {
     s32 v0;
     v0 = *(s32*)((s32)a0 + 0x1C) - 1;

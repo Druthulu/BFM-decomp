@@ -307,7 +307,7 @@ s32 func_800CD240(void *arg0) {
 }
 
 
-extern s32 func_801488A8(void);
+extern s32 func_801488A8();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void func_80146D90(void *arg0);
 extern s32 func_80148D44(void *arg0);
 extern void func_80147AD4(void *arg0, s32 arg1, s32 arg2, s32 arg3);

@@ -76,7 +76,7 @@ void func_800CAF84(int param_1)
 }
 
 
-    extern void func_801655E4(void);
+    extern void func_801655E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
     extern void func_80146CA0(void *a0);
     void func_800CAFBC(s32 a0) {
         func_801655E4();

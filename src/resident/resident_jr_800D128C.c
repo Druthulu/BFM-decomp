@@ -1918,7 +1918,7 @@ short flag;
  * so passing the function name decays to &func_800D3238 with no cast.
  */
 extern void func_800D3238(void *arg0);
-extern void func_8016EDEC(void *arg0, s32 arg1);
+extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t4_D58)
 extern void func_800167B8(s32 arg0);
 
 s32 func_800D2DAC(u8 *arg0) {
@@ -1962,7 +1962,7 @@ s32 func_800D2DFC(void) {
 //     gcc hoists the lbu 0x15.
 
 extern void func_800D3348(u8 *arg0);
-extern void func_8016EDEC(void *arg0, s32 arg1);
+extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t4_D58)
 
 typedef struct {
     u8 pad15[0x15];
@@ -2268,7 +2268,7 @@ void func_800D32D4(void *arg0) {
     }
 }
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800D3328(void) {
     func_8016F0E4();
@@ -2284,7 +2284,7 @@ void func_800D3384(u8 *arg0) {
     *(u8 *)(arg0 + 0x214) += 1;
 }
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800D3398(void) {
     func_8016F0E4();
@@ -2295,14 +2295,14 @@ void func_800D3398(void) {
  * (&D_800D3AAC here vs &D_800D3AB0 there). func_8016EE40 takes (u8*, s32).
  * asm: lui/addiu a0=&D_800D3AAC ; jal func_8016EE40 ; lui a1=0x1000000 (delay). */
 extern u8 D_800D3AAC;
-extern void func_8016EE40(u8 *arg0, s32 arg1);
+extern void func_8016EE40();  // K&R: 2 of 3 args (P37 rung D t4_D58)
 
 void func_800D33B8(void) {
     func_8016EE40(&D_800D3AAC, 0x1000000);
 }
 
 extern u8 D_800D3AB0;
-extern void func_8016EE40(u8 *arg0, s32 arg1);
+extern void func_8016EE40();  // K&R: 2 of 3 args (P37 rung D t4_D58)
 
 void func_800D33E0(void) {
     func_8016EE40(&D_800D3AB0, 0x1000000);

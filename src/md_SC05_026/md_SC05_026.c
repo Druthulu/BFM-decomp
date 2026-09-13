@@ -1388,7 +1388,7 @@ void func_801EFC58(s32 arg0) {
 }
 
 
-extern void func_8014B00C(void);
+extern void func_8014B00C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void func_80029344(void);
 void func_801EFF44(void) {
     func_8014B00C();

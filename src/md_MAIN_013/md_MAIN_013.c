@@ -149,8 +149,8 @@ void func_800CB138(s32 arg0) {
     extern void ApplyMatrixSV();
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
-    extern void func_80128EA8();
-    extern void func_80146C3C();
+    extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+    extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
     s16   sp10[4];
     s16   sp18[4];
@@ -228,7 +228,7 @@ void func_800CB138(s32 arg0) {
 
 
 
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB370(void *arg0) {
 
@@ -249,8 +249,8 @@ void func_800CB3CC(void *arg0) {
     extern void ApplyMatrixSV();
     extern void func_800D1FC8(void *arg0, int arg1);
     extern s32 func_800D21C4();
-    extern void func_80128EA8();
-    extern void func_80146C3C();
+    extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+    extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     extern u8 D_800CB8FC[];
     extern u8 D_800CB8BC[];
     s16 sp10[8];
@@ -285,7 +285,7 @@ void func_800CB3CC(void *arg0) {
 
 
 
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB510(void *arg0) {
 
@@ -312,7 +312,7 @@ void func_800CB56C(s32 arg0) {
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
     extern s32 func_80128ED8(s32 param_1, s32 *param_2);
-    extern void func_80146C3C();
+    extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
     u16   vec[8];
     Blk20 blk;
@@ -368,7 +368,7 @@ void func_800CB56C(s32 arg0) {
 
 void func_800CB6E4(void *arg0) {
     extern s32 func_80146A6C(s32, void *, s32, s32, s32, s32, s32);
-    extern void func_80146C3C();
+    extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     u8 *a0 = *(u8 **)((s32)arg0 + 0x34);
     if (*(s32 *)((s32)arg0 + 0x30) == *(s16 *)(a0 + 0x36)) {
         s16 var;
@@ -394,7 +394,7 @@ void func_800CB6E4(void *arg0) {
 
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CB7F0(s32 a0) {
     if (func_80128ED8((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {
         ((void (*)(s32))func_80146C3C)(a0);

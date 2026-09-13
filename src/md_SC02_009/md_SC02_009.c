@@ -303,7 +303,7 @@ void func_801E5338(void *a0) {
 void func_801E53A8(void *a0) {
 
     extern void func_801439C0(u8 *a0);
-    extern void func_8012C218(void *a0);
+    extern void func_8012C218();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     func_801439C0(*(u8 **)((s32)a0 + 0xCC));
     func_8012C218(a0);
 }
@@ -521,7 +521,7 @@ void func_801E5894(void *a0) {
 void func_801E58C0(void *a0) {
 
     extern void func_801439C0(u8 *a0);
-    extern void func_8012C218(void *a0);
+    extern void func_8012C218();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     if (--*(s32 *)((s32)a0 + 0x1C) == 0) {
         func_801439C0(*(u8 **)((s32)a0 + 0xCC));
         func_8012C218(a0);
@@ -601,7 +601,7 @@ void func_801E5A58(void *a0) {
 
 
 
-extern void func_8012C218(void);
+extern void func_8012C218();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_801E5B0C(void) {
 

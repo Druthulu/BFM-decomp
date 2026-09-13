@@ -886,7 +886,7 @@ void func_800CC1E8(s32 arg0) {
 }
 
 
-extern void func_801599A4(void);
+extern void func_801599A4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void func_80159B3C(void * a0);
 void func_800CC260(s32 a0) {
     func_801599A4();
@@ -1142,7 +1142,7 @@ typedef struct { s16 m[9]; s16 pad; s32 t[3]; s32 rest[8]; } Mtx;
 typedef struct { s16 x, y, z; } Vec3s;
 
 extern void func_80015978(s32 a0, void *a1);
-extern void func_8012EFB8();
+extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80013F3C(s32 a0);
 extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80020F34(s32 a0, s32 a1);

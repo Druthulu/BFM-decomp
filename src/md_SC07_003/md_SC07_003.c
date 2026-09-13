@@ -222,7 +222,7 @@ void func_801A04D4(s32 arg0) {
 
 #include "common.h"
 
-extern s32  func_801789AC(void);
+extern s32 func_801789AC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void func_80178D18();
 extern void func_8017BF08(void *, void *, s32, s32);
 extern void func_8012C218(void *);

@@ -231,7 +231,7 @@ void func_800CB288(s32 arg0)
 
 extern u16 D_8011F9D0[];
 extern u16 D_801270C0;
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB3B4(void) {
     u16 *p;
@@ -628,7 +628,7 @@ void func_800CBCD4(u8 *s0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 void func_800CBEB8(void) {
     func_80162CCC();
 }

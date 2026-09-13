@@ -85,7 +85,7 @@ extern s16 D_800CB5F6;
 extern u8 D_800D387C[];
 extern void func_800233CC(void *, u16);
 extern void func_801465C0(void);
-extern void func_80146C3C(void);
+extern void func_80146C3C(u8 *a0);
 extern void func_8001CC3C(s32, void *, s32, s32);
 extern void func_8001CD9C(s32, void *);
 
@@ -148,7 +148,7 @@ void func_800CB168(void *arg0) {
     extern u8 D_80078EC1;
     extern s32 rand(void);
     extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
-    extern void func_80146C3C();
+    extern void func_80146C3C(u8 *a0);
     extern void func_8002D4C8(s32 a0, s32 a1);
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
@@ -232,7 +232,7 @@ void func_800CB328(void *a0) {
     extern void RotMatrixY(s32, void *);
     extern void func_8012F14C(s32, s32, s32);
     extern void func_80016714(s8 *, s32);
-    extern void func_80146C3C();
+    extern void func_80146C3C(u8 *a0);
     extern s16 D_80126B5E;
     extern s16 D_80126B62;
     extern s16 D_80126B66;

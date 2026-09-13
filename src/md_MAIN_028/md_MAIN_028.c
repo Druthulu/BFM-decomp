@@ -382,7 +382,7 @@ void func_800CB8A0(void *a0) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CBEE0[])();
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CBA74(int param_1)
 {

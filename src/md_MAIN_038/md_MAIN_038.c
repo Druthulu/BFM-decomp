@@ -154,7 +154,7 @@ extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_80146CA0(void *a0);
 
 void func_800CB270(s32 a0) {
-    extern void func_80162CCC();
+    extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     extern u32 D_800CBBBC[];
     s32 iVar1;
     s32 iVar2;
@@ -239,14 +239,14 @@ void func_800CB360(void *arg0) {
 }
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CB4F8(void) {
     func_80162CCC();
 }
 
 
 
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB518(void *arg0) {
 
@@ -271,7 +271,7 @@ void func_800CB574(void *param_1) {
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-    extern void func_80146C3C(void);
+    extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
     extern void func_800CB780(s32 a0);
     extern s32 D_800CCA00;
     extern s32 D_800636C8;
@@ -326,7 +326,7 @@ void func_800CB574(void *param_1) {
 
 
 extern void func_800CB780(s32 param_1);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB728(s32 *arg0) {
     arg0[7] = arg0[7] + 1;
@@ -383,7 +383,7 @@ void func_800CB780(s32 param_1) {
 
 
 
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB8B4(void *arg0) {
 
@@ -423,7 +423,7 @@ void func_800CB910(s32 param_1)
 
 
 extern void func_800CBA0C(s32 param_1);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB9B4(s32 *arg0) {
     arg0[7] = arg0[7] + 1;

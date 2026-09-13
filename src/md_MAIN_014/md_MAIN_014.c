@@ -40,7 +40,7 @@ void func_800CAEB0(void *a0) {
 #include "common.h"
 
 extern s32 D_80078EC8;
-extern void func_80165A20(void);
+extern s32 func_80165A20();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CAF20(void) {
     if (D_80078EC8 == 0) {
@@ -148,7 +148,7 @@ typedef struct { s32 w[4]; } func_800CB164_Blk16;
 
 void func_800CB164(void *a0) {
     extern u8 D_80078EC1;
-    extern void func_80146C3C(void *a0);
+    extern void func_80146C3C(u8 *a0);
     extern void func_800CAF90(void *a0);
 
     s32 src;
@@ -182,7 +182,7 @@ void func_800CB164(void *a0) {
 void func_800CB254(void *a0) {
     typedef struct { s32 w[4]; } S16;
     extern u8 D_80078EC1;
-    extern void func_80146C3C(void *a0);
+    extern void func_80146C3C(u8 *a0);
     extern void func_800CAF90(void *a0);
     s32 a1;
     s32 n;
@@ -217,7 +217,7 @@ void func_800CB254(void *a0) {
 
 void func_800CB358(void *param_1) {
     extern u8 D_80078EC1;
-    extern void func_80146C3C();
+    extern void func_80146C3C(u8 *a0);
     extern void func_800CAF90(void *a0);
     s32 iVar2;
     s32 cnt;
@@ -255,7 +255,7 @@ LAB_800CB454:
 void func_800CB470(void *a0) {
     extern u8 D_80078EC1;
     extern void func_800CAF90(void *);
-    extern void func_80146C3C(void *);
+    extern void func_80146C3C(u8 *a0);
     u16 uVar1;
 
     if (D_80078EC1 == 5) {
@@ -277,7 +277,7 @@ typedef struct { s32 w[4]; } func_800CB4D8_Blk16;
 
 extern void func_800CAF90(void *a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80146C3C(void *a0);
+extern void func_80146C3C(u8 *a0);
 extern u8 D_80078EC1;
 
 void func_800CB4D8(void *a0) {
