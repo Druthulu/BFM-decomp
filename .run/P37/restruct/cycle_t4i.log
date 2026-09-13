@@ -1,1 +1,3 @@
 log: t4_D49
+cycle: batch t4_D49 committed f76538941 — restruct: batch t4_D49 rung D — 203 files (TUs; 203 drawable) · 90 declaration units: 55 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 35 kept · compiles 162 in 141 s wall · final 203/203 identical · written 55 files | check-all: 218 passed, 0 failed of 218
+log: t4_D50
