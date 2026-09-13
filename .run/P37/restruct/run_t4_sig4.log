@@ -1,0 +1,5 @@
+18:14:27 signature func_800384A8: `void func_800384A8(s32 arg0)` — 1 definition(s) in ['src/800_c.c'], 1 declarations in 1 other files
+18:14:30 signature func_800384A8: IDENTICAL on every recipe (2 objects, 0.3 s) — 2 files written
+18:14:30 restruct: signature func_800384A8 — IDENTICAL · 2 files written
+t4_sig4 wall=44.22 s
+exit=0

@@ -1871,7 +1871,7 @@ extern u16 D_800A4EA0;
 
 extern s32 func_8003836C(s32 a0);
 extern void func_800383A4(s16 a0);
-extern void func_800384A8(s16 a0);
+extern void func_800384A8(s32 arg0);
 extern void func_800385C0(s32 a0);
 
 void func_8002EC10(void) {

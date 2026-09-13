@@ -2585,8 +2585,7 @@ extern u8 D_800C6E2D[];
 extern void func_8002EFF8(s32 a0, s32 a1);
 extern void func_8003916C(s16 arg);
 
-void func_800384A8(s16 arg0) {
-    register s32 raw __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+void func_800384A8(s32 arg0) {
     u8 *entry;
     u8 *p;
     u8 *q;
@@ -2597,7 +2596,7 @@ void func_800384A8(s16 arg0) {
     s32 i;
     s32 one;
 
-    entry = &D_800B9CD8[raw * 0x1FC];
+    entry = &D_800B9CD8[arg0 * 0x1FC];
     p = entry + 0x1A;
     i = 0;
     one = 1;
