@@ -2995,7 +2995,7 @@ void func_80184F88(s32 a0)
 
 
 extern void func_801850CC();  // K&R: 0 of 1 args (P37 rung D t4_D2)
-extern void func_80185578(s32 a0, s32 a1);
+extern s32 func_80185578(s32 arg0, s32 arg1);
 extern void func_8012A828(s32 a0, void * a1);
 
 void func_8018500C(s32 param_1) {
@@ -3285,36 +3285,32 @@ void func_801853B4(s32 a0) {
 
 
 /* SIMULATION of real-TU context: the TU carries these two rows before the def */
-extern void func_80185578(s32 a0, s32 a1);
-extern void func_80185578(s32 a0, s32 a1);
+extern s32 func_80185578(s32 arg0, s32 arg1);
+extern s32 func_80185578(s32 arg0, s32 arg1);
 
-void func_80185578(s32 arg0, s32 arg1) {
+s32 func_80185578(s32 arg0, s32 arg1) {
     extern u8 D_801BD0C4[];
     extern s32 D_801BD2FC[];
     extern u8 D_800D3918[];
     extern void func_80187414(s32 a0, void *a1, void *a2, s32 a3);
     extern void func_801873B0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern void func_8001C924(s32 a0, void *a1);
-    s32 rv;
     u8 buf[8];
-    s32 x = arg1;
-    s32 y;
+    s16 y = arg1;
     s32 res;
     s16 state;
     s32 flags;
 
-    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
     state = *(u16 *)(arg0 + 0x70) & 0xF;
     flags = *(u32 *)(arg0 + 0xE0);
     if (flags & 4) {
-        rv = 0;
-        goto epi;
+        return 0;
     }
     switch (state) {
     case 0:
         if (flags & 1) {
             func_80187414(arg0, D_801BD0C4, buf, 0xC);
-            res = ((s32 (*)(s32, void *, s32, s32, s32, s32))func_801873B0)(arg0, buf, 0x27F, (s16)x, 0, 0);
+            res = ((s32 (*)(s32, void *, s32, s32, s32, s32))func_801873B0)(arg0, buf, 0x27F, (s16)arg1, 0, 0);
             *(s32 *)(arg0 + 0xD0) = res;
             *(u32 *)(arg0 + 0xE0) &= ~1;
             if (res != 0) {
@@ -3335,12 +3331,9 @@ void func_80185578(s32 arg0, s32 arg1) {
         }
         break;
     default:
-        rv = 1;
-        goto epi;
+        return 1;
     }
-    rv = 1;
-epi:
-    __asm__ volatile("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    return 1;
 }
 
 
