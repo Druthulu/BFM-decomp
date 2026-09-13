@@ -11,3 +11,6 @@ log: t4_HD5
 cycle: batch t4_HD5 committed 3d9c8aed1 — restruct: batch t4_HD5 rung D — 281 files (headers; 281 drawable) · 24 declaration units: 20 canonical / 0 promoted / 4 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 4 kept · compiles 2828 in 69 s wall · final 281/281 identical · written 12 files | check-all: 218 passed, 0 failed of 218
 cycle: batch t4_HD6 wrote no file — restruct: batch t4_HD6 rung D — 271 files (headers; 271 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 16 s wall · final 271/271 identical · written 0 files
 log: t4_HD6
+cycle: batch t4_HD6 committed 8a84409a1 — restruct: batch t4_HD6 rung D — 271 files (headers; 271 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 16 s wall · final 271/271 identical · written 0 files | (no src change — the previous R22 stands)
+cycle: batches 5..6 done
+cycle exit=0
