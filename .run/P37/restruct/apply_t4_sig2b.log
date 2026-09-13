@@ -1,0 +1,6 @@
+18:32:58 signature func_80029D3C: src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c carries a caller-body edit from .run/P37/restruct/with_ov_SC07_002_jr_8017C8D0.c (part of this unit)
+18:33:16 signature func_80029D3C: `s32 func_80029D3C(s32 n)` — 1 definition(s) in ['src/800.c'], 2177 declarations in 2176 other files
+18:34:00 signature func_80029D3C: COMPILE-ERROR src/ov_MAIN_012/../shared/ov/func_8015126C.h:117: too few arguments to function `func_80029D3C'
+src/ov_MAIN_012/../shared/ov/func_80151780.h:24: too few arguments to function `func_80029D3C'
+{standard — nothing written
+18:34:00 restruct: signature func_80029D3C — COMPILE-ERROR · 0 files written
