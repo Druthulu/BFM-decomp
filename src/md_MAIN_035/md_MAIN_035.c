@@ -42,7 +42,7 @@ void func_800CAED8(void) {
 }
 
 extern void func_80147078(s32 *a0, s16 a1);
-extern void func_800CAFBC();
+extern void func_800CAFBC(s32 a0);
 void func_800CAEE0(s32 *a0) {
     func_80147078(a0, 35);
     func_800CAFBC(a0);
@@ -67,7 +67,7 @@ void func_800CAF48(void *a0) {
 
 
 extern s32 func_80161104(s32 a0);
-extern void func_800CAFBC();
+extern void func_800CAFBC(s32 a0);
 void func_800CAF84(int param_1)
 {
     if (((int (*)(void))func_80161104)() != 0) {
