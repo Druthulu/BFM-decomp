@@ -1633,23 +1633,13 @@ void func_80146F58(s32 a0, s32 a1) {
 
 /* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
     extern void func_80147364(u16 param_1, u16 param_2);
-    void func_80147300(u16 arg0) {
-        func_80147364(arg0, 0);
-    }  /* dedup: shared engine-core @0x80147300 (src/shared) */
+#include "../shared/ov/func_80147300.h"
 
 
 /* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
     extern void func_80147364(u16 param_1, u16 param_2);
     extern void *D_8012707C;
-    void func_80147324(s32 arg0) {
-        s32 temp_a0;
-        temp_a0 = arg0 & 0xFFFF;
-        if (temp_a0 == D_8012707C) {
-            D_8012707C = 0;
-            return;
-        }
-        func_80147364(temp_a0, 0);
-    }  /* dedup: shared engine-core @0x80147324 (src/shared) */
+#include "../shared/ov/func_80147324.h"
 
 
 // @class: struct
@@ -2191,42 +2181,7 @@ extern void func_80147364(u16 param_1, u16 param_2);
 extern s32 func_800CCF28(s32 a0);
 extern u16 *func_80146750(u16 *param_1);
 extern s16 currentLocationId;
-s32 func_80149954(s32 s0) {
-
-    extern u8 D_80126B5C;
-    extern void *D_8012707C;
-    s32 sp10[2];
-    s16 buf[10];
-    if (*(s32 *)(s0 + 0x44) & 0x404) {
-        return 0;
-    }
-    if ((*(u16 *)(s0 + 0xAA) & 0x90) == 0) {
-        if (currentLocationId == 0x308D) {
-            func_80015978((s32)&D_80126B5C, sp10);
-            ((s32 (*)(s32, s32, s32))func_8012E5CC)((s32)sp10, 0x4, 0x8E0);
-            return 0;
-        }
-        func_8002D4C8(0x4, 0x8E0);
-        return 0;
-    }
-    if (*(u16 *)(s0 + 0xAC) & 0x90) {
-        if ((s32)D_8012707C == 0x8E0) {
-            D_8012707C = 0;
-        } else {
-            func_80147364(0x8E0, 0);
-        }
-    }
-    func_800CCF28(s0);
-    *(s16 *)((s32)buf + 0x0) = 0x12;
-    *(s32 *)((s32)buf + 0x8) = s0;
-    *(s16 *)((s32)buf + 0x2) = 0;
-    *(s16 *)((s32)buf + 0x4) = -0x1E;
-    *(s16 *)((s32)buf + 0x6) = 0;
-    *(s32 *)((s32)buf + 0xC) = 0;
-    *(s32 *)((s32)buf + 0x10) = 0;
-    func_80146750(buf);
-    return 1;
-}
+#include "../shared/ov/func_80149954.h"
 
 
 #include "../shared/ov/func_80149A64.h"
@@ -2742,18 +2697,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
     extern u16 func_8014CA70(s32 a0, s32 a1);
     extern void func_80147364(u16 param_1, u16 param_2);
     extern void *D_8012707C;
-    s32 func_8014CA14(s32 a0, s32 a1) {
-        u16 x = func_8014CA70(a0, a1);
-        if (x == 0) {
-            return 1;
-        }
-        if (x != (s32)D_8012707C) {
-            func_80147364(x, 0);
-            return 0;
-        }
-        D_8012707C = 0;
-        return 0;
-    }  /* dedup: shared engine-core @0x8014ca14 (src/shared) */
+#include "../shared/ov/func_8014CA14.h"
 
 
 #include "../shared/ov/func_8014CA70.h"

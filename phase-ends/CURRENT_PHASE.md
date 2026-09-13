@@ -760,6 +760,16 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   --retry-excepted` (a ledgered class re-enters the plan; before registration its old row is dropped — a share leaves no row, a rejection
   re-ledgers with the fresh diagnostic); `--plan --retry-excepted`: **extend 50 classes · new 1 class** (0 / 0 without the flag).
 
+- **S108 — item (g), the extend bucket: `share_body --apply --bucket extend --retry-excepted --batch 60 --label t4_ret1`** (`run_t4_ret1.log`, 104 s):
+  `gated 141/141 binaries green · registered 0 groups · extended 17 members · rejected classes 44` — **6 of the 50 ledgered classes share now**
+  (their rows dropped: the ledger 63 → 57 lines; `config/dedup.us.yaml` extended by 17 members; one private copy deleted from
+  `ov_MAIN_012_jr_8013F350.c`), 44 re-ledgered with today's diagnostics (`conflicting types for ApplyMatrixSV` / `D_800AE620` / `D_80126CC4` /
+  `D_800A651C` — a late-onboarded TU declares a Sony function or a datum another way, T5's canonical layer; `too few arguments to func_8014A51C /
+  func_80146C3C / func_801483E8 / func_8016EDEC` inside shared bodies — the header's short call compiles only where the includer's declaration is
+  the K&R `()`; `redefinition of tail_8012F274`; `conflicting types for func_80173B4C`). R22 (`r22_t4_ret1.log`) **`check-all: 218 passed, 0
+  failed of 218`** (`wall=82.36 s`); `share_census --check --strict-macros --strict-text` → `S1 … 10,180 satisfied (3,507 twin-covered, 45 excepted,
+  3,801 deferred cross-address), 0 VIOLATION(S) — OK`.
+
 ## 🛑 SESSION CHECKPOINT — S108 (2026-09-12, FINAL — written for a FRESH session; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐): steps (a)–(f) DONE, two owed items left** — 🛑 **T4 NEXT: (g) the 51 TU-CONFLICT rows retried through `share_body` (needs a `--retry-excepted` flag), (h) the 593 "no visible definition" rows read on one example; then the T4 ☑ line, the P6 rules check, T5 (Max for the head types); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `06615fe89` (every one of the session's ~40 gated commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_HD8` on 1e876b0ec: 57 files (headers; 57 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 i
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

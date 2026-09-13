@@ -1,0 +1,197 @@
+share_body: census 26 s · extend (registered-incomplete) 50 classes · new (unregistered same-vram) 1 classes / 1 private sites
+  [t4_ret1] 50 classes · 159 sites in 41 TUs · 0 new headers · gating 141 binaries
+  [t4_ret1] ov_MAIN_012: class 05353a788c REJECTED — src/ov_MAIN_012/../shared/ov/func_8015B858.h:11: too few arguments to function `func_8014A51C'
+  [t4_ret1] ov_MAIN_012: class 0964d4c658 REJECTED — src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:8168: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_MAIN_012: class 0d18ee0d06 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_MAIN_012: class 0f3f34484f REJECTED — src/ov_MAIN_012/../shared/ov/func_8014CBE8.h:3: conflicting types for `D_80126CC4'
+  [t4_ret1] ov_MAIN_012: class 238e26f72f REJECTED — src/ov_MAIN_012/../shared/ov/func_80169058.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_MAIN_012: class 29e6564223 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_MAIN_012: class 2e065293da REJECTED — 'src/ov_MAIN_012/ov_MAIN_012_jr_8013F350.c:1655: 
+  [t4_ret1] ov_MAIN_012: class 3ef37ce705 REJECTED — src/ov_MAIN_012/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_MAIN_012: class 47b7d4a048 REJECTED — src/ov_MAIN_012/../shared/ov/func_80144090.h:11: conflicting types for `D_800A651C'
+  [t4_ret1] ov_MAIN_012: class 4dd276719f REJECTED — src/ov_MAIN_012/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_MAIN_012: class 5793cdffde REJECTED — D_801848D0src/ov_MAIN_012/ov_MAIN_012_jr_801458E0.c:1254: 'warning: 
+  [t4_ret1] ov_MAIN_012: class 6d45bcfe1c REJECTED — src/ov_MAIN_012/../shared/ov/func_80149F2C.h:16: too few arguments to function `func_8016EDEC'
+  [t4_ret1] ov_MAIN_012: class 75c3bc8284 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168F40.h:4: conflicting types for `D_800AE620'
+  [t4_ret1] ov_MAIN_012: class 89a42c5cca REJECTED — src/ov_MAIN_012/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_MAIN_012: class 8e3f8acd47 REJECTED — src/ov_MAIN_012/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_MAIN_012: class 9dda58b2de REJECTED — src/ov_MAIN_012/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_MAIN_012: class b5c37d4143 REJECTED — src/ov_MAIN_012/../shared/ov/func_80168664.h:3: conflicting types for `D_800AE620'
+  [t4_ret1] ov_MAIN_012: class cc6b91ad3d REJECTED — src/ov_MAIN_012/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_MAIN_012: class cca105be1a REJECTED — src/ov_MAIN_012/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8'
+  [t4_ret1] ov_MAIN_012: class e2c32e5950 REJECTED — src/ov_MAIN_012/../shared/ov/func_80169408.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_MAIN_012: class e9c9fa5bf6 REJECTED — src/ov_MAIN_012/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_MAIN_012: class fbef0f0b65 REJECTED — src/ov_MAIN_012/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC01_000: class 5fd1ad0684 REJECTED — src/ov_SC01_000/../shared/ov/func_80174CB0.h:6: conflicting types for `func_80012ABC'
+  [t4_ret1] ov_SC01_000: class 7e04ee1875 REJECTED — src/ov_SC01_000/../shared/ov/func_801749C8.h:7: conflicting types for `func_80012ABC'
+  [t4_ret1] ov_SC01_077: class 0bfaee44dc REJECTED — src/ov_SC01_077/../shared/ov/func_8012F274.h:8: redefinition of `tail_8012F274'
+  [t4_ret1] ov_SC01_077: class 5fd1ad0684 REJECTED — src/ov_SC01_077/../shared/ov/func_80174CB0.h:6: conflicting types for `func_80012ABC'
+  [t4_ret1] ov_SC01_077: class 7e04ee1875 REJECTED — src/ov_SC01_077/../shared/ov/func_801749C8.h:7: conflicting types for `func_80012ABC'
+  [t4_ret1] ov_SC01_077: class d50cc5103c REJECTED — src/ov_SC01_077/../shared/ov/func_80172C50.h:4: conflicting types for `func_80172CA0'
+  [t4_ret1] ov_SC01_077: class d62e1dd557 REJECTED — src/ov_SC01_077/../shared/ov/func_80173A60.h:5: conflicting types for `func_80173B4C'
+  [t4_ret1] ov_SC01_077: class f769ff8982 REJECTED — src/ov_SC01_077/../shared/ov/func_8013C08C.h:6: `E_13C08C_8013C08C' undeclared (first use this function)
+  [t4_ret1] ov_SC02_037: class 05353a788c REJECTED — src/ov_SC02_037/../shared/ov/func_8015B858.h:11: too few arguments to function `func_8014A51C'
+  [t4_ret1] ov_SC02_037: class 0964d4c658 REJECTED — src/ov_SC02_037/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC02_037: class 0d18ee0d06 REJECTED — src/ov_SC02_037/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC02_037: class 0f3f34484f REJECTED — src/ov_SC02_037/../shared/ov/func_8014CBE8.h:3: conflicting types for `D_80126CC4'
+  [t4_ret1] ov_SC02_037: class 238e26f72f REJECTED — src/ov_SC02_037/../shared/ov/func_80169058.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC02_037: class 29e6564223 REJECTED — src/ov_SC02_037/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC02_037: class 2e065293da REJECTED — src/ov_SC02_037/../shared/ov/func_80161BE0.h:7: conflicting types for `func_80161BE0'
+  [t4_ret1] ov_SC02_037: class 3a43941d56 REJECTED — src/ov_SC02_037/../shared/ov/func_8017D588__3a43941d.h:18: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC02_037: class 3ef37ce705 REJECTED — src/ov_SC02_037/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC02_037: class 47b7d4a048 REJECTED — func_80170B90src/ov_SC02_037/../shared/ov/func_801614E4.h:6: 'warning: 
+  [t4_ret1] ov_SC02_037: class 4dd276719f REJECTED — D_80078EB0src/ov_SC02_037/../shared/ov/func_8014BE9C.h:4: 'warning: 
+  [t4_ret1] ov_SC02_037: class 5793cdffde REJECTED — src/ov_SC02_037/../shared/ov/func_8016A8FC.h:4: conflicting types for `D_800AE620'
+  [t4_ret1] ov_SC02_037: class 5b6b968251 REJECTED — 'src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.c:3845: 
+  [t4_ret1] ov_SC02_037: class 6d45bcfe1c REJECTED — src/ov_SC02_037/../shared/ov/func_80149F2C.h:16: too few arguments to function `func_8016EDEC'
+  [t4_ret1] ov_SC02_037: class 75c3bc8284 REJECTED — src/ov_SC02_037/../shared/ov/func_80168F40.h:4: conflicting types for `D_800AE620'
+  [t4_ret1] ov_SC02_037: class 86843ed565 REJECTED — src/ov_SC02_037/../shared/ov/func_8017D6CC__86843ed5.h:4: conflicting types for `func_80146C3C'
+  [t4_ret1] ov_SC02_037: class 89a42c5cca REJECTED — src/ov_SC02_037/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC02_037: class 8e3f8acd47 REJECTED — src/ov_SC02_037/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC02_037: class 9dda58b2de REJECTED — src/ov_SC02_037/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC02_037: class b5c37d4143 REJECTED — src/ov_SC02_037/../shared/ov/func_80168664.h:3: conflicting types for `D_800AE620'
+  [t4_ret1] ov_SC02_037: class cc6b91ad3d REJECTED — src/ov_SC02_037/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC02_037: class cca105be1a REJECTED — src/ov_SC02_037/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8'
+  [t4_ret1] ov_SC02_037: class e2c32e5950 REJECTED — src/ov_SC02_037/../shared/ov/func_80169408.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC02_037: class e9c9fa5bf6 REJECTED — src/ov_SC02_037/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC02_037: class fbef0f0b65 REJECTED — src/ov_SC02_037/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC03_107: class 05353a788c REJECTED — src/ov_SC03_107/../shared/ov/func_8015B858.h:11: too few arguments to function `func_8014A51C'
+  [t4_ret1] ov_SC03_107: class 0964d4c658 REJECTED — src/ov_SC03_107/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC03_107: class 0d18ee0d06 REJECTED — src/ov_SC03_107/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC03_107: class 0f3f34484f REJECTED — src/ov_SC03_107/../shared/ov/func_8014CBE8.h:3: conflicting types for `D_80126CC4'
+  [t4_ret1] ov_SC03_107: class 238e26f72f REJECTED — src/ov_SC03_107/../shared/ov/func_80169058.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC03_107: class 29e6564223 REJECTED — src/ov_SC03_107/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC03_107: class 2e065293da REJECTED — src/ov_SC03_107/../shared/ov/func_80161BE0.h:7: conflicting types for `func_80161BE0'
+  [t4_ret1] ov_SC03_107: class 3ef37ce705 REJECTED — src/ov_SC03_107/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC03_107: class 47b7d4a048 REJECTED — src/ov_SC03_107/../shared/ov/func_80144090.h:11: conflicting types for `D_800A651C'
+  [t4_ret1] ov_SC03_107: class 4dd276719f REJECTED — src/ov_SC03_107/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC03_107: class 5793cdffde REJECTED — src/ov_SC03_107/../shared/ov/func_8016A8FC.h:4: conflicting types for `D_800AE620'
+  [t4_ret1] ov_SC03_107: class 6d45bcfe1c REJECTED — src/ov_SC03_107/../shared/ov/func_80149F2C.h:16: too few arguments to function `func_8016EDEC'
+  [t4_ret1] ov_SC03_107: class 75c3bc8284 REJECTED — src/ov_SC03_107/../shared/ov/func_80168F40.h:4: conflicting types for `D_800AE620'
+  [t4_ret1] ov_SC03_107: class 89a42c5cca REJECTED — src/ov_SC03_107/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC03_107: class 8e3f8acd47 REJECTED — src/ov_SC03_107/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC03_107: class 9dda58b2de REJECTED — src/ov_SC03_107/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC03_107: class b5c37d4143 REJECTED — 'src/ov_SC03_107/../shared/ov/func_80147060.h:7: 
+  [t4_ret1] ov_SC03_107: class cc6b91ad3d REJECTED — src/ov_SC03_107/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC03_107: class cca105be1a REJECTED — src/ov_SC03_107/../shared/ov/func_80161124.h:19: too few arguments to function `func_801483E8'
+  [t4_ret1] ov_SC03_107: class e2c32e5950 REJECTED — src/ov_SC03_107/../shared/ov/func_80169408.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC03_107: class e9c9fa5bf6 REJECTED — src/ov_SC03_107/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC03_107: class fbef0f0b65 REJECTED — src/ov_SC03_107/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC03_126: class 60be554c70 REJECTED — src/ov_SC03_126/../shared/ov/func_8017EF6C__60be554c.h:4: `D_80126942' undeclared (first use this function)
+  [t4_ret1] ov_SC06_018: class 5fd1ad0684 REJECTED — src/ov_SC06_018/../shared/ov/func_80174CB0.h:6: conflicting types for `func_80012ABC'
+  [t4_ret1] ov_SC06_018: class 7e04ee1875 REJECTED — src/ov_SC06_018/../shared/ov/func_801749C8.h:7: conflicting types for `func_80012ABC'
+  [t4_ret1] ov_SC07_006: class 0964d4c658 REJECTED — src/ov_SC07_006/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_006: class 0d18ee0d06 REJECTED — src/ov_SC07_006/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_006: class 1c5bc11f81 REJECTED — src/ov_SC07_006/../shared/ov/func_8016BF50.h:6: conflicting types for `func_8016BF50'
+  [t4_ret1] ov_SC07_006: class 20aa0ffd5a REJECTED — src/ov_SC07_006/../shared/ov/func_801759D8.h:7: conflicting types for `D_800AE7BC'
+  [t4_ret1] ov_SC07_006: class 225792366f REJECTED — src/ov_SC07_006/../shared/ov/func_8014CF04.h:7: conflicting types for `func_8014CF04'
+  [t4_ret1] ov_SC07_006: class 238e26f72f REJECTED — src/ov_SC07_006/../shared/ov/func_80169058.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_006: class 29e6564223 REJECTED — src/ov_SC07_006/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_006: class 3ef37ce705 REJECTED — src/ov_SC07_006/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_006: class 4dd276719f REJECTED — src/ov_SC07_006/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_006: class 62ab8c1ddf REJECTED — D_801F4F48src/ov_SC07_006/../shared/ov/func_8012D098.h:26: 'warning: 
+  [t4_ret1] ov_SC07_006: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_006/ov_SC07_006
+  [t4_ret1] ov_SC07_006: class 89a42c5cca REJECTED — src/ov_SC07_006/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_006: class 8e3f8acd47 REJECTED — src/ov_SC07_006/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_006: class 9c43d3fca3 REJECTED — src/ov_SC07_006/../shared/ov/func_8012E688.h:6: conflicting types for `RotTransPers'
+  [t4_ret1] ov_SC07_006: class 9dda58b2de REJECTED — src/ov_SC07_006/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_006: class bd7388526b REJECTED — 'src/ov_SC07_006/ov_SC07_006_jr_80135D20.c:679: 
+  [t4_ret1] ov_SC07_006: class c56e1eba19 REJECTED — src/ov_SC07_006/../shared/ov/func_8012D3B4.h:4: conflicting types for `RotTransPers'
+  [t4_ret1] ov_SC07_006: class c5e872b095 REJECTED — D_800AE7BCsrc/ov_SC07_006/../shared/ov/func_80161774.h:22: 'warning: 
+  [t4_ret1] ov_SC07_006: class c9866fcb86 REJECTED — src/ov_SC07_006/../shared/ov/func_8012F49C.h:6: conflicting types for `RotTransPers'
+  [t4_ret1] ov_SC07_006: class cc6b91ad3d REJECTED — src/ov_SC07_006/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_006: class d63a10fab8 REJECTED — src/ov_SC07_006/../shared/ov/func_8012F40C.h:5: conflicting types for `RotTransPers'
+  [t4_ret1] ov_SC07_006: class e2c32e5950 REJECTED — src/ov_SC07_006/../shared/ov/func_80169408.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_006: class e9c9fa5bf6 REJECTED — src/ov_SC07_006/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_006: class fbef0f0b65 REJECTED — src/ov_SC07_006/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_007: class 0964d4c658 REJECTED — src/ov_SC07_007/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_007: class 0d18ee0d06 REJECTED — src/ov_SC07_007/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_007: class 1c5bc11f81 REJECTED — src/ov_SC07_007/../shared/ov/func_8016BF50.h:6: conflicting types for `func_8016BF50'
+  [t4_ret1] ov_SC07_007: class 238e26f72f REJECTED — D_801152AAsrc/ov_SC07_007/../shared/ov/func_80140D68.h:18: 'warning: 
+  [t4_ret1] ov_SC07_007: class 29e6564223 REJECTED — src/ov_SC07_007/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_007: class 3ef37ce705 REJECTED — src/ov_SC07_007/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_007: class 4dd276719f REJECTED — D_801C66B0src/ov_SC07_007/../shared/ov/func_8014B034.h:4: 'warning: 
+  [t4_ret1] ov_SC07_007: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_007/ov_SC07_007
+  [t4_ret1] ov_SC07_007: class 89a42c5cca REJECTED — src/ov_SC07_007/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_007: class 8e3f8acd47 REJECTED — src/ov_SC07_007/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_007: class 9dda58b2de REJECTED — src/ov_SC07_007/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_007: class cc6b91ad3d REJECTED — src/ov_SC07_007/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_007: class e2c32e5950 REJECTED — src/ov_SC07_007/../shared/ov/func_80169408.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_007: class e9c9fa5bf6 REJECTED — D_80126B78src/ov_SC07_007/../shared/ov/func_8016BA68.h:9: 'warning: 
+  [t4_ret1] ov_SC07_007: class fbef0f0b65 REJECTED — src/ov_SC07_007/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_010: class 1c5bc11f81 REJECTED — src/ov_SC07_010/../shared/ov/func_8016BF50.h:6: conflicting types for `func_8016BF50'
+  [t4_ret1] ov_SC07_010: class 2e822a8f62 REJECTED — src/ov_SC07_010/../shared/ov/func_80140D68.h:41: `D_800B9A02' undeclared (first use this function)
+  [t4_ret1] ov_SC07_010: class 3ef37ce705 REJECTED — src/ov_SC07_010/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_010: class 7529ad8f17 REJECTED — 'src/ov_SC07_010/ov_SC07_010_jr_80140608.c:285: 
+  [t4_ret1] ov_SC07_010: class 89a42c5cca REJECTED — memcpysrc/ov_SC07_010/ov_SC07_010_jr_8015C32C.c:1824: 'warning: 
+  [t4_ret1] ov_SC07_010: class 9dda58b2de REJECTED — src/ov_SC07_010/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_010: class cc6b91ad3d REJECTED — src/ov_SC07_010/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_010: class fbef0f0b65 REJECTED — src/ov_SC07_010/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_011: class 0964d4c658 REJECTED — src/ov_SC07_011/../shared/ov/func_80168BDC.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_011: class 0d18ee0d06 REJECTED — src/ov_SC07_011/../shared/ov/func_80168070.h:7: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_011: class 1c5bc11f81 REJECTED — D_801152ACsrc/ov_SC07_011/../shared/ov/func_80145B24.h:18: 'warning: 
+  [t4_ret1] ov_SC07_011: class 238e26f72f REJECTED — src/ov_SC07_011/../shared/ov/func_80169058.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_011: class 29e6564223 REJECTED — src/ov_SC07_011/../shared/ov/func_80168D94.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_011: class 3ef37ce705 REJECTED — src/ov_SC07_011/../shared/ov/func_8016D984.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_011: class 4dd276719f REJECTED — src/ov_SC07_011/../shared/ov/func_8016986C.h:8: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_011: class 7529ad8f17 REJECTED — [FAIL] build/ov_SC07_011/ov_SC07_011
+  [t4_ret1] ov_SC07_011: class 89a42c5cca REJECTED — src/ov_SC07_011/../shared/ov/func_8016E728.h:13: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_011: class 8e3f8acd47 REJECTED — src/ov_SC07_011/../shared/ov/func_80146F58.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_011: class 9dda58b2de REJECTED — src/ov_SC07_011/../shared/ov/func_8016829C.h:8: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_011: class cc6b91ad3d REJECTED — src/ov_SC07_011/../shared/ov/func_8016D848.h:16: too few arguments to function `func_80146C3C'
+  [t4_ret1] ov_SC07_011: class e2c32e5950 REJECTED — src/ov_SC07_011/../shared/ov/func_80169408.h:6: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_011: class e9c9fa5bf6 REJECTED — src/ov_SC07_011/../shared/ov/func_80165FA4.h:5: conflicting types for `ApplyMatrixSV'
+  [t4_ret1] ov_SC07_011: class fbef0f0b65 REJECTED — src/ov_SC07_011/../shared/ov/func_801684B4.h:7: too few arguments to function `func_80146C3C'
+  [t4_ret1] retry: 1 previous ledger row(s) of 47b7d4a048 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 5fd1ad0684 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 7e04ee1875 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 0d18ee0d06 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 0964d4c658 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 4dd276719f dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 238e26f72f dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 5793cdffde dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 225792366f dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of cc6b91ad3d dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 29e6564223 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of c5e872b095 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of e2c32e5950 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 7921cb4a22 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 2e822a8f62 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of c56e1eba19 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 9c43d3fca3 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of d62e1dd557 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of cca105be1a dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 20aa0ffd5a dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of b5c37d4143 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 75c3bc8284 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 7529ad8f17 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of c9866fcb86 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of dd5bb9d1dc dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 62ab8c1ddf dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 05353a788c dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of d63a10fab8 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 9dda58b2de dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of fbef0f0b65 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 3ef37ce705 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 6d45bcfe1c dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of e0963a4b81 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 0bfaee44dc dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of bd7388526b dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of e9c9fa5bf6 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 8e3f8acd47 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of f769ff8982 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 7576525bd5 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 1c5bc11f81 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 89a42c5cca dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of d50cc5103c dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 2e065293da dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of f420052116 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 6d5164d17d dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 0f3f34484f dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 86843ed565 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 3a43941d56 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 5b6b968251 dropped — this run's verdict replaces them
+  [t4_ret1] retry: 1 previous ledger row(s) of 60be554c70 dropped — this run's verdict replaces them
+  [t4_ret1] gated 141/141 binaries green · registered 0 groups · extended 17 members · rejected classes 44
+share_body: done — 50 of 50 classes in 1 batch(es); see the ledger; 104 s
+exit=0

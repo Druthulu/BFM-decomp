@@ -6273,23 +6273,7 @@ void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
 extern void func_80146C3C(u8 *a0);
 
-void func_8016706C(s32 param_1)
-{
-
-    extern s32 D_8011D030;
-    unsigned short *puVar1;
-    short iVar2;
-
-    iVar2 = 0;
-    puVar1 = ((unsigned short *)&D_8011D030);
-    do {
-        if ((unsigned int)*puVar1 == ((short)param_1)) {
-            ((void(*)(unsigned short *))func_80146C3C)(puVar1);
-        }
-        iVar2 = iVar2 + 1;
-        puVar1 = puVar1 + 0x2c;
-    } while (iVar2 < 0x1e);
-}
+#include "../shared/ov/func_8016706C.h"
 
 
 

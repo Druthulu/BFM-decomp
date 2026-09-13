@@ -2398,25 +2398,7 @@ void func_8012AD44(s32 *a0, s16 a1);
 void func_8012C218(void *a0);
 void func_8012C098(void *param_1);
 
-void func_80142BB4(s32* param_1, s32 param_2, s32 param_3)
-{
-  if (*(short *)((char *)param_1 + 0xfc) == 1) {
-    if ((param_2 != 0) || (*(short *)((char *)param_1 + 0x100) == 0)) {
-      *(unsigned short *)((char *)param_1 + 0x5c) =
-        *(unsigned short *)((char *)param_1 + 0x5c) & 0xfefe;
-      *(unsigned int *)(*(int *)((char *)param_1 + 0x20) + 4) =
-        *(unsigned int *)(*(int *)((char *)param_1 + 0x20) + 4) | 0x80000000;
-      func_801439C0((u8 *)*(int *)((char *)param_1 + 0xcc));
-      func_8012AD44((s32 *)param_1, param_3);
-    }
-  }
-  else if ((param_2 != 0) || (*(short *)((char *)param_1 + 0x100) == 0)) {
-    func_8012C218(param_1);
-  }
-  else {
-    func_8012C098(param_1);
-  }
-}
+#include "../shared/ov/func_80142BB4.h"
 
 
 void func_80142C7C(void) {
