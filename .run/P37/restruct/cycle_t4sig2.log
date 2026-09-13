@@ -7,3 +7,5 @@ cycle: t4_sig8 committed d585b9a8a — restruct: signature func_80188A30 — DIF
 log: t4_sig9
 cycle: t4_sig9 committed 7601eb870 — restruct: signature func_801A1E94 — COMPILE-ERROR · 0 files written | (no src change)
 log: t4_sig10
+cycle: t4_sig10 committed 4ba23d0b9 — restruct: signature func_801A5C44 — COMPILE-ERROR · 0 files written | (no src change)
+log: t4_sig11

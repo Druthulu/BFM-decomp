@@ -1,0 +1,8 @@
+18:26:12 signature func_8017FC5C: `s32 * func_8017FC5C(s32 *a0, s32 a1, s32 a2)` — 2 definition(s) in ['src/ov_SC03_115/ov_SC03_115_jr_8017BEBC.c', 'src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c'], 5 declarations in 0 other files
+18:26:13 signature func_8017FC5C: COMPILE-ERROR src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:4875: too few arguments to function `func_8017FC5C'
+src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c: At top level:
+src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c: At top — nothing written
+18:26:13 restruct: signature func_8017FC5C — COMPILE-ERROR · 0 files written
+Command exited with non-zero status 1
+t4_sig11 wall=40.91 s
+exit=1
