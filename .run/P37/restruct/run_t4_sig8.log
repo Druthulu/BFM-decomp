@@ -1,0 +1,6 @@
+18:23:28 signature func_80188A30: `void func_80188A30(s32 a0)` — 1 definition(s) in ['src/ov_SC04_011/ov_SC04_011_jr_8017D494.c'], 1 declarations in 0 other files
+18:23:35 signature func_80188A30: DIFFERS [build/src/ov_SC04_011/ov_SC04_011_jr_8017D494.o] — nothing written
+18:23:35 restruct: signature func_80188A30 — DIFFERS · 0 files written
+Command exited with non-zero status 1
+t4_sig8 wall=51.05 s
+exit=1

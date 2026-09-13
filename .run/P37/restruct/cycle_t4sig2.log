@@ -1,3 +1,5 @@
 log: t4_sig6
 cycle: t4_sig6 committed 754916997 — restruct: signature func_80185578 — IDENTICAL · 3 files written | check-all: 218 passed, 0 failed of 218
 log: t4_sig7
+cycle: t4_sig7 committed bbeeceb60 — restruct: signature func_80188DF4 — COMPILE-ERROR · 0 files written | (no src change)
+log: t4_sig8
