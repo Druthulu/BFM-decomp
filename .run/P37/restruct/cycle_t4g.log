@@ -1,3 +1,5 @@
 log: t4_D40
 cycle: batch t4_D40 committed 25c70a009 — restruct: batch t4_D40 rung D — 300 files (TUs; 2367 drawable) · 619 declaration units: 547 canonical / 0 promoted / 8 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 72 kept · compiles 756 in 154 s wall · final 300/300 identical · written 286 files | check-all: 218 passed, 0 failed of 218
 log: t4_D41
+cycle: batch t4_D41 committed 6cb573173 — restruct: batch t4_D41 rung D — 300 files (TUs; 2085 drawable) · 724 declaration units: 648 canonical / 0 promoted / 8 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 76 kept · compiles 823 in 61 s wall · final 300/300 identical · written 300 files | check-all: 218 passed, 0 failed of 218
+log: t4_D42

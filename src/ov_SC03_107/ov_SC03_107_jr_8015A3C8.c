@@ -2063,7 +2063,7 @@ extern void func_80158548(s32 param_1);
 extern void func_801585EC(u8 *a0);
 extern s32 func_80159464();
 extern int func_800D0F8C(int a0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4(u8 * p);
 extern void func_800D0F4C(s32 a0);
 extern void func_80158814(void *a0);
 extern void func_80158638(void *a0);
