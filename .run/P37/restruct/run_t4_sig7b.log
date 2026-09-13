@@ -1,0 +1,5 @@
+18:38:18 signature func_80188DF4: `s32 func_80188DF4(s32 a0)` — 1 definition(s) in ['src/ov_SC03_091/ov_SC03_091_jr_8018326C.c'], 1 declarations in 0 other files
+18:38:18 signature func_80188DF4: IDENTICAL on every recipe (1 objects, 0.2 s) — 1 files written
+18:38:18 restruct: signature func_80188DF4 — IDENTICAL · 1 files written
+t4_sig7b wall=48.21 s
+exit=0

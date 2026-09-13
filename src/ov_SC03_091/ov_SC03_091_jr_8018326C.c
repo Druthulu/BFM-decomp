@@ -6091,7 +6091,7 @@ void func_80188284(s32 a0) {
 
 
 extern s32 D_801AC084[];
-extern void func_80188DF4(s32 a0);
+extern s32 func_80188DF4(s32 a0);
 
 void func_80188304(s32 s0) {
     typedef void (*FuncPtr)(void);
@@ -6658,44 +6658,34 @@ void func_80188C18(s32 a0) {
 
 extern void func_800183E0(s32 a0);
 
-void func_80188DF4(a0)
-s32 a0;
+s32 func_80188DF4(s32 a0)
 {
-    s32 v0;
-    s32 v1;
-    s32 a1;
+    s32 *p;
+    s32 t;
 
-    v0 = *(s32 *)(a0 + 0xE0);
-    if (v0 == 0) {
-        v0 = 1;
-        goto END;
+    t = *(s32 *)(a0 + 0xE0);
+    if (t == 0) {
+        return 1;
     }
-    v0 = v0 - 1;
-    *(s32 *)(a0 + 0xE0) = v0;
-    if (v0 > 0) {
-        goto SET0;
+    t -= 1;
+    *(s32 *)(a0 + 0xE0) = t;
+    if (t > 0) {
+        return 0;
     }
 
-    v1 = *(s32 *)(a0 + 0xD0);
-    v1 = v1 + 8;
-    a1 = *(s32 *)v1;
-    if ((a1 & 0x40000000) != 0) {
-        v1 = *(s32 *)(a0 + 0xCC);
-    } else if (a1 < 0) {
-        v0 = 1;
+    p = *(s32 **)(a0 + 0xD0);
+    p += 2;
+    if ((*p & 0x40000000) != 0) {
+        p = *(s32 **)(a0 + 0xCC);
+    } else if (*p < 0) {
         *(s32 *)(a0 + 0xE0) = 0;
-        goto END;
+        return 1;
     }
-
-    v0 = *(s32 *)v1;
-    *(s32 *)(a0 + 0xD0) = v1;
-    *(s32 *)(a0 + 0xE0) = v0;
-    func_800183E0(*(s32 *)(v1 + 4));
-
-SET0:
-    v0 = 0;
-END:
-    __asm__ volatile("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    t = p[0];
+    *(s32 **)(a0 + 0xD0) = p;
+    *(s32 *)(a0 + 0xE0) = t;
+    func_800183E0(p[1]);
+    return 0;
 }
 
 
