@@ -8,3 +8,6 @@ log: t4_D52
 cycle: batch t4_D52 committed f74d1e077 — restruct: batch t4_D52 rung D — 400 files (TUs; 1507 drawable) · 1659 declaration units: 1639 canonical / 0 promoted / 1 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 20 kept · compiles 815 in 120 s wall · final 400/400 identical · written 375 files | check-all: 218 passed, 0 failed of 218
 cycle: batches 49..52 done
 log: t4_HD5
+cycle: batch t4_HD5 committed 3d9c8aed1 — restruct: batch t4_HD5 rung D — 281 files (headers; 281 drawable) · 24 declaration units: 20 canonical / 0 promoted / 4 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 4 kept · compiles 2828 in 69 s wall · final 281/281 identical · written 12 files | check-all: 218 passed, 0 failed of 218
+cycle: batch t4_HD6 wrote no file — restruct: batch t4_HD6 rung D — 271 files (headers; 271 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 16 s wall · final 271/271 identical · written 0 files
+log: t4_HD6
