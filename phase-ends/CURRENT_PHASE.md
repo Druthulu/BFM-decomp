@@ -577,6 +577,16 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_HD3`** (`.run/P37/restruct/run_t4_HD3.log`, `batch_t4_HD3.json`): `restruct: batch t4_HD3 rung D — 20 files (headers; 236 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 6 s wall · final 20/20 identical · written 0 files` → R22 (`.run/P37/baseline/r22_t4_HD3.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=88.39 s`) → census `(census skipped)`.
 
+- **S108 — step (c) DONE: the shared headers (`HEADERS=1 LABEL_PREFIX=t4_H … restruct_cycle.sh 1 16 20 D`, `cycle_t4h.log`).** `t4_HD1` 20
+  headers · 30 units: 27 canonical / 3 kept · 7 files (`436cfd8a1`) · `t4_HD2` 1 unit / 1 kept / 0 files (`1e996c609`) · `t4_HD3` 0 units
+  (`bc16e5994`) — each R22 `check-all: 218 passed, 0 failed of 218`; the cycle stopped at the HD3/HD4 boundary (a 90-s R22 per 0-file batch is
+  waste — the cycle now skips the fleet run when `git status src` is clean after a batch) and the remaining headers settled in ONE direct run
+  **`t4_HD4`: 216 headers · 9 units: 4 canonical / 1 K&R marked / 2 aliases typed / 3 kept · compiles 989 in 44 s · final 216/216 identical ·
+  written 6 files`** → R22 (`r22_t4_HD4.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=84.80 s`). Re-plan: `restruct --plan D: 0 of 0
+  TUs with lying declarations · 0 callees` for `--headers` — the header population is exhausted. (Slip on the way, not repeated: `pgrep -f`
+  with a literal my own command line contained killed my shell — exit 144, R79 in read form; the bracketed pattern `restruct_cycl[e]` is the
+  safe spelling.)
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_HD3` on 1e996c609: 20 files (headers; 236 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

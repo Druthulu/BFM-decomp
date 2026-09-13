@@ -47,9 +47,14 @@ for k in $(seq "$START" "$END"); do
   final=$(echo "$vline" | grep -oE 'final [0-9]+/[0-9]+' | grep -oE '[0-9]+/[0-9]+')
   [ -n "$final" ] && [ "${final%/*}" = "${final#*/}" ] || { echo "cycle: batch $label — $vline"; exit 1; }
   if [ "$(echo "$vline" | grep -oE 'written [0-9]+' | grep -oE '[0-9]+')" = "0" ]; then echo "cycle: batch $label wrote no file — $vline"; fi
-  { /usr/bin/time -f "wall=%e s user=%U s sys=%S s" bash -c 'set -o pipefail; make clean && make extract-all JOBS=16 && make check-all JOBS=16'; echo "exit=$?"; } > "$r22" 2>&1
-  line=$(grep -oE "check-all: [0-9]+ passed, [0-9]+ failed of [0-9]+" "$r22")
-  if ! grep -q '^exit=0$' "$r22" || [ "$line" != "check-all: $FLEET passed, 0 failed of $FLEET" ]; then echo "cycle: R22 RED after batch $label — $line (the batch's files are in place: inspect, then tools/restruct.py --restore)"; exit 1; fi
+  if [ -z "$(git status --short -- src)" ]; then
+    # no byte can have moved: the previous green fleet run stands (S108: the header cycle spent a 90-s R22 on each 0-file batch)
+    line="(no src change — the previous R22 stands)"; : > "$r22"; echo "$line" > "$r22"
+  else
+    { /usr/bin/time -f "wall=%e s user=%U s sys=%S s" bash -c 'set -o pipefail; make clean && make extract-all JOBS=16 && make check-all JOBS=16'; echo "exit=$?"; } > "$r22" 2>&1
+    line=$(grep -oE "check-all: [0-9]+ passed, [0-9]+ failed of [0-9]+" "$r22")
+    if ! grep -q '^exit=0$' "$r22" || [ "$line" != "check-all: $FLEET passed, 0 failed of $FLEET" ]; then echo "cycle: R22 RED after batch $label — $line (the batch's files are in place: inspect, then tools/restruct.py --restore)"; exit 1; fi
+  fi
   cline="(census skipped)"
   if [ "${CENSUS:-1}" != "0" ]; then
     $PY tools/type_census.py -j 16 --sites > .run/P37/census/census_${label}.log 2>&1 || { echo "cycle: the type census FAILED after batch $label"; tail -3 .run/P37/census/census_${label}.log; exit 1; }
