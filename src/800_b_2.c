@@ -7414,13 +7414,12 @@ extern s32 D_80076218;
 extern void func_8003C498(s32);
 extern void SpuWrite(s32, s32);
 
-void func_80035210(s32 a0, s32 a1)
+s32 func_80035210(s32 a0, s32 a1)
 {
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 ret;
 
-    v1 = D_80076218;
-    func_8003C498(v1);
-    SpuWrite(a0, a1);
-    v1 = D_80076218;
-    D_80076218 = v1 + a1;
+    func_8003C498(D_80076218);
+    ret = ((s32 (*)(s32, s32))SpuWrite)(a0, a1);
+    D_80076218 += a1;
+    return ret;
 }
