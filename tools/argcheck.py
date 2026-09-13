@@ -138,6 +138,7 @@ def scan(defs, only_needed_argpins=True):
             continue
         masked = lc.sc.mask_text(txt)
         lines = masked.split("\n")
+        raw_lines = txt.split("\n")             # the K&R marker lives in a comment, which the mask blanks
         # the bodies of this TU, and which of them hold a NEEDED pin on an argument register
         argpin_fns = set()
         if "!FAKE" in txt:
@@ -171,7 +172,10 @@ def scan(defs, only_needed_argpins=True):
                 rows.append(dict(tu=rel, line=i + 1, callee=callee, declared=dec, real=real[0],
                                  real_params=real[1], defined_in=real[2], scope="block" if depth > 0 else "file",
                                  kind=kind, in_fn=holder,
-                                 argpin=bool(holder and holder in argpin_fns)))
+                                 argpin=bool(holder and holder in argpin_fns),
+                                 # a byte-proven K&R site (P37 rung D: the calls pass another count and every prototype form moved the
+                                 # bytes): `()` + `// K&R: n of m args (…)` on the line — counted APART from the lies (the plan's "zero")
+                                 kr_marked=("// K&R:" in raw_lines[i]) if i < len(raw_lines) else False))
             depth += l.count("{") - l.count("}")
             depth = max(depth, 0)
     return rows

@@ -32,7 +32,11 @@ MEMBER = re.compile(r"->[A-Za-z_]\w*|\.[A-Za-z_]\w*\s*=")
 
 def counts():
     defs = argcheck.definitions()
-    rows = argcheck.scan(defs)
+    rows_all = argcheck.scan(defs)
+    # P37 T4 (2026-09-12): a byte-proven K&R site — `()` + `// K&R: n of m args` on its line, the calls pass another count and every
+    # prototype form moved the bytes — is the original's calling convention, not a lie: counted APART (`kr_sites`), never in `narrow_decls`
+    kr_rows = [r for r in rows_all if r.get("kr_marked")]
+    rows = [r for r in rows_all if not r.get("kr_marked")]
     casts = members = 0
     for f in (REPO / "src").glob("**/*.c"):
         t = f.read_text(errors="surrogateescape")
@@ -48,7 +52,8 @@ def counts():
                kr_empty=sum(1 for r in rows if r["kind"] == "K&R-empty"),
                narrow=sum(1 for r in rows if r["kind"] == "narrow"),
                pinned_rows=len(pinned), pinned_bodies=len({(r["tu"], r["in_fn"]) for r in pinned}),
-               raw_casts=casts, struct_members=members)
+               raw_casts=casts, struct_members=members,
+               kr_sites=len(kr_rows), kr_callees=len({r["callee"] for r in kr_rows}))
     # Phase 37 T1 (2026-09-12): the type census's columns — the four dereference forms (the CAST regex above sees one of them, over raw
     # text), the typed cast-member accesses (the MEMBER regex counts these as members — they are the rewrite's rung 1, not finished
     # members), the struct definitions and their duplicate classes, the struct map. A snapshot REFUSES a stale census (R43/R51).
@@ -72,7 +77,9 @@ COLS = ["date", "label", "commit", "definitions", "narrow_decls", "callees", "kr
         "raw_casts", "struct_members",
         # P37 columns (appended 2026-09-12; older rows carry blanks — the renderer reads by name, never by position)
         "deref_all", "form_P", "form_I", "form_X", "form_M", "addr_form", "typed_cast_member", "struct_defs", "canon_defs", "in_c_defs",
-        "distinct_layouts", "dup_classes", "dup_names", "map_types", "map_pct"]
+        "distinct_layouts", "dup_classes", "dup_names", "map_types", "map_pct",
+        # P37 T4 (2026-09-12): the byte-proven K&R sites, counted apart from the lies
+        "kr_sites", "kr_callees"]
 HEAD = "\t".join(COLS) + "\n"
 
 
@@ -97,14 +104,14 @@ def render():
            "> pointer casts where the original had a struct. From Phase 37 the row carries the type census's columns",
            "> (`tools/type_census.py`): all four dereference forms, the typed cast-member intermediate, the definitions and the map.",
            "",
-           "| date | label | commit | lying declarations | of which `()` | of which `(void)` | in a pinned body | raw cast derefs (one form, raw text) | struct member reads | **raw derefs, four forms** | typed cast-member | struct defs (canonical / in .c) | layouts | duplicate classes / names | map types (% sites) |",
-           "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---|---|"]
+           "| date | label | commit | lying declarations | of which `()` | of which `(void)` | in a pinned body | raw cast derefs (one form, raw text) | struct member reads | **raw derefs, four forms** | typed cast-member | struct defs (canonical / in .c) | layouts | duplicate classes / names | map types (% sites)  K&R sites (marked, apart) |",
+           "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---|---|---:|"]
     for r in rows:
         defs = f"{g(r,'struct_defs')} ({g(r,'canon_defs')} / {g(r,'in_c_defs')})" if r.get("struct_defs") else "—"
         dups = f"{g(r,'dup_classes')} / {g(r,'dup_names')}" if r.get("dup_classes") else "—"
         mp = f"{g(r,'map_types')} ({g(r,'map_pct')} %)" if r.get("map_types") else "—"
         out.append(f"| {r['date']} | {r['label']} | `{r['commit'][:9]}` | {r['narrow_decls']} | {r['kr_empty']} | {r['narrow']} | {r['pinned_rows']} | "
-                   f"{r['raw_casts']} | {r['struct_members']} | **{g(r,'deref_all')}** | {g(r,'typed_cast_member')} | {defs} | {g(r,'distinct_layouts')} | {dups} | {mp} |")
+                   f"{r['raw_casts']} | {r['struct_members']} | **{g(r,'deref_all')}** | {g(r,'typed_cast_member')} | {defs} | {g(r,'distinct_layouts')} | {dups} | {mp} | {g(r,'kr_sites')} |")
     out += ["",
             "**How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters",
             "than the callee's own definition. It is not a style problem: on this processor an argument travels in a",
@@ -139,7 +146,7 @@ def main():
     old = [l for l in TSV.read_text().splitlines()[1:] if l.strip()] if TSV.exists() else []
     TSV.write_text(HEAD + "".join(l + "\n" for l in old) + "\t".join(str(c.get(k, "")) for k in COLS) + "\n")
     render()
-    print(f"readability_progress: {a.snapshot} — {c['narrow_decls']} lying declaration(s) over {c['callees']} callee(s) "
+    print(f"readability_progress: {a.snapshot} — {c['narrow_decls']} lying declaration(s) over {c['callees']} callee(s) (+{c['kr_sites']} K&R sites apart) "
           f"({c['kr_empty']} `()`, {c['narrow']} `(void)`), {c['pinned_rows']} in {c['pinned_bodies']} pinned bodies; "
           f"{c['raw_casts']} raw cast deref(s) by the one-form regex, {c['deref_all']} by the census's four forms (+{c['typed_cast_member']} typed "
           f"cast-member, +{c['addr_form']} address-of), {c['struct_members']} struct member read(s); {c['struct_defs']} struct definitions over "

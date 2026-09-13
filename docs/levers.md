@@ -124,6 +124,7 @@ counted, not marked). E, F and G belong to the canonical type layer and are the 
 | 2026-09-11 | S105 f11 (4 + 4 copies) — T7 ENDS | 2141 | 1869 | **4010** | 1980 | 674 | 450 | 314 | 1589 | 50 | 7802 | 445 | 76 | `31cf8695f` |
 | 2026-09-11 | P36 close (T8/T9 done; the @unstuck retag) | 2141 | 1869 | **4010** | 1980 | 674 | 450 | 314 | 1589 | 50 | 7802 | 445 | 76 | `60c4bb1cc` |
 | 2026-09-11 | P37 T1 — the lever census re-keyed (controls) and --strict made literal; 4,010 unchanged | 2141 | 1869 | **4010** | 1980 | 674 | 450 | 314 | 1589 | 50 | 7802 | 445 | 76 | `23fc5d215` |
+| 2026-09-12 | P37 T4 — the declaration layer: func_80157D20 ×132 (--map-data), func_80029D3C + 3 callers (--with), func_80188A30 void→s32, func_80183CC4/8017FC5C/80185578/80188DF4 (--tu); 4,010 → 3,730 | 1868 | 1862 | **3730** | 1838 | 662 | 450 | 314 | 1589 | 50 | 5996 | 302 | 76 | `274223396` |
 
 ### The campaign — every batch, from the ledger (derived on every render)
 

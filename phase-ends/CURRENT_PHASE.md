@@ -649,6 +649,21 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
   alone went; 142 prose mentions kept), `git diff --stat src`: **3,546 files changed, 0 insertions, 21,274 deletions**, every removed line a
   comment line → R22 (`.run/P37/baseline/r22_t4_banners.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=92.04 s`, exit 0).
 
+- **S108 — step (f), first pass: the census + series.** `type_census -j 16 --sites` → **`8830 lying declarations / 950 callees (+5002 K&R sites
+  apart) · controls 4/4`** (from 98,648 / 1,609 at T1; K&R-empty 2,997 / narrow 5,833). The K&R accounting built first: `argcheck.scan` rows gain
+  `kr_marked` (the `// K&R:` marker read from the RAW line — the mask blanks comments), `type_census` and `readability_progress` count those
+  APART (`kr_sites`/`kr_callees` columns; the rendered table's last column) and exclude them from "lying" — the census had lumped the 5,020
+  marked sites into "K&R-empty". `lever_census --check: 3,730 pin/asm sites, 3,730 marked, 0 UNMARKED — OK` (from 4,010; −280 = func_80157D20's
+  264 + func_80029D3C's 4 + func_80183CC4's 4 + …); `lever_progress --snapshot` (80 milestones) + `--check OK`; `readability_progress --snapshot t4`
+  → `8830 lying … (+5002 K&R sites apart) … 13 in 10 pinned bodies` + `--check OK`; `progress.py --json --readme` + `--check` fresh.
+  **The 8,830 bucketed by their ledger verdict (R117) — T4 is NOT closable yet:** 3,700 **no ledger row** (never judged: the `md_*` module
+  TUs and others — they were inside the 1,088 "drawable" TUs when I stopped the D cycle on two low-yield batches; an inference, not a
+  measurement — R14); 2,379 `DECL-NONE "already canonical"` + 453 `DECL-CANON` **that argcheck still calls lying** (two instruments resolve the
+  callee to different definitions — 6,419 names carry >1 body; R34, to read on one case each); 1,120 `DECL-KEPT parse error` (T5's types →
+  `--redraw DECL-KEPT` after T5); 723 `DECL-NONE no visible definition` (cross-binary callees: a module calling an overlay-region function —
+  a fleet-unique-signature fallback would judge them); 415 `conflicting types`; 21 assorted. Next: the D cycle again WITHOUT `REDRAW`
+  (draws only the never-judged pairs), the disagreement read, the fallback.
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_sig5b` on 5016a185d: restruct: signature func_80183CC4 — IDENTICAL · 1 files written
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

@@ -6,12 +6,13 @@
 > pointer casts where the original had a struct. From Phase 37 the row carries the type census's columns
 > (`tools/type_census.py`): all four dereference forms, the typed cast-member intermediate, the definitions and the map.
 
-| date | label | commit | lying declarations | of which `()` | of which `(void)` | in a pinned body | raw cast derefs (one form, raw text) | struct member reads | **raw derefs, four forms** | typed cast-member | struct defs (canonical / in .c) | layouts | duplicate classes / names | map types (% sites) |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---|---|
-| 2026-09-10 | P36 S102 — after the 16,759 free declaration repairs | `51028a78d` | 94001 | 86701 | 7300 | 461 | 414148 | 173286 | **—** | — | — | — | — | — |
-| 2026-09-11 | P36 close | `7a7f78e25` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **—** | — | — | — | — | — |
-| 2026-09-11 | P37 T1 — the type census (four forms, definitions, the map) | `23fc5d215` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **503016** | 36681 | 7261 (1179 / 5995) | 525 | 206 / 2789 | 18760 (99.2 %) |
-| 2026-09-12 | P37 T2 — the census after the audit's parser fixes (attributes, dead guards) | `da26c05d6` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **503016** | 36681 | 7255 (1179 / 5989) | 527 | 206 / 2823 | 18760 (99.2 %) |
+| date | label | commit | lying declarations | of which `()` | of which `(void)` | in a pinned body | raw cast derefs (one form, raw text) | struct member reads | **raw derefs, four forms** | typed cast-member | struct defs (canonical / in .c) | layouts | duplicate classes / names | map types (% sites)  K&R sites (marked, apart) |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---|---|---:|
+| 2026-09-10 | P36 S102 — after the 16,759 free declaration repairs | `51028a78d` | 94001 | 86701 | 7300 | 461 | 414148 | 173286 | **—** | — | — | — | — | — | — |
+| 2026-09-11 | P36 close | `7a7f78e25` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **—** | — | — | — | — | — | — |
+| 2026-09-11 | P37 T1 — the type census (four forms, definitions, the map) | `23fc5d215` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **503016** | 36681 | 7261 (1179 / 5995) | 525 | 206 / 2789 | 18760 (99.2 %) | — |
+| 2026-09-12 | P37 T2 — the census after the audit's parser fixes (attributes, dead guards) | `da26c05d6` | 98648 | 91357 | 7291 | 33 | 411850 | 177902 | **503016** | 36681 | 7255 (1179 / 5989) | 527 | 206 / 2823 | 18760 (99.2 %) | — |
+| 2026-09-12 | t4 | `274223396` | 8830 | 2997 | 5833 | 13 | 411848 | 177902 | **503013** | 36681 | 7255 (1179 / 5989) | 527 | 206 / 2823 | 18741 (99.2 %) | 5002 |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a

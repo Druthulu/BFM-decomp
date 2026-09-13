@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "da26c05d6",
-  "src_stamp": "ab7aba1c21c89889",
-  "tool_stamp": "9870539c77",
-  "when": "2026-09-12T07:20:21Z",
+  "head": "274223396",
+  "src_stamp": "a91c084f1ac9e504",
+  "tool_stamp": "3d72938e1b",
+  "when": "2026-09-13T01:06:59Z",
   "files": 7305,
   "tus": 4121,
   "headers": 3181,
@@ -36,16 +36,16 @@
   },
   "casts": {
    "by_form": {
-    "P": 409007,
-    "I": 60666,
+    "P": 409006,
+    "I": 60664,
     "X": 13800,
     "A": 18912,
     "C": 36681,
     "M": 19543
    },
    "raw_counts": {
-    "P": 409007,
-    "I": 60666,
+    "P": 409006,
+    "I": 60664,
     "X": 13800,
     "A": 18912,
     "C": 36681,
@@ -53,31 +53,31 @@
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 503016,
+   "deref_total": 503013,
    "addr_form": 18912,
    "typed_cast_member": 36681,
    "bodies": 69497,
    "by_bclass": {
-    "local": 149915,
+    "local": 149911,
     "param": 276860,
-    "global": 8860,
-    "gaddr": 40122,
+    "global": 8861,
+    "gaddr": 40123,
     "nested": 24076,
     "ident": 156,
     "other": 1678,
-    "addr-of": 1349
+    "addr-of": 1348
    },
    "by_width": {
-    "s4": 145167,
+    "s4": 145161,
     "u2": 142775,
     "s2": 131818,
     "u1": 43174,
     "agg": 13472,
-    "p4": 12016,
+    "p4": 12019,
     "u4": 11165,
     "s1": 3429
    },
-   "readability_raw_regex": 411850,
+   "readability_raw_regex": 411848,
    "abs_casts": 0,
    "top_bases": [
     [
@@ -163,7 +163,7 @@
     [
      "local",
      "obj",
-     3678
+     3681
     ],
     [
      "local",
@@ -273,7 +273,7 @@
     [
      "local",
      "v1",
-     1564
+     1561
     ],
     [
      "local",
@@ -284,86 +284,88 @@
   },
   "decls": {
    "fn_definitions": 99130,
-   "kr_definitions": 1889,
-   "extern_fn_decls": 4279362,
-   "extern_data_decls": 1078837,
-   "declared_fn_names": 12139,
-   "multi_spelled_callees": 3870,
-   "multi_body_names": 6415,
-   "data_symbols_declared": 55569,
-   "multi_typed_data_symbols": 18442,
-   "asm_label_aliases": 5749,
-   "asm_label_alias_names": 225,
+   "kr_definitions": 1894,
+   "extern_fn_decls": 4279270,
+   "extern_data_decls": 1078774,
+   "declared_fn_names": 12088,
+   "multi_spelled_callees": 3830,
+   "multi_body_names": 6419,
+   "data_symbols_declared": 55548,
+   "multi_typed_data_symbols": 18493,
+   "asm_label_aliases": 5158,
+   "asm_label_alias_names": 165,
    "builtins": {
     "memcpy": 301,
-    "abs": 144
+    "abs": 1
    },
    "attributes": {
     "packed": 63,
     "aligned": 12
    },
-   "lying": 98648,
-   "lying_callees": 1609,
+   "lying": 8830,
+   "lying_callees": 950,
    "lying_kinds": {
-    "K&R-empty": 91357,
-    "narrow": 7291
-   }
+    "K&R-empty": 2997,
+    "narrow": 5833
+   },
+   "kr_sites": 5002,
+   "kr_callees": 147
   },
   "struct_map": {
-   "types": 18760,
-   "explained_sites": 498896,
-   "deref_sites": 503016,
+   "types": 18741,
+   "explained_sites": 498894,
+   "deref_sites": 503013,
    "explained_pct": 99.2,
-   "unassigned_sites": 4120,
-   "conflicts": 729,
+   "unassigned_sites": 4119,
+   "conflicts": 727,
    "suspect": 11,
    "evidence": {
-    "param": 36550,
-    "assign": 14717,
-    "ret-of": 3410,
-    "arg": 10176,
-    "return": 1523,
+    "param": 36486,
+    "assign": 14665,
+    "ret-of": 3374,
+    "arg": 10173,
+    "return": 1524,
     "assign&": 1051,
     "arg&": 270,
-    "field": 9623
+    "field": 9613
    },
    "vetoed": {
-    "arg-conduit": 115291,
-    "ret-of-multisource": 6651,
-    "assign-multisource": 34545,
-    "arg&-conduit": 14516,
+    "arg-conduit": 115288,
+    "ret-of-multisource": 6686,
+    "assign-multisource": 34568,
+    "arg&-conduit": 14628,
     "field-multisource": 7008,
-    "ret-of": 683,
-    "assign&-multisource": 12499,
-    "arg&-no-overlap": 3455,
+    "ret-of": 679,
+    "assign&-multisource": 12500,
+    "arg&-no-overlap": 3456,
     "assign": 347,
-    "arg-no-overlap": 43018,
+    "arg-no-overlap": 43021,
     "assign&": 69,
     "arg": 182,
     "return": 12,
-    "field": 3220
+    "field": 3224
    },
-   "singletons": 14706,
-   "multi_body": 4054,
-   "sites_in_multi_body": 441056,
+   "singletons": 14677,
+   "multi_body": 4064,
+   "sites_in_multi_body": 441229,
    "top": [
     {
      "name": "Unkstruct_800B5CB8",
      "sites": 107598,
-     "bodies": 11186,
+     "bodies": 11187,
      "size_hint": 268,
      "fields": 134,
      "conflicts": 50,
      "sign_mixed": 55,
      "merges": {
       "arg&": 249,
-      "param": 9464,
-      "arg": 6960,
-      "assign": 7396,
-      "return": 712,
-      "ret-of": 1476,
+      "param": 9454,
+      "arg": 6955,
+      "assign": 7400,
+      "return": 713,
+      "ret-of": 1477,
       "assign&": 18,
-      "field": 2617
+      "field": 2622
      },
      "globals_at": [
       "D_800B5CB8",
@@ -388,7 +390,7 @@
       "assign&": 106,
       "param": 2100,
       "arg": 1086,
-      "assign": 41,
+      "assign": 43,
       "field": 51
      },
      "globals_at": [
@@ -635,7 +637,7 @@
      "sign_mixed": 3,
      "merges": {
       "field": 1,
-      "assign": 117
+      "assign": 112
      },
      "globals_at": [],
      "globals_ptr": [
@@ -752,14 +754,14 @@
    },
    "tu_conflict_D_800A651C": {
     "ok": true,
-    "detail": "s32:1202 | OtBlk[]:9 | OtBlk_80016450[]:8 | u8[]:8 | s32[][5]:6"
+    "detail": "s32:1202 | u8[]:9 | OtBlk[]:9 | OtBlk_80016450[]:8 | s32[]:7"
    },
    "ok": 4,
    "n": 4
   },
   "global_blocks": {
-   "n": 2123,
-   "members": 14251,
+   "n": 2124,
+   "members": 14253,
    "top": [
     {
      "base": "0x800cf10c",
@@ -937,9 +939,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 61.0,
-   "decls_s": 188.3,
-   "total_s": 197.6
+   "walk_s": 62.7,
+   "decls_s": 191.0,
+   "total_s": 200.3
   }
  },
  "dup_layout_classes": [
