@@ -4687,7 +4687,7 @@ void func_8017F188(void *a0) {
 
 
 
-extern void func_8017FC5C(s32 *a0, s32 a1, s32 a2);
+extern s32 * func_8017FC5C(s32 *a0, s32 a1, s32 a2);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012CBF4(s32 a0);
@@ -4836,7 +4836,7 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 /* Declarations conformed VERBATIM to the TU's existing ones
  * (ov_SC02_035_jr_8017BEBC.c:5139 and :5117) — type disagreements are
  * pushed to casts at the use sites below. Zero codegen change. */
-extern void func_8017FC5C(s32 *a0, s32 a1, s32 a2);
+extern s32 * func_8017FC5C(s32 *a0, s32 a1, s32 a2);
 extern void func_8012B200(void *a0);
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -4869,7 +4869,7 @@ void func_8017F808(s32 a0) {
 
 
 
-extern void func_8017FC5C(s32 *a0, s32 a1, s32 a2);
+extern s32 * func_8017FC5C(s32 *a0, s32 a1, s32 a2);
 extern s32 func_8012B8E4(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012CBF4(s32 a0);
@@ -5035,15 +5035,15 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
  * exactly the same 10 diagnostics as the unmodified TU (zero new). */
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 
-void func_8017FC5C(s32 *a0, s32 a1, s32 a2) {
+s32 *func_8017FC5C(s32 *a0, s32 a1, s32 a2) {
 
     extern s16 D_80126CBA;
+    extern void fV(s32 out, s32 from, s32 to) __asm__("func_8012B77C");
     s32 sp10[4];
     s32 sp20;
     s16 *q;
     u16 *p;
     s16 t;
-    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
 
     q = &D_80126CBA;
     if (*q == 0) {
@@ -5058,11 +5058,9 @@ void func_8017FC5C(s32 *a0, s32 a1, s32 a2) {
     *(s16 *)((s32)sp10 + 0x6) = t;
     *(s16 *)(a1 + 0x100) = t;
     *(s16 *)((s32)sp10 + 0xA) = p[2] + *(u16 *)(a2 + 4);
-    func_8012B77C((s32)&sp20, a1 + 4, (s32)sp10);
-    rv = sp20;
-    *a0 = rv;
-    rv = (s32)a0;
-    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+    fV((s32)&sp20, a1 + 4, (s32)sp10);
+    *a0 = sp20;
+    return a0;
 }
 
 
