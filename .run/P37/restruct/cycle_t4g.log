@@ -7,3 +7,5 @@ cycle: batch t4_D42 committed 1464eb4ce — restruct: batch t4_D42 rung D — 30
 log: t4_D43
 cycle: batch t4_D43 committed d2e43e4c3 — restruct: batch t4_D43 rung D — 300 files (TUs; 1485 drawable) · 606 declaration units: 570 canonical / 0 promoted / 4 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 36 kept · compiles 705 in 57 s wall · final 300/300 identical · written 297 files | check-all: 218 passed, 0 failed of 218
 log: t4_D44
+cycle: batch t4_D44 committed f5c7c1809 — restruct: batch t4_D44 rung D — 300 files (TUs; 1185 drawable) · 418 declaration units: 372 canonical / 0 promoted / 12 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 46 kept · compiles 660 in 118 s wall · final 300/300 identical · written 269 files | check-all: 218 passed, 0 failed of 218
+log: t4_D45
