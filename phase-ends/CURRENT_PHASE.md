@@ -666,6 +666,19 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_D40`** (`.run/P37/restruct/run_t4_D40.log`, `batch_t4_D40.json`): `restruct: batch t4_D40 rung D — 300 files (TUs; 2367 drawable) · 619 declaration units: 547 canonical / 0 promoted / 8 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 72 kept · compiles 756 in 154 s wall · final 300/300 identical · written 286 files` → R22 (`.run/P37/baseline/r22_t4_D40.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=90.49 s`) → census `(census skipped)`.
 
+- **S108 — the R34 disagreement read (2,379 + 453 "already canonical / DECL-CANON but argcheck says lying"):** `func_800CB8A4` is `void (void)` in
+  md_MAIN_026, `void (s32 a0)` in md_MAIN_022, `void (void *a0)` in md_MAIN_025 — a same-address DIFFERENT-BODY function; `argcheck.definitions()`
+  kept ONE signature per bare name (`setdefault`, file order — R48) and called md_MAIN_026's correct declaration a lie. The engine (per-binary
+  scope) was right. Fixed in `argcheck`: every definition per name kept (`_ALL`), `resolve_definition(name, tu)` — one fleet-wide signature →
+  it; else the declaring TU's own binary's definition; else main's/resident's; else `cross_binary=True` (the fleet disagrees and this binary
+  has no definition — counted APART, never a lie); `type_census` and `readability_progress` count `cross_binary` apart like `kr_marked`.
+  Known-true: md_MAIN_026 → its own `(void)`; md_MAIN_013 (no own definition) → cross-binary; a unique name → its definition. **The engine's
+  counterpart:** `defs_visible` gained a third level — a callee no member TU, main or resident defines takes the fleet's ONE signature when
+  every definition of the name agrees (`_fleet_unique_defs`; the 723 "no visible definition" rows: e.g. md_MAIN_013's `func_80128EA8` → the
+  shared header's `void (s32, s32, s32)`); a name with two bodies stays unresolved (the caller's binary decides). `--selftest 54/54`.
+  **The D cycle again, without `REDRAW` (`cycle_t4g.log`, batches 40–60): `t4_D40` 619 units: 547 canonical / 8 K&R / 72 kept · 286 files
+  (`25c70a009`, R22 `218 passed, 0 failed of 218`)** — the "1,088 non-actionable" TUs of the earlier stop were 2,367 TUs with work in them.
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_D40` on 55ca65bfc: 300 files (TUs; 2367 drawable) · 619 declaration units: 547 canonical / 0 promoted / 8 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 72 kept · compiles
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

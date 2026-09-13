@@ -35,6 +35,7 @@ those. So this census is a lower bound on the class, and the residual remains th
 The real arity is read from the DEFINITION, wherever it lives: a `.c` under `src/`, or a shared body header under
 `src/shared/` (P35's one-source-per-function shape). A definition is the ground truth; a declaration is a claim.
 """
+import collections
 import argparse, collections, json, pathlib, re, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -70,6 +71,7 @@ def definitions():
     """{name: (arity, params, where, ret)} from every DEFINITION in the tree. The return type comes with it because the
     CAST route — the one that stays body-only at either scope — needs the whole signature, not just the arity."""
     out = {}
+    _ALL.clear()
     for f in sorted(list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h"))):
         rel = str(f.relative_to(REPO))
         try:
@@ -83,6 +85,7 @@ def definitions():
                 continue
             head = masked[m.start():m.start(1)].strip()
             out.setdefault(name, (arity(params), params.strip(), rel, head or "void"))
+            _ALL[name].append((arity(params), params.strip(), rel, head or "void"))
         # K&R definitions — `f(a, b, c)` then `s16 a; s16 b; u8 *c;` then `{`. DEF above requires `) {` and never saw them:
         # 505 functions are defined this way and 95 had no other readable definition, so R19, R25 and the census were
         # blind to them (found S103 by R25's known-true check: func_8012956C's callee func_801299C8 was absent). The
@@ -95,7 +98,38 @@ def definitions():
             ptypes = kr_params(names, m.group(3))
             head = masked[m.start():m.start(1)].strip()
             out.setdefault(name, (len(names), ", ".join(ptypes), rel, head or "int"))
+            _ALL[name].append((len(names), ", ".join(ptypes), rel, head or "int"))
     return out
+
+
+_ALL = collections.defaultdict(list)     # {name: [every definition]} — filled by definitions(); the per-TU resolver reads it
+
+
+def _binary_of(rel):
+    parts = rel.split("/")
+    return parts[1] if len(parts) >= 3 and parts[0] == "src" and parts[1] not in ("shared", "resident") else None
+
+
+def resolve_definition(name, rel, first):
+    """The definition a declaration in `rel` means (P37 T4, 2026-09-12; R48): a function is identified by its DEFINITION, not its name —
+    6,419 names carry more than one body (func_800CB8A4 is `void (void)` in md_MAIN_026, `void (s32)` in md_MAIN_022, `void (void *)` in
+    md_MAIN_025). One fleet-wide signature -> it; else the declaring TU's own binary's definition; else main's/resident's; else None
+    ("cross-binary": the TU's binary has no definition and the fleet disagrees — counted apart, never called a lie)."""
+    cands = _ALL.get(name) or ([first] if first else [])
+    if not cands:
+        return None
+    sigs = {(c[0], c[1]) for c in cands}
+    if len(sigs) == 1:
+        return cands[0]
+    b = _binary_of(rel)
+    if b:
+        own = [c for c in cands if _binary_of(c[2]) == b]
+        if own:
+            return own[0]
+    mr = [c for c in cands if c[2].count("/") == 1 or c[2].startswith("src/resident/")]
+    if mr:
+        return mr[0]
+    return None
 
 
 def kr_params(names, decl_block):
@@ -161,6 +195,15 @@ def scan(defs, only_needed_argpins=True):
                 real = defs.get(callee)
                 if real is None:
                     continue
+                if _ALL:
+                    real = resolve_definition(callee, rel, real)
+                    if real is None:
+                        real = defs.get(callee)
+                        cross = True
+                    else:
+                        cross = False
+                else:
+                    cross = False
                 dec = arity(params)
                 if dec >= real[0]:
                     continue
@@ -173,6 +216,7 @@ def scan(defs, only_needed_argpins=True):
                                  real_params=real[1], defined_in=real[2], scope="block" if depth > 0 else "file",
                                  kind=kind, in_fn=holder,
                                  argpin=bool(holder and holder in argpin_fns),
+                                 cross_binary=cross,               # the fleet disagrees and this binary has no definition: not a lie
                                  # a byte-proven K&R site (P37 rung D: the calls pass another count and every prototype form moved the
                                  # bytes): `()` + `// K&R: n of m args (…)` on the line — counted APART from the lies (the plan's "zero")
                                  kr_marked=("// K&R:" in raw_lines[i]) if i < len(raw_lines) else False))

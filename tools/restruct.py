@@ -1340,7 +1340,30 @@ def defs_visible(tu):
     for name, lst in _fallback_defs().items():
         if name not in out:
             out[name] = list(lst)
+    for name, lst in _fleet_unique_defs().items():
+        # the third level (T4, 2026-09-12): a callee no member TU defines and main/resident do not either — a module calling an
+        # overlay-region function — has the fleet's ONE signature when every definition of the name agrees (723 "no visible definition"
+        # rows were this; a name with two bodies stays unresolved: the caller's binary decides, R48)
+        if name not in out:
+            out[name] = list(lst)
     return out
+
+
+_fleet_unique = None
+
+
+def _fleet_unique_defs():
+    """{name: [(def_tu, ret, params, kr)]} for every name whose definitions across the fleet share ONE (ret, params) — computed once."""
+    global _fleet_unique
+    if _fleet_unique is None:
+        results = walk()["results"]
+        by = collections.defaultdict(list)
+        for rel in sorted(results):
+            if rel.endswith((".c", ".h")) and results[rel]:
+                for f in _defs_of_file(rel):
+                    by[f[0]].append(f[1:])
+        _fleet_unique = {n: [l[0]] for n, l in by.items() if len({(x[1], sl._norm_type(re.sub(r"\s+", " ", x[2]))) for x in l}) == 1}
+    return _fleet_unique
 
 
 _dir_files = {}

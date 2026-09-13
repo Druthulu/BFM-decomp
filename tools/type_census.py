@@ -1205,7 +1205,8 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     ac_defs = argcheck.definitions()
     ac_rows = argcheck.scan(ac_defs, only_needed_argpins=False)
     kr_sites = [r for r in ac_rows if r.get("kr_marked")]          # byte-proven K&R sites, marked — counted apart (P37 T4)
-    lying = [r for r in ac_rows if not r.get("kr_marked")]
+    cross = [r for r in ac_rows if r.get("cross_binary") and not r.get("kr_marked")]   # the fleet's definitions disagree and this
+    lying = [r for r in ac_rows if not r.get("kr_marked") and not r.get("cross_binary")]  # binary has none: not a lie (R48)
     lying_kinds = collections.Counter(r["kind"] for r in lying)
     lying_callees = len({r["callee"] for r in lying})
     kr_callees = len({r["callee"] for r in kr_sites})
@@ -1279,7 +1280,8 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
                    asm_label_aliases=len(asm_aliases), asm_label_alias_names=len({a["name"] for a in asm_aliases}),
                    builtins=dict(builtins), attributes=dict(attrs),
                    lying=len(lying), lying_callees=lying_callees, lying_kinds=dict(lying_kinds),
-                   kr_sites=len(kr_sites), kr_callees=kr_callees),
+                   kr_sites=len(kr_sites), kr_callees=kr_callees,
+                   cross_binary=len(cross), cross_callees=len({r["callee"] for r in cross})),
         struct_map=dict(types=len(types), explained_sites=explained, deref_sites=len(deref_sites),
                         explained_pct=round(100.0 * explained / max(1, len(deref_sites)), 1), unassigned_sites=unassigned,
                         conflicts=sum(1 for t in types if t["conflicts"]), suspect=sum(1 for t in types if t.get("suspect")),
@@ -1474,7 +1476,8 @@ def render(s, dup_classes, variants, types):
              f"{dc['extern_data_decls']} data externs over {dc['data_symbols_declared']} symbols ({dc['multi_typed_data_symbols']} typed >1 way) · "
              f"asm-label aliases {dc['asm_label_aliases']} ({dc['asm_label_alias_names']} names) · builtins {dc['builtins']} · attributes {dc['attributes']}")
     L.append(f"             lying declarations {dc['lying']} over {dc['lying_callees']} callees {dc['lying_kinds']} · K&R sites (marked, counted apart) "
-             f"{dc.get('kr_sites', 0)} over {dc.get('kr_callees', 0)} callees")
+             f"{dc.get('kr_sites', 0)} over {dc.get('kr_callees', 0)} callees · cross-binary (the fleet's definitions disagree, this binary has none) "
+             f"{dc.get('cross_binary', 0)} over {dc.get('cross_callees', 0)} callees")
     L.append(f"STRUCT MAP   {sm['types']} types explain {sm['explained_sites']}/{sm['deref_sites']} deref sites ({sm['explained_pct']} %); unassigned {sm['unassigned_sites']}; "
              f"{sm['multi_body']} types span ≥2 bodies ({sm['sites_in_multi_body']} sites), {sm['singletons']} single-body; types with conflicts {sm['conflicts']}, suspect {sm['suspect']}")
     L.append(f"             merges by evidence {sm['evidence']}; vetoed {sm['vetoed']}")
@@ -1497,7 +1500,7 @@ def render(s, dup_classes, variants, types):
     L.append("")
     L.append(f"type_census: {d['total']} definitions ({d['distinct_layouts']} layouts, {d['dup_layout_classes']} duplicate classes, {d['variant_names']} variant camps) · "
              f"{c['deref_total']} cast sites in {c['bodies']} bodies over {len(c['by_bclass'])} base classes (4 forms + A, coverage {'OK' if c['coverage_ok'] else 'FAIL'}) · "
-             f"{dc['lying']} lying declarations / {dc['lying_callees']} callees (+{dc.get('kr_sites', 0)} K&R sites apart) · controls {s['controls']['ok']}/{s['controls']['n']}")
+             f"{dc['lying']} lying declarations / {dc['lying_callees']} callees (+{dc.get('kr_sites', 0)} K&R sites, +{dc.get('cross_binary', 0)} cross-binary apart) · controls {s['controls']['ok']}/{s['controls']['n']}")
     L.append(f"struct_map: {sm['types']} types over {sum(1 for _ in [0])*0 + sm['types']} clusters explain {sm['explained_sites']}/{sm['deref_sites']} sites ({sm['explained_pct']} %); "
              f"{sm['unassigned_sites']} unassigned sites; {sm['conflicts']} types with conflicts")
     return "\n".join(L) + "\n"
