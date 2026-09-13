@@ -3901,3 +3901,27 @@ For those, no single-TU spelling exists; the file-layout phase's split is the fi
 **What it cost.** ~4 h of the session in five unalias passes and two planner corrections; 120 of 149 landed; 29 named. **Sooner:** read
 the census's "lying declaration" rows against the DEFINITIONS' names before pricing — a definition under another name is a hole in the
 denominator, and the planner should have counted only rows the engine can act on from the first batch (`DECL-NONE` now settles them).
+
+## P37 S108 (2026-09-12) — T4 run to its measured floor: the declaration layer's instruments were the campaign
+
+**Context and belief.** The checkpoint priced T4's remainder as six mechanical steps (the D cycle again, 29 alias functions, the headers,
+13 parked signature bodies, the banners, the census). The D cycle had put ≈17,300 declarations canonical in S107 and its first batch of
+S108 was "the test of the DECL-NONE settling".
+**What happened.** That batch drew 300 TUs for 0 units — and the reason was the engine's definitions index, not the population: it never
+looked inside the shared headers a SIBLING TU includes, so every binary's own shared functions were "external". One loop fixed it and the
+next fifteen batches put 76,075 declarations canonical. The same day, four more blind spots each moved the number by thousands: argcheck
+keyed definitions by bare name (2,832 false lies — a same-address function with three bodies), its `DEF` regex missed indented definitions
+(a whole class of callers never became rows; 7,208 canonical in three batches after the fix), the arity counter never read included bodies,
+and the "flat yield" stop I made at D36 left 3,700 never-judged pairs in the `md_*` modules. **The census went 98,648 → 13,832 → 8,830 →
+2,367 lying declarations, each step an instrument repair, not a new rung.**
+**The pivots.** (1) The planner's rows must be rows the engine can act on, and the stop rule is the remainder bucketed by ledger verdict
+(R117) — never a yield curve. (2) Lying declarations are counted per binary (a function is identified by its definition — the plan's own
+rule, now the instrument's), with two populations counted APART: byte-proven K&R sites (5,082, each marked with its cause) and cross-binary
+declarations (511: the fleet's definitions disagree and the binary has none). (3) The parked signature bodies are not "apply the patch":
+`func_80157D20`'s 132 copies needed a per-copy data-symbol map (`--map-data`), `func_80029D3C` needed its three zero-argument callers in the
+same judged unit (`--with`), `func_80188A30` needed only its return type (`void` → `s32`, reorg's delay-slot fill), and the `md_SC07_004`
+pair needs a caller one level up re-signed too — the definition-side change is a UNIT of definition + callers + declarations, judged once.
+**What it cost.** ~9 h of one session, 60 commits, ~35 fleet gates (every one 218/218); one self-inflicted race (a restore run against a
+judge still unwinding) and two shell kills by `pgrep -f`. **Sooner:** the five instrument checks above are each a one-line control against
+a known case (a shared-header callee; a three-body name; an indented definition; a short call in an included body; an empty `build/`) —
+they belong in `type_census --selftest` and `restruct --selftest` from the day the census exists, not in the campaign's log.

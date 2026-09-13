@@ -716,6 +716,17 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 batch `t4_HD6`** (`.run/P37/restruct/run_t4_HD6.log`, `batch_t4_HD6.json`): `restruct: batch t4_HD6 rung D — 271 files (headers; 271 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 16 s wall · final 271/271 identical · written 0 files` → R22 (`.run/P37/baseline/r22_t4_HD6.log`) **`(no src change — the previous R22 stands)`** (``) → census `(census skipped)`.
 
+- **S108 — the targeted redraw + the indented-definition class (`cycle_t4i.log`, `REDRAW=DECL-NONE:visible`):** `t4_D49` 203 TUs · 90 units: 55
+  canonical / 35 kept (`f76538941`); then the argcheck cache rebuilt on the fixed `DEF` and **2,247 TUs became drawable** — callers of INDENTED
+  file-scope definitions had never been rows: `t4_D50` 2,802 units: 2,791 canonical (`a0c26f587`) · `t4_D51` 2,802: 2,778 (`6d822ff2c`) ·
+  `t4_D52` 1,659: 1,639 (`f74d1e077`); headers `t4_HD5` 281: 24 units, 20 canonical / 4 K&R (`3d9c8aed1`) · `t4_HD6` 0 units (`8a84409a1`, no
+  src change — the cycle's new skip); every gated batch `check-all: 218 passed, 0 failed of 218`. Chained: `cycle_t4j.log` batches 53–62 for the
+  ~1,500 drawable TUs left. **The record banked (R30):** accelerators **P37 S108** (ten entries: the five blind spots, the kill/restore race,
+  the flat-yield stop, `--map-data`, `--with`, the K&R-style definition), decision log **P37 S108** (the census's four steps were instrument
+  repairs; the stop rule is the bucketed remainder; a signature change is a unit of definition + callers + declarations), cookbook **§459**
+  (the declaration layer's byte facts: the K&R-style definition on 288 objects, the local homed in `$a0`, the return type in a delay slot, the
+  per-overlay data map, what a prototype cannot hide), SETUP **§P37 S108** (every option and gotcha), the cookbook index (1,177 sections).
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_HD6` on 3d9c8aed1: 271 files (headers; 271 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below

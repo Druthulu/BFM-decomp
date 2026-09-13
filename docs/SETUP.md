@@ -1969,3 +1969,25 @@ CLAIM, not a fact — two were refuted on bytes on 2026-09-10.**
   24-class probe closed 4 at the first candidate, all by `reloc`. Known limits: a same-name donor that is a DIFFERENT
   function scores high (the ranking is by line count only); a pair whose REL addends differ cannot match (MIPS REL: the
   addend is in the instruction, the object comparison sees the symbol name).
+
+### §P37 S108 — 2026-09-12: the declaration layer run to its floor (Phase 37 T4)
+
+- **`tools/restruct.py`** (rung D) — `defs_visible` indexes the shared headers each SIBLING TU includes (a binary's own shared bodies were
+  "external") and, as a third level, a callee's fleet-unique signature when no member/main/resident TU defines it; `unit_call_counts` (the K&R
+  arity read from the TU AND its included bodies; a definition head is `) {` or a K&R head); `--unalias`: a data-typed declaration of the real
+  name (`extern s32 f;` / `extern char f[];`) becomes the prototype, a header-side arity error marks the INCLUDING TUs, escalation counts
+  attempts; `--callee F --body FILE` gained **`--with REL=FILE`** (a caller-body edit inside the same judged unit, repeatable), **`--map-data`**
+  (with `--all-defs`: the body's `D_` symbols renamed to each copy's own by order of first appearance; a count mismatch REFUSES), header-borne
+  definitions excluded from `--all-defs` (a variant is another function); **`--redraw VERDICT[:cause-substring]`** (`DECL-NONE:visible`).
+  `--unalias` runs under `--apply` (the S107 checkpoint's line lacked it). Selftest 54/54.
+- **`tools/argcheck.py`** — every definition per name kept (`_ALL`), `resolve_definition(name, tu)`: one fleet-wide signature → it; else the
+  declaring TU's own binary's; else main/resident; else `cross_binary=True`; rows carry `kr_marked` (the `// K&R:` marker read from the RAW
+  line); `DEF` allows leading blanks (indented file-scope definitions); the K&R loop feeds `_ALL` regardless of `out`.
+- **`tools/type_census.py` / `tools/readability_progress.py`** — lying declarations exclude `kr_marked` and `cross_binary` rows, which are
+  published APART (`kr_sites`/`kr_callees`, `cross_binary`/`cross_callees`; two new TSV columns, read by name).
+- **`tools/delever_oracle.py --snapshot-baseline`** — REFUSES an empty or shrunken `build/` before writing (it had stamped "HEAD, 0 objects").
+- **`tools/restruct_cycle.sh`** — skips the fleet run when `git status src` is clean after a batch (the previous R22 stands).
+- One-off drivers under `.run/P37/restruct/` (ignored; every command line is in the phase log): `sig_cycle.sh` (the parked signature bodies:
+  oracle refresh → `--callee … --body` → R22 → log → commit; a `--tu` fallback when copies differ), `strip_banners.py` (the §8b banner comments).
+- **Gotchas:** after `kill -INT` on a judge WAIT for its exit (`ps`) before `--restore`; `pgrep -f`/`pkill -f` never with a literal your own
+  command line contains (`restruct_cycl[e]`).

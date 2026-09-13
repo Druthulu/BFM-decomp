@@ -37908,3 +37908,35 @@ member, the site's own cast kept: `*(u16 *)((((struct { s32 p; } *)&D_801C7E30)-
 the body closes with members everywhere but that one site, and that site with both sides `/s`. The same recipe on the ORIGINAL text (every
 site a cast) is also IDENTICAL: the pointer read's `/s` is what the scheduler's escape needed, whichever side the store took. R1 is the first
 entry of the engine's recipe registry (R2 = a18's `extern T X[]`, R3 = f3's walked pointer); T6 runs the registry on every kept cast.
+
+## §459 — The declaration layer's byte facts (Phase 37 T4, S107–S108): what a prototype spelling can and cannot hide
+
+Rung D put ≈90,000 call declarations canonical (the definition's ANSI signature) byte-identically, judged per object; the residue and the
+signature-side landings are the byte facts worth keeping (every one gated `check-all: 218 passed, 0 failed of 218`).
+
+1. **A byte-proven K&R site is a per-TU fact, but a definition in a shared header makes it a per-DEFINITION fact.** A TU whose calls pass
+   fewer arguments than the definition takes keeps `extern ret f();  // K&R: n of m args (…)` — 5,082 such sites over 155 callees, counted
+   apart from the lies. When the DEFINITION sits in a shared header (`func_80162CCC.h`) and the short call sits in another shared body
+   (`func_80164DB0.h:5`), no per-TU `()` can hide the prototype already in scope: the definition itself is spelled K&R-style (`void
+   func_80162CCC(a0) u8 *a0; {`) — **IDENTICAL on 288 objects, 145 files** (`t4_ua13`; same shape `func_8016F0E4` 296 objects, `func_80131CA8`
+   202 in S107). gcc 2.7.2's K&R head changes nothing in the callee's bytes when the parameter types are the byte-true ones.
+2. **"The pin was the missing argument" is a UNIT of definition + callers.** `func_80029D3C`'s pins (P36) faked `$4`; the truth is `s32
+   func_80029D3C(s32 n)` — and every zero-argument caller then passes the value its pin had loaded: `s0 = func_80029D3C(D_8011DB1A);`
+   (ov_SC07_002), and in two shared bodies a local compared then passed — `s16 cmp79; if (... (cmp79 = *(s16 *)(p + 0x79)) != 1000) angle =
+   func_80029D3C(cmp79);` — **IDENTICAL on every recipe (2,177 files)**: local-alloc homes a local that dies at the call in `$a0`, exactly where
+   the pin had put it. A declaration change alone is `too few arguments` at each such caller; grep the fleet for `f()` before trusting a
+   pack's "one caller" (it was three).
+3. **A return type is observable in a delay slot (§162f1 operated).** `func_80188A30`: `void` → `s32` with the body unchanged (no `return`; the
+   function falls off the end) — reorg's `fill_slots_from_thread` refuses to steal `li v0,24` into the `beqz` slot once `$v0` is live at the
+   epilogue (`reorg.c:4274`); the `"memory"` barrier that had faked the `nop` comes off. IDENTICAL, 1 file.
+4. **Same code over per-overlay data is one body plus a symbol map.** `func_80157D20` in 132 overlays: the pack body names `D_80192768`
+   (ov_SC04_011's table); each copy's own definition names its own (`D_801806BC` in ov_MAIN_012, …) at the same site. Renaming the pack's `D_`
+   symbols to each copy's by ORDER OF FIRST APPEARANCE (`--map-data`; a count mismatch refuses) landed all 132 as `void func_80157D20(void
+   *param_1, s32 param_2)` — **IDENTICAL, 2,105 files, 264 `$4/$5` pins gone**. The 133rd "definition" was a variant header (`__99380536.h`,
+   different bytes for 3 overlays): a variant is another function, left with its includers' declarations.
+5. **What a prototype cannot hide (the residue's causes, each a ledger row):** a caller in one jr-merged TU whose bytes disagree with the
+   definition's head (the original was separate translation units — the file-layout phase's; 10 functions); a `void` definition whose
+   callers USE `$v0` (`void value not ignored` — the definition's return type is the lie: a definition-side change, 5 functions); a prototype
+   naming a type the TU cannot see (`Pos800D20C0`; 1,120 rows — T5's canonical types); `conflicting types` from a second declaration
+   elsewhere in the TU (417); a zero-argument caller that passes its OWN incoming `$a0` through (`func_801A6A18(void) { func_801A1E94(); }`) —
+   the fix re-signs the caller too, one level up.
