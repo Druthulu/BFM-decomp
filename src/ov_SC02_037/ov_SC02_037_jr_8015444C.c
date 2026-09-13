@@ -1419,7 +1419,7 @@ extern s32 func_8014CB7C(void);
 extern s32 func_8014C088(s32 a0, s32 a1);
 extern u8 func_80165658(s32 a0, s32 a1);
 extern s32 func_801497A8(s32 *a0);
-extern void func_801653B8();
+extern void func_801653B8(s32 *a0);
 extern void func_80149864(void);
 extern s32 func_8016F1AC(void);
 extern s32 func_80149884(void);

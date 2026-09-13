@@ -48,7 +48,7 @@ void func_800CAF3C(void) {
 }
 
 extern void func_80147078(s32 *a0, s16 a1);
-extern void func_800CB008();
+extern void func_800CB008();  // K&R: 0 of 1 args (P37 rung D t4_D52)
 void func_800CAF44(s32 *a0) {
     func_80147078(a0, 34);
     ((void (*)(void *))func_800CB008)(a0);
@@ -72,7 +72,7 @@ void func_800CAFAC(void *a0) {
 }
 
 
-extern void func_800CB008();
+extern void func_800CB008();  // K&R: 0 of 1 args (P37 rung D t4_D52)
 void func_800CAFE8(void) {
     func_800CB008();
 }
