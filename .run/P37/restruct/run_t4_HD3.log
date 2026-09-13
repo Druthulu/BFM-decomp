@@ -1,0 +1,25 @@
+restruct --plan D: 20 of 236 TUs with lying declarations · 20 callees
+17:58:23 apply t4_HD3 rung D: 20 files, control src/shared/ov/func_8012CC64.h IDENTICAL (0.20 s), calibration 1e996c609
+17:58:30   src/shared/ov/func_8012CC64.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012D38C.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012D624.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012D664__46ca4ffa.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012D664__b481cb52.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012DFD4.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012E138.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012EF34.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012EF70.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012F5F4.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012F68C.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012F75C.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012F7B4.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012F87C.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012F91C.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012F968.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012FB54.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012FC30.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012FCA4.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30   src/shared/ov/func_8012FDA8.h: UNCHANGED · rows 1 · compiles 0 · 0.0 s · canon 0 promoted 0 K&R 0 aliases 0 abs 0 kept 0
+17:58:30 restruct: batch t4_HD3 rung D — 20 files (headers; 236 drawable) · 0 declaration units: 0 canonical / 0 promoted / 0 K&R marked / 0 aliases typed / 0 __builtin_abs → abs / 0 kept · compiles 0 in 6 s wall · final 20/20 identical · written 0 files
+t4_HD3 wall=45.61 s
+exit=0
