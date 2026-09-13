@@ -8,7 +8,7 @@ void func_80166054(s32 arg0) {
     extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
     extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
     extern void func_801661CC(s32 a0);
-    extern void func_80146C3C();
+    extern void func_80146C3C(u8 *a0);
     extern u8 D_800D387C[];
     extern u8 D_800D3888[];
     s32 param_1; /* $s2 */

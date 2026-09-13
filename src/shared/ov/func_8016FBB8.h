@@ -3,7 +3,7 @@
 extern void func_801719A4(int a0, int a1);
 extern void func_80171B44(s32 *a0);
 extern s32 func_80171990(u8 *a0);
-extern void func_8016FC24();
+extern void func_8016FC24(s32 a0);
 void func_8016FBB8(s32 a0) {
     u8 *p;
     *(s16 *)(a0 + 0x136) = 2;

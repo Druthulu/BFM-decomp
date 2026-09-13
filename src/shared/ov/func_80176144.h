@@ -7,7 +7,7 @@ void func_80176144(s32 a0)
     extern u8  D_8011F7A8;
     extern s16 D_8011F7BC;
     extern s16 D_8011F7BE;
-    extern s32 func_80178004();
+    extern s32 func_80178004(uint *param_1, uint param_2, int param_3);
     u32 *slot;
     u32 *p;
     s16 param_1 = (s16)a0;

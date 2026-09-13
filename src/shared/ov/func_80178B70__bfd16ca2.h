@@ -3,7 +3,7 @@
 s32 func_80178B70(s32 param_1, s32 param_2)
 {
     extern void func_80178BF8();
-    extern void func_80178CBC();
+    extern void func_80178CBC(s32 arg0, s32 arg1);
     extern int D_80182BB4;
 
     int *p = &D_80182BB4;

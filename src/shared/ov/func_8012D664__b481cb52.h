@@ -1,7 +1,7 @@
 /* func_8012D664 — shared body (overlay slot 0x80128158, h_exact b481cb52). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 int func_8012D664(int arg0, int arg1, int arg2) {
-    extern int func_8012F568();
+    extern void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
     extern int D_8017F5B4;
 
     struct S8012D664_8012D664 s;

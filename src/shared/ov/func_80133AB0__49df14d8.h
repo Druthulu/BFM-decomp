@@ -7,7 +7,7 @@ s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
     extern u8 D_8017F814;
     extern u16 D_8018E6F8;
     extern s16 D_8018E6F4;
-    extern s32 func_80133CD4();
+    extern s32 func_80133CD4(int arg0, s16 * cmd, s16 * base, s32 * arr);
 
     Map_80133AB0 *map = (Map_80133AB0 *)arg3;
     u16 *pA = (*(u16 * *)&D_8017F80C);

@@ -1,8 +1,8 @@
 /* func_8014CD80 — shared body (overlay slot 0x80128158, h_exact 4da9c2da). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern int func_80135A4C();
-extern int func_80135888();
-extern int func_8014C918();
+extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
+extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern s32 func_8014C918(s32 a0, s32 a1);
 int func_8014CD80(int param_1, unsigned short *param_2, unsigned short *param_3)
 {
     short *psVar4;

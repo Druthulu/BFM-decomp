@@ -3,7 +3,7 @@
 void func_801661CC(s32 param_1)
 {
     extern s32 func_80128ED8(s32 param_1, s32 *param_2);
-    extern void func_80146C3C();
+    extern void func_80146C3C(u8 *a0);
     extern void func_800D22E4(s32 a0);
     if (((s32 (*)(s32, s32))func_80128ED8)(*(s32 *)(param_1 + 0x20), param_1 + 0x24) != 0) {
         ((void (*)(s32))func_80146C3C)(param_1);

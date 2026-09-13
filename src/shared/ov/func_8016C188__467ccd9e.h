@@ -12,7 +12,7 @@ void func_8016C188(s32 param)
 
     extern void func_80015954(s32, s32);
     extern s32 func_8016C374(s32, s32, s32, s32);
-    extern void func_80146C3C(void);
+    extern void func_80146C3C();  // K&R: ? of 1 args (P37 rung D t4_HD7)
     extern void func_8001CD9C(s32, void *);
     extern void func_800233CC(void *, unsigned short);
     extern u8 D_8018ED7C[];

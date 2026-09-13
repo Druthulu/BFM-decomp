@@ -7,7 +7,7 @@ s32 func_801380E0(s32 arg0) {
     extern void func_80029124(s32, s32);
     extern s32 func_800CF864(s32, s32);
     extern void func_80138AB4(s32, s32);
-    extern s32 func_80138C60();
+    extern s32 func_80138C60();  // K&R: 2 of 1 args (P37 rung D t4_HD7)
     extern void func_80138D58(s32, s32);
     extern s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2);
     extern void func_801391F0(s32, s32);

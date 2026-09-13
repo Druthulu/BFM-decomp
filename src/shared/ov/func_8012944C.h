@@ -4,7 +4,7 @@ extern s32 D_8005128C;
 extern s16 D_80114EE0;
 extern u8 D_800B9A78;
 extern void func_801298F4(void *arg0);
-extern void func_801299C8();
+extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 void func_8012944C(void) {
     s32 base;   /* $s0 = &D_800B9A78 */
     register short *p __asm__("$17");    /* $s1 = base + 0x1E */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)

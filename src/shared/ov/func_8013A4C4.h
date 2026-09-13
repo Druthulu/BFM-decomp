@@ -1,6 +1,6 @@
 /* func_8013A4C4 — shared body (overlay slot 0x80128158, h_exact 2db7165d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_8013A530();
+extern void func_8013A530();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 void func_8013A4C4(struct S8013A4C4 *a0) {
     struct Inner8013A4C4 *a1 = a0->unk4;
     a0->unkE = 0;

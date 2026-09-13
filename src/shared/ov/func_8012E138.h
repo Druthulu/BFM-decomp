@@ -6,7 +6,7 @@ extern u16 D_80126B66;
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_80049CAC();
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
-extern s32 func_80135888();
+extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_8012E138(int model) {
     struct Cam8012E138 cam;
     int bufB[2];
