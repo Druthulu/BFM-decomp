@@ -1,0 +1,6 @@
+18:45:20 signature func_80157D20: src/shared/ov/func_80157D20__99380536.h defines func_80157D20 as a shared/variant header — left as is with its includers' declarations
+18:45:20 signature func_80157D20: src/shared/ov/func_80157D20__d073e622.h defines func_80157D20 as a shared/variant header — left as is with its includers' declarations
+18:45:38 signature func_80157D20: src/shared/ov/func_80149CB4.h reaches binaries outside the definitions' (['ov_SC03_126', 'ov_SC04_008', 'ov_SC04_021']) — left as is
+18:45:39 signature func_80157D20: `void func_80157D20(void *param_1, s32 param_2)` — 131 definition(s) in ['src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c', 'src/ov_SC01_000/ov_SC01_000_jr_80154C24.c', 'src/ov_SC01_001/ov_SC01_001_jr_80154C24.c'], 2105 declarations in 1974 other files
+18:46:11 signature func_80157D20: IDENTICAL on every recipe (2202 objects, 297.3 s) — 2105 files written
+18:46:11 restruct: signature func_80157D20 — IDENTICAL · 2105 files written

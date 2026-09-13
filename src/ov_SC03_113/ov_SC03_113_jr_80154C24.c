@@ -362,7 +362,7 @@ extern s32 func_80029178(s32 a0);
 extern s32 func_80149C08(s32 arg0);
 extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
-extern void func_80157D20(void);
+extern void func_80157D20(void *param_1, s32 param_2);
 extern void func_80149CB4(void);
 extern s32 func_80149CD4(s32 a0);
 extern u8 func_8014B5B8(s32 *a0);
@@ -1357,14 +1357,10 @@ extern void func_80156648(s32 *a0);
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_80157D74(u16 *a0);
 
-void func_80157D20(void)
+void func_80157D20(void *param_1, s32 param_2)
 {
 
     extern u16 D_80185114[];
-    register void *a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus4)
-    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus4)
-    void *param_1 = a0v;
-    s32 param_2 = a1v;
 
     ((void (*)(void))func_80156648)();
     ((void (*)(void *, s32))func_80147078)(param_1, D_80185114[param_2]);
