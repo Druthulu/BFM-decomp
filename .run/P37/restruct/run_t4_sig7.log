@@ -1,0 +1,8 @@
+18:22:31 signature func_80188DF4: `s32 func_80188DF4(s32 a0)` — 3 definition(s) in ['src/ov_SC02_011/ov_SC02_011_jr_80183178.c', 'src/ov_SC03_091/ov_SC03_091_jr_8018326C.c', 'src/ov_SC03_104/ov_SC03_104_jr_80186538.c'], 5 declarations in 2 other files
+18:22:32 signature func_80188DF4: COMPILE-ERROR src/ov_SC02_011/ov_SC02_011_jr_80183178.c:4225: too many arguments to function `func_80188DF4'
+src/ov_SC02_011/ov_SC02_011_jr_80183178.c: At top level:
+src/ov_SC02_011/ov_SC02_011_jr_80183178.c: At to — nothing written
+18:22:32 restruct: signature func_80188DF4 — COMPILE-ERROR · 0 files written
+Command exited with non-zero status 1
+t4_sig7 wall=48.29 s
+exit=1
