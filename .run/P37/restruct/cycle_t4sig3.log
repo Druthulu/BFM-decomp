@@ -1,3 +1,5 @@
 log: t4_sig12b
 cycle: t4_sig12b committed 1f11a183d — restruct: signature func_80157D20 — COMPILE-ERROR · 0 files written | (no src change)
 log: t4_sig2b
+cycle: t4_sig2b committed d27072afc — restruct: signature func_80029D3C — COMPILE-ERROR · 0 files written | (no src change)
+log: t4_sig8b

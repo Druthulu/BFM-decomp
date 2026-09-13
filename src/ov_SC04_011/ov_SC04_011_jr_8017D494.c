@@ -10838,7 +10838,7 @@ void func_801888B8(u8 *a0)
 }
 
 
-void func_80188A30(s32 a0) {
+s32 func_80188A30(s32 a0) {
     extern u16 D_80194814;
     extern u16 D_80194816;
     extern u16 D_801F161E;
@@ -10853,7 +10853,6 @@ void func_80188A30(s32 a0) {
     in[2] = D_80194814;
     out[2] = D_80194816;
     if (func_8012DEB8((s32)a0, (s32)in, (s32)out) != 0) {
-        __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t3_tus1)
         D_80126B98 = 0x18;
         if (*(s16 *)((s32)a0 + 0x106) == 0) {
             u16 cnt = D_801F161E;
@@ -13438,7 +13437,7 @@ extern void func_8012AD80(s32 a0);
 extern void func_801888B8(u8 *a0);
 extern s32 func_8018AD3C(s16 *a0, s32 *a1, s32 a2);
 extern void func_801886C4(s32 *a0);
-extern void func_80188A30(s32 a0);
+extern s32 func_80188A30(s32 a0);
 
 void func_8018C260(s32 a0) {
     s16 sp10[4];
