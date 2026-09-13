@@ -1,11 +1,6 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct {
     s16 f0;
     s16 f2;
@@ -3542,7 +3537,6 @@ extern void func_8018E6D4(void);
 extern void func_8018E6DC(void *a0);
 extern void func_8018E730(void *a0);
 extern void func_8018E7E4(s32 arg0, void * arg1, void * arg2, void * arg3, int count);
-/* ==== end §8b carried decl layer ==== */
 
 
 void func_8018EA04(s32 param_1) {

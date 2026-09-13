@@ -1,11 +1,6 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -1015,7 +1010,6 @@ extern void func_80144A98(u8 *a0);
 extern int func_80144B14(int param_1);
 extern void func_80144AEC(s32 *a0);
 extern int func_80013294(void *a0, void *a1);
-/* ==== end §8b carried decl layer ==== */
 
 /* func_801457A4 (@0x801457A4) is an -O0 function; its definition lives in ov_SC07_007_o0d.c (the -O0
  * whale object). Mirrors ov_SC01_077 (rollout_o0, generalizing §116/T85). */

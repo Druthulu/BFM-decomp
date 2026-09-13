@@ -6,11 +6,6 @@
  * the P31-S54 HOISTED note that used to sit here moved with them). */
 
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct {
     SVECTOR_8016E7C8 v[4];               /* 0x00 */
     s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
@@ -2770,7 +2765,6 @@ extern void func_80147060(u8*);
 extern void func_8018166C(s32 a0);
 extern s32 func_8018169C(s32 a0, s32 a1);
 extern s32 func_801816CC(s32 a0, s32 a1);
-/* ==== end §8b carried decl layer ==== */
 
 extern void func_80182998(void);
 extern s32 func_80185D84(s32);

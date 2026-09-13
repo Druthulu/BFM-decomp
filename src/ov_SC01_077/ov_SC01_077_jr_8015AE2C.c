@@ -30,11 +30,6 @@ extern s32 func_801759D8(void);                          /* derive-decl, arity 0
 extern s32 func_80175820(void);                          /* derive-decl, arity 0 */
 extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
 struct S;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -1219,7 +1214,6 @@ extern void (*D_80189310[])(void *);
 extern void func_8015ADB0(s32);
 extern void func_8015AD78(s32 a0);
 extern void func_8015ADB0(s32 arg0);
-/* ==== end §8b carried decl layer ==== */
 
 /* func_8015AE2C (ov_SC01_077_after, 562 ins, jtbl_801D8B54) — Phase 26 crack
  * Entity main-update dispatcher: 7-case switch (0/1/2/6 shared, 3/4/5 own, no default

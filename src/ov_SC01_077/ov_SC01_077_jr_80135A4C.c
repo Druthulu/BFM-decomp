@@ -30,11 +30,6 @@ extern s32 func_801759D8(void);                          /* derive-decl, arity 0
 extern s32 func_80175820(void);                          /* derive-decl, arity 0 */
 extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
       /* 8-byte element, cmd @ +4 */
     /* list ptr @ +0x90 */
 struct S80131E00;
@@ -669,7 +664,6 @@ extern u16 D_801D9500;
 extern int func_80134A74(int, s16, s16, int);
 extern int func_80135168(u16 arg0, u16 *p1, u16 *p2);
 extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4);
-/* ==== end §8b carried decl layer ==== */
 
 
 s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {

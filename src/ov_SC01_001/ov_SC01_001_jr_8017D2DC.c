@@ -2,11 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct {
     SVECTOR_8016E7C8 v[4];               /* 0x00 */
     s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
@@ -2679,7 +2674,6 @@ extern void func_8017D060(void *a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_8017D13C(s32 param_1, s16 *param_2);
 extern s32 func_8017D2D4(void);
-/* ==== end §8b carried decl layer ==== */
 
 
 /* func_8017D2DC @ ov_SC01_001 (ov_SC01_001_jr_8017BEBC) -- 1,586 ins, 125-case jr switch

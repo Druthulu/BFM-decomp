@@ -2,11 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
    /* 12-byte sub-table record (stride 0xC) */
  /* 0x20 bytes */
                 /* 4 + 16*12 = 0xC4 stride */
@@ -2544,7 +2539,6 @@ extern s32 D_801CFC68;
 extern short D_801D02BC;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-/* ==== end §8b carried decl layer ==== */
 
 
 /* func_80178D40 - 890 ins, 94-case jr switch (jtbl_801D8E24).

@@ -2,11 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
    /* 12-byte sub-table record (stride 0xC) */
  /* 0x20 bytes */
                 /* 4 + 16*12 = 0xC4 stride */
@@ -2670,7 +2665,6 @@ extern void (*D_801900B0)(void);
 extern void func_8017BD50(int param_1);
 extern void (*D_80182BFC[])(void);
 extern void func_8017BE60(void *a0);
-/* ==== end §8b carried decl layer ==== */
 
 
 /* func_8017BE9C — ov_SC01_000_after — TMD-style model renderer (952 ins, jr-function).

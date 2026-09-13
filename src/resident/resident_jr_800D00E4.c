@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct {
     s32 word0;
     s32 word4;
@@ -130,7 +125,6 @@ extern s32 func_800CFC5C(s32);
 extern s32 D_800D34AC[];
 extern void func_800191D4(s32 arg0);
 extern void func_800191BC(s32 arg0);
-/* ==== end §8b carried decl layer ==== */
 
 
 /* func_800D00E4 — BANKED (S74). SUPERSEDES the note that stood here, which read

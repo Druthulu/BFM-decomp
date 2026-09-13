@@ -30,11 +30,6 @@ extern s32 func_801759D8(void);                          /* derive-decl, arity 0
 extern s32 func_80175820(void);                          /* derive-decl, arity 0 */
 extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
 struct S;
 struct Obj;
    /* 12-byte sub-table record (stride 0xC) */
@@ -2689,7 +2684,6 @@ extern s32 D_801DA308;
 extern short D_801DAB2C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-/* ==== end §8b carried decl layer ==== */
 
 /* func_80178D40 - 890 ins, 94-case jr switch (jtbl_801D8E24).
  * STATUS: **MATCH** -- 890/890 ins, byte-exact (masked). PIN-FREE (this body is

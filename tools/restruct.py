@@ -1765,7 +1765,16 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
     return out
 
 
-def signature_change(callee, signature, label, calib_id, log, pool=None, body_file=None, all_defs=False, only_tu=None):
+def _ordered_syms(text, rx=re.compile(r"\bD_[0-9A-F]{8}\w*")):
+    out = []
+    for m in rx.finditer(text):
+        if m.group(0) not in out:
+            out.append(m.group(0))
+    return out
+
+
+def signature_change(callee, signature, label, calib_id, log, pool=None, body_file=None, all_defs=False, only_tu=None, with_files=None,
+                     map_data=False):
     """A DEFINITION-side change (`--callee F --signature "ret F(params)"`, or `--callee F --body FILE` — the pack's lever-free function text
     replaces the whole definition and the new signature is read from ITS head): the definition in its TU + every declaration of F in every
     TU of F's scope, ONE judged unit — every recipe IDENTICAL or nothing is written. Returns (rows, verdict, files_written)."""
@@ -1786,6 +1795,14 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
     def_files = [rel for rel, r in results.items() if r and any(f["fn"] == callee for f in r["fndefs"])]
     if only_tu:
         def_files = [d_ for d_ in def_files if d_ == only_tu]
+    if body_text is not None and all_defs:
+        # a definition carried by a shared HEADER is a variant body (`__<hash>.h`: different bytes for its binaries) or a shared exemplar
+        # — not "the same body for every same-address copy": left as is, its includers keep their declarations (t4_sig12b: the pack body
+        # written into func_80157D20__99380536.h, its 3 binaries' declarations untouched -> `conflicting types`)
+        hdr = [d_ for d_ in def_files if d_.endswith(".h")]
+        for h_ in hdr:
+            log(f"signature {callee}: {h_} defines {callee} as a shared/variant header — left as is with its includers' declarations")
+        def_files = [d_ for d_ in def_files if not d_.endswith(".h")]
     if not def_files or (len(def_files) != 1 and not all_defs):
         sys.exit(f"restruct: {callee} has {len(def_files)} definitions ({def_files[:4]}) — a signature change needs exactly one, or --all-defs "
                  f"(the same body for every same-address copy) or --tu <TU> (R43)")
@@ -1800,7 +1817,21 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
         if body_text is not None:
             # the WHOLE definition (its head line through its closing brace line) replaced by the pack's text
             span_end = ls[fd["fn_end"]] if fd.get("fn_end") and fd["fn_end"] < len(ls) else len(dtext)
-            edits = [(head_start, span_end, body_text if body_text.endswith("\n") else body_text + "\n")]
+            btext = body_text
+            if map_data:
+                # `--map-data`: the same code over PER-OVERLAY data — the pack body's `D_` symbols renamed to this copy's own, matched by
+                # order of first appearance in the copy's current definition (t4_sig12: `D_80192768` in ov_SC04_011 is `D_801806BC` in
+                # ov_MAIN_012, 133 copies); a count mismatch REFUSES the unit (the copy is not the same code over renamed data, R43)
+                cur = dl.same_len_mask(dtext)[head_start:span_end]
+                ps, cs = _ordered_syms(dl.same_len_mask(body_text)), _ordered_syms(cur)
+                if len(ps) != len(cs):
+                    log(f"signature {callee}: --map-data REFUSED at {dtu} — the pack body names {len(ps)} D_ symbols {ps[:4]}, this copy's "
+                        f"definition {len(cs)} {cs[:4]}")
+                    return [], "REFUSED", []
+                for a_, b_ in zip(ps, cs):
+                    if a_ != b_:
+                        btext = re.sub(r"\b" + re.escape(a_) + r"\b", b_, btext)
+            edits = [(head_start, span_end, btext if btext.endswith("\n") else btext + "\n")]
         else:
             brace = dmask.find("{", head_start)
             hm = re.search(r"([A-Za-z_][\w \t*]*?)\b" + re.escape(callee) + r"\s*\(([^{;]*)\)\s*(?=\{)", dmask[head_start:brace + 1])
@@ -1811,6 +1842,14 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
     # the declarations: every TU/header of the definitions' binaries (a same-address function is one function per binary); for a
     # main/resident definition the whole fleet declares it
     import corpus
+    for rel_, path_ in (with_files or {}).items():
+        # `--with REL=FILE`: a caller-body edit that is part of the SAME judged unit (the P36 f1 shape: the pin was the missing call
+        # ARGUMENT — func_80029D3C's one caller must pass it, the declaration change alone is `too few arguments`); its declarations of
+        # the callee are rewritten on top below
+        if rel_ in files:
+            sys.exit(f"restruct: --with {rel_} is a definition TU of {callee} — give the body with --body instead (R43)")
+        files[rel_] = pathlib.Path(path_).read_text(errors="surrogateescape")
+        log(f"signature {callee}: {rel_} carries a caller-body edit from {path_} (part of this unit)")
     def_bins = set()
     for dtu in def_files:
         for a_ in w["tu_aliases"].get(dtu, ()):
@@ -2509,7 +2548,9 @@ def apply_batch(a):
         return 0
     if a.callee:
         pool = ThreadPoolExecutor(max_workers=a.jobs)
-        rows_, v, written = signature_change(a.callee, a.signature, a.label, calib_id, log, pool=pool, body_file=a.body, all_defs=a.all_defs, only_tu=a.tu)
+        with_files = dict(w_.split("=", 1) for w_ in (a.with_files or []))
+        rows_, v, written = signature_change(a.callee, a.signature, a.label, calib_id, log, pool=pool, body_file=a.body, all_defs=a.all_defs, only_tu=a.tu,
+                                             with_files=with_files, map_data=a.map_data)
         pool.shutdown(wait=True)
         ledger_append(rows_)
         line = f"restruct: signature {a.callee} — {v} · {len(written)} files written"
@@ -3557,6 +3598,8 @@ def main():
     ap.add_argument("--signature", help='rung D: the new signature, e.g. "void func_800385C0(s32 a0)"')
     ap.add_argument("--body", help="rung D with --callee: a file whose function text REPLACES the definition (the signature is read from its head)")
     ap.add_argument("--all-defs", action="store_true", help="rung D with --callee: apply the body/signature to EVERY same-address definition (copies of one function)")
+    ap.add_argument("--map-data", action="store_true", help="rung D --callee --body --all-defs: rename the body's D_ symbols to each copy's own (by order of first appearance); a count mismatch refuses")
+    ap.add_argument("--with", dest="with_files", action="append", metavar="REL=FILE", help="rung D --callee: a caller TU's edited text that is part of the same judged unit (repeatable)")
     ap.add_argument("--tu", help="rung D with --callee: restrict to the definition in this TU")
     ap.add_argument("--unalias", nargs="*", help="rung D: put alias-defined functions (aF<addr> __asm__(\"func_<addr>\")) back under their real names; names or ALL")
     ap.add_argument("--restore", action="store_true")

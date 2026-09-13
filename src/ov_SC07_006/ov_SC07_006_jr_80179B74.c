@@ -1,11 +1,6 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
    /* size 0x14 */
     /* size 0x0C */
 extern void func_80128288(void);
@@ -3264,7 +3259,6 @@ extern M2C_UNK func_80178D40(s32 arg0, s32 arg1);
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
 extern void func_80179B28(s32 a0);
-/* ==== end §8b carried decl layer ==== */
 
 
 extern short D_801DA710;

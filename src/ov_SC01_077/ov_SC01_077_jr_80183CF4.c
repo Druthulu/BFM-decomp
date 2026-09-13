@@ -30,11 +30,6 @@ extern s32 func_801759D8(void);                          /* derive-decl, arity 0
 extern s32 func_80175820(void);                          /* derive-decl, arity 0 */
 extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
 struct S;
 struct Obj;
 typedef struct {
@@ -3080,7 +3075,6 @@ extern void func_80183AA8(int param_1);
 extern void func_8012AD80(s32 a0);
 extern void func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
 extern void func_80183BAC(s32 param_1);
-/* ==== end §8b carried decl layer ==== */
 
 // @class: struct
 // @unstuck(P36): none — MATCH (clean switch + jtbl; orchestrator owns jtbl/rodata migration)

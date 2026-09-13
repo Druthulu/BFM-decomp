@@ -2,11 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
- * The file-scope decl environment from earlier code regions of this object —
- * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
- * definition's implied prototype (types first, then decls in original order).
- * Decls emit no code => byte-neutral. See cookbook §8c. */
    /* 12-byte sub-table record (stride 0xC) */
  /* 0x20 bytes */
                 /* 4 + 16*12 = 0xC4 stride */
@@ -2684,7 +2679,6 @@ extern void ReadGeomOffset(s32 *a0, s32 *a1);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8004921C(s32 a0, s32 a1);
 extern void func_8017C688(s32 a0, s32 a1);
-/* ==== end §8b carried decl layer ==== */
 
 /* func_8017D5C0 — ov_SC01_000_after — TMD-style model renderer (952 ins, jr-function).
  * Outer loop: per-part bbox -> RTPT/RTPS projection -> g.otz + screen cull.

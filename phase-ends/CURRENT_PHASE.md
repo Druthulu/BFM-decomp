@@ -629,6 +629,26 @@ bucketed by what each bucket needs before any plan is proposed. **Candidates for
 
 - **2026-09-12 — T4 step (d) `t4_sig5b`** (`restruct --apply --rung D --callee func_80183CC4 --body $A/ov_SC03_094__func_80183CC4/body.c --tu src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c`; `.run/P37/restruct/run_t4_sig5b.log`): `restruct: signature func_80183CC4 — IDENTICAL · 1 files written` → R22 (`.run/P37/baseline/r22_t4_sig5b.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=83.66 s`).
 
+- **S108 — step (d) DONE (the parked signature bodies; the driver `.run/P37/restruct/sig_cycle.sh`, one judged unit per function, R22 per
+  landing — every entry's exact command is in its own log line above).** Landed 10 of the 12 packs: `func_800385C0` (`623069579`),
+  `func_80035210` (`ee3419ff0`), `func_800384A8` (`145d6a7cb`), `func_80185578` (`--tu`, `754916997`), **`func_80188A30` (`void` → `s32` — reorg's
+  delay-slot fill, §162f1; the pack's `body_free.c` with an `s32` head, `32e170941`)**, `func_80188DF4` (`--tu`, `f4ac36ccf`), `func_8017FC5C`
+  (`--tu`, `6b19f8941`), **`func_80157D20` (132 copies, `--all-defs --map-data`: the pack body's `D_80192768` renamed to each copy's own datum by
+  order of first appearance; the variant header `__99380536.h` and its 3 binaries left as is; IDENTICAL on every recipe, 2,105 files, `062467aab`)**,
+  **`func_80029D3C` (`--with` ×3: the definition `(void)` → `(s32 n)` AND its three zero-argument callers — `ov_SC07_002_jr_8017C8D0.c`, the shared
+  bodies `func_8015126C.h` and `func_80151780.h` — each a `$4` pin that WAS the missing argument, rewritten to pass it; 2,177 files, `5016a185d`)**,
+  `func_80183CC4` (`--tu`, `f0c9b96b6`). Not landed, by name for T7: `func_801A1E94` / `func_801A5C44` (md_SC07_004: a zero-argument caller
+  `func_801A6A18(void) { func_801A1E94(); }` passes its OWN incoming `$a0` through — the fix cascades one caller up); the other same-address
+  copies of `func_80185578` (ov_SC03_014), `func_80188DF4` (ov_SC02_011 — a caller passes more arguments; ov_SC03_104), `func_8017FC5C`
+  (ov_SC04_002 — a short caller), `func_80183CC4` (ov_SC03_006/029/090 — per-overlay data, 1/0/4 symbols vs the pack's 1). Three tool
+  extensions this step, each with its command in the log: `--tu` fallback in the driver (the pack's own copy when copies differ), `--with
+  REL=FILE` (a caller-body edit inside the same judged unit), `--map-data` (per-copy data renames; a count mismatch REFUSES); a header-borne
+  definition is excluded from `--all-defs` body replacement (a variant is another function).
+- **S108 — step (e) DONE: the "carried decl layer" banner comments.** `.run/P37/restruct/strip_banners.py` (refuses an unknown banner form;
+  prose mentions inside other comments kept): `3546 files · 3547 openers + 3543 closers removed` (4 openers had no one-line closer — the opener
+  alone went; 142 prose mentions kept), `git diff --stat src`: **3,546 files changed, 0 insertions, 21,274 deletions**, every removed line a
+  comment line → R22 (`.run/P37/baseline/r22_t4_banners.log`) **`check-all: 218 passed, 0 failed of 218`** (`wall=92.04 s`, exit 0).
+
 ## 🛑 SESSION CHECKPOINT — S107 (2026-09-12, FINAL — written for a FRESH session at 84 % context; the session's last commit follows this): gate 1 APPROVED, **T0 ☑ T1 ☑ T2 ☑ T3 ☑ — T4 IN PROGRESS (☐)** — 🛑 **T4 NEXT: resume the declaration layer where the cycle stopped (below, §1 "T4 — where it stands and the exact next commands"); xHigh** | R22 `check-all: 218 passed, 0 failed of 218` at `f2b58011e` (every one of the 21 T4 commits carries its own) | HEAD after this commit is the checkpoint's commit; tree clean; nothing pushed after `79b2f6f15` (Drew pushes, R6) | last batch `t4_sig5b` on 5016a185d: restruct: signature func_80183CC4 — IDENTICAL · 1 files written
 
 **Replay this block into the chat at the next session start (R64); it is the ONLY in-phase context the next session inherits. Everything below
