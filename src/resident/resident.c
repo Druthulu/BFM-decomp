@@ -955,7 +955,7 @@ s32 func_800CFE60(void) {
     extern s32 func_80029504(void);
     extern s32 func_80029178(s32);
     extern s32 func_8002F658(void);
-    extern void func_800D00E4();
+    extern void func_800D00E4(s32 arg0);
     extern s32 CdReadRequest(void *, void *, s32, s32);
 
     u8 *base;

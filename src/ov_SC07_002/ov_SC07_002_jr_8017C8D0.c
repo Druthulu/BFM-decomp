@@ -4464,7 +4464,7 @@ void func_8017FBD0(s32 s0) {
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     SVfbd0 base;
     SVfbd0 target;
@@ -4494,7 +4494,7 @@ void func_8017FCA8(s32 a0)
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 func_80013294(void *a0, void *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     PosFCA8 cur;
     PosFCA8 target;
@@ -4555,7 +4555,7 @@ void func_8017FEC4(s32 s0) {
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     SVfec4 base;
     SVfec4 target;
@@ -4578,7 +4578,7 @@ void func_8017FF84(s32 s1) {
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     SVff84 base;
     SVff84 target;
@@ -4618,7 +4618,7 @@ void func_80180090(s32 a0)
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
     extern s32 func_8004787C(s32 a0);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     SV180090 base;
     SV180090 target;
@@ -4875,7 +4875,7 @@ s32 func_8018094C(s32 s1)
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     SVfbd0 base;
     SVfbd0 target;
@@ -4904,7 +4904,7 @@ s32 func_80180A2C(s32 s1) {
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern s32 func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     SVfbd0 base;
     SVfbd0 target;
@@ -4933,7 +4933,7 @@ void func_80180B0C(s32 s1) {
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     SVfbd0 base;
     SVfbd0 target;
@@ -4986,7 +4986,7 @@ void func_80180BEC(void) {
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
     register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
 
     s32 s1 = a0v;
@@ -5019,7 +5019,7 @@ void func_80180CCC(s32 s1) {
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
-    extern void func_80181394();
+    extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
 
     SVfbd0 base;
     SVfbd0 target;
