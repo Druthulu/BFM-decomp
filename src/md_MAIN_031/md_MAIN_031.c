@@ -1,7 +1,7 @@
 #include "common.h"
 
 void func_800CAE0C(void) {
-    extern void func_800CAE74();
+    extern void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2);
     extern void func_800183E0(s32 a0);
     extern u8 D_800CC09C[];
     extern u8 D_800CBF3C[];
@@ -83,7 +83,7 @@ extern u16 D_801270C0;
 extern void func_80154150(s32 a0, s32 a1);
 extern void func_801655E4(s32 a0);
 extern void func_800183E0(s32 a0);
-extern void func_800CAE74();
+extern void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2);
 extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_80147324(s32 a0);
 extern u8 D_800CC09C[];
@@ -112,7 +112,7 @@ void func_800CAFE4(u8 *a0) {
 }
 
 
-extern void func_800CB428();
+extern void func_800CB428();  // K&R: 3 of 1 args (P37 rung D t4_D40)
 extern void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3);
 extern void func_800CB964(void *a0, void *a1, void *a2);
 extern void func_80147324(s32 a0);
@@ -159,7 +159,7 @@ void func_800CB0B0(void *arg) {
 
 extern u16 func_80148800(s32 *a0);
 extern void func_80147324(s32 a0);
-extern void func_800CB428();
+extern void func_800CB428();  // K&R: 3 of 1 args (P37 rung D t4_D40)
 extern void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3);
 extern void func_800CB964(void *a0, void *a1, void *a2);
 

@@ -27,7 +27,7 @@ extern s32 func_800D29F8(s32, s32, void *, s16, s32);
 extern s32 func_801F06B0(s32, s16, s16, s16, s32 *);
 extern s32 func_801F03C0(s32 ot, u8 *s, s16 c);
 extern u32 func_801F1440(s32 a0, s32 a1);
-extern void func_801F14A8();
+extern void func_801F14A8(unsigned int val, int n, unsigned short * dst, int flag);
 extern void func_80016714(void *a0, s32 a1);
 extern s32 D_801F9AC4;
 extern void func_801F1710(void);

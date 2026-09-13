@@ -412,7 +412,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC(u8 * a0);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_80016714(void *a0, s32 a1);
@@ -1951,7 +1951,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -4062,7 +4062,7 @@ extern void func_80139914(s32 a0);
 // @class: plumbing
 // @unstuck(P36): none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4106,7 +4106,7 @@ void func_8017F3C4(int param_1)
 }
 
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
     void func_8017F408(void) {
         func_8016F0E4();
     }
@@ -4124,7 +4124,7 @@ void func_8017F428(void *a0) {
 
 extern Blk8 D_801E2DC0;
 extern s32 func_800CF854(void);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
 extern void func_8016F094(s32 *a0);
 extern s16 D_801E4C50;
@@ -4729,7 +4729,7 @@ void func_801802CC(s32 param_1) {
 extern s32 D_801270C8;
 extern s16 D_800B9AAC[];
 extern void func_8014C6AC(void);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4781,7 +4781,7 @@ void func_801803BC(s32 param_1) {
 
 extern s32 D_801270C8;
 extern void func_8014C6AC(void);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4963,7 +4963,7 @@ void func_8018074C(s32 arg0)
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 func_8014C168(s32 *a0, s32 a1);
     extern void func_8014C6C0(void);
-    extern void func_8016F0E4(void);
+    extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
     extern void func_8018DEB8(s16 param_1);
     extern void func_80180C3C(void);
     extern u8 D_80126948[];
@@ -5060,7 +5060,7 @@ void func_801808B0(s32 param_1)
 
 
 extern void func_8014C6AC(void);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -5125,7 +5125,7 @@ void func_80180B90(u8 *a0)
 
 
 extern void func_8014C6AC(void);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 void func_80180C04(void *a0) {
     ((void (*)(void *))func_8014C6AC)(a0);
@@ -5368,7 +5368,7 @@ void func_8018118C(s32 a0) {
 
 
 extern s32 D_801270C8;
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_801812B4(void);
 
 void func_80181238(void) {
@@ -5539,7 +5539,7 @@ void func_801815FC(void) {
 
 
 extern void func_80147060(u8*);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 void func_8018166C(s32 a0) {
     ((void (*)(void))func_80147060)();
     ((void (*)(s32))func_8016F0E4)(a0);

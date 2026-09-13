@@ -1097,7 +1097,7 @@ typedef struct { char c[3]; } Blk3_801EF448;
 
 extern char *strcpy(char *, const char *);
 extern u32 func_801EF960(s32 a0, s32 a1);
-extern void func_801EF9C8();
+extern void func_801EF9C8(unsigned int val, int n, unsigned short * dst, int flag);
 
 extern void *D_801F8314[];
 extern void *D_801F1814[];

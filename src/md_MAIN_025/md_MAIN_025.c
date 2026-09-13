@@ -23,7 +23,7 @@ void func_800CAE5C(void *a0) {
 }
 
 
-extern void func_800CAED8();
+extern void func_800CAED8(u8 *a0);
 void func_800CAEA0(void *a0) {
     func_800CAED8(a0);
     *(u8 *)((s32)a0 + 0x197) += 1;

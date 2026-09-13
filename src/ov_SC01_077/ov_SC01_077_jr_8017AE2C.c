@@ -453,7 +453,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC(u8 * a0);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_80016714(void *a0, s32 a1);
@@ -2068,7 +2068,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -4389,7 +4389,7 @@ void func_8017DFD8(int param_1) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4433,7 +4433,7 @@ void func_8017E170(int param_1)
     return;
 }
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 
 void func_8017E1B4(void) {
     func_8016F0E4();
@@ -4634,7 +4634,7 @@ void func_8017E668(u8 *a0) {
 // @unstuck(P36): none — MATCH (expected)
 
 extern void func_8017D8F0(void);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 
 void func_8017E6BC(s32 param_1)
@@ -4649,7 +4649,7 @@ void func_8017E6BC(s32 param_1)
 
 extern s32 func_801399F0(s32 a0);
 extern void func_80139914(s32 a0);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 
 void func_8017E6F4(s32 param_1) {
@@ -4694,7 +4694,7 @@ void func_8017E7DC(u8 *a0) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (simple 3-call stub; param saved in $s0 across first call)
 extern void func_8017D8F0(void);
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 
 void func_8017E830(s32 param_1)
@@ -4786,7 +4786,7 @@ void func_8017E9C0(void *arg0) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (expected): param saved to $s0 across first call, passed to second
 
-extern void func_8016F0E4(void);
+extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 
 void func_8017EA2C(int param_1)

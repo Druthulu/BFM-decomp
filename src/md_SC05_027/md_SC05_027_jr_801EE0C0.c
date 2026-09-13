@@ -44,7 +44,7 @@ extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_801EDEE8(s32 param_1, s16 *param_2);
-extern u8 func_801EE080();
+extern u8 func_801EE080(u32 a0);
 
 
 extern s32 func_801789AC(s32 a0);

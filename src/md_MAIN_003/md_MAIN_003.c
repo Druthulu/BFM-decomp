@@ -26,7 +26,7 @@ extern void func_8001C044(void);
 extern void func_80015310(void);
 extern void func_8002D858(void);
 extern s32 func_800D1E18(void);
-extern void func_800CFB3C();
+extern void func_800CFB3C(u16 *arg0);
 extern void func_800118AC(void);
 
 void func_800CEF04(void) {
@@ -72,7 +72,7 @@ extern unsigned char D_800DA48C[];
 
 extern void func_800D1E58(void);
 extern void func_800CFFEC(void);
-extern void func_800CFB3C();
+extern void func_800CFB3C(u16 *arg0);
 extern void func_800118AC(void);
 
 void func_800CF010(void) {
@@ -93,7 +93,7 @@ extern s32 D_800EC6A4;
 extern s32 D_800EC690;
 extern u8 D_800DA48C[];
 extern void func_800CF3E8(void);
-extern s32 func_800CFC1C();
+extern s32 func_800CFC1C(u16 *param_1);
 extern void func_800118AC(void);
 
 void func_800CF078(void) {

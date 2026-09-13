@@ -1103,7 +1103,7 @@ typedef struct {
 
 extern char *strcpy(char *, const char *);
 extern u32 func_801F1440(s32 a0, s32 a1);
-extern void func_801F14A8();
+extern void func_801F14A8(unsigned int val, int n, unsigned short * dst, int flag);
 
 extern void *D_801F9DBC[]; /* status ptr per slot */
 extern void *D_801F32BC[]; /* HUD prim ptr array per slot */

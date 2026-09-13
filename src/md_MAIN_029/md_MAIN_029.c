@@ -25,7 +25,7 @@ void func_800CAE64(void *a0) {
 }
 
 
-extern void func_800CAEE0();
+extern void func_800CAEE0(void *a0);
 void func_800CAEA8(void *a0) {
     func_800CAEE0(a0);
     *(u8 *)((s32)a0 + 0x197) += 1;

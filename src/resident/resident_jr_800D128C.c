@@ -157,7 +157,7 @@ extern s32 func_8001AAA0(s32);
 extern s32 func_800D0CE0(void);
 extern s32 func_800D0D7C(s32 arg0, s32 arg1);
 extern s16 func_800D0E30(u8 *p);
-extern s32 func_800291B4();
+extern s32 func_800291B4(s32 arg0);
 extern s32 func_800D0EC4(void);
 extern s16 D_80078EAC;
 extern void func_800291A0(s32, s32);
@@ -439,7 +439,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
 
 
 s16 func_800D1658(s32 arg0) {
-    extern int func_800291B4(int);
+    extern s32 func_800291B4(s32 arg0);
     extern void func_800291A0(int, int);
     extern void func_8002D4C8(int, int);
     extern s16 D_8010EDEC;

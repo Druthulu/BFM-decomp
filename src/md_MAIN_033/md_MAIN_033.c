@@ -259,7 +259,7 @@ s32 func_800CB3D8(s32 arg0, s32 arg1) {
     extern void func_8012F14C(s32, s32, s32);
     extern void func_80015978(s32, s32 *);
     extern void func_80015954(s32, s32);
-    extern s32 func_800CB4EC();
+    extern s32 func_800CB4EC(s32 a0);
 
     struct S { s32 f[8]; };
     struct S st;
