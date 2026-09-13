@@ -1,0 +1,8 @@
+18:49:18 signature func_80029D3C: src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c carries a caller-body edit from .run/P37/restruct/with_ov_SC07_002_jr_8017C8D0.c (part of this unit)
+18:49:18 signature func_80029D3C: src/shared/ov/func_8015126C.h carries a caller-body edit from .run/P37/restruct/with_shared_ov_func_8015126C.h (part of this unit)
+18:49:18 signature func_80029D3C: src/shared/ov/func_80151780.h carries a caller-body edit from .run/P37/restruct/with_shared_ov_func_80151780.h (part of this unit)
+18:49:36 signature func_80029D3C: `s32 func_80029D3C(s32 n)` — 1 definition(s) in ['src/800.c'], 2177 declarations in 2176 other files
+18:50:20 signature func_80029D3C: IDENTICAL on every recipe (2413 objects, 339.4 s) — 2177 files written
+18:50:20 restruct: signature func_80029D3C — IDENTICAL · 2177 files written
+t4_sig2d wall=130.93 s
+exit=0

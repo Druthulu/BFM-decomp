@@ -375,7 +375,7 @@ extern s32 func_80029178(s32 a0);
 extern s32 func_80149C08(s32 arg0);
 extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
-extern void func_80157D20(void *param_1, s32 param_2);
+extern void func_80157D20(void);
 extern void func_80149CB4(void);
 extern s32 func_80149CD4(s32 a0);
 extern u8 func_8014B5B8(s32 *a0);
@@ -737,7 +737,7 @@ extern s16 D_8011DB1A;
 extern s32 D_80127518;
 extern s32 D_801151FC;
 extern s32 func_801725CC(u8 *a0);
-extern s32 func_80029D3C(void);
+extern s32 func_80029D3C(s32 n);
 extern void func_80151878(void);
 extern void func_80153B58(s32 *a0);
 extern s32 func_80151880(s32 a0);
@@ -8632,7 +8632,7 @@ extern s16 D_8011DB1A;
 extern s16 D_8011DB18;
 extern s16 D_8011DB0C;
 extern u16 D_8011DB0C_r __asm__("D_8011DB0C");
-extern s32 func_80029D3C(void);
+extern s32 func_80029D3C(s32 n);
 extern int func_80151204(int arg, int a1);
 extern void func_8014BC44(s32 a0, s32 a1);
 extern void func_801542A4(s32 *a0, s32 a1);
@@ -8653,12 +8653,7 @@ void func_80185FB0(s32 param_1) {
     if (D_8011DB0C_r == 0) {
         return;
     }
-    {
-        register s32 arg4 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
-        arg4 = D_8011DB1A;
-        __asm__ __volatile__("" : "=r"(arg4) : "0"(arg4));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        s0 = func_80029D3C();
-    }
+    s0 = func_80029D3C(D_8011DB1A);
     func_8014BC44(param_1, s0);
     func_80151204(param_1, s0);
     *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0xC00;

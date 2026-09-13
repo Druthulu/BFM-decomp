@@ -22,7 +22,7 @@ void func_8015126C(u16 *p)
     extern void func_801599A4(void *);
     extern void func_801607B8(s32 *a0);
     extern void func_80147084(s32 *a0);
-    extern s32  func_80029D3C(void);
+    extern s32 func_80029D3C(s32 n);
     extern s32 func_8014CB7C(void);
     extern void func_80153C9C(void);
     extern void func_8015173C(s32 *a0);
@@ -110,11 +110,11 @@ void func_8015126C(u16 *p)
     ((void (*)(void *))func_80147084)(p);
     {
         u16 t = p[0x1f];
-        register s32 cmp79 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+        s16 cmp79;
         *(u8 *)(p + 0x54) = 0;
         ((s8 *)p)[0xdd] = (s8)t;
         if (((t & 0xff) != 0x11) && ((cmp79 = *(s16 *)(p + 0x79)) != 1000)) {
-            angle = func_80029D3C();
+            angle = func_80029D3C(cmp79);
             p[0x79] = angle;
             if (r[0x49] == 5) {
                 sh16 = angle << 16;

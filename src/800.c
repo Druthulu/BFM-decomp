@@ -19267,20 +19267,24 @@ s32 func_80029CD4(s32 a0) {
  */
 extern s32 func_8002A4FC(s32 a0);
 
-s32 func_80029D3C(void) {
-    register s32 n __asm__("$4");  // !FAKE: pin $4 — the function's own MISSING PARAMETER `s32 n` (assign_parms, function.c:3679; the caller ov_SC07_002 func_80185FB0 pins $4 = D_8011DB1A); parked as a SIGNATURE change, see scratch/patch_signature.c (P36 S105 f1 minimum-lever)
-    s32 s0 = n;
+/* PARKED (signature change, P36 S105 f1): the lever-free truth of func_80029D3C — score 0, whole object byte-equal
+ * (scratch/s5.c, scratch/cmp_s5). Needs THREE file-scope changes outside the body, so it waits for the structs phase:
+ *   1. src/800.c:19306  `s32 func_80029D3C(void)` -> `s32 func_80029D3C(s32 n)` (the pinned `$4` IS the parameter);
+ *   2. src/800.c:19304 + :19716  `func_8002A4FC(s32 a0)` -> `func_8002A4FC(void)` (its body never reads a0; the
+ *      overlays' callers already use `((int (*)(void))func_8002A4FC)()`), which lets the body-local cast below go;
+ *   3. the ten overlay `extern s32 func_80029D3C(void);` lines and the one caller
+ *      (src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c:8657, `func_80185FB0`): `s0 = func_80029D3C(D_8011DB1A);` with its
+ *      `$4` pin + launder deleted (that is R19's shape: the pin was the missing call ARGUMENT).
+ */
+s32 func_80029D3C(s32 n) {
     s32 p;
     s32 q;
 
-    if (s0 <= 0) {
+    if (n <= 0) {
         return 0;
     }
-    /* func_8002A4FC reads no argument (its body is `return *(u16 *)(D_800638FE + D_80078EEC * 16)`); every overlay
-     * caller already calls it `(void)`. Passing `s0` here emits the `move a0,s0` the target does not have (its jal
-     * delay slot is a nop). */
-    p = ((s32 (*)(void))func_8002A4FC)() * 60;
-    q = s0 - s0 * p / 4800;
+    p = ((s32 (*)(void))func_8002A4FC)() * 60;   /* plain `func_8002A4FC()` once its prototype is (void) */
+    q = n - n * p / 4800;
     if (q <= 0) {
         q = 1;
     }

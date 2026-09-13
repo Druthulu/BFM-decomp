@@ -726,7 +726,7 @@ extern s16 D_8011DB1A;
 extern s32 D_80127518;
 extern s32 D_801151FC;
 extern s32 func_801725CC(u8 *a0);
-extern s32 func_80029D3C(void);
+extern s32 func_80029D3C(s32 n);
 extern void func_80151878(void);
 extern void func_80153B58(s32 *a0);
 extern s32 func_80151880(s32 a0);
