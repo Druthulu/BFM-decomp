@@ -7755,7 +7755,7 @@ void func_80185F04(s32 self) {
 
 extern void func_80143CD4(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_800CB0E8();
+extern void func_800CB0E8(void *a0);
 extern u8 D_801AF758;
 
 void func_80185FB0(s32 a0) {

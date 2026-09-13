@@ -1605,7 +1605,7 @@ extern u8 D_8018FF90[];
 extern u8 func_801656D0(s32 a0, s32 a1);
 extern u8 D_8018FFB0[];
 extern u8 D_8018FFD0[];
-extern void func_800CAF6C(void);
+extern void func_800CAF6C(s32 *a0);
 extern void func_80165770(void);
 extern void func_801657D8(void);
 extern u8 D_80078EC3;
