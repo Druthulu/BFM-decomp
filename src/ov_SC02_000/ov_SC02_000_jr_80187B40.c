@@ -602,7 +602,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801E6E60;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -2152,9 +2152,9 @@ extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80171384(void *a0);
 extern void (*D_8018E16C[])(void);
 extern void func_801714E4(void *a0);
-extern struct B16 D_800A5E88;
-extern struct B16 D_800A5E98;
-extern struct B16 D_800A5EA8;
+extern B16 D_800A5E88;
+extern B16 D_800A5E98;
+extern B16 D_800A5EA8;
 extern void func_8017162C(void *a0);
 extern void func_80171520(s32 a0);
 extern s32 func_801716AC(s32 a0, void *a1, s32 *a2);
@@ -3742,8 +3742,7 @@ extern s32 D_80126B58;
 extern s32 D_801270C8;
 extern s32 D_801270D4;
 extern s16 D_800B9A0E;
-struct B16;                     /* host TU: engine_types.h `struct B16 { s32 w[4]; }` */
-extern struct B16 D_800A5E98;   /* AGREES with the TU's file-scope decl (line 2167) */
+extern B16 D_800A5E98;   /* AGREES with the TU's file-scope decl (line 2167) */
 extern s32 D_800A5E9C;
 extern u8 D_800A5EA4;
 extern u8 D_800A5EA5;

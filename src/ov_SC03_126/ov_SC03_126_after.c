@@ -1215,7 +1215,7 @@ extern void func_8014E6F8(struct SubE6F8 *a0);
  * return value through D_8018E810, restores $sp and returns it.
  * Manipulating $sp is not expressible in C; full inline asm (manages its own frame).
  */
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_8018E810;
 
 #include "../shared/ov/func_8014ED28__d124f56e.h"

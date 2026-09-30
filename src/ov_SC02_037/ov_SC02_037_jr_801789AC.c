@@ -1,7 +1,7 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-typedef void (*Handler)(struct Entry_tag *);
+typedef void (*Handler)(Entry_tag *);
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -1656,7 +1656,7 @@ extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_80126724;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014F24C(struct SubF24C*);
 extern void func_8014F1F4(void);
@@ -3084,9 +3084,9 @@ extern void func_801711C0(void *a0);
 extern void func_80171238(void);
 extern void func_801711FC(u8 *param_1);
 extern void func_80171260(void *a0);
-extern struct B16 D_800A5E88;
-extern struct B16 D_800A5E98;
-extern struct B16 D_800A5EA8;
+extern B16 D_800A5E88;
+extern B16 D_800A5E98;
+extern B16 D_800A5EA8;
 extern void func_801719A4(int, int);
 extern s32 func_80171990(u8*);
 extern void func_80171384(void*);

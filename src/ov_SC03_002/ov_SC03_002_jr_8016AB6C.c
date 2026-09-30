@@ -601,7 +601,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801CA558;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);

@@ -598,7 +598,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801BDFF0;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -2928,8 +2928,8 @@ extern void func_80028620(s32 a0, void *a1);
 
 void func_80183118(void *a0) {
 
-    extern struct B16_80185634 D_800A5EA8;
-    extern struct B16_80185634 D_801BC6A8;
+    extern B16_80185634 D_800A5EA8;
+    extern B16_80185634 D_801BC6A8;
     extern s32 D_800A5EB0;
     D_800A5EA8 = D_801BC6A8;
     D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 10 / 4096 - 5;
@@ -2940,8 +2940,8 @@ void func_80183118(void *a0) {
 
 void func_801831C8(void *a0) {
 
-    extern struct B16_80185634 D_800A5EA8;
-    extern struct B16_80185634 D_801BC6E0;
+    extern B16_80185634 D_800A5EA8;
+    extern B16_80185634 D_801BC6E0;
     extern s32 D_800A5EB0;
     D_800A5EA8 = D_801BC6E0;
     D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 6 / 4096 - 3;
@@ -2963,8 +2963,8 @@ extern void func_80028620(s32 a0, void *a1);
 
 void func_80183278(void *a0) {
 
-    extern struct B16_80185794 D_800A5E88;
-    extern struct B16_80185794 D_801BC6F8;
+    extern B16_80185794 D_800A5E88;
+    extern B16_80185794 D_801BC6F8;
     extern s32 D_800A5E90;
     D_800A5E88 = D_801BC6F8;
     D_800A5E90 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 20 / 4096 - 10;
@@ -2991,8 +2991,8 @@ extern void func_80028620(s32 a0, void *a1);
 
 void func_80183330(void *a0) {
 
-    extern struct B16_8018584C D_800A5E88;
-    extern struct B16_8018584C D_801BC730;
+    extern B16_8018584C D_800A5E88;
+    extern B16_8018584C D_801BC730;
     extern s32 D_800A5E90;
     s32 t;
 

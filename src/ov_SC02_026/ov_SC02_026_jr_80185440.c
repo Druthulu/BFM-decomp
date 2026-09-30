@@ -601,7 +601,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801CEF78;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -2993,8 +2993,8 @@ void func_80185440(void *a0)
 #include "common.h"
 
 
-extern struct B16_80185634 D_800A5EA8;
-extern struct B16_80185634 D_801CCBF8;
+extern B16_80185634 D_800A5EA8;
+extern B16_80185634 D_801CCBF8;
 extern s32 D_800A5EB0;
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32 a0, void *a1);
@@ -3014,8 +3014,8 @@ void func_80185634(void *a0) {
  * verbatim would be a C89 duplicate-definition error there, so alias a private identifier
  * onto the same linker symbol -- zero blast radius, identical %hi/%lo(D_800A5EA8) codegen. */
 
-extern struct B16_801856E4 aD800A5EA8 __asm__("D_800A5EA8");
-extern struct B16_801856E4 D_801CCC30;
+extern B16_801856E4 aD800A5EA8 __asm__("D_800A5EA8");
+extern B16_801856E4 D_801CCC30;
 extern s32 D_800A5EB0;
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32 a0, void *a1);
@@ -3037,8 +3037,8 @@ void func_801856E4(void *a0) {
  * emits `lui $at; sw %lo(..)($at)` rather than folding onto the $s1 record base. */
 
 
-extern struct B16_80185794 D_800A5E88;
-extern struct B16_80185794 D_801CCC48;
+extern B16_80185794 D_800A5E88;
+extern B16_80185794 D_801CCC48;
 extern s32 D_800A5E90;
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32 a0, void *a1);
@@ -3063,8 +3063,8 @@ void func_80185844(void) {
  * radius and emits the identical %hi/%lo(D_800A5E88) pair. */
 
 
-extern struct B16_8018584C aD800A5E88 __asm__("D_800A5E88");
-extern struct B16_8018584C D_801CCC80;
+extern B16_8018584C aD800A5E88 __asm__("D_800A5E88");
+extern B16_8018584C D_801CCC80;
 extern s32 D_800A5E90;
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32 a0, void *a1);

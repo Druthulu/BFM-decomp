@@ -602,7 +602,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801E0DF0;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -2735,13 +2735,13 @@ extern void *D_801274CC;
 void func_8017CDE4(void)
 {
     extern s16 D_80190DA4, D_80190DA6, D_80190DA8;
-    extern struct B16_8017CDE4 D_800A5E88;
-    extern struct B16_8017CDE4 D_80190DAC;
-    extern struct B16_8017CDE4 D_80190DBC;
-    extern struct B16_8017CDE4 D_80190DCC;
+    extern B16_8017CDE4 D_800A5E88;
+    extern B16_8017CDE4 D_80190DAC;
+    extern B16_8017CDE4 D_80190DBC;
+    extern B16_8017CDE4 D_80190DCC;
     extern u8 D_80191434[];
     extern u8 D_80191628[];
-    struct B16_8017CDE4 *s0;
+    B16_8017CDE4 *s0;
 
     func_8002850C(D_80190DA4, D_80190DA6, D_80190DA8);
 

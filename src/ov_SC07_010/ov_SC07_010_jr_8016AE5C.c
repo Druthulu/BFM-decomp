@@ -930,7 +930,7 @@ extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014F2E0(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014F24C(struct SubF24C *a0);
@@ -3724,7 +3724,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
 
 
 
-typedef void (*Handler)(struct Entry_tag *);
+typedef void (*Handler)(Entry_tag *);
 
 
 s32 func_8016E95C() {
@@ -3732,8 +3732,8 @@ s32 func_8016E95C() {
     extern s32 D_80115218;
     extern Handler D_8018538C[];
 
-    struct Entry_tag *p;
-    for (p = ((struct Entry_tag *)&D_80115218); p < &((struct Entry_tag *)&D_80115218)[4]; p++) {
+    Entry_tag *p;
+    for (p = ((Entry_tag *)&D_80115218); p < &((Entry_tag *)&D_80115218)[4]; p++) {
         if (p->f0 != 0) {
             D_8018538C[p->f1](p);
         }

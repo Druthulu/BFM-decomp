@@ -37,7 +37,7 @@ struct Obj;
                 /* 4 + 16*12 = 0xC4 stride */
                  /* 0x08 */
      /* 0x20 */
-typedef void (*Handler)(struct Entry_tag *);
+typedef void (*Handler)(Entry_tag *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -644,7 +644,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801D9618;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -2277,9 +2277,9 @@ extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80171384(void *a0);
 extern s32 (*D_8018A08C[])(void *);
 extern s32 func_801714E4(void *a0);
-extern struct B16 D_800A5E88;
-extern struct B16 D_800A5E98;
-extern struct B16 D_800A5EA8;
+extern B16 D_800A5E88;
+extern B16 D_800A5E98;
+extern B16 D_800A5EA8;
 extern void func_8017162C(void *a0);
 extern void func_80171520(s32 a0);
 extern s32 func_801716AC(s32 a0, void *a1, s32 *a2);

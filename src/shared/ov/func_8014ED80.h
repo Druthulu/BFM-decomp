@@ -1,7 +1,7 @@
 /* func_8014ED80 — shared body (overlay slot 0x80128158, h_exact fce3e1eb). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
-s32 func_8014ED80(struct SubED80 *a0) {
+s32 func_8014ED80(SubED80 *a0) {
     s16 g1[3];
     s16 g2[3];
     if (a0->f44 & 0x80000) {

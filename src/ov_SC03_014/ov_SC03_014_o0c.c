@@ -601,7 +601,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801E9698;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -2781,7 +2781,7 @@ void func_80183D50(Ent_80183D50 *arg) {
         arg->unkE2 = 0;
         arg->unkE4 = 0;
         arg->unk2 = 3;
-    } else if (p->unk37 == 0 || p->unk37 == 3 || p->unk37 == 4) {
+    } else if (p->field_0x37 == 0 || p->field_0x37 == 3 || p->field_0x37 == 4) {
         arg->unkE2 = -0x3C0;
         arg->unkE2 = 0;
         arg->unkE4 = 2;

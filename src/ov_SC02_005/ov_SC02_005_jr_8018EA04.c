@@ -600,7 +600,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801E3128;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -4292,11 +4292,11 @@ extern u8 D_80126D6C;
 
 void func_8018FC38(s32 a0) {
     s32 s1 = a0;
-    struct B16_8018FC38 *s0;
+    B16_8018FC38 *s0;
     s32 v0;
 
     v0 = rand();
-    s0 = (struct B16_8018FC38 *)&D_800A5E88;
+    s0 = (B16_8018FC38 *)&D_800A5E88;
     s0->w[0] = ((v0 & 0x1F) - 0x10);
     v0 = rand();
 

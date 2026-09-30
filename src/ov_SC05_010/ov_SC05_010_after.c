@@ -1925,7 +1925,7 @@ void func_8014E934(s32 _arg0)
  * return value through D_801C5D38, restores $sp and returns it.
  * Manipulating $sp is not expressible in C; full inline asm (manages its own frame).
  */
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801C5D38;
 
 void func_8014ED28(s32 _arg0)

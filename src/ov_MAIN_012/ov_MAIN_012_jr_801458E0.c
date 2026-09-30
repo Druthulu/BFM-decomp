@@ -3416,7 +3416,7 @@ void func_8014E934(s32 _arg0)
 
 
 extern int D_80184248;
-extern s32 func_8014ED80(struct SubED80*);
+extern s32 func_8014ED80(SubED80*);
 
 void func_8014ED28(void)
 {

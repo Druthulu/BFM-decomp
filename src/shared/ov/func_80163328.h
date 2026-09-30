@@ -15,7 +15,7 @@ void func_80163328(void) {
     do {
         if (*flags & 1) {
             u8 *dst = (u8 *)*table;
-            *(struct Vec4s *)(dst + 0x7C) = *(struct Vec4s *)src;
+            *(Vec4s *)(dst + 0x7C) = *(Vec4s *)src;
             *(s16 *)((u8 *)*table + 0x82) = 0;
         }
         table += 1;

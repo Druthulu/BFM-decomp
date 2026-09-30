@@ -598,7 +598,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801BD730;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -2940,8 +2940,8 @@ void func_80183FD4(void *a0)
 }
 
 
-extern struct B16_801841C8 D_800A5EA8;
-extern struct B16_801841C8 D_801BBDE4;
+extern B16_801841C8 D_800A5EA8;
+extern B16_801841C8 D_801BBDE4;
 extern s32 D_800A5EB0;
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32 a0, void *a1);
@@ -2957,7 +2957,7 @@ void func_801841C8(void *a0) {
 #include "common.h"
 
 
-extern struct B16_801841C8 D_800A5EA8;
+extern B16_801841C8 D_800A5EA8;
 extern B16_local D_801BBE1C;
 extern s32 D_800A5EB0;
 extern s32 func_8004787C(s32 a0);
@@ -3009,8 +3009,8 @@ extern void func_80028620(s32 a0, void *a1);
 
 void func_801843E0(void *a0) {
 
-    extern struct B16_8018584C aD800A5E88 __asm__("D_800A5E88");
-    extern struct B16_8018584C D_801BBE6C;
+    extern B16_8018584C aD800A5E88 __asm__("D_800A5E88");
+    extern B16_8018584C D_801BBE6C;
     extern s32 D_800A5E90;
     s32 t;
 

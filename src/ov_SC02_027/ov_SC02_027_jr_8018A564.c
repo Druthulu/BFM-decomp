@@ -598,7 +598,7 @@ extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801D8CE8;
 extern void func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -2984,8 +2984,8 @@ void func_8018A564(void *a0)
  * D_801CCBF8; same *10/4096-5 formula, same offset 0xFE, same slot 2. */
 
 
-extern struct B16_8018A758 D_800A5EA8;
-extern struct B16_8018A758 D_801D6964;
+extern B16_8018A758 D_800A5EA8;
+extern B16_8018A758 D_801D6964;
 extern s32 D_800A5EB0;
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32 a0, void *a1);
@@ -3008,8 +3008,8 @@ void func_8018A758(void *a0) {
    struct tag is a C89 error even when identical (§138 reconcile direction: decl ABOVE
    => DELETE the duplicate, do not rename). Use the TU's tag. */
 
-extern struct B16_8018A758 D_800A5EA8;
-extern struct B16_8018A758 D_801D699C;
+extern B16_8018A758 D_800A5EA8;
+extern B16_8018A758 D_801D699C;
 extern s32 D_800A5EB0;
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32 a0, void *a1);

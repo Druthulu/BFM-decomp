@@ -1671,7 +1671,7 @@ extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_80126724;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014F24C(struct SubF24C*);
 extern void func_8014F1F4(void);

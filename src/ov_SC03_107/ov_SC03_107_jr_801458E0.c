@@ -3425,7 +3425,7 @@ void func_8014E934(s32 _arg0)
 #include "../shared/ov/func_8014EA4C.h"
 
 
-extern s32 func_8014ED80(struct SubED80 *a0);
+extern s32 func_8014ED80(SubED80 *a0);
 extern int D_8019A8A0;
 
 void func_8014ED28(void)
