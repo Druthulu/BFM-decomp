@@ -144,4 +144,4 @@ R118 | Tool stop: SIGINT, wait, then restore | - | active | PhaseEnd_Phase37 can
 
 R119 | Snapshot/refresh helpers refuse empty or shrunken input | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
 
-R120 | GitHub issue discussions are never committed or named in commit logs | - | active | developer 2026-09-30
+R120 | Issue reply drafts are never committed or mentioned in commit text | - | active | developer 2026-09-30
