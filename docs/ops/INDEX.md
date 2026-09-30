@@ -51,3 +51,4 @@ gate-main-only-with-gate-main.md | gate-main-only-with-gate-main | 71
 mcp-renames-dont-persist-use-applysymbols.md | mcp-renames-dont-persist-use-applysymbols | 21
 ops-setup-decomp.md | extract the medium and verify against the committed manifest | 68
 wsl-disk-capped-75gb.md | wsl-disk-capped-75gb | 34
+p38-t4-2026-09-29-restruct-head-fold-mode.md | §P38 T4 — 2026-09-29: restruct rung L head-fold mode | 9
