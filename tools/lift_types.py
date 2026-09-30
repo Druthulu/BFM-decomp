@@ -807,6 +807,591 @@ def census_move(tsv, batch, apply, jobs, excl_path, excl_out):
     return 0
 
 
+# ======================================================================================================================
+# --fold mode (P38 T5.1.c3): one canonical NAME per duplicate-layout class (type_census dup_gating.tsv). The canonical
+# def keeps its body, moved to the class's earliest definition point so every alias follows it (C0224); every other
+# name becomes `typedef <Canon> <declarators>;` in place; `struct <OtherTag>` uses are respelled to the alias; a member
+# access the canonical body spells differently is respelled from cc1's own `has no member named` errors (same offset,
+# same shape; a constant index may be rewritten, anything else is reported). Canonical name: the PsyQ SDK name when the
+# layout AND a member-name list are the SDK struct's (layout alone is ambiguous: SVECTOR=RECT, CVECTOR=P_CODE,
+# DR_MODE=DR_TWIN=DR_AREA=DR_OFFSET), else the most-used name among the defs carrying the meaningful signature.
+# --fold-dead deletes canon defs every name of which is in the census's structs_dead list. Byte-safety is R22's (C0507).
+# ======================================================================================================================
+SDK_HDRS = ("tools/reference/psyq-sdk/PSX/INCLUDE/LIBGTE.H", "tools/reference/psyq-sdk/PSX/INCLUDE/LIBGPU.H")
+SDK_SCALARS = {"u_char": "u8", "u_short": "u16", "u_long": "u32", "u_int": "u32"}
+GEN_BLOCK = ("/* head_types:begin */", "/* head_types:end */")
+NOMEMBER_RX = re.compile(r"^(.+?):(\d+): (?:structure|union) has no member named `(\w+)'", re.M)
+
+
+def _tdef(res, t):
+    """The struct/union record a type name resolves to through plain alias typedefs, or None."""
+    from struct_layout import _norm_type
+    t = _norm_type(t)
+    for _ in range(8):
+        m = re.match(r"^(struct|union)\s+(\w+)$", t)
+        d = res.defs.get(m.group(2) if m else t)
+        if d is None:
+            return None
+        if d.get("alias_of"):
+            if d.get("alias_stars") or d.get("alias_dims"):
+                return None
+            t = _norm_type(d["alias_of"])
+            continue
+        return d if d.get("kind") in ("struct", "union") else None
+    return None
+
+
+def _shape(res, f):
+    """A member's shape: ('s', w, sign) | ('p', 4) | ('a', size, n, elem) | ('st', size, kind, members) | ('?', size)."""
+    from struct_layout import scalar_of, _norm_type
+    if f["stars"]:
+        base = ("p", 4)
+    elif f.get("nested"):
+        base = _struct_shape(res, f["nested"])
+    else:
+        sc_ = scalar_of(_norm_type(f["type"]))
+        d = None if sc_ else _tdef(res, f["type"])
+        if sc_:
+            base = ("s", sc_[0], sc_[1])
+        elif d is not None:
+            base = _struct_shape(res, d)
+        else:
+            lay = res.layout(f["type"])
+            base = ("s", 4, "s") if lay == (4, 4, [(0, 4, "s")]) else ("?", lay[0] if lay else None)
+    for n in reversed(f.get("dims") or []):
+        base = ("a", (base[1] or 0) * (n or 0), n, base)
+    return base
+
+
+def _struct_shape(res, d):
+    from struct_layout import field_offsets
+    offs = dict(field_offsets(res, d))
+    lay = res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in (d.get("attrs") or "")))
+    mem = tuple((f["name"], offs.get(f["name"]), _shape(res, f), f.get("bits")) for f in d["fields"])
+    return ("st", lay[0] if lay else None, d["kind"], mem)
+
+
+def _anon(sh):
+    if sh[0] == "a":
+        return ("a", sh[1], sh[2], _anon(sh[3]))
+    if sh[0] == "st":
+        return ("st", sh[1], sh[2], tuple((None, o, _anon(s), b) for _n, o, s, b in sh[3]))
+    return sh
+
+
+def _nodes(sh, off=0, path="", out=None):
+    """{path: (off, shape)} for every member node ('.m[1][2]', '.v.vx', …); bit-fields carry off None."""
+    out = {} if out is None else out
+    if path:
+        out[path] = (off, sh)
+    if sh[0] == "a" and sh[2]:
+        esz = sh[3][1] or 0
+        for k in range(sh[2]):
+            _nodes(sh[3], None if off is None else off + k * esz, f"{path}[{k}]", out)
+    elif sh[0] == "st":
+        for nm, o, s, bits in sh[3]:
+            if nm:
+                _nodes(s, None if (off is None or o is None or bits is not None) else off + o, f"{path}.{nm}", out)
+    return out
+
+
+def _fold_index():
+    """Every canon-header struct/union def (type_census's parser) with its raw span, tail, position and shape; the
+    Resolver; and the position of every name the canon headers define (the C0224 order check)."""
+    import type_census as tc
+    from struct_layout import Resolver, layout_hash
+    files = list(CANON_REL[::-1]) + sorted(f for f in glob.glob("include/*.h") if f not in CANON_REL)
+    order = {rel: i for i, rel in enumerate(CANON_REL[::-1])}      # struct_types.h (via common.h) precedes engine_types.h
+    defs, g, tds = [], {}, []
+    for rel in files:
+        r = tc.walk_file(_text(rel), rel)
+        for d in r["definitions"]:
+            d["rel"] = rel
+        defs += r["definitions"]
+        tds += [dict(a, rel=rel) for a in r["typedef_aliases"]]
+    for d in defs:
+        for n in d["names"] + ([d["tag"]] if d["tag"] else []):
+            g.setdefault(n, d)
+    for a in tds:
+        g.setdefault(a["name"], dict(kind="alias", alias_of=a["alias_of"], alias_stars=a["alias_stars"], alias_dims=a["alias_dims"]))
+    res = Resolver(g)
+    out, pos = [], {}
+    for rel in CANON_REL:
+        spans = collections.defaultdict(list)
+        for w in _walk(rel)[1]:
+            spans[w["line"]].append(w)
+        raw = _text(rel)
+        lo, hi = raw.find(GEN_BLOCK[0]), raw.find(GEN_BLOCK[1])
+        for w in _walk(rel)[1]:
+            for n in w["names"] + ([w["tag"]] if w["tag"] and w["form"] in ("def", "obj") else []):
+                pos.setdefault(n, (order[rel], w["s"]))
+        for d in defs:
+            if d["rel"] != rel or d["kind"] not in ("struct", "union"):
+                continue
+            ws = [w for w in spans[d["line"]] if w["form"] == "def" and w["kind"] == d["kind"] and w["tag"] == d["tag"]
+                  and [n for n in w["names"] if n in d["names"]] == d["names"]]
+            if len(ws) != 1:
+                continue
+            w = ws[0]
+            close = raw.rfind("}", w["s"], w["e"])
+            lay = res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"]))
+            d.update(s=w["s"], e=w["e"], close=close, tail=raw[close + 1:w["e"] - 1], pos=(order[rel], w["s"]),
+                     gen=(lo != -1 and lo < w["s"] < hi), lhash=layout_hash(lay), shape=_struct_shape(res, d))
+            out.append(d)
+    return out, res, pos
+
+
+def _sdk_defs():
+    """{lhash: [(name, member names, body text)]} for the SDK headers' typedef structs (u_* spelled as u8/u16/u32)."""
+    import type_census as tc
+    from struct_layout import Resolver, layout_hash, field_offsets
+    defs = []
+    for rel in SDK_HDRS:
+        defs += [dict(d, raw=_text(rel)) for d in tc.walk_file(_text(rel), rel)["definitions"]]
+    g = {n: dict(kind="alias", alias_of={"u8": "unsigned char", "u16": "unsigned short"}.get(v, "unsigned long"),
+                 alias_stars=0, alias_dims=[]) for n, v in SDK_SCALARS.items()}
+    for d in defs:
+        for n in d["names"] + ([d["tag"]] if d["tag"] else []):
+            g.setdefault(n, d)
+    res = Resolver(g)
+    out = collections.defaultdict(list)
+    for d in defs:
+        if d["kind"] != "struct" or not d["names"]:
+            continue
+        lay = res.layout_of_fields(d["fields"], d["kind"])
+        mem = [n for n, _o in field_offsets(res, d)] or [f["name"] for f in d["fields"]]
+        out[layout_hash(lay)].append((d["names"][0], mem, d))
+    return out
+
+
+def _sdk_text(d, name):
+    """`typedef struct { … } NAME;` from an SDK def record (its field declarations re-emitted, u_* respelled)."""
+    raw = d["raw"]
+    lines = raw.split("\n")
+    i, depth, buf = d["line"] - 1, 0, []
+    while i < len(lines):
+        buf.append(lines[i])
+        depth += lines[i].count("{") - lines[i].count("}")
+        if depth <= 0 and "}" in lines[i]:
+            break
+        i += 1
+    t = "\n".join(buf)
+    body = t[t.find("{") + 1:t.rfind("}")]
+    body = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
+    for a, b in SDK_SCALARS.items():
+        body = re.sub(r"\b%s\b" % a, b, body)
+    fields = [re.sub(r"\s+", " ", x).strip() for x in body.split(";") if x.strip()]
+    return "typedef struct {\n" + "".join(f"    {x};\n" for x in fields) + "} %s;" % name
+
+
+def _count_words(args):
+    rel, names = args
+    return collections.Counter(w for w in re.findall(r"\b[A-Za-z_]\w*\b", open(os.path.join(REPO, rel), errors="replace").read())
+                               if w in names)
+
+
+def _uses(names, jobs=16):
+    """Token count of each name outside the canon headers (src/ and include/)."""
+    import subprocess
+    from concurrent.futures import ProcessPoolExecutor
+    files = [f for f in subprocess.run(["git", "ls-files", "src", "include"], cwd=REPO, capture_output=True, text=True,
+                                       check=True).stdout.split() if f not in CANON_REL and f.endswith((".c", ".h"))]
+    total = collections.Counter()
+    with ProcessPoolExecutor(jobs) as ex:
+        for c in ex.map(_count_words, [(f, frozenset(names)) for f in files], chunksize=64):
+            total.update(c)
+    return total
+
+
+def _members(d):
+    return [f["name"] for f in d["fields"]]
+
+
+def _sdk_ev(d, smem):
+    """SDK evidence beyond the layout: the SDK member list itself, or the same wildcard signature with a meaningful name."""
+    sig = [tc_name_sig(dict(name=n)) for n in smem]
+    return _members(d) == smem or (len(sig) == len(d["fields"]) and any(x != "*" for x in sig)
+                                   and [tc_name_sig(f) for f in d["fields"]] == sig)
+
+
+def fold_plan(tsv, only, exclude, want_tier1, want_sdk):
+    """[class dict(names, canon, canon_text|None, defs, sdk, why)] and [(lhash, cause)] refused."""
+    import type_census as tc
+    defs, res, pos = _fold_index()
+    by_name = {}
+    for d in defs:
+        for n in d["names"] + ([d["tag"]] if d["tag"] else []):
+            by_name.setdefault(n, []).append(d)
+    sdk = _sdk_defs()
+    rows = [ln.rstrip("\n").split("\t") for ln in open(tsv)][1:]
+    classes, refused = [], []
+    for tier, lh, _size, _n, names in rows:
+        if (only and lh not in only) or lh in exclude or (not only and not (want_tier1 and tier == "1")):
+            continue
+        classes.append(dict(lhash=lh, tier=tier, names=set(names.split(","))))
+    if want_sdk:        # SDK layout AND an SDK member-name list (or the SDK name itself) in canon: fold onto the SDK name
+        for lh, ss in sdk.items():
+            for sname, smem, _sd in ss:
+                grp = {n for d in defs if d.get("lhash") == lh and (_sdk_ev(d, smem) or sname in d["names"])
+                       for n in d["names"] + ([d["tag"]] if d["tag"] else [])}
+                if not grp or grp == {sname} or (only and not any(c["names"] & grp for c in classes)):
+                    continue
+                hit = [c for c in classes if c["names"] & grp]
+                if hit:
+                    for c in hit:
+                        c["names"] |= grp
+                    if len(hit) > 1:
+                        hit[0]["names"] = set().union(*[c["names"] for c in hit])
+                        classes = [c for c in classes if c not in hit[1:]]
+                else:
+                    classes.append(dict(lhash=lh + ":sdk", tier="sdk", names=set(grp)))
+    uses = _uses({n for c in classes for n in c["names"]})
+    plan = []
+    for c in classes:
+        ds = []
+        for n in sorted(c["names"]):
+            for d in by_name.get(n, []):
+                if d not in ds:
+                    ds.append(d)
+        missing = sorted(n for n in c["names"] if n not in by_name)
+        if missing:
+            refused.append((c["lhash"], f"not defined in a canon header: {', '.join(missing[:4])}"))
+            continue
+        if any(d["gen"] for d in ds):
+            refused.append((c["lhash"], "a member sits in the generated head_types block"))
+            continue
+        base = c["lhash"].split(":")[0]
+        lh_all = {d["lhash"] for d in ds}
+        if len(lh_all) != 1:
+            refused.append((c["lhash"], f"members carry {len(lh_all)} layouts"))
+            continue
+        lh = lh_all.pop()
+        # SDK: the layout's SDK struct whose member names one of the class's defs carries (or whose name is in the class)
+        cands = [(sn, sm, sd) for sn, sm, sd in sdk.get(lh, []) if sn in c["names"] or any(_sdk_ev(d, sm) for d in ds)]
+        canon_text, sdk_name = None, None
+        if len({sn for sn, _m, _d in cands}) == 1 and cands[0][0] in by_name and not any(cands[0][0] in d["names"] for d in ds):
+            refused.append((c["lhash"] + " (note)", f"SDK {cands[0][0]} is defined with another layout: folded under a non-SDK name"))
+            cands = []
+        if len({sn for sn, _m, _d in cands}) == 1:
+            sdk_name = cands[0][0]
+            same = [d for d in ds if _members(d) == cands[0][1]]
+            canon = sdk_name
+            if not any(sdk_name in d["names"] for d in ds):
+                src = same[0] if same else None
+                canon_text = (("typedef %s %s;" % (re.sub(r"^\s*(?:typedef\s+)?(struct|union)\s*\w*\s*\{", r"\1 {",
+                                                           _text(src["rel"])[src["s"]:src["close"] + 1]), sdk_name))
+                              if src else _sdk_text(cands[0][2], sdk_name))
+        else:
+            sig = collections.Counter(tuple(tc_name_sig(f) for f in d["fields"]) for d in ds)
+            meaningful = [sg for sg in sig if any(x != "*" for x in sg)]
+            pool = [d for d in ds if tuple(tc_name_sig(f) for f in d["fields"]) in meaningful] or ds
+            cn = [n for d in pool for n in d["names"]] or [d["tag"] for d in pool if d["tag"]]
+            canon = sorted(cn, key=lambda n: (-uses[n], n))[0]
+        cdef = next((d for d in ds if canon in d["names"] or (not d["names"] and d["tag"] == canon)), None)
+        first = min(ds, key=lambda d: d["pos"])
+        body = canon_text or _text(cdef["rel"])[cdef["s"]:cdef["e"]]
+        plan.append(dict(lhash=c["lhash"], tier=c["tier"], names=c["names"], canon=canon, cdef=cdef, canon_text=canon_text,
+                         first=first, defs=ds, sdk=sdk_name, body=body))
+    # C0224: the canonical body moves to its class's first def; every type it names must be defined there. A type named in
+    # the body that is itself folded is spelled as its class's canon when that canon lands earlier; else the class waits.
+    while True:
+        at = {n: (c["canon"], c["first"]["pos"]) for c in plan for n in c["names"]}
+        drop = []
+        for c in plan:
+            fields = set()
+            for d in c["defs"]:
+                fields |= {f["name"] for f in d["fields"] if f["name"]}
+            own = {c["canon"]} | c["names"]
+            b = bet.blank_comments(c["body"])
+            late, subst = [], {}
+            for tok in sorted(set(re.findall(r"\b[A-Za-z_]\w*\b", b)) - own - fields):
+                if tok in pos and pos[tok] > c["first"]["pos"]:
+                    if tok in at and at[tok][1] < c["first"]["pos"]:
+                        subst[tok] = at[tok][0]
+                    else:
+                        late.append(tok)
+            if late and not c["sdk"] and c["cdef"] is not c["first"]:
+                f0 = c["first"]     # the first def's own body is in place already: it becomes the canonical one
+                n0 = f0["names"][0] if f0["names"] else f0["tag"]
+                refused.append((c["lhash"] + " (note)", f"{c['canon']} needs {', '.join(late[:3])} (defined later): "
+                                                       f"canonical is the first def {n0}"))
+                c.update(canon=n0, cdef=f0, canon_text=None, body=_text(f0["rel"])[f0["s"]:f0["e"]])
+                continue
+            if late:
+                refused.append((c["lhash"], f"canonical body needs {', '.join(late[:3])} defined after the class's first def"))
+                drop.append(c)
+            elif subst:
+                c["body"] = re.sub(r"\b(%s)\b" % "|".join(map(re.escape, subst)), lambda m: subst[m.group(1)], c["body"])
+        if not drop:
+            break
+        plan = [c for c in plan if c not in drop]
+    return plan, refused, res
+
+
+def tc_name_sig(f):
+    n = f.get("name") or ""
+    return "*" if re.match(r"^(?:unk|f|field_?|pad|p|a|b|c|d|w|v|m|t|x|s|u|_|arr|buf|data|val|word|byte|half|tmp|r|q|n)?"
+                           r"[0-9A-Fa-fx_]*$", n) else n
+
+
+def _alias_text(d, canon):
+    """`typedef <canon> <d's declarators>;` (attributes dropped); a tag-only def aliases its tag."""
+    from struct_layout import ATTR_RX
+    tail = ATTR_RX.sub("", d["tail"]).strip()
+    if d["typedef"] and tail:
+        return f"typedef {canon} {tail};"
+    return f"typedef {canon} {d['tag']};"
+
+
+def _respell_map(res, old, canon_shape):
+    """{member: [(old path, off, shape)]} of the old def's nodes whose spelling is not canon's (same path, same shape)."""
+    on, cn = _nodes(old["shape"]), _nodes(canon_shape)
+    diff = collections.defaultdict(list)
+    for p, (o, sh) in on.items():
+        if cn.get(p) != (o, sh):
+            diff[re.match(r"\.(\w+)", p).group(1)].append(p)
+    return {m: ps for m, ps in diff.items()}
+
+
+def _rewrite_access(text, i, old_nodes, canon_nodes):
+    """Given `text[i:]` starting at a member name, return (end, replacement) mapping the longest parsable constant path to
+    canon's node of the same offset and shape (shortest mapping prefix first), or None."""
+    segs, j = [], i
+    m = re.match(r"\w+", text[j:])
+    segs.append(("." + m.group(0), j + m.end()))
+    j += m.end()
+    while True:
+        m = re.match(r"\s*\[\s*(0[xX][0-9a-fA-F]+|\d+)\s*\]", text[j:]) or re.match(r"\s*\.\s*([A-Za-z_]\w*)", text[j:])
+        if not m:
+            break
+        tok = m.group(1)
+        idx = int(tok, 16) if tok.lower().startswith("0x") else int(tok) if tok.isdigit() else 0
+        segs.append((segs[-1][0] + (f"[{idx}]" if m.group(0).lstrip().startswith("[") else "." + tok), j + m.end()))
+        j += m.end()
+    by_off = collections.defaultdict(list)
+    for p, (o, sh) in canon_nodes.items():
+        by_off[(o, sh)].append(p)
+    anon = collections.defaultdict(list)
+    for p, (o, sh) in canon_nodes.items():
+        anon[(o, _anon(sh))].append(p)
+    for k, (p, e) in enumerate(segs):
+        if p not in old_nodes:
+            break
+        o, sh = old_nodes[p]
+        if o is None:
+            return None
+        hit = by_off.get((o, sh)) or (anon.get((o, _anon(sh))) if k == len(segs) - 1 or segs[k + 1][0] not in old_nodes else None)
+        if hit:
+            best = min(hit, key=lambda q: (q.count("["), len(q)))
+            if best == p:
+                return None
+            return e, best[1:]
+    return None
+
+
+def _cc1_errors(rels, jobs):
+    """{rel: stderr} of cpp | cc1 -o /dev/null for each TU (the Makefile's flags, via compile_only)."""
+    import subprocess
+    from concurrent.futures import ThreadPoolExecutor
+    import compile_only as co
+    tcx = co.toolchain(co.MK.read_text())
+
+    def one(rel):
+        cmd = " ".join(tcx["cpp"] + [rel]) + " | " + " ".join(tcx["cc1"] + tcx["cc1flags"] + ["-o", "/dev/null"])
+        r = subprocess.run(["bash", "-c", cmd], cwd=REPO, capture_output=True, text=True, errors="replace")
+        return rel, r.stderr if r.returncode else ""
+    with ThreadPoolExecutor(jobs) as ex:
+        return {rel: err for rel, err in ex.map(one, sorted(rels)) if err}
+
+
+def _all_tus():
+    import compile_only as co
+    return sorted({rel for _a, rel, _act in co.plan(sorted(co.src_dirs()))})
+
+
+def fold_apply(plan, res, apply, jobs, report):
+    """Rewrite the canon headers, respell `struct <Tag>` uses and member accesses. Returns the unresolved sites."""
+    import subprocess
+    edits = collections.defaultdict(list)          # rel -> [(s, e, text)]
+    tags, respell, canon_shape = {}, {}, {}
+    for c in plan:
+        canon, cdef, first = c["canon"], c["cdef"], c["first"]
+        ctext = c["body"]
+        cshape = cdef["shape"] if cdef is not None else None
+        if cshape is None:      # a new SDK body: its shape is the class's (same layout), members from the text
+            import type_census as tc
+            nd = tc.walk_file(ctext, "sdk.h")["definitions"][0]
+            cshape = _struct_shape(res, nd)
+        for d in c["defs"]:
+            if d is cdef:
+                continue
+            txt = _alias_text(d, canon if cdef is None or cdef["names"] else f"{cdef['kind']} {canon}")
+            if d is first:
+                txt = ctext + "\n" + txt
+            edits[d["rel"]].append((d["s"], d["e"], txt))
+            alias = d["names"][0] if d["names"] else d["tag"]
+            if d["tag"] and d["tag"] != canon and (cdef is None or d["tag"] != cdef["tag"]):
+                tags[d["tag"]] = (alias, d["rel"])
+            rm = _respell_map(res, d, cshape)
+            if rm:
+                respell[alias] = dict(members=rm, old=_nodes(d["shape"]), canon=_nodes(cshape), cls=c["lhash"])
+                for n in d["names"][1:]:
+                    respell[n] = respell[alias]
+        if cdef is not None and cdef is not first:
+            edits[cdef["rel"]].append((cdef["s"], cdef["e"], ""))
+        elif cdef is None and first is None:
+            pass
+    nm = sum(len(v) for v in edits.values())
+    print(f"[fold] {len(plan)} class(es): {nm} def edit(s); {len(tags)} tag(s) to respell; "
+          f"{len(respell)} alias(es) whose member spelling differs from canon")
+    if report:
+        with open(report, "w") as fh:
+            for c in plan:
+                fh.write(f"{c['lhash']}\ttier{c['tier']}\t{c['canon']}\t{'sdk' if c['sdk'] else ''}\t{len(c['names'])}\t"
+                         f"{','.join(sorted(c['names'] - {c['canon']}))}\n")
+    if not apply:
+        for a, r in sorted(respell.items())[:40]:
+            print(f"  respell {a} ({r['cls']}): " + ", ".join(f"{m}" for m in sorted(r["members"])))
+        return []
+    for rel, es in edits.items():
+        t = _text(rel)
+        for s, e, txt in sorted(es, reverse=True):
+            if not txt:     # delete whole lines when the span owns them
+                ls, le = t.rfind("\n", 0, s) + 1, t.find("\n", e)
+                le = len(t) if le == -1 else le
+                if not t[ls:s].strip() and not t[e:le].strip():
+                    s, e = ls, min(le + 1, len(t))
+            t = t[:s] + txt + t[e:]
+        open(os.path.join(REPO, rel), "w", errors="surrogateescape").write(t)
+        _TEXT[rel] = t
+    _blanked.__defaults__[0].clear()
+    # `struct <Tag>` uses -> the alias (a forward decl / self-typedef of the tag is dropped)
+    if tags:
+        p = os.path.join(REPO, ".run/lift_types_fold_tags.txt")
+        open(p, "w").write("\n".join(sorted(tags)) + "\n")
+        files = subprocess.run(["git", "grep", "-lwF", "-f", p, "--", "src", "include"], cwd=REPO, capture_output=True,
+                               text=True).stdout.split()
+        rx = re.compile(r"\b(?:struct|union)\s+(%s)\b" % "|".join(map(re.escape, sorted(tags))))
+        nt = 0
+        for rel in files:
+            _TEXT.pop(rel, None)
+            t, b = _text(rel), bet.blank_comments(_text(rel))
+            out, last = [], 0
+            for m in rx.finditer(b):
+                alias = tags[m.group(1)][0]
+                ls, le = t.rfind("\n", 0, m.start()) + 1, t.find("\n", m.end())
+                line = b[ls:le if le != -1 else len(b)]
+                if re.match(r"^\s*(?:struct|union)\s+\w+\s*;\s*$", line) or re.match(
+                        r"^\s*typedef\s+(?:struct|union)\s+(\w+)\s+%s\s*;\s*$" % re.escape(alias), line):
+                    if ls >= last:
+                        out.append(t[last:ls])
+                        last = (le + 1) if le != -1 else len(t)
+                    continue
+                if m.start() < last:
+                    continue
+                out.append(t[last:m.start()] + alias)
+                last = m.end()
+                nt += 1
+            if last:
+                t = "".join(out) + t[last:]
+                open(os.path.join(REPO, rel), "w", errors="surrogateescape").write(t)
+                _TEXT[rel] = t
+        print(f"[fold] respelled {nt} `struct <Tag>` use(s) in {len(files)} file(s)")
+    # member accesses: cc1's `has no member named` errors, fixed per line, until none or no progress
+    unresolved = []
+    if not respell:
+        return unresolved
+    by_member = collections.defaultdict(list)
+    for a, r in respell.items():
+        for m in r["members"]:
+            if r not in by_member[m]:
+                by_member[m].append(r)
+    todo = _all_tus()
+    for rnd in range(1, 7):
+        errs = _cc1_errors(todo, jobs)
+        sites = collections.defaultdict(set)
+        other = 0
+        for tu, err in errs.items():
+            hits = NOMEMBER_RX.findall(err)
+            other += len([ln for ln in err.splitlines() if ": " in ln and "has no member" not in ln
+                          and "warning" not in ln and "In function" not in ln and "At top level" not in ln])
+            for f, ln, mem in hits:
+                sites[(os.path.relpath(os.path.join(REPO, f), REPO) if not f.startswith("/") else os.path.relpath(f, REPO),
+                       int(ln))].add(mem)
+        print(f"[fold] cc1 round {rnd}: {len(errs)} TU(s) with errors, {len(sites)} no-member line(s), {other} other error line(s)")
+        if not sites:
+            if errs:
+                for tu, err in sorted(errs.items())[:8]:
+                    unresolved.append((tu, 0, "other", err.strip().splitlines()[-1][:200]))
+            break
+        fixed = 0
+        for (rel, ln), mems in sorted(sites.items()):
+            t = _text(rel)
+            ls = [0] + [m.end() for m in re.finditer("\n", t)]
+            s0, e0 = ls[ln - 1], (ls[ln] - 1 if ln < len(ls) else len(t))
+            line = t[s0:e0]
+            new, last, changed = [], 0, False
+            for m in re.finditer(r"(\.|->)\s*(\w+)\b", line):
+                if m.group(2) not in mems or m.start(2) < last:
+                    continue
+                outs = set()
+                for r in by_member[m.group(2)]:
+                    w = _rewrite_access(line, m.start(2), r["old"], r["canon"])
+                    if w:
+                        outs.add(w)
+                if len(outs) != 1:
+                    unresolved.append((rel, ln, m.group(2), f"{len(outs)} candidate rewrite(s): {line.strip()[:160]}"))
+                    continue
+                e, rep = outs.pop()
+                new.append(line[last:m.start(2)] + rep)
+                last, changed = e, True
+            if not changed and not any(u[0] == rel and u[1] == ln for u in unresolved):
+                unresolved.append((rel, ln, ",".join(sorted(mems)), f"no rewritable access on the line: {line.strip()[:160]}"))
+            if changed:
+                line = "".join(new) + line[last:]
+                t = t[:s0] + line + t[e0:]
+                open(os.path.join(REPO, rel), "w", errors="surrogateescape").write(t)
+                _TEXT[rel] = t
+                fixed += 1
+        if not fixed:
+            break
+        todo = sorted(errs)
+    for u in unresolved[:60]:
+        print(f"  UNRESOLVED {u[0]}:{u[1]} `{u[2]}` — {u[3]}")
+    print(f"[fold] {len(unresolved)} unresolved site(s). NEXT: R22.")
+    return unresolved
+
+
+def fold_dead(census_json, apply):
+    """Delete every canon def all of whose names are in the census's structs_dead list."""
+    import json
+    dead = set(json.load(open(census_json)).get("structs_dead") or [])
+    defs, _res, _pos = _fold_index()
+    edits, done, partial = collections.defaultdict(list), [], []
+    for d in defs:
+        own = set(d["names"]) | ({d["tag"]} if d["tag"] else set())
+        if not own & dead:
+            continue
+        if own <= dead and not d["gen"]:
+            edits[d["rel"]].append((d["s"], d["e"]))
+            done += sorted(own)
+        else:
+            partial.append(sorted(own))
+    print(f"[fold-dead] {len(done)} dead name(s) in {sum(map(len, edits.values()))} def(s); {len(partial)} def(s) with a live "
+          f"name kept: {partial[:10]}; not found: {sorted(dead - set(done) - {n for p in partial for n in p})}")
+    if apply:
+        for rel, es in edits.items():
+            t = _text(rel)
+            for s, e in sorted(es, reverse=True):
+                ls, le = t.rfind("\n", 0, s) + 1, t.find("\n", e)
+                le = len(t) if le == -1 else le
+                if not t[ls:s].strip() and not t[e:le].strip():
+                    s, e = ls, min(le + 1, len(t))
+                t = t[:s] + t[e:]
+            open(os.path.join(REPO, rel), "w", errors="surrogateescape").write(t)
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--types", help="comma-separated type NAMES to lift")
@@ -820,9 +1405,26 @@ def main():
     ap.add_argument("--batch", choices=BATCHES + ("all",), help="--census pass 2: move this space's defs")
     ap.add_argument("--exclude-file", help="--census: names to leave, one per line `name<TAB>cause`")
     ap.add_argument("--excluded-out", help="--census: write every excluded def with its cause here")
+    ap.add_argument("--fold", metavar="TSV", help="fold mode: one canonical name per class of type_census's dup_gating.tsv")
+    ap.add_argument("--fold-tier1", action="store_true", help="--fold: every tier-1 class")
+    ap.add_argument("--fold-sdk", action="store_true", help="--fold: also fold canon defs with an SDK layout+member names")
+    ap.add_argument("--fold-class", help="--fold: only these lhashes (comma-separated; `<lh>:sdk` for an SDK group)")
+    ap.add_argument("--fold-exclude", help="--fold: skip these lhashes (comma-separated)")
+    ap.add_argument("--fold-report", help="--fold: write one row per folded class (lhash, tier, canon, sdk, n, aliases)")
+    ap.add_argument("--fold-dead", metavar="CENSUS_JSON", help="delete canon defs whose every name is in structs_dead")
     ap.add_argument("-j", "--jobs", type=int, default=16)
     args = ap.parse_args()
     os.chdir(REPO)
+    if args.fold_dead:
+        return fold_dead(args.fold_dead, args.apply)
+    if args.fold:
+        only = set(x for x in (args.fold_class or "").split(",") if x)
+        excl = set(x for x in (args.fold_exclude or "").split(",") if x)
+        plan, refused, res = fold_plan(args.fold, only, excl, args.fold_tier1, args.fold_sdk)
+        for lh, why in refused:
+            print(f"  REFUSED {lh}: {why}")
+        unresolved = fold_apply(plan, res, args.apply, args.jobs, args.fold_report)
+        return 1 if unresolved else 0
     if args.census:
         if args.rename:
             return 0 if census_rename(args.census, args.apply, args.jobs) == 0 or not args.apply else 1
