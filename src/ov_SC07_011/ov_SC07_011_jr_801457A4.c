@@ -2174,7 +2174,7 @@ extern s16 currentLocationId;
 extern void func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern void func_8016EDEC(s32 a0, s32 a1);
+extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t6_D4)
 #include "../shared/ov/func_80149F2C.h"
 
 
