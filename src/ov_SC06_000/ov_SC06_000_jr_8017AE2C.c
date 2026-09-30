@@ -6913,7 +6913,7 @@ void func_80181BA4(s32 param_1)
     Sp10_80181BA4 sp10;
     s32 ang;
 
-    sp10 = *(Sp10_80181BA4 *)D_801274E8.b;
+    sp10 = *(Sp10_80181BA4 *)D_801274E8.c;
     ang = ratan2(sp10.v[0], sp10.v[2]) & 0xFFF;
     func_80181CCC(param_1, (s32)&sp10, ang);
     func_80181F14(param_1, (s32)&sp10, ang);
@@ -6928,7 +6928,7 @@ void func_80181C38(s32 param_1)
     Sp10_80181C38 sp10;
     s32 ang;
 
-    sp10 = *(Sp10_80181C38 *)D_801274E8.b;
+    sp10 = *(Sp10_80181C38 *)D_801274E8.c;
     ang = ratan2(sp10.v[0], sp10.v[2]) & 0xFFF;
     func_80181CCC(param_1, (s32)&sp10, ang);
     func_80181EA0(param_1, (s32)&sp10, ang);

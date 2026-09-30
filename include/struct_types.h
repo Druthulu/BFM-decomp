@@ -371,7 +371,10 @@ typedef struct {
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-file) --- */
 typedef struct { s32 w[8]; } Blk20_8016DF5C;
 typedef Blk20_8016DF5C Blk20;
-typedef struct { u8 b[8]; } Blk8;
+typedef struct {
+    u8 c[8];
+} Blk8_801867AC;
+typedef Blk8_801867AC Blk8;
 typedef struct { u32 tag; u32 w1; u32 w2; u32 w3; } Prim_1412A8;
 typedef Prim_1412A8 Blk16;
 typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
@@ -512,7 +515,7 @@ typedef B4_8017F154 Blk4_md_SC07_003;
 typedef SVECTOR SVECTOR_800;
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-block) --- */
-typedef struct { u8 c[8]; } Blk8_md_SC03_076;
+typedef Blk8_801867AC Blk8_md_SC03_076;
 typedef struct {
     unsigned int addr : 24;
     unsigned int len : 8;
@@ -1411,7 +1414,7 @@ typedef struct {
 } Vec8_801A1924;
 typedef struct { u16 a, b, c, d; } Vec8_md_SC07_003_801A3334;
 typedef struct { s32 w0, w1, w2, w3, w4, w5, w6, w7; } W8__md_MAIN_044;
-typedef struct { u8 b[8]; } W8_md_MAIN_025_800CB300;
+typedef Blk8_801867AC W8_md_MAIN_025_800CB300;
 typedef struct Work_md_MAIN_046 {
     /* 0x00 */ s32 unk00;
     /* 0x04 */ s32 pad04[3];
