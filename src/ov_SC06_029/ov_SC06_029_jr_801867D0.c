@@ -38,23 +38,7 @@ typedef struct Sub8017EBC4 {
     /* 0x00 */ u8 pad000[0x12];
     /* 0x12 */ s16 unk_012;
 } Sub8017EBC4;
-typedef struct Obj8017EBC4 {
-    /* 0x000 */ u8 pad000[0x02];
-    /* 0x002 */ s16 unk_002;
-    /* 0x004 */ u8 pad004[0x06];
-    /* 0x00A */ u16 unk_00A;
-    /* 0x00C */ u8 pad00C[0x10];
-    /* 0x01C */ s32 unk_01C;
-    /* 0x020 */ Sub8017EBC4 *unk_020;
-    /* 0x024 */ u8 pad024[0x52];
-    /* 0x076 */ s16 unk_076;
-    /* 0x078 */ u8 pad078[0x84];
-    /* 0x0FC */ s16 unk_0FC;
-    /* 0x0FE */ u8 pad0FE[0x02];
-    /* 0x100 */ s16 unk_100;
-    /* 0x102 */ u8 pad102[0x08];
-    /* 0x10A */ s16 unk_10A;
-} Obj8017EBC4;
+typedef Unkstruct_800B5CB8 Obj8017EBC4;
 typedef struct {
     void *tag;
     s16 flag;
