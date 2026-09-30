@@ -2854,12 +2854,12 @@ s32 func_8017B490(s32 param)
     (*(SV4_8017B368 *)&D_801ECB74) = loc1;
     D_801ED910 = 1;
     D_801ECB04 = 0x1E;
-    D_80126990 = (*(SV4_8017B368 *)&D_801ECB7C).a;
-    D_80126994 = (*(SV4_8017B368 *)&D_801ECB7C).b;
-    D_80126998 = (*(SV4_8017B368 *)&D_801ECB7C).c;
-    D_80126984 = (*(SV4_8017B368 *)&D_801ECB74).a;
-    D_80126988 = (*(SV4_8017B368 *)&D_801ECB74).b;
-    D_8012698C = (*(SV4_8017B368 *)&D_801ECB74).c;
+    D_80126990 = (*(SV4_8017B368 *)&D_801ECB7C).v[0];
+    D_80126994 = (*(SV4_8017B368 *)&D_801ECB7C).v[1];
+    D_80126998 = (*(SV4_8017B368 *)&D_801ECB7C).v[2];
+    D_80126984 = (*(SV4_8017B368 *)&D_801ECB74).v[0];
+    D_80126988 = (*(SV4_8017B368 *)&D_801ECB74).v[1];
+    D_8012698C = (*(SV4_8017B368 *)&D_801ECB74).v[2];
 }
 
 
@@ -2912,10 +2912,10 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     D_8012694C[0] = 0;
     D_801ED910 = 1;
     D_801ECB04 = 0x1E;
-    D_80126990 = ((SV4_8017B368 *)&D_801ECB7C)->a;
+    D_80126990 = ((SV4_8017B368 *)&D_801ECB7C)->v[0];
     D_80126994 = D_801ECB7E;
     D_80126998 = D_801ECB80;
-    D_80126984 = ((SV4_8017B368 *)&D_801ECB74)->a;
+    D_80126984 = ((SV4_8017B368 *)&D_801ECB74)->v[0];
     D_80126988 = D_801ECB76;
     D_8012698C = D_801ECB78;
     func_80129CF8();
@@ -3110,17 +3110,17 @@ void func_8017BA3C(s32 param_1, s32 param_2)
     func_8012F214(param_1, param_2, (s32)&svec);
     D_801ECB24 = svec;
 
-    v0.a = -*(s16 *)(param_2 + 0xc);
-    v0.b = *(u16 *)(param_2 + 8);
-    v0.c = 0;
-    v1.a = 0;
-    v1.b = 0;
-    v1.c = -*(s16 *)(param_2 + 0xa);
+    v0.v[0] = -*(s16 *)(param_2 + 0xc);
+    v0.v[1] = *(u16 *)(param_2 + 8);
+    v0.v[2] = 0;
+    v1.v[0] = 0;
+    v1.v[1] = 0;
+    v1.v[2] = -*(s16 *)(param_2 + 0xa);
     ((void (*)(void *, void *))func_80049CAC)(&v0, &mtx);
 
-    mtx.t[0] = (s32)svec.a;
-    mtx.t[1] = (s32)svec.b;
-    mtx.t[2] = (s32)svec.c;
+    mtx.t[0] = (s32)svec.v[0];
+    mtx.t[1] = (s32)svec.v[1];
+    mtx.t[2] = (s32)svec.v[2];
     func_8004914C(&mtx);
     func_800491AC(&mtx);
 
@@ -3148,17 +3148,17 @@ s32 func_8017BB34(s32 param_1, s32 param_2)
     svec = *(SV4_8017BB34 *)param_2;
     (*(SV4_8017BB34*)&D_801ECB24) = svec;
 
-    v0.a = -*(s16 *)(param_2 + 0xc);
-    v0.b = *(u16 *)(param_2 + 8);
-    v0.c = 0;
-    v1.a = 0;
-    v1.b = 0;
-    v1.c = -*(s16 *)(param_2 + 0xa);
+    v0.v[0] = -*(s16 *)(param_2 + 0xc);
+    v0.v[1] = *(u16 *)(param_2 + 8);
+    v0.v[2] = 0;
+    v1.v[0] = 0;
+    v1.v[1] = 0;
+    v1.v[2] = -*(s16 *)(param_2 + 0xa);
     ((void (*)(void *, void *))func_80049CAC)(&v0, &mtx);
 
-    mtx.t[0] = (s32)svec.a;
-    mtx.t[1] = (s32)svec.b;
-    mtx.t[2] = (s32)svec.c;
+    mtx.t[0] = (s32)svec.v[0];
+    mtx.t[1] = (s32)svec.v[1];
+    mtx.t[2] = (s32)svec.v[2];
     func_8004914C(&mtx);
     func_800491AC(&mtx);
 
@@ -3438,9 +3438,9 @@ void func_8017C1AC(s32 param_1)
     s32 a1;
 
     s0 = *(s32 *)(param_1 + 0x20);
-    sv4.a = -0x20;
-    sv4.c = 0;
-    sv4.b = D_801ECDA8;
+    sv4.v[0] = -0x20;
+    sv4.v[2] = 0;
+    sv4.v[1] = D_801ECDA8;
     a1 = *(s32 *)(s0 + 0x34);
     RotMatrixYXZ(&sv4, a1);
 }

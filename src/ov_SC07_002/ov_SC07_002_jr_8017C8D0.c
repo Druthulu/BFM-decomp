@@ -4465,11 +4465,11 @@ void func_8017FCA8(s32 a0)
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *) &target);
-        if (cur.m1 > -0x200) {
-            cur.m1 = -0x200;
+        if (cur.v[1] > -0x200) {
+            cur.v[1] = -0x200;
         }
         func_80015978(ret + 4, (s32 *) &target);
-        target.m1 = cur.m1;
+        target.v[1] = cur.v[1];
         dist = func_80013294(&cur, &target) - 0x100;
         clamped = dist;
         if (clamped < 0) {
@@ -4488,7 +4488,7 @@ void func_8017FCA8(s32 a0)
         target = *(PosFCA8 *) D_80126940;
     }
 
-    func_80181394(a0, &cur, ratan2(cur.m0 - target.m0, cur.m2 - target.m2) & 0xfff);
+    func_80181394(a0, &cur, ratan2(cur.v[0] - target.v[0], cur.v[2] - target.v[2]) & 0xfff);
 }
 
 
@@ -5007,11 +5007,11 @@ s32 func_80180DAC(s32 a0)
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *) &target);
-        if (cur.m1 > -0x200) {
-            cur.m1 = -0x200;
+        if (cur.v[1] > -0x200) {
+            cur.v[1] = -0x200;
         }
         func_80015978(ret + 4, (s32 *) &target);
-        target.m1 = cur.m1;
+        target.v[1] = cur.v[1];
         dist = func_80013294(&cur, &target) - 0x80;
         clamped = dist;
         if (clamped < 0) {
@@ -5028,8 +5028,8 @@ s32 func_80180DAC(s32 a0)
         target = *(Pos *) D_80126940;
     }
 
-    cur.m0 = (cur.m0 + target.m0) / 2;
-    cur.m2 = (cur.m2 + target.m2) / 2;
+    cur.v[0] = (cur.v[0] + target.v[0]) / 2;
+    cur.v[2] = (cur.v[2] + target.v[2]) / 2;
     func_80180F7C(a0, &cur);
 }
 

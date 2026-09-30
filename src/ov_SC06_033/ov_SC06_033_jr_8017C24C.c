@@ -3044,15 +3044,15 @@ void func_8017D7E0(s32 param_1) {
 
     sp10 = D_80126940;
 
-    if (sp10.x2 > 0xF80) {
-        sp10.x2 = 0xF80;
+    if (sp10.v[2] > 0xF80) {
+        sp10.v[2] = 0xF80;
     }
 
-    if (sp10.x2 < 0x240) {
+    if (sp10.v[2] < 0x240) {
         lo = -0x1C0; hi = 0x1C0; zc = -0x100; v2E = 0; v32 = 0xA0;
-    } else if (sp10.x2 < 0x6C0) {
+    } else if (sp10.v[2] < 0x6C0) {
         lo = -0x1C0; hi = 0x1C0; zc = -0x100; v2E = 0; v32 = 0x40;
-    } else if (sp10.x2 < 0xC00) {
+    } else if (sp10.v[2] < 0xC00) {
         lo = 0; hi = 0; zc = -0x100; v2E = 0; v32 = 0;
     } else {
         lo = -0x140; hi = 0x140; zc = -0x1000; v2E = 0; v32 = 0;
@@ -3062,7 +3062,7 @@ void func_8017D7E0(s32 param_1) {
     switch (*p) {
     case 0:
         zc = -0x100;
-        if (sp10.x2 > 0xAC0) {
+        if (sp10.v[2] > 0xAC0) {
             zc = -0x1000;
             *(s16 *)(param_1 + 0x20) = 0xE3;
             *p = 1;
@@ -3071,7 +3071,7 @@ void func_8017D7E0(s32 param_1) {
         break;
     case 1:
         zc = -0x1000;
-        if (sp10.x2 < 0x9C0) {
+        if (sp10.v[2] < 0x9C0) {
             zc = -0x100;
             *(s16 *)(param_1 + 0x20) = 0x2AA;
             *p = 0;
@@ -3080,20 +3080,20 @@ void func_8017D7E0(s32 param_1) {
         break;
     }
 
-    if (sp10.x0 < lo) {
-        sp10.x0 = lo;
-    } else if (sp10.x0 > hi) {
-        sp10.x0 = hi;
+    if (sp10.v[0] < lo) {
+        sp10.v[0] = lo;
+    } else if (sp10.v[0] > hi) {
+        sp10.v[0] = hi;
     }
-    if (sp10.x1 < zc) {
-        sp10.x1 = zc;
+    if (sp10.v[1] < zc) {
+        sp10.v[1] = zc;
     }
 
     q = &D_801274E8;
-    *q = func_80012C6C((s32)*q, (s32)sp10.x0, 8);
-    D_801274EA = sp10.x1;
-    D_801274EC = sp10.x2;
-    if ((u16)sp10.x2 >= 0xAC1 && (u16)sp10.x2 < 0xC00) {
+    *q = func_80012C6C((s32)*q, (s32)sp10.v[0], 8);
+    D_801274EA = sp10.v[1];
+    D_801274EC = sp10.v[2];
+    if ((u16)sp10.v[2] >= 0xAC1 && (u16)sp10.v[2] < 0xC00) {
         *(s32 *)(param_1 + 0x14) = 0x4B0;
     } else {
         *(s32 *)(param_1 + 0x14) = D_801952F8[*(u8 *)(param_1 + 5)];

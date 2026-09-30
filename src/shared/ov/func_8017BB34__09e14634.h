@@ -12,17 +12,17 @@ s32 func_8017BB34(s32 param_1, s32 param_2)
     svec = *(SV4_8017BB34 *)param_2;
     (*(SV4_8017BB34*)&D_8018F934) = svec;
 
-    v0.a = -*(s16 *)(param_2 + 0xc);
-    v0.b = *(u16 *)(param_2 + 8);
-    v0.c = 0;
-    v1.a = 0;
-    v1.b = 0;
-    v1.c = -*(s16 *)(param_2 + 0xa);
+    v0.v[0] = -*(s16 *)(param_2 + 0xc);
+    v0.v[1] = *(u16 *)(param_2 + 8);
+    v0.v[2] = 0;
+    v1.v[0] = 0;
+    v1.v[1] = 0;
+    v1.v[2] = -*(s16 *)(param_2 + 0xa);
     ((void (*)(void *, void *))func_80049CAC)(&v0, &mtx);
 
-    mtx.t[0] = (s32)svec.a;
-    mtx.t[1] = (s32)svec.b;
-    mtx.t[2] = (s32)svec.c;
+    mtx.t[0] = (s32)svec.v[0];
+    mtx.t[1] = (s32)svec.v[1];
+    mtx.t[2] = (s32)svec.v[2];
     func_8004914C(&mtx);
     func_800491AC(&mtx);
 

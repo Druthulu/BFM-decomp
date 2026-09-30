@@ -7981,13 +7981,13 @@ void func_8018C778(s32 a0)
         func_8012B23C(a0);
         func_8012B14C(a0, *(s16 *)(a0 + 0x70) * 12 + (s32)&D_801DD6BC);
 
-        in.a = 0;
-        in.b = 0;
-        in.c = 0x10;
+        in.v[0] = 0;
+        in.v[1] = 0;
+        in.v[2] = 0x10;
         func_8012F214(a0, (s32)&in, (s32)&out);
-        *(u16 *)(a0 + 6) = out.a;
-        *(u16 *)(a0 + 0xa) = out.b;
-        uStack_c = out.c;
+        *(u16 *)(a0 + 6) = out.v[0];
+        *(u16 *)(a0 + 0xa) = out.v[1];
+        uStack_c = out.v[2];
         *(s32 *)(a0 + 0x1c) = 0x5a;
         *(u16 *)(a0 + 0x34) = 1;
         *(u16 *)(a0 + 0xe) = uStack_c;

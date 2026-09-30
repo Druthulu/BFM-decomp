@@ -4183,14 +4183,14 @@ void func_8017EAEC(s32 param_1)
     if (iVar4 < 0) {
         iVar4 += 0x7F;
     }
-    dest[0] = local1.f0 - (s16)(iVar4 >> 7);
+    dest[0] = local1.v[0] - (s16)(iVar4 >> 7);
 
     iVar4 = func_80047948(*(s16 *)((s32)D_80126B78 + 0x12));
     if (iVar4 < 0) {
         iVar4 += 0x7F;
     }
-    dest[2] = local1.f2 - (s16)(iVar4 >> 7);
-    dest[1] = local1.f1;
+    dest[2] = local1.v[2] - (s16)(iVar4 >> 7);
+    dest[1] = local1.v[1];
 
     msg = func_8017EE08((struct ZnRec *)D_80189680, (s16 *)&local1, dest);
 
