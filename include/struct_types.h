@@ -302,4 +302,68 @@ typedef struct {
 } Unkstruct_80126B58; /* size = 0x24c */
 /* head_types:end */
 
+/* Unkstruct_80078E78 — the player record at 0x80078E78 (0x98 bytes; was Blk98_80029274 in src/800.c, Blk80078E78 in
+   src/resident/resident_jr_800D00E4.c, u8 D_80078E78[] in 880 TUs). Hand-written (P38 T3): field widths are the type the
+   USING TUs declare for each scalar global (.run/P38/T3/player_use_widths.py); names only where docs/memory-map.md 3.4
+   or docs/actor-struct.md mark the row verified. Decisions: docs/struct-map-decisions.md. */
+typedef struct {
+    /* 0x0000 */ s32 unk0;          /* D_80078E78 word 0 */
+    /* 0x0004 */ u8 unk4;           /* D_80078E7C; reported: gameClock */
+    /* 0x0005 */ u8 unk5;           /* D_80078E7D */
+    /* 0x0006 */ u8 unk6;           /* D_80078E7E */
+    /* 0x0007 */ u8 unk7;           /* D_80078E7F */
+    /* 0x0008 */ s32 unk8;          /* D_80078E80; reported: storyProgress; map: pointer into Unkstruct_800B5CB8 */
+    /* 0x000c */ s32 unkC;          /* D_80078E84; map: pointer into Unkstruct_800B5CB8 */
+    /* 0x0010 */ s32 unk10;         /* D_80078E88; map: pointer into Unkstruct_800B5CB8 */
+    /* 0x0014 */ s32 gold;          /* D_80078E8C; verified live (stored as gold/10), memory-map 3.4; code width s32 */
+    /* 0x0018 */ s16 unk18;         /* D_80078E90 */
+    /* 0x001a */ s16 unk1A;         /* D_80078E92 */
+    /* 0x001c */ s32 unk1C;         /* D_80078E94; s16 D_80078E96 at +0x1E loses (5 uses) */
+    /* 0x0020 */ s32 unk20;         /* D_80078E98; s16 D_80078E9A at +0x22 loses (1 use) */
+    /* 0x0024 */ s32 unk24;         /* D_80078E9C; s16 D_80078E9E at +0x26 loses (2 uses) */
+    /* 0x0028 */ s32 unk28;         /* D_80078EA0 */
+    /* 0x002c */ s32 tiredness_raw; /* D_80078EA4; verified live, memory-map 3.4; u16 D_80078EA6 at +0x2E loses (8 uses) */
+    /* 0x0030 */ s32 unk30;         /* D_80078EA8 */
+    /* 0x0034 */ u16 dayCounter;    /* D_80078EAC; verified live + code (func_8014B084), memory-map 3.4 */
+    /* 0x0036 */ u8 unk36;          /* D_80078EAE */
+    /* 0x0037 */ u8 unk37;          /* D_80078EAF; not dayOfWeek (refuted, memory-map 3.4) */
+    /* 0x0038 */ u8 unk38;          /* D_80078EB0 low byte; s16 D_80078EB0 (524 uses) spans +0x38..+0x39: union candidate */
+    /* 0x0039 */ u8 hour;           /* D_80078EB1; verified live, memory-map 3.4 */
+    /* 0x003a */ u16 hp_max;        /* D_80078EB2; verified live */
+    /* 0x003c */ s16 hp_current;    /* D_80078EB4; verified live; s16 by 689 vs 135 uses */
+    /* 0x003e */ u16 bp_max;        /* D_80078EB6; verified live */
+    /* 0x0040 */ s16 bp_current;    /* D_80078EB8; verified live; s16 by 12 vs 3 uses */
+    /* 0x0042 */ u8 dayOfWeek;      /* D_80078EBA; verified (code, func_8014B084) */
+    /* 0x0043 */ u8 unk43;          /* D_80078EBB */
+    /* 0x0044 */ u8 pad44[0x3];
+    /* 0x0047 */ u8 unk47;          /* D_80078EBF */
+    /* 0x0048 */ u8 unk48;          /* D_80078EC0 */
+    /* 0x0049 */ u8 unk49;          /* D_80078EC1 */
+    /* 0x004a */ u8 unk4A;          /* D_80078EC2 */
+    /* 0x004b */ u8 unk4B;          /* D_80078EC3 */
+    /* 0x004c */ s8 unk4C;          /* D_80078EC4 */
+    /* 0x004d */ u8 unk4D;          /* D_80078EC5 */
+    /* 0x004e */ s8 unk4E;          /* D_80078EC6 */
+    /* 0x004f */ u8 pad4F[0x1];
+    /* 0x0050 */ s32 unk50;         /* D_80078EC8 */
+    /* 0x0054 */ s32 unk54;         /* D_80078ECC */
+    /* 0x0058 */ s32 unk58;         /* D_80078ED0 */
+    /* 0x005c */ s32 unk5C;         /* D_80078ED4 */
+    /* 0x0060 */ s32 unk60;         /* D_80078ED8 */
+    /* 0x0064 */ s32 unk64;         /* D_80078EDC */
+    /* 0x0068 */ u8 unk68;          /* D_80078EE0 */
+    /* 0x0069 */ u8 pad69[0x3];
+    /* 0x006c */ s32 unk6C;         /* D_80078EE4; reported: bodyLevel */
+    /* 0x0070 */ s32 unk70;         /* D_80078EE8; reported: bodyExp */
+    /* 0x0074 */ s32 unk74;         /* D_80078EEC; reported: mindLevel */
+    /* 0x0078 */ s32 unk78;         /* D_80078EF0; reported: mindExp; actor-struct.md's s16 step counter conflicts with code width s32 */
+    /* 0x007c */ s32 unk7C;         /* D_80078EF4; reported: fusionLevel */
+    /* 0x0080 */ s32 unk80;         /* D_80078EF8; reported: fusionExp */
+    /* 0x0084 */ s32 unk84;         /* D_80078EFC; reported: luminaLevel */
+    /* 0x0088 */ s32 unk88;         /* D_80078F00; reported: luminaExp */
+    /* 0x008c */ s32 unk8C;         /* D_80078F04 */
+    /* 0x0090 */ s32 posX;          /* D_80078F08; verified live + code width 4 (actor-struct.md, census control) */
+    /* 0x0094 */ s32 posZ;          /* D_80078F0C; verified live + code width 4 */
+} Unkstruct_80078E78; /* size = 0x98 */
+
 #endif /* STRUCT_TYPES_H */

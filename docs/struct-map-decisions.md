@@ -2,15 +2,24 @@
 
 ## Canonical file set
 
-TODO(T3 expert)
+- One file, `include/struct_types.h`, included from `include/common.h` (the header splat gives every TU; precedent: `gte_inline.h`, P36 T5). `CANON_HEADERS = (src/shared/engine_types.h, include/struct_types.h)`; engine_types.h stays the ov-only canonical file, struct_types.h holds layouts whose cluster spans spaces.
+- Evidence (body_base_type.json, census at 42a9cd7f5): `Unkstruct_80126B58` bodies ov 16,773 · md 311 · main 0; `Unkstruct_800B5CB8` bodies ov 15,245 · md 502 · main 22 (src/800.c) · boot.c 1. Each is ONE union-find cluster (one id, one layout) across spaces, so a per-space file would duplicate the definition: identity by cluster, never by name.
+- No per-space files (`src/shared/main/types.h`, the slots'): main's shared types stay in `src/800_shared.h` (not canonical yet, T5); slot headers are reached through the prelude already.
+- Tool fix that this needed: the restruct/delever include graph (`tools/delever.py includers`) now follows the build's `-Iinclude`; before, `type_visible` was false for every header under include/.
 
 ## Resolution rule
 
-TODO(T3 expert)
+- Per head: candidates = the map's layout entries plus every conflict alternative; misaligned candidates dropped; the non-overlapping set with the most sites wins (weighted-interval DP; ties: lower offset, wider, sign s<u<p). Every overlap resolves as SPLIT: loser sites keep their casts and the byte oracle judges them later. A union is recorded as a candidate (loser >= 50 sites and >= 20 % of the winner) but never emitted: the rewriter spells flat members only (`restruct.py member_spelling`).
+- binding: head-type overlaps resolve by max-site split; unions wait until the rewriter spells union members.
+- Field names: unkHEX throughout; `docs/actor-struct.md` does not describe these layouts (next section), so no field has cited evidence.
+- `Unkstruct_800B5CB8` is `suspect` in the map (20+ AT globals, 4,724 params, 50 conflict offsets, 25,393 of 101,110 candidate sites dropped): a merge of several real types through argument conduits; its split is provisional until the cluster is separated (T5 candidate).
 
 ## Unkstruct_80078E00 (the player block)
 
-TODO(T3 expert)
+- Not defined: no such layout exists. `D_80078E00` has 0 occurrences in src/; the struct map has no cluster anchored at 0x80078E00 (only scalar clusters: `AT:D_80078EB4` u16 x270, `AT:D_80078EB0` s16 x152, ...); both heads have s32 at +0xB4 (1,744 / 404 sites) where the player's hp_current is a u16 at 0x80078EB4, so the player block is an instance of neither (9 scalar globals compared: 1 agrees with 80126B58, 0 with 800B5CB8; `.run/P38/T3/player_vs_heads.py`). `docs/actor-struct.md`'s "0x24C at 0x80078E00" was a Phase-17 m2c inference matched by the coincidence of +0xB4.
+- What the code has: a 0x98-byte record at 0x80078E78: `Blk98_80029274` (src/800.c, `s32 words[38]`, struct-copied into the save slot in func_80029774), the block-scope `Blk80078E78` (src/resident/resident_jr_800D00E4.c:546), and `u8 D_80078E78[]` indexed [0]/[0x1A]/[0x37]/[0x49] in 880 TUs.
+- Defined instead: `Unkstruct_80078E78` (0x98) in include/struct_types.h; widths = the type each USING TU declares for the scalar global (`.run/P38/T3/player_use_widths.py`, boilerplate externs excluded); names only for rows memory-map 3.4 / actor-struct.md mark verified (gold, tiredness_raw, dayCounter, hour, hp_max, hp_current, bp_max, bp_current, dayOfWeek, posX, posZ). Code-width overlaps recorded in the field comments (+0x38 s16 over hour: the verified name wins; +0x1C/+0x20/+0x24/+0x2C wide over narrow: the wide majority wins). Reported-only names stay in comments.
+- `Blk98_80029274` folded onto it (`typedef Unkstruct_80078E78 Blk98_80029274;`, src/800.c), R22-judged. No typed body exists for this record in the map, so the `--try-file` proof does not apply; R22 is its byte proof. `Blk80078E78` (block scope) is rung-L work.
 
 ## Per-offset records
 

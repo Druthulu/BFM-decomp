@@ -5,9 +5,7 @@ typedef struct {
     u16 unk00;
     u8  pad[14];
 } T16;  /* 0x10 */
-typedef struct {
-    s32 words[38];
-} Blk98_80029274;
+typedef Unkstruct_80078E78 Blk98_80029274; /* P38 T3: folded onto the canonical player record (include/struct_types.h) */
 typedef struct { s32 a; s32 b[4]; } OtBlk_80016450;
 typedef struct {
     /* 0x00 */ u16 type;

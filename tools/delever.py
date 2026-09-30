@@ -660,18 +660,23 @@ def includers(use_cache=True):
     new_cache = {}
     direct = collections.defaultdict(set)
     hdr_inc = collections.defaultdict(set)
-    for p in sorted((REPO / "src").rglob("*")):
+    def resolve(rel, name):
+        # as the build does (-Iinclude): relative to the includer when that file exists, else include/<name>
+        loc = os.path.normpath(os.path.join(os.path.dirname(rel), name))
+        return loc if (REPO / loc).exists() else os.path.normpath(os.path.join("include", name))
+
+    for p in sorted((REPO / "src").rglob("*")) + sorted((REPO / "include").glob("*.h")):
         if p.suffix not in (".c", ".h") or p.name.startswith("."):
             continue
         rel = p.relative_to(REPO).as_posix()
         st = p.stat()
-        key = f"{st.st_mtime_ns}|{st.st_size}"
+        key = f"I|{st.st_mtime_ns}|{st.st_size}"   # I|: entries resolved with -Iinclude (P38 T3); older entries are rebuilt
         ent = cache.get(rel)
         if ent and ent[0] == key:
             incs = ent[1]
         else:
             text = p.read_text(errors="surrogateescape")
-            incs = [os.path.normpath(os.path.join(os.path.dirname(rel), mm.group(1))) for mm in sc.INCLUDE_LINE.finditer(sc.mask_text(text))]
+            incs = [resolve(rel, mm.group(1)) for mm in sc.INCLUDE_LINE.finditer(sc.mask_text(text))]
         new_cache[rel] = [key, incs]
         for k2 in incs:
             (direct if rel.endswith(".c") else hdr_inc)[k2].add(rel)
