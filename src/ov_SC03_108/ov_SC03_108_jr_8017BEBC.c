@@ -3192,11 +3192,11 @@ extern s16 D_801847B8;
 
 void func_8017DB0C(s32 a0)
 {
-    struct Vec_8017DB0C  unused;
-    struct SVec_8017DB0C sv;
-    struct Vec_8017DB0C  vin;
-    struct Vec_8017DB0C  vout;
-    struct Vec_8017DB0C  res;
+    Vec_8017DB0C  unused;
+    SVec_8017DB0C sv;
+    Vec_8017DB0C  vin;
+    Vec_8017DB0C  vout;
+    Vec_8017DB0C  res;
     struct Mtx_8017DB0C  m;
     s32 flag;
     s32 *g;
@@ -3206,7 +3206,7 @@ void func_8017DB0C(s32 a0)
     g = &D_80126B58;
 
     if (*(u16 *)(a0 + 0xFE) < 2) {
-        sv = *(struct SVec_8017DB0C *)D_801A04F0;
+        sv = *(SVec_8017DB0C *)D_801A04F0;
         RotMatrixZ(*(s16 *)(a0 + 0x100), &m);
         gte_SetRotMatrix(&m);
         gte_SetTransMatrix(&m);

@@ -6102,7 +6102,7 @@ extern u8 D_801CD4C8[];
 
 
 void func_8018C190(s32 param_1) {
-    struct Fr_8018C190 fr;
+    Fr_8018C190 fr;
     s32 dx, dy, dz;
     s32 ang;
     s32 r1, r2, r3;

@@ -3707,11 +3707,11 @@ void func_8017EBE4(s32 a0)
     /* Declaration ORDER is load-bearing: MIPS frames grow upward from
      * STARTING_FRAME_OFFSET == outgoing_args_size (0x10), and expand_decl assigns slots in
      * declaration order, so this list reproduces the target's exact sp offsets. */
-    struct Vec_8017EBE4  unused;   /* sp+0x10 -- dead 16-byte slot the target's frame reserves */
-    struct SVec_8017EBE4 sv;       /* sp+0x20 */
-    struct Vec_8017EBE4  vin;      /* sp+0x28 */
-    struct Vec_8017EBE4  vout;     /* sp+0x38 */
-    struct Vec_8017EBE4  res;      /* sp+0x48 */
+    Vec_8017EBE4  unused;   /* sp+0x10 -- dead 16-byte slot the target's frame reserves */
+    SVec_8017EBE4 sv;       /* sp+0x20 */
+    Vec_8017EBE4  vin;      /* sp+0x28 */
+    Vec_8017EBE4  vout;     /* sp+0x38 */
+    Vec_8017EBE4  res;      /* sp+0x48 */
     struct Mtx_8017EBE4  m;        /* sp+0x58 */
     s32 flag;                      /* sp+0x78 */
     s32 *g;
@@ -3727,7 +3727,7 @@ void func_8017EBE4(s32 a0)
         /* D_801AB984 is a byte symbol, so this 8-byte struct copy has alignment 2 (< 4) and
          * output_block_move takes the lwl/lwr + swl/swr path, plus the `la` of the constant
          * source address (mips.c:2494 "global or static addresses" case). */
-        sv = *(struct SVec_8017EBE4 *)D_801AB984;
+        sv = *(SVec_8017EBE4 *)D_801AB984;
         RotMatrixZ(*(s16 *)(a0 + 0x100), &m);
         gte_SetRotMatrix(&m);
         gte_SetTransMatrix(&m);

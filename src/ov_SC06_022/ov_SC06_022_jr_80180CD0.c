@@ -3046,10 +3046,10 @@ void func_801811A4(s32 param_1) {
        it survives to alter_reg with reg_n_refs>0 and no hard reg, so
        assign_stack_local grows var_size by 8 with nothing ever stored there.
        Byte-checked: pointer-arith spelling -> frame 0x20, this -> frame 0x18. */
-    extern struct Row8_8018367C_801811A4 D_801AD46E[];
-    extern struct Row8_8018367C_801811A4 D_801AD468[];
-    extern struct Row8_8018367C_801811A4 D_801AD46A[];
-    extern struct Row8_8018367C_801811A4 D_801AD46C[];
+    extern Row8_8018367C_801811A4 D_801AD46E[];
+    extern Row8_8018367C_801811A4 D_801AD468[];
+    extern Row8_8018367C_801811A4 D_801AD46A[];
+    extern Row8_8018367C_801811A4 D_801AD46C[];
     extern u32 D_801AD454[];
 
     /* the entry call's result doubles as func_8001C214's first argument, so it

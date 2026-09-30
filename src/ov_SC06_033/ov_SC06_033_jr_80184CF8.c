@@ -3310,9 +3310,9 @@ void func_80185808(s32 a0, s32 a1)
 {
     extern s32 func_8012CEB0(void*, void*, s32);
 
-    struct V8_80185808 sp10;
-    struct V8_80185808 sp18;
-    struct V8_80185808 sp20;
+    V8_80185808 sp10;
+    V8_80185808 sp18;
+    V8_80185808 sp20;
 
     sp10.vx = *(u16 *)(a0 + 0x3A);
     sp10.vy = *(u16 *)(a0 + 0x3E);

@@ -618,7 +618,7 @@ void func_80131340(s32 a0)
     extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
     extern s32 D_8019A730;
     extern s32 D_8019A734;
-    extern struct V8_80131340 D_80182960;
+    extern V8_80131340 D_80182960;
 
 
     /* 8-byte, align-2 vector: align < 4 is what makes the assignments unaligned
@@ -630,10 +630,10 @@ void func_80131340(s32 a0)
      * func_80131CF4(int,int);` here is a HARD `conflicting types` against it (cc1 rc=33,
      * measured); block-scope goes out of scope before that macro and compiles clean. */
 
-    struct V8_80131340 sp10;
-    struct V8_80131340 sp18;
-    struct V8_80131340 sp20;
-    struct V8_80131340 sp28;
+    V8_80131340 sp10;
+    V8_80131340 sp18;
+    V8_80131340 sp20;
+    V8_80131340 sp28;
     s32 temp;
     s32 var_a1;
 

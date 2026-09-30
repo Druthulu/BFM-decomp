@@ -5038,8 +5038,8 @@ extern void func_8012AD80(struct vec *a0);
 extern s32 func_80133784(s32, void *, s32);
 
 s32 func_801808E8(s32 a0, void *a1, s32 a2, s32 a3) {
-    struct SV3_801808E8 sp10;
-    struct SV3_801808E8 sp18;
+    SV3_801808E8 sp10;
+    SV3_801808E8 sp18;
     s32 v0;
 
     if (a3 == 0) {

@@ -2136,7 +2136,7 @@ extern u8 D_800A4694[];
 void func_8002F150(s32 arg0) {
 
     struct F150Rec *rec = (struct F150Rec *)D_800A4694 + arg0;
-    struct F150Slot *slots = (struct F150Slot *)(D_800A4694 + 0x2F4);
+    F150Slot *slots = (F150Slot *)(D_800A4694 + 0x2F4);
     s32 i;
     s32 val;
 

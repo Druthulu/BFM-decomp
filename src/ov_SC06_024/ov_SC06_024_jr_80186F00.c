@@ -2958,9 +2958,9 @@ void func_801872EC(s32 a0, s32 a1)
 {
     extern s32 func_8012CEB0(void*, void*, s32);
 
-    struct V8_801872EC sp10;
-    struct V8_801872EC sp18;
-    struct V8_801872EC sp20;
+    V8_801872EC sp10;
+    V8_801872EC sp18;
+    V8_801872EC sp20;
 
     sp10.vx = *(u16 *)(a0 + 0x3A);
     sp10.vy = *(u16 *)(a0 + 0x3E);

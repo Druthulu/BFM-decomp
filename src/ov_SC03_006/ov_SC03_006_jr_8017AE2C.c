@@ -11541,7 +11541,7 @@ void func_80188134(s32 a0)
     extern s32 D_801CA0A4;
     /* 8 bytes of frame that the body never references: a declared aggregate local
      * gets assign_stack_local'd (var_size 8) and emits zero instructions (§193-I). */
-    struct V8_80188134 sp10;
+    V8_80188134 sp10;
     s32 var_s1;
     s32 var_s2;
 

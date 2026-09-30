@@ -2479,8 +2479,8 @@ void func_801A3490(s32 p)
     } else {
         func_801A38E4((void *)linked, (void *)pCC, (s32)D_801F43C0, 3, 1);
 
-        *(struct V8_md_SC07_003 *)(*(s32 *)(p + 0x20) + 0x10) =
-            *(struct V8_md_SC07_003 *)(*(s32 *)(linked + 0x20) + 0x10);
+        *(V8_md_SC07_003 *)(*(s32 *)(p + 0x20) + 0x10) =
+            *(V8_md_SC07_003 *)(*(s32 *)(linked + 0x20) + 0x10);
 
         *(s32 *)(p + 4) = *(s32 *)(linked + 4);
         *(s32 *)(p + 8) = *(s32 *)(linked + 8);

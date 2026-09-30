@@ -7672,7 +7672,7 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     extern u8 D_80181468;
     extern u8 D_8018147C[];
 
-    struct Fr fr;
+    Fr fr;
     u8 *p;
     u16 i;
     u16 t;

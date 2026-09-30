@@ -4841,10 +4841,10 @@ void func_80187DE4(s32 a0)
     /* 8-byte, align-2 vector — align < 4 is what makes the aggregate copies
      * unaligned lwl/lwr + swl/swr block moves (§ sibling func_80131340). */
 
-    struct V8_80187DE4 sp10;
-    struct V8_80187DE4 sp18;
-    struct V8_80187DE4 sp20;
-    struct V8_80187DE4 sp28;
+    V8_80187DE4 sp10;
+    V8_80187DE4 sp18;
+    V8_80187DE4 sp20;
+    V8_80187DE4 sp28;
     s32 p;
 
     sp10.vz = 0;

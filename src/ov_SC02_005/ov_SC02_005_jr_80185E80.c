@@ -5391,7 +5391,7 @@ void func_8018D4D8(void *param_1)
 {
     D_80196C64[*(u16 *)((char *)param_1 + 2)]();
     if (D_801270C8 < 0x17) {
-        struct imgrect img;
+        imgrect img;
         u16 *src = (u16 *)((char *)D_80196C44 + (*(u16 *)&D_800B99DA & 7) * 4);
         img.x = src[0];
         img.y = src[1];
