@@ -718,9 +718,6 @@ typedef struct {
     struct { s16 a, b, c, d, e, g; } ent[16];
 } Blk_8016CF04_8016CF04;
 typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; } Blk_80178D40;
-typedef struct {
-    u8 b[8];
-} Blob8;
 typedef struct { u16 f0, f2, f4; s16 f6; } Box;
 typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
 typedef struct {
@@ -733,7 +730,6 @@ typedef struct {
     } a;
 } Cmd_80178D40;
 typedef struct { s16 vx, vy; } DVECTOR2;
-typedef struct { u32 w[23]; } DrawEnv;
 typedef struct { u32 w[23]; } DrawEnv_8013DD68;
 typedef struct { DrawEnv_8013DD68 env; u8 pad[0x0C]; } Buf_8013DD68;
 typedef struct { s32 f0; } E4;
@@ -1070,11 +1066,6 @@ typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 vx, vy, vz, pad; } Vec16;
 typedef struct { s32 vx, vy, vz, pad; } Vec32;
 typedef struct { s16 x, y, z; } Vec3_8016BFD0;
-typedef struct {
-    u16 x;
-    s16 y;
-    u16 z;
-} Vec3h;
 typedef struct { s16 x, y, z; } Vec3s;
 typedef struct { char b[4]; } W;
 typedef struct { char b[4]; } W_8016BFD0;
@@ -1134,7 +1125,6 @@ typedef struct {
     /* 0x2A */ s16 f2a;
     /* 0x2C */ s16 f2c;
 } Buf_c1;
-typedef struct { DrawEnv env; u8 pad[0x0C]; } Buf_c2;
 
 /* --- lift_types.py fleet lift --- */
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX_L48;
@@ -1317,10 +1307,6 @@ struct Un8_8018613C {
 typedef struct {
     u32 lo : 16;
     u32 hi : 16;
-} Ang2_8012B77C;
-typedef struct {
-    u32 lo : 16;
-    u32 hi : 16;
 } Ang2_8012B77C_8012B77C;
 typedef struct {
     u32 lo : 16;
@@ -1340,7 +1326,6 @@ typedef struct { u8 b0, b1, b2, b3; } B4_80185458;
 typedef struct { u8 b0, b1, b2, b3; } B4_8018570C;
 typedef struct { u8 b0, b1, b2, b3; } B4_80185C00;
 typedef struct { u8 b0, b1, b2, b3; } B4_80186938;
-typedef struct { u8 b0, b1, b2, b3; } B4_8018A860;
 typedef struct { u8 b0, b1, b2, b3; } B4_8018A8E8;
 typedef struct { u8 b0, b1, b2, b3; } B4_8018E1F0;
 typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018EDB0;
@@ -1358,7 +1343,6 @@ typedef struct { u16 f; } Bidx_8018B23C_80185E34;
 typedef struct { u16 f; } Bidx_8018B23C_801860E8;
 typedef struct { u16 f; } Bidx_8018B23C_801865DC;
 typedef struct { u16 f; } Bidx_8018B23C_80187314;
-typedef struct { u16 f; } Bidx_8018B23C_8018B23C;
 typedef struct { u16 f; } Bidx_8018B23C_8018B2C4;
 typedef struct { u16 f; } Bidx_8018B23C_8018EBCC;
 typedef struct { u8 b[12]; } Blk12_801854C4;
@@ -1369,7 +1353,6 @@ typedef struct { u8 b[12]; } Blk12_801854C4_80183A70;
 typedef struct { u8 b[12]; } Blk12_801854C4_80184BEC;
 typedef struct { u8 b[12]; } Blk12_801854C4_80184EA8;
 typedef struct { u8 b[12]; } Blk12_801854C4_801851C4;
-typedef struct { u8 b[12]; } Blk12_801854C4_801854C4;
 typedef struct { u8 b[12]; } Blk12_801854C4_80187F84;
 typedef struct { s32 w[4]; } Blk16_80184328;
 typedef struct { s32 w[4]; } Blk16_8018A8B8;
@@ -1377,7 +1360,6 @@ typedef struct { s32 w[4]; } Blk16_8018B13C;
 typedef struct { s32 w[4]; } Blk16_8018B29C;
 typedef struct { s32 w[8]; } Blk20_8018AF88;
 typedef struct { s32 w[8]; } Blk20_8018AF88_80186160;
-typedef struct { s32 w[8]; } Blk32L;
 typedef struct { s32 w[8]; } Blk32L_80133298;
 typedef struct { s32 w[8]; } Blk32_8018AA98;
 typedef struct { s32 w[8]; } Blk32_8018AA98_80181BA8;
@@ -1390,7 +1372,6 @@ typedef struct { s32 w[8]; } Blk32_8018AA98_80185690;
 typedef struct { s32 w[8]; } Blk32_8018AA98_80185944;
 typedef struct { s32 w[8]; } Blk32_8018AA98_80185E38;
 typedef struct { s32 w[8]; } Blk32_8018AA98_80186B70;
-typedef struct { s32 w[8]; } Blk32_8018AA98_8018AA98;
 typedef struct { s32 w[8]; } Blk32_8018AA98_8018AB20;
 typedef struct { s32 w[8]; } Blk32_8018AA98_8018E428;
 typedef struct { u8 b[4]; } Blk4_8018CE04;
@@ -1748,8 +1729,6 @@ typedef struct {
  * and those sites carry their own explicit `<< 3` (see the note at resident.c:656). */
 typedef CdFileLoc CdFileLoc_80128C98;
 typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910;
-typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017C910;
-typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017D728;
 typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017D7F0;
 typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017D9EC;
 typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017DB00;
@@ -1900,19 +1879,6 @@ typedef struct Ent80183F28 {
     /* 0xE8 */ s16 unkE8;
     /* 0xEA */ s16 unkEA;
 } Ent80183F28;
-typedef struct Ent80183F28_80183F28 {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ u8  pad04[0xD8];
-    /* 0xDC */ s16 unkDC;
-    /* 0xDE */ s16 unkDE;
-    /* 0xE0 */ s16 unkE0;
-    /* 0xE2 */ s16 unkE2;
-    /* 0xE4 */ s16 unkE4;
-    /* 0xE6 */ s16 unkE6;
-    /* 0xE8 */ s16 unkE8;
-    /* 0xEA */ s16 unkEA;
-} Ent80183F28_80183F28;
 typedef struct {
         u8 pad0[6];
         u16 x;
@@ -2510,10 +2476,6 @@ typedef struct Ent_80183CF0 {
     u8  unk0[2];   /* 0x00 */
     u16 unk2;      /* 0x02 */
 } Ent_80183CF0;
-typedef struct Ent_80183CF0_80183CF0 {
-    u8  unk0[2];   /* 0x00 */
-    u16 unk2;      /* 0x02 */
-} Ent_80183CF0_80183CF0;
 typedef struct Ent_80183D50 {
     u8  unk0[2];        /* 0x00 */
     u16 unk2;           /* 0x02 */
@@ -2526,28 +2488,11 @@ typedef struct Ent_80183D50 {
     s16 unkE8;          /* 0xE8 */
     s16 unkEA;          /* 0xEA */
 } Ent_80183D50;
-typedef struct Ent_80183D50_80183D50 {
-    u8  unk0[2];        /* 0x00 */
-    u16 unk2;           /* 0x02 */
-    u8  unk4[0xD8];     /* 0x04 */
-    s16 unkDC;          /* 0xDC */
-    u8  unkDE[4];       /* 0xDE */
-    s16 unkE2;          /* 0xE2 */
-    s16 unkE4;          /* 0xE4 */
-    u8  unkE6[2];       /* 0xE6 */
-    s16 unkE8;          /* 0xE8 */
-    s16 unkEA;          /* 0xEA */
-} Ent_80183D50_80183D50;
 typedef struct Ent_80184264 {
     u8 pad0[0xE2];
     s16 unkE2;
     s16 unkE4;
 } Ent_80184264;
-typedef struct Ent_80184264_80184264 {
-    u8 pad0[0xE2];
-    s16 unkE2;
-    s16 unkE4;
-} Ent_80184264_80184264;
 typedef struct {
     u8  unk00[0x1C];
     s32 unk1C;
@@ -2579,10 +2524,6 @@ typedef struct {
         u32 pad[4];   /* 0x04..0x13 */
     } Env_8017EFA8_8017E93C;
 typedef struct {
-        u32 *ot;      /* 0x00 */
-        u32 pad[4];   /* 0x04..0x13 */
-    } Env_8017EFA8_8017EFA8;
-typedef struct {
         u32 *ot;                            /* 0x00 */
         u32 pad[4];                         /* 0x04..0x13 -> 0x14 stride */
     } Env_8018893C;
@@ -2598,10 +2539,6 @@ typedef struct Gs_80078E78 {
     u8  pad0[0x37];     /* 0x00 */
     u8  unk37;          /* 0x37 */
 } Gs_80078E78;
-typedef struct Gs_80078E78_80183D50 {
-    u8  pad0[0x37];     /* 0x00 */
-    u8  unk37;          /* 0x37 */
-} Gs_80078E78_80183D50;
 typedef struct LVec1CDC { s32 vx, vy, vz, pad; } LVec1CDC;
 typedef struct { char _b[8]; } M8_8014C6F4;
 typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX2_8017CDF0;
@@ -2623,7 +2560,6 @@ typedef struct { s32 w[8]; } Mat32_8018A390;
 typedef struct { s32 w[8]; } Mat32_8018A390_8018523C;
 typedef struct { s32 w[8]; } Mat32_8018A390_80185730;
 typedef struct { s32 w[8]; } Mat32_8018A390_80186468;
-typedef struct { s32 w[8]; } Mat32_8018A390_8018A390;
 typedef struct { s32 w[8]; } Mat32_8018A390_8018FE94;
 typedef struct { s32 w[8]; } Mat32_8018B23C;
 typedef struct { s32 w[8]; } Mat32_8018B23C_8018234C;
@@ -2636,7 +2572,6 @@ typedef struct { s32 w[8]; } Mat32_8018B23C_80185E34;
 typedef struct { s32 w[8]; } Mat32_8018B23C_801860E8;
 typedef struct { s32 w[8]; } Mat32_8018B23C_801865DC;
 typedef struct { s32 w[8]; } Mat32_8018B23C_80187314;
-typedef struct { s32 w[8]; } Mat32_8018B23C_8018B23C;
 typedef struct { s32 w[8]; } Mat32_8018B23C_8018B2C4;
 typedef struct { s32 w[8]; } Mat32_8018B23C_8018EBCC;
 typedef struct {
@@ -2648,8 +2583,6 @@ typedef struct {
 } Morph_8017DC1C;
 typedef struct { s16 m[3][3]; s32 t[3]; } Mtx35C;
 typedef struct { s32 w[8]; } Mtx8_8017C910;
-typedef struct { s32 w[8]; } Mtx8_8017C910_8017C910;
-typedef struct { s32 w[8]; } Mtx8_8017C910_8017D728;
 typedef struct { s32 w[8]; } Mtx8_8017C910_8017D7F0;
 typedef struct { s32 w[8]; } Mtx8_8017C910_8017D9EC;
 typedef struct { s32 w[8]; } Mtx8_8017C910_8017DB00;
@@ -2659,7 +2592,6 @@ typedef struct { s32 w[8]; } Mtx8_8017C910_8017EAE8;
 typedef struct { s32 w[8]; } Mtx8_8017C910_801808E0;
 typedef struct { s32 w[8]; } Mtx8_8017C910_80180E74;
 typedef struct { s32 w[8]; } Mtx8_8017C910_80182A40;
-typedef struct { s32 w[8]; } Mtx8_8017D0BC;
 typedef struct { s32 w[8]; } Mtx8_8017DE10;
 typedef struct { s32 w[8]; } Mtx8_8017DE10_8017C95C;
 typedef struct { s32 w[8]; } Mtx8_8017DE10_8017D0BC;
@@ -2758,23 +2690,6 @@ typedef struct Ctl_8018A550_801878A8 {
     s16 ids[8];          /* 0x04 */
     Obj_8018A550_801878A8 *slots[8]; /* 0x14 */
 } Ctl_8018A550_801878A8;
-typedef struct Obj_8018A550_8018A550 {
-    s32 f0;      /* 0x00 */
-    u32 f4;      /* 0x04 */
-    s32 f8;      /* 0x08 */
-    s32 fC;      /* 0x0C */
-    s32 f10;     /* 0x10 */
-    s32 f14;     /* 0x14 */
-    s16 f18;     /* 0x18 */
-    s16 f1A;     /* 0x1A */
-    s16 f1C;     /* 0x1C */
-    s16 f1E;     /* 0x1E */
-} Obj_8018A550_8018A550;
-typedef struct Ctl_8018A550_8018A550 {
-    s32 f0;              /* 0x00 */
-    s16 ids[8];          /* 0x04 */
-    Obj_8018A550_8018A550 *slots[8]; /* 0x14 */
-} Ctl_8018A550_8018A550;
 typedef struct { s32 a; s32 b[4]; } Ot_80182A78;
 typedef struct { s32 a; s32 b[4]; } Ot_80182A78_8017EE80;
 typedef struct { s32 a; s32 b[4]; } Ot_80182A78_80180894;
@@ -2791,7 +2706,6 @@ typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_80185E34;
 typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_801860E8;
 typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_801865DC;
 typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_80187314;
-typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_8018B23C;
 typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_8018B2C4;
 typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_8018EBCC;
 typedef struct {
@@ -2887,7 +2801,6 @@ typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_80185E34;
 typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_801860E8;
 typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_801865DC;
 typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_80187314;
-typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_8018B23C;
 typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_8018B2C4;
 typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_8018EBCC;
 typedef struct { u32 addr : 24; u32 len : 8; } PTag_8018BCD4;
@@ -3008,14 +2921,6 @@ typedef struct {
         s16 f6;     /* 0x06 */
         s32 f8;     /* 0x08 */
         s32 fC;     /* 0x0C */
-    } P_8018AFD0;
-typedef struct {
-        s16 f0;     /* 0x00 */
-        s16 f2;     /* 0x02 */
-        s16 f4;     /* 0x04 */
-        s16 f6;     /* 0x06 */
-        s32 f8;     /* 0x08 */
-        s32 fC;     /* 0x0C */
     } P_8018B058;
 typedef struct {
         s16 f0;     /* 0x00 */
@@ -3110,23 +3015,6 @@ typedef struct Panel_8017E978_8017E30C {
     Prim4_8017E978_8017E30C *f18;     /* 0x18 */
     void *f1C;               /* 0x1C */
 } Panel_8017E978_8017E30C;
-typedef struct Prim4_8017E978_8017E978 {
-    s16 f0;                  /* 0x00 */
-    s16 f2;                  /* 0x02 */
-} Prim4_8017E978_8017E978;
-typedef struct Panel_8017E978_8017E978 {
-    s16 f0;                  /* 0x00 */
-    s16 f2;                  /* 0x02 */
-    void *f4;                /* 0x04 */
-    void *f8;                /* 0x08 */
-    s16 fC;                  /* 0x0C */
-    s16 fE;                  /* 0x0E */
-    s16 f10;                 /* 0x10 */
-    s16 f12;                 /* 0x12 */
-    void *f14;               /* 0x14 */
-    Prim4_8017E978_8017E978 *f18;     /* 0x18 */
-    void *f1C;               /* 0x1C */
-} Panel_8017E978_8017E978;
 typedef struct Prim4_8017E978_801880E0 {
     s16 f0;                  /* 0x00 */
     s16 f2;                  /* 0x02 */
@@ -3204,8 +3092,6 @@ typedef struct {
 typedef struct { u32 w0, w1, w2; } Prim_8017CD9C;
 typedef struct { u32 w0, w1, w2; } Prim_8017CDF0;
 typedef struct { u32 w0, w1, w2; } Prim_8017D174;
-typedef struct { u32 w0, w1, w2; } Prim_8017DF84;
-typedef struct { u32 w0, w1, w2; } Prim_8017FA5C;
 typedef struct { u32 w0, w1, w2; } Prim_8017FB38;
 typedef struct { u32 w0, w1, w2; } Prim_80180A64;
 typedef struct { u16 vx, vy; } Pt2_80180F98;
@@ -3300,7 +3186,6 @@ typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390;
 typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390_8018523C;
 typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390_80185730;
 typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390_80186468;
-typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390_8018A390;
 typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390_8018FE94;
 typedef struct {
         u16 f0;
@@ -3406,14 +3291,6 @@ typedef struct Rec_8018A550_801878A8 {
     s32 f8;      /* 0x08 */
     s32 fC;      /* 0x0C */
 } Rec_8018A550_801878A8;
-typedef struct Rec_8018A550_8018A550 {
-    u16 f0;      /* 0x00 */
-    u16 f2;      /* 0x02 */
-    s16 f4;      /* 0x04 */
-    s16 f6;      /* 0x06 */
-    s32 f8;      /* 0x08 */
-    s32 fC;      /* 0x0C */
-} Rec_8018A550_8018A550;
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -3480,12 +3357,6 @@ typedef struct {
     s16 unk4;
     s16 unk6;
 } Rec_8018A6A4_8018677C;
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} Rec_8018A6A4_8018A6A4;
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -3617,16 +3488,6 @@ typedef struct {
     u16 fA;  /* 0x0A */
     s16 fC;  /* 0x0C */
     u16 fE;  /* 0x0E */
-} Rec_8018B23C_8018B23C;
-typedef struct {
-    u16 f0;  /* 0x00 */
-    s16 f2;  /* 0x02 */
-    s16 f4;  /* 0x04 */
-    s16 f6;  /* 0x06 */
-    s16 f8;  /* 0x08 */
-    u16 fA;  /* 0x0A */
-    s16 fC;  /* 0x0C */
-    u16 fE;  /* 0x0E */
 } Rec_8018B23C_8018B2C4;
 typedef struct {
     u16 f0;  /* 0x00 */
@@ -3718,11 +3579,6 @@ typedef struct {
     SV_8017DAC4 v[4];                       /* 0x00 .. 0x20 */
     s32 f20, f24, f28, f2C, f30, f34;       /* 0x20 .. 0x38 */
 } Prim_8017DAC4;
-typedef struct { short vx, vy, vz, pad; } SV_8017DAC4_8017DAC4;
-typedef struct {
-    SV_8017DAC4_8017DAC4 v[4];                       /* 0x00 .. 0x20 */
-    s32 f20, f24, f28, f2C, f30, f34;       /* 0x20 .. 0x38 */
-} Prim_8017DAC4_8017DAC4;
 typedef struct { short vx, vy, vz, pad; } SV_8017DAC4_8017E2C0;
 typedef struct {
     SV_8017DAC4_8017E2C0 v[4];                       /* 0x00 .. 0x20 */
@@ -3870,10 +3726,6 @@ typedef struct {
 } Prim_8017C218_80182348;
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910;
 typedef struct { SVec_8017C910 v[2]; Clr_8017C910 col[2]; s32 tag; s32 pad; } Prim_8017C910;
-typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_8017C910;
-typedef struct { SVec_8017C910_8017C910 v[2]; Clr_8017C910_8017C910 col[2]; s32 tag; s32 pad; } Prim_8017C910_8017C910;
-typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_8017D728;
-typedef struct { SVec_8017C910_8017D728 v[2]; Clr_8017C910_8017D728 col[2]; s32 tag; s32 pad; } Prim_8017C910_8017D728;
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_8017D7F0;
 typedef struct { SVec_8017C910_8017D7F0 v[2]; Clr_8017C910_8017D7F0 col[2]; s32 tag; s32 pad; } Prim_8017C910_8017D7F0;
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_8017D9EC;
@@ -3892,24 +3744,19 @@ typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_80180E74;
 typedef struct { SVec_8017C910_80180E74 v[2]; Clr_8017C910_80180E74 col[2]; s32 tag; s32 pad; } Prim_8017C910_80180E74;
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_80182A40;
 typedef struct { SVec_8017C910_80182A40 v[2]; Clr_8017C910_80182A40 col[2]; s32 tag; s32 pad; } Prim_8017C910_80182A40;
-typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017DF84;
-typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017FA5C;
 typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017FB38;
 typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_80180A64;
 typedef struct { s16 vx, vy, vz, pad; } SVec_80181CDC;
 typedef struct { s16 vx, vy, vz, pad; } SVec_80181CDC_80181DE4;
 typedef struct { char pad_8013BC7C[0x68]; s32 f68; } S_8013BC7C_8013BC7C;
 typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC;
-typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_80175820;
 typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_80175820_80175820;
 typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_801758FC;
 typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_801759D8;
 typedef struct { s32 g0; s32 pad[2]; } S_AF634;
-typedef struct { s32 g0; s32 pad[2]; } S_AF634_80175820;
 typedef struct { s32 g0; s32 pad[2]; } S_AF634_80175820_80175820;
 typedef struct { s32 g0; s32 pad[2]; } S_AF634_801758FC;
 typedef struct { s32 g0; s32 pad[2]; } S_AF634_801759D8;
-typedef struct { s32 g0; s32 pad[2]; } S_AF634_80176144;
 typedef struct {
         u32 tag;    /* 0x00 */
         u32 code;   /* 0x04 */
@@ -4113,17 +3960,6 @@ typedef struct {
     u16 unk10;  /* 0x10 */
     u16 unk12;  /* 0x12 */
 } Unk8018F8C4;
-typedef struct {
-    s32 unk00;  /* 0x00 */
-    s32 unk04;  /* 0x04 */
-    u16 unk08;  /* 0x08 */
-    u16 unk0A;  /* 0x0A */
-    u16 unk0C;  /* 0x0C */
-    u16 unk0E;  /* 0x0E */
-    u16 unk10;  /* 0x10 */
-    u16 unk12;  /* 0x12 */
-} Unk8018F8C4_80184538;
-typedef struct { u16 a, b, c, d; } V4U;
 typedef struct { u16 a, b, c, d; } V4U_8014C4AC;
 typedef struct {
         u16 x; /* 0x00 */
@@ -4375,7 +4211,6 @@ typedef struct { u8 a, b, c, d; } V4_801859A0;
 typedef struct { u8 a, b, c, d; } V4_80185C54;
 typedef struct { u8 a, b, c, d; } V4_80186148;
 typedef struct { u8 a, b, c, d; } V4_80186E80;
-typedef struct { u8 a, b, c, d; } V4_8018ADA8;
 typedef struct { u8 a, b, c, d; } V4_8018AE30;
 typedef struct { u8 a, b, c, d; } V4_8018E738;
 typedef struct {
@@ -4543,9 +4378,6 @@ typedef struct {
 typedef struct {
     s16 f0, f1, f2, f3;
 } Vec4s_80184928;
-typedef struct {
-    s16 f0, f1, f2, f3;
-} Vec4s_80184C28;
 typedef struct {
     s16 f0, f1, f2, f3;
 } Vec4s_801876E8;
@@ -4770,14 +4602,6 @@ struct ZnRec {
 struct imgrect { u16 x; u16 y; u16 w; u16 h; };
 struct vecr { int _m; };
 typedef struct { s32 pad[5]; s32 x, y, z; } ARG_80187714;
-typedef struct {
-    u8 pad0[0x18];
-    u16 f18;
-    u16 f1A;
-    u16 f1C;
-    u8 pad_1E[0xE];
-    u16 f2C;
-} Act_8018069C;
 typedef struct { u16 vx, vy, vz, pad; } Ang_8017E95C;
 typedef struct { u16 f00, f02, f04, f06; } Args_80182194;
 typedef struct { s32 w[4]; } B16_local;
@@ -4852,10 +4676,6 @@ typedef struct {
 typedef struct { u8 d[4]; } Blk4_8017CE90;
 typedef struct { u8 d[4]; } Blk4_8017CE90_8017CE90;
 typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C;
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_80184FF0;
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_80184FF0_80187A9C;
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_80184FF0_80188134;
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_801869CC;
 typedef struct { u8 b[4]; } Blk4_8017D5DC;
 typedef struct { u8 b[4]; } Blk4_8017D7A0;
 typedef struct { u8 b[4]; } Blk4_8017DF40;
@@ -4890,10 +4710,6 @@ typedef struct { u8 d[4]; } Blk4_801EC660;
 typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_9B4;
 typedef struct { char c[4]; } Blk4_fc;
 typedef struct { u8 b[0x6C]; } Blk6C_80184CB0;
-typedef struct {
-    u16 f0, f2, f4;
-    s16 f6;
-} Blk801539F8;
 typedef struct {
     s16 a, b, c, d, e, f, g, h;
     s32 w;
@@ -4975,42 +4791,22 @@ typedef struct {
     s16 v[4];
 } Blk8_80126940_80180A10;
 typedef struct { s16 v[4]; } Blk8_80126940_80181B44;
-typedef struct { s8 c[8]; } Blk8_8012C890;
-typedef struct { s8 c[8]; } Blk8_8012C890_8017C348;
-typedef struct { s8 c[8]; } Blk8_8012E364;
-typedef struct { s8 c[8]; } Blk8_8012EFB8;
-typedef struct { s8 c[8]; } Blk8_8012FCC4;
-typedef struct { s8 c[8]; } Blk8_80131170;
-typedef struct { s8 c[8]; } Blk8_80131340;
-typedef struct { s8 c[8]; } Blk8_80131B14;
-typedef struct { s8 c[8]; } Blk8_80131CA8;
-typedef struct { s8 c[8]; } Blk8_80131CF4;
-typedef struct { s8 c[8]; } Blk8_80132F40;
-typedef struct { s8 c[8]; } Blk8_80134C20;
-typedef struct { s8 c[8]; } Blk8_80135004;
-typedef struct { s8 c[8]; } Blk8_80135260;
 typedef struct { u8 b[8]; } Blk8_8017CF48;
-typedef struct { u8 b[8]; } Blk8_8017DAB8;
 typedef struct { u8 b[8]; } Blk8_8017DAFC;
 typedef struct { char c[8]; } Blk8_8017DCF4;
 typedef struct { u8 c[8]; } Blk8_8017E224;
 typedef struct { u8 b[8]; } Blk8_8017E6A4;
-typedef struct { u8 b[8]; } Blk8_8017E72C;
 typedef struct { u8 b[8]; } Blk8_8017EBCC;
 typedef struct { char c[8]; } Blk8_8017FF80;
-typedef struct { u8 b[8]; } Blk8_80180040;
 typedef struct { u32 w0; u32 w1; } __attribute__((packed, aligned(1))) Blk8_801800F8;
 typedef struct { char c[8]; } Blk8_8018048C;
 typedef struct {
     u16 x, y, z, w;
 } Blk8_801807DC;
-typedef struct { u8 b[8]; } Blk8_80180970;
-typedef struct { u8 b[8]; } Blk8_80180BFC;
 typedef struct { u8 b[8]; } Blk8_801812AC;
 typedef struct { u8 b[8]; } Blk8_80181324;
 typedef struct { u8 c[8]; } Blk8_801813B0;
 typedef struct { u8 b[8]; } Blk8_80181774;
-typedef struct { u8 b[8]; } Blk8_80181824;
 typedef struct { u8 b[8]; } Blk8_801827C4;
 typedef struct { u8 b[8]; } Blk8_80182844;
 typedef struct { char c[8]; } Blk8_801828E4;
@@ -5020,17 +4816,6 @@ typedef struct {
 typedef struct { u16 x, y, z, w; } Blk8_8018453C;
 typedef struct { u8 b[8]; } Blk8_8018495C;
 typedef struct { u8 c[8]; } Blk8_801859DC;
-typedef struct {
-        u8 c[8];
-    } Blk8_80186594_8017E72C;
-typedef struct {
-        u8 c[8];
-    } Blk8_80186594_80181824;
-typedef struct {
-        u8 c[8];
-    } Blk8_80186594_80186740;
-typedef struct { u8 b[8]; } Blk8_80186740;
-typedef struct { u8 b[8]; } Blk8_80187DE4;
 typedef struct { u16 h0, h1, h2, h3; } Blk8_8018A314;
 typedef struct { u8 b[8]; } Blk8_80191320;
 typedef struct { u8 b[8]; } Blk8_80191320_8018D05C;
@@ -5162,13 +4947,9 @@ typedef struct { u8 r, g, b, c; } Cv_8017F074;
 typedef struct { u8 r, g, b, cd; } Cv_8017FA2C;
 typedef struct { u16 w[4]; } __attribute__((aligned(2))) DBlock_8019F04C;
 typedef struct { s16 vx, vy; } DVEC2_C59C;
-typedef struct { s16 vx, vy; } DVEC2_C59C_8017D9CC;
-typedef struct { s16 vx, vy; } DVEC2_C59C_8017DBEC;
-typedef struct { s16 vx, vy; } DVEC2_C59C_801865EC;
 typedef struct { s16 vx, vy; } DVEC2_C6F4;
 typedef struct { s16 vx, vy; } DVEC2_C974;
 typedef struct { s16 vx, vy; } DVEC2_C974_8017BA3C;
-typedef struct { s16 vx, vy; } DVEC2_C974_8017BA3C_80189F00;
 typedef struct { s16 vx, vy; } DVEC2_CF90;
 typedef struct { s16 vx, vy; } DVEC2_D538;
 typedef struct { s16 vx, vy; } DVEC2_DF98;
@@ -5469,16 +5250,6 @@ typedef struct {
     u8 pad[16];
 } LinePrim_80189B1C;
 typedef struct {
-    /* 0x00 */ s16 a30;
-    /* 0x02 */ s16 a2e;
-    /* 0x04 */ s16 a2c;
-    /* 0x06 */ s16 pad06;
-    /* 0x08 */ s32 buf[2];
-    /* 0x10 */ s16 a20;
-    /* 0x12 */ s16 a1e;
-    /* 0x14 */ s16 a1c;
-} Loc_8014A048;
-typedef struct {
     s8 pad00[0x14];
     s32 t0;
     s32 t1;
@@ -5603,19 +5374,8 @@ typedef struct { s16 m[3][3]; s32 t[3]; } MTX_1A30_8018F734;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017BEBC;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8017F690;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_8017E108;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_8017FB1C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_80183FF8;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_80182728;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_80182728_8017F81C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_80182728_801814F4;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F340;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F65C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_801825C0;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_80185F54;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_80186B84;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017DB80;
 typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017DE40;
 typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017E4D8;
@@ -5637,21 +5397,7 @@ typedef struct { short m[3][3]; long t[3]; } MTX_80182D80_801863A4;
 typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_801836B8;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_80184F18;
 typedef struct { short m[3][3]; long t[3]; } MTX_801851A8;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80181858;
 typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80182D18;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80181D58;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801822A0;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_8018241C;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801841E8;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80184730;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801848AC;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80184D6C;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801852B4;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80185430;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80188660;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80188C18;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_8018486C;
 typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80184E84;
 typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80185D2C;
 typedef struct { short m[3][3]; long t[3]; } MTX_801875E4;
@@ -5661,13 +5407,8 @@ typedef struct { short m[3][3]; long t[3]; } MTX_80187C64;
 typedef struct { short m[3][3]; long t[3]; } MTX_80188B0C;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8018FE20;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C_80186078;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C6F4;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017B238;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017BA3C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017BB34;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_80189F00;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_D538;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_DF98;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_EDF8;
@@ -5863,20 +5604,9 @@ typedef struct { s32 a; s32 b[4]; } OtBlk_80183DA4;
 typedef struct { s32 a; s32 b[4]; } OtBlk_80184138;
 typedef struct { s32 a; s32 b[4]; } OtBlk_80185B4C;
 typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018AAF4;
 typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018BB48;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C_80183ED4;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C_80187DF8;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C_801887EC;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C_8018A2D0;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018B1D8;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018BCC4;
 typedef struct { s32 a; s32 b[4]; } OtBlk_8018FE0C;
-typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_801863B8;
 typedef struct { s32 flag; u16 xy[2]; s32 sp1c; } Out_8017E910;
-typedef struct { s32 flag; u16 xy[2]; s32 sp1c; } Out_8017E910_8017E508;
 typedef struct { u16 xy[2]; s32 sp1c; s32 flag; } Out_8017EC34;
 typedef struct { s16 a, b, c, d; } P16;
 typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C59C;
@@ -5979,89 +5709,9 @@ typedef struct {
     s32 b;      /* 0x04 -> D_801DA754 */
 } Pair8_8017DDC4_80182244;
 typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_8017DAB8;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_8017E72C;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040_8017FEA0;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040_80180400;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040_80180450;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040_801809B0;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040_8018383C;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040_80183DEC;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180970;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180BFC;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80181824;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80186740;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80187DE4;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801D0120 */
-    s32 b;      /* 0x04 -> D_801D0124 */
-} Pair8_8017DDC4_80186D9C;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801D0120 */
-    s32 b;      /* 0x04 -> D_801D0124 */
-} Pair8_8017DDC4_80187780;
-typedef struct {
     s32 a;
     s32 b;
 } Pair_801B5E30;
-typedef struct {
-    s32 a;
-    s32 b;
-} Pair_801B5E30_8017E9CC;
-typedef struct {
-    s32 a;
-    s32 b;
-} Pair_801B5E30_8017EADC;
-typedef struct {
-    s32 a;
-    s32 b;
-} Pair_801B5E30_8017F08C;
-typedef struct {
-    s32 a;
-    s32 b;
-} Pair_801B5E30_80180AE4;
 typedef struct Panel_S40_8018B238 {
     s16   f0;    /* 0x00 */
     s16   f2;    /* 0x02 */
@@ -6115,17 +5765,6 @@ typedef struct Panel_S40_8018B238_80188778 {
     void *f1C;   /* 0x1C */
 } Panel_S40_8018B238_80188778;
 typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } Part80180FE4;
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-    s16 f4;
-    s16 f5;
-    s16 f6;
-    s16 f7;
-    s32 f8;
-} Pkt_801861D8;
 typedef struct {
     s16 f0;
     s16 f1;
@@ -6197,540 +5836,6 @@ typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimD538 *prim, *end; } CellD5
 typedef struct { u32 w0, w1, w2; } PrimDF98;
 typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimDF98 *prim, *end; } CellDF98;
 typedef struct { s16 f10, f12, f14, f16, f18, f1A, f1C, f1E; s32 f20; } PrimF790;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B6BC;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B9F8;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016C2C4;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016CBC0;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016EB3C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016EC0C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016F1C4;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80175DA8;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80176218;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80176734;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80177B5C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80177DA8;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80178970;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017BEF8;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017CE7C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D030;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D1E0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D4B4;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D728;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D9CC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017DA64;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017DBEC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017DEA0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017DFB0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017E470;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017E560;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017E590;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017E5B8;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017E6F0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017EAB4;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017EC6C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F640;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F67C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F6D8;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F6E8;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F8A0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F9CC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017FBEC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017FFA0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017FFB8;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801801E0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018023C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80180448;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801805F0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80180E78;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181784;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801819C0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181CE0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181D80;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181DC4;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181DE0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181EC0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801825C0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801829D8;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80182B90;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80182E54;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80182E84;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018330C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801833CC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80183584;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018359C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80183DC0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80183ED4;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80183FF8;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018480C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80184BFC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80184EB0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80185068;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80185434;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018543C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80185774;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80185F54;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801863A4;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801865EC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80186B84;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80187DF8;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80188544;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801887EC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80188B1C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801891DC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018A2D0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018B8DC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018C3C4;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018C534;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018D05C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018EA0C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018F734;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80190064;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80191070;
 typedef struct {
     s16 v[4][4];
     s16 t[4][2];
@@ -6843,34 +5948,13 @@ typedef struct {
 } Rec16_8017DDC4;
 typedef struct {
     s32 w[4];
-} Rec16_8017DDC4_8018023C;
-typedef struct {
-    s32 w[4];
 } Rec16_8017DDC4_8018034C;
 typedef struct {
     s32 w[4];
 } Rec16_8017DDC4_80180F08;
 typedef struct {
     s32 w[4];
-} Rec16_8017DDC4_801815C4;
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_80181DCC;
-typedef struct {
-    s32 w[4];
 } Rec16_8017DDC4_80182244;
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_801867AC;
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_80186944;
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_80187190;
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_801877EC;
 typedef struct {
     s32 w[4];
 } Rec16_8018066C;
@@ -6907,23 +5991,7 @@ typedef struct {
 typedef struct {
     u16 x, y, z;
     s16 w;
-} Rec8_8017DDC4_8018023C;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
 } Rec8_8017DDC4_8018034C;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_8018034C_80180450;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_8018034C_801809B0;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_8018034C_80183DEC;
 typedef struct {
     u16 x, y, z;
     s16 w;
@@ -6931,27 +5999,7 @@ typedef struct {
 typedef struct {
     u16 x, y, z;
     s16 w;
-} Rec8_8017DDC4_801815C4;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_801815C4_80185344;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_80181DCC;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
 } Rec8_8017DDC4_80182244;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_80186944;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_801877EC;
 typedef struct {
     u16 a, b, c, d;
 } Rec8_801863EC;
@@ -7185,16 +6233,6 @@ typedef struct { s16 x, y, z; } SV3_8017FAA8;
 typedef struct { short a, b, c; } SV3_801802D0;
 typedef struct { s16 vx, vy, vz, pad; } SV3_80180D48;
 typedef struct { short a, b, c; } SV3_80181D44;
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4;
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017DC20;
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017E108;
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017F634;
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017F81C;
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017FB1C;
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_801814F4;
-typedef struct { short a, b, c; } SV3_80181D44_801821DC;
-typedef struct { short a, b, c; } SV3_80181D44_8018317C;
-typedef struct { short a, b, c; } SV3_80181D44_80185B70;
 typedef struct { s16 a, b, c; } SV3_8018287C;
 typedef struct { s16 a, b, c; } SV3_80182938;
 typedef struct { s16 a, b, c; } SV3_8018495C;
@@ -7209,25 +6247,13 @@ typedef struct { s16 a, b, c; } SV3x;
 typedef struct { s16 a, b, c; } SV3x_80180ACC;
 typedef struct { s16 a, b, c; } SV3x_80183E2C;
 typedef struct { s16 a, b, c; } SV3x_80184B30;
-typedef struct { s16 a, b, c; } SV3x_80184B30_80181D58;
-typedef struct { s16 a, b, c; } SV3x_80184B30_801822A0;
-typedef struct { s16 a, b, c; } SV3x_80184B30_8018241C;
 typedef struct { s16 a, b, c; } SV3x_80184B30_801829C4;
-typedef struct { s16 a, b, c; } SV3x_80184B30_801841E8;
-typedef struct { s16 a, b, c; } SV3x_80184B30_80184730;
-typedef struct { s16 a, b, c; } SV3x_80184B30_801848AC;
-typedef struct { s16 a, b, c; } SV3x_80184B30_80184D6C;
 typedef struct { s16 a, b, c; } SV3x_80184B30_80184E54;
-typedef struct { s16 a, b, c; } SV3x_80184B30_801852B4;
-typedef struct { s16 a, b, c; } SV3x_80184B30_80185430;
 typedef struct { s16 a, b, c; } SV3x_80184B30_801859D8;
-typedef struct { s16 a, b, c; } SV3x_80184B30_8018848C;
-typedef struct { s16 a, b, c; } SV3x_80184B30_80188C18;
 typedef struct { s16 a, b, c, d; } SV4L;
 typedef struct { s16 a, b, c, d; } SV4_8017DE40;
 typedef struct { s16 a, b, c, d; } SV4_8017E2BC;
 typedef struct { s16 a, b, c, d; } SV4_8017E910;
-typedef struct { s16 a, b, c, d; } SV4_8017E910_8017E508;
 typedef struct { s16 a, b, c, d; } SV4_8017EA48;
 typedef struct { s16 a, b, c, d; } SV4_8018256C;
 typedef struct { s16 a, b, c, d; } SV4_80182818;
@@ -7245,13 +6271,9 @@ typedef struct { s16 a, b, c, d; } SV4x_80184B30_801859D8;
 typedef struct { s16 vx, vy, vz, pad; } SV83;
 typedef struct { s16 a, b, c, d; } SV892CC;
 typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_8017D9CC;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_8017DBEC;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_801865EC;
 typedef struct { s16 vx, vy, vz, pad; } SVEC2_C6F4;
 typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974;
 typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C_80189F00;
 typedef struct { s16 vx, vy, vz, pad; } SVEC2_CF90;
 typedef struct { s16 vx, vy, vz, pad; } SVEC2_D538;
 typedef struct { s16 vx, vy, vz, pad; } SVEC2_DF98;
@@ -7324,20 +6346,8 @@ typedef struct { s16 vx, vy, vz, pad; } SV_1A30_80185434;
 typedef struct { s16 vx, vy, vz, pad; } SV_1A30_8018F734;
 typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0;
 typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8017CEF4_80183FF8;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8018023C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_801832EC;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8018359C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8018428C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_80186C80;
 typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F340;
 typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F65C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_80180E78;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_801825C0;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8018480C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8018543C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_80185F54;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_80186B84;
 typedef struct { s16 vx, vy, vz, pad; } SV_8017EC4C;
 typedef struct { s16 vx, vy, vz, pad; } SV_8017EF94;
 typedef struct { s16 vx, vy, vz, pad; } SV_801800E0;
@@ -7367,10 +6377,7 @@ typedef struct { short vx, vy, vz, pad; } SV_80182D80_80185774;
 typedef struct { short vx, vy, vz, pad; } SV_80182D80_801863A4;
 typedef struct { s16 vx, vy, vz, pad; } SV_80184F18;
 typedef struct { short vx, vy, vz, pad; } SV_801851A8;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_80181858;
 typedef struct { short vx, vy, vz, pad; } SV_801851A8_80182D18;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_801839C4;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_8018486C;
 typedef struct { short vx, vy, vz, pad; } SV_801851A8_80184E84;
 typedef struct { short vx, vy, vz, pad; } SV_801851A8_80185D2C;
 typedef struct { s16 vx, vy, vz, pad; } SV_801857A4;
@@ -7446,7 +6453,6 @@ typedef struct {
     s32            code;   /* 0x30 */
     s32            pad;    /* 0x34 */
 } Prim_8018E8A0_80184FF0;
-typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0_80184FF0_80188134;
 typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0_801869CC;
 typedef struct {
     SVec8_8018E8A0_801869CC v[4];   /* 0x00 */
@@ -7455,11 +6461,6 @@ typedef struct {
     s32            pad;    /* 0x34 */
 } Prim_8018E8A0_801869CC;
 typedef struct { s16 vx, vy, vz, pad; } SVec_59F4;
-typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017D1E0;
-typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C;
-typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_80184FF0;
-typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_80184FF0_80188134;
-typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_801869CC;
 typedef struct { s16 vx, vy, vz, pad; } SVec_8017FAE8;
 typedef struct { s16 vx, vy, vz, pad; } SVec_80180054;
 typedef struct { s16 vx, vy, vz, pad; } SVec_80180894;
@@ -7501,10 +6502,6 @@ typedef struct {
     /* 0x20 */ CVec_80186E9C_8018BCC4 col;
     /* 0x24 */ u32 code;
 } Quad_80186E9C_8018BCC4;
-typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4_80183ED4;
-typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4_80187DF8;
-typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4_801887EC;
-typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4_8018A2D0;
 typedef struct { s16 vx, vy, vz, pad; } SVec_80187A04;
 typedef struct {
     s16 vx, vy, vz, pad;
@@ -7644,8 +6641,6 @@ typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784;
 typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_801817E4;
 typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_80185178;
 typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_80185DA8;
-typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_80185DA8_8018023C;
-typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_80185DA8_8018359C;
 typedef struct { u8 b[8]; } St_801E6C9C;
 typedef struct {
     u8  pad00[0x02];
@@ -7996,18 +6991,6 @@ typedef struct {
     u8 pad[12];
 } Tbl16_8018BDE4_8017CEF4;
 typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4_8017CEF4_80183FF8;
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4_8018023C;
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4_8018359C;
-typedef struct {
     u16 x, y, z, w;                 /* stride 8, +0/+2/+4 used */
 } Tbl8_8017D898;
 typedef struct {
@@ -8108,28 +7091,7 @@ typedef struct
     u16 y;
     u16 z;
     u16 w;
-  } V4_80146AFC;
-typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_8014A738;
-typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
   } V4_8014D820;
-typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_8015094C;
 typedef struct {
     u16 x; /* 0x00 */
     u16 y; /* 0x02 */
