@@ -21,6 +21,15 @@
 - Defined instead: `Unkstruct_80078E78` (0x98) in include/struct_types.h; widths = the type each USING TU declares for the scalar global (`.run/P38/T3/player_use_widths.py`, boilerplate externs excluded); names only for rows memory-map 3.4 / actor-struct.md mark verified (gold, tiredness_raw, dayCounter, hour, hp_max, hp_current, bp_max, bp_current, dayOfWeek, posX, posZ). Code-width overlaps recorded in the field comments (+0x38 s16 over hour: the verified name wins; +0x1C/+0x20/+0x24/+0x2C wide over narrow: the wide majority wins). Reported-only names stay in comments.
 - `Blk98_80029274` folded onto it (`typedef Unkstruct_80078E78 Blk98_80029274;`, src/800.c), R22-judged. No typed body exists for this record in the map, so the `--try-file` proof does not apply; R22 is its byte proof. `Blk80078E78` (block scope) is rung-L work.
 
+## Unkstruct_800B5CB8: split or union (P38 T5.1)
+
+- Call: the max-site SPLIT stands (include/struct_types.h:6-117); no union members are emitted. The locals the fold refused keep their own types.
+- Evidence, T4's kept units (logs/T4.md, rung-L head fold, byte judge):
+  - DIFFERS 29. `Ent_8017FD58` family (20 names, one layout; base def src/shared/engine_types.h:2128-2144 at T5.1 start): `u16` at +0x02/+0x04 where the split has `s16 unk2/unk4` (lhu vs lh: a sign, not a width, so a union would not reconcile it; the sites differ per access, i.e. a different type). `Ent_801202A0` (:1883-1890), 6 md_MAIN_011 player copies (0x98 record, not this head), `Ent_8017D898`, `Ent@func_8014D820`: same verdict.
+  - pad3C 3 (`Ent_8018D3A4`/`Ent_8018D654`, engine_types.h:5060-5109): `s16 f38, s16 f3A, s32 f3C, s16 f40, s16 f42` ("home" record, commented field meanings) against the split's `s16 unk38, u16 unk3A, pad3C, u16 unk3E, pad40, u16 unk42`. The 0x3C loser (4s n=125 vs 2u@0x3E n=352) is a union candidate by count, but the same bodies disagree at 0x3A and 0x40 too: a coherent second record, not one field with two spellings.
+- Why split, not union: the head is `suspect` (a merge of real types through argument conduits, line 15); every refused unit is a whole coherent layout disagreeing at several offsets, which is the signature of a separate type (G62 "per type"), and a union would give one name two types. The byte judge refusing the fold is the evidence that these sites belong to another type.
+- Consequence: `Ent_8017FD58` and `Ent_8018D3A4` stay distinct canonical types (their own same-layout copies fold onto them in T5.1); unions stay deferred (binding line 13) until a unit is found whose single field is read at two widths in one body.
+
 ## Per-offset records
 
 Written by `tools/head_types.py` (max-site split). Losers' sites keep their casts; the byte oracle judges them later.
