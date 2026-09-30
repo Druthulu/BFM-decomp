@@ -93,3 +93,4 @@ C0507 (§458 struct spelling per-access dial), C0508 (§459 declaration-layer by
 ## Changes
 - 2026-09-29 developer: launch.py _audit_flag_line sort key made type-safe via natural_key (PhaseEnd_Phase3_5 crashed router seed after approval); fix applied outside the loop by a coder; upstream report filed by developer
 - 2026-09-29 developer: added T8 — docs/formats.md: LIST.CD verified on US, runtime reader, repack note (issue #2)
+- 2026-09-29 developer: T8 also corrects docs/formats.md §2.1 'length in bytes (unpadded)': lengths are multiples of 0x800 in SC01-SC07 (MAIN's are not); issue #2 reply drafted at .run/issue2-reply.md for the developer to rewrite and post
