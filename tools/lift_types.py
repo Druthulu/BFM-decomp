@@ -1222,21 +1222,29 @@ def fold_apply(plan, res, apply, jobs, report):
             import type_census as tc
             nd = tc.walk_file(ctext, "sdk.h")["definitions"][0]
             cshape = _struct_shape(res, nd)
+        # at most one alias per NAME: a tag-only def whose tag is also a typedef name of the class (or the canon) emits
+        # no alias (`struct V3 {..}` beside `typedef struct {..} V3;`); its `struct V3` uses respell to `V3`
+        tdnames = {canon} | {n for d in c["defs"] for n in d["names"]}
+        kept_tag = cdef["tag"] if cdef is not None and c["canon_text"] is None else None
         for d in c["defs"]:
             if d is cdef:
                 continue
-            txt = _alias_text(d, canon if cdef is None or cdef["names"] else f"{cdef['kind']} {canon}")
+            if d["names"] or d["tag"] not in tdnames:
+                txt = _alias_text(d, canon if cdef is None or cdef["names"] else f"{cdef['kind']} {canon}")
+            else:
+                txt = ""
             if d is first:
-                txt = ctext + "\n" + txt
+                txt = ctext + ("\n" + txt if txt else "")
             edits[d["rel"]].append((d["s"], d["e"], txt))
             alias = d["names"][0] if d["names"] else d["tag"]
-            if d["tag"] and d["tag"] != canon and (cdef is None or d["tag"] != cdef["tag"]):
+            if d["tag"] and d["tag"] != kept_tag:     # the tag no longer exists after the fold
                 tags[d["tag"]] = (alias, d["rel"])
             rm = _respell_map(res, d, cshape)
             if rm:
-                respell[alias] = dict(members=rm, old=_nodes(d["shape"]), canon=_nodes(cshape), cls=c["lhash"])
+                key = alias if alias not in respell else f"{alias}#{d['rel']}:{d['s']}"
+                respell[key] = dict(members=rm, old=_nodes(d["shape"]), canon=_nodes(cshape), cls=c["lhash"])
                 for n in d["names"][1:]:
-                    respell[n] = respell[alias]
+                    respell[n] = respell[key]
         if cdef is not None and cdef is not first:
             edits[cdef["rel"]].append((cdef["s"], cdef["e"], ""))
         elif cdef is None and first is None:
