@@ -5058,7 +5058,7 @@ s32 func_8018113C(s32 a0) {
         idx = D_801B5E64[idx] - 1;
     }
 
-    ((Unkstruct_801BC620 *)&D_801BC620)->w = 1;
+    ((Unkstruct_801BC620 *)&D_801BC620)->f0 = 1;
     return D_801B5D30[idx][s0];
 }
 

@@ -640,7 +640,7 @@ void func_801F0210(void) {
         (D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
-    ((Unkstruct_801151D0 *)&D_801151D0)->f = ot;
+    ((Unkstruct_801151D0 *)&D_801151D0)->f0 = ot;
 }
 
 

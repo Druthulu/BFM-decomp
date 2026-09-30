@@ -5202,7 +5202,7 @@ extern void func_800491AC(void *a0);
 extern int rand(void);
 extern void func_80017714(void *);
 
-extern struct PW8017E72C D_80194BA4[];
+extern PW8017E72C D_80194BA4[];
 
 
 
@@ -5214,8 +5214,8 @@ void func_8017E72C(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern SVECTOR_8017E72C D_801EB4C8[4];
-    extern struct PW8017E72C D_801EB4E8;
-    extern struct PW8017E72C D_801EB4EC;
+    extern PW8017E72C D_801EB4E8;
+    extern PW8017E72C D_801EB4EC;
     extern u8 D_801EB4F0, D_801EB4F1, D_801EB4F2, D_801EB4F4, D_801EB4F5, D_801EB4F6;
     extern int D_801EB4F8;
     MATRIX_8017E72C m;
@@ -5920,11 +5920,11 @@ extern void func_800491AC();
 void func_8017F7B4(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
 {
 
-    extern struct PW8017C290 D_80194BCC[];
-    extern struct PW8017C290 D_80194BE0[];
+    extern PW8017C290 D_80194BCC[];
+    extern PW8017C290 D_80194BE0[];
     extern SVECTOR_8017C290 D_801EB4C8[4];
-    extern struct PW8017C290 D_801EB4E8;
-    extern struct PW8017C290 D_801EB4EC;
+    extern PW8017C290 D_801EB4E8;
+    extern PW8017C290 D_801EB4EC;
     extern u8 D_801EB4F0, D_801EA8E9, D_801EA8EA, D_801EB4F4, D_801EA8ED, D_801EA8EE;
     extern u8 D_801EB4F0, D_801EA8E9, D_801EA8EA, D_801EB4F4, D_801EA8ED, D_801EA8EE;
     extern int D_801EB4F8;
@@ -5936,8 +5936,8 @@ void func_8017F7B4(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
     D_801EB4F8 = 0x50000000;
     D_801EB4E8 = D_80194BCC[*(s32 *)(a0 + 0x2C)];
     D_801EB4EC = D_80194BE0[*(s32 *)(a0 + 0x2C)];
-    *(struct PW8017C290 *)&D_801EB4F0 = D_80194BCC[*(s32 *)(a0 + 0x2C)];
-    *(struct PW8017C290 *)&D_801EB4F4 = D_80194BE0[*(s32 *)(a0 + 0x2C)];
+    *(PW8017C290 *)&D_801EB4F0 = D_80194BCC[*(s32 *)(a0 + 0x2C)];
+    *(PW8017C290 *)&D_801EB4F4 = D_80194BE0[*(s32 *)(a0 + 0x2C)];
 
     func_80013F3C((s32)&m);
     RotMatrixZ((s16)a3, &m);

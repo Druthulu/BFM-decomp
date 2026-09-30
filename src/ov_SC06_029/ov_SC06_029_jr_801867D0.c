@@ -4369,7 +4369,7 @@ void func_80188988(int param_1) {
     psVar3 = (s16 *)D_801DFFE8;
     *(s32 *)(param_1 + 0x44) = psVar2[2];
     sVar4 = func_80012CB8(*psVar3, *psVar1, 0x80);
-    ((Unkstruct_80188988 *)(param_1 + 0x48))->f += sVar4;
+    ((Unkstruct_80188988 *)(param_1 + 0x48))->f0 += sVar4;
     sVar4 = func_80012CB8(*(s16 *)D_801DFFEC, *(s16 *)D_801DFFE4, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
     *(s32 *)(param_1 + 0x3C) += sVar4;
@@ -4405,7 +4405,7 @@ void func_80188A90(int param_1) {
     *(s32 *)(param_1 + 0x44) = psVar2[2];
     D_801DFFEC = (s32)&D_801913E4 + 8;
     sVar4 = func_80012CB8((s16)D_801913E4[1], psVar1[1], 0x80);
-    ((Unkstruct_80188A90 *)(param_1 + 0x4C))->f += sVar4;
+    ((Unkstruct_80188A90 *)(param_1 + 0x4C))->f0 += sVar4;
     sVar4 = func_80012CB8(*(s16 *)(D_801DFFEC + 2), *(s16 *)(D_801DFFE4 + 2), 0x80);
     psVar5 = (s16 *)D_801DFFE0;
     *(s32 *)(param_1 + 0x40) += sVar4;

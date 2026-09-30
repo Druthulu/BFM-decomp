@@ -3759,7 +3759,7 @@ void func_8017FF4C(s32 arg0) {
     s32 ret;
     s32 v1;
 
-    ((void (*)(struct vecr *))func_8012AD80)((struct vecr *)arg0);
+    ((void (*)(vecr *))func_8012AD80)((vecr *)arg0);
     ((void (*)(s32, void *, void *))func_80180F3C)(arg0, &D_801A60E8[0], &sp10);
     ret = func_801809F0(arg0, &sp10, 1, 1);
     v1 = ret & 0xFF;

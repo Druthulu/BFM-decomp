@@ -3414,13 +3414,13 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
                    SVECTOR_8017E72C *e, SVECTOR_8017E72C *f, s16 *g)
 {
 
-    extern struct PW8017E72C D_8018BC8C[];
+    extern PW8017E72C D_8018BC8C[];
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern SVECTOR_8017E72C D_801AE6A8[4];
-    extern struct PW8017E72C D_801AE6C8;
-    extern struct PW8017E72C D_801AE6CC;
+    extern PW8017E72C D_801AE6C8;
+    extern PW8017E72C D_801AE6CC;
     extern u8 D_801AE6D0, D_801AE6D1, D_801AE6D2, D_801AE6D4, D_801AE6D5, D_801AE6D6;
     extern int D_801AE6D8;
     MATRIX_8017E72C m;
@@ -4021,11 +4021,11 @@ extern void func_800491AC();
 void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
 {
 
-    extern struct PW8017C290 D_8018BCB4[];
-    extern struct PW8017C290 D_8018BCC8[];
+    extern PW8017C290 D_8018BCB4[];
+    extern PW8017C290 D_8018BCC8[];
     extern SVECTOR_8017C290 D_801AE6A8[4];
-    extern struct PW8017C290 D_801AE6C8;
-    extern struct PW8017C290 D_801AE6CC;
+    extern PW8017C290 D_801AE6C8;
+    extern PW8017C290 D_801AE6CC;
     extern u8 D_801AE6D0, D_801EA8E9, D_801EA8EA, D_801AE6D4, D_801EA8ED, D_801EA8EE;
     extern u8 D_801AE6D0, D_801EA8E9, D_801EA8EA, D_801AE6D4, D_801EA8ED, D_801EA8EE;
     extern int D_801AE6D8;
@@ -4037,8 +4037,8 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
     D_801AE6D8 = 0x50000000;
     D_801AE6C8 = D_8018BCB4[*(s32 *)(a0 + 0x2C)];
     D_801AE6CC = D_8018BCC8[*(s32 *)(a0 + 0x2C)];
-    *(struct PW8017C290 *)&D_801AE6D0 = D_8018BCB4[*(s32 *)(a0 + 0x2C)];
-    *(struct PW8017C290 *)&D_801AE6D4 = D_8018BCC8[*(s32 *)(a0 + 0x2C)];
+    *(PW8017C290 *)&D_801AE6D0 = D_8018BCB4[*(s32 *)(a0 + 0x2C)];
+    *(PW8017C290 *)&D_801AE6D4 = D_8018BCC8[*(s32 *)(a0 + 0x2C)];
 
     func_80013F3C((s32)&m);
     RotMatrixZ((s16)a3, &m);

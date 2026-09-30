@@ -6019,8 +6019,8 @@ void func_8018DFC4(void *a0) {
         func_8002D4C8(0x500, 0);
         for (i = 0; i < count; i++) {
             val = tbl[i];
-            D_801E499C[i].f0 = 0;
-            D_801E4998[i].f0 = val;
+            D_801E499C[i].tag = 0;
+            D_801E4998[i].tag = val;
         }
         sp18.f0C = 0;
         sp18.f0A = 0;
@@ -6222,8 +6222,8 @@ void func_8018E450(void *a0)
         arr[2] = 0x73E;
         do {
             u32 v = p[i];
-            D_801E499C[i].f0 = 0;
-            D_801E4998[i].f0 = v;
+            D_801E499C[i].tag = 0;
+            D_801E4998[i].tag = v;
             i++;
         } while (i < bound);
         buf.f0C = 0;

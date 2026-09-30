@@ -3440,11 +3440,11 @@ extern int rand(void);
 extern void func_80017714(void *);
 
 extern SVECTOR_8017C290 D_801EA8C0[4];
-extern struct PW8017C290 D_801EA8E0;
-extern struct PW8017C290 D_801EA8E4;
+extern PW8017C290 D_801EA8E0;
+extern PW8017C290 D_801EA8E4;
 extern u8 D_801EA8E8, D_801EA8E9, D_801EA8EA, D_801EA8EC, D_801EA8ED, D_801EA8EE;
 extern int D_801EA8F0;
-extern struct PW8017C290 D_8018EF70[];
+extern PW8017C290 D_8018EF70[];
 
 
 /* GTE VARIANT `gte_rtv0tr_m`: memory beyond Sony's `gte_rtv0tr` — a scheduling steer, its uses are marked (P36 T5) */
@@ -4130,8 +4130,8 @@ extern void func_80017714(void *);
 /* provided by the TU (§100) at L3425: extern struct PW8017C290 D_801EA8E4; */
 extern u8 D_801EA8E8, D_801EA8E9, D_801EA8EA, D_801EA8EC, D_801EA8ED, D_801EA8EE;
 extern int D_801EA8F0;
-extern struct PW8017C290 D_8018EF98[];
-extern struct PW8017C290 D_8018EFAC[];
+extern PW8017C290 D_8018EF98[];
+extern PW8017C290 D_8018EFAC[];
 
 
 
@@ -4146,8 +4146,8 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
     D_801EA8F0 = 0x50000000;
     D_801EA8E0 = D_8018EF98[*(s32 *)(a0 + 0x2C)];
     D_801EA8E4 = D_8018EFAC[*(s32 *)(a0 + 0x2C)];
-    *(struct PW8017C290 *)&D_801EA8E8 = D_8018EF98[*(s32 *)(a0 + 0x2C)];
-    *(struct PW8017C290 *)&D_801EA8EC = D_8018EFAC[*(s32 *)(a0 + 0x2C)];
+    *(PW8017C290 *)&D_801EA8E8 = D_8018EF98[*(s32 *)(a0 + 0x2C)];
+    *(PW8017C290 *)&D_801EA8EC = D_8018EFAC[*(s32 *)(a0 + 0x2C)];
 
     func_80013F3C((s32)&m);
     RotMatrixZ((s16)a3, &m);

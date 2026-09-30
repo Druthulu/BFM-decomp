@@ -4540,7 +4540,7 @@ s32 arg0;
     s32 ret;
     s32 v1;
 
-    ((void (*)(struct vecr *))func_8012AD80)((struct vecr *)arg0);
+    ((void (*)(vecr *))func_8012AD80)((vecr *)arg0);
     ((void (*)(s32, void *, void *))func_80180E34)(arg0, &D_801A45C4[0], &sp10);
     ret = func_801808E8(arg0, &sp10, 1, 1);
     v1 = ret & 0xFF;

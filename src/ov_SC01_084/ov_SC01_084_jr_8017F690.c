@@ -2753,9 +2753,9 @@ void func_8017F690(s32 param_1)
 {
     u8 *s0;
 
-    if (*(s32 *)(param_1 + 0xDC) != ((Unkstruct_801270D8 *)&D_801270D8)->w) {
-        *(s32 *)(param_1 + 0xDC) = ((Unkstruct_801270D8 *)&D_801270D8)->w;
-        switch (((Unkstruct_801270D8 *)&D_801270D8)->w) {
+    if (*(s32 *)(param_1 + 0xDC) != ((Unkstruct_801270D8 *)&D_801270D8)->f0) {
+        *(s32 *)(param_1 + 0xDC) = ((Unkstruct_801270D8 *)&D_801270D8)->f0;
+        switch (((Unkstruct_801270D8 *)&D_801270D8)->f0) {
         case 2:
         case 4:
         case 6:
@@ -3220,9 +3220,9 @@ void func_80180000(s32 param_1) {
             func_80028620(0, rec - 8);
             *(s32 *)(param_1 + 0xE4) = (rand() & 1) + 1;
         }
-        if (*(s32 *)(param_1 + 0xDC) != ((Unkstruct_801270D8 *)&D_801270D8)->w) {
-            *(s32 *)(param_1 + 0xDC) = ((Unkstruct_801270D8 *)&D_801270D8)->w;
-            switch (((Unkstruct_801270D8 *)&D_801270D8)->w) {
+        if (*(s32 *)(param_1 + 0xDC) != ((Unkstruct_801270D8 *)&D_801270D8)->f0) {
+            *(s32 *)(param_1 + 0xDC) = ((Unkstruct_801270D8 *)&D_801270D8)->f0;
+            switch (((Unkstruct_801270D8 *)&D_801270D8)->f0) {
             case 2:
             case 4:
             case 6:

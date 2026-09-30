@@ -4937,8 +4937,8 @@ void func_80187DE4(s32 a0)
          * address, so this load may hoist above the D_801D3380 store and fill the jal
          * shadow.  Written as `*(s32 *)(a0 + 0x1C)` the ref is a plain INDIRECT_REF,
          * the escape does not fire, and the load stalls one nop below the store. */
-        ((struct Cnt_80187DE4 *)(a0 + 0x1C))->c += 1;
-        if (((struct Cnt_80187DE4 *)(a0 + 0x1C))->c >= 0x11) {
+        ((Cnt_80187DE4 *)(a0 + 0x1C))->f0 += 1;
+        if (((Cnt_80187DE4 *)(a0 + 0x1C))->f0 >= 0x11) {
             *(u16 *)(a0 + 0x2) = 3;
             *(s32 *)(a0 + 0x1C) = 0x1E;
         }

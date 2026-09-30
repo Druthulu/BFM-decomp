@@ -40,7 +40,7 @@ s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2)
                 psVar4 != *(u16 **)(arg0 + 0x174) &&
                 (piVar5[1] & 0x1800) != 0) {
                 D_801150D8 = 0;
-                iVar2 = ((s32 (*)(s32, s32, s32, s16 *))func_80135A4C)(piVar5[-0xe], ((Unkstruct_8014EE14 *)piVar5)->w, arg1, param_3);
+                iVar2 = ((s32 (*)(s32, s32, s32, s16 *))func_80135A4C)(piVar5[-0xe], ((Unkstruct_8014EE14 *)piVar5)->f0, arg1, param_3);
                 if (iVar2 != 0) {
                     if ((D_801150D8 & 1) != 0) {
                         if (-1 < (s32)*(s16 *)D_80126720 - (s32)*param_3)
@@ -71,7 +71,7 @@ s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2)
                 psVar4 != *(u16 **)(arg0 + 0x174) &&
                 (piVar5[1] & 0x1800) != 0) {
                 D_801150D8 = 0;
-                iVar2 = ((s32 (*)(s32, s32, s32, s16 *))func_80135A4C)(piVar5[-0xe], ((Unkstruct_8014EE14 *)piVar5)->w, arg1, param_3);
+                iVar2 = ((s32 (*)(s32, s32, s32, s16 *))func_80135A4C)(piVar5[-0xe], ((Unkstruct_8014EE14 *)piVar5)->f0, arg1, param_3);
                 if (iVar2 != 0) {
                     if ((D_801150D8 & 1) != 0) {
                         if (-1 < (s32)*(s16 *)D_80126720 - (s32)*param_3)

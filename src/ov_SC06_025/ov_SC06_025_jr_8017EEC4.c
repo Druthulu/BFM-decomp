@@ -4011,7 +4011,7 @@ void func_80180950(void *arg0) {
     p->unk34 = 0;
     p->unkDC = 0;
     p->unkDE = 0;
-    ((Unkstruct_801270C8 *)&D_801270C8)->f = 3;
+    ((Unkstruct_801270C8 *)&D_801270C8)->f0 = 3;
     D_801B1708 = 0;
     D_801B1710 = 0;
     p->unk1C = 0x16;
@@ -4083,7 +4083,7 @@ void func_8018098C(void *arg0) {
              * the varying /s p->unk34 store and hoists above it (sched.c:817).  The
              * COMPONENT_REF spelling -- this TU's own idiom, see func_80180950 --
              * sets MEM_IN_STRUCT_P and keeps the store in source order. */
-            ((Unkstruct_801270C8 *)&D_801270C8)->f = 0;
+            ((Unkstruct_801270C8 *)&D_801270C8)->f0 = 0;
         }
         break;
 
@@ -6575,7 +6575,7 @@ void func_80183D6C(void) {
 
 
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, struct PW8017E6D8 *h);
+extern void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
 
 void func_80183D74(s32 param_1) {
 
@@ -6630,8 +6630,8 @@ extern int rand(void);
 extern void func_80017714(void *);
 
 extern SVECTOR_8017E6D8 D_801B20E4[4];
-extern struct PW8017E6D8 D_801B2104;
-extern struct PW8017E6D8 D_801B2108;
+extern PW8017E6D8 D_801B2104;
+extern PW8017E6D8 D_801B2108;
 extern u8 D_801B210C, D_801B210D, D_801B210E, D_801B2110, D_801B2111, D_801B2112;
 extern int D_801B2114;
 
@@ -6645,7 +6645,7 @@ extern int D_801B2114;
 
 
 void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
-                   SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, struct PW8017E6D8 *h)
+                   SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h)
 {
     MATRIX_8017E6D8 m;
     SVECTOR_8017E6D8 *r0_00;

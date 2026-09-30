@@ -3982,7 +3982,7 @@ void func_8018286C(void) {
 
 
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_801829D8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, struct PW8017E6D8 *h);
+extern void func_801829D8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
 
 void func_80182874(s32 param_1) {
 
@@ -4037,8 +4037,8 @@ extern int rand(void);
 extern void func_80017714(void *);
 
 extern SVECTOR_8017E6D8 D_801B47EC[4];
-extern struct PW8017E6D8 D_801B480C;
-extern struct PW8017E6D8 D_801B4810;
+extern PW8017E6D8 D_801B480C;
+extern PW8017E6D8 D_801B4810;
 extern u8 D_801B4814, D_801B4815, D_801B4816, D_801B4818, D_801B4819, D_801B481A;
 extern int D_801B481C;
 
@@ -4052,7 +4052,7 @@ extern int D_801B481C;
 
 
 void func_801829D8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
-                   SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, struct PW8017E6D8 *h)
+                   SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h)
 {
     MATRIX_8017E6D8 m;
     SVECTOR_8017E6D8 *r0_00;

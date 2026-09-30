@@ -5772,20 +5772,20 @@ void func_8017EBC4(s32 param_1)
 
     u = -0x500 - *(u16 *)(param_1 + 0x28);
     a0 = u + zr;
-    if ((u << 16) >> 16 > *(s16 *)&sp10.a) {
-        *(s16 *)&sp10.a = a0;
+    if ((u << 16) >> 16 > *(s16 *)&sp10.field0) {
+        *(s16 *)&sp10.field0 = a0;
     }
 
     u = 0x500 - *(u16 *)(param_1 + 0x28);
     a0 = u + zr;
-    if ((u << 16) >> 16 < *(s16 *)&sp10.a) {
-        *(s16 *)&sp10.a = a0;
+    if ((u << 16) >> 16 < *(s16 *)&sp10.field0) {
+        *(s16 *)&sp10.field0 = a0;
     }
 
     u = -0xA00 - *(u16 *)(param_1 + 0x2C);
     a0 = u + zr;
-    if ((u << 16) >> 16 > *(s16 *)&sp10.b) {
-        *(s16 *)&sp10.b = a0;
+    if ((u << 16) >> 16 > *(s16 *)&sp10.field1) {
+        *(s16 *)&sp10.field1 = a0;
     }
 
     func_8017EEC4(param_1, &sp10);

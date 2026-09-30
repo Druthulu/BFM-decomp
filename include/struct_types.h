@@ -511,12 +511,13 @@ typedef struct {
 } PrimTag;
 typedef PrimTag PTag;
 typedef Prim_1412A8 St801D9204;
-typedef struct { s32 f; } Unkstruct_801151D0;
+typedef E4 Unkstruct_801151D0;
 typedef struct { s32 vx, vy, vz, pad; } Vec32;
 typedef Vec32 V32;
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch md) --- */
-typedef struct { s32 v; } __attribute__((packed, aligned(1))) Align1W_801AD068;
+struct packed_word { int w; } __attribute__((packed, aligned(1)));
+typedef struct packed_word Align1W_801AD068;
 typedef struct { u8 b[4]; } B4_CB578;
 typedef struct {
     u8 unk0[8];
@@ -557,7 +558,11 @@ typedef struct { char c[4]; } Blk4_md_SC07_004_801A8228;
 typedef struct { char c[4]; } Blk4_md_SC07_004_801ACE5C;
 typedef struct { u16 a, b, c, d; } Blk8_801A6AD0;
 typedef struct { u16 a, b, c, d; } Blk8_801AD914;
-typedef struct { u32 a, b; } __attribute__((packed, aligned(1))) Blk8_md_MAIN_027;
+typedef struct {
+    u32 field0;
+    u32 field1;
+} __attribute__((packed, aligned(1))) BlockData;
+typedef BlockData Blk8_md_MAIN_027;
 typedef struct { char c[8]; } Blk8_md_MAIN_031;
 typedef struct { char c[8]; } Blk8_md_SC07_003_801A3638;
 typedef struct { u16 w0, w1, w2, w3; } Blk8_md_SC07_004_801AA9D4;
@@ -1149,7 +1154,7 @@ typedef struct { u8 pad_0[0x34]; u16 st; } Ent34;
 typedef Ent34 S34_801A1470;
 typedef struct { char c[4]; } S4_800CD054;
 typedef struct { s16 unk00; s16 unk02; s16 unk04; } S6;
-typedef struct { s32 m; } S70;
+typedef E4 S70;
 typedef struct { s32 pad00[8]; u16 f20; } SH20;
 typedef struct { u8 pad00[0x1A]; u16 f1A; } SP18;
 typedef SVECTOR SV3_801A4570;
@@ -1380,7 +1385,7 @@ typedef struct {
 typedef struct {
     u16 a, b, c, d;
 } U16x4;
-typedef struct { u32 a; u32 b; } U8x __attribute__((packed, aligned(1)));
+typedef BlockData U8x;
 struct UnkS1 { s32 pad0; s32 f4; s32 pad8; s32 fC; s32 pad10; s32 pad14; s32 f18; u32 f1C; };
 typedef struct {char c [ 4 ] ;} Unkstruct_801A01E8;
 typedef H16 Unkstruct_801AF368;
@@ -2881,7 +2886,7 @@ typedef struct Slot_800_shared {
     /* 0x45 */ u8 unk45[3];
 } Slot_800_shared;
 typedef Unkstruct_8017D2A4 W16;
-typedef struct { s32 v; } W32;
+typedef E4 W32;
 typedef struct { u8  v; } W8;
 
 #endif /* STRUCT_TYPES_H */

@@ -2397,7 +2397,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
 
         {
             s32 *pw = D_8018BB10;
-            ((Unkstruct_80133CD4 *)pw)->w = s3[0];
+            ((Unkstruct_80133CD4 *)pw)->f0 = s3[0];
             pw[1] = s3[1];
             pw[2] = s3[2];
         }
