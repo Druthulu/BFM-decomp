@@ -18,13 +18,13 @@ s32 func_8014E284(s32 a0, s16 *arg1, s16 *arg2) {
     dz = a2[2] - a1[2];
     if ((s16)(dx | dz) != 0) {
         for (p = (EntSC01077 *)D_801202A0; p < (EntSC01077 *)D_801202A0 + 96; p++) {
-            if (p->f00 == 0) continue;
-            if (p->f58 == 0) continue;
-            if ((p->f5C & 0x1000) == 0) continue;
+            if (p->unk0 == 0) continue;
+            if (p->unk58 == 0) continue;
+            if ((p->unk5C & 0x1000) == 0) continue;
             /* §17a-1 fn-ptr cast: keep the canonical extern, call with the intended sig. */
-            if (((s32 (*)(s32, s32, u16 *, u16 *))func_80135A4C)(p->f20, p->f58, a1, a2) == 0) continue;
-            ax = p->f06 - *(u16 *)(a0 + 6);
-            az = p->f0E - *(u16 *)(a0 + 0xE);
+            if (((s32 (*)(s32, s32, u16 *, u16 *))func_80135A4C)(p->unk20, p->unk58, a1, a2) == 0) continue;
+            ax = p->unk6 - *(u16 *)(a0 + 6);
+            az = p->unkE - *(u16 *)(a0 + 0xE);
             r1 = (s16)ratan2(dz, dx);
             r2 = (s16)ratan2(az, ax);
             if ((s16)func_80012A60(r1, r2) < 0x400) {

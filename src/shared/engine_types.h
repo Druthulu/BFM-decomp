@@ -435,12 +435,7 @@ typedef struct {
 
 typedef struct { char pad[0x12]; s16 field_0x12; } Obj;
 
-typedef struct {
-    u16 f_0;
-    u8 pad_2[0xA8];
-    s16 f_AA;
-    u8 pad_AC[0x60];
-} Entry8014A238;
+typedef Unkstruct_800B5CB8 Entry8014A238;
 
 typedef Unkstruct_800B5CB8 Entry8014C118;
 
@@ -608,21 +603,7 @@ typedef struct { short a, b, c; } SV3;
 
 
 /* lifted for dedup propagation (Phase 29 T4 type-lift): func_8014E284 / func_80137DD4 */
-typedef struct EntSC01077 {
-    u16 f00;
-    u8  pad02[4];
-    u16 f06;
-    u8  pad08[2];
-    u16 f0A;
-    u8  pad0C[2];
-    u16 f0E;
-    u8  pad10[0x10];
-    s32 f20;
-    u8  pad24[0x34];
-    s32 f58;
-    u16 f5C;
-    u8  pad5E[0xAE];
-} EntSC01077;
+typedef Unkstruct_800B5CB8 EntSC01077;
 
 typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_80137DD4;
 
@@ -785,10 +766,7 @@ typedef struct {
     int f50;
     u8 pad1[0x14];
 } Ent_80164930_80164930;
-typedef struct Entry_8012DDA4 {
-    u16 active;
-    unsigned char pad[0x10C - 2];
-} Entry_8012DDA4;
+typedef Unkstruct_800B5CB8 Entry_8012DDA4;
 typedef struct Foo {
     unsigned char pad[0xc];
     unsigned int count;   /* 0xc */

@@ -601,7 +601,7 @@ s32 func_8012DDA4()
 
     while (D_801E9E94 != end) {
         p = D_801E9E94;
-        if (p->active != 0 && p != D_801E9E90) {
+        if (p->unk0 != 0 && p != D_801E9E90) {
             D_801E9E94 = p + 1;
             return p;
         }

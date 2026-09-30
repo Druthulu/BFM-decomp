@@ -8,7 +8,7 @@ s32 func_8014A238(s32 arg0) {
     Entry8014A238 *p;
     for (i = 0; i < 0x60; i++) {
         p = &((Entry8014A238 *)D_801202A0)[i];
-        if ((p->f_0 != 0) && (p->f_AA != 0) &&
+        if ((p->unk0 != 0) && (p->unkAA != 0) &&
             (func_8014C278(arg0, (s32)p, 0x30) != 0) &&
             (func_8014C2B0((void *)arg0, (void *)p, 0x200) != 0)) {
             return (s32)p;
