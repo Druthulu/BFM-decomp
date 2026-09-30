@@ -1578,14 +1578,14 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2)
     u16 f5C;
     u16 f5E;
     u8 p60[0x10C - 0x60];
-  } Ent;
+  } Ent_SC03_102_8014D820;
   int new_var2;
   s16 new_var3;
   V4 out[3];
   V4 pos;
   Desc desc;
-  Ent *ent;
-  Ent *p;
+  Ent_SC03_102_8014D820 *ent;
+  Ent_SC03_102_8014D820 *p;
   s32 dx;
   s32 dz;
   s32 ex;
@@ -1619,7 +1619,7 @@ a0v = a0;
   desc.x = dx;
   desc.y = a2[1] - a1[1];
   desc.z = a2[2] - a1[2];
-  ent = *((Ent **) (a0v + 0x170));
+  ent = *((Ent_SC03_102_8014D820 **) (a0v + 0x170));
   if (ent->f0 == 0)
   {
     goto fail;
@@ -1662,7 +1662,7 @@ a0v = a0;
   desc.y = ty;
   if (currentLocationId != 0x3008)
   {
-    for (p = (Ent *) D_801202A0; p < (Ent *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent_SC03_102_8014D820 *) D_801202A0; p < (Ent_SC03_102_8014D820 *) (D_801202A0 + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -1699,7 +1699,7 @@ a0v = a0;
     out[2].x += pos.x;
     out[2].y = pos.y;
     out[2].z += pos.z;
-    for (p = (Ent *) D_801202A0; p < (Ent *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent_SC03_102_8014D820 *) D_801202A0; p < (Ent_SC03_102_8014D820 *) (D_801202A0 + 0x6480); p++)
     {
       if (p == ent)
       {

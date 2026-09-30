@@ -4763,9 +4763,9 @@ void func_801818D8(u16 *pv, s32 arg1, s32 n, s32 col) {
         s32 rgb3;  /* 0x1C */
         s32 xy3;   /* 0x20 */
     } G4;
-    typedef struct { s16 vx, vy, vz, pad; } V8;
+    typedef struct { s16 vx, vy, vz, pad; } V8_SC06_025_801818D8;
 
-    V8 sv[4];   /* sp+0x10 .. 0x2F */
+    V8_SC06_025_801818D8 sv[4];   /* sp+0x10 .. 0x2F */
     s32 v[2];   /* sp+0x30 */
     s32 p;      /* sp+0x38 */
     s32 flag;   /* sp+0x3C */
@@ -4976,7 +4976,7 @@ void func_80181E08(s32 arg0) {
         s32 rgb2;  /* 0x14 */
         s32 xy2;   /* 0x18 */
     } G3;
-    typedef struct { s16 vx, vy, vz, pad; } V8;   /* 8-byte ring stride */
+    typedef struct { s16 vx, vy, vz, pad; } V8_SC06_025_80181E08;   /* 8-byte ring stride */
 
     extern void *func_80010A08(s32);
     extern s32 RotTransPers4(s32, s32, s32, s32, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
@@ -4988,7 +4988,7 @@ void func_80181E08(s32 arg0) {
     extern s32 func_80182090(s32 color, s32 mult);
     extern short D_800B9A02;      /* TU's own spelling (see line 2466/2820 of the TU) */
 
-    V8 *pa, *pb;
+    V8_SC06_025_80181E08 *pa, *pb;
     G4 *q;
     G3 *t;
     s32 p;                        /* sp+0x28 : RotTransPers* `p`   out-param */
@@ -5008,8 +5008,8 @@ void func_80181E08(s32 arg0) {
     s32 zpush;
 
     func_8012E32C();
-    pa = (V8 *)(arg0 + 0x2C);
-    pb = (V8 *)(arg0 + 0x8C);
+    pa = (V8_SC06_025_80181E08 *)(arg0 + 0x2C);
+    pb = (V8_SC06_025_80181E08 *)(arg0 + 0x8C);
     i = 0;
     pp = &p;
     pf = &flag;
@@ -5048,7 +5048,7 @@ void func_80181E08(s32 arg0) {
     }
 
     col = func_80182090(*(s32 *)(arg0 + 0xEC), 0x2800);
-    pa = (V8 *)(arg0 + 0x2C);
+    pa = (V8_SC06_025_80181E08 *)(arg0 + 0x2C);
 
     for (i = 0; i < 12; i++) {
         t = (G3 *)func_80010A08(0x1C);

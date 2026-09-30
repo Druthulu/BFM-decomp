@@ -550,7 +550,7 @@ void func_800CBC14(void *arg0) {
 }
 
 
-typedef struct { char c[8]; } Blk8;
+typedef struct { char c[8]; } Blk8_md_MAIN_031;
 
 void func_800CBCD4(u8 *s0) {
     extern s32 func_80012ABC(s32, s32, s32);
@@ -598,7 +598,7 @@ void func_800CBCD4(u8 *s0) {
         a3 = (u8 *)v0 + 0x78;
         a2 = (u8 *)v0 + 0x70;
         do {
-            *(Blk8 *)a3 = *(Blk8 *)a2;
+            *(Blk8_md_MAIN_031 *)a3 = *(Blk8_md_MAIN_031 *)a2;
             a3 -= 8;
             i--;
             a2 -= 8;

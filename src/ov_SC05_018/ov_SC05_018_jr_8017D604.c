@@ -2694,7 +2694,7 @@ extern void func_8017CF30(void *a0);
 
 void func_8017D604(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC05_018_8017D604;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -2715,7 +2715,7 @@ void func_8017D604(s32 arg0)
     u32 nprim;
     u32 i;
     Part *part;
-    Prim *prim;
+    Prim_SC05_018_8017D604 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -2816,7 +2816,7 @@ void func_8017D604(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x78 && (s16)mnc < 0x79) {
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC05_018_8017D604 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;
@@ -4041,7 +4041,7 @@ extern void func_8012A094(s32 a0);
 extern void func_8017FF9C(u8 *a0);
 
 void func_8017FC74(void) {
-    typedef struct { s8 c[8]; } Blk8;
+    typedef struct { s8 c[8]; } Blk8_SC05_018_8017FC74;
     extern u8  D_80126948[];
     extern s32 D_80126954;
     extern s32 D_8012695C;
@@ -4066,12 +4066,12 @@ void func_8017FC74(void) {
     D_80126978 = 0;
     D_8012697A = 0;
     func_8012A018((s32)func_8017FF9C, 2);
-    (*(Blk8 *)&D_801274E8) = (*(Blk8 *)&D_80126940);
+    (*(Blk8_SC05_018_8017FC74 *)&D_801274E8) = (*(Blk8_SC05_018_8017FC74 *)&D_80126940);
     val = 0x5A;
     D_801269E6 = val;
     ((void (*)(void *))func_8017FF9C)(D_80126948);
     func_8012A094((s32)D_80126948);
-    (*(Blk8 *)&D_801274E8) = (*(Blk8 *)&D_80126940);
+    (*(Blk8_SC05_018_8017FC74 *)&D_801274E8) = (*(Blk8_SC05_018_8017FC74 *)&D_80126940);
     D_801269E4 = 0x40;
     D_801269E6 = val;
 }

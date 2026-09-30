@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8017C730(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_8017C730_tc0f85567;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -27,7 +27,7 @@ void func_8017C730(s32 arg0)
     s32 j;
     u32 i;
     Part *part;
-    Prim *prim;
+    Prim_8017C730_tc0f85567 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -134,7 +134,7 @@ void func_8017C730(s32 arg0)
             if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
                 t32 = mid;
                 if (!(hhi < t32)) { mnc = hmid; __asm__ volatile ("" : : "r" (mnc)); }  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers2)
-                prim = (Prim *)part->prim;
+                prim = (Prim_8017C730_tc0f85567 *)part->prim;
                 nprim = part->nprim;
                 for (i = 0; i < nprim; i++, prim++) {
                     w = prim->w1;

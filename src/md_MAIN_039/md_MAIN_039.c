@@ -396,7 +396,7 @@ void func_800CB804(void *arg0) {
 
 
 typedef struct { s16 vx, vy, vz, pad; } SV;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX;
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_md_MAIN_039;
 typedef struct { s32 vx, vy, vz, pad; } V32;
 
 extern void func_801465C0();
@@ -415,7 +415,7 @@ extern SV D_800CBEB8[];
 
 void func_800CB860(s32 param_1) {
     SV rot;
-    MTX m;
+    MTX_md_MAIN_039 m;
     V32 vel;
     s32 p;
     s32 pb;

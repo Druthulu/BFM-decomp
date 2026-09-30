@@ -53,7 +53,7 @@ typedef struct Owner4EE8 {
 } Owner4EE8;
 
 /* was: src/800.c */
-typedef struct Slot {
+typedef struct Slot_800_shared {
     /* 0x00 */ s32 unk00;
     /* 0x04 */ s32 unk04;
     /* 0x08 */ u8 unk08[0xC];
@@ -64,7 +64,7 @@ typedef struct Slot {
     /* 0x40 */ s32 unk40;
     /* 0x44 */ u8 unk44;
     /* 0x45 */ u8 unk45[3];
-} Slot;
+} Slot_800_shared;
 
 /* was: src/800.c */
 typedef struct {

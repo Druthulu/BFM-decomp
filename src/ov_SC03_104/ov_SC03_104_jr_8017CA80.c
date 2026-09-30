@@ -2884,7 +2884,7 @@ extern s32 D_801C03B4;
 
 void func_8017D960(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC03_104_8017D960;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -2906,7 +2906,7 @@ void func_8017D960(s32 arg0)
     u32 ot;
     u8 *pkt;
     s16 x3, z3, y3;
-    Prim *prim;
+    Prim_SC03_104_8017D960 *prim;
     u32 nprim;
     u8 *vtx;
     s32 nparts;
@@ -3082,7 +3082,7 @@ void func_8017D960(s32 arg0)
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
                     nprim = part->nprim;
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC03_104_8017D960 *)part->prim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;
                         va = vtx + (w & 0xFFFF);

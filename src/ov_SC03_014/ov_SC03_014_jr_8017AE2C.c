@@ -4617,9 +4617,9 @@ extern void func_80171A1C(u8 *a0);
 
 void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC03_014_8017DF84;
     /* vy UNSIGNED: the `+=` reads it with lhu, not lh. */
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec;
+    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_SC03_014_8017DF84;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -4632,8 +4632,8 @@ void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     DVECTOR2 tmpxy[4];                                      /* sp+0x10 */
     SVECTOR2 box[8];                                        /* sp+0x20 */
     SVECTOR2 sxy[8];                                        /* sp+0x60 */
-    SVec v[3];                                              /* sp+0xA0 */
-    SVec vdv;                                               /* sp+0xB8 */
+    SVec_SC03_014_8017DF84 v[3];                                              /* sp+0xA0 */
+    SVec_SC03_014_8017DF84 vdv;                                               /* sp+0xB8 */
     MATRIX2 mtx;                                            /* sp+0xC0 */
     struct { long otz, flag, opz, sz0, sz1, sz2, sz3; } g;  /* sp+0xE0 */
 
@@ -4644,8 +4644,8 @@ void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     u32 nprim;
     u32 i;
     Part *part;     /* spill 0x118 */
-    SVec *vp;
-    Prim *prim;
+    SVec_SC03_014_8017DF84 *vp;
+    Prim_SC03_014_8017DF84 *prim;
     u8 *pkt;
     u8 *vtx;
     u8 *va, *vb, *vc, *vd;
@@ -4745,7 +4745,7 @@ void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                     mxc = xmx1;
                     if (mxc < xmx2) mxc = xmx2;
                     if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                        prim = (Prim *)part->prim;
+                        prim = (Prim_SC03_014_8017DF84 *)part->prim;
                         nprim = part->nprim;
                         for (i = 0; i < nprim; i++, prim++) {
                             m24 = 0xFFFFFF;
@@ -4755,9 +4755,9 @@ void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                             vb = vtx + (w >> 16);
                             w = prim->w2;
                             vc = vtx + (w & 0xFFFF);
-                            v[0] = *(SVec *)va;
-                            v[1] = *(SVec *)vb;
-                            v[2] = *(SVec *)vc;
+                            v[0] = *(SVec_SC03_014_8017DF84 *)va;
+                            v[1] = *(SVec_SC03_014_8017DF84 *)vb;
+                            v[2] = *(SVec_SC03_014_8017DF84 *)vc;
                             w = w >> 16;
                             v[0].vy += D_8018F250[(v[0].vz + rot) & 0xFF] + zoff;
                             v[1].vy += D_8018F250[(v[1].vz + rot) & 0xFF] + zoff;
@@ -4824,7 +4824,7 @@ void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                     case 2:
                                     case 3:
                                         gte_stsxy3c(&tmpxy[0]);
-                                        vdv = *(SVec *)vd;
+                                        vdv = *(SVec_SC03_014_8017DF84 *)vd;
                                         vdv.vy += D_8018F250[(vdv.vz + rot) & 0xFF] + zoff;
                                         gte_ldv0(vp);
                                         gte_rtps();

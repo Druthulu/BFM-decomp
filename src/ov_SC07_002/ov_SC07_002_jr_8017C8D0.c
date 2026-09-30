@@ -5252,14 +5252,14 @@ void func_80181394(s32 a0, s16 *param_2, s32 a2)
 }
 
 
-typedef struct { u16 a, b, c, d; } V8;
+typedef struct { u16 a, b, c, d; } V8_SC07_002_8017C8D0;
 
-extern V8 D_8018A2E0[];
+extern V8_SC07_002_8017C8D0 D_8018A2E0[];
 extern u8 D_8019F060[];
 
 void func_801817E0(s32 arg0)
 {
-    *(V8 *)D_8019F060 = D_8018A2E0[arg0];
+    *(V8_SC07_002_8017C8D0 *)D_8019F060 = D_8018A2E0[arg0];
 }
 
 
@@ -5965,10 +5965,10 @@ void func_801829F0(s32* a0)
     extern void func_800491AC(void *a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
 
-    typedef struct { u16 a, b, c; } SV3;
+    typedef struct { u16 a, b, c; } SV3_SC07_002_801829F0;
 
     u8 buf[32];
-    SV3 sv;
+    SV3_SC07_002_801829F0 sv;
     s32 out[2];
     s32 p;
 

@@ -3071,7 +3071,7 @@ void func_80180428(int param_1)
 //   into the `jal rand` delay slot.
 #include "common.h"
 
-struct Prim { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
+struct Prim_SC02_000_8017FCB0 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
 
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32  func_8012C51C(void *a0, s32 a1);
@@ -3141,7 +3141,7 @@ lab_ab0:
     case 1: {
         s32 s1c = *(s32 *)(arg0 + 0x1c);
         if (s1c == 0xc) {
-            struct Prim sp;
+            struct Prim_SC02_000_8017FCB0 sp;
             s16 buf[4];
             s32 tv0;
             func_8012F214(arg0, (s32)&(*(s32 *)&D_8018E66C), (s32)buf);

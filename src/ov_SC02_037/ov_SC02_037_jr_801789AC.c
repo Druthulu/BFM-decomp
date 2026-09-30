@@ -1,7 +1,7 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-typedef void (*Handler)(struct Entry *);
+typedef void (*Handler)(struct Entry_tag *);
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);

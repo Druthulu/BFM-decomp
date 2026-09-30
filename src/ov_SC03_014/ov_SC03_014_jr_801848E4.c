@@ -6874,13 +6874,13 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8018AE30(void *arg0, void *arg1, s32 arg2, s32 arg3);
 
 void func_8018ADA8(s32 a0) {
-    typedef struct { u8 a, b, c, d; } V4;
+    typedef struct { u8 a, b, c, d; } V4_SC03_014_8018ADA8;
     extern u8 D_800AF648;
-    extern V4 D_801E94F8;
+    extern V4_SC03_014_8018ADA8 D_801E94F8;
     u16 sxy[4];
     s32 pv[4];
 
-    *(V4 *)pv = D_801E94F8;
+    *(V4_SC03_014_8018ADA8 *)pv = D_801E94F8;
     func_8004914C(&D_800AF648);
     func_800491AC(&D_800AF648);
     RotTransPers(a0, (s32)sxy, &pv[2], &pv[3]);

@@ -658,18 +658,18 @@ extern s32 D_800C7D2C;
 void func_8002D320(void)
 {
     /* TU-absent names, block scope */
-    extern Slot D_800A4C28[];
+    extern Slot_800_shared D_800A4C28[];
     extern void func_8003D3B4(s32, s32);
     extern void func_8003C23C(s32, s32);
     extern void func_8003BE74(s32, s32);
     extern void func_8003B250(s32, void *);
 
-    Slot *s;
+    Slot_800_shared *s;
     s32 i;
 
     /* D_800A4C6D is &D_800A4C28[0].unk45: spelled through that symbol so the relocation stays D_800A4C6D+0
      * (the plain `s = D_800A4C28;` compiles to the same instructions with a D_800A4C28+0x45 relocation). */
-    s = (Slot *)(D_800A4C6D - 0x45);
+    s = (Slot_800_shared *)(D_800A4C6D - 0x45);
     for (i = 0; i < 8; i++, s++) {
         if (s->unk45[0] != 0) {
             if (s->unk44 == 0 || (s->unk04 & 0x60000) == 0) {
@@ -3665,7 +3665,7 @@ void func_80030D80(Ent30D80 *arg0, s16 arg1) {
  *     preheader-order law still holds: the emitted preheader shows only the WINNERS.
  */
 
-struct Obj;
+struct Obj_800_b_2;
 struct Ent30D80;
 
 extern u8  D_800A4988[];
@@ -3680,7 +3680,7 @@ extern s32 D_800C7D2C;
 
 extern void func_8002EFF8(s32 a0, s32 a1);
 extern void func_8003D3B4(s32, s32);
-extern void func_800314DC(struct Obj *);
+extern void func_800314DC(struct Obj_800_b_2 *);
 extern void func_800316F8(s32);   /* §376: the definition takes s32; cast at the use site */
 extern void func_80031988(struct Ent30D80 *);
 
@@ -3849,7 +3849,7 @@ void func_80030F80(void)
                         p[0x52] = n;
                     }
                 }
-                func_800314DC((struct Obj *)p);
+                func_800314DC((struct Obj_800_b_2 *)p);
                 h = *(u16 *)(p + 0x12);
                 if (h != 0) {
                     h -= 1;
@@ -3877,7 +3877,7 @@ void func_80030F80(void)
 
 
 
-typedef struct Obj {
+typedef struct Obj_800_b_2 {
     /* 0x00 */ u8 unk00[0xA];
     /* 0x0A */ u16 unk0A;
     /* 0x0C */ u16 unk0C;
@@ -3897,21 +3897,21 @@ typedef struct Obj {
     /* 0x3E */ u8 unk3E[0x13];
     /* 0x51 */ u8 unk51;
     /* 0x52 */ u8 unk52[2];
-} Obj;
+} Obj_800_b_2;
 
 
 /* 0x0C stride record pointed at by D_8006A970[] -- must match src/800.c's B12
    (same name, same offsets/widths) since the destination TU already declares
    this struct and symbol. */
 
-extern Slot D_800A4C28[];
+extern Slot_800_shared D_800A4C28[];
 extern s32 D_80073140[];
 extern B12 *D_8006A970[];
 extern u16 D_8006AB30[];
 extern u16 D_8006AB32[];
 
-void func_800314DC(Obj *p) {
-    Slot *e;
+void func_800314DC(Obj_800_b_2 *p) {
+    Slot_800_shared *e;
     s32 *r;
     u16 h;
     u32 t;
@@ -5311,7 +5311,7 @@ extern s16 D_800C532A[];
 extern s16 D_800A4646[];
 extern A12   D_80064D44[];
 extern B12 *D_8006A970[];
-extern Slot D_800A4C28[];
+extern Slot_800_shared D_800A4C28[];
 extern u8 D_800A4988[];
 extern s32 D_80073140[];
 extern s16 D_800A46A2;
@@ -6676,13 +6676,13 @@ void func_800342E8(u8 *a0, s32 a1) {
  */
 
 /* 0xC-byte sound-instrument record, indexed by p[3]. */
-typedef struct Rec12 {
+typedef struct Rec12_800_b_2 {
     /* 0x00 */ s32 unk00;
     /* 0x04 */ u16 unk04;
     /* 0x06 */ u16 unk06;
     /* 0x08 */ u8  unk08;
     /* 0x09 */ u8  pad09[3];
-} Rec12; /* 0xC */
+} Rec12_800_b_2; /* 0xC */
 
 typedef struct Snd54Sub {
     /* 0x00 */ s16 unk00;
@@ -6726,7 +6726,7 @@ typedef struct Snd54 {
  * this function only pointer-casts through it (offset 0x18), never names a
  * field, so the incomplete type is sufficient and adds no struct layout. */
 
-extern Rec12 D_80068A54[];
+extern Rec12_800_b_2 D_80068A54[];
 extern u8 D_8006AED8[];
 extern u16 D_800A46E8[];
 extern Owner4EE8 *D_800A4EE8;
@@ -6739,7 +6739,7 @@ extern void func_80034650(u8 *, s32);
 s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
     u32 flags;
     Snd54 *e;
-    Rec12 *rec;
+    Rec12_800_b_2 *rec;
     u8 *q;
     s16 *pa;
     s32 idx;
@@ -6763,7 +6763,7 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
         if (D_800A4EF0 != b1) {
             return 0;
         }
-        rec = *(Rec12 **)((u8 *)D_800A4EE8 + 0x18) + p[3];
+        rec = *(Rec12_800_b_2 **)((u8 *)D_800A4EE8 + 0x18) + p[3];
     }
 
     idx = func_800348A8(arg0);

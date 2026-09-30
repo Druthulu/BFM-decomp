@@ -3279,7 +3279,7 @@ void func_8017D490(void)
  */
 void func_8017DD04(s32 arg0, s32 arg1)
 {
-    typedef struct { u32 addr:24; u32 len:8; } P_TAG;
+    typedef struct { u32 addr:24; u32 len:8; } P_TAG_SC01_000_8017DD04;
     extern void func_8017E1A8();
     extern u8 *D_800A5E60;
     extern u8 D_800AA60C[];
@@ -3331,7 +3331,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     mlo = 0xFFFFFF;
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)D_800AA60C + (((u16)D_800B9A02) << 14)) & mlo);
     ob = D_800AA60C;
-    ((P_TAG *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
 
     *(u8 *)(pkt + 3) = 9;
@@ -3358,7 +3358,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x20) = D_80182718;
     *(s16 *)(pkt + 0x22) = D_8018271A;
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
-    ((P_TAG *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
 
     *(u8 *)(pkt + 3) = 9;
@@ -3386,7 +3386,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x20) = D_80182728;
     *(s16 *)(pkt + 0x22) = D_8018272A;
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
-    ((P_TAG *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
     __asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
 
@@ -3414,7 +3414,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x20) = D_80182730;
     *(s16 *)(pkt + 0x22) = D_80182732;
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
-    ((P_TAG *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
 
     D_800A5E60 = pkt;

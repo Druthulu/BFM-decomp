@@ -3927,15 +3927,15 @@ void func_80180024(void *a0)
 }
 
 
-typedef struct { char c[4]; } Blk4;
-extern Blk4 D_801A94C4;
-extern Blk4 D_801A94C8;
+typedef struct { char c[4]; } Blk4_SC03_097_8017D898;
+extern Blk4_SC03_097_8017D898 D_801A94C4;
+extern Blk4_SC03_097_8017D898 D_801A94C8;
 extern s32 rand(void);
 extern void func_80181A64(s32 a0, s32 a1, s32 a2);
 
 void func_80180158(s32 a0) {
     s32 s0;
-    Blk4 b1, b2;
+    Blk4_SC03_097_8017D898 b1, b2;
     P16 p;
 
     s0 = a0;

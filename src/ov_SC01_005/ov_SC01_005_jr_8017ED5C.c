@@ -3212,9 +3212,9 @@ s32 func_8017F730(void) {
 }
 
 
-typedef struct { u32 a, b, c, d; } B16;
-extern B16 D_800A5E88, D_800A5E98, D_800A5EA8;
-extern B16 D_801CE030, D_801CE040, D_801CE050;
+typedef struct { u32 a, b, c, d; } B16_SC01_005_8017ED5C;
+extern B16_SC01_005_8017ED5C D_800A5E88, D_800A5E98, D_800A5EA8;
+extern B16_SC01_005_8017ED5C D_801CE030, D_801CE040, D_801CE050;
 extern u8 D_801BBA7F[];
 extern s32 func_8017D9F4(s32);
 extern s32 func_800291B4(s32);
@@ -3286,8 +3286,8 @@ L874:
 
 
 
-extern B16 D_800A5E88, D_800A5E98, D_800A5EA8;
-extern B16 D_801CE030, D_801CE040, D_801CE050;
+extern B16_SC01_005_8017ED5C D_800A5E88, D_800A5E98, D_800A5EA8;
+extern B16_SC01_005_8017ED5C D_801CE030, D_801CE040, D_801CE050;
 
 s32 func_8017F9F8(s32 a0in) {
     extern s32 func_8017D9A0(void *);
@@ -3297,7 +3297,7 @@ s32 func_8017F9F8(s32 a0in) {
     extern s32 func_8001B710();
     extern void func_80028620(s32, void *);
     s32 a0;
-    B16 *d;
+    B16_SC01_005_8017ED5C *d;
 
     a0 = a0in;
     *(s16 *)(*(s32 *)(a0 + 0xD4) + 0xFC) = 0;

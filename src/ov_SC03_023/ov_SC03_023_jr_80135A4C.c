@@ -616,7 +616,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 
 
 s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
-    typedef struct { s8 c[8]; } Blk8;
+    typedef struct { s8 c[8]; } Blk8_SC03_023_80135A4C;
     extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4);
     extern s32 func_80135EB0(void *arg0, s32 arg1_);
     extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -696,7 +696,7 @@ docall:
 
         if ((s16)acc != 0 || D_80197954 != 0) {
             if ((*(Box **)&D_8017F478)->f6 >= -0xBCB) {
-                *(Blk8 *)D_801152A8 = *(Blk8 *)&D_801152B0;
+                *(Blk8_SC03_023_80135A4C *)D_801152A8 = *(Blk8_SC03_023_80135A4C *)&D_801152B0;
             }
             (*(Box **)&D_8017F480)->f0 = (*(Box **)&D_8017F47C)->f0;
             (*(Box **)&D_8017F480)->f2 = (*(Box **)&D_8017F47C)->f2;

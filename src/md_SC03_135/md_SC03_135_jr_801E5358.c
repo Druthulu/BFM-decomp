@@ -444,7 +444,7 @@ void func_801E57C4(void *a0) {
 
 
 void *func_801E585C(void) {
-    typedef struct { s32 x, y, z; } SV4;
+    typedef struct { s32 x, y, z; } SV4_md_SC03_135_801E585C;
     extern u8 D_80078EB1;
     extern u8 D_80078E78[];
     extern u32 D_801E6C68;
@@ -458,7 +458,7 @@ void *func_801E585C(void) {
     extern void func_801E5AAC(void);
     extern void func_801E5AFC(void);
     extern void func_801E5B3C(s32 a0);
-    extern SV4 D_801EAC70;
+    extern SV4_md_SC03_135_801E585C D_801EAC70;
     s32 v;
     u8 *p;
 

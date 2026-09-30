@@ -51,13 +51,13 @@ void func_800CAEC0(s32 a0) {
 
 
 void func_800CB0D8(s32 a0) {
-    typedef struct { u8 pad[0x50]; s32 f50; } Struct80078E78;
-    extern Struct80078E78 D_80078E78;
+    typedef struct { u8 pad[0x50]; s32 f50; } Struct80078E78_md_MAIN_028_800CB0D8;
+    extern Struct80078E78_md_MAIN_028_800CB0D8 D_80078E78;
     extern s32 D_80078EC8;
     extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
     extern s32 func_80165A20(s32);
     s32 v;
-    Struct80078E78 *p;
+    Struct80078E78_md_MAIN_028_800CB0D8 *p;
     s32 q;
 
     v = a0;

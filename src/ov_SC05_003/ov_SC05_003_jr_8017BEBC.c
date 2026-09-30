@@ -5146,8 +5146,8 @@ s32 func_80180B04(s32 a0, s32 a1, s32 a2) {
 extern s32 func_80133784(s32, void *, s32);
 
 s32 func_80180C44(s32 a0, void *a1, s32 a2) {
-    struct SV3_8012CC88 sp10;
-    struct SV3_8012CC88 sp18;
+    struct SV3_8012CC88_tag sp10;
+    struct SV3_8012CC88_tag sp18;
     s32 v0;
 
     sp10.vx = *(u16 *)(a0 + 0x06);

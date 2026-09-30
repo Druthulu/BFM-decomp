@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8014C860(s32 a0, s32 a1) {
     s32 r = 1;
-    *(struct S8 *)(a0 + 0x154) = *(struct S8 *)a1;
+    *(struct S8_tag *)(a0 + 0x154) = *(struct S8_tag *)a1;
     *(s16*)(a0 + 0x15A) = r;
     return r;
 }

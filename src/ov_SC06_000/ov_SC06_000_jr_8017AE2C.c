@@ -4761,14 +4761,14 @@ void func_8017E35C(s32 arg0)
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern u8  *D_800A5E60;
-    typedef struct { u32 w0, w1, w2; } Prim;
-    typedef struct { u8 b[8]; } V8;
+    typedef struct { u32 w0, w1, w2; } Prim_SC06_000_8017E35C;
+    typedef struct { u8 b[8]; } V8_SC06_000_8017E35C;
 
     DVec35C tmpxy[4];
     SVec35C box[8];
     SVec35C sxy[8];
-    V8 vbuf[3];
-    V8 vdbuf;
+    V8_SC06_000_8017E35C vbuf[3];
+    V8_SC06_000_8017E35C vdbuf;
     Mtx35C mtx;
     struct { long otz, flag, opz, sz0, sz1, sz2, sz3; } g;
 
@@ -4776,7 +4776,7 @@ void func_8017E35C(s32 arg0)
     s32 j;
     u32 i;
     u8 *pkt;
-    Prim *prim;
+    Prim_SC06_000_8017E35C *prim;
     u32 nprim;
     u8 *vtx;
     s32 nparts;
@@ -4881,7 +4881,7 @@ void func_8017E35C(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC06_000_8017E35C *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;
@@ -4890,9 +4890,9 @@ void func_8017E35C(s32 arg0)
                         w = prim->w2;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
-                        vbuf[0] = *(V8 *)va;
-                        vbuf[1] = *(V8 *)vb;
-                        vbuf[2] = *(V8 *)vc;
+                        vbuf[0] = *(V8_SC06_000_8017E35C *)va;
+                        vbuf[1] = *(V8_SC06_000_8017E35C *)vb;
+                        vbuf[2] = *(V8_SC06_000_8017E35C *)vc;
                         gte_ldv3c(vbuf);
                         gte_rtpt();
                         gte_stflg(&g.flag);
@@ -4948,7 +4948,7 @@ void func_8017E35C(s32 arg0)
                                 case 3:
                                     /* ---------------- QUAD (FT4) ---------------- */
                                     gte_stsxy3c(&tmpxy[0]);
-                                    vdbuf = *(V8 *)vd;
+                                    vdbuf = *(V8_SC06_000_8017E35C *)vd;
                                     gte_ldv0(&vdbuf);
                                     gte_rtps();
                                     if (tmpxy[0].vx > tmpxy[1].vx) { mx = tmpxy[0].vx; mn = tmpxy[1].vx; }
@@ -5240,7 +5240,7 @@ extern void func_80052E38(MATRIX2 *);
 
 void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC06_000_8017EF68;
 
     extern s32 func_800491EC(void);
     extern u8 *D_800A5E60;
@@ -5263,7 +5263,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
     u32 nprim;
     s32 j;
     u32 i;
-    Prim *prim;
+    Prim_SC06_000_8017EF68 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -5372,7 +5372,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC06_000_8017EF68 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;

@@ -3444,14 +3444,14 @@ void func_80186A8C(void *arg0) {
 extern void func_8012C218(void *a0);
 
 void func_80186B54(unsigned int ent, unsigned int arg1) {
-    typedef struct { s8 c[8]; } Blk8;
-    Blk8 *src;
-    Blk8 *dst;
+    typedef struct { s8 c[8]; } Blk8_SC03_001_80186B54;
+    Blk8_SC03_001_80186B54 *src;
+    Blk8_SC03_001_80186B54 *dst;
     int val;
     int next;
     next = *(int *)(ent + 0x64);
-    dst = (Blk8 *)(*(int *)(ent + 0x20) + 0x10);
-    src = (Blk8 *)(*(int *)(next + 0x20) + 0x10);
+    dst = (Blk8_SC03_001_80186B54 *)(*(int *)(ent + 0x20) + 0x10);
+    src = (Blk8_SC03_001_80186B54 *)(*(int *)(next + 0x20) + 0x10);
     *dst = *src;
     val = *(int *)(ent + 0x1c) + 1;
     *(int *)(ent + 0x1c) = val;

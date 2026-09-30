@@ -3173,7 +3173,7 @@ s32 func_8018233C(s32 arg0) {
 }
 
 
-typedef struct { u8 b[20]; } Stk;
+typedef struct { u8 b[20]; } Stk_SC03_105_80181C84;
 
 /* f1 is SIGNED: `vec.f1 = -4` / `-0x10` must materialise as `addiu $v0,$zero,-K`.
  * A u16 field converts the constant to 0xFFFC/0xFFF0 and emits `ori` instead. */
@@ -3198,14 +3198,14 @@ void func_801824CC(a0, a1, a2, a3, mask)
     s16 a3;
     s32 mask;
 {
-    Stk stk;
+    Stk_SC03_105_80181C84 stk;
     Vec3x16 vec;
     s32 base;
     s32 i;
     s32 r;
     u16 *p;
 
-    stk = *(Stk *)D_801B822C;
+    stk = *(Stk_SC03_105_80181C84 *)D_801B822C;
     base = (func_8004787C((D_800B99DA << 6) & 0x7C0) << 4) >> 12;
     if (D_800B99DA % 6 == 0) {
         vec.f2 = 0;

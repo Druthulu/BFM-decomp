@@ -3375,14 +3375,14 @@ void func_80186994(s32 a0) {
 
 void func_80186D80(s32 a0, s32 a1)
 {
-    struct V8 {
+    struct V8_SC06_018_80186D80 {
         u16 vx, vy, vz, pad;
     };
     extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
-    struct V8 sp10;
-    struct V8 sp18;
-    struct V8 sp20;
+    struct V8_SC06_018_80186D80 sp10;
+    struct V8_SC06_018_80186D80 sp18;
+    struct V8_SC06_018_80186D80 sp20;
 
     sp10.vx = *(u16 *)(a0 + 0x3A);
     sp10.vy = *(u16 *)(a0 + 0x3E);

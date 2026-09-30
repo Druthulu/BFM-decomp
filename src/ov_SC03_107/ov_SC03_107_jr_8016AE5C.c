@@ -4465,7 +4465,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
 
 
 
-typedef void (*Handler)(struct Entry *);
+typedef void (*Handler)(struct Entry_tag *);
 
 
 s32 func_8016E95C() {
@@ -4473,8 +4473,8 @@ s32 func_8016E95C() {
     extern s32 D_80115218;
     extern Handler D_80185874[];
 
-    struct Entry *p;
-    for (p = ((struct Entry *)&D_80115218); p < &((struct Entry *)&D_80115218)[4]; p++) {
+    struct Entry_tag *p;
+    for (p = ((struct Entry_tag *)&D_80115218); p < &((struct Entry_tag *)&D_80115218)[4]; p++) {
         if (p->f0 != 0) {
             D_80185874[p->f1](p);
         }

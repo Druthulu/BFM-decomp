@@ -442,7 +442,7 @@ extern u8 D_800CC1C0[];
 extern u8 D_800CC1B0[];
 extern u8 D_800CC1A0[];
 
-typedef struct { u32 a, b; } __attribute__((packed, aligned(1))) Blk8;
+typedef struct { u32 a, b; } __attribute__((packed, aligned(1))) Blk8_md_MAIN_027;
 
 struct Mid { u32 gray[4]; u32 code; u8 bmode; };
 typedef struct {
@@ -482,7 +482,7 @@ void func_800CB82C(s32 a0, s32 a1)
     func_80015978((s32)((s8 *)a0 + 4), (s32 *)src);
     chk = func_8012EF34((s32)src, (s32)D_800CC290);
     if ((chk & ~0x1000) == 0) {
-        *(Blk8 *)dstc = *(Blk8 *)D_800CC290;
+        *(Blk8_md_MAIN_027 *)dstc = *(Blk8_md_MAIN_027 *)D_800CC290;
         s5v = *(u16 *)((s8 *)a1 + 0x16) + 3;
         func_80017DC4((void *)((s8 *)p + 0x18), (void *)mz.mat);
         p = (s32 *)dstc;

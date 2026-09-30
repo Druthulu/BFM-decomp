@@ -119,7 +119,7 @@ typedef struct {
     u16 f2A;
     s8 pad2C[4];
     u32 f30;
-} St;
+} St_md_MAIN_029;
 
 extern u8 D_80078EC1;
 extern s16 D_80126BCC;
@@ -131,7 +131,7 @@ s32 func_80146AB4(s32, void *, s32, s32, s32, s32, s32);
 void func_80146C3C(u8 *a0);
 void func_8002D4C8(s32, s32);
 
-void func_800CB0D0(St *arg0) {
+void func_800CB0D0(St_md_MAIN_029 *arg0) {
     s16 *p;
     s32 r;
     if (D_80078EC1 == 0x14) {

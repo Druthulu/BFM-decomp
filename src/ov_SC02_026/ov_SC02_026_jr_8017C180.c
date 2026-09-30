@@ -6961,11 +6961,11 @@ extern u8 D_801BBA08[];
 void func_801832A8(s32 a0) {
     typedef struct {
         u16 x, y, z, w;
-    } V8;
+    } V8_SC02_026_801832A8;
     s32 mv[4];   /* sp+0x10 : the 4-word block handed to func_8012B1B4 */
-    V8 pad[2];   /* sp+0x20 : gcc's own area (vars must be 0x48 for a 0x68 frame) */
-    V8 sp30;     /* sp+0x30 : func_80133784 arg1 */
-    V8 sp38;     /* sp+0x38 : func_80133784 arg2 */
+    V8_SC02_026_801832A8 pad[2];   /* sp+0x20 : gcc's own area (vars must be 0x48 for a 0x68 frame) */
+    V8_SC02_026_801832A8 sp30;     /* sp+0x30 : func_80133784 arg1 */
+    V8_SC02_026_801832A8 sp38;     /* sp+0x38 : func_80133784 arg2 */
     s16 v[4];    /* sp+0x40 : RotTransPers arg0 */
     s32 sxy;     /* sp+0x48 : DVECTOR — see lever 2, a u16[2] here costs 8 bytes */
     s32 z;       /* sp+0x4C */
@@ -7093,11 +7093,11 @@ extern u8 D_801BCBA0[];
 void func_8018365C(s32 a0) {
     typedef struct {
         u16 x, y, z, w;
-    } V8;
+    } V8_SC02_026_8018365C;
     s32 sp10[4];
-    V8 pad[2];
-    V8 sp30;
-    V8 sp38;
+    V8_SC02_026_8018365C pad[2];
+    V8_SC02_026_8018365C sp30;
+    V8_SC02_026_8018365C sp38;
     s32 t;
     s32 r;
     s32 v;
@@ -7329,10 +7329,10 @@ extern u8 D_801BC658[];
 void func_80183B04(s32 a0) {
     typedef struct {
         u16 x, y, z, w;
-    } V8;
-    V8 pad[2];
-    V8 sp20;
-    V8 sp28;
+    } V8_SC02_026_80183B04;
+    V8_SC02_026_80183B04 pad[2];
+    V8_SC02_026_80183B04 sp20;
+    V8_SC02_026_80183B04 sp28;
     s32 t;
     s32 r;
     s32 v;
@@ -7844,9 +7844,9 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern u8 D_801AF66C[];
 
 void func_80184690(s32 a0) {
-    typedef struct { u16 x, y, z, w; } V8;
-    V8 sp10;
-    V8 sp18;
+    typedef struct { u16 x, y, z, w; } V8_SC02_026_80184690;
+    V8_SC02_026_80184690 sp10;
+    V8_SC02_026_80184690 sp18;
 
     if (*(s32 *)(a0 + 0x94) >= 8) {
         *(s16 *)(a0 + 0xFE) = 1;

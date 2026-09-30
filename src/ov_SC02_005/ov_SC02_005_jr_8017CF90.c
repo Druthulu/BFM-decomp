@@ -4249,26 +4249,26 @@ void func_8017F748(void *a0) {
 
 void func_8017F7CC(s32 param_1)
 {
-    typedef struct { u8 b[8]; } M8;
-    typedef struct { u8 b[0x10]; } S16;
-    extern M8 D_801E2DD8;
+    typedef struct { u8 b[8]; } M8_SC02_005_8017F7CC;
+    typedef struct { u8 b[0x10]; } S16_SC02_005_8017F7CC;
+    extern M8_SC02_005_8017F7CC D_801E2DD8;
     extern void func_8017E5CC(void);
     extern void func_8017E0B4(void);
     extern void func_8002D4C8(s32 a0, s32 a1);
     extern s32 D_801270C8;
     extern s16 D_801E4C50;
 
-    S16 loc;
+    S16_SC02_005_8017F7CC loc;
     s32 iVar2;
 
     __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
     *(s16 *)&loc.b[0] = 0;
     *(s16 *)&loc.b[2] = -0x40;
-    *(M8 *)&loc.b[8] = D_801E2DD8;
+    *(M8_SC02_005_8017F7CC *)&loc.b[8] = D_801E2DD8;
     iVar2 = *(s32 *)(param_1 + 0x204) - 1;
     *(s32 *)(param_1 + 0x204) = iVar2;
     if (iVar2 == -1) {
-        *(M8 *)&D_801E4C50 = *(M8 *)&loc.b[8];
+        *(M8_SC02_005_8017F7CC *)&D_801E4C50 = *(M8_SC02_005_8017F7CC *)&loc.b[8];
         func_8017E5CC();
         func_8017E0B4();
         func_8002D4C8(0x510, 0x103F);

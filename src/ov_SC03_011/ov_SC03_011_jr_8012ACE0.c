@@ -1428,10 +1428,10 @@ void func_80131340(s32 a0)
     /* 8-byte, align-2 vector: align < 4 is what makes the assignments unaligned
      * (lwl/lwr + swl/swr) block moves. Block-scope so the body stays self-contained
      * for the dedup_propagate lift (§28-#1) and cannot collide with the TU's `M8`. */
-    struct V8 {
+    struct V8_SC03_011_80131340 {
         u16 vx, vy, vz, pad;
     };
-    extern struct V8 D_80181720;
+    extern struct V8_SC03_011_80131340 D_80181720;
     /* BLOCK-scope, mirroring the already-matched func_801312D0's decl at TU L1619: the
      * later DEFINE_func_80131AC8() (TU L1964, AFTER this slot) redeclares func_80131CF4
      * with the stale 1-arg engine_core canonical. A file-scope `extern int
@@ -1439,10 +1439,10 @@ void func_80131340(s32 a0)
      * measured); block-scope goes out of scope before that macro and compiles clean. */
     extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
 
-    struct V8 sp10;
-    struct V8 sp18;
-    struct V8 sp20;
-    struct V8 sp28;
+    struct V8_SC03_011_80131340 sp10;
+    struct V8_SC03_011_80131340 sp18;
+    struct V8_SC03_011_80131340 sp20;
+    struct V8_SC03_011_80131340 sp28;
     s32 temp;
     s32 var_a1;
 
@@ -2461,8 +2461,8 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     if (y >= -0xBCB) {
         D_801817F8[3] = y;
         {
-            typedef struct { s8 c[8]; } Blk8;
-            *(Blk8 *)&D_801152B0 = *(Blk8 *)s3;
+            typedef struct { s8 c[8]; } Blk8_SC03_011_80133CD4;
+            *(Blk8_SC03_011_80133CD4 *)&D_801152B0 = *(Blk8_SC03_011_80133CD4 *)s3;
         }
         if (*(u8 *)cmd != 0)
             goto ret1;

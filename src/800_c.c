@@ -1389,10 +1389,10 @@ typedef struct {
     s32 f24;
     s32 f28;
     s32 f2c;
-} CdReq;
+} CdReq_800_c;
 
 void func_80036AF8(CdlLOC *loc, s32 flags) {
-    CdReq req;
+    CdReq_800_c req;
     s16 mode;
     s16 idx;
     s16 lo;
@@ -1506,7 +1506,7 @@ extern void func_80036FB0(s32, s32);
 
 void func_80036D58(s16 arg0)
 {
-    CdReq req;
+    CdReq_800_c req;
     s32 pad[2];
     s32 i;
     s16 *p;

@@ -170,7 +170,7 @@ void func_800CB158(s32 arg0) {
 
 typedef struct {
     s32 a, b, c, d;
-} Blk16;
+} Blk16_md_MAIN_016;
 
 void func_800CB228(s32 arg0) {
     s32 ent;
@@ -198,8 +198,8 @@ void func_800CB228(s32 arg0) {
         *(s16 *)(ent + 0x1A) = (t1 << 16) >> 17;
     }
     p = *(s32 *)(oth + 0x20);
-    *(Blk16 *)(ent + 0x38) = *(Blk16 *)(p + 0x34);
-    *(Blk16 *)(ent + 0x48) = *(Blk16 *)(p + 0x44);
+    *(Blk16_md_MAIN_016 *)(ent + 0x38) = *(Blk16_md_MAIN_016 *)(p + 0x34);
+    *(Blk16_md_MAIN_016 *)(ent + 0x48) = *(Blk16_md_MAIN_016 *)(p + 0x44);
     func_800CAF84(ent);
 }
 

@@ -48,7 +48,7 @@ struct S80143BDC;
 struct S;
 struct S_8014AD30;
 struct S8014C010;
-struct S8;
+struct S8_tag;
 struct UnalignedPair;
 struct Packed8;
 struct SubE6F8;
@@ -59,7 +59,7 @@ struct V3;
 struct S80151ECC;
 struct S80153150;
 struct Obj;
-struct M8;
+struct M8_tag;
 struct S8016380C;
 struct B16;
 struct U8;
@@ -188,7 +188,7 @@ struct S8014C010 {
     s32 w10;
 };
 
-struct S8 { u32 a; u32 b; } __attribute__((packed, aligned(1)));
+struct S8_tag { u32 a; u32 b; } __attribute__((packed, aligned(1)));
 
 struct UnalignedPair {
     int a;
@@ -285,11 +285,11 @@ struct Obj {
     unsigned short idx;
 };
 
-struct M8 { u8 b[8]; };
+struct M8_tag { u8 b[8]; };
 
 struct S8016380C {
     u8 _pad[0x44];
-    struct M8 m;
+    struct M8_tag m;
 };
 
 struct B16 { s32 w[4]; };
@@ -433,7 +433,7 @@ typedef struct {
     u8  rest[14]; /* +6 .. +0x14 */
 } Ent;
 
-typedef struct { char pad[0x12]; s16 field_0x12; } Obj;
+typedef struct { char pad[0x12]; s16 field_0x12; } Obj_td;
 
 typedef Unkstruct_800B5CB8 Entry8014A238;
 
@@ -620,7 +620,7 @@ struct Ent_801506A4 {
     char pad_5E[0x12];
     short unk70;            /* 0x70 */
 };
-struct Entry {
+struct Entry_tag {
     u8 f0;
     u8 f1;
     u8 pad[0x1e];
@@ -4353,7 +4353,7 @@ typedef struct {
         u16 x, y, z, w;
     } V8_80189B9C;
 typedef struct { u16 x, y, z, w; } V8_8018A728;
-typedef struct { short vx, vy, vz, pad; } Vec;
+typedef struct { short vx, vy, vz, pad; } Vec_td;
 typedef struct {
     s16 f0, f1, f2, f3;
 } Vec4s;
@@ -4556,7 +4556,7 @@ struct S845EC_in { s16 f00, f02, f04, f06, f08, f0A, f0C, f0E; s32 f10; };
 struct S845EC_out { s16 a, b, c; };
 struct S8_8017DA98 { s16 m[4]; };
 struct S9E { u16 unk0; u16 pad; };
-struct SV3_8012CC88 { u16 vx, vy, vz; u8 pad; };
+struct SV3_8012CC88_tag { u16 vx, vy, vz; u8 pad; };
 struct SV3_801808E8 { u16 vx, vy, vz; u8 pad; };
 struct SVec_8017DB0C { s16 vx, vy, vz, pad; };
 struct SVec_8017E024 { s16 vx, vy, vz, pad; };
@@ -5874,7 +5874,7 @@ typedef struct { s16 h0, h1, h2, h3; } Q_8017DF28;
 typedef struct {
     u16 h0, h1, h2, h3;
 } Q_8018562C;
-typedef struct { Blk8 m[4]; } Quad;
+typedef struct { Blk8 m[4]; } Quad_td;
 typedef struct {
     s16 vx0, vy0, vz0, pad_6;
     s16 vx1, vy1, vz1, pad_E;
@@ -6163,7 +6163,7 @@ typedef struct {
     s32 unk48;
     s32 unk4C;
     s32 unk50;
-} S;
+} S_td;
 typedef struct { s16 h[4]; } S16x4;
 typedef struct {
     u16 f00;
@@ -7366,7 +7366,7 @@ typedef struct {
     u8 r2, g2, b2, pad_23;            /* +0x20 .. +0x23 */
     u32 color;                      /* +0x24 */
 } Prim_80185C0C;
-typedef struct { u8 c[4]; } W4;
+typedef struct { u8 c[4]; } W4_td;
 typedef struct { u8 c[4]; } W4_80181E88;
 typedef struct {
     W4_80181E88 f00;   /* 0x00 */

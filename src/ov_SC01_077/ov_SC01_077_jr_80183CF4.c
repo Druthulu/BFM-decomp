@@ -38,9 +38,9 @@ typedef struct {
     u8  f6;                     /* 0x38 */
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
-typedef void (*Handler)(struct Entry *);
+typedef void (*Handler)(struct Entry_tag *);
 struct vec;
-struct Prim { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
+struct Prim_SC01_077_80183CF4 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3329,7 +3329,7 @@ void func_80184278(int param_1)
 #include "common.h"
 
 void func_801842C8(s32 a0) {
-    typedef struct { s8 c[8]; } Blk8;
+    typedef struct { s8 c[8]; } Blk8_SC01_077_801842C8;
     extern void func_8012CBA4(s32 a0);
     extern s32 func_8012BEE8(s32);
     s32 a3;
@@ -3340,7 +3340,7 @@ void func_801842C8(s32 a0) {
         *(s16 *)(a3 + 0x18) = 0x1800;
         *(u16 *)(a3 + 0x2C) |= 0x10;
         v0 = *(s32 *)(a0 + 0x20);
-        *(Blk8 *)(a3 + 8) = *(Blk8 *)(v0 + 8);
+        *(Blk8_SC01_077_801842C8 *)(a3 + 8) = *(Blk8_SC01_077_801842C8 *)(v0 + 8);
         *(u16 *)(a3 + 0xA) -= 0x10;
         *(u16 *)(a3 + 0x10) = *(u16 *)(a3 + 0x10) + *(s16 *)(a0 + 0x1A) * -0x10;
     }

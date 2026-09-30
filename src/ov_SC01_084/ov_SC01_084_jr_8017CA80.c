@@ -2782,15 +2782,15 @@ void func_8017DA9C() {
 
 void func_8017DAF8(void)
 {
-    typedef struct { s32 w[4]; } Blk16;
+    typedef struct { s32 w[4]; } Blk16_SC01_084_8017DAF8;
     extern u8 D_80126948[];
     extern u8 D_8011F920[];
-    Blk16 *src;
-    Blk16 *dst;
-    Blk16 *end;
+    Blk16_SC01_084_8017DAF8 *src;
+    Blk16_SC01_084_8017DAF8 *dst;
+    Blk16_SC01_084_8017DAF8 *end;
 
-    dst = (Blk16 *)&D_80126948;
-    src = (Blk16 *)D_8011F920;
+    dst = (Blk16_SC01_084_8017DAF8 *)&D_80126948;
+    src = (Blk16_SC01_084_8017DAF8 *)D_8011F920;
     end = src + 10;
     do {
         *dst = *src;

@@ -2711,7 +2711,7 @@ extern void func_8017DF7C(s32 param_1);
 
 void func_8017EB7C(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC03_014_8017EB7C;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -2732,7 +2732,7 @@ void func_8017EB7C(s32 arg0)
     u32 nprim;
     u32 i;
     Part *part;
-    Prim *prim;
+    Prim_SC03_014_8017EB7C *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -2833,7 +2833,7 @@ void func_8017EB7C(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x78 && (s16)mnc < 0x79) {
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC03_014_8017EB7C *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;
@@ -3222,9 +3222,9 @@ void func_8017EB7C(s32 arg0)
 
 void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC03_014_8017FA5C;
     /* vy UNSIGNED: the `+= xoff` reads it with lhu, not lh. */
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec;
+    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_SC03_014_8017FA5C;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -3236,8 +3236,8 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
     DVECTOR2 tmpxy[4];                                      /* sp+0x10 */
     SVECTOR2 box[8];                                        /* sp+0x20 */
     SVECTOR2 sxy[8];                                        /* sp+0x60 */
-    SVec v[3];                                              /* sp+0xA0 */
-    SVec vdv;                                               /* sp+0xB8 */
+    SVec_SC03_014_8017FA5C v[3];                                              /* sp+0xA0 */
+    SVec_SC03_014_8017FA5C vdv;                                               /* sp+0xB8 */
     MATRIX2 mtx;                                            /* sp+0xC0 */
     struct { long otz, flag, opz, sz0, sz1, sz2, sz3; } g;  /* sp+0xE0 */
 
@@ -3247,8 +3247,8 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
     u32 nprim;
     u32 i;
     Part *part;
-    SVec *vp;
-    Prim *prim;
+    SVec_SC03_014_8017FA5C *vp;
+    Prim_SC03_014_8017FA5C *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -3346,7 +3346,7 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
                     mxc = xmx1;
                     if (mxc < xmx2) mxc = xmx2;
                     if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                        prim = (Prim *)part->prim;
+                        prim = (Prim_SC03_014_8017FA5C *)part->prim;
                         nprim = part->nprim;
                         for (i = 0; i < nprim; i++, prim++) {
                             vp = &vdv;
@@ -3355,9 +3355,9 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
                             vb = vtx + (w >> 16);
                             w = prim->w2;
                             vc = vtx + (w & 0xFFFF);
-                            v[0] = *(SVec *)va;
-                            v[1] = *(SVec *)vb;
-                            v[2] = *(SVec *)vc;
+                            v[0] = *(SVec_SC03_014_8017FA5C *)va;
+                            v[1] = *(SVec_SC03_014_8017FA5C *)vb;
+                            v[2] = *(SVec_SC03_014_8017FA5C *)vc;
                             w = w >> 16;
                             v[0].vy += xoff;
                             v[1].vy += xoff;
@@ -3424,7 +3424,7 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
                                     case 2:
                                     case 3:
                                         gte_stsxy3c(&tmpxy[0]);
-                                        vdv = *(SVec *)vd;
+                                        vdv = *(SVec_SC03_014_8017FA5C *)vd;
                                         vdv.vy += xoff;
                                         gte_ldv0(vp);
                                         gte_rtps();

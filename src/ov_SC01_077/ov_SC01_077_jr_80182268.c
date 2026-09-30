@@ -43,7 +43,7 @@ typedef struct {
     u8  f6;                     /* 0x38 */
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
-typedef void (*Handler)(struct Entry *);
+typedef void (*Handler)(struct Entry_tag *);
       /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
          /* 16-byte stride array element */
 struct vec;
@@ -3393,7 +3393,7 @@ void func_801829E0(int param_1)
 #include "common.h"
 
 
-struct Prim { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
+struct Prim_SC01_077_80182268 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
 
 s32 func_80182A24(s32 arg0) {
     extern s32 func_8012E544(s32 a0);
@@ -3454,7 +3454,7 @@ lab_ab0:
     case 1: {
         s32 s1c = *(s32 *)(arg0 + 0x1c);
         if (s1c == 0xc) {
-            struct Prim sp;
+            struct Prim_SC01_077_80182268 sp;
             s16 buf[4];
             s32 tv0;
             func_8012F214(arg0, (s32)&(*(s32 *)&D_8018AA6C), (s32)buf);

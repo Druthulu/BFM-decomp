@@ -5633,7 +5633,7 @@ extern s32 D_801B7A00;
 
 void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC02_031_8017F5B4;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -5655,7 +5655,7 @@ void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2)
     u32 ot;
     u8 *pkt;
     s16 x3, z3, y3;
-    Prim *prim;
+    Prim_SC02_031_8017F5B4 *prim;
     u32 nprim;
     u8 *vtx;
     s32 nparts;
@@ -5805,7 +5805,7 @@ void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC02_031_8017F5B4 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;
@@ -6654,7 +6654,7 @@ void func_80181C2C(void *a0) {
                     *(u16 *)(p + 6) = w;
                     if (*(s16 *)(p + 2) < (s16)w) {
                         *(s32 *)(p + 0x14) = 2;
-                        *(W4 *)(p + 4) = *(W4 *)p;
+                        *(W4_td *)(p + 4) = *(W4_td *)p;
                         goto next;
                     }
                 }

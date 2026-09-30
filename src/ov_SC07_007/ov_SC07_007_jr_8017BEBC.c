@@ -3463,7 +3463,7 @@ extern void func_8012A094(s32 a0);
 extern void func_8017D648(void *a0);
 
 void func_8017D288(void) {
-    typedef struct { s8 c[8]; } Blk8;
+    typedef struct { s8 c[8]; } Blk8_SC07_007_8017D288;
     extern u8 D_80126948[];
     extern s32 D_80126954;
     extern s32 D_8012695C;
@@ -3473,8 +3473,8 @@ void func_8017D288(void) {
     extern s16 D_80126976;
     extern s16 D_80126978;
     extern s16 D_8012697A;
-    extern Blk8 D_801274F0;
-    extern Blk8 D_801869C0;
+    extern Blk8_SC07_007_8017D288 D_801274F0;
+    extern Blk8_SC07_007_8017D288 D_801869C0;
 
     D_80126954 = 0x190;
     D_8012695C = 0x15E;
@@ -3648,14 +3648,14 @@ extern u8 D_801274E8[];
 extern void (*D_80186A00[])(void);
 
 void func_8017D684(s32 a0) {
-    typedef struct { s8 c[8]; } Blk8;
+    typedef struct { s8 c[8]; } Blk8_SC07_007_8017D684;
     u8 *base = D_801274E8;
-    Blk8 buffer;
+    Blk8_SC07_007_8017D684 buffer;
 
-    *(Blk8 *)base = *(Blk8 *)D_80186A00;
-    buffer = *(Blk8 *)(base + 8);
+    *(Blk8_SC07_007_8017D684 *)base = *(Blk8_SC07_007_8017D684 *)D_80186A00;
+    buffer = *(Blk8_SC07_007_8017D684 *)(base + 8);
     ((void (*)(void *, void *))func_8017DAE8)((void *)a0, &buffer);
-    *(Blk8 *)(base + 8) = buffer;
+    *(Blk8_SC07_007_8017D684 *)(base + 8) = buffer;
     ((void (*)(void *))func_8017DF04)((void *)a0);
     func_8017DC20((void *)a0, base, base + 8);
 }

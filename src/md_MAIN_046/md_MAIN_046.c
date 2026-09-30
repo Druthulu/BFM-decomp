@@ -313,7 +313,7 @@ extern s32 func_80148D44(void *arg0);
 extern void func_80147AD4(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_801473EC(s32*);
 
-typedef struct Work {
+typedef struct Work_md_MAIN_046 {
     /* 0x00 */ s32 unk00;
     /* 0x04 */ s32 pad04[3];
     /* 0x10 */ s32 unk10;
@@ -325,9 +325,9 @@ typedef struct Work {
     /* 0x234 */ s32 unk234;
     /* 0x238 */ s32 unk238;
     /* 0x23C */ s32 unk23C;
-} Work;
+} Work_md_MAIN_046;
 
-void func_800CD288(Work *arg0) {
+void func_800CD288(Work_md_MAIN_046 *arg0) {
     s32 pad00; s32 pad04; s32 pad08; s32 pad0C;
     s32 pad10; s32 pad14; s32 pad18; s32 pad1C;
     u8 *s1;

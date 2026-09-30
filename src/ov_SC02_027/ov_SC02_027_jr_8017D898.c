@@ -8674,17 +8674,17 @@ void func_80187400(s32 a0)
 {
     /* 8-byte, align-2 vector — align < 4 is what makes the aggregate copies
      * unaligned lwl/lwr + swl/swr block moves (§ sibling func_80131340). */
-    struct V8 {
+    struct V8_SC02_027_80187400 {
         u16 vx, vy, vz, pad;
     };
     struct Cnt {
         s32 c;
     };
 
-    struct V8 sp10;
-    struct V8 sp18;
-    struct V8 sp20;
-    struct V8 sp28;
+    struct V8_SC02_027_80187400 sp10;
+    struct V8_SC02_027_80187400 sp18;
+    struct V8_SC02_027_80187400 sp20;
+    struct V8_SC02_027_80187400 sp28;
     s32 p;
 
     sp10.vz = 0;

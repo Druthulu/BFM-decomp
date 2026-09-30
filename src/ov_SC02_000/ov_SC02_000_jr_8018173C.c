@@ -3389,15 +3389,15 @@ void func_80182BD0(u8 *a0) {
 
 void func_80182CB4(s32 _arg0)
 {
-    typedef struct { s32 w[4]; } Blk16;
+    typedef struct { s32 w[4]; } Blk16_SC02_000_80182CB4;
     extern u8 D_80126948[];
     extern s32 D_80126E60[];
-    Blk16 *src;
-    Blk16 *dst;
-    Blk16 *end;
+    Blk16_SC02_000_80182CB4 *src;
+    Blk16_SC02_000_80182CB4 *dst;
+    Blk16_SC02_000_80182CB4 *end;
 
-    dst = (Blk16 *)&D_80126948;
-    src = (Blk16 *)D_80126E60;
+    dst = (Blk16_SC02_000_80182CB4 *)&D_80126948;
+    src = (Blk16_SC02_000_80182CB4 *)D_80126E60;
     end = src + 10;
     do {
         *dst = *src;

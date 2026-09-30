@@ -35,10 +35,10 @@ typedef struct {
         u8 c;
         u8 d;
         u16 pad0E;
-    } Rec;
+    } Rec_800;
     typedef struct {
         u8 pad[0xA1A8];
-        Rec rec[0x20];
+        Rec_800 rec[0x20];
     } Base;
 typedef struct {
     s32 w[9];
@@ -15770,14 +15770,14 @@ PG4 *func_80025000(SRCQ *p, SVEC_80025000 *verts, SVEC_80025000 *norms, PG4 *pol
 extern s32 D_80078D88[];
 extern s32 D_800A2B78;
 
-typedef struct { s16 vx, vy, vz, pad; } Vec8;
+typedef struct { s16 vx, vy, vz, pad; } Vec8_800;
 typedef struct {
     u32 unk0;
     u32 rgbc;
     u16 n0, v0, n1, v1, n2, v2;
-} Prim;
+} Prim_800;
 
-u8 *func_8002528C(Prim *pr, Vec8 *vtx, Vec8 *nrm, void *arg3, s32 n, s32 shift, u32 *ot)
+u8 *func_8002528C(Prim_800 *pr, Vec8_800 *vtx, Vec8_800 *nrm, void *arg3, s32 n, s32 shift, u32 *ot)
 {
     struct { s32 flag, opz, sz1, sz2, sz3; } g;
     u8 *pk = (u8 *)arg3;

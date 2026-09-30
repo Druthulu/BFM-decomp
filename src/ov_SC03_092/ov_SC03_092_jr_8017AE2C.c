@@ -3857,7 +3857,7 @@ extern void func_80146C3C();  // K&R: ? of 1 args (P37 rung D t4_D22)
 
 void func_8017CE58(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC03_092_8017CE58;
 
     /* DECLARATION ORDER IS LOAD-BEARING: gcc-2.7.2/mips grows the frame UPWARD
      * from sp+0x10 (the 16-byte outgoing-arg area) in declaration order, so this
@@ -3880,7 +3880,7 @@ void func_8017CE58(s32 arg0)
     u32 nprim;
     u32 i;
     Part *part;
-    Prim *prim;
+    Prim_SC03_092_8017CE58 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -3987,7 +3987,7 @@ void func_8017CE58(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC03_092_8017CE58 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;

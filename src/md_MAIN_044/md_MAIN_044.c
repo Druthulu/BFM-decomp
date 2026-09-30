@@ -271,7 +271,7 @@ extern void func_800CD494(void *);
 extern u8 D_800CE1E8[];
 extern u8 D_800CE230[];
 
-typedef struct { u16 x, y, z, w; } V8;
+typedef struct { u16 x, y, z, w; } V8_md_MAIN_044;
 
 void func_800CD1D4(s32 *s1) {
     s32 *s0;
@@ -288,7 +288,7 @@ void func_800CD1D4(s32 *s1) {
         func_80149374((s32)s2, (s32)(s1 + 1));
         func_800CD5EC(s1);
         v0 = *(s32 *)((s32)s2 + 0x20);
-        *(V8 *)((s32)s0 + 0x10) = *(V8 *)((s32)v0 + 0x10);
+        *(V8_md_MAIN_044 *)((s32)s0 + 0x10) = *(V8_md_MAIN_044 *)((s32)v0 + 0x10);
         *(u16 *)((s32)s1 + 0x60) = *(u16 *)((s32)s2 + 0x100);
         *(u16 *)((s32)s1 + 0x62) = *(u16 *)((s32)s2 + 0x102);
         *(u16 *)((s32)s1 + 0x64) = *(u16 *)((s32)s2 + 0x104);
@@ -452,13 +452,13 @@ extern void func_80015A2C(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 
-typedef struct { s32 w0, w1, w2, w3, w4, w5, w6, w7; } W8_;
+typedef struct { s32 w0, w1, w2, w3, w4, w5, w6, w7; } W8__md_MAIN_044;
 
 void func_800CD63C(s32 a0, s32 a1)
 {
     s16 sp10[3];
     s32 sp18[2];
-    W8_ sp20;
+    W8__md_MAIN_044 sp20;
     s32 t;
     s32 r;
 
@@ -469,7 +469,7 @@ void func_800CD63C(s32 a0, s32 a1)
     sp10[1] = ((((t << 17) >> 16) * r) / 4096);
     sp10[2] = 0;
 
-    sp20 = *(W8_ *)a1;
+    sp20 = *(W8__md_MAIN_044 *)a1;
 
     func_80015A2C(a0 + 0x58, (s32)&sp20 + 0x14);
     func_8012F14C((s32)&sp20, (s32)sp10, (s32)sp18);

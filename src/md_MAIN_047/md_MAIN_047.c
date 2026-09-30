@@ -48,12 +48,12 @@ void func_800CCB84(void *a0) {
 
 s32 func_800CCBC0(void)
 {
-    typedef struct { s16 vx, vy, vz, pad; } SVEC;
+    typedef struct { s16 vx, vy, vz, pad; } SVEC_md_MAIN_047_800CCBC0;
     typedef struct { u8 r, g, b, cd; } CVEC;
-    typedef struct { SVEC v0, v1, v2, v3; CVEC c0, c1, c2, c3; s32 tag; } Prim;
+    typedef struct { SVEC_md_MAIN_047_800CCBC0 v0, v1, v2, v3; CVEC c0, c1, c2, c3; s32 tag; } Prim_md_MAIN_047_800CCBC0;
     typedef struct { s32 w[8]; } Blk20;
-    typedef struct { u16 f0, f1, f2, f3, f4, f5; } Rec;
-    typedef struct { u8 flag, idx, cnt, tim; Rec e[16]; } Trail;
+    typedef struct { u16 f0, f1, f2, f3, f4, f5; } Rec_md_MAIN_047_800CCBC0;
+    typedef struct { u8 flag, idx, cnt, tim; Rec_md_MAIN_047_800CCBC0 e[16]; } Trail_md_MAIN_047_800CCBC0;
 
     extern Blk20 D_800AE620;
     extern u8 D_800CD6E0[];
@@ -62,11 +62,11 @@ s32 func_800CCBC0(void)
     extern u8 D_800CD6E3;
     extern s32 func_80017758(void *a0, void *a1);
 
-    Prim prim;
+    Prim_md_MAIN_047_800CCBC0 prim;
     Blk20 blk;
-    Trail *p;
-    Rec *e;
-    Rec *q;
+    Trail_md_MAIN_047_800CCBC0 *p;
+    Rec_md_MAIN_047_800CCBC0 *e;
+    Rec_md_MAIN_047_800CCBC0 *q;
     short idx;
     short cnt;
     unsigned int tim;
@@ -75,7 +75,7 @@ s32 func_800CCBC0(void)
 
     blk = D_800AE620;
     prim.tag = 0x50000000;
-    p = (Trail *)D_800CD6E0;
+    p = (Trail_md_MAIN_047_800CCBC0 *)D_800CD6E0;
     if (p->flag == 0) {
         return 0;
     }
@@ -137,10 +137,10 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern s32 VectorNormalSS(void *a0, void *a1);
 
-    typedef struct { u16 f0; u16 f1; u16 f2; u16 f3; u16 f4; u16 f5; } Rec;
-    typedef struct { u8 flag; u8 idx; u8 cnt; u8 tim; Rec e[16]; } Trail;
+    typedef struct { u16 f0; u16 f1; u16 f2; u16 f3; u16 f4; u16 f5; } Rec_md_MAIN_047_800CCDE8;
+    typedef struct { u8 flag; u8 idx; u8 cnt; u8 tim; Rec_md_MAIN_047_800CCDE8 e[16]; } Trail_md_MAIN_047_800CCDE8;
 
-    Trail *p = (Trail *)D_800CD6E0;
+    Trail_md_MAIN_047_800CCDE8 *p = (Trail_md_MAIN_047_800CCDE8 *)D_800CD6E0;
     s32 node = *(s32 *)(param_1 + 0x34);
     s16 v10[4];
     s16 v18[4];

@@ -2857,7 +2857,7 @@ extern void func_8017C8D0(void);
 
 void func_8017C954(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC06_029_8017C954;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -2882,7 +2882,7 @@ void func_8017C954(s32 arg0)
     s32 j;
     u32 i;
     Part *part;
-    Prim *prim;
+    Prim_SC06_029_8017C954 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -2991,7 +2991,7 @@ void func_8017C954(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x78 && (s16)mnc < 0x79) {
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC06_029_8017C954 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;
@@ -5117,9 +5117,9 @@ void func_80180A70(s32 param_1) {
         s16 sC;   /* 0x0C */
         s16 sE;   /* 0x0E */
         s32 w10;  /* 0x10 */
-    } Rec;
+    } Rec_SC06_029_80180A70;
 
-    Rec rec;      /* sp+0x10 */
+    Rec_SC06_029_80180A70 rec;      /* sp+0x10 */
     u16 pt[3];    /* sp+0x28 */
     s32 i;
     s32 j;
@@ -5991,10 +5991,10 @@ s32 func_80181DF8(s32 param_1)
 
 s32 func_80182334(s32 a0)
 {
-    typedef struct { u16 x; s16 y; s16 z; u16 pad; s32 w1, w2; } Ent_801DFBF8;   /* 0x10 */
-    extern Ent_801DFBF8 D_801DFBF8[];
+    typedef struct { u16 x; s16 y; s16 z; u16 pad; s32 w1, w2; } Ent_801DFBF8_SC06_029_80182334;   /* 0x10 */
+    extern Ent_801DFBF8_SC06_029_80182334 D_801DFBF8[];
 
-    Ent_801DFBF8 *e;
+    Ent_801DFBF8_SC06_029_80182334 *e;
     s32 i;
 
     e = &D_801DFBF8[*(s16 *)(a0 + 0x70) * 4];
@@ -7949,7 +7949,7 @@ extern u8 D_800AF648;
 
 void func_801852E4(s32 arg0)
 {
-    struct B { SV v[4]; u32 w[6]; } b;
+    struct B_SC06_029_801852E4 { SV v[4]; u32 w[6]; } b;
     SV *vp;
     MTX m;
     s32 otz[4];

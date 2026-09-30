@@ -3589,7 +3589,7 @@ extern u16 D_80197C88;
 
 void func_8017BF14(s32 arg0, s32 lim)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC03_116_8017BF14;
 
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
@@ -3608,7 +3608,7 @@ void func_8017BF14(s32 arg0, s32 lim)
     register s32 f0 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus7)
     s32 f1, f2, f3;
     s16 x3, z3, y3;
-    Prim *prim;
+    Prim_SC03_116_8017BF14 *prim;
     u32 nprim;
     u8 *vtx;
     s32 nparts;
@@ -3798,7 +3798,7 @@ void func_8017BF14(s32 arg0, s32 lim)
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
                     nprim = part->nprim;
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC03_116_8017BF14 *)part->prim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;
                         va = vtx + (w & 0xFFFF);

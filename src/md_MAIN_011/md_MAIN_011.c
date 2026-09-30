@@ -696,7 +696,7 @@ void func_800D0BDC(void) {
         s32 unk8C;
         s32 unk90;
         s32 unk94;
-    } S;
+    } S_md_MAIN_011_800D0BDC;
     extern u8 D_80078E78[];
     extern u8 D_8010F476;
     extern u8 D_8010F47E;
@@ -718,7 +718,7 @@ void func_800D0BDC(void) {
     extern u16 D_800A6592;
     extern void func_80029124(s32, s32);
     extern void func_800291A0(s32, s32);
-    S *p = (S *)D_80078E78;
+    S_md_MAIN_011_800D0BDC *p = (S_md_MAIN_011_800D0BDC *)D_80078E78;
 
     p->unk04 = 0;
     p->unk08 = 0xA;
@@ -1289,7 +1289,7 @@ typedef struct {
     s32 unk8C;
     s32 unk90;
     s32 unk94;
-} Gs_80078E78;
+} Gs_80078E78_md_MAIN_011;
 
 extern u8 D_80078E78[];
 extern void func_80029124(s32 arg0, s32 arg1);
@@ -1314,9 +1314,9 @@ extern u8 D_8010F526;
 extern u8 D_8010F52E;
 
 void func_800D235C(void) {
-    Gs_80078E78 *st;
+    Gs_80078E78_md_MAIN_011 *st;
 
-    st = (Gs_80078E78 *)D_80078E78;
+    st = (Gs_80078E78_md_MAIN_011 *)D_80078E78;
     st->unk04 = 0;
     st->unk08 = 0x384;
     st->unk0C = 0x20;

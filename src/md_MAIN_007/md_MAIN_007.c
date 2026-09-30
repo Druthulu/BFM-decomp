@@ -430,7 +430,7 @@ extern s16 D_800B9A02;
 
 void func_800CF6D0(s32 arg0, u32 arg1) {
     u8 *p;
-    typedef struct { u32 addr:24; u32 len:8; } P_TAG;
+    typedef struct { u32 addr:24; u32 len:8; } P_TAG_md_MAIN_007_800CF6D0;
     u8 *ob;
     u32 m24;
 
@@ -458,7 +458,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -479,7 +479,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -500,7 +500,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -521,7 +521,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -542,7 +542,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -563,7 +563,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
     p += 0x18;
 
     D_800A5E60 = p;

@@ -1,7 +1,7 @@
 /* func_80135A4C — shared body (overlay slot 0x80128158, h_exact e0129286). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
-    typedef struct { s8 c[8]; } Blk8;
+    typedef struct { s8 c[8]; } Blk8_80135A4C_e0129286;
     extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4);
     extern s32 func_80135EB0(void *arg0, s32 arg1_);
     extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -81,7 +81,7 @@ docall:
 
         if ((s16)acc != 0 || D_8018E6F4 != 0) {
             if ((*(Box **)&D_8017F808)->f6 >= -0xBCB) {
-                *(Blk8 *)D_801152A8 = *(Blk8 *)&D_801152B0;
+                *(Blk8_80135A4C_e0129286 *)D_801152A8 = *(Blk8_80135A4C_e0129286 *)&D_801152B0;
             }
             (*(Box **)&D_8017F810)->f0 = (*(Box **)&D_8017F80C)->f0;
             (*(Box **)&D_8017F810)->f2 = (*(Box **)&D_8017F80C)->f2;

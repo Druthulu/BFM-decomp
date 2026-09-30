@@ -38,9 +38,9 @@ typedef struct {
     u8  f6;                     /* 0x38 */
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
-typedef void (*Handler)(struct Entry *);
+typedef void (*Handler)(struct Entry_tag *);
 struct vec;
-struct Prim { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
+struct Prim_SC01_077_80183324 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;

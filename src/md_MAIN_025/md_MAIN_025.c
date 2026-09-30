@@ -207,7 +207,7 @@ void func_800CB23C(void *a0) {
 
 
 void func_800CB300(s32 arg0) {
-    typedef struct { u8 b[8]; } W8;
+    typedef struct { u8 b[8]; } W8_md_MAIN_025_800CB300;
     typedef struct { s32 w[4]; } M16;
 
     extern u8 D_800CAE0C[];
@@ -246,7 +246,7 @@ void func_800CB300(s32 arg0) {
     extern void func_80146CA0(void *a0);
 
     s32 mat[8];
-    W8 work[3];
+    W8_md_MAIN_025_800CB300 work[3];
     s32 s1;
     s32 s2;
     s32 s0;
@@ -257,7 +257,7 @@ void func_800CB300(s32 arg0) {
 
     s1 = arg0;
     s0 = *(s32 *)(s1 + 0x20);
-    work[0] = *(W8 *)D_800CAE0C;
+    work[0] = *(W8_md_MAIN_025_800CB300 *)D_800CAE0C;
     s2 = (s32)&work;
     if (func_80146E98(s1) != 0) {
         goto L6A8;

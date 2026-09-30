@@ -4652,7 +4652,7 @@ extern void func_80015954(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 rand(void);
 
-struct Ent { u8 pad[0xDC]; s32 unkDC; u8 pad2[0x1C]; u16 unkFC; };
+struct Ent_SC07_010_8017AE2C { u8 pad[0xDC]; s32 unkDC; u8 pad2[0x1C]; u16 unkFC; };
 
 extern struct S6C D_80185D6C[];
 extern struct S72 D_80185D72[];
@@ -4660,17 +4660,17 @@ extern struct S9E D_80185D9E[];
 
 void func_8017E70C(void) {
     s32 r; /* incoming $s3, never written */
-    struct Ent *p;
+    struct Ent_SC07_010_8017AE2C *p;
     s32 t;
 
     t = rand() % 6;
-    p = (struct Ent *)func_8012C588(0x3A6, 0);
+    p = (struct Ent_SC07_010_8017AE2C *)func_8012C588(0x3A6, 0);
     if (p != 0) {
         func_80015954((s32)&D_80185D6C[t], (s32)p + 4);
         p->unkFC = D_80185D9E[D_80185D72[t].unk0].unk0 + (r * 170 - 341);
         p->unkDC = 0;
     }
-    p = (struct Ent *)func_8012C588(0x3A6, 0);
+    p = (struct Ent_SC07_010_8017AE2C *)func_8012C588(0x3A6, 0);
     if (p != 0) {
         func_80015954((s32)&D_80185D6C[t], (s32)p + 4);
         p->unkFC = D_80185D9E[D_80185D72[t].unk0].unk0 + (r * 170 - 227);
@@ -5503,7 +5503,7 @@ extern void func_80017738(void *a0, void *a1);
 
 void func_8017FA94(s32 a0, s32 a1, s32 a2, s32 a3)
 {
-    Quad quad;
+    Quad_td quad;
     u32 out[6];
     u8 buf[32];
 

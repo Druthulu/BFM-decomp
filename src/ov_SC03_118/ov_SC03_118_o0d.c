@@ -2947,9 +2947,9 @@ void func_801833C4(s32 arg0)
         u8 pad4[4];
         u16 fEC;
         u16 fEE;
-    } St;
+    } St_SC03_118_801833C4;
 
-#define P ((St *)arg0)
+#define P ((St_SC03_118_801833C4 *)arg0)
 
     func_80180A64(D_801D47E0, D_801B5D38, P->fDC.s, P->fE2);
     func_80180A64(D_801D47E0, D_801B86B4, P->fDC.s, P->fE6);
@@ -2983,9 +2983,9 @@ void func_801834DC(s32 arg0)
         u8 pad4[4];
         s16 fEC;
         s16 fEE;
-    } St;
+    } St_SC03_118_801834DC;
 
-#define P ((St *)arg0)
+#define P ((St_SC03_118_801834DC *)arg0)
 
     func_80180A64(D_801D47E0, D_801B5D38, P->fDC.s, P->fE2);
     func_80180A64(D_801D47E0, D_801B86B4, P->fDC.s, P->fE6);

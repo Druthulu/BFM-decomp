@@ -2782,7 +2782,7 @@ extern void func_8017C230(int a0);
 
 void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim;
+    typedef struct { u32 w0, w1, w2; } Prim_SC03_103_8017D174;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -2807,7 +2807,7 @@ void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 j;
     u32 nprim;
     u32 i;
-    Prim *prim;
+    Prim_SC03_103_8017D174 *prim;
     u8 *pkt;
     u8 *vtx;
     u8 *vd;
@@ -2914,7 +2914,7 @@ void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim *)part->prim;
+                    prim = (Prim_SC03_103_8017D174 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
                         w = prim->w1;

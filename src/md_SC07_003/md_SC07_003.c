@@ -2436,9 +2436,9 @@ void func_801A3334(void *a0) {
 
     /* unaligned (align-1) 8-byte copy: (*(s1+0x20))[+0x10] = (*(s2+0x20))[+0x10] */
     {
-        typedef struct { u16 a, b, c, d; } Vec8;
-        *(Vec8 *)((u8 *)*(u32 *)((u8 *)s1 + 0x20) + 0x10) =
-            *(Vec8 *)((u8 *)*(u32 *)((u8 *)s2 + 0x20) + 0x10);
+        typedef struct { u16 a, b, c, d; } Vec8_md_SC07_003_801A3334;
+        *(Vec8_md_SC07_003_801A3334 *)((u8 *)*(u32 *)((u8 *)s1 + 0x20) + 0x10) =
+            *(Vec8_md_SC07_003_801A3334 *)((u8 *)*(u32 *)((u8 *)s2 + 0x20) + 0x10);
     }
 
     *(s32 *)((u8 *)s1 + 0x4) = *(s32 *)((u8 *)s2 + 0x4);
@@ -2482,7 +2482,7 @@ extern u16 D_801F43C0;
 
 /* Sibling shape: an 8-byte, align-2 vector -- same idiom as func_80131340's
  * `struct V8` (lwl/lwr + swl/swr unaligned block move, cookbook S48-C2). */
-struct V8 { u16 vx, vy, vz, pad; };
+struct V8_md_SC07_003 { u16 vx, vy, vz, pad; };
 
 void func_801A3490(s32 p)
 {
@@ -2539,8 +2539,8 @@ void func_801A3490(s32 p)
     } else {
         func_801A38E4((void *)linked, (void *)pCC, (s32)D_801F43C0, 3, 1);
 
-        *(struct V8 *)(*(s32 *)(p + 0x20) + 0x10) =
-            *(struct V8 *)(*(s32 *)(linked + 0x20) + 0x10);
+        *(struct V8_md_SC07_003 *)(*(s32 *)(p + 0x20) + 0x10) =
+            *(struct V8_md_SC07_003 *)(*(s32 *)(linked + 0x20) + 0x10);
 
         *(s32 *)(p + 4) = *(s32 *)(linked + 4);
         *(s32 *)(p + 8) = *(s32 *)(linked + 8);
@@ -2612,11 +2612,11 @@ void func_801A3638(void *a0) {
     func_801A38E4(s1, s2, D_801F43C0, 5, 1);
 
     {
-        typedef struct { char c[8]; } Blk8;
+        typedef struct { char c[8]; } Blk8_md_SC07_003_801A3638;
         void *dst = *(void **)((u8 *)s0 + 0x20);
         void *src = *(void **)((u8 *)s1 + 0x20);
 
-        *(Blk8 *)((u8 *)dst + 0x10) = *(Blk8 *)((u8 *)src + 0x10);
+        *(Blk8_md_SC07_003_801A3638 *)((u8 *)dst + 0x10) = *(Blk8_md_SC07_003_801A3638 *)((u8 *)src + 0x10);
     }
 
     *(s32 *)((u8 *)s0 + 0x4) = *(s32 *)((u8 *)s1 + 0x4);
