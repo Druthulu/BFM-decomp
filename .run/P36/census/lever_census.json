@@ -5,7 +5,6 @@
   "gte_mnemonics": {
    "gte_SetRotMatrix": 253,
    "gte_SetTransMatrix": 231,
-   "gte_avsz3": 25,
    "gte_avsz4": 65,
    "gte_dpcl": 134,
    "gte_ldclmv": 78,
@@ -13,6 +12,7 @@
    "gte_ldv0": 768,
    "gte_ldv3": 186,
    "gte_ldv3c": 184,
+   "gte_nccs": 25,
    "gte_nclip": 108,
    "gte_rtir": 81,
    "gte_rtps": 448,
@@ -71,11 +71,17 @@
  "cfake_markers": {
   "count": 53,
   "sample": [
+   "src/800.c:12543",
+   "src/800_b_2.c:2948",
+   "src/800_b_2.c:2965",
+   "src/800_b_2.c:3087",
    "src/md_SC07_003/md_SC07_003.c:3577",
+   "src/md_SC07_004/md_SC07_004.c:280",
    "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:3564",
    "src/ov_SC01_009/ov_SC01_009_jr_8017E590.c:4265",
    "src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c:3973",
    "src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:5172",
+   "src/ov_SC02_011/ov_SC02_011_jr_80183178.c:2138",
    "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:4521",
    "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:8363",
    "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:5455",
@@ -104,13 +110,7 @@
    "src/ov_SC05_018/ov_SC05_018_jr_8017D604.c:4936",
    "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8438",
    "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8478",
-   "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8805",
-   "src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:3118",
-   "src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:5366",
-   "src/ov_SC06_020/ov_SC06_020_jr_80180B04.c:3708",
-   "src/ov_SC06_022/ov_SC06_022_jr_80184A28.c:3744",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3765",
-   "src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:5407"
+   "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8805"
   ]
  },
  "classes": {
@@ -280,8 +280,8 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 29.5,
- "generated": "2026-09-12",
+ "elapsed_s": 36.7,
+ "generated": "2026-09-29",
  "gte_levers": {
   "direct": 356,
   "marked": 450,
@@ -291,7 +291,7 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "bd7d32ec2",
+ "head": "465d915bd",
  "headers": 3181,
  "levers_AB": {
   "asm": 1862,

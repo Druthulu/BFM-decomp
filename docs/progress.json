@@ -49,7 +49,7 @@
   "deferred_same_address_texts": 381,
   "deferred_same_address_copies": 1668,
   "levers": {
-   "date": "2026-09-12",
+   "date": "2026-09-29",
    "what": "compiler-forcing constructs left in the C: register pins + asm statements (the classes Phase 36 drives to 0; GTE coprocessor ops and whole-body hand-asm routines excluded), with the volatile/register qualifiers censused",
    "sites": 3730,
    "pins": 1868,
