@@ -452,7 +452,8 @@ typedef struct {
     s16 y;
     s16 w;
     s16 h;
-} Rect;
+} RECT;                 /* libgpu RECT */
+typedef RECT Rect;
 
 
 typedef struct { s16 a; s16 b; s16 c; s16 d; } S8;
@@ -3964,7 +3965,8 @@ typedef struct {
     /* 0x20 */ s16 x3, y3;
     /* 0x24 */ u8  u3, v3;
     /* 0x26 */ u16 pad_26;
-} FT4_801857A4;
+} POLY_FT4;             /* libgpu POLY_FT4; SDK pad1/pad2 spelled by offset (pad-name invariant) */
+typedef POLY_FT4 FT4_801857A4;
 typedef struct {
     /* 0x00 */ s16 f0;
     /* 0x02 */ s16 f2;          /* OT depth */

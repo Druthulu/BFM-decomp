@@ -576,7 +576,8 @@ typedef struct {
     u8 g;
     u8 b;
     u8 cd;
-} Col4_8017F8BC;
+} CVECTOR;              /* libgte CVECTOR */
+typedef CVECTOR Col4_8017F8BC;
 typedef Col4_8017F8BC CVEC;
 typedef Col4_8017F8BC CVecX;
 typedef struct {
@@ -1780,13 +1781,14 @@ typedef struct {
     u32 tag;
     u8 r0, g0, b0, code;
     s16 x0, y0;
-    u8 r1, g1, b1, p1;
+    u8 r1, g1, b1, pad_F;
     s16 x1, y1;
-    u8 r2, g2, b2, p2;
+    u8 r2, g2, b2, pad_17;
     s16 x2, y2;
-    u8 r3, g3, b3, p3;
+    u8 r3, g3, b3, pad_1F;
     s16 x3, y3;
-} PG4_8017FD50;
+} POLY_G4;              /* libgpu POLY_G4; SDK pad1..pad3 spelled by offset (pad-name invariant) */
+typedef POLY_G4 PG4_8017FD50;
 typedef PG4_8017FD50 G4_80017778;
 typedef struct {
     u8 addr0, addr1, addr2, len;
@@ -2020,7 +2022,8 @@ typedef struct {
     s16 x1, y1;
     u8  r2, g2, b2, pad_17;
     s16 x2, y2;
-} PG3;
+} POLY_G3;              /* libgpu POLY_G3; SDK pad1/pad2 spelled by offset (pad-name invariant) */
+typedef POLY_G3 PG3;
 typedef struct {
     u32 tag;                    /* 0x00 */
     u8  r0, g0, b0, code;       /* 0x04 */
