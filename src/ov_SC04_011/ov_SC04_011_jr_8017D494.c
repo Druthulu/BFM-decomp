@@ -7,12 +7,6 @@
                 /* 4 + 16*12 = 0xC4 stride */
                  /* 0x08 */
      /* 0x20 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
       /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
          /* 16-byte stride array element */
@@ -4272,9 +4266,6 @@ void func_80180050(void *a0) {
 
 /* 8-byte block, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2, matches
  * the Blk8_80126940_* family in shared/engine_types.h) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8018008C;
 
 extern Blk8_80126940_8018008C D_80126940;
 extern Blk8_80126940_8018008C D_801274E8;
@@ -13542,7 +13533,6 @@ extern s32 func_8018985C(void *a0, void *a1);
 
 #include "common.h"
 
-typedef struct { u8 d[4]; } Blk4_md_SC07_003;
 
 extern void *func_80189A60(void);
 extern void func_801292C8(u8 *a0);
@@ -15792,8 +15782,8 @@ void func_8018EFB0(void *a0) {
 }
 
 
-#define RD16(p) (((struct { u16 v; } *)(p))->v)
-#define RW32(p) (((struct { u32 v; } *)(p))->v)
+#define RD16(p) (((Unkstruct_8018F02C *)(p))->v)
+#define RW32(p) (((Unkstruct_8018F02C_2 *)(p))->v)
 
 void func_8018F02C(void *a0)
 {

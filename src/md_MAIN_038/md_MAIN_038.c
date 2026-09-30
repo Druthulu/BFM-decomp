@@ -262,7 +262,6 @@ void func_800CB518(void *arg0) {
 
 
 void func_800CB574(void *param_1) {
-    typedef struct { u32 a, b, c, d; } Blk16;
     extern void func_801465E4(void);
     extern void func_8001C810(s32 a0, s32 a1);
     extern void func_80149350(s32 a0);

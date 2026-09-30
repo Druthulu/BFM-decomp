@@ -227,8 +227,6 @@ void func_801E2B08(void) {
 }
 
 
-typedef struct { short vx, vy, vz, pad; } SVECTOR;
-typedef struct { short m[3][3]; long t[3]; } MATRIX;
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);

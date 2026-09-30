@@ -2,12 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -5198,7 +5192,6 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
 
 void func_8018AB00(void)
 {
-    typedef struct { u8 b0, b1, b2, b3; } Blk4_SC06_018_8018AB00;
     extern void func_800233CC(void *, unsigned short);
     extern Blk4_SC06_018_8018AB00 D_801D57B0;
     extern Blk4_SC06_018_8018AB00 D_801D57B4;
@@ -5212,7 +5205,6 @@ void func_8018AB00(void)
 }
 
 
-typedef struct { u8 b0, b1, b2, b3; } Blk4_SC06_018_8018AB00;
 extern Blk4_SC06_018_8018AB00 D_801D57B0;
 extern Blk4_SC06_018_8018AB00 D_801D3B10;
 extern Blk4_SC06_018_8018AB00 D_801D3B08;
@@ -6564,8 +6556,8 @@ void func_8018CC88(void *a0) {
 }
 
 
-#define RD16(p) (((struct { u16 v; } *)(p))->v)
-#define RW32(p) (((struct { u32 v; } *)(p))->v)
+#define RD16(p) (((Unkstruct_8018CD04 *)(p))->v)
+#define RW32(p) (((Unkstruct_8018CD04_2 *)(p))->v)
 
 void func_8018CD04(void *a0)
 {

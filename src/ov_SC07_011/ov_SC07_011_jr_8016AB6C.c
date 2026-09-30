@@ -1,28 +1,6 @@
 #include "common.h"
 
 s32 func_8016AB6C(s32 arg0) {
-    typedef struct Obj_8016AB6C {
-        s32 unk0;
-        s32 unk4;
-        u8  pad8[0xE - 0x8];
-        s16 unkE;
-        u8  pad10[0x24 - 0x10];
-        u8  unk24, unk25, unk26, unk27;
-        u8  pad28[0x2E - 0x28];
-        s16 unk2E;
-        s16 unk30;
-    } Obj_8016AB6C;
-    typedef struct Ent_8016AB6C {
-        u16 unk0, unk2, unk4, unk6, unk8, unkA, unkC, unkE;
-        s32 unk10, unk14, unk18, unk1C;
-        Obj_8016AB6C *unk20;
-        s16 unk24, unk26, unk28, unk2A;
-        s32 unk2C;
-        s32 unk30;
-    } Ent_8016AB6C;
-    typedef struct SVec_8016AB6C {
-        s16 vx, vy, vz, pad;
-    } SVec_8016AB6C;
 
     extern s32 func_801783D0(s32 a0, s32 a1);
     extern void func_80024054(void *a0, void *a1);

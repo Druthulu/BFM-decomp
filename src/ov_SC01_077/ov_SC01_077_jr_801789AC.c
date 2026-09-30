@@ -32,12 +32,6 @@ extern s32 func_801758FC(void);                          /* derive-decl, arity 0
 /* ==== end canonical-sig layer ==================================================== */
 struct S;
 struct Obj;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_SC01_077_8016AB6C;
 typedef void (*Handler)(struct Entry_tag *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;

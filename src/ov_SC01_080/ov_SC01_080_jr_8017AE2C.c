@@ -7,12 +7,6 @@
                 /* 4 + 16*12 = 0xC4 stride */
                  /* 0x08 */
      /* 0x20 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -5140,13 +5134,6 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 extern M2C_UNK D_801A37A4;
 extern M2C_UNK D_801899C4;
 
-typedef struct {
-    u8 pad[6];
-    u16 v;
-    u16 z2;
-    u16 z1;
-    u8 tail[12];
-} Stk;
 
 void func_8017F53C(s32 arg0)
 {
@@ -6390,7 +6377,6 @@ extern void func_801696D8(s32 a0, s32 a1);
 extern s32 func_80169A4C(s32 a0, s32 a1);
 
 void func_801810E4(void *a0) {
-    typedef struct { s32 w[8]; } Blk20;
     typedef struct { s16 vx, vy, vz, pad; } SVec8;
     extern Blk20 D_800AE620;
 
@@ -6705,7 +6691,6 @@ void func_80181854(void *a0) {
        func_80180728): two file-scope anonymous-struct typedefs of one name are
        a hard cc1 error, block scope is not. Frame: v @ sp+0x10, v2 @ sp+0x18,
        mtx @ sp+0x20 -- declaration order IS slot order. */
-    typedef struct { s32 w[8]; } Blk20;
     typedef struct { u16 vx, vy, vz, pad; } UVec8;
 
     UVec8 v;

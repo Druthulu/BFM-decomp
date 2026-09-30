@@ -630,8 +630,6 @@ def census_move(tsv, batch, apply, jobs, excl_path, excl_out):
         hit = nm_all & set(excl_names)
         if hit:
             excluded[g] = f"listed: {excl_names[sorted(hit)[0]]}"
-        if any(r["form"] == "anon" for r in rs) and any(r["rel"].endswith(".h") for r in rs):
-            excluded[g] = "anonymous cast in a header"
     # exclusion closure: a def that needs an excluded def stays too
     changed = True
     while changed:
@@ -648,7 +646,7 @@ def census_move(tsv, batch, apply, jobs, excl_path, excl_out):
 
     def canon_deps(r):
         own = _keys(r)
-        return {canon_key[k] for k in refs(r["body"], own) if k in canon_key}
+        return [canon_key[k] for k in sorted(refs(r["body"], own)) if k in canon_key]
 
     for g, it in info.items():
         if it["present"] is not None and it["present"]["rel"] == et_rel and it["target"] == "st":
@@ -705,6 +703,15 @@ def census_move(tsv, batch, apply, jobs, excl_path, excl_out):
             for g, why in sorted(excluded.items(), key=lambda kv: gname[kv[0]]):
                 fh.write(f"{gname[g]}\t{why}\t{','.join(f'{r['rel']}:{r['line']}' for r in info[g]['rs'])}\n")
     todo = [g for g, it in info.items() if g not in excluded and (batch == "all" or BATCHES[it["batch"]] == batch)]
+    # a relocated canon def becomes visible to every TU at once: every copy of it moves in the same batch (the md/main
+    # copies of an engine_types.h type are a redefinition the moment it sits in struct_types.h)
+    todo += [g for g, it in info.items() if g not in excluded and g not in todo
+             and it["present"] is not None and id(it["present"]) in reloc]
+    stuck = [gname[g] for g, it in info.items() if g in excluded and it["present"] is not None
+             and id(it["present"]) in reloc]
+    if stuck:
+        print(f"[refuse] relocated canon defs have excluded copies: {stuck[:8]}")
+        return 1
     print(f"[batch {batch}] {len(todo)} group(s), {sum(len(info[g]['rs']) for g in todo)} def(s); "
           f"to engine_types.h {sum(1 for g in todo if info[g]['target'] == 'et' and info[g]['present'] is None)}, "
           f"to struct_types.h {sum(1 for g in todo if info[g]['target'] == 'st' and info[g]['present'] is None)}")

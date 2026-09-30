@@ -7,12 +7,6 @@
                 /* 4 + 16*12 = 0xC4 stride */
                  /* 0x08 */
      /* 0x20 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -9727,7 +9721,6 @@ void func_801859E4(s32 a0) {
      * its real definition later in this TU takes the file-scope SVECTOR*, and
      * an empty list is compatible with any prototype in C89 (pack §195-A). */
     typedef struct { s32 w[8]; } Mtx8_8017DE10_8017E710;
-    typedef struct { short vx, vy, vz, pad; } SVECTOR;
 
     extern void func_8012B23C(s32 a0);
     extern s32  func_80185EFC(s32 a0);

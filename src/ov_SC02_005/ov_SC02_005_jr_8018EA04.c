@@ -1,40 +1,7 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-} D_80195AF6_t;
-typedef struct {
-    u8 pad[4];
-    s32 field_4;
-} SubStruct;
-typedef struct {
-    u8 pad_00[0x20];
-    SubStruct *f_20;
-    u8 pad_24[0xA8];
-    void *f_CC;
-    void *f_D0;
-    void *f_D4;
-    u8 pad_D8[0x10];
-    s32 f_E8;
-} MainStruct;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CF90;
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-} D_80195AF4_t;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;

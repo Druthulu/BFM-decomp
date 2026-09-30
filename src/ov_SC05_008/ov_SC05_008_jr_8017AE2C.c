@@ -7,12 +7,6 @@
                 /* 4 + 16*12 = 0xC4 stride */
                  /* 0x08 */
      /* 0x20 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -3441,7 +3435,6 @@ void func_8017D03C(s32 a0) {
 }
 
 
-typedef struct { s32 w[4]; } B16;
 extern void func_8014BF8C(u8 arg0);
 extern void func_800291A0(s32, s32);
 extern void func_8014706C(void *arg0);

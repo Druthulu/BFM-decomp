@@ -2,12 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -3941,23 +3935,6 @@ void func_8017EB24(void *a0) {
 #include "common.h"
 
 
-typedef struct Obj8017EBC4 {
-    /* 0x000 */ u8 pad000[0x02];
-    /* 0x002 */ s16 unk_002;
-    /* 0x004 */ u8 pad004[0x06];
-    /* 0x00A */ u16 unk_00A;
-    /* 0x00C */ u8 pad00C[0x10];
-    /* 0x01C */ s32 unk_01C;
-    /* 0x020 */ Sub8017EBC4 *unk_020;
-    /* 0x024 */ u8 pad024[0x52];
-    /* 0x076 */ s16 unk_076;
-    /* 0x078 */ u8 pad078[0x84];
-    /* 0x0FC */ s16 unk_0FC;
-    /* 0x0FE */ u8 pad0FE[0x02];
-    /* 0x100 */ s16 unk_100;
-    /* 0x102 */ u8 pad102[0x08];
-    /* 0x10A */ s16 unk_10A;
-} Obj8017EBC4_SC06_029_8017C954;
 
 extern u8 D_801A0720[];
 extern s32 D_8019EA38[]; /* §183 TYPE-adopted-TU: TU spells this s32[] */
@@ -5619,7 +5596,6 @@ extern s32 D_801DFD90;
 extern s32 func_80012CB8(s32 a0, s32 a1, s32 a2);
 
 void func_80181708(int param_1) {
-    typedef struct { s16 vx, vy, vz, pad; } SV;
     typedef struct { u8 pad[0x3C]; s32 x3C; s32 x40; s32 x44; s32 x48; s32 x4C; s32 x50; } OB;
     extern s16 D_801904C6_a[] __asm__("D_801904C6");
     extern s16 D_801904CE_a[] __asm__("D_801904CE");
@@ -7659,7 +7635,6 @@ void func_80184C68(u8 *v, s32 idx)
      * the draft compiles standalone under match_one -- DELETE IT when banking.
      * Byte-neutral either way (only ->addr is used, and it is bits 0..23 of
      * word 0 in both spellings).  */
-    typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
 
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];

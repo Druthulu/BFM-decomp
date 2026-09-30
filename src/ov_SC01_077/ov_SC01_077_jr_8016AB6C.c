@@ -3627,12 +3627,6 @@ extern void func_8016E778();  // K&R: ? of 1 args (P37 rung D t4_D6)
                  /* 0x08 */
      /* 0x20 */
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_SC01_077_8016AB6C;
 
 
 void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)

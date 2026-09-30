@@ -63,7 +63,6 @@ void func_800CAF7C(void) {
 }
 
 
-typedef struct { s32 w[8]; } Blk20;
 
 void func_800CAFA0(void *a0) {
     extern u8 D_80078EC1;

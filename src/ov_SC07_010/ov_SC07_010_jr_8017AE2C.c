@@ -3403,12 +3403,6 @@ void func_8017BEB4(void) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 
 
 extern s32 func_800491EC(void);
@@ -4652,7 +4646,6 @@ extern void func_80015954(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 rand(void);
 
-struct Ent_SC07_010_8017AE2C { u8 pad[0xDC]; s32 unkDC; u8 pad2[0x1C]; u16 unkFC; };
 
 extern struct S6C D_80185D6C[];
 extern struct S72 D_80185D72[];

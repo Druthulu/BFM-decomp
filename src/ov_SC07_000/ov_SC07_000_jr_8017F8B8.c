@@ -2,12 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -2931,7 +2925,6 @@ void func_8017FB38(s32 param_1)
 
 extern void func_8001CD9C(s32, void *);
 extern void func_800233CC(void *, u16);
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_SC07_000_8017F8B8;
 extern Blk4_SC07_000_8017F8B8 D_801CE7A4[];
 extern u8 D_801865C0;
 extern u8 D_801D0678[];

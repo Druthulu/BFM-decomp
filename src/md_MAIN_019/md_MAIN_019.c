@@ -191,7 +191,6 @@ void func_800CB324(s32 a0) {
     extern void func_80146CA0(void *a0);
     extern void func_800CB4A8(void);
 
-    typedef struct { u32 a, b, c, d; } Blk16;
 
     s32 iVar1;
     s32 iVar2;
@@ -215,7 +214,6 @@ void func_800CB324(s32 a0) {
 }
 
 
-typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
 
 extern void func_800CB578(void *a0);
 extern s32 func_80146E98(s32 a0);
@@ -252,7 +250,6 @@ void func_800CB4A8(void) {
 }
 
 
-typedef struct { u8 b[8]; } Blk8;
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern void func_80149374(s32 a0, s32 a1);

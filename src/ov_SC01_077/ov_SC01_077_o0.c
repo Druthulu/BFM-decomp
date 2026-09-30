@@ -50,8 +50,6 @@ void func_8013B568(s32 arg0) {
  * 66/66 instructions byte-identical (match_one --o0).
  */
 void func_8013B598(s32 a0, u16 *a1) {
-    typedef struct { u16 f0; u16 f2; u16 f4; } Src_8013B598;
-    typedef struct { s32 f0; u16 f4; u16 f6; u16 f8; u16 fA; s32 fC; u8 pad[0xC]; } Spr_8013B598;
     extern Spr_8013B598 D_801DAA08[];
 
     D_801DAA08[a0].f0 = 1;
@@ -64,20 +62,6 @@ void func_8013B598(s32 a0, u16 *a1) {
 
 void func_8013B6A0(s32 idx, u16 *src, s32 val)
 {
-    typedef struct {
-        s32 f0;
-        u16 f4;
-        u16 f6;
-        u16 f8;
-        u16 fA;
-        s32 fC;
-        u8  pad[0xC];
-    } Ent_8013B6A0;
-    typedef struct {
-        u16 f0;
-        u16 f2;
-        u16 f4;
-    } Src_8013B6A0;
     extern Ent_8013B6A0 D_801DAA08[];
 
     D_801DAA08[idx].f0 = 1;
@@ -89,7 +73,7 @@ void func_8013B6A0(s32 idx, u16 *src, s32 val)
 
 
 #include "common.h"
-typedef struct { s32 f0; u8 pad[0x18]; } E_3B7AC;   /* sizeof 0x1C stride */
+   /* sizeof 0x1C stride */
 extern E_3B7AC D_801DAA08[];
 void func_8013B7AC(int a0) { D_801DAA08[a0].f0 = 0; }
 
@@ -106,16 +90,7 @@ extern s32 D_801DAB24;
 void func_8013BD74(void *a0, s32 a1);
 
 void func_8013B83C(s32 a0, s32 a1, s32 a2) {
-    typedef struct {
-        s32 f0;
-        u16 f4;
-        u16 f6;
-        u16 f8;
-        u16 fA;
-        s32 fC;
-        u8  pad[8];
-        s32 f18;
-    } Ent_8013B83C;                       /* sizeof 0x1C */
+                       /* sizeof 0x1C */
     extern Ent_8013B83C D_801DAA08_e[] __asm__("D_801DAA08");
     extern s32 D_801DAAA4;
     extern s32 D_801DAAA8;
@@ -205,7 +180,6 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
 }
 
 
-typedef struct { char pad_8013BC7C[0x68]; s32 f68; } S_8013BC7C;
 
 extern void (*D_80186AD4[])(void *);
 
@@ -241,17 +215,6 @@ void func_8013BD74(void *a0, s32 a1) {
        file-scope E_13BD74 banks the exemplar and then fails every sibling with `E_13BD74'
        undeclared (the §94 type-carry class, measured on ov_SC01_000). Block scope travels with the
        body and is byte-neutral (a type emits no code). */
-    typedef struct {
-        u8    pad0[8];
-        void *f8;
-        void *fC;
-    } E_13BD74;
-    typedef struct {
-        u8  pad0[3];
-        u8  code;
-        s32 f4;
-        s32 f8;
-    } P_13BD74;
     s32 *q;
     s32 *p;
     s32 i;
@@ -317,11 +280,6 @@ void func_8013C08C(void *a0, void *a1) {
      * failure until proven otherwise). Declared here, it is part of the unit by construction.
      * NB no brace characters in this comment on purpose - extract_unit's forward brace-scan does
      * not strip comments, so a brace in a comment truncates the extracted unit. */
-    typedef struct {
-        u8   pad0[8];
-        void *f8;
-        void *fC;
-    } E_13C08C;
 
     void *p = a1;
 
@@ -331,20 +289,9 @@ void func_8013C08C(void *a0, void *a1) {
 }
 
 
-typedef struct Foo {
-    unsigned char pad[0xc];
-    unsigned int count;   /* 0xc */
-    int field10;          /* 0x10 */
-} Foo;                    /* size 0x14 */
+                    /* size 0x14 */
 
-typedef struct Bar {
-    unsigned char b0;     /* 0x0 */
-    unsigned char b1;     /* 0x1 */
-    unsigned char b2;     /* 0x2 */
-    unsigned char tag;    /* 0x3 */
-    unsigned int a;       /* 0x4 */
-    unsigned int b;       /* 0x8 */
-} Bar;                    /* size 0xc */
+                    /* size 0xc */
 
 #include "../shared/ov/func_8013C0F8__t95d2c582.h"
 
@@ -355,14 +302,7 @@ typedef struct Bar {
 // @unstuck(P36): none — MATCH
 #include "common.h"
 
-typedef struct {
-    u8  b0;
-    u8  b1;
-    u8  b2;
-    u8  type;
-    u32 w1;
-    u32 w2;
-} T3Reloc; /* 0xC */
+ /* 0xC */
 
 #include "../shared/ov/func_8013C414__t0f8a552a.h"
 

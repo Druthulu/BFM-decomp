@@ -7,12 +7,6 @@
                 /* 4 + 16*12 = 0xC4 stride */
                  /* 0x08 */
      /* 0x20 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
       /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
          /* 16-byte stride array element */
@@ -10955,7 +10949,6 @@ void func_8018A150(void *a0)
 
 
 void func_8018A21C(void *a0) {
-    typedef struct { u8 b[8]; } Blk8;
     extern s32 func_80017DC4(void *a0, void *a1);
     extern s16 func_8012A758(void);
     extern void RotMatrixY(s32 a0, void *a1);

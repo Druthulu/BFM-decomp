@@ -3421,7 +3421,6 @@ void func_8017D130(s32 a0) {
 
 
 extern s16 *D_801F6098;
-typedef struct { s16 w[4]; } Blk8_80126940_8018008C_SC07_006_8017BEBC;
 extern Blk8_80126940_8018008C_SC07_006_8017BEBC D_801274E8;
 extern void func_8017D4E4(s32 param_1, s16 *param_2);
 

@@ -298,9 +298,6 @@ INCLUDE_RODATA("asm/md_SC05_026/nonmatchings/md_SC05_026", D_801ED988);
 
 INCLUDE_RODATA("asm/md_SC05_026/nonmatchings/md_SC05_026", D_801EDA60);
 
-typedef struct { s16 vx, vy; } DVEC2_C974_8017BA3C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974;
 
 extern s32 func_80014ED4(s32);
 extern s32 func_80015018(s32);

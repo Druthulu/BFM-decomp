@@ -1137,9 +1137,6 @@ void func_800CC6C4(void *a0, void *a1, void *a2, void *a3) {
 
 #include "common.h"
 
-typedef struct { char b[4]; } W;
-typedef struct { s16 m[9]; s16 pad; s32 t[3]; s32 rest[8]; } Mtx;
-typedef struct { s16 x, y, z; } Vec3s;
 
 extern void func_80015978(s32 a0, void *a1);
 extern s32 func_8012EFB8(void *param_1, void *param_2);

@@ -2,12 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
  /* 0x1C */
  /* 0x1D0 */
@@ -4657,9 +4651,7 @@ void func_80189440(s32 arg0, SV_189440 *v)
 {
     /* block-scope copies so the draft compiles standalone under match_one; the
      * TU's ../shared/engine_core.h already provides both -- delete when banking. */
-    typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
     typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX;
-    typedef struct { s32 w[8]; } Blk20;
 
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];

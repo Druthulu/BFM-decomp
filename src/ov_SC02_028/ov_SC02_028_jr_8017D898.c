@@ -7,12 +7,6 @@
                 /* 4 + 16*12 = 0xC4 stride */
                  /* 0x08 */
      /* 0x20 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
       /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
          /* 16-byte stride array element */
@@ -5597,7 +5591,6 @@ void func_8018248C(s32 a0, s32 a1) {
      * file-scope decl in this TU: it is already declared twice, block-scoped and
      * with two different types (Blk32_8018AA98_80183D30 @5594, s32 @6053).  This
      * body follows that existing TU precedent verbatim. */
-    typedef struct { u8 b[8]; } Blk8;
     typedef struct { s32 w[8]; } Blk32_8018AA98_80183D30;
     extern Blk8 D_801D1A9C;
     extern s32 D_800AE620;

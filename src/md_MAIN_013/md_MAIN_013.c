@@ -135,7 +135,6 @@ void func_800CB0E8(void *a0) {
 
 void func_800CB138(s32 arg0) {
 
-    typedef struct { s32 w[8]; } Blk20;
 
     extern Blk20 D_800AE620;
     extern u8 D_800CB8FC[];
@@ -304,7 +303,6 @@ void func_800CB510(void *arg0) {
 
 void func_800CB56C(s32 arg0) {
 
-    typedef struct { s32 w[8]; } Blk20;
 
     extern Blk20 D_800AE620;
     extern void RotMatrixZ(s32 a0, void *a1);

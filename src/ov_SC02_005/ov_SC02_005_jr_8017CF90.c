@@ -2,12 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -2704,7 +2698,6 @@ extern void func_8017CF24(s32 a0, s32 a1);
  */
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CF90;
 
 
 
@@ -4141,7 +4134,6 @@ void func_8017F464(void *a0)
 
 
 void func_8017F530(void *arg0) {
-    typedef struct { u8 b[8]; } Blk8;
     extern Blk8 D_801E2DC8;
     extern s32 func_80171D78(s32 a0, s32 a1);
     extern s32 func_8013767C(s32 a0);
@@ -4684,7 +4676,6 @@ s32 func_801801DC(void *a0) {
 
 
 void func_80180234(void *arg0) {
-    typedef struct { u8 b[8]; } Blk8;
     extern Blk8 D_801E2DF0;
     extern s32 func_80171D78(s32 a0, s32 a1);
     extern s32 func_8013767C(s32 a0);
@@ -4888,7 +4879,6 @@ extern s16 D_801E4C50;
  *    must therefore be 62 then 6A to emit 6A then 62.
  */
 void func_80180610(void *a0) {
-    typedef struct { u8 b[8]; } Blk8;
     typedef struct {
         s16 f0; s16 f2; s16 f4; u16 f6; s16 f8;
         s16 fA; s16 fC; s16 fE; s16 f10; s16 f12;
@@ -5258,7 +5248,6 @@ void func_80180F5C(int param_1)
 
 
 void func_80180FA8(void *arg0) {
-    typedef struct { u8 b[8]; } Blk8;
     extern Blk8 D_801E2E10;
     extern s32 func_80171D78(s32 a0, s32 a1);
     extern s32 func_8013767C(s32 a0);
@@ -5442,7 +5431,6 @@ void func_801813F0(void *a0) {
 
 
 void func_8018141C(void *a0) {
-    typedef struct { u8 b[8]; } Blk8;
     extern Blk8 D_801E2E18;
     extern void func_80154274(s32 *, s32);
     extern void func_8014706C(void *);
@@ -5552,16 +5540,6 @@ s32 func_801816CC(s32 a0, s32 a1) {
 }
 
 
-typedef struct {
-    u8 pad_00[0x20];
-    void *f_20;
-    u8 pad_24[0xA8];
-    void *f_CC;
-    void *f_D0;
-    void *f_D4;
-    u8 pad_D8[0x10];
-    s32 f_E8;
-} MainStruct_SC02_005_8017CF90;
 
 extern s32 D_801B82F4[];
 extern s32 D_801E4418[];

@@ -48,7 +48,7 @@ typedef struct { s32 stat; u32 val; } CardSlot;           /* D_8007609C[port>>4]
 typedef struct { u8 b[41]; } Blk41;
 typedef struct { u8 b[32]; } Blk32u;
 typedef struct { u8 b[128]; } Blk128u;
-typedef struct { u32 w[38]; } Blk152;                      /* 0x98 bytes, word aligned */
+                      /* 0x98 bytes, word aligned */
 
 extern s32 D_800760AC;      /* state */
 extern s32 D_800760B0;      /* port (0x00 / 0x10) */

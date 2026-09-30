@@ -183,7 +183,6 @@ void func_800CB0D0(St_md_MAIN_029 *arg0) {
 }
 
 
-typedef struct { s32 w[8]; } Blk20;
 
 void func_800CB2AC(void *a0)
 {

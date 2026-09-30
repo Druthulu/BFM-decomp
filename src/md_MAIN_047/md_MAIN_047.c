@@ -51,7 +51,6 @@ s32 func_800CCBC0(void)
     typedef struct { s16 vx, vy, vz, pad; } SVEC_md_MAIN_047_800CCBC0;
     typedef struct { u8 r, g, b, cd; } CVEC;
     typedef struct { SVEC_md_MAIN_047_800CCBC0 v0, v1, v2, v3; CVEC c0, c1, c2, c3; s32 tag; } Prim_md_MAIN_047_800CCBC0;
-    typedef struct { s32 w[8]; } Blk20;
     typedef struct { u16 f0, f1, f2, f3, f4, f5; } Rec_md_MAIN_047_800CCBC0;
     typedef struct { u8 flag, idx, cnt, tim; Rec_md_MAIN_047_800CCBC0 e[16]; } Trail_md_MAIN_047_800CCBC0;
 
@@ -242,7 +241,6 @@ void func_800CD314(void *arg0) {
     extern void func_800233CC(void *a0, u16 a1);
     extern void func_80146C3C(u8 *a0);
 
-    typedef struct { s32 w[8]; } Blk32;
 
     register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     s32 t;

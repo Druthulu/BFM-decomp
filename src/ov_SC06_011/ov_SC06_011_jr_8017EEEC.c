@@ -356,9 +356,6 @@ loop:
 }
 
 
-typedef struct {
-    u16 x, y, z, w;
-} Pt_8017D87C;
 
 
 s32 func_8017F6CC(s32 a0) {
@@ -407,7 +404,6 @@ void func_8017F760(s32 arg0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_800;
 
 void func_8017F7D4(s32 a0) {
     SVECTOR_800 in;

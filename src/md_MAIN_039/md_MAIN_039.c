@@ -314,7 +314,6 @@ void func_800CB5CC(void *a0) {
 
 s32 func_800CB61C(s32 a0, s32 a1)
 {
-    typedef struct { u8 b[8]; } Blk8;
     extern u8 D_800CAE0C[8];
     extern s32 func_8014C5FC(s32, s32, void *);
     extern s32 func_8014C59C(void *, void *);
@@ -395,7 +394,6 @@ void func_800CB804(void *arg0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_md_MAIN_039;
 typedef struct { s32 vx, vy, vz, pad; } V32;
 

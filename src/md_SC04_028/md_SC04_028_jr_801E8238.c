@@ -3,8 +3,6 @@
 #include "common.h"
 
 typedef struct { u8 c[8]; } Blk8_md_SC03_076;
-typedef struct { short vx, vy, vz, pad; } SVECTOR;
-typedef struct { short m[3][3]; long t[3]; } MATRIX;
 extern u8 D_801E8798[];
 void func_800167B8(int);
 void func_80175414(s32 _arg0);
@@ -227,7 +225,6 @@ void func_801E855C(void) {
 }
 
 
-typedef struct { char s[10]; } S10_80136C90;
 
 void func_801E85E8(void) {
     extern s32 D_801E7AAC;

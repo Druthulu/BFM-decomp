@@ -675,10 +675,6 @@ void func_800CF94C(void) {
 //   if ((s16)v >= 0x5B && D_800AF7B8 != 0) func_80011B7C(6);
 //     (slti (s16)v,0x5B; bnez->end | lhu D_800AF7B8; beqz->end | a0=6; jal 11B7C).
 
-typedef struct {
-    s32 word0;
-    s32 word4;
-} CdFileLoc;
 
 extern u16 D_800B99F6;
 extern s16 D_80114E74;

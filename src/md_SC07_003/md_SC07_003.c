@@ -2459,10 +2459,6 @@ void func_801A3334(void *a0) {
 /* Sibling shape: src/shared/engine_types.h:1337 `struct S80190C84` (0x14-byte
  * spawn record: 8x s16 + trailing s32). Re-declared locally here since the
  * include path for src/shared/ isn't reachable from this standalone draft. */
-struct S80190C84 {
-    s16 f0, f2, f4, f6, f8, fA, fC, fE;
-    s32 f10;
-};
 
 /* decl_prior (card func_801A3490): modal fleet spellings adopted verbatim. */
 extern void func_8012E9C0(s32 a0);
@@ -4254,7 +4250,6 @@ void func_801A589C(void *a0) {
 #include "common.h"
 
 typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_md_SC07_003;
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_800;
 
 extern void (*D_801A7434[])(void);
 
@@ -4354,7 +4349,6 @@ extern void func_800233CC(void *a0, u16 a1);
 extern u8 D_801F4444[];
 extern u8 D_801F4448[];
 
-typedef struct { u8 d[4]; } Blk4_md_SC07_003;
 
 const Blk4_md_SC07_003 D_801A01CC = {{0x00, 0x00, 0x00, 0x00}};
 const Blk4_md_SC07_003 D_801A01D0 = {{0xFF, 0x80, 0x00, 0x00}};

@@ -2356,12 +2356,6 @@ extern void (*D_80182604[])(void);
                  /* 0x08 */
      /* 0x20 */
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 
 
 #include "../shared/ov/func_8016E7C8__e806c2e1.h"

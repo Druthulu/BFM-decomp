@@ -368,4 +368,139 @@ typedef struct {
     /* 0x0094 */ s32 posZ;          /* D_80078F0C; verified live + code width 4 */
 } Unkstruct_80078E78; /* size = 0x98 */
 
+/* --- lift_types.py --census (P38 T5.1.c2, batch ov-file) --- */
+typedef struct { s32 w[8]; } Blk20;
+typedef struct { u8 b[8]; } Blk8;
+typedef struct { u32 a, b, c, d; } Blk16;
+typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
+typedef struct { s32 w[8]; } Blk32;
+typedef struct Bar {
+    unsigned char b0;     /* 0x0 */
+    unsigned char b1;     /* 0x1 */
+    unsigned char b2;     /* 0x2 */
+    unsigned char tag;    /* 0x3 */
+    unsigned int a;       /* 0x4 */
+    unsigned int b;       /* 0x8 */
+} Bar;
+typedef struct { u32 w[38]; } Blk152;
+typedef struct { s32 f0; } E4;
+typedef struct { s32 f0; u8 pad[0x18]; } E_3B7AC;
+typedef struct Foo {
+    unsigned char pad[0xc];
+    unsigned int count;   /* 0xc */
+    int field10;          /* 0x10 */
+} Foo;
+typedef struct {
+    s16 m[9];    /* 0x00 */
+    s16 pad;     /* 0x12 */
+    s32 t[3];    /* 0x14, 0x18, 0x1c */
+    s32 rest[8]; /* 0x20..0x3f */
+} Mtx;
+typedef struct Obj_8016AB6C {
+    s32 unk0;
+    s32 unk4;
+    u8  pad8[0xE - 0x8];
+    s16 unkE;
+    u8  pad10[0x24 - 0x10];
+    u8  unk24, unk25, unk26, unk27;
+    u8  pad28[0x2E - 0x28];
+    s16 unk2E;
+    s16 unk30;
+} Obj_8016AB6C;
+typedef struct Ent_8016AB6C {
+    u16 unk0, unk2, unk4, unk6, unk8, unkA, unkC, unkE;
+    s32 unk10, unk14, unk18, unk1C;
+    Obj_8016AB6C *unk20;
+    s16 unk24, unk26, unk28, unk2A;
+    s32 unk2C;
+    s32 unk30;
+} Ent_8016AB6C;
+typedef struct { char s[10]; } S10_80136C90;
+typedef struct { short vx, vy, vz, pad; } SVECTOR;
+typedef struct SVec_8016AB6C {
+    s16 vx, vy, vz, pad;
+} SVec_8016AB6C;
+typedef struct { char pad_8013BC7C[0x68]; s32 f68; } S_8013BC7C;
+typedef struct {
+    u8  b0;
+    u8  b1;
+    u8  b2;
+    u8  type;
+    u32 w1;
+    u32 w2;
+} T3Reloc;
+typedef struct { s16 x, y, z; } Vec3s;
+typedef struct { char b[4]; } W;
+typedef void (*code)(unsigned short *);
+typedef struct { short m[3][3]; long t[3]; } MATRIX;
+struct S80190C84 {
+    s16 f0, f2, f4, f6, f8, fA, fC, fE;
+    s32 f10;
+};
+typedef struct {
+    s32 word0;
+    s32 word4;
+} CdFileLoc;
+typedef struct {
+        u8    pad0[8];
+        void *f8;
+        void *fC;
+    } E_13BD74;
+typedef struct {
+        u8   pad0[8];
+        void *f8;
+        void *fC;
+    } E_13C08C;
+typedef struct {
+        s32 f0;
+        u16 f4;
+        u16 f6;
+        u16 f8;
+        u16 fA;
+        s32 fC;
+        u8  pad[0xC];
+    } Ent_8013B6A0;
+typedef struct {
+        s32 f0;
+        u16 f4;
+        u16 f6;
+        u16 f8;
+        u16 fA;
+        s32 fC;
+        u8  pad[8];
+        s32 f18;
+    } Ent_8013B83C;
+typedef struct {
+        u32 *ot;            /* 0x00 */
+        u32 pad[4];         /* 0x04..0x13 */
+    } Env_800D29F8;
+typedef struct {
+        u8  pad0[3];
+        u8  code;
+        s32 f4;
+        s32 f8;
+    } P_13BD74;
+typedef struct { s32 f0; u16 f4; u16 f6; u16 f8; u16 fA; s32 fC; u8 pad[0xC]; } Spr_8013B598;
+typedef struct { u16 f0; u16 f2; u16 f4; } Src_8013B598;
+typedef struct {
+        u16 f0;
+        u16 f2;
+        u16 f4;
+    } Src_8013B6A0;
+typedef struct { s16 vx, vy; } DVEC2_C974_8017BA3C;
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974;
+typedef struct {
+    u16 x, y, z, w;
+} Pt_8017D87C;
+typedef struct { s16 vx, vy, vz, pad; } SV;
+typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
+typedef struct {
+    u8 b[4];
+} Blk4;
+typedef struct { u8 d[4]; } Blk4_md_SC07_003;
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVECTOR_800;
+
 #endif /* STRUCT_TYPES_H */

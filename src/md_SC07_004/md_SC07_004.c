@@ -3942,7 +3942,6 @@ void func_801A5D68(void *arg) {
 }
 
 
-typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
 
 
 void func_801A5E60(s32 a0, u8 *v)

@@ -122,7 +122,6 @@ void func_800CAF94(s32 arg0) {
 
 void func_800CB0C8(s32 arg0) {
 
-    typedef struct { s32 w[8]; } Blk20;
 
     extern u8   D_80078EC1;
     extern u16  D_800B99DA;

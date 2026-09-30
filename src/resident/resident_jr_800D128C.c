@@ -1,9 +1,5 @@
 #include "common.h"
 
-typedef struct {
-    s32 word0;
-    s32 word4;
-} CdFileLoc;
 typedef struct { u32 addr : 24; u32 len : 8; } P_TAG_800CFAD0;
 typedef struct { u8 b0, b1, b2, b3; } BYTES_800CFAD0;
 typedef struct {
@@ -1198,7 +1194,6 @@ void func_800D1FC8(void *arg0, int arg1) {
  *   arg0->z += (s16)arg1->vz >> shift;
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_800;
 
 typedef struct {
     u16 x;   /* 0x0 */
@@ -1391,7 +1386,6 @@ void func_800D2468(void) {
 
 
 
-typedef struct { s32 f0; } E4;
 
 void func_800D24A0(s16 arg0) {
     extern void func_80018FC8(void);
@@ -1764,10 +1758,7 @@ typedef struct {
     s16 x3, y3;         /* 0x20 */
 } PolyG4_800D29F8;      /* 0x24 = tag + 8 words */
 
-typedef struct {
-    u32 *ot;            /* 0x00 */
-    u32 pad[4];         /* 0x04..0x13 */
-} Env_800D29F8;         /* 0x14 stride */
+         /* 0x14 stride */
 
 #define OT_800D29F8             (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
 #define getaddr_800D29F8(t)     (((PTag_800D29F8 *)(t))->addr)

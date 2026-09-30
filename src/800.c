@@ -103,9 +103,6 @@ typedef struct {                                     /* 0x24 */
 } G4P;
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {
-    u32 a, b, c, d;
-} Blk16;
-typedef struct {
     u32 a, b, c;
 } Blk12;
 
@@ -784,9 +781,6 @@ s32 func_80013294(SVECTOR_80013294 *a0, SVECTOR_80013294 *a1) {
 
 extern void Square0(s32 *a0, s32 *a1);
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVECTOR_800;
 
 s32 func_800132BC(SVECTOR_800 *a0, SVECTOR_800 *a1) {
     s32 diff[3];
@@ -1392,7 +1386,6 @@ void func_80014148(s32 a0, s32 a1, s32 a2) {
 }
 
 
-typedef struct { u8 b[8]; } Blk8;
 
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 
@@ -19145,9 +19138,6 @@ void func_800298BC(Blk36_800296F8 *arg0) {
 }
 
 
-typedef struct {
-    u8 b[4];
-} Blk4;
 
 extern Blk98_80029274 D_80078E78;
 extern u16 D_800A6588[];

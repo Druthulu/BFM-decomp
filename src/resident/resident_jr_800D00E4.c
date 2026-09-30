@@ -1,9 +1,5 @@
 #include "common.h"
 
-typedef struct {
-    s32 word0;
-    s32 word4;
-} CdFileLoc;
 typedef struct { u32 addr : 24; u32 len : 8; } P_TAG_800CFAD0;
 typedef struct { u8 b0, b1, b2, b3; } BYTES_800CFAD0;
 extern u16 D_800B99F0;

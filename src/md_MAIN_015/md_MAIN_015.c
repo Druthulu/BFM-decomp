@@ -269,7 +269,6 @@ void func_800CB494(void *arg0) {
 
 
 void func_800CB4F0(void *arg0) {
-    typedef struct { u32 a, b, c, d; } Blk16;
     extern s32 func_801465E4(void);
     extern void func_8001C810(s32 a0, s32 a1);
     extern void func_80149350();  // K&R: 3 of 1 args (P37 rung D t4_D58)

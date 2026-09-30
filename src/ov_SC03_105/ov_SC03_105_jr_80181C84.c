@@ -2,12 +2,6 @@
 #include "../shared/engine_prelude.h"
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
  /* 0x1C */
  /* 0x1D0 */
@@ -3173,7 +3167,6 @@ s32 func_8018233C(s32 arg0) {
 }
 
 
-typedef struct { u8 b[20]; } Stk_SC03_105_80181C84;
 
 /* f1 is SIGNED: `vec.f1 = -4` / `-0x10` must materialise as `addiu $v0,$zero,-K`.
  * A u16 field converts the constant to 0xFFFC/0xFFF0 and emits `ori` instead. */
