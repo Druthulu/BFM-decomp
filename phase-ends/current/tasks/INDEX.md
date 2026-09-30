@@ -4,3 +4,4 @@ T1 | done | phase-start health and baselines | - | tasks/T1.md | logs/T1.md | -
 T2 | done | --check-structs instrument and actor-struct fix | - | tasks/T2.md | logs/T2.md | -
 T3 | done | head-type layouts and canonical files | - | tasks/T3.md | logs/T3.md | -
 T4 | done | fold the head types fleet-wide (rung L) | - | tasks/T4.md | logs/T4.md | -
+T5 | question | long tail: one definition per type (partial; question) | - | tasks/T5.md | logs/T5.md | -
