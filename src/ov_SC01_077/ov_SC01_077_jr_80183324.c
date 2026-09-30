@@ -37,7 +37,7 @@ typedef struct {
     s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
     u8  f6;                     /* 0x38 */
     u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
+} Prim_8016E7C8_SC01_077_8016AB6C;
 typedef void (*Handler)(struct Entry_tag *);
 struct vec;
 struct Prim_SC01_077_80183324 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };

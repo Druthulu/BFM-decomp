@@ -3632,7 +3632,7 @@ typedef struct {
     s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
     u8  f6;                     /* 0x38 */
     u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8;
+} Prim_8016E7C8_SC01_077_8016AB6C;
 
 
 void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
@@ -3647,10 +3647,10 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
     extern s32 D_80189E98;
     extern s32 D_80189EA0;
 
-    Prim_8016E7C8 prim;
+    Prim_8016E7C8_SC01_077_8016AB6C prim;
     MATRIX_c2 m;
     SVECTOR tmp;
-    Prim_8016E7C8 *pp;   /* $s2 — force &prim into a saved reg */
+    Prim_8016E7C8_SC01_077_8016AB6C *pp;   /* $s2 — force &prim into a saved reg */
 
     ((void (*)(void *, void *))func_80017DC4)(param_2, &m);
     m.t[0] = *(short *)(param_1 + 6);

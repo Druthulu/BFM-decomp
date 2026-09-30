@@ -2454,9 +2454,9 @@ void func_80186734(void *a0) {
 
 s32 func_80186740(void)
 {
-    typedef struct { unsigned char b[4]; } __attribute__((packed, aligned(1))) Block4;
+    typedef struct { unsigned char b[4]; } __attribute__((packed, aligned(1))) Block4_SC02_011_80186740;
 
-    extern Block4 D_801EB524;
+    extern Block4_SC02_011_80186740 D_801EB524;
     extern unsigned char D_801EB525;
     extern unsigned char D_801EB526;
 

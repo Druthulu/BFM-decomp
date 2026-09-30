@@ -1548,15 +1548,15 @@ void func_801F1CB0(void) {
 
 #include "common.h"
 
-typedef struct { u8 c[8]; } Blk8;
+typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 
-const Blk8 D_801EF6C0 = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801EF6C0 = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
 
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void *);
 
 void func_801F1CD8(u32 arg0) {
-    Blk8 buffer;
+    Blk8_md_SC03_076 buffer;
 
     buffer = D_801EF6C0;
 
@@ -1605,13 +1605,13 @@ void func_801F1DDC(void) {
 
 
 
-const Blk8 D_801EF6C8 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801EF6C8 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
 
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void *);
 
 void func_801F1DFC(u32 arg0) {
-    Blk8 buffer;
+    Blk8_md_SC03_076 buffer;
 
     buffer = D_801EF6C8;
 

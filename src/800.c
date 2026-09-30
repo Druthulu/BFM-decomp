@@ -786,9 +786,9 @@ extern void Square0(s32 *a0, s32 *a1);
 
 typedef struct {
     s16 vx, vy, vz, pad;
-} SVECTOR;
+} SVECTOR_800;
 
-s32 func_800132BC(SVECTOR *a0, SVECTOR *a1) {
+s32 func_800132BC(SVECTOR_800 *a0, SVECTOR_800 *a1) {
     s32 diff[3];
     s32 result[3];
 

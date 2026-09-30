@@ -98,15 +98,15 @@ void func_801EDBF0(void) {
 
 INCLUDE_RODATA("asm/md_SC05_024/nonmatchings/md_SC05_024", D_801ED988);
 
-typedef struct { u8 c[8]; } Blk8;
+typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 
-const Blk8 D_801ED98C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801ED98C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
 
 extern int func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
 void func_801EDC18(u32 arg0) {
-    Blk8 buffer;
+    Blk8_md_SC03_076 buffer;
 
     buffer = D_801ED98C;
 
@@ -151,12 +151,12 @@ void func_801EDD1C(void) {
 }
 
 
-const Blk8 D_801ED994 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801ED994 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
 void func_801EDD3C(u32 arg0) {
-    Blk8 buffer;
+    Blk8_md_SC03_076 buffer;
 
     buffer = D_801ED994;
 

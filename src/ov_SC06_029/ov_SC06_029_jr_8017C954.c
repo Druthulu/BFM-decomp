@@ -3957,7 +3957,7 @@ typedef struct Obj8017EBC4 {
     /* 0x100 */ s16 unk_100;
     /* 0x102 */ u8 pad102[0x08];
     /* 0x10A */ s16 unk_10A;
-} Obj8017EBC4;
+} Obj8017EBC4_SC06_029_8017C954;
 
 extern u8 D_801A0720[];
 extern s32 D_8019EA38[]; /* §183 TYPE-adopted-TU: TU spells this s32[] */
@@ -3987,9 +3987,9 @@ extern void StoreImage(void *a0, void *a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80016450(s32 a0, s32 a1);
 
-void func_8017EBC4(Obj8017EBC4 *a0) {
-    Obj8017EBC4 *ent;
-    Obj8017EBC4 *ent2;
+void func_8017EBC4(Obj8017EBC4_SC06_029_8017C954 *a0) {
+    Obj8017EBC4_SC06_029_8017C954 *ent;
+    Obj8017EBC4_SC06_029_8017C954 *ent2;
     u8 *p;
     s32 *q;
     Sub8017EBC4 *sp;
@@ -4008,11 +4008,11 @@ void func_8017EBC4(Obj8017EBC4 *a0) {
     func_8001C97C(D_8019EA38);
 
     for (i = 0; i < 5; i++) {
-        ent = (Obj8017EBC4 *)func_8012C658(0x294, i, (s32)a0);
+        ent = (Obj8017EBC4_SC06_029_8017C954 *)func_8012C658(0x294, i, (s32)a0);
         t = (s16)((i & 1) << 9);
         D_801DDB2C[i] = (s32)ent;
         ent->unk_00A -= i << 8;
-        ent2 = (Obj8017EBC4 *)D_801DDB2C[i];
+        ent2 = (Obj8017EBC4_SC06_029_8017C954 *)D_801DDB2C[i];
         ent2->unk_020->unk_012 = t;
         ent2->unk_0FC = t;
         D_801DFD38[i] = 0;

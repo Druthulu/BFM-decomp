@@ -4177,9 +4177,9 @@ extern void func_8017F5DC(s32 a0);
 void func_8017F17C(s32 a0) {
     typedef struct {
         u8 c[8];
-    } Blk8;  /* alignment 1 -> lwl/lwr + swl/swr block move (S160a) */
-    extern Blk8 D_801A5458;
-    Blk8 sv;
+    } Blk8_md_SC03_076;  /* alignment 1 -> lwl/lwr + swl/swr block move (S160a) */
+    extern Blk8_md_SC03_076 D_801A5458;
+    Blk8_md_SC03_076 sv;
     s32 obj;
     s32 p;
 

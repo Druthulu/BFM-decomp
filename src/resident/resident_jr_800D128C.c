@@ -1198,7 +1198,7 @@ void func_800D1FC8(void *arg0, int arg1) {
  *   arg0->z += (s16)arg1->vz >> shift;
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR;
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR_800;
 
 typedef struct {
     u16 x;   /* 0x0 */
@@ -1214,10 +1214,10 @@ typedef struct {
 } Tgt800D20C0;
 
 extern Tgt800D20C0 *D_801151D4;
-extern long VectorNormalSS(SVECTOR *a, SVECTOR *b);
+extern long VectorNormalSS(SVECTOR_800 *a, SVECTOR_800 *b);
 
-void func_800D20C0(Pos800D20C0 *arg0, SVECTOR *arg1, s16 arg2) {
-    SVECTOR local;
+void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
+    SVECTOR_800 local;
     Tgt800D20C0 *p = D_801151D4;
     s32 dx, dy, dz;
     s32 shift;

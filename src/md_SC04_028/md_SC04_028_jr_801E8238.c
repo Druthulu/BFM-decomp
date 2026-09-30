@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-typedef struct { u8 c[8]; } Blk8;
+typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 typedef struct { short vx, vy, vz, pad; } SVECTOR;
 typedef struct { short m[3][3]; long t[3]; } MATRIX;
 extern u8 D_801E8798[];

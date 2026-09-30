@@ -3421,8 +3421,8 @@ void func_8017D130(s32 a0) {
 
 
 extern s16 *D_801F6098;
-typedef struct { s16 w[4]; } Blk8_80126940_8018008C;
-extern Blk8_80126940_8018008C D_801274E8;
+typedef struct { s16 w[4]; } Blk8_80126940_8018008C_SC07_006_8017BEBC;
+extern Blk8_80126940_8018008C_SC07_006_8017BEBC D_801274E8;
 extern void func_8017D4E4(s32 param_1, s16 *param_2);
 
 void func_8017D1D0(s32 param_1) {
@@ -3438,7 +3438,7 @@ void func_8017D1D0(s32 param_1) {
         sp10[2] = ptr[2] + (ptr[10] - ptr[2]) * *(s32 *)(param_1 + 0x9C) / ptr[3];
         *(s32 *)(param_1 + 0x9C) = *(s32 *)(param_1 + 0x9C) + 1;
         if (ptr[3] < *(s32 *)(param_1 + 0x9C)) {
-            D_801274E8 = *(Blk8_80126940_8018008C *)&sp10[0];
+            D_801274E8 = *(Blk8_80126940_8018008C_SC07_006_8017BEBC *)&sp10[0];
             *(s32 *)(param_1 + 0x9C) = 0;
             *(u16 *)(param_1 + 0xA0) += 1;
         }

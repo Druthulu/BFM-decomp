@@ -424,7 +424,7 @@ L_inc:
 
 
 void func_800CBBA0(void *a0) {
-    typedef struct { s32 w[4]; } S16;
+    typedef struct { s32 w[4]; } S16_md_MAIN_014_800CB254;
     extern void func_800CB8A0(void *a0);
     s32 a1;
     s32 n;
@@ -445,8 +445,8 @@ void func_800CBBA0(void *a0) {
         *(u16 *)((s32)a0 + 0x1A) = (s16)m >> 1;
     }
     v0 = *(s32 *)(a1 + 0x20);
-    *(S16 *)((s32)a0 + 0x38) = *(S16 *)(v0 + 0x34);
-    *(S16 *)((s32)a0 + 0x48) = *(S16 *)(v0 + 0x44);
+    *(S16_md_MAIN_014_800CB254 *)((s32)a0 + 0x38) = *(S16_md_MAIN_014_800CB254 *)(v0 + 0x34);
+    *(S16_md_MAIN_014_800CB254 *)((s32)a0 + 0x48) = *(S16_md_MAIN_014_800CB254 *)(v0 + 0x44);
     func_800CB8A0((s32)a0);
 }
 

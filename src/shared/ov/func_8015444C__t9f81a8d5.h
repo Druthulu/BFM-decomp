@@ -18,13 +18,13 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
         u8 unkDC;               /* 0xDC */
         u8 padDD[0x1A8 - 0xDD];
         u8 unk1A8;              /* 0x1A8 */
-    } Actor4C;
+    } Actor4C_8015444C_t9f81a8d5;
 
-    Actor4C *arg0 = a0v;
+    Actor4C_8015444C_t9f81a8d5 *arg0 = a0v;
     s32 *arg1 = arg1x;
     s32 *arg2 = arg2x;
     s32 *arg3 = arg3x;
-    Actor4C *p = arg0->unk20;
+    Actor4C_8015444C_t9f81a8d5 *p = arg0->unk20;
     u8 t;
     s32 t2;
     u32 op;
@@ -211,7 +211,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     break;
                 case 23:
                     if (*arg3 == 0) {
-                        p->unk20 = (Actor4C *)&D_80126748;
+                        p->unk20 = (Actor4C_8015444C_t9f81a8d5 *)&D_80126748;
                     }
                     arg0->unkB8 = (u16)arg0->unkBA;
                     arg0->unkBC++;
@@ -220,7 +220,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     break;
                 case 24:
                     if (*arg3 == 0) {
-                        p->unk20 = (Actor4C *)&D_80126848;
+                        p->unk20 = (Actor4C_8015444C_t9f81a8d5 *)&D_80126848;
                     }
                     arg0->unkB8 = (u16)arg0->unkBA;
                     arg0->unkBC++;
@@ -246,7 +246,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 default:
-                    p->unk20 = (Actor4C *)(op + 0x10);
+                    p->unk20 = (Actor4C_8015444C_t9f81a8d5 *)(op + 0x10);
                     arg0->unkB8 = (u16)arg0->unkBA;
                     arg0->unkBC++;
                     arg0->unkBD++;

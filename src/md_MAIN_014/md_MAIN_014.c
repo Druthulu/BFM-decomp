@@ -180,7 +180,7 @@ void func_800CB164(void *a0) {
 
 
 void func_800CB254(void *a0) {
-    typedef struct { s32 w[4]; } S16;
+    typedef struct { s32 w[4]; } S16_md_MAIN_014_800CB254;
     extern u8 D_80078EC1;
     extern void func_80146C3C(u8 *a0);
     extern void func_800CAF90(void *a0);
@@ -204,8 +204,8 @@ void func_800CB254(void *a0) {
             *(u16 *)((s32)a0 + 0x1A) = (s16)m >> 1;
         }
         v0 = *(s32 *)(a1 + 0x20);
-        *(S16 *)((s32)a0 + 0x38) = *(S16 *)(v0 + 0x34);
-        *(S16 *)((s32)a0 + 0x48) = *(S16 *)(v0 + 0x44);
+        *(S16_md_MAIN_014_800CB254 *)((s32)a0 + 0x38) = *(S16_md_MAIN_014_800CB254 *)(v0 + 0x34);
+        *(S16_md_MAIN_014_800CB254 *)((s32)a0 + 0x48) = *(S16_md_MAIN_014_800CB254 *)(v0 + 0x44);
         func_800CAF90(a0);
     } else {
         func_80146C3C(a0);

@@ -8641,15 +8641,15 @@ extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
 void func_8018450C(s32 a0, s32 a1) {
-    typedef struct { s32 m[8]; } Mtx8_8017DE10_8017E710;
-    extern Mtx8_8017DE10_8017E710 D_800AE620;
+    typedef struct { s32 m[8]; } Mtx8_8017DE10_8017E710_SC03_006_8018450C;
+    extern Mtx8_8017DE10_8017E710_SC03_006_8018450C D_800AE620;
     s32 obj;
     s32 cur;
     s32 r2;
     s32 flag;
     u8 *base;
     s32 vec[3];
-    Mtx8_8017DE10_8017E710 m;
+    Mtx8_8017DE10_8017E710_SC03_006_8018450C m;
     s32 off;
     s32 val;
 

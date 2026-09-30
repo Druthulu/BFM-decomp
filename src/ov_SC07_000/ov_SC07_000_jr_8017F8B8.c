@@ -2931,8 +2931,8 @@ void func_8017FB38(s32 param_1)
 
 extern void func_8001CD9C(s32, void *);
 extern void func_800233CC(void *, u16);
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4;
-extern Blk4 D_801CE7A4[];
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_SC07_000_8017F8B8;
+extern Blk4_SC07_000_8017F8B8 D_801CE7A4[];
 extern u8 D_801865C0;
 extern u8 D_801D0678[];
 
@@ -2943,8 +2943,8 @@ void func_8017FBE8(void *arg0) {
     case 0:
         func_8001CD9C(*(s32 *)((u8 *)arg0 + 0x20), s0);
         func_800233CC(s0, 0x80);
-        *(Blk4 *)s0 = D_801CE7A4[0];
-        *(Blk4 *)(s0 + 4) = D_801CE7A4[0];
+        *(Blk4_SC07_000_8017F8B8 *)s0 = D_801CE7A4[0];
+        *(Blk4_SC07_000_8017F8B8 *)(s0 + 4) = D_801CE7A4[0];
         *(u32 *)(*(s32 *)((u8 *)arg0 + 0x20) + 4) |= 0x60000000;
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x18) = 0;
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x1A) = 0;
@@ -2956,8 +2956,8 @@ void func_8017FBE8(void *arg0) {
     case 1:
         func_8001CD9C(*(s32 *)((u8 *)arg0 + 0x20), s0);
         func_800233CC(s0, 0x40);
-        *(Blk4 *)s0 = D_801CE7A4[0];
-        *(Blk4 *)(s0 + 4) = D_801CE7A4[0];
+        *(Blk4_SC07_000_8017F8B8 *)s0 = D_801CE7A4[0];
+        *(Blk4_SC07_000_8017F8B8 *)(s0 + 4) = D_801CE7A4[0];
         *(u32 *)(*(s32 *)((u8 *)arg0 + 0x20) + 4) |= 0x50000000;
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x18) = 0;
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x1A) = 0;
@@ -2967,8 +2967,8 @@ void func_8017FBE8(void *arg0) {
     case 2:
         func_8001CD9C(*(s32 *)((u8 *)arg0 + 0x20), s0);
         func_800233CC(s0, 0x80);
-        *(Blk4 *)s0 = D_801CE7A4[0];
-        *(Blk4 *)(s0 + 4) = ((Blk4 *)&D_801865C0)[0];
+        *(Blk4_SC07_000_8017F8B8 *)s0 = D_801CE7A4[0];
+        *(Blk4_SC07_000_8017F8B8 *)(s0 + 4) = ((Blk4_SC07_000_8017F8B8 *)&D_801865C0)[0];
         *(u32 *)(*(s32 *)((u8 *)arg0 + 0x20) + 4) |= 0x50000000;
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x18) = 0;
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x1A) = 0;

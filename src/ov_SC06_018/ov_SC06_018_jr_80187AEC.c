@@ -5198,12 +5198,12 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
 
 void func_8018AB00(void)
 {
-    typedef struct { u8 b0, b1, b2, b3; } Blk4;
+    typedef struct { u8 b0, b1, b2, b3; } Blk4_SC06_018_8018AB00;
     extern void func_800233CC(void *, unsigned short);
-    extern Blk4 D_801D57B0;
-    extern Blk4 D_801D57B4;
-    extern Blk4 D_801D3B08;
-    extern Blk4 D_801D3B0C;
+    extern Blk4_SC06_018_8018AB00 D_801D57B0;
+    extern Blk4_SC06_018_8018AB00 D_801D57B4;
+    extern Blk4_SC06_018_8018AB00 D_801D3B08;
+    extern Blk4_SC06_018_8018AB00 D_801D3B0C;
 
     func_800233CC(&D_801D57B0, 0x80);
 
@@ -5212,10 +5212,10 @@ void func_8018AB00(void)
 }
 
 
-typedef struct { u8 b0, b1, b2, b3; } Blk4;
-extern Blk4 D_801D57B0;
-extern Blk4 D_801D3B10;
-extern Blk4 D_801D3B08;
+typedef struct { u8 b0, b1, b2, b3; } Blk4_SC06_018_8018AB00;
+extern Blk4_SC06_018_8018AB00 D_801D57B0;
+extern Blk4_SC06_018_8018AB00 D_801D3B10;
+extern Blk4_SC06_018_8018AB00 D_801D3B08;
 
 void func_8018AB74(void) {
     if (D_801D57B0.b0 == 0xFF) {
@@ -5800,7 +5800,7 @@ void func_8018B8B0(s32 param_1)
 
 
 
-extern Blk4 D_801D57B0;
+extern Blk4_SC06_018_8018AB00 D_801D57B0;
 
 void func_8018B8F8(s32 param_1)
 {

@@ -407,11 +407,11 @@ void func_8017F760(s32 arg0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR;
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR_800;
 
 void func_8017F7D4(s32 a0) {
-    SVECTOR in;
-    SVECTOR out;
+    SVECTOR_800 in;
+    SVECTOR_800 out;
     s32 v0;
 
     in.vx = *(s16 *)(a0 + 0x6);

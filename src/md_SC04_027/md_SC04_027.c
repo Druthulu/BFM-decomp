@@ -1549,13 +1549,13 @@ void func_801EA380(void) {
 }
 
 
-typedef struct { u8 c[8]; } Blk8;
-const Blk8 D_801E7D80 = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+typedef struct { u8 c[8]; } Blk8_md_SC03_076;
+const Blk8_md_SC03_076 D_801E7D80 = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
 void func_801EA3A8(u32 arg0) {
-    Blk8 buffer;
+    Blk8_md_SC03_076 buffer;
 
     buffer = D_801E7D80;
 
@@ -1601,12 +1601,12 @@ void func_801EA4AC(void) {
 
 
 
-const Blk8 D_801E7D88 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801E7D88 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
 void func_801EA4CC(u32 arg0) {
-    Blk8 buffer;
+    Blk8_md_SC03_076 buffer;
 
     buffer = D_801E7D88;
 

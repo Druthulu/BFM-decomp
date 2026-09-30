@@ -13542,13 +13542,13 @@ extern s32 func_8018985C(void *a0, void *a1);
 
 #include "common.h"
 
-typedef struct { u8 d[4]; } Blk4;
+typedef struct { u8 d[4]; } Blk4_md_SC07_003;
 
 extern void *func_80189A60(void);
 extern void func_801292C8(u8 *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern Blk4 D_801ED994;
-extern Blk4 D_801ED9A8;
+extern Blk4_md_SC07_003 D_801ED994;
+extern Blk4_md_SC07_003 D_801ED9A8;
 
 void func_8018C764(s32 arg0) {
     s32 s0;
@@ -13558,8 +13558,8 @@ void func_8018C764(s32 arg0) {
         func_801292C8((u8 *)arg0);
     }
     *(u8 *)(s0 + 0xB) = 1;
-    *(Blk4 *)(s0 + 0x0) = D_801ED994;
-    *(Blk4 *)(s0 + 0x4) = D_801ED9A8;
+    *(Blk4_md_SC07_003 *)(s0 + 0x0) = D_801ED994;
+    *(Blk4_md_SC07_003 *)(s0 + 0x4) = D_801ED9A8;
     func_8001CD50(*(s32 *)(arg0 + 0x20), s0);
     *(s32 *)(arg0 + 0x34) = s0;
     *(u32 *)(*(s32 *)(arg0 + 0x20) + 0x4) =

@@ -4253,8 +4253,8 @@ void func_801A589C(void *a0) {
 
 #include "common.h"
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR;
+typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_md_SC07_003;
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR_800;
 
 extern void (*D_801A7434[])(void);
 
@@ -4275,8 +4275,8 @@ void func_801A58D8(void *a0) {
     s32 p;
     s32 v0;
     s32 v1;
-    MATRIX m1;
-    SVECTOR svec_out;
+    MATRIX_md_SC07_003 m1;
+    SVECTOR_800 svec_out;
 
     D_801A7434[*(u16 *)((s32)a0 + 0x2)]();
 
@@ -4354,10 +4354,10 @@ extern void func_800233CC(void *a0, u16 a1);
 extern u8 D_801F4444[];
 extern u8 D_801F4448[];
 
-typedef struct { u8 d[4]; } Blk4;
+typedef struct { u8 d[4]; } Blk4_md_SC07_003;
 
-const Blk4 D_801A01CC = {{0x00, 0x00, 0x00, 0x00}};
-const Blk4 D_801A01D0 = {{0xFF, 0x80, 0x00, 0x00}};
+const Blk4_md_SC07_003 D_801A01CC = {{0x00, 0x00, 0x00, 0x00}};
+const Blk4_md_SC07_003 D_801A01D0 = {{0xFF, 0x80, 0x00, 0x00}};
 
 void func_801A5AE0(void *a0) {
     void *s1 = D_801F4444;
@@ -4371,8 +4371,8 @@ void func_801A5AE0(void *a0) {
     *(u16 *)((s32)a0 + 0x2C) = 0x10;
     func_800233CC(s1, 0x10);
 
-    *(Blk4 *)s1 = D_801A01CC;
-    *(Blk4 *)D_801F4448 = D_801A01D0;
+    *(Blk4_md_SC07_003 *)s1 = D_801A01CC;
+    *(Blk4_md_SC07_003 *)D_801F4448 = D_801A01D0;
 
     *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x1E) = 0xC00;
     *(u16 *)((s32)a0 + 0x2) += 1;

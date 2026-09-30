@@ -6481,7 +6481,7 @@ extern void func_8012C218(void *a0);
           /* 0x08 */
           /* 0x10 */
  /* 0x20 */
-typedef struct { s16 f[0x86]; } Cnt_8018E8A0_80184FF0;
+typedef struct { s16 f[0x86]; } Cnt_8018E8A0_80184FF0_SC03_029_8017FF7C;
            /* 0x38 */
 
 void func_80184FF0(void *a0)
@@ -6516,7 +6516,7 @@ void func_80184FF0(void *a0)
     *(u32 *)((s32)&prim + 0x2C) = col;
 
     p = (s32 *)((s32)a0 + 0xCC);
-    for (i = 0, k = 0; i < ((Cnt_8018E8A0_80184FF0 *)a0)->f[0x84]; i++, k++, p += 3) {
+    for (i = 0, k = 0; i < ((Cnt_8018E8A0_80184FF0_SC03_029_8017FF7C *)a0)->f[0x84]; i++, k++, p += 3) {
         zb = (s32 *)((s32)a0 + 0xD4);
         { register s32 c1 __asm__("$2"); register s32 c2 __asm__("$3");  // !FAKE: pin $2 — NEEDED DIFFERS; pin $3 — NEEDED DIFFERS (P36 rung B tus9)
           c1 = *(s32 *)((s32)a0 + 0x1C); c2 = i * 4; d = c1 - c2; }
@@ -6582,8 +6582,8 @@ void func_80184FF0(void *a0)
 
     *(s32 *)((s32)a0 + 0x1C) += 1;
     if ((*(s32 *)((s32)a0 + 0x1C) & 3) == 0) {
-        if (((Cnt_8018E8A0_80184FF0 *)a0)->f[0x84] < 5) {
-            ((Cnt_8018E8A0_80184FF0 *)a0)->f[0x84] = ((Cnt_8018E8A0_80184FF0 *)a0)->f[0x84] + 1;
+        if (((Cnt_8018E8A0_80184FF0_SC03_029_8017FF7C *)a0)->f[0x84] < 5) {
+            ((Cnt_8018E8A0_80184FF0_SC03_029_8017FF7C *)a0)->f[0x84] = ((Cnt_8018E8A0_80184FF0_SC03_029_8017FF7C *)a0)->f[0x84] + 1;
         }
     }
 }

@@ -3574,7 +3574,7 @@ void func_8017E798(void *a0) {
     extern Vec8_DB0 D_801E2DB8;
     extern u8 D_80126948[];
     extern s32 D_80126E60[];
-    typedef struct { s32 w[41]; } Blk164;
+    typedef struct { s32 w[41]; } Blk164_SC02_005_8017E798;
     u8 *base;
     Vec8_DB0 a;
     Vec8_DB0 b;
@@ -3583,7 +3583,7 @@ void func_8017E798(void *a0) {
     b = D_801E2DB8;
 
     base = D_80126948;
-    *(Blk164 *)D_80126E60 = *(Blk164 *)base;
+    *(Blk164_SC02_005_8017E798 *)D_80126E60 = *(Blk164_SC02_005_8017E798 *)base;
 
     func_8012A018((s32)func_8017E97C, 4);
 
@@ -5561,7 +5561,7 @@ typedef struct {
     void *f_D4;
     u8 pad_D8[0x10];
     s32 f_E8;
-} MainStruct;
+} MainStruct_SC02_005_8017CF90;
 
 extern s32 D_801B82F4[];
 extern s32 D_801E4418[];
@@ -5579,7 +5579,7 @@ extern u16 D_801E439C;
 extern u16 D_801E4398;
 extern s32 D_801270CC;
 extern s32 D_801E43A0;
-extern MainStruct *D_801E43A4;
+extern MainStruct_SC02_005_8017CF90 *D_801E43A4;
 extern void func_8002D4C8(s32, s32);
 extern s32 func_8012C354(s32, s32);
 extern s32 func_8012C588(s32, s32);
@@ -5593,7 +5593,7 @@ extern void func_8018AA88(void);
 extern void func_80185E54(s32);
 extern void func_80182D80(s32);
 
-void func_801816FC(MainStruct *s0) {
+void func_801816FC(MainStruct_SC02_005_8017CF90 *s0) {
     register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v1;
     register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
@@ -5653,7 +5653,7 @@ void func_801816FC(MainStruct *s0) {
 fail:
         func_8012CAE4((void *)s0);
     } else {
-        D_801E43A4 = (MainStruct *)func_80188A10((s32)s0);
+        D_801E43A4 = (MainStruct_SC02_005_8017CF90 *)func_80188A10((s32)s0);
         func_8018B2DC();
         func_8018AA88();
         func_80185E54((s32)s0);
