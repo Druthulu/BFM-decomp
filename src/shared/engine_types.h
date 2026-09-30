@@ -5799,7 +5799,6 @@ typedef struct {
     u32 flags;         /* 0x40 */
     u8  clut;          /* 0x44 */
 } Desc_80181574;
-typedef struct { u16 u, v; } UV_80184F18;
 typedef Desc_80181574 Desc_80184F18;
 typedef struct {
     s16 u, v;
@@ -6221,11 +6220,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8_SC01_077_8016AB6C;
 struct Prim_SC01_077_80182268 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
-struct Prim_SC01_077_80182E7C { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
-struct Prim_SC01_077_80183324 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
-struct Prim_SC01_077_80183AF0 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
-struct Prim_SC01_077_80183BAC { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
-struct Prim_SC01_077_80183CF4 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
 struct Prim_SC02_000_8017FCB0 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
 typedef struct {
     u8 pad[6];

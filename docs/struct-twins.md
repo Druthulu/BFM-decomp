@@ -134,3 +134,7 @@ cause: 2 names (72 B, all members placeholders) bound to 4 distinct objects, non
 - `VoiceF80`: 2 obj — main/0x80030F80:e, main/0x80030F80:i
 
 ## Dead kept
+- Unkstruct_80126B58 — defined in the generated `head_types` block of include/struct_types.h; `--fold-dead` never edits generated text (T5.1.c3b)
+- LineF2_8018F694 — used only inside a multi-line macro body in ov_SC06_018/032/033 (census cannot see it); deleting it broke cc1 (`undeclared`), T5.1.c3b
+- actor4c — tag of Actor4C, named only by its own self-pointer member `unk20`; the self-reference needs the tag
+- actor4c_8015444C — tag of Actor4C_8015444C_t9f81a8d5, same self-pointer `unk20` reason
