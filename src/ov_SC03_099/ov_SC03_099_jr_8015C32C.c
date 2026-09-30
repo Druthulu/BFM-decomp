@@ -5708,7 +5708,7 @@ void func_80168AA8(void *a0) {
 extern void func_80168BDC(s32 a0, s32 a1, s32 a2, s32 a3);
 /* Conform to the TU's canonical decl (jr_8015C32C.c:5546 `extern void func_80146C3C(void);`)
  * and cast at the use site — same escape the TU already uses at :6388. Codegen-neutral. */
-extern void func_80146C3C(void);
+extern void func_80146C3C(u8 *a0);
 
 #include "../shared/ov/func_80168B70.h"
 
@@ -5792,7 +5792,7 @@ extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_80048D9C(void *a0, void *a1);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
-extern void func_80146C3C(void);
+extern void func_80146C3C(u8 *a0);
 
 void func_80169BBC(s32 arg0) {
 
@@ -5877,7 +5877,7 @@ void func_80169F00(void *a0) {
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
-extern void func_80146C3C(void);
+extern void func_80146C3C(u8 *a0);
 
 extern char D_801864B0[];
 extern char D_80186470[];
