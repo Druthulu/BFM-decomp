@@ -2,7 +2,6 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8017C180(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_8017C180_t67f11bf2;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);

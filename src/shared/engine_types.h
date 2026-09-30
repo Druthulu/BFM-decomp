@@ -8765,6 +8765,46 @@ struct Entity_800CB658 {
 typedef struct { s32 w[4]; } func_800CB0B0_Blk16;
 typedef struct { s32 w[4]; } func_800CB188_Blk16;
 
+/* --- lift_types.py --census (P38 T5.1.c2, batch headers) --- */
+typedef struct actor4c_8015444C {
+    u8 pad00[0x20];
+    struct actor4c_8015444C *unk20;  /* 0x20 */
+    u8 pad24[0x44 - 0x24];
+    u32 unk44;              /* 0x44 */
+    u8 pad48[0xB4 - 0x48];
+    s32 *unkB4;             /* 0xB4  command-stream pointer */
+    s16 unkB8;              /* 0xB8  countdown timer */
+    s16 unkBA;              /* 0xBA */
+    u8 unkBC;               /* 0xBC  program counter */
+    u8 unkBD;               /* 0xBD */
+    u8 padBE[0xDC - 0xBE];
+    u8 unkDC;               /* 0xDC */
+    u8 padDD[0x1A8 - 0xDD];
+    u8 unk1A8;              /* 0x1A8 */
+} Actor4C_8015444C_t9f81a8d5;
+typedef struct { s8 c[8]; } Blk8_80133CD4_de6ea26c;
+typedef struct { s8 c[8]; } Blk8_80135A4C_e0129286;
+typedef struct { u32 w0, w1, w2; } Prim_8017BEBC_t67f11bf2;
+typedef struct { u32 w0, w1, w2; } Prim_8017C180_t67f11bf2;
+typedef struct { u32 w0, w1, w2; } Prim_8017C24C_t67f11bf2;
+typedef struct { u32 w0, w1, w2; } Prim_8017C294_t67f11bf2;
+typedef struct { u32 w0, w1, w2; } Prim_8017C710_t3f3d6beb;
+typedef struct { u32 w0, w1, w2; } Prim_8017C730_tc0f85567;
+typedef struct { u32 w0, w1, w2; } Prim_8017C8D0_t67f11bf2;
+typedef struct { u32 w0, w1, w2; } Prim_8017CA80_t67f11bf2;
+typedef struct { u32 w0, w1, w2; } Prim_8017D5C0_e98d5a37;
+typedef struct { u32 w0, w1, w2; } Prim_8017D898_t67f11bf2;
+typedef struct { u16 h; } Unkstruct_8011F82A;
+typedef struct { u16 h; } Unkstruct_8011F82C;
+typedef struct { u16 h; } Unkstruct_8011F82E;
+typedef struct { u16 h; } Unkstruct_8011F830;
+typedef struct { s32 w; } Unkstruct_8014EA4C;
+typedef struct { s32 w; } Unkstruct_8014EE14;
+typedef struct { s32 field; } Unkstruct_8014F2E0;
+struct V8_80131340_0021791e {
+    u16 vx, vy, vz, pad;
+};
+
 #endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the
  * Phase-29 crack-wave lift onward) were sitting OUTSIDE the guard, so any TU that
  * included this header twice re-declared them. gcc-2.7.2 rejects a repeated typedef

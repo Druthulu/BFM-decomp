@@ -3,22 +3,6 @@
 void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
 {
     /* BLOCK-SCOPE type — see header note. */
-    typedef struct actor4c_8015444C {
-        u8 pad00[0x20];
-        struct actor4c_8015444C *unk20;  /* 0x20 */
-        u8 pad24[0x44 - 0x24];
-        u32 unk44;              /* 0x44 */
-        u8 pad48[0xB4 - 0x48];
-        s32 *unkB4;             /* 0xB4  command-stream pointer */
-        s16 unkB8;              /* 0xB8  countdown timer */
-        s16 unkBA;              /* 0xBA */
-        u8 unkBC;               /* 0xBC  program counter */
-        u8 unkBD;               /* 0xBD */
-        u8 padBE[0xDC - 0xBE];
-        u8 unkDC;               /* 0xDC */
-        u8 padDD[0x1A8 - 0xDD];
-        u8 unk1A8;              /* 0x1A8 */
-    } Actor4C_8015444C_t9f81a8d5;
 
     Actor4C_8015444C_t9f81a8d5 *arg0 = a0v;
     s32 *arg1 = arg1x;

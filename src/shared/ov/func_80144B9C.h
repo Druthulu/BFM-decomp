@@ -52,59 +52,14 @@
  * are struct pointers. Far-global $s0 base p=D_800AF630 (boot.c GameModeDispatch precedent):
  * globals p+0xA3D8.. via the +0x10000/-0x5Cxx split. */
 
-typedef struct { u8 _0[0x12]; u16 f12; } F20T;
 
-typedef struct {                 /* D_80126B58 */
-    u8   _0[6]; u16 f6;
-    u8   _8[2]; u16 fA;
-    u8   _C[2]; u16 fE;
-    u8   _10[0x10];
-    F20T *f20;                   /* 0x20 pointer field */
-    u8   _24[0x29]; u8 f4D;
-    u8   _4E[0x3A];
-    u16  f88, f8A, f8C; u8 _8E[2]; u16 f90, f92, f94;
-    u8   _96[0x1A]; s32 fB0;
-    u8   _B4[0x18]; s32 fCC;
-    u8   _D0[0x84];
-    u16  f154, f156, f158; u8 _15A[2]; u16 f15C, f15E, f160;
-    u8   _162[0x36]; s32 f198, f19C;
-    u8   _1A0[0x48]; s32 f1E8;
-    u8   _1EC[4]; s32 f1F0;
-} P10;
 
-typedef struct { u8 _0[0x3A]; u16 f3A; u8 _3C[2]; u16 f3E; } P14;   /* D_80078E78 */
+   /* D_80078E78 */
 
-typedef struct {                 /* D_800AE6A8 */
-    u8   _0[4]; s32 f4; s32 f8; s32 fC;
-    u8   _10[4]; u8 f14; u8 _15; u8 f16; u8 _17; u8 f18;
-    u8   _19[3]; s32 f1C;
-    u16  f20, f22, f24, f26;
-} P18;
 
-typedef struct { u8 _0[0xA0]; u8 fA0; } P1C;                        /* D_80126948 */
+                        /* D_80126948 */
 
-typedef struct {                 /* table entry (ent), D_80078E50-shaped */
-    u8   _0[3]; u8 f3; u8 _4[4]; s32 f8; s32 fC;
-    u16  f10, f12, f14, f16;
-    void (*f18)(void); u8 _1C[4]; void (*f20)(void);
-} ENT;
 
-typedef struct {                 /* func_801457A4 buffer (hdr) */
-    s16 f0, f2, f4, f6, f8, fA;
-    u8  fC, fD, fE, _F;
-    s16 f10, f12, f14; u8 f16, f17, f18, _19;
-    s16 f1A, f1C, f1E; u8 f20, f21, f22, _23;
-    u16 f24, f26; u32 f28, f2C, f30, f34;
-    u16 f38, f3A, f3C, f3E;
-    u8  f40[12];
-    u32 f4C, f50, f54, f58, f5C, f60, f64;
-    u8  _68[0x20];
-    u32 f88, f8C, f90, f94, f98, f9C, fA0, fA4, fA8;
-    u8  _AC[8];
-    u32 fB4, fB8, fBC, fC0, fC4, fC8;
-    u8  _CC[8];
-    u32 fD4, fD8;
-} HDR;
 
 extern u8 D_800AF630[];
 extern u8 D_80126B58[];

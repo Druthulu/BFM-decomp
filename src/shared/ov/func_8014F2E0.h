@@ -14,8 +14,8 @@ s32 func_8014F2E0(s32 arg0, s16 * arg1, s16 * arg2)
             (s16 *)s != *(s16 **)(arg0 + 0x174) &&
             (*(s32 *)(s + 0x5C) & 0x1800) != 0) {
             D_801150D8 = 0;
-            if (((s32 (*)(s32, s32, s32, s32))func_80135A4C)(((struct { s32 field; } *)(s + 0x20))->field,
-                              ((struct { s32 field; } *)(s + 0x58))->field,
+            if (((s32 (*)(s32, s32, s32, s32))func_80135A4C)(((Unkstruct_8014F2E0 *)(s + 0x20))->field,
+                              ((Unkstruct_8014F2E0 *)(s + 0x58))->field,
                               (s32)arg1, (s32)arg2) != 0) {
                 ret = 1;
             }

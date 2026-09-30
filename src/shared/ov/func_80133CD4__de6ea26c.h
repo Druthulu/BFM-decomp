@@ -132,7 +132,6 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     if (y >= -0xBCB) {
         D_8017F808[3] = y;
         {
-            typedef struct { s8 c[8]; } Blk8_80133CD4_de6ea26c;
             *(Blk8_80133CD4_de6ea26c *)&D_801152B0 = *(Blk8_80133CD4_de6ea26c *)s3;
         }
         if (*(u8 *)cmd != 0)

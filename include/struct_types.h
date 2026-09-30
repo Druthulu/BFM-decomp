@@ -2958,4 +2958,184 @@ typedef struct {
     /* 0x1F9 */ u8 unk1F9;
 } func_8003A234_Ctx;
 
+/* --- lift_types.py --census (P38 T5.1.c2, batch headers) --- */
+typedef struct {
+    /* 0x00 */ u8 *unk00;
+    /* 0x04 */ u8  pad04[2];
+    /* 0x06 */ u8  unk06;
+    /* 0x07 */ u8  unk07;
+    /* 0x08 */ u8  unk08;
+    /* 0x09 */ u8  pad09[3];
+} A12;
+typedef struct {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ s16 unk04;
+    /* 0x06 */ s16 unk06;
+    /* 0x08 */ s16 unk08;
+    /* 0x0A */ u8  unk0A;
+    /* 0x0B */ u8  unk0B;
+} B12;
+typedef struct {
+    /* 0x00 */ u8  pad00[4];
+    /* 0x04 */ u8  unk04;
+    /* 0x05 */ u8  pad05[11];
+    /* 0x10 */ u16 unk10;
+    /* 0x12 */ u16 unk12;
+    /* 0x14 */ u8  pad14[2];
+    /* 0x16 */ s16 unk16;
+    /* 0x18 */ u8  pad18[8];
+} C24;
+typedef struct {                 /* table entry (ent), D_80078E50-shaped */
+    u8   _0[3]; u8 f3; u8 _4[4]; s32 f8; s32 fC;
+    u16  f10, f12, f14, f16;
+    void (*f18)(void); u8 _1C[4]; void (*f20)(void);
+} ENT;
+typedef struct {              /* base 0x80064D49, stride 0x0C */
+    u8  unk00;
+    u8  pad[11];
+} Elm12;
+typedef struct {               /* 0x18 stride; D_800A463C + k*0x18 */
+    s32 unk00;
+    u8  unk04[0x14];
+} Ent24;
+typedef struct Ent30D80 {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ u8 pad04[6];
+    /* 0x0A */ u16 unk0A;
+    /* 0x0C */ u8 pad0C[0x34];
+    /* 0x40 */ void (*unk40)(s32, s32);
+    /* 0x44 */ s32 unk44;
+    /* 0x48 */ u8 pad48[6];
+    /* 0x4E */ u8 unk4E;
+    /* 0x4F */ u8 pad4F;
+    /* 0x50 */ u8 unk50;
+    /* 0x51 */ u8 unk51;
+} Ent30D80;
+typedef struct { u8 _0[0x12]; u16 f12; } F20T;
+typedef struct { u16 f0; } H2;
+typedef struct {                 /* func_801457A4 buffer (hdr) */
+    s16 f0, f2, f4, f6, f8, fA;
+    u8  fC, fD, fE, _F;
+    s16 f10, f12, f14; u8 f16, f17, f18, _19;
+    s16 f1A, f1C, f1E; u8 f20, f21, f22, _23;
+    u16 f24, f26; u32 f28, f2C, f30, f34;
+    u16 f38, f3A, f3C, f3E;
+    u8  f40[12];
+    u32 f4C, f50, f54, f58, f5C, f60, f64;
+    u8  _68[0x20];
+    u32 f88, f8C, f90, f94, f98, f9C, fA0, fA4, fA8;
+    u8  _AC[8];
+    u32 fB4, fB8, fBC, fC0, fC4, fC8;
+    u8  _CC[8];
+    u32 fD4, fD8;
+} HDR;
+typedef struct {                 /* D_80126B58 */
+    u8   _0[6]; u16 f6;
+    u8   _8[2]; u16 fA;
+    u8   _C[2]; u16 fE;
+    u8   _10[0x10];
+    F20T *f20;                   /* 0x20 pointer field */
+    u8   _24[0x29]; u8 f4D;
+    u8   _4E[0x3A];
+    u16  f88, f8A, f8C; u8 _8E[2]; u16 f90, f92, f94;
+    u8   _96[0x1A]; s32 fB0;
+    u8   _B4[0x18]; s32 fCC;
+    u8   _D0[0x84];
+    u16  f154, f156, f158; u8 _15A[2]; u16 f15C, f15E, f160;
+    u8   _162[0x36]; s32 f198, f19C;
+    u8   _1A0[0x48]; s32 f1E8;
+    u8   _1EC[4]; s32 f1F0;
+} P10;
+typedef struct { u8 _0[0x3A]; u16 f3A; u8 _3C[2]; u16 f3E; } P14;
+typedef struct {                 /* D_800AE6A8 */
+    u8   _0[4]; s32 f4; s32 f8; s32 fC;
+    u8   _10[4]; u8 f14; u8 _15; u8 f16; u8 _17; u8 f18;
+    u8   _19[3]; s32 f1C;
+    u16  f20, f22, f24, f26;
+} P18;
+typedef struct { u8 _0[0xA0]; u8 fA0; } P1C;
+typedef struct Rec14 {
+    /* 0x00 */ u16 unk00;
+    /* 0x02 */ u16 unk02;
+    /* 0x04 */ u32 unk04;
+    /* 0x08 */ u32 unk08;
+    /* 0x0C */ u16 unk0C;
+    /* 0x0E */ u16 unk0E;
+    /* 0x10 */ u32 unk10;
+} Rec14;
+typedef struct Owner4EE8 {
+    /* 0x00 */ u8 pad00[0x14];
+    /* 0x14 */ Rec14 **unk14;
+} Owner4EE8;
+typedef struct {
+    u8  unk00;
+    u8  unk01[11];
+} Rsc12;
+typedef struct {
+    s32 unk00;
+    u8  unk04;
+    u8  unk05;
+    u8  unk06;
+    u8  unk07;
+    u8  unk08;
+    u8  unk09;
+    u8  unk0A;
+    u8  unk0B;
+    s32 unk0C;
+} Rsc16;
+typedef struct {
+    s16 unk00;
+    s16 unk02;
+    s16 unk04;
+    s16 unk06;
+    s16 unk08;
+    s16 unk0A;
+    s16 unk0C;
+    s16 unk0E;
+    u8  unk10;
+    u8  unk11;
+    u8  unk12;
+    u8  unk13;
+    s32 unk14;
+} Rsc24;
+typedef struct {
+    s32 unk00;
+    s32 unk04;
+    s32 unk08;
+    u8  unk0C;
+    u8  unk0D;
+    u8  unk0E;
+    u8  unk0F;
+} Slot16;
+typedef struct {              /* base 0x80076240, stride 0x10 */
+    u16 unk00;
+    u16 unk02;
+    s32 unk04;
+    s32 unk08;
+    s32 unk0C;
+} Slot16A;
+typedef struct Slot54 {
+    /* 0x00 */ s16 unk00;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ s16 unk04;
+    /* 0x06 */ s16 unk06;
+    /* 0x08 */ u16 unk08;
+    /* 0x0A */ s8  unk0A;
+} Slot54;
+typedef struct Slot_800_shared {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ s32 unk04;
+    /* 0x08 */ u8 unk08[0xC];
+    /* 0x14 */ s16 unk14;
+    /* 0x16 */ u8 unk16[2];
+    /* 0x18 */ s16 unk18;
+    /* 0x1A */ u8 unk1A[0x26];
+    /* 0x40 */ s32 unk40;
+    /* 0x44 */ u8 unk44;
+    /* 0x45 */ u8 unk45[3];
+} Slot_800_shared;
+typedef struct { s16 v; } W16;
+typedef struct { s32 v; } W32;
+typedef struct { u8  v; } W8;
+
 #endif /* STRUCT_TYPES_H */
