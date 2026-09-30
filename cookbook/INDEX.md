@@ -958,3 +958,4 @@
 - **§498** — ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT'S EXIT CODE: HOW A BYTE-CORRECT DRAFT WAS BOOKED "DIFF" (P32 T1a; resident `func_800D128C` BANKED 243 ins after two instrument fixes)  <sub>L36728</sub>
 - **§499** — ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)  <sub>L36758</sub>
 - **§500** — ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MATCH / 9 NEAR / 2 FAIL, every closer, two NEW named gcc mechanisms, and the wave-process defects  <sub>L36799</sub>
+C0509 | fleet-tool-parallelism-defaults | legacy,memory | 2026-09-29 | - | legacy memory fleet-tool-parallelism-defaults.md

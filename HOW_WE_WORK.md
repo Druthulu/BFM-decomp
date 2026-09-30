@@ -14,6 +14,7 @@ Who: <!-- TODO DEVELOPER_NAME: no source found -->. Experience: <!-- TODO DEVELO
 Preferences: recommendations, not questions. Plain-English recaps at phase end. A notification
 whenever anything waits on them. Autonomy: <!-- TODO AUTONOMY_POSTURE: no source found -->. Notification channel: <!-- TODO NOTIFY_CHANNEL: no source found -->.
 The developer pushes; agents never do. They ratify rules at the next planner session.
+- drew-working-preferences: Drew's working style on BFM-decomp — autonomous-within-phases, ultracode effort, accepts recommended options, wants WSL/tooling decisions surfaced plainly
 
 ## Rhythm <!-- roles: router planner review discuss auditor curator -->
 autonomous  <!-- autonomous: the router runs the phase end to end, stopping only at the two gates.

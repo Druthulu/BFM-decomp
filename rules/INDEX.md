@@ -119,3 +119,11 @@
 <!-- G63 | Outward text is written by a person | | active | | | source: decomp-architect -->
 <!-- G64 | No automated traffic against community infrastructure | | active | | | source: decomp-architect -->
 <!-- G65 | Agents assist; a person owns | | active | | | source: decomp-architect -->
+
+L1 | offline-tooling-first | legacy,memory | active | legacy memory offline-tooling-first.md
+
+L2 | lever-removal-is-a-tracked-series | legacy,memory | active | legacy memory lever-removal-is-a-tracked-series.md
+
+L3 | decomp-accelerator-ledger | legacy,memory | active | legacy memory decomp-accelerator-ledger.md
+
+L4 | verify-blast-radius-not-just-defect | legacy,memory | active | legacy memory verify-blast-radius-not-just-defect.md

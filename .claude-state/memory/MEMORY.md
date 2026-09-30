@@ -1,0 +1,3 @@
+# Memory Index
+
+- [Generation legacy memories](genlegacy.md) — 83 entries

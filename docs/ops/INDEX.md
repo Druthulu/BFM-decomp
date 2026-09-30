@@ -45,3 +45,9 @@ p37-s106-2026-09-12-the-type-census-and-the-struct-map-phase-37-t1.md | §P37 S1
 p37-s106-2026-09-12-the-probe-and-the-rewrite-engines-first-form-phase-37-t2.md | §P37 S106 — 2026-09-12: the probe and the rewrite engine's first form (Phase 37 T2) | 24
 p37-s107-2026-09-12-the-rewrite-engines-full-form-the-layout-library-and-the-linked-oracle-phase-37-t3.md | §P37 S107 — 2026-09-12: the rewrite engine's full form, the layout library and the linked oracle (Phase 37 T3) | 51
 retired-tools-toolssunset-phase-335.md | Retired tools (`tools/sunset/`, Phase 33.5) | 198
+SETUP.preamble.md | SETUP.md — Environment Setup & Daily Operations Reference | 8
+disc-dump-location.md | disc-dump-location | 9
+gate-main-only-with-gate-main.md | gate-main-only-with-gate-main | 71
+mcp-renames-dont-persist-use-applysymbols.md | mcp-renames-dont-persist-use-applysymbols | 21
+ops-setup-decomp.md | extract the medium and verify against the committed manifest | 68
+wsl-disk-capped-75gb.md | wsl-disk-capped-75gb | 34
