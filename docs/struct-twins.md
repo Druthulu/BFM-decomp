@@ -481,15 +481,6 @@ cause: 6 names (12 B, all members placeholders) bound to 11 distinct objects, no
 - `Elm12`: 1 obj — 0x80064D49
 - `Rsc12`: 1 obj — 0x80064D4A
 
-### 6ef8724a7464
-names: F20T, Obj20_80178D40, S801593E4, Sub_80155800_80155800, Sub_8015CD20
-cause: 5 names (20 B, all members placeholders); 3 bound to no object (UNBOUND), used only by: type Actor_80178D40 (0x80126B58, ov_MAIN_012/0x80178D40:Cmd_80178D40, ov_MAIN_012/0x80178D40:arg0 …), type Ent_80155800_80155800 (shared/ov/0x80155800:arg0), type P10 (0x80126B58, shared/ov/0x80144B9C:p10); the other 2 bound to 3 distinct objects, none bound to two names: ov_MAIN_012/0x8015CD20:sp, ov_SC07_010/0x80181204:v1, shared/ov/0x801593E4:v1; full list: tools/struct_twins.py --show 6ef8724a7464
-- `F20T`: 0 obj — used by type P10 (0x80126B58, shared/ov/0x80144B9C:p10)
-- `Obj20_80178D40`: 0 obj — used by type Actor_80178D40 (0x80126B58, ov_MAIN_012/0x80178D40:Cmd_80178D40, ov_MAIN_012/0x80178D40:arg0 …)
-- `S801593E4`: 2 obj — ov_SC07_010/0x80181204:v1, shared/ov/0x801593E4:v1
-- `Sub_80155800_80155800`: 0 obj — used by type Ent_80155800_80155800 (shared/ov/0x80155800:arg0)
-- `Sub_8015CD20`: 1 obj — ov_MAIN_012/0x8015CD20:sp
-
 ### 313fe9a920e0
 names: A098Rec, Struct800D2E20, Struct800D2E6C, Struct800D3104
 cause: 4 names (26 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type A098Ctx (0x8003A098(arg0)); the other 3 bound to 3 distinct objects, none bound to two names: 0x800D2E20(arg0), 0x800D2E6C(arg0), 0x800D3104(arg0); full list: tools/struct_twins.py --show 313fe9a920e0
@@ -497,6 +488,14 @@ cause: 4 names (26 B, all members placeholders); 1 bound to no object (UNBOUND),
 - `Struct800D2E20`: 1 obj — 0x800D2E20(arg0)
 - `Struct800D2E6C`: 1 obj — 0x800D2E6C(arg0)
 - `Struct800D3104`: 1 obj — 0x800D3104(arg0)
+
+### 6ef8724a7464
+names: Obj20_80178D40, S801593E4, Sub_80155800_80155800, Sub_8015CD20
+cause: 4 names (20 B, all members placeholders); 2 bound to no object (UNBOUND), used only by: type Actor_80178D40 (0x80126B58, ov_MAIN_012/0x80178D40:Cmd_80178D40, ov_MAIN_012/0x80178D40:arg0 …), type Ent_80155800_80155800 (shared/ov/0x80155800:arg0); the other 2 bound to 3 distinct objects, none bound to two names: ov_MAIN_012/0x8015CD20:sp, ov_SC07_010/0x80181204:v1, shared/ov/0x801593E4:v1; full list: tools/struct_twins.py --show 6ef8724a7464
+- `Obj20_80178D40`: 0 obj — used by type Actor_80178D40 (0x80126B58, ov_MAIN_012/0x80178D40:Cmd_80178D40, ov_MAIN_012/0x80178D40:arg0 …), type F20T
+- `S801593E4`: 2 obj — ov_SC07_010/0x80181204:v1, shared/ov/0x801593E4:v1
+- `Sub_80155800_80155800`: 0 obj — used by type Ent_80155800_80155800 (shared/ov/0x80155800:arg0)
+- `Sub_8015CD20`: 1 obj — ov_MAIN_012/0x8015CD20:sp
 
 ### 9865e09a793d
 names: Blk3_8017D730, Blk3_801E40A8, Blk3_801E95E8, Blk3_801EF448
@@ -672,12 +671,6 @@ names: PRIM_8018FE20, Prim_8017DAC4
 cause: 2 names (56 B, all members placeholders) bound to 4 distinct objects, none bound to two names: ov_SC04_011/0x8018FE20:pp, ov_SC04_011/0x8018FE20:prim, shared/ov/0x8017DAC4:prim, shared/ov/0x8017DAC4:q; full list: tools/struct_twins.py --show 9c8d61900c8d
 - `PRIM_8018FE20`: 2 obj — ov_SC04_011/0x8018FE20:pp, ov_SC04_011/0x8018FE20:prim
 - `Prim_8017DAC4`: 2 obj — shared/ov/0x8017DAC4:prim, shared/ov/0x8017DAC4:q
-
-### 9dec8574d64e
-names: Actor4C, actor4c
-cause: 2 names (428 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type Actor4C (0x80126748, 0x80126848, shared/ov/0x8015444C:arg0 …); the other 1 bound to 5 distinct objects, none bound to two names: 0x80126748, 0x80126848, shared/ov/0x8015444C:arg0, shared/ov/0x8015444C:op, shared/ov/0x8015444C:p; full list: tools/struct_twins.py --show 9dec8574d64e
-- `Actor4C`: 5 obj — 0x80126748, 0x80126848, shared/ov/0x8015444C:arg0, shared/ov/0x8015444C:op, shared/ov/0x8015444C:p
-- `actor4c`: 0 obj — used by type Actor4C (0x80126748, 0x80126848, shared/ov/0x8015444C:arg0 …)
 
 ### a3d1be6495e4
 names: Rec027, Rec_8017C738
