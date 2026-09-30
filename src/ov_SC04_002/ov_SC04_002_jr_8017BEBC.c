@@ -7914,9 +7914,9 @@ void func_80183C54(s32 param_1)
     s32 ent;
     s16 i;
 
-    m.t[0] = *(s16 *)(param_1 + 6);
-    m.t[1] = *(s16 *)(param_1 + 0xA);
-    m.t[2] = *(s16 *)(param_1 + 0xE);
+    m.w[5] = *(s16 *)(param_1 + 6);
+    m.w[6] = *(s16 *)(param_1 + 0xA);
+    m.w[7] = *(s16 *)(param_1 + 0xE);
     func_800491AC(&m);
     i = 0;
     do {

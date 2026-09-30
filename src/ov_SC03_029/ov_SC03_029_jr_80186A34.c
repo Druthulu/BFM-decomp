@@ -3017,7 +3017,7 @@ extern u16  D_80126CB4;
 extern u16  D_80126CB6;
 extern u16  D_80126CB8;
 extern s32 *D_80126B78;
-extern struct Mtx32_80184008 D_800AE620;
+extern Mtx32_80184008 D_800AE620;
 extern void func_8012CC1C(s32 arg0, s32 arg1);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 func_8002A04C(s32 a0);
@@ -3144,7 +3144,7 @@ extern s32  func_8012B864(s32 a0);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
-extern struct Mtx32_80184008 D_800AE620;
+extern Mtx32_80184008 D_800AE620;
 
 void func_80186A34(s32 arg0)
 {
@@ -3498,7 +3498,7 @@ s32 func_80187118(s32 a0, s32 a1)
     extern void RotMatrixY(s32 a0, void *a1);
     extern void func_800484EC(s32 a0, s32 a1, s32 a2);
     extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
-    extern struct Mtx32_80184008 D_800AE620;
+    extern Mtx32_80184008 D_800AE620;
 
     u32 pos[3];
     Vec32_80188AF4 out;

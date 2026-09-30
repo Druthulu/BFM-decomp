@@ -369,13 +369,14 @@ typedef struct {
 } Unkstruct_80078E78; /* size = 0x98 */
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-file) --- */
-typedef struct { s32 w[8]; } Blk20;
+typedef struct { s32 w[8]; } Blk20_8016DF5C;
+typedef Blk20_8016DF5C Blk20;
 typedef struct { u8 b[8]; } Blk8;
 typedef struct { u32 tag; u32 w1; u32 w2; u32 w3; } Prim_1412A8;
 typedef Prim_1412A8 Blk16;
 typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
 typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
-typedef struct { s32 w[8]; } Blk32;
+typedef Blk20_8016DF5C Blk32;
 typedef struct Bar {
     unsigned char b0;     /* 0x0 */
     unsigned char b1;     /* 0x1 */
@@ -507,7 +508,8 @@ typedef SVECTOR SVEC2_C974_8017BA3C;
 typedef struct {
     u8 b[4];
 } Blk4;
-typedef struct { u8 d[4]; } Blk4_md_SC07_003;
+typedef struct { u8 b[4]; } B4_8017F154;
+typedef B4_8017F154 Blk4_md_SC07_003;
 typedef SVECTOR SVECTOR_800;
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-block) --- */
@@ -538,11 +540,11 @@ typedef struct { s32 w0, w1, w2, w3; } Blk16X;
 typedef struct {
     s32 a, b, c, d;
 } Blk16_md_MAIN_016;
-typedef struct { s32 w[8]; } Blk20_800CB68C;
+typedef Blk20_8016DF5C Blk20_800CB68C;
 typedef struct {
     s32 w[8];
 } Blk32_801A5194;
-typedef struct { s32 w[8]; } Blk32_CB1EC;
+typedef Blk20_8016DF5C Blk32_CB1EC;
 typedef struct {
     char c[3];
 } Blk3_801E40A8;
@@ -890,16 +892,16 @@ typedef struct { s32 w0, w4, w8, wC; s16 h10, hpad; s32 t0, t1, t2; } Mat32;
 typedef Mat32 Mat32_801A4EBC;
 typedef struct { s16 m[16]; } Mat801A8E34;
 struct Mid { u32 gray[4]; u32 code; u8 bmode; };
-typedef struct { s32 w[8]; } Mtx32_801A2400;
-typedef struct { s32 w[8]; } Mtx32_801A3180;
+typedef Blk20_8016DF5C Mtx32_801A2400;
+typedef Blk20_8016DF5C Mtx32_801A3180;
 typedef MATRIX Mtx32_801A3B18;
-typedef struct { s32 w[8]; } Mtx32_801A3D60;
+typedef Blk20_8016DF5C Mtx32_801A3D60;
 typedef MATRIX Mtx32_801A4D58;
 typedef MATRIX Mtx32_801A4DFC;
 typedef MATRIX Mtx32_801A52DC;
 typedef MATRIX Mtx32_801A54F0;
 typedef MATRIX Mtx32_801A5698;
-typedef struct { s32 w[8]; } Mtx32_801A90D8;
+typedef Blk20_8016DF5C Mtx32_801A90D8;
 typedef MATRIX Mtx32b;
 struct B  { s32 w[8]; s32 tail[2]; };
 typedef struct B Mtx40;
@@ -1444,15 +1446,16 @@ typedef struct {
 } Blk12;
 typedef struct { u8 b[128]; } Blk128u;
 typedef struct {
-    u8  unk00[4];
-    u8  unk04;
-    u8  unk05[11];
-    u16 unk10;
-    u16 unk12;
-    u8  unk14[2];
-    s16 unk16;
-    u8  unk18[8];
-} Blk28;
+    /* 0x00 */ u8  pad00[4];
+    /* 0x04 */ u8  unk04;
+    /* 0x05 */ u8  pad05[11];
+    /* 0x10 */ u16 unk10;
+    /* 0x12 */ u16 unk12;
+    /* 0x14 */ u8  pad14[2];
+    /* 0x16 */ s16 unk16;
+    /* 0x18 */ u8  pad18[8];
+} C24;
+typedef C24 Blk28;
 typedef struct {
     u32 w[0x2DC / 4];
 } Blk2DC;
@@ -2705,16 +2708,6 @@ typedef struct {
     /* 0x0A */ u8  unk0A;
     /* 0x0B */ u8  unk0B;
 } B12;
-typedef struct {
-    /* 0x00 */ u8  pad00[4];
-    /* 0x04 */ u8  unk04;
-    /* 0x05 */ u8  pad05[11];
-    /* 0x10 */ u16 unk10;
-    /* 0x12 */ u16 unk12;
-    /* 0x14 */ u8  pad14[2];
-    /* 0x16 */ s16 unk16;
-    /* 0x18 */ u8  pad18[8];
-} C24;
 typedef struct {                 /* table entry (ent), D_80078E50-shaped */
     u8   _0[3]; u8 f3; u8 _4[4]; s32 f8; s32 fC;
     u16  f10, f12, f14, f16;

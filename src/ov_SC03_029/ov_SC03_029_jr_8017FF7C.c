@@ -5691,7 +5691,7 @@ extern u16  D_80126CB4;
 extern u16  D_80126CB6;
 extern u16  D_80126CB8;
 extern s32 *D_80126B78;
-extern struct Mtx32_80184008 D_800AE620;
+extern Mtx32_80184008 D_800AE620;
 
 void func_80184008(s32 a0) {
     s32 vec[3];                     /* sp+0x10 */
@@ -5699,7 +5699,7 @@ void func_80184008(s32 a0) {
     u16 sp30[3];                    /* sp+0x30 */
     u16 sv[3];                      /* sp+0x38 */
     s32 unused40[2];                /* sp+0x40 -- dead 8-byte slot the frame requires (§193-I) */
-    struct Mtx32_80184008 m;        /* sp+0x48 */
+    Mtx32_80184008 m;        /* sp+0x48 */
     s32 pos[3];                     /* sp+0x68 (16.16 fixed point) */
 
     func_8012B23C(a0);

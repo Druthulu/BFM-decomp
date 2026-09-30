@@ -17,7 +17,7 @@ void func_80168F40(void *arg0) {
     a.unk11 = 0;
     a.unk16 = 0x80;
     a.unk15 = 0x80;
-    *(struct Bv *)&b = *(struct Bv *)&D_800AE620;
+    *(Bv *)&b = *(Bv *)&D_800AE620;
     a.unk18 = 0x50000000;
     func_80016A5C(&a, &b);
 }
