@@ -129,8 +129,8 @@ earlier inline match never propagated — and a propagated body ships its signat
 
 ## The knowledge base, and feeding it
 
-Before each match, consult [`docs/matching-cookbook.md`](../matching-cookbook.md) (grep it by symptom through
-[`docs/cookbook-index.md`](../cookbook-index.md)); after each match, write the generalizable lesson back into the
+Before each match, consult [`cookbook/INDEX.md`](../../cookbook/INDEX.md) (grep it by symptom through
+[`cookbook/INDEX.md`](../../cookbook/INDEX.md)); after each match, write the generalizable lesson back into the
 cookbook *and* into the tooling, so the next similar function is a one-shot (rule R16). Two laws learned at cost: only
 harvest lessons from byte-proven results, and strip a credited lever from the accepted body and recompile before it
 enters the base — one in three credited levers was byte-inert.

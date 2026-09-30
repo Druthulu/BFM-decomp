@@ -105,7 +105,7 @@ The reverse-engineering side ran on Ghidra driven over MCP, with a PCSX-Redux ru
 byte gate over the whole binary, a permuter, a compiler-idiom cookbook, and — decisively — reading the gcc 2.7.2 source
 to explain the bytes the compiler emits. Everything that was learned is written down where it can be reused:
 
-- [`docs/matching-cookbook.md`](docs/matching-cookbook.md) — the idioms, each byte-proven, and the compiler-internals laws
+- [`cookbook/INDEX.md`](cookbook/INDEX.md) — the idioms, each byte-proven, and the compiler-internals laws
 - [`docs/gcc-2.7.2-map/`](docs/gcc-2.7.2-map/) — the codegen map of the pinned compiler, by pass
 - [`docs/decision-log.md`](docs/decision-log.md) — every strategic pivot with its measurement and its hindsight
 - [`docs/accelerators.md`](docs/accelerators.md) — what would have made earlier phases faster

@@ -33,7 +33,7 @@ The matching frontier is empty, so new matches are not the need. The work that h
   are the type-lift, call-site cast and canonical-signature tools under `tools/`; the constraint is below.
 - **Shiftability** — a build whose addresses can move; the LZSS repack (recompression is not byte-stable, so this is a
   Gen3 problem) and asset tooling.
-- **Tooling and documentation** — every tool has a row in [`docs/SETUP.md`](../SETUP.md)'s inventory; a tool change
+- **Tooling and documentation** — every tool has a row in [`docs/ops/INDEX.md`](../ops/INDEX.md)'s inventory; a tool change
   ships with its siblings wired to use it and its docs in the same change.
 
 ## AI use — conduct

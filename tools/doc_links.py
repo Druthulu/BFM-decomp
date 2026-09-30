@@ -35,7 +35,7 @@ import subprocess
 import sys
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
-DEFAULT = ["README.md", "THIRD_PARTY.md", "CLAUDE.md", "src/NOTICE.md", "tools/README.md", "docs/SETUP.md",
+DEFAULT = ["README.md", "THIRD_PARTY.md", "CLAUDE.md", "src/NOTICE.md", "tools/README.md", "docs/ops/INDEX.md",
            "docs/verification.md", "docs/public-flip-runbook.md", "docs/decision-log.md", "docs/accelerators.md",
            "docs/story.md", "docs/story-timeline.md", "docs/retrospective.md", "phase-ends/README.md", "phase-ends/DIGEST.md",
            "docs/gcc-2.7.2-map/README.md", "tools/xsig/README.md",
@@ -51,7 +51,7 @@ INDEX_PAGES = ("docs/wiki/Reference-index.md", "docs/wiki/Archive-index.md")
 ARCHIVE_DIR = "docs/sunset/"
 # the wiki page that covers a docs/ file's topic — for the wiki-first WARNING only (a hand-kept map; small on purpose)
 TOPIC_PAGE = {
-    "docs/SETUP.md": "docs/wiki/Toolchain-setup.md",
+    "docs/ops/INDEX.md": "docs/wiki/Toolchain-setup.md",
     "docs/verification.md": "docs/wiki/Verification-and-progress.md",
     "docs/public-flip-runbook.md": "docs/wiki/The-ROM-firewall.md",
     "docs/gen3-standards.md": "docs/wiki/Where-the-project-goes-next.md",

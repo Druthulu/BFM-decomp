@@ -21,7 +21,7 @@ Records that stay — the PhaseEnds, the decision log, the cookbook — keep the
 | `frontier-p30.md`, `frontier-s39.md` | Point-in-time frontier reports (2026-07-30, 2026-08-05), never re-baselined by design | The frontier they described emptied | `PhaseEnd_Phase30/31.md`; `docs/progress.fleet.md` (218 of 218) |
 | `frontier-p32.md` | The last 21 functions and the five parked payloads, by blocker (2026-09-05) — the Phase-32 jumping-off document | All 21 banked and all 5 payloads onboarded; PhaseEnd_Phase31 asked that it be kept forever, so it is archived, never deleted | `PhaseEnd_Phase32.md`; the decision log P32 entries |
 | `recovery-queue-s65.md` | 69 unbanked wave targets classified into four lanes, "build it, run it next session" | Absorbed by the P31–P32 finish; 0 open near-misses at the P32 close | `docs/backlog.md` (0 open); `PhaseEnd_Phase31.md` |
-| `next-session-triage-ladder.md` | The triage-ladder specification and its three corrections | Built and shipped (`tools/triage_ladder.py`); the corrections are cookbook §376/§378 | `docs/wave-playbook.md` §4b; `docs/SETUP.md`'s tool row |
+| `next-session-triage-ladder.md` | The triage-ladder specification and its three corrections | Built and shipped (`tools/triage_ladder.py`); the corrections are cookbook §376/§378 | `docs/wave-playbook.md` §4b; `docs/ops/INDEX.md`'s tool row |
 
 ## Studies and syntheses superseded by the wiki
 
@@ -45,8 +45,8 @@ Records that stay — the PhaseEnds, the decision log, the cookbook — keep the
 
 | File (`docs/sunset/…`) | What it was | What came of it | Where it lives now |
 |---|---|---|---|
-| `distill/atbhbkbl.md` | 165 candidate idiom notes from waves at/bh/bk/bl, each disposed of with its A/B evidence | Landed as cookbook §265 (the verbatim-asm bank lane), §266 (the inert-rider law) and §267 (the addenda) — §267 cites this ledger as its evidence | `docs/matching-cookbook.md` §265–§267 |
-| `distill/axbm.md` | 82 candidate notes from waves ax/bm | Landed as cookbook §268 (the register-pin law on call-clobbered registers) and §269 | `docs/matching-cookbook.md` §268–§269 |
+| `distill/atbhbkbl.md` | 165 candidate idiom notes from waves at/bh/bk/bl, each disposed of with its A/B evidence | Landed as cookbook §265 (the verbatim-asm bank lane), §266 (the inert-rider law) and §267 (the addenda) — §267 cites this ledger as its evidence | `cookbook/INDEX.md` §265–§267 |
+| `distill/axbm.md` | 82 candidate notes from waves ax/bm | Landed as cookbook §268 (the register-pin law on call-clobbered registers) and §269 | `cookbook/INDEX.md` §268–§269 |
 
 ## Session tool designs and analyses (Phase 31, sessions 58–61)
 
@@ -81,8 +81,8 @@ documents (0 open stubs), so the last populated snapshot is kept instead of bein
 
 | File (`docs/sunset/history/…`) | What it was | Where it lives now |
 |---|---|---|
-| `Fable5-ultracode-Full research findings-w42n9cp9t.output` | 216 KB of raw multi-agent research JSON from the first day (the sotn workflow, the Ghidra/PSX stack, WSL) | Everything actionable went into `docs/SETUP.md` and `docs/formats.md` in June 2026 |
-| `debug menu link.txt`, `ghidra psx plugin link.txt`, `sotn-decomp wiki link.txt` | The original three reference URLs | `docs/SETUP.md` §2 and the memory map's source index |
+| `Fable5-ultracode-Full research findings-w42n9cp9t.output` | 216 KB of raw multi-agent research JSON from the first day (the sotn workflow, the Ghidra/PSX stack, WSL) | Everything actionable went into `docs/ops/INDEX.md` and `docs/formats.md` in June 2026 |
+| `debug menu link.txt`, `ghidra psx plugin link.txt`, `sotn-decomp wiki link.txt` | The original three reference URLs | `docs/ops/INDEX.md` §2 and the memory map's source index |
 
 ## Tools retired at Phase 33.5 (`tools/sunset/`, v1.32.1)
 

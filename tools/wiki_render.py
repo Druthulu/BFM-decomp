@@ -109,7 +109,7 @@ def selftest():
         ("[d](../verification.md)", f"[d]({GH}/blob/main/docs/verification.md)"),
         ("[e](../../README.md#license)", f"[e]({GH}/blob/main/README.md#license)"),
         ("[f](../../tools/)", f"[f]({GH}/tree/main/tools)"),
-        ("[g](/docs/SETUP.md)", f"[g]({GH}/blob/main/docs/SETUP.md)"),
+        ("[g](/docs/ops/INDEX.md)", f"[g]({GH}/blob/main/docs/ops/INDEX.md)"),
         ("![h](../story-timeline.svg)", f"![h]({RAW}/docs/story-timeline.svg)"),
         ("[i](https://example.org/x.md)", "[i](https://example.org/x.md)"),
         ("[j](#anchor)", "[j](#anchor)"),

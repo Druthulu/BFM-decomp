@@ -12,12 +12,12 @@ durable result it produced goes into one of these files, and the note is archive
 
 | Kind of knowledge | Where it goes | The rule behind it |
 |---|---|---|
-| A compiler idiom proven on the bytes (the residual, the mechanism, the lever, the byte proof) | a numbered section of `docs/matching-cookbook.md`, and its symptom index `docs/cookbook-index.md` (regenerated, never edited) | R16 — consult the knowledge base before a match, feed the lesson back after |
+| A compiler idiom proven on the bytes (the residual, the mechanism, the lever, the byte proof) | an entry in `cookbook/INDEX.md`, added with `tools/cookbook_add.sh` (never hand-edited) | R16 — consult the knowledge base before a match, feed the lesson back after |
 | A strategic pivot: what was believed, what failed, the measurement, the hindsight | an entry in `docs/decision-log.md`, written while fresh | R31 |
 | The post-100 % story (Gen3): the narrative of the readability phases | `docs/story.md` §10 and `docs/retrospective.md` §7, advanced at the END OF EVERY SESSION from that session's decision-log entry; `tools/timeline.py` draws the lever and readability series as the chart's lower panel | the owner's rule, 2026-09-12 |
 | A late discovery that would have sped up an earlier phase — what it is, when it was found, when it *could* have been found, what it would have saved | `docs/accelerators.md` | the ledger a future project starts from |
 | A procedure people run | a runbook — `docs/wave-playbook.md` for the matching campaign, `docs/public-flip-runbook.md` for the publication; a superseded runbook carries a banner at the top and is then archived | R21 for the ops reference |
-| An environment or tool fact (a version, a flag, a hook, a row per tool) | `docs/SETUP.md`, in the same change as the tool | R21 |
+| An environment or tool fact (a version, a flag, a hook, a row per tool) | `docs/ops/INDEX.md`, in the same change as the tool | R21 |
 | An address, with its source and its verification status | `docs/memory-map.md` | G5 |
 | A file or container format | `docs/formats.md` | — |
 | The state of the open phase; then the phase's synthesis; then the one-page digest every session starts from | `phase-ends/CURRENT_PHASE.md` → `phase-ends/PhaseEnd_Phase<N>.md` → `phase-ends/DIGEST.md` | R64 |
@@ -40,7 +40,7 @@ on its first line; edits go to the generator, not the file.
 |---|---|---|
 | `docs/progress.md`, `docs/progress.fleet.md`, `docs/progress.json`, the README's progress block, `docs/badges/*.json` | `tools/progress.py` | `make report BINARY=main`; `make audit-digest` asserts freshness |
 | `docs/difficulty.md`, `docs/duplicates.md`, `docs/duplicates.cross.md`, `docs/backlog.md` | `tools/difficulty.py`, `tools/dup_report.py`, `tools/backlog.py` | `make report BINARY=main` |
-| `docs/cookbook-index.md` | `tools/cookbook_index.py` | `make tools-health` (`--check`) |
+| `cookbook/INDEX.md` | `tools/cookbook_add.sh` | none (`cookbook_index.py --check` retired from `make tools-health`, P38 T1) |
 | `docs/disc-ledger.md` | `tools/disc_audit.py` | `make audit-disc` |
 | `docs/story-timeline.md`, `docs/story-timeline.svg` | `tools/timeline.py` | `make report BINARY=main`; `--check` in `make audit-digest` |
 | `docs/commit-map.tsv` | `tools/public_rewrite/build_commit_map.py` | one-shot, at the history rewrite |
