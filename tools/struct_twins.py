@@ -7,9 +7,12 @@ This tool joins each name to the objects it is bound to in the source, and class
 
   SEPARATE  every name is bound to >= 1 object and no object is bound to two names of the class -> a `### <lhash>` section
   SHARED    two or more names bound to the same object -> not listed; printed as a fold candidate with the shared object
-  SDK       the base layout hash equals a Sony PsyQ struct's (PSYQ names defined in the canonical type files / include/, hashed
-            by the census's own parser and Resolver) -> not listed (folded onto the SDK name elsewhere)
-  UNBOUND   some name has no bound object (dead / definition-only / macro-only) -> not listed, no per-name evidence exists
+  UNBOUND   some name has no bound object (definition-only / member-only / macro-only) -> a `### <lhash>` section whose cause
+            cites the use sites of the unbound names (U: the functions using them, the types naming them as a member or alias);
+            a class none of whose cites carries an address is not written and is reported (T5.1.c7)
+  SDK is not a class but a note (T5.1.c7): the base layout hash equals a Sony PsyQ struct's (PSYQ names defined in the canonical
+  type files / include/, hashed by the census's own parser and Resolver); the SDK-named defs themselves were folded in T5.1.c6,
+  the placeholders left in the row are classified by their bindings like any other and the cause names the SDK layout
 Rows: dup_gating.tsv's tier-2 rows plus the ones the current `## Twins` list takes out of it (type_census.json), so --write is
 idempotent.
 
@@ -23,6 +26,8 @@ Objects (the binding a use of the name establishes; scanned from src/**/*.{c,h} 
   A  same routine address + same local / slot, across binaries (the copies edited apart by levers and pins)
   AG a global used by the routine at one address, counted only across binaries (per-overlay instances of one table)
   F  a member of an aggregate (no address)
+  U  a use site, no object (evidence for UNBOUND only): the using function (<binary>/0x<addr>) or, outside a function, the
+     name the enclosing file-scope declaration defines (a struct naming it as a member, an alias typedef)
 Each G/L object is joined to its struct_map cluster through <census>/body_base_type.json when present (`--sites` run).
 
 Usage:
@@ -129,6 +134,12 @@ def addr_of(fn):
 def scan_file(rel, text, wanted, sink):
     """append (name, key, cite, where) for every binding of a wanted name in one file"""
     text = COMMENT.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+    # a macro whose body names a wanted type: each use of the macro inside a function is a use (U) of that type
+    macros = {}
+    for m in re.finditer(r"(?m)^[ \t]*#[ \t]*define[ \t]+(\w+)((?:.*\\\n)*.*)$", text):
+        hit = set(re.findall(r"[A-Za-z_]\w*", m.group(2))) & wanted
+        if hit:
+            macros[m.group(1)] = hit
     text = re.sub(r"(?m)^[ \t]*#.*$", "", text)
     toks, lines, ln, last = [], [], 1, 0
     for m in TOK.finditer(text):
@@ -143,6 +154,7 @@ def scan_file(rel, text, wanted, sink):
     knr = None              # (fn, [param idents]) between a K&R definition's `)` and its `{`
     hdrpend, fnpend, body0 = [], [], 0   # sink indexes of a header's P bindings / a body's L+P bindings; body start token
     used_by, s0 = collections.defaultdict(set), len(sink)    # D_ symbol -> addresses of this file's functions using it
+    upend = []              # (name, where) of wanted names used outside a function: owner = the declaration's defined name
     stmt = 0
     n = len(toks)
     for i, t in enumerate(toks):
@@ -171,6 +183,7 @@ def scan_file(rel, text, wanted, sink):
                 fn, fn_depth = knr[0], 1
             if depth == 0 and fn:
                 fnpend, hdrpend, body0 = hdrpend, [], i
+                upend = []          # a definition's header: its params are P bindings, not declaration uses
             knr = None
             depth += 1
             stmt = i + 1
@@ -209,10 +222,23 @@ def scan_file(rel, text, wanted, sink):
         if t == ";":
             if depth == 0 and not parens and not knr:
                 hdrpend = []
+            if depth == 0 and not parens:
+                owner = toks[i - 1] if i and not knr and re.match(r"[A-Za-z_]\w*$", toks[i - 1]) else None
+                for nm, wh in upend:
+                    if owner and owner != nm:
+                        sink.append((nm, ("U", owner), owner, wh))
+                upend = []
             stmt = i + 1
             continue
+        if t in macros and fn:
+            for nm in macros[t]:
+                sink.append((nm, ("U", f"{binary}/{addr_of(fn)}"), f"{binary}/{addr_of(fn)}", f"{rel}:{lines[i]}"))
         if t not in wanted:
             continue
+        if fn:
+            sink.append((t, ("U", f"{binary}/{addr_of(fn)}"), f"{binary}/{addr_of(fn)}", f"{rel}:{lines[i]}"))
+        else:
+            upend.append((t, f"{rel}:{lines[i]}"))
         if stmt < n and toks[stmt] == "typedef":
             continue
         j = i + 1
@@ -288,9 +314,8 @@ def struct_map_join(census):
     return g, loc, True
 
 
-def collect(census):
-    rows = load_rows(census)
-    wanted = {nm for r in rows for nm in r["names"]}
+def scan_all(wanted):
+    """name -> key -> [cite, [where]] over src/ and include/"""
     sink = []
     files = sorted(p for d in ("src", "include") for p in (REPO / d).rglob("*") if p.suffix in (".c", ".h") and p.is_file())
     for p in files:
@@ -301,10 +326,22 @@ def collect(census):
         if not set(re.findall(r"[A-Za-z_]\w*", text)) & wanted:
             continue
         scan_file(rel, text, wanted, sink)
-    bind = collections.defaultdict(dict)          # name -> key -> (cite, [where])
+    bind = collections.defaultdict(dict)
     for name, key, cite, where in sink:
         e = bind[name].setdefault(key, [cite, []])
         e[1].append(where)
+    return bind
+
+
+def collect(census):
+    rows = load_rows(census)
+    wanted = {nm for r in rows for nm in r["names"]}
+    bind = scan_all(wanted)                       # name -> key -> (cite, [where])
+    # a type naming an unbound name as a member / alias (U owner): its own bound objects locate the use (one level)
+    unb = {nm for nm in wanted if not any(k[0] not in ("F", "AG", "U") for k in bind.get(nm, {}))}
+    owners = {k[1] for nm in unb for k in bind.get(nm, {}) if k[0] == "U" and "/" not in k[1]}
+    obind = scan_all(owners) if owners else {}
+    owner_objs = {o: cites(obind.get(o, {}), cap=3) for o in owners}
     psyq = psyq_layouts()
     out = []
     for r in rows:
@@ -315,32 +352,63 @@ def collect(census):
             for key in bind.get(nm, {}):
                 if key[0] == "AG":
                     owners[key[:2]].add((nm, key[2]))
-                elif key[0] != "F":
+                elif key[0] not in ("F", "U"):
                     owners[key].add((nm, None))
         shared = {k: {nm for nm, _ in v} for k, v in owners.items()
                   if len({nm for nm, _ in v}) > 1 and (k[0] != "AG" or len({b for _, b in v}) > 1)}
-        unbound = [nm for nm in r["names"] if not any(k[0] not in ("F", "AG") for k in bind.get(nm, {}))]
-        klass = "SDK" if sdk else "SHARED" if shared else "UNBOUND" if unbound else "SEPARATE"
-        out.append(dict(r, klass=klass, sdk=sdk, shared=shared, unbound=unbound,
+        unbound = [nm for nm in r["names"] if not any(k[0] not in ("F", "AG", "U") for k in bind.get(nm, {}))]
+        klass = "SHARED" if shared else "UNBOUND" if unbound else "SEPARATE"
+        out.append(dict(r, klass=klass, sdk=sdk, shared=shared, unbound=unbound, owner_objs=owner_objs,
                         bind={nm: bind.get(nm, {}) for nm in r["names"]}))
     return out
 
 
-def cites(objs, cap=MAX_CITES):
-    cs = sorted({c for k, (c, _) in objs.items() if k[0] != "F"}, key=lambda c: ("0x" not in c, c))
+def has_addr(ci):
+    return "0x" in ci or re.search(r"80[0-9A-Fa-f]{6}", ci) is not None
+
+
+def cites(objs, cap=MAX_CITES, kinds=None):
+    cs = sorted({c for k, (c, _) in objs.items() if (k[0] in kinds if kinds else k[0] not in ("F", "U"))},
+                key=lambda c: (not has_addr(c), c))
     return cs[:cap], len(cs)
 
 
+def uses(c, nm):
+    """an unbound name's use-site cites: the using functions, the types naming it (member / alias) with their own objects"""
+    def one(ci):
+        if "/" in ci:
+            return ci
+        cs, total = c["owner_objs"].get(ci, ([], 0))
+        return f"type {ci}" + (f" ({', '.join(cs)}{' …' if total > len(cs) else ''})" if cs else "")
+    return sorted({one(ci) for k, (ci, _) in c["bind"][nm].items() if k[0] == "U"}, key=lambda x: (not has_addr(x), x))
+
+
 def section(c):
+    """the `### <lhash>` text, or None when its cause would carry no address (UNBOUND without addressed use sites)"""
     names = sorted(c["names"])
-    allc = sorted({ci for nm in names for k, (ci, _) in c["bind"][nm].items() if k[0] != "F"})
+    unb = set(c["unbound"]) if c["klass"] == "UNBOUND" else set()
+    allc = sorted({ci for nm in names if nm not in unb for k, (ci, _) in c["bind"][nm].items() if k[0] not in ("F", "U")})
     addr = [x for x in allc if "0x" in x]
-    nobj = len(allc)
-    lines = [f"### {c['lhash']}", "names: " + ", ".join(names),
-             f"cause: {len(names)} names ({c['size']} B, all members placeholders) bound to {nobj} distinct objects, none bound to two "
-             f"names: {', '.join(addr[:MAX_CITES])}{' …' if len(addr) > MAX_CITES else ''}; "
-             f"full list: tools/struct_twins.py --show {c['lhash']}"]
+    head = f"cause: {len(names)} names ({c['size']} B, all members placeholders)"
+    bound = (f"bound to {len(allc)} distinct objects, none bound to two names: {', '.join(addr[:MAX_CITES])}"
+             f"{' …' if len(addr) > MAX_CITES else ''}")
+    if unb:
+        ua = sorted({u for nm in unb for u in uses(c, nm) if has_addr(u)})
+        if not ua and not addr:
+            return None
+        cause = (f"{head}; {len(unb)} bound to no object (UNBOUND), used only by: {', '.join(ua[:MAX_CITES]) or 'no addressed site'}"
+                 f"{' …' if len(ua) > MAX_CITES else ''}" + (f"; the other {len(names) - len(unb)} {bound}" if len(unb) < len(names) else ""))
+    else:
+        cause = f"{head} {bound}"
+    if c["sdk"]:
+        cause += f"; same layout as PsyQ {', '.join(c['sdk'])}, no name of the row bound to it"
+    lines = [f"### {c['lhash']}", "names: " + ", ".join(names), cause + f"; full list: tools/struct_twins.py --show {c['lhash']}"]
     for nm in names:
+        if nm in unb:
+            us = uses(c, nm)
+            lines.append(f"- `{nm}`: 0 obj — used by {', '.join(us[:MAX_CITES]) if us else 'nothing outside its definition'}"
+                         f"{f' (+{len(us) - MAX_CITES})' if len(us) > MAX_CITES else ''}")
+            continue
         cs, total = cites(c["bind"][nm])
         more = f" (+{total - len(cs)})" if total > len(cs) else ""
         lines.append(f"- `{nm}`: {total} obj — {', '.join(cs)}{more}")
@@ -354,9 +422,13 @@ def write(classes):
         sys.exit("struct_twins: no `## Twins` heading in docs/struct-twins.md")
     rest = re.search(r"(?m)^## ", text[m.end():])
     end = m.end() + rest.start() if rest else len(text)
-    body = "\n\n".join(section(c) for c in classes if c["klass"] == "SEPARATE")
+    # fixed order (rows move between dup_gating.tsv and the listed set as the doc changes): most names first, then lhash
+    secs = [(c, section(c)) for c in sorted(classes, key=lambda c: (-len(c["names"]), c["lhash"]))
+            if c["klass"] in ("SEPARATE", "UNBOUND")]
+    body = "\n\n".join(s for _c, s in secs if s)
     body = ("<!-- generated by tools/struct_twins.py --write; regenerate, do not hand-edit -->\n\n" + body + "\n\n") if body else "\n"
     TWINS_DOC.write_text(text[:m.end()] + "\n" + body + text[end:])
+    return [s for s in secs if s[1]], [c for c, s in secs if not s]
 
 
 def main():
@@ -382,8 +454,8 @@ def main():
                       f"{'  struct_map ' + ','.join(sm[:4]) if sm else ''}")
         return
     cnt = collections.Counter(c["klass"] for c in classes)
-    print(f"struct_twins: {len(classes)} tier-2 rows · SEPARATE {cnt['SEPARATE']} · SHARED {cnt['SHARED']} · SDK {cnt['SDK']} · "
-          f"UNBOUND {cnt['UNBOUND']}")
+    print(f"struct_twins: {len(classes)} tier-2 rows · SEPARATE {cnt['SEPARATE']} · SHARED {cnt['SHARED']} · "
+          f"UNBOUND {cnt['UNBOUND']} · (SDK layout {sum(1 for c in classes if c['sdk'])})")
     for c in classes:
         if c["klass"] == "SHARED":
             def cite_of(k, nm):
@@ -392,13 +464,17 @@ def main():
             ci = cite_of(k, min(v)) + (f" (routine {k[1]})" if k[0] in ("A", "AG") else "")
             print(f"  SHARED {c['lhash']} ({len(c['names'])} names, {len(c['shared'])} shared objects): e.g. {ci} <- {', '.join(sorted(v)[:6])}"
                   f"{' …' if len(v) > 6 else ''}")
-        elif c["klass"] == "SDK":
-            print(f"  SDK    {c['lhash']} ({len(c['names'])} names) layout of {', '.join(c['sdk'])}")
         elif c["klass"] == "UNBOUND":
-            print(f"  UNBOUND {c['lhash']} ({len(c['names'])} names): {', '.join(c['unbound'][:6])}{' …' if len(c['unbound']) > 6 else ''}")
+            noaddr = [nm for nm in c["unbound"] if not any(has_addr(u) for u in uses(c, nm))]
+            print(f"  UNBOUND {c['lhash']} ({len(c['names'])} names): {', '.join(c['unbound'][:6])}{' …' if len(c['unbound']) > 6 else ''}"
+                  + (f"; no addressed use: {', '.join(noaddr)}" if noaddr else ""))
+        if c["sdk"] and c["klass"] != "SEPARATE":
+            print(f"         {c['lhash']}: same layout as PsyQ {', '.join(c['sdk'])}")
     if a.write:
-        write(classes)
-        print(f"struct_twins: wrote {cnt['SEPARATE']} `### <lhash>` sections to docs/struct-twins.md ## Twins")
+        done, left = write(classes)
+        print(f"struct_twins: wrote {len(done)} `### <lhash>` sections to docs/struct-twins.md ## Twins")
+        for c in left:
+            print(f"  NOT WRITTEN {c['lhash']}: no address in any bound object or use site of {', '.join(c['unbound'])}")
 
 
 if __name__ == "__main__":
