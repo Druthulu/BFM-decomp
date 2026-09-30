@@ -3908,18 +3908,7 @@ extern s32   AddPrim(s32 a0, void *a1);
 
 void func_80189340(s32 p)
 {
-    typedef struct { u8 pad0[3]; u8 len; u8 pad1[3]; u8 code; } PHdr_80189340;
-    typedef struct {
-        u32 tag;            /* 0x00 */
-        u32 c0;             /* 0x04 */
-        u16 x0, y0;         /* 0x08, 0x0A */
-        u32 c1;             /* 0x0C */
-        u16 x1, y1;         /* 0x10, 0x12 */
-        u32 c2;             /* 0x14 */
-        u16 x2, y2;         /* 0x18, 0x1A */
-        u32 c3;             /* 0x1C */
-        u16 x3, y3;         /* 0x20, 0x22 */
-    } PG4_80189340;         /* 0x24 */
+         /* 0x24 */
 
     s32 tags[28];           /* sp+0x18 */
     s16 sv[4];              /* sp+0x88 */

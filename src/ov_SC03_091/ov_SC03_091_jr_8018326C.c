@@ -4569,7 +4569,6 @@ void func_80186060(s32 a0)
     extern u8 D_801A5FEC[];
     extern u8 D_801A5FED;
     extern u8 D_801A5FEE;
-    typedef struct { u8 r, g, b, pad[13]; } Row_80186060;
     s32 v1;
     s32 i;
     s32 j;

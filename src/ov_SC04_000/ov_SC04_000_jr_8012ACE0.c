@@ -1430,9 +1430,6 @@ void func_80131340(s32 a0)
     /* 8-byte, align-2 vector: align < 4 is what makes the assignments unaligned
      * (lwl/lwr + swl/swr) block moves. Block-scope so the body stays self-contained
      * for the dedup_propagate lift (§28-#1) and cannot collide with the TU's `M8`. */
-    struct V8_SC04_000_80131340 {
-        u16 vx, vy, vz, pad;
-    };
     extern struct V8_SC04_000_80131340 D_8018373C;
     /* BLOCK-scope, mirroring the already-matched func_801312D0's decl at TU L1619: the
      * later DEFINE_func_80131AC8() (TU L1964, AFTER this slot) redeclares func_80131CF4
@@ -2404,7 +2401,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
 
         {
             s32 *pw = D_80183828;
-            ((struct { s32 w; } *)pw)->w = s3[0];
+            ((Unkstruct_80133CD4 *)pw)->w = s3[0];
             pw[1] = s3[1];
             pw[2] = s3[2];
         }
@@ -2463,7 +2460,6 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     if (y >= -0xBCB) {
         D_80183814[3] = y;
         {
-            typedef struct { s8 c[8]; } Blk8_SC04_000_80133CD4;
             *(Blk8_SC04_000_80133CD4 *)&D_801152B0 = *(Blk8_SC04_000_80133CD4 *)s3;
         }
         if (*(u8 *)cmd != 0)

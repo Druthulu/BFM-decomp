@@ -4335,8 +4335,6 @@ void func_80180C04(void *arg0)
     /* stride-8 tables, field 0 only — the TU already declares these two typedefs
      * at file scope (above func_80180970); repeated at block scope so this
      * function also compiles standalone. */
-    typedef struct { u16 v; u16 pad[3]; } Stride8_u16_80182868_80180970;
-    typedef struct { s16 v; s16 pad[3]; } Stride8_s16_80182868_80180970;
 
     extern s16 D_801A4D04;
     extern Stride8_u16_80182868_80180970 D_801A4D0C[];
@@ -5591,7 +5589,6 @@ void func_8018248C(s32 a0, s32 a1) {
      * file-scope decl in this TU: it is already declared twice, block-scoped and
      * with two different types (Blk32_8018AA98_80183D30 @5594, s32 @6053).  This
      * body follows that existing TU precedent verbatim. */
-    typedef struct { s32 w[8]; } Blk32_8018AA98_80183D30;
     extern Blk8 D_801D1A9C;
     extern s32 D_800AE620;
     Msg_8018248C msg;          /* sp+0x10 (24-byte stride, §193-I) */

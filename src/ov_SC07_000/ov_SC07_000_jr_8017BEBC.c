@@ -2700,7 +2700,6 @@ extern void func_8017BEB4(void);
 
 void func_8017BEBC(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC07_000_8017BEBC;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -3255,9 +3254,6 @@ void func_8017DB64(void *a0) {
 extern void func_8017DC68(s32 param_1, s16 *param_2);
 
 void func_8017DBA0(s32 param_1) {
-    typedef struct {
-        s16 v[4];
-    } Blk8_80126940_8017D20C;
     extern Blk8_80126940_8017D20C D_80126940;
     Blk8_80126940_8017D20C sp10;
 

@@ -2851,7 +2851,6 @@ extern void func_8017C8D0(void);
 
 void func_8017C954(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC06_029_8017C954;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -3366,27 +3365,9 @@ void func_8017DC38(s32 param_1)
  * Delete the two inner typedefs if a file-scope-only form is preferred.
  */
 void func_8017DDE0(void *arg0) {
-    typedef struct {
-        u16 f0;
-        u16 f2;
-        u16 f4;
-        u16 f6;
-        u16 f8;
-        u16 fA;
-        s32 fC;
-        s32 f10;
-        s32 f14;
-        s32 f18;
-    } SubRec_801EB5C8_8017DC38; /* 0x1C */
+ /* 0x1C */
 
-    typedef struct {
-        u16 g0;
-        u16 g2;
-        s32 g4;
-        s32 g8;
-        s32 gC;
-        SubRec_801EB5C8_8017DC38 subs[16];
-    } GroupRec_801EB5C8_8017DC38; /* 0x1D0 */
+ /* 0x1D0 */
 
     extern GroupRec_801EB5C8_8017DC38 D_801DCCA8[8];
     /* §17a-1: the fleet canonical for these callees is the NO-PROTOTYPE form,
@@ -3836,7 +3817,6 @@ extern s32 ratan2(s32, s32);
 extern void func_8017E95C(s32 param_1, s16 *param_2, s16 *param_3, s32 param_4);
 
 void func_8017E83C(s32 a0) {
-    typedef struct { s16 v[4]; } Blk8_80126940_8017E8DC;
     extern Blk8_80126940_8017E8DC D_80126940;
     Blk8_80126940_8017E8DC sp10a;
     Blk8_80126940_8017E8DC sp10b;
@@ -5084,17 +5064,6 @@ void func_80180A70(s32 param_1) {
     /* the same 0x14-byte packet func_801825D8 / func_80184FF8 feed to
      * func_8012C51C, spelled all-s16 here because every field is written
      * from a signed literal (`addiu $v0,$zero,-0x100`, not `ori`). */
-    typedef struct {
-        s16 s0;   /* 0x00 */
-        s16 s2;   /* 0x02 */
-        s16 s4;   /* 0x04 */
-        s16 s6;   /* 0x06 */
-        s16 s8;   /* 0x08 */
-        s16 sA;   /* 0x0A */
-        s16 sC;   /* 0x0C */
-        s16 sE;   /* 0x0E */
-        s32 w10;  /* 0x10 */
-    } Rec_SC06_029_80180A70;
 
     Rec_SC06_029_80180A70 rec;      /* sp+0x10 */
     u16 pt[3];    /* sp+0x28 */
@@ -5596,7 +5565,6 @@ extern s32 D_801DFD90;
 extern s32 func_80012CB8(s32 a0, s32 a1, s32 a2);
 
 void func_80181708(int param_1) {
-    typedef struct { u8 pad[0x3C]; s32 x3C; s32 x40; s32 x44; s32 x48; s32 x4C; s32 x50; } OB;
     extern s16 D_801904C6_a[] __asm__("D_801904C6");
     extern s16 D_801904CE_a[] __asm__("D_801904CE");
     SV *p1 = (SV *)D_801DFD8C;
@@ -5967,7 +5935,7 @@ s32 func_80181DF8(s32 param_1)
 
 s32 func_80182334(s32 a0)
 {
-    typedef struct { u16 x; s16 y; s16 z; u16 pad; s32 w1, w2; } Ent_801DFBF8_SC06_029_80182334;   /* 0x10 */
+   /* 0x10 */
     extern Ent_801DFBF8_SC06_029_80182334 D_801DFBF8[];
 
     Ent_801DFBF8_SC06_029_80182334 *e;
@@ -6007,7 +5975,7 @@ void func_80182388(s32 a0, s32 a1)
      * these types (the TU also DEFINES func_801859F4 later with a different,
      * struct-typed prototype, so a file-scope copy would be a hard conflict). */
     /* §183.1-safe: same NAME *and* same BODY as func_801825D8's copy. */
-    typedef struct { u16 x, y, z, pad; s32 w1, w2; } Ent_801DFBF8;   /* 0x10 */
+   /* 0x10 */
 
     extern Ent_801DFBF8 D_801DFBF8[];
     extern void func_801859F4(void *a0, s32 a1, s32 a2, s32 a3, s32 a4,
@@ -6097,19 +6065,7 @@ void func_80182388(s32 a0, s32 a1)
 
 void func_801825D8(s32 arg0, s32 arg1)
 {
-    typedef struct { u16 x, y, z, pad; s32 w1, w2; } Ent_801DFBF8;   /* 0x10 */
-    typedef struct { s16 vx, vy, vz, pad; } SV_801825D8;
-    typedef struct {
-        u16 u0;      /* 0x00 */
-        u16 u1;      /* 0x02 */
-        u16 u2;      /* 0x04 */
-        s16 s6;      /* 0x06 */
-        s16 s8;      /* 0x08 */
-        s16 sA;      /* 0x0A */
-        s16 sC;      /* 0x0C */
-        s16 sE;      /* 0x0E */
-        s32 w10;     /* 0x10 */
-    } Rec_801825D8;
+   /* 0x10 */
 
     extern Ent_801DFBF8 D_801DFBF8[];
     extern u8 D_801DFD94[];
@@ -7784,17 +7740,6 @@ extern void func_8012C218(void *a0);
 void func_80184FF8(s32 param_1)
 {
     /* same packet shape func_801825D8 feeds to func_8012C51C */
-    typedef struct {
-        u16 u0;      /* 0x00 */
-        u16 u1;      /* 0x02 */
-        u16 u2;      /* 0x04 */
-        s16 s6;      /* 0x06 */
-        s16 s8;      /* 0x08 */
-        s16 sA;      /* 0x0A */
-        s16 sC;      /* 0x0C */
-        s16 sE;      /* 0x0E */
-        s32 w10;     /* 0x10 */
-    } Rec_80184FF8;
 
     Rec_80184FF8 rec;
     Blk8_801828E4 local;

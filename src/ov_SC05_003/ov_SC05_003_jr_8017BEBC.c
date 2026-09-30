@@ -5620,7 +5620,6 @@ extern void VectorNormal();
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
 s32 func_80181720(void *arg0) {
-    typedef struct { s32 vx, vy, vz; } VEC3L;
     VEC3L v;
     s16 raw[4];
     s16 buf[4];

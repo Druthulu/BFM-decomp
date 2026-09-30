@@ -4712,16 +4712,6 @@ extern void func_8001CD9C(s32 a0, void *a1);
 
 void func_80180AE8(void *arg0)
 {
-    typedef struct {
-        u8 pad00[4];
-        u32 flags;               /* 0x04 */
-        u8 pad08[0x10];
-        u16 f18, f1A;            /* 0x18 */
-        u8 pad1C[2];
-        u16 f1E;                 /* 0x1E */
-        u8 pad20[0xC];
-        s16 f2C;                 /* 0x2C */
-    } Ent_80180AE8;
     extern void func_8017EEA4(void *arg);
     Rec_80180AE8 *rec;
     Ent_80180AE8 *ent;
@@ -4969,7 +4959,6 @@ void func_80180F90(u8 *a0) {
 
 
 s32 func_80180FE8(u8 *a0, u8 *a1, s32 a2) {
-    typedef struct { s16 x, y, z; } Shake_80180FE8;
     extern s32 D_801F89E0;
     extern s16 D_801F8A10;
     extern s16 D_801F8A12;

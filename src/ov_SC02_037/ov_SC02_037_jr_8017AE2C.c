@@ -5180,7 +5180,6 @@ extern short D_800B9A02;
 
 void func_8017D898(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC02_037_8017D898;
 
     DVECTOR2 tmpxy[4];
     SVECTOR2 box[8];
@@ -6567,9 +6566,6 @@ void func_8017FBEC(s32 a0) {
     extern u8 D_800AF648;
     extern u8 D_801B03F8[];
     extern u8 D_801AFD68[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_8017FBEC;
     s32 mv[4];   /* sp+0x10 : the 4-word block handed to func_8012B1B4 */
     V8_8017FBEC pad[2];   /* sp+0x20 : gcc's own area (vars must be 0x48 for a 0x68 frame) */
     V8_8017FBEC sp30;     /* sp+0x30 : func_80133784 arg1 */
@@ -6699,9 +6695,6 @@ void func_8017FFA0(s32 a0) {
     extern u8 D_801B0CF8[];
     extern u8 D_801B0678[];
     extern u8 D_801B0F00[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_8017FFA0;
     s32 sp10[4];
     V8_8017FFA0 pad[2];
     V8_8017FFA0 sp30;
@@ -6936,9 +6929,6 @@ void func_80180448(s32 a0) {
 
     extern u8 D_801A3CB0[];
     extern u8 D_801B09B8[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80180448;
     V8_80180448 pad[2];
     V8_80180448 sp20;
     V8_80180448 sp28;
@@ -7483,7 +7473,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80180FD4(s32 a0) {
 
     extern u8 D_801A39CC[];
-    typedef struct { u16 x, y, z, w; } V8_80180FD4;
     V8_80180FD4 sp10;
     V8_80180FD4 sp18;
 

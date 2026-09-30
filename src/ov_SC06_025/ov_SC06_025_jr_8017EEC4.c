@@ -3830,17 +3830,6 @@ void func_801805BC(void *arg0) {
      * on the p-> accesses (gcc-2.7.2 true_dependence lets a varying in-struct MEM
      * pass a non-struct constant-address MEM), which a raw *(u16*)(x+K) cast
      * cannot give.  Named uniquely so it can never collide with a TU typedef. */
-    typedef struct {
-        u8  pad_0[0x8];
-        s16 unk8;       /* 0x08 */
-        s16 unkA;       /* 0x0A */
-        u8  pad_C[0x10];
-        s32 unk1C;      /* 0x1C */
-        u8  pad_20[0x14];
-        u16 unk34;      /* 0x34 */
-        u8  pad_36[0xA6];
-        s16 unkDC;      /* 0xDC */
-    } Obj801805BC;
 
     extern s32  func_8012BEE8(s32);
     extern void func_80181700(void *arg0);
@@ -3946,7 +3935,6 @@ void func_801807F8(s32 a0) {
  * or (max < pos*2) << 1 when the selector itself is unset. */
 s32 func_80180808() {
 
-    typedef struct { s32 f0; s16 f4; s16 f6; } Rec_80180808;
 
     extern s16 D_801B1704;
     extern s16 D_801B1720;
@@ -4012,17 +4000,6 @@ void func_801808AC(void *arg0)
 
 void func_80180950(void *arg0) {
 
-    typedef struct {
-        u8  pad0[0x2];
-        s16 unk2;       /* 0x02 */
-        u8  pad4[0x18];
-        s32 unk1C;      /* 0x1C */
-        u8  pad20[0x14];
-        s16 unk34;      /* 0x34 */
-        u8  pad36[0xA6];
-        s16 unkDC;      /* 0xDC */
-        s16 unkDE;      /* 0xDE */
-    } Obj80180950;
 
     extern s32 D_801270C8;
     extern s16 D_801B1708;
@@ -4034,7 +4011,7 @@ void func_80180950(void *arg0) {
     p->unk34 = 0;
     p->unkDC = 0;
     p->unkDE = 0;
-    ((struct { s32 f; } *)&D_801270C8)->f = 3;
+    ((Unkstruct_801270C8 *)&D_801270C8)->f = 3;
     D_801B1708 = 0;
     D_801B1710 = 0;
     p->unk1C = 0x16;
@@ -4052,12 +4029,6 @@ void func_80180950(void *arg0) {
  * no-prototype decl. */
 void func_8018098C(void *arg0) {
 
-    typedef struct {
-        u8  pad_0[0x1C];
-        s32 unk1C;      /* 0x1C */
-        u8  pad_20[0x14];
-        u16 unk34;      /* 0x34 */
-    } Obj8018098C;
 
     extern void func_80180B7C(s32 a0);
     extern void func_80181700(void *a0);
@@ -4112,7 +4083,7 @@ void func_8018098C(void *arg0) {
              * the varying /s p->unk34 store and hoists above it (sched.c:817).  The
              * COMPONENT_REF spelling -- this TU's own idiom, see func_80180950 --
              * sets MEM_IN_STRUCT_P and keeps the store in source order. */
-            ((struct { s32 f; } *)&D_801270C8)->f = 0;
+            ((Unkstruct_801270C8 *)&D_801270C8)->f = 0;
         }
         break;
 
@@ -4238,10 +4209,6 @@ void func_80180D84(void *arg0) {
     /* block-scope layout type, named uniquely so it can never collide with the
      * TU's file-scope typedef St_8017E95C_r (gcc-2.7.2 rejects typedef
      * redefinition; cookbook §120: rename, don't remove) */
-    typedef struct {
-        s16 unk0;                /* 0x00 */
-        u8 pad[0x102];           /* -> 0x104 */
-    } Obj80180D84;
 
     extern s32 D_801270C8;
     extern St_8017E95C_r D_801B12F0[4];
@@ -4746,18 +4713,6 @@ extern void func_8012E28C(s32, s32);
 extern s32 func_801823D4(s32, s32);
 
 void func_801818D8(u16 *pv, s32 arg1, s32 n, s32 col) {
-    typedef struct {
-        s32 tag;   /* 0x00 */
-        s32 rgb0;  /* 0x04   code byte lives at +3 of this word */
-        s32 xy0;   /* 0x08 */
-        s32 rgb1;  /* 0x0C */
-        s32 xy1;   /* 0x10 */
-        s32 rgb2;  /* 0x14 */
-        s32 xy2;   /* 0x18 */
-        s32 rgb3;  /* 0x1C */
-        s32 xy3;   /* 0x20 */
-    } G4;
-    typedef struct { s16 vx, vy, vz, pad; } V8_SC06_025_801818D8;
 
     V8_SC06_025_801818D8 sv[4];   /* sp+0x10 .. 0x2F */
     s32 v[2];   /* sp+0x30 */
@@ -4950,27 +4905,7 @@ extern OtBlk D_800A651C[];
  */
 void func_80181E08(s32 arg0) {
     /* --- packet layouts (word offsets verified against the target's sw/sb) ------ */
-    typedef struct {
-        s32 tag;   /* 0x00 */
-        s32 rgb0;  /* 0x04   code byte lives at +3 of this word */
-        s32 xy0;   /* 0x08 */
-        s32 rgb1;  /* 0x0C */
-        s32 xy1;   /* 0x10 */
-        s32 rgb2;  /* 0x14 */
-        s32 xy2;   /* 0x18 */
-        s32 rgb3;  /* 0x1C */
-        s32 xy3;   /* 0x20 */
-    } G4;
-    typedef struct {
-        s32 tag;   /* 0x00 */
-        s32 rgb0;  /* 0x04 */
-        s32 xy0;   /* 0x08 */
-        s32 rgb1;  /* 0x0C */
-        s32 xy1;   /* 0x10 */
-        s32 rgb2;  /* 0x14 */
-        s32 xy2;   /* 0x18 */
-    } G3;
-    typedef struct { s16 vx, vy, vz, pad; } V8_SC06_025_80181E08;   /* 8-byte ring stride */
+   /* 8-byte ring stride */
 
     extern void *func_80010A08(s32);
     extern s32 RotTransPers4(s32, s32, s32, s32, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);

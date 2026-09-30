@@ -3810,7 +3810,7 @@ void func_8017D2A4(void) {
     case 3: {
         s16 *q = &D_8011512C;
         D_801150D4 = 0;
-        if (((struct { s16 h; } *)q)->h != 0xC) {
+        if (((Unkstruct_8017D2A4 *)q)->h != 0xC) {
             ret = 0x11;
             *q = 5;
         }
@@ -4174,22 +4174,8 @@ void func_8017DCB0(s32 val, s32 n, void *dst, s32 flag) {
  */
 
 s32 *func_8017DD28(s32 *out) {
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag_8017DD28;
-    typedef struct { u32 *ot; u32 pad[4]; } Env_8017DD28;   /* 0x14 stride */
-    typedef struct { u16 f0; u16 f2; } Prim4_8017DD28;
-    typedef struct {
-        s16 f0;                     /* 0x00 */
-        s16 f2;                     /* 0x02 */
-        void *f4;                   /* 0x04 */
-        void *f8;                   /* 0x08 */
-        s16 fC;                     /* 0x0C */
-        s16 fE;                     /* 0x0E */
-        s16 f10;                    /* 0x10 */
-        s16 f12;                    /* 0x12 */
-        void *f14;                  /* 0x14 */
-        Prim4_8017DD28 *f18;        /* 0x18 */
-        void *f1C;                  /* 0x1C */
-    } Panel_8017DD28;               /* 0x20 stride */
+   /* 0x14 stride */
+               /* 0x20 stride */
 
     extern Env_8017DD28 D_800AE7BC[];
     extern short D_800B9A02;

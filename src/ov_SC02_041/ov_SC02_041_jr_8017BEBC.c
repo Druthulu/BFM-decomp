@@ -8123,15 +8123,8 @@ void func_80183D78(s32 a0, void *a1, s32 a2)
 
 void func_80183FE0(s32 a0, s32 a1, s32 a2)
 {
-    typedef struct {
-        s16 vx, vy, vz, pad;
-    } SV_80183FE0;
 
-    typedef struct {
-        SV_80183FE0 v[4];    /* 0x00 */
-        u8          c[4][4]; /* 0x20 */
-        u32         code;    /* 0x30 */
-    } Prim_80183FE0;         /* 0x34 */
+         /* 0x34 */
 
     extern void func_8018428C(s32 a0, s32 a1, s32 a2, void *a3);
     extern s32 func_80017758(void *a0, void *a1);

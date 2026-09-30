@@ -3273,7 +3273,6 @@ void func_8017D490(void)
  */
 void func_8017DD04(s32 arg0, s32 arg1)
 {
-    typedef struct { u32 addr:24; u32 len:8; } P_TAG_SC01_000_8017DD04;
     extern void func_8017E1A8();
     extern u8 *D_800A5E60;
     extern u8 D_800AA60C[];

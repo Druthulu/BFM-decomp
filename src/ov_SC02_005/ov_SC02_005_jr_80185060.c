@@ -368,7 +368,6 @@ void func_80185764(void *a0)
 extern s32 D_801E43C0;
 
 void func_80185858(s32 arg0, void *arg1, void *arg2) {
-    typedef struct { u8 pad[0x5C]; u16 f5C; } F5C_S;
     extern F5C_S *D_801E43CC[];
     s32 *p = &D_801E43C0;
 

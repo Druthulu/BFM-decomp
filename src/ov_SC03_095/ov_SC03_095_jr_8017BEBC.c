@@ -4860,7 +4860,6 @@ void func_80180550(s32 param_1, s32 param_2) {
 
 
 s32 func_801805C8(s32 arg0) {
-    typedef struct { s32 w0; s32 w1; } Cmd_801805C8;
     Cmd_801805C8 *ptr;
     s32 val;
     s32 next;

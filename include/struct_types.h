@@ -503,4 +503,11 @@ typedef struct {
     s16 vx, vy, vz, pad;
 } SVECTOR_800;
 
+/* --- lift_types.py --census (P38 T5.1.c2, batch ov-block) --- */
+typedef struct { u8 c[8]; } Blk8_md_SC03_076;
+typedef struct { u32 addr : 24; u32 len : 8; } PTag;
+typedef struct { u32 w[4]; } St801D9204;
+typedef struct { s32 f; } Unkstruct_801151D0;
+typedef struct { s32 vx, vy, vz, pad; } V32;
+
 #endif /* STRUCT_TYPES_H */

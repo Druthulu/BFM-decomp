@@ -2952,7 +2952,6 @@ void func_801800F0(s32 param_1)
     /* block-scope so it cannot collide with engine_types.h's SVECTOR_8016E7C8;
      * the 8-byte (vx,vy,vz,pad) shape is what puts `in` at 0x10(sp) and
      * `out` at 0x18(sp). */
-    typedef struct { short vx, vy, vz, pad; } SVec_80181D08;
 
     s32 sp20;
     s32 ret;

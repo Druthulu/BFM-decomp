@@ -3010,7 +3010,6 @@ void func_8017D7A4(void *a0) {
 #include "common.h"
 
 void func_8017D7E0(s32 param_1) {
-    typedef struct { s16 x0, x1, x2, x3; } UnalignedShortBlock;
 
     extern u16 func_80148800(s32 *a0);
     extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);

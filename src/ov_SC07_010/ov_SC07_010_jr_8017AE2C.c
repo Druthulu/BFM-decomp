@@ -4609,9 +4609,6 @@ void func_8017E520(s32 a0) {
 
 
 void func_8017E5B8(s32 a0, s32 a1) {
-    struct P8 { s16 unk0; u8 pad[6]; };
-    struct P4 { u16 unk0; u16 pad; };
-    struct EntA { u8 pad[0xDC]; s32 unkDC; u8 pad2[0x1C]; u16 unkFC; };
     extern struct P8 D_80185D28[];
     extern struct P8 D_80185D2A[];
     extern struct P8 D_80185D2C[];
@@ -5587,7 +5584,6 @@ void func_8017FD54(void *param_1) {
     extern u8 D_80185E90[];
     extern u8 D_80185EA0[];
     extern u8 D_80185EB0[];
-    typedef struct { u16 w[4]; } Blk8017FD54;
     u16 idx;
 
     *(u16 *)((s32)param_1 + 0x0) = 0;

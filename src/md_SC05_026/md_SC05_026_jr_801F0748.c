@@ -3,7 +3,6 @@
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801EE8E0;
 typedef struct { u32 w[38]; } Blk152_8017DF40_801EFC58;
 typedef struct { u8 b[4]; } Blk4_8017DF40_801EFC58;
-typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801F04DC;
 typedef struct { short vx, vy, vz, pad; } SVECTOR_801EDED4_801F04DC;
 extern void func_801EDC04(void);

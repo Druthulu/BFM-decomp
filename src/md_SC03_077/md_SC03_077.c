@@ -109,7 +109,6 @@ INCLUDE_RODATA("asm/md_SC03_077/nonmatchings/md_SC03_077", D_801EF468);
 
 #include "common.h"
 
-typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 
 const Blk8_md_SC03_076 D_801EF46C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
 

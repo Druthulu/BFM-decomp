@@ -7098,7 +7098,6 @@ void func_80180E74(void *a0)
 
 void func_80180FE4(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC02_011_80180FE4;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MTX80180FE4 *);
@@ -7571,7 +7570,6 @@ void func_80181E40(s32 param_1) {
 
 
 void func_80181EF4(s32 param_1) {
-    typedef struct { u8 b[8]; } Blk8L;
     extern Blk8L D_801E9DA0;
     Blk8L buffer;
 
@@ -7971,7 +7969,6 @@ void func_801826D8(void *a0) {
 #include "common.h"
 
 void func_80182714(s32 param_1) {
-    typedef struct { s16 x0, x1, x2, x3; } Blk8S16;
     extern s32 D_801E9DA8;
     extern s32 D_80126B58;
     extern s16 D_80195058[];

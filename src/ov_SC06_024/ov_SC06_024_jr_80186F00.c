@@ -2956,9 +2956,6 @@ void func_80186F00(s32 a0) {
 
 void func_801872EC(s32 a0, s32 a1)
 {
-    struct V8_801872EC {
-        u16 vx, vy, vz, pad;
-    };
     extern s32 func_8012CEB0(void*, void*, s32);
 
     struct V8_801872EC sp10;
@@ -4638,17 +4635,6 @@ u16 a4;
 s32 a5;
 {
     extern s32 func_8012C51C(void *a0, s32 a1);
-    typedef struct {
-        u16 f10; /* 0x10 */
-        u16 f12; /* 0x12 */
-        u16 f14; /* 0x14 */
-        s16 f16; /* 0x16 */
-        s16 f18; /* 0x18 */
-        s16 f1a; /* 0x1A */
-        s16 f1c; /* 0x1C */
-        u16 f1e; /* 0x1E */
-        s32 f20; /* 0x20 */
-    } buf_80189888;
     buf_80189888 sp;
     u16 t;
 

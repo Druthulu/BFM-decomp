@@ -103,7 +103,6 @@ void func_801EDC04(void) {
 
 INCLUDE_RODATA("asm/md_SC05_027/nonmatchings/md_SC05_027", D_801ED988);
 
-typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 const Blk8_md_SC03_076 D_801ED98C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);

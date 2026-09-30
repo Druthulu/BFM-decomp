@@ -2454,7 +2454,6 @@ void func_80186734(void *a0) {
 
 s32 func_80186740(void)
 {
-    typedef struct { unsigned char b[4]; } __attribute__((packed, aligned(1))) Block4_SC02_011_80186740;
 
     extern Block4_SC02_011_80186740 D_801EB524;
     extern unsigned char D_801EB525;
@@ -2587,7 +2586,7 @@ void func_80186868(s32 a0)
         }
         if ((*(s32 *)(self + 0x1C) & 0x1F) >= 8) {
             if (func_80186B1C((void *)self, D_80195D30) != 0) {
-                ((struct { u16 w; } *)&D_80126B96)->w |= 0x4000;
+                ((Unkstruct_80126B96 *)&D_80126B96)->w |= 0x4000;
                 D_80126B98 = 0xC;
             }
         }

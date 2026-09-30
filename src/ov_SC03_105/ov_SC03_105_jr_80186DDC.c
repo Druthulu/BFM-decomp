@@ -3031,17 +3031,6 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 s32 func_801870E8(s32 a0) {
-    typedef struct {
-        u16 f0;
-        u16 f1;
-        u16 f2;
-        u16 f3;
-        u16 f4;
-        u16 f5;
-        u16 f6;
-        u16 f7;
-        s32 f8;
-    } Local_801870E8;
 
     s32 s0 = a0;
     Local_801870E8 local;

@@ -4235,8 +4235,8 @@ void func_8018865C(void)
 {
     /* function-local type/decl layer (byte-neutral): keeps the file-scope
      * environment of ov_SC06_029_jr_8017C954.c untouched. */
-    typedef struct { s32 w[8]; } B20;              /* == shared Blk20  */
-    typedef struct { s32 vx, vy, vz, pad; } V32;   /* == shared Vec32  */
+              /* == shared Blk20  */
+   /* == shared Vec32  */
 
     extern u16 D_800B99DA;
     extern Blk20 D_800AE620;
@@ -4369,7 +4369,7 @@ void func_80188988(int param_1) {
     psVar3 = (s16 *)D_801DFFE8;
     *(s32 *)(param_1 + 0x44) = psVar2[2];
     sVar4 = func_80012CB8(*psVar3, *psVar1, 0x80);
-    ((struct { s32 f; } *)(param_1 + 0x48))->f += sVar4;
+    ((Unkstruct_80188988 *)(param_1 + 0x48))->f += sVar4;
     sVar4 = func_80012CB8(*(s16 *)D_801DFFEC, *(s16 *)D_801DFFE4, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
     *(s32 *)(param_1 + 0x3C) += sVar4;
@@ -4405,7 +4405,7 @@ void func_80188A90(int param_1) {
     *(s32 *)(param_1 + 0x44) = psVar2[2];
     D_801DFFEC = (s32)&D_801913E4 + 8;
     sVar4 = func_80012CB8((s16)D_801913E4[1], psVar1[1], 0x80);
-    ((struct { s32 f; } *)(param_1 + 0x4C))->f += sVar4;
+    ((Unkstruct_80188A90 *)(param_1 + 0x4C))->f += sVar4;
     sVar4 = func_80012CB8(*(s16 *)(D_801DFFEC + 2), *(s16 *)(D_801DFFE4 + 2), 0x80);
     psVar5 = (s16 *)D_801DFFE0;
     *(s32 *)(param_1 + 0x40) += sVar4;
@@ -4651,7 +4651,6 @@ void func_80189440(s32 arg0, SV_189440 *v)
 {
     /* block-scope copies so the draft compiles standalone under match_one; the
      * TU's ../shared/engine_core.h already provides both -- delete when banking. */
-    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX;
 
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];

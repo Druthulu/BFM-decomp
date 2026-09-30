@@ -2737,7 +2737,6 @@ void func_8017D960(void) {
 
 
 void func_8017DA00(void) {
-    typedef struct { s32 words[41]; } Blk164;
     extern u8 D_80126948[];
     extern u8 D_8011F920[];
     extern void func_8012A018(s32 a, s32 b);
@@ -2776,7 +2775,6 @@ void func_8017DA9C() {
 
 void func_8017DAF8(void)
 {
-    typedef struct { s32 w[4]; } Blk16_SC01_084_8017DAF8;
     extern u8 D_80126948[];
     extern u8 D_8011F920[];
     Blk16_SC01_084_8017DAF8 *src;
@@ -3382,7 +3380,6 @@ void func_8017E8E8(void *arg0) {
 
 
 void func_8017E94C(u8 *a0) {
-    typedef struct { s16 a, b, c, d; } SV4;
     extern s32 func_801399F0(s32 a0);
     extern void func_80139914(s32 a0);
     extern s32 func_8013767C(s32 a0);
@@ -3918,7 +3915,7 @@ void func_8017F378(s32 param_1)
 
 
 void func_8017F474(void *a0) {
-    extern struct B8_17F474 { u8 b[8]; } D_8018A790[];
+    extern struct B8_17F474 D_8018A790[];
     extern s32 D_801270D8;
     extern s32 func_8012BEE8(s32 a0);
     extern s32 func_8012BD14(s32 a0);

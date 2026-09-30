@@ -3223,9 +3223,6 @@ void func_80181738(s32 a0) {
 
 void func_80181B24(s32 a0, s32 a1)
 {
-    struct V8_80181B24 {
-        u16 vx, vy, vz, pad;
-    };
     extern s32 func_8012CEB0(void*, void*, s32);
 
     struct V8_80181B24 sp10;

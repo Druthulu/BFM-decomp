@@ -3049,7 +3049,6 @@ void func_8017E01C(s32 a0) {
 
 void func_8017E0BC(s32 a0) {
 
-    typedef struct { s16 v[4]; } Blk8_80126940_8017E01C;
     extern s32 D_80126B58;
     extern s16 D_80187400[];
     extern Blk8_80126940_8017E01C D_80126940;
@@ -4672,8 +4671,6 @@ void func_801809B0(s32 a0, s32 a1) {
      * file-scope decl in this TU: it is already declared twice, block-scoped and
      * with two different types (Blk32_8018AA98_80183D30_801809B0 @5594, s32 @6053).  This
      * body follows that existing TU precedent verbatim. */
-    typedef struct { u8 b[8]; } Blk8_801809B0;
-    typedef struct { s32 w[8]; } Blk32_8018AA98_80183D30_801809B0;
     extern Blk8_801809B0 D_8019C988;
     extern s32 D_800AE620;
     Msg_8018248C_801809B0 msg;          /* sp+0x10 (24-byte stride, §193-I) */

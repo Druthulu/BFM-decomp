@@ -3941,7 +3941,6 @@ void func_8017CE90(void *a0)
 
 void func_8017CFBC(void *a0)
 {
-    typedef struct { u8 d[4]; } Blk4_8017CE90_8017CE90;
     extern Blk4_8017CE90 D_801EA840;
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146C3C(u8 *a0);
@@ -4611,9 +4610,7 @@ extern void func_80171A1C(u8 *a0);
 
 void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_014_8017DF84;
     /* vy UNSIGNED: the `+=` reads it with lhu, not lh. */
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_SC03_014_8017DF84;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);

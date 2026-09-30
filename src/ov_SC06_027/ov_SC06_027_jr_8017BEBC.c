@@ -2866,8 +2866,6 @@ void func_8017D0C8(void *a0) {
 
 
 void func_8017D104(s32 param_1) {
-    typedef struct { s16 v[4]; } Blk8L_SC06_027_8017D104;
-    typedef struct { Blk8L_SC06_027_8017D104 pad; Blk8L_SC06_027_8017D104 a; Blk8L_SC06_027_8017D104 b; } Locs;
     extern Blk8L_SC06_027_8017D104 D_80126940;
     extern s32 ratan2(s32 a0, s32 a1);
     extern void func_8017D1C0(u8* arg0, s16* arg1, s16* arg2, s32 arg3);

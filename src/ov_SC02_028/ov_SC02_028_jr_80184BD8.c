@@ -4147,9 +4147,6 @@ extern s32 func_80187414(void *a0);
 extern u8 D_801AE220[];
 
 void func_80186F78(s32 a0) {
-    typedef struct {
-        u8 c[8];
-    } Blk8_80186F78;
 
     s32 s0;
     s32 t0;
@@ -4189,9 +4186,6 @@ extern s32 D_801A9788;
 
 
 void func_801870AC(s32 a0) {
-    typedef struct {
-        u8 c[8];
-    } Blk8_801870AC;
     Blk8_801870AC sv;
     s32 obj;
     s32 p;
@@ -4241,9 +4235,7 @@ extern s32 func_801873A4(s32 param_1);
 extern void func_801875F0(s32 a0);
 
 void func_80187190(s32 a0) {
-    typedef struct {
-        u8 c[8];
-    } Blk8_80187190;  /* alignment 1 -> lwl/lwr + swl/swr block move (S160a) */
+  /* alignment 1 -> lwl/lwr + swl/swr block move (S160a) */
     extern Blk8_80187190 D_801A9A70;
     Blk8_80187190 sv;
     s32 obj;
@@ -4402,7 +4394,6 @@ void func_80187490(s32 a0) {
 
 void func_8018754C(s32 a0, s32 a1)
 {
-    typedef struct { s32 w[8]; } Blk32_8017F76C_80186D9C;
     extern Blk32_8017F76C_80186D9C D_800AE620;
 
     Blk32_8017F76C_80186D9C mtx;
@@ -4849,12 +4840,6 @@ void func_80187DE4(s32 a0)
     extern s32 D_801D3380;
     /* 8-byte, align-2 vector — align < 4 is what makes the aggregate copies
      * unaligned lwl/lwr + swl/swr block moves (§ sibling func_80131340). */
-    struct V8_80187DE4 {
-        u16 vx, vy, vz, pad;
-    };
-    struct Cnt_80187DE4 {
-        s32 c;
-    };
 
     struct V8_80187DE4 sp10;
     struct V8_80187DE4 sp18;

@@ -4418,7 +4418,6 @@ void func_8017FB84(s32 a0) {
 
 
 void func_8017FBD0(s32 s0) {
-    typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
     extern SVfbd0 D_80126940;
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4447,7 +4446,6 @@ void func_8017FBD0(s32 s0) {
 
 void func_8017FCA8(s32 a0)
 {
-    typedef struct { s16 m0, m1, m2, m3; } PosFCA8;
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4509,7 +4507,6 @@ void func_8017FE78(s32 a0) {
 
 
 void func_8017FEC4(s32 s0) {
-    typedef struct { s16 vx, vy, vz, pad; } SVfec4;
     extern SVfec4 D_80126940;
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4532,7 +4529,6 @@ void func_8017FEC4(s32 s0) {
 
 
 void func_8017FF84(s32 s1) {
-    typedef struct { s16 vx, vy, vz, pad; } SVff84;
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4571,7 +4567,6 @@ void func_80180044(s32 a0) {
 
 void func_80180090(s32 a0)
 {
-    typedef struct { s16 vx, vy, vz, pad; } SV180090;
     extern SV180090 D_80126940;
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4612,7 +4607,6 @@ void func_80180090(s32 a0)
 
 void func_80180248(s32 s0)
 {
-    typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4856,7 +4850,6 @@ extern s32 func_80180A2C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
 
 
 s32 func_80180A2C(s32 s1) {
-    typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4885,7 +4878,6 @@ void func_80180AEC(void) {
 
 
 void func_80180B0C(s32 s1) {
-    typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4938,7 +4930,6 @@ void func_80180BCC(void) {
  * ov_SC07_002_jr_8017C8D0.c is cc1 rc=0 with 0 masked diffs for this function.
  */
 void func_80180BEC(void) {
-    typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4971,7 +4962,6 @@ void func_80180CAC(void) {
 #include "common.h"
 
 void func_80180CCC(s32 s1) {
-    typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -5958,7 +5948,6 @@ void func_801829F0(s32* a0)
     extern void func_800491AC(void *a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
 
-    typedef struct { u16 a, b, c; } SV3_SC07_002_801829F0;
 
     u8 buf[32];
     SV3_SC07_002_801829F0 sv;
@@ -6849,7 +6838,7 @@ void func_80183FE0(s32 p)
     extern u8 D_800A6610[];
     extern u8 D_800AF648;
 
-    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017FE38_80183FE0;   /* 0x20 */
+   /* 0x20 */
 
     MTX_8017FE38_80183FE0 mat;                       /* sp+0x00 */
     struct { s32 flag, flag2, otz; } g;     /* sp+0x20 */
@@ -8717,7 +8706,7 @@ extern void func_80151664(void);
 
 void func_8018637C(s32 param_1) {
     D_80127518 = 0;
-    *(u16 *)(((struct { s32 a, b, c, d, e, f, g, h, f20; } *)param_1)->f20 + 0x10) = 0;
+    *(u16 *)(((Unkstruct_8018637C *)param_1)->f20 + 0x10) = 0;
     *(u8 *)(param_1 + 0xA8) = 0x20;
     func_80151664();
 }

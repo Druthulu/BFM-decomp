@@ -3690,7 +3690,6 @@ void func_8017C6CC(int a0) {
 
 void func_8017C730(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC04_015_8017C730;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -6738,7 +6737,7 @@ s32 func_80180CCC(s32 a0) {
         idx = D_801B2924[idx] - 1;
     }
 
-    ((struct { s32 w; } *)&D_801C9250)->w = 1;
+    ((Unkstruct_801C9250 *)&D_801C9250)->w = 1;
     return D_801B27F0[idx][s0];
 }
 

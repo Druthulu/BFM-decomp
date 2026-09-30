@@ -2739,7 +2739,6 @@ extern s32 func_8017F4E8(void);
 
 void func_8017FB84(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_118_8017FB84;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);

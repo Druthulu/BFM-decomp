@@ -626,7 +626,7 @@ s32 func_801E3390(void) {
         (D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
-    ((struct { s32 f; } *)&D_801151D0)->f = ot;
+    ((Unkstruct_801151D0 *)&D_801151D0)->f = ot;
 }
 
 
@@ -1567,7 +1567,6 @@ void func_801E4E40(void) {
 }
 
 
-typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 const Blk8_md_SC03_076 D_801E2840 = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);

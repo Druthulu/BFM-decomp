@@ -3905,7 +3905,6 @@ void func_8017CE90(void *a0)
 
 void func_8017CFBC(void *a0)
 {
-    typedef struct { u8 d[4]; } Blk4_8017CE90_8017CE90;
     extern Blk4_8017CE90_8017CE90 D_801AE628;
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D22)
@@ -4755,8 +4754,6 @@ void func_8017E35C(s32 arg0)
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern u8  *D_800A5E60;
-    typedef struct { u32 w0, w1, w2; } Prim_SC06_000_8017E35C;
-    typedef struct { u8 b[8]; } V8_SC06_000_8017E35C;
 
     DVec35C tmpxy[4];
     SVec35C box[8];
@@ -5234,7 +5231,6 @@ extern void func_80052E38(MATRIX2 *);
 
 void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC06_000_8017EF68;
 
     extern s32 func_800491EC(void);
     extern u8 *D_800A5E60;
@@ -6815,7 +6811,6 @@ void func_80181918(void) {
 
 void func_80181940(void)
 {
-    typedef struct { u8 b[8]; } Blk8_80181940;
     extern Blk8_80181940 D_8018C0F8;
     extern Blk8_80181940 D_801274E8;
     extern s32 D_80126954;
@@ -6911,8 +6906,6 @@ void func_80181AB4(s32 a0) {
 
 void func_80181BA4(s32 param_1)
 {
-    typedef struct { u8 b[8]; } Blk8_80181774;
-    typedef struct { s16 m0, m1, m2, m3; } Sp10_80181BA4;
     extern Blk8_80181774 D_801274E8;
     extern s32 ratan2(s32 dx, s32 dy);
     extern void func_80181CCC(s32 param_1, s32 param_2, s32 param_3);
@@ -6929,8 +6922,6 @@ void func_80181BA4(s32 param_1)
 
 void func_80181C38(s32 param_1)
 {
-    typedef struct { u8 b[8]; } Blk8_80181774;
-    typedef struct { s16 m0, m1, m2, m3; } Sp10_80181C38;
     extern Blk8_80181774 D_801274E8;
     extern void func_80181CCC(s32 param_1, s32 param_2, s32 param_3);
     extern void func_80181EA0(s32 param_1, s32 param_2, s16 param_3);
@@ -7188,7 +7179,7 @@ void func_801824D4(void *a0) {
     func_8017EF08((s32)&D_801AEC08);
     D_801AEAFC = 0x1310000;
     D_801AEC60 = 0;
-    ((struct { u8 pad[2]; u16 f; } *)a0)->f += 1;
+    ((Unkstruct_801824D4 *)a0)->f += 1;
     *(s16 *)((s32)a0 + 0xE0) = 1;
 }
 
@@ -7211,7 +7202,7 @@ void func_80182560(void *arg0)
     *p = D_801AEAFE;
     func_8017EF68((s32)&D_801B20E0, (s32)&D_8019FD8C, (s32)q);
     if (D_801AEC60 != 0) {
-        ((struct { u8 pad[2]; u16 f; } *)arg0)->f += 1;
+        ((Unkstruct_80182560 *)arg0)->f += 1;
     }
 }
 

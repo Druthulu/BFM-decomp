@@ -2949,13 +2949,6 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
     extern s16 D_801152AC;
   /* BLOCK-SCOPE types — see the header note. `Ent` at file scope collides with
      src/shared/engine_types.h:434 and kills the TU's cc1 stage (exit 33). */
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4;
   typedef Unkstruct_800B5CB8 Ent;
   int new_var2;
   s16 new_var3;

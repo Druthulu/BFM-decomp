@@ -3278,7 +3278,6 @@ void func_801829CC(s32 arg0) {
      * "conflicting types for `SVEC_801BA5A8'" (anonymous struct bodies are never
      * compatible), which is what killed the previous whole-binary gate on this
      * function. Block scope keeps the same codegen and no file-scope clash. */
-    typedef struct { s16 vx, vy, vz, pad; } SVEC_801BA5A8;
     extern SVEC_801BA5A8 D_801BA5A8[];
 
     s16 sp20[3];
@@ -5259,9 +5258,6 @@ extern void func_8001F730(s32 a0, void *a1, void *a2);
 
 void func_80185810(s32 a0)
 {
-    typedef struct { u16 vx, vy, vz, pad; } UV_85810;
-    typedef struct { short m[3][3]; long t[3]; } MTX_85810;
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag_85810;
 
     UV_85810  v[5];        /* sp+0x10 .. sp+0x37 */
     MTX_85810 m;           /* sp+0x38 */

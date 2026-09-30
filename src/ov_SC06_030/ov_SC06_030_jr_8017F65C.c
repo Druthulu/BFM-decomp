@@ -3188,7 +3188,6 @@ void func_80180228(s32 a0)
     /* §183 TYPE-shadowed-block-scope: adopt the twin's spelling for D_800A651C.
      * The typedef is declared BLOCK-SCOPE here so it shadows (never redefines)
      * the file-scope copy in src/shared/engine_types.h, which is byte-identical. */
-    typedef struct { s32 a; s32 b[4]; } Ot_8018B23C;
     extern Ot_8018B23C D_800A651C[];
     extern u8 D_800AE610[];
 

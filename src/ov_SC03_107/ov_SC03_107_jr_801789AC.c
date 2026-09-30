@@ -5641,15 +5641,6 @@ extern u16 aD800B9A02 __asm__("D_800B9A02");
 
 void func_8017BEBC(s32 arg0)
 {
-    typedef struct { u16 vx, vy, vz, pad; } UV8;
-    typedef struct { s16 vx, vy; } XDV2;
-    typedef struct { s16 vx, vy, vz, pad; } XSV2;
-    typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } XPart;
-    typedef struct { u32 w0, w1, w2; } XPrim;
-    typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1;
-                     s16 x2, y2; u16 uv2, p2; } XFT3;
-    typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1;
-                     s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } XFT4;
 
     XDV2  tmpxy[4];   /* 0x10 */
     XSV2  box[8];     /* 0x20 */

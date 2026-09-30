@@ -3183,15 +3183,6 @@ extern u8 *D_800A5E60;
 
 s32 func_8017DC10(s32 *a)
 {
-    typedef struct { s16 vx, vy, vz, pad; } SVEC8;
-    typedef struct {
-        u32 tag;
-        u32 rgbc;
-        s16 x0, y0; u32 uv0;
-        s16 x1, y1; u32 uv1;
-        s16 x2, y2; u32 uv2;
-        s16 x3, y3; u32 uv3;
-    } FT4;
 
     SVEC8 v[4];
     u32 buf[6];

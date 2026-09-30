@@ -5026,7 +5026,6 @@ void func_8017F2E8(void *arg0) {
 #include "common.h"
 
 void func_8017F380(s32 arg0) {
-    typedef struct { short vx, vy, vz, pad; } SVECTOR_8017F40C;
     extern SVECTOR_8017F40C D_8018F784[4];
     extern void func_80029514(s32);
 

@@ -3851,7 +3851,6 @@ extern void func_80146C3C();  // K&R: ? of 1 args (P37 rung D t4_D22)
 
 void func_8017CE58(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_092_8017CE58;
 
     /* DECLARATION ORDER IS LOAD-BEARING: gcc-2.7.2/mips grows the frame UPWARD
      * from sp+0x10 (the 16-byte outgoing-arg area) in declaration order, so this
@@ -5458,10 +5457,6 @@ void func_8017FA74(s32 arg0)
      * second file-scope copy is a C89 redefinition -- gcc-2.7.2 exits 33
      * ("conflicting types for `Tbl8_8017FC44'"), which is what the whole-binary
      * gate kept rejecting even though the body is byte-identical. */
-    typedef struct {
-        /* 0x00 */ s32 unk00;
-        /* 0x04 */ s32 unk04;
-    } Tbl8_8017FC44;
 
     extern s32 D_801B2E70;
     extern void func_8017FE04(s32 a0);

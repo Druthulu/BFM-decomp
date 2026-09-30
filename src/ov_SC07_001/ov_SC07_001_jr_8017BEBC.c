@@ -3203,7 +3203,6 @@ void func_8017E4DC(s32 arg0)
     extern s32 D_8019E150;
     extern void (*D_80185000[])(void);
     extern s16 D_801AAD6C[];
-    typedef struct { char c[0x14]; } Rec_80int;
     extern Rec_80int D_801850BC[];
 
     s32 i;
@@ -4131,7 +4130,7 @@ void func_8017FE38(s32 p)
     extern short D_800B9A02;
     extern u8 D_800AF648;
 
-    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017FE38;   /* 0x20 */
+   /* 0x20 */
 
     MTX_8017FE38 mat;                       /* sp+0x00 */
     struct { s32 flag, flag2, otz; } g;     /* sp+0x20 */
@@ -4376,7 +4375,6 @@ extern s32 D_801AAD60;
 extern s32 func_80180754(void *a0, void *a1, void *a2, void *a3);
 
 s32 func_80180570(void *arg0) {
-    typedef struct { s16 vx, vy, vz, pad; } SVec_80180570;
 
     SVec_80180570 p0;
     SVec_80180570 p1;

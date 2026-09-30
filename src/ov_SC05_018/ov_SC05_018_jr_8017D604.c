@@ -2688,7 +2688,6 @@ extern void func_8017CF30(void *a0);
 
 void func_8017D604(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC05_018_8017D604;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -4035,7 +4034,6 @@ extern void func_8012A094(s32 a0);
 extern void func_8017FF9C(u8 *a0);
 
 void func_8017FC74(void) {
-    typedef struct { s8 c[8]; } Blk8_SC05_018_8017FC74;
     extern u8  D_80126948[];
     extern s32 D_80126954;
     extern s32 D_8012695C;
@@ -4606,7 +4604,7 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
 void func_80180ACC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    struct St80180ACC { s16 a[3]; u16 b[3]; } st;
+    struct St80180ACC st;
     u16 v[3];
     s16 out[6];
     s32 r[4];
@@ -6102,10 +6100,6 @@ void func_80182F04(s32 *a0)
 void func_80182F78(s32 arg0)
 {
     extern u8 * func_8012913C(s32 a0);
-    typedef struct {
-        u32 unk00; u32 unk04; u32 unk08; u32 unk0C; u32 unk10; u32 unk14;
-        u16 unk18;
-    } Rec_80189334;
     extern Rec_80189334 D_8018B0CC[];
     Rec_80189334 *src;
     u8 *temp;
@@ -7270,7 +7264,7 @@ s32 func_80184344(s32 a0) {
         idx = D_801E01FC[idx] - 1;
     }
 
-    ((struct { s32 w; } *)&D_801E66F8)->w = 1;
+    ((Unkstruct_801E66F8 *)&D_801E66F8)->w = 1;
     return D_801E00C8[idx][s0];
 }
 

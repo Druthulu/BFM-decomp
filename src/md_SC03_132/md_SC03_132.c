@@ -100,7 +100,6 @@ void func_801E2830(void) {
 }
 
 
-typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 
 extern const Blk8_md_SC03_076 D_801E25EC;
 extern int func_80171D78(u32, void *);

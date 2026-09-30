@@ -4048,7 +4048,6 @@ extern void func_800D0694(void);
 
 void func_801856BC(s32 a0, s32 a1)
 {
-    typedef struct { short x, y, z, w; } Rec8T;
     extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
     extern Rec8T D_801B9330[];
 

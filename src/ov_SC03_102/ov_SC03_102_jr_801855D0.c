@@ -2917,7 +2917,6 @@ extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32 a0, void *a1);
 
 void func_80185874(void *a0) {
-    struct B16_80185634 { s32 w[4]; };
 
     extern struct B16_80185634 D_800A5EA8;
     extern struct B16_80185634 D_801B6E44;

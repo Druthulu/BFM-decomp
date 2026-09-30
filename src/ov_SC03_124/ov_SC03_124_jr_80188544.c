@@ -3615,12 +3615,6 @@ s32 func_80188C68(s32 arg0, s16 arg1)
 
     case 10:
     {
-        typedef struct Rec {
-            s32 unk0;
-            s32 unk4;
-            s32 unk8;
-            void (*unkC)(void);
-        } Rec;
         extern Rec *D_801E23CC[];
         Rec **pp;
         Rec *r;
@@ -3777,19 +3771,8 @@ void func_801895C8(void) {
     extern s16 D_801E2368;
     /* §100/§120: draft-local, uniquely-named types — they live in the BODY so
      * they cannot collide with the TU's own Env_8018BCD4 / PTag_8018BCD4. */
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag_8018C960_801895C8;
-    typedef struct { u32 *ot; u32 pad[4]; } Env_8018C960_801895C8;   /* 0x14 stride */
-    typedef struct {
-        u32 tag;                        /* 0x00 */
-        u8  r0, g0, b0, code;           /* 0x04..0x07 */
-        s16 x0, y0;                     /* 0x08, 0x0A */
-        u8  r1, g1, b1, p1;             /* 0x0C..0x0F */
-        s16 x1, y1;                     /* 0x10, 0x12 */
-        u8  r2, g2, b2, p2;             /* 0x14..0x17 */
-        s16 x2, y2;                     /* 0x18, 0x1A */
-        u8  r3, g3, b3, p3;             /* 0x1C..0x1F */
-        s16 x3, y3;                     /* 0x20, 0x22 */
-    } PG4_8018C960_801895C8;                     /* -> 0x24 */
+   /* 0x14 stride */
+                     /* -> 0x24 */
 
     extern Env_8018C960_801895C8 D_800AE7BC[];
     extern u8 aD801EF1EC __asm__("D_801E2364");

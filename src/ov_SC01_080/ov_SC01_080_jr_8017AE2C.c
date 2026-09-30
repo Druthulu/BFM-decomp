@@ -5905,7 +5905,6 @@ void func_80180728(s32 a0) {
        BLOCK-SCOPE redeclaration of the same externally-linked symbol is only
        a WARNING ("type mismatch with previous external decl") -- codegen is
        unaffected, confirmed byte-identical both standalone and spliced. */
-    typedef struct { s32 q[16]; } Str_801C5B00;
     extern Str_801C5B00 D_801C5B00[];
     /* `pad` is the 16 unused frame bytes at 0x10..0x20 the target reserves
        below the two vectors; locals are laid out in declaration order, so it
@@ -6377,7 +6376,6 @@ extern void func_801696D8(s32 a0, s32 a1);
 extern s32 func_80169A4C(s32 a0, s32 a1);
 
 void func_801810E4(void *a0) {
-    typedef struct { s16 vx, vy, vz, pad; } SVec8;
     extern Blk20 D_800AE620;
 
     Blk20 mtx;
@@ -6691,7 +6689,6 @@ void func_80181854(void *a0) {
        func_80180728): two file-scope anonymous-struct typedefs of one name are
        a hard cc1 error, block scope is not. Frame: v @ sp+0x10, v2 @ sp+0x18,
        mtx @ sp+0x20 -- declaration order IS slot order. */
-    typedef struct { u16 vx, vy, vz, pad; } UVec8;
 
     UVec8 v;
     UVec8 v2;
@@ -7661,14 +7658,7 @@ extern s32 func_8012AD50(void * arg0);
 
 void func_80183054(s32 arg0)
 {
-  typedef struct {
-    u8 raw[8];
-  } S8Blob;
 
-  typedef struct {
-    S8Blob a;
-    S8Blob b;
-  } Entry16;
 
   extern u16 D_8018A45C[];
   extern u32 D_801C7594;

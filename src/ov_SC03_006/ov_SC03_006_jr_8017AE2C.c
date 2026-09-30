@@ -5719,7 +5719,6 @@ extern s32 D_801F77A8;
 
 void func_8017F510(s32 arg0, s32 arg1, s32 arg2)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_006_8017F510;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -6767,11 +6766,6 @@ void func_80181C50(int param_1)
 
 void func_80181C9C(void *arg0)
 {
-    typedef struct {
-        u8  unk00[0x1C];
-        s32 unk1C;
-        u8  unk20[4];
-    } Ent_801F7618;
     extern u8 D_80078EB1;
     extern Ent_801F7618 D_801F7618[];
     extern void func_80181FC4(void *arg0);
@@ -8635,7 +8629,6 @@ extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
 void func_8018450C(s32 a0, s32 a1) {
-    typedef struct { s32 m[8]; } Mtx8_8017DE10_8017E710_SC03_006_8018450C;
     extern Mtx8_8017DE10_8017E710_SC03_006_8018450C D_800AE620;
     s32 obj;
     s32 cur;
@@ -9720,7 +9713,6 @@ void func_801859E4(s32 a0) {
      * func_80185F5C is declared with an UNSPECIFIED parameter list on purpose:
      * its real definition later in this TU takes the file-scope SVECTOR*, and
      * an empty list is compatible with any prototype in C89 (pack §195-A). */
-    typedef struct { s32 w[8]; } Mtx8_8017DE10_8017E710;
 
     extern void func_8012B23C(s32 a0);
     extern s32  func_80185EFC(s32 a0);
@@ -11549,9 +11541,6 @@ void func_80188134(s32 a0)
     extern s32 D_801CA0A4;
     /* 8 bytes of frame that the body never references: a declared aggregate local
      * gets assign_stack_local'd (var_size 8) and emits zero instructions (§193-I). */
-    struct V8_80188134 {
-        u16 vx, vy, vz, pad;
-    };
     struct V8_80188134 sp10;
     s32 var_s1;
     s32 var_s2;

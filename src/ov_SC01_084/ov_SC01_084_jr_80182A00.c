@@ -2098,8 +2098,8 @@ void func_8018528C(void *a0) {
 
     switch (state) {
     case 0:
-        ((struct { unsigned short h; } *)((u8 *)s0 + 0x34))->h = state + 1;
-        ((struct { s32 f; } *)((u8 *)s0 + 0x1C))->f = 0;
+        ((Unkstruct_8018528C *)((u8 *)s0 + 0x34))->h = state + 1;
+        ((Unkstruct_8018528C_2 *)((u8 *)s0 + 0x1C))->f = 0;
         func_8002D4C8(0x4AA, 0);
         break;
     case 1:

@@ -3562,7 +3562,7 @@ extern void *func_80010A08(s32 a0);
 
 void func_80016638(void *a0, s32 a1, s32 a2)
 {
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag;             /* libgpu P_TAG: an OT link word */
+             /* libgpu P_TAG: an OT link word */
     typedef struct { u32 addr : 24; u32 len : 8; u32 code; } DrTpage; /* libgpu DR_TPAGE (8 bytes) */
     typedef struct { u8 pad[4]; PTag *ot; } Env;                    /* a0 + 4: the frame's ordering table */
     Env *env = a0;

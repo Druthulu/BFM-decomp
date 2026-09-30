@@ -3852,9 +3852,9 @@ extern void func_80184578(void *a0, void *a1, s16 a2);
 extern s32 rand(void);
 
 void func_8017F154(s32 arg0) {
-    typedef struct { u8 b[4]; } B4_8017F154;                    /* align 1 -> ulw/usw (lwl/lwr) */
-    typedef struct { s16 m[3][3]; s32 t[3]; } M32_8017F154;      /* 0x20, align 4 */
-    typedef struct { u16 vx, vy, vz, pad; } SV_8017F154;         /* 8, align 2 */
+                    /* align 1 -> ulw/usw (lwl/lwr) */
+      /* 0x20, align 4 */
+         /* 8, align 2 */
 
     extern M32_8017F154 D_800AE620;
     extern B4_8017F154 D_8019E28C;

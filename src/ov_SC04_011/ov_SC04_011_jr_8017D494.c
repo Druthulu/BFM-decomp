@@ -2699,7 +2699,6 @@ extern void func_8017CCD8(void *a0);
 
 void func_8017D494(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC04_011_8017D494;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -10120,7 +10119,6 @@ extern u8 D_801EFE04[];
 void func_80187B40(void *a0)
 {
     /* align-1 4-byte RGB+code block, block-scoped -- see the header note */
-    typedef struct { u8 c[4]; } Blk4_80187B40;
     extern Blk4_80187B40 D_801ED990;
     extern Blk4_80187B40 D_801ED994;
     extern Blk4_80187B40 D_801ED998;
@@ -10354,9 +10352,9 @@ extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern s32 rand(void);
 
 void func_80188094(s32 arg0) {
-    typedef struct { u8 b[4]; } B4_80188094;                    /* align 1 -> ulw/usw */
-    typedef struct { s16 m[3][3]; s32 t[3]; } M32_80188094;     /* 0x20, align 4 */
-    typedef struct { u16 vx, vy, vz, pad; } SV_80188094;        /* 8, align 2 */
+                    /* align 1 -> ulw/usw */
+     /* 0x20, align 4 */
+        /* 8, align 2 */
 
     extern M32_80188094 D_800AE620;
     extern B4_80188094 D_801ED994;
@@ -11688,7 +11686,7 @@ void func_8018A0E0(s32 arg0)
     /* All declaration surface kept block-scope (house style, cf.
      * func_80188094): private types + __asm__ label aliases reach the
      * assembler symbols without touching the TU's own decls. */
-    typedef struct { s32 w[8]; } Mtx_8018A0E0;  /* 0x20, align 4 */
+  /* 0x20, align 4 */
 
     extern Mtx_8018A0E0 D_800AE620;
     extern u8 D_80194A68[];
@@ -12426,8 +12424,6 @@ void func_8018B0B0(void *param_1, void *param_2, void *param_3, u32 param_4)
  */
 
 void func_8018B1B4(s32 arg0) {
-    typedef struct { u8 d[4]; } Blk4_8018B1B4;
-    typedef struct { u8 d[8]; } Blk8_8018B1B4;
 
     extern s16 D_80194B6A[];
     extern u16 D_80194B64[];

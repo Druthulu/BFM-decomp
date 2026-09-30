@@ -687,10 +687,6 @@ void func_80186B08(s32 param_1)
 
 
 void func_80186BB8(void) {
-    typedef struct {
-        u8 pad[0x5C];
-        u16 f5C;
-    } F5C_S;
     extern F5C_S *D_801E43CC[];
     extern s8 D_80195ABC[];
     s32 i;
@@ -707,7 +703,6 @@ void func_80186BB8(void) {
 
 
 void func_80186C0C(void *a0) {
-    typedef struct { u8 pad[0x5C]; u16 f5C; } F5C_S;
     extern F5C_S *D_801E43CC[];
     extern s8 D_80195ABC[];
     s32 i;
@@ -2799,7 +2794,6 @@ extern u16 D_80126B94;
  * both declarations draft-local and is byte-neutral. */
 void func_80189B30(s32 arg0)
 {
-    typedef struct { char b[8]; } Blob8_80189B30;
     extern Blob8_80189B30 D_801E2F00;
     Blob8_80189B30 blob;
     s32 sub;
@@ -5973,7 +5967,6 @@ void func_8018DFC4(void *a0) {
        and carry an anonymous struct typedef that cannot be forward-referenced
        or re-spelled here.  At block scope gcc-2.7.2 downgrades the clash to a
        warning; at file scope it is a hard "conflicting types" error. */
-    typedef struct { u32 f0; u32 f4; } Pair8;
     extern Pair8 D_801E4998[];
     extern Pair8 D_801E499C[];
     struct { s16 f00, f02, f04, f06, f08, f0A, f0C, f0E; s32 f10; u8 pad14[0x14]; } sp18;

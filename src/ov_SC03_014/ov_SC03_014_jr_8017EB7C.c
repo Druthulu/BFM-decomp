@@ -2705,7 +2705,6 @@ extern void func_8017DF7C(s32 param_1);
 
 void func_8017EB7C(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_014_8017EB7C;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -3216,9 +3215,7 @@ void func_8017EB7C(s32 arg0)
 
 void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_014_8017FA5C;
     /* vy UNSIGNED: the `+= xoff` reads it with lhu, not lh. */
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_SC03_014_8017FA5C;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);

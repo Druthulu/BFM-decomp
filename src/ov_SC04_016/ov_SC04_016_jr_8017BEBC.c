@@ -3206,11 +3206,6 @@ void func_8017DA50(void *arg) {
     extern void func_80028428(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_8012C218(void *a0);
     extern void (*D_801849F8[])(void *);
-    typedef struct {
-        s16 w[16];
-        u8 b[16];
-        s32 tail;
-    } Str_8017DA50;
     Str_8017DA50 sp10;
     s32 var_s0;
     s32 var_fp;

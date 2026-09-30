@@ -3562,12 +3562,10 @@ extern void func_8017E97C(void *a0);
 
 void func_8017E798(void *a0) {
 
-    typedef struct { s16 vx, vy, vz, pad; } Vec8_DB0;
     extern Vec8_DB0 D_801E2DB0;
     extern Vec8_DB0 D_801E2DB8;
     extern u8 D_80126948[];
     extern s32 D_80126E60[];
-    typedef struct { s32 w[41]; } Blk164_SC02_005_8017E798;
     u8 *base;
     Vec8_DB0 a;
     Vec8_DB0 b;
@@ -3591,7 +3589,6 @@ void func_8017E798(void *a0) {
 
 void func_8017E898(void)
 {
-    typedef struct { s32 w[4]; } Blk16_E898;
     extern u8 D_80126948[];
     extern s32 D_80126E60[];
     Blk16_E898 *src;
@@ -4222,7 +4219,6 @@ void func_8017F6E8(s32 param_1)
 #include "common.h"
 
 void func_8017F748(void *a0) {
-    typedef struct { u8 b[8]; } Blk8x;
     extern Blk8x D_801E2DD0;
     extern s32 func_80171D78(s32 a0, s32 a1);
     extern void func_80142454(s32 a0);
@@ -4241,8 +4237,6 @@ void func_8017F748(void *a0) {
 
 void func_8017F7CC(s32 param_1)
 {
-    typedef struct { u8 b[8]; } M8_SC02_005_8017F7CC;
-    typedef struct { u8 b[0x10]; } S16_SC02_005_8017F7CC;
     extern M8_SC02_005_8017F7CC D_801E2DD8;
     extern void func_8017E5CC(void);
     extern void func_8017E0B4(void);
@@ -4503,7 +4497,6 @@ void func_8017FDB4(void *arg0) {
 
 
 void func_8017FE08(void *a0) {
-    typedef struct { u8 b[8]; } Blk8_FE08;
     extern Blk8_FE08 D_801E2DE0;
     extern s32 func_80171D78(s32, s32);
     extern s32 func_801289F0();
@@ -4879,10 +4872,6 @@ extern s16 D_801E4C50;
  *    must therefore be 62 then 6A to emit 6A then 62.
  */
 void func_80180610(void *a0) {
-    typedef struct {
-        s16 f0; s16 f2; s16 f4; u16 f6; s16 f8;
-        s16 fA; s16 fC; s16 fE; s16 f10; s16 f12;
-    } Row_801944F4;
     extern Row_801944F4 D_801944F4[];
     s32 v1;
 

@@ -1,6 +1,5 @@
 #include "common.h"
 
-typedef struct { u8 c[8]; } Blk8_md_SC03_076;
 extern u8 *D_80126B10;
 extern u8 D_801E3230[];
 extern void func_80175414(s32 _arg0);

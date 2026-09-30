@@ -2939,7 +2939,6 @@ void func_80185018(void *a0) {
 
 
 void func_801850C8(void *a0) {
-    struct B16_80185634 { s32 w[4]; };
 
     extern struct B16_80185634 D_800A5EA8;
     extern struct B16_80185634 D_801C2A0C;

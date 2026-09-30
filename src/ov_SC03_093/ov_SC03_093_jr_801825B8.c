@@ -5003,7 +5003,6 @@ void func_80185720(void *a0) {
 
 void func_8018575C(s32 a0) {
 
-    typedef struct { s16 a, b, c, d; } SV4_8017B368;
     extern SV4_8017B368 D_801C5E34;
     extern u8 D_80186204[];
 

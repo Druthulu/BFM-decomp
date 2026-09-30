@@ -3549,8 +3549,8 @@ void func_801838A4(s32 p) {
 
 void func_80183940(s32 param_1)
 {
-    typedef struct { short vx, vy, vz, pad; } SVEC_80183940;   /* == SVECTOR */
-    typedef struct { short m[3][3]; long t[3]; } MTX_80183940; /* == MATRIX  */
+   /* == SVECTOR */
+ /* == MATRIX  */
 
     extern s32 *D_80126B78;
     extern s32 *D_80126B90;
@@ -11245,7 +11245,7 @@ void func_8018F3E4(void)
 
 void func_8018FB5C(s32 arg0, s32 arg1, s32 arg2)
 {
-    typedef struct { s32 a; s32 b[4]; } OtBlk_80182890_8018FB5C;   /* == engine_types.h OtBlk (0x14); BLOCK scope per §94 type-carry */
+   /* == engine_types.h OtBlk (0x14); BLOCK scope per §94 type-carry */
     extern OtBlk_80182890_8018FB5C D_800A651C_v[] __asm__("D_800A651C");   /* §200 alias: TU spells it `extern u8 D_800A651C[]` */
     extern void *func_80010A08(s32);
     extern void func_8004914C(void *);

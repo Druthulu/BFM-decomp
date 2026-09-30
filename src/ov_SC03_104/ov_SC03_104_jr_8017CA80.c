@@ -2878,7 +2878,6 @@ extern s32 D_801C03B4;
 
 void func_8017D960(s32 arg0)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_104_8017D960;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -3650,7 +3649,6 @@ void func_80181404(void *a0) {
 
 
 void func_80181440(s32 a0) {
-    typedef struct { s16 v[4]; } Blk8_80126940_80181440;
     extern s32 D_80126B58;
     extern s16 D_8018E7F4[];
     extern s16 D_80126940[4];

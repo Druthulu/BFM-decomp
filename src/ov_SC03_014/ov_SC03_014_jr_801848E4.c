@@ -4674,7 +4674,6 @@ void func_80187EE8(s32 a0)
      * file-scope copy in src/shared/engine_types.h:2810, which is byte-identical.
      * `(u8 *)&D_800A651C` is the same address under either element type, so the
      * emitted code is unchanged (re-verified MATCH with match_one). */
-    typedef struct { s32 a; s32 b[4]; } Ot_8018B23C;
     extern Ot_8018B23C D_800A651C[];
     extern u8 D_800AE610[];
 
@@ -6482,7 +6481,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3) __asm__("func_8018A860");
 
 void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 {
-    typedef struct { u8 b0, b1, b2, b3; } B4_SC03_014_8018A860;   /* align 1 — §48-C2 */
+   /* align 1 — §48-C2 */
     s16 *s1;
     u16 temp_u16;
     s16 temp_s16;
@@ -6868,7 +6867,6 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8018AE30(void *arg0, void *arg1, s32 arg2, s32 arg3);
 
 void func_8018ADA8(s32 a0) {
-    typedef struct { u8 a, b, c, d; } V4_SC03_014_8018ADA8;
     extern u8 D_800AF648;
     extern V4_SC03_014_8018ADA8 D_801E94F8;
     u16 sxy[4];

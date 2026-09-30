@@ -3467,10 +3467,6 @@ extern void func_8012B200(u8 *param_1);
 extern s32 func_8012C51C(void *a0, void *a1);
 
 void func_801819B0(void *arg0) {
-    typedef struct {
-        s16 a, b, c, d, e, f, g, h;
-        s32 w;
-    } Blk801819B0;
     Blk801819B0 blk;
     s32 v0;
 
@@ -3492,10 +3488,6 @@ extern s32  func_8012C51C(void *a0, void *a1);
 extern u16  D_801F32D4;
 
 void func_80181A1C(void *arg0) {
-    typedef struct {
-        s16 a, b, c, d, e, f, g, h;
-        s32 w;
-    } Blk80181A1C;
     Blk80181A1C blk;
 
     blk.d = 0x1AB;
@@ -3742,10 +3734,6 @@ extern u8   D_801EB534;
 extern u16  D_801F32D4;
 
 void func_80182030(void *arg0) {
-    typedef struct {
-        s16 a, b, c, d, e, f, g, h;
-        s32 w;
-    } Blk80182030;
     Blk80182030 blk;
 
     if (--*(s32 *)((s32)arg0 + 0x1C) != -1) {
@@ -3780,10 +3768,6 @@ extern u8   D_801EB534;
 extern u16  D_801F32D4;
 
 void func_8018210C(void *arg0) {
-    typedef struct {
-        s16 a, b, c, d, e, f, g, h;
-        s32 w;
-    } Blk80182030;
     Blk80182030 blk;
 
     if (--*(s32 *)((s32)arg0 + 0x1C) != -1) {
@@ -3816,10 +3800,6 @@ extern u8   D_801EB534;
 extern u16  D_801F32D4;
 
 void func_801821E8(void *arg0) {
-    typedef struct {
-        s16 a, b, c, d, e, f, g, h;
-        s32 w;
-    } Blk801821E8;
     Blk801821E8 blk;
 
     if (--*(s32 *)((s32)arg0 + 0x1C) != -1) {
@@ -3983,10 +3963,6 @@ extern s16  D_801F32D8;
 extern u8   D_801ED1D4[];
 
 void func_80182634(void *arg0) {
-    typedef struct {
-        s16 a, b, c, d, e, f, g, h;
-        s32 w;
-    } Blk80182634;
     Blk80182634 blk;
     u16 w;
     u16 cnt;

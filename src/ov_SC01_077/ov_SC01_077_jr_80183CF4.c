@@ -3322,7 +3322,6 @@ void func_80184278(int param_1)
 #include "common.h"
 
 void func_801842C8(s32 a0) {
-    typedef struct { s8 c[8]; } Blk8_SC01_077_801842C8;
     extern void func_8012CBA4(s32 a0);
     extern s32 func_8012BEE8(s32);
     s32 a3;

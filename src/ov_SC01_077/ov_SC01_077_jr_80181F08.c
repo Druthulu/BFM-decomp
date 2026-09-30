@@ -3071,7 +3071,6 @@ extern void func_80181BE4(s32 p);
 
 void func_80181F08(s32 arg0)
 {
-    typedef struct { u32 w[4]; } St801D9204;
     extern void func_80019064(void *a0);
     extern void func_8012A828(s32 a0, void *a1);
     extern void func_8012B23C(s32 a0);

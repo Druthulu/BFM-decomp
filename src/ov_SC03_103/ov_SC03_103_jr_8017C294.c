@@ -2776,7 +2776,6 @@ extern void func_8017C230(int a0);
 
 void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_103_8017D174;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);

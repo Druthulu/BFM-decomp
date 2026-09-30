@@ -3279,10 +3279,6 @@ extern s32 D_801D435C;
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 
 void func_80184334(int param_1) {
-    struct W80184334 {
-        s32 pad[15];
-        s32 f3C, f40, f44, f48, f4C, f50;
-    };
     struct W80184334 *p = (struct W80184334 *)param_1;
 
     p->f48 = (short)func_80012C6C((int)*(short *)&p->f48, (int)*(short *)D_801D4358, 0x20);

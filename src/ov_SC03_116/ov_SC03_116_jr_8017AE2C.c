@@ -3291,7 +3291,6 @@ void func_8017BE60(void *a0) {
 
 void func_8017BEBC(s32 arg0)
 {
-    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MTX *);
@@ -3583,7 +3582,6 @@ extern u16 D_80197C88;
 
 void func_8017BF14(s32 arg0, s32 lim)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_SC03_116_8017BF14;
 
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
@@ -5241,7 +5239,6 @@ void func_801825A8(void *a0) {
 
 
 void func_80182658(void *a0) {
-    struct B16_80185634 { s32 w[4]; };
 
     extern struct B16_80185634 D_800A5EA8;
     extern struct B16_80185634 D_801950F4;

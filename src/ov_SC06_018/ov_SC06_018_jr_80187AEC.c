@@ -5010,7 +5010,6 @@ s32 func_8018A86C(s32 param_1)
     extern u16 D_800B99D8;
     extern u8 D_801CD458[];
 
-    typedef struct { s16 a, b, c, d; } SV4_8018A86C;
 
     s32 diff;
     s16 sdiff;

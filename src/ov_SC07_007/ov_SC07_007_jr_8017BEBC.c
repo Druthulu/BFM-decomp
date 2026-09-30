@@ -3463,7 +3463,6 @@ extern void func_8012A094(s32 a0);
 extern void func_8017D648(void *a0);
 
 void func_8017D288(void) {
-    typedef struct { s8 c[8]; } Blk8_SC07_007_8017D288;
     extern u8 D_80126948[];
     extern s32 D_80126954;
     extern s32 D_8012695C;
@@ -3499,7 +3498,6 @@ extern void func_8012A094(s32 a0);
 extern void func_8017D648(void *a0);
 
 void func_8017D350(void) {
-    typedef struct { s16 x0, x1, x2, x3; } BlkT;
     extern u8 D_80126948[];
     extern s32 D_80126954;
     extern s32 D_8012695C;
@@ -3535,7 +3533,6 @@ extern void func_8012A094(s32 a0);
 extern void func_8017D648(void *a0);
 
 void func_8017D41C(void) {
-    typedef struct { s16 x0, x1, x2, x3; } BlkT;
     extern u8 D_80126948[];
     extern s32 D_80126954;
     extern s32 D_8012695C;
@@ -3648,7 +3645,6 @@ extern u8 D_801274E8[];
 extern void (*D_80186A00[])(void);
 
 void func_8017D684(s32 a0) {
-    typedef struct { s8 c[8]; } Blk8_SC07_007_8017D684;
     u8 *base = D_801274E8;
     Blk8_SC07_007_8017D684 buffer;
 
@@ -3819,7 +3815,6 @@ void func_8017DAA8(void *a0) {
 
 void func_8017DAE8(void *a0, void *a1)
 {
-    typedef struct { s16 a, b, c, d; } SV4;
     extern s32 func_8012E544(s32);
     extern void func_80015978(s32, s32 *);
     extern s16 func_800130D0(s16, s16, s16);
@@ -7532,7 +7527,6 @@ extern u32 D_800A6618[];
 #define F184_IDX (aB9A02[0] * 0x18 + n * 0x30)
 
 void func_80182184(s32 arg0, s32 arg1) {
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag;
     s32 n = arg1 & 0xFF;
     u8 *p = D_801C78D4;
     u8 *p4 = p + 4;

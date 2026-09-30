@@ -3947,7 +3947,6 @@ void func_8017CE90(void *a0)
 
 void func_8017CFBC(void *a0)
 {
-    typedef struct { u8 d[4]; } Blk4_8017CE90_8017CE90;
     extern Blk4_8017CE90_8017CE90 D_801C11B0;
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146C3C(u8 *a0);

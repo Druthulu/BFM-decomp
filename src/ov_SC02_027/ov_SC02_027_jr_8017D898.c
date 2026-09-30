@@ -7979,9 +7979,6 @@ extern s32 func_80186A30(void *a0);
 extern u8 D_801B4380;
 
 void func_80186594(s32 a0) {
-    typedef struct {
-        u8 c[8];
-    } Blk8_80186594;
 
     s32 s0;
     s32 t0;
@@ -8076,9 +8073,7 @@ extern s32 func_801869C0(s32 param_1);
 extern void func_80186C0C(s32 a0);
 
 void func_801867AC(s32 a0) {
-    typedef struct {
-        u8 c[8];
-    } Blk8_801867AC;  /* alignment 1 -> lwl/lwr + swl/swr block move (S160a) */
+  /* alignment 1 -> lwl/lwr + swl/swr block move (S160a) */
     extern Blk8_801867AC D_801AFBD0;
     Blk8_801867AC sv;
     s32 obj;
@@ -8223,7 +8218,6 @@ void func_80186AAC(s32 a0) {
 
 void func_80186B68(s32 a0, s32 a1)
 {
-    typedef struct { s32 w[8]; } Blk32_8017F76C_80186D9C;
     extern Blk32_8017F76C_80186D9C D_800AE620;
 
     Blk32_8017F76C_80186D9C mtx;
@@ -8668,12 +8662,6 @@ void func_80187400(s32 a0)
 {
     /* 8-byte, align-2 vector — align < 4 is what makes the aggregate copies
      * unaligned lwl/lwr + swl/swr block moves (§ sibling func_80131340). */
-    struct V8_SC02_027_80187400 {
-        u16 vx, vy, vz, pad;
-    };
-    struct Cnt {
-        s32 c;
-    };
 
     struct V8_SC02_027_80187400 sp10;
     struct V8_SC02_027_80187400 sp18;

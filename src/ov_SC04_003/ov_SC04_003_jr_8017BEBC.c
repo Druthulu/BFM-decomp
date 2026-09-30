@@ -3544,7 +3544,7 @@ void func_8017E040(void *a0) {
 
 void func_8017E07C(void *a0, s32 a1) {
     extern s32 func_8012C51C(void *a0, s32 a1);
-    struct S80143BDC { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } sp;
+    struct S80143BDC sp;
 
     if (a0 != 0 && *(u16 *)a0 != 0) {
         sp.f0 = *(u16 *)((s32)a0 + 0x6);
@@ -4754,17 +4754,7 @@ extern void func_8012B2CC(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017FF9C(void *a0) {
-    struct S8017FF9C_sp {
-        u16 unk0;
-        u16 unk2;
-        u16 unk4;
-        s16 unk6;
-        s16 unk8;
-        s16 unkA;
-        s16 unkC;
-        s16 unkE;
-        s32 unk10;
-    } sp;
+    struct S8017FF9C_sp sp;
     s32 vec[3];
     s32 out[3];
     s32 ret;

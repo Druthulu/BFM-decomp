@@ -3308,9 +3308,6 @@ void func_8018541C(s32 a0) {
 
 void func_80185808(s32 a0, s32 a1)
 {
-    struct V8_80185808 {
-        u16 vx, vy, vz, pad;
-    };
     extern s32 func_8012CEB0(void*, void*, s32);
 
     struct V8_80185808 sp10;
