@@ -2303,7 +2303,7 @@ extern u8 D_800AF630[];
 extern u8 *D_800A5E60;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void func_80015608(s32, s32);
-extern void func_80015760();
+extern void func_80015760(Obj_80015760 *obj, s32 *ot);
 
 void func_80015498(void)
 {
@@ -4255,7 +4255,7 @@ void func_800176F0(void *arg0)
 }
 
 void func_80017714(void *arg0) {
-    extern void func_80017778();
+    extern void func_80017778(Src_80017778 *arg0, s32 arg1, s32 arg2);
     ((void (*)(void *, s32, s32))func_80017778)(arg0, 0, 0);
 }
 
@@ -11254,9 +11254,9 @@ extern s32 D_80062BA8;
 
 extern void func_80020DA4(s32 a0, s32 a1);
 extern void func_80020F34(s32 a0, s32 a1);
-extern s32  func_80020248();
-extern void func_80020598();
-extern s32  func_80020A28();
+extern s32 func_80020248(s32 *a0, OBJ_80020248 *a1, MTX_80020248 *a2, MTX_80020248 *a3, s32 a4);
+extern void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3);
+extern s32 func_80020A28(s32 *a0, OBJ_80020A28 *a1, MTX_80020248 *a2, MTX_80020248 *a3, s32 a4);
 extern void func_80054AAC();
 extern s32 func_80021174(s32 a0, s32 a1);
 extern void func_80021008(void *a0);
@@ -12313,7 +12313,7 @@ extern u16 D_800B9A02;
  * func_80023138's spelling below is verbatim from its definition at 12688. */
 extern void func_8001E094(s32 arg0);
 extern void func_8001E378(s32 param_1);
-extern void func_800226C0();
+extern void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot);
 extern void func_80023138(s32 *arg0, u8 *col, u8 *pts, u32 *ot);
 
 void func_800215F4(Obj_215F4 *obj)
@@ -12718,7 +12718,7 @@ void func_800215F4(Obj_215F4 *obj)
 extern u8  D_800AF630[];
 extern u8  D_800A6610[];
 extern u16 D_800B9A02;
-extern void func_800226C0(Obj_80021D38 *, u8 *, DVec_80021D38 *, u8 *);
+extern void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot);
 
 
 
@@ -12912,7 +12912,7 @@ extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8004901C(void *a0, void *a1);
 extern void func_800547D8(s32 a0, void *a1);
 extern s32 func_80021174(s32 a0, s32 a1);
-extern void func_800226C0();
+extern void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot);
 
 void func_800221A8(Obj221A8 *o) {
     SV221A8 sv0;
@@ -14493,11 +14493,11 @@ extern s32 D_80078D88[];
  * those definitions (verbatim where the types are spellable here, no-proto otherwise). */
 extern long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot);
 extern u8 * func_80024DE8(TmdG3 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
-extern u8 *func_8002528C();
-extern void *func_80025504();
+extern u8 * func_8002528C(Prim_800 *pr, Vec8_800 *vtx, Vec8_800 *nrm, void *arg3, s32 n, s32 shift, u32 *ot);
+extern void * func_80025504(GFace *prim, GVec8 *vtx, GVec8 *nrm, GPolyG4 *poly, s32 n, s32 shift, u32 *ot);
 extern u8 *func_80025A30(u8 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
 extern void *func_80025CBC(void *prims, void *scr, void *cols, void *packets, s32 count, s32 otshift, u32 *ot);
-extern u32 *func_80025EB8();
+extern u32 * func_80025EB8(Prim20 *prim, SVEC8_80025EB8 *verts, SVEC8_80025EB8 *norms, Ft4 *pkt0, s32 n, s32 shift, u32 *ot);
 /* Handwritten-asm stubs, defined `void f()` in the TU; the packet pointer they leave in $v0
  * is consumed here through a no-proto function-pointer cast (§378: folds to a direct jal). */
 extern void func_80026514();
@@ -14520,11 +14520,11 @@ void func_80024448(int param_1, int param_2, u32 param_3)
      * at the later definition). Block-scope externs live in gcc-2.7.2's limbo instead: the
      * later definition draws only a "type mismatch with previous external decl" warning,
      * and the emitted bytes are identical (measured on a synthetic TU, S72m_1). */
-    extern u8 *func_80024BC0();
-    extern u8 *func_80025000();
-    extern u8 *func_80025818();
-    extern u8 *func_80026128();
-    extern u8 *func_800262D8();
+    extern POLY_F4 * func_80024BC0(Face *f, SVECTOR_80024BC0 *sv, SVECTOR_80024BC0 *nv, POLY_F4 *poly0, s32 n, s32 shift, u32 *ot);
+    extern PG4 * func_80025000(SRCQ *p, SVEC_80025000 *verts, SVEC_80025000 *norms, PG4 *poly0, s32 n, s32 shift, u32 *ot);
+    extern PG3 * func_80025818(TPRIM_80025818 *prim, SVEC8_80025818 *vtx, SVEC8_80025818 *nrm, PG3 *poly, s32 n, s32 shift, u32 *ot);
+    extern PktGT3 * func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, PktGT3 *arg3, s32 count, s32 shift, u32 *ot);
+    extern PktGT4 * func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, PktGT4 *arg3, s32 count, s32 shift, u32 *ot);
 
     v0 = *(u32 **)(param_1 + 8);
     s0 = (u32 *)v0[4];
@@ -16394,8 +16394,8 @@ extern u8 *D_800A5E60;
  * The §183 __asm__-label alias binds a locally-typed name to the real symbol, so the
  * call site keeps its `u8 *` result with no declaration conflict at the definitions. */
 extern u8 * func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
-extern void *func_800275BC();
-extern void *func_800277DC();
+extern void * func_800275BC(TPRIM_800275BC *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, s32 n, s32 shift, u32 *ot);
+extern void * func_800277DC(void *a0, SVECTOR800277DC *a1, void *a2, u8 *a3, s32 count, s32 shift, s32 *ot);
 extern u8 *aF80027058() __asm__("func_80027058");
 extern u8 *aF80027200() __asm__("func_80027200");
 extern u8 *aF800279AC() __asm__("func_800279AC");

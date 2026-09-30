@@ -247,7 +247,7 @@ void func_800CB3CC(void *arg0) {
     extern void RotMatrixYXZ();
     extern void ApplyMatrixSV();
     extern void func_800D1FC8(void *arg0, int arg1);
-    extern s32 func_800D21C4();
+    extern S800D21C4 * func_800D21C4(s32 arg0, s32 arg1, s32 arg2);
     extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
     extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     extern u8 D_800CB8FC[];

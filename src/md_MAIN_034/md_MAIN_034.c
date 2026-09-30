@@ -91,13 +91,13 @@ void func_800CB00C(s32 arg0, s32 arg1, s32 arg2)
      * before their typedefs exist.  gcc-2.7.2 demotes the same clash to a
      * warning when the forward declaration sits at BLOCK scope, and every call
      * is cast to the byte-target's own signature, so codegen is unchanged. */
-    extern void func_800CB1F8();
-    extern void func_800CB3C0();
-    extern void func_800CBA18();
-    extern void func_800CB5D0();
-    extern void func_800CB7BC();
-    extern void func_800CBC2C();
-    extern void func_800CBE28();
+    extern F3P_800CB1F8 * func_800CB1F8(Face10_800CB1F8 *f, SVEC8_800CB1F8 *verts, SVEC8_800CB1F8 *norms, F3P_800CB1F8 *prims, s32 count, s32 shift, s32 ot);
+    extern PktF4_800CB3C0 * func_800CB3C0(FaceF4_800CB3C0 *face, SVEC8_800CB3C0 *vtx, SVEC8_800CB3C0 *nrm, PktF4_800CB3C0 *prims, s32 count, s32 shift, s32 ot);
+    extern Ft4_800CBA18 * func_800CBA18(Face20_800CBA18 *f, SVEC8_800CBA18 *verts, SVEC8_800CBA18 *norms, Ft4_800CBA18 *prims, s32 count, s32 shift, u32 *ot);
+    extern Prim1C_800CB5D0 * func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts, SVEC8_800CB5D0 *norms, Prim1C_800CB5D0 *prims, s32 count, s32 shift, s32 ot);
+    extern PktGT4_800CB7BC * func_800CB7BC(FaceGT4_800CB7BC *face, SVEC8_800CB7BC *vtx, SVEC8_800CB7BC *nrm, PktGT4_800CB7BC *prims, s32 count, s32 shift, s32 ot);
+    extern GT3P * func_800CBC2C(FaceT3 *f, SVEC2 *verts, SVEC2 *norms, GT3P *prims, s32 count, s32 shift, s32 ot);
+    extern PktGT4_800CBE28 * func_800CBE28(FaceGT4_800CBE28 *face, SVEC8_800CBE28 *vtx, SVEC8_800CBE28 *nrm, PktGT4_800CBE28 *arg3, s32 count, s32 shift, s32 ot);
 
     s32 v0;
     s32 a3;

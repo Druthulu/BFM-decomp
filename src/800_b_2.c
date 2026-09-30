@@ -4148,7 +4148,7 @@ extern s8 D_800A4F17;
 extern u16 D_800A2BB0[];
 extern u16 D_800BA108[];
 
-extern void func_8003388C();   /* §376: def is (Ent388C *, s32); no-proto keeps the typedef out of scope here */
+extern void func_8003388C(Ent388C *arg, s32 arg1);   /* §376: def is (Ent388C *, s32); no-proto keeps the typedef out of scope here */
 
 void func_80031BE0(void)
 {

@@ -1686,7 +1686,7 @@ extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u8   D_8018740C[];
 extern u8   D_80187420[];
 extern s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
@@ -1841,7 +1841,7 @@ extern void func_8016D5EC(s32 *a0);
 extern short func_8016CBC0(void);
 extern void func_8016D64C(int param_1);
 extern void func_8016D778(s32 a0);
-extern void func_800D20C0();
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_8016D848(s32 *a0);
 extern void func_8016D984(s32 *a0);
 extern void func_8016DBD8(u8 *a0);
@@ -3009,17 +3009,17 @@ extern void func_80028620(s32 a0, void *a1);
 
 void func_801843E0(void *a0) {
 
-    extern B16_8018584C aD800A5E88 __asm__("D_800A5E88");
+    extern B16_8018584C D_800A5E88;
     extern B16_8018584C D_801BBE6C;
     extern s32 D_800A5E90;
     s32 t;
 
-    aD800A5E88 = D_801BBE6C;
+    D_800A5E88 = D_801BBE6C;
     t = func_8004787C(*(s16 *)((s32)a0 + 0xFE));
     if (t < 0) t += 0x1FF;
     D_800A5E90 = (t >> 9) + 8;
     *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
-    func_80028620(0, &aD800A5E88);
+    func_80028620(0, &D_800A5E88);
 }
 
 

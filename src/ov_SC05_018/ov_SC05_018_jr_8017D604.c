@@ -1688,7 +1688,7 @@ extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u8   D_80189870[];
 extern u8   D_80189884[];
 extern s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
@@ -1841,7 +1841,7 @@ extern void func_8016D5EC(s32 *a0);
 extern short func_8016CBC0(void);
 extern void func_8016D64C(int param_1);
 extern void func_8016D778(s32 a0);
-extern void func_800D20C0();
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_8016D848(s32 *a0);
 extern void func_8016D984(s32 *a0);
 extern void func_8016DBD8(u8 *a0);
@@ -5900,7 +5900,7 @@ extern s32 func_8012AD50(void *a0);
 extern Blk8_80182844 D_801E4F60;
 extern Blk8_80182844 D_801E4F68;
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_8018290C();
+extern void func_8018290C(SVEC_8017EC98_8018290C *p0, SVEC_8017EC98_8018290C *p1);
 
 void func_80182844(void *a0)
 {

@@ -7091,7 +7091,7 @@ void func_801AA9D4(s32 a0, s32 a1) {
 
 /* no-proto on purpose: the real definition (with SV4_801AAB28* params) lives
    further down this TU; a prototyped extern here would be a types conflict */
-extern void func_801AAB28();
+extern void func_801AAB28(SV4_801AAB28 *a0, SV4_801AAB28 *a1, s32 a2);
 
 void func_801AAA6C(s32 a0)
 {
@@ -7370,7 +7370,7 @@ void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
 }
 
 
-extern s32 func_801AAF8C();
+extern s32 func_801AAF8C(SV_801AAF8C *src, SV_801AAF8C *ofs, s32 arg2);
 
 void func_801AAF34(s32 a0, s32 a1, s16 a2)
 {

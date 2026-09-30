@@ -1666,7 +1666,7 @@ extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6_D1)
 extern void func_80166438(u8 *a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
@@ -1684,7 +1684,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6_D1)
 extern void func_801678F0(s32 a0);
 extern void (*D_8018E548[])(void);
 extern void func_80167A9C(void *a0);
@@ -1694,7 +1694,7 @@ extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u8   D_8018E4A8[];
 extern u8   D_8018E4BC[];
 extern s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
@@ -1849,7 +1849,7 @@ extern void func_8016D5EC(s32 *a0);
 extern short func_8016CBC0(void);
 extern void func_8016D64C(int param_1);
 extern void func_8016D778(s32 a0);
-extern void func_800D20C0();
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_8016D848(s32 *a0);
 extern void func_8016D984(s32 *a0);
 extern void func_8016DBD8(u8 *a0);
@@ -3847,11 +3847,11 @@ void func_80180DFC(void *a0) {
 
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern s32 func_800D222C(s32 a0, void *a1, s32 a2);
 extern s32 func_8001CF30(void *a0);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6_D1)
 
 
 void func_80180E38(s32 param_1) {
@@ -3908,7 +3908,7 @@ void func_80180E38(s32 param_1) {
 }
 
 
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6_D1)
 void func_80180FFC(u8 *p) {
     u8 *q;
     s32 t;
@@ -3947,7 +3947,7 @@ void func_80181090(void *a0) {
 
 extern s32 func_800D222C(s32 a0, void *a1, s32 a2);
 extern s32 func_8001CF30(void *a0);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6_D1)
 extern u8 D_8018F5A4;
 
 void func_801810CC(s32 a0) {
@@ -4367,7 +4367,7 @@ void func_80181690(s32 a0) {
 extern void func_8001D074(s32 a0, s32 a1);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 
@@ -4582,7 +4582,7 @@ void func_80181D4C(void *a0) {
 extern void func_8012C1B8(void);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 
 void func_80181DCC(s32 a0) {
@@ -4846,7 +4846,7 @@ void func_80182194(void *a0)
 
 
 extern void func_80182348(int);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6_D1)
 void func_801822FC(int param_1)
 {
     unsigned short uVar1;
@@ -5156,7 +5156,7 @@ void func_80182930(void *a0)
 
 
 extern void func_800D22E4(s32 a0);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6_D1)
 extern void func_80182A40(void *a0);
 void func_801829E4(void *a0)
 {

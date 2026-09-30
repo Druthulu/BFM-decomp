@@ -115,7 +115,7 @@ extern void func_800D2394(struct S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, str
 extern void func_800D2454(s32 a0, s32 a1, s32 *a2);
 extern void func_800D24D0();
 extern s32 func_800D2704(s32 a0, s32 a1);
-extern void func_800D298C();
+extern void func_800D298C();  // K&R: 2 of 1 args (P37 rung D t6_D1)
 extern void func_800D2AA0(u8 *a0);
 extern void func_800D2C0C(s32 *a0, s32 a1);
 extern void func_800D2C88();
@@ -369,7 +369,7 @@ void func_800D24D0(void) {
 }
 
 
-extern s32 func_800D27A0();
+extern s32 func_800D27A0(void* arg0, struct UnkS1* arg1);
 extern void func_800D3234(s32 a0, s32 a1);
 extern void StFreeRing(s32 a0);
 

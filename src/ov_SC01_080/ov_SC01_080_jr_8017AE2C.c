@@ -1697,7 +1697,7 @@ extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u8   D_80186494[];
 extern u8   D_801864A8[];
 extern s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
@@ -1853,7 +1853,7 @@ extern void func_8016D5EC(s32 *a0);
 extern short func_8016CBC0(void);
 extern void func_8016D64C(int param_1);
 extern void func_8016D778(s32 a0);
-extern void func_800D20C0();
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_8016D848(s32 *a0);
 extern void func_8016D984(s32 *a0);
 extern void func_8016DBD8(u8 *a0);
@@ -5891,7 +5891,7 @@ extern u8 D_801C5D06;
 extern s16 D_801C7540;
 
 extern void func_800233CC(void *a0, u16 a1);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 
 void func_80180728(s32 a0) {
@@ -6215,7 +6215,7 @@ extern u16 D_800B99DA;
 extern s16 D_801C7540;
 extern u8 D_801C5D40[];
 extern s32 D_80127188;
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_8012913C(s32 a0);
 extern u8 *func_801291C0(void);
@@ -6368,7 +6368,7 @@ extern s32 rand(void);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012931C(struct vec *a0);
@@ -6482,7 +6482,7 @@ struct vec;
 
 extern s32 rand(void);
 extern void RotMatrixYXZ(void *a0, void *a1);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012931C(struct vec *a0);
@@ -6558,7 +6558,7 @@ void func_80181598(void *a0) {
 extern u16 D_800B99DA;
 extern s16 D_801C7540;
 extern u8 D_801C5D40[];
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_8012913C(s32 a0);
 extern u8 *func_801291C0(void);
@@ -6677,7 +6677,7 @@ void func_801817CC(s32 *a0) {
 }
 
 
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void func_801292C8(u8 *a0);
 extern void func_801696D8(s32 a0, s32 a1);
@@ -6758,7 +6758,7 @@ void func_80181918(s32 arg0) {
 }
 
 
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 
 

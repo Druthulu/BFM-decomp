@@ -1692,7 +1692,7 @@ extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u8   D_8018D284[];
 extern u8   D_8018D298[];
 extern s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
@@ -1848,7 +1848,7 @@ extern void func_8016D5EC(s32 *a0);
 extern short func_8016CBC0(void);
 extern void func_8016D64C(int param_1);
 extern void func_8016D778(s32 a0);
-extern void func_800D20C0();
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_8016D848(s32 *a0);
 extern void func_8016D984(s32 *a0);
 extern void func_8016DBD8(u8 *a0);
@@ -3176,7 +3176,7 @@ extern u16 D_800B99DA;
 extern s32 func_8004787C(s32 a0);
 extern s32 D_8018E59C[];
 extern u8 D_801B822C[];
-extern s32 func_801850D8();
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 
 /* LOAD-BEARING: K&R definition with s16 a1/a2/a3. The `s16` parameter type is what
  * produces the per-use `sll/sra 16` pairs; s32 params + explicit (s16) casts give a
@@ -3263,7 +3263,7 @@ void func_801824CC(a0, a1, a2, a3, mask)
 #include "common.h"
 
 extern s32  rand(void);
-extern s32  func_801850D8();
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern u8   D_800D3918[];
@@ -3332,7 +3332,7 @@ extern void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32  VectorNormalSS(void *a0, void *a1);
 extern s32  func_80047D3C(s32 a0);
-extern s32  func_801850D8();
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 extern s32  rand(void);
 extern u8   D_800D3918[];
 extern u8   D_8018E47C[];
@@ -3437,7 +3437,7 @@ void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
 extern u8 D_800AF630[];
 extern u16 D_800B99DA;
 extern s32 rand(void);
-extern s32 func_801850D8();
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 extern s32 D_8018E59C[];
 
 void func_80182DCC(void *arg0) {
@@ -3535,7 +3535,7 @@ void func_80183174(s32 a0) {
 #include "common.h"
 
 extern s32 rand(void);
-extern s32 func_801850D8();
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 
 void func_801831E0(s32 arg0, s32 arg1) {
 
@@ -3622,7 +3622,7 @@ void func_801831E0(s32 arg0, s32 arg1) {
 
 
 extern s32 rand(void);
-extern s32 func_801850D8();
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 
 /* MATCH candidate (106/106 in match_one; see rtu_match below).  T5x Fable, 2026-09-05.
  *
@@ -3710,7 +3710,7 @@ void func_801834A4(s32 arg0) {
 
 
 extern s32 rand(void);
-extern s32 func_801850D8();
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 extern u8 D_8018E47C[];
 
 void func_8018364C(void *arg0) {
@@ -4197,7 +4197,7 @@ void func_80183F84(void *a0, void *a1) {
 extern s32 rand(void);
 extern u16 D_800B99DA;
 extern s32 D_8018E59C[];
-extern s32 func_801850D8();
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 
