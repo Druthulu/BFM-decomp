@@ -54,6 +54,7 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 OUT_DIR_DEFAULT = ".run/P37/census"
 TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10]
 CANON_HEADERS = ("src/shared/engine_types.h", "include/struct_types.h")  # the canonical type files (T3 added include/struct_types.h; T5 may add more)
+TWINS_DOC = "docs/struct-twins.md"   # T5.1: the --check-structs allowlist (tier-2 twins kept apart with evidence; dead names kept with a cause)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # types and widths (o32) — the layout engine lives in tools/struct_layout.py since T3 (shared with restruct.py and the writer,
@@ -97,7 +98,11 @@ def find_definitions(masked, rel, span_of_line, line_of):
                    names=[n for (n, s, dd) in names if s == 0 and not dd], ptr_names=[n for (n, s, dd) in names if s or dd],
                    fields=fields, attrs=attrs.strip(), scope=("block" if d else "file"), fn=(d["name"] if d else None),
                    text_hash=hashlib.sha1(text.encode()).hexdigest()[:12], nfields=len(fields),
-                   is_canon=(rel in CANON_HEADERS))
+                   is_canon=(rel in CANON_HEADERS),
+                   # T5.1: a non-typedef body that also declares an object (`struct {..} fr;`, `struct T {..} a[2];`) — a block frame
+                   declares_object=(not m.group(1) and bool(re.match(r"^\**\s*[A-Za-z_]", tail_clean))))
+        if rec["is_canon"]:     # T5.1: the canon def's tokens — the --check-structs liveness edges
+            rec["idents"] = sorted(set(re.findall(r"\b[A-Za-z_]\w*\b", text)))
         out.append(rec)
         # nested definitions inside the body are NOT separate records (they live inside the parent's layout)
         pos = (j + 1) if j != -1 else close + 1
@@ -107,18 +112,19 @@ def find_definitions(masked, rel, span_of_line, line_of):
         txt = m.group(1)
         if "{" in txt or "}" in txt:
             continue
+        ids = {"idents": sorted(set(re.findall(r"\b[A-Za-z_]\w*\b", txt)))} if rel in CANON_HEADERS else {}   # T5.1: liveness edges
         fp = re.match(r"^(.*?)\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\(.*\)$", txt, re.S)
         if fp:
             aliases.append(dict(file=rel, line=line_of(m.start()), name=fp.group(2), alias_of="void *", alias_stars=0, alias_dims=[],
-                                fnptr=True))
+                                fnptr=True, **ids))
             continue
         m2 = re.match(r"^(.*?)\s*(\**)\s*([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)$", txt.strip(), re.S)
         if not m2:
             continue
         aliases.append(dict(file=rel, line=line_of(m.start()), name=m2.group(3), alias_of=_norm_type(m2.group(1)),
                             alias_stars=len(m2.group(2)), alias_dims=[_eval_dim(d, {}) for d in re.findall(r"\[([^\]]*)\]", m2.group(4))],
-                            fnptr=False))
-    fwd = [dict(file=rel, line=line_of(m.start()), kind=m.group(1), tag=m.group(2)) for m in FWD_DECL.finditer(masked)]
+                            fnptr=False, **ids))
+    fwd =[dict(file=rel, line=line_of(m.start()), kind=m.group(1), tag=m.group(2)) for m in FWD_DECL.finditer(masked)]
     return out, aliases, fwd
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -600,8 +606,11 @@ def walk_file(raw, rel):
     abs_casts = sum(1 for s in sites if s.get("bclass") == "abs")
     # identifier counts for the dead-name test (type names are identifiers; the canonical header is excluded by the caller)
     ident_counts = collections.Counter(m.group(0) for m in re.finditer(r"\b[A-Za-z_]\w*\b", masked))
+    # T5.1: the tokens the filter below drops, kept apart so the --check-structs dead test drops no identifier by length or prefix
+    ident_dropped = {k: v for k, v in ident_counts.items() if k.startswith(("func_", "D_")) or k in SCALARS or len(k) <= 1}
     ident_counts = {k: v for k, v in ident_counts.items() if not k.startswith(("func_", "D_")) and k not in SCALARS and len(k) > 1}
     return dict(rel=rel, definitions=definitions, typedef_aliases=aliases_td, fwd=fwd, sites=sites, raw_counts=dict(raw_counts), ident_counts=ident_counts,
+                ident_dropped=ident_dropped,
                 fndefs=fndefs, extern_fns=extern_fns, extern_data=extern_data, asm_aliases=asm_aliases, builtins=builtins,
                 attrs=attrs, flows=flows, abs_casts=abs_casts, nfuncs=len(defs))
 
@@ -1027,6 +1036,97 @@ def walk_all(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT):
     return dict(results=results, tu_aliases=tu_aliases, headers=headers, inc=inc, inc_tus=inc_tus, files=files)
 
 
+ADDR_RX = re.compile(r"\b0x[0-9A-Fa-f]+\b|\b[0-9A-Fa-f]{8}\b")
+
+
+def load_twins(text):
+    """docs/struct-twins.md -> ({lhash: dict(names=set|None, cause=str)}, {name: cause}). `### <lhash>` sections under `## Twins`
+    carry `names:` and `cause:` lines; `## Dead kept` carries `- Name — cause` bullets."""
+    twins, kept, section, cur = {}, {}, None, None
+    for line in text.splitlines():
+        if line.startswith("## "):
+            section, cur = line[3:].strip().lower(), None
+            continue
+        if section == "twins":
+            if line.startswith("### "):
+                cur = line[4:].strip().strip("`")
+                twins[cur] = dict(names=None, cause="")
+                continue
+            m = re.match(r"^\s*[-*]?\s*(names|cause)\s*:\s*(.*)$", line)
+            if cur and m:
+                twins[cur][m.group(1)] = set(re.findall(r"[A-Za-z_]\w*", m.group(2))) if m.group(1) == "names" else m.group(2).strip()
+        elif section == "dead kept":
+            m = re.match(r"^\s*[-*]\s+`?([A-Za-z_]\w*)`?\s*(?:—|--|-|:)?\s*(.*)$", line)
+            if m:
+                kept[m.group(1)] = m.group(2).strip()
+    return twins, kept
+
+
+def structs_reading(results, defs_all, td_all, dup_rows, dup_full_names, twins_text):
+    """The --check-structs reading (P38 T5.1). Returns dict(counts, dead, gating_rows, outside).
+      dead      liveness = canon names used outside CANON_HEADERS (every token, no length/prefix filter) plus every canon name
+                reachable from a live canon def's body or a canon typedef alias line; a def's own names never count for itself;
+                minus the `## Dead kept` names of TWINS_DOC (a kept name not dead-by-counter or not defined in canon is stale)
+      dup       a tier-2 row (plain or `:opaque`) listed under `### <lhash>` with the same name set and an addressed cause does not gate;
+                a listed lhash that is absent / mismatched / cause-less is stale (G62: layout twins without evidence stay apart)
+      outside   the four outside-canon counters' defs, less block-scope defs that declare an object and sit in no gating dup class"""
+    twins, kept = load_twins(twins_text)
+    # ---- dead
+    canon_defs = [d for d in defs_all if d["is_canon"]]
+    canon_names = set()
+    for d in canon_defs:
+        canon_names |= set(d["names"]) | ({d["tag"]} if d["tag"] else set())
+    nodes = collections.defaultdict(list)       # name -> [(own names, tokens)] for every canon def / alias that defines it
+    for d in canon_defs:
+        own = set(d["names"]) | set(d.get("ptr_names") or []) | ({d["tag"]} if d["tag"] else set())
+        for n in own:
+            nodes[n].append((own, set(d.get("idents") or [])))
+    for a in td_all:
+        if a["file"] in CANON_HEADERS:
+            nodes[a["name"]].append(({a["name"]}, set(a.get("idents") or [])))
+    graph = set(nodes)
+    live = set()
+    for r in results.values():
+        if r["rel"] in CANON_HEADERS:
+            continue
+        for src in (r.get("ident_counts", {}), r.get("ident_dropped", {})):
+            live |= graph & set(src)
+    work = list(live)
+    while work:
+        n = work.pop()
+        for own, toks in nodes.get(n, ()):
+            for t in (toks & graph) - own - live:
+                live.add(t)
+                work.append(t)
+    dead_counter = canon_names - live
+    kept_ok = {n for n in kept if n in dead_counter}
+    dead = sorted(dead_counter - kept_ok)
+    # ---- dup rows
+    tier2 = {r["lhash"]: r for r in dup_rows if r["tier"] == 2}
+    twins_ok = {lh for lh, t in twins.items()
+                if lh in tier2 and t["names"] == set(dup_full_names.get(lh, tier2[lh]["names"])) and ADDR_RX.search(t["cause"] or "")}
+    gating_rows = [r for r in dup_rows if not (r["tier"] == 2 and r["lhash"] in twins_ok)]
+    # ---- outside canon (mirrors check_structs_verdict's four counters)
+    ne = [d for d in defs_all if d["kind"] != "enum"]
+    outside = ([d for d in ne if d["file"].endswith(".c")]
+               + [d for d in ne if d["file"].startswith("src/shared/") and not d["is_canon"]]
+               + [d for d in ne if d["file"].endswith(".h") and not d["is_canon"] and not d["file"].startswith(("include/", "src/shared/"))])
+    gating_members = collections.defaultdict(set)   # base lhash -> names in gating rows
+    for r in gating_rows:
+        gating_members[r["lhash"].split(":")[0]] |= set(dup_full_names.get(r["lhash"], r["names"]))
+    def in_gating(d):
+        nm = set(d["names"]) | ({d["tag"]} if d["tag"] else set())
+        return bool(d.get("lhash") and nm & gating_members.get(d["lhash"], set()))
+    frames = [d for d in outside if d["scope"] == "block" and d.get("declares_object") and not in_gating(d)]
+    fid = {id(d) for d in frames}
+    outside = [d for d in outside if id(d) not in fid]
+    counts = dict(dup_classes=len(gating_rows), outside_canon=len(outside), dead=len(dead),
+                  twins_stale=(len(twins) - len(twins_ok)) + (len(kept) - len(kept_ok)),
+                  twins_listed=len(twins_ok), dead_kept=len(kept_ok), block_frames=len(frames))
+    return dict(counts=counts, dead=dead, gating_rows=gating_rows, outside=outside, dup_full_names=dup_full_names,
+                stale=sorted(set(twins) - twins_ok) + sorted(set(kept) - kept_ok))
+
+
 def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     t0 = time.time()
     w = walk_all(jobs, use_cache=use_cache, out_dir=out_dir)
@@ -1093,6 +1193,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     def sig_of(d):
         return tuple(name_sig(f) for f in d["fields"])
     dup_layout_classes, layout_twins = [], []
+    dup_full_names = {}     # T5.1: row lhash -> the row's full name set (rec["names"] is capped at 40)
     for lh, ds in by_lhash.items():
         nm = set()
         for d in ds:
@@ -1111,6 +1212,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
         if len(meaningful) <= 1:
             rec["tier"] = 1 if meaningful else 2
             dup_layout_classes.append(rec)
+            dup_full_names[lh] = nm
         else:
             # the opaque names merge with… nothing decidable without flow evidence; each meaningful signature is a type of its own
             rec["tier"] = 3
@@ -1123,9 +1225,11 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
                     dup_layout_classes.append(dict(lhash=lh + ":" + hashlib.sha1(repr(sg).encode()).hexdigest()[:6], size=ds[0]["size"],
                                                    n_names=len(nms), n_defs=sum(1 for d in ds if sig_of(d) == sg), canon=0, in_c=0,
                                                    names=sorted(nms)[:40], tier=1))
+                    dup_full_names[dup_layout_classes[-1]["lhash"]] = nms
             if len(opaque) > 1:
                 dup_layout_classes.append(dict(lhash=lh + ":opaque", size=ds[0]["size"], n_names=len(opaque), n_defs=0, canon=0, in_c=0,
                                                names=sorted(opaque)[:40], tier=2))
+                dup_full_names[lh + ":opaque"] = opaque
     dup_layout_classes.sort(key=lambda c: -c["n_names"])
     layout_twins.sort(key=lambda c: -c["n_names"])
     exact_classes = {th: len(ds) for th, ds in by_text.items() if len(ds) > 1}
@@ -1155,6 +1259,8 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     dead = sorted(n for n in canon_names if uses[n] == 0)
     in_c_defs = [d for d in defs_all if d["file"].endswith(".c")]
     shadow = sorted({n for d in in_c_defs for n in names_of(d) if n in canon_names})
+    twins_p = REPO / TWINS_DOC
+    structs = structs_reading(results, defs_all, td_all, dup_layout_classes, dup_full_names, twins_p.read_text() if twins_p.exists() else "")
     # ---- 2. sites
     sites_all = []
     raw_counts = collections.Counter()
@@ -1293,6 +1399,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
                                   conflicts=len(t["conflicts"]), sign_mixed=t["sign_mixed"], merges=t["merges"],
                                   globals_at=t["globals_at"][:3], globals_ptr=t["globals_ptr"][:3]) for t in types[:25]]),
         controls=ctrl,
+        structs=structs["counts"],
         global_blocks=dict(n=len(global_blocks), members=sum(b["members"] for b in global_blocks), top=global_blocks[:15]),
         parked=parked,
         timing=dict(walk_s=round(t_walk, 1), decls_s=round(t_decl, 1), total_s=round(time.time() - t0, 1)),
@@ -1301,8 +1408,19 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     out.mkdir(parents=True, exist_ok=True)
     (out / "type_census.json").write_text(json.dumps(dict(summary=summary, dup_layout_classes=dup_layout_classes[:300], layout_twins=layout_twins[:100],
                                                              variants=variants[:200], dead=dead, shadow=shadow,
+                                                             structs_dead=structs["dead"], structs_stale=structs["stale"],
                                                              refused=[dict(tu=s["tu"], line=s["line"], text=s.get("text"), why=s.get("refused")) for s in refused[:200]]),
                                                         indent=1))
+    # T5.1: the --check-structs rows behind outside_canon and dup_classes
+    with (out / "outside_canon.tsv").open("w") as fh:
+        fh.write("file\tline\tscope\tkind\ttypedef\tnames\tlhash\tsize\tdeclares_object\n")
+        for d in structs["outside"]:
+            nm = ",".join(d["names"] + ([d["tag"]] if d["tag"] and d["tag"] not in d["names"] else []))
+            fh.write(f"{d['file']}\t{d['line']}\t{d['scope']}\t{d['kind']}\t{int(d['typedef'])}\t{nm}\t{d.get('lhash') or ''}\t{d.get('size')}\t{int(bool(d.get('declares_object')))}\n")
+    with (out / "dup_gating.tsv").open("w") as fh:
+        fh.write("tier\tlhash\tsize\tn_names\tnames\n")
+        for r in structs["gating_rows"]:
+            fh.write(f"{r['tier']}\t{r['lhash']}\t{r['size']}\t{r['n_names']}\t{','.join(sorted(dup_full_names.get(r['lhash'], r['names'])))}\n")
     (out / "struct_map.json").write_text(json.dumps(dict(head=summary["head"], types=[dict(t, evidence=dict(t["evidence"])) for t in types]), indent=None))
     # the tracked, compact form: the 300 largest types with their layouts capped at 64 fields (the full map is regenerable)
     (out / "struct_map_top.json").write_text(json.dumps(dict(head=summary["head"], when=summary["when"], n_types=len(types),
@@ -1557,6 +1675,33 @@ void f1(s32 a0, s32 *b, s32 c) {
     ((Node *)a0)->unk3C = 1;                    /* C: cast-then-member */
 }
 '''
+CANON_FIXTURE = r'''typedef struct { s32 a; } Inner;           /* member-only: reached through Outer */
+typedef struct { Inner in; s32 b; } Outer;
+typedef struct { s32 z; } Q;                   /* a one-char name, used in the .c */
+typedef struct { s32 y; } Unused;
+typedef struct { s32 k; } KeptDead;
+'''
+USE_FIXTURE = r'''struct Loc { s32 m; };
+Outer g;
+Q *q;
+void f(void) {
+    struct { s32 a; s32 b; } fr;
+    struct { s32 a; } fr2[2];
+    fr.a = 0;
+}
+'''
+TWINS_FIXTURE = '''# Struct twins
+## Twins
+### aaaa:opaque
+names: X1, X2
+cause: both written by func_80012345 at 0x800A0000
+### cccc
+names: Z1, Z2
+cause: 80012345
+## Dead kept
+- KeptDead — read by asm at 80012345
+- Outer — live, so stale
+'''
 
 def selftest():
     res = walk_file(FIXTURE, "src/ov_TEST/t.c")
@@ -1590,8 +1735,25 @@ def selftest():
     checks.append(("K&R-empty extern", any(e["name"] == "func_80002000" and e["params"] == "" for e in res["extern_fns"])))
     checks.append(("typedef alias fnptr", any(a["name"] == "Handler" and a["fnptr"] for a in res["typedef_aliases"])))
     checks.append(("params of f1", res["fndefs"][0]["pnames"] == ["a0", "b", "c"]))
+    # T5.1: the --check-structs reading (liveness, allowlists, block frames)
+    cres = walk_file(CANON_FIXTURE, "src/shared/engine_types.h")
+    ures = walk_file(USE_FIXTURE, "src/ov_TEST/u.c")
+    sdefs = cres["definitions"] + ures["definitions"]
+    for d in sdefs:
+        d["lhash"] = d["text_hash"]
+    rows = [dict(tier=2, lhash="aaaa:opaque", names=["X1", "X2"], n_names=2, size=8), dict(tier=2, lhash="bbbb", names=["Y1", "Y2"], n_names=2, size=8),
+            dict(tier=1, lhash="cccc", names=["Z1", "Z2"], n_names=2, size=8)]
+    sr = structs_reading({"a": cres, "b": ures}, sdefs, cres["typedef_aliases"] + ures["typedef_aliases"], rows, {}, TWINS_FIXTURE)
+    sc_ = sr["counts"]
+    checks.append(("structs member-only canon type live", "Inner" not in sr["dead"] and "Outer" not in sr["dead"]))
+    checks.append(("structs one-char canon type used in .c live", "Q" not in sr["dead"]))
+    checks.append(("structs dead = Unused (KeptDead kept)", sr["dead"] == ["Unused"] and sc_["dead_kept"] == 1))
+    checks.append(("structs twins listed/unlisted", sc_["twins_listed"] == 1 and [r["lhash"] for r in sr["gating_rows"]] == ["bbbb", "cccc"]))
+    checks.append(("structs twins stale (tier-1 listed, live kept)", sc_["twins_stale"] == 2 and sr["stale"] == ["cccc", "Outer"]))
+    checks.append(("structs block frames apart", sc_["block_frames"] == 2 and sc_["outside_canon"] == 1 and sr["outside"][0]["tag"] == "Loc"))
     zero = dict(definitions=dict(dup_layout_classes=0, in_c_file_scope=0, in_c_block_scope=0, in_shared_fn_headers=0, other_headers=0,
-                                 dead_canon_names=0, variant_names=0), controls=dict(a=dict(ok=True), ok=1, n=1))
+                                 dead_canon_names=0, variant_names=0), controls=dict(a=dict(ok=True), ok=1, n=1),
+                structs=dict(dup_classes=0, outside_canon=0, dead=0, twins_stale=0, twins_listed=0, dead_kept=0, block_frames=0))
     rc0, l0 = check_structs_verdict(zero, 0, 0)
     checks.append(("check-structs all-zero OK", rc0 == 0 and l0[0] == "type_census --check-structs: OK" and "controls=1/1" in l0[1]))
     rc1, l1 = check_structs_verdict(zero, 0, 3)
@@ -1622,10 +1784,11 @@ def check_structs_inputs():
 
 def check_structs_verdict(summary, pad_names, parse_error_decls):
     """(rc, [verdict line, counts line, controls line]) — rc 1 on any nonzero gating count or controls ok < n."""
-    d, c = summary["definitions"], summary["controls"]
-    counts = dict(dup_classes=d["dup_layout_classes"],
-                  outside_canon=d["in_c_file_scope"] + d["in_c_block_scope"] + d["in_shared_fn_headers"] + d["other_headers"],
-                  dead=d["dead_canon_names"], variants=d["variant_names"], pad_names=pad_names, parse_error_decls=parse_error_decls)
+    d, c, st = summary["definitions"], summary["controls"], summary["structs"]
+    # T5.1: dup_classes / outside_canon / dead are the structs_reading() counts (allowlists, block frames, liveness), not the
+    # --check counters (was: d["dup_layout_classes"], the four outside counters' sum, d["dead_canon_names"])
+    counts = dict(dup_classes=st["dup_classes"], outside_canon=st["outside_canon"], dead=st["dead"], twins_stale=st["twins_stale"],
+                  variants=d["variant_names"], pad_names=pad_names, parse_error_decls=parse_error_decls)
     viol = [f"{k}={v}" for k, v in counts.items() if v]
     if c["ok"] < c["n"]:
         viol.append(f"controls {c['ok']}/{c['n']}")
@@ -1680,7 +1843,9 @@ def main():
         pad, other, parse, conflicting, tu_conflict = check_structs_inputs()
         rc_s, lines = check_structs_verdict(summary, pad, parse)
         print("\n".join(lines))
-        print(f"conflicting_types={conflicting} tu_conflict={tu_conflict} types_floor_lying={summary['decls']['lying']} audit_other={other}  (not gating)")
+        st = summary["structs"]
+        print(f"conflicting_types={conflicting} tu_conflict={tu_conflict} types_floor_lying={summary['decls']['lying']} audit_other={other} "
+              f"twins_listed={st['twins_listed']} dead_kept={st['dead_kept']} block_frames={st['block_frames']}  (not gating)")
         rc = rc or rc_s
     sys.exit(rc)
 
