@@ -4376,22 +4376,21 @@ typedef struct {
     u16 f5C;
 } F5C_S;
 typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    short x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    short x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    short x2, y2;
-    u8 u2, v2;
-    u16 pad1;
-    short x3, y3;
-    u8 u3, v3;
-    u16 pad2;
-} POLY_FT4;
-typedef POLY_FT4 FT4_801857A4;
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ u8  r0, g0, b0, code;
+    /* 0x08 */ s16 x0, y0;
+    /* 0x0C */ u8  u0, v0;
+    /* 0x0E */ u16 clut;
+    /* 0x10 */ s16 x1, y1;
+    /* 0x14 */ u8  u1, v1;
+    /* 0x16 */ u16 tpage;
+    /* 0x18 */ s16 x2, y2;
+    /* 0x1C */ u8  u2, v2;
+    /* 0x1E */ u16 pad_1E;
+    /* 0x20 */ s16 x3, y3;
+    /* 0x24 */ u8  u3, v3;
+    /* 0x26 */ u16 pad_26;
+} FT4_801857A4;
 typedef struct {
     /* 0x00 */ s16 f0;
     /* 0x02 */ s16 f2;          /* OT depth */
@@ -4406,8 +4405,8 @@ typedef struct { s16 v; }                      Flag_S40_8018B238_80187EA0;
 typedef struct { s16 v; }                      Flag_S40_8018B238_80188478;
 typedef struct { s16 v; }                      Flag_S40_8018B238_80188778;
 typedef void (*Fn8017ECC4)(void);
-typedef POLY_FT4 Ft4_80183DA4;
-typedef POLY_FT4 Ft4_80184138;
+typedef FT4_801857A4 Ft4_80183DA4;
+typedef FT4_801857A4 Ft4_80184138;
 typedef struct {
     s32 unk0;   /* 0x00 */
     s16 unk4;   /* 0x04 */
@@ -4810,7 +4809,6 @@ typedef struct {
     u16 x2, y2; u32 uv2;
     u16 x3, y3; u32 uv3;
 } PFT4_FD64;
-typedef POLY_G4 PG4_8017FD50;
 typedef struct {
     u8  t0, t1, t2, len;   /* 0x00  P_TAG      */
     u8  r0, g0, b0, code;  /* 0x04             */
@@ -6893,10 +6891,10 @@ typedef struct {
     u32 c3;             /* 0x1C */
     u16 x3, y3;         /* 0x20, 0x22 */
 } PG4_80189340;
-typedef POLY_G4 PG4_8018C960;
-typedef POLY_G4 PG4_8018C960_801895C8;
-typedef POLY_G4 PG4_8018C960_80189BA0;
-typedef POLY_G4 PG4_8018C960_80189EA0;
+typedef PG4_8017FD50 PG4_8018C960;
+typedef PG4_8017FD50 PG4_8018C960_801895C8;
+typedef PG4_8017FD50 PG4_8018C960_80189BA0;
+typedef PG4_8017FD50 PG4_8018C960_80189EA0;
 typedef struct { u8 pad0[3]; u8 len; u8 pad_4[3]; u8 code; } PHdr_80189340;
 typedef PrimTag PTag_8017DD28;
 typedef PrimTag PTag_8018C960;

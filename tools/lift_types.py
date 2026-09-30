@@ -1067,7 +1067,7 @@ def fold_plan(tsv, only, exclude, want_tier1, want_sdk):
             continue
         lh = lh_all.pop()
         # SDK: the layout's SDK struct whose member names one of the class's defs carries (or whose name is in the class)
-        cands = [(sn, sm, sd) for sn, sm, sd in sdk.get(lh, []) if sn in c["names"] or any(_sdk_ev(d, sm) for d in ds)]
+        cands = [(sn, sm, sd) for sn, sm, sd in sdk.get(lh, []) if want_sdk and (sn in c["names"] or any(_sdk_ev(d, sm) for d in ds))]
         canon_text, sdk_name = None, None
         if len({sn for sn, _m, _d in cands}) == 1 and cands[0][0] in by_name and not any(cands[0][0] in d["names"] for d in ds):
             refused.append((c["lhash"] + " (note)", f"SDK {cands[0][0]} is defined with another layout: folded under a non-SDK name"))

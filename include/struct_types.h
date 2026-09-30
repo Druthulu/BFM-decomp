@@ -1835,15 +1835,15 @@ typedef struct {                                     /* 0x24 */
 typedef struct {
     u32 tag;
     u8 r0, g0, b0, code;
-    short x0, y0;
-    u8 r1, g1, b1, pad1;
-    short x1, y1;
-    u8 r2, g2, b2, pad2;
-    short x2, y2;
-    u8 r3, g3, b3, pad3;
-    short x3, y3;
-} POLY_G4;
-typedef POLY_G4 G4_80017778;
+    s16 x0, y0;
+    u8 r1, g1, b1, p1;
+    s16 x1, y1;
+    u8 r2, g2, b2, p2;
+    s16 x2, y2;
+    u8 r3, g3, b3, p3;
+    s16 x3, y3;
+} PG4_8017FD50;
+typedef PG4_8017FD50 G4_80017778;
 typedef struct {
     u8 addr0, addr1, addr2, len;
     u32 code0;
