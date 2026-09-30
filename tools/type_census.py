@@ -1127,6 +1127,29 @@ def structs_reading(results, defs_all, td_all, dup_rows, dup_full_names, twins_t
                 stale=sorted(set(twins) - twins_ok) + sorted(set(kept) - kept_ok))
 
 
+ALIGNED_RX = re.compile(r"aligned\s*\(\s*(\d+)\s*\)")
+
+
+def def_layout_hash(res, d, lay):
+    """The def's layout hash: layout_hash(lay), re-keyed with the alignment when the def's own `packed` / `aligned(N)` moves it
+    off the natural one (P38 T5.1.c6: R22 proved packed and natural twins different layouts — a2e73 → packed_word 70/218,
+    0aaa → BlockData 216/218). An attribute that leaves the natural alignment keeps the plain hash (the twins ledger's keys)."""
+    lh = layout_hash(lay)
+    if lay is None or d["kind"] == "enum":
+        return lh
+    al = lay[1]
+    ma = ALIGNED_RX.search(d["attrs"] or "")
+    if ma:
+        al = max(al, int(ma.group(1)))
+    nat = lay[1]
+    if "packed" in d["attrs"]:
+        nlay = res.layout_of_fields(d["fields"], d["kind"])
+        nat = nlay[1] if nlay else nat
+    if al == nat:
+        return lh
+    return hashlib.sha1(json.dumps([lay[0], lay[2], "align", al]).encode()).hexdigest()[:12]
+
+
 def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     t0 = time.time()
     w = walk_all(jobs, use_cache=use_cache, out_dir=out_dir)
@@ -1169,7 +1192,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
         else:
             lay = res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"]))
         d["layout"] = lay
-        d["lhash"] = layout_hash(lay)
+        d["lhash"] = def_layout_hash(res, d, lay)
         d["size"] = lay[0] if lay else None
         if lay is None:
             unknown_layout += 1
@@ -1758,6 +1781,13 @@ def selftest():
         pr = Resolver({n: d for d in pres["definitions"] for n in d["names"] + ([d["tag"]] if d["tag"] else [])}).resolve_name("Prim_8016E7C8")
         prim.append((pres["definitions"][-1]["text_hash"], pr[0], layout_hash(pr)))
     checks.append(("Prim spellings one layout 64", prim[0][0] != prim[1][0] and prim[0][1] == prim[1][1] == 64 and prim[0][2] == prim[1][2]))
+    # T5.1.c6: packed and natural twins are two layouts; an attribute at the natural alignment is not
+    ares = walk_file("typedef struct { u32 w; } __attribute__((packed)) PkW;\ntypedef struct { u32 w; } NatW;\n"
+                     "typedef struct { u32 w; } __attribute__((aligned(4))) AlW;\n", "src/ov_TEST/a.c")
+    ar = Resolver({n: d for d in ares["definitions"] for n in d["names"]})
+    ah = {d["names"][0]: def_layout_hash(ar, d, ar.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"])))
+          for d in ares["definitions"]}
+    checks.append(("packed twin apart, natural aligned() together", ah["PkW"] != ah["NatW"] and ah["AlW"] == ah["NatW"]))
     # T5.1: the --check-structs reading (liveness, allowlists, block frames)
     cres = walk_file(CANON_FIXTURE, "src/shared/engine_types.h")
     ures = walk_file(USE_FIXTURE, "src/ov_TEST/u.c")
