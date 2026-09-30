@@ -694,7 +694,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(struct VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -3566,7 +3566,7 @@ void func_8017A4AC(void) {
     u16 sp20[4];
     u16 sp28[4];
     u16 sp30[4];
-    struct S126B58 *w = &(*(struct S126B58 *)&D_80126B58);
+    S126B58 *w = &(*(S126B58 *)&D_80126B58);
     s16 cmd;
 
     if (D_801C7750 == D_801C7754) {
@@ -3610,7 +3610,7 @@ void func_8017A4AC(void) {
         return; }
     case 4:
         { s16 arg = D_801C7350[D_801C7750]; D_801C7750 = (D_801C7750 + 1) & 0x1FF;
-        { s32 t = w->unk20->unk12 + arg;
+        { s32 t = w->p20->field12 + arg;
         func_80172B14(t & 0xFFF); }
         return; }
     case 5:

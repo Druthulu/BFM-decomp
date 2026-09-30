@@ -2864,12 +2864,12 @@ void func_8017DD64(void *obj) {
         for (i = 0; i < n; i++) {
             func_8017E078(&sp10, rec->f0, i);
             func_8017E078(&sp20, rec2->f0, i);
-            out->f0 = func_8017DFA4(sp10.f0, sp20.f0, den, rem);
-            out->f2 = func_8017DFA4(sp10.f2, sp20.f2, den, rem);
-            out->f4 = func_8017DFA4(sp10.f4, sp20.f4, den, rem);
-            out->f6 = func_8017DFEC(sp10.f6, sp20.f6, den, rem);
-            out->f8 = func_8017DFEC(sp10.f8, sp20.f8, den, rem);
-            out->fA = func_8017DFEC(sp10.fA, sp20.fA, den, rem);
+            out->unk0 = func_8017DFA4(sp10.unk0, sp20.unk0, den, rem);
+            out->unk2 = func_8017DFA4(sp10.unk2, sp20.unk2, den, rem);
+            out->unk4 = func_8017DFA4(sp10.unk4, sp20.unk4, den, rem);
+            out->unk6 = func_8017DFEC(sp10.unk6, sp20.unk6, den, rem);
+            out->unk8 = func_8017DFEC(sp10.unk8, sp20.unk8, den, rem);
+            out->unkA = func_8017DFEC(sp10.unkA, sp20.unkA, den, rem);
             out++;
         }
         *(s16 *)((u8 *)obj + 0x98) = 0;
@@ -2910,13 +2910,13 @@ void func_8017E078(Key12_8017DD64 *dst, void *src, s32 idx) {
 
     if ((s32)src & 0x01000000) {
         p = (u8 *)(((s32)src & 0xFEFFFFFF) + idx * 8);
-        dst->f0 = (s8)p[3];
-        dst->f2 = (s8)p[4];
-        dst->f4 = (s8)p[5];
+        dst->unk0 = (s8)p[3];
+        dst->unk2 = (s8)p[4];
+        dst->unk4 = (s8)p[5];
         w = *(u32 *)p;
-        dst->f8 = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
-        dst->fA = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
-        dst->f6 = *(u16 *)(p + 6);
+        dst->unk8 = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
+        dst->unkA = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
+        dst->unk6 = *(u16 *)(p + 6);
     } else {
         *dst = ((Key12_8017DD64 *)src)[idx];
     }

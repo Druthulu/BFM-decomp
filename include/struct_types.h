@@ -632,16 +632,17 @@ typedef struct {
     /* 0x0C */ u16 v1;
     /* 0x0E */ u16 v2;
 } Face10_800CB1F8;
-typedef struct {
-    /* 0x00 */ u32 unk00;
-    /* 0x04 */ u32 rgb;
-    /* 0x08 */ u16 n0;
-    /* 0x0A */ u16 v0;
-    /* 0x0C */ u16 n1;
-    /* 0x0E */ u16 v1;
-    /* 0x10 */ u16 n2;
-    /* 0x12 */ u16 v2;
-} Face14_800CB5D0;
+typedef struct {                                     /* 0x14 */
+    u32 w0;      /* 0x00 */
+    u32 rgb;     /* 0x04 */
+    u16 n0;      /* 0x08 */
+    u16 v0;      /* 0x0A */
+    u16 n1;      /* 0x0C */
+    u16 v1;      /* 0x0E */
+    u16 n2;      /* 0x10 */
+    u16 v2;      /* 0x12 */
+} Face2;
+typedef Face2 Face14_800CB5D0;
 typedef struct {
     u32 pad0;  /* 0x00 */
     u32 uv0;   /* 0x04 */
@@ -656,16 +657,7 @@ typedef struct {
     u16 pad_1E;  /* 0x1E */
 } Prim20;
 typedef Prim20 Face20_800CBA18;
-typedef struct {          /* face record, 0x14 bytes */
-    /* 0x00 */ u32 unk00;
-    /* 0x04 */ u32 rgb;
-    /* 0x08 */ u16 n0;
-    /* 0x0A */ u16 v0;
-    /* 0x0C */ u16 v1;
-    /* 0x0E */ u16 v2;
-    /* 0x10 */ u16 v3;
-    /* 0x12 */ u16 pad12;
-} FaceF4_800CB3C0;
+typedef Face2 FaceF4_800CB3C0;
 typedef struct {                                     /* 0x18 */
     u32 w0;      /* 0x00 */
     u32 rgb;     /* 0x04 */
@@ -895,7 +887,8 @@ typedef MATRIX Mtx32_801A54F0;
 typedef MATRIX Mtx32_801A5698;
 typedef struct { s32 w[8]; } Mtx32_801A90D8;
 typedef MATRIX Mtx32b;
-typedef struct { Blk16X q0; Blk16X q1; s32 pad_20, pad_24; } Mtx40;
+struct B  { s32 w[8]; s32 tail[2]; };
+typedef struct B Mtx40;
 typedef MATRIX MtxX;
 typedef struct {
     s16 m[9];
@@ -1655,11 +1648,14 @@ typedef struct {
 typedef struct { u8 pad[4]; PTag *ot; } Env;
 typedef Env_80140958 Env_800D2650;
 typedef Env_80140958 Env_800D27DC;
-struct F150Rec {
+typedef struct F1ccRec {
     u8 pad[0x0E];
     u8 flg[8];
-    u8 tail[0x3E];
-};
+    u8 unk16[0x24];
+    u8 flg3A[8];     /* S54's flg */
+    u8 tail[0x12];
+} F1ccRec;
+typedef F1ccRec F150Rec;
 typedef struct F1ccSlot {
     u8 pad[0x20];
     u32 u20;
@@ -1673,11 +1669,6 @@ typedef struct F1ccSlot {
     u8 tail[0x1B];
 } F1ccSlot;
 typedef F1ccSlot F150Slot;
-typedef struct F1ccRec {
-    u8 pad[0x0E];
-    u8 flg[8];
-    u8 tail[0x3E];
-} F1ccRec;
 typedef struct {
     u32 tag;    /* 0x00 */
     u32 rgbc0;  /* 0x04 */
@@ -1739,16 +1730,6 @@ typedef struct {
     u16 v3;                     /* 0x10 */
     u16 pad;                    /* 0x12 */
 } Face;
-typedef struct {                                     /* 0x14 */
-    u32 w0;      /* 0x00 */
-    u32 rgb;     /* 0x04 */
-    u16 n0;      /* 0x08 */
-    u16 v0;      /* 0x0A */
-    u16 n1;      /* 0x0C */
-    u16 v1;      /* 0x0E */
-    u16 n2;      /* 0x10 */
-    u16 v2;      /* 0x12 */
-} Face2;
 typedef struct {                                        /* 0x1C */
     u32 unk00;
     u32 uv0;
@@ -2224,11 +2205,7 @@ typedef struct {
     s16 v;
     s16 pad[2];
 } ResMapCol;
-typedef struct {
-    u8 pad[0x3A];
-    u8 flg[8];
-    u8 tail[0x12];
-} S54;
+typedef F1ccRec S54;
 typedef struct {
     u8 pad[0x14];
     u8 f14;   /* 0x14 */

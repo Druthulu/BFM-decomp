@@ -4604,19 +4604,19 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
 void func_80180ACC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    struct St80180ACC st;
+    St80180ACC st;
     u16 v[3];
     s16 out[6];
     s32 r[4];
 
     ((void (*)(s32, s32, s32))func_80180BE0)(arg0, arg1, (s32)&st);
-    v[0] = st.b[0];
-    v[1] = st.b[1];
-    v[2] = st.b[2];
+    v[0] = st.a;
+    v[1] = st.b;
+    v[2] = st.c;
     ((void (*)(s32, s32))func_80049CAC)((s32)v, (s32)out);
-    r[1] = st.a[0];
-    r[2] = st.a[1];
-    r[3] = st.a[2];
+    r[1] = st.x;
+    r[2] = st.y;
+    r[3] = st.z;
     ((void (*)(s32, s32, s32))func_8012F14C)((s32)out, arg2, arg3);
     if (*(u16 *)(*(s32 *)(arg0 + 0x20) + 0x2C) & 0x10) {
         *(s16 *)((s32)arg3 + 0) = *(s16 *)((s32)arg3 + 0) * *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) >> 12;

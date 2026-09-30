@@ -5972,8 +5972,8 @@ void func_8018BCC4(Ent_80186E9C_8018BCC4 *arg0, s32 arg1, u16 *arg2, u32 col)
     SVec_80186E9C_8018BCC4 *p;
     s32 i;
 
-    func_8004914C(arg0->mtx + 0x34);
-    func_800491AC(arg0->mtx + 0x34);
+    func_8004914C((u8 *)arg0->p20 + 0x34);
+    func_800491AC((u8 *)arg0->p20 + 0x34);
 
     p = &D_801CD4E0[(arg1 & 1) * 3];
 

@@ -4040,7 +4040,7 @@ void func_80183FC8(s32 param_1) {
     }
 
     for (i = 0; i < 0x1A; i++) {
-        D_8018F086[i].f0 = 0;
+        D_8018F086[i].unk0 = 0;
     }
 
     D_801E8010 = 0;
@@ -5077,25 +5077,25 @@ void func_80185F8C(s32 a0) {
     threshold = *(s16 *)(a0 + 0xE) - 0x400;
 
     for (i = 0; i < 0x1A; i++) {
-        if (D_8018F07C[i].flag != 0) {
+        if (D_8018F07C[i].unkA != 0) {
             continue;
         }
-        v1 = D_8018F07C[i].f4;
+        v1 = D_8018F07C[i].unk4;
         if (v1 >= threshold) {
             continue;
         }
         if (v1 + 0x10 < threshold) {
             continue;
         }
-        stk.f0 = D_8018F07C[i].f0;
-        stk.f2 = D_8018F07C[i].f2;
-        stk.f4 = D_8018F07C[i].f4;
-        stk.f6 = D_8018F07C[i].f6;
-        stk.f8 = D_8018F07C[i].f8;
+        stk.f0 = D_8018F07C[i].unk0;
+        stk.f2 = D_8018F07C[i].unk2;
+        stk.f4 = D_8018F07C[i].unk4;
+        stk.f6 = D_8018F07C[i].unk6;
+        stk.f8 = D_8018F07C[i].unk8;
         stk.fA = 0;
         func_8012C51C(&stk, a0);
 
-        D_8018F07C[i].flag = 1;
+        D_8018F07C[i].unkA = 1;
     }
 }
 

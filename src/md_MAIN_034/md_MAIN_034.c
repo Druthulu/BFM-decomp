@@ -285,7 +285,7 @@ PktF4_800CB3C0 *func_800CB3C0(FaceF4_800CB3C0 *face, SVEC8_800CB3C0 *vtx,
     pkt = &prims[D_800C7C74];
 
     for (; count != 0; count--, face++, pkt += 2) {
-        gte_ldv3(&vtx[face->v0], &vtx[face->v1], &vtx[face->v2]);
+        gte_ldv3(&vtx[face->v0], &vtx[face->n1], &vtx[face->v1]);
         gte_rtpt();
         gte_stflg(&g.flag);
         if (!(g.flag & ~0x1000)) {
@@ -293,7 +293,7 @@ PktF4_800CB3C0 *func_800CB3C0(FaceF4_800CB3C0 *face, SVEC8_800CB3C0 *vtx,
             gte_stopz(&g.opz);
             if (g.opz > 0) {
                 gte_stsxy3_f3(pkt);
-                gte_ldv0(&vtx[face->v3]);
+                gte_ldv0(&vtx[face->n2]);
                 gte_rtps();
                 gte_stflg(&g.flag);
                 if (!(g.flag & ~0x1000)) {

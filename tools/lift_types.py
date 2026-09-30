@@ -1014,7 +1014,7 @@ def _sdk_ev(d, smem):
                                    and [tc_name_sig(f) for f in d["fields"]] == sig)
 
 
-def fold_plan(tsv, only, exclude, want_tier1, want_sdk):
+def fold_plan(tsv, only, exclude, want_tier1, want_sdk, pick=()):
     """[class dict(names, canon, canon_text|None, defs, sdk, why)] and [(lhash, cause)] refused."""
     import type_census as tc
     defs, res, pos = _fold_index()
@@ -1088,6 +1088,7 @@ def fold_plan(tsv, only, exclude, want_tier1, want_sdk):
             pool = [d for d in ds if tuple(tc_name_sig(f) for f in d["fields"]) in meaningful] or ds
             cn = [n for d in pool for n in d["names"]] or [d["tag"] for d in pool if d["tag"]]
             canon = sorted(cn, key=lambda n: (-uses[n], n))[0]
+            canon = next((n for n in pick if n in c["names"]), canon)     # --fold-canon
         cdef = next((d for d in ds if canon in d["names"] or (not d["names"] and d["tag"] == canon)), None)
         first = min(ds, key=lambda d: d["pos"])
         body = canon_text or _text(cdef["rel"])[cdef["s"]:cdef["e"]]
@@ -1439,6 +1440,7 @@ def main():
     ap.add_argument("--fold-sdk", action="store_true", help="--fold: also fold canon defs with an SDK layout+member names")
     ap.add_argument("--fold-class", help="--fold: only these lhashes (comma-separated; `<lh>:sdk` for an SDK group)")
     ap.add_argument("--fold-exclude", help="--fold: skip these lhashes (comma-separated)")
+    ap.add_argument("--fold-canon", help="--fold: these names are their class's canon (comma-separated; else by meaning+uses)")
     ap.add_argument("--fold-report", help="--fold: write one row per folded class (lhash, tier, canon, sdk, n, aliases)")
     ap.add_argument("--fold-dead", metavar="CENSUS_JSON", help="delete canon defs whose every name is in structs_dead")
     ap.add_argument("-j", "--jobs", type=int, default=16)
@@ -1449,7 +1451,8 @@ def main():
     if args.fold:
         only = set(x for x in (args.fold_class or "").split(",") if x)
         excl = set(x for x in (args.fold_exclude or "").split(",") if x)
-        plan, refused, res = fold_plan(args.fold, only, excl, args.fold_tier1, args.fold_sdk)
+        plan, refused, res = fold_plan(args.fold, only, excl, args.fold_tier1, args.fold_sdk,
+                                       [x for x in (args.fold_canon or "").split(",") if x])
         for lh, why in refused:
             print(f"  REFUSED {lh}: {why}")
         unresolved = fold_apply(plan, res, args.apply, args.jobs, args.fold_report)

@@ -4248,13 +4248,13 @@ void func_8017F7CC(s32 param_1)
     s32 iVar2;
 
     __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    *(s16 *)&loc.b[0] = 0;
-    *(s16 *)&loc.b[2] = -0x40;
-    *(M8_SC02_005_8017F7CC *)&loc.b[8] = D_801E2DD8;
+    *(s16 *)&loc.a.raw[0] = 0;
+    *(s16 *)&loc.a.raw[2] = -0x40;
+    *(M8_SC02_005_8017F7CC *)&loc.b.raw[0] = D_801E2DD8;
     iVar2 = *(s32 *)(param_1 + 0x204) - 1;
     *(s32 *)(param_1 + 0x204) = iVar2;
     if (iVar2 == -1) {
-        *(M8_SC02_005_8017F7CC *)&D_801E4C50 = *(M8_SC02_005_8017F7CC *)&loc.b[8];
+        *(M8_SC02_005_8017F7CC *)&D_801E4C50 = *(M8_SC02_005_8017F7CC *)&loc.b.raw[0];
         func_8017E5CC();
         func_8017E0B4();
         func_8002D4C8(0x510, 0x103F);

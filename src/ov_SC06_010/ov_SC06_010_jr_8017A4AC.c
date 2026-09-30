@@ -2629,7 +2629,7 @@ void func_8017A4AC(void) {
     u16 sp20[4];
     u16 sp28[4];
     u16 sp30[4];
-    struct S126B58 *w = &(*(struct S126B58 *)&D_80126B58);
+    S126B58 *w = &(*(S126B58 *)&D_80126B58);
     s16 cmd;
 
     if (D_801B1F78 == D_801B1F7C) {
@@ -2673,7 +2673,7 @@ void func_8017A4AC(void) {
         return; }
     case 4:
         { s16 arg = D_801B1B78[D_801B1F78]; D_801B1F78 = (D_801B1F78 + 1) & 0x1FF;
-        { s32 t = w->unk20->unk12 + arg;
+        { s32 t = w->p20->field12 + arg;
         func_80172B14(t & 0xFFF); }
         return; }
     case 5:

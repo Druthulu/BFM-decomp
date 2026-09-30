@@ -201,8 +201,8 @@ void func_800CB228(s32 param_1) {
     func_800123F0(&m, *(s16 *)((s8 *)obj + 0x14));
     func_80163194(param_1, 0, 0, -0x3000, &m);
     func_80162FC0(param_1);
-    *(Blk16X *)((s8 *)obj + 0x34) = m.q0;
-    *(Blk16X *)((s8 *)obj + 0x44) = m.q1;
+    *(Blk16X *)((s8 *)obj + 0x34) = *(Blk16X *)&m.w[0];
+    *(Blk16X *)((s8 *)obj + 0x44) = *(Blk16X *)&m.w[4];
     if (func_80146E98(param_1) != 0) {
         func_80146E90((s32 *)param_1, 8);
         func_80146CA0((void *)param_1);

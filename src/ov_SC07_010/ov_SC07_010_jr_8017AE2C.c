@@ -36,7 +36,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(struct VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
 extern s16 D_80126CB0;
 extern s32 func_8013E298(s16 *a0);
 extern s16 D_80126CAC;
