@@ -9,6 +9,8 @@
 #      refreshed (R101), and src/ + the ledger/batch record/log + the census + the phase log are committed (R42).
 # Stops on the first red (a non-zero tool exit, a final N/M with N != M, a fleet run that is not 218/218) — the batch's files are then
 # still in place: inspect, then `tools/restruct.py --restore` (never git checkout, R102). Stops cleanly when nothing is drawable.
+# With CENSUS=0 too: a final X/Y with X != Y exits 1 BEFORE R22/commit and the tree stays exactly as restruct left it (no auto-revert) —
+# the OPERATOR must restore it (`tools/restruct.py --restore`, or revert the named files) before the next cycle (T4.c2).
 # Usage: [LABEL_PREFIX=t4_] [TASK=T4] [REDRAW="DECL-KEPT"] [CENSUS=0] tools/restruct_cycle.sh START END [BATCH=50] [RUNG=D|S|L] [ONLY="alias1 alias2 …"] [HEADERS=1]
 #   RUN IT DETACHED from the Claude Code harness (R115 — its low-memory guard kills a long BACKGROUND task; a SIGKILL skips a restore):
 #     setsid nohup bash -c 'TASK=T4 tools/restruct_cycle.sh 1 8 50 D; echo "cycle exit=$?"' > .run/P37/restruct/cycle_<x>.log 2>&1 &
@@ -88,6 +90,7 @@ PYEOF
     sleep 10
   done
   git add -A src && git add .run/P37/restruct .run/P37/census .run/P37/baseline $([ -f phase-ends/CURRENT_PHASE.md ] && echo phase-ends/CURRENT_PHASE.md) docs/readability.md docs/readability-progress.tsv 2>/dev/null; git add .run/P36/delever/calibration.json 2>/dev/null
+  git add -f .run/P37/restruct/ledger.jsonl || exit 1    # tracked under the ignored .run/: the plain add above exits 1 on the ignored dir (T4.c2)
   git commit -q -m "${TASK:-T4}: batch $label — $vline | R22 $line | $cline (restruct_cycle)" || exit 1
   echo "cycle: batch $label committed $(git log --oneline -1 | cut -c1-9) — $vline | $line"
 done

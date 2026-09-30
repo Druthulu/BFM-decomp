@@ -52,7 +52,9 @@ outer gate (the clean fleet run, R22) which tools/restruct_cycle.sh runs before 
 """
 import argparse
 import collections
+import contextlib
 import difflib
+import fcntl
 import fnmatch
 import hashlib
 import json
@@ -88,6 +90,7 @@ TYPE_OF = sl.TYPE_OF
 CANON_HEADERS = tc.CANON_HEADERS
 KR_MARK = "// K&R:"
 _LOCK = threading.Lock()
+_APPLY_LOCK_F = None               # the --apply process lock's open file (held for the process's life)
 
 
 class Refuse(Exception):
@@ -421,11 +424,45 @@ def body_nhash(masked, d):
     return lc.norm_hash(masked[s0:s1])
 
 
+@contextlib.contextmanager
+def _inflight_lock(path=None, shared=False):
+    """inflight.json is read and written only under this lock: the thread lock (workers of one process) AND an fcntl lock on
+    <path>.lock (other processes). T4.c2: batch t38_4L1 ran twice concurrently under one label; one process's plain write_text
+    (truncate, then write) was read EMPTY by the other's workers — 5 file-level TOOL-ERROR JSONDecodeError."""
+    path = path or INFLIGHT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with _LOCK, open(path.with_name(path.name + ".lock"), "a") as lf:
+        fcntl.flock(lf, fcntl.LOCK_SH if shared else fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(lf, fcntl.LOCK_UN)
+
+
+def _inflight_write(d, path=None):
+    """Atomic: a tmp file beside it, then os.replace (a reader sees the old or the new record, never a truncated one). Caller holds
+    _inflight_lock."""
+    path = path or INFLIGHT
+    tmp = path.with_name(f"{path.name}.tmp{os.getpid()}")
+    tmp.write_text(json.dumps(d))
+    os.replace(tmp, path)
+
+
+def inflight_update(fn, path=None):
+    """Read-modify-write of inflight.json, serialised across threads and processes; fn(d) mutates d in place."""
+    path = path or INFLIGHT
+    with _inflight_lock(path):
+        d = json.loads(path.read_text())
+        fn(d)
+        _inflight_write(d, path)
+
+
 def load_inflight(path=None):
     path = path or INFLIGHT
     if not path.exists():
         return None, "no inflight.json — nothing was in flight"
-    raw = path.read_text()
+    with _inflight_lock(path, shared=True):
+        raw = path.read_text() if path.exists() else ""
     if not raw.strip():
         return None, "inflight.json is EMPTY (a kill landed mid-write): reconcile every dirty file with the oracle (IDENTICAL = a bank, DIFFERS = a leftover)"
     try:
@@ -2529,11 +2566,17 @@ def hf_keys(cands):
 
 def hf_settled(rows, redraw=()):
     """{(tu, unit)} whose LATEST head-fold row is FOLDED / FOLD-REFUSED, minus the --redraw keys (VERDICT[:cause-substring] or a
-    definition name)."""
+    definition name). A unit is NOT settled when its label also holds a file-level row (<file>) for its TU that is TOOL-ERROR /
+    COMBINATION-FAILED, before OR after it (T4.c2: t38_4L1 ran twice concurrently, so row order within a label is not causal —
+    ov_SC06_029_jr_801898CC's FOLDED row lands after its <file> TOOL-ERROR row, and the file was restored by hand)."""
     keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in redraw]
+    bad = {(r.get("label"), r["tu"]) for r in rows
+           if r.get("rung") == "L" and r.get("unit") == "<file>" and r.get("verdict") in ("TOOL-ERROR", "COMBINATION-FAILED")}
     out = set()
     for (rung, tu, unit), r in ledger_latest(rows).items():
         if rung != "L" or not r.get("head") or r.get("verdict") not in ("FOLDED", "FOLD-REFUSED"):
+            continue
+        if (r.get("label"), tu) in bad:
             continue
         v, c = r.get("verdict"), r.get("cause") or ""
         if any((v == kv and (ks is None or ks in c)) or r.get("defn") == kv for kv, ks in keys):
@@ -2888,11 +2931,38 @@ def _inflight_add(files):
     """Extra files a header unit writes (its includers) join inflight.json BEFORE the write, so --restore reaches them (R102)."""
     if JUDGE_STUB is not None or not INFLIGHT.exists():
         return
-    with _LOCK:
-        d = json.loads(INFLIGHT.read_text())
+
+    def add(d):
         for rel, raw in files.items():
             d["files"].setdefault(rel, raw)
-        INFLIGHT.write_text(json.dumps(d))
+    inflight_update(add)
+
+
+def _selftest_inflight_worker(path, wid, n=25):
+    """Selftest: n read-modify-writes + n reads of a scratch inflight.json; returns the number of failed reads (0 = serialised)."""
+    path, bad = pathlib.Path(path), 0
+    for i in range(n):
+        inflight_update(lambda d: d["files"].setdefault(f"w{wid}_{i}", "x" * 256), path)
+        d, _why = load_inflight(path)
+        bad += d is None
+    return bad
+
+
+def _run_threads(path, p, k=4):
+    """Selftest: k threads of _selftest_inflight_worker in one process (ids p*k..p*k+k-1); returns the failed reads."""
+    with ThreadPoolExecutor(k) as ex:
+        return sum(ex.map(lambda t: _selftest_inflight_worker(path, p * k + t), range(k)))
+
+
+def tool_error_restore(tu, text, log=None):
+    """A worker that crashed (TOOL-ERROR) puts its file back to the batch's original text: its edit, if any, was never judged."""
+    p = REPO / tu
+    if p.exists() and p.read_text(errors="surrogateescape") != text:
+        p.write_text(text, errors="surrogateescape")
+        if log:
+            log(f"  {tu}: TOOL-ERROR — restored to its original text")
+        return True
+    return False
 
 
 def work_file_HF(tu, label, calib_id, log, pool=None, heads=(), settled=frozenset()):
@@ -3155,8 +3225,27 @@ def describe_plan(rung, plan, total, skipped=None):
     return f"restruct --plan L: {len(plan)} of {total} files with file-scope definitions"
 
 
+def _apply_exclusive(path=None):
+    """One --apply per RUN dir at a time: a non-blocking fcntl lock held for the process's life (T4.c2 — t38_4L1 was started twice
+    11 s apart; the second unlinked and rewrote the first's inflight.json and both edited the same 150 files). Returns the open
+    lock file (keep it referenced), or None when another process holds it."""
+    path = path or RUN / "apply.lock"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    f = open(path, "a")
+    try:
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        f.close()
+        return None
+    return f
+
+
 def apply_batch(a):
     RUN.mkdir(parents=True, exist_ok=True)
+    global _APPLY_LOCK_F
+    _APPLY_LOCK_F = _apply_exclusive()
+    if _APPLY_LOCK_F is None:
+        sys.exit(f"restruct --apply: another restruct --apply holds {RUN / 'apply.lock'} — one batch at a time (T4.c2)")
     clean, dirty = dl.src_clean()
     if not clean:
         sys.exit(f"restruct --apply: src/ is dirty — commit, or `tools/restruct.py --restore` if a batch is in flight (R42/R102):\n{dirty[:600]}")
@@ -3240,7 +3329,9 @@ def apply_batch(a):
     v, dt, err = oracle.judge(r0, None, tag="ctl")
     if v != "IDENTICAL":
         sys.exit(f"restruct --apply: the negative control FAILED — {ctl} untouched compiles {v} vs the snapshot ({err[:200]}); the baseline is stale (R56)")
-    INFLIGHT.write_text(json.dumps(dict(label=a.label, rung=a.rung, files={tu: (REPO / tu).read_text(errors="surrogateescape") for tu, _ in plan})))
+    orig = {tu: (REPO / tu).read_text(errors="surrogateescape") for tu, _ in plan}
+    with _inflight_lock():
+        _inflight_write(dict(label=a.label, rung=a.rung, files=dict(orig)))
     if a.rung in ("D", "L"):
         walk()                      # the fleet walk forks a process pool: it must run BEFORE any worker thread exists (a fork from a
         _fallback_defs()            # threaded process deadlocked batch t3d1 at 0 % CPU); the shared definition tables likewise
@@ -3262,6 +3353,7 @@ def apply_batch(a):
         except Exception as ex:      # noqa: BLE001 — a worker's crash is a row, never a silent gap (R55)
             import traceback
             log(f"  {tu}: TOOL-ERROR {ex!r}\n{traceback.format_exc()[-600:]}")
+            tool_error_restore(tu, orig[tu], log)      # never an unjudged edit left behind (T4.c2)
             r = dict(tu=tu, rows=[dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung=a.rung, calib=calib_id, tu=tu, unit="<file>", verdict="TOOL-ERROR",
                                        err=repr(ex)[:300], sites=[])], written=False, final="TOOL-ERROR", compiles=0, seconds=0.0)
         ledger_append(r["rows"])
@@ -4301,6 +4393,31 @@ def selftest(real=False):
     d_, why = load_inflight(probe_inflight)
     ok("an EMPTY inflight is refused loudly", d_ is None and "EMPTY" in why)
     probe_inflight.unlink()
+    # T4.c2: parallel writers/readers (4 processes x 4 threads) on a scratch inflight under .run/P38/ — every read parses, no write lost
+    import multiprocessing
+    par = REPO / ".run/P38/restruct_selftest"
+    par.mkdir(parents=True, exist_ok=True)
+    par_inf = par / "inflight.json"
+    with _inflight_lock(par_inf):
+        _inflight_write(dict(label="selftest-par", files={}), par_inf)
+    with ProcessPoolExecutor(4, mp_context=multiprocessing.get_context("fork")) as pp:
+        futs = [pp.submit(_run_threads, str(par_inf), p) for p in range(4)]
+        torn = sum(f_.result() for f_ in futs)
+    d_, why = load_inflight(par_inf)
+    ok("inflight: 16 parallel writers/readers — no torn read, no lost write", torn == 0 and d_ is not None and len(d_["files"]) == 16 * 25,
+       f"torn {torn} files {len(d_['files']) if d_ else why}")
+    ok("inflight: no tmp file left behind", not list(par.glob("inflight.json.tmp*")))
+    lk1 = _apply_exclusive(par / "apply.lock")
+    lk2 = _apply_exclusive(par / "apply.lock")
+    ok("apply lock: a second --apply is refused while the first holds it", lk1 is not None and lk2 is None)
+    lk1.close()
+    # a TOOL-ERROR worker restores its file; its label's unit rows stop counting as settled
+    scratch.write_text("unjudged edit\n")
+    ok("TOOL-ERROR restores the file's original text", tool_error_restore(rel_s, "original\n") and scratch.read_text() == "original\n")
+    te_rows = st_rows[:1] + [dict(rung="L", tu=hf_c, unit="<file>", verdict="TOOL-ERROR", label=None),
+                             dict(st_rows[1], label="other")]
+    ok("HF settled: a TOOL-ERROR <file> row in the unit's label unsettles it (either order); other labels unaffected",
+       hf_settled(te_rows) == {(hf_c, "fold:Bad@hf_b")} and hf_settled([te_rows[1], te_rows[0]]) == set(), f"{hf_settled(te_rows)}")
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
     JUDGE_STUB = None
