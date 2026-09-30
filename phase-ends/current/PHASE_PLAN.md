@@ -90,3 +90,4 @@ C0507 (§458 struct spelling per-access dial), C0508 (§459 declaration-layer by
 - Stale snapshot / early restore corrupts the tree (S108). Detection: `--apply` refusal; the SIGINT-wait-restore order in ## Context.
 
 ## Changes
+- 2026-09-29 developer: launch.py _audit_flag_line sort key made type-safe via natural_key (PhaseEnd_Phase3_5 crashed router seed after approval); fix applied outside the loop by a coder; upstream report filed by developer
