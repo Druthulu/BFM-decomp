@@ -4256,7 +4256,7 @@ void func_801800B8(void *a0) {
 
     func_801802E0((s32 *)a0);
 
-    u = ((Ctl801800B8 *)a0)->unk0C;
+    u = ((Ctl801800B8 *)a0)->pad[2];
     t = D_801861F0[(*(u16 *)((u8 *)D_801F8118 + 2)) * 5];
     D_801F80A4 = 0;
     D_801F8084 = 0;
@@ -4268,14 +4268,14 @@ void func_801800B8(void *a0) {
 
     func_8017F5D0();
 
-    D_801F8090 = ((Ctl801800B8 *)a0)->unk10;
-    func_80180E68(((Ctl801800B8 *)a0)->unk04, ((Ctl801800B8 *)a0)->unk10);
+    D_801F8090 = ((Ctl801800B8 *)a0)->pad[3];
+    func_80180E68(((Ctl801800B8 *)a0)->pad[0], ((Ctl801800B8 *)a0)->pad[3]);
 
-    D_801F8AEC = ((Ctl801800B8 *)a0)->unk08;
+    D_801F8AEC = ((Ctl801800B8 *)a0)->pad[1];
 
     func_80129CF8();
 
-    p = ((Ctl801800B8 *)a0)->cmds;
+    p = ((Ctl801800B8 *)a0)->f0;
     while (p->kind != -1) {
         obj = D_801F80AC[p->kind];
         switch (p->cmd) {

@@ -18,5 +18,5 @@ void func_80150EC4(s32 a0, s32 a1) {
     D_800AE6CE = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
     D_800AE6B0 = *(s32 *)(((a1 << 2) + D_800AE6C4) + 4);
     D_800AE6BE = a1 + 1;
-    *(struct copy00 *)D_801201F8 = *(struct copy00 *)D_80126948;
+    *(copy00 *)D_801201F8 = *(copy00 *)D_80126948;
 }

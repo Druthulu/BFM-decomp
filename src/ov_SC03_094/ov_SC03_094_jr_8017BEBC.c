@@ -5844,16 +5844,16 @@ void func_80181CD0(s32 a0) {
     if (++*(s32 *)(a0 + 0x1C) < 0x1F) {
         return;
     }
-    sp10.f00 = *(u16 *)(a0 + 0x06);
-    sp10.f02 = *(u16 *)(a0 + 0x0A);
+    sp10.x = *(u16 *)(a0 + 0x06);
+    sp10.y = *(u16 *)(a0 + 0x0A);
     vz = *(u16 *)(a0 + 0x0E);
-    sp10.f06 = 0x17F;
-    sp10.f08 = 0x8000;
-    sp10.f0A = 0;
-    sp10.f10 = 0;
-    sp10.f0E = 0;
-    sp10.f0C = 0x7FFF;
-    sp10.f04 = vz;
+    sp10.type = 0x17F;
+    sp10.sub = 0x8000;
+    sp10.pad_A = 0;
+    sp10.extra = 0;
+    sp10.pad_E = 0;
+    sp10.flag = 0x7FFF;
+    sp10.z = vz;
     func_8012C51C(&sp10, *(s32 *)(a0 + 0x24));
     func_801292C8((u8 *)a0);
 }

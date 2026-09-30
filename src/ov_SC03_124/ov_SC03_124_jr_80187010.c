@@ -3671,7 +3671,7 @@ void func_80187EA0(void) {
     if (n != 0) {
         cnt = n;
         do {
-            if (D_80115158[i].v != 0) {
+            if (D_80115158[i].h != 0) {
                 __asm__("");           /* lever 5 */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                 ot = ((s32 * (*)(s32 *, Panel_S40_8018B238_80187EA0 *, s16))func_801880E0)(ot, w, i);
             }

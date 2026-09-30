@@ -4605,7 +4605,7 @@ void func_8018A3FC(S_8018A3FC *arg0) {
         ptr = arg0->unk14[i];
         arg0->unk14[i] = 0;
         if (ptr != 0) {
-            ptr->unk00 = 0;
+            ptr->h = 0;
         }
     }
 }

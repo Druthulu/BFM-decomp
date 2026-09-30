@@ -4477,9 +4477,9 @@ void func_801812AC(s32 a0, void *a1, void *a2, s32 a3, s32 a4)
     mtx.t[0] = 0;
     mtx.t[1] = -0x100;
     mtx.t[2] = 0x1EC0;
-    pr->code = 0x50000000;
-    pr->c[0] = pr->c[1] = a4;
-    pr->c[2] = pr->c[3] = 0;
+    pr->f4 = 0x50000000;
+    pr->f0 = pr->f1 = a4;
+    pr->f2 = pr->f3 = 0;
     for (i = ((s16 *)a1)[0]; i < ((s16 *)a1)[1]; i++) {
         pr->v[0].vx = p[0].x;
         pr->v[0].vy = p[0].y;

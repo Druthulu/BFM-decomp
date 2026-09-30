@@ -3588,14 +3588,14 @@ void func_801831A8(s32 s0)
     extern void func_8001C1E4(void *a0, void *a1);
     extern void func_8012AD44(s32 *a0, s16 a1);
     extern u8 D_801AC4D8[];
-    extern struct RowC_80180CD0 D_801AC520[];
+    extern RowC_80180CD0 D_801AC520[];
 
     s32 a0;
     s32 a1;
     s32 v1;
 
     a0 = *(s32 *)(s0 + 0x20);
-    a1 = (s32)D_801AC520[*(s16 *)(s0 + 0x70)].p;
+    a1 = (s32)D_801AC520[*(s16 *)(s0 + 0x70)].fn;
     func_8001C214(a0, a1);
 
     v1 = *(s32 *)(s0 + 0x20);

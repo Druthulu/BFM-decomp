@@ -2937,7 +2937,7 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
         *(s16 *)(w + 0xA) = r;
         /* read through a struct-typed pointer: expand forces the constant address into a pseudo (explow.c
            memory_address), so cse does not forward the `D_800A46D2 = r` store and the value is re-read */
-        if (r == -1 || func_800419B0(((Unkstruct_800A46D2 *)&D_800A46D2)->v) == -1) {
+        if (r == -1 || func_800419B0(((Unkstruct_800A46D2 *)&D_800A46D2)->h) == -1) {
             D_800A4650[idx24] = 1;
             return 1;
         }

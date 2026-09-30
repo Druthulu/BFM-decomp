@@ -3804,7 +3804,7 @@ void func_8018B238(void) {
     if (n != 0) {
         cnt = n;
         do {
-            if (D_80115158[i].v != 0) {
+            if (D_80115158[i].h != 0) {
                 __asm__("");           /* lever 5 */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
                 ot = func_8018B478(ot, w, i);
             }

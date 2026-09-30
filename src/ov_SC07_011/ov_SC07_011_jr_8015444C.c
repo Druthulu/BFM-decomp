@@ -119,8 +119,8 @@ extern void func_801298F4(void *arg0);
 extern void func_801299C8(s32 a, s32 b, s32 c);
 extern void func_8012944C(void);
 extern unsigned short D_800B99F0;
-extern struct BigCopy D_80126DB8;
-extern struct BigCopy D_80114EE8;
+extern BigCopy D_80126DB8;
+extern BigCopy D_80114EE8;
 extern s32 D_80126E60[];
 extern s8 D_801150D6;
 extern s8 D_801152C0;
@@ -134,7 +134,7 @@ extern void GsSetRefView2L(void *);
 extern s8 D_801150D6;            /* canonical (engine_core macro): s8 — access via *(u8*)& for lbu */
 extern s32 D_80126F04[];
 extern s32 D_80126FA8[];
-extern struct BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
+extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 extern s32 D_800AE688[];
 extern void func_80129CF8(void);
 extern void func_8012A018(s32 a, s32 b);

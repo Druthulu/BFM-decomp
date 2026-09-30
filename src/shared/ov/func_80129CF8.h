@@ -10,7 +10,7 @@ extern s32 D_80126E60[];
 extern s32 D_80126F04[];
 extern u8 D_80126948[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
-extern struct BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
+extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_800AE688[];
 extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */

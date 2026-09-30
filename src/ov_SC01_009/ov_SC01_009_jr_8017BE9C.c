@@ -3398,7 +3398,7 @@ void func_8017D47C(void) {
 
     i = 0;
     base = (u8 *)&D_80115118;
-    ((struct Hd4a4_8017D47C *)base)->h = 0;
+    ((Hd4a4_8017D47C *)base)->h = 0;
     D_80115134 = D_801E8EE0[D_80115126];
     D_801F3180 = 0;
     q = (u16 *)(base + 0x40);

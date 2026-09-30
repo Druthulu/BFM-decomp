@@ -4749,7 +4749,7 @@ void func_80184828(void *a0)
         if (D_801E4BBC == 1) {
             s16 newval = *(s16 *)((u8 *)func_8018ABE0(*(s16 *)((u8 *)a0 + 0x100)) + 0xE);
             if (newval >= *(s16 *)((u8 *)a0 + 0xE)) {
-                ((struct S0E_80184828 *)((u8 *)a0 + 0xE))->v = newval;
+                ((S0E_80184828 *)((u8 *)a0 + 0xE))->h = newval;
                 s1 = 1;
                 func_8018AEB4(*(s16 *)((u8 *)a0 + 0x100), 0);
             }
@@ -4760,7 +4760,7 @@ void func_80184828(void *a0)
             if (newval >= *(s16 *)((u8 *)a0 + 0xE)) {
                 __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
                 s1 = 1;
-                ((struct S0E_80184828 *)((u8 *)a0 + 0xE))->v = newval;
+                ((S0E_80184828 *)((u8 *)a0 + 0xE))->h = newval;
                 off = *(s16 *)((u8 *)a0 + 0x100) * 8;
                 D_801270C8 = *(s16 *)((u8 *)p + off + 4);
                 D_801E43B4 += 1;

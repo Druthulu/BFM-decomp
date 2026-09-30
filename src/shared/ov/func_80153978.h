@@ -4,11 +4,11 @@ extern s32 func_80133784(s32 a0, void *src, s32 dst);
 extern s32 func_801539F8(s32 a0, void *a1);
 s32 func_80153978(s32 a0, u16 *src) {
     Buf80153978 buf;
-    buf.unk0 = src[0];
-    buf.unk2 = src[1] + 0x1F;
-    buf.unk4 = src[2];
+    buf.cur = src[0];
+    buf.step = src[1] + 0x1F;
+    buf.tgt = src[2];
     if (func_80133784(0, src, (s32)&buf) == 0x2000 &&
-        buf.unk6 == 0 &&
+        buf.act == 0 &&
         func_801539F8(a0, &buf) == 0) {
         return 0;
     }

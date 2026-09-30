@@ -123,9 +123,9 @@ extern void func_801298F4(void *arg0);
 extern void func_801299C8(s32 a, s32 b, s32 c);
 extern void func_8012944C(void);
 extern unsigned short D_800B99F0;
-extern struct BigCopy D_80126DB8;
+extern BigCopy D_80126DB8;
 extern u8 D_80126948[];
-extern struct BigCopy D_80114EE8;
+extern BigCopy D_80114EE8;
 extern s32 D_80126E60[];
 extern s8 D_801150D6;
 extern s8 D_801152C0;
@@ -140,7 +140,7 @@ extern s8 D_801150D6;            /* canonical (engine_core macro): s8 — access
 extern s32 D_80126F04[];
 extern u8 D_80126948[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
-extern struct BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
+extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_800AE688[];
 extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
@@ -1150,7 +1150,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
             addr = func_8013FFD8(2, func_8014168C(2), sp60);
         }
         func_80024054(addr, sp18);
-        ot = func_800D2650(ot, sp18, (s16)(p->f0 + (u16)D_8011516A[i].x), p->f2, 1,
+        ot = func_800D2650(ot, sp18, (s16)(p->dist + (u16)D_8011516A[i].x), p->kind, 1,
                            flag != 0 ? 0x585858 : 0x808080);
         p = D_8017F5E4[i];
         j = 0;
@@ -1173,7 +1173,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
                     if (flag2 != 0) {
                         sp60[0] += -0x282828;
                     }
-                    ot = func_800D2650(ot, sp18, (s16)(p->f0 + (u16)D_8011516A[i].x), p->f2, t, sp60[0]);
+                    ot = func_800D2650(ot, sp18, (s16)(p->dist + (u16)D_8011516A[i].x), p->kind, t, sp60[0]);
                 }
                 p++;
             }
