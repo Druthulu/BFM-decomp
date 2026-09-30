@@ -7568,9 +7568,9 @@ void func_80187050(s32 a0) {
         msg.z = *(u16 *)(a0 + 0xE);
         msg.type = 0x17F;
         msg.sub = 0x8000;
-        msg.pad1 = 0;
+        msg.pad_A = 0;
         msg.extra = 0;
-        msg.pad2 = 0;
+        msg.pad_E = 0;
         msg.flag = 0x7FFF;
         func_8012C51C(&msg, *(s32 *)(a0 + 0x24));
         func_801292C8((u8 *)a0);

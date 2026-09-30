@@ -4704,8 +4704,8 @@ void func_801809B0(s32 a0, s32 a1) {
 
     msg.type = 0x1E1;
     msg.sub = (s16)a1;
-    msg.pad1 = 0;
-    msg.pad2 = 0;
+    msg.pad_A = 0;
+    msg.pad_E = 0;
     msg.extra = *(s32 *)(a0 + 0xDC);
     msg.flag = 0x7FFF;
 
