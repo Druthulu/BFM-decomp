@@ -492,7 +492,7 @@ typedef struct {
     } Src_8013B6A0;
 typedef struct { s16 vx, vy; } DVECTOR;
 typedef DVECTOR DVEC2_C974_8017BA3C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974;
+typedef MATRIX MTX_C974;
 typedef struct {
     u16 x, y, z, w;
 } Pt_8017D87C;
@@ -861,33 +861,33 @@ typedef struct { u8 unk0[4]; } M4_801AE734;
 typedef struct {
     u8 unk0[4];
 } M4_801AEB04;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801E2B14;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801E5124;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801E8054;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801E805C;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801EA664;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801EDED4;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801EF99C;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801F04DC;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801F1F94;
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_md_SC07_003;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_800CB4E4;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_800CB910;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_800CBD54;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801A1B28;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801A8990;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801AA7E4;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801AACD4;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801AAF8C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801ADC40;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801E3540;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801E8A80;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801EE8E0;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801F03C0;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CB578;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CF90_801A3624;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_md_MAIN_039;
+typedef MATRIX MATRIX_801EDED4;
+typedef MATRIX MATRIX_801EDED4_801E2B14;
+typedef MATRIX MATRIX_801EDED4_801E5124;
+typedef MATRIX MATRIX_801EDED4_801E8054;
+typedef MATRIX MATRIX_801EDED4_801E805C;
+typedef MATRIX MATRIX_801EDED4_801EA664;
+typedef MATRIX MATRIX_801EDED4_801EDED4;
+typedef MATRIX MATRIX_801EDED4_801EF99C;
+typedef MATRIX MATRIX_801EDED4_801F04DC;
+typedef MATRIX MATRIX_801EDED4_801F1F94;
+typedef MATRIX MATRIX_md_SC07_003;
+typedef MATRIX MTX_800CB4E4;
+typedef MATRIX MTX_800CB910;
+typedef MATRIX MTX_800CBD54;
+typedef MATRIX MTX_801A1B28;
+typedef MATRIX MTX_801A8990;
+typedef MATRIX MTX_801AA7E4;
+typedef MATRIX MTX_801AACD4;
+typedef MATRIX MTX_801AAF8C;
+typedef MATRIX MTX_801ADC40;
+typedef MATRIX MTX_C974_801E3540;
+typedef MATRIX MTX_C974_801E8A80;
+typedef MATRIX MTX_C974_801EE8E0;
+typedef MATRIX MTX_C974_801F03C0;
+typedef MATRIX MTX_CB578;
+typedef MATRIX MTX_CF90_801A3624;
+typedef MATRIX MTX_md_MAIN_039;
 typedef struct {
     u8 mat[0x14];
     u32 zz[3] __attribute__((aligned(4)));
@@ -899,17 +899,17 @@ typedef struct { s16 m[3][4]; } Mat_CB6A0;
 struct Mid { u32 gray[4]; u32 code; u8 bmode; };
 typedef struct { s32 w[8]; } Mtx32_801A2400;
 typedef struct { s32 w[8]; } Mtx32_801A3180;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A3B18;
+typedef MATRIX Mtx32_801A3B18;
 typedef struct { s32 w[8]; } Mtx32_801A3D60;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A4D58;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A4DFC;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A52DC;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A54F0;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A5698;
+typedef MATRIX Mtx32_801A4D58;
+typedef MATRIX Mtx32_801A4DFC;
+typedef MATRIX Mtx32_801A52DC;
+typedef MATRIX Mtx32_801A54F0;
+typedef MATRIX Mtx32_801A5698;
 typedef struct { s32 w[8]; } Mtx32_801A90D8;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32b;
+typedef MATRIX Mtx32b;
 typedef struct { Blk16X q0; Blk16X q1; s32 pad_20, pad_24; } Mtx40;
-typedef struct { s16 m[3][3]; s32 t[3]; } MtxX;
+typedef MATRIX MtxX;
 typedef struct {
     s16 m[9];
     s16 pad;
@@ -919,8 +919,8 @@ typedef struct {
     Mtx_800CD27C mt; /* 0x00 */
     s32 rest[2];     /* 0x20..0x27 — frame padding, never touched */
 } MtxBuf_800CD27C;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801A6184;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801AEC38;
+typedef MATRIX Mtx_801A6184;
+typedef MATRIX Mtx_801AEC38;
 typedef struct { s16 m[3][3]; s16 t[3]; s16 pad[4]; } Mtx_A8CE0 __attribute__((aligned(8)));
 typedef struct { s32 next; u8 pad[0xC]; } Node_801F28E0;
 typedef Node_801F28E0 Node_801E5AAC;
@@ -1940,7 +1940,7 @@ typedef struct {
     u32 term;   /* +0x24 */
 } LineG4;
 typedef LineG4 LineG4_80016C28;
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8001EFE0;
+typedef MATRIX MATRIX_8001EFE0;
 typedef struct {                                                 /* 0x50 */
     u32 flg;
     MATRIX_8001EFE0 coord;
@@ -1954,7 +1954,7 @@ typedef struct {
     s16 pad;
     s32 t[3];
 } MTX_139C8;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8001FC08;
+typedef MATRIX MTX_8001FC08;
 typedef struct { MTX_8001FC08 a; MTX_8001FC08 b; } MTX2_8001FC08;
 typedef struct {
 /* 0x00 */ s32 attr;
@@ -1973,13 +1973,10 @@ typedef struct {
 /* 0xA8 */ s16 *lp;
 /* 0xAC */ s32 cnt;
 } LOC_8001FC08;
-typedef struct {
-    /* 0x00 */ s16 m[3][3];
-    /* 0x14 */ s32 t[3];
-} MTX_80020248;
+typedef MATRIX MTX_80020248;
 typedef struct { MTX_80020248 *p; s32 unused; } MH;
-typedef struct { s16 m[3][3]; s32 t[3]; } MT_EA14;
-typedef struct { s16 m[3][3]; s32 t[3]; } MX221A8;
+typedef MATRIX MT_EA14;
+typedef MATRIX MX221A8;
 typedef struct {
     /* 0x00 */ s32 flg;
     /* 0x04 */ MX221A8 coord;
@@ -1990,7 +1987,7 @@ typedef struct {
 } CD221A8;
 struct MainSlot { s32 unk0; s32 unk4; s32 unk8; };
 typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MtxDA34;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_80021D38;
+typedef MATRIX Mtx_80021D38;
 typedef struct {
     /* 0x0 */ u8  b0;
     /* 0x1 */ u8  b1;

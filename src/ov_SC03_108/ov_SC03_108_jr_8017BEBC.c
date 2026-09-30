@@ -3197,12 +3197,12 @@ void func_8017DB0C(s32 a0)
     Vec_8017DB0C  vin;
     Vec_8017DB0C  vout;
     Vec_8017DB0C  res;
-    struct Mtx_8017DB0C  m;
+    Mtx_8017DB0C  m;
     s32 flag;
     s32 *g;
     s32 owner;
 
-    m = *(struct Mtx_8017DB0C *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34);
+    m = *(Mtx_8017DB0C *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34);
     g = &D_80126B58;
 
     if (*(u16 *)(a0 + 0xFE) < 2) {

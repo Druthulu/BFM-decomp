@@ -3712,7 +3712,7 @@ void func_8017EBE4(s32 a0)
     Vec_8017EBE4  vin;      /* sp+0x28 */
     Vec_8017EBE4  vout;     /* sp+0x38 */
     Vec_8017EBE4  res;      /* sp+0x48 */
-    struct Mtx_8017EBE4  m;        /* sp+0x58 */
+    Mtx_8017EBE4  m;        /* sp+0x58 */
     s32 flag;                      /* sp+0x78 */
     s32 *g;
     s32 owner;
@@ -3720,7 +3720,7 @@ void func_8017EBE4(s32 a0)
 
     /* 32-byte aligned block move: 8x lw/sw in two groups of four (MAX_MOVE_REGS == 4).
      * The pseudo holding &m survives as $s1 and is reused for the three uses below. */
-    m = *(struct Mtx_8017EBE4 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34);
+    m = *(Mtx_8017EBE4 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x34);
     g = &D_80126B58;
 
     if (*(u16 *)(a0 + 0xFE) < 2) {

@@ -1034,7 +1034,8 @@ def fold_plan(tsv, only, exclude, want_tier1, want_sdk):
             for sname, smem, _sd in ss:
                 grp = {n for d in defs if d.get("lhash") == lh and (_sdk_ev(d, smem) or sname in d["names"])
                        for n in d["names"] + ([d["tag"]] if d["tag"] else [])}
-                if not grp or grp == {sname} or (only and not any(c["names"] & grp for c in classes)):
+                if not grp or grp == {sname} or (only and lh + ":sdk" not in only
+                                                 and not any(c["names"] & grp for c in classes)):
                     continue
                 hit = [c for c in classes if c["names"] & grp]
                 if hit:
