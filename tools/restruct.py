@@ -392,15 +392,22 @@ def ledger_append(rows):
             f.write(json.dumps(r) + "\n")
 
 
+def ledger_latest(rows):
+    """{(rung, tu, unit): row} — the LATEST row per unit (R70: the last row is the verdict). The one latest-row filter; its callers read
+    verdict/cause from the row (ledger_index, settled_units, type_census --check-structs)."""
+    latest = {}
+    for r in rows:
+        latest[(r.get("rung"), r["tu"], r["unit"])] = r
+    return latest
+
+
 def ledger_index(rows):
     """done: {(rung, tu, unit, nhash_after)}; latest: {(rung, tu, unit): verdict}."""
-    done, latest = set(), {}
+    done = set()
     for r in rows:
-        key = (r.get("rung"), r["tu"], r["unit"])
-        latest[key] = r.get("verdict")
         if r.get("verdict") in DONE_VERDICTS and r.get("nhash_after"):
-            done.add(key + (r["nhash_after"],))
-    return done, latest
+            done.add((r.get("rung"), r["tu"], r["unit"], r["nhash_after"]))
+    return done, {k: r.get("verdict") for k, r in ledger_latest(rows).items()}
 
 
 def body_nhash(masked, d):
@@ -2488,10 +2495,8 @@ def settled_units(rows, redraw=()):
     """{(tu, callee)} whose LATEST rung-D row is a DONE verdict not lifted by `redraw` (R70: the last row is the verdict). A redraw key is a
     verdict (`DECL-KEPT`) or `VERDICT:cause-substring` (`DECL-NONE:no visible definition` — the 667 rows settled before defs_visible's
     fleet-unique level; the plain `DECL-NONE` key redraws every "already canonical"/external pair too, the t4_D21–D36 REDRAW's cost)."""
-    latest = {}
-    for r in rows:
-        if r.get("rung") == "D" and r.get("unit", "").startswith("decl:"):
-            latest[(r["tu"], r["callee"])] = (r.get("verdict"), r.get("cause") or "")
+    latest = {(r["tu"], r["callee"]): (r.get("verdict"), r.get("cause") or "")
+              for (rung, _tu, unit), r in ledger_latest(rows).items() if rung == "D" and unit.startswith("decl:")}
     keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in redraw]
     def lifted(v, c):
         return any(v == kv and (ks is None or ks in c) for kv, ks in keys)
@@ -2548,10 +2553,7 @@ def apply_batch(a):
     if a.redraw:
         # the same VERDICT[:cause-substring] keys as settled_units (the planner's side): the engine's `done` filter must lift the same
         # rows, or a redrawn TU is drawn and then skipped as done — "rows 0" (t4_D49/D56 on the `DECL-NONE:visible` key)
-        vc = {}
-        for r in rows:
-            if r.get("rung") == "D" and r.get("unit"):
-                vc[(r["tu"], r["unit"])] = (r.get("verdict"), r.get("cause") or "")
+        vc = {(tu, unit): (r.get("verdict"), r.get("cause") or "") for (rung, tu, unit), r in ledger_latest(rows).items() if rung == "D" and unit}
         keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in a.redraw]
         def lifted(k):
             v, c = vc.get((k[1], k[2]), (None, ""))
@@ -2725,8 +2727,9 @@ def write_types(a):
     return 0
 
 
-def audit_types(a=None, quiet=False):
-    """struct_layout.audit_definition over every canonical type file's definitions (with their raw text for the comment/trailer checks)."""
+def audit_type_violations():
+    """struct_layout.audit_definition over every canonical type file's definitions (with their raw text for the comment/trailer checks):
+    (n definitions audited, [violation strings]). Shared by --audit-types and type_census --check-structs."""
     viol, n = [], 0
     for h in CANON_HEADERS:
         if not (REPO / h).exists():
@@ -2748,6 +2751,12 @@ def audit_types(a=None, quiet=False):
             text = raw[ls[d["line"] - 1]:ls[d["end"]] if d["end"] < len(ls) else len(raw)]
             for v in sl.audit_definition(d, res, text):
                 viol.append(f"{h}:{d['line']} {v}")
+    return n, viol
+
+
+def audit_types(a=None, quiet=False):
+    """--audit-types: print audit_type_violations(); exit 1 on any."""
+    n, viol = audit_type_violations()
     if not quiet:
         print(f"restruct --audit-types: {n} canonical definitions audited; {len(viol)} naming/offset violation(s)")
         for v in viol[:40]:

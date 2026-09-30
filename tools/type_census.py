@@ -31,7 +31,8 @@ USAGE
     tools/type_census.py [-j N] [--out-dir .run/P37/census] [--no-cache]      # the census + the map + the render
     tools/type_census.py --sites                                              # also write sites.jsonl (every record)
     tools/type_census.py --check                                              # T8's gate (exit 1 on any violation)
-    tools/type_census.py --selftest                                           # the fixture: every form, both verdicts
+    tools/type_census.py --check-structs                                      # P38's struct gate: dup/outside-canon/dead/variants/pad names/parse-error decls/controls
+    tools/type_census.py --selftest                                          # the fixture: every form, both verdicts
 Outputs: <out-dir>/type_census.json, type_census.txt, struct_map.json, sites.jsonl (--sites), docs/struct-map.md (rendered).
 """
 import argparse
@@ -1403,8 +1404,9 @@ def write_parked(out_dir):
 # controls (R39)
 # ----------------------------------------------------------------------------------------------------------------------
 PLAYER_BLOCK = {  # docs/actor-struct.md + docs/memory-map.md §3.4 — the widths BOTH the record and the matched code agree on
-    "D_80078E8C": 4, "D_80078EB2": 2, "D_80078EB4": 2, "D_80078EB6": 2, "D_80078EB8": 2}
-PLAYER_BLOCK_DOC_DISPUTED = {"D_80078F08": 2, "D_80078F0C": 2}   # actor-struct.md says s16 at +0x108/+0x10C; the tree's byte-true declarations decide (reported, not asserted)
+    "D_80078E8C": 4, "D_80078EB2": 2, "D_80078EB4": 2, "D_80078EB6": 2, "D_80078EB8": 2, "D_80078F08": 4, "D_80078F0C": 4}
+# was {"D_80078F08": 2, "D_80078F0C": 2} (actor-struct.md said s16 at +0x108/+0x10C; P37 census: code width 4; doc corrected to s32 at P38 T2)
+PLAYER_BLOCK_DOC_DISPUTED = {}   # the doc disagrees with the tree's byte-true declarations here (reported, not asserted)
 
 def controls(defs_all, sites_all, extern_data, by_text, name_layouts):
     out = {}
@@ -1588,9 +1590,50 @@ def selftest():
     checks.append(("K&R-empty extern", any(e["name"] == "func_80002000" and e["params"] == "" for e in res["extern_fns"])))
     checks.append(("typedef alias fnptr", any(a["name"] == "Handler" and a["fnptr"] for a in res["typedef_aliases"])))
     checks.append(("params of f1", res["fndefs"][0]["pnames"] == ["a0", "b", "c"]))
+    zero = dict(definitions=dict(dup_layout_classes=0, in_c_file_scope=0, in_c_block_scope=0, in_shared_fn_headers=0, other_headers=0,
+                                 dead_canon_names=0, variant_names=0), controls=dict(a=dict(ok=True), ok=1, n=1))
+    rc0, l0 = check_structs_verdict(zero, 0, 0)
+    checks.append(("check-structs all-zero OK", rc0 == 0 and l0[0] == "type_census --check-structs: OK" and "controls=1/1" in l0[1]))
+    rc1, l1 = check_structs_verdict(zero, 0, 3)
+    checks.append(("check-structs parse_error_decls FAIL", rc1 == 1 and l1[0].startswith("type_census --check-structs: FAIL") and "parse_error_decls=3" in l1[1]))
+    bad_ctrl = dict(zero, controls=dict(a=dict(ok=False), ok=0, n=1))
+    rc2, l2 = check_structs_verdict(bad_ctrl, 0, 0)
+    checks.append(("check-structs controls a<b FAIL", rc2 == 1 and "controls 0/1" in l2[0] and "a=FAIL" in l2[2]))
     bad = [n for n, ok in checks if not ok]
     print(f"type_census --selftest: {len(checks) - len(bad)}/{len(checks)} checks OK" + (f"; FAILED: {bad}" if bad else ""))
     return 0 if not bad else 1
+
+
+# --check-structs (P38 T2): the struct-unification gate. The pad-name rule and the ledger's latest row are restruct's own (never re-implemented).
+PAD_VIOL_RX = re.compile(r"\.pad[0-9A-Fa-f]+: named for offset")
+
+
+def check_structs_inputs():
+    """restruct's audit + ledger: (pad_names, other audit violations, parse_error_decls, conflicting_types, tu_conflict). Lazy import:
+    restruct imports this module."""
+    import restruct as rs
+    _n, viol = rs.audit_type_violations()
+    pad = sum(1 for v in viol if PAD_VIOL_RX.search(v))
+    latest = rs.ledger_latest(rs.load_ledger()).values()
+    kept = [(r.get("cause") or "") for r in latest if r.get("verdict") == "DECL-KEPT"]
+    return (pad, len(viol) - pad, sum(1 for c in kept if c.startswith("type not visible")),
+            sum(1 for c in kept if c.startswith("conflicting types")), sum(1 for r in latest if r.get("verdict") == "TU-CONFLICT"))
+
+
+def check_structs_verdict(summary, pad_names, parse_error_decls):
+    """(rc, [verdict line, counts line, controls line]) — rc 1 on any nonzero gating count or controls ok < n."""
+    d, c = summary["definitions"], summary["controls"]
+    counts = dict(dup_classes=d["dup_layout_classes"],
+                  outside_canon=d["in_c_file_scope"] + d["in_c_block_scope"] + d["in_shared_fn_headers"] + d["other_headers"],
+                  dead=d["dead_canon_names"], variants=d["variant_names"], pad_names=pad_names, parse_error_decls=parse_error_decls)
+    viol = [f"{k}={v}" for k, v in counts.items() if v]
+    if c["ok"] < c["n"]:
+        viol.append(f"controls {c['ok']}/{c['n']}")
+    lines = ["type_census --check-structs: " + ("OK" if not viol else "FAIL — " + "; ".join(viol)),
+             " ".join(f"{k}={v}" for k, v in counts.items()) + f" controls={c['ok']}/{c['n']}",
+             "controls: " + " ".join(f"{k}={'OK' if v.get('ok') else 'FAIL'}" for k, v in c.items() if isinstance(v, dict))
+             + f" doc_disputed={sum(v.get('detail', '').count('[doc-disputed') for v in c.values() if isinstance(v, dict))}"]
+    return (1 if viol else 0), lines
 
 # ----------------------------------------------------------------------------------------------------------------------
 def main():
@@ -1600,6 +1643,7 @@ def main():
     ap.add_argument("--no-cache", action="store_true")
     ap.add_argument("--sites", action="store_true", help="also write sites.jsonl")
     ap.add_argument("--check", action="store_true", help="T8's gate (the invariants; exit 1 on a violation)")
+    ap.add_argument("--check-structs", action="store_true", help="the struct-unification gate (P38 T2; exit 1 on a violation)")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--quiet", action="store_true")
     a = ap.parse_args()
@@ -1632,6 +1676,12 @@ def main():
         print("type_census --check: " + ("OK" if not viol else "FAIL — " + "; ".join(viol)))
         if viol:
             rc = 1
+    if a.check_structs:
+        pad, other, parse, conflicting, tu_conflict = check_structs_inputs()
+        rc_s, lines = check_structs_verdict(summary, pad, parse)
+        print("\n".join(lines))
+        print(f"conflicting_types={conflicting} tu_conflict={tu_conflict} types_floor_lying={summary['decls']['lying']} audit_other={other}  (not gating)")
+        rc = rc or rc_s
     sys.exit(rc)
 
 if __name__ == "__main__":

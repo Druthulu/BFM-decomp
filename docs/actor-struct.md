@@ -24,8 +24,8 @@ kept as a Gen2 quality artifact + decomp.me enabler, **not** a build input.
 | +0x0B4 | u16 | **hp_cur** | =150 (the plan's "+0xB4"; Phase-3 0x80078EB4) |
 | +0x0B6 | u16 | bp_max | =150 |
 | +0x0B8 | u16 | bp_cur (stamina) | 74→50 as the player walked (BP-drain) |
-| +0x108 | s16 | position X | +6 on a walk north |
-| +0x10C | s16 | position Z | +10 on a walk north |
+| +0x108 | s32 | position X | +6 on a walk north; 4-byte (code width 4, census control `player_block_widths`, P37) |
+| +0x10C | s32 | position Z | +10 on a walk north; 4-byte (code width 4, census control `player_block_widths`, P37) |
 | +0xF0  | s16 | step/heading counter | +1 per walk tick |
 
 ## Pointer fields (the m2c-can't-infer set; idle RAM scan + code-inferred)
