@@ -442,12 +442,7 @@ typedef struct {
     u8 pad_AC[0x60];
 } Entry8014A238;
 
-typedef struct {
-    u16 unk0;
-    u8 pad[0x6E];
-    s16 unk70;
-    u8 pad2[0x9A];
-} Entry8014C118;
+typedef Unkstruct_800B5CB8 Entry8014C118;
 
 typedef struct {
     u16 unk0;
