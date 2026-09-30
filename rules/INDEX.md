@@ -139,3 +139,7 @@ R101 | Bucket the remainder before a cycle stops | - | active | PhaseEnd_Phase37
 R104 | A signature change is one judged unit | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
 
 R105 | No carry-audit section means audit blocked | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
+
+R118 | Tool stop: SIGINT, wait, then restore | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
+
+R119 | Snapshot/refresh helpers refuse empty or shrunken input | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
