@@ -4476,15 +4476,20 @@ typedef struct {
 struct Ent_SC07_010_8017AE2C { u8 pad[0xDC]; s32 unkDC; u8 pad_E0[0x1C]; u16 unkFC; };
 typedef MATRIX MTX_CF90;
 typedef struct {
+    u8 pad[4];
+    s32 field_4;
+} SubStruct;
+typedef struct {
     u8 pad_00[0x20];
-    void *f_20;
+    SubStruct *f_20;
     u8 pad_24[0xA8];
     void *f_CC;
     void *f_D0;
     void *f_D4;
     u8 pad_D8[0x10];
     s32 f_E8;
-} MainStruct_SC02_005_8017CF90;
+} MainStruct;
+typedef MainStruct MainStruct_SC02_005_8017CF90;
 typedef struct {
     /* 0x000 */ u8 pad000[0x02];
     /* 0x002 */ s16 unk_002;
@@ -4513,20 +4518,6 @@ typedef struct {
     u8 tail[12];
 } Stk;
 typedef struct { u8 b[20]; } Stk_SC03_105_80181C84;
-typedef struct {
-    u8 pad[4];
-    s32 field_4;
-} SubStruct;
-typedef struct {
-    u8 pad_00[0x20];
-    SubStruct *f_20;
-    u8 pad_24[0xA8];
-    void *f_CC;
-    void *f_D0;
-    void *f_D4;
-    u8 pad_D8[0x10];
-    s32 f_E8;
-} MainStruct;
 typedef H16 Unkstruct_8017E2EC;
 typedef struct { u32 v; } Unkstruct_8017E2EC_2;
 typedef H16 Unkstruct_8017F8A8;
