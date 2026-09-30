@@ -53,7 +53,7 @@ import lever_census as lc          # noqa: E402  (enumerate_files, header_includ
 REPO = pathlib.Path(__file__).resolve().parent.parent
 OUT_DIR_DEFAULT = ".run/P37/census"
 TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10]
-CANON_HEADERS = ("src/shared/engine_types.h",)       # the canonical type files (T3/T5 add src/shared/main/types.h, the slots')
+CANON_HEADERS = ("src/shared/engine_types.h", "include/struct_types.h")  # the canonical type files (T3 added include/struct_types.h; T5 may add more)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # types and widths (o32) — the layout engine lives in tools/struct_layout.py since T3 (shared with restruct.py and the writer,

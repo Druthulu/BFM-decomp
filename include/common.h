@@ -61,4 +61,5 @@ typedef s64 M2C_UNK64;
 #define LOWU(x) (*(u32 *)&(x))
 
 #include "gte_inline.h"   /* Phase 36 T5: the GTE coprocessor macros, one definition each */
+#include "struct_types.h" /* Phase 38 T3: the struct map's canonical layouts, one definition each, visible to every space */
 #endif /* COMMON_H */
