@@ -9325,11 +9325,11 @@ void func_8018562C(void *a0, void *a1) {
     extern void func_80017DF8(void *, void *);
     extern void func_800173BC(void *, void *);
 
-    func_80017D98(mb.m);
-    func_80017DF8(a1, mb.m);
-    mb.x = *(s16 *)((s8 *)a0 + 6);
-    mb.y = *(s16 *)((s8 *)a0 + 0xA);
-    mb.z = *(s16 *)((s8 *)a0 + 0xE);
+    func_80017D98(mb.m[0]);
+    func_80017DF8(a1, mb.m[0]);
+    mb.t[0] = *(s16 *)((s8 *)a0 + 6);
+    mb.t[1] = *(s16 *)((s8 *)a0 + 0xA);
+    mb.t[2] = *(s16 *)((s8 *)a0 + 0xE);
     b.tail = *(Q_8018562C *)((s8 *)a1 + 8);
     b.head = b.tail;
     b.head.h0 = b.head.h0 - 0x20;
@@ -9339,7 +9339,7 @@ void func_8018562C(void *a0, void *a1) {
     b.row.t0 = 0;
     b.row.t2 = *(s32 *)((s8 *)a1 + 0x18);
     b.row.t3 = 0x50000000;
-    func_800173BC(&b, mb.m);
+    func_800173BC(&b, mb.m[0]);
 }
 
 
@@ -9386,12 +9386,12 @@ void func_80185764(s32 a0, s32 *a1)
     MB_80185764 mb;
     s16 buf[4];
 
-    func_80017D98(mb.m);
-    func_80017DF8(a1, mb.m);
-    mb.x = *(s16 *)(a0 + 6);
-    mb.y = *(s16 *)(a0 + 0xA) - (rand() & 0x1F) * 0x10 - (rand() & 0x1F) * 4 - 0x100;
-    mb.z = *(s16 *)(a0 + 0xE);
-    func_8012F14C(mb.m, (s8 *)a1 + 8, buf);
+    func_80017D98(mb.m[0]);
+    func_80017DF8(a1, mb.m[0]);
+    mb.t[0] = *(s16 *)(a0 + 6);
+    mb.t[1] = *(s16 *)(a0 + 0xA) - (rand() & 0x1F) * 0x10 - (rand() & 0x1F) * 4 - 0x100;
+    mb.t[2] = *(s16 *)(a0 + 0xE);
+    func_8012F14C(mb.m[0], (s8 *)a1 + 8, buf);
     buf[3] = 0xA;
     func_801858E8(buf);
 }
@@ -9513,16 +9513,16 @@ void func_80185B04(void *a0, void *a1)
     extern void func_80017D98(void *);
     extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
 
-    func_80017D98(mb.m);
-    mb.z = 0;
-    mb.y = 0;
-    mb.x = 0;
+    func_80017D98(mb.m[0]);
+    mb.t[2] = 0;
+    mb.t[1] = 0;
+    mb.t[0] = 0;
     b.a = *(QB_80185B04 *)((s8 *)a1 + 8);
     b.b = *(QB_80185B04 *)((s8 *)a1 + 0x10);
     b.d = 0;
     b.c = *(s32 *)((s8 *)a1 + 0x18);
     b.e = 0x50000000;
-    aFunc80016A5C(&b, mb.m);
+    aFunc80016A5C(&b, mb.m[0]);
 }
 
 

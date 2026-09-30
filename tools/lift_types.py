@@ -1141,7 +1141,8 @@ def fold_plan(tsv, only, exclude, want_tier1, want_sdk, pick=()):
                       for p, (o, sh) in _nodes(d["shape"]).items() if p in cn and (cn[p][0] != o or _anon(cn[p][1]) != _anon(sh))})
         # packed/aligned(1) beside naturally aligned defs: one layout hash, two codegens (lwl/lwr vs lw on a copy)
         attrs = {re.sub(r"\s+", "", d.get("attrs") or "") for d in c["defs"]}
-        if len(attrs) > 1:
+        # --fold-canon on the attr-carrying def: every alias inherits its attributes (R22 judges the codegen)
+        if len(attrs) > 1 and not (c["canon"] in pick and cdef is not None and (cdef.get("attrs") or "").strip()):
             refused.append((c["lhash"], f"defs differ in attributes ({' vs '.join(sorted(a or 'none' for a in attrs))[:80]})"))
         elif hit:
             refused.append((c["lhash"], f"member name at another node in canon {c['canon']}: {', '.join(hit[:3])}"))

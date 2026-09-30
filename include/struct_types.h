@@ -493,9 +493,8 @@ typedef struct {
 typedef struct { s16 vx, vy; } DVECTOR;
 typedef DVECTOR DVEC2_C974_8017BA3C;
 typedef MATRIX MTX_C974;
-typedef struct {
-    u16 x, y, z, w;
-} Pt_8017D87C;
+typedef struct { u16 x, y, z, w; } __attribute__((aligned(2))) V;
+typedef V Pt_8017D87C;
 typedef SVECTOR SV;
 typedef SVECTOR SVEC2_C974_8017BA3C;
 typedef struct {
@@ -890,11 +889,7 @@ typedef MATRIX Mtx32b;
 struct B  { s32 w[8]; s32 tail[2]; };
 typedef struct B Mtx40;
 typedef MATRIX MtxX;
-typedef struct {
-    s16 m[9];
-    s16 pad;
-    s32 t[3];
-} Mtx_800CD27C;
+typedef MATRIX Mtx_800CD27C;
 typedef struct {
     Mtx_800CD27C mt; /* 0x00 */
     s32 rest[2];     /* 0x20..0x27 — frame padding, never touched */
@@ -1399,7 +1394,7 @@ typedef struct { s32 vx, vy, vz, vw; } V32_800CB4E4;
 typedef Vec32 V32_800CB910;
 typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef VECTOR V3_800CB634;
-typedef struct { u16 x, y, z, w; } V8_md_MAIN_044;
+typedef V V8_md_MAIN_044;
 typedef SVECTOR_8017E6D8 V8_md_SC07_003;
 typedef struct { s16 a, b, c, d; } V8x_801A3788;
 typedef VECTOR VEC32_801ADC40;
@@ -1496,7 +1491,7 @@ typedef struct {
 typedef struct {
     s32 w[9];
 } Blob36;
-typedef struct { u16 x, y, z, w; } COL_8001EFE0;
+typedef V COL_8001EFE0;
 typedef Col4_8017F8BC CVecDA34;
 typedef struct { s32 stat; u32 val; } CardSlot;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX_L48;
@@ -1883,11 +1878,7 @@ typedef struct {                                                 /* 0x50 */
     void *super;
     void *sub;
 } COORD2_8001EFE0;
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MTX_139C8;
+typedef MATRIX MTX_139C8;
 typedef MATRIX MTX_8001FC08;
 typedef struct { MTX_8001FC08 a; MTX_8001FC08 b; } MTX2_8001FC08;
 typedef struct {
@@ -1919,7 +1910,7 @@ typedef struct {
     /* 0x4C */ void *sub;
 } CD221A8;
 struct MainSlot { s32 unk0; s32 unk4; s32 unk8; };
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MtxDA34;
+typedef MATRIX MtxDA34;
 typedef MATRIX Mtx_80021D38;
 typedef struct {
     /* 0x0 */ u8  b0;
