@@ -335,7 +335,9 @@ typedef struct {
     /* 0x0040 */ s16 bp_current;    /* D_80078EB8; verified live; s16 by 12 vs 3 uses */
     /* 0x0042 */ u8 dayOfWeek;      /* D_80078EBA; verified (code, func_8014B084) */
     /* 0x0043 */ u8 unk43;          /* D_80078EBB */
-    /* 0x0044 */ u8 pad44[0x3];
+    /* 0x0044 */ u8 unk44;          /* no scalar global; u8 by md_MAIN_011's local player-block copies (P38 T4) */
+    /* 0x0045 */ u8 unk45;          /* as unk44 */
+    /* 0x0046 */ u8 unk46;          /* as unk44 */
     /* 0x0047 */ u8 unk47;          /* D_80078EBF */
     /* 0x0048 */ u8 unk48;          /* D_80078EC0 */
     /* 0x0049 */ u8 unk49;          /* D_80078EC1 */
