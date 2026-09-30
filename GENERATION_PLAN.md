@@ -1,7 +1,9 @@
-# Generation 1 — 1
+# Generation 3 — Legible source: structs, names, layout
 
-Goal: legacy project layout, migrated to PA3.
-Done-criteria: PA3 migration commit present; LEGACY_INDEX.md has entries.
+Goal: turn the matched C (218/218 binaries, matching frontier empty) into legible, typed, named, system-grouped source. The C source is free to change (bodies, casts and declarations rewritten to struct pointers, typed data and declared symbols) as long as the compiled object bytes still match (R22), so that the shiftable build of the next generation starts from symbolic references.
+Done-criteria: every phase milestone below green at one commit, checked from a clean tree: `make clean && make extract-all JOBS=16 && make check-all JOBS=16` prints `check-all: 218 passed, 0 failed of 218`; `make tools-health` OK; `PY tools/type_census.py --check` 0 duplicate definitions / 0 dead names / controls 4/4; `PY tools/lever_census.py --check --strict` 0; `tools/ghidra_rebuild.sh --proof` PASS; `PY tools/doc_links.py --strict` 0/0; `PY tools/audit_public.py` clean.
+
+Numbering: this is the project's Gen3 continued (Gen1 = P1-7, Gen2 = P8-34, Gen3 opened at P35; P35-37 and the P37.5 PA3 migration are closed, listed in `phase-ends/LEGACY_INDEX.md`). Ids are `3.<legacy phase number>`, so the phase count continues unbroken and cannot collide with legacy id `3.5` (the Phase 3.5 prototype spike). Old -> new: Phase 38 = 3.38, 39 = 3.39, 40 = 3.40, 41 = 3.41, 42 = 3.42, 43 = 3.43, 44 = 3.44, 45 = 3.45.
 
 ## Phases
 
@@ -9,53 +11,39 @@ Done-criteria: PA3 migration commit present; LEGACY_INDEX.md has entries.
      - <G>.<n> <name> | milestone: … | scope: … | depends: — | status: open|closed | phase-end: phase-ends/PhaseEnd_Phase<N>.md
      Order = build order. `depends:` names phase ids or `—`. Only plan_edit.py gen-close|gen-open flips `status:`. -->
 
-- 1 PhaseEnd — Phase 1: Repo governance + WSL RE stack + first i | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase1.md
-- 2 PhaseEnd — Phase 2: Deterministic disc & .CD extraction pipe | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase2.md
-- 3 PhaseEnd — Phase 3: File-loader & overlay-map RE (+ PCSX-Red | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase3.md
-- 3.5 PhaseEnd — Phase 3.5: Prototype Research Spike | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase3_5.md
-- 4 PhaseEnd — Phase 4: Matching-build toolchain (WSL) | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase4.md
-- 5 PhaseEnd — Phase 5: splat config + build skeleton (all-asm b | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase5.md
-- 6 PhaseEnd — Phase 6: Compiler fingerprint + first matched fun | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase6.md
-- 7 PhaseEnd — Phase 7: Matching loop at scale + Gen1 close-out | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase7.md
-- 8 PhaseEnd — Phase 8: Finish the EXE — remaining PsyQ librarie | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase8.md
-- 9 PhaseEnd — Phase 9: Binary-agnostic toolchain refactor | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase9.md
-- 10 PhaseEnd — Phase 10: Resident engine blob — splat config + a | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase10.md
-- 11 PhaseEnd — Phase 11: Cross-binary dedup pipeline | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase11.md
-- 12 PhaseEnd — Phase 12: Key engine systems (resident harvest, s | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase12.md
-- 13 PhaseEnd — Phase 13: Representative location overlays (end-t | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase13.md
-- 15 PhaseEnd — Phase 15: Overlay long-tail (fleet harvest + dete | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase15.md
-- 16 PhaseEnd — Phase 16: Struct-heavy shared core — the loose-ty | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase16.md
-- 17 PhaseEnd — Phase 17: Raise the harness ceiling, then gate th | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase17.md
-- 18 PhaseEnd — Phase 18: Compiler-quirk research → the matching  | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase18.md
-- 19 PhaseEnd — Phase 19: Scale the toolkit (wave-harvest at scal | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase19.md
-- 20 PhaseEnd — Phase 20: Close the propagation cap, crack the gc | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase20.md
-- 21 PhaseEnd — Phase 21: The Automation Manager (built, run, and | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase21.md
-- 22 PhaseEnd — Phase 22: Hand-grind the giants (×134) — banked t | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase22.md
-- 23 PhaseEnd — Phase 23: The offline LLM matching tier → the Fab | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase23.md
-- 24 PhaseEnd — Phase 24: Permuter overhaul · integration-recover | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase24.md
-- 25 PhaseEnd — Phase 25: The structural-family endgame → the gia | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase25.md
-- 26 PhaseEnd — Phase 26: The Family-Endgame → the tooling-integr | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase26.md
-- 27 PhaseEnd — Phase 27: The Fable5 Farewell Sprint + the Honest | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase27.md
-- 28 PhaseEnd — Phase 28: The Endgame Engine → the instrument-rep | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase28.md
-- 29 PhaseEnd — Phase 29: The Family Campaign (cores + members) — | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase29.md
-- 30 PhaseEnd — Phase 30 The Recovery & Concentration Campaign (o | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase30.md
-- 31 PhaseEnd — Phase 31: The Frontier Atlas & Wide-Tolerance Cam | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase31.md
-- 32 PhaseEnd — Phase 32: The Last 21 + the Parked 5 — the fronti | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase32.md
-- 33 PhaseEnd — Phase 33: 100% verification + the publishing surf | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase33.md
-- 33.5 PhaseEnd — Phase 33.5: Docs consolidation, the wiki as sourc | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase33.5.md
-- 34 PhaseEnd — Phase 34: The flip and the Gen2 exit — the reposi | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase34.md
-- 35 PhaseEnd — Phase 35: Gen3 opens — the dedup phase, "one sour | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase35.md
-- 36 PhaseEnd — Phase 36: Levers off — every compiler-forcing con | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase36.md
-- 37 PhaseEnd — Phase 37: the structs phase, part one — the censu | milestone: — | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase37.md
-- 37.5 PA3 migration | milestone: migration complete | scope: — | depends: — | status: closed | phase-end: phase-ends/PhaseEnd_Phase37.5.md
+- 3.38 Struct unification | milestone: `make tools-health` OK and `make kit-corpus` clean at phase start; `PY tools/type_census.py --check` → 0 duplicate defs, 0 dead names, controls 4/4 (from 7,255 defs / 206 dup classes / 40 variant camps / 26 `pad<SIZE>` names); 0 parse-error decls in the census; R22 218/218 | scope: old Phase 38 (legacy P37 carry T5) — owed tools-health + kit-corpus, R22 baseline, `delever_oracle --snapshot-baseline` + `--calibrate ov_SC04_011 ov_SC03_015 md_SC07_004 main -j 16` before the first batch; unify head types first (`Unkstruct_80126B58` entity, `Unkstruct_80078E00` player block, `Unkstruct_800B5CB8`), union-vs-split per offset decided by the expert at `effort: high`; then the long tail via `tools/lift_types.py`; the 1,537 types-floor lying decls, 417 conflicting types, 45 TU-CONFLICT rows; owed fixes `docs/actor-struct.md` and the 13 syntax-error units in `src/800.c` | depends: — | status: open | phase-end: phase-ends/PhaseEnd_Phase3.38.md
+- 3.39 Casts to declared data | milestone: 0 raw address casts in the 4 census forms (reinterpret macros counted apart, each with its instrument); `PY tools/lever_census.py --check --strict` 0 (from 3,730); lying-decl census 0 outside ledgered exceptions; R22 218/218 | scope: legacy T6 — the 503,016 cast sites become member accesses / declared symbols, kept casts only where the gate proves the spelling moves bytes (cookbook §458, per-site minimal kept-cast set); GTE `_m` variants and direct GTE statements to one spelling; the surviving pins that the unified types now explain; body and declaration rewrites are expected, the object bytes are the gate; header edits batched (one header edit re-fans ~3,900 objects, ~6 min) | depends: 3.38 | status: open | phase-end: phase-ends/PhaseEnd_Phase3.39.md
+- 3.40 Residue lane (toggleable) | milestone: every residue item from 3.39's ledger either off at the gate or marked with its pass, instrument and cause; `lever_census --check` 0 UNMARKED; R22 218/218 | scope: legacy T7 — the func_801A1E94/func_801A5C44 pair, same-address copies of 5 functions, 5 return-type lies, func_8016BF50, and whatever 3.39 ledgers as agent-shaped; developer decision: whether it runs and at what agent cap is decided when 3.39's ledger is known (no cap set now); skipped (closed as not-run) if declined | depends: 3.39 | status: open | phase-end: phase-ends/PhaseEnd_Phase3.40.md
+- 3.41 Types validated and mirrored | milestone: `type_census --check` wired into `make tools-health` and green; `attribution_check` folded into `lever_census`; canonical types authored into the Ghidra database from text and `tools/ghidra_rebuild.sh --proof` PASS; `PY tools/doc_links.py --strict` 0/0; clean-tree R22 218/218 | scope: legacy T8+T9 — the gates that keep 3.38-3.40 from regressing, the Ghidra mirror, the record (cookbook, wiki chapter, §396(a) correction, kit corpus regenerated) | depends: 3.38, 3.39 | status: open | phase-end: phase-ends/PhaseEnd_Phase3.41.md
+- 3.42 Rename harness and shared-function form | milestone: a rename scanner (R32) asserts every reference to a renamed symbol rewritten, proven on one known rename and one planted miss; 3,801 cross-address classes in the parameterized `SHARED_FN` form (0 left) and the 20 trampoline families shared; a leverage ranking of data symbols and functions (xrefs, struct ownership, shared-body fan-out) written with its denominator; R22 218/218; ghidra `--proof` PASS | scope: the byte-neutral naming machinery before any name — symbol-file renames mirrored through `tools/ghidra_apply_symbols.sh`, the S1 one-source-per-function gate kept at 0 violations | depends: 3.41 | status: open | phase-end: phase-ends/PhaseEnd_Phase3.42.md
+- 3.43 Evidence names | milestone: every non-placeholder name carries a citation row (0 uncited, checked by the 3.42 scanner); the top 500 of 3.42's ranking named or marked `no-evidence` with the sources tried; R22 218/218; ghidra `--proof` PASS | scope: meaning names from observation only (strings, debug menu, live-RAM harness, AP-world RAM map, TCRF, community tables), cited per G5 and `docs/gen3-standards.md`; placeholders (`Unkstruct_<addr>`, `unk<HEX>`, `func_<addr>`) stay where no evidence exists — unnamed beats wrong | depends: 3.42 | status: open | phase-end: phase-ends/PhaseEnd_Phase3.43.md
+- 3.44 File layout and formatting | milestone: 0 `_jr_` files under `src/` (regrouped by system), the 10 jr-merge alias functions resolved, `clang-format --dry-run -Werror` 0 diffs over `src/` with a committed `.clang-format`; R22 218/218; `doc_links --strict` 0/0 | scope: move bodies into per-system translation units where the carve allows (a move that changes link order is gated like any edit), one formatting pass, the wiki/README tree description updated | depends: 3.43 | status: open | phase-end: phase-ends/PhaseEnd_Phase3.44.md
+- 3.45 Generation validation | milestone: from a fresh clone with the developer's own dump, README-only `make extract-all && make check-all` → 218/218; every Done-criteria command green at one commit; `audit_public.py` clean; the post-generation census (types, casts, levers, names, layout) recorded against the phase-start baselines | scope: validation only — no new edits except fixes to what the checks refuse | depends: 3.38, 3.39, 3.41, 3.42, 3.43, 3.44 | status: open | phase-end: phase-ends/PhaseEnd_Phase3.45.md
 
 ## Ordering rationale
 
-- Legacy phases in their original order; the migration phase closes the generation.
+- Types before casts before names before layout: the handoff's measured order (legacy owner intent "casts → structs, pins off, names"; dedup and pins already done at legacy P35/P36). A cast can only become `obj->field` once the struct it names is canonical; unify before naming, or one entity gets 40 names.
+- 3.38 opens with the owed `tools-health` / `kit-corpus` and a clean R22 because legacy P37 closed without them; every later number is measured against that baseline.
+- 3.38 head types first: three types own most of the struct debt; batching by leverage makes the long tail mechanical.
+- 3.40 is separate and toggleable: it is agent-priced and open-ended (legacy P36's comparable lane: 9 sessions, ~15-20M tokens); 3.41 depends on 3.39, not 3.40, so the generation proceeds if it is declined.
+- 3.41 is the validation phase for the type work: the census gate in tools-health and the Ghidra mirror must exist before renames start, or regressions land silently.
+- 3.42 builds the differential harness before the campaign (handoff §8.2): mechanical, byte-neutral renames and the shared form first; 3.43 is judgment and evidence and only starts when a miss is caught by a tool.
+- 3.44 last: file moves collide with every earlier edit; doing them once, after names settle, avoids re-fanning the fleet repeatedly.
+- 3.45 validation is its own phase, from a fresh clone, the constitution's reproducibility measure.
+- Sizing (developer works autonomous-within-phases): 3.38 ~1-2 sessions, 3.39 ~1-2, 3.41 ~1; 3.42-3.44 sized by their planners from the 3.42 ranking.
+- Out of this generation, each with its reason: shiftable build (symbolic refs done here make it possible; a `-Ttext`-shifted overlay booting in PCSX-Redux, then disc rebuild with recompressed payloads, is the next generation's opening); asset export / native port / randomizer tooling (constitution parking lot, "do not fork focus" until the source is legible); xsig v2 and the kit split (legacy-deferred, sequenced after readability); the 11 UNSTRIPPABLE packs (proven floor; revisit with 3.38-3.39's types only if 3.39's ledger reopens them).
 
 ## Standing constraints
 
-- Stdlib only.
+- Bytes are the only truth: R22 byte-identity is on the compiled output, not the C text; source may be rewritten freely (bodies, casts, declarations) so long as every object still matches. Every edit is gated like a match — `make check BINARY=<alias>` for touched binaries; R22 clean fleet run (`make clean && make extract-all JOBS=16 && make check-all JOBS=16` → `218 passed, 0 failed of 218`) after anything touching a shared body, shared header or the executable; read the exit code (R53).
+- Main is gated only with `tools/gate_main.py`; never an incremental check on the executable.
+- Commit each green batch at once through `tools/commit_task.sh` (R42); never edit the phase file between a cycle's R22 and its commit; never push, no tags or releases at closes; the developer pushes.
+- `make -j` on every build; parallel gates via worktrees; long runs detached with a progress log (`tools/run.sh --bg`); `make tools-health` in the foreground.
+- R74: no ROM-derived bytes in any published file; `audit_public.py` before any publishing change.
+- Names only with cited evidence (G5, `docs/gen3-standards.md`); unnamed beats wrong; renames go through symbol files and `ghidra_apply_symbols.sh`, never hand-edited generated assembly (G6, R15).
+- S1 one-source-per-function stays at 0 violations; `lever_census --check` 0 UNMARKED after every task; `docs/levers.md` / lever progress kept current.
+- Agent waves only at the developer's cap and on the developer's direct word.
+- The harness is not the product: defects in `tools/` harness files, `.claude/`, hooks, templates or agent files are `harness:` gotchas for the ProjectArchitect repo, never tasks here (project tools under `tools/` that are the decomp's own tooling remain in scope).
 
 ## Changes
 
