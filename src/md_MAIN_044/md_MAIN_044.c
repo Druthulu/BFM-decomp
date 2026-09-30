@@ -529,14 +529,7 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_80135260(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_801202A0[];
 
-typedef struct {
-    u16 unk00;
-    u8 pad02[0x1E];
-    s32 unk20;
-    u8 pad24[0x34];
-    s32 unk58;
-    u8 pad5C[0xB0];
-} Ent_CD894;
+typedef Unkstruct_800B5CB8 Ent_CD894;
 
 s32 func_800CD894(void *a0) {
     u8 sp10[8];
@@ -550,7 +543,7 @@ s32 func_800CD894(void *a0) {
     for (i = 0; i < 0x60; i++) {
         Ent_CD894 *e = base + i;
         tag = 0x200;
-        if (e->unk00 == tag) {
+        if (e->unk0 == tag) {
             s32 f58 = e->unk58;
             if (f58 != 0) {
                 s32 f20 = e->unk20;

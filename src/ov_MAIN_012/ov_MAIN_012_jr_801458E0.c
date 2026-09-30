@@ -2915,24 +2915,7 @@ void func_8014D738(void)
 #include "../shared/ov/func_8014D790.h"
 
 
-  typedef struct EntD820_8014D820
-  {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 x;
-    u16 f8;
-    u16 y;
-    u16 fC;
-    u16 z;
-    u8 p10[0x10];
-    s32 f20;
-    u8 p24[0x34];
-    s32 f58;
-    u16 f5C;
-    u16 f5E;
-    u8 p60[0x10C - 0x60];
-  } Ent_8014D820;
+  typedef Unkstruct_800B5CB8 Ent_8014D820;
   typedef struct
   {
     u16 x;
@@ -3061,24 +3044,7 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
     u16 z;
     u16 w;
   } V4_8014D820;
-  typedef struct EntD820_8014D820
-  {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 x;
-    u16 f8;
-    u16 y;
-    u16 fC;
-    u16 z;
-    u8 p10[0x10];
-    s32 f20;
-    u8 p24[0x34];
-    s32 f58;
-    u16 f5C;
-    u16 f5E;
-    u8 p60[0x10C - 0x60];
-  } Ent_8014D820;
+  typedef Unkstruct_800B5CB8 Ent_8014D820;
   int new_var2;
   s16 new_var3;
 u16 *a2;
@@ -3122,24 +3088,24 @@ a0v = a0;
   desc.y = a2[1] - a1[1];
   desc.z = a2[2] - a1[2];
   ent = *((Ent_8014D820 **) (a0v + 0x170));
-  if (ent->f0 == 0)
+  if (ent->unk0 == 0)
   {
     goto fail;
   }
-  if ((ent->f5C & 0x1000) == 0)
+  if ((ent->unk5C & 0x1000) == 0)
   {
     goto fail;
   }
-  if (ent->f58 == 0)
+  if (ent->unk58 == 0)
   {
     goto fail;
   }
-  if (((s32 (*)(s32 a0, s32 a1, s32 *a2, s32 a3))func_80135A4C)(ent->f20, ent->f58, (s32) a1, a2x) == 0)
+  if (((s32 (*)(s32 a0, s32 a1, s32 *a2, s32 a3))func_80135A4C)(ent->unk20, ent->unk58, (s32) a1, a2x) == 0)
   {
     goto fail;
   }
-  ex = ent->x - (*((u16 *) (a0v + 6)));
-  ez = ent->z - (*((u16 *) (a0v + 0xE)));
+  ex = ent->unk6 - (*((u16 *) (a0v + 6)));
+  ez = ent->unkE - (*((u16 *) (a0v + 0xE)));
   r1 = (s16) ratan2((s16) dz, new_var3);
   r2 = (s16) ratan2((s16) ez, (s16) ex);
   r3 = (s16) func_80012A60(r1, r2);
@@ -3150,11 +3116,11 @@ a0v = a0;
   desc.f20 = 0;
   desc.f1C = 0;
   desc.f18 = 0;
-  x0 = ent->x;
+  x0 = ent->unk6;
   pos.x = x0;
-  y0 = ent->y;
+  y0 = ent->unkA;
   pos.y = y0;
-  z0 = ent->z;
+  z0 = ent->unkE;
   tx = x0 + desc.x;
   pos.z = z0;
   tz = z0 + desc.z;
@@ -3170,19 +3136,19 @@ a0v = a0;
       {
         continue;
       }
-      if (p->f0 == 0)
+      if (p->unk0 == 0)
       {
         continue;
       }
-      if (p->f5C == 0)
+      if (p->unk5C == 0)
       {
         continue;
       }
-      if (p->f58 == 0)
+      if (p->unk58 == 0)
       {
         continue;
       }
-      func_80135888(p->f20, p->f58, (s32) (&pos), (s32) (&desc));
+      func_80135888(p->unk20, p->unk58, (s32) (&pos), (s32) (&desc));
     }
 
   }
@@ -3207,15 +3173,15 @@ a0v = a0;
       {
         continue;
       }
-      if (p->f0 == 0)
+      if (p->unk0 == 0)
       {
         continue;
       }
-      if (p->f5C == 0)
+      if (p->unk5C == 0)
       {
         continue;
       }
-      if (p->f58 == 0)
+      if (p->unk58 == 0)
       {
         continue;
       }
@@ -3229,9 +3195,9 @@ a0v = a0;
   r = func_80133784(0, &pos, (s32) (&desc));
   if ((r == 0) || ((r == 0x2000) && (((*(u16 *) D_801152A8) | ((u16) D_801152AC)) == 0)))
   {
-    ent->x = desc.x - desc.f18;
-    ent->y = desc.y;
-    ent->z = desc.z - desc.f20;
+    ent->unk6 = desc.x - desc.f18;
+    ent->unkA = desc.y;
+    ent->unkE = desc.z - desc.f20;
     desc.x -= pos.x;
     desc.y -= pos.y;
     desc.z -= pos.z;

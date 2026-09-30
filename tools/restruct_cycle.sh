@@ -62,7 +62,7 @@ for k in $(seq "$START" "$END"); do
     [ -n "$cline" ] || { echo "cycle: the census table carries no type_census line after batch $label"; exit 1; }
     $PY tools/readability_progress.py --snapshot "$label" > /dev/null 2>&1 || echo "cycle: readability snapshot refused (a stale census?) — continuing"
   fi
-  TASK=${TASK:-T4} $PY - "$label" "$vline" "$line" "$cline" "$(grep -oE 'wall=[0-9.]+ s' "$r22" | head -1)" "$MARKER" <<'PYEOF' || exit 1
+  [ -f phase-ends/CURRENT_PHASE.md ] && { TASK=${TASK:-T4} $PY - "$label" "$vline" "$line" "$cline" "$(grep -oE 'wall=[0-9.]+ s' "$r22" | head -1)" "$MARKER" <<'PYEOF'
 import os, pathlib, re, sys, time, subprocess
 label, vline, r22line, cline, wall, marker = sys.argv[1:7]
 task = os.environ.get("TASK", "T4")
@@ -81,13 +81,14 @@ for i, l in enumerate(lines):
 p.write_text("\n".join(lines))
 print("log:", label)
 PYEOF
+  } || [ ! -f phase-ends/CURRENT_PHASE.md ] || exit 1
   for i in 1 2 3 4 5 6; do
     [ -e .git/index.lock ] || break
     if [ -z "$(ps -eo cmd | grep -E '^git |/git ' | grep -v grep)" ]; then echo "cycle: stale .git/index.lock (no git process) — removed"; rm -f .git/index.lock; break; fi
     sleep 10
   done
-  git add -A src && git add .run/P37/restruct .run/P37/census .run/P37/baseline phase-ends/CURRENT_PHASE.md docs/readability.md docs/readability-progress.tsv 2>/dev/null; git add .run/P36/delever/calibration.json 2>/dev/null
-  git commit -q -m "src(phase-37): ${TASK:-T4} batch $label — $vline | R22 $line | $cline (restruct_cycle)" || exit 1
+  git add -A src && git add .run/P37/restruct .run/P37/census .run/P37/baseline $([ -f phase-ends/CURRENT_PHASE.md ] && echo phase-ends/CURRENT_PHASE.md) docs/readability.md docs/readability-progress.tsv 2>/dev/null; git add .run/P36/delever/calibration.json 2>/dev/null
+  git commit -q -m "${TASK:-T4}: batch $label — $vline | R22 $line | $cline (restruct_cycle)" || exit 1
   echo "cycle: batch $label committed $(git log --oneline -1 | cut -c1-9) — $vline | $line"
 done
 echo "cycle: batches $START..$END done"
