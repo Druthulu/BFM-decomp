@@ -2379,7 +2379,6 @@ typedef PrimTag PTag_1412A8;
 
 /* --- lift_types.py fleet lift --- */
 typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_E960;
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
 typedef struct {
     s16 f0;
     s16 f2;
@@ -2623,9 +2622,9 @@ typedef Blk4_8017CE90_8017CE90 Blk4_8017CE90;
 typedef Blk4_8017CE90_8017CE90 Blk4_8017CE90_8017F32C;
 typedef struct { u8 b[4]; } Blk4_8017D5DC;
 typedef struct { u8 b[4]; } Blk4_8017D7A0;
-typedef struct { u8 b[4]; } Blk4_8017DF40;
+typedef Block4 Blk4_8017DF40;
 typedef struct { u8 d[4]; } Blk4_8017E808;
-typedef struct { u8 b[4]; } Blk4_8017EBCC;
+typedef Block4 Blk4_8017EBCC;
 typedef B4_8017F154 Blk4_8017FE90;
 typedef B4_8017F154 Blk4_801800E0;
 typedef struct { char c[4]; } Blk4_8018048C;
@@ -5030,7 +5029,7 @@ typedef Blk8_80133CD4 Blk8_SC07_010_80135A4C;
 typedef Blk8_80133CD4 Blk8_SC07_011_80133CD4;
 typedef Blk8_80133CD4 Blk8_SC07_011_80135A4C;
 typedef struct { s16 x0, x1, x2, x3; } BlkT;
-typedef struct { unsigned char b[4]; } __attribute__((packed, aligned(1))) Block4_SC02_011_80186740;
+typedef Block4 Block4_SC02_011_80186740;
 typedef struct { s32 w0; s32 w1; } Cmd_801805C8;
 typedef E4 Cnt;
 typedef E4 Cnt_80187DE4;

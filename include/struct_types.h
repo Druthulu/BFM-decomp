@@ -505,9 +505,8 @@ typedef struct { u16 x, y, z, w; } __attribute__((aligned(2))) V;
 typedef V Pt_8017D87C;
 typedef SVECTOR SV;
 typedef SVECTOR SVEC2_C974_8017BA3C;
-typedef struct {
-    u8 b[4];
-} Blk4;
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
+typedef Block4 Blk4;
 typedef struct { u8 b[4]; } B4_8017F154;
 typedef B4_8017F154 Blk4_md_SC07_003;
 typedef SVECTOR SVECTOR_800;
@@ -556,10 +555,10 @@ typedef struct {
     char c[3];
 } Blk3_8017D730;
 typedef Blk3_8017D730 Blk3_801F0F28;
-typedef struct { u8 b[4]; } Blk4_8017DF40_801E48B8;
-typedef struct { u8 b[4]; } Blk4_8017DF40_801E9DF8;
-typedef struct { u8 b[4]; } Blk4_8017DF40_801EFC58;
-typedef struct { u8 b[4]; } Blk4_8017DF40_801F1738;
+typedef Block4 Blk4_8017DF40_801E48B8;
+typedef Block4 Blk4_8017DF40_801E9DF8;
+typedef Block4 Blk4_8017DF40_801EFC58;
+typedef Block4 Blk4_8017DF40_801F1738;
 typedef struct { char c[4]; } Blk4_801A40CC;
 typedef struct {char c [ 4 ] ;} Unkstruct_801A01E8;
 typedef Unkstruct_801A01E8 Blk4_801A7358;
