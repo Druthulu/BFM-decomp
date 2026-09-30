@@ -50,6 +50,7 @@ outer gate (the clean fleet run, R22) which tools/restruct_cycle.sh runs before 
 """
 import argparse
 import collections
+import difflib
 import hashlib
 import json
 import os
@@ -522,8 +523,12 @@ def pass_hint(residual):
     if not residual or residual.get("kind") in (None, "UNSCORED"):
         return "UNSCORED"
     kind = residual["kind"]
-    mn = [(p[1].split()[1] if len(p[1].split()) > 1 else "") for p in residual.get("pairs", []) if p[1] != "--"]
-    tg = [(p[2].split()[1] if len(p[2].split()) > 1 else "") for p in residual.get("pairs", []) if p[2] != "--"]
+    # `pairs` = the aligned differing rows (k, "<word> <mnem …>" | "--", same) from classify_residual; a register-pair row
+    # (x, y, count — delever_search.classify's `pairs`, what classify_residual emitted before T3.c3: `.split()` on an int crashed)
+    # carries no mnemonic and is skipped here (T3.c3)
+    rows = [p for p in residual.get("pairs", []) if len(p) == 3 and isinstance(p[1], str) and isinstance(p[2], str)]
+    mn = [(p[1].split()[1] if len(p[1].split()) > 1 else "") for p in rows if p[1] != "--"]
+    tg = [(p[2].split()[1] if len(p[2].split()) > 1 else "") for p in rows if p[2] != "--"]
     words = set(mn) | set(tg)
     if words & {"lwl", "lwr", "swl", "swr"}:
         return "ALIGNMENT"
@@ -539,7 +544,7 @@ def pass_hint(residual):
         return "COUNT-OTHER"
     if kind == "REG":
         return "REGALLOC"
-    ims = [p for p in residual.get("pairs", []) if p[1] != "--" and p[2] != "--" and p[1].split()[1:2] == p[2].split()[1:2]]
+    ims = [p for p in rows if p[1] != "--" and p[2] != "--" and p[1].split()[1:2] == p[2].split()[1:2]]
     if ims and all(x[1].split()[1] in ("addiu", "lui", "ori") for x in ims):
         return "ADDRESS-FOLD"
     return "OTHER"
@@ -690,6 +695,20 @@ def compose_text(raw, edits, inserts=()):
     return "".join(out)
 
 
+def drop_overlaps(edits):
+    """(kept, dropped) over one body's edits of ALL its bases: s_edits drops overlaps within one base, but a `nested:` base's site
+    CONTAINS its parent base's site (`*(s16 *)(*(s32 *)(s0 + 0x20) + 0x18)` holds `*(s32 *)(s0 + 0x20)`, base param:s0). The
+    earlier-starting edit stays (the longer one on a tie), the ones starting inside it drop — deterministic, source order.
+    was: compose_text raised Refuse on them and the whole --try-file run crashed (T3.c3)."""
+    kept, dropped, last = [], [], 0
+    for e in sorted(edits, key=lambda e: (e[0], -e[1], e[2])):
+        if e[0] < last:
+            dropped.append(e)
+            continue
+        kept.append(e); last = e[1]
+    return kept, dropped
+
+
 def greedy_kept(judge_cands, edits, tag):
     """Rung S2 on an edit list: judge_cands(sub_edits, tag) -> verdict. leave-one-out (n), else cumulative revert in source order
     until IDENTICAL, then minimise. Returns (kept_edits, compiles, verdict)."""
@@ -817,7 +836,18 @@ def classify_residual(tu, fn, cand_bytes):
     if not mine or not tgt:
         return dict(kind="UNSCORED", err="function not found in one object")
     c = ds.classify(mine, tgt)
-    return dict(kind=c["kind"], score=c["score"], n_mine=c["n_mine"], n_tgt=c["n_tgt"], pairs=c["pairs"][:4])
+    # pairs = the aligned differing rows pass_hint reads (k, "<word> <mnem>" | "--", …), delever_search --explain's alignment;
+    # regs = classify's register pairs (x, y, n). was: pairs=c["pairs"][:4] (the register pairs — pass_hint crashed on the int, T3.c3)
+    aa, bb = [ds.masked_word(i) for i in mine], [ds.masked_word(i) for i in tgt]
+    rows = []
+    for t, i1, i2, j1, j2 in difflib.SequenceMatcher(None, aa, bb, autojunk=False).get_opcodes():
+        if t == "equal":
+            continue
+        for k in range(max(i2 - i1, j2 - j1)):
+            m_ = f"{mine[i1 + k]['word']:08x} {mine[i1 + k]['mnem']}" if i1 + k < i2 else "--"
+            t_ = f"{tgt[j1 + k]['word']:08x} {tgt[j1 + k]['mnem']}" if j1 + k < j2 else "--"
+            rows.append((i1 + k, m_, t_))
+    return dict(kind=c["kind"], score=c["score"], n_mine=c["n_mine"], n_tgt=c["n_tgt"], pairs=rows[:8], regs=c["pairs"][:4])
 
 # ----------------------------------------------------------------------------------------------------------------------
 # rung 1 on one body
@@ -986,9 +1016,13 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
         bsites = [s for s in sites if s.get("fn") == fn]
         per_base = s_body_edits(tu, fn, text_acc, masked, d2, bsites, bodies[fn], allow_local, local_types)
         edits = [e for (_, _, status, es, _) in per_base for e in es]
+        _, overlapped = drop_overlaps(edits)                       # a nested base's site holds its parent's (T3.c3)
+        edits = [e for e in edits if not any(e is o for o in overlapped)]      # per_base order kept for the S2 search
         skips = collections.Counter()
         for (_, _, _, _, sk) in per_base:
             skips.update(sk)
+        if overlapped:
+            skips["overlap-edit"] += len(overlapped)
         row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="S", calib=calib_id, tu=tu, unit=fn, fn=fn, addr=dl.fn_addr(fn, tu),
                    header=is_hdr, nhash_before=nh0, nhash_after=nh0,
                    bases=[dict(base=bk, type=tn, status=stt, edits=len(es), skips=dict(sk)) for (bk, tn, stt, es, sk) in per_base],
@@ -1004,7 +1038,7 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
         base_text = text_acc
         # a LOCAL type (try mode) travels with its body: its typedef is inserted at file scope right before this function; a
         # typedef already placed below (an earlier, lower body of the same type) is moved up so both bodies see it (bottom-up order)
-        needed = {tn for (_, tn, stt, es, _) in per_base if stt == "LOCAL" and es}
+        needed = {tn for (_, tn, stt, es, _) in per_base if stt == "LOCAL" and any(any(e is x for x in edits) for e in es)}   # was: `and es` (T3.c3)
         ls_acc = dl.line_starts(base_text)
         ins_pos = ls_acc[d2["line"] - 1]
         inserts = []
@@ -1043,8 +1077,10 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
             s = e[3]
             v = "MEMBER" if any(e is a for a in accepted) else ("KEPT(" + row.get("hint", "?") + ")" if row.get("verdict") in ("S2", "KEPT-ALL") else "REFUSED")
             row["sites"].append(site_row(s, v, tname_of.get(id(e)), e[2].rsplit("->", 1)[-1].rsplit(".", 1)[-1]))
+        for e in overlapped:                                       # the dropped nested/parent edit stays a cast (T3.c3)
+            row["sites"].append(site_row(e[3], "KEPT(overlap-edit)", tname_of.get(id(e)), e[2].rsplit("->", 1)[-1].rsplit(".", 1)[-1]))
         out["members"] += len(accepted)
-        out["kept"] += len(kept)
+        out["kept"] += len(kept) + len(overlapped)
         if accepted:
             text_acc = compose_text(base_text, list(accepted) + inserts)
             for tn in sorted(needed):
@@ -3507,6 +3543,10 @@ def selftest(real=False):
     ok("hint CSE-KILL", pass_hint(dict(kind="COUNT", pairs=[(3, "3c020000 lui", "--")])) == "CSE-KILL")
     ok("hint WIDTH", pass_hint(dict(kind="MIXED", pairs=[(3, "3042ffff andi", "00021400 sll")])) == "WIDTH")
     ok("hint REGALLOC", pass_hint(dict(kind="REG", pairs=[(3, "00431021 addu", "00431821 addu")])) == "REGALLOC")
+    ok("hint: a register-pair row (int count) is skipped, not split (T3.c3)", pass_hint(dict(kind="REG", pairs=[("v0", "v1", 2)])) == "REGALLOC")
+    ov_k, ov_d = drop_overlaps([(20, 30, "b", {}), (10, 40, "a", {}), (10, 15, "c", {}), (40, 45, "d", {})])
+    ok("drop_overlaps: the earlier/longer edit stays, the nested ones drop (T3.c3)", [e[2] for e in ov_k] == ["a", "d"] and sorted(e[2] for e in ov_d) == ["b", "c"],
+       f"{[e[2] for e in ov_k]} {[e[2] for e in ov_d]}")
     # ---- rung D on the fixture
     DEFS_OVERRIDE = {"fx_callee": [("src/ov/fx_defs.c", "void", "s32 a0, s32 a1", False)], "fx_kr": [("src/ov/fx_defs.c", "s32", "s32 a, s32 b", True)]}
     units = d_units(tu, text)
