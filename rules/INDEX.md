@@ -127,3 +127,15 @@ L2 | lever-removal-is-a-tracked-series | legacy,memory | active | legacy memory 
 L3 | decomp-accelerator-ledger | legacy,memory | active | legacy memory decomp-accelerator-ledger.md
 
 L4 | verify-blast-radius-not-just-defect | legacy,memory | active | legacy memory verify-blast-radius-not-just-defect.md
+
+R98 | Known-opposite check before a none/external/already-done verdict settles | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
+
+R99 | Key by (binary, address, body) in indexes, maps and censuses | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
+
+R100 | One done-filter function shared by every side | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
+
+R101 | Bucket the remainder before a cycle stops | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
+
+R104 | A signature change is one judged unit | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
+
+R105 | No carry-audit section means audit blocked | - | active | PhaseEnd_Phase37 candidate, ratified 2026-09-29
