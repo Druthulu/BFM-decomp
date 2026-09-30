@@ -4353,7 +4353,6 @@ typedef struct {
         u16 x, y, z, w;
     } V8_80189B9C;
 typedef struct { u16 x, y, z, w; } V8_8018A728;
-typedef struct { short vx, vy, vz, pad; } Vec_td;
 typedef struct {
     s16 f0, f1, f2, f3;
 } Vec4s;
