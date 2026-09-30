@@ -33,7 +33,7 @@ typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_80184FF0;
 typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0_80184FF0;          /* 0x08 */
 typedef struct { s32 vx, vy, vz, pad; } Vec16_8018E8A0_80184FF0;          /* 0x10 */
 typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } Mtx_8018E8A0_80184FF0; /* 0x20 */
-typedef struct { s16 f[0x86]; } Cnt_8018E8A0_80184FF0;
+typedef Unkstruct_800B5CB8 Cnt_8018E8A0_80184FF0;
 typedef struct {
     SVec8_8018E8A0_80184FF0 v[4];   /* 0x00 */
     u32            c[4];   /* 0x20 */

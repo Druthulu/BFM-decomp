@@ -3741,17 +3741,7 @@ void func_80183B34(s32 param_1) {
 
 typedef struct { u16 x, y, z, w; } V4_80188E10_80183BB4;
 
-typedef struct {
-    u16 f0;                     /* 0x00  entity kind; 0x282 is the one we want */
-    s16 f2;                     /* 0x02  state -> 9 on a hit                   */
-    u8  p04[0x20 - 0x04];
-    s32 f20;                    /* 0x20  collision volume A                    */
-    u8  p24[0x58 - 0x24];
-    s32 f58;                    /* 0x58  collision volume B                    */
-    u8  p5C[0x70 - 0x5C];
-    s16 f70;                    /* 0x70  sub-kind / owner tag                  */
-    u8  p72[0x10C - 0x72];      /* stride 0x10C, 0x60 entries (0x6480)         */
-} Ent_80188E10_80183BB4;
+typedef Unkstruct_800B5CB8 Ent_80188E10_80183BB4;
 
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3774,15 +3764,15 @@ s32 func_80183BB4(Ent_80188E10_80183BB4 *self, s32 arg1, s32 arg2, s32 arg3, u16
     func_8012F214((s32)self, arg2, (s32)&b);
     c = b;                                              /* L2: lwl/lwr block move */
     if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&a, (s32)&b) != 0) {
-        func_8012F568(1, 1, *(s16 *)(self->f20 + 0x12), arg3, (s32)&b, (s32)D_801152A8);
+        func_8012F568(1, 1, *(s16 *)(self->unk20 + 0x12), arg3, (s32)&b, (s32)D_801152A8);
         return 1;
     }
     e = (Ent_80188E10_80183BB4 *)D_801202A0;
     if (kind != 0xFFFF) {                               /* L3 */
         for (i = 0; i < 0x60; i++, e++) {               /* L2: i=0 HERE, not above */
-            if (e->f0 == 0x282 && (e->f70 == kind || e->f70 == self->f70) && e != self &&
-                func_80135888(e->f20, e->f58, (s32)&a, (s32)&c) != 0) {
-                e->f2 = 9;                              /* L4: keep identical */
+            if (e->unk0 == 0x282 && (e->unk70 == kind || e->unk70 == self->unk70) && e != self &&
+                func_80135888(e->unk20, e->unk58, (s32)&a, (s32)&c) != 0) {
+                e->unk2 = 9;                              /* L4: keep identical */
                 func_80183DA4((s32)e, 0);
                 return 1;
             }
@@ -3790,9 +3780,9 @@ s32 func_80183BB4(Ent_80188E10_80183BB4 *self, s32 arg1, s32 arg2, s32 arg3, u16
         return 0;
     } else {
         for (i = 0; i < 0x60; i++, e++) {               /* L2 */
-            if (e->f0 == 0x282 && e->f70 == self->f70 && e != self &&
-                func_80135888(e->f20, e->f58, (s32)&a, (s32)&c) != 0) {
-                e->f2 = 9;                              /* L4: keep identical */
+            if (e->unk0 == 0x282 && e->unk70 == self->unk70 && e != self &&
+                func_80135888(e->unk20, e->unk58, (s32)&a, (s32)&c) != 0) {
+                e->unk2 = 9;                              /* L4: keep identical */
                 func_80183DA4((s32)e, 0);
                 return 1;
             }

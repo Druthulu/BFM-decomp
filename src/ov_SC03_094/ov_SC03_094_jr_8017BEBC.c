@@ -3716,14 +3716,7 @@ void func_8017E3B0(s32 a0) {
 
 /* Entity slot of the global D_801202A0 table: 0x10C stride, 0x60 entries.
  * Only the three fields this function touches are named. */
-typedef struct {
-    u16 f0;                     /* 0x00  kind tag (0x1BE here) */
-    u8  p02[0x70 - 0x02];
-    s16 f70;                    /* 0x70  index into D_8018B52C */
-    u8  p72[0xFC - 0x72];
-    u16 fFC;                    /* 0xFC  counter */
-    u8  pFE[0x10C - 0xFE];
-} Ent_8017FD58_8017E52C;
+typedef Unkstruct_800B5CB8 Ent_8017FD58_8017E52C;
 
 extern s32 func_8017D898(s32 a0, s32 a1);
 extern s32 func_80029178(s32 arg);
@@ -3792,9 +3785,9 @@ void func_8017E52C(s32 a0) {
 
     e = (Ent_8017FD58_8017E52C *)D_801202A0;
     for (i = 0; i < 0x60; i++, e++) {
-        if (e->f0 == 0x1BE) {
-            if ((u8)func_80029178(D_8018B52C[e->f70]) == 0) {
-                e->fFC++;
+        if (e->unk0 == 0x1BE) {
+            if ((u8)func_80029178(D_8018B52C[e->unk70]) == 0) {
+                e->unkFC++;
             }
         }
     }
@@ -5616,12 +5609,7 @@ void func_801815C4(s32 a0) {
 }
 
 
-typedef struct {
-    u16 f0;                     /* 0x00 */
-    u8 pad02[0x6E];
-    u16 f70;                    /* 0x70 */
-    u8 pad72[0x10C - 0x72];
-} Ent_8018172C_tab;
+typedef Unkstruct_800B5CB8 Ent_8018172C_tab;
 
 s32 func_8018172C(void) {
     extern u8 D_801202A0[];
@@ -5633,7 +5621,7 @@ s32 func_8018172C(void) {
     i = 0;
     e = (Ent_8018172C_tab *)D_801202A0;
     for (; i < 0x60; i++, e++) {
-        if (e->f0 == 0x17F && (e->f70 & 0xF) == 0) {
+        if (e->unk0 == 0x17F && (e->unk70 & 0xF) == 0) {
             count++;
         }
     }

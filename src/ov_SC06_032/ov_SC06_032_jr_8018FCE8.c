@@ -10,17 +10,7 @@ typedef struct {
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
 typedef struct { u16 x, y, z, w; } V4_80188E10_80183BB4;
-typedef struct {
-    u16 f0;                     /* 0x00  entity kind; 0x282 is the one we want */
-    s16 f2;                     /* 0x02  state -> 9 on a hit                   */
-    u8  p04[0x20 - 0x04];
-    s32 f20;                    /* 0x20  collision volume A                    */
-    u8  p24[0x58 - 0x24];
-    s32 f58;                    /* 0x58  collision volume B                    */
-    u8  p5C[0x70 - 0x5C];
-    s16 f70;                    /* 0x70  sub-kind / owner tag                  */
-    u8  p72[0x10C - 0x72];      /* stride 0x10C, 0x60 entries (0x6480)         */
-} Ent_80188E10_80183BB4;
+typedef Unkstruct_800B5CB8 Ent_80188E10_80183BB4;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
