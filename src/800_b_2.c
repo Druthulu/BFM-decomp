@@ -44,10 +44,7 @@
  *   - switch indices `res`/`D_800760C4` are unsigned so gcc's case tree tests 1 first and `0` as `bltu 1`.
  */
 
-typedef struct { s32 stat; u32 val; } CardSlot;           /* D_8007609C[port>>4], 8 bytes */
-typedef struct { u8 b[41]; } Blk41;
-typedef struct { u8 b[32]; } Blk32u;
-typedef struct { u8 b[128]; } Blk128u;
+           /* D_8007609C[port>>4], 8 bytes */
                       /* 0x98 bytes, word aligned */
 
 extern s32 D_800760AC;      /* state */
@@ -1954,7 +1951,6 @@ void func_8002EDE4(void) {
 extern void func_80036EB4(void);
 extern void func_8002EC10(void);
 
-struct func_8002EE64_b { u8 c; };
 
 void func_8002EE64(void) {
     s32 g1, g2, g3, g4;
@@ -2138,23 +2134,6 @@ void func_8002F12C(s32 a0) {
 extern u8 D_800A4694[];
 
 void func_8002F150(s32 arg0) {
-    struct F150Rec {
-        u8 pad[0x0E];
-        u8 flg[8];
-        u8 tail[0x3E];
-    };
-    struct F150Slot {
-        u8 pad[0x20];
-        u32 u20;
-        u32 u24;
-        u32 u28;
-        u32 u2C;
-        u16 u30;
-        u8 mid[5];
-        u8 u37;
-        u8 u38;
-        u8 tail[0x1B];
-    };
 
     struct F150Rec *rec = (struct F150Rec *)D_800A4694 + arg0;
     struct F150Slot *slots = (struct F150Slot *)(D_800A4694 + 0x2F4);
@@ -2172,24 +2151,7 @@ void func_8002F150(s32 arg0) {
     }
 }
 
-typedef struct F1ccRec {
-    u8 pad[0x0E];
-    u8 flg[8];
-    u8 tail[0x3E];
-} F1ccRec;
 
-typedef struct F1ccSlot {
-    u8 pad[0x20];
-    u32 u20;
-    u32 u24;
-    u32 u28;
-    u32 u2C;
-    u16 u30;
-    u8 mid[5];
-    u8 u37;
-    u8 u38;
-    u8 tail[0x1B];
-} F1ccSlot;
 
 extern u8 D_800A4694[];
 
@@ -2975,7 +2937,7 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
         *(s16 *)(w + 0xA) = r;
         /* read through a struct-typed pointer: expand forces the constant address into a pseudo (explow.c
            memory_address), so cse does not forward the `D_800A46D2 = r` store and the value is re-read */
-        if (r == -1 || func_800419B0(((struct { s16 v; } *)&D_800A46D2)->v) == -1) {
+        if (r == -1 || func_800419B0(((Unkstruct_800A46D2 *)&D_800A46D2)->v) == -1) {
             D_800A4650[idx24] = 1;
             return 1;
         }
@@ -3258,16 +3220,7 @@ s32 func_80030634(void) {
 
 
 
-typedef struct {
-    u8  unk00[4];
-    u8  unk04;
-    u8  unk05[11];
-    u16 unk10;
-    u16 unk12;
-    u8  unk14[2];
-    s16 unk16;
-    u8  unk18[8];
-} Blk28;                       /* 0x20 */
+                       /* 0x20 */
 
 extern u8    D_8006AEF4;
 extern s16   D_800A46CC;
@@ -3517,12 +3470,6 @@ s32 func_80030CA4(u16 arg0)
 
 
 
-typedef struct Blk48_30D80 {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ u8 pad04[0x3D];
-    /* 0x41 */ u8 unk41;
-    /* 0x42 */ u8 pad42[6];
-} Blk48_30D80;
 
 extern s8 D_800A4F17;
 extern s32 D_800C7D20;
@@ -3684,16 +3631,7 @@ extern void func_800314DC(struct Obj_800_b_2 *);
 extern void func_800316F8(s32);   /* §376: the definition takes s32; cast at the use site */
 extern void func_80031988(struct Ent30D80 *);
 
-typedef struct VoiceF80 {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ s16 unk08;
-    /* 0x0A */ s16 unk0A;
-    /* 0x0C */ u8  pad0C[0x34];
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ u8  unk44;
-    /* 0x45 */ u8  pad45[3];
-} VoiceF80; /* 0x48 */
+ /* 0x48 */
 
 void func_80030F80(void)
 {
@@ -3877,27 +3815,6 @@ void func_80030F80(void)
 
 
 
-typedef struct Obj_800_b_2 {
-    /* 0x00 */ u8 unk00[0xA];
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u16 unk0C;
-    /* 0x0E */ u16 unk0E;
-    /* 0x10 */ u16 unk10;
-    /* 0x12 */ u8 unk12[0x12];
-    /* 0x24 */ s32 unk24;
-    /* 0x28 */ s32 unk28;
-    /* 0x2C */ s32 unk2C;
-    /* 0x30 */ u16 unk30;
-    /* 0x32 */ u8 unk32[0x5];
-    /* 0x37 */ u8 unk37;
-    /* 0x38 */ u8 unk38;
-    /* 0x39 */ u8 unk39;
-    /* 0x3A */ s16 unk3A;
-    /* 0x3C */ s16 unk3C;
-    /* 0x3E */ u8 unk3E[0x13];
-    /* 0x51 */ u8 unk51;
-    /* 0x52 */ u8 unk52[2];
-} Obj_800_b_2;
 
 
 /* 0x0C stride record pointed at by D_8006A970[] -- must match src/800.c's B12
@@ -4869,16 +4786,7 @@ done:
  * an extra unk0B field the TU's Slot54 doesn't expose. Different tag name so
  * it does NOT collide with the TU's `Slot54` typedef above; pointers are
  * cast to `Slot54 *` only at the func_80032A74 call site. */
-typedef struct Slot54View {
-    /* 0x00 */ u16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ u16 unk04;
-    /* 0x06 */ u16 unk06;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ s8  unk0A;
-    /* 0x0B */ u8  unk0B;
-    /* 0x0C */ u8  pad0C[0x48];
-} Slot54View; /* 0x54 */
+ /* 0x54 */
 
 
 extern Rec14 *D_80068304[];
@@ -5226,85 +5134,15 @@ done:
 /* ---- views this function needs (new names, no TU collision) ---- */
 
 /* the caller's 0x54 request slot (Slot54, seen past its declared tail) */
-typedef struct {
-    /* 0x00 */ u16 unk00;
-    /* 0x02 */ u16 unk02;
-    /* 0x04 */ u8  pad04[6];
-    /* 0x0A */ u8  unk0A;
-    /* 0x0B */ u8  pad0B[1];
-    /* 0x0C */ u16 unk0C;
-    /* 0x0E */ u8  unk0E[8];
-} Req32A74;
 
 /* the 0x14 record walked by this loop (Rec14, byte-resolved) */
-typedef struct {
-    /* 0x00 */ u16 unk00;
-    /* 0x02 */ u16 unk02;
-    /* 0x04 */ u16 unk04;
-    /* 0x06 */ u8  unk06;
-    /* 0x07 */ u8  unk07;
-    /* 0x08 */ u8  unk08;
-    /* 0x09 */ u8  unk09;
-    /* 0x0A */ u8  unk0A;
-    /* 0x0B */ u8  unk0B;
-    /* 0x0C */ u8  pad0C[4];
-    /* 0x10 */ s32 unk10;
-} Rec32A74; /* 0x14 */
+ /* 0x14 */
 
 /* the 0x54 mixer channel at D_800A4988 (cf. Chan336A8) */
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u16 unk0C;
-    /* 0x0E */ u16 unk0E;
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    /* 0x14 */ s32 unk14;
-    /* 0x18 */ u8  pad18[0xC];
-    /* 0x24 */ s32 unk24;
-    /* 0x28 */ u8  pad28[0xC];
-    /* 0x34 */ u8  unk34;
-    /* 0x35 */ u8  unk35;
-    /* 0x36 */ u8  unk36;
-    /* 0x37 */ u8  pad37[9];
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ s32 unk44;
-    /* 0x48 */ s16 unk48;
-    /* 0x4A */ s16 unk4A;
-    /* 0x4C */ u8  unk4C;
-    /* 0x4D */ u8  unk4D;
-    /* 0x4E */ u8  unk4E;
-    /* 0x4F */ u8  unk4F;
-    /* 0x50 */ u8  pad50[2];
-    /* 0x52 */ u8  unk52;
-    /* 0x53 */ u8  unk53;
-} Chan32A74; /* 0x54 */
+ /* 0x54 */
 
 /* the 0x48 voice at D_800A4C28 (Slot, byte-resolved) */
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u16 unk0C;
-    /* 0x0E */ u16 unk0E;
-    /* 0x10 */ u8  pad10[4];
-    /* 0x14 */ u16 unk14;
-    /* 0x16 */ u8  pad16[2];
-    /* 0x18 */ u16 unk18;
-    /* 0x1A */ u8  pad1A[2];
-    /* 0x1C */ s32 unk1C;
-    /* 0x20 */ u8  pad20[0x1A];
-    /* 0x3A */ u16 unk3A;
-    /* 0x3C */ u16 unk3C;
-    /* 0x3E */ u8  pad3E[2];
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ u8  unk44;
-    /* 0x45 */ u8  unk45;
-    /* 0x46 */ u8  pad46[2];
-} Voice32A74; /* 0x48 */
+ /* 0x48 */
 
 extern s16 D_800C5328[];
 extern s16 D_800C532A[];
@@ -5918,40 +5756,10 @@ void func_800335B8(s32 a0, s32 flags) {
  *    table load hoist across `sh $v0,0xA($a3)` and interleave into the first mult.
  */
 
-typedef struct {
-    /* 0x00 */ u8 pad00[0x0A];
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u8 pad0C[0x28];
-    /* 0x34 */ u8 unk34;
-    /* 0x35 */ u8 unk35;
-    /* 0x36 */ u8 pad36[0x1C];
-    /* 0x52 */ u8 unk52;
-    /* 0x53 */ u8 pad53[1];
-} Chan336A8; /* size 0x54 */
+ /* size 0x54 */
 
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ s16 unk08;
-    /* 0x0A */ s16 unk0A;
-    /* 0x0C */ u8 pad0C[0x34];
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ u8 unk44;
-    /* 0x45 */ u8 pad45[3];
-} Voice336A8; /* size 0x48 */
+ /* size 0x48 */
 
-typedef struct {
-    /* 0x00 */ u8 pad00[0x16];
-    /* 0x16 */ u8 unk16;
-    /* 0x17 */ u8 pad17[1];
-    /* 0x18 */ u16 unk18;
-    /* 0x1A */ u8 pad1A[2];
-    /* 0x1C */ u16 unk1C[12];
-    /* 0x34 */ u8 pad34[4];
-    /* 0x38 */ u8 unk38;
-    /* 0x39 */ u8 pad39[1];
-    /* 0x3A */ u8 unk3A[8];
-} Req336A8;
 
 extern u8 D_800A4988[];
 extern s32 D_80073140[];
@@ -6081,113 +5889,14 @@ void func_800336A8(Req336A8 *arg)
 
 
 
-typedef struct {
-    /* 0x00 */ u16 cur;
-    /* 0x02 */ u16 step;
-    /* 0x04 */ u16 tgt;
-    /* 0x06 */ u8  act;
-    /* 0x07 */ u8  pad07;
-} Ramp388C; /* 0x08 */
+ /* 0x08 */
 
-typedef struct {
-    /* 0x00 */ u16 unk00;
-    /* 0x02 */ u16 unk02;
-    /* 0x04 */ u16 unk04;
-    /* 0x06 */ u16 unk06;
-    /* 0x08 */ u8  unk08;
-    /* 0x09 */ u8  unk09;
-    /* 0x0A */ u8  unk0A;
-    /* 0x0B */ u8  unk0B;
-    /* 0x0C */ u8  unk0C;
-    /* 0x0D */ u8  unk0D;
-    /* 0x0E */ u8  pad0E[2];
-    /* 0x10 */ s32 unk10;
-} Cmd388C; /* 0x14 */
+ /* 0x14 */
 
-typedef struct {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ u8  pad02[6];
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ u8  pad0A[2];
-    /* 0x0C */ u32 *unk0C;
-    /* 0x10 */ u8  *unk10;
-    /* 0x14 */ u16 unk14;
-    /* 0x16 */ u8  unk16;
-    /* 0x17 */ u8  unk17;
-    /* 0x18 */ u16 unk18;
-    /* 0x1A */ u16 unk1A;
-    /* 0x1C */ Ramp388C unk1C[3];
-    /* 0x34 */ u16 unk34;
-    /* 0x36 */ u8  unk36;
-    /* 0x37 */ u8  pad37[1];
-    /* 0x38 */ u8  unk38;
-    /* 0x39 */ u8  unk39;
-    /* 0x3A */ u8  unk3A[8];
-    /* 0x42 */ u8  pad42[2];
-    /* 0x44 */ u32 *unk44;
-    /* 0x48 */ u8  unk48;
-    /* 0x49 */ u8  pad49[1];
-    /* 0x4A */ u16 unk4A;
-    /* 0x4C */ u8  unk4C;
-    /* 0x4D */ u8  unk4D;
-    /* 0x4E */ u8  unk4E;
-    /* 0x4F */ u8  unk4F;
-    /* 0x50 */ u16 unk50;
-    /* 0x52 */ s16 unk52;
-} Ent388C;
 
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u16 unk0C;
-    /* 0x0E */ u16 unk0E;
-    /* 0x10 */ u16 unk10;
-    /* 0x12 */ u16 unk12;
-    /* 0x14 */ s32 unk14;
-    /* 0x18 */ u8  pad18[0x0C];
-    /* 0x24 */ s32 unk24;
-    /* 0x28 */ u8  pad28[0x0C];
-    /* 0x34 */ u8  unk34;
-    /* 0x35 */ u8  unk35;
-    /* 0x36 */ u8  unk36;
-    /* 0x37 */ u8  pad37[9];
-    /* 0x40 */ void (*unk40)(u8 *, s32);
-    /* 0x44 */ s32 unk44;
-    /* 0x48 */ u16 unk48;
-    /* 0x4A */ u16 unk4A;
-    /* 0x4C */ u8  unk4C;
-    /* 0x4D */ u8  unk4D;
-    /* 0x4E */ u8  unk4E;
-    /* 0x4F */ u8  unk4F;
-    /* 0x50 */ u8  pad50[2];
-    /* 0x52 */ u8  unk52;
-    /* 0x53 */ u8  unk53;
-} Chan388C; /* 0x54 */
+ /* 0x54 */
 
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ s16 unk08;
-    /* 0x0A */ s16 unk0A;
-    /* 0x0C */ s16 unk0C;
-    /* 0x0E */ s16 unk0E;
-    /* 0x10 */ u8  pad10[4];
-    /* 0x14 */ s16 unk14;
-    /* 0x16 */ u8  pad16[2];
-    /* 0x18 */ u16 unk18;
-    /* 0x1A */ u8  pad1A[2];
-    /* 0x1C */ s32 unk1C;
-    /* 0x20 */ u8  pad20[0x1A];
-    /* 0x3A */ s16 unk3A;
-    /* 0x3C */ s16 unk3C;
-    /* 0x3E */ u8  pad3E[2];
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ u8  unk44;
-    /* 0x45 */ u8  unk45;
-    /* 0x46 */ u8  pad46[2];
-} Voice388C; /* 0x48 */
+ /* 0x48 */
 
 extern s16 D_800A4EF0;
 extern s16 D_800C5328[];
@@ -6676,50 +6385,12 @@ void func_800342E8(u8 *a0, s32 a1) {
  */
 
 /* 0xC-byte sound-instrument record, indexed by p[3]. */
-typedef struct Rec12_800_b_2 {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ u16 unk04;
-    /* 0x06 */ u16 unk06;
-    /* 0x08 */ u8  unk08;
-    /* 0x09 */ u8  pad09[3];
-} Rec12_800_b_2; /* 0xC */
+ /* 0xC */
 
-typedef struct Snd54Sub {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ s16 unk04;
-    /* 0x06 */ u8  unk06;
-    /* 0x07 */ u8  pad07;
-} Snd54Sub; /* 0x8 */
+ /* 0x8 */
 
 /* the 0x54-stride voice slot inside D_800A46E8 */
-typedef struct Snd54 {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ s16 unk04;
-    /* 0x06 */ s16 unk06;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ u8  pad0A[2];
-    /* 0x0C */ s32 unk0C;
-    /* 0x10 */ s32 unk10;
-    /* 0x14 */ s16 unk14;
-    /* 0x16 */ u8  unk16;
-    /* 0x17 */ u8  unk17;
-    /* 0x18 */ s16 unk18;
-    /* 0x1A */ s16 unk1A;
-    /* 0x1C */ Snd54Sub unk1C[3];
-    /* 0x34 */ s16 unk34;
-    /* 0x36 */ u8  unk36;
-    /* 0x37 */ u8  unk37;
-    /* 0x38 */ u8  unk38;
-    /* 0x39 */ u8  unk39;
-    /* 0x3A */ u8  unk3A[8];
-    /* 0x42 */ u8  pad42[6];
-    /* 0x48 */ u8  unk48;
-    /* 0x49 */ u8  pad49[7];
-    /* 0x50 */ s16 unk50;
-    /* 0x52 */ s16 unk52;
-} Snd54; /* 0x54 */
+ /* 0x54 */
 
 /* opaque — matches the TU's `typedef struct Owner4EE8 Owner4EE8;` spelling
  * exactly so this local decl is droppable at bank time in favor of the TU's;
@@ -6884,11 +6555,6 @@ void func_80034650(u8 *param_1, s32 param_2)
  * banking notes) — reproduced here verbatim for standalone compilation.
  * Do not duplicate in the TU when banking. */
 
-typedef struct {
-    u8 pad[0x3A];
-    u8 flg[8];
-    u8 tail[0x12];
-} S54;
 
 extern u16 D_800A46E8[];
 extern void func_80030D80(Ent30D80 *arg0, s16 arg1);
@@ -6928,18 +6594,7 @@ void func_800346D0(s32 arg0) {
     } while (i < 8);
 }
 
-typedef struct {
-    u16 state;      /* 0x00 */
-    u16 unk02;
-    u16 id;         /* 0x04 */
-    u16 group;      /* 0x06 */
-    u16 unk08;
-    s8  unk0A;
-    u8  unk0B;
-    u8  pad0C[0xA];
-    u8  active;     /* 0x16 */
-    u8  pad17[0x3D];
-} Sl;               /* 0x54 */
+               /* 0x54 */
 
 extern u16 D_800A46E8[];
 

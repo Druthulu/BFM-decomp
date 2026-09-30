@@ -1,11 +1,5 @@
 #include "common.h"
 
-typedef struct { u32 addr : 24; u32 len : 8; } P_TAG_800CFAD0;
-typedef struct { u8 b0, b1, b2, b3; } BYTES_800CFAD0;
-typedef struct {
-    u8 pad00[0x34];
-    s16 field_0x34;    /* 0x34 */
-} Struct80078E78;
 extern u16 D_800B99F0;
 extern void (*D_800D3430[])(void);
 extern void func_800CEDFC(void);
@@ -559,24 +553,8 @@ s32 func_800D17B8(s32 arg0) {
 // D_800AE6A8 as a STRUCT and reference named fields (gcc CSEs the base) rather than a u8[]
 // with per-store lui/at absolute addressing.
 
-typedef struct {
-    s32 w[9];
-} Blob36;
 
-typedef struct {
-    u8  pad0[2];
-    u8  b2;
-    u8  b3;
-} Src;
 
-typedef struct {
-    u8  pad0[8];
-    s32 w8;
-    u8  pad12[10];
-    u8  b16;
-    u8  pad17[2];
-    u8  b19;
-} Dst;
 
 extern u16 D_80078E50;
 extern s32 D_800AE6A8;
@@ -609,9 +587,6 @@ void func_800D185C(void *arg0) {
 // wrapper so the whole-array assignment `local = D_801141BC` is a clean aggregate copy
 // (3 words) and `local.fn[idx](...)` is the indexed call.
 
-typedef struct {
-    void (*fn[3])(void *);
-} FnTbl3;
 
 extern u8 D_800AE6BC;
 extern FnTbl3 D_801141BC;
@@ -642,11 +617,6 @@ void func_800D18DC(void) {
  * gcc's natural schedule (the 0x14 store hoists into the call delay slot).
  */
 
-typedef struct {
-    u8 pad[0x14];
-    u8 f14;   /* 0x14 */
-    u8 f15;   /* 0x15 */
-} S800D1938;
 
 extern void func_800D1F58(void);
 extern void func_801285D4(void);
@@ -702,9 +672,6 @@ extern void func_8001BE20(void);
 extern s32 func_8001BE30(void);
 extern void func_800CF8E4(void);
 
-typedef struct {
-    s32 (*f[3])(u8 *);
-} FnTbl;
 
 extern FnTbl D_801141C8;
 
@@ -1195,18 +1162,7 @@ void func_800D1FC8(void *arg0, int arg1) {
  */
 
 
-typedef struct {
-    u16 x;   /* 0x0 */
-    u16 y;   /* 0x2 */
-    u16 z;   /* 0x4 */
-} Pos800D20C0;
 
-typedef struct {
-    u8  pad[0x5C];
-    s32 t5C;  /* 0x5C */
-    s32 t60;  /* 0x60 */
-    s32 t64;  /* 0x64 */
-} Tgt800D20C0;
 
 extern Tgt800D20C0 *D_801151D4;
 extern long VectorNormalSS(SVECTOR_800 *a, SVECTOR_800 *b);
@@ -1254,10 +1210,6 @@ void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
  *   In the work block: func_8001CC3C(s0, arg1, 0, 0) with  sb s2,0x27(s0)  sitting
  *   in the jal's delay slot in asm -> write the store AFTER the call.
  */
-typedef struct {
-    u8 pad[0x27];
-    u8 f27;   /* 0x27 */
-} S800D21C4;
 
 extern void *func_801465C0(s32 arg0);
 extern void func_8001CC3C(S800D21C4 *arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -1313,15 +1265,6 @@ void *func_800D2294(s32 arg0, s32 arg1) {
     return 0;
 }
 
-typedef struct {
-    /* 0x00 */ s32 f0;
-    /* 0x04 */ s32 f4;
-    /* 0x08 */ s32 f8;
-    /* 0x0C */ s32 fC;
-    /* 0x10 */ s32 f10;
-    /* 0x14 */ s32 f14;
-    /* 0x18 */ s32 f18;
-} S800D22E4;
 
 void func_800D22E4(S800D22E4 *p) {
     p->f4 += p->f10;
@@ -1456,15 +1399,8 @@ void func_800D2624(void) {
     func_8002D4C8(0x15, 0);
 }
 
-typedef struct {
-    u32 *ot;            /* 0x00 */
-    u32 pad[4];         /* 0x04..0x13 */
-} Env_800D2650;         /* 0x14 stride */
+         /* 0x14 stride */
 
-typedef struct {
-    u32 addr : 24;      /* 0x00 tag */
-    u32 len  : 8;
-} PTag_800D2650;
 
 #define OT_800D2650             (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
 #define getaddr_800D2650(t)     (((PTag_800D2650 *)(t))->addr)
@@ -1611,15 +1547,8 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 
 
 
-typedef struct {
-    u32 addr : 24;      /* 0x00 tag */
-    u32 len  : 8;
-} PTag_800D27DC;
 
-typedef struct {
-    u32 *ot;            /* 0x00 */
-    u32 pad[4];         /* 0x04..0x13 */
-} Env_800D27DC;         /* 0x14 stride */
+         /* 0x14 stride */
 
 #define OT_800D27DC             (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
 #define getaddr_800D27DC(t)     (((PTag_800D27DC *)(t))->addr)
@@ -1742,21 +1671,8 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
  * groups to the same hard reg).
  */
 
-typedef struct {
-    u32 addr : 24;      /* 0x00 tag */
-    u32 len  : 8;
-} PTag_800D29F8;
 
-typedef struct {
-    u32 c0;             /* 0x04 r0,g0,b0,code */
-    s16 x0, y0;         /* 0x08 */
-    u32 c1;             /* 0x0C */
-    s16 x1, y1;         /* 0x10 */
-    u32 c2;             /* 0x14 */
-    s16 x2, y2;         /* 0x18 */
-    u32 c3;             /* 0x1C */
-    s16 x3, y3;         /* 0x20 */
-} PolyG4_800D29F8;      /* 0x24 = tag + 8 words */
+      /* 0x24 = tag + 8 words */
 
          /* 0x14 stride */
 
@@ -1955,12 +1871,6 @@ s32 func_800D2DFC(void) {
 extern void func_800D3348(u8 *arg0);
 extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t4_D58)
 
-typedef struct {
-    u8 pad15[0x15];
-    u8 field_0x15;  /* 0x15 */
-    u8 pad16[0x3];
-    u8 field_0x19;  /* 0x19 */
-} Struct800D2E20;
 
 s32 func_800D2E20(Struct800D2E20 *a0) {
     func_8016EDEC(func_800D3348, 0x1000000);
@@ -1985,12 +1895,6 @@ extern void func_8001BFD0(void);
 extern void func_800D0C48(u16 arg0);
 extern void func_800167B8(s32 arg0);
 
-typedef struct {
-    u8 pad00[0x15];    /* 0x00..0x14 */
-    u8 field_0x15;     /* 0x15 */
-    u8 pad16[0x3];     /* 0x16..0x18 */
-    u8 field_0x19;     /* 0x19 */
-} Struct800D2E6C;
 
 s32 func_800D2E6C(Struct800D2E6C *arg0) {
     u8 v = arg0->field_0x19;
@@ -2069,12 +1973,6 @@ void func_800D2FB0(u8 *arg0) {
 // args. Declaring it (void) and keeping arg0 live in a local emits the exact `addu s0,a0,$0`.
 extern void func_800D33E0(void);
 
-typedef struct {
-    u8 pad00[0x15];
-    u8 field_0x15;   /* 0x15 */
-    u8 pad16[0x12];
-    s32 field_0x28;  /* 0x28 */
-} Struct800D2FEC;
 
 s32 func_800D2FEC(Struct800D2FEC *a0) {
     func_800D33E0();
@@ -2109,12 +2007,6 @@ extern void func_8001BFD0(void);
 extern void func_800D0C48(u16 arg0);
 extern void func_800D1E28(void);
 
-typedef struct {
-    u8  pad00[0x15];
-    u8  field_0x15;   /* 0x15 */
-    u8  pad16[0x12];
-    s32 field_0x28;   /* 0x28 */
-} Obj800D302C;
 
 s32 func_800D302C(Obj800D302C *arg0) {
     s32 v;
@@ -2152,12 +2044,6 @@ void func_800D30C8(void *arg0) {
  *   sb v0, 0x15(a0)         -> store back at +0x15
  *   return 0
  */
-typedef struct {
-    u8 pad15[0x15];
-    u8 field_0x15;
-    u8 pad16[0x3];
-    u8 field_0x19;
-} Struct800D3104;
 
 s32 func_800D3104(Struct800D3104 *a0) {
     u8 v = a0->field_0x15;
@@ -2190,12 +2076,6 @@ extern void func_8001BFD0(void);
 extern void func_800D0C48(u16 arg0);
 extern void func_800167B8(s32 arg0);
 
-typedef struct {
-    u8 pad00[0x15];    /* 0x00..0x14 */
-    u8 field_0x15;     /* 0x15 */
-    u8 pad16[0x3];     /* 0x16..0x18 */
-    u8 field_0x19;     /* 0x19 */
-} Struct800D3120;
 
 s32 func_800D3120(Struct800D3120 *arg0) {
     u8 v = arg0->field_0x19;

@@ -723,8 +723,6 @@ void func_800CF990(void) {
     }
 }
 
-typedef struct { u32 addr : 24; u32 len : 8; } P_TAG_800CFAD0;
-typedef struct { u8 b0, b1, b2, b3; } BYTES_800CFAD0;
 
 void func_800CFAD0(void)
 {

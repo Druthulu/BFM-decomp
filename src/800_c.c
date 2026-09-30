@@ -1376,20 +1376,6 @@ extern void func_800359B0(s32 arg0);   /* §376: def takes (s32) */
 extern void func_80036D24(void);
 extern void func_80036FB0(s32, s32);
 
-typedef struct {
-    s32 f00;
-    s32 f04;
-    s32 f08;
-    s32 f0c;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-    s32 f1c;
-    s32 f20;
-    s32 f24;
-    s32 f28;
-    s32 f2c;
-} CdReq_800_c;
 
 void func_80036AF8(CdlLOC *loc, s32 flags) {
     CdReq_800_c req;
@@ -1845,11 +1831,6 @@ void *func_80037368(int *out) {
 
 
 
-typedef struct {
-    s16 unk00;
-    u8  pad02[4];
-    u16 unk06;
-} StructA4E88;
 
 /* Law 2: the destination TU (src/800.c) already declares D_80065438 as an array-of-struct
  * (H2 = { u16 f0; }) rather than a plain u16[] — refuse-TYPE(D_80065438, u16 vs H2).
@@ -1982,7 +1963,6 @@ s32 func_8003750C(void) {
     }
 }
 
-typedef struct { u8 v; } W8_;
 extern W8_ D_80076242_ __asm__("D_80076242");
 
 extern u8  D_8006AEF4;
@@ -3408,7 +3388,6 @@ void func_80039300(void) {
  * git history (this header replaces them).
  */
 
-typedef struct { u32 w; } VMask;
 
 extern u8 *D_800762B0;
 extern u8 D_800762B3[];
@@ -3915,16 +3894,7 @@ void func_80039F50(u8 **a0, s16 a1)
     }
 }
 
-typedef struct {
-    u8 b0;
-    u8 pad[25];
-} A098Rec;
 
-typedef struct {
-    u8 *stream;
-    u8 pad04[0x16];
-    A098Rec rec[1];
-} A098Ctx;
 
 void func_8003A098(A098Ctx *arg0, s16 arg1) {
     u8 *v1;
@@ -3994,16 +3964,6 @@ void func_8003A0E4(void *arg0, s16 arg1) {
 
 
 
-typedef struct {
-    /* 0x000 */ u8 *ptr;
-    /* 0x004 */ u8 pad_004[0x1D0 - 0x004];
-    /* 0x1D0 */ s32 unk1D0;
-    /* 0x1D4 */ u8 pad_1D4[0x1E4 - 0x1D4];
-    /* 0x1E4 */ s16 unk1E4;
-    /* 0x1E6 */ s16 unk1E6;
-    /* 0x1E8 */ u8 pad_1E8[0x1F9 - 0x1E8];
-    /* 0x1F9 */ u8 unk1F9;
-} func_8003A234_Ctx;
 
 void func_8003A234(func_8003A234_Ctx *a0) {
     u8 *a2 = a0->ptr;

@@ -44,10 +44,7 @@
  *   - switch indices `res`/`D_800760C4` are unsigned so gcc's case tree tests 1 first and `0` as `bltu 1`.
  */
 
-typedef struct { s32 stat; u32 val; } CardSlot;           /* D_8007609C[port>>4], 8 bytes */
-typedef struct { u8 b[41]; } Blk41;
-typedef struct { u8 b[32]; } Blk32u;
-typedef struct { u8 b[128]; } Blk128u;
+           /* D_8007609C[port>>4], 8 bytes */
                       /* 0x98 bytes, word aligned */
 
 extern s32 D_800760AC;      /* state */

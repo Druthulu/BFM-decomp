@@ -1,7 +1,5 @@
 #include "common.h"
 
-typedef struct { u32 addr : 24; u32 len : 8; } P_TAG_800CFAD0;
-typedef struct { u8 b0, b1, b2, b3; } BYTES_800CFAD0;
 extern u16 D_800B99F0;
 extern void (*D_800D3430[])(void);
 extern void func_800CEDFC(void);
@@ -539,11 +537,6 @@ extern s32 D_80127500;
 extern s32 resLoad_lastId;
 
 void func_800D06E8(void) {
-    typedef struct {
-        u8 pad00[0x36];
-        u8 field_0x36;
-        u8 field_0x37;
-    } Blk80078E78;
     extern Blk80078E78 D_80078E78;
     Blk80078E78 *p = &D_80078E78;
     s32 s0;
@@ -1103,10 +1096,6 @@ extern s32 func_800291DC(s32);
 extern void func_800291A0(s32, s32);
 extern void func_800291C8(s32, s32);
 
-typedef struct {
-    u8 pad00[0x34];
-    s16 field_0x34;    /* 0x34 */
-} Struct80078E78;
 extern Struct80078E78 D_80078E78;
 
 extern u8 D_8010EDF0;

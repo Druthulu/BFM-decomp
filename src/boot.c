@@ -226,7 +226,6 @@ extern void func_8001AF34(void);
 extern void func_8001513C(void);
 extern void func_80042610(void (*)(void));
 
-struct MainSlot { s32 unk0; s32 unk4; s32 unk8; };
 
 // @class: other
 // @stuck: none -- MATCH (509 ins, -O0 boot object).
@@ -764,10 +763,6 @@ extern void func_800D1724(s32);
  * No note, no variable: stupid.c's born+2 rule 2-colours the chain $v1/$a0 exactly as the target. Verified: match_one
  * MATCH 192/192 and rtu_match MATCH in src/boot.c (--o0). Semantics: (i*2+1)*2-2 == i*4. */
 void func_80011380(void) {
-    typedef struct {
-        u8 pad00[0x16];
-        u8 unk16;
-    } Unk;
     register u8 *p = D_800AF630;
     Unk *q = (Unk *)&D_800AE6A8;
 
