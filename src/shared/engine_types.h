@@ -4141,9 +4141,7 @@ typedef DVECTOR DV_80180B3C;
 typedef DVECTOR DVec_59F4;
 typedef DVECTOR DVec_80180894;
 typedef DVec_80183DA4 DVec_80184138;
-typedef struct {
-    u8 pad[0x34];
-} D_80195D74_Entry;
+typedef Elem52_801B5094 D_80195D74_Entry;
 typedef struct {
     u8 pad_0[0xCC];
     void *arr[4];
@@ -5441,7 +5439,7 @@ typedef struct {
     u16 unk100;
 } S_8018056C;
 typedef struct { s32 f0, f1, f2; } S_80182618;
-typedef struct { unsigned char b[0x34]; } S_8018AEB8;
+typedef Elem52_801B5094 S_8018AEB8;
 typedef struct {
     s16 f0;
     s16 f1;
@@ -5817,14 +5815,8 @@ typedef struct {
     s16 f4;
     u16 f6;
 } TableRec_80194A10;
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4;
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4_8017CEF4;
+typedef Node_801F28E0 Tbl16_8018BDE4;
+typedef Node_801F28E0 Tbl16_8018BDE4_8017CEF4;
 typedef struct {
     u16 x, y, z, w;                 /* stride 8, +0/+2/+4 used */
 } Tbl8_8017D898;

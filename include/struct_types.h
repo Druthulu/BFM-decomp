@@ -678,7 +678,19 @@ typedef struct {          /* face record, 0x14 bytes */
     /* 0x10 */ u16 v3;
     /* 0x12 */ u16 pad12;
 } FaceF4_800CB3C0;
-typedef struct { u32 unk00; u32 rgb; u16 n0, v0; u16 n1, v1; u16 n2, v2; u16 n3, v3; } FaceGT4_800CB7BC;
+typedef struct {                                     /* 0x18 */
+    u32 w0;      /* 0x00 */
+    u32 rgb;     /* 0x04 */
+    u16 n0;      /* 0x08 */
+    u16 v0;      /* 0x0A */
+    u16 n1;      /* 0x0C */
+    u16 v1;      /* 0x0E */
+    u16 n2;      /* 0x10 */
+    u16 v2;      /* 0x12 */
+    u16 n3;      /* 0x14 */
+    u16 v3;      /* 0x16 */
+} Face3;
+typedef Face3 FaceGT4_800CB7BC;
 typedef struct {                                        /* 0x24 */
     u32 unk00;
     u32 uv0;
@@ -910,9 +922,9 @@ typedef struct {
 typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801A6184;
 typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801AEC38;
 typedef struct { s16 m[3][3]; s16 t[3]; s16 pad[4]; } Mtx_A8CE0 __attribute__((aligned(8)));
-typedef struct { s32 next; u8 pad[0xC]; } Node_801E5AAC;
-typedef struct { s32 next; u8 pad[0xC]; } Node_801F0E9C;
 typedef struct { s32 next; u8 pad[0xC]; } Node_801F28E0;
+typedef Node_801F28E0 Node_801E5AAC;
+typedef Node_801F28E0 Node_801F0E9C;
 typedef struct {
     u8 pad[0xE0];
     s32 dE0;  /* 0xE0 */
@@ -1768,18 +1780,6 @@ typedef struct {                                     /* 0x14 */
     u16 n2;      /* 0x10 */
     u16 v2;      /* 0x12 */
 } Face2;
-typedef struct {                                     /* 0x18 */
-    u32 w0;      /* 0x00 */
-    u32 rgb;     /* 0x04 */
-    u16 n0;      /* 0x08 */
-    u16 v0;      /* 0x0A */
-    u16 n1;      /* 0x0C */
-    u16 v1;      /* 0x0E */
-    u16 n2;      /* 0x10 */
-    u16 v2;      /* 0x12 */
-    u16 n3;      /* 0x14 */
-    u16 v3;      /* 0x16 */
-} Face3;
 typedef struct {                                        /* 0x1C */
     u32 unk00;
     u32 uv0;
