@@ -2499,6 +2499,7 @@ HF_INCLUDERS_OVERRIDE = None     # the selftest sets {header: [tu]}; None = dele
 _HF_STATS = {}                   # plan_L's head-fold counts for describe_plan
 HF_DECLARATOR = re.compile(r"^\s*(\**)\s*(?:const\s+|volatile\s+)*([A-Za-z_]\w*)\s*((?:\[[^\]]*\]\s*)*)$")
 HF_ACCESS = re.compile(r"(->|\.)\s*([A-Za-z_]\w*)")
+HF_DEFINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+(\w+)(\([^)\n]*\))?((?:[^\n]*\\\n)*[^\n]*)", re.M)
 
 
 def head_split(only):
@@ -2776,7 +2777,7 @@ def _lvl(t, V, crx, lself):
 
 
 def _hf_file_edits(masked, lo_hi_fns, glob_spans, lnames, tag, lfields, lself, block):
-    """(accesses[(start, end, local field)], tag_edits[(start, end, repl)]) over one file's view of the local type.
+    """(accesses[(start, end, local field)], tag_edits[(start, end, repl)], refusals[cause]) over one file's view of the local type.
     lo_hi_fns: the function spans judged (a block unit: the one span after its definition); glob_spans: file-level text (the
     globals of the type; empty for a block unit)."""
     alts = [re.escape(n) for n in lnames] + ([r"struct\s+" + re.escape(tag)] if tag else [])
@@ -2793,12 +2794,38 @@ def _hf_file_edits(masked, lo_hi_fns, glob_spans, lnames, tag, lfields, lself, b
             base = masked[_postfix_start(masked, m.start()):m.start()]
             if _lvl(base, V, crx, lself) == (1 if m.group(1) == "->" else 0):
                 acc.append((m.start(2), m.end(2), m.group(2)))
+    # file-scope #define bodies (T4.c3: ov_SC05_010_jr_80181CDC.c's AIM macro reads `obj->x`, `obj` a parameter of the functions that
+    # expand it): the base is typed by the file's globals, else by every expanding function's locals — all agree or the unit is refused.
+    refusals = []
+    for lo, hi in ([] if block else glob_spans):
+        for mm in HF_DEFINE.finditer(masked, lo, hi):
+            mname, mparams = mm.group(1), set(re.findall(r"\w+", mm.group(2) or ""))
+            urx = re.compile(r"(?<![\w])" + re.escape(mname) + r"(?![\w])")
+            users = [(a, b) for a, b in lo_hi_fns if urx.search(masked, a, b)]
+            for m in HF_ACCESS.finditer(masked, mm.start(3), mm.end(3)):
+                if m.group(2) not in lfields:
+                    continue
+                base = masked[_postfix_start(masked, m.start()):m.start()]
+                if set(re.findall(r"[A-Za-z_]\w*", base)) & mparams:
+                    continue                                  # a macro parameter's base: typed at each expansion (left to the judge)
+                need = 1 if m.group(1) == "->" else 0
+                if _lvl(base, G, crx, lself) == need:
+                    acc.append((m.start(2), m.end(2), m.group(2))); continue
+                got = set()
+                for a, b in users:
+                    V = dict(G)
+                    V.update(_typed_vars(masked, [(a, b)], trx, params=True))
+                    got.add(_lvl(base, V, crx, lself))
+                if got == {need}:
+                    acc.append((m.start(2), m.end(2), m.group(2)))
+                elif need in got:
+                    refusals.append(f"macro `{mname}` access `{base.strip()}{m.group(1)}{m.group(2)}` is the local type in only some of its expansions")
     tag_edits = []
     if tag:
         for lo, hi in list(lo_hi_fns) + list(glob_spans):
             for m in re.compile(r"\bstruct\s+" + re.escape(tag) + r"\b(\s*;)?").finditer(masked, lo, hi):
                 tag_edits.append((m.start(), m.end(), "" if m.group(1) else lnames[0]))
-    return acc, tag_edits
+    return acc, tag_edits, refusals
 
 
 def _complement(spans, n):
@@ -2873,11 +2900,14 @@ def hf_unit(rel, text, masked, d, head, hi, res, fns, defs):
             return (r_, msk, fsp, glob, False)
         views.append(file_view_hf(rel, masked, fns, defs, span))
         if rel.endswith(".h"):
-            incs = (HF_INCLUDERS_OVERRIDE or {}).get(rel) if HF_INCLUDERS_OVERRIDE is not None else recipes()[2].get(rel, ())
+            imap = HF_INCLUDERS_OVERRIDE if HF_INCLUDERS_OVERRIDE is not None else recipes()[2]
+            incs = sorted(i for i in set(imap.get(rel) or ()) if i != rel and i.endswith(".c") and (REPO / i).exists())
+            incset = set(incs)
+            # T4.c3: the OTHER src/ headers those includers see (the per-function headers of engine_types.h's types) spell the
+            # local type's members too — every one in the includers' include closure (delever.includers' -I order) joins the unit.
+            sibs = {h for h, tus in imap.items() if h != rel and not h.startswith("include/") and h.endswith(".h") and not incset.isdisjoint(tus)}
             pat = re.compile(r"\b(?:" + "|".join(re.escape(n) for n in lnames + ([tag] if tag else [])) + r")\b")
-            for inc in sorted(set(incs or ())):
-                if inc == rel or not inc.endswith(".c") or not (REPO / inc).exists():
-                    continue
+            for inc in incs + sorted(h for h in sibs if (REPO / h).exists()):
                 itext = (REPO / inc).read_text(errors="surrogateescape")
                 if not pat.search(itext):
                     continue
@@ -2885,7 +2915,9 @@ def hf_unit(rel, text, masked, d, head, hi, res, fns, defs):
                 views.append(file_view_hf(inc, imask, _fn_spans(itext, inc, imask), tc.walk_file(itext, inc)["definitions"], None))
     renames = {}
     for r_, msk, fsp, glob, block in views:
-        acc, tag_edits = _hf_file_edits(msk, fsp, glob, lnames, tag, set(lf), lself, block)
+        acc, tag_edits, why = _hf_file_edits(msk, fsp, glob, lnames, tag, set(lf), lself, block)
+        if why:
+            return refuse(f"{r_}: {why[0]}")
         for (s, e, nm) in acc:
             if nm not in renames:
                 off = lf[nm]
@@ -4091,6 +4123,13 @@ void fx_b(s32 a0) {
 HF_FIX_H = '''typedef struct { s32 h0; s32 h4; u32 h8; s32 hC; } HdrT;
 '''
 
+HF_FIX_SIB = '''#define HS(v) { hp->hC = (v); }
+void hf_s(HdrT *hp) {
+    hp->h8 = 5;
+    HS(6);
+}
+'''
+
 HF_FIX_TU = '''#include "common.h"
 #include "hf.h"
 typedef struct { s32 f4; } Oth;
@@ -4323,8 +4362,10 @@ def selftest(real=False):
     # ---- rung L HEAD-FOLD (P38 T4): block-scope fold with type-aware renames, a header unit reaching its includer, a refusal, an exclusion
     (dirp / "ov" / "hf.h").write_text(HF_FIX_H)
     (dirp / "ov" / "hf.c").write_text(HF_FIX_TU)
+    (dirp / "ov" / "hf_sib.h").write_text(HF_FIX_SIB)
     hf_h, hf_c = (dirp / "ov" / "hf.h").relative_to(REPO).as_posix(), (dirp / "ov" / "hf.c").relative_to(REPO).as_posix()
-    HF_INCLUDERS_OVERRIDE = {hf_h: [hf_c]}
+    hf_s = (dirp / "ov" / "hf_sib.h").relative_to(REPO).as_posix()
+    HF_INCLUDERS_OVERRIDE = {hf_h: [hf_c], hf_s: [hf_c]}
     ok("head_split: a canonical name is a head, an alias filters", head_split(["Unkstruct_TEST", "ov_SC01_000"]) == (["Unkstruct_TEST"], ["ov_SC01_000"]))
     hf_text = HF_FIX_TU
     cands = hf_cands(hf_c, tc.walk_file(hf_text, hf_c)["definitions"], head_info(["Unkstruct_TEST"]))
@@ -4349,6 +4390,8 @@ def selftest(real=False):
     fts = rHh.get("final_texts", {})
     ok("HF header unit: the header folds and its includer's access is renamed in the same unit",
        rHh["folded"] == 1 and "typedef Unkstruct_TEST HdrT;" in fts.get(hf_h, "") and "D_80078E50.unk4 = 4;" in fts.get(hf_c, ""), f"{rHh['folded']} {sorted(fts)}")
+    ok("HF header unit: a sibling header in the includers' closure is renamed too (its #define body by the expanding function's type)",
+       "hp->unk8 = 5;" in fts.get(hf_s, "") and "hp->unkC = (v);" in fts.get(hf_s, ""), fts.get(hf_s, "")[:120])
     JUDGE_STUB = lambda files, tag: ("DIFFERS", "") if "typedef Unkstruct_TEST Ent;" in files.get(hf_c, "") else ("IDENTICAL", "")
     rHd = work_file_HF(hf_c, "st", dict(head="x"), logs.append, heads=["Unkstruct_TEST"])
     ok("HF: a DIFFERS judgement is FOLD-REFUSED with the verdict as cause", any(r_["verdict"] == "FOLD-REFUSED" and r_["cause"].startswith("DIFFERS") and r_["defn"] == "Ent" for r_ in rHd["rows"]))
