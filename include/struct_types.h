@@ -2736,7 +2736,8 @@ typedef struct Ent30D80 {
     /* 0x50 */ u8 unk50;
     /* 0x51 */ u8 unk51;
 } Ent30D80;
-typedef struct { u8 _0[0x12]; u16 f12; } F20T;
+typedef struct { u8 pad0[0x12]; u16 unk12; } Obj20_80178D40;
+typedef Obj20_80178D40 F20T;
 typedef H16 H2;
 typedef struct {                 /* func_801457A4 buffer (hdr) */
     s16 f0, f2, f4, f6, f8, fA;

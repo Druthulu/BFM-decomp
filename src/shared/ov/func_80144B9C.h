@@ -26,7 +26,7 @@
  *  2. STRUCT-MEMBER FOLD: at -O0, `struct->field` folds to `lw off(reg)`, but
  *     `*(T*)(base+const)` AND array `b[k]` both MATERIALIZE an extra `addu`.  All
  *     bases (p10/p14/p18/p1C/hdr/ent) must be struct pointers with exact offsets.
- *     p10->f20 is a pointer-to-struct field: `p10->f20->f12` folds to `sh 0x12(reg)`.
+ *     p10->f20 is a pointer-to-struct field: `p10->f20->unk12` folds to `sh 0x12(reg)`.
  *  3. Chained store `a->x = a->y = a->z = SRC;` reproduces the -O0 shared-value
  *     multi-store (one load, base addresses computed left-to-right, stored C..A).
  *  4. Loop counter `for(i=0;i<8;i++)` (i++ NOT i=i+1): i++ emits the extra
@@ -155,19 +155,19 @@ void func_80144B9C(void) {
         p10->f6 = p10->f88 = p10->f90 = p18->f20;
         p10->fA = p10->f8A = p10->f92 = p18->f22;
         p10->fE = p10->f8C = p10->f94 = p18->f24;
-        p10->f20->f12 = p18->f26;
+        p10->f20->unk12 = p18->f26;
         p18->f18 = 0;
     } else {
         p10->f6 = p10->f88 = p10->f90 = ent->f10;
         p10->fA = p10->f8A = p10->f92 = ent->f12;
         p10->fE = p10->f8C = p10->f94 = ent->f14;
-        p10->f20->f12 = ent->f16;
+        p10->f20->unk12 = ent->f16;
     }
     p10->f154 = p10->f15C = p10->f6;
     p10->f156 = p10->f15E = p10->fA;
     p10->f158 = p10->f160 = p10->fE;
     func_80015978((void *)((s32)p10 + 4), D_80126DB0);
-    D_80126DB6 = p10->f20->f12;
+    D_80126DB6 = p10->f20->unk12;
     if (*(s16 *)(p + 0xA3DA) == 0x1000 &&
         (*(s16 *)(p + 0xA3DC) == 0x1000 || *(s16 *)(p + 0xA3DC) == 0x2000) && flag == 0) {
         ent->f18();

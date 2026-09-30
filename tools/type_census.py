@@ -1130,6 +1130,24 @@ def structs_reading(results, defs_all, td_all, dup_rows, dup_full_names, twins_t
 ALIGNED_RX = re.compile(r"aligned\s*\(\s*(\d+)\s*\)")
 
 
+def n_types(defs):
+    """Distinct types among layout-class defs (P38 T5.1.c8): a def's tag and its typedef names are ONE type
+    (`typedef struct actor4c {…} Actor4C;` was counted as two names); names shared across defs join their types."""
+    parent = {}
+    def find(x):
+        while parent.setdefault(x, x) != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+    for d in defs:
+        own = list(d["names"]) + ([d["tag"]] if d["tag"] else [])
+        for n in own[1:]:
+            parent[find(n)] = find(own[0])
+        if own:
+            find(own[0])
+    return len({find(n) for n in parent})
+
+
 def def_layout_hash(res, d, lay):
     """The def's layout hash: layout_hash(lay), re-keyed with the alignment when the def's own `packed` / `aligned(N)` moves it
     off the natural one (P38 T5.1.c6: R22 proved packed and natural twins different layouts — a2e73 → packed_word 70/218,
@@ -1221,12 +1239,15 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
         nm = set()
         for d in ds:
             nm |= names_of(d)
-        if len(nm) <= 1:
+        if n_types(ds) <= 1:       # T5.1.c8: a def's tag and typedef name are one type, not two names
             continue
         sigs = collections.defaultdict(set)
+        sig_defs = collections.defaultdict(list)
         for d in ds:
             sg = sig_of(d)
-            sigs[("*",) if all(x == "*" for x in sg) else sg] |= names_of(d)
+            sk = ("*",) if all(x == "*" for x in sg) else sg
+            sigs[sk] |= names_of(d)
+            sig_defs[sk].append(d)
         # tier 1/2 merge: every wildcard-only definition joins the class; distinct meaningful signatures are separate types
         meaningful = {sg: nms for sg, nms in sigs.items() if sg != ("*",)}
         opaque = sigs.get(("*",), set())
@@ -1244,12 +1265,12 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
             layout_twins.append(rec)
             # names WITHIN one meaningful camp are still duplicates of each other
             for sg, nms in meaningful.items():
-                if len(nms) > 1:
+                if n_types(sig_defs[sg]) > 1:
                     dup_layout_classes.append(dict(lhash=lh + ":" + hashlib.sha1(repr(sg).encode()).hexdigest()[:6], size=ds[0]["size"],
                                                    n_names=len(nms), n_defs=sum(1 for d in ds if sig_of(d) == sg), canon=0, in_c=0,
                                                    names=sorted(nms)[:40], tier=1))
                     dup_full_names[dup_layout_classes[-1]["lhash"]] = nms
-            if len(opaque) > 1:
+            if n_types(sig_defs[("*",)]) > 1:
                 dup_layout_classes.append(dict(lhash=lh + ":opaque", size=ds[0]["size"], n_names=len(opaque), n_defs=0, canon=0, in_c=0,
                                                names=sorted(opaque)[:40], tier=2))
                 dup_full_names[lh + ":opaque"] = opaque
@@ -1788,6 +1809,9 @@ def selftest():
     ah = {d["names"][0]: def_layout_hash(ar, d, ar.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"])))
           for d in ares["definitions"]}
     checks.append(("packed twin apart, natural aligned() together", ah["PkW"] != ah["NatW"] and ah["AlW"] == ah["NatW"]))
+    # T5.1.c8: a def's tag + typedef name are one type; two defs with different names are two
+    tres = walk_file("typedef struct actor4c { s32 a; } Actor4C;\ntypedef struct { s32 a; } Other4;\n", "src/ov_TEST/tg.c")
+    checks.append(("tag+typedef one type", n_types(tres["definitions"][:1]) == 1 and n_types(tres["definitions"]) == 2))
     # T5.1: the --check-structs reading (liveness, allowlists, block frames)
     cres = walk_file(CANON_FIXTURE, "src/shared/engine_types.h")
     ures = walk_file(USE_FIXTURE, "src/ov_TEST/u.c")

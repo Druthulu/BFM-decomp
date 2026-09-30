@@ -744,7 +744,6 @@ struct Entity_80167540 {
     /* 0x38 */ Mat_80167540 mat;
 };
 typedef Blk20_8016DF5C Mat_8016A73C;
-typedef struct { u8 pad0[0x12]; u16 unk12; } Obj20_80178D40;
 typedef struct Actor_80178D40 {
     s16 unk0;
     s16 unk2;
