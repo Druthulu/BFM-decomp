@@ -108,18 +108,6 @@ void func_800CAF90(s32 a0) {
 }
 
 
-typedef struct {
-    s8 pad00[0x12];
-    s16 f12;
-    s8 pad14[6];
-    s16 f1A;
-    s32 f1C;
-    s8 pad20[8];
-    u16 f28;
-    u16 f2A;
-    s8 pad2C[4];
-    u32 f30;
-} St_md_MAIN_029;
 
 extern u8 D_80078EC1;
 extern s16 D_80126BCC;

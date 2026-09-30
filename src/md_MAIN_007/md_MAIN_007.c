@@ -430,7 +430,6 @@ extern s16 D_800B9A02;
 
 void func_800CF6D0(s32 arg0, u32 arg1) {
     u8 *p;
-    typedef struct { u32 addr:24; u32 len:8; } P_TAG_md_MAIN_007_800CF6D0;
     u8 *ob;
     u32 m24;
 

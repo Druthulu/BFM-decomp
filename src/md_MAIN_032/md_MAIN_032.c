@@ -96,7 +96,6 @@ void func_800CB054(void *arg0) {
 
 #include "common.h"
 
-typedef struct { s32 w[4]; } func_800CB0B0_Blk16;
 
 extern void func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
@@ -132,7 +131,6 @@ void func_800CB0B0(void *arg0) {
 
 #include "common.h"
 
-typedef struct { s32 w[4]; } func_800CB188_Blk16;
 
 extern void func_80149374(s32 a0, s32 a1);
 

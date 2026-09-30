@@ -1120,19 +1120,6 @@ extern s32 D_800A5E60;
 extern u8 D_800A6610[];
 
 void func_8001212C(void) {
-    typedef struct {
-        unsigned int addr : 24;
-        unsigned int len : 8;
-    } PrimTag;
-    typedef struct {
-        u8 pad0, pad1, pad2, len;
-        u32 tpage;
-        u8 r0, g0, b0, code;
-        s16 x0, y0;
-        u8 u0, v0;
-        u16 clut;
-        s16 w, h;
-    } Sprt24;
 
     register u8 *base = D_800AF630;
     Sprt24 *p;

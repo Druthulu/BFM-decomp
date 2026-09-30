@@ -294,7 +294,6 @@ extern u8 D_800CC298[];
 extern s16 D_800CC29A;
 extern s16 D_800CC29C;
 
-typedef struct { s32 w[4]; } CB4A4_V4;
 
 void func_800CB4A4(s32 a0) {
     u8 *ap;
@@ -442,18 +441,7 @@ extern u8 D_800CC1C0[];
 extern u8 D_800CC1B0[];
 extern u8 D_800CC1A0[];
 
-typedef struct { u32 a, b; } __attribute__((packed, aligned(1))) Blk8_md_MAIN_027;
 
-struct Mid { u32 gray[4]; u32 code; u8 bmode; };
-typedef struct {
-    u8 mat[0x14];
-    u32 zz[3] __attribute__((aligned(4)));
-} __attribute__((packed)) MZ;
-typedef struct {
-    u16 hB0;
-    u16 hB2;
-    u32 hpad;
-} HB;
 
 
 void func_800CB82C(s32 a0, s32 a1)

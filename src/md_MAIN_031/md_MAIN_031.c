@@ -342,7 +342,6 @@ void func_800CB5C8(s32 arg0, s32 arg1) {
 }
 
 
-typedef struct { s16 m[3][4]; } Mat_CB6A0;
 
 /* GTE VARIANT `gte_SetRotMatrix_m`: memory beyond Sony's `gte_SetRotMatrix` — a scheduling steer, its uses are marked (P36 T5) */
 #define gte_SetRotMatrix_m(p) __asm__ __volatile__( \
@@ -550,7 +549,6 @@ void func_800CBC14(void *arg0) {
 }
 
 
-typedef struct { char c[8]; } Blk8_md_MAIN_031;
 
 void func_800CBCD4(u8 *s0) {
     extern s32 func_80012ABC(s32, s32, s32);

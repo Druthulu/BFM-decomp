@@ -58,7 +58,7 @@ typedef struct {
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 /* hoisted by gate_main so drafts above can reuse them (§181) */
-typedef struct { s16 vx, vy, vz, pad; } SVEC2;      /* 0x08 */
+      /* 0x08 */
 typedef struct {                                     /* 0x14 */
     u32 w0;      /* 0x00 */
     u32 rgb;     /* 0x04 */

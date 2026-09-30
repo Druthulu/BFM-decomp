@@ -280,9 +280,6 @@ void func_800CB4C8(void *arg0) {
 
 #include "common.h"
 
-typedef struct { u8 b[4]; } B4_CB578;
-typedef struct { u8 b[8]; } B8_CB578;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CB578;
 
 extern void func_80013F3C(void *a0);
 extern void RotMatrixZ(s32 a0, void *a1);

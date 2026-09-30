@@ -220,10 +220,6 @@ extern s16 D_800EC9A0;
 extern s16 D_800EC9A2;
 
 void func_800D12D0(void) {
-    typedef struct {
-        unsigned int addr : 24;
-        unsigned int len : 8;
-    } PrimTag;
 
     register u8 *base = D_800AF630;
 

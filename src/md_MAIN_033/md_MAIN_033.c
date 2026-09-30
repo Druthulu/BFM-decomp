@@ -261,7 +261,6 @@ s32 func_800CB3D8(s32 arg0, s32 arg1) {
     extern void func_80015954(s32, s32);
     extern s32 func_800CB4EC(s32 a0);
 
-    struct S_md_MAIN_033_800CB3D8 { s32 f[8]; };
     struct S_md_MAIN_033_800CB3D8 st;
     s32 out1[2];
     u16 out2[3];

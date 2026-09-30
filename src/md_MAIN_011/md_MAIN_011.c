@@ -4,7 +4,6 @@
 
 extern u8 D_800AF630[];
 
-typedef struct { void (*fn)(void); } FnEntry;
 extern FnEntry D_800D4C54[];
 
 void func_800CEE74(void) {
@@ -16,7 +15,6 @@ void func_800CEE74(void) {
 
 
 void func_800CEF00(void) {
-    typedef struct { s32 m; } S70;
     extern u8 D_800AF630[];
     extern u8 D_800D31FC[];
     extern u8 D_800D31F8[];
@@ -90,8 +88,6 @@ void func_800CF28C(void) {
     extern u8 D_80078E78[];
     extern u8 D_800D31F8[];
     extern u8 D_800D3334[];
-    typedef struct { s16 unk00; s16 unk02; s16 unk04; } S6;
-    typedef struct { u8 pad00[0x1A]; u16 f1A; } SP18;
     extern S6 D_800D4A5C[];
     extern s16 D_800D4C80;
     extern u16 D_800D4C9C;
@@ -339,10 +335,6 @@ extern u8 D_80078E78[];
 const char D_800CEE30[] = "(DISELECT)";
 
 void func_800CFDB4(void) {
-    typedef struct { s32 m; } S70;
-    typedef struct { s32 pad00[8]; s32 f20; } SW20;
-    typedef struct { s32 pad00[8]; u16 f20; } SH20;
-    typedef struct { u8 pad00[0x1A]; u16 f1A; } SP18;
     extern s32 D_800D4C88;
     extern s32 D_800D4C8C;
     extern u16 D_800D4C84;
@@ -475,7 +467,6 @@ const char D_800CEE54[] = "GET IN SEL";
 const u32 D_800CEE60[] = { 0x59414C50, 0x48205245, 0x45482050, 0x414E4152, 0x01000049 };
 
 void func_800D04F4(void) {
-    typedef struct { s16 unk00; s16 unk02; s16 unk04; } S6;
     extern s32 func_80029504(void);
     extern s32 D_800D3344;
     extern s16 D_800D3348;
@@ -535,60 +526,6 @@ void func_800D0858(void) {
 
 
 void func_800D0964(void) {
-    typedef struct {
-        u32 pad00;      /* 0x00 */
-        u32 unk04;      /* 0x04 */
-        u32 unk08;      /* 0x08 */
-        u32 unk0C;      /* 0x0C */
-        u32 unk10;      /* 0x10 */
-        u32 unk14;      /* 0x14 */
-        u32 unk18;      /* 0x18 */
-        u32 unk1C;      /* 0x1C */
-        u32 unk20;      /* 0x20 */
-        u32 unk24;      /* 0x24 */
-        u32 unk28;      /* 0x28 */
-        u32 unk2C;      /* 0x2C */
-        u32 unk30;      /* 0x30 */
-        s16 unk34;      /* 0x34 */
-        u8  unk36;      /* 0x36 */
-        u8  unk37;      /* 0x37 */
-        s16 unk38;      /* 0x38 */
-        s16 unk3A;      /* 0x3A */
-        s16 unk3C;      /* 0x3C */
-        s16 unk3E;      /* 0x3E */
-        s16 unk40;      /* 0x40 */
-        u8  unk42;      /* 0x42 */
-        u8  unk43;      /* 0x43 */
-        u8  unk44;      /* 0x44 */
-        u8  unk45;      /* 0x45 */
-        u8  unk46;      /* 0x46 */
-        u8  unk47;      /* 0x47 */
-        u8  unk48;      /* 0x48 */
-        u8  unk49;      /* 0x49 */
-        u8  unk4A;      /* 0x4A */
-        u8  unk4B;      /* 0x4B */
-        u8  unk4C;      /* 0x4C */
-        u8  pad4D[3];   /* 0x4D */
-        u32 unk50;      /* 0x50 */
-        u32 unk54;      /* 0x54 */
-        u32 unk58;      /* 0x58 */
-        u32 unk5C;      /* 0x5C */
-        u32 unk60;      /* 0x60 */
-        u32 unk64;      /* 0x64 */
-        u8  unk68;      /* 0x68 */
-        u8  pad69[3];   /* 0x69 */
-        u32 unk6C;      /* 0x6C */
-        u32 unk70;      /* 0x70 */
-        u32 unk74;      /* 0x74 */
-        u32 unk78;      /* 0x78 */
-        u32 unk7C;      /* 0x7C */
-        u32 unk80;      /* 0x80 */
-        u32 unk84;      /* 0x84 */
-        u32 unk88;      /* 0x88 */
-        u32 unk8C;      /* 0x8C */
-        u32 unk90;      /* 0x90 */
-        u32 unk94;      /* 0x94 */
-    } Gs_80078E78_init;
     extern u8 D_80078E78[];
     Gs_80078E78_init *p = (Gs_80078E78_init *)D_80078E78;
 
@@ -645,58 +582,6 @@ void func_800D0964(void) {
 
 
 void func_800D0BDC(void) {
-    typedef struct {
-        s32 pad00;
-        s32 unk04;
-        s32 unk08;
-        s32 unk0C;
-        s32 unk10;
-        s32 unk14;
-        s32 unk18;
-        s32 unk1C;
-        s32 unk20;
-        s32 unk24;
-        s32 unk28;
-        s32 unk2C;
-        s32 unk30;
-        s16 unk34;
-        u8 unk36;
-        u8 unk37;
-        s16 unk38;
-        s16 unk3A;
-        s16 unk3C;
-        s16 unk3E;
-        s16 unk40;
-        u8 unk42;
-        u8 unk43;
-        u8 unk44;
-        u8 unk45;
-        u8 unk46;
-        u8 unk47;
-        u8 unk48;
-        u8 unk49;
-        u8 unk4A;
-        u8 unk4B;
-        u8 unk4C;
-        s32 unk50;
-        s32 unk54;
-        s32 unk58;
-        s32 unk5C;
-        s32 unk60;
-        s32 unk64;
-        u8 unk68;
-        s32 unk6C;
-        s32 unk70;
-        s32 unk74;
-        s32 unk78;
-        s32 unk7C;
-        s32 unk80;
-        s32 unk84;
-        s32 unk88;
-        s32 unk8C;
-        s32 unk90;
-        s32 unk94;
-    } S_md_MAIN_011_800D0BDC;
     extern u8 D_80078E78[];
     extern u8 D_8010F476;
     extern u8 D_8010F47E;
@@ -829,60 +714,6 @@ void func_800D0BDC(void) {
 
 
 void func_800D1254(void) {
-    typedef struct {
-        s32 unk00;
-        s32 unk04;
-        s32 unk08;
-        s32 unk0C;
-        s32 unk10;
-        s32 unk14;
-        s32 unk18;
-        s32 unk1C;
-        s32 unk20;
-        s32 unk24;
-        s32 unk28;
-        s32 unk2C;
-        s32 unk30;
-        s16 unk34;
-        u8 unk36;
-        u8 unk37;
-        s16 unk38;
-        s16 unk3A;
-        s16 unk3C;
-        s16 unk3E;
-        s16 unk40;
-        u8 unk42;
-        u8 unk43;
-        u8 unk44;
-        u8 unk45;
-        u8 unk46;
-        u8 unk47;
-        u8 unk48;
-        u8 unk49;
-        u8 unk4A;
-        u8 unk4B;
-        u8 unk4C;
-        u8 pad4D[3];
-        s32 unk50;
-        s32 unk54;
-        s32 unk58;
-        s32 unk5C;
-        s32 unk60;
-        s32 unk64;
-        u8 unk68;
-        u8 pad69[3];
-        s32 unk6C;
-        s32 unk70;
-        s32 unk74;
-        s32 unk78;
-        s32 unk7C;
-        s32 unk80;
-        s32 unk84;
-        s32 unk88;
-        s32 unk8C;
-        s32 unk90;
-        s32 unk94;
-    } S1254;
     extern u8 D_80078E78[];
     extern void func_80029124(s32 a0, s32 a1);
     extern void func_800291A0(s32 a0, s32 a1);
@@ -1079,18 +910,6 @@ extern u16 D_800A65A8;
 extern u16 D_800A65AA;
 
 void func_800D1B00(void) {
-    typedef struct {
-        s32 pad00;
-        s32 f04; s32 f08; s32 f0C; s32 f10; s32 f14; s32 f18;
-        s32 f1C; s32 f20; s32 f24; s32 f28; s32 f2C; s32 f30;
-        u16 f34;
-        u8 f36; u8 f37;
-        u16 f38; u16 f3A; u16 f3C; u16 f3E; u16 f40;
-        u8 f42; u8 f43; u8 f44; u8 f45; u8 f46; u8 f47; u8 f48; u8 f49; u8 f4A; u8 f4B; u8 f4C;
-        s32 f50; s32 f54; s32 f58; s32 f5C; s32 f60; s32 f64;
-        u8 f68;
-        s32 f6C; s32 f70; s32 f74; s32 f78; s32 f7C; s32 f80; s32 f84; s32 f88; s32 f8C; s32 f90; s32 f94;
-    } St78;
 
     St78 *p = (St78 *)D_80078E78;
 
@@ -1236,60 +1055,6 @@ void func_800D1B00(void) {
 }
 
 
-typedef struct {
-    s32 unk00;
-    s32 unk04;
-    s32 unk08;
-    s32 unk0C;
-    s32 unk10;
-    s32 unk14;
-    s32 unk18;
-    s32 unk1C;
-    s32 unk20;
-    s32 unk24;
-    s32 unk28;
-    s32 unk2C;
-    s32 unk30;
-    s16 unk34;
-    u8 unk36;
-    u8 unk37;
-    s16 unk38;
-    s16 unk3A;
-    s16 unk3C;
-    s16 unk3E;
-    s16 unk40;
-    u8 unk42;
-    u8 unk43;
-    u8 unk44;
-    u8 unk45;
-    u8 unk46;
-    u8 unk47;
-    u8 unk48;
-    u8 unk49;
-    u8 unk4A;
-    u8 unk4B;
-    u8 unk4C;
-    u8 unk4D;
-    s32 unk50;
-    s32 unk54;
-    s32 unk58;
-    s32 unk5C;
-    s32 unk60;
-    s32 unk64;
-    u8 unk68;
-    u8 pad69[3];
-    s32 unk6C;
-    s32 unk70;
-    s32 unk74;
-    s32 unk78;
-    s32 unk7C;
-    s32 unk80;
-    s32 unk84;
-    s32 unk88;
-    s32 unk8C;
-    s32 unk90;
-    s32 unk94;
-} Gs_80078E78_md_MAIN_011;
 
 extern u8 D_80078E78[];
 extern void func_80029124(s32 arg0, s32 arg1);
@@ -1456,58 +1221,6 @@ void func_800D235C(void) {
 }
 
 
-typedef struct {
-    s8 pad00[4];
-    s32 unk04;
-    s32 unk08;
-    s32 unk0C;
-    s32 unk10;
-    s32 unk14;
-    s32 unk18;
-    s32 unk1C;
-    s32 unk20;
-    s32 unk24;
-    s32 unk28;
-    s32 unk2C;
-    s32 unk30;
-    s16 unk34;
-    u8 unk36;
-    u8 unk37;
-    s16 unk38;
-    s16 unk3A;
-    s16 unk3C;
-    s16 unk3E;
-    s16 unk40;
-    u8 unk42;
-    u8 unk43;
-    u8 unk44;
-    u8 unk45;
-    u8 unk46;
-    u8 unk47;
-    u8 unk48;
-    u8 unk49;
-    u8 unk4A;
-    u8 unk4B;
-    u8 unk4C;
-    s32 unk50;
-    s32 unk54;
-    s32 unk58;
-    s32 unk5C;
-    s32 unk60;
-    s32 unk64;
-    u8 unk68;
-    s32 unk6C;
-    s32 unk70;
-    s32 unk74;
-    s32 unk78;
-    s32 unk7C;
-    s32 unk80;
-    s32 unk84;
-    s32 unk88;
-    s32 unk8C;
-    s32 unk90;
-    s32 unk94;
-} S2BC4;
 
 void func_800D2BC4(void) {
     extern u8 D_80078E78[];

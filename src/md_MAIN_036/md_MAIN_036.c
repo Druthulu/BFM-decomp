@@ -337,7 +337,7 @@ extern s32 func_80146CA0(void *a0);
 extern void func_800CB774(void);
 extern int rand(void);
 
-typedef struct { s32 vx, vy, vz; } V3_800CB634; /* 12-byte entries: idx*12 addressing */
+ /* 12-byte entries: idx*12 addressing */
 
 void func_800CB634(void *a0) {
 
@@ -453,9 +453,9 @@ void func_800CB8B4(void *arg0) {
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SV_800CB910;   /*  8 bytes, align 2 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_800CB910; /* 0x20 bytes, align 4 */
-typedef struct { s32 vx, vy, vz, pad; } V32_800CB910;  /* 16 bytes, align 4 */
+   /*  8 bytes, align 2 */
+ /* 0x20 bytes, align 4 */
+  /* 16 bytes, align 4 */
 
 extern void func_8001CF00(s32 a0);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -607,7 +607,6 @@ void func_800CBD2C(s32 param_1) {
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_800CBD54;
 
 extern s32  func_80017DC4(void *a0, void *a1);
 extern void func_80017DF8(s16 *a0, void *a1);

@@ -8713,6 +8713,58 @@ typedef struct {
     s32 f20; /* 0x20 */
 } buf_80189888;
 
+/* --- lift_types.py --census (P38 T5.1.c2, batch md) --- */
+typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801E2B1C;
+typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801EF98C;
+typedef struct { s32 m[8]; } Mat_800CB658;
+typedef struct { short vx, vy, vz, pad; } SVECTOR_801EDED4_801E2B1C;
+typedef struct { short vx, vy, vz, pad; } SVECTOR_801EDED4_801EF98C;
+typedef struct { s16 x, y, z, pad; } SVec_800CB3BC;
+typedef struct {
+    /* 0x00 */ u16 cx, cy, cz;
+    /* 0x06 */ u16 _p06;
+    /* 0x08 */ u16 a8[4];
+    /* 0x10 */ s32 pos[3];
+    /* 0x1C */ s32 _p1C;
+    /* 0x20 */ SVec_800CB3BC v[4];
+    /* 0x40 */ struct { u8 r, g, b, cd; } col[4];
+    /* 0x50 */ u32 code;
+    /* 0x54 */ s32 _p54;
+    /* 0x58 */ u8 m1[0x20];
+    /* 0x78 */ u8 m2[0x20];
+} Fr_800CB3BC;
+struct Src_800CB658 {
+    u8 pad0[0x34];
+    Mat_800CB658 mat;
+};
+struct Node_800CB658 {
+    u8 pad0[0x6];
+    s16 unk6;
+    u8 pad8[0x2];
+    s16 unkA;
+    u8 padC[0x2];
+    s16 unkE;
+    u8 pad10[0x10];
+    struct Src_800CB658 *unk20;
+};
+struct Entity_800CB658 {
+    u8 pad0[0x6];
+    s16 unk6;
+    u8 pad8[0x2];
+    s16 unkA;
+    u8 padC[0x2];
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+    u8 pad14[0x8];
+    s32 unk1C;
+    u8 pad20[0x14];
+    struct Node_800CB658 *unk34;
+    Mat_800CB658 mat;
+};
+typedef struct { s32 w[4]; } func_800CB0B0_Blk16;
+typedef struct { s32 w[4]; } func_800CB188_Blk16;
+
 #endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the
  * Phase-29 crack-wave lift onward) were sitting OUTSIDE the guard, so any TU that
  * included this header twice re-declared them. gcc-2.7.2 rejects a repeated typedef

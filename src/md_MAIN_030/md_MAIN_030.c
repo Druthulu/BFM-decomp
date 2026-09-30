@@ -162,7 +162,6 @@ void func_800CB158(void *a0) {
 }
 
 
-typedef struct { s32 w[8]; } Blk32_CB1EC;
 
 void func_800CB1EC(void *a0) {
     extern u8 D_80078EC1;

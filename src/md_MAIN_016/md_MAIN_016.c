@@ -74,10 +74,6 @@ void func_800CAF28(void *arg0) {
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SVecX;
-typedef struct { u8 r, g, b, cd; } CVecX;
-typedef struct { SVecX v[4]; CVecX c[4]; s32 code; s32 pad2; } PrimX;
-typedef struct { s16 m[3][3]; s32 t[3]; } MtxX;
 
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_8012F14C(void *a0, void *a1, void *a2);
@@ -138,7 +134,6 @@ void func_800CAF84(arg0) void *arg0; {
 extern void func_800CAF84();
 
 void func_800CB158(s32 arg0) {
-    typedef struct { s32 w[4]; } Struct16;
     s32 a0;
     s32 v0;
 
@@ -168,9 +163,6 @@ void func_800CB158(s32 arg0) {
 }
 
 
-typedef struct {
-    s32 a, b, c, d;
-} Blk16_md_MAIN_016;
 
 void func_800CB228(s32 arg0) {
     s32 ent;
@@ -260,7 +252,6 @@ void func_800CB400(void *a0)
 void func_800CB458(s32 arg0) {
     extern void func_800CAF84(void);
     extern s32 func_80146A6C(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-    typedef struct { s32 w[4]; } Struct16;
     register s32 keep_a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 s0 = arg0;
     s32 s1;

@@ -144,7 +144,6 @@ void func_800CAF90(void *a0) {
 }
 
 
-typedef struct { s32 w[4]; } func_800CB164_Blk16;
 
 void func_800CB164(void *a0) {
     extern u8 D_80078EC1;
@@ -180,7 +179,6 @@ void func_800CB164(void *a0) {
 
 
 void func_800CB254(void *a0) {
-    typedef struct { s32 w[4]; } S16_md_MAIN_014_800CB254;
     extern u8 D_80078EC1;
     extern void func_80146C3C(u8 *a0);
     extern void func_800CAF90(void *a0);
@@ -273,7 +271,6 @@ void func_800CB470(void *a0) {
 }
 
 
-typedef struct { s32 w[4]; } func_800CB4D8_Blk16;
 
 extern void func_800CAF90(void *a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);

@@ -271,7 +271,6 @@ extern void func_800CD494(void *);
 extern u8 D_800CE1E8[];
 extern u8 D_800CE230[];
 
-typedef struct { u16 x, y, z, w; } V8_md_MAIN_044;
 
 void func_800CD1D4(s32 *s1) {
     s32 *s0;
@@ -452,7 +451,6 @@ extern void func_80015A2C(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 
-typedef struct { s32 w0, w1, w2, w3, w4, w5, w6, w7; } W8__md_MAIN_044;
 
 void func_800CD63C(s32 a0, s32 a1)
 {

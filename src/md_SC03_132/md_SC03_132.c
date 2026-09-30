@@ -227,8 +227,6 @@ void func_801E2AEC(s32 param_1) {
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801E2B14;
-typedef struct { short vx, vy, vz, pad; } SVECTOR_801EDED4_801E2B14;
 
 extern u16  func_80148800(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);

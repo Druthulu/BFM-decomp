@@ -51,7 +51,6 @@ void func_800CAEC0(s32 a0) {
 
 
 void func_800CB0D8(s32 a0) {
-    typedef struct { u8 pad[0x50]; s32 f50; } Struct80078E78_md_MAIN_028_800CB0D8;
     extern Struct80078E78_md_MAIN_028_800CB0D8 D_80078E78;
     extern s32 D_80078EC8;
     extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
@@ -394,7 +393,6 @@ void func_800CBA74(int param_1)
 }
 
 
-typedef struct { s32 w[4]; } Blk_800CBAD0;
 
 void func_800CBAD0(s32 a0) {
     extern void func_800CB8A0(void *a0);
@@ -424,7 +422,6 @@ L_inc:
 
 
 void func_800CBBA0(void *a0) {
-    typedef struct { s32 w[4]; } S16_md_MAIN_014_800CB254;
     extern void func_800CB8A0(void *a0);
     s32 a1;
     s32 n;
@@ -502,7 +499,6 @@ void func_800CBD78(s32 param_1) {
 }
 
 
-typedef struct { s32 w[4]; } Struct16;
 
 extern void func_800CB8A0(void *a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);

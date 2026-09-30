@@ -207,8 +207,6 @@ void func_800CB23C(void *a0) {
 
 
 void func_800CB300(s32 arg0) {
-    typedef struct { u8 b[8]; } W8_md_MAIN_025_800CB300;
-    typedef struct { s32 w[4]; } M16;
 
     extern u8 D_800CAE0C[];
     extern s16 D_800CBEA0;

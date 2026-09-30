@@ -67,16 +67,7 @@ extern u8 D_800AF680;
 
 
 
-typedef struct {
-    s32 unk00; /* +0x00 */
-    s32 unk04; /* +0x04 */
-    s32 unk08; /* +0x08 */
-    s32 unk0C; /* +0x0C */
-    s32 unk10; /* +0x10 */
-    s32 unk14; /* +0x14 */
-    s32 unk18; /* +0x18 */
-    s32 unk1C; /* +0x1C */
-} D_800D942C_entry; /* 0x20 bytes */
+ /* 0x20 bytes */
 
 extern D_800D942C_entry D_800D942C[];
 extern u8 D_800EC9FC[];
@@ -265,34 +256,7 @@ extern s32 D_800D9478;
 extern s32 D_800D947C;
 extern s32 D_800D9480;
 
-typedef struct S_D2394 {
-    s32 f0;
-    s32 f4;
-    s32 f8;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s16 f18;
-    s16 f1A;
-    s16 f1C;
-    s16 f1E;
-    s16 f20;
-    s16 f22;
-    s16 f24;
-    s16 f26;
-    s32 f28;
-    s16 f2C;
-    s16 f2E;
-    s16 f30;
-    s16 f32;
-    s32 f34;
-    s32 f38;
-} S_D2394;
 
-typedef struct S_D2394B {
-    s32 f0;
-    s32 f4;
-} S_D2394B;
 
 void func_800D2394(S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, S_D2394B *a5) {
     if (D_800D9480 == 1) {
@@ -360,7 +324,6 @@ extern s32 D_800EC9F0;
 extern u16 aD_800EC9BC[] __asm__("D_800EC9BC");
 extern void func_800D2C88();
 extern void func_800599B8(u16 *, u16 *);
-typedef struct { u16 x, y, w, h; } D24D0_Rect;
 
 void func_800D24D0(void) {
     D24D0_Rect sp10[2];
@@ -438,7 +401,6 @@ extern s32 D_800EC9F8;
 extern s32 D_800D9484;
 extern s32 D_800D9488;
 
-struct UnkS1 { s32 pad0; s32 f4; s32 pad8; s32 fC; s32 pad10; s32 pad14; s32 f18; u32 f1C; };
 
 s32 func_800D27A0(void* arg0, struct UnkS1* arg1) {
     s32 sp10[2];
@@ -493,16 +455,6 @@ found:
 }
 
 
-typedef struct {
-    s8 pad00[0x18];
-    u16 u18[2];
-    s8 pad1C[0xC];
-    s32 f28;
-    u16 u2C;
-    u16 u2E;
-    s32 pad30;
-    s32 f34;
-} St;
 
 void func_800D298C(St *a0) {
     volatile s32 cnt;

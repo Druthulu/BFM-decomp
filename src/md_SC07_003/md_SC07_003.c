@@ -115,11 +115,6 @@ extern s32 D_801AE228[];   /* == &D_801AE21C[3] but its own symbol       */
 extern s32 D_801F436C[];   /* s32 destination table                      */
 
 /* stride-8 records; only the s16 at +0 is touched here */
-typedef struct {
-    /* 0x0 */ s16 a;
-    /* 0x2 */ s16 b;
-    /* 0x4 */ s32 c;
-} Rec8_801A026C;
 
 extern Rec8_801A026C D_801F1344[];
 extern Rec8_801A026C D_801F1A5C[];
@@ -665,12 +660,6 @@ void func_801A0DA4(void *a0) {
    proves alignment 2 and size 8).  Fields are u16 because every read site uses `lhu`;
    the two negative literals are written through an s16 alias so the constant stays
    signed (`addiu $v0,$zero,-0x180`) instead of becoming `ori 0xFE80`. */
-typedef struct {
-    u16 a;
-    u16 b;
-    u16 c;
-    u16 d;
-} Vec8_801A0E28;
 
 extern u16 D_801F43C0;
 extern u8 D_801A68D4[];
@@ -1008,15 +997,8 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 extern s16 D_801F435C;
 
 /* PsyQ VECTOR (16 bytes: vx, vy, vz, pad) */
-typedef struct {
-    s32 vx, vy, vz, pad;
-} Vec801A143C;
 
 /* the 20-byte spawn descriptor handed to func_8012C51C */
-typedef struct {
-    s16 f0, f2, f4, f6, f8, fA, fC, fE;
-    s32 f10;
-} Spawn801A143C;
 
 void func_801A143C(s32 a0) {
     Vec801A143C vin;
@@ -1186,12 +1168,6 @@ void func_801A1724(s32 arg0) {
 
 #include "common.h"
 
-typedef struct {
-    u16 a;
-    u16 b;
-    u16 c;
-    u16 d;
-} Vec8_801A1924;
 
 extern u8  D_801A68FC[];
 extern u16 D_80126B5E;
@@ -1357,9 +1333,9 @@ void func_801A1ACC(s32 arg0) {
  *   sp+0x10 MATRIX mtx (0x20)   sp+0x30 SVECTOR sv (0x08)   sp+0x38 VECTOR vec (0x10)
  */
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801A1B28;   /* 0x20 */
-typedef struct { u16 vx, vy, vz, pad; } SV_801A1B28;      /* 0x08 */
-typedef struct { s32 vx, vy, vz, pad; } VEC_801A1B28;     /* 0x10 */
+   /* 0x20 */
+      /* 0x08 */
+     /* 0x10 */
 
 extern s32 func_8012E544(s32 a0);
 extern s32 func_8017F2D8(void);
@@ -1609,17 +1585,7 @@ extern void func_801A24E8(s32 a0);
 extern u8  D_801A6BB8[];
 extern u16 D_801A6BBE[];
 
-typedef struct Prim801A2014 {
-    /* 0x00 */ s16 x;
-    /* 0x02 */ s16 y;
-    /* 0x04 */ s16 z;
-    /* 0x06 */ s16 f06;
-    /* 0x08 */ s16 f08;
-    /* 0x0A */ s16 f0A;
-    /* 0x0C */ s16 f0C;
-    /* 0x0E */ s16 f0E;
-    /* 0x10 */ s32 f10;
-} Prim801A2014;   /* 0x14 bytes */
+   /* 0x14 bytes */
 
 void func_801A2014(s32 p)
 {
@@ -2029,22 +1995,7 @@ extern s32 D_800A5E60;
 /* PsyQ inline GTE macros (house spelling) */
 
 /* libgpu P_TAG: the 24-bit addr field reproduces setaddr()/getaddr() (boot.c house spelling) */
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} PTag293C;
 
-typedef struct {
-    s16 f00;
-    s16 f02;
-    s16 f04;
-    s16 f06;
-    s16 f08;
-    s16 f0A;
-    s16 f0C;
-    s16 f0E;
-    s32 f10;
-} Prim293C;
 
 void func_801A293C(void *arg0)
 {
@@ -2169,11 +2120,6 @@ extern u16 D_801A6934[];   /* source palette A (minuend)    */
 
 /* stride-6 colour records; the three labels overlap (+0/+2/+4) but each
    store must anchor its OWN symbol, hence three array decls */
-typedef struct {
-    u16 r;
-    u16 g;
-    u16 b;
-} Col6_801A2E20;
 
 extern Col6_801A2E20 D_801F43C4[];
 extern Col6_801A2E20 D_801F43C6[];
@@ -2436,7 +2382,6 @@ void func_801A3334(void *a0) {
 
     /* unaligned (align-1) 8-byte copy: (*(s1+0x20))[+0x10] = (*(s2+0x20))[+0x10] */
     {
-        typedef struct { u16 a, b, c, d; } Vec8_md_SC07_003_801A3334;
         *(Vec8_md_SC07_003_801A3334 *)((u8 *)*(u32 *)((u8 *)s1 + 0x20) + 0x10) =
             *(Vec8_md_SC07_003_801A3334 *)((u8 *)*(u32 *)((u8 *)s2 + 0x20) + 0x10);
     }
@@ -2478,7 +2423,6 @@ extern u16 D_801F43C0;
 
 /* Sibling shape: an 8-byte, align-2 vector -- same idiom as func_80131340's
  * `struct V8` (lwl/lwr + swl/swr unaligned block move, cookbook S48-C2). */
-struct V8_md_SC07_003 { u16 vx, vy, vz, pad; };
 
 void func_801A3490(s32 p)
 {
@@ -2608,7 +2552,6 @@ void func_801A3638(void *a0) {
     func_801A38E4(s1, s2, D_801F43C0, 5, 1);
 
     {
-        typedef struct { char c[8]; } Blk8_md_SC07_003_801A3638;
         void *dst = *(void **)((u8 *)s0 + 0x20);
         void *src = *(void **)((u8 *)s1 + 0x20);
 
@@ -2628,7 +2571,7 @@ extern void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4);
 extern s32 func_801A419C(s32 a0);
 extern s32 func_80153BD8(s32 a0);
 
-typedef struct { s16 a, b, c, d; } V8x_801A3788; /* 8-byte, align-2 quad of s16 */
+ /* 8-byte, align-2 quad of s16 */
 
 void func_801A3788(void *arg0) {
     u16 s0;
@@ -2734,12 +2677,6 @@ void func_801A38A8(s32 arg0) {
  */
 #include "common.h"
 
-typedef struct {
-    s16 vx;
-    s16 vy;
-    s16 vz;
-    s16 pad;
-} SVec801A38E4;
 
 extern void func_8012EA90(s32 a0, s32 a1, s32 *a2);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
@@ -3452,15 +3389,6 @@ void func_801A4590(s32 a0) {
  *       frame with 6 callee-saves (s0-s4, ra).
  * Same shape as func_80183F84 (ov_SC03_105) / func_8018DA64 (ov_SC04_011).
  */
-typedef struct { s16 vx, vy, vz, pad; } SVec_801A4680;
-typedef struct {
-    SVec_801A4680 v[4];                  /* 0x00 */
-    s16 u0, t0, u1, t1, u2, t2, u3, t3;  /* 0x20 */
-    u32 bcast;                           /* 0x30 */
-    s32 tag;                             /* 0x34 */
-    u8  code;                            /* 0x38 */
-    u8  pad39[7];                        /* -> 0x40 */
-} Prim_801A4680;
 
 extern void func_80016EF8(void *a0, void *a1);
 
@@ -3730,7 +3658,6 @@ void func_801A4CF4(s32 a0) {
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A4D58;
 
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
@@ -3781,7 +3708,6 @@ void func_801A4D58(s32 a0, s32 a1)
  * many fleet occurrences (e.g. src/ov_SC03_099/ov_SC03_099_jr_801588CC.c).
  */
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A4DFC;
 
 extern Mtx32_801A4DFC D_800AE620;
 extern void RotMatrixY(s32 a0, void *a1);
@@ -4014,18 +3940,8 @@ void func_801A5138(s32 a0) {
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A52DC;
 
-typedef struct { short vx, vy, vz, pad; } SVECTOR_801A52DC;
 
-typedef struct {
-    SVECTOR_801A52DC v[4];
-    s32 f0;
-    s32 f1;
-    s32 f2;
-    s32 f3;
-    s32 f4;
-} Prim_801A52DC;
 
 
 
@@ -4154,8 +4070,6 @@ void func_801A5638(void *a0) {
  *   sp+0x58 s0, sp+0x5C s1, sp+0x60 ra
  */
 
-typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec801A5674;
-typedef struct { SVec801A5674 v[2]; s32 col[2]; s32 tag; s32 pad; } Prim801A5674;
 
 extern void func_8012C218(void *a0);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -4249,7 +4163,6 @@ void func_801A589C(void *a0) {
 
 #include "common.h"
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_md_SC07_003;
 
 extern void (*D_801A7434[])(void);
 

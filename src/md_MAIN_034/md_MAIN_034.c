@@ -4,12 +4,6 @@
  * func_800CC310 splices EARLIER in address order and declares externs of this
  * type; strip_provided_typedefs removes the draft's own copy as "already
  * provided", so the surviving definition must precede every use in the file. */
-typedef struct {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-} Quad4_800CCB14;
 
 #include "common.h"
 
@@ -189,25 +183,12 @@ void func_800CB00C(s32 arg0, s32 arg1, s32 arg2)
 
 
 /* ---- types ------------------------------------------------------------- */
-typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB1F8;   /* 0x08 */
+   /* 0x08 */
 
 /* face record, 0x10 bytes; word 1 is the face base colour */
-typedef struct {
-    /* 0x00 */ u32 unk00;
-    /* 0x04 */ u32 rgb;
-    /* 0x08 */ u16 n0;
-    /* 0x0A */ u16 v0;
-    /* 0x0C */ u16 v1;
-    /* 0x0E */ u16 v2;
-} Face10_800CB1F8;                                         /* 0x10 */
+                                         /* 0x10 */
 
-typedef struct {          /* flat tri packet, 0x14 bytes */
-    /* 0x00 */ u32 tag;
-    /* 0x04 */ u32 rgb0;
-    /* 0x08 */ u32 xy0;
-    /* 0x0C */ u32 xy1;
-    /* 0x10 */ u32 xy2;
-} F3P_800CB1F8;                                           /* 0x14 */
+                                           /* 0x14 */
 
 extern s16 D_800C7C74;      /* double-buffer parity index */
 extern u32 D_800CC9F8;      /* flat colour used when func_800CC0A0() says so */
@@ -282,27 +263,11 @@ F3P_800CB1F8 *func_800CB1F8(Face10_800CB1F8 *f, SVEC8_800CB1F8 *verts,
 
 
 /* ---- types ------------------------------------------------------------- */
-typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB3C0;   /* 0x08 */
+   /* 0x08 */
 
-typedef struct {          /* face record, 0x14 bytes */
-    /* 0x00 */ u32 unk00;
-    /* 0x04 */ u32 rgb;
-    /* 0x08 */ u16 n0;
-    /* 0x0A */ u16 v0;
-    /* 0x0C */ u16 v1;
-    /* 0x0E */ u16 v2;
-    /* 0x10 */ u16 v3;
-    /* 0x12 */ u16 pad12;
-} FaceF4_800CB3C0;                                        /* 0x14 */
+                                        /* 0x14 */
 
-typedef struct {          /* flat quad packet, 0x18 bytes */
-    /* 0x00 */ u32 tag;
-    /* 0x04 */ u32 rgb0;
-    /* 0x08 */ u32 xy0;
-    /* 0x0C */ u32 xy1;
-    /* 0x10 */ u32 xy2;
-    /* 0x14 */ u32 xy3;
-} PktF4_800CB3C0;                                         /* 0x18 */
+                                         /* 0x18 */
 
 extern s16 D_800C7C74;      /* double-buffer parity index */
 extern u32 D_800CC9FC;      /* flat colour used when func_800CC0A0() says so */
@@ -369,29 +334,12 @@ PktF4_800CB3C0 *func_800CB3C0(FaceF4_800CB3C0 *face, SVEC8_800CB3C0 *vtx,
 
 
 /* ---- types ------------------------------------------------------------- */
-typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB5D0;   /* 0x08 */
+   /* 0x08 */
 
 /* face record, 0x14 bytes; word 1 is the face base colour */
-typedef struct {
-    /* 0x00 */ u32 unk00;
-    /* 0x04 */ u32 rgb;
-    /* 0x08 */ u16 n0;
-    /* 0x0A */ u16 v0;
-    /* 0x0C */ u16 n1;
-    /* 0x0E */ u16 v1;
-    /* 0x10 */ u16 n2;
-    /* 0x12 */ u16 v2;
-} Face14_800CB5D0;                                        /* 0x14 */
+                                        /* 0x14 */
 
-typedef struct {          /* flat gouraud tri packet, 0x1C bytes */
-    /* 0x00 */ u32 tag;
-    /* 0x04 */ u32 rgb0;
-    /* 0x08 */ u32 xy0;
-    /* 0x0C */ u32 rgb1;
-    /* 0x10 */ u32 xy1;
-    /* 0x14 */ u32 rgb2;
-    /* 0x18 */ u32 xy2;
-} Prim1C_800CB5D0;                                        /* 0x1C */
+                                        /* 0x1C */
 
 extern s16 D_800C7C74;      /* double-buffer parity index */
 extern u32 D_800CCA08;      /* flat colour used when func_800CC0A0() says so */
@@ -449,17 +397,11 @@ Prim1C_800CB5D0 *func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts,
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB7BC; /* 0x08 */
+ /* 0x08 */
 
-typedef struct { u32 unk00; u32 rgb; u16 n0, v0; u16 n1, v1; u16 n2, v2; u16 n3, v3; } FaceGT4_800CB7BC; /* 0x18 */
+ /* 0x18 */
 
-typedef struct {
-    u32 tag;
-    u32 rgb0, xy0;
-    u32 rgb1, xy1;
-    u32 rgb2, xy2;
-    u32 rgb3, xy3;
-} PktGT4_800CB7BC; /* 0x24 */
+ /* 0x24 */
 
 extern s16 D_800C7C74;
 extern u32 D_800CCA0C;
@@ -553,35 +495,12 @@ PktGT4_800CB7BC *func_800CB7BC(FaceGT4_800CB7BC *face, SVEC8_800CB7BC *vtx,
 
 
 /* ---- types ------------------------------------------------------------- */
-typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CBA18;   /* 0x08 */
+   /* 0x08 */
 
 /* face record, 0x20 bytes; only the index half (0x14..) is read here */
-typedef struct {
-    /* 0x00 */ u32 unk00;
-    /* 0x04 */ u32 uv0;
-    /* 0x08 */ u32 uv1;
-    /* 0x0C */ u32 uv2;
-    /* 0x10 */ u32 uv3;
-    /* 0x14 */ u16 n0;
-    /* 0x16 */ u16 v0;
-    /* 0x18 */ u16 v1;
-    /* 0x1A */ u16 v2;
-    /* 0x1C */ u16 v3;
-    /* 0x1E */ u16 pad1E;
-} Face20_800CBA18;                                        /* 0x20 */
+                                        /* 0x20 */
 
-typedef struct {          /* libgpu POLY_FT4, 0x28 bytes */
-    /* 0x00 */ u32 tag;
-    /* 0x04 */ u32 rgb;
-    /* 0x08 */ u32 xy0;
-    /* 0x0C */ u32 uv0;
-    /* 0x10 */ u32 xy1;
-    /* 0x14 */ u32 uv1;
-    /* 0x18 */ u32 xy2;
-    /* 0x1C */ u32 uv2;
-    /* 0x20 */ u32 xy3;
-    /* 0x24 */ u32 uv3;
-} Ft4_800CBA18;                                           /* 0x28 */
+                                           /* 0x28 */
 
 extern s16 D_800C7C74;      /* double-buffer parity index */
 extern u32 D_80063880;      /* GTE RGB seed word */
@@ -636,33 +555,9 @@ Ft4_800CBA18 *func_800CBA18(Face20_800CBA18 *f, SVEC8_800CBA18 *verts,
 #include "common.h"
 
 /* ---- geometry / primitive types local to this draft ---- */
-typedef struct { s16 vx, vy, vz, pad; } SVEC2;      /* 0x08 */
+      /* 0x08 */
 
-typedef struct {                                     /* 0x1C */
-    u32 w0;      /* 0x00 */
-    u32 w1;      /* 0x04 */
-    u32 w2;      /* 0x08 */
-    u32 w3;      /* 0x0C */
-    u16 n0;      /* 0x10 */
-    u16 v0;      /* 0x12 */
-    u16 n1;      /* 0x14 */
-    u16 v1;      /* 0x16 */
-    u16 n2;      /* 0x18 */
-    u16 v2;      /* 0x1A */
-} FaceT3;
 
-typedef struct {                                     /* 0x28 */
-    u32 tag;     /* 0x00 */
-    u32 rgb0;    /* 0x04 */
-    s16 x0, y0;  /* 0x08 */
-    u16 u0, cl;  /* 0x0C */
-    u32 rgb1;    /* 0x10 */
-    s16 x1, y1;  /* 0x14 */
-    u16 u1, tp;  /* 0x18 */
-    u32 rgb2;    /* 0x1C */
-    s16 x2, y2;  /* 0x20 */
-    u16 u2, pd;  /* 0x24 */
-} GT3P;
 
 /* ---- PsyQ inline GTE macros (same spellings as the matched func_80027D20) ---- */
 
@@ -733,27 +628,9 @@ GT3P *func_800CBC2C(FaceT3 *f, SVEC2 *verts, SVEC2 *norms, GT3P *prims,
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CBE28;          /* 0x08 */
+          /* 0x08 */
 
-typedef struct {                                        /* 0x24 */
-    u32 unk00;
-    u32 uv0;
-    u32 uv1;
-    u32 uv2;
-    u32 uv3;
-    u16 n0, v0;      /* 0x14 / 0x16 */
-    u16 n1, v1;      /* 0x18 / 0x1A */
-    u16 n2, v2;      /* 0x1C / 0x1E */
-    u16 n3, v3;      /* 0x20 / 0x22 */
-} FaceGT4_800CBE28;
 
-typedef struct {                                        /* 0x34 */
-    u32 tag;
-    u32 rgb0, xy0, uv0;   /* 0x04 0x08 0x0C */
-    u32 rgb1, xy1, uv1;   /* 0x10 0x14 0x18 */
-    u32 rgb2, xy2, uv2;   /* 0x1C 0x20 0x24 */
-    u32 rgb3, xy3, uv3;   /* 0x28 0x2C 0x30 */
-} PktGT4_800CBE28;
 
 extern u32 D_80063888;
 extern s16 D_800C7C74;
@@ -925,12 +802,6 @@ void func_800CC298(void *a0) {
  * Whole-struct assignment below reproduces the target's lwl/lwr + swl/swr unaligned
  * word copy (fields are u8, so the struct's natural alignment is 1, matching the
  * "Quad" block-copy idiom noted on the seed_ref twin ov_SC02_011:func_8017FB14). */
-typedef struct {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-} Quad4_800CCAD0;
 
 extern void func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);

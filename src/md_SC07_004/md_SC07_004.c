@@ -818,7 +818,6 @@ extern s16 D_801F8714;
 extern s32 D_801EF928;
 extern s32 D_801EEAC8;
 
-typedef struct { u8 pad0[0x34]; u16 f34; } S34_801A1470;
 
 void func_801A1470(s32 s0) {
     s32 v0;
@@ -985,9 +984,6 @@ void func_801A1984(s32 a0)
 #include "common.h"
 
 /* 4-byte, alignment-1 rodata blob ("  @") -> lwl/lwr + swl/swr block move */
-typedef struct M4_801A0168 {
-    u8 unk0[4];
-} M4_801A0168;
 
 extern M4_801A0168 D_801A0168;
 extern u16 D_8019FF8A;
@@ -1451,9 +1447,6 @@ extern M4_801A0168 D_801A0168;
 
 /* 16-byte VECTOR / 8-byte SVECTOR / 32-byte matrix, local-suffixed per this
  * TU's house style (cf. Mtx32_801A3180 / SVec_801A3180 at :901-903). */
-typedef struct { s32 vx, vy, vz, pad; } Vec32_801A2400;
-typedef struct { s16 vx, vy, vz, pad; } SVec_801A2400;
-typedef struct { s32 w[8]; } Mtx32_801A2400;
 
 extern u16 D_8019FF8A;
 /* §250: D_801F8EB2 is materialised as a lui/addiu BASE (lhu 0($v0) / sh 0($v0))
@@ -2005,9 +1998,6 @@ void func_801A3114(s32 *a0)
 
 /* 32-byte shared matrix global, 8-byte SVECTOR and 16-byte VECTOR, local-suffixed
  * per this TU's house style (cf. Mtx32_801A90D8 / SVec_801A3B18 further down). */
-typedef struct { s32 w[8]; } Mtx32_801A3180;
-typedef struct { s16 vx, vy, vz, pad; } SVec_801A3180;
-typedef struct { s32 vx, vy, vz, pad; } Vec32_801A3180;
 
 /* Declarations copied verbatim from this TU's own spellings:
  * RotMatrixY/D_80126B5E/D_80126B66 (:1096,:1106,:1108), ApplyMatrixSV +
@@ -2210,7 +2200,6 @@ default_case:
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CF90_801A3624;
 
 void func_801A3624(s32 target, u16 *cur, s32 step)
 {
@@ -2427,7 +2416,6 @@ extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_801A39D0;
 
 void func_801A39D0(s32 param_1)
 {
@@ -2480,8 +2468,6 @@ void func_801A3B08(s32 a0) {
 
 #include "common.h"
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A3B18;
-typedef struct { s16 vx, vy, vz, pad; } SVec_801A3B18;
 
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_8004914C(void *a0);
@@ -2578,7 +2564,6 @@ void func_801A3B18(s32 param_1)
 }
 
 
-typedef struct { s32 w[8]; } Mtx32_801A3D60;
 
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_8012BE54(s32 a0);
@@ -2708,7 +2693,6 @@ void func_801A4060(s32 a0) {
 }
 
 
-typedef struct { char c[4]; } Blk4_801A40CC;
 
 extern void func_800233CC(void *a0, unsigned short a1);
 extern void func_801A417C(s32 arg0);
@@ -2935,7 +2919,6 @@ s32 func_801A44C4(s32 a0) {
 /* Local 3x s16 vector (+pad) -- same shape as SV_801AAF8C used later in this
  * TU by func_801AAF8C, but declared under our own name because this
  * function's INCLUDE_ASM site precedes that typedef in file order. */
-typedef struct { s16 vx, vy, vz, pad; } SV3_801A4570;
 
 /* fleet-dominant spelling (decl_prior, n=1383): canonical void -> cast at use */
 extern void func_8012BE54(s32 a0);
@@ -3327,8 +3310,6 @@ void func_801A4E80(void *a0) {
 
 /* Mat32 layout (engine_types.h:637), local-suffixed for standalone compile:
  * { s32 w0,w4,w8,wC; s16 h10,hpad; s32 t0,t1,t2; } == 8 words / 32 bytes. */
-typedef struct { s32 w[8]; } Mtx32_801A90D8;
-typedef struct { s32 w0, w4, w8, wC; s16 h10, hpad; s32 t0, t1, t2; } Mat32_801A4EBC;
 
 extern s32 D_801F888C;
 extern Mtx32_801A90D8 D_800AE620;
@@ -3374,8 +3355,6 @@ void func_801A4EBC(u8 *a0)
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } Vec16_801A4FDC;
-typedef struct { s32 vx, vy, vz, pad; } Vec32_801A4FDC;
 
 extern int rand(void);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
@@ -3410,8 +3389,6 @@ void func_801A4FDC(void)
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } Vec16_801A5094;
-typedef struct { s32 vx, vy, vz, pad; } Vec32_801A5094;
 
 extern int rand(void);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
@@ -3454,9 +3431,6 @@ void func_801A5094(void)
 
 extern void func_80133060(u8 *a0, s32 *a1, s32 a2);
 
-typedef struct {
-    s32 w[8];
-} Blk32_801A5194;
 
 void func_801A5194(s32 arg0) {
     s32 sp10[3];
@@ -3550,8 +3524,6 @@ extern s32 func_8012B8A4(s16 *a0);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A54F0;
-typedef struct { s16 vx, vy, vz, pad; } SV_801A54F0;
 
 extern Mtx32_801A90D8 D_800AE620;
 extern s16 D_80126B62;
@@ -3618,10 +3590,8 @@ void func_801A5654(s32 param_1, s16 param_2, s32 param_3) {
  * TU, so this is a fresh local typedef, per law 8 (own name + own layout,
  * never adopt a foreign typedef name alone). */
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A5698;
 
 /* 4x s16 vector, matches SV_801AAF8C's layout in this same TU. */
-typedef struct { s16 vx, vy, vz, pad; } SVec_801A5698;
 
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_8004914C(void *a0);
@@ -3693,7 +3663,6 @@ extern int rand(void);   /* canonical: identical decl already at md_SC07_004.c:1
  * the four u16[] form byte-matches the body but inflates the frame to 0x30
  * (vars=16) instead of the target's 0x20.  D_801B0174 / D_801AFE44 are real
  * dlabels in asm/md_SC07_004/data/tail.data.s, so +2/+4/+6 relocate exactly. */
-typedef struct { u16 a, b, c, d; } Rec8_801A57E8;
 extern Rec8_801A57E8 D_801B0174[];
 extern Rec8_801A57E8 D_801AFE44[];
 
@@ -3842,7 +3811,6 @@ void func_801A5C44(void) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_801A5CE8;
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
@@ -3876,20 +3844,10 @@ void func_801A5CE8(void *a0)
    relocations name BOTH symbols (%hi/%lo of D_801B02DC and of D_801B02DE), so
    they are modelled as two independent 4-byte-stride arrays whose low u16 is
    the only field read. */
-typedef struct {
-    u16 v;                                  /* 0x0 */
-    u16 pad;                                /* 0x2 */
-} Pair4_801B02DC;
 
 /* The 4-entry scratch record built on the stack at sp+0x10 and handed to
    func_801A5E60.  Only f0/f2/f4 are written here; f6 is stride padding
    (8-byte stride == the target's `addiu $a0, $a0, 8` giv step). */
-typedef struct {
-    u16 f0;                                 /* 0x0 */
-    u16 f2;                                 /* 0x2 */
-    u16 f4;                                 /* 0x4 */
-    u16 f6;                                 /* 0x6 */
-} Entry8_801A5D68;
 
 extern u8 D_801B0328[];
 extern u8 D_801B0330[];
@@ -4032,10 +3990,8 @@ void func_801A5E60(s32 a0, u8 *v)
 
 /* MATRIX-style 0x20-byte matrix: s16 m[3][3] (18B) + 2B pad + s32 t[3] (12B).
  * Same shape as the TU-neighbour's MTX_801AAF8C (func_801AAF8C @ md_SC07_004.c). */
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801A6184;
 
 /* 8-byte SVECTOR-style: x,y,z,pad (s16 each). Same shape as SV_801AAF8C. */
-typedef struct { s16 x, y, z, pad; } Svec_801A6184;
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
@@ -4450,7 +4406,6 @@ extern u16 D_8019FF8A;
 
 /* 8-byte, 2-byte-aligned struct: forces gcc-2.7.2's emit_block_move to take the unaligned
    lwl/lwr + swl/swr path even between two naturally-4-aligned struct fields (cookbook §48-C2). */
-typedef struct { u16 a, b, c, d; } Blk8_801A6AD0;
 
 void func_801A6AD0(s32 arg0) {
     /* sync three u16 fields from *(arg0+0x64) into arg0 itself */
@@ -4804,7 +4759,6 @@ void func_801A72DC(void *a0)
 #include "common.h"
 
 /* §160a: lwl/lwr + swl/swr == emit_block_move on an ALIGN-1 4-byte struct. */
-typedef struct { char c[4]; } Blk4_801A7358;
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -5456,7 +5410,6 @@ __asm__(".section .rodata\nD_801A0210:\n.word 0x00C0C0C0\n.section .text");  // 
 
 void func_801A8228(s32 a0)
 {
-    typedef struct { char c[4]; } Blk4_md_SC07_004_801A8228;
 
     extern s32 D_801A0210;
     extern s32 D_801F89FC;
@@ -5466,7 +5419,7 @@ void func_801A8228(s32 a0)
     s32 v0;
 
     *(Blk4_md_SC07_004_801A8228 *)&D_801F89F8 = *(Blk4_md_SC07_004_801A8228 *)&D_801A0210;
-    *(Blk4_md_SC07_004_801A8228 *)&D_801F89FC = *(Blk4_md_SC07_004_801A8228 *)&(*(struct {char c [ 4 ] ;} *)&D_801A01E8);
+    *(Blk4_md_SC07_004_801A8228 *)&D_801F89FC = *(Blk4_md_SC07_004_801A8228 *)&(*(Unkstruct_801A01E8 *)&D_801A01E8);
 
     v0 = *(s32 *)(a0 + 0x20);
     *(s16 *)(v0 + 0x1A) = 0;
@@ -5556,7 +5509,6 @@ void func_801A8440(s32 a0) {
 }
 
 
-typedef struct { s16 x, y, z, pad; } Svec_801A8494;
 
 void func_801A8494(void *a0)
 {
@@ -5780,8 +5732,6 @@ void func_801A8954(void *a0) {
 }
 
 
-typedef struct { u16 vx, vy, vz, pad; } SV_801A8990;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801A8990;
 
 void func_801A8990(void *a0)
 {
@@ -5868,14 +5818,8 @@ extern u8 D_800AF648;
 extern s32 ratan2(s32 a0, s32 a1);
 
 /* GTE input vertex {vx,vy,vz,pad} -- own name/layout, per law 8 */
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVec16_801A8B64;
 
 /* GTE screen-space xy result {x,y,z,pad} -- only x/y are read back */
-typedef struct {
-    s16 x, y, z, pad;
-} SXY_801A8B64;
 
 
 
@@ -5962,8 +5906,6 @@ extern s32 func_8012B744(void *a0, void *a1);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
-typedef struct { s16 x, y, z, pad; } Svec_A8CE0;
-typedef struct { s16 m[3][3]; s16 t[3]; s16 pad[4]; } Mtx_A8CE0 __attribute__((aligned(8)));
 
 void func_801A8CE0(s32 a0, s16 a1, s32 a2, s32 a3)
 {
@@ -6021,9 +5963,9 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
 /* Local stack aggregates; suffixed names per this TU's house style
    (cf. Struct801AD7EC_Local / Blk8_801AD914 above). */
-typedef struct { s16 m[4]; } SVec801A8E34;   /* sp+0x10 */
-typedef struct { s32 m[4]; } Vec801A8E34;    /* sp+0x18 */
-typedef struct { s16 m[16]; } Mat801A8E34;   /* sp+0x28 */
+   /* sp+0x10 */
+    /* sp+0x18 */
+   /* sp+0x28 */
 
 /* NOTE (cookbook §167-13 bound): parameter 2 is `s16`, not `s32`.  The narrow
    declaration is load-bearing, not cosmetic — assign_parms emits a promotion
@@ -6121,7 +6063,6 @@ extern Mtx32_801A90D8 D_800AE620;
 
 /* SVECTOR-shaped 4x s16 (vx,vy,vz,pad) — same shape as this TU's own
  * SV_801AAF8C (line 1287), likewise out of scope at line 910. */
-typedef struct { s16 vx, vy, vz, pad; } SV_801A90D8;
 
 void func_801A90D8(s32 a0)
 {
@@ -6743,7 +6684,6 @@ void func_801A9FC8(void *a0) {
 
 
 
-typedef struct { s32 vx, vy, vz; } Vec32_801AA004;
 
 extern Mtx32_801A90D8 D_800AE620;
 extern void RotMatrixY(s32 a0, void *a1);
@@ -6811,7 +6751,6 @@ void func_801AA160(s32 arg0, s32 arg1)
 }
 
 
-typedef struct { s16 vx, vy, vz; } SV_801AA210;
 
 extern void func_80020F34(s32 a0, s32 a1);
 extern void func_8004914C(void *a0);
@@ -7046,8 +6985,6 @@ void func_801AA7A8(void *a0) {
 /* Local psyq-style helper structs, same shape as SV_801AAF8C/MTX_801AAF8C
  * used later in this TU (func_801AAF8C) but declared locally here since
  * this function precedes that typedef in the source file. */
-typedef struct { s16 vx, vy, vz, pad; } SV_801AA7E4;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801AA7E4;
 
 extern void func_8004914C(void *a0);
 extern void func_80049CAC(s32 a0, s32 a1);
@@ -7129,7 +7066,6 @@ void func_801AA91C(s32 param_1, s32 param_2, s32 param_3)
 void func_801AA9D4(s32 a0, s32 a1) {
     extern u8 *func_8012913C(s32 a0);
 
-    typedef struct { u16 w0, w1, w2, w3; } Blk8_md_SC07_004_801AA9D4;
 
     s32 work;
     s32 ptr;
@@ -7152,12 +7088,6 @@ void func_801AA9D4(s32 a0, s32 a1) {
 /* Local mirror of SV4_801AAB28 (that typedef sits below this point in the TU,
    so this card carries its own identically-laid-out record: 4 x u16, size 8).
    Kept a distinct name on purpose -- same shape, different spelling site. */
-typedef struct {
-    u16 x;      /* +0x0 */
-    u16 y;      /* +0x2 */
-    u16 num;    /* +0x4 */
-    u16 count;  /* +0x6 */
-} SV4R_801AAA6C;
 
 /* no-proto on purpose: the real definition (with SV4_801AAB28* params) lives
    further down this TU; a prototyped extern here would be a types conflict */
@@ -7194,12 +7124,6 @@ void func_801AAA6C(s32 a0)
    NOT unified with the TU's SV_801AAF8C: that one is s16 and this one must be
    unsigned (every read below is an `lhu`).  Same shape, different signedness
    => own name, per law 8 / cookbook 183.1. */
-typedef struct {
-    u16 x;      /* +0x0 */
-    u16 y;      /* +0x2 */
-    u16 num;    /* +0x4 */
-    u16 count;  /* +0x6 */
-} SV4_801AAB28;
 
 extern int rand(void);
 extern void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3);
@@ -7283,9 +7207,7 @@ void func_801AAB28(SV4_801AAB28 *a0, SV4_801AAB28 *a1, s32 a2)
 #include "common.h"
 
 /* 8-byte SVECTOR-shaped record (align 2 -> §48-C2 lwl/lwr+swl/swr block copy) */
-typedef struct { s16 vx, vy, vz, pad; } SV_801AACD4;
 /* PsyQ MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801AACD4;
 
 void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
 {
@@ -7401,7 +7323,7 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
  *   `void func_80016638(void *a0, s32 a1, s32 a2)`.
  */
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_801AADA8;   /* == engine_types.h OtBlk (0x14) */
+   /* == engine_types.h OtBlk (0x14) */
 
 void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
 {
@@ -7464,9 +7386,7 @@ void func_801AAF34(s32 a0, s32 a1, s16 a2)
 #include "common.h"
 
 /* 4x s16 vector (align 2 -> §48-C2 gives the lwl/lwr + swl/swr block copy) */
-typedef struct { s16 vx, vy, vz, pad; } SV_801AAF8C;
 /* PsyQ MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801AAF8C;
 
 extern s32  ratan2(s32 a0, s32 a1);
 extern s32  func_80047948(s32 a0);
@@ -7579,15 +7499,6 @@ void func_801AB1A8(void *a0) {
 
 
 /* 0x18-byte POLY_F4 */
-typedef struct {
-    u8  addr[3];
-    u8  len;
-    u8  r0, g0, b0, code;
-    s16 x0, y0;
-    s16 x1, y1;
-    s16 x2, y2;
-    s16 x3, y3;
-} F4_801AB21C;
 
 void func_801AB21C(s32 a0, s32 a1, s32 a2, s32 a3)
 {
@@ -7860,9 +7771,6 @@ extern void func_801292C8(u8 *a0);
  * cookbook §48-C2 / §160a: a struct type with alignment < 4 takes the
  * unaligned-move path even between provably 4-aligned slots.
  * Named uniquely: this TU already defines U16x2 / U16x2L. */
-typedef struct {
-    u16 a, b;
-} U16x2N;
 
 void func_801AB818(void *a0) {
     u8 *s1 = *(u8 **)((s32)a0 + 0x24);
@@ -7889,7 +7797,6 @@ void func_801AB818(void *a0) {
 
 #include "common.h"
 
-typedef struct { char c[4]; } Blk4_801AB8C0;
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -8866,7 +8773,6 @@ extern s32 D_801F8D5C;
 
 void func_801ACE5C(void *a0) {
     /* §160a / §48-C2: align-1 4-byte block copy => lwl/lwr + swl/swr */
-    typedef struct { char c[4]; } Blk4_md_SC07_004_801ACE5C;
     extern s32 D_801A0218;
     extern s32 D_801A021C;
     extern s32 D_801A0220;
@@ -8956,7 +8862,6 @@ extern s32 D_801F8D58;
 /* Write-back of D_801F8D18/D_801F8D58 goes through gcc-2.7.2's align-1 struct-assign idiom
    (lwl/lwr out of the source temp + swl/swr into the destination) while the READ side stays a
    plain aligned lw -- so only the STORE is spelled through a 1-byte-aligned 4-byte struct. */
-typedef struct { s32 v; } __attribute__((packed, aligned(1))) Align1W_801AD068;
 
 /* arg0's +0xE0/+0xE4 deltas are read through a real COMPONENT_REF, NOT a raw pointer cast.
    That is load-bearing, not cosmetic: expr.c:4888 stamps MEM_IN_STRUCT_P on a COMPONENT_REF,
@@ -8964,11 +8869,6 @@ typedef struct { s32 v; } __attribute__((packed, aligned(1))) Align1W_801AD068;
    not-in-struct fixed-address (sp-relative) WRITE. Without the struct spelling the scheduler
    keeps a false dependence on the `t` stack slot and cannot hoist `lw 0xE0($s0)` into the
    preceding load-delay slot -- costing exactly two nops per write-back block. */
-typedef struct {
-    u8 pad[0xE0];
-    s32 dE0;  /* 0xE0 */
-    s32 dE4;  /* 0xE4 */
-} Obj_801AD068;
 
 void func_801AD068(void *arg0) {
     if (func_8012BEE8((s32)arg0) != 0) {
@@ -9073,7 +8973,6 @@ INCLUDE_RODATA("asm/md_SC07_004/nonmatchings/md_SC07_004", D_801A0220);
 
 /* §160a idiom: lwl/lwr + swl/swr == emit_block_move on an ALIGN-1 4-byte struct
    (same idiom the TU already names Blk4_801A7358 for other rodata globals). */
-typedef struct { char c[4]; } Blk4_801AD31C;
 
 /* §160c: the target .s's rodata island IS the definition -- this draft owns both symbols.
    Bytes straight off the splat: ".asciz @@"+pad -> 40 40 00 00; .word 0x002040F0 -> F0 40 20 00. */
@@ -9246,7 +9145,6 @@ void func_801AD6C4(void *a0) {
 #include "common.h"
 
 /* 12-byte arg-block built at sp+0x10 for the func_800484EC call */
-typedef struct { s32 f10, f14, f18; } S12_801AD700;
 
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern void func_8012B414(s32 a0);
@@ -9282,11 +9180,6 @@ void func_801AD700(void *a0)
 /* Local 3xs16 stack aggregate whose address is passed to func_801AD914;
    because the address escapes, gcc cannot prove the z field (offset 4)
    is dead even though it is never re-read here. */
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-} Struct801AD7EC_Local;
 
 extern void func_801AD914(s32 arg0, void *arg1, s32 arg2);
 
@@ -9348,10 +9241,8 @@ extern void func_800484EC(s32, s32, s32);
 
 /* 8-byte, 2-byte-aligned struct -> emit_block_move lwl/lwr + swl/swr (cookbook §48-C2,
  * same idiom as func_801A6AD0 above in this TU). */
-typedef struct { u16 a, b, c, d; } Blk8_801AD914;
 
 /* 12-byte arg-block built at sp+0x10 for the func_800484EC call */
-typedef struct { s32 f10, f14, f18; } S12_801AD914;
 
 void func_801AD914(s32 arg0, void *arg1, s32 arg2) {
     void *sp0;
@@ -9386,7 +9277,6 @@ void func_801AD9D4(void *a0) {
 
 /* Hoisted from func_801AE734 (was :10174): func_801ADA10 above also needs it and a
  * second identical typedef is a hard error in gcc 2.7.2. Typedefs emit no bytes. */
-typedef struct { u8 unk0[4]; } M4_801AE734;
 
 
 extern M4_801AE734 D_801B0838[];
@@ -9465,9 +9355,6 @@ void func_801ADBB0(s32 x, s32 y, s32 z)
 
 /* house style: local structs mirroring src/md_SC07_004/md_SC07_004.c's
    SV_801AAF8C / MTX_801AAF8C (see func_801AAF8C) */
-typedef struct { s16 vx, vy, vz, pad; } SV_801ADC40;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_801ADC40;
-typedef struct { s32 vx, vy, vz; } VEC32_801ADC40;
 
 extern int rand(void);
 extern void func_80049CAC(s32 a0, s32 a1);
@@ -9900,9 +9787,6 @@ extern s32 D_801B0800[];
  * (lwl/lwr + swl/swr) when writing back into D_801F8D98's element —
  * see cookbook §48-C2 / §160a: any struct type with alignment < 4
  * takes the unaligned-move path even between provably 4-aligned slots. */
-typedef struct {
-    u16 a, b;
-} U16x2;
 
 void func_801AE408(void *a0) {
     u8 *s1 = D_801F8D98 + ((*(u16 *)((s32)a0 + 0x2E) & 3) << 6);
@@ -9950,9 +9834,6 @@ extern u8 D_801F8D98[];
 extern s32 D_801B07FC[];
 extern s32 D_801B0800[];
 
-typedef struct {
-    u16 a, b;
-} U16x2L;
 
 void func_801AE520(void *a0) {
     u8 *s1 = D_801F8D98 + ((*(u16 *)((s32)a0 + 0x2E) & 3) << 6);
@@ -10128,9 +10009,6 @@ void func_801AE908(void *a0) {
 
 extern void func_80016714(void *a0, s32 a1);
 
-typedef struct {
-    u16 a, b, c, d;
-} U16x4;
 
 extern U16x4 D_801F8EA0[];
 extern u16 D_801F8EA2;
@@ -10203,13 +10081,7 @@ void func_801AEAE4(void *a0) {
 }
 
 
-typedef struct {
-    u8 unk0[8];
-} B8_801AEB04;
 
-typedef struct {
-    u8 unk0[4];
-} M4_801AEB04;
 
 const s8 D_801A022C[4] = { 0, 0, 0, 0 };
 
@@ -10265,14 +10137,11 @@ void func_801AEB94(void)
 
 /* MATRIX-style 0x20-byte matrix: s16 m[3][3] (18B) + 2B pad + s32 t[3] (12B).
  * Same spelling as the TU-neighbour Mtx_801A6184 (func_801A6184). */
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801AEC38;
 
 /* 8-byte SVECTOR-style GTE input vertex. */
-typedef struct { s16 x, y, z, pad; } Svec_801AEC38;
 
 /* OT/primitive tag: 24-bit next-pointer + 8-bit length, then the RGB/code word.
  * Same spelling as the TU-neighbour P_TAG (func_801A5E60). */
-typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } PTag_801AEC38;
 
 /* File-scope spellings the TU already uses verbatim (law 2). */
 extern void RotMatrixYXZ(void *a0, void *a1);
@@ -10535,8 +10404,8 @@ void func_801AF2EC(void *a0) {
 
 
 
-#define RD16(p) (((struct { u16 v; } *)(p))->v)
-#define RW32(p) (((struct { u32 v; } *)(p))->v)
+#define RD16(p) (((Unkstruct_801AF368 *)(p))->v)
+#define RW32(p) (((Unkstruct_801AF368_2 *)(p))->v)
 
 void func_801AF368(void *a0)
 {

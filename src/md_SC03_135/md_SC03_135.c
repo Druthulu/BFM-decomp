@@ -158,7 +158,6 @@ void func_801E2A98(void) {
 }
 
 
-            typedef struct { s8 c[8]; } Blk8_8012C890_801E2BC4;
 
 /* func_801E2BC4 @ 0x8017C24C -- ov_MAIN_012 (7 ins).
  *
@@ -227,7 +226,6 @@ void func_801E2BE0(void)
 }
 
 
-            typedef struct { s8 c[8]; } Blk8_8012C890_801E2CC0;
 
 /* func_801E2CC0 @ 0x8017C24C -- ov_MAIN_012 (7 ins).
  *
@@ -565,7 +563,6 @@ Lmid:
 
 
 s32 func_801E3390(void) {
-    typedef struct { u32 *ot; u32 pad[4]; } Env_801E46A0;
     extern s32 *func_801E46A0(s32 *);
     extern s32 func_801E3540(s32, u8 *, s16);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
@@ -630,8 +627,6 @@ s32 func_801E3390(void) {
 }
 
 
-            typedef struct { s8 c[8]; } Blk8_8012C890_8017C348_801E3540;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801E3540;
 
 /* func_801E3540 (ov_MAIN_012 / jr_801789AC) — 188 ins, byte-exact vs
  * asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_801789AC/func_801E3540.s
@@ -1045,7 +1040,7 @@ int func_801E3C1C() {
     case 3: {
         s16 *q = &D_8011512C;
         D_801150D4 = 0;
-        if (((struct { s16 h; } *)q)->h != 0xC) {
+        if (((Unkstruct_801E3C1C *)q)->h != 0xC) {
             ret = 0x11;
             *q = 5;
         }
@@ -1114,9 +1109,6 @@ int func_801E3C1C() {
 }
 
 
-typedef struct {
-    char c[3];
-} Blk3_801E40A8;
 
 extern char *strcpy(char *, const char *);
 extern u32 func_801E45C0(s32 a0, s32 a1);
@@ -1313,22 +1305,8 @@ short flag;
 
 
 s32 *func_801E46A0(s32 *out) {
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag_801E46A0;
-    typedef struct { u32 *ot; u32 pad[4]; } Env_801E46A0;   /* 0x14 stride */
-    typedef struct { u16 f0; u16 f2; } Prim4_801E46A0;
-    typedef struct {
-        s16 f0;                     /* 0x00 */
-        s16 f2;                     /* 0x02 */
-        void *f4;                   /* 0x04 */
-        void *f8;                   /* 0x08 */
-        s16 fC;                     /* 0x0C */
-        s16 fE;                     /* 0x0E */
-        s16 f10;                    /* 0x10 */
-        s16 f12;                    /* 0x12 */
-        void *f14;                  /* 0x14 */
-        Prim4_801E46A0 *f18;        /* 0x18 */
-        void *f1C;                  /* 0x1C */
-    } Panel_801E46A0;               /* 0x20 stride */
+   /* 0x14 stride */
+               /* 0x20 stride */
 
     extern Env_801E46A0 D_800AE7BC[];
     extern short D_800B9A02;
@@ -1397,9 +1375,7 @@ void func_801E4890(void) {
 /* 152-byte engine block, copied whole (struct assignment -> 9x16B block move + 8B tail).
  * Uniquely suffixed: the host TU already sees `Blk152` from engine_types.h, and a C89
  * re-typedef of a visible name is a redefinition error. Same layout, same codegen. */
-typedef struct { u32 w[38]; } Blk152_8017DF40_801E48B8;
 /* ALIGN-1 4-byte element => lwl/lwr + swl/swr (cookbook §160a); a u32[] loop is wrong. */
-typedef struct { u8 b[4]; } Blk4_8017DF40_801E48B8;
 
 
 
@@ -1694,8 +1670,6 @@ void func_801E50FC(s32 param_1) {
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801E5124;
-typedef struct { short vx, vy, vz, pad; } SVECTOR_801EDED4_801E5124;
 
 extern u16  func_80148800(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);

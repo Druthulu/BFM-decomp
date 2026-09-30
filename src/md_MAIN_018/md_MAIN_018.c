@@ -224,8 +224,6 @@ L288:
 
 
 void func_800CB328(void *a0) {
-    typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32b;
-    typedef struct { s16 vx, vy, vz; } Svec3;
 
     extern u8 D_80078EC1;
     extern s32 func_80146A6C(s32, void *, s32, s32, s32, s32, s32);

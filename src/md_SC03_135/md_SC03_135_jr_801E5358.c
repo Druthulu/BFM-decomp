@@ -1,10 +1,5 @@
 #include "common.h"
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801E3540;
-typedef struct { u32 w[38]; } Blk152_8017DF40_801E48B8;
-typedef struct { u8 b[4]; } Blk4_8017DF40_801E48B8;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801E5124;
-typedef struct { short vx, vy, vz, pad; } SVECTOR_801EDED4_801E5124;
 extern s32 func_801E288C(void);
 extern s32 func_80029504(void);
 extern void func_801E2980(s32 arg0, s32 arg1);
@@ -443,7 +438,6 @@ void func_801E57C4(void *a0) {
 
 
 void *func_801E585C(void) {
-    typedef struct { s32 x, y, z; } SV4_md_SC03_135_801E585C;
     extern u8 D_80078EB1;
     extern u8 D_80078E78[];
     extern u32 D_801E6C68;
@@ -557,7 +551,6 @@ void func_801E5A7C(void) {
 
 void func_801E5AAC(void)
 {
-    typedef struct { s32 next; u8 pad[0xC]; } Node_801E5AAC;
     extern s32 D_801EAC70;
     extern s32 D_801EADF0;
     Node_801E5AAC *p;

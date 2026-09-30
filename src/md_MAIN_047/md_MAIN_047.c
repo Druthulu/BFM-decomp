@@ -48,11 +48,6 @@ void func_800CCB84(void *a0) {
 
 s32 func_800CCBC0(void)
 {
-    typedef struct { s16 vx, vy, vz, pad; } SVEC_md_MAIN_047_800CCBC0;
-    typedef struct { u8 r, g, b, cd; } CVEC;
-    typedef struct { SVEC_md_MAIN_047_800CCBC0 v0, v1, v2, v3; CVEC c0, c1, c2, c3; s32 tag; } Prim_md_MAIN_047_800CCBC0;
-    typedef struct { u16 f0, f1, f2, f3, f4, f5; } Rec_md_MAIN_047_800CCBC0;
-    typedef struct { u8 flag, idx, cnt, tim; Rec_md_MAIN_047_800CCBC0 e[16]; } Trail_md_MAIN_047_800CCBC0;
 
     extern Blk20 D_800AE620;
     extern u8 D_800CD6E0[];
@@ -136,8 +131,6 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern s32 VectorNormalSS(void *a0, void *a1);
 
-    typedef struct { u16 f0; u16 f1; u16 f2; u16 f3; u16 f4; u16 f5; } Rec_md_MAIN_047_800CCDE8;
-    typedef struct { u8 flag; u8 idx; u8 cnt; u8 tim; Rec_md_MAIN_047_800CCDE8 e[16]; } Trail_md_MAIN_047_800CCDE8;
 
     Trail_md_MAIN_047_800CCDE8 *p = (Trail_md_MAIN_047_800CCDE8 *)D_800CD6E0;
     s32 node = *(s32 *)(param_1 + 0x34);

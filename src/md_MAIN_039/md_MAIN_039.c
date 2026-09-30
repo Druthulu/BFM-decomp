@@ -118,7 +118,6 @@ extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_80149374(s32 a0, s32 a1);
 extern void func_800CB4AC();
 
-typedef struct { s32 w0, w1, w2, w3; } Blk16X;
 
 void func_800CB0B4(s32 param_1) {
     extern void func_8001C214(s32 a0, s32 a1);
@@ -184,7 +183,6 @@ extern s32  func_801632F0(s32 a0);
 
 
 void func_800CB228(s32 param_1) {
-    typedef struct { Blk16X q0; Blk16X q1; s32 pad0, pad1; } Mtx40;
     s32 *obj;
     Mtx40 m;
 
@@ -394,7 +392,6 @@ void func_800CB804(void *arg0) {
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_md_MAIN_039;
 
 extern void func_801465C0();
 extern s32 func_8001CC3C(s32, s32, s32, s32);

@@ -512,7 +512,7 @@ void func_801E5894(void *a0) {
 
     extern s32 D_801270C8;
     if (D_801270C8 == 17) {
-        ((struct { u8 pad[2]; u16 f; } *)a0)->f += 1;
+        ((Unkstruct_801E5894 *)a0)->f += 1;
         *(s32 *)((s32)a0 + 0x1C) = 8;
     }
 }

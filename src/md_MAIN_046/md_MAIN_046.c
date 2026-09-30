@@ -313,19 +313,6 @@ extern s32 func_80148D44(void *arg0);
 extern void func_80147AD4(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_801473EC(s32*);
 
-typedef struct Work_md_MAIN_046 {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 pad04[3];
-    /* 0x10 */ s32 unk10;
-    /* 0x14 */ s32 unk14;
-    /* 0x18 */ s32 unk18;
-    /* 0x1C */ s32 pad1C;
-    /* 0x20 */ s32 unk20;
-    /* 0x24 */ s32 pad24[132];
-    /* 0x234 */ s32 unk234;
-    /* 0x238 */ s32 unk238;
-    /* 0x23C */ s32 unk23C;
-} Work_md_MAIN_046;
 
 void func_800CD288(Work_md_MAIN_046 *arg0) {
     s32 pad00; s32 pad04; s32 pad08; s32 pad0C;
@@ -679,7 +666,6 @@ void func_800CDA4C(s32 param_1)
 }
 
 
-typedef struct { u32 a; u32 b; } U8x __attribute__((packed, aligned(1)));
 
 extern s32 func_80146578(void);
 extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);

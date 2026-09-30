@@ -159,7 +159,6 @@ void func_801EF918(void) {
 }
 
 
-            typedef struct { s8 c[8]; } Blk8_8012C890_801EFA44;
 
 /* func_801EFA44 @ 0x8017C24C -- ov_MAIN_012 (7 ins).
  *
@@ -239,7 +238,6 @@ void func_801EFA60(void)
 }
 
 
-            typedef struct { s8 c[8]; } Blk8_8012C890_801EFB40;
 
 /* func_801EFB40 @ 0x8017C24C -- ov_MAIN_012 (7 ins).
  *
@@ -578,21 +576,8 @@ Lmid:
 
 
 void func_801F0210(void) {
-    typedef struct { u32 *ot; u32 pad[4]; } Env_801F1520;   /* 0x14 stride */
-    typedef struct { u16 f0; u16 f2; } Prim4_801F1520;
-    typedef struct {
-        s16 f0;                     /* 0x00 */
-        s16 f2;                     /* 0x02 */
-        void *f4;                   /* 0x04 */
-        void *f8;                   /* 0x08 */
-        s16 fC;                     /* 0x0C */
-        s16 fE;                     /* 0x0E */
-        s16 f10;                    /* 0x10 */
-        s16 f12;                    /* 0x12 */
-        void *f14;                  /* 0x14 */
-        Prim4_801F1520 *f18;        /* 0x18 */
-        void *f1C;                  /* 0x1C */
-    } Panel_801F1520;               /* 0x20 stride */
+   /* 0x14 stride */
+               /* 0x20 stride */
 
     extern Env_801F1520 D_800AE7BC[];
     extern s16 D_8011512C;
@@ -659,8 +644,6 @@ void func_801F0210(void) {
 }
 
 
-            typedef struct { s8 c[8]; } Blk8_8012C890_8017C348_801F03C0;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801F03C0;
 
 /* func_801F03C0 (ov_MAIN_012 / jr_801789AC) — 188 ins, byte-exact vs
  * asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_801789AC/func_801F03C0.s
@@ -1029,7 +1012,7 @@ void func_801F0A9C(void) {
     case 3: {
         s16 *q = &D_8011512C;
         D_801150D4 = 0;
-        if (((struct { s16 h; } *)q)->h != 0xC) {
+        if (((Unkstruct_801F0A9C *)q)->h != 0xC) {
             ret = 0x11;
             *q = 5;
         }
@@ -1097,9 +1080,6 @@ void func_801F0A9C(void) {
     }
 }
 
-typedef struct {
-    char c[3];
-} Blk3_801F0F28;
 
 extern char *strcpy(char *, const char *);
 extern u32 func_801F1440(s32 a0, s32 a1);
@@ -1295,22 +1275,8 @@ short flag;
 
 
 s32 *func_801F1520(s32 *out) {
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag_801F1520;
-    typedef struct { u32 *ot; u32 pad[4]; } Env_801F1520;   /* 0x14 stride */
-    typedef struct { u16 f0; u16 f2; } Prim4_801F1520;
-    typedef struct {
-        s16 f0;                     /* 0x00 */
-        s16 f2;                     /* 0x02 */
-        void *f4;                   /* 0x04 */
-        void *f8;                   /* 0x08 */
-        s16 fC;                     /* 0x0C */
-        s16 fE;                     /* 0x0E */
-        s16 f10;                    /* 0x10 */
-        s16 f12;                    /* 0x12 */
-        void *f14;                  /* 0x14 */
-        Prim4_801F1520 *f18;        /* 0x18 */
-        void *f1C;                  /* 0x1C */
-    } Panel_801F1520;               /* 0x20 stride */
+   /* 0x14 stride */
+               /* 0x20 stride */
 
     extern Env_801F1520 D_800AE7BC[];
     extern short D_800B9A02;
@@ -1381,9 +1347,7 @@ void func_801F1710(void) {
 /* 152-byte engine block, copied whole (struct assignment -> 9x16B block move + 8B tail).
  * Uniquely suffixed: the host TU already sees `Blk152` from engine_types.h, and a C89
  * re-typedef of a visible name is a redefinition error. Same layout, same codegen. */
-typedef struct { u32 w[38]; } Blk152_8017DF40_801F1738;
 /* ALIGN-1 4-byte element => lwl/lwr + swl/swr (cookbook §160a); a u32[] loop is wrong. */
-typedef struct { u8 b[4]; } Blk4_8017DF40_801F1738;
 
 
 
@@ -1681,8 +1645,6 @@ void func_801F1F6C(s32 param_1) {
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
-typedef struct { short m[3][3]; long t[3]; } MATRIX_801EDED4_801F1F94;
-typedef struct { short vx, vy, vz, pad; } SVECTOR_801EDED4_801F1F94;
 
 extern u16  func_80148800(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);

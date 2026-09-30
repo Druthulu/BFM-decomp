@@ -244,7 +244,6 @@ s32 func_800CD258(void *a0, void *a1);
 void func_800CD27C(s32 a0);
 void func_800CD31C(s32 arg0);
 
-typedef struct { char c[4]; } S4_800CD054;
 
 void func_800CD054(void *a0) {
     extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
@@ -339,16 +338,7 @@ s32 func_800CD258(void *a0, void *a1) {
 }
 
 
-typedef struct {
-    s16 m[9];
-    s16 pad;
-    s32 t[3];
-} Mtx_800CD27C;
 
-typedef struct {
-    Mtx_800CD27C mt; /* 0x00 */
-    s32 rest[2];     /* 0x20..0x27 — frame padding, never touched */
-} MtxBuf_800CD27C;
 
 extern void func_80013F3C(s32 a0);
 extern void func_800126C4(s32 a0, s32 a1);
@@ -416,9 +406,6 @@ void func_800CD404(void *a0) {
     extern u8 D_800CD764[];
     extern u8 D_800CD964[];
 
-    typedef struct {
-        s32 w[8];
-    } Block32;
 
     s32 s0;
     s32 s1;

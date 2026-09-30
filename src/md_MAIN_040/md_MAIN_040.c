@@ -285,9 +285,9 @@ void func_800CB488(void *arg0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV_800CB4E4;    /* 8B, align 2 -> lwl/lwr+swl/swr copy */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_800CB4E4;  /* 0x20, align 4 */
-typedef struct { s32 vx, vy, vz, vw; } V32_800CB4E4;     /* 0x10, align 4 -> plain lw/sw copy */
+    /* 8B, align 2 -> lwl/lwr+swl/swr copy */
+  /* 0x20, align 4 */
+     /* 0x10, align 4 -> plain lw/sw copy */
 
 extern void func_801465C0(void);
 extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);

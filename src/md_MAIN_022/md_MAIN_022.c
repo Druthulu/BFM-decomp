@@ -382,7 +382,6 @@ void func_800CB630(void *arg0) {
 }
 
 
-typedef struct { s32 w[8]; } Blk20_800CB68C;
 
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);

@@ -232,20 +232,8 @@ extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern s32  func_80017758(void *a0, void *a1);
 
-typedef struct { s16 x, y, z, pad; } SVec_800CB3BC;   /* 8 bytes */
-typedef struct {
-    /* 0x00 */ u16 cx, cy, cz;
-    /* 0x06 */ u16 _p06;
-    /* 0x08 */ u16 a8[4];
-    /* 0x10 */ s32 pos[3];
-    /* 0x1C */ s32 _p1C;
-    /* 0x20 */ SVec_800CB3BC v[4];
-    /* 0x40 */ struct { u8 r, g, b, cd; } col[4];
-    /* 0x50 */ u32 code;
-    /* 0x54 */ s32 _p54;
-    /* 0x58 */ u8 m1[0x20];
-    /* 0x78 */ u8 m2[0x20];
-} Fr_800CB3BC;   /* 0x98 bytes -> sp+0x10 .. sp+0xA8 */
+   /* 8 bytes */
+   /* 0x98 bytes -> sp+0x10 .. sp+0xA8 */
 
 void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
 
@@ -352,36 +340,6 @@ void func_800CB634(s32 a0) {
 
 #include "common.h"
 
-typedef struct { s32 m[8]; } Mat_800CB658;
-struct Src_800CB658 {
-    u8 pad0[0x34];
-    Mat_800CB658 mat;
-};
-struct Node_800CB658 {
-    u8 pad0[0x6];
-    s16 unk6;
-    u8 pad8[0x2];
-    s16 unkA;
-    u8 padC[0x2];
-    s16 unkE;
-    u8 pad10[0x10];
-    struct Src_800CB658 *unk20;
-};
-struct Entity_800CB658 {
-    u8 pad0[0x6];
-    s16 unk6;
-    u8 pad8[0x2];
-    s16 unkA;
-    u8 padC[0x2];
-    s16 unkE;
-    s16 unk10;
-    s16 unk12;
-    u8 pad14[0x8];
-    s32 unk1C;
-    u8 pad20[0x14];
-    struct Node_800CB658 *unk34;
-    Mat_800CB658 mat;
-};
 
 extern s32 rand(void);
 extern void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3);

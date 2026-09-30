@@ -243,15 +243,6 @@ void func_800CF3A4(void) {
 
 
 
-typedef struct {
-    u8 pad0, pad1, pad2, len;
-    u32 tpage;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    s16 w, h;
-} Sprt24;
 
 extern s32 D_800EC690;
 extern s32 D_800EC694;
@@ -259,8 +250,6 @@ extern s32 D_800EC68C;
 extern s16 D_800EC678;
 extern u16 D_800B9A02;
 extern u8 D_800AA60C[];
-typedef struct { u16 v; } S16_800CF3E8;
-typedef struct { u32 addr : 24; u32 len : 8; } PTag_800CF3E8;
 #define setaddr_(p, a) (((PTag_800CF3E8 *)(p))->addr = (u32)(a))
 #define getaddr_(p) ((u32)(((PTag_800CF3E8 *)(p))->addr))
 #define ADDPRIMB(ot, p) setaddr_((p), getaddr_(ot)); setaddr_((ot), (p));
