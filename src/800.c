@@ -1292,9 +1292,9 @@ void func_80014168(void *a0, void *a1) {
 
 void func_800141AC(s32 a0, void *a1)
 {
-    struct B16x local;
+    B16x local;
 
-    local = *(struct B16x *)a1;
+    local = *(B16x *)a1;
     func_800484EC(a0, &local, a1);
 }
 
@@ -18923,7 +18923,7 @@ s32 func_8002A7B4(s32 a0) {
 
     if (func_8002A834(a0) != 0) {
         id = func_8002A998();
-        func_8016E918(2, (s16) (D_80063906[id].unk00 - D_80063906[id - 1].unk00));
+        func_8016E918(2, (s16) (D_80063906[id].value - D_80063906[id - 1].value));
         func_8002D4C8(0xB2C, 0);
         func_8002AAAC();
         return 1;
@@ -19030,7 +19030,7 @@ extern T16 D_80063906[];
 extern s32 D_80078EF4;
 
 s32 func_8002A9DC(void) {
-    return D_80063906[D_80078EF4].unk00;
+    return D_80063906[D_80078EF4].value;
 }
 
 extern s32 func_8002AA3C(void);

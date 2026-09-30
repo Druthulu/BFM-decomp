@@ -1430,21 +1430,21 @@ void func_80036AF8(CdlLOC *loc, s32 flags) {
         }
     }
 
-    req.f08 = (s32)func_80035270;
+    req.m[0][2] = (s32)func_80035270;
     D_800A46BA = 0;
     if (h != 0) {
         ret = CdPosToInt(loc);
         hoff = drv * 0x48;
         tbl = (u8 *)&D_8006A6A4;
-        req.f0c = ret + *(s32 *)(tbl + hoff + h * 4);
+        req.m[1][0] = ret + *(s32 *)(tbl + hoff + h * 4);
     } else {
-        req.f0c = CdPosToInt(loc);
+        req.m[1][0] = CdPosToInt(loc);
     }
-    req.f10 = mode;
-    req.f1c = (s32)func_80036D24;
-    req.f24 = (s32)func_800359B0;
-    req.f20 = 0;
-    req.f28 = (s32)func_80036FB0;
+    req.m[1][1] = mode;
+    req.m[2][1] = (s32)func_80036D24;
+    req.t[0] = (s32)func_800359B0;
+    req.m[2][2] = 0;
+    req.t[1] = (s32)func_80036FB0;
     ret = func_80034CF0((u8 *)&req);
     if (ret != 0) {
         (&D_80078F10)[D_8006AEE8] = ret;
@@ -1516,12 +1516,12 @@ void func_80036D58(s16 arg0)
             }
             D_8006AEE8 = 0;
         }
-        req.f08 = (s32)func_80035C4C;
-        req.f0c = arg0;
-        req.f1c = (s32)func_80036F98;
-        req.f20 = 0;
-        req.f24 = (s32)func_8003602C;
-        req.f28 = (s32)func_80036FB0;
+        req.m[0][2] = (s32)func_80035C4C;
+        req.m[1][0] = arg0;
+        req.m[2][1] = (s32)func_80036F98;
+        req.m[2][2] = 0;
+        req.t[0] = (s32)func_8003602C;
+        req.t[1] = (s32)func_80036FB0;
         r = func_80034CF0((u8 *)&req);
         n = D_8006AEE8;
         (&D_80078F10)[n] = r;

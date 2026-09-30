@@ -1125,7 +1125,27 @@ def fold_plan(tsv, only, exclude, want_tier1, want_sdk):
         if not drop:
             break
         plan = [c for c in plan if c not in drop]
-    return plan, refused, res
+    # a member name the canon spells at ANOTHER node (TrailEntry.f2 @4 vs Entry8018F07C.f2 @2) compiles unchanged and reads
+    # the wrong field: the cc1-driven respell cannot see it, so the class is refused
+    keep = []
+    for c in plan:
+        cdef = c["cdef"]
+        if cdef is not None:
+            cn = _nodes(cdef["shape"])
+        else:
+            import type_census as tc
+            cn = _nodes(_struct_shape(res, tc.walk_file(c["body"], "sdk.h")["definitions"][0]))
+        hit = sorted({(d["names"] or [d["tag"]])[0] + p for d in c["defs"] if d is not cdef
+                      for p, (o, sh) in _nodes(d["shape"]).items() if p in cn and (cn[p][0] != o or _anon(cn[p][1]) != _anon(sh))})
+        # packed/aligned(1) beside naturally aligned defs: one layout hash, two codegens (lwl/lwr vs lw on a copy)
+        attrs = {re.sub(r"\s+", "", d.get("attrs") or "") for d in c["defs"]}
+        if len(attrs) > 1:
+            refused.append((c["lhash"], f"defs differ in attributes ({' vs '.join(sorted(a or 'none' for a in attrs))[:80]})"))
+        elif hit:
+            refused.append((c["lhash"], f"member name at another node in canon {c['canon']}: {', '.join(hit[:3])}"))
+        else:
+            keep.append(c)
+    return keep, refused, res
 
 
 def tc_name_sig(f):

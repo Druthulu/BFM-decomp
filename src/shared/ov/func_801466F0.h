@@ -13,13 +13,13 @@ void func_801466F0(a0, a1, a2, a3, sp5, sp6, sp7, sp8)
     s32 sp8;
 {
     Rec801466F0 rec;
-    rec.unk0 = a0;
-    rec.unk8 = a1;
-    rec.unk2 = a2;
-    rec.unk4 = a3;
-    rec.unk6 = sp5;
-    rec.unkC = sp6;
-    rec.unk10 = sp7;
+    rec.x = a0;
+    rec.vx = a1;
+    rec.pad_2 = a2;
+    rec.z = a3;
+    rec.pad_6 = sp5;
+    rec.vy = sp6;
+    rec.vz = sp7;
     if (sp8 != 0) {
         func_80146750((u16 *)&rec);
     } else {
