@@ -1,0 +1,360 @@
+{
+  "files": {
+    ".claude/agents/auditor.md": {
+      "base": "3.11.3",
+      "sha": "47ec9e1da3f35f8c47327fd65c5a20511ef9329a3c429321a834d1f7179c2c96",
+      "user": null
+    },
+    ".claude/agents/coder-opus55.md": {
+      "base": "3.11.3",
+      "sha": "ee18845b8794b9b20d585b2bee64334de8095465af70ea8244f61f7c93f80e7d",
+      "user": null
+    },
+    ".claude/agents/critic.md": {
+      "base": "3.10.1",
+      "sha": "7c62c652d2ffccdd6ec522920aeb4435109e339f4fabdc8ab95c84dfe5ef625d",
+      "user": null
+    },
+    ".claude/agents/discuss-high.md": {
+      "base": "3.11.5",
+      "sha": "90bb3110699bddfc556ba4441aaa423a8b20247a7c39f735d43f1ff698ce5dfb",
+      "user": null
+    },
+    ".claude/agents/discuss-max.md": {
+      "base": "3.11.5",
+      "sha": "07709ea99d504f1db4526a534e82f1e0175f67232d01fb50e7c60a5ef4cc96ea",
+      "user": null
+    },
+    ".claude/agents/discuss.md": {
+      "base": "3.11.5",
+      "sha": "739f49bdc3796b02635867e541bcea0e9fa5c4990e328d763533cd4ba5a0ad12",
+      "user": null
+    },
+    ".claude/agents/expert-fable.md": {
+      "base": "3.11.6",
+      "sha": "afbbdad5dbc722a3261a9b5debd4909b6c5c1871e2401daa1e0ad0c9eb822f24",
+      "user": null
+    },
+    ".claude/agents/expert-opus55.md": {
+      "base": "3.11.6",
+      "sha": "dd302edec5c95bdf2e6126c697ff92c90160c029057fb9159a9470cd1c7aa7d1",
+      "user": null
+    },
+    ".claude/agents/memory-curator.md": {
+      "base": "3.14.5",
+      "sha": "34f4fbc107352e49406f02da9c41d2c6f675e53559705331b9eade21e8a86604",
+      "user": null
+    },
+    ".claude/agents/pa-session.md": {
+      "base": "3.14.23",
+      "sha": "9eceebc93ffcc6ed18e9f94735caee2bce5b6e2b0defce920463872f04fb555d",
+      "user": null
+    },
+    ".claude/agents/plain.md": {
+      "base": "3.10.2",
+      "sha": "6298aa7d0dfdfe4ffd8c551bc0c4b336ffe0132be31a6760b2073cfad0cf037f",
+      "user": null
+    },
+    ".claude/agents/planner-gen.md": {
+      "base": "3.10.2",
+      "sha": "2898644f77276758769521ab5d6f11dfd5ae6b387a8d6b3987f35a9bd9889144",
+      "user": null
+    },
+    ".claude/agents/planner-phase.md": {
+      "base": "3.10.6.5",
+      "sha": "5fd45cf0146989c02a2f627dfc7cf9329d298b56a695bd4e7303454769c5d4a5",
+      "user": null
+    },
+    ".claude/agents/retriever-code.md": {
+      "base": "3.12.2",
+      "sha": "519184b73d4c7ef415f18c8085c0f7ccee8dc02f93e8eb7f091d1f522e451337",
+      "user": null
+    },
+    ".claude/agents/retriever-digest.md": {
+      "base": "3.12.2",
+      "sha": "86ccb48bd7ec4bc307fddfd045fa6bc0dfeb7612984449e3ef200923fd346e43",
+      "user": null
+    },
+    ".claude/agents/retriever-web.md": {
+      "base": "3.12.2",
+      "sha": "3fee74a8877b1d083eb6dd0069ddccbae1e9242ed8e7cfae0405bbd2ea061f1a",
+      "user": null
+    },
+    ".claude/agents/review.md": {
+      "base": "3.10.1",
+      "sha": "9f6f5a15f027ef1f7e670a088daaed85957248a93d17ab0f2df21612930393e1",
+      "user": null
+    },
+    ".claude/commands/bench.md": {
+      "base": null,
+      "sha": "8d365bb2312fc5ba88d36fbb538df587ee26caf4029d2072a5e3639ba1b787eb",
+      "user": null
+    },
+    ".claude/commands/discuss.md": {
+      "base": null,
+      "sha": "414e2cddc07c2a4ab1adc2f00859d171b9c8234c5b0133a2f715db3058ff878b",
+      "user": null
+    },
+    ".claude/commands/plangen.md": {
+      "base": null,
+      "sha": "3a7cdf2741dfb7b0bb4edfde74308be9aeae5f2bb727878ca9bc05beec2f218d",
+      "user": null
+    },
+    ".claude/commands/planphase.md": {
+      "base": null,
+      "sha": "72786dd929766c9d34d96c9275076f53c05d103188eeef7321ddbb8ce0e06808",
+      "user": null
+    },
+    ".claude/commands/proceed.md": {
+      "base": null,
+      "sha": "6ca4d239502cbef504c28109db10e378ac5f72d50e522da1382d25820120da13",
+      "user": null
+    },
+    ".claude/commands/thoughts.md": {
+      "base": null,
+      "sha": "0c8af19fddec9181d18a46dcf32c95a5336d8adcfe03651d2a9687385090b341",
+      "user": null
+    },
+    ".claude/skills/project-architect/SKILL.md": {
+      "base": null,
+      "sha": "00fbe7564adf1db1ab4d40ee01dcf857341c32d1508d40b2967781b40098a2d3",
+      "user": null
+    },
+    "docs/project-architect.md": {
+      "base": null,
+      "sha": "40fc312dd259a8adb210d4f6100e599f97873c3d5fd62637a141e9b1d88765e4",
+      "user": null
+    },
+    "templates/CLAUDE.template.md": {
+      "base": null,
+      "sha": "00617258807143ae34a1e98ef2dc9ca85c20f2f34ca16713f888b6a456981273",
+      "user": null
+    },
+    "templates/GENERATION_PLAN.template.md": {
+      "base": null,
+      "sha": "40578c3251cc6708ac1033d17e81f9f5c8a72d695fed56747f070a1421b9e429",
+      "user": null
+    },
+    "templates/GenerationEnd.template.md": {
+      "base": null,
+      "sha": "8734744da8b643fa7cb263027fa97dc8e06baf7e1866e9c101d7a0376d59312a",
+      "user": null
+    },
+    "templates/HOW_WE_WORK.template.md": {
+      "base": null,
+      "sha": "ffcca49ae9d0f6136b52720067270e1e807125bf6d73cd33700159e9b4bbfa50",
+      "user": null
+    },
+    "templates/INBOX.template.md": {
+      "base": null,
+      "sha": "6020ca428b34b415bb8efb80a5eaf73ab7328effa7416c4e9820d00d5153f2ed",
+      "user": null
+    },
+    "templates/INDEX.cookbook.md": {
+      "base": null,
+      "sha": "195604d51b656ee1f070be9dc4bb0810b2d67b87b6a8fa4953e3dd21542b0c0c",
+      "user": null
+    },
+    "templates/INDEX.research.md": {
+      "base": null,
+      "sha": "525f94ed6a7f63d11664ad06873dc1dea2aafffa70d722a3beca8caf1603ddaa",
+      "user": null
+    },
+    "templates/INDEX.rules.md": {
+      "base": null,
+      "sha": "ddaab916e3b7d94566dd4d25d187c2c925db445359b33f737e57e597ba2e4502",
+      "user": null
+    },
+    "templates/INDEX.tasks.md": {
+      "base": null,
+      "sha": "dce33e01803fe54684edd315b001b5ab82f5ec64e92350994494b57eb981b6f9",
+      "user": null
+    },
+    "templates/MEMORY.stub.md": {
+      "base": null,
+      "sha": "eb4be88cacba0e5e30a1eb95672493bf0a73edc6bfb1c6821993d4455d93328c",
+      "user": null
+    },
+    "templates/PHASE_PLAN.template.md": {
+      "base": null,
+      "sha": "735f34cd261afd083224c6fe1347c96c950c05caf35bd250a5dd307bb9721ae2",
+      "user": null
+    },
+    "templates/PROJECT_CONTEXT.skeleton.md": {
+      "base": null,
+      "sha": "70e81fdb03c01b90769b5427baaef2a23f0e4e04484d239959986fd4f72d8ad2",
+      "user": null
+    },
+    "templates/PhaseEnd.template.md": {
+      "base": null,
+      "sha": "174c21355399ef0da98f5d8b66e55742c00b595c03ee5b0027538f692f3d4082",
+      "user": null
+    },
+    "templates/REPLAN.template.md": {
+      "base": null,
+      "sha": "3efda0023def9bee8fba1d40b0a0cbb791d5e8ce1cac76f3e90f56385a88b9b4",
+      "user": null
+    },
+    "templates/REVIEW.template.md": {
+      "base": null,
+      "sha": "42a01f8214b9fb7becca91fe9f9c75f1968f0093c86706e8ab1401a85f0c74eb",
+      "user": null
+    },
+    "templates/TASK_PROGRESS.template.md": {
+      "base": null,
+      "sha": "a7fc38193b55208db3ebe48ca199d39580c0bdd14f3a134ee810854a1522a34b",
+      "user": null
+    },
+    "templates/discussion.template.md": {
+      "base": null,
+      "sha": "0fb20a2574274d420609139c0011550bed8c8a17a2615a1218d14095bb0ceb57",
+      "user": null
+    },
+    "templates/log.template.md": {
+      "base": null,
+      "sha": "d0e343abebb743a6c5c0db0fd803e8e63f237a5c23b053ce34f932e3d7d7a36a",
+      "user": null
+    },
+    "templates/pa.json.template": {
+      "base": null,
+      "sha": "6c99cd801bebefda8305e475ddb3f9f2bd865c295049b9c3b450e9e8e3012098",
+      "user": null
+    },
+    "templates/phase-ends-README.md": {
+      "base": null,
+      "sha": "62489f18f1ba9ed9d7caa3b2059b4ca893fdab7988e07332b0295ae899d815c5",
+      "user": null
+    },
+    "templates/research.template.md": {
+      "base": null,
+      "sha": "f1360b877650f08a046813cb05068273c42f294ed764ddcfc63d231a17518545",
+      "user": null
+    },
+    "templates/task.template.md": {
+      "base": null,
+      "sha": "f4ca9e3806fcb3a783213e7ae938eef4abe3b2cf4b1e1af5b2caa80c4922b669",
+      "user": null
+    },
+    "tools/_bench_grade.py": {
+      "base": null,
+      "sha": "ff1fa7bc706c94cec47ebce12edd129889fa5349bd25a840a82f1a0e70fce429",
+      "user": null
+    },
+    "tools/_credit.py": {
+      "base": null,
+      "sha": "086265ec8571afab94ed80f459ea93732e88bedd69627f38dddcb509c1603aee",
+      "user": null
+    },
+    "tools/_genplan.py": {
+      "base": null,
+      "sha": "ba8eefadfb9c5a86c8cf5872281f13c2ed9b1eace6a9e29c41e1de1a9ffa1b49",
+      "user": null
+    },
+    "tools/bench.py": {
+      "base": null,
+      "sha": "3324ddffef798ee4266b5b57d854c711e9614164aff2391f13db3029125013a2",
+      "user": null
+    },
+    "tools/card.py": {
+      "base": null,
+      "sha": "c59957db8d804ec276cb4ede872c84f0bed0e2eb14d6f36bbc23f461b1fbc01a",
+      "user": null
+    },
+    "tools/commit_task.sh": {
+      "base": null,
+      "sha": "b4e61a0f316c275d0ddf48ec380f17b4a16cde28a8e707b416cd3e45add9a523",
+      "user": null
+    },
+    "tools/cookbook_add.sh": {
+      "base": null,
+      "sha": "f07cee11c41065a1f19889932774e7351615d8c60ffa55074bca41eb1fe929db",
+      "user": null
+    },
+    "tools/curate.py": {
+      "base": null,
+      "sha": "850b2f86e2143652e5bda7f4896c1031bc08c26d9ec568823e062ef922e45ab9",
+      "user": null
+    },
+    "tools/discussion.py": {
+      "base": null,
+      "sha": "1e234fa854472f05d89cb06b5179179a229005e62ef6e8b163d4c54cc5817e2f",
+      "user": null
+    },
+    "tools/genend_index.py": {
+      "base": null,
+      "sha": "912779e06396703ac6124f6db86fbf383a47e9449f1a1ed04915a1b9b0568438",
+      "user": null
+    },
+    "tools/launch.py": {
+      "base": null,
+      "sha": "218bb5600dfbda8fbcd890e17a38fd979fe27b7dc8cdb30a5faec33b363b404d",
+      "user": null
+    },
+    "tools/managed.py": {
+      "base": null,
+      "sha": "a038146e1368716154988188db9d359c7a68054a8eac013f13850488dda132f0",
+      "user": null
+    },
+    "tools/outline.py": {
+      "base": null,
+      "sha": "3950e1c3e54eadf638af21d12ff6cb8289fe5ad6e928a1da5a509d4e17b70671",
+      "user": null
+    },
+    "tools/pa3_update.py": {
+      "base": null,
+      "sha": "51196c9c0158f7a3f57a4d31208a6d1d6663828d94d6df4df459bed4201471d0",
+      "user": null
+    },
+    "tools/phaseend_index.py": {
+      "base": null,
+      "sha": "1e2edfb75d879a2da57a888b6d6680fe48b953986f1dd7fb7c87f2178d9520d0",
+      "user": null
+    },
+    "tools/plan_edit.py": {
+      "base": null,
+      "sha": "cf5e06089f7471705098dca198d64f9a388abe676d686c0f0095b06aaf46e8ff",
+      "user": null
+    },
+    "tools/research_add.py": {
+      "base": null,
+      "sha": "e3ff6d6831866f4337b5684b7cc68f3596a31b9bc413ce3ca591bdc84520a655",
+      "user": null
+    },
+    "tools/rules_add.py": {
+      "base": null,
+      "sha": "1653138df558fcd23e9b179ddbab80b9de30d9bed87694456e27c653c424525f",
+      "user": null
+    },
+    "tools/run.ps1": {
+      "base": null,
+      "sha": "7de4cc2f3e870fe5abf3151faf94b5d7210945da923a090f0e0e7585fc38085d",
+      "user": null
+    },
+    "tools/run.sh": {
+      "base": null,
+      "sha": "73ea71f6d253491d2d5d8524496a5abc0da0ed61521b2cf1053d8acb54ccfc10",
+      "user": null
+    },
+    "tools/skill_add.py": {
+      "base": null,
+      "sha": "eca5db29d104738aa957e91d8e7c73291500c782053a701d8d55a754257b06d4",
+      "user": null
+    },
+    "tools/status.py": {
+      "base": null,
+      "sha": "58be6f9aa393e8115eec62d79e1f9f48ce87869076186f5ae21a967cb18d3e0d",
+      "user": null
+    },
+    "tools/task_log.py": {
+      "base": null,
+      "sha": "540e7f86e9ff2ab957a0cbd21c06f98d468893b637d674df537877c2989eef0a",
+      "user": null
+    }
+  },
+  "format": 1,
+  "git": "0fe24a6",
+  "installed": "2026-09-30T00:53:41Z",
+  "package": null,
+  "phase": "3.14",
+  "upstream_version": "3.14"
+}

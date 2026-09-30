@@ -590,3 +590,7 @@ unsloth_compiled_cache/
 # the wiki's Archive index rows are the record, the last tracked versions are in the history (v1.32.1). A local copy may remain;
 # ignored. tools/sunset/ (the 34 retired tools) STAYS tracked for the tool index. Contents form, R84.
 /docs/sunset/*
+
+# Project Architect 3.0
+.run/
+__pycache__/
