@@ -36,7 +36,7 @@ PY = /usr/bin/python3
 | cookbook_add | `bash tools/cookbook_add.sh` | add a cookbook entry and its index line |
 | phaseend_index | `PY tools/phaseend_index.py` | assemble, lint and archive a PhaseEnd |
 | genend_index | `PY tools/genend_index.py` | assemble and lint a GenerationEnd |
-| commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes |
+| commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes; auto-stages phase-ends/current/{tasks,logs,research,discussions,RECAP.md,TASK_PROGRESS.md}, but leaves outward-thread discussion records unstaged and refuses messages naming an issue/PR (R120) |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | Every script under `tools/` (plus the two report make-targets), grouped by purpose — one line each. Deep HOW-TO is **not | `Every script under `tools/` (plus the two report make-targets), grouped by purpose — one line each. Deep HOW-TO is **not` | Every script under `tools/` (plus the two report make-targets), grouped by purpose — one line each. Deep HOW-TO is **not |
 

@@ -594,3 +594,6 @@ unsloth_compiled_cache/
 # Project Architect 3.0
 .run/
 __pycache__/
+
+# R120: outward-thread discussion records stay local (untracked 2026-09-30)
+phase-ends/current/discussions/D1.md

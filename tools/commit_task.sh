@@ -44,6 +44,10 @@ case "$MSG" in
   "$TASK:"*|"$TASK "*) FULL="$MSG";;
   *) FULL="$TASK: $MSG";;
 esac
+# R120: outward threads (issue/PR number or URL, or an `Outward: yes` line in a discussion record)
+# are never named in a commit message and their discussion records are never committed.
+OUTWARD='(github\.com/[^ ]*/(issues|pull)/[0-9]|\b(issue|PR|pull request) ?#?[0-9]+\b|^Outward: *yes)'
+printf '%s' "$FULL" | grep -qiE "$OUTWARD" && refuse "message names an outward thread (R120)"
 
 ROOT="$(find_root)"
 cd "$ROOT" || refuse "cannot cd to $ROOT"
@@ -99,6 +103,14 @@ for f in $(git diff --cached --name-only -- "$PE/current/logs" "$PE/current/task
   if [ -f "$f" ] && grep -qE '\{\{AUTHORED:[A-Za-z_]+\}\}' -- "$f"; then   # the exact placeholder, not prose about it
     git reset -q -- "$f" || refuse "git reset $f failed"
     echo "left out: $f (unfilled {{AUTHORED}} placeholder; fill it before committing)"
+  fi
+done
+
+# R120: an outward-thread discussion record stays unstaged in the tree (see OUTWARD above).
+for f in $(git diff --cached --name-only --diff-filter=AM -- "$PE/current/discussions"); do
+  if [ -f "$f" ] && grep -qiE "$OUTWARD" -- "$f"; then
+    git reset -q -- "$f" || refuse "git reset $f failed"
+    echo "left out: $f (outward-thread discussion record; R120 keeps it local)"
   fi
 done
 
